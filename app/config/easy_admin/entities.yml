@@ -1,5 +1,51 @@
 easy_admin:
     entities:
+      OpenOrders:
+        class: AppBundle\Entity\Order
+        label: 'Заказы'
+        list:
+          title: 'Открытые Заказы'
+          dql_filter: 'entity.closeddate IS NULL'
+          fields:
+            - { property: 'id', label: 'Номер' }
+            - { property: 'status', label: 'Статус' }
+            - { property: 'startdate', label: 'Дата начала' }
+            - { property: 'car.displayName', label: 'Автомобиль' }
+            - { property: 'car.carmodification.name', label: 'Модификация' }
+            - { property: 'client.person.fullName', label: 'Клиент' }
+            - { property: 'readableCosts', label: 'Работы/Запчасти' }
+            - { property: 'client.person.fullName', label: 'Последний комментарий' }
+      ClosedOrders:
+        class: AppBundle\Entity\Order
+        label: 'Заказы'
+        list:
+          title: 'Закрытые Заказы'
+          dql_filter: 'entity.closeddate IS NOT NULL'
+          fields:
+            - { property: 'id', label: 'Номер' }
+            - { property: 'status', label: 'Статус' }
+            - { property: 'startdate', label: 'Дата начала' }
+            - { property: 'closeddate', label: 'Дата закрытия' }
+            - { property: 'car.displayName', label: 'Автомобиль' }
+            - { property: 'car.carmodification.name', label: 'Модификация' }
+            - { property: 'client.person.fullName', label: 'Клиент' }
+            - { property: 'readableCosts', label: 'Работы/Запчасти' }
+            - { property: 'client.person.fullName', label: 'Последний комментарий' }
+      Orders:
+        class: AppBundle\Entity\Order
+        label: 'Заказы'
+        list:
+          title: 'Все Заказы'
+          fields:
+            - { property: 'id', label: 'Номер' }
+            - { property: 'status', label: 'Статус' }
+            - { property: 'startdate', label: 'Дата начала' }
+            - { property: 'closeddate', label: 'Дата закрытия' }
+            - { property: 'car.displayName', label: 'Автомобиль' }
+            - { property: 'car.carmodification.name', label: 'Модификация' }
+            - { property: 'client.person.fullName', label: 'Клиент' }
+            - { property: 'readableCosts', label: 'Работы/Запчасти' }
+            - { property: 'client.person.fullName', label: 'Последний комментарий' }
       Car:
         class: AppBundle\Entity\Car
         label: 'Автомобили'
