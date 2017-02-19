@@ -37,6 +37,7 @@ pipeline:
         docker run --rm --network "container:$HOSTNAME"
         -e APP_ENV=test
         -e APP_DEBUG=0
+        -e FIXTURES=false
         "$IMAGE_BUILD"
 
   publish:
@@ -88,5 +89,5 @@ services:
   mysql:
     image: mariadb
     environment:
-      MYSQL_DATABASE: db
+      MYSQL_DATABASE: symfony
       MYSQL_ALLOW_EMPTY_PASSWORD: true
