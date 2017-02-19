@@ -187,6 +187,11 @@ class Order
         $this->parts = new ArrayCollection();
     }
 
+    public function getStatus(): ?string
+    {
+        return 0 === strpos($this->status, 'swOrder/') ? substr($this->status, 8) : $this->status;
+    }
+
     public function jobsCost(): int
     {
         $total = 0;
