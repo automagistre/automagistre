@@ -30,7 +30,8 @@
         "incenteev/composer-parameter-handler": "^2.0",
         "twig/twig": "^1.0||^2.0",
         "doctrine/doctrine-migrations-bundle": "^1.2",
-        "ramsey/uuid-doctrine": "^1.2"
+      "ramsey/uuid-doctrine": "^1.2",
+      "javiereguiluz/easyadmin-bundle": "^1.16"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
