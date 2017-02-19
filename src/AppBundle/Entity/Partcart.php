@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Partcart
+ * Partcart.
  *
  * @ORM\Table(name="partcart")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Partcart
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,39 +22,37 @@ class Partcart
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="item_id", type="integer", nullable=true)
      */
     private $itemId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="part_id", type="integer", nullable=true)
      */
     private $partId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="qty", type="smallint", nullable=true)
      */
     private $qty;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="_order_id", type="integer", nullable=true)
      */
     private $orderId;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="qty_stock", type="boolean", nullable=true)
      */
     private $qtyStock;
-
 }
-

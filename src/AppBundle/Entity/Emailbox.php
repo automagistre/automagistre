@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Emailbox
+ * Emailbox.
  *
  * @ORM\Table(name="emailbox")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Emailbox
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,7 +22,7 @@ class Emailbox
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="item_id", type="integer", nullable=true)
      */
@@ -34,6 +34,4 @@ class Emailbox
      * @ORM\Column(name="name", type="string", length=255, nullable=true)
      */
     private $name;
-
 }
-

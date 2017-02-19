@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Years
+ * Years.
  *
  * @ORM\Table(name="_years")
  * @ORM\Entity
@@ -13,13 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Years
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="val", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $val;
-
 }
-

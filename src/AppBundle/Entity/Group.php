@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Group
+ * Group.
  *
  * @ORM\Table(name="_group", uniqueConstraints={@ORM\UniqueConstraint(name="UQ_f97279e76d95d98f7433ff400fab94e189ee6052", columns={"name"})})
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Group
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,7 +22,7 @@ class Group
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="permitable_id", type="integer", nullable=true)
      */
@@ -36,11 +36,9 @@ class Group
     private $name;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="_group_id", type="boolean", nullable=true)
      */
     private $groupId;
-
 }
-

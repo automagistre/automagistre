@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Emailaccount
+ * Emailaccount.
  *
  * @ORM\Table(name="emailaccount")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Emailaccount
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,14 +22,14 @@ class Emailaccount
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="item_id", type="integer", nullable=true)
      */
     private $itemId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="_user_id", type="integer", nullable=true)
      */
@@ -99,14 +99,14 @@ class Emailaccount
     private $fromaddress;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="usecustomoutboundsettings", type="boolean", nullable=true)
      */
     private $usecustomoutboundsettings;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="outboundport", type="boolean", nullable=true)
      */
@@ -118,6 +118,4 @@ class Emailaccount
      * @ORM\Column(name="replytoaddress", type="simple_array", nullable=true)
      */
     private $replytoaddress;
-
 }
-

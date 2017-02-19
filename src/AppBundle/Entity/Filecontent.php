@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Filecontent
+ * Filecontent.
  *
  * @ORM\Table(name="filecontent")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Filecontent
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,7 +22,7 @@ class Filecontent
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="meta_filemodel_id", type="integer", nullable=true)
      */
@@ -50,11 +50,9 @@ class Filecontent
     private $filename;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="filemodel_id", type="integer", nullable=true)
      */
     private $filemodelId;
-
 }
-

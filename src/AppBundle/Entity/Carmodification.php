@@ -6,7 +6,7 @@ use AppBundle\Doctrine\PropertyAccessorTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Carmodification
+ * Carmodification.
  *
  * @ORM\Table(name="carmodification", indexes={@ORM\Index(name="IDX_MODIF_FOLDER", columns={"folder"}), @ORM\Index(name="IDX_MODIF_PARENT", columns={"cargeneration_id"})})
  * @ORM\Entity
@@ -16,7 +16,7 @@ class Carmodification
     use PropertyAccessorTrait;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -25,14 +25,14 @@ class Carmodification
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="cargeneration_id", type="integer", nullable=true)
      */
     private $cargenerationId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="folder", type="integer", nullable=true)
      */
@@ -46,28 +46,28 @@ class Carmodification
     private $name;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="hp", type="smallint", nullable=true)
      */
     private $hp;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="doors", type="boolean", nullable=true)
      */
     private $doors;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="from", type="smallint", nullable=true)
      */
     private $from;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="till", type="smallint", nullable=true)
      */
@@ -88,7 +88,7 @@ class Carmodification
     private $s0to100;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="tank", type="smallint", nullable=true)
      */
@@ -109,4 +109,3 @@ class Carmodification
         return $this->name;
     }
 }
-

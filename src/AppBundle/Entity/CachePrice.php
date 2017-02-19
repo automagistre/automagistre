@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * CachePrice
+ * CachePrice.
  *
  * @ORM\Table(name="cache_price")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class CachePrice
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -29,7 +29,7 @@ class CachePrice
     private $price;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="term", type="boolean", nullable=true)
      */
@@ -57,28 +57,28 @@ class CachePrice
     private $partName;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id_price", type="integer", nullable=true)
      */
     private $idPrice;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id_d2m", type="integer", nullable=true)
      */
     private $idD2m;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="qty", type="integer", nullable=true)
      */
     private $qty;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="prc_ok", type="boolean", nullable=true)
      */
@@ -92,32 +92,30 @@ class CachePrice
     private $dirName;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="min_qty", type="integer", nullable=true)
      */
     private $minQty;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="type_cross", type="boolean", nullable=true)
      */
     private $typeCross;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="qid", type="integer", nullable=true)
      */
     private $qid;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="grp_part", type="boolean", nullable=true)
      */
     private $grpPart;
-
 }
-

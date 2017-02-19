@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Basecustomfield
+ * Basecustomfield.
  *
  * @ORM\Table(name="basecustomfield")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Basecustomfield
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -27,6 +27,4 @@ class Basecustomfield
      * @ORM\Column(name="data_customfielddata_id", type="simple_array", nullable=true)
      */
     private $dataCustomfielddataId;
-
 }
-

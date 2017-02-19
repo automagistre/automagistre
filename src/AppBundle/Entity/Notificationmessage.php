@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Notificationmessage
+ * Notificationmessage.
  *
  * @ORM\Table(name="notificationmessage")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Notificationmessage
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,7 +22,7 @@ class Notificationmessage
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="item_id", type="integer", nullable=true)
      */
@@ -41,6 +41,4 @@ class Notificationmessage
      * @ORM\Column(name="textcontent", type="text", length=65535, nullable=true)
      */
     private $textcontent;
-
 }
-

@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Perusermetadata
+ * Perusermetadata.
  *
  * @ORM\Table(name="perusermetadata")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Perusermetadata
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,7 +22,7 @@ class Perusermetadata
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="_user_id", type="integer", nullable=true)
      */
@@ -41,6 +41,4 @@ class Perusermetadata
      * @ORM\Column(name="serializedmetadata", type="text", length=65535, nullable=true)
      */
     private $serializedmetadata;
-
 }
-

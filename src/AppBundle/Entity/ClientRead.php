@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ClientRead
+ * ClientRead.
  *
  * @ORM\Table(name="client_read", uniqueConstraints={@ORM\UniqueConstraint(name="id", columns={"id"})})
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class ClientRead
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,25 +22,23 @@ class ClientRead
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="securableitem_id", type="integer", nullable=false)
      */
     private $securableitemId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="munge_id", type="integer", nullable=false)
      */
     private $mungeId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="count", type="integer", nullable=false)
      */
     private $count;
-
 }
-

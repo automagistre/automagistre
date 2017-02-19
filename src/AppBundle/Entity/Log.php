@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Log
+ * Log.
  *
  * @ORM\Table(name="log")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Log
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -34,6 +34,4 @@ class Log
      * @ORM\Column(name="message", type="string", length=255, nullable=true)
      */
     private $message;
-
 }
-

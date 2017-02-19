@@ -6,7 +6,7 @@ use AppBundle\Doctrine\PropertyAccessorTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Item
+ * Item.
  *
  * @ORM\Table(name="item")
  * @ORM\Entity
@@ -16,7 +16,7 @@ class Item
     use PropertyAccessorTrait;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -39,25 +39,23 @@ class Item
     private $modifieddatetime;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="modifiedbyuser__user_id", type="integer", nullable=true)
      */
     private $modifiedbyuserUserId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="createdbyuser__user_id", type="integer", nullable=true)
      */
     private $createdbyuserUserId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="_user_id", type="integer", nullable=true)
      */
     private $userId;
-
 }
-

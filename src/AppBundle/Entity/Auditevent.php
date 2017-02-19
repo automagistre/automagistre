@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Auditevent
+ * Auditevent.
  *
  * @ORM\Table(name="auditevent")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Auditevent
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,14 +22,14 @@ class Auditevent
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="modelid", type="integer", nullable=true)
      */
     private $modelid;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="_user_id", type="integer", nullable=true)
      */
@@ -69,6 +69,4 @@ class Auditevent
      * @ORM\Column(name="serializeddata", type="text", length=65535, nullable=true)
      */
     private $serializeddata;
-
 }
-

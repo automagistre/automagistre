@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Emailmessage
+ * Emailmessage.
  *
  * @ORM\Table(name="emailmessage")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Emailmessage
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,21 +22,21 @@ class Emailmessage
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="ownedsecurableitem_id", type="integer", nullable=true)
      */
     private $ownedsecurableitemId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="content_emailmessagecontent_id", type="integer", nullable=true)
      */
     private $contentEmailmessagecontentId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="sender_emailmessagesender_id", type="integer", nullable=true)
      */
@@ -50,14 +50,14 @@ class Emailmessage
     private $subject;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="folder_emailfolder_id", type="integer", nullable=true)
      */
     private $folderEmailfolderId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="error_emailmessagesenderror_id", type="integer", nullable=true)
      */
@@ -78,11 +78,9 @@ class Emailmessage
     private $sendondatetime;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="sendattempts", type="boolean", nullable=true)
      */
     private $sendattempts;
-
 }
-

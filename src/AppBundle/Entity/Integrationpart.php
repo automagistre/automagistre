@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Integrationpart
+ * Integrationpart.
  *
  * @ORM\Table(name="integrationpart")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Integrationpart
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,14 +22,14 @@ class Integrationpart
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="item_id", type="integer", nullable=true)
      */
     private $itemId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="part_id", type="integer", nullable=true)
      */
@@ -43,14 +43,14 @@ class Integrationpart
     private $token;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="gid", type="integer", nullable=true)
      */
     private $gid;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="zc", type="integer", nullable=true)
      */
@@ -71,14 +71,14 @@ class Integrationpart
     private $priceIn;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="qty", type="smallint", nullable=true)
      */
     private $qty;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="state", type="smallint", nullable=true)
      */
@@ -99,14 +99,14 @@ class Integrationpart
     private $altDate;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="committed", type="boolean", nullable=true)
      */
     private $committed;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="error", type="boolean", nullable=true)
      */
@@ -118,6 +118,4 @@ class Integrationpart
      * @ORM\Column(name="due_date", type="string", length=255, nullable=true)
      */
     private $dueDate;
-
 }
-

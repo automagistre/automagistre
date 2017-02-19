@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Savedsearch
+ * Savedsearch.
  *
  * @ORM\Table(name="savedsearch")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Savedsearch
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,7 +22,7 @@ class Savedsearch
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="ownedsecurableitem_id", type="integer", nullable=true)
      */
@@ -48,6 +48,4 @@ class Savedsearch
      * @ORM\Column(name="viewclassname", type="string", length=64, nullable=true)
      */
     private $viewclassname;
-
 }
-

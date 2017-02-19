@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Currency
+ * Currency.
  *
  * @ORM\Table(name="currency", uniqueConstraints={@ORM\UniqueConstraint(name="UQ_4f5a32b86618fd9d6a870ffe890cf77a88669783", columns={"code"})})
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Currency
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,7 +22,7 @@ class Currency
     private $id;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="active", type="boolean", nullable=true)
      */
@@ -41,6 +41,4 @@ class Currency
      * @ORM\Column(name="ratetobase", type="simple_array", nullable=true)
      */
     private $ratetobase;
-
 }
-

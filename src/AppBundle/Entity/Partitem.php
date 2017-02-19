@@ -6,7 +6,7 @@ use AppBundle\Doctrine\PropertyAccessorTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Partitem
+ * Partitem.
  *
  * @ORM\Table(name="partitem", indexes={@ORM\Index(name="_order_id", columns={"_order_id"})})
  * @ORM\Entity
@@ -16,7 +16,7 @@ class Partitem
     use PropertyAccessorTrait;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -25,21 +25,21 @@ class Partitem
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="jobitem_id", type="integer", nullable=true)
      */
     private $jobitemId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="part_id", type="integer", nullable=true)
      */
     private $partId;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="is_order", type="boolean", nullable=true)
      */
@@ -75,21 +75,21 @@ class Partitem
     private $order;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="jobadvice_id", type="integer", nullable=true)
      */
     private $jobadviceId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="motion_id", type="integer", nullable=true)
      */
     private $motionId;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="move_motion_id", type="boolean", nullable=true)
      */
@@ -103,4 +103,3 @@ class Partitem
         return $this->cost;
     }
 }
-

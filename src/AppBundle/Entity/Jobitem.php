@@ -6,7 +6,7 @@ use AppBundle\Doctrine\PropertyAccessorTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Jobitem
+ * Jobitem.
  *
  * @ORM\Table(name="jobitem", indexes={@ORM\Index(name="_order_id", columns={"_order_id"})})
  * @ORM\Entity
@@ -16,7 +16,7 @@ class Jobitem
     use PropertyAccessorTrait;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -25,7 +25,7 @@ class Jobitem
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="_user_id", type="integer", nullable=true)
      */
@@ -54,14 +54,14 @@ class Jobitem
     private $order;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="jobadvice_id", type="integer", nullable=true)
      */
     private $jobadviceId;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="employee__user_id", type="boolean", nullable=true)
      */
@@ -75,4 +75,3 @@ class Jobitem
         return $this->cost;
     }
 }
-

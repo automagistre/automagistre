@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Emailmessagesender
+ * Emailmessagesender.
  *
  * @ORM\Table(name="emailmessagesender")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Emailmessagesender
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,7 +22,7 @@ class Emailmessagesender
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="personoraccount_item_id", type="integer", nullable=true)
      */
@@ -41,6 +41,4 @@ class Emailmessagesender
      * @ORM\Column(name="fromaddress", type="string", length=255, nullable=true)
      */
     private $fromaddress;
-
 }
-

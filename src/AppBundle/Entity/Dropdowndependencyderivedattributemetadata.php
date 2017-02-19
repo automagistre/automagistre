@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Dropdowndependencyderivedattributemetadata
+ * Dropdowndependencyderivedattributemetadata.
  *
  * @ORM\Table(name="dropdowndependencyderivedattributemetadata")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Dropdowndependencyderivedattributemetadata
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,11 +22,9 @@ class Dropdowndependencyderivedattributemetadata
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="derivedattributemetadata_id", type="integer", nullable=true)
      */
     private $derivedattributemetadataId;
-
 }
-

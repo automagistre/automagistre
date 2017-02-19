@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Dashboard
+ * Dashboard.
  *
  * @ORM\Table(name="dashboard")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Dashboard
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,14 +22,14 @@ class Dashboard
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="ownedsecurableitem_id", type="integer", nullable=true)
      */
     private $ownedsecurableitemId;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="isdefault", type="boolean", nullable=true)
      */
@@ -50,11 +50,9 @@ class Dashboard
     private $name;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="layoutid", type="integer", nullable=true)
      */
     private $layoutid;
-
 }
-

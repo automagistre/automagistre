@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Email
+ * Email.
  *
  * @ORM\Table(name="email", uniqueConstraints={@ORM\UniqueConstraint(name="UQ_b01d23692bac458cf1cd67ed9aaefd9d97f3e45f", columns={"emailaddress"})})
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Email
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,14 +22,14 @@ class Email
     private $id;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="isinvalid", type="boolean", nullable=true)
      */
     private $isinvalid;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="optout", type="boolean", nullable=true)
      */
@@ -41,6 +41,4 @@ class Email
      * @ORM\Column(name="emailaddress", type="string", length=255, nullable=true)
      */
     private $emailaddress;
-
 }
-

@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * User
+ * User.
  *
  * @ORM\Table(name="_user", uniqueConstraints={@ORM\UniqueConstraint(name="UQ_2f9f20ae60de87f7bdd974b52941c30e287c6eef", columns={"username"})})
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class User
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,7 +22,7 @@ class User
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="person_id", type="integer", nullable=true)
      */
@@ -64,39 +64,37 @@ class User
     private $serializedavatardata;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="permitable_id", type="integer", nullable=true)
      */
     private $permitableId;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="manager__user_id", type="boolean", nullable=true)
      */
     private $managerUserId;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="role_id", type="boolean", nullable=true)
      */
     private $roleId;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="currency_id", type="boolean", nullable=true)
      */
     private $currencyId;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="isactive", type="boolean", nullable=true)
      */
     private $isactive;
-
 }
-

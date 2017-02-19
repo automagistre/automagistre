@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Emailsignature
+ * Emailsignature.
  *
  * @ORM\Table(name="emailsignature")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Emailsignature
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,7 +22,7 @@ class Emailsignature
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="_user_id", type="integer", nullable=true)
      */
@@ -41,6 +41,4 @@ class Emailsignature
      * @ORM\Column(name="textcontent", type="text", length=65535, nullable=true)
      */
     private $textcontent;
-
 }
-

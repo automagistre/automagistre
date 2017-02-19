@@ -7,7 +7,6 @@ namespace AppBundle\Doctrine;
  */
 trait PropertyAccessorTrait
 {
-
     public function __get($property)
     {
         return $this->{$property};

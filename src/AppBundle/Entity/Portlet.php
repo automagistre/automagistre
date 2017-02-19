@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Portlet
+ * Portlet.
  *
  * @ORM\Table(name="portlet")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Portlet
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,7 +22,7 @@ class Portlet
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="_user_id", type="integer", nullable=true)
      */
@@ -50,7 +50,7 @@ class Portlet
     private $serializedviewdata;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="collapsed", type="boolean", nullable=true)
      */
@@ -64,11 +64,9 @@ class Portlet
     private $column;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="position", type="boolean", nullable=true)
      */
     private $position;
-
 }
-

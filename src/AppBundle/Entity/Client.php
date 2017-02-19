@@ -6,7 +6,7 @@ use AppBundle\Doctrine\PropertyAccessorTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Client
+ * Client.
  *
  * @ORM\Table(name="client", indexes={@ORM\Index(name="EID_IDX", columns={"eid"}), @ORM\Index(name="IDX_CLIENT_PERSON", columns={"person_id"})})
  * @ORM\Entity
@@ -16,7 +16,7 @@ class Client
     use PropertyAccessorTrait;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -33,7 +33,7 @@ class Client
     private $person;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="wallet", type="integer", nullable=false)
      */
@@ -47,39 +47,37 @@ class Client
     private $description;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="employee", type="boolean", nullable=true)
      */
     private $employee;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="eid", type="integer", nullable=true)
      */
     private $eid;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="referal_client_id", type="integer", nullable=true)
      */
     private $referalClientId;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="ref_bonus", type="boolean", nullable=true)
      */
     private $refBonus;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="point_id", type="integer", nullable=true)
      */
     private $pointId;
-
 }
-

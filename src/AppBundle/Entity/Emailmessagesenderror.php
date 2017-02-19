@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Emailmessagesenderror
+ * Emailmessagesenderror.
  *
  * @ORM\Table(name="emailmessagesenderror")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Emailmessagesenderror
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -34,6 +34,4 @@ class Emailmessagesenderror
      * @ORM\Column(name="serializeddata", type="text", nullable=true)
      */
     private $serializeddata;
-
 }
-

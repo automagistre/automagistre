@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Derivedattributemetadata
+ * Derivedattributemetadata.
  *
  * @ORM\Table(name="derivedattributemetadata")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Derivedattributemetadata
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -41,6 +41,4 @@ class Derivedattributemetadata
      * @ORM\Column(name="serializedmetadata", type="string", length=255, nullable=true)
      */
     private $serializedmetadata;
-
 }
-

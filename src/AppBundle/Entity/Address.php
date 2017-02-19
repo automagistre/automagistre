@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Address
+ * Address.
  *
  * @ORM\Table(name="address")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Address
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -36,7 +36,7 @@ class Address
     private $country;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="invalid", type="boolean", nullable=true)
      */
@@ -69,6 +69,4 @@ class Address
      * @ORM\Column(name="state", type="string", length=255, nullable=true)
      */
     private $state;
-
 }
-

@@ -6,7 +6,7 @@ use AppBundle\Doctrine\PropertyAccessorTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Carmake
+ * Carmake.
  *
  * @ORM\Table(name="carmake", uniqueConstraints={@ORM\UniqueConstraint(name="unique_make", columns={"name"})}, indexes={@ORM\Index(name="IDX_MAKES_FOLDER", columns={"folder"})})
  * @ORM\Entity
@@ -16,7 +16,7 @@ class Carmake
     use PropertyAccessorTrait;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -25,7 +25,7 @@ class Carmake
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="folder", type="integer", nullable=true)
      */
@@ -46,7 +46,7 @@ class Carmake
     private $link;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="loaded", type="boolean", nullable=true)
      */
@@ -74,4 +74,3 @@ class Carmake
         return $this->name;
     }
 }
-

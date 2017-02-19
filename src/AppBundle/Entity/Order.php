@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Order
+ * Order.
  *
  * @ORM\Table(name="_order", indexes={@ORM\Index(name="IDX_ORDER_CLIENT", columns={"client_id"}), @ORM\Index(name="IDX_ORDER_CAR", columns={"car_id"})})
  * @ORM\Entity
@@ -17,7 +17,7 @@ class Order
     use PropertyAccessorTrait;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -40,7 +40,7 @@ class Order
     private $parts;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="ownedsecurableitem_id", type="integer", nullable=true)
      */
@@ -91,14 +91,14 @@ class Order
     private $client;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="mileage_id", type="integer", nullable=true)
      */
     private $mileageId;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="checkpay", type="boolean", nullable=true)
      */
@@ -119,7 +119,7 @@ class Order
     private $description;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="eid", type="integer", nullable=true)
      */
@@ -133,7 +133,7 @@ class Order
     private $suspenddate;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="suspended", type="boolean", nullable=true)
      */
@@ -147,35 +147,35 @@ class Order
     private $resumedate;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="paypoints", type="boolean", nullable=true)
      */
     private $paypoints;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="bonus", type="integer", nullable=true)
      */
     private $bonus;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="points", type="boolean", nullable=true)
      */
     private $points;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="paycardbool", type="boolean", nullable=true)
      */
     private $paycardbool;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="paycard", type="integer", nullable=true)
      */
@@ -217,4 +217,3 @@ class Order
         return sprintf('%s / %s', $this->jobsCost(), $this->partsCost());
     }
 }
-

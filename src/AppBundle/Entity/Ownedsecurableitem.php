@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Ownedsecurableitem
+ * Ownedsecurableitem.
  *
  * @ORM\Table(name="ownedsecurableitem")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Ownedsecurableitem
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,18 +22,16 @@ class Ownedsecurableitem
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="securableitem_id", type="integer", nullable=true)
      */
     private $securableitemId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="owner__user_id", type="integer", nullable=true)
      */
     private $ownerUserId;
-
 }
-

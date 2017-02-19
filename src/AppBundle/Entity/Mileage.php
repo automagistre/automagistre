@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Mileage
+ * Mileage.
  *
  * @ORM\Table(name="mileage")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Mileage
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,7 +22,7 @@ class Mileage
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="_order_id", type="integer", nullable=true)
      */
@@ -36,18 +36,16 @@ class Mileage
     private $date;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="value", type="integer", nullable=true)
      */
     private $value;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="car_id", type="integer", nullable=true)
      */
     private $carId;
-
 }
-

@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Messagetranslation
+ * Messagetranslation.
  *
  * @ORM\Table(name="messagetranslation", uniqueConstraints={@ORM\UniqueConstraint(name="source_language_translation_Index", columns={"messagesource_id", "language", "translation"})})
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Messagetranslation
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,7 +22,7 @@ class Messagetranslation
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="messagesource_id", type="integer", nullable=true)
      */
@@ -41,6 +41,4 @@ class Messagetranslation
      * @ORM\Column(name="language", type="string", length=16, nullable=true)
      */
     private $language;
-
 }
-

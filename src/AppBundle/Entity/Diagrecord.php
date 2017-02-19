@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Diagrecord
+ * Diagrecord.
  *
  * @ORM\Table(name="diagrecord")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Diagrecord
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,508 +22,506 @@ class Diagrecord
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="item_id", type="integer", nullable=true)
      */
     private $itemId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="_order_id", type="integer", nullable=true)
      */
     private $orderId;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="ammo_front", type="boolean", nullable=true)
      */
     private $ammoFront;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="ammo_rear", type="boolean", nullable=true)
      */
     private $ammoRear;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="sup_bear", type="boolean", nullable=true)
      */
     private $supBear;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="near_light", type="boolean", nullable=true)
      */
     private $nearLight;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="far_light", type="boolean", nullable=true)
      */
     private $farLight;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="parking_light", type="boolean", nullable=true)
      */
     private $parkingLight;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="blinker", type="boolean", nullable=true)
      */
     private $blinker;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="plate_light", type="boolean", nullable=true)
      */
     private $plateLight;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="stop_light", type="boolean", nullable=true)
      */
     private $stopLight;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="horn", type="boolean", nullable=true)
      */
     private $horn;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="dash_light", type="boolean", nullable=true)
      */
     private $dashLight;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="warning_light", type="boolean", nullable=true)
      */
     private $warningLight;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="handbrake", type="boolean", nullable=true)
      */
     private $handbrake;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="air_filter", type="boolean", nullable=true)
      */
     private $airFilter;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="driving_belt", type="boolean", nullable=true)
      */
     private $drivingBelt;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="hv_wires", type="boolean", nullable=true)
      */
     private $hvWires;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="eng_noise", type="boolean", nullable=true)
      */
     private $engNoise;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="oil_level", type="boolean", nullable=true)
      */
     private $oilLevel;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="engine_mount", type="boolean", nullable=true)
      */
     private $engineMount;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="antifreeze_level", type="boolean", nullable=true)
      */
     private $antifreezeLevel;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="at_level", type="boolean", nullable=true)
      */
     private $atLevel;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="clutch_level", type="boolean", nullable=true)
      */
     private $clutchLevel;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="brake_level", type="boolean", nullable=true)
      */
     private $brakeLevel;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="hydro_level", type="boolean", nullable=true)
      */
     private $hydroLevel;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="shock_dust_front", type="boolean", nullable=true)
      */
     private $shockDustFront;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="shock_dust_rear", type="boolean", nullable=true)
      */
     private $shockDustRear;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="brake_disk_front", type="boolean", nullable=true)
      */
     private $brakeDiskFront;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="brake_pad_front", type="boolean", nullable=true)
      */
     private $brakePadFront;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="support_front", type="boolean", nullable=true)
      */
     private $supportFront;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="bearing_front", type="boolean", nullable=true)
      */
     private $bearingFront;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="brake_disk_rear", type="boolean", nullable=true)
      */
     private $brakeDiskRear;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="brake_pad_rear", type="boolean", nullable=true)
      */
     private $brakePadRear;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="support_rear", type="boolean", nullable=true)
      */
     private $supportRear;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="bearing_rear", type="boolean", nullable=true)
      */
     private $bearingRear;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="arm_lower_front", type="boolean", nullable=true)
      */
     private $armLowerFront;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="arm_upper_front", type="boolean", nullable=true)
      */
     private $armUpperFront;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="arm_lower_rear", type="boolean", nullable=true)
      */
     private $armLowerRear;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="arm_upper_rear", type="boolean", nullable=true)
      */
     private $armUpperRear;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="steer_tip", type="boolean", nullable=true)
      */
     private $steerTip;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="steer_rod", type="boolean", nullable=true)
      */
     private $steerRod;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="steer_rack", type="boolean", nullable=true)
      */
     private $steerRack;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="engine_leak", type="boolean", nullable=true)
      */
     private $engineLeak;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="antifreeze_leak", type="boolean", nullable=true)
      */
     private $antifreezeLeak;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="engine_mount_lower", type="boolean", nullable=true)
      */
     private $engineMountLower;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="transmission_leak", type="boolean", nullable=true)
      */
     private $transmissionLeak;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="transmission_rubber", type="boolean", nullable=true)
      */
     private $transmissionRubber;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="driveshaft", type="boolean", nullable=true)
      */
     private $driveshaft;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="rear_reductor_leak", type="boolean", nullable=true)
      */
     private $rearReductorLeak;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="front_reductor_leak", type="boolean", nullable=true)
      */
     private $frontReductorLeak;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="transfer_leak", type="boolean", nullable=true)
      */
     private $transferLeak;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="front_stab", type="boolean", nullable=true)
      */
     private $frontStab;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="front_arm_lower", type="boolean", nullable=true)
      */
     private $frontArmLower;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="front_arm_upper", type="boolean", nullable=true)
      */
     private $frontArmUpper;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="rear_arm_lower", type="boolean", nullable=true)
      */
     private $rearArmLower;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="rear_arm_upper", type="boolean", nullable=true)
      */
     private $rearArmUpper;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="rear_stab", type="boolean", nullable=true)
      */
     private $rearStab;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="track_bar", type="boolean", nullable=true)
      */
     private $trackBar;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="breaking_hose_front", type="boolean", nullable=true)
      */
     private $breakingHoseFront;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="breaking_hose_rear", type="boolean", nullable=true)
      */
     private $breakingHoseRear;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="steering_dust_boot", type="boolean", nullable=true)
      */
     private $steeringDustBoot;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="hydro_leak", type="boolean", nullable=true)
      */
     private $hydroLeak;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="spark", type="integer", nullable=true)
      */
     private $spark;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="engine_belt", type="integer", nullable=true)
      */
     private $engineBelt;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="engine_oil", type="integer", nullable=true)
      */
     private $engineOil;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="gear_oil", type="integer", nullable=true)
      */
     private $gearOil;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="reductor_rear_oil", type="integer", nullable=true)
      */
     private $reductorRearOil;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="reductor_front_oil", type="integer", nullable=true)
      */
     private $reductorFrontOil;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="transfer_oil", type="integer", nullable=true)
      */
     private $transferOil;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="hydro_oil", type="integer", nullable=true)
      */
     private $hydroOil;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="filter_cabin", type="integer", nullable=true)
      */
     private $filterCabin;
-
 }
-

@@ -6,7 +6,7 @@ use AppBundle\Doctrine\PropertyAccessorTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Cargeneration
+ * Cargeneration.
  *
  * @ORM\Table(name="cargeneration", indexes={@ORM\Index(name="IDX_GENERAT_PARENT", columns={"carmodel_id"}), @ORM\Index(name="IDX_GENERAT_FOLDER", columns={"folder"})})
  * @ORM\Entity
@@ -16,7 +16,7 @@ class Cargeneration
     use PropertyAccessorTrait;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -25,14 +25,14 @@ class Cargeneration
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="carmodel_id", type="integer", nullable=true)
      */
     private $carmodelId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="folder", type="integer", nullable=true)
      */
@@ -44,6 +44,4 @@ class Cargeneration
      * @ORM\Column(name="name", type="string", length=50, nullable=true)
      */
     private $name;
-
 }
-

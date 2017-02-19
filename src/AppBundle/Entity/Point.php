@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Point
+ * Point.
  *
  * @ORM\Table(name="point")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Point
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,7 +22,7 @@ class Point
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="item_id", type="integer", nullable=true)
      */
@@ -36,18 +36,16 @@ class Point
     private $type;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="value", type="integer", nullable=true)
      */
     private $value;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="person_item_id", type="integer", nullable=true)
      */
     private $personItemId;
-
 }
-

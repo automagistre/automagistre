@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Joblog
+ * Joblog.
  *
  * @ORM\Table(name="joblog")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Joblog
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,7 +22,7 @@ class Joblog
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="item_id", type="integer", nullable=true)
      */
@@ -36,7 +36,7 @@ class Joblog
     private $enddatetime;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="isprocessed", type="boolean", nullable=true)
      */
@@ -64,11 +64,9 @@ class Joblog
     private $type;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="status", type="boolean", nullable=true)
      */
     private $status;
-
 }
-

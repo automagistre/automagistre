@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ActualPermissionsCache
+ * ActualPermissionsCache.
  *
  * @ORM\Table(name="actual_permissions_cache")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class ActualPermissionsCache
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="securableitem_id", type="integer")
      * @ORM\Id
@@ -22,7 +22,7 @@ class ActualPermissionsCache
     private $securableitemId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="permitable_id", type="integer")
      * @ORM\Id
@@ -31,18 +31,16 @@ class ActualPermissionsCache
     private $permitableId;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="allow_permissions", type="boolean", nullable=false)
      */
     private $allowPermissions;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="deny_permissions", type="boolean", nullable=false)
      */
     private $denyPermissions;
-
 }
-

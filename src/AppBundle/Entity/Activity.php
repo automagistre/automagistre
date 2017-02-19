@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Activity
+ * Activity.
  *
  * @ORM\Table(name="activity")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Activity
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,7 +22,7 @@ class Activity
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="ownedsecurableitem_id", type="integer", nullable=true)
      */
@@ -34,6 +34,4 @@ class Activity
      * @ORM\Column(name="latestdatetime", type="datetime", nullable=true)
      */
     private $latestdatetime;
-
 }
-

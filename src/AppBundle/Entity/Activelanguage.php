@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Activelanguage
+ * Activelanguage.
  *
  * @ORM\Table(name="activelanguage")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Activelanguage
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -55,6 +55,4 @@ class Activelanguage
      * @ORM\Column(name="lastupdatedatetime", type="datetime", nullable=true)
      */
     private $lastupdatedatetime;
-
 }
-

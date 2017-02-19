@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Permission
+ * Permission.
  *
  * @ORM\Table(name="permission")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Permission
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,32 +22,30 @@ class Permission
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="permitable_id", type="integer", nullable=true)
      */
     private $permitableId;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="permissions", type="boolean", nullable=true)
      */
     private $permissions;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="type", type="boolean", nullable=true)
      */
     private $type;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="securableitem_id", type="integer", nullable=true)
      */
     private $securableitemId;
-
 }
-

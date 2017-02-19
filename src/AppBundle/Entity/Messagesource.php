@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Messagesource
+ * Messagesource.
  *
  * @ORM\Table(name="messagesource", uniqueConstraints={@ORM\UniqueConstraint(name="source_category_Index", columns={"category", "source"})})
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Messagesource
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -34,6 +34,4 @@ class Messagesource
      * @ORM\Column(name="source", type="blob", length=65535, nullable=true)
      */
     private $source;
-
 }
-

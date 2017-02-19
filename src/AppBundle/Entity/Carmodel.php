@@ -6,7 +6,7 @@ use AppBundle\Doctrine\PropertyAccessorTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Carmodel
+ * Carmodel.
  *
  * @ORM\Table(name="carmodel", indexes={@ORM\Index(name="FK_am_models_am_makes", columns={"carmake_id"}), @ORM\Index(name="IDX_MODEL_FOLDER", columns={"folder"})})
  * @ORM\Entity
@@ -16,7 +16,7 @@ class Carmodel
     use PropertyAccessorTrait;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -25,14 +25,14 @@ class Carmodel
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="carmake_id", type="integer", nullable=true)
      */
     private $carmakeId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="folder", type="integer", nullable=true)
      */
@@ -53,7 +53,7 @@ class Carmodel
     private $link;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="loaded", type="boolean", nullable=true)
      */
@@ -67,4 +67,3 @@ class Carmodel
         return $this->name;
     }
 }
-

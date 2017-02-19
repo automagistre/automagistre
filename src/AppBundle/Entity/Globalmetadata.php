@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Globalmetadata
+ * Globalmetadata.
  *
  * @ORM\Table(name="globalmetadata", uniqueConstraints={@ORM\UniqueConstraint(name="UQ_6950932d5c0020179c0a175933c8d60ccab633ae", columns={"classname"})})
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Globalmetadata
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -34,6 +34,4 @@ class Globalmetadata
      * @ORM\Column(name="serializedmetadata", type="text", length=65535, nullable=true)
      */
     private $serializedmetadata;
-
 }
-

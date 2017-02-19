@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Payment
+ * Payment.
  *
  * @ORM\Table(name="payment")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Payment
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,14 +22,14 @@ class Payment
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="item_id", type="integer", nullable=true)
      */
     private $itemId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="client_id", type="integer", nullable=true)
      */
@@ -57,11 +57,9 @@ class Payment
     private $subtotal;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="agent_client_id", type="boolean", nullable=true)
      */
     private $agentClientId;
-
 }
-

@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * NoteRead
+ * NoteRead.
  *
  * @ORM\Table(name="note_read")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class NoteRead
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,18 +22,16 @@ class NoteRead
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="munge_id", type="integer", nullable=true)
      */
     private $mungeId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="securableitem_id", type="integer", nullable=true)
      */
     private $securableitemId;
-
 }
-

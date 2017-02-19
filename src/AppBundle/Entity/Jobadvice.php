@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Jobadvice
+ * Jobadvice.
  *
  * @ORM\Table(name="jobadvice")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Jobadvice
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,14 +22,14 @@ class Jobadvice
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="item_id", type="integer", nullable=true)
      */
     private $itemId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="car_id", type="integer", nullable=true)
      */
@@ -43,7 +43,7 @@ class Jobadvice
     private $name;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="expired", type="boolean", nullable=true)
      */
@@ -55,6 +55,4 @@ class Jobadvice
      * @ORM\Column(name="cost", type="string", length=255, nullable=true)
      */
     private $cost;
-
 }
-

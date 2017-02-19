@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Note
+ * Note.
  *
  * @ORM\Table(name="note")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Note
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,7 +22,7 @@ class Note
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="activity_id", type="integer", nullable=true)
      */
@@ -41,6 +41,4 @@ class Note
      * @ORM\Column(name="occurredondatetime", type="datetime", nullable=true)
      */
     private $occurredondatetime;
-
 }
-

@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Emailmessagecontent
+ * Emailmessagecontent.
  *
  * @ORM\Table(name="emailmessagecontent")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Emailmessagecontent
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -34,6 +34,4 @@ class Emailmessagecontent
      * @ORM\Column(name="textcontent", type="text", length=65535, nullable=true)
      */
     private $textcontent;
-
 }
-

@@ -6,7 +6,7 @@ use AppBundle\Doctrine\PropertyAccessorTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Part
+ * Part.
  *
  * @ORM\Table(name="part", uniqueConstraints={@ORM\UniqueConstraint(name="part_uniq", columns={"partnumber", "manufacturer_id"})})
  * @ORM\Entity
@@ -16,7 +16,7 @@ class Part
     use PropertyAccessorTrait;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -25,14 +25,14 @@ class Part
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="item_id", type="integer", nullable=true)
      */
     private $itemId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="manufacturer_id", type="integer", nullable=true)
      */
@@ -67,14 +67,14 @@ class Part
     private $description;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="negative", type="boolean", nullable=true)
      */
     private $negative;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="fractional", type="boolean", nullable=true)
      */
@@ -95,11 +95,9 @@ class Part
     private $quantity;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="reserved", type="integer", nullable=false)
      */
     private $reserved = '0';
-
 }
-

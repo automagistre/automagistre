@@ -6,7 +6,7 @@ use AppBundle\Doctrine\PropertyAccessorTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Person
+ * Person.
  *
  * @ORM\Table(name="person", indexes={@ORM\Index(name="IDX_PERSON_LASTNAME", columns={"lastname"}), @ORM\Index(name="IDX_PERSON_FIRSTNAME", columns={"firstname"}), @ORM\Index(name="IDX_PERSON_PHONE", columns={"mobilephone"}), @ORM\Index(name="sprite_id", columns={"sprite_id"})})
  * @ORM\Entity
@@ -16,7 +16,7 @@ class Person
     use PropertyAccessorTrait;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -74,42 +74,42 @@ class Person
     private $officefax;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="ownedsecurableitem_id", type="integer", nullable=true)
      */
     private $ownedsecurableitemId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="title_ownedcustomfield_id", type="integer", nullable=true)
      */
     private $titleOwnedcustomfieldId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="primaryemail_email_id", type="integer", nullable=true)
      */
     private $primaryemailEmailId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="primaryaddress_address_id", type="integer", nullable=true)
      */
     private $primaryaddressAddressId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="title_customfield_id", type="integer", nullable=true)
      */
     private $titleCustomfieldId;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="sprite_id", type="integer", nullable=true)
      */
@@ -120,4 +120,3 @@ class Person
         return sprintf('%s %s', $this->lastname, $this->firstname);
     }
 }
-

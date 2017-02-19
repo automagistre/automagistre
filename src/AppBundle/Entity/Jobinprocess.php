@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Jobinprocess
+ * Jobinprocess.
  *
  * @ORM\Table(name="jobinprocess")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Jobinprocess
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,7 +22,7 @@ class Jobinprocess
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="item_id", type="integer", nullable=true)
      */
@@ -34,6 +34,4 @@ class Jobinprocess
      * @ORM\Column(name="type", type="string", length=64, nullable=true)
      */
     private $type;
-
 }
-

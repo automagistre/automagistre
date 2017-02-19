@@ -6,7 +6,7 @@ use AppBundle\Doctrine\PropertyAccessorTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Manufacturer
+ * Manufacturer.
  *
  * @ORM\Table(name="manufacturer", uniqueConstraints={@ORM\UniqueConstraint(name="UQ_c17cf66b38ac3bd928a6ebf320320881ce022754", columns={"logoem"}), @ORM\UniqueConstraint(name="UQ_e866d1f7bc3130384a2fd1ad1ddd50921a0101b9", columns={"logopl"})})
  * @ORM\Entity
@@ -16,7 +16,7 @@ class Manufacturer
     use PropertyAccessorTrait;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -25,7 +25,7 @@ class Manufacturer
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="item_id", type="integer", nullable=true)
      */
@@ -60,7 +60,7 @@ class Manufacturer
     private $logoem;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="bitoriginal", type="boolean", nullable=true)
      */
@@ -72,6 +72,4 @@ class Manufacturer
      * @ORM\Column(name="logopl", type="string", length=25, nullable=true)
      */
     private $logopl;
-
 }
-

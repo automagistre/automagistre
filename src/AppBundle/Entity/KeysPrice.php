@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * KeysPrice
+ * KeysPrice.
  *
  * @ORM\Table(name="keys_price")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class KeysPrice
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -43,7 +43,7 @@ class KeysPrice
     private $last;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="cnt", type="boolean", nullable=true)
      */
@@ -55,6 +55,4 @@ class KeysPrice
      * @ORM\Column(name="man", type="string", length=255, nullable=true)
      */
     private $man;
-
 }
-
