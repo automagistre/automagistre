@@ -6,4 +6,3 @@ easy_admin_bundle:
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
-    condition: request.getHost() matches '/www.automagistre.(ru|local)/'
