@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Doctrine\PropertyAccessorTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Partitem
 {
+    use PropertyAccessorTrait;
+
     /**
      * @var integer
      *
@@ -64,11 +67,12 @@ class Partitem
     private $qty = '0.0';
 
     /**
-     * @var integer
+     * @var Order
      *
-     * @ORM\Column(name="_order_id", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Order", inversedBy="parts")
+     * @ORM\JoinColumn(name="_order_id")
      */
-    private $orderId;
+    private $order;
 
     /**
      * @var integer
@@ -91,5 +95,12 @@ class Partitem
      */
     private $moveMotionId;
 
+    /**
+     * @return int
+     */
+    public function getCost(): int
+    {
+        return $this->cost;
+    }
 }
 

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Doctrine\PropertyAccessorTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Jobitem
 {
+    use PropertyAccessorTrait;
+
     /**
      * @var integer
      *
@@ -43,11 +46,12 @@ class Jobitem
     private $cost;
 
     /**
-     * @var integer
+     * @var Order
      *
-     * @ORM\Column(name="_order_id", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Order", inversedBy="jobs")
+     * @ORM\JoinColumn(name="_order_id")
      */
-    private $orderId;
+    private $order;
 
     /**
      * @var integer
@@ -63,5 +67,12 @@ class Jobitem
      */
     private $employeeUserId;
 
+    /**
+     * @return int
+     */
+    public function getCost(): int
+    {
+        return $this->cost;
+    }
 }
 

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Doctrine\PropertyAccessorTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Car
 {
+    use PropertyAccessorTrait;
+
     /**
      * @var integer
      *
@@ -22,32 +25,36 @@ class Car
     private $id;
 
     /**
-     * @var integer
+     * @var Item
      *
-     * @ORM\Column(name="item_id", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Item")
+     * @ORM\JoinColumn()
      */
-    private $itemId;
+    private $item;
 
     /**
-     * @var integer
+     * @var Carmake
      *
-     * @ORM\Column(name="carmake_id", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Carmake")
+     * @ORM\JoinColumn()
      */
-    private $carmakeId;
+    private $carmake;
 
     /**
-     * @var integer
+     * @var Carmodel
      *
-     * @ORM\Column(name="carmodel_id", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Carmodel")
+     * @ORM\JoinColumn()
      */
-    private $carmodelId;
+    private $carmodel;
 
     /**
-     * @var integer
+     * @var Carmodification
      *
-     * @ORM\Column(name="carmodification_id", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Carmodification")
+     * @ORM\JoinColumn()
      */
-    private $carmodificationId;
+    private $carmodification;
 
     /**
      * @var string
@@ -64,18 +71,20 @@ class Car
     private $year;
 
     /**
-     * @var integer
+     * @var Client
      *
-     * @ORM\Column(name="client_id", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Client")
+     * @ORM\JoinColumn()
      */
-    private $clientId;
+    private $client;
 
     /**
-     * @var integer
+     * @var Mileage
      *
-     * @ORM\Column(name="mileage_id", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Mileage")
+     * @ORM\JoinColumn()
      */
-    private $mileageId;
+    private $mileage;
 
     /**
      * @var string
@@ -133,5 +142,9 @@ class Car
      */
     private $spriteId;
 
+    public function displayName(): string
+    {
+        return sprintf('%s %s', $this->carmake->getName(), $this->carmodel->getName());
+    }
 }
 

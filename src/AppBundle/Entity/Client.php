@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Doctrine\PropertyAccessorTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Client
 {
+    use PropertyAccessorTrait;
+
     /**
      * @var integer
      *
@@ -22,11 +25,12 @@ class Client
     private $id;
 
     /**
-     * @var integer
+     * @var Person
      *
-     * @ORM\Column(name="person_id", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Person")
+     * @ORM\JoinColumn()
      */
-    private $personId;
+    private $person;
 
     /**
      * @var integer

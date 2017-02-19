@@ -1,0 +1,60 @@
+easy_admin:
+    site_name: 'СТО Автомагистр'
+    design:
+        color_scheme: 'light'
+    formats:
+        date: 'd.m.Y'
+        time: 'H:i'
+        datetime: 'd.m.Y H:i'
+    list:
+        actions:
+            - { name: 'show', icon: 'search', label: false }
+            - { name: 'edit', icon: 'pencil', label: false }
+            - { name: 'delete', icon: 'trash', label: false }
+    entities:
+      Order:
+        class: AppBundle\Entity\Order
+        title: 'Заказы'
+        list:
+          fields:
+            - { property: 'id', label: 'Номер' }
+            - { property: 'status', label: 'Статус' }
+            - { property: 'startdate', label: 'Дата начала' }
+            - { property: 'closeddate', label: 'Дата закрытия' }
+            - { property: 'car.displayName', label: 'Автомобиль' }
+            - { property: 'car.carmodification.name', label: 'Модификация' }
+            - { property: 'client.person.fullName', label: 'Клиент' }
+            - { property: 'readableCosts', label: 'Работы/Запчасти' }
+            - { property: 'client.person.fullName', label: 'Последний комментарий' }
+      Car:
+        class: AppBundle\Entity\Car
+        label: 'Автомобиль'
+        list:
+          title: 'Автомобили'
+          fields:
+            - { property: 'client.person.fullName', label: 'Владелец' }
+            - { property: 'vin', label: 'VIN', sortable: false }
+            - { property: 'carmake.name', label: 'Производитель' }
+            - { property: 'carmodel.name', label: 'Модель' }
+            - { property: 'gosnomer', label: 'Гос. Номер', sortable: false }
+      Generation:
+        class: AppBundle\Entity\Cargeneration
+        label: 'Поколение'
+      Carmake:
+        class: AppBundle\Entity\Carmake
+        label: 'Производитель'
+      Model:
+        class: AppBundle\Entity\Carmodel
+        label: 'Модель'
+      Modification:
+        class: AppBundle\Entity\Carmodification
+        label: 'Модифицкация'
+      Part:
+        class: AppBundle\Entity\Part
+        label: 'Запчасти'
+      Item:
+        class: AppBundle\Entity\Item
+      Client:
+        class: AppBundle\Entity\Client
+      Person:
+        class: AppBundle\Entity\Person

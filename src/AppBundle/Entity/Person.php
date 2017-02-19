@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Doctrine\PropertyAccessorTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Person
 {
+    use PropertyAccessorTrait;
+
     /**
      * @var integer
      *
@@ -112,5 +115,9 @@ class Person
      */
     private $spriteId;
 
+    public function getFullName(): string
+    {
+        return sprintf('%s %s', $this->lastname, $this->firstname);
+    }
 }
 

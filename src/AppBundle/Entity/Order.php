@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Doctrine\PropertyAccessorTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Order
 {
+    use PropertyAccessorTrait;
+
     /**
      * @var integer
      *
@@ -20,6 +24,20 @@ class Order
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
+    /**
+     * @var Jobitem[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Jobitem", mappedBy="order")
+     */
+    private $jobs;
+
+    /**
+     * @var Partitem[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Partitem", mappedBy="order")
+     */
+    private $parts;
 
     /**
      * @var integer
@@ -57,18 +75,20 @@ class Order
     private $refs;
 
     /**
-     * @var integer
+     * @var Car
      *
-     * @ORM\Column(name="car_id", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Car")
+     * @ORM\JoinColumn()
      */
-    private $carId;
+    private $car;
 
     /**
-     * @var integer
+     * @var Client
      *
-     * @ORM\Column(name="client_id", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Client")
+     * @ORM\JoinColumn()
      */
-    private $clientId;
+    private $client;
 
     /**
      * @var integer
@@ -161,5 +181,35 @@ class Order
      */
     private $paycard;
 
+    public function __construct()
+    {
+        $this->jobs = new ArrayCollection();
+        $this->parts = new ArrayCollection();
+    }
+
+    public function jobsCost(): int
+    {
+        $total = 0;
+        foreach ($this->jobs as $job) {
+            $total += $job->getCost();
+        }
+
+        return $total;
+    }
+
+    public function partsCost(): int
+    {
+        $cost = 0;
+        foreach ($this->parts as $part) {
+            $cost += $part->getCost();
+        }
+
+        return $cost;
+    }
+
+    public function readableCosts(): string
+    {
+        return sprintf('%s / %s', $this->jobsCost(), $this->partsCost());
+    }
 }
 
