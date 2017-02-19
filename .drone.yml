@@ -1,0 +1,92 @@
+pipeline:
+  clone:
+    image: plugins/git
+    depth: 1
+
+  check:
+    image: docker
+    commands:
+      - |
+        cat << ListEOF
+        c3ee06974e5baedce32c086d3fade699  .drone.env
+        ce7587933f230a57d9d003b2d38a5192  .drone.ssh
+        f9c49a046b7a63c8207f4efdd345050a  docker/docker-entrypoint.sh
+        cacf147939e07fd377a268c18937d270  docker/Dockerfile
+        ListEOF | md5sum -wc -
+
+  build:
+    image: docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - source .drone.env
+      - >-
+        docker build -t "$IMAGE_BUILD"
+        --file docker/Dockerfile
+        --label branch="$DRONE_COMMIT_BRANCH"
+        --build-arg GITHUB_AUTH_TOKEN="$GITHUB_AUTH_TOKEN" .
+
+  test:
+    image: docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - source .drone.env
+      - while ! nc -z 127.0.0.1 3306; do sleep 1; done
+      - >-
+        docker run --rm --network "container:$HOSTNAME"
+        -e APP_ENV=test
+        -e APP_DEBUG=0
+        "$IMAGE_BUILD"
+
+  publish:
+    image: docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - source .drone.env
+      - docker login -u"$HUB_LOGIN" -p"$HUB_PASSWORD" registry.gitlab.com
+      - docker tag "$IMAGE_BUILD" "$IMAGE_PUSH"
+      - docker push "$IMAGE_PUSH" > /dev/null
+      - >+
+        if [ "master" == "$DRONE_COMMIT_BRANCH" ]; then
+          docker rmi --force "$IMAGE_PUSH"
+
+          docker tag "$IMAGE_BUILD" "$IMAGE_LATEST"
+          docker push "$IMAGE_LATEST" > /dev/null
+        fi
+    when:
+      event: push
+
+  clean:
+    image: docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - source .drone.env
+      - >+
+        if [ "success" == "$DRONE_BUILD_STATUS" ] && [ "push" == "$DRONE_BUILD_EVENT" ]; then
+          (docker rmi `docker images -q --filter before="$IMAGE_BUILD" --filter label="branch=$DRONE_COMMIT_BRANCH" "$IMAGE"`)
+        fi
+      - docker rmi --force "$IMAGE_BUILD"
+    when:
+      status: [ failure, success ]
+
+  deploy:
+    image: docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - source .drone.env
+      - source .drone.ssh
+      - ssh "$DEPLOY_HOST" docker service update --image "$IMAGE_PUSH" "$DEPLOY_SERVICE"
+      - docker rmi `docker images -q --filter "before=$IMAGE_PUSH" "$IMAGE"` 2> /dev/null || true
+    when:
+      branch: master
+
+services:
+  mysql:
+    image: mariadb
+    environment:
+      MYSQL_DATABASE: db
+      MYSQL_ALLOW_EMPTY_PASSWORD: true

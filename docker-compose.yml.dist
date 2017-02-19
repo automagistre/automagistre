@@ -24,7 +24,7 @@ services:
           - mysql
 
   mysql:
-      image: mariadb
+      image: mariadb:10
       hostname: mysql.automagistre.local
       container_name: automagistre_mysql
       volumes:

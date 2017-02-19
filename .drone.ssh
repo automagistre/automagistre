@@ -1,0 +1,12 @@
+#!/bin/sh
+
+which openssh || apk add --no-cache openssh
+
+mkdir -p ~/.ssh
+echo -e "$SSH_KEY" > ~/.ssh/id_rsa
+chmod 400 ~/.ssh/id_rsa
+
+echo -e "Host *\n\tStrictHostKeyChecking no\nBatchMode yes\n\n" > ~/.ssh/config
+
+eval $(ssh-agent)
+ssh-add
