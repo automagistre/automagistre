@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Doctrine\PropertyAccessorTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Motion
 {
+    use PropertyAccessorTrait;
+
     /**
      * @var integer
      *
