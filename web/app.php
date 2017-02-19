@@ -1,17 +1,16 @@
 <?php
 
+use Symfony\Component\Debug\Debug;
 use Symfony\Component\HttpFoundation\Request;
 
-/** @var \Composer\Autoload\ClassLoader $loader */
-$loader = require __DIR__.'/../app/autoload.php';
-include_once __DIR__.'/../var/bootstrap.php.cache';
+$loader = require dirname(__DIR__).'/app/autoload.php';
 
-$kernel = new AppKernel('prod', false);
-$kernel->loadClassCache();
-//$kernel = new AppCache($kernel);
+if ($debug = filter_var(getenv('SYMFONY_DEBUG'), FILTER_VALIDATE_BOOLEAN)) {
+    Debug::enable();
+}
 
-// When using the HttpCache, you need to call the method in your front controller instead of relying on the configuration parameter
-//Request::enableHttpMethodParameterOverride();
+$kernel = new AppKernel(getenv('SYMFONY_ENV'), $debug);
+
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
 $response->send();

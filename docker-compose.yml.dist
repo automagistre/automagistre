@@ -1,0 +1,40 @@
+version: '2'
+
+services:
+  app:
+      build:
+          context: .
+          dockerfile: docker/Dockerfile
+          args:
+             SOURCE_DIR: ./var/null
+      container_name: automagistre
+      hostname: automagistre.local
+      labels:
+        subdomains: sto
+      volumes:
+          - ./:/usr/local/app
+      environment:
+          APP_ENV: dev
+          APP_DEBUG: 1
+          DATABASE_HOST: mysql
+          DATABASE_PORT: 3306
+          DATABASE_USER: db
+          DATABASE_PASSWORD: db
+      depends_on:
+          - mysql
+
+  mysql:
+      image: mariadb
+      hostname: mysql.automagistre.local
+      container_name: automagistre_mysql
+      volumes:
+          - mysql-db:/var/lib/mysql
+      environment:
+          MYSQL_DATABASE: db
+          MYSQL_USER: db
+          MYSQL_PASSWORD: db
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+
+volumes:
+  mysql-db:
+    driver: local

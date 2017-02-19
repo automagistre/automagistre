@@ -1,0 +1,7 @@
+#!/bin/sh
+
+cp ${APP_DIR}/docker/apache/apache.conf ${APACHE_CONFDIR}/sites-enabled/000-default.conf
+
+chown -R www-data:www-data ${APP_DIR}/var
+
+apache2-foreground

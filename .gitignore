@@ -14,3 +14,10 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
+
+# Docker
+/docker-compose.yml
+!/var/null/composer.null
+
+# php-cs-fixer
+!/var/.php_cs.cache

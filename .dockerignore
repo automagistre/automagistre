@@ -1,0 +1,11 @@
+# Symfony
+var/cache/*
+var/logs/*
+var/sessions/*
+web/bundles
+
+# Composer
+vendor
+
+# git
+.git
