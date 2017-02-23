@@ -3,7 +3,6 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="car", uniqueConstraints={@ORM\UniqueConstraint(name="UQ_3a7293440d99b39c56ff99074677931de71144cb", columns={"gosnomer"}), @ORM\UniqueConstraint(name="UQ_VIN", columns={"vin"})}, indexes={@ORM\Index(name="EID_IDX", columns={"eid"}), @ORM\Index(name="IDX_CAR_CLIENT", columns={"client_id"}), @ORM\Index(name="IDX_GOSNOMER", columns={"gosnomer"}), @ORM\Index(name="sprite_id", columns={"sprite_id"})})

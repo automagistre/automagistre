@@ -4,7 +4,6 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="_order", indexes={@ORM\Index(name="IDX_ORDER_CLIENT", columns={"client_id"}), @ORM\Index(name="IDX_ORDER_CAR", columns={"car_id"})})
@@ -254,7 +253,6 @@ class Order
     {
         $this->parts[] = $parts;
     }
-
 
     public function getStatus(): ?string
     {
