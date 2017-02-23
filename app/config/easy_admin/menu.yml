@@ -2,9 +2,7 @@ easy_admin:
     design:
         menu:
             - { label: 'Заказы' }
-            - { entity: 'OpenOrders', label: 'Открытые', icon: 'tachometer' }
-            - { entity: 'ClosedOrders', label: 'Закрытые', icon: 'check' }
-            - { entity: 'Orders', label: 'Все', icon: 'list' }
+            - { entity: 'Order', label: 'Заказы', icon: 'list' }
             - { label: 'Клиенты' }
             - { entity: 'Client', label: 'Пользователи', icon: 'users' }
             - { entity: 'Person', label: 'Клиенты', icon: 'users' }

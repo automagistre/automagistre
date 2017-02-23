@@ -1,58 +1,34 @@
 easy_admin:
     entities:
-        OpenOrders:
+        Order:
             class: AppBundle\Entity\Order
-            label: 'Заказы'
+            label: 'Заказ'
             list:
-                title: 'Открытые Заказы'
-                dql_filter: 'entity.closeddate IS NULL'
+                title: 'Заказы'
                 fields:
                     - { property: 'id', label: 'Номер' }
                     - { property: 'status', label: 'Статус' }
                     - { property: 'startdate', label: 'Дата начала' }
-                    - { property: 'car.displayName', label: 'Автомобиль' }
-                    - { property: 'car.carmodification.name', label: 'Модификация' }
-                    - { property: 'client.person.fullName', label: 'Клиент' }
+                    - { property: 'car', label: 'Автомобиль' }
+                    - { property: 'client', label: 'Клиент' }
                     - { property: 'readableCosts', label: 'Работы/Запчасти' }
-                    - { property: 'client.person.fullName', label: 'Последний комментарий' }
-        ClosedOrders:
-            class: AppBundle\Entity\Order
-            label: 'Заказы'
-            list:
-                title: 'Закрытые Заказы'
-                dql_filter: 'entity.closeddate IS NOT NULL'
+            form:
                 fields:
-                    - { property: 'id', label: 'Номер' }
-                    - { property: 'status', label: 'Статус' }
-                    - { property: 'startdate', label: 'Дата начала' }
-                    - { property: 'closeddate', label: 'Дата закрытия' }
-                    - { property: 'car.displayName', label: 'Автомобиль' }
-                    - { property: 'car.carmodification.name', label: 'Модификация' }
-                    - { property: 'client.person.fullName', label: 'Клиент' }
-                    - { property: 'readableCosts', label: 'Работы/Запчасти' }
-                    - { property: 'client.person.fullName', label: 'Последний комментарий' }
-        Orders:
-            class: AppBundle\Entity\Order
-            label: 'Заказы'
-            list:
-                title: 'Все Заказы'
-                fields:
-                    - { property: 'id', label: 'Номер' }
-                    - { property: 'status', label: 'Статус' }
-                    - { property: 'startdate', label: 'Дата начала' }
-                    - { property: 'closeddate', label: 'Дата закрытия' }
-                    - { property: 'car.displayName', label: 'Автомобиль' }
-                    - { property: 'car.carmodification.name', label: 'Модификация' }
-                    - { property: 'client.person.fullName', label: 'Клиент' }
-                    - { property: 'readableCosts', label: 'Работы/Запчасти' }
-                    - { property: 'client.person.fullName', label: 'Последний комментарий' }
+                    - { property: 'car', label: 'Автомобиль', type: 'easyadmin_autocomplete' }
+                    - { property: 'parts', label: 'Запчасти', type: 'easyadmin_autocomplete' }
+                    - { property: 'jobs', label: 'Работы', type: 'easyadmin_autocomplete' }
+                    - { property: 'description', label: 'Описание' }
+            new:
+                title: 'Создать заказ'
         Jobs:
             class: AppBundle\Entity\Jobadvice
-
+        Partitem:
+            class: AppBundle\Entity\Partitem
+        Jobitem:
+            class: AppBundle\Entity\Jobitem
 
         Client:
             class: AppBundle\Entity\Client
-            controller: AppBundle\Controller\Admin\ClientController
             search:
                 fields: ['person', 'description']
             list:
@@ -80,6 +56,8 @@ easy_admin:
         Car:
             class: AppBundle\Entity\Car
             label: 'Автомобили'
+            search:
+                fields: ['gosnomer']
             list:
                 title: 'Автомобили'
                 fields:

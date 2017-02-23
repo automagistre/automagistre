@@ -2,19 +2,14 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Doctrine\PropertyAccessorTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Partitem.
- *
  * @ORM\Table(name="partitem", indexes={@ORM\Index(name="_order_id", columns={"_order_id"})})
  * @ORM\Entity
  */
 class Partitem
 {
-    use PropertyAccessorTrait;
-
     /**
      * @var int
      *
@@ -29,14 +24,15 @@ class Partitem
      *
      * @ORM\Column(name="jobitem_id", type="integer", nullable=true)
      */
-    private $jobitemId;
+    private $jobitem;
 
     /**
-     * @var int
+     * @var Part
      *
-     * @ORM\Column(name="part_id", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Part")
+     * @ORM\JoinColumn()
      */
-    private $partId;
+    private $part;
 
     /**
      * @var bool
@@ -98,8 +94,85 @@ class Partitem
     /**
      * @return int
      */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return Part
+     */
+    public function getPart(): ?Part
+    {
+        return $this->part;
+    }
+
+    /**
+     * @param Part $part
+     */
+    public function setPart(Part $part)
+    {
+        $this->part = $part;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getQty(): ?string
+    {
+        return $this->qty;
+    }
+
+    /**
+     * @param string $qty
+     */
+    public function setQty(string $qty)
+    {
+        $this->qty = $qty;
+    }
+
+    /**
+     * @return Order
+     */
+    public function getOrder(): ?Order
+    {
+        return $this->order;
+    }
+
+    /**
+     * @param Order $order
+     */
+    public function setOrder(Order $order)
+    {
+        $this->order = $order;
+    }
+
+    /**
+     * @return int
+     */
     public function getCost(): int
     {
         return $this->cost;
+    }
+
+    public function __toString(): string
+    {
+        return sprintf('%s (%s)', $this->getName(), $this->getCost());
     }
 }

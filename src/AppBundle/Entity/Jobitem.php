@@ -2,19 +2,15 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Doctrine\PropertyAccessorTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Jobitem.
- *
  * @ORM\Table(name="jobitem", indexes={@ORM\Index(name="_order_id", columns={"_order_id"})})
  * @ORM\Entity
  */
 class Jobitem
 {
-    use PropertyAccessorTrait;
-
     /**
      * @var int
      *
@@ -54,11 +50,12 @@ class Jobitem
     private $order;
 
     /**
-     * @var int
+     * @var Jobadvice
      *
-     * @ORM\Column(name="jobadvice_id", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Jobadvice")
+     * @ORM\JoinColumn()
      */
-    private $jobadviceId;
+    private $jobadvice;
 
     /**
      * @var bool
@@ -70,8 +67,77 @@ class Jobitem
     /**
      * @return int
      */
-    public function getCost(): int
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCost(): ?int
     {
         return $this->cost;
+    }
+
+    /**
+     * @param string $cost
+     */
+    public function setCost(string $cost)
+    {
+        $this->cost = $cost;
+    }
+
+    /**
+     * @return Order
+     */
+    public function getOrder(): ?Order
+    {
+        return $this->order;
+    }
+
+    /**
+     * @param Order $order
+     */
+    public function setOrder(Order $order)
+    {
+        $this->order = $order;
+    }
+
+    /**
+     * @return Jobadvice
+     */
+    public function getJobadvice(): ?Jobadvice
+    {
+        return $this->jobadvice;
+    }
+
+    /**
+     * @param Jobadvice $jobadvice
+     */
+    public function setJobadvice(Jobadvice $jobadvice)
+    {
+        $this->jobadvice = $jobadvice;
+    }
+
+    public function __toString(): string
+    {
+        return sprintf('%s (%s)', $this->getName(), $this->getCost());
     }
 }

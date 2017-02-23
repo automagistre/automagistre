@@ -10,7 +10,9 @@ easy_admin:
 #    form:
 
     list:
+        max_results: 20
         actions:
+            - { name: 'new', icon: 'plus', label: 'Новый %%entity_label%%' }
             - { name: 'show', icon: 'search', label: false }
             - { name: 'edit', icon: 'pencil', label: false }
             - { name: 'delete', icon: 'trash', label: false }

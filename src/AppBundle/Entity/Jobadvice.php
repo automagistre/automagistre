@@ -5,8 +5,6 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Jobadvice.
- *
  * @ORM\Table(name="jobadvice")
  * @ORM\Entity
  */
@@ -29,11 +27,12 @@ class Jobadvice
     private $itemId;
 
     /**
-     * @var int
+     * @var Car
      *
-     * @ORM\Column(name="car_id", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Car")
+     * @ORM\JoinColumn()
      */
-    private $carId;
+    private $car;
 
     /**
      * @var string
@@ -55,4 +54,76 @@ class Jobadvice
      * @ORM\Column(name="cost", type="string", length=255, nullable=true)
      */
     private $cost;
+
+    /**
+     * @return int
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return Car
+     */
+    public function getCar(): ?Car
+    {
+        return $this->car;
+    }
+
+    /**
+     * @param Car $car
+     */
+    public function setCar(Car $car)
+    {
+        $this->car = $car;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isExpired(): bool
+    {
+        return (bool) $this->expired;
+    }
+
+    /**
+     * @param bool $expired
+     */
+    public function setExpired(bool $expired)
+    {
+        $this->expired = $expired;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCost(): ?string
+    {
+        return $this->cost;
+    }
+
+    /**
+     * @param string $cost
+     */
+    public function setCost(string $cost)
+    {
+        $this->cost = $cost;
+    }
 }

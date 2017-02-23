@@ -262,8 +262,19 @@ class Car
         $this->description = $description;
     }
 
-    public function displayName(): string
+    public function getDisplayName(): string
     {
-        return sprintf('%s %s', $this->carmake->getName(), $this->carmodel->getName());
+        return sprintf(
+            '%s %s %s (%s)',
+            $this->carmake->getName(),
+            $this->carmodel->getName(),
+            $this->carmodification ? $this->carmodification->getName() : '',
+            $this->getGosnomer()
+        );
+    }
+
+    public function __toString()
+    {
+        return $this->getDisplayName();
     }
 }

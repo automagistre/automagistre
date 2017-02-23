@@ -2,20 +2,16 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Doctrine\PropertyAccessorTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Order.
- *
  * @ORM\Table(name="_order", indexes={@ORM\Index(name="IDX_ORDER_CLIENT", columns={"client_id"}), @ORM\Index(name="IDX_ORDER_CAR", columns={"car_id"})})
  * @ORM\Entity
  */
 class Order
 {
-    use PropertyAccessorTrait;
-
     /**
      * @var int
      *
@@ -186,6 +182,79 @@ class Order
         $this->jobs = new ArrayCollection();
         $this->parts = new ArrayCollection();
     }
+
+    /**
+     * @return int
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return Jobitem[]|ArrayCollection
+     */
+    public function getJobs()
+    {
+        return $this->jobs;
+    }
+
+    /**
+     * @param Jobitem[]|ArrayCollection $jobs
+     */
+    public function setJobs($jobs)
+    {
+        $this->jobs = $jobs;
+    }
+
+    /**
+     * @return Partitem[]|ArrayCollection
+     */
+    public function getParts()
+    {
+        return $this->parts;
+    }
+
+    /**
+     * @return Car
+     */
+    public function getCar(): ?Car
+    {
+        return $this->car;
+    }
+
+    /**
+     * @param Car $car
+     */
+    public function setCar(Car $car)
+    {
+        $this->car = $car;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription(string $description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @param Partitem[]|ArrayCollection $parts
+     */
+    public function addParts(Partitem $parts)
+    {
+        $this->parts[] = $parts;
+    }
+
 
     public function getStatus(): ?string
     {
