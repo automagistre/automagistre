@@ -38,7 +38,12 @@ easy_admin:
                     - { property: 'wallet', label: 'Баланс' }
                     - { property: 'description', label: 'Описание' }
                     - { property: 'employee', label: 'Сотрудник?' }
-
+            form:
+                fields:
+                    - { property: 'person', label: 'Клиент' }
+                    - { property: 'wallet', label: 'Баланс' }
+                    - { property: 'description', label: 'Описание' }
+                    - { property: 'employee', label: 'Сотрудник?' }
         Person:
             class: AppBundle\Entity\Person
             search:
@@ -156,8 +161,8 @@ easy_admin:
                     - { property: 'cargeneration.carmodel.carmake.name', label: 'Производитель' }
                     - { property: 'hp', label: 'л.с.' }
                     - { property: 'doors', label: 'Дверей' }
-                    - { property: 'from', label: 'С' }
-                    - { property: 'till', label: 'По' }
+                    - { property: 'from', label: 'С', type: 'string' }
+                    - { property: 'till', label: 'По', type: 'string' }
                     - { property: 'maxspeed', label: 'Макс. скорость' }
                     - { property: 's0to100', label: 'Разгон' }
                     - { property: 'tank', label: 'Объём бака' }
