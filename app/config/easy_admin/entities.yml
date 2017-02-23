@@ -46,6 +46,14 @@ easy_admin:
                     - { property: 'client.person.fullName', label: 'Клиент' }
                     - { property: 'readableCosts', label: 'Работы/Запчасти' }
                     - { property: 'client.person.fullName', label: 'Последний комментарий' }
+        Jobs:
+            class: AppBundle\Entity\Jobadvice
+
+
+        Client:
+            class: AppBundle\Entity\Client
+        Person:
+            class: AppBundle\Entity\Person
         Car:
             class: AppBundle\Entity\Car
             label: 'Автомобили'
@@ -57,6 +65,16 @@ easy_admin:
                     - { property: 'carmake.name', label: 'Производитель' }
                     - { property: 'carmodel.name', label: 'Модель' }
                     - { property: 'gosnomer', label: 'Гос. Номер', sortable: false }
+
+
+        Part:
+            class: AppBundle\Entity\Part
+            label: 'Запчасти'
+        Motion:
+            class: AppBundle\Entity\Motion
+        Manufacturer:
+            class: AppBundle\Entity\Manufacturer
+
 
         Carmake:
             class: AppBundle\Entity\Carmake
@@ -123,20 +141,7 @@ easy_admin:
                     - { property: 'maxspeed', label: 'Макс. скорость' }
                     - { property: 's0to100', label: 'Разгон' }
                     - { property: 'tank', label: 'Объём бака' }
-        Part:
-            class: AppBundle\Entity\Part
-            label: 'Запчасти'
+
+
         Item:
             class: AppBundle\Entity\Item
-        Client:
-            class: AppBundle\Entity\Client
-        Person:
-            class: AppBundle\Entity\Person
-        Part:
-            class: AppBundle\Entity\Part
-        Motion:
-            class: AppBundle\Entity\Motion
-        Manufacturer:
-            class: AppBundle\Entity\Manufacturer
-        Jobs:
-            class: AppBundle\Entity\Jobadvice
