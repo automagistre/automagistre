@@ -93,4 +93,9 @@ class Cargeneration
     {
         $this->carmodel = $carmodel;
     }
+
+    public function __toString(): string
+    {
+        return (string) $this->getName();
+    }
 }

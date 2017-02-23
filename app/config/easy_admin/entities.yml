@@ -98,10 +98,31 @@ easy_admin:
                     - { property: 'name', label: 'Название' }
         Modification:
             class: AppBundle\Entity\Carmodification
+            disabled_actions: ['show']
             list:
                 title: 'Модификации'
-            show:
-                title: 'Модификация'
+                fields:
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'cargeneration.name', label: 'Поколение' }
+                    - { property: 'cargeneration.carmodel.carmake.name', label: 'Производитель' }
+                    - { property: 'hp', label: 'л.с.' }
+                    - { property: 'doors', label: 'Дверей' }
+                    - { property: 'from', label: 'С' }
+                    - { property: 'till', label: 'По' }
+                    - { property: 'maxspeed', label: 'Макс. скорость' }
+                    - { property: 's0to100', label: 'Разгон' }
+                    - { property: 'tank', label: 'Объём бака' }
+            form:
+                fields:
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'cargeneration', label: 'Поколение' }
+                    - { property: 'hp', label: 'л.с.' }
+                    - { property: 'doors', label: 'Дверей' }
+                    - { property: 'from', label: 'С' }
+                    - { property: 'till', label: 'По' }
+                    - { property: 'maxspeed', label: 'Макс. скорость' }
+                    - { property: 's0to100', label: 'Разгон' }
+                    - { property: 'tank', label: 'Объём бака' }
         Part:
             class: AppBundle\Entity\Part
             label: 'Запчасти'

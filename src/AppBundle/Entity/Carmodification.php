@@ -2,19 +2,15 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Doctrine\PropertyAccessorTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Carmodification.
- *
  * @ORM\Table(name="carmodification", indexes={@ORM\Index(name="IDX_MODIF_FOLDER", columns={"folder"}), @ORM\Index(name="IDX_MODIF_PARENT", columns={"cargeneration_id"})})
  * @ORM\Entity
  */
 class Carmodification
 {
-    use PropertyAccessorTrait;
-
     /**
      * @var int
      *
@@ -25,11 +21,13 @@ class Carmodification
     private $id;
 
     /**
-     * @var int
+     * @var Cargeneration
      *
-     * @ORM\Column(name="cargeneration_id", type="integer", nullable=true)
+     * @Assert\NotBlank()
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Cargeneration")
      */
-    private $cargenerationId;
+    private $cargeneration;
 
     /**
      * @var int
@@ -48,14 +46,16 @@ class Carmodification
     /**
      * @var int
      *
+     * @Assert\Type("int")
+     *
      * @ORM\Column(name="hp", type="smallint", nullable=true)
      */
     private $hp;
 
     /**
-     * @var bool
+     * @var int
      *
-     * @ORM\Column(name="doors", type="boolean", nullable=true)
+     * @ORM\Column(name="doors", type="integer", nullable=true)
      */
     private $doors;
 
@@ -102,10 +102,146 @@ class Carmodification
     private $link;
 
     /**
+     * @return int
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
      * @return string
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
+    }
+
+    /**
+     * @return Cargeneration
+     */
+    public function getCargeneration(): ?Cargeneration
+    {
+        return $this->cargeneration;
+    }
+
+    /**
+     * @param Cargeneration $cargeneration
+     */
+    public function setCargeneration(Cargeneration $cargeneration)
+    {
+        $this->cargeneration = $cargeneration;
+    }
+
+    /**
+     * @return int
+     */
+    public function getHp(): ?int
+    {
+        return $this->hp;
+    }
+
+    /**
+     * @param int $hp
+     */
+    public function setHp(int $hp)
+    {
+        $this->hp = $hp;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDoors(): ?bool
+    {
+        return $this->doors;
+    }
+
+    /**
+     * @param bool $doors
+     */
+    public function setDoors(bool $doors)
+    {
+        $this->doors = $doors;
+    }
+
+    /**
+     * @return int
+     */
+    public function getFrom(): ?int
+    {
+        return $this->from;
+    }
+
+    /**
+     * @param int $from
+     */
+    public function setFrom(int $from)
+    {
+        $this->from = $from;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTill(): ?int
+    {
+        return $this->till;
+    }
+
+    /**
+     * @param int $till
+     */
+    public function setTill(int $till)
+    {
+        $this->till = $till;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMaxspeed(): ?string
+    {
+        return $this->maxspeed;
+    }
+
+    /**
+     * @param string $maxspeed
+     */
+    public function setMaxspeed(string $maxspeed)
+    {
+        $this->maxspeed = $maxspeed;
+    }
+
+    /**
+     * @return string
+     */
+    public function getS0to100(): ?string
+    {
+        return $this->s0to100;
+    }
+
+    /**
+     * @param string $s0to100
+     */
+    public function setS0to100(string $s0to100)
+    {
+        $this->s0to100 = $s0to100;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTank(): ?int
+    {
+        return $this->tank;
+    }
+
+    /**
+     * @param int $tank
+     */
+    public function setTank(int $tank)
+    {
+        $this->tank = $tank;
     }
 }
