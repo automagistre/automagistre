@@ -12,7 +12,7 @@ easy_admin:
     list:
         max_results: 20
         actions:
-            - { name: 'new', icon: 'plus', label: 'Новый %%entity_label%%' }
+            - { name: 'new', icon: 'plus', label: 'Создать' }
             - { name: 'show', icon: 'search', label: false }
             - { name: 'edit', icon: 'pencil', label: false }
             - { name: 'delete', icon: 'trash', label: false }
