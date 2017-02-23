@@ -6,6 +6,7 @@ easy_admin:
             - { entity: 'ClosedOrders', label: 'Закрытые', icon: 'check' }
             - { entity: 'Orders', label: 'Все', icon: 'list' }
             - { label: 'Клиенты' }
+            - { entity: 'Client', label: 'Пользователи', icon: 'users' }
             - { entity: 'Person', label: 'Клиенты', icon: 'users' }
             - { entity: 'Car', label: 'Автомобили', icon: 'car' }
             - { label: 'Склад' }

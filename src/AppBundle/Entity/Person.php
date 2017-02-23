@@ -119,4 +119,9 @@ class Person
     {
         return sprintf('%s %s', $this->lastname, $this->firstname);
     }
+
+    public function __toString(): string
+    {
+        return $this->getFullName();
+    }
 }

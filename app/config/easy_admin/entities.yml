@@ -52,6 +52,14 @@ easy_admin:
 
         Client:
             class: AppBundle\Entity\Client
+            list:
+                title: 'Пользователи'
+                fields:
+                    - { property: 'person', label: 'Клиент' }
+                    - { property: 'wallet', label: 'Баланс' }
+                    - { property: 'description', label: 'Описание' }
+                    - { property: 'employee', label: 'Сотрудник?' }
+
         Person:
             class: AppBundle\Entity\Person
         Car:
@@ -60,10 +68,10 @@ easy_admin:
             list:
                 title: 'Автомобили'
                 fields:
-                    - { property: 'client.person.fullName', label: 'Владелец' }
+                    - { property: 'client', label: 'Владелец' }
                     - { property: 'vin', label: 'VIN', sortable: false }
-                    - { property: 'carmake.name', label: 'Производитель' }
-                    - { property: 'carmodel.name', label: 'Модель' }
+                    - { property: 'carmake', label: 'Производитель' }
+                    - { property: 'carmodel', label: 'Модель' }
                     - { property: 'gosnomer', label: 'Гос. Номер', sortable: false }
             form:
                 fields:
