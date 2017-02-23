@@ -75,6 +75,13 @@ easy_admin:
         Model:
             class: AppBundle\Entity\Carmodel
             label: 'Модель'
+            list:
+                title: 'Производители'
+                fields:
+                    - { property: 'name', label: 'Название' }
+            form:
+                fields:
+                    - { property: 'name', label: 'Название' }
         Modification:
             class: AppBundle\Entity\Carmodification
             list:
