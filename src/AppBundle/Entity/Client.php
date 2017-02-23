@@ -2,19 +2,15 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Doctrine\PropertyAccessorTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Client.
- *
  * @ORM\Table(name="client", indexes={@ORM\Index(name="EID_IDX", columns={"eid"}), @ORM\Index(name="IDX_CLIENT_PERSON", columns={"person_id"})})
  * @ORM\Entity
  */
 class Client
 {
-    use PropertyAccessorTrait;
-
     /**
      * @var int
      *
@@ -80,4 +76,81 @@ class Client
      * @ORM\Column(name="point_id", type="integer", nullable=true)
      */
     private $pointId;
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return Person
+     */
+    public function getPerson(): ?Person
+    {
+        return $this->person;
+    }
+
+    /**
+     * @param Person $person
+     */
+    public function setPerson(Person $person)
+    {
+        $this->person = $person;
+    }
+
+    /**
+     * @return int
+     */
+    public function getWallet(): ?int
+    {
+        return $this->wallet;
+    }
+
+    /**
+     * @param int $wallet
+     */
+    public function setWallet(int $wallet)
+    {
+        $this->wallet = $wallet;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription(string $description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEmployee(): bool
+    {
+        return (bool) $this->employee;
+    }
+
+    /**
+     * @param bool $employee
+     */
+    public function setEmployee(bool $employee)
+    {
+        $this->employee = $employee;
+    }
+
+    public function __toString(): string
+    {
+        return $this->person->getFullName();
+    }
 }

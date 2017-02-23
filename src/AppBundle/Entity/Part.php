@@ -2,19 +2,15 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Doctrine\PropertyAccessorTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Part.
- *
  * @ORM\Table(name="part", uniqueConstraints={@ORM\UniqueConstraint(name="part_uniq", columns={"partnumber", "manufacturer_id"})})
  * @ORM\Entity
  */
 class Part
 {
-    use PropertyAccessorTrait;
-
     /**
      * @var int
      *
@@ -32,14 +28,19 @@ class Part
     private $itemId;
 
     /**
-     * @var int
+     * @var Manufacturer
      *
-     * @ORM\Column(name="manufacturer_id", type="integer", nullable=true)
+     * @Assert\NotBlank()
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Manufacturer")
+     * @ORM\JoinColumn()
      */
-    private $manufacturerId;
+    private $manufacturer;
 
     /**
      * @var string
+     *
+     * @Assert\NotBlank()
      *
      * @ORM\Column(name="partname", type="string", length=255, nullable=true)
      */
@@ -54,6 +55,8 @@ class Part
 
     /**
      * @var string
+     *
+     * @Assert\NotBlank()
      *
      * @ORM\Column(name="partnumber", type="string", length=30, nullable=true)
      */
@@ -81,11 +84,11 @@ class Part
     private $fractional;
 
     /**
-     * @var string
+     * @var int
      *
      * @ORM\Column(name="price", type="string", length=255, nullable=true)
      */
-    private $price;
+    private $price = 0;
 
     /**
      * @var float
@@ -100,4 +103,67 @@ class Part
      * @ORM\Column(name="reserved", type="integer", nullable=false)
      */
     private $reserved = '0';
+
+    /**
+     * @return int
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getManufacturer(): ?Manufacturer
+    {
+        return $this->manufacturer;
+    }
+
+    public function setManufacturer(Manufacturer $manufacturer)
+    {
+        $this->manufacturer = $manufacturer;
+    }
+
+    public function getPartname(): ?string
+    {
+        return $this->partname;
+    }
+
+    public function setPartname(string $partname)
+    {
+        $this->partname = $partname;
+    }
+
+    public function getPartnumber(): ?string
+    {
+        return $this->partnumber;
+    }
+
+    public function setPartnumber(string $partnumber)
+    {
+        $this->partnumber = $partnumber;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description)
+    {
+        $this->description = $description;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(int $price)
+    {
+        $this->price = $price;
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->getPartname();
+    }
 }

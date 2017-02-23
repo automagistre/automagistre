@@ -84,4 +84,9 @@ class Carmake
     {
         $this->name = $name;
     }
+
+    public function __toString(): string
+    {
+        return (string) $this->getName();
+    }
 }

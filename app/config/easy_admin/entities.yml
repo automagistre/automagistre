@@ -65,13 +65,35 @@ easy_admin:
                     - { property: 'carmake.name', label: 'Производитель' }
                     - { property: 'carmodel.name', label: 'Модель' }
                     - { property: 'gosnomer', label: 'Гос. Номер', sortable: false }
+            form:
+                fields:
+                    - { property: 'client', label: 'Владелец' }
+                    - { property: 'vin', label: 'VIN', sortable: false }
+                    - { property: 'carmake', label: 'Производитель' }
+                    - { property: 'carmodel', label: 'Модель' }
+                    - { property: 'gosnomer', label: 'Гос. Номер', sortable: false }
 
 
         Part:
             class: AppBundle\Entity\Part
             label: 'Запчасти'
+            list:
+                fields:
+                    - { property: 'manufacturer.name', label: 'Производитель' }
+                    - { property: 'partname', label: 'Название' }
+                    - { property: 'partnumber', label: 'Номер' }
+                    - { property: 'price', label: 'Цена' }
+            form:
+                fields:
+                    - { property: 'manufacturer', label: 'Производитель' }
+                    - { property: 'partname', label: 'Название' }
+                    - { property: 'partnumber', label: 'Номер' }
+                    - { property: 'price', label: 'Цена' }
+            edit:
+                fields: ['-price']
         Motion:
             class: AppBundle\Entity\Motion
+            disabled_actions: ['show', 'edit', 'new', 'search']
         Manufacturer:
             class: AppBundle\Entity\Manufacturer
             disabled_actions: ['show']
