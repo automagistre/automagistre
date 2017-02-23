@@ -1,92 +1,100 @@
 easy_admin:
     entities:
-      OpenOrders:
-        class: AppBundle\Entity\Order
-        label: 'Заказы'
-        list:
-          title: 'Открытые Заказы'
-          dql_filter: 'entity.closeddate IS NULL'
-          fields:
-            - { property: 'id', label: 'Номер' }
-            - { property: 'status', label: 'Статус' }
-            - { property: 'startdate', label: 'Дата начала' }
-            - { property: 'car.displayName', label: 'Автомобиль' }
-            - { property: 'car.carmodification.name', label: 'Модификация' }
-            - { property: 'client.person.fullName', label: 'Клиент' }
-            - { property: 'readableCosts', label: 'Работы/Запчасти' }
-            - { property: 'client.person.fullName', label: 'Последний комментарий' }
-      ClosedOrders:
-        class: AppBundle\Entity\Order
-        label: 'Заказы'
-        list:
-          title: 'Закрытые Заказы'
-          dql_filter: 'entity.closeddate IS NOT NULL'
-          fields:
-            - { property: 'id', label: 'Номер' }
-            - { property: 'status', label: 'Статус' }
-            - { property: 'startdate', label: 'Дата начала' }
-            - { property: 'closeddate', label: 'Дата закрытия' }
-            - { property: 'car.displayName', label: 'Автомобиль' }
-            - { property: 'car.carmodification.name', label: 'Модификация' }
-            - { property: 'client.person.fullName', label: 'Клиент' }
-            - { property: 'readableCosts', label: 'Работы/Запчасти' }
-            - { property: 'client.person.fullName', label: 'Последний комментарий' }
-      Orders:
-        class: AppBundle\Entity\Order
-        label: 'Заказы'
-        list:
-          title: 'Все Заказы'
-          fields:
-            - { property: 'id', label: 'Номер' }
-            - { property: 'status', label: 'Статус' }
-            - { property: 'startdate', label: 'Дата начала' }
-            - { property: 'closeddate', label: 'Дата закрытия' }
-            - { property: 'car.displayName', label: 'Автомобиль' }
-            - { property: 'car.carmodification.name', label: 'Модификация' }
-            - { property: 'client.person.fullName', label: 'Клиент' }
-            - { property: 'readableCosts', label: 'Работы/Запчасти' }
-            - { property: 'client.person.fullName', label: 'Последний комментарий' }
-      Car:
-        class: AppBundle\Entity\Car
-        label: 'Автомобили'
-        list:
-          title: 'Автомобили'
-          fields:
-            - { property: 'client.person.fullName', label: 'Владелец' }
-            - { property: 'vin', label: 'VIN', sortable: false }
-            - { property: 'carmake.name', label: 'Производитель' }
-            - { property: 'carmodel.name', label: 'Модель' }
-            - { property: 'gosnomer', label: 'Гос. Номер', sortable: false }
-      Generation:
-        class: AppBundle\Entity\Cargeneration
-        list:
-          title: 'Поколения'
-      Carmake:
-        class: AppBundle\Entity\Carmake
-        label: 'Производитель'
-      Model:
-        class: AppBundle\Entity\Carmodel
-        label: 'Модель'
-      Modification:
-        class: AppBundle\Entity\Carmodification
-        list:
-          title: 'Модификации'
-        show:
-          title: 'Модификация'
-      Part:
-        class: AppBundle\Entity\Part
-        label: 'Запчасти'
-      Item:
-        class: AppBundle\Entity\Item
-      Client:
-        class: AppBundle\Entity\Client
-      Person:
-        class: AppBundle\Entity\Person
-      Part:
-        class: AppBundle\Entity\Part
-      Motion:
-        class: AppBundle\Entity\Motion
-      Manufacturer:
-        class: AppBundle\Entity\Manufacturer
-      Jobs:
-        class: AppBundle\Entity\Jobadvice
+        OpenOrders:
+            class: AppBundle\Entity\Order
+            label: 'Заказы'
+            list:
+                title: 'Открытые Заказы'
+                dql_filter: 'entity.closeddate IS NULL'
+                fields:
+                    - { property: 'id', label: 'Номер' }
+                    - { property: 'status', label: 'Статус' }
+                    - { property: 'startdate', label: 'Дата начала' }
+                    - { property: 'car.displayName', label: 'Автомобиль' }
+                    - { property: 'car.carmodification.name', label: 'Модификация' }
+                    - { property: 'client.person.fullName', label: 'Клиент' }
+                    - { property: 'readableCosts', label: 'Работы/Запчасти' }
+                    - { property: 'client.person.fullName', label: 'Последний комментарий' }
+        ClosedOrders:
+            class: AppBundle\Entity\Order
+            label: 'Заказы'
+            list:
+                title: 'Закрытые Заказы'
+                dql_filter: 'entity.closeddate IS NOT NULL'
+                fields:
+                    - { property: 'id', label: 'Номер' }
+                    - { property: 'status', label: 'Статус' }
+                    - { property: 'startdate', label: 'Дата начала' }
+                    - { property: 'closeddate', label: 'Дата закрытия' }
+                    - { property: 'car.displayName', label: 'Автомобиль' }
+                    - { property: 'car.carmodification.name', label: 'Модификация' }
+                    - { property: 'client.person.fullName', label: 'Клиент' }
+                    - { property: 'readableCosts', label: 'Работы/Запчасти' }
+                    - { property: 'client.person.fullName', label: 'Последний комментарий' }
+        Orders:
+            class: AppBundle\Entity\Order
+            label: 'Заказы'
+            list:
+                title: 'Все Заказы'
+                fields:
+                    - { property: 'id', label: 'Номер' }
+                    - { property: 'status', label: 'Статус' }
+                    - { property: 'startdate', label: 'Дата начала' }
+                    - { property: 'closeddate', label: 'Дата закрытия' }
+                    - { property: 'car.displayName', label: 'Автомобиль' }
+                    - { property: 'car.carmodification.name', label: 'Модификация' }
+                    - { property: 'client.person.fullName', label: 'Клиент' }
+                    - { property: 'readableCosts', label: 'Работы/Запчасти' }
+                    - { property: 'client.person.fullName', label: 'Последний комментарий' }
+        Car:
+            class: AppBundle\Entity\Car
+            label: 'Автомобили'
+            list:
+                title: 'Автомобили'
+                fields:
+                    - { property: 'client.person.fullName', label: 'Владелец' }
+                    - { property: 'vin', label: 'VIN', sortable: false }
+                    - { property: 'carmake.name', label: 'Производитель' }
+                    - { property: 'carmodel.name', label: 'Модель' }
+                    - { property: 'gosnomer', label: 'Гос. Номер', sortable: false }
+        Generation:
+            class: AppBundle\Entity\Cargeneration
+            list:
+                title: 'Поколения'
+        Manufacturer:
+            name: 'Производитель'
+            class: AppBundle\Entity\Carmake
+            label: 'Производитель'
+            list:
+                title: 'Производители'
+                fields:
+                    - { property: 'name', label: 'Название' }
+            form:
+                fields:
+                    - { property: 'name', label: 'Название' }
+        Model:
+            class: AppBundle\Entity\Carmodel
+            label: 'Модель'
+        Modification:
+            class: AppBundle\Entity\Carmodification
+            list:
+                title: 'Модификации'
+            show:
+                title: 'Модификация'
+        Part:
+            class: AppBundle\Entity\Part
+            label: 'Запчасти'
+        Item:
+            class: AppBundle\Entity\Item
+        Client:
+            class: AppBundle\Entity\Client
+        Person:
+            class: AppBundle\Entity\Person
+        Part:
+            class: AppBundle\Entity\Part
+        Motion:
+            class: AppBundle\Entity\Motion
+        Manufacturer:
+            class: AppBundle\Entity\Manufacturer
+        Jobs:
+            class: AppBundle\Entity\Jobadvice

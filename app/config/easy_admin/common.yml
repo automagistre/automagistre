@@ -1,11 +1,14 @@
 easy_admin:
     site_name: 'СТО Автомагистр'
+    disabled_actions: ['delete']
     design:
         color_scheme: 'light'
     formats:
         date: 'd.m.Y'
         time: 'H:i'
         datetime: 'd.m.Y H:i'
+#    form:
+
     list:
         actions:
             - { name: 'show', icon: 'search', label: false }

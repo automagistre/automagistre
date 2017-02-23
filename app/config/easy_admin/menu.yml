@@ -1,19 +1,19 @@
 easy_admin:
-  design:
-      menu:
-        - { label: 'Заказы' }
-        - { entity: 'OpenOrders', label: 'Открытые', icon: 'tachometer' }
-        - { entity: 'ClosedOrders', label: 'Закрытые', icon: 'check' }
-        - { entity: 'Orders', label: 'Все', icon: 'list' }
-        - { label: 'Клиенты' }
-        - { entity: 'Person', label: 'Клиенты', icon: 'users' }
-        - { entity: 'Car', label: 'Автомобили', icon: 'car' }
-        - { label: 'Склад' }
-        - { entity: 'Part', label: 'Запчасти', icon: 'cogs' }
-        - { entity: 'Motion', label: 'Движения', icon: 'truck' }
-        - { entity: 'Manufacturer', label: 'Производители', icon: 'industry' }
-        - { label: 'Справочники' }
-        - { entity: 'Generation', label: 'Поколения' }
-        - { entity: 'Carmake', label: 'Производители', icon: 'industry' }
-        - { entity: 'Model', label: 'Модели' }
-        - { entity: 'Modification', label: 'Модификации' }
+    design:
+        menu:
+            - { label: 'Заказы' }
+            - { entity: 'OpenOrders', label: 'Открытые', icon: 'tachometer' }
+            - { entity: 'ClosedOrders', label: 'Закрытые', icon: 'check' }
+            - { entity: 'Orders', label: 'Все', icon: 'list' }
+            - { label: 'Клиенты' }
+            - { entity: 'Person', label: 'Клиенты', icon: 'users' }
+            - { entity: 'Car', label: 'Автомобили', icon: 'car' }
+            - { label: 'Склад' }
+            - { entity: 'Part', label: 'Запчасти', icon: 'cogs' }
+            - { entity: 'Motion', label: 'Движения', icon: 'truck' }
+            - { entity: 'Manufacturer', label: 'Производители', icon: 'industry' }
+            - { label: 'Справочники' }
+            - { entity: 'Generation', label: 'Поколения' }
+            - { entity: 'Manufacturer', label: 'Производители', icon: 'industry' }
+            - { entity: 'Model', label: 'Модели' }
+            - { entity: 'Modification', label: 'Модификации' }

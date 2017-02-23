@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use AppBundle\Doctrine\PropertyAccessorTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Carmake.
@@ -33,6 +34,8 @@ class Carmake
 
     /**
      * @var string
+     *
+     * @Assert\NotBlank()
      *
      * @ORM\Column(name="name", type="string", length=30, nullable=true)
      */
@@ -69,8 +72,16 @@ class Carmake
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name)
+    {
+        $this->name = $name;
     }
 }
