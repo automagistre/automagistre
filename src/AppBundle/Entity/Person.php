@@ -115,6 +115,62 @@ class Person
      */
     private $spriteId;
 
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstname(): string
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * @param string $firstname
+     */
+    public function setFirstname(string $firstname)
+    {
+        $this->firstname = $firstname;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * @param string $lastname
+     */
+    public function setLastname(string $lastname)
+    {
+        $this->lastname = $lastname;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMobilephone(): ?string
+    {
+        return $this->mobilephone;
+    }
+
+    /**
+     * @param string $mobilephone
+     */
+    public function setMobilephone(string $mobilephone)
+    {
+        $this->mobilephone = $mobilephone;
+    }
+
     public function getFullName(): string
     {
         return sprintf('%s %s', $this->lastname, $this->firstname);

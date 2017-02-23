@@ -52,6 +52,9 @@ easy_admin:
 
         Client:
             class: AppBundle\Entity\Client
+            controller: AppBundle\Controller\Admin\ClientController
+            search:
+                fields: ['person', 'description']
             list:
                 title: 'Пользователи'
                 fields:
@@ -62,6 +65,18 @@ easy_admin:
 
         Person:
             class: AppBundle\Entity\Person
+            search:
+                fields: ['firstname', 'lastname', 'mobilephone']
+            list:
+                fields:
+                    - { property: 'fullName', label: 'Ф.И.О' }
+                    - { property: 'mobilephone', label: 'Телефон' }
+            form:
+                fields:
+                    - { property: 'firstname', label: 'Имя' }
+                    - { property: 'lastname', label: 'Фамилия' }
+                    - { property: 'mobilephone', label: 'Телефон' }
+
         Car:
             class: AppBundle\Entity\Car
             label: 'Автомобили'
