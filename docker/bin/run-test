@@ -6,6 +6,6 @@ bin/symfony_requirements
 
 php-cs-fixer fix --dry-run
 
-bin/console doctrine:schema:validate --skip-sync
+bin/console doctrine:schema:validate
 
 phpunit
