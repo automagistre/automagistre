@@ -22,11 +22,12 @@ class Mileage
     private $id;
 
     /**
-     * @var int
+     * @var Order
      *
-     * @ORM\Column(name="_order_id", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Order", inversedBy="mileage")
+     * @ORM\JoinColumn(name="_order_id")
      */
-    private $orderId;
+    private $order;
 
     /**
      * @var \DateTime
@@ -43,9 +44,47 @@ class Mileage
     private $value;
 
     /**
-     * @var int
+     * @var Car
      *
-     * @ORM\Column(name="car_id", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Car", inversedBy="mileage")
+     * @ORM\JoinColumn()
      */
-    private $carId;
+    private $car;
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return Order
+     */
+    public function getOrder(): ?Order
+    {
+        return $this->order;
+    }
+
+    /**
+     * @return int
+     */
+    public function getValue(): ?int
+    {
+        return $this->value;
+    }
+
+    /**
+     * @return Car
+     */
+    public function getCar(): ?Car
+    {
+        return $this->car;
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->getValue();
+    }
 }

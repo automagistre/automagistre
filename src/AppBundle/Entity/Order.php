@@ -87,11 +87,12 @@ class Order
     private $client;
 
     /**
-     * @var int
+     * @var Mileage
      *
-     * @ORM\Column(name="mileage_id", type="integer", nullable=true)
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Mileage", mappedBy="order")
+     * @ORM\JoinColumn()
      */
-    private $mileageId;
+    private $mileage;
 
     /**
      * @var bool

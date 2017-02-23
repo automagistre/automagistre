@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -74,10 +75,9 @@ class Car
     private $client;
 
     /**
-     * @var Mileage
+     * @var Mileage[]|ArrayCollection
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Mileage")
-     * @ORM\JoinColumn()
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Mileage", mappedBy="car")
      */
     private $mileage;
 
@@ -108,6 +108,11 @@ class Car
      * @ORM\Column(name="sprite_id", type="integer", nullable=true)
      */
     private $spriteId;
+
+    public function __construct()
+    {
+        $this->mileage = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -218,7 +223,7 @@ class Car
      */
     public function getMileage(): ?Mileage
     {
-        return $this->mileage;
+        return $this->mileage->last() ?: null;
     }
 
     /**

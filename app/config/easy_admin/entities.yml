@@ -70,6 +70,7 @@ easy_admin:
                     - { property: 'vin', label: 'VIN', sortable: false }
                     - { property: 'carmake', label: 'Производитель' }
                     - { property: 'carmodel', label: 'Модель' }
+                    - { property: 'mileage', label: 'Пробег' }
                     - { property: 'gosnomer', label: 'Гос. Номер', sortable: false }
             form:
                 fields:
