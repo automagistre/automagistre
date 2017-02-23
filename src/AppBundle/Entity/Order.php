@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -42,14 +43,14 @@ class Order
     private $ownedsecurableitemId;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="startdate", type="datetime", nullable=true)
      */
     private $startdate;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="closeddate", type="datetime", nullable=true)
      */
@@ -121,7 +122,7 @@ class Order
     private $eid;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="suspenddate", type="datetime", nullable=true)
      */
@@ -135,7 +136,7 @@ class Order
     private $suspended;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="resumedate", type="date", nullable=true)
      */
@@ -252,6 +253,38 @@ class Order
     public function addParts(Partitem $parts)
     {
         $this->parts[] = $parts;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getStartedAt(): ?DateTime
+    {
+        return $this->startdate;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getClosedAt(): ?DateTime
+    {
+        return $this->closeddate;
+    }
+
+    /**
+     * @return Client
+     */
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    /**
+     * @param Client $client
+     */
+    public function setClient(Client $client)
+    {
+        $this->client = $client;
     }
 
     public function getStatus(): ?string

@@ -8,7 +8,7 @@ easy_admin:
                 fields:
                     - { property: 'id', label: 'Номер' }
                     - { property: 'status', label: 'Статус' }
-                    - { property: 'startdate', label: 'Дата начала' }
+                    - { property: 'startedAt', label: 'Дата начала', type: 'datetime' }
                     - { property: 'car', label: 'Автомобиль' }
                     - { property: 'client', label: 'Клиент' }
                     - { property: 'readableCosts', label: 'Работы/Запчасти' }
