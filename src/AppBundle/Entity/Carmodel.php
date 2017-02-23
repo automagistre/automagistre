@@ -2,7 +2,6 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Doctrine\PropertyAccessorTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -14,8 +13,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Carmodel
 {
-    use PropertyAccessorTrait;
-
     /**
      * @var int
      *
@@ -26,11 +23,12 @@ class Carmodel
     private $id;
 
     /**
-     * @var int
+     * @var Carmake
      *
-     * @ORM\Column(name="carmake_id", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Carmake")
+     * @ORM\JoinColumn()
      */
-    private $carmakeId;
+    private $carmake;
 
     /**
      * @var int
@@ -63,6 +61,22 @@ class Carmodel
     private $loaded = '0';
 
     /**
+     * @return int
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id)
+    {
+        $this->id = $id;
+    }
+
+    /**
      * @return string
      */
     public function getName(): ?string
@@ -76,5 +90,21 @@ class Carmodel
     public function setName(string $name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return Carmake
+     */
+    public function getCarmake(): ?Carmake
+    {
+        return $this->carmake;
+    }
+
+    /**
+     * @param Carmake $carmake
+     */
+    public function setCarmake(Carmake $carmake)
+    {
+        $this->carmake = $carmake;
     }
 }

@@ -57,13 +57,10 @@ easy_admin:
                     - { property: 'carmake.name', label: 'Производитель' }
                     - { property: 'carmodel.name', label: 'Модель' }
                     - { property: 'gosnomer', label: 'Гос. Номер', sortable: false }
-        Generation:
-            class: AppBundle\Entity\Cargeneration
-            list:
-                title: 'Поколения'
+
         Carmake:
-            name: 'Производитель'
             class: AppBundle\Entity\Carmake
+            disabled_actions: ['show']
             label: 'Производитель'
             list:
                 title: 'Производители'
@@ -74,7 +71,24 @@ easy_admin:
                     - { property: 'name', label: 'Название' }
         Model:
             class: AppBundle\Entity\Carmodel
+            disabled_actions: ['show']
             label: 'Модель'
+            list:
+                title: 'Производители'
+                fields:
+                    - { property: 'name', label: 'Название' }
+            form:
+                fields:
+                    - { property: 'name', label: 'Название' }
+        Generation:
+            class: AppBundle\Entity\Cargeneration
+            disabled_actions: ['show']
+            list:
+                title: 'Поколения'
+                fields:
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'carmodel.name', label: 'Модель' }
+                    - { property: 'carmodel.carmake.name', label: 'Производитель' }
             list:
                 title: 'Производители'
                 fields:
