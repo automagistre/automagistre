@@ -13,7 +13,7 @@ easy_admin:
             - { entity: 'Motion', label: 'Движения', icon: 'truck' }
             - { entity: 'Manufacturer', label: 'Производители', icon: 'industry' }
             - { label: 'Справочники' }
-            - { entity: 'Generation', label: 'Поколения' }
-            - { entity: 'Manufacturer', label: 'Производители', icon: 'industry' }
+            - { entity: 'Carmake', label: 'Производители', icon: 'industry' }
             - { entity: 'Model', label: 'Модели' }
+            - { entity: 'Generation', label: 'Поколения' }
             - { entity: 'Modification', label: 'Модификации' }

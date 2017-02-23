@@ -61,7 +61,7 @@ easy_admin:
             class: AppBundle\Entity\Cargeneration
             list:
                 title: 'Поколения'
-        Manufacturer:
+        Carmake:
             name: 'Производитель'
             class: AppBundle\Entity\Carmake
             label: 'Производитель'
