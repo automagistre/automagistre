@@ -214,6 +214,6 @@ class Order
 
     public function readableCosts(): string
     {
-        return sprintf('%s / %s', $this->jobsCost(), $this->partsCost());
+        return sprintf('%d / %d', $this->jobsCost(), $this->partsCost());
     }
 }
