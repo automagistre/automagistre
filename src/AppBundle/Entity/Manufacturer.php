@@ -2,8 +2,8 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Doctrine\PropertyAccessorTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Manufacturer.
@@ -13,8 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Manufacturer
 {
-    use PropertyAccessorTrait;
-
     /**
      * @var int
      *
@@ -72,4 +70,28 @@ class Manufacturer
      * @ORM\Column(name="logopl", type="string", length=25, nullable=true)
      */
     private $logopl;
+
+    /**
+     * @return int
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name)
+    {
+        $this->name = $name;
+    }
 }

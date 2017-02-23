@@ -74,7 +74,15 @@ easy_admin:
             class: AppBundle\Entity\Motion
         Manufacturer:
             class: AppBundle\Entity\Manufacturer
-
+            disabled_actions: ['show']
+            label: 'Производитель'
+            list:
+                title: 'Производители'
+                fields:
+                    - { property: 'name', label: 'Название' }
+            form:
+                fields:
+                    - { property: 'name', label: 'Название' }
 
         Carmake:
             class: AppBundle\Entity\Carmake
