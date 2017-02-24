@@ -150,17 +150,17 @@ class Carmodification
     }
 
     /**
-     * @return bool
+     * @return int
      */
-    public function isDoors(): ?bool
+    public function getDoors(): ?int
     {
         return $this->doors;
     }
 
     /**
-     * @param bool $doors
+     * @param int $doors
      */
-    public function setDoors(bool $doors)
+    public function setDoors(int $doors)
     {
         $this->doors = $doors;
     }

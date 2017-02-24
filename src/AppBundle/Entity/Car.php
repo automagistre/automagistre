@@ -231,7 +231,7 @@ class Car
      */
     public function setMileage(Mileage $mileage)
     {
-        $this->mileage = $mileage;
+        $this->mileage[] = $mileage;
     }
 
     /**

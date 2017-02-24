@@ -102,7 +102,7 @@ class Part
      *
      * @ORM\Column(name="reserved", type="integer", nullable=false)
      */
-    private $reserved = '0';
+    private $reserved = 0;
 
     /**
      * @return int

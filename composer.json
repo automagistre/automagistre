@@ -37,7 +37,8 @@
         "sensio/generator-bundle": "^3.0",
         "symfony/phpunit-bridge": "^3.0",
         "friendsofphp/php-cs-fixer": "^2.1",
-        "phpunit/phpunit": "^6.0"
+        "phpunit/phpunit": "^6.0",
+        "phpstan/phpstan": "^0.6.4"
     },
     "scripts": {
         "symfony-scripts": [

@@ -88,9 +88,9 @@ class Jobitem
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getCost(): ?int
+    public function getCost(): ?string
     {
         return $this->cost;
     }

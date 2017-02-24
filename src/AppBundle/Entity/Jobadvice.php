@@ -46,7 +46,7 @@ class Jobadvice
      *
      * @ORM\Column(name="expired", type="boolean", nullable=true)
      */
-    private $expired;
+    private $expired = false;
 
     /**
      * @var string
@@ -100,7 +100,7 @@ class Jobadvice
      */
     public function isExpired(): bool
     {
-        return (bool) $this->expired;
+        return $this->expired;
     }
 
     /**

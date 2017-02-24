@@ -32,7 +32,7 @@ class Client
      *
      * @ORM\Column(name="wallet", type="integer", nullable=false)
      */
-    private $wallet = '0';
+    private $wallet = 0;
 
     /**
      * @var string
@@ -46,7 +46,7 @@ class Client
      *
      * @ORM\Column(name="employee", type="boolean", nullable=true)
      */
-    private $employee;
+    private $employee = false;
 
     /**
      * @var int
@@ -137,7 +137,7 @@ class Client
      */
     public function isEmployee(): bool
     {
-        return (bool) $this->employee;
+        return $this->employee;
     }
 
     /**

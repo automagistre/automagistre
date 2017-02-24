@@ -2,10 +2,15 @@
 
 set -e
 
-bin/symfony_requirements
+symfony_requirements
 
 php-cs-fixer fix --dry-run
 
-bin/console doctrine:schema:validate
+console doctrine:schema:validate
 
-phpunit
+console lint:yaml app
+console lint:yaml src
+
+phpstan analyse --level 5 app/AppKernel.php web/app.php src
+
+#phpunit

@@ -62,7 +62,7 @@ easy_admin:
             class: AppBundle\Entity\Car
             label: 'Автомобили'
             search:
-                fields: ['gosnomer']
+                fields: ['gosnomer', 'vin']
             list:
                 title: 'Автомобили'
                 fields:
@@ -79,6 +79,7 @@ easy_admin:
                     - { property: 'carmake', label: 'Производитель' }
                     - { property: 'carmodel', label: 'Модель' }
                     - { property: 'gosnomer', label: 'Гос. Номер', sortable: false }
+                    - { property: 'description', label: 'Описание', sortable: false }
 
 
         Part:

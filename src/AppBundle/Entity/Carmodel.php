@@ -58,7 +58,7 @@ class Carmodel
      *
      * @ORM\Column(name="loaded", type="boolean", nullable=true)
      */
-    private $loaded = '0';
+    private $loaded = false;
 
     /**
      * @return int
