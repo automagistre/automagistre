@@ -103,6 +103,13 @@ class Order
     private $description;
 
     /**
+     * @var Note[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Note", mappedBy="order")
+     */
+    private $notes;
+
+    /**
      * @var DateTime
      *
      * @ORM\Column(name="suspenddate", type="datetime", nullable=true)
@@ -206,6 +213,14 @@ class Order
     public function setDescription(string $description)
     {
         $this->description = $description;
+    }
+
+    /**
+     * @return Note[]|ArrayCollection
+     */
+    public function getNotes()
+    {
+        return $this->notes;
     }
 
     /**

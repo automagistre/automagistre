@@ -346,6 +346,8 @@ class Version20170223211957 extends AbstractMigration
                            THEN 10
                          END;
         ');
+
+        $this->addSql('DELETE FROM note WHERE description = \'Сформирован отчет\'');
     }
 
     /**

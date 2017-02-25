@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -21,7 +22,7 @@ class Note
     /**
      * @var Order
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Order")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Order", inversedBy="notes")
      * @ORM\JoinColumn()
      */
     private $order;
@@ -29,7 +30,9 @@ class Note
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text", nullable=true)
+     * @Assert\NotBlank()
+     *
+     * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 
@@ -39,4 +42,30 @@ class Note
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->createdAt;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getDescription();
+    }
 }

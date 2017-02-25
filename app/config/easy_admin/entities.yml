@@ -28,6 +28,7 @@ easy_admin:
                     - { property: 'client' }
                     - { property: 'readableCosts' }
                     - { property: 'description' }
+                    - { property: 'notes' }
             new:
                 title: 'Создать заказ'
         Jobs:
