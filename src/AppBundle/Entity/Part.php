@@ -6,7 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="part", uniqueConstraints={@ORM\UniqueConstraint(name="part_uniq", columns={"partnumber", "manufacturer_id"})})
+ * @ORM\Table(name="part", uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="part_idx", columns={"partnumber", "manufacturer_id"})
+ * })
  * @ORM\Entity
  */
 class Part
@@ -19,13 +21,6 @@ class Part
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="item_id", type="integer", nullable=true)
-     */
-    private $itemId;
 
     /**
      * @var Manufacturer
@@ -42,14 +37,14 @@ class Part
      *
      * @Assert\NotBlank()
      *
-     * @ORM\Column(name="partname", type="string", length=255, nullable=true)
+     * @ORM\Column(nullable=true)
      */
     private $partname;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="partnumber_disp", type="string", length=64, nullable=true)
+     * @ORM\Column(name="partnumber_disp", length=64, nullable=true)
      */
     private $partnumberDisp;
 
@@ -58,7 +53,7 @@ class Part
      *
      * @Assert\NotBlank()
      *
-     * @ORM\Column(name="partnumber", type="string", length=30, nullable=true)
+     * @ORM\Column(length=30)
      */
     private $partnumber;
 
@@ -86,7 +81,7 @@ class Part
     /**
      * @var int
      *
-     * @ORM\Column(name="price", type="string", length=255, nullable=true)
+     * @ORM\Column(nullable=true)
      */
     private $price = 0;
 

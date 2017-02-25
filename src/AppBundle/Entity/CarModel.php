@@ -6,12 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Carmodel.
- *
- * @ORM\Table(name="carmodel", indexes={@ORM\Index(name="FK_am_models_am_makes", columns={"carmake_id"}), @ORM\Index(name="IDX_MODEL_FOLDER", columns={"folder"})})
  * @ORM\Entity
  */
-class Carmodel
+class CarModel
 {
     /**
      * @var int
@@ -23,42 +20,21 @@ class Carmodel
     private $id;
 
     /**
-     * @var Carmake
+     * @var CarManufacturer
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Carmake")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CarManufacturer")
      * @ORM\JoinColumn()
      */
     private $carmake;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="folder", type="integer", nullable=true)
-     */
-    private $folder;
 
     /**
      * @var string
      *
      * @Assert\NotBlank()
      *
-     * @ORM\Column(name="name", type="string", length=30, nullable=true)
+     * @ORM\Column(name="name", length=30, nullable=true)
      */
     private $name;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="link", type="string", length=100, nullable=true)
-     */
-    private $link;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="loaded", type="boolean", nullable=true)
-     */
-    private $loaded = false;
 
     /**
      * @return int
@@ -93,17 +69,17 @@ class Carmodel
     }
 
     /**
-     * @return Carmake
+     * @return CarManufacturer
      */
-    public function getCarmake(): ?Carmake
+    public function getCarmake(): ?CarManufacturer
     {
         return $this->carmake;
     }
 
     /**
-     * @param Carmake $carmake
+     * @param CarManufacturer $carmake
      */
-    public function setCarmake(Carmake $carmake)
+    public function setCarmake(CarManufacturer $carmake)
     {
         $this->carmake = $carmake;
     }

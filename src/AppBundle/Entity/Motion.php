@@ -6,9 +6,6 @@ use AppBundle\Doctrine\PropertyAccessorTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Motion.
- *
- * @ORM\Table(name="motion")
  * @ORM\Entity
  */
 class Motion
@@ -27,13 +24,6 @@ class Motion
     /**
      * @var int
      *
-     * @ORM\Column(name="item_id", type="integer", nullable=true)
-     */
-    private $itemId;
-
-    /**
-     * @var int
-     *
      * @ORM\Column(name="qty", type="integer", nullable=true)
      */
     private $qty;
@@ -46,11 +36,12 @@ class Motion
     private $reserve;
 
     /**
-     * @var int
+     * @var PartItem
      *
-     * @ORM\Column(name="part_id", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\PartItem")
+     * @ORM\JoinColumn()
      */
-    private $partId;
+    private $partItem;
 
     /**
      * @var string

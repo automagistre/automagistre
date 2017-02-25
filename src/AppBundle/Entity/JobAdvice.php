@@ -5,10 +5,9 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="jobadvice")
  * @ORM\Entity
  */
-class Jobadvice
+class JobAdvice
 {
     /**
      * @var int
@@ -18,13 +17,6 @@ class Jobadvice
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="item_id", type="integer", nullable=true)
-     */
-    private $itemId;
 
     /**
      * @var Car
@@ -37,7 +29,7 @@ class Jobadvice
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, nullable=true)
+     * @ORM\Column(name="name", nullable=true)
      */
     private $name;
 
@@ -51,7 +43,7 @@ class Jobadvice
     /**
      * @var string
      *
-     * @ORM\Column(name="cost", type="string", length=255, nullable=true)
+     * @ORM\Column(name="cost", nullable=true)
      */
     private $cost;
 

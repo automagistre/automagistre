@@ -6,10 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="cargeneration", indexes={@ORM\Index(name="IDX_GENERAT_PARENT", columns={"carmodel_id"}), @ORM\Index(name="IDX_GENERAT_FOLDER", columns={"folder"})})
  * @ORM\Entity
  */
-class Cargeneration
+class CarGeneration
 {
     /**
      * @var int
@@ -21,7 +20,7 @@ class Cargeneration
     private $id;
 
     /**
-     * @var Carmodel
+     * @var CarModel
      *
      * @Assert\NotBlank()
      *
@@ -31,18 +30,11 @@ class Cargeneration
     private $carmodel;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="folder", type="integer", nullable=true)
-     */
-    private $folder;
-
-    /**
      * @var string
      *
      * @Assert\NotBlank()
      *
-     * @ORM\Column(name="name", type="string", length=50, nullable=true)
+     * @ORM\Column(name="name", length=50, nullable=true)
      */
     private $name;
 
@@ -79,17 +71,17 @@ class Cargeneration
     }
 
     /**
-     * @return Carmodel
+     * @return CarModel
      */
-    public function getCarmodel(): ?Carmodel
+    public function getCarmodel(): ?CarModel
     {
         return $this->carmodel;
     }
 
     /**
-     * @param Carmodel $carmodel
+     * @param CarModel $carmodel
      */
-    public function setCarmodel(Carmodel $carmodel)
+    public function setCarmodel(CarModel $carmodel)
     {
         $this->carmodel = $carmodel;
     }

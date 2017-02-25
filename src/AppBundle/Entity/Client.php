@@ -5,7 +5,6 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="client", indexes={@ORM\Index(name="EID_IDX", columns={"eid"}), @ORM\Index(name="IDX_CLIENT_PERSON", columns={"person_id"})})
  * @ORM\Entity
  */
 class Client
@@ -22,7 +21,7 @@ class Client
     /**
      * @var Person
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Person")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Person")
      * @ORM\JoinColumn()
      */
     private $person;
@@ -30,7 +29,7 @@ class Client
     /**
      * @var int
      *
-     * @ORM\Column(name="wallet", type="integer", nullable=false)
+     * @ORM\Column(name="wallet", type="integer")
      */
     private $wallet = 0;
 
@@ -47,34 +46,6 @@ class Client
      * @ORM\Column(name="employee", type="boolean", nullable=true)
      */
     private $employee = false;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="eid", type="integer", nullable=true)
-     */
-    private $eid;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="referal_client_id", type="integer", nullable=true)
-     */
-    private $referalClientId;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="ref_bonus", type="boolean", nullable=true)
-     */
-    private $refBonus;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="point_id", type="integer", nullable=true)
-     */
-    private $pointId;
 
     /**
      * @return int

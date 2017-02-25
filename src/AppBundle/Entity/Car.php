@@ -6,7 +6,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="car", uniqueConstraints={@ORM\UniqueConstraint(name="UQ_3a7293440d99b39c56ff99074677931de71144cb", columns={"gosnomer"}), @ORM\UniqueConstraint(name="UQ_VIN", columns={"vin"})}, indexes={@ORM\Index(name="EID_IDX", columns={"eid"}), @ORM\Index(name="IDX_CAR_CLIENT", columns={"client_id"}), @ORM\Index(name="IDX_GOSNOMER", columns={"gosnomer"}), @ORM\Index(name="sprite_id", columns={"sprite_id"})})
  * @ORM\Entity
  */
 class Car
@@ -21,48 +20,40 @@ class Car
     private $id;
 
     /**
-     * @var Item
+     * @var CarManufacturer
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Item")
-     * @ORM\JoinColumn()
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CarManufacturer")
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $item;
+    private $carManufacturer;
 
     /**
-     * @var Carmake
+     * @var CarModel
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Carmake")
-     * @ORM\JoinColumn()
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CarModel")
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $carmake;
+    private $carModel;
 
     /**
-     * @var Carmodel
+     * @var CarModification
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Carmodel")
-     * @ORM\JoinColumn()
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CarModification")
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $carmodel;
-
-    /**
-     * @var Carmodification
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Carmodification")
-     * @ORM\JoinColumn()
-     */
-    private $carmodification;
+    private $carModification;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="vin", type="string", length=17, nullable=true)
+     * @ORM\Column(length=17, nullable=true, unique=true)
      */
     private $vin;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="year", type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $year;
 
@@ -84,7 +75,7 @@ class Car
     /**
      * @var string
      *
-     * @ORM\Column(name="gosnomer", type="string", length=255, nullable=true)
+     * @ORM\Column(nullable=true)
      */
     private $gosnomer;
 
@@ -98,20 +89,21 @@ class Car
     /**
      * @var int
      *
-     * @ORM\Column(name="eid", type="integer", nullable=true)
-     */
-    private $eid;
-
-    /**
-     * @var int
-     *
      * @ORM\Column(name="sprite_id", type="integer", nullable=true)
      */
     private $spriteId;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
     public function __construct()
     {
         $this->mileage = new ArrayCollection();
+        $this->createdAt = new \DateTime();
     }
 
     /**
@@ -123,51 +115,51 @@ class Car
     }
 
     /**
-     * @return Carmake
+     * @return CarManufacturer
      */
-    public function getCarmake(): ?Carmake
+    public function getCarManufacturer(): ?CarManufacturer
     {
-        return $this->carmake;
+        return $this->carManufacturer;
     }
 
     /**
-     * @param Carmake $carmake
+     * @param CarManufacturer $carManufacturer
      */
-    public function setCarmake(Carmake $carmake)
+    public function setCarManufacturer(CarManufacturer $carManufacturer)
     {
-        $this->carmake = $carmake;
+        $this->carManufacturer = $carManufacturer;
     }
 
     /**
-     * @return Carmodel
+     * @return CarModel
      */
-    public function getCarmodel(): ?Carmodel
+    public function getCarModel(): ?CarModel
     {
-        return $this->carmodel;
+        return $this->carModel;
     }
 
     /**
-     * @param Carmodel $carmodel
+     * @param CarModel $carModel
      */
-    public function setCarmodel(Carmodel $carmodel)
+    public function setCarModel(CarModel $carModel)
     {
-        $this->carmodel = $carmodel;
+        $this->carModel = $carModel;
     }
 
     /**
-     * @return Carmodification
+     * @return CarModification
      */
-    public function getCarmodification(): ?Carmodification
+    public function getCarModification(): ?CarModification
     {
-        return $this->carmodification;
+        return $this->carModification;
     }
 
     /**
-     * @param Carmodification $carmodification
+     * @param CarModification $carModification
      */
-    public function setCarmodification(Carmodification $carmodification)
+    public function setCarModification(CarModification $carModification)
     {
-        $this->carmodification = $carmodification;
+        $this->carModification = $carModification;
     }
 
     /**
@@ -266,13 +258,21 @@ class Car
         $this->description = $description;
     }
 
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->createdAt;
+    }
+
     public function getDisplayName(): string
     {
         return sprintf(
             '%s %s %s (%s)',
-            $this->carmake->getName(),
-            $this->carmodel->getName(),
-            $this->carmodification ? $this->carmodification->getName() : '',
+            $this->carManufacturer->getName(),
+            $this->carModel->getName(),
+            $this->carModification ? $this->carModification->getName() : '',
             $this->getGosnomer()
         );
     }

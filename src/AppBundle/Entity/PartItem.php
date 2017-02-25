@@ -5,10 +5,9 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="partitem", indexes={@ORM\Index(name="_order_id", columns={"_order_id"})})
  * @ORM\Entity
  */
-class Partitem
+class PartItem
 {
     /**
      * @var int
@@ -20,11 +19,12 @@ class Partitem
     private $id;
 
     /**
-     * @var int
+     * @var JobItem
      *
-     * @ORM\Column(name="jobitem_id", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\JobItem")
+     * @ORM\JoinColumn()
      */
-    private $jobitem;
+    private $jobItem;
 
     /**
      * @var Part
@@ -44,14 +44,14 @@ class Partitem
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, nullable=true)
+     * @ORM\Column(name="name", nullable=true)
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="cost", type="string", length=255, nullable=true)
+     * @ORM\Column(name="cost", nullable=true)
      */
     private $cost;
 
@@ -66,16 +66,17 @@ class Partitem
      * @var Order
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Order", inversedBy="parts")
-     * @ORM\JoinColumn(name="_order_id")
+     * @ORM\JoinColumn()
      */
     private $order;
 
     /**
-     * @var int
+     * @var JobAdvice
      *
-     * @ORM\Column(name="jobadvice_id", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\JobAdvice")
+     * @ORM\JoinColumn()
      */
-    private $jobadviceId;
+    private $jobAdvice;
 
     /**
      * @var int
@@ -83,13 +84,6 @@ class Partitem
      * @ORM\Column(name="motion_id", type="integer", nullable=true)
      */
     private $motionId;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="move_motion_id", type="boolean", nullable=true)
-     */
-    private $moveMotionId;
 
     /**
      * @return int

@@ -5,9 +5,6 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Mileage.
- *
- * @ORM\Table(name="mileage")
  * @ORM\Entity
  */
 class Mileage
@@ -25,21 +22,21 @@ class Mileage
      * @var Order
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Order", inversedBy="mileage")
-     * @ORM\JoinColumn(name="_order_id")
+     * @ORM\JoinColumn()
      */
     private $order;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="datetime", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $date;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="value", type="integer", nullable=true)
+     * @ORM\Column(type="integer")
      */
     private $value;
 

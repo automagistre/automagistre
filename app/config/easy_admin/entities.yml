@@ -21,11 +21,11 @@ easy_admin:
             new:
                 title: 'Создать заказ'
         Jobs:
-            class: AppBundle\Entity\Jobadvice
+            class: AppBundle\Entity\JobAdvice
         Partitem:
-            class: AppBundle\Entity\Partitem
+            class: AppBundle\Entity\PartItem
         Jobitem:
-            class: AppBundle\Entity\Jobitem
+            class: AppBundle\Entity\JobItem
 
         Client:
             class: AppBundle\Entity\Client
@@ -51,12 +51,12 @@ easy_admin:
             list:
                 fields:
                     - { property: 'fullName', label: 'Ф.И.О' }
-                    - { property: 'mobilephone', label: 'Телефон' }
+                    - { property: 'telephone', label: 'Телефон', type: 'tel' }
             form:
                 fields:
                     - { property: 'firstname', label: 'Имя' }
                     - { property: 'lastname', label: 'Фамилия' }
-                    - { property: 'mobilephone', label: 'Телефон' }
+                    - { property: 'telephone', label: 'Телефон' }
 
         Car:
             class: AppBundle\Entity\Car
@@ -68,16 +68,16 @@ easy_admin:
                 fields:
                     - { property: 'client', label: 'Владелец' }
                     - { property: 'vin', label: 'VIN', sortable: false }
-                    - { property: 'carmake', label: 'Производитель' }
-                    - { property: 'carmodel', label: 'Модель' }
+                    - { property: 'carManufacturer', label: 'Производитель' }
+                    - { property: 'carModel', label: 'Модель' }
                     - { property: 'mileage', label: 'Пробег' }
                     - { property: 'gosnomer', label: 'Гос. Номер', sortable: false }
             form:
                 fields:
                     - { property: 'client', label: 'Владелец' }
                     - { property: 'vin', label: 'VIN', sortable: false }
-                    - { property: 'carmake', label: 'Производитель' }
-                    - { property: 'carmodel', label: 'Модель' }
+                    - { property: 'carManufacturer', label: 'Производитель' }
+                    - { property: 'carModel', label: 'Модель' }
                     - { property: 'gosnomer', label: 'Гос. Номер', sortable: false }
                     - { property: 'description', label: 'Описание', sortable: false }
 
@@ -115,7 +115,7 @@ easy_admin:
                     - { property: 'name', label: 'Название' }
 
         Carmake:
-            class: AppBundle\Entity\Carmake
+            class: AppBundle\Entity\CarManufacturer
             disabled_actions: ['show']
             label: 'Производитель'
             list:
@@ -126,7 +126,7 @@ easy_admin:
                 fields:
                     - { property: 'name', label: 'Название' }
         Model:
-            class: AppBundle\Entity\Carmodel
+            class: AppBundle\Entity\CarModel
             disabled_actions: ['show']
             label: 'Модель'
             list:
@@ -137,14 +137,14 @@ easy_admin:
                 fields:
                     - { property: 'name', label: 'Название' }
         Generation:
-            class: AppBundle\Entity\Cargeneration
+            class: AppBundle\Entity\CarGeneration
             disabled_actions: ['show']
             list:
                 title: 'Поколения'
                 fields:
                     - { property: 'name', label: 'Название' }
-                    - { property: 'carmodel.name', label: 'Модель' }
-                    - { property: 'carmodel.carmake.name', label: 'Производитель' }
+                    - { property: 'carModel.name', label: 'Модель' }
+                    - { property: 'carModel.carmake.name', label: 'Производитель' }
             list:
                 title: 'Производители'
                 fields:
@@ -153,14 +153,14 @@ easy_admin:
                 fields:
                     - { property: 'name', label: 'Название' }
         Modification:
-            class: AppBundle\Entity\Carmodification
+            class: AppBundle\Entity\CarModification
             disabled_actions: ['show']
             list:
                 title: 'Модификации'
                 fields:
                     - { property: 'name', label: 'Название' }
                     - { property: 'cargeneration.name', label: 'Поколение' }
-                    - { property: 'cargeneration.carmodel.carmake.name', label: 'Производитель' }
+                    - { property: 'cargeneration.carModel.carmake.name', label: 'Производитель' }
                     - { property: 'hp', label: 'л.с.' }
                     - { property: 'doors', label: 'Дверей' }
                     - { property: 'from', label: 'С', type: 'string' }
@@ -179,7 +179,3 @@ easy_admin:
                     - { property: 'maxspeed', label: 'Макс. скорость' }
                     - { property: 's0to100', label: 'Разгон' }
                     - { property: 'tank', label: 'Объём бака' }
-
-
-        Item:
-            class: AppBundle\Entity\Item

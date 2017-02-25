@@ -2,19 +2,20 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Doctrine\PropertyAccessorTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Person.
- *
- * @ORM\Table(name="person", indexes={@ORM\Index(name="IDX_PERSON_LASTNAME", columns={"lastname"}), @ORM\Index(name="IDX_PERSON_FIRSTNAME", columns={"firstname"}), @ORM\Index(name="IDX_PERSON_PHONE", columns={"mobilephone"}), @ORM\Index(name="sprite_id", columns={"sprite_id"})})
+ * @ORM\Table(name="person", indexes={
+ *     @ORM\Index(name="lastname_idx", columns={"lastname"}),
+ *     @ORM\Index(name="firstname_idx", columns={"firstname"}),
+ *     @ORM\Index(name="phone_idx", columns={"telephone"}),
+ *     @ORM\Index(name="sprite_id", columns={"sprite_id"})
+ * })
  * @ORM\Entity
  */
 class Person
 {
-    use PropertyAccessorTrait;
-
     /**
      * @var int
      *
@@ -27,91 +28,44 @@ class Person
     /**
      * @var string
      *
-     * @ORM\Column(name="department", type="string", length=64, nullable=true)
-     */
-    private $department;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="firstname", type="string", length=32, nullable=true)
+     * @ORM\Column(length=32, nullable=true)
      */
     private $firstname;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="jobtitle", type="string", length=64, nullable=true)
-     */
-    private $jobtitle;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="lastname", type="string", length=255, nullable=true)
+     * @ORM\Column(nullable=true)
      */
     private $lastname;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="mobilephone", type="string", length=24, nullable=true)
+     * @ORM\Column(length=24, nullable=true)
      */
-    private $mobilephone;
+    private $telephone;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="officephone", type="string", length=24, nullable=true)
+     * @ORM\Column(length=24, nullable=true)
      */
-    private $officephone;
+    private $officePhone;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="officefax", type="string", length=24, nullable=true)
+     * @Assert\Email()
+     *
+     * @ORM\Column(nullable=true)
      */
-    private $officefax;
+    private $email;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="ownedsecurableitem_id", type="integer", nullable=true)
-     */
-    private $ownedsecurableitemId;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="title_ownedcustomfield_id", type="integer", nullable=true)
-     */
-    private $titleOwnedcustomfieldId;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="primaryemail_email_id", type="integer", nullable=true)
-     */
-    private $primaryemailEmailId;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="primaryaddress_address_id", type="integer", nullable=true)
-     */
-    private $primaryaddressAddressId;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="title_customfield_id", type="integer", nullable=true)
-     */
-    private $titleCustomfieldId;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="sprite_id", type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $spriteId;
 
@@ -158,17 +112,49 @@ class Person
     /**
      * @return string
      */
-    public function getMobilephone(): ?string
+    public function getTelephone(): ?string
     {
-        return $this->mobilephone;
+        return $this->telephone;
     }
 
     /**
-     * @param string $mobilephone
+     * @param string $telephone
      */
-    public function setMobilephone(string $mobilephone)
+    public function setTelephone(string $telephone)
     {
-        $this->mobilephone = $mobilephone;
+        $this->telephone = $telephone;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOfficePhone(): ?string
+    {
+        return $this->officePhone;
+    }
+
+    /**
+     * @param string $officePhone
+     */
+    public function setOfficePhone(string $officePhone)
+    {
+        $this->officePhone = $officePhone;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail(string $email)
+    {
+        $this->email = $email;
     }
 
     public function getFullName(): string

@@ -5,12 +5,9 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Jobinprocess.
- *
- * @ORM\Table(name="jobinprocess")
  * @ORM\Entity
  */
-class Jobinprocess
+class OrderReport
 {
     /**
      * @var int
@@ -22,16 +19,24 @@ class Jobinprocess
     private $id;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="item_id", type="integer", nullable=true)
+     * @ORM\Column(name="path", nullable=true)
      */
-    private $itemId;
+    private $path;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="type", type="string", length=64, nullable=true)
+     * @ORM\Column(name="filename", nullable=true)
      */
-    private $type;
+    private $filename;
+
+    /**
+     * @var Order
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Order")
+     * @ORM\JoinColumn()
+     */
+    private $order;
 }

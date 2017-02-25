@@ -5,7 +5,7 @@ easy_admin:
             - { entity: 'Order', label: 'Заказы', icon: 'list' }
             - { label: 'Клиенты' }
             - { entity: 'Client', label: 'Пользователи', icon: 'users' }
-            - { entity: 'Person', label: 'Клиенты', icon: 'users' }
+            - { entity: 'Person', label: 'Люди', icon: 'users' }
             - { entity: 'Car', label: 'Автомобили', icon: 'car' }
             - { label: 'Склад' }
             - { entity: 'Part', label: 'Запчасти', icon: 'cogs' }

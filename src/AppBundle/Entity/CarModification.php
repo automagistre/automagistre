@@ -6,10 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="carmodification", indexes={@ORM\Index(name="IDX_MODIF_FOLDER", columns={"folder"}), @ORM\Index(name="IDX_MODIF_PARENT", columns={"cargeneration_id"})})
  * @ORM\Entity
  */
-class Carmodification
+class CarModification
 {
     /**
      * @var int
@@ -21,7 +20,7 @@ class Carmodification
     private $id;
 
     /**
-     * @var Cargeneration
+     * @var CarGeneration
      *
      * @Assert\NotBlank()
      *
@@ -30,16 +29,9 @@ class Carmodification
     private $cargeneration;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="folder", type="integer", nullable=true)
-     */
-    private $folder;
-
-    /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=30, nullable=true)
+     * @ORM\Column(name="name", length=30, nullable=true)
      */
     private $name;
 
@@ -55,7 +47,7 @@ class Carmodification
     /**
      * @var int
      *
-     * @ORM\Column(name="doors", type="integer", nullable=true)
+     * @ORM\Column(name="doors", type="smallint", nullable=true)
      */
     private $doors;
 
@@ -76,14 +68,14 @@ class Carmodification
     /**
      * @var string
      *
-     * @ORM\Column(name="maxspeed", type="string", length=20, nullable=true)
+     * @ORM\Column(name="maxspeed", length=20, nullable=true)
      */
     private $maxspeed;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="s0to100", type="string", length=20, nullable=true)
+     * @ORM\Column(name="s0to100", length=20, nullable=true)
      */
     private $s0to100;
 
@@ -93,13 +85,6 @@ class Carmodification
      * @ORM\Column(name="tank", type="smallint", nullable=true)
      */
     private $tank;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="link", type="string", length=100, nullable=true)
-     */
-    private $link;
 
     /**
      * @return int
@@ -118,17 +103,17 @@ class Carmodification
     }
 
     /**
-     * @return Cargeneration
+     * @return CarGeneration
      */
-    public function getCargeneration(): ?Cargeneration
+    public function getCargeneration(): ?CarGeneration
     {
         return $this->cargeneration;
     }
 
     /**
-     * @param Cargeneration $cargeneration
+     * @param CarGeneration $cargeneration
      */
-    public function setCargeneration(Cargeneration $cargeneration)
+    public function setCargeneration(CarGeneration $cargeneration)
     {
         $this->cargeneration = $cargeneration;
     }

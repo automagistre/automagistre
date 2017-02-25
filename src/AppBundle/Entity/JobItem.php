@@ -5,10 +5,9 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="jobitem", indexes={@ORM\Index(name="_order_id", columns={"_order_id"})})
  * @ORM\Entity
  */
-class Jobitem
+class JobItem
 {
     /**
      * @var int
@@ -20,23 +19,24 @@ class Jobitem
     private $id;
 
     /**
-     * @var int
+     * @var User
      *
-     * @ORM\Column(name="_user_id", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $userId;
+    private $user;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, nullable=true)
+     * @ORM\Column(name="name", nullable=true)
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="cost", type="string", length=255, nullable=true)
+     * @ORM\Column(name="cost", nullable=true)
      */
     private $cost;
 
@@ -44,24 +44,17 @@ class Jobitem
      * @var Order
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Order", inversedBy="jobs")
-     * @ORM\JoinColumn(name="_order_id")
+     * @ORM\JoinColumn()
      */
     private $order;
 
     /**
-     * @var Jobadvice
+     * @var JobAdvice
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Jobadvice")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $jobadvice;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="employee__user_id", type="boolean", nullable=true)
-     */
-    private $employeeUserId;
+    private $jobAdvice;
 
     /**
      * @return int
@@ -120,17 +113,17 @@ class Jobitem
     }
 
     /**
-     * @return Jobadvice
+     * @return JobAdvice
      */
-    public function getJobadvice(): ?Jobadvice
+    public function getJobadvice(): ?JobAdvice
     {
         return $this->jobadvice;
     }
 
     /**
-     * @param Jobadvice $jobadvice
+     * @param JobAdvice $jobadvice
      */
-    public function setJobadvice(Jobadvice $jobadvice)
+    public function setJobadvice(JobAdvice $jobadvice)
     {
         $this->jobadvice = $jobadvice;
     }

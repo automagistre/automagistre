@@ -5,9 +5,6 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Note.
- *
- * @ORM\Table(name="note")
  * @ORM\Entity
  */
 class Note
@@ -22,23 +19,24 @@ class Note
     private $id;
 
     /**
-     * @var int
+     * @var Order
      *
-     * @ORM\Column(name="activity_id", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Order")
+     * @ORM\JoinColumn()
      */
-    private $activityId;
+    private $order;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text", length=65535, nullable=true)
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="occurredondatetime", type="datetime", nullable=true)
+     * @ORM\Column(type="datetime")
      */
-    private $occurredondatetime;
+    private $createdAt;
 }

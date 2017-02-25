@@ -5,9 +5,6 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * KeysPrice.
- *
- * @ORM\Table(name="keys_price")
  * @ORM\Entity
  */
 class KeysPrice
@@ -24,14 +21,14 @@ class KeysPrice
     /**
      * @var string
      *
-     * @ORM\Column(name="query", type="string", length=255, nullable=true)
+     * @ORM\Column(name="query", nullable=true)
      */
     private $query;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="source", type="string", length=255, nullable=true)
+     * @ORM\Column(name="source", nullable=true)
      */
     private $source;
 
@@ -52,7 +49,7 @@ class KeysPrice
     /**
      * @var string
      *
-     * @ORM\Column(name="man", type="string", length=255, nullable=true)
+     * @ORM\Column(name="man", nullable=true)
      */
     private $man;
 }

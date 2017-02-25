@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="_order", indexes={@ORM\Index(name="IDX_ORDER_CLIENT", columns={"client_id"}), @ORM\Index(name="IDX_ORDER_CAR", columns={"car_id"})})
+ * @ORM\Table(name="orders")
  * @ORM\Entity
  */
 class Order
@@ -22,25 +22,18 @@ class Order
     private $id;
 
     /**
-     * @var Jobitem[]|ArrayCollection
+     * @var JobItem[]|ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Jobitem", mappedBy="order")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\JobItem", mappedBy="order")
      */
     private $jobs;
 
     /**
-     * @var Partitem[]|ArrayCollection
+     * @var PartItem[]|ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Partitem", mappedBy="order")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\PartItem", mappedBy="order")
      */
     private $parts;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="ownedsecurableitem_id", type="integer", nullable=true)
-     */
-    private $ownedsecurableitemId;
 
     /**
      * @var DateTime
@@ -59,22 +52,15 @@ class Order
     /**
      * @var string
      *
-     * @ORM\Column(name="status", type="string", length=255, nullable=true)
+     * @ORM\Column(name="status", nullable=true)
      */
     private $status;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="refs", type="string", length=255, nullable=true)
-     */
-    private $refs;
 
     /**
      * @var Car
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Car")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn(nullable=true)
      */
     private $car;
 
@@ -82,7 +68,7 @@ class Order
      * @var Client
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Client")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn(nullable=true)
      */
     private $client;
 
@@ -90,7 +76,7 @@ class Order
      * @var Mileage
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Mileage", mappedBy="order")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn(nullable=true)
      */
     private $mileage;
 
@@ -111,16 +97,9 @@ class Order
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text", length=65535, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $description;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="eid", type="integer", nullable=true)
-     */
-    private $eid;
 
     /**
      * @var DateTime
@@ -142,27 +121,6 @@ class Order
      * @ORM\Column(name="resumedate", type="date", nullable=true)
      */
     private $resumedate;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="paypoints", type="boolean", nullable=true)
-     */
-    private $paypoints;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="bonus", type="integer", nullable=true)
-     */
-    private $bonus;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="points", type="boolean", nullable=true)
-     */
-    private $points;
 
     /**
      * @var bool
@@ -193,7 +151,7 @@ class Order
     }
 
     /**
-     * @return Jobitem[]|ArrayCollection
+     * @return JobItem[]|ArrayCollection
      */
     public function getJobs()
     {
@@ -201,7 +159,7 @@ class Order
     }
 
     /**
-     * @param Jobitem[]|ArrayCollection $jobs
+     * @param JobItem[]|ArrayCollection $jobs
      */
     public function setJobs($jobs)
     {
@@ -209,7 +167,7 @@ class Order
     }
 
     /**
-     * @return Partitem[]|ArrayCollection
+     * @return PartItem[]|ArrayCollection
      */
     public function getParts()
     {
@@ -249,9 +207,9 @@ class Order
     }
 
     /**
-     * @param Partitem[]|ArrayCollection $parts
+     * @param PartItem[]|ArrayCollection $parts
      */
-    public function addParts(Partitem $parts)
+    public function addParts(PartItem $parts)
     {
         $this->parts[] = $parts;
     }

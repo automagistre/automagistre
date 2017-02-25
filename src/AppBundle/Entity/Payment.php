@@ -5,9 +5,6 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Payment.
- *
- * @ORM\Table(name="payment")
  * @ORM\Entity
  */
 class Payment
@@ -22,44 +19,31 @@ class Payment
     private $id;
 
     /**
-     * @var int
+     * @var Client
      *
-     * @ORM\Column(name="item_id", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Client")
+     * @ORM\JoinColumn()
      */
-    private $itemId;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="client_id", type="integer", nullable=true)
-     */
-    private $clientId;
+    private $client;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text", length=65535, nullable=true)
+     * @ORM\Column(type="text", length=65535, nullable=true)
      */
     private $description;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="amount", type="float", precision=10, scale=0, nullable=true)
+     * @ORM\Column(type="float", precision=10, scale=0, nullable=true)
      */
     private $amount;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="subtotal", type="float", precision=10, scale=0, nullable=true)
+     * @ORM\Column(type="float", precision=10, scale=0, nullable=true)
      */
     private $subtotal;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="agent_client_id", type="boolean", nullable=true)
-     */
-    private $agentClientId;
 }

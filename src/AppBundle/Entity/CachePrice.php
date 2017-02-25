@@ -5,9 +5,6 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * CachePrice.
- *
- * @ORM\Table(name="cache_price")
  * @ORM\Entity
  */
 class CachePrice
@@ -38,14 +35,14 @@ class CachePrice
     /**
      * @var string
      *
-     * @ORM\Column(name="man_name", type="string", length=255, nullable=true)
+     * @ORM\Column(name="man_name", nullable=true)
      */
     private $manName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="pn", type="string", length=255, nullable=true)
+     * @ORM\Column(name="pn", nullable=true)
      */
     private $pn;
 
@@ -87,7 +84,7 @@ class CachePrice
     /**
      * @var string
      *
-     * @ORM\Column(name="dir_name", type="string", length=255, nullable=true)
+     * @ORM\Column(name="dir_name", nullable=true)
      */
     private $dirName;
 
