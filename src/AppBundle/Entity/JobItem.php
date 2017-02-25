@@ -65,6 +65,22 @@ class JobItem
     }
 
     /**
+     * @return User
+     */
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+    }
+
+    /**
      * @return string
      */
     public function getName(): ?string
