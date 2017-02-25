@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Enum\OrderStatus;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -50,9 +51,9 @@ class Order
     private $closeddate;
 
     /**
-     * @var string
+     * @var int
      *
-     * @ORM\Column(name="status", nullable=true)
+     * @ORM\Column(name="status", type="smallint")
      */
     private $status;
 
@@ -75,7 +76,7 @@ class Order
     /**
      * @var Mileage
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Mileage", mappedBy="order")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Mileage")
      * @ORM\JoinColumn(nullable=true)
      */
     private $mileage;
@@ -138,6 +139,7 @@ class Order
 
     public function __construct()
     {
+        $this->status = OrderStatus::draft();
         $this->jobs = new ArrayCollection();
         $this->parts = new ArrayCollection();
     }
@@ -246,9 +248,13 @@ class Order
         $this->client = $client;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): OrderStatus
     {
-        return 0 === strpos($this->status, 'swOrder/') ? substr($this->status, 8) : $this->status;
+        if (!$this->status instanceof OrderStatus) {
+            $this->status = new OrderStatus($this->status);
+        }
+
+        return $this->status;
     }
 
     public function jobsCost(): int

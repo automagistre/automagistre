@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7fedde8e66ef890daad50841b8d1d3e3",
+    "content-hash": "4d019946bd9c5b13131921bc7204a447",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -909,6 +909,50 @@
                 "orm"
             ],
             "time": "2016-12-18T15:42:34+00:00"
+        },
+        {
+            "name": "grachevko/enum",
+            "version": "0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/grachevko/Enum.git",
+                "reference": "33fefe4dcba34b7b5d35940b0c8d9060e490ca28"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/grachevko/Enum/zipball/33fefe4dcba34b7b5d35940b0c8d9060e490ca28",
+                "reference": "33fefe4dcba34b7b5d35940b0c8d9060e490ca28",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.1",
+                "phpunit/phpunit": "^6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Grachevko\\Enum\\": "src/"
+                },
+                "exclude-from-classmap": [
+                    "/tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Konstantin Grachev",
+                    "email": "me@grachevko.ru"
+                }
+            ],
+            "description": "Enum class.",
+            "time": "2017-02-19T09:58:29+00:00"
         },
         {
             "name": "incenteev/composer-parameter-handler",

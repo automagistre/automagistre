@@ -7,7 +7,7 @@ easy_admin:
                 title: 'Заказы'
                 fields:
                     - { property: 'id', label: 'Номер' }
-                    - { property: 'status', label: 'Статус' }
+                    - { property: 'status.readableName', label: 'Статус' }
                     - { property: 'startedAt', label: 'Дата начала', type: 'datetime' }
                     - { property: 'car', label: 'Автомобиль' }
                     - { property: 'client', label: 'Клиент' }
@@ -18,6 +18,16 @@ easy_admin:
                     - { property: 'parts', label: 'Запчасти', type: 'easyadmin_autocomplete' }
                     - { property: 'jobs', label: 'Работы', type: 'easyadmin_autocomplete' }
                     - { property: 'description', label: 'Описание' }
+            show:
+                fields:
+                    - { property: 'id' }
+                    - { property: 'status.readableName' }
+                    - { property: 'startedAt', type: 'datetime' }
+                    - { property: 'car' }
+                    - { property: 'mileage' }
+                    - { property: 'client' }
+                    - { property: 'readableCosts' }
+                    - { property: 'description' }
             new:
                 title: 'Создать заказ'
         Jobs:

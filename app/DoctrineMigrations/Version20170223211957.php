@@ -247,7 +247,7 @@ class Version20170223211957 extends AbstractMigration
         $this->addSql('ALTER TABLE partitem DROP move_motion_id, CHANGE id id INT AUTO_INCREMENT NOT NULL, CHANGE jobitem_id job_item_id INT DEFAULT NULL, CHANGE part_id part_id INT DEFAULT NULL, CHANGE is_order is_order TINYINT(1) DEFAULT NULL, CHANGE qty qty NUMERIC(5, 1) NOT NULL, CHANGE _order_id order_id INT DEFAULT NULL, CHANGE jobadvice_id job_advice_id INT DEFAULT NULL, CHANGE motion_id motion_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE jobitem DROP employee__user_id, CHANGE id id INT AUTO_INCREMENT NOT NULL, CHANGE _user_id user_id INT DEFAULT NULL, CHANGE _order_id order_id INT DEFAULT NULL, CHANGE jobadvice_id job_advice_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE jobadvice DROP item_id, CHANGE id id INT AUTO_INCREMENT NOT NULL, CHANGE car_id car_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE _order DROP ownedsecurableitem_id, DROP refs, DROP mileage_id, DROP eid, DROP paypoints, DROP bonus, DROP points, CHANGE id id INT AUTO_INCREMENT NOT NULL, CHANGE car_id car_id INT DEFAULT NULL, CHANGE client_id client_id INT DEFAULT NULL, CHANGE checkpay checkpay TINYINT(1) DEFAULT NULL, CHANGE paycard paycard INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE _order DROP ownedsecurableitem_id, DROP refs, DROP eid, DROP paypoints, DROP bonus, DROP points, CHANGE id id INT AUTO_INCREMENT NOT NULL, CHANGE car_id car_id INT DEFAULT NULL, CHANGE client_id client_id INT DEFAULT NULL, CHANGE checkpay checkpay TINYINT(1) DEFAULT NULL, CHANGE paycard paycard INT DEFAULT NULL');
         $this->addSql('ALTER TABLE note DROP activity_id, CHANGE id id INT AUTO_INCREMENT NOT NULL, CHANGE order_id order_id INT DEFAULT NULL, CHANGE occurredondatetime created_at DATETIME NOT NULL');
         $this->addSql('ALTER TABLE payment DROP item_id, DROP agent_client_id, CHANGE id id INT AUTO_INCREMENT NOT NULL, CHANGE client_id client_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE motion DROP item_id, CHANGE id id INT AUTO_INCREMENT NOT NULL, CHANGE part_id part_item_id INT DEFAULT NULL');
@@ -320,6 +320,32 @@ class Version20170223211957 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_773DE69D19EB6921 ON car (client_id)');
         $this->addSql('CREATE INDEX IDX_65B35B934CE34BEC ON part_item (part_id)');
         $this->addSql('CREATE INDEX IDX_65B35B938D9F6D38 ON part_item (order_id)');
+
+        $this->addSql('
+            UPDATE orders
+            SET status = CASE
+                         WHEN status = \'swOrder/draft\'
+                           THEN 1
+                         WHEN status = \'swOrder/scheduling\'
+                           THEN 2
+                         WHEN status = \'swOrder/ordering\'
+                           THEN 3
+                         WHEN status = \'swOrder/matching\'
+                           THEN 4
+                         WHEN status = \'swOrder/tracking\'
+                           THEN 5
+                         WHEN status = \'swOrder/delivery\'
+                           THEN 6
+                         WHEN status = \'swOrder/notification\'
+                           THEN 7
+                         WHEN status = \'swOrder/working\'
+                           THEN 8
+                         WHEN status = \'swOrder/ready\'
+                           THEN 9
+                         WHEN status = \'swOrder/closed\'
+                           THEN 10
+                         END;
+        ');
     }
 
     /**
