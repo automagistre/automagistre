@@ -241,7 +241,7 @@ class Version20170223211957 extends AbstractMigration
         $this->addSql('ALTER TABLE carmodel DROP folder, DROP link, DROP loaded, CHANGE carmake_id carmake_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE carmodification DROP folder, DROP link, CHANGE hp hp SMALLINT DEFAULT NULL, CHANGE doors doors SMALLINT DEFAULT NULL, CHANGE `from` `from` SMALLINT DEFAULT NULL, CHANGE till till SMALLINT DEFAULT NULL, CHANGE tank tank SMALLINT DEFAULT NULL');
         $this->addSql('ALTER TABLE cargeneration DROP folder');
-        $this->addSql('ALTER TABLE mileage CHANGE id id INT AUTO_INCREMENT NOT NULL, CHANGE _order_id order_id INT DEFAULT NULL, CHANGE car_id car_id INT DEFAULT NULL, CHANGE value value INT NOT NULL');
+        $this->addSql('ALTER TABLE mileage CHANGE id id INT AUTO_INCREMENT NOT NULL, DROP _order_id, CHANGE car_id car_id INT DEFAULT NULL, CHANGE value value INT NOT NULL, CHANGE date created_at DATETIME NOT NULL');
         $this->addSql('ALTER TABLE manufacturer DROP item_id, CHANGE id id INT AUTO_INCREMENT NOT NULL, CHANGE bitoriginal bitoriginal TINYINT(1) DEFAULT NULL');
         $this->addSql('ALTER TABLE part DROP item_id, CHANGE id id INT AUTO_INCREMENT NOT NULL, CHANGE manufacturer_id manufacturer_id INT DEFAULT NULL, CHANGE negative negative TINYINT(1) DEFAULT NULL, CHANGE fractional fractional TINYINT(1) DEFAULT NULL, CHANGE reserved reserved INT NOT NULL, CHANGE partnumber partnumber VARCHAR(30) NOT NULL');
         $this->addSql('ALTER TABLE partitem DROP move_motion_id, CHANGE id id INT AUTO_INCREMENT NOT NULL, CHANGE jobitem_id job_item_id INT DEFAULT NULL, CHANGE part_id part_id INT DEFAULT NULL, CHANGE is_order is_order TINYINT(1) DEFAULT NULL, CHANGE qty qty NUMERIC(5, 1) NOT NULL, CHANGE _order_id order_id INT DEFAULT NULL, CHANGE jobadvice_id job_advice_id INT DEFAULT NULL, CHANGE motion_id motion_id INT DEFAULT NULL');
@@ -272,9 +272,7 @@ class Version20170223211957 extends AbstractMigration
         $this->addSql('CREATE UNIQUE INDEX UNIQ_64D359345E237E06 ON car_manufacturer (name)');
         $this->addSql('ALTER TABLE car_generation ADD CONSTRAINT FK_E1F9E22A5E96AD46 FOREIGN KEY (carmodel_id) REFERENCES car_model (id)');
         $this->addSql('CREATE INDEX IDX_E1F9E22A5E96AD46 ON car_generation (carmodel_id)');
-        $this->addSql('ALTER TABLE mileage ADD CONSTRAINT FK_56BDF8148D9F6D38 FOREIGN KEY (order_id) REFERENCES orders (id)');
         $this->addSql('ALTER TABLE mileage ADD CONSTRAINT FK_56BDF814C3C6F69F FOREIGN KEY (car_id) REFERENCES car (id)');
-        $this->addSql('CREATE INDEX IDX_56BDF8148D9F6D38 ON mileage (order_id)');
         $this->addSql('CREATE INDEX IDX_56BDF814C3C6F69F ON mileage (car_id)');
         $this->addSql('ALTER TABLE orders ADD CONSTRAINT FK_E52FFDEEC3C6F69F FOREIGN KEY (car_id) REFERENCES car (id)');
         $this->addSql('ALTER TABLE orders ADD CONSTRAINT FK_E52FFDEE19EB6921 FOREIGN KEY (client_id) REFERENCES client (id)');

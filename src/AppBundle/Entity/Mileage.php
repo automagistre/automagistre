@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -19,19 +20,12 @@ class Mileage
     private $id;
 
     /**
-     * @var Order
+     * @var Car
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Order", inversedBy="mileage")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Car", inversedBy="mileage")
      * @ORM\JoinColumn()
      */
-    private $order;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $date;
+    private $car;
 
     /**
      * @var int
@@ -41,12 +35,16 @@ class Mileage
     private $value;
 
     /**
-     * @var Car
+     * @var DateTime
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Car", inversedBy="mileage")
-     * @ORM\JoinColumn()
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    private $car;
+    private $createdAt;
+
+    public function __construct()
+    {
+        $this->createdAt = new DateTime();
+    }
 
     /**
      * @return int
@@ -54,14 +52,6 @@ class Mileage
     public function getId(): int
     {
         return $this->id;
-    }
-
-    /**
-     * @return Order
-     */
-    public function getOrder(): ?Order
-    {
-        return $this->order;
     }
 
     /**
@@ -78,6 +68,14 @@ class Mileage
     public function getCar(): ?Car
     {
         return $this->car;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getCreatedAt(): ?DateTime
+    {
+        return $this->createdAt;
     }
 
     public function __toString(): string
