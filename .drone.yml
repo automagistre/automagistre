@@ -38,6 +38,7 @@ pipeline:
         -e APP_ENV=test
         -e APP_DEBUG=0
         -e FIXTURES=false
+        -e MIGRATION=false
         "$IMAGE_BUILD"
 
   publish:
