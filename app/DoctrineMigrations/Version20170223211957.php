@@ -267,7 +267,7 @@ class Version20170223211957 extends AbstractMigration
         $this->addSql('DROP INDEX idx_person_phone ON person');
 
         $this->addSql('ALTER TABLE manufacturer 
-			MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
+            MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
             DROP item_id,
             DROP bitoriginal,
             DROP logoad,
@@ -276,29 +276,29 @@ class Version20170223211957 extends AbstractMigration
         ');
 
         $this->addSql('ALTER TABLE carmodel 
-			MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
-			MODIFY COLUMN name VARCHAR(30) NOT NULL,
-			CHANGE carmake_id manufacturer_id INT NOT NULL,
+            MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
+            MODIFY COLUMN name VARCHAR(30) NOT NULL,
+            CHANGE carmake_id manufacturer_id INT NOT NULL,
             DROP folder,
-			DROP link,
-			DROP loaded
-		');
+            DROP link,
+            DROP loaded
+        ');
 
         $this->addSql('ALTER TABLE cargeneration 
-			MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
+            MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
             CHANGE carmodel_id car_model_id INT NOT NULL,
             DROP folder
         ');
 
         $this->addSql('ALTER TABLE carmodification DROP folder,
-			MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
-			MODIFY COLUMN hp SMALLINT DEFAULT NULL,
-			MODIFY COLUMN doors SMALLINT DEFAULT NULL,
-			MODIFY COLUMN `from` SMALLINT DEFAULT NULL,
-			MODIFY COLUMN till SMALLINT DEFAULT NULL,
-			MODIFY COLUMN tank SMALLINT DEFAULT NULL,
+            MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
+            MODIFY COLUMN hp SMALLINT DEFAULT NULL,
+            MODIFY COLUMN doors SMALLINT DEFAULT NULL,
+            MODIFY COLUMN `from` SMALLINT DEFAULT NULL,
+            MODIFY COLUMN till SMALLINT DEFAULT NULL,
+            MODIFY COLUMN tank SMALLINT DEFAULT NULL,
             CHANGE cargeneration_id car_generation_id INT NOT NULL,
-			DROP link
+            DROP link
         ');
 
         $this->addSql('ALTER TABLE car 
@@ -318,137 +318,137 @@ class Version20170223211957 extends AbstractMigration
         ');
 
         $this->addSql('ALTER TABLE part DROP item_id,
-			MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
-			MODIFY COLUMN manufacturer_id INT DEFAULT NULL,
-			MODIFY COLUMN negative TINYINT(1) DEFAULT NULL,
-			MODIFY COLUMN fractional TINYINT(1) DEFAULT NULL,
-			MODIFY COLUMN reserved INT NOT NULL,
-			MODIFY COLUMN partnumber VARCHAR(30) NOT NULL');
+            MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
+            MODIFY COLUMN manufacturer_id INT DEFAULT NULL,
+            MODIFY COLUMN negative TINYINT(1) DEFAULT NULL,
+            MODIFY COLUMN fractional TINYINT(1) DEFAULT NULL,
+            MODIFY COLUMN reserved INT NOT NULL,
+            MODIFY COLUMN partnumber VARCHAR(30) NOT NULL');
 
         $this->addSql('ALTER TABLE partitem DROP move_motion_id,
-			MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
-			MODIFY COLUMN part_id INT DEFAULT NULL,
-			CHANGE jobitem_id job_item_id INT DEFAULT NULL,
-			CHANGE is_order is_order TINYINT(1) DEFAULT NULL,
-			CHANGE qty qty NUMERIC(5, 1) NOT NULL,
-			CHANGE _order_id order_id INT DEFAULT NULL,
-			CHANGE jobadvice_id job_advice_id INT DEFAULT NULL,
-			CHANGE motion_id motion_id INT DEFAULT NULL');
+            MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
+            MODIFY COLUMN part_id INT DEFAULT NULL,
+            CHANGE jobitem_id job_item_id INT DEFAULT NULL,
+            CHANGE is_order is_order TINYINT(1) DEFAULT NULL,
+            CHANGE qty qty NUMERIC(5, 1) NOT NULL,
+            CHANGE _order_id order_id INT DEFAULT NULL,
+            CHANGE jobadvice_id job_advice_id INT DEFAULT NULL,
+            CHANGE motion_id motion_id INT DEFAULT NULL');
 
         $this->addSql('ALTER TABLE jobitem 
             DROP employee__user_id,
-			MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
-			CHANGE _user_id user_id INT DEFAULT NULL,
-			CHANGE _order_id order_id INT DEFAULT NULL,
-			CHANGE jobadvice_id job_advice_id INT DEFAULT NULL
+            MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
+            CHANGE _user_id user_id INT DEFAULT NULL,
+            CHANGE _order_id order_id INT DEFAULT NULL,
+            CHANGE jobadvice_id job_advice_id INT DEFAULT NULL
         ');
 
         $this->addSql('ALTER TABLE jobadvice 
-			MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
-			MODIFY COLUMN car_id INT DEFAULT NULL,
+            MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
+            MODIFY COLUMN car_id INT DEFAULT NULL,
             DROP item_id
         ');
 
         $this->addSql('ALTER TABLE _order
-			MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
-			MODIFY COLUMN car_id INT DEFAULT NULL,
-			MODIFY COLUMN client_id INT DEFAULT NULL,
-			MODIFY COLUMN checkpay TINYINT(1) DEFAULT NULL,
-			MODIFY COLUMN paycard INT DEFAULT NULL, 
-			MODIFY COLUMN status SMALLINT NOT NULL,
-			DROP mileage_id,
+            MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
+            MODIFY COLUMN car_id INT DEFAULT NULL,
+            MODIFY COLUMN client_id INT DEFAULT NULL,
+            MODIFY COLUMN checkpay TINYINT(1) DEFAULT NULL,
+            MODIFY COLUMN paycard INT DEFAULT NULL, 
+            MODIFY COLUMN status SMALLINT NOT NULL,
+            DROP mileage_id,
             DROP ownedsecurableitem_id,
-			DROP refs,
-			DROP eid,
-			DROP paypoints,
-			DROP bonus,
-			DROP points
+            DROP refs,
+            DROP eid,
+            DROP paypoints,
+            DROP bonus,
+            DROP points
         ');
 
         $this->addSql('ALTER TABLE note 
-			MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
-			MODIFY COLUMN order_id INT DEFAULT NULL,
-			CHANGE occurredondatetime created_at DATETIME NOT NULL,
+            MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
+            MODIFY COLUMN order_id INT DEFAULT NULL,
+            CHANGE occurredondatetime created_at DATETIME NOT NULL,
             DROP activity_id
         ');
 
         $this->addSql('ALTER TABLE payment 
-			MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
-			MODIFY COLUMN client_id INT DEFAULT NULL,
+            MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
+            MODIFY COLUMN client_id INT DEFAULT NULL,
             DROP item_id,
-			DROP agent_client_id
+            DROP agent_client_id
         ');
 
         $this->addSql('ALTER TABLE motion 
-			MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
-			CHANGE part_id part_item_id INT DEFAULT NULL,
+            MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
+            CHANGE part_id part_item_id INT DEFAULT NULL,
             DROP item_id
         ');
 
         $this->addSql('ALTER TABLE _user 
             MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
-			MODIFY COLUMN person_id INT DEFAULT NULL,
-			DROP permitable_id,
-			DROP hash,
-			DROP language,
-			DROP timezone,
-			DROP username,
-			DROP serializedavatardata,
-			DROP manager__user_id,
-			DROP role_id,
-			DROP currency_id,
-			DROP isactive
+            MODIFY COLUMN person_id INT DEFAULT NULL,
+            DROP permitable_id,
+            DROP hash,
+            DROP language,
+            DROP timezone,
+            DROP username,
+            DROP serializedavatardata,
+            DROP manager__user_id,
+            DROP role_id,
+            DROP currency_id,
+            DROP isactive
         ');
 
         $this->addSql('ALTER TABLE person 
-			MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
-			CHANGE mobilephone telephone VARCHAR(24) DEFAULT NULL,
-			CHANGE officephone office_phone VARCHAR(24) DEFAULT NULL,
+            MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
+            CHANGE mobilephone telephone VARCHAR(24) DEFAULT NULL,
+            CHANGE officephone office_phone VARCHAR(24) DEFAULT NULL,
             DROP department,
-			DROP jobtitle,
-			DROP officefax,
-			DROP ownedsecurableitem_id,
-			DROP title_ownedcustomfield_id,
-			DROP title_customfield_id,
-			DROP primaryemail_email_id,
-			DROP primaryaddress_address_id
+            DROP jobtitle,
+            DROP officefax,
+            DROP ownedsecurableitem_id,
+            DROP title_ownedcustomfield_id,
+            DROP title_customfield_id,
+            DROP primaryemail_email_id,
+            DROP primaryaddress_address_id
         ');
 
         $this->addSql('ALTER TABLE client
-			MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
-			CHANGE person_id person_id INT DEFAULT NULL,
-			CHANGE wallet wallet INT NOT NULL, 
+            MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
+            CHANGE person_id person_id INT DEFAULT NULL,
+            CHANGE wallet wallet INT NOT NULL, 
             DROP eid,
-			DROP referal_client_id,
-			DROP ref_bonus,
-			DROP point_id,
-			DROP ratio
+            DROP referal_client_id,
+            DROP ref_bonus,
+            DROP point_id,
+            DROP ratio
         ');
 
         $this->addSql('ALTER TABLE filecontent 
-			MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
-			MODIFY COLUMN order_id INT DEFAULT NULL,
+            MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
+            MODIFY COLUMN order_id INT DEFAULT NULL,
             DROP meta_filemodel_id,
-			DROP ext,
-			DROP filemodel_id
+            DROP ext,
+            DROP filemodel_id
         ');
 
         $this->addSql('ALTER TABLE keys_price 
             MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
-			MODIFY COLUMN cnt TINYINT(1) DEFAULT NULL
+            MODIFY COLUMN cnt TINYINT(1) DEFAULT NULL
         ');
 
         $this->addSql('ALTER TABLE cache_price 
             MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
-			MODIFY COLUMN term TINYINT(1) DEFAULT NULL,
-			CHANGE id_price id_price INT DEFAULT NULL,
-			CHANGE id_d2m id_d2m INT DEFAULT NULL,
-			CHANGE qty qty INT DEFAULT NULL,
-			CHANGE prc_ok prc_ok TINYINT(1) DEFAULT NULL,
-			CHANGE min_qty min_qty INT DEFAULT NULL,
-			CHANGE type_cross type_cross TINYINT(1) DEFAULT NULL,
-			CHANGE qid qid INT DEFAULT NULL,
-			CHANGE grp_part grp_part TINYINT(1) DEFAULT NULL');
+            MODIFY COLUMN term TINYINT(1) DEFAULT NULL,
+            CHANGE id_price id_price INT DEFAULT NULL,
+            CHANGE id_d2m id_d2m INT DEFAULT NULL,
+            CHANGE qty qty INT DEFAULT NULL,
+            CHANGE prc_ok prc_ok TINYINT(1) DEFAULT NULL,
+            CHANGE min_qty min_qty INT DEFAULT NULL,
+            CHANGE type_cross type_cross TINYINT(1) DEFAULT NULL,
+            CHANGE qid qid INT DEFAULT NULL,
+            CHANGE grp_part grp_part TINYINT(1) DEFAULT NULL');
 
         $this->addSql('RENAME TABLE _order TO orders');
         $this->addSql('RENAME TABLE _user TO users');
