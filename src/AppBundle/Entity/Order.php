@@ -60,7 +60,7 @@ class Order
     /**
      * @var Car
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Car")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Car", inversedBy="orders")
      * @ORM\JoinColumn(nullable=true)
      */
     private $car;
@@ -74,10 +74,9 @@ class Order
     private $client;
 
     /**
-     * @var Mileage
+     * @var string
      *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Mileage")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\Column(type="integer", length=8, nullable=true, options={"unsigned"=true})
      */
     private $mileage;
 
@@ -261,6 +260,16 @@ class Order
     public function setClient(Client $client)
     {
         $this->client = $client;
+    }
+
+    public function getMileage(): ?string
+    {
+        return $this->mileage;
+    }
+
+    public function setMileage(string $mileage): void
+    {
+        $this->mileage = $mileage;
     }
 
     public function getStatus(): OrderStatus

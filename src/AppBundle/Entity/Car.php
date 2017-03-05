@@ -20,14 +20,6 @@ class Car
     private $id;
 
     /**
-     * @var CarManufacturer
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CarManufacturer")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $carManufacturer;
-
-    /**
      * @var CarModel
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CarModel")
@@ -66,13 +58,6 @@ class Car
     private $client;
 
     /**
-     * @var Mileage[]|ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Mileage", mappedBy="car")
-     */
-    private $mileage;
-
-    /**
      * @var string
      *
      * @ORM\Column(nullable=true)
@@ -100,10 +85,18 @@ class Car
      */
     private $createdAt;
 
+    /**
+     * @var Order[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Order", mappedBy="car")
+     */
+    private $orders;
+
     public function __construct()
     {
         $this->mileage = new ArrayCollection();
         $this->createdAt = new \DateTime();
+        $this->orders = new ArrayCollection();
     }
 
     /**
@@ -112,22 +105,6 @@ class Car
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return CarManufacturer
-     */
-    public function getCarManufacturer(): ?CarManufacturer
-    {
-        return $this->carManufacturer;
-    }
-
-    /**
-     * @param CarManufacturer $carManufacturer
-     */
-    public function setCarManufacturer(CarManufacturer $carManufacturer)
-    {
-        $this->carManufacturer = $carManufacturer;
     }
 
     /**
@@ -211,19 +188,14 @@ class Car
     }
 
     /**
-     * @return Mileage
+     * @return string
      */
-    public function getMileage(): ?Mileage
+    public function getMileage(): ?string
     {
-        return $this->mileage->last() ?: null;
-    }
+        /** @var Order $order */
+        $order = $this->orders->last();
 
-    /**
-     * @param Mileage $mileage
-     */
-    public function setMileage(Mileage $mileage)
-    {
-        $this->mileage[] = $mileage;
+        return $order->getMileage();
     }
 
     /**
@@ -269,9 +241,8 @@ class Car
     public function getDisplayName(): string
     {
         return sprintf(
-            '%s %s %s (%s)',
-            $this->carManufacturer->getName(),
-            $this->carModel->getName(),
+            '%s %s (%s)',
+            $this->carModel->getDisplayName(),
             $this->carModification ? $this->carModification->getName() : '',
             $this->getGosnomer()
         );

@@ -79,19 +79,27 @@ easy_admin:
                 fields:
                     - { property: 'client', label: 'Владелец' }
                     - { property: 'vin', label: 'VIN', sortable: false }
-                    - { property: 'carManufacturer', label: 'Производитель' }
-                    - { property: 'carModel', label: 'Модель' }
+                    - { property: 'carModel.displayName', label: 'Модель' }
+                    - { property: 'carModification.name', label: 'Комплектация' }
+                    - { property: 'mileage', label: 'Пробег' }
+                    - { property: 'gosnomer', label: 'Гос. Номер', sortable: false }
+            show:
+                fields:
+                    - { property: 'client', label: 'Владелец' }
+                    - { property: 'vin', label: 'VIN', sortable: false }
+                    - { property: 'carModel.displayName', label: 'Модель' }
+                    - { property: 'carModification.name', label: 'Комплектация' }
                     - { property: 'mileage', label: 'Пробег' }
                     - { property: 'gosnomer', label: 'Гос. Номер', sortable: false }
             form:
                 fields:
-                    - { property: 'client', label: 'Владелец' }
-                    - { property: 'vin', label: 'VIN', sortable: false }
-                    - { property: 'carManufacturer', label: 'Производитель' }
-                    - { property: 'carModel', label: 'Модель' }
-                    - { property: 'gosnomer', label: 'Гос. Номер', sortable: false }
                     - { property: 'description', label: 'Описание', sortable: false }
-
+                    - { property: 'carModification', label: 'Модель', type: 'easyadmin_autocomplete' }
+            new:
+                fields:
+                    - { property: 'client', label: 'Владелец', type: 'easyadmin_autocomplete' }
+                    - { property: 'vin', label: 'VIN', sortable: false }
+                    - { property: 'gosnomer', label: 'Гос. Номер', sortable: false }
 
         Part:
             class: AppBundle\Entity\Part
@@ -125,17 +133,6 @@ easy_admin:
                 fields:
                     - { property: 'name', label: 'Название' }
 
-        Carmake:
-            class: AppBundle\Entity\CarManufacturer
-            disabled_actions: ['show']
-            label: 'Производитель'
-            list:
-                title: 'Производители'
-                fields:
-                    - { property: 'name', label: 'Название' }
-            form:
-                fields:
-                    - { property: 'name', label: 'Название' }
         Model:
             class: AppBundle\Entity\CarModel
             disabled_actions: ['show']
@@ -155,7 +152,7 @@ easy_admin:
                 fields:
                     - { property: 'name', label: 'Название' }
                     - { property: 'carModel.name', label: 'Модель' }
-                    - { property: 'carModel.carmake.name', label: 'Производитель' }
+                    - { property: 'carModel.manufacturer.name', label: 'Производитель' }
             list:
                 title: 'Производители'
                 fields:
@@ -171,7 +168,7 @@ easy_admin:
                 fields:
                     - { property: 'name', label: 'Название' }
                     - { property: 'cargeneration.name', label: 'Поколение' }
-                    - { property: 'cargeneration.carModel.carmake.name', label: 'Производитель' }
+                    - { property: 'cargeneration.carModel.manufacturer.name', label: 'Производитель' }
                     - { property: 'hp', label: 'л.с.' }
                     - { property: 'doors', label: 'Дверей' }
                     - { property: 'from', label: 'С', type: 'string' }

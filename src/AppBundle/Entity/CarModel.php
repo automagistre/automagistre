@@ -20,68 +20,50 @@ class CarModel
     private $id;
 
     /**
-     * @var CarManufacturer
+     * @var Manufacturer
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CarManufacturer")
-     * @ORM\JoinColumn()
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Manufacturer")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $carmake;
+    private $manufacturer;
 
     /**
      * @var string
      *
      * @Assert\NotBlank()
      *
-     * @ORM\Column(name="name", length=30, nullable=true)
+     * @ORM\Column(name="name", length=30)
      */
     private $name;
 
-    /**
-     * @return int
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
     public function setName(string $name)
     {
         $this->name = $name;
     }
 
-    /**
-     * @return CarManufacturer
-     */
-    public function getCarmake(): ?CarManufacturer
+    public function getManufacturer(): Manufacturer
     {
-        return $this->carmake;
+        return $this->manufacturer;
     }
 
-    /**
-     * @param CarManufacturer $carmake
-     */
-    public function setCarmake(CarManufacturer $carmake)
+    public function setManufacturer(Manufacturer $manufacturer)
     {
-        $this->carmake = $carmake;
+        $this->manufacturer = $manufacturer;
+    }
+
+    public function getDisplayName(): string
+    {
+        return sprintf('%s %s', $this->manufacturer->getName(), $this->getName());
     }
 
     public function __toString(): string

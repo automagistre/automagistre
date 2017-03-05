@@ -24,9 +24,10 @@ class CarModification
      *
      * @Assert\NotBlank()
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Cargeneration")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CarGeneration")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $cargeneration;
+    private $carGeneration;
 
     /**
      * @var string
@@ -94,28 +95,19 @@ class CarModification
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @return CarGeneration
-     */
-    public function getCargeneration(): ?CarGeneration
+    public function getCarGeneration(): ?CarGeneration
     {
-        return $this->cargeneration;
+        return $this->carGeneration;
     }
 
-    /**
-     * @param CarGeneration $cargeneration
-     */
-    public function setCargeneration(CarGeneration $cargeneration)
+    public function setCarGeneration(CarGeneration $carGeneration): void
     {
-        $this->cargeneration = $cargeneration;
+        $this->carGeneration = $carGeneration;
     }
 
     /**
@@ -228,5 +220,15 @@ class CarModification
     public function setTank(int $tank)
     {
         $this->tank = $tank;
+    }
+
+    public function getDisplayName(): string
+    {
+        return sprintf('%s %s', $this->getCarGeneration()->getDisplayName(), $this->getName());
+    }
+
+    public function __toString(): string
+    {
+        return $this->getDisplayName();
     }
 }

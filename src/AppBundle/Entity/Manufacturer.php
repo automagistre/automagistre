@@ -33,34 +33,6 @@ class Manufacturer
     private $logo;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(length=25, nullable=true, unique=true)
-     */
-    private $logoad;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(length=25, nullable=true, unique=true)
-     */
-    private $logoem;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="bitoriginal", type="boolean", nullable=true)
-     */
-    private $bitoriginal;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="logopl", length=25, nullable=true)
-     */
-    private $logopl;
-
-    /**
      * @return int
      */
     public function getId(): ?int

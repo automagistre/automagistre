@@ -25,9 +25,9 @@ class CarGeneration
      * @Assert\NotBlank()
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Carmodel")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $carmodel;
+    private $carModel;
 
     /**
      * @var string
@@ -38,52 +38,34 @@ class CarGeneration
      */
     private $name;
 
-    /**
-     * @return int
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return string
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return CarModel
-     */
-    public function getCarmodel(): ?CarModel
+    public function getCarModel(): ?CarModel
     {
-        return $this->carmodel;
+        return $this->carModel;
     }
 
-    /**
-     * @param CarModel $carmodel
-     */
-    public function setCarmodel(CarModel $carmodel)
+    public function setCarmodel(CarModel $carModel): void
     {
-        $this->carmodel = $carmodel;
+        $this->carModel = $carModel;
+    }
+
+    public function getDisplayName(): string
+    {
+        return sprintf('%s (%s)', $this->getCarModel()->getDisplayName(), $this->getName());
     }
 
     public function __toString(): string
