@@ -8,8 +8,10 @@ if [ ! -z "$GITHUB_AUTH_TOKEN" ]; then
     composer config -g github-oauth.github.com ${GITHUB_AUTH_TOKEN}
 fi
 
-# Skip entrypoint if first argument exist in $PATH
-if which "$1" > /dev/null; then exec "$@" && exit 0; fi
+# Skip entrypoint for following commands
+case "$1" in
+   sh|php|composer|php-cs-fixer) exec "$@" && exit 0;;
+esac
 
 case "$APP_ENV" in
    prod|dev|test) ;;
@@ -68,7 +70,7 @@ fi
 if [ "$APCU" == "true" ]; then
     enableExt apcu
 fi
-env | fgrep _ENV
+
 if [ "$COMPOSER_EXEC" != "false" ]; then
     ${COMPOSER_EXEC}
 fi
