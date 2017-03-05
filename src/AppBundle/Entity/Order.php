@@ -145,7 +145,7 @@ class Order
 
     public function __construct()
     {
-        $this->status = OrderStatus::draft();
+        $this->status = OrderStatus::DRAFT;
         $this->jobs = new ArrayCollection();
         $this->parts = new ArrayCollection();
     }
@@ -274,11 +274,7 @@ class Order
 
     public function getStatus(): OrderStatus
     {
-        if (!$this->status instanceof OrderStatus) {
-            $this->status = new OrderStatus($this->status);
-        }
-
-        return $this->status;
+        return new OrderStatus($this->status);
     }
 
     public function jobsCost(): int

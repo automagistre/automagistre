@@ -94,7 +94,6 @@ class Car
 
     public function __construct()
     {
-        $this->mileage = new ArrayCollection();
         $this->createdAt = new \DateTime();
         $this->orders = new ArrayCollection();
     }

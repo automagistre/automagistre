@@ -68,6 +68,6 @@ class CarModel
 
     public function __toString(): string
     {
-        return (string) $this->getDisplayName();
+        return $this->getDisplayName();
     }
 }

@@ -133,15 +133,15 @@ class JobItem
      */
     public function getJobadvice(): ?JobAdvice
     {
-        return $this->jobadvice;
+        return $this->jobAdvice;
     }
 
     /**
-     * @param JobAdvice $jobadvice
+     * @param JobAdvice $jobAdvice
      */
-    public function setJobadvice(JobAdvice $jobadvice)
+    public function setJobadvice(JobAdvice $jobAdvice)
     {
-        $this->jobadvice = $jobadvice;
+        $this->jobAdvice = $jobAdvice;
     }
 
     public function __toString(): string
