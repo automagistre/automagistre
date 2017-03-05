@@ -168,9 +168,10 @@ easy_admin:
                     - { property: 'name', label: 'Название' }
         Modification:
             class: AppBundle\Entity\CarModification
+            controller: AppBundle\Controller\Admin\CarModelController
             disabled_actions: ['show']
             list:
-                title: 'Модификации'
+                title: 'Справочник Автомобилей'
                 fields:
                     - { property: 'carGeneration', label: 'Поколение' }
                     - { property: 'name', label: 'Название' }

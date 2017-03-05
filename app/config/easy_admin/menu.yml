@@ -10,6 +10,4 @@ easy_admin:
             - { entity: 'Motion', label: 'Движения', icon: 'truck' }
             - { label: 'Справочники' }
             - { entity: 'Manufacturer', label: 'Производители', icon: 'industry' }
-            - { entity: 'Model', label: 'Модели' }
-            - { entity: 'Generation', label: 'Поколения' }
-            - { entity: 'Modification', label: 'Модификации' }
+            - { entity: 'Modification', label: 'Автомобили', icon: 'car' }
