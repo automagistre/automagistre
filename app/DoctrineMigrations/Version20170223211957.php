@@ -24,7 +24,7 @@ class Version20170223211957 extends AbstractMigration
         $this->addSql('CREATE INDEX search ON _order (ownedsecurableitem_id)');
         $this->addSql('CREATE INDEX search ON filemodel (filecontent_id)');
         $this->addSql('CREATE INDEX search2 ON filemodel (relatedmodel_id)');
-        $this->addSql('SELECT SLEEP(5)');
+        $this->addSql('OPTIMIZE TABLE note, securableitem, ownedsecurableitem, _order, filemodel');
 
         /* BEGIN link `note` to `_order` */
         $this->addSql('ALTER TABLE note ADD order_id INT(11) UNSIGNED DEFAULT NULL');
@@ -62,28 +62,12 @@ class Version20170223211957 extends AbstractMigration
 
         $this->addSql('ALTER TABLE filecontent MODIFY order_id INT(11) UNSIGNED NOT NULL ');
 
-        /* Try to set car_id to mileage where mileage is null */
+        /* Write mileage to order table as integer */
+        $this->addSql('ALTER TABLE `_order` ADD mileage INT(8) UNSIGNED DEFAULT NULL');
         $this->addSql('
-            UPDATE mileage
-              JOIN (
-                     SELECT
-                       o.id,
-                       MAX(o2.car_id) AS car_id
-                     FROM _order o
-                       JOIN _order o2 ON o2.client_id = o.client_id AND o2.car_id IS NOT NULL
-                      GROUP BY o.id
-                   ) AS o3 ON o3.id = mileage._order_id
-            SET mileage.car_id = o3.car_id
-            WHERE mileage.car_id IS NULL        
-        ');
-        /* Remove mileage which not linked to car */
-        $this->addSql('DELETE FROM mileage WHERE mileage.car_id IS NULL');
-
-        /* Remove mileage which linked to deleted car */
-        $this->addSql('
-            DELETE mileage FROM mileage
-            LEFT JOIN car ON mileage.car_id = car.id
-            WHERE car.id IS NULL
+            UPDATE `_order` o
+              LEFT JOIN mileage m ON m.id = o.mileage_id
+            SET o.mileage = m.value
         ');
 
         /* Move email to Person */
@@ -190,6 +174,7 @@ class Version20170223211957 extends AbstractMigration
         $this->addSql('DROP TABLE joblog');
         $this->addSql('DROP TABLE log');
         $this->addSql('DROP TABLE messagesource');
+        $this->addSql('DROP TABLE mileage');
         $this->addSql('DROP TABLE messagetranslation');
         $this->addSql('DROP TABLE note_read');
         $this->addSql('DROP TABLE notification');
@@ -241,7 +226,6 @@ class Version20170223211957 extends AbstractMigration
         $this->addSql('ALTER TABLE carmodel DROP folder, DROP link, DROP loaded, CHANGE carmake_id carmake_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE carmodification DROP folder, DROP link, CHANGE hp hp SMALLINT DEFAULT NULL, CHANGE doors doors SMALLINT DEFAULT NULL, CHANGE `from` `from` SMALLINT DEFAULT NULL, CHANGE till till SMALLINT DEFAULT NULL, CHANGE tank tank SMALLINT DEFAULT NULL');
         $this->addSql('ALTER TABLE cargeneration DROP folder');
-        $this->addSql('ALTER TABLE mileage CHANGE id id INT AUTO_INCREMENT NOT NULL, DROP _order_id, CHANGE car_id car_id INT DEFAULT NULL, CHANGE value value INT NOT NULL, CHANGE date created_at DATETIME NOT NULL');
         $this->addSql('ALTER TABLE manufacturer DROP item_id, CHANGE id id INT AUTO_INCREMENT NOT NULL, CHANGE bitoriginal bitoriginal TINYINT(1) DEFAULT NULL');
         $this->addSql('ALTER TABLE part DROP item_id, CHANGE id id INT AUTO_INCREMENT NOT NULL, CHANGE manufacturer_id manufacturer_id INT DEFAULT NULL, CHANGE negative negative TINYINT(1) DEFAULT NULL, CHANGE fractional fractional TINYINT(1) DEFAULT NULL, CHANGE reserved reserved INT NOT NULL, CHANGE partnumber partnumber VARCHAR(30) NOT NULL');
         $this->addSql('ALTER TABLE partitem DROP move_motion_id, CHANGE id id INT AUTO_INCREMENT NOT NULL, CHANGE jobitem_id job_item_id INT DEFAULT NULL, CHANGE part_id part_id INT DEFAULT NULL, CHANGE is_order is_order TINYINT(1) DEFAULT NULL, CHANGE qty qty NUMERIC(5, 1) NOT NULL, CHANGE _order_id order_id INT DEFAULT NULL, CHANGE jobadvice_id job_advice_id INT DEFAULT NULL, CHANGE motion_id motion_id INT DEFAULT NULL');
@@ -272,8 +256,6 @@ class Version20170223211957 extends AbstractMigration
         $this->addSql('CREATE UNIQUE INDEX UNIQ_64D359345E237E06 ON car_manufacturer (name)');
         $this->addSql('ALTER TABLE car_generation ADD CONSTRAINT FK_E1F9E22A5E96AD46 FOREIGN KEY (carmodel_id) REFERENCES car_model (id)');
         $this->addSql('CREATE INDEX IDX_E1F9E22A5E96AD46 ON car_generation (carmodel_id)');
-        $this->addSql('ALTER TABLE mileage ADD CONSTRAINT FK_56BDF814C3C6F69F FOREIGN KEY (car_id) REFERENCES car (id)');
-        $this->addSql('CREATE INDEX IDX_56BDF814C3C6F69F ON mileage (car_id)');
         $this->addSql('ALTER TABLE orders ADD CONSTRAINT FK_E52FFDEEC3C6F69F FOREIGN KEY (car_id) REFERENCES car (id)');
         $this->addSql('ALTER TABLE orders ADD CONSTRAINT FK_E52FFDEE19EB6921 FOREIGN KEY (client_id) REFERENCES client (id)');
         $this->addSql('CREATE INDEX IDX_E52FFDEEC3C6F69F ON orders (car_id)');
