@@ -22,17 +22,18 @@ final class ClientController extends AdminController
         $qb = $this->em->getRepository(Client::class)->createQueryBuilder('client')
             ->leftJoin('client.person', 'person');
 
-        if (is_numeric($searchQuery)) {
-            $qb->where('person.telephone LIKE :search');
-        } else {
-            $qb->where('person.firstname LIKE :search')
-                ->orWhere('person.lastname LIKE :search')
-                ->orWhere('person.email LIKE :search');
-        }
+        foreach (explode(' ', $searchQuery) as $key => $item) {
+            $key = ':search_'.$key;
 
-        $qb->setParameter('search', '%'.$searchQuery.'%')
-            ->orderBy('person.lastname', 'ASC')
-            ->addOrderBy('person.firstname', 'ASC');
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->like('person.firstname', $key),
+                $qb->expr()->like('person.lastname', $key),
+                $qb->expr()->like('person.telephone', $key),
+                $qb->expr()->like('person.email', $key)
+            ));
+
+            $qb->setParameter($key, '%'.$item.'%');
+        }
 
         return $qb;
     }
