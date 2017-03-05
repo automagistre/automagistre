@@ -10,7 +10,7 @@ easy_admin:
 #    form:
 
     list:
-        max_results: 20
+        max_results: 17
         actions:
             - { name: 'new', icon: 'plus', label: 'Создать' }
             - { name: 'show', icon: 'search', label: false }

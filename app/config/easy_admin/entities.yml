@@ -2,18 +2,24 @@ easy_admin:
     entities:
         Order:
             class: AppBundle\Entity\Order
+            controller: AppBundle\Controller\Admin\OrderController
+            templates:
+                list: 'easy_admin/order/list.html.twig'
+                new: 'easy_admin/order/new.html.twig'
             label: 'Заказ'
             list:
                 title: 'Заказы'
                 fields:
-                    - { property: 'id', label: 'Номер' }
+                    - { property: 'id', label: 'Номер', template: 'easy_admin/order/field_id.html.twig' }
                     - { property: 'status.readableName', label: 'Статус' }
                     - { property: 'startedAt', label: 'Дата начала', type: 'datetime' }
-                    - { property: 'car', label: 'Автомобиль' }
+                    - { property: 'car', label: 'Автомобиль', template: 'easy_admin/order/field_car.html.twig' }
+                    - { property: 'car.gosnomer', label: 'Госномер', template: 'easy_admin/car/field_gosnomer_img.html.twig' }
                     - { property: 'client', label: 'Клиент' }
                     - { property: 'readableCosts', label: 'Работы/Запчасти' }
             form:
                 fields:
+                    - { property: 'client', label: 'Клиент', type: 'easyadmin_autocomplete' }
                     - { property: 'car', label: 'Автомобиль', type: 'easyadmin_autocomplete' }
                     - { property: 'parts', label: 'Запчасти', type: 'easyadmin_autocomplete' }
                     - { property: 'jobs', label: 'Работы', type: 'easyadmin_autocomplete' }
@@ -40,15 +46,16 @@ easy_admin:
 
         Client:
             class: AppBundle\Entity\Client
-            search:
-                fields: ['person', 'description']
+            controller: AppBundle\Controller\Admin\ClientController
             list:
                 title: 'Пользователи'
                 fields:
-                    - { property: 'person', label: 'Клиент' }
+                    - { property: 'person.fullName', label: 'Клиент' }
+                    - { property: 'person.telephone', label: 'Телефон', type: 'tel' }
+                    - { property: 'person.email', label: 'Email', type: 'email' }
                     - { property: 'wallet', label: 'Баланс' }
                     - { property: 'description', label: 'Описание' }
-                    - { property: 'employee', label: 'Сотрудник?' }
+                    - { property: 'employee', label: 'Сотрудник?', type: 'boolean' }
             form:
                 fields:
                     - { property: 'person', label: 'Клиент' }
@@ -58,7 +65,7 @@ easy_admin:
         Person:
             class: AppBundle\Entity\Person
             search:
-                fields: ['firstname', 'lastname', 'mobilephone']
+                fields: ['firstname', 'lastname']
             list:
                 fields:
                     - { property: 'fullName', label: 'Ф.И.О' }
@@ -82,7 +89,7 @@ easy_admin:
                     - { property: 'carModel.displayName', label: 'Модель' }
                     - { property: 'carModification.name', label: 'Комплектация' }
                     - { property: 'mileage', label: 'Пробег' }
-                    - { property: 'gosnomer', label: 'Гос. Номер', sortable: false }
+                    - { property: 'gosnomer', label: 'Гос. Номер', sortable: false, template: 'easy_admin/car/field_gosnomer_img.html.twig' }
             show:
                 fields:
                     - { property: 'client', label: 'Владелец' }
@@ -125,6 +132,8 @@ easy_admin:
             class: AppBundle\Entity\Manufacturer
             disabled_actions: ['show']
             label: 'Производитель'
+            search:
+                fields: ['name']
             list:
                 title: 'Производители'
                 fields:
@@ -143,6 +152,7 @@ easy_admin:
                     - { property: 'name', label: 'Название' }
             form:
                 fields:
+                    - { property: 'manufacturer', label: 'Производитель', type: 'easyadmin_autocomplete' }
                     - { property: 'name', label: 'Название' }
         Generation:
             class: AppBundle\Entity\CarGeneration
@@ -150,15 +160,11 @@ easy_admin:
             list:
                 title: 'Поколения'
                 fields:
-                    - { property: 'name', label: 'Название' }
-                    - { property: 'carModel.name', label: 'Модель' }
-                    - { property: 'carModel.manufacturer.name', label: 'Производитель' }
-            list:
-                title: 'Производители'
-                fields:
+                    - { property: 'carModel', label: 'Модель' }
                     - { property: 'name', label: 'Название' }
             form:
                 fields:
+                    - { property: 'carModel', label: 'Модель', type: 'easyadmin_autocomplete' }
                     - { property: 'name', label: 'Название' }
         Modification:
             class: AppBundle\Entity\CarModification
@@ -166,9 +172,8 @@ easy_admin:
             list:
                 title: 'Модификации'
                 fields:
+                    - { property: 'carGeneration', label: 'Поколение' }
                     - { property: 'name', label: 'Название' }
-                    - { property: 'cargeneration.name', label: 'Поколение' }
-                    - { property: 'cargeneration.carModel.manufacturer.name', label: 'Производитель' }
                     - { property: 'hp', label: 'л.с.' }
                     - { property: 'doors', label: 'Дверей' }
                     - { property: 'from', label: 'С', type: 'string' }
@@ -178,8 +183,8 @@ easy_admin:
                     - { property: 'tank', label: 'Объём бака' }
             form:
                 fields:
+                    - { property: 'carGeneration', label: 'Поколение', type: 'easyadmin_autocomplete' }
                     - { property: 'name', label: 'Название' }
-                    - { property: 'cargeneration', label: 'Поколение' }
                     - { property: 'hp', label: 'л.с.' }
                     - { property: 'doors', label: 'Дверей' }
                     - { property: 'from', label: 'С' }

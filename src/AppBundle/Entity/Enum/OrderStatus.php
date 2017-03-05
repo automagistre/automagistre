@@ -21,4 +21,11 @@ final class OrderStatus extends Enum
     const WORKING = 8;
     const READY = 9;
     const CLOSED = 10;
+
+    public function isEditable(): bool
+    {
+        return !$this->in([
+            self::CLOSED,
+        ]);
+    }
 }

@@ -42,6 +42,15 @@ class Person
     /**
      * @var string
      *
+     * @Assert\Email()
+     *
+     * @ORM\Column(nullable=true)
+     */
+    private $email;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(length=24, nullable=true)
      */
     private $telephone;
@@ -52,15 +61,6 @@ class Person
      * @ORM\Column(length=24, nullable=true)
      */
     private $officePhone;
-
-    /**
-     * @var string
-     *
-     * @Assert\Email()
-     *
-     * @ORM\Column(nullable=true)
-     */
-    private $email;
 
     /**
      * @var int
@@ -164,6 +164,6 @@ class Person
 
     public function __toString(): string
     {
-        return $this->getFullName();
+        return sprintf('%s (%s)', $this->getFullName(), $this->getTelephone());
     }
 }

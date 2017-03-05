@@ -1,0 +1,3 @@
+{% set action = item.status.editable ? 'edit' : 'show' %}
+
+<a href="{{ path('easyadmin', {'entity': entity_config.name, 'action': action, 'id': value}) }}">{{ value|easyadmin_truncate }}</a>

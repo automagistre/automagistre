@@ -41,7 +41,7 @@ class CarModel
         return $this->id;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -51,7 +51,7 @@ class CarModel
         $this->name = $name;
     }
 
-    public function getManufacturer(): Manufacturer
+    public function getManufacturer(): ?Manufacturer
     {
         return $this->manufacturer;
     }
@@ -68,6 +68,6 @@ class CarModel
 
     public function __toString(): string
     {
-        return (string) $this->getName();
+        return (string) $this->getDisplayName();
     }
 }

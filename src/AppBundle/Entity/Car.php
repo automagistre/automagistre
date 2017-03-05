@@ -203,7 +203,10 @@ class Car
      */
     public function getGosnomer(): ?string
     {
-        return $this->gosnomer;
+        $roman = ['A', 'B', 'E', 'K', 'M', 'H', 'O', 'P', 'C', 'T', 'Y', 'X'];
+        $cyrillic = ['А', 'В', 'Е', 'К', 'М', 'Н', 'О', 'Р', 'С', 'Т', 'У', 'Х'];
+
+        return str_replace($cyrillic, $roman, mb_convert_case($this->gosnomer, MB_CASE_UPPER));
     }
 
     /**
@@ -240,16 +243,11 @@ class Car
 
     public function getDisplayName(): string
     {
-        return sprintf(
-            '%s %s (%s)',
-            $this->carModel->getDisplayName(),
-            $this->carModification ? $this->carModification->getName() : '',
-            $this->getGosnomer()
-        );
+        return (string) ($this->carModification ?: $this->carModel);
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->getDisplayName();
+        return sprintf('%s, (%s)', $this->getDisplayName(), $this->getGosnomer());
     }
 }

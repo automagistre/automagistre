@@ -108,7 +108,7 @@ class Client
      */
     public function isEmployee(): bool
     {
-        return $this->employee;
+        return $this->employee ?: false;
     }
 
     /**
@@ -121,6 +121,6 @@ class Client
 
     public function __toString(): string
     {
-        return $this->person->getFullName();
+        return (string) $this->person;
     }
 }
