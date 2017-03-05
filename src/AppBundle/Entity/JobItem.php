@@ -51,7 +51,7 @@ class JobItem
     /**
      * @var JobAdvice
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Jobadvice")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\JobAdvice")
      * @ORM\JoinColumn()
      */
     private $jobAdvice;
