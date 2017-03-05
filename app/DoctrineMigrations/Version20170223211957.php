@@ -176,6 +176,32 @@ class Version20170223211957 extends AbstractMigration
             ALTER TABLE car MODIFY COLUMN created_at DATETIME NOT NULL
         ');
 
+        $this->addSql('
+            UPDATE _order
+            SET status = CASE
+                         WHEN status = \'swOrder/draft\'
+                           THEN 1
+                         WHEN status = \'swOrder/scheduling\'
+                           THEN 2
+                         WHEN status = \'swOrder/ordering\'
+                           THEN 3
+                         WHEN status = \'swOrder/matching\'
+                           THEN 4
+                         WHEN status = \'swOrder/tracking\'
+                           THEN 5
+                         WHEN status = \'swOrder/delivery\'
+                           THEN 6
+                         WHEN status = \'swOrder/notification\'
+                           THEN 7
+                         WHEN status = \'swOrder/working\'
+                           THEN 8
+                         WHEN status = \'swOrder/ready\'
+                           THEN 9
+                         WHEN status = \'swOrder/closed\'
+                           THEN 10
+                         END;
+        ');
+
         $this->addSql('DROP INDEX search ON note');
         $this->addSql('DROP INDEX search ON securableitem');
         $this->addSql('DROP INDEX search ON ownedsecurableitem');
@@ -526,32 +552,6 @@ class Version20170223211957 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_65B35B938D9F6D38 ON part_item (order_id)');
         $this->addSql('CREATE INDEX IDX_65B35B938880E5C5 ON part_item (job_item_id)');
         $this->addSql('CREATE INDEX IDX_65B35B93D5296D14 ON part_item (job_advice_id)');
-
-        $this->addSql('
-            UPDATE orders
-            SET status = CASE
-                         WHEN status = \'swOrder/draft\'
-                           THEN 1
-                         WHEN status = \'swOrder/scheduling\'
-                           THEN 2
-                         WHEN status = \'swOrder/ordering\'
-                           THEN 3
-                         WHEN status = \'swOrder/matching\'
-                           THEN 4
-                         WHEN status = \'swOrder/tracking\'
-                           THEN 5
-                         WHEN status = \'swOrder/delivery\'
-                           THEN 6
-                         WHEN status = \'swOrder/notification\'
-                           THEN 7
-                         WHEN status = \'swOrder/working\'
-                           THEN 8
-                         WHEN status = \'swOrder/ready\'
-                           THEN 9
-                         WHEN status = \'swOrder/closed\'
-                           THEN 10
-                         END;
-        ');
     }
 
     /**
