@@ -32,7 +32,7 @@ class CarModification
     /**
      * @var string
      *
-     * @ORM\Column(name="name", length=30, nullable=true)
+     * @ORM\Column(name="name", length=30)
      */
     private $name;
 
