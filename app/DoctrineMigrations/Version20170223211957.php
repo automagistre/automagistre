@@ -123,7 +123,7 @@ class Version20170223211957 extends AbstractMigration
             WHERE jobitem._user_id IS NOT NULL AND _user.id IS NULL
         ');
 
-        /** Delete PartItem which linked to deleted Parts */
+        /* Delete PartItem which linked to deleted Parts */
         $this->addSql('
             DELETE partitem FROM partitem
               LEFT JOIN part ON part.id = partitem.part_id
