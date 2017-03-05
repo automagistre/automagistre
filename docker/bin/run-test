@@ -6,7 +6,7 @@ symfony_requirements
 
 php-cs-fixer fix --dry-run
 
-console doctrine:schema:validate
+console doctrine:schema:validate --skip-sync
 
 console lint:yaml app
 console lint:yaml src
