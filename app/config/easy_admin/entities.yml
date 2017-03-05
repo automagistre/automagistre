@@ -50,7 +50,7 @@ easy_admin:
             list:
                 title: 'Пользователи'
                 fields:
-                    - { property: 'person.fullName', label: 'Клиент' }
+                    - { property: 'person', label: 'Клиент', template: 'easy_admin/client/field_person.html.twig' }
                     - { property: 'person.telephone', label: 'Телефон', type: 'tel' }
                     - { property: 'person.email', label: 'Email', type: 'email' }
                     - { property: 'wallet', label: 'Баланс' }
