@@ -23,7 +23,7 @@ class Car
      * @var CarModel
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CarModel")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn()
      */
     private $carModel;
 
@@ -31,7 +31,7 @@ class Car
      * @var CarModification
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CarModification")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn()
      */
     private $carModification;
 
