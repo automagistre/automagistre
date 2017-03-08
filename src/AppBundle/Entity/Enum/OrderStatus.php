@@ -22,6 +22,26 @@ final class OrderStatus extends Enum
     const READY = 9;
     const CLOSED = 10;
 
+    protected static $color = [
+        self::DRAFT => 'default',
+        self::SCHEDULING => 'info',
+        self::TRACKING => 'default',
+        self::NOTIFICATION => 'warning',
+        self::WORKING => 'success',
+        self::READY => 'warning',
+        self::CLOSED => 'default',
+    ];
+
+    protected static $name = [
+        self::DRAFT => 'Черновик',
+        self::SCHEDULING => 'Ожидание по записи',
+        self::TRACKING => 'Ожидание запчастей',
+        self::NOTIFICATION => 'Уведомление клиента',
+        self::WORKING => 'В работе',
+        self::READY => 'Ожидает выдачи',
+        self::CLOSED => 'Закрыт',
+    ];
+
     public function isEditable(): bool
     {
         return !$this->in([
