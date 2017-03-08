@@ -49,7 +49,6 @@ final class CarModificationController extends AdminController
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
         $data = array_map(function (CarModification $modification) {
-
             return [
                 'id' => $modification->getId(),
                 'text' => $modification->getDisplayName(),
