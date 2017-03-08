@@ -23,7 +23,7 @@ easy_admin:
                     - { property: 'car', label: 'Автомобиль', type: 'easyadmin_autocomplete' }
                     - { property: 'parts', label: 'Запчасти', type: 'easyadmin_autocomplete' }
                     - { property: 'jobs', label: 'Работы', type: 'easyadmin_autocomplete' }
-                    - { property: 'description', label: 'Описание' }
+                    - { property: 'description', label: 'Описание', type: 'ckeditor' }
             show:
                 fields:
                     - { property: 'id' }
@@ -60,7 +60,7 @@ easy_admin:
                 fields:
                     - { property: 'person', label: 'Клиент' }
                     - { property: 'wallet', label: 'Баланс' }
-                    - { property: 'description', label: 'Описание' }
+                    - { property: 'description', label: 'Описание', type: 'ckeditor' }
                     - { property: 'employee', label: 'Сотрудник?' }
         Person:
             class: AppBundle\Entity\Person
@@ -114,7 +114,7 @@ easy_admin:
                         type: 'easyadmin_autocomplete'
                         help: 'Проивзодитель, Модель, Поколение, Комплектация, Лошадинные силы'
                     - { property: 'gosnomer', label: 'Гос. Номер' }
-                    - { property: 'description', label: 'Описание' }
+                    - { property: 'description', label: 'Описание', type: 'ckeditor' }
             edit:
                 fields:
                     - { property: 'vin', label: 'VIN', type_options: { disabled: true }  }
