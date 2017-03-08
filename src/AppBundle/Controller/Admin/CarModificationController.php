@@ -8,7 +8,7 @@ use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class CarModelController extends AdminController
+final class CarModificationController extends AdminController
 {
     protected function createSearchQueryBuilder(
         $entityClass,

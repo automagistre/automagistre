@@ -77,6 +77,7 @@ easy_admin:
 
         Car:
             class: AppBundle\Entity\Car
+            controller: AppBundle\Controller\Admin\CarController
             label: 'Автомобили'
             search:
                 fields: ['gosnomer', 'vin']
@@ -167,7 +168,7 @@ easy_admin:
                     - { property: 'name', label: 'Название' }
         Modification:
             class: AppBundle\Entity\CarModification
-            controller: AppBundle\Controller\Admin\CarModelController
+            controller: AppBundle\Controller\Admin\CarModificationController
             disabled_actions: ['show']
             list:
                 title: 'Справочник Автомобилей'
