@@ -160,6 +160,7 @@ easy_admin:
 
         Model:
             class: AppBundle\Entity\CarModel
+            controller: AppBundle\Controller\Admin\CarModelController
             disabled_actions: ['show']
             label: 'Модель'
             list:
@@ -171,6 +172,10 @@ easy_admin:
                 fields:
                     - { property: 'manufacturer', label: 'Производитель', type: 'easyadmin_autocomplete' }
                     - { property: 'name', label: 'Название' }
+            edit:
+                fields:
+                    - { property: 'manufacturer', label: 'Производитель', type_options: { disabled: true } }
+
         Generation:
             class: AppBundle\Entity\CarGeneration
             controller: AppBundle\Controller\Admin\CarGenerationController
