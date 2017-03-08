@@ -32,8 +32,8 @@
         "doctrine/doctrine-migrations-bundle": "^1.2",
         "ramsey/uuid-doctrine": "^1.2",
         "javiereguiluz/easyadmin-bundle": "^1.16",
-      "grachevko/enum": "^0.5.0",
-      "misd/phone-number-bundle": "^1.2"
+        "grachevko/enum": "^0.6",
+        "misd/phone-number-bundle": "^1.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

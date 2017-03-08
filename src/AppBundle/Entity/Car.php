@@ -242,7 +242,7 @@ class Car
 
     public function getCarModificationDisplayName(): string
     {
-        return (string) ($this->carModification ?: $this->carModel);
+        return (string) ($this->carModification ? $this->carModification->getDisplayName() : $this->carModel);
     }
 
     public function __toString(): string

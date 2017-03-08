@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Entity\Enum\Carcase;
+use AppBundle\Entity\Enum\CarTransmission;
+use AppBundle\Entity\Enum\CarWheelDrive;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -65,6 +67,20 @@ class CarModification
     /**
      * @var int
      *
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $transmission;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $wheelDrive;
+
+    /**
+     * @var int
+     *
      * @ORM\Column(name="doors", type="smallint", nullable=true)
      */
     private $doors;
@@ -122,9 +138,9 @@ class CarModification
         return $this->case ? new Carcase($this->case) : null;
     }
 
-    public function setCase(Carcase $case): void
+    public function setCase(Carcase $case = null): void
     {
-        $this->case = $case->getId();
+        $this->case = $case ? $case->getId() : $case;
     }
 
     public function getCarGeneration(): ?CarGeneration
@@ -155,6 +171,26 @@ class CarModification
     public function setHp(int $hp)
     {
         $this->hp = $hp;
+    }
+
+    public function getTransmission(): ?CarTransmission
+    {
+        return $this->transmission ? new CarTransmission($this->transmission) : null;
+    }
+
+    public function setTransmission(CarTransmission $transmission = null): void
+    {
+        $this->transmission = $transmission ? $transmission->getId() : $transmission;
+    }
+
+    public function getWheelDrive(): ?CarWheelDrive
+    {
+        return $this->wheelDrive ? new CarWheelDrive($this->wheelDrive) : null;
+    }
+
+    public function setWheelDrive(CarWheelDrive $wheelDrive = null): void
+    {
+        $this->wheelDrive = $wheelDrive ? $wheelDrive->getId() : $wheelDrive;
     }
 
     public function getDoors(): ?int
@@ -219,20 +255,32 @@ class CarModification
 
     public function getDisplayName(): string
     {
-        $case = $this->getCase();
+        $transmission = $this->getTransmission();
+        $wheelDrive = $this->getWheelDrive();
 
         return sprintf(
-            '%s %s %s (%s-%s)',
+            '%s %s',
             $this->getCarGeneration()->getDisplayName(),
-            $this->getName() ?: sprintf('%s (%s)', $this->getEngine(), $this->getHp()),
-            $case ? $case->getName() : '',
-            $this->getFrom(),
-            $this->getTill() ?: '...'
+            $this->getEngine() ? sprintf(
+                '%s (%s) %s %s',
+                $this->getEngine(),
+                $this->getHp(),
+                $transmission ? $transmission->getCode() : '',
+                $wheelDrive ? $wheelDrive->getCode() : ''
+            ) : $this->getName()
         );
     }
 
     public function __toString(): string
     {
-        return $this->getDisplayName();
+        $case = $this->getCase();
+
+        return sprintf(
+            '%s (%s-%s) %s',
+            $this->getDisplayName(),
+            $this->getFrom(),
+            $this->getTill() ?: '...',
+            $case ? $case->getName() : ''
+        );
     }
 }

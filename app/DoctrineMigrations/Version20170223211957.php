@@ -319,6 +319,8 @@ class Version20170223211957 extends AbstractMigration
         $this->addSql('ALTER TABLE carmodification
             ADD `case` SMALLINT DEFAULT NULL,
             ADD `engine` VARCHAR(30) DEFAULT NULL,
+            ADD `transmission` SMALLINT DEFAULT NULL,
+            ADD `wheel_drive` SMALLINT DEFAULT NULL,
             MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
             MODIFY COLUMN name VARCHAR(30) DEFAULT NULL,
             MODIFY COLUMN hp SMALLINT DEFAULT NULL,

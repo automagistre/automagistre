@@ -94,8 +94,8 @@ easy_admin:
                 fields:
                     - { property: 'client', label: 'Владелец' }
                     - { property: 'vin', label: 'VIN' }
-                    - { property: 'carModel', label: 'Модель' }
-                    - { property: 'carModification', label: 'Комплектация' }
+                    - { property: 'carModificationDisplayName', label: 'Комплектация' }
+                    - { property: 'year', label: 'Год', type: 'string' }
                     - { property: 'mileage', label: 'Пробег' }
                     - { property: 'gosnomer', label: 'Гос. Номер' }
             form:
@@ -105,10 +105,8 @@ easy_admin:
                         label: 'Владелец'
                         type: 'easyadmin_autocomplete'
                         help: 'Фамилия, Имя, Телефон, E-mail'
-                    -
-                        property: 'carModel'
-                        label: 'Модель'
-                        type_options: {disabled: true}
+                    - { property: 'carModel', label: 'Модель', type_options: { disabled: true } }
+                    - { property: 'vin', label: 'VIN' }
                     -
                         property: 'carModification'
                         label: 'Модель'
@@ -116,9 +114,9 @@ easy_admin:
                         help: 'Проивзодитель, Модель, Поколение, Комплектация, Лошадинные силы'
                     - { property: 'gosnomer', label: 'Гос. Номер' }
                     - { property: 'description', label: 'Описание' }
-            new:
+            edit:
                 fields:
-                    - { property: 'vin', label: 'VIN' }
+                    - { property: 'vin', label: 'VIN', type_options: { disabled: true }  }
 
         Part:
             class: AppBundle\Entity\Part
@@ -200,11 +198,13 @@ easy_admin:
             list:
                 title: 'Справочник Автомобилей'
                 fields:
-                    - { property: 'carGeneration', label: 'Поколение' }
+                    - { property: 'carGeneration.displayName', label: 'Поколение' }
                     - { property: 'name', label: 'Название' }
                     - { property: 'case.name', label: 'Кузов' }
                     - { property: 'engine', label: 'Двигатель' }
                     - { property: 'hp', label: 'л.с.' }
+                    - { property: 'transmission.name', label: 'Трансмиссия' }
+                    - { property: 'wheelDrive.name', label: 'Привод' }
                     - { property: 'doors', label: 'Дверей' }
                     - { property: 'from', label: 'С', type: 'string' }
                     - { property: 'till', label: 'По', type: 'string' }
@@ -218,6 +218,8 @@ easy_admin:
                     - { property: 'case', type: AppBundle\Form\Type\CarcaseType, label: 'Кузов' }
                     - { property: 'engine', label: 'Двигатель' }
                     - { property: 'hp', label: 'л.с.' }
+                    - { property: 'transmission', type: AppBundle\Form\Type\CarTransmissionType, label: 'Трасмиссия' }
+                    - { property: 'wheelDrive', type: AppBundle\Form\Type\CarWheelDriveType, label: 'Привод' }
                     - { property: 'doors', label: 'Дверей' }
                     - { property: 'from', label: 'Начало производства' }
                     - { property: 'till', label: 'Конец производства' }
