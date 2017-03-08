@@ -85,9 +85,9 @@ easy_admin:
                 title: 'Автомобили'
                 fields:
                     - { property: 'client', label: 'Владелец' }
+                    - { property: 'carModificationDisplayName', label: 'Комплектация' }
+                    - { property: 'year', label: 'Год', type: 'string' }
                     - { property: 'vin', label: 'VIN', sortable: false }
-                    - { property: 'carModel.displayName', label: 'Модель' }
-                    - { property: 'carModification.name', label: 'Комплектация' }
                     - { property: 'mileage', label: 'Пробег' }
                     - { property: 'gosnomer', label: 'Гос. Номер', sortable: false, template: 'easy_admin/car/field_gosnomer_img.html.twig' }
             show:
@@ -105,6 +105,10 @@ easy_admin:
                         label: 'Владелец'
                         type: 'easyadmin_autocomplete'
                         help: 'Фамилия, Имя, Телефон, E-mail'
+                    -
+                        property: 'carModel'
+                        label: 'Модель'
+                        type_options: {disabled: true}
                     -
                         property: 'carModification'
                         label: 'Модель'
@@ -169,6 +173,7 @@ easy_admin:
                     - { property: 'name', label: 'Название' }
         Generation:
             class: AppBundle\Entity\CarGeneration
+            controller: AppBundle\Controller\Admin\CarGenerationController
             disabled_actions: ['show']
             list:
                 title: 'Поколения'
@@ -179,6 +184,10 @@ easy_admin:
                 fields:
                     - { property: 'carModel', label: 'Модель', type: 'easyadmin_autocomplete' }
                     - { property: 'name', label: 'Название' }
+            edit:
+                fields:
+                    - { property: 'carModel', type_options: { disabled: true } }
+
         Modification:
             class: AppBundle\Entity\CarModification
             controller: AppBundle\Controller\Admin\CarModificationController
@@ -189,6 +198,7 @@ easy_admin:
                     - { property: 'carGeneration', label: 'Поколение' }
                     - { property: 'name', label: 'Название' }
                     - { property: 'case.name', label: 'Кузов' }
+                    - { property: 'engine', label: 'Двигатель' }
                     - { property: 'hp', label: 'л.с.' }
                     - { property: 'doors', label: 'Дверей' }
                     - { property: 'from', label: 'С', type: 'string' }
@@ -201,10 +211,16 @@ easy_admin:
                     - { property: 'carGeneration', label: 'Поколение', type: 'easyadmin_autocomplete' }
                     - { property: 'name', label: 'Название' }
                     - { property: 'case', type: AppBundle\Form\Type\CarcaseType, label: 'Кузов' }
+                    - { property: 'engine', label: 'Двигатель' }
                     - { property: 'hp', label: 'л.с.' }
                     - { property: 'doors', label: 'Дверей' }
-                    - { property: 'from', label: 'С' }
-                    - { property: 'till', label: 'По' }
+                    - { property: 'from', label: 'Начало производства' }
+                    - { property: 'till', label: 'Конец производства' }
                     - { property: 'maxspeed', label: 'Макс. скорость' }
                     - { property: 's0to100', label: 'Разгон' }
                     - { property: 'tank', label: 'Объём бака' }
+            new:
+                fields: ['-name']
+            edit:
+                fields:
+                    - { property: 'name', type_options: { disabled: true } }

@@ -33,7 +33,7 @@ class CarModification
     /**
      * @var string
      *
-     * @ORM\Column(name="name", length=30)
+     * @ORM\Column(name="name", length=30, nullable=true)
      */
     private $name;
 
@@ -45,6 +45,13 @@ class CarModification
      * @ORM\Column(name="`case`", type="smallint", nullable=true)
      */
     private $case;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="`engine`", nullable=true)
+     */
+    private $engine;
 
     /**
      * @var int
@@ -130,113 +137,81 @@ class CarModification
         $this->carGeneration = $carGeneration;
     }
 
-    /**
-     * @return int
-     */
+    public function getEngine(): ?string
+    {
+        return $this->engine;
+    }
+
+    public function setEngine(string $engine): void
+    {
+        $this->engine = $engine;
+    }
+
     public function getHp(): ?int
     {
         return $this->hp;
     }
 
-    /**
-     * @param int $hp
-     */
     public function setHp(int $hp)
     {
         $this->hp = $hp;
     }
 
-    /**
-     * @return int
-     */
     public function getDoors(): ?int
     {
         return $this->doors;
     }
 
-    /**
-     * @param int $doors
-     */
     public function setDoors(int $doors)
     {
         $this->doors = $doors;
     }
 
-    /**
-     * @return int
-     */
     public function getFrom(): ?int
     {
         return $this->from;
     }
 
-    /**
-     * @param int $from
-     */
     public function setFrom(int $from)
     {
         $this->from = $from;
     }
 
-    /**
-     * @return int
-     */
     public function getTill(): ?int
     {
         return $this->till;
     }
 
-    /**
-     * @param int $till
-     */
     public function setTill(int $till)
     {
         $this->till = $till;
     }
 
-    /**
-     * @return string
-     */
     public function getMaxspeed(): ?string
     {
         return $this->maxspeed;
     }
 
-    /**
-     * @param string $maxspeed
-     */
     public function setMaxspeed(string $maxspeed)
     {
         $this->maxspeed = $maxspeed;
     }
 
-    /**
-     * @return string
-     */
     public function getS0to100(): ?string
     {
         return $this->s0to100;
     }
 
-    /**
-     * @param string $s0to100
-     */
     public function setS0to100(string $s0to100)
     {
         $this->s0to100 = $s0to100;
     }
 
-    /**
-     * @return int
-     */
     public function getTank(): ?int
     {
         return $this->tank;
     }
 
-    /**
-     * @param int $tank
-     */
     public function setTank(int $tank)
     {
         $this->tank = $tank;
@@ -244,7 +219,16 @@ class CarModification
 
     public function getDisplayName(): string
     {
-        return sprintf('%s %s', $this->getCarGeneration()->getDisplayName(), $this->getName());
+        $case = $this->getCase();
+
+        return sprintf(
+            '%s %s %s (%s-%s)',
+            $this->getCarGeneration()->getDisplayName(),
+            $this->getName() ?: sprintf('%s (%s)', $this->getEngine(), $this->getHp()),
+            $case ? $case->getName() : '',
+            $this->getFrom(),
+            $this->getTill() ?: '...'
+        );
     }
 
     public function __toString(): string

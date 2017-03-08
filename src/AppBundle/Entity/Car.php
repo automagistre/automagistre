@@ -240,13 +240,13 @@ class Car
         return $this->createdAt;
     }
 
-    public function getDisplayName(): string
+    public function getCarModificationDisplayName(): string
     {
         return (string) ($this->carModification ?: $this->carModel);
     }
 
     public function __toString(): string
     {
-        return sprintf('%s, (%s)', $this->getDisplayName(), $this->getGosnomer());
+        return sprintf('%s, (%s)', $this->getCarModificationDisplayName(), $this->getGosnomer());
     }
 }
