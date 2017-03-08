@@ -316,7 +316,8 @@ class Version20170223211957 extends AbstractMigration
             DROP folder
         ');
 
-        $this->addSql('ALTER TABLE carmodification DROP folder,
+        $this->addSql('ALTER TABLE carmodification
+            ADD `case` SMALLINT DEFAULT NULL,
             MODIFY COLUMN id INT AUTO_INCREMENT NOT NULL,
             MODIFY COLUMN name VARCHAR(30) NOT NULL,
             MODIFY COLUMN hp SMALLINT DEFAULT NULL,
@@ -325,6 +326,7 @@ class Version20170223211957 extends AbstractMigration
             MODIFY COLUMN till SMALLINT DEFAULT NULL,
             MODIFY COLUMN tank SMALLINT DEFAULT NULL,
             CHANGE cargeneration_id car_generation_id INT NOT NULL,
+            DROP folder,
             DROP link
         ');
 

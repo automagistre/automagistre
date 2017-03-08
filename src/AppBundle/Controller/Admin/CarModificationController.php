@@ -28,6 +28,7 @@ final class CarModificationController extends AdminController
 
             $qb->andWhere($qb->expr()->orX(
                 $qb->expr()->like('modification.name', $key),
+                $qb->expr()->like('modification.hp', $key),
                 $qb->expr()->like('generation.name', $key),
                 $qb->expr()->like('model.name', $key),
                 $qb->expr()->like('manufacturer.name', $key)
@@ -37,5 +38,24 @@ final class CarModificationController extends AdminController
         }
 
         return $qb;
+    }
+
+    protected function autocompleteAction()
+    {
+        $query = $this->request->query;
+
+        $qb = $this->createSearchQueryBuilder($query->get('entity'), $query->get('query'), []);
+
+        $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
+
+        $data = array_map(function (CarModification $modification) {
+
+            return [
+                'id' => $modification->getId(),
+                'text' => $modification->getDisplayName(),
+            ];
+        }, (array) $paginator->getCurrentPageResults());
+
+        return $this->json(['results' => $data]);
     }
 }

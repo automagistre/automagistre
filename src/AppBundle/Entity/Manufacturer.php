@@ -56,6 +56,16 @@ class Manufacturer
         $this->name = $name;
     }
 
+    public function getLogo(): ?string
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(string $logo): void
+    {
+        $this->logo = $logo;
+    }
+
     public function __toString(): string
     {
         return (string) $this->getName();

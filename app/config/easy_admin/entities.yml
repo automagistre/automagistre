@@ -100,13 +100,21 @@ easy_admin:
                     - { property: 'gosnomer', label: 'Гос. Номер' }
             form:
                 fields:
+                    -
+                        property: 'client'
+                        label: 'Владелец'
+                        type: 'easyadmin_autocomplete'
+                        help: 'Фамилия, Имя, Телефон, E-mail'
+                    -
+                        property: 'carModification'
+                        label: 'Модель'
+                        type: 'easyadmin_autocomplete'
+                        help: 'Проивзодитель, Модель, Поколение, Комплектация, Лошадинные силы'
+                    - { property: 'gosnomer', label: 'Гос. Номер' }
                     - { property: 'description', label: 'Описание' }
-                    - { property: 'carModification', label: 'Модель', type: 'easyadmin_autocomplete' }
             new:
                 fields:
-                    - { property: 'client', label: 'Владелец', type: 'easyadmin_autocomplete' }
                     - { property: 'vin', label: 'VIN' }
-                    - { property: 'gosnomer', label: 'Гос. Номер' }
 
         Part:
             class: AppBundle\Entity\Part
@@ -128,6 +136,8 @@ easy_admin:
         Motion:
             class: AppBundle\Entity\Motion
             disabled_actions: ['show', 'edit', 'new', 'search']
+
+
         Manufacturer:
             class: AppBundle\Entity\Manufacturer
             disabled_actions: ['show']
@@ -138,9 +148,11 @@ easy_admin:
                 title: 'Производители'
                 fields:
                     - { property: 'name', label: 'Название' }
+                    - { property: 'logo', label: 'Logo' }
             form:
                 fields:
                     - { property: 'name', label: 'Название' }
+                    - { property: 'logo', label: 'Logo' }
 
         Model:
             class: AppBundle\Entity\CarModel
@@ -149,6 +161,7 @@ easy_admin:
             list:
                 title: 'Производители'
                 fields:
+                    - { property: 'manufacturer', label: 'Производитель' }
                     - { property: 'name', label: 'Название' }
             form:
                 fields:
@@ -160,7 +173,7 @@ easy_admin:
             list:
                 title: 'Поколения'
                 fields:
-                    - { property: 'carModel', label: 'Модель' }
+                    - { property: 'carModel.displayName', label: 'Модель' }
                     - { property: 'name', label: 'Название' }
             form:
                 fields:
@@ -175,6 +188,7 @@ easy_admin:
                 fields:
                     - { property: 'carGeneration', label: 'Поколение' }
                     - { property: 'name', label: 'Название' }
+                    - { property: 'case.name', label: 'Кузов' }
                     - { property: 'hp', label: 'л.с.' }
                     - { property: 'doors', label: 'Дверей' }
                     - { property: 'from', label: 'С', type: 'string' }
@@ -186,6 +200,7 @@ easy_admin:
                 fields:
                     - { property: 'carGeneration', label: 'Поколение', type: 'easyadmin_autocomplete' }
                     - { property: 'name', label: 'Название' }
+                    - { property: 'case', type: AppBundle\Form\Type\CarcaseType, label: 'Кузов' }
                     - { property: 'hp', label: 'л.с.' }
                     - { property: 'doors', label: 'Дверей' }
                     - { property: 'from', label: 'С' }

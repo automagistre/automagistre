@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Enum\Carcase;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -35,6 +36,15 @@ class CarModification
      * @ORM\Column(name="name", length=30)
      */
     private $name;
+
+    /**
+     * @var int
+     *
+     * @Assert\Type("int")
+     *
+     * @ORM\Column(name="`case`", type="smallint", nullable=true)
+     */
+    private $case;
 
     /**
      * @var int
@@ -98,6 +108,16 @@ class CarModification
     public function getName(): ?string
     {
         return $this->name;
+    }
+
+    public function getCase(): ?Carcase
+    {
+        return $this->case ? new Carcase($this->case) : null;
+    }
+
+    public function setCase(Carcase $case): void
+    {
+        $this->case = $case->getId();
     }
 
     public function getCarGeneration(): ?CarGeneration

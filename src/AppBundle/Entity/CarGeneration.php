@@ -24,7 +24,7 @@ class CarGeneration
      *
      * @Assert\NotBlank()
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Carmodel")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CarModel")
      * @ORM\JoinColumn(nullable=false)
      */
     private $carModel;

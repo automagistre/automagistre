@@ -9,5 +9,7 @@ easy_admin:
             - { entity: 'Part', label: 'Запчасти', icon: 'cogs' }
             - { entity: 'Motion', label: 'Движения', icon: 'truck' }
             - { label: 'Справочники' }
-            - { entity: 'Manufacturer', label: 'Производители', icon: 'industry' }
-            - { entity: 'Modification', label: 'Автомобили', icon: 'car' }
+            - { entity: 'Manufacturer', label: 'Производитель', icon: 'industry' }
+            - { entity: 'Model', label: 'Модель', icon: 'car' }
+            - { entity: 'Generation', label: 'Поколение', icon: 'car' }
+            - { entity: 'Modification', label: 'Модификация', icon: 'car' }
