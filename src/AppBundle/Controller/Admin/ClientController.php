@@ -51,15 +51,15 @@ final class ClientController extends AdminController
         $data = array_map(function (Client $client) use ($phoneUtils) {
             $person = $client->getPerson();
 
-            $PhoneNumber = $phoneUtils->parse($person->getTelephone(), 'RU');
+            $formattedTelephone = '';
+            if ($tel = $person->getTelephone() ?: $person->getOfficePhone()) {
+                $PhoneNumber = $phoneUtils->parse($tel, 'RU');
+                $formattedTelephone = $phoneUtils->format($PhoneNumber, PhoneNumberFormat::INTERNATIONAL);
+            }
 
             return [
                 'id' => $client->getId(),
-                'text' => sprintf(
-                    '%s %s',
-                    $person->getFullName(),
-                    $phoneUtils->format($PhoneNumber, PhoneNumberFormat::INTERNATIONAL)
-                ),
+                'text' => sprintf('%s %s', $person->getFullName(), $formattedTelephone),
             ];
         }, (array) $paginator->getCurrentPageResults());
 
