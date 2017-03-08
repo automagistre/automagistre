@@ -553,6 +553,15 @@ class Version20170223211957 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_65B35B938D9F6D38 ON part_item (order_id)');
         $this->addSql('CREATE INDEX IDX_65B35B938880E5C5 ON part_item (job_item_id)');
         $this->addSql('CREATE INDEX IDX_65B35B93D5296D14 ON part_item (job_advice_id)');
+
+        /* Format telephones */
+        $this->addSql('
+            UPDATE person SET telephone = replace(replace(replace(replace(replace(TRIM(replace(telephone, CHAR(9), \'\')), \'-\', \'\'), \')\', \'\'), \'(\', \'\'), \'+7\', \'\'), \' \', \'\');
+            UPDATE person SET telephone = SUBSTRING(telephone, 2) WHERE 11 = LENGTH(telephone) AND telephone LIKE \'8%\';
+            UPDATE person SET telephone = NULL WHERE 0 = LENGTH(telephone);
+            UPDATE person SET office_phone = NULL WHERE 0 = LENGTH(office_phone);
+            UPDATE person SET telephone = concat(\'495\', telephone) WHERE 7 = LENGTH(telephone);        
+        ');
     }
 
     /**

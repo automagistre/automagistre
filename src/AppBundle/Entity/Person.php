@@ -164,6 +164,6 @@ class Person
 
     public function __toString(): string
     {
-        return sprintf('%s (%s)', $this->getFullName(), $this->getTelephone());
+        return sprintf('%s (%s)', $this->getFullName(), $this->getTelephone() ?: $this->getOfficePhone());
     }
 }

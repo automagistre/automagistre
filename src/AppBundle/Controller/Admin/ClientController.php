@@ -4,6 +4,7 @@ namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Client;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
+use libphonenumber\PhoneNumberFormat;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -45,11 +46,20 @@ final class ClientController extends AdminController
         $qb = $this->createSearchQueryBuilder($query->get('entity'), $query->get('query'), []);
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
+        $phoneUtils = $this->get('libphonenumber.phone_number_util');
 
-        $data = array_map(function (Client $client) {
+        $data = array_map(function (Client $client) use ($phoneUtils) {
+            $person = $client->getPerson();
+
+            $PhoneNumber = $phoneUtils->parse($person->getTelephone(), 'RU');
+
             return [
                 'id' => $client->getId(),
-                'text' => (string) $client,
+                'text' => sprintf(
+                    '%s %s',
+                    $person->getFullName(),
+                    $phoneUtils->format($PhoneNumber, PhoneNumberFormat::INTERNATIONAL)
+                ),
             ];
         }, (array) $paginator->getCurrentPageResults());
 
