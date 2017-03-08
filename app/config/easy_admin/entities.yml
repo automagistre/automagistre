@@ -14,7 +14,6 @@ easy_admin:
                     - { property: 'status.readableName', label: 'Статус' }
                     - { property: 'startedAt', label: 'Дата начала', type: 'datetime' }
                     - { property: 'car', label: 'Автомобиль', template: 'easy_admin/order/field_car.html.twig' }
-                    - { property: 'car.gosnomer', label: 'Госномер', template: 'easy_admin/car/field_gosnomer_img.html.twig' }
                     - { property: 'client', label: 'Клиент' }
                     - { property: 'readableCosts', label: 'Работы/Запчасти' }
             form:
