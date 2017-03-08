@@ -11,6 +11,6 @@ console doctrine:schema:validate --skip-sync
 console lint:yaml app
 console lint:yaml src
 
-phpstan analyse --level 5 app/AppKernel.php web/app.php src
+#phpstan analyse --level 5 app/AppKernel.php web/app.php src
 
 #phpunit
