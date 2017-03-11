@@ -43,7 +43,7 @@ class JobItem
     /**
      * @var Order
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Order", inversedBy="jobs")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Order")
      * @ORM\JoinColumn()
      */
     private $order;

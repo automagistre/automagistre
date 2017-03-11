@@ -23,16 +23,16 @@ class Order
     private $id;
 
     /**
-     * @var JobItem[]|ArrayCollection
+     * @var Service[]|ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\JobItem", mappedBy="order")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\OrderService", mappedBy="order", cascade={"persist"})
      */
-    private $jobs;
+    private $services;
 
     /**
-     * @var PartItem[]|ArrayCollection
+     * @var OrderPart[]|ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\PartItem", mappedBy="order")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\OrderPart", mappedBy="order", cascade={"persist"})
      */
     private $parts;
 
@@ -146,7 +146,7 @@ class Order
     public function __construct()
     {
         $this->status = OrderStatus::DRAFT;
-        $this->jobs = new ArrayCollection();
+        $this->services = new ArrayCollection();
         $this->parts = new ArrayCollection();
     }
 
@@ -159,27 +159,37 @@ class Order
     }
 
     /**
-     * @return JobItem[]|ArrayCollection
+     * @return OrderService[]|ArrayCollection
      */
-    public function getJobs()
+    public function getServices()
     {
-        return $this->jobs;
+        return $this->services;
     }
 
     /**
-     * @param JobItem[]|ArrayCollection $jobs
+     * @param OrderService $service
      */
-    public function setJobs($jobs)
+    public function addService(OrderService $service)
     {
-        $this->jobs = $jobs;
+        $service->setOrder($this);
+        $this->services[] = $service;
     }
 
     /**
-     * @return PartItem[]|ArrayCollection
+     * @return OrderPart[]|ArrayCollection
      */
     public function getParts()
     {
         return $this->parts;
+    }
+
+    /**
+     * @param OrderPart $part
+     */
+    public function addPart(OrderPart $part)
+    {
+        $part->setOrder($this);
+        $this->parts[] = $part;
     }
 
     /**
@@ -220,14 +230,6 @@ class Order
     public function getNotes()
     {
         return $this->notes;
-    }
-
-    /**
-     * @param PartItem[]|ArrayCollection $parts
-     */
-    public function addParts(PartItem $parts)
-    {
-        $this->parts[] = $parts;
     }
 
     /**
@@ -277,11 +279,11 @@ class Order
         return new OrderStatus($this->status);
     }
 
-    public function jobsCost(): int
+    public function servicesCost(): int
     {
         $total = 0;
-        foreach ($this->jobs as $job) {
-            $total += $job->getCost();
+        foreach ($this->services as $service) {
+            $total += $service->getCost();
         }
 
         return $total;
@@ -299,6 +301,6 @@ class Order
 
     public function readableCosts(): string
     {
-        return sprintf('%d / %d', $this->jobsCost(), $this->partsCost());
+        return sprintf('%d / %d', $this->servicesCost(), $this->partsCost());
     }
 }

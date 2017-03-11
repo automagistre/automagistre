@@ -26,4 +26,9 @@ class User
      * @ORM\JoinColumn()
      */
     private $person;
+
+    public function getFullName(): string
+    {
+        return $this->person->getFullName();
+    }
 }

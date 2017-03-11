@@ -567,6 +567,54 @@ class Version20170223211957 extends AbstractMigration
             UPDATE person SET office_phone = NULL WHERE 0 = LENGTH(office_phone);
             UPDATE person SET telephone = concat(\'495\', telephone) WHERE 7 = LENGTH(telephone);        
         ');
+
+        /* Create services */
+        $this->addSql('
+            CREATE TABLE service (
+              id   INT AUTO_INCREMENT NOT NULL,
+              name VARCHAR(255)       NOT NULL,
+              UNIQUE INDEX UNIQ_E19D9AD25E237E06 (name),
+              PRIMARY KEY (id)
+            ) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;            
+            
+            CREATE TABLE order_part (
+              id       INT AUTO_INCREMENT NOT NULL,
+              order_id INT DEFAULT NULL,
+              part_id  INT DEFAULT NULL,
+              quantity INT                NOT NULL,
+              cost     INT                NOT NULL,
+              INDEX IDX_4FE4AD18D9F6D38 (order_id),
+              INDEX IDX_4FE4AD14CE34BEC (part_id),
+              PRIMARY KEY (id)
+            ) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
+            
+            CREATE TABLE order_service (
+              id         INT AUTO_INCREMENT NOT NULL,
+              order_id   INT DEFAULT NULL,
+              service_id INT DEFAULT NULL,
+              user_id    INT DEFAULT NULL,
+              cost INT NOT NULL, 
+              INDEX IDX_17E733998D9F6D38 (order_id), 
+              INDEX IDX_17E73399ED5CA9E6 (service_id), 
+              INDEX IDX_17E73399A76ED395 (user_id), 
+              PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
+
+            ALTER TABLE order_part ADD CONSTRAINT FK_4FE4AD18D9F6D38 FOREIGN KEY (order_id) REFERENCES orders (id);
+            ALTER TABLE order_part ADD CONSTRAINT FK_4FE4AD14CE34BEC FOREIGN KEY (part_id) REFERENCES part (id);
+            ALTER TABLE order_service ADD CONSTRAINT FK_17E733998D9F6D38 FOREIGN KEY (order_id) REFERENCES orders (id);
+            ALTER TABLE order_service ADD CONSTRAINT FK_17E73399ED5CA9E6 FOREIGN KEY (service_id) REFERENCES service (id);
+            ALTER TABLE order_service ADD CONSTRAINT FK_17E73399A76ED395 FOREIGN KEY (user_id) REFERENCES users (id);
+
+            INSERT INTO service (name)
+              SELECT DISTINCT name FROM job_item;
+
+            INSERT INTO order_service (order_id, service_id, user_id, cost)
+                SELECT j.order_id, service.id, j.user_id, j.cost FROM job_item j
+                LEFT JOIN service ON j.name = service.name;
+
+            INSERT INTO order_part (order_id, part_id, quantity, cost)
+              SELECT p.order_id, p.part_id, p.qty, COALESCE(p.cost, 0) FROM part_item p;
+        ');
     }
 
     /**

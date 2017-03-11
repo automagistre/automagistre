@@ -65,7 +65,7 @@ class PartItem
     /**
      * @var Order
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Order", inversedBy="parts")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Order")
      * @ORM\JoinColumn()
      */
     private $order;
@@ -160,7 +160,7 @@ class PartItem
     /**
      * @return string
      */
-    public function getCost(): string
+    public function getCost(): ?string
     {
         return $this->cost;
     }

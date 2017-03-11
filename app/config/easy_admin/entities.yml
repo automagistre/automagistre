@@ -19,11 +19,28 @@ easy_admin:
                     - { property: 'readableCosts', label: 'Работы/Запчасти' }
             form:
                 fields:
+                    - { type: 'group', label: 'Основная информация', css_class: 'col-sm-6' }
                     - { property: 'client', label: 'Клиент', type: 'easyadmin_autocomplete' }
                     - { property: 'car', label: 'Автомобиль', type: 'easyadmin_autocomplete' }
-                    - { property: 'parts', label: 'Запчасти', type: 'easyadmin_autocomplete' }
-                    - { property: 'jobs', label: 'Работы', type: 'easyadmin_autocomplete' }
+                    - { property: 'mileage', label: 'Пробег' }
+
+
+                    - { type: 'group', label: 'Описание', css_class: 'col-sm-6' }
                     - { property: 'description', label: 'Описание', type: 'ckeditor' }
+
+                    - { type: 'group', label: 'Запчасти', css_class: 'col-sm-6' }
+                    -
+                        property: 'parts'
+                        label: 'Запчасти'
+                        type: 'collection'
+                        type_options: { entry_type: AppBundle\Form\Type\OrderPartType }
+
+                    - { type: 'group', label: 'Сервис', css_class: 'col-sm-6' }
+                    -
+                        property: 'services'
+                        label: 'Работы'
+                        type: 'collection'
+                        type_options: { entry_type: AppBundle\Form\Type\OrderServiceType }
             show:
                 fields:
                     - { property: 'id' }
@@ -43,6 +60,9 @@ easy_admin:
             class: AppBundle\Entity\PartItem
         Jobitem:
             class: AppBundle\Entity\JobItem
+        Service:
+            class: AppBundle\Entity\Service
+            controller: AppBundle\Controller\Admin\ServiceController
 
         Client:
             class: AppBundle\Entity\Client
@@ -121,6 +141,7 @@ easy_admin:
 
         Part:
             class: AppBundle\Entity\Part
+            controller: AppBundle\Controller\Admin\PartController
             label: 'Запчасти'
             list:
                 fields:

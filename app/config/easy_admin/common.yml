@@ -3,6 +3,7 @@ easy_admin:
     disabled_actions: ['delete']
     design:
         color_scheme: 'light'
+        form_theme: 'vertical'
         assets:
             js:
                 - 'assets/js/collection-autocomplete.js'
