@@ -3,6 +3,9 @@ easy_admin:
     disabled_actions: ['delete']
     design:
         color_scheme: 'light'
+        assets:
+            js:
+                - 'assets/js/collection-autocomplete.js'
     formats:
         date: 'd.m.Y'
         time: 'H:i'
