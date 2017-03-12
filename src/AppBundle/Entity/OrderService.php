@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,6 +36,13 @@ class OrderService
     private $service;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     */
+    private $cost;
+
+    /**
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
@@ -43,11 +51,16 @@ class OrderService
     private $user;
 
     /**
-     * @var int
+     * @var OrderPart[]|ArrayCollection
      *
-     * @ORM\Column(type="integer")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\OrderPart", mappedBy="orderService")
      */
-    private $cost;
+    private $orderParts;
+
+    public function __construct()
+    {
+        $this->orderParts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -96,6 +109,21 @@ class OrderService
     public function setCost(int $cost): void
     {
         $this->cost = $cost;
+    }
+
+    public function getOrderParts()
+    {
+        return $this->orderParts;
+    }
+
+    public function addOrderPart(OrderPart $orderPart): void
+    {
+        $this->orderParts[] = $orderPart;
+    }
+
+    public function removeOrderPart(OrderPart $orderPart): void
+    {
+        $this->orderParts->remove($orderPart);
     }
 
     public function __toString(): string

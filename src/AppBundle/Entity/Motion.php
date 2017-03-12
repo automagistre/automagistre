@@ -36,12 +36,12 @@ class Motion
     private $reserve;
 
     /**
-     * @var PartItem
+     * @var Part
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\PartItem")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Part")
      * @ORM\JoinColumn()
      */
-    private $partItem;
+    private $part;
 
     /**
      * @var string

@@ -56,10 +56,6 @@ easy_admin:
                 title: 'Создать заказ'
         Jobs:
             class: AppBundle\Entity\JobAdvice
-        Partitem:
-            class: AppBundle\Entity\PartItem
-        Jobitem:
-            class: AppBundle\Entity\JobItem
         Service:
             class: AppBundle\Entity\Service
             controller: AppBundle\Controller\Admin\ServiceController

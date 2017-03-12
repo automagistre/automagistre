@@ -48,6 +48,14 @@ class OrderPart
      */
     private $cost;
 
+    /**
+     * @var OrderService
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\OrderService", inversedBy="orderParts")
+     * @ORM\JoinColumn()
+     */
+    private $orderService;
+
     public function getId(): int
     {
         return $this->id;
@@ -95,5 +103,15 @@ class OrderPart
     public function setCost(int $cost): void
     {
         $this->cost = $cost;
+    }
+
+    public function getOrderService(): OrderService
+    {
+        return $this->orderService;
+    }
+
+    public function setOrderService(OrderService $orderService): void
+    {
+        $this->orderService = $orderService;
     }
 }

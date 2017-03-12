@@ -25,6 +25,7 @@ final class OrderStatus extends Enum
     protected static $color = [
         self::DRAFT => 'default',
         self::SCHEDULING => 'info',
+        self::ORDERING => 'info',
         self::TRACKING => 'default',
         self::NOTIFICATION => 'warning',
         self::WORKING => 'success',
@@ -35,6 +36,7 @@ final class OrderStatus extends Enum
     protected static $name = [
         self::DRAFT => 'Черновик',
         self::SCHEDULING => 'Ожидание по записи',
+        self::ORDERING => 'Заказ запчастей',
         self::TRACKING => 'Ожидание запчастей',
         self::NOTIFICATION => 'Уведомление клиента',
         self::WORKING => 'В работе',
