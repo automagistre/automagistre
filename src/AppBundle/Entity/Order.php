@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use AppBundle\Entity\Enum\OrderStatus;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -302,5 +303,28 @@ class Order
     public function readableCosts(): string
     {
         return sprintf('%d / %d', $this->servicesCost(), $this->partsCost());
+    }
+
+    public function linkOrderToParts(): void
+    {
+        $criteria = Criteria::create()->where(Criteria::expr()->isNull('order'));
+
+        $this->getParts()->matching($criteria)->map(function (OrderPart $part) {
+            $part->setOrder($this);
+        });
+    }
+
+    public function linkOrderToServices(): void
+    {
+        $criteria = Criteria::create()->where(Criteria::expr()->isNull('order'));
+
+        $this->getServices()->matching($criteria)->map(function (OrderService $service) {
+            $service->setOrder($this);
+
+            $criteria = Criteria::create()->where(Criteria::expr()->isNull('orderService'));
+            $service->getOrderParts()->matching($criteria)->map(function (OrderPart $orderPart) use ($service) {
+                $orderPart->setOrderService($service);
+            });
+        });
     }
 }

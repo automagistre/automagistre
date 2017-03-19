@@ -3,9 +3,6 @@
 namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Order;
-use AppBundle\Entity\OrderPart;
-use AppBundle\Entity\OrderService;
-use Doctrine\Common\Collections\Criteria;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
 
 /**
@@ -13,35 +10,6 @@ use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
  */
 final class OrderController extends AdminController
 {
-    /**
-     * @param Order $entity
-     */
-    protected function prePersistEntity($entity): void
-    {
-        $this->setOrderToPartsAndServices($entity);
-    }
-
-    /**
-     * @param Order $entity
-     */
-    protected function preUpdateEntity($entity): void
-    {
-        $this->setOrderToPartsAndServices($entity);
-    }
-
-    private function setOrderToPartsAndServices(Order $order): void
-    {
-        $criteria = Criteria::create()->where(Criteria::expr()->isNull('order'));
-
-        $order->getServices()->matching($criteria)->map(function (OrderService $service) use ($order) {
-            $service->setOrder($order);
-        });
-
-        $order->getParts()->matching($criteria)->map(function (OrderPart $part) use ($order) {
-            $part->setOrder($order);
-        });
-    }
-
     protected function createSearchQueryBuilder(
         $entityClass,
         $searchQuery,
@@ -87,5 +55,27 @@ final class OrderController extends AdminController
         }
 
         return parent::isActionAllowed($actionName);
+    }
+
+    /**
+     * @param Order $entity
+     */
+    protected function prePersistEntity($entity): void
+    {
+        $this->preSave($entity);
+    }
+
+    /**
+     * @param Order $entity
+     */
+    protected function preUpdateEntity($entity): void
+    {
+        $this->preSave($entity);
+    }
+
+    private function preSave(Order $order): void
+    {
+        $order->linkOrderToParts();
+        $order->linkOrderToServices();
     }
 }
