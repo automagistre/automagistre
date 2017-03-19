@@ -11,7 +11,7 @@ pipeline:
         c3ee06974e5baedce32c086d3fade699  .drone.env
         ce7587933f230a57d9d003b2d38a5192  .drone.ssh
         17fed050509b090679c67837e57e1f1f  docker/docker-entrypoint.sh
-        cacf147939e07fd377a268c18937d270  docker/Dockerfile
+        51376025c4529f4c1c7b0dc6c1eee111  docker/Dockerfile
         MD5LIST
 
   build:
