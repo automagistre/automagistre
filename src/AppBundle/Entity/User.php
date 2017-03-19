@@ -31,4 +31,9 @@ class User
     {
         return $this->person->getFullName();
     }
+
+    public function __toString(): string
+    {
+        return $this->getFullName();
+    }
 }
