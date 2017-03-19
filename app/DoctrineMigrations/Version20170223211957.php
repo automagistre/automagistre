@@ -508,9 +508,11 @@ class Version20170223211957 extends AbstractMigration
             LEFT JOIN service ON j.name = service.name');
 
         $this->addSql('INSERT INTO order_part (order_id, part_id, quantity, cost, order_service_id)
-            SELECT p.`_order_id`, p.part_id, p.qty, COALESCE(p.cost, 0), service.id FROM partitem p
+            SELECT p.`_order_id`, p.part_id, p.qty, COALESCE(p.cost, 0), order_service.id FROM partitem p
             LEFT JOIN jobitem ON jobitem.id = p.jobitem_id
-            LEFT JOIN service ON service.name = jobitem.name');
+            LEFT JOIN service ON service.name = jobitem.name
+            LEFT JOIN order_service ON order_service.order_id = p.`_order_id` AND order_service.service_id = service.id 
+        ');
 
         $this->addSql('DROP TABLE jobitem');
         $this->addSql('DROP TABLE partitem');
