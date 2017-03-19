@@ -15,4 +15,14 @@ class OrderOrganization extends Order
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Organization")
      */
     protected $customer;
+
+    public function getCustomer(): ?Organization
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(Organization $customer): void
+    {
+        $this->customer = $customer;
+    }
 }

@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @property CustomerInterface $customer
+ * @method CustomerInterface getCustomer()
  *
  * @ORM\Table(name="orders")
  * @ORM\Entity
@@ -162,16 +162,6 @@ abstract class Order
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function setCustomer(CustomerInterface $customer): void
-    {
-        $this->{'customer'} = $customer;
-    }
-
-    public function getCustomer(): ?CustomerInterface
-    {
-        return $this->{'customer'};
     }
 
     /**
