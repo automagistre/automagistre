@@ -4,6 +4,8 @@ namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Order;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
+use JavierEguiluz\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -63,6 +65,17 @@ final class OrderController extends AdminController
     protected function prePersistEntity($entity): void
     {
         $this->preSave($entity);
+
+        $this->get('event_dispatcher')->addListener(EasyAdminEvents::POST_PERSIST, function (GenericEvent $event) {
+            /** @var Order $entity */
+            $entity = $event->getArgument('entity');
+
+            $this->request->query->set('referer', $this->generateUrl('easyadmin', [
+                'entity' => 'Order',
+                'action' => 'show',
+                'id' => $entity->getId(),
+            ]));
+        });
     }
 
     /**
