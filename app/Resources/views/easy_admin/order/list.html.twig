@@ -20,19 +20,25 @@
                 </div>
 
                 <div class="modal-body text-center">
-                    <a href="{{ path('easyadmin', {
-                        'entity': 'OrderOrganization',
-                        'action': 'new'
-                    }) }}" class="btn btn-primary">
-                        <i class="fa fa-industry"></i> Юридическое лицо
-                    </a>
+                    <div class="row">
+                        <div class="col-md-6 col-xs-12" style="padding-top: 10px">
+                            <a href="{{ path('easyadmin', {
+                                'entity': 'OrderOrganization',
+                                'action': 'new'
+                            }) }}" class="btn btn-primary">
+                                <i class="fa fa-industry"></i> Юридическое лицо
+                            </a>
+                        </div>
 
-                    <a href="{{ path('easyadmin', {
-                        'entity': 'OrderPerson',
-                        'action': 'new'
-                    }) }}" class="btn btn-primary">
-                        <i class="fa fa-user"></i> Физическое лицо
-                    </a>
+                        <div class="col-md-6 col-xs-12" style="padding-top: 10px">
+                            <a href="{{ path('easyadmin', {
+                                'entity': 'OrderPerson',
+                                'action': 'new'
+                            }) }}" class="btn btn-primary">
+                                <i class="fa fa-user"></i> Физическое лицо
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
