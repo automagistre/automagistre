@@ -194,6 +194,16 @@ class Order
     }
 
     /**
+     * @return OrderPart[]|ArrayCollection
+     */
+    public function getRootParts()
+    {
+        $criteria = Criteria::create()->where(Criteria::expr()->isNull('orderService'));
+
+        return $this->parts->matching($criteria);
+    }
+
+    /**
      * @return Car
      */
     public function getCar(): ?Car

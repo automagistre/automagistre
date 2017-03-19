@@ -111,6 +111,13 @@ class OrderService
         $this->cost = $cost;
     }
 
+    public function getPartsCost(): int
+    {
+        return array_sum($this->orderParts->map(function (OrderPart $part) {
+            return $part->getTotalCost();
+        })->toArray());
+    }
+
     public function getOrderParts()
     {
         return $this->orderParts;

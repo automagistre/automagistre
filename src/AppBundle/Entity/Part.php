@@ -117,14 +117,30 @@ class Part
         $this->manufacturer = $manufacturer;
     }
 
-    public function getPartname(): ?string
+    public function getName(): ?string
     {
         return $this->partname;
     }
 
+    public function setName(string $name): void
+    {
+        $this->partname = $name;
+    }
+
+    /**
+     * @deprecated
+     */
+    public function getPartname(): ?string
+    {
+        return $this->getName();
+    }
+
+    /**
+     * @deprecated
+     */
     public function setPartname(string $partname)
     {
-        $this->partname = $partname;
+        $this->setName($partname);
     }
 
     public function getPartnumber(): ?string
@@ -159,6 +175,6 @@ class Part
 
     public function __toString(): string
     {
-        return (string) $this->getPartname();
+        return (string) $this->getName();
     }
 }

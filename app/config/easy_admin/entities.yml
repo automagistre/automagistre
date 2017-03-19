@@ -4,8 +4,7 @@ easy_admin:
             class: AppBundle\Entity\Order
             controller: AppBundle\Controller\Admin\OrderController
             templates:
-                list: 'easy_admin/order/list.html.twig'
-                new: 'easy_admin/order/new.html.twig'
+                show: 'easy_admin/order/show.html.twig'
             label: 'Заказ'
             list:
                 title: 'Заказы'
@@ -24,23 +23,8 @@ easy_admin:
                     - { property: 'car', label: 'Автомобиль', type: 'easyadmin_autocomplete' }
                     - { property: 'mileage', label: 'Пробег' }
 
-
                     - { type: 'group', label: 'Описание', css_class: 'col-sm-6' }
                     - { property: 'description', label: 'Описание', type: 'ckeditor' }
-
-                    - { type: 'group', label: 'Запчасти', css_class: 'col-sm-6' }
-                    -
-                        property: 'parts'
-                        label: 'Запчасти'
-                        type: 'collection'
-                        type_options: { entry_type: AppBundle\Form\Type\OrderPartType }
-
-                    - { type: 'group', label: 'Сервис', css_class: 'col-sm-6' }
-                    -
-                        property: 'services'
-                        label: 'Работы'
-                        type: 'collection'
-                        type_options: { entry_type: AppBundle\Form\Type\OrderServiceType }
             show:
                 fields:
                     - { property: 'id' }

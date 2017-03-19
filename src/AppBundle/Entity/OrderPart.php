@@ -105,6 +105,11 @@ class OrderPart
         $this->cost = $cost;
     }
 
+    public function getTotalCost(): int
+    {
+        return $this->getCost() * $this->getQuantity();
+    }
+
     public function getOrderService(): OrderService
     {
         return $this->orderService;
