@@ -20,7 +20,9 @@
 
                                 <div class="col-sm-10">
                                     <div class="form-control">
-                                        {{ entity.client.person.fullName }}
+                                        {% if entity.client is not empty %}
+                                            {{ entity.client.person.fullName }}
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -78,6 +80,26 @@
             </div>
         </div>
 
+        {% if entity.editable %}
+            <div class="row">
+                <div class="col-xs-12">
+                    <a href="{{ path('easyadmin', {
+                        'entity': 'OrderService',
+                        'action': 'new',
+                        'order_id': entity.id,
+                        'referer': app.request.uri
+                    }) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Работа</a>
+
+                    <a href="{{ path('easyadmin', {
+                        'entity': 'OrderPart',
+                        'action': 'new',
+                        'order_id': entity.id,
+                        'referer': app.request.uri
+                    }) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Запчасть</a>
+                </div>
+            </div>
+        {% endif %}
+
         <div class="row">
             <div class="col-xs-12">
                 <div class="table-responsive">
@@ -89,36 +111,88 @@
                             <th>Цена</th>
                             <th>Итого</th>
                             <th>Склад</th>
+                            {% if entity.editable %}
+                                <th></th>
+                            {% endif %}
                         </tr>
                         </thead>
                         <tbody>
                         {% for part in entity.rootParts %}
                             <tr>
-                                <td><i class="fa fa-cog" aria-hidden="true"></i> {{ part.part.name }}</td>
+                                <td>
+                                    <a href="{{ easyadmin_entity_path(part.part) }}">
+                                        <i class="fa fa-barcode" aria-hidden="true"></i>
+                                    </a>
+                                    {{ part.part.name }}
+                                </td>
                                 <td>{{ part.part.partnumber }}</td>
                                 <td>{{ part.quantity }} * {{ part.cost }}</td>
                                 <td>{{ part.totalCost }}</td>
                                 <td>-</td>
+                                {% if entity.editable %}
+                                    <td>
+                                        <a href="{{ easyadmin_entity_path(part) }}">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    </td>
+                                {% endif %}
                             </tr>
                         {% endfor %}
+
                         {% for service in entity.services %}
                             <tr>
-                                <td><i class="fa fa-wrench" aria-hidden="true"></i> {{ service.service.name }}</td>
+                                <td>
+                                    <a href="{{ easyadmin_entity_path(service.service) }}">
+                                        <i class="fa fa-wrench" aria-hidden="true"></i>
+                                    </a>
+
+                                    {{ service.service.name }}
+
+                                    {% if entity.editable %}
+                                        <a href="{{ path('easyadmin', {
+                                            'entity': 'OrderPart',
+                                            'action': 'new',
+                                            'order_id': entity.id,
+                                            'order_service_id': service.id,
+                                            'referer': app.request.uri
+                                        }) }}">
+                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                        </a>
+                                    {% endif %}
+                                </td>
                                 <td>{{ service.user }}</td>
                                 <td></td>
                                 <td>{{ service.cost }} / {{ service.partsCost }}</td>
                                 <td>-</td>
+                                {% if entity.editable %}
+                                    <td>
+                                        <a href="{{ easyadmin_entity_path(service) }}">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    </td>
+                                {% endif %}
+
                                 {% for part in service.orderParts %}
                                     {# @var part \AppBundle\Entity\OrderPart #}
                                     {{ '</tr><tr>' }}
 
                                     <td style="padding-left: 40px">
-                                        <i class="fa fa-cog" aria-hidden="true"></i> {{ part.part.name }}
+                                        <a href="{{ easyadmin_entity_path(part.part) }}">
+                                            <i class="fa fa-barcode" aria-hidden="true"></i>
+                                        </a>
+                                        {{ part.part.name }}
                                     </td>
                                     <td>{{ part.part.partnumber }}</td>
                                     <td>{{ part.quantity }} * {{ part.cost }}</td>
                                     <td>{{ part.totalCost }}</td>
                                     <td>-</td>
+                                    {% if entity.editable %}
+                                        <td>
+                                            <a href="{{ easyadmin_entity_path(part) }}">
+                                                <i class="fa fa-pencil"></i>
+                                            </a>
+                                        </td>
+                                    {% endif %}
                                 {% endfor %}
                             </tr>
                         {% endfor %}

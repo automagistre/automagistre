@@ -3,6 +3,7 @@ easy_admin:
         Order:
             class: AppBundle\Entity\Order
             controller: AppBundle\Controller\Admin\OrderController
+            disabled_actions: ['delete']
             templates:
                 show: 'easy_admin/order/show.html.twig'
             label: 'Заказ'
@@ -38,6 +39,35 @@ easy_admin:
                     - { property: 'notes' }
             new:
                 title: 'Создать заказ'
+
+        OrderService:
+            class: AppBundle\Entity\OrderService
+            controller: AppBundle\Controller\Admin\OrderServiceController
+            disabled_actions: ['show']
+            edit:
+                actions: ['delete']
+            form:
+                fields:
+                    - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
+                    - { property: 'service', label: 'Работа', type: 'easyadmin_autocomplete' }
+                    - { property: 'cost', label: 'Стоимость' }
+                    - { property: 'user', label: 'Исполнитель', type: 'easyadmin_autocomplete' }
+        OrderPart:
+            class: AppBundle\Entity\OrderPart
+            controller: AppBundle\Controller\Admin\OrderPartController
+            disabled_actions: ['show']
+            edit:
+                actions: ['delete']
+            form:
+                fields:
+                    - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
+                    - { property: 'orderService', label: 'Работа', type: 'text', type_options: { disabled: true } }
+                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete' }
+                    - { property: 'cost', label: 'Стоимость' }
+                    - { property: 'quantity', label: 'Количество' }
+        User:
+            class: AppBundle\Entity\User
+
         Jobs:
             class: AppBundle\Entity\JobAdvice
         Service:
@@ -47,6 +77,7 @@ easy_admin:
         Client:
             class: AppBundle\Entity\Client
             controller: AppBundle\Controller\Admin\ClientController
+            disabled_actions: ['delete']
             list:
                 title: 'Пользователи'
                 fields:
@@ -79,6 +110,7 @@ easy_admin:
         Car:
             class: AppBundle\Entity\Car
             controller: AppBundle\Controller\Admin\CarController
+            disabled_actions: ['delete']
             label: 'Автомобили'
             search:
                 fields: ['gosnomer', 'vin']

@@ -1,6 +1,5 @@
 easy_admin:
     site_name: 'СТО Автомагистр'
-    disabled_actions: ['delete']
     design:
         color_scheme: 'light'
         form_theme: 'vertical'

@@ -56,7 +56,7 @@ class OrderPart
      */
     private $orderService;
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -110,7 +110,7 @@ class OrderPart
         return $this->getCost() * $this->getQuantity();
     }
 
-    public function getOrderService(): OrderService
+    public function getOrderService(): ?OrderService
     {
         return $this->orderService;
     }

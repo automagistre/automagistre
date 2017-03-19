@@ -4,6 +4,12 @@ parameters:
 #    parameter_name: value
 
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    app.twig.extension.easy_admin:
+        class: AppBundle\Twig\Extension\AppExtension
+        arguments:
+            - '@easyadmin.config.manager'
+            - '@router'
+            - '@request_stack'
+            - '@property_accessor'
+        tags:
+            - { name: twig.extension }

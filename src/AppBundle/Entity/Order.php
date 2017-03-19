@@ -315,6 +315,16 @@ class Order
         return sprintf('%d / %d', $this->servicesCost(), $this->partsCost());
     }
 
+    public function isEditable(): bool
+    {
+        return $this->getStatus()->isEditable();
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->getId();
+    }
+
     public function linkOrderToParts(): void
     {
         $criteria = Criteria::create()->where(Criteria::expr()->isNull('order'));

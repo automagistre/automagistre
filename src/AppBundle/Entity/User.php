@@ -27,6 +27,11 @@ class User
      */
     private $person;
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
     public function getFullName(): string
     {
         return $this->person->getFullName();
