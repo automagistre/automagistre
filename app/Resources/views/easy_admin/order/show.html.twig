@@ -83,6 +83,10 @@
         {% if entity.editable %}
             <div class="row">
                 <div class="col-xs-12">
+                    <a href="{{ easyadmin_entity_path(entity) }}" class="btn btn-primary">
+                        <i class="fa fa-pencil"></i> Редактировать
+                    </a>
+
                     <a href="{{ path('easyadmin', {
                         'entity': 'OrderService',
                         'action': 'new',
