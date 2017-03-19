@@ -1,4 +1,4 @@
-FROM php:7.1.1-apache
+FROM php:7.1.3-apache
 
 LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 
