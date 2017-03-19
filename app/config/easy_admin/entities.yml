@@ -3,8 +3,9 @@ easy_admin:
         Order:
             class: AppBundle\Entity\Order
             controller: AppBundle\Controller\Admin\OrderController
-            disabled_actions: ['delete']
+            disabled_actions: ['new', 'edit', 'delete']
             templates:
+                list: 'easy_admin/order/list.html.twig'
                 show: 'easy_admin/order/show.html.twig'
             label: 'Заказ'
             list:
@@ -17,26 +18,38 @@ easy_admin:
                     - { property: 'car', label: 'Автомобиль', template: 'easy_admin/order/field_car.html.twig' }
                     - { property: 'client', label: 'Клиент' }
                     - { property: 'readableCosts', label: 'Работы/Запчасти' }
+        OrderOrganization:
+            class: AppBundle\Entity\OrderOrganization
+            controller: AppBundle\Controller\Admin\OrderController
+            disabled_actions: ['show', 'edit', 'delete']
+            templates:
+                show: 'easy_admin/order/show.html.twig'
             form:
                 fields:
                     - { type: 'group', label: 'Основная информация', css_class: 'col-sm-6' }
-                    - { property: 'client', label: 'Клиент', type: 'easyadmin_autocomplete' }
+                    - { property: 'customer', label: 'Организация', type: 'easyadmin_autocomplete' }
                     - { property: 'car', label: 'Автомобиль', type: 'easyadmin_autocomplete' }
                     - { property: 'mileage', label: 'Пробег' }
 
                     - { type: 'group', label: 'Описание', css_class: 'col-sm-6' }
                     - { property: 'description', label: 'Описание', type: 'ckeditor' }
-            show:
+            new:
+                title: 'Создать заказ'
+        OrderPerson:
+            class: AppBundle\Entity\OrderPerson
+            controller: AppBundle\Controller\Admin\OrderController
+            disabled_actions: ['show', 'edit', 'delete']
+            templates:
+                show: 'easy_admin/order/show.html.twig'
+            form:
                 fields:
-                    - { property: 'id' }
-                    - { property: 'status.readableName' }
-                    - { property: 'startedAt', type: 'datetime' }
-                    - { property: 'car' }
-                    - { property: 'mileage' }
-                    - { property: 'client' }
-                    - { property: 'readableCosts' }
-                    - { property: 'description' }
-                    - { property: 'notes' }
+                    - { type: 'group', label: 'Основная информация', css_class: 'col-sm-6' }
+                    - { property: 'customer', label: 'Клиент', type: 'easyadmin_autocomplete' }
+                    - { property: 'car', label: 'Автомобиль', type: 'easyadmin_autocomplete' }
+                    - { property: 'mileage', label: 'Пробег' }
+
+                    - { type: 'group', label: 'Описание', css_class: 'col-sm-6' }
+                    - { property: 'description', label: 'Описание', type: 'ckeditor' }
             new:
                 title: 'Создать заказ'
 
@@ -106,6 +119,9 @@ easy_admin:
                     - { property: 'firstname', label: 'Имя' }
                     - { property: 'lastname', label: 'Фамилия' }
                     - { property: 'telephone', label: 'Телефон' }
+        Organization:
+            class: AppBundle\Entity\Organization
+            disabled_actions: ['show', 'delete']
 
         Car:
             class: AppBundle\Entity\Car

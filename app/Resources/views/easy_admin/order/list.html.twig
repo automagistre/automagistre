@@ -1,0 +1,40 @@
+{% extends '@EasyAdmin/default/list.html.twig' %}
+
+{% block global_actions %}
+    {{ parent() }}
+
+    <div class="button-action">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createOrderModal">
+            <i class="fa fa-plus"></i> Создать
+        </button>
+    </div>
+
+    <div class="modal fade" id="createOrderModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Выберите тип покупателя</h4>
+                </div>
+
+                <div class="modal-body text-center">
+                    <a href="{{ path('easyadmin', {
+                        'entity': 'OrderOrganization',
+                        'action': 'new'
+                    }) }}" class="btn btn-primary">
+                        <i class="fa fa-industry"></i> Юридическое лицо
+                    </a>
+
+                    <a href="{{ path('easyadmin', {
+                        'entity': 'OrderPerson',
+                        'action': 'new'
+                    }) }}" class="btn btn-primary">
+                        <i class="fa fa-user"></i> Физическое лицо
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

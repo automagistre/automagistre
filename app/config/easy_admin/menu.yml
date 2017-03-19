@@ -4,6 +4,7 @@ easy_admin:
             - { label: 'Журнал' }
             - { entity: 'Order', label: 'Заказы', icon: 'list' }
             - { entity: 'Client', label: 'Клиенты', icon: 'users' }
+            - { entity: 'Organization', label: 'Организации', icon: 'industry' }
             - { entity: 'Car', label: 'Автомобили', icon: 'car' }
             - { label: 'Склад' }
             - { entity: 'Part', label: 'Запчасти', icon: 'cogs' }

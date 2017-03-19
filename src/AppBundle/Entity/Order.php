@@ -9,10 +9,15 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @property CustomerInterface $customer
+ *
  * @ORM\Table(name="orders")
  * @ORM\Entity
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="customer_type", type="integer")
+ * @ORM\DiscriminatorMap({"1" = "\AppBundle\Entity\OrderPerson", "2" = "\AppBundle\Entity\OrderOrganization"})
  */
-class Order
+abstract class Order
 {
     /**
      * @var int
@@ -157,6 +162,16 @@ class Order
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setCustomer(CustomerInterface $customer): void
+    {
+        $this->{'customer'} = $customer;
+    }
+
+    public function getCustomer(): ?CustomerInterface
+    {
+        return $this->{'customer'};
     }
 
     /**

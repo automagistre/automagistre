@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * })
  * @ORM\Entity
  */
-class Person
+class Person implements CustomerInterface
 {
     /**
      * @var int
