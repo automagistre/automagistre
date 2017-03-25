@@ -62,7 +62,7 @@ easy_admin:
             form:
                 fields:
                     - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
-                    - { property: 'service', label: 'Работа', type: 'easyadmin_autocomplete' }
+                    - { property: 'service', label: 'Работа', type: 'easyadmin_autocomplete', type_options: { required: true } }
                     - { property: 'cost', label: 'Стоимость' }
                     - { property: 'user', label: 'Исполнитель', type: 'easyadmin_autocomplete' }
         OrderPart:
@@ -75,7 +75,7 @@ easy_admin:
                 fields:
                     - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
                     - { property: 'orderService', label: 'Работа', type: 'text', type_options: { disabled: true } }
-                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete' }
+                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { required: true } }
                     - { property: 'cost', label: 'Стоимость' }
                     - { property: 'quantity', label: 'Количество' }
         User:
