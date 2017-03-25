@@ -18,15 +18,15 @@ class Version20170325201751 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-//        $this->addSql('DROP TABLE users');
-//        $this->addSql('ALTER TABLE employee DROP FOREIGN KEY FK_5D9F75A1217BBB47');
-//        $this->addSql('ALTER TABLE payment DROP FOREIGN KEY FK_6D28840D217BBB47');
-//        $this->addSql('ALTER TABLE client DROP FOREIGN KEY FK_C7440455217BBB47');
-//        $this->addSql('ALTER TABLE person CHANGE id id INT NOT NULL');
-//        $this->addSql('ALTER TABLE person ADD CONSTRAINT FK_34DCD176BF396750 FOREIGN KEY (id) REFERENCES operand (id) ON DELETE CASCADE');
-//        $this->addSql('ALTER TABLE car DROP FOREIGN KEY FK_773DE69D19EB6921');
-//        $this->addSql('DROP INDEX IDX_773DE69D19EB6921 ON car');
-//        $this->addSql('ALTER TABLE car CHANGE client_id owner_id INT DEFAULT NULL');
+        $this->addSql('DROP TABLE users');
+        $this->addSql('ALTER TABLE employee DROP FOREIGN KEY FK_5D9F75A1217BBB47');
+        $this->addSql('ALTER TABLE payment DROP FOREIGN KEY FK_6D28840D217BBB47');
+        $this->addSql('ALTER TABLE client DROP FOREIGN KEY FK_C7440455217BBB47');
+        $this->addSql('ALTER TABLE person CHANGE id id INT NOT NULL');
+        $this->addSql('ALTER TABLE person ADD CONSTRAINT FK_34DCD176BF396750 FOREIGN KEY (id) REFERENCES operand (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE car DROP FOREIGN KEY FK_773DE69D19EB6921');
+        $this->addSql('DROP INDEX IDX_773DE69D19EB6921 ON car');
+        $this->addSql('ALTER TABLE car CHANGE client_id owner_id INT DEFAULT NULL');
         $this->addSql('UPDATE car
             JOIN client ON car.owner_id = client.id
             SET car.owner_id = client.person_id');
