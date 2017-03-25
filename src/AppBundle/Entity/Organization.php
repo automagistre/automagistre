@@ -40,6 +40,13 @@ class Organization extends Operand
      */
     private $telephone;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(nullable=true)
+     */
+    private $officePhone;
+
     public function getFullName(): string
     {
         return $this->getName();
@@ -101,6 +108,16 @@ class Organization extends Operand
     public function setEmail(string $email)
     {
         $this->email = $email;
+    }
+
+    public function getOfficePhone(): ?string
+    {
+        return $this->officePhone;
+    }
+
+    public function setOfficePhone(string $officePhone): void
+    {
+        $this->officePhone = $officePhone;
     }
 
     public function __toString(): string
