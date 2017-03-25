@@ -21,8 +21,8 @@ final class OrderController extends AdminController
         $dqlFilter = null
     ) {
         $qb = $this->em->getRepository(Order::class)->createQueryBuilder('orders')
-            ->leftJoin('orders.client', 'client')
-            ->leftJoin('client.person', 'person')
+            ->leftJoin('orders.owner', 'owner')
+            ->leftJoin('owner.person', 'person')
             ->leftJoin('orders.car', 'car')
             ->leftJoin('car.carModel', 'carModel')
             ->leftJoin('car.carModification', 'carModification')

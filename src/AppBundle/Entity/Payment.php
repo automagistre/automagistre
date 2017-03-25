@@ -19,12 +19,12 @@ class Payment
     private $id;
 
     /**
-     * @var Client
+     * @var Operand
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Client")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Operand")
      * @ORM\JoinColumn()
      */
-    private $client;
+    private $recipient;
 
     /**
      * @var string

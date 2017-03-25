@@ -9,15 +9,10 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @method CustomerInterface getCustomer()
- *
  * @ORM\Table(name="orders")
  * @ORM\Entity
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="customer_type", type="integer")
- * @ORM\DiscriminatorMap({"1" = "\AppBundle\Entity\OrderPerson", "2" = "\AppBundle\Entity\OrderOrganization"})
  */
-abstract class Order
+class Order
 {
     /**
      * @var int
@@ -72,12 +67,12 @@ abstract class Order
     private $car;
 
     /**
-     * @var Client
+     * @var Operand
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Client")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Operand")
+     * @ORM\JoinColumn()
      */
-    private $client;
+    private $customer;
 
     /**
      * @var string
@@ -156,128 +151,83 @@ abstract class Order
         $this->parts = new ArrayCollection();
     }
 
-    /**
-     * @return int
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return OrderService[]|ArrayCollection
-     */
-    public function getServices()
+    public function getServices(): array
     {
-        return $this->services;
+        return $this->services->toArray();
     }
 
-    /**
-     * @param OrderService $service
-     */
     public function addService(OrderService $service)
     {
         $service->setOrder($this);
         $this->services[] = $service;
     }
 
-    /**
-     * @return OrderPart[]|ArrayCollection
-     */
-    public function getParts()
+    public function getParts(): array
     {
-        return $this->parts;
+        return $this->parts->toArray();
     }
 
-    /**
-     * @param OrderPart $part
-     */
     public function addPart(OrderPart $part)
     {
         $part->setOrder($this);
         $this->parts[] = $part;
     }
 
-    /**
-     * @return OrderPart[]|ArrayCollection
-     */
-    public function getRootParts()
+    public function getRootParts(): array
     {
         $criteria = Criteria::create()->where(Criteria::expr()->isNull('orderService'));
 
-        return $this->parts->matching($criteria);
+        return $this->parts->matching($criteria)->toArray();
     }
 
-    /**
-     * @return Car
-     */
     public function getCar(): ?Car
     {
         return $this->car;
     }
 
-    /**
-     * @param Car $car
-     */
     public function setCar(Car $car)
     {
         $this->car = $car;
     }
 
-    /**
-     * @return string
-     */
+    public function getCustomer(): ?Operand
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(Operand $customer = null): void
+    {
+        $this->customer = $customer;
+    }
+
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * @param string $description
-     */
     public function setDescription(string $description = null)
     {
         $this->description = $description;
     }
 
-    /**
-     * @return Note[]|ArrayCollection
-     */
     public function getNotes()
     {
-        return $this->notes;
+        return $this->notes->toArray();
     }
 
-    /**
-     * @return DateTime
-     */
     public function getStartedAt(): ?DateTime
     {
         return $this->startdate;
     }
 
-    /**
-     * @return DateTime
-     */
     public function getClosedAt(): ?DateTime
     {
         return $this->closeddate;
-    }
-
-    /**
-     * @return Client
-     */
-    public function getClient(): ?Client
-    {
-        return $this->client;
-    }
-
-    /**
-     * @param Client $client
-     */
-    public function setClient(Client $client)
-    {
-        $this->client = $client;
     }
 
     public function getMileage(): ?string
@@ -334,7 +284,7 @@ abstract class Order
     {
         $criteria = Criteria::create()->where(Criteria::expr()->isNull('order'));
 
-        $this->getParts()->matching($criteria)->map(function (OrderPart $part) {
+        $this->parts->matching($criteria)->map(function (OrderPart $part) {
             $part->setOrder($this);
         });
     }
@@ -343,7 +293,7 @@ abstract class Order
     {
         $criteria = Criteria::create()->where(Criteria::expr()->isNull('order'));
 
-        $this->getServices()->matching($criteria)->map(function (OrderService $service) {
+        $this->services->matching($criteria)->map(function (OrderService $service) {
             $service->setOrder($this);
 
             $criteria = Criteria::create()->where(Criteria::expr()->isNull('orderService'));

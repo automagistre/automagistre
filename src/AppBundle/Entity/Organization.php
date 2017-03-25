@@ -8,17 +8,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  */
-class Organization implements CustomerInterface
+class Organization extends Operand
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
-
     /**
      * @var string
      *
@@ -49,12 +40,9 @@ class Organization implements CustomerInterface
      */
     private $telephone;
 
-    /**
-     * @return int
-     */
-    public function getId(): ?int
+    public function getFullName(): string
     {
-        return $this->id;
+        return $this->getName();
     }
 
     /**

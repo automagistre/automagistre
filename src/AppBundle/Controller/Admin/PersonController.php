@@ -2,7 +2,7 @@
 
 namespace AppBundle\Controller\Admin;
 
-use AppBundle\Entity\Client;
+use AppBundle\Entity\Person;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
 use libphonenumber\PhoneNumberFormat;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class ClientController extends AdminController
+final class PersonController extends AdminController
 {
     protected function createSearchQueryBuilder(
         $entityClass,
@@ -20,8 +20,7 @@ final class ClientController extends AdminController
         $sortDirection = null,
         $dqlFilter = null
     ) {
-        $qb = $this->em->getRepository(Client::class)->createQueryBuilder('client')
-            ->leftJoin('client.person', 'person');
+        $qb = $this->em->getRepository(Person::class)->createQueryBuilder('person');
 
         foreach (explode(' ', $searchQuery) as $key => $item) {
             $key = ':search_'.$key;
@@ -48,9 +47,7 @@ final class ClientController extends AdminController
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
         $phoneUtils = $this->get('libphonenumber.phone_number_util');
 
-        $data = array_map(function (Client $client) use ($phoneUtils) {
-            $person = $client->getPerson();
-
+        $data = array_map(function (Person $person) use ($phoneUtils) {
             $formattedTelephone = '';
             if ($tel = $person->getTelephone() ?: $person->getOfficePhone()) {
                 $PhoneNumber = $phoneUtils->parse($tel, 'RU');
@@ -58,7 +55,7 @@ final class ClientController extends AdminController
             }
 
             return [
-                'id' => $client->getId(),
+                'id' => $person->getId(),
                 'text' => sprintf('%s %s', $person->getFullName(), $formattedTelephone),
             ];
         }, (array) $paginator->getCurrentPageResults());

@@ -3,6 +3,9 @@
 namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Car;
+use AppBundle\Entity\Organization;
+use AppBundle\Entity\Person;
+use Doctrine\ORM\Query\Expr\Join;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
 use libphonenumber\PhoneNumberFormat;
 
@@ -26,8 +29,9 @@ final class CarController extends AdminController
             ->leftJoin('model.manufacturer', 'manufacturer')
             ->leftJoin('car.carModel', 'carModel2')
             ->leftJoin('carModel2.manufacturer', 'manufacturer2')
-            ->leftJoin('car.client', 'client')
-            ->leftJoin('client.person', 'person');
+            ->leftJoin('car.owner', 'owner')
+            ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = owner.id AND owner INSTANCE OF '.Person::class)
+            ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = owner.id AND owner INSTANCE OF '.Organization::class);
 
         foreach (explode(' ', $searchQuery) as $key => $searchString) {
             $key = ':search_'.$key;
@@ -62,7 +66,7 @@ final class CarController extends AdminController
         $phoneUtils = $this->get('libphonenumber.phone_number_util');
 
         $data = array_map(function (Car $car) use ($phoneUtils) {
-            $person = $car->getClient()->getPerson();
+            $person = $car->getOwner();
 
             $PhoneNumber = $phoneUtils->parse($person->getTelephone(), 'RU');
             $carModel = $car->getCarModification() ?: $car->getCarModel();

@@ -6,25 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="person", indexes={
- *     @ORM\Index(name="lastname_idx", columns={"lastname"}),
- *     @ORM\Index(name="firstname_idx", columns={"firstname"}),
- *     @ORM\Index(name="phone_idx", columns={"telephone"}),
- *     @ORM\Index(name="sprite_id", columns={"sprite_id"})
- * })
  * @ORM\Entity
  */
-class Person implements CustomerInterface
+class Person extends Operand
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
-
     /**
      * @var string
      *
@@ -68,14 +53,6 @@ class Person implements CustomerInterface
      * @ORM\Column(type="integer", nullable=true)
      */
     private $spriteId;
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
 
     /**
      * @return string

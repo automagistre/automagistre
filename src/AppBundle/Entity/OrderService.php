@@ -43,12 +43,12 @@ class OrderService
     private $cost;
 
     /**
-     * @var User
+     * @var Operand
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Operand")
      * @ORM\JoinColumn()
      */
-    private $user;
+    private $worker;
 
     /**
      * @var OrderPart[]|ArrayCollection
@@ -91,14 +91,14 @@ class OrderService
         $this->service = $service;
     }
 
-    public function getUser(): ?User
+    public function getWorker(): ?Operand
     {
-        return $this->user;
+        return $this->worker;
     }
 
-    public function setUser(User $user): void
+    public function setWorker(Operand $worker): void
     {
-        $this->user = $user;
+        $this->worker = $worker;
     }
 
     public function getCost(): ?int

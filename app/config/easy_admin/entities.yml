@@ -3,7 +3,7 @@ easy_admin:
         Order:
             class: AppBundle\Entity\Order
             controller: AppBundle\Controller\Admin\OrderController
-            disabled_actions: ['new', 'edit', 'delete']
+            disabled_actions: ['edit', 'delete']
             templates:
                 list: 'easy_admin/order/list.html.twig'
                 show: 'easy_admin/order/show.html.twig'
@@ -16,42 +16,17 @@ easy_admin:
                     - { property: 'startedAt', label: 'Дата начала', type: 'datetime' }
                     - { property: 'closedAt', label: 'Дата закрытия', type: 'datetime' }
                     - { property: 'car', label: 'Автомобиль', template: 'easy_admin/order/field_car.html.twig' }
-                    - { property: 'client', label: 'Клиент' }
+                    - { property: 'customer', label: 'Клиент' }
                     - { property: 'readableCosts', label: 'Работы/Запчасти' }
-        OrderOrganization:
-            class: AppBundle\Entity\OrderOrganization
-            controller: AppBundle\Controller\Admin\OrderController
-            disabled_actions: ['show', 'edit', 'delete']
-            templates:
-                show: 'easy_admin/order/show.html.twig'
             form:
                 fields:
                     - { type: 'group', label: 'Основная информация', css_class: 'col-sm-6' }
-                    - { property: 'customer', label: 'Организация', type: 'easyadmin_autocomplete' }
+                    - { property: 'customer', label: 'Заказчик', type: 'easyadmin_autocomplete' }
                     - { property: 'car', label: 'Автомобиль', type: 'easyadmin_autocomplete' }
                     - { property: 'mileage', label: 'Пробег' }
 
                     - { type: 'group', label: 'Описание', css_class: 'col-sm-6' }
                     - { property: 'description', label: 'Описание', type: 'ckeditor' }
-            new:
-                title: 'Создать заказ'
-        OrderPerson:
-            class: AppBundle\Entity\OrderPerson
-            controller: AppBundle\Controller\Admin\OrderController
-            disabled_actions: ['show', 'edit', 'delete']
-            templates:
-                show: 'easy_admin/order/show.html.twig'
-            form:
-                fields:
-                    - { type: 'group', label: 'Основная информация', css_class: 'col-sm-6' }
-                    - { property: 'customer', label: 'Клиент', type: 'easyadmin_autocomplete' }
-                    - { property: 'car', label: 'Автомобиль', type: 'easyadmin_autocomplete' }
-                    - { property: 'mileage', label: 'Пробег' }
-
-                    - { type: 'group', label: 'Описание', css_class: 'col-sm-6' }
-                    - { property: 'description', label: 'Описание', type: 'ckeditor' }
-            new:
-                title: 'Создать заказ'
 
         OrderService:
             class: AppBundle\Entity\OrderService
@@ -64,7 +39,7 @@ easy_admin:
                     - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
                     - { property: 'service', label: 'Работа', type: 'easyadmin_autocomplete', type_options: { required: true } }
                     - { property: 'cost', label: 'Стоимость' }
-                    - { property: 'user', label: 'Исполнитель', type: 'easyadmin_autocomplete' }
+                    - { property: 'worker', label: 'Исполнитель', type: 'easyadmin_autocomplete' }
         OrderPart:
             class: AppBundle\Entity\OrderPart
             controller: AppBundle\Controller\Admin\OrderPartController
@@ -78,36 +53,23 @@ easy_admin:
                     - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { required: true } }
                     - { property: 'cost', label: 'Стоимость' }
                     - { property: 'quantity', label: 'Количество' }
-        User:
-            class: AppBundle\Entity\User
 
         Jobs:
             class: AppBundle\Entity\JobAdvice
+            disabled_actions: ['delete']
         Service:
             class: AppBundle\Entity\Service
             controller: AppBundle\Controller\Admin\ServiceController
-
-        Client:
-            class: AppBundle\Entity\Client
-            controller: AppBundle\Controller\Admin\ClientController
             disabled_actions: ['delete']
-            list:
-                title: 'Пользователи'
-                fields:
-                    - { property: 'person', label: 'Клиент', template: 'easy_admin/client/field_person.html.twig' }
-                    - { property: 'person.telephone', label: 'Телефон', type: 'tel' }
-                    - { property: 'person.email', label: 'Email', type: 'email' }
-                    - { property: 'wallet', label: 'Баланс' }
-                    - { property: 'description', label: 'Описание' }
-                    - { property: 'employee', label: 'Сотрудник?', type: 'boolean' }
-            form:
-                fields:
-                    - { property: 'person', label: 'Клиент' }
-                    - { property: 'wallet', label: 'Баланс' }
-                    - { property: 'description', label: 'Описание', type: 'ckeditor' }
-                    - { property: 'employee', label: 'Сотрудник?' }
+
+        Operand:
+            class: AppBundle\Entity\Operand
+            controller: AppBundle\Controller\Admin\OperandController
+            disabled_actions: ['new', 'edit', 'delete']
         Person:
             class: AppBundle\Entity\Person
+            controller: AppBundle\Controller\Admin\PersonController
+            disabled_actions: ['delete']
             search:
                 fields: ['firstname', 'lastname']
             list:
@@ -121,7 +83,19 @@ easy_admin:
                     - { property: 'telephone', label: 'Телефон' }
         Organization:
             class: AppBundle\Entity\Organization
+            disabled_actions: ['delete']
+        Employee:
+            class: AppBundle\Entity\Employee
             disabled_actions: ['show', 'delete']
+            list:
+                fields:
+                    - { property: 'person', label: 'Ф.И.О' }
+                    - { property: 'hiredAt', label: 'Трудоустроен' }
+                    - { property: 'firedAt', label: 'Уволен' }
+            form:
+                fields:
+                    - { property: 'person', label: 'Ф.И.О', type: 'easyadmin_autocomplete' }
+
 
         Car:
             class: AppBundle\Entity\Car
@@ -133,7 +107,7 @@ easy_admin:
             list:
                 title: 'Автомобили'
                 fields:
-                    - { property: 'client', label: 'Владелец' }
+                    - { property: 'owner', label: 'Владелец' }
                     - { property: 'carModificationDisplayName', label: 'Комплектация' }
                     - { property: 'year', label: 'Год', type: 'string' }
                     - { property: 'vin', label: 'VIN', sortable: false }
@@ -141,7 +115,7 @@ easy_admin:
                     - { property: 'gosnomer', label: 'Гос. Номер', sortable: false, template: 'easy_admin/car/field_gosnomer_img.html.twig' }
             show:
                 fields:
-                    - { property: 'client', label: 'Владелец' }
+                    - { property: 'owner', label: 'Владелец' }
                     - { property: 'vin', label: 'VIN' }
                     - { property: 'carModificationDisplayName', label: 'Комплектация' }
                     - { property: 'year', label: 'Год', type: 'string' }
@@ -150,7 +124,7 @@ easy_admin:
             form:
                 fields:
                     -
-                        property: 'client'
+                        property: 'owner'
                         label: 'Владелец'
                         type: 'easyadmin_autocomplete'
                         help: 'Фамилия, Имя, Телефон, E-mail'
@@ -171,6 +145,7 @@ easy_admin:
             class: AppBundle\Entity\Part
             controller: AppBundle\Controller\Admin\PartController
             label: 'Запчасти'
+            disabled_actions: ['show', 'delete']
             list:
                 fields:
                     - { property: 'manufacturer.name', label: 'Производитель' }
@@ -192,7 +167,7 @@ easy_admin:
 
         Manufacturer:
             class: AppBundle\Entity\Manufacturer
-            disabled_actions: ['show']
+            disabled_actions: ['show', 'delete']
             label: 'Производитель'
             search:
                 fields: ['name']
@@ -209,7 +184,7 @@ easy_admin:
         Model:
             class: AppBundle\Entity\CarModel
             controller: AppBundle\Controller\Admin\CarModelController
-            disabled_actions: ['show']
+            disabled_actions: ['show', 'delete']
             label: 'Модель'
             list:
                 title: 'Производители'
@@ -227,7 +202,7 @@ easy_admin:
         Generation:
             class: AppBundle\Entity\CarGeneration
             controller: AppBundle\Controller\Admin\CarGenerationController
-            disabled_actions: ['show']
+            disabled_actions: ['show', 'delete']
             list:
                 title: 'Поколения'
                 fields:
@@ -244,7 +219,7 @@ easy_admin:
         Modification:
             class: AppBundle\Entity\CarModification
             controller: AppBundle\Controller\Admin\CarModificationController
-            disabled_actions: ['show']
+            disabled_actions: ['show', 'delete']
             list:
                 title: 'Справочник Автомобилей'
                 fields:

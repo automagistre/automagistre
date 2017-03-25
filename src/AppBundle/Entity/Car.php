@@ -50,12 +50,12 @@ class Car
     private $year;
 
     /**
-     * @var Client
+     * @var Person
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Client")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Operand")
      * @ORM\JoinColumn()
      */
-    private $client;
+    private $owner;
 
     /**
      * @var string
@@ -171,19 +171,19 @@ class Car
     }
 
     /**
-     * @return Client
+     * @return Operand
      */
-    public function getClient(): ?Client
+    public function getOwner(): ?Operand
     {
-        return $this->client;
+        return $this->owner;
     }
 
     /**
-     * @param Client $client
+     * @param Operand $owner
      */
-    public function setClient(Client $client)
+    public function setOwner(Operand $owner)
     {
-        $this->client = $client;
+        $this->owner = $owner;
     }
 
     /**

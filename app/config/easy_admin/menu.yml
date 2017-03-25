@@ -1,11 +1,12 @@
 easy_admin:
     design:
         menu:
-            - { label: 'Журнал' }
             - { entity: 'Order', label: 'Заказы', icon: 'list' }
-            - { entity: 'Client', label: 'Клиенты', icon: 'users' }
+            - { label: 'Списки' }
+            - { entity: 'Person', label: 'Люди', icon: 'users' }
             - { entity: 'Organization', label: 'Организации', icon: 'industry' }
             - { entity: 'Car', label: 'Автомобили', icon: 'car' }
+            - { entity: 'Employee', label: 'Сотрудники', icon: 'users' }
             - { label: 'Склад' }
             - { entity: 'Part', label: 'Запчасти', icon: 'cogs' }
             - { entity: 'Motion', label: 'Движения', icon: 'truck' }
