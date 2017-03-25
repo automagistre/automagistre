@@ -3,6 +3,7 @@
 namespace AppBundle\Part;
 
 use AppBundle\Model\Part;
+use AppBundle\Utils\StringUtils;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ServerException;
 
@@ -30,6 +31,10 @@ final class Finder
      */
     public function search(string $number): array
     {
+        if (StringUtils::isRussian($number) || false !== strpos(trim($number), ' ')) {
+            return [];
+        }
+
         try {
             $xml = $this->client->get(self::IXORA_PART_FIND, [
                 'query' => [
