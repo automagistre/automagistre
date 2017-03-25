@@ -40,7 +40,7 @@ final class PartController extends AdminController
     {
         $query = $this->request->query;
 
-        $queryString = preg_replace('/[^a-zA-Z0-9]+/', '', $query->get('query'));
+        $queryString = preg_replace('/[^a-zA-Z0-9\s]+/', '', $query->get('query'));
         $qb = $this->createSearchQueryBuilder($query->get('entity'), $queryString, []);
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
