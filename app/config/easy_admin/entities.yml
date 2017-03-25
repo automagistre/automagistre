@@ -31,7 +31,7 @@ easy_admin:
         OrderService:
             class: AppBundle\Entity\OrderService
             controller: AppBundle\Controller\Admin\OrderServiceController
-            disabled_actions: ['show']
+            disabled_actions: ['show', 'list']
             edit:
                 actions: ['delete']
             form:
@@ -43,7 +43,7 @@ easy_admin:
         OrderPart:
             class: AppBundle\Entity\OrderPart
             controller: AppBundle\Controller\Admin\OrderPartController
-            disabled_actions: ['show']
+            disabled_actions: ['show', 'list']
             edit:
                 actions: ['delete']
             form:
@@ -74,8 +74,11 @@ easy_admin:
                 fields: ['firstname', 'lastname']
             list:
                 fields:
+                    - { property: 'id' }
                     - { property: 'fullName', label: 'Ф.И.О' }
                     - { property: 'telephone', label: 'Телефон', type: 'tel' }
+                    - { property: 'officePhone', label: 'Раб. Телефон', type: 'tel' }
+                    - { property: 'email', label: 'EMail', type: 'email' }
             form:
                 fields:
                     - { property: 'firstname', label: 'Имя' }
@@ -89,6 +92,7 @@ easy_admin:
             disabled_actions: ['show', 'delete']
             list:
                 fields:
+                    - { property: 'id' }
                     - { property: 'person', label: 'Ф.И.О' }
                     - { property: 'hiredAt', label: 'Трудоустроен' }
                     - { property: 'firedAt', label: 'Уволен' }
@@ -107,6 +111,7 @@ easy_admin:
             list:
                 title: 'Автомобили'
                 fields:
+                    - { property: 'id' }
                     - { property: 'owner', label: 'Владелец' }
                     - { property: 'carModificationDisplayName', label: 'Комплектация' }
                     - { property: 'year', label: 'Год', type: 'string' }
@@ -148,6 +153,7 @@ easy_admin:
             disabled_actions: ['show', 'delete']
             list:
                 fields:
+                    - { property: 'id' }
                     - { property: 'manufacturer.name', label: 'Производитель' }
                     - { property: 'name', label: 'Название' }
                     - { property: 'number', label: 'Номер' }
@@ -174,6 +180,7 @@ easy_admin:
             list:
                 title: 'Производители'
                 fields:
+                    - { property: 'id' }
                     - { property: 'name', label: 'Название' }
                     - { property: 'logo', label: 'Logo' }
             form:
@@ -189,6 +196,7 @@ easy_admin:
             list:
                 title: 'Производители'
                 fields:
+                    - { property: 'id' }
                     - { property: 'manufacturer', label: 'Производитель' }
                     - { property: 'name', label: 'Название' }
             form:
@@ -206,6 +214,7 @@ easy_admin:
             list:
                 title: 'Поколения'
                 fields:
+                    - { property: 'id' }
                     - { property: 'carModel.displayName', label: 'Модель' }
                     - { property: 'name', label: 'Название' }
             form:
@@ -223,6 +232,7 @@ easy_admin:
             list:
                 title: 'Справочник Автомобилей'
                 fields:
+                    - { property: 'id' }
                     - { property: 'carGeneration.displayName', label: 'Поколение' }
                     - { property: 'name', label: 'Название' }
                     - { property: 'case.name', label: 'Кузов' }
