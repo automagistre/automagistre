@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new JavierEguiluz\Bundle\EasyAdminBundle\EasyAdminBundle(),
             new Misd\PhoneNumberBundle\MisdPhoneNumberBundle(),
             new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
+            new Csa\Bundle\GuzzleBundle\CsaGuzzleBundle(),
             new AppBundle\AppBundle(),
         ];
 

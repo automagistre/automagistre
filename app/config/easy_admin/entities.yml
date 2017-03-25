@@ -174,14 +174,14 @@ easy_admin:
             list:
                 fields:
                     - { property: 'manufacturer.name', label: 'Производитель' }
-                    - { property: 'partname', label: 'Название' }
-                    - { property: 'partnumber', label: 'Номер' }
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'number', label: 'Номер' }
                     - { property: 'price', label: 'Цена' }
             form:
                 fields:
                     - { property: 'manufacturer', label: 'Производитель' }
-                    - { property: 'partname', label: 'Название' }
-                    - { property: 'partnumber', label: 'Номер' }
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'number', label: 'Номер' }
                     - { property: 'price', label: 'Цена' }
             edit:
                 fields: ['-price']

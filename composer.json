@@ -34,7 +34,8 @@
         "javiereguiluz/easyadmin-bundle": "^1.16",
         "grachevko/enum": "^0.6",
       "misd/phone-number-bundle": "^1.2",
-      "egeloen/ckeditor-bundle": "^5.0"
+        "egeloen/ckeditor-bundle": "^5.0",
+        "csa/guzzle-bundle": "^2.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
@@ -79,7 +80,8 @@
                 "mailer_user": "MAILER_USER",
                 "mailer_password": "MAILER_PASSWORD",
                 "secret": "SECRET",
-                "mail_delivery_address": "MAIL_DELIVERY_ADDRESS"
+                "mail_delivery_address": "MAIL_DELIVERY_ADDRESS",
+                "ixora_auth_code": "IXORA_AUTH_CODE"
             }
         }
     }

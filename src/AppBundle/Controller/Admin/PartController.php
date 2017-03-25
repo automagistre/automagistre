@@ -25,8 +25,8 @@ final class PartController extends AdminController
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->like('part.partname', $key),
-                $qb->expr()->like('part.partnumber', $key),
+                $qb->expr()->like('part.name', $key),
+                $qb->expr()->like('part.number', $key),
                 $qb->expr()->like('manufacturer.name', $key)
             ));
 
@@ -40,21 +40,26 @@ final class PartController extends AdminController
     {
         $query = $this->request->query;
 
-        $qb = $this->createSearchQueryBuilder($query->get('entity'), $query->get('query'), []);
+        $queryString = preg_replace('/[^a-zA-Z0-9]+/', '', $query->get('query'));
+        $qb = $this->createSearchQueryBuilder($query->get('entity'), $queryString, []);
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
+
+        $parts = 0 < $paginator->count()
+            ? $paginator->getCurrentPageResults()
+            : $this->get('app.part.populator')->search($queryString);
 
         $data = array_map(function (Part $entity) {
             return [
                 'id' => $entity->getId(),
                 'text' => sprintf(
                     '%s - %s (%s)',
-                    $entity->getPartnumber(),
+                    $entity->getNumber(),
                     $entity->getManufacturer()->getName(),
-                    $entity->getPartname()
+                    $entity->getName()
                 ),
             ];
-        }, (array) $paginator->getCurrentPageResults());
+        }, (array) $parts);
 
         return $this->json(['results' => $data]);
     }

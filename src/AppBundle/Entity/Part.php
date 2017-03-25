@@ -7,9 +7,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="part", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="part_idx", columns={"partnumber", "manufacturer_id"})
+ *     @ORM\UniqueConstraint(name="part_idx", columns={"number", "manufacturer_id"})
  * })
- * @ORM\Entity
+ * @ORM\Entity()
  */
 class Part
 {
@@ -39,7 +39,7 @@ class Part
      *
      * @ORM\Column(nullable=true)
      */
-    private $partname;
+    private $name;
 
     /**
      * @var string
@@ -55,7 +55,7 @@ class Part
      *
      * @ORM\Column(length=30)
      */
-    private $partnumber;
+    private $number;
 
     /**
      * @var string
@@ -99,9 +99,6 @@ class Part
      */
     private $reserved = 0;
 
-    /**
-     * @return int
-     */
     public function getId(): ?int
     {
         return $this->id;
@@ -119,38 +116,22 @@ class Part
 
     public function getName(): ?string
     {
-        return $this->partname;
+        return $this->name;
     }
 
     public function setName(string $name): void
     {
-        $this->partname = $name;
+        $this->name = $name;
     }
 
-    /**
-     * @deprecated
-     */
-    public function getPartname(): ?string
+    public function getNumber(): ?string
     {
-        return $this->getName();
+        return $this->number;
     }
 
-    /**
-     * @deprecated
-     */
-    public function setPartname(string $partname)
+    public function setNumber(string $number)
     {
-        $this->setName($partname);
-    }
-
-    public function getPartnumber(): ?string
-    {
-        return $this->partnumber;
-    }
-
-    public function setPartnumber(string $partnumber)
-    {
-        $this->partnumber = $partnumber;
+        $this->number = $number;
     }
 
     public function getDescription(): ?string
