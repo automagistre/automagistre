@@ -16,8 +16,10 @@
                     {{ form_widget(form.number) }}
 
                     <div class="input-group-addon">
-                        <a href="" id="number-part-search">
-                            <i class="fa fa-search"></i> Поиск
+                        <a href="" id="search-button">
+                            <i id="search-icon" class="fa fa-search"></i>
+                            <i id="search-spinner" class="fa fa-spinner fa-pulse" style="display: none"></i>
+                            Поиск
                         </a>
                     </div>
                 </div>
@@ -53,12 +55,14 @@
                 main = $('#modal-part-form'),
                 select = $('#modal-part-select'),
                 form = $('#{{ form.vars.attr.id }}'),
-                searchButton = $('#number-part-search'),
+                searchButton = $('#search-button'),
                 searchHelpBlock = $('#search-help-block'),
                 manufacturerInput = $('#{{ form.manufacturer.vars.id }}'),
                 numberInput = $('#{{ form.number.vars.id }}'),
                 nameInput = $('#{{ form.name.vars.id }}'),
-                priceInput = $('#{{ form.price.vars.id }}');
+                priceInput = $('#{{ form.price.vars.id }}'),
+                iconSearch = $('#search-icon'),
+                iconSpinner = $('#search-spinner');
 
             numberInput.focus();
             searchButton.popover();
@@ -77,8 +81,17 @@
                 });
             };
 
-            searchButton.click(function () {
+            var mutex = false;
+            searchButton.click(function (e) {
+                e.preventDefault();
+                if (true === mutex) {
+                    return false;
+                }
+
+                mutex = true;
                 searchHelpBlock.hide();
+                iconSearch.hide();
+                iconSpinner.show();
 
                 $.ajax({
                     url: url.replace('__NUMBER__', $('#{{ form.number.vars.id }}').val()),
@@ -106,6 +119,10 @@
                     subscribeSelectButtons();
                     main.hide();
                     select.show();
+                }).complete(function () {
+                    iconSearch.show();
+                    iconSpinner.hide();
+                    mutex = false;
                 });
 
                 return false;
