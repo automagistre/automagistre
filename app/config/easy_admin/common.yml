@@ -2,6 +2,8 @@ easy_admin:
     site_name: 'СТО Автомагистр'
     design:
         color_scheme: 'light'
+        templates:
+            layout: 'easy_admin/layout.html.twig'
         form_theme: 'vertical'
         assets:
             js:

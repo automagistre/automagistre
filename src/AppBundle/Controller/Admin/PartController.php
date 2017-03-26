@@ -4,12 +4,41 @@ namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Part;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
+use JavierEguiluz\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
 final class PartController extends AdminController
 {
+    protected function newAction()
+    {
+        if ($this->request->isXmlHttpRequest() && $this->request->isMethod('POST')) {
+            /** @var Part $entity */
+            $entity = null;
+            $this->get('event_dispatcher')
+                ->addListener(EasyAdminEvents::POST_PERSIST, function (GenericEvent $event) use (&$entity) {
+                    $entity = $event->getArgument('entity');
+                });
+
+            parent::newAction();
+
+            return $this->json([
+                'id' => $entity->getId(),
+                'name' => $entity->getName(),
+                'number' => $entity->getNumber(),
+                'manufacturer' => [
+                    'id' => $entity->getManufacturer()->getId(),
+                    'name' => $entity->getManufacturer()->getName(),
+                ],
+                'price' => $entity->getPrice(),
+            ]);
+        }
+
+        return parent::newAction();
+    }
+
     protected function createSearchQueryBuilder(
         $entityClass,
         $searchQuery,
@@ -45,10 +74,6 @@ final class PartController extends AdminController
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
-        $parts = 0 < $paginator->count()
-            ? $paginator->getCurrentPageResults()
-            : $this->get('app.part.populator')->search($queryString);
-
         $data = array_map(function (Part $entity) {
             return [
                 'id' => $entity->getId(),
@@ -59,7 +84,7 @@ final class PartController extends AdminController
                     $entity->getName()
                 ),
             ];
-        }, (array) $parts);
+        }, (array) $paginator->getCurrentPageResults());
 
         return $this->json(['results' => $data]);
     }

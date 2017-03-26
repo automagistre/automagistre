@@ -32,7 +32,7 @@ final class Populator
      *
      * @return Part[]
      */
-    public function search(string $number): array
+    public function populate(string $number): array
     {
         $manufacturerRepository = $this->em->getRepository(Manufacturer::class);
         $partRepository = $this->em->getRepository(Part::class);

@@ -54,15 +54,27 @@ class AppExtension extends \Twig_Extension
 
     public function getEasyAdminUrlForEntity($entity, array $parameters = []): string
     {
-        $config = $this->configManager->getEntityConfigByClass(ClassUtils::getRealClass(get_class($entity)));
+        if (is_object($entity)) {
+            $config = $this->configManager->getEntityConfigByClass(ClassUtils::getRealClass(get_class($entity)));
+
+            $params = [
+                'id' => $this->propertyAccessor->getValue($entity, 'id'),
+                'action' => 'edit',
+            ];
+        } else {
+            $config = $this->configManager->getEntityConfig($entity);
+
+            $params = [
+                'action' => 'new',
+            ];
+        }
+
         $request = $this->requestStack->getMasterRequest();
 
-        return $this->router->generate('easyadmin', array_merge([
-            'id' => $this->propertyAccessor->getValue($entity, 'id'),
-            'action' => 'edit',
-            'entity' => $config['name'],
-            'referer' => urlencode($request->getUri()),
-        ], $parameters));
+        $params['entity'] = $config['name'];
+        $params['referer'] = urlencode($request->getUri());
+
+        return $this->router->generate('easyadmin', array_merge($params, $parameters));
     }
 
     /**

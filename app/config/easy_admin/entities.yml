@@ -44,6 +44,8 @@ easy_admin:
             class: AppBundle\Entity\OrderPart
             controller: AppBundle\Controller\Admin\OrderPartController
             disabled_actions: ['show', 'list']
+            templates:
+                new: 'easy_admin/order_part/new.html.twig'
             edit:
                 actions: ['delete']
             form:
@@ -150,6 +152,8 @@ easy_admin:
             class: AppBundle\Entity\Part
             controller: AppBundle\Controller\Admin\PartController
             label: 'Запчасти'
+            templates:
+                new: 'easy_admin/part/new.html.twig'
             disabled_actions: ['show', 'delete']
             list:
                 fields:
