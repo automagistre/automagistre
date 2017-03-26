@@ -43,7 +43,9 @@
         {{ form_end(form) }}
     </div>
 
-    <div class="row text-center" id="modal-part-select" style="display: none"></div>
+    <div class="row">
+        <div class="col-xs-12" id="modal-part-select" style="display: none"></div>
+    </div>
 {% endblock %}
 
 {% block body_javascript %}
@@ -60,7 +62,7 @@
                 manufacturerInput = $('#{{ form.manufacturer.vars.id }}'),
                 numberInput = $('#{{ form.number.vars.id }}'),
                 nameInput = $('#{{ form.name.vars.id }}'),
-                priceInput = $('#{{ form.price.vars.id }}'),
+                    {#priceInput = $('#{{ form.price.vars.id }}'),#}
                 iconSearch = $('#search-icon'),
                 iconSpinner = $('#search-spinner');
 
@@ -106,14 +108,14 @@
                     }
 
                     $.each(parts, function (index, part) {
-                        select.append('<p><button type="button" class="btn part-select-button" ' +
+                        select.append('<div class="radio"><label class="part-select-button" ' +
                             'data-manufacturer-id="' + part.manufacturer.id + '" ' +
                             'data-manufacturer-name="' + part.manufacturer.name + '" ' +
                             'data-number="' + part.number + '" ' +
                             'data-name="' + part.name + '"' +
-                            '>' +
+                            '><input type="radio" name="part">' +
                             [part.name, '(' + part.manufacturer.name, part.number + ')'].join(' ') +
-                            '</button></p>');
+                            '</label></div>');
                     });
 
                     subscribeSelectButtons();
