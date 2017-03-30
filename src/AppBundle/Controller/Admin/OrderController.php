@@ -24,13 +24,13 @@ final class OrderController extends AdminController
         $dqlFilter = null
     ) {
         $qb = $this->em->getRepository(Order::class)->createQueryBuilder('orders')
-            ->leftJoin('orders.owner', 'owner')
+            ->leftJoin('orders.customer', 'customer')
             ->leftJoin('orders.car', 'car')
             ->leftJoin('car.carModel', 'carModel')
             ->leftJoin('car.carModification', 'carModification')
             ->leftJoin('carModel.manufacturer', 'manufacturer')
-            ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = owner.id AND owner INSTANCE OF '.Person::class)
-            ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = owner.id AND owner INSTANCE OF '.Organization::class);
+            ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = customer.id AND customer INSTANCE OF '.Person::class)
+            ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = customer.id AND customer INSTANCE OF '.Organization::class);
 
         foreach (explode(' ', $searchQuery) as $key => $item) {
             $key = ':search_'.$key;
