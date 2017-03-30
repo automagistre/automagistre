@@ -43,7 +43,7 @@ final class ServiceController extends AdminController
 
         $data = array_map(function (Service $entity) {
             return [
-                'id' => $entity->getId(),
+                'id'   => $entity->getId(),
                 'text' => sprintf(
                     '%s',
                     $entity->getName()

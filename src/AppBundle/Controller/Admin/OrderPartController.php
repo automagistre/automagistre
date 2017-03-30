@@ -33,7 +33,7 @@ final class OrderPartController extends AdminController
         $serviceId = $this->request->query->get('order_service_id');
         if ($serviceId) {
             $service = $this->em->getRepository(OrderService::class)->findOneBy([
-                'id' => $serviceId,
+                'id'    => $serviceId,
                 'order' => $order->getId(),
             ]);
             if (!$service) {

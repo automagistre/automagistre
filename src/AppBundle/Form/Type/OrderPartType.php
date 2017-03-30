@@ -24,11 +24,11 @@ class OrderPartType extends AbstractType
             ])
             ->add('cost', NumberType::class, [
                 'required' => true,
-                'label' => 'Цена',
+                'label'    => 'Цена',
             ])
             ->add('quantity', NumberType::class, [
                 'required' => true,
-                'label' => 'Количество',
+                'label'    => 'Количество',
             ]);
     }
 

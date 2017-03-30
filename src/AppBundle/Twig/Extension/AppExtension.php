@@ -58,7 +58,7 @@ class AppExtension extends \Twig_Extension
             $config = $this->configManager->getEntityConfigByClass(ClassUtils::getRealClass(get_class($entity)));
 
             $params = [
-                'id' => $this->propertyAccessor->getValue($entity, 'id'),
+                'id'     => $this->propertyAccessor->getValue($entity, 'id'),
                 'action' => 'edit',
             ];
         } else {

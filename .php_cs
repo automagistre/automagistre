@@ -13,15 +13,16 @@ $finder = PhpCsFixer\Finder::create()
 return PhpCsFixer\Config::create()
     ->setRiskyAllowed(true)
     ->setRules([
-        '@Symfony' => true,
-        '@Symfony:risky' => true,
-        'array_syntax' => ['syntax' => 'short'],
-        'no_useless_else' => true,
-        'no_useless_return' => true,
-        'ordered_imports' => true,
-        'phpdoc_order' => true,
-        'php_unit_strict' => true,
-        'strict_comparison' => true,
+        '@Symfony'               => true,
+        '@Symfony:risky'         => true,
+        'array_syntax'           => ['syntax' => 'short'],
+        'no_useless_else'        => true,
+        'no_useless_return'      => true,
+        'ordered_imports'        => true,
+        'phpdoc_order'           => true,
+        'php_unit_strict'        => true,
+        'strict_comparison'      => true,
+        'binary_operator_spaces' => ['align_double_arrow' => true],
     ])
     ->setFinder($finder)
     ->setCacheFile(__DIR__.'/var/.php_cs.cache');

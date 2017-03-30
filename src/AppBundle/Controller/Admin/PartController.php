@@ -25,14 +25,14 @@ final class PartController extends AdminController
             parent::newAction();
 
             return $this->json([
-                'id' => $entity->getId(),
-                'name' => $entity->getName(),
-                'number' => $entity->getNumber(),
+                'id'           => $entity->getId(),
+                'name'         => $entity->getName(),
+                'number'       => $entity->getNumber(),
                 'manufacturer' => [
-                    'id' => $entity->getManufacturer()->getId(),
+                    'id'   => $entity->getManufacturer()->getId(),
                     'name' => $entity->getManufacturer()->getName(),
                 ],
-                'price' => $entity->getPrice(),
+                'price'        => $entity->getPrice(),
             ]);
         }
 
@@ -76,7 +76,7 @@ final class PartController extends AdminController
 
         $data = array_map(function (Part $entity) {
             return [
-                'id' => $entity->getId(),
+                'id'   => $entity->getId(),
                 'text' => sprintf(
                     '%s - %s (%s)',
                     $entity->getNumber(),

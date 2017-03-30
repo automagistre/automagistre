@@ -15,7 +15,7 @@ class CarcaseType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'choices' => Carcase::all(),
+            'choices'      => Carcase::all(),
             'choice_label' => 'name',
         ]);
     }

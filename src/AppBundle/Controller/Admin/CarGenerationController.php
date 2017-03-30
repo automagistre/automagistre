@@ -47,7 +47,7 @@ final class CarGenerationController extends AdminController
 
         $data = array_map(function (CarGeneration $entity) {
             return [
-                'id' => $entity->getId(),
+                'id'   => $entity->getId(),
                 'text' => $entity->getDisplayName(),
             ];
         }, (array) $paginator->getCurrentPageResults());

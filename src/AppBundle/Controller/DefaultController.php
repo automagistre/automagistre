@@ -45,11 +45,11 @@ class DefaultController extends Controller
 
             return [
                 'manufacturer' => [
-                    'id' => $manufacturer->getId(),
+                    'id'   => $manufacturer->getId(),
                     'name' => $manufacturer->getName(),
                 ],
-                'name' => $model->name,
-                'number' => $model->number,
+                'name'         => $model->name,
+                'number'       => $model->number,
             ];
         }, $parts));
     }

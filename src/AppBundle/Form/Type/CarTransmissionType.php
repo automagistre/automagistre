@@ -15,7 +15,7 @@ class CarTransmissionType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'choices' => CarTransmission::all(),
+            'choices'      => CarTransmission::all(),
             'choice_label' => 'name',
         ]);
     }

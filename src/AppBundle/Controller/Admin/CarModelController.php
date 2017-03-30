@@ -45,7 +45,7 @@ final class CarModelController extends AdminController
 
         $data = array_map(function (CarModel $entity) {
             return [
-                'id' => $entity->getId(),
+                'id'   => $entity->getId(),
                 'text' => $entity->getDisplayName(),
             ];
         }, (array) $paginator->getCurrentPageResults());

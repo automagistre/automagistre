@@ -22,16 +22,16 @@ final class Carcase extends Enum
     const CABRIO = 11;
 
     protected static $name = [
-        self::SEDAN => 'Седан',
+        self::SEDAN     => 'Седан',
         self::HATCHBACK => 'Хэтчбек',
-        self::LIFTBACK => 'Лифтбек',
-        self::ALLROAD => 'Внедорожник',
-        self::WAGON => 'Универсал',
-        self::COUPE => 'Купе',
-        self::MINIVAN => 'Минивэн',
-        self::PICKUP => 'Пикап',
+        self::LIFTBACK  => 'Лифтбек',
+        self::ALLROAD   => 'Внедорожник',
+        self::WAGON     => 'Универсал',
+        self::COUPE     => 'Купе',
+        self::MINIVAN   => 'Минивэн',
+        self::PICKUP    => 'Пикап',
         self::LIMOUSINE => 'Лимузин',
-        self::VAN => 'Фургон',
-        self::CABRIO => 'Кабриолет',
+        self::VAN       => 'Фургон',
+        self::CABRIO    => 'Кабриолет',
     ];
 }

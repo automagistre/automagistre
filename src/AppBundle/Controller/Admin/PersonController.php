@@ -55,7 +55,7 @@ final class PersonController extends AdminController
             }
 
             return [
-                'id' => $person->getId(),
+                'id'   => $person->getId(),
                 'text' => sprintf('%s %s', $person->getFullName(), $formattedTelephone),
             ];
         }, (array) $paginator->getCurrentPageResults());

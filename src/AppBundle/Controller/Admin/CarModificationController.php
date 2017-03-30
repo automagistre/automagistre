@@ -50,7 +50,7 @@ final class CarModificationController extends AdminController
 
         $data = array_map(function (CarModification $modification) {
             return [
-                'id' => $modification->getId(),
+                'id'   => $modification->getId(),
                 'text' => $modification->getDisplayName(),
             ];
         }, (array) $paginator->getCurrentPageResults());
