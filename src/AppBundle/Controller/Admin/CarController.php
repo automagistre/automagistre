@@ -47,7 +47,8 @@ final class CarController extends AdminController
                 $qb->expr()->like('person.firstname', $key),
                 $qb->expr()->like('person.lastname', $key),
                 $qb->expr()->like('person.telephone', $key),
-                $qb->expr()->like('person.email', $key)
+                $qb->expr()->like('person.email', $key),
+                $qb->expr()->like('organization.name', $key)
             ));
 
             $qb->setParameter($key, '%'.$searchString.'%');

@@ -3,6 +3,9 @@
 namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Order;
+use AppBundle\Entity\Organization;
+use AppBundle\Entity\Person;
+use Doctrine\ORM\Query\Expr\Join;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
 use JavierEguiluz\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -22,11 +25,12 @@ final class OrderController extends AdminController
     ) {
         $qb = $this->em->getRepository(Order::class)->createQueryBuilder('orders')
             ->leftJoin('orders.owner', 'owner')
-            ->leftJoin('owner.person', 'person')
             ->leftJoin('orders.car', 'car')
             ->leftJoin('car.carModel', 'carModel')
             ->leftJoin('car.carModification', 'carModification')
-            ->leftJoin('carModel.manufacturer', 'manufacturer');
+            ->leftJoin('carModel.manufacturer', 'manufacturer')
+            ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = owner.id AND owner INSTANCE OF '.Person::class)
+            ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = owner.id AND owner INSTANCE OF '.Organization::class);
 
         foreach (explode(' ', $searchQuery) as $key => $item) {
             $key = ':search_'.$key;
@@ -39,7 +43,8 @@ final class OrderController extends AdminController
                 $qb->expr()->like('car.gosnomer', $key),
                 $qb->expr()->like('carModel.name', $key),
                 $qb->expr()->like('carModification.name', $key),
-                $qb->expr()->like('manufacturer.name', $key)
+                $qb->expr()->like('manufacturer.name', $key),
+                $qb->expr()->like('organization.name', $key)
             ));
 
             $qb->setParameter($key, '%'.$item.'%');
@@ -73,7 +78,7 @@ final class OrderController extends AdminController
             $this->request->query->set('referer', $this->generateUrl('easyadmin', [
                 'entity' => 'Order',
                 'action' => 'show',
-                'id' => $entity->getId(),
+                'id'     => $entity->getId(),
             ]));
         });
     }
