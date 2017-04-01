@@ -68,7 +68,7 @@ easy_admin:
                         label: 'Работа'
                         type: 'easyadmin_autocomplete'
                         type_options: { required: true }
-                        help: 'Чтобы добавить новую работу: Введите название работы, зачем добавьте вконце два знака +'
+                        help: 'Чтобы добавить новую работу: 1) Ввести полное название работы; Добавить в конец два знака +'
                     - { property: 'cost', label: 'Стоимость', type_options: { required: true } }
             edit:
                 title: 'Рекомендация №%%entity_id%%'
