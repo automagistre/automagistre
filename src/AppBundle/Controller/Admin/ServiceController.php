@@ -37,9 +37,18 @@ final class ServiceController extends AdminController
     {
         $query = $this->request->query;
 
-        $qb = $this->createSearchQueryBuilder($query->get('entity'), $query->get('query'), []);
+        $string = $query->get('query');
+        if ('++' === substr($string, -2)) {
+            $service = new Service(rtrim($string, '+'));
+            $this->em->persist($service);
+            $this->em->flush($service);
 
-        $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
+            $collection = [$service];
+        } else {
+            $qb = $this->createSearchQueryBuilder($query->get('entity'), $string, []);
+            $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
+            $collection = $paginator->getCurrentPageResults();
+        }
 
         $data = array_map(function (Service $entity) {
             return [
@@ -49,7 +58,7 @@ final class ServiceController extends AdminController
                     $entity->getName()
                 ),
             ];
-        }, (array) $paginator->getCurrentPageResults());
+        }, (array) $collection);
 
         return $this->json(['results' => $data]);
     }

@@ -25,12 +25,17 @@ class Service
      */
     private $name;
 
+    public function __construct($name = null)
+    {
+        $this->name = $name;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -42,6 +47,6 @@ class Service
 
     public function __toString(): string
     {
-        return $this->getName();
+        return (string) $this->getName();
     }
 }

@@ -9,6 +9,7 @@ easy_admin:
             - { entity: 'Employee', label: 'Сотрудники', icon: 'users' }
             - { label: 'Склад' }
             - { entity: 'Part', label: 'Запчасти', icon: 'cogs' }
+            - { entity: 'Service', label: 'Работы', icon: 'wrench' }
             - { entity: 'Motion', label: 'Движения', icon: 'truck' }
             - { label: 'Справочники' }
             - { entity: 'Manufacturer', label: 'Производитель', icon: 'industry' }
