@@ -149,7 +149,7 @@ class Car
     /**
      * @param string $vin
      */
-    public function setVin(string $vin)
+    public function setVin(string $vin = null)
     {
         $this->vin = $vin;
     }
@@ -192,9 +192,11 @@ class Car
     public function getMileage(): ?string
     {
         /** @var Order $order */
-        $order = $this->orders->last();
+        if ($order = $this->orders->last()) {
+            return $order->getMileage();
+        }
 
-        return $order->getMileage();
+        return null;
     }
 
     /**
@@ -211,7 +213,7 @@ class Car
     /**
      * @param string $gosnomer
      */
-    public function setGosnomer(string $gosnomer)
+    public function setGosnomer(string $gosnomer = null)
     {
         $this->gosnomer = $gosnomer;
     }
