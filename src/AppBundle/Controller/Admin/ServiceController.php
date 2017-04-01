@@ -39,7 +39,7 @@ final class ServiceController extends AdminController
 
         $string = $query->get('query');
         if ('++' === substr($string, -2)) {
-            $service = new Service(rtrim($string, '+'));
+            $service = new Service(trim(rtrim($string, '+')));
             $this->em->persist($service);
             $this->em->flush($service);
 
