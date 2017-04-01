@@ -1,6 +1,15 @@
 {% extends '@EasyAdmin/default/show.html.twig' %}
 
-{# @var entity \AppBundle\Entity\Order #}
+{% import 'easy_admin/macro/icon.html.twig' as icon %}
+
+{% set order = entity %}
+{% set car = order.car %}
+
+{# @var order \AppBundle\entity\Order #}
+
+{% block page_title %}Заказ № {{ order.id }}{% endblock %}
+
+{% block content_title %}{% endblock %}
 
 {% block main %}
     <section id="main" class="content">
@@ -9,7 +18,11 @@
                 <div class="box box-default">
                     <div class="box-header with-border">
                         <h3 class="box-title">
-                            Основная информация
+                            Основная информация по заказу №{{ order.id }}
+
+                            {% if order.editable %}
+                                {{ icon.link('pencil', order|easyadmin_path) }}
+                            {% endif %}
                         </h3>
                     </div>
 
@@ -20,8 +33,8 @@
 
                                 <div class="col-sm-10">
                                     <div class="form-control">
-                                        {% if entity.customer is not empty %}
-                                            {{ entity.customer }}
+                                        {% if order.customer is not empty %}
+                                            {{ order.customer }}
                                         {% endif %}
                                     </div>
                                 </div>
@@ -34,7 +47,7 @@
 
                                 <div class="col-sm-10">
                                     <div class="form-control">
-                                        {{ entity.car }}
+                                        {{ order.car }}
                                     </div>
                                 </div>
                             </div>
@@ -46,7 +59,7 @@
 
                                 <div class="col-sm-10">
                                     <div class="form-control">
-                                        {{ entity.mileage }}
+                                        {{ order.mileage }}
                                     </div>
                                 </div>
                             </div>
@@ -70,7 +83,7 @@
 
                                 <div class="col-sm-10">
                                     <div class="form-control">
-                                        {{ entity.description }}
+                                        {{ order.description }}
                                     </div>
                                 </div>
                             </div>
@@ -80,29 +93,45 @@
             </div>
         </div>
 
-        {% if entity.editable %}
-            <div class="row">
-                <div class="col-xs-12">
-                    <a href="{{ easyadmin_entity_path(entity) }}" class="btn btn-primary">
-                        <i class="fa fa-pencil"></i> Редактировать
+        {#{% if order.editable %}#}
+        {#<div class="row">#}
+        {#<div class="col-xs-12">#}
+        {#<a href="{{ easyadmin_path(order) }}" class="btn btn-primary">#}
+        {#<i class="fa fa-pencil"></i> Редактировать#}
+        {#</a>#}
+
+        {#<a href="{{ easyadmin_path('OrderService', {'order_id': order.id}) }}"#}
+        {#class="btn btn-primary"><i class="fa fa-plus"></i> Работа</a>#}
+
+        {#<a href="{{ easyadmin_path('OrderPart', {'order_id': order.id}) }}"#}
+        {#class="btn btn-primary"><i class="fa fa-plus"></i> Запчасть</a>#}
+
+        {#{% if car is not empty %}#}
+        {#<a class="btn btn-primary"#}
+        {#href="{{ easyadmin_path('CarRecommendation', {'car_id': order.car.id}) }}">#}
+        {#<i class="fa fa-plus"></i> Рекомендация</a>#}
+        {#{% endif %}#}
+        {#</div>#}
+        {#</div>#}
+        {#{% endif %}#}
+
+        <h2 class="page-header">
+            {%- spaceless -%}
+                Работы
+                {%- if order.editable %}
+                    <a href="{{ easyadmin_path('OrderService', {'order_id': order.id}) }}">
+                        <i class="fa fa-plus"></i>
                     </a>
-
-                    <a href="{{ path('easyadmin', {
-                        'entity': 'OrderService',
-                        'action': 'new',
-                        'order_id': entity.id,
-                        'referer': app.request.uri
-                    }) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Работа</a>
-
-                    <a href="{{ path('easyadmin', {
-                        'entity': 'OrderPart',
-                        'action': 'new',
-                        'order_id': entity.id,
-                        'referer': app.request.uri
-                    }) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Запчасть</a>
-                </div>
-            </div>
-        {% endif %}
+                {%- endif %}
+                /
+                Запчасти
+                {% if order.editable -%}
+                    <a href="{{ easyadmin_path('OrderPart', {'order_id': order.id}) }}">
+                        <i class="fa fa-plus"></i>
+                    </a>
+                {%- endif -%}
+            {%- endspaceless -%}
+        </h2>
 
         <div class="row">
             <div class="col-xs-12">
@@ -115,88 +144,69 @@
                             <th>Цена</th>
                             <th>Итого</th>
                             <th>Склад</th>
-                            {% if entity.editable %}
-                                <th></th>
-                            {% endif %}
+                            <th>Действия</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for part in entity.rootParts %}
+                        {% for part in order.rootParts %}
+                            {# @var part \AppBundle\Entity\OrderPart #}
                             <tr>
                                 <td>
-                                    <a href="{{ easyadmin_entity_path(part.part) }}">
-                                        <i class="fa fa-barcode" aria-hidden="true"></i>
-                                    </a>
+                                    {{ icon.link('barcode', easyadmin_path(part.part), order.editable) }}
+
                                     {{ part.part.name }}
                                 </td>
                                 <td>{{ part.part.number }}</td>
                                 <td>{{ part.quantity }} * {{ part.cost }}</td>
                                 <td>{{ part.totalCost }}</td>
                                 <td>-</td>
-                                {% if entity.editable %}
-                                    <td>
-                                        <a href="{{ easyadmin_entity_path(part) }}">
-                                            <i class="fa fa-pencil"></i>
-                                        </a>
-                                    </td>
-                                {% endif %}
+                                <td>
+                                    {% if order.editable %}
+                                        {{ icon.link('pencil', part|easyadmin_path) }}
+                                    {% endif %}
+                                </td>
                             </tr>
                         {% endfor %}
 
-                        {% for service in entity.services %}
+                        {% for service in order.services %}
+                            {# @var service \AppBundle\Entity\OrderService #}
                             <tr>
                                 <td>
-                                    <a href="{{ easyadmin_entity_path(service.service) }}">
-                                        <i class="fa fa-wrench" aria-hidden="true"></i>
-                                    </a>
+                                    {{ icon.link('wrench', service.service|easyadmin_path, order.editable) }}
 
                                     {{ service.service.name }}
 
-                                    {% if entity.editable %}
-                                        <a href="{{ path('easyadmin', {
-                                            'entity': 'OrderPart',
-                                            'action': 'new',
-                                            'order_id': entity.id,
-                                            'order_service_id': service.id,
-                                            'referer': app.request.uri
-                                        }) }}">
-                                            <i class="fa fa-plus" aria-hidden="true"></i>
-                                        </a>
+                                    {% if order.editable %}
+                                        {{ icon.link('plus', easyadmin_path('OrderPart', {'order_id': order.id, 'order_service_id': service.id})) }}
                                     {% endif %}
                                 </td>
                                 <td>{{ service.worker }}</td>
                                 <td></td>
                                 <td>{{ service.cost }} / {{ service.partsCost }}</td>
                                 <td>-</td>
-                                {% if entity.editable %}
-                                    <td>
-                                        <a href="{{ easyadmin_entity_path(service) }}">
-                                            <i class="fa fa-pencil"></i>
-                                        </a>
-                                    </td>
-                                {% endif %}
-
+                                <td>
+                                    {% if order.editable %}
+                                        {{ icon.link('pencil', service|easyadmin_path) }}
+                                    {% endif %}
+                                </td>
                                 {% for part in service.orderParts %}
-                                    {# @var part \AppBundle\Entity\OrderPart #}
+                                    {# @var part \AppBundle\order\OrderPart #}
                                     {{ '</tr><tr>' }}
 
                                     <td style="padding-left: 40px">
-                                        <a href="{{ easyadmin_entity_path(part.part) }}">
-                                            <i class="fa fa-barcode" aria-hidden="true"></i>
-                                        </a>
+                                        {{ icon.link('barcode', part.part|easyadmin_path, order.editable) }}
+
                                         {{ part.part.name }}
                                     </td>
                                     <td>{{ part.part.number }}</td>
                                     <td>{{ part.quantity }} * {{ part.cost }}</td>
                                     <td>{{ part.totalCost }}</td>
                                     <td>-</td>
-                                    {% if entity.editable %}
-                                        <td>
-                                            <a href="{{ easyadmin_entity_path(part) }}">
-                                                <i class="fa fa-pencil"></i>
-                                            </a>
-                                        </td>
-                                    {% endif %}
+                                    <td>
+                                        {% if order.editable %}
+                                            {{ icon.link('pencil', part|easyadmin_path) }}
+                                        {% endif %}
+                                    </td>
                                 {% endfor %}
                             </tr>
                         {% endfor %}
@@ -206,6 +216,62 @@
             </div>
         </div>
 
+        {% if car is not empty and car.recommendations is not empty %}
+            <h2 class="page-header">
+                {%- spaceless -%}
+                    Рекоммендации
+
+                    <a href="{{ easyadmin_path('CarRecommendation', {'car_id': order.car.id}) }}">
+                        <i class="fa fa-plus"></i>
+                    </a>
+                {%- endspaceless -%}
+            </h2>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>Наименование</th>
+                                <th>Цена</th>
+                                <th>Склад</th>
+                                <th>Действия</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for recommendation in car.recommendations %}
+                                <tr>
+                                    <td>
+                                        {{ icon.link('asterisk', easyadmin_path(recommendation.service), true) }}
+
+                                        {{ recommendation.service.name }}
+
+                                        {{ icon.link('plus', easyadmin_path('CarRecommendationPart', {'recommendation_id': recommendation.id})) }}
+                                    </td>
+                                    <td>{{ recommendation.cost }}</td>
+                                    <td>-</td>
+                                    <td>{{ icon.link('pencil', recommendation|easyadmin_path) }}</td>
+                                    {% for part in recommendation.parts %}
+                                        {{ '</tr><tr>' }}
+                                        <td style="padding-left: 40px">
+                                            {{ icon.link('barcode', part.part|easyadmin_path) }}
+
+                                            {{ part.part.name }}
+                                        </td>
+                                        <td>{{ part.totalCost }}</td>
+                                        <td>-</td>
+                                        <td>{{ icon.link('pencil', part|easyadmin_path) }}</td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        {% endif %}
     </section>
 
 {% endblock %}

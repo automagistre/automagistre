@@ -56,9 +56,31 @@ easy_admin:
                     - { property: 'cost', label: 'Стоимость' }
                     - { property: 'quantity', label: 'Количество' }
 
-        Jobs:
-            class: AppBundle\Entity\JobAdvice
+        CarRecommendation:
+            class: AppBundle\Entity\CarRecommendation
+            controller: AppBundle\Controller\Admin\CarRecommendationController
             disabled_actions: ['delete']
+            form:
+                fields:
+                    - { property: 'car', label: 'Автомобиль', type: 'text', type_options: { disabled: true } }
+                    - { property: 'service', label: 'Работа', type: 'easyadmin_autocomplete', type_options: { required: true } }
+                    - { property: 'cost', label: 'Стоимость', type_options: { required: true } }
+            edit:
+                fields:
+                    - { property: 'service', label: 'Работа', type: 'text', type_options: { disabled: true } }
+        CarRecommendationPart:
+            class: AppBundle\Entity\CarRecommendationPart
+            controller: AppBundle\Controller\Admin\CarRecommendationPartController
+            disabled_actions: ['delete']
+            form:
+                fields:
+                    - { property: 'recommendation', label: 'Рекомендация', type: 'text', type_options: { disabled: true } }
+                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { required: true } }
+                    - { property: 'cost', label: 'Стоимость' }
+                    - { property: 'quantity', label: 'Количество' }
+            edit:
+                fields:
+                    - { property: 'part', label: 'Запчасть', type: 'text', type_options: { disabled: true } }
         Service:
             class: AppBundle\Entity\Service
             controller: AppBundle\Controller\Admin\ServiceController
@@ -102,7 +124,6 @@ easy_admin:
             form:
                 fields:
                     - { property: 'person', label: 'Ф.И.О', type: 'easyadmin_autocomplete' }
-
 
         Car:
             class: AppBundle\Entity\Car
@@ -169,8 +190,6 @@ easy_admin:
                     - { property: 'name', label: 'Название' }
                     - { property: 'number', label: 'Номер' }
                     - { property: 'price', label: 'Цена' }
-            edit:
-                fields: ['-price']
         Motion:
             class: AppBundle\Entity\Motion
             disabled_actions: ['show', 'edit', 'new', 'search', 'delete']

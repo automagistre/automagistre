@@ -92,10 +92,18 @@ class Car
      */
     private $orders;
 
+    /**
+     * @var CarRecommendation[]
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CarRecommendation", mappedBy="car")
+     */
+    private $recommendations;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->orders = new ArrayCollection();
+        $this->recommendations = new ArrayCollection();
     }
 
     /**
@@ -232,6 +240,11 @@ class Car
     public function setDescription(string $description = null)
     {
         $this->description = $description;
+    }
+
+    public function getRecommendations(): array
+    {
+        return $this->recommendations->toArray();
     }
 
     /**

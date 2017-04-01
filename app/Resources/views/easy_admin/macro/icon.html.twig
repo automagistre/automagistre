@@ -1,0 +1,18 @@
+{%- macro icon(icon, expression) -%}
+    {%- spaceless -%}
+        {% if expression|default(true) -%}
+            <i class="fa fa-{{ icon }}"></i>
+        {% endif %}
+    {%- endspaceless -%}
+{%- endmacro -%}
+
+{%- macro link(icon, url, expression) -%}
+    {%- spaceless -%}
+        {%- import _self as macro -%}
+        {%- set expression = expression|default(true) -%}
+
+        {%- if expression -%}<a href="{{ url }}">{%- endif -%}
+        {{- macro.icon(icon) -}}
+        {%- if expression -%}</a>{%- endif -%}
+    {%- endspaceless -%}
+{%- endmacro -%}

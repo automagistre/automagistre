@@ -49,6 +49,14 @@ class AppExtension extends \Twig_Extension
     {
         return [
             new Twig_SimpleFunction('easyadmin_entity_path', [$this, 'getEasyAdminUrlForEntity']),
+            new Twig_SimpleFunction('easyadmin_path', [$this, 'getEasyAdminUrlForEntity']),
+        ];
+    }
+
+    public function getFilters(): array
+    {
+        return [
+            new \Twig_SimpleFilter('easyadmin_path', [$this, 'getEasyAdminUrlForEntity']),
         ];
     }
 
