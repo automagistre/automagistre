@@ -173,7 +173,7 @@ easy_admin:
                 fields: ['-price']
         Motion:
             class: AppBundle\Entity\Motion
-            disabled_actions: ['show', 'edit', 'new', 'search']
+            disabled_actions: ['show', 'edit', 'new', 'search', 'delete']
 
 
         Manufacturer:
