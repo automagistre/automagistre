@@ -63,7 +63,12 @@ easy_admin:
             form:
                 fields:
                     - { property: 'car', label: 'Автомобиль', type: 'text', type_options: { disabled: true } }
-                    - { property: 'service', label: 'Работа', type: 'easyadmin_autocomplete', type_options: { required: true } }
+                    -
+                        property: 'service'
+                        label: 'Работа'
+                        type: 'easyadmin_autocomplete'
+                        type_options: { required: true }
+                        help: 'Чтобы добавить новую работу: Введите название работы, зачем добавьте вконце два знака +'
                     - { property: 'cost', label: 'Стоимость', type_options: { required: true } }
             edit:
                 title: 'Рекомендация №%%entity_id%%'
