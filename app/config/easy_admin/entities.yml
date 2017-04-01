@@ -66,8 +66,11 @@ easy_admin:
                     - { property: 'service', label: 'Работа', type: 'easyadmin_autocomplete', type_options: { required: true } }
                     - { property: 'cost', label: 'Стоимость', type_options: { required: true } }
             edit:
+                title: 'Рекомендация №%%entity_id%%'
                 fields:
                     - { property: 'service', label: 'Работа', type: 'text', type_options: { disabled: true } }
+            new:
+                title: 'Новая рекомендация'
         CarRecommendationPart:
             class: AppBundle\Entity\CarRecommendationPart
             controller: AppBundle\Controller\Admin\CarRecommendationPartController
@@ -81,6 +84,8 @@ easy_admin:
             edit:
                 fields:
                     - { property: 'part', label: 'Запчасть', type: 'text', type_options: { disabled: true } }
+            new:
+                title: 'Добавить запчасть к рекомендации'
         Service:
             class: AppBundle\Entity\Service
             controller: AppBundle\Controller\Admin\ServiceController
@@ -187,13 +192,17 @@ easy_admin:
             form:
                 fields:
                     - { property: 'manufacturer', label: 'Производитель' }
-                    - { property: 'name', label: 'Название' }
                     - { property: 'number', label: 'Номер' }
+                    - { property: 'name', label: 'Название' }
                     - { property: 'price', label: 'Цена' }
+            edit:
+                fields:
+                    - { property: 'manufacturer', label: 'Производитель', type_options: { disabled: true } }
+                    - { property: 'number', label: 'Номер', type_options: { disabled: true } }
+
         Motion:
             class: AppBundle\Entity\Motion
             disabled_actions: ['show', 'edit', 'new', 'search', 'delete']
-
 
         Manufacturer:
             class: AppBundle\Entity\Manufacturer
