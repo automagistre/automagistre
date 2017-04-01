@@ -18,16 +18,17 @@ class Version20170325195358 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('CREATE TABLE employee (id INT AUTO_INCREMENT NOT NULL, person_id INT DEFAULT NULL, hired_at DATETIME NOT NULL, fired_at DATETIME DEFAULT NULL, UNIQUE INDEX UNIQ_5D9F75A1217BBB47 (person_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE employee (id INT AUTO_INCREMENT NOT NULL, person_id INT DEFAULT NULL, ratio INT NOT NULL, hired_at DATETIME NOT NULL, fired_at DATETIME DEFAULT NULL, UNIQUE INDEX UNIQ_5D9F75A1217BBB47 (person_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE operand (id INT AUTO_INCREMENT NOT NULL, type INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
 
         $this->addSql('INSERT INTO operand (id, type) SELECT id, 1 FROM person');
         $this->addSql('TRUNCATE organization');
 
         $this->addSql('ALTER TABLE employee ADD CONSTRAINT FK_5D9F75A1217BBB47 FOREIGN KEY (person_id) REFERENCES person (id)');
-        $this->addSql('INSERT INTO employee (person_id, hired_at)
+        $this->addSql('INSERT INTO employee (person_id, ratio, hired_at)
           SELECT
             person.id,
+            client.ratio,
             NOW()
           FROM client
             LEFT JOIN person ON person.id = client.person_id

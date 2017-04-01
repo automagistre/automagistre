@@ -344,7 +344,6 @@ class Version20170223211957 extends AbstractMigration
             DROP referal_client_id,
             DROP ref_bonus,
             DROP point_id,
-            DROP ratio,
             ADD CONSTRAINT FK_C7440455217BBB47 FOREIGN KEY (person_id) REFERENCES person (id)
         ');
 

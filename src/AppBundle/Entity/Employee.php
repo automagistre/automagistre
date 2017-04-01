@@ -27,6 +27,13 @@ class Employee
     private $person;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     */
+    private $ratio;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
@@ -50,9 +57,24 @@ class Employee
         return $this->id;
     }
 
+    public function setPerson(Person $person): void
+    {
+        $this->person = $person;
+    }
+
     public function getPerson(): ?Person
     {
         return $this->person;
+    }
+
+    public function setRatio(int $ratio): void
+    {
+        $this->ratio = $ratio;
+    }
+
+    public function getRatio(): ?int
+    {
+        return $this->ratio;
     }
 
     public function getHiredAt(): \DateTime
