@@ -25,6 +25,7 @@ security:
         main:
             anonymous: ~
             http_basic: ~
+            logout: ~
             # activate different ways to authenticate
 
             # http_basic: ~
