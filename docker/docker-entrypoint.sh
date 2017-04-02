@@ -5,7 +5,7 @@ set -e
 export DOCKER_BRIDGE_IP=$(/sbin/ip route|awk '/default/ { print $3 }')
 
 if [ ! -z "$GITHUB_AUTH_TOKEN" ]; then
-    composer config -g github-oauth.github.com ${GITHUB_AUTH_TOKEN}
+    echo "machine github.com login ${GITHUB_AUTH_TOKEN}" > ~/.netrc
 fi
 
 # Skip entrypoint for following commands
@@ -37,8 +37,6 @@ if [ "$APP_ENV" == "dev" ]; then
     OPCACHE=${OPCACHE:=false}
     APCU=${APCU:=false}
 
-    COMMAND=${COMMAND:=php-server}
-
 elif [ "$APP_ENV" == "test" ]; then
     COMPOSER_EXEC=${COMPOSER_EXEC:="$COMPOSER_DEFAULT_EXEC --apcu-autoloader --no-progress"}
 
@@ -49,10 +47,9 @@ elif [ "$APP_ENV" == "test" ]; then
 
 elif [ "$APP_ENV" == "prod" ]; then
     COMPOSER_EXEC=${COMPOSER_EXEC:="$COMPOSER_DEFAULT_EXEC --no-dev --apcu-autoloader --no-progress"}
-
-    COMMAND=${COMMAND:=apache}
 fi
 
+COMMAND=${COMMAND:=apache}
 OPCACHE=${OPCACHE:=true}
 APCU=${APCU:=true}
 MIGRATION=${MIGRATION:=true}
