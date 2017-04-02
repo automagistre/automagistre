@@ -1,8 +1,8 @@
 easy_admin:
     entities:
         Order:
-            class: AppBundle\Entity\Order
-            controller: AppBundle\Controller\Admin\OrderController
+            class: App\Entity\Order
+            controller: App\Controller\Admin\OrderController
             disabled_actions: ['edit', 'delete']
             templates:
                 list: 'easy_admin/order/list.html.twig'
@@ -29,8 +29,8 @@ easy_admin:
                     - { property: 'description', label: 'Описание', type: 'ckeditor' }
 
         OrderService:
-            class: AppBundle\Entity\OrderService
-            controller: AppBundle\Controller\Admin\OrderServiceController
+            class: App\Entity\OrderService
+            controller: App\Controller\Admin\OrderServiceController
             disabled_actions: ['show', 'list']
             edit:
                 actions: ['delete']
@@ -41,8 +41,8 @@ easy_admin:
                     - { property: 'cost', label: 'Стоимость' }
                     - { property: 'worker', label: 'Исполнитель', type: 'easyadmin_autocomplete' }
         OrderPart:
-            class: AppBundle\Entity\OrderPart
-            controller: AppBundle\Controller\Admin\OrderPartController
+            class: App\Entity\OrderPart
+            controller: App\Controller\Admin\OrderPartController
             disabled_actions: ['show', 'list']
             templates:
                 new: 'easy_admin/order_part/new.html.twig'
@@ -57,8 +57,8 @@ easy_admin:
                     - { property: 'quantity', label: 'Количество' }
 
         CarRecommendation:
-            class: AppBundle\Entity\CarRecommendation
-            controller: AppBundle\Controller\Admin\CarRecommendationController
+            class: App\Entity\CarRecommendation
+            controller: App\Controller\Admin\CarRecommendationController
             disabled_actions: ['delete']
             templates:
                 new: 'easy_admin/car_recommendation/new.html.twig'
@@ -79,8 +79,8 @@ easy_admin:
             new:
                 title: 'Новая рекомендация'
         CarRecommendationPart:
-            class: AppBundle\Entity\CarRecommendationPart
-            controller: AppBundle\Controller\Admin\CarRecommendationPartController
+            class: App\Entity\CarRecommendationPart
+            controller: App\Controller\Admin\CarRecommendationPartController
             disabled_actions: ['delete']
             form:
                 fields:
@@ -94,17 +94,17 @@ easy_admin:
             new:
                 title: 'Добавить запчасть к рекомендации'
         Service:
-            class: AppBundle\Entity\Service
-            controller: AppBundle\Controller\Admin\ServiceController
+            class: App\Entity\Service
+            controller: App\Controller\Admin\ServiceController
             disabled_actions: ['delete']
 
         Operand:
-            class: AppBundle\Entity\Operand
-            controller: AppBundle\Controller\Admin\OperandController
+            class: App\Entity\Operand
+            controller: App\Controller\Admin\OperandController
             disabled_actions: ['new', 'edit', 'delete']
         Person:
-            class: AppBundle\Entity\Person
-            controller: AppBundle\Controller\Admin\PersonController
+            class: App\Entity\Person
+            controller: App\Controller\Admin\PersonController
             disabled_actions: ['delete']
             search:
                 fields: ['firstname', 'lastname']
@@ -121,10 +121,10 @@ easy_admin:
                     - { property: 'lastname', label: 'Фамилия' }
                     - { property: 'telephone', label: 'Телефон' }
         Organization:
-            class: AppBundle\Entity\Organization
+            class: App\Entity\Organization
             disabled_actions: ['delete']
         Employee:
-            class: AppBundle\Entity\Employee
+            class: App\Entity\Employee
             disabled_actions: ['show', 'delete']
             list:
                 fields:
@@ -138,8 +138,8 @@ easy_admin:
                     - { property: 'person', label: 'Ф.И.О', type: 'easyadmin_autocomplete' }
 
         Car:
-            class: AppBundle\Entity\Car
-            controller: AppBundle\Controller\Admin\CarController
+            class: App\Entity\Car
+            controller: App\Controller\Admin\CarController
             disabled_actions: ['delete']
             label: 'Автомобили'
             search:
@@ -183,8 +183,8 @@ easy_admin:
                     - { property: 'vin', label: 'VIN', type_options: { disabled: true }  }
 
         Part:
-            class: AppBundle\Entity\Part
-            controller: AppBundle\Controller\Admin\PartController
+            class: App\Entity\Part
+            controller: App\Controller\Admin\PartController
             label: 'Запчасти'
             templates:
                 new: 'easy_admin/part/new.html.twig'
@@ -208,11 +208,11 @@ easy_admin:
                     - { property: 'number', label: 'Номер', type_options: { disabled: true } }
 
         Motion:
-            class: AppBundle\Entity\Motion
+            class: App\Entity\Motion
             disabled_actions: ['show', 'edit', 'new', 'search', 'delete']
 
         Manufacturer:
-            class: AppBundle\Entity\Manufacturer
+            class: App\Entity\Manufacturer
             disabled_actions: ['show', 'delete']
             label: 'Производитель'
             search:
@@ -229,8 +229,8 @@ easy_admin:
                     - { property: 'logo', label: 'Logo' }
 
         Model:
-            class: AppBundle\Entity\CarModel
-            controller: AppBundle\Controller\Admin\CarModelController
+            class: App\Entity\CarModel
+            controller: App\Controller\Admin\CarModelController
             disabled_actions: ['show', 'delete']
             label: 'Модель'
             list:
@@ -248,8 +248,8 @@ easy_admin:
                     - { property: 'manufacturer', label: 'Производитель', type_options: { disabled: true } }
 
         Generation:
-            class: AppBundle\Entity\CarGeneration
-            controller: AppBundle\Controller\Admin\CarGenerationController
+            class: App\Entity\CarGeneration
+            controller: App\Controller\Admin\CarGenerationController
             disabled_actions: ['show', 'delete']
             list:
                 title: 'Поколения'
@@ -266,8 +266,8 @@ easy_admin:
                     - { property: 'carModel', type_options: { disabled: true } }
 
         Modification:
-            class: AppBundle\Entity\CarModification
-            controller: AppBundle\Controller\Admin\CarModificationController
+            class: App\Entity\CarModification
+            controller: App\Controller\Admin\CarModificationController
             disabled_actions: ['show', 'delete']
             list:
                 title: 'Справочник Автомобилей'
@@ -290,11 +290,11 @@ easy_admin:
                 fields:
                     - { property: 'carGeneration', label: 'Поколение', type: 'easyadmin_autocomplete' }
                     - { property: 'name', label: 'Название' }
-                    - { property: 'case', type: AppBundle\Form\Type\CarcaseType, label: 'Кузов' }
+                    - { property: 'case', type: App\Form\Type\CarcaseType, label: 'Кузов' }
                     - { property: 'engine', label: 'Двигатель' }
                     - { property: 'hp', label: 'л.с.' }
-                    - { property: 'transmission', type: AppBundle\Form\Type\CarTransmissionType, label: 'Трасмиссия' }
-                    - { property: 'wheelDrive', type: AppBundle\Form\Type\CarWheelDriveType, label: 'Привод' }
+                    - { property: 'transmission', type: App\Form\Type\CarTransmissionType, label: 'Трасмиссия' }
+                    - { property: 'wheelDrive', type: App\Form\Type\CarWheelDriveType, label: 'Привод' }
                     - { property: 'doors', label: 'Дверей' }
                     - { property: 'from', label: 'Начало производства' }
                     - { property: 'till', label: 'Конец производства' }

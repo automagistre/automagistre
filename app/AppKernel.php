@@ -1,5 +1,9 @@
 <?php
 
+use Ramsey\Uuid\Builder\DefaultUuidBuilder;
+use Ramsey\Uuid\Codec\OrderedTimeCodec;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidFactory;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
 
@@ -20,7 +24,7 @@ class AppKernel extends Kernel
             new Misd\PhoneNumberBundle\MisdPhoneNumberBundle(),
             new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
             new Csa\Bundle\GuzzleBundle\CsaGuzzleBundle(),
-            new AppBundle\AppBundle(),
+            new App\AppBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
@@ -31,6 +35,18 @@ class AppKernel extends Kernel
         }
 
         return $bundles;
+    }
+
+    public function boot()
+    {
+        parent::boot();
+
+        $uuidFactory = new UuidFactory();
+        $uuidBuilder = new DefaultUuidBuilder($uuidFactory->getNumberConverter());
+        $uuidFactory->setUuidBuilder($uuidBuilder);
+        $uuidFactory->setCodec(new OrderedTimeCodec($uuidBuilder));
+
+        Uuid::setFactory($uuidFactory);
     }
 
     public function getRootDir()

@@ -5,7 +5,7 @@
 {% set order = entity %}
 {% set car = order.car %}
 
-{# @var order \AppBundle\entity\Order #}
+{# @var order \App\entity\Order #}
 
 {% block page_title %}Заказ № {{ order.id }}{% endblock %}
 
@@ -149,7 +149,7 @@
                         </thead>
                         <tbody>
                         {% for part in order.rootParts %}
-                            {# @var part \AppBundle\Entity\OrderPart #}
+                            {# @var part \App\Entity\OrderPart #}
                             <tr>
                                 <td>
                                     {{ icon.link('barcode', easyadmin_path(part.part), order.editable) }}
@@ -169,7 +169,7 @@
                         {% endfor %}
 
                         {% for service in order.services %}
-                            {# @var service \AppBundle\Entity\OrderService #}
+                            {# @var service \App\Entity\OrderService #}
                             <tr>
                                 <td>
                                     {{ icon.link('wrench', service.service|easyadmin_path, order.editable) }}
@@ -197,7 +197,7 @@
                                     {% endif %}
                                 </td>
                                 {% for part in service.orderParts %}
-                                    {# @var part \AppBundle\order\OrderPart #}
+                                    {# @var part \App\order\OrderPart #}
                                     {{ '</tr><tr>' }}
 
                                     <td style="padding-left: 40px">
@@ -248,7 +248,7 @@
                             </thead>
                             <tbody>
                             {% for recommendation in car.recommendations %}
-                                {# @var recommendation \AppBundle\Entity\CarRecommendation #}
+                                {# @var recommendation \App\Entity\CarRecommendation #}
                                 <tr>
                                     <td>
                                         {{ icon.link('asterisk', easyadmin_path(recommendation.service), true) }}
