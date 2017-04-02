@@ -4,18 +4,47 @@ parameters:
 #    parameter_name: value
 
 services:
-    app.twig.extension.easy_admin:
-        class: App\Twig\Extension\AppExtension
-        arguments:
-            - '@easyadmin.config.manager'
-            - '@router'
-            - '@request_stack'
-            - '@property_accessor'
-        tags:
-            - { name: twig.extension }
+    _defaults:
+        public: false
+        autowire: by_id
+
+    _instanceof:
+        Symfony\Component\EventDispatcher\EventSubscriberInterface:
+            tags: [ kernel.event_subscriber ]
+
+        Symfony\Component\Form\AbstractType:
+            tags: [ form.type ]
+
+        Twig_Extension:
+            tags: [ twig.extension ]
+
+    App\:
+        resource: ../../src/{EventListener,Form/Type,Twig/Extension, Part}
+
+    App\Controller\:
+        resource: ../../src/Controller
+        public: true
+
+#    app.twig.extension.easy_admin:
+#        class: App\Twig\Extension\AppExtension
+#        arguments:
+#            - '@easyadmin.config.manager'
+#            - '@router'
+#            - '@request_stack'
+#            - '@property_accessor'
+#        tags:
+#            - { name: twig.extension }
+
+    JavierEguiluz\Bundle\EasyAdminBundle\Configuration\ConfigManager:
+        alias: easyadmin.config.manager
+    Symfony\Component\PropertyAccess\PropertyAccessor:
+        alias: property_accessor
+    Doctrine\ORM\EntityManager:
+        alias: doctrine.orm.default_entity_manager
 
     guzzle.middleware.ixora_auth:
         class: Closure
+        autowire: false
         factory: ['App\Guzzle\IxoraMiddleware', authQuery]
         arguments:
             - '%ixora_auth_code%'
@@ -24,19 +53,19 @@ services:
 
     guzzle.middleware.ixora_logger:
         class: Closure
+        autowire: false
         factory: ['App\Guzzle\IxoraMiddleware', logErrors]
         arguments:
             - '@logger'
         tags:
             - { name: csa_guzzle.middleware, alias: ixora_logger }
 
-    app.part.finder:
-        class: App\Part\Finder
+    App\Part\Finder:
         arguments:
             - '@csa_guzzle.client.ixora_ws'
 
-    app.part.populator:
-        class: App\Part\Populator
-        arguments:
-            - '@app.part.finder'
-            - '@doctrine.orm.entity_manager'
+#    app.part.populator:
+#        class: App\Part\Populator
+#        arguments:
+#            - '@App\Part\Finder'
+#            - '@doctrine.orm.entity_manager'

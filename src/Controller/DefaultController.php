@@ -4,12 +4,23 @@ namespace App\Controller;
 
 use App\Entity\Manufacturer;
 use App\Model\Part;
+use App\Part\Finder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
+    /**
+     * @var Finder
+     */
+    private $finder;
+
+    public function __construct(Finder $finder)
+    {
+        $this->finder = $finder;
+    }
+
     /**
      * @Route("/", name="homepage")
      */
@@ -29,7 +40,7 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $manufacturerRepository = $em->getRepository(Manufacturer::class);
 
-        $parts = $this->get('app.part.finder')->search($number);
+        $parts = $this->finder->search($number);
 
         if (!$parts) {
             return new Response('', Response::HTTP_NO_CONTENT);
