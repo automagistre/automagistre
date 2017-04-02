@@ -51,6 +51,8 @@ class DefaultController extends Controller
                 'name'         => $model->name,
                 'number'       => $model->number,
             ];
-        }, $parts));
+        }, array_filter($parts, function (Part $model) use ($number) {
+            return false !== strpos($model->number, $number);
+        })));
     }
 }
