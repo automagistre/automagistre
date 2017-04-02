@@ -56,6 +56,20 @@ class OrderPart
      */
     private $orderService;
 
+    public function __construct(
+        Order $order = null,
+        Part $part = null,
+        int $quantity = null,
+        int $cost = null,
+        OrderService $orderService = null
+    ) {
+        $this->order = $order;
+        $this->part = $part;
+        $this->quantity = $quantity;
+        $this->cost = $cost;
+        $this->orderService = $orderService;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

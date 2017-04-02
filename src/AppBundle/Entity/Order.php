@@ -26,14 +26,14 @@ class Order
     /**
      * @var Service[]|ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\OrderService", mappedBy="order", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\OrderService", mappedBy="order", cascade={"persist"}, orphanRemoval=true)
      */
     private $services;
 
     /**
      * @var OrderPart[]|ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\OrderPart", mappedBy="order", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\OrderPart", mappedBy="order", cascade={"persist"}, orphanRemoval=true)
      */
     private $parts;
 
@@ -278,6 +278,60 @@ class Order
     public function __toString(): string
     {
         return (string) $this->getId();
+    }
+
+    public function realizeRecommendation(CarRecommendation $recommendation): void
+    {
+        $orderService = new OrderService($this, $recommendation->getService(), $recommendation->getCost());
+        $this->services[] = $orderService;
+
+        foreach ($recommendation->getParts() as $recommendationPart) {
+            $orderPart = new OrderPart(
+                $this,
+                $recommendationPart->getPart(),
+                $recommendationPart->getQuantity(),
+                $recommendationPart->getCost(),
+                $orderService
+            );
+
+            $this->parts[] = $orderPart;
+            $orderService->addOrderPart($orderPart);
+        }
+
+        $recommendation->realize($this);
+    }
+
+    public function recommendService(OrderService $orderService): void
+    {
+        $criteria = Criteria::create()
+            ->andWhere(Criteria::expr()->eq('realization', $this))
+            ->andWhere(Criteria::expr()->eq('service', $orderService->getService()));
+
+        $recommendations = $this->car->getRecommendations($criteria);
+        if ($recommendations) {
+            $recommendation = array_shift($recommendations);
+
+            $recommendation->unRealize($this);
+            $recommendation->setCost($orderService->getCost());
+        } else {
+            $recommendation = new CarRecommendation($this->car, $orderService->getService(), $orderService->getCost());
+        }
+
+        foreach ($orderService->getOrderParts() as $orderPart) {
+            if ($this->parts->contains($orderPart)) {
+                $this->parts->removeElement($orderPart);
+            }
+
+            $recommendation->addPart(new CarRecommendationPart(
+                $recommendation,
+                $orderPart->getPart(),
+                $orderPart->getQuantity(),
+                $orderPart->getCost()
+            ));
+        }
+
+        $this->services->removeElement($orderService);
+        $this->car->addRecommendation($recommendation);
     }
 
     public function linkOrderToParts(): void

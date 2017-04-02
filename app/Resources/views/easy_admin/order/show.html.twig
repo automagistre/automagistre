@@ -187,6 +187,13 @@
                                 <td>
                                     {% if order.editable %}
                                         {{ icon.link('pencil', service|easyadmin_path) }}
+
+                                        <form action="{{ service|easyadmin_path({
+                                            'action': 'recommend',
+                                            'order_id': order.id
+                                        }) }}" method="post" style="display: inline">
+                                            <i class="fa fa-asterisk icon-form-submit" style="cursor: pointer"></i>
+                                        </form>
                                     {% endif %}
                                 </td>
                                 {% for part in service.orderParts %}
@@ -241,6 +248,7 @@
                             </thead>
                             <tbody>
                             {% for recommendation in car.recommendations %}
+                                {# @var recommendation \AppBundle\Entity\CarRecommendation #}
                                 <tr>
                                     <td>
                                         {{ icon.link('asterisk', easyadmin_path(recommendation.service), true) }}
@@ -251,7 +259,17 @@
                                     </td>
                                     <td>{{ recommendation.cost }}</td>
                                     <td>-</td>
-                                    <td>{{ icon.link('pencil', recommendation|easyadmin_path) }}</td>
+                                    <td>
+                                        {{ icon.link('pencil', recommendation|easyadmin_path) }}
+
+                                        <form action="{{ recommendation|easyadmin_path({
+                                            'action': 'realize',
+                                            'order_id': order.id
+                                        }) }}" method="post" style="display: inline">
+                                            <i class="fa fa-wrench icon-form-submit" style="cursor: pointer"></i>
+                                        </form>
+                                    </td>
+
                                     {% for part in recommendation.parts %}
                                         {{ '</tr><tr>' }}
                                         <td style="padding-left: 40px">
@@ -274,4 +292,12 @@
         {% endif %}
     </section>
 
+{% endblock %}
+
+{% block body_javascript %}
+    <script>
+        $('.icon-form-submit').click(function () {
+            $(this).parent().submit();
+        });
+    </script>
 {% endblock %}

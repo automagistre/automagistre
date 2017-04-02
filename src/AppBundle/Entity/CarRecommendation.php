@@ -37,7 +37,12 @@ class CarRecommendation
     /**
      * @var CarRecommendationPart[]
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CarRecommendationPart", mappedBy="recommendation")
+     * @ORM\OneToMany(
+     *     targetEntity="AppBundle\Entity\CarRecommendationPart",
+     *     mappedBy="recommendation",
+     *     cascade={"persist"},
+     *     orphanRemoval=true
+     * )
      */
     private $parts;
 
@@ -69,9 +74,11 @@ class CarRecommendation
      */
     private $createdAt;
 
-    public function __construct(Car $car)
+    public function __construct(Car $car, Service $service = null, int $price = null)
     {
         $this->car = $car;
+        $this->service = $service;
+        $this->cost = $price;
         $this->parts = new ArrayCollection();
         $this->createdAt = new \DateTime();
     }
@@ -96,6 +103,9 @@ class CarRecommendation
         $this->service = $service;
     }
 
+    /**
+     * @return CarRecommendationPart[]
+     */
     public function getParts(): array
     {
         return $this->parts->toArray();
@@ -143,8 +153,25 @@ class CarRecommendation
         return $this->createdAt;
     }
 
+    public function realize(Order $order): void
+    {
+        $this->realization = $order;
+        $this->expiredAt = new \DateTime();
+        $this->parts->clear();
+    }
+
+    public function unRealize(Order $order): void
+    {
+        if ($this->realization !== $order || !$order->isEditable()) {
+            throw new \DomainException('Can\'t unRealize recommendation from closed order');
+        }
+
+        $this->realization = null;
+        $this->expiredAt = null;
+    }
+
     public function __toString(): string
     {
-        return $this->service->getName();
+        return (string) $this->service->getName();
     }
 }

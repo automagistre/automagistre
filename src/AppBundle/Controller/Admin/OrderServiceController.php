@@ -42,4 +42,28 @@ final class OrderServiceController extends AdminController
 
         return parent::isActionAllowed($actionName);
     }
+
+    public function recommendAction()
+    {
+        if (!$this->request->isMethod('POST')) {
+            throw new BadRequestHttpException();
+        }
+
+        $query = $this->request->query;
+
+        $orderService = $this->em->getRepository(OrderService::class)->findOneBy(['id' => $query->get('id')]);
+        if (!$orderService) {
+            throw new NotFoundHttpException();
+        }
+
+        $order = $orderService->getOrder();
+        $order->recommendService($orderService);
+        $this->em->flush();
+
+        return $this->redirectToRoute('easyadmin', [
+            'entity' => 'Order',
+            'action' => 'show',
+            'id'     => $order->getId(),
+        ]);
+    }
 }

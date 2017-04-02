@@ -48,9 +48,16 @@ class CarRecommendationPart
      */
     private $cost;
 
-    public function __construct(CarRecommendation $recommendation)
-    {
+    public function __construct(
+        CarRecommendation $recommendation,
+        Part $part = null,
+        int $quantity = null,
+        int $price = null
+    ) {
         $this->recommendation = $recommendation;
+        $this->part = $part;
+        $this->quantity = $quantity;
+        $this->cost = $price;
     }
 
     public function getId(): ?int

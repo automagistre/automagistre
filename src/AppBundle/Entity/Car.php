@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -95,7 +96,7 @@ class Car
     /**
      * @var CarRecommendation[]
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CarRecommendation", mappedBy="car")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CarRecommendation", mappedBy="car", cascade={"persist"})
      */
     private $recommendations;
 
@@ -242,9 +243,21 @@ class Car
         $this->description = $description;
     }
 
-    public function getRecommendations(): array
+    /**
+     * @param Criteria|null $criteria
+     *
+     * @return CarRecommendation[]
+     */
+    public function getRecommendations(Criteria $criteria = null): array
     {
-        return $this->recommendations->toArray();
+        $criteria = $criteria ?: Criteria::create()->andWhere(Criteria::expr()->isNull('expiredAt'));
+
+        return $this->recommendations->matching($criteria)->toArray();
+    }
+
+    public function addRecommendation(CarRecommendation $recommendation): void
+    {
+        $this->recommendations[] = $recommendation;
     }
 
     /**

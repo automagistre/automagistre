@@ -53,12 +53,15 @@ class OrderService
     /**
      * @var OrderPart[]|ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\OrderPart", mappedBy="orderService")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\OrderPart", mappedBy="orderService", cascade={"persist"}, orphanRemoval=true)
      */
     private $orderParts;
 
-    public function __construct()
+    public function __construct(Order $order = null, Service $service = null, int $price)
     {
+        $this->order = $order;
+        $this->service = $service;
+        $this->cost = $price;
         $this->orderParts = new ArrayCollection();
     }
 
