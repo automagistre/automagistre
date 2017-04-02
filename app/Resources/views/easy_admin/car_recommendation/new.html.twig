@@ -1,0 +1,12 @@
+{% extends '@EasyAdmin/default/new.html.twig' %}
+
+{% block body_javascript %}
+    <script>
+        var priceInput = $('#{{ form.cost.vars.id }}');
+        console.log(priceInput);
+        $('[data-easyadmin-autocomplete-url]').on("select2:selecting", function (e) {
+
+            priceInput.val(e.params.args.data.price);
+        });
+    </script>
+{% endblock %}

@@ -39,7 +39,10 @@ final class ServiceController extends AdminController
 
         $string = $query->get('query');
         if ('++' === substr($string, -2)) {
-            $service = new Service(trim(rtrim($string, '+')));
+            $pieces = explode(' ', trim(rtrim($string, '+')));
+            $price = is_numeric(end($pieces)) ? array_pop($pieces) : 0;
+
+            $service = new Service(implode(' ', $pieces), $price);
             $this->em->persist($service);
             $this->em->flush($service);
 
@@ -52,11 +55,9 @@ final class ServiceController extends AdminController
 
         $data = array_map(function (Service $entity) {
             return [
-                'id'   => $entity->getId(),
-                'text' => sprintf(
-                    '%s',
-                    $entity->getName()
-                ),
+                'id'    => $entity->getId(),
+                'text'  => sprintf('%s (%s р.)', $entity->getName(), $entity->getPrice()),
+                'price' => $entity->getPrice(),
             ];
         }, (array) $collection);
 

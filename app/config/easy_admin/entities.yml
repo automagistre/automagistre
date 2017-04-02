@@ -60,6 +60,8 @@ easy_admin:
             class: AppBundle\Entity\CarRecommendation
             controller: AppBundle\Controller\Admin\CarRecommendationController
             disabled_actions: ['delete']
+            templates:
+                new: 'easy_admin/car_recommendation/new.html.twig'
             form:
                 fields:
                     - { property: 'car', label: 'Автомобиль', type: 'text', type_options: { disabled: true } }
@@ -68,7 +70,7 @@ easy_admin:
                         label: 'Работа'
                         type: 'easyadmin_autocomplete'
                         type_options: { required: true }
-                        help: 'Чтобы добавить новую работу: 1) Ввести полное название работы; Добавить в конец два знака +'
+                        help: 'Быстрое добавление работы: Введите название и цену, добавьте в конце два знака +. Пример: "Замена лампочки 500++"'
                     - { property: 'cost', label: 'Стоимость', type_options: { required: true } }
             edit:
                 title: 'Рекомендация №%%entity_id%%'
