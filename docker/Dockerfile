@@ -44,6 +44,7 @@ RUN if [ -f composer.json ]; then \
 COPY $SOURCE_DIR/ ${APP_DIR}/
 COPY docker/docker-entrypoint.sh /docker-entrypoint.sh
 
+COPY docker/apache/apache.conf ${APACHE_CONFDIR}/sites-enabled/000-default.conf
 COPY docker/php/* ${PHP_INI_DIR}/
 COPY docker/bin/* /usr/local/bin/
 
