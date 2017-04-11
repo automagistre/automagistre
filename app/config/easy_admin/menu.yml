@@ -8,6 +8,7 @@ easy_admin:
             - { entity: 'Car', label: 'Автомобили', icon: 'car' }
             - { entity: 'Employee', label: 'Сотрудники', icon: 'users' }
             - { label: 'Склад' }
+            - { label: 'Склад', route: 'warehouse', icon: 'archive' }
             - { entity: 'Part', label: 'Запчасти', icon: 'cogs' }
             - { entity: 'Service', label: 'Работы', icon: 'wrench' }
             - { entity: 'Motion', label: 'Движения', icon: 'truck' }

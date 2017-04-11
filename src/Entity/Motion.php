@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Doctrine\PropertyAccessorTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,8 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Motion
 {
-    use PropertyAccessorTrait;
-
     /**
      * @var int
      *
@@ -24,16 +21,9 @@ class Motion
     /**
      * @var int
      *
-     * @ORM\Column(name="qty", type="integer", nullable=true)
+     * @ORM\Column(type="integer")
      */
-    private $qty;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="reserve", type="integer", nullable=true)
-     */
-    private $reserve;
+    private $quantity;
 
     /**
      * @var Part
@@ -44,9 +34,68 @@ class Motion
     private $part;
 
     /**
+     * @var Order
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Order")
+     */
+    private $order;
+
+    /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text", length=65535, nullable=true)
+     * @ORM\Column(type="text", length=65535, nullable=true)
      */
     private $description;
+
+    public function __construct(int $qty = null, Part $part = null, Order $order = null)
+    {
+        $this->quantity = $qty;
+        $this->part = $part;
+        $this->order = $order;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getQuantity(): ?int
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(int $quantity): void
+    {
+        $this->quantity = $quantity;
+    }
+
+    public function getPart(): ?Part
+    {
+        return $this->part;
+    }
+
+    public function setPart(Part $part): void
+    {
+        $this->part = $part;
+    }
+
+    public function getOrder(): ?Order
+    {
+        return $this->order;
+    }
+
+    public function setOrder(Order $order): void
+    {
+        $this->order = $order;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
+    }
 }

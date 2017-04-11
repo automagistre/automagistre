@@ -1,0 +1,37 @@
+{% extends '@EasyAdmin/default/layout.html.twig' %}
+
+{% block page_title %}Склад{% endblock %}
+
+{% block main %}
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Производитель</th>
+                <th>Наименование</th>
+                <th>Цена</th>
+                <th>Количество</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for warehouse in parts %}
+                {# @var warehouse \App\Model\WarehousePart #}
+                {% set part = warehouse.part %}
+                {# @var part \App\Entity\Part #}
+                <tr>
+                    <td>{{ part.id }}</td>
+                    <td>
+                        <a href="{{ part.manufacturer|easyadmin_path }}">{{ part.manufacturer.name }}</a>
+                    </td>
+                    <td>
+                        <a href="{{ part|easyadmin_path }}">{{ part }} ({{ part.number }})</a>
+                    </td>
+                    <td>{{ part.price }}</td>
+                    <td>{{ warehouse.quantity / 100 }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
