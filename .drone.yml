@@ -22,7 +22,7 @@ pipeline:
   phpstan:
     image: grachev/php-sniffer
     commands:
-      - phpstan analyse --level 5 --configuration phpstan.neon `shell git diff --name-only --diff-filter=ACMRTUXB`
+      - phpstan analyse --level 5 --configuration phpstan.neon `git diff --name-only --diff-filter=ACMRTUXB`
 
   build:
     image: docker
