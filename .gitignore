@@ -21,7 +21,6 @@
 !/var/null/composer.null
 
 # php-cs-fixer
-/var/.php_cs.cache
 /.php_cs
 
 # Environments for dev

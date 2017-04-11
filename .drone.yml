@@ -17,12 +17,7 @@ pipeline:
   cs:
     image: grachev/php-sniffer
     commands:
-      - php-cs-fixer fix --dry-run --config=.php_cs.dist -v --path-mode=intersection
-
-  phpstan:
-    image: grachev/php-sniffer
-    commands:
-      - phpstan analyse --level 5 --configuration phpstan.neon `git diff --name-only --diff-filter=ACMRTUXB`
+      - php-cs-fixer fix --dry-run --config=.php_cs.dist -v --path-mode=intersection `git diff --name-only --diff-filter=ACMRTUXB`
 
   build:
     image: docker
@@ -35,6 +30,21 @@ pipeline:
         --file docker/Dockerfile
         --label branch="$DRONE_COMMIT_BRANCH"
         --build-arg GITHUB_AUTH_TOKEN="$GITHUB_AUTH_TOKEN" .
+
+  phpstan:
+    image: docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - source .drone.env
+      - >-
+        docker run --rm
+        -e APP_ENV=test
+        -e APP_DEBUG=0
+        -e FIXTURES=false
+        -e MIGRATION=false
+        "$IMAGE_BUILD"
+        phpstan analyse --level 5 --configuration phpstan.neon
 
   test:
     image: docker
