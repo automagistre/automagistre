@@ -261,9 +261,11 @@
                                         </td>
                                         <td>{{ recommendation.cost }}</td>
                                         <td>
-                                            <a href="{{ recommendation.worker|easyadmin_path({'action': 'show'}) }}">
-                                                {{ recommendation.worker.fullName }}
-                                            </a>
+                                            {% if recommendation.worker is not empty %}
+                                                <a href="{{ recommendation.worker|easyadmin_path({'action': 'show'}) }}">
+                                                    {{ recommendation.worker.fullName }}
+                                                </a>
+                                            {% endif %}
                                         </td>
                                         <td>{{ recommendation.createdAt|localizeddate('medium', 'none') }}</td>
                                         <td>
