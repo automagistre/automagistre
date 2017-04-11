@@ -28,7 +28,7 @@ if [ -z "$SYMFONY_ENV" ]; then export SYMFONY_ENV=${APP_ENV}; fi
 if [ -z "$SYMFONY_DEBUG" ]; then export SYMFONY_DEBUG=${APP_DEBUG}; fi
 
 COMMAND="$@"
-COMPOSER_DEFAULT_EXEC=${COMPOSER_DEFAULT_EXEC:="composer install --no-interaction --prefer-dist"}
+COMPOSER_DEFAULT_EXEC=${COMPOSER_DEFAULT_EXEC:="composer install --no-interaction --prefer-dist --no-scripts"}
 
 if [ "$APP_ENV" == "dev" ]; then
     COMPOSER_EXEC=${COMPOSER_EXEC:="$COMPOSER_DEFAULT_EXEC --optimize-autoloader --verbose --profile"}
@@ -53,6 +53,7 @@ COMMAND=${COMMAND:=apache}
 OPCACHE=${OPCACHE:=true}
 APCU=${APCU:=true}
 MIGRATION=${MIGRATION:=true}
+COMPOSER_SCRIPT=${MIGRATION:="post-install-cmd"}
 
 enableExt() {
     extension=$1
@@ -70,6 +71,10 @@ fi
 
 if [ "$COMPOSER_EXEC" != "false" ]; then
     ${COMPOSER_EXEC}
+
+    if [ "$COMPOSER_SCRIPT" != "false" ]; then
+        composer run-script ${COMPOSER_SCRIPT}
+    fi
 fi
 
 if [ "$MIGRATION" == "true" ]; then
