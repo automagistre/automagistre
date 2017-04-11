@@ -6,13 +6,7 @@ pipeline:
   check:
     image: docker
     commands:
-      - |
-        md5sum -wc - << MD5LIST
-        c3ee06974e5baedce32c086d3fade699  .drone.env
-        ce7587933f230a57d9d003b2d38a5192  .drone.ssh
-        c8e68b14d160870d6cab174b5af3af41  docker/docker-entrypoint.sh
-        4ac9e46f632b300159cf3947dc222f58  docker/Dockerfile
-        MD5LIST
+      - md5sum -wc - << "$MD5_LIST"
 
   cs:
     image: grachev/php-cs-fixer
@@ -44,8 +38,9 @@ pipeline:
         -e FIXTURES=false
         -e MIGRATION=false
         -e COMPOSER_SCRIPT=false
+        --entrypoint phpstan
         "$IMAGE_BUILD"
-        phpstan analyse --level 5 --configuration phpstan.neon src tests
+        analyse --level 5 --configuration phpstan.neon src tests
 
   test:
     image: docker
