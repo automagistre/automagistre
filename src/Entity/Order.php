@@ -24,7 +24,7 @@ class Order
     private $id;
 
     /**
-     * @var Service[]|ArrayCollection
+     * @var OrderService[]|ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\OrderService", mappedBy="order", cascade={"persist"}, orphanRemoval=true)
      */
@@ -247,12 +247,9 @@ class Order
 
     public function servicesCost(): int
     {
-        $total = 0;
-        foreach ($this->services as $service) {
-            $total += $service->getPrice();
-        }
-
-        return $total;
+        return array_sum(array_map(function (OrderService $service) {
+            return $service->getCost();
+        }, $this->services));
     }
 
     public function partsCost(): int
