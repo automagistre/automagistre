@@ -14,6 +14,16 @@ pipeline:
         4ac9e46f632b300159cf3947dc222f58  docker/Dockerfile
         MD5LIST
 
+  cs:
+    image: grachev/php-sniffer
+    commands:
+      - php-cs-fixer fix --dry-run --config=.php_cs.dist -v --path-mode=intersection
+
+  phpstan:
+    image: grachev/php-sniffer
+    commands:
+      - phpstan analyse --level 5 --configuration phpstan.neon `shell git diff --name-only --diff-filter=ACMRTUXB`
+
   build:
     image: docker
     volumes:

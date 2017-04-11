@@ -4,12 +4,8 @@ set -e
 
 symfony_requirements
 
-php-cs-fixer fix --dry-run
-
 console doctrine:schema:validate --skip-sync
 
 console lint:yaml etc
-
-phpstan analyse --level 5 --configuration phpstan.neon src tests
 
 #phpunit
