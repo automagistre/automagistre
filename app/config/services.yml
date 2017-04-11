@@ -1,8 +1,3 @@
-# Learn more about services, parameters and containers at
-# http://symfony.com/doc/current/service_container.html
-parameters:
-#    parameter_name: value
-
 services:
     _defaults:
         public: false
@@ -63,6 +58,10 @@ services:
     App\Part\Finder:
         arguments:
             - '@csa_guzzle.client.ixora_ws'
+
+    easyadmin.paginator:
+        class: App\Paginator\Paginator
+        public: true
 
 #    app.part.populator:
 #        class: App\Part\Populator
