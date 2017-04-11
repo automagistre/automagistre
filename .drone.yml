@@ -11,7 +11,8 @@ pipeline:
   cs:
     image: grachev/php-cs-fixer
     commands:
-      - php-cs-fixer fix --dry-run --config=.php_cs.dist -v --path-mode=intersection `git diff --name-only --diff-filter=ACMRTUXB`
+      - IFS=$'\n'; COMMIT_SCA_FILES=($(git diff --name-only --diff-filter=ACMRTUXB HEAD~..HEAD)); unset IFS
+      - php-cs-fixer fix --config=.php_cs.dist -v --dry-run --stop-on-violation --using-cache=no --path-mode=intersection "${COMMIT_SCA_FILES[@]}"
 
   build:
     image: docker
