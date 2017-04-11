@@ -4,7 +4,7 @@ set -e
 
 symfony_requirements
 
-console doctrine:schema:validate --skip-sync
+console doctrine:schema:validate
 
 console lint:yaml etc
 
