@@ -10,7 +10,7 @@ pipeline:
         md5sum -wc - << MD5LIST
         c3ee06974e5baedce32c086d3fade699  .drone.env
         ce7587933f230a57d9d003b2d38a5192  .drone.ssh
-        512c66971817b79785945b1673ca4118  docker/docker-entrypoint.sh
+        c8e68b14d160870d6cab174b5af3af41  docker/docker-entrypoint.sh
         4ac9e46f632b300159cf3947dc222f58  docker/Dockerfile
         MD5LIST
 
