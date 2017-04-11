@@ -39,6 +39,15 @@ pipeline:
         -e APP_DEBUG=0
         -e FIXTURES=false
         -e MIGRATION=false
+        -e DATABASE_HOST=mysql
+        -e DATABASE_PORT=3306
+        -e DATABASE_NAME=sto
+        -e DATABASE_PASSWORD=''
+        -e MAILER_TRANSPORT=smtp
+        -e MAILER_HOST=127.0.0.1
+        -e MAILER_USER=''
+        -e MAILER_PASSWORD=''
+        -e SECRET=ThisIsNotSecureSecretOnlyForTest
         "$IMAGE_BUILD"
 
   publish:
