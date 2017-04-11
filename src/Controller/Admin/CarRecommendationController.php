@@ -41,6 +41,10 @@ final class CarRecommendationController extends AdminController
             throw new NotFoundHttpException();
         }
 
+        if (!$order->isEditable()) {
+            throw new BadRequestHttpException();
+        }
+
         $recommendation = $this->em->getRepository(CarRecommendation::class)->findOneBy(['id' => $query->get('id')]);
         if (!$recommendation) {
             throw new NotFoundHttpException();

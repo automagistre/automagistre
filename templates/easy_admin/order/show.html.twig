@@ -271,12 +271,15 @@
                                         <td>
                                             {{ icon.link('pencil', recommendation|easyadmin_path) }}
 
-                                            <form action="{{ recommendation|easyadmin_path({
-                                                'action': 'realize',
-                                                'order_id': order.id
-                                            }) }}" method="post" style="display: inline">
-                                                <i class="fa fa-wrench icon-form-submit" style="cursor: pointer"></i>
-                                            </form>
+                                            {% if order.editable %}
+                                                <form action="{{ recommendation|easyadmin_path({
+                                                    'action': 'realize',
+                                                    'order_id': order.id
+                                                }) }}" method="post" style="display: inline">
+                                                    <i class="fa fa-wrench icon-form-submit"
+                                                       style="cursor: pointer"></i>
+                                                </form>
+                                            {% endif %}
                                         </td>
 
                                         {% for part in recommendation.parts %}
