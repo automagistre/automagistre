@@ -45,9 +45,9 @@ pipeline:
         -e FIXTURES=false
         -e MIGRATION=false
         -e COMPOSER_SCRIPT=false
-        --entrypoint php
+        --entrypoint sh
         "$IMAGE_BUILD"
-        vendor/bin/phpstan analyse --level 5 --configuration phpstan.neon src tests
+        -c "phpstan analyse --level 5 --configuration phpstan.neon src tests"
 
   test:
     image: docker
