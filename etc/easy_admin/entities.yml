@@ -136,7 +136,8 @@ easy_admin:
                     - { property: 'firedAt', label: 'Уволен' }
             form:
                 fields:
-                    - { property: 'person', label: 'Ф.И.О', type: 'easyadmin_autocomplete' }
+                    - { property: 'person', label: 'Ф.И.О', type: 'easyadmin_autocomplete', type_options: { required: true } }
+                    - { property: 'ratio', label: 'Ставка' }
 
         Car:
             class: App\Entity\Car
