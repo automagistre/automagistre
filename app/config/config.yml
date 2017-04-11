@@ -38,6 +38,8 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    paths:
+        - '%kernel.project_dir%/templates'
 
 # Doctrine Configuration
 doctrine:
