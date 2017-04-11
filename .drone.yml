@@ -41,7 +41,8 @@ pipeline:
         -e MIGRATION=false
         -e DATABASE_HOST=mysql
         -e DATABASE_PORT=3306
-        -e DATABASE_NAME=sto
+        -e DATABASE_NAME=symfony
+        -e DATABASE_USER=root
         -e DATABASE_PASSWORD=''
         -e MAILER_TRANSPORT=smtp
         -e MAILER_HOST=127.0.0.1
