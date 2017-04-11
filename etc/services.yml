@@ -14,7 +14,7 @@ services:
             tags: [ twig.extension ]
 
     App\:
-        resource: ../src/{EventListener,Form/Type,Twig/Extension, Part}
+        resource: ../src/{EventListener,Form/Type,Twig/Extension,Part}
 
     App\Controller\:
         resource: ../src/Controller

@@ -249,7 +249,7 @@ class Order
     {
         $total = 0;
         foreach ($this->services as $service) {
-            $total += $service->getCost();
+            $total += $service->getPrice();
         }
 
         return $total;

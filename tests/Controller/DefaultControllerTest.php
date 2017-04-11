@@ -10,7 +10,7 @@ class DefaultControllerTest extends TestCase
 {
     public function testIndex()
     {
-        $kernel = new Kernel('test', 0);
+        $kernel = new Kernel('test', false);
 
         self::assertSame(200, $kernel->handle(Request::create('/'))->getStatusCode());
     }

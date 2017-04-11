@@ -51,7 +51,7 @@ class Car
     private $year;
 
     /**
-     * @var Person
+     * @var Operand
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Operand")
      * @ORM\JoinColumn()
@@ -94,7 +94,7 @@ class Car
     private $orders;
 
     /**
-     * @var CarRecommendation[]
+     * @var CarRecommendation[]|ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\CarRecommendation", mappedBy="car", cascade={"persist"})
      */

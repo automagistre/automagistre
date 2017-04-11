@@ -10,6 +10,6 @@ console doctrine:schema:validate --skip-sync
 
 console lint:yaml etc
 
-#phpstan analyse --level 5 app/AppKernel.php web/app.php src
+phpstan analyse --level 5 --configuration phpstan.neon src tests
 
-#phpunit
+phpunit

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\AppBundle\Utils;
+namespace App\Tests\Utils;
 
 use App\Utils\StringUtils;
 use PHPUnit\Framework\TestCase;

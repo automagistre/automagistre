@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8d01b5a4f612b28377a9eb4b6c108977",
+    "content-hash": "23077c95eecfcc3faf0df1467962726f",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1202,16 +1202,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.4",
+            "version": "8.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "0613731935f03a799c28c5313fb647109a56d2be"
+                "reference": "eeb3835c8afc6ab35427bc9771ffc7851ce4ed8f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/0613731935f03a799c28c5313fb647109a56d2be",
-                "reference": "0613731935f03a799c28c5313fb647109a56d2be",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/eeb3835c8afc6ab35427bc9771ffc7851ce4ed8f",
+                "reference": "eeb3835c8afc6ab35427bc9771ffc7851ce4ed8f",
                 "shasum": ""
             },
             "require": {
@@ -1266,7 +1266,7 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2017-03-28T19:11:25+00:00"
+            "time": "2017-04-11T20:52:21+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -1319,16 +1319,16 @@
         },
         {
             "name": "grachevko/enum",
-            "version": "0.6",
+            "version": "0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/grachevko/Enum.git",
-                "reference": "9321f3950fa3a5e83034ec1c044290d21b46ff7a"
+                "reference": "2f3730eec5536269e732ee3ea5fdd2325adc1a99"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/grachevko/Enum/zipball/9321f3950fa3a5e83034ec1c044290d21b46ff7a",
-                "reference": "9321f3950fa3a5e83034ec1c044290d21b46ff7a",
+                "url": "https://api.github.com/repos/grachevko/Enum/zipball/2f3730eec5536269e732ee3ea5fdd2325adc1a99",
+                "reference": "2f3730eec5536269e732ee3ea5fdd2325adc1a99",
                 "shasum": ""
             },
             "require": {
@@ -1359,7 +1359,7 @@
                 }
             ],
             "description": "Enum class.",
-            "time": "2017-03-08T14:32:45+00:00"
+            "time": "2017-04-11T21:15:01+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -4604,6 +4604,84 @@
             ],
             "description": "PHPStan - PHP Static Analysis Tool",
             "time": "2017-02-20T20:45:32+00:00"
+        },
+        {
+            "name": "phpstan/phpstan-doctrine",
+            "version": "0.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpstan/phpstan-doctrine.git",
+                "reference": "50162c7223a453ee1e49a76741fbede8ebc72199"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpstan/phpstan-doctrine/zipball/50162c7223a453ee1e49a76741fbede8ebc72199",
+                "reference": "50162c7223a453ee1e49a76741fbede8ebc72199",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/common": "^2.7",
+                "doctrine/orm": "^2.5",
+                "php": "~7.0",
+                "phpstan/phpstan": "^0.6.3"
+            },
+            "require-dev": {
+                "consistence/coding-standard": "~0.12.0",
+                "phing/phing": "^2.16.0",
+                "phpunit/phpunit": "^5.7",
+                "slevomat/coding-standard": "dev-php7#d4a1a9c"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PHPStan\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Doctrine extensions for PHPStan",
+            "time": "2017-01-30T23:12:20+00:00"
+        },
+        {
+            "name": "phpstan/phpstan-guzzle",
+            "version": "0.6.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpstan/phpstan-guzzle.git",
+                "reference": "79830a767e28e9aedbe4fcab14253a8c973969c4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpstan/phpstan-guzzle/zipball/79830a767e28e9aedbe4fcab14253a8c973969c4",
+                "reference": "79830a767e28e9aedbe4fcab14253a8c973969c4",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~6.0",
+                "php": "~7.0",
+                "phpstan/phpstan": "^0.6.3"
+            },
+            "require-dev": {
+                "consistence/coding-standard": "~0.12.0",
+                "phing/phing": "^2.13.0",
+                "phpunit/phpunit": "^5.7|^6.0",
+                "satooshi/php-coveralls": "dev-master",
+                "slevomat/coding-standard": "^1.1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PHPStan\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Guzzle extensions for PHPStan",
+            "time": "2017-03-11T17:50:47+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

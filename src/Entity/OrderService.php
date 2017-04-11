@@ -133,11 +133,11 @@ class OrderService
 
     public function removeOrderPart(OrderPart $orderPart): void
     {
-        $this->orderParts->remove($orderPart);
+        $this->orderParts->remove($orderPart->getId());
     }
 
     public function __toString(): string
     {
-        return $this->getService()->getName();
+        return (string) $this->getService()->getName();
     }
 }

@@ -1,0 +1,4 @@
+includes:
+	- vendor/phpstan/phpstan-guzzle/extension.neon
+	- vendor/phpstan/phpstan-doctrine/extension.neon
+	- vendor/grachevko/enum/extension.neon

@@ -35,7 +35,7 @@ class CarRecommendation
     private $service;
 
     /**
-     * @var CarRecommendationPart[]
+     * @var CarRecommendationPart[]|ArrayCollection
      *
      * @ORM\OneToMany(
      *     targetEntity="App\Entity\CarRecommendationPart",
@@ -54,7 +54,7 @@ class CarRecommendation
     private $cost;
 
     /**
-     * @var Order
+     * @var Order|null
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Order")
      */
@@ -69,7 +69,7 @@ class CarRecommendation
     private $worker;
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      *
      * @ORM\Column(type="datetime", nullable=true)
      */
@@ -134,12 +134,12 @@ class CarRecommendation
         $this->realization = $realization;
     }
 
-    public function getCost(): ?string
+    public function getCost(): ?int
     {
         return $this->cost;
     }
 
-    public function setCost(string $cost)
+    public function setCost(int $cost)
     {
         $this->cost = $cost;
     }
