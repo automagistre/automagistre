@@ -2,6 +2,8 @@ imports:
     - { resource: ./easy_admin/ }
     - { resource: security.yml }
     - { resource: services.yml }
+    - { resource: twig.yaml }
+    - { resource: csa_guzzle.yaml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -32,13 +34,6 @@ framework:
     assets: ~
     php_errors:
         log: '%kernel.debug%'
-
-# Twig Configuration
-twig:
-    debug:            "%kernel.debug%"
-    strict_variables: "%kernel.debug%"
-    paths:
-        - '%kernel.project_dir%/templates'
 
 # Doctrine Configuration
 doctrine:
@@ -71,15 +66,3 @@ swiftmailer:
     username:  "%env(MAILER_USER)%"
     password:  "%env(MAILER_PASSWORD)%"
     spool:     { type: memory }
-
-csa_guzzle:
-    profiler: '%kernel.debug%'
-    clients:
-        ixora_ws:
-            config: # you can specify the options as in http://docs.guzzlephp.org/en/latest/quickstart.html#creating-a-client
-                base_uri: http://ws.ixora-auto.ru
-                headers:
-                    Accept: application/json
-            middleware:
-                - 'ixora_auth'
-                - 'ixora_logger'

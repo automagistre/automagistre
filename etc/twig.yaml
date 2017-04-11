@@ -1,0 +1,11 @@
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    paths:
+        - '%kernel.project_dir%/templates'
+
+services:
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }

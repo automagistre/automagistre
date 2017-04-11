@@ -1,0 +1,7 @@
+services:
+    JavierEguiluz\Bundle\EasyAdminBundle\Configuration\ConfigManager:
+        alias: easyadmin.config.manager
+
+    easyadmin.paginator:
+        class: App\Paginator\Paginator
+        public: true

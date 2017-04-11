@@ -20,51 +20,11 @@ services:
         resource: ../src/Controller
         public: true
 
-#    app.twig.extension.easy_admin:
-#        class: App\Twig\Extension\AppExtension
-#        arguments:
-#            - '@easyadmin.config.manager'
-#            - '@router'
-#            - '@request_stack'
-#            - '@property_accessor'
-#        tags:
-#            - { name: twig.extension }
-
-    JavierEguiluz\Bundle\EasyAdminBundle\Configuration\ConfigManager:
-        alias: easyadmin.config.manager
     Symfony\Component\PropertyAccess\PropertyAccessor:
         alias: property_accessor
     Doctrine\ORM\EntityManager:
         alias: doctrine.orm.default_entity_manager
 
-    guzzle.middleware.ixora_auth:
-        class: Closure
-        autowire: false
-        factory: ['App\Guzzle\IxoraMiddleware', authQuery]
-        arguments:
-            - '%env(IXORA_AUTH_CODE)%'
-        tags:
-            - { name: csa_guzzle.middleware, alias: ixora_auth }
-
-    guzzle.middleware.ixora_logger:
-        class: Closure
-        autowire: false
-        factory: ['App\Guzzle\IxoraMiddleware', logErrors]
-        arguments:
-            - '@logger'
-        tags:
-            - { name: csa_guzzle.middleware, alias: ixora_logger }
-
     App\Part\Finder:
         arguments:
             - '@csa_guzzle.client.ixora_ws'
-
-    easyadmin.paginator:
-        class: App\Paginator\Paginator
-        public: true
-
-#    app.part.populator:
-#        class: App\Part\Populator
-#        arguments:
-#            - '@App\Part\Finder'
-#            - '@doctrine.orm.entity_manager'
