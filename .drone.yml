@@ -1,7 +1,7 @@
 pipeline:
   clone:
     image: plugins/git
-    depth: 1
+    depth: 2
 
   check:
     image: docker
@@ -18,7 +18,7 @@ pipeline:
         --dry-run
         --using-cache=no
         --path-mode=intersection
-        `git diff --name-only --diff-filter=ACMRTUXB HEAD~`
+        `git diff --name-only --diff-filter=ACMRTUXB HEAD^`
 
   build:
     image: docker
