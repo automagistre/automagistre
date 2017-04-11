@@ -14,10 +14,10 @@ services:
             tags: [ twig.extension ]
 
     App\:
-        resource: ../../src/{EventListener,Form/Type,Twig/Extension, Part}
+        resource: ../src/{EventListener,Form/Type,Twig/Extension, Part}
 
     App\Controller\:
-        resource: ../../src/Controller
+        resource: ../src/Controller
         public: true
 
 #    app.twig.extension.easy_admin:
@@ -42,7 +42,7 @@ services:
         autowire: false
         factory: ['App\Guzzle\IxoraMiddleware', authQuery]
         arguments:
-            - '%ixora_auth_code%'
+            - '%env(IXORA_AUTH_CODE)%'
         tags:
             - { name: csa_guzzle.middleware, alias: ixora_auth }
 

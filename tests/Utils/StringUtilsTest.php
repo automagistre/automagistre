@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\AppBundle\Utils;
+namespace App\Tests\AppBundle\Utils;
 
-use AppBundle\Utils\StringUtils;
+use App\Utils\StringUtils;
 use PHPUnit\Framework\TestCase;
 
 /**

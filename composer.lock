@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "bb1266f214eaf9f77fa9217b8e6c07d9",
+    "content-hash": "8d01b5a4f612b28377a9eb4b6c108977",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1538,57 +1538,6 @@
                 "url"
             ],
             "time": "2017-03-20T17:10:46+00:00"
-        },
-        {
-            "name": "incenteev/composer-parameter-handler",
-            "version": "v2.1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Incenteev/ParameterHandler.git",
-                "reference": "d7ce7f06136109e81d1cb9d57066c4d4a99cf1cc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Incenteev/ParameterHandler/zipball/d7ce7f06136109e81d1cb9d57066c4d4a99cf1cc",
-                "reference": "d7ce7f06136109e81d1cb9d57066c4d4a99cf1cc",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3",
-                "symfony/yaml": "~2.3|~3.0"
-            },
-            "require-dev": {
-                "composer/composer": "1.0.*@dev",
-                "phpspec/prophecy-phpunit": "~1.0",
-                "symfony/filesystem": "~2.2"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Incenteev\\ParameterHandler\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Christophe Coevoet",
-                    "email": "stof@notk.org"
-                }
-            ],
-            "description": "Composer script handling your ignored parameter file",
-            "homepage": "https://github.com/Incenteev/ParameterHandler",
-            "keywords": [
-                "parameters management"
-            ],
-            "time": "2015-11-10T17:04:01+00:00"
         },
         {
             "name": "javiereguiluz/easyadmin-bundle",
@@ -3213,12 +3162,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "35afac00a0faab91412cb5c3d29fa0b1492c7a39"
+                "reference": "a6dbc391127d7dc56147a25ad2ce33c8a643b0ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/35afac00a0faab91412cb5c3d29fa0b1492c7a39",
-                "reference": "35afac00a0faab91412cb5c3d29fa0b1492c7a39",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/a6dbc391127d7dc56147a25ad2ce33c8a643b0ae",
+                "reference": "a6dbc391127d7dc56147a25ad2ce33c8a643b0ae",
                 "shasum": ""
             },
             "require": {
@@ -3359,7 +3308,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2017-04-11 09:36:34"
+            "time": "2017-04-11 14:29:46"
         },
         {
             "name": "twig/extensions",

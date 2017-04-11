@@ -22,3 +22,6 @@
 
 # php-cs-fixer
 !/var/.php_cs.cache
+
+# Environments for dev
+/.env

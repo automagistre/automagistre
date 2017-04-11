@@ -20,6 +20,7 @@ services:
           DATABASE_PORT: 3306
           DATABASE_USER: db
           DATABASE_PASSWORD: db
+          SECRET: ThisIsNotSecureSecretVariable
       depends_on:
           - mysql
 

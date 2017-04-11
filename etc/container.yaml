@@ -1,6 +1,5 @@
 imports:
     - { resource: ./easy_admin/ }
-    - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
 
@@ -12,9 +11,9 @@ parameters:
 framework:
     #esi:             ~
     translator:      { fallbacks: ["%locale%"] }
-    secret:          "%secret%"
+    secret:          "%env(SECRET)%"
     router:
-        resource: "%kernel.root_dir%/config/routing.yml"
+        resource: "%kernel.project_dir%/etc/routing.yml"
         strict_requirements: ~
     form:            ~
     csrf_protection: ~
@@ -27,7 +26,7 @@ framework:
     session:
         # http://symfony.com/doc/current/reference/configuration/framework.html#handler-id
         handler_id:  session.handler.native_file
-        save_path:   "%kernel.root_dir%/../var/sessions/%kernel.environment%"
+        save_path:   "%kernel.project_dir%/var/sessions/%kernel.environment%"
     fragments:       ~
     http_method_override: true
     assets: ~
@@ -49,11 +48,11 @@ doctrine:
         mapping_types:
             enum: string
         driver:   pdo_mysql
-        host:     "%database_host%"
-        port:     "%database_port%"
-        dbname:   "%database_name%"
-        user:     "%database_user%"
-        password: "%database_password%"
+        host:     "%env(DATABASE_HOST)%"
+        port:     "%env(DATABASE_PORT)%"
+        dbname:   "%env(DATABASE_NAME)%"
+        user:     "%env(DATABASE_USER)%"
+        password: "%env(DATABASE_PASSWORD)%"
         charset:  UTF8
         server_version: 5.6.34-79.1
 
@@ -63,14 +62,14 @@ doctrine:
         auto_mapping: true
 
 doctrine_migrations:
-    dir_name: '%kernel.root_dir%/../migrations'
+    dir_name: '%kernel.project_dir%/migrations'
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport: "%mailer_transport%"
-    host:      "%mailer_host%"
-    username:  "%mailer_user%"
-    password:  "%mailer_password%"
+    transport: "%env(MAILER_TRANSPORT)%"
+    host:      "%env(MAILER_HOST)%"
+    username:  "%env(MAILER_USER)%"
+    password:  "%env(MAILER_PASSWORD)%"
     spool:     { type: memory }
 
 csa_guzzle:
