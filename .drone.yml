@@ -11,7 +11,7 @@ pipeline:
   cs:
     image: grachev/php-cs-fixer
     commands:
-      - fix --dry-run --config=.php_cs.dist -v --path-mode=intersection `git diff --name-only --diff-filter=ACMRTUXB`
+      - php-cs-fixer fix --dry-run --config=.php_cs.dist -v --path-mode=intersection `git diff --name-only --diff-filter=ACMRTUXB`
 
   build:
     image: docker
