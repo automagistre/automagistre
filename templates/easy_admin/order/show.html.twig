@@ -243,7 +243,8 @@
                                 <tr>
                                     <th>Наименование</th>
                                     <th>Цена</th>
-                                    <th>Склад</th>
+                                    <th>Диагностировал</th>
+                                    <th>Дата</th>
                                     <th>Действия</th>
                                 </tr>
                                 </thead>
@@ -259,7 +260,12 @@
                                             {{ icon.link('plus', easyadmin_path('CarRecommendationPart', {'recommendation_id': recommendation.id})) }}
                                         </td>
                                         <td>{{ recommendation.cost }}</td>
-                                        <td>-</td>
+                                        <td>
+                                            <a href="{{ recommendation.worker|easyadmin_path({'action': 'show'}) }}">
+                                                {{ recommendation.worker.fullName }}
+                                            </a>
+                                        </td>
+                                        <td>{{ recommendation.createdAt|localizeddate('medium', 'none') }}</td>
                                         <td>
                                             {{ icon.link('pencil', recommendation|easyadmin_path) }}
 

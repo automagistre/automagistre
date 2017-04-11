@@ -61,6 +61,14 @@ class CarRecommendation
     private $realization;
 
     /**
+     * @var Operand
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Operand")
+     * @ORM\JoinColumn()
+     */
+    private $worker;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
@@ -141,6 +149,16 @@ class CarRecommendation
         return array_sum($this->parts->map(function (CarRecommendationPart $part) {
             return $part->getTotalCost();
         })->toArray());
+    }
+
+    public function getWorker(): ?Operand
+    {
+        return $this->worker;
+    }
+
+    public function setWorker(Operand $worker): void
+    {
+        $this->worker = $worker;
     }
 
     public function getExpiredAt(): \DateTime

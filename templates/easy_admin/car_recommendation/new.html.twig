@@ -5,8 +5,11 @@
         var priceInput = $('#{{ form.cost.vars.id }}');
         console.log(priceInput);
         $('[data-easyadmin-autocomplete-url]').on("select2:selecting", function (e) {
+            var price = e.params.args.data.price;
 
-            priceInput.val(e.params.args.data.price);
+            if (price) {
+                priceInput.val(e.params.args.data.price);
+            }
         });
     </script>
 {% endblock %}

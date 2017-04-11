@@ -57,7 +57,7 @@ class OrderService
      */
     private $orderParts;
 
-    public function __construct(Order $order = null, Service $service = null, int $price)
+    public function __construct(Order $order = null, Service $service = null, int $price = null)
     {
         $this->order = $order;
         $this->service = $service;
