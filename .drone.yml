@@ -18,7 +18,7 @@ pipeline:
         --dry-run
         --using-cache=no
         --path-mode=intersection
-        `git diff --name-only --diff-filter=ACMRTUXB HEAD~..HEAD`
+        `git diff --name-only --diff-filter=ACMRTUXB HEAD~`
 
   build:
     image: docker
