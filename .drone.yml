@@ -6,7 +6,7 @@ pipeline:
   check:
     image: docker
     commands:
-      - md5sum -wc - << "$MD5_LIST"
+      - echo -e "$MD5_LIST" | md5sum -wc
 
   cs:
     image: grachev/php-cs-fixer
