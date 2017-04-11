@@ -53,7 +53,7 @@ COMMAND=${COMMAND:=apache}
 OPCACHE=${OPCACHE:=true}
 APCU=${APCU:=true}
 MIGRATION=${MIGRATION:=true}
-COMPOSER_SCRIPT=${MIGRATION:="post-install-cmd"}
+COMPOSER_SCRIPT=${COMPOSER_SCRIPT:="post-install-cmd"}
 
 enableExt() {
     extension=$1
