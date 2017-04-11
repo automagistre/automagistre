@@ -8,8 +8,7 @@ php-cs-fixer fix --dry-run
 
 console doctrine:schema:validate --skip-sync
 
-console lint:yaml app
-console lint:yaml src
+console lint:yaml etc
 
 #phpstan analyse --level 5 app/AppKernel.php web/app.php src
 
