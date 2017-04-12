@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Part;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
 use JavierEguiluz\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -12,12 +13,22 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 final class PartController extends AdminController
 {
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
+
+    public function __construct(EventDispatcherInterface $dispatcher)
+    {
+        $this->dispatcher = $dispatcher;
+    }
+
     protected function newAction()
     {
         if ($this->request->isXmlHttpRequest() && $this->request->isMethod('POST')) {
             /** @var Part $entity */
             $entity = null;
-            $this->get('event_dispatcher')
+            $this->dispatcher
                 ->addListener(EasyAdminEvents::POST_PERSIST, function (GenericEvent $event) use (&$entity) {
                     $entity = $event->getArgument('entity');
                 });

@@ -20,22 +20,22 @@ final class RegistrationType extends AbstractType
     {
         $builder
             ->add('email', Type\EmailType::class, [
-                'label' => 'form.email',
+                'label'              => 'form.email',
                 'translation_domain' => 'FOSUserBundle',
             ])
             ->add('firstname', Type\TextType::class, [
-                'label' => 'Имя',
+                'label'  => 'Имя',
                 'mapped' => false,
             ])
             ->add('lastname', Type\TextType::class, [
-                'label' => 'Фамилия',
+                'label'  => 'Фамилия',
                 'mapped' => false,
             ])
             ->add('plainPassword', Type\RepeatedType::class, [
-                'type' => Type\PasswordType::class,
-                'options' => ['translation_domain' => 'FOSUserBundle'],
-                'first_options' => ['label' => 'form.password'],
-                'second_options' => ['label' => 'form.password_confirmation'],
+                'type'            => Type\PasswordType::class,
+                'options'         => ['translation_domain' => 'FOSUserBundle'],
+                'first_options'   => ['label' => 'form.password'],
+                'second_options'  => ['label' => 'form.password_confirmation'],
                 'invalid_message' => 'fos_user.password.mismatch',
             ]);
     }
