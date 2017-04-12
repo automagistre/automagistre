@@ -5,7 +5,6 @@ namespace App\Controller\Admin;
 use App\Entity\Order;
 use App\Entity\OrderPart;
 use App\Entity\OrderService;
-use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -26,9 +25,7 @@ final class OrderPartController extends AdminController
             throw new NotFoundHttpException();
         }
 
-        /** @var OrderPart $entity */
-        $entity = parent::createNewEntity();
-        $entity->setOrder($order);
+        $entity = new OrderPart($order, $this->getUser()->getPerson());
 
         $serviceId = $this->request->query->get('order_service_id');
         if ($serviceId) {

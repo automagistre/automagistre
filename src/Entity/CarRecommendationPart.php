@@ -48,8 +48,24 @@ class CarRecommendationPart
      */
     private $cost;
 
+    /**
+     * @var Person
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Person")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $selector;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
     public function __construct(
         CarRecommendation $recommendation,
+        Person $selector,
         Part $part = null,
         int $quantity = null,
         int $price = null
@@ -58,6 +74,8 @@ class CarRecommendationPart
         $this->part = $part;
         $this->quantity = $quantity;
         $this->cost = $price;
+        $this->selector = $selector;
+        $this->createdAt = new \DateTime();
     }
 
     public function getId(): ?int
@@ -107,5 +125,20 @@ class CarRecommendationPart
     public function getTotalCost(): int
     {
         return $this->getCost() * $this->getQuantity();
+    }
+
+    public function getSelector(): ?Person
+    {
+        return $this->selector;
+    }
+
+    public function setSelector(Person $selector): void
+    {
+        $this->selector = $selector;
+    }
+
+    public function getCreatedAt(): \DateTime
+    {
+        return clone $this->createdAt;
     }
 }

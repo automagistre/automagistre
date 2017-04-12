@@ -56,8 +56,24 @@ class OrderPart
      */
     private $orderService;
 
+    /**
+     * @var Person
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Person")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $selector;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
     public function __construct(
-        Order $order = null,
+        Order $order,
+        Person $selector,
         Part $part = null,
         int $quantity = null,
         int $cost = null,
@@ -68,6 +84,8 @@ class OrderPart
         $this->quantity = $quantity;
         $this->cost = $cost;
         $this->orderService = $orderService;
+        $this->selector = $selector;
+        $this->createdAt = new \DateTime();
     }
 
     public function getId(): ?int
@@ -132,5 +150,20 @@ class OrderPart
     public function setOrderService(OrderService $orderService): void
     {
         $this->orderService = $orderService;
+    }
+
+    public function getSelector(): Person
+    {
+        return $this->selector;
+    }
+
+    public function setSelector(Person $selector): void
+    {
+        $this->selector = $selector;
+    }
+
+    public function getCreatedAt(): \DateTime
+    {
+        return clone $this->createdAt;
     }
 }

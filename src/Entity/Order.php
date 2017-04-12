@@ -282,6 +282,7 @@ class Order
         foreach ($recommendation->getParts() as $recommendationPart) {
             $orderPart = new OrderPart(
                 $this,
+                $recommendationPart->getSelector(),
                 $recommendationPart->getPart(),
                 $recommendationPart->getQuantity(),
                 $recommendationPart->getCost(),
@@ -318,6 +319,7 @@ class Order
 
             $recommendation->addPart(new CarRecommendationPart(
                 $recommendation,
+                $orderPart->getSelector(),
                 $orderPart->getPart(),
                 $orderPart->getQuantity(),
                 $orderPart->getCost()

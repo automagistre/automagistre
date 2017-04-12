@@ -4,7 +4,6 @@ namespace App\Controller\Admin;
 
 use App\Entity\CarRecommendation;
 use App\Entity\CarRecommendationPart;
-use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -24,6 +23,6 @@ final class CarRecommendationPartController extends AdminController
             throw new NotFoundHttpException(sprintf('Recommendation id "%s" not found', $id));
         }
 
-        return new CarRecommendationPart($recommendation);
+        return new CarRecommendationPart($recommendation, $this->getUser()->getPerson());
     }
 }
