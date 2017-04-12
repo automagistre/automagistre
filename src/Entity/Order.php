@@ -249,17 +249,14 @@ class Order
     {
         return array_sum(array_map(function (OrderService $service) {
             return $service->getCost();
-        }, $this->services)) ?: 0;
+        }, $this->services->toArray()));
     }
 
     public function partsCost(): int
     {
-        $cost = 0;
-        foreach ($this->parts as $part) {
-            $cost += $part->getCost();
-        }
-
-        return $cost;
+        return array_sum(array_map(function (OrderPart $part) {
+            return $part->getCost();
+        }, $this->parts->toArray()));
     }
 
     public function readableCosts(): string
