@@ -114,7 +114,7 @@ pipeline:
       - source .drone.env
       - source .drone.ssh
       - ssh "$DEPLOY_HOST" docker service update --image "$IMAGE_PUSH" "$DEPLOY_SERVICE"
-      - docker rmi `docker images -q --filter "before=$IMAGE_PUSH" "$IMAGE"` 2> /dev/null || true
+      - ssh "$DEPLOY_HOST" docker rmi `docker images -q --filter "before=$IMAGE_PUSH" "$IMAGE"` 2> /dev/null || true
     when:
       branch: master
 
