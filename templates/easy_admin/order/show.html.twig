@@ -93,28 +93,6 @@
             </div>
         </div>
 
-        {#{% if order.editable %}#}
-        {#<div class="row">#}
-        {#<div class="col-xs-12">#}
-        {#<a href="{{ easyadmin_path(order) }}" class="btn btn-primary">#}
-        {#<i class="fa fa-pencil"></i> Редактировать#}
-        {#</a>#}
-
-        {#<a href="{{ easyadmin_path('OrderService', {'order_id': order.id}) }}"#}
-        {#class="btn btn-primary"><i class="fa fa-plus"></i> Работа</a>#}
-
-        {#<a href="{{ easyadmin_path('OrderPart', {'order_id': order.id}) }}"#}
-        {#class="btn btn-primary"><i class="fa fa-plus"></i> Запчасть</a>#}
-
-        {#{% if car is not empty %}#}
-        {#<a class="btn btn-primary"#}
-        {#href="{{ easyadmin_path('CarRecommendation', {'car_id': order.car.id}) }}">#}
-        {#<i class="fa fa-plus"></i> Рекомендация</a>#}
-        {#{% endif %}#}
-        {#</div>#}
-        {#</div>#}
-        {#{% endif %}#}
-
         <h2 class="page-header">
             {%- spaceless -%}
                 Работы
@@ -168,27 +146,27 @@
                             </tr>
                         {% endfor %}
 
-                        {% for service in order.services %}
-                            {# @var service \App\Entity\OrderService #}
+                        {% for orderService in order.services %}
+                            {# @var orderService \App\Entity\OrderService #}
                             <tr>
                                 <td>
-                                    {{ icon.link('wrench', service.service|easyadmin_path, order.editable) }}
+                                    {{ icon.link('wrench', orderService.service|easyadmin_path, order.editable) }}
 
-                                    {{ service.service.name }}
+                                    {{ orderService.service.name }}
 
                                     {% if order.editable %}
-                                        {{ icon.link('plus', easyadmin_path('OrderPart', {'order_id': order.id, 'order_service_id': service.id})) }}
+                                        {{ icon.link('plus', easyadmin_path('OrderPart', {'order_id': order.id, 'order_service_id': orderService.id})) }}
                                     {% endif %}
                                 </td>
-                                <td>{{ service.worker }}</td>
+                                <td>{{ orderService.worker }}</td>
                                 <td></td>
-                                <td>{{ service.cost }} / {{ service.partsCost }}</td>
+                                <td>{{ orderService.cost }} / {{ orderService.partsCost }}</td>
                                 <td>-</td>
                                 <td>
                                     {% if order.editable %}
-                                        {{ icon.link('pencil', service|easyadmin_path) }}
+                                        {{ icon.link('pencil', orderService|easyadmin_path) }}
 
-                                        <form action="{{ service|easyadmin_path({
+                                        <form action="{{ orderService|easyadmin_path({
                                             'action': 'recommend',
                                             'order_id': order.id
                                         }) }}" method="post" style="display: inline">
@@ -196,22 +174,22 @@
                                         </form>
                                     {% endif %}
                                 </td>
-                                {% for part in service.orderParts %}
-                                    {# @var part \App\order\OrderPart #}
+                                {% for orderPart in orderService.orderParts %}
+                                    {# @var orderPart \App\order\OrderPart #}
                                     {{ '</tr><tr>' }}
 
                                     <td style="padding-left: 40px">
-                                        {{ icon.link('barcode', part.part|easyadmin_path, order.editable) }}
+                                        {{ icon.link('barcode', orderPart.part|easyadmin_path, order.editable) }}
 
-                                        {{ part.part.name }}
+                                        {{ orderPart.part.name }}
                                     </td>
-                                    <td>{{ part.part.number }}</td>
-                                    <td>{{ part.quantity }} * {{ part.cost }}</td>
-                                    <td>{{ part.totalCost }}</td>
+                                    <td>{{ orderPart.part.number }}</td>
+                                    <td>{{ orderPart.quantity }} * {{ orderPart.cost }}</td>
+                                    <td>{{ orderPart.totalCost }}</td>
                                     <td>-</td>
                                     <td>
                                         {% if order.editable %}
-                                            {{ icon.link('pencil', part|easyadmin_path) }}
+                                            {{ icon.link('pencil', orderPart|easyadmin_path) }}
                                         {% endif %}
                                     </td>
                                 {% endfor %}
