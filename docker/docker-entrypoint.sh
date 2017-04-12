@@ -93,4 +93,4 @@ if [ -f ${APP_DIR}/web/config.php ]; then
 	sed -i "s~'::1',~'::1', '$DOCKER_BRIDGE_IP',~g" "$APP_DIR/web/config.php"
 fi
 
-exec "$COMMAND"
+${COMMAND}
