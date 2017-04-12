@@ -6,14 +6,21 @@ use Ramsey\Uuid\Builder\DefaultUuidBuilder;
 use Ramsey\Uuid\Codec\OrderedTimeCodec;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidFactory;
+use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel as SymfonyKernel;
+use Symfony\Component\Routing\RouteCollectionBuilder;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
 class Kernel extends SymfonyKernel
 {
+    const CONFIG_EXTS = '.{php,xml,yaml,yml}';
+
+    use MicroKernelTrait;
+
     public function registerBundles()
     {
         $bundles = [
@@ -29,6 +36,7 @@ class Kernel extends SymfonyKernel
             new \Misd\PhoneNumberBundle\MisdPhoneNumberBundle(),
             new \Ivory\CKEditorBundle\IvoryCKEditorBundle(),
             new \Csa\Bundle\GuzzleBundle\CsaGuzzleBundle(),
+            new \FOS\UserBundle\FOSUserBundle(),
             new \App\AppBundle(),
         ];
 
@@ -64,10 +72,26 @@ class Kernel extends SymfonyKernel
         return $this->getProjectDir().'/var/logs';
     }
 
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    protected function configureRoutes(RouteCollectionBuilder $routes)
     {
-        $confDir = dirname(__DIR__).'/etc';
+        $routingDir = $this->getProjectDir().'/etc/routing';
 
-        $loader->load($confDir.'/container_'.$this->getEnvironment().'.yaml');
+        $routes->import($routingDir.'/*'.self::CONFIG_EXTS, '/', 'glob');
+
+        if (is_dir($routingDir.'/'.$this->getEnvironment())) {
+            $routes->import($routingDir.'/'.$this->getEnvironment().'/*'.self::CONFIG_EXTS, '/', 'glob');
+        }
+    }
+
+    protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader)
+    {
+        $confDir = $this->getProjectDir().'/etc';
+
+        $loader->load($confDir.'/packages/*'.self::CONFIG_EXTS, 'glob');
+        if (is_dir($confDir.'/packages/'.$this->getEnvironment())) {
+            $loader->load($confDir.'/packages/'.$this->getEnvironment().'/*'.self::CONFIG_EXTS, 'glob');
+        }
+
+        $loader->load($confDir.'/container'.self::CONFIG_EXTS, 'glob');
     }
 }

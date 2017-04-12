@@ -1,68 +1,33 @@
-imports:
-    - { resource: ./easy_admin/ }
-    - { resource: security.yml }
-    - { resource: services.yml }
-    - { resource: twig.yaml }
-    - { resource: csa_guzzle.yaml }
-
-# Put parameters here that don't need to change on each machine where the app is deployed
-# http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: ru
 
-framework:
-    #esi:             ~
-    translator:      { fallbacks: ["%locale%"] }
-    secret:          "%env(SECRET)%"
-    router:
-        resource: "%kernel.project_dir%/etc/routing.yml"
-        strict_requirements: ~
-    form:            ~
-    csrf_protection: ~
-    validation:      { enable_annotations: true }
-    #serializer:      { enable_annotations: true }
-    templating:
-        engines: ['twig']
-    default_locale:  "%locale%"
-    trusted_hosts:   ~
-    session:
-        # http://symfony.com/doc/current/reference/configuration/framework.html#handler-id
-        handler_id:  session.handler.native_file
-        save_path:   "%kernel.project_dir%/var/sessions/%kernel.environment%"
-    fragments:       ~
-    http_method_override: true
-    assets: ~
-    php_errors:
-        log: '%kernel.debug%'
+services:
+    _defaults:
+        public: false
+        autowire: by_id
 
-# Doctrine Configuration
-doctrine:
-    dbal:
-        types:
-            uuid_binary: Ramsey\Uuid\Doctrine\UuidBinaryType
-        mapping_types:
-            enum: string
-        driver:   pdo_mysql
-        host:     "%env(DATABASE_HOST)%"
-        port:     "%env(DATABASE_PORT)%"
-        dbname:   "%env(DATABASE_NAME)%"
-        user:     "%env(DATABASE_USER)%"
-        password: "%env(DATABASE_PASSWORD)%"
-        charset:  UTF8
-        server_version: 5.6.34-79.1
+    _instanceof:
+        Symfony\Component\EventDispatcher\EventSubscriberInterface:
+            tags: [ kernel.event_subscriber ]
 
-    orm:
-        auto_generate_proxy_classes: "%kernel.debug%"
-        naming_strategy: doctrine.orm.naming_strategy.underscore
-        auto_mapping: true
+        Symfony\Component\Form\AbstractType:
+            tags: [ form.type ]
 
-doctrine_migrations:
-    dir_name: '%kernel.project_dir%/migrations'
+        Twig_Extension:
+            tags: [ twig.extension ]
 
-# Swiftmailer Configuration
-swiftmailer:
-    transport: "%env(MAILER_TRANSPORT)%"
-    host:      "%env(MAILER_HOST)%"
-    username:  "%env(MAILER_USER)%"
-    password:  "%env(MAILER_PASSWORD)%"
-    spool:     { type: memory }
+    App\:
+        resource: ../src/{EventListener,Form/Type,Twig/Extension,Part}
+
+    App\Controller\:
+        resource: ../src/Controller
+        public: true
+
+    Symfony\Component\PropertyAccess\PropertyAccessor:
+        alias: property_accessor
+    Doctrine\ORM\EntityManager:
+        alias: doctrine.orm.default_entity_manager
+
+    App\Part\Finder:
+        arguments:
+            - '@csa_guzzle.client.ixora_ws'

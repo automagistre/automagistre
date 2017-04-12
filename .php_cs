@@ -22,7 +22,7 @@ return PhpCsFixer\Config::create()
         'phpdoc_order'           => true,
         'php_unit_strict'        => true,
         'strict_comparison'      => true,
-        'binary_operator_spaces' => ['align_double_arrow' => true],
+        'binary_operator_spaces' => ['align_double_arrow' => false],
     ])
     ->setFinder($finder)
     ->setCacheFile(__DIR__.'/var/.php_cs.cache');

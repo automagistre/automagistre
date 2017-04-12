@@ -1,4 +1,53 @@
+services:
+    JavierEguiluz\Bundle\EasyAdminBundle\Configuration\ConfigManager:
+        alias: easyadmin.config.manager
+
+    easyadmin.paginator:
+        class: App\Paginator\Paginator
+        public: true
+
 easy_admin:
+    site_name: 'СТО Автомагистр'
+    design:
+        color_scheme: 'light'
+        templates:
+            layout: 'easy_admin/layout.html.twig'
+        form_theme: 'vertical'
+        assets:
+            js:
+                - 'assets/js/collection-autocomplete.js'
+        menu:
+            - { entity: 'Order', label: 'Заказы', icon: 'list' }
+            - { label: 'Списки' }
+            - { entity: 'Person', label: 'Люди', icon: 'users' }
+            - { entity: 'Organization', label: 'Организации', icon: 'industry' }
+            - { entity: 'Car', label: 'Автомобили', icon: 'car' }
+            - { entity: 'Employee', label: 'Сотрудники', icon: 'users' }
+            - { label: 'Склад' }
+            - { label: 'Склад', route: 'warehouse', icon: 'archive' }
+            - { entity: 'Part', label: 'Запчасти', icon: 'cogs' }
+            - { entity: 'Service', label: 'Работы', icon: 'wrench' }
+            - { entity: 'Motion', label: 'Движения', icon: 'truck' }
+            - { label: 'Справочники' }
+            - { entity: 'Manufacturer', label: 'Производитель', icon: 'industry' }
+            - { entity: 'Model', label: 'Модель', icon: 'car' }
+            - { entity: 'Generation', label: 'Поколение', icon: 'car' }
+            - { entity: 'Modification', label: 'Модификация', icon: 'car' }
+
+    formats:
+        date: 'd.m.Y'
+        time: 'H:i'
+        datetime: 'd.m.Y H:i'
+#    form:
+
+    list:
+        max_results: 17
+        actions:
+            - { name: 'new', icon: 'plus', label: 'Создать' }
+            - { name: 'show', icon: 'search', label: false }
+            - { name: 'edit', icon: 'pencil', label: false }
+            - { name: 'delete', icon: 'trash', label: false }
+
     entities:
         Order:
             class: App\Entity\Order
