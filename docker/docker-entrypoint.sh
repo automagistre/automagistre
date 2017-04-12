@@ -10,7 +10,7 @@ fi
 
 # Skip entrypoint for following commands
 case "$1" in
-   sh|php|composer|php-cs-fixer) exec "$@" && exit 0;;
+   sh|php|composer) exec "$@" && exit 0;;
 esac
 
 case "$APP_ENV" in
