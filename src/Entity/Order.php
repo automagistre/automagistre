@@ -249,7 +249,7 @@ class Order
     {
         return array_sum(array_map(function (OrderService $service) {
             return $service->getCost();
-        }, $this->services));
+        }, $this->services)) ?: 0;
     }
 
     public function partsCost(): int
