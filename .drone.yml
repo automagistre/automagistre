@@ -36,6 +36,7 @@ pipeline:
     commands:
       - pwd
       - env
+      - cd "$APP_DIR"
       - php -d display_errors=yes vendor/bin/phpstan analyse --level 5 --configuration phpstan.neon --no-progress src tests
 
   symfony requirements:
