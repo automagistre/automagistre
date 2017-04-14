@@ -40,30 +40,25 @@ pipeline:
   symfony requirements:
     image: ${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}
     commands:
-      - cd "$APP_DIR"
       - symfony_requirements
 
   yaml lint:
-    image: docker
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+    image: ${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}
     commands:
-      - docker run --rm ${SYMFONY_TEST_ENV} "${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}" console lint:yaml etc
+      - source .env.dist
+      - console lint:yaml "$APP_DIR/etc"
 
   doctrine validation:
-    image: docker
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+    image: ${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}
     commands:
+      - source .env.dist
       - while ! nc -z 127.0.0.1 3306; do sleep 1; done
-      - docker run --rm ${SYMFONY_TEST_ENV} "${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}" console doctrine:schema:validate --skip-sync
+      - console doctrine:schema:validate --skip-sync
 
   phpunit:
-    image: docker
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+    image: ${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}
     commands:
-      - docker run --rm --network "container:$HOSTNAME" ${SYMFONY_TEST_ENV} "${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}" phpunit
+      - phpunit
 
   publish:
     image: docker
