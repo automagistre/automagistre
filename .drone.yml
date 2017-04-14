@@ -26,9 +26,9 @@ pipeline:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
       - >-
-        docker build -t "$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER"
+        docker build -t "${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}"
         --file docker/Dockerfile
-        --label branch="$DRONE_COMMIT_BRANCH"
+        --label branch="${DRONE_COMMIT_BRANCH}"
         --build-arg GITHUB_AUTH_TOKEN="$GITHUB_AUTH_TOKEN" .
 
   phpstan:
@@ -37,7 +37,7 @@ pipeline:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
       - >-
-        docker run --rm -e SKIP_ENTRYPOINT=true "$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER"
+        docker run --rm -e SKIP_ENTRYPOINT=true "${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}"
         phpstan analyse --level 5 --configuration phpstan.neon --no-progress src tests
 
   symfony_requirements:
@@ -45,14 +45,14 @@ pipeline:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker run --rm -e SKIP_ENTRYPOINT=true "$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER" symfony_requirements
+      - docker run --rm -e SKIP_ENTRYPOINT=true "${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}" symfony_requirements
 
   yaml_lint:
     image: docker
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker run --rm ${SYMFONY_TEST_ENV} "$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER" console lint:yaml etc
+      - docker run --rm ${SYMFONY_TEST_ENV} "${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}" console lint:yaml etc
 
   doctrine_validation:
     image: docker
@@ -60,14 +60,14 @@ pipeline:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
       - while ! nc -z 127.0.0.1 3306; do sleep 1; done
-      - docker run --rm ${SYMFONY_TEST_ENV} "$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER" console doctrine:schema:validate --skip-sync
+      - docker run --rm ${SYMFONY_TEST_ENV} "${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}" console doctrine:schema:validate --skip-sync
 
   phpunit:
     image: docker
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker run --rm --network "container:$HOSTNAME" ${SYMFONY_TEST_ENV} "$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER" phpunit
+      - docker run --rm --network "container:$HOSTNAME" ${SYMFONY_TEST_ENV} "${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}" phpunit
 
   publish:
     image: docker
@@ -75,14 +75,14 @@ pipeline:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
       - docker login -u"$HUB_LOGIN" -p"$HUB_PASSWORD" registry.gitlab.com
-      - docker tag "$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER" "registry.gitlab.com/$DRONE_REPO:$DRONE_BUILD_NUMBER"
-      - docker push "registry.gitlab.com/$DRONE_REPO:$DRONE_BUILD_NUMBER" > /dev/null
+      - docker tag "${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}" "registry.gitlab.com/${DRONE_REPO}:${DRONE_BUILD_NUMBER}"
+      - docker push "registry.gitlab.com/${DRONE_REPO}:${DRONE_BUILD_NUMBER}" > /dev/null
       - >+
         if [ "master" == "$DRONE_COMMIT_BRANCH" ]; then
-          docker rmi --force "registry.gitlab.com/$DRONE_REPO:$DRONE_BUILD_NUMBER"
+          docker rmi --force "registry.gitlab.com/${DRONE_REPO}:${DRONE_BUILD_NUMBER}"
 
-          docker tag "$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER" "registry.gitlab.com/$DRONE_REPO:latest"
-          docker push "registry.gitlab.com/$DRONE_REPO:latest" > /dev/null
+          docker tag "${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}" "registry.gitlab.com/${DRONE_REPO}:latest"
+          docker push "registry.gitlab.com/${DRONE_REPO}:latest" > /dev/null
         fi
     when:
       event: push
@@ -94,9 +94,9 @@ pipeline:
     commands:
       - >+
         if [ "success" == "$DRONE_BUILD_STATUS" ] && [ "push" == "$DRONE_BUILD_EVENT" ]; then
-          (docker rmi `docker images -q --filter before="$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER" --filter label="branch=$DRONE_COMMIT_BRANCH" "$IMAGE"`)
+          (docker rmi `docker images -q --filter before="${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}" --filter label="branch=$DRONE_COMMIT_BRANCH" "$IMAGE"`)
         fi
-      - docker rmi --force "$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER"
+      - docker rmi --force "${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}"
     when:
       status: [ failure, success ]
 
@@ -105,8 +105,8 @@ pipeline:
     host: ${DEPLOY_HOST}
     key: ${DEPLOY_KEY}
     commands:
-      - ssh "$DEPLOY_HOST" docker service update --image "registry.gitlab.com/$DRONE_REPO:$DRONE_BUILD_NUMBER" "$DEPLOY_SERVICE"
-      - ssh "$DEPLOY_HOST" docker rmi `docker images -q --filter "before=registry.gitlab.com/$DRONE_REPO:$DRONE_BUILD_NUMBER" "$IMAGE"` 2> /dev/null || true
+      - ssh "$DEPLOY_HOST" docker service update --image "registry.gitlab.com/${DRONE_REPO}:${DRONE_BUILD_NUMBER}" "$DEPLOY_SERVICE"
+      - ssh "$DEPLOY_HOST" docker rmi `docker images -q --filter "before=registry.gitlab.com/${DRONE_REPO}:${DRONE_BUILD_NUMBER}" "$IMAGE"` 2> /dev/null || true
     when:
       branch: master
 
