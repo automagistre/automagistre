@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "75a9c844a9b8c8f6d81ef80dbb0920b3",
+    "content-hash": "ef222ccebef1a119f135a0ca57322f35",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1206,12 +1206,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "9378cf9e508d235122c9bcabfa6eeae316c4af09"
+                "reference": "0e412131e57746d614238cf508c8dd55b84945d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/9378cf9e508d235122c9bcabfa6eeae316c4af09",
-                "reference": "9378cf9e508d235122c9bcabfa6eeae316c4af09",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/0e412131e57746d614238cf508c8dd55b84945d0",
+                "reference": "0e412131e57746d614238cf508c8dd55b84945d0",
                 "shasum": ""
             },
             "require": {
@@ -1275,7 +1275,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2017-04-12 08:32:08"
+            "time": "2017-04-14 13:45:58"
         },
         {
             "name": "giggsey/libphonenumber-for-php",
@@ -5764,65 +5764,6 @@
             ],
             "description": "This bundle generates code for you",
             "time": "2017-03-15T01:02:10+00:00"
-        },
-        {
-            "name": "symfony/phpunit-bridge",
-            "version": "v3.2.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "996374975357b569ea319ec1c98c5ca0f7dda610"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/996374975357b569ea319ec1c98c5ca0f7dda610",
-                "reference": "996374975357b569ea319ec1c98c5ca0f7dda610",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "suggest": {
-                "ext-zip": "Zip support is required when using bin/simple-phpunit",
-                "symfony/debug": "For tracking deprecated interfaces usages at runtime with DebugClassLoader"
-            },
-            "bin": [
-                "bin/simple-phpunit"
-            ],
-            "type": "symfony-bridge",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.2-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "bootstrap.php"
-                ],
-                "psr-4": {
-                    "Symfony\\Bridge\\PhpUnit\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony PHPUnit Bridge",
-            "homepage": "https://symfony.com",
-            "time": "2017-01-21T17:06:35+00:00"
         },
         {
             "name": "symfony/polyfill-php54",
