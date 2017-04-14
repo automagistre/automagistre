@@ -83,6 +83,8 @@ easy_admin:
             disabled_actions: ['show', 'list']
             edit:
                 actions: ['delete']
+                fields:
+                    - { property: 'service', label: 'Работа', type: 'easyadmin_autocomplete', type_options: { disabled: true } }
             form:
                 fields:
                     - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
@@ -97,6 +99,8 @@ easy_admin:
                 new: 'easy_admin/order_part/new.html.twig'
             edit:
                 actions: ['delete']
+                fields:
+                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { disabled: true } }
             form:
                 fields:
                     - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
