@@ -3,8 +3,8 @@ pipeline:
     image: plugins/git
     depth: 2
 
-  check:
-    image: docker
+  Security Checking:
+    image: alpine
     commands:
       - echo -e "$MD5_LIST" | md5sum -wc
 
