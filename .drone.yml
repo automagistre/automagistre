@@ -52,7 +52,7 @@ pipeline:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker run --rm -e SKIP_ENTRYPOINT=true "$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER" console lint:yaml etc
+      - docker run --rm "$SYMFONY_TEST_ENV" "$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER" console lint:yaml etc
 
   doctrine_validation:
     image: docker
@@ -60,30 +60,14 @@ pipeline:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
       - while ! nc -z 127.0.0.1 3306; do sleep 1; done
-      - docker run --rm "$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER" console doctrine:schema:validate --skip-sync
+      - docker run --rm "$SYMFONY_TEST_ENV" "$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER" console doctrine:schema:validate --skip-sync
 
   phpunit:
     image: docker
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - >-
-        docker run --rm --network "container:$HOSTNAME"
-        -e APP_ENV=test
-        -e APP_DEBUG=0
-        -e FIXTURES=false
-        -e MIGRATION=false
-        -e DATABASE_HOST=mysql
-        -e DATABASE_PORT=3306
-        -e DATABASE_NAME=symfony
-        -e DATABASE_USER=root
-        -e DATABASE_PASSWORD=''
-        -e MAILER_TRANSPORT=smtp
-        -e MAILER_HOST=127.0.0.1
-        -e MAILER_USER=''
-        -e MAILER_PASSWORD=''
-        -e SECRET=ThisIsNotSecureSecretOnlyForTest
-        "$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER" phpunit
+      - docker run --rm --network "container:$HOSTNAME" "$SYMFONY_TEST_ENV" "$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER" phpunit
 
   publish:
     image: docker
