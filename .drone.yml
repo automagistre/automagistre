@@ -44,7 +44,9 @@ pipeline:
     image: ${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}
     commands:
       - symfony_requirements
-    environments:
+      - env
+      - exit 1
+    environment:
       SKIP_ENTRYPOINT: true
 
   yaml_lint:
