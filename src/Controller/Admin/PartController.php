@@ -167,7 +167,7 @@ final class PartController extends AdminController
             ]);
         }, (array) $paginator->getCurrentPageResults());
 
-        return $this->render('easy_admin/warehouse/list.html.twig', [
+        return $this->render('easy_admin/part/stock.html.twig', [
             'parts' => $parts,
         ]);
     }
