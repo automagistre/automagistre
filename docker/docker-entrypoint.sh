@@ -10,8 +10,12 @@ fi
 
 # Skip entrypoint for following commands
 case "$1" in
-   sh|php|composer|phpstan|symfony_requirements) exec "$@" && exit 0;;
+   sh|php|composer) exec "$@" && exit 0;;
 esac
+
+if [ "$SKIP_ENTRYPOINT" == "true" ]; then
+    exec "$@" && exit 0
+fi
 
 case "$APP_ENV" in
    prod|dev|test) ;;

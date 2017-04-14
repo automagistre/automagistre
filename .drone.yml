@@ -19,10 +19,6 @@ pipeline:
         --using-cache=no
         --path-mode=intersection
         `git diff --name-only --diff-filter=ACMRTUXB HEAD^`
-  env:
-    image: alpine
-    commands:
-      - env
 
   build:
     image: docker
@@ -43,7 +39,7 @@ pipeline:
     commands:
       - source .drone.env
       - >-
-        docker run --rm "$IMAGE_BUILD"
+        docker run --rm "$IMAGE_BUILD" -e SKIP_ENTRYPOINT=true
         phpstan analyse --level 5 --configuration phpstan.neon --no-progress src tests
 
   symfony_requirements:
@@ -53,7 +49,7 @@ pipeline:
     commands:
       - source .drone.env
       - >-
-        docker run --rm "$IMAGE_BUILD" symfony_requirements
+        docker run --rm "$IMAGE_BUILD" -e SKIP_ENTRYPOINT=true symfony_requirements
 
   yaml_lint:
     image: docker
@@ -62,7 +58,7 @@ pipeline:
     commands:
       - source .drone.env
       - >-
-        docker run --rm "$IMAGE_BUILD" console lint:yaml etc
+        docker run --rm "$IMAGE_BUILD" -e SKIP_ENTRYPOINT=true console lint:yaml etc
 
   doctrine_validation:
     image: docker
