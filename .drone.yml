@@ -103,6 +103,7 @@ pipeline:
   deploy:
     image: appleboy/drone-ssh
     host: ${DEPLOY_HOST}
+    username: ${DEPLOY_USER}
     key: ${DEPLOY_KEY}
     commands:
       - ssh "$DEPLOY_HOST" docker service update --image "registry.gitlab.com/${DRONE_REPO}:${DRONE_BUILD_NUMBER}" "$DEPLOY_SERVICE"
