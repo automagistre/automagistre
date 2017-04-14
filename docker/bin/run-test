@@ -8,4 +8,4 @@ console doctrine:schema:validate --skip-sync
 
 console lint:yaml etc
 
-#phpunit
+phpunit
