@@ -216,7 +216,7 @@ class Car
         $roman = ['A', 'B', 'E', 'K', 'M', 'H', 'O', 'P', 'C', 'T', 'Y', 'X'];
         $cyrillic = ['А', 'В', 'Е', 'К', 'М', 'Н', 'О', 'Р', 'С', 'Т', 'У', 'Х'];
 
-        return str_replace($cyrillic, $roman, mb_convert_case($this->gosnomer, MB_CASE_UPPER));
+        return str_replace($cyrillic, $roman, mb_convert_case($this->gosnomer, MB_CASE_UPPER, 'UTF-8'));
     }
 
     /**
