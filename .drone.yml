@@ -46,7 +46,7 @@ pipeline:
     image: ${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}
     commands:
       - cd "$APP_DIR"
-      - bash -c "source .env.dist && export $(cut -d= -f1 .env.dist)"
+      - . ./.env.dist
       - env
       - console lint:yaml etc
 
@@ -54,7 +54,7 @@ pipeline:
     image: ${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}
     commands:
       - cd "$APP_DIR"
-      - bash -c "source .env.dist && export $(cut -d= -f1 .env.dist)"
+      - . ./.env.dist
       - while ! nc -z 127.0.0.1 3306; do sleep 1; done
       - console doctrine:schema:validate --skip-sync
 
@@ -62,7 +62,7 @@ pipeline:
     image: ${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}
     commands:
       - cd "$APP_DIR"
-      - bash -c "source .env.dist && export $(cut -d= -f1 .env.dist)"
+      - . ./.env.dist
       - phpunit
 
   publish:
