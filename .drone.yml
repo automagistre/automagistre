@@ -46,7 +46,7 @@ pipeline:
         -e MIGRATION=false
         -e COMPOSER_SCRIPT=false
         "$IMAGE_BUILD"
-        phpstan analyse --level 5 --configuration phpstan.neon src tests
+        phpstan analyse --level 5 --configuration phpstan.neon --no-progress src tests
 
   test:
     image: docker
