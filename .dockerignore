@@ -9,3 +9,8 @@ vendor
 
 # git
 .git
+
+# Dev tools
+docker-compose.yml.dist
+.env.dist
+Makefile
