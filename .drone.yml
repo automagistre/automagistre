@@ -47,7 +47,6 @@ pipeline:
     commands:
       - cd "$APP_DIR"
       - eval $(cat .env.dist | sed "s/^/export /")
-      - env
       - console lint:yaml etc
 
   doctrine validation:
