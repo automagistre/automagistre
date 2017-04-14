@@ -13,7 +13,7 @@ case "$1" in
    sh|php|composer) exec "$@" && exit 0;;
 esac
 
-if $SKIP_ENTRYPOINT ; then
+if [ ! -z "$SKIP_ENTRYPOINT" ]; then
     exec "$@" && exit 0
 fi
 
