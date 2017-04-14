@@ -81,6 +81,8 @@ easy_admin:
             class: App\Entity\OrderService
             controller: App\Controller\Admin\OrderServiceController
             disabled_actions: ['show', 'list']
+            templates:
+                new: 'easy_admin/order_service/new.html.twig'
             edit:
                 actions: ['delete']
                 fields:
@@ -88,7 +90,12 @@ easy_admin:
             form:
                 fields:
                     - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
-                    - { property: 'service', label: 'Работа', type: 'easyadmin_autocomplete', type_options: { required: true } }
+                    -
+                        property: 'service'
+                        label: 'Работа'
+                        type: 'easyadmin_autocomplete'
+                        type_options: { required: true }
+                        help: 'Быстрое добавление работы: Введите название и цену, добавьте в конце два знака +. Пример: "Замена лампочки 500++"'
                     - { property: 'cost', label: 'Стоимость' }
                     - { property: 'worker', label: 'Исполнитель', type: 'easyadmin_autocomplete' }
         OrderPart:
