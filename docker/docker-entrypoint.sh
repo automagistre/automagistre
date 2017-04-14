@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -ex
+set -e
 
 export DOCKER_BRIDGE_IP=$(/sbin/ip route|awk '/default/ { print $3 }')
 
@@ -46,7 +46,7 @@ elif [ "$APP_ENV" == "test" ]; then
 	COMMAND=${COMMAND:=run-test}
 
 elif [ "$APP_ENV" == "prod" ]; then
-    COMPOSER_EXEC=${COMPOSER_EXEC:="$COMPOSER_DEFAULT_EXEC --no-dev --apcu-autoloader --no-progress"}
+    COMPOSER_EXEC=${COMPOSER_EXEC:=false}
 fi
 
 COMMAND=${COMMAND:=apache}

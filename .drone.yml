@@ -40,7 +40,7 @@ pipeline:
       - source .drone.env
       - >-
         docker run --rm "$IMAGE_BUILD"
-        php -d display_errors=on vendor/bin/phpstan analyse --level 5 --configuration phpstan.neon --no-progress src tests
+        phpstan analyse --level 5 --configuration phpstan.neon --no-progress src tests
 
   test:
     image: docker
