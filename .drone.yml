@@ -52,8 +52,7 @@ pipeline:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - env
-      - docker run --rm "$SYMFONY_TEST_ENV" "$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER" console lint:yaml etc
+      - docker run --rm ${SYMFONY_TEST_ENV} "$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER" console lint:yaml etc
 
   doctrine_validation:
     image: docker
@@ -61,14 +60,14 @@ pipeline:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
       - while ! nc -z 127.0.0.1 3306; do sleep 1; done
-      - docker run --rm "$SYMFONY_TEST_ENV" "$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER" console doctrine:schema:validate --skip-sync
+      - docker run --rm ${SYMFONY_TEST_ENV} "$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER" console doctrine:schema:validate --skip-sync
 
   phpunit:
     image: docker
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker run --rm --network "container:$HOSTNAME" "$SYMFONY_TEST_ENV" "$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER" phpunit
+      - docker run --rm --network "container:$HOSTNAME" ${SYMFONY_TEST_ENV} "$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER" phpunit
 
   publish:
     image: docker
