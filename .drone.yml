@@ -41,11 +41,11 @@ pipeline:
         phpstan analyse --level 5 --configuration phpstan.neon --no-progress src tests
 
   symfony_requirements:
-    image: docker
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+    image: ${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}
     commands:
-      - docker run --rm -e SKIP_ENTRYPOINT=true "${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}" symfony_requirements
+      - symfony_requirements
+    environments:
+      SKIP_ENTRYPOINT: true
 
   yaml_lint:
     image: docker
