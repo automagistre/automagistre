@@ -52,6 +52,7 @@ pipeline:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
+      - env
       - docker run --rm "$SYMFONY_TEST_ENV" "$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER" console lint:yaml etc
 
   doctrine_validation:
