@@ -32,22 +32,14 @@ pipeline:
         --build-arg GITHUB_AUTH_TOKEN="$GITHUB_AUTH_TOKEN" .
 
   phpstan:
-    image: docker
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+    image: ${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}
     commands:
-      - >-
-        docker run --rm -e SKIP_ENTRYPOINT=true "${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}"
-        phpstan analyse --level 5 --configuration phpstan.neon --no-progress src tests
+      - phpstan analyse --level 5 --configuration phpstan.neon --no-progress src tests
 
   symfony_requirements:
     image: ${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}
     commands:
       - symfony_requirements
-      - env
-      - exit 1
-    environment:
-      SKIP_ENTRYPOINT: true
 
   yaml_lint:
     image: docker
