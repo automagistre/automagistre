@@ -53,7 +53,7 @@
 
     <script type="text/javascript">
         $(function () {
-            var url = "{{ path('part-search', {'number': '__NUMBER__'}) }}",
+            var url = "{{ easyadmin_entity_path('Part', {'action': 'numberSearch', 'number': '__NUMBER__'})|raw }}",
                 main = $('#modal-part-form'),
                 select = $('#modal-part-select'),
                 form = $('#{{ form.vars.attr.id }}'),
