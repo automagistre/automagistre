@@ -25,7 +25,7 @@ final class OrderPartController extends AdminController
             throw new NotFoundHttpException();
         }
 
-        $entity = new OrderPart($order, $this->getUser()->getPerson());
+        $entity = new OrderPart($order, $this->getUser());
 
         $serviceId = $this->request->query->get('order_service_id');
         if ($serviceId) {

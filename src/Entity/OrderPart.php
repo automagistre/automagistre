@@ -57,10 +57,10 @@ class OrderPart
     private $orderService;
 
     /**
-     * @var Person
+     * @var User
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Person")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\JoinColumn()
      */
     private $selector;
 
@@ -73,7 +73,7 @@ class OrderPart
 
     public function __construct(
         Order $order,
-        Person $selector,
+        User $selector,
         Part $part = null,
         int $quantity = null,
         int $cost = null,
@@ -152,12 +152,12 @@ class OrderPart
         $this->orderService = $orderService;
     }
 
-    public function getSelector(): Person
+    public function getSelector(): User
     {
         return $this->selector;
     }
 
-    public function setSelector(Person $selector): void
+    public function setSelector(User $selector): void
     {
         $this->selector = $selector;
     }

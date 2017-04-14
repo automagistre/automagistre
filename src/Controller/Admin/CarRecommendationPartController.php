@@ -23,6 +23,6 @@ final class CarRecommendationPartController extends AdminController
             throw new NotFoundHttpException(sprintf('Recommendation id "%s" not found', $id));
         }
 
-        return new CarRecommendationPart($recommendation, $this->getUser()->getPerson());
+        return new CarRecommendationPart($recommendation, $this->getUser());
     }
 }

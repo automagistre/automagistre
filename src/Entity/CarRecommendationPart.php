@@ -49,10 +49,10 @@ class CarRecommendationPart
     private $cost;
 
     /**
-     * @var Person
+     * @var User
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Person")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\JoinColumn()
      */
     private $selector;
 
@@ -65,7 +65,7 @@ class CarRecommendationPart
 
     public function __construct(
         CarRecommendation $recommendation,
-        Person $selector,
+        User $selector,
         Part $part = null,
         int $quantity = null,
         int $price = null
@@ -127,12 +127,12 @@ class CarRecommendationPart
         return $this->getCost() * $this->getQuantity();
     }
 
-    public function getSelector(): ?Person
+    public function getSelector(): ?User
     {
         return $this->selector;
     }
 
-    public function setSelector(Person $selector): void
+    public function setSelector(User $selector): void
     {
         $this->selector = $selector;
     }
