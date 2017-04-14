@@ -12,5 +12,4 @@ vendor
 
 # Dev tools
 docker-compose.yml.dist
-.env.dist
 Makefile
