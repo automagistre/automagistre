@@ -22,7 +22,7 @@ class Employee
      * @var Person
      *
      * @ORM\OneToOne(targetEntity="App\Entity\Person")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn(nullable=false)
      */
     private $person;
 
