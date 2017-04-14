@@ -39,13 +39,7 @@ pipeline:
     commands:
       - source .drone.env
       - >-
-        docker run --rm
-        -e APP_ENV=test
-        -e APP_DEBUG=0
-        -e FIXTURES=false
-        -e MIGRATION=false
-        -e COMPOSER_SCRIPT=false
-        "$IMAGE_BUILD"
+        docker run --rm "$IMAGE_BUILD"
         phpstan analyse --level 5 --configuration phpstan.neon --no-progress src tests
 
   test:
