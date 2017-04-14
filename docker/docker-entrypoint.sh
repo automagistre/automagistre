@@ -10,7 +10,7 @@ fi
 
 # Skip entrypoint for following commands
 case "$1" in
-   sh|php|composer|phpstan) exec "$@" && exit 0;;
+   sh|php|composer|phpstan|symfony_requirements) exec "$@" && exit 0;;
 esac
 
 case "$APP_ENV" in
@@ -71,10 +71,10 @@ fi
 
 if [ "$COMPOSER_EXEC" != "false" ]; then
     ${COMPOSER_EXEC}
+fi
 
-    if [ "$COMPOSER_SCRIPT" != "false" ]; then
-        composer run-script ${COMPOSER_SCRIPT}
-    fi
+if [ "$COMPOSER_SCRIPT" != "false" ]; then
+    composer run-script ${COMPOSER_SCRIPT}
 fi
 
 if [ "$MIGRATION" == "true" ]; then

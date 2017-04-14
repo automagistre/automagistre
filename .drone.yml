@@ -19,6 +19,10 @@ pipeline:
         --using-cache=no
         --path-mode=intersection
         `git diff --name-only --diff-filter=ACMRTUXB HEAD^`
+  env:
+    image: alpine
+    commands:
+      - env
 
   build:
     image: docker
@@ -42,13 +46,40 @@ pipeline:
         docker run --rm "$IMAGE_BUILD"
         phpstan analyse --level 5 --configuration phpstan.neon --no-progress src tests
 
-  test:
+  symfony_requirements:
+    image: docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - source .drone.env
+      - >-
+        docker run --rm "$IMAGE_BUILD" symfony_requirements
+
+  yaml_lint:
+    image: docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - source .drone.env
+      - >-
+        docker run --rm "$IMAGE_BUILD" console lint:yaml etc
+
+  doctrine_validation:
     image: docker
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
       - source .drone.env
       - while ! nc -z 127.0.0.1 3306; do sleep 1; done
+      - >-
+        docker run --rm "$IMAGE_BUILD" console doctrine:schema:validate --skip-sync
+
+  phpunit:
+    image: docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - source .drone.env
       - >-
         docker run --rm --network "container:$HOSTNAME"
         -e APP_ENV=test
@@ -65,7 +96,7 @@ pipeline:
         -e MAILER_USER=''
         -e MAILER_PASSWORD=''
         -e SECRET=ThisIsNotSecureSecretOnlyForTest
-        "$IMAGE_BUILD"
+        "$IMAGE_BUILD" phpunit
 
   publish:
     image: docker
@@ -101,12 +132,11 @@ pipeline:
       status: [ failure, success ]
 
   deploy:
-    image: docker
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+    image: appleboy/drone-ssh
+    host: ${DEPLOY_HOST}
+    key: ${DEPLOY_KEY}
     commands:
       - source .drone.env
-      - source .drone.ssh
       - ssh "$DEPLOY_HOST" docker service update --image "$IMAGE_PUSH" "$DEPLOY_SERVICE"
       - ssh "$DEPLOY_HOST" docker rmi `docker images -q --filter "before=$IMAGE_PUSH" "$IMAGE"` 2> /dev/null || true
     when:
