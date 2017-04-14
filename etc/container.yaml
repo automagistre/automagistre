@@ -7,6 +7,9 @@ services:
         autowire: by_id
 
     _instanceof:
+        Symfony\Bundle\FrameworkBundle\Controller\Controller:
+            public: true
+
         Symfony\Component\EventDispatcher\EventSubscriberInterface:
             tags: [ kernel.event_subscriber ]
 
@@ -16,14 +19,15 @@ services:
         Twig_Extension:
             tags: [ twig.extension ]
 
+        Grachevko\Enum\Enum:
+            autowire: false
+        App\Kernel:
+            autowire: false
+
     App\:
-        resource: ../src/{EventListener,Form/Type,Twig/Extension,Part}
+        resource: ../src
 
-    App\Controller\:
-        resource: ../src/Controller
-        public: true
-
-    Symfony\Component\PropertyAccess\PropertyAccessor:
+    Symfony\Component\PropertyAccess\PropertyAccessorInterface:
         alias: property_accessor
     Doctrine\ORM\EntityManager:
         alias: doctrine.orm.default_entity_manager

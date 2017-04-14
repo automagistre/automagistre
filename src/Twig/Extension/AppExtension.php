@@ -5,7 +5,7 @@ namespace App\Twig\Extension;
 use Doctrine\Common\Util\ClassUtils;
 use JavierEguiluz\Bundle\EasyAdminBundle\Configuration\ConfigManager;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\PropertyAccess\PropertyAccessor;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Twig_SimpleFunction;
 
@@ -28,8 +28,9 @@ class AppExtension extends \Twig_Extension
      * @var RequestStack
      */
     private $requestStack;
+
     /**
-     * @var PropertyAccessor
+     * @var PropertyAccessorInterface
      */
     private $propertyAccessor;
 
@@ -37,7 +38,7 @@ class AppExtension extends \Twig_Extension
         ConfigManager $configManager,
         RouterInterface $router,
         RequestStack $requestStack,
-        PropertyAccessor $propertyAccessor
+        PropertyAccessorInterface $propertyAccessor
     ) {
         $this->configManager = $configManager;
         $this->router = $router;
