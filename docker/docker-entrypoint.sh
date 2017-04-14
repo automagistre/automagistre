@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -e
+set -ex
 
 export DOCKER_BRIDGE_IP=$(/sbin/ip route|awk '/default/ { print $3 }')
 
