@@ -105,9 +105,12 @@ pipeline:
     host: ${DEPLOY_HOST}
     username: ${DEPLOY_USER}
     key: ${DEPLOY_KEY}
-    commands:
-      - ssh "$DEPLOY_HOST" docker service update --image "registry.gitlab.com/${DRONE_REPO}:${DRONE_BUILD_NUMBER}" "$DEPLOY_SERVICE"
-      - ssh "$DEPLOY_HOST" docker rmi `docker images -q --filter "before=registry.gitlab.com/${DRONE_REPO}:${DRONE_BUILD_NUMBER}" "$IMAGE"` 2> /dev/null || true
+    script:
+      - docker service update --image "registry.gitlab.com/${DRONE_REPO}:${DRONE_BUILD_NUMBER}" "${DEPLOY_SERVICE}"
+      - >-
+        docker rmi
+        `docker images -q --filter "before=registry.gitlab.com/${DRONE_REPO}:${DRONE_BUILD_NUMBER}" "registry.gitlab.com/${DRONE_REPO}"`
+        2> /dev/null || true
     when:
       branch: master
 
