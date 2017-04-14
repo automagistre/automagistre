@@ -37,7 +37,7 @@ pipeline:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
       - >-
-        docker run --rm "$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER" -e SKIP_ENTRYPOINT=true
+        docker run --rm -e SKIP_ENTRYPOINT=true "$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER"
         phpstan analyse --level 5 --configuration phpstan.neon --no-progress src tests
 
   symfony_requirements:
@@ -45,14 +45,14 @@ pipeline:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker run --rm "$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER" -e SKIP_ENTRYPOINT=true symfony_requirements
+      - docker run --rm -e SKIP_ENTRYPOINT=true "$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER" symfony_requirements
 
   yaml_lint:
     image: docker
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker run --rm "$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER" -e SKIP_ENTRYPOINT=true console lint:yaml etc
+      - docker run --rm -e SKIP_ENTRYPOINT=true "$DRONE_REPO_NAME:$DRONE_BUILD_NUMBER" console lint:yaml etc
 
   doctrine_validation:
     image: docker
