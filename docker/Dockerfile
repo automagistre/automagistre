@@ -38,7 +38,7 @@ ARG SOURCE_DIR=.
 
 COPY $SOURCE_DIR/composer.* ${APP_DIR}/
 RUN if [ -f composer.json ]; then \
-    composer install --no-scripts --no-interaction --no-autoloader --no-progress --prefer-dist \
+    composer install --no-scripts --no-interaction --apcu-autoloader --no-progress --prefer-dist \
     && rm -rf ${COMPOSER_CACHE_DIR}/* ; fi
 
 COPY $SOURCE_DIR/ ${APP_DIR}/
