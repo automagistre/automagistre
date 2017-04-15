@@ -40,29 +40,35 @@ pipeline:
   symfony requirements:
     image: ${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}
     commands:
-      - symfony_requirements
+      - /docker-entrypoint.sh symfony_requirements
+    environment:
+      APP_ENV: test
+      APP_DEBUG: 0
 
   yaml lint:
     image: ${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}
     commands:
-      - cd "$APP_DIR"
-      - eval $(cat .env.dist | grep . | sed "s/^/export /")
       - /docker-entrypoint.sh console lint:yaml etc
+    environment:
+      APP_ENV: test
+      APP_DEBUG: 0
 
   doctrine validation:
     image: ${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}
     commands:
-      - cd "$APP_DIR"
-      - eval $(cat .env.dist | grep . | sed "s/^/export /")
       - while ! nc -z 127.0.0.1 3306; do sleep 1; done
-      - console doctrine:schema:validate --skip-sync
+      - /docker-entrypoint.sh console doctrine:schema:validate --skip-sync
+    environment:
+      APP_ENV: test
+      APP_DEBUG: 0
 
   phpunit:
     image: ${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}
     commands:
-      - cd "$APP_DIR"
-      - eval $(cat .env.dist | grep . | sed "s/^/export /")
-      - phpunit
+      - /docker-entrypoint.sh phpunit
+    environment:
+      APP_ENV: test
+      APP_DEBUG: 0
 
   publish:
     image: docker

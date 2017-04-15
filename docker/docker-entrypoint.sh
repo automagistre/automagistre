@@ -47,6 +47,21 @@ elif [ "$APP_ENV" == "test" ]; then
 	REQUIREMENTS=${REQUIREMENTS:=true}
 	FIXTURES=${FIXTURES:=true}
 
+    cd "$APP_DIR"
+
+	# Set variable from .env.dist if not defined
+	OLD_IFS="$IFS"
+	IFS='='
+	while read env_name env_value
+	do
+	    if [ -z "$env_name" ]; then continue; fi
+
+	    IFS=
+	    eval `echo export ${env_name}=\$\{${env_name}\:=${env_value}\}`
+	    IFS='='
+	done < ./.env.dist
+	IFS="$OLD_IFS"
+
 elif [ "$APP_ENV" == "prod" ]; then
     COMPOSER_EXEC=${COMPOSER_EXEC:=false}
 fi
