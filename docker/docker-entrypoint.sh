@@ -32,18 +32,13 @@ if [ -z "$SYMFONY_ENV" ]; then export SYMFONY_ENV=${APP_ENV}; fi
 if [ -z "$SYMFONY_DEBUG" ]; then export SYMFONY_DEBUG=${APP_DEBUG}; fi
 
 COMMAND="$@"
-COMPOSER_DEFAULT_EXEC=${COMPOSER_DEFAULT_EXEC:="composer install --no-interaction --prefer-dist --no-scripts"}
 
 if [ "$APP_ENV" == "dev" ]; then
-    COMPOSER_EXEC=${COMPOSER_EXEC:="$COMPOSER_DEFAULT_EXEC --optimize-autoloader --verbose --profile"}
-
     XDEBUG=${XDEBUG:=true}
     OPCACHE=${OPCACHE:=false}
     APCU=${APCU:=false}
 
 elif [ "$APP_ENV" == "test" ]; then
-    COMPOSER_EXEC=${COMPOSER_EXEC:="$COMPOSER_DEFAULT_EXEC --apcu-autoloader --no-progress"}
-
 	REQUIREMENTS=${REQUIREMENTS:=true}
 #	FIXTURES=${FIXTURES:=true}
 
@@ -61,9 +56,6 @@ elif [ "$APP_ENV" == "test" ]; then
 	    IFS='='
 	done < ./.env.dist
 	IFS="$OLD_IFS"
-
-elif [ "$APP_ENV" == "prod" ]; then
-    COMPOSER_EXEC=${COMPOSER_EXEC:=false}
 fi
 
 COMMAND=${COMMAND:=apache}
@@ -86,9 +78,9 @@ if [ "$APCU" == "true" ]; then
     enableExt apcu
 fi
 
-#if [ "$COMPOSER_EXEC" != "false" ]; then
-#    ${COMPOSER_EXEC}
-#fi
+if [ ! -z "$COMPOSER_EXEC" ]; then
+    ${COMPOSER_EXEC}
+fi
 
 if [ "$COMPOSER_SCRIPT" != "false" ]; then
     composer run-script ${COMPOSER_SCRIPT}
