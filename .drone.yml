@@ -46,14 +46,14 @@ pipeline:
     image: ${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}
     commands:
       - cd "$APP_DIR"
-      - eval $(cat .env.dist | sed "s/^/export /")
+      - eval $(cat .env.dist | grep . | sed "s/^/export /")
       - console lint:yaml etc
 
   doctrine validation:
     image: ${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}
     commands:
       - cd "$APP_DIR"
-      - eval $(cat .env.dist | sed "s/^/export /")
+      - eval $(cat .env.dist | grep . | sed "s/^/export /")
       - while ! nc -z 127.0.0.1 3306; do sleep 1; done
       - console doctrine:schema:validate --skip-sync
 
@@ -61,7 +61,7 @@ pipeline:
     image: ${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}
     commands:
       - cd "$APP_DIR"
-      - eval $(cat .env.dist | sed "s/^/export /")
+      - eval $(cat .env.dist | grep . | sed "s/^/export /")
       - phpunit
 
   publish:
