@@ -47,8 +47,6 @@ elif [ "$APP_ENV" == "test" ]; then
 	REQUIREMENTS=${REQUIREMENTS:=true}
 	FIXTURES=${FIXTURES:=true}
 
-	COMMAND=${COMMAND:=run-test}
-
 elif [ "$APP_ENV" == "prod" ]; then
     COMPOSER_EXEC=${COMPOSER_EXEC:=false}
 fi
