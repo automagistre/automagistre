@@ -47,7 +47,7 @@ pipeline:
     commands:
       - cd "$APP_DIR"
       - eval $(cat .env.dist | grep . | sed "s/^/export /")
-      - console lint:yaml etc
+      - /docker-entrypoint.sh console lint:yaml etc
 
   doctrine validation:
     image: ${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}
