@@ -45,7 +45,7 @@ elif [ "$APP_ENV" == "test" ]; then
     COMPOSER_EXEC=${COMPOSER_EXEC:="$COMPOSER_DEFAULT_EXEC --apcu-autoloader --no-progress"}
 
 	REQUIREMENTS=${REQUIREMENTS:=true}
-	FIXTURES=${FIXTURES:=true}
+#	FIXTURES=${FIXTURES:=true}
 
     cd "$APP_DIR"
 
