@@ -72,6 +72,7 @@ pipeline:
     environment:
       APP_ENV: test
       APP_DEBUG: 0
+      MIGRATION: false
 
   publish:
     image: docker

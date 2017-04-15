@@ -86,9 +86,9 @@ if [ "$APCU" == "true" ]; then
     enableExt apcu
 fi
 
-if [ "$COMPOSER_EXEC" != "false" ]; then
-    ${COMPOSER_EXEC}
-fi
+#if [ "$COMPOSER_EXEC" != "false" ]; then
+#    ${COMPOSER_EXEC}
+#fi
 
 if [ "$COMPOSER_SCRIPT" != "false" ]; then
     composer run-script ${COMPOSER_SCRIPT}
