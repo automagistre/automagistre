@@ -83,7 +83,7 @@ class Part
     /**
      * @var int
      *
-     * @ORM\Column(nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $price = 0;
 
