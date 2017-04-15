@@ -44,6 +44,7 @@ pipeline:
     environment:
       APP_ENV: test
       APP_DEBUG: 0
+      MIGRATION: false
 
   yaml lint:
     image: ${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}
@@ -52,6 +53,7 @@ pipeline:
     environment:
       APP_ENV: test
       APP_DEBUG: 0
+      MIGRATION: false
 
   doctrine validation:
     image: ${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}
@@ -61,6 +63,7 @@ pipeline:
     environment:
       APP_ENV: test
       APP_DEBUG: 0
+      MIGRATION: false
 
   phpunit:
     image: ${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}
