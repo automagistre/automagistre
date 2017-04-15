@@ -23,7 +23,7 @@ case "$APP_ENV" in
 esac
 
 case "$APP_DEBUG" in
-   0) ;;
+   0) COMPOSER_SCRIPT_OPTIONS="-q";;
    1) touch ${APP_DIR}/web/config.php;;
    *) >&2 echo env "APP_DEBUG" must be in \"1, 0\" && exit 1;;
 esac
@@ -67,7 +67,10 @@ COMPOSER_SCRIPT=${COMPOSER_SCRIPT:="post-install-cmd"}
 enableExt() {
     extension=$1
     docker-php-ext-enable ${extension}
-    echo -e " > $extension enabled"
+
+    if [ "$APP_DEBUG" == 1 ]; then
+        echo -e " > $extension enabled"
+    fi
 }
 
 if [ "$OPCACHE" == "true" ]; then
@@ -83,7 +86,7 @@ if [ ! -z "$COMPOSER_EXEC" ]; then
 fi
 
 if [ "$COMPOSER_SCRIPT" != "false" ]; then
-    composer run-script ${COMPOSER_SCRIPT}
+    composer run-script ${COMPOSER_SCRIPT_OPTIONS} ${COMPOSER_SCRIPT}
 fi
 
 if [ "$MIGRATION" == "true" ]; then
