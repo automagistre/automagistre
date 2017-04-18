@@ -36,9 +36,9 @@ final class QuantityToLocalizedStringTransformer extends NumberToLocalizedString
     /**
      * @param float|int $value
      *
-     * @return string
-     *
      * @throws TransformationFailedException
+     *
+     * @return string
      */
     public function transform($value)
     {
