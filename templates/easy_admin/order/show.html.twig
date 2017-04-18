@@ -136,7 +136,7 @@
                                 </td>
                                 <td>{{ part.part.number }}</td>
                                 <td>{{ part.quantity / 100 }} * {{ part.cost|localizednumber }}</td>
-                                <td>{{ part.totalCost }}</td>
+                                <td>{{ (part.totalCost / 100)|localizednumber }}</td>
                                 <td>-</td>
                                 <td>
                                     {% if order.editable %}
