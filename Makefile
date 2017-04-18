@@ -1,3 +1,4 @@
+check: cs phpstan phpunit
 cs:
 	docker-compose run --rm -e SKIP_ENTRYPOINT=true app php-cs-fixer fix --config .php_cs.dist
 phpstan:
