@@ -25,7 +25,10 @@ services:
     App\:
         resource: ../src
     App\Entity\:
-        resource: ../src/{Entity, Model}
+        resource: ../src/Entity
+        autowire: false
+    App\Model\:
+        resource: ../src/Model
         autowire: false
 
     Symfony\Component\PropertyAccess\PropertyAccessorInterface:
