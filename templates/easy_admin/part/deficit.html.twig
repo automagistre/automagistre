@@ -1,26 +1,25 @@
 {% extends '@EasyAdmin/default/layout.html.twig' %}
 
-{% block page_title %}Дефицит{% endblock %}
+{% block content_title %}Дефицит - {{ parts|length }}{% endblock %}
 
 {% block main %}
     <div class="table-responsive">
-        <table class="table">
+        <table class="table table-bordered table-hover">
             <thead>
             <tr>
-                <th>ID</th>
                 <th>Производитель</th>
                 <th>Наименование</th>
                 <th>Цена</th>
                 <th>Недостача</th>
+                <th>Заказы</th>
             </tr>
             </thead>
             <tbody>
             {% for warehouse in parts %}
-                {# @var warehouse \App\Model\WarehousePart #}
+                {# @var warehouse \App\Model\DeficitPart #}
                 {% set part = warehouse.part %}
                 {# @var part \App\Entity\Part #}
                 <tr>
-                    <td>{{ part.id }}</td>
                     <td>
                         <a href="{{ part.manufacturer|easyadmin_path }}">{{ part.manufacturer.name }}</a>
                     </td>
@@ -29,9 +28,21 @@
                     </td>
                     <td>{{ part.price }}</td>
                     <td>{{ warehouse.quantity / 100 }}</td>
+                    <td>
+                        {%- for order in warehouse.orders -%}
+                            {# @var order \App\Entity\Order #}
+                            <a href="{{ easyadmin_path(order, {'action': 'show'}) }}">#{{ order.id }}</a>
+                            {%- if not loop.last %}, {% endif -%}
+                        {%- endfor -%}
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
+
+    <script src="{{ asset('assets/js/jquery.tablesorter.min.js') }}"></script>
+    <script>
+        $('table').tablesorter();
+    </script>
 {% endblock %}
