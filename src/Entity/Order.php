@@ -42,16 +42,16 @@ class Order
     /**
      * @var DateTime
      *
-     * @ORM\Column(name="startdate", type="datetime", nullable=true)
+     * @ORM\Column(type="datetime")
      */
-    private $startdate;
+    private $createdAt;
 
     /**
      * @var DateTime
      *
-     * @ORM\Column(name="closeddate", type="datetime", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    private $closeddate;
+    private $closedAt;
 
     /**
      * @var int
@@ -77,7 +77,7 @@ class Order
     private $customer;
 
     /**
-     * @var string
+     * @var int
      *
      * @ORM\Column(type="integer", length=8, nullable=true, options={"unsigned"=true})
      */
@@ -151,6 +151,7 @@ class Order
         $this->status = OrderStatus::DRAFT;
         $this->services = new ArrayCollection();
         $this->parts = new ArrayCollection();
+        $this->createdAt = new \DateTime();
     }
 
     public function getId(): ?int
@@ -222,17 +223,17 @@ class Order
         return $this->notes->toArray();
     }
 
-    public function getStartedAt(): ?DateTime
+    public function getCreatedAt(): ?DateTime
     {
-        return $this->startdate;
+        return clone $this->createdAt;
     }
 
     public function getClosedAt(): ?DateTime
     {
-        return $this->closeddate;
+        return $this->closedAt ? clone $this->closedAt : null;
     }
 
-    public function getMileage(): ?string
+    public function getMileage(): ?int
     {
         return $this->mileage;
     }

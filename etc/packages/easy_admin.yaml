@@ -62,7 +62,7 @@ easy_admin:
                 fields:
                     - { property: 'id', label: 'Номер', template: 'easy_admin/order/field_id.html.twig' }
                     - { property: 'status', label: 'Статус', template: 'easy_admin/order/field_status.html.twig' }
-                    - { property: 'startedAt', label: 'Дата начала', type: 'datetime' }
+                    - { property: 'createdAt', label: 'Дата начала', type: 'datetime' }
                     - { property: 'closedAt', label: 'Дата закрытия', type: 'datetime' }
                     - { property: 'car', label: 'Автомобиль', template: 'easy_admin/order/field_car.html.twig' }
                     - { property: 'customer', label: 'Клиент' }
