@@ -238,7 +238,7 @@ class Order
         return $this->mileage;
     }
 
-    public function setMileage(string $mileage): void
+    public function setMileage(int $mileage): void
     {
         $this->mileage = $mileage;
     }
