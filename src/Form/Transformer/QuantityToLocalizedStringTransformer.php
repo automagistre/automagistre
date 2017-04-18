@@ -56,7 +56,9 @@ final class QuantityToLocalizedStringTransformer extends NumberToLocalizedString
     /**
      * @param string $value
      *
-     * @return int|string
+     * @throws TransformationFailedException
+     *
+     * @return int
      */
     public function reverseTransform($value)
     {
@@ -66,6 +68,10 @@ final class QuantityToLocalizedStringTransformer extends NumberToLocalizedString
             $value *= $this->divisor;
         }
 
-        return $value;
+        if (false !== strpos($value, '.')) {
+            throw new TransformationFailedException('Value must be integer after reverseTransformation');
+        }
+
+        return (int) $value;
     }
 }
