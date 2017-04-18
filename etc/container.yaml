@@ -19,13 +19,14 @@ services:
         Twig_Extension:
             tags: [ twig.extension ]
 
-        Grachevko\Enum\Enum:
-            autowire: false
         App\Kernel:
             autowire: false
 
     App\:
         resource: ../src
+    App\Entity\:
+        resource: ../src/{Entity, Model}
+        autowire: false
 
     Symfony\Component\PropertyAccess\PropertyAccessorInterface:
         alias: property_accessor
