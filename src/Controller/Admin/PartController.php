@@ -7,6 +7,7 @@ namespace App\Controller\Admin;
 use App\Entity\Manufacturer;
 use App\Entity\Motion;
 use App\Entity\Part;
+use App\Manager\PartManager;
 use App\Model\Part as PartModel;
 use App\Model\WarehousePart;
 use App\Part\Finder;
@@ -24,6 +25,11 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 final class PartController extends AdminController
 {
     /**
+     * @var PartManager
+     */
+    private $partManager;
+
+    /**
      * @var Finder
      */
     private $finder;
@@ -33,8 +39,9 @@ final class PartController extends AdminController
      */
     private $dispatcher;
 
-    public function __construct(EventDispatcherInterface $dispatcher, Finder $finder)
+    public function __construct(PartManager $partManager, EventDispatcherInterface $dispatcher, Finder $finder)
     {
+        $this->partManager = $partManager;
         $this->dispatcher = $dispatcher;
         $this->finder = $finder;
     }
@@ -171,6 +178,13 @@ final class PartController extends AdminController
 
         return $this->render('easy_admin/part/stock.html.twig', [
             'parts' => $parts,
+        ]);
+    }
+
+    public function deficitAction()
+    {
+        return $this->render('easy_admin/part/deficit.html.twig', [
+            'parts' => $this->partManager->findDeficit(),
         ]);
     }
 }

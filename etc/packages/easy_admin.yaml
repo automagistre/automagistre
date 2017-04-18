@@ -24,6 +24,7 @@ easy_admin:
             - { entity: 'Car', label: 'Автомобили', icon: 'car' }
             - { entity: 'Employee', label: 'Сотрудники', icon: 'users' }
             - { label: 'Склад' }
+            - { entity: 'Part', label: 'Дефицит', icon: 'fire', params: { action: 'deficit' } }
             - { entity: 'Part', label: 'Склад', icon: 'archive', params: { action: 'stock' } }
             - { entity: 'Part', label: 'Запчасти', icon: 'cogs' }
             - { entity: 'Service', label: 'Работы', icon: 'wrench' }
