@@ -141,7 +141,7 @@ class OrderPart
 
     public function getTotalCost(): int
     {
-        return $this->getCost() * $this->getQuantity();
+        return $this->getCost() * ($this->getQuantity() / 100);
     }
 
     public function getOrderService(): ?OrderService

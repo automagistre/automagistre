@@ -135,7 +135,7 @@
                                     {{ part.part.name }}
                                 </td>
                                 <td>{{ part.part.number }}</td>
-                                <td>{{ part.quantity }} * {{ part.cost }}</td>
+                                <td>{{ part.quantity / 100 }} * {{ part.cost }}</td>
                                 <td>{{ part.totalCost }}</td>
                                 <td>-</td>
                                 <td>
@@ -160,7 +160,7 @@
                                 </td>
                                 <td>{{ orderService.worker }}</td>
                                 <td></td>
-                                <td>{{ orderService.cost }} / {{ orderService.partsCost }}</td>
+                                <td>{{ orderService.cost / 100 }} / {{ orderService.partsCost }}</td>
                                 <td>-</td>
                                 <td>
                                     {% if order.editable %}
@@ -184,7 +184,7 @@
                                         {{ orderPart.part.name }}
                                     </td>
                                     <td>{{ orderPart.part.number }}</td>
-                                    <td>{{ orderPart.quantity }} * {{ orderPart.cost }}</td>
+                                    <td>{{ orderPart.quantity / 100 }} * {{ orderPart.cost }}</td>
                                     <td>{{ orderPart.totalCost }}</td>
                                     <td>-</td>
                                     <td>

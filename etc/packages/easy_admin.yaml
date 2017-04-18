@@ -115,7 +115,7 @@ easy_admin:
                     - { property: 'orderService', label: 'Работа', type: 'text', type_options: { disabled: true } }
                     - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { required: true } }
                     - { property: 'cost', label: 'Стоимость' }
-                    - { property: 'quantity', label: 'Количество' }
+                    - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
 
         CarRecommendation:
             class: App\Entity\CarRecommendation
