@@ -198,9 +198,9 @@ class Car
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getMileage(): ?string
+    public function getMileage(): ?int
     {
         /** @var Order $order */
         if ($order = $this->orders->last()) {
