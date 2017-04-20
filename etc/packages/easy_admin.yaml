@@ -276,6 +276,7 @@ easy_admin:
             controller: App\Controller\Admin\SupplyController
             disabled_actions: ['edit', 'delete']
             list:
+                title: 'Поставка'
                 fields:
                     - { property: 'supplier.fullName', label: 'Поставщик' }
                     - { property: 'part.name', label: 'Наименование' }
@@ -283,6 +284,7 @@ easy_admin:
                     - { property: 'receivedAt', label: 'Получено' }
                     - { property: 'createdAt', label: 'Создано' }
             new:
+                title: 'Новая поставка'
                 form_options: { data_class: App\Model\Supply }
                 fields:
                     - { property: 'supplier', label: 'Поставщик', type: 'easyadmin_autocomplete', type_options: { required: true } }
