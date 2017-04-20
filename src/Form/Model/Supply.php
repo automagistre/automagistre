@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Model;
+namespace App\Form\Model;
 
 use App\Entity\Operand;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class Supply extends EntityModel
+final class Supply extends Model
 {
     /**
      * @var Operand

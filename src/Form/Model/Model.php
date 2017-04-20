@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Model;
+namespace App\Form\Model;
 
 use Ramsey\Uuid\UuidInterface;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-abstract class EntityModel extends Model
+abstract class Model extends \App\Model\Model
 {
     /**
      * @var UuidInterface

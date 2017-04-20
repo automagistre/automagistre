@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form\TypeGuesser;
 
-use App\Model\EntityModel;
+use App\Form\Model\Model;
 use Symfony\Bridge\Doctrine\Form\DoctrineOrmTypeGuesser;
 use Symfony\Component\Form\FormTypeGuesserInterface;
 
@@ -57,7 +57,7 @@ final class EntityModelTypeGuesser implements FormTypeGuesserInterface
 
     private function guess(string $method, string $class, string $property)
     {
-        if (!$class instanceof EntityModel) {
+        if (!$class instanceof Model) {
             return;
         }
 

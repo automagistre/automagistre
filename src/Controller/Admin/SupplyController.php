@@ -6,7 +6,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Part;
 use App\Entity\Supply;
-use App\Model\Supply as SupplyModel;
+use App\Form\Model\Supply as SupplyModel;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
