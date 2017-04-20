@@ -42,3 +42,8 @@ services:
     App\Part\Finder:
         arguments:
             - '@csa_guzzle.client.ixora_ws'
+
+    App\Partner\Ixora\Orders:
+        arguments:
+            - '@csa_guzzle.client.ixora_ws'
+            - '@serializer'

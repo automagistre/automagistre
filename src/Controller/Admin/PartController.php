@@ -10,7 +10,7 @@ use App\Entity\Part;
 use App\Manager\PartManager;
 use App\Model\Part as PartModel;
 use App\Model\WarehousePart;
-use App\Part\Finder;
+use App\Partner\Ixora\Finder;
 use Doctrine\ORM\Query\Expr\Join;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
 use JavierEguiluz\Bundle\EasyAdminBundle\Event\EasyAdminEvents;

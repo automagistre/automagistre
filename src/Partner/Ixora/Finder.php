@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Part;
+namespace App\Partner\Ixora;
 
 use App\Model\Part;
 use App\Utils\StringUtils;

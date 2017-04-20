@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Guzzle;
+namespace App\Partner\Ixora;
 
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
@@ -13,7 +13,7 @@ use Psr\Log\LoggerInterface;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class IxoraMiddleware
+final class GuzzleMiddleware
 {
     public static function authQuery(string $authCode): \Closure
     {

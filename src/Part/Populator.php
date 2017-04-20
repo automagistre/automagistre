@@ -6,6 +6,7 @@ namespace App\Part;
 
 use App\Entity\Manufacturer;
 use App\Entity\Part;
+use App\Partner\Ixora\Finder;
 use Doctrine\ORM\EntityManager;
 
 /**
