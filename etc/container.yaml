@@ -7,23 +7,18 @@ services:
         autowire: by_id
 
     _instanceof:
+        Symfony\Component\HttpKernel\KernelInterface:
+            autowire: false
         Symfony\Bundle\FrameworkBundle\Controller\Controller:
             public: true
-
         Symfony\Component\EventDispatcher\EventSubscriberInterface:
             tags: [ kernel.event_subscriber ]
-
         Symfony\Component\Form\AbstractType:
             tags: [ form.type ]
-
         Symfony\Component\Form\FormTypeGuesserInterface:
             tags: [ form.type_guesser ]
-
         Twig_Extension:
             tags: [ twig.extension ]
-
-        App\Kernel:
-            autowire: false
 
     App\:
         resource: ../src
@@ -33,11 +28,6 @@ services:
     App\Model\:
         resource: ../src/Model
         autowire: false
-
-    Symfony\Component\PropertyAccess\PropertyAccessorInterface:
-        alias: property_accessor
-    Doctrine\ORM\EntityManager:
-        alias: doctrine.orm.default_entity_manager
 
     App\Part\Finder:
         arguments:

@@ -21,3 +21,7 @@ framework:
     assets: ~
     php_errors:
         log: '%kernel.debug%'
+
+services:
+    Symfony\Component\PropertyAccess\PropertyAccessorInterface:
+        alias: property_accessor
