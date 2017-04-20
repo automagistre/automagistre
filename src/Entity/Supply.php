@@ -25,6 +25,7 @@ class Supply
      * @var Operand
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Operand")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $supplier;
 
@@ -32,6 +33,7 @@ class Supply
      * @var Part
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Part")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $part;
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Entity\Part;
 use App\Entity\Supply;
 use App\Model\Supply as SupplyModel;
 
@@ -14,7 +15,18 @@ final class SupplyController extends AdminController
 {
     protected function createNewEntity()
     {
-        return new SupplyModel();
+        $requestQuery = $this->request->query;
+
+        $parameters = [];
+        if ($part = $requestQuery->get('part')) {
+            $parameters['part'] = $this->em->getRepository(Part::class)->find($part);
+        }
+
+        if ($quantity = $requestQuery->getInt('quantity')) {
+            $parameters['quantity'] = $quantity;
+        }
+
+        return new SupplyModel($parameters);
     }
 
     /**

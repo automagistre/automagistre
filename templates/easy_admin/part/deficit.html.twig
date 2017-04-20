@@ -12,12 +12,13 @@
                 <th>Цена</th>
                 <th>Недостача</th>
                 <th>Заказы</th>
+                <th>Действия</th>
             </tr>
             </thead>
             <tbody>
-            {% for warehouse in parts %}
-                {# @var warehouse \App\Model\DeficitPart #}
-                {% set part = warehouse.part %}
+            {% for deficit in parts %}
+                {# @var deficit \App\Model\DeficitPart #}
+                {% set part = deficit.part %}
                 {# @var part \App\Entity\Part #}
                 <tr>
                     <td>
@@ -27,13 +28,18 @@
                         <a href="{{ part|easyadmin_path }}">{{ part }}</a> - {{ part.number }}
                     </td>
                     <td>{{ part.price }}</td>
-                    <td>{{ warehouse.quantity / 100 }}</td>
+                    <td>{{ deficit.quantity / 100 }}</td>
                     <td>
-                        {%- for order in warehouse.orders -%}
+                        {%- for order in deficit.orders -%}
                             {# @var order \App\Entity\Order #}
                             <a href="{{ easyadmin_path(order, {'action': 'show'}) }}">#{{ order.id }}</a>
                             {%- if not loop.last %}, {% endif -%}
                         {%- endfor -%}
+                    </td>
+                    <td>
+                        <a href="{{ easyadmin_path('Supply', {'part': part.id, 'quantity': deficit.quantity}) }}">
+                            <i class="fa fa-truck"></i>
+                        </a>
                     </td>
                 </tr>
             {% endfor %}

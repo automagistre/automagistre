@@ -285,9 +285,9 @@ easy_admin:
             new:
                 form_options: { data_class: App\Model\Supply }
                 fields:
-                    - { property: 'supplier', label: 'Поставщик', type: 'easyadmin_autocomplete' }
-                    - { property: 'part', label: 'Наименование', type: 'easyadmin_autocomplete' }
-                    - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
+                    - { property: 'supplier', label: 'Поставщик', type: 'easyadmin_autocomplete', type_options: { required: true } }
+                    - { property: 'part', label: 'Наименование', type: 'easyadmin_autocomplete', type_options: { required: true } }
+                    - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType, type_options: { required: true } }
 
         Manufacturer:
             class: App\Entity\Manufacturer
