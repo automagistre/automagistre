@@ -68,7 +68,7 @@ final class QuantityToLocalizedStringTransformer extends NumberToLocalizedString
             $value *= $this->divisor;
         }
 
-        if (false !== strpos($value, '.')) {
+        if (false !== strpos((string) $value, '.')) {
             throw new TransformationFailedException('Value must be integer after reverseTransformation');
         }
 

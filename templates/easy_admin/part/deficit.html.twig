@@ -24,7 +24,7 @@
                         <a href="{{ part.manufacturer|easyadmin_path }}">{{ part.manufacturer.name }}</a>
                     </td>
                     <td>
-                        <a href="{{ part|easyadmin_path }}">{{ part }} ({{ part.number }})</a>
+                        <a href="{{ part|easyadmin_path }}">{{ part }}</a> - {{ part.number }}
                     </td>
                     <td>{{ part.price }}</td>
                     <td>{{ warehouse.quantity / 100 }}</td>

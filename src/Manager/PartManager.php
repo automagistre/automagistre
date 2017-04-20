@@ -8,7 +8,6 @@ use App\Entity\Manufacturer;
 use App\Entity\Order;
 use App\Entity\Part;
 use App\Model\DeficitPart;
-use App\Model\WarehousePart;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManager;
 
@@ -34,19 +33,19 @@ final class PartManager
     }
 
     /**
-     * @return WarehousePart[]
+     * @return DeficitPart[]
      */
     public function findDeficit(): array
     {
         $sql = <<<SQL
 SELECT
   ordered.part_id,
-  ordered.quantity + COALESCE(moved.quantity, 0) - COALESCE(stock.quantity, 0) AS needed,
+  ordered.quantity + COALESCE(moved.quantity, 0) - COALESCE(stock.quantity, 0) - COALESCE(supply.quantity, 0) AS needed,
   ordered.orders_id
 FROM (SELECT
         order_part.part_id,
-        SUM(order_part.quantity) AS quantity,
-        GROUP_CONCAT(DISTINCT orders.id, ',') as orders_id
+        SUM(order_part.quantity)              AS quantity,
+        GROUP_CONCAT(DISTINCT orders.id, ',') AS orders_id
       FROM order_part
         JOIN orders ON order_part.order_id = orders.id AND orders.closed_at IS NULL
       GROUP BY order_part.part_id) AS ordered
@@ -61,11 +60,17 @@ FROM (SELECT
                SUM(motion.quantity) AS quantity
              FROM motion
                JOIN (SELECT
-                       DISTINCT order_part.part_id AS id
+                       DISTINCT order_part.part_id
                      FROM order_part
                        JOIN orders ON order_part.order_id = orders.id AND orders.closed_at IS NULL
-                    ) AS parts ON motion.part_id = parts.id
+                    ) AS parts ON motion.part_id = parts.part_id
              GROUP BY motion.part_id) AS stock ON stock.part_id = ordered.part_id
+  LEFT JOIN (SELECT DISTINCT
+               supply.part_id,
+               SUM(supply.quantity) AS quantity
+             FROM supply
+    GROUP BY supply.part_id
+    ) AS supply ON supply.part_id = ordered.part_id
 HAVING needed > 0
 SQL;
 

@@ -16,6 +16,9 @@ services:
         Symfony\Component\Form\AbstractType:
             tags: [ form.type ]
 
+        Symfony\Component\Form\FormTypeGuesserInterface:
+            tags: [ form.type_guesser ]
+
         Twig_Extension:
             tags: [ twig.extension ]
 

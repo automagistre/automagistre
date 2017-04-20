@@ -2,10 +2,6 @@ services:
     JavierEguiluz\Bundle\EasyAdminBundle\Configuration\ConfigManager:
         alias: easyadmin.config.manager
 
-    easyadmin.paginator:
-        class: App\Paginator\Paginator
-        public: true
-
 easy_admin:
     site_name: 'СТО Автомагистр'
     design:
@@ -25,11 +21,12 @@ easy_admin:
             - { entity: 'Employee', label: 'Сотрудники', icon: 'users' }
             - { label: 'Склад' }
             - { entity: 'Part', label: 'Дефицит', icon: 'fire', params: { action: 'deficit' } }
-            - { entity: 'Part', label: 'Склад', icon: 'archive', params: { action: 'stock' } }
-            - { entity: 'Part', label: 'Запчасти', icon: 'cogs' }
-            - { entity: 'Service', label: 'Работы', icon: 'wrench' }
-            - { entity: 'Motion', label: 'Движения', icon: 'truck' }
+            - { entity: 'Part', label: 'Наличие', icon: 'archive', params: { action: 'stock' } }
+            - { entity: 'Motion', label: 'Движения', icon: 'recycle' }
+            - { entity: 'Supply', label: 'Поставка', icon: 'truck' }
             - { label: 'Справочники' }
+            - { entity: 'Service', label: 'Работы', icon: 'wrench' }
+            - { entity: 'Part', label: 'Запчасти', icon: 'cogs' }
             - { entity: 'Manufacturer', label: 'Производитель', icon: 'industry' }
             - { entity: 'Model', label: 'Модель', icon: 'car' }
             - { entity: 'Generation', label: 'Поколение', icon: 'car' }
@@ -149,7 +146,7 @@ easy_admin:
                     - { property: 'recommendation', label: 'Рекомендация', type: 'text', type_options: { disabled: true } }
                     - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { required: true } }
                     - { property: 'cost', label: 'Стоимость' }
-                    - { property: 'quantity', label: 'Количество' }
+                    - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
             edit:
                 fields:
                     - { property: 'part', label: 'Запчасть', type: 'text', type_options: { disabled: true } }
@@ -273,6 +270,24 @@ easy_admin:
         Motion:
             class: App\Entity\Motion
             disabled_actions: ['show', 'edit', 'new', 'search', 'delete']
+
+        Supply:
+            class: App\Entity\Supply
+            controller: App\Controller\Admin\SupplyController
+            disabled_actions: ['edit', 'delete']
+            list:
+                fields:
+                    - { property: 'supplier.fullName', label: 'Поставщик' }
+                    - { property: 'part.name', label: 'Наименование' }
+                    - { property: 'quantity', label: 'Количество', template: 'easy_admin/field_quantity.html.twig' }
+                    - { property: 'receivedAt', label: 'Получено' }
+                    - { property: 'createdAt', label: 'Создано' }
+            new:
+                form_options: { data_class: App\Model\Supply }
+                fields:
+                    - { property: 'supplier', label: 'Поставщик', type: 'easyadmin_autocomplete' }
+                    - { property: 'part', label: 'Наименование', type: 'easyadmin_autocomplete' }
+                    - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
 
         Manufacturer:
             class: App\Entity\Manufacturer
