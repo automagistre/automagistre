@@ -8,6 +8,8 @@ use App\Model\Supply;
 use App\Model\SupplyItem;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ServerException;
+use Money\Currency;
+use Money\Money;
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
 
 /**
@@ -54,7 +56,7 @@ final class Orders
      * @param string         $status
      * @param \DateTime|null $dateFrom
      *
-     * @return array
+     * @return Supply[]
      */
     public function find($status = 'All', \DateTime $dateFrom = null)
     {
@@ -84,15 +86,21 @@ final class Orders
                 'status'            => $item['Status'],
                 'items'             => array_map(function (array $item) {
                     return new SupplyItem([
-                        'number' => $item['DetailNumber'],
-                        'maker'  => $item['DetailMaker'],
-                        'name'   => $item['DetailName'],
-                        'price'  => $item['Price'],
+                        'number'       => $item['DetailNumber'],
+                        'manufacturer' => $item['DetailMaker'],
+                        'name'         => $item['DetailName'],
+                        'price'        => new Money($item['Price'] * 100, new Currency('RUB')),
+                        'quantity'     => $item['Ordered'] * 100,
                     ]);
                 }, $item['Items']),
                 'arrivalOrientAt'   => \DateTime::createFromFormat(self::DATE_FORMAT, $item['DateArrivalOrient']),
                 'arrivalWarrantyAt' => \DateTime::createFromFormat(self::DATE_FORMAT, $item['DateArrivalWarranty']),
             ]);
         }, $orders);
+    }
+
+    public static function getSupplierName(): string
+    {
+        return 'ixora';
     }
 }

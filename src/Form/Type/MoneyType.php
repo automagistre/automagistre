@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace App\Form\Type;
 
 use App\Form\Transformer\DivisoredNumberToLocalizedStringTransformer;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-class QuantityType extends AbstractType
+class MoneyType extends \Symfony\Component\Form\Extension\Core\Type\MoneyType
 {
     /**
      * {@inheritdoc}
@@ -38,16 +37,9 @@ class QuantityType extends AbstractType
             'grouping' => false,
             'divisor'  => 100,
             'compound' => false,
+            'currency' => 'RUB',
         ]);
 
         $resolver->setAllowedTypes('scale', 'int');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'quantity';
     }
 }

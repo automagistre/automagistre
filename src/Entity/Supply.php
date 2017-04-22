@@ -6,6 +6,8 @@ namespace App\Entity;
 
 use App\Uuid\UuidGenerator;
 use Doctrine\ORM\Mapping as ORM;
+use Money\Currency;
+use Money\Money;
 use Ramsey\Uuid\UuidInterface;
 
 /**
@@ -42,14 +44,14 @@ class Supply
      *
      * @ORM\Column(type="integer")
      */
-    private $quantity;
+    private $price;
 
     /**
-     * @var User
+     * @var int
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\Column(type="integer")
      */
-    private $createdBy;
+    private $quantity;
 
     /**
      * @var \DateTime
@@ -73,13 +75,13 @@ class Supply
      */
     private $receivedAt;
 
-    public function __construct(Operand $supplier, Part $part, int $quantity, User $createdBy)
+    public function __construct(Operand $supplier, Part $part, Money $price, int $quantity)
     {
         $this->id = UuidGenerator::generate();
         $this->supplier = $supplier;
         $this->part = $part;
+        $this->price = (int) $price->getAmount();
         $this->quantity = $quantity;
-        $this->createdBy = $createdBy;
         $this->createdAt = new \DateTime();
     }
 
@@ -98,14 +100,14 @@ class Supply
         return $this->part;
     }
 
+    public function getPrice(): Money
+    {
+        return new Money($this->price, new Currency('RUB'));
+    }
+
     public function getQuantity(): int
     {
         return $this->quantity;
-    }
-
-    public function getCreatedBy(): User
-    {
-        return $this->createdBy;
     }
 
     public function getCreatedAt(): \DateTime

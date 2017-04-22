@@ -274,12 +274,13 @@ easy_admin:
         Supply:
             class: App\Entity\Supply
             controller: App\Controller\Admin\SupplyController
-            disabled_actions: ['edit', 'delete']
+            disabled_actions: ['show', 'edit', 'delete']
             list:
                 title: 'Поставка'
                 fields:
                     - { property: 'supplier.fullName', label: 'Поставщик' }
                     - { property: 'part.name', label: 'Наименование' }
+                    - { property: 'price', label: 'Цена', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'quantity', label: 'Количество', template: 'easy_admin/field_quantity.html.twig' }
                     - { property: 'receivedAt', label: 'Получено' }
                     - { property: 'createdAt', label: 'Создано' }
@@ -289,6 +290,7 @@ easy_admin:
                 fields:
                     - { property: 'supplier', label: 'Поставщик', type: 'easyadmin_autocomplete', type_options: { required: true } }
                     - { property: 'part', label: 'Наименование', type: 'easyadmin_autocomplete', type_options: { required: true } }
+                    - { property: 'price', label: 'Цена', type: App\Form\Type\MoneyType }
                     - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType, type_options: { required: true } }
 
         Manufacturer:

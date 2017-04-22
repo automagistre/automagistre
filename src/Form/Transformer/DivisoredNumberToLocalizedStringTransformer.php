@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\DataTransformer\NumberToLocalizedStrin
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class QuantityToLocalizedStringTransformer extends NumberToLocalizedStringTransformer
+final class DivisoredNumberToLocalizedStringTransformer extends NumberToLocalizedStringTransformer
 {
     private $divisor;
 

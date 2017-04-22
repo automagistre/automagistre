@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Model;
 
+use Money\Money;
+
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
@@ -17,7 +19,7 @@ final class SupplyItem extends Model
     /**
      * @var string
      */
-    public $maker;
+    public $manufacturer;
 
     /**
      * @var string
@@ -25,7 +27,12 @@ final class SupplyItem extends Model
     public $name;
 
     /**
-     * @var string
+     * @var Money
      */
     public $price;
+
+    /**
+     * @var int
+     */
+    public $quantity;
 }

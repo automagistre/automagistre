@@ -24,6 +24,11 @@ final class Supply extends Model
     /**
      * @var int
      */
+    public $price;
+
+    /**
+     * @var int
+     */
     public $quantity;
 
     public static function getEntityClass(): string

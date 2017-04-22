@@ -14,7 +14,7 @@ use Twig_SimpleFunction;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-class AppExtension extends \Twig_Extension
+class EasyAdminExtension extends \Twig_Extension
 {
     /**
      * @var ConfigManager
@@ -93,6 +93,6 @@ class AppExtension extends \Twig_Extension
      */
     public function getName()
     {
-        return 'app';
+        return 'app_easy_admin';
     }
 }

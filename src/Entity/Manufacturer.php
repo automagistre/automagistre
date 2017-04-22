@@ -34,6 +34,11 @@ class Manufacturer
      */
     private $logo;
 
+    public function __construct(string $name = '')
+    {
+        $this->name = $name;
+    }
+
     /**
      * @return int
      */
