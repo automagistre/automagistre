@@ -31,7 +31,8 @@
         "misd/phone-number-bundle": "^1.2",
         "egeloen/ckeditor-bundle": "^5.0",
         "csa/guzzle-bundle": "^2.2",
-        "friendsofsymfony/user-bundle": "2.0.x-dev"
+        "friendsofsymfony/user-bundle": "2.0.x-dev",
+        "moneyphp/money": "^3.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

@@ -5,28 +5,21 @@ services:
     _defaults:
         public: false
         autowire: by_id
+        autoconfigure: true
 
     _instanceof:
-        Symfony\Component\HttpKernel\KernelInterface:
-            autowire: false
         Symfony\Bundle\FrameworkBundle\Controller\Controller:
             public: true
-        Symfony\Component\EventDispatcher\EventSubscriberInterface:
-            tags: [ kernel.event_subscriber ]
-        Symfony\Component\Form\AbstractType:
-            tags: [ form.type ]
-        Symfony\Component\Form\FormTypeGuesserInterface:
-            tags: [ form.type_guesser ]
-        Twig_Extension:
-            tags: [ twig.extension ]
+        Symfony\Component\HttpKernel\KernelInterface:
+            autowire: false
 
     App\:
-        resource: ../src
+        resource: '../src'
     App\Entity\:
-        resource: ../src/Entity
+        resource: '../src/Entity'
         autowire: false
     App\Model\:
-        resource: ../src/Model
+        resource: '../src/Model'
         autowire: false
 
     App\Part\Finder:

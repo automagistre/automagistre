@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ef222ccebef1a119f135a0ca57322f35",
+    "content-hash": "92767a91aa6cac9d66195a45ca510332",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1206,12 +1206,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "81a5d664dc569b5db298d4eb65c50a75b28fee1e"
+                "reference": "730a8a5f6633ae913a838d26b1c7156faa6ed697"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/81a5d664dc569b5db298d4eb65c50a75b28fee1e",
-                "reference": "81a5d664dc569b5db298d4eb65c50a75b28fee1e",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/730a8a5f6633ae913a838d26b1c7156faa6ed697",
+                "reference": "730a8a5f6633ae913a838d26b1c7156faa6ed697",
                 "shasum": ""
             },
             "require": {
@@ -1275,7 +1275,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2017-04-20 10:41:16"
+            "time": "2017-04-21 12:31:59"
         },
         {
             "name": "giggsey/libphonenumber-for-php",
@@ -1818,6 +1818,84 @@
                 "telephone number"
             ],
             "time": "2016-12-17T17:15:49+00:00"
+        },
+        {
+            "name": "moneyphp/money",
+            "version": "v3.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/moneyphp/money.git",
+                "reference": "ecf367c3bac3f2d1133a456c18dceb2b40fa5843"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/moneyphp/money/zipball/ecf367c3bac3f2d1133a456c18dceb2b40fa5843",
+                "reference": "ecf367c3bac3f2d1133a456c18dceb2b40fa5843",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "cache/taggable-cache": "^0.4.0",
+                "ext-bcmath": "*",
+                "ext-gmp": "*",
+                "ext-intl": "*",
+                "florianv/swap": "^3.0",
+                "henrikbjorn/phpspec-code-coverage": "^2.0.2",
+                "moneyphp/iso-currencies": "^3.0",
+                "php-http/message": "^1.4",
+                "php-http/mock-client": "^0.3.3",
+                "phpspec/phpspec": "^2.5",
+                "phpunit/phpunit": "^4.5",
+                "psr/cache": "^1.0",
+                "sllh/php-cs-fixer-styleci-bridge": "^2.1"
+            },
+            "suggest": {
+                "ext-bcmath": "Calculate without integer limits",
+                "ext-gmp": "Calculate without integer limits",
+                "ext-intl": "Format Money objects with intl",
+                "florianv/swap": "Exchange rates library for PHP",
+                "psr/cache-implementation": "Used for Currency caching"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Money\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mathias Verraes",
+                    "email": "mathias@verraes.net",
+                    "homepage": "http://verraes.net"
+                },
+                {
+                    "name": "Frederik Bosch",
+                    "email": "f.bosch@genkgo.nl"
+                },
+                {
+                    "name": "Márk Sági-Kazár",
+                    "email": "mark.sagi-kazar@gmail.com"
+                }
+            ],
+            "description": "PHP implementation of Fowler's Money pattern",
+            "homepage": "http://verraes.net/2011/04/fowler-money-pattern-in-php/",
+            "keywords": [
+                "Value Object",
+                "money",
+                "vo"
+            ],
+            "time": "2017-04-21T11:28:24+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -2725,16 +2803,16 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v5.4.6",
+            "version": "v5.4.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "81fdccfaf8bdc5d5d7a1ef6bb3a61bbb1a6c4a3e"
+                "reference": "56db4ed32a6d5c9824c3ecc1d2e538f663f47eb4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/81fdccfaf8bdc5d5d7a1ef6bb3a61bbb1a6c4a3e",
-                "reference": "81fdccfaf8bdc5d5d7a1ef6bb3a61bbb1a6c4a3e",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/56db4ed32a6d5c9824c3ecc1d2e538f663f47eb4",
+                "reference": "56db4ed32a6d5c9824c3ecc1d2e538f663f47eb4",
                 "shasum": ""
             },
             "require": {
@@ -2775,7 +2853,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2017-02-13T07:52:53+00:00"
+            "time": "2017-04-20T17:32:18+00:00"
         },
         {
             "name": "symfony/monolog-bundle",
@@ -3239,12 +3317,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "9c0067b19f2e9d6a31565a10f41c826994e388ae"
+                "reference": "dc924363fe252ebcfa24b4bf3a1baffa2f1037a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/9c0067b19f2e9d6a31565a10f41c826994e388ae",
-                "reference": "9c0067b19f2e9d6a31565a10f41c826994e388ae",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/dc924363fe252ebcfa24b4bf3a1baffa2f1037a4",
+                "reference": "dc924363fe252ebcfa24b4bf3a1baffa2f1037a4",
                 "shasum": ""
             },
             "require": {
@@ -3385,7 +3463,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2017-04-19 23:40:30"
+            "time": "2017-04-22 00:44:26"
         },
         {
             "name": "twig/extensions",
@@ -3441,16 +3519,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v2.3.1",
+            "version": "v2.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "437efc435619c8e67acacda37b3984344854142c"
+                "reference": "85e8372c451510165c04bf781295f9d922fa524b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/437efc435619c8e67acacda37b3984344854142c",
-                "reference": "437efc435619c8e67acacda37b3984344854142c",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/85e8372c451510165c04bf781295f9d922fa524b",
+                "reference": "85e8372c451510165c04bf781295f9d922fa524b",
                 "shasum": ""
             },
             "require": {
@@ -3500,7 +3578,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2017-04-18T21:50:11+00:00"
+            "time": "2017-04-21T00:13:02+00:00"
         },
         {
             "name": "zendframework/zend-code",
@@ -3613,34 +3691,34 @@
     "packages-dev": [
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v2.2.1",
+            "version": "v2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/PHP-CS-Fixer.git",
-                "reference": "aff95e090fdaf57c20d32d7728b090f2015bfcef"
+                "reference": "ab8c61329ddd896e287a84c7663d06cf1bed3907"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/aff95e090fdaf57c20d32d7728b090f2015bfcef",
-                "reference": "aff95e090fdaf57c20d32d7728b090f2015bfcef",
+                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/ab8c61329ddd896e287a84c7663d06cf1bed3907",
+                "reference": "ab8c61329ddd896e287a84c7663d06cf1bed3907",
                 "shasum": ""
             },
             "require": {
                 "doctrine/annotations": "^1.2",
                 "ext-tokenizer": "*",
-                "php": "^5.3.6 || >=7.0 <7.2",
-                "sebastian/diff": "^1.1",
-                "symfony/console": "^2.4 || ^3.0",
-                "symfony/event-dispatcher": "^2.1 || ^3.0",
-                "symfony/filesystem": "^2.4 || ^3.0",
-                "symfony/finder": "^2.2 || ^3.0",
-                "symfony/options-resolver": "^2.6 || ^3.0",
+                "php": "^5.6 || >=7.0 <7.2",
+                "sebastian/diff": "^1.4",
+                "symfony/console": "^3.0",
+                "symfony/event-dispatcher": "^3.0",
+                "symfony/filesystem": "^3.0",
+                "symfony/finder": "^3.0",
+                "symfony/options-resolver": "^3.0",
                 "symfony/polyfill-php54": "^1.0",
                 "symfony/polyfill-php55": "^1.3",
                 "symfony/polyfill-php70": "^1.0",
                 "symfony/polyfill-xml": "^1.3",
-                "symfony/process": "^2.3 || ^3.0",
-                "symfony/stopwatch": "^2.5 || ^3.0"
+                "symfony/process": "^3.0",
+                "symfony/stopwatch": "^3.0"
             },
             "conflict": {
                 "hhvm": "<3.18"
@@ -3663,7 +3741,7 @@
             "type": "application",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.3-dev"
                 }
             },
             "autoload": {
@@ -3686,7 +3764,7 @@
                 }
             ],
             "description": "A tool to automatically fix PHP code style",
-            "time": "2017-04-07T15:22:27+00:00"
+            "time": "2017-04-21T17:17:40+00:00"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -4762,16 +4840,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "5.2.0",
+            "version": "5.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "e648abfd8ffb1d54ad549b027b75e376e9055d02"
+                "reference": "dc421f9ca5082a0c0cb04afb171c765f79add85b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/e648abfd8ffb1d54ad549b027b75e376e9055d02",
-                "reference": "e648abfd8ffb1d54ad549b027b75e376e9055d02",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/dc421f9ca5082a0c0cb04afb171c765f79add85b",
+                "reference": "dc421f9ca5082a0c0cb04afb171c765f79add85b",
                 "shasum": ""
             },
             "require": {
@@ -4782,7 +4860,7 @@
                 "phpunit/php-text-template": "^1.2",
                 "phpunit/php-token-stream": "^1.4.11 || ^2.0",
                 "sebastian/code-unit-reverse-lookup": "^1.0",
-                "sebastian/environment": "^2.0",
+                "sebastian/environment": "^3.0",
                 "sebastian/version": "^2.0",
                 "theseer/tokenizer": "^1.1"
             },
@@ -4822,7 +4900,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-04-20T10:00:57+00:00"
+            "time": "2017-04-21T08:03:57+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -5012,16 +5090,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "6.1.0",
+            "version": "6.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "2aa57c530381662b01c2cf705b03e8c12e918f1d"
+                "reference": "9fbc261d90eda9e7ef9f7441d32997270f8e2019"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2aa57c530381662b01c2cf705b03e8c12e918f1d",
-                "reference": "2aa57c530381662b01c2cf705b03e8c12e918f1d",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/9fbc261d90eda9e7ef9f7441d32997270f8e2019",
+                "reference": "9fbc261d90eda9e7ef9f7441d32997270f8e2019",
                 "shasum": ""
             },
             "require": {
@@ -5035,14 +5113,14 @@
                 "phar-io/version": "^1.0",
                 "php": "^7.0",
                 "phpspec/prophecy": "^1.7",
-                "phpunit/php-code-coverage": "^5.0",
+                "phpunit/php-code-coverage": "^5.2",
                 "phpunit/php-file-iterator": "^1.4",
                 "phpunit/php-text-template": "^1.2",
                 "phpunit/php-timer": "^1.0.6",
                 "phpunit/phpunit-mock-objects": "^4.0",
                 "sebastian/comparator": "^2.0",
                 "sebastian/diff": "^1.2",
-                "sebastian/environment": "^2.0",
+                "sebastian/environment": "^3.0",
                 "sebastian/exporter": "^3.1",
                 "sebastian/global-state": "^1.1 || ^2.0",
                 "sebastian/object-enumerator": "^3.0.2",
@@ -5092,7 +5170,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-04-07T04:45:38+00:00"
+            "time": "2017-04-21T08:02:24+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -5316,28 +5394,28 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "2.0.0",
+            "version": "3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "5795ffe5dc5b02460c3e34222fee8cbe245d8fac"
+                "reference": "11e7710b7724d42c62249b0e9d3030240398949d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/5795ffe5dc5b02460c3e34222fee8cbe245d8fac",
-                "reference": "5795ffe5dc5b02460c3e34222fee8cbe245d8fac",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/11e7710b7724d42c62249b0e9d3030240398949d",
+                "reference": "11e7710b7724d42c62249b0e9d3030240398949d",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.6 || ^7.0"
+                "php": "^7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^5.0"
+                "phpunit/phpunit": "^6.1"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0.x-dev"
+                    "dev-master": "3.0.x-dev"
                 }
             },
             "autoload": {
@@ -5362,7 +5440,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2016-11-26T07:53:53+00:00"
+            "time": "2017-04-21T14:40:32+00:00"
         },
         {
             "name": "sebastian/exporter",
