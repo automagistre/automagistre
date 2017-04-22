@@ -39,7 +39,6 @@ class Kernel extends SymfonyKernel
             new \Ivory\CKEditorBundle\IvoryCKEditorBundle(),
             new \Csa\Bundle\GuzzleBundle\CsaGuzzleBundle(),
             new \FOS\UserBundle\FOSUserBundle(),
-            new \App\AppBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
