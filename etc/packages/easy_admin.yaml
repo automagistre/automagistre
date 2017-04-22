@@ -285,7 +285,7 @@ easy_admin:
                     - { property: 'createdAt', label: 'Создано' }
             new:
                 title: 'Новая поставка'
-                form_options: { data_class: App\Model\Supply }
+                form_options: { data_class: App\Form\Model\Supply }
                 fields:
                     - { property: 'supplier', label: 'Поставщик', type: 'easyadmin_autocomplete', type_options: { required: true } }
                     - { property: 'part', label: 'Наименование', type: 'easyadmin_autocomplete', type_options: { required: true } }
