@@ -11,7 +11,7 @@ easy_admin:
         form_theme: 'vertical'
         assets:
             js:
-                - 'assets/js/collection-autocomplete.js'
+                - 'includes/js/collection-autocomplete.js'
         menu:
             - { entity: 'Order', label: 'Заказы', icon: 'list' }
             - { label: 'Списки' }
@@ -21,9 +21,10 @@ easy_admin:
             - { entity: 'Employee', label: 'Сотрудники', icon: 'users' }
             - { label: 'Склад' }
             - { entity: 'Part', label: 'Дефицит', icon: 'fire', params: { action: 'deficit' } }
-            - { entity: 'Part', label: 'Наличие', icon: 'archive', params: { action: 'stock' } }
+            - { entity: 'Part', label: 'Наличие', icon: 'cubes', params: { action: 'stock' } }
             - { entity: 'Motion', label: 'Движения', icon: 'recycle' }
             - { entity: 'Supply', label: 'Поставка', icon: 'truck' }
+            - { entity: 'Income', label: 'Приходы', icon: 'book' }
             - { label: 'Справочники' }
             - { entity: 'Service', label: 'Работы', icon: 'wrench' }
             - { entity: 'Part', label: 'Запчасти', icon: 'cogs' }
@@ -280,6 +281,11 @@ easy_admin:
         Motion:
             class: App\Entity\Motion
             disabled_actions: ['show', 'edit', 'new', 'search', 'delete']
+            list:
+                fields:
+                    - { property: 'part', label: 'Наименование' }
+                    - { property: 'quantity', label: 'Количество', template: 'easy_admin/field_quantity.html.twig' }
+                    - { property: 'order', label: 'Заказ' }
 
         Supply:
             class: App\Entity\Supply
@@ -295,13 +301,41 @@ easy_admin:
                     - { property: 'receivedAt', label: 'Получено' }
                     - { property: 'createdAt', label: 'Создано' }
             new:
-                title: 'Новая поставка'
+                title: 'Создать поставку'
                 form_options: { data_class: App\Form\Model\Supply }
                 fields:
                     - { property: 'supplier', label: 'Поставщик', type: 'easyadmin_autocomplete', type_options: { required: true } }
                     - { property: 'part', label: 'Наименование', type: 'easyadmin_autocomplete', type_options: { required: true } }
                     - { property: 'price', label: 'Цена', type: App\Form\Type\MoneyType }
                     - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType, type_options: { required: true } }
+
+        Income:
+            class: App\Entity\Income
+            controller: App\Controller\Admin\IncomeController
+            disabled_actions: ['edit', 'delete']
+            list:
+                title: 'Приходы'
+                fields:
+                    - { property: supplier, label: 'Поставщик' }
+                    - { property: totalPrice, label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
+                    - { property: itemsCount, label: 'Позиций' }
+                    - { property: createdAt, label: 'Принято' }
+            new:
+                title: 'Создать приход'
+                form_options: { data_class: App\Form\Model\Income }
+                fields:
+                    - { property: 'supplier', label: 'Поставщик', type: 'easyadmin_autocomplete', type_options: { required: true } }
+                    -
+                        property: 'parts'
+                        label: 'Позиции'
+                        type: 'collection'
+                        type_options: { required: true, entry_type: App\Form\Type\IncomePartType }
+            show:
+                fields:
+                    - { property: supplier, label: 'Поставщик' }
+                    - { property: incomeParts, label: 'Позиции', template: 'easy_admin/income/field_income_parts.html.twig' }
+                    - { property: totalPrice, label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
+                    - { property: createdAt, label: 'Принято' }
 
         Manufacturer:
             class: App\Entity\Manufacturer

@@ -1,0 +1,25 @@
+{# @var value \App\Entity\IncomePart[] #}
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Наименование</th>
+            <th>Цена</th>
+            <th>Количество</th>
+            <th>Итого</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for incomePart in value %}
+            <tr>
+                <td>{{ incomePart.part }}</td>
+                <td>{{ incomePart.price|localize_money }}</td>
+                <td>{{ incomePart.quantity / 100 }}</td>
+                <td>{{ incomePart.totalPrice|localize_money }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
