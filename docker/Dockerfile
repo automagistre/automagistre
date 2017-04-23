@@ -35,6 +35,9 @@ RUN ./composer.sh --install-dir=/usr/local/bin --filename=composer \
     && composer global require "hirak/prestissimo:^0.3" \
     && rm -rf composer.sh
 
+ARG APP_VERSION=
+ENV APP_VERSION ${APP_VERSION}
+
 ARG SOURCE_DIR=.
 
 COPY $SOURCE_DIR/composer.* ${APP_DIR}/

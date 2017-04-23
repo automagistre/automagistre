@@ -29,7 +29,8 @@ pipeline:
         docker build -t "${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}"
         --file docker/Dockerfile
         --label branch="${DRONE_COMMIT_BRANCH}"
-        --build-arg GITHUB_AUTH_TOKEN="$GITHUB_AUTH_TOKEN" .
+        --build-arg GITHUB_AUTH_TOKEN="$GITHUB_AUTH_TOKEN"
+        --build-arg APP_VERSION="$DRONE_BUILD_NUMBER" .
 
   phpstan:
     image: ${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}
