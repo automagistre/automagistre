@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Partner\Ixora\Orders;
 use App\Supply\Importer;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -15,21 +15,17 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 final class PartnerSupplyImportCommand extends Command
 {
-    /**
-     * @var Orders
-     */
-    private $order;
+    const DATE_FORMAT = 'Y-m-d';
 
     /**
      * @var Importer
      */
     private $importer;
 
-    public function __construct(Orders $order, Importer $importer)
+    public function __construct(Importer $importer)
     {
         parent::__construct();
 
-        $this->order = $order;
         $this->importer = $importer;
     }
 
@@ -38,7 +34,8 @@ final class PartnerSupplyImportCommand extends Command
      */
     protected function configure()
     {
-        $this->setName('partner:orders:import');
+        $this->setName('partner:orders:import')
+            ->addOption('date', null, InputOption::VALUE_OPTIONAL, '', (new \DateTime())->format(self::DATE_FORMAT));
     }
 
     /**
@@ -46,6 +43,8 @@ final class PartnerSupplyImportCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->importer->import($this->order);
+        $date = \DateTime::createFromFormat(self::DATE_FORMAT, $input->getOption('date'));
+
+        $this->importer->import($date);
     }
 }

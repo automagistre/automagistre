@@ -53,23 +53,18 @@ final class Orders
     }
 
     /**
-     * @param string         $status
-     * @param \DateTime|null $dateFrom
+     * @param \DateTime $dateFrom
      *
      * @return Supply[]
      */
-    public function find($status = 'All', \DateTime $dateFrom = null)
+    public function find(\DateTime $dateFrom)
     {
-        if (!$dateFrom) {
-            $dateFrom = new \DateTime();
-        }
-
         try {
             $xml = $this->client->get(self::IXORA_ORDERS, [
                 'query' => [
                     'Number'    => '',
                     'Reference' => '',
-                    'status'    => $status,
+                    'status'    => 'All',
                     'dateFrom'  => $dateFrom->format('Y-m-d'),
                 ],
             ])->getBody()->getContents();
@@ -77,7 +72,12 @@ final class Orders
             return [];
         }
 
-        $orders = $this->decoder->decode($xml, 'xml')['Data']['OrderStatus'];
+        $data = $this->decoder->decode($xml, 'xml')['Data'];
+        if (!$data) {
+            return [];
+        }
+
+        $orders = $data['OrderStatus'];
 
         return array_map(function (array $item) {
             return new Supply([

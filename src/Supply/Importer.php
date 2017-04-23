@@ -18,6 +18,11 @@ use Psr\Log\LoggerInterface;
 final class Importer
 {
     /**
+     * @var Orders
+     */
+    private $orders;
+
+    /**
      * @var EntityManager
      */
     private $em;
@@ -27,18 +32,19 @@ final class Importer
      */
     private $logger;
 
-    public function __construct(EntityManager $em, LoggerInterface $logger)
+    public function __construct(Orders $orders, EntityManager $em, LoggerInterface $logger)
     {
+        $this->orders = $orders;
         $this->em = $em;
         $this->logger = $logger;
     }
 
-    public function import(Orders $orders)
+    public function import(\DateTime $date)
     {
         $supplier = $this->em->getRepository(PartnerOperand::class)
-            ->findOneBy(['name' => $orders::getSupplierName()])->getOperand();
+            ->findOneBy(['name' => $this->orders::getSupplierName()])->getOperand();
 
-        foreach ($orders->find() as $supply) {
+        foreach ($this->orders->find($date) as $supply) {
             if ($this->em->getRepository(PartnerSupplyImport::class)->findOneBy(['externalId' => $supply->id])) {
                 continue;
             }
