@@ -5,13 +5,29 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Entity\Service;
+use App\Money\MoneyFormatter;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
+use Money\Currency;
+use Money\Money;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
 final class ServiceController extends AdminController
 {
+    /**
+     * @var MoneyFormatter
+     */
+    private $moneyFormatter;
+
+    public function __construct(MoneyFormatter $moneyFormatter)
+    {
+        $this->moneyFormatter = $moneyFormatter;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function createSearchQueryBuilder(
         $entityClass,
         $searchQuery,
@@ -35,6 +51,9 @@ final class ServiceController extends AdminController
         return $qb;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function autocompleteAction()
     {
         $query = $this->request->query;
@@ -44,7 +63,7 @@ final class ServiceController extends AdminController
             $pieces = explode(' ', trim(rtrim($string, '+')));
             $price = is_numeric(end($pieces)) ? array_pop($pieces) : 0;
 
-            $service = new Service(implode(' ', $pieces), $price);
+            $service = new Service(implode(' ', $pieces), new Money($price * 100, new Currency('RUB')));
             $this->em->persist($service);
             $this->em->flush($service);
 
@@ -58,8 +77,8 @@ final class ServiceController extends AdminController
         $data = array_map(function (Service $entity) {
             return [
                 'id'    => $entity->getId(),
-                'text'  => sprintf('%s (%s р.)', $entity->getName(), $entity->getPrice()),
-                'price' => $entity->getPrice(),
+                'text'  => sprintf('%s (%s)', $entity->getName(), $this->moneyFormatter->format($entity->getPrice())),
+                'price' => $entity->getPrice()->getAmount() / 100,
             ];
         }, (array) $collection);
 

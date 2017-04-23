@@ -7,8 +7,6 @@ namespace App\Controller\Admin;
 use App\Entity\Part;
 use App\Entity\Supply;
 use App\Form\Model\Supply as SupplyModel;
-use Money\Currency;
-use Money\Money;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -36,10 +34,8 @@ final class SupplyController extends AdminController
      */
     protected function persistEntity($model): void
     {
-        $money = new Money($model->price, new Currency('RUB'));
-
         parent::persistEntity(
-            new Supply($model->supplier, $model->part, $money, $model->quantity)
+            new Supply($model->supplier, $model->part, $model->price, $model->quantity)
         );
     }
 }

@@ -152,10 +152,20 @@ easy_admin:
                     - { property: 'part', label: 'Запчасть', type: 'text', type_options: { disabled: true } }
             new:
                 title: 'Добавить запчасть к рекомендации'
+
         Service:
             class: App\Entity\Service
             controller: App\Controller\Admin\ServiceController
-            disabled_actions: ['delete']
+            disabled_actions: ['delete', 'show']
+            list:
+                title: 'Работы'
+                fields:
+                    - { property: name, label: 'Название' }
+                    - { property: price, label: 'Цена', template: 'easy_admin/field_money.html.twig' }
+            form:
+                fields:
+                    - { property: name, label: 'Название' }
+                    - { property: price, label: 'Цена', type: App\Form\Type\MoneyType }
 
         Operand:
             class: App\Entity\Operand

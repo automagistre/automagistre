@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Money\Currency;
+use Money\Money;
 
 /**
  * @ORM\Entity
@@ -34,10 +36,10 @@ class Service
      */
     private $price;
 
-    public function __construct(string $name = null, int $price = null)
+    public function __construct(string $name, Money $price)
     {
         $this->name = $name;
-        $this->price = $price;
+        $this->setPrice($price);
     }
 
     public function getId(): ?int
@@ -55,14 +57,14 @@ class Service
         $this->name = $name;
     }
 
-    public function getPrice(): ?int
+    public function getPrice(): ?Money
     {
-        return $this->price;
+        return new Money($this->price, new Currency('RUB'));
     }
 
-    public function setPrice(int $price): void
+    public function setPrice(Money $price): void
     {
-        $this->price = $price;
+        $this->price = (int) $price->getAmount();
     }
 
     public function __toString(): string

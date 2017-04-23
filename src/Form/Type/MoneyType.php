@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Form\Type;
 
 use App\Form\Transformer\DivisoredNumberToLocalizedStringTransformer;
+use Money\Currency;
+use Money\Money;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -24,7 +27,12 @@ class MoneyType extends \Symfony\Component\Form\Extension\Core\Type\MoneyType
                 $options['grouping'],
                 null,
                 $options['divisor']
-            ));
+            ))
+            ->addModelTransformer(new CallbackTransformer(function ($money) {
+                return $money instanceof Money ? $money->getAmount() : $money;
+            }, function (string $amount) {
+                return new Money($amount, new Currency('RUB'));
+            }));
     }
 
     /**
