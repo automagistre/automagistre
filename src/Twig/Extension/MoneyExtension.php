@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig\Extension;
 
-use Money\Currencies\ISOCurrencies;
-use Money\Formatter\IntlMoneyFormatter;
+use App\Money\MoneyFormatter;
 use Money\Money;
 
 /**
@@ -13,6 +12,16 @@ use Money\Money;
  */
 class MoneyExtension extends \Twig_Extension
 {
+    /**
+     * @var MoneyFormatter
+     */
+    private $formatter;
+
+    public function __construct(MoneyFormatter $formatter)
+    {
+        $this->formatter = $formatter;
+    }
+
     public function getFilters(): array
     {
         return [
@@ -22,10 +31,7 @@ class MoneyExtension extends \Twig_Extension
 
     public function localizeMoney(Money $money, $locale = null): string
     {
-        $numberFormatter = new \NumberFormatter($locale ?: 'ru', \NumberFormatter::CURRENCY);
-        $moneyFormatter = new IntlMoneyFormatter($numberFormatter, new ISOCurrencies());
-
-        return $moneyFormatter->format($money);
+        return $this->formatter->format($money);
     }
 
     /**

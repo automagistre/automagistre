@@ -1,0 +1,14 @@
+services:
+    _defaults:
+        public: false
+        autowire: by_id
+
+    number.formatter:
+        class: NumberFormatter
+        autowire: false
+        arguments:
+            - '%locale%'
+            - !php/const:NumberFormatter::CURRENCY
+
+    Money\Currencies\ISOCurrencies: ~
+    Money\Formatter\IntlMoneyFormatter: ~
