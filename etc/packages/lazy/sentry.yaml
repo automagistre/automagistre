@@ -5,3 +5,4 @@ sentry:
     app_path: '%env(APP_DIR)%'
     skip_capture:
         - 'Symfony\\Component\\HttpKernel\\Exception\\HttpExceptionInterface'
+        - 'Symfony\\Component\\Security\\Core\\Exception\\AccessDeniedException'
