@@ -48,6 +48,10 @@ class Kernel extends SymfonyKernel
             $bundles[] = new \Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
         }
 
+        if ($this->isSentry()) {
+            $bundles[] = new \Sentry\SentryBundle\SentryBundle();
+        }
+
         return $bundles;
     }
 
@@ -93,6 +97,15 @@ class Kernel extends SymfonyKernel
             $loader->load($confDir.'/packages/'.$this->getEnvironment().'/*'.self::CONFIG_EXTS, 'glob');
         }
 
+        if ($this->isSentry()) {
+            $loader->load($confDir.'/packages/lazy/sentry.yaml');
+        }
+
         $loader->load($confDir.'/container'.self::CONFIG_EXTS, 'glob');
+    }
+
+    private function isSentry(): bool
+    {
+        return (bool) getenv('SENTRY_DSN');
     }
 }

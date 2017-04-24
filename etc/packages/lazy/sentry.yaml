@@ -1,0 +1,7 @@
+sentry:
+    dsn: '%env(SENTRY_DSN)%'
+    release: '%env(APP_VERSION)%'
+    environment: '%kernel.environment%'
+    app_path: '%env(APP_DIR)%'
+    skip_capture:
+        - 'Symfony\\Component\\HttpKernel\\Exception\\HttpExceptionInterface'
