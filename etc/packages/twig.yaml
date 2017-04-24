@@ -3,6 +3,8 @@ twig:
     strict_variables: "%kernel.debug%"
     paths:
         - '%kernel.project_dir%/templates'
+    globals:
+        app_version: '%env(APP_VERSION)%'
 
 services:
     twig.extension.intl:

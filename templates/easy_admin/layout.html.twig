@@ -1,1 +1,12 @@
 {% extends app.request.xmlHttpRequest ? 'easy_admin/layout_modal.html.twig' : '@EasyAdmin/default/layout.html.twig' %}
+
+{% block wrapper %}
+    {{ parent() }}
+
+    <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+            <b>Версия</b> {{ app_version }}
+        </div>
+        <strong>Copyright © 2017 <a href="//www.automagistre.ru">Автомагистр</a>.</strong>
+    </footer>
+{% endblock %}
