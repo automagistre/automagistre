@@ -215,6 +215,10 @@ class Car
      */
     public function getGosnomer(): ?string
     {
+        if (!$this->gosnomer) {
+            return null;
+        }
+
         $roman = ['A', 'B', 'E', 'K', 'M', 'H', 'O', 'P', 'C', 'T', 'Y', 'X'];
         $cyrillic = ['А', 'В', 'Е', 'К', 'М', 'Н', 'О', 'Р', 'С', 'Т', 'У', 'Х'];
 
