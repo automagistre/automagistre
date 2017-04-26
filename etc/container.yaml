@@ -21,6 +21,9 @@ services:
     App\Model\:
         resource: '../src/Model'
         autowire: false
+    App\Exception\:
+        resource: '../src/Exception'
+        autowire: false
 
     App\Part\Finder:
         arguments:
