@@ -130,13 +130,6 @@ class CarRecommendation
         return $this->realization;
     }
 
-    public function getPartsCost(): int
-    {
-        return array_sum($this->parts->map(function (CarRecommendationPart $part) {
-            return $part->getTotalPrice();
-        })->toArray());
-    }
-
     public function getWorker(): Operand
     {
         return $this->worker;
