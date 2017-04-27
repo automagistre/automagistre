@@ -1,4 +1,4 @@
-check: cs phpstan phpunit
+check: cache-clean cs phpstan phpunit
 cs:
 	docker-compose run --rm -e SKIP_ENTRYPOINT=true app php-cs-fixer fix --config .php_cs.dist
 phpstan:
@@ -7,3 +7,5 @@ phpunit:
 	docker-compose run --rm -e APP_ENV=test -e APP_DEBUG=0 app phpunit
 requirements:
 	docker-compose run --rm -e APP_ENV=test -e APP_DEBUG=0 app symfony_requirements
+cache-clean:
+	docker-compose run --rm -e SKIP_ENTRYPOINT=true app rm -rf var/cache/*
