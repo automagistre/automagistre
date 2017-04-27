@@ -101,16 +101,14 @@
                         <i class="fa fa-plus"></i>
                     </a>
                 {%- endif %}
-                /
-                Запчасти
+                / Запчасти
                 {% if order.editable -%}
                     <a href="{{ easyadmin_path('OrderItemPart', {'order_id': order.id}) }}">
                         <i class="fa fa-plus"></i>
                     </a>
-                {%- endif -%}
-
+                {%- endif %}
+                / Группа
                 {% if order.editable %}
-                    / Группа
                     <a href="{{ easyadmin_path('OrderItemGroup', {'order_id': order.id}) }}">
                         <i class="fa fa-plus"></i>
                     </a>
@@ -128,8 +126,10 @@
                             <th>Исполнитель / Артикул</th>
                             <th>Цена</th>
                             <th>Итого</th>
-                            <th>Склад</th>
-                            <th>Действия</th>
+                            {% if order.editable %}
+                                <th>Склад</th>
+                                <th>Действия</th>
+                            {% endif %}
                         </tr>
                         </thead>
                         <tbody>

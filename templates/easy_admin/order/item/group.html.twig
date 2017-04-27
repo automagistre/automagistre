@@ -4,31 +4,25 @@
 
 <tr>
     <td style="{% include 'easy_admin/order/item/padding.html.twig' with {'level': level} %}">
-
         <i class="fa fa-folder"></i>
 
         {{ item.name }}
 
-        {{ icon.link('folder', easyadmin_path('OrderItemGroup', {
-            'order_id': order.id,
-            'parent_id': item.id
-        }), order.editable) }}
+        {% if order.editable %}
+            {{ icon.link('folder', easyadmin_path('OrderItemGroup', {'order_id': order.id, 'parent_id': item.id})) }}
 
-        {{ icon.link('wrench', easyadmin_path('OrderItemService', {
-            'order_id': order.id,
-            'parent_id': item.id
-        }), order.editable) }}
+            {{ icon.link('wrench', easyadmin_path('OrderItemService', {'order_id': order.id, 'parent_id': item.id})) }}
 
-        {{ icon.link('barcode', easyadmin_path('OrderItemPart', {
-            'order_id': order.id,
-            'parent_id': item.id
-        }), order.editable) }}
+            {{ icon.link('barcode', easyadmin_path('OrderItemPart', {'order_id': order.id, 'parent_id': item.id})) }}
+        {% endif %}
     </td>
     <td></td>
     <td></td>
     <td>{{ item.totalServicePrice|localize_money }} / {{ item.totalPartPrice|localize_money }}</td>
-    <td>-</td>
-    <td>
-        {{ icon.link('pencil', item|easyadmin_path, order.editable) }}
-    </td>
+    {% if order.editable %}
+        <td>-</td>
+        <td>
+            {{ icon.link('pencil', item|easyadmin_path) }}
+        </td>
+    {% endif %}
 </tr>
