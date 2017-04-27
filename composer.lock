@@ -1821,16 +1821,16 @@
         },
         {
             "name": "moneyphp/money",
-            "version": "v3.0.4",
+            "version": "v3.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/moneyphp/money.git",
-                "reference": "ecf367c3bac3f2d1133a456c18dceb2b40fa5843"
+                "reference": "2bd76fb0ba281bd90150a747bb7a8415c7e241f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/moneyphp/money/zipball/ecf367c3bac3f2d1133a456c18dceb2b40fa5843",
-                "reference": "ecf367c3bac3f2d1133a456c18dceb2b40fa5843",
+                "url": "https://api.github.com/repos/moneyphp/money/zipball/2bd76fb0ba281bd90150a747bb7a8415c7e241f3",
+                "reference": "2bd76fb0ba281bd90150a747bb7a8415c7e241f3",
                 "shasum": ""
             },
             "require": {
@@ -1895,7 +1895,7 @@
                 "money",
                 "vo"
             ],
-            "time": "2017-04-21T11:28:24+00:00"
+            "time": "2017-04-26T12:54:44+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -3432,12 +3432,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "8701cae777d77b182e120877332a0a050afb2bd5"
+                "reference": "8974b52ec885c72a965a3e97c62414e4765634e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/8701cae777d77b182e120877332a0a050afb2bd5",
-                "reference": "8701cae777d77b182e120877332a0a050afb2bd5",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/8974b52ec885c72a965a3e97c62414e4765634e6",
+                "reference": "8974b52ec885c72a965a3e97c62414e4765634e6",
                 "shasum": ""
             },
             "require": {
@@ -3578,7 +3578,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2017-04-26 01:46:15"
+            "time": "2017-04-27 11:26:45"
         },
         {
             "name": "twig/extensions",
