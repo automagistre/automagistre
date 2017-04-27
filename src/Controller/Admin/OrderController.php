@@ -8,6 +8,7 @@ use App\Entity\Order;
 use App\Entity\Organization;
 use App\Entity\Person;
 use Doctrine\ORM\Query\Expr\Join;
+use Doctrine\ORM\QueryBuilder;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
 use JavierEguiluz\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -24,7 +25,7 @@ final class OrderController extends AdminController
         $sortField = null,
         $sortDirection = null,
         $dqlFilter = null
-    ) {
+    ): QueryBuilder {
         $qb = $this->em->getRepository(Order::class)->createQueryBuilder('orders')
             ->leftJoin('orders.customer', 'customer')
             ->leftJoin('orders.car', 'car')
@@ -71,8 +72,6 @@ final class OrderController extends AdminController
      */
     protected function prePersistEntity($entity): void
     {
-        $this->preSave($entity);
-
         $this->get('event_dispatcher')->addListener(EasyAdminEvents::POST_PERSIST, function (GenericEvent $event) {
             /** @var Order $entity */
             $entity = $event->getArgument('entity');
@@ -83,19 +82,5 @@ final class OrderController extends AdminController
                 'id'     => $entity->getId(),
             ]));
         });
-    }
-
-    /**
-     * @param Order $entity
-     */
-    protected function preUpdateEntity($entity): void
-    {
-        $this->preSave($entity);
-    }
-
-    private function preSave(Order $order): void
-    {
-        $order->linkOrderToParts();
-        $order->linkOrderToServices();
     }
 }

@@ -4,14 +4,18 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\Price;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Money\Money;
 
 /**
  * @ORM\Entity
  */
 class CarRecommendation
 {
+    use Price;
+
     /**
      * @var int
      *
@@ -49,13 +53,6 @@ class CarRecommendation
     private $parts;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(type="integer")
-     */
-    private $cost;
-
-    /**
      * @var Order|null
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Order")
@@ -66,7 +63,7 @@ class CarRecommendation
      * @var Operand
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Operand")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn(nullable=false)
      */
     private $worker;
 
@@ -84,13 +81,15 @@ class CarRecommendation
      */
     private $createdAt;
 
-    public function __construct(Car $car, Service $service = null, int $price = null)
+    public function __construct(Car $car, Service $service, Money $price, Operand $worker)
     {
+        $this->createdAt = new \DateTime();
+        $this->parts = new ArrayCollection();
+
         $this->car = $car;
         $this->service = $service;
-        $this->cost = $price;
-        $this->parts = new ArrayCollection();
-        $this->createdAt = new \DateTime();
+        $this->changePrice($price);
+        $this->worker = $worker;
     }
 
     public function getId(): ?int
@@ -108,9 +107,9 @@ class CarRecommendation
         return $this->service;
     }
 
-    public function setService(Service $service): void
+    public function setPrice(Money $price): void
     {
-        $this->service = $service;
+        $this->changePrice($price);
     }
 
     /**
@@ -126,44 +125,24 @@ class CarRecommendation
         $this->parts[] = $part;
     }
 
-    public function getRealization(): Order
+    public function getRealization(): ?Order
     {
         return $this->realization;
-    }
-
-    public function setRealization(Order $realization): void
-    {
-        $this->realization = $realization;
-    }
-
-    public function getCost(): ?int
-    {
-        return $this->cost;
-    }
-
-    public function setCost(int $cost)
-    {
-        $this->cost = $cost;
     }
 
     public function getPartsCost(): int
     {
         return array_sum($this->parts->map(function (CarRecommendationPart $part) {
-            return $part->getTotalCost();
+            return $part->getTotalPrice();
         })->toArray());
     }
 
-    public function getWorker(): ?Operand
+    public function getWorker(): Operand
     {
         return $this->worker;
     }
 
-    public function setWorker(Operand $worker): void
-    {
-        $this->worker = $worker;
-    }
-
-    public function getExpiredAt(): \DateTime
+    public function getExpiredAt(): ?\DateTime
     {
         return $this->expiredAt;
     }
@@ -180,18 +159,8 @@ class CarRecommendation
         $this->parts->clear();
     }
 
-    public function unRealize(Order $order): void
-    {
-        if ($this->realization !== $order || !$order->isEditable()) {
-            throw new \DomainException('Can\'t unRealize recommendation from closed order');
-        }
-
-        $this->realization = null;
-        $this->expiredAt = null;
-    }
-
     public function __toString(): string
     {
-        return (string) $this->service->getName();
+        return $this->service->getName();
     }
 }

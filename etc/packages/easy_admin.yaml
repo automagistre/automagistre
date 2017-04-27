@@ -65,7 +65,8 @@ easy_admin:
                     - { property: 'closedAt', label: 'Дата закрытия', type: 'datetime' }
                     - { property: 'car', label: 'Автомобиль', template: 'easy_admin/order/field_car.html.twig' }
                     - { property: 'customer', label: 'Клиент' }
-                    - { property: 'readableCosts', label: 'Работы/Запчасти' }
+                    - { property: 'totalServicePrice', label: 'Работы', template: 'easy_admin/field_money.html.twig' }
+                    - { property: 'totalPartPrice', label: 'Запчасти', template: 'easy_admin/field_money.html.twig' }
             form:
                 fields:
                     - { type: 'group', label: 'Основная информация', css_class: 'col-sm-6' }
@@ -76,9 +77,21 @@ easy_admin:
                     - { type: 'group', label: 'Описание', css_class: 'col-sm-6' }
                     - { property: 'description', label: 'Описание', type: 'ckeditor' }
 
-        OrderService:
-            class: App\Entity\OrderService
-            controller: App\Controller\Admin\OrderServiceController
+        OrderItemGroup:
+            class: App\Entity\OrderItemGroup
+            disabled_actions: ['show', 'list']
+            controller: App\Controller\Admin\OrderItemGroupController
+            form:
+                fields:
+                    - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
+                    - { property: 'parent', label: 'Родитель', type: 'text', type_options: { disabled: true } }
+                    - { property: 'name', label: 'Название' }
+            new:
+                form_options: { data_class: App\Form\Model\OrderGroup }
+
+        OrderItemService:
+            class: App\Entity\OrderItemService
+            controller: App\Controller\Admin\OrderItemServiceController
             disabled_actions: ['show', 'list']
             templates:
                 new: 'easy_admin/order_service/new.html.twig'
@@ -89,17 +102,21 @@ easy_admin:
             form:
                 fields:
                     - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
+                    - { property: 'parent', label: 'Родитель', type: 'text', type_options: { disabled: true } }
                     -
                         property: 'service'
                         label: 'Работа'
                         type: 'easyadmin_autocomplete'
                         type_options: { required: true }
                         help: 'Быстрое добавление работы: Введите название и цену, добавьте в конце два знака +. Пример: "Замена лампочки 500++"'
-                    - { property: 'cost', label: 'Стоимость' }
+                    - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType }
                     - { property: 'worker', label: 'Исполнитель', type: 'easyadmin_autocomplete' }
-        OrderPart:
-            class: App\Entity\OrderPart
-            controller: App\Controller\Admin\OrderPartController
+            new:
+                form_options: { data_class: App\Form\Model\OrderService }
+
+        OrderItemPart:
+            class: App\Entity\OrderItemPart
+            controller: App\Controller\Admin\OrderItemPartController
             disabled_actions: ['show', 'list']
             templates:
                 new: 'easy_admin/order_part/new.html.twig'
@@ -110,10 +127,12 @@ easy_admin:
             form:
                 fields:
                     - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
-                    - { property: 'orderService', label: 'Работа', type: 'text', type_options: { disabled: true } }
+                    - { property: 'parent', label: 'Родитель', type: 'text', type_options: { disabled: true } }
                     - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { required: true } }
-                    - { property: 'cost', label: 'Стоимость' }
+                    - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType }
                     - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
+            new:
+                form_options: { data_class: App\Form\Model\OrderPart }
 
         CarRecommendation:
             class: App\Entity\CarRecommendation
@@ -130,7 +149,7 @@ easy_admin:
                         type: 'easyadmin_autocomplete'
                         type_options: { required: true }
                         help: 'Быстрое добавление работы: Введите название и цену, добавьте в конце два знака +. Пример: "Замена лампочки 500++"'
-                    - { property: 'cost', label: 'Стоимость', type_options: { required: true } }
+                    - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType, type_options: { required: true } }
                     - { property: 'worker', label: 'Диагност', type: 'easyadmin_autocomplete', type_options: { required: true } }
             edit:
                 title: 'Рекомендация №%%entity_id%%'
@@ -138,6 +157,8 @@ easy_admin:
                     - { property: 'service', label: 'Работа', type: 'text', type_options: { disabled: true } }
             new:
                 title: 'Новая рекомендация'
+                form_options: { data_class: App\Form\Model\Recommendation }
+
         CarRecommendationPart:
             class: App\Entity\CarRecommendationPart
             controller: App\Controller\Admin\CarRecommendationPartController
@@ -146,13 +167,14 @@ easy_admin:
                 fields:
                     - { property: 'recommendation', label: 'Рекомендация', type: 'text', type_options: { disabled: true } }
                     - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { required: true } }
-                    - { property: 'cost', label: 'Стоимость' }
+                    - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType }
                     - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
             edit:
                 fields:
                     - { property: 'part', label: 'Запчасть', type: 'text', type_options: { disabled: true } }
             new:
                 title: 'Добавить запчасть к рекомендации'
+                form_options: { data_class: App\Form\Model\RecommendationPart }
 
         Service:
             class: App\Entity\Service

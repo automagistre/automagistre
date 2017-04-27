@@ -1,0 +1,36 @@
+{% import 'easy_admin/macro/icon.html.twig' as icon %}
+
+{# @var item \App\Entity\OrderItemService #}
+
+<tr>
+    <td style="{% include 'easy_admin/order/item/padding.html.twig' with {'level': level} %}">
+
+        {{ icon.link('wrench', item.service|easyadmin_path, order.editable) }}
+
+        {{ item.service.name }}
+
+        {{ icon.link('plus', easyadmin_path('OrderItemPart', {
+            'order_id': order.id,
+            'order_service_id': item.id,
+            'parent_id': item.id
+        }), order.editable) }}
+    </td>
+    <td>{{ item.worker }}</td>
+    <td></td>
+    <td>
+        {{ item.price|localize_money }} / {{ item.totalPartPrice|localize_money }}
+    </td>
+    <td>-</td>
+    <td>
+        {% if order.editable %}
+            {{ icon.link('pencil', item|easyadmin_path) }}
+
+            <form action="{{ item|easyadmin_path({
+                'action': 'recommend',
+                'order_id': order.id
+            }) }}" method="post" style="display: inline">
+                <i class="fa fa-asterisk icon-form-submit" style="cursor: pointer"></i>
+            </form>
+        {% endif %}
+    </td>
+</tr>

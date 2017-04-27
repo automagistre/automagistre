@@ -1,0 +1,13 @@
+{% set level = level|default(0) %}
+
+{% if instanceOf(item, 'App\\Entity\\OrderItemPart') %}
+    {% include 'easy_admin/order/item/part.html.twig' %}
+{% elseif instanceOf(item, 'App\\Entity\\OrderItemService') %}
+    {% include'easy_admin/order/item/service.html.twig' %}
+{% elseif instanceOf(item, 'App\\Entity\\OrderItemGroup') %}
+    {% include 'easy_admin/order/item/group.html.twig' %}
+{% endif %}
+
+{% for children in item.children %}
+    {% include _self with {'item': children, 'order': order, 'parent': item, 'level': level + 1} %}
+{% endfor %}

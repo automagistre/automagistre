@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\Price;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -15,6 +16,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Part
 {
+    use Price;
+
     /**
      * @var int
      *
@@ -144,16 +147,6 @@ class Part
     public function setDescription(string $description)
     {
         $this->description = $description;
-    }
-
-    public function getPrice(): ?int
-    {
-        return $this->price;
-    }
-
-    public function setPrice(int $price)
-    {
-        $this->price = $price;
     }
 
     public function __toString(): string

@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\Price;
+use App\Money\TotalPriceInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Money\Money;
 
 /**
  * @ORM\Entity
  */
-class CarRecommendationPart
+class CarRecommendationPart implements TotalPriceInterface
 {
+    use Price;
+
     /**
      * @var int
      *
@@ -44,13 +49,6 @@ class CarRecommendationPart
     private $quantity;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(type="integer")
-     */
-    private $cost;
-
-    /**
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
@@ -68,14 +66,14 @@ class CarRecommendationPart
     public function __construct(
         CarRecommendation $recommendation,
         User $selector,
-        Part $part = null,
-        int $quantity = null,
-        int $price = null
+        Part $part,
+        int $quantity,
+        Money $price
     ) {
         $this->recommendation = $recommendation;
         $this->part = $part;
         $this->quantity = $quantity;
-        $this->cost = $price;
+        $this->changePrice($price);
         $this->selector = $selector;
         $this->createdAt = new \DateTime();
     }
@@ -85,58 +83,34 @@ class CarRecommendationPart
         return $this->id;
     }
 
-    public function getRecommendation(): ?CarRecommendation
+    public function getRecommendation(): CarRecommendation
     {
         return $this->recommendation;
     }
 
-    public function getPart(): ?Part
+    public function getPart(): Part
     {
         return $this->part;
     }
 
-    public function setPart(Part $part): void
-    {
-        if ($this->part) {
-            throw new \DomainException('Changing part is restricted');
-        }
-
-        $this->part = $part;
-    }
-
-    public function getQuantity(): ?int
+    public function getQuantity(): int
     {
         return $this->quantity;
     }
 
-    public function setQuantity(int $quantity): void
+    public function setPrice(Money $price): void
     {
-        $this->quantity = $quantity;
+        $this->changePrice($price);
     }
 
-    public function getCost(): ?int
-    {
-        return $this->cost;
-    }
-
-    public function setCost(int $cost): void
-    {
-        $this->cost = $cost;
-    }
-
-    public function getTotalCost(): int
-    {
-        return $this->getCost() * $this->getQuantity();
-    }
-
-    public function getSelector(): ?User
+    public function getSelector(): User
     {
         return $this->selector;
     }
 
-    public function setSelector(User $selector): void
+    public function getTotalPrice(): Money
     {
-        $this->selector = $selector;
+        return $this->getPrice()->multiply($this->quantity / 100);
     }
 
     public function getCreatedAt(): \DateTime

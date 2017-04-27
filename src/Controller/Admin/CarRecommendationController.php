@@ -7,7 +7,9 @@ namespace App\Controller\Admin;
 use App\Entity\Car;
 use App\Entity\CarRecommendation;
 use App\Entity\Order;
-use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
+use App\Form\Model\Recommendation;
+use App\Manager\RecommendationManager;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -16,6 +18,16 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 final class CarRecommendationController extends AdminController
 {
+    /**
+     * @var RecommendationManager
+     */
+    private $manager;
+
+    public function __construct(RecommendationManager $manager)
+    {
+        $this->manager = $manager;
+    }
+
     protected function createNewEntity()
     {
         if (!$id = $this->request->query->get('car_id')) {
@@ -27,10 +39,23 @@ final class CarRecommendationController extends AdminController
             throw new NotFoundHttpException(sprintf('Car id "%s" not found', $id));
         }
 
-        return new CarRecommendation($car);
+        $model = new Recommendation();
+        $model->car = $car;
+
+        return $model;
     }
 
-    public function realizeAction()
+    /**
+     * @param Recommendation $model
+     */
+    protected function persistEntity($model): void
+    {
+        $entity = new CarRecommendation($model->car, $model->service, $model->price, $model->worker);
+
+        parent::persistEntity($entity);
+    }
+
+    public function realizeAction(): RedirectResponse
     {
         if (!$this->request->isMethod('POST')) {
             throw new BadRequestHttpException();
@@ -52,8 +77,7 @@ final class CarRecommendationController extends AdminController
             throw new NotFoundHttpException();
         }
 
-        $order->realizeRecommendation($recommendation);
-        $this->em->flush();
+        $this->manager->realize($recommendation, $order);
 
         return $this->redirectToRoute('easyadmin', [
             'entity' => 'Order',

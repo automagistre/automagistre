@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\Price;
 use Doctrine\ORM\Mapping as ORM;
-use Money\Currency;
 use Money\Money;
 
 /**
@@ -13,6 +13,8 @@ use Money\Money;
  */
 class Service
 {
+    use Price;
+
     /**
      * @var int
      *
@@ -29,25 +31,18 @@ class Service
      */
     private $name;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(type="integer")
-     */
-    private $price;
-
     public function __construct(string $name, Money $price)
     {
         $this->name = $name;
-        $this->setPrice($price);
+        $this->changePrice($price);
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -57,18 +52,13 @@ class Service
         $this->name = $name;
     }
 
-    public function getPrice(): ?Money
-    {
-        return new Money($this->price, new Currency('RUB'));
-    }
-
     public function setPrice(Money $price): void
     {
-        $this->price = (int) $price->getAmount();
+        $this->changePrice($price);
     }
 
     public function __toString(): string
     {
-        return (string) $this->getName();
+        return $this->getName();
     }
 }

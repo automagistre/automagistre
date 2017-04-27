@@ -9,7 +9,7 @@
                     {{ form_row(form.order) }}
                 </div>
                 <div class="col-xs-12 col-md-6">
-                    {{ form_row(form.orderService) }}
+                    {{ form_row(form.parent) }}
                 </div>
             </div>
         </div>
@@ -32,7 +32,7 @@
                 </div>
 
                 <div class="col-xs-12 col-md-4">
-                    {{ form_row(form.cost) }}
+                    {{ form_row(form.price) }}
                 </div>
 
                 <div class="col-xs-12 col-md-4">
@@ -51,7 +51,7 @@
     <script type="text/javascript">
         var url = "{{ easyadmin_entity_path('Part')|raw }}",
             partInput = $("#{{ form.part.children.autocomplete.vars.id }}"),
-            costInput = $("#{{ form.cost.vars.id }}");
+            costInput = $("#{{ form.price.vars.id }}");
 
         $('#new-part').click(function () {
             $.ajax({

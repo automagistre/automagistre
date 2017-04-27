@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Entity\Order;
-use App\Entity\OrderPart;
-use App\Entity\OrderService;
+use App\Entity\OrderItem;
+use App\Entity\OrderItemPart;
+use App\Form\Model\OrderPart;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class OrderPartController extends AdminController
+final class OrderItemPartController extends AdminController
 {
     protected function createNewEntity(): OrderPart
     {
@@ -27,28 +28,34 @@ final class OrderPartController extends AdminController
             throw new NotFoundHttpException();
         }
 
-        $entity = new OrderPart($order, $this->getUser());
+        $model = new OrderPart();
+        $model->order = $order;
 
-        $serviceId = $this->request->query->get('order_service_id');
-        if ($serviceId) {
-            $service = $this->em->getRepository(OrderService::class)->findOneBy([
-                'id'    => $serviceId,
-                'order' => $order->getId(),
-            ]);
-            if (!$service) {
-                throw new BadRequestHttpException('Bad order_service_id');
-            }
-
-            $entity->setOrderService($service);
+        if ($parentId = $this->request->query->get('parent_id')) {
+            $model->parent = $this->em->getRepository(OrderItem::class)->find($parentId);
         }
 
-        return $entity;
+        return $model;
     }
 
-    protected function isActionAllowed($actionName)
+    /**
+     * @param OrderPart $model
+     */
+    protected function persistEntity($model): void
+    {
+        $entity = new OrderItemPart($model->order, $this->getUser(), $model->part, $model->quantity, $model->price);
+
+        if ($parent = $model->parent) {
+            $entity->setParent($parent);
+        }
+
+        parent::persistEntity($entity);
+    }
+
+    protected function isActionAllowed($actionName): bool
     {
         if (in_array($actionName, ['edit', 'delete'], true) && $id = $this->request->get('id')) {
-            $entity = $this->em->getRepository(OrderPart::class)->find($id);
+            $entity = $this->em->getRepository(OrderItemPart::class)->find($id);
 
             return $entity->getOrder()->isEditable();
         }

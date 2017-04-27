@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Enum\OrderStatus;
+use App\Money\PriceInterface;
+use App\Money\TotalPriceInterface;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use Money\Currency;
+use Money\Money;
 
 /**
  * @ORM\Table(name="orders")
@@ -26,18 +30,11 @@ class Order
     private $id;
 
     /**
-     * @var OrderService[]|ArrayCollection
+     * @var OrderItem[]|ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\OrderService", mappedBy="order", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\OrderItem", mappedBy="order", cascade={"persist"}, orphanRemoval=true)
      */
-    private $services;
-
-    /**
-     * @var OrderPart[]|ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\OrderPart", mappedBy="order", cascade={"persist"}, orphanRemoval=true)
-     */
-    private $parts;
+    private $items;
 
     /**
      * @var DateTime
@@ -149,8 +146,7 @@ class Order
     public function __construct()
     {
         $this->status = OrderStatus::DRAFT;
-        $this->services = new ArrayCollection();
-        $this->parts = new ArrayCollection();
+        $this->items = new ArrayCollection();
         $this->createdAt = new \DateTime();
     }
 
@@ -159,33 +155,24 @@ class Order
         return $this->id;
     }
 
-    public function getServices(): array
+    public function addItem(OrderItem $item): void
     {
-        return $this->services->toArray();
+        $this->items[] = $item;
     }
 
-    public function addService(OrderService $service)
+    public function getItems(): array
     {
-        $service->setOrder($this);
-        $this->services[] = $service;
+        return $this->items->toArray();
     }
 
-    public function getParts(): array
+    /**
+     * @return OrderItem[]
+     */
+    public function getRootItems(): array
     {
-        return $this->parts->toArray();
-    }
+        $criteria = Criteria::create()->where(Criteria::expr()->isNull('parent'));
 
-    public function addPart(OrderPart $part)
-    {
-        $part->setOrder($this);
-        $this->parts[] = $part;
-    }
-
-    public function getRootParts(): array
-    {
-        $criteria = Criteria::create()->where(Criteria::expr()->isNull('orderService'));
-
-        return $this->parts->matching($criteria)->toArray();
+        return $this->items->matching($criteria)->toArray();
     }
 
     public function getCar(): ?Car
@@ -193,7 +180,7 @@ class Order
         return $this->car;
     }
 
-    public function setCar(Car $car)
+    public function setCar(Car $car): void
     {
         $this->car = $car;
     }
@@ -213,12 +200,12 @@ class Order
         return $this->description;
     }
 
-    public function setDescription(string $description = null)
+    public function setDescription(string $description = null): void
     {
         $this->description = $description;
     }
 
-    public function getNotes()
+    public function getNotes(): array
     {
         return $this->notes->toArray();
     }
@@ -248,23 +235,34 @@ class Order
         return new OrderStatus($this->status);
     }
 
-    public function servicesCost(): int
+    protected function getTotalPriceByClass(string $class): Money
     {
-        return array_sum(array_map(function (OrderService $service) {
-            return $service->getCost();
-        }, $this->services->toArray()));
+        $items = $this->items->filter(function (OrderItem $item) use ($class) {
+            return $item instanceof $class;
+        })->toArray();
+
+        $price = new Money(0, new Currency('RUB'));
+        foreach ($items as $item) {
+            if ($item instanceof TotalPriceInterface) {
+                $price = $price->add($item->getTotalPrice());
+            } elseif ($item instanceof PriceInterface) {
+                $price = $price->add($item->getPrice());
+            } else {
+                throw new \DomainException('Can\'t calculate total price for item which not have price');
+            }
+        }
+
+        return $price;
     }
 
-    public function partsCost(): int
+    public function getTotalServicePrice(): Money
     {
-        return array_sum(array_map(function (OrderPart $part) {
-            return $part->getCost();
-        }, $this->parts->toArray()));
+        return $this->getTotalPriceByClass(OrderItemService::class);
     }
 
-    public function readableCosts(): string
+    public function getTotalPartPrice(): Money
     {
-        return sprintf('%d / %d', $this->servicesCost(), $this->partsCost());
+        return $this->getTotalPriceByClass(OrderItemPart::class);
     }
 
     public function isEditable(): bool
@@ -275,84 +273,5 @@ class Order
     public function __toString(): string
     {
         return (string) $this->getId();
-    }
-
-    public function realizeRecommendation(CarRecommendation $recommendation): void
-    {
-        $orderService = new OrderService($this, $recommendation->getService(), $recommendation->getCost());
-        $this->services[] = $orderService;
-
-        foreach ($recommendation->getParts() as $recommendationPart) {
-            $orderPart = new OrderPart(
-                $this,
-                $recommendationPart->getSelector(),
-                $recommendationPart->getPart(),
-                $recommendationPart->getQuantity(),
-                $recommendationPart->getCost(),
-                $orderService
-            );
-
-            $this->parts[] = $orderPart;
-            $orderService->addOrderPart($orderPart);
-        }
-
-        $recommendation->realize($this);
-    }
-
-    public function recommendService(OrderService $orderService): void
-    {
-        $criteria = Criteria::create()
-            ->andWhere(Criteria::expr()->eq('realization', $this))
-            ->andWhere(Criteria::expr()->eq('service', $orderService->getService()));
-
-        $recommendations = $this->car->getRecommendations($criteria);
-        if ($recommendations) {
-            $recommendation = array_shift($recommendations);
-
-            $recommendation->unRealize($this);
-            $recommendation->setCost($orderService->getCost());
-        } else {
-            $recommendation = new CarRecommendation($this->car, $orderService->getService(), $orderService->getCost());
-        }
-
-        foreach ($orderService->getOrderParts() as $orderPart) {
-            if ($this->parts->contains($orderPart)) {
-                $this->parts->removeElement($orderPart);
-            }
-
-            $recommendation->addPart(new CarRecommendationPart(
-                $recommendation,
-                $orderPart->getSelector(),
-                $orderPart->getPart(),
-                $orderPart->getQuantity(),
-                $orderPart->getCost()
-            ));
-        }
-
-        $this->services->removeElement($orderService);
-        $this->car->addRecommendation($recommendation);
-    }
-
-    public function linkOrderToParts(): void
-    {
-        $criteria = Criteria::create()->where(Criteria::expr()->isNull('order'));
-
-        $this->parts->matching($criteria)->map(function (OrderPart $part) {
-            $part->setOrder($this);
-        });
-    }
-
-    public function linkOrderToServices(): void
-    {
-        $criteria = Criteria::create()->where(Criteria::expr()->isNull('order'));
-
-        $this->services->matching($criteria)->map(function (OrderService $service) {
-            $service->setOrder($this);
-
-            $criteria = Criteria::create()->where(Criteria::expr()->isNull('orderService'));
-            $service->getOrderParts()->matching($criteria)->map(function (OrderPart $orderPart) use ($service) {
-                $orderPart->setOrderService($service);
-            });
-        });
     }
 }
