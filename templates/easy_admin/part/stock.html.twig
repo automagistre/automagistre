@@ -27,7 +27,7 @@
                     <td>
                         <a href="{{ part|easyadmin_path }}">{{ part }} ({{ part.number }})</a>
                     </td>
-                    <td>{{ part.price }}</td>
+                    <td>{{ part.price|localize_money }}</td>
                     <td>{{ warehouse.quantity / 100 }}</td>
                 </tr>
             {% endfor %}

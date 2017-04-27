@@ -27,7 +27,7 @@
                     <td>
                         <a href="{{ part|easyadmin_path }}">{{ part }}</a> - {{ part.number }}
                     </td>
-                    <td>{{ part.price }}</td>
+                    <td>{{ part.price|localize_money }}</td>
                     <td>{{ deficit.quantity / 100 }}</td>
                     <td>
                         {%- for order in deficit.orders -%}
