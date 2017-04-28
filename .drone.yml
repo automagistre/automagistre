@@ -81,14 +81,14 @@ pipeline:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
       - docker login -u"$HUB_LOGIN" -p"$HUB_PASSWORD" registry.gitlab.com
-      - docker tag "${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}" "registry.gitlab.com/${DRONE_REPO}:${DRONE_BUILD_NUMBER}"
-      - docker push "registry.gitlab.com/${DRONE_REPO}:${DRONE_BUILD_NUMBER}" > /dev/null
+      - docker tag "${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}" "${DRONE_REPO}:${DRONE_BUILD_NUMBER}"
+      - docker push "${DRONE_REPO}:${DRONE_BUILD_NUMBER}" > /dev/null
       - >+
         if [ "master" == "$DRONE_COMMIT_BRANCH" ]; then
-          docker rmi --force "registry.gitlab.com/${DRONE_REPO}:${DRONE_BUILD_NUMBER}"
+          docker rmi --force "${DRONE_REPO}:${DRONE_BUILD_NUMBER}"
 
-          docker tag "${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}" "registry.gitlab.com/${DRONE_REPO}:latest"
-          docker push "registry.gitlab.com/${DRONE_REPO}:latest" > /dev/null
+          docker tag "${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}" "${DRONE_REPO}:latest"
+          docker push "${DRONE_REPO}:latest" > /dev/null
         fi
     when:
       event: push
@@ -112,10 +112,10 @@ pipeline:
     username: ${DEPLOY_USER}
     key: ${DEPLOY_KEY}
     script:
-      - docker service update --image "registry.gitlab.com/${DRONE_REPO}:${DRONE_BUILD_NUMBER}" "${DEPLOY_SERVICE}"
+      - docker service update --image "${DRONE_REPO}:${DRONE_BUILD_NUMBER}" "${DEPLOY_SERVICE}"
       - >-
         docker rmi
-        `docker images -q --filter "before=registry.gitlab.com/${DRONE_REPO}:${DRONE_BUILD_NUMBER}" "registry.gitlab.com/${DRONE_REPO}"`
+        `docker images -q --filter "before=${DRONE_REPO}:${DRONE_BUILD_NUMBER}" "${DRONE_REPO}"`
         2> /dev/null || true
     when:
       branch: master
