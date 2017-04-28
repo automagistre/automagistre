@@ -82,9 +82,14 @@ abstract class OrderItem
         return $this->parent;
     }
 
-    public function setParent(OrderItem $item): void
+    public function setParent(OrderItem $item = null): void
     {
         $this->parent = $item;
+    }
+
+    public function getLevel(): int
+    {
+        return $this->parent ? $this->parent->getLevel() + 1 : 0;
     }
 
     /**

@@ -79,4 +79,9 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
     {
         return $this->selector;
     }
+
+    public function __toString(): string
+    {
+        return (string) $this->getPart()->getName();
+    }
 }

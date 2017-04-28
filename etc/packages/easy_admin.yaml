@@ -84,10 +84,14 @@ easy_admin:
             form:
                 fields:
                     - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
-                    - { property: 'parent', label: 'Родитель', type: 'text', type_options: { disabled: true } }
+                    - { property: 'parent', label: 'Родитель', type: App\Form\Type\OrderItemParentType }
                     - { property: 'name', label: 'Название' }
             new:
                 form_options: { data_class: App\Form\Model\OrderGroup }
+                fields:
+                    - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
+                    - { property: 'parent', label: 'Родитель', type: 'text', type_options: { disabled: true } }
+                    - { property: 'name', label: 'Название' }
 
         OrderItemService:
             class: App\Entity\OrderItemService
@@ -102,7 +106,7 @@ easy_admin:
             form:
                 fields:
                     - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
-                    - { property: 'parent', label: 'Родитель', type: 'text', type_options: { disabled: true } }
+                    - { property: 'parent', label: 'Родитель', type: App\Form\Type\OrderItemParentType }
                     -
                         property: 'service'
                         label: 'Работа'
@@ -127,7 +131,7 @@ easy_admin:
             form:
                 fields:
                     - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
-                    - { property: 'parent', label: 'Родитель', type: 'text', type_options: { disabled: true } }
+                    - { property: 'parent', label: 'Родитель', type: App\Form\Type\OrderItemParentType }
                     - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { required: true } }
                     - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType }
                     - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
