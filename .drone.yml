@@ -26,20 +26,20 @@ pipeline:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
       - >-
-        docker build -t "${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}"
+        docker build -t "${HUB_REPO}:${DRONE_BUILD_NUMBER}"
         --file docker/Dockerfile
         --label branch="${DRONE_COMMIT_BRANCH}"
         --build-arg GITHUB_AUTH_TOKEN="$GITHUB_AUTH_TOKEN"
         --build-arg APP_VERSION="$DRONE_BUILD_NUMBER" .
 
   phpstan:
-    image: ${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}
+    image: ${HUB_REPO}:${DRONE_BUILD_NUMBER}
     commands:
       - cd "$APP_DIR"
       - phpstan analyse --level 5 --configuration phpstan.neon --no-progress src tests
 
   symfony requirements:
-    image: ${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}
+    image: ${HUB_REPO}:${DRONE_BUILD_NUMBER}
     commands:
       - /docker-entrypoint.sh symfony_requirements
     environment:
@@ -48,7 +48,7 @@ pipeline:
       MIGRATION: false
 
   yaml lint:
-    image: ${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}
+    image: ${HUB_REPO}:${DRONE_BUILD_NUMBER}
     commands:
       - /docker-entrypoint.sh console lint:yaml etc
     environment:
@@ -57,7 +57,7 @@ pipeline:
       MIGRATION: false
 
   doctrine validation:
-    image: ${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}
+    image: ${HUB_REPO}:${DRONE_BUILD_NUMBER}
     commands:
       - while ! nc -z 127.0.0.1 3306; do sleep 1; done
       - /docker-entrypoint.sh console doctrine:schema:validate --skip-sync
@@ -67,7 +67,7 @@ pipeline:
       MIGRATION: false
 
   phpunit:
-    image: ${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}
+    image: ${HUB_REPO}:${DRONE_BUILD_NUMBER}
     commands:
       - /docker-entrypoint.sh phpunit
     environment:
@@ -81,14 +81,12 @@ pipeline:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
       - docker login -u"$HUB_LOGIN" -p"$HUB_PASSWORD"
-      - docker tag "${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}" "${HUB_REPO}:${DRONE_BUILD_NUMBER}"
       - docker push "${HUB_REPO}:${DRONE_BUILD_NUMBER}" > /dev/null
       - >+
         if [ "master" == "$DRONE_COMMIT_BRANCH" ]; then
-          docker rmi --force "${HUB_REPO}:${DRONE_BUILD_NUMBER}"
-
-          docker tag "${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}" "${HUB_REPO}:latest"
+          docker tag "${HUB_REPO}:${DRONE_BUILD_NUMBER}" "${HUB_REPO}:latest"
           docker push "${HUB_REPO}:latest" > /dev/null
+          docker rmi --force "${HUB_REPO}:latest"
         fi
     when:
       event: push
@@ -100,9 +98,10 @@ pipeline:
     commands:
       - >+
         if [ "success" == "$DRONE_BUILD_STATUS" ] && [ "push" == "$DRONE_BUILD_EVENT" ]; then
-          (docker rmi `docker images -q --filter before="${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}" --filter label="branch=$DRONE_COMMIT_BRANCH" "$IMAGE"`)
+          docker rmi `docker images -q --filter before="${HUB_REPO}:${DRONE_BUILD_NUMBER}" --filter label="branch=$DRONE_COMMIT_BRANCH" "${HUB_REPO}"` || true
+        else
+          docker rmi --force "${HUB_REPO}:${DRONE_BUILD_NUMBER}"
         fi
-      - docker rmi --force "${DRONE_REPO_NAME}:${DRONE_BUILD_NUMBER}"
     when:
       status: [ failure, success ]
 
@@ -112,6 +111,7 @@ pipeline:
     username: ${DEPLOY_USER}
     key: ${DEPLOY_KEY}
     script:
+      - docker pull "${HUB_REPO}:${DRONE_BUILD_NUMBER}"
       - docker service update --image "${HUB_REPO}:${DRONE_BUILD_NUMBER}" "${DEPLOY_SERVICE}"
       - >-
         docker rmi
