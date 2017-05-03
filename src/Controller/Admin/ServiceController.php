@@ -6,9 +6,11 @@ namespace App\Controller\Admin;
 
 use App\Entity\Service;
 use App\Money\MoneyFormatter;
+use Doctrine\ORM\QueryBuilder;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
 use Money\Currency;
 use Money\Money;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -35,7 +37,7 @@ final class ServiceController extends AdminController
         $sortField = null,
         $sortDirection = null,
         $dqlFilter = null
-    ) {
+    ): QueryBuilder {
         $qb = $this->em->getRepository(Service::class)->createQueryBuilder('service');
 
         foreach (explode(' ', $searchQuery) as $key => $searchString) {
@@ -54,7 +56,7 @@ final class ServiceController extends AdminController
     /**
      * {@inheritdoc}
      */
-    protected function autocompleteAction()
+    protected function autocompleteAction(): Response
     {
         $query = $this->request->query;
 

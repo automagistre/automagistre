@@ -19,7 +19,7 @@ class MoneyType extends \Symfony\Component\Form\Extension\Core\Type\MoneyType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->addViewTransformer(new DivisoredNumberToLocalizedStringTransformer(
@@ -38,7 +38,7 @@ class MoneyType extends \Symfony\Component\Form\Extension\Core\Type\MoneyType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'scale'    => 2,

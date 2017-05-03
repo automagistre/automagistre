@@ -32,7 +32,7 @@ final class PartnerSupplyImportCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('partner:orders:import')
             ->addOption('date', null, InputOption::VALUE_OPTIONAL, '', (new \DateTime())->format(self::DATE_FORMAT));

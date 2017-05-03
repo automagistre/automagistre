@@ -67,7 +67,7 @@ class Person extends Operand
     /**
      * @param string $firstname
      */
-    public function setFirstname(string $firstname)
+    public function setFirstname(string $firstname): void
     {
         $this->firstname = $firstname;
     }
@@ -83,7 +83,7 @@ class Person extends Operand
     /**
      * @param string $lastname
      */
-    public function setLastname(string $lastname)
+    public function setLastname(string $lastname): void
     {
         $this->lastname = $lastname;
     }
@@ -99,7 +99,7 @@ class Person extends Operand
     /**
      * @param string $telephone
      */
-    public function setTelephone(string $telephone)
+    public function setTelephone(string $telephone): void
     {
         $this->telephone = $telephone;
     }
@@ -115,7 +115,7 @@ class Person extends Operand
     /**
      * @param string $officePhone
      */
-    public function setOfficePhone(string $officePhone)
+    public function setOfficePhone(string $officePhone): void
     {
         $this->officePhone = $officePhone;
     }
@@ -131,7 +131,7 @@ class Person extends Operand
     /**
      * @param string $email
      */
-    public function setEmail(string $email)
+    public function setEmail(string $email): void
     {
         $this->email = $email;
     }

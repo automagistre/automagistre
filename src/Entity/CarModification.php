@@ -170,7 +170,7 @@ class CarModification
         return $this->hp;
     }
 
-    public function setHp(int $hp)
+    public function setHp(int $hp): void
     {
         $this->hp = $hp;
     }
@@ -200,7 +200,7 @@ class CarModification
         return $this->doors;
     }
 
-    public function setDoors(int $doors)
+    public function setDoors(int $doors): void
     {
         $this->doors = $doors;
     }
@@ -210,7 +210,7 @@ class CarModification
         return $this->from;
     }
 
-    public function setFrom(int $from)
+    public function setFrom(int $from): void
     {
         $this->from = $from;
     }
@@ -220,7 +220,7 @@ class CarModification
         return $this->till;
     }
 
-    public function setTill(int $till)
+    public function setTill(int $till): void
     {
         $this->till = $till;
     }
@@ -230,7 +230,7 @@ class CarModification
         return $this->maxspeed;
     }
 
-    public function setMaxspeed(string $maxspeed)
+    public function setMaxspeed(string $maxspeed): void
     {
         $this->maxspeed = $maxspeed;
     }
@@ -240,7 +240,7 @@ class CarModification
         return $this->s0to100;
     }
 
-    public function setS0to100(string $s0to100)
+    public function setS0to100(string $s0to100): void
     {
         $this->s0to100 = $s0to100;
     }
@@ -250,7 +250,7 @@ class CarModification
         return $this->tank;
     }
 
-    public function setTank(int $tank)
+    public function setTank(int $tank): void
     {
         $this->tank = $tank;
     }

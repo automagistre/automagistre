@@ -29,7 +29,7 @@ class MoneyExtension extends \Twig_Extension
         ];
     }
 
-    public function localizeMoney(Money $money, $locale = null): string
+    public function localizeMoney(Money $money): string
     {
         return $this->formatter->format($money);
     }
@@ -37,7 +37,7 @@ class MoneyExtension extends \Twig_Extension
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'app_money';
     }

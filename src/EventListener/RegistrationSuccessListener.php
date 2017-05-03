@@ -34,14 +34,14 @@ final class RegistrationSuccessListener implements EventSubscriberInterface
         $this->router = $router;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             FOSUserEvents::REGISTRATION_SUCCESS => 'onUserRegistration',
         ];
     }
 
-    public function onUserRegistration(FormEvent $event)
+    public function onUserRegistration(FormEvent $event): void
     {
         $form = $event->getForm();
 

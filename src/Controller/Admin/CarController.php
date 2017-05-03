@@ -8,8 +8,10 @@ use App\Entity\Car;
 use App\Entity\Organization;
 use App\Entity\Person;
 use Doctrine\ORM\Query\Expr\Join;
+use Doctrine\ORM\QueryBuilder;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
 use libphonenumber\PhoneNumberFormat;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -23,7 +25,7 @@ final class CarController extends AdminController
         $sortField = null,
         $sortDirection = null,
         $dqlFilter = null
-    ) {
+    ): QueryBuilder {
         $qb = $this->em->getRepository(Car::class)->createQueryBuilder('car')
             ->leftJoin('car.carModification', 'modification')
             ->leftJoin('modification.carGeneration', 'generation')
@@ -59,7 +61,7 @@ final class CarController extends AdminController
         return $qb;
     }
 
-    protected function autocompleteAction()
+    protected function autocompleteAction(): Response
     {
         $query = $this->request->query;
 

@@ -94,7 +94,7 @@ class Employee
         return $this->person->getFullName();
     }
 
-    public function fire()
+    public function fire(): void
     {
         $this->firedAt = new \DateTime();
     }

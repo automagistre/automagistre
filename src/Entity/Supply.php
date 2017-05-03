@@ -125,7 +125,7 @@ class Supply
         return $this->receivedAt ? clone $this->receivedAt : null;
     }
 
-    public function receive(User $user)
+    public function receive(User $user): void
     {
         $this->receivedBy = $user;
         $this->receivedAt = new \DateTime();

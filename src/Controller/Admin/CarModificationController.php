@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Entity\CarModification;
+use Doctrine\ORM\QueryBuilder;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -19,7 +21,7 @@ final class CarModificationController extends AdminController
         $sortField = null,
         $sortDirection = null,
         $dqlFilter = null
-    ) {
+    ): QueryBuilder {
         $qb = $this->em->getRepository(CarModification::class)->createQueryBuilder('modification')
             ->leftJoin('modification.carGeneration', 'generation')
             ->leftJoin('generation.carModel', 'model')
@@ -42,7 +44,7 @@ final class CarModificationController extends AdminController
         return $qb;
     }
 
-    protected function autocompleteAction()
+    protected function autocompleteAction(): Response
     {
         $query = $this->request->query;
 

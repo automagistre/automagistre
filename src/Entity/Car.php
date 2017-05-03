@@ -128,7 +128,7 @@ class Car
     /**
      * @param CarModel $carModel
      */
-    public function setCarModel(CarModel $carModel)
+    public function setCarModel(CarModel $carModel): void
     {
         $this->carModel = $carModel;
     }
@@ -144,7 +144,7 @@ class Car
     /**
      * @param CarModification $carModification
      */
-    public function setCarModification(CarModification $carModification)
+    public function setCarModification(CarModification $carModification): void
     {
         $this->carModification = $carModification;
     }
@@ -160,7 +160,7 @@ class Car
     /**
      * @param string $vin
      */
-    public function setVin(string $vin = null)
+    public function setVin(string $vin = null): void
     {
         $this->vin = $vin;
     }
@@ -176,7 +176,7 @@ class Car
     /**
      * @param int $year
      */
-    public function setYear(int $year)
+    public function setYear(int $year): void
     {
         $this->year = $year;
     }
@@ -192,7 +192,7 @@ class Car
     /**
      * @param Operand $owner
      */
-    public function setOwner(Operand $owner)
+    public function setOwner(Operand $owner): void
     {
         $this->owner = $owner;
     }
@@ -228,7 +228,7 @@ class Car
     /**
      * @param string $gosnomer
      */
-    public function setGosnomer(string $gosnomer = null)
+    public function setGosnomer(string $gosnomer = null): void
     {
         $this->gosnomer = $gosnomer;
     }
@@ -244,7 +244,7 @@ class Car
     /**
      * @param string $description
      */
-    public function setDescription(string $description = null)
+    public function setDescription(string $description = null): void
     {
         $this->description = $description;
     }

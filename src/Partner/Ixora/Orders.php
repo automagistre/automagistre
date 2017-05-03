@@ -57,7 +57,7 @@ final class Orders
      *
      * @return Supply[]
      */
-    public function find(\DateTime $dateFrom)
+    public function find(\DateTime $dateFrom): array
     {
         try {
             $xml = $this->client->get(self::IXORA_ORDERS, [

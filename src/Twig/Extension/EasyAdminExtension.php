@@ -91,7 +91,7 @@ class EasyAdminExtension extends \Twig_Extension
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'app_easy_admin';
     }

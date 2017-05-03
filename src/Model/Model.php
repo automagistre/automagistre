@@ -7,7 +7,7 @@ namespace App\Model;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-abstract class Model
+abstract class Model implements ModelInterface
 {
     public function __construct(array $fields = [])
     {

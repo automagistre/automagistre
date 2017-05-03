@@ -12,6 +12,7 @@ use App\Model\Part as PartModel;
 use App\Model\WarehousePart;
 use App\Partner\Ixora\Finder;
 use Doctrine\ORM\Query\Expr\Join;
+use Doctrine\ORM\QueryBuilder;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
 use JavierEguiluz\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -80,7 +81,7 @@ final class PartController extends AdminController
         $sortField = null,
         $sortDirection = null,
         $dqlFilter = null
-    ) {
+    ): QueryBuilder {
         $qb = $this->em->getRepository(Part::class)->createQueryBuilder('part')
             ->join('part.manufacturer', 'manufacturer');
 
@@ -99,7 +100,7 @@ final class PartController extends AdminController
         return $qb;
     }
 
-    protected function autocompleteAction()
+    protected function autocompleteAction(): Response
     {
         $query = $this->request->query;
 
@@ -158,7 +159,7 @@ final class PartController extends AdminController
         })));
     }
 
-    public function stockAction()
+    public function stockAction(): Response
     {
         $request = $this->request;
         $qb = $this->em->getRepository(Part::class)->createQueryBuilder('part')
@@ -181,7 +182,7 @@ final class PartController extends AdminController
         ]);
     }
 
-    public function deficitAction()
+    public function deficitAction(): Response
     {
         return $this->render('easy_admin/part/deficit.html.twig', [
             'parts' => $this->partManager->findDeficit(),

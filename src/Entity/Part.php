@@ -84,13 +84,6 @@ class Part
     private $fractional;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $price = 0;
-
-    /**
      * @var float
      *
      * @ORM\Column(name="quantity", type="float", precision=10, scale=0, nullable=true)
@@ -114,7 +107,7 @@ class Part
         return $this->manufacturer;
     }
 
-    public function setManufacturer(Manufacturer $manufacturer)
+    public function setManufacturer(Manufacturer $manufacturer): void
     {
         $this->manufacturer = $manufacturer;
     }
@@ -134,7 +127,7 @@ class Part
         return $this->number;
     }
 
-    public function setNumber(string $number)
+    public function setNumber(string $number): void
     {
         $this->number = $number;
     }
@@ -144,7 +137,7 @@ class Part
         return $this->description;
     }
 
-    public function setDescription(string $description)
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }

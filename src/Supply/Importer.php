@@ -39,7 +39,7 @@ final class Importer
         $this->logger = $logger;
     }
 
-    public function import(\DateTime $date)
+    public function import(\DateTime $date): void
     {
         $supplier = $this->em->getRepository(PartnerOperand::class)
             ->findOneBy(['name' => $this->orders::getSupplierName()])->getOperand();

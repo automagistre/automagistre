@@ -116,6 +116,10 @@ final class RecommendationManager
 
     private function getUser(): User
     {
-        return $this->tokenStorage->getToken()->getUser();
+        if (!$token = $this->tokenStorage->getToken()) {
+            throw new \DomainException('Recommendation manager cannot work with anonymous user');
+        }
+
+        return $token->getUser();
     }
 }

@@ -40,7 +40,7 @@ final class DivisoredNumberToLocalizedStringTransformer extends NumberToLocalize
      *
      * @return string
      */
-    public function transform($value)
+    public function transform($value): string
     {
         if (null !== $value) {
             if (!is_numeric($value)) {
@@ -60,7 +60,7 @@ final class DivisoredNumberToLocalizedStringTransformer extends NumberToLocalize
      *
      * @return int
      */
-    public function reverseTransform($value)
+    public function reverseTransform($value): int
     {
         $value = parent::reverseTransform($value);
 

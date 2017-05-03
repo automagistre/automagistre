@@ -12,10 +12,7 @@ use Ramsey\Uuid\UuidInterface;
  */
 final class UuidGenerator
 {
-    /**
-     * @return UuidInterface
-     */
-    public static function generate()
+    public static function generate(): UuidInterface
     {
         return Uuid::uuid1();
     }

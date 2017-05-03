@@ -54,18 +54,12 @@ class Organization extends Operand
         return $this->getName();
     }
 
-    /**
-     * @return string
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $firstname
-     */
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -80,34 +74,22 @@ class Organization extends Operand
         $this->address = $address;
     }
 
-    /**
-     * @return string
-     */
     public function getTelephone(): ?string
     {
         return $this->telephone;
     }
 
-    /**
-     * @param string $telephone
-     */
-    public function setTelephone(string $telephone)
+    public function setTelephone(string $telephone): void
     {
         $this->telephone = $telephone;
     }
 
-    /**
-     * @return string
-     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    /**
-     * @param string $email
-     */
-    public function setEmail(string $email)
+    public function setEmail(string $email): void
     {
         $this->email = $email;
     }

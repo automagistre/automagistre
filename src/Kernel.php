@@ -23,7 +23,7 @@ class Kernel extends SymfonyKernel
 
     use MicroKernelTrait;
 
-    public function registerBundles()
+    public function registerBundles(): array
     {
         $bundles = [
             new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
@@ -55,7 +55,7 @@ class Kernel extends SymfonyKernel
         return $bundles;
     }
 
-    public function boot()
+    public function boot(): void
     {
         parent::boot();
 
@@ -67,17 +67,17 @@ class Kernel extends SymfonyKernel
         Uuid::setFactory($uuidFactory);
     }
 
-    public function getCacheDir()
+    public function getCacheDir(): string
     {
         return $this->getProjectDir().'/var/cache/'.$this->getEnvironment();
     }
 
-    public function getLogDir()
+    public function getLogDir(): string
     {
         return $this->getProjectDir().'/var/logs';
     }
 
-    protected function configureRoutes(RouteCollectionBuilder $routes)
+    protected function configureRoutes(RouteCollectionBuilder $routes): void
     {
         $routingDir = $this->getProjectDir().'/etc/routing';
 
@@ -88,7 +88,7 @@ class Kernel extends SymfonyKernel
         }
     }
 
-    protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader)
+    protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader): void
     {
         $confDir = $this->getProjectDir().'/etc';
 

@@ -48,7 +48,7 @@ class CarModel
         return $this->name;
     }
 
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -58,7 +58,7 @@ class CarModel
         return $this->manufacturer;
     }
 
-    public function setManufacturer(Manufacturer $manufacturer)
+    public function setManufacturer(Manufacturer $manufacturer): void
     {
         $this->manufacturer = $manufacturer;
     }
