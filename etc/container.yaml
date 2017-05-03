@@ -12,17 +12,17 @@ services:
             public: true
         Symfony\Component\HttpKernel\KernelInterface:
             autowire: false
+        Exception:
+            autowire: false
+        App\Model\ModelInterface:
+            autowire: false
+        Grachevko\Enum\Enum:
+            autowire: false
 
     App\:
         resource: '../src'
     App\Entity\:
         resource: '../src/Entity'
-        autowire: false
-    App\Model\:
-        resource: '../src/Model'
-        autowire: false
-    App\Exception\:
-        resource: '../src/Exception'
         autowire: false
 
     App\Part\Finder:
