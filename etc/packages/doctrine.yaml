@@ -24,6 +24,7 @@ doctrine:
                 prefix: App\Entity
                 dir: '%kernel.project_dir%/src/Entity'
                 is_bundle: false
+
 doctrine_migrations:
     dir_name: '%kernel.project_dir%/migrations'
 
