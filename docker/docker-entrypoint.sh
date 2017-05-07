@@ -21,8 +21,6 @@ fi
 
 # Set variable from env file if variable not defined
 loadEnvFile() {
-env | fgrep APP_
-
     OLD_IFS="$IFS"
     IFS='='
     while read env_name env_value
@@ -34,8 +32,6 @@ env | fgrep APP_
         IFS='='
     done < $1
     IFS="$OLD_IFS"
-
-env | fgrep APP_
 }
 
 if [ -f "$APP_DIR/.env" ]; then
