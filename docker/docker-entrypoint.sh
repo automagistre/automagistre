@@ -2,6 +2,8 @@
 
 set -e
 
+cd "$APP_DIR"
+
 export DOCKER_BRIDGE_IP=$(/sbin/ip route|awk '/default/ { print $3 }')
 
 if [ ! -z "$GITHUB_AUTH_TOKEN" ]; then
@@ -15,6 +17,29 @@ esac
 
 if [ ! -z "$SKIP_ENTRYPOINT" ]; then
     exec "$@" && exit 0
+fi
+
+# Set variable from env file if variable not defined
+loadEnvFile() {
+env | fgrep APP_
+
+    OLD_IFS="$IFS"
+    IFS='='
+    while read env_name env_value
+    do
+        if [ -z "$env_name" ]; then continue; fi
+
+        IFS=
+        eval `echo export ${env_name}=\$\{${env_name}\:=${env_value}\}`
+        IFS='='
+    done < $1
+    IFS="$OLD_IFS"
+
+env | fgrep APP_
+}
+
+if [ -f "$APP_DIR/.env" ]; then
+    loadEnvFile "$APP_DIR/.env"
 fi
 
 case "$APP_ENV" in
@@ -42,20 +67,7 @@ elif [ "$APP_ENV" == "test" ]; then
 	REQUIREMENTS=${REQUIREMENTS:=true}
 #	FIXTURES=${FIXTURES:=true}
 
-    cd "$APP_DIR"
-
-	# Set variable from .env.dist if not defined
-	OLD_IFS="$IFS"
-	IFS='='
-	while read env_name env_value
-	do
-	    if [ -z "$env_name" ]; then continue; fi
-
-	    IFS=
-	    eval `echo export ${env_name}=\$\{${env_name}\:=${env_value}\}`
-	    IFS='='
-	done < ./.env.dist
-	IFS="$OLD_IFS"
+    loadEnvFile "$APP_DIR/.env.dist"
 fi
 
 COMMAND=${COMMAND:=apache}
