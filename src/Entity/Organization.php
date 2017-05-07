@@ -51,7 +51,7 @@ class Organization extends Operand
 
     public function getFullName(): string
     {
-        return $this->getName();
+        return (string) $this->getName();
     }
 
     public function getName(): ?string

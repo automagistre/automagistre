@@ -50,7 +50,6 @@ final class PartController extends AdminController
     protected function newAction()
     {
         if ($this->request->isXmlHttpRequest() && $this->request->isMethod('POST')) {
-            /** @var Part $entity */
             $entity = null;
             $this->dispatcher
                 ->addListener(EasyAdminEvents::POST_PERSIST, function (GenericEvent $event) use (&$entity) {
@@ -59,16 +58,20 @@ final class PartController extends AdminController
 
             parent::newAction();
 
-            return $this->json([
-                'id'           => $entity->getId(),
-                'name'         => $entity->getName(),
-                'number'       => $entity->getNumber(),
-                'manufacturer' => [
-                    'id'   => $entity->getManufacturer()->getId(),
-                    'name' => $entity->getManufacturer()->getName(),
-                ],
-                'price'        => $entity->getPrice(),
-            ]);
+            if ($entity instanceof Part) {
+                return $this->json([
+                    'id'           => $entity->getId(),
+                    'name'         => $entity->getName(),
+                    'number'       => $entity->getNumber(),
+                    'manufacturer' => [
+                        'id'   => $entity->getManufacturer()->getId(),
+                        'name' => $entity->getManufacturer()->getName(),
+                    ],
+                    'price'        => $entity->getPrice(),
+                ]);
+            }
+
+            throw new \LogicException('Part must be returned');
         }
 
         return parent::newAction();

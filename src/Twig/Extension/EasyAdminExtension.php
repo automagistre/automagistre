@@ -63,6 +63,12 @@ class EasyAdminExtension extends \Twig_Extension
         ];
     }
 
+    /**
+     * @param object|string $entity
+     * @param array         $parameters
+     *
+     * @return string
+     */
     public function getEasyAdminUrlForEntity($entity, array $parameters = []): string
     {
         if (is_object($entity)) {

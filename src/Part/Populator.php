@@ -77,7 +77,7 @@ final class Populator
         }
 
         return array_filter($parts, function (Part $part) use ($number) {
-            return false !== strpos($part->getNumber(), $number);
+            return false !== strpos((string) $part->getNumber(), $number);
         });
     }
 }
