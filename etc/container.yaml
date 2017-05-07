@@ -14,8 +14,6 @@ services:
             autowire: false
         Exception:
             autowire: false
-        App\Model\ModelInterface:
-            autowire: false
         Grachevko\Enum\Enum:
             autowire: false
 
@@ -23,6 +21,9 @@ services:
         resource: '../src'
     App\Entity\:
         resource: '../src/Entity'
+        autowire: false
+    App\Model\:
+        resource: '../src/Model'
         autowire: false
 
     App\Part\Finder:
