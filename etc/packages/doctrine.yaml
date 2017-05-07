@@ -1,7 +1,8 @@
 doctrine:
     dbal:
         types:
-            uuid_binary: Ramsey\Uuid\Doctrine\UuidBinaryType
+            uuid_binary: Ramsey\Uuid\Doctrine\UuidBinaryOrderedTimeType
+            uuid_binary_ordered_time: Ramsey\Uuid\Doctrine\UuidBinaryOrderedTimeType
         mapping_types:
             enum: string
         driver:   pdo_mysql
