@@ -58,7 +58,7 @@ final class OrderController extends AdminController
 
     public function isActionAllowed($actionName): bool
     {
-        if ('edit' === $actionName && $id = $this->request->get('id')) {
+        if ('show' !== $actionName && $id = $this->request->get('id')) {
             $entity = $this->em->getRepository(Order::class)->find($id);
 
             return $entity->isEditable();
