@@ -28,15 +28,16 @@ RUN set -ex \
     && pecl install xdebug apcu \
     && rm -r /var/lib/apt/lists/*
 
+RUN git clone https://github.com/nikic/php-ast.git --depth 1 \
+    && cd php-ast && phpize && ./configure && make && make install && cd - \
+    && rm -rf php-ast
+
 RUN a2enmod rewrite
 
 COPY docker/composer.sh ./composer.sh
 RUN ./composer.sh --install-dir=/usr/local/bin --filename=composer \
     && composer global require "hirak/prestissimo:^0.3" \
     && rm -rf composer.sh
-
-COPY docker/php-ast.sh ./php-ast.sh
-RUN ./php-ast.sh && rm -rf ./php-ast.sh
 
 ARG APP_VERSION=dev
 ENV APP_VERSION ${APP_VERSION}
