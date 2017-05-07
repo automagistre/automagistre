@@ -7,6 +7,8 @@ namespace App\Form\Type;
 use App\Entity\OrderItem;
 use App\Entity\OrderItemGroup;
 use App\Entity\OrderItemPart;
+use App\Form\Model\OrderItemModel;
+use App\Form\Model\OrderPart as OrderItemPartModel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -32,19 +34,28 @@ final class OrderItemParentType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $currentItem = $this->getCurrentItem();
-        $rootItems = $currentItem->getOrder()->getRootItems();
+        $currentItem = $this->requestStack->getMasterRequest()->attributes->get('easyadmin')['item'];
+
+        if ($currentItem instanceof OrderItem) {
+            $rootItems = $currentItem->getOrder()->getRootItems();
+        } elseif ($currentItem instanceof OrderItemModel) {
+            $rootItems = $currentItem->order->getRootItems();
+        } else {
+            throw new \LogicException(sprintf('Unexpected item of class "%s"', get_class($currentItem)));
+        }
 
         $items = [];
-        foreach ($rootItems as $item) {
-            if ($this->validParent($currentItem, $item)) {
+        $appendItem = function (OrderItem $item, $currentItem) use (&$items) {
+            if (null === $currentItem || $this->validParent($currentItem, $item)) {
                 $items[] = $item;
             }
+        };
+
+        foreach ($rootItems as $item) {
+            $appendItem($item, $currentItem);
 
             foreach ($this->getChildren($item) as $child) {
-                if ($this->validParent($currentItem, $child)) {
-                    $items[] = $child;
-                }
+                $appendItem($child, $currentItem);
             }
         }
 
@@ -64,18 +75,6 @@ final class OrderItemParentType extends AbstractType
         return ChoiceType::class;
     }
 
-    private function getCurrentItem(): OrderItem
-    {
-        $admin = $this->requestStack->getMasterRequest()->attributes->get('easyadmin');
-
-        $item = $admin['item'];
-        if (!$item instanceof OrderItem) {
-            throw new \LogicException('Item from request.attributes.easyadmin.item is not an OrderItem instance');
-        }
-
-        return $item;
-    }
-
     private function getChildren(OrderItem $item): array
     {
         $items = [];
@@ -92,9 +91,19 @@ final class OrderItemParentType extends AbstractType
         return 1 < count($items) ? array_merge(...$items) : array_shift($items);
     }
 
-    private function validParent(OrderItem $nestable, OrderItem $parent): bool
+    /**
+     * @param OrderItem|OrderItemModel $nestable
+     * @param OrderItem                $parent
+     *
+     * @return bool
+     */
+    private function validParent($nestable, OrderItem $parent): bool
     {
         if ($parent instanceof OrderItemGroup) {
+            if ($nestable instanceof OrderItemPartModel) {
+                return true;
+            }
+
             if ($nestable instanceof OrderItemGroup) {
                 if ($nestable->getId() === $parent->getId()) {
                     return false;
@@ -115,7 +124,7 @@ final class OrderItemParentType extends AbstractType
             return false;
         }
 
-        if ($nestable instanceof OrderItemPart) {
+        if ($nestable instanceof OrderItemPart || $nestable instanceof OrderItemPartModel) {
             return true;
         }
 

@@ -90,7 +90,7 @@ easy_admin:
                 form_options: { data_class: App\Form\Model\OrderGroup }
                 fields:
                     - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
-                    - { property: 'parent', label: 'Родитель', type: 'text', type_options: { disabled: true } }
+                    - { property: 'parent', label: 'Родитель', type: App\Form\Type\OrderItemParentType }
                     - { property: 'name', label: 'Название' }
 
         OrderItemService:
