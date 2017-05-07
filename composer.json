@@ -41,7 +41,8 @@
         "phpunit/phpunit": "^6.1.3",
         "phpstan/phpstan": "^0.6.4",
         "phpstan/phpstan-guzzle": "^0.6.3",
-        "phpstan/phpstan-doctrine": "^0.6.1"
+        "phpstan/phpstan-doctrine": "^0.6.1",
+        "etsy/phan": "^0.9.1"
     },
     "scripts": {
         "symfony-scripts": [

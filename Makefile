@@ -17,6 +17,8 @@ phpstan:
 	docker-compose run --rm -e SKIP_ENTRYPOINT=true app phpstan analyse --level 5 --configuration phpstan.neon src tests
 phpunit:
 	docker-compose run --rm -e APP_ENV=test -e APP_DEBUG=0 app phpunit
+phan:
+	docker-compose run --rm -e APP_ENV=test -e APP_DEBUG=0 -e AST=true app phan --progress-bar --config-file .phan.php
 requirements:
 	docker-compose run --rm -e APP_ENV=test -e APP_DEBUG=0 app symfony_requirements
 yaml-lint:

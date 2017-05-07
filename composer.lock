@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4581fe3e1f090bf0e5d0cf66db482cd4",
+    "content-hash": "e36c543f52cc743499082db1e7428e9a",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -3752,6 +3752,58 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "etsy/phan",
+            "version": "0.9.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/etsy/phan.git",
+                "reference": "eadb20b627f97a7ce5bf3353e86f9820e34fa61c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/etsy/phan/zipball/eadb20b627f97a7ce5bf3353e86f9820e34fa61c",
+                "reference": "eadb20b627f97a7ce5bf3353e86f9820e34fa61c",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ast": "^0.1.4",
+                "php": "~7.1.0",
+                "symfony/console": "~2.3|~3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7.2"
+            },
+            "bin": [
+                "phan",
+                "tocheckstyle"
+            ],
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "Phan\\": "src/Phan"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rasmus Lerdorf"
+                },
+                {
+                    "name": "Andrew S. Morrison"
+                }
+            ],
+            "description": "A static analyzer for PHP",
+            "keywords": [
+                "analyzer",
+                "php",
+                "static"
+            ],
+            "time": "2017-03-15T16:35:25+00:00"
+        },
         {
             "name": "friendsofphp/php-cs-fixer",
             "version": "v2.3.1",

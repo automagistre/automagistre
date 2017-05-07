@@ -71,6 +71,7 @@ OPCACHE=${OPCACHE:=true}
 APCU=${APCU:=true}
 MIGRATION=${MIGRATION:=true}
 COMPOSER_SCRIPT=${COMPOSER_SCRIPT:="post-install-cmd"}
+AST=${AST:=false}
 
 enableExt() {
     extension=$1
@@ -107,6 +108,10 @@ fi
 
 if [ "$XDEBUG" == "true" ]; then
     enableExt xdebug
+fi
+
+if [ "$AST" == "true" ]; then
+    enableExt ast
 fi
 
 if [ -f ${APP_DIR}/web/config.php ]; then

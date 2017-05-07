@@ -35,6 +35,9 @@ RUN ./composer.sh --install-dir=/usr/local/bin --filename=composer \
     && composer global require "hirak/prestissimo:^0.3" \
     && rm -rf composer.sh
 
+COPY docker/php-ast.sh ./php-ast.sh
+RUN ./php-ast.sh && rm -rf ./php-ast.sh
+
 ARG APP_VERSION=dev
 ENV APP_VERSION ${APP_VERSION}
 
