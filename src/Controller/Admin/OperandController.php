@@ -13,7 +13,6 @@ use Doctrine\ORM\QueryBuilder;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -65,7 +64,7 @@ final class OperandController extends AdminController
         return $qb;
     }
 
-    protected function autocompleteAction(): Response
+    protected function autocompleteAction(): JsonResponse
     {
         $query = $this->request->query;
 

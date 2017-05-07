@@ -7,7 +7,7 @@ namespace App\Controller\Admin;
 use App\Entity\CarModification;
 use Doctrine\ORM\QueryBuilder;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -44,7 +44,7 @@ final class CarModificationController extends AdminController
         return $qb;
     }
 
-    protected function autocompleteAction(): Response
+    protected function autocompleteAction(): JsonResponse
     {
         $query = $this->request->query;
 

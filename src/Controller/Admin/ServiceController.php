@@ -10,7 +10,7 @@ use Doctrine\ORM\QueryBuilder;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
 use Money\Currency;
 use Money\Money;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -56,7 +56,7 @@ final class ServiceController extends AdminController
     /**
      * {@inheritdoc}
      */
-    protected function autocompleteAction(): Response
+    protected function autocompleteAction(): JsonResponse
     {
         $query = $this->request->query;
 

@@ -11,7 +11,7 @@ use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
 use libphonenumber\PhoneNumberFormat;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -61,7 +61,7 @@ final class CarController extends AdminController
         return $qb;
     }
 
-    protected function autocompleteAction(): Response
+    protected function autocompleteAction(): JsonResponse
     {
         $query = $this->request->query;
 
