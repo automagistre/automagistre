@@ -48,7 +48,7 @@ abstract class OrderItem
     private $parent;
 
     /**
-     * @var OrderItem
+     * @var OrderItem[]|ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\OrderItem", mappedBy="parent", cascade={"persist"}, orphanRemoval=true)
      */
