@@ -8,8 +8,6 @@ services:
         autoconfigure: true
 
     _instanceof:
-        Symfony\Bundle\FrameworkBundle\Controller\Controller:
-            public: true
         Symfony\Component\HttpKernel\KernelInterface:
             autowire: false
         Exception:
@@ -19,6 +17,11 @@ services:
 
     App\:
         resource: '../src'
+    App\Controller\:
+        resource: '../src/Controller'
+        public: true
+        tags:
+            - { name: controller.service_arguments }
     App\Entity\:
         resource: '../src/Entity'
         autowire: false
