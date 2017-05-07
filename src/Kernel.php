@@ -77,15 +77,22 @@ class Kernel extends SymfonyKernel
         return $this->getProjectDir().'/var/logs';
     }
 
+    public function getConfDir(): string
+    {
+        return $this->getProjectDir().'/etc';
+    }
+
     protected function configureRoutes(RouteCollectionBuilder $routes): void
     {
-        $routingDir = $this->getProjectDir().'/etc/routing';
+        $confDir = $this->getConfDir();
 
-        $routes->import($routingDir.'/*'.self::CONFIG_EXTS, '/', 'glob');
-
-        if (is_dir($routingDir.'/'.$this->getEnvironment())) {
-            $routes->import($routingDir.'/'.$this->getEnvironment().'/*'.self::CONFIG_EXTS, '/', 'glob');
+        if (is_dir($confDir.'/routing/')) {
+            $routes->import($confDir.'/routing/*'.self::CONFIG_EXTS, '/', 'glob');
         }
+        if (is_dir($confDir.'/routing/'.$this->getEnvironment())) {
+            $routes->import($confDir.'/routing/'.$this->getEnvironment().'/*'.self::CONFIG_EXTS, '/', 'glob');
+        }
+        $routes->import($confDir.'/routing'.self::CONFIG_EXTS, '/', 'glob');
     }
 
     protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader): void
