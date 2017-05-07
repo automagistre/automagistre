@@ -7,7 +7,6 @@ services:
           dockerfile: docker/Dockerfile
           args:
              SOURCE_DIR: ./var/null
-             APP_VERSION: dev
       container_name: automagistre
       hostname: automagistre.local
       labels:
