@@ -292,13 +292,13 @@ easy_admin:
                     - { property: 'manufacturer.name', label: 'Производитель' }
                     - { property: 'name', label: 'Название' }
                     - { property: 'number', label: 'Номер' }
-                    - { property: 'price', label: 'Цена' }
+                    - { property: 'price', label: 'Цена', template: 'easy_admin/field_money.html.twig' }
             form:
                 fields:
                     - { property: 'manufacturer', label: 'Производитель' }
                     - { property: 'number', label: 'Номер' }
                     - { property: 'name', label: 'Название' }
-                    - { property: 'price', label: 'Цена' }
+                    - { property: 'price', label: 'Цена', type: App\Form\Type\MoneyType }
             edit:
                 fields:
                     - { property: 'manufacturer', label: 'Производитель', type_options: { disabled: true } }
