@@ -41,7 +41,7 @@ final class PartnerSupplyImportCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $date = \DateTime::createFromFormat(self::DATE_FORMAT, $input->getOption('date'));
 

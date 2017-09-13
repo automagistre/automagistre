@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Controller;
 
 use App\Kernel;
@@ -8,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DefaultControllerTest extends TestCase
 {
-    public function testIndex()
+    public function testIndex(): void
     {
         $kernel = new Kernel('test', false);
 

@@ -17,7 +17,7 @@ class CarWheelDriveType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'choices'      => CarWheelDrive::all(),
+            'choices' => CarWheelDrive::all(),
             'choice_label' => 'name',
         ]);
     }

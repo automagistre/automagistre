@@ -7,7 +7,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  */
 class PartnerOperand
 {
@@ -22,7 +22,7 @@ class PartnerOperand
     /**
      * @var string
      *
-     * @ORM\Column()
+     * @ORM\Column
      */
     private $name;
 

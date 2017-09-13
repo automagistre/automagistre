@@ -25,14 +25,14 @@ class Note
      * @var Order
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Order", inversedBy="notes")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn
      */
     private $order;
 
     /**
      * @var string
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      *
      * @ORM\Column(type="text", nullable=true)
      */
@@ -48,6 +48,11 @@ class Note
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+    }
+
+    public function __toString(): string
+    {
+        return $this->getDescription();
     }
 
     /**
@@ -80,10 +85,5 @@ class Note
     public function getCreatedAt(): \DateTime
     {
         return $this->createdAt;
-    }
-
-    public function __toString(): string
-    {
-        return $this->getDescription();
     }
 }

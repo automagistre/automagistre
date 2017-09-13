@@ -29,7 +29,7 @@ class CarRecommendation
      * @var Car
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Car", inversedBy="recommendations")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn
      */
     private $car;
 
@@ -92,6 +92,11 @@ class CarRecommendation
         $this->worker = $worker;
     }
 
+    public function __toString(): string
+    {
+        return $this->service->getName();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -150,10 +155,5 @@ class CarRecommendation
         $this->realization = $order;
         $this->expiredAt = new \DateTime();
         $this->parts->clear();
-    }
-
-    public function __toString(): string
-    {
-        return $this->service->getName();
     }
 }

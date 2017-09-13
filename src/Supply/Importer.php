@@ -57,7 +57,7 @@ final class Importer
                     ->where('part.number = :number')
                     ->andWhere('manufacturer.name = :manufacturer')
                     ->setParameters([
-                        'number'       => $supplyItem->number,
+                        'number' => $supplyItem->number,
                         'manufacturer' => $supplyItem->manufacturer,
                     ])
                     ->getQuery()

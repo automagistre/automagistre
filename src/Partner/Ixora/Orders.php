@@ -62,10 +62,10 @@ final class Orders
         try {
             $xml = $this->client->get(self::IXORA_ORDERS, [
                 'query' => [
-                    'Number'    => '',
+                    'Number' => '',
                     'Reference' => '',
-                    'status'    => 'All',
-                    'dateFrom'  => $dateFrom->format('Y-m-d'),
+                    'status' => 'All',
+                    'dateFrom' => $dateFrom->format('Y-m-d'),
                 ],
             ])->getBody()->getContents();
         } catch (ServerException $e) {
@@ -81,19 +81,19 @@ final class Orders
 
         return array_map(function (array $item) {
             return new Supply([
-                'id'                => $item['Id'],
-                'date'              => \DateTime::createFromFormat(self::DATE_FORMAT, $item['Date']),
-                'status'            => $item['Status'],
-                'items'             => array_map(function (array $item) {
+                'id' => $item['Id'],
+                'date' => \DateTime::createFromFormat(self::DATE_FORMAT, $item['Date']),
+                'status' => $item['Status'],
+                'items' => array_map(function (array $item) {
                     return new SupplyItem([
-                        'number'       => $item['DetailNumber'],
+                        'number' => $item['DetailNumber'],
                         'manufacturer' => $item['DetailMaker'],
-                        'name'         => $item['DetailName'],
-                        'price'        => new Money($item['Price'] * 100, new Currency('RUB')),
-                        'quantity'     => $item['Ordered'] * 100,
+                        'name' => $item['DetailName'],
+                        'price' => new Money($item['Price'] * 100, new Currency('RUB')),
+                        'quantity' => $item['Ordered'] * 100,
                     ]);
                 }, $item['Items']),
-                'arrivalOrientAt'   => \DateTime::createFromFormat(self::DATE_FORMAT, $item['DateArrivalOrient']),
+                'arrivalOrientAt' => \DateTime::createFromFormat(self::DATE_FORMAT, $item['DateArrivalOrient']),
                 'arrivalWarrantyAt' => \DateTime::createFromFormat(self::DATE_FORMAT, $item['DateArrivalWarranty']),
             ]);
         }, $orders);

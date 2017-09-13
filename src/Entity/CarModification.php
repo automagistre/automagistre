@@ -27,7 +27,7 @@ class CarModification
     /**
      * @var CarGeneration
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\CarGeneration")
      * @ORM\JoinColumn(nullable=false)
@@ -121,6 +121,19 @@ class CarModification
      * @ORM\Column(name="tank", type="smallint", nullable=true)
      */
     private $tank;
+
+    public function __toString(): string
+    {
+        $case = $this->getCase();
+
+        return sprintf(
+            '%s (%s-%s) %s',
+            $this->getDisplayName(),
+            $this->getFrom(),
+            $this->getTill() ?: '...',
+            $case ? $case->getName() : ''
+        );
+    }
 
     /**
      * @return int
@@ -270,19 +283,6 @@ class CarModification
                 $transmission ? $transmission->getCode() : '',
                 $wheelDrive ? $wheelDrive->getCode() : ''
             ) : $this->getName()
-        );
-    }
-
-    public function __toString(): string
-    {
-        $case = $this->getCase();
-
-        return sprintf(
-            '%s (%s-%s) %s',
-            $this->getDisplayName(),
-            $this->getFrom(),
-            $this->getTill() ?: '...',
-            $case ? $case->getName() : ''
         );
     }
 }

@@ -41,6 +41,6 @@ final class UuidNormalizer implements NormalizerInterface, DenormalizerInterface
 
     public function supportsDenormalization($data, $type, $format = null): bool
     {
-        return $type === UuidInterface::class;
+        return UuidInterface::class === $type;
     }
 }

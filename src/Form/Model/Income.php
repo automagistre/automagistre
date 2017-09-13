@@ -16,7 +16,7 @@ final class Income extends Model
     /**
      * @var Operand
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      */
     public $supplier;
 

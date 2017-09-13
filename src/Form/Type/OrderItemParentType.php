@@ -45,7 +45,7 @@ final class OrderItemParentType extends AbstractType
         }
 
         $items = [];
-        $appendItem = function (OrderItem $item, $currentItem) use (&$items) {
+        $appendItem = function (OrderItem $item, $currentItem) use (&$items): void {
             if (null === $currentItem || $this->validParent($currentItem, $item)) {
                 $items[] = $item;
             }
@@ -60,7 +60,7 @@ final class OrderItemParentType extends AbstractType
         }
 
         $resolver->setDefaults([
-            'choices'      => $items,
+            'choices' => $items,
             'choice_label' => function (OrderItem $item) {
                 return str_repeat(' - ', $item->getLevel()).(string) $item;
             },

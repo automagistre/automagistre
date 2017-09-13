@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  */
 class PartnerSupplyImport
 {
@@ -24,7 +24,7 @@ class PartnerSupplyImport
     /**
      * @var string
      *
-     * @ORM\Column()
+     * @ORM\Column
      */
     private $externalId;
 

@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  */
 class OrderItemService extends OrderItem implements PriceInterface
 {
@@ -21,7 +21,7 @@ class OrderItemService extends OrderItem implements PriceInterface
      * @var Service
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Service")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn
      */
     private $service;
 
@@ -29,7 +29,7 @@ class OrderItemService extends OrderItem implements PriceInterface
      * @var Operand
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Operand")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn
      */
     private $worker;
 
@@ -39,6 +39,11 @@ class OrderItemService extends OrderItem implements PriceInterface
 
         $this->service = $service;
         $this->changePrice($price);
+    }
+
+    public function __toString(): string
+    {
+        return $this->getService()->getName();
     }
 
     public function setPrice(Money $price): void
@@ -72,10 +77,5 @@ class OrderItemService extends OrderItem implements PriceInterface
     public function getTotalPartPrice(): Money
     {
         return $this->getTotalPriceByClass(OrderItemPart::class);
-    }
-
-    public function __toString(): string
-    {
-        return $this->getService()->getName();
     }
 }

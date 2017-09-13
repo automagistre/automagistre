@@ -1,128 +1,140 @@
+clone:
+    git:
+        image: plugins/git
+        depth: 1
+
+_docker: &docker
+    image: docker
+    volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+    secrets: [ HUB_LOGIN, HUB_PASSWORD ]
+
+_when_master: &when-master
+    when:
+        event: push
+        branch: master
+        status: success
+
 pipeline:
-  clone:
-    image: plugins/git
-    depth: 2
+    build app:
+        <<: *docker
+        group: build
+        commands:
+            - >-
+                docker build -t "automagistre/automagistre:${DRONE_BUILD_NUMBER}"
+                --label build=${DRONE_BUILD_NUMBER}
+                --build-arg APP_BUILD="$DRONE_BUILD_NUMBER"
+                .
 
-  security checking:
-    image: alpine
-    commands:
-      - echo -e "$MD5_LIST" | md5sum -wc
+    validate php-cs-fixer:
+        group: validate
+        image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
+        commands:
+            - >-
+                php-cs-fixer fix
+                --config=./.php_cs.dist
+                --verbose
+                --dry-run
+                --using-cache=no
+        when:
+            branch:
+                exclude: master
 
-  coding style:
-    image: grachev/php-cs-fixer
-    commands:
-      - >-
-        php-cs-fixer fix
-        --config=.php_cs.dist
-        --verbose
-        --dry-run
-        --using-cache=no
-        --path-mode=intersection
-        `git diff --name-only --diff-filter=ACMRTUXB HEAD^`
+    validate blank end line:
+        group: validate
+        image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
+        commands:
+            - >-
+                find . -type f -exec grep -Iq . {} \; -and -print0
+                | xargs -0 -L1 bash -c 'test -z "$(tail -c 1 "$0")"
+                || (echo "No new line at end of $0" && exit 1)'
+                || exit 1
+        when:
+            branch:
+                exclude: master
 
-  build:
-    image: docker
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    commands:
-      - >-
-        docker build -t "${HUB_REPO}:${DRONE_BUILD_NUMBER}"
-        --file docker/Dockerfile
-        --label branch="${DRONE_COMMIT_BRANCH}"
-        --build-arg GITHUB_AUTH_TOKEN="$GITHUB_AUTH_TOKEN"
-        --build-arg APP_VERSION="$DRONE_BUILD_NUMBER" .
+    validate phpstan:
+        group: validate
+        image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
+        commands:
+            - cd "$APP_DIR"
+            - phpstan analyse --level 5 --configuration phpstan.neon --no-progress src tests
+        when:
+            branch:
+                exclude: master
 
-  phpstan:
-    image: ${HUB_REPO}:${DRONE_BUILD_NUMBER}
-    commands:
-      - cd "$APP_DIR"
-      - phpstan analyse --level 5 --configuration phpstan.neon --no-progress src tests
+    validate symfony requirements:
+        group: validate
+        image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
+        commands:
+            - /docker-entrypoint.sh symfony_requirements
+        environment:
+            APP_ENV: 'test'
+        when:
+            branch:
+                exclude: master
 
-  symfony requirements:
-    image: ${HUB_REPO}:${DRONE_BUILD_NUMBER}
-    commands:
-      - /docker-entrypoint.sh symfony_requirements
-    environment:
-      APP_ENV: test
-      APP_DEBUG: 0
-      MIGRATION: false
+    validate yaml lint:
+        group: validate
+        image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
+        commands:
+            - /docker-entrypoint.sh console lint:yaml config
+        environment:
+            APP_ENV: 'test'
+        when:
+            branch:
+                exclude: master
 
-  yaml lint:
-    image: ${HUB_REPO}:${DRONE_BUILD_NUMBER}
-    commands:
-      - /docker-entrypoint.sh console lint:yaml etc
-    environment:
-      APP_ENV: test
-      APP_DEBUG: 0
-      MIGRATION: false
+#    validate doctrine: &validate-doctrine
+#        group: validate
+#        image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
+#        commands:
+#            - /docker-entrypoint.sh console doctrine:schema:validate
+#        environment:
+#            APP_ENV: 'test'
+#            MIGRATIONS: 'true'
+#            WAIT_HOSTS: 'mysql:3306'
 
-  doctrine validation:
-    image: ${HUB_REPO}:${DRONE_BUILD_NUMBER}
-    commands:
-      - while ! nc -z 127.0.0.1 3306; do sleep 1; done
-      - /docker-entrypoint.sh console doctrine:schema:validate --skip-sync
-    environment:
-      APP_ENV: test
-      APP_DEBUG: 0
-      MIGRATION: false
+    validate doctrine: &validate-doctrine
+        group: validate
+        image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
+        commands:
+            - /docker-entrypoint.sh console doctrine:schema:create
+        environment:
+            APP_ENV: 'test'
+            MIGRATIONS: 'false'
+            WAIT_HOSTS: 'mysql:3306'
 
-  phpunit:
-    image: ${HUB_REPO}:${DRONE_BUILD_NUMBER}
-    commands:
-      - /docker-entrypoint.sh phpunit
-    environment:
-      APP_ENV: test
-      APP_DEBUG: 0
-      MIGRATION: false
+    test phpunit: &test-phpunit
+        group: test
+        image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
+        commands:
+            - cd "$APP_DIR"
+            - /docker-entrypoint.sh phpunit
+        environment:
+            APP_ENV: 'test'
+            FIXTURES: 'false'
 
-  publish:
-    image: docker
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    commands:
-      - docker login -u"$HUB_LOGIN" -p"$HUB_PASSWORD"
-      - docker push "${HUB_REPO}:${DRONE_BUILD_NUMBER}" > /dev/null
-      - >+
-        if [ "master" == "$DRONE_COMMIT_BRANCH" ]; then
-          docker tag "${HUB_REPO}:${DRONE_BUILD_NUMBER}" "${HUB_REPO}:latest"
-          docker push "${HUB_REPO}:latest" > /dev/null
-          docker rmi --force "${HUB_REPO}:latest"
-        fi
-    when:
-      event: push
+    clean:
+        <<: *docker
+        group: deploy
+        commands:
+            - docker rmi --force `docker images --filter before=automagistre/automagistre:${DRONE_BUILD_NUMBER} --format "{{ .Repository }}:{{ .Tag }}" automagistre/automagistre`
+        when:
+            branch: master
+            status: [ success, failure ]
 
-  clean:
-    image: docker
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    commands:
-      - >+
-        if [ "success" == "$DRONE_BUILD_STATUS" ] && [ "push" == "$DRONE_BUILD_EVENT" ]; then
-          docker rmi `docker images -q --filter before="${HUB_REPO}:${DRONE_BUILD_NUMBER}" --filter label="branch=$DRONE_COMMIT_BRANCH" "${HUB_REPO}"` || true
-        else
-          docker rmi --force "${HUB_REPO}:${DRONE_BUILD_NUMBER}"
-        fi
-    when:
-      status: [ failure, success ]
-
-  deploy:
-    image: appleboy/drone-ssh
-    host: ${DEPLOY_HOST}
-    username: ${DEPLOY_USER}
-    key: ${DEPLOY_KEY}
-    script:
-      - docker pull "${HUB_REPO}:${DRONE_BUILD_NUMBER}"
-      - docker service update --image "${HUB_REPO}:${DRONE_BUILD_NUMBER}" "${DEPLOY_SERVICE}"
-      - >-
-        docker rmi
-        `docker images -q --filter "before=${HUB_REPO}:${DRONE_BUILD_NUMBER}" "${HUB_REPO}"`
-        2> /dev/null || true
-    when:
-      branch: master
+    deploy: &deploy_service
+        <<: *docker
+        <<: *when-master
+        commands:
+            - docker service update --detach=false --image "automagistre/automagistre:${DRONE_BUILD_NUMBER}" automagistre
 
 services:
-  mysql:
-    image: mariadb
-    environment:
-      MYSQL_DATABASE: symfony
-      MYSQL_ALLOW_EMPTY_PASSWORD: true
+    mysql:
+        image: mariadb:10.1.23
+        environment:
+            MYSQL_DATABASE: 'db'
+            MYSQL_USER: 'db'
+            MYSQL_PASSWORD: 'db'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'true'

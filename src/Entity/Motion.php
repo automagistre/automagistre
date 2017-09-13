@@ -31,7 +31,7 @@ class Motion
      * @var Part
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Part")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn
      */
     private $part;
 

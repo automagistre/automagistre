@@ -28,33 +28,6 @@ final class CarRecommendationController extends AdminController
         $this->manager = $manager;
     }
 
-    protected function createNewEntity()
-    {
-        if (!$id = $this->request->query->get('car_id')) {
-            throw new BadRequestHttpException('car_id is required');
-        }
-
-        $car = $this->em->getRepository(Car::class)->findOneBy(['id' => $id]);
-        if (!$car) {
-            throw new NotFoundHttpException(sprintf('Car id "%s" not found', $id));
-        }
-
-        $model = new Recommendation();
-        $model->car = $car;
-
-        return $model;
-    }
-
-    /**
-     * @param Recommendation $model
-     */
-    protected function persistEntity($model): void
-    {
-        $entity = new CarRecommendation($model->car, $model->service, $model->price, $model->worker);
-
-        parent::persistEntity($entity);
-    }
-
     public function realizeAction(): RedirectResponse
     {
         if (!$this->request->isMethod('POST')) {
@@ -82,7 +55,34 @@ final class CarRecommendationController extends AdminController
         return $this->redirectToRoute('easyadmin', [
             'entity' => 'Order',
             'action' => 'show',
-            'id'     => $order->getId(),
+            'id' => $order->getId(),
         ]);
+    }
+
+    protected function createNewEntity()
+    {
+        if (!$id = $this->request->query->get('car_id')) {
+            throw new BadRequestHttpException('car_id is required');
+        }
+
+        $car = $this->em->getRepository(Car::class)->findOneBy(['id' => $id]);
+        if (!$car) {
+            throw new NotFoundHttpException(sprintf('Car id "%s" not found', $id));
+        }
+
+        $model = new Recommendation();
+        $model->car = $car;
+
+        return $model;
+    }
+
+    /**
+     * @param Recommendation $model
+     */
+    protected function persistEntity($model): void
+    {
+        $entity = new CarRecommendation($model->car, $model->service, $model->price, $model->worker);
+
+        parent::persistEntity($entity);
     }
 }

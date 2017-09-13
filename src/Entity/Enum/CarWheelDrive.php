@@ -19,13 +19,13 @@ final class CarWheelDrive extends Enum
 
     protected static $name = [
         self::FRONT_WHEEL_DRIVE => 'Передний',
-        self::REAR_WHEEL_DRIVE  => 'Задний',
-        self::ALL_WHEEL_DRIVE   => 'Полный',
+        self::REAR_WHEEL_DRIVE => 'Задний',
+        self::ALL_WHEEL_DRIVE => 'Полный',
     ];
 
     protected static $code = [
         self::FRONT_WHEEL_DRIVE => 'FWD',
-        self::REAR_WHEEL_DRIVE  => 'RWD',
-        self::ALL_WHEEL_DRIVE   => 'AWD',
+        self::REAR_WHEEL_DRIVE => 'RWD',
+        self::ALL_WHEEL_DRIVE => 'AWD',
     ];
 }

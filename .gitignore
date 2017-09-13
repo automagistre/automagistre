@@ -1,17 +1,13 @@
 /var
-!var/cache/.gitkeep
-!var/logs/.gitkeep
-!var/sessions/.gitkeep
+!/var/cache/.gitkeep
+!/var/logs/.gitkeep
+!/var/sessions/.gitkeep
+/public/bundles/
+/public/config.php
+/public/assets/vendor
 /vendor/
-/web/bundles/
-/web/config.php
-
-# Docker
-/docker-compose.yml
-!/var/null/composer.null
-
-# php-cs-fixer
 /.php_cs
-
-# Environments for dev
 /.env
+/bin/symfony_requirements
+
+/docker-compose.yml

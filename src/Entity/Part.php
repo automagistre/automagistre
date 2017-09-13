@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="part", uniqueConstraints={
  *     @ORM\UniqueConstraint(name="part_idx", columns={"number", "manufacturer_id"})
  * })
- * @ORM\Entity()
+ * @ORM\Entity
  */
 class Part
 {
@@ -30,17 +30,17 @@ class Part
     /**
      * @var Manufacturer
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Manufacturer")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn
      */
     private $manufacturer;
 
     /**
      * @var string
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      *
      * @ORM\Column(nullable=true)
      */
@@ -56,7 +56,7 @@ class Part
     /**
      * @var string
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      *
      * @ORM\Column(length=30)
      */
@@ -96,6 +96,11 @@ class Part
      * @ORM\Column(name="reserved", type="integer", nullable=false)
      */
     private $reserved = 0;
+
+    public function __toString(): string
+    {
+        return (string) $this->getName();
+    }
 
     public function getId(): ?int
     {
@@ -140,10 +145,5 @@ class Part
     public function setDescription(string $description): void
     {
         $this->description = $description;
-    }
-
-    public function __toString(): string
-    {
-        return (string) $this->getName();
     }
 }

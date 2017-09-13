@@ -69,14 +69,14 @@ class Order
      * @var Operand
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Operand")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn
      */
     private $customer;
 
     /**
      * @var int
      *
-     * @ORM\Column(type="integer", length=8, nullable=true, options={"unsigned"=true})
+     * @ORM\Column(type="integer", length=8, nullable=true, options={"unsigned" = true})
      */
     private $mileage;
 
@@ -148,6 +148,11 @@ class Order
         $this->status = OrderStatus::DRAFT;
         $this->items = new ArrayCollection();
         $this->createdAt = new \DateTime();
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->getId();
     }
 
     public function getId(): ?int
@@ -235,6 +240,21 @@ class Order
         return new OrderStatus($this->status);
     }
 
+    public function getTotalServicePrice(): Money
+    {
+        return $this->getTotalPriceByClass(OrderItemService::class);
+    }
+
+    public function getTotalPartPrice(): Money
+    {
+        return $this->getTotalPriceByClass(OrderItemPart::class);
+    }
+
+    public function isEditable(): bool
+    {
+        return $this->getStatus()->isEditable();
+    }
+
     protected function getTotalPriceByClass(string $class): Money
     {
         $items = $this->items->filter(function (OrderItem $item) use ($class) {
@@ -253,25 +273,5 @@ class Order
         }
 
         return $price;
-    }
-
-    public function getTotalServicePrice(): Money
-    {
-        return $this->getTotalPriceByClass(OrderItemService::class);
-    }
-
-    public function getTotalPartPrice(): Money
-    {
-        return $this->getTotalPriceByClass(OrderItemPart::class);
-    }
-
-    public function isEditable(): bool
-    {
-        return $this->getStatus()->isEditable();
-    }
-
-    public function __toString(): string
-    {
-        return (string) $this->getId();
     }
 }

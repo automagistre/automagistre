@@ -29,7 +29,7 @@ class Person extends Operand
     /**
      * @var string
      *
-     * @Assert\Email()
+     * @Assert\Email
      *
      * @ORM\Column(nullable=true)
      */
@@ -55,6 +55,11 @@ class Person extends Operand
      * @ORM\Column(type="integer", nullable=true)
      */
     private $spriteId;
+
+    public function __toString(): string
+    {
+        return sprintf('%s (%s)', $this->getFullName(), $this->getTelephone() ?: $this->getOfficePhone());
+    }
 
     /**
      * @return string
@@ -139,10 +144,5 @@ class Person extends Operand
     public function getFullName(): string
     {
         return sprintf('%s %s', $this->lastname, $this->firstname);
-    }
-
-    public function __toString(): string
-    {
-        return sprintf('%s (%s)', $this->getFullName(), $this->getTelephone() ?: $this->getOfficePhone());
     }
 }

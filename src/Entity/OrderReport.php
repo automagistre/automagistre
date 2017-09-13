@@ -38,7 +38,7 @@ class OrderReport
      * @var Order
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Order")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn
      */
     private $order;
 }
