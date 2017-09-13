@@ -70,15 +70,15 @@ composer-update-lock:
 
 fixtures:
 	docker-compose run --rm -e SKIP_ENTRYPOINT=true app console doctrine:fixtures:load --fixtures=src/DataFixtures/ORM/ --no-interaction
-migration:
+migrations:
 	docker-compose run --rm -e SKIP_ENTRYPOINT=true app console doctrine:migration:migrate --no-interaction --allow-no-migration
-migration-rollback:latest = $(shell docker-compose run --rm -e SKIP_ENTRYPOINT=true app console doctrine:migration:latest | tr '\r' ' ')
-migration-rollback:
+migrations-rollback:latest = $(shell docker-compose run --rm -e SKIP_ENTRYPOINT=true app console doctrine:migration:latest | tr '\r' ' ')
+migrations-rollback:
 	docker-compose run --rm -e SKIP_ENTRYPOINT=true app console doctrine:migration:execute --down --no-interaction $(latest)
-migration-diff:
+migrations-diff:
 	docker-compose run --rm -e SKIP_ENTRYPOINT=true app console doctrine:migration:diff
 	@$(MAKE) permissions > /dev/null
-migration-diff-dry:
+migrations-diff-dry:
 	docker-compose run --rm -e SKIP_ENTRYPOINT=true app console doctrine:schema:update --dump-sql
 schema-update:
 	docker-compose run --rm -e SKIP_ENTRYPOINT=true app console doctrine:schema:update --force
