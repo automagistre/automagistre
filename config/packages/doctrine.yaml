@@ -26,6 +26,7 @@ doctrine:
                 is_bundle: false
 
 doctrine_migrations:
+    namespace: App\Migrations
     dir_name: '%kernel.project_dir%/src/Migrations'
 
 parameters:
