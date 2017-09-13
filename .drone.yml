@@ -113,7 +113,7 @@ pipeline:
             - /docker-entrypoint.sh phpunit
         environment:
             APP_ENV: 'test'
-            FIXTURES: 'true'
+            FIXTURES: 'false'
 
     clean:
         <<: *docker
