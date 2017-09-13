@@ -26,7 +26,7 @@ class Car
      * @var CarModel
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\CarModel")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn
      */
     private $carModel;
 
@@ -34,7 +34,7 @@ class Car
      * @var CarModification
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\CarModification")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn
      */
     private $carModification;
 
@@ -56,7 +56,7 @@ class Car
      * @var Operand
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Operand")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn
      */
     private $owner;
 
@@ -107,6 +107,11 @@ class Car
         $this->createdAt = new \DateTime();
         $this->orders = new ArrayCollection();
         $this->recommendations = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return sprintf('%s, (%s)', $this->getCarModificationDisplayName(), $this->getGosnomer());
     }
 
     /**
@@ -277,10 +282,5 @@ class Car
     public function getCarModificationDisplayName(): string
     {
         return (string) ($this->carModification ? $this->carModification->getDisplayName() : $this->carModel);
-    }
-
-    public function __toString(): string
-    {
-        return sprintf('%s, (%s)', $this->getCarModificationDisplayName(), $this->getGosnomer());
     }
 }

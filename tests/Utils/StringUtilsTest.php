@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Utils;
 
 use App\Utils\StringUtils;
@@ -10,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class StringUtilsTest extends TestCase
 {
-    public function testIsRussia()
+    public function testIsRussia(): void
     {
         self::assertTrue(StringUtils::isRussian('текст'));
         self::assertFalse(StringUtils::isRussian('text'));

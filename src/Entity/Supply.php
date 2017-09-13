@@ -11,7 +11,7 @@ use Money\Money;
 use Ramsey\Uuid\UuidInterface;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  */
 class Supply
 {

@@ -1,0 +1,40 @@
+parameters:
+    locale: ru
+    env(APP_VERSION): null
+
+services:
+    _defaults:
+        public: false
+        autowire: by_id
+        autoconfigure: true
+
+    _instanceof:
+        Symfony\Component\HttpKernel\KernelInterface:
+            autowire: false
+        Exception:
+            autowire: false
+        Grachevko\Enum\Enum:
+            autowire: false
+
+    App\:
+        resource: '../src'
+    App\Controller\:
+        resource: '../src/Controller'
+        public: true
+        tags:
+            - { name: controller.service_arguments }
+    App\Entity\:
+        resource: '../src/Entity'
+        autowire: false
+    App\Model\:
+        resource: '../src/Model'
+        autowire: false
+
+    App\Part\Finder:
+        arguments:
+            - '@csa_guzzle.client.ixora_ws'
+
+    App\Partner\Ixora\Orders:
+        arguments:
+            - '@csa_guzzle.client.ixora_ws'
+            - '@serializer'

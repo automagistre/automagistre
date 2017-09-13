@@ -39,6 +39,11 @@ class Manufacturer
         $this->name = $name;
     }
 
+    public function __toString(): string
+    {
+        return (string) $this->getName();
+    }
+
     /**
      * @return int
      */
@@ -71,10 +76,5 @@ class Manufacturer
     public function setLogo(string $logo): void
     {
         $this->logo = $logo;
-    }
-
-    public function __toString(): string
-    {
-        return (string) $this->getName();
     }
 }

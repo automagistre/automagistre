@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Uuid\UuidGenerator;
@@ -9,7 +11,7 @@ use Money\Money;
 use Ramsey\Uuid\UuidInterface;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  */
 class IncomePart
 {

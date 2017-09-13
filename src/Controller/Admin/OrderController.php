@@ -18,6 +18,17 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 final class OrderController extends AdminController
 {
+    public function isActionAllowed($actionName): bool
+    {
+        if ('show' !== $actionName && $id = $this->request->get('id')) {
+            $entity = $this->em->getRepository(Order::class)->find($id);
+
+            return $entity->isEditable();
+        }
+
+        return parent::isActionAllowed($actionName);
+    }
+
     protected function createSearchQueryBuilder(
         $entityClass,
         $searchQuery,
@@ -56,30 +67,20 @@ final class OrderController extends AdminController
         return $qb;
     }
 
-    public function isActionAllowed($actionName): bool
-    {
-        if ('show' !== $actionName && $id = $this->request->get('id')) {
-            $entity = $this->em->getRepository(Order::class)->find($id);
-
-            return $entity->isEditable();
-        }
-
-        return parent::isActionAllowed($actionName);
-    }
-
     /**
      * @param Order $entity
      */
     protected function prePersistEntity($entity): void
     {
-        $this->get('event_dispatcher')->addListener(EasyAdminEvents::POST_PERSIST, function (GenericEvent $event) {
+        $this->get('event_dispatcher')->addListener(EasyAdminEvents::POST_PERSIST, function (GenericEvent $event
+        ): void {
             /** @var Order $entity */
             $entity = $event->getArgument('entity');
 
             $this->request->query->set('referer', $this->generateUrl('easyadmin', [
                 'entity' => 'Order',
                 'action' => 'show',
-                'id'     => $entity->getId(),
+                'id' => $entity->getId(),
             ]));
         });
     }

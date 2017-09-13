@@ -74,7 +74,7 @@ final class OperandController extends AdminController
 
         $data = array_map(function (Operand $entity) {
             return [
-                'id'   => $entity->getId(),
+                'id' => $entity->getId(),
                 'text' => $entity->getFullName(),
             ];
         }, (array) $paginator->getCurrentPageResults());

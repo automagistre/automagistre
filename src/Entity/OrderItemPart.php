@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  */
 class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInterface
 {
@@ -22,7 +22,7 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
      * @var Part
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Part")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn
      */
     private $part;
 
@@ -37,7 +37,7 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn
      */
     private $selector;
 
@@ -49,6 +49,11 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
         $this->quantity = $quantity;
         $this->changePrice($price);
         $this->selector = $selector;
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->getPart()->getName();
     }
 
     public function getPart(): Part
@@ -78,10 +83,5 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
     public function getSelector(): User
     {
         return $this->selector;
-    }
-
-    public function __toString(): string
-    {
-        return (string) $this->getPart()->getName();
     }
 }

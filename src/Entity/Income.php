@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Uuid\UuidGenerator;
@@ -9,7 +11,7 @@ use Money\Money;
 use Ramsey\Uuid\UuidInterface;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  */
 class Income
 {
@@ -32,7 +34,7 @@ class Income
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\IncomePart", mappedBy="income",
-     *     orphanRemoval=true, cascade={"persist", "remove"})
+     * orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $incomeParts;
 

@@ -32,11 +32,16 @@ class CarModel
     /**
      * @var string
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      *
      * @ORM\Column(name="name", length=30)
      */
     private $name;
+
+    public function __toString(): string
+    {
+        return $this->getDisplayName();
+    }
 
     public function getId(): ?int
     {
@@ -66,10 +71,5 @@ class CarModel
     public function getDisplayName(): string
     {
         return sprintf('%s %s', $this->manufacturer->getName(), $this->getName());
-    }
-
-    public function __toString(): string
-    {
-        return $this->getDisplayName();
     }
 }

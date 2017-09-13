@@ -41,9 +41,9 @@ class MoneyType extends \Symfony\Component\Form\Extension\Core\Type\MoneyType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'scale'    => 2,
+            'scale' => 2,
             'grouping' => false,
-            'divisor'  => 100,
+            'divisor' => 100,
             'compound' => false,
             'currency' => 'RUB',
         ]);

@@ -29,7 +29,7 @@ class CarRecommendationPart implements TotalPriceInterface
      * @var CarRecommendation
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\CarRecommendation", inversedBy="parts")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn
      */
     private $recommendation;
 
@@ -37,7 +37,7 @@ class CarRecommendationPart implements TotalPriceInterface
      * @var Part
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Part")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn
      */
     private $part;
 
@@ -52,7 +52,7 @@ class CarRecommendationPart implements TotalPriceInterface
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn
      */
     private $selector;
 

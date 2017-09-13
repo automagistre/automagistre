@@ -15,7 +15,7 @@ class Organization extends Operand
     /**
      * @var string
      *
-     * @ORM\Column()
+     * @ORM\Column
      */
     private $name;
 
@@ -29,7 +29,7 @@ class Organization extends Operand
     /**
      * @var string
      *
-     * @Assert\Email()
+     * @Assert\Email
      *
      * @ORM\Column(nullable=true)
      */
@@ -48,6 +48,11 @@ class Organization extends Operand
      * @ORM\Column(nullable=true)
      */
     private $officePhone;
+
+    public function __toString(): string
+    {
+        return $this->name;
+    }
 
     public function getFullName(): string
     {
@@ -102,10 +107,5 @@ class Organization extends Operand
     public function setOfficePhone(string $officePhone): void
     {
         $this->officePhone = $officePhone;
-    }
-
-    public function __toString(): string
-    {
-        return $this->name;
     }
 }

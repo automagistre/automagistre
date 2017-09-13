@@ -12,7 +12,7 @@ use Money\Currency;
 use Money\Money;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="integer")
  * @ORM\DiscriminatorMap({
@@ -23,6 +23,12 @@ use Money\Money;
  */
 abstract class OrderItem
 {
+    /**
+     * @var OrderItem[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\OrderItem", mappedBy="parent", cascade={"persist"}, orphanRemoval=true)
+     */
+    protected $children;
     /**
      * @var int
      *
@@ -46,13 +52,6 @@ abstract class OrderItem
      * @ORM\JoinColumn(referencedColumnName="id", onDelete="CASCADE")
      */
     private $parent;
-
-    /**
-     * @var OrderItem[]|ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\OrderItem", mappedBy="parent", cascade={"persist"}, orphanRemoval=true)
-     */
-    protected $children;
 
     /**
      * @var \DateTime

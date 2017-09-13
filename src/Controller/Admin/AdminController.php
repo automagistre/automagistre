@@ -53,18 +53,18 @@ abstract class AdminController extends EasyAdminController
 
         $this->dispatch(EasyAdminEvents::POST_NEW, [
             'entity_fields' => $fields,
-            'form'          => $newForm,
-            'entity'        => $entity,
+            'form' => $newForm,
+            'entity' => $entity,
         ]);
 
         return $this->render($this->entity['templates']['new'], [
-            'form'          => $newForm->createView(),
+            'form' => $newForm->createView(),
             'entity_fields' => $fields,
-            'entity'        => $entity,
+            'entity' => $entity,
         ]);
     }
 
-    private function executeDynamicMethod($methodNamePattern, array $arguments = [])
+    protected function executeDynamicMethod($methodNamePattern, array $arguments = [])
     {
         $methodName = str_replace('<EntityName>', $this->entity['name'], $methodNamePattern);
 

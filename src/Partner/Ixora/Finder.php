@@ -40,9 +40,9 @@ final class Finder
         try {
             $xml = $this->client->get(self::IXORA_PART_FIND, [
                 'query' => [
-                    'Number'      => $number,
-                    'Maker'       => '',
-                    'StockOnly'   => 'false',
+                    'Number' => $number,
+                    'Maker' => '',
+                    'StockOnly' => 'false',
                     'SubstFilter' => 'All',
                 ],
             ])->getBody()->getContents();
@@ -67,8 +67,8 @@ final class Finder
 
             $parts[$key] = new Part([
                 'manufacturer' => $manufacturer,
-                'number'       => $number,
-                'name'         => $name,
+                'number' => $number,
+                'name' => $name,
             ]);
         }
 

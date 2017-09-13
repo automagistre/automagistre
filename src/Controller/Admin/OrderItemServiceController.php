@@ -28,6 +28,29 @@ final class OrderItemServiceController extends AdminController
         $this->recommendationManager = $recommendationManager;
     }
 
+    public function recommendAction(): RedirectResponse
+    {
+        if (!$this->request->isMethod('POST')) {
+            throw new BadRequestHttpException();
+        }
+
+        $query = $this->request->query;
+
+        $orderService = $this->em->getRepository(OrderItemService::class)->findOneBy(['id' => $query->get('id')]);
+        if (!$orderService) {
+            throw new NotFoundHttpException();
+        }
+
+        $order = $orderService->getOrder();
+        $this->recommendationManager->recommend($orderService);
+
+        return $this->redirectToRoute('easyadmin', [
+            'entity' => 'Order',
+            'action' => 'show',
+            'id' => $order->getId(),
+        ]);
+    }
+
     protected function createNewEntity()
     {
         $orderId = $this->request->query->get('order_id');
@@ -72,28 +95,5 @@ final class OrderItemServiceController extends AdminController
         }
 
         return parent::isActionAllowed($actionName);
-    }
-
-    public function recommendAction(): RedirectResponse
-    {
-        if (!$this->request->isMethod('POST')) {
-            throw new BadRequestHttpException();
-        }
-
-        $query = $this->request->query;
-
-        $orderService = $this->em->getRepository(OrderItemService::class)->findOneBy(['id' => $query->get('id')]);
-        if (!$orderService) {
-            throw new NotFoundHttpException();
-        }
-
-        $order = $orderService->getOrder();
-        $this->recommendationManager->recommend($orderService);
-
-        return $this->redirectToRoute('easyadmin', [
-            'entity' => 'Order',
-            'action' => 'show',
-            'id'     => $order->getId(),
-        ]);
     }
 }

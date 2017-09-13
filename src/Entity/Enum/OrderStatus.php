@@ -25,29 +25,29 @@ final class OrderStatus extends Enum
     const CLOSED = 10;
 
     protected static $color = [
-        self::DRAFT        => 'default',
-        self::SCHEDULING   => 'info',
-        self::ORDERING     => 'info',
-        self::MATCHING     => 'primary',
-        self::TRACKING     => 'default',
-        self::DELIVERY     => 'primary',
+        self::DRAFT => 'default',
+        self::SCHEDULING => 'info',
+        self::ORDERING => 'info',
+        self::MATCHING => 'primary',
+        self::TRACKING => 'default',
+        self::DELIVERY => 'primary',
         self::NOTIFICATION => 'warning',
-        self::WORKING      => 'success',
-        self::READY        => 'warning',
-        self::CLOSED       => 'default',
+        self::WORKING => 'success',
+        self::READY => 'warning',
+        self::CLOSED => 'default',
     ];
 
     protected static $name = [
-        self::DRAFT        => 'Черновик',
-        self::SCHEDULING   => 'Ожидание по записи',
-        self::ORDERING     => 'Заказ запчастей',
-        self::MATCHING     => 'MATCHING',
-        self::TRACKING     => 'Ожидание запчастей',
-        self::DELIVERY     => 'DELIVERY',
+        self::DRAFT => 'Черновик',
+        self::SCHEDULING => 'Ожидание по записи',
+        self::ORDERING => 'Заказ запчастей',
+        self::MATCHING => 'MATCHING',
+        self::TRACKING => 'Ожидание запчастей',
+        self::DELIVERY => 'DELIVERY',
         self::NOTIFICATION => 'Уведомление клиента',
-        self::WORKING      => 'В работе',
-        self::READY        => 'Ожидает выдачи',
-        self::CLOSED       => 'Закрыт',
+        self::WORKING => 'В работе',
+        self::READY => 'Ожидает выдачи',
+        self::CLOSED => 'Закрыт',
     ];
 
     public function isEditable(): bool

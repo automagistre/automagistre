@@ -93,9 +93,9 @@ SQL;
 
         return array_map(function (array $item) use ($partRepository) {
             return new DeficitPart([
-                'part'     => $partRepository->find($item['part_id']),
+                'part' => $partRepository->find($item['part_id']),
                 'quantity' => $item['needed'],
-                'orders'   => array_map(function (int $id) {
+                'orders' => array_map(function (int $id) {
                     return $this->em->getReference(Order::class, $id);
                 }, array_filter(explode(',', $item['orders_id']), 'strlen')),
             ]);

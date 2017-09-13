@@ -1,15 +1,8 @@
 # Symfony
-var/cache/*
-var/logs/*
-var/sessions/*
-web/bundles
+var/cache
+var/sessions
+var/logs
+public/bundles
 
 # Composer
 vendor
-
-# git
-.git
-
-# Dev tools
-docker-compose.yml.dist
-Makefile

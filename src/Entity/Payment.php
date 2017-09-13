@@ -24,7 +24,7 @@ class Payment
      * @var Operand
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Operand")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn
      */
     private $recipient;
 

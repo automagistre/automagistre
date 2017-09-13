@@ -48,12 +48,77 @@ final class PartController extends AdminController
         $this->finder = $finder;
     }
 
+    public function numberSearchAction()
+    {
+        if (!$number = $this->request->query->get('number')) {
+            throw new BadRequestHttpException();
+        }
+
+        $manufacturerRepository = $this->em->getRepository(Manufacturer::class);
+
+        $parts = $this->finder->search($number);
+
+        if (!$parts) {
+            return new Response('', Response::HTTP_NO_CONTENT);
+        }
+
+        return $this->json(array_map(function (PartModel $model) use ($manufacturerRepository) {
+            $manufacturer = $manufacturerRepository->findOneBy(['name' => $model->manufacturer]);
+            if (!$manufacturer) {
+                $manufacturer = new Manufacturer();
+                $manufacturer->setName($model->manufacturer);
+                $this->em->persist($manufacturer);
+            }
+
+            return [
+                'manufacturer' => [
+                    'id' => $manufacturer->getId(),
+                    'name' => $manufacturer->getName(),
+                ],
+                'name' => $model->name,
+                'number' => $model->number,
+            ];
+        }, array_filter($parts, function (PartModel $model) use ($number) {
+            return false !== strpos($model->number, $number);
+        })));
+    }
+
+    public function stockAction(): Response
+    {
+        $request = $this->request;
+        $qb = $this->em->getRepository(Part::class)->createQueryBuilder('part')
+            ->addSelect('SUM(motion.quantity) AS quantity')
+            ->leftJoin(Motion::class, 'motion', Join::WITH, 'part.id = motion.part')
+            ->groupBy('part.id')
+            ->having('SUM(motion.quantity) <> 0');
+
+        $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $request->query->getInt('page', 1), 20);
+
+        $parts = array_map(function (array $data) {
+            return new WarehousePart([
+                'part' => $data[0],
+                'quantity' => $data['quantity'],
+            ]);
+        }, (array) $paginator->getCurrentPageResults());
+
+        return $this->render('easy_admin/part/stock.html.twig', [
+            'parts' => $parts,
+        ]);
+    }
+
+    public function deficitAction(): Response
+    {
+        return $this->render('easy_admin/part/deficit.html.twig', [
+            'parts' => $this->partManager->findDeficit(),
+        ]);
+    }
+
     protected function newAction()
     {
         if ($this->request->isXmlHttpRequest() && $this->request->isMethod('POST')) {
             $entity = null;
             $this->dispatcher
-                ->addListener(EasyAdminEvents::POST_PERSIST, function (GenericEvent $event) use (&$entity) {
+                ->addListener(EasyAdminEvents::POST_PERSIST, function (GenericEvent $event) use (&$entity): void {
                     $entity = $event->getArgument('entity');
                 });
 
@@ -61,14 +126,14 @@ final class PartController extends AdminController
 
             if ($entity instanceof Part) {
                 return $this->json([
-                    'id'           => $entity->getId(),
-                    'name'         => $entity->getName(),
-                    'number'       => $entity->getNumber(),
+                    'id' => $entity->getId(),
+                    'name' => $entity->getName(),
+                    'number' => $entity->getNumber(),
                     'manufacturer' => [
-                        'id'   => $entity->getManufacturer()->getId(),
+                        'id' => $entity->getManufacturer()->getId(),
                         'name' => $entity->getManufacturer()->getName(),
                     ],
-                    'price'        => $entity->getPrice(),
+                    'price' => $entity->getPrice(),
                 ]);
             }
 
@@ -115,7 +180,7 @@ final class PartController extends AdminController
 
         $data = array_map(function (Part $entity) {
             return [
-                'id'   => $entity->getId(),
+                'id' => $entity->getId(),
                 'text' => sprintf(
                     '%s - %s (%s)',
                     $entity->getNumber(),
@@ -126,70 +191,5 @@ final class PartController extends AdminController
         }, (array) $paginator->getCurrentPageResults());
 
         return $this->json(['results' => $data]);
-    }
-
-    public function numberSearchAction()
-    {
-        if (!$number = $this->request->query->get('number')) {
-            throw new BadRequestHttpException();
-        }
-
-        $manufacturerRepository = $this->em->getRepository(Manufacturer::class);
-
-        $parts = $this->finder->search($number);
-
-        if (!$parts) {
-            return new Response('', Response::HTTP_NO_CONTENT);
-        }
-
-        return $this->json(array_map(function (PartModel $model) use ($manufacturerRepository) {
-            $manufacturer = $manufacturerRepository->findOneBy(['name' => $model->manufacturer]);
-            if (!$manufacturer) {
-                $manufacturer = new Manufacturer();
-                $manufacturer->setName($model->manufacturer);
-                $this->em->persist($manufacturer);
-            }
-
-            return [
-                'manufacturer' => [
-                    'id'   => $manufacturer->getId(),
-                    'name' => $manufacturer->getName(),
-                ],
-                'name'         => $model->name,
-                'number'       => $model->number,
-            ];
-        }, array_filter($parts, function (PartModel $model) use ($number) {
-            return false !== strpos($model->number, $number);
-        })));
-    }
-
-    public function stockAction(): Response
-    {
-        $request = $this->request;
-        $qb = $this->em->getRepository(Part::class)->createQueryBuilder('part')
-            ->addSelect('SUM(motion.quantity) AS quantity')
-            ->leftJoin(Motion::class, 'motion', Join::WITH, 'part.id = motion.part')
-            ->groupBy('part.id')
-            ->having('SUM(motion.quantity) <> 0');
-
-        $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $request->query->getInt('page', 1), 20);
-
-        $parts = array_map(function (array $data) {
-            return new WarehousePart([
-                'part'     => $data[0],
-                'quantity' => $data['quantity'],
-            ]);
-        }, (array) $paginator->getCurrentPageResults());
-
-        return $this->render('easy_admin/part/stock.html.twig', [
-            'parts' => $parts,
-        ]);
-    }
-
-    public function deficitAction(): Response
-    {
-        return $this->render('easy_admin/part/deficit.html.twig', [
-            'parts' => $this->partManager->findDeficit(),
-        ]);
     }
 }

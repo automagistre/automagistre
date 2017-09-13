@@ -77,7 +77,7 @@ final class CarController extends AdminController
             $carModel = $car->getCarModification() ?: $car->getCarModel();
 
             return [
-                'id'   => $car->getId(),
+                'id' => $car->getId(),
                 'text' => sprintf(
                     '%s %s %s',
                     $carModel->getDisplayName(),

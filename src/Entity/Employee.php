@@ -7,7 +7,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  */
 class Employee
 {
@@ -54,6 +54,11 @@ class Employee
         $this->hiredAt = new \DateTime();
     }
 
+    public function __toString(): string
+    {
+        return $this->person->getFullName();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -97,10 +102,5 @@ class Employee
     public function fire(): void
     {
         $this->firedAt = new \DateTime();
-    }
-
-    public function __toString(): string
-    {
-        return $this->person->getFullName();
     }
 }

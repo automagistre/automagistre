@@ -9,14 +9,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  */
 class OrderItemGroup extends OrderItem
 {
     /**
      * @var string
      *
-     * @ORM\Column()
+     * @ORM\Column
      */
     private $name;
 
@@ -25,6 +25,11 @@ class OrderItemGroup extends OrderItem
         parent::__construct($order);
 
         $this->name = $name;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getName();
     }
 
     public function setName(string $name): void
@@ -49,10 +54,5 @@ class OrderItemGroup extends OrderItem
     public function getTotalServicePrice(): Money
     {
         return $this->getTotalPriceByClass(OrderItemService::class);
-    }
-
-    public function __toString(): string
-    {
-        return $this->getName();
     }
 }

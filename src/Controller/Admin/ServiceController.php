@@ -78,8 +78,8 @@ final class ServiceController extends AdminController
 
         $data = array_map(function (Service $entity) {
             return [
-                'id'    => $entity->getId(),
-                'text'  => sprintf('%s (%s)', $entity->getName(), $this->moneyFormatter->format($entity->getPrice())),
+                'id' => $entity->getId(),
+                'text' => sprintf('%s (%s)', $entity->getName(), $this->moneyFormatter->format($entity->getPrice())),
                 'price' => $entity->getPrice()->getAmount() / 100,
             ];
         }, (array) $collection);
