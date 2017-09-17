@@ -13,11 +13,27 @@ class AppExtension extends \Twig_Extension
     {
         return [
             new \Twig_SimpleFunction('instanceOf', [$this, 'doInstanceOf']),
+            new \Twig_SimpleFunction('build', [$this, 'build']),
+            new \Twig_SimpleFunction('build_time', [$this, 'buildTime']),
         ];
     }
 
     public function doInstanceOf($object, $class): bool
     {
         return $object instanceof $class;
+    }
+
+    public function build(): string
+    {
+        return getenv('APP_BUILD');
+    }
+
+    public function buildTime(): \DateTimeImmutable
+    {
+        if ($time = getenv('APP_BUILD_TIME')) {
+            return \DateTimeImmutable::createFromFormat(DATE_RFC3339, $time);
+        }
+
+        return new \DateTimeImmutable();
     }
 }

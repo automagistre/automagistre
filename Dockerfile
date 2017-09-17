@@ -47,6 +47,8 @@ COPY ${SOURCE_DIR}/ ${APP_DIR}/
 
 ARG APP_BUILD=dev
 ENV APP_BUILD ${APP_BUILD}
+ARG APP_BUILD_TIME=''
+ENV APP_BUILD_TIME ${APP_BUILD_TIME}
 
 ENTRYPOINT ["bash", "/docker-entrypoint.sh"]
 CMD ["apache"]
