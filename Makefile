@@ -61,35 +61,35 @@ install-backend: composer
 
 composer: composer-install
 composer-install:
-	docker-compose run --rm --no-deps -e SKIP_ENTRYPOINT=true app composer install --prefer-dist
+	docker-compose run --rm --no-deps -e SKIP_ENTRYPOINT=true -e XDEBUG=false app composer install --prefer-dist
 	@$(MAKE) permissions > /dev/null
 composer-run-script:
-	docker-compose run --rm --no-deps -e SKIP_ENTRYPOINT=true app composer run-script symfony-scripts
+	docker-compose run --rm --no-deps -e SKIP_ENTRYPOINT=true -e XDEBUG=false app composer run-script symfony-scripts
 composer-update:
-	docker-compose run --rm --no-deps -e SKIP_ENTRYPOINT=true app composer update --prefer-dist
+	docker-compose run --rm --no-deps -e SKIP_ENTRYPOINT=true -e XDEBUG=false app composer update --prefer-dist
 	@$(MAKE) permissions > /dev/null
 composer-update-lock:
-	docker-compose run --rm --no-deps -e SKIP_ENTRYPOINT=true app composer update --lock
+	docker-compose run --rm --no-deps -e SKIP_ENTRYPOINT=true -e XDEBUG=false app composer update --lock
 	@$(MAKE) permissions > /dev/null
 
 fixtures:
-	docker-compose run --rm -e SKIP_ENTRYPOINT=true app console doctrine:fixtures:load --fixtures=src/DataFixtures/ORM/ --no-interaction
+	docker-compose run --rm -e SKIP_ENTRYPOINT=true -e XDEBUG=false app console doctrine:fixtures:load --fixtures=src/DataFixtures/ORM/ --no-interaction
 migrations:
-	docker-compose run --rm -e SKIP_ENTRYPOINT=true app console doctrine:migration:migrate --no-interaction --allow-no-migration
-migrations-rollback:latest = $(shell docker-compose run --rm -e SKIP_ENTRYPOINT=true app console doctrine:migration:latest | tr '\r' ' ')
-migrations-rollback:
-	docker-compose run --rm -e SKIP_ENTRYPOINT=true app console doctrine:migration:execute --down --no-interaction $(latest)
-migrations-diff:
-	docker-compose run --rm -e SKIP_ENTRYPOINT=true app console doctrine:migration:diff
-	@$(MAKE) cs > /dev/null
+	docker-compose run --rm -e SKIP_ENTRYPOINT=true -e XDEBUG=false app console doctrine:migration:migrate --no-interaction --allow-no-migration
+migration-rollback:latest = $(shell docker-compose run --rm -e SKIP_ENTRYPOINT=true -e XDEBUG=false app console doctrine:migration:latest | tr '\r' ' ')
+migration-rollback:
+	docker-compose run --rm -e SKIP_ENTRYPOINT=true -e XDEBUG=false app console doctrine:migration:execute --down --no-interaction $(latest)
+migration-diff:
+	docker-compose run --rm -e SKIP_ENTRYPOINT=true -e XDEBUG=false app console doctrine:migration:diff
+	@$(MAKE) cs
 	@$(MAKE) permissions > /dev/null
-migrations-diff-dry:
-	docker-compose run --rm -e SKIP_ENTRYPOINT=true app console doctrine:schema:update --dump-sql
+migration-diff-dry:
+	docker-compose run --rm -e SKIP_ENTRYPOINT=true -e XDEBUG=false app console doctrine:schema:update --dump-sql
 schema-update:
-	docker-compose run --rm -e SKIP_ENTRYPOINT=true app console doctrine:schema:update --force
+	docker-compose run --rm -e SKIP_ENTRYPOINT=true -e XDEBUG=false app console doctrine:schema:update --force
 
 cli-app:
-	docker-compose run --rm -e SKIP_ENTRYPOINT=true app bash
+	docker-compose run --rm -e SKIP_ENTRYPOINT=true -e XDEBUG=false app bash
 	@$(MAKE) permissions > /dev/null
 cli-mysql:
 	docker-compose exec mysql bash
@@ -97,12 +97,12 @@ cli-mysql:
 check: cs-check phpstan yaml-lint cache-clear schema-check phpunit-check
 
 cs:
-	docker-compose run --rm --no-deps -e SKIP_ENTRYPOINT=true app php-cs-fixer fix --config $(php_cs_config)
+	docker-compose run --rm --no-deps -e SKIP_ENTRYPOINT=true -e XDEBUG=false app php-cs-fixer fix --config $(php_cs_config)
 	@$(MAKE) permissions > /dev/null
 cs-check:
-	docker-compose run --rm --no-deps -e SKIP_ENTRYPOINT=true app php-cs-fixer fix --config=.php_cs.dist --verbose --dry-run
+	docker-compose run --rm --no-deps -e SKIP_ENTRYPOINT=true -e XDEBUG=false app php-cs-fixer fix --config=.php_cs.dist --verbose --dry-run
 phpstan:
-	docker-compose run --rm --no-deps -e SKIP_ENTRYPOINT=true app phpstan analyse --level 5 --configuration phpstan.neon src tests
+	docker-compose run --rm --no-deps -e SKIP_ENTRYPOINT=true -e XDEBUG=false app phpstan analyse --level 5 --configuration phpstan.neon src tests
 phpunit:
 	docker-compose run --rm -e APP_ENV=test -e APP_DEBUG=0 -e FIXTURES=false app phpunit --debug --stop-on-failure
 phpunit-check:
@@ -116,19 +116,19 @@ schema-check:
 
 cache-clear: cache-clear-run
 cache-clear-run:
-	docker-compose run --rm --no-deps -e SKIP_ENTRYPOINT=true app console cache:clear --no-warmup
+	docker-compose run --rm --no-deps -e SKIP_ENTRYPOINT=true -e XDEBUG=false app console cache:clear --no-warmup
 	@$(MAKE) permissions > /dev/null
 cache-clear-exec:
 	docker-compose exec app console cache:clear --no-warmup
 	@$(MAKE) permissions > /dev/null
 cache-warmup: cache-clear
-	docker-compose run --rm --no-deps -e SKIP_ENTRYPOINT=true app console cache:warmup
+	docker-compose run --rm --no-deps -e SKIP_ENTRYPOINT=true -e XDEBUG=false app console cache:warmup
 	@$(MAKE) permissions > /dev/null
 
 flush: flush-db migration fixtures
 flush-db:
-	docker-compose run --rm -e SKIP_ENTRYPOINT=true app console doctrine:database:drop --force || true
-	docker-compose run --rm -e SKIP_ENTRYPOINT=true app console doctrine:database:create
+	docker-compose run --rm -e SKIP_ENTRYPOINT=true -e XDEBUG=false app console doctrine:database:drop --force || true
+	docker-compose run --rm -e SKIP_ENTRYPOINT=true -e XDEBUG=false app console doctrine:database:create
 db-wait:
 	docker-compose run --rm -e COMPOSER_SCRIPT=false app echo OK
 ###< API ###

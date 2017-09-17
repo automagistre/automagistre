@@ -13,12 +13,6 @@ case "$1" in
    sh|php|composer) exec "$@" && exit 0;;
 esac
 
-if [ ! -z "$SKIP_ENTRYPOINT" ]; then
-    exec "$@" && exit 0
-fi
-
-cd "$APP_DIR"
-
 APP_ENV=${APP_ENV:=prod}
 case "$APP_ENV" in
    prod|dev|test) ;;
@@ -28,7 +22,7 @@ esac
 APP_DEBUG=${APP_DEBUG:=0}
 case "$APP_DEBUG" in
    0) COMPOSER_SCRIPT_OPTIONS="-q";;
-   1) touch "public/config.php";;
+   1) touch "$APP_DIR/public/config.php";;
    *) >&2 echo env "APP_DEBUG" must be in \"1, 0\" && exit 1;;
 esac
 
@@ -65,8 +59,8 @@ if [ "$APP_ENV" == "dev" ]; then
     OPCACHE=${OPCACHE:=false}
     APCU=${APCU:=false}
 
-    if [ -f ".env" ]; then
-        loadEnvFile ".env"
+    if [ -f "$APP_DIR/.env" ]; then
+        loadEnvFile "$APP_DIR/.env"
     fi
 
 elif [ "$APP_ENV" == "test" ]; then
@@ -74,7 +68,7 @@ elif [ "$APP_ENV" == "test" ]; then
 	FIXTURES=${FIXTURES:=false}
     MIGRATIONS=${MIGRATIONS:=false}
 
-    loadEnvFile ".env.dist"
+    loadEnvFile "$APP_DIR/.env.dist"
 fi
 
 OPCACHE=${OPCACHE:=true}
@@ -99,16 +93,16 @@ if [ "$APCU" == "true" ]; then
     enableExt apcu
 fi
 
-if [ ! -z "$COMPOSER_EXEC" ]; then
+if [ ! -z "$COMPOSER_EXEC" ] && [ -z "$SKIP_ENTRYPOINT" ]; then
     ${COMPOSER_EXEC}
 fi
 
-if [ "$COMPOSER_SCRIPT" != "false" ]; then
-    composer run-script ${COMPOSER_SCRIPT_OPTIONS} ${COMPOSER_SCRIPT}
+if [ "$COMPOSER_SCRIPT" != "false" ] && [ -z "$SKIP_ENTRYPOINT" ]; then
+    composer run-script ${COMPOSER_SCRIPT_OPTIONS} ${COMPOSER_SCRIPT} --working-dir=${APP_DIR}
 fi
 
 # Remove after fix https://github.com/symfony/symfony/pull/22321
-sed -i 's~/./SymfonyRequirements.php~/../var/SymfonyRequirements.php~g' bin/symfony_requirements || true
+sed -i 's~/./SymfonyRequirements.php~/../var/SymfonyRequirements.php~g' "$APP_DIR/bin/symfony_requirements" || true
 
 if [ -n "$WAIT_HOSTS" ]; then
     OLD_IFS=${IFS}
@@ -129,11 +123,11 @@ if [ -n "$WAIT_HOSTS" ]; then
     IFS=${OLD_IFS}
 fi
 
-if [ "$MIGRATIONS" == "true" ]; then
+if [ "$MIGRATIONS" == "true" ] && [ -z "$SKIP_ENTRYPOINT" ]; then
     console doctrine:migrations:migrate --no-interaction --allow-no-migration
 fi
 
-if [ "$FIXTURES" == "true" ]; then
+if [ "$FIXTURES" == "true" ] && [ -z "$SKIP_ENTRYPOINT" ]; then
     console doctrine:fixtures:load --fixtures=src/DataFixtures/ORM/ --no-interaction --env=dev --append
 fi
 
@@ -141,7 +135,7 @@ if [ "$XDEBUG" == "true" ]; then
     enableExt xdebug
 fi
 
-if [ -f "public/config.php" ]; then
+if [ -f "$APP_DIR/public/config.php" ]; then
 	sed -i "s~'::1',~'::1', '$DOCKER_BRIDGE_IP',~g" "public/config.php"
 fi
 
