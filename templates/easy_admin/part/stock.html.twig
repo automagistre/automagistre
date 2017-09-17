@@ -22,10 +22,10 @@
                 <tr>
                     <td>{{ part.id }}</td>
                     <td>
-                        <a href="{{ part.manufacturer|easyadmin_path }}">{{ part.manufacturer.name }}</a>
+                        <a href="{{ easyadmin_path(part.manufacturer, 'edit') }}">{{ part.manufacturer.name }}</a>
                     </td>
                     <td>
-                        <a href="{{ part|easyadmin_path }}">{{ part }} ({{ part.number }})</a>
+                        <a href="{{ easyadmin_path(part, 'edit') }}">{{ part }} ({{ part.number }})</a>
                     </td>
                     <td>{{ part.price|localize_money }}</td>
                     <td>{{ warehouse.quantity / 100 }}</td>

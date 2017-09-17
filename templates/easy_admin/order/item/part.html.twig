@@ -1,10 +1,10 @@
-{% import 'easy_admin/macro/icon.html.twig' as icon %}
-
 {# @var item \App\Entity\OrderItemPart #}
 
 <tr>
     <td style="{% include 'easy_admin/order/item/padding.html.twig' with {'level': level} %}">
-        {{ icon.link('barcode', item.part|easyadmin_path) }}
+        <a href="{{ easyadmin_path(item.part, 'edit') }}">
+            <i class="fa fa-barcode"></i>
+        </a>
 
         {{ item.part.name }}
     </td>
@@ -20,7 +20,9 @@
     {% if order.editable %}
         <td>-</td>
         <td>
-            {{ icon.link('pencil', item|easyadmin_path) }}
+            <a href="{{ easyadmin_path(item, 'edit') }}">
+                <i class="fa fa-pencil"></i>
+            </a>
         </td>
     {% endif %}
 </tr>

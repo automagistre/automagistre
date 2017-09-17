@@ -9,11 +9,15 @@
         {{ item.name }}
 
         {% if order.editable %}
-            {{ icon.link('folder', easyadmin_path('OrderItemGroup', {'order_id': order.id, 'parent_id': item.id})) }}
-
-            {{ icon.link('wrench', easyadmin_path('OrderItemService', {'order_id': order.id, 'parent_id': item.id})) }}
-
-            {{ icon.link('barcode', easyadmin_path('OrderItemPart', {'order_id': order.id, 'parent_id': item.id})) }}
+            <a href="{{ easyadmin_path('OrderItemGroup', 'new', {'order_id': order.id, 'parent_id': item.id}) }}">
+                <i class="fa fa-folder"></i>
+            </a>
+            <a href="{{ easyadmin_path('OrderItemService', 'new', {'order_id': order.id, 'parent_id': item.id}) }}">
+                <i class="fa fa-wrench"></i>
+            </a>
+            <a href="{{ easyadmin_path('OrderItemPart', 'new', {'order_id': order.id, 'parent_id': item.id}) }}">
+                <i class="fa fa-barcode"></i>
+            </a>
         {% endif %}
     </td>
     <td></td>
@@ -22,7 +26,9 @@
     {% if order.editable %}
         <td>-</td>
         <td>
-            {{ icon.link('pencil', item|easyadmin_path) }}
+            <a href="{{ easyadmin_path(item, 'edit') }}">
+                <i class="fa fa-pencil"></i>
+            </a>
         </td>
     {% endif %}
 </tr>

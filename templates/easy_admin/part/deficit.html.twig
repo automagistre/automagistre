@@ -22,22 +22,22 @@
                 {# @var part \App\Entity\Part #}
                 <tr>
                     <td>
-                        <a href="{{ part.manufacturer|easyadmin_path }}">{{ part.manufacturer.name }}</a>
+                        <a href="{{ easyadmin_path(part.manufacturer, 'edit') }}">{{ part.manufacturer.name }}</a>
                     </td>
                     <td>
-                        <a href="{{ part|easyadmin_path }}">{{ part }}</a> - {{ part.number }}
+                        <a href="{{ easyadmin_path(part, 'edit') }}">{{ part }}</a> - {{ part.number }}
                     </td>
                     <td>{{ part.price|localize_money }}</td>
                     <td>{{ deficit.quantity / 100 }}</td>
                     <td>
                         {%- for order in deficit.orders -%}
                             {# @var order \App\Entity\Order #}
-                            <a href="{{ easyadmin_path(order, {'action': 'show'}) }}">#{{ order.id }}</a>
+                            <a href="{{ easyadmin_path(order, 'show') }}">#{{ order.id }}</a>
                             {%- if not loop.last %}, {% endif -%}
                         {%- endfor -%}
                     </td>
                     <td>
-                        <a href="{{ easyadmin_path('Supply', {'part': part.id, 'quantity': deficit.quantity}) }}">
+                        <a href="{{ easyadmin_path('Supply', 'new', {'part': part.id, 'quantity': deficit.quantity}) }}">
                             <i class="fa fa-truck"></i>
                         </a>
                     </td>

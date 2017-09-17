@@ -1,15 +1,17 @@
-{% import 'easy_admin/macro/icon.html.twig' as icon %}
-
 {# @var item \App\Entity\OrderItemService #}
 
 <tr>
     <td style="{% include 'easy_admin/order/item/padding.html.twig' with {'level': level} %}">
-        {{ icon.link('wrench', item.service|easyadmin_path) }}
+        <a href="{{ easyadmin_path(item.service, 'edit') }}">
+            <i class="fa fa-wrench"></i>
+        </a>
 
         {{ item.service.name }}
 
         {% if order.editable %}
-            {{ icon.link('plus', easyadmin_path('OrderItemPart', {'order_id': order.id,'parent_id': item.id})) }}
+            <a href="{{ easyadmin_path('OrderItemPart', 'new', {'order_id': order.id,'parent_id': item.id}) }}">
+                <i class="fa fa-plus"></i>
+            </a>
         {% endif %}
     </td>
     <td>{{ item.worker }}</td>
@@ -20,10 +22,11 @@
     {% if order.editable %}
         <td>-</td>
         <td>
-            {{ icon.link('pencil', item|easyadmin_path) }}
+            <a href="{{ easyadmin_path(item, 'edit') }}">
+                <i class="fa fa-pencil"></i>
+            </a>
 
-            <form action="{{ item|easyadmin_path({
-                'action': 'recommend',
+            <form action="{{ easyadmin_path(item, 'recommend', {
                 'order_id': order.id
             }) }}" method="post" style="display: inline">
                 <i class="fa fa-asterisk icon-form-submit" style="cursor: pointer"></i>

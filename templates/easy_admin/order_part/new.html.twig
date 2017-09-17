@@ -49,7 +49,7 @@
     {{ parent() }}
 
     <script type="text/javascript">
-        var url = "{{ easyadmin_entity_path('Part')|raw }}",
+        var url = "{{ easyadmin_path('Part', 'new')|raw }}",
             partInput = $("#{{ form.part.children.autocomplete.vars.id }}"),
             costInput = $("#{{ form.price.vars.id }}");
 

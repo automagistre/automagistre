@@ -1,7 +1,5 @@
 {% extends '@EasyAdmin/default/show.html.twig' %}
 
-{% import 'easy_admin/macro/icon.html.twig' as icon %}
-
 {% set order = entity %}
 {% set car = order.car %}
 
@@ -21,7 +19,9 @@
                             Основная информация по заказу №{{ order.id }}
 
                             {% if order.editable %}
-                                {{ icon.link('pencil', order|easyadmin_path) }}
+                                <a href="{{ easyadmin_path(order, 'edit') }}">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
                             {% endif %}
                         </h3>
                     </div>
@@ -97,19 +97,19 @@
             {%- spaceless -%}
                 Работы
                 {%- if order.editable %}
-                    <a href="{{ easyadmin_path('OrderItemService', {'order_id': order.id}) }}">
+                    <a href="{{ easyadmin_path('OrderItemService', 'new', {'order_id': order.id}) }}">
                         <i class="fa fa-plus"></i>
                     </a>
                 {%- endif %}
                 / Запчасти
                 {% if order.editable -%}
-                    <a href="{{ easyadmin_path('OrderItemPart', {'order_id': order.id}) }}">
+                    <a href="{{ easyadmin_path('OrderItemPart', 'new', {'order_id': order.id}) }}">
                         <i class="fa fa-plus"></i>
                     </a>
                 {%- endif %}
                 / Группа
                 {% if order.editable %}
-                    <a href="{{ easyadmin_path('OrderItemGroup', {'order_id': order.id}) }}">
+                    <a href="{{ easyadmin_path('OrderItemGroup', 'new', {'order_id': order.id}) }}">
                         <i class="fa fa-plus"></i>
                     </a>
                 {% endif %}
@@ -148,7 +148,7 @@
                 {%- spaceless -%}
                     Рекомендации
 
-                    <a href="{{ easyadmin_path('CarRecommendation', {'car_id': order.car.id}) }}">
+                    <a href="{{ easyadmin_path('CarRecommendation', 'new', {'car_id': order.car.id}) }}">
                         <i class="fa fa-plus"></i>
                     </a>
                 {%- endspaceless -%}
@@ -174,27 +174,32 @@
 
                                     <tr>
                                         <td>
-                                            {{ icon.link('asterisk', easyadmin_path(recommendation.service), true) }}
+                                            <a href="{{ easyadmin_path(recommendation.service, 'edit') }}">
+                                                <i class="fa fa-asterisk"></i>
+                                            </a>
 
                                             {{ recommendation.service.name }}
 
-                                            {{ icon.link('plus', easyadmin_path('CarRecommendationPart', {'recommendation_id': recommendation.id})) }}
+                                            <a href="{{ easyadmin_path('CarRecommendationPart', 'new', {'recommendation_id': recommendation.id}) }}">
+                                                <i class="fa fa-plus"></i>
+                                            </a>
                                         </td>
                                         <td>{{ recommendation.price|localize_money }}</td>
                                         <td>
                                             {% if recommendation.worker is not empty %}
-                                                <a href="{{ recommendation.worker|easyadmin_path({'action': 'show'}) }}">
+                                                <a href="{{ easyadmin_path(recommendation.worker, 'show') }}">
                                                     {{ recommendation.worker.fullName }}
                                                 </a>
                                             {% endif %}
                                         </td>
                                         <td>{{ recommendation.createdAt|localizeddate('medium', 'none') }}</td>
                                         <td>
-                                            {{ icon.link('pencil', recommendation|easyadmin_path) }}
+                                            <a href="{{ easyadmin_path(recommendation, 'edit') }}">
+                                                <i class="fa fa-pencil"></i>
+                                            </a>
 
                                             {% if order.editable %}
-                                                <form action="{{ recommendation|easyadmin_path({
-                                                    'action': 'realize',
+                                                <form action="{{ easyadmin_path(recommendation, 'realize', {
                                                     'order_id': order.id
                                                 }) }}" method="post" style="display: inline">
                                                     <i class="fa fa-wrench icon-form-submit"
@@ -207,14 +212,19 @@
                                             {# @var part \App\Entity\CarRecommendationPart #}
                                             {{ '</tr><tr>' }}
                                             <td style="padding-left: 40px">
-                                                {{ icon.link('barcode', part.part|easyadmin_path) }}
-
+                                                <a href="easyadmin_path(part.part, 'edit')">
+                                                    <i class="fa fa-barcode"></i>
+                                                </a>
                                                 {{ part.part.name }}
                                             </td>
                                             <td>{{ part.totalPrice|localize_money }}</td>
                                             <td>{{ part.selector.person.fullName }}</td>
                                             <td>{{ part.createdAt|localizeddate('medium', 'none') }}</td>
-                                            <td>{{ icon.link('pencil', part|easyadmin_path) }}</td>
+                                            <td>
+                                                <a href="{{ easyadmin_path(part, 'edit') }}">
+                                                    <i class="fa fa-pencil"></i>
+                                                </a>
+                                            </td>
                                         {% endfor %}
                                     </tr>
                                 {% endfor %}
