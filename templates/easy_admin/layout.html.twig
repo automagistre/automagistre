@@ -5,7 +5,7 @@
 
     <footer class="main-footer">
         <div class="pull-right hidden-xs">
-            Сборка <b>{{ build() }}</b> от {{ build_time()|localizeddate('medium', 'short') }}
+            Сборка <b>{{ build() }}</b> от {{ build_time()|localizeddate('medium', 'short', null, 'GMT+3') }}
         </div>
         <strong>Copyright © 2017 <a href="//www.automagistre.ru">Автомагистр</a>.</strong>
     </footer>
