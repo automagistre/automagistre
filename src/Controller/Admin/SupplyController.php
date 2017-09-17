@@ -15,18 +15,19 @@ final class SupplyController extends AdminController
 {
     protected function createNewEntity()
     {
+        $model = new SupplyModel();
+
         $requestQuery = $this->request->query;
 
-        $parameters = [];
-        if ($part = $requestQuery->get('part')) {
-            $parameters['part'] = $this->em->getRepository(Part::class)->find($part);
+        if ($part = $this->getEntity(Part::class)) {
+            $model->part = $part;
         }
 
         if ($quantity = $requestQuery->getInt('quantity')) {
-            $parameters['quantity'] = $quantity;
+            $model->quantity = $quantity;
         }
 
-        return new SupplyModel($parameters);
+        return $model;
     }
 
     /**
