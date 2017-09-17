@@ -24,7 +24,7 @@ abstract class AdminController extends EasyAdminController
     /**
      * @required
      */
-    public function setEntityTransformer(EntityTransformer $entityTransformer)
+    public function setEntityTransformer(EntityTransformer $entityTransformer): void
     {
         $this->entityTransformer = $entityTransformer;
     }
