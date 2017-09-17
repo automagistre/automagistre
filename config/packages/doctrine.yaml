@@ -13,7 +13,7 @@ doctrine:
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
-        naming_strategy: doctrine.orm.naming_strategy.underscore
+        naming_strategy: App\Doctrine\ORM\Mapping\NamespaceNamingStrategy
         auto_mapping: false
         mappings:
             App:
