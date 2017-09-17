@@ -50,7 +50,7 @@ class AppExtension extends \Twig_Extension
     public function buildTime(): \DateTimeImmutable
     {
         if ($time = getenv('APP_BUILD_TIME')) {
-            return \DateTimeImmutable::createFromFormat(DATE_RFC3339, $time);
+            return \DateTimeImmutable::createFromFormat(DATE_RFC2822, $time);
         }
 
         return new \DateTimeImmutable();
