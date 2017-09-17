@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\Identity;
 use App\Entity\Traits\Price;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
@@ -13,16 +14,8 @@ use Money\Money;
  */
 class Service
 {
+    use Identity;
     use Price;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
 
     /**
      * @var string
@@ -40,11 +33,6 @@ class Service
     public function __toString(): string
     {
         return $this->getName();
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
     }
 
     public function getName(): string

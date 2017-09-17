@@ -4,24 +4,17 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Uuid\UuidGenerator;
+use App\Entity\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;
 use Money\Money;
-use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
  */
 class IncomePart
 {
-    /**
-     * @var UuidInterface
-     *
-     * @ORM\Id
-     * @ORM\Column(type="uuid_binary")
-     */
-    private $id;
+    use Identity;
 
     /**
      * @var Income
@@ -60,18 +53,11 @@ class IncomePart
 
     public function __construct(Income $income, Part $part, Money $price, int $quantity)
     {
-        $this->id = UuidGenerator::generate();
-
         $this->income = $income;
         $this->part = $part;
         $this->price = (int) $price->getAmount();
         $this->currency = $price->getCurrency()->getCode();
         $this->quantity = $quantity;
-    }
-
-    public function getId(): UuidInterface
-    {
-        return $this->id;
     }
 
     public function getIncome(): Income

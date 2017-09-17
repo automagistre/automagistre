@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\Identity;
 use App\Entity\Traits\Price;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -16,16 +17,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Part
 {
+    use Identity;
     use Price;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
 
     /**
      * @var Manufacturer
@@ -100,11 +93,6 @@ class Part
     public function __toString(): string
     {
         return (string) $this->getName();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getManufacturer(): ?Manufacturer

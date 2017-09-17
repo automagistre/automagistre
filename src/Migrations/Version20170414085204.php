@@ -28,9 +28,9 @@ class Version20170414085204 extends AbstractMigration
         $this->addSql('ALTER TABLE car_recommendation_part MODIFY selector_id INT DEFAULT NULL');
         $this->addSql('UPDATE car_recommendation_part SET selector_id = NULL');
 
-        $this->addSql('ALTER TABLE order_part CHANGE selector_id selector_id BINARY(16) DEFAULT NULL COMMENT \'(DC2Type:uuid_binary)\'');
+        $this->addSql('ALTER TABLE order_part CHANGE selector_id selector_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE order_part ADD CONSTRAINT FK_4FE4AD1706C1B43 FOREIGN KEY (selector_id) REFERENCES users (id)');
-        $this->addSql('ALTER TABLE car_recommendation_part CHANGE selector_id selector_id BINARY(16) DEFAULT NULL COMMENT \'(DC2Type:uuid_binary)\'');
+        $this->addSql('ALTER TABLE car_recommendation_part CHANGE selector_id selector_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE car_recommendation_part ADD CONSTRAINT FK_DDC72D65706C1B43 FOREIGN KEY (selector_id) REFERENCES users (id)');
     }
 

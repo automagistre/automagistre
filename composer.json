@@ -32,7 +32,6 @@
         "javiereguiluz/easyadmin-bundle": "^1.16.12",
         "misd/phone-number-bundle": "^1.2.0",
         "moneyphp/money": "^3.0.7",
-        "ramsey/uuid-doctrine": "^1.4.1",
         "sensio/distribution-bundle": "^5.0.21",
         "sensio/framework-extra-bundle": "^3.0.27",
         "sentry/sentry-symfony": "^0.8.6",

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Enum\OrderStatus;
+use App\Entity\Traits\Identity;
 use App\Money\PriceInterface;
 use App\Money\TotalPriceInterface;
 use DateTime;
@@ -20,14 +21,7 @@ use Money\Money;
  */
 class Order
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    use Identity;
 
     /**
      * @var OrderItem[]|ArrayCollection
@@ -153,11 +147,6 @@ class Order
     public function __toString(): string
     {
         return (string) $this->getId();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function addItem(OrderItem $item): void

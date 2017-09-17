@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\Identity;
 use App\Money\PriceInterface;
 use App\Money\TotalPriceInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -23,20 +24,14 @@ use Money\Money;
  */
 abstract class OrderItem
 {
+    use Identity;
+
     /**
      * @var OrderItem[]|ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\OrderItem", mappedBy="parent", cascade={"persist"}, orphanRemoval=true)
      */
     protected $children;
-    /**
-     * @var int
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
 
     /**
      * @var Order
@@ -66,11 +61,6 @@ abstract class OrderItem
         $this->children = new ArrayCollection();
 
         $this->order = $order;
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
     }
 
     public function getOrder(): Order

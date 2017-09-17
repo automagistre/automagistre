@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,14 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Motion
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    use Identity;
 
     /**
      * @var int
@@ -54,11 +48,6 @@ class Motion
         $this->part = $part;
         $this->quantity = $quantity;
         $this->order = $order;
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getQuantity(): int

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\Identity;
 use App\Entity\Traits\Price;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,16 +15,8 @@ use Money\Money;
  */
 class CarRecommendation
 {
+    use Identity;
     use Price;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
 
     /**
      * @var Car
@@ -95,11 +88,6 @@ class CarRecommendation
     public function __toString(): string
     {
         return $this->service->getName();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getCar(): ?Car

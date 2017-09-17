@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Uuid\UuidGenerator;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
-use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
@@ -16,10 +14,11 @@ use Ramsey\Uuid\UuidInterface;
 class User extends BaseUser
 {
     /**
-     * @var UuidInterface
+     * @var int
      *
      * @ORM\Id
-     * @ORM\Column(type="uuid_binary")
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     protected $id;
 
@@ -35,7 +34,6 @@ class User extends BaseUser
     {
         parent::__construct();
 
-        $this->id = UuidGenerator::generate();
         $this->person = $person;
     }
 

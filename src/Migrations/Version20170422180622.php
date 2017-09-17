@@ -33,7 +33,7 @@ class Version20170422180622 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE supply ADD created_by_id BINARY(16) DEFAULT NULL COMMENT \'(DC2Type:uuid_binary)\'');
+        $this->addSql('ALTER TABLE supply ADD created_by_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE supply ADD CONSTRAINT FK_D219948CB03A8386 FOREIGN KEY (created_by_id) REFERENCES users (id)');
         $this->addSql('CREATE INDEX IDX_D219948CB03A8386 ON supply (created_by_id)');
     }

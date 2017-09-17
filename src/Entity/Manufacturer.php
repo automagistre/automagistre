@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,14 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Manufacturer
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    use Identity;
 
     /**
      * @var string
@@ -44,25 +38,11 @@ class Manufacturer
         return (string) $this->getName();
     }
 
-    /**
-     * @return int
-     */
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
     public function setName(string $name): void
     {
         $this->name = $name;

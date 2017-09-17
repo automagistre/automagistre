@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\Identity;
 use App\Entity\Traits\Price;
 use App\Money\TotalPriceInterface;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,16 +15,8 @@ use Money\Money;
  */
 class CarRecommendationPart implements TotalPriceInterface
 {
+    use Identity;
     use Price;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
 
     /**
      * @var CarRecommendation
@@ -76,11 +69,6 @@ class CarRecommendationPart implements TotalPriceInterface
         $this->changePrice($price);
         $this->selector = $selector;
         $this->createdAt = new \DateTime();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getRecommendation(): CarRecommendation

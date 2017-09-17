@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Entity\Enum\Carcase;
 use App\Entity\Enum\CarTransmission;
 use App\Entity\Enum\CarWheelDrive;
+use App\Entity\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -15,14 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class CarModification
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    use Identity;
 
     /**
      * @var CarGeneration
@@ -133,14 +127,6 @@ class CarModification
             $this->getTill() ?: '...',
             $case ? $case->getName() : ''
         );
-    }
-
-    /**
-     * @return int
-     */
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getName(): ?string

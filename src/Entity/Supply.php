@@ -4,24 +4,17 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Uuid\UuidGenerator;
+use App\Entity\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;
 use Money\Money;
-use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
  */
 class Supply
 {
-    /**
-     * @var UuidInterface
-     *
-     * @ORM\Id
-     * @ORM\Column(type="uuid_binary")
-     */
-    private $id;
+    use Identity;
 
     /**
      * @var Operand
@@ -77,17 +70,11 @@ class Supply
 
     public function __construct(Operand $supplier, Part $part, Money $price, int $quantity)
     {
-        $this->id = UuidGenerator::generate();
         $this->supplier = $supplier;
         $this->part = $part;
         $this->price = (int) $price->getAmount();
         $this->quantity = $quantity;
         $this->createdAt = new \DateTime();
-    }
-
-    public function getId(): UuidInterface
-    {
-        return $this->id;
     }
 
     public function getSupplier(): Operand

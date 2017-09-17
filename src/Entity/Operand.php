@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -14,21 +15,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 abstract class Operand
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    use Identity;
 
     abstract public function getFullName(): string;
 
     abstract public function getTelephone(): ?string;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 }

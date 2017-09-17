@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\Identity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,14 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Car
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    use Identity;
 
     /**
      * @var CarModel
@@ -61,6 +55,8 @@ class Car
     private $owner;
 
     /**
+     * license plate.
+     *
      * @var string
      *
      * @ORM\Column(nullable=true)
@@ -112,14 +108,6 @@ class Car
     public function __toString(): string
     {
         return sprintf('%s, (%s)', $this->getCarModificationDisplayName(), $this->getGosnomer());
-    }
-
-    /**
-     * @return int
-     */
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     /**

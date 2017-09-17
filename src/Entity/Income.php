@@ -4,24 +4,17 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Uuid\UuidGenerator;
+use App\Entity\Traits\Identity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
-use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
  */
 class Income
 {
-    /**
-     * @var UuidInterface
-     *
-     * @ORM\Id
-     * @ORM\Column(type="uuid_binary")
-     */
-    private $id;
+    use Identity;
 
     /**
      * @var Operand
@@ -54,7 +47,6 @@ class Income
 
     public function __construct(Operand $supplier, array $incomeParts, User $createdBy)
     {
-        $this->id = UuidGenerator::generate();
         $this->createdAt = new \DateTime();
 
         $this->supplier = $supplier;
@@ -64,11 +56,6 @@ class Income
         foreach ($incomeParts as [$part, $price, $quantity]) {
             $this->incomeParts[] = new IncomePart($this, $part, $price, $quantity);
         }
-    }
-
-    public function getId(): UuidInterface
-    {
-        return $this->id;
     }
 
     public function getSupplier(): Operand
