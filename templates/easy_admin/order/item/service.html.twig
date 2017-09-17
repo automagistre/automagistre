@@ -9,7 +9,7 @@
         {{ item.service.name }}
 
         {% if order.editable %}
-            <a href="{{ easyadmin_path('OrderItemPart', 'new', {'order_id': order.id,'parent_id': item.id}) }}">
+            <a href="{{ easyadmin_path('OrderItemPart', 'new', (order|to_query)|merge({'order_item_id': item.id})) }}">
                 <i class="fa fa-plus"></i>
             </a>
         {% endif %}

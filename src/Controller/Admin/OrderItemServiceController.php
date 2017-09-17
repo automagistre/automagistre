@@ -53,21 +53,15 @@ final class OrderItemServiceController extends AdminController
 
     protected function createNewEntity()
     {
-        $orderId = $this->request->query->get('order_id');
-        if (!$orderId) {
-            throw new BadRequestHttpException('Order_id is required');
-        }
-
-        $order = $this->em->getRepository(Order::class)->find($orderId);
-        if (!$order) {
-            throw new NotFoundHttpException();
+        if (!$order = $this->getEntity(Order::class)) {
+            throw new BadRequestHttpException('Order not found');
         }
 
         $model = new OrderService();
         $model->order = $order;
 
-        if ($parentId = $this->request->query->get('parent_id')) {
-            $model->parent = $this->em->getRepository(OrderItem::class)->find($parentId);
+        if ($parent = $this->getEntity(OrderItem::class)) {
+            $model->parent = $parent;
         }
 
         return $model;

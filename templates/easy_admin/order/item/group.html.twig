@@ -1,5 +1,3 @@
-{% import 'easy_admin/macro/icon.html.twig' as icon %}
-
 {# @var item \App\Entity\OrderItemGroup #}
 
 <tr>
@@ -9,13 +7,15 @@
         {{ item.name }}
 
         {% if order.editable %}
-            <a href="{{ easyadmin_path('OrderItemGroup', 'new', {'order_id': order.id, 'parent_id': item.id}) }}">
+            {% set urlParams = (order|to_query)|merge({'order_item_id': item.id}) %}
+
+            <a href="{{ easyadmin_path('OrderItemGroup', 'new', urlParams) }}">
                 <i class="fa fa-folder"></i>
             </a>
-            <a href="{{ easyadmin_path('OrderItemService', 'new', {'order_id': order.id, 'parent_id': item.id}) }}">
+            <a href="{{ easyadmin_path('OrderItemService', 'new', urlParams) }}">
                 <i class="fa fa-wrench"></i>
             </a>
-            <a href="{{ easyadmin_path('OrderItemPart', 'new', {'order_id': order.id, 'parent_id': item.id}) }}">
+            <a href="{{ easyadmin_path('OrderItemPart', 'new', urlParams) }}">
                 <i class="fa fa-barcode"></i>
             </a>
         {% endif %}

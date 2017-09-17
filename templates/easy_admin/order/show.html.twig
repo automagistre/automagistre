@@ -109,7 +109,7 @@
                 {%- endif %}
                 / Группа
                 {% if order.editable %}
-                    <a href="{{ easyadmin_path('OrderItemGroup', 'new', {'order_id': order.id}) }}">
+                    <a href="{{ easyadmin_path('OrderItemGroup', 'new', order|to_query) }}">
                         <i class="fa fa-plus"></i>
                     </a>
                 {% endif %}
