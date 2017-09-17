@@ -15,9 +15,6 @@
             "vendor/symfony/symfony/src/Symfony/Component/VarDumper/Resources/functions/dump.php"
         ]
     },
-    "provide": {
-        "ext-ast": "*"
-    },
     "require": {
         "php": ">=7.1",
         "ext-mbstring": "*",
@@ -41,7 +38,6 @@
         "twig/twig": "^2.4.3"
     },
     "require-dev": {
-        "etsy/phan": "^0.9.4",
         "friendsofphp/php-cs-fixer": "^2.6.0",
         "phpstan/phpstan": "^0.8.5",
         "phpstan/phpstan-doctrine": "^0.8.0",
