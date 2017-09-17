@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\CreatedAt;
 use App\Entity\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -13,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 class PartnerSupplyImport
 {
     use Identity;
+    use CreatedAt;
 
     /**
      * @var string
@@ -28,24 +30,10 @@ class PartnerSupplyImport
      */
     private $date;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
     public function __construct(string $externalId, \DateTime $date)
     {
-        $this->createdAt = new \DateTime();
-
         $this->externalId = $externalId;
         $this->date = $date;
-    }
-
-    public function getCreatedAt(): \DateTime
-    {
-        return clone $this->createdAt;
     }
 
     public function getExternalId(): string

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\CreatedAt;
 use App\Entity\Traits\Identity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
@@ -15,6 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Car
 {
     use Identity;
+    use CreatedAt;
 
     /**
      * @var CarModel
@@ -78,13 +80,6 @@ class Car
     private $spriteId;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
-    /**
      * @var Order[]|ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="car")
@@ -100,7 +95,6 @@ class Car
 
     public function __construct()
     {
-        $this->createdAt = new \DateTime();
         $this->orders = new ArrayCollection();
         $this->recommendations = new ArrayCollection();
     }
@@ -257,14 +251,6 @@ class Car
     public function addRecommendation(CarRecommendation $recommendation): void
     {
         $this->recommendations[] = $recommendation;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedAt(): \DateTime
-    {
-        return $this->createdAt;
     }
 
     public function getCarModificationDisplayName(): string

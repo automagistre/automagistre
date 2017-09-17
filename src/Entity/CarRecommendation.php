@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\CreatedAt;
 use App\Entity\Traits\Identity;
 use App\Entity\Traits\Price;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -17,6 +18,7 @@ class CarRecommendation
 {
     use Identity;
     use Price;
+    use CreatedAt;
 
     /**
      * @var Car
@@ -67,16 +69,8 @@ class CarRecommendation
      */
     private $expiredAt;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
     public function __construct(Car $car, Service $service, Money $price, Operand $worker)
     {
-        $this->createdAt = new \DateTime();
         $this->parts = new ArrayCollection();
 
         $this->car = $car;
@@ -131,11 +125,6 @@ class CarRecommendation
     public function getExpiredAt(): ?\DateTime
     {
         return $this->expiredAt;
-    }
-
-    public function getCreatedAt(): \DateTime
-    {
-        return $this->createdAt;
     }
 
     public function realize(Order $order): void

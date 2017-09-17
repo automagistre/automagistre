@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\CreatedAt;
 use App\Entity\Traits\Identity;
 use App\Money\PriceInterface;
 use App\Money\TotalPriceInterface;
@@ -25,6 +26,7 @@ use Money\Money;
 abstract class OrderItem
 {
     use Identity;
+    use CreatedAt;
 
     /**
      * @var OrderItem[]|ArrayCollection
@@ -48,16 +50,8 @@ abstract class OrderItem
      */
     private $parent;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
     public function __construct(Order $order)
     {
-        $this->createdAt = new \DateTime();
         $this->children = new ArrayCollection();
 
         $this->order = $order;
@@ -89,11 +83,6 @@ abstract class OrderItem
     public function getChildren(): array
     {
         return $this->children->toArray();
-    }
-
-    public function getCreatedAt(): \DateTime
-    {
-        return clone $this->createdAt;
     }
 
     protected function getTotalPriceByClass(string $class, OrderItem $item = null): Money

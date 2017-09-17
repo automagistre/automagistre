@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\CreatedAt;
 use App\Entity\Traits\Identity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,6 +16,7 @@ use Money\Money;
 class Income
 {
     use Identity;
+    use CreatedAt;
 
     /**
      * @var Operand
@@ -38,17 +40,8 @@ class Income
      */
     private $createdBy;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
     public function __construct(Operand $supplier, array $incomeParts, User $createdBy)
     {
-        $this->createdAt = new \DateTime();
-
         $this->supplier = $supplier;
         $this->createdBy = $createdBy;
 
@@ -84,11 +77,6 @@ class Income
     public function setCreatedBy(User $createdBy): void
     {
         $this->createdBy = $createdBy;
-    }
-
-    public function getCreatedAt(): \DateTime
-    {
-        return clone $this->createdAt;
     }
 
     public function itemsCount(): int

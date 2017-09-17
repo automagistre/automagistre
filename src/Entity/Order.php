@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Enum\OrderStatus;
+use App\Entity\Traits\CreatedAt;
 use App\Entity\Traits\Identity;
 use App\Money\PriceInterface;
 use App\Money\TotalPriceInterface;
@@ -22,6 +23,7 @@ use Money\Money;
 class Order
 {
     use Identity;
+    use CreatedAt;
 
     /**
      * @var OrderItem[]|ArrayCollection
@@ -29,13 +31,6 @@ class Order
      * @ORM\OneToMany(targetEntity="App\Entity\OrderItem", mappedBy="order", cascade={"persist"}, orphanRemoval=true)
      */
     private $items;
-
-    /**
-     * @var DateTime
-     *
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
 
     /**
      * @var DateTime
@@ -141,7 +136,6 @@ class Order
     {
         $this->status = OrderStatus::DRAFT;
         $this->items = new ArrayCollection();
-        $this->createdAt = new \DateTime();
     }
 
     public function __toString(): string
@@ -202,11 +196,6 @@ class Order
     public function getNotes(): array
     {
         return $this->notes->toArray();
-    }
-
-    public function getCreatedAt(): ?DateTime
-    {
-        return clone $this->createdAt;
     }
 
     public function getClosedAt(): ?DateTime

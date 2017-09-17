@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\CreatedAt;
 use App\Entity\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;
@@ -15,6 +16,7 @@ use Money\Money;
 class Supply
 {
     use Identity;
+    use CreatedAt;
 
     /**
      * @var Operand
@@ -47,13 +49,6 @@ class Supply
     private $quantity;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
-    /**
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
@@ -74,7 +69,6 @@ class Supply
         $this->part = $part;
         $this->price = (int) $price->getAmount();
         $this->quantity = $quantity;
-        $this->createdAt = new \DateTime();
     }
 
     public function getSupplier(): Operand
@@ -95,11 +89,6 @@ class Supply
     public function getQuantity(): int
     {
         return $this->quantity;
-    }
-
-    public function getCreatedAt(): \DateTime
-    {
-        return clone $this->createdAt;
     }
 
     public function getReceivedBy(): ?User

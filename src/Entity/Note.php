@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\CreatedAt;
 use App\Entity\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -14,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Note
 {
     use Identity;
+    use CreatedAt;
 
     /**
      * @var Order
@@ -31,18 +33,6 @@ class Note
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
-    public function __construct()
-    {
-        $this->createdAt = new \DateTime();
-    }
 
     public function __toString(): string
     {
@@ -63,13 +53,5 @@ class Note
     public function getDescription(): string
     {
         return $this->description;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedAt(): \DateTime
-    {
-        return $this->createdAt;
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\CreatedAt;
 use App\Entity\Traits\Identity;
 use App\Entity\Traits\Price;
 use App\Money\TotalPriceInterface;
@@ -17,6 +18,7 @@ class CarRecommendationPart implements TotalPriceInterface
 {
     use Identity;
     use Price;
+    use CreatedAt;
 
     /**
      * @var CarRecommendation
@@ -49,13 +51,6 @@ class CarRecommendationPart implements TotalPriceInterface
      */
     private $selector;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
     public function __construct(
         CarRecommendation $recommendation,
         User $selector,
@@ -68,7 +63,6 @@ class CarRecommendationPart implements TotalPriceInterface
         $this->quantity = $quantity;
         $this->changePrice($price);
         $this->selector = $selector;
-        $this->createdAt = new \DateTime();
     }
 
     public function getRecommendation(): CarRecommendation
@@ -99,10 +93,5 @@ class CarRecommendationPart implements TotalPriceInterface
     public function getTotalPrice(): Money
     {
         return $this->getPrice()->multiply($this->quantity / 100);
-    }
-
-    public function getCreatedAt(): \DateTime
-    {
-        return clone $this->createdAt;
     }
 }

@@ -9,15 +9,12 @@ services:
         autoconfigure: true
 
     _instanceof:
-        Symfony\Component\HttpKernel\KernelInterface:
-            autowire: false
-        Exception:
-            autowire: false
-        Grachevko\Enum\Enum:
-            autowire: false
+        Doctrine\Common\EventSubscriber:
+            tags: { name: doctrine.event_subscriber }
 
     App\:
         resource: '../src'
+        exclude: '../src/{Entity,Model}'
     App\Controller\:
         resource: '../src/Controller'
         public: true
@@ -25,9 +22,6 @@ services:
             - { name: controller.service_arguments }
     App\Entity\:
         resource: '../src/Entity'
-        autowire: false
-    App\Model\:
-        resource: '../src/Model'
         autowire: false
 
     App\Part\Finder:
