@@ -11,7 +11,6 @@ use App\Entity\OrderItem;
 use App\Entity\OrderItemPart;
 use App\Entity\OrderItemService;
 use App\Entity\User;
-use App\Exception\DomainException;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
@@ -64,7 +63,7 @@ final class RecommendationManager
         $order = $orderService->getOrder();
 
         if (!$car = $order->getCar()) {
-            throw new DomainException('Can\' recommend service on undefined car');
+            throw new \DomainException('Can\' recommend service on undefined car');
         }
 
         $recommendation = new CarRecommendation(

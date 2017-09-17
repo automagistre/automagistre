@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Traits\Price;
-use App\Exception\DomainException;
 use App\Money\PriceInterface;
 use App\Money\TotalPriceInterface;
 use Doctrine\ORM\Mapping as ORM;
@@ -64,7 +63,7 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
     public function setPrice(Money $price): void
     {
         if (!$this->getOrder()->isEditable()) {
-            throw new DomainException('Can\'t change price on part on closed order.');
+            throw new \DomainException('Can\'t change price on part on closed order.');
         }
 
         $this->changePrice($price);
