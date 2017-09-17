@@ -13,7 +13,6 @@ use App\Model\WarehousePart;
 use App\Partner\Ixora\Finder;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
-use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
 use JavierEguiluz\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;

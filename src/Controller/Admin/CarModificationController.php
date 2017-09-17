@@ -6,7 +6,6 @@ namespace App\Controller\Admin;
 
 use App\Entity\CarModification;
 use Doctrine\ORM\QueryBuilder;
-use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**

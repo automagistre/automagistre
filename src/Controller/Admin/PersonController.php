@@ -6,7 +6,6 @@ namespace App\Controller\Admin;
 
 use App\Entity\Person;
 use Doctrine\ORM\QueryBuilder;
-use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
 use libphonenumber\PhoneNumberFormat;
 use Symfony\Component\HttpFoundation\JsonResponse;
 

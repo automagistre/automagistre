@@ -9,7 +9,6 @@ use App\Entity\Organization;
 use App\Entity\Person;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
-use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
 use libphonenumber\PhoneNumberFormat;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
