@@ -14,7 +14,7 @@ un-init:
 	rm -rf docker-compose.yml ./.env ./front/var
 re-init: un-init init
 
-install: install-backend install-frontend up db-wait migration fixtures permissions
+install: install-backend up db-wait migration fixtures permissions
 update: pull docker-build install
 
 permissions:
