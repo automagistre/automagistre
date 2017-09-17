@@ -24,7 +24,7 @@ pipeline:
                 docker build -t "automagistre/automagistre:${DRONE_BUILD_NUMBER}"
                 --label build=${DRONE_BUILD_NUMBER}
                 --build-arg APP_BUILD="$DRONE_BUILD_NUMBER"
-                --build-arg APP_BUILD_TIME=$(date --rfc-2822)
+                --build-arg APP_BUILD_TIME="`date --rfc-2822`"
                 .
 
     validate php-cs-fixer:
