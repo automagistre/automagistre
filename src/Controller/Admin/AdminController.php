@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use App\Request\EntityTransformer;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController as EasyAdminController;
 use JavierEguiluz\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 
@@ -15,6 +16,19 @@ use JavierEguiluz\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
  */
 abstract class AdminController extends EasyAdminController
 {
+    /**
+     * @var EntityTransformer
+     */
+    private $entityTransformer;
+
+    /**
+     * @required
+     */
+    public function setEntityTransformer(EntityTransformer $entityTransformer)
+    {
+        $this->entityTransformer = $entityTransformer;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -79,5 +93,10 @@ abstract class AdminController extends EasyAdminController
     {
         $this->em->persist($entity);
         $this->em->flush();
+    }
+
+    protected function getEntity(string $class)
+    {
+        return $this->entityTransformer->reverseTransform($class);
     }
 }
