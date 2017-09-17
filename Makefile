@@ -81,6 +81,7 @@ migrations-rollback:
 	docker-compose run --rm -e SKIP_ENTRYPOINT=true app console doctrine:migration:execute --down --no-interaction $(latest)
 migrations-diff:
 	docker-compose run --rm -e SKIP_ENTRYPOINT=true app console doctrine:migration:diff
+	@$(MAKE) cs > /dev/null
 	@$(MAKE) permissions > /dev/null
 migrations-diff-dry:
 	docker-compose run --rm -e SKIP_ENTRYPOINT=true app console doctrine:schema:update --dump-sql
@@ -113,8 +114,7 @@ yaml-lint:
 schema-check:
 	docker-compose run --rm -e APP_ENV=test -e APP_DEBUG=0 -e FIXTURES=false app console doctrine:schema:validate
 
-cache-clear:
-	@$(MAKE) cache-clear-exec || $(MAKE) cache-clear-run
+cache-clear: cache-clear-run
 cache-clear-run:
 	docker-compose run --rm --no-deps -e SKIP_ENTRYPOINT=true app console cache:clear --no-warmup
 	@$(MAKE) permissions > /dev/null
