@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Request\EntityTransformer;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController as EasyAdminController;
 use JavierEguiluz\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
+use Money\MoneyFormatter;
 
 /**
  * @method User getUser()
@@ -16,6 +17,10 @@ use JavierEguiluz\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
  */
 abstract class AdminController extends EasyAdminController
 {
+    /**
+     * @var MoneyFormatter
+     */
+    protected $moneyFormatter;
     /**
      * @var EntityTransformer
      */
@@ -27,6 +32,14 @@ abstract class AdminController extends EasyAdminController
     public function setEntityTransformer(EntityTransformer $entityTransformer): void
     {
         $this->entityTransformer = $entityTransformer;
+    }
+
+    /**
+     * @required
+     */
+    public function setMoneyFormatter(MoneyFormatter $moneyFormatter): void
+    {
+        $this->moneyFormatter = $moneyFormatter;
     }
 
     /**

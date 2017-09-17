@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Entity\Service;
-use App\Money\MoneyFormatter;
 use Doctrine\ORM\QueryBuilder;
-use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController;
 use Money\Currency;
 use Money\Money;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,16 +15,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 final class ServiceController extends AdminController
 {
-    /**
-     * @var MoneyFormatter
-     */
-    private $moneyFormatter;
-
-    public function __construct(MoneyFormatter $moneyFormatter)
-    {
-        $this->moneyFormatter = $moneyFormatter;
-    }
-
     /**
      * {@inheritdoc}
      */

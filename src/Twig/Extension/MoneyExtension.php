@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Twig\Extension;
 
-use App\Money\MoneyFormatter;
 use Money\Money;
+use Money\MoneyFormatter;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
