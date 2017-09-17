@@ -26,7 +26,7 @@
         "egeloen/ckeditor-bundle": "^5.0.3",
         "friendsofsymfony/user-bundle": "^2.0.1",
         "grachevko/enum": "^0.9.0",
-        "javiereguiluz/easyadmin-bundle": "^1.16.12",
+        "javiereguiluz/easyadmin-bundle": "^1.17.0",
         "misd/phone-number-bundle": "^1.2.0",
         "moneyphp/money": "^3.0.7",
         "sensio/distribution-bundle": "^5.0.21",

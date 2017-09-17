@@ -6,8 +6,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\User;
 use App\Request\EntityTransformer;
-use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController as EasyAdminController;
-use JavierEguiluz\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as EasyAdminController;
+use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Money\MoneyFormatter;
 
 /**
