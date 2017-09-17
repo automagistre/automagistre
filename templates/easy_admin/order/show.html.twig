@@ -212,7 +212,7 @@
                                             {# @var part \App\Entity\CarRecommendationPart #}
                                             {{ '</tr><tr>' }}
                                             <td style="padding-left: 40px">
-                                                <a href="easyadmin_path(part.part, 'edit')">
+                                                <a href="{{ easyadmin_path(part.part, 'edit') }}">
                                                     <i class="fa fa-barcode"></i>
                                                 </a>
                                                 {{ part.part.name }}
