@@ -74,7 +74,7 @@ composer-update-lock:
 
 fixtures:
 	docker-compose run --rm -e SKIP_ENTRYPOINT=true -e XDEBUG=false app console doctrine:fixtures:load --fixtures=src/DataFixtures/ORM/ --no-interaction
-migrations:
+migration:
 	docker-compose run --rm -e SKIP_ENTRYPOINT=true -e XDEBUG=false app console doctrine:migration:migrate --no-interaction --allow-no-migration
 migration-rollback:latest = $(shell docker-compose run --rm -e SKIP_ENTRYPOINT=true -e XDEBUG=false app console doctrine:migration:latest | tr '\r' ' ')
 migration-rollback:
