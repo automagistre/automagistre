@@ -25,3 +25,6 @@ framework:
 services:
     Symfony\Component\PropertyAccess\PropertyAccessorInterface:
         alias: property_accessor
+
+    Symfony\Component\HttpKernel\Controller\ArgumentResolverInterface:
+        alias: argument_resolver

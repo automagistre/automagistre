@@ -7,6 +7,7 @@ namespace App\Request;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\NamingStrategy;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -36,6 +37,13 @@ final class EntityTransformer
         $this->requestStack = $requestStack;
     }
 
+    /**
+     * @param $entity
+     *
+     * @throws \LogicException
+     *
+     * @return array
+     */
     public function transform($entity): array
     {
         if (!method_exists($entity, 'getId')) {
@@ -49,10 +57,18 @@ final class EntityTransformer
         return [$this->namingStrategy->joinKeyColumnName(ClassUtils::getClass($entity)) => $id];
     }
 
-    public function reverseTransform(string $class)
+    /**
+     * @param string       $class
+     * @param Request|null $request
+     *
+     * @return object|null
+     */
+    public function reverseTransform(string $class, Request $request = null)
     {
-        $request = $this->requestStack->getCurrentRequest();
         $query = $this->namingStrategy->joinKeyColumnName($class);
+        if (null === $request) {
+            $request = $this->requestStack->getCurrentRequest();
+        }
 
         if (!$id = $request->query->get($query)) {
             return null;

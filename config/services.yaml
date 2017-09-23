@@ -12,6 +12,9 @@ services:
         Doctrine\Common\EventSubscriber:
             tags: { name: doctrine.event_subscriber }
 
+        Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface:
+            tags: { name: controller.argument_value_resolver }
+
     App\:
         resource: '../src'
         exclude: '../src/{Entity,Model}'
@@ -20,9 +23,6 @@ services:
         public: true
         tags:
             - { name: controller.service_arguments }
-    App\Entity\:
-        resource: '../src/Entity'
-        autowire: false
 
     App\Part\Finder:
         arguments:

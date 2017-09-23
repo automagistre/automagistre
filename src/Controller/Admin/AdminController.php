@@ -9,6 +9,7 @@ use App\Request\EntityTransformer;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as EasyAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Money\MoneyFormatter;
+use Symfony\Component\HttpKernel\Controller\ArgumentResolverInterface;
 
 /**
  * @method User getUser()
@@ -21,10 +22,16 @@ abstract class AdminController extends EasyAdminController
      * @var MoneyFormatter
      */
     protected $moneyFormatter;
+
     /**
      * @var EntityTransformer
      */
     private $entityTransformer;
+
+    /**
+     * @var ArgumentResolverInterface
+     */
+    private $argumentResolver;
 
     /**
      * @required
@@ -40,6 +47,14 @@ abstract class AdminController extends EasyAdminController
     public function setMoneyFormatter(MoneyFormatter $moneyFormatter): void
     {
         $this->moneyFormatter = $moneyFormatter;
+    }
+
+    /**
+     * @required
+     */
+    public function setArgumentResolver(ArgumentResolverInterface $argumentResolver): void
+    {
+        $this->argumentResolver = $argumentResolver;
     }
 
     /**
@@ -99,7 +114,15 @@ abstract class AdminController extends EasyAdminController
             $methodName = str_replace('<EntityName>', '', $methodNamePattern);
         }
 
-        return call_user_func_array([$this, $methodName], $arguments);
+        try {
+            $resolvedArgs = $this->argumentResolver->getArguments($this->request, [$this, $methodName]);
+            if ($resolvedArgs) {
+                $arguments = array_merge($resolvedArgs, $arguments);
+            }
+        } catch (\RuntimeException $e) {
+        }
+
+        return parent::executeDynamicMethod($methodName, $arguments);
     }
 
     protected function persistEntity($entity): void
