@@ -123,20 +123,20 @@ final class PartController extends AdminController
 
             parent::newAction();
 
-            if ($entity instanceof Part) {
-                return $this->json([
-                    'id' => $entity->getId(),
-                    'name' => $entity->getName(),
-                    'number' => $entity->getNumber(),
-                    'manufacturer' => [
-                        'id' => $entity->getManufacturer()->getId(),
-                        'name' => $entity->getManufacturer()->getName(),
-                    ],
-                    'price' => $entity->getPrice(),
-                ]);
+            if (!$entity instanceof Part) {
+                throw new \LogicException('Part must be returned');
             }
 
-            throw new \LogicException('Part must be returned');
+            return $this->json([
+                'id' => $entity->getId(),
+                'name' => $entity->getName(),
+                'number' => $entity->getNumber(),
+                'manufacturer' => [
+                    'id' => $entity->getManufacturer()->getId(),
+                    'name' => $entity->getManufacturer()->getName(),
+                ],
+                'price' => $entity->getPrice(),
+            ]);
         }
 
         return parent::newAction();
