@@ -75,17 +75,6 @@ pipeline:
             branch:
                 exclude: master
 
-    validate yaml lint:
-        group: validate
-        image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
-        commands:
-            - /docker-entrypoint.sh console lint:yaml config
-        environment:
-            APP_ENV: 'test'
-        when:
-            branch:
-                exclude: master
-
 #    validate doctrine: &validate-doctrine
 #        group: validate
 #        image: automagistre/automagistre:${DRONE_BUILD_NUMBER}

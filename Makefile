@@ -96,7 +96,7 @@ migration-diff-dry:
 schema-update:
 	docker-compose run --rm -e SKIP_ENTRYPOINT=true -e XDEBUG=false app console doctrine:schema:update --force
 
-check: cs-check phpstan yaml-lint cache-clear schema-check phpunit-check
+check: cs-check phpstan cache schema-check phpunit-check
 
 cs:
 	docker-compose run --rm --no-deps -e SKIP_ENTRYPOINT=true -e XDEBUG=false app php-cs-fixer fix --config $(php_cs_config)
@@ -111,8 +111,6 @@ phpunit-check:
 	docker-compose run --rm -e APP_ENV=test -e APP_DEBUG=0 -e FIXTURES=false app phpunit
 requirements:
 	docker-compose run --rm --no-deps -e APP_ENV=test -e APP_DEBUG=0 -e FIXTURES=false app symfony_requirements
-yaml-lint:
-	docker-compose run --rm --no-deps -e APP_ENV=test -e APP_DEBUG=0 -e FIXTURES=false app console lint:yaml config
 schema-check:
 	docker-compose run --rm -e APP_ENV=test -e APP_DEBUG=0 -e FIXTURES=false app console doctrine:schema:validate
 
