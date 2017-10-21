@@ -59,7 +59,7 @@ pipeline:
         image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
         commands:
             - cd "$APP_DIR"
-            - phpstan analyse --level 5 --configuration phpstan.neon --no-progress src tests
+            - php -d memory_limit=-1 vendor/bin/phpstan analyse --level 5 --configuration phpstan.neon --no-progress src tests
         when:
             branch:
                 exclude: master
