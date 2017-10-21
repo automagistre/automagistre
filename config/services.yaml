@@ -10,10 +10,12 @@ services:
 
     _instanceof:
         Doctrine\Common\EventSubscriber:
-            tags: { name: doctrine.event_subscriber }
+            tags:
+                - { name: doctrine.event_subscriber }
 
         Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface:
-            tags: { name: controller.argument_value_resolver }
+            tags:
+                - { name: controller.argument_value_resolver, priority: 50 }
 
     App\:
         resource: '../src'
@@ -32,3 +34,6 @@ services:
         arguments:
             - '@csa_guzzle.client.ixora_ws'
             - '@serializer'
+
+    Symfony\Bridge\Doctrine\Form\DoctrineOrmTypeGuesser:
+        alias: easyadmin.form.guesser.missing_doctrine_orm_type_guesser

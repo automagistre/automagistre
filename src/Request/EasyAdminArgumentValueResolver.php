@@ -11,24 +11,18 @@ use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class EntityTransformerArgumentValueResolver implements ArgumentValueResolverInterface
+final class EasyAdminArgumentValueResolver implements ArgumentValueResolverInterface
 {
-    /**
-     * @var EntityTransformer
-     */
-    private $entityTransformer;
-
-    public function __construct(EntityTransformer $entityTransformer)
-    {
-        $this->entityTransformer = $entityTransformer;
-    }
+    const ATTRIBUTE = 'easyadmin_arguments';
 
     /**
      * {@inheritdoc}
      */
     public function supports(Request $request, ArgumentMetadata $argument): bool
     {
-        return $argument->getType() && $this->resolve($request, $argument)->current();
+        $arguments = $request->attributes->get(self::ATTRIBUTE);
+
+        return !empty($arguments) && array_key_exists($argument->getName(), $arguments);
     }
 
     /**
@@ -36,6 +30,6 @@ final class EntityTransformerArgumentValueResolver implements ArgumentValueResol
      */
     public function resolve(Request $request, ArgumentMetadata $argument): \Generator
     {
-        yield $this->entityTransformer->reverseTransform($argument->getType(), $request);
+        yield $request->attributes->get(self::ATTRIBUTE)[$argument->getName()];
     }
 }

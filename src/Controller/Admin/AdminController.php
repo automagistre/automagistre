@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use App\Request\EasyAdminArgumentValueResolver;
 use App\Request\EntityTransformer;
+use App\Utils\ArrayUtils;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as EasyAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Money\MoneyFormatter;
@@ -78,19 +80,15 @@ abstract class AdminController extends EasyAdminController
         if ($newForm->isSubmitted() && $newForm->isValid()) {
             $this->dispatch(EasyAdminEvents::PRE_PERSIST, ['entity' => $entity]);
 
-            $this->executeDynamicMethod('prePersist<EntityName>Entity', [$entity]);
+            $this->executeDynamicMethod('prePersist<EntityName>Entity', [
+                'entity' => $entity,
+            ]);
 
             $this->persistEntity($entity);
 
             $this->dispatch(EasyAdminEvents::POST_PERSIST, ['entity' => $entity]);
 
-            $refererUrl = $this->request->query->get('referer', '');
-
-            return !empty($refererUrl)
-                ? $this->redirect(urldecode($refererUrl))
-                : $this->redirect($this->generateUrl('easyadmin', [
-                    'action' => 'list', 'entity' => $this->entity['name'],
-                ]));
+            return $this->redirectToReferrer();
         }
 
         $this->dispatch(EasyAdminEvents::POST_NEW, [
@@ -114,12 +112,13 @@ abstract class AdminController extends EasyAdminController
             $methodName = str_replace('<EntityName>', '', $methodNamePattern);
         }
 
-        try {
-            $resolvedArgs = $this->argumentResolver->getArguments($this->request, [$this, $methodName]);
-            if ($resolvedArgs) {
-                $arguments = array_merge($resolvedArgs, $arguments);
-            }
-        } catch (\RuntimeException $e) {
+        if (ArrayUtils::isAssoc($arguments)) {
+            $this->request->attributes->set(EasyAdminArgumentValueResolver::ATTRIBUTE, $arguments);
+
+            $arguments = $this->argumentResolver->getArguments(
+                $this->request,
+                \Closure::fromCallable([$this, $methodName])
+            );
         }
 
         return parent::executeDynamicMethod($methodName, $arguments);
