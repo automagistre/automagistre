@@ -5,13 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Entity\User;
-use App\Request\EasyAdminArgumentValueResolver;
 use App\Request\EntityTransformer;
-use App\Utils\ArrayUtils;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as EasyAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
-use Money\MoneyFormatter;
-use Symfony\Component\HttpKernel\Controller\ArgumentResolverInterface;
 
 /**
  * @method User getUser()
@@ -21,19 +17,9 @@ use Symfony\Component\HttpKernel\Controller\ArgumentResolverInterface;
 abstract class AdminController extends EasyAdminController
 {
     /**
-     * @var MoneyFormatter
-     */
-    protected $moneyFormatter;
-
-    /**
      * @var EntityTransformer
      */
     private $entityTransformer;
-
-    /**
-     * @var ArgumentResolverInterface
-     */
-    private $argumentResolver;
 
     /**
      * @required
@@ -41,22 +27,6 @@ abstract class AdminController extends EasyAdminController
     public function setEntityTransformer(EntityTransformer $entityTransformer): void
     {
         $this->entityTransformer = $entityTransformer;
-    }
-
-    /**
-     * @required
-     */
-    public function setMoneyFormatter(MoneyFormatter $moneyFormatter): void
-    {
-        $this->moneyFormatter = $moneyFormatter;
-    }
-
-    /**
-     * @required
-     */
-    public function setArgumentResolver(ArgumentResolverInterface $argumentResolver): void
-    {
-        $this->argumentResolver = $argumentResolver;
     }
 
     /**
@@ -102,26 +72,6 @@ abstract class AdminController extends EasyAdminController
             'entity_fields' => $fields,
             'entity' => $entity,
         ]);
-    }
-
-    protected function executeDynamicMethod($methodNamePattern, array $arguments = [])
-    {
-        $methodName = str_replace('<EntityName>', $this->entity['name'], $methodNamePattern);
-
-        if (!is_callable([$this, $methodName])) {
-            $methodName = str_replace('<EntityName>', '', $methodNamePattern);
-        }
-
-        if (ArrayUtils::isAssoc($arguments)) {
-            $this->request->attributes->set(EasyAdminArgumentValueResolver::ATTRIBUTE, $arguments);
-
-            $arguments = $this->argumentResolver->getArguments(
-                $this->request,
-                \Closure::fromCallable([$this, $methodName])
-            );
-        }
-
-        return parent::executeDynamicMethod($methodName, $arguments);
     }
 
     protected function persistEntity($entity): void
