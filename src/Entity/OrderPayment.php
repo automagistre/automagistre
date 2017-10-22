@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  */
-final class OrderPayment
+class OrderPayment
 {
     use Identity;
     use CreatedAt;
