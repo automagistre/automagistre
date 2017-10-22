@@ -132,10 +132,18 @@ class Order
      */
     private $paycard;
 
+    /**
+     * @var OrderPayment[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\OrderPayment", mappedBy="order")
+     */
+    private $payments;
+
     public function __construct()
     {
         $this->status = OrderStatus::DRAFT;
         $this->items = new ArrayCollection();
+        $this->payments = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -233,7 +241,33 @@ class Order
         return $this->getStatus()->isEditable();
     }
 
-    protected function getTotalPriceByClass(string $class): Money
+    public function getTotalPayments(): Money
+    {
+        $money = new Money(0, new Currency('RUB'));
+        foreach ($this->payments as $payment) {
+            $money = $money->add($payment->getPayment()->getAmount());
+        }
+
+        return $money;
+    }
+
+    public function getTotalForPayment(): Money
+    {
+        return (new Money(0, new Currency('RUB')))
+            ->add($this->getTotalPartPrice())
+            ->add($this->getTotalServicePrice())
+            ->subtract($this->getTotalPayments());
+    }
+
+    /**
+     * @return OrderPayment[]
+     */
+    public function getPayments(): array
+    {
+        return $this->payments->toArray();
+    }
+
+    private function getTotalPriceByClass(string $class): Money
     {
         $items = $this->items->filter(function (OrderItem $item) use ($class) {
             return $item instanceof $class;

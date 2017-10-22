@@ -4,13 +4,20 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Entity\Operand;
 use App\Entity\Order;
+use App\Entity\OrderPayment;
 use App\Entity\Organization;
+use App\Entity\Payment;
 use App\Entity\Person;
+use App\Form\Type\PaymentType;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -26,6 +33,54 @@ final class OrderController extends AdminController
         }
 
         return parent::isActionAllowed($actionName);
+    }
+
+    public function paymentAction(): Response
+    {
+        $order = $this->getEntity(Order::class);
+        if (!$order instanceof Order) {
+            throw new BadRequestHttpException('Order is required');
+        }
+
+        $model = new \App\Form\Model\Payment();
+        $model->recipient = $this->em->getRepository(Operand::class)->find(1);
+        $model->description = '# Начисление по заказу #'.$order->getId();
+        $model->amount = $order->getTotalForPayment();
+
+        $form = $this->createForm(PaymentType::class, $model, [
+            'disable_recipient' => true,
+        ]);
+
+        $form->handleRequest($this->request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->transactional(function (EntityManagerInterface $em) use ($model, $order) {
+                /** @var Payment $lastPayment */
+                $lastPayment = $em->createQueryBuilder()
+                    ->select('payment')
+                    ->from(Payment::class, 'payment')
+                    ->where('payment.recipient = :recipient')
+                    ->orderBy('payment.id', 'DESC')
+                    ->setMaxResults(1)
+                    ->setParameter('recipient', $model->recipient)
+                    ->getQuery()
+                    ->getOneOrNullResult();
+
+                $subtotal = $lastPayment->getSubtotal()->add($model->amount);
+
+                $payment = new Payment($model->recipient, $model->description, $model->amount, $subtotal);
+                $em->persist(new OrderPayment($order, $payment));
+                $em->persist($payment);
+
+                return $payment;
+            });
+
+            return $this->redirectToReferrer();
+        }
+
+        return $this->render('easy_admin/order/payment.html.twig', [
+            'order' => $order,
+            'form' => $form->createView(),
+        ]);
     }
 
     protected function createSearchQueryBuilder(

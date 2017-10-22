@@ -82,6 +82,16 @@ abstract class AdminController extends EasyAdminController
 
     protected function getEntity(string $class)
     {
-        return $this->entityTransformer->reverseTransform($class);
+        $entity = $this->entityTransformer->reverseTransform($class);
+
+        if (null === $entity) {
+            $entity = $this->request->attributes->get('easyadmin')['item'];
+        }
+
+        if (!$entity instanceof $class) {
+            return null;
+        }
+
+        return $entity;
     }
 }

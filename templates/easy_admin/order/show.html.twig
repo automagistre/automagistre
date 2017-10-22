@@ -59,24 +59,12 @@
 
                                 <div class="col-sm-10">
                                     <div class="form-control">
-                                        {{ order.mileage }}
+                                        {{ order.mileage|number_format }}
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="field-group col-xs-12 col-sm-6">
-                <div class="box box-default">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">
-                            Описание
-                        </h3>
-                    </div>
-
-                    <div class="box-body">
                         <div class="form-horizontal">
                             <div class="form-group field-association ">
                                 <label class="col-sm-2 control-label">Описание</label>
@@ -88,8 +76,68 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="form-horizontal">
+                            <div class="form-group field-association ">
+                                <label class="col-sm-2 control-label">Итого</label>
+
+                                <div class="col-sm-10">
+                                    <div class="form-control">
+                                        {{ order.totalPartPrice|localize_money }}
+                                        + {{ order.totalServicePrice|localize_money }}
+                                        - {{ order.totalPayments|localize_money }}
+                                        = {{ order.totalForPayment|localize_money }}
+                                    </div>
+                                    <span class="help-block">Запчасти + Работа - Оплачено = К оплате</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="field-group col-xs-12 col-sm-6">
+                <div class="row" style="margin-bottom: 20px">
+                    <div class="col-md-12">
+                        <a href="{{ easyadmin_path(order, 'payment', {'referer': true}) }}" class="btn btn-primary">
+                            <i class="fa fa-money"></i>
+                            Платёж
+                        </a>
+                    </div>
+                </div>
+
+                {% if order.payments is not empty %}
+                    <div class="box box-default">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">
+                                Платежи
+                            </h3>
+                        </div>
+
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>№</th>
+                                <th>Сумма</th>
+                                <th>Описание</th>
+                                <th>Дата</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for orderPayment in order.payments %}
+                                {# @var payment \App\Entity\Payment #}
+                                {% set payment = orderPayment.payment %}
+                                <tr>
+                                    <td>{{ payment.id }}</td>
+                                    <td>{{ payment.amount|localize_money }}</td>
+                                    <td>{{ payment.description }}</td>
+                                    <td>{{ orderPayment.createdAt|localizeddate }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
             </div>
         </div>
 
