@@ -15,6 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
+use Money\Money;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -43,7 +44,7 @@ final class OrderController extends AdminController
         }
 
         $model = new \App\Form\Model\Payment();
-        $model->recipient = $this->em->getRepository(Operand::class)->find(1);
+        $model->recipient = $order->getCustomer();
         $model->description = '# Начисление по заказу #'.$order->getId();
         $model->amount = $order->getTotalForPayment();
 
@@ -53,25 +54,44 @@ final class OrderController extends AdminController
 
         $form->handleRequest($this->request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->em->transactional(function (EntityManagerInterface $em) use ($model, $order) {
-                /** @var Payment $lastPayment */
-                $lastPayment = $em->createQueryBuilder()
-                    ->select('payment')
-                    ->from(Payment::class, 'payment')
-                    ->where('payment.recipient = :recipient')
-                    ->orderBy('payment.id', 'DESC')
-                    ->setMaxResults(1)
-                    ->setParameter('recipient', $model->recipient)
-                    ->getQuery()
-                    ->getOneOrNullResult();
+            $this->em->transactional(function (EntityManagerInterface $em) use ($model, $order): void {
+                $calcSubtotal = function (Operand $recipient, Money $money) use ($em) {
+                    /** @var Payment $lastPayment */
+                    $lastPayment = $em->createQueryBuilder()
+                        ->select('payment')
+                        ->from(Payment::class, 'payment')
+                        ->where('payment.recipient = :recipient')
+                        ->orderBy('payment.id', 'DESC')
+                        ->setMaxResults(1)
+                        ->setParameter('recipient', $recipient)
+                        ->getQuery()
+                        ->getOneOrNullResult();
 
-                $subtotal = $lastPayment->getSubtotal()->add($model->amount);
+                    return $lastPayment->getSubtotal()->add($money);
+                };
 
-                $payment = new Payment($model->recipient, $model->description, $model->amount, $subtotal);
+                if (null !== $model->recipient) {
+                    $em->persist(new Payment(
+                        $model->recipient,
+                        $model->description,
+                        $model->amount,
+                        $calcSubtotal($model->recipient, $model->amount)
+                    ));
+                }
+
+                // 1 Касса, 2422 = Безнал
+                $cashbox = $em->getRepository(Operand::class)->find('cash' === $model->paymentType ? 1 : 2422);
+                $em->persist(
+                    $payment = new Payment(
+                        $cashbox,
+                        $model->description,
+                        $model->amount,
+                        $calcSubtotal($cashbox, $model->amount)
+                    )
+                );
+
                 $em->persist(new OrderPayment($order, $payment));
                 $em->persist($payment);
-
-                return $payment;
             });
 
             return $this->redirectToReferrer();
