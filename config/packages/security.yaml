@@ -23,7 +23,14 @@ security:
                 csrf_token_generator: security.csrf.token_manager
                 check_path: /account/login_check
                 login_path: /account/login
+
     access_control:
         - { path: ^/account, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/account/profile$, roles: IS_AUTHENTICATED_REMEMBERED }
         - { host: sto.automagistre.(ru|local), roles: ROLE_EMPLOYEE }
+
+    role_hierarchy:
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
+
+        ROLE_ADMIN:
+            - ROLE_EMPLOYEE
