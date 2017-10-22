@@ -128,7 +128,7 @@ flush-db:
 	docker-compose run --rm -e SKIP_ENTRYPOINT=true -e XDEBUG=false app console doctrine:database:create
 db-wait:
 	docker-compose run --rm -e COMPOSER_SCRIPT=false app echo OK
-restore-db:
+restore-db: flush-db
 	test -s ./var/backup.sql.gz || exit 1
 	docker-compose exec mysql bash -c "gunzip < /usr/local/app/var/backup.sql.gz | mysql db"
 ###< APP ###
