@@ -116,7 +116,7 @@ schema-check:
 
 cache: cache-warmup
 cache-clear:
-	docker-compose run --rm --no-deps -e SKIP_ENTRYPOINT=true -e XDEBUG=false app rm -rf ./var/cache/dev ./var/cache/test ./var/cache/prod
+	docker-compose run --rm --no-deps --entrypoint sh app -c "rm -rf ./var/cache/dev ./var/cache/test ./var/cache/prod"
 	@$(MAKE) permissions > /dev/null
 cache-warmup: cache-clear
 	docker-compose run --rm --no-deps -e SKIP_ENTRYPOINT=true -e XDEBUG=false app console cache:warmup
