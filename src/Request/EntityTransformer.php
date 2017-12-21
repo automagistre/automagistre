@@ -9,12 +9,18 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\NamingStrategy;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
 final class EntityTransformer
 {
+    /**
+     * @var PropertyAccessorInterface
+     */
+    private $propertyAccessor;
+
     /**
      * @var NamingStrategy
      */
@@ -30,40 +36,28 @@ final class EntityTransformer
      */
     private $requestStack;
 
-    public function __construct(NamingStrategy $namingStrategy, EntityManagerInterface $em, RequestStack $requestStack)
-    {
+    public function __construct(
+        PropertyAccessorInterface $propertyAccessor,
+        NamingStrategy $namingStrategy,
+        EntityManagerInterface $em,
+        RequestStack $requestStack
+    ) {
+        $this->propertyAccessor = $propertyAccessor;
         $this->namingStrategy = $namingStrategy;
         $this->em = $em;
         $this->requestStack = $requestStack;
     }
 
-    /**
-     * @param $entity
-     *
-     * @throws \LogicException
-     *
-     * @return array
-     */
-    public function transform($entity): array
+    public function transform(object $entity, ?string $id = null): array
     {
-        if (!method_exists($entity, 'getId')) {
-            throw new \LogicException('Entity must have getId() method');
-        }
-
-        if (!$id = $entity->getId()) {
-            throw new \LogicException('Entity must have id');
+        if (null === $id) {
+            $id = $this->propertyAccessor->getValue($entity, 'id');
         }
 
         return [$this->namingStrategy->joinKeyColumnName(ClassUtils::getClass($entity)) => $id];
     }
 
-    /**
-     * @param string       $class
-     * @param Request|null $request
-     *
-     * @return object|null
-     */
-    public function reverseTransform(string $class, Request $request = null)
+    public function reverseTransform(string $class, ?Request $request = null): ?object
     {
         $query = $this->namingStrategy->joinKeyColumnName($class);
         if (null === $request) {
@@ -74,10 +68,6 @@ final class EntityTransformer
             return null;
         }
 
-        if (!$entity = $this->em->getRepository($class)->find($id)) {
-            return null;
-        }
-
-        return $entity;
+        return $this->em->getRepository($class)->find($id);
     }
 }

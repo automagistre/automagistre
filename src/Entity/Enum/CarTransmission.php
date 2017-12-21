@@ -13,10 +13,10 @@ use Grachevko\Enum\Enum;
  */
 final class CarTransmission extends Enum
 {
-    const AUTOMATIC = 1;
-    const ROBOT = 2;
-    const VARIATOR = 3;
-    const MECHANICAL = 4;
+    private const AUTOMATIC = 1;
+    private const ROBOT = 2;
+    private const VARIATOR = 3;
+    private const MECHANICAL = 4;
 
     protected static $name = [
         self::AUTOMATIC => 'Автоматическая',

@@ -5,7 +5,7 @@ parameters:
 services:
     _defaults:
         public: false
-        autowire: by_id
+        autowire: true
         autoconfigure: true
 
     _instanceof:
@@ -26,7 +26,7 @@ services:
         tags:
             - { name: controller.service_arguments }
 
-    App\Part\Finder:
+    App\Partner\Ixora\Finder:
         arguments:
             - '@csa_guzzle.client.ixora_ws'
 

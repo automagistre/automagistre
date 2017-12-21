@@ -13,9 +13,9 @@ use Grachevko\Enum\Enum;
  */
 final class CarWheelDrive extends Enum
 {
-    const FRONT_WHEEL_DRIVE = 1;
-    const REAR_WHEEL_DRIVE = 2;
-    const ALL_WHEEL_DRIVE = 3;
+    private const FRONT_WHEEL_DRIVE = 1;
+    private const REAR_WHEEL_DRIVE = 2;
+    private const ALL_WHEEL_DRIVE = 3;
 
     protected static $name = [
         self::FRONT_WHEEL_DRIVE => 'Передний',

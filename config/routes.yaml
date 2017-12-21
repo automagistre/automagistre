@@ -1,0 +1,6 @@
+logout:
+    path: /logout
+
+app:
+    resource: '../src/Controller/DefaultController.php'
+    type: annotation

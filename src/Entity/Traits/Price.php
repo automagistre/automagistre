@@ -23,7 +23,7 @@ trait Price
     /**
      * @var string
      *
-     * @ ORM\Column()
+     * ORM\Column()
      */
     private $currency = 'RUB';
 

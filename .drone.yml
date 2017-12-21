@@ -23,7 +23,7 @@ pipeline:
             - >-
                 docker build -t "automagistre/automagistre:${DRONE_BUILD_NUMBER}"
                 --label build=${DRONE_BUILD_NUMBER}
-                --build-arg APP_BUILD="$DRONE_BUILD_NUMBER"
+                --build-arg APP_VERSION="$DRONE_BUILD_NUMBER"
                 --build-arg APP_BUILD_TIME="`date --rfc-2822`"
                 .
 
@@ -59,7 +59,11 @@ pipeline:
         image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
         commands:
             - cd "$APP_DIR"
-            - php -d memory_limit=-1 vendor/bin/phpstan analyse --level 5 --configuration phpstan.neon --no-progress src tests
+            - /docker-entrypoint.sh php -d memory_limit=-1 vendor/bin/phpstan analyse --level 6 --configuration phpstan.neon --no-progress src tests
+        environment:
+            APP_ENV: 'test'
+            APP_DEBUG: '1'
+            MIGRATIONS: 'false'
         when:
             branch:
                 exclude: master
@@ -71,6 +75,8 @@ pipeline:
             - /docker-entrypoint.sh symfony_requirements
         environment:
             APP_ENV: 'test'
+            APP_DEBUG: '0'
+            MIGRATIONS: 'false'
         when:
             branch:
                 exclude: master
@@ -82,6 +88,7 @@ pipeline:
 #            - /docker-entrypoint.sh console doctrine:schema:validate
 #        environment:
 #            APP_ENV: 'test'
+#            APP_DEBUG: '0'
 #            MIGRATIONS: 'true'
 #            WAIT_HOSTS: 'mysql:3306'
 
@@ -92,7 +99,8 @@ pipeline:
             - /docker-entrypoint.sh console doctrine:schema:create
         environment:
             APP_ENV: 'test'
-            MIGRATIONS: 'false'
+            APP_DEBUG: '0'
+            MIGRATIONS: 'true'
             WAIT_HOSTS: 'mysql:3306'
 
     test phpunit: &test-phpunit
@@ -103,7 +111,9 @@ pipeline:
             - /docker-entrypoint.sh phpunit
         environment:
             APP_ENV: 'test'
-            FIXTURES: 'false'
+            APP_DEBUG: '0'
+            FIXTURES: 'true'
+            MIGRATIONS: 'false'
 
     clean:
         <<: *docker

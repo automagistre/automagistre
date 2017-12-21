@@ -34,11 +34,7 @@ final class DivisoredNumberToLocalizedStringTransformer extends NumberToLocalize
     }
 
     /**
-     * @param float|int $value
-     *
-     * @throws TransformationFailedException
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function transform($value): string
     {
@@ -54,11 +50,7 @@ final class DivisoredNumberToLocalizedStringTransformer extends NumberToLocalize
     }
 
     /**
-     * @param string $value
-     *
-     * @throws TransformationFailedException
-     *
-     * @return int
+     * {@inheritdoc}
      */
     public function reverseTransform($value): int
     {

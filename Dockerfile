@@ -1,4 +1,4 @@
-FROM php:7.1.9-apache
+FROM php:7.2.0-apache-stretch
 
 LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 
@@ -16,15 +16,22 @@ RUN set -ex \
         openssh-client \
         zlib1g-dev \
         netcat \
-        libicu-dev \
+	\
+	&& curl http://download.icu-project.org/files/icu4c/60.1/icu4c-60_1-src.tgz -o /tmp/icu4c.tgz \
+	&& tar zxvf /tmp/icu4c.tgz > /dev/null \
+	&& cd icu/source \
+	&& ./configure --prefix=/opt/icu && make && make install \
+	\
+	&& docker-php-ext-configure intl --with-icu-dir=/opt/icu \
     && docker-php-ext-install zip intl pdo_mysql iconv opcache pcntl \
     && rm -rf ${PHP_INI_DIR}/conf.d/docker-php-ext-opcache.ini \
-    && pecl install xdebug apcu \
+    && pecl install xdebug-2.6.0alpha1 apcu \
+    \
     && rm -r /var/lib/apt/lists/*
 
 RUN a2enmod rewrite
 
-ENV COMPOSER_VERSION 1.5.2
+ENV COMPOSER_VERSION 1.5.6
 COPY docker/composer.sh ./composer.sh
 RUN ./composer.sh --install-dir=/usr/local/bin --filename=composer --version=${COMPOSER_VERSION}  \
     && composer global require "hirak/prestissimo:^0.3" \
@@ -45,8 +52,8 @@ COPY docker/bin/* /usr/local/bin/
 
 COPY ${SOURCE_DIR}/ ${APP_DIR}/
 
-ARG APP_BUILD=dev
-ENV APP_BUILD ${APP_BUILD}
+ARG APP_VERSION=dev
+ENV APP_VERSION ${APP_VERSION}
 ARG APP_BUILD_TIME=''
 ENV APP_BUILD_TIME ${APP_BUILD_TIME}
 

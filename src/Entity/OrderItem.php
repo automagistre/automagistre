@@ -18,9 +18,9 @@ use Money\Money;
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="integer")
  * @ORM\DiscriminatorMap({
- *     "1" = "App\Entity\OrderItemService",
- *     "2" = "App\Entity\OrderItemPart",
- *     "3" = "App\Entity\OrderItemGroup"
+ *     "1": "App\Entity\OrderItemService",
+ *     "2": "App\Entity\OrderItemPart",
+ *     "3": "App\Entity\OrderItemGroup"
  * })
  */
 abstract class OrderItem
@@ -62,12 +62,12 @@ abstract class OrderItem
         return $this->order;
     }
 
-    public function getParent(): ?OrderItem
+    public function getParent(): ?self
     {
         return $this->parent;
     }
 
-    public function setParent(OrderItem $item = null): void
+    public function setParent(self $item = null): void
     {
         $this->parent = $item;
     }
@@ -85,7 +85,7 @@ abstract class OrderItem
         return $this->children->toArray();
     }
 
-    protected function getTotalPriceByClass(string $class, OrderItem $item = null): Money
+    protected function getTotalPriceByClass(string $class, self $item = null): Money
     {
         $price = new Money(0, new Currency('RUB'));
 

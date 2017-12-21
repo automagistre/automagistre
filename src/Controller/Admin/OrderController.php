@@ -20,6 +20,9 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
+const COSTIL_CASSA = 1;
+const COSTIL_BEZNAL = 2422;
+
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
@@ -79,8 +82,10 @@ final class OrderController extends AdminController
                     ));
                 }
 
-                // 1 Касса, 2422 = Безнал
-                $cashbox = $em->getRepository(Operand::class)->find('cash' === $model->paymentType ? 1 : 2422);
+                $id = 'cash' === $model->paymentType ? COSTIL_CASSA : COSTIL_BEZNAL;
+
+                /** @var Operand $cashbox */
+                $cashbox = $em->getRepository(Operand::class)->find($id);
                 $em->persist(
                     $payment = new Payment(
                         $cashbox,
