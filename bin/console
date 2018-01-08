@@ -21,8 +21,8 @@ if (class_exists(Dotenv::class) && file_exists($env = dirname(__DIR__).'/.env'))
 }
 
 $input = new ArgvInput();
-$env = $input->getParameterOption(['--env', '-e'], getenv('SYMFONY_ENV') ?: 'dev');
-$debug = getenv('SYMFONY_DEBUG') !== '0' && !$input->hasParameterOption(['--no-debug', '']);
+$env = $input->getParameterOption(['--env', '-e'], getenv('APP_ENV') ?: 'dev');
+$debug = getenv('APP_DEBUG') !== '0' && !$input->hasParameterOption(['--no-debug', '']);
 
 if ($debug) {
     Debug::enable();

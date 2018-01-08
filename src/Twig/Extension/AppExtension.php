@@ -44,7 +44,7 @@ class AppExtension extends \Twig_Extension
 
     public function build(): string
     {
-        return getenv('APP_BUILD');
+        return getenv('APP_VERSION');
     }
 
     public function buildTime(): \DateTimeImmutable

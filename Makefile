@@ -140,13 +140,13 @@ cs-check:
 phpstan:
 	docker-compose run --rm -e APP_ENV=test -e XDEBUG=false -e WAIT_HOSTS=false app php -d memory_limit=-1 vendor/bin/phpstan analyse --level 6 --configuration phpstan.neon src tests
 phpunit:
-	docker-compose run --rm -e APP_ENV=test -e APP_DEBUG=1 -e FIXTURES=false -e XDEBUG=false app phpunit --debug --stop-on-failure
+	docker-compose run --rm -e APP_ENV=test -e APP_DEBUG=1 app phpunit --debug --stop-on-failure
 phpunit-check:
-	docker-compose run --rm -e APP_ENV=test -e APP_DEBUG=0 -e FIXTURES=false -e XDEBUG=false app phpunit
+	docker-compose run --rm -e APP_ENV=test -e APP_DEBUG=0 -e XDEBUG=false app phpunit
 requirements:
-	docker-compose run --rm --no-deps -e APP_ENV=test -e APP_DEBUG=0 -e FIXTURES=false -e XDEBUG=false app symfony_requirements
+	docker-compose run --rm --no-deps -e APP_ENV=test -e APP_DEBUG=0 -e XDEBUG=false app symfony_requirements
 schema-check:
-	docker-compose run --rm -e APP_ENV=test -e APP_DEBUG=0 -e FIXTURES=false -e XDEBUG=false app console doctrine:schema:validate
+	docker-compose run --rm -e APP_ENV=test -e APP_DEBUG=0 -e XDEBUG=false app console doctrine:schema:validate
 
 cache: cache-clear cache-warmup
 cache-test: cache-clear-test cache-warmup-test
