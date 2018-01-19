@@ -101,7 +101,7 @@ pipeline:
         environment:
             APP_ENV: 'test'
             APP_DEBUG: '0'
-            FIXTURES: 'true'
+            FIXTURES: 'false'
             MIGRATIONS: 'false'
 
     clean:
