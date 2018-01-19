@@ -38,7 +38,7 @@ final class DivisoredNumberToLocalizedStringTransformer extends NumberToLocalize
      */
     public function transform($value): string
     {
-        if (null !== $value) {
+        if ($value) {
             if (!is_numeric($value)) {
                 throw new TransformationFailedException('Expected a numeric.');
             }
@@ -56,7 +56,7 @@ final class DivisoredNumberToLocalizedStringTransformer extends NumberToLocalize
     {
         $value = parent::reverseTransform($value);
 
-        if (null !== $value) {
+        if ($value) {
             $value *= $this->divisor;
         }
 

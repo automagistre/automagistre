@@ -61,7 +61,7 @@ final class EntityModelTypeGuesser implements FormTypeGuesserInterface
             return;
         }
 
-        /** @var Model $class */
+        /* @var Model $class */
         return $this->guesser->{$method}($class::getEntityClass(), $property);
     }
 }
