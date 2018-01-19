@@ -1,3 +1,3 @@
 app:
-    resource: "../src/Controller/"
-    type:     annotation
+    resource: '../src/Controller/DefaultController.php'
+    type: annotation
