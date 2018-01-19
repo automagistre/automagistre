@@ -30,4 +30,4 @@ services:
             - { name: csa_guzzle.middleware, alias: ixora_logger }
 
 parameters:
-    env(IXORA_AUTH_CODE): null
+    env(IXORA_AUTH_CODE): ''
