@@ -115,6 +115,7 @@ final class PartController extends AdminController
     protected function newAction()
     {
         if ($this->request->isXmlHttpRequest() && $this->request->isMethod('POST')) {
+            /** @var Part|null $entity */
             $entity = null;
             $this->dispatcher
                 ->addListener(EasyAdminEvents::POST_PERSIST, function (GenericEvent $event) use (&$entity): void {

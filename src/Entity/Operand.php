@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="integer")
- * @ORM\DiscriminatorMap({"1" = "Person", "2" = "Organization"})
+ * @ORM\DiscriminatorMap({"1": "Person", "2": "Organization"})
  */
 abstract class Operand
 {

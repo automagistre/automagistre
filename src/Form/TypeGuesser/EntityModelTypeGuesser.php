@@ -55,19 +55,13 @@ final class EntityModelTypeGuesser implements FormTypeGuesserInterface
         return $this->guess(__FUNCTION__, $class, $property);
     }
 
-    /**
-     * @param string $method
-     * @param string $class
-     * @param string $property
-     *
-     * @return mixed
-     */
     private function guess(string $method, string $class, string $property)
     {
-        if (!$class instanceof Model) {
+        if (!is_subclass_of(Model::class, $class)) {
             return;
         }
 
+        /* @var Model $class */
         return $this->guesser->{$method}($class::getEntityClass(), $property);
     }
 }

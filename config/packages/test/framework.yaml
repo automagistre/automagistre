@@ -4,3 +4,6 @@ framework:
         storage_id: session.storage.mock_file
     profiler:
         collect: false
+
+parameters:
+    env(SECRET): ThisIsVerySuperSecretVariableForTests

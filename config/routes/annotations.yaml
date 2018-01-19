@@ -1,0 +1,3 @@
+app:
+    resource: '../src/Controller/DefaultController.php'
+    type: annotation

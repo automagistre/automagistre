@@ -1,8 +1,9 @@
 services:
     _defaults:
         public: false
-        autowire: by_id
+        autowire: true
 
+    NumberFormatter: '@number.formatter'
     number.formatter:
         class: NumberFormatter
         autowire: false
@@ -10,5 +11,9 @@ services:
             - '%locale%'
             - !php/const:NumberFormatter::CURRENCY
 
+    Money\Currencies: '@Money\Currencies\ISOCurrencies'
     Money\Currencies\ISOCurrencies: ~
+
+    Money\MoneyFormatter: '@Money\Formatter\IntlMoneyFormatter'
     Money\Formatter\IntlMoneyFormatter: ~
+

@@ -12,7 +12,7 @@ use App\Entity\OrderItemPart;
 use App\Entity\OrderItemService;
 use App\Entity\User;
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -25,11 +25,11 @@ final class RecommendationManager
     private $em;
 
     /**
-     * @var TokenStorage
+     * @var TokenStorageInterface
      */
     private $tokenStorage;
 
-    public function __construct(EntityManager $em, TokenStorage $tokenStorage)
+    public function __construct(EntityManager $em, TokenStorageInterface $tokenStorage)
     {
         $this->em = $em;
         $this->tokenStorage = $tokenStorage;

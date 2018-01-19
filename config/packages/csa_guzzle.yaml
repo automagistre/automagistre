@@ -28,3 +28,6 @@ services:
             - '@logger'
         tags:
             - { name: csa_guzzle.middleware, alias: ixora_logger }
+
+parameters:
+    env(IXORA_AUTH_CODE): ''

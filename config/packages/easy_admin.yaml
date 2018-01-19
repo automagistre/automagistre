@@ -75,7 +75,7 @@ easy_admin:
                     - { property: 'mileage', label: 'Пробег' }
 
                     - { type: 'group', label: 'Описание', css_class: 'col-sm-6' }
-                    - { property: 'description', label: 'Описание', type: 'ckeditor' }
+                    - { property: 'description', label: 'Описание', type: 'textarea' }
 
         OrderItemGroup:
             class: App\Entity\OrderItemGroup
@@ -274,7 +274,7 @@ easy_admin:
                         type: 'easyadmin_autocomplete'
                         help: 'Проивзодитель, Модель, Поколение, Комплектация, Лошадинные силы'
                     - { property: 'gosnomer', label: 'Гос. Номер' }
-                    - { property: 'description', label: 'Описание', type: 'ckeditor' }
+                    - { property: 'description', label: 'Описание', type: 'textarea' }
             edit:
                 fields:
                     - { property: 'vin', label: 'VIN', type_options: { disabled: true }  }

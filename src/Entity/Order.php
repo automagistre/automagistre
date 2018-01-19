@@ -65,7 +65,7 @@ class Order
     /**
      * @var int
      *
-     * @ORM\Column(type="integer", length=8, nullable=true, options={"unsigned" = true})
+     * @ORM\Column(type="integer", length=8, nullable=true, options={"unsigned": true})
      */
     private $mileage;
 
@@ -141,7 +141,7 @@ class Order
 
     public function __construct()
     {
-        $this->status = OrderStatus::DRAFT;
+        $this->status = OrderStatus::draft()->getId();
         $this->items = new ArrayCollection();
         $this->payments = new ArrayCollection();
     }

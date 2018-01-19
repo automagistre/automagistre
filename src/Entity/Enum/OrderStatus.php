@@ -13,16 +13,16 @@ use Grachevko\Enum\Enum;
  */
 final class OrderStatus extends Enum
 {
-    const DRAFT = 1;
-    const SCHEDULING = 2;
-    const ORDERING = 3;
-    const MATCHING = 4;
-    const TRACKING = 5;
-    const DELIVERY = 6;
-    const NOTIFICATION = 7;
-    const WORKING = 8;
-    const READY = 9;
-    const CLOSED = 10;
+    private const DRAFT = 1;
+    private const SCHEDULING = 2;
+    private const ORDERING = 3;
+    private const MATCHING = 4;
+    private const TRACKING = 5;
+    private const DELIVERY = 6;
+    private const NOTIFICATION = 7;
+    private const WORKING = 8;
+    private const READY = 9;
+    private const CLOSED = 10;
 
     protected static $color = [
         self::DRAFT => 'default',
