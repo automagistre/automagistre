@@ -81,17 +81,6 @@ pipeline:
             branch:
                 exclude: master
 
-#    validate doctrine: &validate-doctrine
-#        group: validate
-#        image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
-#        commands:
-#            - /docker-entrypoint.sh console doctrine:schema:validate
-#        environment:
-#            APP_ENV: 'test'
-#            APP_DEBUG: '0'
-#            MIGRATIONS: 'true'
-#            WAIT_HOSTS: 'mysql:3306'
-
     validate doctrine: &validate-doctrine
         group: validate
         image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
@@ -100,7 +89,7 @@ pipeline:
         environment:
             APP_ENV: 'test'
             APP_DEBUG: '0'
-            MIGRATIONS: 'true'
+            MIGRATIONS: 'false'
             WAIT_HOSTS: 'mysql:3306'
 
     test phpunit: &test-phpunit
