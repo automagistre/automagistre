@@ -1,32 +1,31 @@
-# To get started with security, check out the documentation:
-# http://symfony.com/doc/current/security.html
 security:
     encoders:
-        FOS\UserBundle\Model\UserInterface: bcrypt
+        App\Entity\User: argon2i
 
-    # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
-        fos_userbundle:
-            id: fos_user.user_provider.username_email
+        user_provider:
+            entity:
+                class: App\Entity\User
+                property: username
 
     firewalls:
-        # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        main:
+        admin:
+            host: '%admin_host_pattern%'
             anonymous: ~
-            logout: true
+            logout:
+                path: /logout
             form_login:
-                provider: fos_userbundle
+                provider: user_provider
                 csrf_token_generator: security.csrf.token_manager
-                check_path: /account/login_check
-                login_path: /account/login
+                check_path: login_check
+                login_path: admin_login
 
     access_control:
-        - { path: ^/account, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/account/profile$, roles: IS_AUTHENTICATED_REMEMBERED }
+        - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { host: sto.automagistre.(ru|local), roles: ROLE_EMPLOYEE }
 
     role_hierarchy:

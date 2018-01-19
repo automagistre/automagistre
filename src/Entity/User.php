@@ -4,23 +4,46 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\Identity;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
-use FOS\UserBundle\Model\User as BaseUser;
+use Doctrine\ORM\PersistentCollection;
+use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="users")
  */
-class User extends BaseUser
+class User implements UserInterface
 {
+    use Identity;
+
     /**
-     * @var int
+     * @var array
      *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(type="array")
      */
-    protected $id;
+    protected $roles = [];
+
+    /**
+     * @var string
+     *
+     * @Assert\Email
+     * @Assert\NotBlank
+     *
+     * @ORM\Column(unique=true)
+     */
+    private $username;
+
+    /**
+     * @var UserCredentials[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\UserCredentials", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $credentials;
 
     /**
      * @var Person
@@ -32,15 +55,14 @@ class User extends BaseUser
 
     public function __construct(Person $person = null)
     {
-        parent::__construct();
-
+        $this->credentials = new ArrayCollection();
         $this->person = $person;
     }
 
     public function setPerson(Person $person): void
     {
         if ($this->person) {
-            throw new \DomainException();
+            throw new \DomainException('Person already defined for this user');
         }
 
         $this->person = $person;
@@ -61,10 +83,72 @@ class User extends BaseUser
         return $this->person ? $this->person->getLastname() : null;
     }
 
-    public function setEmail($email)
+    public function getRoles(): array
     {
-        $this->username = $email;
+        return $this->roles;
+    }
 
-        return parent::setEmail($email);
+    public function addRole(string $role): void
+    {
+        if (!in_array($role, $this->roles, true)) {
+            $this->roles[] = $role;
+        }
+    }
+
+    public function getPassword(): ?string
+    {
+        $credential = $this->getCredential('password');
+
+        return $credential ? $credential->getIdentifier() : null;
+    }
+
+    public function setPassword(string $password, PasswordEncoderInterface $encoder): void
+    {
+        if ($credential = $this->getCredential('password')) {
+            $credential->expire();
+        }
+
+        $encoded = $encoder->encodePassword($password, $this->getSalt());
+
+        $this->credentials[] = new UserCredentials($this, 'password', $encoded);
+    }
+
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    public function getUsername(): string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): void
+    {
+        $this->username = $username;
+    }
+
+    public function eraseCredentials(): void
+    {
+    }
+
+    private function getCredential(string $type): ?UserCredentials
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('user', $this))
+            ->andWhere(Criteria::expr()->eq('type', $type))
+            ->andWhere(Criteria::expr()->isNull('expiredAt'));
+
+        if ($this->credentials instanceof PersistentCollection && !$this->credentials->isInitialized()) {
+            return null;
+        }
+
+        $collection = $this->credentials->matching($criteria);
+
+        if ($collection->isEmpty()) {
+            return null;
+        }
+
+        return $collection->first();
     }
 }

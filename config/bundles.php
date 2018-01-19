@@ -6,7 +6,6 @@ return [
     Csa\Bundle\GuzzleBundle\CsaGuzzleBundle::class => ['all' => true],
     Doctrine\Bundle\DoctrineBundle\DoctrineBundle::class => ['all' => true],
     Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle::class => ['all' => true],
-    FOS\UserBundle\FOSUserBundle::class => ['all' => true],
     JavierEguiluz\Bundle\EasyAdminBundle\EasyAdminBundle::class => ['all' => true],
     Misd\PhoneNumberBundle\MisdPhoneNumberBundle::class => ['all' => true],
     Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle::class => ['all' => true],
