@@ -1,4 +1,7 @@
-easy_admin_bundle:
+_easy_admin:
     resource: '@EasyAdminBundle/Controller/AdminController.php'
     type: annotation
-    condition: request.getHost() matches '/sto.automagistre.(ru|local)/'
+
+_admin_security:
+    resource: '../src/Controller/SecurityController.php'
+    type: annotation

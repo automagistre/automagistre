@@ -52,11 +52,11 @@ final class UserCredentials
      */
     private $expiredAt;
 
-    public function __construct(User $user, string $type, string $key, array $payloads = [])
+    public function __construct(User $user, string $type, string $identifier, array $payloads = [])
     {
         $this->user = $user;
         $this->type = $type;
-        $this->identifier = $key;
+        $this->identifier = $identifier;
         $this->payloads = $payloads;
     }
 

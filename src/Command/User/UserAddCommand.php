@@ -11,7 +11,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
-use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -24,16 +23,16 @@ final class UserAddCommand extends Command
     private $em;
 
     /**
-     * @var PasswordEncoderInterface
+     * @var EncoderFactoryInterface
      */
-    private $passwordEncoder;
+    private $encoderFactory;
 
-    public function __construct(EntityManagerInterface $em, EncoderFactoryInterface $passwordEncoder)
+    public function __construct(EntityManagerInterface $em, EncoderFactoryInterface $encoderFactory)
     {
         parent::__construct();
 
         $this->em = $em;
-        $this->passwordEncoder = $passwordEncoder;
+        $this->encoderFactory = $encoderFactory;
     }
 
     protected function configure(): void
@@ -50,8 +49,9 @@ final class UserAddCommand extends Command
 
         $user = new User();
         $user->setUsername($input->getArgument('username'));
-        $user->setPassword($input->getArgument('password'), $this->passwordEncoder->getEncoder($user));
-        foreach ($input->getArgument('roles') as $role) {
+        $user->setPassword($input->getArgument('password'), $this->encoderFactory->getEncoder($user));
+
+        foreach ((array) $input->getArgument('roles') as $role) {
             $user->addRole($role);
         }
 
