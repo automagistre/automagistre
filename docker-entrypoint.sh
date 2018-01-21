@@ -72,6 +72,10 @@ fi
 COMPOSER_SCRIPT=${COMPOSER_SCRIPT:="post-install-cmd"}
 if [ "$COMPOSER_SCRIPT" != "false" ]; then
     composer run-script ${COMPOSER_SCRIPT_OPTIONS} ${COMPOSER_SCRIPT} --working-dir=${APP_DIR}
+
+    if [ "$APP_ENV" == "prod" ]; then
+        rm -rf "$APP_DIR/public/check.php"
+    fi
 fi
 
 MIGRATIONS=${MIGRATIONS:=true}

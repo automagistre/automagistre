@@ -9,7 +9,7 @@ services:
         autowire: false
         arguments:
             - '%locale%'
-            - !php/const:NumberFormatter::CURRENCY
+            - !php/const NumberFormatter::CURRENCY
 
     Money\Currencies: '@Money\Currencies\ISOCurrencies'
     Money\Currencies\ISOCurrencies: ~

@@ -33,7 +33,7 @@ docker-hosts-updater:
 
 # To prevent idea to adding this phar to *.iml config
 vendor-phar-remove:
-	rm -rf $(APP_DIR)/vendor/twig/twig/test/Twig/Tests/Loader/Fixtures/phar/phar-sample.phar $(APP_DIR)/vendor/symfony/symfony/src/Symfony/Component/DependencyInjection/Tests/Fixtures/includes/ProjectWithXsdExtensionInPhar.phar $(APP_DIR)/vendor/phpunit/phpunit/tests/_files/phpunit-example-extension/tools/phpunit.d/phpunit-example-extension-1.0.1.phar app/vendor/phar-io/manifest/tests/_fixture/test.phar || true
+	rm -rf $(APP_DIR)/vendor/twig/twig/test/Twig/Tests/Loader/Fixtures/phar/phar-sample.phar $(APP_DIR)/vendor/symfony/symfony/src/Symfony/Component/DependencyInjection/Tests/Fixtures/includes/ProjectWithXsdExtensionInPhar.phar $(APP_DIR)/vendor/phpunit/phpunit/tests/_files/phpunit-example-extension/tools/phpunit.d/phpunit-example-extension-1.0.1.phar $(APP_DIR)/vendor/phar-io/manifest/tests/_fixture/test.phar || true
 
 ###> GIT ###
 pull:
@@ -80,6 +80,9 @@ logs:
 ###> APP ###
 cli-app:
 	docker-compose run --rm -e XDEBUG=false --entrypoint bash app
+	@$(MAKE) permissions > /dev/null
+cli-app-debug:
+	docker-compose run --rm --entrypoint bash app
 	@$(MAKE) permissions > /dev/null
 restart-app:
 	docker-compose restart app

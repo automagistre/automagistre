@@ -1,7 +1,7 @@
 parameters:
     locale: ru
     env(APP_VERSION): null
-    admin_host_pattern: '^sto.+'
+    admin_host_pattern: '^(sto|sto\.rc).automagistre.(ru|local)$'
     www_host_pattern: '^www.+'
 
 services:

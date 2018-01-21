@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
+use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -17,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @ORM\Table(name="users")
  */
-class User implements UserInterface
+class User implements UserInterface, EquatableInterface
 {
     use Identity;
 
@@ -132,10 +133,33 @@ class User implements UserInterface
     {
     }
 
+    /**
+     * @TODO Implement Serializable
+     */
+    public function isEqualTo(UserInterface $user): bool
+    {
+        if (!$user instanceof self) {
+            return false;
+        }
+
+        if ($user->getUsername() !== $this->username) {
+            return false;
+        }
+
+        if (($person = $user->getPerson()) !== $this->person) {
+            return false;
+        }
+
+        if ($person && $person->getId() !== $this->person->getId()) {
+            return false;
+        }
+
+        return true;
+    }
+
     private function getCredential(string $type): ?UserCredentials
     {
         $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('user', $this))
             ->andWhere(Criteria::expr()->eq('type', $type))
             ->andWhere(Criteria::expr()->isNull('expiredAt'));
 
