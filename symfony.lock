@@ -323,9 +323,6 @@
     "swiftmailer/swiftmailer": {
         "version": "v6.0.2"
     },
-    "symfony/dotenv": {
-        "version": "v3.4.3"
-    },
     "symfony/flex": {
         "version": "1.0",
         "recipe": {
@@ -344,25 +341,16 @@
             "ref": "371d1a2b69984710646b09a1182ef1d4308c904f"
         }
     },
-    "symfony/polyfill-apcu": {
-        "version": "v1.6.0"
-    },
     "symfony/polyfill-intl-icu": {
         "version": "v1.6.0"
     },
     "symfony/polyfill-mbstring": {
         "version": "v1.6.0"
     },
-    "symfony/polyfill-php56": {
-        "version": "v1.6.0"
-    },
     "symfony/polyfill-php70": {
         "version": "v1.6.0"
     },
     "symfony/polyfill-php72": {
-        "version": "v1.6.0"
-    },
-    "symfony/polyfill-util": {
         "version": "v1.6.0"
     },
     "symfony/swiftmailer-bundle": {
