@@ -12,7 +12,7 @@
             "App\\Tests\\": "tests/"
         },
         "files": [
-            "vendor/symfony/symfony/src/Symfony/Component/VarDumper/Resources/functions/dump.php"
+            "vendor/symfony/var-dumper/Resources/functions/dump.php"
         ]
     },
     "require": {
@@ -30,11 +30,20 @@
         "sensio/framework-extra-bundle": "^5.1.4",
         "sensiolabs/security-checker": "^4.1.7",
         "sentry/sentry-symfony": "^2.0",
+        "symfony/asset": "^4.0.3",
+        "symfony/console": "^4.0.3",
+        "symfony/expression-language": "^4.0.3",
         "symfony/flex": "^1.0.66",
+        "symfony/form": "^4.0.3",
+        "symfony/framework-bundle": "^4.0.3",
         "symfony/monolog-bundle": "^3.1.2",
-        "symfony/swiftmailer-bundle": "^3.1.6",
-        "symfony/symfony": "^4.0.3",
-        "twig/twig": "^2.4.4"
+        "symfony/security-bundle": "^4.0.3",
+        "symfony/serializer-pack": "^1.0.1",
+        "symfony/swiftmailer-bundle": "^3.1",
+        "symfony/templating": "^4.0.3",
+        "symfony/translation": "^4.0.3",
+        "symfony/twig-bundle": "^4.0.3",
+        "symfony/yaml": "^4.0.3"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.10.0",
@@ -42,14 +51,25 @@
         "phpstan/phpstan": "^0.9.1",
         "phpstan/phpstan-doctrine": "^0.9.1",
         "phpstan/phpstan-phpunit": "^0.9.3",
-        "phpunit/phpunit": "^6.5.5"
+        "phpunit/phpunit": "^6.5.5",
+        "symfony/debug-bundle": "^4.0.3",
+        "symfony/dotenv": "^4.0.3",
+        "symfony/requirements-checker": "^1.0",
+        "symfony/web-profiler-bundle": "^4.0.3"
     },
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install --symlink --relative %PUBLIC_DIR%": "symfony-cmd",
-            "security-checker security:check": "script"
-        }
+            "security-checker security:check": "script",
+            "requirements-checker": "script"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ]
     },
     "extra": {
         "symfony-app-dir": "src",

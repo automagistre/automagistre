@@ -3,11 +3,7 @@ doctrine:
         mapping_types:
             enum: string
         driver:   pdo_mysql
-        host:     "%env(DATABASE_HOST)%"
-        port:     "%env(DATABASE_PORT)%"
-        dbname:   "%env(DATABASE_NAME)%"
-        user:     "%env(DATABASE_USER)%"
-        password: "%env(DATABASE_PASSWORD)%"
+        url: '%env(resolve:DATABASE_URL)%'
         charset:  UTF8
         server_version: 5.6.34-79.1
 
@@ -22,16 +18,8 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 is_bundle: false
 
-doctrine_migrations:
-    namespace: App\Migrations
-    dir_name: '%kernel.project_dir%/src/Migrations'
-
 parameters:
-    env(DATABASE_HOST): mysql
-    env(DATABASE_PORT): 3306
-    env(DATABASE_USER): db
-    env(DATABASE_NAME): db
-    env(DATABASE_PASSWORD): db
+    env(DATABASE_URL): 'mysql://db:db@mysql:3306/db'
     mysql_version: 10.1.23-MariaDB-1~jessie
 
 services:

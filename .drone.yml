@@ -68,19 +68,6 @@ pipeline:
             branch:
                 exclude: master
 
-    validate symfony requirements:
-        group: validate
-        image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
-        commands:
-            - /docker-entrypoint.sh symfony_requirements
-        environment:
-            APP_ENV: 'test'
-            APP_DEBUG: '0'
-            MIGRATIONS: 'false'
-        when:
-            branch:
-                exclude: master
-
     validate doctrine: &validate-doctrine
         group: validate
         image: automagistre/automagistre:${DRONE_BUILD_NUMBER}

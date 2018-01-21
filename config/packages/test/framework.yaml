@@ -6,4 +6,4 @@ framework:
         collect: false
 
 parameters:
-    env(SECRET): ThisIsVerySuperSecretVariableForTests
+    env(APP_SECRET): ThisIsVerySuperSecretVariableForTests
