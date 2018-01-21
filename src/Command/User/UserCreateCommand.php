@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class UserAddCommand extends Command
+final class UserCreateCommand extends Command
 {
     /**
      * @var EntityManagerInterface
@@ -37,7 +37,7 @@ final class UserAddCommand extends Command
 
     protected function configure(): void
     {
-        $this->setName('user:add')
+        $this->setName('user:create')
             ->addArgument('username', InputArgument::REQUIRED)
             ->addArgument('password', InputArgument::REQUIRED)
             ->addArgument('roles', InputArgument::IS_ARRAY);
