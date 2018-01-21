@@ -16,6 +16,7 @@ RUN set -ex \
         openssh-client \
         zlib1g-dev \
         netcat \
+        libmemcached-dev \
 	\
 	&& curl http://download.icu-project.org/files/icu4c/60.1/icu4c-60_1-src.tgz -o /tmp/icu4c.tgz \
 	&& tar zxvf /tmp/icu4c.tgz > /dev/null \
@@ -25,7 +26,8 @@ RUN set -ex \
 	&& docker-php-ext-configure intl --with-icu-dir=/opt/icu \
     && docker-php-ext-install zip intl pdo_mysql iconv opcache pcntl \
     && rm -rf ${PHP_INI_DIR}/conf.d/docker-php-ext-opcache.ini \
-    && pecl install xdebug-2.6.0alpha1 apcu \
+    && pecl install xdebug-2.6.0alpha1 apcu memcached \
+    && docker-php-ext-enable memcached \
     \
     && rm -r /var/lib/apt/lists/*
 

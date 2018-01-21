@@ -13,9 +13,7 @@ framework:
     default_locale:  "%locale%"
     trusted_hosts:   ~
     session:
-        # http://symfony.com/doc/current/reference/configuration/framework.html#handler-id
-        handler_id:  session.handler.native_file
-        save_path:   "%kernel.project_dir%/var/sessions/%kernel.environment%"
+        handler_id: session.handler.memcached
     fragments:       ~
     http_method_override: true
     assets: ~
@@ -28,3 +26,15 @@ services:
 
     Symfony\Component\HttpKernel\Controller\ArgumentResolverInterface:
         alias: argument_resolver
+
+    session.memcached:
+        class: Memcached
+        calls:
+            - [ addServer, [ '%env(SESSION_MEMCACHED_HOST)%', '%env(SESSION_MEMCACHED_PORT)%' ]]
+    session.handler.memcached:
+        class:     Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler
+        arguments: [ '@session.memcached' ]
+
+parameters:
+    env(SESSION_MEMCACHED_HOST): 'memcached'
+    env(SESSION_MEMCACHED_PORT): '11211'
