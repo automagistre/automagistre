@@ -140,7 +140,7 @@ class User implements UserInterface
             ->andWhere(Criteria::expr()->isNull('expiredAt'));
 
         if ($this->credentials instanceof PersistentCollection && !$this->credentials->isInitialized()) {
-            return null;
+            $this->credentials->initialize();
         }
 
         $collection = $this->credentials->matching($criteria);

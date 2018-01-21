@@ -3,5 +3,5 @@ _easy_admin:
     type: annotation
 
 _admin_security:
-    resource: '../src/Controller/SecurityController.php'
+    resource: '../src/Controller/Admin/SecurityController.php'
     type: annotation

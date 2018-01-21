@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  */
-final class UserCredentials
+class UserCredentials
 {
     use Identity;
     use CreatedAt;

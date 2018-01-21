@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -20,7 +20,7 @@ final class SecurityController extends Controller
     /**
      * @Route("/login", name="admin_login")
      */
-    public function loginAction(FormFactoryInterface $formFactory): Response
+    public function loginAction(FormFactoryInterface $formFactory, AuthenticationUtils $authUtils): Response
     {
         $form = $formFactory->createNamedBuilder('', FormType::class, null, [
             'action' => $this->generateUrl('login_check'),
@@ -29,11 +29,11 @@ final class SecurityController extends Controller
         ])
             ->add('_username')
             ->add('_password', PasswordType::class)
-            ->add('submit', SubmitType::class)
             ->getForm();
 
-        return $this->render('login.html.twig', [
+        return $this->render('admin/security/login.html.twig', [
             'form' => $form->createView(),
+            'error' => $authUtils->getLastAuthenticationError(),
         ]);
     }
 }
