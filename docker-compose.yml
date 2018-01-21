@@ -20,7 +20,6 @@ services:
             MIGRATIONS: 'false'
             COMPOSER_SCRIPT: 'false'
             WAIT_HOSTS: 'mysql:3306'
-            GITHUB_OAUTH_TOKEN: 7f61d5ae25b1cf2279c13ce9a1de51bebf563910
 
     mysql:
         image: mariadb:10.1.23
