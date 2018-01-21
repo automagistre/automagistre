@@ -138,7 +138,7 @@ class User implements UserInterface, EquatableInterface
      */
     public function isEqualTo(UserInterface $user): bool
     {
-        if (!$user instanceof $this) {
+        if (!$user instanceof self) {
             return false;
         }
 
