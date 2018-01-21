@@ -18,7 +18,7 @@ RUN set -ex \
         netcat \
         libmemcached-dev \
 	\
-	&& curl http://download.icu-project.org/files/icu4c/60.1/icu4c-60_1-src.tgz -o /tmp/icu4c.tgz \
+	&& curl http://download.icu-project.org/files/icu4c/60.2/icu4c-60_2-src.tgz -o /tmp/icu4c.tgz \
 	&& tar zxvf /tmp/icu4c.tgz > /dev/null \
 	&& cd icu/source \
 	&& ./configure --prefix=/opt/icu && make && make install \
