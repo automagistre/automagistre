@@ -1,11 +1,11 @@
-version: '3.3'
+version: '3.4'
 
 services:
     app:
         build:
             context: .
             args:
-                SOURCE_DIR: ./var/null
+               SOURCE_DIR: ./var/null
         hostname: automagistre.local
         labels:
             subdomains: sto
@@ -14,19 +14,33 @@ services:
         environment:
             APP_ENV: dev
             APP_DEBUG: 1
+            XDEBUG: 'true'
+            OPCACHE: 'false'
+            APCU: 'false'
             MIGRATIONS: 'false'
+            COMPOSER_SCRIPT: 'false'
             WAIT_HOSTS: 'mysql:3306'
+            GITHUB_OAUTH_TOKEN: 7f61d5ae25b1cf2279c13ce9a1de51bebf563910
+
     mysql:
         image: mariadb:10.1.23
         hostname: mysql.automagistre.local
         volumes:
             - mysql-db:/var/lib/mysql
+            - ./:/usr/local/app
         environment:
             MYSQL_DATABASE: db
             MYSQL_USER: db
             MYSQL_PASSWORD: db
             MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
 
+    memcached:
+        image: memcached:1.5.4-alpine
+
 volumes:
     mysql-db:
-      driver: local
+        driver: local
+        driver_opts:
+            device: tmpfs
+            type: tmpfs
+            o: size=1024m

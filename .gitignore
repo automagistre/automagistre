@@ -10,4 +10,4 @@
 /.env
 /bin/symfony_requirements
 
-/docker-compose.yml
+/docker-compose.override.yml
