@@ -39,7 +39,7 @@ class User implements UserInterface
     private $username;
 
     /**
-     * @var UserCredentials[]|ArrayCollection
+     * @var UserCredentials[]|ArrayCollection|PersistentCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\UserCredentials", mappedBy="user", cascade={"persist", "remove"})
      */
