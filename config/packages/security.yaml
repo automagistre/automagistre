@@ -26,7 +26,7 @@ security:
 
     access_control:
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { host: sto.automagistre.(ru|local), roles: ROLE_EMPLOYEE }
+        - { host: '%admin_host_pattern%', roles: ROLE_EMPLOYEE }
 
     role_hierarchy:
         ROLE_SUPER_ADMIN: ROLE_ADMIN
