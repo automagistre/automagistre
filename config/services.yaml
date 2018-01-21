@@ -1,6 +1,8 @@
 parameters:
     locale: ru
     env(APP_VERSION): null
+    admin_host_pattern: '^sto.+'
+    www_host_pattern: '^www.+'
 
 services:
     _defaults:

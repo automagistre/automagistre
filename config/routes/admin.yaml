@@ -1,0 +1,7 @@
+_easy_admin:
+    resource: '@EasyAdminBundle/Controller/AdminController.php'
+    type: annotation
+
+_admin_security:
+    resource: '../src/Controller/Admin/SecurityController.php'
+    type: annotation

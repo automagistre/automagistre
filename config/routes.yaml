@@ -1,2 +1,14 @@
 logout:
     path: /logout
+
+login_check:
+    path: /login
+    methods: [ 'POST' ]
+
+_admin:
+    resource: './routes/admin.yaml'
+    condition: "request.getHost() matches '/%admin_host_pattern%/'"
+
+_default:
+    resource: '../src/Controller/DefaultController.php'
+    type: annotation
