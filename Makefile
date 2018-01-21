@@ -7,14 +7,16 @@ endif
 DOCKER_COMPOSE_VERSION=1.17.0
 DOCKER_UBUNTU_VERSION=17.11.0~ce-0~ubuntu
 
+APP_DIR=.
+
 all: init docker-pull docker-build
 
 init:
 	cp -n docker-compose.yml.dist docker-compose.yml || true
-	cp -n ./.env.dist ./.env || true
-	mkdir -p ./var/null && touch ./var/null/composer.null
+	cp -n $(APP_DIR)/.env.dist $(APP_DIR)/.env || true
+	mkdir -p $(APP_DIR)/var/null && touch $(APP_DIR)/var/null/composer.null
 un-init:
-	rm -rf docker-compose.yml ./.env
+	rm -rf docker-compose.yml $(APP_DIR)/.env
 re-init: un-init init
 
 do-install: install-app
@@ -31,7 +33,7 @@ docker-hosts-updater:
 
 # To prevent idea to adding this phar to *.iml config
 vendor-phar-remove:
-	rm -rf vendor/twig/twig/test/Twig/Tests/Loader/Fixtures/phar/phar-sample.phar app/vendor/symfony/symfony/src/Symfony/Component/DependencyInjection/Tests/Fixtures/includes/ProjectWithXsdExtensionInPhar.phar app/vendor/phpunit/phpunit/tests/_files/phpunit-example-extension/tools/phpunit.d/phpunit-example-extension-1.0.1.phar app/vendor/phar-io/manifest/tests/_fixture/test.phar || true
+	rm -rf $(APP_DIR)/vendor/twig/twig/test/Twig/Tests/Loader/Fixtures/phar/phar-sample.phar $(APP_DIR)/vendor/symfony/symfony/src/Symfony/Component/DependencyInjection/Tests/Fixtures/includes/ProjectWithXsdExtensionInPhar.phar $(APP_DIR)/vendor/phpunit/phpunit/tests/_files/phpunit-example-extension/tools/phpunit.d/phpunit-example-extension-1.0.1.phar app/vendor/phar-io/manifest/tests/_fixture/test.phar || true
 
 ###> GIT ###
 pull:
@@ -179,6 +181,6 @@ logs-mysql:
 	docker-compose logs --follow mysql
 
 backup-restore:
-	test -s ./app/var/backup.sql.gz || exit 1
+	test -s $(APP_DIR)/var/backup.sql.gz || exit 1
 	docker-compose exec mysql bash -c "gunzip < /usr/local/app/var/backup.sql.gz | mysql db"
 ###< MYSQL ###
