@@ -25,6 +25,13 @@ class Payment
     private $recipient;
 
     /**
+     * @var TransactionAttribute
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\TransactionAttribute")
+     */
+    private $attribute;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="text", length=65535, nullable=true)
@@ -45,9 +52,15 @@ class Payment
      */
     private $subtotal;
 
-    public function __construct(Operand $recipient, string $description, Money $money, Money $subtotal)
-    {
+    public function __construct(
+        Operand $recipient,
+        TransactionAttribute $attribute,
+        string $description,
+        Money $money,
+        Money $subtotal
+    ) {
         $this->recipient = $recipient;
+        $this->attribute = $attribute;
         $this->description = $description;
         $this->amount = $money->getAmount();
         $this->subtotal = $subtotal->getAmount();
@@ -56,6 +69,11 @@ class Payment
     public function getRecipient(): Operand
     {
         return $this->recipient;
+    }
+
+    public function getAttribute(): TransactionAttribute
+    {
+        return $this->attribute;
     }
 
     public function getDescription(): string
