@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 
@@ -32,7 +33,29 @@ abstract class Operand
      */
     private $seller = false;
 
+    /**
+     * @var Account[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Account", mappedBy="owner")
+     */
+    private $accounts;
+
+    public function __construct()
+    {
+        $this->accounts = new ArrayCollection();
+    }
+
     abstract public function __toString(): string;
+
+    public function addAccount(Account $account): void
+    {
+        $this->accounts[] = $account;
+    }
+
+    public function getAccounts(): array
+    {
+        return $this->accounts->toArray();
+    }
 
     abstract public function getFullName(): string;
 
