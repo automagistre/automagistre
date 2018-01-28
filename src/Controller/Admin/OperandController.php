@@ -25,8 +25,8 @@ final class OperandController extends AdminController
         }
 
         $id = $request->query->get('id');
-        $entity = $this->getDoctrine()->getManager()->getRepository(Operand::class)->findOneBy(['id' => $id]);
-        $class = ClassUtils::getRealClass(get_class($entity));
+        $entity = $this->getDoctrine()->getManager()->getRepository(Operand::class)->find($id);
+        $class = ClassUtils::getClass($entity);
         $config = $this->get('easyadmin.config.manager')->getEntityConfigByClass($class);
 
         return $this->redirectToRoute('easyadmin', array_merge($request->query->all(), [
