@@ -10,6 +10,7 @@ use App\Entity\Person;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use libphonenumber\PhoneNumberFormat;
+use libphonenumber\PhoneNumberUtil;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -17,6 +18,16 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 final class CarController extends AdminController
 {
+    /**
+     * @var PhoneNumberUtil
+     */
+    private $phoneNumberUtil;
+
+    public function __construct(PhoneNumberUtil $phoneNumberUtil)
+    {
+        $this->phoneNumberUtil = $phoneNumberUtil;
+    }
+
     protected function createSearchQueryBuilder(
         $entityClass,
         $searchQuery,
@@ -67,12 +78,11 @@ final class CarController extends AdminController
         $qb = $this->createSearchQueryBuilder($query->get('entity'), $query->get('query'), []);
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
-        $phoneUtils = $this->get('libphonenumber.phone_number_util');
 
-        $data = array_map(function (Car $car) use ($phoneUtils) {
+        $data = array_map(function (Car $car) {
             $person = $car->getOwner();
 
-            $PhoneNumber = $phoneUtils->parse($person->getTelephone(), 'RU');
+            $PhoneNumber = $this->phoneNumberUtil->parse($person->getTelephone(), 'RU');
             $carModel = $car->getCarModification() ?: $car->getCarModel();
 
             return [
@@ -81,7 +91,7 @@ final class CarController extends AdminController
                     '%s %s %s',
                     $carModel->getDisplayName(),
                     $person->getFullName(),
-                    $phoneUtils->format($PhoneNumber, PhoneNumberFormat::INTERNATIONAL)
+                    $this->phoneNumberUtil->format($PhoneNumber, PhoneNumberFormat::INTERNATIONAL)
                 ),
             ];
         }, (array) $paginator->getCurrentPageResults());
