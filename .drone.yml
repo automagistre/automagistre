@@ -56,7 +56,7 @@ pipeline:
 
     validate symfony requirements:
         group: validate
-        image: astra50/astra50:${DRONE_BUILD_NUMBER}
+        image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
         commands:
             - /docker-entrypoint.sh requirements-checker
         environment:
@@ -69,7 +69,7 @@ pipeline:
 
     validate symfony security:
         group: validate
-        image: astra50/astra50:${DRONE_BUILD_NUMBER}
+        image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
         commands:
             - /docker-entrypoint.sh security-checker security:check $APP_DIR/composer.lock
         environment:
