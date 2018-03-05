@@ -9,6 +9,6 @@ sentry:
     options:
         processors:
             - 'Raven_Processor_SanitizeDataProcessor'
-        app_path: '%env(APP_DIR)%'
+        app_path: '%kernel.project_dir%'
         environment: '%kernel.environment%'
         release: '%env(APP_VERSION)%'
