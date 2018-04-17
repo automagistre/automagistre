@@ -1,0 +1,694 @@
+{% extends 'www/layout.html.twig' %}
+
+{% block content %}
+    <section class="sec-intro has-panels js-sec-scroll">
+        <div class="sec-intro__panels">
+            <div class="panel sec-intro__panel sec-intro__testing">
+                <div class="panel__back"></div>
+                <div class="panel__info">
+                    <div class="panel__num">01</div>
+                    <h2 class="panel__title">Диагностика</h2>
+                    <div class="panel__note">
+                        Мы осуществляем не только диагностику двигателя, но и анализируем
+                        работу других важнейших частей, уделяя повышенное внимание критичным
+                        для эксплуатации узлам.
+                    </div>
+                    <div class="panel__more">
+                        <a class="panel__btn panel__btn_red" href="#">Подробнее</a>
+                        <!--a class="panel__btn panel__btn_clear" href="#">Записаться</a-->
+                    </div>
+                </div>
+            </div>
+            <div class="panel sec-intro__panel sec-intro__service">
+                <div class="panel__back"></div>
+                <div class="panel__info">
+                    <div class="panel__num">02</div>
+                    <h2 class="panel__title">Техническое <br> обслуживание</h2>
+                    <div class="panel__note">
+                        Мы осуществляем не только диагностику двигателя, но и анализируем
+                        работу других важнейших частей, уделяя повышенное внимание критичным
+                        для эксплуатации узлам.
+                    </div>
+                    <div class="panel__more">
+                        <a class="panel__btn panel__btn_red" href="#">Подробнее</a>
+                        <!--a class="panel__btn panel__btn_clear" href="#">Записаться</a-->
+                    </div>
+                </div>
+            </div>
+            <div class="panel sec-intro__panel sec-intro__repair">
+                <div class="panel__back"></div>
+                <div class="panel__info">
+                    <div class="panel__num">03</div>
+                    <h2 class="panel__title">Ремонт</h2>
+                    <div class="panel__note">
+                        Мы осуществляем не только диагностику двигателя, но и анализируем
+                        работу других важнейших частей, уделяя повышенное внимание критичным
+                        для эксплуатации узлам.
+                    </div>
+                    <div class="panel__more">
+                        <a class="panel__btn panel__btn_red" href="#">Подробнее</a>
+                        <!--a class="panel__btn panel__btn_clear" href="#">Записаться</a-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- END sec-intro -->
+
+    <section class="sec-features js-sec-scroll">
+        <div class="sec-features__back" id="sec-features-back">
+            <div class="sec-features__parr-lt">
+                <img class="sec-features__parr-img sec-features__lt-img_min" src="{{ asset('assets/img/sec-features/lt-img_min.png') }}/" alt="Авторемонт">
+                <img class="sec-features__parr-img sec-features__lt-img_big" src="{{ asset('assets/img/sec-features/lt-img_big.png') }}" alt="Авторемонт">
+                <img class="sec-features__parr-img sec-features__lt-img_blur" src="{{ asset('assets/img/sec-features/lt-img_blur.png') }}" alt="Авторемонт">
+            </div>
+            <div class="sec-features__parr-rt">
+                <img class="sec-features__parr-img sec-features__rt-img_min" src="{{ asset('assets/img/sec-features/rt-img_min.png') }}" alt="Авторемонт">
+                <img class="sec-features__parr-img sec-features__rt-img_big" src="{{ asset('assets/img/sec-features/rt-img_big.png') }}" alt="Авторемонт">
+                <img class="sec-features__parr-img sec-features__rt-img_blur" src="{{ asset('assets/img/sec-features/rt-img_blur.png') }}" alt="Авторемонт">
+            </div>
+        </div>
+        <div class="sec-features__front">
+            <div class="container">
+                <ul class="sec-features__list">
+                    <li class="feature sec-features__item">
+                        <i class="feature__icon icon-f_piston"></i>
+                        <h3 class="feature__title">Гарантия на работы и&nbsp;запчасти</h3>
+                        <div class="feature__note">Наши специалисты подробно объяснят из-за чего произошла поломка и как её избежать в будущем</div>
+                    </li>
+                    <li class="feature sec-features__item">
+                        <i class="feature__icon icon-f_mechanic"></i>
+                        <h3 class="feature__title">Работаем на&nbsp;сверхзвуковой скорости</h3>
+                        <div class="feature__note">Наши специалисты подробно объяснят из-за чего произошла поломка и как её избежать в будущем</div>
+                    </li>
+                    <li class="feature sec-features__item">
+                        <i class="feature__icon icon-f_heart"></i>
+                        <h3 class="feature__title">Без очередей и за&nbsp;один приезд</h3>
+                        <div class="feature__note">Наши специалисты подробно объяснят из-за чего произошла поломка и как её избежать в будущем</div>
+                    </li>
+                    <li class="feature sec-features__item">
+                        <i class="feature__icon icon-f_star"></i>
+                        <h3 class="feature__title">100% <br> гарантия ремонта</h3>
+                        <div class="feature__note">Наши специалисты подробно объяснят из-за чего произошла поломка и как её избежать в будущем</div>
+                    </li>
+                    <li class="feature sec-features__item">
+                        <i class="feature__icon icon-f_keys"></i>
+                        <h3 class="feature__title">Не обязываем к&nbsp;ремонту</h3>
+                        <div class="feature__note">Наши специалисты подробно объяснят из-за чего произошла поломка и как её избежать в будущем</div>
+                    </li>
+                    <li class="feature sec-features__item">
+                        <i class="feature__icon icon-f_growth"></i>
+                        <h3 class="feature__title">Не предлагаем ненужных услуг</h3>
+                        <div class="feature__note">Наши специалисты подробно объяснят из-за чего произошла поломка и как её избежать в будущем</div>
+                    </li>
+                    <li class="feature sec-features__item">
+                        <i class="feature__icon icon-f_inform"></i>
+                        <h3 class="feature__title">Качественная консультация специалистов</h3>
+                        <div class="feature__note">Наши специалисты подробно объяснят из-за чего произошла поломка и как её избежать в будущем</div>
+                    </li>
+                    <li class="feature sec-features__item">
+                        <i class="feature__icon icon-f_binocul"></i>
+                        <h3 class="feature__title">Наблюдайте за&nbsp;работой</h3>
+                        <div class="feature__note">Наши специалисты подробно объяснят из-за чего произошла поломка и как её избежать в будущем</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section><!-- END sec-features -->
+
+    <section class="sec-gallery js-sec-scroll">
+        <div class="sec-gallery__row js-scroll-x">
+            <div class="sec-gallery__col">
+                <div class="sec-gallery__cell-100">
+                    <img class="sec-gallery__img" src="{{ asset('assets/images/sec-gallery/work_01.jpg') }}" data-action="zoom" alt="Автосервис">
+                </div>
+                <div class="sec-gallery__text sec-gallery__text_top-rt">
+                    <h2 class="sec-gallery__title">Наш автосервис</h2>
+                    <div class="sec-gallery__note">
+                        Сервисный центр «Автомагистр» окажет помощь в проведении автомобильного
+                        ремонта любой сложности, за проведение которого придётся заплатить
+                        совсем недорого. Понимая, как трудно найти качественный автосервис в
+                        Москве, мы готовы взяться за любую модель, но отдаем предпочтение
+                        японским.
+                    </div>
+                </div>
+            </div>
+            <div class="sec-gallery__col">
+                <div class="sec-gallery__cell-50">
+                    <img class="sec-gallery__img" src="{{ asset('assets/images/sec-gallery/work_02.jpg') }}" data-action="zoom" alt="Автосервис">
+                </div>
+                <div class="sec-gallery__cell-50">
+                    <img class="sec-gallery__img" src="{{ asset('assets/images/sec-gallery/work_03.jpg') }}" data-action="zoom" alt="Автосервис">
+                </div>
+                <div class="sec-gallery__text sec-gallery__text_btm-rt">
+                    <ul class="facts sec-gallery__facts">
+                        <li class="facts__item">
+                            <div class="facts__val js-odometer is-hidden" data-value="8">1</div>
+                            <div class="facts__txt">Лет опыта</div>
+                        </li>
+                        <li class="facts__item">
+                            <div class="facts__val js-odometer is-hidden" data-value="21282">21000</div>
+                            <div class="facts__txt">Выполненных ремонта</div>
+                        </li>
+                        <li class="facts__item">
+                            <div class="facts__val js-odometer is-hidden" data-value="4947">4900</div>
+                            <div class="facts__txt">Машин отремонтировано</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sec-gallery__col">
+                <div class="sec-gallery__cell-33">
+                    <img class="sec-gallery__img" src="{{ asset('assets/images/sec-gallery/work_04.jpg') }}" data-action="zoom" alt="Автосервис">
+                </div>
+                <div class="sec-gallery__cell-67">
+                    <img class="sec-gallery__img" src="{{ asset('assets/images/sec-gallery/work_05.jpg') }}" data-action="zoom" alt="Автосервис">
+                </div>
+            </div>
+            <div class="sec-gallery__col">
+                <div class="sec-gallery__cell-50">
+                    <img class="sec-gallery__img" src="{{ asset('assets/images/sec-gallery/work_02.jpg') }}" data-action="zoom" alt="Автосервис">
+                </div>
+                <div class="sec-gallery__cell-50">
+                    <img class="sec-gallery__img" src="{{ asset('assets/images/sec-gallery/work_03.jpg') }}" data-action="zoom" alt="Автосервис">
+                </div>
+            </div>
+        </div>
+    </section><!-- END sec-gallery -->
+
+    <section class="sec-services js-sec-scroll">
+        <div class="sec-services__front">
+            <div class="container">
+                <h2 class="sec-services__title">Наши услуги</h2>
+                <div class="sec-services__row">
+                    <div class="sec-services__col-lt">
+                        <div class="sec-services__count" id="services-count">01</div>
+                        <div class="sec-services__picts">
+                            <img class="sec-services__img js-services-img" src="{{ asset('assets/images/sec-services/service_01.png') }}" alt="Компьютерная диагностика авто">
+                            <img class="sec-services__img js-services-img is-active" src="{{ asset('assets/images/sec-services/service_02.png') }}" alt="Бесплатная диагностика авто">
+                            <img class="sec-services__img js-services-img" src="{{ asset('assets/images/sec-services/service_03.png') }}" alt="Техническое обслуживание авто">
+                            <img class="sec-services__img js-services-img" src="{{ asset('assets/images/sec-services/service_04.png') }}" alt="Авторемонт">
+                        </div>
+                    </div>
+                    <div class="sec-services__col-rt">
+                        <ul class="sec-services__menu" id="services-menu">
+                            <li class="sec-services__kind js-services-kind" data-kind="01">
+                                <h4 class="sec-services__kind-title">
+                                    <a class="sec-services__kind-btn js-services-btn">Компьютерная диагностика</a>
+                                </h4>
+                                <div class="sec-services__kind-text">
+                                    Сервисный центр «Автомагистр» окажет помощь в проведении автомобильного
+                                    ремонта любой сложности, за проведение которого придётся заплатить совсем
+                                    недорого. Понимая, как трудно найти качественный автосервис в Москве,
+                                    мы готовы взяться за любую модель.
+                                </div>
+                                <a class="btn btn_arrow-rt sec-services__kind-more" href="#">Подробнее</a>
+                            </li>
+                            <li class="sec-services__kind js-services-kind is-active" data-kind="02">
+                                <h4 class="sec-services__kind-title">
+                                    <a class="sec-services__kind-btn js-services-btn">Бесплатная диагностика</a>
+                                </h4>
+                                <div class="sec-services__kind-text">
+                                    Сервисный центр «Автомагистр» окажет помощь в проведении автомобильного
+                                    ремонта любой сложности, за проведение которого придётся заплатить совсем
+                                    недорого. Понимая, как трудно найти качественный автосервис в Москве,
+                                    мы готовы взяться за любую модель.
+                                </div>
+                                <a class="btn btn_arrow-rt sec-services__kind-more" href="#">Подробнее</a>
+                            </li>
+                            <li class="sec-services__kind js-services-kind" data-kind="03">
+                                <h4 class="sec-services__kind-title">
+                                    <a class="sec-services__kind-btn js-services-btn">Техническое обслуживание</a>
+                                </h4>
+                                <div class="sec-services__kind-text">
+                                    Сервисный центр «Автомагистр» окажет помощь в проведении автомобильного
+                                    ремонта любой сложности, за проведение которого придётся заплатить совсем
+                                    недорого. Понимая, как трудно найти качественный автосервис в Москве,
+                                    мы готовы взяться за любую модель.
+                                </div>
+                                <a class="btn btn_arrow-rt sec-services__kind-more" href="#">Подробнее</a>
+                            </li>
+                            <li class="sec-services__kind js-services-kind" data-kind="04">
+                                <h4 class="sec-services__kind-title">
+                                    <a class="sec-services__kind-btn js-services-btn">Авторемонт</a>
+                                </h4>
+                                <div class="sec-services__kind-text">
+                                    Сервисный центр «Автомагистр» окажет помощь в проведении автомобильного
+                                    ремонта любой сложности, за проведение которого придётся заплатить совсем
+                                    недорого. Понимая, как трудно найти качественный автосервис в Москве,
+                                    мы готовы взяться за любую модель.
+                                </div>
+                                <a class="btn btn_arrow-rt sec-services__kind-more" href="#">Подробнее</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- END sec-services -->
+
+    <section class="sec-work js-sec-scroll">
+        <div class="sec-work__front">
+            <div class="container sec-work__wrap">
+                <h2 class="sec-work__title">Наши работы</h2>
+                <div class="sec-work__row">
+                    <div class="sec-work__col-lt">
+                        <ul class="sec-work__menu">
+                            <li class="sec-work__menu-item">
+                                <a class="sec-work__btn sec-work__btn_service js-work-filter is-active" data-key="01" role="button">
+                                    <span>Обслуживание</span></a>
+                            </li>
+                            <li class="sec-work__menu-item">
+                                <a class="sec-work__btn sec-work__btn_suspend js-work-filter" data-key="02" role="button">
+                                    <span>Подвеска</span></a>
+                            </li>
+                            <li class="sec-work__menu-item">
+                                <a class="sec-work__btn sec-work__btn_braking js-work-filter" data-key="03" role="button">
+                                    <span>Тормозная система</span></a>
+                            </li>
+                            <li class="sec-work__menu-item">
+                                <a class="sec-work__btn sec-work__btn_engine  js-work-filter" data-key="04" role="button">
+                                    <span>Двигатель</span></a>
+                            </li>
+                            <li class="sec-work__menu-item">
+                                <a class="sec-work__btn sec-work__btn_control js-work-filter" data-key="05" role="button">
+                                    <span>Управление</span></a>
+                            </li>
+                            <li class="sec-work__menu-item">
+                                <a class="sec-work__btn sec-work__btn_starter js-work-filter" data-key="06" role="button">
+                                    <span>Стартер и генератор</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="sec-work__col-rt">
+                        <div class="sec-work__slider" id="sec-work-slider">
+                            <div class="sec-work__slide js-type-01">
+                                <div class="sec-work__slide-back">
+                                    <img class="sec-work__slide-min" src="{{ asset('assets/images/sec-work/slide-01_min_440x320.jpg') }}" alt="Авторемонт">
+                                </div>
+                                <div class="sec-work__slide-front">
+                                    <img class="sec-work__slide-big" src="{{ asset('assets/images/sec-work/slide-01_big_700x480.jpg') }}" alt="Авторемонт">
+                                    <div class="sec-work__slide-note"><span>Замена дисков</span></div>
+                                </div>
+                            </div>
+                            <div class="sec-work__slide js-type-01">
+                                <div class="sec-work__slide-back">
+                                    <img class="sec-work__slide-min" src="{{ asset('assets/images/sec-work/slide-01_min_440x320.jpg') }}" alt="Авторемонт">
+                                </div>
+                                <div class="sec-work__slide-front">
+                                    <img class="sec-work__slide-big" src="{{ asset('assets/images/sec-work/slide-01_big_700x480.jpg') }}" alt="Авторемонт">
+                                    <div class="sec-work__slide-note"><span>Замена дисков</span></div>
+                                </div>
+                            </div>
+                            <div class="sec-work__slide js-type-01">
+                                <div class="sec-work__slide-back">
+                                    <img class="sec-work__slide-min" src="{{ asset('assets/images/sec-work/slide-01_min_440x320.jpg') }}" alt="Авторемонт">
+                                </div>
+                                <div class="sec-work__slide-front">
+                                    <img class="sec-work__slide-big" src="{{ asset('assets/images/sec-work/slide-01_big_700x480.jpg') }}" alt="Авторемонт">
+                                    <div class="sec-work__slide-note"><span>Замена дисков</span></div>
+                                </div>
+                            </div>
+                            <div class="sec-work__slide js-type-02">
+                                <div class="sec-work__slide-back">
+                                    <img class="sec-work__slide-min" src="{{ asset('assets/images/sec-work/slide-01_min_440x320.jpg') }}" alt="Авторемонт">
+                                </div>
+                                <div class="sec-work__slide-front">
+                                    <img class="sec-work__slide-big" src="{{ asset('assets/images/sec-work/slide-01_big_700x480.jpg') }}" alt="Авторемонт">
+                                    <div class="sec-work__slide-note"><span>Замена дисков</span></div>
+                                </div>
+                            </div>
+                            <div class="sec-work__slide js-type-03">
+                                <div class="sec-work__slide-back">
+                                    <img class="sec-work__slide-min" src="{{ asset('assets/images/sec-work/slide-01_min_440x320.jpg') }}" alt="Авторемонт">
+                                </div>
+                                <div class="sec-work__slide-front">
+                                    <img class="sec-work__slide-big" src="{{ asset('assets/images/sec-work/slide-01_big_700x480.jpg') }}" alt="Авторемонт">
+                                    <div class="sec-work__slide-note"><span>Замена дисков</span></div>
+                                </div>
+                            </div>
+                            <div class="sec-work__slide js-type-04">
+                                <div class="sec-work__slide-back">
+                                    <img class="sec-work__slide-min" src="{{ asset('assets/images/sec-work/slide-01_min_440x320.jpg') }}" alt="Авторемонт">
+                                </div>
+                                <div class="sec-work__slide-front">
+                                    <img class="sec-work__slide-big" src="{{ asset('assets/images/sec-work/slide-01_big_700x480.jpg') }}" alt="Авторемонт">
+                                    <div class="sec-work__slide-note"><span>Замена дисков</span></div>
+                                </div>
+                            </div>
+                            <div class="sec-work__slide js-type-02">
+                                <div class="sec-work__slide-back">
+                                    <img class="sec-work__slide-min" src="{{ asset('assets/images/sec-work/slide-01_min_440x320.jpg') }}" alt="Авторемонт">
+                                </div>
+                                <div class="sec-work__slide-front">
+                                    <img class="sec-work__slide-big" src="{{ asset('assets/images/sec-work/slide-01_big_700x480.jpg') }}" alt="Авторемонт">
+                                    <div class="sec-work__slide-note"><span>Замена дисков</span></div>
+                                </div>
+                            </div>
+                            <div class="sec-work__slide js-type-05">
+                                <div class="sec-work__slide-back">
+                                    <img class="sec-work__slide-min" src="{{ asset('assets/images/sec-work/slide-01_min_440x320.jpg') }}" alt="Авторемонт">
+                                </div>
+                                <div class="sec-work__slide-front">
+                                    <img class="sec-work__slide-big" src="{{ asset('assets/images/sec-work/slide-01_big_700x480.jpg') }}" alt="Авторемонт">
+                                    <div class="sec-work__slide-note"><span>Замена дисков</span></div>
+                                </div>
+                            </div>
+                            <div class="sec-work__slide js-type-06">
+                                <div class="sec-work__slide-back">
+                                    <img class="sec-work__slide-min" src="{{ asset('assets/images/sec-work/slide-01_min_440x320.jpg') }}" alt="Авторемонт">
+                                </div>
+                                <div class="sec-work__slide-front">
+                                    <img class="sec-work__slide-big" src="{{ asset('assets/images/sec-work/slide-01_big_700x480.jpg') }}" alt="Авторемонт">
+                                    <div class="sec-work__slide-note"><span>Замена дисков</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sec-work__count" id="sec-work-count">01</div>
+                    </div><!-- END sec-work__col-rt -->
+                </div><!-- END sec-work__row -->
+            </div><!-- END sec-work__wrap -->
+        </div><!-- END sec-work__front -->
+    </section><!-- END sec-work -->
+
+    <section class="sec-expert js-sec-scroll">
+        <div class="sec-expert__back" id="sec-expert-back">
+            <div class="sec-expert__parr-lt">
+                <img class="sec-expert__parr-img sec-expert__lt-img_01" src="{{ asset('assets/img/sec-expert/lt-img_01.png') }}" alt="Авторемонт">
+                <img class="sec-expert__parr-img sec-expert__lt-img_02" src="{{ asset('assets/img/sec-expert/lt-img_02.png') }}" alt="Авторемонт">
+                <img class="sec-expert__parr-img sec-expert__lt-img_03" src="{{ asset('assets/img/sec-expert/lt-img_03.png') }}" alt="Авторемонт">
+                <img class="sec-expert__parr-img sec-expert__lt-img_04" src="{{ asset('assets/img/sec-expert/lt-img_04.png') }}" alt="Авторемонт">
+                <img class="sec-expert__parr-img sec-expert__lt-img_05" src="{{ asset('assets/img/sec-expert/lt-img_05.png') }}" alt="Авторемонт">
+                <img class="sec-expert__parr-img sec-expert__lt-img_06" src="{{ asset('assets/img/sec-expert/lt-img_06.png') }}" alt="Авторемонт">
+                <img class="sec-expert__parr-img sec-expert__lt-img_07" src="{{ asset('assets/img/sec-expert/lt-img_07.png') }}" alt="Авторемонт">
+            </div>
+            <div class="sec-expert__parr-rt">
+                <img class="sec-expert__parr-img sec-expert__rt-img_01" src="{{ asset('assets/img/sec-expert/rt-img_01.png') }}" alt="Авторемонт">
+                <img class="sec-expert__parr-img sec-expert__rt-img_02" src="{{ asset('assets/img/sec-expert/rt-img_02.png') }}" alt="Авторемонт">
+                <img class="sec-expert__parr-img sec-expert__rt-img_03" src="{{ asset('assets/img/sec-expert/rt-img_03.png') }}" alt="Авторемонт">
+                <img class="sec-expert__parr-img sec-expert__rt-img_04" src="{{ asset('assets/img/sec-expert/rt-img_04.png') }}" alt="Авторемонт">
+                <img class="sec-expert__parr-img sec-expert__rt-img_05" src="{{ asset('assets/img/sec-expert/rt-img_05.png') }}" alt="Авторемонт">
+                <img class="sec-expert__parr-img sec-expert__rt-img_06" src="{{ asset('assets/img/sec-expert/rt-img_06.png') }}" alt="Авторемонт">
+            </div>
+        </div>
+        <div class="sec-expert__front">
+            <h2 class="sec-expert__title">Убедитесь в нашей экспертности сами</h2>
+            <div class="sec-expert__slider" id="sec-expert-slider">
+                <div class="sec-expert__slide">
+                    <div class="container">
+                        <h4 class="sec-expert__subtitle"><span>Тормозной суппорт. Устройство и обслуживание</span></h4>
+                        <div class="sec-expert__row">
+                            <div class="sec-expert__col-lt">
+                                <a class="sec-expert__video js-show-popup" data-pop="pop-video-01" role="button">
+                                    <img class="sec-expert__video-img" src="{{ asset('assets/images/sec-expert/poster_01_760x460.jpg') }}" alt="video">
+                                </a>
+                                <!--div class="video-unit sec-expert__video">
+                                  <div class="video-unit__screen">
+                                    <div class="video-unit__poster js-youtube-init" data-youtube="LHizW4PLw2Q">
+                                      <img class="video-unit__img" src="images/sec-expert/poster_01_760x460.jpg" alt="Youtube video">
+                                      <a class="video-unit__start" role="button"></a>
+                                    </div>
+                                  </div>
+                                </div-->
+                            </div>
+                            <div class="sec-expert__col-rt">
+                                <nav class="sec-expert__nav">
+                                    <a class="sec-expert__btn js-expert-btn" data-num="02">Система охлаждения двигателя. Обслуживание, проблемы, перегрев.</a>
+                                    <a class="sec-expert__btn js-expert-btn" data-num="03">Lorem ipsum dolor sit amet, consectetur.</a>
+                                    <a class="sec-expert__btn js-expert-btn" data-num="04">Ремонт ГБЦ</a>
+                                    <a class="sec-expert__btn js-expert-btn" data-num="05">Устройстве АКПП</a>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- END sec-expert__slide -->
+                <div class="sec-expert__slide">
+                    <div class="container">
+                        <h4 class="sec-expert__subtitle">
+                            <span>Система охлаждения двигателя. Обслуживание, проблемы, перегрев</span></h4>
+                        <div class="sec-expert__row">
+                            <div class="sec-expert__col-lt">
+                                <a class="sec-expert__video js-show-popup" data-pop="pop-video-01" role="button">
+                                    <img class="sec-expert__video-img" src="{{ asset('assets/images/sec-expert/poster_01_760x460.jpg') }}" alt="video">
+                                </a>
+                            </div>
+                            <div class="sec-expert__col-rt">
+                                <nav class="sec-expert__nav">
+                                    <a class="sec-expert__btn js-expert-btn" data-num="03">Lorem ipsum dolor sit amet, consectetur.</a>
+                                    <a class="sec-expert__btn js-expert-btn" data-num="04">Ремонт ГБЦ</a>
+                                    <a class="sec-expert__btn js-expert-btn" data-num="05">Устройстве АКПП</a>
+                                    <a class="sec-expert__btn js-expert-btn" data-num="01">Тормозной суппорт. Устройство и обслуживание</a>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- END sec-expert__slide -->
+                <div class="sec-expert__slide">
+                    <div class="container">
+                        <h4 class="sec-expert__subtitle"><span>Lorem ipsum dolor sit amet, consectetur</span></h4>
+                        <div class="sec-expert__row">
+                            <div class="sec-expert__col-lt">
+                                <a class="sec-expert__video js-show-popup" data-pop="pop-video-01" role="button">
+                                    <img class="sec-expert__video-img" src="{{ asset('assets/images/sec-expert/poster_01_760x460.jpg') }}" alt="video">
+                                </a>
+                            </div>
+                            <div class="sec-expert__col-rt">
+                                <nav class="sec-expert__nav">
+                                    <a class="sec-expert__btn js-expert-btn" data-num="04">Ремонт ГБЦ</a>
+                                    <a class="sec-expert__btn js-expert-btn" data-num="05">Устройстве АКПП</a>
+                                    <a class="sec-expert__btn js-expert-btn" data-num="01">Тормозной суппорт. Устройство и обслуживание</a>
+                                    <a class="sec-expert__btn js-expert-btn" data-num="02">Система охлаждения двигателя. Обслуживание, проблемы, перегрев.</a>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- END sec-expert__slide -->
+                <div class="sec-expert__slide">
+                    <div class="container">
+                        <h4 class="sec-expert__subtitle"><span>Ремонт ГБЦ</span></h4>
+                        <div class="sec-expert__row">
+                            <div class="sec-expert__col-lt">
+                                <a class="sec-expert__video js-show-popup" data-pop="pop-video-01" role="button">
+                                    <img class="sec-expert__video-img" src="{{ asset('assets/images/sec-expert/poster_01_760x460.jpg') }}" alt="video">
+                                </a>
+                            </div>
+                            <div class="sec-expert__col-rt">
+                                <nav class="sec-expert__nav">
+                                    <a class="sec-expert__btn js-expert-btn" data-num="05">Устройстве АКПП</a>
+                                    <a class="sec-expert__btn js-expert-btn" data-num="01">Тормозной суппорт. Устройство и обслуживание</a>
+                                    <a class="sec-expert__btn js-expert-btn" data-num="02">Система охлаждения двигателя. Обслуживание, проблемы, перегрев.</a>
+                                    <a class="sec-expert__btn js-expert-btn" data-num="03">Lorem ipsum dolor sit amet, consectetur.</a>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- END sec-expert__slide -->
+                <div class="sec-expert__slide">
+                    <div class="container">
+                        <h4 class="sec-expert__subtitle"><span>Устройстве АКПП</span></h4>
+                        <div class="sec-expert__row">
+                            <div class="sec-expert__col-lt">
+                                <a class="sec-expert__video js-show-popup" data-pop="pop-video-01" role="button">
+                                    <img class="sec-expert__video-img" src="{{ asset('assets/images/sec-expert/poster_01_760x460.jpg') }}" alt="video">
+                                </a>
+                            </div>
+                            <div class="sec-expert__col-rt">
+                                <nav class="sec-expert__nav">
+                                    <a class="sec-expert__btn js-expert-btn" data-num="01">Тормозной суппорт. Устройство и обслуживание</a>
+                                    <a class="sec-expert__btn js-expert-btn" data-num="02">Система охлаждения двигателя. Обслуживание, проблемы, перегрев.</a>
+                                    <a class="sec-expert__btn js-expert-btn" data-num="03">Lorem ipsum dolor sit amet, consectetur.</a>
+                                    <a class="sec-expert__btn js-expert-btn" data-num="04">Ремонт ГБЦ</a>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- END sec-expert__slide -->
+            </div><!-- END sec-expert__slider -->
+            <img class="sec-expert__worker" src="{{ asset('assets/images/sec-expert/worker.png') }}" alt="Авторемонтник">
+        </div><!-- END sec-expert__front -->
+    </section><!-- END sec-expert -->
+
+    <section class="sec-faq js-sec-scroll">
+        <div class="sec-faq__back"></div>
+        <div class="sec-faq__front">
+            <div class="container sec-faq__container">
+                <h2 class="sec-faq__title">Часто задаваемые вопросы</h2>
+                <div class="sec-faq__row">
+                    <div class="sec-faq__col-lt">
+                        <div class="sec-faq__tabs">
+                            <nav class="sec-faq__tabs-head" id="sec-faq-tabs">
+                                <a class="sec-faq__tabs-btn js-tabs-btn is-active" data-tab="faq-tab-01" role="button">Как часто нужно делать ТО?</a>
+                                <a class="sec-faq__tabs-btn js-tabs-btn" data-tab="faq-tab-02" role="button">Факторы эксплуатации</a>
+                                <a class="sec-faq__tabs-btn js-tabs-btn" data-tab="faq-tab-03" role="button">Как часто нужно делать ТО?</a>
+                                <a class="sec-faq__tabs-btn js-tabs-btn" data-tab="faq-tab-04" role="button">Факторы эксплуатации</a>
+                                <a class="sec-faq__tabs-btn js-tabs-btn" data-tab="faq-tab-05" role="button">Как часто нужно делать ТО?</a>
+                                <a class="sec-faq__tabs-btn js-tabs-btn" data-tab="faq-tab-06" role="button">Факторы эксплуатации</a>
+                            </nav>
+                            <div class="sec-faq__tabs-body js-tabs-body">
+                                <div class="sec-faq__tabs-item is-active js-tabs-item" id="faq-tab-01">
+                                    <div class="sec-faq__tabs-text js-scroll-y">
+                                        <h3>Как часто нужно делать ТО?</h3>
+                                        <p>
+                                            Срок действия техосмотра для ОСАГО зависит в первую очередь от типа транспортного средства:
+                                            <br>
+                                            Автомобили категории B, мототранспортные средства, прицепы и полуприцепы - через 3, 5, 7 лет
+                                            после года выпуска. Далее - каждый год.
+                                            Автомобили категории С, учебные автомобили, автомобили оборудованные спецсигналами - каждый год.
+                                            Такси, автобусы, грузовики для перевозки людей, автомобили для перевозкиопасных грузов - каждые
+                                            6 месяцев.
+                                        </p>
+                                        <p>
+                                            У водителей часто возникает вопрос, нужно ли проходить техосмотр, если машине 3 года. В данном
+                                            случае проходить нужно обязательно, т.к. в противном случае Вам не продадут полис ОСАГО.
+                                        </p>
+                                        <h4>Еще один популярный вопрос:
+                                            <br> "Нужно ли проходить техосмотр на новую машину".</h4>
+                                        <p>
+                                            Срок действия техосмотра для ОСАГО зависит в первую очередь от типа транспортного средства:
+                                            <br>
+                                            Автомобили категории B, мототранспортные средства, прицепы и полуприцепы - через 3, 5, 7 лет
+                                            после года выпуска. Далее - каждый год. <br>
+                                            Автомобили категории С, учебные автомобили, автомобили оборудованные спецсигналами - каждый год.
+                                            Такси, автобусы, грузовики для перевозки людей, автомобили для перевозкиопасных грузов - каждые
+                                            6 месяцев.
+                                        </p>
+                                    </div>
+                                </div><!-- END sec-faq__tabs-item -->
+
+                                <div class="sec-faq__tabs-item js-tabs-item" id="faq-tab-02">
+                                    <div class="sec-faq__tabs-text js-scroll-y">
+                                        <h3>Как часто нужно делать ТО?</h3>
+                                        <p>
+                                            Срок действия техосмотра для ОСАГО зависит в первую очередь от типа транспортного средства:
+                                            <br>
+                                            Автомобили категории B, мототранспортные средства, прицепы и полуприцепы - через 3, 5, 7 лет
+                                            после года выпуска. Далее - каждый год. <br>
+                                            Автомобили категории С, учебные автомобили, автомобили оборудованные спецсигналами - каждый год.
+                                            Такси, автобусы, грузовики для перевозки людей, автомобили для перевозкиопасных грузов - каждые
+                                            6 месяцев.
+                                        </p>
+                                        <p>
+                                            У водителей часто возникает вопрос, нужно ли проходить техосмотр, если машине 3 года. В данном
+                                            случае проходить нужно обязательно, т.к. в противном случае Вам не продадут полис ОСАГО.
+                                        </p>
+                                        <h4>Еще один популярный вопрос: "Нужно ли проходить техосмотр на новую машину".</h4>
+                                        <p>
+                                            Срок действия техосмотра для ОСАГО зависит в первую очередь от типа транспортного средства:
+                                            <br>
+                                            Автомобили категории B, мототранспортные средства, прицепы и полуприцепы - через 3, 5, 7 лет
+                                            после года выпуска. Далее - каждый год. <br>
+                                            Автомобили категории С, учебные автомобили, автомобили оборудованные спецсигналами - каждый год.
+                                            Такси, автобусы, грузовики для перевозки людей, автомобили для перевозкиопасных грузов - каждые
+                                            6 месяцев.
+                                        </p>
+                                    </div>
+                                </div><!-- END sec-faq__tabs-item -->
+                                <div class="sec-faq__tabs-item js-tabs-item" id="faq-tab-03">
+                                    <div class="sec-faq__tabs-text js-scroll-y">
+                                        <h3>Как часто нужно делать ТО?</h3>
+                                        <p>
+                                            Срок действия техосмотра для ОСАГО зависит в первую очередь от типа транспортного средства:
+                                            <br>
+                                            Автомобили категории B, мототранспортные средства, прицепы и полуприцепы - через 3, 5, 7 лет
+                                            после года выпуска. Далее - каждый год. <br>
+                                            Автомобили категории С, учебные автомобили, автомобили оборудованные спецсигналами - каждый год.
+                                            Такси, автобусы, грузовики для перевозки людей, автомобили для перевозкиопасных грузов - каждые
+                                            6 месяцев.
+                                        </p>
+                                    </div>
+                                </div><!-- END sec-faq__tabs-item -->
+                                <div class="sec-faq__tabs-item js-tabs-item" id="faq-tab-04">
+                                    <div class="sec-faq__tabs-text js-scroll-y">
+                                        <h3>Как часто нужно делать ТО?</h3>
+                                        <p>
+                                            Срок действия техосмотра для ОСАГО зависит в первую очередь от типа транспортного средства:
+                                            <br>
+                                            Автомобили категории B, мототранспортные средства, прицепы и полуприцепы - через 3, 5, 7 лет
+                                            после года выпуска. Далее - каждый год. <br>
+                                            Автомобили категории С, учебные автомобили, автомобили оборудованные спецсигналами - каждый год.
+                                            Такси, автобусы, грузовики для перевозки людей, автомобили для перевозкиопасных грузов - каждые
+                                            6 месяцев.
+                                        </p>
+                                    </div>
+                                </div><!-- END sec-faq__tabs-item -->
+                                <div class="sec-faq__tabs-item js-tabs-item" id="faq-tab-05">
+                                    <div class="sec-faq__tabs-text js-scroll-y">
+                                        <h3>Как часто нужно делать ТО?</h3>
+                                        <p>
+                                            Срок действия техосмотра для ОСАГО зависит в первую очередь от типа транспортного средства:
+                                            <br>
+                                            Автомобили категории B, мототранспортные средства, прицепы и полуприцепы - через 3, 5, 7 лет
+                                            после года выпуска. Далее - каждый год. <br>
+                                            Автомобили категории С, учебные автомобили, автомобили оборудованные спецсигналами - каждый год.
+                                            Такси, автобусы, грузовики для перевозки людей, автомобили для перевозкиопасных грузов - каждые
+                                            6 месяцев.
+                                        </p>
+                                    </div>
+                                </div><!-- END sec-faq__tabs-item -->
+                                <div class="sec-faq__tabs-item js-tabs-item" id="faq-tab-06">
+                                    <div class="sec-faq__tabs-text js-scroll-y">
+                                        <h3>Как часто нужно делать ТО?</h3>
+                                        <p>
+                                            Срок действия техосмотра для ОСАГО зависит в первую очередь от типа транспортного средства:
+                                            <br>
+                                            Автомобили категории B, мототранспортные средства, прицепы и полуприцепы - через 3, 5, 7 лет
+                                            после года выпуска. Далее - каждый год. <br>
+                                            Автомобили категории С, учебные автомобили, автомобили оборудованные спецсигналами - каждый год.
+                                            Такси, автобусы, грузовики для перевозки людей, автомобили для перевозкиопасных грузов - каждые
+                                            6 месяцев.
+                                        </p>
+                                    </div>
+                                </div><!-- END sec-faq__tabs-item -->
+
+                            </div><!-- END sec-faq__tabs-body -->
+                        </div><!-- END sec-faq__tabs -->
+                    </div><!-- END sec-faq__col-lt -->
+
+                    <div class="sec-faq__col-rt">
+                        <form class="form sec-faq__form">
+                            <h3 class="form__title">Мы готовы помочь</h3>
+                            <div class="form__lead">Если у вас остались вопросы, задайте их прямо сейчас:</div>
+                            <div class="form__line">
+                                <input class="form__input" type="text" placeholder="Имя">
+                            </div>
+                            <div class="form__line">
+                                <input class="form__input" type="text" placeholder="E-mail">
+                            </div>
+                            <div class="form__line">
+                                <textarea class="form__text" placeholder="Ваш вопрос"></textarea>
+                            </div>
+                            <div class="form__line">
+                                <button class="btn btn_arrow-rt">Заказать</button>
+                            </div>
+                        </form>
+                    </div><!-- END sec-faq__col-rt -->
+                </div><!-- END sec-faq__row -->
+
+                <img class="sec-faq__girl" src="{{ asset('assets/img/sec-faq/woman.png') }}" alt="Мы готовы помочь">
+
+            </div><!-- END sec-faq__container -->
+        </div><!-- END sec-faq__front -->
+    </section><!-- END sec-faq -->
+
+    <section class="sec-map js-sec-scroll">
+        <div class="sec-map__back js-map-here"
+             id="section-map"
+             data-point='{"lat": 55.717483, "lng": 37.720718, "name": "Атомагистр - автосервис в Москве, магазин автозапчастей"}'>
+        </div>
+        <div class="sec-map__front">
+            <div class="container">
+                <div class="sec-map__pannel">
+                    <div class="sec-map__info">
+                        <h4 class="sec-map__info-text">
+                            г. Москва , Остаповский проезд, дом 17 <br>
+                            (м.Волгоградский проспект, м.Текстильщики)
+                        </h4>
+                    </div>
+                    <a class="sec-map__link" role="button">Схема проезда</a>
+                    <div class="sec-map__more">
+                        <a class="btn btn_arrow-rt sec-map__more-btn" href="#">Контакты</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- END sec-map -->
+{% endblock %}

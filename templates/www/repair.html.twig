@@ -1,0 +1,843 @@
+{% extends 'www/layout.html.twig' %}
+
+{% block content %}
+    <!-- MAIN ================================================================== -->
+    <main class="site-main">
+
+        <section class="sec-intro">
+            <div class="sec-intro__back" style="background-image: url({{ asset('assets/img/backgrounds/bg_repair.jpg') }})"></div>
+            <div class="sec-intro__front">
+                <div class="container">
+                    <h1 class="sec-intro__title">Ремонт и обслуживание<br>Nissan в Москве</h1>
+                    <a class="btn sec-intro__btn js-scroll-to" data-scroll="#sec-offer-slider" role="button">К прайс-листу</a>
+                </div>
+            </div>
+        </section><!-- END sec-intro -->
+
+        <section class="sec-offer">
+            <div class="sec-offer__wrap">
+                <div class="sec-offer__row" id="sec-offer-slider">
+                    <div class="sec-offer__col">
+                        <i class="sec-offer__icon icon_car-search"></i>
+                        <h2 class="sec-offer__title">Обслуживание</h2>
+                        <ul class="sec-offer__list">
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена свечей масла, жидкостей и фильтров</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Шиномонтаж, балансировка колес, хранение резины</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Очистка радиаторов</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена ламп</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Чистка инжектора с расходником</a>
+                            </li>
+                        </ul>
+                    </div><!-- END sec-offer__col -->
+                    <div class="sec-offer__col">
+                        <i class="sec-offer__icon icon_absorber"></i>
+                        <h2 class="sec-offer__title">Подвеска</h2>
+                        <ul class="sec-offer__list">
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена переднего нижнего рычага</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена сайлентблока (при снятом рычаге)</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена стабилизатора</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена сайлентблоков подрамника</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена ступицы в сборе</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена ступичного подшипника</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена шаровой опоры со снятием рычага перед-зад</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Сварочная работа, 1 шов</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена приводного вала</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена карданного вала в сборе</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена подшипника, сальников полуоси</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена амортизатора</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Ремонт поворотного кулака</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Установка стабилизатора</a>
+                            </li>
+                        </ul>
+                    </div><!-- END sec-offer__col -->
+                    <div class="sec-offer__col">
+                        <i class="sec-offer__icon icon_brake-disk"></i>
+                        <h2 class="sec-offer__title">Тормозная система</h2>
+                        <ul class="sec-offer__list">
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена тормозных дисков и колодок</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена колодок стояночного тормоза</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена главного тормозного цилиндра</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена тормозного цилиндра</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена рабочего цилиндра сцепления</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Подтянуть ручник</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Переборка суппортов</a>
+                            </li>
+                        </ul>
+                    </div><!-- END sec-offer__col -->
+                    <div class="sec-offer__col">
+                        <i class="sec-offer__icon icon_motor"></i>
+                        <h2 class="sec-offer__title">Двигатель</h2>
+                        <ul class="sec-offer__list">
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена цепи ГРМ</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">С\у ГБЦ</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Капитальный ремонт двигателя</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена опоры ДВС</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена сальника к\в пер</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена радиатора охлаждения</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Герметизация поддона ДВС</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена приводного ремня</a>
+                            </li>
+                        </ul>
+                    </div><!-- END sec-offer__col -->
+                    <div class="sec-offer__col">
+                        <i class="sec-offer__icon icon_wheel"></i>
+                        <h2 class="sec-offer__title">Управление</h2>
+                        <ul class="sec-offer__list">
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена рулевой тяги</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена рулевого наконечника</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена рулевой рейки</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена рулевого карданчика</a>
+                            </li>
+                        </ul>
+                    </div><!-- END sec-offer__col -->
+                    <div class="sec-offer__col">
+                        <i class="sec-offer__icon icon_car-search"></i>
+                        <h2 class="sec-offer__title">Обслуживание</h2>
+                        <ul class="sec-offer__list">
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена свечей масла, жидкостей и фильтров</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Шиномонтаж, балансировка колес, хранение резины</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Очистка радиаторов</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена ламп</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Чистка инжектора с расходником</a>
+                            </li>
+                        </ul>
+                    </div><!-- END sec-offer__col -->
+                    <div class="sec-offer__col">
+                        <i class="sec-offer__icon icon_absorber"></i>
+                        <h2 class="sec-offer__title">Подвеска</h2>
+                        <ul class="sec-offer__list">
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена переднего нижнего рычага</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена сайлентблока (при снятом рычаге)</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена стабилизатора</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена сайлентблоков подрамника</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена ступицы в сборе</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена ступичного подшипника</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена шаровой опоры со снятием рычага перед-зад</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Сварочная работа, 1 шов</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена приводного вала</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена карданного вала в сборе</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена подшипника, сальников полуоси</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Замена амортизатора</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Ремонт поворотного кулака</a>
+                            </li>
+                            <li class="sec-offer__item">
+                                <a class="sec-offer__link" href="#">Установка стабилизатора</a>
+                            </li>
+                        </ul>
+                    </div><!-- END sec-offer__col -->
+                </div><!-- END sec-offer__wrap  -->
+            </div><!-- END sec-offer__row -->
+        </section><!-- END sec-offer -->
+
+        <section class="sec-happen">
+            <div class="sec-happen__back" style="background-image: url({{ asset('assets/img/backgrounds/bg_sec-happen_01.jpg') }})"></div>
+            <div class="sec-happen__front">
+                <div class="container">
+                    <div class="sec-happen__row">
+                        <div class="sec-happen__col-lt">
+                            <h2 class="sec-happen__title">Не знаете что произошло?</h2>
+                            <div class="sec-happen__lead">
+                                Запишитесь на бесплатную консультацию <br> и наши специалисты выяснят в чем проблема!
+                            </div>
+                            <form class="subscribe sec-happen__form">
+                                <input class="subscribe__name" type="text" placeholder="Имя">
+                                <input class="subscribe__numb js-phone-mask" type="text" placeholder="Телефон">
+                                <input class="subscribe__date js-datepicker-limited" type="text" readonly placeholder="Выберите дату">
+                                <div class="subscribe__agree">
+                                    <label class="subscribe__check"><input type="checkbox" checked><span></span></label>
+                                    <div class="subscribe__hint">
+                                        <span>Lorem ipsum dolor sit amet, consec tetur adipisi cing elit. At, exerci tati onem.</span>
+                                    </div>
+                                </div>
+                                <a class="btn subscribe__btn" role="button">Записаться</a>
+                            </form>
+                            <ul class="facts sec-happen__facts">
+                                <li class="facts__item">
+                                    <div class="facts__val js-odometer is-hidden" data-value="8">1</div>
+                                    <div class="facts__txt">Лет опыта</div>
+                                </li>
+                                <li class="facts__item">
+                                    <div class="facts__val js-odometer is-hidden" data-value="21282">21000</div>
+                                    <div class="facts__txt">Выполненных ремонта</div>
+                                </li>
+                                <li class="facts__item">
+                                    <div class="facts__val js-odometer is-hidden" data-value="4947">4800</div>
+                                    <div class="facts__txt">Машин отремонтировано</div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="sec-happen__col-rt">
+                            <img class="sec-happen__img" src="{{ asset('assets/img/sec-happen/happen-man.png') }}" alt="Авторемонт">
+                        </div>
+                    </div>
+                </div><!-- END container -->
+            </div><!-- END sec-happen__front -->
+        </section><!-- END sec-happen -->
+
+        <section class="sec-master">
+            <div class="sec-master__back" style="background-image: url({{ asset('assets/img/backgrounds/bg_sec-master.jpg') }})"></div>
+            <div class="sec-master__front">
+                <h2 class="sec-master__title">Наши мастера</h2>
+                <div class="sec-master__slider" id="sec-master-slider">
+                    <div class="sec-master__slide">
+                        <div class="container sec-master__slide-row">
+                            <div class="sec-master__slide-lt">
+                                <img class="sec-master__slide-img" src="{{ asset('assets/img/sec-master/master_01.png') }}" alt="Мастер авторемонт">
+                            </div>
+                            <div class="sec-master__slide-rt">
+                                <div class="sec-master__slide-text js-scroll-y">
+                                    <h4 class="sec-master__slide-title">Иван Иванов</h4>
+                                    <dl class="sec-master__slide-list">
+                                        <dt>Автомеханик</dt>
+                                        <dd>Стаж работы по специальности: с 2005 г.</dd>
+                                        <dt>Основной профиль:</dt>
+                                        <dd>Ремонт двигателя и КПП, ремонт ходовой части.</dd>
+                                        <dt>Дополнительный профиль:</dt>
+                                        <dd>Ремонт рулевых реек, электрика, диагностика.</dd>
+                                        <dt>Информация о специалисте:</dt>
+                                        <dd>
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                            Cum exercitationem illo inventore mollitia natus necessitatibus
+                                            nihil obcaecati quis! Dicta esse iure quam quibusdam sint.
+                                            Adipisci aperiam atque consequatur corporis cum error facilis.
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div><!-- END container -->
+                    </div><!-- END sec-master__slide -->
+                    <div class="sec-master__slide">
+                        <div class="container sec-master__slide-row">
+                            <div class="sec-master__slide-lt">
+                                <img class="sec-master__slide-img" src="{{ asset('assets/img/sec-master/master_02.png') }}" alt="Мастер авторемонт">
+                            </div>
+                            <div class="sec-master__slide-rt">
+                                <div class="sec-master__slide-text js-scroll-y">
+                                    <h4 class="sec-master__slide-title">Иван Иванов</h4>
+                                    <dl class="sec-master__slide-list">
+                                        <dt>Автомеханик</dt>
+                                        <dd>Стаж работы по специальности: с 2005 г.</dd>
+                                        <dt>Основной профиль:</dt>
+                                        <dd>Ремонт двигателя и КПП, ремонт ходовой части.</dd>
+                                        <dt>Дополнительный профиль:</dt>
+                                        <dd>Ремонт рулевых реек, электрика, диагностика.</dd>
+                                        <dt>Информация о специалисте:</dt>
+                                        <dd>
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                            Cum exercitationem illo inventore mollitia natus necessitatibus
+                                            nihil obcaecati quis! Dicta esse iure quam quibusdam sint.
+                                            Adipisci aperiam atque consequatur corporis cum error facilis.
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div><!-- END container -->
+                    </div><!-- END sec-master__slide -->
+                    <div class="sec-master__slide">
+                        <div class="container sec-master__slide-row">
+                            <div class="sec-master__slide-lt">
+                                <img class="sec-master__slide-img" src="{{ asset('assets/img/sec-master/master_03.png') }}" alt="Мастер авторемонт">
+                            </div>
+                            <div class="sec-master__slide-rt">
+                                <div class="sec-master__slide-text js-scroll-y">
+                                    <h4 class="sec-master__slide-title">Иван Иванов</h4>
+                                    <dl class="sec-master__slide-list">
+                                        <dt>Автомеханик</dt>
+                                        <dd>Стаж работы по специальности: с 2005 г.</dd>
+                                        <dt>Основной профиль:</dt>
+                                        <dd>Ремонт двигателя и КПП, ремонт ходовой части.</dd>
+                                        <dt>Дополнительный профиль:</dt>
+                                        <dd>Ремонт рулевых реек, электрика, диагностика.</dd>
+                                        <dt>Информация о специалисте:</dt>
+                                        <dd>
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                            Cum exercitationem illo inventore mollitia natus necessitatibus
+                                            nihil obcaecati quis! Dicta esse iure quam quibusdam sint.
+                                            Adipisci aperiam atque consequatur corporis cum error facilis.
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div><!-- END container -->
+                    </div><!-- END sec-master__slide -->
+                    <div class="sec-master__slide">
+                        <div class="container sec-master__slide-row">
+                            <div class="sec-master__slide-lt">
+                                <img class="sec-master__slide-img" src="{{ asset('assets/img/sec-master/master_04.png') }}" alt="Мастер авторемонт">
+                            </div>
+                            <div class="sec-master__slide-rt">
+                                <div class="sec-master__slide-text js-scroll-y">
+                                    <h4 class="sec-master__slide-title">Иван Иванов</h4>
+                                    <dl class="sec-master__slide-list">
+                                        <dt>Автомеханик</dt>
+                                        <dd>Стаж работы по специальности: с 2005 г.</dd>
+                                        <dt>Основной профиль:</dt>
+                                        <dd>Ремонт двигателя и КПП, ремонт ходовой части.</dd>
+                                        <dt>Дополнительный профиль:</dt>
+                                        <dd>Ремонт рулевых реек, электрика, диагностика.</dd>
+                                        <dt>Информация о специалисте:</dt>
+                                        <dd>
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                            Cum exercitationem illo inventore mollitia natus necessitatibus
+                                            nihil obcaecati quis! Dicta esse iure quam quibusdam sint.
+                                            Adipisci aperiam atque consequatur corporis cum error facilis.
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div><!-- END container -->
+                    </div><!-- END sec-master__slide -->
+                    <div class="sec-master__slide">
+                        <div class="container sec-master__slide-row">
+                            <div class="sec-master__slide-lt">
+                                <img class="sec-master__slide-img" src="{{ asset('assets/img/sec-master/master_05.png') }}" alt="Мастер авторемонт">
+                            </div>
+                            <div class="sec-master__slide-rt">
+                                <div class="sec-master__slide-text js-scroll-y">
+                                    <h4 class="sec-master__slide-title">Иван Иванов</h4>
+                                    <dl class="sec-master__slide-list">
+                                        <dt>Автомеханик</dt>
+                                        <dd>Стаж работы по специальности: с 2005 г.</dd>
+                                        <dt>Основной профиль:</dt>
+                                        <dd>Ремонт двигателя и КПП, ремонт ходовой части.</dd>
+                                        <dt>Дополнительный профиль:</dt>
+                                        <dd>Ремонт рулевых реек, электрика, диагностика.</dd>
+                                        <dt>Информация о специалисте:</dt>
+                                        <dd>
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                            Cum exercitationem illo inventore mollitia natus necessitatibus
+                                            nihil obcaecati quis! Dicta esse iure quam quibusdam sint.
+                                            Adipisci aperiam atque consequatur corporis cum error facilis.
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div><!-- END container -->
+                    </div><!-- END sec-master__slide -->
+                    <div class="sec-master__slide">
+                        <div class="container sec-master__slide-row">
+                            <div class="sec-master__slide-lt">
+                                <img class="sec-master__slide-img" src="{{ asset('assets/img/sec-master/master_06.png') }}" alt="Мастер авторемонт">
+                            </div>
+                            <div class="sec-master__slide-rt">
+                                <div class="sec-master__slide-text js-scroll-y">
+                                    <h4 class="sec-master__slide-title">Иван Иванов</h4>
+                                    <dl class="sec-master__slide-list">
+                                        <dt>Автомеханик</dt>
+                                        <dd>Стаж работы по специальности: с 2005 г.</dd>
+                                        <dt>Основной профиль:</dt>
+                                        <dd>Ремонт двигателя и КПП, ремонт ходовой части.</dd>
+                                        <dt>Дополнительный профиль:</dt>
+                                        <dd>Ремонт рулевых реек, электрика, диагностика.</dd>
+                                        <dt>Информация о специалисте:</dt>
+                                        <dd>
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                            Cum exercitationem illo inventore mollitia natus necessitatibus
+                                            nihil obcaecati quis! Dicta esse iure quam quibusdam sint.
+                                            Adipisci aperiam atque consequatur corporis cum error facilis.
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div><!-- END container -->
+                    </div><!-- END sec-master__slide -->
+                </div><!-- END sec-master__slider -->
+            </div><!-- END sec-master__front -->
+        </section><!-- END sec-happen -->
+
+        <section class="sec-reviews">
+            <div class="container">
+                <h2 class="sec-reviews__title">Отзывы</h2>
+                <div class="sec-reviews__slider" id="sec-reviews-slider">
+                    <div class="sec-reviews__slide">
+                        <div class="review-card">
+                            <h4 class="review-card__title">Eric_Lindros на Nissan Murano</h4>
+                            <div class="review-card__text js-scroll-y">
+                                Общие отзывы о ремонте
+                                Спасибо Автомагистру!
+                                Вчера обслужился у них, сделав ТО-60. Всё чётко, всё что оговорено,
+                                выполнено строго по обещанному. Плюс проверены по моим жалобам по подвеске
+                                все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                                ценами по з/ч и работам. Цены на работы и з\ч ну очень приемлемые.
+                                По ближайшей замене проверены по моим жалобам по подвеске
+                                все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                                ценами по з/ч и работам. Цены на работы ну очень приемлемые.
+                            </div>
+                            <div class="review-card__info">
+                                <a class="review-card__link" href="#">Ссылка на источник отзыва</a>
+                                <b class="review-card__date">05.03.2016</b>
+                            </div>
+                        </div>
+                    </div><!-- END sec-reviews__slide -->
+                    <div class="sec-reviews__slide">
+                        <div class="review-card">
+                            <h4 class="review-card__title">Eric_Lindros на Nissan Murano</h4>
+                            <div class="review-card__text js-scroll-y">
+                                Общие отзывы о ремонте
+                                Спасибо Автомагистру!
+                                Вчера обслужился у них, сделав ТО-60. Всё чётко, всё что оговорено,
+                                выполнено строго по обещанному. Плюс проверены по моим жалобам по подвеске
+                                все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                                ценами по з/ч и работам. Цены на работы и з\ч ну очень приемлемые.
+                                По ближайшей замене проверены по моим жалобам по подвеске
+                                все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                                ценами по з/ч и работам. Цены на работы ну очень приемлемые.
+                            </div>
+                            <div class="review-card__info">
+                                <a class="review-card__link" href="#">Ссылка на источник отзыва</a>
+                                <b class="review-card__date">05.03.2016</b>
+                            </div>
+                        </div>
+                    </div><!-- END sec-reviews__slide -->
+                    <div class="sec-reviews__slide">
+                        <div class="review-card">
+                            <h4 class="review-card__title">Eric_Lindros на Nissan Murano</h4>
+                            <div class="review-card__text js-scroll-y">
+                                Общие отзывы о ремонте
+                                Спасибо Автомагистру!
+                                Вчера обслужился у них, сделав ТО-60. Всё чётко, всё что оговорено,
+                                выполнено строго по обещанному. Плюс проверены по моим жалобам по подвеске
+                                все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                                ценами по з/ч и работам. Цены на работы и з\ч ну очень приемлемые.
+                                По ближайшей замене проверены по моим жалобам по подвеске
+                                все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                                ценами по з/ч и работам. Цены на работы ну очень приемлемые.
+                            </div>
+                            <div class="review-card__info">
+                                <a class="review-card__link" href="#">Ссылка на источник отзыва</a>
+                                <b class="review-card__date">05.03.2016</b>
+                            </div>
+                        </div>
+                    </div><!-- END sec-reviews__slide -->
+                    <div class="sec-reviews__slide">
+                        <div class="review-card">
+                            <h4 class="review-card__title">Eric_Lindros на Nissan Murano</h4>
+                            <div class="review-card__text js-scroll-y">
+                                Общие отзывы о ремонте
+                                Спасибо Автомагистру!
+                                Вчера обслужился у них, сделав ТО-60. Всё чётко, всё что оговорено,
+                                выполнено строго по обещанному. Плюс проверены по моим жалобам по подвеске
+                                все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                                ценами по з/ч и работам. Цены на работы и з\ч ну очень приемлемые.
+                                По ближайшей замене проверены по моим жалобам по подвеске
+                                все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                                ценами по з/ч и работам. Цены на работы ну очень приемлемые.
+                            </div>
+                            <div class="review-card__info">
+                                <a class="review-card__link" href="#">Ссылка на источник отзыва</a>
+                                <b class="review-card__date">05.03.2016</b>
+                            </div>
+                        </div>
+                    </div><!-- END sec-reviews__slide -->
+                    <div class="sec-reviews__slide">
+                        <div class="review-card">
+                            <h4 class="review-card__title">Eric_Lindros на Nissan Murano</h4>
+                            <div class="review-card__text js-scroll-y">
+                                Общие отзывы о ремонте
+                                Спасибо Автомагистру!
+                                Вчера обслужился у них, сделав ТО-60. Всё чётко, всё что оговорено,
+                                выполнено строго по обещанному. Плюс проверены по моим жалобам по подвеске
+                                все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                                ценами по з/ч и работам. Цены на работы и з\ч ну очень приемлемые.
+                                По ближайшей замене проверены по моим жалобам по подвеске
+                                все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                                ценами по з/ч и работам. Цены на работы ну очень приемлемые.
+                            </div>
+                            <div class="review-card__info">
+                                <a class="review-card__link" href="#">Ссылка на источник отзыва</a>
+                                <b class="review-card__date">05.03.2016</b>
+                            </div>
+                        </div>
+                    </div><!-- END sec-reviews__slide -->
+                    <div class="sec-reviews__slide">
+                        <div class="review-card">
+                            <h4 class="review-card__title">Eric_Lindros на Nissan Murano</h4>
+                            <div class="review-card__text js-scroll-y">
+                                Общие отзывы о ремонте
+                                Спасибо Автомагистру!
+                                Вчера обслужился у них, сделав ТО-60. Всё чётко, всё что оговорено,
+                                выполнено строго по обещанному. Плюс проверены по моим жалобам по подвеске
+                                все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                                ценами по з/ч и работам. Цены на работы и з\ч ну очень приемлемые.
+                                По ближайшей замене проверены по моим жалобам по подвеске
+                                все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                                ценами по з/ч и работам. Цены на работы ну очень приемлемые.
+                            </div>
+                            <div class="review-card__info">
+                                <a class="review-card__link" href="#">Ссылка на источник отзыва</a>
+                                <b class="review-card__date">05.03.2016</b>
+                            </div>
+                        </div>
+                    </div><!-- END sec-reviews__slide -->
+                    <div class="sec-reviews__slide">
+                        <div class="review-card">
+                            <h4 class="review-card__title">Eric_Lindros на Nissan Murano</h4>
+                            <div class="review-card__text js-scroll-y">
+                                Общие отзывы о ремонте
+                                Спасибо Автомагистру!
+                                Вчера обслужился у них, сделав ТО-60. Всё чётко, всё что оговорено,
+                                выполнено строго по обещанному. Плюс проверены по моим жалобам по подвеске
+                                все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                                ценами по з/ч и работам. Цены на работы и з\ч ну очень приемлемые.
+                                По ближайшей замене проверены по моим жалобам по подвеске
+                                все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                                ценами по з/ч и работам. Цены на работы ну очень приемлемые.
+                            </div>
+                            <div class="review-card__info">
+                                <a class="review-card__link" href="#">Ссылка на источник отзыва</a>
+                                <b class="review-card__date">05.03.2016</b>
+                            </div>
+                        </div>
+                    </div><!-- END sec-reviews__slide -->
+                    <div class="sec-reviews__slide">
+                        <div class="review-card">
+                            <h4 class="review-card__title">Eric_Lindros на Nissan Murano</h4>
+                            <div class="review-card__text js-scroll-y">
+                                Общие отзывы о ремонте
+                                Спасибо Автомагистру!
+                                Вчера обслужился у них, сделав ТО-60. Всё чётко, всё что оговорено,
+                                выполнено строго по обещанному. Плюс проверены по моим жалобам по подвеске
+                                все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                                ценами по з/ч и работам. Цены на работы и з\ч ну очень приемлемые.
+                                По ближайшей замене проверены по моим жалобам по подвеске
+                                все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                                ценами по з/ч и работам. Цены на работы ну очень приемлемые.
+                            </div>
+                            <div class="review-card__info">
+                                <a class="review-card__link" href="#">Ссылка на источник отзыва</a>
+                                <b class="review-card__date">05.03.2016</b>
+                            </div>
+                        </div>
+                    </div><!-- END sec-reviews__slide -->
+                </div><!-- END sec-reviews__slider -->
+                <div class="sec-reviews__more">
+                    <a class="btn btn_arrow-rt sec-reviews__more-btn">Посмотреть более 2 000 отзывов</a>
+                </div>
+            </div><!-- END container -->
+        </section><!-- END sec-reviews -->
+
+        <section class="sec-partners">
+            <div class="container">
+                <h2 class="sec-partners__title">Нам доверяют основные клубы Nissan Москвы</h2>
+                <div class="sec-partners__slider" id="sec-partners-slider">
+                    <div class="sec-partners__slide">
+                        <img class="sec-partners__logo" src="{{ asset('assets/img/sec-partners/partner_01.png') }}" alt="Авто партнер">
+                    </div>
+                    <div class="sec-partners__slide">
+                        <img class="sec-partners__logo" src="{{ asset('assets/img/sec-partners/partner_02.png') }}" alt="Авто партнер">
+                    </div>
+                    <div class="sec-partners__slide">
+                        <img class="sec-partners__logo" src="{{ asset('assets/img/sec-partners/partner_03.png') }}" alt="Авто партнер">
+                    </div>
+                    <div class="sec-partners__slide">
+                        <img class="sec-partners__logo" src="{{ asset('assets/img/sec-partners/partner_04.png') }}" alt="Авто партнер">
+                    </div>
+                    <div class="sec-partners__slide">
+                        <img class="sec-partners__logo" src="{{ asset('assets/img/sec-partners/partner_05.png') }}" alt="Авто партнер">
+                    </div>
+                    <div class="sec-partners__slide">
+                        <img class="sec-partners__logo" src="{{ asset('assets/img/sec-partners/partner_03.png') }}" alt="Авто партнер">
+                    </div>
+                    <div class="sec-partners__slide">
+                        <img class="sec-partners__logo" src="{{ asset('assets/img/sec-partners/partner_04.png') }}" alt="Авто партнер">
+                    </div>
+                    <div class="sec-partners__slide">
+                        <img class="sec-partners__logo" src="{{ asset('assets/img/sec-partners/partner_05.png') }}" alt="Авто партнер">
+                    </div>
+                </div>
+            </div><!-- END container -->
+        </section><!-- END sec-partners -->
+
+        <section class="sec-faq">
+            <div class="sec-faq__back"></div>
+            <div class="sec-faq__front">
+                <div class="container sec-faq__container">
+                    <h2 class="sec-faq__title">Часто задаваемые вопросы</h2>
+                    <div class="sec-faq__row">
+                        <div class="sec-faq__col-lt">
+                            <div class="sec-faq__tabs">
+                                <nav class="sec-faq__tabs-head" id="sec-faq-tabs">
+                                    <a class="sec-faq__tabs-btn js-tabs-btn is-active" data-tab="faq-tab-01" role="button">Как часто нужно делать ТО?</a>
+                                    <a class="sec-faq__tabs-btn js-tabs-btn" data-tab="faq-tab-02" role="button">Факторы эксплуатации</a>
+                                    <a class="sec-faq__tabs-btn js-tabs-btn" data-tab="faq-tab-03" role="button">Как часто нужно делать ТО?</a>
+                                    <a class="sec-faq__tabs-btn js-tabs-btn" data-tab="faq-tab-04" role="button">Факторы эксплуатации</a>
+                                    <a class="sec-faq__tabs-btn js-tabs-btn" data-tab="faq-tab-05" role="button">Как часто нужно делать ТО?</a>
+                                    <a class="sec-faq__tabs-btn js-tabs-btn" data-tab="faq-tab-06" role="button">Факторы эксплуатации</a>
+                                </nav>
+                                <div class="sec-faq__tabs-body js-tabs-body">
+                                    <div class="sec-faq__tabs-item is-active js-tabs-item" id="faq-tab-01">
+                                        <div class="sec-faq__tabs-text js-scroll-y">
+                                            <h3>Как часто нужно делать ТО?</h3>
+                                            <p>
+                                                Срок действия техосмотра для ОСАГО зависит в первую очередь от типа транспортного средства:
+                                                <br>
+                                                Автомобили категории B, мототранспортные средства, прицепы и полуприцепы - через 3, 5, 7 лет
+                                                после года выпуска. Далее - каждый год.
+                                                Автомобили категории С, учебные автомобили, автомобили оборудованные спецсигналами - каждый год.
+                                                Такси, автобусы, грузовики для перевозки людей, автомобили для перевозкиопасных грузов - каждые
+                                                6 месяцев.
+                                            </p>
+                                            <p>
+                                                У водителей часто возникает вопрос, нужно ли проходить техосмотр, если машине 3 года. В данном
+                                                случае проходить нужно обязательно, т.к. в противном случае Вам не продадут полис ОСАГО.
+                                            </p>
+                                            <h4>Еще один популярный вопрос:
+                                                <br> "Нужно ли проходить техосмотр на новую машину".</h4>
+                                            <p>
+                                                Срок действия техосмотра для ОСАГО зависит в первую очередь от типа транспортного средства:
+                                                <br>
+                                                Автомобили категории B, мототранспортные средства, прицепы и полуприцепы - через 3, 5, 7 лет
+                                                после года выпуска. Далее - каждый год. <br>
+                                                Автомобили категории С, учебные автомобили, автомобили оборудованные спецсигналами - каждый год.
+                                                Такси, автобусы, грузовики для перевозки людей, автомобили для перевозкиопасных грузов - каждые
+                                                6 месяцев.
+                                            </p>
+                                        </div>
+                                    </div><!-- END sec-faq__tabs-item -->
+
+                                    <div class="sec-faq__tabs-item js-tabs-item" id="faq-tab-02">
+                                        <div class="sec-faq__tabs-text js-scroll-y">
+                                            <h3>Как часто нужно делать ТО?</h3>
+                                            <p>
+                                                Срок действия техосмотра для ОСАГО зависит в первую очередь от типа транспортного средства:
+                                                <br>
+                                                Автомобили категории B, мототранспортные средства, прицепы и полуприцепы - через 3, 5, 7 лет
+                                                после года выпуска. Далее - каждый год. <br>
+                                                Автомобили категории С, учебные автомобили, автомобили оборудованные спецсигналами - каждый год.
+                                                Такси, автобусы, грузовики для перевозки людей, автомобили для перевозкиопасных грузов - каждые
+                                                6 месяцев.
+                                            </p>
+                                            <p>
+                                                У водителей часто возникает вопрос, нужно ли проходить техосмотр, если машине 3 года. В данном
+                                                случае проходить нужно обязательно, т.к. в противном случае Вам не продадут полис ОСАГО.
+                                            </p>
+                                            <h4>Еще один популярный вопрос: "Нужно ли проходить техосмотр на новую машину".</h4>
+                                            <p>
+                                                Срок действия техосмотра для ОСАГО зависит в первую очередь от типа транспортного средства:
+                                                <br>
+                                                Автомобили категории B, мототранспортные средства, прицепы и полуприцепы - через 3, 5, 7 лет
+                                                после года выпуска. Далее - каждый год. <br>
+                                                Автомобили категории С, учебные автомобили, автомобили оборудованные спецсигналами - каждый год.
+                                                Такси, автобусы, грузовики для перевозки людей, автомобили для перевозкиопасных грузов - каждые
+                                                6 месяцев.
+                                            </p>
+                                        </div>
+                                    </div><!-- END sec-faq__tabs-item -->
+                                    <div class="sec-faq__tabs-item js-tabs-item" id="faq-tab-03">
+                                        <div class="sec-faq__tabs-text js-scroll-y">
+                                            <h3>Как часто нужно делать ТО?</h3>
+                                            <p>
+                                                Срок действия техосмотра для ОСАГО зависит в первую очередь от типа транспортного средства:
+                                                <br>
+                                                Автомобили категории B, мототранспортные средства, прицепы и полуприцепы - через 3, 5, 7 лет
+                                                после года выпуска. Далее - каждый год. <br>
+                                                Автомобили категории С, учебные автомобили, автомобили оборудованные спецсигналами - каждый год.
+                                                Такси, автобусы, грузовики для перевозки людей, автомобили для перевозкиопасных грузов - каждые
+                                                6 месяцев.
+                                            </p>
+                                        </div>
+                                    </div><!-- END sec-faq__tabs-item -->
+                                    <div class="sec-faq__tabs-item js-tabs-item" id="faq-tab-04">
+                                        <div class="sec-faq__tabs-text js-scroll-y">
+                                            <h3>Как часто нужно делать ТО?</h3>
+                                            <p>
+                                                Срок действия техосмотра для ОСАГО зависит в первую очередь от типа транспортного средства:
+                                                <br>
+                                                Автомобили категории B, мототранспортные средства, прицепы и полуприцепы - через 3, 5, 7 лет
+                                                после года выпуска. Далее - каждый год. <br>
+                                                Автомобили категории С, учебные автомобили, автомобили оборудованные спецсигналами - каждый год.
+                                                Такси, автобусы, грузовики для перевозки людей, автомобили для перевозкиопасных грузов - каждые
+                                                6 месяцев.
+                                            </p>
+                                        </div>
+                                    </div><!-- END sec-faq__tabs-item -->
+                                    <div class="sec-faq__tabs-item js-tabs-item" id="faq-tab-05">
+                                        <div class="sec-faq__tabs-text js-scroll-y">
+                                            <h3>Как часто нужно делать ТО?</h3>
+                                            <p>
+                                                Срок действия техосмотра для ОСАГО зависит в первую очередь от типа транспортного средства:
+                                                <br>
+                                                Автомобили категории B, мототранспортные средства, прицепы и полуприцепы - через 3, 5, 7 лет
+                                                после года выпуска. Далее - каждый год. <br>
+                                                Автомобили категории С, учебные автомобили, автомобили оборудованные спецсигналами - каждый год.
+                                                Такси, автобусы, грузовики для перевозки людей, автомобили для перевозкиопасных грузов - каждые
+                                                6 месяцев.
+                                            </p>
+                                        </div>
+                                    </div><!-- END sec-faq__tabs-item -->
+                                    <div class="sec-faq__tabs-item js-tabs-item" id="faq-tab-06">
+                                        <div class="sec-faq__tabs-text js-scroll-y">
+                                            <h3>Как часто нужно делать ТО?</h3>
+                                            <p>
+                                                Срок действия техосмотра для ОСАГО зависит в первую очередь от типа транспортного средства:
+                                                <br>
+                                                Автомобили категории B, мототранспортные средства, прицепы и полуприцепы - через 3, 5, 7 лет
+                                                после года выпуска. Далее - каждый год. <br>
+                                                Автомобили категории С, учебные автомобили, автомобили оборудованные спецсигналами - каждый год.
+                                                Такси, автобусы, грузовики для перевозки людей, автомобили для перевозкиопасных грузов - каждые
+                                                6 месяцев.
+                                            </p>
+                                        </div>
+                                    </div><!-- END sec-faq__tabs-item -->
+                                </div><!-- END sec-faq__tabs-body -->
+                            </div><!-- END sec-faq__tabs -->
+                        </div><!-- END sec-faq__col-lt -->
+
+                        <div class="sec-faq__col-rt">
+                            <form class="form sec-faq__form">
+                                <h3 class="form__title">Мы готовы помочь</h3>
+                                <div class="form__lead">Если у вас остались вопросы, задайте их прямо сейчас:</div>
+                                <div class="form__line">
+                                    <input class="form__input" type="text" placeholder="Имя">
+                                </div>
+                                <div class="form__line">
+                                    <input class="form__input" type="text" placeholder="E-mail">
+                                </div>
+                                <div class="form__line">
+                                    <textarea class="form__text" placeholder="Ваш вопрос"></textarea>
+                                </div>
+                                <div class="form__line">
+                                    <button class="btn btn_arrow-rt">Заказать</button>
+                                </div>
+                            </form>
+                        </div><!-- END sec-faq__col-rt -->
+                    </div><!-- END sec-faq__row -->
+
+                    <img class="sec-faq__girl" src="{{ asset('assets/img/sec-faq/woman.png') }}" alt="Мы готовы помочь">
+
+                </div><!-- END sec-faq__container -->
+            </div><!-- END sec-faq__front -->
+        </section><!-- END sec-faq -->
+
+        <section class="sec-map">
+            <div class="sec-map__back js-map-here"
+                 id="section-map"
+                 data-point='{"lat": 55.717483, "lng": 37.720718, "name": "Атомагистр - автосервис в Москве, магазин автозапчастей"}'>
+            </div>
+            <div class="sec-map__front">
+                <div class="container">
+                    <div class="sec-map__pannel">
+                        <div class="sec-map__info">
+                            <h4 class="sec-map__info-text">
+                                г. Москва , Остаповский проезд, дом 17 <br>
+                                (м.Волгоградский проспект, м.Текстильщики)
+                            </h4>
+                        </div>
+                        <a class="sec-map__link" role="button">Схема проезда</a>
+                        <div class="sec-map__more">
+                            <a class="btn btn_arrow-rt sec-map__more-btn" href="#">Контакты</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!-- END sec-map -->
+
+    </main><!-- END site-main -->
+{% endblock %}
+
+

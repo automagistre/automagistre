@@ -1,0 +1,96 @@
+{% extends 'www/layout.html.twig' %}
+
+{% block body %}
+    <section class="sec-start">
+        <div class="sec-start__head">
+            <img class="sec-start__logo" src="{{ asset('assets/img/logo_magistr_gray.svg') }}" alt="Атомагистр">
+            <div class="sec-start__note">Клубный автосервис и магазин запчастей</div>
+        </div>
+        <div class="sec-start__body">
+            <div class="sec-start__select" id="sec-start-select">
+                <a class="btn btn_gray btn_arrow-lt sec-start__back js-sec-start-slider-unfreeze" role="button">Назад</a>
+                <h1 class="sec-start__title">Выберите <br> интересующее направление:</h1>
+                <div class="sec-start__slider" id="sec-start-slider">
+                    <div class="sec-start__slide st-nis">
+                        <div class="sec-start__slide-logo st-nis__logo"></div>
+                        <div class="sec-start__slide-car st-nis__car">
+                            <div class="sec-start__slide-wheel st-nis__wheel-lt"></div>
+                            <div class="sec-start__slide-wheel st-nis__wheel-rt"></div>
+                            <div class="sec-start__slide-btns">
+                                <a class="btn btn_shmatn sec-start__btn" href="#">
+                                    <i class="icon-gear"></i>АВТОСЕРВИС В МОСКВЕ
+                                </a>
+                                <a class="btn btn_shmatn sec-start__btn" href="#">
+                                    <i class="icon-belt"></i>МАГАЗИН ЗАПЧАСТЕЙ
+                                </a>
+                            </div>
+                        </div>
+                        <div class="sec-start__slide-btm">
+                            <a class="btn btn_big sec-start__slide-btn js-sec-start-slider-freeze" role="button">Выбрать эту марку</a>
+                        </div>
+                    </div>
+                    <div class="sec-start__slide st-lex">
+                        <div class="sec-start__slide-logo st-lex__logo"></div>
+                        <div class="sec-start__slide-car st-lex__car">
+                            <div class="sec-start__slide-wheel st-lex__wheel-lt"></div>
+                            <div class="sec-start__slide-wheel st-lex__wheel-rt"></div>
+                            <div class="sec-start__slide-btns">
+                                <a class="btn btn_shmatn sec-start__btn" href="#">
+                                    <i class="icon-gear"></i>АВТОСЕРВИС В МОСКВЕ
+                                </a>
+                                <a class="btn btn_shmatn sec-start__btn" href="#">
+                                    <i class="icon-belt"></i>МАГАЗИН ЗАПЧАСТЕЙ
+                                </a>
+                            </div>
+                        </div>
+                        <div class="sec-start__slide-btm">
+                            <a class="btn btn_big sec-start__slide-btn js-sec-start-slider-freeze" role="button">Выбрать эту марку</a>
+                        </div>
+                    </div>
+                    <div class="sec-start__slide st-toy">
+                        <div class="sec-start__slide-logo st-toy__logo"></div>
+                        <div class="sec-start__slide-car st-toy__car">
+                            <div class="sec-start__slide-wheel st-toy__wheel-lt"></div>
+                            <div class="sec-start__slide-wheel st-toy__wheel-rt"></div>
+                            <div class="sec-start__slide-btns">
+                                <a class="btn btn_shmatn sec-start__btn" href="#">
+                                    <i class="icon-gear"></i>АВТОСЕРВИС В МОСКВЕ
+                                </a>
+                                <a class="btn btn_shmatn sec-start__btn" href="#">
+                                    <i class="icon-belt"></i>МАГАЗИН ЗАПЧАСТЕЙ
+                                </a>
+                            </div>
+                        </div>
+                        <div class="sec-start__slide-btm">
+                            <a class="btn btn_big sec-start__slide-btn js-sec-start-slider-freeze" role="button">Выбрать эту марку</a>
+                        </div>
+                    </div>
+                    <div class="sec-start__slide st-inf">
+                        <div class="sec-start__slide-logo st-inf__logo"></div>
+                        <div class="sec-start__slide-car st-inf__car">
+                            <div class="sec-start__slide-wheel st-inf__wheel-lt"></div>
+                            <div class="sec-start__slide-wheel st-inf__wheel-rt"></div>
+                            <div class="sec-start__slide-btns">
+                                <a class="btn btn_shmatn sec-start__btn" href="#">
+                                    <i class="icon-gear"></i>АВТОСЕРВИС В МОСКВЕ
+                                </a>
+                                <a class="btn btn_shmatn sec-start__btn" href="#">
+                                    <i class="icon-belt"></i>МАГАЗИН ЗАПЧАСТЕЙ
+                                </a>
+                            </div>
+                        </div>
+                        <div class="sec-start__slide-btm">
+                            <a class="btn btn_big sec-start__slide-btn js-sec-start-slider-freeze" role="button">Выбрать эту марку</a>
+                        </div>
+                    </div>
+                </div>
+                <nav class="sec-start__nav">
+                    <a class="sec-start__nav-link icon-nis js-set-start-slide" data-slide="0" role="button"></a>
+                    <a class="sec-start__nav-link icon-lex js-set-start-slide" data-slide="1" role="button"></a>
+                    <a class="sec-start__nav-link icon-toy js-set-start-slide" data-slide="2" role="button"></a>
+                    <a class="sec-start__nav-link icon-inf js-set-start-slide" data-slide="3" role="button"></a>
+                </nav>
+            </div>
+        </div>
+    </section><!-- END sec-start -->
+{% endblock %}
