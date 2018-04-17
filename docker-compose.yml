@@ -8,7 +8,7 @@ services:
                SOURCE_DIR: ./var/null
         hostname: automagistre.local
         labels:
-            subdomains: sto
+            subdomains: sto www
         volumes:
             - ./:/usr/local/app
         environment:

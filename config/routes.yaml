@@ -9,6 +9,10 @@ _admin:
     resource: './routes/admin.yaml'
     condition: "request.getHost() matches '/%admin_host_pattern%/'"
 
+_www:
+    resource: './routes/www.yaml'
+    condition: "request.getHost() matches '/%www_host_pattern%/'"
+
 _default:
     resource: '../src/Controller/DefaultController.php'
     type: annotation
