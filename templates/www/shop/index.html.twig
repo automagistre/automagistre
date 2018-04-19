@@ -1,0 +1,176 @@
+{% extends 'www/layout_white.html.twig' %}
+
+{% block content %}
+    <main class="site-main">
+
+        <section class="sec-shop">
+            <div class="sec-shop__back" style="background-image: url({{ asset('assets/img/backgrounds/bg_sec-shop.jpg') }})"></div>
+            <div class="sec-shop__front">
+                <div class="container">
+                    <h1 class="sec-shop__title">Магазин запчастей для <span>Nissan Altima седан III L32</span></h1>
+                    <div class="sec-shop__lead">
+                        По всей россии + УТП
+                    </div>
+                    <form class="art-search sec-shop__art">
+                        <input class="art-search__input" type="text" placeholder="Поиск по артикулу">
+                        <button class="art-search__btn"></button>
+                    </form>
+                    <div class="car-find sec-shop__find">
+                        <nav class="car-find__nav">
+                            <a class="car-find__nav-btn js-car-find-btn" data-type="1" role="button">Nissan</a>
+                            <a class="car-find__nav-btn js-car-find-btn is-active" data-type="1" role="button">Toyota</a>
+                            <a class="car-find__nav-btn js-car-find-btn" data-type="1" role="button">Lexus</a>
+                            <a class="car-find__nav-btn js-car-find-btn" data-type="1" role="button">Infinity</a>
+                            <div class="selector car-find__nav-input">
+                                <input type="hidden" value="0"><!-- Выставление правильного предзаданного значения в селекте -->
+                                <div class="selector__val" data-val="0">Год выпуска</div>
+                                <div class="selector__drop">
+                                    <ul class="selector__list">
+                                        <li data-val="0">Год выпуска</li>
+                                        <li data-val="1">2005</li>
+                                        <li data-val="2">2007</li>
+                                        <li data-val="3">1934</li>
+                                        <li data-val="4">2018</li>
+                                        <li data-val="5">2789</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </nav>
+                        <div class="car-find__slider js-car-find-slider">
+                            <div class="car-find__slide">
+                                <div class="car-card">
+                                    <h4 class="car-card__title">Altima купе</h4>
+                                    <div class="car-card__pict">
+                                        <img class="car-card__img" src="{{ asset('assets/images/car-find/car_01.jpg') }}" alt="Altima купе">
+                                    </div>
+                                    <div class="car-card__info">
+                                        <div class="car-card__code">CL32</div>
+                                        <div class="car-card__year">2006 - н.в</div>
+                                    </div>
+                                    <a class="car-card__link" href="#"></a>
+                                </div>
+                            </div>
+
+                            <div class="car-find__slide">
+                                <div class="car-card">
+                                    <h4 class="car-card__title">Altima купе</h4>
+                                    <div class="car-card__pict">
+                                        <img class="car-card__img" src="{{ asset('assets/images/car-find/car_01.jpg') }}" alt="Altima купе">
+                                    </div>
+                                    <div class="car-card__info">
+                                        <div class="car-card__code">CL32</div>
+                                        <div class="car-card__year">2006 - н.в</div>
+                                    </div>
+                                    <a class="car-card__link" href="#"></a>
+                                </div>
+                            </div>
+
+                            <div class="car-find__slide">
+                                <div class="car-card">
+                                    <h4 class="car-card__title">Altima купе</h4>
+                                    <div class="car-card__pict">
+                                        <img class="car-card__img" src="{{ asset('assets/images/car-find/car_01.jpg') }}" alt="Altima купе">
+                                    </div>
+                                    <div class="car-card__info">
+                                        <div class="car-card__code">CL32</div>
+                                        <div class="car-card__year">2006 - н.в</div>
+                                    </div>
+                                    <a class="car-card__link" href="#"></a>
+                                </div>
+                            </div>
+
+                            <div class="car-find__slide">
+                                <div class="car-card">
+                                    <h4 class="car-card__title">Altima купе</h4>
+                                    <div class="car-card__pict">
+                                        <img class="car-card__img" src="{{ asset('assets/images/car-find/car_01.jpg') }}" alt="Altima купе">
+                                    </div>
+                                    <div class="car-card__info">
+                                        <div class="car-card__code">CL32</div>
+                                        <div class="car-card__year">2006 - н.в</div>
+                                    </div>
+                                    <a class="car-card__link" href="#"></a>
+                                </div>
+                            </div>
+
+                            <div class="car-find__slide">
+                                <div class="car-card">
+                                    <h4 class="car-card__title">Altima купе</h4>
+                                    <div class="car-card__pict">
+                                        <img class="car-card__img" src="{{ asset('assets/images/car-find/car_01.jpg') }}" alt="Altima купе">
+                                    </div>
+                                    <div class="car-card__info">
+                                        <div class="car-card__code">CL32</div>
+                                        <div class="car-card__year">2006 - н.в</div>
+                                    </div>
+                                    <a class="car-card__link" href="#"></a>
+                                </div>
+                            </div>
+
+                            <div class="car-find__slide">
+                                <div class="car-card">
+                                    <h4 class="car-card__title">Altima купе</h4>
+                                    <div class="car-card__pict">
+                                        <img class="car-card__img" src="{{ asset('assets/images/car-find/car_01.jpg') }}" alt="Altima купе">
+                                    </div>
+                                    <div class="car-card__info">
+                                        <div class="car-card__code">CL32</div>
+                                        <div class="car-card__year">2006 - н.в</div>
+                                    </div>
+                                    <a class="car-card__link" href="#"></a>
+                                </div>
+                            </div>
+
+                            <div class="car-find__slide">
+                                <div class="car-card">
+                                    <h4 class="car-card__title">Altima купе</h4>
+                                    <div class="car-card__pict">
+                                        <img class="car-card__img" src="{{ asset('assets/images/car-find/car_01.jpg') }}" alt="Altima купе">
+                                    </div>
+                                    <div class="car-card__info">
+                                        <div class="car-card__code">CL32</div>
+                                        <div class="car-card__year">2006 - н.в</div>
+                                    </div>
+                                    <a class="car-card__link" href="#"></a>
+                                </div>
+                            </div>
+
+                            <div class="car-find__slide">
+                                <div class="car-card">
+                                    <h4 class="car-card__title">Altima купе</h4>
+                                    <div class="car-card__pict">
+                                        <img class="car-card__img" src="{{ asset('assets/images/car-find/car_01.jpg') }}" alt="Altima купе">
+                                    </div>
+                                    <div class="car-card__info">
+                                        <div class="car-card__code">CL32</div>
+                                        <div class="car-card__year">2006 - н.в</div>
+                                    </div>
+                                    <a class="car-card__link" href="#"></a>
+                                </div>
+                            </div>
+
+                            <div class="car-find__slide">
+                                <div class="car-card">
+                                    <h4 class="car-card__title">Altima купе</h4>
+                                    <div class="car-card__pict">
+                                        <img class="car-card__img" src="{{ asset('assets/images/car-find/car_01.jpg') }}" alt="Altima купе">
+                                    </div>
+                                    <div class="car-card__info">
+                                        <div class="car-card__code">CL32</div>
+                                        <div class="car-card__year">2006 - н.в</div>
+                                    </div>
+                                    <a class="car-card__link" href="#"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- END container -->
+            </div>
+        </section><!-- END sec-shop -->
+
+        {{ include('www/_sections/clubs.html.twig') }}
+
+        {{ include('www/_sections/faq.html.twig') }}
+    </main><!-- END site-main -->
+{% endblock %}

@@ -28,7 +28,7 @@ final class SmokeTest extends WebTestCase
     public function pagesProvider()
     {
         yield ['/', 200];
-        yield ['/home', 200];
+        yield ['/switch', 200];
         yield ['/repair', 200];
         yield ['/diagnostics/free', 200];
         yield ['/diagnostics/comp', 200];
@@ -37,5 +37,8 @@ final class SmokeTest extends WebTestCase
         yield ['/corporates', 200];
         yield ['/price-list', 200];
         yield ['/maintenance', 200];
+        yield ['/contacts', 200];
+        yield ['/blog', 200];
+        yield ['/shop', 200];
     }
 }

@@ -82,10 +82,10 @@
                         <div class="sh-line__col-cn">
                             <ul class="sh-switch">
                                 <li class="sh-switch__item">
-                                    <a class="sh-switch__link is-active" href="#">Автосервис в Москве</a>
+                                    <a class="sh-switch__link is-active" href="{{ path('www_maintenance') }}">Автосервис в Москве</a>
                                 </li>
                                 <li class="sh-switch__item">
-                                    <a class="sh-switch__link" href="#">Магазин запчастей</a>
+                                    <a class="sh-switch__link" href="{{ path('www_shop_index') }}">Магазин запчастей</a>
                                 </li>
                             </ul>
                         </div>
@@ -95,7 +95,7 @@
                                     <a class="sh-links__link" href="#">Мой гараж</a>
                                 </li>
                                 <li class="sh-links__item">
-                                    <a class="sh-links__link" href="#">Контакты</a>
+                                    <a class="sh-links__link" href="{{ path('www_contacts') }}">Контакты</a>
                                 </li>
                                 <li class="sh-links__item">
                                     <a class="sh-links__link is-active" href="tel:+74959848182">+7 (495) 984 81 82</a>
@@ -142,7 +142,7 @@
                         <a class="navbar__link icon_n-cars" href="{{ path('www_switch') }}">Выбрать другую модель</a>
                     </li>
                     <li class="navbar__item">
-                        <a class="navbar__link icon_n-tool" href="#">Глянуть, что тут по чем</a>
+                        <a class="navbar__link icon_n-tool" href="{{ path('www_shop_index') }}">Глянуть, что тут по чем</a>
                     </li>
                     <li class="navbar__item">
                         <a class="navbar__link icon_n-comp" href="{{ path('www_diagnostics', {'type': 'comp'}) }}">Компьютерная диагностика</a>
@@ -181,10 +181,10 @@
                         <div class="sf-top__col-rt">
                             <nav class="sf-nav">
                                 <a class="sf-nav__link is-active" href="{{ path('www_maintenance') }}">Сервис в Москве</a>
-                                <a class="sf-nav__link" href="#">Магазин запчастей</a>
+                                <a class="sf-nav__link" href="{{ path('www_shop_index') }}">Магазин запчастей</a>
                                 <a class="sf-nav__link" href="{{ path('www_corporates') }}">Корпоративным клиентам</a>
                                 <a class="sf-nav__link" href="#">Мой гараж</a>
-                                <a class="sf-nav__link" href="#">Блог</a>
+                                <a class="sf-nav__link" href="{{ path('www_blog_index') }}">Блог</a>
                                 <a class="sf-nav__link" href="{{ path('www_contacts') }}">Контакты</a>
                             </nav>
                             <div class="sf-top__info">

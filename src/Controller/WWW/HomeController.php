@@ -19,7 +19,7 @@ final class HomeController extends Controller
      */
     public function __invoke(): Response
     {
-        return $this->render('www/index.html.twig', [
+        return $this->render('www/switch.html.twig', [
         ]);
     }
 

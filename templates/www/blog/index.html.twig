@@ -1,0 +1,186 @@
+{% extends 'www/layout.html.twig' %}
+
+{% set white_header = true %}
+
+{% block content %}
+    <main class="site-main page bg-gray" id="site-main">
+        <div class="page__head">
+            <div class="container">
+                <h1 class="page__title">Наш блог</h1>
+            </div>
+        </div>
+
+        <div class="page__body">
+            <div class="container">
+                <div class="blog-list" id="for-load-blog-cards">
+                    <div class="blog-list__item">
+                        <div class="blog-card">
+                            <a class="blog-card__pict">
+                                <img class="blog-card__img" src="{{ asset('assets/images/blog/blog-card_01.jpg') }}" alt="Название статьи">
+                            </a>
+                            <div class="blog-card__text">
+                                <h3 class="blog-card__title">Название статьи</h3>
+                                <div class="blog-card__theme">Раздел</div>
+                                <div class="blog-card__note">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate
+                                    eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit
+                                </div>
+                                <div class="blog-card__date">20 января, 2018</div>
+                            </div>
+                        </div>
+                    </div><!-- END blog-list__item -->
+
+                    <div class="blog-list__item">
+                        <div class="blog-card">
+                            <a class="blog-card__pict">
+                                <img class="blog-card__img" src="{{ asset('assets/images/blog/blog-card_02.jpg') }}" alt="Название статьи">
+                            </a>
+                            <div class="blog-card__text">
+                                <h3 class="blog-card__title">Название статьи</h3>
+                                <div class="blog-card__theme">Раздел</div>
+                                <div class="blog-card__note">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate
+                                    eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit
+                                </div>
+                                <div class="blog-card__date">20 января, 2018</div>
+                            </div>
+                        </div>
+                    </div><!-- END blog-list__item -->
+
+                    <div class="blog-list__item">
+                        <div class="blog-card">
+                            <a class="blog-card__pict">
+                                <img class="blog-card__img" src="{{ asset('assets/images/blog/blog-card_03.jpg') }}" alt="Название статьи">
+                            </a>
+                            <div class="blog-card__text">
+                                <h3 class="blog-card__title">Название статьи</h3>
+                                <div class="blog-card__theme">Раздел</div>
+                                <div class="blog-card__note">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate
+                                    eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit
+                                </div>
+                                <div class="blog-card__date">20 января, 2018</div>
+                            </div>
+                        </div>
+                    </div><!-- END blog-list__item -->
+
+                    <div class="blog-list__item">
+                        <div class="blog-card">
+                            <a class="blog-card__pict">
+                                <img class="blog-card__img" src="{{ asset('assets/images/blog/blog-card_04.jpg') }}" alt="Название статьи">
+                            </a>
+                            <div class="blog-card__text">
+                                <h3 class="blog-card__title">Название статьи</h3>
+                                <div class="blog-card__theme">Раздел</div>
+                                <div class="blog-card__note">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate
+                                    eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit
+                                </div>
+                                <div class="blog-card__date">20 января, 2018</div>
+                            </div>
+                        </div>
+                    </div><!-- END blog-list__item -->
+
+                    <div class="blog-list__item">
+                        <div class="blog-card">
+                            <a class="blog-card__pict">
+                                <img class="blog-card__img" src="{{ asset('assets/images/blog/blog-card_05.jpg') }}" alt="Название статьи">
+                            </a>
+                            <div class="blog-card__text">
+                                <h3 class="blog-card__title">Название статьи подлиннее на пару строк чтобы было</h3>
+                                <div class="blog-card__theme">Раздел</div>
+                                <div class="blog-card__note">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate
+                                    eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit
+                                </div>
+                                <div class="blog-card__date">20 января, 2018</div>
+                            </div>
+                        </div>
+                    </div><!-- END blog-list__item -->
+
+                    <div class="blog-list__item">
+                        <div class="blog-card">
+                            <a class="blog-card__pict">
+                                <img class="blog-card__img" src="{{ asset('assets/images/blog/blog-card_06.jpg') }}" alt="Название статьи">
+                            </a>
+                            <div class="blog-card__text">
+                                <h3 class="blog-card__title">Название статьи</h3>
+                                <div class="blog-card__theme">Раздел</div>
+                                <div class="blog-card__note">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate
+                                    eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit
+                                </div>
+                                <div class="blog-card__date">20 января, 2018</div>
+                            </div>
+                        </div>
+                    </div><!-- END blog-list__item -->
+
+                    <div class="blog-list__item">
+                        <div class="blog-card">
+                            <a class="blog-card__pict">
+                                <img class="blog-card__img" src="{{ asset('assets/images/blog/blog-card_01.jpg') }}" alt="Название статьи">
+                            </a>
+                            <div class="blog-card__text">
+                                <h3 class="blog-card__title">Название статьи из нескольких слов</h3>
+                                <div class="blog-card__theme">Раздел</div>
+                                <div class="blog-card__note">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate
+                                    eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit
+                                </div>
+                                <div class="blog-card__date">20 января, 2018</div>
+                            </div>
+                        </div>
+                    </div><!-- END blog-list__item -->
+
+                    <div class="blog-list__item">
+                        <div class="blog-card">
+                            <a class="blog-card__pict">
+                                <img class="blog-card__img" src="{{ asset('assets/images/blog/blog-card_02.jpg') }}" alt="Название статьи">
+                            </a>
+                            <div class="blog-card__text">
+                                <h3 class="blog-card__title">Название статьи</h3>
+                                <div class="blog-card__theme">Раздел</div>
+                                <div class="blog-card__note">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate
+                                    eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit
+                                </div>
+                                <div class="blog-card__date">20 января, 2018</div>
+                            </div>
+                        </div>
+                    </div><!-- END blog-list__item -->
+
+                    <div class="blog-list__item">
+                        <div class="blog-card">
+                            <a class="blog-card__pict">
+                                <img class="blog-card__img" src="{{ asset('assets/images/blog/blog-card_03.jpg') }}" alt="Название статьи">
+                            </a>
+                            <div class="blog-card__text">
+                                <h3 class="blog-card__title">Название статьи</h3>
+                                <div class="blog-card__theme">Раздел</div>
+                                <div class="blog-card__note">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate
+                                    eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit
+                                </div>
+                                <div class="blog-card__date">20 января, 2018</div>
+                            </div>
+                        </div>
+                    </div><!-- END blog-list__item -->
+                </div><!-- END blog-list -->
+
+                <div class="page__more">
+                    <div class="spinner page__more-loader" id="js-auto-load-blog">
+                        <div class="spinner__dot spinner__dot_01"></div>
+                        <div class="spinner__dot spinner__dot_02"></div>
+                        <div class="spinner__dot spinner__dot_03"></div>
+                        <div class="spinner__dot spinner__dot_04"></div>
+                        <div class="spinner__dot spinner__dot_05"></div>
+                        <div class="spinner__dot spinner__dot_06"></div>
+                        <div class="spinner__dot spinner__dot_07"></div>
+                        <div class="spinner__dot spinner__dot_08"></div>
+                    </div>
+                </div>
+
+            </div><!-- END container -->
+        </div><!-- END page__body -->
+    </main><!-- END site-main -->
+{% endblock %}
