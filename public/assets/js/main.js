@@ -49,7 +49,7 @@ function secMapStart() {
   var map = new google.maps.Map(myMapPlace, mapOptions);
 
   // Create and to map marker
-  var pointLabel = new google.maps.MarkerImage('img/map_point.png',
+  var pointLabel = new google.maps.MarkerImage('assets/img/map_point.png',
     new google.maps.Size(50,68),
     new google.maps.Point(0,0),
     new google.maps.Point(25,68)
@@ -1411,7 +1411,7 @@ $W.on("load", function() {
   /*--- Google maps api -------------------------------------------------*/
   if ($(".js-map-here").length > 0){
   $.getScript(
-    "https://maps.google.com/maps/api/js?key=AIzaSyAr3L94pBd0Dy_AR0mirpFBB7NtbgmOV9E&sensor=false",
+    "https://maps.google.com/maps/api/js?key=AIzaSyAs1QFC9MWMovwXKzqmBwCYgrB-h41Amfo&sensor=false",
     //"/js/gmap-downloaded.js",
     function(){
       console.log("Map loaded");
