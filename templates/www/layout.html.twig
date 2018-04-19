@@ -56,14 +56,12 @@
     </div>
 </noscript>
 
-
 <div class="site-wrapper">
-
     {% block body %}
         {% block header %}
             {# HEADER ================================================================ #}
             <header class="site-header" id="site-header">
-                <div class="sh-line" id="header-line">
+                <div class="sh-line {{- white_header|default(false) ? ' is-white' }}" id="header-line">
                     <div class="sh-line__row sh-line__for-comp">
                         <div class="sh-line__col-lt">
                             <div class="sh-logo">
