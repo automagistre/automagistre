@@ -104,4 +104,12 @@ final class HomeController extends Controller
     {
         return $this->render('www/contacts.html.twig');
     }
+
+    /**
+     * @Route("/reviews", name="www_reviews")
+     */
+    public function reviews(): Response
+    {
+        return $this->render('www/reviews.html.twig');
+    }
 }
