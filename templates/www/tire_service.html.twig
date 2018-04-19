@@ -1,0 +1,196 @@
+<main class="site-main">
+
+    <section class="sec-intro">
+        <div class="sec-intro__back" style="background-image: url({{ asset('assets/img/backgrounds/bg_tire-service.jpg') }})"></div>
+        <div class="sec-intro__front">
+            <div class="container">
+                <a class="sec-intro__type" href="#">Ремонт и обслуживание Nissan</a>
+                <h1 class="sec-intro__title">Шиномонтаж</h1>
+                <a class="btn sec-intro__btn js-scroll-to" data-scroll="#about" role="button">Записаться</a>
+                <ul class="sec-intro__features">
+                    <li class="feature sec-intro__feature">
+                        <i class="feature__icon icon-f_speed"></i>
+                        <h3 class="feature__title">Управимся <br> за 9 минут</h3>
+                        <div class="feature__note">Полностью бесплатная диагностика и калькуляция работ. А когда и где ремонтировать - решать вам.</div>
+                    </li>
+                    <li class="feature sec-intro__feature">
+                        <i class="feature__icon icon-f_heart"></i>
+                        <h3 class="feature__title">Без очередей и за&nbsp;один приезд</h3>
+                        <div class="feature__note">Полностью бесплатная диагностика и калькуляция работ. А когда и где ремонтировать - решать вам.</div>
+                    </li>
+                    <li class="feature sec-intro__feature">
+                        <i class="feature__icon icon-f_tire"></i>
+                        <h3 class="feature__title">Точное новое оборудование</h3>
+                        <div class="feature__note">Полностью бесплатная диагностика и калькуляция работ. А когда и где ремонтировать - решать вам.</div>
+                    </li>
+                    <li class="feature sec-intro__feature">
+                        <i class="feature__icon icon-f_binocul"></i>
+                        <h3 class="feature__title">Наблюдайте <br> за работой</h3>
+                        <div class="feature__note">Полностью бесплатная диагностика и калькуляция работ. А когда и где ремонтировать - решать вам.</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section><!-- END sec-intro -->
+
+    <section class="sec-about" id="about">
+        <div class="container">
+            <div class="sec-about__row">
+                <div class="sec-about__col-lt">
+                    <img class="sec-about__img" src="{{ asset('assets/img/sec-about/about_tire.png') }}" alt="Компьютерная диагностика">
+                </div>
+                <div class="sec-about__col-rt">
+                    <form class="sec-about__form">
+                        <div class="sec-about__filter">
+                            <div class="sec-about__filter-col">
+                                <div class="selector">
+                                    <input type="hidden" value="0"><!-- Выставление правильного предзаданного значения в селекте -->
+                                    <div class="selector__val" data-val="0">Выбрать радиус</div>
+                                    <div class="selector__drop">
+                                        <ul class="selector__list">
+                                            <li data-val="0">Выбрать радиус</li>
+                                            <li data-val="1">По популярности</li>
+                                            <li data-val="2">По цене (вверх)</li>
+                                            <li data-val="3">По цене (вниз)</li>
+                                            <li data-val="4">По названию (а-я)</li>
+                                            <li data-val="5">По названию (я-а)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sec-about__filter-col">
+                                <div class="selector">
+                                    <input type="hidden" value="0"><!-- Выставление правильного предзаданного значения в селекте -->
+                                    <div class="selector__val" data-val="0">Вид машины</div>
+                                    <div class="selector__drop">
+                                        <ul class="selector__list">
+                                            <li data-val="0">Вид машины</li>
+                                            <li data-val="1">По популярности</li>
+                                            <li data-val="2">По цене (вверх)</li>
+                                            <li data-val="3">По цене (вниз)</li>
+                                            <li data-val="4">По названию (а-я)</li>
+                                            <li data-val="5">По названию (я-а)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h2 class="sec-about__title">Услуга шиномонтажа</h2>
+                        <div class="prices sec-about__prices">
+                            <div class="prices__row">
+                                <div class="prices__check">
+                                    <label class="form__checkbox"><input type="checkbox"><span></span></label></div>
+                                <div class="prices__note">Монтаж + балансировка 1-го колеса</div>
+                                <div class="prices__cost">500 <i class="icon-rub">a</i></div>
+                            </div>
+                            <div class="prices__row">
+                                <div class="prices__check">
+                                    <label class="form__checkbox"><input type="checkbox"><span></span></label></div>
+                                <div class="prices__note">Монтаж + балансировка 4-х колес</div>
+                                <div class="prices__cost">1 500 <i class="icon-rub">a</i></div>
+                            </div>
+                            <div class="prices__row">
+                                <div class="prices__check">
+                                    <label class="form__checkbox"><input type="checkbox"><span></span></label></div>
+                                <div class="prices__note">Снятие/установка или демонтаж/монтаж
+                                    <br> + балансировка 1-го колеса
+                                </div>
+                                <div class="prices__cost">600 <i class="icon-rub">a</i></div>
+                            </div>
+                            <div class="prices__row">
+                                <div class="prices__check">
+                                    <label class="form__checkbox"><input type="checkbox"><span></span></label></div>
+                                <div class="prices__note">Снятие/установка или демонтаж/монтаж
+                                    <br> + балансировка 4-х колес
+                                </div>
+                                <div class="prices__cost">1 700 <i class="icon-rub">a</i></div>
+                            </div>
+                            <div class="prices__row">
+                                <div class="prices__check">
+                                    <label class="form__checkbox"><input type="checkbox"><span></span></label></div>
+                                <div class="prices__note">Монтаж + балансировка 1-го колеса</div>
+                                <div class="prices__cost">500 <i class="icon-rub">a</i></div>
+                            </div>
+                            <div class="prices__row">
+                                <div class="prices__check">
+                                    <label class="form__checkbox"><input type="checkbox"><span></span></label></div>
+                                <div class="prices__note">Монтаж + балансировка 4-х колес</div>
+                                <div class="prices__cost">1 500 <i class="icon-rub">a</i></div>
+                            </div>
+                            <div class="prices__row">
+                                <div class="prices__check">
+                                    <label class="form__checkbox"><input type="checkbox"><span></span></label></div>
+                                <div class="prices__note">Снятие/установка или демонтаж/монтаж
+                                    <br> + балансировка 1-го колеса
+                                </div>
+                                <div class="prices__cost">600 <i class="icon-rub">a</i></div>
+                            </div>
+                        </div>
+
+                        <h2 class="sec-about__title">Услуга по хранению шин и дисков</h2>
+                        <div class="prices sec-about__prices">
+                            <div class="prices__row">
+                                <div class="prices__check">
+                                    <label class="form__checkbox"><input type="checkbox"><span></span></label></div>
+                                <div class="prices__note">Монтаж + балансировка 1-го колеса</div>
+                                <div class="prices__cost">500 <i class="icon-rub">a</i></div>
+                            </div>
+                            <div class="prices__row">
+                                <div class="prices__check">
+                                    <label class="form__checkbox"><input type="checkbox"><span></span></label></div>
+                                <div class="prices__note">Монтаж + балансировка 4-х колес</div>
+                                <div class="prices__cost">1 500 <i class="icon-rub">a</i></div>
+                            </div>
+                        </div>
+
+                        <h2 class="sec-about__title">Дополнительные услуги</h2>
+                        <div class="prices sec-about__prices">
+                            <div class="prices__row">
+                                <div class="prices__check">
+                                    <label class="form__checkbox"><input type="checkbox"><span></span></label></div>
+                                <div class="prices__note">Монтаж + балансировка 1-го колеса</div>
+                                <div class="prices__cost">500 <i class="icon-rub">a</i></div>
+                            </div>
+                            <div class="prices__row">
+                                <div class="prices__check">
+                                    <label class="form__checkbox"><input type="checkbox"><span></span></label></div>
+                                <div class="prices__note">Монтаж + балансировка 4-х колес</div>
+                                <div class="prices__cost">1 500 <i class="icon-rub">a</i></div>
+                            </div>
+                            <div class="prices__row">
+                                <div class="prices__check">
+                                    <label class="form__checkbox"><input type="checkbox"><span></span></label></div>
+                                <div class="prices__note">Снятие/установка или демонтаж/монтаж
+                                    <br> + балансировка 1-го колеса
+                                </div>
+                                <div class="prices__cost">600 <i class="icon-rub">a</i></div>
+                            </div>
+                            <div class="prices__row">
+                                <div class="prices__check">
+                                    <label class="form__checkbox"><input type="checkbox"><span></span></label></div>
+                                <div class="prices__note">Снятие/установка или демонтаж/монтаж
+                                    <br> + балансировка 4-х колес
+                                </div>
+                                <div class="prices__cost">1 700 <i class="icon-rub">a</i></div>
+                            </div>
+                        </div>
+                        <button class="btn btn_arrow-rt">Заказать консультацию менеджера</button>
+                    </form>
+                </div>
+            </div>
+        </div><!-- END container -->
+    </section><!-- END sec-about -->
+
+    {{ include('www/_sections/experience.html.twig') }}
+
+    {{ include('www/_sections/master.html.twig') }}
+
+    {{ include('www/_sections/reviews.html.twig') }}
+
+    {{ include('www/_sections/clubs.html.twig') }}
+
+    {{ include('www/_sections/faq.html.twig') }}
+
+    {{ include('www/_sections/map.html.twig') }}
+</main><!-- END site-main -->
+

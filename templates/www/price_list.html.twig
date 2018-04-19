@@ -1,0 +1,464 @@
+{% extends 'www/layout.html.twig' %}
+
+{% block content %}
+  <main class="site-main">
+
+    <section class="sec-intro">
+      <div class="sec-intro__back" style="background-image: url({{ asset('assets/img/backgrounds/bg_sec-price.jpg') }})"></div>
+      <div class="sec-intro__front">
+        <div class="container">
+          <a class="sec-intro__type" href="#">Ремонт и обслуживание Nissan</a>
+          <h1 class="sec-intro__title">Замена свечей масла, жидкостей и фильтров <br> Nissan Almera</h1>
+          <a class="btn sec-intro__btn" role="button">Позвоните мне</a>
+        </div>
+      </div>
+    </section><!-- END sec-intro -->
+
+    <section class="sec-about">
+      <div class="container">
+        <div class="sec-about__row">
+          <div class="sec-about__col-lt">
+            <img class="sec-about__img" src="{{ asset('assets/img/sec-about/about_almera.png') }}" alt="Nissan Almera">
+            <h3 class="sec-about__model">Nissan Almera</h3>
+          </div>
+          <div class="sec-about__col-rt">
+            <form action="">
+              <div class="prices sec-about__prices">
+                <div class="prices__row">
+                  <div class="prices__check"><label class="form__checkbox"><input type="checkbox"><span></span></label></div>
+                  <div class="prices__note">Замена свечей зажигания</div>
+                  <div class="prices__cost">500 <i class="icon-rub">a</i></div>
+                </div>
+                <div class="prices__row">
+                  <div class="prices__check"><label class="form__checkbox"><input type="checkbox"><span></span></label></div>
+                  <div class="prices__note">Замена антифриза</div>
+                  <div class="prices__cost">1 500 <i class="icon-rub">a</i></div>
+                </div>
+                <div class="prices__row">
+                  <div class="prices__check"><label class="form__checkbox"><input type="checkbox"><span></span></label></div>
+                  <div class="prices__note">Замена тормозной жидкости</div>
+                  <div class="prices__cost">700 <i class="icon-rub">a</i></div>
+                </div>
+                <div class="prices__row">
+                  <div class="prices__check"><label class="form__checkbox"><input type="checkbox"><span></span></label></div>
+                  <div class="prices__note">Замена масла в двигателе с масляным фильтром</div>
+                  <div class="prices__cost">1 700 <i class="icon-rub">a</i></div>
+                </div>
+                <div class="prices__row">
+                  <div class="prices__check"><label class="form__checkbox"><input type="checkbox"><span></span></label></div>
+                  <div class="prices__note">Замена масла в АКПП (без снятия поддона)</div>
+                  <div class="prices__cost">600 <i class="icon-rub">a</i></div>
+                </div>
+                <div class="prices__row">
+                  <div class="prices__check"><label class="form__checkbox"><input type="checkbox"><span></span></label></div>
+                  <div class="prices__note">Замена масла в АКПП (со снятием поддона)</div>
+                  <div class="prices__cost">2 100 <i class="icon-rub">a</i></div>
+                </div>
+              </div>
+              <button class="btn btn_arrow-rt">Заказать консультацию менеджера</button>
+            </form>
+          </div>
+        </div>
+      </div><!-- END container -->
+    </section><!-- END sec-about -->
+
+
+    <section class="sec-advantages">
+      <div class="sec-advantages__head">
+        <div class="sec-advantages__back" style="background-image: url({{ asset('assets/img/backgrounds/bg_sec-advantages.jpg') }})"></div>
+        <div class="sec-advantages__front">
+          <div class="container">
+            <h2 class="sec-advantages__title">ПОЧЕМУ МЫ?</h2>
+            <div class="sec-advantages__lead">Взгляните на наши преимущества <br> и&nbsp;сделайте выводы сами</div>
+            <div class="sec-advantages__more">
+              <a class="btn js-advantages-toggle" role="button">Посмотреть преимущества <i class="btn__icon-rt icon_arrow-rt"></i></a>
+            </div>
+          </div><!-- END container -->
+        </div><!-- END sec-advantages__front -->
+      </div><!-- END sec-advantages__head -->
+
+      <div class="sec-advantages__body" id="advantages-body">
+        <section class="sec-master sec-advantages__section">
+          <div class="sec-master__back" style="background-image: url({{ asset('assets/img/backgrounds/bg_sec-master.jpg') }})"></div>
+          <div class="sec-master__front">
+            <h2 class="sec-master__title">Наши мастера</h2>
+            <div class="sec-master__slider" id="sec-master-slider">
+              <div class="sec-master__slide">
+                <div class="container sec-master__slide-row">
+                  <div class="sec-master__slide-lt">
+                    <img class="sec-master__slide-img" src="{{ asset('assets/img/sec-master/master_04.png') }}" alt="Мастер авторемонт">
+                  </div>
+                  <div class="sec-master__slide-rt">
+                    <div class="sec-master__slide-text js-scroll-y">
+                      <h4 class="sec-master__slide-title">Иван Иванов</h4>
+                      <dl class="sec-master__slide-list">
+                        <dt>Автомеханик</dt>
+                        <dd>Стаж работы по специальности: с 2005 г.</dd>
+                        <dt>Основной профиль:</dt>
+                        <dd>Ремонт двигателя и КПП, ремонт ходовой части.</dd>
+                        <dt>Дополнительный профиль:</dt>
+                        <dd>Ремонт рулевых реек, электрика, диагностика.</dd>
+                        <dt>Информация о специалисте:</dt>
+                        <dd>
+                          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                          Cum exercitationem illo inventore mollitia natus necessitatibus
+                          nihil obcaecati quis! Dicta esse iure quam quibusdam sint.
+                          Adipisci aperiam atque consequatur corporis cum error facilis.
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                </div><!-- END container -->
+              </div><!-- END sec-master__slide -->
+              <div class="sec-master__slide">
+                <div class="container sec-master__slide-row">
+                  <div class="sec-master__slide-lt">
+                    <img class="sec-master__slide-img" src="{{ asset('assets/img/sec-master/master_01.png') }}" alt="Мастер авторемонт">
+                  </div>
+                  <div class="sec-master__slide-rt">
+                    <div class="sec-master__slide-text js-scroll-y">
+                      <h4 class="sec-master__slide-title">Иван Иванов</h4>
+                      <dl class="sec-master__slide-list">
+                        <dt>Автомеханик</dt>
+                        <dd>Стаж работы по специальности: с 2005 г.</dd>
+                        <dt>Основной профиль:</dt>
+                        <dd>Ремонт двигателя и КПП, ремонт ходовой части.</dd>
+                        <dt>Дополнительный профиль:</dt>
+                        <dd>Ремонт рулевых реек, электрика, диагностика.</dd>
+                        <dt>Информация о специалисте:</dt>
+                        <dd>
+                          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                          Cum exercitationem illo inventore mollitia natus necessitatibus
+                          nihil obcaecati quis! Dicta esse iure quam quibusdam sint.
+                          Adipisci aperiam atque consequatur corporis cum error facilis.
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                </div><!-- END container -->
+              </div><!-- END sec-master__slide -->
+              <div class="sec-master__slide">
+                <div class="container sec-master__slide-row">
+                  <div class="sec-master__slide-lt">
+                    <img class="sec-master__slide-img" src="{{ asset('assets/img/sec-master/master_02.png') }}" alt="Мастер авторемонт">
+                  </div>
+                  <div class="sec-master__slide-rt">
+                    <div class="sec-master__slide-text js-scroll-y">
+                      <h4 class="sec-master__slide-title">Иван Иванов</h4>
+                      <dl class="sec-master__slide-list">
+                        <dt>Автомеханик</dt>
+                        <dd>Стаж работы по специальности: с 2005 г.</dd>
+                        <dt>Основной профиль:</dt>
+                        <dd>Ремонт двигателя и КПП, ремонт ходовой части.</dd>
+                        <dt>Дополнительный профиль:</dt>
+                        <dd>Ремонт рулевых реек, электрика, диагностика.</dd>
+                        <dt>Информация о специалисте:</dt>
+                        <dd>
+                          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                          Cum exercitationem illo inventore mollitia natus necessitatibus
+                          nihil obcaecati quis! Dicta esse iure quam quibusdam sint.
+                          Adipisci aperiam atque consequatur corporis cum error facilis.
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                </div><!-- END container -->
+              </div><!-- END sec-master__slide -->
+              <div class="sec-master__slide">
+                <div class="container sec-master__slide-row">
+                  <div class="sec-master__slide-lt">
+                    <img class="sec-master__slide-img" src="{{ asset('assets/img/sec-master/master_03.png') }}" alt="Мастер авторемонт">
+                  </div>
+                  <div class="sec-master__slide-rt">
+                    <div class="sec-master__slide-text js-scroll-y">
+                      <h4 class="sec-master__slide-title">Иван Иванов</h4>
+                      <dl class="sec-master__slide-list">
+                        <dt>Автомеханик</dt>
+                        <dd>Стаж работы по специальности: с 2005 г.</dd>
+                        <dt>Основной профиль:</dt>
+                        <dd>Ремонт двигателя и КПП, ремонт ходовой части.</dd>
+                        <dt>Дополнительный профиль:</dt>
+                        <dd>Ремонт рулевых реек, электрика, диагностика.</dd>
+                        <dt>Информация о специалисте:</dt>
+                        <dd>
+                          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                          Cum exercitationem illo inventore mollitia natus necessitatibus
+                          nihil obcaecati quis! Dicta esse iure quam quibusdam sint.
+                          Adipisci aperiam atque consequatur corporis cum error facilis.
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                </div><!-- END container -->
+              </div><!-- END sec-master__slide -->
+              <div class="sec-master__slide">
+                <div class="container sec-master__slide-row">
+                  <div class="sec-master__slide-lt">
+                    <img class="sec-master__slide-img" src="{{ asset('assets/img/sec-master/master_05.png') }}" alt="Мастер авторемонт">
+                  </div>
+                  <div class="sec-master__slide-rt">
+                    <div class="sec-master__slide-text js-scroll-y">
+                      <h4 class="sec-master__slide-title">Иван Иванов</h4>
+                      <dl class="sec-master__slide-list">
+                        <dt>Автомеханик</dt>
+                        <dd>Стаж работы по специальности: с 2005 г.</dd>
+                        <dt>Основной профиль:</dt>
+                        <dd>Ремонт двигателя и КПП, ремонт ходовой части.</dd>
+                        <dt>Дополнительный профиль:</dt>
+                        <dd>Ремонт рулевых реек, электрика, диагностика.</dd>
+                        <dt>Информация о специалисте:</dt>
+                        <dd>
+                          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                          Cum exercitationem illo inventore mollitia natus necessitatibus
+                          nihil obcaecati quis! Dicta esse iure quam quibusdam sint.
+                          Adipisci aperiam atque consequatur corporis cum error facilis.
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                </div><!-- END container -->
+              </div><!-- END sec-master__slide -->
+              <div class="sec-master__slide">
+                <div class="container sec-master__slide-row">
+                  <div class="sec-master__slide-lt">
+                    <img class="sec-master__slide-img" src="{{ asset('assets/img/sec-master/master_06.png') }}" alt="Мастер авторемонт">
+                  </div>
+                  <div class="sec-master__slide-rt">
+                    <div class="sec-master__slide-text js-scroll-y">
+                      <h4 class="sec-master__slide-title">Иван Иванов</h4>
+                      <dl class="sec-master__slide-list">
+                        <dt>Автомеханик</dt>
+                        <dd>Стаж работы по специальности: с 2005 г.</dd>
+                        <dt>Основной профиль:</dt>
+                        <dd>Ремонт двигателя и КПП, ремонт ходовой части.</dd>
+                        <dt>Дополнительный профиль:</dt>
+                        <dd>Ремонт рулевых реек, электрика, диагностика.</dd>
+                        <dt>Информация о специалисте:</dt>
+                        <dd>
+                          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                          Cum exercitationem illo inventore mollitia natus necessitatibus
+                          nihil obcaecati quis! Dicta esse iure quam quibusdam sint.
+                          Adipisci aperiam atque consequatur corporis cum error facilis.
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                </div><!-- END container -->
+              </div><!-- END sec-master__slide -->
+            </div><!-- END sec-master__slider -->
+          </div><!-- END sec-master__front -->
+        </section><!-- END sec-happen -->
+
+        <section class="sec-reviews sec-advantages__section">
+          <div class="container">
+            <h2 class="sec-reviews__title">Отзывы</h2>
+            <div class="sec-reviews__slider" id="sec-reviews-slider">
+              <div class="sec-reviews__slide">
+                <div class="review-card">
+                  <h4 class="review-card__title">Eric_Lindros на Nissan Murano</h4>
+                  <div class="review-card__text js-scroll-y">
+                    Общие отзывы о ремонте
+                    Спасибо Автомагистру!
+                    Вчера обслужился у них, сделав ТО-60. Всё чётко, всё что оговорено,
+                    выполнено строго по обещанному. Плюс проверены по моим жалобам по подвеске
+                    все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                    ценами по з/ч и работам. Цены на работы и з\ч ну очень приемлемые.
+                    По ближайшей замене проверены по моим жалобам по подвеске
+                    все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                    ценами по з/ч и работам. Цены на работы ну очень приемлемые.
+                  </div>
+                  <div class="review-card__info">
+                    <a class="review-card__link" href="#">Ссылка на источник отзыва</a>
+                    <b class="review-card__date">05.03.2016</b>
+                  </div>
+                </div>
+              </div><!-- END sec-reviews__slide -->
+              <div class="sec-reviews__slide">
+                <div class="review-card">
+                  <h4 class="review-card__title">Eric_Lindros на Nissan Murano</h4>
+                  <div class="review-card__text js-scroll-y">
+                    Общие отзывы о ремонте
+                    Спасибо Автомагистру!
+                    Вчера обслужился у них, сделав ТО-60. Всё чётко, всё что оговорено,
+                    выполнено строго по обещанному. Плюс проверены по моим жалобам по подвеске
+                    все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                    ценами по з/ч и работам. Цены на работы и з\ч ну очень приемлемые.
+                    По ближайшей замене проверены по моим жалобам по подвеске
+                    все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                    ценами по з/ч и работам. Цены на работы ну очень приемлемые.
+                  </div>
+                  <div class="review-card__info">
+                    <a class="review-card__link" href="#">Ссылка на источник отзыва</a>
+                    <b class="review-card__date">05.03.2016</b>
+                  </div>
+                </div>
+              </div><!-- END sec-reviews__slide -->
+              <div class="sec-reviews__slide">
+                <div class="review-card">
+                  <h4 class="review-card__title">Eric_Lindros на Nissan Murano</h4>
+                  <div class="review-card__text js-scroll-y">
+                    Общие отзывы о ремонте
+                    Спасибо Автомагистру!
+                    Вчера обслужился у них, сделав ТО-60. Всё чётко, всё что оговорено,
+                    выполнено строго по обещанному. Плюс проверены по моим жалобам по подвеске
+                    все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                    ценами по з/ч и работам. Цены на работы и з\ч ну очень приемлемые.
+                    По ближайшей замене проверены по моим жалобам по подвеске
+                    все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                    ценами по з/ч и работам. Цены на работы ну очень приемлемые.
+                  </div>
+                  <div class="review-card__info">
+                    <a class="review-card__link" href="#">Ссылка на источник отзыва</a>
+                    <b class="review-card__date">05.03.2016</b>
+                  </div>
+                </div>
+              </div><!-- END sec-reviews__slide -->
+              <div class="sec-reviews__slide">
+                <div class="review-card">
+                  <h4 class="review-card__title">Eric_Lindros на Nissan Murano</h4>
+                  <div class="review-card__text js-scroll-y">
+                    Общие отзывы о ремонте
+                    Спасибо Автомагистру!
+                    Вчера обслужился у них, сделав ТО-60. Всё чётко, всё что оговорено,
+                    выполнено строго по обещанному. Плюс проверены по моим жалобам по подвеске
+                    все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                    ценами по з/ч и работам. Цены на работы и з\ч ну очень приемлемые.
+                    По ближайшей замене проверены по моим жалобам по подвеске
+                    все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                    ценами по з/ч и работам. Цены на работы ну очень приемлемые.
+                  </div>
+                  <div class="review-card__info">
+                    <a class="review-card__link" href="#">Ссылка на источник отзыва</a>
+                    <b class="review-card__date">05.03.2016</b>
+                  </div>
+                </div>
+              </div><!-- END sec-reviews__slide -->
+              <div class="sec-reviews__slide">
+                <div class="review-card">
+                  <h4 class="review-card__title">Eric_Lindros на Nissan Murano</h4>
+                  <div class="review-card__text js-scroll-y">
+                    Общие отзывы о ремонте
+                    Спасибо Автомагистру!
+                    Вчера обслужился у них, сделав ТО-60. Всё чётко, всё что оговорено,
+                    выполнено строго по обещанному. Плюс проверены по моим жалобам по подвеске
+                    все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                    ценами по з/ч и работам. Цены на работы и з\ч ну очень приемлемые.
+                    По ближайшей замене проверены по моим жалобам по подвеске
+                    все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                    ценами по з/ч и работам. Цены на работы ну очень приемлемые.
+                  </div>
+                  <div class="review-card__info">
+                    <a class="review-card__link" href="#">Ссылка на источник отзыва</a>
+                    <b class="review-card__date">05.03.2016</b>
+                  </div>
+                </div>
+              </div><!-- END sec-reviews__slide -->
+              <div class="sec-reviews__slide">
+                <div class="review-card">
+                  <h4 class="review-card__title">Eric_Lindros на Nissan Murano</h4>
+                  <div class="review-card__text js-scroll-y">
+                    Общие отзывы о ремонте
+                    Спасибо Автомагистру!
+                    Вчера обслужился у них, сделав ТО-60. Всё чётко, всё что оговорено,
+                    выполнено строго по обещанному. Плюс проверены по моим жалобам по подвеске
+                    все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                    ценами по з/ч и работам. Цены на работы и з\ч ну очень приемлемые.
+                    По ближайшей замене проверены по моим жалобам по подвеске
+                    все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                    ценами по з/ч и работам. Цены на работы ну очень приемлемые.
+                  </div>
+                  <div class="review-card__info">
+                    <a class="review-card__link" href="#">Ссылка на источник отзыва</a>
+                    <b class="review-card__date">05.03.2016</b>
+                  </div>
+                </div>
+              </div><!-- END sec-reviews__slide -->
+              <div class="sec-reviews__slide">
+                <div class="review-card">
+                  <h4 class="review-card__title">Eric_Lindros на Nissan Murano</h4>
+                  <div class="review-card__text js-scroll-y">
+                    Общие отзывы о ремонте
+                    Спасибо Автомагистру!
+                    Вчера обслужился у них, сделав ТО-60. Всё чётко, всё что оговорено,
+                    выполнено строго по обещанному. Плюс проверены по моим жалобам по подвеске
+                    все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                    ценами по з/ч и работам. Цены на работы и з\ч ну очень приемлемые.
+                    По ближайшей замене проверены по моим жалобам по подвеске
+                    все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                    ценами по з/ч и работам. Цены на работы ну очень приемлемые.
+                  </div>
+                  <div class="review-card__info">
+                    <a class="review-card__link" href="#">Ссылка на источник отзыва</a>
+                    <b class="review-card__date">05.03.2016</b>
+                  </div>
+                </div>
+              </div><!-- END sec-reviews__slide -->
+              <div class="sec-reviews__slide">
+                <div class="review-card">
+                  <h4 class="review-card__title">Eric_Lindros на Nissan Murano</h4>
+                  <div class="review-card__text js-scroll-y">
+                    Общие отзывы о ремонте
+                    Спасибо Автомагистру!
+                    Вчера обслужился у них, сделав ТО-60. Всё чётко, всё что оговорено,
+                    выполнено строго по обещанному. Плюс проверены по моим жалобам по подвеске
+                    все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                    ценами по з/ч и работам. Цены на работы и з\ч ну очень приемлемые.
+                    По ближайшей замене проверены по моим жалобам по подвеске
+                    все её элементы и вместе с нарядом по работам выдан письменный вердикт с
+                    ценами по з/ч и работам. Цены на работы ну очень приемлемые.
+                  </div>
+                  <div class="review-card__info">
+                    <a class="review-card__link" href="#">Ссылка на источник отзыва</a>
+                    <b class="review-card__date">05.03.2016</b>
+                  </div>
+                </div>
+              </div><!-- END sec-reviews__slide -->
+            </div><!-- END sec-reviews__slider -->
+            <div class="sec-reviews__more">
+              <a class="btn btn_arrow-rt sec-reviews__more-btn">Посмотреть более 2 000 отзывов</a>
+            </div>
+          </div><!-- END container -->
+        </section><!-- END sec-reviews -->
+
+        <section class="sec-partners sec-advantages__section">
+          <div class="container">
+            <h2 class="sec-partners__title">Нам доверяют основные клубы Nissan Москвы</h2>
+            <div class="sec-partners__slider" id="sec-partners-slider">
+              <div class="sec-partners__slide">
+                <img class="sec-partners__logo" src="{{ asset('assets/img/sec-partners/partner_01.png') }}" alt="Авто партнер">
+              </div>
+              <div class="sec-partners__slide">
+                <img class="sec-partners__logo" src="{{ asset('assets/img/sec-partners/partner_02.png') }}" alt="Авто партнер">
+              </div>
+              <div class="sec-partners__slide">
+                <img class="sec-partners__logo" src="{{ asset('assets/img/sec-partners/partner_03.png') }}" alt="Авто партнер">
+              </div>
+              <div class="sec-partners__slide">
+                <img class="sec-partners__logo" src="{{ asset('assets/img/sec-partners/partner_04.png') }}" alt="Авто партнер">
+              </div>
+              <div class="sec-partners__slide">
+                <img class="sec-partners__logo" src="{{ asset('assets/img/sec-partners/partner_05.png') }}" alt="Авто партнер">
+              </div>
+              <div class="sec-partners__slide">
+                <img class="sec-partners__logo" src="{{ asset('assets/img/sec-partners/partner_03.png') }}" alt="Авто партнер">
+              </div>
+              <div class="sec-partners__slide">
+                <img class="sec-partners__logo" src="{{ asset('assets/img/sec-partners/partner_04.png') }}" alt="Авто партнер">
+              </div>
+              <div class="sec-partners__slide">
+                <img class="sec-partners__logo" src="{{ asset('assets/img/sec-partners/partner_05.png') }}" alt="Авто партнер">
+              </div>
+            </div>
+          </div><!-- END container -->
+        </section><!-- END sec-partners -->
+
+      </div><!-- END sec-advantages__body -->
+    </section><!-- END sec-advantages -->
+
+      {{ include('www/_sections/faq.html.twig') }}
+
+      {{ include('www/_sections/map.html.twig') }}
+
+  </main><!-- END site-main -->
+{% endblock %}
+

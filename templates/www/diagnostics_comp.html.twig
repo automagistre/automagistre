@@ -1,0 +1,94 @@
+{% extends 'www/layout.html.twig' %}
+
+{% block content %}
+    <main class="site-main">
+
+        <section class="sec-intro">
+            <div class="sec-intro__back" style="background-image: url({{ asset('assets/img/backgrounds/bg_diagnostics-comp.jpg') }})"></div>
+            <div class="sec-intro__front">
+                <div class="container">
+                    <h1 class="sec-intro__title">Компьютерная диагностика <br> Nissan в Москве</h1>
+                    <form class="subscribe sec-intro__form">
+                        <input class="subscribe__name" type="text" placeholder="Имя">
+                        <input class="subscribe__numb js-phone-mask" type="text" placeholder="Телефон">
+                        <input class="subscribe__date js-datepicker-limited" type="text" readonly placeholder="Выберите дату">
+                        <div class="subscribe__agree">
+                            <label class="subscribe__check"><input type="checkbox" checked><span></span></label>
+                            <div class="subscribe__hint">
+                                <span>Lorem ipsum dolor sit amet, consec tetur adipisi cing elit. At, exerci tati onem.</span>
+                            </div>
+                        </div>
+                        <a class="btn subscribe__btn" role="button">Записаться
+                            <i class="btn__icon-rt icon_arrow-rt"></i></a>
+                    </form>
+                    <ul class="sec-intro__features">
+                        <li class="feature sec-intro__feature">
+                            <i class="feature__icon icon-f_suspension"></i>
+                            <h3 class="feature__title">Не обязываем <br> к ремонту</h3>
+                            <div class="feature__note">Полностью бесплатная диагностика и калькуляция работ. А когда и где ремонтировать - решать вам.</div>
+                        </li>
+                        <li class="feature sec-intro__feature">
+                            <i class="feature__icon icon-f_speed"></i>
+                            <h3 class="feature__title">Управимся <br> за 19 минут</h3>
+                            <div class="feature__note">Полностью бесплатная диагностика и калькуляция работ. А когда и где ремонтировать - решать вам.</div>
+                        </li>
+                        <li class="feature sec-intro__feature">
+                            <i class="feature__icon icon-f_piggy"></i>
+                            <h3 class="feature__title">Цены неизменны <br> год за годом</h3>
+                            <div class="feature__note">Полностью бесплатная диагностика и калькуляция работ. А когда и где ремонтировать - решать вам.</div>
+                        </li>
+                        <li class="feature sec-intro__feature">
+                            <i class="feature__icon icon-f_binocul"></i>
+                            <h3 class="feature__title">Наблюдайте <br> за работой</h3>
+                            <div class="feature__note">Полностью бесплатная диагностика и калькуляция работ. А когда и где ремонтировать - решать вам.</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section><!-- END sec-intro -->
+
+        <section class="sec-about">
+            <div class="container">
+                <div class="sec-about__row">
+                    <div class="sec-about__col-lt">
+                        <img class="sec-about__comp" src="{{ asset('assets/img/sec-about/about_comp.png') }}" alt="Компьютерная диагностика">
+                    </div>
+                    <div class="sec-about__col-rt">
+                        <h2 class="sec-about__title">Компьютер знает всё о вашем автомобиле</h2>
+                        <div class="sec-about__text">
+                            <p>
+                                Компьютерная диагностика вашего автомобиля позволит нам узнать о всех
+                                неисправностях электронных средств контроля и управления автомобиля,
+                                что поможет при дальнейшем выяснении причин случившейся поломки.
+                            </p>
+                            <p>
+                                Также мы сбрасываем ошибки электронных блоков управления вашего автомобиля.
+                            </p>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aliquam
+                                aliquid animi asperiores aspernatur at consectetur consequuntur corporis delectus
+                                dolore dolorem eaque earum esse est et exercitationem expedita explicabo facere
+                                harum id impedit incidunt ipsa iusto laborum nemo, non nulla numquam odio pariatur
+                                quod reiciendis soluta vel veniam vero voluptate voluptatem voluptatibus!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <img class="sec-about__robot" src="{{ asset('assets/img/sec-about/about_robot.png') }}" alt="Компьютерная диагностика">
+            </div><!-- END container -->
+        </section><!-- END sec-about -->
+
+        {{ include('www/_sections/experience.html.twig') }}
+
+        {{ include('www/_sections/master.html.twig') }}
+
+        {{ include('www/_sections/reviews.html.twig') }}
+
+        {{ include('www/_sections/clubs.html.twig') }}
+
+        {{ include('www/_sections/faq.html.twig') }}
+
+        {{ include('www/_sections/map.html.twig') }}
+
+    </main><!-- END site-main -->
+{% endblock %}
