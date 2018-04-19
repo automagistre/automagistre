@@ -14,7 +14,7 @@
                         для эксплуатации узлам.
                     </div>
                     <div class="panel__more">
-                        <a class="panel__btn panel__btn_red" href="#">Подробнее</a>
+                        <a class="panel__btn panel__btn_red" href="{{ path('www_diagnostics', {'type': 'free'}) }}">Подробнее</a>
                         <!--a class="panel__btn panel__btn_clear" href="#">Записаться</a-->
                     </div>
                 </div>
@@ -30,7 +30,7 @@
                         для эксплуатации узлам.
                     </div>
                     <div class="panel__more">
-                        <a class="panel__btn panel__btn_red" href="#">Подробнее</a>
+                        <a class="panel__btn panel__btn_red" href="{{ path('www_maintenance') }}">Подробнее</a>
                         <!--a class="panel__btn panel__btn_clear" href="#">Записаться</a-->
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                         для эксплуатации узлам.
                     </div>
                     <div class="panel__more">
-                        <a class="panel__btn panel__btn_red" href="#">Подробнее</a>
+                        <a class="panel__btn panel__btn_red" href="{{ path('www_repair') }}">Подробнее</a>
                         <!--a class="panel__btn panel__btn_clear" href="#">Записаться</a-->
                     </div>
                 </div>
@@ -201,7 +201,7 @@
                                     недорого. Понимая, как трудно найти качественный автосервис в Москве,
                                     мы готовы взяться за любую модель.
                                 </div>
-                                <a class="btn btn_arrow-rt sec-services__kind-more" href="#">Подробнее</a>
+                                <a class="btn btn_arrow-rt sec-services__kind-more" href="{{ path('www_diagnostics', {'type': 'comp'}) }}">Подробнее</a>
                             </li>
                             <li class="sec-services__kind js-services-kind is-active" data-kind="02">
                                 <h4 class="sec-services__kind-title">
@@ -213,7 +213,7 @@
                                     недорого. Понимая, как трудно найти качественный автосервис в Москве,
                                     мы готовы взяться за любую модель.
                                 </div>
-                                <a class="btn btn_arrow-rt sec-services__kind-more" href="#">Подробнее</a>
+                                <a class="btn btn_arrow-rt sec-services__kind-more" href="{{ path('www_diagnostics', {'type': 'free'}) }}">Подробнее</a>
                             </li>
                             <li class="sec-services__kind js-services-kind" data-kind="03">
                                 <h4 class="sec-services__kind-title">
@@ -225,7 +225,7 @@
                                     недорого. Понимая, как трудно найти качественный автосервис в Москве,
                                     мы готовы взяться за любую модель.
                                 </div>
-                                <a class="btn btn_arrow-rt sec-services__kind-more" href="#">Подробнее</a>
+                                <a class="btn btn_arrow-rt sec-services__kind-more" href="{{ path('www_maintenance') }}">Подробнее</a>
                             </li>
                             <li class="sec-services__kind js-services-kind" data-kind="04">
                                 <h4 class="sec-services__kind-title">
@@ -237,7 +237,7 @@
                                     недорого. Понимая, как трудно найти качественный автосервис в Москве,
                                     мы готовы взяться за любую модель.
                                 </div>
-                                <a class="btn btn_arrow-rt sec-services__kind-more" href="#">Подробнее</a>
+                                <a class="btn btn_arrow-rt sec-services__kind-more" href="{{ path('www_repair') }}">Подробнее</a>
                             </li>
                         </ul>
                     </div>
@@ -685,7 +685,7 @@
                     </div>
                     <a class="sec-map__link" role="button">Схема проезда</a>
                     <div class="sec-map__more">
-                        <a class="btn btn_arrow-rt sec-map__more-btn" href="#">Контакты</a>
+                        <a class="btn btn_arrow-rt sec-map__more-btn" href="{{ path('www_contacts') }}">Контакты</a>
                     </div>
                 </div>
             </div>
