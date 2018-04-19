@@ -112,4 +112,12 @@ final class HomeController extends Controller
     {
         return $this->render('www/reviews.html.twig');
     }
+
+    /**
+     * @Route("/privacy-policy", name="www_privacy-policy")
+     */
+    public function privacyPolicy(): Response
+    {
+        return $this->render('www/privacy_policy.html.twig');
+    }
 }
