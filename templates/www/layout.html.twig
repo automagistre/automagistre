@@ -13,10 +13,10 @@
     <meta name="keywords" content="атомагистр, автосервис в Москве, магазин автозапчастей, авторемонт, диагностика">
     <meta name="description" content="Атомагистр - автосервис в Москве, магазин автозапчастей. Диагностика, техническое обслуживание авторемонт.">
     <!-- SEO advanced pages settings ============================================================= -->
-    <meta property="og:url" content="http://avtomagistr.ru">
+    <meta property="og:url" content="http://www.automagistre.ru">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Атомагистр - автосервис в Москве, магазин автозапчастей">
-    <meta property="og:image" content="http://avtomagistr.ru/og-image_1200x1200.jpg">
+    <meta property="og:image" content="http://www.automagistre.ru/og-image_1200x1200.jpg">
     <meta property="og:site_name" content="Атомагистр - автосервис в Москве, магазин автозапчастей">
     <meta property="og:description" content="Атомагистр - автосервис в Москве, магазин автозапчастей">
     <!-- Favicon ================================================================================= -->
@@ -141,22 +141,21 @@
             <aside class="site-side">
                 <ul class="navbar site-side__nav">
                     <li class="navbar__item">
-                        <a class="navbar__link icon_n-cars" href="#">Выбрать другую модель</a>
+                        <a class="navbar__link icon_n-cars" href="{{ path('www_switch') }}">Выбрать другую модель</a>
                     </li>
                     <li class="navbar__item">
                         <a class="navbar__link icon_n-tool" href="#">Глянуть, что тут по чем</a>
                     </li>
                     <li class="navbar__item">
-                        <a class="navbar__link icon_n-comp" href="#">Компьютерная диагностика</a>
-                        <a class="navbar__link icon_n-dash is-free" href="#">Бесплатная диагностика</a>
+                        <a class="navbar__link icon_n-comp" href="{{ path('www_diagnostics', {'type': 'comp'}) }}">Компьютерная диагностика</a>
+                        <a class="navbar__link icon_n-dash is-free" href="{{ path('www_diagnostics', {'type': 'free'}) }}">Бесплатная диагностика</a>
                     </li>
                     <li class="navbar__item">
-                        <a class="navbar__link icon_n-serv" href="#">Техническое обслуживание</a>
+                        <a class="navbar__link icon_n-serv" href="{{ path('www_maintenance') }}">Техническое обслуживание</a>
                     </li>
                 </ul>
             </aside><!-- END site-side-->
         {% endblock %}
-
     {% endblock %}
 
     {%- block content %}{% endblock -%}
@@ -183,9 +182,9 @@
                         </div>
                         <div class="sf-top__col-rt">
                             <nav class="sf-nav">
-                                <a class="sf-nav__link is-active" href="#">Сервис в Москве</a>
+                                <a class="sf-nav__link is-active" href="{{ path('www_maintenance') }}">Сервис в Москве</a>
                                 <a class="sf-nav__link" href="#">Магазин запчастей</a>
-                                <a class="sf-nav__link" href="#">Корпоративным клиентам</a>
+                                <a class="sf-nav__link" href="{{ path('www_corporates') }}">Корпоративным клиентам</a>
                                 <a class="sf-nav__link" href="#">Мой гараж</a>
                                 <a class="sf-nav__link" href="#">Блог</a>
                                 <a class="sf-nav__link" href="#">Контакты</a>

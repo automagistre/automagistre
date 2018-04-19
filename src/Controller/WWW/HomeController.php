@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 final class HomeController extends Controller
 {
     /**
-     * @Route("/")
+     * @Route("/switch", name="www_switch")
      */
     public function __invoke(): Response
     {
@@ -24,7 +24,7 @@ final class HomeController extends Controller
     }
 
     /**
-     * @Route("/home", name="www_homepage")
+     * @Route("/", name="www_homepage")
      */
     public function home(): Response
     {
@@ -42,11 +42,7 @@ final class HomeController extends Controller
     }
 
     /**
-     * @Route("/diagnostics/{type}",
-     *     name="www_diagnostics",
-     *     defaults={"type": "free"},
-     *     requirements={"type": "free|comp"}
-     * )
+     * @Route("/diagnostics/{type}", name="www_diagnostics", requirements={"type": "free|comp"})
      */
     public function diagnostics(string $type): Response
     {
