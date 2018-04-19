@@ -20,4 +20,12 @@ final class BlogController extends Controller
     {
         return $this->render('www/blog/index.html.twig');
     }
+
+    /**
+     * @Route("/{id}", name="www_blog_show")
+     */
+    public function show(): Response
+    {
+        return $this->render('www/blog/show.html.twig');
+    }
 }

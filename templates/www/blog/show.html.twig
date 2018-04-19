@@ -1,0 +1,239 @@
+{% extends 'www/layout_white.html.twig' %}
+
+{% block content %}
+    <main class="site-main article" id="site-main">
+        <div class="article__head">
+            <div class="article__head-back" style="background-image: url({{ asset('assets/images/blog/article_01.jpg') }});"></div>
+            <div class="article__head-front">
+                <div class="container">
+                    <a class="btn btn_gray-outlined article__go-back" href="#">В блог</a>
+                    <h2 class="article__title">Название статьи нередко бывает длиннее, чем две строчки</h2>
+                    <div class="article__date">20 сентября, 2017</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="article__body">
+            <div class="user-content-styles">
+                <div class="ucs-lead">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit,
+                    vulputate eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus,
+                    ac blandit elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique,
+                    tortor mauris molestie elit, et lacinia ipsum
+                </div>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit,
+                    vulputate eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus,
+                    ac blandit elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique,
+                    tortor mauris molestie elit, et lacinia ipsum quam nec dui. Quisque nec mauris
+                    sit amet elit iaculis pretium sit amet quis magna. Aenean velit odio, elementum
+                    in tempus ut, vehicula eu diam. Pellentesque rhoncus aliquam mattis. Ut vulputate
+                    eros sed felis sodales nec vulputate justo hendrerit. Vivamus varius pretium ligula,
+                    a aliquam odio euismod sit amet. Quisque laoreet sem sit amet orci ullamcorper
+                    at ultricies metus viverra. Pellentesque arcu mauris, malesuada quis ornare accumsan,
+                    blandit sed diam.
+                </p>
+                <figure class="ucs-figure">
+                    <img src="{{ asset('assets/images/blog/picture_big.jpg') }}" data-action="zoom" alt="Lorem ipsum dolor">
+                    <figcaption>Текстовое описание, если нужно</figcaption>
+                </figure>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit,
+                    vulputate eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus,
+                    ac blandit elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique,
+                    tortor mauris molestie elit, et lacinia ipsum quam nec dui. Quisque nec mauris
+                    sit amet elit iaculis pretium sit amet quis magna. Aenean velit odio, elementum
+                    in tempus ut, vehicula eu diam. Pellentesque rhoncus aliquam mattis. Ut vulputate
+                    eros sed felis sodales nec vulputate justo hendrerit. Vivamus varius pretium ligula,
+                    a aliquam odio euismod sit amet. Quisque laoreet sem sit amet orci ullamcorper
+                    at ultricies metus viverra. Pellentesque arcu mauris, malesuada quis ornare accumsan,
+                    blandit sed diam.
+                </p>
+                <div class="ucs-gallery js-ucs-gallery">
+                    <div class="ucs-gallery__slide">
+                        <img class="ucs-gallery__img" src="{{ asset('assets/images/blog/picture_01.jpg') }}" alt="Nulla quam velit">
+                        <div class="ucs-gallery__txt">Текстовое описание слайда, если нужно</div>
+                    </div>
+                    <div class="ucs-gallery__slide">
+                        <img class="ucs-gallery__img" src="{{ asset('assets/images/blog/picture_01.jpg') }}" alt="Nulla quam velit">
+                        <div class="ucs-gallery__txt">Текстовое описание слайда, если нужно</div>
+                    </div>
+                    <div class="ucs-gallery__slide">
+                        <img class="ucs-gallery__img" src="{{ asset('assets/images/blog/picture_01.jpg') }}" alt="Nulla quam velit">
+                        <div class="ucs-gallery__txt">Текстовое описание слайда, если нужно</div>
+                    </div>
+                </div>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit,
+                    vulputate eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus,
+                    ac blandit elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique,
+                    tortor mauris molestie elit, et lacinia ipsum quam nec dui. Quisque nec mauris
+                    sit amet elit iaculis pretium sit amet quis magna. Aenean velit odio, elementum
+                    in tempus ut, vehicula eu diam. Pellentesque rhoncus aliquam mattis. Ut vulputate
+                    eros sed felis sodales nec vulputate justo hendrerit. Vivamus varius pretium ligula,
+                    a aliquam odio euismod sit amet. Quisque laoreet sem sit amet orci ullamcorper
+                    at ultricies metus viverra. Pellentesque arcu mauris, malesuada quis ornare accumsan,
+                    blandit sed diam.
+                </p>
+                <div class="row">
+                    <div class="col_6-12">
+                        <ul>
+                            <li>Мы подготовили исследование</li>
+                            <li>о современных возможностях</li>
+                            <li>подобных интерфейсов</li>
+                        </ul>
+                    </div>
+                    <div class="col_6-12">
+                        <ol>
+                            <li>Мы подготовили исследование</li>
+                            <li>о современных возможностях</li>
+                            <li>подобных интерфейсов</li>
+                        </ol>
+                    </div>
+                </div>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit,
+                    vulputate eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus,
+                    ac blandit elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique,
+                    tortor mauris molestie elit, et lacinia ipsum quam nec dui. Quisque nec mauris
+                    sit amet elit iaculis pretium sit amet quis magna. Aenean velit odio, elementum
+                    in tempus ut, vehicula eu diam. Pellentesque rhoncus aliquam mattis. Ut vulputate
+                    eros sed felis sodales nec vulputate justo hendrerit. Vivamus varius pretium ligula,
+                    a aliquam odio euismod sit amet. Quisque laoreet sem sit amet orci ullamcorper
+                    at ultricies metus viverra. Pellentesque arcu mauris, malesuada quis ornare accumsan,
+                    blandit sed diam.
+                </p>
+                <blockquote>
+                    Мы подготовили исследование о современных возможностях подобных
+                    интерфейсов и решили опубликовать в виде серии статей. <br>
+                    Мы расскажем о дополнительном функционале, правилах верстки, удобстве
+                </blockquote>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit,
+                    vulputate eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus,
+                    ac blandit elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique,
+                    tortor mauris molestie elit, et lacinia ipsum quam nec dui. Quisque nec mauris
+                    sit amet elit iaculis pretium sit amet quis magna. Aenean velit odio, elementum
+                    in tempus ut, vehicula eu diam. Pellentesque rhoncus aliquam mattis. Ut vulputate
+                    eros sed felis sodales nec vulputate justo hendrerit. Vivamus varius pretium ligula,
+                    a aliquam odio euismod sit amet. Quisque laoreet sem sit amet orci ullamcorper
+                    at ultricies metus viverra. Pellentesque arcu mauris, malesuada quis ornare accumsan,
+                    blandit sed diam.
+                </p>
+            </div><!-- END user-content-styles -->
+
+            <div class="share">
+                <div class="share__title">Поделиться статьей:</div>
+                <ul class="share__list">
+                    <li class="share__item">
+                        <a class="share__link icon-yt" role="button"><span>100</span></a>
+                    </li>
+                    <li class="share__item">
+                        <a class="share__link icon-vk" role="button"><span>0</span></a>
+                    </li>
+                    <li class="share__item">
+                        <a class="share__link icon-tw" role="button"><span>57</span></a>
+                    </li>
+                    <li class="share__item">
+                        <a class="share__link icon-fb" role="button"><span>934</span></a>
+                    </li>
+                </ul>
+            </div>
+
+        </div><!-- END article__body -->
+
+        <section class="sec-announces">
+            <div class="container">
+                <h2 class="sec-announces__title">Похожие статьи</h2>
+                <div class="sec-announces__slider js-announces-slider">
+
+                    <div class="sec-announces__slide">
+                        <div class="blog-card">
+                            <a class="blog-card__pict">
+                                <img class="blog-card__img" src="{{ asset('assets/images/blog/blog-card_01.jpg') }}" alt="Название статьи">
+                            </a>
+                            <div class="blog-card__text">
+                                <h3 class="blog-card__title">Название статьи</h3>
+                                <div class="blog-card__theme">Раздел</div>
+                                <div class="blog-card__note">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate
+                                    eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit
+                                </div>
+                                <div class="blog-card__date">20 января, 2018</div>
+                            </div>
+                        </div>
+                    </div><!-- END sec-announces__slide -->
+
+                    <div class="sec-announces__slide">
+                        <div class="blog-card">
+                            <a class="blog-card__pict">
+                                <img class="blog-card__img" src="{{ asset('assets/images/blog/blog-card_02.jpg') }}" alt="Название статьи">
+                            </a>
+                            <div class="blog-card__text">
+                                <h3 class="blog-card__title">Название статьи</h3>
+                                <div class="blog-card__theme">Раздел</div>
+                                <div class="blog-card__note">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate
+                                    eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit
+                                </div>
+                                <div class="blog-card__date">20 января, 2018</div>
+                            </div>
+                        </div>
+                    </div><!-- END sec-announces__slide -->
+
+                    <div class="sec-announces__slide">
+                        <div class="blog-card">
+                            <a class="blog-card__pict">
+                                <img class="blog-card__img" src="{{ asset('assets/images/blog/blog-card_03.jpg') }}" alt="Название статьи">
+                            </a>
+                            <div class="blog-card__text">
+                                <h3 class="blog-card__title">Название статьи</h3>
+                                <div class="blog-card__theme">Раздел</div>
+                                <div class="blog-card__note">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate
+                                    eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit
+                                </div>
+                                <div class="blog-card__date">20 января, 2018</div>
+                            </div>
+                        </div>
+                    </div><!-- END sec-announces__slide -->
+
+                    <div class="sec-announces__slide">
+                        <div class="blog-card">
+                            <a class="blog-card__pict">
+                                <img class="blog-card__img" src="{{ asset('assets/images/blog/blog-card_04.jpg') }}" alt="Название статьи">
+                            </a>
+                            <div class="blog-card__text">
+                                <h3 class="blog-card__title">Название статьи</h3>
+                                <div class="blog-card__theme">Раздел</div>
+                                <div class="blog-card__note">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate
+                                    eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit
+                                </div>
+                                <div class="blog-card__date">20 января, 2018</div>
+                            </div>
+                        </div>
+                    </div><!-- END sec-announces__slide -->
+
+                    <div class="sec-announces__slide">
+                        <div class="blog-card">
+                            <a class="blog-card__pict">
+                                <img class="blog-card__img" src="{{ asset('assets/images/blog/blog-card_05.jpg') }}" alt="Название статьи">
+                            </a>
+                            <div class="blog-card__text">
+                                <h3 class="blog-card__title">Название статьи</h3>
+                                <div class="blog-card__theme">Раздел</div>
+                                <div class="blog-card__note">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate
+                                    eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit
+                                </div>
+                                <div class="blog-card__date">20 января, 2018</div>
+                            </div>
+                        </div>
+                    </div><!-- END sec-announces__slide -->
+
+                </div><!-- END sec-announces__slider -->
+            </div><!-- END container -->
+        </section><!-- END sec-announces -->
+    </main><!-- END site-main -->
+{% endblock %}
