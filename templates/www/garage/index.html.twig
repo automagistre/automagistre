@@ -1,0 +1,266 @@
+{% extends 'www/layout_white.html.twig' %}
+
+{% block content %}
+    <main class="site-main page bg-gray">
+        <div class="page__head">
+            <div class="container">
+                <h1 class="page__title">Мой гараж</h1>
+            </div>
+        </div>
+
+        <div class="page__body">
+            <div class="container">
+
+                <div class="garage">
+
+                    <div class="garage__col-lt">
+                        <section class="garage__group garage__contact">
+                            <h2 class="garage__title">Контактные данные</h2>
+                            <form class="form">
+                                <div class="form__line">
+                                    <input class="form__input" type="text" name="name" value="Иван Иванов" readonly disabled placeholder="Имя">
+                                </div>
+                                <div class="form__line">
+                                    <input class="form__input js-phone-mask" type="text" name="numb" value="+79876543210" readonly disabled placeholder="Телефон">
+                                </div>
+                                <div class="form__line">
+                                    <input class="form__input" type="text" name="mail" value="samaia.krasivaia.pochta.v.mire@pochta.pro" readonly disabled placeholder="E-mail">
+                                </div>
+                            </form>
+                        </section>
+
+                        <section class="garage__group">
+                            <h2 class="garage__title">Приобретенные запчасти</h2>
+                            <ul class="garage__prods">
+                                <li class="garage__prod">
+                                    <div class="prod-card is-small">
+                                        <div class="prod-card__pict">
+                                            <img class="prod-card__img" src="{{ asset('assets/img/catalog/prod-card_empty.png') }}" alt="Вы еще ничего не купили">
+                                        </div>
+                                        <div class="prod-card__text">
+                                            <h4 class="prod-card__title">Вы еще ничего не купили</h4>
+                                            <ul class="prod-card__props">
+                                                <li class="prod-card__prop">Мы знаем,</li>
+                                                <li class="prod-card__prop">как это исправить.</li>
+                                            </ul>
+                                            <div class="prod-card__price">
+                                                <a href="#">В магазин запчастей</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="garage__prod">
+                                    <div class="prod-card is-small">
+                                        <div class="prod-card__pict">
+                                            <img class="prod-card__img" src="{{ asset('assets/images/catalog/prod-card_01.jpg') }}" alt="Башмак нятяжителя цепи">
+                                        </div>
+                                        <div class="prod-card__text">
+                                            <h4 class="prod-card__title">
+                                                <a href="#">Башмак нятяжителя цепи</a>
+                                            </h4>
+                                            <ul class="prod-card__props">
+                                                <li class="prod-card__prop"><span>Фирма:</span> Nissan/Renault-Samsung
+                                                </li>
+                                                <li class="prod-card__prop"><span>Код фирмы:</span> 17040-95F0B</li>
+                                            </ul>
+                                            <div class="prod-card__price">2 040 <i class="icon-rub">a</i></div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="garage__prod">
+                                    <div class="prod-card is-small">
+                                        <div class="prod-card__pict">
+                                            <img class="prod-card__img" src="{{ asset('assets/images/catalog/prod-card_01.jpg') }}" alt="Башмак нятяжителя цепи">
+                                        </div>
+                                        <div class="prod-card__text">
+                                            <h4 class="prod-card__title">
+                                                <a href="#">Башмак нятяжителя цепи</a>
+                                            </h4>
+                                            <ul class="prod-card__props">
+                                                <li class="prod-card__prop"><span>Фирма:</span> Nissan/Renault-Samsung
+                                                </li>
+                                                <li class="prod-card__prop"><span>Код фирмы:</span> 17040-95F0B</li>
+                                            </ul>
+                                            <div class="prod-card__price">2 040 <i class="icon-rub">a</i></div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="garage__prod">
+                                    <div class="prod-card is-small">
+                                        <div class="prod-card__pict">
+                                            <img class="prod-card__img" src="{{ asset('assets/images/catalog/prod-card_01.jpg') }}" alt="Башмак нятяжителя цепи">
+                                        </div>
+                                        <div class="prod-card__text">
+                                            <h4 class="prod-card__title">
+                                                <a href="#">Башмак нятяжителя цепи</a>
+                                            </h4>
+                                            <ul class="prod-card__props">
+                                                <li class="prod-card__prop"><span>Фирма:</span> Nissan/Renault-Samsung
+                                                </li>
+                                                <li class="prod-card__prop"><span>Код фирмы:</span> 17040-95F0B</li>
+                                            </ul>
+                                            <div class="prod-card__price">2 040 <i class="icon-rub">a</i></div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </section>
+                    </div><!-- END garage__col-lt -->
+
+                    <div class="garage__col-rt">
+                        <div class="garage__car">
+                            <div class="car-info">
+                                <h3 class="car-info__title">Информация по моей машине</h3>
+                                <div class="car-info__head">
+                                    <div class="car-info__plate">
+                                        <span class="car-info__plate-num">А000АА</span>
+                                        <span class="car-info__plate-reg">96</span>
+                                    </div>
+                                    <nav class="car-info__btns">
+                                        <a class="car-info__btn" role="button">Удалить автомобиль</a>
+                                    </nav>
+                                </div>
+
+                                <div class="car-info__body">
+                                    <div class="car-info__group">
+                                        <div class="car-info__group-head">
+                                            <h5 class="car-info__group-title">Калькуляция последних ремонтных работ:</h5>
+                                            <nav class="car-info__group-btns">
+                                                <a class="car-info__group-btn icon-download" role="button"></a>
+                                            </nav>
+                                        </div>
+                                        <div class="car-info__group-body is-outlined">
+                                            <ul class="car-info__list js-scroll-y">
+                                                <li class="car-info__data">
+                                                    <span class="car-info__data-name">Двигатель</span><span class="car-info__data-val">50 000 ₽</span>
+                                                </li>
+                                                <li class="car-info__data">
+                                                    <span class="car-info__data-name">Стартер</span><span class="car-info__data-val">3 000 ₽</span>
+                                                </li>
+                                                <li class="car-info__data">
+                                                    <span class="car-info__data-name">Подвеска</span><span class="car-info__data-val">15 000 ₽</span>
+                                                </li>
+                                                <li class="car-info__data">
+                                                    <span class="car-info__data-name">ТО после 140 000 км</span><span class="car-info__data-val">6000 ₽</span>
+                                                </li>
+                                                <li class="car-info__data">
+                                                    <span class="car-info__data-name">Замена колодок</span><span class="car-info__data-val">4 000 ₽</span>
+                                                </li>
+                                                <li class="car-info__data">
+                                                    <span class="car-info__data-name">Двигатель</span><span class="car-info__data-val">50 000 ₽</span>
+                                                </li>
+                                                <li class="car-info__data">
+                                                    <span class="car-info__data-name">Стартер</span><span class="car-info__data-val">3 000 ₽</span>
+                                                </li>
+                                                <li class="car-info__data">
+                                                    <span class="car-info__data-name">Подвеска</span><span class="car-info__data-val">15 000 ₽</span>
+                                                </li>
+                                                <li class="car-info__data">
+                                                    <span class="car-info__data-name">ТО после 140 000 км</span><span class="car-info__data-val">6000 ₽</span>
+                                                </li>
+                                                <li class="car-info__data">
+                                                    <span class="car-info__data-name">Замена колодок</span><span class="car-info__data-val">4 000 ₽</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div><!-- END car-info__group -->
+
+                                    <div class="car-info__group">
+                                        <div class="car-info__group-head">
+                                            <h5 class="car-info__group-title">История ремонта и обслуживания:</h5>
+                                            <nav class="car-info__group-btns">
+                                                <a class="car-info__group-btn icon-download" role="button"></a>
+                                            </nav>
+                                        </div>
+                                        <div class="car-info__group-body is-outlined">
+                                            <ul class="car-info__list js-scroll-y">
+                                                <li class="car-info__data">
+                                                    <span class="car-info__data-name">ТО 140 000 км</span><span class="car-info__data-val">23.05.2017</span>
+                                                </li>
+                                                <li class="car-info__data">
+                                                    <span class="car-info__data-name">ТО 200 000 км</span><span class="car-info__data-val">11.07.2017</span>
+                                                </li>
+                                                <li class="car-info__data">
+                                                    <span class="car-info__data-name">ТО 300 000 км</span><span class="car-info__data-val">30.01.2017</span>
+                                                </li>
+                                                <li class="car-info__data">
+                                                    <span class="car-info__data-name">Замена колодок</span><span class="car-info__data-val">7.08.2017</span>
+                                                </li>
+                                                <li class="car-info__data">
+                                                    <span class="car-info__data-name">Очистка салона от крови</span><span class="car-info__data-val">10.01.1999</span>
+                                                </li>
+                                                <li class="car-info__data">
+                                                    <span class="car-info__data-name">Устранение временных червоточин и удаление</span><span class="car-info__data-val">10.01.1999</span>
+                                                </li>
+                                                <li class="car-info__data">
+                                                    <span class="car-info__data-name">ТО 140 000 км</span><span class="car-info__data-val">23.05.2017</span>
+                                                </li>
+                                                <li class="car-info__data">
+                                                    <span class="car-info__data-name">ТО 200 000 км</span><span class="car-info__data-val">11.07.2017</span>
+                                                </li>
+                                                <li class="car-info__data">
+                                                    <span class="car-info__data-name">ТО 300 000 км</span><span class="car-info__data-val">30.01.2017</span>
+                                                </li>
+                                                <li class="car-info__data">
+                                                    <span class="car-info__data-name">Замена колодок</span><span class="car-info__data-val">7.08.2017</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div><!-- END car-info__group -->
+
+                                    <div class="car-info__group">
+                                        <div class="car-info__group-head">
+                                            <h5 class="car-info__group-title">
+                                                Пробег
+                                                <span class="tooltip to-top-right">
+                        <span class="tooltip__msg">Lorem ipsum dolor sit amet, consec tetur adipisicing elit ertrtt etopic.</span>
+                      </span>
+                                            </h5>
+                                        </div>
+                                        <div class="car-info__group-body">
+                                            <ul class="run-line car-info__run">
+                                                <li class="run-line__step js-run-step is-before" data-range="15">15к</li>
+                                                <li class="run-line__step js-run-step is-before" data-range="30">30к</li>
+                                                <li class="run-line__step js-run-step is-before" data-range="45">45к</li>
+                                                <li class="run-line__step js-run-step is-before" data-range="60">60к</li>
+                                                <li class="run-line__step js-run-step is-before" data-range="75">75к</li>
+                                                <li class="run-line__step js-run-step is-before" data-range="90">90к</li>
+                                                <li class="run-line__step js-run-step is-before" data-range="105">105к</li>
+                                                <li class="run-line__step js-run-step is-before" data-range="120">120к</li>
+                                                <li class="run-line__step js-run-step is-active" data-range="135">135к</li>
+                                                <li class="run-line__step js-run-step" data-range="150">150к</li>
+                                                <li class="run-line__step js-run-step" data-range="165">165к</li>
+                                                <li class="run-line__step js-run-step" data-range="180">180к</li>
+                                                <li class="run-line__step js-run-step" data-range="195">195к</li>
+                                                <li class="run-line__step js-run-step" data-range="210">210к</li>
+                                            </ul>
+                                        </div>
+                                    </div><!-- END car-info__group -->
+
+                                    <div class="car-info__group">
+                                        <div class="car-info__group-head">
+                                            <h5 class="car-info__group-title is-red">Рекомендации:</h5>
+                                        </div>
+                                        <div class="car-info__group-body">
+                                            <div class="car-info__note">
+                                                Советуем вам съездить на компьютерную диагностику после 150 000 км, так как обычно
+                                                кондиционер и фары выходят из строя на вашем автомобиле на этом пробеге
+                                            </div>
+                                            <form class="form car-info__join">
+                                                <input class="form__date car-info__join-date js-datepicker-limited" type="text" placeholder="Выберите дату">
+                                                <button class="btn car-info__join-btn">Записаться</button>
+                                            </form>
+                                        </div>
+                                    </div><!-- END car-info__group -->
+                                </div><!-- END car-info__body -->
+                            </div>
+                        </div><!-- END garage__car -->
+
+                        <a class="btn btn_gray-outlined  btn_big garage__add-btn" role="button">+ Добавить машину</a>
+                    </div><!-- END garage__col-rt -->
+
+                </div><!-- END garage -->
+            </div><!-- END container -->
+        </div><!-- END page__body -->
+    </main><!-- END site-main -->
+{% endblock %}
