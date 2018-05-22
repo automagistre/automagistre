@@ -4,6 +4,8 @@ else
     php_cs_config = .php_cs
 endif
 
+notify = notify-send --urgency="critical" "Makefile: $@" "COMPLETE!"
+
 DOCKER_COMPOSE_VERSION=1.17.0
 DOCKER_UBUNTU_VERSION=17.11.0~ce-0~ubuntu
 
@@ -24,7 +26,9 @@ install: do-install up db-wait migration permissions
 
 update: pull build install
 fresh: pull build do-install up db-wait permissions cache flush
+	@$(notify)
 fresh-backup: pull build do-install up db-wait permissions cache drop backup-restore migration
+	@$(notify)
 
 permissions:
 	docker run --rm -v `pwd`:/app -w /app alpine sh -c "chown $(shell id -u):$(shell id -g) -R ./ && chmod 777 -R ./var || true"
@@ -169,6 +173,8 @@ cache-warmup-test:
 	@$(MAKE) permissions > /dev/null
 
 flush: drop migration fixtures
+	@$(notify)
+
 drop:
 	docker-compose run --rm -e XDEBUG=false app  bash -c "console doctrine:database:drop --force || true && console doctrine:database:create"
 db-wait:
