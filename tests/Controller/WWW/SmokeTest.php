@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Controller\WWW;
+namespace App\Tests\Controller\WWW;
 
+use Generator;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
@@ -25,10 +26,26 @@ final class SmokeTest extends WebTestCase
         $this->assertSame($statusCode, $response->getStatusCode());
     }
 
-    public function pagesProvider()
+    public function pagesProvider(): Generator
     {
         yield ['/', 200];
-        yield ['/switch', 200];
+        yield ['/shop', 200];
+        yield ['/garage', 200];
+        yield ['/blog', 200];
+        yield ['/blog/1', 200];
+
+        foreach ($this->servicesPages() as $page) {
+            $path = $page[0];
+            foreach (['nissan', 'lexus', 'infinity', 'toyota'] as $brand) {
+                $page[0] = sprintf('/service/%s', $brand.$path);
+
+                yield $page;
+            }
+        }
+    }
+
+    private function servicesPages(): Generator
+    {
         yield ['/repair', 200];
         yield ['/diagnostics/free', 200];
         yield ['/diagnostics/comp', 200];
@@ -38,10 +55,6 @@ final class SmokeTest extends WebTestCase
         yield ['/price-list', 200];
         yield ['/maintenance', 200];
         yield ['/contacts', 200];
-        yield ['/blog', 200];
-        yield ['/blog/1', 200];
-        yield ['/shop', 200];
         yield ['/privacy-policy', 200];
-        yield ['/garage', 200];
     }
 }

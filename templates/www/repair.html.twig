@@ -1,5 +1,7 @@
 {% extends 'www/layout.html.twig' %}
 
+{% set brand = app.request.attributes.get('brand')|capitalize %}
+
 {% block content %}
     <!-- MAIN ================================================================== -->
     <main class="site-main">
@@ -8,7 +10,7 @@
             <div class="sec-intro__back" style="background-image: url({{ asset('assets/img/backgrounds/bg_repair.jpg') }})"></div>
             <div class="sec-intro__front">
                 <div class="container">
-                    <h1 class="sec-intro__title">Ремонт и обслуживание<br>Nissan в Москве</h1>
+                    <h1 class="sec-intro__title">Ремонт и обслуживание<br>{{ brand }} в Москве</h1>
                     <a class="btn sec-intro__btn js-scroll-to" data-scroll="#sec-offer-slider" role="button">К прайс-листу</a>
                 </div>
             </div>

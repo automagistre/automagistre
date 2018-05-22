@@ -10,25 +10,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @author Konstantin Grachev <me@grachevko.ru>
+ * @Route("/service/{brand}", requirements={"brand": "nissan|toyota|infinity|lexus"})
  */
-final class HomeController extends Controller
+final class ServiceController extends Controller
 {
     /**
-     * @Route("/switch", name="www_switch")
+     * @Route("/", name="www_service")
      */
-    public function __invoke(): Response
+    public function service(): Response
     {
-        return $this->render('www/switch.html.twig', [
-        ]);
-    }
-
-    /**
-     * @Route("/", name="www_homepage")
-     */
-    public function home(): Response
-    {
-        return $this->render('www/homepage.html.twig', [
+        return $this->render('www/service.html.twig', [
         ]);
     }
 

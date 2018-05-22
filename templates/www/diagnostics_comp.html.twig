@@ -1,5 +1,7 @@
 {% extends 'www/layout.html.twig' %}
 
+{% set brand = app.request.attributes.get('brand')|capitalize %}
+
 {% block content %}
     <main class="site-main">
 
@@ -7,7 +9,7 @@
             <div class="sec-intro__back" style="background-image: url({{ asset('assets/img/backgrounds/bg_diagnostics-comp.jpg') }})"></div>
             <div class="sec-intro__front">
                 <div class="container">
-                    <h1 class="sec-intro__title">Компьютерная диагностика <br> Nissan в Москве</h1>
+                    <h1 class="sec-intro__title">Компьютерная диагностика <br> {{ brand }} в Москве</h1>
                     <form class="subscribe sec-intro__form">
                         <input class="subscribe__name" type="text" placeholder="Имя">
                         <input class="subscribe__numb js-phone-mask" type="text" placeholder="Телефон">
