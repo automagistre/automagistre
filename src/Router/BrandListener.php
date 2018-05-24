@@ -39,7 +39,7 @@ final class BrandListener implements EventSubscriberInterface
         }
 
         $session = $request->getSession();
-        if (!$session->has(self::BRAND_SESSION_ATTRIBUTE) && $session->get(self::BRAND_SESSION_ATTRIBUTE) !== $brand) {
+        if (!$session->has(self::BRAND_SESSION_ATTRIBUTE) || $session->get(self::BRAND_SESSION_ATTRIBUTE) !== $brand) {
             $session->set(self::BRAND_SESSION_ATTRIBUTE, $brand);
         }
     }
