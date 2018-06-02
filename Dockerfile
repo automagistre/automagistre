@@ -27,7 +27,7 @@ RUN set -ex \
     && docker-php-ext-install zip intl pdo_mysql iconv opcache pcntl \
     && rm -rf ${PHP_INI_DIR}/conf.d/docker-php-ext-opcache.ini \
     && pecl install xdebug-2.6.0alpha1 apcu memcached \
-    && docker-php-ext-enable memcached \
+    && docker-php-ext-enable memcached apcu \
     \
     && rm -r /var/lib/apt/lists/*
 
@@ -69,7 +69,7 @@ ARG APP_CACHE=prod
 RUN if [ -f composer.json ] && [ "test" = ${APP_CACHE} ]; then \
         APP_ENV=test APP_DEBUG=1 ${COMPOSER_EXEC} install ${COMPOSER_INSTALL_OPTS} ; \
     elif [ -f composer.json ]; then \
-        APP_ENV=prod APP_DEBUG=0 ${COMPOSER_EXEC} run-script post-install-cmd -vvv \
+        APP_ENV=prod APP_DEBUG=0 ${COMPOSER_EXEC} run-script post-install-cmd \
     ; fi
 
 ENTRYPOINT ["bash", "/docker-entrypoint.sh"]
