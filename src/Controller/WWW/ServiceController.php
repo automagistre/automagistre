@@ -113,9 +113,40 @@ TEXT
     /**
      * @Route("/corporates", name="corporates")
      */
-    public function corporates()
+    public function corporates(Request $request, Swift_Mailer $mailer): Response
     {
-        return $this->render('www/corporates.html.twig');
+        $data = new class() {
+            public $name;
+            public $telephone;
+            public $checkbox = true;
+        };
+
+        $form = $this->createFormBuilder($data)
+            ->add('name')
+            ->add('telephone')
+            ->add('checkbox', CheckboxType::class)
+            ->getForm()
+            ->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $message = (new \Swift_Message())
+                ->setFrom(['no-reply@automagistre.ru' => 'Автомагистр'])
+                ->setTo(['info@automagistre.ru'])
+                ->setSubject('Запись на корпоративное обслуживание')
+                ->setBody(<<<TEXT
+Имя: $data->name
+Телефон: $data->telephone
+TEXT
+                );
+
+            $mailer->send($message);
+
+            return new Response('OK');
+        }
+
+        return $this->render('www/corporates.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
