@@ -86,7 +86,7 @@
                                     <a class="sh-switch__link is-active" href="{{ path('www_service') }}">Автосервис в Москве</a>
                                 </li>
                                 <li class="sh-switch__item">
-                                    <a class="sh-switch__link" href="#{#{ path('www_shop_index') }#}">Магазин запчастей</a>
+                                    <a class="sh-switch__link" href="{{ path('www_shop_index') }}">Магазин запчастей</a>
                                 </li>
                             </ul>
                         </div>
@@ -166,15 +166,16 @@
                             <div class="sf-top__col-lt">
                                 <div class="sf-logo">
                                     <img class="sf-logo__img" src="{{ asset('assets/img/logo_magistr_dark.svg') }}" alt="Автомагистр">
-                                    <a class="sf-logo__link" href="/"></a>
+                                    <a class="sf-logo__link" href="{{ path('www_service') }}"></a>
                                 </div>
                                 <div class="sf-drop">
                                     <div class="sf-drop__note">Клубный автосервис:</div>
                                     <nav class="sf-drop__links">
-                                        <a class="sf-drop__link" href="#">Toyota</a>
-                                        <a class="sf-drop__link" href="#">Mazda</a>
-                                        <a class="sf-drop__link" href="#">Lexus</a>
-                                        <a class="sf-drop__link is-active">Nissan</a>
+                                        {% set brand = app.request.attributes.get('brand') %}
+                                        <a class="sf-drop__link {{- 'toyota' == brand ? ' is-active' }}" href="{{ path('www_service', {'brand': 'toyota'}) }}">Toyota</a>
+                                        <a class="sf-drop__link {{- 'nissan' == brand ? ' is-active' }}" href="{{ path('www_service', {'brand': 'nissan'}) }}">Nissan</a>
+                                        <a class="sf-drop__link {{- 'lexus' == brand ? ' is-active' }}" href="{{ path('www_service', {'brand': 'lexus'}) }}">Lexus</a>
+                                        <a class="sf-drop__link {{- 'infinity' == brand ? ' is-active' }}" href="{{ path('www_service', {'brand': 'infinity'}) }}">Infinity</a>
                                     </nav>
                                 </div>
                             </div>
