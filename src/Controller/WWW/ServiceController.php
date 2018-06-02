@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Swift_Mailer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,14 +42,53 @@ final class ServiceController extends Controller
     /**
      * @Route("/diagnostics/{type}", name="diagnostics", requirements={"type": "free|comp"})
      */
-    public function diagnostics(string $type): Response
+    public function diagnostics(Request $request, Swift_Mailer $mailer, string $type): Response
     {
+        $data = new class() {
+            public $name;
+            public $telephone;
+            public $date;
+            public $checkbox = true;
+        };
+
+        $form = $this->createFormBuilder($data)
+            ->add('name')
+            ->add('telephone')
+            ->add('date')
+            ->add('checkbox', CheckboxType::class)
+            ->getForm()
+            ->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $message = (new \Swift_Message())
+                ->setFrom(['no-reply@automagistre.ru' => 'Автомагистр'])
+                ->setTo(['info@automagistre.ru'])
+                ->setSubject(sprintf('Запись на %s диагностику', [
+                    'free' => 'бесплатную',
+                    'comp' => 'компьютерную',
+                ][$type]))
+                ->setBody(<<<TEXT
+Имя: $data->name
+Телефон: $data->telephone
+Дата: $data->date
+TEXT
+                );
+
+            $mailer->send($message);
+
+            return new Response('OK');
+        }
+
         if ('comp' === $type) {
-            return $this->render('www/diagnostics_comp.html.twig');
+            return $this->render('www/diagnostics_comp.html.twig', [
+                'form' => $form->createView(),
+            ]);
         }
 
         if ('free' === $type) {
-            return $this->render('www/diagnostics_free.html.twig');
+            return $this->render('www/diagnostics_free.html.twig', [
+                'form' => $form->createView(),
+            ]);
         }
 
         throw new LogicException('Unreachable statement');

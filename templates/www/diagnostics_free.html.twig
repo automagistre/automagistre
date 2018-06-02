@@ -9,19 +9,24 @@
             <div class="sec-intro__front">
                 <div class="container">
                     <h1 class="sec-intro__title">Бесплатная диагностика <br> {{ brand }} в Москве</h1>
-                    <form class="subscribe sec-intro__form">
-                        <input class="subscribe__name" type="text" placeholder="Имя">
-                        <input class="subscribe__numb js-phone-mask" type="text" placeholder="Телефон">
-                        <input class="subscribe__date js-datepicker-limited" type="text" readonly placeholder="Выберите дату">
+                    {{ form_start(form, {'attr': {'class': 'subscribe sec-intro__form'}}) }}
+                    {{ form_widget(form.name, {'attr': {'class': 'subscribe__name', 'placeholder': 'Имя'}}) }}
+                    {{ form_widget(form.telephone, {'attr': {'class': 'subscribe__numb js-phone-mask', 'placeholder': 'Телефон'}}) }}
+                    {{ form_widget(form.date, {'attr': {'class': 'subscribe__date js-datepicker-limited', 'placeholder': 'Выберите дату'}}) }}
                         <div class="subscribe__agree">
-                            <label class="subscribe__check"><input type="checkbox" checked><span></span></label>
+                            <label class="subscribe__check">
+                                {{ form_widget(form.checkbox) }}
+                                <span></span>
+                            </label>
                             <div class="subscribe__hint">
                                 <span>Lorem ipsum dolor sit amet, consec tetur adipisi cing elit. At, exerci tati onem.</span>
                             </div>
                         </div>
-                        <a class="btn subscribe__btn" role="button">Записаться
-                            <i class="btn__icon-rt icon_arrow-rt"></i></a>
-                    </form>
+                        <button class="btn subscribe__btn" type="submit">
+                            Записаться
+                            <i class="btn__icon-rt icon_arrow-rt"></i>
+                        </button>
+                    {{ form_end(form) }}
                     <ul class="sec-intro__features">
                         <li class="feature sec-intro__feature">
                             <i class="feature__icon icon-f_suspension"></i>
