@@ -1,3 +1,4 @@
 app:
     resource: '../src/Controller/WWW'
     type: annotation
+    name_prefix: www_

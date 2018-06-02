@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 final class ShopController extends Controller
 {
     /**
-     * @Route(name="www_shop_index")
+     * @Route(name="shop_index")
      */
     public function index(): Response
     {

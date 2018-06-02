@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 final class SwitchController extends Controller
 {
     /**
-     * @Route("/", name="www_switch")
+     * @Route("/", name="switch")
      */
     public function __invoke(Request $request): Response
     {
@@ -26,7 +26,7 @@ final class SwitchController extends Controller
             if ($session->has(BrandListener::BRAND_SESSION_ATTRIBUTE)) {
                 $brand = $session->get(BrandListener::BRAND_SESSION_ATTRIBUTE);
 
-                return $this->redirectToRoute('www_service', ['brand' => $brand]);
+                return $this->redirectToRoute('service', ['brand' => $brand]);
             }
         }
 

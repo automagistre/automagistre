@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 final class GarageController extends Controller
 {
     /**
-     * @Route(name="www_garage_index")
+     * @Route(name="garage_index")
      */
     public function index(): Response
     {

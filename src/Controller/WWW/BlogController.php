@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 final class BlogController extends Controller
 {
     /**
-     * @Route(name="www_blog_index")
+     * @Route(name="blog_index")
      */
     public function index(): Response
     {
@@ -22,7 +22,7 @@ final class BlogController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="www_blog_show")
+     * @Route("/{id}", name="blog_show")
      */
     public function show(): Response
     {

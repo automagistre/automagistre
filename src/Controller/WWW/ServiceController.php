@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 final class ServiceController extends Controller
 {
     /**
-     * @Route("/", name="www_service")
+     * @Route("/", name="service")
      */
     public function service(): Response
     {
@@ -24,7 +24,7 @@ final class ServiceController extends Controller
     }
 
     /**
-     * @Route("/repair", name="www_repair")
+     * @Route("/repair", name="repair")
      */
     public function repair(): Response
     {
@@ -33,7 +33,7 @@ final class ServiceController extends Controller
     }
 
     /**
-     * @Route("/diagnostics/{type}", name="www_diagnostics", requirements={"type": "free|comp"})
+     * @Route("/diagnostics/{type}", name="diagnostics", requirements={"type": "free|comp"})
      */
     public function diagnostics(string $type): Response
     {
@@ -49,7 +49,7 @@ final class ServiceController extends Controller
     }
 
     /**
-     * @Route("/tire", name="www_type")
+     * @Route("/tire", name="type")
      */
     public function tire(): Response
     {
@@ -57,7 +57,7 @@ final class ServiceController extends Controller
     }
 
     /**
-     * @Route("/brands", name="www_brands")
+     * @Route("/brands", name="brands")
      */
     public function brands(): Response
     {
@@ -65,7 +65,7 @@ final class ServiceController extends Controller
     }
 
     /**
-     * @Route("/corporates", name="www_corporates")
+     * @Route("/corporates", name="corporates")
      */
     public function corporates()
     {
@@ -73,7 +73,7 @@ final class ServiceController extends Controller
     }
 
     /**
-     * @Route("/price-list", name="www_price-list")
+     * @Route("/price-list", name="price-list")
      */
     public function priceList(): Response
     {
@@ -81,7 +81,7 @@ final class ServiceController extends Controller
     }
 
     /**
-     * @Route("/maintenance", name="www_maintenance")
+     * @Route("/maintenance", name="maintenance")
      */
     public function maintenance(): Response
     {
@@ -89,7 +89,7 @@ final class ServiceController extends Controller
     }
 
     /**
-     * @Route("/contacts", name="www_contacts")
+     * @Route("/contacts", name="contacts")
      */
     public function contacts(): Response
     {
@@ -97,7 +97,7 @@ final class ServiceController extends Controller
     }
 
     /**
-     * @Route("/reviews", name="www_reviews")
+     * @Route("/reviews", name="reviews")
      */
     public function reviews(): Response
     {
@@ -105,7 +105,7 @@ final class ServiceController extends Controller
     }
 
     /**
-     * @Route("/privacy-policy", name="www_privacy-policy")
+     * @Route("/privacy-policy", name="privacy-policy")
      */
     public function privacyPolicy(): Response
     {
