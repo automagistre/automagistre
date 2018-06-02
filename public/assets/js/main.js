@@ -49,7 +49,7 @@ function secMapStart() {
   var map = new google.maps.Map(myMapPlace, mapOptions);
 
   // Create and to map marker
-  var pointLabel = new google.maps.MarkerImage('assets/img/map_point.png',
+  var pointLabel = new google.maps.MarkerImage('/assets/img/map_point.png',
     new google.maps.Size(50,68),
     new google.maps.Point(0,0),
     new google.maps.Point(25,68)
