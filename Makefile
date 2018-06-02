@@ -174,6 +174,8 @@ cache-warmup-test:
 
 flush: drop migration fixtures
 	@$(notify)
+flush-backup: drop backup-restore migration
+	@$(notify)
 
 drop:
 	docker-compose run --rm -e XDEBUG=false app  bash -c "console doctrine:database:drop --force || true && console doctrine:database:create"

@@ -1,10 +1,10 @@
-FROM php:7.2.0-apache-stretch
+FROM php:7.2.6-apache-stretch
 
 LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 
-ENV APP_DIR=/usr/local/app \
-    COMPOSER_CACHE_DIR=/var/cache/composer \
-    COMPOSER_ALLOW_SUPERUSER=1
+ENV APP_ENV=prod
+ENV APP_DEBUG=0
+ENV APP_DIR=/usr/local/app
 
 ENV PATH=${APP_DIR}/bin:${APP_DIR}/vendor/bin:${PATH}
 
@@ -18,7 +18,7 @@ RUN set -ex \
         netcat \
         libmemcached-dev \
 	\
-	&& curl http://download.icu-project.org/files/icu4c/60.2/icu4c-60_2-src.tgz -o /tmp/icu4c.tgz \
+	&& curl http://download.icu-project.org/files/icu4c/61.1/icu4c-61_1-src.tgz -o /tmp/icu4c.tgz \
 	&& tar zxvf /tmp/icu4c.tgz > /dev/null \
 	&& cd icu/source \
 	&& ./configure --prefix=/opt/icu && make && make install \
@@ -33,7 +33,12 @@ RUN set -ex \
 
 RUN a2enmod rewrite
 
-ENV COMPOSER_VERSION 1.6.2
+ENV COMPOSER_VERSION=1.6.5
+ENV COMPOSER_EXEC='php -d memory_limit=-1 /usr/local/bin/composer'
+ENV COMPOSER_CACHE_DIR=/var/cache/composer
+ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV COMPOSER_INSTALL_OPTS="--no-interaction --apcu-autoloader --no-progress --prefer-dist"
+
 COPY docker/composer.sh ./composer.sh
 RUN ./composer.sh --install-dir=/usr/local/bin --filename=composer --version=${COMPOSER_VERSION}  \
     && composer global require "hirak/prestissimo:^0.3" \
@@ -44,8 +49,9 @@ ARG SOURCE_DIR=.
 COPY ${SOURCE_DIR}/composer.* ${APP_DIR}/
 RUN if [ -f composer.json ]; then \
     mkdir -p var \
-    && composer install --no-scripts --no-interaction --apcu-autoloader --no-progress --prefer-dist \
-    && rm -rf ${COMPOSER_CACHE_DIR}/* ; fi
+    && ${COMPOSER_EXEC} install ${COMPOSER_INSTALL_OPTS} --no-scripts \
+    && ${COMPOSER_EXEC} install ${COMPOSER_INSTALL_OPTS} --no-scripts --no-dev \
+    ; fi
 
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh
 COPY docker/apache/apache.conf ${APACHE_CONFDIR}/sites-enabled/000-default.conf
@@ -58,6 +64,13 @@ ARG APP_VERSION=dev
 ENV APP_VERSION ${APP_VERSION}
 ARG APP_BUILD_TIME=''
 ENV APP_BUILD_TIME ${APP_BUILD_TIME}
+
+ARG APP_CACHE=prod
+RUN if [ -f composer.json ] && [ "test" = ${APP_CACHE} ]; then \
+        APP_ENV=test APP_DEBUG=1 ${COMPOSER_EXEC} install ${COMPOSER_INSTALL_OPTS} ; \
+    elif [ -f composer.json ]; then \
+        APP_ENV=prod APP_DEBUG=0 ${COMPOSER_EXEC} install ${COMPOSER_INSTALL_OPTS} --no-dev \
+    ; fi
 
 ENTRYPOINT ["bash", "/docker-entrypoint.sh"]
 CMD ["apache"]

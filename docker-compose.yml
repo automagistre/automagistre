@@ -2,10 +2,11 @@ version: '3.4'
 
 services:
     app:
-        build:
-            context: .
-            args:
-               SOURCE_DIR: ./var/null
+#        build:
+#            context: .
+#            args:
+#               SOURCE_DIR: ./var/null
+        image: automagistre/app:dev
         hostname: automagistre.local
         labels:
             subdomains: sto www

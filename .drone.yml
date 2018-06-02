@@ -90,9 +90,6 @@ pipeline:
             APP_ENV: 'test'
             APP_DEBUG: '1'
             MIGRATIONS: 'false'
-        when:
-            branch:
-                exclude: master
 
     validate doctrine: &validate-doctrine
         group: validate
