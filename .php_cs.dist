@@ -22,7 +22,7 @@ return PhpCsFixer\Config::create()
         '@Symfony'                              => true,
         '@Symfony:risky'                        => true,
         'array_syntax'                          => ['syntax' => 'short'],
-        'binary_operator_spaces'                => ['align_double_arrow' => false],
+        'binary_operator_spaces'                => ['operators' => ['=>' => 'single_space']],
         'linebreak_after_opening_tag'           => true,
         'list_syntax'                           => ['syntax' => 'short'],
         'no_null_property_initialization'       => true,
