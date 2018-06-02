@@ -44,14 +44,7 @@ final class ServiceController extends Controller
      */
     public function diagnostics(Request $request, Swift_Mailer $mailer, string $type): Response
     {
-        $data = new class() {
-            public $name;
-            public $telephone;
-            public $date;
-            public $checkbox = true;
-        };
-
-        $form = $this->createFormBuilder($data)
+        $form = $this->createFormBuilder()
             ->add('name')
             ->add('telephone')
             ->add('date')
@@ -60,6 +53,8 @@ final class ServiceController extends Controller
             ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $data = (object) $form->getData();
+
             $message = (new \Swift_Message())
                 ->setFrom(['no-reply@automagistre.ru' => 'Автомагистр'])
                 ->setTo(['info@automagistre.ru'])
@@ -113,14 +108,7 @@ TEXT
      */
     public function brands(Request $request, Swift_Mailer $mailer): Response
     {
-        $data = new class() {
-            public $name;
-            public $telephone;
-            public $date;
-            public $checkbox = true;
-        };
-
-        $form = $this->createFormBuilder($data)
+        $form = $this->createFormBuilder()
             ->add('name')
             ->add('telephone')
             ->add('date')
@@ -129,6 +117,8 @@ TEXT
             ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $data = (object) $form->getData();
+
             $message = (new \Swift_Message())
                 ->setFrom(['no-reply@automagistre.ru' => 'Автомагистр'])
                 ->setTo(['info@automagistre.ru'])
@@ -161,13 +151,7 @@ TEXT
      */
     public function corporates(Request $request, Swift_Mailer $mailer): Response
     {
-        $data = new class() {
-            public $name;
-            public $telephone;
-            public $checkbox = true;
-        };
-
-        $form = $this->createFormBuilder($data)
+        $form = $this->createFormBuilder()
             ->add('name')
             ->add('telephone')
             ->add('checkbox', CheckboxType::class)
@@ -175,6 +159,8 @@ TEXT
             ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $data = (object) $form->getData();
+
             $message = (new \Swift_Message())
                 ->setFrom(['no-reply@automagistre.ru' => 'Автомагистр'])
                 ->setTo(['info@automagistre.ru'])
@@ -247,13 +233,7 @@ TEXT
      */
     public function faq(Request $request, Swift_Mailer $mailer): Response
     {
-        $data = new class() {
-            public $name;
-            public $email;
-            public $question;
-        };
-
-        $form = $this->createFormBuilder($data, [
+        $form = $this->createFormBuilder(null, [
             'action' => $this->generateUrl('www_faq'),
         ])
             ->add('name')
@@ -263,6 +243,8 @@ TEXT
             ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $data = (object) $form->getData();
+
             $message = (new \Swift_Message())
                 ->setFrom(['no-reply@automagistre.ru' => 'Автомагистр'])
                 ->setReplyTo($data->email)
