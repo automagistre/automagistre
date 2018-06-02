@@ -50,7 +50,7 @@ COPY ${SOURCE_DIR}/composer.* ${APP_DIR}/
 RUN if [ -f composer.json ]; then \
     mkdir -p var \
     && ${COMPOSER_EXEC} install ${COMPOSER_INSTALL_OPTS} --no-scripts \
-    && ${COMPOSER_EXEC} install ${COMPOSER_INSTALL_OPTS} --no-scripts --no-dev \
+#    && ${COMPOSER_EXEC} install ${COMPOSER_INSTALL_OPTS} --no-scripts --no-dev \
     ; fi
 
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh
@@ -65,12 +65,12 @@ ENV APP_VERSION ${APP_VERSION}
 ARG APP_BUILD_TIME=''
 ENV APP_BUILD_TIME ${APP_BUILD_TIME}
 
-ARG APP_CACHE=prod
-RUN if [ -f composer.json ] && [ "test" = ${APP_CACHE} ]; then \
-        APP_ENV=test APP_DEBUG=1 ${COMPOSER_EXEC} install ${COMPOSER_INSTALL_OPTS} ; \
-    elif [ -f composer.json ]; then \
-        APP_ENV=prod APP_DEBUG=0 ${COMPOSER_EXEC} run-script post-install-cmd \
-    ; fi
+#ARG APP_CACHE=prod
+#RUN if [ -f composer.json ] && [ "test" = ${APP_CACHE} ]; then \
+#        APP_ENV=test APP_DEBUG=1 ${COMPOSER_EXEC} install ${COMPOSER_INSTALL_OPTS} ; \
+#    elif [ -f composer.json ]; then \
+#        APP_ENV=prod APP_DEBUG=0 ${COMPOSER_EXEC} run-script post-install-cmd \
+#    ; fi
 
 ENTRYPOINT ["bash", "/docker-entrypoint.sh"]
 CMD ["apache"]
