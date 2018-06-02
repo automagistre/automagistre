@@ -230,9 +230,6 @@
             "ref": "8ebc9f29f52f2fff3acdb3e0d1198ddf9e7f81b7"
         }
     },
-    "phpunit/phpunit-mock-objects": {
-        "version": "5.0.6"
-    },
     "psr/cache": {
         "version": "1.0.1"
     },
@@ -427,6 +424,9 @@
             "version": "3.3",
             "ref": "179470cb6492db92dffee208cfdb436f175c93b4"
         }
+    },
+    "symfony/polyfill-ctype": {
+        "version": "v1.8.0"
     },
     "symfony/polyfill-intl-icu": {
         "version": "v1.6.0"
