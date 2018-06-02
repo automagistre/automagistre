@@ -17,7 +17,6 @@ services:
             APP_DEBUG: 1
             XDEBUG: 'true'
             OPCACHE: 'false'
-            APCU: 'false'
             MIGRATIONS: 'false'
             COMPOSER_SCRIPT: 'false'
             WAIT_HOSTS: 'mysql:3306'

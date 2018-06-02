@@ -8,7 +8,7 @@ fi
 
 APP_ENV=${APP_ENV:=prod}
 case "$APP_ENV" in
-   prod) export APCU=true ;; # APCU is required in prod env
+   prod) ;;
    dev|test) ;;
    *) >&2 echo env "APP_ENV" must be in \"prod, dev, test\" && exit 1;;
 esac
@@ -62,11 +62,6 @@ enableExt() {
 OPCACHE=${OPCACHE:=true}
 if [ "$OPCACHE" == "true" ]; then
     enableExt opcache
-fi
-
-APCU=${APCU:=true}
-if [ "$APCU" == "true" ]; then
-    enableExt apcu
 fi
 
 COMPOSER_SCRIPT=${COMPOSER_SCRIPT:="post-install-cmd"}
