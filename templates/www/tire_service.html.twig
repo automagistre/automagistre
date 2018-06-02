@@ -8,7 +8,7 @@
             <div class="sec-intro__back" style="background-image: url({{ asset('assets/img/backgrounds/bg_tire-service.jpg') }})"></div>
             <div class="sec-intro__front">
                 <div class="container">
-                    <a class="sec-intro__type" href="#">Ремонт и обслуживание {{ brand }}</a>
+                    <a class="sec-intro__type" href="{{ path('www_service') }}">Ремонт и обслуживание {{ brand }}</a>
                     <h1 class="sec-intro__title">Шиномонтаж</h1>
                     <a class="btn sec-intro__btn js-scroll-to" data-scroll="#about" role="button">Записаться</a>
                     <ul class="sec-intro__features">
@@ -53,11 +53,9 @@
                                         <div class="selector__drop">
                                             <ul class="selector__list">
                                                 <li data-val="0">Выбрать радиус</li>
-                                                <li data-val="1">По популярности</li>
-                                                <li data-val="2">По цене (вверх)</li>
-                                                <li data-val="3">По цене (вниз)</li>
-                                                <li data-val="4">По названию (а-я)</li>
-                                                <li data-val="5">По названию (я-а)</li>
+                                                {% for diameter in 13..22 %}
+                                                    <li data-val="{{ diameter }}">{{ diameter }}"</li>
+                                                {% endfor %}
                                             </ul>
                                         </div>
                                     </div>
@@ -69,11 +67,14 @@
                                         <div class="selector__drop">
                                             <ul class="selector__list">
                                                 <li data-val="0">Вид машины</li>
-                                                <li data-val="1">По популярности</li>
-                                                <li data-val="2">По цене (вверх)</li>
-                                                <li data-val="3">По цене (вниз)</li>
-                                                <li data-val="4">По названию (а-я)</li>
-                                                <li data-val="5">По названию (я-а)</li>
+                                                {% set types = {
+                                                    'car': 'Легковая',
+                                                    'suv': 'Внедорожник',
+                                                    'minibus': 'Микроавтобус'
+                                                } %}
+                                                {% for type, name in types %}
+                                                    <li data-val="{{ type }}">{{ name }}</li>
+                                                {% endfor %}
                                             </ul>
                                         </div>
                                     </div>
