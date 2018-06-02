@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
+use Serializable;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -18,9 +19,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @ORM\Table(name="users")
  */
-class User implements UserInterface, EquatableInterface
+class User implements UserInterface, EquatableInterface, Serializable
 {
     use Identity;
+
+    public const PASSWORD_CREDENTIALS_TYPE = 'password';
 
     /**
      * @var array
@@ -98,20 +101,20 @@ class User implements UserInterface, EquatableInterface
 
     public function getPassword(): ?string
     {
-        $credential = $this->getCredential('password');
+        $credential = $this->getCredential(self::PASSWORD_CREDENTIALS_TYPE);
 
         return $credential ? $credential->getIdentifier() : null;
     }
 
-    public function setPassword(string $password, PasswordEncoderInterface $encoder): void
+    public function changePassword(string $password, PasswordEncoderInterface $encoder): void
     {
-        if ($credential = $this->getCredential('password')) {
+        if ($credential = $this->getCredential(self::PASSWORD_CREDENTIALS_TYPE)) {
             $credential->expire();
         }
 
         $encoded = $encoder->encodePassword($password, $this->getSalt());
 
-        $this->credentials[] = new UserCredentials($this, 'password', $encoded);
+        $this->credentials[] = new UserCredentials($this, self::PASSWORD_CREDENTIALS_TYPE, $encoded);
     }
 
     public function getSalt(): ?string
@@ -133,28 +136,54 @@ class User implements UserInterface, EquatableInterface
     {
     }
 
-    /**
-     * @TODO Implement Serializable
-     */
-    public function isEqualTo(UserInterface $user): bool
+    public function isEqualTo(UserInterface $right): bool
     {
-        if (!$user instanceof self) {
+        if (!$right instanceof self) {
             return false;
         }
 
-        if ($user->getUsername() !== $this->username) {
+        $left = $this;
+
+        if ($right->getUsername() !== $left->getUsername()) {
             return false;
         }
 
-        if (($person = $user->getPerson()) !== $this->person) {
+        if ($right->getPerson() !== $left->getPerson()) {
             return false;
         }
 
-        if ($person && $person->getId() !== $this->person->getId()) {
+        if ($right->getRoles() !== $left->getRoles()) {
             return false;
         }
 
         return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function serialize(): string
+    {
+        return serialize([
+            $this->id,
+            $this->username,
+            $this->roles,
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function unserialize($serialized): void
+    {
+        [
+            $this->id,
+            $this->username,
+            $roles,
+        ] = unserialize($serialized, ['allowed_classes' => true]);
+
+        $this->roles = $roles ?? [];
+        $this->credentials = new ArrayCollection();
     }
 
     private function getCredential(string $type): ?UserCredentials

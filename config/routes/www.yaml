@@ -1,4 +1,14 @@
 app:
     resource: '../src/Controller/WWW'
     type: annotation
-    name_prefix: www_
+
+login:
+    path: /login
+    methods: [ 'GET' ]
+
+login_check:
+    path: /login
+    methods: [ 'POST' ]
+
+logout:
+    path: /logount

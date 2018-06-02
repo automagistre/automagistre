@@ -44,7 +44,13 @@ class BrandRouter implements RouterInterface, RequestMatcherInterface, WarmableI
 
         if (!array_key_exists('brand', $parameters) && $route->hasRequirement('brand')) {
             $request = $this->requestStack->getCurrentRequest();
-            $parameters['brand'] = $request->attributes->get('brand');
+
+            $brand = $request->attributes->get('brand');
+            if (!$brand) {
+                return $this->generate('homepage');
+            }
+
+            $parameters['brand'] = $brand;
         }
 
         return $router->generate($name, $parameters, $referenceType);

@@ -24,6 +24,17 @@ security:
                 check_path: login_check
                 login_path: admin_login
 
+        www:
+            host: '%www_host_pattern%'
+            anonymous: ~
+            logout:
+                path: www_logout
+            form_login:
+                provider: user_provider
+                csrf_token_generator: security.csrf.token_manager
+                check_path: www_login_check
+                login_path: www_login
+
     access_control:
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { host: '%admin_host_pattern%', roles: ROLE_EMPLOYEE }

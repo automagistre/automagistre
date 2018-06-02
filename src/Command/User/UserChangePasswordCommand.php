@@ -6,6 +6,7 @@ namespace App\Command\User;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,7 +16,7 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class UserCreateCommand extends Command
+final class UserChangePasswordCommand extends Command
 {
     /**
      * @var EntityManagerInterface
@@ -40,10 +41,10 @@ final class UserCreateCommand extends Command
      */
     protected function configure(): void
     {
-        $this->setName('user:create')
+        $this
+            ->setName('user:change-password')
             ->addArgument('username', InputArgument::REQUIRED)
-            ->addArgument('password', InputArgument::REQUIRED)
-            ->addArgument('roles', InputArgument::IS_ARRAY);
+            ->addArgument('password', InputArgument::REQUIRED);
     }
 
     /**
@@ -53,15 +54,15 @@ final class UserCreateCommand extends Command
     {
         $em = $this->em;
 
-        $user = new User();
-        $user->setUsername($input->getArgument('username'));
-        $user->changePassword($input->getArgument('password'), $this->encoderFactory->getEncoder($user));
+        $username = $input->getArgument('username');
+        $user = $this->em->getRepository(User::class)->findOneBy(['username' => $username]);
 
-        foreach ((array) $input->getArgument('roles') as $role) {
-            $user->addRole($role);
+        if (!$user instanceof User) {
+            throw new EntityNotFoundException(sprintf('User with username "%s" not found.', $username));
         }
 
-        $em->persist($user);
+        $user->changePassword($input->getArgument('password'), $this->encoderFactory->getEncoder($user));
+
         $em->flush();
     }
 }
