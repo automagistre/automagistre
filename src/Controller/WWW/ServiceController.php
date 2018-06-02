@@ -79,6 +79,12 @@ TEXT
             return new Response('OK');
         }
 
+        if ($form->isSubmitted() && !$form->isValid()) {
+            return $this->json([
+                'error' => FormUtil::getErrorMessages($form),
+            ]);
+        }
+
         if ('comp' === $type) {
             return $this->render('www/diagnostics_comp.html.twig', [
                 'form' => $form->createView(),
@@ -105,9 +111,49 @@ TEXT
     /**
      * @Route("/brands", name="brands")
      */
-    public function brands(): Response
+    public function brands(Request $request, Swift_Mailer $mailer): Response
     {
-        return $this->render('www/brands.html.twig');
+        $data = new class() {
+            public $name;
+            public $telephone;
+            public $date;
+            public $checkbox = true;
+        };
+
+        $form = $this->createFormBuilder($data)
+            ->add('name')
+            ->add('telephone')
+            ->add('date')
+            ->add('checkbox', CheckboxType::class)
+            ->getForm()
+            ->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $message = (new \Swift_Message())
+                ->setFrom(['no-reply@automagistre.ru' => 'Автомагистр'])
+                ->setTo(['info@automagistre.ru'])
+                ->setSubject('Запись на бесплатную диагностику')
+                ->setBody(<<<TEXT
+Имя: $data->name
+Телефон: $data->telephone
+Дата: $data->date
+TEXT
+                );
+
+            $mailer->send($message);
+
+            return new Response('OK');
+        }
+
+        if ($form->isSubmitted() && !$form->isValid()) {
+            return $this->json([
+                'error' => FormUtil::getErrorMessages($form),
+            ]);
+        }
+
+        return $this->render('www/brands.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
@@ -142,6 +188,12 @@ TEXT
             $mailer->send($message);
 
             return new Response('OK');
+        }
+
+        if ($form->isSubmitted() && !$form->isValid()) {
+            return $this->json([
+                'error' => FormUtil::getErrorMessages($form),
+            ]);
         }
 
         return $this->render('www/corporates.html.twig', [

@@ -57,7 +57,7 @@
                 </li>
             </ul>
             <div class="sec-features__get">
-                <a class="btn" href="#">Записаться на бесплатную диагностику</a>
+                <a class="btn" href="{{ path('www_diagnostics', {'type': 'free'}) }}">Записаться на бесплатную диагностику</a>
             </div>
             <div class="sec-features__offer">
                 <div class="proposal">
@@ -66,7 +66,7 @@
                     <div class="proposal__lead">100 % определение поломки за <strong>9 минут</strong></div>
                     <div class="proposal__note">Электронных средств контроля и управления автомобиля</div>
                     <div class="proposal__more">
-                        <a class="btn" href="#">Подробнее об услуге</a>
+                        <a class="btn" href="{{ path('www_diagnostics', {'type': 'comp'}) }}">Подробнее об услуге</a>
                     </div>
                     <img class="proposal__img proposal__img-lt" src="{{ asset('assets/img/sec-features/proposal-lt.png') }}" alt="Бесплатная диагностика">
                     <img class="proposal__img proposal__img-rt" src="{{ asset('assets/img/sec-features/proposal-rt.png') }}" alt="Бесплатная диагностика">
