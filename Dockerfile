@@ -34,10 +34,10 @@ RUN set -ex \
 RUN a2enmod rewrite
 
 ENV COMPOSER_VERSION=1.6.5
-ENV COMPOSER_EXEC='php -d memory_limit=-1 /usr/local/bin/composer'
+ENV COMPOSER_EXEC='php -d memory_limit=-1 /usr/local/bin/composer --no-interaction'
 ENV COMPOSER_CACHE_DIR=/var/cache/composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
-ENV COMPOSER_INSTALL_OPTS="--no-interaction --apcu-autoloader --no-progress --prefer-dist"
+ENV COMPOSER_INSTALL_OPTS="--apcu-autoloader --no-progress --prefer-dist"
 
 COPY docker/composer.sh ./composer.sh
 RUN ./composer.sh --install-dir=/usr/local/bin --filename=composer --version=${COMPOSER_VERSION}  \
@@ -69,7 +69,7 @@ ARG APP_CACHE=prod
 RUN if [ -f composer.json ] && [ "test" = ${APP_CACHE} ]; then \
         APP_ENV=test APP_DEBUG=1 ${COMPOSER_EXEC} install ${COMPOSER_INSTALL_OPTS} ; \
     elif [ -f composer.json ]; then \
-        APP_ENV=prod APP_DEBUG=0 ${COMPOSER_EXEC} install ${COMPOSER_INSTALL_OPTS} --no-dev \
+        APP_ENV=prod APP_DEBUG=0 ${COMPOSER_EXEC} run-script post-install-cmd -vvv \
     ; fi
 
 ENTRYPOINT ["bash", "/docker-entrypoint.sh"]
