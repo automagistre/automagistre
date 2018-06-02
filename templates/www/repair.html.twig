@@ -287,7 +287,7 @@
 
         {{ include('www/_sections/clubs.html.twig') }}
 
-        {{ include('www/_sections/faq.html.twig') }}
+        {{ render(controller('App\\Controller\\WWW\\ServiceController::faq')) }}
 
         {{ include('www/_sections/map.html.twig') }}
     </main><!-- END site-main -->

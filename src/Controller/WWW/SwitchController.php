@@ -26,7 +26,7 @@ final class SwitchController extends Controller
             if ($session->has(BrandListener::BRAND_SESSION_ATTRIBUTE)) {
                 $brand = $session->get(BrandListener::BRAND_SESSION_ATTRIBUTE);
 
-                return $this->redirectToRoute('service', ['brand' => $brand]);
+                return $this->redirectToRoute('www_service', ['brand' => $brand]);
             }
         }
 

@@ -1,4 +1,4 @@
-<section class="sec-faq">
+<section class="sec-faq {{- scroll|default(false) ? ' js-sec-scroll' }}">
     <div class="sec-faq__back"></div>
     <div class="sec-faq__front">
         <div class="container sec-faq__container">
@@ -134,22 +134,26 @@
                 </div><!-- END sec-faq__col-lt -->
 
                 <div class="sec-faq__col-rt">
-                    <form class="form sec-faq__form">
+                    {{ form_start(form, {
+                        'attr': {
+                            'class': 'form sec-faq__form'
+                        }
+                    }) }}
                         <h3 class="form__title">Мы готовы помочь</h3>
                         <div class="form__lead">Если у вас остались вопросы, задайте их прямо сейчас:</div>
                         <div class="form__line">
-                            <input class="form__input" type="text" placeholder="Имя">
+                            {{ form_widget(form.name, {'attr': {'class': 'form__input', 'placeholder': 'Имя'}}) }}
                         </div>
                         <div class="form__line">
-                            <input class="form__input" type="text" placeholder="E-mail">
+                            {{ form_widget(form.email, {'attr': {'class': 'form__input', 'placeholder': 'E-mail'}}) }}
                         </div>
                         <div class="form__line">
-                            <textarea class="form__text" placeholder="Ваш вопрос"></textarea>
+                            {{ form_widget(form.question, {'attr': {'class': 'form__text', 'placeholder': 'Ваш вопрос'}}) }}
                         </div>
                         <div class="form__line">
                             <button class="btn btn_arrow-rt">Заказать</button>
                         </div>
-                    </form>
+                    {{ form_end(form) }}
                 </div><!-- END sec-faq__col-rt -->
             </div><!-- END sec-faq__row -->
 

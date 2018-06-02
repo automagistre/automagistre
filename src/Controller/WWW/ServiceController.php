@@ -4,9 +4,15 @@ declare(strict_types=1);
 
 namespace App\Controller\WWW;
 
+use App\Utils\FormUtil;
 use LogicException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Swift_Mailer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -110,5 +116,56 @@ final class ServiceController extends Controller
     public function privacyPolicy(): Response
     {
         return $this->render('www/privacy_policy.html.twig');
+    }
+
+    /**
+     * @Route("/faq", name="faq")
+     * @Method("POST")
+     */
+    public function faq(Request $request, Swift_Mailer $mailer): Response
+    {
+        $data = new class() {
+            public $name;
+            public $email;
+            public $question;
+        };
+
+        $form = $this->createFormBuilder($data, [
+            'action' => $this->generateUrl('www_faq'),
+        ])
+            ->add('name')
+            ->add('email', EmailType::class)
+            ->add('question', TextareaType::class)
+            ->getForm()
+            ->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $message = (new \Swift_Message())
+                ->setFrom(['no-reply@automagistre.ru' => 'Автомагистр'])
+                ->setReplyTo($data->email)
+                ->setTo(['info@automagistre.ru'])
+                ->setSubject(sprintf('FAQ Вопрос от %s', $data->name))
+                ->setBody(<<<TEXT
+Имя: $data->name
+Почта: $data->email
+Вопрос: $data->question
+TEXT
+                );
+
+            $mailer->send($message);
+
+            return new Response('OK');
+        }
+
+        if ($form->isSubmitted() && !$form->isValid()) {
+            return $this->json([
+                'error' => FormUtil::getErrorMessages($form),
+            ]);
+        }
+
+        return $this->render('www/faq.html.twig', [
+            'form' => $form->createView(),
+            'scroll' => $request->query->getBoolean('scroll'),
+        ]);
     }
 }
