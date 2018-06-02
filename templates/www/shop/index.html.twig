@@ -171,6 +171,6 @@
 
         {{ include('www/_sections/clubs.html.twig') }}
 
-        {{ include('www/_sections/faq.html.twig') }}
+        {{ render(controller('App\\Controller\\WWW\\ServiceController::faq')) }}
     </main><!-- END site-main -->
 {% endblock %}

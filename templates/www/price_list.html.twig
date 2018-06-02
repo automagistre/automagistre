@@ -457,7 +457,7 @@
       </div><!-- END sec-advantages__body -->
     </section><!-- END sec-advantages -->
 
-      {{ include('www/_sections/faq.html.twig') }}
+      {{ render(controller('App\\Controller\\WWW\\ServiceController::faq')) }}
 
       {{ include('www/_sections/map.html.twig') }}
 
