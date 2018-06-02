@@ -171,6 +171,6 @@
 
         {{ include('www/_sections/clubs.html.twig') }}
 
-        {{ render(controller('App\\Controller\\WWW\\ServiceController::faq')) }}
+        {{ render(controller('App\\Controller\\WWW\\ServiceController::faq', {'brand': app.request.attributes.get('brand')})) }}
     </main><!-- END site-main -->
 {% endblock %}
