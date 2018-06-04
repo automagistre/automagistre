@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 final class BrandListener implements EventSubscriberInterface
 {
-    public const BRAND_SESSION_ATTRIBUTE = '_car_brand';
+    private const BRAND_SESSION = '_car_brand';
 
     /**
      * {@inheritdoc}
@@ -29,18 +29,20 @@ final class BrandListener implements EventSubscriberInterface
     {
         $request = $event->getRequest();
 
-        $brand = $request->attributes->get('brand');
-        if (null === $brand) {
-            return;
-        }
-
         if (!$request->hasSession()) {
             return;
         }
-
         $session = $request->getSession();
-        if (!$session->has(self::BRAND_SESSION_ATTRIBUTE) || $session->get(self::BRAND_SESSION_ATTRIBUTE) !== $brand) {
-            $session->set(self::BRAND_SESSION_ATTRIBUTE, $brand);
+
+        $brand = $request->attributes->get('brand');
+        $brandSession = $session->has(self::BRAND_SESSION) ? $session->get(self::BRAND_SESSION) : null;
+
+        if (null !== $brand && $brandSession !== $brand) {
+            $session->set(self::BRAND_SESSION, $brand);
+        }
+
+        if (null === $brand && null !== $brandSession) {
+            $request->attributes->set('brand', $brandSession);
         }
     }
 }
