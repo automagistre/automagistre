@@ -1,6 +1,13 @@
 /public/check.php
 /docker-compose.override.yml
 
+# Dev
+/docker/php/php-dev.ini
+/config/routes/dev/test.yaml
+/src/Command/TestCommand.php
+/src/Controller/TestController.php
+/templates/test.html.twig
+
 ###> symfony/framework-bundle ###
 .env
 /public/bundles/

@@ -16,6 +16,7 @@ all: init docker-pull docker-build
 init:
 	cp -n docker-compose.yml.dist docker-compose.yml || true
 	cp -n $(APP_DIR)/.env.dist $(APP_DIR)/.env || true
+	cp -n -r ./contrib/* ./ || true
 	mkdir -p $(APP_DIR)/var/null && touch $(APP_DIR)/var/null/composer.null
 un-init:
 	rm -rf docker-compose.yml $(APP_DIR)/.env
