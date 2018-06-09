@@ -3,6 +3,7 @@ includes:
 	- vendor/phpstan/phpstan-phpunit/extension.neon
 	- vendor/grachevko/enum/extension.neon
 	- vendor/lookyman/phpstan-symfony/extension.neon
+	- vendor/phpstan/phpstan-strict-rules/rules.neon
 
 parameters:
 	symfony:
