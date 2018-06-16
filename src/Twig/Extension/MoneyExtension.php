@@ -6,11 +6,13 @@ namespace App\Twig\Extension;
 
 use Money\Money;
 use Money\MoneyFormatter;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-class MoneyExtension extends \Twig_Extension
+class MoneyExtension extends AbstractExtension
 {
     /**
      * @var MoneyFormatter
@@ -22,23 +24,18 @@ class MoneyExtension extends \Twig_Extension
         $this->formatter = $formatter;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getFilters(): array
     {
         return [
-            new \Twig_SimpleFilter('localize_money', [$this, 'localizeMoney']),
+            new TwigFilter('localize_money', [$this, 'localizeMoney']),
         ];
     }
 
     public function localizeMoney(Money $money): string
     {
         return $this->formatter->format($money);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName(): string
-    {
-        return 'app_money';
     }
 }

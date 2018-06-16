@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace App\Twig\Extension;
 
 use App\Request\EntityTransformer;
+use DateTimeImmutable;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-class AppExtension extends \Twig_Extension
+class AppExtension extends AbstractExtension
 {
     /**
      * @var EntityTransformer
@@ -21,19 +25,25 @@ class AppExtension extends \Twig_Extension
         $this->entityTransformer = $entityTransformer;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getFunctions(): array
     {
         return [
-            new \Twig_SimpleFunction('instanceOf', [$this, 'doInstanceOf']),
-            new \Twig_SimpleFunction('build', [$this, 'build']),
-            new \Twig_SimpleFunction('build_time', [$this, 'buildTime']),
+            new TwigFunction('instanceOf', [$this, 'doInstanceOf']),
+            new TwigFunction('build', [$this, 'build']),
+            new TwigFunction('build_time', [$this, 'buildTime']),
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getFilters(): array
     {
         return [
-            new \Twig_SimpleFilter('to_query', [$this, 'toQuery']),
+            new TwigFilter('to_query', [$this, 'toQuery']),
         ];
     }
 
@@ -47,13 +57,13 @@ class AppExtension extends \Twig_Extension
         return getenv('APP_VERSION');
     }
 
-    public function buildTime(): \DateTimeImmutable
+    public function buildTime(): DateTimeImmutable
     {
         if ($time = getenv('APP_BUILD_TIME')) {
-            return \DateTimeImmutable::createFromFormat(DATE_RFC2822, $time);
+            return DateTimeImmutable::createFromFormat(DATE_RFC2822, $time);
         }
 
-        return new \DateTimeImmutable();
+        return new DateTimeImmutable();
     }
 
     public function toQuery($entity): array
