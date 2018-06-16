@@ -12,7 +12,7 @@ use App\Form\Model\IncomePart as IncomePartModel;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class IncomeControllerEasy extends AbstractController
+final class IncomeController extends AbstractController
 {
     /**
      * {@inheritdoc}

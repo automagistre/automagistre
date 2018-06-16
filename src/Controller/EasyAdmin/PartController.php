@@ -23,7 +23,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class PartControllerEasy extends AbstractController
+final class PartController extends AbstractController
 {
     /**
      * @var PartManager

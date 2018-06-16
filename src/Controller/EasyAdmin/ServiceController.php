@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class ServiceControllerEasy extends AbstractController
+final class ServiceController extends AbstractController
 {
     /**
      * @var MoneyFormatter

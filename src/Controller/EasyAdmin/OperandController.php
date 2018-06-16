@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class OperandControllerEasy extends AbstractController
+final class OperandController extends AbstractController
 {
     public function indexAction(Request $request)
     {

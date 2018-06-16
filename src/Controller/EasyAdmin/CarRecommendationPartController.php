@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class CarRecommendationPartControllerEasy extends AbstractController
+final class CarRecommendationPartController extends AbstractController
 {
     protected function createNewEntity()
     {

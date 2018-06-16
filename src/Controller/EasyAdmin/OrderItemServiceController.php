@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class OrderItemServiceControllerEasy extends AbstractController
+final class OrderItemServiceController extends AbstractController
 {
     /**
      * @var RecommendationManager

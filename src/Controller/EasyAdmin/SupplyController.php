@@ -11,7 +11,7 @@ use App\Form\Model\Supply as SupplyModel;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class SupplyControllerEasy extends AbstractController
+final class SupplyController extends AbstractController
 {
     protected function createNewEntity()
     {

@@ -26,7 +26,7 @@ const COSTIL_BEZNAL = 2422;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class OrderControllerEasy extends AbstractController
+final class OrderController extends AbstractController
 {
     public function isActionAllowed($actionName): bool
     {

@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class PersonControllerEasy extends AbstractController
+final class PersonController extends AbstractController
 {
     protected function createSearchQueryBuilder(
         $entityClass,

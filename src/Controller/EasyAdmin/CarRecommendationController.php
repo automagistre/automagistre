@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class CarRecommendationControllerEasy extends AbstractController
+final class CarRecommendationController extends AbstractController
 {
     /**
      * @var RecommendationManager

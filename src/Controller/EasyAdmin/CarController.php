@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class CarControllerEasy extends AbstractController
+final class CarController extends AbstractController
 {
     /**
      * @var PhoneNumberUtil
