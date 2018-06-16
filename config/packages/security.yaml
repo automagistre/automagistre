@@ -17,11 +17,11 @@ security:
             host: '%admin_host_pattern%'
             anonymous: ~
             logout:
-                path: /logout
+                path: admin_logout
             form_login:
                 provider: user_provider
                 csrf_token_generator: security.csrf.token_manager
-                check_path: login_check
+                check_path: admin_login_check
                 login_path: admin_login
 
         www:

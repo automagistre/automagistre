@@ -1,13 +1,12 @@
-logout:
-    path: /logout
-
-login_check:
-    path: /login
-    methods: [ 'POST' ]
+_easy_admin:
+    resource: '@EasyAdminBundle/Controller/AdminController.php'
+    type: annotation
+    condition: "request.getHost() matches '/%admin_host_pattern%/'"
 
 _admin:
     resource: './routes/admin.yaml'
     condition: "request.getHost() matches '/%admin_host_pattern%/'"
+    name_prefix: admin_
 
 _www:
     resource: './routes/www.yaml'

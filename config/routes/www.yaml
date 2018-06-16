@@ -11,4 +11,4 @@ login_check:
     methods: [ 'POST' ]
 
 logout:
-    path: /logount
+    path: /logout
