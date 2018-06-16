@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Controller\WWW;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @Route("/garage")
  */
-final class GarageController extends Controller
+final class GarageController extends AbstractController
 {
     /**
      * @Route(name="garage_index")

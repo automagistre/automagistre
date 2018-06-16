@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Controller\WWW;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @Route("/shop")
  */
-final class ShopController extends Controller
+final class ShopController extends AbstractController
 {
     /**
      * @Route(name="shop_index")
