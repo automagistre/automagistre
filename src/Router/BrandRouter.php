@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
 use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
 use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -42,7 +43,7 @@ class BrandRouter implements RouterInterface, RequestMatcherInterface, WarmableI
         $router = $this->router;
         $route = $router->getRouteCollection()->get($name);
 
-        if (!array_key_exists('brand', $parameters) && $route->hasRequirement('brand')) {
+        if ($route instanceof Route && !array_key_exists('brand', $parameters) && $route->hasRequirement('brand')) {
             $request = $this->requestStack->getCurrentRequest();
 
             $brand = $request->attributes->get('brand');
