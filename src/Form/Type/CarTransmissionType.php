@@ -14,6 +14,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class CarTransmissionType extends AbstractType
 {
+    /**
+     * {@inheritdoc}
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -22,6 +25,9 @@ class CarTransmissionType extends AbstractType
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getParent(): string
     {
         return ChoiceType::class;

@@ -26,6 +26,7 @@ final class ExceptionController extends TwigExceptionController
      * @var RequestStack
      */
     private $requestStack;
+
     /**
      * @var TokenStorageInterface
      */

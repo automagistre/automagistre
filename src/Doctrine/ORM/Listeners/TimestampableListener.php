@@ -14,6 +14,9 @@ use Doctrine\ORM\Mapping\ClassMetadata;
  */
 final class TimestampableListener implements EventSubscriber
 {
+    /**
+     * {@inheritdoc}
+     */
     public function getSubscribedEvents(): array
     {
         return [
