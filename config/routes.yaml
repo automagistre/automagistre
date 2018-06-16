@@ -12,7 +12,3 @@ _www:
     resource: './routes/www.yaml'
     condition: "request.getHost() matches '/%www_host_pattern%/'"
     name_prefix: www_
-
-_default:
-    resource: '../src/Controller/DefaultController.php'
-    type: annotation
