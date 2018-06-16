@@ -16,6 +16,9 @@ class Kernel extends SymfonyKernel
 
     private const CONFIG_EXTS = '.{php,xml,yaml,yml}';
 
+    /**
+     * {@inheritdoc}
+     */
     public function registerBundles(): iterable
     {
         /** @noinspection PhpIncludeInspection */
@@ -27,11 +30,17 @@ class Kernel extends SymfonyKernel
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getCacheDir(): string
     {
         return $this->getProjectDir().'/var/cache/'.$this->getEnvironment();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getLogDir(): string
     {
         return $this->getProjectDir().'/var/logs';
@@ -42,6 +51,9 @@ class Kernel extends SymfonyKernel
         return $this->getProjectDir().'/config';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function configureRoutes(RouteCollectionBuilder $routes): void
     {
         $confDir = $this->getConfDir();
@@ -52,6 +64,9 @@ class Kernel extends SymfonyKernel
         $routes->import($confDir.'/routes'.self::CONFIG_EXTS, '/', 'glob');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
     {
         $container->setParameter('container.dumper.inline_class_loader', true);

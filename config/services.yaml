@@ -44,5 +44,3 @@ services:
 
     App\Router\BrandRouter:
         decorates: router
-        arguments:
-            $router: '@App\Router\BrandRouter.inner'
