@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Entity\Traits\CreatedAt;
-use App\Entity\Traits\Identity;
-use App\Entity\Traits\Price;
+use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
+use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Doctrine\ORM\Mapping\Traits\Price;
 use App\Money\TotalPriceInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Entity\Traits\Price;
+use App\Doctrine\ORM\Mapping\Traits\Price;
 use App\Money\PriceInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;

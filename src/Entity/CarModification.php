@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Entity\Traits\Identity;
+use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Enum\Carcase;
 use App\Enum\CarTransmission;
 use App\Enum\CarWheelDrive;

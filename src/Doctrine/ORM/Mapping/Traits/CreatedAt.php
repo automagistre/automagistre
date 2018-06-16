@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Traits;
+namespace App\Doctrine\ORM\Mapping\Traits;
 
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
