@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin;
+namespace App\Controller\EasyAdmin;
 
-use App\Entity\CarGeneration;
+use App\Entity\CarModification;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class CarGenerationController extends AdminController
+final class CarModificationControllerEasy extends AbstractController
 {
     protected function createSearchQueryBuilder(
         $entityClass,
@@ -21,7 +21,8 @@ final class CarGenerationController extends AdminController
         $sortDirection = null,
         $dqlFilter = null
     ): QueryBuilder {
-        $qb = $this->em->getRepository(CarGeneration::class)->createQueryBuilder('generation')
+        $qb = $this->em->getRepository(CarModification::class)->createQueryBuilder('modification')
+            ->leftJoin('modification.carGeneration', 'generation')
             ->leftJoin('generation.carModel', 'model')
             ->leftJoin('model.manufacturer', 'manufacturer');
 
@@ -29,6 +30,8 @@ final class CarGenerationController extends AdminController
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->like('modification.name', $key),
+                $qb->expr()->like('modification.hp', $key),
                 $qb->expr()->like('generation.name', $key),
                 $qb->expr()->like('model.name', $key),
                 $qb->expr()->like('manufacturer.name', $key)
@@ -48,10 +51,10 @@ final class CarGenerationController extends AdminController
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
-        $data = array_map(function (CarGeneration $entity) {
+        $data = array_map(function (CarModification $modification) {
             return [
-                'id' => $entity->getId(),
-                'text' => $entity->getDisplayName(),
+                'id' => $modification->getId(),
+                'text' => $modification->getDisplayName(),
             ];
         }, (array) $paginator->getCurrentPageResults());
 

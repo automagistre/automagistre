@@ -50,7 +50,7 @@ easy_admin:
     entities:
         Order:
             class: App\Entity\Order
-            controller: App\Controller\Admin\OrderController
+            controller: App\Controller\EasyAdmin\OrderController
             disabled_actions: ['edit', 'delete']
             templates:
                 list: 'easy_admin/order/list.html.twig'
@@ -80,7 +80,7 @@ easy_admin:
         OrderItemGroup:
             class: App\Entity\OrderItemGroup
             disabled_actions: ['show', 'list']
-            controller: App\Controller\Admin\OrderItemGroupController
+            controller: App\Controller\EasyAdmin\OrderItemGroupController
             form:
                 fields:
                     - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
@@ -95,7 +95,7 @@ easy_admin:
 
         OrderItemService:
             class: App\Entity\OrderItemService
-            controller: App\Controller\Admin\OrderItemServiceController
+            controller: App\Controller\EasyAdmin\OrderItemServiceController
             disabled_actions: ['show', 'list']
             templates:
                 new: 'easy_admin/order_service/new.html.twig'
@@ -120,7 +120,7 @@ easy_admin:
 
         OrderItemPart:
             class: App\Entity\OrderItemPart
-            controller: App\Controller\Admin\OrderItemPartController
+            controller: App\Controller\EasyAdmin\OrderItemPartController
             disabled_actions: ['show', 'list']
             templates:
                 new: 'easy_admin/order_part/new.html.twig'
@@ -140,7 +140,7 @@ easy_admin:
 
         CarRecommendation:
             class: App\Entity\CarRecommendation
-            controller: App\Controller\Admin\CarRecommendationController
+            controller: App\Controller\EasyAdmin\CarRecommendationController
             disabled_actions: ['delete']
             templates:
                 new: 'easy_admin/car_recommendation/new.html.twig'
@@ -165,7 +165,7 @@ easy_admin:
 
         CarRecommendationPart:
             class: App\Entity\CarRecommendationPart
-            controller: App\Controller\Admin\CarRecommendationPartController
+            controller: App\Controller\EasyAdmin\CarRecommendationPartController
             disabled_actions: ['delete']
             form:
                 fields:
@@ -182,7 +182,7 @@ easy_admin:
 
         Service:
             class: App\Entity\Service
-            controller: App\Controller\Admin\ServiceController
+            controller: App\Controller\EasyAdmin\ServiceController
             disabled_actions: ['delete', 'show']
             list:
                 title: 'Работы'
@@ -196,11 +196,11 @@ easy_admin:
 
         Operand:
             class: App\Entity\Operand
-            controller: App\Controller\Admin\OperandController
+            controller: App\Controller\EasyAdmin\OperandController
             disabled_actions: ['new', 'edit', 'delete']
         Person:
             class: App\Entity\Person
-            controller: App\Controller\Admin\PersonController
+            controller: App\Controller\EasyAdmin\PersonController
             disabled_actions: ['delete']
             search:
                 fields: ['firstname', 'lastname']
@@ -236,7 +236,7 @@ easy_admin:
 
         Car:
             class: App\Entity\Car
-            controller: App\Controller\Admin\CarController
+            controller: App\Controller\EasyAdmin\CarController
             disabled_actions: ['delete']
             label: 'Автомобили'
             search:
@@ -281,7 +281,7 @@ easy_admin:
 
         Part:
             class: App\Entity\Part
-            controller: App\Controller\Admin\PartController
+            controller: App\Controller\EasyAdmin\PartController
             label: 'Запчасти'
             templates:
                 new: 'easy_admin/part/new.html.twig'
@@ -315,7 +315,7 @@ easy_admin:
 
         Supply:
             class: App\Entity\Supply
-            controller: App\Controller\Admin\SupplyController
+            controller: App\Controller\EasyAdmin\SupplyController
             disabled_actions: ['show', 'edit', 'delete']
             list:
                 title: 'Поставка'
@@ -337,7 +337,7 @@ easy_admin:
 
         Income:
             class: App\Entity\Income
-            controller: App\Controller\Admin\IncomeController
+            controller: App\Controller\EasyAdmin\IncomeController
             disabled_actions: ['edit', 'delete']
             list:
                 title: 'Приходы'
@@ -382,7 +382,7 @@ easy_admin:
 
         Model:
             class: App\Entity\CarModel
-            controller: App\Controller\Admin\CarModelController
+            controller: App\Controller\EasyAdmin\CarModelController
             disabled_actions: ['show', 'delete']
             label: 'Модель'
             list:
@@ -401,7 +401,7 @@ easy_admin:
 
         Generation:
             class: App\Entity\CarGeneration
-            controller: App\Controller\Admin\CarGenerationController
+            controller: App\Controller\EasyAdmin\CarGenerationController
             disabled_actions: ['show', 'delete']
             list:
                 title: 'Поколения'
@@ -419,7 +419,7 @@ easy_admin:
 
         Modification:
             class: App\Entity\CarModification
-            controller: App\Controller\Admin\CarModificationController
+            controller: App\Controller\EasyAdmin\CarModificationController
             disabled_actions: ['show', 'delete']
             list:
                 title: 'Справочник Автомобилей'

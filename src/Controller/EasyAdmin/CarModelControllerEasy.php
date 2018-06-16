@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin;
+namespace App\Controller\EasyAdmin;
 
-use App\Entity\CarModification;
+use App\Entity\CarModel;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class CarModificationController extends AdminController
+final class CarModelControllerEasy extends AbstractController
 {
     protected function createSearchQueryBuilder(
         $entityClass,
@@ -21,18 +21,13 @@ final class CarModificationController extends AdminController
         $sortDirection = null,
         $dqlFilter = null
     ): QueryBuilder {
-        $qb = $this->em->getRepository(CarModification::class)->createQueryBuilder('modification')
-            ->leftJoin('modification.carGeneration', 'generation')
-            ->leftJoin('generation.carModel', 'model')
+        $qb = $this->em->getRepository(CarModel::class)->createQueryBuilder('model')
             ->leftJoin('model.manufacturer', 'manufacturer');
 
         foreach (explode(' ', $searchQuery) as $key => $item) {
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->like('modification.name', $key),
-                $qb->expr()->like('modification.hp', $key),
-                $qb->expr()->like('generation.name', $key),
                 $qb->expr()->like('model.name', $key),
                 $qb->expr()->like('manufacturer.name', $key)
             ));
@@ -51,10 +46,10 @@ final class CarModificationController extends AdminController
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
-        $data = array_map(function (CarModification $modification) {
+        $data = array_map(function (CarModel $entity) {
             return [
-                'id' => $modification->getId(),
-                'text' => $modification->getDisplayName(),
+                'id' => $entity->getId(),
+                'text' => $entity->getDisplayName(),
             ];
         }, (array) $paginator->getCurrentPageResults());
 

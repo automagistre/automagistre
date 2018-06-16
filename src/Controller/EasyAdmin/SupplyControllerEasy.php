@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin;
+namespace App\Controller\EasyAdmin;
 
 use App\Entity\Part;
 use App\Entity\Supply;
@@ -11,7 +11,7 @@ use App\Form\Model\Supply as SupplyModel;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class SupplyController extends AdminController
+final class SupplyControllerEasy extends AbstractController
 {
     protected function createNewEntity()
     {

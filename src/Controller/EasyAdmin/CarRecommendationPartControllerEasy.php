@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin;
+namespace App\Controller\EasyAdmin;
 
 use App\Entity\CarRecommendation;
 use App\Entity\CarRecommendationPart;
@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class CarRecommendationPartController extends AdminController
+final class CarRecommendationPartControllerEasy extends AbstractController
 {
     protected function createNewEntity()
     {

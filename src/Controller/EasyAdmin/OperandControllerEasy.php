@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin;
+namespace App\Controller\EasyAdmin;
 
 use App\Entity\Operand;
 use App\Entity\Organization;
@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class OperandController extends AdminController
+final class OperandControllerEasy extends AbstractController
 {
     public function indexAction(Request $request)
     {

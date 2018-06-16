@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin;
+namespace App\Controller\EasyAdmin;
 
-use App\Entity\CarModel;
+use App\Entity\CarGeneration;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class CarModelController extends AdminController
+final class CarGenerationControllerEasy extends AbstractController
 {
     protected function createSearchQueryBuilder(
         $entityClass,
@@ -21,13 +21,15 @@ final class CarModelController extends AdminController
         $sortDirection = null,
         $dqlFilter = null
     ): QueryBuilder {
-        $qb = $this->em->getRepository(CarModel::class)->createQueryBuilder('model')
+        $qb = $this->em->getRepository(CarGeneration::class)->createQueryBuilder('generation')
+            ->leftJoin('generation.carModel', 'model')
             ->leftJoin('model.manufacturer', 'manufacturer');
 
         foreach (explode(' ', $searchQuery) as $key => $item) {
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->like('generation.name', $key),
                 $qb->expr()->like('model.name', $key),
                 $qb->expr()->like('manufacturer.name', $key)
             ));
@@ -46,7 +48,7 @@ final class CarModelController extends AdminController
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
-        $data = array_map(function (CarModel $entity) {
+        $data = array_map(function (CarGeneration $entity) {
             return [
                 'id' => $entity->getId(),
                 'text' => $entity->getDisplayName(),

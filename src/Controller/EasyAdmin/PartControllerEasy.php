@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin;
+namespace App\Controller\EasyAdmin;
 
 use App\Entity\Manufacturer;
 use App\Entity\Motion;
@@ -23,7 +23,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class PartController extends AdminController
+final class PartControllerEasy extends AbstractController
 {
     /**
      * @var PartManager

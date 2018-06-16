@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin;
+namespace App\Controller\EasyAdmin;
 
 use App\Entity\Person;
 use Doctrine\ORM\QueryBuilder;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class PersonController extends AdminController
+final class PersonControllerEasy extends AbstractController
 {
     protected function createSearchQueryBuilder(
         $entityClass,

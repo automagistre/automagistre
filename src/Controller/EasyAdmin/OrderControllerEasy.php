@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin;
+namespace App\Controller\EasyAdmin;
 
 use App\Entity\Operand;
 use App\Entity\Order;
@@ -26,7 +26,7 @@ const COSTIL_BEZNAL = 2422;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class OrderController extends AdminController
+final class OrderControllerEasy extends AbstractController
 {
     public function isActionAllowed($actionName): bool
     {

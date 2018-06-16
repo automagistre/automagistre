@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin;
+namespace App\Controller\EasyAdmin;
 
 use App\Entity\Order;
 use App\Entity\OrderItem;
@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class OrderItemGroupController extends AdminController
+final class OrderItemGroupControllerEasy extends AbstractController
 {
     protected function createNewEntity()
     {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin;
+namespace App\Controller\EasyAdmin;
 
 use App\Entity\Service;
 use Doctrine\ORM\QueryBuilder;
@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class ServiceController extends AdminController
+final class ServiceControllerEasy extends AbstractController
 {
     /**
      * @var MoneyFormatter

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin;
+namespace App\Controller\EasyAdmin;
 
 use App\Entity\Order;
 use App\Entity\OrderItem;
@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class OrderItemServiceController extends AdminController
+final class OrderItemServiceControllerEasy extends AbstractController
 {
     /**
      * @var RecommendationManager

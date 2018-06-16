@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin;
+namespace App\Controller\EasyAdmin;
 
 use App\Entity\Income;
 use App\Entity\Motion;
@@ -12,7 +12,7 @@ use App\Form\Model\IncomePart as IncomePartModel;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class IncomeController extends AdminController
+final class IncomeControllerEasy extends AbstractController
 {
     /**
      * {@inheritdoc}

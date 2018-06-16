@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin;
+namespace App\Controller\EasyAdmin;
 
 use App\Entity\User;
 use App\Request\EntityTransformer;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as EasyAdminController;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 
 /**
@@ -14,7 +14,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
  *
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-abstract class AdminController extends EasyAdminController
+abstract class AbstractController extends AdminController
 {
     /**
      * @var EntityTransformer
@@ -72,12 +72,6 @@ abstract class AdminController extends EasyAdminController
             'entity_fields' => $fields,
             'entity' => $entity,
         ]);
-    }
-
-    protected function persistEntity($entity): void
-    {
-        $this->em->persist($entity);
-        $this->em->flush();
     }
 
     protected function getEntity(string $class)

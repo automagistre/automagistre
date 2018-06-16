@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin;
+namespace App\Controller\EasyAdmin;
 
 use App\Entity\Car;
 use App\Entity\Organization;
@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class CarController extends AdminController
+final class CarControllerEasy extends AbstractController
 {
     /**
      * @var PhoneNumberUtil
