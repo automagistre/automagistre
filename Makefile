@@ -196,3 +196,13 @@ backup-restore:
 	test -s $(APP_DIR)/var/backup.sql.gz || exit 1
 	docker-compose exec mysql bash -c "gunzip < /usr/local/app/var/backup.sql.gz | mysql db"
 ###< MYSQL ###
+
+###> MEMCACHED ###
+cli-memcached:
+	docker-compose exec memcached sh
+restart-memcached:
+	docker-compose restart memcached
+
+build-memcached:
+	docker build --tag otrada/memcached:latest ./memcached/
+###< MEMCACHED ###
