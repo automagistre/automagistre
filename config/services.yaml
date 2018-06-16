@@ -23,7 +23,7 @@ services:
 
     App\:
         resource: '../src'
-        exclude: '../src/{Entity,Model}'
+        exclude: '../src/{Entity,Enum,Model}'
     App\Controller\:
         resource: '../src/Controller'
         public: true

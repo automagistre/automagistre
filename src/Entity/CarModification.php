@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Entity\Enum\Carcase;
-use App\Entity\Enum\CarTransmission;
-use App\Entity\Enum\CarWheelDrive;
 use App\Entity\Traits\Identity;
+use App\Enum\Carcase;
+use App\Enum\CarTransmission;
+use App\Enum\CarWheelDrive;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 

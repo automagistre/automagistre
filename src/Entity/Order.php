@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Entity\Enum\OrderStatus;
 use App\Entity\Traits\CreatedAt;
 use App\Entity\Traits\Identity;
+use App\Enum\OrderStatus;
 use App\Money\PriceInterface;
 use App\Money\TotalPriceInterface;
 use DateTime;

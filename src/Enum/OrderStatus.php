@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Enum;
+namespace App\Enum;
 
 use Grachevko\Enum\Enum;
 
