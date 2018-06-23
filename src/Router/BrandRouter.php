@@ -48,7 +48,7 @@ class BrandRouter implements RouterInterface, RequestMatcherInterface, WarmableI
 
             $brand = $request->attributes->get('brand');
             if (!$brand) {
-                return $this->generate('homepage');
+                return $this->generate('www_switch');
             }
 
             $parameters['brand'] = $brand;
