@@ -13,7 +13,9 @@ easy_admin:
             js:
                 - 'includes/js/collection-autocomplete.js'
         menu:
-            - { entity: 'Order', label: 'Заказы', icon: 'list' }
+            - { label: 'Заказы' }
+            - { entity: 'OrderActive', label: 'Активные', icon: 'list' }
+            - { entity: 'Order', label: 'Все', icon: 'list' }
             - { label: 'Списки' }
             - { entity: 'Person', label: 'Люди', icon: 'users' }
             - { entity: 'Organization', label: 'Организации', icon: 'industry' }
@@ -48,7 +50,7 @@ easy_admin:
             - { name: 'delete', icon: 'trash', label: false }
 
     entities:
-        Order:
+        Order: &order
             class: App\Entity\Order
             controller: App\Controller\EasyAdmin\OrderController
             disabled_actions: ['edit', 'delete']
@@ -56,7 +58,7 @@ easy_admin:
                 list: 'easy_admin/order/list.html.twig'
                 show: 'easy_admin/order/show.html.twig'
             label: 'Заказ'
-            list:
+            list: &order-list
                 title: 'Заказы'
                 fields:
                     - { property: 'id', label: 'Номер', template: 'easy_admin/order/field_id.html.twig' }
@@ -76,6 +78,12 @@ easy_admin:
 
                     - { type: 'group', label: 'Описание', css_class: 'col-sm-6' }
                     - { property: 'description', label: 'Описание', type: 'textarea' }
+
+        OrderActive:
+            <<: *order
+            list:
+                <<: *order-list
+                dql_filter: 'entity.status != 10'
 
         OrderItemGroup:
             class: App\Entity\OrderItemGroup
