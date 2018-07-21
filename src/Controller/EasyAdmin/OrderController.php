@@ -23,10 +23,12 @@ use LogicException;
 use Money\Money;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 
 const COSTIL_CASSA = 1;
 const COSTIL_BEZNAL = 2422;
@@ -90,6 +92,9 @@ final class OrderController extends AbstractController
 
     public function closeAction(): Response
     {
+        $em = $this->em;
+        $factory = $this->formFactory;
+
         $order = $this->getEntity(Order::class);
         if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order is required');
@@ -104,23 +109,39 @@ final class OrderController extends AbstractController
         /** @var OrderItemService[] $services */
         $services = $order->getServicesWithoutWorker();
 
-        $factory = $this->formFactory;
-        $form->add($factory->createNamedBuilder('services', CollectionType::class, $services, [
-            'label' => false,
-            'entry_type' => WorkerType::class,
-            'entry_options' => [
+        if ([] !== $services) {
+            $form->add($factory->createNamedBuilder('services', CollectionType::class, $services, [
                 'label' => false,
-            ],
-        ]));
+                'entry_type' => WorkerType::class,
+                'entry_options' => [
+                    'label' => false,
+                ],
+            ]));
+        }
+
+        $car = $order->getCar();
+        if (null !== $car && null === $order->getMileage()) {
+            $form->add($factory->createNamedBuilder('mileage', IntegerType::class, null, [
+                'label' => sprintf('Пробег (предыдущий: %s)', $car->getMileage()),
+                'constraints' => [
+                    new GreaterThanOrEqual([
+                        'value' => $car->getMileage(),
+                    ]),
+                ],
+            ]));
+        }
 
         $form = $form->getForm()->handleRequest($this->request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->has('mileage')) {
+                $order->setMileage($form->get('mileage')->getData());
+            }
+
             if ($form->has('payment')) {
                 $this->handlePayment($form->get('payment')->getData(), $order);
             }
 
-            $em = $this->em;
             $em->refresh($order);
 
             if ($order->getTotalForPayment()->isPositive()) {

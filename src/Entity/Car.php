@@ -189,7 +189,11 @@ class Car
      */
     public function getMileage(): ?int
     {
-        $order = $this->orders->last();
+        $criteria = Criteria::create();
+        $criteria->where(Criteria::expr()->neq('mileage', null));
+        $criteria->orderBy(['mileage' => 'DESC']);
+
+        $order = $this->orders->matching($criteria)->last();
 
         if ($order instanceof Order) {
             return $order->getMileage();

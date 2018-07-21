@@ -15,7 +15,7 @@
     <div class="row">
         {{ form_start(form) }}
 
-        {% if form.payment is defined and form.payment is not empty %}
+        {% if form.payment is defined %}
             <div class="field-group col-md-6">
                 <div class="box box-default">
                     <div class="box-header with-border">
@@ -28,7 +28,7 @@
             </div>
         {% endif %}
 
-        {% if form.services is defined and form.services is not empty %}
+        {% if form.services is defined %}
             <div class="field-group col-md-6">
                 <div class="box box-default">
                     <div class="box-header with-border">
@@ -38,6 +38,19 @@
                         {% for service in form.services %}
                             {{ form_row(service, {'label': service.vars.data}) }}
                         {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if form.mileage is defined %}
+            <div class="field-group col-md-6">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Пробег</h3>
+                    </div>
+                    <div class="box-body">
+                        {{ form_row(form.mileage) }}
                     </div>
                 </div>
             </div>
