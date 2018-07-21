@@ -76,7 +76,8 @@ qa: git-reset prod pull do-install-parallel cache docker-rm-restartable do-up cl
 clear-logs: app-clear-logs
 
 permissions:
-	docker run --rm -v `pwd`:/app -w /app alpine sh -c "chown $(shell id -u):$(shell id -g) -R ./ && chmod 777 -R $(app_dir)/var || true"
+	@docker run --rm -v `pwd`:/app -w /app alpine sh -c "chown $(shell id -u):$(shell id -g) -R ./ && chmod 777 -R $(app_dir)/var || true"
+	$(call success,"Permissions fixed.")
 docker-hosts-updater:
 	docker rm -f docker-hosts-updater || true
 	docker run -d --restart=always --name docker-hosts-updater -v /var/run/docker.sock:/var/run/docker.sock -v /etc/hosts:/opt/hosts grachev/docker-hosts-updater
