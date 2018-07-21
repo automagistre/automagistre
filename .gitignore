@@ -1,7 +1,6 @@
 /public/check.php
 /docker-compose.yml
 /docker-compose.override.yml
-/make.log
 
 # Dev
 /docker/php/php-dev.ini
