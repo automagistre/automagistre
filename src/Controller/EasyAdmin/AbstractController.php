@@ -11,6 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -31,6 +32,17 @@ abstract class AbstractController extends AdminController
     public function setEntityTransformer(EntityTransformer $entityTransformer): void
     {
         $this->entityTransformer = $entityTransformer;
+    }
+
+    protected function redirectToReferrer(): RedirectResponse
+    {
+        $refererUrl = $this->request->query->get('referer', '');
+
+        return !empty($refererUrl)
+            ? $this->redirect(
+                urldecode($refererUrl)
+            )
+            : parent::redirectToReferrer();
     }
 
     /**

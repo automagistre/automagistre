@@ -9,6 +9,8 @@ use App\Entity\OrderItemGroup;
 use App\Entity\OrderItemPart;
 use App\Form\Model\OrderItemModel;
 use App\Form\Model\OrderPart as OrderItemPartModel;
+use App\Utils\ExceptionUtils;
+use LogicException;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -41,7 +43,9 @@ final class OrderItemParentType extends AbstractType
         } elseif ($currentItem instanceof OrderItemModel) {
             $rootItems = $currentItem->order->getRootItems();
         } else {
-            throw new \LogicException(sprintf('Unexpected item of class "%s"', get_class($currentItem)));
+            throw new LogicException(
+                ExceptionUtils::invalidType('$currentItem', OrderItem::class.'|'.OrderItemModel::class, $currentItem)
+            );
         }
 
         $items = [];
