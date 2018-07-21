@@ -10,6 +10,7 @@ services:
         hostname: automagistre.local
         labels:
             subdomains: sto www
+            restartable: 'true'
         volumes:
             - ../:/usr/local/app
         environment:
@@ -34,6 +35,8 @@ services:
 
     memcached:
         image: memcached:1.5.4-alpine
+        labels:
+            restartable: 'false'
 
 volumes:
     mysql-db:
