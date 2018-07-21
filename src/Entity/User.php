@@ -148,10 +148,6 @@ class User implements UserInterface, EquatableInterface, Serializable
             return false;
         }
 
-        if ($right->getPerson() !== $left->getPerson()) {
-            return false;
-        }
-
         if ($right->getRoles() !== $left->getRoles()) {
             return false;
         }
