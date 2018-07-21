@@ -12,9 +12,40 @@
 
 
 {% block main %}
-    {{ form_start(form) }}
-    {{ form_rest(form) }}
+    <div class="row">
+        {{ form_start(form) }}
 
-    <button class="btn btn-success" type="submit">Закрыть</button>
-    {{ form_end(form) }}
+        {% if form.payment is defined and form.payment is not empty %}
+            <div class="field-group col-md-6">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Платёж</h3>
+                    </div>
+                    <div class="box-body">
+                        {{ form_row(form.payment) }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if form.services is defined and form.services is not empty %}
+            <div class="field-group col-md-6">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Исполнители</h3>
+                    </div>
+                    <div class="box-body">
+                        {% for service in form.services %}
+                            {{ form_row(service, {'label': service.vars.data}) }}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="col-md-12">
+            <button class="btn btn-success" type="submit">Закрыть</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}

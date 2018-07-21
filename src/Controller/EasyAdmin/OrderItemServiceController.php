@@ -76,6 +76,7 @@ final class OrderItemServiceController extends AbstractController
     {
         $entity = new OrderItemService($model->order, $model->service, $model->price);
         $entity->setParent($model->parent);
+        $entity->setWorker($model->worker);
 
         parent::persistEntity($entity);
     }

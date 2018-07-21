@@ -153,6 +153,21 @@ class Order
         return (string) $this->getId();
     }
 
+    /**
+     * @return OrderItemService[]
+     */
+    public function getServicesWithoutWorker(): array
+    {
+        return $this->getItems(OrderItemService::class, function (OrderItemService $service) {
+            return null === $service->getWorker();
+        });
+    }
+
+    public function close(): void
+    {
+        $this->status = OrderStatus::closed();
+    }
+
     public function addItem(OrderItem $item): void
     {
         $this->items[] = $item;
@@ -165,7 +180,7 @@ class Order
         }
 
         return $this->items->filter(function (OrderItem $item) use ($class, $callable) {
-            return $item instanceof $class && (null !== $callable && $callable($item));
+            return $item instanceof $class && (null === $callable || $callable($item));
         })->getValues();
     }
 
@@ -279,7 +294,7 @@ class Order
     {
         $price = new Money(0, new Currency('RUB'));
 
-        foreach ($items = $this->getItems($class) as $item) {
+        foreach ($this->getItems($class) as $item) {
             if ($item instanceof TotalPriceInterface) {
                 $price = $price->add($item->getTotalPrice());
             } elseif ($item instanceof PriceInterface) {

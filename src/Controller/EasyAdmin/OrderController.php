@@ -14,6 +14,7 @@ use App\Entity\Payment;
 use App\Entity\Person;
 use App\Form\Model\Payment as PaymentModel;
 use App\Form\Type\PaymentType;
+use App\Form\Type\WorkerType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
@@ -21,9 +22,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use LogicException;
 use Money\Money;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -78,44 +77,7 @@ final class OrderController extends AbstractController
                 throw new LogicException(sprintf('"%s" is required.', PaymentModel::class));
             }
 
-            $this->em->transactional(function (EntityManagerInterface $em) use ($model, $order): void {
-                $calcSubtotal = function (Operand $recipient, Money $money) use ($em) {
-                    /** @var Payment $lastPayment */
-                    $lastPayment = $em->createQueryBuilder()
-                        ->select('payment')
-                        ->from(Payment::class, 'payment')
-                        ->where('payment.recipient = :recipient')
-                        ->orderBy('payment.id', 'DESC')
-                        ->setMaxResults(1)
-                        ->setParameter('recipient', $recipient)
-                        ->getQuery()
-                        ->getOneOrNullResult();
-
-                    return $lastPayment->getSubtotal()->add($money);
-                };
-
-                if (null !== $model->recipient) {
-                    $em->persist(new Payment(
-                        $model->recipient,
-                        $model->description,
-                        $model->amount,
-                        $calcSubtotal($model->recipient, $model->amount)
-                    ));
-                }
-
-                $id = 'cash' === $model->paymentType ? COSTIL_CASSA : COSTIL_BEZNAL;
-
-                $cashbox = $em->getRepository(Operand::class)->find($id);
-                $payment = new Payment(
-                    $cashbox,
-                    $model->description,
-                    $model->amount,
-                    $calcSubtotal($cashbox, $model->amount)
-                );
-
-                $em->persist(new OrderPayment($order, $payment));
-                $em->persist($payment);
-            });
+            $this->handlePayment($model, $order);
 
             return $this->redirectToReferrer();
         }
@@ -133,48 +95,58 @@ final class OrderController extends AbstractController
             throw new BadRequestHttpException('Order is required');
         }
 
-        $em = $this->em;
-        $form = $this->createFormBuilder(null, ['label' => null]);
+        $form = $this->createFormBuilder(null, ['label' => false]);
 
-        if ($order->getTotalForPayment()->isPositive()) {
+        $isPayable = $order->getTotalForPayment()->isPositive();
+        if ($isPayable) {
             $form->add($this->createPaymentForm($order));
         }
 
         /** @var OrderItemService[] $services */
-        $services = $order->getItems(OrderItemService::class, function (OrderItemService $service) {
-            return null === $service->getWorker();
-        });
+        $services = $order->getServicesWithoutWorker();
 
-        foreach ($services as $service) {
-            $form->add($this->formFactory->createNamedBuilder($service->getId(), FormType::class, $service, [
-                'label' => 'Исполнитель для: '.$service,
-            ])
-                ->add('worker', ChoiceType::class, [
-                    'label' => false,
-                    'placeholder' => 'Выберите исполнителя',
-                    'choice_loader' => new CallbackChoiceLoader(function () use ($em) {
-                        return $em->createQueryBuilder()
-                            ->select('person')
-                            ->from(Person::class, 'person')
-                            ->join(Employee::class, 'employee', Join::WITH, 'person = employee.person')
-                            ->where('employee.firedAt IS NULL')
-                            ->getQuery()
-                            ->getResult();
-                    }),
-                    'choice_label' => function (Person $person) {
-                        return (string) $person;
-                    },
-                    'choice_value' => function (?Person $person) {
-                        return $person instanceof Person ? $person->getId() : null;
-                    },
-                ])
-            );
-        }
+        $factory = $this->formFactory;
+        $form->add($factory->createNamedBuilder('services', CollectionType::class, $services, [
+            'label' => false,
+            'entry_type' => WorkerType::class,
+            'entry_options' => [
+                'label' => false,
+            ],
+        ]));
 
         $form = $form->getForm()->handleRequest($this->request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->flush();
+            if ($isPayable) {
+                $this->handlePayment($form->get('payment')->getData(), $order);
+            }
+
+            $em = $this->em;
+            $em->refresh($order);
+
+            if ($order->getTotalForPayment()->isPositive()) {
+                $this->addFlash('error', 'Заказ оплачен не полностью!');
+            } elseif ([] !== $order->getServicesWithoutWorker()) {
+                $this->addFlash('error', 'Есть работы без исполнителя!');
+            } else {
+                $em->transactional(function (EntityManagerInterface $em) use ($order): void {
+                    $order->close();
+
+                    foreach ($order->getItems(OrderItemService::class) as $item) {
+                        /** @var OrderItemService $item */
+                        $worker = $item->getWorker();
+                        $employee = $em->getRepository(Employee::class)->findOneBy(['person' => $worker]);
+
+                        $salary = $item->getPrice()->multiply($employee->getRatio() / 100);
+                        $description = sprintf('# ЗП %s по заказу %s', $worker->getFullName(), $order->getId());
+
+                        $this->createPayment($worker, $description, $salary->absolute());
+
+                        $cashbox = $em->getRepository(Operand::class)->find(COSTIL_CASSA);
+                        $this->createPayment($cashbox, $description, $salary->negative());
+                    }
+                });
+            }
 
             return $this->redirectToReferrer();
         }
@@ -253,9 +225,65 @@ final class OrderController extends AbstractController
         $model->description = '# Начисление по заказу #'.$order->getId();
         $model->amount = $order->getTotalForPayment();
 
-        return $this->createFormBuilder(['payment' => $model])
-            ->add('payment', PaymentType::class, [
-                'disable_recipient' => true,
-            ]);
+        $factory = $this->formFactory;
+
+        return $factory->createNamedBuilder('payment', PaymentType::class, $model, [
+            'disable_recipient' => true,
+            'label' => false,
+        ]);
+    }
+
+    private function handlePayment(PaymentModel $model, Order $order): void
+    {
+        $em = $this->em;
+
+        $em->transactional(function (EntityManagerInterface $em) use ($model, $order): void {
+            if (null !== $model->recipient) {
+                $this->createPayment($model->recipient, $model->description, $model->amount);
+            }
+
+            $id = 'cash' === $model->paymentType ? COSTIL_CASSA : COSTIL_BEZNAL;
+
+            $cashbox = $em->getRepository(Operand::class)->find($id);
+            $payment = $this->createPayment($cashbox, $model->description, $model->amount);
+
+            $em->persist(new OrderPayment($order, $payment));
+        });
+    }
+
+    private function createPayment(Operand $recipient, string $description, Money $money): Payment
+    {
+        $em = $this->em;
+
+        return $em->transactional(function (EntityManagerInterface $em) use ($recipient, $description, $money) {
+            $payment = new Payment(
+                $recipient,
+                $description,
+                $money,
+                $this->calcSubtotal($recipient, $money)
+            );
+
+            $em->persist($payment);
+
+            return $payment;
+        });
+    }
+
+    private function calcSubtotal(Operand $recipient, Money $money): Money
+    {
+        $em = $this->em;
+
+        /** @var Payment $lastPayment */
+        $lastPayment = $em->createQueryBuilder()
+            ->select('payment')
+            ->from(Payment::class, 'payment')
+            ->where('payment.recipient = :recipient')
+            ->orderBy('payment.id', 'DESC')
+            ->setMaxResults(1)
+            ->setParameter('recipient', $recipient)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $lastPayment->getSubtotal()->add($money);
     }
 }
