@@ -97,8 +97,7 @@ final class OrderController extends AbstractController
 
         $form = $this->createFormBuilder(null, ['label' => false]);
 
-        $isPayable = $order->getTotalForPayment()->isPositive();
-        if ($isPayable) {
+        if ($order->getTotalForPayment()->isPositive()) {
             $form->add($this->createPaymentForm($order));
         }
 
@@ -117,7 +116,7 @@ final class OrderController extends AbstractController
         $form = $form->getForm()->handleRequest($this->request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($isPayable) {
+            if ($form->has('payment')) {
                 $this->handlePayment($form->get('payment')->getData(), $order);
             }
 
