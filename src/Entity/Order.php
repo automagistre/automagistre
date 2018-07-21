@@ -14,6 +14,7 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use DomainException;
 use Money\Currency;
 use Money\Money;
 
@@ -157,9 +158,15 @@ class Order
         $this->items[] = $item;
     }
 
-    public function getItems(): array
+    public function getItems(string $class = null, callable $callable = null): array
     {
-        return $this->items->toArray();
+        if (null === $class) {
+            return $this->items->toArray();
+        }
+
+        return $this->items->filter(function (OrderItem $item) use ($class, $callable) {
+            return $item instanceof $class && (null !== $callable && $callable($item));
+        })->getValues();
     }
 
     /**
@@ -270,18 +277,15 @@ class Order
 
     private function getTotalPriceByClass(string $class): Money
     {
-        $items = $this->items->filter(function (OrderItem $item) use ($class) {
-            return $item instanceof $class;
-        })->toArray();
-
         $price = new Money(0, new Currency('RUB'));
-        foreach ($items as $item) {
+
+        foreach ($items = $this->getItems($class) as $item) {
             if ($item instanceof TotalPriceInterface) {
                 $price = $price->add($item->getTotalPrice());
             } elseif ($item instanceof PriceInterface) {
                 $price = $price->add($item->getPrice());
             } else {
-                throw new \DomainException('Can\'t calculate total price for item which not have price');
+                throw new DomainException('Can\'t calculate total price for item which not have price');
             }
         }
 

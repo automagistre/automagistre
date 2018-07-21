@@ -99,10 +99,17 @@
             <div class="field-group col-xs-12 col-sm-6">
                 <div class="row" style="margin-bottom: 15px">
                     <div class="col-md-12">
-                        <a href="{{ easyadmin_path(order, 'payment', {'referer': true}) }}" class="btn btn-primary">
-                            <i class="fa fa-money"></i>
-                            Платёж
-                        </a>
+                        {% if order.editable %}
+                            <a href="{{ easyadmin_path(order, 'payment', {'referer': true}) }}" class="btn btn-primary">
+                                <i class="fa fa-money"></i>
+                                Платёж
+                            </a>
+
+                            <a href="{{ easyadmin_path(order, 'close', {'referer': true}) }}" class="btn btn-primary">
+                                <i class="fa fa-close"></i>
+                                Закрыть
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -289,8 +296,8 @@
 
 {% block body_javascript %}
     <script>
-        $('.icon-form-submit').click(function () {
-            $(this).parent().submit();
-        });
+      $('.icon-form-submit').click(function() {
+        $(this).parent().submit();
+      });
     </script>
 {% endblock %}

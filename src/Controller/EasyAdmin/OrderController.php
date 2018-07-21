@@ -4,19 +4,28 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Entity\Employee;
 use App\Entity\Operand;
 use App\Entity\Order;
+use App\Entity\OrderItemService;
 use App\Entity\OrderPayment;
 use App\Entity\Organization;
 use App\Entity\Payment;
 use App\Entity\Person;
+use App\Form\Model\Payment as PaymentModel;
 use App\Form\Type\PaymentType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
+use LogicException;
 use Money\Money;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -28,6 +37,16 @@ const COSTIL_BEZNAL = 2422;
  */
 final class OrderController extends AbstractController
 {
+    /**
+     * @var FormFactoryInterface
+     */
+    private $formFactory;
+
+    public function __construct(FormFactoryInterface $formFactory)
+    {
+        $this->formFactory = $formFactory;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -49,17 +68,16 @@ final class OrderController extends AbstractController
             throw new BadRequestHttpException('Order is required');
         }
 
-        $model = new \App\Form\Model\Payment();
-        $model->recipient = $order->getCustomer();
-        $model->description = '# Начисление по заказу #'.$order->getId();
-        $model->amount = $order->getTotalForPayment();
+        $form = $this->createPaymentForm($order)
+            ->getForm()
+            ->handleRequest($this->request);
 
-        $form = $this->createForm(PaymentType::class, $model, [
-            'disable_recipient' => true,
-        ]);
-
-        $form->handleRequest($this->request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $model = $form->get('payment')->getData();
+            if (!$model instanceof PaymentModel) {
+                throw new LogicException(sprintf('"%s" is required.', PaymentModel::class));
+            }
+
             $this->em->transactional(function (EntityManagerInterface $em) use ($model, $order): void {
                 $calcSubtotal = function (Operand $recipient, Money $money) use ($em) {
                     /** @var Payment $lastPayment */
@@ -87,15 +105,12 @@ final class OrderController extends AbstractController
 
                 $id = 'cash' === $model->paymentType ? COSTIL_CASSA : COSTIL_BEZNAL;
 
-                /** @var Operand $cashbox */
                 $cashbox = $em->getRepository(Operand::class)->find($id);
-                $em->persist(
-                    $payment = new Payment(
-                        $cashbox,
-                        $model->description,
-                        $model->amount,
-                        $calcSubtotal($cashbox, $model->amount)
-                    )
+                $payment = new Payment(
+                    $cashbox,
+                    $model->description,
+                    $model->amount,
+                    $calcSubtotal($cashbox, $model->amount)
                 );
 
                 $em->persist(new OrderPayment($order, $payment));
@@ -106,6 +121,65 @@ final class OrderController extends AbstractController
         }
 
         return $this->render('easy_admin/order/payment.html.twig', [
+            'order' => $order,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    public function closeAction(): Response
+    {
+        $order = $this->getEntity(Order::class);
+        if (!$order instanceof Order) {
+            throw new BadRequestHttpException('Order is required');
+        }
+
+        $em = $this->em;
+        $form = $this->createFormBuilder(null, ['label' => null]);
+
+        if ($order->getTotalForPayment()->isPositive()) {
+            $form->add($this->createPaymentForm($order));
+        }
+
+        /** @var OrderItemService[] $services */
+        $services = $order->getItems(OrderItemService::class, function (OrderItemService $service) {
+            return null === $service->getWorker();
+        });
+
+        foreach ($services as $service) {
+            $form->add($this->formFactory->createNamedBuilder($service->getId(), FormType::class, $service, [
+                'label' => 'Исполнитель для: '.$service,
+            ])
+                ->add('worker', ChoiceType::class, [
+                    'label' => false,
+                    'placeholder' => 'Выберите исполнителя',
+                    'choice_loader' => new CallbackChoiceLoader(function () use ($em) {
+                        return $em->createQueryBuilder()
+                            ->select('person')
+                            ->from(Person::class, 'person')
+                            ->join(Employee::class, 'employee', Join::WITH, 'person = employee.person')
+                            ->where('employee.firedAt IS NULL')
+                            ->getQuery()
+                            ->getResult();
+                    }),
+                    'choice_label' => function (Person $person) {
+                        return (string) $person;
+                    },
+                    'choice_value' => function (?Person $person) {
+                        return $person instanceof Person ? $person->getId() : null;
+                    },
+                ])
+            );
+        }
+
+        $form = $form->getForm()->handleRequest($this->request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+
+            return $this->redirectToReferrer();
+        }
+
+        return $this->render('easy_admin/order/close.html.twig', [
             'order' => $order,
             'form' => $form->createView(),
         ]);
@@ -170,5 +244,18 @@ final class OrderController extends AbstractController
         });
 
         parent::persistEntity($entity);
+    }
+
+    private function createPaymentForm(Order $order): FormBuilderInterface
+    {
+        $model = new PaymentModel();
+        $model->recipient = $order->getCustomer();
+        $model->description = '# Начисление по заказу #'.$order->getId();
+        $model->amount = $order->getTotalForPayment();
+
+        return $this->createFormBuilder(['payment' => $model])
+            ->add('payment', PaymentType::class, [
+                'disable_recipient' => true,
+            ]);
     }
 }

@@ -55,6 +55,7 @@ final class PaymentType extends AbstractType
     {
         $resolver
             ->setDefaults([
+                'label' => 'Платёж',
                 'data_class' => Payment::class,
                 'disable_recipient' => false,
             ]);

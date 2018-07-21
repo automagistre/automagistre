@@ -1,0 +1,20 @@
+{% extends 'easy_admin/layout.html.twig' %}
+
+{% form_theme form with easyadmin_config('design.form_theme') %}
+
+{% block content_title %}
+    Закрыть заказ №{{ order }}
+{% endblock %}
+
+{% block content_help %}
+    {{ order.customer }} {{ order.car }}
+{% endblock %}
+
+
+{% block main %}
+    {{ form_start(form) }}
+    {{ form_rest(form) }}
+
+    <button class="btn btn-success" type="submit">Закрыть</button>
+    {{ form_end(form) }}
+{% endblock %}
