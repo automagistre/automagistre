@@ -106,7 +106,8 @@ pipeline:
         image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
         commands:
             - cd "$APP_DIR"
-            - /docker-entrypoint.sh phpunit
+            - /docker-entrypoint.sh
+            - paratest --processes=$(grep -c ^processor /proc/cpuinfo || 4)
         environment:
             APP_ENV: 'test'
             APP_DEBUG: '0'
