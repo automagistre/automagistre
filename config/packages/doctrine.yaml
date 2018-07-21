@@ -1,5 +1,10 @@
 doctrine:
     dbal:
+        types:
+            carcase_enum: \App\Doctrine\DBAL\Types\CarcaseType
+            car_transmission_enum: \App\Doctrine\DBAL\Types\CarTransmissionType
+            car_wheel_drive_enum: \App\Doctrine\DBAL\Types\CarWheelDriveType
+            order_status_enum: \App\Doctrine\DBAL\Types\OrderStatusType
         mapping_types:
             enum: string
         driver:   pdo_mysql

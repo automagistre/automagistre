@@ -36,11 +36,9 @@ class CarModification
     private $name;
 
     /**
-     * @var int|null
+     * @var Carcase|null
      *
-     * @Assert\Type("int")
-     *
-     * @ORM\Column(name="`case`", type="smallint", nullable=true)
+     * @ORM\Column(name="`case`", type="carcase_enum", nullable=true)
      */
     private $case;
 
@@ -54,23 +52,21 @@ class CarModification
     /**
      * @var int|null
      *
-     * @Assert\Type("int")
-     *
      * @ORM\Column(name="hp", type="smallint", nullable=true)
      */
     private $hp;
 
     /**
-     * @var int|null
+     * @var CarTransmission|null
      *
-     * @ORM\Column(type="smallint", nullable=true)
+     * @ORM\Column(type="car_transmission_enum", nullable=true)
      */
     private $transmission;
 
     /**
-     * @var int|null
+     * @var CarWheelDrive|null
      *
-     * @ORM\Column(type="smallint", nullable=true)
+     * @ORM\Column(type="car_wheel_drive_enum", nullable=true)
      */
     private $wheelDrive;
 
@@ -136,12 +132,12 @@ class CarModification
 
     public function getCase(): ?Carcase
     {
-        return null !== $this->case ? new Carcase($this->case) : null;
+        return $this->case;
     }
 
-    public function setCase(Carcase $case = null): void
+    public function setCase(Carcase $case): void
     {
-        $this->case = null !== $case ? $case->getId() : $case;
+        $this->case = $case;
     }
 
     public function getCarGeneration(): ?CarGeneration
@@ -159,7 +155,7 @@ class CarModification
         return $this->engine;
     }
 
-    public function setEngine(string $engine): void
+    public function setEngine(?string $engine): void
     {
         $this->engine = $engine;
     }
@@ -176,22 +172,22 @@ class CarModification
 
     public function getTransmission(): ?CarTransmission
     {
-        return null !== $this->transmission ? new CarTransmission($this->transmission) : null;
+        return $this->transmission;
     }
 
-    public function setTransmission(CarTransmission $transmission = null): void
+    public function setTransmission(CarTransmission $transmission): void
     {
-        $this->transmission = null !== $transmission ? $transmission->getId() : $transmission;
+        $this->transmission = $transmission;
     }
 
     public function getWheelDrive(): ?CarWheelDrive
     {
-        return null !== $this->wheelDrive ? new CarWheelDrive($this->wheelDrive) : null;
+        return $this->wheelDrive;
     }
 
-    public function setWheelDrive(CarWheelDrive $wheelDrive = null): void
+    public function setWheelDrive(CarWheelDrive $wheelDrive): void
     {
-        $this->wheelDrive = null !== $wheelDrive ? $wheelDrive->getId() : $wheelDrive;
+        $this->wheelDrive = $wheelDrive;
     }
 
     public function getDoors(): ?int
@@ -199,7 +195,7 @@ class CarModification
         return $this->doors;
     }
 
-    public function setDoors(int $doors): void
+    public function setDoors(?int $doors): void
     {
         $this->doors = $doors;
     }
@@ -219,7 +215,7 @@ class CarModification
         return $this->till;
     }
 
-    public function setTill(int $till): void
+    public function setTill(?int $till): void
     {
         $this->till = $till;
     }
@@ -229,7 +225,7 @@ class CarModification
         return $this->maxspeed;
     }
 
-    public function setMaxspeed(string $maxspeed): void
+    public function setMaxspeed(?string $maxspeed): void
     {
         $this->maxspeed = $maxspeed;
     }
@@ -239,7 +235,7 @@ class CarModification
         return $this->s0to100;
     }
 
-    public function setS0to100(string $s0to100): void
+    public function setS0to100(?string $s0to100): void
     {
         $this->s0to100 = $s0to100;
     }
@@ -249,7 +245,7 @@ class CarModification
         return $this->tank;
     }
 
-    public function setTank(int $tank): void
+    public function setTank(?int $tank): void
     {
         $this->tank = $tank;
     }

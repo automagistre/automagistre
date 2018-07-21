@@ -41,9 +41,9 @@ class Order
     private $closedAt;
 
     /**
-     * @var int
+     * @var OrderStatus
      *
-     * @ORM\Column(name="status", type="smallint")
+     * @ORM\Column(name="status", type="order_status_enum")
      */
     private $status;
 
@@ -142,7 +142,7 @@ class Order
 
     public function __construct()
     {
-        $this->status = OrderStatus::draft()->getId();
+        $this->status = OrderStatus::draft();
         $this->items = new ArrayCollection();
         $this->payments = new ArrayCollection();
     }
@@ -224,7 +224,7 @@ class Order
 
     public function getStatus(): OrderStatus
     {
-        return new OrderStatus($this->status);
+        return $this->status;
     }
 
     public function getTotalServicePrice(): Money
