@@ -158,9 +158,9 @@ class Order
      */
     public function getServicesWithoutWorker(): array
     {
-        return $this->getItems(OrderItemService::class, function (OrderItemService $service) {
-            return null === $service->getWorker();
-        });
+        return $this->items->filter(function (OrderItem $item) {
+            return $item instanceof OrderItemService && null === $item->getWorker();
+        })->getValues();
     }
 
     public function close(): void
@@ -173,14 +173,14 @@ class Order
         $this->items[] = $item;
     }
 
-    public function getItems(string $class = null, callable $callable = null): array
+    public function getItems(string $class = null): array
     {
         if (null === $class) {
             return $this->items->toArray();
         }
 
-        return $this->items->filter(function (OrderItem $item) use ($class, $callable) {
-            return $item instanceof $class && (null === $callable || $callable($item));
+        return $this->items->filter(function (OrderItem $item) use ($class) {
+            return $item instanceof $class;
         })->getValues();
     }
 
