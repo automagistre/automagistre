@@ -72,6 +72,7 @@ easy_admin:
             form:
                 fields:
                     - { type: 'group', label: 'Основная информация', css_class: 'col-sm-6' }
+                    - { property: 'status', label: 'Статус', type: App\Form\Type\OrderStatusType }
                     - { property: 'customer', label: 'Заказчик', type: 'easyadmin_autocomplete' }
                     - { property: 'car', label: 'Автомобиль', type: 'easyadmin_autocomplete' }
                     - { property: 'mileage', label: 'Пробег' }

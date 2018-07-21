@@ -249,6 +249,15 @@ class Order
         return $this->status;
     }
 
+    public function setStatus(OrderStatus $status): void
+    {
+        if ($status->isClosed()) {
+            throw new DomainException('Can\'t close order with setStatus()');
+        }
+
+        $this->status = $status;
+    }
+
     public function getTotalServicePrice(): Money
     {
         return $this->getTotalPriceByClass(OrderItemService::class);

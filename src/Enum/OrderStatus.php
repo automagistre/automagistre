@@ -9,6 +9,7 @@ use Grachevko\Enum\Enum;
 /**
  * @method static OrderStatus draft()
  * @method static OrderStatus closed()
+ * @method bool   isClosed()
  *
  * @author Konstantin Grachev <me@grachevko.ru>
  */

@@ -17,12 +17,6 @@
                     <div class="box-header with-border">
                         <h3 class="box-title">
                             Основная информация по заказу №{{ order.id }}
-
-                            {% if order.editable %}
-                                <a href="{{ easyadmin_path(order, 'edit') }}">
-                                    <i class="fa fa-pencil"></i>
-                                </a>
-                            {% endif %}
                         </h3>
                     </div>
 
@@ -110,6 +104,11 @@
                 <div class="row" style="margin-bottom: 15px">
                     <div class="col-md-12">
                         {% if order.editable %}
+                            <a href="{{ easyadmin_path(order, 'edit') }}" class="btn btn-primary">
+                                <i class="fa fa-pencil"></i>
+                                Редактировать
+                            </a>
+
                             <a href="{{ easyadmin_path(order, 'payment', {'referer': true}) }}" class="btn btn-primary">
                                 <i class="fa fa-money"></i>
                                 Платёж
