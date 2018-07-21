@@ -8,6 +8,7 @@ use Grachevko\Enum\Enum;
 
 /**
  * @method static OrderStatus draft()
+ * @method static OrderStatus closed()
  *
  * @author Konstantin Grachev <me@grachevko.ru>
  */

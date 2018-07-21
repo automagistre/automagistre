@@ -14,6 +14,7 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use DomainException;
 use Money\Currency;
 use Money\Money;
 
@@ -152,14 +153,35 @@ class Order
         return (string) $this->getId();
     }
 
+    /**
+     * @return OrderItemService[]
+     */
+    public function getServicesWithoutWorker(): array
+    {
+        return $this->items->filter(function (OrderItem $item) {
+            return $item instanceof OrderItemService && null === $item->getWorker();
+        })->getValues();
+    }
+
+    public function close(): void
+    {
+        $this->status = OrderStatus::closed();
+    }
+
     public function addItem(OrderItem $item): void
     {
         $this->items[] = $item;
     }
 
-    public function getItems(): array
+    public function getItems(string $class = null): array
     {
-        return $this->items->toArray();
+        if (null === $class) {
+            return $this->items->toArray();
+        }
+
+        return $this->items->filter(function (OrderItem $item) use ($class) {
+            return $item instanceof $class;
+        })->getValues();
     }
 
     /**
@@ -270,18 +292,15 @@ class Order
 
     private function getTotalPriceByClass(string $class): Money
     {
-        $items = $this->items->filter(function (OrderItem $item) use ($class) {
-            return $item instanceof $class;
-        })->toArray();
-
         $price = new Money(0, new Currency('RUB'));
-        foreach ($items as $item) {
+
+        foreach ($this->getItems($class) as $item) {
             if ($item instanceof TotalPriceInterface) {
                 $price = $price->add($item->getTotalPrice());
             } elseif ($item instanceof PriceInterface) {
                 $price = $price->add($item->getPrice());
             } else {
-                throw new \DomainException('Can\'t calculate total price for item which not have price');
+                throw new DomainException('Can\'t calculate total price for item which not have price');
             }
         }
 
