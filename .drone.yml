@@ -84,7 +84,7 @@ pipeline:
         image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
         commands:
             - cd "$APP_DIR"
-            - /docker-entrypoint.sh php -d memory_limit=-1 vendor/bin/phpstan analyse --level 6 --configuration phpstan.neon --no-progress src tests
+            - /docker-entrypoint.sh php -d memory_limit=-1 vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress
         environment:
             APP_ENV: 'test'
             APP_DEBUG: '1'

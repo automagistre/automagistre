@@ -13,6 +13,7 @@ use App\Entity\OrderItemService;
 use App\Entity\User;
 use Doctrine\ORM\EntityManager;
 use DomainException;
+use Generator;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
@@ -92,26 +93,19 @@ final class RecommendationManager
     /**
      * @param OrderItem $item
      *
-     * @return OrderItemPart[]
+     * @return OrderItemPart[]|Generator
      */
-    private function getParts(OrderItem $item): array
+    private function getParts(OrderItem $item): Generator
     {
-        $parts = [];
-
         if ($item instanceof OrderItemPart) {
-            $parts[] = $item;
+            yield $item;
         }
 
-        $nested = [];
         foreach ($item->getChildren() as $child) {
-            $nested[] = $this->getParts($child);
+            foreach ($this->getParts($child) as $part) {
+                yield $part;
+            }
         }
-
-        if (0 < count($nested)) {
-            $nested = array_merge(...$nested);
-        }
-
-        return array_merge($parts, $nested);
     }
 
     private function getUser(): User
