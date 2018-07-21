@@ -1,45 +1,40 @@
-version: '3.4'
-
 services:
-    app:
-#        build:
-#            context: .
-#            args:
-#               SOURCE_DIR: ./var/null
-        image: automagistre/app:dev
-        hostname: automagistre.local
-        labels:
-            subdomains: sto www
-        volumes:
-            - ./:/usr/local/app
-        environment:
-            APP_ENV: dev
-            APP_DEBUG: 1
-            XDEBUG: 'true'
-            OPCACHE: 'false'
-            MIGRATIONS: 'false'
-            COMPOSER_SCRIPT: 'false'
-            WAIT_HOSTS: 'mysql:3306'
-
-    mysql:
-        image: mariadb:10.1.23
-        hostname: mysql.automagistre.local
-        volumes:
-            - mysql-db:/var/lib/mysql
-            - ./:/usr/local/app
-        environment:
-            MYSQL_DATABASE: db
-            MYSQL_USER: db
-            MYSQL_PASSWORD: db
-            MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
-
-    memcached:
-        image: memcached:1.5.4-alpine
-
+  app:
+    environment:
+      APP_DEBUG: 1
+      APP_ENV: dev
+      MIGRATIONS: "false"
+      OPCACHE: "false"
+      WAIT_HOSTS: mysql:3306
+      XDEBUG: "true"
+    hostname: automagistre.local
+    image: automagistre/app:dev
+    labels:
+      subdomains: sto www
+    volumes:
+    - /home/premier/projects/automagistre/automagistre:/usr/local/app:rw
+    - /home/premier/projects/automagistre/automagistre/docker/php/php-dev.ini:/usr/local/etc/php/php.ini:rw
+  memcached:
+    image: memcached:1.5.4-alpine
+    labels:
+      restartable: "false"
+  mysql:
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+      MYSQL_DATABASE: db
+      MYSQL_PASSWORD: db
+      MYSQL_USER: db
+    hostname: mysql.automagistre.local
+    image: mariadb:10.1.23
+    volumes:
+    - /home/premier/projects/automagistre/automagistre:/usr/local/app:rw
+    - mysql-db:/var/lib/mysql:rw
+version: '3.4'
 volumes:
-    mysql-db:
-        driver: local
-        driver_opts:
-            device: tmpfs
-            type: tmpfs
-            o: size=1024m
+  mysql-db:
+    driver: local
+    driver_opts:
+      device: tmpfs
+      o: size=1024m
+      type: tmpfs
+

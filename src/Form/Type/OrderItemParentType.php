@@ -62,7 +62,7 @@ final class OrderItemParentType extends AbstractType
         $resolver->setDefaults([
             'choices' => $items,
             'choice_label' => function (OrderItem $item) {
-                return str_repeat(' - ', $item->getLevel()).(string) $item;
+                return str_repeat(' - ', $item->getLevel()).$item;
             },
         ]);
     }
@@ -84,7 +84,7 @@ final class OrderItemParentType extends AbstractType
             $items[] = $this->getChildren($child);
         }
 
-        if (!$items) {
+        if ([] === $items) {
             return [];
         }
 

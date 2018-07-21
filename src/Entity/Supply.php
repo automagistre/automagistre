@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;
 use Money\Money;
@@ -57,9 +58,9 @@ class Supply
     private $receivedBy;
 
     /**
-     * @var \DateTime
+     * @var DateTimeImmutable|null
      *
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime_immutable", nullable=true)
      */
     private $receivedAt;
 
@@ -96,14 +97,14 @@ class Supply
         return $this->receivedBy;
     }
 
-    public function getReceivedAt(): ?\DateTime
+    public function getReceivedAt(): ?DateTimeImmutable
     {
-        return $this->receivedAt ? clone $this->receivedAt : null;
+        return $this->receivedAt;
     }
 
     public function receive(User $user): void
     {
         $this->receivedBy = $user;
-        $this->receivedAt = new \DateTime();
+        $this->receivedAt = new DateTimeImmutable();
     }
 }

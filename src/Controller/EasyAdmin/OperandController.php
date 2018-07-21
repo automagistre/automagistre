@@ -12,13 +12,17 @@ use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
 final class OperandController extends AbstractController
 {
-    public function indexAction(Request $request)
+    /**
+     * {@inheritdoc}
+     */
+    public function indexAction(Request $request): Response
     {
         if ('autocomplete' === $request->query->get('action')) {
             return parent::indexAction($request);
@@ -34,6 +38,9 @@ final class OperandController extends AbstractController
         ]));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function createSearchQueryBuilder(
         $entityClass,
         $searchQuery,
@@ -63,6 +70,9 @@ final class OperandController extends AbstractController
         return $qb;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function autocompleteAction(): JsonResponse
     {
         $query = $this->request->query;

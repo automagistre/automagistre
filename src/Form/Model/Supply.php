@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Form\Model;
 
 use App\Entity\Operand;
+use App\Entity\Part;
 use Money\Money;
 
 /**
@@ -18,7 +19,7 @@ final class Supply extends Model
     public $supplier;
 
     /**
-     * @var \App\Entity\Part
+     * @var Part
      */
     public $part;
 

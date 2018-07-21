@@ -15,14 +15,14 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 final class CarRecommendationPartController extends AbstractController
 {
-    protected function createNewEntity()
+    protected function createNewEntity(): RecommendationPart
     {
-        if (!$id = $this->request->query->get('recommendation_id')) {
+        if (null === $id = $this->request->query->get('recommendation_id')) {
             throw new BadRequestHttpException('recommendation_id is required');
         }
 
         $recommendation = $this->em->getRepository(CarRecommendation::class)->findOneBy(['id' => $id]);
-        if (!$recommendation) {
+        if (null === $recommendation) {
             throw new NotFoundHttpException(sprintf('Recommendation id "%s" not found', $id));
         }
 

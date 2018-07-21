@@ -12,6 +12,7 @@ use App\Entity\OrderItemPart;
 use App\Entity\OrderItemService;
 use App\Entity\User;
 use Doctrine\ORM\EntityManager;
+use DomainException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
@@ -62,8 +63,8 @@ final class RecommendationManager
     {
         $order = $orderService->getOrder();
 
-        if (!$car = $order->getCar()) {
-            throw new \DomainException('Can\' recommend service on undefined car');
+        if (null === $car = $order->getCar()) {
+            throw new DomainException('Can\' recommend service on undefined car');
         }
 
         $recommendation = new CarRecommendation(
@@ -106,7 +107,7 @@ final class RecommendationManager
             $nested[] = $this->getParts($child);
         }
 
-        if (count($nested)) {
+        if (0 < count($nested)) {
             $nested = array_merge(...$nested);
         }
 
@@ -115,8 +116,8 @@ final class RecommendationManager
 
     private function getUser(): User
     {
-        if (!$token = $this->tokenStorage->getToken()) {
-            throw new \DomainException('Recommendation manager cannot work with anonymous user');
+        if (null === $token = $this->tokenStorage->getToken()) {
+            throw new DomainException('Recommendation manager cannot work with anonymous user');
         }
 
         return $token->getUser();

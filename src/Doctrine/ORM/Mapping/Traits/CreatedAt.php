@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 trait CreatedAt
 {
     /**
-     * @var DateTimeImmutable
+     * @var DateTimeImmutable|null
      *
      * @ORM\Column(type="datetime_immutable")
      */
@@ -26,7 +26,7 @@ trait CreatedAt
 
     public function updateCreatedAt(): void
     {
-        if ($this->createdAt) {
+        if ($this->createdAt instanceof DateTimeImmutable) {
             throw new \DomainException('Change defined createdAt is restricted');
         }
 

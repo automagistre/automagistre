@@ -9,7 +9,7 @@ namespace App\Utils;
  */
 final class ArrayUtils
 {
-    public static function isAssoc($arr): bool
+    public static function isAssoc(array $arr): bool
     {
         return array_keys($arr) !== range(0, count($arr) - 1);
     }

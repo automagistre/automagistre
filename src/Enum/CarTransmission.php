@@ -18,6 +18,9 @@ final class CarTransmission extends Enum
     private const VARIATOR = 3;
     private const MECHANICAL = 4;
 
+    /**
+     * @var array
+     */
     protected static $name = [
         self::AUTOMATIC => 'Автоматическая',
         self::ROBOT => 'Робот',
@@ -25,6 +28,9 @@ final class CarTransmission extends Enum
         self::MECHANICAL => 'Механическая',
     ];
 
+    /**
+     * @var array
+     */
     protected static $code = [
         self::AUTOMATIC => 'AT',
         self::ROBOT => 'AMT',

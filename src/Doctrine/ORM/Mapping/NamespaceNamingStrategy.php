@@ -12,8 +12,13 @@ use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
  */
 final class NamespaceNamingStrategy extends UnderscoreNamingStrategy
 {
-    const PREFIX = 'App\\Entity';
+    private const PREFIX = 'App\\Entity';
 
+    /**
+     * @param string $className
+     *
+     * @return string
+     */
     public function classToTableName($className): string
     {
         if (0 !== strpos($className, self::PREFIX)) {

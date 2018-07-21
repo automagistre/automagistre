@@ -50,7 +50,7 @@ class User implements UserInterface, EquatableInterface, Serializable
     private $credentials;
 
     /**
-     * @var Person
+     * @var Person|null
      *
      * @ORM\OneToOne(targetEntity="App\Entity\Person", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
@@ -65,7 +65,7 @@ class User implements UserInterface, EquatableInterface, Serializable
 
     public function setPerson(Person $person): void
     {
-        if ($this->person) {
+        if ($this->person instanceof Person) {
             throw new \DomainException('Person already defined for this user');
         }
 
@@ -79,12 +79,12 @@ class User implements UserInterface, EquatableInterface, Serializable
 
     public function getFirstname(): ?string
     {
-        return $this->person ? $this->person->getFirstname() : null;
+        return $this->person instanceof Person ? $this->person->getFirstname() : null;
     }
 
     public function getLastname(): ?string
     {
-        return $this->person ? $this->person->getLastname() : null;
+        return $this->person instanceof Person ? $this->person->getLastname() : null;
     }
 
     public function getRoles(): array
@@ -103,12 +103,12 @@ class User implements UserInterface, EquatableInterface, Serializable
     {
         $credential = $this->getCredential(self::PASSWORD_CREDENTIALS_TYPE);
 
-        return $credential ? $credential->getIdentifier() : null;
+        return $credential instanceof UserCredentials ? $credential->getIdentifier() : null;
     }
 
     public function changePassword(string $password, PasswordEncoderInterface $encoder): void
     {
-        if ($credential = $this->getCredential(self::PASSWORD_CREDENTIALS_TYPE)) {
+        if (null !== $credential = $this->getCredential(self::PASSWORD_CREDENTIALS_TYPE)) {
             $credential->expire();
         }
 
@@ -172,7 +172,7 @@ class User implements UserInterface, EquatableInterface, Serializable
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $serialized
      */
     public function unserialize($serialized): void
     {

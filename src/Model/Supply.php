@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Model;
 
+use DateTime;
+
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
@@ -15,12 +17,14 @@ final class Supply extends Model
     public $id;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      */
     public $date;
 
     /**
      * TODO.
+     *
+     * @var mixed
      */
     public $status;
 
@@ -30,12 +34,12 @@ final class Supply extends Model
     public $items;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      */
     public $arrivalOrientAt;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      */
     public $arrivalWarrantyAt;
 }

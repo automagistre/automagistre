@@ -59,21 +59,21 @@ class Car
     /**
      * license plate.
      *
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(nullable=true)
      */
     private $gosnomer;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
      */
     private $description;
 
     /**
-     * @var int
+     * @var int|null
      *
      * @ORM\Column(name="sprite_id", type="integer", nullable=true)
      */
@@ -137,7 +137,7 @@ class Car
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getVin(): ?string
     {
@@ -189,8 +189,9 @@ class Car
      */
     public function getMileage(): ?int
     {
-        /** @var Order $order */
-        if ($order = $this->orders->last()) {
+        $order = $this->orders->last();
+
+        if ($order instanceof Order) {
             return $order->getMileage();
         }
 
@@ -202,7 +203,7 @@ class Car
      */
     public function getGosnomer(): ?string
     {
-        if (!$this->gosnomer) {
+        if (null === $this->gosnomer) {
             return null;
         }
 
@@ -255,6 +256,6 @@ class Car
 
     public function getCarModificationDisplayName(): string
     {
-        return (string) ($this->carModification ? $this->carModification->getDisplayName() : $this->carModel);
+        return null !== $this->carModification ? $this->carModification->getDisplayName() : (string) $this->carModel;
     }
 }

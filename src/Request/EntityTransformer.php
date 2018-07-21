@@ -64,7 +64,7 @@ final class EntityTransformer
             $request = $this->requestStack->getCurrentRequest();
         }
 
-        if (!$id = $request->query->get($query)) {
+        if ('' === $id = $request->query->get($query, '')) {
             return null;
         }
 

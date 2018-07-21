@@ -23,6 +23,9 @@ final class Carcase extends Enum
     private const VAN = 10;
     private const CABRIO = 11;
 
+    /**
+     * @var array
+     */
     protected static $name = [
         self::SEDAN => 'Седан',
         self::HATCHBACK => 'Хэтчбек',

@@ -1,9 +1,14 @@
 includes:
-	- vendor/phpstan/phpstan-doctrine/extension.neon
-	- vendor/phpstan/phpstan-phpunit/extension.neon
-	- vendor/grachevko/enum/extension.neon
-	- vendor/lookyman/phpstan-symfony/extension.neon
+    - vendor/grachevko/enum/extension.neon
+    - vendor/phpstan/phpstan-doctrine/extension.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/phpstan/phpstan-symfony/extension.neon
 
 parameters:
-	symfony:
-		container_xml_path: %rootDir%/../../../var/cache/test/srcTestDebugProjectContainer.xml
+    level: 5
+    paths:
+        - src
+        - tests
+    symfony:
+        container_xml_path: %rootDir%/../../../var/cache/test/srcTestDebugProjectContainer.xml

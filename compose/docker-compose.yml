@@ -1,0 +1,44 @@
+version: '3.4'
+
+services:
+    app:
+#        build:
+#            context: .
+#            args:
+#               SOURCE_DIR: ./var/null
+        image: automagistre/app:dev
+        hostname: automagistre.local
+        labels:
+            subdomains: sto www
+        volumes:
+            - ../:/usr/local/app
+        environment:
+            APP_ENV: prod
+            APP_DEBUG: 0
+            XDEBUG: 'false'
+            OPCACHE: 'true'
+            MIGRATIONS: 'true'
+            WAIT_HOSTS: 'mysql:3306'
+
+    mysql:
+        image: mariadb:10.1.23
+        hostname: mysql.automagistre.local
+        volumes:
+            - mysql-db:/var/lib/mysql
+            - ../:/usr/local/app
+        environment:
+            MYSQL_DATABASE: db
+            MYSQL_USER: db
+            MYSQL_PASSWORD: db
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+
+    memcached:
+        image: memcached:1.5.4-alpine
+
+volumes:
+    mysql-db:
+        driver: local
+        driver_opts:
+            device: tmpfs
+            type: tmpfs
+            o: size=1024m

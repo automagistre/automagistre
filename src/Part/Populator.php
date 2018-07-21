@@ -37,8 +37,9 @@ final class Populator
      */
     public function populate(string $number): array
     {
-        $manufacturerRepository = $this->em->getRepository(Manufacturer::class);
-        $partRepository = $this->em->getRepository(Part::class);
+        $em = $this->em;
+        $manufacturerRepository = $em->getRepository(Manufacturer::class);
+        $partRepository = $em->getRepository(Part::class);
 
         $partQuery = $partRepository->createQueryBuilder('part')
             ->leftJoin('part.manufacturer', 'manufacturer')
@@ -52,28 +53,28 @@ final class Populator
                 ->setParameters(['manufacturer' => $model->manufacturer, 'part' => $model->number])
                 ->getOneOrNullResult();
 
-            if ($exists) {
+            if ($exists instanceof Part) {
                 continue;
             }
 
             $manufacturer = $manufacturerRepository->findOneBy(['name' => $model->manufacturer]);
-            if (!$manufacturer) {
+            if (!$manufacturer instanceof Manufacturer) {
                 $manufacturer = new Manufacturer();
                 $manufacturer->setName($model->manufacturer);
-                $this->em->persist($manufacturer);
+                $em->persist($manufacturer);
             }
 
             $part = new Part();
             $part->setManufacturer($manufacturer);
             $part->setName($model->name);
             $part->setNumber($model->number);
-            $this->em->persist($part);
+            $em->persist($part);
 
             $parts[] = $part;
         }
 
-        if ($parts) {
-            $this->em->flush();
+        if (0 < count($parts)) {
+            $em->flush();
         }
 
         return array_filter($parts, function (Part $part) use ($number) {

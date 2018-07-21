@@ -13,18 +13,14 @@ use App\Form\Model\Supply as SupplyModel;
  */
 final class SupplyController extends AbstractController
 {
-    protected function createNewEntity()
+    protected function createNewEntity(): SupplyModel
     {
         $model = new SupplyModel();
+        $model->quantity = $this->request->query->getInt('quantity');
 
-        $requestQuery = $this->request->query;
-
-        if ($part = $this->getEntity(Part::class)) {
+        $part = $this->getEntity(Part::class);
+        if ($part instanceof Part) {
             $model->part = $part;
-        }
-
-        if ($quantity = $requestQuery->getInt('quantity')) {
-            $model->quantity = $quantity;
         }
 
         return $model;

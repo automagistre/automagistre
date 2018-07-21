@@ -28,6 +28,9 @@ final class CarController extends AbstractController
         $this->phoneNumberUtil = $phoneNumberUtil;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function createSearchQueryBuilder(
         $entityClass,
         $searchQuery,
@@ -71,6 +74,9 @@ final class CarController extends AbstractController
         return $qb;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function autocompleteAction(): JsonResponse
     {
         $query = $this->request->query;

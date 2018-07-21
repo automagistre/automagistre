@@ -1,4 +1,4 @@
-FROM php:7.2.6-apache-stretch
+FROM php:7.2.6-apache-stretch as app
 
 LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 

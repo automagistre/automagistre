@@ -8,6 +8,12 @@ use BadMethodCallException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
+use Symfony\Component\Routing\Exception\InvalidParameterException;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
+use Symfony\Component\Routing\Exception\MissingMandatoryParametersException;
+use Symfony\Component\Routing\Exception\NoConfigurationException;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Route;
@@ -36,7 +42,15 @@ class BrandRouter implements RouterInterface, RequestMatcherInterface, WarmableI
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $name
+     * @param array  $parameters
+     * @param int    $referenceType
+     *
+     * @throws InvalidParameterException
+     * @throws MissingMandatoryParametersException
+     * @throws RouteNotFoundException
+     *
+     * @return string
      */
     public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH): string
     {
@@ -47,7 +61,7 @@ class BrandRouter implements RouterInterface, RequestMatcherInterface, WarmableI
             $request = $this->requestStack->getCurrentRequest();
 
             $brand = $request->attributes->get('brand');
-            if (!$brand) {
+            if (null === $brand) {
                 return $this->generate('www_switch');
             }
 
@@ -82,7 +96,13 @@ class BrandRouter implements RouterInterface, RequestMatcherInterface, WarmableI
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $pathinfo
+     *
+     * @throws MethodNotAllowedException
+     * @throws NoConfigurationException
+     * @throws ResourceNotFoundException
+     *
+     * @return array
      */
     public function match($pathinfo): array
     {

@@ -37,7 +37,7 @@ final class OrderItemServiceController extends AbstractController
         $query = $this->request->query;
 
         $orderService = $this->em->getRepository(OrderItemService::class)->findOneBy(['id' => $query->get('id')]);
-        if (!$orderService) {
+        if (null === $orderService) {
             throw new NotFoundHttpException();
         }
 
@@ -51,16 +51,18 @@ final class OrderItemServiceController extends AbstractController
         ]);
     }
 
-    protected function createNewEntity()
+    protected function createNewEntity(): OrderService
     {
-        if (!$order = $this->getEntity(Order::class)) {
+        $order = $this->getEntity(Order::class);
+        if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order not found');
         }
 
         $model = new OrderService();
         $model->order = $order;
 
-        if ($parent = $this->getEntity(OrderItem::class)) {
+        $parent = $this->getEntity(OrderItem::class);
+        if ($parent instanceof OrderItem) {
             $model->parent = $parent;
         }
 
@@ -73,16 +75,17 @@ final class OrderItemServiceController extends AbstractController
     protected function persistEntity($model): void
     {
         $entity = new OrderItemService($model->order, $model->service, $model->price);
-        if ($model->parent) {
-            $entity->setParent($model->parent);
-        }
+        $entity->setParent($model->parent);
 
         parent::persistEntity($entity);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function isActionAllowed($actionName): bool
     {
-        if (in_array($actionName, ['edit', 'delete'], true) && $id = $this->request->get('id')) {
+        if (in_array($actionName, ['edit', 'delete'], true) && null !== $id = $this->request->get('id')) {
             $entity = $this->em->getRepository(OrderItemService::class)->find($id);
 
             return $entity->getOrder()->isEditable();

@@ -15,16 +15,18 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  */
 final class OrderItemGroupController extends AbstractController
 {
-    protected function createNewEntity()
+    protected function createNewEntity(): OrderGroup
     {
-        if (!$order = $this->getEntity(Order::class)) {
+        $order = $this->getEntity(Order::class);
+        if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order not found');
         }
 
         $model = new OrderGroup();
         $model->order = $order;
 
-        if ($parent = $this->getEntity(OrderItem::class)) {
+        $parent = $this->getEntity(OrderItem::class);
+        if ($parent instanceof OrderItem) {
             $model->parent = $parent;
         }
 
@@ -37,9 +39,7 @@ final class OrderItemGroupController extends AbstractController
     protected function persistEntity($model): void
     {
         $entity = new OrderItemGroup($model->order, $model->name);
-        if ($model->parent) {
-            $entity->setParent($model->parent);
-        }
+        $entity->setParent($model->parent);
 
         parent::persistEntity($entity);
     }

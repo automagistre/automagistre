@@ -47,7 +47,7 @@ class AppExtension extends AbstractExtension
         ];
     }
 
-    public function doInstanceOf($object, $class): bool
+    public function doInstanceOf(object $object, string $class): bool
     {
         return $object instanceof $class;
     }
@@ -66,7 +66,7 @@ class AppExtension extends AbstractExtension
         return new DateTimeImmutable();
     }
 
-    public function toQuery($entity): array
+    public function toQuery(object $entity): array
     {
         return $this->entityTransformer->transform($entity);
     }

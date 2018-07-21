@@ -43,7 +43,7 @@ abstract class OrderItem
     private $order;
 
     /**
-     * @var OrderItem
+     * @var OrderItem|null
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\OrderItem", inversedBy="children", cascade={"persist"})
      * @ORM\JoinColumn(referencedColumnName="id", onDelete="CASCADE")
@@ -56,6 +56,8 @@ abstract class OrderItem
 
         $this->order = $order;
     }
+
+    abstract public function __toString(): string;
 
     public function getOrder(): Order
     {
@@ -74,7 +76,7 @@ abstract class OrderItem
 
     public function getLevel(): int
     {
-        return $this->parent ? $this->parent->getLevel() + 1 : 0;
+        return $this->parent instanceof self ? $this->parent->getLevel() + 1 : 0;
     }
 
     /**
@@ -97,7 +99,7 @@ abstract class OrderItem
             }
         }
 
-        foreach ($item ? $item->getChildren() : $this->children as $child) {
+        foreach ($item instanceof self ? $item->getChildren() : $this->children as $child) {
             $price = $price->add($this->getTotalPriceByClass($class, $child));
         }
 

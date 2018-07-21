@@ -12,10 +12,17 @@ use Symfony\Component\Form\Extension\Core\DataTransformer\NumberToLocalizedStrin
  */
 final class DivisoredNumberToLocalizedStringTransformer extends NumberToLocalizedStringTransformer
 {
+    /**
+     * @var int
+     */
     private $divisor;
 
-    public function __construct($scale = 2, $grouping = true, $roundingMode = self::ROUND_HALF_UP, $divisor = 1)
-    {
+    public function __construct(
+        ?int $scale = 2,
+        ?bool $grouping = true,
+        ?int $roundingMode = self::ROUND_HALF_UP,
+        ?int $divisor = 1
+    ) {
         if (null === $grouping) {
             $grouping = true;
         }
@@ -34,11 +41,15 @@ final class DivisoredNumberToLocalizedStringTransformer extends NumberToLocalize
     }
 
     /**
-     * {@inheritdoc}
+     * @param float|int|null $value
+     *
+     * @throws TransformationFailedException
+     *
+     * @return string
      */
     public function transform($value): string
     {
-        if ($value) {
+        if (null !== $value) {
             if (!is_numeric($value)) {
                 throw new TransformationFailedException('Expected a numeric.');
             }
@@ -54,9 +65,10 @@ final class DivisoredNumberToLocalizedStringTransformer extends NumberToLocalize
      */
     public function reverseTransform($value): int
     {
+        /** @var int|float|null $value */
         $value = parent::reverseTransform($value);
 
-        if ($value) {
+        if (is_numeric($value)) {
             $value *= $this->divisor;
         }
 
