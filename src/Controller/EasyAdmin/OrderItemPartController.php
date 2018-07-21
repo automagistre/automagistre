@@ -17,14 +17,16 @@ final class OrderItemPartController extends AbstractController
 {
     protected function createNewEntity(): OrderPart
     {
-        if (!$order = $this->getEntity(Order::class)) {
+        $order = $this->getEntity(Order::class);
+        if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order not found');
         }
 
         $model = new OrderPart();
         $model->order = $order;
 
-        if ($parent = $this->getEntity(OrderItem::class)) {
+        $parent = $this->getEntity(OrderItem::class);
+        if ($parent instanceof OrderItem) {
             $model->parent = $parent;
         }
 
@@ -37,17 +39,17 @@ final class OrderItemPartController extends AbstractController
     protected function persistEntity($model): void
     {
         $entity = new OrderItemPart($model->order, $this->getUser(), $model->part, $model->quantity, $model->price);
-
-        if ($parent = $model->parent) {
-            $entity->setParent($parent);
-        }
+        $entity->setParent($model->parent);
 
         parent::persistEntity($entity);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function isActionAllowed($actionName): bool
     {
-        if (in_array($actionName, ['edit', 'delete'], true) && $id = $this->request->get('id')) {
+        if (in_array($actionName, ['edit', 'delete'], true) && null !== $id = $this->request->get('id')) {
             $entity = $this->em->getRepository(OrderItemPart::class)->find($id);
 
             return $entity->getOrder()->isEditable();

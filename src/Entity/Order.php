@@ -10,6 +10,7 @@ use App\Enum\OrderStatus;
 use App\Money\PriceInterface;
 use App\Money\TotalPriceInterface;
 use DateTime;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
@@ -33,9 +34,9 @@ class Order
     private $items;
 
     /**
-     * @var DateTime
+     * @var DateTimeImmutable|null
      *
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime_immutable", nullable=true)
      */
     private $closedAt;
 
@@ -206,9 +207,9 @@ class Order
         return $this->notes->toArray();
     }
 
-    public function getClosedAt(): ?DateTime
+    public function getClosedAt(): ?DateTimeImmutable
     {
-        return $this->closedAt ? clone $this->closedAt : null;
+        return $this->closedAt;
     }
 
     public function getMileage(): ?int

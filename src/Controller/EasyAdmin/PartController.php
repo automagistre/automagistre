@@ -47,9 +47,9 @@ final class PartController extends AbstractController
         $this->finder = $finder;
     }
 
-    public function numberSearchAction()
+    public function numberSearchAction(): Response
     {
-        if (!$number = $this->request->query->get('number')) {
+        if (null === $number = $this->request->query->get('number')) {
             throw new BadRequestHttpException();
         }
 
@@ -57,13 +57,13 @@ final class PartController extends AbstractController
 
         $parts = $this->finder->search($number);
 
-        if (!$parts) {
+        if ([] === $parts) {
             return new Response('', Response::HTTP_NO_CONTENT);
         }
 
         return $this->json(array_map(function (PartModel $model) use ($manufacturerRepository) {
             $manufacturer = $manufacturerRepository->findOneBy(['name' => $model->manufacturer]);
-            if (!$manufacturer) {
+            if (!$manufacturer instanceof Manufacturer) {
                 $manufacturer = new Manufacturer();
                 $manufacturer->setName($model->manufacturer);
                 $this->em->persist($manufacturer);
@@ -112,6 +112,9 @@ final class PartController extends AbstractController
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function newAction()
     {
         if ($this->request->isXmlHttpRequest() && $this->request->isMethod('POST')) {
@@ -143,6 +146,9 @@ final class PartController extends AbstractController
         return parent::newAction();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function createSearchQueryBuilder(
         $entityClass,
         $searchQuery,
@@ -169,6 +175,9 @@ final class PartController extends AbstractController
         return $qb;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function autocompleteAction(): JsonResponse
     {
         $query = $this->request->query;

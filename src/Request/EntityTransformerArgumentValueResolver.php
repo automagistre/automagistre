@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Request;
 
+use Generator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
@@ -28,13 +29,13 @@ final class EntityTransformerArgumentValueResolver implements ArgumentValueResol
      */
     public function supports(Request $request, ArgumentMetadata $argument): bool
     {
-        return $argument->getType() && $this->resolve($request, $argument)->current();
+        return '' !== trim($argument->getType()) && is_object($this->resolve($request, $argument)->current());
     }
 
     /**
      * {@inheritdoc}
      */
-    public function resolve(Request $request, ArgumentMetadata $argument): \Generator
+    public function resolve(Request $request, ArgumentMetadata $argument): Generator
     {
         yield $this->entityTransformer->reverseTransform($argument->getType(), $request);
     }

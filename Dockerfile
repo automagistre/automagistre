@@ -1,4 +1,4 @@
-FROM php:7.2.6-apache-stretch
+FROM php:7.2.6-apache-stretch as app
 
 LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 
@@ -65,12 +65,12 @@ ENV APP_VERSION ${APP_VERSION}
 ARG APP_BUILD_TIME=''
 ENV APP_BUILD_TIME ${APP_BUILD_TIME}
 
-#ARG APP_CACHE=prod
-#RUN if [ -f composer.json ] && [ "test" = ${APP_CACHE} ]; then \
-#        APP_ENV=test APP_DEBUG=1 ${COMPOSER_EXEC} install ${COMPOSER_INSTALL_OPTS} ; \
-#    elif [ -f composer.json ]; then \
-#        APP_ENV=prod APP_DEBUG=0 ${COMPOSER_EXEC} run-script post-install-cmd \
-#    ; fi
+ARG APP_CACHE=prod
+RUN if [ -f composer.json ] && [ "test" = ${APP_CACHE} ]; then \
+        APP_ENV=test APP_DEBUG=1 ${COMPOSER_EXEC} install ${COMPOSER_INSTALL_OPTS} ; \
+    elif [ -f composer.json ]; then \
+        APP_ENV=prod APP_DEBUG=0 ${COMPOSER_EXEC} run-script post-install-cmd \
+    ; fi
 
 ENTRYPOINT ["bash", "/docker-entrypoint.sh"]
 CMD ["apache"]

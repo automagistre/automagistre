@@ -24,6 +24,9 @@ final class OrderStatus extends Enum
     private const READY = 9;
     private const CLOSED = 10;
 
+    /**
+     * @var array
+     */
     protected static $color = [
         self::DRAFT => 'default',
         self::SCHEDULING => 'info',
@@ -37,6 +40,9 @@ final class OrderStatus extends Enum
         self::CLOSED => 'default',
     ];
 
+    /**
+     * @var array
+     */
     protected static $name = [
         self::DRAFT => 'Черновик',
         self::SCHEDULING => 'Ожидание по записи',

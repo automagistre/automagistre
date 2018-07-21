@@ -9,7 +9,9 @@ use App\Entity\PartnerOperand;
 use App\Entity\PartnerSupplyImport;
 use App\Entity\Supply;
 use App\Partner\Ixora\Orders;
+use DateTime;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -39,51 +41,51 @@ final class Importer
         $this->logger = $logger;
     }
 
-    public function import(\DateTime $date): void
+    public function import(DateTime $date): void
     {
-        $supplier = $this->em->getRepository(PartnerOperand::class)
+        $em = $this->em;
+        $supplier = $em->getRepository(PartnerOperand::class)
             ->findOneBy(['name' => $this->orders::getSupplierName()])->getOperand();
 
         foreach ($this->orders->find($date) as $supply) {
-            if ($this->em->getRepository(PartnerSupplyImport::class)->findOneBy(['externalId' => $supply->id])) {
+            if (null !== $em->getRepository(PartnerSupplyImport::class)->findOneBy(['externalId' => $supply->id])) {
                 continue;
             }
 
-            $this->em->beginTransaction();
+            $em->transactional(function (EntityManagerInterface $em) use ($supply, $supplier): void {
+                foreach ($supply->items as $supplyItem) {
+                    $part = $em->createQueryBuilder()
+                        ->select('part')
+                        ->from(Part::class, 'part')
+                        ->join('part.manufacturer', 'manufacturer')
+                        ->where('part.number = :number')
+                        ->andWhere('manufacturer.name = :manufacturer')
+                        ->setParameters([
+                            'number' => $supplyItem->number,
+                            'manufacturer' => $supplyItem->manufacturer,
+                        ])
+                        ->getQuery()
+                        ->getOneOrNullResult();
 
-            foreach ($supply->items as $supplyItem) {
-                $part = $this->em->getRepository(Part::class)->createQueryBuilder('part')
-                    ->join('part.manufacturer', 'manufacturer')
-                    ->where('part.number = :number')
-                    ->andWhere('manufacturer.name = :manufacturer')
-                    ->setParameters([
-                        'number' => $supplyItem->number,
-                        'manufacturer' => $supplyItem->manufacturer,
-                    ])
-                    ->getQuery()
-                    ->getOneOrNullResult();
+                    if (!$part instanceof Part) {
+                        $this->logger->alert(sprintf(
+                            'Orders import failed. Not found Part for manufacturer "%s", number "%s"',
+                            $supplyItem->manufacturer,
+                            $supplyItem->number
+                        ));
 
-                if (!$part) {
-                    $this->logger->alert(sprintf(
-                        'Orders import failed. Not found Part for manufacturer "%s", number "%s"',
-                        $supplyItem->manufacturer,
-                        $supplyItem->number
-                    ));
+                        $em->rollback();
 
-                    $this->em->rollback();
+                        return;
+                    }
 
-                    continue 2;
+                    $em->persist(
+                        new Supply($supplier, $part, $supplyItem->price, $supplyItem->quantity)
+                    );
                 }
 
-                $this->em->persist(
-                    new Supply($supplier, $part, $supplyItem->price, $supplyItem->quantity)
-                );
-            }
-
-            $this->em->persist(new PartnerSupplyImport($supply->id, $supply->date));
-
-            $this->em->flush();
-            $this->em->commit();
+                $em->persist(new PartnerSupplyImport($supply->id, $supply->date));
+            });
         }
     }
 }

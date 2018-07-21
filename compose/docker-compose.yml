@@ -10,15 +10,15 @@ services:
         hostname: automagistre.local
         labels:
             subdomains: sto www
+            restartable: 'true'
         volumes:
-            - ./:/usr/local/app
+            - ../:/usr/local/app
         environment:
-            APP_ENV: dev
-            APP_DEBUG: 1
-            XDEBUG: 'true'
-            OPCACHE: 'false'
-            MIGRATIONS: 'false'
-            COMPOSER_SCRIPT: 'false'
+            APP_ENV: prod
+            APP_DEBUG: 0
+            XDEBUG: 'false'
+            OPCACHE: 'true'
+            MIGRATIONS: 'true'
             WAIT_HOSTS: 'mysql:3306'
 
     mysql:
@@ -26,7 +26,7 @@ services:
         hostname: mysql.automagistre.local
         volumes:
             - mysql-db:/var/lib/mysql
-            - ./:/usr/local/app
+            - ../:/usr/local/app
         environment:
             MYSQL_DATABASE: db
             MYSQL_USER: db
@@ -35,6 +35,8 @@ services:
 
     memcached:
         image: memcached:1.5.4-alpine
+        labels:
+            restartable: 'false'
 
 volumes:
     mysql-db:

@@ -14,6 +14,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 final class PersonController extends AbstractController
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function createSearchQueryBuilder(
         $entityClass,
         $searchQuery,
@@ -40,6 +43,9 @@ final class PersonController extends AbstractController
         return $qb;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function autocompleteAction(): JsonResponse
     {
         $query = $this->request->query;
@@ -51,7 +57,9 @@ final class PersonController extends AbstractController
 
         $data = array_map(function (Person $person) use ($phoneUtils) {
             $formattedTelephone = '';
-            if ($tel = $person->getTelephone() ?: $person->getOfficePhone()) {
+            $tel = $person->getTelephone() ?: $person->getOfficePhone();
+
+            if (null !== $tel) {
                 $PhoneNumber = $phoneUtils->parse($tel, 'RU');
                 $formattedTelephone = $phoneUtils->format($PhoneNumber, PhoneNumberFormat::INTERNATIONAL);
             }

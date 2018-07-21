@@ -36,7 +36,7 @@ class CarModification
     private $name;
 
     /**
-     * @var int
+     * @var int|null
      *
      * @Assert\Type("int")
      *
@@ -45,14 +45,14 @@ class CarModification
     private $case;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="`engine`", nullable=true)
      */
     private $engine;
 
     /**
-     * @var int
+     * @var int|null
      *
      * @Assert\Type("int")
      *
@@ -61,56 +61,56 @@ class CarModification
     private $hp;
 
     /**
-     * @var int
+     * @var int|null
      *
      * @ORM\Column(type="smallint", nullable=true)
      */
     private $transmission;
 
     /**
-     * @var int
+     * @var int|null
      *
      * @ORM\Column(type="smallint", nullable=true)
      */
     private $wheelDrive;
 
     /**
-     * @var int
+     * @var int|null
      *
      * @ORM\Column(name="doors", type="smallint", nullable=true)
      */
     private $doors;
 
     /**
-     * @var int
+     * @var int|null
      *
      * @ORM\Column(name="from", type="smallint", nullable=true)
      */
     private $from;
 
     /**
-     * @var int
+     * @var int|null
      *
      * @ORM\Column(name="till", type="smallint", nullable=true)
      */
     private $till;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="maxspeed", length=20, nullable=true)
      */
     private $maxspeed;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="s0to100", length=20, nullable=true)
      */
     private $s0to100;
 
     /**
-     * @var int
+     * @var int|null
      *
      * @ORM\Column(name="tank", type="smallint", nullable=true)
      */
@@ -125,7 +125,7 @@ class CarModification
             $this->getDisplayName(),
             $this->getFrom(),
             $this->getTill() ?: '...',
-            $case ? $case->getName() : ''
+            $case instanceof Carcase ? $case->getName() : ''
         );
     }
 
@@ -136,12 +136,12 @@ class CarModification
 
     public function getCase(): ?Carcase
     {
-        return $this->case ? new Carcase($this->case) : null;
+        return null !== $this->case ? new Carcase($this->case) : null;
     }
 
     public function setCase(Carcase $case = null): void
     {
-        $this->case = $case ? $case->getId() : $case;
+        $this->case = null !== $case ? $case->getId() : $case;
     }
 
     public function getCarGeneration(): ?CarGeneration
@@ -176,22 +176,22 @@ class CarModification
 
     public function getTransmission(): ?CarTransmission
     {
-        return $this->transmission ? new CarTransmission($this->transmission) : null;
+        return null !== $this->transmission ? new CarTransmission($this->transmission) : null;
     }
 
     public function setTransmission(CarTransmission $transmission = null): void
     {
-        $this->transmission = $transmission ? $transmission->getId() : $transmission;
+        $this->transmission = null !== $transmission ? $transmission->getId() : $transmission;
     }
 
     public function getWheelDrive(): ?CarWheelDrive
     {
-        return $this->wheelDrive ? new CarWheelDrive($this->wheelDrive) : null;
+        return null !== $this->wheelDrive ? new CarWheelDrive($this->wheelDrive) : null;
     }
 
     public function setWheelDrive(CarWheelDrive $wheelDrive = null): void
     {
-        $this->wheelDrive = $wheelDrive ? $wheelDrive->getId() : $wheelDrive;
+        $this->wheelDrive = null !== $wheelDrive ? $wheelDrive->getId() : $wheelDrive;
     }
 
     public function getDoors(): ?int
@@ -259,16 +259,20 @@ class CarModification
         $transmission = $this->getTransmission();
         $wheelDrive = $this->getWheelDrive();
 
+        $engine = $this->getEngine();
+
         return sprintf(
             '%s %s',
             $this->getCarGeneration()->getDisplayName(),
-            $this->getEngine() ? sprintf(
+            null === $engine
+                ? $this->getName()
+                : sprintf(
                 '%s (%s) %s %s',
-                $this->getEngine(),
-                $this->getHp(),
-                $transmission ? $transmission->getCode() : '',
-                $wheelDrive ? $wheelDrive->getCode() : ''
-            ) : $this->getName()
+                $engine,
+                $this->getHp() ?? '-',
+                null !== $transmission ? $transmission->{'getCode'}() : '-', // TODO phpstan don't see return type
+                null !== $wheelDrive ? $wheelDrive->{'getCode'}() : '-'
+            )
         );
     }
 }

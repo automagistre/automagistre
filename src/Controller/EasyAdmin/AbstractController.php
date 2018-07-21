@@ -6,8 +6,12 @@ namespace App\Controller\EasyAdmin;
 
 use App\Entity\User;
 use App\Request\EntityTransformer;
+use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @method User getUser()
@@ -74,7 +78,7 @@ abstract class AbstractController extends AdminController
         ]);
     }
 
-    protected function getEntity(string $class)
+    protected function getEntity(string $class): ?object
     {
         $entity = $this->entityTransformer->reverseTransform($class);
 
@@ -87,5 +91,94 @@ abstract class AbstractController extends AdminController
         }
 
         return $entity;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function isActionAllowed($actionName): bool
+    {
+        return parent::isActionAllowed($actionName);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function createListQueryBuilder(
+        $entityClass,
+        $sortDirection,
+        $sortField = null,
+        $dqlFilter = null
+    ): QueryBuilder {
+        return parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function createEntityForm($entity, array $entityProperties, $view): FormInterface
+    {
+        return parent::createEntityForm($entity, $entityProperties, $view);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function createSearchQueryBuilder(
+        $entityClass,
+        $searchQuery,
+        array $searchableFields,
+        $sortField = null,
+        $sortDirection = null,
+        $dqlFilter = null
+    ): QueryBuilder {
+        return parent::createSearchQueryBuilder(
+            $entityClass,
+            $searchQuery,
+            $searchableFields,
+            $sortField,
+            $sortDirection,
+            $dqlFilter
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function renderTemplate($actionName, $templatePath, array $parameters = []): Response
+    {
+        return parent::renderTemplate($actionName, $templatePath, $parameters);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function findBy(
+        $entityClass,
+        $searchQuery,
+        array $searchableFields,
+        $page = 1,
+        $maxPerPage = 15,
+        $sortField = null,
+        $sortDirection = null,
+        $dqlFilter = null
+    ) {
+        return parent::findBy($entityClass, $searchQuery, $searchableFields, $page, $maxPerPage, $sortField, $sortDirection, $dqlFilter);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function createDeleteForm($entityName, $entityId): FormInterface
+    {
+        return parent::createDeleteForm($entityName, $entityId);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function createEntityFormBuilder($entity, $view): FormBuilderInterface
+    {
+        return parent::createEntityFormBuilder($entity, $view);
     }
 }

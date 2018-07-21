@@ -1,4 +1,5 @@
 /public/check.php
+/docker-compose.yml
 /docker-compose.override.yml
 
 # Dev

@@ -9,9 +9,18 @@ namespace App\Model;
  */
 final class Part extends Model
 {
+    /**
+     * @var string
+     */
     public $manufacturer;
 
+    /**
+     * @var string
+     */
     public $number;
 
+    /**
+     * @var string
+     */
     public $name;
 }

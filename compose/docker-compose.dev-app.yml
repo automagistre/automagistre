@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+    app:
+        environment:
+            APP_ENV: dev
+            APP_DEBUG: 1
+            XDEBUG: 'true'
+            OPCACHE: 'false'
+            MIGRATIONS: 'false'
+        volumes:
+            - ./docker/php/php-dev.ini:/usr/local/etc/php/php.ini

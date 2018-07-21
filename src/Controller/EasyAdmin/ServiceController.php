@@ -62,9 +62,9 @@ final class ServiceController extends AbstractController
         $string = $query->get('query');
         if ('++' === substr($string, -2)) {
             $pieces = explode(' ', trim(rtrim($string, '+')));
-            $price = is_numeric(end($pieces)) ? array_pop($pieces) : 0;
+            $price = (float) (is_numeric(end($pieces)) ? array_pop($pieces) : 0);
 
-            $service = new Service(implode(' ', $pieces), new Money($price * 100, new Currency('RUB')));
+            $service = new Service(implode(' ', $pieces), new Money((string) ($price * 100), new Currency('RUB')));
             $this->em->persist($service);
             $this->em->flush($service);
 

@@ -9,12 +9,6 @@ _docker: &docker
         - /var/run/docker.sock:/var/run/docker.sock
     secrets: [ HUB_LOGIN, HUB_PASSWORD ]
 
-_when_master: &when-master
-    when:
-        event: push
-        branch: master
-        status: success
-
 pipeline:
     build app:
         <<: *docker
@@ -23,8 +17,10 @@ pipeline:
             - >-
                 docker build -t "automagistre/automagistre:${DRONE_BUILD_NUMBER}"
                 --label build=${DRONE_BUILD_NUMBER}
+                --label artifacts
                 --build-arg APP_VERSION="$DRONE_BUILD_NUMBER"
                 --build-arg APP_BUILD_TIME="`date --rfc-2822`"
+                --build-arg APP_CACHE="test"
                 .
 
     validate php-cs-fixer:
@@ -88,7 +84,7 @@ pipeline:
         image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
         commands:
             - cd "$APP_DIR"
-            - /docker-entrypoint.sh php -d memory_limit=-1 vendor/bin/phpstan analyse --level 6 --configuration phpstan.neon --no-progress src tests
+            - /docker-entrypoint.sh php -d memory_limit=-1 vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress
         environment:
             APP_ENV: 'test'
             APP_DEBUG: '1'
@@ -126,11 +122,31 @@ pipeline:
             branch: master
             status: [ success, failure ]
 
+    build app prod:
+        <<: *docker
+        group: deploy
+        commands:
+            - >-
+                docker build -t "automagistre/automagistre:${DRONE_BUILD_NUMBER}"
+                --label build=${DRONE_BUILD_NUMBER}
+                --label artifacts
+                --build-arg APP_VERSION="$DRONE_BUILD_NUMBER"
+                --build-arg APP_BUILD_TIME="`date --rfc-2822`"
+                --build-arg APP_CACHE="prod"
+                .
+        when:
+            event: push
+            branch: master
+            status: success
+
     deploy: &deploy_service
         <<: *docker
-        <<: *when-master
         commands:
             - docker service update --detach=false --image "automagistre/automagistre:${DRONE_BUILD_NUMBER}" automagistre
+        when:
+            event: push
+            branch: master
+            status: success
 
 services:
     mysql:

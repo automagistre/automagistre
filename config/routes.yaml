@@ -10,5 +10,4 @@ _admin:
 
 _www:
     resource: './routes/www.yaml'
-    condition: "request.getHost() matches '/%www_host_pattern%/'"
     name_prefix: www_

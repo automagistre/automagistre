@@ -28,9 +28,12 @@ const COSTIL_BEZNAL = 2422;
  */
 final class OrderController extends AbstractController
 {
+    /**
+     * {@inheritdoc}
+     */
     public function isActionAllowed($actionName): bool
     {
-        if ('show' !== $actionName && $id = $this->request->get('id')) {
+        if ('show' !== $actionName && null !== $id = $this->request->get('id')) {
             $entity = $this->em->getRepository(Order::class)->find($id);
 
             return $entity->isEditable();
@@ -108,6 +111,9 @@ final class OrderController extends AbstractController
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function createSearchQueryBuilder(
         $entityClass,
         $searchQuery,
@@ -149,7 +155,7 @@ final class OrderController extends AbstractController
     /**
      * @param Order $entity
      */
-    protected function prePersistEntity($entity): void
+    protected function persistEntity($entity): void
     {
         $this->get('event_dispatcher')->addListener(EasyAdminEvents::POST_PERSIST, function (GenericEvent $event
         ): void {
@@ -162,5 +168,7 @@ final class OrderController extends AbstractController
                 'id' => $entity->getId(),
             ]));
         });
+
+        parent::persistEntity($entity);
     }
 }

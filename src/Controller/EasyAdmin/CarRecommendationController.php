@@ -37,7 +37,7 @@ final class CarRecommendationController extends AbstractController
         $query = $this->request->query;
 
         $order = $this->em->getRepository(Order::class)->findOneBy(['id' => $query->get('order_id')]);
-        if (!$order) {
+        if (null === $order) {
             throw new NotFoundHttpException();
         }
 
@@ -46,7 +46,7 @@ final class CarRecommendationController extends AbstractController
         }
 
         $recommendation = $this->em->getRepository(CarRecommendation::class)->findOneBy(['id' => $query->get('id')]);
-        if (!$recommendation) {
+        if (null === $recommendation) {
             throw new NotFoundHttpException();
         }
 
@@ -59,14 +59,14 @@ final class CarRecommendationController extends AbstractController
         ]);
     }
 
-    protected function createNewEntity()
+    protected function createNewEntity(): Recommendation
     {
-        if (!$id = $this->request->query->get('car_id')) {
+        if (null === $id = $this->request->query->get('car_id')) {
             throw new BadRequestHttpException('car_id is required');
         }
 
         $car = $this->em->getRepository(Car::class)->findOneBy(['id' => $id]);
-        if (!$car) {
+        if (null === $car) {
             throw new NotFoundHttpException(sprintf('Car id "%s" not found', $id));
         }
 

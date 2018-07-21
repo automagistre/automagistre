@@ -23,7 +23,7 @@ final class SmokeTest extends WebTestCase
         $client->request('GET', $url);
         $response = $client->getResponse();
 
-        $this->assertSame($statusCode, $response->getStatusCode());
+        static::assertSame($statusCode, $response->getStatusCode());
     }
 
     public function pagesProvider(): Generator

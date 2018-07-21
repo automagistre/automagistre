@@ -13,6 +13,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 final class CarModelController extends AbstractController
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function createSearchQueryBuilder(
         $entityClass,
         $searchQuery,
@@ -38,6 +41,9 @@ final class CarModelController extends AbstractController
         return $qb;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function autocompleteAction(): JsonResponse
     {
         $query = $this->request->query;

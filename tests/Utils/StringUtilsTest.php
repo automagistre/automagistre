@@ -14,9 +14,9 @@ final class StringUtilsTest extends TestCase
 {
     public function testIsRussia(): void
     {
-        self::assertTrue(StringUtils::isRussian('текст'));
-        self::assertFalse(StringUtils::isRussian('text'));
-        self::assertTrue(StringUtils::isRussian('текст text'));
-        self::assertTrue(StringUtils::isRussian('масло'));
+        static::assertTrue(StringUtils::isRussian('текст'));
+        static::assertFalse(StringUtils::isRussian('text'));
+        static::assertTrue(StringUtils::isRussian('текст text'));
+        static::assertTrue(StringUtils::isRussian('масло'));
     }
 }

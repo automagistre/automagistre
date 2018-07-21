@@ -25,7 +25,6 @@ security:
                 login_path: admin_login
 
         www:
-            host: '%www_host_pattern%'
             anonymous: ~
             logout:
                 path: www_logout

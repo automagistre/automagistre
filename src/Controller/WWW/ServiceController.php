@@ -6,15 +6,15 @@ namespace App\Controller\WWW;
 
 use App\Utils\FormUtil;
 use LogicException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Swift_Mailer;
+use Swift_Message;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/service/{brand}", requirements={"brand": "nissan|toyota|infinity|lexus"})
@@ -55,7 +55,7 @@ final class ServiceController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = (object) $form->getData();
 
-            $message = (new \Swift_Message())
+            $message = (new Swift_Message())
                 ->setFrom(['no-reply@automagistre.ru' => 'Автомагистр'])
                 ->setTo(['info@automagistre.ru'])
                 ->setSubject(sprintf('Запись на %s диагностику', [
@@ -119,7 +119,7 @@ TEXT
         if ($form->isSubmitted() && $form->isValid()) {
             $data = (object) $form->getData();
 
-            $message = (new \Swift_Message())
+            $message = (new Swift_Message())
                 ->setFrom(['no-reply@automagistre.ru' => 'Автомагистр'])
                 ->setTo(['info@automagistre.ru'])
                 ->setSubject('Запись на бесплатную диагностику')
@@ -161,7 +161,7 @@ TEXT
         if ($form->isSubmitted() && $form->isValid()) {
             $data = (object) $form->getData();
 
-            $message = (new \Swift_Message())
+            $message = (new Swift_Message())
                 ->setFrom(['no-reply@automagistre.ru' => 'Автомагистр'])
                 ->setTo(['info@automagistre.ru'])
                 ->setSubject('Запись на корпоративное обслуживание')
@@ -228,8 +228,7 @@ TEXT
     }
 
     /**
-     * @Route("/faq", name="faq")
-     * @Method("POST")
+     * @Route("/faq", name="faq", methods={"POST"})
      */
     public function faq(Request $request, Swift_Mailer $mailer): Response
     {
@@ -245,7 +244,7 @@ TEXT
         if ($form->isSubmitted() && $form->isValid()) {
             $data = (object) $form->getData();
 
-            $message = (new \Swift_Message())
+            $message = (new Swift_Message())
                 ->setFrom(['no-reply@automagistre.ru' => 'Автомагистр'])
                 ->setReplyTo($data->email)
                 ->setTo(['info@automagistre.ru'])
