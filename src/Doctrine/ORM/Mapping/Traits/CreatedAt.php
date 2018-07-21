@@ -19,7 +19,7 @@ trait CreatedAt
      */
     private $createdAt;
 
-    public function getCreatedAt(): DateTimeImmutable
+    public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
     }

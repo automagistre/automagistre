@@ -41,7 +41,7 @@ final class DivisoredNumberToLocalizedStringTransformer extends NumberToLocalize
     }
 
     /**
-     * @param float|int|null $value
+     * @param mixed $value
      *
      * @throws TransformationFailedException
      *
