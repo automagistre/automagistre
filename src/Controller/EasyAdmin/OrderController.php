@@ -161,9 +161,6 @@ final class OrderController extends AbstractController
                         $description = sprintf('# ЗП %s по заказу %s', $worker->getFullName(), $order->getId());
 
                         $this->createPayment($worker, $description, $salary->absolute());
-
-                        $cashbox = $em->getRepository(Operand::class)->find(COSTIL_CASSA);
-                        $this->createPayment($cashbox, $description, $salary->negative());
                     }
                 });
             }
