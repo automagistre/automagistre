@@ -121,11 +121,15 @@ final class OrderController extends AbstractController
 
         $car = $order->getCar();
         if (null !== $car && null === $order->getMileage()) {
+            $mileage = $car->getMileage();
+
             $form->add($factory->createNamedBuilder('mileage', IntegerType::class, null, [
-                'label' => sprintf('Пробег (предыдущий: %s)', $car->getMileage()),
+                'label' => 'Пробег '.(null === $mileage
+                        ? '(предыдущий отсутствует)'
+                        : sprintf('(предыдущий: %s)', $mileage)),
                 'constraints' => [
                     new GreaterThanOrEqual([
-                        'value' => $car->getMileage(),
+                        'value' => $mileage ?? 0,
                     ]),
                 ],
             ]));
@@ -247,7 +251,8 @@ final class OrderController extends AbstractController
         $model = new PaymentModel();
         $model->recipient = $order->getCustomer();
         $model->description = '# Начисление по заказу #'.$order->getId();
-        $model->amount = $order->getTotalForPayment();
+        $forPayment = $order->getTotalForPayment();
+        $model->amount = $forPayment->isPositive() ? $forPayment : new Money(0, $forPayment->getCurrency());
 
         $factory = $this->formFactory;
 
