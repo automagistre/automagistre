@@ -16,6 +16,8 @@ easy_admin:
             - { label: 'Заказы' }
             - { entity: 'OrderActive', label: 'Активные', icon: 'list' }
             - { entity: 'Order', label: 'Все', icon: 'list' }
+            - { label: 'Бухгалтерия' }
+            - { entity: 'Payment', label: 'Проводки', icon: 'list' }
             - { label: 'Списки' }
             - { entity: 'Person', label: 'Люди', icon: 'users' }
             - { entity: 'Organization', label: 'Организации', icon: 'industry' }
@@ -467,3 +469,14 @@ easy_admin:
             edit:
                 fields:
                     - { property: 'name', type_options: { disabled: true } }
+        Payment:
+            class: App\Entity\Payment
+            disabled_actions: ['show', 'delete', 'edit', 'new']
+            list:
+                title: 'Список проводок'
+                fields:
+                    - { property: 'id' }
+                    - { property: 'recipient', label: 'Получатель', template: 'field_association.html.twig' }
+                    - { property: 'amount', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
+                    - { property: 'description', label: 'Описание' }
+                    - { property: 'subtotal', label: 'Остаток', template: 'easy_admin/field_money.html.twig' }

@@ -1,1 +1,5 @@
-{{ value|localize_money }}
+{% if value is not empty %}
+    {{ value|localize_money }}
+{% else %}
+    {% include('@EasyAdmin/default/label_null.html.twig') %}
+{% endif %}
