@@ -74,7 +74,7 @@ final class OrderController extends AbstractController
             ->handleRequest($this->request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $model = $form->get('payment')->getData();
+            $model = $form->getData();
             if (!$model instanceof PaymentModel) {
                 throw new LogicException(sprintf('"%s" is required.', PaymentModel::class));
             }
@@ -297,7 +297,7 @@ final class OrderController extends AbstractController
     {
         $em = $this->em;
 
-        /** @var Payment $lastPayment */
+        /** @var Payment|null $lastPayment */
         $lastPayment = $em->createQueryBuilder()
             ->select('payment')
             ->from(Payment::class, 'payment')
@@ -307,6 +307,10 @@ final class OrderController extends AbstractController
             ->setParameter('recipient', $recipient)
             ->getQuery()
             ->getOneOrNullResult();
+
+        if (null === $lastPayment) {
+            return $money;
+        }
 
         return $lastPayment->getSubtotal()->add($money);
     }
