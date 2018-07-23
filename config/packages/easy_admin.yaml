@@ -478,5 +478,6 @@ easy_admin:
                     - { property: 'id' }
                     - { property: 'recipient', label: 'Получатель', template: 'field_association.html.twig' }
                     - { property: 'amount', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
+                    - { property: 'createdAt', label: 'Дата' }
                     - { property: 'description', label: 'Описание' }
                     - { property: 'subtotal', label: 'Остаток', template: 'easy_admin/field_money.html.twig' }

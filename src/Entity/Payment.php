@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;
@@ -15,6 +16,7 @@ use Money\Money;
 class Payment
 {
     use Identity;
+    use CreatedAt;
 
     /**
      * @var Operand
