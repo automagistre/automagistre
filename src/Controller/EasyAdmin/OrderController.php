@@ -152,13 +152,20 @@ final class OrderController extends AbstractController
                 $em->transactional(function (EntityManagerInterface $em) use ($order): void {
                     $order->close();
 
+                    $customer = $order->getCustomer();
+                    if ($customer instanceof Operand) {
+                        $description = sprintf('# Списание по заказу #%s', $order->getId());
+
+                        $this->createPayment($customer, $description, $order->getTotalPrice()->negative());
+                    }
+
                     foreach ($order->getItems(OrderItemService::class) as $item) {
                         /** @var OrderItemService $item */
                         $worker = $item->getWorker();
                         $employee = $em->getRepository(Employee::class)->findOneBy(['person' => $worker]);
 
                         $salary = $item->getPrice()->multiply($employee->getRatio() / 100);
-                        $description = sprintf('# ЗП %s по заказу %s', $worker->getFullName(), $order->getId());
+                        $description = sprintf('# ЗП %s по заказу #%s', $worker->getFullName(), $order->getId());
 
                         $this->createPayment($worker, $description, $salary->absolute());
                     }

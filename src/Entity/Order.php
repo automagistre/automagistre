@@ -258,6 +258,11 @@ class Order
         $this->status = $status;
     }
 
+    public function getTotalPrice(): Money
+    {
+        return $this->getTotalPriceByClass(null);
+    }
+
     public function getTotalServicePrice(): Money
     {
         return $this->getTotalPriceByClass(OrderItemService::class);
@@ -299,7 +304,7 @@ class Order
         return $this->payments->toArray();
     }
 
-    private function getTotalPriceByClass(string $class): Money
+    private function getTotalPriceByClass(?string $class): Money
     {
         $price = new Money(0, new Currency('RUB'));
 
