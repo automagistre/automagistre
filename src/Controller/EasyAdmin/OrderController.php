@@ -18,10 +18,8 @@ use App\Form\Type\WorkerType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
-use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use LogicException;
 use Money\Money;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -231,19 +229,13 @@ final class OrderController extends AbstractController
      */
     protected function persistEntity($entity): void
     {
-        $this->get('event_dispatcher')->addListener(EasyAdminEvents::POST_PERSIST, function (GenericEvent $event
-        ): void {
-            /** @var Order $entity */
-            $entity = $event->getArgument('entity');
-
-            $this->request->query->set('referer', $this->generateUrl('easyadmin', [
-                'entity' => 'Order',
-                'action' => 'show',
-                'id' => $entity->getId(),
-            ]));
-        });
-
         parent::persistEntity($entity);
+
+        $this->request->query->set('referer', $this->generateUrl('easyadmin', [
+            'entity' => 'Order',
+            'action' => 'show',
+            'id' => $entity->getId(),
+        ]));
     }
 
     private function createPaymentForm(Order $order): FormBuilderInterface
