@@ -22,8 +22,7 @@ use LogicException;
 use Money\Money;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
@@ -36,16 +35,6 @@ const COSTIL_BEZNAL = 2422;
  */
 final class OrderController extends AbstractController
 {
-    /**
-     * @var FormFactoryInterface
-     */
-    private $formFactory;
-
-    public function __construct(FormFactoryInterface $formFactory)
-    {
-        $this->formFactory = $formFactory;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -68,7 +57,6 @@ final class OrderController extends AbstractController
         }
 
         $form = $this->createPaymentForm($order)
-            ->getForm()
             ->handleRequest($this->request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -88,40 +76,60 @@ final class OrderController extends AbstractController
         ]);
     }
 
-    public function closeAction(): Response
+    public function printAction(): Response
+    {
+        $this->addFlash('success', 'Абракадабра тестовая печать!');
+
+        return $this->redirectToEasyPath($this->getEntity(Order::class), 'show');
+    }
+
+    public function finishAction(): Response
     {
         $em = $this->em;
-        $factory = $this->formFactory;
+        $request = $this->request;
 
         $order = $this->getEntity(Order::class);
         if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order is required');
         }
 
-        $form = $this->createFormBuilder(null, ['label' => false]);
-
-        if ($order->getTotalForPayment()->isPositive()) {
-            $form->add($this->createPaymentForm($order));
+        if ($order->isReadyToClose()) {
+            goto finish;
         }
 
         /** @var OrderItemService[] $services */
         $services = $order->getServicesWithoutWorker();
 
         if ([] !== $services) {
-            $form->add($factory->createNamedBuilder('services', CollectionType::class, $services, [
+            $form = $this->createForm(CollectionType::class, $services, [
                 'label' => false,
                 'entry_type' => WorkerType::class,
                 'entry_options' => [
                     'label' => false,
                 ],
-            ]));
+            ])
+                ->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $em->flush();
+
+                goto mileage;
+            }
+
+            return $this->render('easy_admin/order/finish_worker.html.twig', [
+                'header' => 'Введите исполнителей',
+                'order' => $order,
+                'form' => $form->createView(),
+            ]);
         }
+
+        mileage:
 
         $car = $order->getCar();
         if (null !== $car && null === $order->getMileage()) {
             $mileage = $car->getMileage();
 
-            $form->add($factory->createNamedBuilder('mileage', IntegerType::class, null, [
+            $form = $this->createForm(IntegerType::class, null, [
                 'label' => 'Пробег '.(null === $mileage
                         ? '(предыдущий отсутствует)'
                         : sprintf('(предыдущий: %s)', $mileage)),
@@ -130,57 +138,102 @@ final class OrderController extends AbstractController
                         'value' => $mileage ?? 0,
                     ]),
                 ],
-            ]));
+            ])
+                ->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $order->setMileage($form->getData());
+                $em->flush();
+
+                goto finish;
+            }
+
+            return $this->render('easy_admin/order/finish.html.twig', [
+                'header' => 'Введите пробег',
+                'order' => $order,
+                'form' => $form->createView(),
+            ]);
         }
 
-        $form = $form->getForm()->handleRequest($this->request);
+        finish:
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            if ($form->has('mileage')) {
-                $order->setMileage($form->get('mileage')->getData());
-            }
+        $this->addFlash('success', 'Представь что ты увидел файл на финишную печать');
 
-            if ($form->has('payment')) {
-                $this->handlePayment($form->get('payment')->getData(), $order);
-            }
+        return $this->redirectToEasyPath($this->getEntity(Order::class), 'show');
+    }
 
-            $em->refresh($order);
+    public function closeAction(): Response
+    {
+        $em = $this->em;
+        $request = $this->request;
 
-            if ($order->getTotalForPayment()->isPositive()) {
-                $this->addFlash('error', 'Заказ оплачен не полностью!');
-            } elseif ([] !== $order->getServicesWithoutWorker()) {
+        $order = $this->getEntity(Order::class);
+        if (!$order instanceof Order) {
+            throw new BadRequestHttpException('Order is required');
+        }
+
+        if (!$order->isReadyToClose()) {
+            if ([] !== $order->getServicesWithoutWorker()) {
                 $this->addFlash('error', 'Есть работы без исполнителя!');
-            } else {
-                $em->transactional(function (EntityManagerInterface $em) use ($order): void {
-                    $order->close();
-
-                    $customer = $order->getCustomer();
-                    if ($customer instanceof Operand) {
-                        $description = sprintf('# Списание по заказу #%s', $order->getId());
-
-                        $this->createPayment($customer, $description, $order->getTotalPrice()->negative());
-                    }
-
-                    foreach ($order->getItems(OrderItemService::class) as $item) {
-                        /** @var OrderItemService $item */
-                        $worker = $item->getWorker();
-                        $employee = $em->getRepository(Employee::class)->findOneBy(['person' => $worker]);
-
-                        $salary = $item->getPrice()->multiply($employee->getRatio() / 100);
-                        $description = sprintf('# ЗП %s по заказу #%s', $worker->getFullName(), $order->getId());
-
-                        $this->createPayment($worker, $description, $salary->absolute());
-                    }
-                });
             }
 
-            return $this->redirectToReferrer();
+            if (null === $order->getMileage()) {
+                $this->addFlash('error', 'Пробег не указан!');
+            }
+
+            return $this->redirectToEasyPath($order, 'show');
         }
 
-        return $this->render('easy_admin/order/close.html.twig', [
-            'order' => $order,
-            'form' => $form->createView(),
-        ]);
+        $step = $request->query->get('step');
+        if (null === $step) {
+            return $this->render('easy_admin/order/close.html.twig', [
+                'order' => $order,
+            ]);
+        }
+
+        if ('paid' === $step) {
+            $form = $this->createPaymentForm($order)
+                ->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $this->handlePayment($form->getData(), $order);
+
+                goto close;
+            }
+
+            return $this->render('easy_admin/order/close_payment.html.twig', [
+                'header' => 'Создать платёж',
+                'order' => $order,
+                'form' => $form->createView(),
+            ]);
+        }
+
+        close:
+
+        $em->transactional(function (EntityManagerInterface $em) use ($order): void {
+            $em->refresh($order);
+            $order->close();
+
+            $customer = $order->getCustomer();
+            if ($customer instanceof Operand) {
+                $description = sprintf('# Списание по заказу #%s', $order->getId());
+
+                $this->createPayment($customer, $description, $order->getTotalPrice()->negative());
+            }
+
+            foreach ($order->getItems(OrderItemService::class) as $item) {
+                /** @var OrderItemService $item */
+                $worker = $item->getWorker();
+                $employee = $em->getRepository(Employee::class)->findOneBy(['person' => $worker]);
+
+                $salary = $item->getPrice()->multiply($employee->getRatio() / 100);
+                $description = sprintf('# ЗП %s по заказу #%s', $worker->getFullName(), $order->getId());
+
+                $this->createPayment($worker, $description, $salary->absolute());
+            }
+        });
+
+        return $this->redirectToReferrer();
     }
 
     /**
@@ -238,18 +291,18 @@ final class OrderController extends AbstractController
         ]));
     }
 
-    private function createPaymentForm(Order $order): FormBuilderInterface
+    private function createPaymentForm(Order $order): FormInterface
     {
         $model = new PaymentModel();
         $model->recipient = $order->getCustomer();
         $model->description = '# Начисление по заказу #'.$order->getId();
         $forPayment = $order->getTotalForPayment();
-        $model->amount = $forPayment->isPositive() ? $forPayment : new Money(0, $forPayment->getCurrency());
+        $model->amountCash = $forPayment->isPositive() ? $forPayment : new Money(0, $forPayment->getCurrency());
+        $model->amountNonCash = new Money(0, $forPayment->getCurrency());
 
-        $factory = $this->formFactory;
-
-        return $factory->createNamedBuilder('payment', PaymentType::class, $model, [
+        return $this->createForm(PaymentType::class, $model, [
             'disable_recipient' => true,
+            'disable_description' => true,
             'label' => false,
         ]);
     }
@@ -259,16 +312,21 @@ final class OrderController extends AbstractController
         $em = $this->em;
 
         $em->transactional(function (EntityManagerInterface $em) use ($model, $order): void {
-            if (null !== $model->recipient) {
-                $this->createPayment($model->recipient, $model->description, $model->amount);
+            foreach ([COSTIL_CASSA => $model->amountCash, COSTIL_BEZNAL => $model->amountNonCash] as $id => $money) {
+                /** @var Money $money */
+                if (!$money->isPositive()) {
+                    continue;
+                }
+
+                if (null !== $model->recipient) {
+                    $this->createPayment($model->recipient, $model->description, $money);
+                }
+
+                $cashbox = $em->getRepository(Operand::class)->find($id);
+                $payment = $this->createPayment($cashbox, $model->description, $money);
+
+                $em->persist(new OrderPayment($order, $payment));
             }
-
-            $id = 'cash' === $model->paymentType ? COSTIL_CASSA : COSTIL_BEZNAL;
-
-            $cashbox = $em->getRepository(Operand::class)->find($id);
-            $payment = $this->createPayment($cashbox, $model->description, $model->amount);
-
-            $em->persist(new OrderPayment($order, $payment));
         });
     }
 

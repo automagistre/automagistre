@@ -34,6 +34,20 @@ abstract class AbstractController extends AdminController
         $this->entityTransformer = $entityTransformer;
     }
 
+    protected function redirectToEasyPath(
+        object $entity,
+        string $action,
+        array $parameters = [],
+        int $status = 302
+    ): RedirectResponse {
+        return $this->redirect($this->generateEasyPath($entity, $action, $parameters), $status);
+    }
+
+    protected function generateEasyPath(object $entity, string $action, array $parameters = []): string
+    {
+        return $this->container->get('easyadmin.router')->generate($entity, $action, $parameters);
+    }
+
     protected function redirectToReferrer(): RedirectResponse
     {
         $refererUrl = trim($this->request->query->get('referer', ''));

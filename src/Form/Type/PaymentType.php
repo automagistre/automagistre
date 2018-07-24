@@ -8,7 +8,6 @@ use App\Entity\Operand;
 use App\Form\Model\Payment;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -29,22 +28,16 @@ final class PaymentType extends AbstractType
                 'label' => 'Получатель',
                 'disabled' => $options['disable_recipient'],
             ])
-            ->add('paymentType', ChoiceType::class, [
-                'label' => 'Тип оплаты',
-                'choices' => [
-                    'Наличные' => 'cash',
-                    'Безналичный' => 'non-cash',
-                ],
-                'multiple' => false,
-                'expanded' => true,
-                'required' => true,
+            ->add('amountCash', MoneyType::class, [
+                'label' => 'Наличные',
             ])
-            ->add('amount', MoneyType::class, [
-                'label' => 'Сумма',
+            ->add('amountNonCash', MoneyType::class, [
+                'label' => 'Безналичный',
             ])
             ->add('description', TextType::class, [
                 'label' => 'Описание',
                 'required' => false,
+                'disabled' => $options['disable_description'],
             ]);
     }
 
@@ -58,6 +51,7 @@ final class PaymentType extends AbstractType
                 'label' => 'Платёж',
                 'data_class' => Payment::class,
                 'disable_recipient' => false,
+                'disable_description' => false,
             ]);
     }
 }

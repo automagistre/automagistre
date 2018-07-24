@@ -21,15 +21,17 @@ class MoneyType extends \Symfony\Component\Form\Extension\Core\Type\MoneyType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $divisor = $options['divisor'];
+
         $builder
             ->addViewTransformer(new DivisoredNumberToLocalizedStringTransformer(
                 $options['scale'],
                 $options['grouping'],
                 null,
-                $options['divisor']
+                $divisor
             ))
-            ->addModelTransformer(new CallbackTransformer(function ($money) {
-                return $money instanceof Money ? $money->getAmount() : $money;
+            ->addModelTransformer(new CallbackTransformer(function ($money) use ($divisor) {
+                return $money instanceof Money ? $money->getAmount() / $divisor : $money;
             }, function (string $amount) {
                 return new Money($amount, new Currency('RUB'));
             }));

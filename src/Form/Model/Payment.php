@@ -23,14 +23,14 @@ final class Payment extends Model
     public $sender;
 
     /**
-     * @var string
+     * @var Money
      */
-    public $paymentType;
+    public $amountCash;
 
     /**
      * @var Money
      */
-    public $amount;
+    public $amountNonCash;
 
     /**
      * @var string

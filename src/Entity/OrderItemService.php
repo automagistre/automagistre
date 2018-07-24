@@ -64,7 +64,7 @@ class OrderItemService extends OrderItem implements PriceInterface
         return $this->worker;
     }
 
-    public function setWorker(Operand $worker): void
+    public function setWorker(?Operand $worker): void
     {
         if (!$this->getOrder()->isEditable()) {
             throw new \DomainException('Can\'t change order service worker on closed order.');

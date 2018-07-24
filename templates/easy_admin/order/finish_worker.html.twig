@@ -1,0 +1,7 @@
+{% extends 'easy_admin/order/finish.html.twig' %}
+
+{% block form %}
+    {% for service in form %}
+        {{ form_row(service, {'label': service.vars.data}) }}
+    {% endfor %}
+{% endblock %}

@@ -1,7 +1,5 @@
 {% extends 'easy_admin/layout.html.twig' %}
 
-{% form_theme form with easyadmin_config('design.form_theme') %}
-
 {% block content_title %}
     Закрыть заказ №{{ order }}
 {% endblock %}
@@ -10,55 +8,24 @@
     {{ order.customer }} {{ order.car }}
 {% endblock %}
 
-
 {% block main %}
     <div class="row">
-        {{ form_start(form) }}
-
-        {% if form.payment is defined %}
-            <div class="field-group col-md-6">
-                <div class="box box-default">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Платёж</h3>
-                    </div>
-                    <div class="box-body">
-                        {{ form_row(form.payment) }}
+        <div class="field-group col-md-6 col-md-offset-3">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Клиент заплатил?</h3>
+                </div>
+                <div class="box-body">
+                    <div class="row text-center">
+                        <div class="col-xs-6">
+                            <a href="{{ easyadmin_path(order, 'close', {'step': 'paid'}) }}" class="btn btn-success">Заплатил</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="{{ easyadmin_path(order, 'close', {'step': 'unpaid'}) }}" class="btn btn-danger">Не заплатил</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        {% endif %}
-
-        {% if form.services is defined %}
-            <div class="field-group col-md-6">
-                <div class="box box-default">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Исполнители</h3>
-                    </div>
-                    <div class="box-body">
-                        {% for service in form.services %}
-                            {{ form_row(service, {'label': service.vars.data}) }}
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        {% endif %}
-
-        {% if form.mileage is defined %}
-            <div class="field-group col-md-6">
-                <div class="box box-default">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Пробег</h3>
-                    </div>
-                    <div class="box-body">
-                        {{ form_row(form.mileage) }}
-                    </div>
-                </div>
-            </div>
-        {% endif %}
-
-        <div class="col-md-12">
-            <button class="btn btn-success" type="submit">Закрыть</button>
         </div>
-        {{ form_end(form) }}
     </div>
 {% endblock %}

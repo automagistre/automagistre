@@ -278,6 +278,13 @@ class Order
         return $this->getStatus()->isEditable();
     }
 
+    public function isReadyToClose(): bool
+    {
+        return $this->isEditable()
+            && [] === $this->getServicesWithoutWorker()
+            && null !== $this->mileage;
+    }
+
     public function getTotalPayments(): Money
     {
         $money = new Money(0, new Currency('RUB'));
