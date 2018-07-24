@@ -213,11 +213,15 @@ app-test:
 
 test: php-cs-fixer-test cache-test phpstan schema-test phpunit-test
 
+php-cs-fixer = vendor/bin/php-cs-fixer fix --config $(php_cs_config)
 php-cs-fixer:
-	$(php) vendor/bin/php-cs-fixer fix --config $(php_cs_config)
+	$(php) $(php-cs-fixer)
+php-cs-fixer-debug:
+	$(php-xdebug) $(php-cs-fixer) -vvv
 	@$(MAKE) --no-print-directory permissions > /dev/null
 php-cs-fixer-test:
 	$(php) vendor/bin/php-cs-fixer fix --config=.php_cs.dist --verbose --dry-run
+
 phpstan = vendor/bin/phpstan analyse --configuration phpstan.neon
 phpstan:
 	$(php) $(phpstan)
