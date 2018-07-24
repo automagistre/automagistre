@@ -14,6 +14,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManager;
 use DomainException;
 use Generator;
+use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
@@ -114,6 +115,11 @@ final class RecommendationManager
             throw new DomainException('Recommendation manager cannot work with anonymous user');
         }
 
-        return $token->getUser();
+        $user = $token->getUser();
+        if (!$user instanceof User) {
+            throw new LogicException(sprintf('User must be instance of "%s"', User::class));
+        }
+
+        return $user;
     }
 }
