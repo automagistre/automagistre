@@ -31,8 +31,6 @@ final class Populator
     }
 
     /**
-     * @param string $number
-     *
      * @return Part[]
      */
     public function populate(string $number): array

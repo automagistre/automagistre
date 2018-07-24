@@ -56,10 +56,6 @@ final class EntityModelTypeGuesser implements FormTypeGuesserInterface
     }
 
     /**
-     * @param string $method
-     * @param string $class
-     * @param string $property
-     *
      * @return mixed
      */
     private function guess(string $method, string $class, string $property)

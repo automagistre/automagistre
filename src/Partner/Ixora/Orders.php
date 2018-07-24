@@ -6,6 +6,7 @@ namespace App\Partner\Ixora;
 
 use App\Model\Supply;
 use App\Model\SupplyItem;
+use DateTime;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ServerException;
 use Money\Currency;
@@ -53,11 +54,9 @@ final class Orders
     }
 
     /**
-     * @param \DateTime $dateFrom
-     *
      * @return Supply[]
      */
-    public function find(\DateTime $dateFrom): array
+    public function find(DateTime $dateFrom): array
     {
         try {
             $xml = $this->client->get(self::IXORA_ORDERS, [
@@ -82,7 +81,7 @@ final class Orders
         return array_map(function (array $item) {
             return new Supply([
                 'id' => $item['Id'],
-                'date' => \DateTime::createFromFormat(self::DATE_FORMAT, $item['Date']),
+                'date' => DateTime::createFromFormat(self::DATE_FORMAT, $item['Date']),
                 'status' => $item['Status'],
                 'items' => array_map(function (array $item) {
                     return new SupplyItem([
@@ -93,8 +92,8 @@ final class Orders
                         'quantity' => $item['Ordered'] * 100,
                     ]);
                 }, $item['Items']),
-                'arrivalOrientAt' => \DateTime::createFromFormat(self::DATE_FORMAT, $item['DateArrivalOrient']),
-                'arrivalWarrantyAt' => \DateTime::createFromFormat(self::DATE_FORMAT, $item['DateArrivalWarranty']),
+                'arrivalOrientAt' => DateTime::createFromFormat(self::DATE_FORMAT, $item['DateArrivalOrient']),
+                'arrivalWarrantyAt' => DateTime::createFromFormat(self::DATE_FORMAT, $item['DateArrivalWarranty']),
             ]);
         }, $orders);
     }

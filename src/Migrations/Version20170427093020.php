@@ -12,9 +12,6 @@ use Doctrine\Migrations\AbstractMigration;
  */
 class Version20170427093020 extends AbstractMigration
 {
-    /**
-     * @param Schema $schema
-     */
     public function up(Schema $schema): void
     {
         /* Set Automagistre as default worker */
@@ -27,9 +24,6 @@ class Version20170427093020 extends AbstractMigration
         $this->addSql('UPDATE car_recommendation SET cost = cost * 100 WHERE cost > 0');
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function down(Schema $schema): void
     {
         $this->addSql('UPDATE service SET price = price / 100 WHERE price > 0');

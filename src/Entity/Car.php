@@ -112,9 +112,6 @@ class Car
         return $this->carModel;
     }
 
-    /**
-     * @param CarModel $carModel
-     */
     public function setCarModel(CarModel $carModel): void
     {
         $this->carModel = $carModel;
@@ -128,17 +125,11 @@ class Car
         return $this->carModification;
     }
 
-    /**
-     * @param CarModification $carModification
-     */
     public function setCarModification(CarModification $carModification): void
     {
         $this->carModification = $carModification;
     }
 
-    /**
-     * @return string|null
-     */
     public function getVin(): ?string
     {
         return $this->vin;
@@ -160,9 +151,6 @@ class Car
         return $this->year;
     }
 
-    /**
-     * @param int $year
-     */
     public function setYear(int $year): void
     {
         $this->year = $year;
@@ -176,9 +164,6 @@ class Car
         return $this->owner;
     }
 
-    /**
-     * @param Operand $owner
-     */
     public function setOwner(Operand $owner): void
     {
         $this->owner = $owner;
@@ -242,8 +227,6 @@ class Car
     }
 
     /**
-     * @param Criteria|null $criteria
-     *
      * @return CarRecommendation[]
      */
     public function getRecommendations(Criteria $criteria = null): array

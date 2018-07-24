@@ -49,8 +49,6 @@ class BrandRouter implements RouterInterface, RequestMatcherInterface, WarmableI
      * @throws InvalidParameterException
      * @throws MissingMandatoryParametersException
      * @throws RouteNotFoundException
-     *
-     * @return string
      */
     public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH): string
     {
@@ -101,8 +99,6 @@ class BrandRouter implements RouterInterface, RequestMatcherInterface, WarmableI
      * @throws MethodNotAllowedException
      * @throws NoConfigurationException
      * @throws ResourceNotFoundException
-     *
-     * @return array
      */
     public function match($pathinfo): array
     {

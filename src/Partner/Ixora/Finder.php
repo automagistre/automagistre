@@ -27,8 +27,6 @@ final class Finder
     }
 
     /**
-     * @param string $number
-     *
      * @return Part[]
      */
     public function search(string $number): array

@@ -61,17 +61,11 @@ class Person extends Operand
         return sprintf('%s (%s)', $this->getFullName(), $this->getTelephone() ?: $this->getOfficePhone());
     }
 
-    /**
-     * @return string
-     */
     public function getFirstname(): string
     {
         return $this->firstname;
     }
 
-    /**
-     * @param string $firstname
-     */
     public function setFirstname(string $firstname): void
     {
         $this->firstname = $firstname;
@@ -85,9 +79,6 @@ class Person extends Operand
         return $this->lastname;
     }
 
-    /**
-     * @param string $lastname
-     */
     public function setLastname(string $lastname): void
     {
         $this->lastname = $lastname;
@@ -101,9 +92,6 @@ class Person extends Operand
         return $this->telephone;
     }
 
-    /**
-     * @param string $telephone
-     */
     public function setTelephone(string $telephone): void
     {
         $this->telephone = $telephone;
@@ -117,9 +105,6 @@ class Person extends Operand
         return $this->officePhone;
     }
 
-    /**
-     * @param string $officePhone
-     */
     public function setOfficePhone(string $officePhone): void
     {
         $this->officePhone = $officePhone;
@@ -133,9 +118,6 @@ class Person extends Operand
         return $this->email;
     }
 
-    /**
-     * @param string $email
-     */
     public function setEmail(string $email): void
     {
         $this->email = $email;

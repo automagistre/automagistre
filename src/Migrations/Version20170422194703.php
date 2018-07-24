@@ -12,9 +12,6 @@ use Doctrine\Migrations\AbstractMigration;
  */
 class Version20170422194703 extends AbstractMigration
 {
-    /**
-     * @param Schema $schema
-     */
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
@@ -24,9 +21,6 @@ class Version20170422194703 extends AbstractMigration
         $this->addSql('INSERT INTO partner_operand (operand_id, name) VALUES (LAST_INSERT_ID(), \'ixora\')');
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs

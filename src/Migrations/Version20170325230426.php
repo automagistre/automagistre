@@ -12,9 +12,6 @@ use Doctrine\Migrations\AbstractMigration;
  */
 class Version20170325230426 extends AbstractMigration
 {
-    /**
-     * @param Schema $schema
-     */
     public function up(Schema $schema): void
     {
         $this->addSql('INSERT INTO part (name, manufacturer_id, number, reserved) VALUES (\'ЗДЕСЬ БЫЛА ЗАПЧАСТЬ КОТОРУЮ УДАЛИЛИ\', 1, \'----------\', 0)');
@@ -22,9 +19,6 @@ class Version20170325230426 extends AbstractMigration
         $this->addSql('UPDATE order_part SET part_id = (SELECT id FROM part WHERE part.number = \'----------\') WHERE part_id IS NULL');
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs

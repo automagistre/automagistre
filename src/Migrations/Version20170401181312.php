@@ -12,9 +12,6 @@ use Doctrine\Migrations\AbstractMigration;
  */
 class Version20170401181312 extends AbstractMigration
 {
-    /**
-     * @param Schema $schema
-     */
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
@@ -41,9 +38,6 @@ class Version20170401181312 extends AbstractMigration
         $this->addSql('ALTER TABLE car_recommendation ADD CONSTRAINT FK_3486230CC3C6F69F FOREIGN KEY (car_id) REFERENCES car (id)');
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs

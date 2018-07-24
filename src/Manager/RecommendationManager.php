@@ -92,8 +92,6 @@ final class RecommendationManager
     }
 
     /**
-     * @param OrderItem $item
-     *
      * @return OrderItemPart[]|Generator
      */
     private function getParts(OrderItem $item): Generator

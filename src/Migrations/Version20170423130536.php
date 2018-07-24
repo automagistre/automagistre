@@ -12,9 +12,6 @@ use Doctrine\Migrations\AbstractMigration;
  */
 class Version20170423130536 extends AbstractMigration
 {
-    /**
-     * @param Schema $schema
-     */
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
@@ -28,9 +25,6 @@ class Version20170423130536 extends AbstractMigration
         $this->addSql('ALTER TABLE income ADD CONSTRAINT FK_3FA862D0B03A8386 FOREIGN KEY (created_by_id) REFERENCES users (id)');
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
