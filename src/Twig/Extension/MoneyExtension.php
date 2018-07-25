@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig\Extension;
 
+use Money\Formatter\DecimalMoneyFormatter;
 use Money\Money;
 use Money\MoneyFormatter;
 use Twig\Extension\AbstractExtension;
@@ -19,9 +20,15 @@ class MoneyExtension extends AbstractExtension
      */
     private $formatter;
 
-    public function __construct(MoneyFormatter $formatter)
+    /**
+     * @var DecimalMoneyFormatter
+     */
+    private $decimalMoneyFormatter;
+
+    public function __construct(MoneyFormatter $formatter, DecimalMoneyFormatter $decimalMoneyFormatter)
     {
         $this->formatter = $formatter;
+        $this->decimalMoneyFormatter = $decimalMoneyFormatter;
     }
 
     /**
@@ -34,8 +41,12 @@ class MoneyExtension extends AbstractExtension
         ];
     }
 
-    public function localizeMoney(Money $money): string
+    public function localizeMoney(Money $money, bool $amountOnly = false): string
     {
+        if ($amountOnly) {
+            return $this->decimalMoneyFormatter->format($money);
+        }
+
         return $this->formatter->format($money);
     }
 }

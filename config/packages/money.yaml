@@ -16,4 +16,4 @@ services:
 
     Money\MoneyFormatter: '@Money\Formatter\IntlMoneyFormatter'
     Money\Formatter\IntlMoneyFormatter: ~
-
+    Money\Formatter\DecimalMoneyFormatter: ~
