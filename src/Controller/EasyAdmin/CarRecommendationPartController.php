@@ -39,10 +39,10 @@ final class CarRecommendationPartController extends AbstractController
     {
         $entity = new CarRecommendationPart(
             $model->recommendation,
-            $this->getUser(),
             $model->part,
             $model->quantity,
-            $model->price
+            $model->price,
+            $this->getUser()
         );
 
         parent::persistEntity($entity);

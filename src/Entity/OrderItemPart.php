@@ -40,7 +40,7 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
      */
     private $selector;
 
-    public function __construct(Order $order, User $selector, Part $part, int $quantity, Money $price)
+    public function __construct(Order $order, Part $part, int $quantity, Money $price, ?User $selector)
     {
         parent::__construct($order);
 
@@ -79,7 +79,7 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
         return $this->getPrice()->multiply($this->getQuantity() / 100);
     }
 
-    public function getSelector(): User
+    public function getSelector(): ?User
     {
         return $this->selector;
     }

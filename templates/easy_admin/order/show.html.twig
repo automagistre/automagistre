@@ -299,7 +299,14 @@
                                                 {{ part.part.name }}
                                             </td>
                                             <td>{{ part.totalPrice|localize_money }}</td>
-                                            <td>{{ part.selector.person.fullName }}</td>
+                                            <td>
+                                                {%- spaceless -%}
+                                                    {% set selector = part.selector %}
+                                                    {% if selector is not empty %}
+                                                        {{ selector.person.fullName }}
+                                                    {% endif %}
+                                                {%- endspaceless -%}
+                                            </td>
                                             <td>{{ part.createdAt|localizeddate('medium', 'none') }}</td>
                                             <td>
                                                 <a href="{{ easyadmin_path(part, 'edit') }}">

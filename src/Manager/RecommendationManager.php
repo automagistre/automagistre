@@ -45,10 +45,10 @@ final class RecommendationManager
         foreach ($recommendation->getParts() as $recommendationPart) {
             $orderPart = new OrderItemPart(
                 $order,
-                $recommendationPart->getSelector(),
                 $recommendationPart->getPart(),
                 $recommendationPart->getQuantity(),
-                $recommendationPart->getPrice()
+                $recommendationPart->getPrice(),
+                $recommendationPart->getSelector()
             );
 
             $orderPart->setParent($orderService);
@@ -79,10 +79,10 @@ final class RecommendationManager
         foreach ($this->getParts($orderService) as $orderPart) {
             $recommendation->addPart(new CarRecommendationPart(
                 $recommendation,
-                $orderPart->getSelector(),
                 $orderPart->getPart(),
                 $orderPart->getQuantity(),
-                $orderPart->getPrice()
+                $orderPart->getPrice(),
+                $orderPart->getSelector()
             ));
         }
 

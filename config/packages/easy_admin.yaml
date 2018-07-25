@@ -165,7 +165,7 @@ easy_admin:
                         type_options: { required: true }
                         help: 'Быстрое добавление работы: Введите название и цену, добавьте в конце два знака +. Пример: "Замена лампочки 500++"'
                     - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType, type_options: { required: true } }
-                    - { property: 'worker', label: 'Диагност', type: 'easyadmin_autocomplete', type_options: { required: true } }
+                    - { property: 'worker', label: 'Диагност', type: 'easyadmin_autocomplete', type_options: { required: false } }
             edit:
                 title: 'Рекомендация №%%entity_id%%'
                 fields:

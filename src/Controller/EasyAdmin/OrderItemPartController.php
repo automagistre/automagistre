@@ -38,7 +38,7 @@ final class OrderItemPartController extends AbstractController
      */
     protected function persistEntity($model): void
     {
-        $entity = new OrderItemPart($model->order, $this->getUser(), $model->part, $model->quantity, $model->price);
+        $entity = new OrderItemPart($model->order, $model->part, $model->quantity, $model->price, $this->getUser());
         $entity->setParent($model->parent);
 
         parent::persistEntity($entity);

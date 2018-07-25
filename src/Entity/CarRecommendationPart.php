@@ -53,10 +53,10 @@ class CarRecommendationPart implements TotalPriceInterface
 
     public function __construct(
         CarRecommendation $recommendation,
-        User $selector,
         Part $part,
         int $quantity,
-        Money $price
+        Money $price,
+        ?User $selector
     ) {
         $this->recommendation = $recommendation;
         $this->part = $part;
@@ -85,7 +85,7 @@ class CarRecommendationPart implements TotalPriceInterface
         $this->changePrice($price);
     }
 
-    public function getSelector(): User
+    public function getSelector(): ?User
     {
         return $this->selector;
     }
