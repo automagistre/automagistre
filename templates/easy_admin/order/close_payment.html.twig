@@ -81,9 +81,6 @@
           totalAmount = amount(keepTotal.data('total'));
 
       let refreshSum = function() {
-        let cashAmount = amount(cash.val()),
-            nonCashAmount = amount(nonCash.val());
-
         if (keepTotal.prop('checked')) {
           let left = $(this),
               right = left.attr('id') === cash.attr('id') ? nonCash : cash;
@@ -94,8 +91,11 @@
             oppositeAmount = 0;
           }
 
-          right.val(formatMoney(oppositeAmount));
+          right.val(oppositeAmount);
         }
+
+        let cashAmount = amount(cash.val()),
+            nonCashAmount = amount(nonCash.val());
 
         total.html(formatMoney(cashAmount + nonCashAmount));
       };
