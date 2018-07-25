@@ -190,6 +190,14 @@ class Version20170223211957 extends AbstractMigration
                          END;
         ');
 
+        $this->addSql('ALTER TABLE payment ADD created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\'');
+
+        $this->addSql('
+            UPDATE payment
+                JOIN item ON item.id = payment.item_id
+            SET payment.created_at = item.createddatetime
+        ');
+
         $this->addSql('DROP TABLE _group');
         $this->addSql('DROP TABLE _group__user');
         $this->addSql('DROP TABLE _order_read');
