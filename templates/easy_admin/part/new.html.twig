@@ -2,7 +2,7 @@
 
 {% block main %}
     <div class="row" id="modal-part-form">
-        {{ form_start(form, {'action': easyadmin_path('Part')}) }}
+        {{ form_start(form, {'action': easyadmin_path('Part', 'new')}) }}
 
         <div class="col-xs-12">
             {{ form_row(form.manufacturer) }}
@@ -53,7 +53,7 @@
 
     <script type="text/javascript">
         $(function () {
-            var url = "{{ easyadmin_path('Part', {'action': 'numberSearch', 'number': '__NUMBER__'})|raw }}",
+            var url = "{{ easyadmin_path('Part', 'numberSearch', {'number': '__NUMBER__'})|raw }}",
                 main = $('#modal-part-form'),
                 select = $('#modal-part-select'),
                 form = $('#{{ form.vars.attr.id }}'),
