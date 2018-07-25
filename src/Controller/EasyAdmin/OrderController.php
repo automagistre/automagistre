@@ -25,7 +25,6 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 
 const COSTIL_CASSA = 1;
 const COSTIL_BEZNAL = 2422;
@@ -133,11 +132,6 @@ final class OrderController extends AbstractController
                 'label' => 'Пробег '.(null === $mileage
                         ? '(предыдущий отсутствует)'
                         : sprintf('(предыдущий: %s)', $mileage)),
-                'constraints' => [
-                    new GreaterThanOrEqual([
-                        'value' => $mileage ?? 0,
-                    ]),
-                ],
             ])
                 ->handleRequest($request);
 
