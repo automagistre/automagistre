@@ -86,19 +86,28 @@ final class CarController extends AbstractController
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
         $data = array_map(function (Car $car) {
-            $person = $car->getOwner();
-
-            $PhoneNumber = $this->phoneNumberUtil->parse($person->getTelephone(), 'RU');
             $carModel = $car->getCarModification() ?: $car->getCarModel();
+
+            $text = $carModel->getDisplayName();
+
+            $person = $car->getOwner();
+            if ($person instanceof Person) {
+                $text .= ' '.$person->getFullName();
+
+                $telephone = $person->getTelephone();
+                if (null !== $telephone) {
+                    $formattedTelephone = $this->phoneNumberUtil->format(
+                        $this->phoneNumberUtil->parse($telephone, 'RU'),
+                        PhoneNumberFormat::INTERNATIONAL
+                    );
+
+                    $text .= ' '.$formattedTelephone;
+                }
+            }
 
             return [
                 'id' => $car->getId(),
-                'text' => sprintf(
-                    '%s %s %s',
-                    $carModel->getDisplayName(),
-                    $person->getFullName(),
-                    $this->phoneNumberUtil->format($PhoneNumber, PhoneNumberFormat::INTERNATIONAL)
-                ),
+                'text' => $text,
             ];
         }, (array) $paginator->getCurrentPageResults());
 
