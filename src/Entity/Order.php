@@ -143,7 +143,7 @@ class Order
 
     public function __construct()
     {
-        $this->status = OrderStatus::draft();
+        $this->status = OrderStatus::working();
         $this->items = new ArrayCollection();
         $this->payments = new ArrayCollection();
     }

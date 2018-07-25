@@ -8,6 +8,7 @@ use Grachevko\Enum\Enum;
 
 /**
  * @method static OrderStatus draft()
+ * @method static OrderStatus working()
  * @method static OrderStatus closed()
  * @method bool   isClosed()
  *
@@ -49,9 +50,9 @@ final class OrderStatus extends Enum
         self::DRAFT => 'Черновик',
         self::SCHEDULING => 'Ожидание по записи',
         self::ORDERING => 'Заказ запчастей',
-        self::MATCHING => 'MATCHING',
+        self::MATCHING => 'Согласование',
         self::TRACKING => 'Ожидание запчастей',
-        self::DELIVERY => 'DELIVERY',
+        self::DELIVERY => 'Требуется доставка',
         self::NOTIFICATION => 'Уведомление клиента',
         self::WORKING => 'В работе',
         self::READY => 'Ожидает выдачи',
