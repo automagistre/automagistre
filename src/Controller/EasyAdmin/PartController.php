@@ -201,7 +201,7 @@ final class PartController extends AbstractController
             return [
                 'id' => $entity->getId(),
                 'text' => sprintf(
-                    '%s - %s (%s) - %s',
+                    '%s - %s (%s) | %s',
                     $entity->getNumber(),
                     $entity->getManufacturer()->getName(),
                     $entity->getName(),

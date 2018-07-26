@@ -6,45 +6,24 @@
 
 {% block entity_form %}
     {{ form_start(form) }}
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="row">
-                <div class="col-xs-12 col-md-6">
-                    {{ form_row(form.order) }}
-                </div>
-                <div class="col-xs-12 col-md-6">
-                    {{ form_row(form.parent) }}
+        {{ form_row(form.order) }}
+        {{ form_row(form.parent) }}
+
+        <div class="form-group field-easyadmin_autocomplete">
+            {{ form_label(form.part) }}
+
+            <div class="input-group">
+                {{ form_widget(form.part) }}
+                <div class="input-group-addon">
+                    <a href="" id="new-part">
+                        <i class="fa fa-plus"></i>
+                    </a>
                 </div>
             </div>
         </div>
 
-        <div class="col-xs-12">
-            <div class="row">
-                <div class="col-xs-12 col-md-4">
-                    <div class="form-group field-easyadmin_autocomplete">
-                        {{ form_label(form.part) }}
-
-                        <div class="input-group">
-                            {{ form_widget(form.part) }}
-                            <div class="input-group-addon">
-                                <a href="" id="new-part">
-                                    <i class="fa fa-plus"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xs-12 col-md-4">
-                    {{ form_row(form.price) }}
-                </div>
-
-                <div class="col-xs-12 col-md-4">
-                    {{ form_row(form.quantity) }}
-                </div>
-            </div>
-        </div>
-    </div>
+        {{ form_row(form.price) }}
+        {{ form_row(form.quantity) }}
     {{ form_end(form) }}
 {% endblock %}
 
@@ -52,7 +31,7 @@
     {{ parent() }}
 
     <script type="text/javascript">
-        var url = "{{ easyadmin_path('Part', 'new')|raw }}",
+        let url = "{{ easyadmin_path('Part', 'new')|raw }}",
             partInput = $("#{{ form.part.children.autocomplete.vars.id }}"),
             costInput = $("#{{ form.price.vars.id }}");
 
@@ -67,13 +46,23 @@
         });
 
         $(document).on('new-part-added', function (e, part) {
-            var option = new Option([part.name, '(' + part.manufacturer.name, part.number + ')'].join(' '), part.id);
+            let option = new Option([part.name, '(' + part.manufacturer.name, part.number + ')'].join(' '), part.id);
             option.selected = true;
 
             partInput.append(option);
             partInput.trigger('change');
 
             costInput.val(part.price);
+        });
+
+        partInput.on('change', function () {
+          if (costInput.val()) {
+            return;
+          }
+
+          let text = $(this).text();
+          let price = text.split('|')[1].trim().replace(/\s/g, '').slice(0, -1).trim().replace(' ', '');
+          costInput.val(price);
         });
     </script>
 {% endblock %}
