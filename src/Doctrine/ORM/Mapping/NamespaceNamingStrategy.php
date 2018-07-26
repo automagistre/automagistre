@@ -16,8 +16,6 @@ final class NamespaceNamingStrategy extends UnderscoreNamingStrategy
 
     /**
      * @param string $className
-     *
-     * @return string
      */
     public function classToTableName($className): string
     {

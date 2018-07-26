@@ -12,11 +12,7 @@ use Doctrine\Common\Util\ClassUtils;
 final class ExceptionUtils
 {
     /**
-     * @param string $variable
-     * @param string $type
-     * @param mixed  $current
-     *
-     * @return string
+     * @param mixed $current
      */
     public static function invalidType(string $variable, string $type, $current): string
     {

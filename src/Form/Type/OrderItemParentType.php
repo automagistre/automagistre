@@ -97,9 +97,6 @@ final class OrderItemParentType extends AbstractType
 
     /**
      * @param OrderItem|OrderItemModel $nestable
-     * @param OrderItem                $parent
-     *
-     * @return bool
      */
     private function validParent($nestable, OrderItem $parent): bool
     {

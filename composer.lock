@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "afcb6bd6b32aa1d5663af957ca5d4192",
+    "content-hash": "17da2f4b5444cc8e84b8a845e152b276",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1579,16 +1579,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.9.10",
+            "version": "8.9.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "9ac648a237e57ce1863b3f5a044a7a41e6fadf36"
+                "reference": "2a6b6661f42644941e4c8e895518f27c99587a68"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/9ac648a237e57ce1863b3f5a044a7a41e6fadf36",
-                "reference": "9ac648a237e57ce1863b3f5a044a7a41e6fadf36",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/2a6b6661f42644941e4c8e895518f27c99587a68",
+                "reference": "2a6b6661f42644941e4c8e895518f27c99587a68",
                 "shasum": ""
             },
             "require": {
@@ -1643,7 +1643,7 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2018-07-11T10:20:19+00:00"
+            "time": "2018-07-26T10:50:48+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -3818,16 +3818,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.0.84",
+            "version": "v1.0.86",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "7ede6446afac01e6e381db8c8c6fddb7c05a2aa7"
+                "reference": "a7cede75f0abbac1c2859cf22352a8c79a77028c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/7ede6446afac01e6e381db8c8c6fddb7c05a2aa7",
-                "reference": "7ede6446afac01e6e381db8c8c6fddb7c05a2aa7",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/a7cede75f0abbac1c2859cf22352a8c79a77028c",
+                "reference": "a7cede75f0abbac1c2859cf22352a8c79a77028c",
                 "shasum": ""
             },
             "require": {
@@ -3861,7 +3861,7 @@
                 }
             ],
             "description": "Composer plugin for Symfony",
-            "time": "2018-07-19T06:01:11+00:00"
+            "time": "2018-07-26T17:33:48+00:00"
         },
         {
             "name": "symfony/form",
@@ -6932,16 +6932,16 @@
         },
         {
             "name": "pedrotroller/php-cs-custom-fixer",
-            "version": "v2.11.1",
+            "version": "v2.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PedroTroller/PhpCSFixer-Custom-Fixers.git",
-                "reference": "68e7eb596adb60c1e8eee6403a95987519a937ac"
+                "reference": "4e5951d5fe90c2f6ba2d113ff26f292f3489a11e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PedroTroller/PhpCSFixer-Custom-Fixers/zipball/68e7eb596adb60c1e8eee6403a95987519a937ac",
-                "reference": "68e7eb596adb60c1e8eee6403a95987519a937ac",
+                "url": "https://api.github.com/repos/PedroTroller/PhpCSFixer-Custom-Fixers/zipball/4e5951d5fe90c2f6ba2d113ff26f292f3489a11e",
+                "reference": "4e5951d5fe90c2f6ba2d113ff26f292f3489a11e",
                 "shasum": ""
             },
             "require": {
@@ -6955,7 +6955,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.x-dev"
+                    "dev-master": "2.10.x-dev"
                 }
             },
             "autoload": {
@@ -6968,7 +6968,7 @@
                 "MIT"
             ],
             "description": "PHP-CS-FIXER : my custom fixers",
-            "time": "2018-07-24T11:15:14+00:00"
+            "time": "2018-07-26T09:21:43+00:00"
         },
         {
             "name": "phar-io/manifest",
