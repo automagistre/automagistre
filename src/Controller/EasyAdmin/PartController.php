@@ -170,7 +170,12 @@ final class PartController extends AbstractController
         $qb = $this->em->getRepository(Part::class)->createQueryBuilder('part')
             ->join('part.manufacturer', 'manufacturer');
 
-        foreach (explode(' ', $searchQuery) as $key => $searchString) {
+        if (0 === strpos(trim($searchQuery), '+')) {
+            $qb->andWhere('part.quantity > 0');
+            $searchQuery = ltrim($searchQuery, '+');
+        }
+
+        foreach (explode(' ', trim($searchQuery)) as $key => $searchString) {
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
@@ -201,10 +206,11 @@ final class PartController extends AbstractController
             return [
                 'id' => $entity->getId(),
                 'text' => sprintf(
-                    '%s - %s (%s) | %s',
+                    '%s - %s (%s) (Склад: %s) | %s',
                     $entity->getNumber(),
                     $entity->getManufacturer()->getName(),
                     $entity->getName(),
+                    $entity->getQuantity() / 100,
                     $this->formatter->format($entity->getPrice())
                 ),
             ];

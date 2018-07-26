@@ -6,24 +6,29 @@
 
 {% block entity_form %}
     {{ form_start(form) }}
-        {{ form_row(form.order) }}
-        {{ form_row(form.parent) }}
+    {{ form_row(form.order) }}
+    {{ form_row(form.parent) }}
 
-        <div class="form-group field-easyadmin_autocomplete">
-            {{ form_label(form.part) }}
+    <div class="form-group field-easyadmin_autocomplete">
+        {{ form_label(form.part) }}
 
-            <div class="input-group">
-                {{ form_widget(form.part) }}
-                <div class="input-group-addon">
-                    <a href="" id="new-part">
-                        <i class="fa fa-plus"></i>
-                    </a>
-                </div>
+        <div class="input-group">
+            {{ form_widget(form.part) }}
+            <div class="input-group-addon">
+                <a href="" id="new-part">
+                    <i class="fa fa-plus"></i>
+                </a>
             </div>
         </div>
 
-        {{ form_row(form.price) }}
-        {{ form_row(form.quantity) }}
+        <span class="help-block">
+                <i class="fa fa-info-circle"></i>
+                Если первый символ в строке будет + то поиск будет по запчастям имеющимся на складе
+            </span>
+    </div>
+
+    {{ form_row(form.price) }}
+    {{ form_row(form.quantity) }}
     {{ form_end(form) }}
 {% endblock %}
 
@@ -31,38 +36,38 @@
     {{ parent() }}
 
     <script type="text/javascript">
-        let url = "{{ easyadmin_path('Part', 'new')|raw }}",
-            partInput = $("#{{ form.part.children.autocomplete.vars.id }}"),
-            costInput = $("#{{ form.price.vars.id }}");
+      let url = "{{ easyadmin_path('Part', 'new')|raw }}",
+          partInput = $("#{{ form.part.children.autocomplete.vars.id }}"),
+          costInput = $("#{{ form.price.vars.id }}");
 
-        $('#new-part').click(function () {
-            $.ajax({
-                url: url
-            }).done(function (data) {
-                $('body').append(data);
-            });
-
-            return false;
+      $('#new-part').click(function() {
+        $.ajax({
+          url: url,
+        }).done(function(data) {
+          $('body').append(data);
         });
 
-        $(document).on('new-part-added', function (e, part) {
-            let option = new Option([part.name, '(' + part.manufacturer.name, part.number + ')'].join(' '), part.id);
-            option.selected = true;
+        return false;
+      });
 
-            partInput.append(option);
-            partInput.trigger('change');
+      $(document).on('new-part-added', function(e, part) {
+        let option = new Option([part.name, '(' + part.manufacturer.name, part.number + ')'].join(' '), part.id);
+        option.selected = true;
 
-            costInput.val(part.price);
-        });
+        partInput.append(option);
+        partInput.trigger('change');
 
-        partInput.on('change', function () {
-          if (costInput.val()) {
-            return;
-          }
+        costInput.val(part.price);
+      });
 
-          let text = $(this).text();
-          let price = text.split('|')[1].trim().replace(/\s/g, '').slice(0, -1).trim().replace(' ', '');
-          costInput.val(price);
-        });
+      partInput.on('change', function() {
+        if (costInput.val()) {
+          return;
+        }
+
+        let text = $(this).text();
+        let price = text.split('|')[1].trim().replace(/\s/g, '').slice(0, -1).trim().replace(' ', '');
+        costInput.val(price);
+      });
     </script>
 {% endblock %}

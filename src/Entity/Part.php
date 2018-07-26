@@ -134,4 +134,9 @@ class Part
     {
         $this->description = $description;
     }
+
+    public function getQuantity(): float
+    {
+        return $this->quantity;
+    }
 }
