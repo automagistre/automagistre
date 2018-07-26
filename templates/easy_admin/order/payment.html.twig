@@ -1,15 +1,12 @@
 {% extends 'easy_admin/layout.html.twig' %}
 
+{% use 'easy_admin/order/content_help.html.twig' %}
+
 {% form_theme form with easyadmin_config('design.form_theme') %}
 
 {% block content_title %}
     Создать платёж по заказу №{{ order }}
 {% endblock %}
-
-{% block content_help %}
-    {{ order.customer }} {{ order.car }}
-{% endblock %}
-
 
 {% block main %}
     {{ form_start(form) }}
