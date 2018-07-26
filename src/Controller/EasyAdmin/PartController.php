@@ -115,7 +115,7 @@ final class PartController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function newAction()
+    protected function newAction(): Response
     {
         if ($this->request->isXmlHttpRequest() && $this->request->isMethod('POST')) {
             /** @var Part|null $entity */
