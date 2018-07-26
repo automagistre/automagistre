@@ -14,6 +14,7 @@ use App\Partner\Ixora\Finder;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
+use Money\MoneyFormatter;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -39,12 +40,21 @@ final class PartController extends AbstractController
      * @var EventDispatcherInterface
      */
     private $dispatcher;
+    /**
+     * @var MoneyFormatter
+     */
+    private $formatter;
 
-    public function __construct(PartManager $partManager, EventDispatcherInterface $dispatcher, Finder $finder)
-    {
+    public function __construct(
+        PartManager $partManager,
+        EventDispatcherInterface $dispatcher,
+        Finder $finder,
+        MoneyFormatter $formatter
+    ) {
         $this->partManager = $partManager;
         $this->dispatcher = $dispatcher;
         $this->finder = $finder;
+        $this->formatter = $formatter;
     }
 
     public function numberSearchAction(): Response
@@ -191,10 +201,11 @@ final class PartController extends AbstractController
             return [
                 'id' => $entity->getId(),
                 'text' => sprintf(
-                    '%s - %s (%s)',
+                    '%s - %s (%s) - %s',
                     $entity->getNumber(),
                     $entity->getManufacturer()->getName(),
-                    $entity->getName()
+                    $entity->getName(),
+                    $this->formatter->format($entity->getPrice())
                 ),
             ];
         }, (array) $paginator->getCurrentPageResults());
