@@ -1,5 +1,9 @@
 {% extends '@EasyAdmin/default/new.html.twig' %}
 
+{% use 'easy_admin/order/content_help.html.twig' %}
+
+{% block content_title %}Создать новую Работу{% endblock %}
+
 {% block body_javascript %}
     {% include 'easy_admin/_includes/autocomplete_price.html.twig' with {'id': form.price.vars.id} %}
 {% endblock %}

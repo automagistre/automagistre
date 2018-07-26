@@ -90,8 +90,10 @@ easy_admin:
 
         OrderItemGroup:
             class: App\Entity\OrderItemGroup
-            disabled_actions: ['show', 'list']
             controller: App\Controller\EasyAdmin\OrderItemGroupController
+            disabled_actions: ['show', 'list']
+            templates:
+                new: 'easy_admin/order/group_new.html.twig'
             form:
                 fields:
                     - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
@@ -101,7 +103,7 @@ easy_admin:
                 form_options: { data_class: App\Form\Model\OrderGroup }
                 fields:
                     - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
-                    - { property: 'parent', label: 'Родитель', type: App\Form\Type\OrderItemParentType }
+                    - { property: 'parent', label: 'Группа', type: App\Form\Type\OrderItemParentType }
                     - { property: 'name', label: 'Название' }
 
         OrderItemService:
@@ -109,7 +111,7 @@ easy_admin:
             controller: App\Controller\EasyAdmin\OrderItemServiceController
             disabled_actions: ['show', 'list']
             templates:
-                new: 'easy_admin/order_service/new.html.twig'
+                new: 'easy_admin/order/service_new.html.twig'
             edit:
                 actions: ['delete']
                 fields:
@@ -117,7 +119,7 @@ easy_admin:
             form:
                 fields:
                     - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
-                    - { property: 'parent', label: 'Родитель', type: App\Form\Type\OrderItemParentType }
+                    - { property: 'parent', label: 'Группа', type: App\Form\Type\OrderItemParentType }
                     -
                         property: 'service'
                         label: 'Работа'
@@ -134,7 +136,7 @@ easy_admin:
             controller: App\Controller\EasyAdmin\OrderItemPartController
             disabled_actions: ['show', 'list']
             templates:
-                new: 'easy_admin/order_part/new.html.twig'
+                new: 'easy_admin/order/part_new.html.twig'
             edit:
                 actions: ['delete']
                 fields:
@@ -142,7 +144,7 @@ easy_admin:
             form:
                 fields:
                     - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
-                    - { property: 'parent', label: 'Родитель', type: App\Form\Type\OrderItemParentType }
+                    - { property: 'parent', label: 'Работа / Группа', type: App\Form\Type\OrderItemParentType }
                     - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { required: true } }
                     - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType }
                     - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }

@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class OrderItemPartController extends AbstractController
+final class OrderItemPartController extends OrderItemController
 {
     protected function createNewEntity(): OrderPart
     {
