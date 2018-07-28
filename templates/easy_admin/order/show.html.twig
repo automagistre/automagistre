@@ -229,7 +229,7 @@
                 {%- spaceless -%}
                     Рекомендации
 
-                    <a href="{{ easyadmin_path('CarRecommendation', 'new', {'car_id': order.car.id}) }}">
+                    <a href="{{ easyadmin_path('CarRecommendation', 'new', {'car_id': order.car.id}|merge(order|to_query)) }}">
                         <i class="fa fa-plus"></i>
                     </a>
                 {%- endspaceless -%}

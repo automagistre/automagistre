@@ -73,6 +73,11 @@ final class CarRecommendationController extends AbstractController
         $model = new Recommendation();
         $model->car = $car;
 
+        $order = $this->getEntity(Order::class);
+        if ($order instanceof Order) {
+            $model->worker = $order->getActiveWorker();
+        }
+
         return $model;
     }
 

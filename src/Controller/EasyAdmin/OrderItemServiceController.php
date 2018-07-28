@@ -63,6 +63,7 @@ final class OrderItemServiceController extends OrderItemController
 
         $model = new OrderService();
         $model->order = $order;
+        $model->worker = $order->getActiveWorker();
 
         $parent = $this->getEntity(OrderItem::class);
         if ($parent instanceof OrderItem) {

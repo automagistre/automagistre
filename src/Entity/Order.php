@@ -168,6 +168,20 @@ class Order
         $this->status = OrderStatus::closed();
     }
 
+    public function getActiveWorker(): ?Operand
+    {
+        foreach ($this->getItems(OrderItemService::class) as $service) {
+            /** @var OrderItemService $service */
+            $worker = $service->getWorker();
+
+            if (null !== $worker) {
+                return $worker;
+            }
+        }
+
+        return null;
+    }
+
     public function addItem(OrderItem $item): void
     {
         $this->items[] = $item;
