@@ -9,9 +9,6 @@
         {% if order.editable %}
             {% set urlParams = (order|to_query)|merge({'order_item_id': item.id}) %}
 
-            <a href="{{ easyadmin_path('OrderItemGroup', 'new', urlParams) }}">
-                <i class="fa fa-folder"></i>
-            </a>
             <a href="{{ easyadmin_path('OrderItemService', 'new', urlParams) }}">
                 <i class="fa fa-wrench"></i>
             </a>

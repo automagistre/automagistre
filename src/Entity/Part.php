@@ -135,7 +135,7 @@ class Part
         $this->description = $description;
     }
 
-    public function getQuantity(): float
+    public function getQuantity(): ?float
     {
         return $this->quantity;
     }
