@@ -176,22 +176,20 @@
 
         <h2 class="page-header">
             {%- spaceless -%}
-                Работы
                 {%- if order.editable %}
-                    <a href="{{ easyadmin_path('OrderItemService', 'new', {'order_id': order.id}) }}">
+                    <a class="btn btn-primary" href="{{ easyadmin_path('OrderItemService', 'new', {'order_id': order.id}) }}">
                         <i class="fa fa-plus"></i>
+                        Работа
                     </a>
-                {%- endif %}
-                / Запчасти
-                {% if order.editable -%}
-                    <a href="{{ easyadmin_path('OrderItemPart', 'new', {'order_id': order.id}) }}">
+
+                    <a class="btn btn-primary" href="{{ easyadmin_path('OrderItemPart', 'new', {'order_id': order.id}) }}">
                         <i class="fa fa-plus"></i>
+                        Запчасть
                     </a>
-                {%- endif %}
-                / Группа
-                {% if order.editable %}
-                    <a href="{{ easyadmin_path('OrderItemGroup', 'new', order|to_query) }}">
+
+                    <a class="btn btn-primary" href="{{ easyadmin_path('OrderItemGroup', 'new', order|to_query) }}">
                         <i class="fa fa-plus"></i>
+                        Группа
                     </a>
                 {% endif %}
             {%- endspaceless -%}
