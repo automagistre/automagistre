@@ -85,6 +85,7 @@ easy_admin:
             <<: *order
             list:
                 <<: *order-list
+                title: 'Активные заказы'
                 dql_filter: 'entity.status != 10'
 
         OrderItemGroup:
