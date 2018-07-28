@@ -84,7 +84,7 @@ docker-hosts-updater:
 
 # To prevent idea to adding this phar to *.iml config
 vendor-phar-remove:
-	rm -rf $(app_dir)/vendor/twig/twig/test/Twig/Tests/Loader/Fixtures/phar/phar-sample.phar $(app_dir)/vendor/symfony/symfony/src/Symfony/Component/DependencyInjection/Tests/Fixtures/includes/ProjectWithXsdExtensionInPhar.phar $(app_dir)/vendor/phpunit/phpunit/tests/_files/phpunit-example-extension/tools/phpunit.d/phpunit-example-extension-1.0.1.phar $(app_dir)/vendor/phar-io/manifest/tests/_fixture/test.phar || true
+	@rm -rf $(app_dir)/vendor/twig/twig/test/Twig/Tests/Loader/Fixtures/phar/phar-sample.phar $(app_dir)/vendor/symfony/symfony/src/Symfony/Component/DependencyInjection/Tests/Fixtures/includes/ProjectWithXsdExtensionInPhar.phar $(app_dir)/vendor/phpunit/phpunit/tests/_files/phpunit-example-extension/tools/phpunit.d/phpunit-example-extension-1.0.1.phar $(app_dir)/vendor/phar-io/manifest/tests/_fixture/test.phar || true
 
 ###> GIT ###
 git-check-stage-is-clear:
@@ -174,7 +174,7 @@ install-app: composer
 
 composer = docker-compose run --rm --no-deps -e XDEBUG=false -e MIGRATIONS=false -e WAIT_HOSTS=false app composer
 composer: composer-install
-composer-install:
+composer-install: cache-clear
 	$(composer) install --prefer-dist
 	@$(MAKE) --no-print-directory permissions > /dev/null
 	@$(MAKE) --no-print-directory vendor-phar-remove
