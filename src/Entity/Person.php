@@ -61,7 +61,7 @@ class Person extends Operand
         return sprintf('%s (%s)', $this->getFullName(), $this->getTelephone() ?: $this->getOfficePhone());
     }
 
-    public function getFirstname(): string
+    public function getFirstname(): ?string
     {
         return $this->firstname;
     }
@@ -76,7 +76,7 @@ class Person extends Operand
         return $this->lastname;
     }
 
-    public function setLastname(string $lastname): void
+    public function setLastname(?string $lastname): void
     {
         $this->lastname = $lastname;
     }
@@ -86,7 +86,7 @@ class Person extends Operand
         return $this->telephone;
     }
 
-    public function setTelephone(string $telephone): void
+    public function setTelephone(?string $telephone): void
     {
         $this->telephone = $telephone;
     }
@@ -96,7 +96,7 @@ class Person extends Operand
         return $this->officePhone;
     }
 
-    public function setOfficePhone(string $officePhone): void
+    public function setOfficePhone(?string $officePhone): void
     {
         $this->officePhone = $officePhone;
     }
@@ -106,7 +106,7 @@ class Person extends Operand
         return $this->email;
     }
 
-    public function setEmail(string $email): void
+    public function setEmail(?string $email): void
     {
         $this->email = $email;
     }
