@@ -255,11 +255,7 @@
 
                                     <tr>
                                         <td>
-                                            <a href="{{ easyadmin_path(recommendation.service, 'edit') }}">
-                                                <i class="fa fa-asterisk"></i>
-                                            </a>
-
-                                            {{ recommendation.service.name }}
+                                            {{ recommendation.service }}
 
                                             <a href="{{ easyadmin_path('CarRecommendationPart', 'new', {'recommendation_id': recommendation.id}) }}">
                                                 <i class="fa fa-plus"></i>

@@ -6,7 +6,6 @@ namespace App\Form\Model;
 
 use App\Entity\Operand;
 use App\Entity\OrderItemService;
-use App\Entity\Service;
 use Money\Money;
 
 /**
@@ -15,7 +14,7 @@ use Money\Money;
 final class OrderService extends OrderItemModel
 {
     /**
-     * @var Service
+     * @var string
      */
     public $service;
 

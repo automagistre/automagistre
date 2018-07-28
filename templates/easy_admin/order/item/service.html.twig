@@ -2,11 +2,9 @@
 
 <tr>
     <td style="{% include 'easy_admin/order/item/padding.html.twig' with {'level': level} %}">
-        <a href="{{ easyadmin_path(item.service, 'edit') }}">
-            <i class="fa fa-wrench"></i>
-        </a>
+        <i class="fa fa-wrench"></i>
 
-        {{ item.service.name }}
+        {{ item.service }}
 
         {% if order.editable %}
             <a href="{{ easyadmin_path('OrderItemPart', 'new', (order|to_query)|merge({'order_item_id': item.id})) }}">

@@ -7,7 +7,6 @@ namespace App\Form\Model;
 use App\Entity\Car;
 use App\Entity\CarRecommendation;
 use App\Entity\Operand;
-use App\Entity\Service;
 use Money\Money;
 
 /**
@@ -21,7 +20,7 @@ final class Recommendation extends Model
     public $car;
 
     /**
-     * @var Service
+     * @var string
      */
     public $service;
 

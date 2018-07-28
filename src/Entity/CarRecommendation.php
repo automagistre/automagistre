@@ -29,9 +29,9 @@ class CarRecommendation
     private $car;
 
     /**
-     * @var Service
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Service")
+     * @ORM\Column
      */
     private $service;
 
@@ -69,7 +69,7 @@ class CarRecommendation
      */
     private $expiredAt;
 
-    public function __construct(Car $car, Service $service, Money $price, Operand $worker)
+    public function __construct(Car $car, string $service, Money $price, Operand $worker)
     {
         $this->parts = new ArrayCollection();
 
@@ -81,7 +81,7 @@ class CarRecommendation
 
     public function __toString(): string
     {
-        return $this->service->getName();
+        return $this->service;
     }
 
     public function getCar(): ?Car
@@ -89,7 +89,7 @@ class CarRecommendation
         return $this->car;
     }
 
-    public function getService(): ?Service
+    public function getService(): ?string
     {
         return $this->service;
     }

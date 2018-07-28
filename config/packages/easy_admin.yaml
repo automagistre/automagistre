@@ -30,7 +30,6 @@ easy_admin:
             - { entity: 'Supply', label: 'Поставка', icon: 'truck' }
             - { entity: 'Income', label: 'Приходы', icon: 'book' }
             - { label: 'Справочники' }
-            - { entity: 'Service', label: 'Работы', icon: 'wrench' }
             - { entity: 'Part', label: 'Запчасти', icon: 'cogs' }
             - { entity: 'Manufacturer', label: 'Производитель', icon: 'industry' }
             - { entity: 'Model', label: 'Модель', icon: 'car' }
@@ -115,17 +114,12 @@ easy_admin:
             edit:
                 actions: ['delete']
                 fields:
-                    - { property: 'service', label: 'Работа', type: 'easyadmin_autocomplete', type_options: { disabled: true } }
+                    - { property: 'service', label: 'Работа' }
             form:
                 fields:
                     - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
                     - { property: 'parent', label: 'Группа', type: App\Form\Type\OrderItemParentType }
-                    -
-                        property: 'service'
-                        label: 'Работа'
-                        type: 'easyadmin_autocomplete'
-                        type_options: { required: true }
-                        help: 'Быстрое добавление работы: Введите название и цену, добавьте в конце два знака +. Пример: "Замена лампочки 500++"'
+                    - { property: 'service', label: 'Работа', type_options: { required: true } }
                     - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType }
                     - { property: 'worker', label: 'Исполнитель', type: 'easyadmin_autocomplete' }
             new:
@@ -160,12 +154,7 @@ easy_admin:
             form:
                 fields:
                     - { property: 'car', label: 'Автомобиль', type: 'text', type_options: { disabled: true } }
-                    -
-                        property: 'service'
-                        label: 'Работа'
-                        type: 'easyadmin_autocomplete'
-                        type_options: { required: true }
-                        help: 'Быстрое добавление работы: Введите название и цену, добавьте в конце два знака +. Пример: "Замена лампочки 500++"'
+                    - { property: 'service', label: 'Работа', type_options: { required: true } }
                     - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType, type_options: { required: true } }
                     - { property: 'worker', label: 'Диагност', type: 'easyadmin_autocomplete', type_options: { required: false } }
             edit:
@@ -192,20 +181,6 @@ easy_admin:
             new:
                 title: 'Добавить запчасть к рекомендации'
                 form_options: { data_class: App\Form\Model\RecommendationPart }
-
-        Service:
-            class: App\Entity\Service
-            controller: App\Controller\EasyAdmin\ServiceController
-            disabled_actions: ['delete', 'show']
-            list:
-                title: 'Работы'
-                fields:
-                    - { property: name, label: 'Название' }
-                    - { property: price, label: 'Цена', template: 'easy_admin/field_money.html.twig' }
-            form:
-                fields:
-                    - { property: name, label: 'Название' }
-                    - { property: price, label: 'Цена', type: App\Form\Type\MoneyType }
 
         Operand:
             class: App\Entity\Operand

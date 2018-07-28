@@ -71,9 +71,6 @@ class Person extends Operand
         $this->firstname = $firstname;
     }
 
-    /**
-     * @return string
-     */
     public function getLastname(): ?string
     {
         return $this->lastname;
@@ -84,9 +81,6 @@ class Person extends Operand
         $this->lastname = $lastname;
     }
 
-    /**
-     * @return string
-     */
     public function getTelephone(): ?string
     {
         return $this->telephone;
@@ -97,9 +91,6 @@ class Person extends Operand
         $this->telephone = $telephone;
     }
 
-    /**
-     * @return string
-     */
     public function getOfficePhone(): ?string
     {
         return $this->officePhone;
@@ -110,9 +101,6 @@ class Person extends Operand
         $this->officePhone = $officePhone;
     }
 
-    /**
-     * @return string
-     */
     public function getEmail(): ?string
     {
         return $this->email;

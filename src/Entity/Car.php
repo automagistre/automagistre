@@ -104,9 +104,6 @@ class Car
         return sprintf('%s, (%s)', $this->getCarModificationDisplayName(), $this->getGosnomer());
     }
 
-    /**
-     * @return CarModel
-     */
     public function getCarModel(): ?CarModel
     {
         return $this->carModel;
@@ -117,9 +114,6 @@ class Car
         $this->carModel = $carModel;
     }
 
-    /**
-     * @return CarModification
-     */
     public function getCarModification(): ?CarModification
     {
         return $this->carModification;
@@ -143,9 +137,6 @@ class Car
         $this->vin = $vin;
     }
 
-    /**
-     * @return int
-     */
     public function getYear(): ?int
     {
         return $this->year;
@@ -156,9 +147,6 @@ class Car
         $this->year = $year;
     }
 
-    /**
-     * @return Operand
-     */
     public function getOwner(): ?Operand
     {
         return $this->owner;
@@ -169,9 +157,6 @@ class Car
         $this->owner = $owner;
     }
 
-    /**
-     * @return int
-     */
     public function getMileage(): ?int
     {
         $criteria = Criteria::create();
@@ -187,9 +172,6 @@ class Car
         return null;
     }
 
-    /**
-     * @return string
-     */
     public function getGosnomer(): ?string
     {
         if (null === $this->gosnomer) {
@@ -210,9 +192,6 @@ class Car
         $this->gosnomer = $gosnomer;
     }
 
-    /**
-     * @return string
-     */
     public function getDescription(): ?string
     {
         return $this->description;

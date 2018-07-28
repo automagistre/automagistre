@@ -8,6 +8,9 @@ use App\Entity\User;
 use App\Request\EntityTransformer;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController;
+use Money\Formatter\DecimalMoneyFormatter;
+use Money\Money;
+use Money\MoneyFormatter;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -26,11 +29,44 @@ abstract class AbstractController extends AdminController
     private $entityTransformer;
 
     /**
+     * @var MoneyFormatter
+     */
+    private $moneyFormatter;
+
+    /**
+     * @var DecimalMoneyFormatter
+     */
+    private $decimalMoneyFormatter;
+
+    /**
      * @required
      */
     public function setEntityTransformer(EntityTransformer $entityTransformer): void
     {
         $this->entityTransformer = $entityTransformer;
+    }
+
+    /**
+     * @required
+     */
+    public function setMoneyFormatter(MoneyFormatter $moneyFormatter): void
+    {
+        $this->moneyFormatter = $moneyFormatter;
+    }
+
+    /**
+     * @required
+     */
+    public function setDecimalMoneyFormatter(DecimalMoneyFormatter $moneyFormatter): void
+    {
+        $this->decimalMoneyFormatter = $moneyFormatter;
+    }
+
+    protected function formatMoney(Money $money, bool $decimal = false): string
+    {
+        $formatter = $decimal ? $this->decimalMoneyFormatter : $this->moneyFormatter;
+
+        return $formatter->format($money);
     }
 
     protected function redirectToEasyPath(

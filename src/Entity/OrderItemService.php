@@ -17,10 +17,9 @@ class OrderItemService extends OrderItem implements PriceInterface
     use Price;
 
     /**
-     * @var Service
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Service")
-     * @ORM\JoinColumn
+     * @ORM\Column
      */
     private $service;
 
@@ -32,7 +31,7 @@ class OrderItemService extends OrderItem implements PriceInterface
      */
     private $worker;
 
-    public function __construct(Order $order, Service $service, Money $price)
+    public function __construct(Order $order, string $service, Money $price)
     {
         parent::__construct($order);
 
@@ -42,7 +41,7 @@ class OrderItemService extends OrderItem implements PriceInterface
 
     public function __toString(): string
     {
-        return $this->getService()->getName();
+        return $this->getService();
     }
 
     public function setPrice(Money $price): void
@@ -54,7 +53,12 @@ class OrderItemService extends OrderItem implements PriceInterface
         $this->changePrice($price);
     }
 
-    public function getService(): Service
+    public function setService(?string $service): void
+    {
+        $this->service = $service;
+    }
+
+    public function getService(): string
     {
         return $this->service;
     }

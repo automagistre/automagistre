@@ -1,0 +1,35 @@
+{% set serviceInputId = serviceInputId|default('') %}
+{% set priceInputId = priceInputId|default('') %}
+{% set params = params|default({}) %}
+
+<script>
+  let serviceInput = $('#{{ serviceInputId }}');
+
+  let bh = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    remote: {
+      url: '{{ easyadmin_path('OrderItemService', 'autocomplete', {'query': '__QUERY__', 'textOnly': true}|merge(params))|raw }}',
+      wildcard: '__QUERY__',
+      transform: function(res) {
+        return res.results;
+      },
+    },
+  });
+
+  serviceInput.typeahead(null, {
+    name: 'best-pictures',
+    display: 'text',
+    source: bh,
+  });
+
+  if ('{{ priceInputId }}') {
+    serviceInput.bind('typeahead:select', function(ev, suggestion) {
+      $('#{{ priceInputId }}').val(suggestion.price.replace('.', ','));
+    });
+  }
+
+  $(document).on('ready', function() {
+    $('.twitter-typeahead').css('display', 'block');
+  });
+</script>

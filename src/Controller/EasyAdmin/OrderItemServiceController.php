@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Entity\Car;
+use App\Entity\CarModel;
 use App\Entity\Order;
 use App\Entity\OrderItem;
 use App\Entity\OrderItemService;
 use App\Form\Model\OrderService;
 use App\Manager\RecommendationManager;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -93,5 +96,57 @@ final class OrderItemServiceController extends OrderItemController
         }
 
         return parent::isActionAllowed($actionName);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function autocompleteAction(): JsonResponse
+    {
+        $request = $this->request;
+
+        $qb = $this->em->getRepository(OrderItemService::class)
+            ->createQueryBuilder('entity')
+            ->orderBy('entity.service', 'ASC')
+            ->setMaxResults(20);
+
+        $car = $this->getEntity(Car::class);
+        $order = $this->getEntity(Order::class);
+        if (null === $car && $order instanceof Order) {
+            $car = $order->getCar();
+        }
+
+        if ($car instanceof Car && ($carModel = $car->getCarModel()) instanceof CarModel) {
+            $qb->leftJoin('entity.order', 'order')
+                ->leftJoin('order.car', 'car')
+                ->andWhere('car.carModel = :carModel')
+                ->setParameter('carModel', $carModel);
+        }
+
+        if ($request->query->getBoolean('textOnly')) {
+            $qb->groupBy('entity.service');
+        }
+
+        foreach (explode(' ', trim($request->query->get('query'))) as $key => $searchString) {
+            $key = ':search_'.$key;
+
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->like('entity.service', $key)
+            ));
+
+            $qb->setParameter($key, '%'.$searchString.'%');
+        }
+
+        $data = array_map(function (OrderItemService $entity) {
+            $service = $entity->getService();
+
+            return [
+                'id' => $entity->getId(),
+                'text' => $service,
+                'price' => $this->formatMoney($entity->getPrice(), true),
+            ];
+        }, $qb->getQuery()->getResult());
+
+        return $this->json(['results' => $data]);
     }
 }

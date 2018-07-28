@@ -5,5 +5,11 @@
 {% block content_title %}Создать новую Работу{% endblock %}
 
 {% block body_javascript %}
-    {% include 'easy_admin/_includes/autocomplete_price.html.twig' with {'id': form.price.vars.id} %}
+    <script src="{{ asset('assets/js/typeahead.bundle.min.js') }}"></script>
+
+    {% include 'easy_admin/_includes/typehead_service.html.twig' with {
+        'serviceInputId': form.service.vars.id,
+        'priceInputId': form.price.vars.id,
+        'params': order|to_query
+    } only %}
 {% endblock %}
