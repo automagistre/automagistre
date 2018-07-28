@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace App\Form\Type;
 
 use App\Entity\Employee;
-use App\Entity\OrderItemService;
 use App\Entity\Person;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -33,39 +31,36 @@ final class WorkerType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $em = $this->em;
 
-        $builder
-            ->add('worker', ChoiceType::class, [
-                'label' => false,
-                'placeholder' => 'Выберите исполнителя',
-                'choice_loader' => new CallbackChoiceLoader(function () use ($em) {
-                    return $em->createQueryBuilder()
-                        ->select('person')
-                        ->from(Person::class, 'person')
-                        ->join(Employee::class, 'employee', Join::WITH, 'person = employee.person')
-                        ->where('employee.firedAt IS NULL')
-                        ->getQuery()
-                        ->getResult();
-                }),
-                'choice_label' => function (Person $person) {
-                    return (string) $person;
-                },
-                'choice_value' => function (?Person $person) {
-                    return $person instanceof Person ? $person->getId() : null;
-                },
-            ]);
+        $resolver->setDefaults([
+            'label' => false,
+            'placeholder' => 'Выберите исполнителя',
+            'choice_loader' => new CallbackChoiceLoader(function () use ($em) {
+                return $em->createQueryBuilder()
+                    ->select('person')
+                    ->from(Person::class, 'person')
+                    ->join(Employee::class, 'employee', Join::WITH, 'person = employee.person')
+                    ->where('employee.firedAt IS NULL')
+                    ->getQuery()
+                    ->getResult();
+            }),
+            'choice_label' => function (Person $person) {
+                return (string) $person;
+            },
+            'choice_value' => function (?Person $person) {
+                return $person instanceof Person ? $person->getId() : null;
+            },
+        ]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver): void
+    public function getParent(): string
     {
-        $resolver->setDefaults([
-            'data_class' => OrderItemService::class,
-        ]);
+        return ChoiceType::class;
     }
 }

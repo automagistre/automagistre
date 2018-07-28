@@ -13,8 +13,8 @@ use App\Entity\Organization;
 use App\Entity\Payment;
 use App\Entity\Person;
 use App\Form\Model\Payment as PaymentModel;
+use App\Form\Type\OrderItemServiceType;
 use App\Form\Type\PaymentType;
-use App\Form\Type\WorkerType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
@@ -102,10 +102,7 @@ final class OrderController extends AbstractController
         if ([] !== $services) {
             $form = $this->createForm(CollectionType::class, $services, [
                 'label' => false,
-                'entry_type' => WorkerType::class,
-                'entry_options' => [
-                    'label' => false,
-                ],
+                'entry_type' => OrderItemServiceType::class,
             ])
                 ->handleRequest($request);
 

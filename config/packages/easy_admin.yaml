@@ -119,7 +119,7 @@ easy_admin:
                     - { property: 'parent', label: 'Группа', type: App\Form\Type\OrderItemParentType }
                     - { property: 'service', label: 'Работа', type_options: { required: true } }
                     - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType }
-                    - { property: 'worker', label: 'Исполнитель', type: 'easyadmin_autocomplete' }
+                    - { property: 'worker', label: 'Исполнитель', type: App\Form\Type\WorkerType }
             new:
                 form_options: { data_class: App\Form\Model\OrderService }
 
@@ -154,7 +154,7 @@ easy_admin:
                     - { property: 'car', label: 'Автомобиль', type: 'text', type_options: { disabled: true } }
                     - { property: 'service', label: 'Работа', type_options: { required: true } }
                     - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType, type_options: { required: true } }
-                    - { property: 'worker', label: 'Диагност', type: 'easyadmin_autocomplete', type_options: { required: false } }
+                    - { property: 'worker', label: 'Диагност', type: App\Form\Type\WorkerType, type_options: { required: false } }
             edit:
                 title: 'Рекомендация №%%entity_id%%'
                 fields:
