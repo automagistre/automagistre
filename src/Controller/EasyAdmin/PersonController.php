@@ -6,8 +6,6 @@ namespace App\Controller\EasyAdmin;
 
 use App\Entity\Person;
 use Doctrine\ORM\QueryBuilder;
-use libphonenumber\PhoneNumberFormat;
-use libphonenumber\PhoneNumberUtil;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -15,16 +13,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 final class PersonController extends AbstractController
 {
-    /**
-     * @var PhoneNumberUtil
-     */
-    private $phoneNumberUtil;
-
-    public function __construct(PhoneNumberUtil $phoneNumberUtil)
-    {
-        $this->phoneNumberUtil = $phoneNumberUtil;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -64,16 +52,9 @@ final class PersonController extends AbstractController
         $qb = $this->createSearchQueryBuilder($query->get('entity'), $query->get('query'), []);
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
-        $phoneUtils = $this->phoneNumberUtil;
 
-        $data = array_map(function (Person $person) use ($phoneUtils) {
-            $formattedTelephone = '';
-            $tel = $person->getTelephone() ?: $person->getOfficePhone();
-
-            if (null !== $tel) {
-                $PhoneNumber = $phoneUtils->parse($tel, 'RU');
-                $formattedTelephone = $phoneUtils->format($PhoneNumber, PhoneNumberFormat::INTERNATIONAL);
-            }
+        $data = array_map(function (Person $person) {
+            $formattedTelephone = $this->formatTelephone($person->getTelephone() ?? $person->getOfficePhone());
 
             return [
                 'id' => $person->getId(),

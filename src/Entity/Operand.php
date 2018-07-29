@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
+use libphonenumber\PhoneNumber;
 
 /**
  * @ORM\Entity
@@ -21,5 +22,5 @@ abstract class Operand
 
     abstract public function getFullName(): string;
 
-    abstract public function getTelephone(): ?string;
+    abstract public function getTelephone(): ?PhoneNumber;
 }

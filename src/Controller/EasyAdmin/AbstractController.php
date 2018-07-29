@@ -85,13 +85,10 @@ abstract class AbstractController extends AdminController
         return $formatter->format($money);
     }
 
-    /**
-     * @param PhoneNumber|string $telephone
-     */
-    protected function formatTelephone($telephone, int $format = PhoneNumberFormat::INTERNATIONAL): string
+    protected function formatTelephone(?PhoneNumber $telephone, int $format = PhoneNumberFormat::INTERNATIONAL): string
     {
-        if (!$telephone instanceof PhoneNumber) {
-            $telephone = $this->phoneNumberUtil->parse($telephone, 'RU');
+        if (null === $telephone) {
+            return '';
         }
 
         return $this->phoneNumberUtil->format($telephone, $format);

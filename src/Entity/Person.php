@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use libphonenumber\PhoneNumber;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -36,16 +37,16 @@ class Person extends Operand
     private $email;
 
     /**
-     * @var string
+     * @var PhoneNumber
      *
-     * @ORM\Column(length=24, nullable=true)
+     * @ORM\Column(type="phone_number", nullable=true)
      */
     private $telephone;
 
     /**
-     * @var string
+     * @var PhoneNumber
      *
-     * @ORM\Column(length=24, nullable=true)
+     * @ORM\Column(type="phone_number", nullable=true)
      */
     private $officePhone;
 
@@ -58,7 +59,7 @@ class Person extends Operand
 
     public function __toString(): string
     {
-        return sprintf('%s (%s)', $this->getFullName(), $this->getTelephone() ?: $this->getOfficePhone());
+        return sprintf('%s (%s)', $this->getFullName(), $this->getEmail());
     }
 
     public function getFirstname(): ?string
@@ -81,22 +82,22 @@ class Person extends Operand
         $this->lastname = $lastname;
     }
 
-    public function getTelephone(): ?string
+    public function getTelephone(): ?PhoneNumber
     {
         return $this->telephone;
     }
 
-    public function setTelephone(?string $telephone): void
+    public function setTelephone(?PhoneNumber $telephone): void
     {
         $this->telephone = $telephone;
     }
 
-    public function getOfficePhone(): ?string
+    public function getOfficePhone(): ?PhoneNumber
     {
         return $this->officePhone;
     }
 
-    public function setOfficePhone(?string $officePhone): void
+    public function setOfficePhone(?PhoneNumber $officePhone): void
     {
         $this->officePhone = $officePhone;
     }

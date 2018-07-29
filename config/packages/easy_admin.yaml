@@ -196,20 +196,42 @@ easy_admin:
             search:
                 fields: ['firstname', 'lastname']
             list:
+                title: 'Люди'
                 fields:
                     - { property: 'id' }
                     - { property: 'fullName', label: 'Ф.И.О' }
-                    - { property: 'telephone', label: 'Телефон', type: 'tel' }
-                    - { property: 'officePhone', label: 'Раб. Телефон', type: 'tel' }
-                    - { property: 'email', label: 'EMail', type: 'email' }
+                    - { property: 'telephone', label: 'Телефон', template: 'easy_admin/field_telephone.html.twig' }
+                    - { property: 'officePhone', label: 'Раб. Телефон', template: 'easy_admin/field_telephone.html.twig' }
+                    - { property: 'email', label: 'Почта' }
             form:
                 fields:
                     - { property: 'firstname', label: 'Имя' }
                     - { property: 'lastname', label: 'Фамилия' }
-                    - { property: 'telephone', label: 'Телефон' }
+                    - { property: 'telephone', label: 'Телефон', type: Misd\PhoneNumberBundle\Form\Type\PhoneNumberType }
+                    - { property: 'email', label: 'Почта' }
         Organization:
             class: App\Entity\Organization
             disabled_actions: ['delete']
+            list:
+                title: 'Организации'
+                fields:
+                    - { property: 'id' }
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'address', label: 'Адрес' }
+                    - { property: 'email', label: 'Почта' }
+                    - { property: 'telephone', label: 'Телефон', template: 'easy_admin/field_telephone.html.twig' }
+                    - { property: 'officePhone', label: 'Офисный телефон', template: 'easy_admin/field_telephone.html.twig' }
+            form:
+                fields:
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'address', label: 'Адрес' }
+                    - { property: 'email', label: 'Почта' }
+                    - { property: 'telephone', label: 'Телефон', type: Misd\PhoneNumberBundle\Form\Type\PhoneNumberType }
+                    - { property: 'officePhone', label: 'Офисный телефон', type: Misd\PhoneNumberBundle\Form\Type\PhoneNumberType }
+            new:
+                title: 'Создать новую Организацию'
+            edit:
+                title: 'Редактирование Организации'
         Employee:
             class: App\Entity\Employee
             disabled_actions: ['show', 'delete']
