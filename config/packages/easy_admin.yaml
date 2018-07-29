@@ -209,6 +209,8 @@ easy_admin:
                     - { property: 'lastname', label: 'Фамилия' }
                     - { property: 'telephone', label: 'Телефон', type: Misd\PhoneNumberBundle\Form\Type\PhoneNumberType }
                     - { property: 'email', label: 'Почта' }
+                    - { property: 'contractor', label: 'Подрядчик' }
+                    - { property: 'seller', label: 'Поставщик' }
         Organization:
             class: App\Entity\Organization
             disabled_actions: ['delete']
@@ -228,6 +230,8 @@ easy_admin:
                     - { property: 'email', label: 'Почта' }
                     - { property: 'telephone', label: 'Телефон', type: Misd\PhoneNumberBundle\Form\Type\PhoneNumberType }
                     - { property: 'officePhone', label: 'Офисный телефон', type: Misd\PhoneNumberBundle\Form\Type\PhoneNumberType }
+                    - { property: 'contractor', label: 'Подрядчик' }
+                    - { property: 'seller', label: 'Поставщик' }
             new:
                 title: 'Создать новую Организацию'
             edit:
@@ -343,7 +347,7 @@ easy_admin:
                 title: 'Создать поставку'
                 form_options: { data_class: App\Form\Model\Supply }
                 fields:
-                    - { property: 'supplier', label: 'Поставщик', type: 'easyadmin_autocomplete', type_options: { required: true } }
+                    - { property: 'supplier', label: 'Поставщик', type: App\Form\Type\SellerType, type_options: { required: true } }
                     - { property: 'part', label: 'Наименование', type: 'easyadmin_autocomplete', type_options: { required: true } }
                     - { property: 'price', label: 'Цена', type: App\Form\Type\MoneyType }
                     - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType, type_options: { required: true } }
@@ -363,7 +367,7 @@ easy_admin:
                 title: 'Создать приход'
                 form_options: { data_class: App\Form\Model\Income }
                 fields:
-                    - { property: 'supplier', label: 'Поставщик', type: 'easyadmin_autocomplete', type_options: { required: true } }
+                    - { property: 'supplier', label: 'Поставщик', type: App\Form\Type\SellerType, type_options: { required: true } }
                     -
                         property: 'parts'
                         label: 'Позиции'

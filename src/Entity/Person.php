@@ -59,7 +59,14 @@ class Person extends Operand
 
     public function __toString(): string
     {
-        return sprintf('%s (%s)', $this->getFullName(), $this->getEmail());
+        $string = $this->getFullName();
+        $email = $this->getEmail();
+
+        if (null !== $email) {
+            $string .= sprintf(' (%s)', $email);
+        }
+
+        return $string;
     }
 
     public function getFirstname(): ?string

@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
-use App\Entity\Employee;
 use App\Entity\Operand;
-use App\Entity\Person;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -17,7 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class WorkerType extends AbstractType
+final class SellerType extends AbstractType
 {
     /**
      * @var EntityManagerInterface
@@ -38,25 +35,15 @@ final class WorkerType extends AbstractType
 
         $resolver->setDefaults([
             'label' => false,
-            'placeholder' => 'Выберите исполнителя',
+            'placeholder' => 'Выберите поставщика',
             'choice_loader' => new CallbackChoiceLoader(function () use ($em) {
-                $employees = $em->createQueryBuilder()
-                    ->select('person')
-                    ->from(Person::class, 'person')
-                    ->join(Employee::class, 'employee', Join::WITH, 'person = employee.person')
-                    ->where('employee.firedAt IS NULL')
-                    ->getQuery()
-                    ->getResult();
-
-                $contractors = $em->createQueryBuilder()
+                return $em->createQueryBuilder()
                     ->select('entity')
                     ->from(Operand::class, 'entity')
-                    ->where('entity.contractor = :is_contractor')
-                    ->setParameter('is_contractor', true)
+                    ->where('entity.seller = :is_seller')
+                    ->setParameter('is_seller', true)
                     ->getQuery()
                     ->getResult();
-
-                return array_merge($employees, $contractors);
             }),
             'choice_label' => function (Operand $operand) {
                 return (string) $operand;

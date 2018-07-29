@@ -43,6 +43,7 @@ class MoneyType extends \Symfony\Component\Form\Extension\Core\Type\MoneyType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
+            'label' => 'Стоимость',
             'scale' => 2,
             'grouping' => false,
             'divisor' => 100,

@@ -34,6 +34,7 @@ class QuantityType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
+            'label' => 'Количество',
             'scale' => 2,
             'grouping' => false,
             'divisor' => 100,

@@ -23,6 +23,7 @@ final class IncomePartType extends AbstractType
     {
         $builder
             ->add('part', EasyAdminAutocompleteType::class, [
+                'label' => 'Запчасть',
                 'class' => Part::class,
             ])
             ->add('price', MoneyType::class)

@@ -85,7 +85,7 @@ class Organization extends Operand
         return $this->telephone;
     }
 
-    public function setTelephone(PhoneNumber $telephone): void
+    public function setTelephone(?PhoneNumber $telephone): void
     {
         $this->telephone = $telephone;
     }
@@ -105,7 +105,7 @@ class Organization extends Operand
         return $this->officePhone;
     }
 
-    public function setOfficePhone(PhoneNumber $officePhone): void
+    public function setOfficePhone(?PhoneNumber $officePhone): void
     {
         $this->officePhone = $officePhone;
     }
