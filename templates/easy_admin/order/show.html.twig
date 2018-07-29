@@ -141,10 +141,10 @@
         {% if car is not empty %}
             <h2 class="page-header">
                 {%- spaceless -%}
-                    Рекомендации
-
-                    <a href="{{ easyadmin_path('CarRecommendation', 'new', {'car_id': order.car.id}|merge(order|to_query)) }}">
+                    <a class="btn btn-primary"
+                       href="{{ easyadmin_path('CarRecommendation', 'new', {'car_id': order.car.id}|merge(order|to_query)) }}">
                         <i class="fa fa-plus"></i>
+                        Рекомендация
                     </a>
                 {%- endspaceless -%}
             </h2>
