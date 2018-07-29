@@ -8,6 +8,9 @@ use App\Entity\User;
 use App\Request\EntityTransformer;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController;
+use libphonenumber\PhoneNumber;
+use libphonenumber\PhoneNumberFormat;
+use libphonenumber\PhoneNumberUtil;
 use Money\Formatter\DecimalMoneyFormatter;
 use Money\Money;
 use Money\MoneyFormatter;
@@ -39,6 +42,11 @@ abstract class AbstractController extends AdminController
     private $decimalMoneyFormatter;
 
     /**
+     * @var PhoneNumberUtil
+     */
+    private $phoneNumberUtil;
+
+    /**
      * @required
      */
     public function setEntityTransformer(EntityTransformer $entityTransformer): void
@@ -62,11 +70,31 @@ abstract class AbstractController extends AdminController
         $this->decimalMoneyFormatter = $moneyFormatter;
     }
 
+    /**
+     * @required
+     */
+    public function setPhoneNumberUtil(PhoneNumberUtil $phoneNumberUtil): void
+    {
+        $this->phoneNumberUtil = $phoneNumberUtil;
+    }
+
     protected function formatMoney(Money $money, bool $decimal = false): string
     {
         $formatter = $decimal ? $this->decimalMoneyFormatter : $this->moneyFormatter;
 
         return $formatter->format($money);
+    }
+
+    /**
+     * @param PhoneNumber|string $telephone
+     */
+    protected function formatTelephone($telephone, int $format = PhoneNumberFormat::INTERNATIONAL): string
+    {
+        if (!$telephone instanceof PhoneNumber) {
+            $telephone = $this->phoneNumberUtil->parse($telephone, 'RU');
+        }
+
+        return $this->phoneNumberUtil->format($telephone, $format);
     }
 
     protected function redirectToEasyPath(

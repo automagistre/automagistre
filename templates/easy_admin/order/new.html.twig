@@ -1,0 +1,30 @@
+{% extends '@EasyAdmin/default/new.html.twig' %}
+
+{% block body_javascript %}
+    {{ parent() }}
+
+    <script>
+      let operandInput = $('#{{ form.customer.autocomplete.vars.id }}'),
+          carInput = $('#{{ form.car.autocomplete.vars.id }}'),
+          autocompleteCarUrl = '{{ easyadmin_path('Car', 'autocomplete', {'owner_id': '__CAR__'})|raw }}';
+
+      operandInput.on('select2:select', function() {
+        let url = autocompleteCarUrl.replace('__CAR__', operandInput.val());
+
+        $.ajax({
+          type: 'GET',
+          url: url,
+        }).then(function(data) {
+          // create the option and append to Select2
+          $(data.results).each(function(index, car) {
+            carInput.append(new Option(car.text, car.id, 0 === index, 0 === index)).trigger('change');
+          });
+
+          carInput.select2('destroy').select2({
+            theme: 'bootstrap',
+            language: 'ru',
+          });
+        });
+      });
+    </script>
+{% endblock %}

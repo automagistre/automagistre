@@ -82,9 +82,16 @@ final class OperandController extends AbstractController
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
         $data = array_map(function (Operand $entity) {
+            $text = $entity->getFullName();
+
+            $telephone = $entity->getTelephone();
+            if (null !== $telephone) {
+                $text .= sprintf(' (%s)', $this->formatTelephone($telephone));
+            }
+
             return [
                 'id' => $entity->getId(),
-                'text' => $entity->getFullName(),
+                'text' => $text,
             ];
         }, (array) $paginator->getCurrentPageResults());
 
