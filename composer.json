@@ -33,7 +33,7 @@
         "symfony/console": "^4.1.2",
         "symfony/event-dispatcher": "^4.1.2",
         "symfony/expression-language": "^4.1.2",
-        "symfony/flex": "^1.0.86",
+        "symfony/flex": "^1.0.88",
         "symfony/form": "^4.1.2",
         "symfony/framework-bundle": "^4.1.2",
         "symfony/monolog-bundle": "^3.3.0",
