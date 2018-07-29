@@ -212,6 +212,10 @@ easy_admin:
                     - { property: 'email', label: 'Почта' }
                     - { property: 'contractor', label: 'Подрядчик' }
                     - { property: 'seller', label: 'Поставщик' }
+            new:
+                title: 'Создать нового Человека'
+            edit:
+                title: 'Редактировать Человека'
         Organization:
             class: App\Entity\Organization
             disabled_actions: ['delete']
