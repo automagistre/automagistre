@@ -6,9 +6,12 @@ namespace App\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
+ *
+ * @UniqueEntity(fields={"person"}, message="Данный человек уже является сотрудником")
  */
 class Employee
 {
