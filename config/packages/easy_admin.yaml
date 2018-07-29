@@ -240,6 +240,7 @@ easy_admin:
             class: App\Entity\Employee
             disabled_actions: ['show', 'delete']
             list:
+                title: 'Сотрудники'
                 fields:
                     - { property: 'id' }
                     - { property: 'person', label: 'Ф.И.О' }
@@ -250,7 +251,10 @@ easy_admin:
                 fields:
                     - { property: 'person', label: 'Ф.И.О', type: 'easyadmin_autocomplete', type_options: { required: true } }
                     - { property: 'ratio', label: 'Ставка' }
-
+            new:
+                title: 'Добавить нового сотрудника'
+            edit:
+                title: 'Редактировать сотрудника'
         Car:
             class: App\Entity\Car
             controller: App\Controller\EasyAdmin\CarController
@@ -304,6 +308,7 @@ easy_admin:
                 new: 'easy_admin/part/new.html.twig'
             disabled_actions: ['show', 'delete']
             list:
+                title: 'Запчасти'
                 fields:
                     - { property: 'id' }
                     - { property: 'manufacturer.name', label: 'Производитель' }
@@ -316,7 +321,10 @@ easy_admin:
                     - { property: 'number', label: 'Номер' }
                     - { property: 'name', label: 'Название' }
                     - { property: 'price', label: 'Цена', type: App\Form\Type\MoneyType }
+            net:
+                title: 'Создать новую запчасть'
             edit:
+                title: 'Редактировать запчасть'
                 fields:
                     - { property: 'manufacturer', label: 'Производитель', type_options: { disabled: true } }
                     - { property: 'number', label: 'Номер', type_options: { disabled: true } }
@@ -325,6 +333,7 @@ easy_admin:
             class: App\Entity\Motion
             disabled_actions: ['show', 'edit', 'new', 'search', 'delete']
             list:
+                title: 'Движения по складу'
                 fields:
                     - { property: 'part', label: 'Наименование' }
                     - { property: 'quantity', label: 'Количество', template: 'easy_admin/field_quantity.html.twig' }
@@ -396,6 +405,10 @@ easy_admin:
                 fields:
                     - { property: 'name', label: 'Название' }
                     - { property: 'logo', label: 'Logo' }
+            new:
+                title: 'Создать нового Прозводителя'
+            edit:
+                title: 'Редактировать Производителя'
 
         Model:
             class: App\Entity\CarModel
@@ -403,7 +416,7 @@ easy_admin:
             disabled_actions: ['show', 'delete']
             label: 'Модель'
             list:
-                title: 'Производители'
+                title: 'Модели'
                 fields:
                     - { property: 'id' }
                     - { property: 'manufacturer', label: 'Производитель' }
@@ -412,7 +425,10 @@ easy_admin:
                 fields:
                     - { property: 'manufacturer', label: 'Производитель', type: 'easyadmin_autocomplete' }
                     - { property: 'name', label: 'Название' }
+            new:
+                title: 'Создать новую модель'
             edit:
+                title: 'Редактировать модель'
                 fields:
                     - { property: 'manufacturer', label: 'Производитель', type_options: { disabled: true } }
 
@@ -430,7 +446,10 @@ easy_admin:
                 fields:
                     - { property: 'carModel', label: 'Модель', type: 'easyadmin_autocomplete' }
                     - { property: 'name', label: 'Название' }
+            new:
+                title: 'Создать новое поколение'
             edit:
+                title: 'Редактировать поколение'
                 fields:
                     - { property: 'carModel', type_options: { disabled: true } }
 
@@ -439,7 +458,7 @@ easy_admin:
             controller: App\Controller\EasyAdmin\CarModificationController
             disabled_actions: ['show', 'delete']
             list:
-                title: 'Справочник Автомобилей'
+                title: 'Модификации'
                 fields:
                     - { property: 'id' }
                     - { property: 'carGeneration.displayName', label: 'Поколение' }
@@ -471,8 +490,10 @@ easy_admin:
                     - { property: 's0to100', label: 'Разгон' }
                     - { property: 'tank', label: 'Объём бака' }
             new:
+                title: 'Создать новую Модификацию'
                 fields: ['-name']
             edit:
+                title: 'Редактировать модификацию'
                 fields:
                     - { property: 'name', type_options: { disabled: true } }
         Payment:
