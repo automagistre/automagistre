@@ -208,6 +208,7 @@ easy_admin:
                     - { property: 'firstname', label: 'Имя' }
                     - { property: 'lastname', label: 'Фамилия' }
                     - { property: 'telephone', label: 'Телефон', type: Misd\PhoneNumberBundle\Form\Type\PhoneNumberType }
+                    - { property: 'officePhone', label: 'Раб. Телефон', type: Misd\PhoneNumberBundle\Form\Type\PhoneNumberType }
                     - { property: 'email', label: 'Почта' }
                     - { property: 'contractor', label: 'Подрядчик' }
                     - { property: 'seller', label: 'Поставщик' }
