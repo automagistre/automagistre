@@ -334,6 +334,8 @@ class Order
                 $price = $price->add($item->getTotalPrice());
             } elseif ($item instanceof PriceInterface) {
                 $price = $price->add($item->getPrice());
+            } elseif ($item instanceof OrderItemGroup) {
+                continue;
             } else {
                 throw new DomainException('Can\'t calculate total price for item which not have price');
             }

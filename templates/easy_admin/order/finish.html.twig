@@ -1,36 +1,9 @@
 {% extends 'easy_admin/layout.html.twig' %}
 
+{% use 'easy_admin/order/layout.html.twig' %}
+
 {% form_theme form with easyadmin_config('design.form_theme') %}
 
 {% block content_title %}
     Финалка заказа №{{ order }}
-{% endblock %}
-
-{% block content_help %}
-    {{ order.customer }} {{ order.car }}
-{% endblock %}
-
-{% block main %}
-    <div class="row">
-        {{ form_start(form) }}
-
-        <div class="field-group col-md-6 col-md-offset-3">
-            <div class="box box-default">
-                <div class="box-header with-border">
-                    <h3 class="box-title">{{ header }}</h3>
-                </div>
-
-                <div class="box-body">
-                    {% block form -%}
-                        {{ form_row(form) }}
-                    {%- endblock %}
-                </div>
-
-                <div class="box-footer">
-                    <button class="btn btn-success" type="submit">Сохранить</button>
-                </div>
-            </div>
-        </div>
-        {{ form_end(form) }}
-    </div>
 {% endblock %}

@@ -1,0 +1,87 @@
+<div class="field-group">
+    <div class="box box-default">
+        <div class="box-header with-border">
+            <h3 class="box-title">Основная информация</h3>
+        </div>
+
+        <div class="box-body">
+            <div class="form-horizontal">
+                <div class="form-group field-association ">
+                    <label class="col-sm-2 control-label">Статус</label>
+
+                    <div class="col-sm-10">
+                        <div class="form-control">
+                            {{- order.status.name -}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-horizontal">
+                <div class="form-group field-association ">
+                    <label class="col-sm-2 control-label">Клиент</label>
+
+                    <div class="col-sm-10">
+                        <div class="form-control">
+                            {%- if order.customer is not empty %}
+                                {{- order.customer -}}
+                            {% endif -%}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-horizontal">
+                <div class="form-group field-association ">
+                    <label class="col-sm-2 control-label">Автомобиль</label>
+
+                    <div class="col-sm-10">
+                        <div class="form-control">
+                            {{- order.car -}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-horizontal">
+                <div class="form-group field-association ">
+                    <label class="col-sm-2 control-label">Пробег</label>
+
+                    <div class="col-sm-10">
+                        <div class="form-control">
+                            {{- order.mileage|number_format -}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-horizontal">
+                <div class="form-group field-association ">
+                    <label class="col-sm-2 control-label">Описание</label>
+
+                    <div class="col-sm-10">
+                        <div class="form-control">
+                            {{- order.description|raw -}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-horizontal">
+                <div class="form-group field-association ">
+                    <label class="col-sm-2 control-label">Итого</label>
+
+                    <div class="col-sm-10">
+                        <div class="form-control">
+                            {{- order.totalPartPrice|localize_money }}
+                            + {{ order.totalServicePrice|localize_money }}
+                            - {{ order.totalPayments|localize_money }}
+                            = {{ order.totalForPayment|localize_money -}}
+                        </div>
+                        <span class="help-block">Запчасти + Работа - Оплачено = К оплате</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

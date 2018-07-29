@@ -1,9 +1,3 @@
-{% extends '@EasyAdmin/default/new.html.twig' %}
-
-{% use 'easy_admin/order/content_help.html.twig' %}
-
-{% block content_title %}Создать новую запчасть{% endblock %}
-
 {% block entity_form %}
     {{ form_start(form) }}
     {{ form_row(form.order) }}
@@ -32,9 +26,7 @@
     {{ form_end(form) }}
 {% endblock %}
 
-{% block body_javascript %}
-    {{ parent() }}
-
+{% block js %}
     <script type="text/javascript">
       let url = "{{ easyadmin_path('Part', 'new')|raw }}",
           partInput = $("#{{ form.part.children.autocomplete.vars.id }}"),

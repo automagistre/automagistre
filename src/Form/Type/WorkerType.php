@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Form\Type;
 
 use App\Entity\Employee;
+use App\Entity\Operand;
 use App\Entity\Person;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Join;
@@ -47,12 +48,10 @@ final class WorkerType extends AbstractType
                     ->getQuery()
                     ->getResult();
             }),
-            'choice_label' => function (Person $person) {
-                return (string) $person;
+            'choice_label' => function (Operand $operand) {
+                return (string) $operand;
             },
-            'choice_value' => function (?Person $person) {
-                return $person instanceof Person ? $person->getId() : null;
-            },
+            'choice_value' => 'id',
         ]);
     }
 

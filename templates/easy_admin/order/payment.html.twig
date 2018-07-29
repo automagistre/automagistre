@@ -1,6 +1,6 @@
 {% extends 'easy_admin/layout.html.twig' %}
 
-{% use 'easy_admin/order/content_help.html.twig' %}
+{% use 'easy_admin/order/layout.html.twig' %}
 
 {% form_theme form with easyadmin_config('design.form_theme') %}
 
@@ -8,10 +8,123 @@
     Создать платёж по заказу №{{ order }}
 {% endblock %}
 
-{% block main %}
-    {{ form_start(form) }}
-    {{ form_rest(form) }}
+{% block panel_title %}Форма платежа{% endblock %}
 
-    <button class="btn btn-success" type="submit">Создать платёж</button>
-    {{ form_end(form) }}
+{% block panel_body %}
+    <div class="row">
+        <div class="col-md-6">
+            {{ form_row(form.recipient) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.description) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Всего</label>
+                <div class="input-group">
+                    <span class="label label-success" style="font-size: 24px">
+                        <span class="js-total-amount">{{ form.amountCash.vars.value }}</span>
+                        {{ form.amountCash.vars.money_pattern|replace({'{{ widget }}': ''}) }}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Фиксировать сумму</label>
+                <div class="input-group">
+                    <input type="checkbox" class="btn js-keep-total"
+                           data-total="{{ order.totalForPayment|localize_money(true) }}"
+                           data-toggle="toggle" data-size="mini" checked="checked"
+                           data-onstyle="success" data-offstyle="danger" data-on="Вкл" data-off="Выкл">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-5">
+                    {{ form_row(form.amountCash) }}
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label" style="color: white">.</label>
+                        <div class="input-group">
+                            <button class="btn btn-primary js-flip" type="button">
+                                <i class="fa fa-refresh"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    {{ form_row(form.amountNonCash) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block body_javascript %}
+    {{ parent() }}
+
+    <script>
+      const amount = function(string) {
+            let result = parseFloat(string.replace(',', '.'));
+            if (!jQuery.isNumeric(result)) {
+              return 0;
+            }
+
+            return result;
+          },
+          formatMoney = function(string) {
+            return string.toFixed(2).replace('.', ',');
+          };
+
+      let
+          total = $('.js-total-amount'),
+          cash = $('#{{ form.amountCash.vars.id }}'),
+          nonCash = $('#{{ form.amountNonCash.vars.id }}'),
+          keepTotal = $('.js-keep-total'),
+          totalAmount = amount(keepTotal.data('total'));
+
+      let refreshSum = function() {
+        if (keepTotal.prop('checked')) {
+          let left = $(this),
+              right = left.attr('id') === cash.attr('id') ? nonCash : cash;
+
+          let oppositeAmount = totalAmount - amount(left.val());
+
+          if (0 > oppositeAmount) {
+            oppositeAmount = 0;
+          }
+
+          right.val(oppositeAmount);
+        }
+
+        let cashAmount = amount(cash.val()),
+            nonCashAmount = amount(nonCash.val());
+
+        total.html(formatMoney(cashAmount + nonCashAmount));
+      };
+
+      cash.on('change', refreshSum);
+      cash.on('keyup', refreshSum);
+      nonCash.on('change', refreshSum);
+      nonCash.on('keyup', refreshSum);
+
+      $('.js-flip').on('click', function() {
+        let cashAmount = cash.val(),
+            nonCashAmount = nonCash.val();
+
+        cash.val(nonCashAmount);
+        nonCash.val(cashAmount);
+      });
+    </script>
 {% endblock %}

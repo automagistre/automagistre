@@ -112,7 +112,7 @@ final class OrderController extends AbstractController
                 goto mileage;
             }
 
-            return $this->render('easy_admin/order/finish_worker.html.twig', [
+            return $this->render('easy_admin/order/finish.html.twig', [
                 'header' => 'Введите исполнителей',
                 'order' => $order,
                 'form' => $form->createView(),
@@ -148,7 +148,7 @@ final class OrderController extends AbstractController
 
         finish:
 
-        $this->addFlash('success', 'Представь что ты увидел файл на финишную печать');
+        $this->addFlash('success', 'Представь что ты увидел заказ-наряд для печати');
 
         return $this->redirectToEasyPath($this->getEntity(Order::class), 'show');
     }
@@ -192,8 +192,7 @@ final class OrderController extends AbstractController
                 goto close;
             }
 
-            return $this->render('easy_admin/order/close_payment.html.twig', [
-                'header' => 'Создать платёж',
+            return $this->render('easy_admin/order/payment.html.twig', [
                 'order' => $order,
                 'form' => $form->createView(),
             ]);
@@ -216,6 +215,15 @@ final class OrderController extends AbstractController
                 /** @var OrderItemService $item */
                 $worker = $item->getWorker();
                 $employee = $em->getRepository(Employee::class)->findOneBy(['person' => $worker]);
+
+                if (!$employee instanceof Employee) {
+                    $this->addFlash('warning', sprintf(
+                        'Для исполнителя "%s" нет записи работника, зарплата по заказу не начислена.',
+                        $worker->getFullName()
+                    ));
+
+                    continue;
+                }
 
                 $salary = $item->getPrice()->multiply($employee->getRatio() / 100);
                 $description = sprintf('# ЗП %s по заказу #%s', $worker->getFullName(), $order->getId());

@@ -1,10 +1,4 @@
-{% extends '@EasyAdmin/default/new.html.twig' %}
-
-{% use 'easy_admin/order/content_help.html.twig' %}
-
-{% block content_title %}Создать новую Работу{% endblock %}
-
-{% block body_javascript %}
+{% block js %}
     <script src="{{ asset('assets/js/typeahead.bundle.min.js') }}"></script>
 
     {% include 'easy_admin/_includes/typehead_service.html.twig' with {

@@ -1,31 +1,22 @@
 {% extends 'easy_admin/layout.html.twig' %}
 
+{% use 'easy_admin/order/layout.html.twig' %}
+
 {% block content_title %}
     Закрыть заказ №{{ order }}
 {% endblock %}
 
-{% block content_help %}
-    {{ order.customer }} {{ order.car }}
-{% endblock %}
+{% block panel_title %}Клиент заплатил?{% endblock %}
 
-{% block main %}
-    <div class="row">
-        <div class="field-group col-md-6 col-md-offset-3">
-            <div class="box box-default">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Клиент заплатил?</h3>
-                </div>
-                <div class="box-body">
-                    <div class="row text-center">
-                        <div class="col-xs-6">
-                            <a href="{{ easyadmin_path(order, 'close', {'step': 'paid'}) }}" class="btn btn-success">Заплатил</a>
-                        </div>
-                        <div class="col-xs-6">
-                            <a href="{{ easyadmin_path(order, 'close', {'step': 'unpaid'}) }}" class="btn btn-danger">Не заплатил</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+{% block panel_body %}
+    <div class="row text-center">
+        <div class="col-xs-6">
+            <a href="{{ easyadmin_path(order, 'close', {'step': 'paid'}) }}"
+               class="btn btn-success">Заплатил</a>
+        </div>
+        <div class="col-xs-6">
+            <a href="{{ easyadmin_path(order, 'close', {'step': 'unpaid'}) }}"
+               class="btn btn-danger">Не заплатил</a>
         </div>
     </div>
 {% endblock %}

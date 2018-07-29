@@ -20,7 +20,7 @@
     {% if order.editable %}
         <td>-</td>
         <td>
-            <a href="{{ easyadmin_path(item, 'edit') }}">
+            <a href="{{ easyadmin_path(item, 'edit', order|to_query) }}">
                 <i class="fa fa-pencil"></i>
             </a>
 

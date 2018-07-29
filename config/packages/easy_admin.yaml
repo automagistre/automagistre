@@ -94,7 +94,8 @@ easy_admin:
             controller: App\Controller\EasyAdmin\OrderItemGroupController
             disabled_actions: ['show', 'list']
             templates:
-                new: 'easy_admin/order/group_new.html.twig'
+                new: 'easy_admin/order_item_group/new.html.twig'
+                edit: 'easy_admin/order_item_group/edit.html.twig'
             form:
                 fields:
                     - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
@@ -110,7 +111,8 @@ easy_admin:
             controller: App\Controller\EasyAdmin\OrderItemServiceController
             disabled_actions: ['show', 'list']
             templates:
-                new: 'easy_admin/order/service_new.html.twig'
+                new: 'easy_admin/order_item_service/new.html.twig'
+                edit: 'easy_admin/order_item_service/edit.html.twig'
             edit:
                 actions: ['delete']
                 fields:
@@ -130,7 +132,8 @@ easy_admin:
             controller: App\Controller\EasyAdmin\OrderItemPartController
             disabled_actions: ['show', 'list']
             templates:
-                new: 'easy_admin/order/part_new.html.twig'
+                new: 'easy_admin/order_item_part/new.html.twig'
+                edit: 'easy_admin/order_item_part/edit.html.twig'
             edit:
                 actions: ['delete']
                 fields:

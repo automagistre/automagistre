@@ -17,6 +17,8 @@ abstract class Operand
 {
     use Identity;
 
+    abstract public function __toString(): string;
+
     abstract public function getFullName(): string;
 
     abstract public function getTelephone(): ?string;

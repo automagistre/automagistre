@@ -1,0 +1,13 @@
+{% extends '@EasyAdmin/default/edit.html.twig' %}
+
+{% use 'easy_admin/order/layout.html.twig' %}
+
+{% block content_title %}Редактировать Группу{% endblock %}
+
+{% block panel_title %}Группа{% endblock %}
+
+{% block panel_body %}
+    {{ form_widget(form) }}
+{% endblock %}
+
+{% block div_footer %}{% endblock %}
