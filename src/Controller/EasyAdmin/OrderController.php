@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Controller\EasyAdmin;
 
 use App\Entity\Employee;
+use App\Entity\Motion;
 use App\Entity\Operand;
 use App\Entity\Order;
+use App\Entity\OrderItemPart;
 use App\Entity\OrderItemService;
 use App\Entity\OrderPayment;
 use App\Entity\Organization;
@@ -209,6 +211,11 @@ final class OrderController extends AbstractController
                 $description = sprintf('# Списание по заказу #%s', $order->getId());
 
                 $this->createPayment($customer, $description, $order->getTotalPrice()->negative());
+            }
+
+            foreach ($order->getItems(OrderItemPart::class) as $item) {
+                /* @var OrderItemPart $item */
+                $em->persist(new Motion($item->getPart(), $item->getQuantity(), $order));
             }
 
             foreach ($order->getItems(OrderItemService::class) as $item) {
