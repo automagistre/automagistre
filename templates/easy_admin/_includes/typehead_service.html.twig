@@ -18,14 +18,14 @@
   });
 
   serviceInput.typeahead(null, {
-    name: 'best-pictures',
     display: 'text',
     source: bh,
+    limit: 25,
   });
 
   if ('{{ priceInputId }}') {
     serviceInput.bind('typeahead:select', function(ev, suggestion) {
-      $('#{{ priceInputId }}').val(suggestion.price.replace('.', ','));
+      $('#{{ priceInputId }}').val(suggestion.price.replace('.', ',').trim());
     });
   }
 

@@ -18,3 +18,9 @@
 
     {{ block('js') }}
 {% endblock %}
+
+{% block head_stylesheets %}
+    {{ parent() }}
+
+    {{ block('css') }}
+{% endblock %}

@@ -7,3 +7,28 @@
         'params': order|to_query
     } only %}
 {% endblock %}
+
+{% block css %}
+    <style>
+        .tt-menu {
+            width: 100%;
+            background-color: white;
+            border: 1px solid #D09482;
+            border-top-width: 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .tt-suggestion {
+            padding: 0 12px;
+            font-size: 14px;
+        }
+
+        .tt-selectable {
+            cursor: pointer;
+        }
+
+        .tt-selectable:hover {
+            background-color: #F9744E;
+        }
+    </style>
+{% endblock %}
