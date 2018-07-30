@@ -109,8 +109,9 @@ final class OrderItemServiceController extends OrderItemController
 
         $qb = $this->em->getRepository(OrderItemService::class)
             ->createQueryBuilder('entity')
-            ->orderBy('entity.service', 'ASC')
-            ->setMaxResults(20);
+            ->orderBy('COUNT(entity.service)', 'DESC')
+            ->addOrderBy('entity.service', 'ASC')
+            ->setMaxResults(15);
 
         $car = $this->getEntity(Car::class);
         $order = $this->getEntity(Order::class);
@@ -130,6 +131,11 @@ final class OrderItemServiceController extends OrderItemController
         }
 
         foreach (explode(' ', trim($request->query->get('query'))) as $key => $searchString) {
+            $searchString = trim($searchString);
+            if ('' === $searchString) {
+                continue;
+            }
+
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
@@ -140,12 +146,12 @@ final class OrderItemServiceController extends OrderItemController
         }
 
         $data = array_map(function (OrderItemService $entity) {
-            $service = $entity->getService();
+            $price = $entity->getPrice();
 
             return [
                 'id' => $entity->getId(),
-                'text' => $service,
-                'price' => $this->formatMoney($entity->getPrice(), true),
+                'text' => sprintf('%s (%s)', $entity->getService(), $this->formatMoney($price)),
+                'price' => $this->formatMoney($price, true),
             ];
         }, $qb->getQuery()->getResult());
 

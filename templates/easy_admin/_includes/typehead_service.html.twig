@@ -17,7 +17,9 @@
     },
   });
 
-  serviceInput.typeahead(null, {
+  serviceInput.typeahead({
+    minLength: 0,
+  }, {
     display: 'text',
     source: bh,
     limit: 25,
