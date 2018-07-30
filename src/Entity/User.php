@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
+use DomainException;
 use Serializable;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
@@ -66,7 +67,7 @@ class User implements UserInterface, EquatableInterface, Serializable
     public function setPerson(Person $person): void
     {
         if ($this->person instanceof Person) {
-            throw new \DomainException('Person already defined for this user');
+            throw new DomainException('Person already defined for this user');
         }
 
         $this->person = $person;

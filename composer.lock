@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "373acb7430090b458b655199cb493f4b",
+    "content-hash": "39ac42793633fd5a777940cee7b52586",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -3818,16 +3818,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.0.88",
+            "version": "v1.0.89",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "730ff18ed2d15ed8a0eaba8115a0cffdf53c39eb"
+                "reference": "26be754f42c3c3f21139af2bdd74118ef8f82757"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/730ff18ed2d15ed8a0eaba8115a0cffdf53c39eb",
-                "reference": "730ff18ed2d15ed8a0eaba8115a0cffdf53c39eb",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/26be754f42c3c3f21139af2bdd74118ef8f82757",
+                "reference": "26be754f42c3c3f21139af2bdd74118ef8f82757",
                 "shasum": ""
             },
             "require": {
@@ -3861,7 +3861,7 @@
                 }
             ],
             "description": "Composer plugin for Symfony",
-            "time": "2018-07-27T16:55:54+00:00"
+            "time": "2018-07-29T16:20:30+00:00"
         },
         {
             "name": "symfony/form",
@@ -6931,16 +6931,16 @@
         },
         {
             "name": "pedrotroller/php-cs-custom-fixer",
-            "version": "v2.12.0",
+            "version": "v2.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PedroTroller/PhpCSFixer-Custom-Fixers.git",
-                "reference": "4e5951d5fe90c2f6ba2d113ff26f292f3489a11e"
+                "reference": "d051289e532b190199f1a938cb77cc025a3783e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PedroTroller/PhpCSFixer-Custom-Fixers/zipball/4e5951d5fe90c2f6ba2d113ff26f292f3489a11e",
-                "reference": "4e5951d5fe90c2f6ba2d113ff26f292f3489a11e",
+                "url": "https://api.github.com/repos/PedroTroller/PhpCSFixer-Custom-Fixers/zipball/d051289e532b190199f1a938cb77cc025a3783e7",
+                "reference": "d051289e532b190199f1a938cb77cc025a3783e7",
                 "shasum": ""
             },
             "require": {
@@ -6967,7 +6967,7 @@
                 "MIT"
             ],
             "description": "PHP-CS-FIXER : my custom fixers",
-            "time": "2018-07-26T09:21:43+00:00"
+            "time": "2018-07-30T09:16:19+00:00"
         },
         {
             "name": "phar-io/manifest",

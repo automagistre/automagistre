@@ -8,6 +8,7 @@ use App\Model\Part;
 use App\Utils\StringUtils;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ServerException;
+use SimpleXMLElement;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -48,7 +49,7 @@ final class Finder
             return [];
         }
 
-        $elements = new \SimpleXMLElement($xml);
+        $elements = new SimpleXMLElement($xml);
 
         $parts = [];
         foreach ($elements as $part) {

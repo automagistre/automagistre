@@ -6,6 +6,7 @@ namespace App\Doctrine\ORM\Mapping\Traits;
 
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use DomainException;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -27,7 +28,7 @@ trait CreatedAt
     public function updateCreatedAt(): void
     {
         if ($this->createdAt instanceof DateTimeImmutable) {
-            throw new \DomainException('Change defined createdAt is restricted');
+            throw new DomainException('Change defined createdAt is restricted');
         }
 
         $this->createdAt = new DateTimeImmutable();

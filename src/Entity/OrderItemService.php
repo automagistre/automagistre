@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
 use App\Money\PriceInterface;
 use Doctrine\ORM\Mapping as ORM;
+use DomainException;
 use Money\Money;
 
 /**
@@ -47,7 +48,7 @@ class OrderItemService extends OrderItem implements PriceInterface
     public function setPrice(Money $price): void
     {
         if (!$this->getOrder()->isEditable()) {
-            throw new \DomainException('Can\'t change price on service on closed order.');
+            throw new DomainException('Can\'t change price on service on closed order.');
         }
 
         $this->changePrice($price);
@@ -71,7 +72,7 @@ class OrderItemService extends OrderItem implements PriceInterface
     public function setWorker(?Operand $worker): void
     {
         if (!$this->getOrder()->isEditable()) {
-            throw new \DomainException('Can\'t change order service worker on closed order.');
+            throw new DomainException('Can\'t change order service worker on closed order.');
         }
 
         $this->worker = $worker;

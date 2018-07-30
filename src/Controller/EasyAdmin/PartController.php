@@ -14,6 +14,7 @@ use App\Partner\Ixora\Finder;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
+use LogicException;
 use Money\MoneyFormatter;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -138,7 +139,7 @@ final class PartController extends AbstractController
             parent::newAction();
 
             if (!$entity instanceof Part) {
-                throw new \LogicException('Part must be returned');
+                throw new LogicException('Part must be returned');
             }
 
             return $this->json([

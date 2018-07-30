@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use DomainException;
 use Money\Money;
 
 /**
@@ -34,7 +35,7 @@ class OrderItemGroup extends OrderItem
     public function setName(string $name): void
     {
         if (!$this->getOrder()->isEditable()) {
-            throw new \DomainException('Can\'t change group name on closed order');
+            throw new DomainException('Can\'t change group name on closed order');
         }
 
         $this->name = $name;

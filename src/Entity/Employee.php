@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -33,14 +34,14 @@ class Employee
     private $ratio;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(type="datetime")
      */
     private $hiredAt;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
      */
@@ -48,7 +49,7 @@ class Employee
 
     public function __construct()
     {
-        $this->hiredAt = new \DateTime();
+        $this->hiredAt = new DateTime();
     }
 
     public function __toString(): string
@@ -76,12 +77,12 @@ class Employee
         return $this->ratio;
     }
 
-    public function getHiredAt(): \DateTime
+    public function getHiredAt(): DateTime
     {
         return $this->hiredAt;
     }
 
-    public function getFiredAt(): ?\DateTime
+    public function getFiredAt(): ?DateTime
     {
         return $this->firedAt;
     }
@@ -93,6 +94,6 @@ class Employee
 
     public function fire(): void
     {
-        $this->firedAt = new \DateTime();
+        $this->firedAt = new DateTime();
     }
 }

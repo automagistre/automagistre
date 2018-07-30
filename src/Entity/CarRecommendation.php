@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
@@ -63,7 +64,7 @@ class CarRecommendation
     private $worker;
 
     /**
-     * @var \DateTime|null
+     * @var DateTime|null
      *
      * @ORM\Column(type="datetime", nullable=true)
      */
@@ -122,7 +123,7 @@ class CarRecommendation
         return $this->worker;
     }
 
-    public function getExpiredAt(): ?\DateTime
+    public function getExpiredAt(): ?DateTime
     {
         return $this->expiredAt;
     }
@@ -130,7 +131,7 @@ class CarRecommendation
     public function realize(Order $order): void
     {
         $this->realization = $order;
-        $this->expiredAt = new \DateTime();
+        $this->expiredAt = new DateTime();
         $this->parts->clear();
     }
 }
