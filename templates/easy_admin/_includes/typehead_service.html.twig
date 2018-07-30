@@ -28,6 +28,11 @@
   if ('{{ priceInputId }}') {
     serviceInput.bind('typeahead:select', function(ev, suggestion) {
       $('#{{ priceInputId }}').val(suggestion.price.replace('.', ',').trim());
+
+      let position = suggestion.text.lastIndexOf('(');
+      if (position) {
+        serviceInput.typeahead('val', suggestion.text.slice(0, position));
+      }
     });
   }
 
