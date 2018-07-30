@@ -81,6 +81,7 @@ final class OrderItemServiceController extends OrderItemController
         $entity = new OrderItemService($model->order, $model->service, $model->price);
         $entity->setParent($model->parent);
         $entity->setWorker($model->worker);
+        $entity->setWarranty($model->warranty);
 
         parent::persistEntity($entity);
     }

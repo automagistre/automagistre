@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\Price;
+use App\Doctrine\ORM\Mapping\Traits\Warranty;
 use App\Money\PriceInterface;
 use Doctrine\ORM\Mapping as ORM;
 use DomainException;
@@ -13,9 +14,10 @@ use Money\Money;
 /**
  * @ORM\Entity
  */
-class OrderItemService extends OrderItem implements PriceInterface
+class OrderItemService extends OrderItem implements PriceInterface, WarrantyInterface
 {
     use Price;
+    use Warranty;
 
     /**
      * @var string

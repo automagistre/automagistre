@@ -7,6 +7,10 @@
         </a>
 
         {{ item.part.name }}
+
+        {% if item.warranty -%}
+            <span class="label label-success">Гарантия</span>
+        {%- endif -%}
     </td>
     <td>
         {{ item.part.number }}

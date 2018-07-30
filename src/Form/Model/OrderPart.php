@@ -28,6 +28,11 @@ final class OrderPart extends OrderItemModel
      */
     public $price;
 
+    /**
+     * @var bool
+     */
+    public $warranty;
+
     public static function getEntityClass(): string
     {
         return OrderItemPart::class;

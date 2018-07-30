@@ -124,6 +124,7 @@ easy_admin:
                     - { property: 'service', label: 'Работа', type_options: { required: true } }
                     - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType }
                     - { property: 'worker', label: 'Исполнитель', type: App\Form\Type\WorkerType }
+                    - { property: 'warranty', label: 'По гарантии?' }
             new:
                 form_options: { data_class: App\Form\Model\OrderService }
 
@@ -145,6 +146,7 @@ easy_admin:
                     - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { required: true } }
                     - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType }
                     - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
+                    - { property: 'warranty', label: 'По гарантии?' }
             new:
                 form_options: { data_class: App\Form\Model\OrderPart }
 

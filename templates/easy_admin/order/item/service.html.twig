@@ -11,6 +11,10 @@
                 <i class="fa fa-plus"></i>
             </a>
         {% endif %}
+
+        {%- if item.warranty -%}
+            <span class="label label-success">Гарантия</span>
+        {%- endif -%}
     </td>
     <td>{{ item.worker }}</td>
     <td></td>

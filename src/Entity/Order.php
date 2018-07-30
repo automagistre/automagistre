@@ -330,6 +330,10 @@ class Order
         $price = new Money(0, new Currency('RUB'));
 
         foreach ($this->getItems($class) as $item) {
+            if ($item instanceof WarrantyInterface && $item->isWarranty()) {
+                continue;
+            }
+
             if ($item instanceof TotalPriceInterface) {
                 $price = $price->add($item->getTotalPrice());
             } elseif ($item instanceof PriceInterface) {

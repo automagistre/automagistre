@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\Price;
+use App\Doctrine\ORM\Mapping\Traits\Warranty;
 use App\Money\PriceInterface;
 use App\Money\TotalPriceInterface;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,9 +15,10 @@ use Money\Money;
 /**
  * @ORM\Entity
  */
-class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInterface
+class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInterface, WarrantyInterface
 {
     use Price;
+    use Warranty;
 
     /**
      * @var Part

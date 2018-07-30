@@ -28,6 +28,11 @@ final class OrderService extends OrderItemModel
      */
     public $worker;
 
+    /**
+     * @var bool
+     */
+    public $warranty;
+
     public static function getEntityClass(): string
     {
         return OrderItemService::class;
