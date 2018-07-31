@@ -6,10 +6,13 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
+ *
+ * @UniqueEntity(fields={"telephone"}, message="Клиент с таким телефоном уже существует")
  */
 class Person extends Operand
 {
@@ -39,7 +42,7 @@ class Person extends Operand
     /**
      * @var PhoneNumber
      *
-     * @ORM\Column(type="phone_number", nullable=true)
+     * @ORM\Column(type="phone_number", nullable=true, unique=true)
      */
     private $telephone;
 
