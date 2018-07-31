@@ -314,13 +314,12 @@ easy_admin:
                         label: 'Владелец'
                         type: 'easyadmin_autocomplete'
                         help: 'Фамилия, Имя, Телефон, E-mail'
-                    - { property: 'carModel', label: 'Модель', type_options: { disabled: true } }
-                    - { property: 'vin', label: 'VIN' }
                     -
                         property: 'carModification'
                         label: 'Модель'
                         type: 'easyadmin_autocomplete'
-                        help: 'Проивзодитель, Модель, Поколение, Комплектация, Лошадинные силы'
+                        help: 'Проивзодитель, Модель, Год, Поколение, Комплектация, Лошадинные силы'
+                    - { property: 'vin', label: 'VIN' }
                     - { property: 'gosnomer', label: 'Гос. Номер' }
                     - { property: 'description', label: 'Описание', type: 'textarea' }
             edit:

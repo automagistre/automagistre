@@ -32,15 +32,24 @@ final class CarModificationController extends AbstractController
         foreach (explode(' ', $searchQuery) as $key => $item) {
             $key = ':search_'.$key;
 
-            $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->like('modification.name', $key),
-                $qb->expr()->like('modification.hp', $key),
-                $qb->expr()->like('generation.name', $key),
-                $qb->expr()->like('model.name', $key),
-                $qb->expr()->like('manufacturer.name', $key)
-            ));
+            if (is_numeric($item) && 4 === strlen($item)) {
+                $qb->andWhere($qb->expr()->andX(
+                    $qb->expr()->lte('modification.from', ':year'),
+                    $qb->expr()->gte('modification.till', ':year')
+                ));
 
-            $qb->setParameter($key, '%'.$item.'%');
+                $qb->setParameter('year', $item);
+            } else {
+                $qb->andWhere($qb->expr()->orX(
+                    $qb->expr()->like('modification.name', $key),
+                    $qb->expr()->like('modification.hp', $key),
+                    $qb->expr()->like('generation.name', $key),
+                    $qb->expr()->like('model.name', $key),
+                    $qb->expr()->like('manufacturer.name', $key)
+                ));
+
+                $qb->setParameter($key, '%'.$item.'%');
+            }
         }
 
         return $qb;

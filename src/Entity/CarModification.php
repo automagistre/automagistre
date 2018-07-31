@@ -258,7 +258,7 @@ class CarModification
         $engine = $this->getEngine();
 
         return sprintf(
-            '%s %s',
+            '%s %s (%s - %s)',
             $this->getCarGeneration()->getDisplayName(),
             null === $engine
                 ? $this->getName()
@@ -268,7 +268,9 @@ class CarModification
                 $this->getHp() ?? '-',
                 null !== $transmission ? $transmission->{'getCode'}() : '-', // TODO phpstan don't see return type
                 null !== $wheelDrive ? $wheelDrive->{'getCode'}() : '-'
-            )
+            ),
+            $this->from ?? '...',
+            $this->till ?? '...'
         );
     }
 }
