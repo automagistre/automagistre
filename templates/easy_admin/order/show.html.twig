@@ -63,28 +63,30 @@
                             </h3>
                         </div>
 
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>№</th>
-                                <th>Сумма</th>
-                                <th>Описание</th>
-                                <th>Дата</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for orderPayment in order.payments %}
-                                {# @var payment \App\Entity\Payment #}
-                                {% set payment = orderPayment.payment %}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
                                 <tr>
-                                    <td>{{ payment.id }}</td>
-                                    <td>{{ payment.amount|localize_money }}</td>
-                                    <td>{{ payment.description }}</td>
-                                    <td>{{ orderPayment.createdAt|localizeddate }}</td>
+                                    <th>№</th>
+                                    <th>Сумма</th>
+                                    <th>Описание</th>
+                                    <th>Дата</th>
                                 </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                {% for orderPayment in order.payments %}
+                                    {# @var payment \App\Entity\Payment #}
+                                    {% set payment = orderPayment.payment %}
+                                    <tr>
+                                        <td>{{ payment.id }}</td>
+                                        <td>{{ payment.amount|localize_money }}</td>
+                                        <td>{{ payment.description }}</td>
+                                        <td>{{ orderPayment.createdAt|localizeddate }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 {% endif %}
             </div>

@@ -26,29 +26,31 @@
                     </div>
 
                     {% if orders is not empty %}
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th>Номер</th>
-                                <th>Дата закрытия</th>
-                                <th>Сумма</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for order in orders %}
-                                {# @var order \App\Entity\Order #}
-                                <tr class="tr">
-                                    <td>
-                                        <a href="{{ easyadmin_path(order, 'show', {'referer': true}) }}">
-                                            {{ order.id }}
-                                        </a>
-                                    </td>
-                                    <td>{{ order.closedAt|localizeddate }}</td>
-                                    <td>{{ order.totalForPayment|localize_money }}</td>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Номер</th>
+                                    <th>Дата закрытия</th>
+                                    <th>Сумма</th>
                                 </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                {% for order in orders %}
+                                    {# @var order \App\Entity\Order #}
+                                    <tr class="tr">
+                                        <td>
+                                            <a href="{{ easyadmin_path(order, 'show', {'referer': true}) }}">
+                                                {{ order.id }}
+                                            </a>
+                                        </td>
+                                        <td>{{ order.closedAt|localizeddate }}</td>
+                                        <td>{{ order.totalForPayment|localize_money }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     {% else %}
                         <div class="box-body">
                             Заказов нет
