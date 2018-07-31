@@ -1,0 +1,70 @@
+{% extends '@EasyAdmin/default/show.html.twig' %}
+
+{# @var entity \App\Entity\Person #}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="field-group">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Основная информация</h3>
+                    </div>
+
+                    <div class="box-body">
+                        {{ parent() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="field-group">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Последние заказы</h3>
+                    </div>
+
+                    {% if orders is not empty %}
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Номер</th>
+                                <th>Дата закрытия</th>
+                                <th>Сумма</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for order in orders %}
+                                {# @var order \App\Entity\Order #}
+                                <tr class="tr">
+                                    <td>
+                                        <a href="{{ easyadmin_path(order, 'show', {'referer': true}) }}">
+                                            {{ order.id }}
+                                        </a>
+                                    </td>
+                                    <td>{{ order.closedAt|localizeddate }}</td>
+                                    <td>{{ order.totalForPayment|localize_money }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <div class="box-body">
+                            Заказов нет
+                        </div>
+                    {% endif %}
+
+                    <div class="box-footer">
+                        <a href="{{ easyadmin_path('Order', 'new', {'car_id': entity.id}) }}" class="btn btn-primary">
+                            Создать заказ
+                        </a>
+                        <a href="{{ easyadmin_path('Order', 'list', {'car_id': entity.id}) }}" class="btn btn-primary">
+                            Все заказы
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

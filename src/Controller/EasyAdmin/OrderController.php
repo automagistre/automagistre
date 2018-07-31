@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Entity\Car;
 use App\Entity\Employee;
 use App\Entity\Motion;
 use App\Entity\Operand;
@@ -254,6 +255,11 @@ final class OrderController extends AbstractController
             $entity->setCustomer($customer);
         }
 
+        $car = $this->getEntity(Car::class);
+        if ($car instanceof Car) {
+            $entity->setCar($car);
+        }
+
         return $entity;
     }
 
@@ -272,6 +278,12 @@ final class OrderController extends AbstractController
         if ($customer instanceof Operand) {
             $qb->andWhere('entity.customer = :customer')
                 ->setParameter('customer', $customer);
+        }
+
+        $car = $this->getEntity(Car::class);
+        if ($car instanceof Car) {
+            $qb->andWhere('entity.car = :car')
+                ->setParameter('car', $car);
         }
 
         return $qb;

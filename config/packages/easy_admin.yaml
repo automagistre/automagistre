@@ -288,12 +288,14 @@ easy_admin:
             label: 'Автомобили'
             search:
                 fields: ['gosnomer', 'vin']
+            templates:
+                show: 'easy_admin/car/show.html.twig'
             list:
                 title: 'Автомобили'
                 fields:
                     - { property: 'id' }
+                    - { property: 'carModificationDisplayName', label: 'Комплектация', template: 'easy_admin/field_show.html.twig' }
                     - { property: 'owner', label: 'Владелец' }
-                    - { property: 'carModificationDisplayName', label: 'Комплектация' }
                     - { property: 'year', label: 'Год', type: 'string' }
                     - { property: 'vin', label: 'VIN', sortable: false }
                     - { property: 'mileage', label: 'Пробег' }

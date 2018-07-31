@@ -216,6 +216,11 @@ class Order
     public function setCar(Car $car): void
     {
         $this->car = $car;
+
+        $customer = $car->getOwner();
+        if (null === $this->customer && $customer instanceof Operand) {
+            $this->customer = $customer;
+        }
     }
 
     public function getCustomer(): ?Operand

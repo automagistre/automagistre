@@ -6,11 +6,13 @@ namespace App\Controller\EasyAdmin;
 
 use App\Entity\Car;
 use App\Entity\Operand;
+use App\Entity\Order;
 use App\Entity\Organization;
 use App\Entity\Person;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -30,6 +32,22 @@ final class CarController extends AbstractController
         }
 
         return $entity;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function renderTemplate($actionName, $templatePath, array $parameters = []): Response
+    {
+        if ('show' === $actionName) {
+            $em = $this->em;
+            $car = $parameters['entity'];
+
+            $parameters['orders'] = $em->getRepository(Order::class)
+                ->findBy(['car' => $car], ['closedAt' => 'DESC'], 20);
+        }
+
+        return parent::renderTemplate($actionName, $templatePath, $parameters);
     }
 
     /**
