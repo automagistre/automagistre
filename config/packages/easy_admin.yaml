@@ -299,6 +299,7 @@ easy_admin:
                     - { property: 'mileage', label: 'Пробег' }
                     - { property: 'gosnomer', label: 'Гос. Номер', sortable: false, template: 'easy_admin/car/field_gosnomer_img.html.twig' }
             show:
+                title: 'Автомобиль №%%entity_id%%'
                 fields:
                     - { property: 'owner', label: 'Владелец' }
                     - { property: 'vin', label: 'VIN' }
@@ -323,8 +324,11 @@ easy_admin:
                     - { property: 'gosnomer', label: 'Гос. Номер' }
                     - { property: 'description', label: 'Описание', type: 'textarea' }
             edit:
+                title: 'Редактировать автомобиль №%%entity_id%%'
                 fields:
                     - { property: 'vin', label: 'VIN', type_options: { disabled: true }  }
+            new:
+                title: 'Создать новый автомобиль'
 
         Part:
             class: App\Entity\Part
