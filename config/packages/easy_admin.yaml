@@ -12,6 +12,8 @@ easy_admin:
         assets:
             js:
                 - 'includes/js/collection-autocomplete.js'
+                - 'assets/js/jquery.mask.min.js'
+                - 'assets/js/sto.js'
         menu:
             - { label: 'Заказы' }
             - { entity: 'OrderActive', label: 'Активные', icon: 'list', default: true }
