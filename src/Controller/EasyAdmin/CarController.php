@@ -20,6 +20,21 @@ final class CarController extends AbstractController
     /**
      * {@inheritdoc}
      */
+    protected function createNewEntity(): Car
+    {
+        $entity = new Car();
+
+        $owner = $this->getEntity(Operand::class);
+        if ($owner instanceof Operand) {
+            $entity->setOwner($owner);
+        }
+
+        return $entity;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function createSearchQueryBuilder(
         $entityClass,
         $searchQuery,

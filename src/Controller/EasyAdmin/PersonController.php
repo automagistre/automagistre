@@ -4,15 +4,60 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Entity\Car;
+use App\Entity\Order;
+use App\Entity\Payment;
 use App\Entity\Person;
 use Doctrine\ORM\QueryBuilder;
+use Money\Currency;
+use Money\Money;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
 final class PersonController extends AbstractController
 {
+    /**
+     * @param Person $entity
+     */
+    protected function persistEntity($entity): void
+    {
+        parent::persistEntity($entity);
+
+        $this->setReferer($this->generateEasyPath($entity, 'show'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function renderTemplate($actionName, $templatePath, array $parameters = []): Response
+    {
+        if ('show' === $actionName) {
+            $em = $this->em;
+
+            $person = $parameters['entity'];
+
+            $parameters['cars'] = $em->getRepository(Car::class)
+                ->findBy(['owner' => $person]);
+            $parameters['orders'] = $em->getRepository(Order::class)
+                ->findBy(['customer' => $person], ['closedAt' => 'DESC'], 20);
+            $parameters['payments'] = $em->getRepository(Payment::class)
+                ->findBy(['recipient' => $person], ['id' => 'DESC'], 20);
+
+            $amount = $em->createQueryBuilder()
+                ->select('SUM(payment.amount)')
+                ->from(Payment::class, 'payment')
+                ->where('payment.recipient = :recipient')
+                ->setParameter('recipient', $person)
+                ->getQuery()->getSingleScalarResult();
+            $parameters['balance'] = new Money($amount, new Currency('RUB'));
+        }
+
+        return parent::renderTemplate($actionName, $templatePath, $parameters);
+    }
+
     /**
      * {@inheritdoc}
      */

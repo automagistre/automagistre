@@ -1,0 +1,180 @@
+{% extends '@EasyAdmin/default/show.html.twig' %}
+
+{# @var entity \App\Entity\Person #}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="field-group">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Основная информация</h3>
+                    </div>
+
+                    <div class="box-body">
+                        {{ parent() }}
+                    </div>
+
+                    <div class="box-footer">
+                        <div class="form-group ">
+                            <label class="col-sm-2 control-label">
+                                Баланс
+                            </label>
+                            <div class="col-sm-10">
+                                <div class="form-control">{{ balance|localize_money }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="field-group">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Автомобили</h3>
+                    </div>
+
+                    {% if cars is not empty %}
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Модификация</th>
+                                <th>Пробег</th>
+                                <th>VIN</th>
+                                <th>Год</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for car in cars %}
+                                {# @var car \App\Entity\Car #}
+                                <tr class="tr">
+                                    <td>
+                                        <a href="{{ easyadmin_path(car, 'show', {'referer': true}) }}">
+                                            {{ car }}
+                                        </a>
+                                    </td>
+                                    <td>{{ car.mileage }}</td>
+                                    <td>{{ car.vin }}</td>
+                                    <td>{{ car.year }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <div class="box-body">
+                            Автомобилей нет
+                        </div>
+                    {% endif %}
+
+                    <div class="box-footer">
+                        <a href="{{ easyadmin_path('Car', 'new', {'operand_id': entity.id}) }}" class="btn btn-primary">
+                            Добавить автомобиль
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="field-group">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Последние заказы</h3>
+                    </div>
+
+                    {% if orders is not empty %}
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Номер</th>
+                                <th>Дата закрытия</th>
+                                <th>Автомобиль</th>
+                                <th>Сумма</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for order in orders %}
+                                {# @var order \App\Entity\Order #}
+                                <tr class="tr">
+                                    <td>
+                                        <a href="{{ easyadmin_path(order, 'show', {'referer': true}) }}">
+                                            {{ order.id }}
+                                        </a>
+                                    </td>
+                                    <td>{{ order.closedAt|localizeddate }}</td>
+                                    <td>{{ order.car }}</td>
+                                    <td>{{ order.totalForPayment|localize_money }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <div class="box-body">
+                            Заказов нет
+                        </div>
+                    {% endif %}
+
+                    <div class="box-footer">
+                        <a href="{{ easyadmin_path('Order', 'new', {'operand_id': entity.id}) }}" class="btn btn-primary">
+                            Создать заказ
+                        </a>
+                        <a href="{{ easyadmin_path('Order', 'list', {'operand_id': entity.id}) }}" class="btn btn-primary">
+                            Все заказы
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="field-group">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Последние проводки</h3>
+                    </div>
+
+                    {% if payments is not empty %}
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Сумма</th>
+                                <th>Описание</th>
+                                <th>Дата</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for payment in payments %}
+                                {# @var payment \App\Entity\Payment #}
+                                <tr class="tr">
+                                    <td>{{ payment.id }}</td>
+                                    <td>{{ payment.amount|localize_money }}</td>
+                                    <td>{{ payment.description }}</td>
+                                    <td>{{ payment.createdAt|localizeddate }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <div class="box-body">
+                            Проводок нет
+                        </div>
+                    {% endif %}
+
+                    <div class="box-footer">
+                        <a href="{{ easyadmin_path('Payment', 'new', {'operand_id': entity.id}) }}" class="btn btn-primary">
+                            Добавить проводку
+                        </a>
+                        <a href="{{ easyadmin_path('Payment', 'list', {'operand_id': entity.id}) }}" class="btn btn-primary">
+                            Все проводки
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

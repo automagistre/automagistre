@@ -108,6 +108,11 @@ abstract class AbstractController extends AdminController
         return $this->container->get('easyadmin.router')->generate($entity, $action, $parameters);
     }
 
+    protected function setReferer(string $url): void
+    {
+        $this->request->query->set('referer', $url);
+    }
+
     protected function redirectToReferrer(): RedirectResponse
     {
         $refererUrl = trim($this->request->query->get('referer', ''));

@@ -245,6 +245,41 @@ final class OrderController extends AbstractController
     /**
      * {@inheritdoc}
      */
+    protected function createNewEntity(): Order
+    {
+        $entity = new Order();
+
+        $customer = $this->getEntity(Operand::class);
+        if ($customer instanceof Operand) {
+            $entity->setCustomer($customer);
+        }
+
+        return $entity;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function createListQueryBuilder(
+        $entityClass,
+        $sortDirection,
+        $sortField = null,
+        $dqlFilter = null
+    ): QueryBuilder {
+        $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
+
+        $customer = $this->getEntity(Operand::class);
+        if ($customer instanceof Operand) {
+            $qb->andWhere('entity.customer = :customer')
+                ->setParameter('customer', $customer);
+        }
+
+        return $qb;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function createSearchQueryBuilder(
         $entityClass,
         $searchQuery,
