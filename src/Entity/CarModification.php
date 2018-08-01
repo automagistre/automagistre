@@ -114,15 +114,7 @@ class CarModification
 
     public function __toString(): string
     {
-        $case = $this->getCase();
-
-        return sprintf(
-            '%s (%s-%s) %s',
-            $this->getDisplayName(),
-            $this->getFrom(),
-            $this->getTill() ?: '...',
-            $case instanceof Carcase ? $case->getName() : ''
-        );
+        return $this->getDisplayName();
     }
 
     public function getName(): ?string
@@ -254,23 +246,33 @@ class CarModification
     {
         $transmission = $this->getTransmission();
         $wheelDrive = $this->getWheelDrive();
-
+        $case = $this->getCase();
         $engine = $this->getEngine();
 
-        return sprintf(
-            '%s %s (%s - %s)',
-            $this->getCarGeneration()->getDisplayName(),
-            null === $engine
-                ? $this->getName()
-                : sprintf(
-                '%s (%s) %s %s',
-                $engine,
-                $this->getHp() ?? '-',
-                null !== $transmission ? $transmission->{'getCode'}() : '-', // TODO phpstan don't see return type
-                null !== $wheelDrive ? $wheelDrive->{'getCode'}() : '-'
-            ),
-            $this->from ?? '...',
-            $this->till ?? '...'
-        );
+        // Manufacturer, Model, Generation
+        $displayNameParts = [$this->getCarGeneration()->getDisplayName()];
+
+        if ($case instanceof Carcase) {
+            $displayNameParts[] = $case->getName();
+        }
+
+        if (null !== $engine) {
+            $displayNameParts[] = $engine;
+            $displayNameParts[] = sprintf('(%s)', $this->getHp() ?? '-');
+        } else {
+            $displayNameParts[] = $this->getName();
+        }
+
+        if ($transmission instanceof CarTransmission) {
+            $displayNameParts[] = $transmission->{'getCode'}();
+        }
+
+        if ($wheelDrive instanceof CarWheelDrive) {
+            $displayNameParts[] = $wheelDrive->{'getCode'}();
+        }
+
+        $displayNameParts[] = sprintf('(%s - %s)', $this->getFrom(), $this->getTill());
+
+        return implode(' ', $displayNameParts);
     }
 }
