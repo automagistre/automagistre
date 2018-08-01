@@ -64,6 +64,11 @@ class User implements UserInterface, EquatableInterface, Serializable
         $this->person = $person;
     }
 
+    public function __toString(): string
+    {
+        return $this->username;
+    }
+
     public function setPerson(Person $person): void
     {
         if ($this->person instanceof Person) {

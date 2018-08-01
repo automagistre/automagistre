@@ -4,6 +4,7 @@ doctrine:
             carcase_enum: \App\Doctrine\DBAL\Types\CarcaseType
             car_transmission_enum: \App\Doctrine\DBAL\Types\CarTransmissionType
             car_wheel_drive_enum: \App\Doctrine\DBAL\Types\CarWheelDriveType
+            note_type_enum: \App\Doctrine\DBAL\Types\NoteTypeType
             order_status_enum: \App\Doctrine\DBAL\Types\OrderStatusType
             phone_number: \Misd\PhoneNumberBundle\Doctrine\DBAL\Types\PhoneNumberType
         mapping_types:

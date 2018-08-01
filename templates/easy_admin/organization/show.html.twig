@@ -1,6 +1,6 @@
 {% extends '@EasyAdmin/default/show.html.twig' %}
 
-{# @var entity \App\Entity\Person #}
+{# @var entity \App\Entity\Organization #}
 
 {% block main %}
     <div class="row">
@@ -33,7 +33,7 @@
             <div class="row">
                 <div class="col-md-12">
                     {% include 'easy_admin/_includes/notes_panel.html.twig' with {
-                        'create_url': easyadmin_path('PersonNote', 'new', entity|to_query),
+                        'create_url': easyadmin_path('OrganizationNote', 'new', entity|to_query),
                         'notes': notes
                     } only %}
                 </div>

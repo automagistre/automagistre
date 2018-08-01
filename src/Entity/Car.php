@@ -104,7 +104,14 @@ class Car
 
     public function __toString(): string
     {
-        return sprintf('%s, (%s)', $this->getCarModificationDisplayName(), $this->getGosnomer());
+        $string = $this->getCarModificationDisplayName();
+        $gosnomer = $this->getGosnomer();
+
+        if (null !== $gosnomer) {
+            $string .= sprintf(', (%s)', $gosnomer);
+        }
+
+        return $string;
     }
 
     public function getCarModel(): ?CarModel

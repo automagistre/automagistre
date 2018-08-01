@@ -1,0 +1,49 @@
+{# @var entity \App\Entity\Operand #}
+
+<div class="field-group">
+    <div class="box box-default">
+        <div class="box-header with-border">
+            <h3 class="box-title">Автомобили</h3>
+        </div>
+
+        {% if cars is not empty %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Модификация</th>
+                        <th>Пробег</th>
+                        <th>VIN</th>
+                        <th>Год</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for car in cars %}
+                        {# @var car \App\Entity\Car #}
+                        <tr class="tr">
+                            <td>
+                                <a href="{{ easyadmin_path(car, 'show', {'referer': true}) }}">
+                                    {{ car }}
+                                </a>
+                            </td>
+                            <td>{{ car.mileage }}</td>
+                            <td>{{ car.vin }}</td>
+                            <td>{{ car.year }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="box-body">
+                Автомобилей нет
+            </div>
+        {% endif %}
+
+        <div class="box-footer">
+            <a href="{{ easyadmin_path('Car', 'new', {'operand_id': entity.id}) }}" class="btn btn-primary">
+                Добавить автомобиль
+            </a>
+        </div>
+    </div>
+</div>

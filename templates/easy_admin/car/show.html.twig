@@ -19,6 +19,15 @@
         </div>
 
         <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12">
+                    {% include 'easy_admin/_includes/notes_panel.html.twig' with {
+                        'create_url': easyadmin_path('CarNote', 'new', entity|to_query),
+                        'notes': notes
+                    } only %}
+                </div>
+            </div>
+
             <div class="field-group">
                 <div class="box box-default">
                     <div class="box-header with-border">

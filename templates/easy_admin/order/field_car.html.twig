@@ -1,5 +1,0 @@
-<a href="{{ path('easyadmin', link_parameters|default({})|merge({ referer: '' })) }}">
-    {% if item.car is not empty %}
-        {{ item.car.carModificationDisplayName|easyadmin_truncate }}
-    {% endif %}
-</a>

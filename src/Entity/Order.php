@@ -93,13 +93,6 @@ class Order
     private $description;
 
     /**
-     * @var Note[]|ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Note", mappedBy="order")
-     */
-    private $notes;
-
-    /**
      * @var DateTime
      *
      * @ORM\Column(name="suspenddate", type="datetime", nullable=true)
@@ -241,11 +234,6 @@ class Order
     public function setDescription(string $description = null): void
     {
         $this->description = $description;
-    }
-
-    public function getNotes(): array
-    {
-        return $this->notes->toArray();
     }
 
     public function getClosedAt(): ?DateTimeImmutable

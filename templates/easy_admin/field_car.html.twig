@@ -1,0 +1,5 @@
+<a href="{{ easyadmin_path(item.car, 'show', {'referer': true}) }}">
+    {% if item.car is not empty %}
+        {{ item.car|easyadmin_truncate }}
+    {% endif %}
+</a>

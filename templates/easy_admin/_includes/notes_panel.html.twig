@@ -1,0 +1,43 @@
+<div class="field-group">
+    <div class="box box-default">
+        <div class="box-header with-border">
+            <h3 class="box-title">Заметки</h3>
+        </div>
+
+        {% if notes is not empty %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Тип</th>
+                        <th>Текст</th>
+                        <th>Дата</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for note in notes %}
+                        {# @var note \App\Entity\Note #}
+                        <tr>
+                            <td>{{ note.id }}</td>
+                            <td>{{ note.type.name }}</td>
+                            <td>{{ note.text }}</td>
+                            <td>{{ note.createdAt|localizeddate }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="box-body">
+                Заметок нет
+            </div>
+        {% endif %}
+
+        <div class="box-footer">
+            <a href="{{ create_url }}" class="btn btn-primary">
+                Создать заметку
+            </a>
+        </div>
+    </div>
+</div>

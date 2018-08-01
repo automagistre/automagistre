@@ -70,7 +70,7 @@ easy_admin:
                     - { property: 'status', label: 'Статус', template: 'easy_admin/order/field_status.html.twig' }
                     - { property: 'createdAt', label: 'Дата начала', type: 'datetime' }
                     - { property: 'closedAt', label: 'Дата закрытия', type: 'datetime' }
-                    - { property: 'car', label: 'Автомобиль', template: 'easy_admin/order/field_car.html.twig' }
+                    - { property: 'car', label: 'Автомобиль', template: 'easy_admin/field_car.html.twig' }
                     - { property: 'customer', label: 'Клиент' }
                     - { property: 'totalServicePrice', label: 'Работы', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'totalPartPrice', label: 'Запчасти', template: 'easy_admin/field_money.html.twig' }
@@ -157,6 +157,23 @@ easy_admin:
             new:
                 form_options: { data_class: App\Form\Model\OrderPart }
 
+        OrderNote:
+            class: App\Entity\OrderNote
+            controller: App\Controller\EasyAdmin\OrderNoteController
+            disabled_actions: ['show', 'list', 'search', 'autocomplete']
+            templates:
+                new: 'easy_admin/order_note/new.html.twig'
+                edit: 'easy_admin/order_note/edit.html.twig'
+            form:
+                fields:
+                - { property: 'order', label: 'Заказ', type: 'easyadmin_autocomplete', type_options: { disabled: true } }
+                - { property: 'type', label: 'Тип', type: App\Form\Type\NoteTypeType }
+                - { property: 'text', label: 'Текст' }
+            new:
+                title: 'Создать новую заметку по Заказу'
+            edit:
+                title: 'Редактировать заметку №%%entity_id%% по Заказу'
+
         CarRecommendation:
             class: App\Entity\CarRecommendation
             controller: App\Controller\EasyAdmin\CarRecommendationController
@@ -198,6 +215,7 @@ easy_admin:
             class: App\Entity\Operand
             controller: App\Controller\EasyAdmin\OperandController
             disabled_actions: ['new', 'edit', 'delete']
+
         Person:
             class: App\Entity\Person
             controller: App\Controller\EasyAdmin\PersonController
@@ -237,18 +255,48 @@ easy_admin:
                 - { property: 'email', label: 'Почта' }
                 - { property: 'contractor', label: 'Подрядчик' }
                 - { property: 'seller', label: 'Поставщик' }
+        PersonNote:
+            class: App\Entity\OperandNote
+            controller: App\Controller\EasyAdmin\PersonNoteController
+            disabled_actions: ['show', 'list', 'search', 'autocomplete']
+            form:
+                fields:
+                - { property: 'operand', label: 'Человек', type: 'easyadmin_autocomplete', type_options: { disabled: true } }
+                - { property: 'type', label: 'Тип', type: App\Form\Type\NoteTypeType }
+                - { property: 'text', label: 'Текст' }
+            new:
+                title: 'Создать новую заметку по Человеку'
+            edit:
+                title: 'Редактировать заметку №%%entity_id%% по Человеку'
+
         Organization:
             class: App\Entity\Organization
+            controller: App\Controller\EasyAdmin\OrganizationController
             disabled_actions: ['delete']
+            templates:
+                show: 'easy_admin/organization/show.html.twig'
             list:
                 title: 'Организации'
                 fields:
                     - { property: 'id' }
-                    - { property: 'name', label: 'Название' }
+                    - { property: 'name', label: 'Название', template: 'easy_admin/field_show.html.twig' }
                     - { property: 'address', label: 'Адрес' }
                     - { property: 'email', label: 'Почта' }
                     - { property: 'telephone', label: 'Телефон', template: 'easy_admin/field_telephone.html.twig' }
                     - { property: 'officePhone', label: 'Офисный телефон', template: 'easy_admin/field_telephone.html.twig' }
+                    - { property: 'contractor', label: 'Подрядчик', type: 'boolean' }
+                    - { property: 'seller', label: 'Поставщик', type: 'boolean' }
+            show:
+                title: Организация №%%entity_id%%
+                fields:
+                - { property: 'id' }
+                - { property: 'name', label: 'Название' }
+                - { property: 'address', label: 'Адрес' }
+                - { property: 'email', label: 'Почта' }
+                - { property: 'telephone', label: 'Телефон', template: 'easy_admin/field_telephone.html.twig' }
+                - { property: 'officePhone', label: 'Офисный телефон', template: 'easy_admin/field_telephone.html.twig' }
+                - { property: 'contractor', label: 'Подрядчик' }
+                - { property: 'seller', label: 'Поставщик' }
             form:
                 fields:
                     - { property: 'name', label: 'Название' }
@@ -262,6 +310,20 @@ easy_admin:
                 title: 'Создать новую Организацию'
             edit:
                 title: 'Редактирование Организации'
+        OrganizationNote:
+            class: App\Entity\OperandNote
+            controller: App\Controller\EasyAdmin\OrganizationNoteController
+            disabled_actions: ['show', 'list', 'search', 'autocomplete']
+            form:
+                fields:
+                - { property: 'operand', label: 'Организация', type: 'easyadmin_autocomplete', type_options: { disabled: true } }
+                - { property: 'type', label: 'Тип', type: App\Form\Type\NoteTypeType }
+                - { property: 'text', label: 'Текст' }
+            new:
+                title: 'Создать новую заметку по Организации'
+            edit:
+                title: 'Редактировать заметку №%%entity_id%% по Организации'
+
         Employee:
             class: App\Entity\Employee
             disabled_actions: ['show', 'delete']
@@ -330,6 +392,19 @@ easy_admin:
                     - { property: 'vin', label: 'VIN', type_options: { disabled: true }  }
             new:
                 title: 'Создать новый автомобиль'
+        CarNote:
+            class: App\Entity\CarNote
+            controller: App\Controller\EasyAdmin\CarNoteController
+            disabled_actions: ['show', 'list', 'search', 'autocomplete']
+            form:
+                fields:
+                - { property: 'car', label: 'Автомобиль', type: 'easyadmin_autocomplete', type_options: { disabled: true } }
+                - { property: 'type', label: 'Тип', type: App\Form\Type\NoteTypeType }
+                - { property: 'text', label: 'Текст' }
+            new:
+                title: 'Создать новую заметку по Автомобилю'
+            edit:
+                title: 'Редактировать заметку №%%entity_id%% по Автомобилю'
 
         Part:
             class: App\Entity\Part

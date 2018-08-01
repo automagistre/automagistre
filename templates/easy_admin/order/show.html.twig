@@ -101,6 +101,15 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        {% include 'easy_admin/_includes/notes_panel.html.twig' with {
+                            'create_url': easyadmin_path('OrderNote', 'new', order|to_query),
+                            'notes': notes
+                        } only %}
+                    </div>
+                </div>
             </div>
         </div>
 

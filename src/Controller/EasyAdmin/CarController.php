@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\EasyAdmin;
 
 use App\Entity\Car;
+use App\Entity\CarNote;
 use App\Entity\Operand;
 use App\Entity\Order;
 use App\Entity\Organization;
@@ -45,6 +46,8 @@ final class CarController extends AbstractController
 
             $parameters['orders'] = $em->getRepository(Order::class)
                 ->findBy(['car' => $car], ['closedAt' => 'DESC'], 20);
+            $parameters['notes'] = $em->getRepository(CarNote::class)
+                ->findBy(['car' => $car], ['createdAt' => 'DESC']);
         }
 
         return parent::renderTemplate($actionName, $templatePath, $parameters);

@@ -11,6 +11,7 @@ use App\Entity\Operand;
 use App\Entity\Order;
 use App\Entity\OrderItemPart;
 use App\Entity\OrderItemService;
+use App\Entity\OrderNote;
 use App\Entity\OrderPayment;
 use App\Entity\Organization;
 use App\Entity\Payment;
@@ -241,6 +242,22 @@ final class OrderController extends AbstractController
         });
 
         return $this->redirectToReferrer();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function renderTemplate($actionName, $templatePath, array $parameters = []): Response
+    {
+        if ('show' === $actionName) {
+            $em = $this->em;
+            $entity = $parameters['entity'];
+
+            $parameters['notes'] = $em->getRepository(OrderNote::class)
+                ->findBy(['order' => $entity], ['createdAt' => 'DESC']);
+        }
+
+        return parent::renderTemplate($actionName, $templatePath, $parameters);
     }
 
     /**
