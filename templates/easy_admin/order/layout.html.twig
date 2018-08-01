@@ -14,7 +14,7 @@
                     <div class="box-body">
                         {% block panel_body -%}
                             {% if form is defined %}
-                                {{ form_row(form) }}
+                                {{ form_widget(form) }}
                             {% endif %}
                         {%- endblock %}
                     </div>

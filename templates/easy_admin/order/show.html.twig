@@ -12,22 +12,17 @@
 {% block main %}
     <section id="main" class="content">
         <div class="row">
-            <div class="col-xs-12 col-sm-6">
+            <div class="col-md-6">
                 {% include 'easy_admin/order/includes/main_information.html.twig' with {'order': order} only %}
             </div>
 
-            <div class="field-group col-xs-12 col-sm-6">
-                <div class="row" style="margin-bottom: 15px">
-                    <div class="col-md-12">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12" style="margin-bottom: 15px">
                         {% if order.editable %}
                             <a href="{{ easyadmin_path(order, 'edit') }}" class="btn btn-primary">
                                 <i class="fa fa-pencil"></i>
                                 Редактировать
-                            </a>
-
-                            <a href="{{ easyadmin_path(order, 'payment', {'referer': true}) }}" class="btn btn-primary">
-                                <i class="fa fa-money"></i>
-                                Аванс
                             </a>
 
                             <a href="{{ easyadmin_path(order, 'print', {'referer': true}) }}" class="btn btn-default">
@@ -55,40 +50,57 @@
                     </div>
                 </div>
 
-                {% if order.payments is not empty %}
-                    <div class="box box-default">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">
-                                Платежи
-                            </h3>
-                        </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="field-group">
+                            <div class="box box-default">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">
+                                        Платежи
+                                    </h3>
+                                </div>
 
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th>№</th>
-                                    <th>Сумма</th>
-                                    <th>Описание</th>
-                                    <th>Дата</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for orderPayment in order.payments %}
-                                    {# @var payment \App\Entity\Payment #}
-                                    {% set payment = orderPayment.payment %}
-                                    <tr>
-                                        <td>{{ payment.id }}</td>
-                                        <td>{{ payment.amount|localize_money }}</td>
-                                        <td>{{ payment.description }}</td>
-                                        <td>{{ orderPayment.createdAt|localizeddate }}</td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
+                                {% if order.payments is not empty %}
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th>№</th>
+                                                <th>Сумма</th>
+                                                <th>Описание</th>
+                                                <th>Дата</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for orderPayment in order.payments %}
+                                                {# @var payment \App\Entity\Payment #}
+                                                {% set payment = orderPayment.payment %}
+                                                <tr>
+                                                    <td>{{ payment.id }}</td>
+                                                    <td>{{ payment.amount|localize_money }}</td>
+                                                    <td>{{ payment.description }}</td>
+                                                    <td>{{ orderPayment.createdAt|localizeddate }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                {% else %}
+                                    <div class="box-body">
+                                        Платежей нет
+                                    </div>
+                                {% endif %}
+                                {% if order.editable %}
+                                    <div class="box-footer">
+                                        <a href="{{ easyadmin_path(order, 'payment', {'referer': true}) }}" class="btn btn-primary">
+                                            Создать платёж
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
-                {% endif %}
+                </div>
             </div>
         </div>
 
