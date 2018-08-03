@@ -166,7 +166,6 @@ easy_admin:
                 edit: 'easy_admin/order_note/edit.html.twig'
             form:
                 fields:
-                - { property: 'order', label: 'Заказ', type: 'easyadmin_autocomplete', type_options: { disabled: true } }
                 - { property: 'type', label: 'Тип', type: App\Form\Type\NoteTypeType }
                 - { property: 'text', label: 'Текст' }
             new:
