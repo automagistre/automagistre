@@ -71,7 +71,7 @@ easy_admin:
                     - { property: 'createdAt', label: 'Дата начала', type: 'datetime' }
                     - { property: 'closedAt', label: 'Дата закрытия', type: 'datetime' }
                     - { property: 'car', label: 'Автомобиль', template: 'easy_admin/field_car.html.twig' }
-                    - { property: 'customer', label: 'Клиент' }
+                    - { property: 'customer', label: 'Клиент', type: 'string', template: 'easy_admin/order/customer.html.twig' }
                     - { property: 'totalServicePrice', label: 'Работы', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'totalPartPrice', label: 'Запчасти', template: 'easy_admin/field_money.html.twig' }
             form:

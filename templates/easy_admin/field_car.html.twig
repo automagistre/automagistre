@@ -1,5 +1,12 @@
-<a href="{{ easyadmin_path(item.car, 'show', {'referer': true}) }}">
-    {% if item.car is not empty %}
-        {{ item.car|easyadmin_truncate }}
-    {% endif %}
-</a>
+{% set car = item.car %}
+{# @var car \App\Entity\Car #}
+
+{% if car is not empty %}
+    <a href="{{ easyadmin_path(car, 'show', {'referer': true}) }}">
+        {% if car is not empty %}
+            {{ car|easyadmin_truncate(40) }}
+        {% endif %}
+    </a>
+{% else %}
+    {% include '@EasyAdmin/default/label_null.html.twig' %}
+{% endif %}

@@ -1,0 +1,9 @@
+{# @var value \App\Entity\Operand #}
+
+{% if value is not empty %}
+    <a href="{{ easyadmin_path(value, 'show') }}">
+        {{ value.fullName|easyadmin_truncate(40) }}
+    </a>
+{% else %}
+    {% include '@EasyAdmin/default/label_null.html.twig' %}
+{% endif %}
