@@ -13,7 +13,11 @@
         {%- endif -%}
     </td>
     <td>
-        {{ item.part.number }}
+        {{- item.part.number -}}
+
+        <a href="{{ path('admin_part_explorer', {'partnumber': item.part.number}) }}">
+            <i class="fa fa-search"></i>
+        </a>
     </td>
     <td>
         {{ item.quantity / 100 }} x {{ item.price|localize_money }}

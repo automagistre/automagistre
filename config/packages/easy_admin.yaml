@@ -418,7 +418,7 @@ easy_admin:
                     - { property: 'id' }
                     - { property: 'manufacturer.name', label: 'Производитель' }
                     - { property: 'name', label: 'Название' }
-                    - { property: 'number', label: 'Номер' }
+                    - { property: 'number', label: 'Номер', template: 'easy_admin/field_part_number.html.twig' }
                     - { property: 'price', label: 'Цена', template: 'easy_admin/field_money.html.twig' }
             form:
                 fields:

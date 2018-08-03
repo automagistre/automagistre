@@ -25,7 +25,12 @@
                         <a href="{{ easyadmin_path(part.manufacturer, 'edit') }}">{{ part.manufacturer.name }}</a>
                     </td>
                     <td>
-                        <a href="{{ easyadmin_path(part, 'edit') }}">{{ part }} ({{ part.number }})</a>
+                        <a href="{{ easyadmin_path(part, 'edit') }}">{{ part }}</a>
+                        - {{ part.number }}
+
+                        <a href="{{ path('admin_part_explorer', {'partnumber': part.number}) }}">
+                            <i class="fa fa-search"></i>
+                        </a>
                     </td>
                     <td>{{ part.price|localize_money }}</td>
                     <td>{{ warehouse.quantity / 100 }}</td>
