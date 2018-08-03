@@ -354,7 +354,7 @@ final class OrderController extends AbstractController
     {
         parent::persistEntity($entity);
 
-        $this->request->query->set('referer', $this->generateUrl('easyadmin', [
+        $this->setReferer($this->generateUrl('easyadmin', [
             'entity' => 'Order',
             'action' => 'show',
             'id' => $entity->getId(),
