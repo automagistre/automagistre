@@ -11,7 +11,7 @@
         </div>
     </div>
 
-    <div class="js-frame-container" style="margin-top: 15px"></div>
+    <div class="js-frame-container embed-responsive embed-responsive-16by9" style="margin-top: 10px"></div>
 {% endblock %}
 
 {% block body_javascript %}
@@ -28,8 +28,8 @@
           $('.js-frames').hide();
 
           if (0 === $(elementId).length) {
-            container.append('<iframe id="' + id + '" class="js-frames" src="' + url +
-                '" frameborder="0" width="100%" style="height: 80vh"></iframe>');
+            container.append(
+                '<iframe id="' + id + '" class="js-frames embed-responsive-item" src="' + url + '"></iframe>');
           }
 
           $(elementId).show();
