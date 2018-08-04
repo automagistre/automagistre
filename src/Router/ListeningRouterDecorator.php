@@ -5,25 +5,19 @@ declare(strict_types=1);
 namespace App\Router;
 
 use BadMethodCallException;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
-use Symfony\Component\Routing\Exception\InvalidParameterException;
-use Symfony\Component\Routing\Exception\MethodNotAllowedException;
-use Symfony\Component\Routing\Exception\MissingMandatoryParametersException;
-use Symfony\Component\Routing\Exception\NoConfigurationException;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
 use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-class BrandRouter implements RouterInterface, RequestMatcherInterface, WarmableInterface
+class ListeningRouterDecorator implements RouterInterface, RequestMatcherInterface, WarmableInterface
 {
     /**
      * @var RouterInterface
@@ -31,14 +25,14 @@ class BrandRouter implements RouterInterface, RequestMatcherInterface, WarmableI
     private $router;
 
     /**
-     * @var RequestStack
+     * @var EventDispatcherInterface
      */
-    private $requestStack;
+    private $dispatcher;
 
-    public function __construct(RouterInterface $router, RequestStack $requestStack)
+    public function __construct(RouterInterface $router, EventDispatcherInterface $dispatcher)
     {
         $this->router = $router;
-        $this->requestStack = $requestStack;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -46,25 +40,18 @@ class BrandRouter implements RouterInterface, RequestMatcherInterface, WarmableI
      * @param array  $parameters
      * @param int    $referenceType
      *
-     * @throws InvalidParameterException
-     * @throws MissingMandatoryParametersException
-     * @throws RouteNotFoundException
+     * @throws \Symfony\Component\Routing\Exception\InvalidParameterException
+     * @throws \Symfony\Component\Routing\Exception\MissingMandatoryParametersException
+     * @throws \Symfony\Component\Routing\Exception\RouteNotFoundException
      */
     public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH): string
     {
         $router = $this->router;
-        $route = $router->getRouteCollection()->get($name);
+        $dispatcher = $this->dispatcher;
 
-        if ($route instanceof Route && !array_key_exists('brand', $parameters) && $route->hasRequirement('brand')) {
-            $request = $this->requestStack->getCurrentRequest();
-
-            $brand = $request->attributes->get('brand');
-            if (null === $brand) {
-                return $this->generate('www_switch');
-            }
-
-            $parameters['brand'] = $brand;
-        }
+        $event = new GenericEvent($router, compact('name', 'parameters', 'referenceType'));
+        $dispatcher->dispatch(ListeningRouterEvents::PRE_GENERATE, $event);
+        ['name' => $name, 'parameters' => $parameters, 'referenceType' => $referenceType] = $event->getArguments();
 
         return $router->generate($name, $parameters, $referenceType);
     }
@@ -96,9 +83,9 @@ class BrandRouter implements RouterInterface, RequestMatcherInterface, WarmableI
     /**
      * @param string $pathinfo
      *
-     * @throws MethodNotAllowedException
-     * @throws NoConfigurationException
-     * @throws ResourceNotFoundException
+     * @throws \Symfony\Component\Routing\Exception\MethodNotAllowedException
+     * @throws \Symfony\Component\Routing\Exception\NoConfigurationException
+     * @throws \Symfony\Component\Routing\Exception\ResourceNotFoundException
      */
     public function match($pathinfo): array
     {
