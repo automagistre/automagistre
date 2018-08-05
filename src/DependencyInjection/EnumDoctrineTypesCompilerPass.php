@@ -61,9 +61,6 @@ final class EnumDoctrineTypesCompilerPass implements CompilerPassInterface
 
             file_put_contents($typeFile, FileGenerator::fromArray(['class' => $class])->generate());
 
-            /** @noinspection PhpIncludeInspection */
-            require_once $typeFile;
-
             $doctrineTypes[$type.'_enum'] = [
                 'class' => self::GENERATED_NAMESPACE.'\\'.$typeClass,
                 'commented' => true,
@@ -75,9 +72,13 @@ final class EnumDoctrineTypesCompilerPass implements CompilerPassInterface
                 return sprintf('require_once "%s";', $file);
             }, $typeFiles);
 
-            file_put_contents($cacheDir.'/'.self::AUTOLOAD_FILE, FileGenerator::fromArray([
+            $autoloadFile = $cacheDir.'/'.self::AUTOLOAD_FILE;
+            file_put_contents($autoloadFile, FileGenerator::fromArray([
                 'body' => implode(PHP_EOL, $body),
             ])->generate());
+
+            /** @noinspection PhpIncludeInspection */
+            require_once $autoloadFile;
         }
 
         $container->setParameter(self::DOCTRINE_DBAL_CONNECTION_FACTORY_TYPES, $doctrineTypes);
