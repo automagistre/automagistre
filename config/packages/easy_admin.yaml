@@ -8,6 +8,7 @@ easy_admin:
         color_scheme: 'light'
         templates:
             layout: 'easy_admin/layout.html.twig'
+            field_datetime: 'easy_admin/field_datetime_gtm3.html.twig'
         form_theme: 'vertical'
         assets:
             js:
@@ -62,7 +63,7 @@ easy_admin:
                 new: 'easy_admin/order/new.html.twig'
                 edit: 'easy_admin/order/edit.html.twig'
             label: 'Заказ'
-            list: &order-list
+            list:
                 title: 'Заказы'
                 fields:
                     - { property: 'id', label: 'Номер', template: 'easy_admin/order/field_id.html.twig' }
@@ -91,9 +92,16 @@ easy_admin:
         OrderActive:
             <<: *order
             list:
-                <<: *order-list
                 title: 'Активные заказы'
                 dql_filter: 'entity.status != 10'
+                fields:
+                    - { property: 'id', label: 'Номер', template: 'easy_admin/order/field_id.html.twig' }
+                    - { property: 'status', label: 'Статус', template: 'easy_admin/order/field_status.html.twig' }
+                    - { property: 'createdAt', label: 'Дата создания', type: 'datetime' }
+                    - { property: 'car', label: 'Автомобиль', template: 'easy_admin/field_car.html.twig' }
+                    - { property: 'customer', label: 'Клиент', type: 'string', template: 'easy_admin/order/customer.html.twig' }
+                    - { property: 'totalServicePrice', label: 'Работы', template: 'easy_admin/field_money.html.twig' }
+                    - { property: 'totalPartPrice', label: 'Запчасти', template: 'easy_admin/field_money.html.twig' }
 
         OrderItemGroup:
             class: App\Entity\OrderItemGroup
