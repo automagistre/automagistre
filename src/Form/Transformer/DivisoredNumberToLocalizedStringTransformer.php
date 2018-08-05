@@ -44,7 +44,7 @@ final class DivisoredNumberToLocalizedStringTransformer extends NumberToLocalize
      * @param mixed $value
      *
      * @throws TransformationFailedException
-     *
+     */
     public function transform($value): string
     {
         if (null !== $value) {
