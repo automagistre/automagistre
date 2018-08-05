@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Doctrine\ORM\Mapping\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
-use Money\Currency;
 use Money\Money;
 
 /**
@@ -14,22 +13,19 @@ use Money\Money;
 trait Price
 {
     /**
-     * @var int
+     * @var Money|null
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Embedded(class="Money\Money")
      */
-    private $price = 0;
+    private $price;
 
-    /**
-     * @var string
-     *
-     * ORM\Column()
-     */
-    private $currency = 'RUB';
-
-    public function getPrice(): Money
+    public function getPrice(): ?Money
     {
-        return new Money($this->price, new Currency($this->currency));
+        if (null === $this->price) {
+            return null;
+        }
+
+        return is_numeric($this->price->getAmount()) ? $this->price : null;
     }
 
     public function setPrice(Money $money): void
@@ -37,9 +33,8 @@ trait Price
         $this->changePrice($money);
     }
 
-    protected function changePrice(Money $money): void
+    public function setPrice(?Money $money): void
     {
-        $this->price = (int) $money->getAmount();
-        $this->currency = $money->getCurrency()->getCode();
+        $this->price = $money;
     }
 }

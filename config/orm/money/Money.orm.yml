@@ -1,0 +1,9 @@
+Money\Money:
+    type: embeddable
+    fields:
+        amount:
+            type: string
+            nullable: true
+    embedded:
+        currency:
+            class: Money\Currency
