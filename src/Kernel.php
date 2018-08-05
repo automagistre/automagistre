@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\DependencyInjection\EnumDoctrineTypesCompilerPass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -15,6 +16,17 @@ class Kernel extends SymfonyKernel
     use MicroKernelTrait;
 
     private const CONFIG_EXTS = '.{php,xml,yaml,yml}';
+
+    public function __construct(string $environment, bool $debug)
+    {
+        parent::__construct($environment, $debug);
+
+        $enumAutoload = $this->getCacheDir().'/'.EnumDoctrineTypesCompilerPass::AUTOLOAD_FILE;
+        if (file_exists($enumAutoload)) {
+            /** @noinspection PhpIncludeInspection */
+            require_once $enumAutoload;
+        }
+    }
 
     /**
      * {@inheritdoc}
@@ -49,6 +61,14 @@ class Kernel extends SymfonyKernel
     public function getConfDir(): string
     {
         return $this->getProjectDir().'/config';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function build(ContainerBuilder $container): void
+    {
+        $container->addCompilerPass(new EnumDoctrineTypesCompilerPass());
     }
 
     /**
