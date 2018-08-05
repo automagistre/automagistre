@@ -1,4 +1,7 @@
 {
+    "behat/transliterator": {
+        "version": "v1.2.0"
+    },
     "brianium/habitat": {
         "version": "v1.0.0"
     },
@@ -118,6 +121,9 @@
             "version": "2.2",
             "ref": "bb31a3bbec00a8fc8aa1c9fbf9b0ef9fc492f93d"
         }
+    },
+    "gedmo/doctrine-extensions": {
+        "version": "v2.4.36"
     },
     "giggsey/libphonenumber-for-php": {
         "version": "8.8.9"
@@ -330,6 +336,15 @@
             "branch": "master",
             "version": "1.0",
             "ref": "fa1a2dfc020798cd7076b5419596e72dca07047a"
+        }
+    },
+    "stof/doctrine-extensions-bundle": {
+        "version": "1.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.2",
+            "ref": "6c1ceb662f8997085f739cd089bfbef67f245983"
         }
     },
     "swiftmailer/swiftmailer": {
