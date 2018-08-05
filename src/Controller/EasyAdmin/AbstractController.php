@@ -142,6 +142,11 @@ abstract class AbstractController extends AdminController
         return $entity;
     }
 
+    protected function findCurrentEntity(): ?object
+    {
+        return $this->request->attributes->get('easyadmin')['item'] ?? null;
+    }
+
     /**
      * {@inheritdoc}
      */
