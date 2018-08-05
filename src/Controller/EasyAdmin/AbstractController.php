@@ -103,7 +103,10 @@ abstract class AbstractController extends AdminController
         return $this->redirect($this->generateEasyPath($entity, $action, $parameters), $status);
     }
 
-    protected function generateEasyPath(object $entity, string $action, array $parameters = []): string
+    /**
+     * @param object|string $entity
+     */
+    protected function generateEasyPath($entity, string $action, array $parameters = []): string
     {
         return $this->container->get('easyadmin.router')->generate($entity, $action, $parameters);
     }
