@@ -1,5 +1,8 @@
 {# @var value \App\Entity\IncomePart[] #}
 
+{% set income = item %}
+{# @var income \App\Entity\Income #}
+
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
@@ -8,6 +11,9 @@
             <th>Цена</th>
             <th>Количество</th>
             <th>Итого</th>
+            {% if income.editable %}
+                <th>Действия</th>
+            {% endif %}
         </tr>
         </thead>
         <tbody>
@@ -17,6 +23,14 @@
                 <td>{{ incomePart.price|localize_money }}</td>
                 <td>{{ incomePart.quantity / 100 }}</td>
                 <td>{{ incomePart.totalPrice|localize_money }}</td>
+
+                {%- if income.editable %}
+                    <td>
+                        <a href="{{ easyadmin_path(incomePart, 'edit') }}">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                    </td>
+                {% endif %}
             </tr>
         {% endfor %}
         </tbody>

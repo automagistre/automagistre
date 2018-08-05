@@ -32,6 +32,11 @@ trait Price
         return new Money($this->price, new Currency($this->currency));
     }
 
+    public function setPrice(Money $money): void
+    {
+        $this->changePrice($money);
+    }
+
     protected function changePrice(Money $money): void
     {
         $this->price = (int) $money->getAmount();

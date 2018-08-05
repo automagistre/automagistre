@@ -1,0 +1,12 @@
+{% extends 'easy_admin/layout.html.twig' %}
+
+{% form_theme form with easyadmin_config('design.form_theme') %}
+
+{% block main %}
+    {{ form_start(form) }}
+
+    {{ form_widget(form) }}
+
+    <button class="btn btn-primary" type="submit">Сохранить</button>
+    {{ form_end(form) }}
+{% endblock %}

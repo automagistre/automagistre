@@ -37,4 +37,15 @@ final class Supply extends Model
     {
         return \App\Entity\Supply::class;
     }
+
+    public static function createFromSupply(\App\Entity\Supply $supply): self
+    {
+        $model = new self();
+        $model->supplier = $supply->getSupplier();
+        $model->part = $supply->getPart();
+        $model->price = $supply->getPrice();
+        $model->quantity = $supply->getQuantity();
+
+        return $model;
+    }
 }

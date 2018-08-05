@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Doctrine\ORM\Mapping\Traits\Price;
+use App\Doctrine\ORM\Mapping\Traits\Quantity;
 use Doctrine\ORM\Mapping as ORM;
-use Money\Currency;
+use LogicException;
 use Money\Money;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -15,73 +18,81 @@ use Money\Money;
 class IncomePart
 {
     use Identity;
+    use Price;
+    use Quantity;
 
     /**
-     * @var Income
+     * @var Income|null
+     *
+     * @Assert\NotBlank
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Income", inversedBy="incomeParts")
      */
     private $income;
 
     /**
-     * @var Part
+     * @var Part|null
+     *
+     * @Assert\NotBlank
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Part")
      */
     private $part;
 
     /**
-     * @var int
+     * @var Supply|null
      *
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Supply")
      */
-    private $price;
+    private $supply;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(length=3)
-     */
-    private $currency;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(type="integer")
-     */
-    private $quantity;
-
-    public function __construct(Income $income, Part $part, Money $price, int $quantity)
+    public static function fromSupply(Supply $supply): self
     {
-        $this->income = $income;
-        $this->part = $part;
-        $this->price = (int) $price->getAmount();
-        $this->currency = $price->getCurrency()->getCode();
-        $this->quantity = $quantity;
-    }
+        $incomePart = new self();
+        $incomePart->setPart($supply->getPart());
+        $incomePart->setQuantity($supply->getQuantity());
+        $incomePart->changePrice($supply->getPrice());
+        $incomePart->setSupply($supply);
 
-    public function getIncome(): Income
-    {
-        return $this->income;
-    }
-
-    public function getPart(): Part
-    {
-        return $this->part;
-    }
-
-    public function getPrice(): Money
-    {
-        return new Money($this->price, new Currency($this->currency));
-    }
-
-    public function getQuantity(): int
-    {
-        return $this->quantity;
+        return $incomePart;
     }
 
     public function getTotalPrice(): Money
     {
-        return $this->getPrice()->multiply($this->getQuantity() / 100);
+        return $this->getPrice()->multiply($this->quantity / 100);
+    }
+
+    public function getIncome(): ?Income
+    {
+        return $this->income;
+    }
+
+    public function setIncome(?Income $income): void
+    {
+        if (null !== $this->income) {
+            throw new LogicException('Income already defined.');
+        }
+
+        $this->income = $income;
+    }
+
+    public function getPart(): ?Part
+    {
+        return $this->part;
+    }
+
+    public function setPart(?Part $part): void
+    {
+        $this->part = $part;
+    }
+
+    public function getSupply(): ?Supply
+    {
+        return $this->supply;
+    }
+
+    public function setSupply(?Supply $supply): void
+    {
+        $this->supply = $supply;
     }
 }

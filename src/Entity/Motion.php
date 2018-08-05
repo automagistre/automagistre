@@ -50,6 +50,14 @@ class Motion
         $this->order = $order;
     }
 
+    public static function createFromIncomePart(IncomePart $incomePart): self
+    {
+        $motion = new self($incomePart->getPart(), $incomePart->getQuantity());
+        $motion->description = sprintf('# Приход #%s', $incomePart->getIncome()->getId());
+
+        return $motion;
+    }
+
     public function getQuantity(): int
     {
         return $this->quantity;

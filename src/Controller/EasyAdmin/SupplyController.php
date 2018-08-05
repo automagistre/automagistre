@@ -6,16 +6,37 @@ namespace App\Controller\EasyAdmin;
 
 use App\Entity\Part;
 use App\Entity\Supply;
-use App\Form\Model\Supply as SupplyModel;
+use App\Form\Model;
+use LogicException;
+use Symfony\Component\Form\FormInterface;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
 final class SupplyController extends AbstractController
 {
-    protected function createNewEntity(): SupplyModel
+    /**
+     * {@inheritdoc}
+     */
+    protected function isActionAllowed($actionName): bool
     {
-        $model = new SupplyModel();
+        if (in_array($actionName, ['edit', 'delete'], true)) {
+            $supply = $this->findCurrentEntity();
+            if (!$supply instanceof Supply) {
+                throw new LogicException('Supply required.');
+            }
+
+            if (null !== $supply->getReceivedAt()) {
+                return false;
+            }
+        }
+
+        return parent::isActionAllowed($actionName);
+    }
+
+    protected function createNewEntity(): Model\Supply
+    {
+        $model = new Model\Supply();
         $model->quantity = $this->request->query->getInt('quantity');
 
         $part = $this->getEntity(Part::class);
@@ -27,12 +48,41 @@ final class SupplyController extends AbstractController
     }
 
     /**
-     * @param SupplyModel $model
+     * {@inheritdoc}
+     */
+    protected function createEntityForm($entity, array $entityProperties, $view): FormInterface
+    {
+        if ($entity instanceof Supply) {
+            $entity = Model\Supply::createFromSupply($entity);
+
+            $this->request->attributes->set('model', $entity);
+        }
+
+        return parent::createEntityForm($entity, $entityProperties, $view);
+    }
+
+    /**
+     * @param Model\Supply $model
      */
     protected function persistEntity($model): void
     {
         parent::persistEntity(
             new Supply($model->supplier, $model->part, $model->price, $model->quantity)
         );
+    }
+
+    /**
+     * @param Supply $entity
+     */
+    protected function updateEntity($entity): void
+    {
+        $model = $this->request->attributes->get('model');
+        if (!$model instanceof Model\Supply) {
+            throw new LogicException('Model\Supply required.');
+        }
+
+        $entity->updateFromModel($model);
+
+        parent::updateEntity($entity);
     }
 }

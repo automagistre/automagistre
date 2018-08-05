@@ -1,0 +1,20 @@
+{% extends 'easy_admin/layout.html.twig' %}
+
+{# @var income \App\Entity\Income #}
+
+{% block content_title %}
+    <h1>{{ income }}</h1>
+{% endblock %}
+
+{% block main %}
+    {{ form_start(form) }}
+
+    <h3>Зачислить на склад "{{ income.incomeParts|length }}" позиций от {{ income.supplier }} на сумму {{ income.totalPrice|localize_money }}</h3>
+
+    <button class="btn btn-success">
+        Подтвердить
+    </button>
+
+    <a href="{{ easyadmin_path(income, 'show') }}" class="btn btn-primary">Назад</a>
+    {{ form_end(form) }}
+{% endblock %}

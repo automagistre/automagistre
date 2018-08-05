@@ -440,59 +440,83 @@ easy_admin:
             list:
                 title: 'Движения по складу'
                 fields:
+                - { property: 'id' }
                     - { property: 'part', label: 'Наименование' }
                     - { property: 'quantity', label: 'Количество', template: 'easy_admin/field_quantity.html.twig' }
+                - { property: 'description', label: 'Комментарий' }
                     - { property: 'order', label: 'Заказ' }
 
         Supply:
             class: App\Entity\Supply
             controller: App\Controller\EasyAdmin\SupplyController
-            disabled_actions: ['show', 'edit', 'delete']
+            disabled_actions: ['show']
             list:
                 title: 'Поставка'
                 fields:
-                    - { property: 'supplier.fullName', label: 'Поставщик' }
+                - { property: 'id' }
+                - { property: 'supplier', label: 'Поставщик' }
                     - { property: 'part.name', label: 'Наименование' }
                     - { property: 'price', label: 'Цена', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'quantity', label: 'Количество', template: 'easy_admin/field_quantity.html.twig' }
                     - { property: 'receivedAt', label: 'Получено' }
                     - { property: 'createdAt', label: 'Создано' }
-            new:
-                title: 'Создать поставку'
+            form:
                 form_options: { data_class: App\Form\Model\Supply }
                 fields:
                     - { property: 'supplier', label: 'Поставщик', type: App\Form\Type\SellerType, type_options: { required: true } }
                     - { property: 'part', label: 'Наименование', type: 'easyadmin_autocomplete', type_options: { required: true } }
                     - { property: 'price', label: 'Цена', type: App\Form\Type\MoneyType }
                     - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType, type_options: { required: true } }
-
+            new:
+                title: 'Создать поставку'
+            edit:
+                title: 'Редактировать поставка №%%entity_id%%'
+                fields:
+                - { property: 'supplier', type_options: { disabled: true } }
+                - { property: 'part', type_options: { disabled: true } }
         Income:
             class: App\Entity\Income
             controller: App\Controller\EasyAdmin\IncomeController
-            disabled_actions: ['edit', 'delete']
+            templates:
+                show: 'easy_admin/income/show.html.twig'
             list:
                 title: 'Приходы'
                 fields:
-                    - { property: supplier, label: 'Поставщик' }
-                    - { property: totalPrice, label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
-                    - { property: itemsCount, label: 'Позиций' }
-                    - { property: createdAt, label: 'Принято' }
-            new:
-                title: 'Создать приход'
-                form_options: { data_class: App\Form\Model\Income }
+                - { property: 'id', template: 'easy_admin/field_show.html.twig' }
+                - { property: 'supplier', label: 'Поставщик' }
+                - { property: 'totalPrice', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
+                - { property: 'itemsCount', label: 'Позиций' }
+                - { property: 'accruedAt', label: 'Принято' }
+            form:
                 fields:
                     - { property: 'supplier', label: 'Поставщик', type: App\Form\Type\SellerType, type_options: { required: true } }
-                    -
-                        property: 'parts'
-                        label: 'Позиции'
-                        type: 'collection'
-                        type_options: { required: true, entry_type: App\Form\Type\IncomePartType }
+                    - { property: 'document', label: 'Документ' }
+            new:
+                title: 'Создать приход'
+            edit:
+                title: 'Редактировать приход №%%entity_id%%'
             show:
+                title: 'Приход №%%entity_id%%'
                 fields:
-                    - { property: supplier, label: 'Поставщик' }
-                    - { property: incomeParts, label: 'Позиции', template: 'easy_admin/income/field_income_parts.html.twig' }
-                    - { property: totalPrice, label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
-                    - { property: createdAt, label: 'Принято' }
+                - { property: 'supplier', label: 'Поставщик' }
+                - { property: 'document', label: 'Документ' }
+                - { property: 'incomeParts', label: 'Позиции', template: 'easy_admin/income/field_income_parts.html.twig' }
+                - { property: 'totalPrice', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
+                - { property: 'accruedAt', label: 'Принято' }
+
+        IncomePart:
+            class: App\Entity\IncomePart
+            controller: App\Controller\EasyAdmin\IncomePartController
+            form:
+                fields:
+                - { property: 'income', label: 'Поставка', type_options: { disabled: true } }
+                - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete' }
+                - { property: 'price', label: 'Цена', type: App\Form\Type\MoneyType }
+                - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
+            new:
+                title: 'Создать новую Запчасть для Прихода'
+            edit:
+                title: 'Редактировать Запчасть для Прихода'
 
         Manufacturer:
             class: App\Entity\Manufacturer

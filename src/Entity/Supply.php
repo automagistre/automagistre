@@ -6,8 +6,10 @@ namespace App\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Doctrine\ORM\Mapping\Traits\Price;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use LogicException;
 use Money\Currency;
 use Money\Money;
 
@@ -18,6 +20,7 @@ class Supply
 {
     use Identity;
     use CreatedAt;
+    use Price;
 
     /**
      * @var Operand
@@ -34,13 +37,6 @@ class Supply
      * @ORM\JoinColumn(nullable=false)
      */
     private $part;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(type="integer")
-     */
-    private $price;
 
     /**
      * @var int
@@ -70,6 +66,16 @@ class Supply
         $this->part = $part;
         $this->price = (int) $price->getAmount();
         $this->quantity = $quantity;
+    }
+
+    public function updateFromModel(\App\Form\Model\Supply $supply): void
+    {
+        if (null !== $this->receivedAt) {
+            throw new LogicException('Can\'t update received Supply.');
+        }
+
+        $this->setPrice($supply->price);
+        $this->quantity = $supply->quantity;
     }
 
     public function getSupplier(): Operand
@@ -102,8 +108,12 @@ class Supply
         return $this->receivedAt;
     }
 
-    public function receive(User $user): void
+    public function receive(User $user, int $quantity = null): void
     {
+        if (null !== $quantity) {
+            $this->quantity = $quantity;
+        }
+
         $this->receivedBy = $user;
         $this->receivedAt = new DateTimeImmutable();
     }
