@@ -42,7 +42,7 @@ class Person extends Operand
     /**
      * @var PhoneNumber
      *
-     * @ORM\Column(type="phone_number", nullable=true, unique=true)
+     * @ORM\Column(type="phone_number", nullable=true)
      */
     private $telephone;
 
