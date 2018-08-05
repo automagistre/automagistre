@@ -42,7 +42,6 @@ easy_admin:
         date: 'd.m.Y'
         time: 'H:i'
         datetime: 'd.m.Y H:i'
-#    form:
 
     list:
         max_results: 17
@@ -166,8 +165,8 @@ easy_admin:
                 edit: 'easy_admin/order_note/edit.html.twig'
             form:
                 fields:
-                - { property: 'type', label: 'Тип', type: App\Form\Type\NoteTypeType }
-                - { property: 'text', label: 'Текст' }
+                    - { property: 'type', label: 'Тип', type: App\Form\Type\NoteTypeType }
+                    - { property: 'text', label: 'Текст' }
             new:
                 title: 'Создать новую заметку по Заказу'
             edit:
@@ -247,22 +246,22 @@ easy_admin:
             show:
                 title: 'Человек №%%entity_id%%'
                 fields:
-                - { property: 'firstname', label: 'Имя' }
-                - { property: 'lastname', label: 'Фамилия' }
-                - { property: 'telephone', label: 'Телефон', template: 'easy_admin/field_telephone.html.twig' }
-                - { property: 'officePhone', label: 'Раб. Телефон', template: 'easy_admin/field_telephone.html.twig' }
-                - { property: 'email', label: 'Почта' }
-                - { property: 'contractor', label: 'Подрядчик' }
-                - { property: 'seller', label: 'Поставщик' }
+                    - { property: 'firstname', label: 'Имя' }
+                    - { property: 'lastname', label: 'Фамилия' }
+                    - { property: 'telephone', label: 'Телефон', template: 'easy_admin/field_telephone.html.twig' }
+                    - { property: 'officePhone', label: 'Раб. Телефон', template: 'easy_admin/field_telephone.html.twig' }
+                    - { property: 'email', label: 'Почта' }
+                    - { property: 'contractor', label: 'Подрядчик' }
+                    - { property: 'seller', label: 'Поставщик' }
         PersonNote:
             class: App\Entity\OperandNote
             controller: App\Controller\EasyAdmin\PersonNoteController
             disabled_actions: ['show', 'list', 'search', 'autocomplete']
             form:
                 fields:
-                - { property: 'operand', label: 'Человек', type: 'easyadmin_autocomplete', type_options: { disabled: true } }
-                - { property: 'type', label: 'Тип', type: App\Form\Type\NoteTypeType }
-                - { property: 'text', label: 'Текст' }
+                    - { property: 'operand', label: 'Человек', type: 'easyadmin_autocomplete', type_options: { disabled: true } }
+                    - { property: 'type', label: 'Тип', type: App\Form\Type\NoteTypeType }
+                    - { property: 'text', label: 'Текст' }
             new:
                 title: 'Создать новую заметку по Человеку'
             edit:
@@ -288,14 +287,14 @@ easy_admin:
             show:
                 title: Организация №%%entity_id%%
                 fields:
-                - { property: 'id' }
-                - { property: 'name', label: 'Название' }
-                - { property: 'address', label: 'Адрес' }
-                - { property: 'email', label: 'Почта' }
-                - { property: 'telephone', label: 'Телефон', template: 'easy_admin/field_telephone.html.twig' }
-                - { property: 'officePhone', label: 'Офисный телефон', template: 'easy_admin/field_telephone.html.twig' }
-                - { property: 'contractor', label: 'Подрядчик' }
-                - { property: 'seller', label: 'Поставщик' }
+                    - { property: 'id' }
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'address', label: 'Адрес' }
+                    - { property: 'email', label: 'Почта' }
+                    - { property: 'telephone', label: 'Телефон', template: 'easy_admin/field_telephone.html.twig' }
+                    - { property: 'officePhone', label: 'Офисный телефон', template: 'easy_admin/field_telephone.html.twig' }
+                    - { property: 'contractor', label: 'Подрядчик' }
+                    - { property: 'seller', label: 'Поставщик' }
             form:
                 fields:
                     - { property: 'name', label: 'Название' }
@@ -315,9 +314,9 @@ easy_admin:
             disabled_actions: ['show', 'list', 'search', 'autocomplete']
             form:
                 fields:
-                - { property: 'operand', label: 'Организация', type: 'easyadmin_autocomplete', type_options: { disabled: true } }
-                - { property: 'type', label: 'Тип', type: App\Form\Type\NoteTypeType }
-                - { property: 'text', label: 'Текст' }
+                    - { property: 'operand', label: 'Организация', type: 'easyadmin_autocomplete', type_options: { disabled: true } }
+                    - { property: 'type', label: 'Тип', type: App\Form\Type\NoteTypeType }
+                    - { property: 'text', label: 'Текст' }
             new:
                 title: 'Создать новую заметку по Организации'
             edit:
@@ -372,13 +371,11 @@ easy_admin:
                     - { property: 'gosnomer', label: 'Гос. Номер' }
             form:
                 fields:
-                    -
-                        property: 'owner'
+                    -   property: 'owner'
                         label: 'Владелец'
                         type: 'easyadmin_autocomplete'
                         help: 'Фамилия, Имя, Телефон, E-mail'
-                    -
-                        property: 'carModification'
+                    -   property: 'carModification'
                         label: 'Модель'
                         type: 'easyadmin_autocomplete'
                         help: 'Проивзодитель, Модель, Год, Поколение, Комплектация, Лошадинные силы'
@@ -397,9 +394,9 @@ easy_admin:
             disabled_actions: ['show', 'list', 'search', 'autocomplete']
             form:
                 fields:
-                - { property: 'car', label: 'Автомобиль', type: 'easyadmin_autocomplete', type_options: { disabled: true } }
-                - { property: 'type', label: 'Тип', type: App\Form\Type\NoteTypeType }
-                - { property: 'text', label: 'Текст' }
+                    - { property: 'car', label: 'Автомобиль', type: 'easyadmin_autocomplete', type_options: { disabled: true } }
+                    - { property: 'type', label: 'Тип', type: App\Form\Type\NoteTypeType }
+                    - { property: 'text', label: 'Текст' }
             new:
                 title: 'Создать новую заметку по Автомобилю'
             edit:
@@ -440,10 +437,10 @@ easy_admin:
             list:
                 title: 'Движения по складу'
                 fields:
-                - { property: 'id' }
+                    - { property: 'id' }
                     - { property: 'part', label: 'Наименование' }
                     - { property: 'quantity', label: 'Количество', template: 'easy_admin/field_quantity.html.twig' }
-                - { property: 'description', label: 'Комментарий' }
+                    - { property: 'description', label: 'Комментарий' }
                     - { property: 'order', label: 'Заказ' }
 
         Supply:
@@ -453,8 +450,8 @@ easy_admin:
             list:
                 title: 'Поставка'
                 fields:
-                - { property: 'id' }
-                - { property: 'supplier', label: 'Поставщик' }
+                    - { property: 'id' }
+                    - { property: 'supplier', label: 'Поставщик' }
                     - { property: 'part.name', label: 'Наименование' }
                     - { property: 'price', label: 'Цена', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'quantity', label: 'Количество', template: 'easy_admin/field_quantity.html.twig' }
@@ -472,8 +469,8 @@ easy_admin:
             edit:
                 title: 'Редактировать поставка №%%entity_id%%'
                 fields:
-                - { property: 'supplier', type_options: { disabled: true } }
-                - { property: 'part', type_options: { disabled: true } }
+                    - { property: 'supplier', type_options: { disabled: true } }
+                    - { property: 'part', type_options: { disabled: true } }
         Income:
             class: App\Entity\Income
             controller: App\Controller\EasyAdmin\IncomeController
@@ -482,11 +479,11 @@ easy_admin:
             list:
                 title: 'Приходы'
                 fields:
-                - { property: 'id', template: 'easy_admin/field_show.html.twig' }
-                - { property: 'supplier', label: 'Поставщик' }
-                - { property: 'totalPrice', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
-                - { property: 'itemsCount', label: 'Позиций' }
-                - { property: 'accruedAt', label: 'Принято' }
+                    - { property: 'id', template: 'easy_admin/field_show.html.twig' }
+                    - { property: 'supplier', label: 'Поставщик' }
+                    - { property: 'totalPrice', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
+                    - { property: 'itemsCount', label: 'Позиций' }
+                    - { property: 'accruedAt', label: 'Принято' }
             form:
                 fields:
                     - { property: 'supplier', label: 'Поставщик', type: App\Form\Type\SellerType, type_options: { required: true } }
@@ -498,21 +495,21 @@ easy_admin:
             show:
                 title: 'Приход №%%entity_id%%'
                 fields:
-                - { property: 'supplier', label: 'Поставщик' }
-                - { property: 'document', label: 'Документ' }
-                - { property: 'incomeParts', label: 'Позиции', template: 'easy_admin/income/field_income_parts.html.twig' }
-                - { property: 'totalPrice', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
-                - { property: 'accruedAt', label: 'Принято' }
+                    - { property: 'supplier', label: 'Поставщик' }
+                    - { property: 'document', label: 'Документ' }
+                    - { property: 'incomeParts', label: 'Позиции', template: 'easy_admin/income/field_income_parts.html.twig' }
+                    - { property: 'totalPrice', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
+                    - { property: 'accruedAt', label: 'Принято' }
 
         IncomePart:
             class: App\Entity\IncomePart
             controller: App\Controller\EasyAdmin\IncomePartController
             form:
                 fields:
-                - { property: 'income', label: 'Поставка', type_options: { disabled: true } }
-                - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete' }
-                - { property: 'price', label: 'Цена', type: App\Form\Type\MoneyType }
-                - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
+                    - { property: 'income', label: 'Поставка', type_options: { disabled: true } }
+                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete' }
+                    - { property: 'price', label: 'Цена', type: App\Form\Type\MoneyType }
+                    - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
             new:
                 title: 'Создать новую Запчасть для Прихода'
             edit:
