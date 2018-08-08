@@ -1,0 +1,101 @@
+.contacts {
+  margin-top: 10px;
+}
+h3,
+h4 {
+  text-align: center;
+  padding: 10px 0;
+  text-transform: uppercase;
+}
+.table-summary {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.legend {
+  text-align: right;
+}
+th {
+  text-transform: capitalize;
+}
+.part-number {
+  text-transform: uppercase;
+}
+td:first-letter {
+  text-transform: uppercase;
+}
+td {
+  text-transform: lowercase;
+}
+.table tbody .work td {
+  background-color: #E0E0E0 !important;
+}
+.user-info__user table,
+.user-info__magistr table {
+  width: 100%;
+  border: none;
+}
+.user-info__user table td,
+.user-info__magistr table td {
+  padding: 0;
+  text-transform: capitalize;
+  font-size: 16px;
+}
+.user-info__user table .uppercase,
+.user-info__magistr table .uppercase {
+  text-transform: uppercase;
+}
+.garanty {
+  align-items: center;
+  justify-content: space-around;
+}
+.stamp {
+  text-transform: capitalize;
+  font-weight: bold;
+  margin-top: 30px;
+}
+.stamp:after {
+  content: "____________________";
+}
+.table tbody .part {
+  padding-left: 100px;
+}
+.table tbody .work {
+  font-weight: bold;
+}
+@media print {
+  @page {
+    size: A4;
+    margin: 1cm;
+  }
+  html,
+  body {
+    width: 1024px;
+  }
+  body {
+    margin: 0 auto;
+  }
+  .table .thead-dark tr th,
+  .table-active td {
+    background-color: #E0E0E0 !important;
+    border: white;
+  }
+  .table tbody .table-active td {
+    background-color: #F2F2F2 !important;
+  }
+  .table tbody .work td {
+    background-color: #E0E0E0 !important;
+  }
+  .price:after {
+    content: " руб";
+  }
+  section {
+    page-break-inside: avoid;
+  }
+  .recommendations {
+    page-break-before: always;
+  }
+  .count:after {
+    content: " шт";
+  }
+}
+/*# sourceMappingURL=main.css.map */
