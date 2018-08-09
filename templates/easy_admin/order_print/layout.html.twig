@@ -8,13 +8,17 @@
 </head>
 <body>
 
-
 <div class="container-fluid">
     <section class="print row">
         <button class="btn-success btn-lg" id="print__btn">печать заказа</button>
         <button class="btn-danger btn-lg" id ="print__cancel">отмена</button>
     </section>
 </div>
+
+{% block content %}{% endblock %}
+
 <script>
     document.getElementById("print__btn").addEventListener("click", function() { window.print(); window.close(); });
 </script>
+</body>
+</html>

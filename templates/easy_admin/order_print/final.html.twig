@@ -1,27 +1,28 @@
+{% extends 'easy_admin/order_print/layout.html.twig' %}
 
-{%   include '/easy_admin/order_print/head.html.twig' %}
+{% block content %}
 
-<div class="container">
-    <header class="row">
-        <div class="logo col-sm-6">
-            <img src="{{ asset('assets/img/logo_print.svg') }}" alt="Лого Автомагистр">
-        </div>
-        <div class="main-info col-sm-6 row">
-            <ul class="list-unstyled contacts col-sm-5">
-                <li>+7(495)984-81-82</li>
-                <li>+7(985)929-40-87</li>
-            </ul>
-            <ul class="list-unstyled contacts col-sm-7">
-                <li>www.automagistre.ru</li>
-                <li>Москва, Остаповский проезд, 17</li>
-            </ul>
-        </div>
-    </header>
-    <hr>
-    <section class="user-info row justify-content-sm-around">
-        <div class="user-info__user col-sm-4">
-            <table class="table-sm">
-                <tbody>
+    <div class="container">
+        <header class="row">
+            <div class="logo col-sm-6">
+                <img src="{{ asset('assets/img/logo_print.svg') }}" alt="Лого Автомагистр">
+            </div>
+            <div class="main-info col-sm-6 row">
+                <ul class="list-unstyled contacts col-sm-5">
+                    <li>+7(495)984-81-82</li>
+                    <li>+7(985)929-40-87</li>
+                </ul>
+                <ul class="list-unstyled contacts col-sm-7">
+                    <li>www.automagistre.ru</li>
+                    <li>Москва, Остаповский проезд, 17</li>
+                </ul>
+            </div>
+        </header>
+        <hr>
+        <section class="user-info row justify-content-sm-around">
+            <div class="user-info__user col-sm-4">
+                <table class="table-sm">
+                    <tbody>
                     <tr>
                         <td><strong>заказчик:</strong></td>
                         <td class="name">вова путин</td>
@@ -50,58 +51,58 @@
                         <td>пробег:</td>
                         <td>100000</td>
                     </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="user-info__magistr col-sm-4">
-            <table class="table-sm">
-                <tbody>
-                <tr>
-                    <td><strong>исполнитель:</strong></td>
-                    <td class="name">ООО "Автомагистр"</td>
-                </tr>
-                <tr>
-                    <td class="uppercase">огрн:</td>
-                    <td>5137746189060</td>
-                </tr>
-                <tr>
-                    <td class="uppercase">ИНН:</td>
-                    <td>7725812690</td>
-                </tr>
-                <tr>
-                    <td class="uppercase">КПП:</td>
-                    <td class="uppercase">772501001</td>
-                </tr>
-                <tr>
-                    <td class="uppercase">Р/С:</td>
-                    <td class="uppercase">40702810202000000371</td>
-                </tr>
-                <tr>
-                    <td class="uppercase">К/С:</td>
-                    <td>30101810800000000427</td>
-                </tr>
-                <tr>
-                    <td class="uppercase">БИК:</td>
-                    <td>044583427</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
-    <section class="order-info">
-        <h3>заказ-наряд: 12345 от 01.01.2020</h3>
-    </section>
-    <section class="works">
-        <table class="table table-bordered table-striped table-sm">
-            <thead class="thead-dark">
+                    </tbody>
+                </table>
+            </div>
+            <div class="user-info__magistr col-sm-4">
+                <table class="table-sm">
+                    <tbody>
+                    <tr>
+                        <td><strong>исполнитель:</strong></td>
+                        <td class="name">ООО "Автомагистр"</td>
+                    </tr>
+                    <tr>
+                        <td class="uppercase">огрн:</td>
+                        <td>5137746189060</td>
+                    </tr>
+                    <tr>
+                        <td class="uppercase">ИНН:</td>
+                        <td>7725812690</td>
+                    </tr>
+                    <tr>
+                        <td class="uppercase">КПП:</td>
+                        <td class="uppercase">772501001</td>
+                    </tr>
+                    <tr>
+                        <td class="uppercase">Р/С:</td>
+                        <td class="uppercase">40702810202000000371</td>
+                    </tr>
+                    <tr>
+                        <td class="uppercase">К/С:</td>
+                        <td>30101810800000000427</td>
+                    </tr>
+                    <tr>
+                        <td class="uppercase">БИК:</td>
+                        <td>044583427</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section class="order-info">
+            <h3>заказ-наряд: 12345 от 01.01.2020</h3>
+        </section>
+        <section class="works">
+            <table class="table table-bordered table-striped table-sm">
+                <thead class="thead-dark">
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">наименование работ</th>
                     <th scope="col">исполнитель</th>
                     <th scope="col">стоимость</th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 <tr>
                     <th scope="row">1</th>
                     <td>замена масла двигателя</td>
@@ -118,148 +119,146 @@
                     <td colspan="3" class="table-summary legend">итого:</td>
                     <td class="table-summary"><span class="price">500</span></td>
                 </tr>
-            </tbody>
-        </table>
-    </section>
-    <section class="parts">
-        <table class="table table-bordered table-striped table-sm">
-            <thead class="thead-dark">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">наименование запчасти</th>
-                <th scope="col">производитель запчасти</th>
-                <th scope="col">part number</th>
-                <th scope="col">кол-во</th>
-                <th scope="col">стоимость</th>
-                <th scope="col">итого</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>фильтр маслянный</td>
-                <td>nissan</td>
-                <td class="part-number">1921axf0a</td>
-                <td class="count">1</td>
-                <td><span class="price">500</span></td>
-                <td><span class="price">500</span></td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>фильтр маслянный</td>
-                <td>nissan</td>
-                <td class="part-number">1921axf0a</td>
-                <td><span class="count">2</span></td>
-                <td><span class="price">500</span></td>
-                <td><span class="price">1000</span></td>
-            </tr>
-            <tr class="table-active">
-                <td colspan="4" class="table-summary legend">итого:</td>
-                <td class="table-summary"><span class="count">3</span></td>
-                <td></td>
-                <td class="table-summary"><span class="price">1500</span></td>
-            </tr>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </section>
+        <section class="parts">
+            <table class="table table-bordered table-striped table-sm">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">наименование запчасти</th>
+                    <th scope="col">производитель запчасти</th>
+                    <th scope="col">part number</th>
+                    <th scope="col">кол-во</th>
+                    <th scope="col">стоимость</th>
+                    <th scope="col">итого</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>фильтр маслянный</td>
+                    <td>nissan</td>
+                    <td class="part-number">1921axf0a</td>
+                    <td class="count">1</td>
+                    <td><span class="price">500</span></td>
+                    <td><span class="price">500</span></td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>фильтр маслянный</td>
+                    <td>nissan</td>
+                    <td class="part-number">1921axf0a</td>
+                    <td><span class="count">2</span></td>
+                    <td><span class="price">500</span></td>
+                    <td><span class="price">1000</span></td>
+                </tr>
+                <tr class="table-active">
+                    <td colspan="4" class="table-summary legend">итого:</td>
+                    <td class="table-summary"><span class="count">3</span></td>
+                    <td></td>
+                    <td class="table-summary"><span class="price">1500</span></td>
+                </tr>
+                </tbody>
+            </table>
 
-    </section>
-    <section class="summary">
-        <table class="table table-bordered table-striped table-sm">
-            <tbody>
-            <tr class="table-active">
-                <td class="table-summary legend ">предоплата:</td>
-                <td class="table-summary "><span class="price">1000</span></td>
-            </tr>
-            <tr class="table-active">
-                <td class="table-summary legend ">всего к оплате:</td>
-                <td class="table-summary "><span class="price">1000</span></td>
-            </tr>
-            </tbody>
-        </table>
+        </section>
+        <section class="summary">
+            <table class="table table-bordered table-striped table-sm">
+                <tbody>
+                <tr class="table-active">
+                    <td class="table-summary legend ">предоплата:</td>
+                    <td class="table-summary "><span class="price">1000</span></td>
+                </tr>
+                <tr class="table-active">
+                    <td class="table-summary legend ">всего к оплате:</td>
+                    <td class="table-summary "><span class="price">1000</span></td>
+                </tr>
+                </tbody>
+            </table>
 
-    </section>
-    <section class="info">
-        <div class="row garanty">
-            <div><strong>С объемами и стоимостью работ согласен. <br>
-            С правилами предоставления услуг ознакомлен.</strong></div>
-            <div>
-                Гарантийные условия<img src="http://qrcoder.ru/code/?www.automagistre.ru%2Fgr%2F&4&0" width="100" height="100" border="0" title="QR код">
+        </section>
+        <section class="info">
+            <div class="row garanty">
+                <div><strong>С объемами и стоимостью работ согласен. <br>
+                        С правилами предоставления услуг ознакомлен.</strong></div>
+                <div>
+                    Гарантийные условия<img src="http://qrcoder.ru/code/?www.automagistre.ru%2Fgr%2F&4&0" width="100" height="100" border="0" title="QR код">
+                </div>
             </div>
-        </div>
-        <div class="row justify-content-around">
-            <div class="stamp">заказчик</div>
-            <div class="stamp">исполнитель</div>
-        </div>
-    </section>
-    <section class="recommendations">
-        <h4>рекомендации по автомобилю VIN: zxcv123432543534 </h4>
-        <table class="table table-bordered table-sm">
-            <tbody>
-            <tr class="work">
-                <th scope="row" >1</th>
-                <td>замена масла двигателя</td>
-                <td>работа:</td>
-                <td><span class="price">500</span></td>
-                <td>запчасти:</td>
-                <td><span class="price">1500</span></td>
-                <td>всего:</td>
-                <td><span class="price">2000</span></td>
-            </tr>
-            <tr>
-                <td colspan="2"  class="part">фильтр маслянный</td>
-                <td>nissan</td>
-                <td><span class="count">1</span></td>
-                <td><span class="price">500</span></td>
-                <td><span class="price">500</span></td>
-            </tr>
-            <tr>
-                <td colspan="2" class="part">масло двигателя</td>
-                <td>nissan</td>
-                <td><span class="count">3</span></td>
-                <td><span class="price">500</span></td>
-                <td><span class="price">1500</span></td>
-            </tr>
+            <div class="row justify-content-around">
+                <div class="stamp">заказчик</div>
+                <div class="stamp">исполнитель</div>
+            </div>
+        </section>
+        <section class="recommendations">
+            <h4>рекомендации по автомобилю VIN: zxcv123432543534 </h4>
+            <table class="table table-bordered table-sm">
+                <tbody>
+                <tr class="work">
+                    <th scope="row">1</th>
+                    <td>замена масла двигателя</td>
+                    <td>работа:</td>
+                    <td><span class="price">500</span></td>
+                    <td>запчасти:</td>
+                    <td><span class="price">1500</span></td>
+                    <td>всего:</td>
+                    <td><span class="price">2000</span></td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="part">фильтр маслянный</td>
+                    <td>nissan</td>
+                    <td><span class="count">1</span></td>
+                    <td><span class="price">500</span></td>
+                    <td><span class="price">500</span></td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="part">масло двигателя</td>
+                    <td>nissan</td>
+                    <td><span class="count">3</span></td>
+                    <td><span class="price">500</span></td>
+                    <td><span class="price">1500</span></td>
+                </tr>
 
 
-
-            <tr class="work">
-                <th scope="row" >2</th>
-                <td>замена масла двигателя</td>
-                <td>работа:</td>
-                <td><span class="price">500</span></td>
-                <td>запчасти:</td>
-                <td><span class="price">1500</span></td>
-                <td>всего:</td>
-                <td><span class="price">2000</span></td>
-            </tr>
-            <tr>
-                <td colspan="2"  class="part">фильтр маслянный</td>
-                <td>nissan</td>
-                <td><span class="count">1</span></td>
-                <td><span class="price">500</span></td>
-                <td><span class="price">500</span></td>
-            </tr>
-            <tr>
-                <td colspan="2" class="part">масло двигателя</td>
-                <td>nissan</td>
-                <td><span class="count">3</span></td>
-                <td><span class="price">500</span></td>
-                <td><span class="price">1500</span></td>
-            </tr>
-            <tr class="table-active">
-                <td colspan="7" class="table-summary legend">итого работы:</td>
-                <td class="table-summary"><span class="price">1000</span></td>
-            </tr>
-            <tr class="table-active">
-                <td colspan="7" class="table-summary legend">итого запчасти:</td>
-                <td class="table-summary"><span class="price">3000</span></td>
-            <tr class="table-active">
-                <td colspan="7" class="table-summary legend">всего рекомендаций:</td>
-                <td class="table-summary"><span class="price">4000</span></td>
-            </tr>
-            </tbody>
-        </table>
-    </section>
-</div>
-</body>
-</html>
+                <tr class="work">
+                    <th scope="row">2</th>
+                    <td>замена масла двигателя</td>
+                    <td>работа:</td>
+                    <td><span class="price">500</span></td>
+                    <td>запчасти:</td>
+                    <td><span class="price">1500</span></td>
+                    <td>всего:</td>
+                    <td><span class="price">2000</span></td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="part">фильтр маслянный</td>
+                    <td>nissan</td>
+                    <td><span class="count">1</span></td>
+                    <td><span class="price">500</span></td>
+                    <td><span class="price">500</span></td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="part">масло двигателя</td>
+                    <td>nissan</td>
+                    <td><span class="count">3</span></td>
+                    <td><span class="price">500</span></td>
+                    <td><span class="price">1500</span></td>
+                </tr>
+                <tr class="table-active">
+                    <td colspan="7" class="table-summary legend">итого работы:</td>
+                    <td class="table-summary"><span class="price">1000</span></td>
+                </tr>
+                <tr class="table-active">
+                    <td colspan="7" class="table-summary legend">итого запчасти:</td>
+                    <td class="table-summary"><span class="price">3000</span></td>
+                <tr class="table-active">
+                    <td colspan="7" class="table-summary legend">всего рекомендаций:</td>
+                    <td class="table-summary"><span class="price">4000</span></td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+{% endblock %}

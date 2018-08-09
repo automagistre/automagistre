@@ -1,30 +1,31 @@
-{%   include '/easy_admin/order_print/head.html.twig' %}
+{% extends 'easy_admin/order_print/layout.html.twig' %}
 
-<div class="container">
-    <h4>Форма согласования работ</h4>
-    <section class="user-info row justify-content-around">
-        <div class="user-info__user col-sm-4">
-            <table class="table-sm">
-                <tbody>
-                <tr>
-                    <td><strong>заказчик:</strong></td>
-                    <td class="name">вова путин</td>
-                </tr>
-                <tr>
-                    <td>Телефон:</td>
-                    <td>89261112233</td>
-                </tr>
-                <tr>
-                    <td>email:</td>
-                    <td style="text-transform: lowercase">vova1@kremlin.ru</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+{% block content %}
+    <div class="container">
+        <h4>Форма согласования работ</h4>
+        <section class="user-info row justify-content-around">
+            <div class="user-info__user col-sm-4">
+                <table class="table-sm">
+                    <tbody>
+                    <tr>
+                        <td><strong>заказчик:</strong></td>
+                        <td class="name">вова путин</td>
+                    </tr>
+                    <tr>
+                        <td>Телефон:</td>
+                        <td>89261112233</td>
+                    </tr>
+                    <tr>
+                        <td>email:</td>
+                        <td style="text-transform: lowercase">vova1@kremlin.ru</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
 
-        <div class="user-info__user col-sm-4">
-            <table class="table-sm">
-                <tbody>
+            <div class="user-info__user col-sm-4">
+                <table class="table-sm">
+                    <tbody>
                     <tr>
                         <td><strong>автомобиль:</strong></td>
                         <td class="name">nissan GTR</td>
@@ -37,88 +38,88 @@
                         <td class="uppercase">vin:</td>
                         <td class="uppercase">fdsfdsfsd32423435</td>
                     </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+        </section>
+
+        <section class="">
+            <h4>рекомендации по автомобилю </h4>
+            <table class="table table-bordered table-sm">
+                <tbody>
+                <tr class="work ">
+                    <td class="check"></td>
+                    <td>замена масла двигателя</td>
+                    <td>работа:</td>
+                    <td><span class="price">500</span></td>
+                    <td>запчасти:</td>
+                    <td><span class="price">1500</span></td>
+                    <td>всего:</td>
+                    <td><span class="price">2000</span></td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="part">фильтр маслянный / <span class="uppercase">nissan</span></td>
+                    <td><span class="count">1</span></td>
+                    <td><span class="price">500</span></td>
+                    <td><span class="price">500</span></td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="part">масло двигателя / <span class="uppercase">nissan</span></td>
+                    <td><span class="count">3</span></td>
+                    <td><span class="price">500</span></td>
+                    <td><span class="price">1500</span></td>
+                </tr>
+
+
+                <tr class="work ">
+                    <td class="check"></td>
+                    <td>замена масла двигателя</td>
+                    <td>работа:</td>
+                    <td><span class="price">500</span></td>
+                    <td>запчасти:</td>
+                    <td><span class="price">1500</span></td>
+                    <td>всего:</td>
+                    <td><span class="price">2000</span></td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="part">фильтр маслянный / <span class="uppercase">nissan</span></td>
+                    <td><span class="count">1</span></td>
+                    <td><span class="price">500</span></td>
+                    <td><span class="price">500</span></td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="part">масло двигателя / <span class="uppercase">nissan</span></td>
+                    <td><span class="count">3</span></td>
+                    <td><span class="price">500</span></td>
+                    <td><span class="price">1500</span></td>
+                </tr>
+                <tr class="table-active">
+                    <td colspan="7" class="table-summary legend">итого рекомендованных работ:</td>
+                    <td class="table-summary"><span class="price">1000</span></td>
+                </tr>
+                <tr class="table-active">
+                    <td colspan="7" class="table-summary legend">итого рекомендованных запчастей:</td>
+                    <td class="table-summary"><span class="price">3000</span></td>
+                <tr class="table-active">
+                    <td colspan="7" class="table-summary legend">всего рекомендаций:</td>
+                    <td class="table-summary"><span class="price">4000</span></td>
+                </tr>
+
+                {#Показываем только если заказ больше чем 0#}
+
+                <tr class="">
+                    <td colspan="7" class="table-summary legend">согласованных работ и зачастей по заказу 21342:</td>
+                    <td class="table-summary"><span class="price">4000</span></td>
+                </tr>
+                <tr class="">
+                    <td colspan="7" class="table-summary legend">потенциальная стоимость ремонта:</td>
+                    <td class="table-summary"><span class="price">8000</span></td>
+                </tr>
                 </tbody>
             </table>
-        </div>
 
-
-    </section>
-
-    <section class="">
-        <h4>рекомендации по автомобилю </h4>
-        <table class="table table-bordered table-sm">
-            <tbody>
-            <tr class="work ">
-                <td class="check"></td>
-                <td>замена масла двигателя</td>
-                <td>работа:</td>
-                <td><span class="price">500</span></td>
-                <td>запчасти:</td>
-                <td><span class="price">1500</span></td>
-                <td>всего:</td>
-                <td><span class="price">2000</span></td>
-            </tr>
-            <tr>
-                <td colspan="3"  class="part">фильтр маслянный / <span class="uppercase">nissan</span></td>
-                <td><span class="count">1</span></td>
-                <td><span class="price">500</span></td>
-                <td><span class="price">500</span></td>
-            </tr>
-            <tr>
-                <td colspan="3" class="part">масло двигателя / <span class="uppercase">nissan</span></td>
-                <td><span class="count">3</span></td>
-                <td><span class="price">500</span></td>
-                <td><span class="price">1500</span></td>
-            </tr>
-
-
-
-            <tr class="work ">
-                <td class="check"></td>
-                <td>замена масла двигателя</td>
-                <td>работа:</td>
-                <td><span class="price">500</span></td>
-                <td>запчасти:</td>
-                <td><span class="price">1500</span></td>
-                <td>всего:</td>
-                <td><span class="price">2000</span></td>
-            </tr>
-            <tr>
-                <td colspan="3"  class="part">фильтр маслянный / <span class="uppercase">nissan</span></td>
-                <td><span class="count">1</span></td>
-                <td><span class="price">500</span></td>
-                <td><span class="price">500</span></td>
-            </tr>
-            <tr>
-                <td colspan="3" class="part">масло двигателя / <span class="uppercase">nissan</span></td>
-                <td><span class="count">3</span></td>
-                <td><span class="price">500</span></td>
-                <td><span class="price">1500</span></td>
-            </tr>
-            <tr class="table-active">
-                <td colspan="7" class="table-summary legend">итого рекомендованных работ:</td>
-                <td class="table-summary"><span class="price">1000</span></td>
-            </tr>
-            <tr class="table-active">
-                <td colspan="7" class="table-summary legend">итого рекомендованных запчастей:</td>
-                <td class="table-summary"><span class="price">3000</span></td>
-            <tr class="table-active">
-                <td colspan="7" class="table-summary legend">всего рекомендаций:</td>
-                <td class="table-summary"><span class="price">4000</span></td>
-            </tr>
-
-{#Показываем только если заказ больше чем 0#}
-
-            <tr class="">
-                <td colspan="7" class="table-summary legend">согласованных работ и зачастей по заказу 21342:</td>
-                <td class="table-summary"><span class="price">4000</span></td>
-            </tr>
-            <tr class="">
-                <td colspan="7" class="table-summary legend">потенциальная стоимость ремонта:</td>
-                <td class="table-summary"><span class="price">8000</span></td>
-            </tr>
-            </tbody>
-        </table>
-
-    </section>
-</div>
+        </section>
+    </div>
+{% endblock %}
