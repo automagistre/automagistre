@@ -21,7 +21,8 @@
   margin-top: 10px;
 }
 h3,
-h4 {
+h4,
+h1 {
   text-align: center;
   padding: 10px 0;
   text-transform: uppercase;
@@ -47,6 +48,9 @@ td {
 }
 .table tbody .work td {
   background-color: #E0E0E0 !important;
+}
+.check {
+  width: 40px;
 }
 .check:before {
   display: block;
