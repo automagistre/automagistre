@@ -1,0 +1,166 @@
+@theadColor: #E0E0E0;
+@summaryColor: #F2F2F2;
+
+// шапка
+ .print {
+   position: fixed;
+   bottom: 0;
+   width: 100%;
+   margin: 0 auto;
+   padding: 10px;
+   justify-content: center;
+   background-color: @theadColor;
+
+   z-index: 2;
+   opacity: 0.2;
+   &:hover {
+     opacity: 0.9;
+     border-top: 1px solid black;
+   }
+ }
+
+.btn-lg{
+  text-transform: capitalize;
+  margin: 0 10px;
+}
+
+// заказ
+.contacts {
+  margin-top: 10px;
+}
+
+h3, h4, h1{
+  text-align: center;
+  padding: 10px 0;
+  text-transform: uppercase;
+}
+
+.table-summary {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.legend {
+  text-align: right;
+}
+
+th {
+  text-transform: capitalize;
+}
+.part-number {
+  text-transform: uppercase;
+}
+
+td:first-letter{
+  text-transform: uppercase;
+}
+
+td {
+  text-transform: lowercase;
+}
+
+.table tbody .work td {
+  background-color: @theadColor !important;
+}
+
+.check {
+  width: 40px;
+}
+.check:before {
+  display: block;
+  content: '';
+  height: 34px;
+  width: 34px;
+  border: 2px solid black;
+  margin: 0;
+  background-color: white;
+
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.user-info {
+  &__user, &__magistr {
+    table {
+      width: 100%;
+      border: none;
+      td {
+        padding: 0;
+        text-transform: capitalize;
+        font-size: 16px;
+      }
+      .uppercase {
+        text-transform: uppercase;
+      }
+    }
+  }
+}
+
+.garanty {
+  align-items: center;
+  justify-content: space-around;
+}
+
+.stamp {
+  text-transform: capitalize;
+  font-weight: bold;
+  margin-top: 30px;
+  &:after {
+    content: "____________________";
+  }
+}
+
+.table tbody .part {
+  padding-left: 150px;
+}
+
+.table tbody .work {
+  font-weight: bold;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 1cm;
+  }
+
+  html, body {
+    width: 1024px;
+  }
+
+  body {
+    margin: 0;
+  }
+  .table .thead-dark tr th, .table-active td {
+    background-color: @theadColor !important;
+    border: white;
+  }
+  .print, .print button {
+    display: none;
+  }
+
+  .table tbody .table-active td {
+    background-color: @summaryColor !important;
+  }
+
+  .table tbody .work td {
+    background-color: @theadColor !important;
+  }
+  .price:after {
+    content: " руб";
+  }
+
+  section {
+    page-break-inside: avoid;
+  }
+  .recommendations{
+    page-break-before: always;
+  }
+  .count:after {
+    content: " шт";
+  }
+
+}
+

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/print.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+
+
+<div class="container-fluid">
+    <section class="print row">
+        <button class="btn-success btn-lg" id="print__btn">печать заказа</button>
+        <button class="btn-danger btn-lg" id ="print__cancel">отмена</button>
+    </section>
+</div>
+<script>
+    document.getElementById("print__btn").addEventListener("click", function() { window.print(); window.close(); });
+</script>

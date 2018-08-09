@@ -1,0 +1,71 @@
+{%   include '/easy_admin/order_print/head.html.twig' %}
+
+<h4>согласованные работа и запчасти по автомобилю</h4>
+<h1>а000аа77</h1>
+<div class="container">
+    {#блок работ для выдачи мастеру#}
+    <section class="works">
+        <table class="table table-bordered table-striped table-sm">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col" style="text-align: center; font-size: 20px">&#10003;</th>
+                <th scope="col">наименование работ</th>
+                <th scope="col">исполнитель</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="check"></td>
+                    <td>замена масла двигателя</td>
+                    <td>Халиков{#Именно фамилия#}</td>
+                </tr>
+                <tr>
+                    <td class="check"></td>
+                    <td>замена масла двигателя</td>
+                    <td>Халиков{#Именно фамилия#}</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+    {#блок запчастей для набора зч со склада#}
+    <section class="parts" style="margin-top: 2cm">
+        <table class="table table-bordered table-striped table-sm">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col" style="text-align: center; font-size: 20px">&#10003;</th>
+                <th scope="col">#</th>
+                <th scope="col">место</th>
+                <th scope="col">наименование запчасти</th>
+                <th scope="col">part number</th>
+                <th scope="col">производитель запчасти</th>
+                <th scope="col">кол-во</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="check"></td>
+                <th scope="row">1</th>
+                <td class="uppercase">л2p6</td>
+                <td>фильтр маслянный</td>
+                <td class="part-number"><strong>1921axf0a</strong></td>
+                <td>nissan</td>
+                <td class=""><strong>1</strong></td>
+            </tr>
+            <tr>
+                <td class="check"></td>
+                <th scope="row">2</th>
+                <td class="uppercase">л2p6</td>
+                <td>фильтр маслянный</td>
+                <td class="part-number"><strong>1921axf0a</strong></td>
+                <td>nissan</td>
+                <td class=""><strong>1</strong></td>
+            </tr>
+            <tr class="table-active">
+                <td class="check"></td>
+                <td colspan="5" class="table-summary legend">всего позиций (шт.):</td>
+                <td class="table-summary"><span class="">3</span></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</div>
