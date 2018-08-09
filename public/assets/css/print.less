@@ -1,6 +1,30 @@
 @theadColor: #E0E0E0;
 @summaryColor: #F2F2F2;
 
+// шапка
+ .print {
+   position: fixed;
+   bottom: 0;
+   width: 100%;
+   margin: 0 auto;
+   padding: 10px;
+   justify-content: center;
+   background-color: @theadColor;
+
+   z-index: 2;
+   opacity: 0.2;
+   &:hover {
+     opacity: 0.9;
+     border-top: 1px solid black;
+   }
+ }
+
+.btn-lg{
+  text-transform: capitalize;
+  margin: 0 10px;
+}
+
+// заказ
 .contacts {
   margin-top: 10px;
 }
@@ -39,6 +63,20 @@ td {
   background-color: @theadColor !important;
 }
 
+.check:before {
+  display: block;
+  content: '';
+  height: 34px;
+  width: 34px;
+  border: 2px solid black;
+  margin: 0;
+  background-color: white;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
 .user-info {
   &__user, &__magistr {
     table {
@@ -55,6 +93,7 @@ td {
     }
   }
 }
+
 .garanty {
   align-items: center;
   justify-content: space-around;
@@ -69,8 +108,8 @@ td {
   }
 }
 
- .table tbody .part {
-  padding-left: 100px;
+.table tbody .part {
+  padding-left: 150px;
 }
 
 .table tbody .work {
@@ -88,11 +127,14 @@ td {
   }
 
   body {
-    margin: 0 auto;
+    margin: 0;
   }
   .table .thead-dark tr th, .table-active td {
     background-color: @theadColor !important;
     border: white;
+  }
+  .print, .print button {
+    display: none;
   }
 
   .table tbody .table-active td {

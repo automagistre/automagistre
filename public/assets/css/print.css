@@ -1,3 +1,22 @@
+.print {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px;
+  justify-content: center;
+  background-color: #E0E0E0;
+  z-index: 2;
+  opacity: 0.2;
+}
+.print:hover {
+  opacity: 0.9;
+  border-top: 1px solid black;
+}
+.btn-lg {
+  text-transform: capitalize;
+  margin: 0 10px;
+}
 .contacts {
   margin-top: 10px;
 }
@@ -29,6 +48,18 @@ td {
 .table tbody .work td {
   background-color: #E0E0E0 !important;
 }
+.check:before {
+  display: block;
+  content: '';
+  height: 34px;
+  width: 34px;
+  border: 2px solid black;
+  margin: 0;
+  background-color: white;
+}
+.uppercase {
+  text-transform: uppercase;
+}
 .user-info__user table,
 .user-info__magistr table {
   width: 100%;
@@ -57,7 +88,7 @@ td {
   content: "____________________";
 }
 .table tbody .part {
-  padding-left: 100px;
+  padding-left: 150px;
 }
 .table tbody .work {
   font-weight: bold;
@@ -72,12 +103,16 @@ td {
     width: 1024px;
   }
   body {
-    margin: 0 auto;
+    margin: 0;
   }
   .table .thead-dark tr th,
   .table-active td {
     background-color: #E0E0E0 !important;
     border: white;
+  }
+  .print,
+  .print button {
+    display: none;
   }
   .table tbody .table-active td {
     background-color: #F2F2F2 !important;
@@ -98,4 +133,4 @@ td {
     content: " шт";
   }
 }
-/*# sourceMappingURL=main.css.map */
+/*# sourceMappingURL=print.css.map */
