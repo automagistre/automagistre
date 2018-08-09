@@ -9,6 +9,8 @@ use App\Entity\Employee;
 use App\Entity\Motion;
 use App\Entity\Operand;
 use App\Entity\Order;
+use App\Entity\OrderItem;
+use App\Entity\OrderItemGroup;
 use App\Entity\OrderItemPart;
 use App\Entity\OrderItemService;
 use App\Entity\OrderNote;
@@ -23,6 +25,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use LogicException;
+use Money\Currency;
 use Money\Money;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -152,9 +155,52 @@ final class OrderController extends AbstractController
 
         finish:
 
-        $this->addFlash('success', 'Представь что ты увидел заказ-наряд для печати');
+        $parameters = [
+            'order' => $order,
+            'groups' => array_filter($order->getRootItems(), function (OrderItem $item) {
+                return $item instanceof OrderItemGroup;
+            }),
+            'services' => array_filter($order->getRootItems(), function (OrderItem $item) {
+                return $item instanceof OrderItemService || $item instanceof OrderItemGroup;
+            }),
+            'parts' => $order->getItems(OrderItemPart::class),
+        ];
 
-        return $this->redirectToEasyPath($this->getEntity(Order::class), 'show');
+        $customer = $order->getCustomer();
+        if ($customer instanceof Operand) {
+            $parameters['customer'] = $customer;
+            $parameters['title'] = $customer->getFullName();
+        }
+
+        $car = $order->getCar();
+        if ($car instanceof Car) {
+            $parameters['car'] = $car;
+
+            $recommendations = [];
+            foreach ($car->getRecommendations() as $recommendation) {
+                $recommendations['items'][] = $recommendation;
+
+                $totalServicePrice = $recommendations['totalServicePrice'] ?? new Money(0, new Currency('RUB'));
+                $totalPartPrice = $recommendations['totalPartPrice'] ?? new Money(0, new Currency('RUB'));
+                $totalPrice = $recommendations['totalPrice'] ?? new Money(0, new Currency('RUB'));
+
+                $servicePrice = $recommendation->getPrice();
+                $partPrice = $recommendation->getTotalPartPrice();
+
+                $totalServicePrice = $totalServicePrice->add($servicePrice);
+                $totalPartPrice = $totalPartPrice->add($partPrice);
+
+                $recommendations['totalServicePrice'] = $totalServicePrice;
+                $recommendations['totalPartPrice'] = $totalPartPrice;
+                $recommendations['totalPrice'] = $totalPrice->add($servicePrice)->add($partPrice);
+            }
+
+            if ([] !== $recommendations) {
+                $parameters['recommendations'] = $recommendations;
+            }
+        }
+
+        return $this->render('easy_admin/order_print/final.html.twig', $parameters);
     }
 
     public function closeAction(): Response

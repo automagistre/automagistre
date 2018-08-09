@@ -1,265 +1,252 @@
+{% extends 'easy_admin/order_print/layout.html.twig' %}
 
-{%   include '/easy_admin/order_print/head.html.twig' %}
+{# @var order \App\Entity\Order #}
+{# @var customer \App\Entity\Operand #}
 
-<div class="container">
-    <header class="row">
-        <div class="logo col-sm-6">
-            <img src="{{ asset('assets/img/logo_print.svg') }}" alt="Лого Автомагистр">
-        </div>
-        <div class="main-info col-sm-6 row">
-            <ul class="list-unstyled contacts col-sm-5">
-                <li>+7(495)984-81-82</li>
-                <li>+7(985)929-40-87</li>
-            </ul>
-            <ul class="list-unstyled contacts col-sm-7">
-                <li>www.automagistre.ru</li>
-                <li>Москва, Остаповский проезд, 17</li>
-            </ul>
-        </div>
-    </header>
-    <hr>
-    <section class="user-info row justify-content-sm-around">
-        <div class="user-info__user col-sm-4">
-            <table class="table-sm">
-                <tbody>
+{% block content %}
+    <div class="container">
+        <header class="row">
+            <div class="logo col-sm-6">
+                <img src="{{ asset('assets/img/logo_print.svg') }}" alt="Лого Автомагистр">
+            </div>
+            <div class="main-info col-sm-6 row">
+                <ul class="list-unstyled contacts col-sm-5">
+                    <li>+7(495)984-81-82</li>
+                    <li>+7(985)929-40-87</li>
+                </ul>
+                <ul class="list-unstyled contacts col-sm-7">
+                    <li>www.automagistre.ru</li>
+                    <li>Москва, Остаповский проезд, 17</li>
+                </ul>
+            </div>
+        </header>
+
+        <hr>
+
+        <section class="user-info row justify-content-sm-around">
+            <div class="user-info__user col-sm-4">
+                <table class="table-sm">
+                    <tbody>
                     <tr>
                         <td><strong>заказчик:</strong></td>
-                        <td class="name">вова путин</td>
+                        <td class="name">{{ customer.fullName|default }}</td>
                     </tr>
                     <tr>
                         <td>Телефон:</td>
-                        <td>89261112233</td>
+                        <td>{{ customer.telephone|default(false) ? customer.telephone|phone_number_format }}</td>
                     </tr>
                     <tr>
                         <td>автомобиль:</td>
-                        <td>nissan GTR</td>
+                        <td>{{ car.carModificationDisplayName|default }}</td>
                     </tr>
                     <tr>
                         <td class="uppercase">vin:</td>
-                        <td class="uppercase">zxcv123432543534</td>
+                        <td class="uppercase">{{ car.vin|default }}</td>
                     </tr>
                     <tr>
                         <td>гос. номер:</td>
-                        <td class="uppercase">аа000аа77</td>
+                        <td class="uppercase">{{ car.gosnomer|default }}</td>
                     </tr>
                     <tr>
                         <td>год выпуска:</td>
-                        <td>2020</td>
+                        <td>{{ car.year|default }}</td>
                     </tr>
                     <tr>
                         <td>пробег:</td>
-                        <td>100000</td>
+                        <td>{{ order.mileage|default(false) ? order.mileage|number_format }}</td>
                     </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="user-info__magistr col-sm-4">
-            <table class="table-sm">
+                    </tbody>
+                </table>
+            </div>
+            <div class="user-info__magistr col-sm-4">
+                <table class="table-sm">
+                    <tbody>
+                    <tr>
+                        <td><strong>исполнитель:</strong></td>
+                        <td class="name">ООО "Автомагистр"</td>
+                    </tr>
+                    <tr>
+                        <td class="uppercase">огрн:</td>
+                        <td>5137746189060</td>
+                    </tr>
+                    <tr>
+                        <td class="uppercase">ИНН:</td>
+                        <td>7725812690</td>
+                    </tr>
+                    <tr>
+                        <td class="uppercase">КПП:</td>
+                        <td class="uppercase">772501001</td>
+                    </tr>
+                    <tr>
+                        <td class="uppercase">Р/С:</td>
+                        <td class="uppercase">40702810202000000371</td>
+                    </tr>
+                    <tr>
+                        <td class="uppercase">К/С:</td>
+                        <td>30101810800000000427</td>
+                    </tr>
+                    <tr>
+                        <td class="uppercase">БИК:</td>
+                        <td>044583427</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="order-info">
+            <h3>заказ-наряд: {{ order.id }} от {{ order.createdAt|localizeddate('short', 'none') }}</h3>
+        </section>
+
+        {% if groups is not empty or services is not empty %}
+            <section class="works">
+                <table class="table table-bordered table-striped table-sm">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">наименование работ</th>
+                        <th scope="col">исполнитель</th>
+                        <th scope="col">стоимость</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% set index = 0 %}
+                    {% for group in groups %}
+                        {# @var group \App\Entity\OrderItemGroup #}
+                        {% set index = index + 1 %}
+                        <tr>
+                            <th scope="row">{{ index }}</th>
+                            <td>{{ group }}</td>
+                            <td>-</td>
+                            <td><span class="price">{{ group.totalServicePrice|localize_money }}</span></td>
+                        </tr>
+                    {% endfor %}
+                    {% for service in services %}
+                        {% set index = index + 1 %}
+                        {# @var service \App\Entity\OrderItemService #}
+                        <tr>
+                            <th scope="row">{{ index }}</th>
+                            <td>{{ service }}</td>
+                            <td>{{ service.worker }}</td>
+                            <td><span class="price">{{ service.price|localize_money }}</span></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+        {% endif %}
+
+        {% if parts is not empty %}
+            <section class="parts">
+                <table class="table table-bordered table-striped table-sm">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">наименование запчасти</th>
+                        <th scope="col">производитель запчасти</th>
+                        <th scope="col">part number</th>
+                        <th scope="col">кол-во</th>
+                        <th scope="col">стоимость</th>
+                        <th scope="col">итого</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for part in parts %}
+                        {# @var part \App\Entity\OrderItemPart #}
+                        <tr>
+                            <th scope="row">{{ loop.index }}</th>
+                            <td>{{ part.part }}</td>
+                            <td>{{ part.part.manufacturer }}</td>
+                            <td class="part-number">{{ part.part.number }}</td>
+                            <td class="count">{{ part.quantity / 100 }}</td>
+                            <td><span class="price">{{ part.price|localize_money }}</span></td>
+                            <td><span class="price">{{ part.totalPrice|localize_money }}</span></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+        {% endif %}
+
+        <section class="summary">
+            <table class="table table-bordered table-striped table-sm">
                 <tbody>
-                <tr>
-                    <td><strong>исполнитель:</strong></td>
-                    <td class="name">ООО "Автомагистр"</td>
-                </tr>
-                <tr>
-                    <td class="uppercase">огрн:</td>
-                    <td>5137746189060</td>
-                </tr>
-                <tr>
-                    <td class="uppercase">ИНН:</td>
-                    <td>7725812690</td>
-                </tr>
-                <tr>
-                    <td class="uppercase">КПП:</td>
-                    <td class="uppercase">772501001</td>
-                </tr>
-                <tr>
-                    <td class="uppercase">Р/С:</td>
-                    <td class="uppercase">40702810202000000371</td>
-                </tr>
-                <tr>
-                    <td class="uppercase">К/С:</td>
-                    <td>30101810800000000427</td>
-                </tr>
-                <tr>
-                    <td class="uppercase">БИК:</td>
-                    <td>044583427</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
-    <section class="order-info">
-        <h3>заказ-наряд: 12345 от 01.01.2020</h3>
-    </section>
-    <section class="works">
-        <table class="table table-bordered table-striped table-sm">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">наименование работ</th>
-                    <th scope="col">исполнитель</th>
-                    <th scope="col">стоимость</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>замена масла двигателя</td>
-                    <td>id_1234</td>
-                    <td><span class="price">500</span></td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>замена масла двигателя</td>
-                    <td>id_1234</td>
-                    <td><span class="price">500</span></td>
+                <tr class="table-active">
+                    <td class="table-summary legend ">предоплата:</td>
+                    <td class="table-summary "><span class="price">{{ order.totalPayments|localize_money }}</span></td>
                 </tr>
                 <tr class="table-active">
-                    <td colspan="3" class="table-summary legend">итого:</td>
-                    <td class="table-summary"><span class="price">500</span></td>
+                    <td class="table-summary legend ">всего к оплате:</td>
+                    <td class="table-summary "><span class="price">{{ order.totalForPayment|localize_money }}</span>
+                    </td>
                 </tr>
-            </tbody>
-        </table>
-    </section>
-    <section class="parts">
-        <table class="table table-bordered table-striped table-sm">
-            <thead class="thead-dark">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">наименование запчасти</th>
-                <th scope="col">производитель запчасти</th>
-                <th scope="col">part number</th>
-                <th scope="col">кол-во</th>
-                <th scope="col">стоимость</th>
-                <th scope="col">итого</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>фильтр маслянный</td>
-                <td>nissan</td>
-                <td class="part-number">1921axf0a</td>
-                <td class="count">1</td>
-                <td><span class="price">500</span></td>
-                <td><span class="price">500</span></td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>фильтр маслянный</td>
-                <td>nissan</td>
-                <td class="part-number">1921axf0a</td>
-                <td><span class="count">2</span></td>
-                <td><span class="price">500</span></td>
-                <td><span class="price">1000</span></td>
-            </tr>
-            <tr class="table-active">
-                <td colspan="4" class="table-summary legend">итого:</td>
-                <td class="table-summary"><span class="count">3</span></td>
-                <td></td>
-                <td class="table-summary"><span class="price">1500</span></td>
-            </tr>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </section>
 
-    </section>
-    <section class="summary">
-        <table class="table table-bordered table-striped table-sm">
-            <tbody>
-            <tr class="table-active">
-                <td class="table-summary legend ">предоплата:</td>
-                <td class="table-summary "><span class="price">1000</span></td>
-            </tr>
-            <tr class="table-active">
-                <td class="table-summary legend ">всего к оплате:</td>
-                <td class="table-summary "><span class="price">1000</span></td>
-            </tr>
-            </tbody>
-        </table>
-
-    </section>
-    <section class="info">
-        <div class="row garanty">
-            <div><strong>С объемами и стоимостью работ согласен. <br>
-            С правилами предоставления услуг ознакомлен.</strong></div>
-            <div>
-                Гарантийные условия<img src="http://qrcoder.ru/code/?www.automagistre.ru%2Fgr%2F&4&0" width="100" height="100" border="0" title="QR код">
+        <section class="info">
+            <div class="row garanty">
+                <div><strong>С объемами и стоимостью работ согласен. <br>
+                        С правилами предоставления услуг ознакомлен.</strong></div>
+                <div>
+                    Гарантийные условия<img src="http://qrcoder.ru/code/?www.automagistre.ru%2Fgr%2F&4&0" width="100" height="100" border="0" title="QR код">
+                </div>
             </div>
-        </div>
-        <div class="row justify-content-around">
-            <div class="stamp">заказчик</div>
-            <div class="stamp">исполнитель</div>
-        </div>
-    </section>
-    <section class="recommendations">
-        <h4>рекомендации по автомобилю VIN: zxcv123432543534 </h4>
-        <table class="table table-bordered table-sm">
-            <tbody>
-            <tr class="work">
-                <th scope="row" >1</th>
-                <td>замена масла двигателя</td>
-                <td>работа:</td>
-                <td><span class="price">500</span></td>
-                <td>запчасти:</td>
-                <td><span class="price">1500</span></td>
-                <td>всего:</td>
-                <td><span class="price">2000</span></td>
-            </tr>
-            <tr>
-                <td colspan="2"  class="part">фильтр маслянный</td>
-                <td>nissan</td>
-                <td><span class="count">1</span></td>
-                <td><span class="price">500</span></td>
-                <td><span class="price">500</span></td>
-            </tr>
-            <tr>
-                <td colspan="2" class="part">масло двигателя</td>
-                <td>nissan</td>
-                <td><span class="count">3</span></td>
-                <td><span class="price">500</span></td>
-                <td><span class="price">1500</span></td>
-            </tr>
+            <div class="row justify-content-around">
+                <div class="stamp">заказчик</div>
+                <div class="stamp">исполнитель</div>
+            </div>
+        </section>
 
+        {% if recommendations is defined %}
+            <section class="recommendations">
+                <h4>рекомендации по автомобилю VIN: {{ car.vin }}</h4>
+                <table class="table table-bordered table-sm">
+                    <tbody>
+                    {% for recommendation in recommendations.items %}
+                        {# @var recommendation \App\Entity\CarRecommendation #}
+                        <tr class="work">
+                            <th scope="row">{{ loop.index }}</th>
+                            <td>{{ recommendation.service }}</td>
+                            <td>работа:</td>
+                            <td><span class="price">{{ recommendation.price|localize_money }}</span></td>
+                            <td>запчасти:</td>
+                            <td><span class="price">{{ recommendation.totalPartPrice|localize_money }}</span></td>
+                            <td>всего:</td>
+                            <td><span class="price">{{ recommendation.totalPrice|localize_money }}</span></td>
+                        </tr>
+                        {% for part in recommendation.parts %}
+                            {# @var part \App\Entity\CarRecommendationPart #}
+                            <tr>
+                                <td colspan="2" class="part">{{ part.part }}</td>
+                                <td>{{ part.part.manufacturer }}</td>
+                                <td><span class="count">{{ part.quantity / 100 }}</span></td>
+                                <td><span class="price">{{ part.price|localize_money }}</span></td>
+                                <td><span class="price">{{ part.totalPrice|localize_money }}</span></td>
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
 
-
-            <tr class="work">
-                <th scope="row" >2</th>
-                <td>замена масла двигателя</td>
-                <td>работа:</td>
-                <td><span class="price">500</span></td>
-                <td>запчасти:</td>
-                <td><span class="price">1500</span></td>
-                <td>всего:</td>
-                <td><span class="price">2000</span></td>
-            </tr>
-            <tr>
-                <td colspan="2"  class="part">фильтр маслянный</td>
-                <td>nissan</td>
-                <td><span class="count">1</span></td>
-                <td><span class="price">500</span></td>
-                <td><span class="price">500</span></td>
-            </tr>
-            <tr>
-                <td colspan="2" class="part">масло двигателя</td>
-                <td>nissan</td>
-                <td><span class="count">3</span></td>
-                <td><span class="price">500</span></td>
-                <td><span class="price">1500</span></td>
-            </tr>
-            <tr class="table-active">
-                <td colspan="7" class="table-summary legend">итого работы:</td>
-                <td class="table-summary"><span class="price">1000</span></td>
-            </tr>
-            <tr class="table-active">
-                <td colspan="7" class="table-summary legend">итого запчасти:</td>
-                <td class="table-summary"><span class="price">3000</span></td>
-            <tr class="table-active">
-                <td colspan="7" class="table-summary legend">всего рекомендаций:</td>
-                <td class="table-summary"><span class="price">4000</span></td>
-            </tr>
-            </tbody>
-        </table>
-    </section>
-</div>
-</body>
-</html>
+                    <tr class="table-active">
+                        <td colspan="7" class="table-summary legend">итого работы:</td>
+                        <td class="table-summary">
+                            <span class="price">{{ recommendations.totalServicePrice|localize_money }}</span>
+                        </td>
+                    </tr>
+                    <tr class="table-active">
+                        <td colspan="7" class="table-summary legend">итого запчасти:</td>
+                        <td class="table-summary">
+                            <span class="price">{{ recommendations.totalPartPrice|localize_money }}</span>
+                        </td>
+                    <tr class="table-active">
+                        <td colspan="7" class="table-summary legend">всего рекомендаций:</td>
+                        <td class="table-summary">
+                            <span class="price">{{ recommendations.totalPrice|localize_money }}</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+        {% endif %}
+    </div>
+{% endblock %}

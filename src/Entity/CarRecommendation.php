@@ -7,15 +7,18 @@ namespace App\Entity;
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
+use App\Money\PriceInterface;
+use App\Money\TotalPriceInterface;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Money\Currency;
 use Money\Money;
 
 /**
  * @ORM\Entity
  */
-class CarRecommendation
+class CarRecommendation implements PriceInterface, TotalPriceInterface
 {
     use Identity;
     use Price;
@@ -83,6 +86,22 @@ class CarRecommendation
     public function __toString(): string
     {
         return $this->service;
+    }
+
+    public function getTotalPrice(): Money
+    {
+        return $this->getTotalPartPrice()->add($this->getPrice());
+    }
+
+    public function getTotalPartPrice(): Money
+    {
+        $price = new Money(0, new Currency('RUB'));
+
+        foreach ($this->parts as $part) {
+            $price = $price->add($part->getTotalPrice());
+        }
+
+        return $price;
     }
 
     public function getCar(): ?Car

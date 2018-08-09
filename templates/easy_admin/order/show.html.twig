@@ -231,7 +231,7 @@
                                                 </a>
                                                 {{ part.part.name }}
                                             </td>
-                                            <td>{{ part.totalPrice|localize_money }}</td>
+                                            <td>{{ part.quantity / 100 }} x {{ part.totalPrice|localize_money }}</td>
                                             <td>
                                                 {%- spaceless -%}
                                                     {% set selector = part.selector %}
