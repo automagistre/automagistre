@@ -75,7 +75,7 @@ abstract class Note
         return $this->text;
     }
 
-    public function getCreatedBy(): User
+    public function getCreatedBy(): ?User
     {
         return $this->createdBy;
     }

@@ -9,9 +9,9 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>№</th>
                         <th>Тип</th>
                         <th>Текст</th>
+                        <th>Создал</th>
                         <th>Дата</th>
                     </tr>
                     </thead>
@@ -19,9 +19,18 @@
                     {% for note in notes %}
                         {# @var note \App\Entity\Note #}
                         <tr>
-                            <td>{{ note.id }}</td>
                             <td>{{ note.type.name }}</td>
                             <td>{{ note.text }}</td>
+                            <td>
+                                {%- spaceless %}
+                                    {% set createdBy = note.createdBy %}
+                                    {% if createdBy is not empty %}
+                                        {{ createdBy.person.fullName }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                {% endspaceless -%}
+                            </td>
                             <td>{{ note.createdAt|localizeddate }}</td>
                         </tr>
                     {% endfor %}
