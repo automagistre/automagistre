@@ -6,4 +6,10 @@
 
 {% block panel_title %}Группа{% endblock %}
 
+{% block main %}
+    {{ parent() }}
+
+    {{ block('delete_form') }}
+{% endblock %}
+
 {% block div_footer %}{% endblock %}

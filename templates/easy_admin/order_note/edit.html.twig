@@ -4,4 +4,10 @@
 
 {% block panel_title %}Заметка{% endblock %}
 
+{% block main %}
+    {{ parent() }}
+
+    {{ block('delete_form') }}
+{% endblock %}
+
 {% block div_footer %}{% endblock %}

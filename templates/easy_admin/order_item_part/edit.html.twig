@@ -7,6 +7,12 @@
 
 {% block panel_title %}Запчасть{% endblock %}
 
+{% block main %}
+    {{ parent() }}
+
+    {{ block('delete_form') }}
+{% endblock %}
+
 {% block div_footer %}{% endblock %}
 
 {% block body_javascript %}
