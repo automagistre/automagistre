@@ -191,7 +191,7 @@ easy_admin:
                     - { property: 'car', label: 'Автомобиль', type: 'text', type_options: { disabled: true } }
                     - { property: 'service', label: 'Работа', type_options: { required: true } }
                     - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType, type_options: { required: true } }
-                    - { property: 'worker', label: 'Диагност', type: App\Form\Type\WorkerType, type_options: { required: false } }
+                    - { property: 'worker', label: 'Диагност', type: App\Form\Type\WorkerType, type_options: { required: true } }
             edit:
                 title: 'Рекомендация №%%entity_id%%'
                 fields:
