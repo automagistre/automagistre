@@ -188,6 +188,8 @@ final class PartController extends AbstractController
             $qb->setParameter($key, '%'.$searchString.'%');
         }
 
+        $qb->orderBy('part.quantity', 'DESC');
+
         return $qb;
     }
 
