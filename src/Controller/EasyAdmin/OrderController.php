@@ -84,9 +84,17 @@ final class OrderController extends AbstractController
 
     public function printAction(): Response
     {
-        $this->addFlash('success', 'Абракадабра тестовая печать!');
+        $order = $this->getEntity(Order::class);
+        if (!$order instanceof Order) {
+            throw new BadRequestHttpException('Order is required');
+        }
 
-        return $this->redirectToEasyPath($this->getEntity(Order::class), 'show');
+        return $this->render('easy_admin/order_print/giveout.html.twig', [
+            'order' => $order,
+            'car' => $order->getCar(),
+            'services' => $order->getItems(OrderItemService::class),
+            'parts' => $order->getItems(OrderItemPart::class),
+        ]);
     }
 
     public function finishAction(): Response

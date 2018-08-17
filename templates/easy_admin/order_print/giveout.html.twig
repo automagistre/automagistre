@@ -1,7 +1,7 @@
-{%   include '/easy_admin/order_print/head.html.twig' %}
+{% include 'easy_admin/order_print/layout.html.twig' %}
 
-<h4>согласованные работа и запчасти по автомобилю</h4>
-<h1>а000аа77</h1>
+<h4>согласованные работы и запчасти по автомобилю</h4>
+<h1>{{ car is defined ? car.gosnomer }}</h1>
 <div class="container">
     {#блок работ для выдачи мастеру#}
     <section class="works">
@@ -14,19 +14,18 @@
             </tr>
             </thead>
             <tbody>
+            {% for service in services %}
+                {# @var service \App\Entity\OrderItemService #}
                 <tr>
                     <td class="check"></td>
-                    <td>замена масла двигателя</td>
-                    <td>Халиков{#Именно фамилия#}</td>
+                    <td>{{ service }}</td>
+                    <td>{{ service.worker }}</td>
                 </tr>
-                <tr>
-                    <td class="check"></td>
-                    <td>замена масла двигателя</td>
-                    <td>Халиков{#Именно фамилия#}</td>
-            </tr>
+            {% endfor %}
             </tbody>
         </table>
     </section>
+
     {#блок запчастей для набора зч со склада#}
     <section class="parts" style="margin-top: 2cm">
         <table class="table table-bordered table-striped table-sm">
@@ -34,7 +33,7 @@
             <tr>
                 <th scope="col" style="text-align: center; font-size: 20px">&#10003;</th>
                 <th scope="col">#</th>
-                <th scope="col">место</th>
+                {#<th scope="col">место</th>#}
                 <th scope="col">наименование запчасти</th>
                 <th scope="col">part number</th>
                 <th scope="col">производитель запчасти</th>
@@ -42,28 +41,22 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td class="check"></td>
-                <th scope="row">1</th>
-                <td class="uppercase">л2p6</td>
-                <td>фильтр маслянный</td>
-                <td class="part-number"><strong>1921axf0a</strong></td>
-                <td>nissan</td>
-                <td class=""><strong>1</strong></td>
-            </tr>
-            <tr>
-                <td class="check"></td>
-                <th scope="row">2</th>
-                <td class="uppercase">л2p6</td>
-                <td>фильтр маслянный</td>
-                <td class="part-number"><strong>1921axf0a</strong></td>
-                <td>nissan</td>
-                <td class=""><strong>1</strong></td>
-            </tr>
+            {% for part in parts %}
+                {# @var part \App\Entity\OrderItemPart #}
+                <tr>
+                    <td class="check"></td>
+                    <th scope="row">{{ loop.index }}</th>
+                    {#<td class="uppercase">л2p6</td>#}
+                    <td>{{ part.part.name }}</td>
+                    <td class="part-number"><strong>{{ part.part.number }}</strong></td>
+                    <td>{{ part.part.manufacturer }}</td>
+                    <td class=""><strong>{{ part.quantity / 100 }}</strong></td>
+                </tr>
+            {% endfor %}
             <tr class="table-active">
-                <td class="check"></td>
-                <td colspan="5" class="table-summary legend">всего позиций (шт.):</td>
-                <td class="table-summary"><span class="">3</span></td>
+                <td></td>
+                <td colspan="4" class="table-summary legend">всего позиций (шт.):</td>
+                <td class="table-summary"><span>{{ parts|length }}</span></td>
             </tr>
             </tbody>
         </table>
