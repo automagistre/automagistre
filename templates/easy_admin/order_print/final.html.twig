@@ -168,8 +168,16 @@
                             <td>{{ part.part.manufacturer }}</td>
                             <td class="part-number">{{ part.part.number }}</td>
                             <td class="count">{{ part.quantity / 100 }}</td>
-                            <td><span class="price">{{ part.price|localize_money }}</span></td>
-                            <td><span class="price">{{ part.totalPrice|localize_money }}</span></td>
+                            <td>
+                                <span class="price">
+                                    {{- service.warranty ? '0,00 ₽' : part.price|localize_money -}}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="price">
+                                    {{- service.warranty ? '0,00 ₽' : part.totalPrice|localize_money -}}
+                                </span>
+                            </td>
                         </tr>
                     {% endfor %}
                     <tr class="table-active">
