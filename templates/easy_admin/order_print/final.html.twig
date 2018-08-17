@@ -164,7 +164,7 @@
                         {# @var part \App\Entity\OrderItemPart #}
                         <tr>
                             <th scope="row">{{ loop.index }}</th>
-                            <td>{{ part.part }}</td>
+                            <td>{{ part.part }}{{ part.warranty ? ' - [гарантия]' }}</td>
                             <td>{{ part.part.manufacturer }}</td>
                             <td class="part-number">{{ part.part.number }}</td>
                             <td class="count">{{ part.quantity / 100 }}</td>
