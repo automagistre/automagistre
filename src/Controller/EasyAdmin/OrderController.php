@@ -200,6 +200,10 @@ final class OrderController extends AbstractController
             }
         }
 
+        if ($request->isMethod('POST')) {
+            return $this->redirect($request->getUri());
+        }
+
         return $this->render('easy_admin/order_print/final.html.twig', $parameters);
     }
 

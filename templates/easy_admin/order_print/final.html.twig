@@ -11,8 +11,8 @@
             </div>
             <div class="main-info col-sm-6 row">
                 <ul class="list-unstyled contacts col-sm-5">
-                    <li>+7(495)984-81-82</li>
-                    <li>+7(985)929-40-87</li>
+                    <li>+7 (495) 984-81-82</li>
+                    <li>+7 (985) 929-40-87</li>
                 </ul>
                 <ul class="list-unstyled contacts col-sm-7">
                     <li>www.automagistre.ru</li>
@@ -37,7 +37,7 @@
                     </tr>
                     <tr>
                         <td>автомобиль:</td>
-                        <td>{{ car.carModificationDisplayName|default }}</td>
+                        <td>{{ car.carModel|default }}</td>
                     </tr>
                     <tr>
                         <td class="uppercase">vin:</td>
@@ -127,10 +127,15 @@
                         <tr>
                             <th scope="row">{{ index }}</th>
                             <td>{{ service }}</td>
-                            <td>{{ service.worker }}</td>
+                            <td>{{ service.worker.id }}</td>
                             <td><span class="price">{{ service.price|localize_money }}</span></td>
                         </tr>
                     {% endfor %}
+                    <tr class="table-active">
+                        <td colspan="3" class="table-summary legend">итого:</td>
+                        <td class="table-summary">
+                            <span class="price">{{ order.totalServicePrice|localize_money }}</span></td>
+                    </tr>
                     </tbody>
                 </table>
             </section>
@@ -163,6 +168,14 @@
                             <td><span class="price">{{ part.totalPrice|localize_money }}</span></td>
                         </tr>
                     {% endfor %}
+                    <tr class="table-active">
+                        <td colspan="4" class="table-summary legend">итого:</td>
+                        <td class="table-summary"><span class="count">3</span></td>
+                        <td></td>
+                        <td class="table-summary">
+                            <span class="price">{{ order.totalPartPrice|localize_money }}</span>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </section>
@@ -172,12 +185,12 @@
             <table class="table table-bordered table-striped table-sm">
                 <tbody>
                 <tr class="table-active">
-                    <td class="table-summary legend ">предоплата:</td>
-                    <td class="table-summary "><span class="price">{{ order.totalPayments|localize_money }}</span></td>
+                    <td class="table-summary legend">предоплата:</td>
+                    <td class="table-summary"><span class="price">{{ order.totalPayments|localize_money }}</span></td>
                 </tr>
                 <tr class="table-active">
-                    <td class="table-summary legend ">всего к оплате:</td>
-                    <td class="table-summary "><span class="price">{{ order.totalForPayment|localize_money }}</span>
+                    <td class="table-summary legend">всего к оплате:</td>
+                    <td class="table-summary"><span class="price">{{ order.totalForPayment|localize_money }}</span>
                     </td>
                 </tr>
                 </tbody>
