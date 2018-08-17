@@ -42,14 +42,14 @@
         return false;
       });
 
-      $(document).on('new-part-added', function(e, part) {
-        let option = new Option([part.name, '(' + part.manufacturer.name, part.number + ')'].join(' '), part.id);
+      $(document).on('new-part-added', function(e, data) {
+        let option = new Option([data.name, '(' + data.manufacturer.name, data.number + ')'].join(' '), data.id);
         option.selected = true;
+
+        costInput.val(data.price.amount.replace('.', ','));
 
         partInput.append(option);
         partInput.trigger('change');
-
-        costInput.val(part.price);
       });
 
       partInput.on('change', function() {

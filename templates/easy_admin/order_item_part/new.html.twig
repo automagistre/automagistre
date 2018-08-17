@@ -7,6 +7,10 @@
 
 {% block panel_title %}Запчасть{% endblock %}
 
+{% block panel_body %}
+    {{ block('entity_form') }}
+{% endblock %}
+
 {% block div_footer %}{% endblock %}
 
 {% block body_javascript %}

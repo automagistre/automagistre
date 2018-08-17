@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -14,6 +15,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     @ORM\UniqueConstraint(name="part_idx", columns={"number", "manufacturer_id"})
  * })
  * @ORM\Entity
+ *
+ * @UniqueEntity(fields={"manufacturer", "number"})
  */
 class Part
 {
