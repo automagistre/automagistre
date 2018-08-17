@@ -126,9 +126,13 @@
                         {# @var service \App\Entity\OrderItemService #}
                         <tr>
                             <th scope="row">{{ index }}</th>
-                            <td>{{ service }}</td>
+                            <td>{{ service }}{{ service.warranty ? ' - [гарантия]' }}</td>
                             <td>{{ service.worker.id }}</td>
-                            <td><span class="price">{{ service.price|localize_money }}</span></td>
+                            <td>
+                                <span class="price">
+                                    {{- service.warranty ? '0,00 ₽' : service.price|localize_money -}}
+                                </span>
+                            </td>
                         </tr>
                     {% endfor %}
                     <tr class="table-active">
