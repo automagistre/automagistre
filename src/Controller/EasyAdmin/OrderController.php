@@ -161,7 +161,7 @@ final class OrderController extends AbstractController
                 return $item instanceof OrderItemGroup;
             }),
             'services' => array_filter($order->getRootItems(), function (OrderItem $item) {
-                return $item instanceof OrderItemService || $item instanceof OrderItemGroup;
+                return $item instanceof OrderItemService;
             }),
             'parts' => $order->getItems(OrderItemPart::class),
         ];
