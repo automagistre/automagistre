@@ -6,7 +6,7 @@ namespace App\Controller\EasyAdmin;
 
 use App\Entity\Income;
 use App\Entity\IncomePart;
-use App\Entity\Motion;
+use App\Entity\MotionIncome;
 use App\Entity\Supply;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Join;
@@ -108,7 +108,7 @@ final class IncomeController extends AbstractController
 
                 foreach ($income->getIncomeParts() as $incomePart) {
                     $quantity = $incomePart->getQuantity();
-                    $em->persist(Motion::createFromIncomePart($incomePart));
+                    $em->persist(new MotionIncome($incomePart));
 
                     $supply = $incomePart->getSupply();
                     if ($supply instanceof Supply) {

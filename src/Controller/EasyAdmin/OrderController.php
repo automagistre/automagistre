@@ -6,7 +6,7 @@ namespace App\Controller\EasyAdmin;
 
 use App\Entity\Car;
 use App\Entity\Employee;
-use App\Entity\Motion;
+use App\Entity\MotionOrder;
 use App\Entity\Operand;
 use App\Entity\Order;
 use App\Entity\OrderItem;
@@ -275,7 +275,7 @@ final class OrderController extends AbstractController
 
             foreach ($order->getItems(OrderItemPart::class) as $item) {
                 /* @var OrderItemPart $item */
-                $em->persist(new Motion($item->getPart(), $item->getQuantity(), $order));
+                $em->persist(new MotionOrder($item->getPart(), $item->getQuantity(), $order));
             }
 
             foreach ($order->getItems(OrderItemService::class) as $item) {
