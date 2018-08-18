@@ -8,28 +8,21 @@ use App\Entity\Manufacturer;
 use App\Entity\Order;
 use App\Entity\Part;
 use App\Model\DeficitPart;
-use Doctrine\DBAL\Connection;
-use Doctrine\ORM\EntityManager;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class PartManager
+final class DeficitManager
 {
     /**
-     * @var Connection
+     * @var RegistryInterface
      */
-    private $conn;
+    private $registry;
 
-    /**
-     * @var EntityManager
-     */
-    private $em;
-
-    public function __construct(Connection $conn, EntityManager $em)
+    public function __construct(RegistryInterface $registry)
     {
-        $this->conn = $conn;
-        $this->em = $em;
+        $this->registry = $registry;
     }
 
     /**
@@ -76,27 +69,30 @@ FROM (SELECT
 HAVING needed > 0;
 SQL;
 
-        $result = $this->conn->fetchAll($sql);
+        $em = $this->registry->getEntityManager();
+        $conn = $em->getConnection();
 
-        $partRepository = $this->em->getRepository(Part::class);
+        $result = $conn->fetchAll($sql);
+
+        $partRepository = $em->getRepository(Part::class);
         $parts = $partRepository->findBy([
             'id' => array_map(function (array $item) {
                 return $item['part_id'];
             }, $result),
         ]);
 
-        $this->em->getRepository(Manufacturer::class)->findBy([
+        $em->getRepository(Manufacturer::class)->findBy([
             'id' => array_map(function (Part $part) {
                 return $part->getManufacturer()->getId();
             }, $parts),
         ]);
 
-        return array_map(function (array $item) use ($partRepository) {
+        return array_map(function (array $item) use ($em, $partRepository) {
             return new DeficitPart([
                 'part' => $partRepository->find($item['part_id']),
                 'quantity' => $item['needed'],
-                'orders' => array_map(function (int $id) {
-                    return $this->em->getReference(Order::class, $id);
+                'orders' => array_map(function (int $id) use ($em) {
+                    return $em->getReference(Order::class, $id);
                 }, array_filter(explode(',', $item['orders_id']), 'strlen')),
             ]);
         }, $result);

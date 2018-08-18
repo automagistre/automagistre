@@ -7,7 +7,7 @@ namespace App\Controller\EasyAdmin;
 use App\Entity\Manufacturer;
 use App\Entity\Motion;
 use App\Entity\Part;
-use App\Manager\PartManager;
+use App\Manager\DeficitManager;
 use App\Model\Part as PartModel;
 use App\Model\WarehousePart;
 use App\Partner\Ixora\Finder;
@@ -28,7 +28,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 final class PartController extends AbstractController
 {
     /**
-     * @var PartManager
+     * @var DeficitManager
      */
     private $partManager;
 
@@ -47,7 +47,7 @@ final class PartController extends AbstractController
     private $formatter;
 
     public function __construct(
-        PartManager $partManager,
+        DeficitManager $partManager,
         EventDispatcherInterface $dispatcher,
         Finder $finder,
         MoneyFormatter $formatter
