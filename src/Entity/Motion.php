@@ -14,7 +14,6 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\DiscriminatorMap({
  *     "1": "App\Entity\MotionOrder",
  *     "2": "App\Entity\MotionIncome",
- *     "3": "App\Entity\MotionReservation"
  * })
  */
 abstract class Motion
@@ -50,17 +49,17 @@ abstract class Motion
         $this->description = $description;
     }
 
-    public function getQuantity(): int
-    {
-        return $this->quantity;
-    }
-
     public function getPart(): Part
     {
         return $this->part;
     }
 
-    public function getDescription(): ?string
+    public function getQuantity(): int
+    {
+        return $this->quantity;
+    }
+
+    public function getDescription(): string
     {
         return $this->description;
     }
