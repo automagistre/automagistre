@@ -33,8 +33,6 @@ final class ReservationManager
 
     public function reserve(Part $part, int $quantity, Order $order): void
     {
-        $em = $this->registry->getEntityManager();
-
         if (0 >= $quantity) {
             throw new ReservationException('Количество резервируемого товара должно быть положительным.');
         }
@@ -45,6 +43,8 @@ final class ReservationManager
                 sprintf('Невозможно зарезервировать "%s" единиц товара, доступно "%s"', $quantity, $reservable)
             );
         }
+
+        $em = $this->registry->getEntityManager();
 
         $em->persist(new Reservation($part, $quantity, $order));
         $em->flush();
