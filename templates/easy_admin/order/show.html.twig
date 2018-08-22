@@ -17,9 +17,9 @@
             </div>
 
             <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-12" style="margin-bottom: 15px">
-                        {% if order.editable %}
+                {% if order.editable %}
+                    <div class="row">
+                        <div class="col-md-12" style="margin-bottom: 15px">
                             <a href="{{ easyadmin_path(order, 'edit') }}" class="btn btn-primary">
                                 <i class="fa fa-pencil"></i>
                                 Редактировать
@@ -46,9 +46,9 @@
                                     Закрыть
                                 </a>
                             {% endif %}
-                        {% endif %}
+                        </div>
                     </div>
-                </div>
+                {% endif %}
 
                 <div class="row">
                     <div class="col-md-12">
