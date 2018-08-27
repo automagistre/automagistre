@@ -1,0 +1,52 @@
+{% extends '@EasyAdmin/default/show.html.twig' %}
+
+{% block main %}
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="field-group">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Основная информация</h3>
+                    </div>
+
+                    <div class="box-body">
+                        {{ parent() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="field-group">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Заказано в</h3>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Номер</th>
+                                <th>Статус</th>
+                                <th>Автомобиль</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for order in orders %}
+                                {# @var order \App\Entity\Order #}
+                                <tr>
+                                    <td><a href="{{ easyadmin_path(order, 'show') }}">{{ order.id }}</a></td>
+                                    <td>{{ include('easy_admin/order/field_status.html.twig', {'value': order.status}) }}</td>
+                                    <td>{{ order.car }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

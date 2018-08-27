@@ -416,13 +416,19 @@ easy_admin:
             label: 'Запчасти'
             templates:
                 new: 'easy_admin/part/new.html.twig'
-            disabled_actions: ['show', 'delete']
+                show: 'easy_admin/part/show.html.twig'
+            show:
+                title: 'Запчасть №%%entity_id%%'
+                fields:
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'manufacturer.name', label: 'Производитель' }
+                    - { property: 'number', label: 'Номер', template: 'easy_admin/field_part_number.html.twig' }
+                    - { property: 'price', label: 'Цена', template: 'easy_admin/field_money.html.twig' }
             list:
                 title: 'Запчасти'
                 fields:
-                    - { property: 'id' }
+                    - { property: 'name', label: 'Название', template: 'easy_admin/field_show.html.twig' }
                     - { property: 'manufacturer.name', label: 'Производитель' }
-                    - { property: 'name', label: 'Название' }
                     - { property: 'number', label: 'Номер', template: 'easy_admin/field_part_number.html.twig' }
                     - { property: 'price', label: 'Цена', template: 'easy_admin/field_money.html.twig' }
             form:

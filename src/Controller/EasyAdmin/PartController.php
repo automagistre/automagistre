@@ -8,6 +8,7 @@ use App\Entity\Manufacturer;
 use App\Entity\Motion;
 use App\Entity\Part;
 use App\Manager\DeficitManager;
+use App\Manager\PartManager;
 use App\Model\Part as PartModel;
 use App\Model\WarehousePart;
 use App\Partner\Ixora\Finder;
@@ -30,6 +31,11 @@ final class PartController extends AbstractController
     /**
      * @var DeficitManager
      */
+    private $deficitManager;
+
+    /**
+     * @var PartManager
+     */
     private $partManager;
 
     /**
@@ -41,17 +47,20 @@ final class PartController extends AbstractController
      * @var EventDispatcherInterface
      */
     private $dispatcher;
+
     /**
      * @var MoneyFormatter
      */
     private $formatter;
 
     public function __construct(
-        DeficitManager $partManager,
+        DeficitManager $deficitManager,
+        PartManager $partManager,
         EventDispatcherInterface $dispatcher,
         Finder $finder,
         MoneyFormatter $formatter
     ) {
+        $this->deficitManager = $deficitManager;
         $this->partManager = $partManager;
         $this->dispatcher = $dispatcher;
         $this->finder = $finder;
@@ -119,8 +128,19 @@ final class PartController extends AbstractController
     public function deficitAction(): Response
     {
         return $this->render('easy_admin/part/deficit.html.twig', [
-            'parts' => $this->partManager->findDeficit(),
+            'parts' => $this->deficitManager->findDeficit(),
         ]);
+    }
+
+    protected function renderTemplate($actionName, $templatePath, array $parameters = []): Response
+    {
+        if ('show' === $actionName) {
+            $entity = $parameters['entity'];
+
+            $parameters['orders'] = $this->partManager->inOrders($entity);
+        }
+
+        return parent::renderTemplate($actionName, $templatePath, $parameters);
     }
 
     /**
