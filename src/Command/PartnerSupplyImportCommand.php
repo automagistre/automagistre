@@ -49,7 +49,7 @@ final class PartnerSupplyImportCommand extends Command
         $object = DateTime::createFromFormat(self::DATE_FORMAT, $string);
         if (!$object instanceof DateTime) {
             throw new InvalidArgumentException(
-                sprintf('Can\'t create "%s" from string "%s"', DateTime::class, $string)
+                \sprintf('Can\'t create "%s" from string "%s"', DateTime::class, $string)
             );
         }
 

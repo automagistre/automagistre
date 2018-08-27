@@ -36,7 +36,7 @@ abstract class EnumType extends Type
             return $value;
         }
 
-        if (false === $id = filter_var($value, FILTER_VALIDATE_INT)) {
+        if (false === $id = \filter_var($value, FILTER_VALIDATE_INT)) {
             throw ConversionException::conversionFailed($value, $this->getName());
         }
 
@@ -58,7 +58,7 @@ abstract class EnumType extends Type
             return $value->getId();
         }
 
-        if (false === $id = filter_var($value, FILTER_VALIDATE_INT)) {
+        if (false === $id = \filter_var($value, FILTER_VALIDATE_INT)) {
             throw ConversionException::conversionFailed($value, $this->getName());
         }
 

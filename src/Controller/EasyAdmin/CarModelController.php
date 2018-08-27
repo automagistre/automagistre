@@ -27,7 +27,7 @@ final class CarModelController extends AbstractController
         $qb = $this->em->getRepository(CarModel::class)->createQueryBuilder('model')
             ->leftJoin('model.manufacturer', 'manufacturer');
 
-        foreach (explode(' ', $searchQuery) as $key => $item) {
+        foreach (\explode(' ', $searchQuery) as $key => $item) {
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
@@ -52,7 +52,7 @@ final class CarModelController extends AbstractController
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
-        $data = array_map(function (CarModel $entity) {
+        $data = \array_map(function (CarModel $entity) {
             return [
                 'id' => $entity->getId(),
                 'text' => $entity->getDisplayName(),

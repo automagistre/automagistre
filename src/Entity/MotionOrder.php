@@ -21,7 +21,7 @@ class MotionOrder extends Motion
 
     public function __construct(Part $part, int $quantity, Order $order)
     {
-        parent::__construct($part, $quantity, sprintf('Заказ #%s', $order->getId()));
+        parent::__construct($part, $quantity, \sprintf('Заказ #%s', $order->getId()));
 
         $this->order = $order;
     }

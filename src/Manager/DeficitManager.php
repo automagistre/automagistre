@@ -70,24 +70,24 @@ SQL;
 
         $partRepository = $em->getRepository(Part::class);
         $parts = $partRepository->findBy([
-            'id' => array_map(function (array $item) {
+            'id' => \array_map(function (array $item) {
                 return $item['part_id'];
             }, $result),
         ]);
 
         $em->getRepository(Manufacturer::class)->findBy([
-            'id' => array_map(function (Part $part) {
+            'id' => \array_map(function (Part $part) {
                 return $part->getManufacturer()->getId();
             }, $parts),
         ]);
 
-        return array_map(function (array $item) use ($em, $partRepository) {
+        return \array_map(function (array $item) use ($em, $partRepository) {
             return new DeficitPart([
                 'part' => $partRepository->find($item['part_id']),
                 'quantity' => $item['needed'],
-                'orders' => array_map(function (int $id) use ($em) {
+                'orders' => \array_map(function (int $id) use ($em) {
                     return $em->getReference(Order::class, $id);
-                }, array_filter(explode(',', $item['orders_id']), 'strlen')),
+                }, \array_filter(\explode(',', $item['orders_id']), 'strlen')),
             ]);
         }, $result);
     }

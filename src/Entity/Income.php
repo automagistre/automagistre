@@ -68,7 +68,7 @@ class Income
 
     public function __toString(): string
     {
-        return sprintf('№%s %s от %s', $this->getId(), $this->getSupplier(), $this->getCreatedAt()->format('d.m.Y'));
+        return \sprintf('№%s %s от %s', $this->getId(), $this->getSupplier(), $this->getCreatedAt()->format('d.m.Y'));
     }
 
     public function isEditable(): bool

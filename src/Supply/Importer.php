@@ -68,7 +68,7 @@ final class Importer
                         ->getOneOrNullResult();
 
                     if (!$part instanceof Part) {
-                        $this->logger->alert(sprintf(
+                        $this->logger->alert(\sprintf(
                             'Orders import failed. Not found Part for manufacturer "%s", number "%s"',
                             $supplyItem->manufacturer,
                             $supplyItem->number

@@ -70,9 +70,9 @@ final class ExceptionController extends TwigExceptionController
         if (null === $zone) {
             $host = $request->getHost();
 
-            if (0 === strpos($host, 'www')) {
+            if (0 === \strpos($host, 'www')) {
                 $zone = 'www';
-            } elseif (0 === strpos($host, 'sto')) {
+            } elseif (0 === \strpos($host, 'sto')) {
                 $zone = 'admin';
             }
         }

@@ -21,7 +21,7 @@ final class PartExplorerController extends Controller
     {
         return $this->render('admin/part_explorer.html.twig', [
             'partnumber' => $partnumber,
-            'referer' => $request->query->has('referer') ? urldecode($request->query->get('referer')) : null,
+            'referer' => $request->query->has('referer') ? \urldecode($request->query->get('referer')) : null,
         ]);
     }
 }

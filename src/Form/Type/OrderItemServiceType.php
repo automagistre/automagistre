@@ -33,7 +33,7 @@ class OrderItemServiceType extends AbstractType
     {
         $item = $form->getData();
         if (!$item instanceof OrderItemService) {
-            throw new LogicException(sprintf('Data must be instance of "%s"', OrderItemService::class));
+            throw new LogicException(\sprintf('Data must be instance of "%s"', OrderItemService::class));
         }
 
         $view->vars['label'] = $item->getService();

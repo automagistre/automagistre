@@ -58,7 +58,7 @@ final class ServiceController extends AbstractController
             $message = (new Swift_Message())
                 ->setFrom(['no-reply@automagistre.ru' => 'Автомагистр'])
                 ->setTo(['info@automagistre.ru'])
-                ->setSubject(sprintf('Запись на %s диагностику', [
+                ->setSubject(\sprintf('Запись на %s диагностику', [
                     'free' => 'бесплатную',
                     'comp' => 'компьютерную',
                 ][$type]))
@@ -248,7 +248,7 @@ TEXT
                 ->setFrom(['no-reply@automagistre.ru' => 'Автомагистр'])
                 ->setReplyTo($data->email)
                 ->setTo(['info@automagistre.ru'])
-                ->setSubject(sprintf('FAQ Вопрос от %s', $data->name))
+                ->setSubject(\sprintf('FAQ Вопрос от %s', $data->name))
                 ->setBody(<<<TEXT
 Имя: $data->name
 Почта: $data->email

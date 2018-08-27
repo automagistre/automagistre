@@ -118,11 +118,11 @@ abstract class AbstractController extends AdminController
 
     protected function redirectToReferrer(): RedirectResponse
     {
-        $refererUrl = trim($this->request->query->get('referer', ''));
+        $refererUrl = \trim($this->request->query->get('referer', ''));
 
         return '' !== $refererUrl
             ? $this->redirect(
-                urldecode($refererUrl)
+                \urldecode($refererUrl)
             )
             : parent::redirectToReferrer();
     }

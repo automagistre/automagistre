@@ -56,7 +56,7 @@ final class WorkerType extends AbstractType
                     ->getQuery()
                     ->getResult();
 
-                return array_merge($employees, $contractors);
+                return \array_merge($employees, $contractors);
             }),
             'choice_label' => function (Operand $operand) {
                 return (string) $operand;

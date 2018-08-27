@@ -40,7 +40,7 @@ class BrandRoutesListener implements EventSubscriberInterface
     {
         $router = $event->getSubject();
         if (!$router instanceof RouterInterface) {
-            throw new LogicException(sprintf('"%s" required.', RouterInterface::class));
+            throw new LogicException(\sprintf('"%s" required.', RouterInterface::class));
         }
 
         ['name' => $name, 'parameters' => $parameters, 'referenceType' => $referenceType] = $event->getArguments();
@@ -51,7 +51,7 @@ class BrandRoutesListener implements EventSubscriberInterface
             return;
         }
 
-        if (array_key_exists('brand', $parameters)) {
+        if (\array_key_exists('brand', $parameters)) {
             return;
         }
 
@@ -70,6 +70,6 @@ class BrandRoutesListener implements EventSubscriberInterface
             $parameters['brand'] = $brand;
         }
 
-        $event->setArguments(compact('name', 'parameters', 'referenceType'));
+        $event->setArguments(\compact('name', 'parameters', 'referenceType'));
     }
 }

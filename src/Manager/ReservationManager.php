@@ -40,7 +40,7 @@ final class ReservationManager
         $reservable = $this->reservable($part);
         if ($reservable < $quantity) {
             throw new ReservationException(
-                sprintf('Невозможно зарезервировать "%s" единиц товара, доступно "%s"', $quantity, $reservable)
+                \sprintf('Невозможно зарезервировать "%s" единиц товара, доступно "%s"', $quantity, $reservable)
             );
         }
 
@@ -59,7 +59,7 @@ final class ReservationManager
         $reserved = $this->reserved($part, $order);
         if ($reserved < $quantity) {
             throw new ReservationException(
-                sprintf('Невозможно снять с резервации "%s" единиц товара, в резерве "%s"', $quantity, $reserved)
+                \sprintf('Невозможно снять с резервации "%s" единиц товара, в резерве "%s"', $quantity, $reserved)
             );
         }
 

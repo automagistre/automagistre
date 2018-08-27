@@ -115,7 +115,7 @@ final class RecommendationManager
 
         $user = $token->getUser();
         if (!$user instanceof User) {
-            throw new LogicException(sprintf('User must be instance of "%s"', User::class));
+            throw new LogicException(\sprintf('User must be instance of "%s"', User::class));
         }
 
         return $user;

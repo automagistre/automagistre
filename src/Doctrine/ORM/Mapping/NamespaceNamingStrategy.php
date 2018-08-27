@@ -19,10 +19,10 @@ final class NamespaceNamingStrategy extends UnderscoreNamingStrategy
      */
     public function classToTableName($className): string
     {
-        if (0 !== strpos($className, self::PREFIX)) {
+        if (0 !== \strpos($className, self::PREFIX)) {
             return parent::classToTableName($className);
         }
 
-        return implode('_', explode('\\', StringUtils::underscore(str_replace(self::PREFIX.'\\', '', $className))));
+        return \implode('_', \explode('\\', StringUtils::underscore(\str_replace(self::PREFIX.'\\', '', $className))));
     }
 }

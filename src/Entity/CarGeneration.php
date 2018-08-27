@@ -61,6 +61,6 @@ class CarGeneration
 
     public function getDisplayName(): string
     {
-        return sprintf('%s %s', $this->getCarModel()->getDisplayName(), $this->getName());
+        return \sprintf('%s %s', $this->getCarModel()->getDisplayName(), $this->getName());
     }
 }

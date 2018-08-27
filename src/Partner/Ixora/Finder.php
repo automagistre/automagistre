@@ -32,7 +32,7 @@ final class Finder
      */
     public function search(string $number): array
     {
-        if (StringUtils::isRussian($number) || false !== strpos(trim($number), ' ')) {
+        if (StringUtils::isRussian($number) || false !== \strpos(\trim($number), ' ')) {
             return [];
         }
 
@@ -53,14 +53,14 @@ final class Finder
 
         $parts = [];
         foreach ($elements as $part) {
-            $name = str_replace('  ', ' ', mb_convert_case(trim((string) $part->name), MB_CASE_TITLE));
-            $key = sprintf(
+            $name = \str_replace('  ', ' ', \mb_convert_case(\trim((string) $part->name), MB_CASE_TITLE));
+            $key = \sprintf(
                 '%s-%s',
                 $number = (string) $part->number,
                 $manufacturer = (string) $part->maker
             );
 
-            if (array_key_exists($key, $parts)) {
+            if (\array_key_exists($key, $parts)) {
                 continue;
             }
 
@@ -71,6 +71,6 @@ final class Finder
             ]);
         }
 
-        return array_values($parts);
+        return \array_values($parts);
     }
 }

@@ -28,7 +28,7 @@ final class CarGenerationController extends AbstractController
             ->leftJoin('generation.carModel', 'model')
             ->leftJoin('model.manufacturer', 'manufacturer');
 
-        foreach (explode(' ', $searchQuery) as $key => $item) {
+        foreach (\explode(' ', $searchQuery) as $key => $item) {
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
@@ -54,7 +54,7 @@ final class CarGenerationController extends AbstractController
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
-        $data = array_map(function (CarGeneration $entity) {
+        $data = \array_map(function (CarGeneration $entity) {
             return [
                 'id' => $entity->getId(),
                 'text' => $entity->getDisplayName(),

@@ -20,7 +20,7 @@ final class SupplyController extends AbstractController
      */
     protected function isActionAllowed($actionName): bool
     {
-        if (in_array($actionName, ['edit', 'delete'], true)) {
+        if (\in_array($actionName, ['edit', 'delete'], true)) {
             $supply = $this->findCurrentEntity();
             if (!$supply instanceof Supply) {
                 throw new LogicException('Supply required.');

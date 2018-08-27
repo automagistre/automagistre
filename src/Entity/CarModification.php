@@ -258,7 +258,7 @@ class CarModification
 
         if (null !== $engine) {
             $displayNameParts[] = $engine;
-            $displayNameParts[] = sprintf('(%s)', $this->getHp() ?? '-');
+            $displayNameParts[] = \sprintf('(%s)', $this->getHp() ?? '-');
         } else {
             $displayNameParts[] = $this->getName();
         }
@@ -271,8 +271,8 @@ class CarModification
             $displayNameParts[] = $wheelDrive->{'getCode'}();
         }
 
-        $displayNameParts[] = sprintf('(%s - %s)', $this->getFrom(), $this->getTill());
+        $displayNameParts[] = \sprintf('(%s - %s)', $this->getFrom(), $this->getTill());
 
-        return implode(' ', $displayNameParts);
+        return \implode(' ', $displayNameParts);
     }
 }

@@ -50,7 +50,7 @@ final class OrderItemPartController extends OrderItemController
      */
     protected function isActionAllowed($actionName): bool
     {
-        if (in_array($actionName, ['edit', 'delete'], true) && null !== $id = $this->request->get('id')) {
+        if (\in_array($actionName, ['edit', 'delete'], true) && null !== $id = $this->request->get('id')) {
             $entity = $this->em->getRepository(OrderItemPart::class)->find($id);
 
             return $entity->getOrder()->isEditable();

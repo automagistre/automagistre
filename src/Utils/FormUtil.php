@@ -28,7 +28,7 @@ final class FormUtil
         $errors = [];
         foreach ($form->getErrors() as $key => $error) {
             if (!$error instanceof FormError) {
-                throw new LogicException(sprintf('$error must be instance of "%s"', FormError::class));
+                throw new LogicException(\sprintf('$error must be instance of "%s"', FormError::class));
             }
 
             if ($root) {

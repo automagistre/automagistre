@@ -58,7 +58,7 @@ final class UserPromoteCommand extends Command
         $user = $this->em->getRepository(User::class)->findOneBy(['username' => $username]);
 
         if (!$user instanceof User) {
-            throw new EntityNotFoundException(sprintf('User with username "%s" not found.', $username));
+            throw new EntityNotFoundException(\sprintf('User with username "%s" not found.', $username));
         }
 
         foreach ($input->getArgument('roles') as $role) {

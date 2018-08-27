@@ -60,7 +60,7 @@ final class EntityModelTypeGuesser implements FormTypeGuesserInterface
      */
     private function guess(string $method, string $class, string $property)
     {
-        if (!is_subclass_of(Model::class, $class)) {
+        if (!\is_subclass_of(Model::class, $class)) {
             return;
         }
 

@@ -51,15 +51,15 @@ final class EnumDoctrineTypesCompilerPass implements CompilerPassInterface
 
             $class = new ClassGenerator($typeClass, self::GENERATED_NAMESPACE, null, EnumType::class);
             $class->addMethodFromGenerator(
-                (new MethodGenerator('getName', [], MethodGenerator::FLAG_PUBLIC, sprintf('return \'%s\';', $type)))
+                (new MethodGenerator('getName', [], MethodGenerator::FLAG_PUBLIC, \sprintf('return \'%s\';', $type)))
                     ->setReturnType('string')
             );
             $class->addMethodFromGenerator(
-                (new MethodGenerator('getClass', [], MethodGenerator::FLAG_PUBLIC, sprintf('return \\%s::class;', $enumNamespace)))
+                (new MethodGenerator('getClass', [], MethodGenerator::FLAG_PUBLIC, \sprintf('return \\%s::class;', $enumNamespace)))
                     ->setReturnType('string')
             );
 
-            file_put_contents($typeFile, FileGenerator::fromArray(['class' => $class])->generate());
+            \file_put_contents($typeFile, FileGenerator::fromArray(['class' => $class])->generate());
 
             $doctrineTypes[$type.'_enum'] = [
                 'class' => self::GENERATED_NAMESPACE.'\\'.$typeClass,
@@ -68,13 +68,13 @@ final class EnumDoctrineTypesCompilerPass implements CompilerPassInterface
         }
 
         if ([] !== $typeFiles) {
-            $body = array_map(function (string $file) {
-                return sprintf('require_once "%s";', $file);
+            $body = \array_map(function (string $file) {
+                return \sprintf('require_once "%s";', $file);
             }, $typeFiles);
 
             $autoloadFile = $cacheDir.'/'.self::AUTOLOAD_FILE;
-            file_put_contents($autoloadFile, FileGenerator::fromArray([
-                'body' => implode(PHP_EOL, $body),
+            \file_put_contents($autoloadFile, FileGenerator::fromArray([
+                'body' => \implode(PHP_EOL, $body),
             ])->generate());
 
             /** @noinspection PhpIncludeInspection */

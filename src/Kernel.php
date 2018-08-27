@@ -22,7 +22,7 @@ class Kernel extends SymfonyKernel
         parent::__construct($environment, $debug);
 
         $enumAutoload = $this->getCacheDir().'/'.EnumDoctrineTypesCompilerPass::AUTOLOAD_FILE;
-        if (file_exists($enumAutoload)) {
+        if (\file_exists($enumAutoload)) {
             /** @noinspection PhpIncludeInspection */
             require_once $enumAutoload;
         }
@@ -78,7 +78,7 @@ class Kernel extends SymfonyKernel
     {
         $confDir = $this->getConfDir();
 
-        if (is_dir($confDir.'/routes/'.$this->environment)) {
+        if (\is_dir($confDir.'/routes/'.$this->environment)) {
             $routes->import($confDir.'/routes/'.$this->environment.'/**/*'.self::CONFIG_EXTS, '/', 'glob');
         }
         $routes->import($confDir.'/routes'.self::CONFIG_EXTS, '/', 'glob');
@@ -96,7 +96,7 @@ class Kernel extends SymfonyKernel
 
         $loader->load($confDir.'/packages/*'.self::CONFIG_EXTS, 'glob');
 
-        if (is_dir($confDir.'/packages/'.$this->getEnvironment())) {
+        if (\is_dir($confDir.'/packages/'.$this->getEnvironment())) {
             $loader->load($confDir.'/packages/'.$this->getEnvironment().'/**/*'.self::CONFIG_EXTS, 'glob');
         }
 

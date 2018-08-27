@@ -68,7 +68,7 @@ final class OrderController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $model = $form->getData();
             if (!$model instanceof PaymentModel) {
-                throw new LogicException(sprintf('"%s" is required.', PaymentModel::class));
+                throw new LogicException(\sprintf('"%s" is required.', PaymentModel::class));
             }
 
             $this->handlePayment($model, $order);
@@ -143,7 +143,7 @@ final class OrderController extends AbstractController
             $form = $this->createForm(IntegerType::class, null, [
                 'label' => 'Пробег '.(null === $mileage
                         ? '(предыдущий отсутствует)'
-                        : sprintf('(предыдущий: %s)', $mileage)),
+                        : \sprintf('(предыдущий: %s)', $mileage)),
             ])
                 ->handleRequest($request);
 
@@ -165,10 +165,10 @@ final class OrderController extends AbstractController
 
         $parameters = [
             'order' => $order,
-            'groups' => array_filter($order->getRootItems(), function (OrderItem $item) {
+            'groups' => \array_filter($order->getRootItems(), function (OrderItem $item) {
                 return $item instanceof OrderItemGroup;
             }),
-            'services' => array_filter($order->getRootItems(), function (OrderItem $item) {
+            'services' => \array_filter($order->getRootItems(), function (OrderItem $item) {
                 return $item instanceof OrderItemService;
             }),
             'parts' => $order->getItems(OrderItemPart::class),
@@ -268,7 +268,7 @@ final class OrderController extends AbstractController
 
             $customer = $order->getCustomer();
             if ($customer instanceof Operand) {
-                $description = sprintf('# Списание по заказу #%s', $order->getId());
+                $description = \sprintf('# Списание по заказу #%s', $order->getId());
 
                 $this->createPayment($customer, $description, $order->getTotalPrice()->negative());
             }
@@ -284,7 +284,7 @@ final class OrderController extends AbstractController
                 $employee = $em->getRepository(Employee::class)->findOneBy(['person' => $worker]);
 
                 if (!$employee instanceof Employee) {
-                    $this->addFlash('warning', sprintf(
+                    $this->addFlash('warning', \sprintf(
                         'Для исполнителя "%s" нет записи работника, зарплата по заказу не начислена.',
                         $worker->getFullName()
                     ));
@@ -293,7 +293,7 @@ final class OrderController extends AbstractController
                 }
 
                 $salary = $item->getPrice()->multiply($employee->getRatio() / 100);
-                $description = sprintf('# ЗП %s по заказу #%s', $worker->getFullName(), $order->getId());
+                $description = \sprintf('# ЗП %s по заказу #%s', $worker->getFullName(), $order->getId());
 
                 $this->createPayment($worker, $description, $salary->absolute());
             }
@@ -384,7 +384,7 @@ final class OrderController extends AbstractController
             ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = customer.id AND customer INSTANCE OF '.Person::class)
             ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = customer.id AND customer INSTANCE OF '.Organization::class);
 
-        foreach (explode(' ', $searchQuery) as $key => $item) {
+        foreach (\explode(' ', $searchQuery) as $key => $item) {
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(

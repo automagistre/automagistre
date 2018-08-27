@@ -100,7 +100,7 @@ class User implements UserInterface, EquatableInterface, Serializable
 
     public function addRole(string $role): void
     {
-        if (!in_array($role, $this->roles, true)) {
+        if (!\in_array($role, $this->roles, true)) {
             $this->roles[] = $role;
         }
     }
@@ -166,7 +166,7 @@ class User implements UserInterface, EquatableInterface, Serializable
      */
     public function serialize(): string
     {
-        return serialize([
+        return \serialize([
             $this->id,
             $this->username,
             $this->roles,
@@ -182,7 +182,7 @@ class User implements UserInterface, EquatableInterface, Serializable
             $this->id,
             $this->username,
             $roles,
-        ] = unserialize($serialized, ['allowed_classes' => true]);
+        ] = \unserialize($serialized, ['allowed_classes' => true]);
 
         $this->roles = $roles ?? [];
         $this->credentials = new ArrayCollection();

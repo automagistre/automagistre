@@ -58,7 +58,7 @@ final class UserChangePasswordCommand extends Command
         $user = $this->em->getRepository(User::class)->findOneBy(['username' => $username]);
 
         if (!$user instanceof User) {
-            throw new EntityNotFoundException(sprintf('User with username "%s" not found.', $username));
+            throw new EntityNotFoundException(\sprintf('User with username "%s" not found.', $username));
         }
 
         $user->changePassword($input->getArgument('password'), $this->encoderFactory->getEncoder($user));

@@ -72,7 +72,7 @@ class AppExtension extends AbstractExtension
 
         if (!$object instanceof DateTimeImmutable) {
             throw new LogicException(
-                sprintf('Can\'t create "%s" from string "%s"', DateTimeImmutable::class, $string)
+                \sprintf('Can\'t create "%s" from string "%s"', DateTimeImmutable::class, $string)
             );
         }
 

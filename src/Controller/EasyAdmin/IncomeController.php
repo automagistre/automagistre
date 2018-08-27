@@ -44,21 +44,21 @@ final class IncomeController extends AbstractController
             ->getResult();
 
         if ([] === $supplies) {
-            $this->addFlash('warning', sprintf('Для поставщика "%s" нет Поставок.', $supplier));
+            $this->addFlash('warning', \sprintf('Для поставщика "%s" нет Поставок.', $supplier));
 
             return $this->redirectToReferrer();
         }
 
         $form = $this->createFormBuilder()
             ->add('supply', ChoiceType::class, [
-                'label' => sprintf('Выберите ожидающиеся поставки от "%s"', $supplier),
+                'label' => \sprintf('Выберите ожидающиеся поставки от "%s"', $supplier),
                 'multiple' => true,
                 'expanded' => true,
                 'choice_loader' => new CallbackChoiceLoader(function () use ($supplies) {
                     return $supplies;
                 }),
                 'choice_label' => function (Supply $supply) {
-                    return sprintf('%s - %s (%s)', $supply->getPart(), $supply->getQuantity() / 100, $this->formatMoney($supply->getPrice()));
+                    return \sprintf('%s - %s (%s)', $supply->getPart(), $supply->getQuantity() / 100, $this->formatMoney($supply->getPrice()));
                 },
                 'choice_value' => 'id',
                 'choice_name' => 'id',
@@ -93,7 +93,7 @@ final class IncomeController extends AbstractController
         }
 
         if (!$income->isEditable()) {
-            $this->addFlash('error', sprintf('Приход "%s" уже оприходван', $income));
+            $this->addFlash('error', \sprintf('Приход "%s" уже оприходван', $income));
 
             return $this->redirectToReferrer();
         }
@@ -143,7 +143,7 @@ final class IncomeController extends AbstractController
      */
     protected function isActionAllowed($actionName): bool
     {
-        if (in_array($actionName, ['edit', 'delete'], true)) {
+        if (\in_array($actionName, ['edit', 'delete'], true)) {
             $income = $this->findCurrentEntity();
 
             if (!$income instanceof Income) {

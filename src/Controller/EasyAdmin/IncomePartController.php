@@ -18,7 +18,7 @@ final class IncomePartController extends AbstractController
      */
     protected function isActionAllowed($actionName): bool
     {
-        if (in_array($actionName, ['edit', 'delete'], true)) {
+        if (\in_array($actionName, ['edit', 'delete'], true)) {
             $incomePart = $this->findCurrentEntity();
             if (!$incomePart instanceof IncomePart) {
                 throw new LogicException('IncomePart required.');

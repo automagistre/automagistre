@@ -48,7 +48,7 @@ final class DivisoredNumberToLocalizedStringTransformer extends NumberToLocalize
     public function transform($value): string
     {
         if (null !== $value) {
-            if (!is_numeric($value)) {
+            if (!\is_numeric($value)) {
                 throw new TransformationFailedException('Expected a numeric.');
             }
 
@@ -66,11 +66,11 @@ final class DivisoredNumberToLocalizedStringTransformer extends NumberToLocalize
         /** @var int|float|null $value */
         $value = parent::reverseTransform($value);
 
-        if (is_numeric($value)) {
+        if (\is_numeric($value)) {
             $value *= $this->divisor;
         }
 
-        if (false !== strpos((string) $value, '.')) {
+        if (false !== \strpos((string) $value, '.')) {
             throw new TransformationFailedException('Value must be integer after reverseTransformation');
         }
 

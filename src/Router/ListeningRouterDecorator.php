@@ -49,7 +49,7 @@ class ListeningRouterDecorator implements RouterInterface, RequestMatcherInterfa
         $router = $this->router;
         $dispatcher = $this->dispatcher;
 
-        $event = new GenericEvent($router, compact('name', 'parameters', 'referenceType'));
+        $event = new GenericEvent($router, \compact('name', 'parameters', 'referenceType'));
         $dispatcher->dispatch(ListeningRouterEvents::PRE_GENERATE, $event);
         ['name' => $name, 'parameters' => $parameters, 'referenceType' => $referenceType] = $event->getArguments();
 

@@ -29,10 +29,10 @@ final class CarModificationController extends AbstractController
             ->leftJoin('generation.carModel', 'model')
             ->leftJoin('model.manufacturer', 'manufacturer');
 
-        foreach (explode(' ', $searchQuery) as $key => $item) {
+        foreach (\explode(' ', $searchQuery) as $key => $item) {
             $key = ':search_'.$key;
 
-            if (is_numeric($item) && 4 === strlen($item)) {
+            if (\is_numeric($item) && 4 === \strlen($item)) {
                 $qb->andWhere($qb->expr()->andX(
                     $qb->expr()->lte('modification.from', ':year'),
                     $qb->expr()->gte('modification.till', ':year')
@@ -66,7 +66,7 @@ final class CarModificationController extends AbstractController
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
-        $data = array_map(function (CarModification $modification) {
+        $data = \array_map(function (CarModification $modification) {
             return [
                 'id' => $modification->getId(),
                 'text' => $modification->getDisplayName(),

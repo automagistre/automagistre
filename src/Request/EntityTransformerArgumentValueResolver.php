@@ -29,7 +29,7 @@ final class EntityTransformerArgumentValueResolver implements ArgumentValueResol
      */
     public function supports(Request $request, ArgumentMetadata $argument): bool
     {
-        return '' !== trim($argument->getType()) && is_object($this->resolve($request, $argument)->current());
+        return '' !== \trim($argument->getType()) && \is_object($this->resolve($request, $argument)->current());
     }
 
     /**

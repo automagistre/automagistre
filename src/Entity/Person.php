@@ -66,7 +66,7 @@ class Person extends Operand
         $email = $this->getEmail();
 
         if (null !== $email) {
-            $string .= sprintf(' (%s)', $email);
+            $string .= \sprintf(' (%s)', $email);
         }
 
         return $string;
@@ -124,6 +124,6 @@ class Person extends Operand
 
     public function getFullName(): string
     {
-        return sprintf('%s %s', $this->lastname, $this->firstname);
+        return \sprintf('%s %s', $this->lastname, $this->firstname);
     }
 }

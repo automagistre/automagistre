@@ -78,12 +78,12 @@ final class Orders
 
         $orders = $data['OrderStatus'];
 
-        return array_map(function (array $item) {
+        return \array_map(function (array $item) {
             return new Supply([
                 'id' => $item['Id'],
                 'date' => DateTime::createFromFormat(self::DATE_FORMAT, $item['Date']),
                 'status' => $item['Status'],
-                'items' => array_map(function (array $item) {
+                'items' => \array_map(function (array $item) {
                     return new SupplyItem([
                         'number' => $item['DetailNumber'],
                         'manufacturer' => $item['DetailMaker'],

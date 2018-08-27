@@ -23,7 +23,7 @@ final class CarRecommendationPartController extends AbstractController
 
         $recommendation = $this->em->getRepository(CarRecommendation::class)->findOneBy(['id' => $id]);
         if (null === $recommendation) {
-            throw new NotFoundHttpException(sprintf('Recommendation id "%s" not found', $id));
+            throw new NotFoundHttpException(\sprintf('Recommendation id "%s" not found', $id));
         }
 
         $model = new RecommendationPart();

@@ -72,7 +72,7 @@ final class PartController extends AbstractController
             return new Response('', Response::HTTP_NO_CONTENT);
         }
 
-        return $this->json(array_map(function (PartModel $model) use ($manufacturerRepository) {
+        return $this->json(\array_map(function (PartModel $model) use ($manufacturerRepository) {
             $manufacturer = $manufacturerRepository->findOneBy(['name' => $model->manufacturer]);
             if (!$manufacturer instanceof Manufacturer) {
                 $manufacturer = new Manufacturer();
@@ -88,8 +88,8 @@ final class PartController extends AbstractController
                 'name' => $model->name,
                 'number' => $model->number,
             ];
-        }, array_filter($parts, function (PartModel $model) use ($number) {
-            return false !== strpos($model->number, $number);
+        }, \array_filter($parts, function (PartModel $model) use ($number) {
+            return false !== \strpos($model->number, $number);
         })));
     }
 
@@ -104,7 +104,7 @@ final class PartController extends AbstractController
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $request->query->getInt('page', 1), 20);
 
-        $parts = array_map(function (array $data) {
+        $parts = \array_map(function (array $data) {
             return new WarehousePart([
                 'part' => $data[0],
                 'quantity' => $data['quantity'],
@@ -171,12 +171,12 @@ final class PartController extends AbstractController
         $qb = $this->em->getRepository(Part::class)->createQueryBuilder('part')
             ->join('part.manufacturer', 'manufacturer');
 
-        if (0 === strpos(trim($searchQuery), '+')) {
+        if (0 === \strpos(\trim($searchQuery), '+')) {
             $qb->andWhere('part.quantity > 0');
-            $searchQuery = ltrim($searchQuery, '+');
+            $searchQuery = \ltrim($searchQuery, '+');
         }
 
-        foreach (explode(' ', trim($searchQuery)) as $key => $searchString) {
+        foreach (\explode(' ', \trim($searchQuery)) as $key => $searchString) {
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
@@ -200,15 +200,15 @@ final class PartController extends AbstractController
     {
         $query = $this->request->query;
 
-        $queryString = str_replace(['.', ',', '-', '_'], '', $query->get('query'));
+        $queryString = \str_replace(['.', ',', '-', '_'], '', $query->get('query'));
         $qb = $this->createSearchQueryBuilder($query->get('entity'), $queryString, []);
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
-        $data = array_map(function (Part $entity) {
+        $data = \array_map(function (Part $entity) {
             return [
                 'id' => $entity->getId(),
-                'text' => sprintf(
+                'text' => \sprintf(
                     '%s - %s (%s) (Склад: %s) | %s',
                     $entity->getNumber(),
                     $entity->getManufacturer()->getName(),

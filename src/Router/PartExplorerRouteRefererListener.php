@@ -41,7 +41,7 @@ final class PartExplorerRouteRefererListener implements EventSubscriberInterface
             return;
         }
 
-        if (array_key_exists('referer', $parameters)) {
+        if (\array_key_exists('referer', $parameters)) {
             return;
         }
 
@@ -49,9 +49,9 @@ final class PartExplorerRouteRefererListener implements EventSubscriberInterface
         if ($request->query->has('referer')) {
             $parameters['referer'] = $request->query->get('referer');
         } else {
-            $parameters['referer'] = urlencode($request->getUri());
+            $parameters['referer'] = \urlencode($request->getUri());
         }
 
-        $event->setArguments(compact('name', 'parameters', 'referenceType'));
+        $event->setArguments(\compact('name', 'parameters', 'referenceType'));
     }
 }

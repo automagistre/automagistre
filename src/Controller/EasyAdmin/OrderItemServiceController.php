@@ -91,7 +91,7 @@ final class OrderItemServiceController extends OrderItemController
      */
     protected function isActionAllowed($actionName): bool
     {
-        if (in_array($actionName, ['edit', 'delete'], true) && null !== $id = $this->request->get('id')) {
+        if (\in_array($actionName, ['edit', 'delete'], true) && null !== $id = $this->request->get('id')) {
             $entity = $this->em->getRepository(OrderItemService::class)->find($id);
 
             return $entity->getOrder()->isEditable();
@@ -130,8 +130,8 @@ final class OrderItemServiceController extends OrderItemController
             $qb->groupBy('entity.service');
         }
 
-        foreach (explode(' ', trim($request->query->get('query'))) as $key => $searchString) {
-            $searchString = trim($searchString);
+        foreach (\explode(' ', \trim($request->query->get('query'))) as $key => $searchString) {
+            $searchString = \trim($searchString);
             if ('' === $searchString) {
                 continue;
             }
@@ -145,12 +145,12 @@ final class OrderItemServiceController extends OrderItemController
             $qb->setParameter($key, '%'.$searchString.'%');
         }
 
-        $data = array_map(function (OrderItemService $entity) {
+        $data = \array_map(function (OrderItemService $entity) {
             $price = $entity->getPrice();
 
             return [
                 'id' => $entity->getId(),
-                'text' => sprintf('%s (%s)', $entity->getService(), $this->formatMoney($price)),
+                'text' => \sprintf('%s (%s)', $entity->getService(), $this->formatMoney($price)),
                 'price' => $this->formatMoney($price, true),
             ];
         }, $qb->getQuery()->getResult());
