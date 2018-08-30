@@ -9,6 +9,7 @@ use App\Entity\Motion;
 use App\Entity\Part;
 use App\Manager\DeficitManager;
 use App\Manager\PartManager;
+use App\Manager\ReservationManager;
 use App\Model\Part as PartModel;
 use App\Model\WarehousePart;
 use App\Partner\Ixora\Finder;
@@ -53,18 +54,25 @@ final class PartController extends AbstractController
      */
     private $formatter;
 
+    /**
+     * @var ReservationManager
+     */
+    private $reservationManager;
+
     public function __construct(
         DeficitManager $deficitManager,
         PartManager $partManager,
         EventDispatcherInterface $dispatcher,
         Finder $finder,
-        MoneyFormatter $formatter
+        MoneyFormatter $formatter,
+        ReservationManager $reservationManager
     ) {
         $this->deficitManager = $deficitManager;
         $this->partManager = $partManager;
         $this->dispatcher = $dispatcher;
         $this->finder = $finder;
         $this->formatter = $formatter;
+        $this->reservationManager = $reservationManager;
     }
 
     public function numberSearchAction(): Response
@@ -140,7 +148,10 @@ final class PartController extends AbstractController
         if ('show' === $actionName) {
             $entity = $parameters['entity'];
 
+            $parameters['inStock'] = $this->partManager->inStock($entity);
             $parameters['orders'] = $this->partManager->inOrders($entity);
+            $parameters['reservedIn'] = $this->reservationManager->orders($entity);
+            $parameters['reserved'] = $this->reservationManager->reserved($entity);
         }
 
         return parent::renderTemplate($actionName, $templatePath, $parameters);

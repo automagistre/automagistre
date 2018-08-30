@@ -1,5 +1,22 @@
 {% extends '@EasyAdmin/default/show.html.twig' %}
 
+{% block show_fields %}
+    {{ parent() }}
+
+
+    <div class="form-group field-default">
+        <label class="col-sm-2 control-label">Наличие</label>
+        <div class="col-sm-10">
+            <div class="form-control">
+                {{ inStock / 100 }} - {{ reserved / 100 }} = {{ (inStock - reserved) / 100 }}
+            </div>
+
+            <span class="help-block"><i class="fa fa-info-circle"></i> На складе - Зарезервировано = Доступно для резерва</span>
+        </div>
+    </div>
+
+{% endblock %}
+
 {% block main %}
     <div class="row">
 
@@ -31,11 +48,51 @@
                                 <tr>
                                     <th>Номер</th>
                                     <th>Статус</th>
+                                    <th>Кол-во</th>
                                     <th>Автомобиль</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {% for order in orders %}
+                                    {# @var order \App\Entity\Order #}
+                                    <tr>
+                                        <td><a href="{{ easyadmin_path(order, 'show') }}">{{ order.id }}</a></td>
+                                        <td>{{ include('easy_admin/order/field_status.html.twig', {'value': order.status}) }}</td>
+                                        <td>{{ order.car }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="box-body">
+                            <p>Заказов не найдено</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="field-group">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Зарезервировано в</h3>
+                    </div>
+
+                    {% if reservedIn is not empty %}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Номер</th>
+                                    <th>Статус</th>
+                                    <th>Кол-во</th>
+                                    <th>Автомобиль</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for order in reservedIn %}
                                     {# @var order \App\Entity\Order #}
                                     <tr>
                                         <td><a href="{{ easyadmin_path(order, 'show') }}">{{ order.id }}</a></td>

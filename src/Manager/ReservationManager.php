@@ -9,6 +9,7 @@ use App\Entity\Part;
 use App\Entity\Reservation;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -98,5 +99,25 @@ final class ReservationManager
         } catch (NoResultException $e) {
             return 0;
         }
+    }
+
+    /**
+     * @return Order[]
+     */
+    public function orders(Part $part): array
+    {
+        $em = $this->registry->getEntityManager();
+
+        return $em->createQueryBuilder()
+            ->select('entity')
+            ->from(Order::class, 'entity')
+            ->join(Reservation::class, 'reservation', Join::WITH, 'reservation.order = entity')
+            ->where('reservation.part = :part')
+            ->orderBy('entity.id', 'DESC')
+            ->setParameters([
+                'part' => $part,
+            ])
+            ->getQuery()
+            ->getResult();
     }
 }
