@@ -18,6 +18,10 @@ abstract class OrderItemController extends AbstractController
      */
     protected function isActionAllowed($actionName): bool
     {
+        if ('autocomplete' === $actionName) {
+            return parent::isActionAllowed($actionName);
+        }
+
         $order = $this->getEntity(Order::class);
         if (!$order instanceof Order) {
             throw new LogicException('Order required.');
