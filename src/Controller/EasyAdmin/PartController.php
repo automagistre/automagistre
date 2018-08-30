@@ -222,7 +222,9 @@ final class PartController extends AbstractController
             $qb->setParameter($key, '%'.$searchString.'%');
         }
 
-        $qb->orderBy('part.quantity', 'DESC');
+        $qb->leftJoin(Motion::class, 'motion', Join::WITH, 'motion.part = part')
+            ->groupBy('part.id')
+            ->orderBy('SUM(motion.quantity)', 'DESC');
 
         return $qb;
     }
@@ -247,7 +249,7 @@ final class PartController extends AbstractController
                     $entity->getNumber(),
                     $entity->getManufacturer()->getName(),
                     $entity->getName(),
-                    $entity->getQuantity() / 100,
+                    $this->partManager->inStock($entity) / 100,
                     $this->formatter->format($entity->getPrice())
                 ),
             ];
