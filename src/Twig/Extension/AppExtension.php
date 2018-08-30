@@ -79,8 +79,20 @@ class AppExtension extends AbstractExtension
         return $object;
     }
 
-    public function toQuery(object $entity): array
+    /**
+     * @param object|array $entity
+     */
+    public function toQuery($entity): array
     {
+        if (\is_array($entity)) {
+            $queries = [];
+            foreach ($entity as $item) {
+                $queries[] = $this->entityTransformer->transform($item);
+            }
+
+            return \array_merge(...$queries);
+        }
+
         return $this->entityTransformer->transform($entity);
     }
 }

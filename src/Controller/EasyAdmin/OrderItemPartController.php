@@ -8,6 +8,10 @@ use App\Entity\Order;
 use App\Entity\OrderItem;
 use App\Entity\OrderItemPart;
 use App\Form\Model\OrderPart;
+use App\Manager\ReservationException;
+use App\Manager\ReservationManager;
+use LogicException;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
@@ -15,6 +19,48 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  */
 final class OrderItemPartController extends OrderItemController
 {
+    /**
+     * @var ReservationManager
+     */
+    private $reservationManager;
+
+    public function __construct(ReservationManager $reservationManager)
+    {
+        $this->reservationManager = $reservationManager;
+    }
+
+    public function reserveAction(): Response
+    {
+        $item = $this->getEntity(OrderItemPart::class);
+        if (!$item instanceof OrderItemPart) {
+            throw new LogicException('OrderItemPart required.');
+        }
+
+        try {
+            $this->reservationManager->reserve($item->getPart(), $item->getQuantity(), $item->getOrder());
+        } catch (ReservationException $e) {
+            $this->addFlash('error', $e->getMessage());
+        }
+
+        return $this->redirectToReferrer();
+    }
+
+    public function deReserveAction(): Response
+    {
+        $item = $this->getEntity(OrderItemPart::class);
+        if (!$item instanceof OrderItemPart) {
+            throw new LogicException('OrderItemPart required.');
+        }
+
+        try {
+            $this->reservationManager->deReserve($item->getPart(), $item->getQuantity(), $item->getOrder());
+        } catch (ReservationException $e) {
+            $this->addFlash('error', $e->getMessage());
+        }
+
+        return $this->redirectToReferrer();
+    }
+
     protected function createNewEntity(): OrderPart
     {
         $order = $this->getEntity(Order::class);

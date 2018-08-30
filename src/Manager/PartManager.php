@@ -9,6 +9,8 @@ use App\Entity\Order;
 use App\Entity\OrderItemPart;
 use App\Entity\Part;
 use App\Enum\OrderStatus;
+use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -31,14 +33,18 @@ final class PartManager
     {
         $em = $this->registry->getEntityManager();
 
-        return (int) $em->createQueryBuilder()
-            ->select('SUM(entity.quantity)')
-            ->from(Motion::class, 'entity')
-            ->groupBy('entity.part')
-            ->where('entity.part = :part')
-            ->setParameter('part', $part)
-            ->getQuery()
-            ->getSingleScalarResult();
+        try {
+            return (int) $em->createQueryBuilder()
+                ->select('SUM(entity.quantity)')
+                ->from(Motion::class, 'entity')
+                ->groupBy('entity.part')
+                ->where('entity.part = :part')
+                ->setParameter('part', $part)
+                ->getQuery()
+                ->getSingleResult(Query::HYDRATE_SINGLE_SCALAR);
+        } catch (NoResultException $e) {
+            return 0;
+        }
     }
 
     public function inOrders(Part $part): array
