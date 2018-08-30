@@ -132,6 +132,9 @@ final class PartController extends AbstractController
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function renderTemplate($actionName, $templatePath, array $parameters = []): Response
     {
         if ('show' === $actionName) {
