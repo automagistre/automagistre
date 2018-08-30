@@ -21,6 +21,7 @@ use App\Entity\Person;
 use App\Form\Model\Payment as PaymentModel;
 use App\Form\Type\OrderItemServiceType;
 use App\Form\Type\PaymentType;
+use App\Manager\ReservationManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
@@ -41,6 +42,16 @@ const COSTIL_BEZNAL = 2422;
  */
 final class OrderController extends AbstractController
 {
+    /**
+     * @var ReservationManager
+     */
+    private $reservationManager;
+
+    public function __construct(ReservationManager $reservationManager)
+    {
+        $this->reservationManager = $reservationManager;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -275,7 +286,15 @@ final class OrderController extends AbstractController
 
             foreach ($order->getItems(OrderItemPart::class) as $item) {
                 /* @var OrderItemPart $item */
-                $em->persist(new MotionOrder($item->getPart(), $item->getQuantity(), $order));
+
+                $part = $item->getPart();
+                $quantity = $item->getQuantity();
+
+                if (0 !== $this->reservationManager->reserved($part, $order)) {
+                    $this->reservationManager->deReserve($part, $quantity, $order);
+                }
+
+                $em->persist(new MotionOrder($part, $quantity, $order));
             }
 
             foreach ($order->getItems(OrderItemService::class) as $item) {
