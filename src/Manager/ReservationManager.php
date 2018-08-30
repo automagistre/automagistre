@@ -8,6 +8,7 @@ use App\Entity\Order;
 use App\Entity\Part;
 use App\Entity\Reservation;
 use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -93,7 +94,7 @@ final class ReservationManager
         try {
             return (int) $qb
                 ->getQuery()
-                ->getSingleScalarResult();
+                ->getSingleResult(Query::HYDRATE_SINGLE_SCALAR);
         } catch (NoResultException $e) {
             return 0;
         }
