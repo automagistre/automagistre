@@ -45,4 +45,27 @@ final class IncomePartController extends AbstractController
 
         return $entity;
     }
+
+    /**
+     * @param IncomePart $entity
+     */
+    protected function persistEntity($entity): void
+    {
+        parent::persistEntity($entity);
+
+        $this->setReferer($this->generateEasyPath($entity, 'new', [
+            'income_id' => $entity->getIncome()->getId(),
+            'referer' => \urlencode($this->generateEasyPath($entity->getIncome(), 'show')),
+        ]));
+    }
+
+    /**
+     * @param IncomePart $entity
+     */
+    protected function updateEntity($entity): void
+    {
+        parent::updateEntity($entity);
+
+        $this->setReferer($this->generateEasyPath($entity->getIncome(), 'show'));
+    }
 }

@@ -111,6 +111,14 @@ final class IncomeController extends AbstractController
                     $em->persist(new MotionIncome($incomePart));
 
                     $supply = $incomePart->getSupply();
+                    if (!$supply instanceof Supply) {
+                        $supply = $em->getRepository(Supply::class)->findOneBy([
+                            'part' => $incomePart->getPart(),
+                            'supplier' => $income->getSupplier(),
+                            'receivedAt' => null,
+                        ]);
+                    }
+
                     if ($supply instanceof Supply) {
                         $difference = $supply->getQuantity() - $quantity;
 
@@ -165,23 +173,9 @@ final class IncomeController extends AbstractController
     {
         parent::persistEntity($entity);
 
-        $supplier = $entity->getSupplier();
-
-        $supplies = $this->em->getRepository(Supply::class)->findOneBy(['supplier' => $supplier, 'receivedAt' => null]);
-        if (null === $supplies) {
-            $this->setReferer($this->generateEasyPath('IncomePart', 'new', ['income_id' => $entity->getId()]));
-        } else {
-            $this->setReferer($this->generateEasyPath($entity, 'supply', ['income_id' => $entity->getId()]));
-        }
-    }
-
-    /**
-     * @param Income $entity
-     */
-    protected function updateEntity($entity): void
-    {
-        parent::updateEntity($entity);
-
-        $this->setReferer($this->generateEasyPath($entity, 'show'));
+        $this->setReferer($this->generateEasyPath('IncomePart', 'new', [
+            'income_id' => $entity->getId(),
+            'referer' => \urlencode($this->generateEasyPath($entity, 'show')),
+        ]));
     }
 }
