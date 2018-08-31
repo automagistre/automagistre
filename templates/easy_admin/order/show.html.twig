@@ -181,6 +181,7 @@
                                 <tr>
                                     <th>Наименование</th>
                                     <th>Цена</th>
+                                    <th>Склад</th>
                                     <th>Диагностировал</th>
                                     <th>Дата</th>
                                     <th>Действия</th>
@@ -199,6 +200,7 @@
                                             </a>
                                         </td>
                                         <td>{{ recommendation.price|localize_money }}</td>
+                                        <td></td>
                                         <td>
                                             {% if recommendation.worker is not empty %}
                                                 <a href="{{ easyadmin_path(recommendation.worker, 'show') }}">
@@ -232,6 +234,14 @@
                                                 {{ part.part.name }}
                                             </td>
                                             <td>{{ part.quantity / 100 }} x {{ part.totalPrice|localize_money }}</td>
+                                            <td>
+                                                <span class="label label-default" style="color: black">
+                                                    {{ part_reservable(part.part) / 100 }}
+                                                </span>
+                                                <span class="label label-success">
+                                                    {{ part_reserved(part.part) / 100 }}
+                                                </span>
+                                            </td>
                                             <td>
                                                 {%- spaceless -%}
                                                     {% set selector = part.selector %}
