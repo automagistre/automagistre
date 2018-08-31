@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="integer")
  * @ORM\DiscriminatorMap({
+ *     "0": "App\Entity\MotionOld",
  *     "1": "App\Entity\MotionOrder",
  *     "2": "App\Entity\MotionIncome",
  * })
