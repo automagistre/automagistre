@@ -12,9 +12,12 @@ use Doctrine\ORM\Mapping as ORM;
 use LogicException;
 use Money\Currency;
 use Money\Money;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
+ *
+ * @UniqueEntity(fields={"supplier", "part", "receivedAt"}, ignoreNull=false)
  */
 class Supply
 {

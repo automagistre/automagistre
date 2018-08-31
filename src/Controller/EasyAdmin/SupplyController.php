@@ -66,8 +66,27 @@ final class SupplyController extends AbstractController
      */
     protected function persistEntity($model): void
     {
+        $supplier = $model->supplier;
+        $part = $model->part;
+
+        $supply = $this->em->getRepository(Supply::class)->findOneBy([
+            'supplier' => $supplier,
+            'part' => $part,
+            'receivedAt' => null,
+        ]);
+
+        if ($supply instanceof Supply) {
+            $this->addFlash('error', 'Такая поставка уже существует, отредактируйте её (Вы сейчас на ней)');
+
+            $this->setReferer($this->generateEasyPath($supply, 'edit', [
+                'referer' => \urlencode($this->generateEasyPath($supply, 'list')),
+            ]));
+
+            return;
+        }
+
         parent::persistEntity(
-            new Supply($model->supplier, $model->part, $model->price, $model->quantity)
+            new Supply($supplier, $part, $model->price, $model->quantity)
         );
     }
 
