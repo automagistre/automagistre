@@ -29,7 +29,7 @@
         <td>
             {% set reservable = part_reservable(item.part) %}
 
-            <span class="label label-default">{{ reservable / 100 }}</span>
+            <span class="label label-default" style="color: black">{{ reservable / 100 }}</span>
 
             {% set reserved = part_reserved(item.part, order) %}
 
