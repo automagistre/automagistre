@@ -27,6 +27,10 @@
     </td>
     {% if order.editable %}
         <td>
+            {% set reservable = part_reservable(item.part) %}
+
+            <span class="label label-default">{{ reservable / 100 }}</span>
+
             {% set reserved = part_reserved(item.part, order) %}
 
             {% if 0 < reserved %}
@@ -37,14 +41,11 @@
                     </span>
                 </a>
             {% else %}
-                {% set reservable = part_reservable(item.part) %}
-
-                <span class="label label-default">{{ reservable / 100 }}</span>
                 {% if item.quantity <= reservable %}
                     <a href="{{ easyadmin_path(item, 'reserve', ([item, order]|to_query)|merge({'referer': true})) }}">
-                    <span class="label label-success">
-                        <i class="fa fa-check"></i>
-                    </span>
+                        <span class="label label-success">
+                            <i class="fa fa-check"></i>
+                        </span>
                     </a>
                 {% endif %}
             {% endif %}
