@@ -6,6 +6,7 @@ namespace App\Controller\EasyAdmin;
 
 use App\Entity\Manufacturer;
 use App\Entity\Motion;
+use App\Entity\Order;
 use App\Entity\Part;
 use App\Manager\DeficitManager;
 use App\Manager\PartManager;
@@ -150,7 +151,9 @@ final class PartController extends AbstractController
 
             $parameters['inStock'] = $this->partManager->inStock($entity);
             $parameters['orders'] = $this->partManager->inOrders($entity);
-            $parameters['reservedIn'] = $this->reservationManager->orders($entity);
+            $parameters['reservedIn'] = \array_map(function (Order $order) {
+                return $order->getId();
+            }, $this->reservationManager->orders($entity));
             $parameters['reserved'] = $this->reservationManager->reserved($entity);
         }
 
