@@ -89,6 +89,34 @@ final class OrderItemPartController extends OrderItemController
         $entity->setWarranty($model->warranty);
 
         parent::persistEntity($entity);
+
+        try {
+            $this->reservationManager->reserve($entity->getPart(), $entity->getQuantity(), $entity->getOrder());
+        } catch (ReservationException $e) {
+            $this->addFlash('warning', $e->getMessage());
+        }
+    }
+
+    /**
+     * @param OrderItemPart $entity
+     */
+    protected function updateEntity($entity): void
+    {
+        $part = $entity->getPart();
+        $order = $entity->getOrder();
+
+        $reserved = $this->reservationManager->reserved($part, $order);
+        if (0 < $reserved) {
+            $this->reservationManager->deReserve($part, $reserved, $order);
+        }
+
+        parent::updateEntity($entity);
+
+        try {
+            $this->reservationManager->reserve($part, $entity->getQuantity(), $order);
+        } catch (ReservationException $e) {
+            $this->addFlash('error', $e->getMessage());
+        }
     }
 
     /**
