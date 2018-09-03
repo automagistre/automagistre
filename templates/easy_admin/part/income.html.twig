@@ -1,0 +1,20 @@
+{% extends '@EasyAdmin/default/layout.html.twig' %}
+
+{% form_theme form with easyadmin_config('design.form_theme') %}
+
+{% block content_title %}Ручное пополнение на склад{% endblock %}
+{% block content_help %}
+    <div class="box box-widget help-entity">
+        <div class="box-body">
+           #{{ part.id }} {{ part }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block main %}
+    {{ form_start(form) }}
+
+    {{ form_widget(form) }}
+    <button class="btn btn-success">Пополнить</button>
+    {{ form_end(form) }}
+{% endblock %}

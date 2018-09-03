@@ -6,8 +6,10 @@ namespace App\Controller\EasyAdmin;
 
 use App\Entity\Manufacturer;
 use App\Entity\Motion;
+use App\Entity\MotionManual;
 use App\Entity\Order;
 use App\Entity\Part;
+use App\Form\Type\QuantityType;
 use App\Manager\DeficitManager;
 use App\Manager\PartManager;
 use App\Manager\ReservationManager;
@@ -138,6 +140,66 @@ final class PartController extends AbstractController
     {
         return $this->render('easy_admin/part/deficit.html.twig', [
             'parts' => $this->deficitManager->findDeficit(),
+        ]);
+    }
+
+    public function incomeAction(): Response
+    {
+        $part = $this->getEntity(Part::class);
+        if (!$part instanceof Part) {
+            throw new LogicException('Part required.');
+        }
+
+        $form = $this->createFormBuilder()
+            ->add('quantity', QuantityType::class)
+            ->getForm()
+            ->handleRequest($this->request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->em;
+            $quantity = (int) $form->get('quantity')->getData();
+            $user = $this->getUser();
+            $description = \sprintf('# Ручное пополнение - %s', $user->getId());
+
+            $em->persist(new MotionManual($user, $part, \abs($quantity), $description));
+            $em->flush();
+
+            return $this->redirectToReferrer();
+        }
+
+        return $this->render('easy_admin/part/income.html.twig', [
+            'part' => $part,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    public function outcomeAction(): Response
+    {
+        $part = $this->getEntity(Part::class);
+        if (!$part instanceof Part) {
+            throw new LogicException('Part required.');
+        }
+
+        $form = $this->createFormBuilder()
+            ->add('quantity', QuantityType::class)
+            ->getForm()
+            ->handleRequest($this->request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->em;
+            $quantity = (int) $form->get('quantity')->getData();
+            $user = $this->getUser();
+            $description = \sprintf('# Ручное списание - %s', $user->getId());
+
+            $em->persist(new MotionManual($user, $part, 0 - \abs($quantity), $description));
+            $em->flush();
+
+            return $this->redirectToReferrer();
+        }
+
+        return $this->render('easy_admin/part/outcome.html.twig', [
+            'part' => $part,
+            'form' => $form->createView(),
         ]);
     }
 

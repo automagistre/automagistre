@@ -34,6 +34,18 @@
             </div>
         </div>
 
+        <div class="col-md-6" style="margin-bottom: 15px">
+            <a href="{{ easyadmin_path('Part', 'income', {'referer': true}|merge(entity|to_query)) }}" class="btn btn-primary">
+                <i class="fa fa-arrow-down"></i>
+                Пополнить вручную
+            </a>
+
+            <a href="{{ easyadmin_path('Part', 'outcome', {'referer': true}|merge(entity|to_query)) }}" class="btn btn-danger">
+                <i class="fa fa-arrow-up"></i>
+                Списать вручную
+            </a>
+        </div>
+
         <div class="col-md-6">
             <div class="field-group">
                 <div class="box box-default">

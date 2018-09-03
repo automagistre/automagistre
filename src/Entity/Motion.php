@@ -15,6 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     "0": "App\Entity\MotionOld",
  *     "1": "App\Entity\MotionOrder",
  *     "2": "App\Entity\MotionIncome",
+ *     "3": "App\Entity\MotionManual",
  * })
  */
 abstract class Motion
