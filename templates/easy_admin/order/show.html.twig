@@ -235,11 +235,27 @@
                                             </td>
                                             <td>{{ part.quantity / 100 }} x {{ part.totalPrice|localize_money }}</td>
                                             <td>
-                                                <span class="label label-primary"">
-                                                    {{ part_reservable(part.part) / 100 }}
+                                                {% set reservable = part_reservable(part.part) %}
+                                                {% set reserved = part_reserved(part.part) %}
+                                                {% set inStock = part_in_stock(part.part) %}
+                                                {% set required = part.quantity %}
+
+                                                {% if reservable >= required %}
+                                                    {% set stockStyle = 'success' %}
+                                                    {% set reserveStyle = 'success' %}
+                                                {% elseif inStock >= required %}
+                                                    {% set stockStyle = 'warning' %}
+                                                    {% set reserveStyle = 'warning' %}
+                                                {% elseif inStock < required %}
+                                                    {% set stockStyle = 'danger' %}
+                                                    {% set reserveStyle = 'default' %}
+                                                {% endif %}
+
+                                                <span class="label label-{{ stockStyle }}">
+                                                    {{ reservable / 100 }}
                                                 </span>
-                                                <span class="label label-success">
-                                                    {{ part_reserved(part.part) / 100 }}
+                                                <span class="label label-{{ reserveStyle }}">
+                                                    {{ reserved / 100 }}
                                                 </span>
                                             </td>
                                             <td>
