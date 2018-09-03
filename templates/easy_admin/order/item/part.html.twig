@@ -33,15 +33,17 @@
 
             {% set reserved = part_reserved(item.part, order) %}
 
+            {% set reserveStyle = 'danger' %}
             {% set link = '#' %}
             {% if 0 < reserved %}
                 {% set link = easyadmin_path(item, 'deReserve', ([item, order]|to_query)|merge({'referer': true})) %}
+                {% set reserveStyle = 'success' %}
             {% elseif item.quantity <= reservable %}
                 {% set link = easyadmin_path(item, 'reserve', ([item, order]|to_query)|merge({'referer': true})) %}
             {% endif %}
 
             <a href="{{ link }}">
-                <span class="label label-success">{{ reserved / 100 }}</span>
+                <span class="label label-{{ reserveStyle }}">{{ reserved / 100 }}</span>
             </a>
         </td>
         <td>
