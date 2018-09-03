@@ -29,12 +29,13 @@
         <td>
             {% set reservable = part_reservable(item.part) %}
 
-            <span class="label label-default" style="color: black">{{ reservable / 100 }}</span>
+            <span class="label label-primary">{{ reservable / 100 }}</span>
 
             {% set reserved = part_reserved(item.part, order) %}
 
             {% if 0 < reserved %}
                 <span class="label label-success">{{ reserved / 100 }}</span>
+
                 <a href="{{ easyadmin_path(item, 'deReserve', ([item, order]|to_query)|merge({'referer': true})) }}">
                     <span class="label label-danger">
                         <i class="fa fa-times"></i>
