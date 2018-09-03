@@ -80,6 +80,11 @@ class CarRecommendationPart implements TotalPriceInterface
         return $this->quantity;
     }
 
+    public function setQuantity(int $quantity): void
+    {
+        $this->quantity = $quantity;
+    }
+
     public function setPrice(Money $price): void
     {
         $this->changePrice($price);
