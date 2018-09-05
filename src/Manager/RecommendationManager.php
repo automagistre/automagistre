@@ -12,6 +12,7 @@ use App\Entity\OrderItemPart;
 use App\Entity\OrderItemService;
 use App\Entity\User;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use DomainException;
 use Generator;
 use LogicException;
@@ -32,10 +33,19 @@ final class RecommendationManager
      */
     private $tokenStorage;
 
-    public function __construct(EntityManager $em, TokenStorageInterface $tokenStorage)
-    {
+    /**
+     * @var ReservationManager
+     */
+    private $reservationManager;
+
+    public function __construct(
+        EntityManager $em,
+        TokenStorageInterface $tokenStorage,
+        ReservationManager $reservationManager
+    ) {
         $this->em = $em;
         $this->tokenStorage = $tokenStorage;
+        $this->reservationManager = $reservationManager;
     }
 
     public function realize(CarRecommendation $recommendation, Order $order): void
@@ -69,26 +79,33 @@ final class RecommendationManager
             throw new DomainException('Can\' recommend service on undefined car');
         }
 
-        $recommendation = new CarRecommendation(
-            $car,
-            $orderService->getService(),
-            $orderService->getPrice(),
-            $this->getUser()->getPerson()
-        );
+        $this->em->transactional(function (EntityManagerInterface $em) use ($orderService, $order, $car): void {
+            $recommendation = new CarRecommendation(
+                $car,
+                $orderService->getService(),
+                $orderService->getPrice(),
+                $this->getUser()->getPerson()
+            );
 
-        foreach ($this->getParts($orderService) as $orderPart) {
-            $recommendation->addPart(new CarRecommendationPart(
-                $recommendation,
-                $orderPart->getPart(),
-                $orderPart->getQuantity(),
-                $orderPart->getPrice(),
-                $orderPart->getSelector()
-            ));
-        }
+            foreach ($this->getParts($orderService) as $orderPart) {
+                $part = $orderPart->getPart();
+                $reserved = $this->reservationManager->reserved($part, $order);
+                if (0 < $reserved) {
+                    $this->reservationManager->deReserve($part, $reserved, $order);
+                }
 
-        $this->em->remove($orderService);
-        $this->em->persist($recommendation);
-        $this->em->flush();
+                $recommendation->addPart(new CarRecommendationPart(
+                    $recommendation,
+                    $part,
+                    $orderPart->getQuantity(),
+                    $orderPart->getPrice(),
+                    $orderPart->getSelector()
+                ));
+            }
+
+            $em->remove($orderService);
+            $em->persist($recommendation);
+        });
     }
 
     /**
