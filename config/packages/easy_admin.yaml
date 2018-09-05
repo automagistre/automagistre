@@ -639,7 +639,7 @@ easy_admin:
         Payment:
             class: App\Entity\Payment
             controller: App\Controller\EasyAdmin\PaymentController
-            disabled_actions: ['show', 'delete', 'edit', 'new']
+            disabled_actions: ['show', 'delete', 'edit']
             list:
                 title: 'Список проводок'
                 fields:
@@ -649,3 +649,10 @@ easy_admin:
                     - { property: 'createdAt', label: 'Дата' }
                     - { property: 'description', label: 'Описание' }
                     - { property: 'subtotal', label: 'Остаток', template: 'easy_admin/field_money.html.twig' }
+            new:
+                title: 'Создать новую проводку'
+                form_options: { data_class: stdClass }
+                fields:
+                    - { property: 'recipient', label: 'Получатель', type: 'text', type_options: { disabled: true } }
+                    - { property: 'amount', label: 'Сумма', type: App\Form\Type\MoneyType }
+                    - { property: 'description', label: 'Описание', type: 'text' }
