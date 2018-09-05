@@ -387,6 +387,7 @@ easy_admin:
                         label: 'Модель'
                         type: 'easyadmin_autocomplete'
                         help: 'Проивзодитель, Модель, Год, Поколение, Комплектация, Лошадинные силы'
+                    - { property: 'year', label: 'Год выпуска' }
                     - { property: 'vin', label: 'VIN' }
                     - { property: 'gosnomer', label: 'Гос. Номер' }
                     - { property: 'description', label: 'Описание', type: 'textarea' }
