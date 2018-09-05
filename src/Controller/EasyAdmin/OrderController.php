@@ -16,11 +16,11 @@ use App\Entity\OrderItemService;
 use App\Entity\OrderNote;
 use App\Entity\OrderPayment;
 use App\Entity\Organization;
-use App\Entity\Payment;
 use App\Entity\Person;
 use App\Form\Model\Payment as PaymentModel;
 use App\Form\Type\OrderItemServiceType;
 use App\Form\Type\PaymentType;
+use App\Manager\PaymentManager;
 use App\Manager\ReservationManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Join;
@@ -47,9 +47,15 @@ final class OrderController extends AbstractController
      */
     private $reservationManager;
 
-    public function __construct(ReservationManager $reservationManager)
+    /**
+     * @var PaymentManager
+     */
+    private $paymentManager;
+
+    public function __construct(ReservationManager $reservationManager, PaymentManager $paymentManager)
     {
         $this->reservationManager = $reservationManager;
+        $this->paymentManager = $paymentManager;
     }
 
     /**
@@ -281,7 +287,7 @@ final class OrderController extends AbstractController
             if ($customer instanceof Operand) {
                 $description = \sprintf('# Списание по заказу #%s', $order->getId());
 
-                $this->createPayment($customer, $description, $order->getTotalPrice()->negative());
+                $this->paymentManager->createPayment($customer, $description, $order->getTotalPrice()->negative());
             }
 
             foreach ($order->getItems(OrderItemPart::class) as $item) {
@@ -314,7 +320,7 @@ final class OrderController extends AbstractController
                 $salary = $item->getPrice()->multiply($employee->getRatio() / 100);
                 $description = \sprintf('# ЗП %s по заказу #%s', $worker->getFullName(), $order->getId());
 
-                $this->createPayment($worker, $description, $salary->absolute());
+                $this->paymentManager->createPayment($worker, $description, $salary->absolute());
             }
         });
 
@@ -466,54 +472,14 @@ final class OrderController extends AbstractController
                 }
 
                 if (null !== $model->recipient) {
-                    $this->createPayment($model->recipient, $model->description, $money);
+                    $this->paymentManager->createPayment($model->recipient, $model->description, $money);
                 }
 
                 $cashbox = $em->getRepository(Operand::class)->find($id);
-                $payment = $this->createPayment($cashbox, $model->description, $money);
+                $payment = $this->paymentManager->createPayment($cashbox, $model->description, $money);
 
                 $em->persist(new OrderPayment($order, $payment));
             }
         });
-    }
-
-    private function createPayment(Operand $recipient, string $description, Money $money): Payment
-    {
-        $em = $this->em;
-
-        return $em->transactional(function (EntityManagerInterface $em) use ($recipient, $description, $money) {
-            $payment = new Payment(
-                $recipient,
-                $description,
-                $money,
-                $this->calcSubtotal($recipient, $money)
-            );
-
-            $em->persist($payment);
-
-            return $payment;
-        });
-    }
-
-    private function calcSubtotal(Operand $recipient, Money $money): Money
-    {
-        $em = $this->em;
-
-        /** @var Payment|null $lastPayment */
-        $lastPayment = $em->createQueryBuilder()
-            ->select('payment')
-            ->from(Payment::class, 'payment')
-            ->where('payment.recipient = :recipient')
-            ->orderBy('payment.id', 'DESC')
-            ->setMaxResults(1)
-            ->setParameter('recipient', $recipient)
-            ->getQuery()
-            ->getOneOrNullResult();
-
-        if (null === $lastPayment) {
-            return $money;
-        }
-
-        return $lastPayment->getSubtotal()->add($money);
     }
 }
