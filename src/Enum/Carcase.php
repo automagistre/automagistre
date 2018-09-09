@@ -7,10 +7,13 @@ namespace App\Enum;
 use Grachevko\Enum\Enum;
 
 /**
+ * @method static self unknown()
+ *
  * @author Konstantin Grachev <me@grachevko.ru>
  */
 final class Carcase extends Enum
 {
+    private const UNKNOWN = 0;
     private const SEDAN = 1;
     private const HATCHBACK = 2;
     private const LIFTBACK = 3;
@@ -27,6 +30,7 @@ final class Carcase extends Enum
      * @var array
      */
     protected static $name = [
+        self::UNKNOWN => 'Неопределён',
         self::SEDAN => 'Седан',
         self::HATCHBACK => 'Хэтчбек',
         self::LIFTBACK => 'Лифтбек',

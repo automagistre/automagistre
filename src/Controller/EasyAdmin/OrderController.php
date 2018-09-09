@@ -404,7 +404,6 @@ final class OrderController extends AbstractController
             ->leftJoin('orders.customer', 'customer')
             ->leftJoin('orders.car', 'car')
             ->leftJoin('car.carModel', 'carModel')
-            ->leftJoin('car.carModification', 'carModification')
             ->leftJoin('carModel.manufacturer', 'manufacturer')
             ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = customer.id AND customer INSTANCE OF '.Person::class)
             ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = customer.id AND customer INSTANCE OF '.Organization::class);
@@ -419,8 +418,9 @@ final class OrderController extends AbstractController
                 $qb->expr()->like('person.email', $key),
                 $qb->expr()->like('car.gosnomer', $key),
                 $qb->expr()->like('carModel.name', $key),
-                $qb->expr()->like('carModification.name', $key),
+                $qb->expr()->like('carModel.localizedName', $key),
                 $qb->expr()->like('manufacturer.name', $key),
+                $qb->expr()->like('manufacturer.localizedName', $key),
                 $qb->expr()->like('organization.name', $key)
             ));
 

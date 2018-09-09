@@ -33,11 +33,9 @@ easy_admin:
             - { entity: 'Supply', label: 'Поставка', icon: 'truck' }
             - { entity: 'Income', label: 'Приходы', icon: 'book' }
             - { label: 'Справочники' }
+            - { entity: 'Manufacturer', label: 'Производители', icon: 'industry' }
+            - { entity: 'Model', label: 'Кузова', icon: 'car' }
             - { entity: 'Part', label: 'Запчасти', icon: 'cogs' }
-            - { entity: 'Manufacturer', label: 'Производитель', icon: 'industry' }
-            - { entity: 'Model', label: 'Модель', icon: 'car' }
-            - { entity: 'Generation', label: 'Поколение', icon: 'car' }
-            - { entity: 'Modification', label: 'Модификация', icon: 'car' }
 
     formats:
         date: 'd.m.Y'
@@ -362,7 +360,7 @@ easy_admin:
                 title: 'Автомобили'
                 fields:
                     - { property: 'id' }
-                    - { property: 'carModificationDisplayName', label: 'Комплектация', template: 'easy_admin/field_show.html.twig' }
+                    - { property: 'carModificationDisplayName', label: 'Марка / Модель', template: 'easy_admin/field_show.html.twig' }
                     - { property: 'owner', label: 'Владелец' }
                     - { property: 'year', label: 'Год', type: 'string' }
                     - { property: 'vin', label: 'VIN', sortable: false }
@@ -383,10 +381,14 @@ easy_admin:
                         label: 'Владелец'
                         type: 'easyadmin_autocomplete'
                         help: 'Фамилия, Имя, Телефон, E-mail'
-                    -   property: 'carModification'
+                    -   property: 'carModel'
                         label: 'Модель'
                         type: 'easyadmin_autocomplete'
                         help: 'Проивзодитель, Модель, Год, Поколение, Комплектация, Лошадинные силы'
+                    - { property: 'engineCapacity', label: 'Объём двигателя (см3)' }
+                    - { property: 'engineType', label: 'Тип двигателя', type: App\Form\Type\EngineTypeType }
+                    - { property: 'transmission', type: App\Form\Type\CarTransmissionType, label: 'Трасмиссия' }
+                    - { property: 'wheelDrive', type: App\Form\Type\CarWheelDriveType, label: 'Привод' }
                     - { property: 'year', label: 'Год выпуска' }
                     - { property: 'vin', label: 'VIN' }
                     - { property: 'gosnomer', label: 'Гос. Номер' }
@@ -541,10 +543,12 @@ easy_admin:
                 fields:
                     - { property: 'id' }
                     - { property: 'name', label: 'Название' }
+                    - { property: 'localizedName', label: 'Название на русском' }
                     - { property: 'logo', label: 'Logo' }
             form:
                 fields:
                     - { property: 'name', label: 'Название' }
+                    - { property: 'localizedName', label: 'Название на русском' }
                     - { property: 'logo', label: 'Logo' }
             new:
                 title: 'Создать нового Прозводителя'
@@ -555,88 +559,32 @@ easy_admin:
             class: App\Entity\CarModel
             controller: App\Controller\EasyAdmin\CarModelController
             disabled_actions: ['show', 'delete']
-            label: 'Модель'
+            label: 'Кузов'
             list:
-                title: 'Модели'
+                title: 'Кузова'
                 fields:
                     - { property: 'id' }
                     - { property: 'manufacturer', label: 'Производитель' }
                     - { property: 'name', label: 'Название' }
+                    - { property: 'caseName', label: 'Кузов' }
+                    - { property: 'yearFrom', label: 'Начало производства' }
+                    - { property: 'yearTill', label: 'Конец производства' }
             form:
                 fields:
                     - { property: 'manufacturer', label: 'Производитель', type: 'easyadmin_autocomplete' }
                     - { property: 'name', label: 'Название' }
+                    - { property: 'localizedName', label: 'Название на русском' }
+                    - { property: 'caseName', label: 'Кузов' }
+                    - { property: 'caseType', label: 'Тип кузова', type: App\Form\Type\CarcaseType, type_options: { required: false } }
+                    - { property: 'yearFrom', label: 'Начало производства' }
+                    - { property: 'yearTill', label: 'Конец производства' }
             new:
-                title: 'Создать новую модель'
+                title: 'Создать новый кузов'
             edit:
-                title: 'Редактировать модель'
+                title: 'Редактировать кузов'
                 fields:
                     - { property: 'manufacturer', label: 'Производитель', type_options: { disabled: true } }
 
-        Generation:
-            class: App\Entity\CarGeneration
-            controller: App\Controller\EasyAdmin\CarGenerationController
-            disabled_actions: ['show', 'delete']
-            list:
-                title: 'Поколения'
-                fields:
-                    - { property: 'id' }
-                    - { property: 'carModel.displayName', label: 'Модель' }
-                    - { property: 'name', label: 'Название' }
-            form:
-                fields:
-                    - { property: 'carModel', label: 'Модель', type: 'easyadmin_autocomplete' }
-                    - { property: 'name', label: 'Название' }
-            new:
-                title: 'Создать новое поколение'
-            edit:
-                title: 'Редактировать поколение'
-                fields:
-                    - { property: 'carModel', type_options: { disabled: true } }
-
-        Modification:
-            class: App\Entity\CarModification
-            controller: App\Controller\EasyAdmin\CarModificationController
-            disabled_actions: ['show', 'delete']
-            list:
-                title: 'Модификации'
-                fields:
-                    - { property: 'id' }
-                    - { property: 'carGeneration.displayName', label: 'Поколение' }
-                    - { property: 'name', label: 'Название' }
-                    - { property: 'case.name', label: 'Кузов' }
-                    - { property: 'engine', label: 'Двигатель' }
-                    - { property: 'hp', label: 'л.с.' }
-                    - { property: 'transmission.name', label: 'Трансмиссия' }
-                    - { property: 'wheelDrive.name', label: 'Привод' }
-                    - { property: 'doors', label: 'Дверей' }
-                    - { property: 'from', label: 'С', type: 'string' }
-                    - { property: 'till', label: 'По', type: 'string' }
-                    - { property: 'maxspeed', label: 'Макс. скорость' }
-                    - { property: 's0to100', label: 'Разгон' }
-                    - { property: 'tank', label: 'Объём бака' }
-            form:
-                fields:
-                    - { property: 'carGeneration', label: 'Поколение', type: 'easyadmin_autocomplete' }
-                    - { property: 'name', label: 'Название' }
-                    - { property: 'case', type: App\Form\Type\CarcaseType, label: 'Кузов' }
-                    - { property: 'engine', label: 'Двигатель' }
-                    - { property: 'hp', label: 'л.с.' }
-                    - { property: 'transmission', type: App\Form\Type\CarTransmissionType, label: 'Трасмиссия' }
-                    - { property: 'wheelDrive', type: App\Form\Type\CarWheelDriveType, label: 'Привод' }
-                    - { property: 'doors', label: 'Дверей' }
-                    - { property: 'from', label: 'Начало производства' }
-                    - { property: 'till', label: 'Конец производства' }
-                    - { property: 'maxspeed', label: 'Макс. скорость' }
-                    - { property: 's0to100', label: 'Разгон' }
-                    - { property: 'tank', label: 'Объём бака' }
-            new:
-                title: 'Создать новую Модификацию'
-                fields: ['-name']
-            edit:
-                title: 'Редактировать модификацию'
-                fields:
-                    - { property: 'name', type_options: { disabled: true } }
         Payment:
             class: App\Entity\Payment
             controller: App\Controller\EasyAdmin\PaymentController

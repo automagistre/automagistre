@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Enum\Carcase;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -28,23 +29,58 @@ class CarModel
      *
      * @Assert\NotBlank
      *
-     * @ORM\Column(name="name", length=30)
+     * @ORM\Column
      */
     private $name;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(nullable=true)
+     */
+    private $localizedName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(nullable=true)
+     */
+    private $caseName;
+
+    /**
+     * @var Carcase
+     *
+     * @ORM\Column(type="carcase_enum")
+     */
+    private $caseType;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $yearFrom;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $yearTill;
+
+    public function __construct()
+    {
+        $this->caseType = Carcase::unknown();
+    }
 
     public function __toString(): string
     {
         return $this->getDisplayName();
     }
 
-    public function getName(): ?string
+    public function getDisplayName(): string
     {
-        return $this->name;
-    }
-
-    public function setName(string $name): void
-    {
-        $this->name = $name;
+        return \sprintf('%s %s', $this->manufacturer->getName(), $this->getLocalizedName() ?? $this->getName());
     }
 
     public function getManufacturer(): ?Manufacturer
@@ -57,8 +93,63 @@ class CarModel
         $this->manufacturer = $manufacturer;
     }
 
-    public function getDisplayName(): string
+    public function getName(): ?string
     {
-        return \sprintf('%s %s', $this->manufacturer->getName(), $this->getName());
+        return $this->name;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function getLocalizedName(): ?string
+    {
+        return $this->localizedName;
+    }
+
+    public function setLocalizedName(?string $localizedName): void
+    {
+        $this->localizedName = $localizedName;
+    }
+
+    public function getCaseName(): ?string
+    {
+        return $this->caseName;
+    }
+
+    public function setCaseName(string $caseName): void
+    {
+        $this->caseName = $caseName;
+    }
+
+    public function getCaseType(): Carcase
+    {
+        return $this->caseType;
+    }
+
+    public function setCaseType(Carcase $caseType): void
+    {
+        $this->caseType = $caseType;
+    }
+
+    public function getYearFrom(): ?int
+    {
+        return $this->yearFrom;
+    }
+
+    public function setYearFrom(?int $yearFrom): void
+    {
+        $this->yearFrom = $yearFrom;
+    }
+
+    public function getYearTill(): ?int
+    {
+        return $this->yearTill;
+    }
+
+    public function setYearTill(?int $yearTill): void
+    {
+        $this->yearTill = $yearTill;
     }
 }

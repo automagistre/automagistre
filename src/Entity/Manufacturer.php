@@ -22,6 +22,13 @@ class Manufacturer
     private $name;
 
     /**
+     * @var string|null
+     *
+     * @ORM\Column(nullable=true)
+     */
+    private $localizedName;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="logo", length=25, nullable=true)
@@ -46,6 +53,16 @@ class Manufacturer
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+
+    public function getLocalizedName(): ?string
+    {
+        return $this->localizedName;
+    }
+
+    public function setLocalizedName(?string $localizedName): void
+    {
+        $this->localizedName = $localizedName;
     }
 
     public function getLogo(): ?string

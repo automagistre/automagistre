@@ -6,6 +6,9 @@ namespace App\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Enum\CarTransmission;
+use App\Enum\CarWheelDrive;
+use App\Enum\EngineType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
@@ -30,12 +33,32 @@ class Car
     private $carModel;
 
     /**
-     * @var CarModification
+     * @var EngineType
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\CarModification")
-     * @ORM\JoinColumn
+     * @ORM\Column(type="engine_type_enum")
      */
-    private $carModification;
+    private $engineType;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $engineCapacity;
+
+    /**
+     * @var CarTransmission
+     *
+     * @ORM\Column(type="car_transmission_enum")
+     */
+    private $transmission;
+
+    /**
+     * @var CarWheelDrive
+     *
+     * @ORM\Column(type="car_wheel_drive_enum")
+     */
+    private $wheelDrive;
 
     /**
      * @var string
@@ -76,13 +99,6 @@ class Car
     private $description;
 
     /**
-     * @var int|null
-     *
-     * @ORM\Column(name="sprite_id", type="integer", nullable=true)
-     */
-    private $spriteId;
-
-    /**
      * @var Order[]|ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="car")
@@ -98,6 +114,9 @@ class Car
 
     public function __construct()
     {
+        $this->engineType = EngineType::unknown();
+        $this->wheelDrive = CarWheelDrive::unknown();
+        $this->transmission = CarTransmission::unknown();
         $this->orders = new ArrayCollection();
         $this->recommendations = new ArrayCollection();
     }
@@ -124,14 +143,44 @@ class Car
         $this->carModel = $carModel;
     }
 
-    public function getCarModification(): ?CarModification
+    public function getEngineType(): EngineType
     {
-        return $this->carModification;
+        return $this->engineType;
     }
 
-    public function setCarModification(CarModification $carModification): void
+    public function setEngineType(EngineType $engineType): void
     {
-        $this->carModification = $carModification;
+        $this->engineType = $engineType;
+    }
+
+    public function getEngineCapacity(): ?int
+    {
+        return $this->engineCapacity;
+    }
+
+    public function setEngineCapacity(?int $engineCapacity): void
+    {
+        $this->engineCapacity = $engineCapacity;
+    }
+
+    public function getTransmission(): CarTransmission
+    {
+        return $this->transmission;
+    }
+
+    public function setTransmission(CarTransmission $transmission): void
+    {
+        $this->transmission = $transmission;
+    }
+
+    public function getWheelDrive(): CarWheelDrive
+    {
+        return $this->wheelDrive;
+    }
+
+    public function setWheelDrive(CarWheelDrive $wheelDrive): void
+    {
+        $this->wheelDrive = $wheelDrive;
     }
 
     public function getVin(): ?string
@@ -194,9 +243,6 @@ class Car
         return \str_replace($cyrillic, $roman, \mb_convert_case($this->gosnomer, MB_CASE_UPPER, 'UTF-8'));
     }
 
-    /**
-     * @param string $gosnomer
-     */
     public function setGosnomer(string $gosnomer = null): void
     {
         $this->gosnomer = $gosnomer;
@@ -207,9 +253,6 @@ class Car
         return $this->description;
     }
 
-    /**
-     * @param string $description
-     */
     public function setDescription(string $description = null): void
     {
         $this->description = $description;
@@ -222,7 +265,7 @@ class Car
     {
         $criteria = $criteria ?: Criteria::create()->andWhere(Criteria::expr()->isNull('expiredAt'));
 
-        return $this->recommendations->matching($criteria)->toArray();
+        return $this->recommendations->matching($criteria)->getValues();
     }
 
     public function addRecommendation(CarRecommendation $recommendation): void
@@ -232,6 +275,6 @@ class Car
 
     public function getCarModificationDisplayName(): string
     {
-        return null !== $this->carModification ? $this->carModification->getDisplayName() : (string) $this->carModel;
+        return (string) $this->carModel;
     }
 }

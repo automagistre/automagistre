@@ -70,12 +70,9 @@ final class CarController extends AbstractController
             return $qb;
         }
 
-        $qb->leftJoin('car.carModification', 'modification')
-            ->leftJoin('modification.carGeneration', 'generation')
-            ->leftJoin('generation.carModel', 'model')
-            ->leftJoin('model.manufacturer', 'manufacturer')
-            ->leftJoin('car.carModel', 'carModel2')
-            ->leftJoin('carModel2.manufacturer', 'manufacturer2')
+        $qb
+            ->leftJoin('car.carModel', 'carModel')
+            ->leftJoin('carModel.manufacturer', 'manufacturer')
             ->leftJoin('car.owner', 'owner')
             ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = owner.id AND owner INSTANCE OF '.Person::class)
             ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = owner.id AND owner INSTANCE OF '.Organization::class);
@@ -86,12 +83,10 @@ final class CarController extends AbstractController
             $qb->andWhere($qb->expr()->orX(
                 $qb->expr()->like('car.year', $key),
                 $qb->expr()->like('car.gosnomer', $key),
-                $qb->expr()->like('modification.name', $key),
-                $qb->expr()->like('generation.name', $key),
-                $qb->expr()->like('model.name', $key),
+                $qb->expr()->like('carModel.name', $key),
+                $qb->expr()->like('carModel.localizedName', $key),
                 $qb->expr()->like('manufacturer.name', $key),
-                $qb->expr()->like('carModel2.name', $key),
-                $qb->expr()->like('manufacturer2.name', $key),
+                $qb->expr()->like('manufacturer.localizedName', $key),
                 $qb->expr()->like('person.firstname', $key),
                 $qb->expr()->like('person.lastname', $key),
                 $qb->expr()->like('person.telephone', $key),
@@ -124,7 +119,7 @@ final class CarController extends AbstractController
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
         $data = \array_map(function (Car $car) use ($ownerId) {
-            $carModel = $car->getCarModification() ?: $car->getCarModel();
+            $carModel = $car->getCarModel();
 
             $text = $carModel->getDisplayName();
 

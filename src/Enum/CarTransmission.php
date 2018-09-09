@@ -7,12 +7,14 @@ namespace App\Enum;
 use Grachevko\Enum\Enum;
 
 /**
+ * @method static self unknown()
  * @method string getCode()
  *
  * @author Konstantin Grachev <me@grachevko.ru>
  */
 final class CarTransmission extends Enum
 {
+    private const UNKNOWN = 0;
     private const AUTOMATIC = 1;
     private const ROBOT = 2;
     private const VARIATOR = 3;
@@ -22,6 +24,7 @@ final class CarTransmission extends Enum
      * @var array
      */
     protected static $name = [
+        self::UNKNOWN => 'Неопределена',
         self::AUTOMATIC => 'Автоматическая',
         self::ROBOT => 'Робот',
         self::VARIATOR => 'Вариатор',
@@ -32,6 +35,7 @@ final class CarTransmission extends Enum
      * @var array
      */
     protected static $code = [
+        self::UNKNOWN => '-',
         self::AUTOMATIC => 'AT',
         self::ROBOT => 'AMT',
         self::VARIATOR => 'CVT',
