@@ -363,6 +363,7 @@ easy_admin:
                     - { property: 'carModificationDisplayName', label: 'Марка / Модель', template: 'easy_admin/field_show.html.twig' }
                     - { property: 'owner', label: 'Владелец' }
                     - { property: 'year', label: 'Год', type: 'string' }
+                    - { property: 'caseType.name', label: 'Кузов' }
                     - { property: 'vin', label: 'VIN', sortable: false }
                     - { property: 'mileage', label: 'Пробег' }
                     - { property: 'gosnomer', label: 'Гос. Номер', sortable: false, template: 'easy_admin/car/field_gosnomer_img.html.twig' }
@@ -373,6 +374,7 @@ easy_admin:
                     - { property: 'vin', label: 'VIN' }
                     - { property: 'carModificationDisplayName', label: 'Комплектация' }
                     - { property: 'year', label: 'Год', type: 'string' }
+                    - { property: 'caseType.name', label: 'Кузов' }
                     - { property: 'mileage', label: 'Пробег' }
                     - { property: 'gosnomer', label: 'Гос. Номер' }
             form:
@@ -390,6 +392,7 @@ easy_admin:
                     - { property: 'transmission', type: App\Form\Type\CarTransmissionType, label: 'Трасмиссия' }
                     - { property: 'wheelDrive', type: App\Form\Type\CarWheelDriveType, label: 'Привод' }
                     - { property: 'year', label: 'Год выпуска' }
+                    - { property: 'caseType', label: 'Тип кузова', type: App\Form\Type\CarcaseType, type_options: { required: false } }
                     - { property: 'vin', label: 'VIN' }
                     - { property: 'gosnomer', label: 'Гос. Номер' }
                     - { property: 'description', label: 'Описание', type: 'textarea' }
@@ -575,7 +578,6 @@ easy_admin:
                     - { property: 'name', label: 'Название' }
                     - { property: 'localizedName', label: 'Название на русском' }
                     - { property: 'caseName', label: 'Кузов' }
-                    - { property: 'caseType', label: 'Тип кузова', type: App\Form\Type\CarcaseType, type_options: { required: false } }
                     - { property: 'yearFrom', label: 'Начало производства' }
                     - { property: 'yearTill', label: 'Конец производства' }
             new:

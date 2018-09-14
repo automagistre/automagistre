@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
-use App\Enum\Carcase;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -48,13 +47,6 @@ class CarModel
     private $caseName;
 
     /**
-     * @var Carcase
-     *
-     * @ORM\Column(type="carcase_enum")
-     */
-    private $caseType;
-
-    /**
      * @var int|null
      *
      * @ORM\Column(type="smallint", nullable=true)
@@ -67,11 +59,6 @@ class CarModel
      * @ORM\Column(type="smallint", nullable=true)
      */
     private $yearTill;
-
-    public function __construct()
-    {
-        $this->caseType = Carcase::unknown();
-    }
 
     public function __toString(): string
     {
@@ -121,16 +108,6 @@ class CarModel
     public function setCaseName(string $caseName): void
     {
         $this->caseName = $caseName;
-    }
-
-    public function getCaseType(): Carcase
-    {
-        return $this->caseType;
-    }
-
-    public function setCaseType(Carcase $caseType): void
-    {
-        $this->caseType = $caseType;
     }
 
     public function getYearFrom(): ?int

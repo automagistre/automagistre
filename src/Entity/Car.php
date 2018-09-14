@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Enum\Carcase;
 use App\Enum\CarTransmission;
 use App\Enum\CarWheelDrive;
 use App\Enum\EngineType;
@@ -75,6 +76,13 @@ class Car
     private $year;
 
     /**
+     * @var Carcase
+     *
+     * @ORM\Column(type="carcase_enum")
+     */
+    private $caseType;
+
+    /**
      * @var Operand
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Operand")
@@ -117,6 +125,7 @@ class Car
         $this->engineType = EngineType::unknown();
         $this->wheelDrive = CarWheelDrive::unknown();
         $this->transmission = CarTransmission::unknown();
+        $this->caseType = Carcase::unknown();
         $this->orders = new ArrayCollection();
         $this->recommendations = new ArrayCollection();
     }
@@ -204,6 +213,16 @@ class Car
     public function setYear(int $year): void
     {
         $this->year = $year;
+    }
+
+    public function getCaseType(): Carcase
+    {
+        return $this->caseType;
+    }
+
+    public function setCaseType(Carcase $caseType): void
+    {
+        $this->caseType = $caseType;
     }
 
     public function getOwner(): ?Operand
