@@ -292,6 +292,11 @@ class Order
             && null !== $this->mileage;
     }
 
+    public function isClosed(): bool
+    {
+        return $this->status->isClosed();
+    }
+
     public function getTotalPayments(): Money
     {
         $money = new Money(0, new Currency('RUB'));

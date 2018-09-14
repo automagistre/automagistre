@@ -124,7 +124,7 @@ final class OrderController extends AbstractController
             throw new BadRequestHttpException('Order is required');
         }
 
-        if ($order->isReadyToClose()) {
+        if ($order->isClosed() || $order->isReadyToClose()) {
             goto finish;
         }
 
