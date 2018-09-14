@@ -374,6 +374,10 @@ easy_admin:
                     - { property: 'vin', label: 'VIN' }
                     - { property: 'carModificationDisplayName', label: 'Комплектация' }
                     - { property: 'year', label: 'Год', type: 'string' }
+                    - { property: 'engineCapacity', label: 'Объём двигателя' }
+                    - { property: 'engineType.name', label: 'Тип двигателя' }
+                    - { property: 'transmission.name', label: 'Трасмиссия' }
+                    - { property: 'wheelDrive.name', label: 'Привод' }
                     - { property: 'caseType.name', label: 'Кузов' }
                     - { property: 'mileage', label: 'Пробег' }
                     - { property: 'gosnomer', label: 'Гос. Номер' }
@@ -387,7 +391,7 @@ easy_admin:
                         label: 'Модель'
                         type: 'easyadmin_autocomplete'
                         help: 'Проивзодитель, Модель, Год, Поколение, Комплектация, Лошадинные силы'
-                    - { property: 'engineCapacity', label: 'Объём двигателя (см3)' }
+                    - { property: 'engineCapacity', label: 'Объём двигателя', type: App\Form\Type\EngineCapacityType }
                     - { property: 'engineType', label: 'Тип двигателя', type: App\Form\Type\EngineTypeType }
                     - { property: 'transmission', type: App\Form\Type\CarTransmissionType, label: 'Трасмиссия' }
                     - { property: 'wheelDrive', type: App\Form\Type\CarWheelDriveType, label: 'Привод' }
