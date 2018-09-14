@@ -22,6 +22,7 @@ class CarcaseType extends AbstractType
         $resolver->setDefaults([
             'choices' => Carcase::all(),
             'choice_label' => 'name',
+            'choice_value' => 'id',
             'placeholder' => null,
         ]);
     }
