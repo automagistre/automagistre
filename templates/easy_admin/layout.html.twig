@@ -1,5 +1,15 @@
 {% extends app.request.xmlHttpRequest ? 'easy_admin/layout_modal.html.twig' : '@EasyAdmin/default/layout.html.twig' %}
 
+{% block header_custom_menu %}
+    {{ parent() }}
+
+    <ul class="nav navbar-nav" style="margin-right: 10px">
+        <li>
+            {{ render(controller('App\\Controller\\Admin\\LayoutController::balance')) }}
+        </li>
+    </ul>
+{% endblock %}
+
 {% block wrapper %}
     {{ parent() }}
 

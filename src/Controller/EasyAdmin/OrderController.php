@@ -34,14 +34,14 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-const COSTIL_CASSA = 1;
-const COSTIL_BEZNAL = 2422;
-
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
 final class OrderController extends AbstractController
 {
+    public const COSTIL_CASSA = 1;
+    public const COSTIL_BEZNAL = 2422;
+
     /**
      * @var ReservationManager
      */
@@ -465,7 +465,7 @@ final class OrderController extends AbstractController
         $em = $this->em;
 
         $em->transactional(function (EntityManagerInterface $em) use ($model, $order): void {
-            foreach ([COSTIL_CASSA => $model->amountCash, COSTIL_BEZNAL => $model->amountNonCash] as $id => $money) {
+            foreach ([self::COSTIL_CASSA => $model->amountCash, self::COSTIL_BEZNAL => $model->amountNonCash] as $id => $money) {
                 /** @var Money $money */
                 if (!$money->isPositive()) {
                     continue;

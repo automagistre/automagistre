@@ -7,6 +7,7 @@ namespace App\Manager;
 use App\Entity\Operand;
 use App\Entity\Payment;
 use Doctrine\ORM\EntityManagerInterface;
+use Money\Currency;
 use Money\Money;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -41,6 +42,20 @@ final class PaymentManager
 
             return $payment;
         });
+    }
+
+    public function balance(Operand $operand): Money
+    {
+        $em = $this->registry->getEntityManager();
+
+        $amount = $em->createQueryBuilder()
+            ->select('SUM(payment.amount)')
+            ->from(Payment::class, 'payment')
+            ->where('payment.recipient = :recipient')
+            ->setParameter('recipient', $operand)
+            ->getQuery()->getSingleScalarResult();
+
+        return new Money($amount, new Currency('RUB'));
     }
 
     private function calcSubtotal(EntityManagerInterface $em, Operand $recipient, Money $money): Money
