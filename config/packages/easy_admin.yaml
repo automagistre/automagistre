@@ -27,10 +27,10 @@ easy_admin:
             - { entity: 'Car', label: 'Автомобили', icon: 'car' }
             - { entity: 'Employee', label: 'Сотрудники', icon: 'users' }
             - { label: 'Склад' }
-            - { entity: 'Part', label: 'Дефицит', icon: 'fire', params: { action: 'deficit' } }
+#            - { entity: 'Part', label: 'Дефицит', icon: 'fire', params: { action: 'deficit' } }
             - { entity: 'Part', label: 'Наличие', icon: 'cubes', params: { action: 'stock' } }
             - { entity: 'Motion', label: 'Движения', icon: 'recycle' }
-            - { entity: 'Supply', label: 'Поставка', icon: 'truck' }
+#            - { entity: 'Supply', label: 'Поставка', icon: 'truck' }
             - { entity: 'Income', label: 'Приходы', icon: 'book' }
             - { label: 'Справочники' }
             - { entity: 'Manufacturer', label: 'Производители', icon: 'industry' }
