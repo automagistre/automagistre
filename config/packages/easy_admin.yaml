@@ -466,7 +466,7 @@ easy_admin:
                 max_results: 100
                 fields:
                     - { property: 'id' }
-                    - { property: 'part', label: 'Наименование' }
+                    - { property: 'part', label: 'Наименование', template: 'easy_admin/motion/field_part.html.twig' }
                     - { property: 'quantity', label: 'Количество', template: 'easy_admin/field_quantity.html.twig' }
                     - { property: 'description', label: 'Комментарий' }
                     - { property: 'order', label: 'Заказ' }

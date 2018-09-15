@@ -1,0 +1,7 @@
+{# @var value \App\Entity\Part #}
+
+{%- if value is not empty -%}
+    {{- value }} ({%- include 'easy_admin/field_part_number.html.twig' with {'value': value.number} only -%})
+{%- else -%}
+    {% include '@EasyAdmin/default/label_null.html.twig' %}
+{%- endif -%}
