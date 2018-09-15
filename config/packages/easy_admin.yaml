@@ -463,6 +463,7 @@ easy_admin:
               list: 'easy_admin/motion/list.html.twig'
             list:
                 title: 'Движения по складу'
+                max_results: 100
                 fields:
                     - { property: 'id' }
                     - { property: 'part', label: 'Наименование' }
