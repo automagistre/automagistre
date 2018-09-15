@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -21,6 +22,7 @@ use Doctrine\ORM\Mapping as ORM;
 abstract class Motion
 {
     use Identity;
+    use CreatedAt;
 
     /**
      * @var int

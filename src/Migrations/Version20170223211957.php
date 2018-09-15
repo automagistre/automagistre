@@ -198,6 +198,13 @@ class Version20170223211957 extends AbstractMigration
             SET payment.created_at = item.createddatetime
         ');
 
+        $this->addSql('ALTER TABLE motion ADD created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\'');
+        $this->addSql('
+            UPDATE motion
+                JOIN item ON item.id = motion.item_id
+            SET motion.created_at = item.createddatetime
+        ');
+
         $this->addSql('DROP TABLE _group');
         $this->addSql('DROP TABLE _group__user');
         $this->addSql('DROP TABLE _order_read');

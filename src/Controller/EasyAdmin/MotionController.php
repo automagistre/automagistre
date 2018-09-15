@@ -19,8 +19,7 @@ final class MotionController extends AbstractController
         $sortDirection,
         $sortField = null,
         $dqlFilter = null
-    ): QueryBuilder
-    {
+    ): QueryBuilder {
         $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
 
         $request = $this->request;

@@ -470,6 +470,7 @@ easy_admin:
                     - { property: 'quantity', label: 'Количество', template: 'easy_admin/field_quantity.html.twig' }
                     - { property: 'description', label: 'Комментарий' }
                     - { property: 'order', label: 'Заказ' }
+                    - { property: 'createdAt', label: 'Создано' }
 
         Supply:
             class: App\Entity\Supply
