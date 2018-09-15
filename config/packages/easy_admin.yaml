@@ -457,7 +457,10 @@ easy_admin:
 
         Motion:
             class: App\Entity\Motion
+            controller: App\Controller\EasyAdmin\MotionController
             disabled_actions: ['show', 'edit', 'new', 'search', 'delete']
+            templates:
+              list: 'easy_admin/motion/list.html.twig'
             list:
                 title: 'Движения по складу'
                 fields:
