@@ -1,10 +1,39 @@
 {% extends '@EasyAdmin/default/new.html.twig' %}
 
 {% block body_javascript %}
+    {{ parent() }}
+
     <script src="{{ asset('assets/js/typeahead.bundle.min.js') }}"></script>
 
     {% include 'easy_admin/_includes/typehead_service.html.twig' with {
         'serviceInputId': form.service.vars.id,
         'priceInputId': form.price.vars.id
     } %}
+{% endblock %}
+
+{% block head_stylesheets %}
+    {{ parent() }}
+
+    <style>
+        .tt-menu {
+            width: 100%;
+            background-color: white;
+            border: 1px solid #D09482;
+            border-top-width: 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .tt-suggestion {
+            padding: 0 12px;
+            font-size: 14px;
+        }
+
+        .tt-selectable {
+            cursor: pointer;
+        }
+
+        .tt-selectable:hover {
+            background-color: #F9744E;
+        }
+    </style>
 {% endblock %}
