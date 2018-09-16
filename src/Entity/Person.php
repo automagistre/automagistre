@@ -7,7 +7,6 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -29,15 +28,6 @@ class Person extends Operand
      * @ORM\Column(nullable=true)
      */
     private $lastname;
-
-    /**
-     * @var string
-     *
-     * @Assert\Email
-     *
-     * @ORM\Column(nullable=true)
-     */
-    private $email;
 
     /**
      * @var PhoneNumber
@@ -110,16 +100,6 @@ class Person extends Operand
     public function setOfficePhone(?PhoneNumber $officePhone): void
     {
         $this->officePhone = $officePhone;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(?string $email): void
-    {
-        $this->email = $email;
     }
 
     public function getFullName(): string

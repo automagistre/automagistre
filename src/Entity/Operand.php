@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -17,6 +18,15 @@ use libphonenumber\PhoneNumber;
 abstract class Operand
 {
     use Identity;
+
+    /**
+     * @var string
+     *
+     * @Assert\Email
+     *
+     * @ORM\Column(nullable=true)
+     */
+    private $email;
 
     /**
      * @var bool Подрядчик
@@ -37,6 +47,16 @@ abstract class Operand
     abstract public function getFullName(): string;
 
     abstract public function getTelephone(): ?PhoneNumber;
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): void
+    {
+        $this->email = $email;
+    }
 
     public function isContractor(): bool
     {

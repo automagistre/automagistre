@@ -23,10 +23,22 @@
 
                     <div class="col-sm-10">
                         <div class="form-control">
-                            {%- if order.customer is not empty %}
-                                <a href="{{ easyadmin_path(order.customer, 'show') }}">
-                                    {{- order.customer -}}
+                            {# @var customer \App\Entity\Operand #}
+                            {% set customer = order.customer %}
+
+                            {%- if customer is not empty %}
+                                <a href="{{ easyadmin_path(customer, 'show') }}">
+                                    {{- customer.fullName -}}
                                 </a>
+
+                                {% if customer.email is not empty %}
+                                    (<a href="mailto:{{ customer.email }}">{{ customer.email }}</a>)
+                                {% endif %}
+
+                                {% if customer.telephone is not empty %}
+                                    {% set tel = customer.telephone|phone_number_format %}
+                                    (<a href="tel:{{ tel }}">{{ tel }}</a>)
+                                {% endif %}
                             {% endif -%}
                         </div>
                     </div>
@@ -39,10 +51,15 @@
 
                     <div class="col-sm-10">
                         <div class="form-control">
-                            {%- if order.car is not empty -%}
-                                <a href="{{ easyadmin_path(order.car, 'show') }}">
-                                    {{- order.car -}}
+                            {% set car = order.car %}
+                            {%- if car is not empty -%}
+                                <a href="{{ easyadmin_path(car, 'show') }}">
+                                    {{- car.carModel -}}
                                 </a>
+
+                                <span class="badge" title="Госномер">{{ car.gosnomer }}</span>
+
+                                <span class="badge" title="VIN">{{ car.vin }}</span>
                             {%- endif -%}
                         </div>
                     </div>
