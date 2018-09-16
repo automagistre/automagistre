@@ -597,7 +597,7 @@ easy_admin:
                     - { property: 'yearFrom', label: 'Начало производства' }
                     - { property: 'yearTill', label: 'Конец производства' }
             show:
-                title: 'Кузов №%%entity_id'
+                title: 'Кузов №%%entity_id%%'
                 fields:
                     - { property: 'manufacturer', label: 'Производитель' }
                     - { property: 'name', label: 'Название' }
