@@ -524,11 +524,11 @@ class Version20170223211957 extends AbstractMigration
             SELECT p.`_order_id`, p.part_id, p.qty, COALESCE(p.cost, 0), order_service.id FROM partitem p
             LEFT JOIN jobitem ON jobitem.id = p.jobitem_id
             LEFT JOIN service ON service.name = jobitem.name
-            LEFT JOIN order_service ON order_service.order_id = p.`_order_id` AND order_service.service_id = service.id 
+            LEFT JOIN order_service ON order_service.order_id = p.`_order_id` AND order_service.service_id = service.id
+            WHERE jobitem.jobadvice_id IS NULL 
         ');
 
         $this->addSql('DROP TABLE jobitem');
-        $this->addSql('DROP TABLE partitem');
 
         $this->addSql('CREATE INDEX IDX_83EF70EA23B42D ON car_model (manufacturer_id)');
         $this->addSql('CREATE INDEX IDX_E1F9E22AF64382E3 ON car_generation (car_model_id)');
