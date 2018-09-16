@@ -25,7 +25,7 @@ final class EngineCapacityType extends AbstractType
                     return \number_format($number, 1);
                 }, \range(0.6, 6.0, 0.1));
 
-                return dump(\array_combine($choices, $choices));
+                return \array_combine($choices, $choices);
             }),
         ]);
     }
