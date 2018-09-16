@@ -62,6 +62,7 @@ easy_admin:
                 edit: 'easy_admin/order/edit.html.twig'
             label: 'Заказ'
             list:
+                max_results: 50
                 title: 'Заказы'
                 fields:
                     - { property: 'id', label: 'Номер', template: 'easy_admin/order/field_id.html.twig' }
@@ -90,6 +91,7 @@ easy_admin:
         OrderActive:
             <<: *order
             list:
+                max_results: 50
                 title: 'Активные заказы'
                 dql_filter: 'entity.status != 10'
                 fields:
