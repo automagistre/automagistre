@@ -347,6 +347,7 @@ easy_admin:
                 fields:
                     - { property: 'id' }
                     - { property: 'person', label: 'Ф.И.О' }
+                    - { property: null, label: 'Баланс', template: 'easy_admin/employee/field_balance.html.twig' }
                     - { property: 'ratio', label: '%' }
                     - { property: 'hiredAt', label: 'Трудоустроен' }
                     - { property: 'firedAt', label: 'Уволен' }
