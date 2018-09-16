@@ -34,7 +34,7 @@ easy_admin:
             - { entity: 'Income', label: 'Приходы', icon: 'book' }
             - { label: 'Справочники' }
             - { entity: 'Manufacturer', label: 'Производители', icon: 'industry' }
-            - { entity: 'Model', label: 'Кузова', icon: 'car' }
+            - { entity: 'CarModel', label: 'Кузова', icon: 'car' }
             - { entity: 'Part', label: 'Запчасти', icon: 'cogs' }
 
     formats:
@@ -383,7 +383,7 @@ easy_admin:
                 fields:
                     - { property: 'owner', label: 'Владелец' }
                     - { property: 'vin', label: 'VIN' }
-                    - { property: 'carModificationDisplayName', label: 'Комплектация' }
+                    - { property: 'carModel', label: 'Комплектация' }
                     - { property: 'year', label: 'Год', type: 'string' }
                     - { property: 'engineCapacity', label: 'Объём двигателя' }
                     - { property: 'engineType.name', label: 'Тип двигателя' }
@@ -480,7 +480,7 @@ easy_admin:
                     - { property: 'part', label: 'Наименование', template: 'easy_admin/motion/field_part.html.twig' }
                     - { property: 'quantity', label: 'Количество', template: 'easy_admin/field_quantity.html.twig' }
                     - { property: 'description', label: 'Комментарий' }
-                    - { property: 'order', label: 'Заказ' }
+                    - { property: 'order', label: 'Заказ', template: 'easy_admin/motion/field_order.html.twig' }
                     - { property: 'createdAt', label: 'Создано' }
 
         Supply:
@@ -578,15 +578,22 @@ easy_admin:
             edit:
                 title: 'Редактировать Производителя'
 
-        Model:
+        CarModel:
             class: App\Entity\CarModel
             controller: App\Controller\EasyAdmin\CarModelController
-            disabled_actions: ['show', 'delete']
             label: 'Кузов'
             list:
                 title: 'Кузова'
                 fields:
                     - { property: 'id' }
+                    - { property: 'manufacturer', label: 'Производитель' }
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'caseName', label: 'Кузов' }
+                    - { property: 'yearFrom', label: 'Начало производства' }
+                    - { property: 'yearTill', label: 'Конец производства' }
+            show:
+                title: 'Кузов №%%entity_id'
+                fields:
                     - { property: 'manufacturer', label: 'Производитель' }
                     - { property: 'name', label: 'Название' }
                     - { property: 'caseName', label: 'Кузов' }
