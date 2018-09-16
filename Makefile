@@ -313,8 +313,8 @@ else
 	$(call success,"Snapshot \"$(snapshot_filename)\" deleted.")
 endif
 
-restore: drop do-restore migration
-do-restore:
+snapshot-restore: drop do-snapshot-restore migration
+do-snapshot-restore:
 	@docker-compose exec mysql bash -c "gunzip < $(snapshot_file) | mysql db"
 	$(call success,"Snapshot \"$(snapshot_filename)\" restored.")
 ###< MYSQL ###
