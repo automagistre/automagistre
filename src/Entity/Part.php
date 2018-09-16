@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
 use Doctrine\ORM\Mapping as ORM;
+use Money\Money;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -141,5 +142,10 @@ class Part
     public function getQuantity(): ?float
     {
         return $this->quantity;
+    }
+
+    public function setPrice(Money $price): void
+    {
+        $this->price = $price;
     }
 }

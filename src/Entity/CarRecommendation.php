@@ -79,7 +79,7 @@ class CarRecommendation implements PriceInterface, TotalPriceInterface
 
         $this->car = $car;
         $this->service = $service;
-        $this->changePrice($price);
+        $this->price = $price;
         $this->worker = $worker;
     }
 
@@ -116,7 +116,7 @@ class CarRecommendation implements PriceInterface, TotalPriceInterface
 
     public function setPrice(Money $price): void
     {
-        $this->changePrice($price);
+        $this->price = $price;
     }
 
     /**

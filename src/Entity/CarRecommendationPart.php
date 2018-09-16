@@ -61,7 +61,7 @@ class CarRecommendationPart implements TotalPriceInterface
         $this->recommendation = $recommendation;
         $this->part = $part;
         $this->quantity = $quantity;
-        $this->changePrice($price);
+        $this->price = $price;
         $this->selector = $selector;
     }
 
@@ -87,7 +87,7 @@ class CarRecommendationPart implements TotalPriceInterface
 
     public function setPrice(Money $price): void
     {
-        $this->changePrice($price);
+        $this->price = $price;
     }
 
     public function getSelector(): ?User

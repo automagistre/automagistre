@@ -14,32 +14,18 @@ use Money\Money;
 trait Price
 {
     /**
-     * @var int
+     * @var Money
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Embedded(class="Money\Money")
      */
-    private $price = 0;
-
-    /**
-     * @var string
-     *
-     * ORM\Column()
-     */
-    private $currency = 'RUB';
+    private $price;
 
     public function getPrice(): Money
     {
-        return new Money($this->price, new Currency($this->currency));
-    }
+        if (null === $this->price || !\is_numeric($this->price->getAmount())) {
+            $this->price = new Money(0, new Currency('RUB'));
+        }
 
-    public function setPrice(Money $money): void
-    {
-        $this->changePrice($money);
-    }
-
-    protected function changePrice(Money $money): void
-    {
-        $this->price = (int) $money->getAmount();
-        $this->currency = $money->getCurrency()->getCode();
+        return $this->price;
     }
 }
