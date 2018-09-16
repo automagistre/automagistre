@@ -127,13 +127,6 @@ class Version20170223211957 extends AbstractMigration
             WHERE partitem.part_id IS NOT NULL AND part.id IS NULL
         ');
 
-        /* Delete motion which linked to deleted part_item */
-        $this->addSql('
-            DELETE motion FROM motion
-            LEFT JOIN partitem ON partitem.id = motion.part_id
-            WHERE motion.part_id IS NOT NULL AND partitem.id IS NULL
-        ');
-
         /* Insert all carmake to manufacturer */
         $this->addSql('INSERT INTO manufacturer (name)
             SELECT carmake.name

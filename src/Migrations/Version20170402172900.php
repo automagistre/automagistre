@@ -19,7 +19,7 @@ class Version20170402172900 extends AbstractMigration
 
         $this->addSql('ALTER TABLE motion CHANGE qty quantity INT NOT NULL');
         $this->addSql('UPDATE motion SET description = NULL WHERE LENGTH(description) = 0');
-        $this->addSql('DELETE motion FROM motion WHERE reserve IS NOT NULL');
+        $this->addSql('DELETE motion FROM motion WHERE quantity IS NULL OR quantity = 0');
         $this->addSql('ALTER TABLE motion DROP reserve');
         $this->addSql('ALTER TABLE motion ADD order_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE motion ADD CONSTRAINT FK_F5FEA1E88D9F6D38 FOREIGN KEY (order_id) REFERENCES orders (id)');
