@@ -95,10 +95,17 @@
           totalAmount = amount(keepTotal.data('total'));
 
       let refreshSum = function() {
-        if (keepTotal.prop('checked')) {
-          let left = $(this),
-              right = left.attr('id') === cash.attr('id') ? nonCash : cash;
+        let left = $(this),
+            right = left.attr('id') === cash.attr('id') ? nonCash : cash;
 
+        if (!left.val().trim()) {
+          left.val(formatMoney(0));
+        }
+        if (!right.val().trim()) {
+          right.val(formatMoney(0));
+        }
+
+        if (keepTotal.prop('checked')) {
           let oppositeAmount = totalAmount - amount(left.val());
 
           if (0 > oppositeAmount) {
