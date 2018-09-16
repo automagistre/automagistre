@@ -27,6 +27,7 @@ final class OrderStatus extends Enum
     private const WORKING = 8;
     private const READY = 9;
     private const CLOSED = 10;
+    private const SELECTION = 11;
 
     /**
      * @var array
@@ -42,6 +43,7 @@ final class OrderStatus extends Enum
         self::WORKING => 'success',
         self::READY => 'primary',
         self::CLOSED => 'default',
+        self::SELECTION => 'danger',
     ];
 
     /**
@@ -58,6 +60,7 @@ final class OrderStatus extends Enum
         self::WORKING => 'В работе',
         self::READY => 'Ожидает выдачи',
         self::CLOSED => 'Закрыт',
+        self::SELECTION => 'Подбор запчастей',
     ];
 
     public function isEditable(): bool
