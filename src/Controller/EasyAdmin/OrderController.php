@@ -17,6 +17,7 @@ use App\Entity\OrderNote;
 use App\Entity\OrderPayment;
 use App\Entity\Organization;
 use App\Entity\Person;
+use App\Enum\OrderStatus;
 use App\Form\Model\Payment as PaymentModel;
 use App\Form\Type\OrderItemServiceType;
 use App\Form\Type\PaymentType;
@@ -56,6 +57,32 @@ final class OrderController extends AbstractController
     {
         $this->reservationManager = $reservationManager;
         $this->paymentManager = $paymentManager;
+    }
+
+    public function statusAction(): Response
+    {
+        $order = $this->getEntity(Order::class);
+        if (!$order instanceof Order) {
+            throw new LogicException('Order required.');
+        }
+
+        if (!$order->isEditable()) {
+            $this->addFlash('error', 'Невозможно изменить статус у закрытого заказа.');
+
+            return $this->redirectToReferrer();
+        }
+
+        $status = new OrderStatus($this->request->query->getInt('status'));
+        if (!$status->isSelectable()) {
+            $this->addFlash('error', 'Невозможно вручную установить указанный статус');
+
+            return $this->redirectToReferrer();
+        }
+
+        $order->setStatus($status);
+        $this->em->flush();
+
+        return $this->redirectToReferrer();
     }
 
     /**

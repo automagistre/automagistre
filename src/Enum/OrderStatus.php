@@ -7,6 +7,7 @@ namespace App\Enum;
 use Grachevko\Enum\Enum;
 
 /**
+ * @method string getColor()
  * @method static OrderStatus draft()
  * @method static OrderStatus working()
  * @method static OrderStatus closed()
@@ -64,5 +65,18 @@ final class OrderStatus extends Enum
         return !$this->in([
             self::CLOSED,
         ]);
+    }
+
+    /**
+     * @return self[]
+     */
+    public static function selectable(): array
+    {
+        return self::all([self::CLOSED], true);
+    }
+
+    public function isSelectable(): bool
+    {
+        return $this->isEditable();
     }
 }

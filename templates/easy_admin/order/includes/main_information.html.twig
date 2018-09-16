@@ -11,7 +11,32 @@
 
                     <div class="col-sm-10">
                         <div class="form-control">
-                            {{- order.status.name -}}
+                            {# @var status \App\Enum\OrderStatus #}
+                            {% set status = order.status %}
+
+                            {% if order.editable %}
+                                <div class="dropdown">
+                                    <button class="btn btn-{{ status.getColor() }} dropdown-toggle" type="button"
+                                            id="dropdownMenu1"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        {{- status.name }}
+                                        <span class="caret"></span>
+                                    </button>
+
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                        {% for stat in status.selectable if not status.eq(stat) %}
+                                            <li>
+                                                <a href="{{ easyadmin_path(order, 'status', {'referer': true, 'status': stat.id}|merge(order|to_query)) }}"
+                                                   class="label-{{ stat.getColor() }}">
+                                                    {{ stat.name }}
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% else %}
+                                {{ status.name }}
+                            {% endif %}
                         </div>
                     </div>
                 </div>
