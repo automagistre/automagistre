@@ -1,5 +1,14 @@
 {% extends '@EasyAdmin/default/list.html.twig' %}
 
+{% block content_title %}
+    {{ parent() }}
+
+    {# @var part \App\Entity\Part #}
+    {% if part is not empty %}
+        запчасти №{{ part.id }}
+    {% endif %}
+{% endblock %}
+
 {% block global_actions %}
     {% set filter = app.request.query.get('filter') %}
     {% set isIncome = 'income' == filter %}

@@ -6,6 +6,7 @@ namespace App\Controller\EasyAdmin;
 
 use App\Entity\Part;
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -40,5 +41,17 @@ final class MotionController extends AbstractController
         }
 
         return $qb;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function renderTemplate($actionName, $templatePath, array $parameters = []): Response
+    {
+        if ('list' === $actionName) {
+            $parameters['part'] = $this->getEntity(Part::class);
+        }
+
+        return parent::renderTemplate($actionName, $templatePath, $parameters);
     }
 }
