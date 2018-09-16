@@ -32,14 +32,14 @@ final class OrderStatus extends Enum
      */
     protected static $color = [
         self::DRAFT => 'default',
-        self::SCHEDULING => 'info',
-        self::ORDERING => 'info',
-        self::MATCHING => 'primary',
+        self::SCHEDULING => 'primary',
+        self::ORDERING => 'danger',
+        self::MATCHING => 'warning',
         self::TRACKING => 'default',
-        self::DELIVERY => 'primary',
+        self::DELIVERY => 'info',
         self::NOTIFICATION => 'warning',
         self::WORKING => 'success',
-        self::READY => 'warning',
+        self::READY => 'primary',
         self::CLOSED => 'default',
     ];
 
