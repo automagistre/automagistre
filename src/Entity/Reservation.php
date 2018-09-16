@@ -15,14 +15,6 @@ class Reservation
     use Identity;
 
     /**
-     * @var Part
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Part")
-     * @ORM\JoinColumn
-     */
-    private $part;
-
-    /**
      * @var int
      *
      * @ORM\Column(type="integer")
@@ -30,23 +22,17 @@ class Reservation
     private $quantity;
 
     /**
-     * @var Order
+     * @var OrderItemPart
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Order")
+     * @ORM\ManyToOne(targetEntity="App\Entity\OrderItemPart")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $order;
+    private $orderItemPart;
 
-    public function __construct(Part $part, int $quantity, Order $order)
+    public function __construct(OrderItemPart $orderItemPart, int $quantity)
     {
-        $this->part = $part;
+        $this->orderItemPart = $orderItemPart;
         $this->quantity = $quantity;
-        $this->order = $order;
-    }
-
-    public function getPart(): Part
-    {
-        return $this->part;
     }
 
     public function getQuantity(): int
@@ -54,8 +40,8 @@ class Reservation
         return $this->quantity;
     }
 
-    public function getOrder(): ?Order
+    public function getOrderItemPart(): OrderItemPart
     {
-        return $this->order;
+        return $this->orderItemPart;
     }
 }

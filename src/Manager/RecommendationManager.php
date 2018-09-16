@@ -50,10 +50,13 @@ final class RecommendationManager
 
     public function realize(CarRecommendation $recommendation, Order $order): void
     {
+        $em = $this->em;
+
         $orderService = new OrderItemService($order, $recommendation->getService(), $recommendation->getPrice());
 
+        $orderItemParts = [];
         foreach ($recommendation->getParts() as $recommendationPart) {
-            $orderPart = new OrderItemPart(
+            $orderItemPart = $orderItemParts[] = new OrderItemPart(
                 $order,
                 $recommendationPart->getPart(),
                 $recommendationPart->getQuantity(),
@@ -61,49 +64,56 @@ final class RecommendationManager
                 $recommendationPart->getSelector()
             );
 
-            $orderPart->setParent($orderService);
-            $this->em->persist($orderPart);
+            $orderItemPart->setParent($orderService);
+            $em->persist($orderItemPart);
         }
 
         $recommendation->realize($order);
 
-        $this->em->persist($orderService);
-        $this->em->flush();
+        $em->persist($orderService);
+        $em->flush();
+
+        foreach ($orderItemParts as $orderItemPart) {
+            try {
+                $this->reservationManager->reserve($orderItemPart, $orderItemPart->getQuantity());
+            } catch (ReservationException $e) {
+            }
+        }
     }
 
-    public function recommend(OrderItemService $orderService): void
+    public function recommend(OrderItemService $orderItemService): void
     {
-        $order = $orderService->getOrder();
+        $order = $orderItemService->getOrder();
 
         if (null === $car = $order->getCar()) {
             throw new DomainException('Can\' recommend service on undefined car');
         }
 
-        $this->em->transactional(function (EntityManagerInterface $em) use ($orderService, $order, $car): void {
+        $this->em->transactional(function (EntityManagerInterface $em) use ($orderItemService, $car): void {
             $recommendation = new CarRecommendation(
                 $car,
-                $orderService->getService(),
-                $orderService->getPrice(),
+                $orderItemService->getService(),
+                $orderItemService->getPrice(),
                 $this->getUser()->getPerson()
             );
 
-            foreach ($this->getParts($orderService) as $orderPart) {
-                $part = $orderPart->getPart();
-                $reserved = $this->reservationManager->reserved($part, $order);
+            foreach ($this->getParts($orderItemService) as $orderItemPart) {
+                $part = $orderItemPart->getPart();
+                $reserved = $this->reservationManager->reserved($orderItemPart);
                 if (0 < $reserved) {
-                    $this->reservationManager->deReserve($part, $reserved, $order);
+                    $this->reservationManager->deReserve($orderItemPart, $reserved);
                 }
 
                 $recommendation->addPart(new CarRecommendationPart(
                     $recommendation,
                     $part,
-                    $orderPart->getQuantity(),
-                    $orderPart->getPrice(),
-                    $orderPart->getSelector()
+                    $orderItemPart->getQuantity(),
+                    $orderItemPart->getPrice(),
+                    $orderItemPart->getSelector()
                 ));
             }
 
-            $em->remove($orderService);
+            $em->remove($orderItemService);
             $em->persist($recommendation);
         });
     }

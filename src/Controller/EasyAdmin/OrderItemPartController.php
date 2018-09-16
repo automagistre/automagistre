@@ -37,7 +37,7 @@ final class OrderItemPartController extends OrderItemController
         }
 
         try {
-            $this->reservationManager->reserve($item->getPart(), $item->getQuantity(), $item->getOrder());
+            $this->reservationManager->reserve($item, $item->getQuantity());
         } catch (ReservationException $e) {
             $this->addFlash('error', $e->getMessage());
         }
@@ -53,7 +53,7 @@ final class OrderItemPartController extends OrderItemController
         }
 
         try {
-            $this->reservationManager->deReserve($item->getPart(), $item->getQuantity(), $item->getOrder());
+            $this->reservationManager->deReserve($item, $item->getQuantity());
         } catch (ReservationException $e) {
             $this->addFlash('error', $e->getMessage());
         }
@@ -91,7 +91,7 @@ final class OrderItemPartController extends OrderItemController
         parent::persistEntity($entity);
 
         try {
-            $this->reservationManager->reserve($entity->getPart(), $entity->getQuantity(), $entity->getOrder());
+            $this->reservationManager->reserve($entity, $entity->getQuantity());
         } catch (ReservationException $e) {
             $this->addFlash('warning', $e->getMessage());
         }
@@ -102,18 +102,15 @@ final class OrderItemPartController extends OrderItemController
      */
     protected function updateEntity($entity): void
     {
-        $part = $entity->getPart();
-        $order = $entity->getOrder();
-
-        $reserved = $this->reservationManager->reserved($part, $order);
+        $reserved = $this->reservationManager->reserved($entity);
         if (0 < $reserved) {
-            $this->reservationManager->deReserve($part, $reserved, $order);
+            $this->reservationManager->deReserve($entity, $reserved);
         }
 
         parent::updateEntity($entity);
 
         try {
-            $this->reservationManager->reserve($part, $entity->getQuantity(), $order);
+            $this->reservationManager->reserve($entity, $entity->getQuantity());
         } catch (ReservationException $e) {
             $this->addFlash('error', $e->getMessage());
         }

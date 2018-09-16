@@ -31,7 +31,7 @@
 
             <span class="label label-primary">{{ reservable / 100 }}</span>
 
-            {% set reserved = part_reserved(item.part, order) %}
+            {% set reserved = part_reserved(item) %}
 
             {% set reserveStyle = 'danger' %}
             {% set link = '#' %}

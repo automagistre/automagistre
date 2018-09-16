@@ -296,8 +296,8 @@ final class OrderController extends AbstractController
                 $part = $item->getPart();
                 $quantity = $item->getQuantity();
 
-                if (0 !== $this->reservationManager->reserved($part, $order)) {
-                    $this->reservationManager->deReserve($part, $quantity, $order);
+                if (0 !== $this->reservationManager->reserved($item)) {
+                    $this->reservationManager->deReserve($item, $quantity);
                 }
 
                 $em->persist(new MotionOrder($part, $quantity, $order));
