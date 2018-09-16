@@ -231,7 +231,7 @@
                                                 <a href="{{ easyadmin_path(part.part, 'edit') }}">
                                                     <i class="fa fa-barcode"></i>
                                                 </a>
-                                                {{ part.part.name }}
+                                                {{ part.part }} ({% include 'easy_admin/field_part_number.html.twig' with {'value': part.part.number} only %})
                                             </td>
                                             <td>{{ part.quantity / 100 }} x {{ part.totalPrice|localize_money }}</td>
                                             <td>
