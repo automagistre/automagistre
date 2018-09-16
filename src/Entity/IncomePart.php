@@ -57,6 +57,11 @@ class IncomePart
         return $incomePart;
     }
 
+    public function setPrice(Money $price): void
+    {
+        $this->price = $price;
+    }
+
     public function getTotalPrice(): Money
     {
         return $this->getPrice()->multiply($this->quantity / 100);
