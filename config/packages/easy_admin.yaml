@@ -545,6 +545,7 @@ easy_admin:
                     - { property: 'incomeParts', label: 'Позиции', template: 'easy_admin/income/field_income_parts.html.twig' }
                     - { property: 'totalPrice', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'accruedAt', label: 'Принято' }
+                    - { property: 'accruedBy', label: 'Принял', template: 'easy_admin/field_user.html.twig' }
 
         IncomePart:
             class: App\Entity\IncomePart
