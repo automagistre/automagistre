@@ -11,8 +11,11 @@ use App\Entity\OrderItem;
 use App\Entity\OrderItemService;
 use App\Form\Model\OrderService;
 use App\Manager\RecommendationManager;
+use Doctrine\ORM\QueryBuilder;
+use LogicException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -98,6 +101,42 @@ final class OrderItemServiceController extends OrderItemController
         }
 
         return parent::isActionAllowed($actionName);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function createListQueryBuilder(
+        $entityClass,
+        $sortDirection,
+        $sortField = null,
+        $dqlFilter = null
+    ): QueryBuilder {
+        $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
+
+        $car = $this->getEntity(Car::class);
+        if (!$car instanceof Car) {
+            throw new LogicException('Car required.');
+        }
+
+        $qb->join('entity.order', 'orders')
+            ->join('orders.car', 'car')
+            ->andWhere('car = :car')
+            ->setParameter('car', $car);
+
+        return $qb;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function renderTemplate($actionName, $templatePath, array $parameters = []): Response
+    {
+        if ('list' === $actionName) {
+            $parameters['car'] = $this->getEntity(Car::class);
+        }
+
+        return parent::renderTemplate($actionName, $templatePath, $parameters);
     }
 
     /**

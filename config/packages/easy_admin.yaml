@@ -121,10 +121,19 @@ easy_admin:
         OrderItemService:
             class: App\Entity\OrderItemService
             controller: App\Controller\EasyAdmin\OrderItemServiceController
-            disabled_actions: ['show', 'list']
+            disabled_actions: ['show']
             templates:
+                list: 'easy_admin/order_item_service/list.html.twig'
                 new: 'easy_admin/order_item_service/new.html.twig'
                 edit: 'easy_admin/order_item_service/edit.html.twig'
+            list:
+                fields:
+                    - { property: 'order', label: 'Заказ' }
+                    - { property: 'service', label: 'Работа' }
+                    - { property: 'price', label: 'Стоимость', template: 'easy_admin/field_money.html.twig' }
+                    - { property: 'order.closedAt', label: 'Дата', type: 'datetime' }
+                    - { property: 'order.mileage', label: 'Пробег' }
+                    - { property: 'worker', label: 'Исполнитель' }
             edit:
                 actions: ['delete']
                 fields:

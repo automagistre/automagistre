@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Entity\Car;
 use App\Entity\Order;
 use LogicException;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +20,11 @@ abstract class OrderItemController extends AbstractController
     protected function isActionAllowed($actionName): bool
     {
         if ('autocomplete' === $actionName) {
+            return parent::isActionAllowed($actionName);
+        }
+
+        $car = $this->getEntity(Car::class);
+        if ($car instanceof Car) {
             return parent::isActionAllowed($actionName);
         }
 
