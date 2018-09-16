@@ -341,7 +341,10 @@ easy_admin:
 
         Employee:
             class: App\Entity\Employee
+            controller: App\Controller\EasyAdmin\EmployeeController
             disabled_actions: ['show', 'delete']
+            templates:
+                list: 'easy_admin/employee/list.html.twig'
             list:
                 title: 'Сотрудники'
                 fields:

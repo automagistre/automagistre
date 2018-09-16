@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity
  *
- * @UniqueEntity(fields={"person"}, message="Данный человек уже является сотрудником")
+ * @UniqueEntity(fields={"person", "firedAt"}, message="Данный человек уже является сотрудником", ignoreNull=false)
  */
 class Employee
 {
@@ -21,7 +21,7 @@ class Employee
     /**
      * @var Person
      *
-     * @ORM\OneToOne(targetEntity="App\Entity\Person")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Person")
      * @ORM\JoinColumn(nullable=false)
      */
     private $person;
@@ -90,6 +90,11 @@ class Employee
     public function getFullName(): string
     {
         return $this->person->getFullName();
+    }
+
+    public function isFired(): bool
+    {
+        return null !== $this->firedAt;
     }
 
     public function fire(): void
