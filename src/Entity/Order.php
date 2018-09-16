@@ -159,6 +159,7 @@ class Order
     public function close(): void
     {
         $this->status = OrderStatus::closed();
+        $this->closedAt = new DateTimeImmutable();
     }
 
     public function getActiveWorker(): ?Operand
