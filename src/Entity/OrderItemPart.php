@@ -9,6 +9,7 @@ use App\Doctrine\ORM\Mapping\Traits\Warranty;
 use App\Money\PriceInterface;
 use App\Money\TotalPriceInterface;
 use Doctrine\ORM\Mapping as ORM;
+use LogicException;
 use Money\Money;
 
 /**
@@ -60,6 +61,15 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
     public function getPart(): Part
     {
         return $this->part;
+    }
+
+    public function setPrice(Money $price): void
+    {
+        if (!$this->getOrder()->isEditable()) {
+            throw new LogicException('Can\'t change price on part on closed order.');
+        }
+
+        $this->price = $price;
     }
 
     public function getQuantity(): int
