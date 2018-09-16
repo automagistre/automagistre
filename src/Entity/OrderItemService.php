@@ -39,7 +39,7 @@ class OrderItemService extends OrderItem implements PriceInterface, WarrantyInte
         parent::__construct($order);
 
         $this->service = $service;
-        $this->changePrice($price);
+        $this->price = $price;
     }
 
     public function __toString(): string
@@ -53,7 +53,7 @@ class OrderItemService extends OrderItem implements PriceInterface, WarrantyInte
             throw new DomainException('Can\'t change price on service on closed order.');
         }
 
-        $this->changePrice($price);
+        $this->price = $price;
     }
 
     public function setService(?string $service): void

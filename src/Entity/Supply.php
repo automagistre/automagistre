@@ -10,7 +10,6 @@ use App\Doctrine\ORM\Mapping\Traits\Price;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;
-use Money\Currency;
 use Money\Money;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -67,7 +66,7 @@ class Supply
     {
         $this->supplier = $supplier;
         $this->part = $part;
-        $this->price = (int) $price->getAmount();
+        $this->price = $price;
         $this->quantity = $quantity;
     }
 
@@ -77,7 +76,7 @@ class Supply
             throw new LogicException('Can\'t update received Supply.');
         }
 
-        $this->setPrice($supply->price);
+        $this->price = $supply->price;
         $this->quantity = $supply->quantity;
     }
 
@@ -89,11 +88,6 @@ class Supply
     public function getPart(): Part
     {
         return $this->part;
-    }
-
-    public function getPrice(): Money
-    {
-        return new Money($this->price, new Currency('RUB'));
     }
 
     public function getQuantity(): int
