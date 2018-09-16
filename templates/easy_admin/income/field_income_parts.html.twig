@@ -7,6 +7,7 @@
     <table class="table table-striped">
         <thead>
         <tr>
+            <th>#</th>
             <th>Наименование</th>
             <th>Цена</th>
             <th>Количество</th>
@@ -19,6 +20,7 @@
         <tbody>
         {% for incomePart in value %}
             <tr>
+                <td>{{ loop.index }}</td>
                 <td>{{ incomePart.part }}</td>
                 <td>{{ incomePart.price|localize_money }}</td>
                 <td>{{ incomePart.quantity / 100 }}</td>
