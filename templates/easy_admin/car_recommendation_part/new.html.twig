@@ -1,0 +1,20 @@
+{% extends '@EasyAdmin/default/new.html.twig' %}
+
+{% block body_javascript %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+      let partInput = $("#{{ form.part.children.autocomplete.vars.id }}"),
+          costInput = $("#{{ form.price.vars.id }}");
+
+      partInput.on('change', function() {
+        if (costInput.val()) {
+          return;
+        }
+
+        let text = $(this).text();
+        let price = text.split('|')[1].trim().replace(/\s/g, '').slice(0, -1).trim().replace(' ', '');
+        costInput.val(price);
+      });
+    </script>
+{% endblock %}

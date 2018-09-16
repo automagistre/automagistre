@@ -202,6 +202,8 @@ easy_admin:
             class: App\Entity\CarRecommendationPart
             controller: App\Controller\EasyAdmin\CarRecommendationPartController
             disabled_actions: ['delete']
+            templates:
+                new: 'easy_admin/car_recommendation_part/new.html.twig'
             form:
                 fields:
                     - { property: 'recommendation', label: 'Рекомендация', type: 'text', type_options: { disabled: true } }
