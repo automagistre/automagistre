@@ -22,7 +22,7 @@ class Version20170401190122 extends AbstractMigration
         $this->addSql('ALTER TABLE car_recommendation_part ADD CONSTRAINT FK_DDC72D654CE34BEC FOREIGN KEY (part_id) REFERENCES part (id)');
 
         $this->addSql('INSERT IGNORE INTO car_recommendation_part (recommendation_id, part_id, quantity, cost)
-                      SELECT partitem.jobadvice_id, partitem.part_id, partitem.qty, partitem.cost FROM partitem
+                      SELECT partitem.jobadvice_id, partitem.part_id, partitem.qty * 100, COALESCE(partitem.cost, 0) * 100 FROM partitem WHERE partitem.jobadvice_id IS NOT NULL
         ');
 
         $this->addSql('DROP TABLE partitem');
