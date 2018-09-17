@@ -1,23 +1,13 @@
 {# @var item \App\Entity\OrderItemPart #}
 
 <td style="{% include 'easy_admin/order/item/padding.html.twig' with {'level': level} %}">
-    <a href="{{ easyadmin_path(item.part, 'show') }}">
-        <i class="fa fa-barcode"></i>
-    </a>
-
-    {{ item.part.name }}
+    {% include 'easy_admin/field_part.html.twig' with {'value': item.part} only %}
 
     {% if item.warranty -%}
         <span class="label label-success">Гарантия</span>
     {%- endif -%}
 </td>
-<td>
-    {{- item.part.number -}}
-
-    <a href="{{ path('admin_part_explorer', {'partnumber': item.part.number}) }}">
-        <i class="fa fa-search"></i>
-    </a>
-</td>
+<td></td>
 <td>
     {{ item.quantity / 100 }} x {{ item.price|localize_money }}
 </td>

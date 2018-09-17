@@ -141,7 +141,7 @@
                         <thead>
                         <tr>
                             <th>Наименование</th>
-                            <th>Исполнитель / Артикул</th>
+                            <th>Исполнитель</th>
                             <th>Цена</th>
                             <th>Итого</th>
                             {% if order.editable %}
@@ -229,10 +229,7 @@
                                             {# @var part \App\Entity\CarRecommendationPart #}
                                             {{ '</tr><tr>' }}
                                             <td style="padding-left: 40px">
-                                                <a href="{{ easyadmin_path(part.part, 'edit') }}">
-                                                    <i class="fa fa-barcode"></i>
-                                                </a>
-                                                {{ part.part }} ({% include 'easy_admin/field_part_number.html.twig' with {'value': part.part.number} only %})
+                                                {% include 'easy_admin/field_part.html.twig' with {'value': part.part} only %}
                                             </td>
                                             <td>{{ part.quantity / 100 }} x {{ part.totalPrice|localize_money }}</td>
                                             <td>
