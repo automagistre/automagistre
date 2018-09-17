@@ -10,13 +10,10 @@ use App\Entity\Order;
 use App\Entity\OrderItem;
 use App\Entity\OrderItemPart;
 use App\Entity\OrderItemService;
-use App\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use DomainException;
 use Generator;
-use LogicException;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -29,22 +26,13 @@ final class RecommendationManager
     private $em;
 
     /**
-     * @var TokenStorageInterface
-     */
-    private $tokenStorage;
-
-    /**
      * @var ReservationManager
      */
     private $reservationManager;
 
-    public function __construct(
-        EntityManager $em,
-        TokenStorageInterface $tokenStorage,
-        ReservationManager $reservationManager
-    ) {
+    public function __construct(EntityManager $em, ReservationManager $reservationManager)
+    {
         $this->em = $em;
-        $this->tokenStorage = $tokenStorage;
         $this->reservationManager = $reservationManager;
     }
 
@@ -52,7 +40,7 @@ final class RecommendationManager
     {
         $em = $this->em;
 
-        $orderService = new OrderItemService(
+        $orderItemService = new OrderItemService(
             $order,
             $recommendation->getService(),
             $recommendation->getPrice(),
@@ -69,13 +57,13 @@ final class RecommendationManager
                 $recommendationPart->getSelector()
             );
 
-            $orderItemPart->setParent($orderService);
+            $orderItemPart->setParent($orderItemService);
             $em->persist($orderItemPart);
         }
 
-        $recommendation->realize($orderService);
+        $recommendation->realize($orderItemService);
 
-        $em->persist($orderService);
+        $em->persist($orderItemService);
         $em->flush();
 
         foreach ($orderItemParts as $orderItemPart) {
@@ -160,19 +148,5 @@ final class RecommendationManager
                 yield $part;
             }
         }
-    }
-
-    private function getUser(): User
-    {
-        if (null === $token = $this->tokenStorage->getToken()) {
-            throw new DomainException('Recommendation manager cannot work with anonymous user');
-        }
-
-        $user = $token->getUser();
-        if (!$user instanceof User) {
-            throw new LogicException(\sprintf('User must be instance of "%s"', User::class));
-        }
-
-        return $user;
     }
 }

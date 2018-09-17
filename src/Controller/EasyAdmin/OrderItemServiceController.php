@@ -42,24 +42,24 @@ final class OrderItemServiceController extends OrderItemController
 
         $query = $this->request->query;
 
-        $orderService = $this->em->getRepository(OrderItemService::class)->findOneBy(['id' => $query->get('id')]);
-        if (null === $orderService) {
+        $orderItemService = $this->em->getRepository(OrderItemService::class)->findOneBy(['id' => $query->get('id')]);
+        if (null === $orderItemService) {
             throw new NotFoundHttpException();
         }
 
-        if (null === $orderService->getWorker()) {
+        if (null === $orderItemService->getWorker()) {
             $this->addFlash(
                 'error',
                 \sprintf(
                     'Перед перенесом работы "%s" в рекоммендации нужно выбрать исполнителя.',
-                    $orderService->getService()
+                    $orderItemService->getService()
                 )
             );
 
             return $this->redirectToReferrer();
         }
 
-        $this->recommendationManager->recommend($orderService);
+        $this->recommendationManager->recommend($orderItemService);
 
         return $this->redirectToReferrer();
     }
