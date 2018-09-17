@@ -259,14 +259,7 @@
                                                     {{ reserved / 100 }}
                                                 </span>
                                             </td>
-                                            <td>
-                                                {%- spaceless -%}
-                                                    {% set selector = part.selector %}
-                                                    {% if selector is not empty %}
-                                                        {{ selector.person.fullName }}
-                                                    {% endif %}
-                                                {%- endspaceless -%}
-                                            </td>
+                                            <td>{% include 'easy_admin/field_user.html.twig' with {'value': part.selector} only %}</td>
                                             <td>{{ part.createdAt|localizeddate('medium', 'none') }}</td>
                                             <td>
                                                 <a href="{{ easyadmin_path(part, 'edit') }}">
