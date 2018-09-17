@@ -241,7 +241,7 @@ class Car
         $criteria->where(Criteria::expr()->neq('mileage', null));
         $criteria->orderBy(['mileage' => 'DESC']);
 
-        $order = $this->orders->matching($criteria)->last();
+        $order = $this->orders->matching($criteria)->first();
 
         if ($order instanceof Order) {
             return $order->getMileage();
