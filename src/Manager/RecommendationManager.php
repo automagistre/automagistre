@@ -52,7 +52,12 @@ final class RecommendationManager
     {
         $em = $this->em;
 
-        $orderService = new OrderItemService($order, $recommendation->getService(), $recommendation->getPrice());
+        $orderService = new OrderItemService(
+            $order,
+            $recommendation->getService(),
+            $recommendation->getPrice(),
+            $order->getActiveWorker()
+        );
 
         $orderItemParts = [];
         foreach ($recommendation->getParts() as $recommendationPart) {
@@ -68,7 +73,7 @@ final class RecommendationManager
             $em->persist($orderItemPart);
         }
 
-        $recommendation->realize($order);
+        $recommendation->realize($orderService);
 
         $em->persist($orderService);
         $em->flush();
@@ -90,11 +95,24 @@ final class RecommendationManager
         }
 
         $this->em->transactional(function (EntityManagerInterface $em) use ($orderItemService, $car): void {
+            $oldRecommendation = $em->createQueryBuilder()
+                ->select('entity')
+                ->from(CarRecommendation::class, 'entity')
+                ->where('entity.realization = :realization')
+                ->orderBy('entity.id', 'DESC')
+                ->getQuery()
+                ->setParameters([
+                    'realization' => $orderItemService,
+                ])
+                ->getOneOrNullResult();
+
             $recommendation = new CarRecommendation(
                 $car,
                 $orderItemService->getService(),
                 $orderItemService->getPrice(),
-                $this->getUser()->getPerson()
+                $oldRecommendation instanceof CarRecommendation
+                    ? $oldRecommendation->getWorker()
+                    : $orderItemService->getWorker()
             );
 
             foreach ($this->getParts($orderItemService) as $orderItemPart) {
@@ -112,6 +130,16 @@ final class RecommendationManager
                     $orderItemPart->getSelector()
                 ));
             }
+
+            $em->createQueryBuilder()
+                ->delete()
+                ->from(CarRecommendation::class, 'entity')
+                ->where('entity.realization = :realization')
+                ->setParameters([
+                    'realization' => $orderItemService,
+                ])
+                ->getQuery()
+                ->execute();
 
             $em->remove($orderItemService);
             $em->persist($recommendation);

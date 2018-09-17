@@ -47,14 +47,21 @@ final class OrderItemServiceController extends OrderItemController
             throw new NotFoundHttpException();
         }
 
-        $order = $orderService->getOrder();
+        if (null === $orderService->getWorker()) {
+            $this->addFlash(
+                'error',
+                \sprintf(
+                    'Перед перенесом работы "%s" в рекоммендации нужно выбрать исполнителя.',
+                    $orderService->getService()
+                )
+            );
+
+            return $this->redirectToReferrer();
+        }
+
         $this->recommendationManager->recommend($orderService);
 
-        return $this->redirectToRoute('easyadmin', [
-            'entity' => 'Order',
-            'action' => 'show',
-            'id' => $order->getId(),
-        ]);
+        return $this->redirectToReferrer();
     }
 
     protected function createNewEntity(): OrderService

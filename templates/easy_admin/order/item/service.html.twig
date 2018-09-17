@@ -29,7 +29,8 @@
             </a>
 
             <form action="{{ easyadmin_path(item, 'recommend', {
-                'order_id': order.id
+                'order_id': order.id,
+                'referer': true
             }) }}" method="post" style="display: inline">
                 <i class="fa fa-asterisk icon-form-submit" style="cursor: pointer"></i>
             </form>

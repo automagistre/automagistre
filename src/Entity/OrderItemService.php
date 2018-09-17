@@ -34,12 +34,13 @@ class OrderItemService extends OrderItem implements PriceInterface, WarrantyInte
      */
     private $worker;
 
-    public function __construct(Order $order, string $service, Money $price)
+    public function __construct(Order $order, string $service, Money $price, Operand $worker = null)
     {
         parent::__construct($order);
 
         $this->service = $service;
         $this->price = $price;
+        $this->worker = $worker;
     }
 
     public function __toString(): string

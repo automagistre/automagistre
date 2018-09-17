@@ -52,9 +52,9 @@ class CarRecommendation implements PriceInterface, TotalPriceInterface
     private $parts;
 
     /**
-     * @var Order|null
+     * @var OrderItemService|null
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Order")
+     * @ORM\ManyToOne(targetEntity="App\Entity\OrderItemService")
      */
     private $realization;
 
@@ -132,7 +132,7 @@ class CarRecommendation implements PriceInterface, TotalPriceInterface
         $this->parts[] = $part;
     }
 
-    public function getRealization(): ?Order
+    public function getRealization(): ?OrderItemService
     {
         return $this->realization;
     }
@@ -142,15 +142,19 @@ class CarRecommendation implements PriceInterface, TotalPriceInterface
         return $this->worker;
     }
 
+    public function setWorker(Operand $worker): void
+    {
+        $this->worker = $worker;
+    }
+
     public function getExpiredAt(): ?DateTime
     {
         return $this->expiredAt;
     }
 
-    public function realize(Order $order): void
+    public function realize(OrderItemService $orderItemService): void
     {
-        $this->realization = $order;
+        $this->realization = $orderItemService;
         $this->expiredAt = new DateTime();
-        $this->parts->clear();
     }
 }
