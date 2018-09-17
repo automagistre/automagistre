@@ -387,7 +387,12 @@ final class OrderController extends AbstractController
                     continue;
                 }
 
-                $salary = $item->getPrice()->multiply($employee->getRatio() / 100);
+                $price = $item->getPrice();
+                if (!$price->isPositive()) {
+                    continue;
+                }
+
+                $salary = $price->multiply($employee->getRatio() / 100);
                 $description = \sprintf('# ЗП %s по заказу #%s', $worker->getFullName(), $order->getId());
 
                 $this->paymentManager->createPayment($worker, $description, $salary->absolute());
