@@ -160,7 +160,7 @@
                             {{- order.totalPartPrice|localize_money }}
                             + {{ order.totalServicePrice|localize_money }}
                             - {{ order.totalPayments|localize_money }}
-                            = {{ order.totalForPayment|localize_money -}}
+                            = <span class="label label-success">{{ order.totalForPayment|localize_money -}}</span>
                         </div>
                         <span class="help-block">Запчасти + Работа - Оплачено = К оплате</span>
                     </div>
