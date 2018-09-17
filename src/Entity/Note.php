@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
+use App\Doctrine\ORM\Mapping\Traits\CreatedBy;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Enum\NoteType;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,6 +18,7 @@ abstract class Note
 {
     use Identity;
     use CreatedAt;
+    use CreatedBy;
 
     /**
      * @var NoteType
@@ -35,15 +37,6 @@ abstract class Note
      * @ORM\Column(type="text")
      */
     private $text;
-
-    /**
-     * @var User
-     *
-     * @Assert\NotBlank
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
-     */
-    private $createdBy;
 
     public function __construct(User $createdBy)
     {
@@ -73,10 +66,5 @@ abstract class Note
     public function getText(): ?string
     {
         return $this->text;
-    }
-
-    public function getCreatedBy(): ?User
-    {
-        return $this->createdBy;
     }
 }

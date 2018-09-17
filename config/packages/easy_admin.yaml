@@ -79,7 +79,6 @@ easy_admin:
                     - { property: 'customer', label: 'Заказчик', type: 'easyadmin_autocomplete' }
                     - { property: 'car', label: 'Автомобиль', type: 'easyadmin_autocomplete' }
                     - { property: 'mileage', label: 'Пробег' }
-
                     - { type: 'group', label: 'Описание', css_class: 'col-sm-6' }
                     - { property: 'description', label: 'Описание', type: 'textarea' }
             new:

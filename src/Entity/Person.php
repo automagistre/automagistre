@@ -43,13 +43,6 @@ class Person extends Operand
      */
     private $officePhone;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $spriteId;
-
     public function __toString(): string
     {
         $string = $this->getFullName();

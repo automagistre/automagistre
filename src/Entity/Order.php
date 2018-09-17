@@ -81,60 +81,11 @@ class Order
     private $mileage;
 
     /**
-     * @var bool
-     *
-     * @ORM\Column(name="checkpay", type="boolean", nullable=true)
-     */
-    private $checkpay;
-
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="topay", type="float", precision=10, scale=0, nullable=true)
-     */
-    private $topay;
-
-    /**
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
-
-    /**
-     * @var DateTime
-     *
-     * @ORM\Column(name="suspenddate", type="datetime", nullable=true)
-     */
-    private $suspenddate;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="suspended", type="boolean", nullable=true)
-     */
-    private $suspended;
-
-    /**
-     * @var DateTime
-     *
-     * @ORM\Column(name="resumedate", type="date", nullable=true)
-     */
-    private $resumedate;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="paycardbool", type="boolean", nullable=true)
-     */
-    private $paycardbool;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="paycard", type="integer", nullable=true)
-     */
-    private $paycard;
 
     /**
      * @var OrderPayment[]|ArrayCollection
@@ -143,11 +94,19 @@ class Order
      */
     private $payments;
 
+    /**
+     * @var ArrayCollection|OrderSuspend[]
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\OrderSuspend", mappedBy="order", cascade={"persist", "remove"})
+     */
+    private $suspends;
+
     public function __construct()
     {
         $this->status = OrderStatus::working();
         $this->items = new ArrayCollection();
         $this->payments = new ArrayCollection();
+        $this->suspends = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -339,6 +298,30 @@ class Order
     public function getPayments(): array
     {
         return $this->payments->toArray();
+    }
+
+    public function isSuspended(): bool
+    {
+        if ($this->suspends->isEmpty()) {
+            return false;
+        }
+
+        return $this->getLastSuspend()->getTill() > new DateTime();
+    }
+
+    public function getLastSuspend(): OrderSuspend
+    {
+        return $this->suspends->last();
+    }
+
+    public function getSuspends(): array
+    {
+        return $this->suspends->getValues();
+    }
+
+    public function suspend(DateTimeImmutable $till, string $reason): void
+    {
+        $this->suspends[] = new OrderSuspend($this, $till, $reason);
     }
 
     private function getTotalPriceByClass(?string $class): Money

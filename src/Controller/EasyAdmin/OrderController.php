@@ -23,6 +23,7 @@ use App\Form\Type\OrderItemServiceType;
 use App\Form\Type\PaymentType;
 use App\Manager\PaymentManager;
 use App\Manager\ReservationManager;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
@@ -30,7 +31,9 @@ use LogicException;
 use Money\Currency;
 use Money\Money;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -57,6 +60,46 @@ final class OrderController extends AbstractController
     {
         $this->reservationManager = $reservationManager;
         $this->paymentManager = $paymentManager;
+    }
+
+    public function suspendAction(): Response
+    {
+        $order = $this->getEntity(Order::class);
+        if (!$order instanceof Order) {
+            throw new LogicException('Order required.');
+        }
+
+        $request = $this->request;
+        $form = $this->createFormBuilder([
+            'till' => $order->isSuspended() ? $order->getLastSuspend()->getTill() : new DateTimeImmutable(),
+        ])
+            ->add('till', DateType::class, [
+                'required' => true,
+                'label' => false,
+                'input' => 'datetime_immutable',
+            ])
+            ->add('reason', TextType::class, [
+                'label' => 'Причина',
+                'required' => true,
+            ])
+            ->getForm()
+            ->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var DateTimeImmutable $till */
+            $till = $form->get('till')->getData();
+            $reason = $form->get('reason')->getData();
+
+            $order->suspend($till, $reason);
+            $this->em->flush();
+
+            return $this->redirectToReferrer();
+        }
+
+        return $this->render('easy_admin/order/suspend.html.twig', [
+            'order' => $order,
+            'form' => $form->createView(),
+        ]);
     }
 
     public function statusAction(): Response

@@ -25,6 +25,11 @@
                                 Редактировать
                             </a>
 
+                            <a href="{{ easyadmin_path(order, 'suspend', {'referer': true}) }}" class="btn btn-danger">
+                                <i class="fa fa-clock-o"></i>
+                                Отложить
+                            </a>
+
                             {% if order.readyToClose %}
                                 <a href="{{ easyadmin_path(order, 'close', {'referer': true}) }}" class="btn btn-danger">
                                     <i class="fa fa-close"></i>
@@ -110,6 +115,45 @@
                         } only %}
                     </div>
                 </div>
+
+                {% if order.suspends is not empty %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="field-group">
+                                <div class="box box-default">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">
+                                            Откладывался
+                                        </h3>
+                                    </div>
+
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th>До</th>
+                                                <th>Причина</th>
+                                                <th>Создал</th>
+                                                <th>Дата</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for suspend in order.suspends %}
+                                                <tr>
+                                                    <td>{{ suspend.till|localizeddate('medium', 'none') }}</td>
+                                                    <td>{{ suspend.reason }}</td>
+                                                    <td>{{ include('easy_admin/field_user.html.twig', {'value': suspend.createdBy}) }}</td>
+                                                    <td>{{ suspend.createdAt|localizeddate }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
             </div>
         </div>
 
