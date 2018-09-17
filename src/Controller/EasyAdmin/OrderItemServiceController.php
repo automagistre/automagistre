@@ -88,7 +88,7 @@ final class OrderItemServiceController extends OrderItemController
      */
     protected function persistEntity($model): void
     {
-        $entity = new OrderItemService($model->order, $model->service, $model->price);
+        $entity = new OrderItemService($model->order, $model->service, $model->price, $this->getUser());
         $entity->setParent($model->parent);
         $entity->setWorker($model->worker);
         $entity->setWarranty($model->warranty);

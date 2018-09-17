@@ -52,11 +52,12 @@ abstract class OrderItem
      */
     private $parent;
 
-    public function __construct(Order $order)
+    public function __construct(Order $order, User $user)
     {
         $this->children = new ArrayCollection();
 
         $this->order = $order;
+        $this->createdBy = $user;
     }
 
     abstract public function __toString(): string;

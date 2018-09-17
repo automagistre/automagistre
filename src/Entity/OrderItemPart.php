@@ -35,22 +35,13 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
      */
     private $quantity;
 
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
-     * @ORM\JoinColumn
-     */
-    private $selector;
-
     public function __construct(Order $order, Part $part, int $quantity, Money $price, ?User $selector)
     {
-        parent::__construct($order);
+        parent::__construct($order, $selector);
 
         $this->part = $part;
         $this->quantity = $quantity;
         $this->price = $price;
-        $this->selector = $selector;
     }
 
     public function __toString(): string
@@ -85,10 +76,5 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
     public function getTotalPrice(): Money
     {
         return $this->getPrice()->multiply($this->getQuantity() / 100);
-    }
-
-    public function getSelector(): ?User
-    {
-        return $this->selector;
     }
 }

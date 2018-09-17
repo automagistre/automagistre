@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
+use App\Doctrine\ORM\Mapping\Traits\CreatedBy;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
 use App\Money\PriceInterface;
@@ -23,6 +24,7 @@ class CarRecommendation implements PriceInterface, TotalPriceInterface
     use Identity;
     use Price;
     use CreatedAt;
+    use CreatedBy;
 
     /**
      * @var Car

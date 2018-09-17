@@ -10,6 +10,7 @@ use App\Entity\Order;
 use App\Entity\OrderItem;
 use App\Entity\OrderItemPart;
 use App\Entity\OrderItemService;
+use App\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use DomainException;
@@ -36,7 +37,7 @@ final class RecommendationManager
         $this->reservationManager = $reservationManager;
     }
 
-    public function realize(CarRecommendation $recommendation, Order $order): void
+    public function realize(CarRecommendation $recommendation, Order $order, User $user): void
     {
         $em = $this->em;
 
@@ -44,6 +45,7 @@ final class RecommendationManager
             $order,
             $recommendation->getService(),
             $recommendation->getPrice(),
+            $user,
             $order->getActiveWorker()
         );
 
@@ -54,7 +56,7 @@ final class RecommendationManager
                 $recommendationPart->getPart(),
                 $recommendationPart->getQuantity(),
                 $recommendationPart->getPrice(),
-                $recommendationPart->getSelector()
+                $recommendationPart->getCreatedBy()
             );
 
             $orderItemPart->setParent($orderItemService);
@@ -115,7 +117,7 @@ final class RecommendationManager
                     $part,
                     $orderItemPart->getQuantity(),
                     $orderItemPart->getPrice(),
-                    $orderItemPart->getSelector()
+                    $orderItemPart->getCreatedBy()
                 ));
             }
 

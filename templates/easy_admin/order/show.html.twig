@@ -186,6 +186,7 @@
                                     <th>Диагностировал</th>
                                     <th>Дата</th>
                                     <th>Действия</th>
+                                    <th>Создал</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -224,6 +225,7 @@
                                                 </form>
                                             {% endif %}
                                         </td>
+                                        <td>{% include 'easy_admin/field_user.html.twig' with {'value': recommendation.createdBy} only %}</td>
 
                                         {% for part in recommendation.parts %}
                                             {# @var part \App\Entity\CarRecommendationPart #}
@@ -256,13 +258,14 @@
                                                     {{ reserved / 100 }}
                                                 </span>
                                             </td>
-                                            <td>{% include 'easy_admin/field_user.html.twig' with {'value': part.selector} only %}</td>
+                                            <td></td>
                                             <td>{{ part.createdAt|localizeddate('medium', 'none') }}</td>
                                             <td>
                                                 <a href="{{ easyadmin_path(part, 'edit') }}">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
                                             </td>
+                                            <td>{% include 'easy_admin/field_user.html.twig' with {'value': part.createdBy} only %}</td>
                                         {% endfor %}
                                     </tr>
                                 {% endfor %}
@@ -274,7 +277,6 @@
             {% endif %}
         {% endif %}
     </section>
-
 {% endblock %}
 
 {% block body_javascript %}

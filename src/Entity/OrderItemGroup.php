@@ -20,9 +20,9 @@ class OrderItemGroup extends OrderItem
      */
     private $name;
 
-    public function __construct(Order $order, string $name)
+    public function __construct(Order $order, string $name, User $user)
     {
-        parent::__construct($order);
+        parent::__construct($order, $user);
 
         $this->name = $name;
     }

@@ -38,7 +38,7 @@ final class OrderItemGroupController extends OrderItemController
      */
     protected function persistEntity($model): void
     {
-        $entity = new OrderItemGroup($model->order, $model->name);
+        $entity = new OrderItemGroup($model->order, $model->name, $this->getUser());
         $entity->setParent($model->parent);
 
         parent::persistEntity($entity);
