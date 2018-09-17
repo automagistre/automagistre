@@ -637,4 +637,5 @@ easy_admin:
                 fields:
                     - { property: 'recipient', label: 'Получатель', type: 'text', type_options: { disabled: true } }
                     - { property: 'amount', label: 'Сумма', type: App\Form\Type\MoneyType }
-                    - { property: 'description', label: 'Описание', type: 'text' }
+                    - { property: 'description', label: 'Описание', type: 'text', type_options: { required: true } }
+                    - { property: 'useCassa', label: 'Учитывать кассу', type: 'checkbox' }
