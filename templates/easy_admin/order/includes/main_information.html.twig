@@ -125,7 +125,7 @@
                         <div class="form-control">
                             {{- order.createdAt|localizeddate -}}
 
-                            {% if order.createdBy is defined %}
+                            {% if order.createdBy is not empty %}
                                 ({% include 'easy_admin/field_user.html.twig' with {'value': order.createdBy} %})
                             {% endif %}
                         </div>
@@ -142,8 +142,8 @@
                             <div class="form-control">
                                 {{- order.closedAt|localizeddate }}
 
-                                {% if order.closedBy is defined %}
-                                    (({% include 'easy_admin/field_user.html.twig' with {'value': order.closedBy} %}))
+                                {% if order.closedBy is not empty %}
+                                    ({% include 'easy_admin/field_user.html.twig' with {'value': order.closedBy} %})
                                 {% endif %}
                             </div>
                         </div>
