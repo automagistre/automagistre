@@ -90,7 +90,7 @@ final class OrderController extends AbstractController
      */
     public function isActionAllowed($actionName): bool
     {
-        if ('show' !== $actionName && null !== $id = $this->request->get('id')) {
+        if (!\in_array($actionName, ['show', 'finish'], true) && null !== $id = $this->request->get('id')) {
             $entity = $this->em->getRepository(Order::class)->find($id);
 
             return $entity->isEditable();
