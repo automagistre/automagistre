@@ -13,7 +13,7 @@
     <section id="main" class="content">
         <div class="row">
             <div class="col-md-6">
-                {% include 'easy_admin/order/includes/main_information.html.twig' with {'order': order} only %}
+                {% include 'easy_admin/order/includes/main_information.html.twig' with {'order': order, 'status_selector': true} only %}
             </div>
 
             <div class="col-md-6">

@@ -14,7 +14,7 @@
                             {# @var status \App\Enum\OrderStatus #}
                             {% set status = order.status %}
 
-                            {% if order.editable %}
+                            {% if order.editable and status_selector|default(false) %}
                                 <div class="dropdown">
                                     <button class="btn btn-{{ status.getColor() }} dropdown-toggle" type="button"
                                             id="dropdownMenu1"
