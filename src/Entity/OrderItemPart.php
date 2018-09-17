@@ -35,7 +35,7 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
      */
     private $quantity;
 
-    public function __construct(Order $order, Part $part, int $quantity, Money $price, ?User $selector)
+    public function __construct(Order $order, Part $part, int $quantity, Money $price, User $selector)
     {
         parent::__construct($order, $selector);
 
