@@ -194,6 +194,7 @@ easy_admin:
             disabled_actions: ['delete']
             templates:
                 new: 'easy_admin/car_recommendation/new.html.twig'
+                edit: 'easy_admin/car_recommendation/edit.html.twig'
             form:
                 fields:
                     - { property: 'car', label: 'Автомобиль', type: 'text', type_options: { disabled: true } }
@@ -202,8 +203,6 @@ easy_admin:
                     - { property: 'worker', label: 'Диагност', type: App\Form\Type\WorkerType, type_options: { required: true } }
             edit:
                 title: 'Рекомендация №%%entity_id%%'
-                fields:
-                    - { property: 'service', label: 'Работа', type: 'text', type_options: { disabled: true } }
             new:
                 title: 'Новая рекомендация'
                 form_options: { data_class: App\Form\Model\Recommendation }
