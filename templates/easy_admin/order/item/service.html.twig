@@ -1,39 +1,37 @@
 {# @var item \App\Entity\OrderItemService #}
 
-<tr>
-    <td style="{% include 'easy_admin/order/item/padding.html.twig' with {'level': level} %}">
-        <i class="fa fa-wrench"></i>
+<td style="{% include 'easy_admin/order/item/padding.html.twig' with {'level': level} %}">
+    <i class="fa fa-wrench"></i>
 
-        {{ item.service }}
+    {{ item.service }}
 
-        {% if order.editable %}
-            <a href="{{ easyadmin_path('OrderItemPart', 'new', (order|to_query)|merge({'order_item_id': item.id})) }}">
-                <i class="fa fa-plus"></i>
-            </a>
-        {% endif %}
-
-        {%- if item.warranty -%}
-            <span class="label label-success">Гарантия</span>
-        {%- endif -%}
-    </td>
-    <td>{{ item.worker }}</td>
-    <td></td>
-    <td>
-        {{ item.price|localize_money }} / {{ item.totalPartPrice|localize_money }}
-    </td>
     {% if order.editable %}
-        <td>-</td>
-        <td>
-            <a href="{{ easyadmin_path(item, 'edit', order|to_query) }}">
-                <i class="fa fa-pencil"></i>
-            </a>
-
-            <form action="{{ easyadmin_path(item, 'recommend', {
-                'order_id': order.id,
-                'referer': true
-            }) }}" method="post" style="display: inline">
-                <i class="fa fa-asterisk icon-form-submit" style="cursor: pointer"></i>
-            </form>
-        </td>
+        <a href="{{ easyadmin_path('OrderItemPart', 'new', (order|to_query)|merge({'order_item_id': item.id})) }}">
+            <i class="fa fa-plus"></i>
+        </a>
     {% endif %}
-</tr>
+
+    {%- if item.warranty -%}
+        <span class="label label-success">Гарантия</span>
+    {%- endif -%}
+</td>
+<td>{{ item.worker }}</td>
+<td></td>
+<td>
+    {{ item.price|localize_money }} / {{ item.totalPartPrice|localize_money }}
+</td>
+{% if order.editable %}
+    <td>-</td>
+    <td>
+        <a href="{{ easyadmin_path(item, 'edit', order|to_query) }}">
+            <i class="fa fa-pencil"></i>
+        </a>
+
+        <form action="{{ easyadmin_path(item, 'recommend', {
+            'order_id': order.id,
+            'referer': true
+        }) }}" method="post" style="display: inline">
+            <i class="fa fa-asterisk icon-form-submit" style="cursor: pointer"></i>
+        </form>
+    </td>
+{% endif %}

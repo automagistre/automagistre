@@ -1,55 +1,53 @@
 {# @var item \App\Entity\OrderItemPart #}
 
-<tr>
-    <td style="{% include 'easy_admin/order/item/padding.html.twig' with {'level': level} %}">
-        <a href="{{ easyadmin_path(item.part, 'show') }}">
-            <i class="fa fa-barcode"></i>
+<td style="{% include 'easy_admin/order/item/padding.html.twig' with {'level': level} %}">
+    <a href="{{ easyadmin_path(item.part, 'show') }}">
+        <i class="fa fa-barcode"></i>
+    </a>
+
+    {{ item.part.name }}
+
+    {% if item.warranty -%}
+        <span class="label label-success">Гарантия</span>
+    {%- endif -%}
+</td>
+<td>
+    {{- item.part.number -}}
+
+    <a href="{{ path('admin_part_explorer', {'partnumber': item.part.number}) }}">
+        <i class="fa fa-search"></i>
+    </a>
+</td>
+<td>
+    {{ item.quantity / 100 }} x {{ item.price|localize_money }}
+</td>
+<td>
+    {{ item.totalPrice|localize_money }}
+</td>
+{% if order.editable %}
+    <td>
+        {% set reservable = part_reservable(item.part) %}
+
+        <span class="label label-primary">{{ reservable / 100 }}</span>
+
+        {% set reserved = part_reserved(item) %}
+
+        {% set reserveStyle = 'danger' %}
+        {% set link = '#' %}
+        {% if 0 < reserved %}
+            {% set link = easyadmin_path(item, 'deReserve', ([item, order]|to_query)|merge({'referer': true})) %}
+            {% set reserveStyle = 'success' %}
+        {% elseif item.quantity <= reservable %}
+            {% set link = easyadmin_path(item, 'reserve', ([item, order]|to_query)|merge({'referer': true})) %}
+        {% endif %}
+
+        <a href="{{ link }}">
+            <span class="label label-{{ reserveStyle }}">{{ reserved / 100 }}</span>
         </a>
-
-        {{ item.part.name }}
-
-        {% if item.warranty -%}
-            <span class="label label-success">Гарантия</span>
-        {%- endif -%}
     </td>
     <td>
-        {{- item.part.number -}}
-
-        <a href="{{ path('admin_part_explorer', {'partnumber': item.part.number}) }}">
-            <i class="fa fa-search"></i>
+        <a href="{{ easyadmin_path(item, 'edit', order|to_query) }}">
+            <i class="fa fa-pencil"></i>
         </a>
     </td>
-    <td>
-        {{ item.quantity / 100 }} x {{ item.price|localize_money }}
-    </td>
-    <td>
-        {{ item.totalPrice|localize_money }}
-    </td>
-    {% if order.editable %}
-        <td>
-            {% set reservable = part_reservable(item.part) %}
-
-            <span class="label label-primary">{{ reservable / 100 }}</span>
-
-            {% set reserved = part_reserved(item) %}
-
-            {% set reserveStyle = 'danger' %}
-            {% set link = '#' %}
-            {% if 0 < reserved %}
-                {% set link = easyadmin_path(item, 'deReserve', ([item, order]|to_query)|merge({'referer': true})) %}
-                {% set reserveStyle = 'success' %}
-            {% elseif item.quantity <= reservable %}
-                {% set link = easyadmin_path(item, 'reserve', ([item, order]|to_query)|merge({'referer': true})) %}
-            {% endif %}
-
-            <a href="{{ link }}">
-                <span class="label label-{{ reserveStyle }}">{{ reserved / 100 }}</span>
-            </a>
-        </td>
-        <td>
-            <a href="{{ easyadmin_path(item, 'edit', order|to_query) }}">
-                <i class="fa fa-pencil"></i>
-            </a>
-        </td>
-    {% endif %}
-</tr>
+{% endif %}

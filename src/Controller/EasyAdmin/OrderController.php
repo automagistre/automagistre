@@ -308,7 +308,7 @@ final class OrderController extends AbstractController
 
         $em->transactional(function (EntityManagerInterface $em) use ($order): void {
             $em->refresh($order);
-            $order->close();
+            $order->close($this->getUser());
 
             $customer = $order->getCustomer();
             if ($customer instanceof Operand) {

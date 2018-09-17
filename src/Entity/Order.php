@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
+use App\Doctrine\ORM\Mapping\Traits\CreatedBy;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Enum\OrderStatus;
 use App\Money\PriceInterface;
@@ -26,6 +27,7 @@ class Order
 {
     use Identity;
     use CreatedAt;
+    use CreatedBy;
 
     /**
      * @var OrderItem[]|ArrayCollection
@@ -40,6 +42,13 @@ class Order
      * @ORM\Column(type="datetime_immutable", nullable=true)
      */
     private $closedAt;
+
+    /**
+     * @var User|null
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     */
+    private $closedBy;
 
     /**
      * @var OrderStatus
@@ -156,9 +165,10 @@ class Order
         })->getValues();
     }
 
-    public function close(): void
+    public function close(User $user): void
     {
         $this->status = OrderStatus::closed();
+        $this->closedBy = $user;
         $this->closedAt = new DateTimeImmutable();
     }
 
@@ -240,6 +250,11 @@ class Order
     public function getClosedAt(): ?DateTimeImmutable
     {
         return $this->closedAt;
+    }
+
+    public function getClosedBy(): ?User
+    {
+        return $this->closedBy;
     }
 
     public function getMileage(): ?int
