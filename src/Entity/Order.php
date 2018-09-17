@@ -217,13 +217,15 @@ class Order
         return $this->car;
     }
 
-    public function setCar(Car $car): void
+    public function setCar(?Car $car): void
     {
         $this->car = $car;
 
-        $customer = $car->getOwner();
-        if (null === $this->customer && $customer instanceof Operand) {
-            $this->customer = $customer;
+        if ($car instanceof Car) {
+            $customer = $car->getOwner();
+            if (null === $this->customer && $customer instanceof Operand) {
+                $this->customer = $customer;
+            }
         }
     }
 
@@ -232,7 +234,7 @@ class Order
         return $this->customer;
     }
 
-    public function setCustomer(Operand $customer = null): void
+    public function setCustomer(?Operand $customer): void
     {
         $this->customer = $customer;
     }
@@ -242,7 +244,7 @@ class Order
         return $this->description;
     }
 
-    public function setDescription(string $description = null): void
+    public function setDescription(?string $description): void
     {
         $this->description = $description;
     }
