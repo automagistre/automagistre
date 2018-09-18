@@ -15,6 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;
 use Money\Money;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -36,6 +37,8 @@ class CarRecommendation implements PriceInterface, TotalPriceInterface
 
     /**
      * @var string
+     *
+     * @Assert\NotBlank
      *
      * @ORM\Column
      */
@@ -114,6 +117,11 @@ class CarRecommendation implements PriceInterface, TotalPriceInterface
     public function getService(): ?string
     {
         return $this->service;
+    }
+
+    public function setService(?string $service): void
+    {
+        $this->service = $service;
     }
 
     public function setPrice(Money $price): void
