@@ -522,6 +522,7 @@ easy_admin:
                 fields:
                     - { property: 'id', template: 'easy_admin/field_show.html.twig' }
                     - { property: 'supplier', label: 'Поставщик' }
+                    - { property: null, label: 'Статус', template: 'easy_admin/income/field_status.html.twig' }
                     - { property: 'totalPrice', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'itemsCount', label: 'Позиций' }
                     - { property: 'accruedAt', label: 'Принято' }
