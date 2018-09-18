@@ -459,7 +459,7 @@ easy_admin:
                     - { property: 'number', label: 'Номер' }
                     - { property: 'name', label: 'Название' }
                     - { property: 'price', label: 'Цена', type: App\Form\Type\MoneyType }
-            net:
+            new:
                 title: 'Создать новую запчасть'
             edit:
                 title: 'Редактировать запчасть'
