@@ -231,7 +231,6 @@ easy_admin:
         Person:
             class: App\Entity\Person
             controller: App\Controller\EasyAdmin\PersonController
-            disabled_actions: ['delete']
             search:
                 fields: ['firstname', 'lastname']
             templates:
@@ -284,7 +283,6 @@ easy_admin:
         Organization:
             class: App\Entity\Organization
             controller: App\Controller\EasyAdmin\OrganizationController
-            disabled_actions: ['delete']
             templates:
                 show: 'easy_admin/organization/show.html.twig'
             list:
@@ -362,7 +360,6 @@ easy_admin:
         Car:
             class: App\Entity\Car
             controller: App\Controller\EasyAdmin\CarController
-            disabled_actions: ['delete']
             label: 'Автомобили'
             search:
                 fields: ['gosnomer', 'vin']
@@ -560,7 +557,7 @@ easy_admin:
 
         Manufacturer:
             class: App\Entity\Manufacturer
-            disabled_actions: ['show', 'delete']
+            disabled_actions: ['show']
             label: 'Производитель'
             search:
                 fields: ['name']
