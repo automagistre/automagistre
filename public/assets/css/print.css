@@ -124,9 +124,6 @@ td {
   .table tbody .work td {
     background-color: #E0E0E0 !important;
   }
-  .price:after {
-    content: " руб";
-  }
   section {
     page-break-inside: avoid;
   }
