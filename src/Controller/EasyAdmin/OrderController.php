@@ -402,6 +402,20 @@ final class OrderController extends AbstractController
         return $this->redirectToReferrer();
     }
 
+    protected function searchAction(): Response
+    {
+        $id = $this->request->query->getInt('query');
+
+        if (0 !== $id) {
+            $order = $this->em->getRepository(Order::class)->find($id);
+            if ($order instanceof Order) {
+                return $this->redirectToEasyPath($order, 'show');
+            }
+        }
+
+        return parent::searchAction();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -501,6 +515,10 @@ final class OrderController extends AbstractController
 
             $qb->setParameter($key, '%'.$item.'%');
         }
+
+        $qb
+            ->orderBy('orders.closedAt', 'ASC')
+            ->addOrderBy('orders.id', 'DESC');
 
         return $qb;
     }

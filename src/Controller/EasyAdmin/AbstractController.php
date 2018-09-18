@@ -158,6 +158,14 @@ abstract class AbstractController extends AdminController
     /**
      * {@inheritdoc}
      */
+    protected function searchAction()
+    {
+        return parent::searchAction();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function createListQueryBuilder(
         $entityClass,
         $sortDirection,
