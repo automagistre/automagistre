@@ -126,7 +126,7 @@ class Part
 
     public function setNumber(string $number): void
     {
-        $this->number = $number;
+        $this->number = \strtoupper(\preg_replace('/[^a-zA-Z0-9]/', '', $number));
     }
 
     public function getDescription(): ?string
