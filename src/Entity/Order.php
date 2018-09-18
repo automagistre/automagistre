@@ -266,7 +266,7 @@ class Order
     {
         return $this->isEditable()
             && [] === $this->getServicesWithoutWorker()
-            && null !== $this->mileage;
+            && (null === $this->car || null !== $this->mileage);
     }
 
     public function isClosed(): bool
