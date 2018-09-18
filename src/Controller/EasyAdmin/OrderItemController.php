@@ -88,15 +88,9 @@ abstract class OrderItemController extends AbstractController
         }
 
         if ($item instanceof OrderItemService) {
-            $em->createQueryBuilder()
-                ->delete()
-                ->from(CarRecommendation::class, 'entity')
-                ->where('entity.realization = :item')
-                ->getQuery()
-                ->setParameters([
-                    'item' => $item,
-                ])
-                ->execute();
+            foreach ($em->getRepository(CarRecommendation::class)->findBy(['realization' => $item]) as $rec) {
+                $em->remove($rec);
+            }
         }
 
         foreach ($item->getChildren() as $child) {
