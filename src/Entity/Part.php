@@ -46,13 +46,6 @@ class Part
     /**
      * @var string
      *
-     * @ORM\Column(name="partnumber_disp", length=64, nullable=true)
-     */
-    private $partnumberDisp;
-
-    /**
-     * @var string
-     *
      * @Assert\NotBlank
      *
      * @ORM\Column(length=30)
