@@ -6,13 +6,11 @@ namespace App\Controller\EasyAdmin;
 
 use App\Entity\Car;
 use App\Entity\CarModel;
-use App\Entity\CarRecommendation;
 use App\Entity\Order;
 use App\Entity\OrderItem;
 use App\Entity\OrderItemService;
 use App\Form\Model\OrderService;
 use App\Manager\RecommendationManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use LogicException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -96,40 +94,6 @@ final class OrderItemServiceController extends OrderItemController
         $entity->setWarranty($model->warranty);
 
         parent::persistEntity($entity);
-    }
-
-    /**
-     * @param OrderItemService $entity
-     */
-    protected function removeEntity($entity): void
-    {
-        $this->em->transactional(function (EntityManagerInterface $em) use ($entity): void {
-            $em->createQueryBuilder()
-                ->delete()
-                ->from(CarRecommendation::class, 'entity')
-                ->where('entity.realization = :item')
-                ->getQuery()
-                ->setParameters([
-                    'item' => $entity,
-                ])
-                ->execute();
-
-            parent::removeEntity($entity);
-        });
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function isActionAllowed($actionName): bool
-    {
-        if (\in_array($actionName, ['edit', 'delete'], true) && null !== $id = $this->request->get('id')) {
-            $entity = $this->em->getRepository(OrderItemService::class)->find($id);
-
-            return $entity->getOrder()->isEditable();
-        }
-
-        return parent::isActionAllowed($actionName);
     }
 
     /**
