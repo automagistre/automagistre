@@ -58,46 +58,8 @@ abstract class OrderItemController extends AbstractController
      */
     protected function removeEntity($entity): void
     {
-        $removeReservation = function (EntityManagerInterface $em, $child): void {
-            $em->createQueryBuilder()
-                ->delete()
-                ->from(Reservation::class, 'entity')
-                ->where('entity.orderItemPart = :item')
-                ->getQuery()
-                ->setParameters([
-                    'item' => $child,
-                ])
-                ->execute();
-        };
-
-        $this->em->transactional(function (EntityManagerInterface $em) use ($entity, $removeReservation): void {
-            foreach ($entity->getChildren() as $child) {
-                if ($child instanceof OrderItemPart) {
-                    $removeReservation($em, $child);
-                } elseif ($child instanceof OrderItemService) {
-                    $em->createQueryBuilder()
-                        ->delete()
-                        ->from(CarRecommendation::class, 'entity')
-                        ->where('entity.realization = :item')
-                        ->getQuery()
-                        ->setParameters([
-                            'item' => $entity,
-                        ])
-                        ->execute();
-
-                    foreach ($child->getChildren() as $part) {
-                        if (!$part instanceof OrderItemPart) {
-                            throw new LogicException('Part expected.');
-                        }
-
-                        $removeReservation($em, $part);
-                    }
-                }
-
-                $em->remove($child);
-            }
-
-            parent::removeEntity($entity);
+        $this->em->transactional(function (EntityManagerInterface $em) use ($entity): void {
+            $this->recursiveRemove($em, $entity);
         });
     }
 
@@ -109,5 +71,38 @@ abstract class OrderItemController extends AbstractController
         $parameters['order'] = $this->getEntity(Order::class);
 
         return parent::renderTemplate($actionName, $templatePath, $parameters);
+    }
+
+    private function recursiveRemove(EntityManagerInterface $em, OrderItem $item): void
+    {
+        if ($item instanceof OrderItemPart) {
+            $em->createQueryBuilder()
+                ->delete()
+                ->from(Reservation::class, 'entity')
+                ->where('entity.orderItemPart = :item')
+                ->getQuery()
+                ->setParameters([
+                    'item' => $item,
+                ])
+                ->execute();
+        }
+
+        if ($item instanceof OrderItemService) {
+            $em->createQueryBuilder()
+                ->delete()
+                ->from(CarRecommendation::class, 'entity')
+                ->where('entity.realization = :item')
+                ->getQuery()
+                ->setParameters([
+                    'item' => $item,
+                ])
+                ->execute();
+        }
+
+        foreach ($item->getChildren() as $child) {
+            $this->recursiveRemove($em, $child);
+        }
+
+        $em->remove($item);
     }
 }
