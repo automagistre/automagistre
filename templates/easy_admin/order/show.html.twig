@@ -215,6 +215,19 @@
                         Рекомендация
                     </a>
                 {%- endspaceless -%}
+                <a>
+                    {% for money in car.getRecommendationPrice %}
+                        {% if 1 == loop.index %}
+                            <i class="fa fa-barcode"></i>
+                        {% elseif 2 == loop.index %}
+                            + <i class="fa fa-wrench"></i>
+                        {% else %}
+                            =
+                        {% endif %}
+
+                        {{ money|localize_money }}
+                    {% endfor %}
+                </a>
             </h2>
 
             {% if car.recommendations is not empty %}
@@ -239,6 +252,7 @@
 
                                     <tr>
                                         <td>
+                                            <i class="fa fa-wrench"></i>
                                             {{ recommendation.service }}
 
                                             <a href="{{ easyadmin_path('CarRecommendationPart', 'new', {'recommendation_id': recommendation.id}) }}">

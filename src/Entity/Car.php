@@ -13,6 +13,8 @@ use App\Enum\EngineType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use Money\Currency;
+use Money\Money;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -140,6 +142,19 @@ class Car
         }
 
         return $string;
+    }
+
+    public function getRecommendationPrice(): array
+    {
+        $services = new Money(0, new Currency('RUB'));
+        $parts = new Money(0, new Currency('RUB'));
+
+        foreach ($this->getRecommendations() as $item) {
+            $services = $services->add($item->getPrice());
+            $parts = $parts->add($item->getTotalPartPrice());
+        }
+
+        return [$services, $parts, $services->add($parts)];
     }
 
     public function getCarModel(): ?CarModel
