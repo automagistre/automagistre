@@ -190,7 +190,6 @@ easy_admin:
         CarRecommendation:
             class: App\Entity\CarRecommendation
             controller: App\Controller\EasyAdmin\CarRecommendationController
-            disabled_actions: ['delete']
             templates:
                 new: 'easy_admin/car_recommendation/new.html.twig'
                 edit: 'easy_admin/car_recommendation/edit.html.twig'
@@ -209,7 +208,6 @@ easy_admin:
         CarRecommendationPart:
             class: App\Entity\CarRecommendationPart
             controller: App\Controller\EasyAdmin\CarRecommendationPartController
-            disabled_actions: ['delete']
             templates:
                 new: 'easy_admin/car_recommendation_part/new.html.twig'
             form:
