@@ -1,4 +1,4 @@
-{% block entity_form %}
+{% block panel_body %}
     {{ form_start(form) }}
     {{ form_row(form.order) }}
     {{ form_row(form.parent) }}
@@ -23,7 +23,7 @@
 
     {{ form_row(form.price) }}
     {{ form_row(form.quantity) }}
-    {{ form_end(form) }}
+    {{ form_row(form.warranty) }}
 {% endblock %}
 
 {% block js %}
