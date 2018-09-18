@@ -277,7 +277,7 @@
                                             <td style="padding-left: 40px">
                                                 {% include 'easy_admin/field_part.html.twig' with {'value': part.part} only %}
                                             </td>
-                                            <td>{{ part.quantity / 100 }} x {{ part.totalPrice|localize_money }}</td>
+                                            <td>{{ part.quantity / 100 }} x {{ part.price|localize_money }}</td>
                                             <td>
                                                 {% set reservable = part_reservable(part.part) %}
                                                 {% set reserved = part_reserved(part.part) %}
