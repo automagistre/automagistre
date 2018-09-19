@@ -69,6 +69,7 @@ abstract class OrderItemController extends AbstractController
     protected function renderTemplate($actionName, $templatePath, array $parameters = []): Response
     {
         $parameters['order'] = $this->getEntity(Order::class);
+        $parameters['car'] = $this->getEntity(Car::class);
 
         return parent::renderTemplate($actionName, $templatePath, $parameters);
     }

@@ -9,8 +9,11 @@ use App\Entity\CarModel;
 use App\Entity\Order;
 use App\Entity\OrderItem;
 use App\Entity\OrderItemService;
+use App\Entity\Organization;
+use App\Entity\Person;
 use App\Form\Model\OrderService;
 use App\Manager\RecommendationManager;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use LogicException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -130,6 +133,47 @@ final class OrderItemServiceController extends OrderItemController
         }
 
         return parent::renderTemplate($actionName, $templatePath, $parameters);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function createSearchQueryBuilder(
+        $entityClass,
+        $searchQuery,
+        array $searchableFields,
+        $sortField = null,
+        $sortDirection = null,
+        $dqlFilter = null
+    ): QueryBuilder {
+        $car = $this->getEntity(Car::class);
+        if (!$car instanceof Car) {
+            throw new LogicException('Car required.');
+        }
+
+        $qb = $this->createListQueryBuilder($entityClass, $sortDirection)
+            ->leftJoin(Person::class, 'person', Join::WITH, 'person = entity.worker')
+            ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization = entity.worker');
+
+        foreach (\explode(' ', $searchQuery) as $key => $item) {
+            $key = ':search_'.$key;
+
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->like('entity.service', $key),
+                $qb->expr()->like('person.firstname', $key),
+                $qb->expr()->like('person.lastname', $key),
+                $qb->expr()->like('person.email', $key),
+                $qb->expr()->like('organization.name', $key)
+            ));
+
+            $qb->setParameter($key, '%'.$item.'%');
+        }
+
+        $qb
+            ->orderBy('orders.closedAt', 'ASC')
+            ->addOrderBy('orders.id', 'DESC');
+
+        return $qb;
     }
 
     /**
