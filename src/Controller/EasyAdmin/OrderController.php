@@ -250,6 +250,10 @@ final class OrderController extends AbstractController
 
         finish:
 
+        if ($request->isMethod('POST')) {
+            return $this->redirect($request->getUri());
+        }
+
         $parameters = [
             'order' => $order,
             'groups' => \array_filter($order->getRootItems(), function (OrderItem $item) {
@@ -293,10 +297,6 @@ final class OrderController extends AbstractController
             if ([] !== $recommendations) {
                 $parameters['recommendations'] = $recommendations;
             }
-        }
-
-        if ($request->isMethod('POST')) {
-            return $this->redirect($request->getUri());
         }
 
         return $this->render('easy_admin/order_print/final.html.twig', $parameters);
