@@ -7,8 +7,8 @@
 
 {% block panel_title %}Запчасть{% endblock %}
 
-{% block panel_body %}
-    {{ form_widget(form) }}
+{% block main %}
+    {{ parent() }}
 
     {{ block('delete_form') }}
 {% endblock %}
