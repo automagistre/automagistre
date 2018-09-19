@@ -92,6 +92,7 @@ final class CarRecommendationController extends AbstractController
                 ->setParameters([
                     'car' => $car,
                 ])
+                ->setMaxResults(1)
                 ->getOneOrNullResult();
         }
 
