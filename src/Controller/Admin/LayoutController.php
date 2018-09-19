@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Controller\EasyAdmin\OrderController;
+use App\Costil;
 use App\Entity\Operand;
 use App\Manager\PaymentManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,7 +31,7 @@ final class LayoutController extends AbstractController
         $em = $this->em;
 
         /** @var Operand $cassa */
-        $cassa = $em->getReference(Operand::class, OrderController::COSTIL_CASSA);
+        $cassa = $em->getReference(Operand::class, Costil::CASHBOX);
 
         return $this->render('admin/layout/balance.html.twig', [
             'url' => $this->generateUrl('easyadmin', [

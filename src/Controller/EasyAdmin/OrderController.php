@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Costil;
 use App\Entity\Car;
 use App\Entity\Employee;
 use App\Entity\MotionOrder;
@@ -43,9 +44,6 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  */
 final class OrderController extends AbstractController
 {
-    public const COSTIL_CASSA = 1;
-    public const COSTIL_BEZNAL = 2422;
-
     /**
      * @var ReservationManager
      */
@@ -544,7 +542,7 @@ final class OrderController extends AbstractController
         $em = $this->em;
 
         $em->transactional(function (EntityManagerInterface $em) use ($model, $order): void {
-            foreach ([self::COSTIL_CASSA => $model->amountCash, self::COSTIL_BEZNAL => $model->amountNonCash] as $id => $money) {
+            foreach ([Costil::CASHBOX => $model->amountCash, Costil::ACCOUNT => $model->amountNonCash] as $id => $money) {
                 /** @var Money $money */
                 if (!$money->isPositive()) {
                     continue;

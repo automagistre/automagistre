@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Costil;
 use App\Entity\Operand;
 use App\Manager\PaymentManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -52,7 +53,7 @@ final class PaymentController extends AbstractController
 
             if ($entity->useCassa) {
                 /** @var Operand $cassa */
-                $cassa = $em->getReference(Operand::class, OrderController::COSTIL_CASSA);
+                $cassa = $em->getReference(Operand::class, Costil::CASHBOX);
                 $this->paymentManager->createPayment($cassa, $description, $money);
             }
         });
