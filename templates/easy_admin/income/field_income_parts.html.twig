@@ -21,7 +21,7 @@
         {% for incomePart in value %}
             <tr>
                 <td>{{ loop.index }}</td>
-                <td>{{ incomePart.part }}</td>
+                <td>{% include 'easy_admin/field_part.html.twig' with {'value': incomePart.part} only %}</td>
                 <td>{{ incomePart.price|localize_money }}</td>
                 <td>{{ incomePart.quantity / 100 }}</td>
                 <td>{{ incomePart.totalPrice|localize_money }}</td>
