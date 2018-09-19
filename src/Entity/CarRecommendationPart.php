@@ -25,7 +25,7 @@ class CarRecommendationPart implements TotalPriceInterface
     /**
      * @var CarRecommendation
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\CarRecommendation", inversedBy="parts", cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\CarRecommendation", inversedBy="parts")
      * @ORM\JoinColumn
      */
     private $recommendation;
