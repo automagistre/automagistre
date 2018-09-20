@@ -257,7 +257,6 @@
                                     <th>Цена</th>
                                     <th>Склад</th>
                                     <th>Диагностировал</th>
-                                    <th>Дата</th>
                                     <th>Действия</th>
                                     <th>Создал</th>
                                 </tr>
@@ -284,7 +283,6 @@
                                                 </a>
                                             {% endif %}
                                         </td>
-                                        <td>{{ recommendation.createdAt|localizeddate('medium', 'none') }}</td>
                                         <td>
                                             <a href="{{ easyadmin_path(recommendation, 'edit') }}">
                                                 <i class="fa fa-pencil"></i>
@@ -299,7 +297,7 @@
                                                 </form>
                                             {% endif %}
                                         </td>
-                                        <td>{% include 'easy_admin/field_user.html.twig' with {'value': recommendation.createdBy} only %}</td>
+                                        <td>{{ recommendation.createdAt|localizeddate }} ({% include 'easy_admin/field_user.html.twig' with {'value': recommendation.createdBy} only %})</td>
 
                                         {% for part in recommendation.parts %}
                                             {# @var part \App\Entity\CarRecommendationPart #}
@@ -333,13 +331,12 @@
                                                 </span>
                                             </td>
                                             <td></td>
-                                            <td>{{ part.createdAt|localizeddate('medium', 'none') }}</td>
                                             <td>
                                                 <a href="{{ easyadmin_path(part, 'edit') }}">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
                                             </td>
-                                            <td>{% include 'easy_admin/field_user.html.twig' with {'value': part.createdBy} only %}</td>
+                                            <td>{{ part.createdAt|localizeddate }} ({% include 'easy_admin/field_user.html.twig' with {'value': part.createdBy} only %})</td>
                                         {% endfor %}
                                     </tr>
                                 {% endfor %}
