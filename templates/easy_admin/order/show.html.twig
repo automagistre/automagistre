@@ -3,7 +3,8 @@
 {% set order = entity %}
 {% set car = order.car %}
 
-{# @var order \App\entity\Order #}
+{# @var order \App\Entity\Order #}
+{# @var car \App\Entity\Car #}
 
 {% block page_title %}Заказ № {{ order.id }}{% endblock %}
 
@@ -39,6 +40,13 @@
                                 <a href="#" class="btn btn-default" disabled="disabled">
                                     <i class="fa fa-close"></i>
                                     Закрыть
+                                </a>
+                            {% endif %}
+
+                            {% if car and car.recommendations is not empty %}
+                                <a href="{{ easyadmin_path(order, 'matching', {'referer': true}) }}" class="btn btn-info">
+                                    <i class="fa fa-print"></i>
+                                    Согласование
                                 </a>
                             {% endif %}
 

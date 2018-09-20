@@ -167,6 +167,32 @@ final class OrderController extends AbstractController
         ]);
     }
 
+    public function matchingAction(): Response
+    {
+        $order = $this->getEntity(Order::class);
+        if (!$order instanceof Order) {
+            throw new BadRequestHttpException('Order is required.');
+        }
+
+        $car = $order->getCar();
+        if (!$car instanceof Car) {
+            throw new BadRequestHttpException('Car required.');
+        }
+
+        [$servicePrice, $partPrice, $totalPrice] = $car->getRecommendationPrice();
+
+        return $this->render('easy_admin/order_print/matching.html.twig', [
+            'order' => $order,
+            'car' => $car,
+            'customer' => $order->getCustomer(),
+            'recommendations' => $car->getRecommendations(),
+            'totalRecommendationService' => $servicePrice,
+            'totalRecommendationPart' => $partPrice,
+            'totalRecommendationAll' => $totalPrice,
+            'potentialPrice' => $order->getTotalPrice()->add($totalPrice),
+        ]);
+    }
+
     public function giveoutAction(): Response
     {
         $order = $this->getEntity(Order::class);
