@@ -9,7 +9,7 @@
         {% include 'easy_admin/order/item/group.html.twig' %}
     {% endif %}
 
-    <td>{% include 'easy_admin/field_user.html.twig' with {'value': item.createdBy} %}</td>
+    <td>{{ item.createdAt|localizeddate }} ({% include 'easy_admin/field_user.html.twig' with {'value': item.createdBy} %})</td>
 </tr>
 
 {% for children in item.children %}
