@@ -522,11 +522,9 @@ final class OrderController extends AbstractController
                 ->setParameter('car', $car);
         }
 
-        if ('OrderActive' === $this->request->query->get('entity')) {
-            $qb
-                ->orderBy('entity.closedAt', 'ASC')
-                ->addOrderBy('entity.id', 'DESC');
-        }
+        $qb
+            ->orderBy('entity.closedAt', 'ASC')
+            ->addOrderBy('entity.id', 'DESC');
 
         return $qb;
     }
