@@ -10,34 +10,45 @@
                     <label class="col-sm-2 control-label">Статус</label>
 
                     <div class="col-sm-10">
-                        <div class="form-control">
-                            {# @var status \App\Enum\OrderStatus #}
-                            {% set status = order.status %}
+                        {# @var status \App\Enum\OrderStatus #}
+                        {% set status = order.status %}
 
-                            {% if order.editable and status_selector|default(false) %}
-                                <div class="dropdown">
-                                    <button class="btn btn-{{ status.getColor() }} dropdown-toggle" type="button"
-                                            id="dropdownMenu1"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        {{- status.name }}
-                                        <span class="caret"></span>
-                                    </button>
+                        {% if order.editable and status_selector|default(false) %}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="dropdown">
+                                        <button class="btn btn-{{ status.getColor() }} dropdown-toggle" type="button"
+                                                id="dropdownMenu1"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            {{- status.name }}
+                                            <span class="caret"></span>
+                                        </button>
 
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                        {% for stat in status.selectable if not status.eq(stat) %}
-                                            <li>
-                                                <a href="{{ easyadmin_path(order, 'status', {'referer': true, 'status': stat.id}|merge(order|to_query)) }}"
-                                                   class="label-{{ stat.getColor() }}">
-                                                    {{ stat.name }}
-                                                </a>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                            {% for stat in status.selectable if not status.eq(stat) %}
+                                                <li>
+                                                    <a href="{{ easyadmin_path(order, 'status', {'referer': true, 'status': stat.id}|merge(order|to_query)) }}"
+                                                       class="label-{{ stat.getColor() }}">
+                                                        {{ stat.name }}
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
                                 </div>
-                            {% else %}
+
+                                <div class="col-md-6">
+                                    <a href="{{ easyadmin_path(order, 'suspend', {'referer': true}) }}" class="btn btn-danger">
+                                        <i class="fa fa-clock-o"></i>
+                                        Отложить
+                                    </a>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="form-control">
                                 {{ status.name }}
-                            {% endif %}
-                        </div>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

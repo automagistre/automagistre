@@ -26,11 +26,6 @@
                                 Редактировать
                             </a>
 
-                            <a href="{{ easyadmin_path(order, 'suspend', {'referer': true}) }}" class="btn btn-danger">
-                                <i class="fa fa-clock-o"></i>
-                                Отложить
-                            </a>
-
                             {% if order.readyToClose %}
                                 <a href="{{ easyadmin_path(order, 'close', {'referer': true}) }}" class="btn btn-danger">
                                     <i class="fa fa-close"></i>
@@ -43,23 +38,38 @@
                                 </a>
                             {% endif %}
 
-                            {% if car and car.recommendations is not empty %}
-                                <a href="{{ easyadmin_path(order, 'matching', {'referer': true}) }}" class="btn btn-info">
-                                    <i class="fa fa-print"></i>
-                                    Согласование
-                                </a>
-                            {% endif %}
-
-                            <a href="{{ easyadmin_path(order, 'giveout', {'referer': true}) }}" class="btn btn-default">
+                            <!-- Single button -->
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-print"></i> Печать <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    {% if car and car.recommendations is not empty %}
+                                        <li>
+                                            <a href="{{ easyadmin_path(order, 'matching', {'referer': true}) }}">
+                                                Согласование
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    <li>
+                                        <a href="{{ easyadmin_path(order, 'giveout', {'referer': true}) }}">
+                                            Выдача
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ easyadmin_path(order, 'finish', {'referer': true}) }}">
+                                            Заказ-наряд
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        {% else %}
+                            <a href="{{ easyadmin_path(order, 'finish', {'referer': true}) }}"
+                               class="btn btn-success">
                                 <i class="fa fa-print"></i>
-                                Черновик
+                                Финалка
                             </a>
                         {% endif %}
-
-                        <a href="{{ easyadmin_path(order, 'finish', {'referer': true}) }}" class="btn btn-success">
-                            <i class="fa fa-print"></i>
-                            Финалка
-                        </a>
                     </div>
                 </div>
 
