@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
+use App\Doctrine\ORM\Mapping\Traits\CreatedBy;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
 use App\Money\PriceInterface;
@@ -14,6 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;
 use Money\Money;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -23,6 +25,7 @@ class CarRecommendation implements PriceInterface, TotalPriceInterface
     use Identity;
     use Price;
     use CreatedAt;
+    use CreatedBy;
 
     /**
      * @var Car
@@ -34,6 +37,8 @@ class CarRecommendation implements PriceInterface, TotalPriceInterface
 
     /**
      * @var string
+     *
+     * @Assert\NotBlank
      *
      * @ORM\Column
      */
@@ -52,9 +57,9 @@ class CarRecommendation implements PriceInterface, TotalPriceInterface
     private $parts;
 
     /**
-     * @var Order|null
+     * @var OrderItemService|null
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Order")
+     * @ORM\ManyToOne(targetEntity="App\Entity\OrderItemService")
      */
     private $realization;
 
@@ -79,7 +84,7 @@ class CarRecommendation implements PriceInterface, TotalPriceInterface
 
         $this->car = $car;
         $this->service = $service;
-        $this->changePrice($price);
+        $this->price = $price;
         $this->worker = $worker;
     }
 
@@ -114,9 +119,14 @@ class CarRecommendation implements PriceInterface, TotalPriceInterface
         return $this->service;
     }
 
+    public function setService(?string $service): void
+    {
+        $this->service = $service;
+    }
+
     public function setPrice(Money $price): void
     {
-        $this->changePrice($price);
+        $this->price = $price;
     }
 
     /**
@@ -132,7 +142,7 @@ class CarRecommendation implements PriceInterface, TotalPriceInterface
         $this->parts[] = $part;
     }
 
-    public function getRealization(): ?Order
+    public function getRealization(): ?OrderItemService
     {
         return $this->realization;
     }
@@ -142,15 +152,19 @@ class CarRecommendation implements PriceInterface, TotalPriceInterface
         return $this->worker;
     }
 
+    public function setWorker(Operand $worker): void
+    {
+        $this->worker = $worker;
+    }
+
     public function getExpiredAt(): ?DateTime
     {
         return $this->expiredAt;
     }
 
-    public function realize(Order $order): void
+    public function realize(OrderItemService $orderItemService): void
     {
-        $this->realization = $order;
+        $this->realization = $orderItemService;
         $this->expiredAt = new DateTime();
-        $this->parts->clear();
     }
 }

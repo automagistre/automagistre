@@ -127,13 +127,6 @@ class Version20170223211957 extends AbstractMigration
             WHERE partitem.part_id IS NOT NULL AND part.id IS NULL
         ');
 
-        /* Delete motion which linked to deleted part_item */
-        $this->addSql('
-            DELETE motion FROM motion
-            LEFT JOIN partitem ON partitem.id = motion.part_id
-            WHERE motion.part_id IS NOT NULL AND partitem.id IS NULL
-        ');
-
         /* Insert all carmake to manufacturer */
         $this->addSql('INSERT INTO manufacturer (name)
             SELECT carmake.name
@@ -196,6 +189,13 @@ class Version20170223211957 extends AbstractMigration
             UPDATE payment
                 JOIN item ON item.id = payment.item_id
             SET payment.created_at = item.createddatetime
+        ');
+
+        $this->addSql('ALTER TABLE motion ADD created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\'');
+        $this->addSql('
+            UPDATE motion
+                JOIN item ON item.id = motion.item_id
+            SET motion.created_at = item.createddatetime
         ');
 
         $this->addSql('DROP TABLE _group');
@@ -517,11 +517,11 @@ class Version20170223211957 extends AbstractMigration
             SELECT p.`_order_id`, p.part_id, p.qty, COALESCE(p.cost, 0), order_service.id FROM partitem p
             LEFT JOIN jobitem ON jobitem.id = p.jobitem_id
             LEFT JOIN service ON service.name = jobitem.name
-            LEFT JOIN order_service ON order_service.order_id = p.`_order_id` AND order_service.service_id = service.id 
+            LEFT JOIN order_service ON order_service.order_id = p.`_order_id` AND order_service.service_id = service.id
+            WHERE p.jobadvice_id IS NULL
         ');
 
         $this->addSql('DROP TABLE jobitem');
-        $this->addSql('DROP TABLE partitem');
 
         $this->addSql('CREATE INDEX IDX_83EF70EA23B42D ON car_model (manufacturer_id)');
         $this->addSql('CREATE INDEX IDX_E1F9E22AF64382E3 ON car_generation (car_model_id)');

@@ -7,6 +7,8 @@ namespace App\Enum;
 use Grachevko\Enum\Enum;
 
 /**
+ * @method static self info()
+ *
  * @author Konstantin Grachev <me@grachevko.ru>
  */
 final class NoteType extends Enum

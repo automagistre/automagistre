@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
+use App\Doctrine\ORM\Mapping\Traits\CreatedBy;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Money\PriceInterface;
 use App\Money\TotalPriceInterface;
@@ -27,6 +28,7 @@ abstract class OrderItem
 {
     use Identity;
     use CreatedAt;
+    use CreatedBy;
 
     /**
      * @var OrderItem[]|ArrayCollection
@@ -50,11 +52,12 @@ abstract class OrderItem
      */
     private $parent;
 
-    public function __construct(Order $order)
+    public function __construct(Order $order, User $user)
     {
         $this->children = new ArrayCollection();
 
         $this->order = $order;
+        $this->createdBy = $user;
     }
 
     abstract public function __toString(): string;

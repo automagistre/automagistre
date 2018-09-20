@@ -27,17 +27,15 @@ easy_admin:
             - { entity: 'Car', label: 'Автомобили', icon: 'car' }
             - { entity: 'Employee', label: 'Сотрудники', icon: 'users' }
             - { label: 'Склад' }
-            - { entity: 'Part', label: 'Дефицит', icon: 'fire', params: { action: 'deficit' } }
+#            - { entity: 'Part', label: 'Дефицит', icon: 'fire', params: { action: 'deficit' } }
             - { entity: 'Part', label: 'Наличие', icon: 'cubes', params: { action: 'stock' } }
             - { entity: 'Motion', label: 'Движения', icon: 'recycle' }
-            - { entity: 'Supply', label: 'Поставка', icon: 'truck' }
+#            - { entity: 'Supply', label: 'Поставка', icon: 'truck' }
             - { entity: 'Income', label: 'Приходы', icon: 'book' }
             - { label: 'Справочники' }
+            - { entity: 'Manufacturer', label: 'Производители', icon: 'industry' }
+            - { entity: 'CarModel', label: 'Кузова', icon: 'car' }
             - { entity: 'Part', label: 'Запчасти', icon: 'cogs' }
-            - { entity: 'Manufacturer', label: 'Производитель', icon: 'industry' }
-            - { entity: 'Model', label: 'Модель', icon: 'car' }
-            - { entity: 'Generation', label: 'Поколение', icon: 'car' }
-            - { entity: 'Modification', label: 'Модификация', icon: 'car' }
 
     formats:
         date: 'd.m.Y'
@@ -64,6 +62,7 @@ easy_admin:
                 edit: 'easy_admin/order/edit.html.twig'
             label: 'Заказ'
             list:
+                max_results: 50
                 title: 'Заказы'
                 fields:
                     - { property: 'id', label: 'Номер', template: 'easy_admin/order/field_id.html.twig' }
@@ -77,11 +76,9 @@ easy_admin:
             form:
                 fields:
                     - { type: 'group', label: 'Основная информация', css_class: 'col-sm-6' }
-                    - { property: 'status', label: 'Статус', type: App\Form\Type\OrderStatusType }
                     - { property: 'customer', label: 'Заказчик', type: 'easyadmin_autocomplete' }
                     - { property: 'car', label: 'Автомобиль', type: 'easyadmin_autocomplete' }
                     - { property: 'mileage', label: 'Пробег' }
-
                     - { type: 'group', label: 'Описание', css_class: 'col-sm-6' }
                     - { property: 'description', label: 'Описание', type: 'textarea' }
             new:
@@ -92,6 +89,7 @@ easy_admin:
         OrderActive:
             <<: *order
             list:
+                max_results: 50
                 title: 'Активные заказы'
                 dql_filter: 'entity.status != 10'
                 fields:
@@ -123,10 +121,19 @@ easy_admin:
         OrderItemService:
             class: App\Entity\OrderItemService
             controller: App\Controller\EasyAdmin\OrderItemServiceController
-            disabled_actions: ['show', 'list']
+            disabled_actions: ['show']
             templates:
+                list: 'easy_admin/order_item_service/list.html.twig'
                 new: 'easy_admin/order_item_service/new.html.twig'
                 edit: 'easy_admin/order_item_service/edit.html.twig'
+            list:
+                fields:
+                    - { property: 'order', label: 'Заказ' }
+                    - { property: 'service', label: 'Работа' }
+                    - { property: 'price', label: 'Стоимость', template: 'easy_admin/field_money.html.twig' }
+                    - { property: 'order.closedAt', label: 'Дата', type: 'datetime' }
+                    - { property: 'order.mileage', label: 'Пробег' }
+                    - { property: 'worker', label: 'Исполнитель' }
             edit:
                 actions: ['delete']
                 fields:
@@ -183,9 +190,9 @@ easy_admin:
         CarRecommendation:
             class: App\Entity\CarRecommendation
             controller: App\Controller\EasyAdmin\CarRecommendationController
-            disabled_actions: ['delete']
             templates:
                 new: 'easy_admin/car_recommendation/new.html.twig'
+                edit: 'easy_admin/car_recommendation/edit.html.twig'
             form:
                 fields:
                     - { property: 'car', label: 'Автомобиль', type: 'text', type_options: { disabled: true } }
@@ -194,8 +201,6 @@ easy_admin:
                     - { property: 'worker', label: 'Диагност', type: App\Form\Type\WorkerType, type_options: { required: true } }
             edit:
                 title: 'Рекомендация №%%entity_id%%'
-                fields:
-                    - { property: 'service', label: 'Работа', type: 'text', type_options: { disabled: true } }
             new:
                 title: 'Новая рекомендация'
                 form_options: { data_class: App\Form\Model\Recommendation }
@@ -203,7 +208,8 @@ easy_admin:
         CarRecommendationPart:
             class: App\Entity\CarRecommendationPart
             controller: App\Controller\EasyAdmin\CarRecommendationPartController
-            disabled_actions: ['delete']
+            templates:
+                new: 'easy_admin/car_recommendation_part/new.html.twig'
             form:
                 fields:
                     - { property: 'recommendation', label: 'Рекомендация', type: 'text', type_options: { disabled: true } }
@@ -225,7 +231,6 @@ easy_admin:
         Person:
             class: App\Entity\Person
             controller: App\Controller\EasyAdmin\PersonController
-            disabled_actions: ['delete']
             search:
                 fields: ['firstname', 'lastname']
             templates:
@@ -278,7 +283,6 @@ easy_admin:
         Organization:
             class: App\Entity\Organization
             controller: App\Controller\EasyAdmin\OrganizationController
-            disabled_actions: ['delete']
             templates:
                 show: 'easy_admin/organization/show.html.twig'
             list:
@@ -332,12 +336,16 @@ easy_admin:
 
         Employee:
             class: App\Entity\Employee
+            controller: App\Controller\EasyAdmin\EmployeeController
             disabled_actions: ['show', 'delete']
+            templates:
+                list: 'easy_admin/employee/list.html.twig'
             list:
                 title: 'Сотрудники'
                 fields:
                     - { property: 'id' }
                     - { property: 'person', label: 'Ф.И.О' }
+                    - { property: null, label: 'Баланс', template: 'easy_admin/employee/field_balance.html.twig' }
                     - { property: 'ratio', label: '%' }
                     - { property: 'hiredAt', label: 'Трудоустроен' }
                     - { property: 'firedAt', label: 'Уволен' }
@@ -352,7 +360,6 @@ easy_admin:
         Car:
             class: App\Entity\Car
             controller: App\Controller\EasyAdmin\CarController
-            disabled_actions: ['delete']
             label: 'Автомобили'
             search:
                 fields: ['gosnomer', 'vin']
@@ -362,9 +369,10 @@ easy_admin:
                 title: 'Автомобили'
                 fields:
                     - { property: 'id' }
-                    - { property: 'carModificationDisplayName', label: 'Комплектация', template: 'easy_admin/field_show.html.twig' }
+                    - { property: 'carModificationDisplayName', label: 'Марка / Модель', template: 'easy_admin/field_show.html.twig' }
                     - { property: 'owner', label: 'Владелец' }
                     - { property: 'year', label: 'Год', type: 'string' }
+                    - { property: 'caseType.name', label: 'Кузов' }
                     - { property: 'vin', label: 'VIN', sortable: false }
                     - { property: 'mileage', label: 'Пробег' }
                     - { property: 'gosnomer', label: 'Гос. Номер', sortable: false, template: 'easy_admin/car/field_gosnomer_img.html.twig' }
@@ -373,8 +381,13 @@ easy_admin:
                 fields:
                     - { property: 'owner', label: 'Владелец' }
                     - { property: 'vin', label: 'VIN' }
-                    - { property: 'carModificationDisplayName', label: 'Комплектация' }
+                    - { property: 'carModel', label: 'Комплектация' }
                     - { property: 'year', label: 'Год', type: 'string' }
+                    - { property: 'engineCapacity', label: 'Объём двигателя' }
+                    - { property: 'engineType.name', label: 'Тип двигателя' }
+                    - { property: 'transmission.name', label: 'Трасмиссия' }
+                    - { property: 'wheelDrive.name', label: 'Привод' }
+                    - { property: 'caseType.name', label: 'Кузов' }
                     - { property: 'mileage', label: 'Пробег' }
                     - { property: 'gosnomer', label: 'Гос. Номер' }
             form:
@@ -383,10 +396,16 @@ easy_admin:
                         label: 'Владелец'
                         type: 'easyadmin_autocomplete'
                         help: 'Фамилия, Имя, Телефон, E-mail'
-                    -   property: 'carModification'
+                    -   property: 'carModel'
                         label: 'Модель'
                         type: 'easyadmin_autocomplete'
                         help: 'Проивзодитель, Модель, Год, Поколение, Комплектация, Лошадинные силы'
+                    - { property: 'engineCapacity', label: 'Объём двигателя', type: App\Form\Type\EngineCapacityType }
+                    - { property: 'engineType', label: 'Тип двигателя', type: App\Form\Type\EngineTypeType }
+                    - { property: 'transmission', type: App\Form\Type\CarTransmissionType, label: 'Трасмиссия' }
+                    - { property: 'wheelDrive', type: App\Form\Type\CarWheelDriveType, label: 'Привод' }
+                    - { property: 'year', label: 'Год выпуска' }
+                    - { property: 'caseType', label: 'Тип кузова', type: App\Form\Type\CarcaseType, type_options: { required: false } }
                     - { property: 'vin', label: 'VIN' }
                     - { property: 'gosnomer', label: 'Гос. Номер' }
                     - { property: 'description', label: 'Описание', type: 'textarea' }
@@ -437,7 +456,7 @@ easy_admin:
                     - { property: 'number', label: 'Номер' }
                     - { property: 'name', label: 'Название' }
                     - { property: 'price', label: 'Цена', type: App\Form\Type\MoneyType }
-            net:
+            new:
                 title: 'Создать новую запчасть'
             edit:
                 title: 'Редактировать запчасть'
@@ -447,15 +466,20 @@ easy_admin:
 
         Motion:
             class: App\Entity\Motion
+            controller: App\Controller\EasyAdmin\MotionController
             disabled_actions: ['show', 'edit', 'new', 'search', 'delete']
+            templates:
+              list: 'easy_admin/motion/list.html.twig'
             list:
                 title: 'Движения по складу'
+                max_results: 100
                 fields:
                     - { property: 'id' }
-                    - { property: 'part', label: 'Наименование' }
+                    - { property: 'part', label: 'Наименование', template: 'easy_admin/motion/field_part.html.twig' }
                     - { property: 'quantity', label: 'Количество', template: 'easy_admin/field_quantity.html.twig' }
                     - { property: 'description', label: 'Комментарий' }
-                    - { property: 'order', label: 'Заказ' }
+                    - { property: 'order', label: 'Заказ', template: 'easy_admin/motion/field_order.html.twig' }
+                    - { property: 'createdAt', label: 'Создано' }
 
         Supply:
             class: App\Entity\Supply
@@ -495,6 +519,7 @@ easy_admin:
                 fields:
                     - { property: 'id', template: 'easy_admin/field_show.html.twig' }
                     - { property: 'supplier', label: 'Поставщик' }
+                    - { property: null, label: 'Статус', template: 'easy_admin/income/field_status.html.twig' }
                     - { property: 'totalPrice', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'itemsCount', label: 'Позиций' }
                     - { property: 'accruedAt', label: 'Принято' }
@@ -514,6 +539,7 @@ easy_admin:
                     - { property: 'incomeParts', label: 'Позиции', template: 'easy_admin/income/field_income_parts.html.twig' }
                     - { property: 'totalPrice', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'accruedAt', label: 'Принято' }
+                    - { property: 'accruedBy', label: 'Принял', template: 'easy_admin/field_user.html.twig' }
 
         IncomePart:
             class: App\Entity\IncomePart
@@ -531,7 +557,7 @@ easy_admin:
 
         Manufacturer:
             class: App\Entity\Manufacturer
-            disabled_actions: ['show', 'delete']
+            disabled_actions: ['show']
             label: 'Производитель'
             search:
                 fields: ['name']
@@ -540,106 +566,58 @@ easy_admin:
                 fields:
                     - { property: 'id' }
                     - { property: 'name', label: 'Название' }
+                    - { property: 'localizedName', label: 'Название на русском' }
                     - { property: 'logo', label: 'Logo' }
             form:
                 fields:
                     - { property: 'name', label: 'Название' }
+                    - { property: 'localizedName', label: 'Название на русском' }
                     - { property: 'logo', label: 'Logo' }
             new:
                 title: 'Создать нового Прозводителя'
             edit:
                 title: 'Редактировать Производителя'
 
-        Model:
+        CarModel:
             class: App\Entity\CarModel
             controller: App\Controller\EasyAdmin\CarModelController
-            disabled_actions: ['show', 'delete']
-            label: 'Модель'
+            label: 'Кузов'
             list:
-                title: 'Модели'
+                title: 'Кузова'
                 fields:
                     - { property: 'id' }
                     - { property: 'manufacturer', label: 'Производитель' }
                     - { property: 'name', label: 'Название' }
+                    - { property: 'caseName', label: 'Кузов' }
+                    - { property: 'yearFrom', label: 'Начало производства' }
+                    - { property: 'yearTill', label: 'Конец производства' }
+            show:
+                title: 'Кузов №%%entity_id%%'
+                fields:
+                    - { property: 'manufacturer', label: 'Производитель' }
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'caseName', label: 'Кузов' }
+                    - { property: 'yearFrom', label: 'Начало производства' }
+                    - { property: 'yearTill', label: 'Конец производства' }
             form:
                 fields:
                     - { property: 'manufacturer', label: 'Производитель', type: 'easyadmin_autocomplete' }
                     - { property: 'name', label: 'Название' }
+                    - { property: 'localizedName', label: 'Название на русском' }
+                    - { property: 'caseName', label: 'Кузов' }
+                    - { property: 'yearFrom', label: 'Начало производства' }
+                    - { property: 'yearTill', label: 'Конец производства' }
             new:
-                title: 'Создать новую модель'
+                title: 'Создать новый кузов'
             edit:
-                title: 'Редактировать модель'
+                title: 'Редактировать кузов'
                 fields:
                     - { property: 'manufacturer', label: 'Производитель', type_options: { disabled: true } }
 
-        Generation:
-            class: App\Entity\CarGeneration
-            controller: App\Controller\EasyAdmin\CarGenerationController
-            disabled_actions: ['show', 'delete']
-            list:
-                title: 'Поколения'
-                fields:
-                    - { property: 'id' }
-                    - { property: 'carModel.displayName', label: 'Модель' }
-                    - { property: 'name', label: 'Название' }
-            form:
-                fields:
-                    - { property: 'carModel', label: 'Модель', type: 'easyadmin_autocomplete' }
-                    - { property: 'name', label: 'Название' }
-            new:
-                title: 'Создать новое поколение'
-            edit:
-                title: 'Редактировать поколение'
-                fields:
-                    - { property: 'carModel', type_options: { disabled: true } }
-
-        Modification:
-            class: App\Entity\CarModification
-            controller: App\Controller\EasyAdmin\CarModificationController
-            disabled_actions: ['show', 'delete']
-            list:
-                title: 'Модификации'
-                fields:
-                    - { property: 'id' }
-                    - { property: 'carGeneration.displayName', label: 'Поколение' }
-                    - { property: 'name', label: 'Название' }
-                    - { property: 'case.name', label: 'Кузов' }
-                    - { property: 'engine', label: 'Двигатель' }
-                    - { property: 'hp', label: 'л.с.' }
-                    - { property: 'transmission.name', label: 'Трансмиссия' }
-                    - { property: 'wheelDrive.name', label: 'Привод' }
-                    - { property: 'doors', label: 'Дверей' }
-                    - { property: 'from', label: 'С', type: 'string' }
-                    - { property: 'till', label: 'По', type: 'string' }
-                    - { property: 'maxspeed', label: 'Макс. скорость' }
-                    - { property: 's0to100', label: 'Разгон' }
-                    - { property: 'tank', label: 'Объём бака' }
-            form:
-                fields:
-                    - { property: 'carGeneration', label: 'Поколение', type: 'easyadmin_autocomplete' }
-                    - { property: 'name', label: 'Название' }
-                    - { property: 'case', type: App\Form\Type\CarcaseType, label: 'Кузов' }
-                    - { property: 'engine', label: 'Двигатель' }
-                    - { property: 'hp', label: 'л.с.' }
-                    - { property: 'transmission', type: App\Form\Type\CarTransmissionType, label: 'Трасмиссия' }
-                    - { property: 'wheelDrive', type: App\Form\Type\CarWheelDriveType, label: 'Привод' }
-                    - { property: 'doors', label: 'Дверей' }
-                    - { property: 'from', label: 'Начало производства' }
-                    - { property: 'till', label: 'Конец производства' }
-                    - { property: 'maxspeed', label: 'Макс. скорость' }
-                    - { property: 's0to100', label: 'Разгон' }
-                    - { property: 'tank', label: 'Объём бака' }
-            new:
-                title: 'Создать новую Модификацию'
-                fields: ['-name']
-            edit:
-                title: 'Редактировать модификацию'
-                fields:
-                    - { property: 'name', type_options: { disabled: true } }
         Payment:
             class: App\Entity\Payment
             controller: App\Controller\EasyAdmin\PaymentController
-            disabled_actions: ['show', 'delete', 'edit', 'new']
+            disabled_actions: ['show', 'delete', 'edit']
             list:
                 title: 'Список проводок'
                 fields:
@@ -649,3 +627,11 @@ easy_admin:
                     - { property: 'createdAt', label: 'Дата' }
                     - { property: 'description', label: 'Описание' }
                     - { property: 'subtotal', label: 'Остаток', template: 'easy_admin/field_money.html.twig' }
+            new:
+                title: 'Создать новую проводку'
+                form_options: { data_class: stdClass }
+                fields:
+                    - { property: 'recipient', label: 'Получатель', type: 'text', type_options: { disabled: true } }
+                    - { property: 'amount', label: 'Сумма', type: App\Form\Type\MoneyType }
+                    - { property: 'description', label: 'Описание', type: 'text', type_options: { required: true } }
+                    - { property: 'useCassa', label: 'Учитывать кассу', type: 'checkbox' }

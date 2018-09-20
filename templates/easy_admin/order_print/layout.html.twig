@@ -10,8 +10,8 @@
 
 <div class="container-fluid">
     <section class="print row">
-        <button class="btn-success btn-lg" id="print__btn">печать заказа</button>
-        <button class="btn-danger btn-lg" id ="print__cancel">отмена</button>
+        <a class="btn-success btn-lg" id="print__btn">печать заказа</a>
+        <a class="btn-danger btn-lg" id ="print__cancel" href="{{ app.request.query.get('referer')|easyadmin_urldecode }}">отмена</a>
     </section>
 </div>
 

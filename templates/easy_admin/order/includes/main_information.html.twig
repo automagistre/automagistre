@@ -10,9 +10,45 @@
                     <label class="col-sm-2 control-label">Статус</label>
 
                     <div class="col-sm-10">
-                        <div class="form-control">
-                            {{- order.status.name -}}
-                        </div>
+                        {# @var status \App\Enum\OrderStatus #}
+                        {% set status = order.status %}
+
+                        {% if order.editable and status_selector|default(false) %}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="dropdown">
+                                        <button class="btn btn-{{ status.getColor() }} dropdown-toggle" type="button"
+                                                id="dropdownMenu1"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            {{- status.name }}
+                                            <span class="caret"></span>
+                                        </button>
+
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                            {% for stat in status.selectable if not status.eq(stat) %}
+                                                <li>
+                                                    <a href="{{ easyadmin_path(order, 'status', {'referer': true, 'status': stat.id}|merge(order|to_query)) }}"
+                                                       class="label-{{ stat.getColor() }}">
+                                                        {{ stat.name }}
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <a href="{{ easyadmin_path(order, 'suspend', {'referer': true}) }}" class="btn btn-danger">
+                                        <i class="fa fa-clock-o"></i>
+                                        Отложить
+                                    </a>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="form-control">
+                                {{ status.name }}
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -23,8 +59,22 @@
 
                     <div class="col-sm-10">
                         <div class="form-control">
-                            {%- if order.customer is not empty %}
-                                {{- order.customer -}}
+                            {# @var customer \App\Entity\Operand #}
+                            {% set customer = order.customer %}
+
+                            {%- if customer is not empty %}
+                                <a href="{{ easyadmin_path(customer, 'show') }}">
+                                    {{- customer.fullName -}}
+                                </a>
+
+                                {% if customer.email is not empty %}
+                                    (<a href="mailto:{{ customer.email }}">{{ customer.email }}</a>)
+                                {% endif %}
+
+                                {% if customer.telephone is not empty %}
+                                    {% set tel = customer.telephone|phone_number_format %}
+                                    (<a href="tel:{{ tel }}">{{ tel }}</a>)
+                                {% endif %}
                             {% endif -%}
                         </div>
                     </div>
@@ -37,7 +87,16 @@
 
                     <div class="col-sm-10">
                         <div class="form-control">
-                            {{- order.car -}}
+                            {% set car = order.car %}
+                            {%- if car is not empty -%}
+                                <a href="{{ easyadmin_path(car, 'show') }}">
+                                    {{- car.carModel -}}
+                                </a>
+
+                                <span class="label label-info" title="Госномер">{{ car.gosnomer }}</span>
+
+                                <span class="label label-info" title="VIN">{{ car.vin }}</span>
+                            {%- endif -%}
                         </div>
                     </div>
                 </div>
@@ -62,7 +121,41 @@
 
                         <div class="col-sm-10">
                             <div class="form-control">
-                                {{- order.description|raw -}}
+                                {{- order.description|raw|nl2br -}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="form-horizontal">
+                <div class="form-group field-association ">
+                    <label class="col-sm-2 control-label">Создан</label>
+
+                    <div class="col-sm-10">
+                        <div class="form-control">
+                            {{- order.createdAt|localizeddate -}}
+
+                            {% if order.createdBy is not empty %}
+                                ({% include 'easy_admin/field_user.html.twig' with {'value': order.createdBy} %})
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% if order.closedAt is not empty %}
+                <div class="form-horizontal">
+                    <div class="form-group field-association ">
+                        <label class="col-sm-2 control-label">Закрыт</label>
+
+                        <div class="col-sm-10">
+                            <div class="form-control">
+                                {{- order.closedAt|localizeddate }}
+
+                                {% if order.closedBy is not empty %}
+                                    ({% include 'easy_admin/field_user.html.twig' with {'value': order.closedBy} %})
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -78,7 +171,7 @@
                             {{- order.totalPartPrice|localize_money }}
                             + {{ order.totalServicePrice|localize_money }}
                             - {{ order.totalPayments|localize_money }}
-                            = {{ order.totalForPayment|localize_money -}}
+                            = <span class="label label-success">{{ order.totalForPayment|localize_money -}}</span>
                         </div>
                         <span class="help-block">Запчасти + Работа - Оплачено = К оплате</span>
                     </div>

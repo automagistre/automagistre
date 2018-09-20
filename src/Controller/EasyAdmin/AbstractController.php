@@ -158,6 +158,23 @@ abstract class AbstractController extends AdminController
     /**
      * {@inheritdoc}
      */
+    protected function searchAction(): Response
+    {
+        $id = $this->request->query->getInt('query');
+
+        if (0 !== $id) {
+            $entity = $this->em->getRepository($this->entity['class'])->find($id);
+            if (null !== $entity) {
+                return $this->redirectToEasyPath($entity, 'show');
+            }
+        }
+
+        return parent::searchAction();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function createListQueryBuilder(
         $entityClass,
         $sortDirection,

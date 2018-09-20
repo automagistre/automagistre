@@ -3,7 +3,8 @@
 {% set order = entity %}
 {% set car = order.car %}
 
-{# @var order \App\entity\Order #}
+{# @var order \App\Entity\Order #}
+{# @var car \App\Entity\Car #}
 
 {% block page_title %}Заказ № {{ order.id }}{% endblock %}
 
@@ -13,26 +14,16 @@
     <section id="main" class="content">
         <div class="row">
             <div class="col-md-6">
-                {% include 'easy_admin/order/includes/main_information.html.twig' with {'order': order} only %}
+                {% include 'easy_admin/order/includes/main_information.html.twig' with {'order': order, 'status_selector': true} only %}
             </div>
 
             <div class="col-md-6">
-                {% if order.editable %}
-                    <div class="row">
-                        <div class="col-md-12" style="margin-bottom: 15px">
+                <div class="row">
+                    <div class="col-md-12" style="margin-bottom: 15px">
+                        {% if order.editable %}
                             <a href="{{ easyadmin_path(order, 'edit') }}" class="btn btn-primary">
                                 <i class="fa fa-pencil"></i>
                                 Редактировать
-                            </a>
-
-                            <a href="{{ easyadmin_path(order, 'print', {'referer': true}) }}" class="btn btn-default">
-                                <i class="fa fa-print"></i>
-                                Черновик
-                            </a>
-
-                            <a href="{{ easyadmin_path(order, 'finish', {'referer': true}) }}" class="btn btn-success">
-                                <i class="fa fa-print"></i>
-                                Финалка
                             </a>
 
                             {% if order.readyToClose %}
@@ -46,9 +37,41 @@
                                     Закрыть
                                 </a>
                             {% endif %}
-                        </div>
+
+                            <!-- Single button -->
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-print"></i> Печать <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    {% if car and car.recommendations is not empty %}
+                                        <li>
+                                            <a href="{{ easyadmin_path(order, 'matching', {'referer': true}) }}">
+                                                Согласование
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    <li>
+                                        <a href="{{ easyadmin_path(order, 'giveout', {'referer': true}) }}">
+                                            Выдача
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ easyadmin_path(order, 'finish', {'referer': true}) }}">
+                                            Заказ-наряд
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        {% else %}
+                            <a href="{{ easyadmin_path(order, 'finish', {'referer': true}) }}"
+                               class="btn btn-success">
+                                <i class="fa fa-print"></i>
+                                Финалка
+                            </a>
+                        {% endif %}
                     </div>
-                {% endif %}
+                </div>
 
                 <div class="row">
                     <div class="col-md-12">
@@ -110,6 +133,45 @@
                         } only %}
                     </div>
                 </div>
+
+                {% if order.suspends is not empty %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="field-group">
+                                <div class="box box-default">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">
+                                            Откладывался
+                                        </h3>
+                                    </div>
+
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th>До</th>
+                                                <th>Причина</th>
+                                                <th>Создал</th>
+                                                <th>Дата</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for suspend in order.suspends %}
+                                                <tr>
+                                                    <td>{{ suspend.till|localizeddate('medium', 'none') }}</td>
+                                                    <td>{{ suspend.reason }}</td>
+                                                    <td>{{ include('easy_admin/field_user.html.twig', {'value': suspend.createdBy}) }}</td>
+                                                    <td>{{ suspend.createdAt|localizeddate }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
             </div>
         </div>
 
@@ -141,13 +203,14 @@
                         <thead>
                         <tr>
                             <th>Наименование</th>
-                            <th>Исполнитель / Артикул</th>
+                            <th>Исполнитель</th>
                             <th>Цена</th>
                             <th>Итого</th>
                             {% if order.editable %}
                                 <th>Склад</th>
                                 <th>Действия</th>
                             {% endif %}
+                            <th>Создал</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -170,6 +233,19 @@
                         Рекомендация
                     </a>
                 {%- endspaceless -%}
+                <a>
+                    {% for money in car.getRecommendationPrice %}
+                        {% if 1 == loop.index %}
+                            <i class="fa fa-barcode"></i>
+                        {% elseif 2 == loop.index %}
+                            + <i class="fa fa-wrench"></i>
+                        {% else %}
+                            =
+                        {% endif %}
+
+                        {{ money|localize_money }}
+                    {% endfor %}
+                </a>
             </h2>
 
             {% if car.recommendations is not empty %}
@@ -185,6 +261,7 @@
                                     <th>Диагностировал</th>
                                     <th>Дата</th>
                                     <th>Действия</th>
+                                    <th>Создал</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -193,6 +270,7 @@
 
                                     <tr>
                                         <td>
+                                            <i class="fa fa-wrench"></i>
                                             {{ recommendation.service }}
 
                                             <a href="{{ easyadmin_path('CarRecommendationPart', 'new', {'recommendation_id': recommendation.id}) }}">
@@ -223,17 +301,15 @@
                                                 </form>
                                             {% endif %}
                                         </td>
+                                        <td>{% include 'easy_admin/field_user.html.twig' with {'value': recommendation.createdBy} only %}</td>
 
                                         {% for part in recommendation.parts %}
                                             {# @var part \App\Entity\CarRecommendationPart #}
                                             {{ '</tr><tr>' }}
                                             <td style="padding-left: 40px">
-                                                <a href="{{ easyadmin_path(part.part, 'edit') }}">
-                                                    <i class="fa fa-barcode"></i>
-                                                </a>
-                                                {{ part.part.name }}
+                                                {% include 'easy_admin/field_part.html.twig' with {'value': part.part} only %}
                                             </td>
-                                            <td>{{ part.quantity / 100 }} x {{ part.totalPrice|localize_money }}</td>
+                                            <td>{{ part.quantity / 100 }} x {{ part.price|localize_money }}</td>
                                             <td>
                                                 {% set reservable = part_reservable(part.part) %}
                                                 {% set reserved = part_reserved(part.part) %}
@@ -258,20 +334,14 @@
                                                     {{ reserved / 100 }}
                                                 </span>
                                             </td>
-                                            <td>
-                                                {%- spaceless -%}
-                                                    {% set selector = part.selector %}
-                                                    {% if selector is not empty %}
-                                                        {{ selector.person.fullName }}
-                                                    {% endif %}
-                                                {%- endspaceless -%}
-                                            </td>
+                                            <td></td>
                                             <td>{{ part.createdAt|localizeddate('medium', 'none') }}</td>
                                             <td>
                                                 <a href="{{ easyadmin_path(part, 'edit') }}">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
                                             </td>
+                                            <td>{% include 'easy_admin/field_user.html.twig' with {'value': part.createdBy} only %}</td>
                                         {% endfor %}
                                     </tr>
                                 {% endfor %}
@@ -283,7 +353,6 @@
             {% endif %}
         {% endif %}
     </section>
-
 {% endblock %}
 
 {% block body_javascript %}

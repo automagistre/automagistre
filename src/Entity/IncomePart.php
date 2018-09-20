@@ -49,12 +49,17 @@ class IncomePart
     public static function fromSupply(Supply $supply): self
     {
         $incomePart = new self();
-        $incomePart->setPart($supply->getPart());
-        $incomePart->setQuantity($supply->getQuantity());
-        $incomePart->changePrice($supply->getPrice());
-        $incomePart->setSupply($supply);
+        $incomePart->part = $supply->getPart();
+        $incomePart->quantity = $supply->getQuantity();
+        $incomePart->price = $supply->getPrice();
+        $incomePart->supply = $supply;
 
         return $incomePart;
+    }
+
+    public function setPrice(Money $price): void
+    {
+        $this->price = $price;
     }
 
     public function getTotalPrice(): Money

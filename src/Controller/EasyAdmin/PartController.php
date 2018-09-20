@@ -122,7 +122,7 @@ final class PartController extends AbstractController
             ->groupBy('part.id')
             ->having('SUM(motion.quantity) <> 0');
 
-        $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $request->query->getInt('page', 1), 20);
+        $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $request->query->getInt('page', 1), 99000);
 
         $parts = \array_map(function (array $data) {
             return new WarehousePart([

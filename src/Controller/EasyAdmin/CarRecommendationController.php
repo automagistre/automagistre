@@ -6,9 +6,11 @@ namespace App\Controller\EasyAdmin;
 
 use App\Entity\Car;
 use App\Entity\CarRecommendation;
+use App\Entity\Operand;
 use App\Entity\Order;
 use App\Form\Model\Recommendation;
 use App\Manager\RecommendationManager;
+use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -50,7 +52,7 @@ final class CarRecommendationController extends AbstractController
             throw new NotFoundHttpException();
         }
 
-        $this->manager->realize($recommendation, $order);
+        $this->manager->realize($recommendation, $order, $this->getUser());
 
         return $this->redirectToRoute('easyadmin', [
             'entity' => 'Order',
@@ -76,6 +78,22 @@ final class CarRecommendationController extends AbstractController
         $order = $this->getEntity(Order::class);
         if ($order instanceof Order) {
             $model->worker = $order->getActiveWorker();
+        }
+
+        if (null === $model->worker) {
+            $em = $this->em;
+            $model->worker = $em->createQueryBuilder()
+                ->select('entity')
+                ->from(Operand::class, 'entity')
+                ->join(CarRecommendation::class, 'cr', Join::WITH, 'entity.id = cr.worker')
+                ->where('cr.car = :car')
+                ->orderBy('entity.id', 'DESC')
+                ->getQuery()
+                ->setParameters([
+                    'car' => $car,
+                ])
+                ->setMaxResults(1)
+                ->getOneOrNullResult();
         }
 
         return $model;

@@ -114,8 +114,7 @@ td {
     background-color: #E0E0E0 !important;
     border: white;
   }
-  .print,
-  .print button {
+  .print a {
     display: none;
   }
   .table tbody .table-active td {
@@ -123,9 +122,6 @@ td {
   }
   .table tbody .work td {
     background-color: #E0E0E0 !important;
-  }
-  .price:after {
-    content: " руб";
   }
   section {
     page-break-inside: avoid;

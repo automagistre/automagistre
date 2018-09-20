@@ -9,7 +9,7 @@ use App\Doctrine\ORM\Mapping\Traits\Warranty;
 use App\Money\PriceInterface;
 use App\Money\TotalPriceInterface;
 use Doctrine\ORM\Mapping as ORM;
-use DomainException;
+use LogicException;
 use Money\Money;
 
 /**
@@ -35,22 +35,13 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
      */
     private $quantity;
 
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
-     * @ORM\JoinColumn
-     */
-    private $selector;
-
-    public function __construct(Order $order, Part $part, int $quantity, Money $price, ?User $selector)
+    public function __construct(Order $order, Part $part, int $quantity, Money $price, User $selector)
     {
-        parent::__construct($order);
+        parent::__construct($order, $selector);
 
         $this->part = $part;
         $this->quantity = $quantity;
-        $this->changePrice($price);
-        $this->selector = $selector;
+        $this->price = $price;
     }
 
     public function __toString(): string
@@ -66,10 +57,10 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
     public function setPrice(Money $price): void
     {
         if (!$this->getOrder()->isEditable()) {
-            throw new DomainException('Can\'t change price on part on closed order.');
+            throw new LogicException('Can\'t change price on part on closed order.');
         }
 
-        $this->changePrice($price);
+        $this->price = $price;
     }
 
     public function getQuantity(): int
@@ -85,10 +76,5 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
     public function getTotalPrice(): Money
     {
         return $this->getPrice()->multiply($this->getQuantity() / 100);
-    }
-
-    public function getSelector(): ?User
-    {
-        return $this->selector;
     }
 }

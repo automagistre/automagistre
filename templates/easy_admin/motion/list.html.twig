@@ -1,0 +1,29 @@
+{% extends '@EasyAdmin/default/list.html.twig' %}
+
+{% block content_title %}
+    {{ parent() }}
+
+    {# @var part \App\Entity\Part #}
+    {% if part is not empty %}
+        запчасти №{{ part.id }}
+    {% endif %}
+{% endblock %}
+
+{% block global_actions %}
+    {% set filter = app.request.query.get('filter') %}
+    {% set isIncome = 'income' == filter %}
+    {% set isOutcome = 'outcome' == filter %}
+
+    <a class="btn btn-{{ isIncome ? 'info' : 'default' }}"
+       href="{{ easyadmin_path('Motion', 'list', app.request.query.all|merge({'filter': 'income'})) }}">
+        Только поступления
+    </a>
+    <a class="btn btn-{{ isOutcome ? 'info' : 'default' }}"
+       href="{{ easyadmin_path('Motion', 'list', app.request.query.all|merge({'filter': 'outcome'})) }}">
+        Только списания
+    </a>
+    <a class="btn btn-{{ not isIncome and not isOutcome ? 'info' : 'default' }}"
+       href="{{ easyadmin_path('Motion', 'list', app.request.query.all|merge({'filter': ''})) }}">
+        Все
+    </a>
+{% endblock %}

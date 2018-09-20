@@ -20,6 +20,12 @@ class Version20170401190122 extends AbstractMigration
         $this->addSql('CREATE TABLE car_recommendation_part (id INT AUTO_INCREMENT NOT NULL, recommendation_id INT DEFAULT NULL, part_id INT DEFAULT NULL, quantity INT NOT NULL, cost INT NOT NULL, INDEX IDX_DDC72D65D173940B (recommendation_id), INDEX IDX_DDC72D654CE34BEC (part_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('ALTER TABLE car_recommendation_part ADD CONSTRAINT FK_DDC72D65D173940B FOREIGN KEY (recommendation_id) REFERENCES car_recommendation (id)');
         $this->addSql('ALTER TABLE car_recommendation_part ADD CONSTRAINT FK_DDC72D654CE34BEC FOREIGN KEY (part_id) REFERENCES part (id)');
+
+        $this->addSql('INSERT IGNORE INTO car_recommendation_part (recommendation_id, part_id, quantity, cost)
+                      SELECT partitem.jobadvice_id, partitem.part_id, partitem.qty * 100, COALESCE(partitem.cost, 0) * 100 FROM partitem WHERE partitem.jobadvice_id IS NOT NULL
+        ');
+
+        $this->addSql('DROP TABLE partitem');
     }
 
     public function down(Schema $schema): void

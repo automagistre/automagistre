@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
 use Doctrine\ORM\Mapping as ORM;
+use Money\Money;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -41,13 +42,6 @@ class Part
      * @ORM\Column(nullable=true)
      */
     private $name;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="partnumber_disp", length=64, nullable=true)
-     */
-    private $partnumberDisp;
 
     /**
      * @var string
@@ -125,7 +119,7 @@ class Part
 
     public function setNumber(string $number): void
     {
-        $this->number = $number;
+        $this->number = \strtoupper(\preg_replace('/[^a-zA-Z0-9]/', '', $number));
     }
 
     public function getDescription(): ?string
@@ -141,5 +135,10 @@ class Part
     public function getQuantity(): ?float
     {
         return $this->quantity;
+    }
+
+    public function setPrice(Money $price): void
+    {
+        $this->price = $price;
     }
 }

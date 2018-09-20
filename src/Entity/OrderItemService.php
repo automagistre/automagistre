@@ -34,12 +34,13 @@ class OrderItemService extends OrderItem implements PriceInterface, WarrantyInte
      */
     private $worker;
 
-    public function __construct(Order $order, string $service, Money $price)
+    public function __construct(Order $order, string $service, Money $price, User $user, Operand $worker = null)
     {
-        parent::__construct($order);
+        parent::__construct($order, $user);
 
         $this->service = $service;
-        $this->changePrice($price);
+        $this->price = $price;
+        $this->worker = $worker;
     }
 
     public function __toString(): string
@@ -53,7 +54,7 @@ class OrderItemService extends OrderItem implements PriceInterface, WarrantyInte
             throw new DomainException('Can\'t change price on service on closed order.');
         }
 
-        $this->changePrice($price);
+        $this->price = $price;
     }
 
     public function setService(?string $service): void

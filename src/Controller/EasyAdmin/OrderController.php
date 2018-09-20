@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Costil;
 use App\Entity\Car;
 use App\Entity\Employee;
 use App\Entity\MotionOrder;
@@ -16,12 +17,14 @@ use App\Entity\OrderItemService;
 use App\Entity\OrderNote;
 use App\Entity\OrderPayment;
 use App\Entity\Organization;
-use App\Entity\Payment;
 use App\Entity\Person;
+use App\Enum\OrderStatus;
 use App\Form\Model\Payment as PaymentModel;
 use App\Form\Type\OrderItemServiceType;
 use App\Form\Type\PaymentType;
+use App\Manager\PaymentManager;
 use App\Manager\ReservationManager;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
@@ -29,13 +32,12 @@ use LogicException;
 use Money\Currency;
 use Money\Money;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-
-const COSTIL_CASSA = 1;
-const COSTIL_BEZNAL = 2422;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -47,9 +49,81 @@ final class OrderController extends AbstractController
      */
     private $reservationManager;
 
-    public function __construct(ReservationManager $reservationManager)
+    /**
+     * @var PaymentManager
+     */
+    private $paymentManager;
+
+    public function __construct(ReservationManager $reservationManager, PaymentManager $paymentManager)
     {
         $this->reservationManager = $reservationManager;
+        $this->paymentManager = $paymentManager;
+    }
+
+    public function suspendAction(): Response
+    {
+        $order = $this->getEntity(Order::class);
+        if (!$order instanceof Order) {
+            throw new LogicException('Order required.');
+        }
+
+        $request = $this->request;
+        $form = $this->createFormBuilder([
+            'till' => $order->isSuspended() ? $order->getLastSuspend()->getTill() : new DateTimeImmutable(),
+        ])
+            ->add('till', DateType::class, [
+                'required' => true,
+                'label' => false,
+                'input' => 'datetime_immutable',
+            ])
+            ->add('reason', TextType::class, [
+                'label' => 'Причина',
+                'required' => true,
+            ])
+            ->getForm()
+            ->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var DateTimeImmutable $till */
+            $till = $form->get('till')->getData();
+            $reason = $form->get('reason')->getData();
+
+            $order->suspend($till, $reason);
+            $this->em->flush();
+
+            return $this->redirectToReferrer();
+        }
+
+        return $this->render('easy_admin/order/suspend.html.twig', [
+            'order' => $order,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    public function statusAction(): Response
+    {
+        $order = $this->getEntity(Order::class);
+        if (!$order instanceof Order) {
+            throw new LogicException('Order required.');
+        }
+
+        if (!$order->isEditable()) {
+            $this->addFlash('error', 'Невозможно изменить статус у закрытого заказа.');
+
+            return $this->redirectToReferrer();
+        }
+
+        $status = new OrderStatus($this->request->query->getInt('status'));
+        if (!$status->isSelectable()) {
+            $this->addFlash('error', 'Невозможно вручную установить указанный статус');
+
+            return $this->redirectToReferrer();
+        }
+
+        $order->setStatus($status);
+        $this->em->flush();
+
+        return $this->redirectToReferrer();
     }
 
     /**
@@ -57,7 +131,7 @@ final class OrderController extends AbstractController
      */
     public function isActionAllowed($actionName): bool
     {
-        if ('show' !== $actionName && null !== $id = $this->request->get('id')) {
+        if (!\in_array($actionName, ['show', 'finish'], true) && null !== $id = $this->request->get('id')) {
             $entity = $this->em->getRepository(Order::class)->find($id);
 
             return $entity->isEditable();
@@ -93,7 +167,33 @@ final class OrderController extends AbstractController
         ]);
     }
 
-    public function printAction(): Response
+    public function matchingAction(): Response
+    {
+        $order = $this->getEntity(Order::class);
+        if (!$order instanceof Order) {
+            throw new BadRequestHttpException('Order is required.');
+        }
+
+        $car = $order->getCar();
+        if (!$car instanceof Car) {
+            throw new BadRequestHttpException('Car required.');
+        }
+
+        [$servicePrice, $partPrice, $totalPrice] = $car->getRecommendationPrice();
+
+        return $this->render('easy_admin/order_print/matching.html.twig', [
+            'order' => $order,
+            'car' => $car,
+            'customer' => $order->getCustomer(),
+            'recommendations' => $car->getRecommendations(),
+            'totalRecommendationService' => $servicePrice,
+            'totalRecommendationPart' => $partPrice,
+            'totalRecommendationAll' => $totalPrice,
+            'potentialPrice' => $order->getTotalPrice()->add($totalPrice),
+        ]);
+    }
+
+    public function giveoutAction(): Response
     {
         $order = $this->getEntity(Order::class);
         if (!$order instanceof Order) {
@@ -118,7 +218,7 @@ final class OrderController extends AbstractController
             throw new BadRequestHttpException('Order is required');
         }
 
-        if ($order->isReadyToClose()) {
+        if ($order->isClosed() || $order->isReadyToClose()) {
             goto finish;
         }
 
@@ -174,6 +274,10 @@ final class OrderController extends AbstractController
 
         finish:
 
+        if ($request->isMethod('POST')) {
+            return $this->redirect($request->getUri());
+        }
+
         $parameters = [
             'order' => $order,
             'groups' => \array_filter($order->getRootItems(), function (OrderItem $item) {
@@ -217,10 +321,6 @@ final class OrderController extends AbstractController
             if ([] !== $recommendations) {
                 $parameters['recommendations'] = $recommendations;
             }
-        }
-
-        if ($request->isMethod('POST')) {
-            return $this->redirect($request->getUri());
         }
 
         return $this->render('easy_admin/order_print/final.html.twig', $parameters);
@@ -275,13 +375,13 @@ final class OrderController extends AbstractController
 
         $em->transactional(function (EntityManagerInterface $em) use ($order): void {
             $em->refresh($order);
-            $order->close();
+            $order->close($this->getUser());
 
             $customer = $order->getCustomer();
             if ($customer instanceof Operand) {
                 $description = \sprintf('# Списание по заказу #%s', $order->getId());
 
-                $this->createPayment($customer, $description, $order->getTotalPrice()->negative());
+                $this->paymentManager->createPayment($customer, $description, $order->getTotalPrice()->negative());
             }
 
             foreach ($order->getItems(OrderItemPart::class) as $item) {
@@ -290,8 +390,8 @@ final class OrderController extends AbstractController
                 $part = $item->getPart();
                 $quantity = $item->getQuantity();
 
-                if (0 !== $this->reservationManager->reserved($part, $order)) {
-                    $this->reservationManager->deReserve($part, $quantity, $order);
+                if (0 !== $this->reservationManager->reserved($item)) {
+                    $this->reservationManager->deReserve($item, $quantity);
                 }
 
                 $em->persist(new MotionOrder($part, $quantity, $order));
@@ -311,10 +411,15 @@ final class OrderController extends AbstractController
                     continue;
                 }
 
-                $salary = $item->getPrice()->multiply($employee->getRatio() / 100);
+                $price = $item->getPrice();
+                if (!$price->isPositive()) {
+                    continue;
+                }
+
+                $salary = $price->multiply($employee->getRatio() / 100);
                 $description = \sprintf('# ЗП %s по заказу #%s', $worker->getFullName(), $order->getId());
 
-                $this->createPayment($worker, $description, $salary->absolute());
+                $this->paymentManager->createPayment($worker, $description, $salary->absolute());
             }
         });
 
@@ -398,7 +503,6 @@ final class OrderController extends AbstractController
             ->leftJoin('orders.customer', 'customer')
             ->leftJoin('orders.car', 'car')
             ->leftJoin('car.carModel', 'carModel')
-            ->leftJoin('car.carModification', 'carModification')
             ->leftJoin('carModel.manufacturer', 'manufacturer')
             ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = customer.id AND customer INSTANCE OF '.Person::class)
             ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = customer.id AND customer INSTANCE OF '.Organization::class);
@@ -413,13 +517,18 @@ final class OrderController extends AbstractController
                 $qb->expr()->like('person.email', $key),
                 $qb->expr()->like('car.gosnomer', $key),
                 $qb->expr()->like('carModel.name', $key),
-                $qb->expr()->like('carModification.name', $key),
+                $qb->expr()->like('carModel.localizedName', $key),
                 $qb->expr()->like('manufacturer.name', $key),
+                $qb->expr()->like('manufacturer.localizedName', $key),
                 $qb->expr()->like('organization.name', $key)
             ));
 
             $qb->setParameter($key, '%'.$item.'%');
         }
+
+        $qb
+            ->orderBy('orders.closedAt', 'ASC')
+            ->addOrderBy('orders.id', 'DESC');
 
         return $qb;
     }
@@ -459,61 +568,20 @@ final class OrderController extends AbstractController
         $em = $this->em;
 
         $em->transactional(function (EntityManagerInterface $em) use ($model, $order): void {
-            foreach ([COSTIL_CASSA => $model->amountCash, COSTIL_BEZNAL => $model->amountNonCash] as $id => $money) {
+            foreach ([Costil::CASHBOX => $model->amountCash, Costil::ACCOUNT => $model->amountNonCash] as $id => $money) {
                 /** @var Money $money */
                 if (!$money->isPositive()) {
                     continue;
                 }
 
                 if (null !== $model->recipient) {
-                    $this->createPayment($model->recipient, $model->description, $money);
+                    $payment = $this->paymentManager->createPayment($model->recipient, $model->description, $money);
+                    $em->persist(new OrderPayment($order, $payment));
                 }
 
                 $cashbox = $em->getRepository(Operand::class)->find($id);
-                $payment = $this->createPayment($cashbox, $model->description, $money);
-
-                $em->persist(new OrderPayment($order, $payment));
+                $this->paymentManager->createPayment($cashbox, $model->description, $money);
             }
         });
-    }
-
-    private function createPayment(Operand $recipient, string $description, Money $money): Payment
-    {
-        $em = $this->em;
-
-        return $em->transactional(function (EntityManagerInterface $em) use ($recipient, $description, $money) {
-            $payment = new Payment(
-                $recipient,
-                $description,
-                $money,
-                $this->calcSubtotal($recipient, $money)
-            );
-
-            $em->persist($payment);
-
-            return $payment;
-        });
-    }
-
-    private function calcSubtotal(Operand $recipient, Money $money): Money
-    {
-        $em = $this->em;
-
-        /** @var Payment|null $lastPayment */
-        $lastPayment = $em->createQueryBuilder()
-            ->select('payment')
-            ->from(Payment::class, 'payment')
-            ->where('payment.recipient = :recipient')
-            ->orderBy('payment.id', 'DESC')
-            ->setMaxResults(1)
-            ->setParameter('recipient', $recipient)
-            ->getQuery()
-            ->getOneOrNullResult();
-
-        if (null === $lastPayment) {
-            return $money;
-        }
-
-        return $lastPayment->getSubtotal()->add($money);
     }
 }

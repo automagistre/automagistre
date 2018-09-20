@@ -8,3 +8,5 @@
 ---
 
 A Symfony project created on February 19, 2017.
+
+STO released on September 16, 2018. 

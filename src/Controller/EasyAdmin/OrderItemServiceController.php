@@ -9,10 +9,16 @@ use App\Entity\CarModel;
 use App\Entity\Order;
 use App\Entity\OrderItem;
 use App\Entity\OrderItemService;
+use App\Entity\Organization;
+use App\Entity\Person;
 use App\Form\Model\OrderService;
 use App\Manager\RecommendationManager;
+use Doctrine\ORM\Query\Expr\Join;
+use Doctrine\ORM\QueryBuilder;
+use LogicException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -39,19 +45,26 @@ final class OrderItemServiceController extends OrderItemController
 
         $query = $this->request->query;
 
-        $orderService = $this->em->getRepository(OrderItemService::class)->findOneBy(['id' => $query->get('id')]);
-        if (null === $orderService) {
+        $orderItemService = $this->em->getRepository(OrderItemService::class)->findOneBy(['id' => $query->get('id')]);
+        if (null === $orderItemService) {
             throw new NotFoundHttpException();
         }
 
-        $order = $orderService->getOrder();
-        $this->recommendationManager->recommend($orderService);
+        if (null === $orderItemService->getWorker()) {
+            $this->addFlash(
+                'error',
+                \sprintf(
+                    'Перед перенесом работы "%s" в рекоммендации нужно выбрать исполнителя.',
+                    $orderItemService->getService()
+                )
+            );
 
-        return $this->redirectToRoute('easyadmin', [
-            'entity' => 'Order',
-            'action' => 'show',
-            'id' => $order->getId(),
-        ]);
+            return $this->redirectToReferrer();
+        }
+
+        $this->recommendationManager->recommend($orderItemService);
+
+        return $this->redirectToReferrer();
     }
 
     protected function createNewEntity(): OrderService
@@ -78,7 +91,7 @@ final class OrderItemServiceController extends OrderItemController
      */
     protected function persistEntity($model): void
     {
-        $entity = new OrderItemService($model->order, $model->service, $model->price);
+        $entity = new OrderItemService($model->order, $model->service, $model->price, $this->getUser());
         $entity->setParent($model->parent);
         $entity->setWorker($model->worker);
         $entity->setWarranty($model->warranty);
@@ -89,15 +102,78 @@ final class OrderItemServiceController extends OrderItemController
     /**
      * {@inheritdoc}
      */
-    protected function isActionAllowed($actionName): bool
-    {
-        if (\in_array($actionName, ['edit', 'delete'], true) && null !== $id = $this->request->get('id')) {
-            $entity = $this->em->getRepository(OrderItemService::class)->find($id);
+    protected function createListQueryBuilder(
+        $entityClass,
+        $sortDirection,
+        $sortField = null,
+        $dqlFilter = null
+    ): QueryBuilder {
+        $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
 
-            return $entity->getOrder()->isEditable();
+        $car = $this->getEntity(Car::class);
+        if (!$car instanceof Car) {
+            throw new LogicException('Car required.');
         }
 
-        return parent::isActionAllowed($actionName);
+        $qb->join('entity.order', 'orders')
+            ->join('orders.car', 'car')
+            ->andWhere('car = :car')
+            ->setParameter('car', $car);
+
+        return $qb;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function renderTemplate($actionName, $templatePath, array $parameters = []): Response
+    {
+        if ('list' === $actionName) {
+            $parameters['car'] = $this->getEntity(Car::class);
+        }
+
+        return parent::renderTemplate($actionName, $templatePath, $parameters);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function createSearchQueryBuilder(
+        $entityClass,
+        $searchQuery,
+        array $searchableFields,
+        $sortField = null,
+        $sortDirection = null,
+        $dqlFilter = null
+    ): QueryBuilder {
+        $car = $this->getEntity(Car::class);
+        if (!$car instanceof Car) {
+            throw new LogicException('Car required.');
+        }
+
+        $qb = $this->createListQueryBuilder($entityClass, $sortDirection)
+            ->leftJoin(Person::class, 'person', Join::WITH, 'person = entity.worker')
+            ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization = entity.worker');
+
+        foreach (\explode(' ', $searchQuery) as $key => $item) {
+            $key = ':search_'.$key;
+
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->like('entity.service', $key),
+                $qb->expr()->like('person.firstname', $key),
+                $qb->expr()->like('person.lastname', $key),
+                $qb->expr()->like('person.email', $key),
+                $qb->expr()->like('organization.name', $key)
+            ));
+
+            $qb->setParameter($key, '%'.$item.'%');
+        }
+
+        $qb
+            ->orderBy('orders.closedAt', 'ASC')
+            ->addOrderBy('orders.id', 'DESC');
+
+        return $qb;
     }
 
     /**

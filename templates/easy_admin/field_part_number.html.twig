@@ -1,9 +1,9 @@
-{% if value is not empty %}
+{%- if value is not empty %}
     {{ value -}}
 
-    <a href="{{ path('admin_part_explorer', {'partnumber': value}) }}">
+    <a href="{{ path('admin_part_explorer', {'partnumber': value, 'referer': app.request.uri}) }}">
         <i class="fa fa-search"></i>
     </a>
-{% else %}
+{% else -%}
     {% include '@EasyAdmin/default/label_null.html.twig' %}
-{% endif %}
+{%- endif -%}

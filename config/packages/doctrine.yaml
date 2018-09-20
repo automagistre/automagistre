@@ -19,6 +19,11 @@ doctrine:
                 prefix: App\Entity
                 dir: '%kernel.project_dir%/src/Entity'
                 is_bundle: false
+            moneyphp:
+                type: yml
+                prefix: Money
+                dir: '%kernel.project_dir%/config/orm/money'
+                is_bundle: false
 
 parameters:
     env(DATABASE_URL): 'mysql://db:db@mysql:3306/db'

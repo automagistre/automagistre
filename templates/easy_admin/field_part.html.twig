@@ -1,0 +1,25 @@
+{# @var value \App\Entity\Part #}
+
+{%- if value is not empty -%}
+    <a href="{{ easyadmin_path(value, 'show', {'referer': true}) }}">
+        <i class="fa fa-barcode"></i>
+    </a>
+
+    {{- value }}
+
+    (
+    {%- spaceless %}
+    {#<a href="{{ easyadmin_path(value.manufacturer, 'show', {'referer': true}) }}">#}
+        {{- value.manufacturer -}}
+    {#</a>#}
+    {%- endspaceless %}
+    {%- include 'easy_admin/field_part_number.html.twig' with {'value': value.number} only -%}
+    )
+
+    {# Удалить это говно после возвращения страницы дефицита #}
+    {% if stock|default(false) %}
+        <span class="badge">{{ part_in_stock(value) / 100 }}</span>
+    {% endif %}
+{%- else -%}
+    {% include '@EasyAdmin/default/label_null.html.twig' %}
+{%- endif -%}

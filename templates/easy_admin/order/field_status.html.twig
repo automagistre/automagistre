@@ -1,1 +1,2 @@
-<span class="label label-{{ value.getColor }}">{{ value.name }}</span>
+{# @var item \App\Entity\Order #}
+<span class="label label-{{ item.suspended ? 'default' : value.getColor }}">{{ value.name }}</span>

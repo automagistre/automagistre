@@ -1,0 +1,8 @@
+{# @var value \App\Entity\Order #}
+{% if value is not empty %}
+    <a href="{{ easyadmin_path(value, 'show') }}">{{ value }}</a>
+
+    {% if value.car.carModel.caseName is defined and value.car.carModel.caseName is not empty %}
+        ({{ value.car.carModel.caseName }})
+    {% endif %}
+{% endif %}

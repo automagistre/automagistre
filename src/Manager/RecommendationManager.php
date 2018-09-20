@@ -12,10 +12,9 @@ use App\Entity\OrderItemPart;
 use App\Entity\OrderItemService;
 use App\Entity\User;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use DomainException;
 use Generator;
-use LogicException;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -28,67 +27,113 @@ final class RecommendationManager
     private $em;
 
     /**
-     * @var TokenStorageInterface
+     * @var ReservationManager
      */
-    private $tokenStorage;
+    private $reservationManager;
 
-    public function __construct(EntityManager $em, TokenStorageInterface $tokenStorage)
+    public function __construct(EntityManager $em, ReservationManager $reservationManager)
     {
         $this->em = $em;
-        $this->tokenStorage = $tokenStorage;
+        $this->reservationManager = $reservationManager;
     }
 
-    public function realize(CarRecommendation $recommendation, Order $order): void
+    public function realize(CarRecommendation $recommendation, Order $order, User $user): void
     {
-        $orderService = new OrderItemService($order, $recommendation->getService(), $recommendation->getPrice());
+        $em = $this->em;
 
+        $orderItemService = new OrderItemService(
+            $order,
+            $recommendation->getService(),
+            $recommendation->getPrice(),
+            $user,
+            $order->getActiveWorker()
+        );
+
+        $orderItemParts = [];
         foreach ($recommendation->getParts() as $recommendationPart) {
-            $orderPart = new OrderItemPart(
+            $orderItemPart = $orderItemParts[] = new OrderItemPart(
                 $order,
                 $recommendationPart->getPart(),
                 $recommendationPart->getQuantity(),
                 $recommendationPart->getPrice(),
-                $recommendationPart->getSelector()
+                $recommendationPart->getCreatedBy()
             );
 
-            $orderPart->setParent($orderService);
-            $this->em->persist($orderPart);
+            $orderItemPart->setParent($orderItemService);
+            $em->persist($orderItemPart);
         }
 
-        $recommendation->realize($order);
+        $recommendation->realize($orderItemService);
 
-        $this->em->persist($orderService);
-        $this->em->flush();
+        $em->persist($orderItemService);
+        $em->flush();
+
+        foreach ($orderItemParts as $orderItemPart) {
+            try {
+                $this->reservationManager->reserve($orderItemPart, $orderItemPart->getQuantity());
+            } catch (ReservationException $e) {
+            }
+        }
     }
 
-    public function recommend(OrderItemService $orderService): void
+    public function recommend(OrderItemService $orderItemService): void
     {
-        $order = $orderService->getOrder();
+        $order = $orderItemService->getOrder();
 
         if (null === $car = $order->getCar()) {
             throw new DomainException('Can\' recommend service on undefined car');
         }
 
-        $recommendation = new CarRecommendation(
-            $car,
-            $orderService->getService(),
-            $orderService->getPrice(),
-            $this->getUser()->getPerson()
-        );
+        $this->em->transactional(function (EntityManagerInterface $em) use ($orderItemService, $car): void {
+            $oldRecommendation = $em->createQueryBuilder()
+                ->select('entity')
+                ->from(CarRecommendation::class, 'entity')
+                ->where('entity.realization = :realization')
+                ->orderBy('entity.id', 'DESC')
+                ->getQuery()
+                ->setParameters([
+                    'realization' => $orderItemService,
+                ])
+                ->getOneOrNullResult();
 
-        foreach ($this->getParts($orderService) as $orderPart) {
-            $recommendation->addPart(new CarRecommendationPart(
-                $recommendation,
-                $orderPart->getPart(),
-                $orderPart->getQuantity(),
-                $orderPart->getPrice(),
-                $orderPart->getSelector()
-            ));
-        }
+            $recommendation = new CarRecommendation(
+                $car,
+                $orderItemService->getService(),
+                $orderItemService->getPrice(),
+                $oldRecommendation instanceof CarRecommendation
+                    ? $oldRecommendation->getWorker()
+                    : $orderItemService->getWorker()
+            );
 
-        $this->em->remove($orderService);
-        $this->em->persist($recommendation);
-        $this->em->flush();
+            foreach ($this->getParts($orderItemService) as $orderItemPart) {
+                $part = $orderItemPart->getPart();
+                $reserved = $this->reservationManager->reserved($orderItemPart);
+                if (0 < $reserved) {
+                    $this->reservationManager->deReserve($orderItemPart, $reserved);
+                }
+
+                $recommendation->addPart(new CarRecommendationPart(
+                    $recommendation,
+                    $part,
+                    $orderItemPart->getQuantity(),
+                    $orderItemPart->getPrice(),
+                    $orderItemPart->getCreatedBy()
+                ));
+            }
+
+            $em->createQueryBuilder()
+                ->delete()
+                ->from(CarRecommendation::class, 'entity')
+                ->where('entity.realization = :realization')
+                ->setParameters([
+                    'realization' => $orderItemService,
+                ])
+                ->getQuery()
+                ->execute();
+
+            $em->remove($orderItemService);
+            $em->persist($recommendation);
+        });
     }
 
     /**
@@ -105,19 +150,5 @@ final class RecommendationManager
                 yield $part;
             }
         }
-    }
-
-    private function getUser(): User
-    {
-        if (null === $token = $this->tokenStorage->getToken()) {
-            throw new DomainException('Recommendation manager cannot work with anonymous user');
-        }
-
-        $user = $token->getUser();
-        if (!$user instanceof User) {
-            throw new LogicException(\sprintf('User must be instance of "%s"', User::class));
-        }
-
-        return $user;
     }
 }

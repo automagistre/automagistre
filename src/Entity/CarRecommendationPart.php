@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
+use App\Doctrine\ORM\Mapping\Traits\CreatedBy;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
 use App\Money\TotalPriceInterface;
@@ -19,6 +20,7 @@ class CarRecommendationPart implements TotalPriceInterface
     use Identity;
     use Price;
     use CreatedAt;
+    use CreatedBy;
 
     /**
      * @var CarRecommendation
@@ -43,14 +45,6 @@ class CarRecommendationPart implements TotalPriceInterface
      */
     private $quantity;
 
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
-     * @ORM\JoinColumn
-     */
-    private $selector;
-
     public function __construct(
         CarRecommendation $recommendation,
         Part $part,
@@ -61,8 +55,8 @@ class CarRecommendationPart implements TotalPriceInterface
         $this->recommendation = $recommendation;
         $this->part = $part;
         $this->quantity = $quantity;
-        $this->changePrice($price);
-        $this->selector = $selector;
+        $this->price = $price;
+        $this->createdBy = $selector;
     }
 
     public function getRecommendation(): CarRecommendation
@@ -87,12 +81,7 @@ class CarRecommendationPart implements TotalPriceInterface
 
     public function setPrice(Money $price): void
     {
-        $this->changePrice($price);
-    }
-
-    public function getSelector(): ?User
-    {
-        return $this->selector;
+        $this->price = $price;
     }
 
     public function getTotalPrice(): Money

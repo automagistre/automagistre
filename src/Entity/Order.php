@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
+use App\Doctrine\ORM\Mapping\Traits\CreatedBy;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Enum\OrderStatus;
 use App\Money\PriceInterface;
@@ -26,6 +27,7 @@ class Order
 {
     use Identity;
     use CreatedAt;
+    use CreatedBy;
 
     /**
      * @var OrderItem[]|ArrayCollection
@@ -40,6 +42,13 @@ class Order
      * @ORM\Column(type="datetime_immutable", nullable=true)
      */
     private $closedAt;
+
+    /**
+     * @var User|null
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     */
+    private $closedBy;
 
     /**
      * @var OrderStatus
@@ -72,60 +81,11 @@ class Order
     private $mileage;
 
     /**
-     * @var bool
-     *
-     * @ORM\Column(name="checkpay", type="boolean", nullable=true)
-     */
-    private $checkpay;
-
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="topay", type="float", precision=10, scale=0, nullable=true)
-     */
-    private $topay;
-
-    /**
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
-
-    /**
-     * @var DateTime
-     *
-     * @ORM\Column(name="suspenddate", type="datetime", nullable=true)
-     */
-    private $suspenddate;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="suspended", type="boolean", nullable=true)
-     */
-    private $suspended;
-
-    /**
-     * @var DateTime
-     *
-     * @ORM\Column(name="resumedate", type="date", nullable=true)
-     */
-    private $resumedate;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="paycardbool", type="boolean", nullable=true)
-     */
-    private $paycardbool;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="paycard", type="integer", nullable=true)
-     */
-    private $paycard;
 
     /**
      * @var OrderPayment[]|ArrayCollection
@@ -134,11 +94,19 @@ class Order
      */
     private $payments;
 
+    /**
+     * @var ArrayCollection|OrderSuspend[]
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\OrderSuspend", mappedBy="order", cascade={"persist", "remove"})
+     */
+    private $suspends;
+
     public function __construct()
     {
         $this->status = OrderStatus::working();
         $this->items = new ArrayCollection();
         $this->payments = new ArrayCollection();
+        $this->suspends = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -156,9 +124,11 @@ class Order
         })->getValues();
     }
 
-    public function close(): void
+    public function close(User $user): void
     {
         $this->status = OrderStatus::closed();
+        $this->closedBy = $user;
+        $this->closedAt = new DateTimeImmutable();
     }
 
     public function getActiveWorker(): ?Operand
@@ -206,13 +176,15 @@ class Order
         return $this->car;
     }
 
-    public function setCar(Car $car): void
+    public function setCar(?Car $car): void
     {
         $this->car = $car;
 
-        $customer = $car->getOwner();
-        if (null === $this->customer && $customer instanceof Operand) {
-            $this->customer = $customer;
+        if ($car instanceof Car) {
+            $customer = $car->getOwner();
+            if (null === $this->customer && $customer instanceof Operand) {
+                $this->customer = $customer;
+            }
         }
     }
 
@@ -221,7 +193,7 @@ class Order
         return $this->customer;
     }
 
-    public function setCustomer(Operand $customer = null): void
+    public function setCustomer(?Operand $customer): void
     {
         $this->customer = $customer;
     }
@@ -231,7 +203,7 @@ class Order
         return $this->description;
     }
 
-    public function setDescription(string $description = null): void
+    public function setDescription(?string $description): void
     {
         $this->description = $description;
     }
@@ -239,6 +211,11 @@ class Order
     public function getClosedAt(): ?DateTimeImmutable
     {
         return $this->closedAt;
+    }
+
+    public function getClosedBy(): ?User
+    {
+        return $this->closedBy;
     }
 
     public function getMileage(): ?int
@@ -289,7 +266,12 @@ class Order
     {
         return $this->isEditable()
             && [] === $this->getServicesWithoutWorker()
-            && null !== $this->mileage;
+            && (null === $this->car || null !== $this->mileage);
+    }
+
+    public function isClosed(): bool
+    {
+        return $this->status->isClosed();
     }
 
     public function getTotalPayments(): Money
@@ -316,6 +298,30 @@ class Order
     public function getPayments(): array
     {
         return $this->payments->toArray();
+    }
+
+    public function isSuspended(): bool
+    {
+        if ($this->suspends->isEmpty()) {
+            return false;
+        }
+
+        return $this->getLastSuspend()->getTill() > new DateTime();
+    }
+
+    public function getLastSuspend(): OrderSuspend
+    {
+        return $this->suspends->last();
+    }
+
+    public function getSuspends(): array
+    {
+        return $this->suspends->getValues();
+    }
+
+    public function suspend(DateTimeImmutable $till, string $reason): void
+    {
+        $this->suspends[] = new OrderSuspend($this, $till, $reason);
     }
 
     private function getTotalPriceByClass(?string $class): Money

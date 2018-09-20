@@ -7,6 +7,7 @@ namespace App\Enum;
 use Grachevko\Enum\Enum;
 
 /**
+ * @method string getColor()
  * @method static OrderStatus draft()
  * @method static OrderStatus working()
  * @method static OrderStatus closed()
@@ -26,21 +27,23 @@ final class OrderStatus extends Enum
     private const WORKING = 8;
     private const READY = 9;
     private const CLOSED = 10;
+    private const SELECTION = 11;
 
     /**
      * @var array
      */
     protected static $color = [
         self::DRAFT => 'default',
-        self::SCHEDULING => 'info',
-        self::ORDERING => 'info',
-        self::MATCHING => 'primary',
+        self::SCHEDULING => 'primary',
+        self::ORDERING => 'danger',
+        self::MATCHING => 'warning',
         self::TRACKING => 'default',
-        self::DELIVERY => 'primary',
+        self::DELIVERY => 'info',
         self::NOTIFICATION => 'warning',
         self::WORKING => 'success',
-        self::READY => 'warning',
+        self::READY => 'primary',
         self::CLOSED => 'default',
+        self::SELECTION => 'danger',
     ];
 
     /**
@@ -57,6 +60,7 @@ final class OrderStatus extends Enum
         self::WORKING => 'В работе',
         self::READY => 'Ожидает выдачи',
         self::CLOSED => 'Закрыт',
+        self::SELECTION => 'Подбор запчастей',
     ];
 
     public function isEditable(): bool
@@ -64,5 +68,18 @@ final class OrderStatus extends Enum
         return !$this->in([
             self::CLOSED,
         ]);
+    }
+
+    /**
+     * @return self[]
+     */
+    public static function selectable(): array
+    {
+        return self::all([self::CLOSED], true);
+    }
+
+    public function isSelectable(): bool
+    {
+        return $this->isEditable();
     }
 }

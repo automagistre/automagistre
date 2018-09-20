@@ -1,0 +1,11 @@
+{% extends '@EasyAdmin/default/list.html.twig' %}
+
+{% block content_title %}
+    Работы по автомобилю: <a href="{{ easyadmin_path(car, 'show') }}">{{ car }}</a>
+{% endblock %}
+
+{% block search_form %}
+    <input type="hidden" name="car_id" value="{{ car.id }}">
+
+    {{ parent() }}
+{% endblock %}

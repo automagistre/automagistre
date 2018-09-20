@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -26,15 +25,6 @@ class Organization extends Operand
      * @ORM\Column(nullable=true)
      */
     private $address;
-
-    /**
-     * @var string
-     *
-     * @Assert\Email
-     *
-     * @ORM\Column(nullable=true)
-     */
-    private $email;
 
     /**
      * @var PhoneNumber
@@ -88,16 +78,6 @@ class Organization extends Operand
     public function setTelephone(?PhoneNumber $telephone): void
     {
         $this->telephone = $telephone;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): void
-    {
-        $this->email = $email;
     }
 
     public function getOfficePhone(): ?PhoneNumber
