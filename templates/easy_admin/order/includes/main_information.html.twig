@@ -170,10 +170,34 @@
                         <div class="form-control">
                             {{- order.totalPartPrice|localize_money }}
                             + {{ order.totalServicePrice|localize_money }}
-                            - {{ order.totalPayments|localize_money }}
-                            = <span class="label label-success">{{ order.totalForPayment|localize_money -}}</span>
+
+                            {% set payments = order.totalPayments %}
+                            {% if not payments.isZero %}
+                                - {{ payments|localize_money }}
+                            {% endif %}
+
+                            {% if balance is not empty %}
+                                {{ balance.isNegative ? '+' : '-' }} {{ balance.absolute|localize_money }}
+                            {% endif %}
+                            = <span class="label label-success">{{ totalForPayment|localize_money -}}</span>
                         </div>
-                        <span class="help-block">Запчасти + Работа - Оплачено = К оплате</span>
+                        <span class="help-block">
+                            Запчасти
+                            + Работа
+                            {% if not payments.isZero %}
+                                - Аванс
+                            {% endif %}
+
+                            {% if balance is not empty %}
+                                {# @var balance \Money\Money #}
+                                {% if balance.isNegative %}
+                                    + Долг
+                                {% else %}
+                                    - Счёт
+                                {% endif %}
+                            {% endif %}
+                            = К оплате
+                        </span>
                     </div>
                 </div>
             </div>

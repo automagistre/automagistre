@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
+use App\Doctrine\ORM\Mapping\Traits\CreatedBy;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
+use Money\Money;
 
 /**
  * @ORM\Entity
@@ -15,6 +17,7 @@ class OrderPayment
 {
     use Identity;
     use CreatedAt;
+    use CreatedBy;
 
     /**
      * @var Order
@@ -24,25 +27,33 @@ class OrderPayment
     private $order;
 
     /**
-     * @var Payment
+     * @var Money
      *
-     * @ORM\OneToOne(targetEntity="App\Entity\Payment")
+     * @ORM\Embedded(class="Money\Money")
      */
-    private $payment;
+    private $money;
 
-    public function __construct(Order $order, Payment $payment)
+    /**
+     * @var string
+     *
+     * @ORM\Column(nullable=true)
+     */
+    private $description;
+
+    public function __construct(Order $order, Money $money, ?string $description)
     {
         $this->order = $order;
-        $this->payment = $payment;
+        $this->money = $money;
+        $this->description = $description;
     }
 
-    public function getOrder(): Order
+    public function getMoney(): Money
     {
-        return $this->order;
+        return $this->money;
     }
 
-    public function getPayment(): Payment
+    public function getDescription(): ?string
     {
-        return $this->payment;
+        return $this->description;
     }
 }

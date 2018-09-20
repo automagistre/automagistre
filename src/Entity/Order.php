@@ -51,6 +51,13 @@ class Order
     private $closedBy;
 
     /**
+     * @var Money|null
+     *
+     * @ORM\Embedded(class="Money\Money")
+     */
+    private $closedBalance;
+
+    /**
      * @var OrderStatus
      *
      * @ORM\Column(name="status", type="order_status_enum")
@@ -90,7 +97,7 @@ class Order
     /**
      * @var OrderPayment[]|ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\OrderPayment", mappedBy="order")
+     * @ORM\OneToMany(targetEntity="App\Entity\OrderPayment", mappedBy="order", cascade={"persist"})
      */
     private $payments;
 
@@ -124,11 +131,12 @@ class Order
         })->getValues();
     }
 
-    public function close(User $user): void
+    public function close(User $user, ?Money $balance): void
     {
         $this->status = OrderStatus::closed();
         $this->closedBy = $user;
         $this->closedAt = new DateTimeImmutable();
+        $this->closedBalance = $balance;
     }
 
     public function getActiveWorker(): ?Operand
@@ -218,6 +226,11 @@ class Order
         return $this->closedBy;
     }
 
+    public function getClosedBalance(): ?Money
+    {
+        return $this->closedBalance;
+    }
+
     public function getMileage(): ?int
     {
         return $this->mileage;
@@ -278,18 +291,29 @@ class Order
     {
         $money = new Money(0, new Currency('RUB'));
         foreach ($this->payments as $payment) {
-            $money = $money->add($payment->getPayment()->getAmount());
+            $money = $money->add($payment->getMoney());
         }
 
         return $money;
     }
 
-    public function getTotalForPayment(): Money
+    public function getTotalForPayment(Money $balance = null): Money
     {
-        return (new Money(0, new Currency('RUB')))
+        $forPayment = (new Money(0, new Currency('RUB')))
             ->add($this->getTotalPartPrice())
             ->add($this->getTotalServicePrice())
             ->subtract($this->getTotalPayments());
+
+        if ($balance instanceof Money) {
+            $forPayment = $forPayment->add($balance->multiply(-1));
+        }
+
+        return $forPayment;
+    }
+
+    public function addPayment(Money $money, ?string $description): void
+    {
+        $this->payments[] = new OrderPayment($this, $money, $description);
     }
 
     /**

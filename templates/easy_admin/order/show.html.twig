@@ -14,7 +14,7 @@
     <section id="main" class="content">
         <div class="row">
             <div class="col-md-6">
-                {% include 'easy_admin/order/includes/main_information.html.twig' with {'order': order, 'status_selector': true} only %}
+                {{ render(controller('App\\Controller\\EasyAdmin\\OrderController::info', {'order': order, 'status_selector': true})) }}
             </div>
 
             <div class="col-md-6">
@@ -88,21 +88,19 @@
                                         <table class="table table-striped">
                                             <thead>
                                             <tr>
-                                                <th>№</th>
                                                 <th>Сумма</th>
                                                 <th>Описание</th>
-                                                <th>Дата</th>
+                                                <th>Принял</th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            {% for orderPayment in order.payments %}
-                                                {# @var payment \App\Entity\Payment #}
-                                                {% set payment = orderPayment.payment %}
+                                            {% for payment in order.payments %}
+                                                {# @var payment \App\Entity\OrderPayment #}
+
                                                 <tr>
-                                                    <td>{{ payment.id }}</td>
-                                                    <td>{{ payment.amount|localize_money }}</td>
+                                                    <td>{{ payment.money|localize_money }}</td>
                                                     <td>{{ payment.description }}</td>
-                                                    <td>{{ orderPayment.createdAt|localizeddate }}</td>
+                                                    <td>{{ payment.createdAt|localizeddate }} ({% include 'easy_admin/field_user.html.twig' with {'value': payment.createdBy} %})</td>
                                                 </tr>
                                             {% endfor %}
                                             </tbody>

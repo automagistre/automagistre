@@ -1,0 +1,11 @@
+{% extends 'easy_admin/layout.html.twig' %}
+
+{% use 'easy_admin/order/layout.html.twig' %}
+
+{% form_theme form with easyadmin_config('design.form_theme') %}
+
+{% block content_title %}
+    Создать аванс по заказу №{{ order }}
+{% endblock %}
+
+{% block panel_title %}Форма аванса{% endblock %}

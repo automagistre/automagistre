@@ -197,12 +197,30 @@
             <table class="table table-bordered table-striped table-sm">
                 <tbody>
                 <tr class="table-active">
-                    <td class="table-summary legend">предоплата:</td>
-                    <td class="table-summary"><span class="price">{{ order.totalPayments|localize_money }}</span></td>
+                    <td class="table-summary legend">
+                        предоплата
+                        {%- if balance and not balance.isZero %}
+                            {{- balance.isNegative ? ' - долг' }}
+                        {%- endif -%}
+                        :
+                    </td>
+                    <td class="table-summary"><span class="price">
+                            {% if balance.isZero %}
+                                {{ order.totalPayments|localize_money }}
+                            {% else %}
+                                {%- if balance.isNegative %}
+                                    {{ order.totalPayments|localize_money }} - {{ balance.absolute|localize_money }}
+                                {% elseif balance.isPositive %}
+                                    {{ order.totalPayments.add(balance)|localize_money }}
+                                {%- endif -%}
+                            {% endif %}
+                        </span>
+                    </td>
                 </tr>
                 <tr class="table-active">
                     <td class="table-summary legend">всего к оплате:</td>
-                    <td class="table-summary"><span class="price">{{ order.totalForPayment|localize_money }}</span>
+                    <td class="table-summary">
+                        <span class="price">{{ order.totalForPayment(balance|default(null))|localize_money }}</span>
                     </td>
                 </tr>
                 </tbody>

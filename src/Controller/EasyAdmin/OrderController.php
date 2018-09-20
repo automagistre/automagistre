@@ -15,11 +15,11 @@ use App\Entity\OrderItemGroup;
 use App\Entity\OrderItemPart;
 use App\Entity\OrderItemService;
 use App\Entity\OrderNote;
-use App\Entity\OrderPayment;
 use App\Entity\Organization;
 use App\Entity\Person;
 use App\Enum\OrderStatus;
 use App\Form\Model\Payment as PaymentModel;
+use App\Form\Type\MoneyType;
 use App\Form\Type\OrderItemServiceType;
 use App\Form\Type\PaymentType;
 use App\Manager\PaymentManager;
@@ -58,6 +58,23 @@ final class OrderController extends AbstractController
     {
         $this->reservationManager = $reservationManager;
         $this->paymentManager = $paymentManager;
+    }
+
+    public function info(Order $order, bool $statusSelector = false): Response
+    {
+        $customer = $order->getCustomer();
+
+        $balance = null;
+        if ($customer instanceof Operand) {
+            $balance = $order->isClosed() ? $order->getClosedBalance() : $this->paymentManager->balance($customer);
+        }
+
+        return $this->render('easy_admin/order/includes/main_information.html.twig', [
+            'order' => $order,
+            'status_selector' => $statusSelector,
+            'balance' => $balance,
+            'totalForPayment' => $order->getTotalForPayment($balance),
+        ]);
     }
 
     public function suspendAction(): Response
@@ -147,21 +164,23 @@ final class OrderController extends AbstractController
             throw new BadRequestHttpException('Order is required');
         }
 
-        $form = $this->createPaymentForm($order)
+        $form = $this->createFormBuilder()
+            ->add('money', MoneyType::class)
+            ->add('description', TextType::class, [
+                'required' => false,
+                'label' => 'Комментарий',
+            ])
+            ->getForm()
             ->handleRequest($this->request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $model = $form->getData();
-            if (!$model instanceof PaymentModel) {
-                throw new LogicException(\sprintf('"%s" is required.', PaymentModel::class));
-            }
-
-            $this->handlePayment($model, $order);
+            $order->addPayment($form->get('money')->getData(), $form->get('description')->getData());
+            $this->em->flush();
 
             return $this->redirectToReferrer();
         }
 
-        return $this->render('easy_admin/order/payment.html.twig', [
+        return $this->render('easy_admin/order/prepayment.html.twig', [
             'order' => $order,
             'form' => $form->createView(),
         ]);
@@ -293,6 +312,10 @@ final class OrderController extends AbstractController
         if ($customer instanceof Operand) {
             $parameters['customer'] = $customer;
             $parameters['title'] = $customer->getFullName();
+
+            $parameters['balance'] = $order->isClosed()
+                ? $order->getClosedBalance()
+                : $this->paymentManager->balance($customer);
         }
 
         $car = $order->getCar();
@@ -360,7 +383,7 @@ final class OrderController extends AbstractController
                 ->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $this->handlePayment($form->getData(), $order);
+                $this->handlePayment($form->getData());
 
                 goto close;
             }
@@ -375,13 +398,25 @@ final class OrderController extends AbstractController
 
         $em->transactional(function (EntityManagerInterface $em) use ($order): void {
             $em->refresh($order);
-            $order->close($this->getUser());
-
             $customer = $order->getCustomer();
+
+            $balance = $customer instanceof Operand ? $this->paymentManager->balance($customer) : null;
+            $order->close($this->getUser(), $balance);
+
             if ($customer instanceof Operand) {
                 $description = \sprintf('# Списание по заказу #%s', $order->getId());
 
                 $this->paymentManager->createPayment($customer, $description, $order->getTotalPrice()->negative());
+
+                foreach ($order->getPayments() as $payment) {
+                    $description = \sprintf(
+                        '# Начисление предоплаты%s по заказу #%s',
+                        null !== $payment->getDescription() ? \sprintf(' "%s"', $payment->getDescription()) : '',
+                        $order->getId()
+                    );
+
+                    $this->paymentManager->createPayment($customer, $description, $payment->getMoney());
+                }
             }
 
             foreach ($order->getItems(OrderItemPart::class) as $item) {
@@ -549,10 +584,17 @@ final class OrderController extends AbstractController
 
     private function createPaymentForm(Order $order): FormInterface
     {
+        $customer = $order->getCustomer();
+        $balance = null;
+        if ($customer instanceof Operand) {
+            $balance = $this->paymentManager->balance($customer);
+        }
+
+        $forPayment = $order->getTotalForPayment($balance);
+
         $model = new PaymentModel();
-        $model->recipient = $order->getCustomer();
+        $model->recipient = $customer;
         $model->description = '# Начисление по заказу #'.$order->getId();
-        $forPayment = $order->getTotalForPayment();
         $model->amountCash = $forPayment->isPositive() ? $forPayment : new Money(0, $forPayment->getCurrency());
         $model->amountNonCash = new Money(0, $forPayment->getCurrency());
 
@@ -563,11 +605,11 @@ final class OrderController extends AbstractController
         ]);
     }
 
-    private function handlePayment(PaymentModel $model, Order $order): void
+    private function handlePayment(PaymentModel $model): void
     {
         $em = $this->em;
 
-        $em->transactional(function (EntityManagerInterface $em) use ($model, $order): void {
+        $em->transactional(function (EntityManagerInterface $em) use ($model): void {
             foreach ([Costil::CASHBOX => $model->amountCash, Costil::ACCOUNT => $model->amountNonCash] as $id => $money) {
                 /** @var Money $money */
                 if (!$money->isPositive()) {
@@ -575,8 +617,7 @@ final class OrderController extends AbstractController
                 }
 
                 if (null !== $model->recipient) {
-                    $payment = $this->paymentManager->createPayment($model->recipient, $model->description, $money);
-                    $em->persist(new OrderPayment($order, $payment));
+                    $this->paymentManager->createPayment($model->recipient, $model->description, $money);
                 }
 
                 $cashbox = $em->getRepository(Operand::class)->find($id);
