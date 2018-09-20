@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ title|default('Печать') }}</title>
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/print.css') }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/print.css') }}">
 </head>
 <body>
 
-<div class="container-fluid">
+<div class="container-fluid print_block">
     <section class="print row">
-        <a class="btn-success btn-lg" id="print__btn">печать заказа</a>
+        <a class="btn-success btn-lg" id="print__btn" href="#">печать заказа</a>
         <a class="btn-danger btn-lg" id ="print__cancel" href="{{ app.request.query.get('referer')|easyadmin_urldecode }}">отмена</a>
     </section>
 </div>

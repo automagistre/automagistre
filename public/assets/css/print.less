@@ -1,5 +1,6 @@
 @theadColor: #E0E0E0;
 @summaryColor: #F2F2F2;
+@printHeadColor: Black;
 
 // шапка
  .print {
@@ -12,7 +13,7 @@
    background-color: @theadColor;
 
    z-index: 2;
-   opacity: 0.2;
+   opacity: 0.4;
    &:hover {
      opacity: 0.9;
      border-top: 1px solid black;
@@ -22,6 +23,10 @@
 .btn-lg{
   text-transform: capitalize;
   margin: 0 10px;
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 // заказ
@@ -120,6 +125,7 @@ td {
   font-weight: bold;
 }
 
+
 @media print {
   @page {
     size: A4;
@@ -133,23 +139,39 @@ td {
   body {
     margin: 0;
   }
-  .table .thead-dark tr th, .table-active td {
-    background-color: @theadColor !important;
-    border: white;
+
+  .table-bordered tbody {
+    & td, th {
+      border: 1px solid black !important;
+    }
   }
-  .print, .print button {
+  .table .thead-dark tr th {
+    background-color: @printHeadColor !important;
+    color: white;
+    border-color: white !important;
+  }
+  .table .thead-dark tr th{
+    border-top-color: black !important;
+    border-bottom-color: black !important;
+    border-left-color: white !important;
+  }
+  .table .thead-dark tr th:first-child {
+    border-left-color: black !important;
+  }
+  .table .thead-dark tr th:last-child {
+    border-right-color: black !important;
+  }
+  .print_block, .print a {
     display: none;
   }
 
   .table tbody .table-active td {
-    background-color: @summaryColor !important;
+    background-color: darken(@summaryColor, 20%) !important;
   }
 
   .table tbody .work td {
-    background-color: @theadColor !important;
-  }
-  .price:after {
-    content: " руб";
+    background-color: @printHeadColor !important;
+
   }
 
   section {
@@ -157,9 +179,6 @@ td {
   }
   .recommendations{
     page-break-before: always;
-  }
-  .count:after {
-    content: " шт";
   }
 
 }
