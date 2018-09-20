@@ -167,7 +167,7 @@ final class OrderController extends AbstractController
         ]);
     }
 
-    public function printAction(): Response
+    public function giveoutAction(): Response
     {
         $order = $this->getEntity(Order::class);
         if (!$order instanceof Order) {
