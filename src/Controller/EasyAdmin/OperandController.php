@@ -11,11 +11,10 @@ use App\Entity\Order;
 use App\Entity\Organization;
 use App\Entity\Payment;
 use App\Entity\Person;
+use App\Manager\PaymentManager;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
-use Money\Currency;
-use Money\Money;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,6 +24,19 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class OperandController extends AbstractController
 {
+    /**
+     * @var PaymentManager
+     */
+    private $paymentManager;
+
+    /**
+     * @required
+     */
+    public function setPaymentManager(PaymentManager $paymentManager): void
+    {
+        $this->paymentManager = $paymentManager;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -62,14 +74,7 @@ class OperandController extends AbstractController
                 ->findBy(['recipient' => $operand], ['id' => 'DESC'], 20);
             $parameters['notes'] = $em->getRepository(OperandNote::class)
                 ->findBy(['operand' => $operand], ['createdAt' => 'DESC']);
-
-            $amount = $em->createQueryBuilder()
-                ->select('SUM(payment.amount)')
-                ->from(Payment::class, 'payment')
-                ->where('payment.recipient = :recipient')
-                ->setParameter('recipient', $operand)
-                ->getQuery()->getSingleScalarResult();
-            $parameters['balance'] = new Money($amount, new Currency('RUB'));
+            $parameters['balance'] = $this->paymentManager->balance($operand);
         }
 
         return parent::renderTemplate($actionName, $templatePath, $parameters);
