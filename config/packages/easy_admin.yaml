@@ -91,7 +91,7 @@ easy_admin:
             list:
                 max_results: 50
                 title: 'Активные заказы'
-                dql_filter: 'entity.status != 10'
+                dql_filter: 'entity.status != 10 OR DATE(entity.closedAt) = DATE(NOW())'
                 fields:
                     - { property: 'id', label: 'Номер', template: 'easy_admin/order/field_id.html.twig' }
                     - { property: 'status', label: 'Статус', template: 'easy_admin/order/field_status.html.twig' }
