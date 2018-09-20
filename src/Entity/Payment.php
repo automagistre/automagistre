@@ -7,7 +7,6 @@ namespace App\Entity;
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
-use Money\Currency;
 use Money\Money;
 
 /**
@@ -34,16 +33,16 @@ class Payment
     private $description;
 
     /**
-     * @var string
+     * @var Money
      *
-     * @ORM\Column
+     * @ORM\Embedded(class="Money\Money")
      */
     private $amount;
 
     /**
-     * @var string
+     * @var Money
      *
-     * @ORM\Column(nullable=true)
+     * @ORM\Embedded(class="Money\Money")
      */
     private $subtotal;
 
@@ -51,8 +50,8 @@ class Payment
     {
         $this->recipient = $recipient;
         $this->description = $description;
-        $this->amount = $money->getAmount();
-        $this->subtotal = $subtotal->getAmount();
+        $this->amount = $money;
+        $this->subtotal = $subtotal;
     }
 
     public function getRecipient(): Operand
@@ -67,15 +66,11 @@ class Payment
 
     public function getAmount(): Money
     {
-        return new Money($this->amount, new Currency('RUB'));
+        return $this->amount;
     }
 
-    public function getSubtotal(): ?Money
+    public function getSubtotal(): Money
     {
-        if (null === $this->subtotal) {
-            return null;
-        }
-
-        return new Money($this->subtotal, new Currency('RUB'));
+        return $this->subtotal;
     }
 }

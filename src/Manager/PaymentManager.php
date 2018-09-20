@@ -49,7 +49,7 @@ final class PaymentManager
         $em = $this->registry->getEntityManager();
 
         $amount = $em->createQueryBuilder()
-            ->select('SUM(payment.amount)')
+            ->select('SUM(payment.amount.amount)')
             ->from(Payment::class, 'payment')
             ->where('payment.recipient = :recipient')
             ->setParameter('recipient', $operand)
