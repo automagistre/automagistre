@@ -575,13 +575,12 @@ final class OrderController extends AbstractController
                 }
 
                 if (null !== $model->recipient) {
-                    $this->paymentManager->createPayment($model->recipient, $model->description, $money);
+                    $payment = $this->paymentManager->createPayment($model->recipient, $model->description, $money);
+                    $em->persist(new OrderPayment($order, $payment));
                 }
 
                 $cashbox = $em->getRepository(Operand::class)->find($id);
-                $payment = $this->paymentManager->createPayment($cashbox, $model->description, $money);
-
-                $em->persist(new OrderPayment($order, $payment));
+                $this->paymentManager->createPayment($cashbox, $model->description, $money);
             }
         });
     }
