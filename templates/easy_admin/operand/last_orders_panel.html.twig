@@ -27,7 +27,7 @@
                                 </a>
                             </td>
                             <td>{{ order.closedAt|localizeddate }}</td>
-                            <td>{{ order.car }}</td>
+                            <td>{% include 'easy_admin/field_car.html.twig' with {'value': order.car} only %}</td>
                             <td>{{ order.totalForPayment|localize_money }}</td>
                         </tr>
                     {% endfor %}
