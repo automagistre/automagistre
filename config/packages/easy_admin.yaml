@@ -17,8 +17,7 @@ easy_admin:
                 - 'assets/js/sto.js'
         menu:
             - { label: 'Заказы' }
-            - { entity: 'OrderActive', label: 'Активные', icon: 'list', default: true }
-            - { entity: 'Order', label: 'Все', icon: 'list' }
+            - { entity: 'Order', label: 'Заказы', icon: 'list', default: true }
             - { label: 'Бухгалтерия' }
             - { entity: 'Payment', label: 'Проводки', icon: 'list' }
             - { label: 'Списки' }
@@ -51,7 +50,7 @@ easy_admin:
             - { name: 'delete', icon: 'trash', label: false }
 
     entities:
-        Order: &order
+        Order:
             class: App\Entity\Order
             controller: App\Controller\EasyAdmin\OrderController
             disabled_actions: ['edit', 'delete']
@@ -68,7 +67,6 @@ easy_admin:
                     - { property: 'id', label: 'Номер', template: 'easy_admin/order/field_id.html.twig' }
                     - { property: 'status', label: 'Статус', template: 'easy_admin/order/field_status.html.twig' }
                     - { property: 'createdAt', label: 'Дата начала', type: 'datetime' }
-                    - { property: 'closedAt', label: 'Дата закрытия', type: 'datetime' }
                     - { property: 'car', label: 'Автомобиль', template: 'easy_admin/field_car.html.twig' }
                     - { property: 'customer', label: 'Клиент', type: 'string', template: 'easy_admin/order/customer.html.twig' }
                     - { property: 'totalServicePrice', label: 'Работы', template: 'easy_admin/field_money.html.twig' }
@@ -85,21 +83,6 @@ easy_admin:
                 title: 'Создать новый заказ'
             edit:
                 title: 'Редактировать заказ №%%entity_id%%'
-
-        OrderActive:
-            <<: *order
-            list:
-                max_results: 50
-                title: 'Активные заказы'
-                dql_filter: 'entity.status != 10 OR DATE(entity.closedAt) = DATE(NOW())'
-                fields:
-                    - { property: 'id', label: 'Номер', template: 'easy_admin/order/field_id.html.twig' }
-                    - { property: 'status', label: 'Статус', template: 'easy_admin/order/field_status.html.twig' }
-                    - { property: 'createdAt', label: 'Дата создания', type: 'datetime' }
-                    - { property: 'car', label: 'Автомобиль', template: 'easy_admin/field_car.html.twig' }
-                    - { property: 'customer', label: 'Клиент', type: 'string', template: 'easy_admin/order/customer.html.twig' }
-                    - { property: 'totalServicePrice', label: 'Работы', template: 'easy_admin/field_money.html.twig' }
-                    - { property: 'totalPartPrice', label: 'Запчасти', template: 'easy_admin/field_money.html.twig' }
 
         OrderItemGroup:
             class: App\Entity\OrderItemGroup

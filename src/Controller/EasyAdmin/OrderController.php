@@ -522,9 +522,16 @@ final class OrderController extends AbstractController
                 ->setParameter('car', $car);
         }
 
-        $qb
-            ->orderBy('entity.closedAt', 'ASC')
-            ->addOrderBy('entity.id', 'DESC');
+        if (null === $customer && null === $car) {
+            $qb->where(
+                $qb->expr()->orX(
+                    $qb->expr()->neq('entity.status', ':closedStatus'),
+                    $qb->expr()->eq('DATE(entity.closedAt)', ':today')
+                )
+            )
+            ->setParameter('closedStatus', OrderStatus::closed())
+            ->setParameter('today', (new \DateTime())->format('Y-m-d'));
+        }
 
         return $qb;
     }
