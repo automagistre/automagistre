@@ -13,14 +13,9 @@ use Money\Money;
 final class Payment extends Model
 {
     /**
-     * @var Operand
+     * @var Operand|null
      */
     public $recipient;
-
-    /**
-     * @var string
-     */
-    public $sender;
 
     /**
      * @var Money

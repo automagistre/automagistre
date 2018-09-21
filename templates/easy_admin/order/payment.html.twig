@@ -68,6 +68,12 @@
             </div>
         </div>
     </div>
+
+    {% if form.desc is defined %}
+        <div class="row">
+            <div class="col-md-12">{{ form_row(form.desc) }}</div>
+        </div>
+    {% endif %}
 {% endblock %}
 
 

@@ -19,7 +19,6 @@ use App\Entity\Organization;
 use App\Entity\Person;
 use App\Enum\OrderStatus;
 use App\Form\Model\Payment as PaymentModel;
-use App\Form\Type\MoneyType;
 use App\Form\Type\OrderItemServiceType;
 use App\Form\Type\PaymentType;
 use App\Manager\PaymentManager;
@@ -164,23 +163,29 @@ final class OrderController extends AbstractController
             throw new BadRequestHttpException('Order is required');
         }
 
-        $form = $this->createFormBuilder()
-            ->add('money', MoneyType::class)
-            ->add('description', TextType::class, [
+        $form = $this->createPaymentForm($order)
+            ->add('desc', TextType::class, [
+                'label' => 'Описание',
+                'mapped' => false,
                 'required' => false,
-                'label' => 'Комментарий',
             ])
-            ->getForm()
             ->handleRequest($this->request);
+        /** @var PaymentModel $model */
+        $model = $form->getData();
+        $model->description = \sprintf('# Аванс по заказу #%s', $order->getId());
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $order->addPayment($form->get('money')->getData(), $form->get('description')->getData());
-            $this->em->flush();
+            $model->recipient = null;
+
+            $this->em->transactional(function () use ($order, $model, $form): void {
+                $order->addPayment($model->amountCash->add($model->amountNonCash), $form->get('desc')->getData());
+                $this->handlePayment($model);
+            });
 
             return $this->redirectToReferrer();
         }
 
-        return $this->render('easy_admin/order/prepayment.html.twig', [
+        return $this->render('easy_admin/order/payment.html.twig', [
             'order' => $order,
             'form' => $form->createView(),
         ]);
