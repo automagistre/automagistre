@@ -557,7 +557,8 @@ final class OrderController extends AbstractController
         $sortDirection = null,
         $dqlFilter = null
     ): QueryBuilder {
-        $qb = $this->em->getRepository(Order::class)->createQueryBuilder('orders')
+        $qb = $this->em->getRepository(Order::class)
+            ->createQueryBuilder('orders')
             ->leftJoin('orders.customer', 'customer')
             ->leftJoin('orders.car', 'car')
             ->leftJoin('car.carModel', 'carModel')
@@ -583,6 +584,11 @@ final class OrderController extends AbstractController
 
             $qb->setParameter($key, '%'.$item.'%');
         }
+
+        // EAGER Loading
+        $qb
+            ->addSelect('customer', 'car', 'carModel', 'manufacturer', 'suspends')
+            ->leftJoin('orders.suspends', 'suspends');
 
         $qb
             ->orderBy('orders.closedAt', 'ASC')

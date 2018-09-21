@@ -40,6 +40,12 @@ final class MotionController extends AbstractController
                 ->setParameter('part', $part);
         }
 
+        // EAGER Loading
+        $qb
+            ->addSelect('part', 'manufacturer')
+            ->join('entity.part', 'part')
+            ->join('part.manufacturer', 'manufacturer');
+
         return $qb;
     }
 

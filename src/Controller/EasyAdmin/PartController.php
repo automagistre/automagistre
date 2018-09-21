@@ -122,6 +122,11 @@ final class PartController extends AbstractController
             ->groupBy('part.id')
             ->having('SUM(motion.quantity) <> 0');
 
+        // EAGER Loading
+        $qb
+            ->addSelect('manufacturer')
+            ->join('part.manufacturer', 'manufacturer');
+
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $request->query->getInt('page', 1), 99000);
 
         $parts = \array_map(function (array $data) {
@@ -254,6 +259,25 @@ final class PartController extends AbstractController
         }
 
         return parent::newAction();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function createListQueryBuilder(
+        $entityClass,
+        $sortDirection,
+        $sortField = null,
+        $dqlFilter = null
+    ): QueryBuilder {
+        $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
+
+        // EAGER Loading
+        $qb
+            ->addSelect('manufacturer')
+            ->join('entity.manufacturer', 'manufacturer');
+
+        return $qb;
     }
 
     /**

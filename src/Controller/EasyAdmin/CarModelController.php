@@ -16,6 +16,25 @@ final class CarModelController extends AbstractController
     /**
      * {@inheritdoc}
      */
+    protected function createListQueryBuilder(
+        $entityClass,
+        $sortDirection,
+        $sortField = null,
+        $dqlFilter = null
+    ): QueryBuilder {
+        $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
+
+        // EAGER Loading
+        $qb
+            ->addSelect('manufacturer')
+            ->join('entity.manufacturer', 'manufacturer');
+
+        return $qb;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function createSearchQueryBuilder(
         $entityClass,
         $searchQuery,
