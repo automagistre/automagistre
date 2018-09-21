@@ -19,6 +19,7 @@ use App\Partner\Ixora\Finder;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
+use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use LogicException;
 use Money\MoneyFormatter;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -76,6 +77,34 @@ final class PartController extends AbstractController
         $this->finder = $finder;
         $this->formatter = $formatter;
         $this->reservationManager = $reservationManager;
+    }
+
+    public function crossAction(): Response
+    {
+        $left = $this->findCurrentEntity();
+
+        if (!$left instanceof Part) {
+            throw new LogicException('Parts required.');
+        }
+
+        $form = $this->createFormBuilder()
+            ->add('right', EasyAdminAutocompleteType::class, [
+                'class' => Part::class,
+                'label' => 'Аналог',
+            ])
+            ->getForm()
+            ->handleRequest($this->request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->partManager->cross($left, $form->get('right')->getData());
+
+            return $this->redirectToReferrer();
+        }
+
+        return $this->render('easy_admin/part/cross.html.twig', [
+            'part' => $left,
+            'form' => $form->createView(),
+        ]);
     }
 
     public function numberSearchAction(): Response
@@ -222,6 +251,7 @@ final class PartController extends AbstractController
                 return $order->getId();
             }, $this->reservationManager->orders($entity));
             $parameters['reserved'] = $this->reservationManager->reserved($entity);
+            $parameters['crosses'] = $this->partManager->getCrosses($entity);
         }
 
         return parent::renderTemplate($actionName, $templatePath, $parameters);

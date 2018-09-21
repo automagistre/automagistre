@@ -93,6 +93,35 @@
                     {% endif %}
                 </div>
             </div>
+
+            <div class="field-group">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Кроссы</h3>
+                    </div>
+
+                    {% if crosses is not empty %}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <tbody>
+                                {% for part in crosses if part.id != entity.id %}
+                                    <tr>
+                                        <td>{% include 'easy_admin/field_part.html.twig' with {'value': part} %}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="box-body">
+                            <p>Кроссов нет</p>
+                        </div>
+                    {% endif %}
+                    <div class="box-footer">
+                        <a class="btn btn-primary" href="{{ easyadmin_path(entity, 'cross', {'referer': true}) }}">Добавить кросс</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

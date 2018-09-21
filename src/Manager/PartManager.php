@@ -8,7 +8,9 @@ use App\Entity\Motion;
 use App\Entity\Order;
 use App\Entity\OrderItemPart;
 use App\Entity\Part;
+use App\Entity\PartCross;
 use App\Enum\OrderStatus;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
@@ -64,5 +66,50 @@ final class PartManager
             ])
             ->getQuery()
             ->getResult();
+    }
+
+    public function cross(Part $left, Part $right): void
+    {
+        $this->registry->getEntityManager()->transactional(function (EntityManagerInterface $em) use ($left, $right): void {
+            $leftGroup = $this->findCross($em, $left);
+            $rightGroup = $this->findCross($em, $right);
+
+            if (null === $leftGroup && null === $rightGroup) {
+                $em->persist(new PartCross($left, $right));
+            } elseif (null === $leftGroup && null !== $rightGroup) {
+                $rightGroup->addPart($left);
+            } elseif (null !== $leftGroup && null === $rightGroup) {
+                $leftGroup->addPart($right);
+            } elseif (null !== $leftGroup && null !== $rightGroup) {
+                $leftGroup->merge($rightGroup);
+                $em->remove($rightGroup);
+            }
+        });
+    }
+
+    /**
+     * @return Part[]
+     */
+    public function getCrosses(Part $part): ?array
+    {
+        $cross = $this->findCross($this->registry->getEntityManager(), $part);
+        if (!$cross instanceof PartCross) {
+            return null;
+        }
+
+        return $cross->getParts();
+    }
+
+    private function findCross(EntityManagerInterface $em, Part $part): ?PartCross
+    {
+        return $em->createQueryBuilder()
+            ->select('entity')
+            ->from(PartCross::class, 'entity')
+            ->where(':part MEMBER OF entity.parts')
+            ->getQuery()
+            ->setParameters([
+                'part' => $part,
+            ])
+            ->getOneOrNullResult();
     }
 }
