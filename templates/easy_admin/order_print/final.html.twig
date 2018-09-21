@@ -199,20 +199,22 @@
                 <tr class="table-active ">
                     <td class="table-summary legend col-7">
                         предоплата
-                        {%- if balance and not balance.isZero %}
+                        {%- if balance is defined and not balance.isZero %}
                             {{- balance.isNegative ? ' - долг' }}
                         {%- endif -%}
                         :
                     </td>
                     <td class="table-summary"><span class="price">
-                            {% if balance.isZero %}
-                                {{ order.totalPayments|localize_money }}
-                            {% else %}
-                                {%- if balance.isNegative %}
-                                    {{ order.totalPayments|localize_money }} - {{ balance.absolute|localize_money }}
-                                {% elseif balance.isPositive %}
-                                    {{ order.totalPayments.add(balance)|localize_money }}
-                                {%- endif -%}
+                            {% if balance is defined %}
+                                {% if balance.isZero %}
+                                    {{ order.totalPayments|localize_money }}
+                                {% else %}
+                                    {%- if balance.isNegative %}
+                                        {{ order.totalPayments|localize_money }} - {{ balance.absolute|localize_money }}
+                                    {% elseif balance.isPositive %}
+                                        {{ order.totalPayments.add(balance)|localize_money }}
+                                    {%- endif -%}
+                                {% endif %}
                             {% endif %}
                         </span>
                     </td>
