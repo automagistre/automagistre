@@ -124,8 +124,6 @@ final class OrderController extends AbstractController
             throw new LogicException('Order required.');
         }
 
-        $this->setReferer($this->generateEasyPath($order, 'show'));
-
         if (!$order->isEditable()) {
             $this->addFlash('error', 'Невозможно изменить статус у закрытого заказа.');
 
