@@ -27,6 +27,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Validator\Constraints;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -91,6 +92,9 @@ final class PartController extends AbstractController
             ->add('right', EasyAdminAutocompleteType::class, [
                 'class' => Part::class,
                 'label' => 'Аналог',
+                'constraints' => [
+                    new Constraints\NotBlank(),
+                ],
             ])
             ->getForm()
             ->handleRequest($this->request);
