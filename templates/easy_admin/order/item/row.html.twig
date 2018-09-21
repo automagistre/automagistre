@@ -1,13 +1,18 @@
 {% set level = level|default(0) %}
 
-<tr>
-    {% if instanceOf(item, 'App\\Entity\\OrderItemPart') %}
-        {% include 'easy_admin/order/item/part.html.twig' %}
-    {% elseif instanceOf(item, 'App\\Entity\\OrderItemService') %}
-        {% include'easy_admin/order/item/service.html.twig' %}
-    {% elseif instanceOf(item, 'App\\Entity\\OrderItemGroup') %}
-        {% include 'easy_admin/order/item/group.html.twig' %}
+{% if instanceOf(item, 'App\\Entity\\OrderItemPart') %}
+    {% if item.part.id == app.request.query.get('part_id') %}
+        {% set tr_class = 'warning' %}
     {% endif %}
+    {% set template = 'easy_admin/order/item/part.html.twig' %}
+{% elseif instanceOf(item, 'App\\Entity\\OrderItemService') %}
+    {% set template ='easy_admin/order/item/service.html.twig' %}
+{% elseif instanceOf(item, 'App\\Entity\\OrderItemGroup') %}
+    {% set template = 'easy_admin/order/item/group.html.twig' %}
+{% endif %}
+
+<tr{% if tr_class is defined %} class="{{ tr_class }}"{% endif %}>
+    {% include template %}
 
     <td>{{ item.createdAt|localizeddate }} ({% include 'easy_admin/field_user.html.twig' with {'value': item.createdBy} %})</td>
 </tr>

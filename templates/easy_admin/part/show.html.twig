@@ -73,8 +73,8 @@
                                 {% for order in orders %}
                                     {# @var order \App\Entity\Order #}
                                     <tr>
-                                        <td><a href="{{ easyadmin_path(order, 'show') }}">{{ order.id }}</a></td>
-                                        <td>{{ include('easy_admin/order/field_status.html.twig', {'value': order.status}) }}</td>
+                                        <td><a href="{{ easyadmin_path(order, 'show', {'part_id': entity.id}) }}">{{ order.id }}</a></td>
+                                        <td>{{ include('easy_admin/order/field_status.html.twig', {'value': order.status, 'item': order}) }}</td>
                                         <td>{{ order.car }}</td>
                                         <td>
                                             {% if order.id in reservedIn %}
