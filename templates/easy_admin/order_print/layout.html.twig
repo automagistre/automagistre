@@ -2,24 +2,43 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>{{ title|default('Печать') }}</title>
+    <title>{{ car.vin|default('Печать') }}</title>
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/print.css') }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.min.js"></script>
 </head>
-<body>
+<body id="body">
 
 <div class="container-fluid print_block">
     <section class="print row">
+        <a class="btn-warning btn-lg" id="print__pdf" href="#">сохранить PDF</a>
         <a class="btn-success btn-lg" id="print__btn" href="#">печать заказа</a>
         <a class="btn-danger btn-lg" id ="print__cancel" href="{{ app.request.query.get('referer')|easyadmin_urldecode }}">отмена</a>
     </section>
 </div>
 
 {% block content %}{% endblock %}
-
+<div id="editor"></div>
 <script>
     document.getElementById("print__btn").addEventListener("click", function() { window.print(); window.close(); });
+</script>
+<script>
+    $(document).ready(function() {
+      let opt = {
+        margin:       1,
+        filename:     document.title + '.pdf',
+        image:        { type: 'jpeg', quality: 0.70 },
+        html2canvas:  { async: false},
+        jsPDF:        { unit: 'cm', format: 'a3', orientation: 'p' }
+      };
+      let toPdfElement = document.getElementById('content');
+      $('#print__pdf').on('click', function() {
+        html2pdf().from(toPdfElement).set(opt).save();
+      })
+    });
 </script>
 </body>
 </html>
