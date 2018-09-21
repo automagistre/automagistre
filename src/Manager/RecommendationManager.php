@@ -10,6 +10,7 @@ use App\Entity\Order;
 use App\Entity\OrderItem;
 use App\Entity\OrderItemPart;
 use App\Entity\OrderItemService;
+use App\Entity\Reservation;
 use App\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -85,16 +86,7 @@ final class RecommendationManager
         }
 
         $this->em->transactional(function (EntityManagerInterface $em) use ($orderItemService, $car): void {
-            $oldRecommendation = $em->createQueryBuilder()
-                ->select('entity')
-                ->from(CarRecommendation::class, 'entity')
-                ->where('entity.realization = :realization')
-                ->orderBy('entity.id', 'DESC')
-                ->getQuery()
-                ->setParameters([
-                    'realization' => $orderItemService,
-                ])
-                ->getOneOrNullResult();
+            $oldRecommendation = $this->findOldRecommendation($orderItemService);
 
             $recommendation = new CarRecommendation(
                 $car,
@@ -105,35 +97,50 @@ final class RecommendationManager
                     : $orderItemService->getWorker()
             );
 
+            foreach ($oldRecommendation->getParts() as $part) {
+                $em->remove($part);
+            }
+            $em->remove($oldRecommendation);
+
             foreach ($this->getParts($orderItemService) as $orderItemPart) {
-                $part = $orderItemPart->getPart();
-                $reserved = $this->reservationManager->reserved($orderItemPart);
-                if (0 < $reserved) {
-                    $this->reservationManager->deReserve($orderItemPart, $reserved);
-                }
+                $em->createQueryBuilder()
+                    ->delete()
+                    ->from(Reservation::class, 'entity')
+                    ->where('entity.orderItemPart = :item')
+                    ->getQuery()
+                    ->setParameters([
+                        'item' => $orderItemPart,
+                    ])
+                    ->execute();
 
                 $recommendation->addPart(new CarRecommendationPart(
                     $recommendation,
-                    $part,
+                    $orderItemPart->getPart(),
                     $orderItemPart->getQuantity(),
                     $orderItemPart->getPrice(),
                     $orderItemPart->getCreatedBy()
                 ));
             }
 
-            $em->createQueryBuilder()
-                ->delete()
-                ->from(CarRecommendation::class, 'entity')
-                ->where('entity.realization = :realization')
-                ->setParameters([
-                    'realization' => $orderItemService,
-                ])
-                ->getQuery()
-                ->execute();
-
             $em->remove($orderItemService);
             $em->persist($recommendation);
         });
+    }
+
+    public function findOldRecommendation(OrderItemService $orderItemService): ?CarRecommendation
+    {
+        $em = $this->em;
+
+        return $em->createQueryBuilder()
+            ->select('entity')
+            ->from(CarRecommendation::class, 'entity')
+            ->where('entity.realization = :realization')
+            ->orderBy('entity.id', 'DESC')
+            ->getQuery()
+            ->setParameters([
+                'realization' => $orderItemService,
+            ])
+            ->getOneOrNullResult();
     }
 
     /**

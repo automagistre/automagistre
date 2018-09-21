@@ -50,7 +50,10 @@ final class OrderItemServiceController extends OrderItemController
             throw new NotFoundHttpException();
         }
 
-        if (null === $orderItemService->getWorker()) {
+        if (
+            null === $this->recommendationManager->findOldRecommendation($orderItemService)
+            && null === $orderItemService->getWorker()
+        ) {
             $this->addFlash(
                 'error',
                 \sprintf(
