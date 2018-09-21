@@ -4,7 +4,7 @@
 {# @var customer \App\Entity\Operand #}
 
 {% block content %}
-    <div class="container">
+    <div class="container" id="content">
         <header class="row">
             <div class="logo col-sm-6">
                 <img src="{{ asset('assets/img/logo_print.svg') }}" alt="Лого Автомагистр">
@@ -242,6 +242,7 @@
         </section>
 
         {% if recommendations is defined %}
+            <div class="html2pdf__page-break"></div>
             <section class="recommendations">
                 <h4>рекомендации по автомобилю VIN: {{ car.vin }}</h4>
                 <table class="table table-bordered table-sm">
