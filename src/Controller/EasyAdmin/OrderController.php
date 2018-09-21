@@ -533,6 +533,16 @@ final class OrderController extends AbstractController
             ->setParameter('today', (new \DateTime())->format('Y-m-d'));
         }
 
+        // EAGER Loading
+        $qb
+            ->select('entity', 'customer', 'car', 'manufacturer', 'carModel', 'items', 'suspends')
+            ->leftJoin('entity.customer', 'customer')
+            ->leftJoin('entity.car', 'car')
+            ->leftJoin('car.carModel', 'carModel')
+            ->leftJoin('carModel.manufacturer', 'manufacturer')
+            ->leftJoin('entity.items', 'items')
+            ->leftJoin('entity.suspends', 'suspends');
+
         return $qb;
     }
 
