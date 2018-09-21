@@ -94,6 +94,7 @@ final class PartController extends AbstractController
                 'label' => 'Аналог',
                 'constraints' => [
                     new Constraints\NotBlank(),
+                    new Constraints\NotEqualTo(['value' => $left]),
                 ],
             ])
             ->getForm()
