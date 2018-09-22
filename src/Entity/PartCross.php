@@ -51,12 +51,4 @@ class PartCross
     {
         return $this->parts->getValues();
     }
-
-    public function merge(self $cross): void
-    {
-        $parts = $cross->getParts();
-
-        $this->addPart(...$parts);
-        $cross->removePart(...$parts);
-    }
 }

@@ -81,8 +81,10 @@ final class PartManager
             } elseif (null !== $leftGroup && null === $rightGroup) {
                 $leftGroup->addPart($right);
             } elseif (null !== $leftGroup && null !== $rightGroup) {
-                $leftGroup->merge($rightGroup);
+                $parts = $rightGroup->getParts();
                 $em->remove($rightGroup);
+                $em->flush();
+                $leftGroup->addPart(...$parts);
             }
         });
     }
