@@ -18,7 +18,7 @@
 
     {# Удалить это говно после возвращения страницы дефицита #}
     {% if stock|default(false) %}
-        <span class="badge">{{ part_in_stock(value) / 100 }}</span>
+        <span class="label label-primary">{{ part_in_stock(value) / 100 }}</span>
     {% endif %}
 {%- else -%}
     {% include '@EasyAdmin/default/label_null.html.twig' %}

@@ -106,7 +106,7 @@
                                 <tbody>
                                 {% for part in crosses if part.id != entity.id %}
                                     <tr>
-                                        <td>{% include 'easy_admin/field_part.html.twig' with {'value': part} %}</td>
+                                        <td>{% include 'easy_admin/field_part.html.twig' with {'value': part, 'stock': true} %}</td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>
