@@ -29,6 +29,11 @@ class PartCross
         $this->addPart($left, $right);
     }
 
+    public function isEmpty(): bool
+    {
+        return $this->parts->isEmpty();
+    }
+
     public function addPart(Part ...$parts): void
     {
         foreach ($parts as $part) {

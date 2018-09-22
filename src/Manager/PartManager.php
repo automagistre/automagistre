@@ -89,6 +89,19 @@ final class PartManager
         });
     }
 
+    public function uncross(Part $part): void
+    {
+        $em = $this->registry->getEntityManager();
+        $cross = $this->findCross($em, $part);
+        $cross->removePart($part);
+
+        if ($cross->isEmpty()) {
+            $em->remove($cross);
+        }
+
+        $em->flush();
+    }
+
     /**
      * @return Part[]
      */

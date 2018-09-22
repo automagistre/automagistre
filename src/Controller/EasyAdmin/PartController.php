@@ -112,6 +112,18 @@ final class PartController extends AbstractController
         ]);
     }
 
+    public function uncrossAction(): Response
+    {
+        $part = $this->findCurrentEntity();
+        if (!$part instanceof Part) {
+            throw new LogicException('Parts required.');
+        }
+
+        $this->partManager->uncross($part);
+
+        return $this->redirectToReferrer();
+    }
+
     public function numberSearchAction(): Response
     {
         if (null === $number = $this->request->query->get('number')) {
