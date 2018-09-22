@@ -12,6 +12,7 @@ use App\Form\Model\Recommendation;
 use App\Manager\RecommendationManager;
 use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -107,5 +108,15 @@ final class CarRecommendationController extends AbstractController
         $entity = new CarRecommendation($model->car, $model->service, $model->price, $model->worker);
 
         parent::persistEntity($entity);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function renderTemplate($actionName, $templatePath, array $parameters = []): Response
+    {
+        $parameters['order'] = $this->getEntity(Order::class);
+
+        return parent::renderTemplate($actionName, $templatePath, $parameters);
     }
 }
