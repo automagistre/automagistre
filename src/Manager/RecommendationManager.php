@@ -96,11 +96,12 @@ final class RecommendationManager
                     ? $oldRecommendation->getWorker()
                     : $orderItemService->getWorker()
             );
-
-            foreach ($oldRecommendation->getParts() as $part) {
-                $em->remove($part);
+            if ($oldRecommendation instanceof CarRecommendation) {
+                foreach ($oldRecommendation->getParts() as $part) {
+                    $em->remove($part);
+                }
+                $em->remove($oldRecommendation);
             }
-            $em->remove($oldRecommendation);
 
             foreach ($this->getParts($orderItemService) as $orderItemPart) {
                 $em->createQueryBuilder()
