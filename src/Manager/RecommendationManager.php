@@ -102,6 +102,7 @@ final class RecommendationManager
                 }
                 $em->remove($oldRecommendation);
             }
+
             foreach ($this->getParts($orderItemService) as $orderItemPart) {
                 $em->createQueryBuilder()
                     ->delete()
