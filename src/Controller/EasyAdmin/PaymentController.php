@@ -9,8 +9,10 @@ use App\Entity\Operand;
 use App\Manager\PaymentManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
+use LogicException;
 use Money\Money;
 use stdClass;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -25,6 +27,22 @@ final class PaymentController extends AbstractController
     public function __construct(PaymentManager $paymentManager)
     {
         $this->paymentManager = $paymentManager;
+    }
+
+    protected function newAction(): Response
+    {
+        $recipient = $this->getEntity(Operand::class);
+        if (!$recipient instanceof Operand) {
+            throw new LogicException('Operand required.');
+        }
+
+        if (Costil::CASHBOX === $recipient->getId()) {
+            $this->addFlash('error', 'Нельзя производить прямые операции с кассой!');
+
+            return $this->redirectToReferrer();
+        }
+
+        return parent::newAction();
     }
 
     protected function createNewEntity(): stdClass
