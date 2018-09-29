@@ -160,9 +160,9 @@ abstract class AbstractController extends AdminController
      */
     protected function searchAction(): Response
     {
-        $id = $this->request->query->getInt('query');
+        $id = \filter_var($this->request->query->get('query'), FILTER_VALIDATE_INT);
 
-        if (0 !== $id) {
+        if (false !== $id) {
             $entity = $this->em->getRepository($this->entity['class'])->find($id);
             if (null !== $entity) {
                 return $this->redirectToEasyPath($entity, 'show');
