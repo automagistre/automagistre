@@ -11,15 +11,23 @@
           type: 'GET',
           url: url,
         }).then(function(data) {
-          // create the option and append to Select2
-          $(data.results).each(function(index, car) {
-            carInput.append(new Option(car.text, car.id, 0 === index, 0 === index)).trigger('change');
-          });
+          const currentValue = carInput.val();
+          const cars = data.results;
 
           carInput.select2('destroy').select2({
             theme: 'bootstrap',
             language: 'ru',
+            data: cars,
           });
+
+          let value = null;
+          if ('' !== currentValue) {
+            value = currentValue;
+          } else if (0 < cars.length) {
+            value = cars[0]['id'];
+          }
+
+          carInput.val(value).trigger('change');
         });
       };
 
