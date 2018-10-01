@@ -383,6 +383,9 @@ final class OrderController extends AbstractController
             ]);
         }
 
+        $customer = $order->getCustomer();
+        $balance = $customer instanceof Operand ? $this->paymentManager->balance($customer) : null;
+
         if ('paid' === $step) {
             $form = $this->createPaymentForm($order)
                 ->handleRequest($request);
@@ -401,11 +404,10 @@ final class OrderController extends AbstractController
 
         close:
 
-        $em->transactional(function (EntityManagerInterface $em) use ($order): void {
+        $em->transactional(function (EntityManagerInterface $em) use ($order, $balance): void {
             $em->refresh($order);
             $customer = $order->getCustomer();
 
-            $balance = $customer instanceof Operand ? $this->paymentManager->balance($customer) : null;
             $order->close($this->getUser(), $balance);
 
             if ($customer instanceof Operand) {
