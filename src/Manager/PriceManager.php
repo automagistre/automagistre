@@ -48,7 +48,7 @@ final class PriceManager
             $incomePriceWithMarkup = $this->markup($incomePart->getPrice());
 
             if ($incomePriceWithMarkup->greaterThan($suggestPrice)) {
-                return $incomePriceWithMarkup;
+                $suggestPrice = $incomePriceWithMarkup;
             }
         }
 
@@ -68,7 +68,7 @@ final class PriceManager
             $lastPrice = $lastOrderItemPart->getPrice();
 
             if ($lastPrice->greaterThan($suggestPrice)) {
-                return $lastPrice;
+                $suggestPrice = $lastPrice;
             }
         }
 
