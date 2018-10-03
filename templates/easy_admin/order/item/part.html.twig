@@ -9,15 +9,18 @@
 </td>
 <td></td>
 
+{% set price = item.price %}
 {% set recommendPrice = part_suggest_price(item.part) %}
-{% set isLowerPrice = item.price.lessThan(recommendPrice) or recommendPrice.isZero %}
-<td{% if isLowerPrice %} class="danger"{% endif %}>
-    {{ item.quantity / 100 }} x {{ item.price|localize_money }}
+{% set isLowerPrice = price.lessThan(recommendPrice) %}
+
+<td{% if isLowerPrice or price.isZero %} class="danger"{% endif %}>
+    {{ item.quantity / 100 }} x {{ price|localize_money }}
 
     {% if isLowerPrice %}
         < {{ recommendPrice|localize_money }}
     {% endif %}
 </td>
+
 <td>
     {{ item.totalPrice|localize_money }}
 </td>
