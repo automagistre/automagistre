@@ -83,6 +83,7 @@ final class CarController extends AbstractController
             $qb->andWhere($qb->expr()->orX(
                 $qb->expr()->like('car.year', $key),
                 $qb->expr()->like('car.gosnomer', $key),
+                $qb->expr()->like('car.vin', $key),
                 $qb->expr()->like('carModel.name', $key),
                 $qb->expr()->like('carModel.localizedName', $key),
                 $qb->expr()->like('manufacturer.name', $key),
