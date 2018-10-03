@@ -8,12 +8,20 @@
     {%- endif -%}
 </td>
 <td></td>
-<td>
+
+{% set recommendPrice = part_suggest_price(item.part) %}
+{% set isLowerPrice = item.price.lessThan(recommendPrice) or recommendPrice.isZero %}
+<td{% if isLowerPrice %} class="danger"{% endif %}>
     {{ item.quantity / 100 }} x {{ item.price|localize_money }}
+
+    {% if isLowerPrice %}
+        < {{ recommendPrice|localize_money }}
+    {% endif %}
 </td>
 <td>
     {{ item.totalPrice|localize_money }}
 </td>
+
 {% if order.editable %}
     <td>
         {% set reservable = part_reservable(item.part) %}

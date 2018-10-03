@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Twig\Extension;
 
 use App\Manager\PartManager;
+use App\Manager\PriceManager;
 use App\Manager\ReservationManager;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -24,10 +25,19 @@ class PartExtension extends AbstractExtension
      */
     private $reservationManager;
 
-    public function __construct(PartManager $partManager, ReservationManager $reservationManager)
-    {
+    /**
+     * @var PriceManager
+     */
+    private $priceManager;
+
+    public function __construct(
+        PartManager $partManager,
+        ReservationManager $reservationManager,
+        PriceManager $priceManager
+    ) {
         $this->partManager = $partManager;
         $this->reservationManager = $reservationManager;
+        $this->priceManager = $priceManager;
     }
 
     public function getFunctions(): array
@@ -36,6 +46,7 @@ class PartExtension extends AbstractExtension
             new TwigFunction('part_in_stock', [$this->partManager, 'inStock']),
             new TwigFunction('part_reserved', [$this->reservationManager, 'reserved']),
             new TwigFunction('part_reservable', [$this->reservationManager, 'reservable']),
+            new TwigFunction('part_suggest_price', [$this->priceManager, 'suggestForPart']),
         ];
     }
 }
