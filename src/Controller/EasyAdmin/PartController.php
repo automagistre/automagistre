@@ -18,12 +18,9 @@ use App\Model\WarehousePart;
 use App\Partner\Ixora\Finder;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
-use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use LogicException;
 use Money\MoneyFormatter;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -50,11 +47,6 @@ final class PartController extends AbstractController
     private $finder;
 
     /**
-     * @var EventDispatcherInterface
-     */
-    private $dispatcher;
-
-    /**
      * @var MoneyFormatter
      */
     private $formatter;
@@ -67,14 +59,12 @@ final class PartController extends AbstractController
     public function __construct(
         DeficitManager $deficitManager,
         PartManager $partManager,
-        EventDispatcherInterface $dispatcher,
         Finder $finder,
         MoneyFormatter $formatter,
         ReservationManager $reservationManager
     ) {
         $this->deficitManager = $deficitManager;
         $this->partManager = $partManager;
-        $this->dispatcher = $dispatcher;
         $this->finder = $finder;
         $this->formatter = $formatter;
         $this->reservationManager = $reservationManager;
@@ -272,40 +262,6 @@ final class PartController extends AbstractController
         }
 
         return parent::renderTemplate($actionName, $templatePath, $parameters);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function newAction(): Response
-    {
-        if ($this->request->isXmlHttpRequest() && $this->request->isMethod('POST')) {
-            /** @var Part|null $entity */
-            $entity = null;
-            $this->dispatcher
-                ->addListener(EasyAdminEvents::POST_PERSIST, function (GenericEvent $event) use (&$entity): void {
-                    $entity = $event->getArgument('entity');
-                });
-
-            parent::newAction();
-
-            if (!$entity instanceof Part) {
-                throw new LogicException('Part must be returned');
-            }
-
-            return $this->json([
-                'id' => $entity->getId(),
-                'name' => $entity->getName(),
-                'number' => $entity->getNumber(),
-                'manufacturer' => [
-                    'id' => $entity->getManufacturer()->getId(),
-                    'name' => $entity->getManufacturer()->getName(),
-                ],
-                'price' => $entity->getPrice(),
-            ]);
-        }
-
-        return parent::newAction();
     }
 
     /**

@@ -8,15 +8,14 @@
 
         <div class="input-group">
             {{ form_widget(form.part) }}
-            <div class="input-group-addon">
-                <a href="" id="new-part">
-                    <i class="fa fa-plus"></i>
+            <div class="input-group-btn">
+                <a href="{{ easyadmin_path('Part', 'new', {'referer': true}) }}" class="btn btn-primary">
+                    Создать
                 </a>
             </div>
         </div>
 
         <span class="help-block">
-            <i class="fa fa-info-circle"></i>
             Если первый символ в строке будет + то поиск будет по запчастям имеющимся на складе
         </span>
     </div>
@@ -28,29 +27,8 @@
 
 {% block js %}
     <script type="text/javascript">
-      let url = "{{ easyadmin_path('Part', 'new')|raw }}",
-          partInput = $("#{{ form.part.children.autocomplete.vars.id }}"),
+      let partInput = $("#{{ form.part.children.autocomplete.vars.id }}"),
           costInput = $("#{{ form.price.vars.id }}");
-
-      $('#new-part').click(function() {
-        $.ajax({
-          url: url,
-        }).done(function(data) {
-          $('body').append(data);
-        });
-
-        return false;
-      });
-
-      $(document).on('new-part-added', function(e, data) {
-        let option = new Option([data.name, '(' + data.manufacturer.name, data.number + ')'].join(' '), data.id);
-        option.selected = true;
-
-        costInput.val(data.price.amount.replace('.', ','));
-
-        partInput.append(option);
-        partInput.trigger('change');
-      });
 
       partInput.on('change', function() {
         if (costInput.val()) {

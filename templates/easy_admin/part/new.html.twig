@@ -1,8 +1,8 @@
 {% extends '@EasyAdmin/default/new.html.twig' %}
 
 {% block main %}
-    <div class="row" id="modal-part-form">
-        {{ form_start(form, {'action': easyadmin_path('Part', 'new')}) }}
+    <div class="row">
+        {{ form_start(form) }}
 
         <div class="col-xs-12">
             {{ form_row(form.manufacturer) }}
@@ -24,6 +24,8 @@
                     </div>
                 </div>
 
+                {{ form_errors(form.number) }}
+
                 <span id="search-help-block" class="help-block" style="display: none">Поиск ничего не дал.</span>
             </div>
         </div>
@@ -44,119 +46,88 @@
             {{ form_end(form) }}
         </div>
     </div>
-
-    <div class="row">
-        <div class="col-xs-12" id="modal-part-select" style="display: none"></div>
-    </div>
 {% endblock %}
 
 {% block body_javascript %}
     {{ parent() }}
 
     <script type="text/javascript">
-        $(function () {
-            var url = "{{ easyadmin_path('Part', 'numberSearch', {'number': '__NUMBER__'})|raw }}",
-                main = $('#modal-part-form'),
-                select = $('#modal-part-select'),
-                form = $('#{{ form.vars.attr.id }}'),
-                searchButton = $('#search-button'),
-                searchHelpBlock = $('#search-help-block'),
-                manufacturerInput = $('#{{ form.manufacturer.vars.id }}'),
-                numberInput = $('#{{ form.number.vars.id }}'),
-                nameInput = $('#{{ form.name.vars.id }}'),
-                    {#priceInput = $('#{{ form.price.vars.id }}'),#}
-                iconSearch = $('#search-icon'),
-                iconSpinner = $('#search-spinner');
+      $(function() {
+        var url = "{{ easyadmin_path('Part', 'numberSearch', {'number': '__NUMBER__'})|raw }}",
+            main = $('#modal-part-form'),
+            select = $('#modal-part-select'),
+            searchButton = $('#search-button'),
+            searchHelpBlock = $('#search-help-block'),
+            manufacturerInput = $('#{{ form.manufacturer.vars.id }}'),
+            numberInput = $('#{{ form.number.vars.id }}'),
+            nameInput = $('#{{ form.name.vars.id }}'),
+                {#priceInput = $('#{{ form.price.vars.id }}'),#}
+            iconSearch = $('#search-icon'),
+            iconSpinner = $('#search-spinner');
 
-            numberInput.focus();
-            searchButton.popover();
+        numberInput.focus();
+        searchButton.popover();
 
-            var subscribeSelectButtons = function () {
-                $('.part-select-button').click(function () {
-                    var button = $(this);
+        var subscribeSelectButtons = function() {
+          $('.part-select-button').click(function() {
+            var button = $(this);
 
-                    manufacturerInput.val(button.data('manufacturer-id')).change();
-                    numberInput.val(button.data('number'));
-                    nameInput.val(button.data('name'));
+            manufacturerInput.val(button.data('manufacturer-id')).change();
+            numberInput.val(button.data('number'));
+            nameInput.val(button.data('name'));
 
-                    main.show();
-                    select.hide();
-                    select.empty();
-                });
-            };
+            main.show();
+            select.hide();
+            select.empty();
+          });
+        };
 
-            var mutex = false;
-            searchButton.click(function (e) {
-                e.preventDefault();
-                if (true === mutex) {
-                    return false;
-                }
+        var mutex = false;
+        searchButton.click(function(e) {
+          e.preventDefault();
+          if (true === mutex) {
+            return false;
+          }
 
-                mutex = true;
-                searchHelpBlock.hide();
-                iconSearch.hide();
-                iconSpinner.show();
+          mutex = true;
+          searchHelpBlock.hide();
+          iconSearch.hide();
+          iconSpinner.show();
 
-                $.ajax({
-                    url: url.replace('__NUMBER__', $('#{{ form.number.vars.id }}').val()),
-                    statusCode: {
-                        204: function () {
-                            searchHelpBlock.show();
-                        }
-                    }
-                }).done(function (parts) {
-                    if (!$.isArray(parts)) {
-                        return;
-                    }
+          $.ajax({
+            url: url.replace('__NUMBER__', $('#{{ form.number.vars.id }}').val()),
+            statusCode: {
+              204: function() {
+                searchHelpBlock.show();
+              },
+            },
+          }).done(function(parts) {
+            if (!$.isArray(parts)) {
+              return;
+            }
 
-                    $.each(parts, function (index, part) {
-                        select.append('<div class="radio"><label class="part-select-button" ' +
-                            'data-manufacturer-id="' + part.manufacturer.id + '" ' +
-                            'data-manufacturer-name="' + part.manufacturer.name + '" ' +
-                            'data-number="' + part.number + '" ' +
-                            'data-name="' + part.name + '"' +
-                            '><input type="radio" name="part">' +
-                            [part.name, '(' + part.manufacturer.name, part.number + ')'].join(' ') +
-                            '</label></div>');
-                    });
-
-                    subscribeSelectButtons();
-                    main.hide();
-                    select.show();
-                }).complete(function () {
-                    iconSearch.show();
-                    iconSpinner.hide();
-                    mutex = false;
-                });
-
-                return false;
+            $.each(parts, function(index, part) {
+              select.append('<div class="radio"><label class="part-select-button" ' +
+                  'data-manufacturer-id="' + part.manufacturer.id + '" ' +
+                  'data-manufacturer-name="' + part.manufacturer.name + '" ' +
+                  'data-number="' + part.number + '" ' +
+                  'data-name="' + part.name + '"' +
+                  '><input type="radio" name="part">' +
+                  [part.name, '(' + part.manufacturer.name, part.number + ')'].join(' ') +
+                  '</label></div>');
             });
 
-            {% if app.request.xmlHttpRequest %}
-            form.submit(function (e) {
-                e.preventDefault();
+            subscribeSelectButtons();
+            main.hide();
+            select.show();
+          }).complete(function() {
+            iconSearch.show();
+            iconSpinner.hide();
+            mutex = false;
+          });
 
-                $.ajax({
-                    type: 'POST',
-                    url: form.attr('action'),
-                    dataType: 'json',
-                    data: form.serialize()
-                }).done(function (res) {
-                    $(document).trigger('new-part-added', {
-                        id: res.id,
-                        name: res.name,
-                        number: res.number,
-                        manufacturer: {
-                            id: res.manufacturer.id,
-                            name: res.manufacturer.name
-                        },
-                        price: res.price
-                    });
-
-                    $('#ajax-modal').modal('hide');
-                });
-            });
-            {% endif %}
-        })
+          return false;
+        });
+      });
     </script>
 {% endblock %}
