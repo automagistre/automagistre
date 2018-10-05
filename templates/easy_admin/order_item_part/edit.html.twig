@@ -1,7 +1,6 @@
 {% extends '@EasyAdmin/default/edit.html.twig' %}
 
 {% use 'easy_admin/order/layout.html.twig' %}
-{% use 'easy_admin/order_item_part/form.html.twig' %}
 
 {% block content_title %}Редактирование запчасти{% endblock %}
 
@@ -14,9 +13,3 @@
 {% endblock %}
 
 {% block div_footer %}{% endblock %}
-
-{% block body_javascript %}
-    {{ parent() }}
-
-    {{ block('js') }}
-{% endblock %}
