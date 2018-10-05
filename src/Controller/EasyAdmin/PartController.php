@@ -349,4 +349,17 @@ final class PartController extends AbstractController
 
         return $this->json(['results' => $data]);
     }
+
+    /**
+     * @param Part $entity
+     */
+    protected function persistEntity($entity): void
+    {
+        parent::persistEntity($entity);
+
+        $referer = $this->request->query->get('referer');
+        if (null !== $referer) {
+            $this->setReferer(\urldecode($referer).'&part_id='.$entity->getId());
+        }
+    }
 }

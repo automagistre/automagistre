@@ -7,6 +7,7 @@ namespace App\Controller\EasyAdmin;
 use App\Entity\Order;
 use App\Entity\OrderItem;
 use App\Entity\OrderItemPart;
+use App\Entity\Part;
 use App\Form\Model\OrderPart;
 use App\Manager\ReservationException;
 use App\Manager\ReservationManager;
@@ -70,6 +71,11 @@ final class OrderItemPartController extends OrderItemController
 
         $model = new OrderPart();
         $model->order = $order;
+
+        $part = $this->getEntity(Part::class);
+        if ($part instanceof Part) {
+            $model->part = $part;
+        }
 
         $parent = $this->getEntity(OrderItem::class);
         if ($parent instanceof OrderItem) {

@@ -8,10 +8,11 @@
 
 {% block div_footer %}{% endblock %}
 
+{% set formStorageToken = app.request.query.get('token', random()) %}
+
 {% block panel_body %}
-    {{ form_start(form) }}
     {{ form_row(form.order) }}
-    {{ form_row(form.parent) }}
+    {{ form_row(form.parent, {'attr': {'class': 'ays-ignore'}}) }}
 
     <div class="form-group field-easyadmin_autocomplete">
         {{ form_label(form.part) }}
@@ -19,28 +20,36 @@
         <div class="input-group">
             {{ form_widget(form.part) }}
             <div class="input-group-btn">
-                <a href="{{ easyadmin_path('Part', 'new', {'referer': true}) }}" class="btn btn-primary">
+                {% set referer = easyadmin_path('OrderItemPart', 'new', {'order_id': order.id, 'referer': app.request.query.get('referer'), 'token': formStorageToken}) %}
+                <a href="{{ easyadmin_path('Part', 'new', {'referer': referer|url_encode}) }}" class="btn btn-primary js-btn-part-new">
                     Создать
                 </a>
             </div>
         </div>
+
+        {{ form_errors(form.part) }}
 
         <span class="help-block">
             Если первый символ в строке будет + то поиск будет по запчастям имеющимся на складе
         </span>
     </div>
 
-    {{ form_row(form.price) }}
-    {{ form_row(form.quantity) }}
-    {{ form_row(form.warranty) }}
+    {{ form_row(form.price, {'attr': {'class': 'ays-ignore'}}) }}
+    {{ form_row(form.quantity, {'attr': {'class': 'ays-ignore'}}) }}
+    {{ form_row(form.warranty, {'attr': {'class': 'ays-ignore'}}) }}
 {% endblock %}
 
 {% block body_javascript %}
     {{ parent() }}
 
     <script type="text/javascript">
-      let partInput = $("#{{ form.part.children.autocomplete.vars.id }}"),
-          costInput = $("#{{ form.price.vars.id }}");
+      const storageKey = 'orderItemPart-' + {{ formStorageToken }};
+
+      let parentInput = $('#{{ form.parent.vars.id }}'),
+          partInput = $("#{{ form.part.children.autocomplete.vars.id }}"),
+          costInput = $("#{{ form.price.vars.id }}"),
+          quantityInput = $('#{{ form.quantity.vars.id }}'),
+          warrantyInput = $('#{{ form.warranty.vars.id }}');
 
       partInput.on('change', function() {
         if (costInput.val()) {
@@ -51,5 +60,33 @@
         let price = text.split('|')[1].trim().replace(/\s/g, '').slice(0, -1).trim().replace(' ', '');
         costInput.val(price);
       });
+
+      /* > Save to session */
+      $(document).on('ready', function() {
+        const json = localStorage.getItem(storageKey);
+
+        if (!json) {
+          return;
+        }
+
+        const data = JSON.parse(json);
+
+        parentInput.val(data.group);
+        costInput.val(data.cost);
+        quantityInput.val(data.quantity);
+        warrantyInput.prop('checked', data.warranty);
+
+        localStorage.removeItem(storageKey);
+      });
+
+      $('.js-btn-part-new').on('click', function(e) {
+        localStorage.setItem(storageKey, JSON.stringify({
+          group: parentInput.val(),
+          cost: costInput.val(),
+          quantity: quantityInput.val(),
+          warranty: warrantyInput.prop('checked'),
+        }));
+      });
+      /* < Save to session */
     </script>
 {% endblock %}

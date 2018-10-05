@@ -113,7 +113,7 @@ abstract class AbstractController extends AdminController
 
     protected function setReferer(string $url): void
     {
-        $this->request->query->set('referer', $url);
+        $this->request->query->set('referer', \urlencode($url));
     }
 
     protected function redirectToReferrer(): RedirectResponse
