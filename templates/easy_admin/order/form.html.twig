@@ -4,6 +4,9 @@
           carInput = $('#{{ form.car.autocomplete.vars.id }}'),
           autocompleteCarUrl = '{{ easyadmin_path('Car', 'autocomplete', {'owner_id': '__CAR__'})|raw }}';
 
+      $('#' + operandInput.attr('id') + ' option').text('Выберите клиента');
+      $('#' + carInput.attr('id') + ' option').text('Выберите автомобиль');
+
       let prefetchCars = function() {
         let url = autocompleteCarUrl.replace('__CAR__', operandInput.val());
 
