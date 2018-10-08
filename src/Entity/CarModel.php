@@ -65,9 +65,24 @@ class CarModel
         return $this->getDisplayName();
     }
 
-    public function getDisplayName(): string
+    public function getDisplayName(bool $withYears = true): string
     {
-        return \sprintf('%s %s', $this->manufacturer->getName(), $this->getLocalizedName() ?? $this->getName());
+        $main = \sprintf(
+            '%s %s',
+            $this->manufacturer->getName(),
+            $this->getName() ?? $this->getLocalizedName()
+        );
+
+        $from = $this->getYearFrom();
+        $till = $this->getYearTill();
+
+        $years = $withYears && (null !== $from || null !== $till)
+            ? \sprintf(' (%s - %s)', $from ?? '...', $till ?? '...')
+            : '';
+
+        $case = null !== $this->caseName ? \sprintf(' - %s', $this->caseName) : '';
+
+        return $main.$case.$years;
     }
 
     public function getManufacturer(): ?Manufacturer

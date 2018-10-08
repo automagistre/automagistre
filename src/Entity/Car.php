@@ -134,12 +134,9 @@ class Car
 
     public function __toString(): string
     {
-        $string = $this->getCarModificationDisplayName();
-        $gosnomer = $this->getGosnomer();
+        $string = $this->carModel->getDisplayName(false);
 
-        if (null !== $gosnomer) {
-            $string .= \sprintf(', (%s)', $gosnomer);
-        }
+        $string .= null !== $this->year ? \sprintf(' - %sг.', $this->year) : '';
 
         return $string;
     }

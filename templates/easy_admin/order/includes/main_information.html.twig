@@ -90,7 +90,7 @@
                             {% set car = order.car %}
                             {%- if car is not empty -%}
                                 <a href="{{ easyadmin_path(car, 'show') }}">
-                                    {{- car.carModel -}}
+                                    {{- car -}}
                                 </a>
 
                                 <span class="label label-info" title="Госномер">{{ car.gosnomer }}</span>
