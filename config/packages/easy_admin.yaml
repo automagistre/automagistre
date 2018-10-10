@@ -394,8 +394,6 @@ easy_admin:
                     - { property: 'description', label: 'Описание', type: 'textarea' }
             edit:
                 title: 'Редактировать автомобиль №%%entity_id%%'
-                fields:
-                    - { property: 'vin', label: 'VIN', type_options: { disabled: true }  }
             new:
                 title: 'Создать новый автомобиль'
         CarNote:
