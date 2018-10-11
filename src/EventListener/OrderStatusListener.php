@@ -60,15 +60,15 @@ final class OrderStatusListener implements EventSubscriberInterface
 
         /** @var OrderItemPart $item */
         foreach ($order->getItems(OrderItemPart::class) as $item) {
-            $quantity = $item->getQuantity();
+            $required = $item->getQuantity();
+            $reserved = $this->reservationManager->reserved($item);
 
-            $reservedQuantity = $reservation->getQuantity();
-            if ($reservedQuantity < $quantity) {
+            if ($reserved < $required) {
                 return;
             }
 
             $reservable = $this->reservationManager->reservable($item->getPart());
-            if (($reservedQuantity + $reservable) < $quantity) {
+            if (($reserved + $reservable) < $required) {
                 return;
             }
         }
