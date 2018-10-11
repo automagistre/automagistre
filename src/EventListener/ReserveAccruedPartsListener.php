@@ -9,7 +9,6 @@ use App\Entity\Part;
 use App\Events;
 use App\Manager\ReservationException;
 use App\Manager\ReservationManager;
-use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -53,42 +52,42 @@ final class ReserveAccruedPartsListener implements EventSubscriberInterface
             throw new LogicException('Part required.');
         }
 
-        $this->registry->getEntityManager()->transactional(function (EntityManagerInterface $em) use ($part): void {
-            $reservable = $this->reservationManager->reservable($part);
+        $reservable = $this->reservationManager->reservable($part);
+        if (0 >= $reservable) {
+            return;
+        }
+
+        $em = $this->registry->getEntityManager();
+
+        /** @var OrderItemPart[] $items */
+        $items = $em->createQueryBuilder()
+            ->select('entity', 'orders')
+            ->from(OrderItemPart::class, 'entity')
+            ->join('entity.order', 'orders')
+            ->where('entity.part = :part')
+            ->andWhere('orders.closedAt IS NULL')
+            ->getQuery()
+            ->setParameters([
+                'part' => $part,
+            ])
+            ->getResult();
+
+        if ([] === $items) {
+            return;
+        }
+
+        foreach ($items as $item) {
             if (0 >= $reservable) {
-                return;
+                break;
             }
 
-            /** @var OrderItemPart[] $items */
-            $items = $em->createQueryBuilder()
-                ->select('entity', 'orders')
-                ->from(OrderItemPart::class, 'entity')
-                ->join('entity.order', 'orders')
-                ->where('entity.part = :part')
-                ->andWhere('orders.closedAt IS NULL')
-                ->getQuery()
-                ->setParameters([
-                    'part' => $part,
-                ])
-                ->getResult();
-
-            if ([] === $items) {
-                return;
+            try {
+                $this->reservationManager->reserve($item);
+            } catch (ReservationException $e) {
+                continue;
             }
 
-            foreach ($items as $item) {
-                if (0 >= $reservable) {
-                    break;
-                }
-
-                try {
-                    $this->reservationManager->reserve($item);
-                } catch (ReservationException $e) {
-                    continue;
-                }
-
-                $reservable = $this->reservationManager->reservable($part);
-            }
-        });
+            $reservable = $this->reservationManager->reservable($part);
+        }
     }
 }
