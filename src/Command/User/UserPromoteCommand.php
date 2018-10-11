@@ -11,7 +11,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -23,17 +22,11 @@ final class UserPromoteCommand extends Command
      */
     private $em;
 
-    /**
-     * @var EncoderFactoryInterface
-     */
-    private $encoderFactory;
-
-    public function __construct(EntityManagerInterface $em, EncoderFactoryInterface $encoderFactory)
+    public function __construct(EntityManagerInterface $em)
     {
         parent::__construct();
 
         $this->em = $em;
-        $this->encoderFactory = $encoderFactory;
     }
 
     /**
@@ -54,14 +47,15 @@ final class UserPromoteCommand extends Command
     {
         $em = $this->em;
 
-        $username = $input->getArgument('username');
+        ['username' => $username, 'roles' => $roles] = $input->getArguments();
+
         $user = $this->em->getRepository(User::class)->findOneBy(['username' => $username]);
 
         if (!$user instanceof User) {
             throw new EntityNotFoundException(\sprintf('User with username "%s" not found.', $username));
         }
 
-        foreach ($input->getArgument('roles') as $role) {
+        foreach ($roles as $role) {
             $user->addRole($role);
         }
 

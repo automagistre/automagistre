@@ -53,9 +53,11 @@ final class UserCreateCommand extends Command
     {
         $em = $this->em;
 
+        ['username' => $username, 'password' => $password] = $input->getArguments();
+
         $user = new User();
-        $user->setUsername($input->getArgument('username'));
-        $user->changePassword($input->getArgument('password'), $this->encoderFactory->getEncoder($user));
+        $user->setUsername($username);
+        $user->changePassword($password, $this->encoderFactory->getEncoder($user));
 
         foreach ((array) $input->getArgument('roles') as $role) {
             $user->addRole($role);

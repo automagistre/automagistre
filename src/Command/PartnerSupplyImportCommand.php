@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 final class PartnerSupplyImportCommand extends Command
 {
-    const DATE_FORMAT = 'Y-m-d';
+    private const DATE_FORMAT = 'Y-m-d';
 
     /**
      * @var Importer
@@ -45,7 +45,8 @@ final class PartnerSupplyImportCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $string = $input->getOption('date');
+        ['date' => $string] = $input->getOptions();
+
         $object = DateTime::createFromFormat(self::DATE_FORMAT, $string);
         if (!$object instanceof DateTime) {
             throw new InvalidArgumentException(
