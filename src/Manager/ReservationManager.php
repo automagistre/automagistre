@@ -8,10 +8,14 @@ use App\Entity\Order;
 use App\Entity\OrderItemPart;
 use App\Entity\Part;
 use App\Entity\Reservation;
+use App\Events;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -28,35 +32,56 @@ final class ReservationManager
      */
     private $partManager;
 
-    public function __construct(RegistryInterface $registry, PartManager $partManager)
-    {
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
+
+    public function __construct(
+        RegistryInterface $registry,
+        PartManager $partManager,
+        EventDispatcherInterface $dispatcher
+    ) {
         $this->registry = $registry;
         $this->partManager = $partManager;
+        $this->dispatcher = $dispatcher;
     }
 
-    public function reserve(OrderItemPart $orderItemPart, int $quantity): void
+    public function reserve(OrderItemPart $orderItemPart, ?int $quantity = null): void
     {
+        $quantity = $quantity ?? $orderItemPart->getQuantity();
+
         if (0 >= $quantity) {
             throw new ReservationException('Количество резервируемого товара должно быть положительным.');
         }
 
-        $part = $orderItemPart->getPart();
+        $reservation = $this->registry->getEntityManager()
+            ->transactional(function (EntityManagerInterface $em) use ($orderItemPart, $quantity): Reservation {
+                $part = $orderItemPart->getPart();
 
-        $reservable = $this->reservable($part);
-        if ($reservable < $quantity) {
-            throw new ReservationException(
-                \sprintf(
-                    'Невозможно зарезервировать "%s" единиц товара, доступно "%s"',
-                    $quantity / 100,
-                    $reservable / 100
-                )
-            );
-        }
+                $reserved = $this->reserved($orderItemPart);
+                if (0 < $reserved) {
+                    $this->deReserve($orderItemPart, $reserved);
+                }
 
-        $em = $this->registry->getEntityManager();
+                $reservable = $this->reservable($part);
+                if ($reservable < $quantity) {
+                    throw new ReservationException(
+                        \sprintf(
+                            'Невозможно зарезервировать "%s" единиц товара, доступно "%s"',
+                            $quantity / 100,
+                            $reservable / 100
+                        )
+                    );
+                }
 
-        $em->persist(new Reservation($orderItemPart, $quantity));
-        $em->flush();
+                $reservation = new Reservation($orderItemPart, $quantity);
+                $em->persist($reservation);
+
+                return $reservation;
+            });
+
+        $this->dispatcher->dispatch(Events::PART_RESERVED, new GenericEvent($reservation));
     }
 
     public function deReserve(OrderItemPart $orderItemPart, int $quantity): void

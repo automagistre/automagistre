@@ -9,6 +9,7 @@ use App\Entity\Motion;
 use App\Entity\MotionManual;
 use App\Entity\Order;
 use App\Entity\Part;
+use App\Events;
 use App\Form\Type\QuantityType;
 use App\Manager\DeficitManager;
 use App\Manager\PartManager;
@@ -21,6 +22,8 @@ use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use LogicException;
 use Money\MoneyFormatter;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -56,18 +59,25 @@ final class PartController extends AbstractController
      */
     private $reservationManager;
 
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
+
     public function __construct(
         DeficitManager $deficitManager,
         PartManager $partManager,
         Finder $finder,
         MoneyFormatter $formatter,
-        ReservationManager $reservationManager
+        ReservationManager $reservationManager,
+        EventDispatcherInterface $dispatcher
     ) {
         $this->deficitManager = $deficitManager;
         $this->partManager = $partManager;
         $this->finder = $finder;
         $this->formatter = $formatter;
         $this->reservationManager = $reservationManager;
+        $this->dispatcher = $dispatcher;
     }
 
     public function crossAction(): Response
@@ -198,12 +208,16 @@ final class PartController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->em;
-            $quantity = (int) $form->get('quantity')->getData();
+            $quantity = \abs((int) $form->get('quantity')->getData());
             $user = $this->getUser();
             $description = \sprintf('# Ручное пополнение - %s', $user->getId());
 
-            $em->persist(new MotionManual($user, $part, \abs($quantity), $description));
+            $em->persist(new MotionManual($user, $part, $quantity, $description));
             $em->flush();
+
+            $this->dispatcher->dispatch(Events::PART_ACCRUED, new GenericEvent($part, [
+                'quantity' => $quantity,
+            ]));
 
             return $this->redirectToReferrer();
         }

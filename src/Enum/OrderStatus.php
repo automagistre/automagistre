@@ -9,6 +9,8 @@ use Grachevko\Enum\Enum;
 /**
  * @method string getColor()
  * @method static OrderStatus draft()
+ * @method static OrderStatus tracking()
+ * @method static OrderStatus notification()
  * @method static OrderStatus working()
  * @method static OrderStatus closed()
  * @method bool   isClosed()

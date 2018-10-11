@@ -46,6 +46,13 @@ class IncomePart
      */
     private $supply;
 
+    /**
+     * @var MotionIncome|null
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\MotionIncome")
+     */
+    private $accruedMotion;
+
     public static function fromSupply(Supply $supply): self
     {
         $incomePart = new self();
@@ -55,6 +62,11 @@ class IncomePart
         $incomePart->supply = $supply;
 
         return $incomePart;
+    }
+
+    public function accrue(MotionIncome $motion): void
+    {
+        $this->accruedMotion = $motion;
     }
 
     public function setPrice(Money $price): void

@@ -71,7 +71,7 @@ final class RecommendationManager
 
         foreach ($orderItemParts as $orderItemPart) {
             try {
-                $this->reservationManager->reserve($orderItemPart, $orderItemPart->getQuantity());
+                $this->reservationManager->reserve($orderItemPart);
             } catch (ReservationException $e) {
             }
         }

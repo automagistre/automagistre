@@ -6,11 +6,12 @@ namespace App\Controller\EasyAdmin;
 
 use App\Entity\Income;
 use App\Entity\IncomePart;
-use App\Entity\MotionIncome;
 use App\Entity\Supply;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Events;
 use Doctrine\ORM\Query\Expr\Join;
 use LogicException;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,6 +21,16 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final class IncomeController extends AbstractController
 {
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
+
+    public function __construct(EventDispatcherInterface $dispatcher)
+    {
+        $this->dispatcher = $dispatcher;
+    }
+
     public function supplyAction(): Response
     {
         $income = $this->getEntity(Income::class);
@@ -103,39 +114,10 @@ final class IncomeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->em;
 
-            $em->transactional(function (EntityManagerInterface $em) use ($income): void {
-                $user = $this->getUser();
+            $income->accrue($this->getUser());
+            $em->flush();
 
-                foreach ($income->getIncomeParts() as $incomePart) {
-                    $quantity = $incomePart->getQuantity();
-                    $em->persist(new MotionIncome($incomePart));
-
-                    $supply = $incomePart->getSupply();
-                    if (!$supply instanceof Supply) {
-                        $supply = $em->getRepository(Supply::class)->findOneBy([
-                            'part' => $incomePart->getPart(),
-                            'supplier' => $income->getSupplier(),
-                            'receivedAt' => null,
-                        ]);
-                    }
-
-                    if ($supply instanceof Supply) {
-                        $difference = $supply->getQuantity() - $quantity;
-
-                        if (0 >= $difference) {
-                            $supply->receive($user);
-                        } else {
-                            $em->persist(
-                                new Supply($supply->getSupplier(), $supply->getPart(), $supply->getPrice(), $difference)
-                            );
-
-                            $supply->receive($user, $incomePart->getQuantity());
-                        }
-                    }
-                }
-
-                $income->accrue($user);
-            });
+            $this->dispatcher->dispatch(Events::INCOME_ACCRUED, new GenericEvent($income));
 
             return $this->redirectToReferrer();
         }

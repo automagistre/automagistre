@@ -38,7 +38,7 @@ final class OrderItemPartController extends OrderItemController
         }
 
         try {
-            $this->reservationManager->reserve($item, $item->getQuantity());
+            $this->reservationManager->reserve($item);
         } catch (ReservationException $e) {
             $this->addFlash('error', $e->getMessage());
         }
@@ -97,7 +97,7 @@ final class OrderItemPartController extends OrderItemController
         parent::persistEntity($entity);
 
         try {
-            $this->reservationManager->reserve($entity, $entity->getQuantity());
+            $this->reservationManager->reserve($entity);
         } catch (ReservationException $e) {
             $this->addFlash('warning', $e->getMessage());
         }
@@ -108,15 +108,10 @@ final class OrderItemPartController extends OrderItemController
      */
     protected function updateEntity($entity): void
     {
-        $reserved = $this->reservationManager->reserved($entity);
-        if (0 < $reserved) {
-            $this->reservationManager->deReserve($entity, $reserved);
-        }
-
         parent::updateEntity($entity);
 
         try {
-            $this->reservationManager->reserve($entity, $entity->getQuantity());
+            $this->reservationManager->reserve($entity);
         } catch (ReservationException $e) {
             $this->addFlash('error', $e->getMessage());
         }
