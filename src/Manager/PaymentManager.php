@@ -53,6 +53,8 @@ final class PaymentManager
         });
 
         $this->dispatcher->dispatch(Events::PAYMENT_CREATED, new GenericEvent($payment));
+
+        return $payment;
     }
 
     public function balance(Operand $operand): Money
