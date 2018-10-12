@@ -32,6 +32,11 @@ interface Events
     public const PART_ACCRUED = 'part.accrued';
 
     /**
+     * Запчасть списана со склада.
+     */
+    public const PART_OUTCOME = 'part.outcome';
+
+    /**
      * Запчасть зарезервирована.
      */
     public const PART_RESERVED = 'part.reserved';

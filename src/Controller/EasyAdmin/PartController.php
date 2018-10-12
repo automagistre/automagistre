@@ -234,12 +234,16 @@ final class PartController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->em;
-            $quantity = (int) $form->get('quantity')->getData();
+            $quantity = \abs((int) $form->get('quantity')->getData());
             $user = $this->getUser();
             $description = \sprintf('# Ручное списание - %s', $user->getId());
 
-            $em->persist(new MotionManual($user, $part, 0 - \abs($quantity), $description));
+            $em->persist(new MotionManual($user, $part, 0 - $quantity, $description));
             $em->flush();
+
+            $this->event(Events::PART_OUTCOME, new GenericEvent($part, [
+                'quantity' => $quantity,
+            ]));
 
             return $this->redirectToReferrer();
         }
