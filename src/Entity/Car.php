@@ -159,7 +159,7 @@ class Car
         return $this->carModel;
     }
 
-    public function setCarModel(CarModel $carModel): void
+    public function setCarModel(?CarModel $carModel): void
     {
         $this->carModel = $carModel;
     }
