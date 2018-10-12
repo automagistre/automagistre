@@ -55,4 +55,14 @@ interface Events
      * Проводка создана.
      */
     public const PAYMENT_CREATED = 'payment.created';
+
+    /**
+     * Создан новый клиент
+     */
+    public const PERSON_CREATED = 'person.created';
+
+    /**
+     * Создана новая организация.
+     */
+    public const ORGANIZATION_CREATED = 'organization.created';
 }

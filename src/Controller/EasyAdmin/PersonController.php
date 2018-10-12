@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\EasyAdmin;
 
 use App\Entity\Person;
+use App\Events;
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -21,6 +23,8 @@ final class PersonController extends OperandController
         parent::persistEntity($entity);
 
         $this->setReferer($this->generateEasyPath($entity, 'show'));
+
+        $this->event(Events::PERSON_CREATED, new GenericEvent($entity));
     }
 
     /**
