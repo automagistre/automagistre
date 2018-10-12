@@ -103,8 +103,11 @@ final class ReservationManager
 
         $em = $this->registry->getEntityManager();
 
-        $em->persist(new Reservation($orderItemPart, 0 - $quantity));
+        $reservation = new Reservation($orderItemPart, 0 - $quantity);
+        $em->persist($reservation);
         $em->flush();
+
+        $this->dispatcher->dispatch(Events::PART_DERESERVED, new GenericEvent($reservation));
     }
 
     public function reservable(Part $part): int

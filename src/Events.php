@@ -27,6 +27,11 @@ interface Events
     public const PART_RESERVED = 'part.reserved';
 
     /**
+     * Запчасть снята с резервации.
+     */
+    public const PART_DERESERVED = 'part.dereserved';
+
+    /**
      * Проводка создана.
      */
     public const PAYMENT_CREATED = 'payment.created';
