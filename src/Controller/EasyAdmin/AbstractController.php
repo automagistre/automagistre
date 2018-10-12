@@ -14,6 +14,8 @@ use libphonenumber\PhoneNumberUtil;
 use Money\Formatter\DecimalMoneyFormatter;
 use Money\Money;
 use Money\MoneyFormatter;
+use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -47,6 +49,11 @@ abstract class AbstractController extends AdminController
     private $phoneNumberUtil;
 
     /**
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
+
+    /**
      * @required
      */
     public function setEntityTransformer(EntityTransformer $entityTransformer): void
@@ -76,6 +83,14 @@ abstract class AbstractController extends AdminController
     public function setPhoneNumberUtil(PhoneNumberUtil $phoneNumberUtil): void
     {
         $this->phoneNumberUtil = $phoneNumberUtil;
+    }
+
+    /**
+     * @required
+     */
+    public function setEventDispatcher(EventDispatcherInterface $dispatcher): void
+    {
+        $this->dispatcher = $dispatcher;
     }
 
     protected function formatMoney(Money $money, bool $decimal = false): string
@@ -145,6 +160,11 @@ abstract class AbstractController extends AdminController
     protected function findCurrentEntity(): ?object
     {
         return $this->request->attributes->get('easyadmin')['item'] ?? null;
+    }
+
+    protected function event(string $eventName, Event $event): void
+    {
+        $this->dispatcher->dispatch($eventName, $event);
     }
 
     /**

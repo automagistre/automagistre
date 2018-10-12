@@ -10,7 +10,6 @@ use App\Entity\Supply;
 use App\Events;
 use Doctrine\ORM\Query\Expr\Join;
 use LogicException;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -21,16 +20,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final class IncomeController extends AbstractController
 {
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $dispatcher;
-
-    public function __construct(EventDispatcherInterface $dispatcher)
-    {
-        $this->dispatcher = $dispatcher;
-    }
-
     public function supplyAction(): Response
     {
         $income = $this->getEntity(Income::class);
@@ -117,7 +106,7 @@ final class IncomeController extends AbstractController
             $income->accrue($this->getUser());
             $em->flush();
 
-            $this->dispatcher->dispatch(Events::INCOME_ACCRUED, new GenericEvent($income));
+            $this->event(Events::INCOME_ACCRUED, new GenericEvent($income));
 
             return $this->redirectToReferrer();
         }

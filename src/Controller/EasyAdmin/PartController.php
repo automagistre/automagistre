@@ -22,7 +22,6 @@ use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use LogicException;
 use Money\MoneyFormatter;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -59,25 +58,18 @@ final class PartController extends AbstractController
      */
     private $reservationManager;
 
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $dispatcher;
-
     public function __construct(
         DeficitManager $deficitManager,
         PartManager $partManager,
         Finder $finder,
         MoneyFormatter $formatter,
-        ReservationManager $reservationManager,
-        EventDispatcherInterface $dispatcher
+        ReservationManager $reservationManager
     ) {
         $this->deficitManager = $deficitManager;
         $this->partManager = $partManager;
         $this->finder = $finder;
         $this->formatter = $formatter;
         $this->reservationManager = $reservationManager;
-        $this->dispatcher = $dispatcher;
     }
 
     public function crossAction(): Response
@@ -215,7 +207,7 @@ final class PartController extends AbstractController
             $em->persist(new MotionManual($user, $part, $quantity, $description));
             $em->flush();
 
-            $this->dispatcher->dispatch(Events::PART_ACCRUED, new GenericEvent($part, [
+            $this->event(Events::PART_ACCRUED, new GenericEvent($part, [
                 'quantity' => $quantity,
             ]));
 
