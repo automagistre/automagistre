@@ -16,6 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;
 use Money\Money;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -29,6 +30,8 @@ class Car
 
     /**
      * @var CarModel
+     *
+     * @Assert\NotBlank
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\CarModel")
      * @ORM\JoinColumn
