@@ -17,6 +17,6 @@
         <div class="pull-right hidden-xs">
             Сборка <b>{{ build() }}</b> от {{ build_time()|localizeddate('medium', 'short', null, 'GMT+3') }}
         </div>
-        <strong>Copyright © 2017 <a href="//www.automagistre.ru">Автомагистр</a>.</strong>
+        <strong>Copyright © 2017 - {{ date()|date('Y') }} <a href="//www.automagistre.ru">Автомагистр</a>.</strong>
     </footer>
 {% endblock %}
