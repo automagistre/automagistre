@@ -27,6 +27,11 @@ interface Events
     public const INCOME_PART_ACCRUED = 'income_part.accrued';
 
     /**
+     * Создана новая запчасть.
+     */
+    public const PART_CREATED = 'part.created';
+
+    /**
      * На склад поступила запчасть.
      */
     public const PART_ACCRUED = 'part.accrued';

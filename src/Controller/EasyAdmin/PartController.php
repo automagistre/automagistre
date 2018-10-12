@@ -371,5 +371,7 @@ final class PartController extends AbstractController
         if (null !== $referer) {
             $this->setReferer(\urldecode($referer).'&part_id='.$entity->getId());
         }
+
+        $this->event(Events::PART_CREATED, new GenericEvent($entity));
     }
 }
