@@ -17,12 +17,14 @@ use App\Manager\ReservationManager;
 use App\Model\Part as PartModel;
 use App\Model\WarehousePart;
 use App\Partner\Ixora\Finder;
+use App\Roles;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use LogicException;
 use Money\MoneyFormatter;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -272,6 +274,20 @@ final class PartController extends AbstractController
         }
 
         return parent::renderTemplate($actionName, $templatePath, $parameters);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function createEntityFormBuilder($entity, $view): FormBuilderInterface
+    {
+        $formBuilder = parent::createEntityFormBuilder($entity, $view);
+
+        if ('edit' === $view) {
+            $formBuilder->get('number')->setDisabled(!$this->isGranted(Roles::SUPER_ADMIN));
+        }
+
+        return $formBuilder;
     }
 
     /**

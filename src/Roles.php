@@ -9,5 +9,7 @@ namespace App;
  */
 final class Roles
 {
+    public const SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
+
     public const EMPLOYEE = 'ROLE_EMPLOYEE';
 }
