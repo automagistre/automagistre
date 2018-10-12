@@ -84,8 +84,10 @@ final class ReservationManager
         $this->dispatcher->dispatch(Events::PART_RESERVED, new GenericEvent($reservation));
     }
 
-    public function deReserve(OrderItemPart $orderItemPart, int $quantity): void
+    public function deReserve(OrderItemPart $orderItemPart, int $quantity = null): void
     {
+        $quantity = $quantity ?? $orderItemPart->getQuantity();
+
         if (0 >= $quantity) {
             throw new ReservationException('Количество снимаемого с резерва товара должно быть положительным.');
         }

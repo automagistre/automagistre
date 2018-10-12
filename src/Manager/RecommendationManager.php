@@ -121,6 +121,11 @@ final class RecommendationManager
                     $orderItemPart->getPrice(),
                     $orderItemPart->getCreatedBy()
                 ));
+
+                try {
+                    $this->reservationManager->deReserve($orderItemPart);
+                } catch (ReservationException $e) {
+                }
             }
 
             $em->remove($orderItemService);

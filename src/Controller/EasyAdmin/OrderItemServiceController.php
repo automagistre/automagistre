@@ -12,7 +12,6 @@ use App\Entity\OrderItemService;
 use App\Entity\Organization;
 use App\Entity\Person;
 use App\Form\Model\OrderService;
-use App\Manager\RecommendationManager;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use LogicException;
@@ -27,16 +26,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 final class OrderItemServiceController extends OrderItemController
 {
-    /**
-     * @var RecommendationManager
-     */
-    private $recommendationManager;
-
-    public function __construct(RecommendationManager $recommendationManager)
-    {
-        $this->recommendationManager = $recommendationManager;
-    }
-
     public function recommendAction(): RedirectResponse
     {
         if (!$this->request->isMethod('POST')) {

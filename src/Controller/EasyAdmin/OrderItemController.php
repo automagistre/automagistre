@@ -11,6 +11,7 @@ use App\Entity\OrderItem;
 use App\Entity\OrderItemPart;
 use App\Entity\OrderItemService;
 use App\Entity\Reservation;
+use App\Manager\RecommendationManager;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,6 +21,19 @@ use Symfony\Component\HttpFoundation\Response;
  */
 abstract class OrderItemController extends AbstractController
 {
+    /**
+     * @var RecommendationManager
+     */
+    protected $recommendationManager;
+
+    /**
+     * @required
+     */
+    public function setRecommendationManager(RecommendationManager $recommendationManager): void
+    {
+        $this->recommendationManager = $recommendationManager;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -89,9 +103,13 @@ abstract class OrderItemController extends AbstractController
         }
 
         if ($item instanceof OrderItemService) {
-            foreach ($em->getRepository(CarRecommendation::class)->findBy(['realization' => $item]) as $rec) {
-                $em->remove($rec);
+            if (null !== $em->getRepository(CarRecommendation::class)->findOneBy(['realization' => $item])) {
+                $this->recommendationManager->recommend($item);
+
+                return;
             }
+
+            $em->remove($item);
         }
 
         foreach ($item->getChildren() as $child) {
