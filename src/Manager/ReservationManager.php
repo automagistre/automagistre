@@ -9,7 +9,6 @@ use App\Entity\OrderItemPart;
 use App\Entity\Part;
 use App\Entity\Reservation;
 use App\Events;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
@@ -55,31 +54,28 @@ final class ReservationManager
             throw new ReservationException('Количество резервируемого товара должно быть положительным.');
         }
 
-        $reservation = $this->registry->getEntityManager()
-            ->transactional(function (EntityManagerInterface $em) use ($orderItemPart, $quantity): Reservation {
-                $part = $orderItemPart->getPart();
+        $part = $orderItemPart->getPart();
 
-                $reserved = $this->reserved($orderItemPart);
-                if (0 < $reserved) {
-                    $this->deReserve($orderItemPart, $reserved);
-                }
+        $reserved = $this->reserved($orderItemPart);
+        if (0 < $reserved) {
+            $this->deReserve($orderItemPart, $reserved);
+        }
 
-                $reservable = $this->reservable($part);
-                if ($reservable < $quantity) {
-                    throw new ReservationException(
-                        \sprintf(
-                            'Невозможно зарезервировать "%s" единиц товара, доступно "%s"',
-                            $quantity / 100,
-                            $reservable / 100
-                        )
-                    );
-                }
+        $reservable = $this->reservable($part);
+        if ($reservable < $quantity) {
+            throw new ReservationException(
+                \sprintf(
+                    'Невозможно зарезервировать "%s" единиц товара, доступно "%s"',
+                    $quantity / 100,
+                    $reservable / 100
+                )
+            );
+        }
 
-                $reservation = new Reservation($orderItemPart, $quantity);
-                $em->persist($reservation);
+        $reservation = new Reservation($orderItemPart, $quantity);
 
-                return $reservation;
-            });
+        $em = $this->registry->getEntityManager();
+        $em->persist($reservation);
 
         $this->dispatcher->dispatch(Events::PART_RESERVED, new GenericEvent($reservation));
     }
@@ -162,9 +158,11 @@ final class ReservationManager
             ->join(Reservation::class, 'reservation', Join::WITH, 'reservation.orderItemPart = order_item_part')
             ->where('order_item_part.part = :part')
             ->orderBy('entity.id', 'DESC')
-            ->setParameters([
-                'part' => $part,
-            ])
+            ->setParameters(
+                [
+                    'part' => $part,
+                ]
+            )
             ->getQuery()
             ->getResult();
     }
