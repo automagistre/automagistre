@@ -57,9 +57,9 @@ final class EventsListener implements EventSubscriberInterface
 
         foreach ($event->getArguments() as $key => $argument) {
             if (\is_object($argument)) {
-                $arguments[$key] = $this->transformer->transform($argument);
+                $arguments['arguments'][$key] = $this->transformer->transform($argument);
             } else {
-                $arguments[$key] = $argument;
+                $arguments['arguments'][$key] = $argument;
             }
         }
 
