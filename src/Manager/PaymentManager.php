@@ -6,10 +6,13 @@ namespace App\Manager;
 
 use App\Entity\Operand;
 use App\Entity\Payment;
+use App\Events;
 use Doctrine\ORM\EntityManagerInterface;
 use Money\Currency;
 use Money\Money;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -21,16 +24,22 @@ final class PaymentManager
      */
     private $registry;
 
-    public function __construct(RegistryInterface $registry)
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
+
+    public function __construct(RegistryInterface $registry, EventDispatcherInterface $dispatcher)
     {
         $this->registry = $registry;
+        $this->dispatcher = $dispatcher;
     }
 
     public function createPayment(Operand $recipient, string $description, Money $money): Payment
     {
         $em = $this->registry->getEntityManager();
 
-        return $em->transactional(function (EntityManagerInterface $em) use ($recipient, $description, $money) {
+        $payment = $em->transactional(function (EntityManagerInterface $em) use ($recipient, $description, $money) {
             $payment = new Payment(
                 $recipient,
                 $description,
@@ -42,6 +51,8 @@ final class PaymentManager
 
             return $payment;
         });
+
+        $this->dispatcher->dispatch(Events::PAYMENT_CREATED, new GenericEvent($payment));
     }
 
     public function balance(Operand $operand): Money

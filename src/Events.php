@@ -25,4 +25,9 @@ interface Events
      * Запчасть зарезервирована.
      */
     public const PART_RESERVED = 'part.reserved';
+
+    /**
+     * Проводка создана.
+     */
+    public const PAYMENT_CREATED = 'payment.created';
 }
