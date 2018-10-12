@@ -32,9 +32,17 @@ class Event
      */
     private $arguments;
 
-    public function __construct(string $name, array $arguments)
+    /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     */
+    private $user;
+
+    public function __construct(string $name, array $arguments, User $user)
     {
         $this->name = $name;
         $this->arguments = $arguments;
+        $this->user = $user;
     }
 }
