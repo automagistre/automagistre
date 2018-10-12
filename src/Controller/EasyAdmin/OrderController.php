@@ -469,6 +469,8 @@ final class OrderController extends AbstractController
             }
         });
 
+        $this->event(Events::ORDER_CLOSED, new GenericEvent($order));
+
         return $this->redirectToReferrer();
     }
 

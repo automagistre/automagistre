@@ -12,6 +12,11 @@ interface Events
     public const ORDER_STATUS = 'order.status';
 
     /**
+     * Заказ закрыт
+     */
+    public const ORDER_CLOSED = 'order.closed';
+
+    /**
      * Приход оприходован.
      */
     public const INCOME_ACCRUED = 'income.accrued';
