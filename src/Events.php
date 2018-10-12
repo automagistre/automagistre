@@ -7,6 +7,11 @@ namespace App;
 interface Events
 {
     /**
+     * Статус заказа изменён.
+     */
+    public const ORDER_STATUS = 'order.status';
+
+    /**
      * Приход оприходован.
      */
     public const INCOME_ACCRUED = 'income.accrued';

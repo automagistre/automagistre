@@ -18,6 +18,7 @@ use App\Entity\OrderNote;
 use App\Entity\Organization;
 use App\Entity\Person;
 use App\Enum\OrderStatus;
+use App\Events;
 use App\Form\Model\Payment as PaymentModel;
 use App\Form\Type\OrderItemServiceType;
 use App\Form\Type\PaymentType;
@@ -30,6 +31,7 @@ use Doctrine\ORM\QueryBuilder;
 use LogicException;
 use Money\Currency;
 use Money\Money;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -138,6 +140,8 @@ final class OrderController extends AbstractController
 
         $order->setStatus($status);
         $this->em->flush();
+
+        $this->event(Events::ORDER_STATUS, new GenericEvent($order, ['status' => $status]));
 
         return $this->redirectToReferrer();
     }
