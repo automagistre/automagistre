@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
+use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhone;
 
 /**
  * @ORM\Entity
@@ -29,12 +30,16 @@ class Organization extends Operand
     /**
      * @var PhoneNumber
      *
+     * @AssertPhone
+     *
      * @ORM\Column(type="phone_number", nullable=true)
      */
     private $telephone;
 
     /**
      * @var PhoneNumber
+     *
+     * @AssertPhone
      *
      * @ORM\Column(type="phone_number", nullable=true)
      */

@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
+use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhone;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -32,12 +33,16 @@ class Person extends Operand
     /**
      * @var PhoneNumber
      *
+     * @AssertPhone
+     *
      * @ORM\Column(type="phone_number", nullable=true, unique=true)
      */
     private $telephone;
 
     /**
      * @var PhoneNumber
+     *
+     * @AssertPhone
      *
      * @ORM\Column(type="phone_number", nullable=true)
      */
