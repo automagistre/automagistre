@@ -42,6 +42,10 @@
                                         <i class="fa fa-clock-o"></i>
                                         Отложить
                                     </a>
+                                    <a href="{{ easyadmin_path(order, 'appointment', {'referer': easyadmin_path(order, 'show')}) }}" class="btn btn-success">
+                                        <i class="fa fa-clock-o"></i>
+                                        Записать
+                                    </a>
                                 </div>
                             </div>
                         {% else %}
@@ -52,6 +56,20 @@
                     </div>
                 </div>
             </div>
+
+            {% if order.appointmentAt is not empty %}
+                <div class="form-horizontal">
+                    <div class="form-group field-association ">
+                        <label class="col-sm-2 control-label">Запись на</label>
+
+                        <div class="col-sm-10">
+                            <div class="form-control">
+                                {{ order.appointmentAt|localizeddate('long') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
 
             <div class="form-horizontal">
                 <div class="form-group field-association ">

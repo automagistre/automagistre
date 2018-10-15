@@ -9,6 +9,7 @@ use Grachevko\Enum\Enum;
 /**
  * @method string getColor()
  * @method static OrderStatus draft()
+ * @method static OrderStatus scheduling()
  * @method static OrderStatus tracking()
  * @method static OrderStatus notification()
  * @method static OrderStatus working()
@@ -77,7 +78,13 @@ final class OrderStatus extends Enum
      */
     public static function selectable(): array
     {
-        return self::all([self::CLOSED], true);
+        return self::all(
+            [
+                self::SCHEDULING,
+                self::CLOSED,
+            ],
+            true
+        );
     }
 
     public function isSelectable(): bool

@@ -1,2 +1,14 @@
 {# @var item \App\Entity\Order #}
-<span class="label label-{{ item.suspended ? 'default' : value.getColor }}">{{ value.name }}</span>
+
+{% set color = item.suspended ? 'default' : value.getColor %}
+
+{% set appointment = item.appointmentAt %}
+{% if value.isScheduling and appointment is not empty %}
+    {% if date(appointment) < date('now', appointment.timezone) %}
+        {% set color = 'danger' %}
+    {% elseif date(appointment) > date('now', appointment.timezone) %}
+        {% set color = 'default' %}
+    {% endif %}
+{% endif %}
+
+<span class="label label-{{ color }}">{{ value.name }}</span>

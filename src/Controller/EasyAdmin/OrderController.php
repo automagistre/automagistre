@@ -33,12 +33,14 @@ use Money\Currency;
 use Money\Money;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Validator\Constraints\GreaterThan;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -113,6 +115,52 @@ final class OrderController extends AbstractController
         }
 
         return $this->render('easy_admin/order/suspend.html.twig', [
+            'order' => $order,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    public function appointmentAction(): Response
+    {
+        $order = $this->getEntity(Order::class);
+        if (!$order instanceof Order) {
+            throw new LogicException('Order required.');
+        }
+
+        $request = $this->request;
+        $form = $this->createFormBuilder()
+            ->add('date', DateTimeType::class, [
+                'label' => 'Дата',
+                'required' => true,
+                'minutes' => [0, 30],
+                'hours' => \range(9, 23),
+                'input' => 'datetime_immutable',
+                'model_timezone' => 'GMT+3',
+                'view_timezone' => 'GMT+3',
+                'data' => new DateTimeImmutable('now', new \DateTimeZone('GMT+3')),
+                'constraints' => [
+                    new GreaterThan('now GMT+3'),
+                ],
+            ])
+            ->getForm()
+            ->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var DateTimeImmutable $date */
+            $date = $form->get('date')->getData();
+
+            $order->appointment($date);
+            $order->setStatus(OrderStatus::scheduling());
+            $this->em->flush();
+
+            $this->event(Events::ORDER_APPOINTMENT, new GenericEvent($order, [
+                'date' => $date->format(DATE_RFC3339),
+            ]));
+
+            return $this->redirectToReferrer();
+        }
+
+        return $this->render('easy_admin/order/appointment.html.twig', [
             'order' => $order,
             'form' => $form->createView(),
         ]);

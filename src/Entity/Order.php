@@ -108,6 +108,13 @@ class Order
      */
     private $suspends;
 
+    /**
+     * @var DateTimeImmutable|null
+     *
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private $appointmentAt;
+
     public function __construct()
     {
         $this->status = OrderStatus::working();
@@ -137,6 +144,11 @@ class Order
         $this->closedBy = $user;
         $this->closedAt = new DateTimeImmutable();
         $this->closedBalance = $balance;
+    }
+
+    public function appointment(DateTimeImmutable $appointment): void
+    {
+        $this->appointmentAt = $appointment;
     }
 
     public function getActiveWorker(): ?Operand
@@ -346,6 +358,11 @@ class Order
     public function suspend(DateTimeImmutable $till, string $reason): void
     {
         $this->suspends[] = new OrderSuspend($this, $till, $reason);
+    }
+
+    public function getAppointmentAt(): ?DateTimeImmutable
+    {
+        return $this->appointmentAt;
     }
 
     private function getTotalPriceByClass(?string $class): Money
