@@ -4,14 +4,19 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Costil;
 use App\Entity\Income;
 use App\Entity\IncomePart;
+use App\Entity\Operand;
 use App\Entity\Supply;
 use App\Events;
+use App\Manager\PaymentManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Join;
 use LogicException;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -20,6 +25,16 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final class IncomeController extends AbstractController
 {
+    /**
+     * @var PaymentManager
+     */
+    private $paymentManager;
+
+    public function __construct(PaymentManager $paymentManager)
+    {
+        $this->paymentManager = $paymentManager;
+    }
+
     public function supplyAction(): Response
     {
         $income = $this->getEntity(Income::class);
@@ -98,13 +113,28 @@ final class IncomeController extends AbstractController
             return $this->redirectToReferrer();
         }
 
-        $form = $this->createFormBuilder()->getForm()->handleRequest($this->request);
+        $form = $this->createFormBuilder()
+            ->add('cashbox', CheckboxType::class, [
+                'label' => 'Приход оплачен наличными (Списать с кассы)',
+                'required' => false,
+            ])
+            ->getForm()
+            ->handleRequest($this->request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->em;
 
-            $income->accrue($this->getUser());
-            $em->flush();
+            $em->transactional(function (EntityManagerInterface $em) use ($form, $income): void {
+                $income->accrue($this->getUser());
+
+                if ((bool) $form->get('cashbox')->getData()) {
+                    $this->paymentManager->createPayment(
+                        $em->getRepository(Operand::class)->find(Costil::CASHBOX),
+                        \sprintf('# Списание по поступлению #%s', $income->getId()),
+                        $income->getTotalPrice()
+                    );
+                }
+            });
 
             $this->event(Events::INCOME_ACCRUED, new GenericEvent($income));
 

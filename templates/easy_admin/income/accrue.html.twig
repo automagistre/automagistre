@@ -1,5 +1,7 @@
 {% extends 'easy_admin/layout.html.twig' %}
 
+{% form_theme form with easyadmin_config('design.form_theme') %}
+
 {# @var income \App\Entity\Income #}
 
 {% block content_title %}
@@ -10,6 +12,8 @@
     {{ form_start(form) }}
 
     <h3>Зачислить на склад "{{ income.incomeParts|length }}" позиций от {{ income.supplier }} на сумму {{ income.totalPrice|localize_money }}</h3>
+
+    {{ form_widget(form) }}
 
     <button class="btn btn-success">
         Подтвердить
