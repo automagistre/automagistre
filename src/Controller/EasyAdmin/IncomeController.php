@@ -131,7 +131,7 @@ final class IncomeController extends AbstractController
                     $this->paymentManager->createPayment(
                         $em->getRepository(Operand::class)->find(Costil::CASHBOX),
                         \sprintf('# Списание по поступлению #%s', $income->getId()),
-                        $income->getTotalPrice()
+                        $income->getTotalPrice()->negative()
                     );
                 }
             });
