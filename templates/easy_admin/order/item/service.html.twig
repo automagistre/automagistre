@@ -27,11 +27,13 @@
             <i class="fa fa-pencil"></i>
         </a>
 
-        <form action="{{ easyadmin_path(item, 'recommend', {
-            'order_id': order.id,
-            'referer': true
-        }) }}" method="post" style="display: inline">
-            <i class="fa fa-asterisk icon-form-submit" style="cursor: pointer"></i>
-        </form>
+        {% if item.order.car is not empty %}
+            <form action="{{ easyadmin_path(item, 'recommend', {
+                'order_id': order.id,
+                'referer': true
+            }) }}" method="post" style="display: inline">
+                <i class="fa fa-asterisk icon-form-submit" style="cursor: pointer"></i>
+            </form>
+        {% endif %}
     </td>
 {% endif %}
