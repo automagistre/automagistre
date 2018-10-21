@@ -598,7 +598,7 @@ easy_admin:
         Payment:
             class: App\Entity\Payment
             controller: App\Controller\EasyAdmin\PaymentController
-            disabled_actions: ['show', 'delete', 'edit']
+            disabled_actions: ['show', 'delete', 'edit', 'search']
             list:
                 title: 'Список проводок'
                 fields:
