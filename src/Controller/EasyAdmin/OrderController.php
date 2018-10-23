@@ -670,6 +670,23 @@ final class OrderController extends AbstractController
         ]));
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    protected function searchAction(): Response
+    {
+        $id = \filter_var($this->request->query->get('query'), FILTER_VALIDATE_INT);
+
+        if (false !== $id) {
+            $entity = $this->em->getRepository($this->entity['class'])->find($id);
+            if (null !== $entity) {
+                return $this->redirectToEasyPath($entity, 'show');
+            }
+        }
+
+        return parent::searchAction();
+    }
+
     private function createPaymentForm(Order $order): FormInterface
     {
         $customer = $order->getCustomer();
