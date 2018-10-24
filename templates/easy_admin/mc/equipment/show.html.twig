@@ -1,0 +1,90 @@
+{% extends '@EasyAdmin/default/show.html.twig' %}
+
+{# @var entity \App\Entity\MC\Equipment #}
+
+{% block main %}
+    <div class="row">
+
+        <div class="col-md-4">
+            <div class="field-group">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Основная информация</h3>
+                    </div>
+
+                    <div class="box-body">
+                        {{ parent() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="field-group">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Карта ТО</h3>
+                    </div>
+
+                    {% if entity.lines is not empty %}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Номер</th>
+                                    <th>Работа</th>
+                                    <th>Запчасть</th>
+                                    <th>Период</th>
+                                    <th>Рекоммендуемый?</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for line in entity.lines %}
+                                    {# @var line \App\Entity\MC\Line #}
+                                    <tr>
+                                        <td>
+                                            <a href="{{ easyadmin_path(line, 'edit') }}">{{ line.id }}</a>
+                                        </td>
+                                        <td>
+                                            <a href="{{ easyadmin_path(line.work, 'edit') }}">{{ line.work }}</a>
+                                        </td>
+                                        <td>
+                                            <a href="{{ easyadmin_path('McPart', 'new', {'mc_line_id': line.id}) }}">
+                                                <i class="fa fa-plus"></i>
+                                            </a>
+                                        </td>
+                                        <td>{{ line.period }}</td>
+                                        <td>{% include '@EasyAdmin/default/field_boolean.html.twig' with {'value': line.recommended} %}</td>
+                                    </tr>
+                                    {% for linePart in line.parts %}
+                                        <tr>
+                                            {# @var linePart \App\Entity\MC\Part #}
+                                            <td>
+                                                <a href="{{ easyadmin_path(linePart, 'edit') }}">{{ linePart.id }}</a>
+                                            </td>
+                                            <td></td>
+                                            <td>{% include 'easy_admin/field_part.html.twig' with {'value': linePart.part} %}</td>
+                                            <td>{{ linePart.period }}</td>
+                                            <td>{% include '@EasyAdmin/default/field_boolean.html.twig' with {'value': linePart.recommended} %}</td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="box-body">
+                            <p>Записей не найдено</p>
+                        </div>
+                    {% endif %}
+
+                    <div class="box-footer">
+                        <a href="{{ easyadmin_path('McLine', 'new', {'mc_equipment_id': entity.id}) }}" class="btn btn-primary">
+                            Создать
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

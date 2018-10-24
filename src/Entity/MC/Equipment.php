@@ -8,6 +8,7 @@ use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Entity\CarModel;
 use App\Enum\CarTransmission;
 use App\Enum\CarWheelDrive;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -58,4 +59,16 @@ class Equipment
      * @ORM\Column(type="integer", length=4)
      */
     public $period;
+
+    /**
+     * @var Line[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\MC\Line", mappedBy="equipment")
+     */
+    public $lines;
+
+    public function __construct()
+    {
+        $this->lines = new ArrayCollection();
+    }
 }

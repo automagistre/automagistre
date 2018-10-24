@@ -7,6 +7,7 @@ namespace App\Entity\MC;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Entity\Part;
 use Doctrine\ORM\Mapping as ORM;
+use Money\Money;
 
 /**
  * @ORM\Entity
@@ -16,37 +17,28 @@ class Work
     use Identity;
 
     /**
-     * @var Equipment
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\MC\Equipment")
+     * @ORM\Column
      */
-    public $equipment;
+    public $name;
 
     /**
      * @var Part
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Part")
+     * @ORM\Column
      */
-    public $part;
+    public $description;
 
     /**
-     * @var float
+     * @var Money
      *
-     * @ORM\Column(type="float", precision=2)
+     * @ORM\Embedded(class="Money\Money")
      */
-    public $quantity;
+    public $price;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(type="integer")
-     */
-    public $period;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(type="boolean")
-     */
-    public $recommended;
+    public function __toString()
+    {
+        return \sprintf('%s (%s)', $this->name, $this->description);
+    }
 }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\MC;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
-use App\Entity\Part;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -16,6 +16,13 @@ class Line
     use Identity;
 
     /**
+     * @var Equipment
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\MC\Equipment", inversedBy="lines")
+     */
+    public $equipment;
+
+    /**
      * @var Work
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\MC\Work")
@@ -23,18 +30,11 @@ class Line
     public $work;
 
     /**
-     * @var Part
+     * @var Part[]|ArrayCollection
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Part")
+     * @ORM\OneToMany(targetEntity="App\Entity\MC\Part", mappedBy="line")
      */
-    public $part;
-
-    /**
-     * @var float
-     *
-     * @ORM\Column(type="float", length=2)
-     */
-    public $quantity;
+    public $parts;
 
     /**
      * @var int
@@ -49,4 +49,9 @@ class Line
      * @ORM\Column(type="boolean")
      */
     public $recommended;
+
+    public function __construct()
+    {
+        $this->parts = new ArrayCollection();
+    }
 }
