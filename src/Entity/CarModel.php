@@ -10,6 +10,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(name="MANUFACTURER_CASE_IDX", columns={"manufacturer_id", "case_name"})
+ *     }
+ * )
  */
 class CarModel
 {
