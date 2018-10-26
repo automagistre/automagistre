@@ -41,11 +41,4 @@ class Part
      * @ORM\Column(type="boolean")
      */
     public $recommended;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(type="integer")
-     */
-    public $period;
 }

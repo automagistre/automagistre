@@ -706,7 +706,6 @@ easy_admin:
                 fields:
                     - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete' }
                     - { property: 'quantity', label: 'Количество' }
-                    - { property: 'period', label: 'Период' }
                     - { property: 'recommended', label: 'Рекоммендуемый?' }
             new:
                 title: 'Создать новую запчасть для ТО'
