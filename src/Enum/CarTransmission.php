@@ -19,6 +19,8 @@ final class CarTransmission extends Enum
     private const ROBOT = 2;
     private const VARIATOR = 3;
     private const MECHANICAL = 4;
+    private const AUTOMATIC_5 = 5;
+    private const AUTOMATIC_7 = 6;
 
     /**
      * @var array
@@ -29,6 +31,8 @@ final class CarTransmission extends Enum
         self::ROBOT => 'Робот',
         self::VARIATOR => 'Вариатор',
         self::MECHANICAL => 'Механическая',
+        self::AUTOMATIC_5 => 'Автоматическая (5 ступеней)',
+        self::AUTOMATIC_7 => 'Автоматическая (7 ступеней)',
     ];
 
     /**
@@ -40,5 +44,7 @@ final class CarTransmission extends Enum
         self::ROBOT => 'AMT',
         self::VARIATOR => 'CVT',
         self::MECHANICAL => 'MT',
+        self::AUTOMATIC_5 => 'AT-5',
+        self::AUTOMATIC_7 => 'AT-7',
     ];
 }
