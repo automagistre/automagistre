@@ -41,9 +41,13 @@ final class EventsListener implements EventSubscriberInterface
 
         $events = \array_values($reflection->getConstants());
 
-        return \array_combine($events, \array_map(function () {
+        $events = \array_combine($events, \array_map(function () {
             return 'onEvent';
         }, $events));
+
+        if (false === $events) {
+            throw new \LogicException('Unexpected behaviour.');
+        }
     }
 
     public function onEvent(GenericEvent $event, string $name): void
