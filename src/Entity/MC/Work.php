@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity\MC;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
-use App\Entity\Part;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 
@@ -24,9 +23,9 @@ class Work
     public $name;
 
     /**
-     * @var Part
+     * @var string|null
      *
-     * @ORM\Column
+     * @ORM\Column(nullable=true)
      */
     public $description;
 
@@ -37,8 +36,14 @@ class Work
      */
     public $price;
 
-    public function __toString()
+    public function __toString(): string
     {
-        return \sprintf('%s (%s)', $this->name, $this->description);
+        $string = $this->name;
+
+        if (null !== $this->description) {
+            $string .= \sprintf(' (%s)', $this->description);
+        }
+
+        return $string;
     }
 }
