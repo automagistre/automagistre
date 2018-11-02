@@ -1,5 +1,30 @@
-app:
-    resource: '../src/Controller/WWW'
+_service:
+    resource: '../src/Controller/WWW/Service'
+    type: annotation
+    prefix: /service/{brand}
+    requirements:
+        brand: "nissan|toyota|infinity|lexus"
+
+_shop:
+    resource: '../src/Controller/WWW/Shop'
+    type: annotation
+    name_prefix: shop_
+    prefix: /shop
+
+_blog:
+    resource: '../src/Controller/WWW/BlogController.php'
+    type: annotation
+    name_prefix: blog_
+    prefix: /blog
+
+_garage:
+    resource: '../src/Controller/WWW/GarageController.php'
+    type: annotation
+    name_prefix: garage_
+    prefix: /garage
+
+_switcher:
+    resource: '../src/Controller/WWW/SwitchController.php'
     type: annotation
 
 login:

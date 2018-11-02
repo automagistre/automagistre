@@ -194,7 +194,7 @@
 
         {{ include('www/_sections/clubs.html.twig') }}
 
-        {{ render(controller('App\\Controller\\WWW\\ServiceController::faq', {'brand': app.request.attributes.get('brand')})) }}
+        {{ render(controller('App\\Controller\\WWW\\Service\\FaqController::__invoke', {'brand': app.request.attributes.get('brand')}, {'scroll': true})) }}
 
         {{ include('www/_sections/map.html.twig') }}
     </main><!-- END site-main -->

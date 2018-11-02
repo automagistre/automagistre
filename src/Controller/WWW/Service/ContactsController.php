@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\WWW;
+namespace App\Controller\WWW\Service;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,14 +11,14 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class GarageController extends AbstractController
+final class ContactsController extends AbstractController
 {
     /**
-     * @Route(name="index")
+     * @Route("/contacts", name="contacts")
      */
-    public function index(): Response
+    public function __invoke(): Response
     {
-        return $this->render('www/garage/index.html.twig', [
+        return $this->render('www/contacts.html.twig', [
         ]);
     }
 }

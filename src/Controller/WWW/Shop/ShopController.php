@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\WWW;
+namespace App\Controller\WWW\Shop;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/shop")
+ * @author Konstantin Grachev <me@grachevko.ru>
  */
 final class ShopController extends AbstractController
 {
     /**
-     * @Route(name="shop_index")
+     * @Route("/", name="index")
      */
     public function index(): Response
     {

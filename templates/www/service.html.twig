@@ -567,7 +567,7 @@
         </div><!-- END sec-expert__front -->
     </section><!-- END sec-expert -->
 
-    {{ render(controller('App\\Controller\\WWW\\ServiceController::faq', {'brand': app.request.attributes.get('brand')}, {'scroll': true})) }}
+    {{ render(controller('App\\Controller\\WWW\\Service\\FaqController::__invoke', {'brand': app.request.attributes.get('brand')}, {'scroll': true})) }}
 
     <section class="sec-map js-sec-scroll">
         <div class="sec-map__back js-map-here"

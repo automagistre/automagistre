@@ -29,9 +29,9 @@ final class SmokeTest extends WebTestCase
     public function pagesProvider(): Generator
     {
         yield ['/', 200];
-        yield ['/shop', 200];
-        yield ['/garage', 200];
-        yield ['/blog', 200];
+        yield ['/shop/', 200];
+        yield ['/garage/', 200];
+        yield ['/blog/', 200];
         yield ['/blog/1', 200];
 
         foreach ($this->servicesPages() as $page) {
