@@ -1,6 +1,6 @@
 .PHONY: app compose contrib deploy test
 
-DOCKER_COMPOSE_VERSION=1.21.2
+DOCKER_COMPOSE_VERSION=1.23.0
 DOCKER_UBUNTU_VERSION=18.05.0~ce-0~ubuntu
 
 ifeq ($(wildcard $(app_dir)/.php_cs),)
