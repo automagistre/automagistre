@@ -1,13 +1,18 @@
 .PHONY: app compose contrib deploy test
 
+###> CONSTANTS ###
 export COMPOSE_PROJECT_NAME=automagistre
 
 DOCKER_COMPOSE_VERSION=1.23.0
+APP_DIR = .
+APP_IMAGE = automagistre/app
+COMPOSE_PATH = ./compose
+###< CONSTANTS ###
 
-ifeq ($(wildcard $(app_dir)/.php_cs),)
-    php_cs_config = .php_cs.dist
+ifeq ($(wildcard $(APP_DIR)/.php_cs),)
+    PHP_CS_CONFIG_FILE = .php_cs.dist
 else
-    php_cs_config = .php_cs
+    PHP_CS_CONFIG_FILE = .php_cs
 endif
 
 define success
@@ -24,27 +29,23 @@ endef
 define compose-extend
 	@docker-compose \
 		--file docker-compose.yml \
-		--file $(compose_path)/docker-compose.$1.yml \
+		--file $(COMPOSE_PATH)/docker-compose.$1.yml \
 		config > docker-compose.tmp \
 	&& mv -f docker-compose.tmp docker-compose.yml
 	$(call success,"docker-compose.yml merged with [$1] environemnt")
 endef
 
-app_dir=.
-app_image=automagistre/app:dev
-compose_path = ./compose
-
 notify = notify-send --urgency="critical" "Makefile: $@" "COMPLETE!"
 
 init:
-	cp -n $(app_dir)/.env.dist $(app_dir)/.env || true
-	cp -n $(app_dir)/docker/php/php.ini $(app_dir)/docker/php/php-dev.ini || true
+	cp -n $(APP_DIR)/.env.dist $(APP_DIR)/.env || true
+	cp -n $(APP_DIR)/docker/php/php.ini $(APP_DIR)/docker/php/php-dev.ini || true
 	cp -n ./contrib/* ./ || true
 	mv -f ./git/hooks/* ./.git/hooks/ || true
-	cp -n -r $(app_dir)/contrib/* $(app_dir)/ || true
-	mkdir -p $(app_dir)/var/null $(app_dir)/var/snapshots && touch $(app_dir)/var/null/composer.null && touch $(app_dir)/var/null/package.null
+	cp -n -r $(APP_DIR)/contrib/* $(APP_DIR)/ || true
+	mkdir -p $(APP_DIR)/var/null $(APP_DIR)/var/snapshots && touch $(APP_DIR)/var/null/composer.null && touch $(APP_DIR)/var/null/package.null
 un-init:
-	rm -rf $(app_dir)/.env
+	rm -rf $(APP_DIR)/.env
 re-init: un-init init
 
 bootstrap: init pull do-install-parallel docker-hosts-updater do-up cache permissions db-wait fixtures
@@ -61,7 +62,7 @@ master: git-check-stage-is-clear git-fetch git-checkout-master git-reset-master 
 	@$(notify)
 
 default:
-	@docker-compose --file $(compose_path)/docker-compose.yml config > docker-compose.yml
+	@docker-compose --file $(COMPOSE_PATH)/docker-compose.yml config > docker-compose.yml
 	$(call success,"docker-compose.yml was reset to default")
 dev-app:
 	$(call compose-extend,dev-app)
@@ -77,7 +78,7 @@ qa: git-reset prod pull do-install-parallel cache docker-rm-restartable do-up cl
 clear-logs: app-clear-logs
 
 permissions:
-	@docker run --rm -v `pwd`:/app -w /app alpine sh -c "chown $(shell id -u):$(shell id -g) -R ./ && chmod 777 -R $(app_dir)/var || true"
+	@docker run --rm -v `pwd`:/app -w /app alpine sh -c "chown $(shell id -u):$(shell id -g) -R ./ && chmod 777 -R $(APP_DIR)/var || true"
 	$(call success,"Permissions fixed.")
 docker-hosts-updater:
 	docker rm -f docker-hosts-updater || true
@@ -85,7 +86,7 @@ docker-hosts-updater:
 
 # To prevent idea to adding this phar to *.iml config
 vendor-phar-remove:
-	@rm -rf $(app_dir)/vendor/twig/twig/test/Twig/Tests/Loader/Fixtures/phar/phar-sample.phar $(app_dir)/vendor/symfony/symfony/src/Symfony/Component/DependencyInjection/Tests/Fixtures/includes/ProjectWithXsdExtensionInPhar.phar $(app_dir)/vendor/phpunit/phpunit/tests/_files/phpunit-example-extension/tools/phpunit.d/phpunit-example-extension-1.0.1.phar $(app_dir)/vendor/phar-io/manifest/tests/_fixture/test.phar || true
+	@rm -rf $(APP_DIR)/vendor/twig/twig/test/Twig/Tests/Loader/Fixtures/phar/phar-sample.phar $(APP_DIR)/vendor/symfony/symfony/src/Symfony/Component/DependencyInjection/Tests/Fixtures/includes/ProjectWithXsdExtensionInPhar.phar $(APP_DIR)/vendor/phpunit/phpunit/tests/_files/phpunit-example-extension/tools/phpunit.d/phpunit-example-extension-1.0.1.phar $(APP_DIR)/vendor/phar-io/manifest/tests/_fixture/test.phar || true
 
 ###> GIT ###
 git-check-stage-is-clear:
@@ -153,9 +154,9 @@ php-xdebug = docker-compose run --rm --entrypoint docker-entrypoint-xdebug.sh ap
 sh = docker-compose run --rm --entrypoint sh app -c
 
 build-app:
-	docker build --tag "$(app_image)" --target app --build-arg SOURCE_DIR=var/null --build-arg APP_VERSION=dev --build-arg APP_BUILD_TIME="`date --rfc-2822`" $(app_dir)
+	docker build --tag "$(APP_IMAGE)" --target app --build-arg SOURCE_DIR=var/null --build-arg APP_VERSION=dev --build-arg APP_BUILD_TIME="`date --rfc-2822`" $(APP_DIR)
 push-app:
-	docker push $(app_image)
+	docker push $(APP_IMAGE)
 
 cli-app:
 	$(app) bash
@@ -211,11 +212,11 @@ app-test:
 
 test: php-cs-fixer-test cache-test phpstan schema-test phpunit-test
 
-php-cs-fixer = vendor/bin/php-cs-fixer fix --config $(php_cs_config)
+PHP_CS_FIXER_BIN = vendor/bin/php-cs-fixer fix --config $(PHP_CS_CONFIG_FILE)
 php-cs-fixer:
-	$(php) $(php-cs-fixer)
+	$(php) $(PHP_CS_FIXER_BIN)
 php-cs-fixer-debug:
-	$(php-xdebug) $(php-cs-fixer) -vvv
+	$(php-xdebug) $(PHP_CS_FIXER_BIN) -vvv
 	@$(MAKE) --no-print-directory permissions > /dev/null
 php-cs-fixer-test:
 	$(php) vendor/bin/php-cs-fixer fix --config=.php_cs.dist --verbose --dry-run
@@ -283,7 +284,7 @@ restart-mysql:
 logs-mysql:
 	docker-compose logs --follow mysql
 
-backup_file = $(app_dir)/var/backup.sql.gz
+backup_file = $(APP_DIR)/var/backup.sql.gz
 backup-restore:
 ifneq (,$(wildcard $(backup_file)))
 	@docker-compose exec mysql bash -c "gunzip < /usr/local/app/var/backup.sql.gz | mysql db"
@@ -293,28 +294,28 @@ else
 	@exit 1
 endif
 
-snapshot_filename = $(shell git rev-parse --abbrev-ref HEAD | sed 's\#/\#\_\#g').sql.gz
-snapshot_file = /usr/local/app/var/snapshots/$(snapshot_filename)
-snapshot_file_local = $(app_dir)/var/snapshots/$(snapshot_filename)
+SNAPSHOT_FILE_NAME = $(shell git rev-parse --abbrev-ref HEAD | sed 's\#/\#\_\#g').sql.gz
+SNAPSHOT_FILE_PATH = /usr/local/app/var/snapshots/$(SNAPSHOT_FILE_NAME)
+SNAPSHOT_FILE_LOCAL = $(APP_DIR)/var/snapshots/$(SNAPSHOT_FILE_NAME)
 snapshot:
-ifneq (,$(wildcard $(snapshot_file_local)))
-	$(call failed,"Snapshot \"$(snapshot_filename)\" already exist! You can use \"snapshot-drop\" recipe.")
+ifneq (,$(wildcard $(SNAPSHOT_FILE_LOCAL)))
+	$(call failed,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" already exist! You can use \"snapshot-drop\" recipe.")
 else
-	@docker-compose exec mysql bash -c "mysqldump db | gzip > $(snapshot_file)"
-	$(call success,"Snapshot \"$(snapshot_filename)\" created.")
+	@docker-compose exec mysql bash -c "mysqldump db | gzip > $(SNAPSHOT_FILE_PATH)"
+	$(call success,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" created.")
 endif
 snapshot-drop:
-ifeq (,$(wildcard $(snapshot_file_local)))
-	$(call failed,"Snapshot \"$(snapshot_filename)\" does not exist!")
+ifeq (,$(wildcard $(SNAPSHOT_FILE_LOCAL)))
+	$(call failed,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" does not exist!")
 else
-	@docker-compose exec mysql rm -f $(snapshot_file)
-	$(call success,"Snapshot \"$(snapshot_filename)\" deleted.")
+	@docker-compose exec mysql rm -f $(SNAPSHOT_FILE_PATH)
+	$(call success,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" deleted.")
 endif
 
 snapshot-restore: drop do-snapshot-restore migration
 do-snapshot-restore:
-	@docker-compose exec mysql bash -c "gunzip < $(snapshot_file) | mysql db"
-	$(call success,"Snapshot \"$(snapshot_filename)\" restored.")
+	@docker-compose exec mysql bash -c "gunzip < $(SNAPSHOT_FILE_PATH) | mysql db"
+	$(call success,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" restored.")
 ###< MYSQL ###
 
 ###> MEMCACHED ###
