@@ -1,5 +1,7 @@
 .PHONY: app compose contrib deploy test
 
+export COMPOSE_PROJECT_NAME=automagistre
+
 DOCKER_COMPOSE_VERSION=1.23.0
 DOCKER_UBUNTU_VERSION=18.05.0~ce-0~ubuntu
 
@@ -131,7 +133,7 @@ status:
 	watch docker-compose ps
 cli: cli-app
 
-restartable = $(shell docker inspect --format='{{index .Config.Labels "com.docker.compose.service"}}' `docker ps --filter label="restartable=true" --quiet`)
+restartable = $(shell docker inspect --format='{{index .Config.Labels "com.docker.compose.service"}}' `docker ps --filter label="restartable=true" --filter label="com.docker.compose.project=${COMPOSE_PROJECT_NAME}" --quiet`)
 
 restart:
 	docker-compose restart $(restartable)
