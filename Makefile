@@ -3,7 +3,6 @@
 export COMPOSE_PROJECT_NAME=automagistre
 
 DOCKER_COMPOSE_VERSION=1.23.0
-DOCKER_UBUNTU_VERSION=18.05.0~ce-0~ubuntu
 
 ifeq ($(wildcard $(app_dir)/.php_cs),)
     php_cs_config = .php_cs.dist
@@ -119,9 +118,6 @@ ifneq ($(shell docker-compose version --short), $(DOCKER_COMPOSE_VERSION))
 	sudo chmod +x /usr/local/bin/docker-compose
 	sudo curl -L https://raw.githubusercontent.com/docker/compose/$(DOCKER_COMPOSE_VERSION)/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
 endif
-docker-upgrade: docker-upgrade-engine docker-install-compose
-docker-upgrade-engine:
-	sudo apt-get remove -y docker-ce && sudo apt-get install docker-ce=$(DOCKER_UBUNTU_VERSION)
 
 pull:
 	docker-compose pull
