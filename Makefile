@@ -207,7 +207,7 @@ migration-diff:
 migration-diff-dry:
 	$(TARGET) app-cli CMD='console doctrine:schema:update --dump-sql'
 migration-test:
-	$(TARGET) app-cli CMD='console doctrine:schema:validate' ENV=test'
+	$(TARGET) app-cli CMD='console doctrine:schema:validate' ENV=test
 
 schema-update:
 	$(TARGET) app-cli CMD='console doctrine:schema:update --force'
