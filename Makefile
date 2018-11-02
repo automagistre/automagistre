@@ -1,6 +1,8 @@
 .PHONY: app compose contrib deploy test
 
 ###> CONSTANTS ###
+TARGET = @$(MAKE) --no-print-directory
+
 export COMPOSE_PROJECT_NAME=automagistre
 
 DOCKER_COMPOSE_VERSION=1.23.0
@@ -50,16 +52,20 @@ re-init: un-init init
 
 bootstrap: init pull do-install-parallel docker-hosts-updater do-up cache permissions db-wait fixtures
 
-do-install: install-app
+do-install: app-install
 do-install-parallel:
-	@$(MAKE) --no-print-directory -j2 do-install
+	$(TARGET) -j2 do-install
 install: do-install
 
-do-update: docker-install-compose pull do-install-parallel do-up db-wait permissions cache restart migration
+do-update: docker-compose-install pull do-install-parallel do-up db-wait permissions cache restart migration
 update: do-update
 	@$(notify)
 master: git-check-stage-is-clear git-fetch git-checkout-master git-reset-master do-update
 	@$(notify)
+
+###> DOCKER-COMPOSE ENVIRONMENT ###
+prod: default
+dev: default dev-app dev-memcached
 
 default:
 	@docker-compose --file $(COMPOSE_PATH)/docker-compose.yml config > docker-compose.yml
@@ -69,8 +75,11 @@ dev-app:
 dev-memcached:
 	$(call compose-extend,dev-memcached)
 
-prod: default
-dev: default dev-app dev-memcached
+xdebug-on:
+	$(call compose-extend,xdebug-on)
+xdebug-off:
+	$(call compose-extend,xdebug-off)
+###< DOCKER-COMPOSE ENVIRONMENT ###
 
 qa: git-reset prod pull do-install-parallel cache docker-rm-restartable do-up clear-logs
 	@$(notify)
@@ -84,7 +93,7 @@ docker-hosts-updater:
 	docker rm -f docker-hosts-updater || true
 	docker run -d --restart=always --name docker-hosts-updater -v /var/run/docker.sock:/var/run/docker.sock -v /etc/hosts:/opt/hosts grachev/docker-hosts-updater
 
-# To prevent idea to adding this phar to *.iml config
+# Prevent idea to adding this phar to *.iml config
 vendor-phar-remove:
 	@rm -rf $(APP_DIR)/vendor/twig/twig/test/Twig/Tests/Loader/Fixtures/phar/phar-sample.phar $(APP_DIR)/vendor/symfony/symfony/src/Symfony/Component/DependencyInjection/Tests/Fixtures/includes/ProjectWithXsdExtensionInPhar.phar $(APP_DIR)/vendor/phpunit/phpunit/tests/_files/phpunit-example-extension/tools/phpunit.d/phpunit-example-extension-1.0.1.phar $(APP_DIR)/vendor/phar-io/manifest/tests/_fixture/test.phar || true
 
@@ -107,19 +116,7 @@ empty-commit:
 	git push
 ###< GIT ###
 
-###> DOCKER
-docker-install: docker-install-engine docker-install-compose
-docker-install-engine:
-	curl -fsSL get.docker.com | sh
-	sudo usermod -a -G docker `whoami`
-docker-install-compose:
-ifneq ($(shell docker-compose version --short), $(DOCKER_COMPOSE_VERSION))
-	sudo rm -rf /usr/local/bin/docker-compose /etc/bash_completion.d/docker-compose
-	sudo curl -L https://github.com/docker/compose/releases/download/$(DOCKER_COMPOSE_VERSION)/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
-	sudo chmod +x /usr/local/bin/docker-compose
-	sudo curl -L https://raw.githubusercontent.com/docker/compose/$(DOCKER_COMPOSE_VERSION)/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
-endif
-
+###> ALIASES ###
 pull:
 	docker-compose pull
 do-up:
@@ -128,162 +125,150 @@ up: do-up
 	@$(notify)
 status:
 	watch docker-compose ps
-cli: cli-app
+cli:
+	$(TARGET) app-cli CMD='bash'
+	$(TARGET) permissions > /dev/null
 
-restartable = $(shell docker inspect --format='{{index .Config.Labels "com.docker.compose.service"}}' `docker ps --filter label="restartable=true" --filter label="com.docker.compose.project=${COMPOSE_PROJECT_NAME}" --quiet`)
+RESTARTABLE_SERVICES = $(shell docker inspect --format='{{index .Config.Labels "com.docker.compose.service"}}' `docker ps --filter label="restartable=true" --filter label="com.docker.compose.project=${COMPOSE_PROJECT_NAME}" --quiet`)
 
 restart:
-	docker-compose restart $(restartable)
+	docker-compose restart $(RESTARTABLE_SERVICES)
 docker-rm-restartable:
-	docker-compose rm --force --stop $(restartable) || true
+	docker-compose rm --force --stop $(RESTARTABLE_SERVICES) || true
 down:
 	docker-compose down -v --remove-orphans
 terminate:
 	docker-compose down -v --remove-orphans --rmi all
 logs-all:
 	docker-compose logs --follow
+###< ALIASES ###
+
+###> DOCKER ###
+docker-install: docker-install-engine docker-compose-install
+docker-install-engine:
+	curl -fsSL get.docker.com | sh
+	sudo usermod -a -G docker `whoami`
+docker-compose-install:
+ifneq ($(shell docker-compose version --short), $(DOCKER_COMPOSE_VERSION))
+	sudo rm -rf /usr/local/bin/docker-compose /etc/bash_completion.d/docker-compose
+	sudo curl -L https://github.com/docker/compose/releases/download/$(DOCKER_COMPOSE_VERSION)/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+	sudo chmod +x /usr/local/bin/docker-compose
+	sudo curl -L https://raw.githubusercontent.com/docker/compose/$(DOCKER_COMPOSE_VERSION)/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
+	$(call success,"docker-compose version $(DOCKER_COMPOSE_VERSION) installed.")
+else
+	$(call success,"docker-compose already is up to date of $(DOCKER_COMPOSE_VERSION) version.")
+endif
 ###< DOCKER ###
 
 ###> APP ###
-app = docker-compose run --rm -e XDEBUG=false -e WAIT_HOSTS=false app
-app-xdebug = docker-compose run --rm -e WAIT_HOSTS=false app
-app-prod = docker-compose run --rm -e APP_ENV=prod -e APP_DEBUG=0 -e XDEBUG=false -e WAIT_HOSTS=false app
-app-test = docker-compose run --rm -e APP_ENV=test -e APP_DEBUG=1 -e XDEBUG=false -e WAIT_HOSTS=false app
-php = docker-compose run --rm --entrypoint php app -d memory_limit=-1
-php-xdebug = docker-compose run --rm --entrypoint docker-entrypoint-xdebug.sh app php -d memory_limit=-1
-sh = docker-compose run --rm --entrypoint sh app -c
+app-build:
+	docker build --tag "$(APP_IMAGE):dev" --target app --build-arg SOURCE_DIR=var/null --build-arg APP_VERSION=dev --build-arg APP_BUILD_TIME="`date --rfc-2822`" $(APP_DIR)
+app-push:
+	docker push $(APP_IMAGE):dev
+app-cli:
+	@docker-compose run \
+	--rm --entrypoint="sh -c" app ' \
+	APP_ENV=$(if $(ENV),$(ENV),$$APP_ENV) \
+	APP_DEBUG=$(if $(DEBUG),$(DEBUG),$$APP_DEBUG) \
+	XDEBUG=$(if $(XDEBUG),$(XDEBUG),$$XDEBUG) \
+	WAIT_HOSTS=$(if $(WAIT),$(WAIT),$$WAIT_HOSTS) \
+	/docker-entrypoint.sh $(CMD)'
 
-build-app:
-	docker build --tag "$(APP_IMAGE)" --target app --build-arg SOURCE_DIR=var/null --build-arg APP_VERSION=dev --build-arg APP_BUILD_TIME="`date --rfc-2822`" $(APP_DIR)
-push-app:
-	docker push $(APP_IMAGE)
+app-install: composer
 
-cli-app:
-	$(app) bash
-	@$(MAKE) --no-print-directory permissions > /dev/null
-cli-app-xdebug:
-	$(app-xdebug) bash
-	@$(MAKE) --no-print-directory permissions > /dev/null
-restart-app:
-	docker-compose restart app
-logs-app:
-	docker-compose logs --follow app
-
-install-app: composer
-
-composer = docker-compose run --rm --no-deps -e XDEBUG=false -e MIGRATIONS=false -e WAIT_HOSTS=false app composer
 composer: composer-install
 composer-install: cache-clear
-	$(composer) install --prefer-dist
-	@$(MAKE) --no-print-directory permissions > /dev/null
-	@$(MAKE) --no-print-directory vendor-phar-remove
-composer-run-script:
-	$(composer) run-script symfony-scripts
+	$(TARGET) app-cli CMD='composer install --prefer-dist'
+	$(TARGET) permissions > /dev/null
+	$(TARGET) vendor-phar-remove
 composer-update:
-	$(composer) update --prefer-dist
-	@$(MAKE) --no-print-directory permissions > /dev/null
-	@$(MAKE) --no-print-directory vendor-phar-remove
+	$(TARGET) app-cli CMD='composer update --prefer-dist'
+	$(TARGET) permissions > /dev/null
+	$(TARGET) vendor-phar-remove
 composer-update-lock:
-	$(composer) update --lock
-	@$(MAKE) --no-print-directory permissions > /dev/null
+	$(TARGET) app-cli CMD='composer update --lock'
+	$(TARGET) permissions > /dev/null
 composer-outdated:
-	$(composer) outdated
+	$(TARGET) app-cli CMD='composer outdated'
 
 migration:
-	@$(app) console doctrine:migration:migrate --no-interaction --allow-no-migration
+	$(TARGET) app-cli CMD='console doctrine:migration:migrate --no-interaction --allow-no-migration'
 migration-generate:
-	$(app) console doctrine:migrations:generate
-	@$(MAKE) --no-print-directory permissions > /dev/null
-	@$(MAKE) --no-print-directory php-cs-fixer
-migration-rollback:latest = $(shell $(app) console doctrine:migration:latest | tr '\r' ' ')
+	$(TARGET) app-cli CMD='console doctrine:migrations:generate'
+	$(TARGET) permissions > /dev/null
+	$(TARGET) php-cs-fixer
+migration-rollback:latest = $(shell make app-cli CMD="console doctrine:migration:latest" | tr '\r' ' ')
 migration-rollback:
-	$(app) console doctrine:migration:execute --down --no-interaction $(latest)
+	$(TARGET) app-cli CMD='console doctrine:migration:execute --down --no-interaction $(latest)'
 migration-diff:
-	$(app) console doctrine:migration:diff
-	@$(MAKE) --no-print-directory permissions > /dev/null
-	@$(MAKE) --no-print-directory php-cs-fixer
+	$(TARGET) app-cli CMD='console doctrine:migration:diff'
+	$(TARGET) permissions > /dev/null
+	$(TARGET) php-cs-fixer
 migration-diff-dry:
-	$(app) console doctrine:schema:update --dump-sql
+	$(TARGET) app-cli CMD='console doctrine:schema:update --dump-sql'
+migration-test:
+	$(TARGET) app-cli CMD='console doctrine:schema:validate' ENV=test'
+
 schema-update:
-	$(app) console doctrine:schema:update --force
+	$(TARGET) app-cli CMD='console doctrine:schema:update --force'
 
 app-test:
-	$(app) console test
+	$(TARGET) app-cli CMD='console test'
 
-test: php-cs-fixer-test cache-test phpstan schema-test phpunit-test
+test:
+	$(TARGET) php-cs-fixer
+	$(TARGET) php-cs-fixer-test
+	$(TARGET) cache ENV=test
+	$(TARGET) phpstan
+	$(TARGET) migration-test
+	$(TARGET) phpunit
 
-PHP_CS_FIXER_BIN = vendor/bin/php-cs-fixer fix --config $(PHP_CS_CONFIG_FILE)
-php-cs-fixer:
-	$(php) $(PHP_CS_FIXER_BIN)
-php-cs-fixer-debug:
-	$(php-xdebug) $(PHP_CS_FIXER_BIN) -vvv
-	@$(MAKE) --no-print-directory permissions > /dev/null
+do-php-cs-fixer:
+	$(TARGET) app-cli CMD='php -d memory_limit=-1 vendor/bin/php-cs-fixer fix --config $(PHP_CS_CONFIG_FILE) -vvv $(if $(filter true,$(DRY)),--dry-run)'
+php-cs-fixer: do-php-cs-fixer
+	$(TARGET) permissions > /dev/null
 php-cs-fixer-test:
-	$(php) vendor/bin/php-cs-fixer fix --config=.php_cs.dist --verbose --dry-run
+	$(TARGET) do-php-cs-fixer PHP_CS_CONFIG_FILE=.php_cs.dist DRY=true
 
-phpstan = vendor/bin/phpstan analyse --configuration phpstan.neon
 phpstan:
-	$(php) $(phpstan)
-phpstan-debug:
-	$(php-xdebug) $(phpstan) --debug
-phpunit = $(app-test) paratest -p $(shell grep -c ^processor /proc/cpuinfo || 4)
+	$(TARGET) app-cli CMD='php -d memory_limit=-1 vendor/bin/phpstan analyse --configuration phpstan.neon $(if $(filter true,$(DEBUG)),--debug -vvv)'
+
 phpunit:
-	$(phpunit) --stop-on-failure
-phpunit-test:
-	$(phpunit)
+	$(TARGET) app-cli CMD='paratest -p $(shell grep -c ^processor /proc/cpuinfo || 4) --stop-on-failure' ENV=test
 requirements:
-	$(app-test) requirements-checker
-schema-test:
-	$(app-test) console doctrine:schema:validate
+	$(TARGET) app-cli CMD='requirements-checker' ENV=test
 
 cache: cache-clear cache-warmup
-cache-prod: cache-clear-prod cache-warmup-prod
-cache-test: cache-clear-test cache-warmup-test
-cache-clear:
-	@$(sh) 'rm -rf ./var/cache/"$$APP_ENV"' || true
-	@$(MAKE) --no-print-directory permissions > /dev/null
+cache-clear: do-cache-clear
+	$(TARGET) permissions > /dev/null
+cache-warmup: do-cache-warmup
+	$(TARGET) permissions > /dev/null
 cache-profiler:
-	@$(sh) 'rm -rf ./var/cache/"$$APP_ENV"/profiler' || true
-cache-warmup:
-	@$(app) console cache:warmup
-	@$(MAKE) --no-print-directory permissions > /dev/null
-cache-clear-prod:
-	@$(sh) 'rm -rf ./var/cache/prod'
-	@$(MAKE) --no-print-directory permissions > /dev/null
-cache-warmup-prod:
-	@$(app-prod) console cache:warmup
-	@$(MAKE) --no-print-directory permissions > /dev/null
-cache-clear-test:
-	@$(sh) 'rm -rf ./var/cache/test'
-	@$(MAKE) --no-print-directory permissions > /dev/null
-cache-warmup-test:
-	@$(app-test) console cache:warmup
-	@$(MAKE) --no-print-directory permissions > /dev/null
+	@$(TARGET) app-cli CMD='rm -rf $$APP_DIR/var/cache/$(if $(APP_ENV),$(APP_ENV),"$$APP_ENV")/profiler' || true
+
+do-cache-clear:
+	$(TARGET) app-cli CMD='rm -rf $$$$APP_DIR/var/cache/$$$$APP_ENV' || true
+do-cache-warmup:
+	$(TARGET) app-cli CMD='console cache:warmup'
 
 app-clear-logs:
-	$(sh) 'rm -rf var/logs/*'
+	$(TARGET) app-cli CMD='rm -rf var/logs/*'
 
-do-fixtures: cache-test
-	$(app-test) console doctrine:fixtures:load --no-interaction
+do-fixtures:
+	$(TARGET) cache ENV=test
+	$(TARGET) app-cli CMD='console doctrine:fixtures:load --no-interaction'
 database: drop migration
 fixtures: database do-fixtures
 	@$(notify)
 backup: drop backup-restore migration
 	@$(notify)
 drop:
-	@$(sh) "console doctrine:database:drop --force || true && console doctrine:database:create"
+	@$(TARGET) app-cli CMD='console doctrine:database:drop --force || true && console doctrine:database:create'
 db-wait:
 	@docker-compose run --rm -e XDEBUG=false app /bin/true > /dev/null
 ###< APP ###
 
 ###> MYSQL ###
-cli-mysql:
-	docker-compose exec mysql bash
-restart-mysql:
-	docker-compose restart mysql
-logs-mysql:
-	docker-compose logs --follow mysql
-
 backup_file = $(APP_DIR)/var/backup.sql.gz
 backup-restore:
 ifneq (,$(wildcard $(backup_file)))
@@ -319,11 +304,8 @@ do-snapshot-restore:
 ###< MYSQL ###
 
 ###> MEMCACHED ###
-cli-memcached:
+memcached-cli:
 	docker-compose exec memcached sh
-restart-memcached:
+memcached-restart:
 	docker-compose restart memcached
-
-build-memcached:
-	docker build --tag otrada/memcached:latest ./memcached/
 ###< MEMCACHED ###

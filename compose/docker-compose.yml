@@ -1,11 +1,7 @@
-version: '3.4'
+version: '3.7'
 
 services:
     app:
-#        build:
-#            context: .
-#            args:
-#               SOURCE_DIR: ./var/null
         image: automagistre/app:dev
         hostname: automagistre.local
         labels:
@@ -18,7 +14,7 @@ services:
             APP_DEBUG: 0
             XDEBUG: 'false'
             OPCACHE: 'true'
-            MIGRATIONS: 'true'
+            MIGRATIONS: 'false'
             WAIT_HOSTS: 'mysql:3306'
 
     mysql:
