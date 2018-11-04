@@ -88,7 +88,7 @@ function secMapStart() {
   var pointLabel = new google.maps.MarkerImage('img/map_point.png',
       new google.maps.Size(50, 68),
       new google.maps.Point(0, 0),
-      new google.maps.Point(25, 68),
+      new google.maps.Point(25, 68)
   );
   var pointMarker = new google.maps.Marker({
     position: new google.maps.LatLng(pointData.lat, pointData.lng),

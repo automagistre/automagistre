@@ -12,7 +12,8 @@ RUN apk add --no-cache git
 COPY package.json package-lock.json ${APP_DIR}/
 RUN npm install
 
-COPY assets gulpfile.js ${APP_DIR}/
+COPY gulpfile.js ${APP_DIR}
+COPY assets ${APP_DIR}/assets
 
 RUN gulp build:main-script build:scripts build:less
 
