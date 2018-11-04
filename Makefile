@@ -171,6 +171,7 @@ app-cli:
 	APP_ENV=$(if $(ENV),$(ENV),$$APP_ENV) \
 	APP_DEBUG=$(if $(DEBUG),$(DEBUG),$$APP_DEBUG) \
 	XDEBUG=$(if $(XDEBUG),$(XDEBUG),$$XDEBUG) \
+	OPCACHE=$(if $(OPCACHE),$(OPCACHE),$$OPCACHE) \
 	WAIT_HOSTS=$(if $(WAIT),$(WAIT),$$WAIT_HOSTS) \
 	/docker-entrypoint.sh $(CMD)'
 
@@ -236,7 +237,7 @@ phpstan:
 phpunit:
 	$(TARGET) app-cli CMD='paratest -p $(shell grep -c ^processor /proc/cpuinfo || 4) --stop-on-failure' ENV=test
 requirements:
-	$(TARGET) app-cli CMD='requirements-checker' ENV=test
+	$(TARGET) app-cli CMD='requirements-checker' ENV=prod OPCACHE=true
 
 cache: cache-clear cache-warmup
 cache-clear: do-cache-clear
