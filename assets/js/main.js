@@ -1485,7 +1485,6 @@ $W.on('load', function() {
   if ($('.js-map-here').length > 0) {
     $.getScript(
         'https://maps.google.com/maps/api/js?key=AIzaSyAr3L94pBd0Dy_AR0mirpFBB7NtbgmOV9E&sensor=false',
-        //"/js/gmap-downloaded.js",
         function() {
           console.log('Map loaded');
           mapStart();
