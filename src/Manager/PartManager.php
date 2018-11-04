@@ -70,7 +70,9 @@ final class PartManager
 
     public function cross(Part $left, Part $right): void
     {
-        $this->registry->getEntityManager()->transactional(function (EntityManagerInterface $em) use ($left, $right): void {
+        $em = $this->registry->getEntityManager();
+
+        $em->transactional(function (EntityManagerInterface $em) use ($left, $right): void {
             $leftGroup = $this->findCross($em, $left);
             $rightGroup = $this->findCross($em, $right);
 

@@ -588,8 +588,8 @@ final class OrderController extends AbstractController
                     $qb->expr()->eq('DATE(entity.closedAt)', ':today')
                 )
             )
-            ->setParameter('closedStatus', OrderStatus::closed())
-            ->setParameter('today', (new \DateTime())->format('Y-m-d'));
+                ->setParameter('closedStatus', OrderStatus::closed())
+                ->setParameter('today', (new \DateTime())->format('Y-m-d'));
         }
 
         // EAGER Loading
@@ -714,8 +714,13 @@ final class OrderController extends AbstractController
     {
         $em = $this->em;
 
-        $em->transactional(function (EntityManagerInterface $em) use ($model): void {
-            foreach ([Costil::CASHBOX => $model->amountCash, Costil::ACCOUNT => $model->amountNonCash] as $id => $money) {
+        $accounts = [
+            Costil::CASHBOX => $model->amountCash,
+            Costil::ACCOUNT => $model->amountNonCash,
+        ];
+
+        $em->transactional(function (EntityManagerInterface $em) use ($model, $accounts): void {
+            foreach ($accounts as $id => $money) {
                 /** @var Money $money */
                 if (!$money->isPositive()) {
                     continue;
