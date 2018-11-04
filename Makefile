@@ -8,7 +8,7 @@ export COMPOSE_PROJECT_NAME=automagistre
 DOCKER_COMPOSE_VERSION=1.23.0
 APP_DIR = .
 APP_IMAGE = automagistre/app
-COMPOSE_PATH = ./compose
+COMPOSE_PATH = ./dev
 ###< CONSTANTS ###
 
 ifeq ($(wildcard $(APP_DIR)/.php_cs),)
