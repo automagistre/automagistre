@@ -285,20 +285,36 @@ $D.ready(function() {
   }
 
   /* --- More reviews loading -------------------------------------------*/
-  var reviewsLoading = false;
+  var reviewsLoading = false,
+      noMoreReviews = false,
+      reviewsPage = 1;
 
-  function reviewsAjaxLoad(loadingBtn, loadingPlace, addr) {
-    var $loadingBtn = $(loadingBtn),
-        $loadingPlace = $(loadingPlace);
+  // Load more reviews
+  $('#js-auto-load-reviews').viewportChecker({
+    offset: 100,
+    repeat: true,
+    callbackFunction: function() {
+      if (reviewsLoading || noMoreReviews) return;
 
-    if ($loadingPlace.length && reviewsLoading === false) {
+      var $loadingPlace = $('#for-load-reviews'),
+          $loadingBtn = $('#js-auto-load-reviews'),
+          template = $loadingPlace.data('url'),
+          placeholder = $loadingPlace.data('placeholder');
+
+      var url = template.replace(placeholder, ++reviewsPage);
+
       $loadingBtn.addClass('is-loading');
       reviewsLoading = true;
       $.ajax({
-        type: 'POST',
-        url: addr,
+        type: 'GET',
+        url: url,
         dataType: 'html',
         cache: false,
+        statusCode: {
+          204: function() {
+            noMoreReviews = true;
+          },
+        },
         error: function() {
           console.log('Error loading more');
           $loadingBtn.removeClass('is-loading');
@@ -326,22 +342,6 @@ $D.ready(function() {
           }, 100);
         },
       });
-    }
-  }
-
-  // Load more reviews
-  $('.js-load-reviews').click(function() {
-    reviewsAjaxLoad('.js-load-reviews', '#for-load-reviews',
-        'ajax/more_reviews.php');
-  });
-
-  $('#js-auto-load-reviews').viewportChecker({
-    offset: 100,
-    repeat: true,
-    callbackFunction: function() {
-      if (reviewsLoading) return;
-      reviewsAjaxLoad('#js-auto-load-reviews', '#for-load-reviews',
-          'ajax/more_reviews.php');
     },
   });
 

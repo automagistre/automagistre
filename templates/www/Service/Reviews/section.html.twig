@@ -1,0 +1,17 @@
+<section class="sec-reviews">
+    <div class="container">
+        <h2 class="sec-reviews__title">Отзывы</h2>
+        <div class="sec-reviews__slider" id="sec-reviews-slider">
+            {% for review in reviews %}
+                <div class="sec-reviews__slide">
+                    {% include 'www/Service/Reviews/card.html.twig' with {'review': review, limit: true} only %}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="sec-reviews__more">
+            <a href="{{ path('www_reviews', {'brand': brand}) }}" class="btn btn_arrow-rt sec-reviews__more-btn">
+                Посмотреть более {{ reviewsCount }} отзывов
+            </a>
+        </div>
+    </div>
+</section>

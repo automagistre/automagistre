@@ -283,7 +283,7 @@
 
         {{ include('www/_sections/master.html.twig') }}
 
-        {{ include('www/_sections/reviews.html.twig') }}
+        {{ render(controller('App\\Controller\\WWW\\Service\\ReviewsController::section', {'brand': app.request.attributes.get('brand')})) }}
 
         {{ include('www/_sections/clubs.html.twig') }}
 

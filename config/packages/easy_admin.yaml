@@ -38,6 +38,8 @@ easy_admin:
             - { label: 'Конфигуратор' }
             - { entity: 'McWork', label: 'Работы', icon: 'cogs' }
             - { entity: 'McEquipment', label: 'Комплектации', icon: 'cogs' }
+            - { label: 'Сайт' }
+            - { entity: 'Review', label: 'Отзывы', icon: 'comments' }
 
     formats:
         date: 'd.m.Y'
@@ -711,3 +713,29 @@ easy_admin:
                 title: 'Создать новую запчасть для ТО'
             edit:
                 title: 'Редактировать запчасть №%%entity_id%% для ТО'
+
+        Review:
+            class: App\Entity\Review
+            controller: App\Controller\EasyAdmin\ReviewController
+            disabled_actions: ['show']
+            list:
+                fields:
+                    - { property: 'id' }
+                    - { property: 'author', label: 'Автор' }
+                    - { property: 'manufacturer', label: 'Производитель автомобиля' }
+                    - { property: 'model', label: 'Модель автомобиля' }
+                    - { property: 'content', label: 'Отзыв' }
+                    - { property: 'url', label: 'Ссылка на источник' }
+                    - { property: 'publishAt', label: 'Когда обудликова' }
+            form:
+                fields:
+                - { property: 'author', label: 'Автор' }
+                - { property: 'manufacturer', label: 'Производитель автомобиля' }
+                - { property: 'model', label: 'Модель автомобиля' }
+                - { property: 'content', label: 'Отзыв' }
+                - { property: 'url', label: 'Ссылка на источник' }
+                - { property: 'publishAt', label: 'Когда обудликова', type: 'date' }
+            new:
+                title: 'Создать новый Отзыв'
+            edit:
+                title: 'Редактировать Отзыв №%%entity_id%%'
