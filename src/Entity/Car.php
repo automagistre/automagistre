@@ -74,7 +74,7 @@ class Car
     private $vin;
 
     /**
-     * @var int
+     * @var int|null
      *
      * @ORM\Column(type="integer", nullable=true)
      */
@@ -225,7 +225,7 @@ class Car
         return $this->year;
     }
 
-    public function setYear(int $year): void
+    public function setYear(?int $year): void
     {
         $this->year = $year;
     }
