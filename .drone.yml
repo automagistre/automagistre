@@ -90,7 +90,7 @@ pipeline:
             APP_DEBUG: '1'
             MIGRATIONS: 'false'
 
-    validate doctrine: &validate-doctrine
+    validate doctrine:
         group: validate
         image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
         commands:
@@ -101,7 +101,7 @@ pipeline:
             MIGRATIONS: 'false'
             WAIT_HOSTS: 'mysql:3306'
 
-    test phpunit: &test-phpunit
+    test phpunit:
         group: test
         image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
         commands:
@@ -140,7 +140,7 @@ pipeline:
             branch: master
             status: success
 
-    deploy: &deploy_service
+    deploy:
         <<: *docker
         commands:
             - docker service update --detach=false --image "automagistre/automagistre:${DRONE_BUILD_NUMBER}" automagistre
