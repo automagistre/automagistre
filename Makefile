@@ -5,7 +5,7 @@ TARGET = @$(MAKE) --no-print-directory
 
 export COMPOSE_PROJECT_NAME=automagistre
 
-DOCKER_COMPOSE_VERSION=1.23.0
+DOCKER_COMPOSE_VERSION=1.23.1
 APP_DIR = .
 APP_IMAGE = automagistre/app
 COMPOSE_PATH = ./dev
