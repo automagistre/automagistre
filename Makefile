@@ -269,6 +269,8 @@ db-wait:
 ###< APP ###
 
 ###> MYSQL ###
+mysql-cli:
+	docker-compose exec	mysql bash
 backup_file = $(APP_DIR)/var/backup.sql.gz
 backup-restore:
 ifneq (,$(wildcard $(backup_file)))
