@@ -59,7 +59,7 @@ pipeline:
         commands:
             - /docker-entrypoint.sh requirements-checker
         environment:
-            APP_ENV: 'test'
+            APP_ENV: 'prod'
             APP_DEBUG: '0'
             MIGRATIONS: 'false'
         when:
