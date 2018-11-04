@@ -15,7 +15,7 @@ use SimpleXMLElement;
  */
 final class Finder
 {
-    const IXORA_PART_FIND = '/soap/ApiService.asmx/Find';
+    private const IXORA_PART_FIND = '/soap/ApiService.asmx/Find';
 
     /**
      * @var Client

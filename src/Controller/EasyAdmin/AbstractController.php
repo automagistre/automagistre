@@ -14,6 +14,7 @@ use libphonenumber\PhoneNumberUtil;
 use Money\Formatter\DecimalMoneyFormatter;
 use Money\Money;
 use Money\MoneyFormatter;
+use Pagerfanta\Pagerfanta;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -236,7 +237,7 @@ abstract class AbstractController extends AdminController
         $sortField = null,
         $sortDirection = null,
         $dqlFilter = null
-    ) {
+    ): Pagerfanta {
         return parent::findBy($entityClass, $searchQuery, $searchableFields, $page, $maxPerPage, $sortField, $sortDirection, $dqlFilter);
     }
 

@@ -34,8 +34,8 @@ use Symfony\Component\Serializer\Encoder\DecoderInterface;
  */
 final class Orders
 {
-    const IXORA_ORDERS = '/soap/ApiService.asmx/OrderStatusGet';
-    const DATE_FORMAT = 'Y-m-d\TH:i:s';
+    private const IXORA_ORDERS = '/soap/ApiService.asmx/OrderStatusGet';
+    private const DATE_FORMAT = 'Y-m-d\TH:i:s';
 
     /**
      * @var Client
