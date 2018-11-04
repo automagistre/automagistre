@@ -9,6 +9,10 @@
 /src/Controller/TestController.php
 /templates/test.html.twig
 
+# Node
+/node_modules
+/public/assets/build
+
 ###> symfony/framework-bundle ###
 .env
 /public/bundles/

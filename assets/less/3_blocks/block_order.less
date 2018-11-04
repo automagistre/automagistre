@@ -1,0 +1,267 @@
+﻿/*--------------------- BLOCKS: Order -------------------------------------*/
+.order {
+  display: flex;
+  flex-flow: row nowrap;
+  margin-bottom: 20px;
+
+  &__main {
+    position: relative;
+    flex: 0 0 45%;
+    max-width: 45%;
+    padding-right: 60px;
+    z-index: 1;
+  }
+
+  &__side {
+    flex: 0 0 55%;
+    max-width: 55%;
+  }
+
+  &__group {
+    margin-bottom: 50px;
+  }
+
+  &__title {
+    margin: 0 0 30px;
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 40px;
+  }
+
+  &__check {
+    display: block;
+
+    > input {
+      display: none;
+
+      &:checked + span {
+
+        &:after {
+          display: block
+        }
+      }
+    }
+
+    > span {
+      display: block;
+      position: relative;
+      min-height: 20px;
+      padding: 1px 0 0 25px;
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 20px;
+      cursor: pointer;
+      user-select: none;
+
+      &.mini-gray {
+        color: #989898;
+        font-size: 14px;
+
+        a {
+          color: @dark;
+          text-decoration: underline;
+
+          &:hover {
+            color: @red;
+          }
+        }
+      }
+
+      &:before {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 2px;
+        left: 0;
+        width: 16px;
+        height: 16px;
+        background-color: #fff;
+        border: 1px solid #8f979e;
+        border-radius: 4px;
+      }
+
+      &:after {
+        content: "";
+        display: none;
+        position: absolute;
+        top: 2px;
+        left: 0;
+        width: 16px;
+        height: 16px;
+        background: no-repeat center data-uri("@{img-dir}icons/icon_check_green.svg");
+        background-size: 8px 6px;
+      }
+    }
+  }
+}
+
+.order-cart {
+
+  &__head {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+
+  &__body {
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px -30px rgba(0, 0, 0, .7);
+  }
+
+  &__title {
+    flex: 0 0 auto;
+    margin: 0;
+  }
+
+  &__num {
+    flex: 1 1 auto;
+    margin: 0 20px;
+    font-size: 30px;
+    font-weight: 300;
+    line-height: 40px;
+  }
+
+  &__back {
+    display: block;
+    color: #858585;
+    font-size: 18px;
+    border-bottom: 1px solid #858585;
+
+    &:hover {
+      color: @red;
+      border-bottom-color: @red;
+    }
+  }
+
+  &__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__item {
+    margin-bottom: 20px;
+  }
+
+  &__total {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    margin-bottom: -10px;
+    padding-top: 25px;
+    color: @red;
+    font-size: 30px;
+    line-height: 40px;
+    border-top: 1px solid #8f979e;
+
+    &-note {
+      flex: 0 0 auto;
+    }
+
+    &-summ {
+      flex: 0 0 auto;
+      padding-right: 31px;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 1180 ------------------------------------------------*/
+@media (max-width: 1180px) {
+  .order {
+    flex-wrap: wrap;
+    max-width: 700px;
+    margin: 0 auto;
+
+    &__main {
+      flex-basis: 100%;
+      max-width: 100%;
+      order: 2;
+      padding-right: 0;
+    }
+
+    &__side {
+      flex-basis: 100%;
+      max-width: 100%;
+      order: 1;
+      margin-bottom: 50px;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 760 -------------------------------------------------*/
+@media (max-width: 760px) {
+  .order {
+
+    &__title {
+      margin: 0 0 15px;
+      font-size: 20px;
+      line-height: 24px;
+    }
+  }
+
+  .order-cart {
+
+    &__title,
+    &__num {
+      font-size: 24px;
+      line-height: 30px;
+    }
+
+    &__head {
+      display: block;
+      text-align: center;
+    }
+
+    &__back {
+      display: none;
+    }
+
+    &__body {
+      padding: 20px 10px;
+    }
+
+    &__list {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-between;
+    }
+
+    &__item {
+      flex: 0 0 49%;
+      max-width: 49%;
+      margin-bottom: 10px;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 540 -------------------------------------------------*/
+@media (max-width: 540px) {
+  .order {
+
+    &__form {
+
+      &-row {
+        display: block;
+      }
+
+      [class*='col_'] {
+        width: auto;
+      }
+    }
+  }
+
+  .order-cart {
+
+    &__list {
+      justify-content: center;
+    }
+
+    &__item {
+      flex-basis: 100%;
+      max-width: 360px;
+    }
+  }
+}

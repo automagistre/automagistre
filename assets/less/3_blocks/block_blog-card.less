@@ -1,0 +1,85 @@
+﻿/*--------------------- BLOCKS: Blog-card -----------------------------------*/
+.blog-card {
+  border-radius: 10px;
+  overflow: hidden;
+  transition: box-shadow .6s;
+
+  &:hover {
+    box-shadow: 0 20px 60px -30px rgba(0, 0, 0, .5);
+  }
+
+  &__pict {
+    display: block;
+    height: 180px;
+    overflow: hidden;
+  }
+
+  &__img {
+    display: block;
+    min-width: 100%;
+    min-height: 100%;
+  }
+
+  &__text {
+    display: flex;
+    flex-flow: column nowrap;
+    min-height: 245px;
+    padding: 20px;
+    background-color: #fff;
+  }
+
+  &__title {
+    flex: 0 0 48px;
+    height: 48px;
+    margin: 0 0 5px;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 24px;
+    overflow: hidden;
+  }
+
+  &__theme {
+    flex: 0 0 auto;
+    margin-bottom: 10px;
+    color: @red-dark;
+    font-size: 18px;
+    line-height: 20px;
+  }
+
+  &__note {
+    flex: 1 0 80px;
+    height: 80px;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 20px;
+    overflow: hidden;
+  }
+
+  &__date {
+    flex: 0 0 auto;
+    padding-left: 25px;
+    color: #989898;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 16px;
+    background: no-repeat 0 0 data-uri("@{img-dir}icons/icon_clocks_gray.svg");
+    background-size: 14px 14px;
+  }
+}
+
+/* ---------- ADAPTIVE < 600 ------------------------------------------------*/
+@media (max-width: 600px) {
+  .blog-card {
+    display: block;
+
+    &__text {
+      display: block;
+      min-height: 0;
+    }
+
+    &__note {
+      height: auto;
+      margin-bottom: 20px;
+    }
+  }
+}

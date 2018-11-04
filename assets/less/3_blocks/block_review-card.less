@@ -1,0 +1,97 @@
+﻿/*--------------------- BLOCKS: Review-card ----------------------------------*/
+.review-card {
+  position: relative;
+  padding: 30px 40px;
+  background-color: #fafbfc;
+  border-radius: 20px;
+  transition: box-shadow .3s, background-color .3s;
+
+  &:hover {
+    background-color: #fff;
+    box-shadow: 0 15px 40px -20px rgba(0, 0, 0, .30);
+    z-index: 1;
+
+    .review-card__title {
+      opacity: 1;
+    }
+
+    .mCSB_scrollTools {
+      opacity: 1;
+    }
+  }
+
+  &__title {
+    height: 40px;
+    margin: 5px 0;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 20px;
+    opacity: .5;
+    transition: opacity .3s;
+  }
+
+  &__text {
+    height: 265px;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 24px;
+    overflow: hidden;
+
+    &.no-limit {
+      height: auto;
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+    color: #929599;
+    font-size: 14px;
+    line-height: 18px;
+  }
+
+  &__link {
+    display: inline-block;
+    flex: 0 0 auto;
+    text-decoration: underline;
+
+    &:hover {
+      color: @red-dark;
+    }
+  }
+
+  &__date {
+    display: block;
+    flex: 0 0 70px;
+    max-width: 90px;
+    padding-left: 20px;
+    font-weight: 400;
+  }
+
+  .mCSB_scrollTools {
+    right: -50px;
+    opacity: 0;
+  }
+
+  .mCSB_draggerRail {
+    background-color: transparent;
+  }
+
+  .mCSB_dragger .mCSB_dragger_bar {
+    background-color: #898d91;
+  }
+}
+
+/* ---------- ADAPTIVE < 1620 ------------------------------------------------*/
+@media (max-width: 1620px) {
+  .review-card {
+    padding: 30px 20px;
+
+    .mCSB_scrollTools {
+      right: -30px;
+      opacity: 0;
+    }
+  }
+}

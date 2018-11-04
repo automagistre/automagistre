@@ -1,0 +1,240 @@
+﻿/*--------------------- BLOCKS: Panel ----------------------------------------*/
+.panel {
+  display: flex;
+  position: relative;
+  flex-flow: column nowrap;
+  justify-content: flex-end;
+  color: #fff;
+  background-color: #444;
+  transition: background-color .6s;
+  overflow: hidden;
+
+  &__back {
+    position: absolute;
+    top: -10px;
+    left: -15px;
+    right: -15px;
+    bottom: -10px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    transform: translate3d(0, 0, 0);
+    transition: all .6s;
+    opacity: .25;
+  }
+
+  &__info {
+    position: relative;
+    flex: 0 0 auto;
+    min-height: 240px;
+    padding: 0 40px 10px 80px;
+    transform: translate3d(0, 0, 0);
+  }
+
+  &__num {
+    position: absolute;
+    top: 0;
+    left: 72px;
+    color: #464646;
+    font-size: 200px;
+    font-weight: 700;
+    line-height: 180px;
+    opacity: .8;
+  }
+
+  &__title {
+    position: relative;
+    margin: 5px 0 50px;
+    text-transform: uppercase;
+    font-size: 36px;
+    line-height: 54px;
+    font-weight: 400;
+    transition: transform .6s;
+    transform: translateY(50px);
+
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      bottom: -22px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background-color: #fff;
+    }
+  }
+
+  &__note {
+    position: relative;
+    height: 0;
+    font-size: 16px;
+    line-height: 24px;
+    transition: height .6s, opacity .2s linear;
+    overflow: hidden;
+    opacity: 0;
+  }
+
+  &__more {
+    position: relative;
+    height: 0;
+    margin: 15px 0 50px;
+    transition: height .6s linear .3s, opacity .2s;
+    overflow: hidden;
+    opacity: 0;
+  }
+
+  &__btn {
+    display: inline-block;
+    vertical-align: top;
+    margin-bottom: 5px;
+    text-align: center;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: .12em;
+    border-radius: 20px;
+
+    &_red {
+      margin-right: 15px;
+      padding: 8px 30px 8px;
+      background: linear-gradient(to bottom, #d41915, #c5130f);
+      border: none;
+
+      &:hover {
+        background: linear-gradient(to top, #d41915, #c5130f);
+      }
+    }
+
+    &_clear {
+      padding: 7px 28px 5px;
+      background-color: transparent;
+      border: 2px solid #fff;
+
+      &:hover {
+        color: @red;
+        border-color: @red;
+      }
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 1620 ------------------------------------------------*/
+@media (max-width: 1620px) {
+  .panel {
+
+    &__info {
+      padding: 0 20px 10px;
+    }
+
+    &__num {
+      left: 12px;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 1280 ------------------------------------------------*/
+@media (max-width: 1280px) {
+  .panel {
+
+    &__title {
+      font-size: 32px;
+    }
+
+    &__note {
+      font-size: 15px;
+      line-height: 20px;
+    }
+
+    &__more {
+
+    }
+
+    &__btn {
+      display: block;
+      width: 160px;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE > 1025 ------------------------------------------------*/
+@media (min-width: 1025px) {
+  .panel {
+
+    &:hover {
+      background-color: #000;
+
+      .panel__back {
+        filter: blur(8px);
+        opacity: .25;
+      }
+
+      .panel__title {
+        transform: translateY(0);
+
+        &:after {
+          width: 40px;
+          transition: width .3s linear .6s;
+        }
+      }
+
+      .panel__note {
+        height: 96px;
+        opacity: 1;
+        transition: height .6s, opacity .3s linear .3s;
+      }
+
+      .panel__more {
+        height: 40px;
+        opacity: 1;
+        transition: height .6s, opacity .3s linear .6s;
+      }
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 1024 ------------------------------------------------*/
+@media (max-width: 1024px) {
+  .panel {
+
+    &__info {
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: flex-end;
+    }
+
+    &__title {
+      line-height: 32px;
+    }
+
+    &__note {
+      height: auto;
+      max-width: 600px;
+      opacity: 1;
+    }
+
+    &__more {
+      height: auto;
+      margin: 5px 0 0;
+      opacity: 1;
+    }
+
+    &__btn {
+      display: inline-block;
+      vertical-align: top;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 760 -------------------------------------------------*/
+@media (max-width: 760px) {
+  .panel {
+
+    &__title {
+      font-size: 26px;
+    }
+    &__note {
+      display: none;
+    }
+  }
+}

@@ -6,3 +6,7 @@ public/bundles
 
 # Composer
 vendor
+
+# Node
+/node_modules
+/public/assets/build

@@ -1,0 +1,107 @@
+﻿/*--------------------- BLOCKS: Costing -------------------------------------*/
+.reminder {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(50px);
+
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  width: 560px;
+  padding: 10px 25px;
+  color: #fff;
+  border-radius: 20px;
+  background-color: #cb1511;
+  background-image: linear-gradient(to top, rgba(0, 0, 0, .16) 0%, rgba(255, 255, 255, .16) 100%);
+  box-shadow: 0 10px 30px rgba(76, 79, 81, .8);
+  transition: all .6s;
+  z-index: 10;
+
+  &.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  &__close {
+    display: block;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 26px;
+    height: 26px;
+    background: no-repeat center data-uri("@{img-dir}icons/icon_cross_white.svg");
+    background-size: 10px 10px;
+    border-radius: 50%;
+    opacity: .6;
+    transition: all .3s;
+    z-index: 1;
+
+    &:hover {
+      opacity: 1;
+      background-color: @red;
+      transform: rotate(90deg);
+    }
+  }
+
+  &__img {
+    display: block;
+    position: absolute;
+    right: 320px;
+    bottom: 0;
+  }
+
+  &__info {
+    margin-left: 215px;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 32px;
+  }
+
+  &__note {
+    margin: 10px 0;
+    font-size: 18px;
+    line-height: 26px;
+  }
+
+  &__btns {
+    margin-top: 15px;
+  }
+
+  &__btn {
+
+  }
+}
+
+/* ---------- ADAPTIVE < 760 -------------------------------------------------*/
+@media (max-width: 760px) {
+  .reminder {
+    width: 300px;
+    left: 50%;
+    bottom: 10px;
+    margin-left: -150px;
+    text-align: center;
+
+    &__img {
+      display: none;
+    }
+
+    &__info {
+      margin-left: 0;
+    }
+    &__title {
+      font-size: 20px;
+      line-height: 22px;
+    }
+
+    &__note {
+      margin: 10px 0;
+      font-size: 14px;
+      line-height: 16px;
+    }
+  }
+}

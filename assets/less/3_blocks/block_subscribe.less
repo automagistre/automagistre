@@ -1,0 +1,172 @@
+﻿/*--------------------- BLOCKS: Subscribe form -------------------------------*/
+.subscribe {
+  display: flex;
+  flex-flow: row nowrap;
+
+  &__name,
+  &__numb,
+  &__date {
+    flex: 0 0 auto;
+    margin-right: 4px;
+    padding: 21px 20px 19px 35px;
+    text-align: right;
+    font-size: 14px;
+    line-height: 18px;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-position: 15px 50%;
+    background-size: 14px 14px;
+    border: 1px solid #f1f2f5;
+  }
+
+  &__name {
+    width: 22.9%;
+    background-image: data-uri("@{img-dir}icons/icon_subscribe-user.svg");
+    border-radius: 30px 0 0 30px;
+  }
+
+  &__numb {
+    width: 23.2%;
+    background-image: data-uri("@{img-dir}icons/icon_subscribe-phone.svg");
+  }
+
+  &__date {
+    width: 19.75%;
+    background-image: data-uri("@{img-dir}icons/icon_subscribe-date.svg");
+  }
+
+  &__agree {
+    position: relative;
+    flex: 0 0 60px;
+    width: 60px;
+    margin-right: 5px;
+    background-color: #fff;
+  }
+
+  &__check {
+    display: block;
+    position: relative;
+    width: 60px;
+    height: 60px;
+
+    input {
+      visibility: hidden;
+      opacity: 0;
+
+      &:checked + span {
+        background-image: data-uri("@{img-dir}icons/icon_subscribe-agree.svg");
+      }
+    }
+
+    span {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 30px 21px;
+      cursor: pointer;
+    }
+  }
+
+  &__hint {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    background: #f1eff2 no-repeat 8px 4px data-uri("@{img-dir}icons/icon_question_gray.svg");
+    background-size: auto 8px;
+    border-radius: 0 0 0 20px;
+    z-index: 1;
+
+    &:hover {
+
+      span {
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+      }
+    }
+
+    span {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-15px);
+
+      position: absolute;
+      left: 0;
+      bottom: 100%;
+      width: 200px;
+      margin-bottom: 10px;
+      padding: 5px 7px;
+      color: #353a3e;
+      text-align: left;
+      font-size: 12px;
+      line-height: 14px;
+      background-color: #f1eff2;
+      border-radius: 3px 3px 3px 0;
+      box-shadow: 0 0 12px rgba(0, 0, 0, .5);
+      transition: all .3s ease .1s;
+
+      &:after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 100%;
+        left: 4px;
+        border-top: 7px solid #f1eff2;
+        border-left: 7px solid transparent;
+        border-right: 7px solid transparent;
+      }
+    }
+  }
+
+  &__btn {
+    display: block;
+    flex: 1 1 auto;
+    padding: 19px 10px 17px;
+    white-space: nowrap;
+    border-radius: 0 30px 30px 0;
+
+    &:before {
+      border-radius: 0 27px 27px 0;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 1024 ------------------------------------------------*/
+@media (max-width: 1024px) {
+  .subscribe {
+    flex-wrap: wrap;
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+
+    &__name,
+    &__numb,
+    &__date {
+      flex-basis: 100%;
+      width: 100%;
+      font-size: 18px;
+      margin-right: 0;
+      margin-bottom: 4px;
+    }
+
+    &__name {
+      border-radius: 30px 30px 0 0;
+    }
+
+    &__agree {
+      border-radius: 0 0 0 30px;
+    }
+
+    &__btn {
+      border-radius: 0 0 30px 0;
+    }
+  }
+}
+

@@ -1,0 +1,83 @@
+﻿/*--------------------- BLOCKS: Spinner -------------------------------------*/
+.spinner {
+  visibility: hidden;
+
+  position: relative;
+  width: 74px;
+  height: 74px;
+  margin: 0 auto;
+  transform: scale(0.6);
+
+  &.is-loading {
+    visibility: visible;
+  }
+
+  &__dot {
+    position: absolute;
+    background-color: transparent;
+    height: 13px;
+    width: 13px;
+    border-radius: 7px;
+    animation-name: f_fadeG;
+    animation-duration: 1.2s;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+
+    &_01 {
+      left: 0;
+      top: 30px;
+      animation-delay: 0.45s;
+    }
+
+    &_02 {
+      left: 9px;
+      top: 9px;
+      animation-delay: 0.6s;
+    }
+
+    &_03 {
+      left: 30px;
+      top: 0;
+      animation-delay: 0.75s;
+    }
+
+    &_04 {
+      right: 9px;
+      top: 9px;
+      animation-delay: 0.9s;
+    }
+
+    &_05 {
+      right: 0;
+      top: 30px;
+      animation-delay: 1.05s;
+    }
+
+    &_06 {
+      right: 9px;
+      bottom: 9px;
+      animation-delay: 1.2s;
+    }
+
+    &_07 {
+      left: 30px;
+      bottom: 0;
+      animation-delay: 1.35s;
+    }
+
+    &_08 {
+      left: 9px;
+      bottom: 9px;
+      animation-delay: 1.5s;
+    }
+  }
+}
+
+@keyframes f_fadeG {
+  0% {
+    background-color: @red
+  }
+  100% {
+    background-color: transparent;
+  }
+}

@@ -1,4 +1,22 @@
-FROM php:7.2.10-apache-stretch as app
+FROM node:10.13.0-alpine as node
+
+LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
+
+ENV APP_DIR=/usr/local/app
+ENV PATH=${APP_DIR}/node_modules/.bin:${PATH}
+
+WORKDIR ${APP_DIR}
+
+RUN apk add --no-cache git
+
+COPY package.json package-lock.json ${APP_DIR}/
+RUN npm install
+
+COPY assets gulpfile.js ${APP_DIR}/
+
+RUN gulp build:main-script build:scripts build:less
+
+FROM php:7.2.11-apache-stretch as app
 
 LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 
@@ -18,7 +36,7 @@ RUN set -ex \
         netcat \
         libmemcached-dev \
 	\
-	&& curl http://download.icu-project.org/files/icu4c/61.1/icu4c-61_1-src.tgz -o /tmp/icu4c.tgz \
+	&& curl http://download.icu-project.org/files/icu4c/63.1/icu4c-63_1-src.tgz -o /tmp/icu4c.tgz \
 	&& tar zxvf /tmp/icu4c.tgz > /dev/null \
 	&& cd icu/source \
 	&& ./configure --prefix=/opt/icu && make && make install \
@@ -59,6 +77,8 @@ COPY docker/php/* ${PHP_INI_DIR}/
 COPY docker/bin/* /usr/local/bin/
 
 COPY ${SOURCE_DIR}/ ${APP_DIR}/
+
+COPY --from=node ${APP_DIR}/public/assets/build/* ${APP_DIR}/public/assets/build/
 
 ARG APP_VERSION=dev
 ENV APP_VERSION ${APP_VERSION}

@@ -1,0 +1,117 @@
+﻿/*--------------------- BLOCKS: Cart card -------------------------------------*/
+.order-card {
+  position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  padding: 5px 10px;
+  background-color: #fff;
+  border: 1px solid #f1f2f5;
+  border-radius: 20px;
+  transition: box-shadow .6s;
+  overflow: hidden;
+
+  &:hover {
+    box-shadow: 0 20px 60px -30px rgba(0, 0, 0, .7);
+    z-index: 1;
+
+    .cart-card__delete {
+      opacity: 1;
+    }
+  }
+
+  &__pict {
+    flex: 0 0 70px;
+    max-width: 70px;
+    height: 70px;
+    padding: 5px;
+    text-align: center;
+    line-height: 60px;
+    overflow: hidden;
+  }
+
+  &__img {
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  &__info {
+    flex: 1 1 auto;
+    padding-left: 20px;
+  }
+
+  &__title {
+    max-width: 198px;
+    margin: 5px 0 10px;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 16px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  &__price {
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  &__count {
+    min-width: 60px;
+    margin-left: 10px;
+    padding: 11px 10px 9px;
+    color: #989898;
+    text-align: center;
+    font-size: 16px;
+    line-height: 20px;
+    background-color: #f1f1f5;
+    box-shadow: 0 11px 20px -10px rgba(152, 152, 152, .5);
+    border-radius: 20px;
+  }
+
+  &__total {
+    width: 170px;
+    margin-left: 10px;
+    padding-right: 20px;
+    color: @red;
+    text-align: right;
+    font-size: 30px;
+    line-height: 40px;
+  }
+}
+
+.order-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  &__item {
+    margin-bottom: 20px;
+  }
+}
+
+/* ---------- ADAPTIVE < 760 -------------------------------------------------*/
+@media (max-width: 760px) {
+  .order-card {
+    display: block;
+    text-align: center;
+
+    &__title {
+      max-width: none;
+      white-space: normal;
+    }
+
+    &__total {
+      width: auto;
+      margin: 10px 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    &__pict {
+      margin: 0 auto;
+    }
+  }
+}

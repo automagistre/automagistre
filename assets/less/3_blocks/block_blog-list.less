@@ -1,0 +1,51 @@
+﻿/*--------------------- BLOCKS: Blog-list -----------------------------------*/
+.blog-list {
+  display: flex;
+  flex-flow: row wrap;
+  margin: 0 -20px;
+
+  &__item {
+    flex: 0 0 33.33%;
+    max-width: 33.33%;
+    padding: 20px;
+    transition: opacity .6s, transform .6s;
+
+    &.just-loaded {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 1024 ------------------------------------------------*/
+@media (max-width: 1024px) {
+  .blog-list {
+    margin: 0 -10px;
+
+    &__item {
+      padding: 10px;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 900 ------------------------------------------------*/
+@media (max-width: 900px) {
+  .blog-list {
+
+    &__item {
+      flex: 0 0 50%;
+      max-width: 50%;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 600 ------------------------------------------------*/
+@media (max-width: 600px) {
+  .blog-list {
+
+    &__item {
+      flex-basis: 100%;
+      max-width: 100%;
+    }
+  }
+}

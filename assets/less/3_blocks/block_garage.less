@@ -1,0 +1,147 @@
+﻿/*--------------------- BLOCKS: Garage -------------------------------------*/
+.garage {
+  display: flex;
+  flex-flow: row nowrap;
+  margin: 0 -20px;
+
+  &__col-lt,
+  &__col-rt {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 0 20px;
+  }
+
+  &__group {
+    margin-bottom: 40px;
+  }
+
+  &__contact {
+    padding: 40px 40px 50px;
+    background-color: #fff;
+    border: 1px solid #f1f2f5;
+    border-radius: 20px;
+  }
+
+  &__title {
+    margin: 0 0 30px;
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 40px;
+  }
+
+  &__prods {
+    display: flex;
+    flex-flow: row wrap;
+    margin: 0 -20px;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__prod {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 0 20px 40px;
+  }
+
+  &__car {
+    margin-bottom: 40px;
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 20px;
+    transition: box-shadow .6s;
+
+    &:hover {
+      box-shadow: 0 20px 60px -30px rgba(0, 0, 0, .7);
+    }
+  }
+
+  &__add-btn {
+    display: block;
+    color: @dark;
+    border-color: @dark;
+  }
+}
+
+/* ---------- ADAPTIVE < 1180 ------------------------------------------------*/
+@media (max-width: 1180px) {
+  .garage {
+    margin: 0 -10px;
+
+    &__col-lt,
+    &__col-rt {
+      padding: 0 10px;
+    }
+
+    &__prods {
+      margin: 0 -10px;
+    }
+
+    &__prod {
+      padding: 0 10px 20px;
+    }
+
+    &__car {
+      margin-bottom: 20px;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 1024 ------------------------------------------------*/
+@media (max-width: 1024px) {
+  .garage {
+    flex-wrap: wrap;
+    max-width: 700px;
+    margin: 0 auto 30px;
+
+    &__col-lt,
+    &__col-rt {
+      flex-basis: 100%;
+      max-width: 100%;
+    }
+
+    &__add-btn {
+      margin-bottom: 20px;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 760 -------------------------------------------------*/
+@media (max-width: 760px) {
+  .garage {
+
+    &__title {
+      margin: 0 0 15px;
+      font-size: 20px;
+      line-height: 24px;
+    }
+
+    &__contact,
+    &__car {
+      padding: 20px 20px 30px;
+    }
+
+    &__prods {
+      margin: 0 -5px;
+    }
+
+    &__prod {
+      padding: 0 5px 10px;
+    }
+  }
+}
+
+@media (max-width: 540px) {
+  .garage {
+
+    &__col-lt,
+    &__col-rt {
+      padding: 0;
+    }
+
+    &__prod {
+      flex-basis: 100%;
+      max-width: 100%;
+    }
+  }
+}
+

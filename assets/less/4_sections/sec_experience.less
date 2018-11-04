@@ -1,0 +1,85 @@
+﻿/*--------------------- SECTION: Happen --------------------------------------*/
+.sec-experience {
+  position: relative;
+  padding: 100px 0;
+  overflow: hidden;
+
+  &__back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: no-repeat center;
+    background-size: cover;
+    background-attachment: fixed;
+
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #1a1a1a;
+      opacity: .8;
+    }
+  }
+
+  &__front {
+    position: relative;
+    color: #fff;
+  }
+
+  &__title {
+    position: absolute;
+    visibility: hidden;
+  }
+
+  &__facts {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 30px;
+
+    .facts__item {
+      //width: 210px;
+      text-align: center;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 760 -------------------------------------------------*/
+@media (max-width: 760px) {
+  .sec-experience {
+
+    &__front {
+      padding: 20px 0;
+    }
+
+    &__facts {
+      padding: 0;
+    }
+
+    &__title {
+      margin: 10px 0 10px;
+      font-size: 28px;
+      line-height: 30px;
+    }
+
+    &__item {
+      margin: 5px 0;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 540 -------------------------------------------------*/
+@media (max-width: 540px) {
+  .sec-experience {
+    padding: 50px 0;
+
+    &__facts {
+      display: block;
+    }
+  }
+}

@@ -1,0 +1,67 @@
+﻿/*--------------------- BLOCKS: Car-card ---------------------------------------*/
+.car-card {
+  position: relative;
+  margin: 0 auto;
+  padding: 25px 20px 18px;
+  text-align: center;
+  line-height: 20px;
+  background-color: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+
+  &.is-selected:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(53, 58, 62, .5) no-repeat center data-uri("@{img-dir}icons/icon_check-big_white.svg");
+    background-size: 50px 32px;
+    border-radius: 20px;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 400;
+  }
+
+  &__pict {
+    height: 70px;
+    margin: 10px 0;
+    line-height: 70px;
+    overflow: hidden;
+  }
+
+  &__img {
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  &__info {
+    font-size: 16px;
+    font-weight: 300;
+  }
+
+  &__code {
+
+  }
+
+  &__year {
+    font-size: 14px;
+  }
+
+  &__link {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+  }
+}

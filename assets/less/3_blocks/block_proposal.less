@@ -1,0 +1,143 @@
+﻿/*--------------------- BLOCKS: Proposal -----------------------------------*/
+.proposal {
+  display: flex;
+  position: relative;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  min-height: 430px;
+  margin: 100px 160px -70px;
+  padding: 40px 130px;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 30px;
+  box-shadow: 0 20px 80px rgba(0, 0, 0, .15);
+
+  &__title {
+    margin: 0;
+    font-size: 42px;
+    font-weight: 400;
+    line-height: 64px;
+  }
+
+  &__lead {
+    font-size: 30px;
+    line-height: 42px;
+
+    strong {
+      color: @red;
+      font-weight: 400;
+    }
+  }
+
+  &__note {
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 24px;
+  }
+
+  &__more {
+    text-align: center;
+  }
+
+  &__img {
+    display: block;
+    position: absolute;
+
+    &-lt {
+      left: -365px;
+      bottom: -43px;
+      z-index: 1;
+    }
+
+    &-rt {
+      right: -210px;
+      bottom: 20px;
+      z-index: -1;
+    }
+
+    &-btm {
+      left: -75px;
+      bottom: -28px;
+      z-index: 1;
+    }
+  }
+
+  &__hint {
+    position: absolute;
+    top: -40px;
+    left: -25px;
+    padding: 27px 30px 23px;
+    color: @red;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 30px;
+    background-color: #fff;
+    border-radius: 40px;
+    box-shadow: 0 20px 60px -20px rgba(0, 0, 0, .5);
+
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 65px;
+      left: 3px;
+      border-top: 20px solid #fff;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      transform: rotate(40deg);
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 1024 ------------------------------------------------*/
+@media (max-width: 1080px) {
+  .proposal {
+    padding: 50px 40px;
+
+    &__title {
+      font-size: 32px;
+      line-height: 42px;
+    }
+
+    &__lead {
+      font-size: 24px;
+      line-height: 30px;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 760 -------------------------------------------------*/
+@media (max-width: 760px) {
+  .proposal {
+    display: block;
+    min-height: 0;
+    margin: 50px 0 0;
+    padding: 40px 20px;
+
+    &__img {
+      display: none;
+    }
+
+    &__hint {
+      left: 50%;
+      width: 250px;
+      margin-left: -125px;
+    }
+
+    &__title {
+      margin: 20px 0;
+      font-size: 24px;
+      line-height: 28px;
+    }
+
+    &__lead {
+      font-size: 18px;
+      line-height: 20px;
+    }
+
+    &__note {
+
+    }
+  }
+}

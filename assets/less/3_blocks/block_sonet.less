@@ -1,0 +1,39 @@
+﻿/*--------------------- BLOCKS: Social networks ------------------------------*/
+.sonet {
+  display: flex;
+  flex-flow: row nowrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  &__item {
+    flex: 0 0 auto;
+  }
+
+  &__link {
+    display: block;
+    width: 45px;
+    height: 45px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 18px 18px;
+    border-radius: 50%;
+
+    &:hover {
+      background-color: #f6f6f6;
+    }
+  }
+
+  &_big-gray {
+
+    .sonet__link {
+      background-size: 26px 26px;
+      opacity: 0.5;
+
+      &:hover {
+        opacity: 1;
+        background-color: transparent;
+      }
+    }
+  }
+}

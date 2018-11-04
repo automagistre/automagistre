@@ -1,0 +1,75 @@
+﻿/*--------------------- BLOCKS: Odometer ----------------------------------*/
+.odometer {
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  text-align: center;
+}
+
+.odometer-digit {
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+}
+
+.odometer-digit .odometer-digit-spacer {
+  display: inline-block;
+  vertical-align: top;
+  visibility: hidden;
+  width: 30px;
+}
+
+.odometer-digit .odometer-digit-inner {
+  text-align: left;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  width: 30px;
+}
+
+.odometer-digit .odometer-ribbon {
+  display: block;
+  width: 30px;
+}
+
+.odometer-digit .odometer-ribbon-inner {
+  display: block;
+  will-change: transform;
+  -webkit-backface-visibility: hidden;
+}
+
+.odometer-digit .odometer-value {
+  display: block;
+  transform: translateZ(0);
+  will-change: transform;
+  width: 30px;
+}
+
+.odometer-digit .odometer-value.odometer-last-value {
+  position: absolute;
+}
+
+.odometer.odometer-animating-up .odometer-ribbon-inner {
+  transition: transform 2s;
+}
+
+.odometer.odometer-animating-up.odometer-animating .odometer-ribbon-inner {
+  transform: translateY(-100%);
+}
+
+.odometer.odometer-animating-down .odometer-ribbon-inner {
+  transform: translateY(-100%);
+}
+
+.odometer.odometer-animating-down.odometer-animating .odometer-ribbon-inner {
+  transition: transform 2s;
+  transform: translateY(0);
+}
+
+.odometer .odometer-value {
+  text-align: center;
+}

@@ -1,0 +1,201 @@
+﻿/*--------------------- BLOCKS: Feature --------------------------------------*/
+.feature {
+  position: relative;
+  width: 260px;
+  min-height: 260px;
+  padding: 20px;
+  text-align: center;
+  overflow: hidden;
+  transition: border-radius .6s;
+  will-change: transform;
+  z-index: 1;
+
+  &:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    right: -50%;
+    bottom: -50%;
+    background: linear-gradient(to bottom, #e1332e, #be2421);
+    box-shadow: 0 20px 80px rgba(0, 0, 0, .2);
+    border-radius: 50%;
+    transform: scale(0, 0);
+    transition: transform .8s;
+    transform-origin: 50% 80%;
+    z-index: -1;
+  }
+
+  &:hover {
+    border-radius: 10px;
+
+    &:before {
+      transform: none;
+    }
+
+    .feature__icon {
+      background-position: 0 100%;
+    }
+
+    .feature__title {
+      opacity: 0;
+      color: #fff;
+      transform: translateY(-20px);
+      transition-delay: 0s;
+    }
+
+    .feature__note {
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      transition-delay: .4s;
+    }
+  }
+
+  &__icon {
+    display: inline-block;
+    vertical-align: top;
+    width: 60px;
+    height: 60px;
+    margin: 25px 0;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-size: 100% 200%;
+    transition: background-position .6s;
+  }
+
+  &__title {
+    height: 72px;
+    margin: 0;
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: .1em;
+    transition: all .6s ease .4s;
+  }
+
+  &__note {
+    opacity: 0;
+    visibility: hidden;
+
+    position: absolute;
+    top: 130px;
+    left: 20px;
+    right: 20px;
+    color: #fff;
+    font-size: 16px;
+    line-height: 21px;
+    transition: all .6s;
+    transform: translateY(50px);
+    will-change: transform;
+  }
+}
+
+.icon-f_star {
+  background-image: data-uri("@{img-dir}sec-features/icons/icons_star.svg")
+}
+
+.icon-f_tire {
+  background-image: data-uri("@{img-dir}sec-features/icons/icons_tire.svg")
+}
+
+.icon-f_keys {
+  background-image: data-uri("@{img-dir}sec-features/icons/icons_keys.svg")
+}
+
+.icon-f_heart {
+  background-image: data-uri("@{img-dir}sec-features/icons/icons_heart.svg")
+}
+
+.icon-f_speed {
+  background-image: data-uri("@{img-dir}sec-features/icons/icons_speed.svg")
+}
+
+.icon-f_piggy {
+  background-image: data-uri("@{img-dir}sec-features/icons/icons_piggy.svg")
+}
+
+.icon-f_growth {
+  background-image: data-uri("@{img-dir}sec-features/icons/icons_growth.svg")
+}
+
+.icon-f_inform {
+  background-image: data-uri("@{img-dir}sec-features/icons/icons_information.svg")
+}
+
+.icon-f_search {
+  background-image: data-uri("@{img-dir}sec-features/icons/icons_car-search.svg")
+}
+
+.icon-f_piston {
+  background-image: data-uri("@{img-dir}sec-features/icons/icons_piston.svg")
+}
+
+.icon-f_binocul {
+  background-image: data-uri("@{img-dir}sec-features/icons/icons_binoculars.svg")
+}
+
+.icon-f_mechanic {
+  background-image: data-uri("@{img-dir}sec-features/icons/icons_mechanic.svg")
+}
+
+.icon-f_suspension {
+  background-image: data-uri("@{img-dir}sec-features/icons/icons_suspension.svg")
+}
+
+.icon-f_chassis {
+  background-image: data-uri("@{img-dir}sec-features/icons/icons_chassis.svg")
+}
+
+.icon-f_alarm {
+  background-image: data-uri("@{img-dir}sec-features/icons/icons_alarm.svg")
+}
+
+.icon-f_snow {
+  background-image: data-uri("@{img-dir}sec-features/icons/icons_snow.svg")
+}
+
+.icon-f_fuel {
+  background-image: data-uri("@{img-dir}sec-features/icons/icons_fuel.svg")
+}
+
+.icon-f_motor {
+  background-image: data-uri("@{img-dir}sec-features/icons/icons_motor.svg")
+}
+
+.icon-f_painting {
+  background-image: data-uri("@{img-dir}sec-features/icons/icons_painting.svg")
+}
+
+.icon-f_transmision {
+  background-image: data-uri("@{img-dir}sec-features/icons/icons_transmision.svg")
+}
+
+.icon-f_success {
+  background-image: data-uri("@{img-dir}sec-features/icons/icons_success.svg")
+}
+
+/* ---------- ADAPTIVE < 1620 ------------------------------------------------*/
+@media (max-width: 1620px) {
+  .feature {
+    width: 225px;
+    min-height: 225px;
+    padding: 10px;
+
+    &__title {
+      height: 60px;
+      font-size: 15px;
+      line-height: 20px;
+    }
+
+    &__note {
+      top: 115px;
+      left: 10px;
+      right: 10px;
+      font-size: 14px;
+      line-height: 18px;
+    }
+  }
+}

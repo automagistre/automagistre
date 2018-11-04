@@ -1,0 +1,27 @@
+﻿/*--------------------- BLOCKS: Ripple effect --------------------------------*/
+.ripple {
+  position: relative;
+  overflow: hidden;
+  transform: translate(0);
+}
+
+.effect {
+  display: block;
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, .1);
+  transform: scale(0);
+  z-index: 10;
+
+  &.replay {
+    animation: ripple 2s cubic-bezier(0.165, 0.85, 0.45, 2);
+  }
+}
+
+@keyframes ripple {
+  100% {
+    opacity: 0;
+    transform: scale(2);
+  }
+}

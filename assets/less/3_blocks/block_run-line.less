@@ -1,0 +1,74 @@
+﻿/*--------------------- BLOCKS: Art-search -------------------------------------*/
+.run-line {
+  display: flex;
+  flex-flow: row nowrap;
+  height: 60px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background-color: #fff;
+  border: 2px solid @red;
+  border-radius: 30px;
+  overflow: hidden;
+
+  &__step {
+    flex: 1 1 auto;
+    padding: 14px 10px 12px;
+    text-align: center;
+    font-size: 24px;
+    line-height: 30px;
+    cursor: pointer;
+    transition: background-color .3s, border-radius .3s;
+
+    &:hover {
+      color: @red;
+    }
+
+    &.is-active {
+      color: #fff;
+      background-color: @red;
+      border-radius: 0 28px 0 0;
+    }
+
+    &.is-before {
+      color: #aaa;
+      background-color: @red;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 1024 ------------------------------------------------*/
+@media (max-width: 1024px) {
+  .run-line {
+
+    &__step {
+      padding: 14px 5px 12px;
+      font-size: 18px;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 760 -------------------------------------------------*/
+@media (max-width: 760px) {
+  .run-line {
+    flex-wrap: wrap;
+    height: auto;
+    border: none;
+
+    &__step {
+      flex: 0 0 56px;
+      width: 56px;
+      border-radius: 28px;
+
+      &.is-before {
+        color: #fff;
+        background-color: #aaa;
+      }
+
+      &.is-active {
+        background-color: @red;
+        border-radius: 28px;
+      }
+    }
+  }
+}

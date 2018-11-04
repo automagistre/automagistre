@@ -1,0 +1,79 @@
+﻿/*--------------------- SECTION: Advantages -----------------------------------*/
+.sec-advantages {
+  position: relative;
+  overflow: hidden;
+
+  &__head {
+    position: relative;
+    padding: 60px 0 0;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  &__body {
+    position: relative;
+    height: 0;
+    overflow: hidden;
+
+    &.is-open {
+      height: auto;
+
+      .sec-advantages__section {
+        opacity: 1;
+      }
+    }
+  }
+
+  &__section {
+    opacity: 0;
+    transition: opacity 1s;
+  }
+
+  &__back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: no-repeat center;
+    background-size: cover;
+    background-attachment: fixed;
+
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #1a1a1a;
+      opacity: .8;
+    }
+  }
+
+  &__front {
+    position: relative;
+    color: #fff;
+  }
+
+  &__title {
+    margin: 0;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 42px;
+    font-weight: 400;
+    line-height: 64px;
+  }
+
+  &__lead {
+    text-align: center;
+    font-size: 24px;
+    line-height: 36px;
+  }
+
+  &__more {
+    margin: 70px 0 70px;
+    text-align: center;
+  }
+}

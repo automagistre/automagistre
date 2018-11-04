@@ -1,0 +1,68 @@
+﻿/*--------------------- BLOCKS: Paginator ------------------------------------*/
+.paging {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 300;
+
+  &__page {
+    flex: 0 0 38px;
+    margin: 5px 0;
+  }
+
+  &__link,
+  &__prev,
+  &__next {
+    display: block;
+    min-width: 46px;
+    padding: 10px;
+    line-height: 18px;
+    border: 1px solid transparent;
+    border-radius: 20px;
+
+    &:hover {
+      color: blue;
+      background-color: #fff;
+      border-color: blue;
+    }
+
+    &.is-active {
+      color: #fff;
+      background-color: blue;
+      cursor: default;
+    }
+  }
+
+  &__dots {
+    flex: 0 0 38px;
+    margin: 5px;
+    line-height: 38px;
+    cursor: default;
+  }
+
+  &__prev {
+    width: 130px;
+    padding-left: 20px;
+    background: no-repeat 10px 50% data-uri("@{img-dir}icons/icon_arr-prev_blue.svg");
+    background-size: 10px 10px;
+  }
+
+  &__next {
+    width: 130px;
+    padding-right: 20px;
+    background: no-repeat 105px 50% data-uri("@{img-dir}icons/icon_arr-next_blue.svg");
+    background-size: 10px 10px;
+  }
+}
+
+/* ---------- ADAPTIVE < 768 -------------------------------------------------*/
+@media (max-width: 768px) {
+  .paging {
+
+  }
+}

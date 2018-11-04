@@ -1,0 +1,55 @@
+﻿/*--------------------- SECTION: Work ----------------------------------------*/
+.sec-cars {
+  padding: 40px 0;
+  background-color: #ebebec;
+
+  &__title {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 45px;
+  }
+
+  &__slider {
+    position: relative;
+    margin: 20px -20px;
+  }
+
+  &__slide {
+    height: auto;
+    padding: 20px;
+    color: @dark;
+  }
+
+  .slick {
+
+    &-arrow {
+      margin-top: -20px;
+      width: 40px;
+      height: 40px;
+
+      &:before {
+        width: 13px;
+        height: 12px;
+        margin: -6px 0 0 -5px;
+      }
+    }
+
+    &-prev {
+      left: -60px;
+    }
+
+    &-next {
+      left: auto;
+      right: -60px;
+    }
+
+    &-dots {
+      bottom: -28px;
+    }
+
+    &-disabled {
+      opacity: .1;
+    }
+  }
+}

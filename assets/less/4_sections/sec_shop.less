@@ -1,0 +1,127 @@
+﻿/*--------------------- SECTION: Shop -----------------------------------*/
+.sec-shop {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+
+  &__back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: no-repeat center;
+    background-size: cover;
+
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #444;
+      opacity: .75;
+    }
+
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 70%;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: linear-gradient(to top, rgba(0, 0, 0, .5), rgba(0, 0, 0, 0));
+    }
+  }
+
+  &__front {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 200px 0 100px;
+    color: #fff;
+    text-align: center;
+  }
+
+  &__title {
+    margin: 0 0 10px;
+    text-transform: uppercase;
+    font-size: 42px;
+    font-weight: 400;
+    line-height: 62px;
+
+    span {
+      display: block;
+    }
+  }
+
+  &__subtitle {
+    margin: 0 0 25px;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 30px;
+  }
+
+  &__lead {
+    font-size: 30px;
+    line-height: 44px;
+  }
+
+  &__art {
+    max-width: 360px;
+    margin: 40px auto 70px;
+  }
+
+  &__find {
+    background-color: #f5f5f7;
+    border-radius: 30px;
+    box-shadow: 0 20px 80px rgba(0, 0, 0, .7);
+  }
+}
+
+/* ---------- ADAPTIVE < 1024 ------------------------------------------------*/
+@media (max-width: 1024px) {
+  .sec-shop {
+
+    &__title {
+      font-size: 32px;
+      line-height: 42px;
+    }
+
+    &__lead {
+      font-size: 24px;
+      line-height: 30px;
+    }
+
+    &__find {
+      padding: 20px;
+      border-radius: 20px;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 760 -------------------------------------------------*/
+@media (max-width: 760px) {
+  .sec-shop {
+
+    &__title {
+      margin: 10px 0 10px;
+      font-size: 28px;
+      line-height: 30px;
+    }
+
+    &__lead {
+      margin-bottom: 30px;
+      font-size: 18px;
+      line-height: 22px;
+    }
+
+    &__front {
+      padding: 120px 0 15px;
+    }
+  }
+}

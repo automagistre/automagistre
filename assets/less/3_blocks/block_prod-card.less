@@ -1,0 +1,143 @@
+﻿/*--------------------- BLOCKS: Prod-card -----------------------------------*/
+.prod-card {
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  background-color: #fff;
+  overflow: hidden;
+  transition: box-shadow .3s;
+
+  &.is-small {
+
+    .prod-card__pict {
+      height: 120px;
+    }
+
+    .prod-card__title {
+      min-height: 44px;
+      font-size: 18px;
+      line-height: 22px;
+    }
+
+    .prod-card__props {
+      min-height: 62px;
+      margin: 0;
+      padding: 0;
+      color: #989898;
+      font-size: 14px;
+      line-height: 16px;
+      list-style: none;
+    }
+
+    .prod-card__prop {
+      margin: 4px 0;
+    }
+
+    .prod-card__price {
+      margin-bottom: 5px;
+    }
+  }
+
+  &:hover {
+    box-shadow: 0 20px 60px -30px rgba(0, 0, 0, .5);
+
+    .prod-card__pict {
+      height: 120px
+    }
+    .prod-card__get {
+      margin: 15px -20px -20px
+    }
+  }
+
+  &__pict {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 160px;
+    margin-bottom: 20px;
+    line-height: 160px;
+    overflow: hidden;
+    transition: height .3s;
+  }
+
+  &__img {
+    display: block;
+    flex: 0 0 auto;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+  }
+
+  &__text {
+
+  }
+
+  &__title {
+    min-height: 56px;
+    margin: 0;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 28px;
+
+    a {
+      font-size: inherit;
+      line-height: inherit;
+    }
+  }
+
+  &__note {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  &__props {
+    min-height: 84px;
+    margin: 0;
+    padding: 0;
+    color: #989898;
+    font-size: 16px;
+    line-height: 20px;
+    list-style: none;
+  }
+
+  &__prop {
+    margin: 8px 0;
+  }
+
+  &__price {
+    margin-bottom: 15px;
+    color: @red;
+    font-size: 24px;
+    font-weight: 700;
+
+    a {
+      display: inline-block;
+      vertical-align: top;
+      font-size: 20px;
+      border-bottom: 1px solid @red;
+    }
+  }
+
+  &__get {
+    display: block;
+    height: 60px;
+    margin: 35px -20px -80px;
+    padding: 17px 20px 13px;
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    background-color: @red;
+    transition: margin .3s;
+  }
+}
+
+/* ---------- ADAPTIVE < 1420 ------------------------------------------------*/
+@media (max-width: 1240px) {
+  .prod-card {
+
+    &__title {
+      margin: 0 -10px;
+    }
+  }
+}

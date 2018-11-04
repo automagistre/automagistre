@@ -1,0 +1,45 @@
+﻿/*--------------------- BLOCKS: Stars ----------------------------------------*/
+.stars {
+  position: relative;
+  width: 75px;
+  height: 16px;
+  background: repeat-x 0 50% data-uri("@{img-dir}icons/icon_star_gray.svg");
+  background-size: 15px 13px;
+
+  &:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background: repeat-x 0 50% data-uri("@{img-dir}icons/icon_star_blue.svg");
+    background-size: 15px 13px;
+  }
+
+  &_10:after {
+    width: 20%;
+  }
+  &_20:after {
+    width: 40%;
+  }
+  &_25:after {
+    width: 50%;
+  }
+  &_30:after {
+    width: 60%;
+  }
+  &_35:after {
+    width: 70%;
+  }
+  &_40:after {
+    width: 80%;
+  }
+  &_45:after {
+    width: 90%;
+  }
+  &_50:after {
+    width: 100%;
+  }
+
+}

@@ -1,0 +1,134 @@
+﻿/*--------------------- BLOCKS: Cart card -------------------------------------*/
+.cart-card {
+  position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 20px;
+  transition: box-shadow .6s;
+  overflow: hidden;
+
+  &:hover {
+    box-shadow: 0 20px 60px -30px rgba(0, 0, 0, .7);
+
+    .cart-card__delete {
+      opacity: 1;
+    }
+  }
+
+  &__pict {
+    flex: 0 0 100px;
+    max-width: 100px;
+    height: 100px;
+    padding: 5px;
+    text-align: center;
+    line-height: 90px;
+    overflow: hidden;
+  }
+
+  &__img {
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  &__info {
+    flex: 1 1 auto;
+    padding-left: 30px;
+  }
+
+  &__title {
+    margin: 0 0 10px;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 20px;
+  }
+
+  &__note {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 16px;
+  }
+
+  &__price {
+    flex: 0 0 110px;
+    text-align: center;
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  &__count {
+    margin-left: 10px;
+  }
+
+  &__total {
+    width: 180px;
+    margin-left: 10px;
+    padding-right: 30px;
+    color: @red;
+    text-align: right;
+    font-size: 30px;
+    line-height: 40px;
+  }
+
+  &__delete {
+    opacity: 0;
+
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    background: no-repeat center data-uri("@{img-dir}icons/icon_delete_gray.svg");
+    background-size: 8px 8px;
+    border-radius: 50%;
+    transition: opacity .6s;
+  }
+}
+
+/* ---------- ADAPTIVE < 1180 ------------------------------------------------*/
+@media (max-width: 1180px) {
+  .cart-card {
+    display: block;
+
+    &__pict {
+      margin: 0 auto;
+    }
+
+    &__total {
+      width: auto;
+      padding-right: 0;
+      text-align: center;
+    }
+
+    &__info {
+      padding-left: 0;
+    }
+
+    &__price {
+      margin: 10px 0 5px 10px;
+    }
+
+    &__count {
+      margin-left: 0;
+
+      .counter {
+        margin: 0 auto;
+      }
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 1024 ------------------------------------------------*/
+@media (max-width: 1024px) {
+  .cart-card {
+
+    &__delete {
+      opacity: 1;
+    }
+  }
+}

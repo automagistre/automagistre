@@ -1,0 +1,35 @@
+﻿.no-item() {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.block() {
+  display: block;
+}
+
+.abs-zero() {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.transit(@what: all, @time: 0.3s, @how: ease, @lag: 0s) {
+  -webkit-transition: @what @time @how @lag;
+  transition: @what @time @how @lag;
+}
+
+.transform(@what) {
+  -webkit-transform: @what;
+  -ms-transform: @what;
+  transform: @what;
+}
+
+.lin-grad-bg(@direction, @begin, @end) {
+  background: -webkit-linear-gradient(@direction, @begin, @end);
+  background: -ms-linear-gradient(to @direction, @end, @begin);
+  background: linear-gradient(to @direction, @end, @begin);
+}

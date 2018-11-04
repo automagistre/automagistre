@@ -1,0 +1,42 @@
+﻿/*--------------------- BLOCKS: Reviews-list ----------------------------------*/
+.reviews-list {
+  margin: 0 -20px;
+  padding: 0;
+  list-style: none;
+
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  &__item {
+    padding: 20px;
+    perspective: 800px;
+    transition: opacity .6s, transform .6s;
+
+    &.just-loaded {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+
+    .review-card {
+      transition: transform .6s, box-shadow .3s, background-color .3s;
+
+      &.is-tilted {
+        transform: rotateX(25deg);
+      }
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 760 -------------------------------------------------*/
+@media (max-width: 760px) {
+  .reviews-list {
+    margin: 0 -10px;
+
+    &__item {
+      padding: 10px;
+    }
+  }
+}

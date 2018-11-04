@@ -1,0 +1,163 @@
+﻿/*--------------------- SECTION: Nothing ---------------------------------------*/
+.sec-nothing {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+
+  &__back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: no-repeat center;
+    background-size: cover;
+    background-attachment: fixed;
+
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #444;
+      opacity: .75;
+    }
+
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 70%;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: linear-gradient(to top, rgba(0, 0, 0, .5), rgba(0, 0, 0, 0));
+      z-index: 1;
+    }
+  }
+
+  &__front {
+    position: relative;
+    color: #fff;
+    text-align: center;
+  }
+
+  &__row {
+    display: flex;
+    flex-flow: row nowrap;
+    min-height: 100vh;
+  }
+
+  &__col-lt {
+    display: flex;
+    position: relative;
+    flex-flow: column nowrap;
+    justify-content: center;
+    flex: 0 0 48%;
+    max-width: 48%;
+    padding: 200px 0 100px;
+    z-index: 1;
+  }
+
+  &__col-rt {
+    position: relative;
+    flex: 1 1 auto;
+  }
+
+  &__title {
+    margin: 0 0 10px;
+    text-transform: uppercase;
+    font-size: 42px;
+    font-weight: 400;
+    line-height: 62px;
+
+    span {
+      display: block;
+    }
+  }
+
+  &__lead {
+    font-size: 30px;
+    line-height: 44px;
+  }
+
+  &__art {
+    max-width: 360px;
+    margin: 30px auto 60px;
+  }
+
+  &__man {
+    display: block;
+    position: absolute;
+    left: -110px;
+    bottom: 0;
+  }
+
+  &__more {
+    margin-top: 20px;
+  }
+}
+
+/* ---------- ADAPTIVE < 1024 ------------------------------------------------*/
+@media (max-width: 1024px) {
+  .sec-nothing {
+
+    &__title {
+      font-size: 32px;
+      line-height: 42px;
+    }
+
+    &__lead {
+      font-size: 24px;
+      line-height: 30px;
+    }
+
+    &__man {
+      width: 600px;
+      left: 0;
+    }
+
+    &__art {
+      margin: 20px auto 30px;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 760 -------------------------------------------------*/
+@media (max-width: 760px) {
+  .sec-nothing {
+    min-height: 0;
+
+    &__title {
+      margin: 10px 0 10px;
+      font-size: 28px;
+      line-height: 30px;
+    }
+
+    &__lead {
+      margin-bottom: 30px;
+      font-size: 18px;
+      line-height: 22px;
+    }
+
+    &__row {
+      display: block;
+      min-height: 0;
+    }
+
+    &__col-lt {
+      display: block;
+      max-width: none;
+      padding: 150px 0 20px;
+    }
+
+    &__man {
+      position: relative;
+      width: 80%;
+      margin: 0 auto;
+    }
+  }
+}

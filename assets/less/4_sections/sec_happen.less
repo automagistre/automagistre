@@ -1,0 +1,157 @@
+﻿/*--------------------- SECTION: Happen --------------------------------------*/
+.sec-happen {
+  position: relative;
+
+  &__back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: no-repeat center;
+    background-size: cover;
+    background-attachment: fixed;
+
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #1a1a1a;
+      opacity: .8;
+    }
+  }
+
+  &__front {
+    position: relative;
+    color: #fff;
+  }
+
+  &__row {
+    display: flex;
+    position: relative;
+    align-items: center;
+    height: 620px;
+  }
+
+  &__col-lt {
+    position: relative;
+    width: 750px;
+    z-index: 1;
+  }
+
+  &__col-rt {
+    position: absolute;
+    right: -20px;
+    bottom: 0;
+    padding-left: 10px;
+  }
+
+  &__img {
+    display: block;
+    max-width: 110%;
+    height: auto;
+    margin-top: -15px;
+    margin-right: -10%;
+  }
+
+  &__title {
+    margin: 0 0 20px;
+    font-size: 42px;
+    font-weight: 400;
+    line-height: 52px;
+  }
+
+  &__lead {
+    font-size: 30px;
+    line-height: 45px;
+  }
+
+  &__form {
+    margin: 50px 0;
+  }
+
+  &__facts {
+    margin-top: 60px;
+  }
+}
+
+/* ---------- ADAPTIVE < 1024 ------------------------------------------------*/
+@media (max-width: 1024px) {
+  .sec-happen {
+
+    &__title {
+      margin-bottom: 15px;
+      margin-top: 15px;
+      font-size: 32px;
+      line-height: 42px;
+    }
+
+    &__lead {
+      font-size: 21px;
+      line-height: 24px;
+    }
+
+    &__facts {
+      margin-top: 30px;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 760 -------------------------------------------------*/
+@media (max-width: 760px) {
+  .sec-happen {
+
+    &__row {
+      height: 540px;
+    }
+
+    &__col-rt {
+      right: -130px;
+    }
+
+    &__title {
+      margin-top: 30px;
+    }
+
+    &__form {
+      margin: 20px 0;
+    }
+
+    &__img {
+      width: 370px;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 600 -------------------------------------------------*/
+@media (max-width: 600px) {
+  .sec-happen {
+    text-align: center;
+
+    &__row {
+      display: block;
+      height: auto;
+      padding: 10px 0;
+    }
+
+    &__col-lt {
+      width: auto;
+    }
+
+    &__col-rt {
+      display: none;
+    }
+
+    &__form {
+      margin: 20px auto;
+    }
+
+    &__facts {
+      display: block;
+    }
+  }
+}

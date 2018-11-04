@@ -1,0 +1,202 @@
+﻿/*--------------------- SECTION: Map -----------------------------------------*/
+.sec-map {
+  position: relative;
+  background-color: #e5e3df;
+  overflow: hidden;
+
+  &__back {
+    position: absolute;
+    top: -100px;
+    left: 0;
+    right: -250px;
+    bottom: -50px;
+  }
+
+  &__front {
+    display: flex;
+    position: relative;
+    flex-flow: column nowrap;
+    justify-content: flex-end;
+    min-height: ~"calc(100vh - 181px)";
+    pointer-events: none;
+  }
+
+  &__title {
+    margin: 0 0 15px;
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 36px;
+  }
+
+  &__pannel {
+    position: relative;
+    width: 460px;
+    margin: 120px 0 70px;
+    padding: 30px 40px 25px;
+    font-size: 18px;
+    line-height: 28px;
+    background-color: #fff;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, .2);
+    border-radius: 20px;
+    pointer-events: auto;
+  }
+
+  &__note {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 28px;
+  }
+
+  &__route-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 80px;
+    margin: 20px 0 35px;
+    color: @red-dark;
+    background: #fff no-repeat center data-uri("@{img-dir}backgrounds/bg_route-btn.jpg");
+    border-radius: 20px;
+    box-shadow: 0 20px 60px -30px rgba(0, 0, 0, .7);
+  }
+
+  &__link {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 15px;
+    line-height: 20px;
+    border-bottom: 1px solid @dark;
+
+    &:hover {
+      color: @red;
+      border-bottom-color: @red;
+    }
+  }
+
+  &__more {
+    position: absolute;
+    left: 190px;
+    right: -20px;
+    bottom: -25px;
+    margin-right: -100px;
+  }
+
+  &__info {
+    margin: 16px 0;
+    font-size: 16px;
+    line-height: 24px;
+
+    &-title {
+      margin: 0 0 6px;
+      font-weight: 300;
+    }
+
+    &-text {
+      font-weight: 400;
+
+      a:hover {
+        color: @red-dark;
+      }
+    }
+  }
+}
+
+/*--------------------- MAPS: Zoom buttons ------------------------------*/
+.map-zoom {
+  &__more, &__less {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    width: 50px;
+    height: 50px;
+    transition: all .3s;
+    cursor: pointer;
+    z-index: 10;
+
+    &:hover {
+      background-color: @red;
+      box-shadow: 0 3px 20px rgba(0, 0, 0, .3);
+    }
+  }
+
+  &__more {
+    margin-top: -52px;
+    background: #cecece no-repeat center url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0i0KHQu9C+0LlfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSIyMnB4IiBoZWlnaHQ9IjIycHgiIHZpZXdCb3g9IjAgMCAyMiAyMiIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjIgMjIiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBmaWxsPSIjRkZGRkZGIiBkPSJNMTAsMGgydjIyaC0yVjB6Ii8+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGZpbGw9IiNGRkZGRkYiIGQ9Ik0yMiwxMHYySDB2LTJIMjJ6Ii8+PC9zdmc+);
+    background-size: 22px 22px;
+  }
+
+  &__less {
+    background: #cecece no-repeat center url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0i0KHQu9C+0LlfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSIyMnB4IiBoZWlnaHQ9IjIycHgiIHZpZXdCb3g9IjAgMCAyMiAyMiIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjIgMjIiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBmaWxsPSIjRkZGRkZGIiBkPSJNMjIsMTB2Mkgwdi0ySDIyeiIvPjwvc3ZnPg==);
+    background-size: 22px 22px;
+  }
+}
+
+/*--------------------- MAPS: Hide labels -------------------------------*/
+.gmnoprint,
+.gm-style-cc {
+  display: none;
+}
+
+/* ---------- ADAPTIVE < 1024 ------------------------------------------------*/
+@media (max-width: 1024px) {
+  .sec-map {
+
+    &__pannel {
+      width: 340px;
+      margin: 120px 0 50px 50px;
+      padding: 20px 25px 15px;
+      font-size: 16px;
+      line-height: 24px;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 760 -------------------------------------------------*/
+@media (max-width: 760px) {
+  .sec-map {
+
+    &__back {
+      position: static;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 500px;
+    }
+
+    &__front {
+      min-height: 0;
+      background-color: #fff;
+    }
+
+    &__pannel {
+      width: auto;
+      margin: -80px 0 60px;
+      padding-bottom: 50px;
+      text-align: center;
+    }
+
+    &__route-btn {
+      max-width: 360px;
+      margin: 30px auto;
+    }
+
+    &__more {
+      left: 0;
+      right: 0;
+      margin-right: 0;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 540 -------------------------------------------------*/
+@media (max-width: 540px) {
+  .sec-map {
+
+    &__pannel {
+      padding: 20px 10px 50px;
+    }
+  }
+}

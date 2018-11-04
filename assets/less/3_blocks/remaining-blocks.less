@@ -1,0 +1,72 @@
+﻿/*--------------------- BLOCKS: Scroll-top btn -------------------------------*/
+.scroll-top {
+  display: block;
+  position: fixed;
+  width: 30px;
+  height: 30px;
+  bottom: 10px;
+  left: 10px;
+  background: no-repeat center top data-uri("@{img-dir}icons/icon_top_red.svg");
+  background-size: 100% 100%;
+  border-radius: 50%;
+  z-index: 10;
+}
+
+/*--------------------- BLOCKS: Mobmenu Hamburger ----------------------------*/
+.mobmenu-btn {
+  position: relative;
+  float: right;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  z-index: 1;
+
+  span {
+    display: block;
+    width: 30px;
+    height: 2px;
+    background: #fff;
+    position: absolute;
+    transition: transform 0.5s ease-in-out, top 0.25s ease-in-out 0.5s, opacity 0.25s ease-in-out 0.5s;
+    transform-origin: center;
+
+    &._top {
+      top: 5px;
+    }
+    &._middle {
+      top: 13px;
+    }
+    &._bottom {
+      top: 21px;
+    }
+  }
+
+  &.is-open {
+
+    span {
+      height: 3px;
+      transition: transform 0.5s ease-in-out 0.3s, top 0.25s ease-in-out, opacity 0.25s ease-in-out;
+
+      &._top,
+      &._middle {
+        top: 12px;
+        transform: rotate(135deg);
+      }
+      &._middle {
+        opacity: 0;
+      }
+      &._bottom {
+        top: 12px;
+        transform: rotate(225deg);
+      }
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 760 -------------------------------------------------*/
+@media (max-width: 760px) {
+  .scroll-top {
+    visibility: hidden;
+    pointer-events: none;
+  }
+}

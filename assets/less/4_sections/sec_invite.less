@@ -1,0 +1,173 @@
+﻿/*--------------------- SECTION: Invite ---------------------------------------*/
+.sec-invite {
+  position: relative;
+
+  &__back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: no-repeat center;
+    background-size: cover;
+    background-attachment: fixed;
+
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #1a1a1a;
+      opacity: .8;
+    }
+  }
+
+  &__front {
+    position: relative;
+    color: #fff;
+  }
+
+  &__row {
+    display: flex;
+    flex-flow: row nowrap;
+    min-height: 620px;
+  }
+
+  &__pict {
+    position: relative;
+    flex: 0 0 45%;
+    max-width: 45%;
+  }
+
+  &__img {
+    display: block;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    max-height: 105%;
+  }
+
+  &__text {
+    display: flex;
+    position: relative;
+    flex-flow: column nowrap;
+    justify-content: center;
+    flex: 0 0 55%;
+    max-width: 55%;
+    padding: 30px 0;
+  }
+
+  &__title {
+    margin: 0 0 20px;
+    font-size: 42px;
+    font-weight: 400;
+    line-height: 52px;
+  }
+
+  &__note {
+    margin-bottom: 30px;
+    font-size: 30px;
+    line-height: 45px;
+  }
+
+  &__get {
+
+  }
+
+  &__btn-white {
+    margin: 5px 10px 5px 0;
+  }
+
+  &__btn-red {
+    margin: 5px 0;
+  }
+
+  &__facts {
+    justify-content: space-between;
+    margin-top: 50px;
+
+    .facts__item {
+      margin-right: 0;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 1024 ------------------------------------------------*/
+@media (max-width: 1024px) {
+  .sec-invite {
+
+    &__row {
+      min-height: 500px;
+    }
+
+    &__title {
+      font-size: 32px;
+      line-height: 42px;
+    }
+
+    &__note {
+      font-size: 24px;
+      line-height: 30px;
+    }
+
+    &__img {
+      right: -50px;
+    }
+
+    &__facts {
+      margin-left: -150px;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 760 -------------------------------------------------*/
+@media (max-width: 760px) {
+  .sec-invite {
+    text-align: center;
+
+    &__title {
+      font-size: 28px;
+      line-height: 30px;
+    }
+
+    &__note {
+      font-size: 18px;
+      line-height: 22px;
+    }
+
+    &__row {
+      display: block;
+      min-height: 0;
+    }
+
+    &__pict {
+      display: none;
+    }
+
+    &__text {
+      flex: none;
+      max-width: none;
+    }
+
+    &__facts {
+      margin-left: 0;
+
+      .facts__txt {
+        font-size: 15px;
+      }
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 540 -------------------------------------------------*/
+@media (max-width: 540px) {
+  .sec-invite {
+
+    &__facts {
+      display: block;
+    }
+  }
+}

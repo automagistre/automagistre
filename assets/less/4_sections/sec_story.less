@@ -1,0 +1,99 @@
+﻿/*--------------------- SECTION: Story ---------------------------------------*/
+.sec-story {
+  position: relative;
+
+  &__row {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-end;
+    padding: 60px 0 55px;
+    border-top: 1px solid #e3e6ed;
+  }
+
+  &__info {
+    position: relative;
+    flex: 0 0 560px;
+    max-width: 560px;
+    margin-bottom: 25px;
+    padding: 35px 42px;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px -30px rgba(0, 0, 0, .6);
+    z-index: 1;
+
+    .mCSB_scrollTools {
+      right: -52px;
+    }
+
+    .mCSB_draggerRail {
+      opacity: 0;
+    }
+  }
+
+  &__title {
+    margin: 0 0 15px;
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 36px;
+  }
+
+  &__text {
+    height: 285px;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 24px;
+  }
+
+  &__pict {
+    flex: 1 1 auto;
+    margin-left: -75px;
+    overflow: hidden;
+  }
+
+  &__img {
+    display: block;
+    width: 100%;
+  }
+}
+
+/* ---------- ADAPTIVE < 1024 ------------------------------------------------*/
+@media (max-width: 1024px) {
+  .sec-story {
+
+    &__info {
+      flex-basis: 400px;
+      max-width: 400px;
+      padding: 25px 42px 25px 25px;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 760 -------------------------------------------------*/
+@media (max-width: 760px) {
+  .sec-story {
+
+    &__info {
+      flex-basis: 300px;
+      max-width: 300px;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 540 -------------------------------------------------*/
+@media (max-width: 540px) {
+  .sec-story {
+
+    &__row {
+      display: block;
+    }
+
+    &__info {
+      flex: none;
+      max-width: none;
+    }
+
+    &__pict {
+
+    }
+  }
+}

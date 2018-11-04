@@ -1,0 +1,141 @@
+﻿/*--------------------- BLOCKS: Car-find ---------------------------------------*/
+.car-find {
+  margin: 0 auto;
+  padding: 30px 120px;
+
+  &__nav {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    margin: 0 -5px;
+    color: @dark;
+
+    &-btn {
+      display: block;
+      flex: 0 0 auto;
+      min-width: 120px;
+      margin: 5px;
+      padding: 13px 20px;
+      font-size: 18px;
+      line-height: 24px;
+      background-color: #fff;
+      border-radius: 25px;
+
+      &:hover {
+        color: @red;
+      }
+
+      &.is-active {
+        color: #fff;
+        background-color: @red-dark;
+      }
+    }
+
+    &-input {
+      display: block;
+      width: 200px;
+      margin: 5px;
+
+      .selector__val {
+        padding: 12px 40px 12px 20px;
+        border-color: transparent;
+        border-radius: 25px;
+      }
+    }
+  }
+
+  &__slider {
+    position: relative;
+    margin: 20px -20px;
+  }
+
+  &__slide {
+    height: auto;
+    padding: 20px;
+    color: @dark;
+  }
+
+  .slick {
+
+    &-arrow {
+      margin-top: -20px;
+      width: 40px;
+      height: 40px;
+
+      &:before {
+        width: 13px;
+        height: 12px;
+        margin: -6px 0 0 -5px;
+      }
+    }
+
+    &-prev {
+      left: -60px;
+    }
+
+    &-next {
+      left: auto;
+      right: -60px;
+    }
+
+    &-dots {
+      bottom: -28px;
+    }
+
+    &-disabled {
+      opacity: .1;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 1420 ------------------------------------------------*/
+@media (max-width: 1240px) {
+  .car-find {
+    max-width: 980px;
+    padding: 30px 70px;
+
+    &__slider {
+      margin: 20px -10px;
+    }
+
+    &__slide {
+      padding: 10px;
+    }
+
+    .slick {
+
+      &-prev {
+        left: -45px;
+      }
+
+      &-next {
+        right: -45px;
+      }
+
+      &-dots {
+        bottom: -33px;
+      }
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 1024 ------------------------------------------------*/
+@media (max-width: 1024px) {
+  .car-find {
+
+    &__nav-btn {
+      flex-basis: 90px;
+      min-width: 90px;
+      font-size: 15px;
+    }
+
+    .slick-arrow {
+      visibility: hidden;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 700 -------------------------------------------------*/
+@media (max-width: 700px) {
+
+}

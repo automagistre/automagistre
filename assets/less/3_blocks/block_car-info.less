@@ -1,0 +1,255 @@
+﻿/*--------------------- BLOCKS: Car-info -------------------------------------*/
+.car-info {
+
+  &__title {
+    margin: 0 0 30px;
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 40px;
+  }
+
+  &__head {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px 0;
+  }
+
+  &__body {
+
+  }
+
+  &__plate {
+    display: flex;
+    position: relative;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+    flex: 0 0 auto;
+    width: 172px;
+    height: 36px;
+    text-align: center;
+    font-weight: 700;
+    background: no-repeat data-uri("@{img-dir}backgrounds/bg_car-nomer.png");
+    background-size: auto 100%;
+    overflow: hidden;
+
+    &-num {
+      display: block;
+      flex: 0 0 126px;
+      padding-left: 5px;
+      font-size: 24px;
+      line-height: 40px;
+      letter-spacing: .1em;
+    }
+
+    &-reg {
+      display: block;
+      flex: 0 0 46px;
+      font-size: 22px;
+      line-height: 28px;
+    }
+  }
+
+  &__btns {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    flex: 0 0 auto;
+  }
+
+  &__btn {
+    display: block;
+    flex: 0 0 auto;
+    color: #858585;
+    font-size: 18px;
+    line-height: 20px;
+    border-bottom: 1px solid #858585;
+  }
+
+  &__group {
+    margin-bottom: 35px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &-head {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    &-title {
+      flex: 0 0 auto;
+      margin: 4px 0;
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 22px;
+
+      &.is-red {
+        color: @red;
+      }
+    }
+
+    &-btns {
+      flex-flow: row nowrap;
+      flex: 0 0 auto;
+      margin-left: 30px;
+    }
+
+    &-btn {
+      display: block;
+      flex: 0 0 auto;
+      width: 30px;
+      height: 30px;
+      background-color: #efeff1;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 16px auto;
+      border: 1px solid transparent;
+      border-radius: 6px;
+
+      &:hover {
+        border-color: @red;
+      }
+    }
+
+    &-body {
+
+      &.is-outlined {
+        padding: 25px 40px;
+        background-color: #fff;
+        border: 1px solid #f1f2f5;
+        border-radius: 20px;
+      }
+    }
+  }
+
+  &__list {
+    max-height: 150px;
+    margin: 0;
+    padding: 5px 0;
+    list-style: none;
+    overflow-y: auto;
+
+    .mCSB_scrollTools {
+      right: -48px;
+    }
+
+    .mCSB_draggerRail {
+      width: 1px;
+    }
+
+    .mCSB_dragger {
+      left: 2px;
+    }
+  }
+
+  &__data {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 16px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &-name {
+      flex: 1 1 auto;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    &-val {
+      flex: 0 0 100px;
+      max-width: 100px;
+      padding-left: 20px;
+      text-align: right;
+    }
+  }
+
+  &__note {
+    margin: 10px 0 20px;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 24px;
+  }
+
+  &__run {
+
+  }
+
+  &__join {
+    display: flex;
+    flex-flow: row nowrap;
+
+    &-date {
+      display: block;
+      flex: 1 1 auto;
+      margin-right: 40px;
+      padding: 10px 30px 8px;
+    }
+
+    &-btn {
+      display: block;
+      flex: 0 0 auto;
+      padding: 9px 30px 7px;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 760 -------------------------------------------------*/
+@media (max-width: 760px) {
+  .car-info {
+
+    &__title {
+      margin: 0 0 15px;
+      font-size: 20px;
+      line-height: 24px;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 540 -------------------------------------------------*/
+@media (max-width: 540px) {
+  .car-info {
+
+    &__join {
+      display: block;
+
+      &-date {
+        margin: 0 0 10px;
+      }
+    }
+
+    &__group {
+
+      &-head {
+        display: block;
+      }
+
+      &-body.is-outlined {
+        padding: 15px;
+      }
+
+      &-btns {
+        margin-left: 0;
+      }
+    }
+
+    &__list {
+
+      .mCSB_scrollTools {
+        right: -23px;
+      }
+    }
+  }
+}
+

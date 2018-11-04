@@ -1,0 +1,38 @@
+﻿/*--------------------- BLOCKS: Stop-modal window ----------------------------*/
+.stop-modal {
+  display: table;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: repeat url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUEBAQEBAUEBAUHBQQFBwkHBQUHCQoICAkICAoNCgsLCwsKDQwMDA0MDAwPDxERDw8XFhYWFxkZGRkZGRkZGRn/2wBDAQYGBgoJChQNDRQWEQ4RFhkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRn/wAARCAAiACIDAREAAhEBAxEB/8QAGQAAAwEBAQAAAAAAAAAAAAAAAQIDAAQI/8QAMBAAAgECBAMGBAcAAAAAAAAAAQIRAAMSITEyE0FRIlJhcYGhFCOR4TNCU4Kx8PH/xAAWAQEBAQAAAAAAAAAAAAAAAAAAAQL/xAAVEQEBAAAAAAAAAAAAAAAAAAAAEf/aAAwDAQACEQMRAD8A9c3EuMxBgWQCRGcmAB/NRpa2IcFGGE6JESc888+dERdDkwOIiSRIAE5QSPHWinPENuGPzCQCpgKZbMiZ8xRGxXO4vc/b10oMoLgh7q9vK2yiTGWsz7UBcMbjEkYVKkxIMTEET50CmXIdhFwHU4cSqwgROk0AKNhgj8rFiejZ4cgQBRSfD2e7c99vTT2pCnsm2zYBJQDXLwJEnMhspojW3t3FIUsbQAWNBnPKPSgIcKzKzFwpBY6mVzEwAeVBNw6gzjdmiE7cE4cMGCRHjRTcG70XXict/e+1AUFskdnEGEhgJHbJOuXI9aIZlUFHRlUrnkBLLnEEYaAvb4vzGAlSwWZnpkQRQAG3xEiMKiJ5SYMzIHjQNB/WXSdT9fvQSvb119Nu0bvDpRV7X4o8uWz/AH70RzDcu7cN1FdL7ju0bTz50RT6bf76UH//2Q==);
+  z-index: 999;
+
+  &__inn {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 16px;
+  }
+
+  &__img {
+    display: block;
+    margin: 20px auto;
+  }
+
+  &__txt {
+    max-width: 600px;
+    margin: 20px auto;
+    color: #312215;
+    font-size: 16px;
+    line-height: 24px;
+
+    a {
+      text-decoration: underline;
+      font-weight: 700;
+    }
+  }
+}

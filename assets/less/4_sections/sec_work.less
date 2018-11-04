@@ -1,0 +1,450 @@
+﻿/*--------------------- SECTION: Work ----------------------------------------*/
+.sec-work {
+  position: relative;
+  background-color: #f5f6f8;
+  overflow: hidden;
+
+  &__front {
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    min-height: 100vh;
+    padding: 50px 0;
+  }
+
+  &__title {
+    margin: 0 0 40px;
+    text-align: center;
+    font-size: 42px;
+    font-weight: 400;
+    line-height: 52px;
+  }
+
+  &__wrap {
+    width: 100%;
+    max-width: 1560px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  &__row {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+  }
+
+  &__col-lt {
+    flex: 0 0 480px;
+    max-width: 480px;
+    margin-left: 180px;
+  }
+
+  &__col-rt {
+    position: relative;
+    flex: 0 0 920px;
+    min-width: 920px;
+  }
+
+  &__menu {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background: no-repeat 0 50% data-uri("@{img-dir}backgrounds/bg_sec-work.svg");
+    background-size: 130px 650px;
+
+    &-item {
+      height: 90px;
+      margin-bottom: 35px;
+      padding: 30px 0;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  &__btn {
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+    padding-left: 65px;
+    font-size: 24px;
+    line-height: 30px;
+
+    &:hover {
+      color: @red-dark;
+    }
+
+    span {
+      display: block;
+      transform-origin: 0 50%;
+      transition: transform .6s;
+    }
+
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 70px;
+      height: 70px;
+      margin: -35px 0 0 -35px;
+      background-color: @red-dark;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 30px 30px;
+      border-radius: 50%;
+      transform: scale(0, 0);
+      transition: transform .6s;
+    }
+
+    &.is-active {
+      color: @red-dark;
+
+      span {
+        transform: scale(1.2, 1.2);
+      }
+
+      &:before {
+        transform: none;
+        box-shadow: 0 0 0 10px rgba(204, 22, 18, .5);
+        transition: transform .6s, box-shadow .3s ease .6s;
+      }
+    }
+
+    &_service {
+      margin-left: 102px;
+      &:before {
+        background-image: data-uri("@{img-dir}icons/icon_starter_white.svg")
+      }
+    }
+
+    &_suspend {
+      margin-left: 36px;
+      &:before {
+        background-image: data-uri("@{img-dir}icons/icon_chassis_white.svg")
+      }
+    }
+
+    &_braking {
+      margin-left: 5px;
+      &:before {
+        background-image: data-uri("@{img-dir}icons/icon_brake-disk_white.svg")
+      }
+    }
+
+    &_engine {
+      margin-left: 7px;
+      &:before {
+        background-image: data-uri("@{img-dir}icons/icon_motor_white.svg")
+      }
+    }
+
+    &_control {
+      margin-left: 42px;
+      &:before {
+        background-image: data-uri("@{img-dir}icons/icon_wheel_white.svg")
+      }
+    }
+
+    &_starter {
+      margin-left: 116px;
+      &:before {
+        background-image: data-uri("@{img-dir}icons/icon_key_white.svg")
+      }
+    }
+  }
+
+  &__slider {
+    position: relative;
+
+    .slick-dots {
+      left: 280px;
+      transform: none;
+
+      li {
+        margin: 0 8px;
+      }
+
+      button {
+        width: 20px;
+        height: 20px;
+
+        &:before {
+          width: 12px;
+          height: 12px;
+        }
+      }
+    }
+  }
+
+  &__slide {
+    position: relative;
+    height: 640px;
+    overflow: hidden;
+
+    &.slick-active {
+
+      .sec-work__slide-back {
+        opacity: 1;
+        transform: none;
+        filter: none;
+        transition-delay: .9s;
+      }
+
+      .sec-work__slide-front {
+        opacity: 1;
+        transform: none;
+        filter: none;
+        transition-delay: .5s;
+      }
+
+      .sec-work__slide-note {
+        opacity: 1;
+        transform: none;
+        transition-delay: 1.2s;
+      }
+
+    }
+
+    &-front {
+      opacity: .1;
+      transform: translate(50px, 50px);
+
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: flex-start;
+      position: absolute;
+      top: 0;
+      left: 20px;
+      filter: blur(15px);
+      transition: all .6s;
+    }
+
+    &-back {
+      opacity: .1;
+      transform: translate(-50px, -50px);
+
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      filter: blur(15px);
+      transition: all .6s;
+    }
+
+    &-big {
+      display: block;
+      flex: 0 0 700px;
+      width: 700px;
+      height: 480px;
+      border-radius: 0 40px 40px 40px;
+      box-shadow: 15px 15px 40px -10px rgba(0, 0, 0, .25);
+    }
+
+    &-min {
+      display: block;
+      width: 440px;
+      height: 320px;
+      border-radius: 0 40px 40px 40px;
+    }
+
+    &-note {
+      opacity: 0;
+      transform: translateY(-45px);
+
+      position: relative;
+      flex: 0 0 auto;
+      margin: 45px 0 0 40px;
+      font-size: 18px;
+      line-height: 24px;
+      writing-mode: vertical-lr;
+      letter-spacing: .1em;
+      transition: all .6s;
+
+      &:after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 50px;
+        right: 50%;
+        bottom: 130px;
+        width: 2px;
+        margin-right: -1px;
+        background-color: #425760;
+      }
+
+      span {
+        display: inline-block;
+        position: relative;
+        padding: 10px 0;
+        color: #425760;
+        background-color: #f5f6f8;
+        border-radius: 12px;
+        z-index: 1;
+      }
+    }
+  }
+
+  &__count {
+    position: absolute;
+    left: -30px;
+    bottom: -80px;
+    padding: 0 30px;
+    color: #f4f5f7;
+    font-size: 250px;
+    font-weight: 700;
+    line-height: 310px;
+    text-shadow: 0 5px 40px rgba(0, 0, 0, .1);
+    user-select: none;
+    overflow: hidden;
+
+    .odometer {
+
+      &-digit {
+
+        &:first-child {
+          display: none;
+        }
+
+        &-spacer {
+          width: 130px;
+        }
+
+        &-inner {
+          width: 130px;
+          overflow: visible;
+        }
+      }
+
+      &-ribbon {
+        width: 130px;
+      }
+
+      &-value {
+        width: 130px;
+      }
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 1800 ------------------------------------------------*/
+@media (max-width: 1800px) {
+  .sec-work {
+
+    &__col-lt {
+      margin-left: 0;
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 1680 ------------------------------------------------*/
+@media (max-width: 1680px) {
+  .sec-work {
+
+    &__wrap {
+      max-width: 1320px;
+    }
+
+    &__col-lt {
+      flex-basis: 360px;
+      max-width: 360px;
+    }
+
+    &__menu {
+      margin-left: 35px;
+      background-image: none;
+
+      &-item {
+        margin-bottom: 0;
+      }
+    }
+
+    &__btn {
+      padding-left: 55px;
+
+      &_service,
+      &_suspend,
+      &_braking,
+      &_engine,
+      &_control,
+      &_starter {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 1320 ------------------------------------------------*/
+@media (max-width: 1320px) {
+  .sec-work {
+
+    &__wrap {
+      max-width: 980px;
+    }
+
+    &__col-lt {
+      flex-basis: 250px;
+      max-width: 250px;
+    }
+
+    &__col-rt {
+      flex-basis: 690px;
+      min-width: 690px;
+    }
+
+    &__menu {
+      margin-left: 15px;
+
+      &-item {
+        height: 60px;
+        padding: 15px 0;
+      }
+    }
+
+    &__btn {
+      padding-left: 45px;
+      font-size: 20px;
+
+      &.is-active span {
+        transform: none;
+      }
+
+      &:before {
+        width: 50px;
+        height: 50px;
+        margin: -25px 0 0 -25px;
+      }
+    }
+
+    &__slide {
+      height: 540px;
+
+      &-big {
+        flex-basis: 560px;
+        width: 560px;
+        height: 384px;
+      }
+    }
+  }
+}
+
+/* ---------- ADAPTIVE < 1024 ------------------------------------------------*/
+@media (max-width: 1024px) {
+  .sec-work {
+
+    &__title {
+      font-size: 32px;
+      line-height: 42px;
+    }
+
+  }
+}
+
+/* ---------- ADAPTIVE < 760 -------------------------------------------------*/
+@media (max-width: 760px) {
+  .sec-work {
+    display: none;
+  }
+}
