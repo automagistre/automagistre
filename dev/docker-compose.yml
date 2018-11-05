@@ -20,7 +20,11 @@ services:
         image: mariadb:10.1.23
         hostname: mysql.automagistre.local
         volumes:
-            - mysql-db:/var/lib/mysql
+            -
+                type: tmpfs
+                target: /var/lib/mysql
+                tmpfs:
+                    size: 1024m
             - ../:/usr/local/app
         environment:
             MYSQL_DATABASE: db
@@ -32,11 +36,3 @@ services:
         image: memcached:1.5.4-alpine
         labels:
             restartable: 'false'
-
-volumes:
-    mysql-db:
-        driver: local
-        driver_opts:
-            device: tmpfs
-            type: tmpfs
-            o: size=1024m
