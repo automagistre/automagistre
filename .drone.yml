@@ -15,7 +15,7 @@ pipeline:
         group: build
         commands:
             - >-
-                docker build -t "automagistre/automagistre:${DRONE_BUILD_NUMBER}"
+                docker build -t "automagistre/app:${DRONE_BUILD_NUMBER}"
                 --label build=${DRONE_BUILD_NUMBER}
                 --label artifacts
                 --build-arg APP_VERSION="$DRONE_BUILD_NUMBER"
@@ -25,7 +25,7 @@ pipeline:
 
     validate php-cs-fixer:
         group: validate
-        image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
+        image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - >-
                 php-cs-fixer fix
@@ -39,7 +39,7 @@ pipeline:
 
     validate blank end line:
         group: validate
-        image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
+        image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - >-
                 find .
@@ -55,7 +55,7 @@ pipeline:
 
     validate symfony requirements:
         group: validate
-        image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
+        image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - /docker-entrypoint.sh requirements-checker
         environment:
@@ -68,7 +68,7 @@ pipeline:
 
     validate symfony security:
         group: validate
-        image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
+        image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - /docker-entrypoint.sh security-checker security:check $APP_DIR/composer.lock
         environment:
@@ -81,7 +81,7 @@ pipeline:
 
     validate phpstan:
         group: validate
-        image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
+        image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - cd "$APP_DIR"
             - /docker-entrypoint.sh php -d memory_limit=-1 vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress
@@ -92,7 +92,7 @@ pipeline:
 
     validate doctrine:
         group: validate
-        image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
+        image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - /docker-entrypoint.sh console doctrine:schema:create
         environment:
@@ -103,7 +103,7 @@ pipeline:
 
     test phpunit:
         group: test
-        image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
+        image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - cd "$APP_DIR"
             - /docker-entrypoint.sh
@@ -118,7 +118,7 @@ pipeline:
         <<: *docker
         group: deploy
         commands:
-            - docker rmi --force `docker images --filter before=automagistre/automagistre:${DRONE_BUILD_NUMBER} --format "{{ .Repository }}:{{ .Tag }}" automagistre/automagistre`
+            - docker rmi --force `docker images --filter before=automagistre/app:${DRONE_BUILD_NUMBER} --format "{{ .Repository }}:{{ .Tag }}" automagistre/app`
         when:
             branch: master
             status: [ success, failure ]
@@ -128,7 +128,7 @@ pipeline:
         group: deploy
         commands:
             - >-
-                docker build -t "automagistre/automagistre:${DRONE_BUILD_NUMBER}"
+                docker build -t "automagistre/app:${DRONE_BUILD_NUMBER}"
                 --label build=${DRONE_BUILD_NUMBER}
                 --label artifacts
                 --build-arg APP_VERSION="$DRONE_BUILD_NUMBER"
@@ -143,7 +143,7 @@ pipeline:
     deploy:
         <<: *docker
         commands:
-            - docker service update --detach=false --image "automagistre/automagistre:${DRONE_BUILD_NUMBER}" automagistre
+            - docker service update --detach=false --image "automagistre/app:${DRONE_BUILD_NUMBER}" automagistre
         when:
             event: push
             branch: master
