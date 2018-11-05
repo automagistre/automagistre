@@ -5,7 +5,6 @@ services:
         environment:
             APP_ENV: dev
             APP_DEBUG: 1
-            XDEBUG: 'true'
             OPCACHE: 'false'
             MIGRATIONS: 'false'
         volumes:
