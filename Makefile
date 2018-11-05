@@ -172,7 +172,6 @@ app-cli:
 	APP_DEBUG=$(if $(DEBUG),$(DEBUG),$$APP_DEBUG) \
 	XDEBUG=$(if $(XDEBUG),$(XDEBUG),$$XDEBUG) \
 	OPCACHE=$(if $(OPCACHE),$(OPCACHE),$$OPCACHE) \
-	WAIT_HOSTS=$(if $(WAIT),$(WAIT),$$WAIT_HOSTS) \
 	/docker-entrypoint.sh $(CMD)'
 
 app-install: composer
@@ -266,7 +265,7 @@ backup: drop backup-restore migration
 drop:
 	@$(TARGET) app-cli CMD='console doctrine:database:drop --force || true && console doctrine:database:create'
 db-wait:
-	@docker-compose run --rm -e XDEBUG=false app /bin/true > /dev/null
+	@docker-compose run --rm --entrypoint "bash -c" app '$$WAIT_FOR_IT mysql:3306'
 ###< APP ###
 
 ###> MYSQL ###

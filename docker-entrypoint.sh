@@ -20,25 +20,6 @@ case "$APP_DEBUG" in
 esac
 export APP_DEBUG
 
-if [ -n "$WAIT_HOSTS" ] && [ "$WAIT_HOSTS" != "false" ]; then
-    OLD_IFS=${IFS}
-
-    IFS=',' read -ra HOSTS <<< "$WAIT_HOSTS"
-    for target in "${HOSTS[@]}"; do
-        IFS=':' read host port <<< "$target"
-
-        if ! nc -z "$host" "$port"; then
-            echo "Waiting service $host:$port..."
-
-            while ! nc -z "$host" "$port"; do sleep 1; done
-
-            echo "Service $host:$port has arrived!"
-        fi
-    done
-
-    IFS=${OLD_IFS}
-fi
-
 enableExt() {
     extension=$1
     docker-php-ext-enable ${extension}

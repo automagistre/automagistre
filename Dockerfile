@@ -64,6 +64,10 @@ RUN ./composer.sh --install-dir=/usr/local/bin --filename=composer --version=${C
     && rm -rf composer.sh \
     && composer --version
 
+ENV WAIT_FOR_IT /usr/local/bin/wait-for-it.sh
+RUN curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh -o ${WAIT_FOR_IT} \
+    && chmod +x ${WAIT_FOR_IT}
+
 ARG SOURCE_DIR=.
 COPY ${SOURCE_DIR}/composer.* ${APP_DIR}/
 RUN if [ -f composer.json ]; then \

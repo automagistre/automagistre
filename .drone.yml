@@ -94,12 +94,12 @@ pipeline:
         group: validate
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
+            - $$WAIT_FOR_IT mysql:3306
             - /docker-entrypoint.sh console doctrine:schema:create
         environment:
             APP_ENV: 'test'
             APP_DEBUG: '0'
             MIGRATIONS: 'false'
-            WAIT_HOSTS: 'mysql:3306'
 
     test phpunit:
         group: test

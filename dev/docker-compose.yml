@@ -15,7 +15,6 @@ services:
             XDEBUG: 'false'
             OPCACHE: 'true'
             MIGRATIONS: 'false'
-            WAIT_HOSTS: 'mysql:3306'
 
     mysql:
         image: mariadb:10.1.23
