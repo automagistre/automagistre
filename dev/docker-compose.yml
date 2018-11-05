@@ -17,7 +17,7 @@ services:
             MIGRATIONS: 'false'
 
     mysql:
-        image: mariadb:10.1.23
+        image: mariadb:10.3.10
         hostname: mysql.automagistre.local
         volumes:
             -

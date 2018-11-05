@@ -7,7 +7,7 @@ doctrine:
         driver:   pdo_mysql
         url: '%env(resolve:DATABASE_URL)%'
         charset:  UTF8
-        server_version: 5.6.34-79.1
+        server_version: mariadb-10.3.10
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"

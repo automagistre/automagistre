@@ -150,7 +150,7 @@ pipeline:
 
 services:
     mysql:
-        image: mariadb:10.1.23
+        image: mariadb:10.3.10
         environment:
             MYSQL_DATABASE: 'db'
             MYSQL_USER: 'db'

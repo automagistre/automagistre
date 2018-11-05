@@ -99,4 +99,4 @@ RUN if [ -f composer.json ] && [ "test" = ${APP_CACHE} ]; then \
 
 ENTRYPOINT ["bash", "/docker-entrypoint.sh"]
 CMD ["apache"]
-HEALTHCHECK --interval=30s --timeout=30s --start-period=360s CMD nc -z 127.0.0.1 80
+HEALTHCHECK --interval=5s --timeout=5s --start-period=5s CMD nc -z 127.0.0.1 80
