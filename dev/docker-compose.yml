@@ -42,3 +42,9 @@ services:
         image: memcached:1.5.11-alpine
         labels:
             restartable: 'false'
+        healthcheck:
+            test: nc -z 127.0.0.1 11211
+            interval: 5s
+            timeout: 5s
+            retries: 3
+            start_period: 5s
