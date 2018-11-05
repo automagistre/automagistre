@@ -31,6 +31,12 @@ services:
             MYSQL_USER: db
             MYSQL_PASSWORD: db
             MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+        healthcheck:
+            test: CMD echo "SELECT 1" | mysql -u $$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE
+            interval: 5s
+            timeout: 5s
+            retries: 3
+            start_period: 10s
 
     memcached:
         image: memcached:1.5.4-alpine
