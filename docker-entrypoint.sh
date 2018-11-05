@@ -39,10 +39,6 @@ if [ "$MIGRATIONS" == "true" ]; then
     console doctrine:migrations:migrate --no-interaction --allow-no-migration
 fi
 
-if [ "$FIXTURES" == "true" ]; then
-    console doctrine:fixtures:load --no-interaction
-fi
-
 if [ "$XDEBUG" == "true" ]; then
     enableExt xdebug
 fi
