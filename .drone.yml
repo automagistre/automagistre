@@ -156,3 +156,5 @@ services:
             MYSQL_USER: 'db'
             MYSQL_PASSWORD: 'db'
             MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+        tmpfs:
+            - /var/lib/mysql
