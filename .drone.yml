@@ -121,6 +121,8 @@ pipeline:
 
     deploy:
         image: docker/compose:1.23.1
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
         commands:
             - docker-compose --file infrastructure/docker-stack.automagistre.yml config | docker stack deploy --prune --with-registry-auth --compose-file - automagistre
         when:
