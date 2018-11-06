@@ -3,21 +3,15 @@ clone:
         image: plugins/git
         depth: 1
 
-_docker: &docker
-    image: docker
-    volumes:
-        - /var/run/docker.sock:/var/run/docker.sock
-    secrets: [ HUB_LOGIN, HUB_PASSWORD ]
-
 pipeline:
     build app:
-        <<: *docker
         group: build
+        image: docker:18.06.1-ce
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
         commands:
             - >-
                 docker build -t "automagistre/app:${DRONE_BUILD_NUMBER}"
-                --label build=${DRONE_BUILD_NUMBER}
-                --label artifacts
                 --build-arg APP_VERSION="$DRONE_BUILD_NUMBER"
                 --build-arg APP_BUILD_TIME="`date --rfc-2822`"
                 --build-arg APP_CACHE="test"
@@ -61,7 +55,6 @@ pipeline:
         environment:
             APP_ENV: 'prod'
             APP_DEBUG: '0'
-            MIGRATIONS: 'false'
         when:
             branch:
                 exclude: [ master ]
@@ -74,7 +67,6 @@ pipeline:
         environment:
             APP_ENV: 'test'
             APP_DEBUG: '0'
-            MIGRATIONS: 'false'
         when:
             branch:
                 exclude: [ master ]
@@ -88,7 +80,6 @@ pipeline:
         environment:
             APP_ENV: 'test'
             APP_DEBUG: '1'
-            MIGRATIONS: 'false'
 
     validate doctrine:
         group: validate
@@ -99,7 +90,6 @@ pipeline:
         environment:
             APP_ENV: 'test'
             APP_DEBUG: '0'
-            MIGRATIONS: 'false'
 
     test phpunit:
         group: test
@@ -111,25 +101,15 @@ pipeline:
         environment:
             APP_ENV: 'test'
             APP_DEBUG: '0'
-            MIGRATIONS: 'false'
-
-    clean:
-        <<: *docker
-        group: deploy
-        commands:
-            - docker rmi --force `docker images --filter before=automagistre/app:${DRONE_BUILD_NUMBER} --format "{{ .Repository }}:{{ .Tag }}" automagistre/app`
-        when:
-            branch: master
-            status: [ success, failure ]
 
     build app prod:
-        <<: *docker
         group: deploy
+        image: docker:18.06.1-ce
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
         commands:
             - >-
                 docker build -t "automagistre/app:${DRONE_BUILD_NUMBER}"
-                --label build=${DRONE_BUILD_NUMBER}
-                --label artifacts
                 --build-arg APP_VERSION="$DRONE_BUILD_NUMBER"
                 --build-arg APP_BUILD_TIME="`date --rfc-2822`"
                 --build-arg APP_CACHE="prod"
@@ -140,9 +120,9 @@ pipeline:
             status: success
 
     deploy:
-        <<: *docker
+        image: docker/compose:1.23.1
         commands:
-            - docker service update --detach=false --image "automagistre/app:${DRONE_BUILD_NUMBER}" automagistre
+            - docker-compose --file infrastructure/docker-stack.automagistre.yml config | docker stack deploy --prune --with-registry-auth --compose-file - automagistre
         when:
             event: push
             branch: master

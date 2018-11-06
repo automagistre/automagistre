@@ -14,7 +14,6 @@ services:
             APP_DEBUG: 0
             XDEBUG: 'false'
             OPCACHE: 'true'
-            MIGRATIONS: 'false'
 
     mysql:
         image: mariadb:10.3.10

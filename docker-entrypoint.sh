@@ -34,11 +34,6 @@ if [ "$OPCACHE" == "true" ]; then
     enableExt opcache
 fi
 
-MIGRATIONS=${MIGRATIONS:=true}
-if [ "$MIGRATIONS" == "true" ]; then
-    console doctrine:migrations:migrate --no-interaction --allow-no-migration
-fi
-
 if [ "$XDEBUG" == "true" ]; then
     enableExt xdebug
 fi

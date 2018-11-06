@@ -1,0 +1,72 @@
+version: '3.7'
+
+services:
+    server:
+        image: drone/drone:0.8.7
+        environment:
+            GIN_MODE: release
+            DRONE_ADMIN: grachevko
+            DRONE_HOST: https://drone.automagistre.ru
+            DRONE_OPEN: 'false'
+            DRONE_DEBUG: 'false'
+            DRONE_DEBUG_PRETTY: 'true'
+            DRONE_GITHUB: 'true'
+            DRONE_GITHUB_CLIENT: ${DRONE_GITHUB_CLIENT}
+            DRONE_GITHUB_SECRET: ${DRONE_GITHUB_SECRET}
+            DRONE_SECRET: ${DRONE_SECRET}
+            DRONE_DATABASE_DRIVER: mysql
+            DRONE_DATABASE_DATASOURCE: 'db:${MYSQL_PASSWORD}@tcp(mysql:3306)/db?parseTime=true'
+        networks:
+            - drone
+            - ingress
+        deploy:
+            mode: replicated
+            replicas: 1
+            endpoint_mode: dnsrr
+            labels:
+                - "traefik.docker.network=proxy"
+                - "traefik.enable=true"
+                - "traefik.frontend.rule=Host:drone.automagistre.ru"
+                - "traefik.port=8000"
+                - "traefik.protocol=http"
+                - "traefik.backend.loadbalancer.method=drr"
+
+    mysql:
+        image: mariadb:10.3.10
+        volumes:
+            - /home/drone/db:/var/lib/mysql
+        environment:
+            MYSQL_DATABASE: db
+            MYSQL_USER: db
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        networks:
+            - drone
+        healthcheck:
+            test: echo "SELECT 1" | mysql -u $$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE
+            interval: 5s
+            timeout: 5s
+            retries: 3
+            start_period: 10s
+
+    agent:
+        image: drone/agent:0.8.7
+        command: agent
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        environment:
+            DRONE_DEBUG: 'false'
+            DRONE_DEBUG_PRETTY: 'true'
+            DRONE_SERVER: "server:9000"
+            DRONE_MAX_PROCS: 2
+            DRONE_SECRET: ${DRONE_SECRET}
+        networks:
+            - drone
+
+networks:
+    ingress:
+        external: true
+        name: proxy
+    drone:
+        driver: overlay
+        name: drone

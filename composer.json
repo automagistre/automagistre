@@ -44,6 +44,7 @@
         "symfony/swiftmailer-bundle": "^3.2.3",
         "symfony/templating": "^4.1.7",
         "symfony/translation": "^4.1.7",
+        "symfony/dotenv": "^4.1.7",
         "symfony/twig-bundle": "^4.1.7",
         "symfony/yaml": "^4.1.7"
     },
@@ -59,7 +60,6 @@
         "phpunit/phpunit": "^7.4.3",
         "symfony/browser-kit": "^4.1.7",
         "symfony/debug-bundle": "^4.1.7",
-        "symfony/dotenv": "^4.1.7",
         "symfony/phpunit-bridge": "^4.1.7",
         "symfony/requirements-checker": "^1.1.2",
         "symfony/web-profiler-bundle": "^4.1.7"
