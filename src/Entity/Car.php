@@ -69,6 +69,8 @@ class Car
     /**
      * @var string
      *
+     * @Assert\Length(max="17")
+     *
      * @ORM\Column(length=17, nullable=true, unique=true)
      */
     private $vin;
