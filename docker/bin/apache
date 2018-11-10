@@ -1,5 +1,0 @@
-#!/bin/sh
-
-chown -R www-data:www-data ${APP_DIR}/var
-
-apache2-foreground

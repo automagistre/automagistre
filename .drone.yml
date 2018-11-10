@@ -12,9 +12,10 @@ pipeline:
         commands:
             - >-
                 docker build -t "automagistre/app:${DRONE_BUILD_NUMBER}"
+                --build-arg APP_ENV="test"
+                --build-arg APP_DEBUG="1"
                 --build-arg APP_VERSION="$DRONE_BUILD_NUMBER"
                 --build-arg APP_BUILD_TIME="`date --rfc-2822`"
-                --build-arg APP_CACHE="test"
                 .
 
     validate php-cs-fixer:
@@ -51,10 +52,7 @@ pipeline:
         group: validate
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
-            - /docker-entrypoint.sh requirements-checker
-        environment:
-            APP_ENV: 'prod'
-            APP_DEBUG: '0'
+            - requirements-checker
         when:
             branch:
                 exclude: [ master ]
@@ -63,10 +61,7 @@ pipeline:
         group: validate
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
-            - /docker-entrypoint.sh security-checker security:check $APP_DIR/composer.lock
-        environment:
-            APP_ENV: 'test'
-            APP_DEBUG: '0'
+            - security-checker security:check $APP_DIR/composer.lock
         when:
             branch:
                 exclude: [ master ]
@@ -76,31 +71,20 @@ pipeline:
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - cd "$APP_DIR"
-            - /docker-entrypoint.sh php -d memory_limit=-1 vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress
-        environment:
-            APP_ENV: 'test'
-            APP_DEBUG: '1'
+            - phpstan analyse --configuration phpstan.neon --no-progress
 
     validate doctrine:
         group: validate
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - $$WAIT_FOR_IT mysql:3306
-            - /docker-entrypoint.sh console doctrine:schema:create
-        environment:
-            APP_ENV: 'test'
-            APP_DEBUG: '0'
+            - console doctrine:schema:create
 
     test phpunit:
         group: test
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
-            - cd "$APP_DIR"
-            - /docker-entrypoint.sh
-            - paratest --processes=$(grep -c ^processor /proc/cpuinfo || 4)
-        environment:
-            APP_ENV: 'test'
-            APP_DEBUG: '0'
+            - paratest --processes=$(grep -c ^processor /proc/cpuinfo || 4) $APP_DIR
 
     build app prod:
         group: deploy
@@ -110,9 +94,10 @@ pipeline:
         commands:
             - >-
                 docker build -t "automagistre/app:${DRONE_BUILD_NUMBER}"
+                --build-arg APP_ENV="prod"
+                --build-arg APP_DEBUG="0"
                 --build-arg APP_VERSION="$DRONE_BUILD_NUMBER"
                 --build-arg APP_BUILD_TIME="`date --rfc-2822`"
-                --build-arg APP_CACHE="prod"
                 .
         when:
             event: push

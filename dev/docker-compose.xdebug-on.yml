@@ -2,5 +2,6 @@ version: '3.7'
 
 services:
     app:
-        environment:
-            XDEBUG: 'true'
+        entrypoint:
+            - "docker-php-entrypoint-xdebug"
+            - "docker-php-entrypoint"
