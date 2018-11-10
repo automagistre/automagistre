@@ -1,0 +1,6 @@
+{# @var item \App\Entity\Employee #}
+{% if 4 == item.person.id %}
+    {{ constant('App\\Costil::PODSTANOVA') }}
+{% else %}
+    {{ value }}
+{% endif %}
