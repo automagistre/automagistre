@@ -49,11 +49,12 @@ RUN set -ex \
 
 RUN a2enmod rewrite
 
-ENV COMPOSER_VERSION=1.7.3
-ENV COMPOSER_EXEC='php -d memory_limit=-1 /usr/local/bin/composer --no-interaction'
-ENV COMPOSER_CACHE_DIR=/var/cache/composer
-ENV COMPOSER_ALLOW_SUPERUSER=1
-ENV COMPOSER_INSTALL_OPTS="--apcu-autoloader --no-progress --prefer-dist"
+ENV COMPOSER_VERSION 1.7.3
+ENV COMPOSER_ALLOW_SUPERUSER 1
+ENV COMPOSER_CACHE_DIR /var/cache/composer
+ENV COMPOSER_EXEC php -d memory_limit=-1 /usr/local/bin/composer --no-interaction
+ENV COMPOSER_INSTALL_OPTS --apcu-autoloader --prefer-dist
+ENV COMPOSER_INSTALL ${COMPOSER_EXEC} install ${COMPOSER_INSTALL_OPTS}
 
 RUN curl -s https://raw.githubusercontent.com/composer/getcomposer.org/master/web/installer \
     | php -- --quiet --install-dir=/usr/local/bin --filename=composer --version=${COMPOSER_VERSION}  \
@@ -68,7 +69,7 @@ ARG SOURCE_DIR=.
 COPY ${SOURCE_DIR}/composer.* ${APP_DIR}/
 RUN if [ -f composer.json ]; then \
     mkdir -p var \
-    && ${COMPOSER_EXEC} install ${COMPOSER_INSTALL_OPTS} --no-scripts \
+    && ${COMPOSER_INSTALL} --no-progress --no-scripts \
     ; fi
 
 ARG APP_ENV
@@ -90,7 +91,7 @@ COPY --from=node ${APP_DIR}/public/assets/build/* ${APP_DIR}/public/assets/build
 
 RUN if [ "prod" = "$APP_ENV" ]; then docker-php-ext-enable opcache; fi
 RUN if [ -f composer.json ]; then \
-        ${COMPOSER_EXEC} install ${COMPOSER_INSTALL_OPTS} $(if [ "prod" = "$APP_ENV" ]; then echo "--no-dev"; fi) \
+        ${COMPOSER_INSTALL} --no-progress $(if [ "prod" = "$APP_ENV" ]; then echo "--no-dev"; fi) \
         && chown -R www-data:www-data ${APP_DIR}/var \
     ; fi
 
