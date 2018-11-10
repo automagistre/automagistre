@@ -114,6 +114,7 @@ git-reset: git-fetch
 empty-commit:
 	git commit --allow-empty -m "Empty commit."
 	git push
+pre-commit: php-cs-fixer phpstan
 ###< GIT ###
 
 ###> ALIASES ###
@@ -162,7 +163,15 @@ endif
 
 ###> APP ###
 app-build:
-	docker build --tag "$(APP_IMAGE):dev" --target app --build-arg SOURCE_DIR=var/null --build-arg APP_VERSION=dev --build-arg APP_BUILD_TIME="`date --rfc-2822`" $(APP_DIR)
+	docker build \
+		--tag "$(APP_IMAGE):dev" \
+		--target app \
+		--build-arg SOURCE_DIR=var/null \
+		--build-arg APP_ENV=dev \
+		--build-arg APP_DEBUG=1 \
+		--build-arg APP_VERSION=dev \
+		--build-arg APP_BUILD_TIME="`date --rfc-2822`" \
+		$(APP_DIR)
 app-push:
 	docker push $(APP_IMAGE):dev
 app-cli:
@@ -172,7 +181,7 @@ app-cli:
 	APP_DEBUG=$(if $(DEBUG),$(DEBUG),$$APP_DEBUG) \
 	XDEBUG=$(if $(XDEBUG),$(XDEBUG),$$XDEBUG) \
 	OPCACHE=$(if $(OPCACHE),$(OPCACHE),$$OPCACHE) \
-	/docker-entrypoint.sh $(CMD)'
+	$(CMD)'
 
 app-install: composer
 
@@ -224,14 +233,14 @@ test:
 	$(TARGET) phpunit
 
 do-php-cs-fixer:
-	$(TARGET) app-cli CMD='php -d memory_limit=-1 vendor/bin/php-cs-fixer fix --config $(PHP_CS_CONFIG_FILE) -vvv $(if $(filter true,$(DRY)),--dry-run)'
+	$(TARGET) app-cli CMD='php-cs-fixer fix --config $(PHP_CS_CONFIG_FILE) -vvv $(if $(filter true,$(DRY)),--dry-run)'
 php-cs-fixer: do-php-cs-fixer
 	$(TARGET) permissions > /dev/null
 php-cs-fixer-test:
 	$(TARGET) do-php-cs-fixer PHP_CS_CONFIG_FILE=.php_cs.dist DRY=true
 
 phpstan:
-	$(TARGET) app-cli CMD='php -d memory_limit=-1 vendor/bin/phpstan analyse --configuration phpstan.neon $(if $(filter true,$(DEBUG)),--debug -vvv)'
+	$(TARGET) app-cli CMD='phpstan analyse --configuration phpstan.neon $(if $(filter true,$(DEBUG)),--debug -vvv)'
 
 phpunit:
 	$(TARGET) app-cli CMD='paratest -p $(shell grep -c ^processor /proc/cpuinfo || 4) --stop-on-failure' ENV=test

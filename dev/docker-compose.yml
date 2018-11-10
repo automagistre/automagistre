@@ -12,8 +12,6 @@ services:
         environment:
             APP_ENV: prod
             APP_DEBUG: 0
-            XDEBUG: 'false'
-            OPCACHE: 'true'
 
     mysql:
         image: mariadb:10.3.10
