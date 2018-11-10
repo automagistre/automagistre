@@ -84,7 +84,7 @@ pipeline:
         group: test
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
-            - paratest --processes=$(grep -c ^processor /proc/cpuinfo || 4) $APP_DIR
+            - paratest --processes=$(grep -c ^processor /proc/cpuinfo || 4) -- $APP_DIR
 
     build app prod:
         group: deploy
