@@ -3,7 +3,7 @@
 ###> CONSTANTS ###
 TARGET = @$(MAKE) --no-print-directory
 
-export COMPOSE_PROJECT_NAME=automagistre
+COMPOSE_PROJECT_NAME=automagistre
 
 DOCKER_COMPOSE_VERSION=1.23.1
 APP_DIR = .
@@ -52,10 +52,10 @@ re-init: un-init init
 
 bootstrap: init pull do-install-parallel docker-hosts-updater do-up cache permissions db-wait fixtures
 
-do-install: app-install
+install: do-install-parallel permissions
 do-install-parallel:
 	$(TARGET) -j2 do-install
-install: do-install
+do-install: app-install
 
 do-update: docker-compose-install pull do-install-parallel do-up db-wait permissions cache restart migration
 update: do-update
@@ -86,9 +86,6 @@ qa: git-reset prod pull do-install-parallel cache docker-rm-restartable do-up cl
 
 clear-logs: app-clear-logs
 
-permissions:
-	@docker run --rm -v `pwd`:/app -w /app alpine sh -c "chown $(shell id -u):$(shell id -g) -R ./ && chmod 777 -R $(APP_DIR)/var || true"
-	$(call success,"Permissions fixed.")
 docker-hosts-updater:
 	docker rm -f docker-hosts-updater || true
 	docker run -d --restart=always --name docker-hosts-updater -v /var/run/docker.sock:/var/run/docker.sock -v /etc/hosts:/opt/hosts grachev/docker-hosts-updater
@@ -114,7 +111,6 @@ git-reset: git-fetch
 empty-commit:
 	git commit --allow-empty -m "Empty commit."
 	git push
-pre-commit: php-cs-fixer phpstan
 ###< GIT ###
 
 ###> ALIASES ###
@@ -127,8 +123,8 @@ up: do-up
 status:
 	watch docker-compose ps
 cli:
-	$(TARGET) app-cli CMD='bash'
-	$(TARGET) permissions > /dev/null
+	$(APP) bash
+	$(TARGET) permissions
 
 RESTARTABLE_SERVICES = $(shell docker inspect --format='{{index .Config.Labels "com.docker.compose.service"}}' `docker ps --filter label="restartable=true" --filter label="com.docker.compose.project=${COMPOSE_PROJECT_NAME}" --quiet`)
 
@@ -142,6 +138,7 @@ terminate:
 	docker-compose down -v --remove-orphans --rmi all
 logs-all:
 	docker-compose logs --follow
+pre-commit: php-cs-fixer phpstan
 ###< ALIASES ###
 
 ###> DOCKER ###
@@ -174,107 +171,109 @@ app-build:
 		$(APP_DIR)
 app-push:
 	docker push $(APP_IMAGE):dev
+
+APP = docker-compose run --rm $(if $(ENTRYPOINT),--entrypoint "$(ENTRYPOINT)" )$(if $(ENV),-e APP_ENV=$(ENV) )$(if $(DEBUG),-e APP_DEBUG=$(DEBUG) )app
+
+permissions:
+	$(APP) sh -c "chown $(shell id -u):$(shell id -g) -R . && chmod 777 -R var/ || true"
+	$(call success,"Permissions fixed.")
+
 app-cli:
-	@docker-compose run \
-	--rm --entrypoint="sh -c" app ' \
-	APP_ENV=$(if $(ENV),$(ENV),$$APP_ENV) \
-	APP_DEBUG=$(if $(DEBUG),$(DEBUG),$$APP_DEBUG) \
-	XDEBUG=$(if $(XDEBUG),$(XDEBUG),$$XDEBUG) \
-	OPCACHE=$(if $(OPCACHE),$(OPCACHE),$$OPCACHE) \
-	$(CMD)'
+	$(APP)
 
-app-install: composer
+app-install: do-composer-install vendor-phar-remove
 
-composer: composer-install
-composer-install: cache-clear
-	$(TARGET) app-cli CMD='composer install --prefer-dist'
-	$(TARGET) permissions > /dev/null
-	$(TARGET) vendor-phar-remove
-composer-update:
-	$(TARGET) app-cli CMD='composer update --prefer-dist'
-	$(TARGET) permissions > /dev/null
-	$(TARGET) vendor-phar-remove
-composer-update-lock:
-	$(TARGET) app-cli CMD='composer update --lock'
-	$(TARGET) permissions > /dev/null
+composer: do-cache-clear composer-install
+composer-install: do-composer-install permissions vendor-phar-remove
+composer-update: do-composer-update permissions vendor-phar-remove
+composer-update-lock: do-composer-update-lock permissions
 composer-outdated:
-	$(TARGET) app-cli CMD='composer outdated'
+	$(APP) sh -c '$$COMPOSER_EXEC outdated'
+do-composer-install:
+	$(APP) sh -c '$$COMPOSER_INSTALL'
+do-composer-update:
+	$(APP) sh -c '$$COMPOSER_EXEC update $$COMPOSER_INSTALL_OPTS'
+do-composer-update-lock:
+	$(APP) sh -c '$$COMPOSER_EXEC update --lock'
 
 migration:
-	$(TARGET) app-cli CMD='console doctrine:migration:migrate --no-interaction --allow-no-migration'
+	$(APP) console doctrine:migration:migrate --no-interaction --allow-no-migration
 migration-generate:
-	$(TARGET) app-cli CMD='console doctrine:migrations:generate'
-	$(TARGET) permissions > /dev/null
+	$(APP) console doctrine:migrations:generate
+	$(TARGET) permissions
 	$(TARGET) php-cs-fixer
 migration-rollback:latest = $(shell make app-cli CMD="console doctrine:migration:latest" | tr '\r' ' ')
 migration-rollback:
-	$(TARGET) app-cli CMD='console doctrine:migration:execute --down --no-interaction $(latest)'
+	$(APP) console doctrine:migration:execute --down --no-interaction $(latest)
 migration-diff:
-	$(TARGET) app-cli CMD='console doctrine:migration:diff'
-	$(TARGET) permissions > /dev/null
+	$(APP) console doctrine:migration:diff
+	$(TARGET) permissions
 	$(TARGET) php-cs-fixer
 migration-diff-dry:
-	$(TARGET) app-cli CMD='console doctrine:schema:update --dump-sql'
+	$(APP) console doctrine:schema:update --dump-sql
+migration-test: ENV=test
 migration-test:
-	$(TARGET) app-cli CMD='console doctrine:schema:validate' ENV=test
+	$(APP) console doctrine:schema:validate
 
 schema-update:
-	$(TARGET) app-cli CMD='console doctrine:schema:update --force'
+	$(APP) console doctrine:schema:update --force
 
 app-test:
-	$(TARGET) app-cli CMD='console test'
+	$(APP) console test
 
 test:
 	$(TARGET) php-cs-fixer
-	$(TARGET) php-cs-fixer-test
+	$(TARGET) php-cs-fixer DRY=true
 	$(TARGET) cache ENV=test
 	$(TARGET) phpstan
 	$(TARGET) migration-test
 	$(TARGET) phpunit
 
 do-php-cs-fixer:
-	$(TARGET) app-cli CMD='php-cs-fixer fix --config $(PHP_CS_CONFIG_FILE) -vvv $(if $(filter true,$(DRY)),--dry-run)'
+	$(APP) php-cs-fixer fix --config $(PHP_CS_CONFIG_FILE) -vvv $(if $(filter true,$(DRY)),--dry-run)
 php-cs-fixer: do-php-cs-fixer
-	$(TARGET) permissions > /dev/null
-php-cs-fixer-test:
-	$(TARGET) do-php-cs-fixer PHP_CS_CONFIG_FILE=.php_cs.dist DRY=true
+	$(TARGET) permissions
 
 phpstan:
-	$(TARGET) app-cli CMD='phpstan analyse --configuration phpstan.neon $(if $(filter true,$(DEBUG)),--debug -vvv)'
+	$(APP) phpstan analyse --configuration phpstan.neon $(if $(filter true,$(DEBUG)),--debug -vvv)
 
+phpunit: ENV=test
 phpunit:
-	$(TARGET) app-cli CMD='paratest -p $(shell grep -c ^processor /proc/cpuinfo || 4) --stop-on-failure' ENV=test
+	$(APP) paratest -p $(shell grep -c ^processor /proc/cpuinfo || 4) --stop-on-failure
+requirements: ENV=prod
 requirements:
-	$(TARGET) app-cli CMD='requirements-checker' ENV=prod OPCACHE=true
+	$(APP) requirements-checker
 
-cache: cache-clear cache-warmup
+cache: do-cache-clear do-cache-warmup
+	$(TARGET) permissions
 cache-clear: do-cache-clear
-	$(TARGET) permissions > /dev/null
+	$(TARGET) permissions
 cache-warmup: do-cache-warmup
-	$(TARGET) permissions > /dev/null
+	$(TARGET) permissions
 cache-profiler:
-	@$(TARGET) app-cli CMD='rm -rf $$APP_DIR/var/cache/$(if $(APP_ENV),$(APP_ENV),"$$APP_ENV")/profiler' || true
+	$(APP) sh -c 'rm -rf var/cache/$$$$APP_ENV/profiler' || true
 
 do-cache-clear:
-	$(TARGET) app-cli CMD='rm -rf $$$$APP_DIR/var/cache/$$$$APP_ENV' || true
+	$(APP) sh -c 'rm -rf var/cache/$$APP_ENV'
 do-cache-warmup:
-	$(TARGET) app-cli CMD='console cache:warmup'
+	$(APP) console cache:warmup
 
 app-clear-logs:
-	$(TARGET) app-cli CMD='rm -rf var/logs/*'
+	$(APP) rm -rf var/logs/*
 
+do-fixtures: ENV=test
 do-fixtures:
-	$(TARGET) cache ENV=test
-	$(TARGET) app-cli CMD='console doctrine:fixtures:load --no-interaction'
+	$(TARGET) cache
+	$(APP) console doctrine:fixtures:load --no-interaction
 database: drop migration
 fixtures: database do-fixtures
 	@$(notify)
 backup: drop backup-restore migration
 	@$(notify)
 drop:
-	@$(TARGET) app-cli CMD='console doctrine:database:drop --force || true && console doctrine:database:create'
+	@$(APP) sh -c "console doctrine:database:drop --force || true && console doctrine:database:create"
 db-wait:
-	@docker-compose run --rm --entrypoint "bash -c" app '$$WAIT_FOR_IT mysql:3306'
+	$(APP) wait-for-it.sh mysql:3306
 ###< APP ###
 
 ###> MYSQL ###
