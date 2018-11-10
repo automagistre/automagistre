@@ -1,4 +1,4 @@
-.PHONY: app compose contrib deploy test
+.PHONY: app dev contrib deploy test
 
 ###> CONSTANTS ###
 TARGET = @$(MAKE) --no-print-directory
