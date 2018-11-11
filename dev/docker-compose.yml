@@ -45,3 +45,12 @@ services:
             timeout: 5s
             retries: 3
             start_period: 5s
+
+    node:
+        image: automagistre/node:dev
+        hostname: encore.automagistre.local
+        command:
+            - encore
+            - production
+        volumes:
+            - ../:/usr/local/app

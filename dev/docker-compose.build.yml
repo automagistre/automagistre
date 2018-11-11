@@ -5,3 +5,8 @@ services:
         build:
             context: ../
             target: app
+
+    node:
+        build:
+            context: ../
+            target: node

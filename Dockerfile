@@ -12,10 +12,10 @@ RUN apk add --no-cache git
 COPY package.json package-lock.json ${APP_DIR}/
 RUN npm install
 
-COPY gulpfile.js ${APP_DIR}
+COPY webpack.config.js ${APP_DIR}
 COPY assets ${APP_DIR}/assets
 
-RUN gulp build:main-script build:scripts build:less
+RUN encore production
 
 FROM php:7.2.12-apache-stretch as app
 

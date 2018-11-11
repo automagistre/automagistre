@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
+    "@symfony/webpack-encore": "^0.21.0",
     "browser-sync": "^2.17.5",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
@@ -19,11 +20,13 @@
     "gulp-plumber": "^1.1.0",
     "gulp-rename": "^1.2.2",
     "gulp-uglifyjs": "^0.6.2",
+    "less-loader": "^4.1.0",
     "run-sequence": "^1.1.2"
   },
   "dependencies": {
     "bootstrap-datepicker": "^1.7.1",
     "fotorama": "^4.6.4",
+    "fs": "0.0.1-security",
     "gsap": "^1.19.1",
     "gulp-rcs": "^1.1.0",
     "jquery": "^2.2.4",

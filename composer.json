@@ -46,6 +46,7 @@
         "symfony/templating": "^4.1.7",
         "symfony/translation": "^4.1.7",
         "symfony/twig-bundle": "^4.1.7",
+        "symfony/webpack-encore-bundle": "^1.0",
         "symfony/yaml": "^4.1.7"
     },
     "require-dev": {

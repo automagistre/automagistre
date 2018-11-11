@@ -9,4 +9,4 @@ vendor
 
 # Node
 /node_modules
-/public/assets/build
+/public/build

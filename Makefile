@@ -34,7 +34,7 @@ bootstrap: init pull do-install-parallel docker-hosts-updater do-up cache permis
 install: do-install-parallel permissions
 do-install-parallel:
 	@$(MAKE) --no-print-directory -j2 do-install
-do-install: app-install
+do-install: app-install node-install
 
 do-update: docker-compose-install pull do-install-parallel do-up db-wait permissions cache restart migration
 update: do-update
@@ -265,14 +265,14 @@ memcached-restart:
 ###< MEMCACHED ###
 
 ###> NODE ###
-NODE_IMAGE = node:10.13.0-alpine
-node-install: do-node-install permissions
-do-node-install:
-	docker run --rm -v `pwd`:/usr/local/app -w /usr/local/app $(NODE_IMAGE) sh -c "apk add --no-cache git && npm install"
+NODE = docker-compose run --rm node
+
+node-install:
+	$(NODE) npm install
 node-cli: do-node-cli permissions
 do-node-cli:
-	docker run --rm -v `pwd`:/usr/local/app -w /usr/local/app -ti $(NODE_IMAGE) sh
-node-build: do-node-build permissions
-do-node-build:
-	docker run --rm -ti -v `pwd`:/usr/local/app -w /usr/local/app $(NODE_IMAGE) ./node_modules/.bin/gulp build:main-script build:scripts build:less
+	$(NODE) sh
+node-build: do-encore-build permissions
+do-encore-build:
+	$(NODE) encore dev
 ###< NODE ###
