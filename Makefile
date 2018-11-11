@@ -1,19 +1,9 @@
-.PHONY: app dev contrib deploy test
+.PHONY: dev contrib
 
 ###> CONSTANTS ###
-COMPOSE_PROJECT_NAME=automagistre
-
 DOCKER_COMPOSE_VERSION=1.23.1
 APP_DIR = .
-APP_IMAGE = automagistre/app
-COMPOSE_PATH = ./dev
 ###< CONSTANTS ###
-
-ifeq ($(wildcard $(APP_DIR)/.php_cs),)
-    PHP_CS_CONFIG_FILE = .php_cs.dist
-else
-    PHP_CS_CONFIG_FILE = .php_cs
-endif
 
 define success
       @tput setaf 2
@@ -24,15 +14,6 @@ define failed
       @tput setaf 1
       @echo " [FAIL] $1"
       @tput sgr0
-endef
-
-define compose-extend
-	@docker-compose \
-		--file docker-compose.yml \
-		--file $(COMPOSE_PATH)/docker-compose.$1.yml \
-		config > docker-compose.tmp \
-	&& mv -f docker-compose.tmp docker-compose.yml
-	$(call success,"docker-compose.yml merged with [$1] environemnt")
 endef
 
 notify = notify-send --urgency="critical" "Makefile: $@" "COMPLETE!"
@@ -59,27 +40,6 @@ do-update: docker-compose-install pull do-install-parallel do-up db-wait permiss
 update: do-update
 	@$(notify)
 master: git-check-stage-is-clear git-fetch git-checkout-master git-reset-master do-update
-	@$(notify)
-
-###> DOCKER-COMPOSE ENVIRONMENT ###
-prod: default
-dev: default dev-app dev-memcached
-
-default:
-	@docker-compose --file $(COMPOSE_PATH)/docker-compose.yml config > docker-compose.yml
-	$(call success,"docker-compose.yml was reset to default")
-dev-app:
-	$(call compose-extend,dev-app)
-dev-memcached:
-	$(call compose-extend,dev-memcached)
-
-xdebug-on:
-	$(call compose-extend,xdebug-on)
-xdebug-off:
-	$(call compose-extend,xdebug-off)
-###< DOCKER-COMPOSE ENVIRONMENT ###
-
-qa: git-reset prod pull do-install-parallel cache docker-rm-restartable do-up clear-logs
 	@$(notify)
 
 clear-logs: app-clear-logs
@@ -154,17 +114,15 @@ endif
 
 ###> APP ###
 app-build:
-	docker build \
-		--tag "$(APP_IMAGE):dev" \
-		--target app \
+	docker-compose build \
 		--build-arg SOURCE_DIR=var/null \
 		--build-arg APP_ENV=dev \
 		--build-arg APP_DEBUG=1 \
 		--build-arg APP_VERSION=dev \
 		--build-arg APP_BUILD_TIME="`date --rfc-2822`" \
-		$(APP_DIR)
+		app
 app-push:
-	docker push $(APP_IMAGE):dev
+	docker-compose push app
 
 APP = docker-compose run --rm $(if $(ENTRYPOINT),--entrypoint "$(ENTRYPOINT)" )$(if $(ENV),-e APP_ENV=$(ENV) )$(if $(DEBUG),-e APP_DEBUG=$(DEBUG) )app
 
@@ -221,7 +179,7 @@ test: DRY=true
 test: do-php-cs-fixer phpstan migration-test phpunit
 
 do-php-cs-fixer:
-	$(APP) php-cs-fixer fix --config $(PHP_CS_CONFIG_FILE) -vvv $(if $(filter true,$(DRY)),--dry-run)
+	$(APP) php-cs-fixer fix -vvv $(if $(filter true,$(DRY)),--dry-run)
 php-cs-fixer: do-php-cs-fixer permissions
 
 phpstan:

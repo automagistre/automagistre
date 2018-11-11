@@ -1,0 +1,5 @@
+version: '3.7'
+
+services:
+    node:
+        command: encore dev-server --hot --host encore.automagistre.local --port 80 --disable-host-check
