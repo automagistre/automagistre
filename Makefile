@@ -1,8 +1,6 @@
 .PHONY: app dev contrib deploy test
 
 ###> CONSTANTS ###
-TARGET = @$(MAKE) --no-print-directory
-
 COMPOSE_PROJECT_NAME=automagistre
 
 DOCKER_COMPOSE_VERSION=1.23.1
@@ -54,7 +52,7 @@ bootstrap: init pull do-install-parallel docker-hosts-updater do-up cache permis
 
 install: do-install-parallel permissions
 do-install-parallel:
-	$(TARGET) -j2 do-install
+	@$(MAKE) --no-print-directory -j2 do-install
 do-install: app-install
 
 do-update: docker-compose-install pull do-install-parallel do-up db-wait permissions cache restart migration
@@ -90,10 +88,6 @@ docker-hosts-updater:
 	docker rm -f docker-hosts-updater || true
 	docker run -d --restart=always --name docker-hosts-updater -v /var/run/docker.sock:/var/run/docker.sock -v /etc/hosts:/opt/hosts grachev/docker-hosts-updater
 
-# Prevent idea to adding this phar to *.iml config
-vendor-phar-remove:
-	@rm -rf $(APP_DIR)/vendor/twig/twig/test/Twig/Tests/Loader/Fixtures/phar/phar-sample.phar $(APP_DIR)/vendor/symfony/symfony/src/Symfony/Component/DependencyInjection/Tests/Fixtures/includes/ProjectWithXsdExtensionInPhar.phar $(APP_DIR)/vendor/phpunit/phpunit/tests/_files/phpunit-example-extension/tools/phpunit.d/phpunit-example-extension-1.0.1.phar $(APP_DIR)/vendor/phar-io/manifest/tests/_fixture/test.phar || true
-
 ###> GIT ###
 git-check-stage-is-clear:
 	@git diff --exit-code > /dev/null
@@ -122,9 +116,10 @@ up: do-up
 	@$(notify)
 status:
 	watch docker-compose ps
-cli:
+cli: do-cli permissions
+do-cli:
 	$(APP) bash
-	$(TARGET) permissions
+cs: do-php-cs-fixer
 
 RESTARTABLE_SERVICES = $(shell docker inspect --format='{{index .Config.Labels "com.docker.compose.service"}}' `docker ps --filter label="restartable=true" --filter label="com.docker.compose.project=${COMPOSE_PROJECT_NAME}" --quiet`)
 
@@ -138,7 +133,6 @@ terminate:
 	docker-compose down -v --remove-orphans --rmi all
 logs-all:
 	docker-compose logs --follow
-pre-commit: php-cs-fixer phpstan
 ###< ALIASES ###
 
 ###> DOCKER ###
@@ -195,20 +189,21 @@ do-composer-update:
 	$(APP) sh -c '$$COMPOSER_EXEC update $$COMPOSER_INSTALL_OPTS'
 do-composer-update-lock:
 	$(APP) sh -c '$$COMPOSER_EXEC update --lock'
+# Prevent idea to adding this phar to *.iml config
+vendor-phar-remove:
+	@rm -rf $(APP_DIR)/vendor/twig/twig/test/Twig/Tests/Loader/Fixtures/phar/phar-sample.phar $(APP_DIR)/vendor/symfony/symfony/src/Symfony/Component/DependencyInjection/Tests/Fixtures/includes/ProjectWithXsdExtensionInPhar.phar $(APP_DIR)/vendor/phpunit/phpunit/tests/_files/phpunit-example-extension/tools/phpunit.d/phpunit-example-extension-1.0.1.phar $(APP_DIR)/vendor/phar-io/manifest/tests/_fixture/test.phar || true
 
 migration:
 	$(APP) console doctrine:migration:migrate --no-interaction --allow-no-migration
-migration-generate:
+migration-generate: do-migration-generate php-cs-fixer
+do-migration-generate:
 	$(APP) console doctrine:migrations:generate
-	$(TARGET) permissions
-	$(TARGET) php-cs-fixer
 migration-rollback:latest = $(shell make app-cli CMD="console doctrine:migration:latest" | tr '\r' ' ')
 migration-rollback:
 	$(APP) console doctrine:migration:execute --down --no-interaction $(latest)
-migration-diff:
+migration-diff: do-migration-diff php-cs-fixer
+do-migration-diff:
 	$(APP) console doctrine:migration:diff
-	$(TARGET) permissions
-	$(TARGET) php-cs-fixer
 migration-diff-dry:
 	$(APP) console doctrine:schema:update --dump-sql
 migration-test: ENV=test
@@ -221,18 +216,13 @@ schema-update:
 app-test:
 	$(APP) console test
 
-test:
-	$(TARGET) php-cs-fixer
-	$(TARGET) php-cs-fixer DRY=true
-	$(TARGET) cache ENV=test
-	$(TARGET) phpstan
-	$(TARGET) migration-test
-	$(TARGET) phpunit
+test: ENV=test
+test: DRY=true
+test: php-cs-fixer phpstan migration-test phpunit
 
 do-php-cs-fixer:
 	$(APP) php-cs-fixer fix --config $(PHP_CS_CONFIG_FILE) -vvv $(if $(filter true,$(DRY)),--dry-run)
-php-cs-fixer: do-php-cs-fixer
-	$(TARGET) permissions
+php-cs-fixer: do-php-cs-fixer permissions
 
 phpstan:
 	$(APP) phpstan analyse --configuration phpstan.neon $(if $(filter true,$(DEBUG)),--debug -vvv)
@@ -244,14 +234,11 @@ requirements: ENV=prod
 requirements:
 	$(APP) requirements-checker
 
-cache: do-cache-clear do-cache-warmup
-	$(TARGET) permissions
-cache-clear: do-cache-clear
-	$(TARGET) permissions
-cache-warmup: do-cache-warmup
-	$(TARGET) permissions
+cache: do-cache-clear do-cache-warmup permissions
+cache-clear: do-cache-clear permissions
+cache-warmup: do-cache-warmup permissions
 cache-profiler:
-	$(APP) sh -c 'rm -rf var/cache/$$$$APP_ENV/profiler' || true
+	$(APP) sh -c 'rm -rf var/cache/$$APP_ENV/profiler' || true
 
 do-cache-clear:
 	$(APP) sh -c 'rm -rf var/cache/$$APP_ENV'
@@ -261,13 +248,12 @@ do-cache-warmup:
 app-clear-logs:
 	$(APP) rm -rf var/logs/*
 
-do-fixtures: ENV=test
-do-fixtures:
-	$(TARGET) cache
-	$(APP) console doctrine:fixtures:load --no-interaction
 database: drop migration
-fixtures: database do-fixtures
+fixtures: ENV=test
+fixtures: database cache do-fixtures
 	@$(notify)
+do-fixtures:
+	$(APP) console doctrine:fixtures:load --no-interaction
 backup: drop backup-restore migration
 	@$(notify)
 drop:
@@ -322,13 +308,13 @@ memcached-restart:
 
 ###> NODE ###
 NODE_IMAGE = node:10.13.0-alpine
-node-install:
+node-install: do-node-install permissions
+do-node-install:
 	docker run --rm -v `pwd`:/usr/local/app -w /usr/local/app $(NODE_IMAGE) sh -c "apk add --no-cache git && npm install"
-	$(TARGET) permissions
-node-cli:
+node-cli: do-node-cli permissions
+do-node-cli:
 	docker run --rm -v `pwd`:/usr/local/app -w /usr/local/app -ti $(NODE_IMAGE) sh
-	$(TARGET) permissions
-node-build:
+node-build: do-node-build permissions
+do-node-build:
 	docker run --rm -ti -v `pwd`:/usr/local/app -w /usr/local/app $(NODE_IMAGE) ./node_modules/.bin/gulp build:main-script build:scripts build:less
-	$(TARGET) permissions
 ###< NODE ###
