@@ -51,11 +51,7 @@ RUN a2enmod rewrite
 
 ENV COMPOSER_VERSION 1.7.3
 ENV COMPOSER_ALLOW_SUPERUSER 1
-ENV COMPOSER_CACHE_DIR /var/cache/composer
-ENV COMPOSER_EXEC php -d memory_limit=-1 /usr/local/bin/composer --no-interaction
-ENV COMPOSER_INSTALL_OPTS --apcu-autoloader --prefer-dist
-ENV COMPOSER_INSTALL ${COMPOSER_EXEC} install ${COMPOSER_INSTALL_OPTS}
-
+ENV COMPOSER_MEMORY_LIMIT -1
 RUN curl -s https://raw.githubusercontent.com/composer/getcomposer.org/master/web/installer \
     | php -- --quiet --install-dir=/usr/local/bin --filename=composer --version=${COMPOSER_VERSION}  \
     && composer global require "hirak/prestissimo:^0.3" \
@@ -69,7 +65,7 @@ ARG SOURCE_DIR=.
 COPY ${SOURCE_DIR}/composer.* ${APP_DIR}/
 RUN if [ -f composer.json ]; then \
     mkdir -p var \
-    && ${COMPOSER_INSTALL} --no-progress --no-scripts \
+    && composer install --no-interaction --no-progress --no-scripts \
     ; fi
 
 ARG APP_ENV
@@ -91,7 +87,7 @@ COPY --from=node ${APP_DIR}/public/assets/build/* ${APP_DIR}/public/assets/build
 
 RUN if [ "prod" = "$APP_ENV" ]; then docker-php-ext-enable opcache; fi
 RUN if [ -f composer.json ]; then \
-        ${COMPOSER_INSTALL} --no-progress $(if [ "prod" = "$APP_ENV" ]; then echo "--no-dev"; fi) \
+        composer install --no-interaction --no-progress $(if [ "prod" = "$APP_ENV" ]; then echo "--no-dev"; fi) \
         && chown -R www-data:www-data ${APP_DIR}/var \
     ; fi
 

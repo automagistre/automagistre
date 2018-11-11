@@ -182,13 +182,13 @@ composer-install: do-composer-install permissions vendor-phar-remove
 composer-update: do-composer-update permissions vendor-phar-remove
 composer-update-lock: do-composer-update-lock permissions
 composer-outdated:
-	$(APP) sh -c '$$COMPOSER_EXEC outdated'
+	$(APP) composer outdated
 do-composer-install:
-	$(APP) sh -c '$$COMPOSER_INSTALL'
+	$(APP) composer install
 do-composer-update:
-	$(APP) sh -c '$$COMPOSER_EXEC update $$COMPOSER_INSTALL_OPTS'
+	$(APP) composer update
 do-composer-update-lock:
-	$(APP) sh -c '$$COMPOSER_EXEC update --lock'
+	$(APP) composer update --lock
 # Prevent idea to adding this phar to *.iml config
 vendor-phar-remove:
 	@rm -rf $(APP_DIR)/vendor/twig/twig/test/Twig/Tests/Loader/Fixtures/phar/phar-sample.phar $(APP_DIR)/vendor/symfony/symfony/src/Symfony/Component/DependencyInjection/Tests/Fixtures/includes/ProjectWithXsdExtensionInPhar.phar $(APP_DIR)/vendor/phpunit/phpunit/tests/_files/phpunit-example-extension/tools/phpunit.d/phpunit-example-extension-1.0.1.phar $(APP_DIR)/vendor/phar-io/manifest/tests/_fixture/test.phar || true
