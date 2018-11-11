@@ -218,7 +218,7 @@ app-test:
 
 test: ENV=test
 test: DRY=true
-test: php-cs-fixer phpstan migration-test phpunit
+test: do-php-cs-fixer phpstan migration-test phpunit
 
 do-php-cs-fixer:
 	$(APP) php-cs-fixer fix --config $(PHP_CS_CONFIG_FILE) -vvv $(if $(filter true,$(DRY)),--dry-run)
