@@ -3,9 +3,8 @@ version: '3.7'
 services:
     app:
         image: automagistre/app:dev
-        hostname: automagistre.local
         labels:
-            subdomains: sto www
+            ru.grachevko.dhu: '{sto,www}.automagistre.local'
             restartable: 'true'
         volumes:
             - ../:/usr/local/app
@@ -15,7 +14,8 @@ services:
 
     mysql:
         image: mariadb:10.3.10
-        hostname: mysql.automagistre.local
+        labels:
+            ru.grachevko.dhu: 'mysql.automagistre.local'
         volumes:
             -
                 type: tmpfs
