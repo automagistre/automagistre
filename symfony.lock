@@ -11,6 +11,9 @@
     "brianium/paratest": {
         "version": "2.0"
     },
+    "codedungeon/php-cli-colors": {
+        "version": "1.10.7"
+    },
     "composer/ca-bundle": {
         "version": "1.1.0"
     },
@@ -146,6 +149,9 @@
     "guzzlehttp/psr7": {
         "version": "1.4.2"
     },
+    "http-interop/http-factory-diactoros": {
+        "version": "1.0.0"
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
@@ -269,6 +275,9 @@
     "psr/container": {
         "version": "1.0.0"
     },
+    "psr/http-factory": {
+        "version": "1.0.0"
+    },
     "psr/http-message": {
         "version": "1.0.1"
     },
@@ -340,6 +349,15 @@
             "version": "1.0",
             "ref": "fa1a2dfc020798cd7076b5419596e72dca07047a"
         }
+    },
+    "spiral/dumper": {
+        "version": "v1.1.0"
+    },
+    "spiral/goridge": {
+        "version": "v2.1.2"
+    },
+    "spiral/roadrunner": {
+        "version": "v1.2.6"
     },
     "stof/doctrine-extensions-bundle": {
         "version": "1.2",
@@ -491,6 +509,9 @@
     "symfony/property-info": {
         "version": "v4.0.3"
     },
+    "symfony/psr-http-message-bridge": {
+        "version": "v1.1.0"
+    },
     "symfony/requirements-checker": {
         "version": "1.0",
         "recipe": {
@@ -601,6 +622,9 @@
     },
     "zendframework/zend-code": {
         "version": "3.3.0"
+    },
+    "zendframework/zend-diactoros": {
+        "version": "1.8.6"
     },
     "zendframework/zend-eventmanager": {
         "version": "3.2.0"
