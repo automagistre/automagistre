@@ -3,6 +3,7 @@ var/cache
 var/sessions
 var/logs
 public/bundles
+.env
 
 # Composer
 vendor
