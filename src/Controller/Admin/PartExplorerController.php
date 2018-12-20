@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class PartExplorerController extends Controller
+final class PartExplorerController extends AbstractController
 {
     /**
      * @Route("/part-explorer/{partnumber}", name="part_explorer")
