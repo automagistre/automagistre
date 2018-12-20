@@ -22,9 +22,8 @@ init:
 	cp -n $(APP_DIR)/.env.dist $(APP_DIR)/.env || true
 	cp -n $(APP_DIR)/docker/php/php.ini $(APP_DIR)/docker/php/php-dev.ini || true
 	cp -n ./contrib/* ./ || true
-	mv -f ./git/hooks/* ./.git/hooks/ || true
 	cp -n -r $(APP_DIR)/contrib/* $(APP_DIR)/ || true
-	mkdir -p $(APP_DIR)/var/null $(APP_DIR)/var/snapshots && touch $(APP_DIR)/var/null/composer.null && touch $(APP_DIR)/var/null/package.null
+	mkdir -p $(APP_DIR)/var/snapshots
 un-init:
 	rm -rf $(APP_DIR)/.env
 re-init: un-init init
@@ -115,7 +114,6 @@ endif
 ###> APP ###
 app-build:
 	docker-compose build \
-		--build-arg SOURCE_DIR=var/null \
 		--build-arg APP_ENV=dev \
 		--build-arg APP_DEBUG=1 \
 		--build-arg APP_VERSION=dev \

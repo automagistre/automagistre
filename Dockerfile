@@ -61,12 +61,10 @@ ENV WAIT_FOR_IT /usr/local/bin/wait-for-it.sh
 RUN curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh -o ${WAIT_FOR_IT} \
     && chmod +x ${WAIT_FOR_IT}
 
-ARG SOURCE_DIR=.
-COPY ${SOURCE_DIR}/composer.* ${APP_DIR}/
-RUN if [ -f composer.json ]; then \
-    mkdir -p var \
-    && composer install --no-interaction --no-progress --no-scripts \
-    ; fi
+COPY composer.json composer.lock ${APP_DIR}/
+RUN set -ex \
+    && mkdir -p var \
+    && composer install --no-interaction --no-progress --no-scripts
 
 ARG APP_ENV
 ENV APP_ENV ${APP_ENV}
@@ -81,14 +79,13 @@ COPY docker/apache/apache.conf ${APACHE_CONFDIR}/sites-enabled/000-default.conf
 COPY docker/php/* ${PHP_INI_DIR}/
 COPY docker/bin/* /usr/local/bin/
 
-COPY ${SOURCE_DIR}/ ${APP_DIR}/
+COPY ./ ${APP_DIR}/
 
 COPY --from=node ${APP_DIR}/public/assets/build/* ${APP_DIR}/public/assets/build/
 
 RUN if [ "prod" = "$APP_ENV" ]; then docker-php-ext-enable opcache; fi
-RUN if [ -f composer.json ]; then \
-        composer install --no-interaction --no-progress $(if [ "prod" = "$APP_ENV" ]; then echo "--no-dev"; fi) \
-        && chown -R www-data:www-data ${APP_DIR}/var \
-    ; fi
+RUN set -ex \
+    && composer install --no-interaction --no-progress $(if [ "prod" = "$APP_ENV" ]; then echo "--no-dev"; fi) \
+    && chown -R www-data:www-data ${APP_DIR}/var
 
 HEALTHCHECK --interval=5s --timeout=5s --start-period=5s CMD nc -z 127.0.0.1 80
