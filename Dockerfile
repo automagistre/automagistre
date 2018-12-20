@@ -18,7 +18,7 @@ COPY assets ${APP_DIR}/assets
 RUN gulp build:main-script build:scripts build:less
 
 FROM composer:1.8.0 as composer
-FROM php:7.2.13-cli-stretch as app
+FROM php:7.3.0-cli-stretch as app
 
 LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 
@@ -50,7 +50,7 @@ RUN set -ex \
 	&& rm -rf /tmp/icu
 
 RUN set -ex \
-    && pecl install xdebug memcached \
+    && pecl install xdebug-2.7.0beta1 memcached \
     && docker-php-ext-enable xdebug memcached
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
