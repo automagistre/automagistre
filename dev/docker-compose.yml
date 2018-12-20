@@ -38,6 +38,7 @@ services:
     memcached:
         image: memcached:1.5.11-alpine
         labels:
+            ru.grachevko.dhu: 'memcached.automagistre.local'
             restartable: 'false'
         healthcheck:
             test: nc -z 127.0.0.1 11211
