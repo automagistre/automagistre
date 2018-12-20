@@ -30,6 +30,8 @@ security:
             anonymous: ~
             logout:
                 path: www_logout
+                delete_cookies:
+                    PHPSESSID: ~
             form_login:
                 provider: user_provider
                 csrf_token_generator: security.csrf.token_manager
