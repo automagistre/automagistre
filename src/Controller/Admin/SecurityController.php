@@ -22,6 +22,10 @@ final class SecurityController extends AbstractController
      */
     public function loginAction(FormFactoryInterface $formFactory, AuthenticationUtils $authUtils): Response
     {
+        if ($this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->redirect('/');
+        }
+
         $form = $formFactory->createNamedBuilder('', FormType::class, null, [
             'action' => $this->generateUrl('admin_login_check'),
             'csrf_field_name' => '_csrf_token',
