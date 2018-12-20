@@ -56,7 +56,7 @@ while ($req = $psr7->acceptRequest()) {
     try {
         $request = $httpFoundationFactory->createRequest($req);
 
-        $sessionId = null;
+        $sessionId = '';
         if ($request->cookies->has(\session_name())) {
             $sessionId = $request->cookies->get(\session_name());
             \session_id($sessionId);
@@ -67,8 +67,8 @@ while ($req = $psr7->acceptRequest()) {
 
         if (
             $request->hasSession()
-            && $sessionId !== $request->getSession()->getId()
             && [] !== $request->getSession()->all()
+            && !\in_array($request->getSession()->getId(), ['', $sessionId], true)
         ) {
             $cookie_options = $kernel->getContainer()->getParameter('session.storage.options');
             $response->headers->setCookie(
@@ -92,6 +92,10 @@ while ($req = $psr7->acceptRequest()) {
     } catch (\Throwable $e) {
         $psr7->getWorker()->error((string) $e);
     } finally {
+        if ($request->hasSession()) {
+            $request->getSession()->setId('');
+        }
+
         if (PHP_SESSION_ACTIVE === \session_status()) {
             \session_write_close();
 
