@@ -6,7 +6,7 @@ services:
         build:
             context: ../
             target: app
-        command: rr serve -d -v
+#        command: rr serve -d -v
         labels:
             ru.grachevko.dhu: '{sto,www}.automagistre.local'
             restartable: 'true'
