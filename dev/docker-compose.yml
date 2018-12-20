@@ -3,6 +3,9 @@ version: '3.7'
 services:
     app:
         image: automagistre/app:dev
+        build:
+            context: ../
+            target: app
         labels:
             ru.grachevko.dhu: '{sto,www}.automagistre.local'
             restartable: 'true'

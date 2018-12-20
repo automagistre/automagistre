@@ -71,7 +71,7 @@ empty-commit:
 pull:
 	docker-compose pull
 do-up:
-	docker-compose up --detach --remove-orphans
+	docker-compose up --detach --remove-orphans --no-build
 up: do-up
 	@$(notify)
 status:
