@@ -1,0 +1,9 @@
+http:
+    address: 0.0.0.0:80
+    workers:
+        command: "php bin/worker.php"
+        pool:
+            numWorkers: 4
+
+static:
+    dir:   "public"
