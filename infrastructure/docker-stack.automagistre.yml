@@ -4,7 +4,7 @@ services:
     app:
         &app
         image: automagistre/app:${DRONE_BUILD_NUMBER}
-        command: rr serve
+#        command: rr serve
         environment:
             MIGRATIONS: 'false'
         networks:
