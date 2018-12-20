@@ -13,6 +13,7 @@ easy_admin:
         assets:
             js:
                 - 'includes/js/collection-autocomplete.js'
+                - 'https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js'
                 - 'assets/js/sto.js'
         menu:
             - { label: 'Заказы' }
