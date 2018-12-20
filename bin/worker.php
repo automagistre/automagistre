@@ -92,16 +92,16 @@ while ($req = $psr7->acceptRequest()) {
     } catch (\Throwable $e) {
         $psr7->getWorker()->error((string) $e);
     } finally {
-        if ($request->hasSession()) {
-            $request->getSession()->setId('');
-        }
-
         if (PHP_SESSION_ACTIVE === \session_status()) {
             \session_write_close();
 
             \session_id('');
             \session_unset();
             unset($_SESSION);
+        }
+
+        if ($request->hasSession()) {
+            $request->getSession()->setId('');
         }
     }
 }
