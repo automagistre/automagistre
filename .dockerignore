@@ -1,3 +1,6 @@
+# git
+.git
+
 # Symfony
 var/cache
 var/sessions
