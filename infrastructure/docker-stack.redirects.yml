@@ -27,7 +27,7 @@ services:
     astra50:
         image: schmunk42/nginx-redirect:0.6.0
         environment:
-            SERVER_REDIRECT: https://docs.google.com/forms/d/e/1FAIpQLSeGiqU4Qb8XUuCOyzCfWguGgWmFjbpLK_NI5sl8YNHEXXfoGA/viewform
+            SERVER_REDIRECT: docs.google.com/forms/d/e/1FAIpQLSeGiqU4Qb8XUuCOyzCfWguGgWmFjbpLK_NI5sl8YNHEXXfoGA/viewform
             SERVER_REDIRECT_SCHEME: https
             SERVER_REDIRECT_CODE: 302
         networks:
