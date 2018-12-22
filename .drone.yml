@@ -110,7 +110,9 @@ pipeline:
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
         commands:
-            - docker-compose --file infrastructure/docker-stack.automagistre.yml config | docker stack deploy --prune --with-registry-auth --compose-file - automagistre
+            - cd infrastructure
+            - docker-compose --file docker-stack.automagistre.yml config | docker stack deploy --prune --with-registry-auth --compose-file - automagistre
+            - docker stack deploy --prune --with-registry-auth --compose-file docker-stack.redirects.yml redirect
         when:
             event: push
             branch: master

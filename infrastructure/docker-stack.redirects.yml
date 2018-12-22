@@ -1,0 +1,54 @@
+version: '3.7'
+
+services:
+    dhu:
+        image: schmunk42/nginx-redirect:0.6.0
+        environment:
+            SERVER_REDIRECT: github.com/grachevko/docker-hosts-updater
+            SERVER_REDIRECT_SCHEME: https
+        networks:
+            - ingress
+        deploy:
+            mode: replicated
+            replicas: 1
+            update_config:
+                parallelism: 1
+                order: start-first
+            restart_policy:
+                condition: on-failure
+            labels:
+                - "traefik.docker.network=proxy"
+                - "traefik.enable=true"
+                - "traefik.frontend.rule=Host:dhu.grachevko.ru"
+                - "traefik.port=80"
+                - "traefik.protocol=http"
+                - "traefik.backend.loadbalancer.method=wrr"
+
+    astra50:
+        image: schmunk42/nginx-redirect:0.6.0
+        environment:
+            SERVER_REDIRECT: https://docs.google.com/forms/d/e/1FAIpQLSeGiqU4Qb8XUuCOyzCfWguGgWmFjbpLK_NI5sl8YNHEXXfoGA/viewform
+            SERVER_REDIRECT_SCHEME: https
+            SERVER_REDIRECT_CODE: 302
+        networks:
+            - ingress
+        deploy:
+            mode: replicated
+            replicas: 1
+            update_config:
+                parallelism: 1
+                order: start-first
+            restart_policy:
+                condition: on-failure
+            labels:
+                - "traefik.docker.network=proxy"
+                - "traefik.enable=true"
+                - "traefik.frontend.rule=Host:astra50.ru,www.astra50.ru"
+                - "traefik.port=80"
+                - "traefik.protocol=http"
+                - "traefik.backend.loadbalancer.method=wrr"
+
+networks:
+    ingress:
+        external: true
+        name: proxy
