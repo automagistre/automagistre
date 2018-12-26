@@ -91,7 +91,6 @@ COPY ./ ${APP_DIR}/
 
 COPY --from=node ${APP_DIR}/public/assets/build/* ${APP_DIR}/public/assets/build/
 
-RUN docker-php-ext-enable opcache
 RUN set -ex \
     && composer install --no-interaction --no-progress $(if [ "prod" = "$APP_ENV" ]; then echo "--no-dev"; fi) \
     && chown -R www-data:www-data ${APP_DIR}/var
