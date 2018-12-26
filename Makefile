@@ -19,11 +19,11 @@ endef
 notify = notify-send --urgency="critical" "Makefile: $@" "COMPLETE!"
 
 init:
-	cp -n $(APP_DIR)/.env.dist $(APP_DIR)/.env || true
-	cp -n $(APP_DIR)/docker/php/php.ini $(APP_DIR)/docker/php/php-dev.ini || true
+	cp -n .env.dist .env || true
+	cp -n docker-compose.override.yml.dist docker-compose.override.yml || true
 	cp -n ./contrib/* ./ || true
-	cp -n -r $(APP_DIR)/contrib/* $(APP_DIR)/ || true
-	mkdir -p $(APP_DIR)/var/snapshots
+	cp -n -r contrib/* / || true
+	mkdir -p /var/snapshots
 un-init:
 	rm -rf $(APP_DIR)/.env
 re-init: un-init init
@@ -112,15 +112,18 @@ endif
 ###< DOCKER ###
 
 ###> APP ###
+APP_IMAGE = automagistre/app:dev
 app-build:
-	docker-compose build \
+	docker build \
 		--build-arg APP_ENV=dev \
 		--build-arg APP_DEBUG=1 \
 		--build-arg APP_VERSION=dev \
 		--build-arg APP_BUILD_TIME="`date --rfc-2822`" \
-		app
+		--target app \
+		--tag $(APP_IMAGE) \
+		.
 app-push:
-	docker-compose push app
+	docker push $(APP_IMAGE)
 
 APP = docker-compose run --rm $(if $(ENTRYPOINT),--entrypoint "$(ENTRYPOINT)" )$(if $(ENV),-e APP_ENV=$(ENV) )$(if $(DEBUG),-e APP_DEBUG=$(DEBUG) )app
 

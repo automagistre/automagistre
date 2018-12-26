@@ -2,11 +2,10 @@
 .git
 
 # Symfony
-var/cache
-var/sessions
-var/logs
+var
 public/bundles
 .env
+.env.*
 
 # Composer
 vendor
@@ -14,3 +13,7 @@ vendor
 # Node
 /node_modules
 /public/assets/build
+
+# Docker
+docker-compose.*
+Dockerfile

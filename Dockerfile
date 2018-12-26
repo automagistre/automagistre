@@ -17,7 +17,8 @@ COPY assets ${APP_DIR}/assets
 
 RUN gulp build:main-script build:scripts build:less
 
-FROM php:7.2.12-apache-stretch as app
+FROM composer:1.8.0 as composer
+FROM php:7.2.13-cli-stretch as app
 
 LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 
@@ -30,38 +31,37 @@ RUN set -ex \
     && apt-get update && apt-get install -y --no-install-recommends \
         git \
         openssh-client \
-        zlib1g-dev \
+        libzip-dev \
         netcat \
         libmemcached-dev \
-	\
-	&& curl http://download.icu-project.org/files/icu4c/63.1/icu4c-63_1-src.tgz -o /tmp/icu4c.tgz \
-	&& tar zxvf /tmp/icu4c.tgz > /dev/null \
-	&& cd icu/source \
-	&& ./configure --prefix=/opt/icu && make && make install \
-	\
-	&& docker-php-ext-configure intl --with-icu-dir=/opt/icu \
-    && docker-php-ext-install zip intl pdo_mysql iconv opcache pcntl \
-    && rm -rf ${PHP_INI_DIR}/conf.d/docker-php-ext-opcache.ini \
-    && pecl install xdebug-2.6.1 apcu memcached \
-    && docker-php-ext-enable memcached apcu \
-    \
+        unzip \
     && rm -r /var/lib/apt/lists/*
 
-RUN a2enmod rewrite
+RUN set -ex \
+    && docker-php-ext-install zip pdo_mysql iconv opcache pcntl
 
-ENV COMPOSER_VERSION 1.7.3
+RUN set -ex \
+	&& cd /tmp \
+	&& curl http://download.icu-project.org/files/icu4c/63.1/icu4c-63_1-src.tgz | tar xz \
+	&& cd icu/source \
+	&& ./configure --prefix=/opt/icu && make && make install \
+	&& docker-php-ext-configure intl --with-icu-dir=/opt/icu \
+	&& docker-php-ext-install intl \
+	&& rm -rf /tmp/icu
+
+ENV PECL_EXTENSIONS xdebug apcu memcached
+RUN set -ex \
+    && pecl install ${PECL_EXTENSIONS} && docker-php-ext-enable ${PECL_EXTENSIONS}
+
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_MEMORY_LIMIT -1
-RUN curl -s https://raw.githubusercontent.com/composer/getcomposer.org/master/web/installer \
-    | php -- --quiet --install-dir=/usr/local/bin --filename=composer --version=${COMPOSER_VERSION}  \
-    && composer global require "hirak/prestissimo:^0.3" \
-    && composer --version
+COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 ENV WAIT_FOR_IT /usr/local/bin/wait-for-it.sh
 RUN curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh -o ${WAIT_FOR_IT} \
     && chmod +x ${WAIT_FOR_IT}
 
-ENV RR_VERSION 1.2.7
+ENV RR_VERSION 1.2.8
 RUN set -ex \
     && cd /tmp \
     && curl -L https://github.com/spiral/roadrunner/releases/download/v${RR_VERSION}/roadrunner-${RR_VERSION}-linux-amd64.tar.gz | tar xz \
@@ -71,6 +71,7 @@ RUN set -ex \
 COPY composer.json composer.lock ${APP_DIR}/
 RUN set -ex \
     && mkdir -p var \
+    && composer global require "hirak/prestissimo:^0.3" \
     && composer install --no-interaction --no-progress --no-scripts
 
 ARG APP_ENV
@@ -82,15 +83,15 @@ ENV APP_VERSION ${APP_VERSION}
 ARG APP_BUILD_TIME
 ENV APP_BUILD_TIME ${APP_BUILD_TIME}
 
-COPY docker/apache/apache.conf ${APACHE_CONFDIR}/sites-enabled/000-default.conf
-COPY docker/php/* ${PHP_INI_DIR}/
-COPY docker/bin/* /usr/local/bin/
+ENV PHP_MEMORY_LIMIT 128m
+ENV PHP_OPCACHE_ENABLE 1
+COPY config/php.ini ${PHP_INI_DIR}/php.ini
 
 COPY ./ ${APP_DIR}/
 
 COPY --from=node ${APP_DIR}/public/assets/build/* ${APP_DIR}/public/assets/build/
 
-RUN if [ "prod" = "$APP_ENV" ]; then docker-php-ext-enable opcache; fi
+RUN docker-php-ext-enable opcache
 RUN set -ex \
     && composer install --no-interaction --no-progress $(if [ "prod" = "$APP_ENV" ]; then echo "--no-dev"; fi) \
     && chown -R www-data:www-data ${APP_DIR}/var

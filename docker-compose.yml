@@ -2,16 +2,13 @@ version: '3.7'
 
 services:
     app:
-        image: automagistre/app:dev
-        build:
-            context: ../
-            target: app
-#        command: rr serve -d -v
+        image: automagistre/app@sha256:3e3153d32126c9dfa25900e230e183d7877dc644c1ed2b072ffdedb1c276081b
+        command: rr serve
         labels:
             ru.grachevko.dhu: '{sto,www}.automagistre.local'
             restartable: 'true'
         volumes:
-            - ../:/usr/local/app
+            - ./:/usr/local/app
         environment:
             APP_ENV: prod
             APP_DEBUG: 0
@@ -26,7 +23,7 @@ services:
                 target: /var/lib/mysql
                 tmpfs:
                     size: 1024m
-            - ../:/usr/local/app
+            - ./:/usr/local/app
         environment:
             MYSQL_DATABASE: db
             MYSQL_USER: db
@@ -50,3 +47,9 @@ services:
             timeout: 5s
             retries: 3
             start_period: 5s
+
+    dockerhost:
+        image: qoomon/docker-host:2.0.4
+        cap_add:
+            - NET_ADMIN
+            - NET_RAW

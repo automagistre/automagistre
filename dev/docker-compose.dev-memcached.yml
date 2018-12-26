@@ -1,6 +1,0 @@
-version: '3.7'
-
-services:
-    memcached:
-        labels:
-            restartable: 'false'

@@ -1,5 +1,4 @@
 /public/check.php
-/docker-compose.yml
 /docker-compose.override.yml
 
 # Dev
@@ -29,3 +28,7 @@
 /phpunit.xml
 ###< phpunit/phpunit ###
 /.idea/
+
+###> symfony/web-server-bundle ###
+/.web-server-pid
+###< symfony/web-server-bundle ###

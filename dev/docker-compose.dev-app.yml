@@ -1,9 +1,0 @@
-version: '3.7'
-
-services:
-    app:
-        environment:
-            APP_ENV: dev
-            APP_DEBUG: 1
-        volumes:
-            - ../docker/php/php-dev.ini:/usr/local/etc/php/php.ini

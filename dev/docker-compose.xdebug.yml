@@ -1,7 +1,0 @@
-version: '3.7'
-
-services:
-    app:
-        entrypoint:
-            - "docker-php-entrypoint-xdebug"
-            - "docker-php-entrypoint"
