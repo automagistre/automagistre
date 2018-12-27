@@ -24,7 +24,8 @@ if (\class_exists(Dotenv::class) && \file_exists($env = \dirname(__DIR__).'/.env
 if ($debug = \filter_var(\getenv('APP_DEBUG'), FILTER_VALIDATE_BOOLEAN)) {
     \umask(0000);
 
-    function sdump($var) {
+    function sdump($var)
+    {
         $dumper = new SpiralDebug\Dumper();
         $dumper->setRenderer(SpiralDebug\Dumper::ERROR_LOG, new SpiralDebug\Renderer\ConsoleRenderer());
 
@@ -72,31 +73,31 @@ while ($req = $psr7->acceptRequest()) {
             && [] !== $request->getSession()->all()
             && !\in_array($request->getSession()->getId(), ['', $sessionId], true)
         ) {
-            $cookie_options = $kernel->getContainer()->getParameter('session.storage.options');
+            $cookieOptions = $kernel->getContainer()->getParameter('session.storage.options');
             $response->headers->setCookie(
                 new \Symfony\Component\HttpFoundation\Cookie(
                     \session_name(),
                     \session_id(),
-                    $cookie_options['cookie_lifetime'] ?? 0,
-                    $cookie_options['cookie_path'] ?? '/',
-                    $cookie_options['cookie_domain'] ?? '',
-                    ($cookie_options['cookie_secure'] ?? 'auto') === 'auto' ? $request->isSecure() : (bool) ($cookie_options['cookie_secure'] ?? 'auto'),
-                    $cookie_options['cookie_httponly'] ?? true,
+                    $cookieOptions['cookie_lifetime'] ?? 0,
+                    $cookieOptions['cookie_path'] ?? '/',
+                    $cookieOptions['cookie_domain'] ?? '',
+                    ($cookieOptions['cookie_secure'] ?? 'auto') === 'auto'
+                        ? $request->isSecure() : (bool) ($cookieOptions['cookie_secure'] ?? 'auto'),
+                    $cookieOptions['cookie_httponly'] ?? true,
                     false,
-                    $cookie_options['cookie_samesite'] ?? null
+                    $cookieOptions['cookie_samesite'] ?? null
                 )
             );
         }
 
         $psr7->respond($diactorosFactory->createResponse($response));
         $kernel->terminate($request, $response);
-        $kernel->reboot($kernel->getCacheDir());
+        $kernel->reboot(null);
     } catch (\Throwable $e) {
         $psr7->getWorker()->error((string) $e);
     } finally {
         if (PHP_SESSION_ACTIVE === \session_status()) {
             \session_write_close();
-
             \session_id('');
             \session_unset();
         }
