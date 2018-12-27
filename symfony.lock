@@ -119,6 +119,9 @@
     "egulias/email-validator": {
         "version": "2.1.3"
     },
+    "facile-it/doctrine-mysql-come-back": {
+        "version": "v1.6.5"
+    },
     "friendsofphp/php-cs-fixer": {
         "version": "2.2",
         "recipe": {

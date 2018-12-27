@@ -2,12 +2,22 @@ doctrine:
     dbal:
         types:
             phone_number: \Misd\PhoneNumberBundle\Doctrine\DBAL\Types\PhoneNumberType
-        mapping_types:
-            enum: string
-        driver:   pdo_mysql
-        url: '%env(resolve:DATABASE_URL)%'
-        charset:  UTF8
-        server_version: mariadb-10.3.10
+        default_connection: default
+        connections:
+            default:
+                mapping_types:
+                    enum: string
+                charset:  UTF8
+                server_version: mariadb-10.3.10
+                wrapper_class: 'Facile\DoctrineMySQLComeBack\Doctrine\DBAL\Connection'
+                driver_class: 'Facile\DoctrineMySQLComeBack\Doctrine\DBAL\Driver\PDOMySql\Driver'
+                options:
+                    x_reconnect_attempts: 3
+                host:     "%env(DATABASE_HOST)%"
+                port:     "%env(int:DATABASE_PORT)%"
+                dbname:   "%env(DATABASE_NAME)%"
+                user:     "%env(DATABASE_USER)%"
+                password: "%env(DATABASE_PASSWORD)%"
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
@@ -26,8 +36,11 @@ doctrine:
                 is_bundle: false
 
 parameters:
-    env(DATABASE_URL): 'mysql://db:db@mysql:3306/db'
-    mysql_version: 10.1.23-MariaDB-1~jessie
+    env(DATABASE_HOST): mysql
+    env(DATABASE_PORT): 3306
+    env(DATABASE_USER): db
+    env(DATABASE_NAME): db
+    env(DATABASE_PASSWORD): null
 
 services:
     Doctrine\ORM\EntityManager:
