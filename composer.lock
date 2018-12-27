@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e5958345c4cb10e634b32c7b690841d8",
+    "content-hash": "e03912169214e0bc037706455fbeeadf",
     "packages": [
         {
             "name": "beberlei/DoctrineExtensions",
@@ -2313,6 +2313,57 @@
                 "versions"
             ],
             "time": "2018-06-13T13:22:40+00:00"
+        },
+        {
+            "name": "long-running/long-running",
+            "version": "0.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LongRunning/LongRunning.git",
+                "reference": "dde8138ca2ad58d577b600a2cff535e372d8123b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/LongRunning/LongRunning/zipball/dde8138ca2ad58d577b600a2cff535e372d8123b",
+                "reference": "dde8138ca2ad58d577b600a2cff535e372d8123b",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "doctrine/doctrine-bundle": "~1.0",
+                "doctrine/orm": "~2.3",
+                "phpunit/phpunit": "^7.4",
+                "sentry/sentry-symfony": "~1.0 || ~2.0",
+                "simple-bus/rabbitmq-bundle-bridge": "~2.1 || ~4.0",
+                "symfony/monolog-bundle": "^3.1.2",
+                "symfony/swiftmailer-bundle": "~2.3 || ~3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "LongRunning\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Matthias Noback",
+                    "email": "matthiasnoback@gmail.com",
+                    "homepage": "http://php-and-symfony.matthiasnoback.nl"
+                },
+                {
+                    "name": "Cliff Odijk",
+                    "email": "cliff@jcid.nl"
+                }
+            ],
+            "description": "Tools for working with long-running processes",
+            "homepage": "http://github.com/LongRunning/LongRunning",
+            "time": "2018-12-27T10:16:47+00:00"
         },
         {
             "name": "misd/phone-number-bundle",

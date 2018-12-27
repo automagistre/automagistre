@@ -161,6 +161,15 @@
     "jean85/pretty-package-versions": {
         "version": "1.1"
     },
+    "long-running/long-running": {
+        "version": "0.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "0.1",
+            "ref": "b661d2358dbaee7826b470522ec4cb6b948cc80a"
+        }
+    },
     "misd/phone-number-bundle": {
         "version": "v1.3.2"
     },

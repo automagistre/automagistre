@@ -5,6 +5,7 @@ declare(strict_types=1);
 \ini_set('display_errors', 'stderr');
 
 use App\Kernel;
+use LongRunning\Core\Cleaner;
 use Spiral\Debug as SpiralDebug;
 use Spiral\Goridge\StreamRelay;
 use Spiral\RoadRunner\PSR7Client;
@@ -92,6 +93,7 @@ while ($req = $psr7->acceptRequest()) {
 
         $psr7->respond($diactorosFactory->createResponse($response));
         $kernel->terminate($request, $response);
+        $kernel->getContainer()->get(Cleaner::class)->cleanUp();
     } catch (\Throwable $e) {
         $psr7->getWorker()->error((string) $e);
     } finally {
