@@ -92,6 +92,7 @@ while ($req = $psr7->acceptRequest()) {
 
         $psr7->respond($diactorosFactory->createResponse($response));
         $kernel->terminate($request, $response);
+        $kernel->getContainer()->get('doctrine.dbal.connection')->close();
     } catch (\Throwable $e) {
         $psr7->getWorker()->error((string) $e);
     } finally {
