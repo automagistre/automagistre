@@ -1,0 +1,15 @@
+long_running:
+    bernard:
+        enabled: false
+    doctrine_orm:
+        enabled: true
+    doctrine_dbal:
+        enabled: true
+    monolog:
+        enabled: true
+    swift_mailer:
+        enabled: false
+    sentry:
+        enabled: true
+    simple_bus_rabbit_mq:
+        enabled: false
