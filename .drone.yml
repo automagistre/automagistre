@@ -79,6 +79,8 @@ pipeline:
         commands:
             - $$WAIT_FOR_IT mysql:3306
             - console doctrine:schema:create
+        environment:
+            MYSQL_PASSWORD: 'db'
 
     test phpunit:
         group: test
@@ -86,6 +88,8 @@ pipeline:
         commands:
             - cd "$APP_DIR"
             - paratest --processes=$(grep -c ^processor /proc/cpuinfo || 4)
+        environment:
+            MYSQL_PASSWORD: 'db'
 
     build app prod:
         group: deploy

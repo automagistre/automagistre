@@ -12,6 +12,7 @@ services:
         environment:
             APP_ENV: prod
             APP_DEBUG: 0
+            MYSQL_PASSWORD: 'db'
 
     mysql:
         image: mariadb:10.3.10

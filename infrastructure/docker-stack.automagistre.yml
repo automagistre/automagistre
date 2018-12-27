@@ -12,6 +12,7 @@ services:
             - ingress
         secrets:
             - { source: automagistre_env, target: /usr/local/app/.env }
+            - mysql_password
         deploy:
             mode: replicated
             replicas: 1

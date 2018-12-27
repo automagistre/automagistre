@@ -40,7 +40,8 @@ parameters:
     env(MYSQL_PORT): 3306
     env(MYSQL_USER): db
     env(MYSQL_NAME): db
-    env(MYSQL_PASSWORD): db
+    env(MYSQL_PASSWORD): '%env(file:MYSQL_PASSWORD_FILE)%'
+    env(MYSQL_PASSWORD_FILE): /run/secrets/mysql_password
 
 services:
     Doctrine\ORM\EntityManager:
