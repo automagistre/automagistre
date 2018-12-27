@@ -40,7 +40,7 @@ parameters:
     env(DATABASE_PORT): 3306
     env(DATABASE_USER): db
     env(DATABASE_NAME): db
-    env(DATABASE_PASSWORD): null
+    env(DATABASE_PASSWORD): db
 
 services:
     Doctrine\ORM\EntityManager:
