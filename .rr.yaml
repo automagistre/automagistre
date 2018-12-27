@@ -3,7 +3,7 @@ http:
     workers:
         command: "php bin/worker.php"
         pool:
-            numWorkers: 4
+            numWorkers: 8
             maxJobs:  500
 
 static:
