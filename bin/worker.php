@@ -52,6 +52,8 @@ $psr7 = new PSR7Client(new Worker($relay));
 $httpFoundationFactory = new HttpFoundationFactory();
 $diactorosFactory = new DiactorosFactory();
 
+$_SESSION = [];
+
 while ($req = $psr7->acceptRequest()) {
     try {
         $request = $httpFoundationFactory->createRequest($req);
@@ -97,11 +99,12 @@ while ($req = $psr7->acceptRequest()) {
 
             \session_id('');
             \session_unset();
-            unset($_SESSION);
         }
 
         if ($request->hasSession()) {
             $request->getSession()->setId('');
         }
+
+        $_SESSION = [];
     }
 }
