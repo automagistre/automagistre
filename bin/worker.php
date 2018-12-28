@@ -26,8 +26,11 @@ if ($debug = \filter_var(\getenv('APP_DEBUG'), FILTER_VALIDATE_BOOLEAN)) {
 
     function sdump($var)
     {
-        $dumper = new SpiralDebug\Dumper();
-        $dumper->setRenderer(SpiralDebug\Dumper::ERROR_LOG, new SpiralDebug\Renderer\ConsoleRenderer());
+        static $dumper = null;
+        if (null === $dumper) {
+            $dumper = new SpiralDebug\Dumper();
+            $dumper->setRenderer(SpiralDebug\Dumper::ERROR_LOG, new SpiralDebug\Renderer\ConsoleRenderer());
+        }
 
         $dumper->dump($var, SpiralDebug\Dumper::ERROR_LOG);
 
@@ -92,7 +95,6 @@ while ($req = $psr7->acceptRequest()) {
 
         $psr7->respond($diactorosFactory->createResponse($response));
         $kernel->terminate($request, $response);
-        $kernel->reboot(null);
     } catch (\Throwable $e) {
         $psr7->getWorker()->error((string) $e);
     } finally {
@@ -103,6 +105,9 @@ while ($req = $psr7->acceptRequest()) {
         }
 
         if ($request->hasSession()) {
+            if ($request->getSession()->isStarted()) {
+                $request->getSession()->save();
+            }
             $request->getSession()->setId('');
         }
 

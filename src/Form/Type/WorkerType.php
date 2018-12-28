@@ -7,11 +7,10 @@ namespace App\Form\Type;
 use App\Entity\Employee;
 use App\Entity\Operand;
 use App\Entity\Person;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -20,44 +19,28 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class WorkerType extends AbstractType
 {
     /**
-     * @var EntityManagerInterface
-     */
-    private $em;
-
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $em = $this->em;
-
         $resolver->setDefaults([
             'label' => false,
             'placeholder' => 'Выберите исполнителя',
-            'choice_loader' => new CallbackChoiceLoader(function () use ($em) {
-                $employees = $em->createQueryBuilder()
-                    ->select('person')
-                    ->from(Person::class, 'person')
-                    ->join(Employee::class, 'employee', Join::WITH, 'person = employee.person')
-                    ->where('employee.firedAt IS NULL')
-                    ->getQuery()
-                    ->getResult();
+            'class' => Operand::class,
+            'query_builder' => function (EntityRepository $repository) {
+                $qb = $repository->createQueryBuilder('entity');
+                $expr = $qb->expr();
 
-                $contractors = $em->createQueryBuilder()
-                    ->select('entity')
-                    ->from(Operand::class, 'entity')
-                    ->where('entity.contractor = :is_contractor')
-                    ->setParameter('is_contractor', true)
-                    ->getQuery()
-                    ->getResult();
-
-                return \array_merge($employees, $contractors);
-            }),
+                return $qb
+                    ->leftJoin(Person::class, 'person', Join::WITH, 'entity.id = person.id')
+                    ->leftJoin(Employee::class, 'employee', Join::WITH, 'person = employee.person')
+                    ->where($expr->andX(
+                        $expr->isNotNull('employee'),
+                        $expr->isNull('employee.firedAt')
+                    ))
+                    ->orWhere('entity.contractor = :is_contractor')
+                    ->setParameter('is_contractor', true);
+            },
             'choice_label' => function (Operand $operand) {
                 return (string) $operand;
             },
@@ -70,6 +53,6 @@ final class WorkerType extends AbstractType
      */
     public function getParent(): string
     {
-        return ChoiceType::class;
+        return EntityType::class;
     }
 }

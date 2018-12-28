@@ -35,7 +35,6 @@ final class CleanerListener implements EventSubscriberInterface
 
     public function onKernelTerminate(): void
     {
-        return;
         $this->cleaner->cleanUp();
     }
 }
