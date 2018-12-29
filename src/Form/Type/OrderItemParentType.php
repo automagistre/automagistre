@@ -7,12 +7,15 @@ namespace App\Form\Type;
 use App\Entity\OrderItem;
 use App\Entity\OrderItemGroup;
 use App\Entity\OrderItemPart;
+use App\Entity\OrderItemService;
+use App\Form\Model\OrderGroup as OrderItemGroupModel;
 use App\Form\Model\OrderItemModel;
 use App\Form\Model\OrderPart as OrderItemPartModel;
-use App\Utils\ExceptionUtils;
-use LogicException;
+use App\Form\Model\OrderService as OrderItemServiceModel;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -36,35 +39,45 @@ final class OrderItemParentType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $currentItem = $this->requestStack->getMasterRequest()->attributes->get('easyadmin')['item'];
-
-        if ($currentItem instanceof OrderItem) {
-            $rootItems = $currentItem->getOrder()->getRootItems();
-        } elseif ($currentItem instanceof OrderItemModel) {
-            $rootItems = $currentItem->order->getRootItems();
-        } else {
-            throw new LogicException(
-                ExceptionUtils::invalidType('$currentItem', OrderItem::class.'|'.OrderItemModel::class, $currentItem)
-            );
-        }
-
-        $items = [];
-        $appendItem = function (OrderItem $item, $currentItem) use (&$items): void {
-            if (null === $currentItem || $this->validParent($currentItem, $item)) {
-                $items[] = $item;
-            }
-        };
-
-        foreach ($rootItems as $item) {
-            $appendItem($item, $currentItem);
-
-            foreach ($this->getChildren($item) as $child) {
-                $appendItem($child, $currentItem);
-            }
-        }
-
         $resolver->setDefaults([
-            'choices' => $items,
+            'class' => OrderItem::class,
+            'query_builder' => function (EntityRepository $repository) {
+                $currentItem = $this->requestStack->getMasterRequest()->attributes->get('easyadmin')['item'];
+
+                $qb = $repository->createQueryBuilder('entity')
+                    ->where('entity.order = :order');
+                $expr = $qb->expr();
+
+                if ($currentItem instanceof OrderItem) {
+                    $qb->setParameter('order', $currentItem->getOrder());
+                } elseif ($currentItem instanceof OrderItemModel) {
+                    $qb->setParameter('order', $currentItem->order);
+                }
+
+                if ($currentItem instanceof OrderItemGroup || $currentItem instanceof OrderItemGroupModel) {
+                    return $qb->where($expr->isNull('entity.id'));
+                }
+
+                $orExpr = [];
+
+                $qb
+                    ->leftJoin(OrderItemGroup::class, 'groups', Join::WITH, 'entity.id = groups.id');
+                $orExpr[] = $expr->isNotNull('groups.id');
+
+                if ($currentItem instanceof OrderItemService || $currentItem instanceof OrderItemServiceModel) {
+                    return $qb->andWhere($expr->orX(...$orExpr));
+                }
+
+                $qb
+                    ->leftJoin(OrderItemService::class, 'service', Join::WITH, 'entity.id = service.id');
+                $orExpr[] = $expr->isNotNull('service.id');
+
+                if ($currentItem instanceof OrderItemPart || $currentItem instanceof OrderItemPartModel) {
+                    return $qb->andWhere($expr->orX(...$orExpr));
+                }
+
+                throw new \LogicException(\sprintf('Unsupported currentItem "%s"', \get_class($currentItem)));
+            },
             'choice_label' => function (OrderItem $item) {
                 return \str_repeat(' - ', $item->getLevel()).$item;
             },
@@ -76,59 +89,6 @@ final class OrderItemParentType extends AbstractType
      */
     public function getParent(): string
     {
-        return ChoiceType::class;
-    }
-
-    private function getChildren(OrderItem $item): array
-    {
-        $items = [];
-        foreach ($item->getChildren() as $child) {
-            $items[] = [$child];
-
-            $items[] = $this->getChildren($child);
-        }
-
-        if ([] === $items) {
-            return [];
-        }
-
-        return 1 < \count($items) ? \array_merge(...$items) : \array_shift($items);
-    }
-
-    /**
-     * @param OrderItem|OrderItemModel $nestable
-     */
-    private function validParent($nestable, OrderItem $parent): bool
-    {
-        if ($parent instanceof OrderItemGroup) {
-            if ($nestable instanceof OrderItemPartModel) {
-                return true;
-            }
-
-            if ($nestable instanceof OrderItemGroup) {
-                if ($nestable->getId() === $parent->getId()) {
-                    return false;
-                }
-
-                $p = $parent;
-                while ($p = $p->getParent()) {
-                    if ($p->getId() === $nestable->getId()) {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
-
-        if ($parent instanceof OrderItemPart) {
-            return false;
-        }
-
-        if ($nestable instanceof OrderItemPart || $nestable instanceof OrderItemPartModel) {
-            return true;
-        }
-
-        return false;
+        return EntityType::class;
     }
 }
