@@ -107,6 +107,7 @@ while ($req = $psr7->acceptRequest()) {
         if ($request->hasSession()) {
             if ($request->getSession()->isStarted()) {
                 $request->getSession()->save();
+                $kernel->getContainer()->get('session.memcached')->quit();
             }
             $request->getSession()->setId('');
         }

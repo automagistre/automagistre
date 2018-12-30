@@ -25,6 +25,7 @@ services:
 
     session.memcached:
         class: Memcached
+        public: true
         calls:
             - [ addServer, [ '%env(SESSION_MEMCACHED_HOST)%', '%env(SESSION_MEMCACHED_PORT)%' ]]
     session.handler.memcached:
