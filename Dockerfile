@@ -50,8 +50,8 @@ RUN set -ex \
 	&& rm -rf /tmp/icu
 
 RUN set -ex \
-    && pecl install xdebug apcu memcached \
-    && docker-php-ext-enable xdebug apcu memcached
+    && pecl install xdebug memcached \
+    && docker-php-ext-enable xdebug memcached
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_MEMORY_LIMIT -1
@@ -94,7 +94,8 @@ COPY ./ ${APP_DIR}/
 COPY --from=node ${APP_DIR}/public/assets/build/* ${APP_DIR}/public/assets/build/
 
 RUN set -ex \
-    && composer install --no-interaction --no-progress $(if [ "prod" = "$APP_ENV" ]; then echo "--no-dev"; fi) \
+    && composer install --no-interaction --no-progress \
+        $(if [ "prod" = "$APP_ENV" ]; then echo "--no-dev --classmap-authoritative"; fi) \
     && chown -R www-data:www-data ${APP_DIR}/var
 
 HEALTHCHECK --interval=5s --timeout=5s --start-period=5s CMD nc -z 127.0.0.1 80
