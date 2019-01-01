@@ -138,6 +138,9 @@ permissions:
 
 app-cli:
 	$(APP)
+app-workers: EXEC=true
+app-workers:
+	$(APP) rr http:workers -i
 
 app-install: do-composer-install vendor-phar-remove
 
