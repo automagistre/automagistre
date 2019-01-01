@@ -1,5 +1,6 @@
 {
     "name": "automagistre/automagistre",
+    "description": "Main project of Automagistre LLC",
     "license": "proprietary",
     "type": "project",
     "autoload": {

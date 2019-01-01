@@ -72,6 +72,7 @@ RUN set -ex \
 
 COPY composer.json composer.lock ${APP_DIR}/
 RUN set -ex \
+    && composer validate \
     && mkdir -p var \
     && composer install --no-interaction --no-progress --no-scripts
 
