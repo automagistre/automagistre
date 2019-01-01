@@ -49,13 +49,15 @@ RUN set -ex \
 	&& docker-php-ext-install intl \
 	&& rm -rf /tmp/icu
 
-ENV PECL_EXTENSIONS xdebug apcu memcached
 RUN set -ex \
-    && pecl install ${PECL_EXTENSIONS} && docker-php-ext-enable ${PECL_EXTENSIONS}
+    && pecl install xdebug apcu memcached \
+    && docker-php-ext-enable xdebug apcu memcached
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_MEMORY_LIMIT -1
 COPY --from=composer /usr/bin/composer /usr/bin/composer
+RUN set -ex \
+    && composer global require "hirak/prestissimo:^0.3"
 
 ENV WAIT_FOR_IT /usr/local/bin/wait-for-it.sh
 RUN curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh -o ${WAIT_FOR_IT} \
@@ -71,7 +73,6 @@ RUN set -ex \
 COPY composer.json composer.lock ${APP_DIR}/
 RUN set -ex \
     && mkdir -p var \
-    && composer global require "hirak/prestissimo:^0.3" \
     && composer install --no-interaction --no-progress --no-scripts
 
 ARG APP_ENV
