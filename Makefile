@@ -41,6 +41,8 @@ update: do-update
 master: git-check-stage-is-clear git-fetch git-checkout-master git-reset-master do-update
 	@$(notify)
 
+cs: do-php-cs-fixer permissions
+
 clear-logs: app-clear-logs
 
 docker-hosts-updater:
