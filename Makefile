@@ -127,7 +127,10 @@ app-build:
 app-push:
 	docker push $(APP_IMAGE)
 
-APP = docker-compose run --rm $(if $(ENTRYPOINT),--entrypoint "$(ENTRYPOINT)" )$(if $(ENV),-e APP_ENV=$(ENV) )$(if $(DEBUG),-e APP_DEBUG=$(DEBUG) )app
+APP = docker-compose $(if $(EXEC),exec,run --rm )\
+	$(if $(ENTRYPOINT),--entrypoint "$(ENTRYPOINT)" )\
+	$(if $(ENV),-e APP_ENV=$(ENV) )\
+	$(if $(DEBUG),-e APP_DEBUG=$(DEBUG) )app
 
 permissions:
 	$(APP) sh -c "chown $(shell id -u):$(shell id -g) -R . && chmod 777 -R var/ || true"
