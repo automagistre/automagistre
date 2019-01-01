@@ -45,7 +45,7 @@ clear-logs: app-clear-logs
 
 docker-hosts-updater:
 	docker rm -f docker-hosts-updater || true
-	docker run -d --restart=always --name docker-hosts-updater -v /var/run/docker.sock:/var/run/docker.sock -v /etc/hosts:/opt/hosts grachev/docker-hosts-updater
+	docker run -d --restart=always --name docker-hosts-updater -v /var/run/docker.sock:/var/run/docker.sock -v /etc/hosts:/opt/hosts grachev/docker-hosts-updater:0.2
 
 ###> GIT ###
 git-check-stage-is-clear:
