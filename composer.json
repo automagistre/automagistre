@@ -54,7 +54,7 @@
     },
     "require-dev": {
         "brianium/paratest": "^2.1",
-        "friendsofphp/php-cs-fixer": "^2.13.2",
+        "friendsofphp/php-cs-fixer": "^2.14.0",
         "pedrotroller/php-cs-custom-fixer": "^2.15.4",
         "phpstan/phpstan": "^0.10.7",
         "phpstan/phpstan-doctrine": "^0.10",
