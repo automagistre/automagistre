@@ -5,12 +5,10 @@ declare(strict_types=1);
 \ini_set('display_errors', 'stderr');
 
 use App\Kernel;
+use App\SymfonyClient;
 use Spiral\Debug as SpiralDebug;
 use Spiral\Goridge\StreamRelay;
-use Spiral\RoadRunner\PSR7Client;
 use Spiral\RoadRunner\Worker;
-use Symfony\Bridge\PsrHttpMessage\Factory\DiactorosFactory;
-use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,68 +48,41 @@ if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? $_ENV['TRUSTED_HOSTS'] ?? false
 
 $kernel = new Kernel(\getenv('APP_ENV'), $debug);
 $kernel->boot();
-$relay = new StreamRelay(STDIN, STDOUT);
-//$relay = new SocketRelay('/tmp/rr.sock', null, SocketRelay::SOCK_UNIX);
-$psr7 = new PSR7Client(new Worker($relay));
-$httpFoundationFactory = new HttpFoundationFactory();
-$diactorosFactory = new DiactorosFactory();
 
-$_SESSION = [];
+$client = new SymfonyClient(new Worker(new StreamRelay(STDIN, STDOUT)));
+$session = $kernel->getContainer()->has('session') ? $kernel->getContainer()->get('session') : null;
+$cookieOptions = $kernel->getContainer()->getParameter('session.storage.options');
+$cookieFactory = function (Request $request) use ($session, $cookieOptions) {
+    return new \Symfony\Component\HttpFoundation\Cookie(
+        $session->getName(),
+        $session->getId(),
+        $cookieOptions['cookie_lifetime'] ?? 0,
+        $cookieOptions['cookie_path'] ?? '/',
+        $cookieOptions['cookie_domain'] ?? '',
+        ($cookieOptions['cookie_secure'] ?? 'auto') === 'auto'
+            ? $request->isSecure() : (bool) ($cookieOptions['cookie_secure'] ?? 'auto'),
+        $cookieOptions['cookie_httponly'] ?? true,
+        false,
+        $cookieOptions['cookie_samesite'] ?? null
+    );
+};
 
-while ($req = $psr7->acceptRequest()) {
+while ($request = $client->acceptRequest()) {
     try {
-        $request = $httpFoundationFactory->createRequest($req);
-
-        $sessionId = '';
-        if ($request->cookies->has(\session_name())) {
-            $sessionId = $request->cookies->get(\session_name());
-            \session_id($sessionId);
-            $kernel->getContainer()->get('session')->setId($sessionId);
-        }
+        $session->setId($request->cookies->get($session->getName(), ''));
 
         $response = $kernel->handle($request);
 
-        if (
-            $request->hasSession()
-            && [] !== $request->getSession()->all()
-            && !\in_array($request->getSession()->getId(), ['', $sessionId], true)
-        ) {
-            $cookieOptions = $kernel->getContainer()->getParameter('session.storage.options');
-            $response->headers->setCookie(
-                new \Symfony\Component\HttpFoundation\Cookie(
-                    \session_name(),
-                    \session_id(),
-                    $cookieOptions['cookie_lifetime'] ?? 0,
-                    $cookieOptions['cookie_path'] ?? '/',
-                    $cookieOptions['cookie_domain'] ?? '',
-                    ($cookieOptions['cookie_secure'] ?? 'auto') === 'auto'
-                        ? $request->isSecure() : (bool) ($cookieOptions['cookie_secure'] ?? 'auto'),
-                    $cookieOptions['cookie_httponly'] ?? true,
-                    false,
-                    $cookieOptions['cookie_samesite'] ?? null
-                )
-            );
+        if (!\in_array($session->getId(), ['', $request->cookies->get($session->getName())], true)) {
+            $response->headers->setCookie($cookieFactory($request));
         }
 
-        $psr7->respond($diactorosFactory->createResponse($response));
+        $client->respond($response);
         $kernel->terminate($request, $response);
     } catch (\Throwable $e) {
-        $psr7->getWorker()->error((string) $e);
+        $client->error((string) $e);
     } finally {
-        if (PHP_SESSION_ACTIVE === \session_status()) {
-            \session_write_close();
-            \session_id('');
-            \session_unset();
-        }
-
-        if ($request->hasSession()) {
-            if ($request->getSession()->isStarted()) {
-                $request->getSession()->save();
-                $kernel->getContainer()->get('session.memcached')->quit();
-            }
-            $request->getSession()->setId('');
-        }
-
-        $_SESSION = [];
+        $kernel->getContainer()->get('session.memcached')->quit();
+        \session_unset();
     }
 }

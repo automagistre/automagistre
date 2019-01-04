@@ -527,9 +527,6 @@
     "symfony/property-info": {
         "version": "v4.0.3"
     },
-    "symfony/psr-http-message-bridge": {
-        "version": "v1.1.0"
-    },
     "symfony/requirements-checker": {
         "version": "1.0",
         "recipe": {
