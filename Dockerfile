@@ -63,7 +63,7 @@ ENV WAIT_FOR_IT /usr/local/bin/wait-for-it.sh
 RUN curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh -o ${WAIT_FOR_IT} \
     && chmod +x ${WAIT_FOR_IT}
 
-ENV RR_VERSION 1.2.8
+ENV RR_VERSION 1.3.0
 RUN set -ex \
     && cd /tmp \
     && curl -L https://github.com/spiral/roadrunner/releases/download/v${RR_VERSION}/roadrunner-${RR_VERSION}-linux-amd64.tar.gz | tar xz \

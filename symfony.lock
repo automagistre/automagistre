@@ -152,9 +152,6 @@
     "guzzlehttp/psr7": {
         "version": "1.4.2"
     },
-    "http-interop/http-factory-diactoros": {
-        "version": "1.0.0"
-    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
