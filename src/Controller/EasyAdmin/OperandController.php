@@ -14,7 +14,6 @@ use App\Entity\Person;
 use App\Manager\PaymentManager;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\Query\Expr\Join;
-use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -83,19 +82,15 @@ class OperandController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function createSearchQueryBuilder(
-        $entityClass,
-        $searchQuery,
-        array $searchableFields,
-        $sortField = null,
-        $sortDirection = null,
-        $dqlFilter = null
-    ): QueryBuilder {
+    protected function autocompleteAction(): JsonResponse
+    {
+        $query = $this->request->query;
+
         $qb = $this->em->getRepository(Operand::class)->createQueryBuilder('operand')
             ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = operand.id AND operand INSTANCE OF '.Person::class)
             ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = operand.id AND operand INSTANCE OF '.Organization::class);
 
-        foreach (\explode(' ', $searchQuery) as $key => $item) {
+        foreach (\explode(' ', $query->get('query')) as $key => $item) {
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
@@ -108,18 +103,6 @@ class OperandController extends AbstractController
 
             $qb->setParameter($key, '%'.$item.'%');
         }
-
-        return $qb;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function autocompleteAction(): JsonResponse
-    {
-        $query = $this->request->query;
-
-        $qb = $this->createSearchQueryBuilder($query->get('entity'), $query->get('query'), []);
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
