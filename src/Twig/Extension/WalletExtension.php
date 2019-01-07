@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace App\Twig\Extension;
 
-use App\Entity\Employee;
 use App\Manager\PaymentManager;
-use Money\Money;
 use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
+use Twig\TwigFilter;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-class EmployeeExtension extends AbstractExtension
+class WalletExtension extends AbstractExtension
 {
     /**
      * @var PaymentManager
@@ -25,15 +23,10 @@ class EmployeeExtension extends AbstractExtension
         $this->paymentManager = $paymentManager;
     }
 
-    public function getFunctions(): array
+    public function getFilters(): array
     {
         return [
-            new TwigFunction('employee_balance', [$this, 'balance']),
+            new TwigFilter('balance', [$this->paymentManager, 'balance']),
         ];
-    }
-
-    public function balance(Employee $employee): Money
-    {
-        return $this->paymentManager->balance($employee->getPerson());
     }
 }

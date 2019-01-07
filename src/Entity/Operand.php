@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\DiscriminatorColumn(name="type", type="integer")
  * @ORM\DiscriminatorMap({"1": "Person", "2": "Organization"})
  */
-abstract class Operand
+abstract class Operand implements Transactional
 {
     use Identity;
 
@@ -47,6 +47,11 @@ abstract class Operand
     abstract public function getFullName(): string;
 
     abstract public function getTelephone(): ?PhoneNumber;
+
+    public function getTransactionClass(): string
+    {
+        return OperandTransaction::class;
+    }
 
     public function getEmail(): ?string
     {

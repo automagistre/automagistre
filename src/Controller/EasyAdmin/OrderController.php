@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
-use App\Costil;
 use App\Entity\Car;
 use App\Entity\Employee;
 use App\Entity\MotionOrder;
@@ -17,17 +16,18 @@ use App\Entity\OrderItemService;
 use App\Entity\OrderNote;
 use App\Entity\Organization;
 use App\Entity\Person;
+use App\Entity\Wallet;
 use App\Enum\OrderStatus;
 use App\Events;
-use App\Form\Model\Payment as PaymentModel;
+use App\Form\Type\MoneyType;
 use App\Form\Type\OrderItemServiceType;
-use App\Form\Type\PaymentType;
 use App\Manager\PaymentManager;
 use App\Manager\ReservationManager;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
+use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use LogicException;
 use Money\Currency;
 use Money\Money;
@@ -40,7 +40,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -222,7 +224,7 @@ final class OrderController extends AbstractController
                 'required' => false,
             ])
             ->handleRequest($this->request);
-        /** @var PaymentModel $model */
+
         $model = $form->getData();
         $model->description = \sprintf('# Аванс по заказу #%s', $order->getId());
 
@@ -230,7 +232,15 @@ final class OrderController extends AbstractController
             $model->recipient = null;
 
             $this->em->transactional(function () use ($order, $model, $form): void {
-                $order->addPayment($model->amountCash->add($model->amountNonCash), $form->get('desc')->getData());
+                /** @var Money $payment */
+                foreach ($model->wallets as ['payment' => $payment]) {
+                    if (!$payment->isPositive()) {
+                        continue;
+                    }
+
+                    $order->addPayment($payment, $form->get('desc')->getData());
+                }
+
                 $this->handlePayment($model);
             });
 
@@ -463,10 +473,6 @@ final class OrderController extends AbstractController
             $order->close($this->getUser(), $balance);
 
             if ($customer instanceof Operand) {
-                $description = \sprintf('# Списание по заказу #%s', $order->getId());
-
-                $this->paymentManager->createPayment($customer, $description, $order->getTotalPrice()->negative());
-
                 foreach ($order->getPayments() as $payment) {
                     $description = \sprintf(
                         '# Начисление предоплаты%s по заказу #%s',
@@ -476,6 +482,9 @@ final class OrderController extends AbstractController
 
                     $this->paymentManager->createPayment($customer, $description, $payment->getMoney());
                 }
+
+                $description = \sprintf('# Списание по заказу #%s', $order->getId());
+                $this->paymentManager->createPayment($customer, $description, $order->getTotalPrice()->negative());
             }
 
             foreach ($order->getItems(OrderItemPart::class) as $item) {
@@ -689,6 +698,8 @@ final class OrderController extends AbstractController
 
     private function createPaymentForm(Order $order): FormInterface
     {
+        $em = $this->em;
+
         $customer = $order->getCustomer();
         $balance = null;
         if ($customer instanceof Operand) {
@@ -697,31 +708,83 @@ final class OrderController extends AbstractController
 
         $forPayment = $order->getTotalForPayment($balance);
 
-        $model = new PaymentModel();
+        $model = new \stdClass();
+        $model->forPayment = $forPayment->isPositive() ? $forPayment : new Money(0, $forPayment->getCurrency());
         $model->recipient = $customer;
         $model->description = '# Начисление по заказу #'.$order->getId();
-        $model->amountCash = $forPayment->isPositive() ? $forPayment : new Money(0, $forPayment->getCurrency());
-        $model->amountNonCash = new Money(0, $forPayment->getCurrency());
 
-        return $this->createForm(PaymentType::class, $model, [
-            'disable_recipient' => true,
-            'disable_description' => true,
+        $formBuilder = $this->createFormBuilder($model, [
             'label' => false,
-        ]);
+            'constraints' => [
+                new Assert\Callback(function (\stdClass $model, ExecutionContextInterface $context): void {
+                    /** @var Money|null $money */
+                    $money = null;
+                    foreach ($model->wallets as ['payment' => $payment]) {
+                        $money = null === $money ? $payment : $money->add($payment);
+                    }
+
+                    if (!$money->isPositive()) {
+                        $context->buildViolation('Сумма должна быть положительной')
+                            ->addViolation();
+                    }
+                }),
+            ],
+        ])
+            ->add('recipient', EasyAdminAutocompleteType::class, [
+                'class' => Operand::class,
+                'label' => 'Получатель',
+                'disabled' => true,
+            ])
+            ->add('description', TextType::class, [
+                'label' => 'Описание',
+                'required' => false,
+                'disabled' => true,
+            ]);
+
+        $wallets = $em->getRepository(Wallet::class)->findBy(['useInOrder' => true]);
+
+        foreach ($wallets as $index => $wallet) {
+            $model->wallets['wallet_'.$wallet->getId()] = [
+                'wallet' => $wallet,
+                'payment' => 0 === $index
+                    ? $model->forPayment
+                    : new Money(0, $forPayment->getCurrency()),
+            ];
+
+            $walletType = $formBuilder->create('wallet_'.$wallet->getId(), null, [
+                'property_path' => 'wallets[wallet_'.$wallet->getId().']',
+                'compound' => true,
+            ])
+                ->add('wallet', TextType::class, [
+                    'label' => 'Счет',
+                    'disabled' => true,
+                ])
+                ->add('payment', MoneyType::class, [
+                    'constraints' => [
+                        new Assert\Callback(function (Money $money, ExecutionContextInterface $context): void {
+                            if ($money->isNegative()) {
+                                $context
+                                    ->buildViolation('Сумма не может быть отрицательной!')
+                                    ->addViolation();
+                            }
+                        }),
+                    ],
+                ]);
+
+            $formBuilder->add($walletType);
+        }
+
+        return $formBuilder->getForm();
     }
 
-    private function handlePayment(PaymentModel $model): void
+    private function handlePayment(\stdClass $model): void
     {
         $em = $this->em;
 
-        $accounts = [
-            Costil::CASHBOX => $model->amountCash,
-            Costil::ACCOUNT => $model->amountNonCash,
-        ];
-
-        $em->transactional(function (EntityManagerInterface $em) use ($model, $accounts): void {
-            foreach ($accounts as $id => $money) {
-                /** @var Money $money */
+        $em->transactional(function () use ($model): void {
+            /** @var Wallet $wallet */
+            /** @var Money $money */
+            foreach ($model->wallets as ['wallet' => $wallet, 'payment' => $money]) {
                 if (!$money->isPositive()) {
                     continue;
                 }
@@ -730,8 +793,7 @@ final class OrderController extends AbstractController
                     $this->paymentManager->createPayment($model->recipient, $model->description, $money);
                 }
 
-                $cashbox = $em->getRepository(Operand::class)->find($id);
-                $this->paymentManager->createPayment($cashbox, $model->description, $money);
+                $this->paymentManager->createPayment($wallet, $model->description, $money);
             }
         });
     }

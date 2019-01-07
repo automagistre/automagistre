@@ -1,3 +1,14 @@
-<a href="{{ url }}" style="color: white">
-    Касса: {{ money|localize_money }}
-</a>
+{% if wallets is not empty %}
+    <ul class="nav navbar-nav" style="margin-right: 10px">
+
+        {% for wallet in wallets %}
+            {# @var wallet \App\Entity\Wallet #}
+            <li>
+                <a href="{{ easyadmin_path('WalletTransaction', 'list', wallet|to_query) }}" style="color: white">
+                    {{ wallet.name }}: {{ wallet|balance|localize_money }}
+                </a>
+            </li>
+        {% endfor %}
+
+    </ul>
+{% endif %}
