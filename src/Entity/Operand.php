@@ -68,6 +68,9 @@ abstract class Operand implements WalletOwner
         $this->wallets[] = $account;
     }
 
+    /**
+     * @return Wallet[]
+     */
     public function getWallets(): array
     {
         return $this->wallets->toArray();

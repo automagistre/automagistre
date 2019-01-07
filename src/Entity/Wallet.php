@@ -52,7 +52,7 @@ class Wallet implements WalletOwner
 
     public function __toString(): string
     {
-        return \sprintf('%s (%s)', $this->owner, $this->name);
+        return $this->name;
     }
 
     public function isSame(self $wallet): bool
