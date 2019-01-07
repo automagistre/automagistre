@@ -44,8 +44,5 @@ parameters:
     env(MYSQL_PASSWORD_FILE): /run/secrets/mysql_password
 
 services:
-    Doctrine\ORM\EntityManager:
-        alias: doctrine.orm.default_entity_manager
-
     Doctrine\ORM\Mapping\NamingStrategy:
         alias: App\Doctrine\ORM\Mapping\NamespaceNamingStrategy

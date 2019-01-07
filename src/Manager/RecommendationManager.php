@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
+use App\Doctrine\EntityManager;
 use App\Entity\CarRecommendation;
 use App\Entity\CarRecommendationPart;
 use App\Entity\Order;
@@ -12,35 +13,32 @@ use App\Entity\OrderItemPart;
 use App\Entity\OrderItemService;
 use App\Entity\Reservation;
 use App\Entity\User;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use DomainException;
 use Generator;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
 final class RecommendationManager
 {
-    /**
-     * @var EntityManager
-     */
-    private $em;
+    use EntityManager;
 
     /**
      * @var ReservationManager
      */
     private $reservationManager;
 
-    public function __construct(EntityManager $em, ReservationManager $reservationManager)
+    public function __construct(RegistryInterface $registry, ReservationManager $reservationManager)
     {
-        $this->em = $em;
+        $this->registry = $registry;
         $this->reservationManager = $reservationManager;
     }
 
     public function realize(CarRecommendation $recommendation, Order $order, User $user): void
     {
-        $em = $this->em;
+        $em = $this->registry->getManager('default');
 
         $orderItemService = new OrderItemService(
             $order,
@@ -79,13 +77,14 @@ final class RecommendationManager
 
     public function recommend(OrderItemService $orderItemService): void
     {
+        $em = $this->getManager();
         $order = $orderItemService->getOrder();
 
         if (null === $car = $order->getCar()) {
             throw new DomainException('Can\' recommend service on undefined car');
         }
 
-        $this->em->transactional(function (EntityManagerInterface $em) use ($orderItemService, $car): void {
+        $em->transactional(function (EntityManagerInterface $em) use ($orderItemService, $car): void {
             $oldRecommendation = $this->findOldRecommendation($orderItemService);
 
             $recommendation = new CarRecommendation(
@@ -135,7 +134,7 @@ final class RecommendationManager
 
     public function findOldRecommendation(OrderItemService $orderItemService): ?CarRecommendation
     {
-        $em = $this->em;
+        $em = $this->getManager();
 
         return $em->createQueryBuilder()
             ->select('entity')
@@ -159,9 +158,7 @@ final class RecommendationManager
         }
 
         foreach ($item->getChildren() as $child) {
-            foreach ($this->getParts($child) as $part) {
-                yield $part;
-            }
+            yield from $this->getParts($child);
         }
     }
 }

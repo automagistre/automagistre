@@ -4,46 +4,46 @@ declare(strict_types=1);
 
 namespace App\Supply;
 
+use App\Doctrine\EntityManager;
 use App\Entity\Part;
 use App\Entity\PartnerOperand;
 use App\Entity\PartnerSupplyImport;
 use App\Entity\Supply;
 use App\Partner\Ixora\Orders;
 use DateTime;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
 final class Importer
 {
+    use EntityManager;
+
     /**
      * @var Orders
      */
     private $orders;
 
     /**
-     * @var EntityManager
-     */
-    private $em;
-
-    /**
      * @var LoggerInterface
      */
     private $logger;
 
-    public function __construct(Orders $orders, EntityManager $em, LoggerInterface $logger)
+    public function __construct(Orders $orders, RegistryInterface $registry, LoggerInterface $logger)
     {
         $this->orders = $orders;
-        $this->em = $em;
+        $this->registry = $registry;
         $this->logger = $logger;
     }
 
     public function import(DateTime $date): void
     {
-        $em = $this->em;
+        $em = $this->getManager();
+
+        /** @var PartnerOperand $supplier */
         $supplier = $em->getRepository(PartnerOperand::class)
             ->findOneBy(['name' => $this->orders::getSupplierName()])->getOperand();
 
@@ -80,7 +80,7 @@ final class Importer
                     }
 
                     $em->persist(
-                        new Supply($supplier, $part, $supplyItem->price, $supplyItem->quantity)
+                        new Supply($supplier->getOperand(), $part, $supplyItem->price, $supplyItem->quantity)
                     );
                 }
 
