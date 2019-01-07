@@ -5,11 +5,9 @@
 {% block main %}
     <div class="row">
         <div class="col-md-10">
-            <a class="btn btn-primary js-frame-button" data-id="1" href="https://www.exist.ru/Price/?pcode={{ partnumber }}">EXIST</a>
+
             <a class="btn btn-primary js-frame-button js-frame-default" data-id="2" href="https://ixora-auto.ru/Shop/Search.html?Place=Details&DetailNumber={{ partnumber }}">IXORA</a>
             <a class="btn btn-primary js-frame-button" data-id="3" href="https://www.emex.ru/f?detailNum={{ partnumber }}&packet=-1">EMEX</a>
-            <a class="btn btn-primary js-frame-button" data-id="4" href="https://www.megazip.ru/search?q={{ partnumber }}">MEGAZIP</a>
-            <a class="btn btn-primary js-frame-button" data-id="5" href="http://www.favorit-auto.ru/autoparts/?code={{ partnumber }}&order=&exact=on&analogue=on">FAVORIT-AUTO</a>
             <a class="btn btn-primary js-frame-button" data-id="5" href="https://favorit-parts.ru/search/?number={{ partnumber }}&order=&exact=on&analogue=on">FAVORIT-PARTS</a>
 
             {% if referer is not empty %}
