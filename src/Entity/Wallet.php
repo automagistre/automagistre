@@ -50,6 +50,13 @@ class Wallet implements Transactional
      */
     public $showInLayout = true;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean")
+     */
+    public $defaultInManualTransaction = false;
+
     public function __toString(): string
     {
         return $this->name;

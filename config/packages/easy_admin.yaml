@@ -606,6 +606,7 @@ easy_admin:
                     - { property: 'useInIncome', label: 'Использовать для оплаты приходов' }
                     - { property: 'useInOrder', label: 'Использовать для начислений по заказам' }
                     - { property: 'showInLayout', label: 'Показывать в шапке' }
+                    - { property: 'defaultInManualTransaction', label: 'По умолчанию в ручной проводке' }
             new:
                 title: 'Создать новый счет'
                 fields:

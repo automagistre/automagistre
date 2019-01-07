@@ -41,7 +41,8 @@ final class OperandTransactionController extends AbstractController
         $obj->recipient = $recipient;
         $obj->description = null;
         $obj->amount = null;
-        $obj->wallet = null;
+        $obj->wallet = $this->em->getRepository(Wallet::class)
+            ->findOneBy(['defaultInManualTransaction' => true]);
 
         return $obj;
     }
@@ -54,7 +55,7 @@ final class OperandTransactionController extends AbstractController
         $form = parent::createEntityForm($entity, $entityProperties, $view);
 
         $form->add('wallet', EntityType::class, [
-            'label' => 'Продублировать начисление на счет',
+            'label' => 'Учитывать в',
             'class' => Wallet::class,
             'required' => false,
             'placeholder' => 'Не дублировать начисление',
