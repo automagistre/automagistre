@@ -14,17 +14,6 @@
                     <div class="box-body">
                         {{ parent() }}
                     </div>
-
-                    <div class="box-footer">
-                        <div class="form-group ">
-                            <label class="col-sm-2 control-label">
-                                Баланс
-                            </label>
-                            <div class="col-sm-10">
-                                <div class="form-control">{{ balance|localize_money }}</div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -42,6 +31,12 @@
             <div class="row">
                 <div class="col-md-12">
                     {% include 'easy_admin/operand/cars_panel.html.twig' %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    {% include 'easy_admin/operand/wallets_panel.html.twig' with {'entity': entity} only %}
                 </div>
             </div>
         </div>

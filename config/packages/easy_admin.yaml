@@ -333,7 +333,7 @@ easy_admin:
                 fields:
                     - { property: 'id' }
                     - { property: 'person', label: 'Ф.И.О' }
-                    - { property: null, label: 'Баланс', template: 'easy_admin/employee/field_balance.html.twig' }
+                    - { property: 'wallet', label: 'Баланс', template: 'easy_admin/employee/field_balance.html.twig' }
                     - { property: 'ratio', label: '%', template: 'easy_admin/employee/field_podstanova.html.twig' }
                     - { property: 'hiredAt', label: 'Трудоустроен' }
                     - { property: 'firedAt', label: 'Уволен' }
@@ -608,7 +608,7 @@ easy_admin:
                 title: 'Список проводок'
                 fields:
                     - { property: 'id' }
-                    - { property: 'recipient', label: 'Получатель', template: 'field_association.html.twig' }
+                    - { property: 'recipient', label: 'Счет', template: 'easy_admin/field_wallet.html.twig' }
                     - { property: 'amount', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'createdAt', label: 'Дата' }
                     - { property: 'description', label: 'Описание' }
@@ -620,7 +620,7 @@ easy_admin:
                     - { property: 'recipient', label: 'Получатель', type: 'text', type_options: { disabled: true } }
                     - { property: 'amount', label: 'Сумма', type: App\Form\Type\MoneyType }
                     - { property: 'description', label: 'Описание', type: 'text', type_options: { required: true } }
-                    - { property: 'useCassa', label: 'Учитывать кассу', type: 'checkbox' }
+                    - { property: 'wallet', label: 'Продублировать начисление на счет', type: App\Form\Type\WalletType, type_options: { required: 'false', placeholder: 'Не дублировать начисление' } }
 
         McWork:
             class: App\Entity\MC\Work

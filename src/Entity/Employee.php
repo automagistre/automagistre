@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Doctrine\ORM\Mapping\Traits\WalletTrait;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use LogicException;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -14,12 +16,13 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @UniqueEntity(fields={"person", "firedAt"}, message="Данный человек уже является сотрудником", ignoreNull=false)
  */
-class Employee
+class Employee implements WalletOwner
 {
     use Identity;
+    use WalletTrait;
 
     /**
-     * @var Person
+     * @var Person|null
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Person")
      * @ORM\JoinColumn(nullable=false)
@@ -59,7 +62,12 @@ class Employee
 
     public function setPerson(Person $person): void
     {
+        if ($this->person instanceof Person) {
+            throw new LogicException('Person for Employee can\'t be replaced');
+        }
+
         $this->person = $person;
+        $this->setWallet($person->getWallet());
     }
 
     public function getPerson(): ?Person

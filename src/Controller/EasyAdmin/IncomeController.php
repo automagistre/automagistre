@@ -4,19 +4,17 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
-use App\Costil;
 use App\Entity\Income;
 use App\Entity\IncomePart;
-use App\Entity\Operand;
 use App\Entity\Supply;
+use App\Entity\Wallet;
 use App\Events;
+use App\Form\Type\WalletType;
 use App\Manager\PaymentManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Join;
 use LogicException;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -114,8 +112,9 @@ final class IncomeController extends AbstractController
         }
 
         $form = $this->createFormBuilder()
-            ->add('cashbox', CheckboxType::class, [
-                'label' => 'Приход оплачен наличными (Списать с кассы)',
+            ->add('wallet', WalletType::class, [
+                'label' => 'Списать сумму со счёта',
+                'placeholder' => 'Не списывать',
                 'required' => false,
             ])
             ->getForm()
@@ -124,12 +123,13 @@ final class IncomeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->em;
 
-            $em->transactional(function (EntityManagerInterface $em) use ($form, $income): void {
+            $em->transactional(function () use ($form, $income): void {
                 $income->accrue($this->getUser());
 
-                if ((bool) $form->get('cashbox')->getData()) {
+                $wallet = $form->get('wallet')->getData();
+                if ($wallet instanceof Wallet) {
                     $this->paymentManager->createPayment(
-                        $em->getRepository(Operand::class)->find(Costil::CASHBOX),
+                        $wallet,
                         \sprintf('# Списание по поступлению #%s', $income->getId()),
                         $income->getTotalPrice()->negative()
                     );

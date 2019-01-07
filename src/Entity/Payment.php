@@ -18,9 +18,9 @@ class Payment
     use CreatedAt;
 
     /**
-     * @var Operand
+     * @var Wallet
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operand")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Wallet")
      * @ORM\JoinColumn
      */
     private $recipient;
@@ -46,7 +46,7 @@ class Payment
      */
     private $subtotal;
 
-    public function __construct(Operand $recipient, string $description, Money $money, Money $subtotal)
+    public function __construct(Wallet $recipient, string $description, Money $money, Money $subtotal)
     {
         $this->recipient = $recipient;
         $this->description = $description;
@@ -54,7 +54,7 @@ class Payment
         $this->subtotal = $subtotal;
     }
 
-    public function getRecipient(): Operand
+    public function getRecipient(): Wallet
     {
         return $this->recipient;
     }

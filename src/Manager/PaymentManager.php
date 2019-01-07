@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
-use App\Entity\Operand;
 use App\Entity\Payment;
+use App\Entity\Wallet;
+use App\Entity\WalletOwner;
 use App\Events;
 use Doctrine\ORM\EntityManagerInterface;
-use Money\Currency;
 use Money\Money;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -35,9 +35,10 @@ final class PaymentManager
         $this->dispatcher = $dispatcher;
     }
 
-    public function createPayment(Operand $recipient, string $description, Money $money): Payment
+    public function createPayment(WalletOwner $owner, string $description, Money $money): Payment
     {
         $em = $this->registry->getEntityManager();
+        $recipient = $owner->getWallet();
 
         $payment = $em->transactional(function (EntityManagerInterface $em) use ($recipient, $description, $money) {
             $payment = new Payment(
@@ -57,21 +58,22 @@ final class PaymentManager
         return $payment;
     }
 
-    public function balance(Operand $operand): Money
+    public function balance(WalletOwner $owner): Money
     {
         $em = $this->registry->getEntityManager();
+        $wallet = $owner->getWallet();
 
         $amount = $em->createQueryBuilder()
             ->select('SUM(payment.amount.amount)')
             ->from(Payment::class, 'payment')
             ->where('payment.recipient = :recipient')
-            ->setParameter('recipient', $operand)
+            ->setParameter('recipient', $wallet)
             ->getQuery()->getSingleScalarResult();
 
-        return new Money($amount, new Currency('RUB'));
+        return new Money($amount, $wallet->getCurrency());
     }
 
-    private function calcSubtotal(EntityManagerInterface $em, Operand $recipient, Money $money): Money
+    private function calcSubtotal(EntityManagerInterface $em, Wallet $recipient, Money $money): Money
     {
         /** @var Payment|null $lastPayment */
         $lastPayment = $em->createQueryBuilder()

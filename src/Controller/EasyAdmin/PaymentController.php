@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
-use App\Costil;
 use App\Entity\Operand;
+use App\Entity\Wallet;
 use App\Manager\PaymentManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use LogicException;
 use Money\Money;
 use stdClass;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -29,30 +27,19 @@ final class PaymentController extends AbstractController
         $this->paymentManager = $paymentManager;
     }
 
-    protected function newAction(): Response
-    {
-        $recipient = $this->getEntity(Operand::class);
-        if (!$recipient instanceof Operand) {
-            throw new LogicException('Operand required.');
-        }
-
-        if (Costil::CASHBOX === $recipient->getId()) {
-            $this->addFlash('error', 'Нельзя производить прямые операции с кассой!');
-
-            return $this->redirectToReferrer();
-        }
-
-        return parent::newAction();
-    }
-
     protected function createNewEntity(): stdClass
     {
+        $recipient = $this->getEntity(Wallet::class);
+        if (!$recipient instanceof Wallet) {
+            throw new LogicException('Wallet required.');
+        }
+
         $obj = new stdClass();
         $obj->id = null;
-        $obj->recipient = $this->getEntity(Operand::class);
+        $obj->recipient = $recipient;
         $obj->description = null;
         $obj->amount = null;
-        $obj->useCassa = true;
+        $obj->wallet = null;
 
         return $obj;
     }
@@ -62,17 +49,15 @@ final class PaymentController extends AbstractController
      */
     protected function persistEntity($entity): void
     {
-        $this->em->transactional(function (EntityManagerInterface $em) use ($entity): void {
+        $this->em->transactional(function () use ($entity): void {
             /** @var Money $money */
             $money = $entity->amount;
             $description = $entity->description;
 
             $this->paymentManager->createPayment($entity->recipient, $description, $money);
 
-            if ($entity->useCassa) {
-                /** @var Operand $cassa */
-                $cassa = $em->getReference(Operand::class, Costil::CASHBOX);
-                $this->paymentManager->createPayment($cassa, $description, $money);
+            if ($entity->wallet instanceof Wallet) {
+                $this->paymentManager->createPayment($entity->wallet, $description, $money);
             }
         });
     }
@@ -88,10 +73,19 @@ final class PaymentController extends AbstractController
     ): QueryBuilder {
         $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
 
-        $recipient = $this->getEntity(Operand::class);
-        if ($recipient instanceof Operand) {
-            $qb->andWhere('entity.recipient = :recipient')
-                ->setParameter('recipient', $recipient);
+        $owner = $this->getEntity(Operand::class);
+        if ($owner instanceof Operand) {
+            $qb
+                ->join('entity.recipient', 'wallet')
+                ->andWhere('wallet.owner = :owner')
+                ->setParameter('owner', $owner);
+        }
+
+        $wallet = $this->getEntity(Wallet::class);
+        if ($wallet instanceof Wallet) {
+            $qb
+                ->andWhere('entity.recipient = :wallet')
+                ->setParameter('wallet', $wallet);
         }
 
         return $qb;

@@ -1,0 +1,5 @@
+{# @var value \App\Entity\Wallet #}
+<a href="{{ easyadmin_path(value.owner, 'show') }}">
+    {{ value.owner.fullName }}
+</a>
+({{ value.name }})

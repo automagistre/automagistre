@@ -12,4 +12,5 @@ interface Costil
     public const CASHBOX = 1;
     public const ACCOUNT = 2422;
     public const PODSTANOVA = 45;
+    public const MY_ORGANIZATION_ID = 1;
 }

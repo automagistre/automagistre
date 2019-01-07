@@ -59,7 +59,7 @@ final class LayoutExtension extends AbstractExtension
         $paymentManager = $this->paymentManager;
 
         /** @var Operand $cassa */
-        $cassa = $em->getReference(Operand::class, Costil::CASHBOX);
+        $cassa = $em->getReference(Operand::class, Costil::MY_ORGANIZATION_ID);
 
         return $twig->render('admin/layout/balance.html.twig', [
             'url' => $this->urlGenerator->generate('easyadmin', [

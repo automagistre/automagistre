@@ -11,9 +11,11 @@ use App\Entity\Order;
 use App\Entity\Organization;
 use App\Entity\Payment;
 use App\Entity\Person;
+use App\Entity\Wallet;
 use App\Manager\PaymentManager;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\Query\Expr\Join;
+use Money\Currency;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -56,6 +58,18 @@ class OperandController extends AbstractController
     }
 
     /**
+     * @param Operand $entity
+     */
+    protected function persistEntity($entity): void
+    {
+        $entity->setWallet($wallet = new Wallet($entity, 'Основной', new Currency('RUB')));
+
+        $this->em->persist($wallet);
+
+        parent::persistEntity($entity);
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function renderTemplate($actionName, $templatePath, array $parameters = []): Response
@@ -63,6 +77,7 @@ class OperandController extends AbstractController
         if ('show' === $actionName) {
             $em = $this->em;
 
+            /** @var Operand $operand */
             $operand = $parameters['entity'];
 
             $parameters['cars'] = $em->getRepository(Car::class)
@@ -70,10 +85,17 @@ class OperandController extends AbstractController
             $parameters['orders'] = $em->getRepository(Order::class)
                 ->findBy(['customer' => $operand], ['closedAt' => 'DESC'], 20);
             $parameters['payments'] = $em->getRepository(Payment::class)
-                ->findBy(['recipient' => $operand], ['id' => 'DESC'], 20);
+                ->createQueryBuilder('entity')
+                ->join('entity.recipient', 'wallet')
+                ->where('wallet.owner = :owner')
+                ->orderBy('entity.id', 'DESC')
+                ->setMaxResults(20)
+                ->getQuery()
+                ->setParameters(['owner' => $operand])
+                ->getResult();
+
             $parameters['notes'] = $em->getRepository(OperandNote::class)
                 ->findBy(['operand' => $operand], ['createdAt' => 'DESC']);
-            $parameters['balance'] = $this->paymentManager->balance($operand);
         }
 
         return parent::renderTemplate($actionName, $templatePath, $parameters);

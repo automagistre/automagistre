@@ -1,0 +1,49 @@
+{# @var entity \App\Entity\Operand #}
+
+{%- set wallets = entity.wallets -%}
+
+<div class="field-group">
+    <div class="box box-default">
+        <div class="box-header with-border">
+            <h3 class="box-title">Счета</h3>
+        </div>
+
+        {%- if wallets is not empty -%}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Название</th>
+                        <th>Баланс</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {%- for wallet in wallets -%}
+                        {# @var wallet \App\Entity\Wallet #}
+                        {%- set isDefault = wallet.same(entity.wallet) -%}
+
+                        <tr class="tr">
+                            <td>{{ wallet.id }}</td>
+                            <td>
+                                {%- if isDefault %}<b>{% endif %}
+                                {{- wallet.name -}}
+                                {% if isDefault %} *</b>{% endif -%}
+                            </td>
+                            <td>
+                                <a href="{{ easyadmin_path('Payment', 'list', wallet|to_query) }}">
+                                    {{- wallet|balance|localize_money -}}
+                                </a>
+                            </td>
+                        </tr>
+                    {%- endfor -%}
+                    </tbody>
+                </table>
+            </div>
+        {%- else -%}
+            <div class="box-body">
+                Счетов нет
+            </div>
+        {%- endif -%}
+    </div>
+</div>
