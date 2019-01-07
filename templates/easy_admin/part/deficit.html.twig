@@ -42,9 +42,6 @@
                         {%- endfor -%}
                     </td>
                     <td>
-                        <a href="{{ easyadmin_path('Supply', 'new', part|to_query|merge({'quantity': deficit.quantity})) }}">
-                            <i class="fa fa-truck"></i>
-                        </a>
                     </td>
                 </tr>
             {% endfor %}
