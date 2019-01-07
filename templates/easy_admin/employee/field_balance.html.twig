@@ -1,2 +1,2 @@
 {# @var item \App\Entity\Employee #}
-{{ employee_balance(item)|localize_money }}
+{{ item.person|balance|localize_money }}

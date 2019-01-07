@@ -10,6 +10,8 @@
 
 {% block panel_title %}Форма платежа{% endblock %}
 
+{% set forPaymentDecimal = form.vars.value.forPayment|localize_money(true) %}
+
 {% block panel_body %}
     <div class="row">
         <div class="col-md-6">
@@ -23,11 +25,10 @@
     <div class="row">
         <div class="col-md-3">
             <div class="form-group">
-                <label class="control-label">Всего</label>
+                <label class="control-label">К оплате</label>
                 <div class="input-group">
-                    <span class="label label-success" style="font-size: 24px">
-                        <span class="js-total-amount">{{ form.amountCash.vars.value }}</span>
-                        {{ form.amountCash.vars.money_pattern|replace({'{{ widget }}': ''}) }}
+                    <span class="label label-primary" style="font-size: 24px">
+                        {{ form.vars.value.forPayment|localize_money }}
                     </span>
                 </div>
             </div>
@@ -35,36 +36,40 @@
 
         <div class="col-md-3">
             <div class="form-group">
-                <label class="control-label">Фиксировать сумму</label>
+                <label class="control-label">Введено</label>
                 <div class="input-group">
-                    <input type="checkbox" class="btn js-keep-total"
-                           data-total="{{ order.totalForPayment|localize_money(true) }}"
-                           data-toggle="toggle" data-size="mini"
-                           data-onstyle="success" data-offstyle="danger" data-on="Вкл" data-off="Выкл">
+                    <span class="label label-success" style="font-size: 24px">
+                        <span class="js-total-amount">{{ forPaymentDecimal }}</span>
+                        {{ (form.vars.value.forPayment|localize_money)[-1:] }}
+                    </span>
                 </div>
             </div>
         </div>
 
         <div class="col-md-6">
             <div class="row">
-                <div class="col-md-5">
-                    {{ form_row(form.amountCash) }}
-                </div>
-
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <label class="control-label" style="color: white">.</label>
+                {% for key,data in form.vars.value.wallets %}
+                    {% set walletForm = attribute(form.children, key) %}
+                    <div class="col-md-7">
+                        {% if loop.first %}
+                            {{ form_label(walletForm.wallet) }}
+                        {% endif %}
                         <div class="input-group">
-                            <button class="btn btn-primary js-flip" type="button">
-                                <i class="fa fa-refresh"></i>
-                            </button>
+                        <span class="input-group-addon">
+                            <i class="fa fa-arrow-right js-wallet-arrow" style="cursor: pointer" data-id="{{ key }}"></i>
+                        </span>
+                            {{ form_widget(walletForm.wallet) }}
                         </div>
+                        {{ form_errors(walletForm.wallet) }}
                     </div>
-                </div>
-
-                <div class="col-md-5">
-                    {{ form_row(form.amountNonCash) }}
-                </div>
+                    <div class="col-md-5">
+                        {% if loop.first %}
+                            {{ form_label(walletForm.payment) }}
+                        {% endif %}
+                        {{ form_widget(walletForm.payment, {'attr': {'class': 'js-wallet-payment ' ~ key ~ (loop.first ? ' js-wallet-first')}}) }}
+                        {{ form_errors(walletForm.payment) }}
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -95,49 +100,31 @@
 
       let
           total = $('.js-total-amount'),
-          cash = $('#{{ form.amountCash.vars.id }}'),
-          nonCash = $('#{{ form.amountNonCash.vars.id }}'),
-          keepTotal = $('.js-keep-total'),
-          totalAmount = amount(keepTotal.data('total'));
+          wallets = $('.js-wallet-payment');
 
       let refreshSum = function() {
-        let left = $(this),
-            right = left.attr('id') === cash.attr('id') ? nonCash : cash;
+        let totalTemp = 0;
 
-        if (!left.val().trim()) {
-          left.val(formatMoney(0));
-        }
-        if (!right.val().trim()) {
-          right.val(formatMoney(0));
-        }
+        wallets.each(function() {
+          totalTemp += amount($(this).val());
+        });
 
-        if (keepTotal.prop('checked')) {
-          let oppositeAmount = totalAmount - amount(left.val());
-
-          if (0 > oppositeAmount) {
-            oppositeAmount = 0;
-          }
-
-          right.val(oppositeAmount);
-        }
-
-        let cashAmount = amount(cash.val()),
-            nonCashAmount = amount(nonCash.val());
-
-        total.html(formatMoney(cashAmount + nonCashAmount));
+        total.html(formatMoney(totalTemp));
       };
 
-      cash.on('change', refreshSum);
-      cash.on('keyup', refreshSum);
-      nonCash.on('change', refreshSum);
-      nonCash.on('keyup', refreshSum);
+      wallets.each(function() {
+        $(this).on('change', refreshSum);
+        $(this).on('keyup', refreshSum);
+      });
 
-      $('.js-flip').on('click', function() {
-        let cashAmount = cash.val(),
-            nonCashAmount = nonCash.val();
-
-        cash.val(nonCashAmount);
-        nonCash.val(cashAmount);
+      $('.js-wallet-arrow').each(function() {
+        $(this).on('click', function() {
+          wallets.each(function() {
+            $(this).val(formatMoney(0))
+          });
+          $('.' + $(this).data('id')).val('{{ forPaymentDecimal }}');
+          refreshSum();
+        });
       });
     </script>
 {% endblock %}

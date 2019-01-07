@@ -3,11 +3,7 @@
 {% block header_custom_menu %}
     {{ parent() }}
 
-    <ul class="nav navbar-nav" style="margin-right: 10px">
-        <li>
-            {{ balance() }}
-        </li>
-    </ul>
+    {{ layout_balance() }}
 {% endblock %}
 
 {% block wrapper %}

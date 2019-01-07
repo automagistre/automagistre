@@ -7,9 +7,9 @@ namespace App\Controller\EasyAdmin;
 use App\Entity\Car;
 use App\Entity\Operand;
 use App\Entity\OperandNote;
+use App\Entity\OperandTransaction;
 use App\Entity\Order;
 use App\Entity\Organization;
-use App\Entity\Payment;
 use App\Entity\Person;
 use App\Manager\PaymentManager;
 use Doctrine\Common\Util\ClassUtils;
@@ -69,7 +69,7 @@ class OperandController extends AbstractController
                 ->findBy(['owner' => $operand]);
             $parameters['orders'] = $em->getRepository(Order::class)
                 ->findBy(['customer' => $operand], ['closedAt' => 'DESC'], 20);
-            $parameters['payments'] = $em->getRepository(Payment::class)
+            $parameters['payments'] = $em->getRepository(OperandTransaction::class)
                 ->findBy(['recipient' => $operand], ['id' => 'DESC'], 20);
             $parameters['notes'] = $em->getRepository(OperandNote::class)
                 ->findBy(['operand' => $operand], ['createdAt' => 'DESC']);

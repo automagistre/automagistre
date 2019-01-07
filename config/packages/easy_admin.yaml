@@ -19,7 +19,9 @@ easy_admin:
             - { label: 'Заказы' }
             - { entity: 'Order', label: 'Заказы', icon: 'list', default: true }
             - { label: 'Бухгалтерия' }
-            - { entity: 'Payment', label: 'Проводки', icon: 'list' }
+            - { entity: 'Wallet', label: 'Счета', icon: 'bank' }
+            - { entity: 'WalletTransaction', label: 'Проводки', icon: 'list' }
+            - { entity: 'OperandTransaction', label: 'Проводки клиентов', icon: 'list' }
             - { label: 'Списки' }
             - { entity: 'Person', label: 'Люди', icon: 'users' }
             - { entity: 'Organization', label: 'Организации', icon: 'industry' }
@@ -571,10 +573,10 @@ easy_admin:
                 fields:
                     - { property: 'manufacturer', label: 'Производитель', type_options: { disabled: true } }
 
-        Payment:
-            class: App\Entity\Payment
-            controller: App\Controller\EasyAdmin\PaymentController
-            disabled_actions: ['show', 'delete', 'edit', 'search']
+        OperandTransaction:
+            class: App\Entity\OperandTransaction
+            controller: App\Controller\EasyAdmin\OperandTransactionController
+            disabled_actions: ['show', 'delete', 'edit']
             list:
                 title: 'Список проводок'
                 fields:
@@ -591,7 +593,49 @@ easy_admin:
                     - { property: 'recipient', label: 'Получатель', type: 'text', type_options: { disabled: true } }
                     - { property: 'amount', label: 'Сумма', type: App\Form\Type\MoneyType }
                     - { property: 'description', label: 'Описание', type: 'text', type_options: { required: true } }
-                    - { property: 'useCassa', label: 'Учитывать кассу', type: 'checkbox' }
+
+        Wallet:
+            class: App\Entity\Wallet
+            controller: App\Controller\EasyAdmin\WalletController
+            disabled_actions: ['show', 'search']
+            list:
+                title: 'Счета'
+                fields:
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'currency', label: 'Валюта' }
+                    - { property: 'useInIncome', label: 'Использовать для оплаты приходов' }
+                    - { property: 'useInOrder', label: 'Использовать для начислений по заказам' }
+                    - { property: 'showInLayout', label: 'Показывать в шапке' }
+                    - { property: 'defaultInManualTransaction', label: 'По умолчанию в ручной проводке' }
+            new:
+                title: 'Создать новый счет'
+                fields:
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'currency', label: 'Валюта', type: App\Form\Type\CurrencyType }
+                    - { property: 'useInIncome', label: 'Использовать для оплаты приходов' }
+                    - { property: 'useInOrder', label: 'Использовать для начислений по заказам' }
+                    - { property: 'showInLayout', label: 'Показывать в шапке' }
+            edit:
+                title: 'Редактировать счет №%%entity_id%%'
+                fields:
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'currency', label: 'Валюта', type: App\Form\Type\CurrencyType, type_options: { disabled: true } }
+                    - { property: 'useInIncome', label: 'Использовать для оплаты приходов' }
+                    - { property: 'useInOrder', label: 'Использовать для начислений по заказам' }
+                    - { property: 'showInLayout', label: 'Показывать в шапке' }
+        WalletTransaction:
+            class: App\Entity\WalletTransaction
+            controller: App\Controller\EasyAdmin\WalletTransactionController
+            disabled_actions: ['show', 'delete', 'edit']
+            list:
+                title: 'Список проводок'
+                fields:
+                    - { property: 'id' }
+                    - { property: 'recipient', label: 'Счет', template: 'field_association.html.twig' }
+                    - { property: 'amount', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
+                    - { property: 'createdAt', label: 'Дата' }
+                    - { property: 'description', label: 'Описание', template: '@EasyAdmin/default/field_raw.html.twig' }
+                    - { property: 'subtotal', label: 'Остаток', template: 'easy_admin/field_money.html.twig' }
 
         McWork:
             class: App\Entity\MC\Work

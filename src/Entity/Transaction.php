@@ -10,53 +10,39 @@ use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 
 /**
- * @ORM\Entity
+ * @ORM\MappedSuperclass
  */
-class Payment
+abstract class Transaction
 {
     use Identity;
     use CreatedAt;
-
-    /**
-     * @var Operand
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operand")
-     * @ORM\JoinColumn
-     */
-    private $recipient;
 
     /**
      * @var string
      *
      * @ORM\Column(type="text", length=65535, nullable=true)
      */
-    private $description;
+    protected $description;
 
     /**
      * @var Money
      *
      * @ORM\Embedded(class="Money\Money")
      */
-    private $amount;
+    protected $amount;
 
     /**
      * @var Money
      *
      * @ORM\Embedded(class="Money\Money")
      */
-    private $subtotal;
+    protected $subtotal;
 
-    public function __construct(Operand $recipient, string $description, Money $money, Money $subtotal)
+    public function __construct(string $description, Money $money, Money $subtotal)
     {
-        $this->recipient = $recipient;
         $this->description = $description;
         $this->amount = $money;
         $this->subtotal = $subtotal;
-    }
-
-    public function getRecipient(): Operand
-    {
-        return $this->recipient;
     }
 
     public function getDescription(): string
