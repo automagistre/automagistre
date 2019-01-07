@@ -33,7 +33,7 @@ final class DeficitManager
         $sql = <<<SQL
 SELECT
   ordered.part_id,
-  ordered.quantity - COALESCE(stock.quantity, 0) - COALESCE(supply.quantity, 0) AS needed,
+  ordered.quantity - COALESCE(stock.quantity, 0) AS needed,
   ordered.orders_id
 FROM (SELECT
         order_item_part.part_id,
@@ -54,12 +54,6 @@ FROM (SELECT
                        JOIN orders ON order_item.order_id = orders.id AND orders.closed_at IS NULL
                     ) AS parts ON motion.part_id = parts.part_id
              GROUP BY motion.part_id) AS stock ON stock.part_id = ordered.part_id
-  LEFT JOIN (SELECT DISTINCT
-               supply.part_id,
-               SUM(supply.quantity) AS quantity
-             FROM supply
-    GROUP BY supply.part_id
-    ) AS supply ON supply.part_id = ordered.part_id
 HAVING needed > 0;
 SQL;
 

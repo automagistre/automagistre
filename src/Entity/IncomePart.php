@@ -40,29 +40,11 @@ class IncomePart
     private $part;
 
     /**
-     * @var Supply|null
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Supply")
-     */
-    private $supply;
-
-    /**
      * @var MotionIncome|null
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\MotionIncome")
      */
     private $accruedMotion;
-
-    public static function fromSupply(Supply $supply): self
-    {
-        $incomePart = new self();
-        $incomePart->part = $supply->getPart();
-        $incomePart->quantity = $supply->getQuantity();
-        $incomePart->price = $supply->getPrice();
-        $incomePart->supply = $supply;
-
-        return $incomePart;
-    }
 
     public function accrue(MotionIncome $motion): void
     {
@@ -101,15 +83,5 @@ class IncomePart
     public function setPart(?Part $part): void
     {
         $this->part = $part;
-    }
-
-    public function getSupply(): ?Supply
-    {
-        return $this->supply;
-    }
-
-    public function setSupply(?Supply $supply): void
-    {
-        $this->supply = $supply;
     }
 }

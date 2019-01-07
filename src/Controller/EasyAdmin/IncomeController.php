@@ -6,18 +6,13 @@ namespace App\Controller\EasyAdmin;
 
 use App\Costil;
 use App\Entity\Income;
-use App\Entity\IncomePart;
 use App\Entity\Operand;
-use App\Entity\Supply;
 use App\Events;
 use App\Manager\PaymentManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Query\Expr\Join;
 use LogicException;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -33,71 +28,6 @@ final class IncomeController extends AbstractController
     public function __construct(PaymentManager $paymentManager)
     {
         $this->paymentManager = $paymentManager;
-    }
-
-    public function supplyAction(): Response
-    {
-        $income = $this->getEntity(Income::class);
-        if (!$income instanceof Income) {
-            throw new LogicException('Income required.');
-        }
-
-        $em = $this->em;
-        $supplier = $income->getSupplier();
-        $supplies = $em->getRepository(Supply::class)
-            ->createQueryBuilder('entity')
-            ->select('entity')
-            ->leftJoin(
-                IncomePart::class,
-                'income_part',
-                Join::WITH,
-                'income_part.supply = entity')
-            ->where('entity.receivedAt IS NULL')
-            ->andWhere('income_part.supply IS NULL')
-            ->orderBy('entity.id', 'ASC')
-            ->getQuery()
-            ->getResult();
-
-        if ([] === $supplies) {
-            $this->addFlash('warning', \sprintf('Для поставщика "%s" нет Поставок.', $supplier));
-
-            return $this->redirectToReferrer();
-        }
-
-        $form = $this->createFormBuilder()
-            ->add('supply', ChoiceType::class, [
-                'label' => \sprintf('Выберите ожидающиеся поставки от "%s"', $supplier),
-                'multiple' => true,
-                'expanded' => true,
-                'choice_loader' => new CallbackChoiceLoader(function () use ($supplies) {
-                    return $supplies;
-                }),
-                'choice_label' => function (Supply $supply) {
-                    return \sprintf('%s - %s (%s)', $supply->getPart(), $supply->getQuantity() / 100, $this->formatMoney($supply->getPrice()));
-                },
-                'choice_value' => 'id',
-                'choice_name' => 'id',
-            ])
-            ->getForm()
-            ->handleRequest($this->request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            foreach ($form->get('supply')->getData() as $supply) {
-                /** @var Supply $supply */
-                $incomePart = IncomePart::fromSupply($supply);
-                $income->addIncomePart($incomePart);
-
-                $em->persist($incomePart);
-            }
-
-            $em->flush();
-
-            return $this->redirectToEasyPath($income, 'show');
-        }
-
-        return $this->render('easy_admin/income/supply.html.twig', [
-            'form' => $form->createView(),
-        ]);
     }
 
     public function accrueAction(): Response
