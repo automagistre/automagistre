@@ -1,10 +1,21 @@
 {% if wallets is not empty %}
+    <style>
+        .balance__head {
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+
+        }
+        .balance__head:hover {
+            color: black;
+        }
+    </style>
     <ul class="nav navbar-nav" style="margin-right: 10px">
 
         {% for wallet in wallets %}
             {# @var wallet \App\Entity\Wallet #}
             <li>
-                <a href="{{ easyadmin_path('WalletTransaction', 'list', wallet|to_query) }}" style="color: white">
+                <a href="{{ easyadmin_path('WalletTransaction', 'list', wallet|to_query) }}" class="balance__head">
                     {{ wallet.name }}: {{ wallet|balance|localize_money }}
                 </a>
             </li>
