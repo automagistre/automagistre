@@ -102,7 +102,7 @@ final class TenantListener implements EventSubscriberInterface
             return;
         }
 
-        $parameters['tenant'] = $this->requestStack->getCurrentRequest()->attributes->get('tenant');
+        $parameters['tenant'] = $this->requestStack->getMasterRequest()->attributes->get('tenant');
 
         $event->setArguments(['name' => $name, 'parameters' => $parameters, 'referenceType' => $referenceType]);
     }
