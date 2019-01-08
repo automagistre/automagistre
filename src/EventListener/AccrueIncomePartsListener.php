@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
-use App\Entity\Income;
-use App\Entity\MotionIncome;
+use App\Entity\Tenant\Income;
+use App\Entity\Tenant\MotionIncome;
 use App\Events;
 use LogicException;
 use Symfony\Bridge\Doctrine\RegistryInterface;

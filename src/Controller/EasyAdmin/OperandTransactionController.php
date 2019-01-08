@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
-use App\Entity\Operand;
-use App\Entity\Wallet;
+use App\Entity\Landlord\Operand;
+use App\Entity\Tenant\Wallet;
 use App\Manager\PaymentManager;
 use Doctrine\ORM\QueryBuilder;
 use LogicException;

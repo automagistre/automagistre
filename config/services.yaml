@@ -3,6 +3,7 @@ parameters:
     app_version: '%env(APP_VERSION)%'
     app_build_time: '%env(APP_BUILD_TIME)%'
     admin_host_pattern: '^(sto|sto\.rc).automagistre.(ru|local)$'
+    www_host_pattern: '^(www|www\.rc)?.automagistre.(ru|local)$'
 
 services:
     _defaults:
@@ -44,3 +45,7 @@ services:
 
     App\Router\ListeningRouterDecorator:
         decorates: router
+
+    App\EventListener\TenantListener:
+        arguments:
+            - '@doctrine.dbal.tenant_connection'

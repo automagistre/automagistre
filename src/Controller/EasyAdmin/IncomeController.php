@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
-use App\Entity\Income;
-use App\Entity\Wallet;
+use App\Entity\Tenant\Income;
+use App\Entity\Tenant\Wallet;
 use App\Events;
 use App\Manager\PaymentManager;
 use Doctrine\ORM\EntityRepository;

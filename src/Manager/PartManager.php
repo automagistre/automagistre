@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
-use App\Entity\Motion;
-use App\Entity\Order;
-use App\Entity\OrderItemPart;
-use App\Entity\Part;
-use App\Entity\PartCross;
+use App\Entity\Landlord\Part;
+use App\Entity\Landlord\PartCross;
+use App\Entity\Tenant\Motion;
+use App\Entity\Tenant\Order;
+use App\Entity\Tenant\OrderItemPart;
 use App\Enum\OrderStatus;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command\User;
 
-use App\Entity\User;
+use App\Entity\Landlord\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

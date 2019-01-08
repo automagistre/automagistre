@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
-use App\Entity\Person;
+use App\Entity\Landlord\Person;
 use App\Events;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\EventDispatcher\GenericEvent;

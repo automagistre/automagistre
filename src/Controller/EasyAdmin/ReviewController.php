@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
-use App\Entity\Review;
+use App\Entity\Landlord\Review;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>

@@ -3,7 +3,17 @@
 stof_doctrine_extensions:
     default_locale: en_US
     orm:
-        default:
+        landlord:
+            tree:           false
+            timestampable:  false
+            blameable:      true
+            sluggable:      false
+            translatable:   false
+            loggable:       false
+            softdeleteable: false
+            uploadable:     false
+            sortable:       false
+        tenant:
             tree:           false
             timestampable:  false
             blameable:      true

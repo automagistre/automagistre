@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-use App\Entity\Order;
+use App\Entity\Tenant\Order;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>

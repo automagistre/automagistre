@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
-use App\Entity\User;
+use App\Entity\Landlord\User;
 use App\Request\EntityTransformer;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController;
@@ -186,6 +186,20 @@ abstract class AbstractController extends AdminController
         $dqlFilter = null
     ): QueryBuilder {
         return parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function createNewEntity()
+    {
+        $entity = parent::createNewEntity();
+
+        if (\method_exists($entity, 'setCreatedBy')) {
+            $entity->setCreatedBy($this->getUser());
+        }
+
+        return $entity;
     }
 
     /**

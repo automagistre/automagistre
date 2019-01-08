@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Form\Model;
 
-use App\Entity\Operand;
-use App\Entity\OrderItemService;
+use App\Entity\Landlord\Operand;
+use App\Entity\Tenant\OrderItemService;
 use Money\Money;
 
 /**

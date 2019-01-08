@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
-use App\Entity\Transaction;
+use App\Entity\Tenant\Transaction;
 use App\Entity\Transactional;
 use App\Events;
 use Doctrine\ORM\EntityManagerInterface;
@@ -37,7 +37,8 @@ final class PaymentManager
 
     public function createPayment(Transactional $recipient, string $description, Money $money): Transaction
     {
-        $em = $this->registry->getEntityManager();
+        /** @var EntityManagerInterface $em */
+        $em = $this->registry->getManager('tenant');
 
         $payment = $em->transactional(function (EntityManagerInterface $em) use ($recipient, $description, $money) {
             $transactionClass = $recipient->getTransactionClass();
@@ -61,7 +62,8 @@ final class PaymentManager
 
     public function balance(Transactional $transactional): Money
     {
-        $em = $this->registry->getEntityManager();
+        /** @var EntityManagerInterface $em */
+        $em = $this->registry->getManager('tenant');
 
         $amount = $em->createQueryBuilder()
             ->select('SUM(payment.amount.amount)')

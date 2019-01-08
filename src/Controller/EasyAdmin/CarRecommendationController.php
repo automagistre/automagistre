@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
-use App\Entity\Car;
-use App\Entity\CarRecommendation;
-use App\Entity\Operand;
-use App\Entity\Order;
+use App\Entity\Landlord\Car;
+use App\Entity\Landlord\CarRecommendation;
+use App\Entity\Landlord\Operand;
+use App\Entity\Tenant\Order;
 use App\Form\Model\Recommendation;
 use App\Manager\RecommendationManager;
 use Doctrine\ORM\Query\Expr\Join;
@@ -105,7 +105,7 @@ final class CarRecommendationController extends AbstractController
      */
     protected function persistEntity($model): void
     {
-        $entity = new CarRecommendation($model->car, $model->service, $model->price, $model->worker);
+        $entity = new CarRecommendation($model->car, $model->service, $model->price, $model->worker, $this->getUser());
 
         parent::persistEntity($entity);
     }

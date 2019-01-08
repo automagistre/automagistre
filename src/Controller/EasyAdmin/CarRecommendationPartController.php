@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
-use App\Entity\CarRecommendation;
-use App\Entity\CarRecommendationPart;
+use App\Entity\Landlord\CarRecommendation;
+use App\Entity\Landlord\CarRecommendationPart;
 use App\Form\Model\RecommendationPart;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

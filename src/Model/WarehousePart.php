@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-use App\Entity\Part;
+use App\Entity\Landlord\Part;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>

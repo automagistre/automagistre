@@ -57,7 +57,7 @@ easy_admin:
 
     entities:
         Order:
-            class: App\Entity\Order
+            class: App\Entity\Tenant\Order
             controller: App\Controller\EasyAdmin\OrderController
             disabled_actions: ['edit', 'delete']
             templates:
@@ -91,7 +91,7 @@ easy_admin:
                 title: 'Редактировать заказ №%%entity_id%%'
 
         OrderItemGroup:
-            class: App\Entity\OrderItemGroup
+            class: App\Entity\Tenant\OrderItemGroup
             controller: App\Controller\EasyAdmin\OrderItemGroupController
             disabled_actions: ['show', 'list']
             templates:
@@ -108,7 +108,7 @@ easy_admin:
                     - { property: 'name', label: 'Название' }
 
         OrderItemService:
-            class: App\Entity\OrderItemService
+            class: App\Entity\Tenant\OrderItemService
             controller: App\Controller\EasyAdmin\OrderItemServiceController
             disabled_actions: ['show']
             templates:
@@ -139,7 +139,7 @@ easy_admin:
                 form_options: { data_class: App\Form\Model\OrderService }
 
         OrderItemPart:
-            class: App\Entity\OrderItemPart
+            class: App\Entity\Tenant\OrderItemPart
             controller: App\Controller\EasyAdmin\OrderItemPartController
             disabled_actions: ['show', 'list']
             templates:
@@ -161,7 +161,7 @@ easy_admin:
                 form_options: { data_class: App\Form\Model\OrderPart }
 
         OrderNote:
-            class: App\Entity\OrderNote
+            class: App\Entity\Tenant\OrderNote
             controller: App\Controller\EasyAdmin\OrderNoteController
             disabled_actions: ['show', 'list', 'search', 'autocomplete']
             templates:
@@ -177,7 +177,7 @@ easy_admin:
                 title: 'Редактировать заметку №%%entity_id%% по Заказу'
 
         CarRecommendation:
-            class: App\Entity\CarRecommendation
+            class: App\Entity\Landlord\CarRecommendation
             controller: App\Controller\EasyAdmin\CarRecommendationController
             templates:
                 new: 'easy_admin/car_recommendation/new.html.twig'
@@ -195,7 +195,7 @@ easy_admin:
                 form_options: { data_class: App\Form\Model\Recommendation }
 
         CarRecommendationPart:
-            class: App\Entity\CarRecommendationPart
+            class: App\Entity\Landlord\CarRecommendationPart
             controller: App\Controller\EasyAdmin\CarRecommendationPartController
             templates:
                 new: 'easy_admin/car_recommendation_part/new.html.twig'
@@ -213,12 +213,12 @@ easy_admin:
                 form_options: { data_class: App\Form\Model\RecommendationPart }
 
         Operand:
-            class: App\Entity\Operand
+            class: App\Entity\Landlord\Operand
             controller: App\Controller\EasyAdmin\OperandController
             disabled_actions: ['new', 'edit', 'delete']
 
         Person:
-            class: App\Entity\Person
+            class: App\Entity\Landlord\Person
             controller: App\Controller\EasyAdmin\PersonController
             search:
                 fields: ['firstname', 'lastname']
@@ -256,7 +256,7 @@ easy_admin:
                     - { property: 'contractor', label: 'Подрядчик' }
                     - { property: 'seller', label: 'Поставщик' }
         PersonNote:
-            class: App\Entity\OperandNote
+            class: App\Entity\Landlord\OperandNote
             controller: App\Controller\EasyAdmin\PersonNoteController
             disabled_actions: ['show', 'list', 'search', 'autocomplete']
             form:
@@ -270,7 +270,7 @@ easy_admin:
                 title: 'Редактировать заметку №%%entity_id%% по Человеку'
 
         Organization:
-            class: App\Entity\Organization
+            class: App\Entity\Landlord\Organization
             controller: App\Controller\EasyAdmin\OrganizationController
             templates:
                 show: 'easy_admin/organization/show.html.twig'
@@ -310,7 +310,7 @@ easy_admin:
             edit:
                 title: 'Редактирование Организации'
         OrganizationNote:
-            class: App\Entity\OperandNote
+            class: App\Entity\Landlord\OperandNote
             controller: App\Controller\EasyAdmin\OrganizationNoteController
             disabled_actions: ['show', 'list', 'search', 'autocomplete']
             form:
@@ -324,7 +324,7 @@ easy_admin:
                 title: 'Редактировать заметку №%%entity_id%% по Организации'
 
         Employee:
-            class: App\Entity\Employee
+            class: App\Entity\Tenant\Employee
             controller: App\Controller\EasyAdmin\EmployeeController
             disabled_actions: ['show', 'delete']
             templates:
@@ -347,7 +347,7 @@ easy_admin:
             edit:
                 title: 'Редактировать сотрудника'
         Car:
-            class: App\Entity\Car
+            class: App\Entity\Landlord\Car
             controller: App\Controller\EasyAdmin\CarController
             label: 'Автомобили'
             search:
@@ -403,7 +403,7 @@ easy_admin:
             new:
                 title: 'Создать новый автомобиль'
         CarNote:
-            class: App\Entity\CarNote
+            class: App\Entity\Landlord\CarNote
             controller: App\Controller\EasyAdmin\CarNoteController
             disabled_actions: ['show', 'list', 'search', 'autocomplete']
             form:
@@ -417,7 +417,7 @@ easy_admin:
                 title: 'Редактировать заметку №%%entity_id%% по Автомобилю'
 
         Part:
-            class: App\Entity\Part
+            class: App\Entity\Landlord\Part
             controller: App\Controller\EasyAdmin\PartController
             label: 'Запчасти'
             templates:
@@ -452,7 +452,7 @@ easy_admin:
                     - { property: 'number', label: 'Номер', type_options: { disabled: true } }
 
         Motion:
-            class: App\Entity\Motion
+            class: App\Entity\Tenant\Motion
             controller: App\Controller\EasyAdmin\MotionController
             disabled_actions: ['show', 'edit', 'new', 'search', 'delete']
             templates:
@@ -469,7 +469,7 @@ easy_admin:
                     - { property: 'createdAt', label: 'Создано' }
 
         Income:
-            class: App\Entity\Income
+            class: App\Entity\Tenant\Income
             controller: App\Controller\EasyAdmin\IncomeController
             templates:
                 show: 'easy_admin/income/show.html.twig'
@@ -501,7 +501,7 @@ easy_admin:
                     - { property: 'accruedBy', label: 'Принял', template: 'easy_admin/field_user.html.twig' }
 
         IncomePart:
-            class: App\Entity\IncomePart
+            class: App\Entity\Tenant\IncomePart
             controller: App\Controller\EasyAdmin\IncomePartController
             form:
                 fields:
@@ -515,7 +515,7 @@ easy_admin:
                 title: 'Редактировать Запчасть для Прихода'
 
         Manufacturer:
-            class: App\Entity\Manufacturer
+            class: App\Entity\Landlord\Manufacturer
             disabled_actions: ['show']
             label: 'Производитель'
             search:
@@ -538,7 +538,7 @@ easy_admin:
                 title: 'Редактировать Производителя'
 
         CarModel:
-            class: App\Entity\CarModel
+            class: App\Entity\Landlord\CarModel
             controller: App\Controller\EasyAdmin\CarModelController
             label: 'Кузов'
             list:
@@ -574,7 +574,7 @@ easy_admin:
                     - { property: 'manufacturer', label: 'Производитель', type_options: { disabled: true } }
 
         OperandTransaction:
-            class: App\Entity\OperandTransaction
+            class: App\Entity\Tenant\OperandTransaction
             controller: App\Controller\EasyAdmin\OperandTransactionController
             disabled_actions: ['show', 'delete', 'edit']
             list:
@@ -595,7 +595,7 @@ easy_admin:
                     - { property: 'description', label: 'Описание', type: 'text', type_options: { required: true } }
 
         Wallet:
-            class: App\Entity\Wallet
+            class: App\Entity\Tenant\Wallet
             controller: App\Controller\EasyAdmin\WalletController
             disabled_actions: ['show', 'search']
             list:
@@ -624,7 +624,7 @@ easy_admin:
                     - { property: 'useInOrder', label: 'Использовать для начислений по заказам' }
                     - { property: 'showInLayout', label: 'Показывать в шапке' }
         WalletTransaction:
-            class: App\Entity\WalletTransaction
+            class: App\Entity\Tenant\WalletTransaction
             controller: App\Controller\EasyAdmin\WalletTransactionController
             disabled_actions: ['show', 'delete', 'edit']
             list:
@@ -638,7 +638,7 @@ easy_admin:
                     - { property: 'subtotal', label: 'Остаток', template: 'easy_admin/field_money.html.twig' }
 
         McWork:
-            class: App\Entity\MC\Work
+            class: App\Entity\Landlord\MC\Work
             disabled_actions: ['show']
             list:
                 title: 'Список работ'
@@ -658,7 +658,7 @@ easy_admin:
                 title: 'Редактировать работу №%%entity_id%%'
 
         McEquipment:
-            class: App\Entity\MC\Equipment
+            class: App\Entity\Landlord\MC\Equipment
             controller: App\Controller\EasyAdmin\MC\EquipmentController
             templates:
                 show: 'easy_admin/mc/equipment/show.html.twig'
@@ -696,7 +696,7 @@ easy_admin:
                 title: 'Редактировать комплектацию №%%entity_id%%'
 
         McLine:
-            class: App\Entity\MC\Line
+            class: App\Entity\Landlord\MC\Line
             controller: App\Controller\EasyAdmin\MC\LineController
             disabled_actions: ['show', 'list']
             list:
@@ -716,7 +716,7 @@ easy_admin:
                 title: 'Редактировать комплектацию №%%entity_id%%'
 
         McPart:
-            class: App\Entity\MC\Part
+            class: App\Entity\Landlord\MC\Part
             controller: App\Controller\EasyAdmin\MC\PartController
             disabled_actions: ['show', 'list']
             form:
@@ -730,7 +730,7 @@ easy_admin:
                 title: 'Редактировать запчасть №%%entity_id%% для ТО'
 
         Review:
-            class: App\Entity\Review
+            class: App\Entity\Landlord\Review
             controller: App\Controller\EasyAdmin\ReviewController
             disabled_actions: ['show']
             list:

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
-use App\Entity\Car;
-use App\Entity\Operand;
-use App\Entity\OperandNote;
-use App\Entity\OperandTransaction;
-use App\Entity\Order;
-use App\Entity\Organization;
-use App\Entity\Person;
+use App\Entity\Landlord\Car;
+use App\Entity\Landlord\Operand;
+use App\Entity\Landlord\OperandNote;
+use App\Entity\Landlord\Organization;
+use App\Entity\Landlord\Person;
+use App\Entity\Tenant\OperandTransaction;
+use App\Entity\Tenant\Order;
 use App\Manager\PaymentManager;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\Query\Expr\Join;

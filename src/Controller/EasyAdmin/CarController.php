@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
-use App\Entity\Car;
-use App\Entity\CarNote;
-use App\Entity\Operand;
-use App\Entity\Order;
-use App\Entity\Organization;
-use App\Entity\Person;
+use App\Entity\Landlord\Car;
+use App\Entity\Landlord\CarNote;
+use App\Entity\Landlord\Operand;
+use App\Entity\Landlord\Organization;
+use App\Entity\Landlord\Person;
+use App\Entity\Tenant\Order;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
+use LogicException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -25,7 +26,10 @@ final class CarController extends AbstractController
      */
     protected function createNewEntity(): Car
     {
-        $entity = new Car();
+        $entity = parent::createNewEntity();
+        if (!$entity instanceof Car) {
+            throw new LogicException('Car expected');
+        }
 
         $owner = $this->getEntity(Operand::class);
         if ($owner instanceof Operand) {

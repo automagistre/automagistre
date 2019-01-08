@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form\Model;
 
-use App\Entity\OrderItemGroup;
+use App\Entity\Tenant\OrderItemGroup;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>

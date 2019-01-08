@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
-use App\Entity\Event;
+use App\Entity\Landlord\Event;
 use App\Events;
 use App\Request\EntityTransformer;
 use Symfony\Bridge\Doctrine\RegistryInterface;

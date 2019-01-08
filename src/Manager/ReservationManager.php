@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
-use App\Entity\Order;
-use App\Entity\OrderItemPart;
-use App\Entity\Part;
-use App\Entity\Reservation;
+use App\Entity\Landlord\Part;
+use App\Entity\Tenant\Order;
+use App\Entity\Tenant\OrderItemPart;
+use App\Entity\Tenant\Reservation;
 use App\Events;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;

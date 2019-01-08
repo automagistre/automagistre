@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
-use App\Entity\OrderItemPart;
-use App\Entity\Part;
+use App\Entity\Landlord\Part;
+use App\Entity\Tenant\OrderItemPart;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;

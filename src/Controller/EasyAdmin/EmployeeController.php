@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
-use App\Entity\Employee;
+use App\Entity\Tenant\Employee;
 use Symfony\Component\HttpFoundation\Response;
 
 /**

@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Manager;
 
 use App\Doctrine\EntityManager;
-use App\Entity\CarRecommendation;
-use App\Entity\CarRecommendationPart;
-use App\Entity\Order;
-use App\Entity\OrderItem;
-use App\Entity\OrderItemPart;
-use App\Entity\OrderItemService;
-use App\Entity\Reservation;
-use App\Entity\User;
+use App\Entity\Landlord\CarRecommendation;
+use App\Entity\Landlord\CarRecommendationPart;
+use App\Entity\Landlord\User;
+use App\Entity\Tenant\Order;
+use App\Entity\Tenant\OrderItem;
+use App\Entity\Tenant\OrderItemPart;
+use App\Entity\Tenant\OrderItemService;
+use App\Entity\Tenant\Reservation;
 use Doctrine\ORM\EntityManagerInterface;
 use DomainException;
 use Generator;
@@ -87,13 +87,16 @@ final class RecommendationManager
         $em->transactional(function (EntityManagerInterface $em) use ($orderItemService, $car): void {
             $oldRecommendation = $this->findOldRecommendation($orderItemService);
 
+            [$worker, $createdBy] = $oldRecommendation instanceof CarRecommendation
+                ? [$oldRecommendation->getWorker(), $oldRecommendation->getCreatedBy()]
+                : [$orderItemService->getWorker(), $orderItemService->getCreatedBy()];
+
             $recommendation = new CarRecommendation(
                 $car,
                 $orderItemService->getService(),
                 $orderItemService->getPrice(),
-                $oldRecommendation instanceof CarRecommendation
-                    ? $oldRecommendation->getWorker()
-                    : $orderItemService->getWorker()
+                $worker,
+                $createdBy
             );
             if ($oldRecommendation instanceof CarRecommendation) {
                 foreach ($oldRecommendation->getParts() as $part) {

@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Command\Migrations\MigrateCommand;
 use App\DependencyInjection\EnumDoctrineTypesCompilerPass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel as SymfonyKernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 
-class Kernel extends SymfonyKernel
+class Kernel extends SymfonyKernel implements CompilerPassInterface
 {
     use MicroKernelTrait;
 
@@ -26,6 +28,14 @@ class Kernel extends SymfonyKernel
             /** @noinspection PhpIncludeInspection */
             require_once $enumAutoload;
         }
+    }
+
+    public function process(ContainerBuilder $container): void
+    {
+        $container->removeDefinition(MigrateCommand::class);
+        $container->getDefinition('doctrine_migrations.migrate_command')->setClass(MigrateCommand::class);
+        $container->removeDefinition(Command\Migrations\DiffCommand::class);
+        $container->getDefinition('doctrine_migrations.diff_command')->setClass(Command\Migrations\DiffCommand::class);
     }
 
     /**

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig\Extension;
 
-use App\Entity\Wallet;
+use App\Entity\Tenant\Wallet;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;

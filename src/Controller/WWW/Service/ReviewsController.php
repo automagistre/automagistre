@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\WWW\Service;
 
-use App\Entity\Review;
+use App\Entity\Landlord\Review;
 use Doctrine\ORM\EntityManagerInterface;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Exception\OutOfRangeCurrentPageException;

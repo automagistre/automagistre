@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
-use App\Entity\Employee;
-use App\Entity\Operand;
-use App\Entity\Person;
+use App\Entity\Landlord\Operand;
+use App\Entity\Landlord\Person;
+use App\Entity\Tenant\Employee;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

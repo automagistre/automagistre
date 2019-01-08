@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
-use App\Entity\IncomePart;
-use App\Entity\OrderItemPart;
-use App\Entity\Part;
+use App\Entity\Landlord\Part;
+use App\Entity\Tenant\IncomePart;
+use App\Entity\Tenant\OrderItemPart;
 use Money\Money;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 

@@ -160,19 +160,32 @@ do-composer-update-lock:
 vendor-phar-remove:
 	@rm -rf $(APP_DIR)/vendor/twig/twig/test/Twig/Tests/Loader/Fixtures/phar/phar-sample.phar $(APP_DIR)/vendor/symfony/symfony/src/Symfony/Component/DependencyInjection/Tests/Fixtures/includes/ProjectWithXsdExtensionInPhar.phar $(APP_DIR)/vendor/phpunit/phpunit/tests/_files/phpunit-example-extension/tools/phpunit.d/phpunit-example-extension-1.0.1.phar $(APP_DIR)/vendor/phar-io/manifest/tests/_fixture/test.phar || true
 
-migration:
-	$(APP) console doctrine:migration:migrate --no-interaction --allow-no-migration
+migration: migration-landlord migration-tenant
+do-migration:
+	$(APP) console doctrine:migration:migrate --no-interaction --allow-no-migration --db=${EM} --em=${EM}
+migration-landlord:
+	@$(MAKE) EM=landlord do-migration --no-print-directory
+migration-tenant:
+	@$(MAKE) EM=tenant do-migration --no-print-directory
+
 migration-generate: do-migration-generate php-cs-fixer
 do-migration-generate:
 	$(APP) console doctrine:migrations:generate
 migration-rollback:latest = $(shell make app-cli CMD="console doctrine:migration:latest" | tr '\r' ' ')
 migration-rollback:
 	$(APP) console doctrine:migration:execute --down --no-interaction $(latest)
-migration-diff: do-migration-diff php-cs-fixer
+
+migration-diff: migration-diff-all php-cs-fixer
+migration-diff-all: migration-diff-landlord migration-diff-tenant
+migration-diff-landlord:
+		@$(MAKE) EM=landlord do-migration-diff --no-print-directory
+migration-diff-tenant:
+		@$(MAKE) EM=tenant do-migration-diff --no-print-directory
 do-migration-diff:
-	$(APP) console doctrine:migration:diff
+	$(APP) console doctrine:migration:diff --em=${EM} --db=${EM}
 migration-diff-dry:
-	$(APP) console doctrine:schema:update --dump-sql
+	$(APP) console doctrine:schema:update --dump-sql --em=${EM}
+
 migration-test: ENV=test
 migration-test:
 	$(APP) console doctrine:schema:validate
@@ -223,8 +236,17 @@ do-fixtures:
 	$(APP) console doctrine:fixtures:load --no-interaction
 backup: drop backup-restore migration
 	@$(notify)
+
+do-drop:
+	@$(APP) sh -c "console doctrine:database:drop --force --connection=${EM} || true && console doctrine:database:create --connection=${EM}"
+drop-landlord:
+	@$(MAKE) do-drop EM=landlord --no-print-directory
+drop-tenant:
+	@$(MAKE) do-drop EM=tenant --no-print-directory
+drop-all: drop-landlord drop-tenant
 drop:
-	@$(APP) sh -c "console doctrine:database:drop --force || true && console doctrine:database:create"
+	@$(MAKE) --no-print-directory -j2 drop-all
+
 db-wait:
 	$(APP) wait-for-it.sh mysql:3306
 ###< APP ###
@@ -242,16 +264,22 @@ else
 	@exit 1
 endif
 
-SNAPSHOT_FILE_NAME = $(shell git rev-parse --abbrev-ref HEAD | sed 's\#/\#\_\#g').sql.gz
+SNAPSHOT_FILE_NAME = $(shell git rev-parse --abbrev-ref HEAD | sed 's\#/\#\_\#g')_${EM}.sql.gz
 SNAPSHOT_FILE_PATH = /usr/local/app/var/snapshots/$(SNAPSHOT_FILE_NAME)
 SNAPSHOT_FILE_LOCAL = $(APP_DIR)/var/snapshots/$(SNAPSHOT_FILE_NAME)
-snapshot:
+snapshot: snapshot-landlord snapshot-tenant
+snapshot-landlord:
+	@$(MAKE) do-snapshot EM=landlord --no-print-directory
+snapshot-tenant:
+	@$(MAKE) do-snapshot EM=tenant --no-print-directory
+do-snapshot:
 ifneq (,$(wildcard $(SNAPSHOT_FILE_LOCAL)))
 	$(call failed,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" already exist! You can use \"snapshot-drop\" recipe.")
 else
-	@docker-compose exec mysql bash -c "mysqldump db | gzip > $(SNAPSHOT_FILE_PATH)"
+	@docker-compose exec ${EM} bash -c "mysqldump ${EM} | gzip > $(SNAPSHOT_FILE_PATH)"
 	$(call success,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" created.")
 endif
+
 snapshot-drop:
 ifeq (,$(wildcard $(SNAPSHOT_FILE_LOCAL)))
 	$(call failed,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" does not exist!")
@@ -260,9 +288,13 @@ else
 	$(call success,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" deleted.")
 endif
 
-snapshot-restore: drop do-snapshot-restore migration
+snapshot-restore: drop snapshot-restore-landlord snapshot-restore-tenant
+snapshot-restore-landlord:
+	@$(MAKE) EM=landlord do-snapshot-restore --no-print-directory
+snapshot-restore-tenant:
+	@$(MAKE) EM=tenant do-snapshot-restore --no-print-directory
 do-snapshot-restore:
-	@docker-compose exec mysql bash -c "gunzip < $(SNAPSHOT_FILE_PATH) | mysql db"
+	@docker-compose exec ${EM} bash -c "gunzip < $(SNAPSHOT_FILE_PATH) | mysql ${EM}"
 	$(call success,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" restored.")
 ###< MYSQL ###
 
