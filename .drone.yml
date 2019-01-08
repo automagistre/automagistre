@@ -77,7 +77,7 @@ pipeline:
         group: validate
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
-            - $$WAIT_FOR_IT mysql:3306
+            - $$WAIT_FOR_IT landlord:3306
             - console doctrine:schema:create --em=landlord --db=landlord
         environment:
             MYSQL_PASSWORD: 'db'
