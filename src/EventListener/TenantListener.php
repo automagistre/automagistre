@@ -83,7 +83,11 @@ final class TenantListener implements EventSubscriberInterface
             return;
         }
 
-        if ('landlord' === $input->getOption('db') || 'landlord' === $input->getOption('em')) {
+        if ($input->hasOption('db') && 'landlord' === $input->getOption('db')) {
+            return;
+        }
+
+        if ($input->hasOption('em') && 'landlord' === $input->getOption('em')) {
             return;
         }
 
