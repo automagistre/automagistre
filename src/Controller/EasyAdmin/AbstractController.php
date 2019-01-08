@@ -17,6 +17,7 @@ use Money\MoneyFormatter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -163,8 +164,12 @@ abstract class AbstractController extends AdminController
         return $this->request->attributes->get('easyadmin')['item'] ?? null;
     }
 
-    protected function event(string $eventName, Event $event): void
+    protected function event(string $eventName, object $event): void
     {
+        if (!$event instanceof Event) {
+            $event = new GenericEvent($event);
+        }
+
         $this->dispatcher->dispatch($eventName, $event);
     }
 

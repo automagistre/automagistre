@@ -39,8 +39,8 @@ final class CarRecommendationController extends AbstractController
 
         $query = $this->request->query;
 
-        $order = $this->em->getRepository(Order::class)->findOneBy(['id' => $query->get('order_id')]);
-        if (null === $order) {
+        $order = $this->getEntity(Order::class);
+        if (!$order instanceof Order) {
             throw new NotFoundHttpException();
         }
 
@@ -49,7 +49,7 @@ final class CarRecommendationController extends AbstractController
         }
 
         $recommendation = $this->em->getRepository(CarRecommendation::class)->findOneBy(['id' => $query->get('id')]);
-        if (null === $recommendation) {
+        if (!$recommendation instanceof CarRecommendation) {
             throw new NotFoundHttpException();
         }
 

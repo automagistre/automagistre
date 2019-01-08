@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
+use App\Entity\Landlord\Operand;
 use App\Entity\Tenant\Transaction;
 use App\Entity\Transactional;
 use App\Events;
@@ -65,12 +66,21 @@ final class PaymentManager
         /** @var EntityManagerInterface $em */
         $em = $this->registry->getManager('tenant');
 
-        $amount = $em->createQueryBuilder()
+        $qb = $em->createQueryBuilder()
             ->select('SUM(payment.amount.amount)')
-            ->from($transactional->getTransactionClass(), 'payment')
-            ->where('payment.recipient = :recipient')
-            ->setParameter('recipient', $transactional)
-            ->getQuery()->getSingleScalarResult();
+            ->from($transactional->getTransactionClass(), 'payment');
+
+        if ($transactional instanceof Operand) {
+            $qb
+                ->where('payment.recipient.uuid = :recipient')
+                ->setParameter('recipient', $transactional->uuid(), 'uuid_binary');
+        } else {
+            $qb
+                ->where('payment.recipient = :recipient')
+                ->setParameter('recipient', $transactional);
+        }
+
+        $amount = $qb->getQuery()->getSingleScalarResult();
 
         return new Money($amount, new Currency('RUB'));
     }
@@ -78,13 +88,23 @@ final class PaymentManager
     private function calcSubtotal(EntityManagerInterface $em, Transactional $transactional, Money $money): Money
     {
         /** @var Transaction|null $lastPayment */
-        $lastPayment = $em->createQueryBuilder()
+        $qb = $em->createQueryBuilder()
             ->select('payment')
             ->from($transactional->getTransactionClass(), 'payment')
-            ->where('payment.recipient = :recipient')
             ->orderBy('payment.id', 'DESC')
-            ->setMaxResults(1)
-            ->setParameter('recipient', $transactional)
+            ->setMaxResults(1);
+
+        if ($transactional instanceof Operand) {
+            $qb
+                ->where('payment.recipient.uuid = :recipient')
+                ->setParameter('recipient', $transactional->uuid(), 'uuid_binary');
+        } else {
+            $qb
+                ->where('payment.recipient = :recipient')
+                ->setParameter('recipient', $transactional);
+        }
+
+        $lastPayment = $qb
             ->getQuery()
             ->getOneOrNullResult();
 

@@ -44,25 +44,29 @@ final class Version20190108153627 extends AbstractMigration
         $this->addSql('UPDATE manufacturer SET uuid=(UNHEX(REPLACE((SELECT uuid()), "-","")))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_3D0AE6DCD17F50A6 ON manufacturer (uuid)');
 
-        $this->addSql('ALTER TABLE order_item_service ADD uuid BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid_binary)\', ADD worker_uuid BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid_binary)\'');
+        $this->addSql('ALTER TABLE order_item_service ADD uuid BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid_binary)\', ADD worker_uuid BINARY(16) NULL COMMENT \'(DC2Type:uuid_binary)\'');
         $this->addSql('UPDATE order_item_service SET uuid=(UNHEX(REPLACE((SELECT uuid()), "-","")))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_EE0028ECD17F50A6 ON order_item_service (uuid)');
 
         /* Created UUIDs relations */
 
-        $this->addSql('ALTER TABLE car_recommendation ADD realization_uuid BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid_binary)\', CHANGE created_by_id created_by_id INT NOT NULL');
-        $this->addSql('ALTER TABLE orders ADD car_uuid BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid_binary)\', ADD customer_uuid BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid_binary)\', ADD closed_by_uuid BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid_binary)\', ADD created_by_uuid BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid_binary)\'');
-        $this->addSql('ALTER TABLE order_item ADD created_by_uuid BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid_binary)\'');
-        $this->addSql('ALTER TABLE income_part ADD part_uuid BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid_binary)\'');
-        $this->addSql('ALTER TABLE motion ADD part_uuid BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid_binary)\'');
-        $this->addSql('ALTER TABLE motion_manual ADD user_uuid BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid_binary)\'');
-        $this->addSql('ALTER TABLE order_note ADD created_by_uuid BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid_binary)\'');
-        $this->addSql('ALTER TABLE income ADD supplier_uuid BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid_binary)\', ADD accrued_by_uuid BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid_binary)\', ADD created_by_uuid BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid_binary)\'');
-        $this->addSql('ALTER TABLE employee ADD person_uuid BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid_binary)\'');
-        $this->addSql('ALTER TABLE order_item_part ADD part_uuid BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid_binary)\'');
-        $this->addSql('ALTER TABLE order_suspend ADD created_by_uuid BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid_binary)\'');
-        $this->addSql('ALTER TABLE operand_transaction ADD recipient_uuid BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid_binary)\'');
-        $this->addSql('ALTER TABLE order_payment ADD created_by_uuid BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid_binary)\'');
+        $this->addSql('ALTER TABLE car_recommendation ADD realization_uuid BINARY(16) NULL COMMENT \'(DC2Type:uuid_binary)\', CHANGE created_by_id created_by_id INT NOT NULL');
+        $this->addSql('ALTER TABLE orders ADD car_uuid BINARY(16) NULL COMMENT \'(DC2Type:uuid_binary)\', ADD customer_uuid BINARY(16) NULL COMMENT \'(DC2Type:uuid_binary)\', ADD closed_by_uuid BINARY(16) NULL COMMENT \'(DC2Type:uuid_binary)\', ADD created_by_uuid BINARY(16) NULL COMMENT \'(DC2Type:uuid_binary)\'');
+        $this->addSql('ALTER TABLE order_item ADD created_by_uuid BINARY(16) NULL COMMENT \'(DC2Type:uuid_binary)\'');
+        $this->addSql('ALTER TABLE income_part ADD part_uuid BINARY(16) NULL COMMENT \'(DC2Type:uuid_binary)\'');
+        $this->addSql('ALTER TABLE motion ADD part_uuid BINARY(16) NULL COMMENT \'(DC2Type:uuid_binary)\'');
+        $this->addSql('ALTER TABLE motion_manual ADD user_uuid BINARY(16) NULL COMMENT \'(DC2Type:uuid_binary)\'');
+        $this->addSql('ALTER TABLE order_note ADD created_by_uuid BINARY(16) NULL COMMENT \'(DC2Type:uuid_binary)\'');
+        $this->addSql('ALTER TABLE income ADD supplier_uuid BINARY(16) NULL COMMENT \'(DC2Type:uuid_binary)\', ADD accrued_by_uuid BINARY(16) NULL COMMENT \'(DC2Type:uuid_binary)\', ADD created_by_uuid BINARY(16) NULL COMMENT \'(DC2Type:uuid_binary)\'');
+        $this->addSql('ALTER TABLE employee ADD person_uuid BINARY(16) NULL COMMENT \'(DC2Type:uuid_binary)\'');
+        $this->addSql('ALTER TABLE order_item_part ADD part_uuid BINARY(16) NULL COMMENT \'(DC2Type:uuid_binary)\'');
+        $this->addSql('ALTER TABLE order_suspend ADD created_by_uuid BINARY(16) NULL COMMENT \'(DC2Type:uuid_binary)\'');
+        $this->addSql('ALTER TABLE operand_transaction ADD recipient_uuid BINARY(16) NULL COMMENT \'(DC2Type:uuid_binary)\'');
+        $this->addSql('ALTER TABLE order_payment ADD created_by_uuid BINARY(16) NULL COMMENT \'(DC2Type:uuid_binary)\'');
+
+        /* Set is_contractor = 1 on employees */
+
+        $this->addSql('UPDATE operand JOIN employee ON operand.id = employee.person_id SET contractor = 1 WHERE employee.fired_at IS NULL');
 
         /* Populate UUIDs */
 

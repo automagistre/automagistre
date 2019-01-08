@@ -7,6 +7,7 @@ namespace App\Entity\Embeddable;
 use App\Entity\Landlord\User;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Embeddable
@@ -18,7 +19,9 @@ final class UserRelation extends Relation
     /**
      * @var UuidInterface|null
      *
-     * @ORM\Column(type="uuid_binary")
+     * @Assert\NotBlank
+     *
+     * @ORM\Column(type="uuid_binary", nullable=true)
      */
     protected $uuid;
 

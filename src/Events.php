@@ -70,4 +70,14 @@ interface Events
      * Создана новая организация.
      */
     public const ORGANIZATION_CREATED = 'organization.created';
+
+    /**
+     * Создан сотрудник.
+     */
+    public const EMPLOYEE_CREATED = 'employee.created';
+
+    /**
+     * Сотрудник уволен.
+     */
+    public const EMPLOYEE_FIRED = 'employee.fired';
 }

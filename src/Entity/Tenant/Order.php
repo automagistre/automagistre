@@ -337,9 +337,9 @@ class Order
         return $forPayment;
     }
 
-    public function addPayment(Money $money, ?string $description): void
+    public function addPayment(Money $money, ?string $description, User $user): void
     {
-        $this->payments[] = new OrderPayment($this, $money, $description);
+        $this->payments[] = new OrderPayment($this, $money, $description, $user);
     }
 
     /**

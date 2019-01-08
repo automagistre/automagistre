@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Request;
 
-use Doctrine\Common\Util\ClassUtils;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\NamingStrategy;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -27,9 +26,9 @@ final class EntityTransformer
     private $namingStrategy;
 
     /**
-     * @var EntityManagerInterface
+     * @var RegistryInterface
      */
-    private $em;
+    private $registry;
 
     /**
      * @var RequestStack
@@ -39,12 +38,12 @@ final class EntityTransformer
     public function __construct(
         PropertyAccessorInterface $propertyAccessor,
         NamingStrategy $namingStrategy,
-        EntityManagerInterface $em,
+        RegistryInterface $registry,
         RequestStack $requestStack
     ) {
         $this->propertyAccessor = $propertyAccessor;
         $this->namingStrategy = $namingStrategy;
-        $this->em = $em;
+        $this->registry = $registry;
         $this->requestStack = $requestStack;
     }
 
@@ -54,7 +53,11 @@ final class EntityTransformer
             $id = $this->propertyAccessor->getValue($entity, 'id');
         }
 
-        return [$this->namingStrategy->joinKeyColumnName(ClassUtils::getClass($entity)) => $id];
+        $class = \get_class($entity);
+        $em = $this->registry->getManagerForClass($class);
+        $name = $em->getClassMetadata($class)->getName();
+
+        return [$this->namingStrategy->joinKeyColumnName($name) => $id];
     }
 
     public function reverseTransform(string $class, ?Request $request = null): ?object
@@ -68,6 +71,6 @@ final class EntityTransformer
             return null;
         }
 
-        return $this->em->getRepository($class)->find($id);
+        return $this->registry->getManagerForClass($class)->getRepository($class)->find($id);
     }
 }

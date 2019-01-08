@@ -32,7 +32,7 @@ abstract class Relation
 
     public function isEmpty(): bool
     {
-        return null === $this->uuid || '00000000000000000000000000000000' === $this->uuid->getHex();
+        return null === $this->uuid;
     }
 
     public function entity(): object

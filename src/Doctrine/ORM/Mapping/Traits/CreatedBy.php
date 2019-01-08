@@ -29,6 +29,8 @@ trait CreatedBy
         if (null !== $this->createdBy) {
             throw new LogicException('CreatedBy already defined');
         }
+
+        $this->createdBy = $user;
     }
 
     public function getCreatedBy(): User

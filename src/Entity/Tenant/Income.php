@@ -30,11 +30,7 @@ class Income
     /**
      * @var OperandRelation
      *
-     * @Assert\Collection(
-     *     fields={
-     *         "entity": @Assert\NotBlank
-     *     }
-     * )
+     * @Assert\Valid
      *
      * @ORM\Embedded(class="App\Entity\Embeddable\OperandRelation")
      */

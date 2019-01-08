@@ -1,13 +1,13 @@
 {% set level = level|default(0) %}
 
-{% if instanceOf(item, 'App\\Entity\\OrderItemPart') %}
+{% if instanceOf(item, 'App\\Entity\\Tenant\\OrderItemPart') %}
     {% if item.part.id == app.request.query.get('part_id') %}
         {% set tr_class = 'warning' %}
     {% endif %}
     {% set template = 'easy_admin/order/item/part.html.twig' %}
-{% elseif instanceOf(item, 'App\\Entity\\OrderItemService') %}
+{% elseif instanceOf(item, 'App\\Entity\\Tenant\\OrderItemService') %}
     {% set template ='easy_admin/order/item/service.html.twig' %}
-{% elseif instanceOf(item, 'App\\Entity\\OrderItemGroup') %}
+{% elseif instanceOf(item, 'App\\Entity\\Tenant\\OrderItemGroup') %}
     {% set template = 'easy_admin/order/item/group.html.twig' %}
 {% endif %}
 

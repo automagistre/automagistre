@@ -46,7 +46,7 @@ final class AccrueIncomePartsListener implements EventSubscriberInterface
 
     public function onIncomeAccrued(GenericEvent $event): void
     {
-        $em = $this->registry->getEntityManager();
+        $em = $this->registry->getManagerForClass(MotionIncome::class);
 
         $income = $event->getSubject();
         if (!$income instanceof Income) {

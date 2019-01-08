@@ -33,15 +33,16 @@ final class PartManager
 
     public function inStock(Part $part): int
     {
-        $em = $this->registry->getEntityManager();
+        /** @var EntityManagerInterface $em */
+        $em = $this->registry->getManager('tenant');
 
         try {
             return (int) $em->createQueryBuilder()
                 ->select('SUM(entity.quantity)')
                 ->from(Motion::class, 'entity')
-                ->groupBy('entity.part')
-                ->where('entity.part = :part')
-                ->setParameter('part', $part)
+                ->groupBy('entity.part.uuid')
+                ->where('entity.part.uuid = :part')
+                ->setParameter('part', $part->uuid(), 'uuid_binary')
                 ->getQuery()
                 ->getSingleResult(Query::HYDRATE_SINGLE_SCALAR);
         } catch (NoResultException $e) {

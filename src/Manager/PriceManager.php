@@ -7,6 +7,7 @@ namespace App\Manager;
 use App\Entity\Landlord\Part;
 use App\Entity\Tenant\IncomePart;
 use App\Entity\Tenant\OrderItemPart;
+use Doctrine\ORM\EntityManagerInterface;
 use Money\Money;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -29,19 +30,18 @@ final class PriceManager
 
     public function suggestForPart(Part $part): Money
     {
-        $em = $this->registry->getEntityManager();
+        /** @var EntityManagerInterface $em */
+        $em = $this->registry->getManagerForClass(IncomePart::class);
         $suggestPrice = $part->getPrice();
 
         $incomePart = $em->createQueryBuilder()
             ->select('entity')
             ->from(IncomePart::class, 'entity')
-            ->where('entity.part = :part')
+            ->where('entity.part.uuid = :part')
             ->orderBy('entity.price.amount', 'DESC')
             ->getQuery()
             ->setMaxResults(1)
-            ->setParameters([
-                'part' => $part,
-            ])
+            ->setParameter('part', $part->uuid(), 'uuid_binary')
             ->getOneOrNullResult();
 
         if ($incomePart instanceof IncomePart) {
@@ -55,13 +55,11 @@ final class PriceManager
         $lastOrderItemPart = $em->createQueryBuilder()
             ->select('entity')
             ->from(OrderItemPart::class, 'entity')
-            ->where('entity.part = :part')
+            ->where('entity.part.uuid = :part')
             ->orderBy('entity.id', 'DESC')
             ->getQuery()
             ->setMaxResults(1)
-            ->setParameters([
-                'part' => $part,
-            ])
+            ->setParameter('part', $part->uuid(), 'uuid_binary')
             ->getOneOrNullResult();
 
         if ($lastOrderItemPart instanceof OrderItemPart) {

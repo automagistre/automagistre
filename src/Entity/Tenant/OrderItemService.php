@@ -43,6 +43,8 @@ class OrderItemService extends OrderItem implements PriceInterface, WarrantyInte
     {
         parent::__construct($order, $user);
 
+        $this->generateUuid();
+
         $this->service = $service;
         $this->price = $price;
         $this->worker = new OperandRelation($worker);

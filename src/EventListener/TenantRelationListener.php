@@ -61,14 +61,15 @@ final class TenantRelationListener implements EventSubscriber
     {
         /** @var Identity $entity */
         $entity = $event->getEntity();
-        $entityClass = \get_class($entity);
+
+        $em = $event->getEntityManager();
+        $classMetadata = $em->getClassMetadata(\get_class($entity));
+
+        $entityClass = $classMetadata->getName();
 
         if (!\array_key_exists($entityClass, self::$map)) {
             return;
         }
-
-        $em = $event->getEntityManager();
-        $classMetadata = $em->getClassMetadata($entityClass);
 
         foreach (self::$map[$entityClass] as $property => $class) {
             $reflectionProperty = $classMetadata->getReflectionProperty($property);

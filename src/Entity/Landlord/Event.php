@@ -32,9 +32,10 @@ class Event
      */
     private $arguments;
 
-    public function __construct(string $name, array $arguments)
+    public function __construct(string $name, array $arguments, User $user)
     {
         $this->name = $name;
         $this->arguments = $arguments;
+        $this->setCreatedBy($user);
     }
 }

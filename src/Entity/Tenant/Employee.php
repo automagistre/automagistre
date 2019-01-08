@@ -15,7 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity
  *
- * @UniqueEntity(fields={"person", "firedAt"}, message="Данный человек уже является сотрудником", ignoreNull=false)
+ * @UniqueEntity(fields={"person.uuid", "firedAt"}, message="Данный человек уже является сотрудником", ignoreNull=false)
  */
 class Employee
 {
@@ -111,6 +111,7 @@ class Employee
 
     public function fire(): void
     {
+        $this->person->entity()->setContractor(false);
         $this->firedAt = new DateTime();
     }
 }

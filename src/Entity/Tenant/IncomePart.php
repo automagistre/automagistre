@@ -35,11 +35,7 @@ class IncomePart
     /**
      * @var PartRelation
      *
-     * @Assert\Collection(
-     *     fields={
-     *         "entity": @Assert\NotBlank
-     *     }
-     * )
+     * @Assert\Valid
      *
      * @ORM\Embedded(class="App\Entity\Embeddable\PartRelation")
      */

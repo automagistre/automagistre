@@ -18,9 +18,7 @@ trait CreatedByRelation
     /**
      * @var UserRelation
      *
-     * @Assert\Collection(
-     *     fields={"entity": @Assert\NotBlank}
-     * )
+     * @Assert\Valid
      *
      * @ORM\Embedded(class="App\Entity\Embeddable\UserRelation")
      */
@@ -28,7 +26,7 @@ trait CreatedByRelation
 
     public function setCreatedBy(User $user): void
     {
-        if (!$this->createdBy->isEmpty()) {
+        if (null !== $this->createdBy && !$this->createdBy->isEmpty()) {
             throw new LogicException('CreatedBy already defined');
         }
 

@@ -340,9 +340,9 @@ final class PartController extends AbstractController
             $qb->setParameter($key, '%'.$searchString.'%');
         }
 
-        $qb->leftJoin(Motion::class, 'motion', Join::WITH, 'motion.part = part')
-            ->groupBy('part.id')
-            ->orderBy('SUM(motion.quantity)', 'DESC');
+//        $qb->leftJoin(Motion::class, 'motion', Join::WITH, 'motion.part = part')
+//            ->groupBy('part.id')
+//            ->orderBy('SUM(motion.quantity)', 'DESC');
 
         return $qb;
     }

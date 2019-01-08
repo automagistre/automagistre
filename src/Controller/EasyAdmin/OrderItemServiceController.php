@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\EasyAdmin;
 
 use App\Entity\Landlord\Car;
-use App\Entity\Landlord\CarModel;
 use App\Entity\Landlord\Organization;
 use App\Entity\Landlord\Person;
 use App\Entity\Tenant\Order;
@@ -181,6 +180,7 @@ final class OrderItemServiceController extends OrderItemController
             ->addOrderBy('entity.service', 'ASC')
             ->setMaxResults(15);
 
+        /*
         $car = $this->getEntity(Car::class);
         $order = $this->getEntity(Order::class);
         if (null === $car && $order instanceof Order) {
@@ -193,6 +193,7 @@ final class OrderItemServiceController extends OrderItemController
                 ->andWhere('car.carModel = :carModel')
                 ->setParameter('carModel', $carModel);
         }
+        */
 
         if ($request->query->getBoolean('textOnly')) {
             $qb->groupBy('entity.service');

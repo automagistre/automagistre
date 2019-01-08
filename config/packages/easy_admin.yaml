@@ -29,7 +29,7 @@ easy_admin:
             - { entity: 'Employee', label: 'Сотрудники', icon: 'users' }
             - { label: 'Склад' }
 #            - { entity: 'Part', label: 'Дефицит', icon: 'fire', params: { action: 'deficit' } }
-            - { entity: 'Part', label: 'Наличие', icon: 'cubes', params: { action: 'stock' } }
+#            - { entity: 'Part', label: 'Наличие', icon: 'cubes', params: { action: 'stock' } }
             - { entity: 'Motion', label: 'Движения', icon: 'recycle' }
             - { entity: 'Income', label: 'Приходы', icon: 'book' }
             - { label: 'Справочники' }
@@ -80,8 +80,8 @@ easy_admin:
             form:
                 fields:
                     - { type: 'group', label: 'Основная информация', css_class: 'col-sm-6' }
-                    - { property: 'customer', label: 'Заказчик', type: 'easyadmin_autocomplete' }
-                    - { property: 'car', label: 'Автомобиль', type: 'easyadmin_autocomplete' }
+                    - { property: 'customer', label: 'Заказчик', type: 'easyadmin_autocomplete', type_options: { class: App\Entity\Landlord\Operand } }
+                    - { property: 'car', label: 'Автомобиль', type: 'easyadmin_autocomplete', type_options: { class: App\Entity\Landlord\Car } }
                     - { property: 'mileage', label: 'Пробег' }
                     - { type: 'group', label: 'Описание', css_class: 'col-sm-6' }
                     - { property: 'description', label: 'Описание', type: 'textarea' }
@@ -148,12 +148,12 @@ easy_admin:
             edit:
                 actions: ['delete']
                 fields:
-                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { disabled: true } }
+                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { disabled: true, class: App\Entity\Landlord\Part } }
             form:
                 fields:
                     - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
                     - { property: 'parent', label: 'Работа / Группа', type: App\Form\Type\OrderItemParentType }
-                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { required: true } }
+                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { required: true, class: App\Entity\Landlord\Part } }
                     - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType }
                     - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
                     - { property: 'warranty', label: 'По гарантии?' }
@@ -340,7 +340,7 @@ easy_admin:
                     - { property: 'firedAt', label: 'Уволен' }
             form:
                 fields:
-                    - { property: 'person', label: 'Ф.И.О', type: 'easyadmin_autocomplete', type_options: { required: true } }
+                    - { property: 'person', label: 'Ф.И.О', type: 'easyadmin_autocomplete', type_options: { required: true, class: App\Entity\Landlord\Person } }
                     - { property: 'ratio', label: 'Ставка' }
             new:
                 title: 'Добавить нового сотрудника'
@@ -506,7 +506,7 @@ easy_admin:
             form:
                 fields:
                     - { property: 'income', label: 'Поставка', type_options: { disabled: true } }
-                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete' }
+                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { class: App\Entity\Landlord\Part } }
                     - { property: 'price', label: 'Цена', type: App\Form\Type\MoneyType }
                     - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
             new:

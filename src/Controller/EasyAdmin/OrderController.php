@@ -238,7 +238,7 @@ final class OrderController extends AbstractController
                         continue;
                     }
 
-                    $order->addPayment($payment, $form->get('desc')->getData());
+                    $order->addPayment($payment, $form->get('desc')->getData(), $this->getUser());
                 }
 
                 $this->handlePayment($model);
@@ -503,7 +503,7 @@ final class OrderController extends AbstractController
             foreach ($order->getItems(OrderItemService::class) as $item) {
                 /** @var OrderItemService $item */
                 $worker = $item->getWorker();
-                $employee = $em->getRepository(Employee::class)->findOneBy(['person' => $worker]);
+                $employee = $em->getRepository(Employee::class)->findOneBy(['person.uuid' => $worker->uuid()]);
 
                 if (!$employee instanceof Employee) {
                     $this->addFlash('warning', \sprintf(
@@ -692,7 +692,9 @@ final class OrderController extends AbstractController
             }
         }
 
-        return parent::searchAction();
+        $this->addFlash('warning', 'В данный момент поиск возможен только по номеру заказа');
+
+        return $this->redirectToReferrer();
     }
 
     private function createPaymentForm(Order $order): FormInterface
