@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Embeddable;
 
+use LogicException;
 use Ramsey\Uuid\UuidInterface;
 
 /**
@@ -25,18 +26,26 @@ abstract class Relation
 
     abstract public static function entityClass(): string;
 
-    public function uuid(): UuidInterface
-    {
-        return $this->uuid;
-    }
-
     public function isEmpty(): bool
     {
         return null === $this->uuid;
     }
 
+    public function uuid(): UuidInterface
+    {
+        if (null === $this->uuid) {
+            throw new LogicException('Uuid is null, are you use isEmpty() first?');
+        }
+
+        return $this->uuid;
+    }
+
     public function entity(): object
     {
+        if (null === $this->entity) {
+            throw new LogicException('Entity is null, are you use isEmpty() first?');
+        }
+
         return $this->entity;
     }
 }

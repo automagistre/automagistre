@@ -50,7 +50,7 @@ class CarRecommendationPart implements TotalPriceInterface
         Part $part,
         int $quantity,
         Money $price,
-        ?User $selector
+        User $selector
     ) {
         $this->recommendation = $recommendation;
         $this->part = $part;
