@@ -45,7 +45,3 @@ services:
 
     App\Router\ListeningRouterDecorator:
         decorates: router
-
-    App\EventListener\TenantListener:
-        arguments:
-            $connection: '@doctrine.dbal.tenant_connection'

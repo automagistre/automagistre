@@ -7,6 +7,7 @@ namespace App\EventListener;
 use App\Doctrine\DBAL\SwitchableConnection;
 use App\Entity\Landlord\Tenant;
 use App\Router\ListeningRouterEvents;
+use LogicException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
@@ -30,22 +31,13 @@ final class TenantListener implements EventSubscriberInterface
     private $registry;
 
     /**
-     * @var SwitchableConnection
-     */
-    private $connection;
-
-    /**
      * @var RequestStack
      */
     private $requestStack;
 
-    public function __construct(
-        RegistryInterface $registry,
-        SwitchableConnection $connection,
-        RequestStack $requestStack
-    ) {
+    public function __construct(RegistryInterface $registry, RequestStack $requestStack)
+    {
         $this->registry = $registry;
-        $this->connection = $connection;
         $this->requestStack = $requestStack;
     }
 
@@ -131,7 +123,12 @@ final class TenantListener implements EventSubscriberInterface
             throw new NotFoundHttpException();
         }
 
+        $connection = $this->registry->getConnection('tenant');
+        if (!$connection instanceof SwitchableConnection) {
+            throw new LogicException('SwitchableConnection required');
+        }
+
         $options = $tenant->database;
-        $this->connection->switch($options->host, $options->name);
+        $connection->switch($options->host, $options->name);
     }
 }
