@@ -1,8 +1,5 @@
 doctrine:
     orm:
         metadata_cache_driver: array
-        query_cache_driver:
-            type: memcached
-            host: memcached
-            port: 11211
+        query_cache_driver: array
 #        result_cache_driver: apcu
