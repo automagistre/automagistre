@@ -22,16 +22,16 @@ easy_admin:
             - { entity: 'Wallet', label: 'Счета', icon: 'bank' }
             - { entity: 'WalletTransaction', label: 'Проводки', icon: 'list' }
             - { entity: 'OperandTransaction', label: 'Проводки клиентов', icon: 'list' }
-            - { label: 'Списки' }
-            - { entity: 'Person', label: 'Люди', icon: 'users' }
-            - { entity: 'Organization', label: 'Организации', icon: 'industry' }
-            - { entity: 'Car', label: 'Автомобили', icon: 'car' }
-            - { entity: 'Employee', label: 'Сотрудники', icon: 'users' }
             - { label: 'Склад' }
 #            - { entity: 'Part', label: 'Дефицит', icon: 'fire', params: { action: 'deficit' } }
 #            - { entity: 'Part', label: 'Наличие', icon: 'cubes', params: { action: 'stock' } }
             - { entity: 'Motion', label: 'Движения', icon: 'recycle' }
             - { entity: 'Income', label: 'Приходы', icon: 'book' }
+            - { label: 'Списки' }
+            - { entity: 'Person', label: 'Люди', icon: 'users' }
+            - { entity: 'Organization', label: 'Организации', icon: 'industry' }
+            - { entity: 'Car', label: 'Автомобили', icon: 'car' }
+            - { entity: 'Employee', label: 'Сотрудники', icon: 'users' }
             - { label: 'Справочники' }
             - { entity: 'Manufacturer', label: 'Производители', icon: 'industry' }
             - { entity: 'CarModel', label: 'Кузова', icon: 'car' }
