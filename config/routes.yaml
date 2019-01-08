@@ -7,7 +7,7 @@ _easy_admin:
     resource: '@EasyAdminBundle/Controller/AdminController.php'
     type: annotation
     condition: "request.getHost() matches '/%admin_host_pattern%/'"
-#    prefix: /{tenant}
+    prefix: /{tenant}
 
 _www:
     resource: './routes/www.yaml'

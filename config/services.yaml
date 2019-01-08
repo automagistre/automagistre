@@ -48,4 +48,4 @@ services:
 
     App\EventListener\TenantListener:
         arguments:
-            - '@doctrine.dbal.tenant_connection'
+            $connection: '@doctrine.dbal.tenant_connection'

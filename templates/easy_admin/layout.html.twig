@@ -1,5 +1,36 @@
 {% extends '@EasyAdmin/default/layout.html.twig' %}
 
+{% block header_logo %}
+    {{ parent() }}
+
+    {% set tenants = tenants(app.request.attributes.get('tenant')) %}
+    {% set current = tenants.current %}
+
+    <ul class="nav navbar-nav" style="margin-top: 7px">
+        <li class="dropdown user user-menu">
+            <span class="sr-only">Вы вошли как</span>
+
+            <div class="btn-group">
+                <button type="button" class="btn" data-toggle="dropdown">
+                    {{ current.name }}
+                </button>
+                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    {% for tenant in tenants.all if tenant.identifier != current.identifier %}
+                        <li>
+                            <a href="{{ path('easyadmin', app.request.query.all()|merge({'tenant': tenant.identifier})) }}">
+                                <i class="fa fa-link"></i> {{ tenant.name }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </li>
+    </ul>
+{% endblock %}
+
 {% block header_custom_menu %}
     {{ parent() }}
 

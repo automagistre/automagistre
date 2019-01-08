@@ -47,6 +47,16 @@ services:
             MYSQL_PASSWORD: db
             MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
 
+    tenant_kazan:
+        <<: *mysql
+        labels:
+            ru.grachevko.dhu: 'tenant_kazan.automagistre.local'
+        environment:
+            MYSQL_DATABASE: tenant
+            MYSQL_USER: db
+            MYSQL_PASSWORD: db
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+
     memcached:
         image: memcached:1.5.11-alpine
         labels:
