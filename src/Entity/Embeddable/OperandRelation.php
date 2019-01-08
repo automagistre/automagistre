@@ -20,7 +20,7 @@ final class OperandRelation extends Relation
      *
      * @ORM\Column(type="uuid_binary")
      */
-    private $uuid;
+    protected $uuid;
 
     public function __construct(Operand $entity = null)
     {
@@ -29,12 +29,7 @@ final class OperandRelation extends Relation
         parent::__construct($entity);
     }
 
-    public function uuid(): UuidInterface
-    {
-        return $this->uuid;
-    }
-
-    public function class(): string
+    public static function entityClass(): string
     {
         return Operand::class;
     }

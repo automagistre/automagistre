@@ -280,11 +280,16 @@ else
 	$(call success,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" created.")
 endif
 
-snapshot-drop:
+snapshot-drop: snapshot-drop-landlord snapshot-drop-tenant
+snapshot-drop-landlord:
+	@$(MAKE) do-snapshot-drop EM=landlord --no-print-directory
+snapshot-drop-tenant:
+	@$(MAKE) do-snapshot-drop EM=tenant --no-print-directory
+do-snapshot-drop:
 ifeq (,$(wildcard $(SNAPSHOT_FILE_LOCAL)))
 	$(call failed,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" does not exist!")
 else
-	@docker-compose exec mysql rm -f $(SNAPSHOT_FILE_PATH)
+	@docker-compose exec ${EM} rm -f $(SNAPSHOT_FILE_PATH)
 	$(call success,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" deleted.")
 endif
 

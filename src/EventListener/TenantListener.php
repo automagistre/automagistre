@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use App\Doctrine\DBAL\SwitchableConnection;
-use Doctrine\ORM\Events;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Input\InputOption;
@@ -33,7 +32,6 @@ final class TenantListener implements EventSubscriberInterface
         return [
             KernelEvents::REQUEST => ['onKernelRequest', 31],
             ConsoleEvents::COMMAND => ['onConsoleCommand'],
-            Events::postLoad => 'onDoctrinePostLoad',
         ];
     }
 
@@ -66,10 +64,5 @@ final class TenantListener implements EventSubscriberInterface
         }
 
         $this->connection->switch($tenant);
-    }
-
-    public function onDoctrinePostLoad(): void
-    {
-        dd(\func_get_args());
     }
 }
