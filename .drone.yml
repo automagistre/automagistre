@@ -126,7 +126,7 @@ services:
     landlord:
         image: mariadb:10.3.10
         environment:
-            MYSQL_DATABASE: 'db'
+            MYSQL_DATABASE: 'landlord'
             MYSQL_USER: 'db'
             MYSQL_PASSWORD: 'db'
             MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
@@ -135,7 +135,7 @@ services:
     tenant:
         image: mariadb:10.3.10
         environment:
-            MYSQL_DATABASE: 'db'
+            MYSQL_DATABASE: 'tenant'
             MYSQL_USER: 'db'
             MYSQL_PASSWORD: 'db'
             MYSQL_ALLOW_EMPTY_PASSWORD: 'true'

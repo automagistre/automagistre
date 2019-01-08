@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Entity\Landlord\Tenant;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,10 +16,16 @@ use Symfony\Component\Routing\Annotation\Route;
 final class HomeController extends AbstractController
 {
     /**
-     * @Route("/home")
+     * @Route
      */
-    public function __invoke(): Response
+    public function __invoke(RegistryInterface $registry): Response
     {
-        return new Response('yo');
+        /** @var Tenant $tenant */
+        $tenant = $registry->getManagerForClass(Tenant::class)
+            ->getRepository(Tenant::class)->findBy([], ['id' => 'ASC'], 1)[0];
+
+        return $this->redirectToRoute('easyadmin', [
+            'tenant' => $tenant->identifier,
+        ]);
     }
 }
