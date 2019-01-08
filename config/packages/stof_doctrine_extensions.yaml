@@ -6,7 +6,7 @@ stof_doctrine_extensions:
         landlord:
             tree:           false
             timestampable:  false
-            blameable:      true
+            blameable:      false
             sluggable:      false
             translatable:   false
             loggable:       false
@@ -16,7 +16,7 @@ stof_doctrine_extensions:
         tenant:
             tree:           false
             timestampable:  false
-            blameable:      true
+            blameable:      false
             sluggable:      false
             translatable:   false
             loggable:       false
