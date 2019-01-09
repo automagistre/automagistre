@@ -16,7 +16,8 @@ final class Version20190108163036 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
-        $this->skipIf('landlord' !== $this->connection->getDatabase());
+
+        $this->skipIf('landlord' !== $this->connection->getDatabase(), 'Landlord only');
 
         $this->addSql('ALTER TABLE income_part DROP FOREIGN KEY FK_834566E8640ED2C0');
         $this->addSql('ALTER TABLE motion_income DROP FOREIGN KEY FK_6228A7C1F4A13D95');

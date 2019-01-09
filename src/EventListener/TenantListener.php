@@ -93,7 +93,7 @@ final class TenantListener implements EventSubscriberInterface
             throw new InvalidOptionException('Tenant invalid or not exist.');
         }
 
-        $this->state->tenant($tenant);
+        $this->state->tenant($tenant, false);
     }
 
     public function onRouterPreGenerate(GenericEvent $event): void

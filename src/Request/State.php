@@ -39,10 +39,18 @@ final class State
         $this->tokenStorage = $tokenStorage;
     }
 
-    public function tenant(string $tenant = null): Tenant
+    public function tenant(string $tenant = null, bool $strict = true): Tenant
     {
         if (null !== $tenant) {
-            $entity = $this->registry->getEntityManagerForClass(Tenant::class)
+            $em = $this->registry->getEntityManagerForClass(Tenant::class);
+
+            if (false === $strict) {
+                $this->switch($tenant);
+
+                return $em->getReference(Tenant::class, 0);
+            }
+
+            $entity = $em
                 ->getRepository(Tenant::class)
                 ->findOneBy(['identifier' => $tenant]);
 
