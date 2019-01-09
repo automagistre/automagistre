@@ -23,11 +23,12 @@
                             <td>{{ note.text }}</td>
                             <td>
                                 {%- spaceless %}
+                                    {# @var cretedBy \App\Entity\Landlord\User #}
                                     {% set createdBy = note.createdBy %}
-                                    {% if createdBy is not empty %}
+                                    {% if createdBy.person is not empty %}
                                         {{ createdBy.person.fullName }}
                                     {% else %}
-                                        -
+                                        {{ createdBy.username }}
                                     {% endif %}
                                 {% endspaceless -%}
                             </td>
