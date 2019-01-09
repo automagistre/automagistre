@@ -21,11 +21,11 @@ notify = notify-send --urgency="critical" "Makefile: $@" "COMPLETE!"
 init:
 	cp -n .env.dist .env || true
 	cp -n docker-compose.override.yml.dist docker-compose.override.yml || true
-	cp -n ./contrib/* ./ || true
-	cp -n -r contrib/* / || true
-	mkdir -p /var/snapshots
+	cp -n contrib/* ./ || true
+	cp -n -r contrib/* ./ || true
+	mkdir -p var/snapshots
 un-init:
-	rm -rf $(APP_DIR)/.env
+	rm -rf .env
 re-init: un-init init
 
 bootstrap: init pull do-install-parallel docker-hosts-updater do-up cache permissions db-wait fixtures
