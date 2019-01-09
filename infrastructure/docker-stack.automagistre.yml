@@ -1,8 +1,7 @@
 version: '3.7'
 
 services:
-    app:
-      &app
+    app: &app
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         command: rr serve
         networks:
@@ -35,22 +34,43 @@ services:
             retries: 3
             start_period: 10s
 
-    migration:
-        <<: *app
-        command: wait-for-it.sh mysql:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration
-        deploy:
-            mode: replicated
-            replicas: 1
-            restart_policy:
-                condition: none
-            labels:
-                - "traefik.enable=false"
+#    migration_landlord:
+#        <<: *app
+#        command: wait-for-it.sh landlord:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --db=landlord --em=landlord
+#        deploy:
+#            mode: replicated
+#            replicas: 1
+#            restart_policy:
+#                condition: none
+#            labels:
+#                - "traefik.enable=false"
+#
+#    migration_tenant_msk:
+#        <<: *app
+#        command: wait-for-it.sh tenant_msk:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --db=tenant --em=tenant --tenant=msk
+#        deploy:
+#            mode: replicated
+#            replicas: 1
+#            restart_policy:
+#                condition: none
+#            labels:
+#                - "traefik.enable=false"
+#
+#    migration_tenant_kazan:
+#        <<: *app
+#        command: wait-for-it.sh tenant_kazan:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --db=tenant --em=tenant --tenant=kazan
+#        deploy:
+#            mode: replicated
+#            replicas: 1
+#            restart_policy:
+#                condition: none
+#            labels:
+#                - "traefik.enable=false"
 
     landlord: &mysql
         image: mariadb:10.3.10
         volumes:
-            -
-                type: bind
+            -   type: bind
                 source: /home/automagistre/landlord
                 target: /var/lib/mysql
         environment:
@@ -79,16 +99,14 @@ services:
     tenant_msk:
         <<: *mysql
         volumes:
-            -
-                type: bind
+            -   type: bind
                 source: /home/automagistre/tenant_msk
                 target: /var/lib/mysql
 
     tenant_kazan:
         <<: *mysql
         volumes:
-            -
-                type: bind
+            -   type: bind
                 source: /home/automagistre/tenant_kazan
                 target: /var/lib/mysql
 
