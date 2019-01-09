@@ -73,6 +73,9 @@ services:
             -   type: bind
                 source: /home/automagistre/landlord
                 target: /var/lib/mysql
+            -   type: bind
+                source: /home/automagistre/backups
+                target: /backups
         environment:
             MYSQL_DATABASE: landlord
             MYSQL_USER: db
@@ -102,6 +105,9 @@ services:
             -   type: bind
                 source: /home/automagistre/tenant_msk
                 target: /var/lib/mysql
+            -   type: bind
+                source: /home/automagistre/backups
+                target: /backups
 
     tenant_kazan:
         <<: *mysql
@@ -109,6 +115,9 @@ services:
             -   type: bind
                 source: /home/automagistre/tenant_kazan
                 target: /var/lib/mysql
+            -   type: bind
+                source: /home/automagistre/backups
+                target: /backups
 
     memcached:
         image: memcached:1.5.11-alpine
