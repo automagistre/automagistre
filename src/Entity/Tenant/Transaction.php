@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Entity\Tenant;
 
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
+use App\Doctrine\ORM\Mapping\Traits\CreatedByRelation;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Entity\Landlord\User;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 
@@ -16,6 +18,7 @@ abstract class Transaction
 {
     use Identity;
     use CreatedAt;
+    use CreatedByRelation;
 
     /**
      * @var string
@@ -38,11 +41,12 @@ abstract class Transaction
      */
     protected $subtotal;
 
-    public function __construct(string $description, Money $money, Money $subtotal)
+    public function __construct(string $description, Money $money, Money $subtotal, User $user)
     {
         $this->description = $description;
         $this->amount = $money;
         $this->subtotal = $subtotal;
+        $this->setCreatedBy($user);
     }
 
     public function getDescription(): string
@@ -58,5 +62,10 @@ abstract class Transaction
     public function getSubtotal(): Money
     {
         return $this->subtotal;
+    }
+
+    public function getCreatedBy(): User
+    {
+        return $this->createdBy->entity();
     }
 }

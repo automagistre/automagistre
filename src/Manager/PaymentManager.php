@@ -8,6 +8,7 @@ use App\Entity\Landlord\Operand;
 use App\Entity\Tenant\Transaction;
 use App\Entity\Transactional;
 use App\Events;
+use App\Request\State;
 use Doctrine\ORM\EntityManagerInterface;
 use Money\Currency;
 use Money\Money;
@@ -30,10 +31,16 @@ final class PaymentManager
      */
     private $dispatcher;
 
-    public function __construct(RegistryInterface $registry, EventDispatcherInterface $dispatcher)
+    /**
+     * @var State
+     */
+    private $state;
+
+    public function __construct(RegistryInterface $registry, EventDispatcherInterface $dispatcher, State $state)
     {
         $this->registry = $registry;
         $this->dispatcher = $dispatcher;
+        $this->state = $state;
     }
 
     public function createPayment(Transactional $recipient, string $description, Money $money): Transaction
@@ -48,7 +55,8 @@ final class PaymentManager
                 $recipient,
                 $description,
                 $money,
-                $this->calcSubtotal($em, $recipient, $money)
+                $this->calcSubtotal($em, $recipient, $money),
+                $this->state->user()
             );
 
             $em->persist($payment);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Tenant;
 
+use App\Entity\Landlord\User;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 
@@ -20,11 +21,11 @@ class WalletTransaction extends Transaction
      */
     private $recipient;
 
-    public function __construct(Wallet $wallet, string $description, Money $money, Money $subtotal)
+    public function __construct(Wallet $wallet, string $description, Money $money, Money $subtotal, User $user)
     {
         $this->recipient = $wallet;
 
-        parent::__construct($description, $money, $subtotal);
+        parent::__construct($description, $money, $subtotal, $user);
     }
 
     public function getRecipient(): Wallet
