@@ -12,6 +12,7 @@ use App\Entity\Tenant\OrderItem;
 use App\Entity\Tenant\OrderItemPart;
 use App\Entity\Tenant\OrderItemService;
 use App\Entity\Tenant\Reservation;
+use App\Request\State;
 use Doctrine\ORM\EntityManagerInterface;
 use DomainException;
 use Generator;
@@ -32,10 +33,16 @@ final class RecommendationManager
      */
     private $reservationManager;
 
-    public function __construct(RegistryInterface $registry, ReservationManager $reservationManager)
+    /**
+     * @var State
+     */
+    private $state;
+
+    public function __construct(RegistryInterface $registry, ReservationManager $reservationManager, State $state)
     {
         $this->registry = $registry;
         $this->reservationManager = $reservationManager;
+        $this->state = $state;
     }
 
     public function realize(CarRecommendation $recommendation, Order $order, User $user): void
@@ -68,7 +75,7 @@ final class RecommendationManager
         $em->persist($orderItemService);
         $em->flush();
 
-        $recommendation->realize($orderItemService);
+        $recommendation->realize($orderItemService, $this->state->tenant());
         $this->registry->getEntityManagerForClass(\get_class($recommendation))->flush();
 
         foreach ($orderItemParts as $orderItemPart) {

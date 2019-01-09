@@ -166,9 +166,9 @@ class CarRecommendation implements PriceInterface, TotalPriceInterface
         return $this->expiredAt;
     }
 
-    public function realize(OrderItemService $orderItemService): void
+    public function realize(OrderItemService $orderItemService, Tenant $tenant): void
     {
-        $this->realization = new OrderItemServiceRelation($orderItemService);
+        $this->realization = new OrderItemServiceRelation($orderItemService, $tenant);
         $this->expiredAt = new DateTime();
     }
 }

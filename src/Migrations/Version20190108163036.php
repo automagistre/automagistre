@@ -69,6 +69,7 @@ INSERT INTO landlord.tenant (id, name, identifier) VALUES (2, \'Казань\', 
         $this->addSql('ALTER TABLE event ADD CONSTRAINT FK_3BAE0AA79033212A FOREIGN KEY (tenant_id) REFERENCES tenant (id)');
         $this->addSql('CREATE INDEX IDX_3BAE0AA79033212A ON event (tenant_id)');
         $this->addSql('UPDATE event SET tenant_id = 1 WHERE name NOT IN (\'part.created\', \'person.created\', \'organization.created\', \'employee.created\', \'employee.fired\')');
+        $this->addSql('ALTER TABLE car_recommendation ADD realization_tenant INT NOT NULL');
     }
 
     public function down(Schema $schema): void

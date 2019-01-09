@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Embeddable;
 
+use App\Entity\Landlord\Tenant;
 use App\Entity\Tenant\OrderItemService;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
@@ -26,9 +27,18 @@ final class OrderItemServiceRelation extends Relation
      */
     protected $uuid;
 
-    public function __construct(OrderItemService $entity = null)
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(type="integer")
+     */
+    protected $tenant;
+
+    public function __construct(OrderItemService $entity = null, Tenant $tenant = null)
     {
         parent::__construct($entity);
+
+        $this->tenant = $tenant->getId();
     }
 
     public static function entityClass(): string
