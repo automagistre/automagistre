@@ -101,6 +101,11 @@ services:
 
     tenant_msk:
         <<: *mysql
+        environment:
+            MYSQL_DATABASE: tenant
+            MYSQL_USER: db
+            MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
+            MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
         volumes:
             -   type: bind
                 source: /home/automagistre/tenant_msk
@@ -111,6 +116,11 @@ services:
 
     tenant_kazan:
         <<: *mysql
+        environment:
+            MYSQL_DATABASE: tenant
+            MYSQL_USER: db
+            MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
+            MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
         volumes:
             -   type: bind
                 source: /home/automagistre/tenant_kazan
