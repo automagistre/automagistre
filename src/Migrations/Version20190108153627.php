@@ -74,6 +74,9 @@ final class Version20190108153627 extends AbstractMigration
         $this->addSql('ALTER TABLE car_recommendation DROP FOREIGN KEY FK_8E4BAAF21A26530A');
         $this->addSql('ALTER TABLE car_recommendation DROP realization_id');
 
+        $this->addSql('ALTER TABLE car ADD mileage INT NOT NULL');
+        $this->addSql('UPDATE car SET mileage = COALESCE((SELECT orders.mileage FROM orders WHERE orders.car_id = car.id AND mileage IS NOT NULL ORDER BY orders.id DESC limit 1),0)');
+
         $this->addSql('UPDATE orders JOIN car on orders.car_id = car.id SET car_uuid = car.uuid');
         $this->addSql('UPDATE orders JOIN operand customer on orders.customer_id = customer.id SET customer_uuid = customer.uuid');
         $this->addSql('UPDATE orders JOIN users closedBy on orders.closed_by_id = closedBy.id SET closed_by_uuid = closedBy.uuid');

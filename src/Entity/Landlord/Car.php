@@ -116,6 +116,13 @@ class Car
     private $description;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     */
+    private $mileage = 0;
+
+    /**
      * @var CarRecommendation[]|ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Landlord\CarRecommendation", mappedBy="car", cascade={"persist"})
@@ -247,9 +254,16 @@ class Car
         $this->owner = $owner;
     }
 
-    public function getMileage(): ?int
+    public function setMileage(?int $mileage): void
     {
-        return 0; // TODO
+        if (null !== $mileage) {
+            $this->mileage = $mileage;
+        }
+    }
+
+    public function getMileage(): int
+    {
+        return $this->mileage;
     }
 
     public function getGosnomer(): ?string

@@ -31,6 +31,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use LogicException;
 use Money\Currency;
 use Money\Money;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -59,10 +60,19 @@ final class OrderController extends AbstractController
      */
     private $paymentManager;
 
-    public function __construct(ReservationManager $reservationManager, PaymentManager $paymentManager)
-    {
+    /**
+     * @var RegistryInterface
+     */
+    private $registry;
+
+    public function __construct(
+        ReservationManager $reservationManager,
+        PaymentManager $paymentManager,
+        RegistryInterface $registry
+    ) {
         $this->reservationManager = $reservationManager;
         $this->paymentManager = $paymentManager;
+        $this->registry = $registry;
     }
 
     public function info(Order $order, bool $statusSelector = false): Response
@@ -338,7 +348,7 @@ final class OrderController extends AbstractController
             $mileage = $car->getMileage();
 
             $form = $this->createForm(IntegerType::class, null, [
-                'label' => 'Пробег '.(null === $mileage
+                'label' => 'Пробег '.(0 === $mileage
                         ? '(предыдущий отсутствует)'
                         : \sprintf('(предыдущий: %s)', $mileage)),
             ])
@@ -525,6 +535,12 @@ final class OrderController extends AbstractController
                 $this->paymentManager->createPayment($worker, $description, $salary->absolute());
             }
         });
+
+        $car = $order->getCar();
+        if ($car instanceof Car) {
+            $car->setMileage($order->getMileage());
+            $this->registry->getEntityManagerForClass(Car::class)->flush();
+        }
 
         $this->event(Events::ORDER_CLOSED, new GenericEvent($order));
 
