@@ -4,10 +4,16 @@ MAKEFLAGS += --no-print-directory
 
 DEBUG_ECHO=$(if $(filter 1,$(DEBUG)),@echo " [DEBUG] ")
 
+ifndef EM
 ifdef TENANT
 override EM = tenant
 else
 override EM = landlord
+endif
+else
+ifndef TENANT
+override TENANT = msk
+endif
 endif
 
 ###> CONSTANTS ###
@@ -16,14 +22,14 @@ APP_DIR = .
 ###< CONSTANTS ###
 
 define success
-      @tput setaf 2
-      @echo " [OK] $1"
-      @tput sgr0
+    @tput setaf 2
+    @echo " [OK] $1"
+    @tput sgr0
 endef
 define failed
-      @tput setaf 1
-      @echo " [FAIL] $1"
-      @tput sgr0
+    @tput setaf 1
+    @echo " [FAIL] $1"
+    @tput sgr0
 endef
 
 notify = $(DEBUG_ECHO) notify-send --urgency="critical" "Makefile: $@" "COMPLETE!"
