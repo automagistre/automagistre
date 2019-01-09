@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
-use App\Entity\Manufacturer;
-use App\Entity\Motion;
-use App\Entity\MotionManual;
-use App\Entity\Order;
-use App\Entity\Part;
+use App\Entity\Landlord\Manufacturer;
+use App\Entity\Landlord\Part;
+use App\Entity\Tenant\Motion;
+use App\Entity\Tenant\MotionManual;
+use App\Entity\Tenant\Order;
 use App\Events;
 use App\Form\Type\QuantityType;
 use App\Manager\DeficitManager;
@@ -339,10 +339,6 @@ final class PartController extends AbstractController
 
             $qb->setParameter($key, '%'.$searchString.'%');
         }
-
-        $qb->leftJoin(Motion::class, 'motion', Join::WITH, 'motion.part = part')
-            ->groupBy('part.id')
-            ->orderBy('SUM(motion.quantity)', 'DESC');
 
         return $qb;
     }

@@ -2,44 +2,88 @@ doctrine:
     dbal:
         types:
             phone_number: \Misd\PhoneNumberBundle\Doctrine\DBAL\Types\PhoneNumberType
-        default_connection: default
+            uuid_binary:  \Ramsey\Uuid\Doctrine\UuidBinaryType
+        default_connection: landlord
         connections:
-            default:
+            landlord:
                 mapping_types:
                     enum: string
+                    uuid_binary: binary
                 charset:  UTF8
                 server_version: mariadb-10.3.10
                 wrapper_class: 'Facile\DoctrineMySQLComeBack\Doctrine\DBAL\Connection'
                 driver_class: 'Facile\DoctrineMySQLComeBack\Doctrine\DBAL\Driver\PDOMySql\Driver'
                 options:
                     x_reconnect_attempts: 3
-                host:     "%env(MYSQL_HOST)%"
-                port:     "%env(int:MYSQL_PORT)%"
-                dbname:   "%env(MYSQL_NAME)%"
+                host:     landlord
+                port:     3306
+                dbname:   landlord
+                user:     "%env(MYSQL_USER)%"
+                password: "%env(MYSQL_PASSWORD)%"
+            tenant:
+                mapping_types:
+                    enum: string
+                    uuid_binary: binary
+                charset:  UTF8
+                server_version: mariadb-10.3.10
+                wrapper_class: 'App\Doctrine\DBAL\SwitchableConnection'
+                driver_class: 'Facile\DoctrineMySQLComeBack\Doctrine\DBAL\Driver\PDOMySql\Driver'
+                options:
+                    x_reconnect_attempts: 3
+                host:     tenant
+                port:     3306
+                dbname:   tenant
                 user:     "%env(MYSQL_USER)%"
                 password: "%env(MYSQL_PASSWORD)%"
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
-        naming_strategy: App\Doctrine\ORM\Mapping\NamespaceNamingStrategy
-        auto_mapping: false
-        mappings:
-            App:
-                type: annotation
-                prefix: App\Entity
-                dir: '%kernel.project_dir%/src/Entity'
-                is_bundle: false
-            moneyphp:
-                type: yml
-                prefix: Money
-                dir: '%kernel.project_dir%/config/orm/money'
-                is_bundle: false
+        default_entity_manager: landlord
+        entity_managers:
+            landlord:
+                connection: landlord
+                naming_strategy: App\Doctrine\ORM\Mapping\NamespaceNamingStrategy
+                auto_mapping: false
+                mappings:
+                    landlord:
+                        type: annotation
+                        prefix: App\Entity\Landlord
+                        dir: '%kernel.project_dir%/src/Entity/Landlord'
+                        is_bundle: false
+                    moneyphp: &moneyphp
+                        type: yml
+                        prefix: Money
+                        dir: '%kernel.project_dir%/config/orm/money'
+                        is_bundle: false
+                    embeddable: &embeddable
+                        type: annotation
+                        prefix: App\Entity\Embeddable
+                        dir: '%kernel.project_dir%/src/Entity/Embeddable'
+                        is_bundle: false
+                    superclass: &superclass
+                        type: annotation
+                        prefix: App\Entity\Superclass
+                        dir: '%kernel.project_dir%/src/Entity/Superclass'
+                        is_bundle: false
+            tenant:
+                connection: tenant
+                naming_strategy: App\Doctrine\ORM\Mapping\NamespaceNamingStrategy
+                auto_mapping: false
+                mappings:
+                    tenant:
+                        type: annotation
+                        prefix: App\Entity\Tenant
+                        dir: '%kernel.project_dir%/src/Entity/Tenant'
+                        is_bundle: false
+                    moneyphp:
+                        <<: *moneyphp
+                    embeddable:
+                        <<: *embeddable
+                    superclass:
+                        <<: *superclass
 
 parameters:
-    env(MYSQL_HOST): mysql
-    env(MYSQL_PORT): 3306
     env(MYSQL_USER): db
-    env(MYSQL_NAME): db
     env(MYSQL_PASSWORD): '%env(file:MYSQL_PASSWORD_FILE)%'
     env(MYSQL_PASSWORD_FILE): /run/secrets/mysql_password
 

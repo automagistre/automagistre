@@ -77,8 +77,8 @@ pipeline:
         group: validate
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
-            - $$WAIT_FOR_IT mysql:3306
-            - console doctrine:schema:create
+            - $$WAIT_FOR_IT landlord:3306
+            - console doctrine:schema:create --em=landlord
         environment:
             MYSQL_PASSWORD: 'db'
 
@@ -123,10 +123,19 @@ pipeline:
             status: success
 
 services:
-    mysql:
+    landlord:
         image: mariadb:10.3.10
         environment:
-            MYSQL_DATABASE: 'db'
+            MYSQL_DATABASE: 'landlord'
+            MYSQL_USER: 'db'
+            MYSQL_PASSWORD: 'db'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+        tmpfs:
+            - /var/lib/mysql
+    tenant:
+        image: mariadb:10.3.10
+        environment:
+            MYSQL_DATABASE: 'tenant'
             MYSQL_USER: 'db'
             MYSQL_PASSWORD: 'db'
             MYSQL_ALLOW_EMPTY_PASSWORD: 'true'

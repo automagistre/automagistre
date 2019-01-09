@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\EasyAdmin\MC;
 
 use App\Controller\EasyAdmin\AbstractController;
-use App\Entity\MC\Equipment;
-use App\Entity\MC\Line;
+use App\Entity\Landlord\MC\Equipment;
+use App\Entity\Landlord\MC\Line;
 use LogicException;
 
 /**

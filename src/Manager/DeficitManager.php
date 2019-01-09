@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
-use App\Entity\Manufacturer;
-use App\Entity\Order;
-use App\Entity\Part;
+use App\Entity\Landlord\Manufacturer;
+use App\Entity\Landlord\Part;
+use App\Entity\Tenant\Order;
 use App\Model\DeficitPart;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 

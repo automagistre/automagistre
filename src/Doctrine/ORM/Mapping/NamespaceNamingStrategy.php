@@ -14,6 +14,8 @@ final class NamespaceNamingStrategy extends UnderscoreNamingStrategy
 {
     private const PREFIX = 'App\\Entity';
 
+    private const SEARCH = [self::PREFIX.'\\Landlord\\', self::PREFIX.'\\Tenant\\', self::PREFIX.'\\'];
+
     /**
      * @param string $className
      */
@@ -23,6 +25,8 @@ final class NamespaceNamingStrategy extends UnderscoreNamingStrategy
             return parent::classToTableName($className);
         }
 
-        return \implode('_', \explode('\\', StringUtils::underscore(\str_replace(self::PREFIX.'\\', '', $className))));
+        $namespace = StringUtils::underscore(\str_replace(self::SEARCH, '', $className));
+
+        return \implode('_', \explode('\\', $namespace));
     }
 }

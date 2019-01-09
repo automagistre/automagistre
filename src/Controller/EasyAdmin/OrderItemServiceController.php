@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
-use App\Entity\Car;
-use App\Entity\CarModel;
-use App\Entity\Order;
-use App\Entity\OrderItem;
-use App\Entity\OrderItemService;
-use App\Entity\Organization;
-use App\Entity\Person;
+use App\Entity\Landlord\Car;
+use App\Entity\Landlord\Organization;
+use App\Entity\Landlord\Person;
+use App\Entity\Tenant\Order;
+use App\Entity\Tenant\OrderItem;
+use App\Entity\Tenant\OrderItemService;
 use App\Form\Model\OrderService;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
@@ -35,7 +34,7 @@ final class OrderItemServiceController extends OrderItemController
         $query = $this->request->query;
 
         $orderItemService = $this->em->getRepository(OrderItemService::class)->findOneBy(['id' => $query->get('id')]);
-        if (null === $orderItemService) {
+        if (!$orderItemService instanceof OrderItemService) {
             throw new NotFoundHttpException();
         }
 
@@ -180,19 +179,6 @@ final class OrderItemServiceController extends OrderItemController
             ->orderBy('COUNT(entity.service)', 'DESC')
             ->addOrderBy('entity.service', 'ASC')
             ->setMaxResults(15);
-
-        $car = $this->getEntity(Car::class);
-        $order = $this->getEntity(Order::class);
-        if (null === $car && $order instanceof Order) {
-            $car = $order->getCar();
-        }
-
-        if ($car instanceof Car && ($carModel = $car->getCarModel()) instanceof CarModel) {
-            $qb->leftJoin('entity.order', 'order')
-                ->leftJoin('order.car', 'car')
-                ->andWhere('car.carModel = :carModel')
-                ->setParameter('carModel', $carModel);
-        }
 
         if ($request->query->getBoolean('textOnly')) {
             $qb->groupBy('entity.service');

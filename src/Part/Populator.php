@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Part;
 
-use App\Entity\Manufacturer;
-use App\Entity\Part;
+use App\Entity\Landlord\Manufacturer;
+use App\Entity\Landlord\Part;
 use App\Partner\Ixora\Finder;
 use Doctrine\ORM\EntityManager;
 

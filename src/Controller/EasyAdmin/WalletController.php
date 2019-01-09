@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
-use App\Entity\Wallet;
+use App\Entity\Tenant\Wallet;
 use Money\Currency;
 
 /**

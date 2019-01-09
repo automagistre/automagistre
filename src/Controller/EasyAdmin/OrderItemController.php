@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
-use App\Entity\Car;
-use App\Entity\CarRecommendation;
-use App\Entity\Order;
-use App\Entity\OrderItem;
-use App\Entity\OrderItemPart;
-use App\Entity\OrderItemService;
-use App\Entity\Reservation;
+use App\Entity\Landlord\Car;
+use App\Entity\Landlord\CarRecommendation;
+use App\Entity\Tenant\Order;
+use App\Entity\Tenant\OrderItem;
+use App\Entity\Tenant\OrderItemPart;
+use App\Entity\Tenant\OrderItemService;
+use App\Entity\Tenant\Reservation;
 use App\Manager\RecommendationManager;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;

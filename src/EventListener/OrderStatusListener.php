@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
-use App\Entity\OrderItemPart;
-use App\Entity\Reservation;
+use App\Entity\Tenant\OrderItemPart;
+use App\Entity\Tenant\Reservation;
 use App\Enum\OrderStatus;
 use App\Events;
 use App\Manager\ReservationManager;

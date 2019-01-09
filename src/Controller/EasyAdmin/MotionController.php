@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
-use App\Entity\Part;
+use App\Entity\Landlord\Part;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -36,15 +36,9 @@ final class MotionController extends AbstractController
 
         $part = $this->getEntity(Part::class);
         if ($part instanceof Part) {
-            $qb->andWhere('entity.part = :part')
-                ->setParameter('part', $part);
+            $qb->andWhere('entity.part.uuid = :part')
+                ->setParameter('part', $part->uuid(), 'binary_uuid');
         }
-
-        // EAGER Loading
-        $qb
-            ->addSelect('part', 'manufacturer')
-            ->join('entity.part', 'part')
-            ->join('part.manufacturer', 'manufacturer');
 
         return $qb;
     }

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
-use App\Entity\OrderItem;
-use App\Entity\OrderItemGroup;
-use App\Entity\OrderItemPart;
-use App\Entity\OrderItemService;
+use App\Entity\Tenant\OrderItem;
+use App\Entity\Tenant\OrderItemGroup;
+use App\Entity\Tenant\OrderItemPart;
+use App\Entity\Tenant\OrderItemService;
 use App\Form\Model\OrderGroup as OrderItemGroupModel;
 use App\Form\Model\OrderItemModel;
 use App\Form\Model\OrderPart as OrderItemPartModel;

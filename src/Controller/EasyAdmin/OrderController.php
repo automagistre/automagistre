@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
-use App\Entity\Car;
-use App\Entity\Employee;
-use App\Entity\MotionOrder;
-use App\Entity\Operand;
-use App\Entity\Order;
-use App\Entity\OrderItem;
-use App\Entity\OrderItemGroup;
-use App\Entity\OrderItemPart;
-use App\Entity\OrderItemService;
-use App\Entity\OrderNote;
-use App\Entity\Organization;
-use App\Entity\Person;
-use App\Entity\Wallet;
+use App\Entity\Landlord\Car;
+use App\Entity\Landlord\Operand;
+use App\Entity\Landlord\Organization;
+use App\Entity\Landlord\Person;
+use App\Entity\Tenant\Employee;
+use App\Entity\Tenant\MotionOrder;
+use App\Entity\Tenant\Order;
+use App\Entity\Tenant\OrderItem;
+use App\Entity\Tenant\OrderItemGroup;
+use App\Entity\Tenant\OrderItemPart;
+use App\Entity\Tenant\OrderItemService;
+use App\Entity\Tenant\OrderNote;
+use App\Entity\Tenant\Wallet;
 use App\Enum\OrderStatus;
 use App\Events;
 use App\Form\Type\MoneyType;
@@ -31,6 +31,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use LogicException;
 use Money\Currency;
 use Money\Money;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -59,10 +60,19 @@ final class OrderController extends AbstractController
      */
     private $paymentManager;
 
-    public function __construct(ReservationManager $reservationManager, PaymentManager $paymentManager)
-    {
+    /**
+     * @var RegistryInterface
+     */
+    private $registry;
+
+    public function __construct(
+        ReservationManager $reservationManager,
+        PaymentManager $paymentManager,
+        RegistryInterface $registry
+    ) {
         $this->reservationManager = $reservationManager;
         $this->paymentManager = $paymentManager;
+        $this->registry = $registry;
     }
 
     public function info(Order $order, bool $statusSelector = false): Response
@@ -238,7 +248,7 @@ final class OrderController extends AbstractController
                         continue;
                     }
 
-                    $order->addPayment($payment, $form->get('desc')->getData());
+                    $order->addPayment($payment, $form->get('desc')->getData(), $this->getUser());
                 }
 
                 $this->handlePayment($model);
@@ -338,7 +348,7 @@ final class OrderController extends AbstractController
             $mileage = $car->getMileage();
 
             $form = $this->createForm(IntegerType::class, null, [
-                'label' => 'Пробег '.(null === $mileage
+                'label' => 'Пробег '.(0 === $mileage
                         ? '(предыдущий отсутствует)'
                         : \sprintf('(предыдущий: %s)', $mileage)),
             ])
@@ -503,7 +513,7 @@ final class OrderController extends AbstractController
             foreach ($order->getItems(OrderItemService::class) as $item) {
                 /** @var OrderItemService $item */
                 $worker = $item->getWorker();
-                $employee = $em->getRepository(Employee::class)->findOneBy(['person' => $worker]);
+                $employee = $em->getRepository(Employee::class)->findOneBy(['person.uuid' => $worker->uuid()]);
 
                 if (!$employee instanceof Employee) {
                     $this->addFlash('warning', \sprintf(
@@ -525,6 +535,12 @@ final class OrderController extends AbstractController
                 $this->paymentManager->createPayment($worker, $description, $salary->absolute());
             }
         });
+
+        $car = $order->getCar();
+        if ($car instanceof Car) {
+            $car->setMileage($order->getMileage());
+            $this->registry->getEntityManagerForClass(Car::class)->flush();
+        }
 
         $this->event(Events::ORDER_CLOSED, new GenericEvent($order));
 
@@ -552,7 +568,10 @@ final class OrderController extends AbstractController
      */
     protected function createNewEntity(): Order
     {
-        $entity = new Order();
+        $entity = parent::createNewEntity();
+        if (!$entity instanceof Order) {
+            throw new LogicException('Order expected');
+        }
 
         $customer = $this->getEntity(Operand::class);
         if ($customer instanceof Operand) {
@@ -603,11 +622,7 @@ final class OrderController extends AbstractController
 
         // EAGER Loading
         $qb
-            ->select('entity', 'customer', 'car', 'manufacturer', 'carModel', 'items', 'suspends')
-            ->leftJoin('entity.customer', 'customer')
-            ->leftJoin('entity.car', 'car')
-            ->leftJoin('car.carModel', 'carModel')
-            ->leftJoin('carModel.manufacturer', 'manufacturer')
+            ->select('entity', 'items', 'suspends')
             ->leftJoin('entity.items', 'items')
             ->leftJoin('entity.suspends', 'suspends');
 
@@ -693,7 +708,9 @@ final class OrderController extends AbstractController
             }
         }
 
-        return parent::searchAction();
+        $this->addFlash('warning', 'В данный момент поиск возможен только по номеру заказа');
+
+        return $this->redirectToReferrer();
     }
 
     private function createPaymentForm(Order $order): FormInterface

@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
-use App\Entity\Event;
+use App\Entity\Landlord\Event;
 use App\Events;
 use App\Request\EntityTransformer;
+use App\Request\State;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -26,10 +27,16 @@ final class EventsListener implements EventSubscriberInterface
      */
     private $transformer;
 
-    public function __construct(RegistryInterface $registry, EntityTransformer $transformer)
+    /**
+     * @var State
+     */
+    private $state;
+
+    public function __construct(RegistryInterface $registry, EntityTransformer $transformer, State $state)
     {
         $this->registry = $registry;
         $this->transformer = $transformer;
+        $this->state = $state;
     }
 
     /**
@@ -46,12 +53,10 @@ final class EventsListener implements EventSubscriberInterface
 
     public function onEvent(GenericEvent $event, string $name): void
     {
-        $em = $this->registry->getEntityManager();
+        $subject = $event->getSubject();
 
         $arguments = [];
-        if (null !== $subject = $event->getSubject()) {
-            $arguments['subject'] = $this->transformer->transform($subject);
-        }
+        $arguments['subject'] = $this->transformer->transform($subject);
 
         foreach ($event->getArguments() as $key => $argument) {
             if (\is_object($argument)) {
@@ -61,7 +66,18 @@ final class EventsListener implements EventSubscriberInterface
             }
         }
 
-        $em->persist(new Event($name, $arguments));
+        $user = $this->state->user();
+        $tenant = $this->isTenantEntity($subject) ? $this->state->tenant() : null;
+
+        $em = $this->registry->getEntityManagerForClass(Event::class);
+        $em->persist(new Event($name, $arguments, $user, $tenant));
         $em->flush();
+    }
+
+    private function isTenantEntity(object $entity): bool
+    {
+        return 'tenant' === $this->registry->getEntityManagerForClass(\get_class($entity))
+                ->getConnection()
+                ->getDatabase();
     }
 }

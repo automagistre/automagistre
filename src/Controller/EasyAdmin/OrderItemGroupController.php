@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
-use App\Entity\Order;
-use App\Entity\OrderItem;
-use App\Entity\OrderItemGroup;
+use App\Entity\Tenant\Order;
+use App\Entity\Tenant\OrderItem;
+use App\Entity\Tenant\OrderItemGroup;
 use App\Form\Model\OrderGroup;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 

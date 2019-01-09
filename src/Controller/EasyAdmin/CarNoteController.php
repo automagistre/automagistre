@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
-use App\Entity\Car;
-use App\Entity\CarNote;
+use App\Entity\Landlord\Car;
+use App\Entity\Landlord\CarNote;
 use LogicException;
 
 /**

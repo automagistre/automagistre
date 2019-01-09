@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
-use App\Entity\Motion;
-use App\Entity\Order;
-use App\Entity\OrderItemPart;
-use App\Entity\Part;
-use App\Entity\PartCross;
+use App\Entity\Landlord\Part;
+use App\Entity\Landlord\PartCross;
+use App\Entity\Tenant\Motion;
+use App\Entity\Tenant\Order;
+use App\Entity\Tenant\OrderItemPart;
 use App\Enum\OrderStatus;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
@@ -33,15 +33,16 @@ final class PartManager
 
     public function inStock(Part $part): int
     {
-        $em = $this->registry->getEntityManager();
+        /** @var EntityManagerInterface $em */
+        $em = $this->registry->getEntityManagerForClass(Motion::class);
 
         try {
             return (int) $em->createQueryBuilder()
                 ->select('SUM(entity.quantity)')
                 ->from(Motion::class, 'entity')
-                ->groupBy('entity.part')
-                ->where('entity.part = :part')
-                ->setParameter('part', $part)
+                ->groupBy('entity.part.uuid')
+                ->where('entity.part.uuid = :part')
+                ->setParameter('part', $part->uuid(), 'uuid_binary')
                 ->getQuery()
                 ->getSingleResult(Query::HYDRATE_SINGLE_SCALAR);
         } catch (NoResultException $e) {
@@ -51,7 +52,8 @@ final class PartManager
 
     public function inOrders(Part $part): array
     {
-        $em = $this->registry->getEntityManager();
+        /** @var EntityManagerInterface $em */
+        $em = $this->registry->getManagerForClass(Order::class);
 
         return $em->createQueryBuilder()
             ->select('entity')
@@ -70,7 +72,8 @@ final class PartManager
 
     public function cross(Part $left, Part $right): void
     {
-        $em = $this->registry->getEntityManager();
+        /** @var EntityManagerInterface $em */
+        $em = $this->registry->getManagerForClass(Part::class);
 
         $em->transactional(function (EntityManagerInterface $em) use ($left, $right): void {
             $leftGroup = $this->findCross($em, $left);
@@ -93,7 +96,9 @@ final class PartManager
 
     public function uncross(Part $part): void
     {
-        $em = $this->registry->getEntityManager();
+        /** @var EntityManagerInterface $em */
+        $em = $this->registry->getManagerForClass(Part::class);
+
         $cross = $this->findCross($em, $part);
         $cross->removePart($part);
 

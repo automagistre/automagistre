@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Form\Model;
 
-use App\Entity\Car;
-use App\Entity\CarRecommendation;
-use App\Entity\Operand;
+use App\Entity\Landlord\Car;
+use App\Entity\Landlord\CarRecommendation;
+use App\Entity\Landlord\Operand;
 use Money\Money;
 
 /**

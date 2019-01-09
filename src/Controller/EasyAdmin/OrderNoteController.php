@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
-use App\Entity\Order;
-use App\Entity\OrderNote;
+use App\Entity\Tenant\Order;
+use App\Entity\Tenant\OrderNote;
 use LogicException;
 use Symfony\Component\HttpFoundation\Response;
 

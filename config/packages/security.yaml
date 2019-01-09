@@ -1,11 +1,11 @@
 security:
     encoders:
-        App\Entity\User: argon2i
+        App\Entity\Landlord\User: argon2i
 
     providers:
         user_provider:
             entity:
-                class: App\Entity\User
+                class: App\Entity\Landlord\User
                 property: username
 
     firewalls:

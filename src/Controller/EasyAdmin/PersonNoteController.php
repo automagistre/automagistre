@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
-use App\Entity\OperandNote;
-use App\Entity\Person;
+use App\Entity\Landlord\OperandNote;
+use App\Entity\Landlord\Person;
 use LogicException;
 
 /**

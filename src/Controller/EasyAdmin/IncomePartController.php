@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
-use App\Entity\Income;
-use App\Entity\IncomePart;
+use App\Entity\Tenant\Income;
+use App\Entity\Tenant\IncomePart;
 use LogicException;
 
 /**
@@ -34,7 +34,10 @@ final class IncomePartController extends AbstractController
 
     protected function createNewEntity(): IncomePart
     {
-        $entity = new IncomePart();
+        $entity = parent::createNewEntity();
+        if (!$entity instanceof IncomePart) {
+            throw new LogicException('IncomePart excepted');
+        }
 
         $income = $this->getEntity(Income::class);
         if (!$income instanceof Income) {

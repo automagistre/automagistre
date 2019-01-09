@@ -1,13 +1,15 @@
-_easy_admin:
-    resource: '@EasyAdminBundle/Controller/AdminController.php'
-    type: annotation
-    condition: "request.getHost() matches '/%admin_host_pattern%/'"
-
 _admin:
     resource: './routes/admin.yaml'
     condition: "request.getHost() matches '/%admin_host_pattern%/'"
     name_prefix: admin_
 
+_easy_admin:
+    resource: '@EasyAdminBundle/Controller/AdminController.php'
+    type: annotation
+    condition: "request.getHost() matches '/%admin_host_pattern%/'"
+    prefix: /{tenant}
+
 _www:
     resource: './routes/www.yaml'
+    condition: "request.getHost() matches '/%www_host_pattern%/'"
     name_prefix: www_

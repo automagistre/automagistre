@@ -1,22 +1,38 @@
 .PHONY: dev contrib
 
+MAKEFLAGS += --no-print-directory
+
+DEBUG_ECHO=$(if $(filter 1,$(DEBUG)),@echo " [DEBUG] ")
+
+ifndef EM
+ifdef TENANT
+override EM = tenant
+else
+override EM = landlord
+endif
+else
+ifndef TENANT
+override TENANT = msk
+endif
+endif
+
 ###> CONSTANTS ###
 DOCKER_COMPOSE_VERSION=1.23.1
 APP_DIR = .
 ###< CONSTANTS ###
 
 define success
-      @tput setaf 2
-      @echo " [OK] $1"
-      @tput sgr0
+    @tput setaf 2
+    @echo " [OK] $1"
+    @tput sgr0
 endef
 define failed
-      @tput setaf 1
-      @echo " [FAIL] $1"
-      @tput sgr0
+    @tput setaf 1
+    @echo " [FAIL] $1"
+    @tput sgr0
 endef
 
-notify = notify-send --urgency="critical" "Makefile: $@" "COMPLETE!"
+notify = $(DEBUG_ECHO) notify-send --urgency="critical" "Makefile: $@" "COMPLETE!"
 
 init:
 	cp -n .env.dist .env || true
@@ -28,14 +44,12 @@ un-init:
 	rm -rf .env
 re-init: un-init init
 
-bootstrap: init pull do-install-parallel docker-hosts-updater do-up cache permissions db-wait fixtures
+bootstrap: init pull do-install docker-hosts-updater do-up cache permissions db-wait fixtures
 
-install: do-install-parallel permissions
-do-install-parallel:
-	@$(MAKE) --no-print-directory -j2 do-install
+install: do-install permissions
 do-install: app-install
 
-do-update: docker-compose-install pull do-install-parallel do-up db-wait permissions cache restart migration
+do-update: docker-compose-install pull do-install do-up db-wait permissions cache restart migration
 update: do-update
 	@$(notify)
 master: git-check-stage-is-clear git-fetch git-checkout-master git-reset-master do-update
@@ -116,7 +130,7 @@ endif
 ###> APP ###
 APP_IMAGE = automagistre/app:dev
 app-build:
-	docker build \
+	$(DEBUG_ECHO) docker build \
 		--build-arg APP_ENV=dev \
 		--build-arg APP_DEBUG=1 \
 		--build-arg APP_VERSION=dev \
@@ -127,10 +141,11 @@ app-build:
 app-push:
 	docker push $(APP_IMAGE)
 
-APP = docker-compose $(if $(EXEC),exec,run --rm )\
+APP = $(DEBUG_ECHO) @docker-compose $(if $(EXEC),exec,run --rm )\
 	$(if $(ENTRYPOINT),--entrypoint "$(ENTRYPOINT)" )\
-	$(if $(ENV),-e APP_ENV=$(ENV) )\
-	$(if $(DEBUG),-e APP_DEBUG=$(DEBUG) )app
+	$(if $(APP_ENV),-e APP_ENV=$(APP_ENV) )\
+	$(if $(APP_DEBUG),-e APP_DEBUG=$(APP_DEBUG) )\
+	app
 
 permissions:
 	$(APP) sh -c "chown $(shell id -u):$(shell id -g) -R . && chmod 777 -R var/ || true"
@@ -160,44 +175,60 @@ do-composer-update-lock:
 vendor-phar-remove:
 	@rm -rf $(APP_DIR)/vendor/twig/twig/test/Twig/Tests/Loader/Fixtures/phar/phar-sample.phar $(APP_DIR)/vendor/symfony/symfony/src/Symfony/Component/DependencyInjection/Tests/Fixtures/includes/ProjectWithXsdExtensionInPhar.phar $(APP_DIR)/vendor/phpunit/phpunit/tests/_files/phpunit-example-extension/tools/phpunit.d/phpunit-example-extension-1.0.1.phar $(APP_DIR)/vendor/phar-io/manifest/tests/_fixture/test.phar || true
 
-migration:
-	$(APP) console doctrine:migration:migrate --no-interaction --allow-no-migration
+MIGRATION_CONSOLE = --db=${EM} --em=${EM} $(TENANT_CONSOLE) --no-interaction
+
+migration: migration-landlord migration-tenant
+migration-landlord:
+	@$(MAKE) do-migration EM=landlord
+migration-tenant:
+	@$(MAKE) do-migration EM=tenant
+do-migration:
+	$(APP) console doctrine:migration:migrate --allow-no-migration $(MIGRATION_CONSOLE)
+
 migration-generate: do-migration-generate php-cs-fixer
 do-migration-generate:
 	$(APP) console doctrine:migrations:generate
 migration-rollback:latest = $(shell make app-cli CMD="console doctrine:migration:latest" | tr '\r' ' ')
 migration-rollback:
-	$(APP) console doctrine:migration:execute --down --no-interaction $(latest)
-migration-diff: do-migration-diff php-cs-fixer
+	$(APP) console doctrine:migration:execute --down $(latest) $(MIGRATION_CONSOLE)
+
+migration-diff: migration-diff-all php-cs-fixer
+migration-diff-all: migration-diff-landlord migration-diff-tenant
+migration-diff-landlord:
+		@$(MAKE) do-migration-diff EM=landlord
+migration-diff-tenant:
+		@$(MAKE) do-migration-diff EM=tenant
 do-migration-diff:
-	$(APP) console doctrine:migration:diff
+	$(APP) console doctrine:migration:diff $(MIGRATION_CONSOLE)
 migration-diff-dry:
-	$(APP) console doctrine:schema:update --dump-sql
-migration-test: ENV=test
+	$(APP) console doctrine:schema:update --dump-sql --em=${EM} $(TENANT_CONSOLE)
+
+migration-test: APP_ENV=test
 migration-test:
 	$(APP) console doctrine:schema:validate
 
 schema-update:
-	$(APP) console doctrine:schema:update --force
+	$(APP) console doctrine:schema:update --force --em=${EM} $(TENANT_CONSOLE)
 
 app-test:
 	$(APP) console test
 
-test: ENV=test
+test: APP_ENV=test
 test: DRY=true
 test: do-php-cs-fixer phpstan migration-test phpunit
 
 do-php-cs-fixer:
-	$(APP) php-cs-fixer fix -vvv $(if $(filter true,$(DRY)),--dry-run)
+	$(APP) php-cs-fixer fix $(if $(filter true,$(DRY)),--dry-run) $(if $(filter 1,$(APP_DEBUG)),-vvv,--quiet $(if $(filter 1,$(DEBUG)),,> /dev/null))
+	$(call success,"php-cs-fixer fix")
 php-cs-fixer: do-php-cs-fixer permissions
 
 phpstan:
 	$(APP) phpstan analyse --configuration phpstan.neon $(if $(filter true,$(DEBUG)),--debug -vvv)
 
-phpunit: ENV=test
+phpunit: APP_ENV=test
 phpunit:
 	$(APP) paratest -p $(shell grep -c ^processor /proc/cpuinfo || 4) --stop-on-failure
-requirements: ENV=prod
+requirements: APP_ENV=prod
 requirements:
 	$(APP) requirements-checker
 
@@ -216,53 +247,79 @@ app-clear-logs:
 	$(APP) rm -rf var/logs/*
 
 database: drop migration
-fixtures: ENV=test
+fixtures: APP_ENV=test
 fixtures: database cache do-fixtures
 	@$(notify)
 do-fixtures:
 	$(APP) console doctrine:fixtures:load --no-interaction
 backup: drop backup-restore migration
 	@$(notify)
-drop:
-	@$(APP) sh -c "console doctrine:database:drop --force || true && console doctrine:database:create"
+
+drop: drop-landlord drop-tenant
+drop-landlord:
+	@$(MAKE) do-drop EM=landlord
+drop-tenant:
+	@$(MAKE) do-drop EM=tenant
+do-drop:
+	$(APP) sh -c "console doctrine:database:drop --force --connection=${EM} ${TENANT_CONSOLE} || true && console doctrine:database:create --connection=${EM} ${TENANT_CONSOLE}"
+
 db-wait:
-	$(APP) wait-for-it.sh mysql:3306
+	$(APP) wait-for-it.sh landlord:3306 -- wait-for-it.sh tenant_msk:3306
 ###< APP ###
 
 ###> MYSQL ###
 mysql-cli:
-	docker-compose exec	mysql bash
+	@$(MYSQL) bash
 backup_file = $(APP_DIR)/var/backup.sql.gz
 backup-restore:
 ifneq (,$(wildcard $(backup_file)))
-	@docker-compose exec mysql bash -c "gunzip < /usr/local/app/var/backup.sql.gz | mysql db"
+	@$(MYSQL) bash -c "gunzip < /usr/local/app/var/backup.sql.gz | mysql db"
 	$(call success,"Backup restored.")
 else
 	$(call failed,"Backup \"$(backup_file)\" does not exist!")
 	@exit 1
 endif
 
-SNAPSHOT_FILE_NAME = $(shell git rev-parse --abbrev-ref HEAD | sed 's\#/\#\_\#g').sql.gz
+MYSQL=$(DEBUG_ECHO) @docker-compose exec ${EM}$(if $(filter tenant,$(EM)),_$(TENANT))
+TENANT_CONSOLE = $(if $(filter tenant,$(EM)),--tenant=$(TENANT))
+
+SNAPSHOT_FILE_NAME = $(shell git rev-parse --abbrev-ref HEAD | sed 's\#/\#\_\#g')_${EM}$(if $(filter tenant,$(EM)),_$(TENANT)).sql.gz
 SNAPSHOT_FILE_PATH = /usr/local/app/var/snapshots/$(SNAPSHOT_FILE_NAME)
 SNAPSHOT_FILE_LOCAL = $(APP_DIR)/var/snapshots/$(SNAPSHOT_FILE_NAME)
-snapshot:
+
+snapshot: snapshot-landlord snapshot-tenant
+snapshot-landlord:
+	@$(MAKE) do-snapshot EM=landlord
+snapshot-tenant:
+	@$(MAKE) do-snapshot EM=tenant
+do-snapshot:
 ifneq (,$(wildcard $(SNAPSHOT_FILE_LOCAL)))
 	$(call failed,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" already exist! You can use \"snapshot-drop\" recipe.")
 else
-	@docker-compose exec mysql bash -c "mysqldump db | gzip > $(SNAPSHOT_FILE_PATH)"
+	$(MYSQL) bash -c "mysqldump ${EM} | gzip > $(SNAPSHOT_FILE_PATH)"
 	$(call success,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" created.")
 endif
-snapshot-drop:
+
+snapshot-drop: snapshot-drop-landlord snapshot-drop-tenant
+snapshot-drop-landlord:
+	@$(MAKE) do-snapshot-drop EM=landlord
+snapshot-drop-tenant:
+	@$(MAKE) do-snapshot-drop EM=tenant
+do-snapshot-drop:
 ifeq (,$(wildcard $(SNAPSHOT_FILE_LOCAL)))
 	$(call failed,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" does not exist!")
 else
-	@docker-compose exec mysql rm -f $(SNAPSHOT_FILE_PATH)
+	$(MYSQL) rm -f $(SNAPSHOT_FILE_PATH)
 	$(call success,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" deleted.")
 endif
 
-snapshot-restore: drop do-snapshot-restore migration
+snapshot-restore: snapshot-restore-landlord snapshot-restore-tenant
+snapshot-restore-landlord: drop-landlord
+	@$(MAKE) do-snapshot-restore EM=landlord
+snapshot-restore-tenant: drop-tenant
+	@$(MAKE) do-snapshot-restore EM=tenant
 do-snapshot-restore:
-	@docker-compose exec mysql bash -c "gunzip < $(SNAPSHOT_FILE_PATH) | mysql db"
+	$(MYSQL) bash -c "gunzip < $(SNAPSHOT_FILE_PATH) | mysql ${EM}"
 	$(call success,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" restored.")
 ###< MYSQL ###
 

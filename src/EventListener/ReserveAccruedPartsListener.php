@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
-use App\Entity\OrderItemPart;
-use App\Entity\Part;
+use App\Entity\Landlord\Part;
+use App\Entity\Tenant\OrderItemPart;
 use App\Events;
 use App\Manager\ReservationException;
 use App\Manager\ReservationManager;
+use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -57,19 +58,18 @@ final class ReserveAccruedPartsListener implements EventSubscriberInterface
             return;
         }
 
-        $em = $this->registry->getEntityManager();
+        /** @var EntityManagerInterface $em */
+        $em = $this->registry->getManagerForClass(OrderItemPart::class);
 
         /** @var OrderItemPart[] $items */
         $items = $em->createQueryBuilder()
             ->select('entity', 'orders')
             ->from(OrderItemPart::class, 'entity')
             ->join('entity.order', 'orders')
-            ->where('entity.part = :part')
+            ->where('entity.part.uuid = :part')
             ->andWhere('orders.closedAt IS NULL')
             ->getQuery()
-            ->setParameters([
-                'part' => $part,
-            ])
+            ->setParameter('part', $part->uuid(), 'uuid_binary')
             ->getResult();
 
         if ([] === $items) {

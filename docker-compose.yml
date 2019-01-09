@@ -14,10 +14,10 @@ services:
             APP_DEBUG: 0
             MYSQL_PASSWORD: 'db'
 
-    mysql:
+    landlord: &mysql
         image: mariadb:10.3.10
         labels:
-            ru.grachevko.dhu: 'mysql.automagistre.local'
+            ru.grachevko.dhu: 'landlord.automagistre.local'
         volumes:
             -
                 type: tmpfs
@@ -26,7 +26,7 @@ services:
                     size: 1024m
             - ./:/usr/local/app
         environment:
-            MYSQL_DATABASE: db
+            MYSQL_DATABASE: landlord
             MYSQL_USER: db
             MYSQL_PASSWORD: db
             MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
@@ -36,6 +36,26 @@ services:
             timeout: 5s
             retries: 3
             start_period: 10s
+
+    tenant_msk:
+        <<: *mysql
+        labels:
+            ru.grachevko.dhu: 'tenant_msk.automagistre.local'
+        environment:
+            MYSQL_DATABASE: tenant
+            MYSQL_USER: db
+            MYSQL_PASSWORD: db
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+
+    tenant_kazan:
+        <<: *mysql
+        labels:
+            ru.grachevko.dhu: 'tenant_kazan.automagistre.local'
+        environment:
+            MYSQL_DATABASE: tenant
+            MYSQL_USER: db
+            MYSQL_PASSWORD: db
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
 
     memcached:
         image: memcached:1.5.11-alpine

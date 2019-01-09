@@ -1,12 +1,9 @@
 version: '3.7'
 
 services:
-    app:
-        &app
+    app: &app
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         command: rr serve
-        environment:
-            MIGRATIONS: 'false'
         networks:
             - automagistre
             - ingress
@@ -37,24 +34,50 @@ services:
             retries: 3
             start_period: 10s
 
-    migration:
-        <<: *app
-        command: wait-for-it.sh mysql:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration
-        deploy:
-            mode: replicated
-            replicas: 1
-            restart_policy:
-                condition: none
+#    migration_landlord:
+#        <<: *app
+#        command: wait-for-it.sh landlord:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --db=landlord --em=landlord
+#        deploy:
+#            mode: replicated
+#            replicas: 1
+#            restart_policy:
+#                condition: none
+#            labels:
+#                - "traefik.enable=false"
+#
+#    migration_tenant_msk:
+#        <<: *app
+#        command: wait-for-it.sh tenant_msk:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --db=tenant --em=tenant --tenant=msk
+#        deploy:
+#            mode: replicated
+#            replicas: 1
+#            restart_policy:
+#                condition: none
+#            labels:
+#                - "traefik.enable=false"
+#
+#    migration_tenant_kazan:
+#        <<: *app
+#        command: wait-for-it.sh tenant_kazan:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --db=tenant --em=tenant --tenant=kazan
+#        deploy:
+#            mode: replicated
+#            replicas: 1
+#            restart_policy:
+#                condition: none
+#            labels:
+#                - "traefik.enable=false"
 
-    mysql:
+    landlord: &mysql
         image: mariadb:10.3.10
         volumes:
-            -
-                type: bind
-                source: /home/automagistre/db
+            -   type: bind
+                source: /home/automagistre/landlord
                 target: /var/lib/mysql
+            -   type: bind
+                source: /home/automagistre/backups
+                target: /backups
         environment:
-            MYSQL_DATABASE: db
+            MYSQL_DATABASE: landlord
             MYSQL_USER: db
             MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
             MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
@@ -75,6 +98,26 @@ services:
             timeout: 5s
             retries: 3
             start_period: 10s
+
+    tenant_msk:
+        <<: *mysql
+        volumes:
+            -   type: bind
+                source: /home/automagistre/tenant_msk
+                target: /var/lib/mysql
+            -   type: bind
+                source: /home/automagistre/backups
+                target: /backups
+
+    tenant_kazan:
+        <<: *mysql
+        volumes:
+            -   type: bind
+                source: /home/automagistre/tenant_kazan
+                target: /var/lib/mysql
+            -   type: bind
+                source: /home/automagistre/backups
+                target: /backups
 
     memcached:
         image: memcached:1.5.11-alpine

@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
-use App\Entity\Employee;
+use App\Entity\Tenant\Employee;
+use App\Events;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -28,6 +29,18 @@ final class EmployeeController extends AbstractController
         $entity->fire();
         $this->em->flush();
 
+        $this->event(Events::EMPLOYEE_FIRED, $entity);
+
         return $this->redirectToReferrer();
+    }
+
+    /**
+     * @param Employee $entity
+     */
+    protected function persistEntity($entity): void
+    {
+        parent::persistEntity($entity);
+
+        $this->event(Events::EMPLOYEE_CREATED, $entity);
     }
 }

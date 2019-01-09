@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
-use App\Entity\Order;
-use App\Entity\OrderItem;
-use App\Entity\OrderItemPart;
-use App\Entity\Part;
+use App\Entity\Landlord\Part;
+use App\Entity\Tenant\Order;
+use App\Entity\Tenant\OrderItem;
+use App\Entity\Tenant\OrderItemPart;
 use App\Form\Model\OrderPart;
 use App\Manager\ReservationException;
 use App\Manager\ReservationManager;

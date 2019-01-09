@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
-use App\Entity\Order;
-use App\Entity\OrderItemPart;
-use App\Entity\Part;
-use App\Entity\Reservation;
+use App\Entity\Landlord\Part;
+use App\Entity\Tenant\Order;
+use App\Entity\Tenant\OrderItemPart;
+use App\Entity\Tenant\Reservation;
 use App\Events;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
@@ -74,7 +75,8 @@ final class ReservationManager
 
         $reservation = new Reservation($orderItemPart, $quantity);
 
-        $em = $this->registry->getEntityManager();
+        /** @var EntityManagerInterface $em */
+        $em = $this->registry->getManagerForClass(Reservation::class);
         $em->persist($reservation);
 
         $this->dispatcher->dispatch(Events::PART_RESERVED, new GenericEvent($reservation));
@@ -99,7 +101,8 @@ final class ReservationManager
             );
         }
 
-        $em = $this->registry->getEntityManager();
+        /** @var EntityManagerInterface $em */
+        $em = $this->registry->getManagerForClass(Reservation::class);
 
         $reservation = new Reservation($orderItemPart, 0 - $quantity);
         $em->persist($reservation);
@@ -118,17 +121,19 @@ final class ReservationManager
      */
     public function reserved($part): int
     {
-        $em = $this->registry->getEntityManager();
+        /** @var EntityManagerInterface $em */
+        $em = $this->registry->getManagerForClass(Reservation::class);
 
+        /** @var Part $part */
         [$part, $orderItemPart] = $part instanceof OrderItemPart ? [$part->getPart(), $part] : [$part, null];
 
         $qb = $em->createQueryBuilder()
             ->select('SUM(reservation.quantity)')
             ->from(Reservation::class, 'reservation')
             ->join('reservation.orderItemPart', 'order_item_part')
-            ->groupBy('order_item_part.part')
-            ->where('order_item_part.part = :part')
-            ->setParameter('part', $part);
+            ->groupBy('order_item_part.part.uuid')
+            ->where('order_item_part.part.uuid = :part')
+            ->setParameter('part', $part->uuid(), 'uuid_binary');
 
         if (null !== $orderItemPart) {
             $qb->andWhere('reservation.orderItemPart = :orderItemPart')

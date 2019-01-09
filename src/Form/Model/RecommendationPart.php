@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Form\Model;
 
-use App\Entity\CarRecommendation;
-use App\Entity\CarRecommendationPart;
-use App\Entity\Part;
+use App\Entity\Landlord\CarRecommendation;
+use App\Entity\Landlord\CarRecommendationPart;
+use App\Entity\Landlord\Part;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
 
