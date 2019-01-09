@@ -63,9 +63,4 @@ abstract class Transaction
     {
         return $this->subtotal;
     }
-
-    public function getCreatedBy(): User
-    {
-        return $this->createdBy->entity();
-    }
 }
