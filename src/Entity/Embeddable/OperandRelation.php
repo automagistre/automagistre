@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Embeddable
  *
  * @method Operand entity()
+ * @method Operand|null entityOrNull()
  */
 final class OperandRelation extends Relation
 {
@@ -27,8 +28,6 @@ final class OperandRelation extends Relation
 
     public function __construct(Operand $entity = null)
     {
-        $this->uuid = null !== $entity ? $entity->uuid() : null;
-
         parent::__construct($entity);
     }
 

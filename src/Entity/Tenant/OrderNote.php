@@ -28,9 +28,8 @@ class OrderNote extends Note
 
     public function __construct(Order $order, User $user)
     {
-        parent::__construct($user);
-
         $this->order = $order;
+        $this->setCreatedBy($user);
     }
 
     public function getOrder(): Order

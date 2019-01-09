@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Command\Migrations\MigrateCommand;
 use App\DependencyInjection\EnumDoctrineTypesCompilerPass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -32,10 +31,12 @@ class Kernel extends SymfonyKernel implements CompilerPassInterface
 
     public function process(ContainerBuilder $container): void
     {
-        $container->removeDefinition(MigrateCommand::class);
-        $container->getDefinition('doctrine_migrations.migrate_command')->setClass(MigrateCommand::class);
+        $container->removeDefinition(Command\Migrations\MigrateCommand::class);
+        $container->getDefinition('doctrine_migrations.migrate_command')
+            ->setClass(Command\Migrations\MigrateCommand::class);
         $container->removeDefinition(Command\Migrations\DiffCommand::class);
-        $container->getDefinition('doctrine_migrations.diff_command')->setClass(Command\Migrations\DiffCommand::class);
+        $container->getDefinition('doctrine_migrations.diff_command')
+            ->setClass(Command\Migrations\DiffCommand::class);
     }
 
     /**

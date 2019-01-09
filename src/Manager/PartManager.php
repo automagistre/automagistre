@@ -34,7 +34,7 @@ final class PartManager
     public function inStock(Part $part): int
     {
         /** @var EntityManagerInterface $em */
-        $em = $this->registry->getManager('tenant');
+        $em = $this->registry->getEntityManagerForClass(Motion::class);
 
         try {
             return (int) $em->createQueryBuilder()
@@ -52,7 +52,8 @@ final class PartManager
 
     public function inOrders(Part $part): array
     {
-        $em = $this->registry->getEntityManager();
+        /** @var EntityManagerInterface $em */
+        $em = $this->registry->getManagerForClass(Order::class);
 
         return $em->createQueryBuilder()
             ->select('entity')
@@ -71,7 +72,8 @@ final class PartManager
 
     public function cross(Part $left, Part $right): void
     {
-        $em = $this->registry->getEntityManager();
+        /** @var EntityManagerInterface $em */
+        $em = $this->registry->getManagerForClass(Part::class);
 
         $em->transactional(function (EntityManagerInterface $em) use ($left, $right): void {
             $leftGroup = $this->findCross($em, $left);
@@ -94,7 +96,9 @@ final class PartManager
 
     public function uncross(Part $part): void
     {
-        $em = $this->registry->getEntityManager();
+        /** @var EntityManagerInterface $em */
+        $em = $this->registry->getManagerForClass(Part::class);
+
         $cross = $this->findCross($em, $part);
         $cross->removePart($part);
 

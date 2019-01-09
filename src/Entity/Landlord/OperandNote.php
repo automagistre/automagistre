@@ -27,9 +27,8 @@ class OperandNote extends Note
 
     public function __construct(Operand $operand, User $user)
     {
-        parent::__construct($user);
-
         $this->operand = $operand;
+        $this->setCreatedBy($user);
     }
 
     public function getOperand(): Operand

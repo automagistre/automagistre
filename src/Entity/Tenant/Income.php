@@ -84,9 +84,7 @@ class Income
 
     public function getSupplier(): ?Operand
     {
-        return $this->supplier->isEmpty()
-            ? null
-            : $this->supplier->entity();
+        return $this->supplier->entityOrNull();
     }
 
     public function setSupplier(?Operand $supplier): void
@@ -136,9 +134,7 @@ class Income
 
     public function getAccruedBy(): ?User
     {
-        return $this->accruedBy->isEmpty()
-            ? null
-            : $this->accruedBy->entity();
+        return $this->accruedBy->entityOrNull();
     }
 
     public function getTotalPrice(): Money

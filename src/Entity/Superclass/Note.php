@@ -6,7 +6,6 @@ namespace App\Entity\Superclass;
 
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
-use App\Entity\Landlord\User;
 use App\Enum\NoteType;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -37,11 +36,6 @@ abstract class Note
      */
     private $text;
 
-    public function __construct(User $createdBy)
-    {
-        $this->setCreatedBy($createdBy);
-    }
-
     public function __toString(): string
     {
         return $this->getText() ?? '...';
@@ -66,6 +60,4 @@ abstract class Note
     {
         return $this->text;
     }
-
-    abstract protected function setCreatedBy(User $user): void;
 }

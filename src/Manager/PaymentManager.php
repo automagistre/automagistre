@@ -39,7 +39,7 @@ final class PaymentManager
     public function createPayment(Transactional $recipient, string $description, Money $money): Transaction
     {
         /** @var EntityManagerInterface $em */
-        $em = $this->registry->getManager('tenant');
+        $em = $this->registry->getEntityManagerForClass($recipient->getTransactionClass());
 
         $payment = $em->transactional(function (EntityManagerInterface $em) use ($recipient, $description, $money) {
             $transactionClass = $recipient->getTransactionClass();
@@ -64,7 +64,7 @@ final class PaymentManager
     public function balance(Transactional $transactional): Money
     {
         /** @var EntityManagerInterface $em */
-        $em = $this->registry->getManager('tenant');
+        $em = $this->registry->getEntityManagerForClass($transactional->getTransactionClass());
 
         $qb = $em->createQueryBuilder()
             ->select('SUM(payment.amount.amount)')

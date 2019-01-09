@@ -76,9 +76,7 @@ class OrderItemService extends OrderItem implements PriceInterface, WarrantyInte
 
     public function getWorker(): ?Operand
     {
-        return $this->worker->isEmpty()
-            ? null
-            : $this->worker->entity();
+        return $this->worker->entityOrNull();
     }
 
     public function setWorker(?Operand $worker): void

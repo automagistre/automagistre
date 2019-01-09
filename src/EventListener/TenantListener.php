@@ -128,7 +128,6 @@ final class TenantListener implements EventSubscriberInterface
             throw new LogicException('SwitchableConnection required');
         }
 
-        $options = $tenant->database;
-        $connection->switch($options->host, $options->name);
+        $connection->switch($tenant->database);
     }
 }

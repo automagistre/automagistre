@@ -84,9 +84,7 @@ class IncomePart
 
     public function getPart(): ?Part
     {
-        return $this->part->isEmpty()
-            ? null
-            : $this->part->entity();
+        return $this->part->entityOrNull();
     }
 
     public function setPart(?Part $part): void

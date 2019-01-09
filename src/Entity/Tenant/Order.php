@@ -201,9 +201,7 @@ class Order
 
     public function getCar(): ?Car
     {
-        return $this->car->isEmpty()
-            ? null
-            : $this->car->entity();
+        return $this->car->entityOrNull();
     }
 
     public function setCar(?Car $car): void
@@ -220,9 +218,7 @@ class Order
 
     public function getCustomer(): ?Operand
     {
-        return $this->customer->isEmpty()
-            ? null
-            : $this->customer->entity();
+        return $this->customer->entityOrNull();
     }
 
     public function setCustomer(?Operand $customer): void
@@ -247,9 +243,7 @@ class Order
 
     public function getClosedBy(): ?User
     {
-        return $this->closedBy->isEmpty()
-            ? null
-            : $this->closedBy->entity();
+        return $this->closedBy->entityOrNull();
     }
 
     public function getClosedBalance(): ?Money

@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Entity\Embeddable;
 
+use App\Doctrine\ORM\Mapping\Traits\Uuid;
 use LogicException;
 use Ramsey\Uuid\UuidInterface;
 
 /**
- * @property UuidInterface $uuid
+ * @property UuidInterface|null $uuid
  *
  * @author Konstantin Grachev <me@grachevko.ru>
  */
@@ -22,6 +23,14 @@ abstract class Relation
     public function __construct(object $entity = null)
     {
         $this->entity = $entity;
+
+        if (null !== $entity) {
+            if (!\method_exists($entity, 'uuid')) {
+                throw new LogicException(\sprintf('Method "%s::uuid()" not exist', \get_class($entity)));
+            }
+
+            $this->uuid = $entity->uuid();
+        }
     }
 
     abstract public static function entityClass(): string;
@@ -46,6 +55,11 @@ abstract class Relation
             throw new LogicException('Entity is null, are you use isEmpty() first?');
         }
 
+        return $this->entity;
+    }
+
+    public function entityOrNull(): ?object
+    {
         return $this->entity;
     }
 }

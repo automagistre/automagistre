@@ -20,9 +20,6 @@ final class CarNoteController extends AbstractController
             throw new LogicException('Car required.');
         }
 
-        $entity = new CarNote($order, $this->getUser());
-        $entity->setCreatedBy($this->getUser());
-
-        return $entity;
+        return new CarNote($order, $this->getUser());
     }
 }

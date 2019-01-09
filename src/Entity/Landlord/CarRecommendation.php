@@ -148,9 +148,7 @@ class CarRecommendation implements PriceInterface, TotalPriceInterface
 
     public function getRealization(): ?OrderItemService
     {
-        return $this->realization->isEmpty()
-            ? null
-            : $this->realization->entity();
+        return $this->realization->entityOrNull();
     }
 
     public function getWorker(): Operand
