@@ -4,6 +4,12 @@ MAKEFLAGS += --no-print-directory
 
 DEBUG_ECHO=$(if $(filter 1,$(DEBUG)),@echo " [DEBUG] ")
 
+ifdef TENANT
+override EM = tenant
+else
+override EM = landlord
+endif
+
 ###> CONSTANTS ###
 DOCKER_COMPOSE_VERSION=1.23.1
 APP_DIR = .
@@ -189,14 +195,14 @@ migration-diff-tenant:
 do-migration-diff:
 	$(APP) console doctrine:migration:diff $(MIGRATION_CONSOLE)
 migration-diff-dry:
-	$(APP) console doctrine:schema:update --dump-sql --em=${EM}
+	$(APP) console doctrine:schema:update --dump-sql --em=${EM} $(TENANT_CONSOLE)
 
 migration-test: APP_ENV=test
 migration-test:
 	$(APP) console doctrine:schema:validate
 
 schema-update:
-	$(APP) console doctrine:schema:update --force
+	$(APP) console doctrine:schema:update --force --em=${EM} $(TENANT_CONSOLE)
 
 app-test:
 	$(APP) console test
@@ -267,9 +273,6 @@ else
 	$(call failed,"Backup \"$(backup_file)\" does not exist!")
 	@exit 1
 endif
-
-EM:=landlord
-TENANT:=msk
 
 MYSQL=$(DEBUG_ECHO) @docker-compose exec ${EM}$(if $(filter tenant,$(EM)),_$(TENANT))
 TENANT_CONSOLE = $(if $(filter tenant,$(EM)),--tenant=$(TENANT))

@@ -4,7 +4,7 @@
     {{ parent() }}
 
     {# @var current \App\Entity\Landlord\Tenant #}
-    {% set current = app.request.attributes.get('_tenant') %}
+    {% set current = state.tenant %}
 
     <ul class="nav navbar-nav" style="margin-top: 7px">
         <li class="dropdown user user-menu">

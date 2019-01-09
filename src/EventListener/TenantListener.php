@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
-use App\Doctrine\DBAL\SwitchableConnection;
-use App\Entity\Landlord\Tenant;
+use App\Request\State;
 use App\Router\ListeningRouterEvents;
-use LogicException;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Exception\InvalidOptionException;
@@ -27,19 +24,19 @@ use Symfony\Component\HttpKernel\KernelEvents;
 final class TenantListener implements EventSubscriberInterface
 {
     /**
-     * @var RegistryInterface
-     */
-    private $registry;
-
-    /**
      * @var RequestStack
      */
     private $requestStack;
 
-    public function __construct(RegistryInterface $registry, RequestStack $requestStack)
+    /**
+     * @var State
+     */
+    private $state;
+
+    public function __construct(RequestStack $requestStack, State $state)
     {
-        $this->registry = $registry;
         $this->requestStack = $requestStack;
+        $this->state = $state;
     }
 
     public static function getSubscribedEvents(): array
@@ -63,16 +60,11 @@ final class TenantListener implements EventSubscriberInterface
             throw new BadRequestHttpException('Tenant invalid or not exist.');
         }
 
-        $entity = $this->registry->getEntityManagerForClass(Tenant::class)
-            ->getRepository(Tenant::class)
-            ->findOneBy(['identifier' => $tenant]);
-
-        if (!$entity instanceof Tenant) {
-            throw new NotFoundHttpException(\sprintf('Tenant "%s" not exist.', $tenant));
+        try {
+            $this->state->tenant($tenant);
+        } catch (\InvalidArgumentException $e) {
+            throw new NotFoundHttpException($e->getMessage());
         }
-
-        $request->attributes->set('_tenant', $entity);
-        $this->switch($tenant);
     }
 
     public function onConsoleCommand(ConsoleCommandEvent $event): void
@@ -101,7 +93,7 @@ final class TenantListener implements EventSubscriberInterface
             throw new InvalidOptionException('Tenant invalid or not exist.');
         }
 
-        $this->switch($tenant);
+        $this->state->tenant($tenant);
     }
 
     public function onRouterPreGenerate(GenericEvent $event): void
@@ -127,15 +119,5 @@ final class TenantListener implements EventSubscriberInterface
     private function validate($tenant): ?string
     {
         return \is_string($tenant) ? $tenant : null;
-    }
-
-    private function switch(string $tenant): void
-    {
-        $connection = $this->registry->getConnection('tenant');
-        if (!$connection instanceof SwitchableConnection) {
-            throw new LogicException('SwitchableConnection required');
-        }
-
-        $connection->switch($tenant);
     }
 }
