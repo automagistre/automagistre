@@ -7,6 +7,7 @@ security:
             entity:
                 class: App\Entity\Landlord\User
                 property: username
+                manager_name: landlord
 
     firewalls:
         dev:
