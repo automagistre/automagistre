@@ -32,10 +32,18 @@ class Event
      */
     private $arguments;
 
-    public function __construct(string $name, array $arguments, User $user)
+    /**
+     * @var Tenant|null
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\Tenant")
+     */
+    private $tenant;
+
+    public function __construct(string $name, array $arguments, User $user, Tenant $tenant = null)
     {
         $this->name = $name;
         $this->arguments = $arguments;
+        $this->tenant = $tenant;
         $this->setCreatedBy($user);
     }
 }

@@ -64,6 +64,11 @@ final class Version20190108163036 extends AbstractMigration
         $this->addSql('CREATE UNIQUE INDEX UNIQ_4E59C462772E836A ON tenant (identifier)');
         $this->addSql('INSERT INTO landlord.tenant (id, name, identifier) VALUES (1, \'Москва\', \'msk\');
 INSERT INTO landlord.tenant (id, name, identifier) VALUES (2, \'Казань\', \'kazan\');');
+
+        $this->addSql('ALTER TABLE event ADD tenant_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE event ADD CONSTRAINT FK_3BAE0AA79033212A FOREIGN KEY (tenant_id) REFERENCES tenant (id)');
+        $this->addSql('CREATE INDEX IDX_3BAE0AA79033212A ON event (tenant_id)');
+        $this->addSql('UPDATE event SET tenant_id = 1 WHERE name NOT IN (\'part.created\', \'person.created\', \'organization.created\', \'employee.created\', \'employee.fired\')');
     }
 
     public function down(Schema $schema): void

@@ -6,9 +6,12 @@ namespace App\Request;
 
 use App\Doctrine\DBAL\SwitchableConnection;
 use App\Entity\Landlord\Tenant;
+use App\Entity\Landlord\User;
 use InvalidArgumentException;
 use LogicException;
+use RuntimeException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -25,9 +28,15 @@ final class State
      */
     private $registry;
 
-    public function __construct(RegistryInterface $registry)
+    /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
+
+    public function __construct(RegistryInterface $registry, TokenStorageInterface $tokenStorage)
     {
         $this->registry = $registry;
+        $this->tokenStorage = $tokenStorage;
     }
 
     public function tenant(string $tenant = null): Tenant
@@ -46,6 +55,31 @@ final class State
         }
 
         return $this->tenant;
+    }
+
+    public function user(): User
+    {
+        $user = $this->userOrNull();
+        if (!$user instanceof User) {
+            throw new RuntimeException('User not exist.');
+        }
+
+        return $user;
+    }
+
+    public function userOrNull(): ?User
+    {
+        $token = $this->tokenStorage->getToken();
+        if (null === $token) {
+            return null;
+        }
+
+        $user = $token->getUser();
+        if (!$user instanceof User) {
+            throw new LogicException('User expected.');
+        }
+
+        return $user;
     }
 
     private function switch(string $tenant): void
