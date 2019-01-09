@@ -34,28 +34,28 @@ services:
             retries: 3
             start_period: 10s
 
-#    migration_landlord:
-#        <<: *app
-#        command: wait-for-it.sh landlord:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --db=landlord --em=landlord
-#        deploy:
-#            mode: replicated
-#            replicas: 1
-#            restart_policy:
-#                condition: none
-#            labels:
-#                - "traefik.enable=false"
-#
-#    migration_tenant_msk:
-#        <<: *app
-#        command: wait-for-it.sh tenant_msk:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --db=tenant --em=tenant --tenant=msk
-#        deploy:
-#            mode: replicated
-#            replicas: 1
-#            restart_policy:
-#                condition: none
-#            labels:
-#                - "traefik.enable=false"
-#
+    migration_landlord:
+        <<: *app
+        command: wait-for-it.sh landlord:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --db=landlord --em=landlord
+        deploy:
+            mode: replicated
+            replicas: 1
+            restart_policy:
+                condition: none
+            labels:
+                - "traefik.enable=false"
+
+    migration_tenant_msk:
+        <<: *app
+        command: wait-for-it.sh tenant_msk:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --db=tenant --em=tenant --tenant=msk
+        deploy:
+            mode: replicated
+            replicas: 1
+            restart_policy:
+                condition: none
+            labels:
+                - "traefik.enable=false"
+
 #    migration_tenant_kazan:
 #        <<: *app
 #        command: wait-for-it.sh tenant_kazan:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --db=tenant --em=tenant --tenant=kazan
