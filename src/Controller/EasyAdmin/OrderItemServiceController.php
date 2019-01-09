@@ -180,21 +180,6 @@ final class OrderItemServiceController extends OrderItemController
             ->addOrderBy('entity.service', 'ASC')
             ->setMaxResults(15);
 
-        /*
-        $car = $this->getEntity(Car::class);
-        $order = $this->getEntity(Order::class);
-        if (null === $car && $order instanceof Order) {
-            $car = $order->getCar();
-        }
-
-        if ($car instanceof Car && ($carModel = $car->getCarModel()) instanceof CarModel) {
-            $qb->leftJoin('entity.order', 'order')
-                ->leftJoin('order.car', 'car')
-                ->andWhere('car.carModel = :carModel')
-                ->setParameter('carModel', $carModel);
-        }
-        */
-
         if ($request->query->getBoolean('textOnly')) {
             $qb->groupBy('entity.service');
         }
