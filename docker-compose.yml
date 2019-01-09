@@ -37,10 +37,10 @@ services:
             retries: 3
             start_period: 10s
 
-    tenant:
+    tenant_msk:
         <<: *mysql
         labels:
-            ru.grachevko.dhu: 'tenant.automagistre.local'
+            ru.grachevko.dhu: 'tenant_msk.automagistre.local'
         environment:
             MYSQL_DATABASE: tenant
             MYSQL_USER: db

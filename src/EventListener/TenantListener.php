@@ -17,6 +17,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -57,7 +58,21 @@ final class TenantListener implements EventSubscriberInterface
             return;
         }
 
-        $this->handleTenant($request->attributes->get('tenant'), false);
+        $tenant = $this->validate($request->attributes->get('tenant'));
+        if (null === $tenant) {
+            throw new BadRequestHttpException('Tenant invalid or not exist.');
+        }
+
+        $entity = $this->registry->getEntityManagerForClass(Tenant::class)
+            ->getRepository(Tenant::class)
+            ->findOneBy(['identifier' => $tenant]);
+
+        if (!$entity instanceof Tenant) {
+            throw new NotFoundHttpException(\sprintf('Tenant "%s" not exist.', $tenant));
+        }
+
+        $request->attributes->set('_tenant', $entity);
+        $this->switch($tenant);
     }
 
     public function onConsoleCommand(ConsoleCommandEvent $event): void
@@ -75,15 +90,18 @@ final class TenantListener implements EventSubscriberInterface
             return;
         }
 
-        if ($input->hasOption('db') && 'landlord' === $input->getOption('db')) {
-            return;
+        foreach (['db', 'em', 'connection'] as $option) {
+            if ($input->hasOption($option) && 'landlord' === $input->getOption($option)) {
+                return;
+            }
         }
 
-        if ($input->hasOption('em') && 'landlord' === $input->getOption('em')) {
-            return;
+        $tenant = $this->validate($input->getOption('tenant'));
+        if (null === $tenant) {
+            throw new InvalidOptionException('Tenant invalid or not exist.');
         }
 
-        $this->handleTenant($input->getOption('tenant'), true);
+        $this->switch($tenant);
     }
 
     public function onRouterPreGenerate(GenericEvent $event): void
@@ -104,30 +122,20 @@ final class TenantListener implements EventSubscriberInterface
     }
 
     /**
-     * @param mixed $tenantName
+     * @param mixed $tenant
      */
-    private function handleTenant($tenantName, bool $cli): void
+    private function validate($tenant): ?string
     {
-        if (!\is_string($tenantName)) {
-            $message = 'Tenant required';
-            throw $cli
-                ? new InvalidOptionException($message)
-                : new NotFoundHttpException($message);
-        }
+        return \is_string($tenant) ? $tenant : null;
+    }
 
-        $tenant = $this->registry->getEntityManagerForClass(Tenant::class)
-            ->getRepository(Tenant::class)
-            ->findOneBy(['identifier' => $tenantName]);
-
-        if (!$tenant instanceof Tenant) {
-            throw new NotFoundHttpException();
-        }
-
+    private function switch(string $tenant): void
+    {
         $connection = $this->registry->getConnection('tenant');
         if (!$connection instanceof SwitchableConnection) {
             throw new LogicException('SwitchableConnection required');
         }
 
-        $connection->switch($tenant->database);
+        $connection->switch($tenant);
     }
 }

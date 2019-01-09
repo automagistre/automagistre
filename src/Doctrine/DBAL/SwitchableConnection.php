@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Doctrine\DBAL;
 
-use App\Entity\Embeddable\DatabaseConnectionOptions;
 use Facile\DoctrineMySQLComeBack\Doctrine\DBAL\Connection as BaseConnection;
 use ReflectionClass;
 use ReflectionProperty;
@@ -19,15 +18,14 @@ final class SwitchableConnection extends BaseConnection
      */
     private static $reflection;
 
-    public function switch(DatabaseConnectionOptions $options, bool $connect = true): void
+    public function switch(string $tenant, bool $connect = false): void
     {
         if ($this->isConnected()) {
             $this->close();
         }
 
         $this->setParams([
-            'host' => $options->host,
-            'dbname' => $options->name,
+            'host' => 'tenant_'.$tenant,
         ]);
 
         if ($connect) {

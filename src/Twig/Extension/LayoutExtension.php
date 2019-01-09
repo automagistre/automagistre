@@ -52,14 +52,10 @@ final class LayoutExtension extends AbstractExtension
         ]);
     }
 
-    public function tenants(string $identifier): array
+    public function tenants(): array
     {
-        $repository = $this->registry->getManagerForClass(Tenant::class)
-            ->getRepository(Tenant::class);
-
-        return [
-            'all' => $repository->findAll(),
-            'current' => $repository->findOneBy(['identifier' => $identifier]),
-        ];
+        return $this->registry->getManagerForClass(Tenant::class)
+            ->getRepository(Tenant::class)
+            ->findAll();
     }
 }

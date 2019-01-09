@@ -3,8 +3,8 @@
 {% block header_logo %}
     {{ parent() }}
 
-    {% set tenants = tenants(app.request.attributes.get('tenant')) %}
-    {% set current = tenants.current %}
+    {# @var current \App\Entity\Landlord\Tenant #}
+    {% set current = app.request.attributes.get('_tenant') %}
 
     <ul class="nav navbar-nav" style="margin-top: 7px">
         <li class="dropdown user user-menu">
@@ -18,7 +18,8 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                    {% for tenant in tenants.all if tenant.identifier != current.identifier %}
+                    {% for tenant in tenants() if tenant.identifier != current.identifier %}
+                        {# @var tenant \App\Entity\Landlord\Tenant #}
                         <li>
                             <a href="{{ path('easyadmin', app.request.query.all()|merge({'tenant': tenant.identifier})) }}">
                                 <i class="fa fa-link"></i> {{ tenant.name }}
