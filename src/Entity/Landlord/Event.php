@@ -29,7 +29,7 @@ class Event
     /**
      * @var array
      *
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="json_array")
      */
     private $arguments;
 
