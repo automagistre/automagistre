@@ -418,11 +418,13 @@ easy_admin:
                     - { property: 'gosnomer', label: 'Гос. Номер' }
             form:
                 fields:
-                    -   property: 'owner'
+                    -
+                        property: 'owner'
                         label: 'Владелец'
                         type: 'easyadmin_autocomplete'
                         help: 'Фамилия, Имя, Телефон, E-mail'
-                    -   property: 'carModel'
+                    -
+                        property: 'carModel'
                         label: 'Модель'
                         type: 'easyadmin_autocomplete'
                         help: 'Проивзодитель, Модель, Год, Поколение, Комплектация, Лошадинные силы'
@@ -493,7 +495,7 @@ easy_admin:
             controller: App\Controller\EasyAdmin\MotionController
             disabled_actions: ['show', 'edit', 'new', 'search', 'delete']
             templates:
-              list: 'easy_admin/motion/list.html.twig'
+                list: 'easy_admin/motion/list.html.twig'
             list:
                 title: 'Движения по складу'
                 max_results: 100
@@ -781,12 +783,12 @@ easy_admin:
                     - { property: 'publishAt', label: 'Когда обудликова' }
             form:
                 fields:
-                - { property: 'author', label: 'Автор' }
-                - { property: 'manufacturer', label: 'Производитель автомобиля' }
-                - { property: 'model', label: 'Модель автомобиля' }
-                - { property: 'content', label: 'Отзыв' }
-                - { property: 'url', label: 'Ссылка на источник' }
-                - { property: 'publishAt', label: 'Когда обудликова', type: 'date' }
+                    - { property: 'author', label: 'Автор' }
+                    - { property: 'manufacturer', label: 'Производитель автомобиля' }
+                    - { property: 'model', label: 'Модель автомобиля' }
+                    - { property: 'content', label: 'Отзыв' }
+                    - { property: 'url', label: 'Ссылка на источник' }
+                    - { property: 'publishAt', label: 'Когда обудликова', type: 'date' }
             new:
                 title: 'Создать новый Отзыв'
             edit:
