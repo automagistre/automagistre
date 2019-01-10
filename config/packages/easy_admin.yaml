@@ -665,7 +665,7 @@ easy_admin:
         WalletTransaction:
             class: App\Entity\Tenant\WalletTransaction
             controller: App\Controller\EasyAdmin\WalletTransactionController
-            disabled_actions: ['show', 'delete', 'edit']
+            disabled_actions: ['show', 'delete', 'edit', 'new']
             list:
                 title: 'Список проводок'
                 fields:
