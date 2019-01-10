@@ -82,6 +82,10 @@ while ($request = $client->acceptRequest()) {
     } catch (\Throwable $e) {
         $client->error((string) $e);
     } finally {
+        if ($session->isStarted()) {
+            $session->save();
+        }
+
         $kernel->getContainer()->get('session.memcached')->quit();
         \session_unset();
     }
