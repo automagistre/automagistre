@@ -61,7 +61,6 @@ easy_admin:
             controller: App\Controller\EasyAdmin\OrderController
             disabled_actions: ['edit', 'delete']
             templates:
-                list: 'easy_admin/order/list.html.twig'
                 show: 'easy_admin/order/show.html.twig'
                 new: 'easy_admin/order/new.html.twig'
                 edit: 'easy_admin/order/edit.html.twig'
