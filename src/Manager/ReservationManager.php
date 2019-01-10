@@ -75,6 +75,7 @@ final class ReservationManager
         /** @var EntityManagerInterface $em */
         $em = $this->registry->manager(Reservation::class);
         $em->persist($reservation);
+        $em->flush();
 
         $this->dispatcher->dispatch(Events::PART_RESERVED, new GenericEvent($reservation));
     }
