@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\RoadRunner\EventListener;
 
-use Memcached;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -27,16 +26,10 @@ final class SessionListener implements EventSubscriberInterface
      */
     private $sessionStorageOptions;
 
-    /**
-     * @var Memcached
-     */
-    private $memcached;
-
-    public function __construct(SessionInterface $session, array $sessionStorageOptions, Memcached $memcached)
+    public function __construct(SessionInterface $session, array $sessionStorageOptions)
     {
         $this->session = $session;
         $this->sessionStorageOptions = $sessionStorageOptions;
-        $this->memcached = $memcached;
     }
 
     /**
@@ -46,7 +39,7 @@ final class SessionListener implements EventSubscriberInterface
     {
         return [
             KernelEvents::REQUEST => ['onKernelRequest', 9999],
-            KernelEvents::RESPONSE => ['onKernelResponse', -9999],
+            KernelEvents::RESPONSE => ['onKernelResponse', -9998],
         ];
     }
 
@@ -99,8 +92,6 @@ final class SessionListener implements EventSubscriberInterface
         if ($session->isStarted()) {
             $session->save();
         }
-
-        $this->memcached->quit();
 
         \session_unset();
     }

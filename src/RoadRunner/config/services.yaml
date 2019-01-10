@@ -7,6 +7,9 @@ services:
     App\RoadRunner\EventListener\SessionListener:
         arguments:
             $sessionStorageOptions: '%session.storage.options%'
-            $memcached: '@session.memcached'
 
     App\RoadRunner\EventListener\CleanerListener: ~
+
+    App\RoadRunner\EventListener\MemcachedCloseListener:
+        arguments:
+            $memcached: '@session.memcached'
