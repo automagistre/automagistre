@@ -235,7 +235,7 @@ final class PartController extends AbstractController
             ->handleRequest($this->request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->em;
+            $em = $this->registry->manager(MotionManual::class);
             $quantity = \abs((int) $form->get('quantity')->getData());
             $user = $this->getUser();
             $description = \sprintf('# Ручное списание - %s', $user->getId());
