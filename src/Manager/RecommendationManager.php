@@ -116,7 +116,7 @@ final class RecommendationManager
             }
 
             foreach ($this->getParts($orderItemService) as $orderItemPart) {
-                $em->createQueryBuilder()
+                $this->registry->manager(Reservation::class)->createQueryBuilder()
                     ->delete()
                     ->from(Reservation::class, 'entity')
                     ->where('entity.orderItemPart = :item')
