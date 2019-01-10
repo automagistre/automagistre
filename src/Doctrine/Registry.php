@@ -6,6 +6,7 @@ namespace App\Doctrine;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use LogicException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -28,7 +29,13 @@ final class Registry
      */
     public function manager($entity): EntityManagerInterface
     {
-        return $this->registry->getEntityManagerForClass($this->entityToString($entity));
+        $em = $this->registry->getEntityManagerForClass($this->entityToString($entity));
+
+        if (!$em instanceof EntityManagerInterface) {
+            throw new LogicException('EntityManager expected');
+        }
+
+        return $em;
     }
 
     /**
@@ -40,7 +47,7 @@ final class Registry
 
         $repository = $this->manager($class)->getRepository($class);
         if (!$repository instanceof EntityRepository) {
-            throw new \LogicException('EntityRepository expected');
+            throw new LogicException('EntityRepository expected');
         }
 
         return $repository;
