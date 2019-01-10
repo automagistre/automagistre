@@ -22,6 +22,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -171,6 +172,18 @@ abstract class AbstractController extends AdminController
         }
 
         return $entity;
+    }
+
+    protected function initialize(Request $request): void
+    {
+        parent::initialize($request);
+
+        if ('0' === $id = $request->query->get('id')) {
+            $easyadmin = $request->attributes->get('easyadmin');
+            $easyadmin['item'] = $this->registry->repository($easyadmin['entity']['class'])->find($id);
+
+            $request->attributes->set('easyadmin', $easyadmin);
+        }
     }
 
     protected function findCurrentEntity(): ?object
