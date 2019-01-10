@@ -29,13 +29,21 @@ final class Registry
      */
     public function manager($entity): EntityManagerInterface
     {
-        $em = $this->registry->getEntityManagerForClass($this->entityToString($entity));
+        $em = $this->managerOrNull($entity);
 
         if (!$em instanceof EntityManagerInterface) {
             throw new LogicException('EntityManager expected');
         }
 
         return $em;
+    }
+
+    /**
+     * @param object|string $entity
+     */
+    public function managerOrNull($entity): ?EntityManagerInterface
+    {
+        return $this->registry->getEntityManagerForClass($this->entityToString($entity));
     }
 
     /**
@@ -61,6 +69,27 @@ final class Registry
         $class = $this->entityToString($entity);
 
         return $this->manager($entity)->getClassMetadata($class)->getName();
+    }
+
+    /**
+     * @param object|string $entity
+     */
+    public function isEntity($entity): bool
+    {
+        $em = $this->managerOrNull($entity);
+        if (null === $em) {
+            return false;
+        }
+
+        return $this->manager($entity)->getMetadataFactory()->isTransient($this->class($entity));
+    }
+
+    /**
+     * @param object|string $entity
+     */
+    public function isTenantEntity($entity): bool
+    {
+        return $this->isEntity($entity) && 'tenant' === $this->manager($entity)->getConnection()->getDatabase();
     }
 
     /**

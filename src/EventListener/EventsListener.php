@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
+use App\Doctrine\Registry;
 use App\Entity\Landlord\Event;
 use App\Events;
 use App\Request\EntityTransformer;
 use App\Request\State;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use LogicException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -18,7 +19,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 final class EventsListener implements EventSubscriberInterface
 {
     /**
-     * @var RegistryInterface
+     * @var Registry
      */
     private $registry;
 
@@ -32,7 +33,7 @@ final class EventsListener implements EventSubscriberInterface
      */
     private $state;
 
-    public function __construct(RegistryInterface $registry, EntityTransformer $transformer, State $state)
+    public function __construct(Registry $registry, EntityTransformer $transformer, State $state)
     {
         $this->registry = $registry;
         $this->transformer = $transformer;
@@ -59,25 +60,22 @@ final class EventsListener implements EventSubscriberInterface
         $arguments['subject'] = $this->transformer->transform($subject);
 
         foreach ($event->getArguments() as $key => $argument) {
-            if (\is_object($argument)) {
+            if ($this->registry->isEntity($argument)) {
                 $arguments['arguments'][$key] = $this->transformer->transform($argument);
+            } elseif ($argument instanceof \Serializable) {
+                $arguments['arguments'][$key] = \serialize($argument);
+            } elseif (\is_object($argument)) {
+                throw new LogicException(\sprintf('Object "%s" unsupported to EventLog', \get_class($argument)));
             } else {
                 $arguments['arguments'][$key] = $argument;
             }
         }
 
         $user = $this->state->user();
-        $tenant = $this->isTenantEntity($subject) ? $this->state->tenant() : null;
+        $tenant = $this->registry->isTenantEntity($subject) ? $this->state->tenant() : null;
 
-        $em = $this->registry->getEntityManagerForClass(Event::class);
+        $em = $this->registry->manager(Event::class);
         $em->persist(new Event($name, $arguments, $user, $tenant));
         $em->flush();
-    }
-
-    private function isTenantEntity(object $entity): bool
-    {
-        return 'tenant' === $this->registry->getEntityManagerForClass(\get_class($entity))
-                ->getConnection()
-                ->getDatabase();
     }
 }
