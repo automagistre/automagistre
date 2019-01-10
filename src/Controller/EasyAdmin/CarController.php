@@ -45,10 +45,11 @@ final class CarController extends AbstractController
     protected function renderTemplate($actionName, $templatePath, array $parameters = []): Response
     {
         if ('show' === $actionName) {
+            /** @var Car $car */
             $car = $parameters['entity'];
 
             $parameters['orders'] = $this->registry->repository(Order::class)
-                ->findBy(['car' => $car], ['closedAt' => 'DESC'], 20);
+                ->findBy(['car.uuid' => $car->uuid()], ['closedAt' => 'DESC'], 20);
             $parameters['notes'] = $this->registry->repository(CarNote::class)
                 ->findBy(['car' => $car], ['createdAt' => 'DESC']);
         }
