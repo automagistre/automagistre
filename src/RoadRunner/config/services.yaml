@@ -1,0 +1,10 @@
+services:
+    _defaults:
+        public: false
+        autowire: true
+        autoconfigure: true
+
+    App\RoadRunner\EventListener\SessionListener:
+        arguments:
+            $sessionStorageOptions: '%session.storage.options%'
+            $memcached: '@session.memcached'

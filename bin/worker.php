@@ -5,10 +5,8 @@ declare(strict_types=1);
 \ini_set('display_errors', 'stderr');
 
 use App\Kernel;
-use App\SymfonyClient;
+use App\RoadRunner\SymfonyClient;
 use Spiral\Debug as SpiralDebug;
-use Spiral\Goridge\StreamRelay;
-use Spiral\RoadRunner\Worker;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,44 +47,14 @@ if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? $_ENV['TRUSTED_HOSTS'] ?? false
 $kernel = new Kernel(\getenv('APP_ENV'), $debug);
 $kernel->boot();
 
-$client = new SymfonyClient(new Worker(new StreamRelay(STDIN, STDOUT)));
-$session = $kernel->getContainer()->has('session') ? $kernel->getContainer()->get('session') : null;
-$cookieOptions = $kernel->getContainer()->getParameter('session.storage.options');
-$cookieFactory = function (Request $request) use ($session, $cookieOptions) {
-    return new \Symfony\Component\HttpFoundation\Cookie(
-        $session->getName(),
-        $session->getId(),
-        $cookieOptions['cookie_lifetime'] ?? 0,
-        $cookieOptions['cookie_path'] ?? '/',
-        $cookieOptions['cookie_domain'] ?? '',
-        ($cookieOptions['cookie_secure'] ?? 'auto') === 'auto'
-            ? $request->isSecure() : (bool) ($cookieOptions['cookie_secure'] ?? 'auto'),
-        $cookieOptions['cookie_httponly'] ?? true,
-        false,
-        $cookieOptions['cookie_samesite'] ?? null
-    );
-};
+$client = new SymfonyClient();
 
 while ($request = $client->acceptRequest()) {
     try {
-        $session->setId($request->cookies->get($session->getName(), ''));
-
         $response = $kernel->handle($request);
-
-        if (!\in_array($session->getId(), ['', $request->cookies->get($session->getName())], true)) {
-            $response->headers->setCookie($cookieFactory($request));
-        }
-
         $client->respond($response);
         $kernel->terminate($request, $response);
     } catch (\Throwable $e) {
         $client->error((string) $e);
-    } finally {
-        if ($session->isStarted()) {
-            $session->save();
-        }
-
-        $kernel->getContainer()->get('session.memcached')->quit();
-        \session_unset();
     }
 }

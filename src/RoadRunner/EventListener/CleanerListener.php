@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\EventListener;
+namespace App\RoadRunner\EventListener;
 
 use LongRunning\Core\Cleaner;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

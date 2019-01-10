@@ -1,3 +1,6 @@
+imports:
+    - { resource: ../src/RoadRunner/config/services.yaml }
+
 parameters:
     locale: ru
     app_version: '%env(APP_VERSION)%'
@@ -24,7 +27,7 @@ services:
 
     App\:
         resource: '../src'
-        exclude: '../src/{Entity,Enum,Model}'
+        exclude: '../src/{Entity,Enum,Model,RoadRunner}'
     App\Controller\:
         resource: '../src/Controller'
         public: true

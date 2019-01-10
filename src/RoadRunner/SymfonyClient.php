@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App;
+namespace App\RoadRunner;
 
 use Error;
 use LogicException;
+use Spiral\Goridge\StreamRelay;
 use Spiral\RoadRunner\Worker;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,9 +18,9 @@ class SymfonyClient
      */
     private $worker;
 
-    public function __construct(Worker $worker)
+    public function __construct(Worker $worker = null)
     {
-        $this->worker = $worker;
+        $this->worker = $worker ?? new Worker(new StreamRelay(STDIN, STDOUT));
     }
 
     public function acceptRequest(): ?Request
