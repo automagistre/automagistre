@@ -22,6 +22,8 @@ easy_admin:
             - { entity: 'Wallet', label: 'Счета', icon: 'bank' }
             - { entity: 'WalletTransaction', label: 'Проводки', icon: 'list' }
             - { entity: 'OperandTransaction', label: 'Проводки клиентов', icon: 'list' }
+            - { entity: 'Expense', label: 'Статьи расходов', icon: 'list' }
+            - { entity: 'ExpenseItem', label: 'Расходы', icon: 'list' }
             - { label: 'Склад' }
 #            - { entity: 'Part', label: 'Дефицит', icon: 'fire', params: { action: 'deficit' } }
 #            - { entity: 'Part', label: 'Наличие', icon: 'cubes', params: { action: 'stock' } }
@@ -789,3 +791,45 @@ easy_admin:
                 title: 'Создать новый Отзыв'
             edit:
                 title: 'Редактировать Отзыв №%%entity_id%%'
+
+        Expense:
+            class: App\Entity\Tenant\Expense
+            controller: App\Controller\EasyAdmin\ExpenseController
+            disabled_actions: ['show', 'delete']
+            list:
+                title: 'Статьи расходов'
+                fields:
+                    - { property: 'id' }
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'wallet', label: 'Счет списания по умолчанию' }
+                    - { property: null, label: ' ', template: 'easy_admin/expense/field_button.html.twig' }
+            new:
+                title: 'Создать новую Статью расходов'
+                form_options: { data_class: stdClass }
+                fields:
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'wallet', label: 'Счет списания по умолчанию', type_options: { required: false } }
+            edit:
+                title: 'Редактировать Статью расходов №%%entity_id%%'
+                fields:
+                    - { property: 'name', label: 'Название', type_options: { disabled: true } }
+                    - { property: 'wallet', label: 'Счет списания по умолчанию', type_options: { required: false } }
+        ExpenseItem:
+            class: App\Entity\Tenant\ExpenseItem
+            controller: App\Controller\EasyAdmin\ExpenseItemController
+            disabled_actions: ['edit', 'show', 'delete']
+            list:
+                title: 'Расходы'
+                fields:
+                    - { property: 'id' }
+                    - { property: 'expense', label: 'Статья расходов' }
+                    - { property: 'amount', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
+                    - { property: 'description', label: 'Комментарий' }
+            new:
+                title: 'Создать новый Расход'
+                form_options: { data_class: stdClass }
+                fields:
+                    - { property: 'expense', label: 'Статья расходов', type_options: { required: true } }
+                    - { property: 'wallet', label: 'Счет списания', type: 'entity', type_options: { class: App\Entity\Tenant\Wallet, required: true } }
+                    - { property: 'amount', label: 'Стоимость', type: App\Form\Type\MoneyType, type_options: { required: true } }
+                    - { property: 'description', label: 'Комментарий' }

@@ -80,4 +80,14 @@ interface Events
      * Сотрудник уволен.
      */
     public const EMPLOYEE_FIRED = 'employee.fired';
+
+    /**
+     * Создана статья расходов.
+     */
+    public const EXPENSE_CREATED = 'expense.created';
+
+    /**
+     * Создан расход.
+     */
+    public const EXPENSE_ITEM_CREATED = 'expense.item.created';
 }
