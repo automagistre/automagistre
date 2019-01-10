@@ -18,14 +18,14 @@ final class SwitchableConnection extends BaseConnection
      */
     private static $reflection;
 
-    public function switch(string $tenant, bool $connect = false): void
+    public function switch(string $host, bool $connect = false): void
     {
         if ($this->isConnected()) {
             $this->close();
         }
 
         $this->setParams([
-            'host' => 'tenant_'.$tenant,
+            'host' => $host,
         ]);
 
         if ($connect) {

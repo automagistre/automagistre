@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
+use App\Enum\Tenant;
 use App\Request\State;
 use App\Router\ListeningRouterEvents;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -60,11 +62,11 @@ final class TenantListener implements EventSubscriberInterface
             throw new BadRequestHttpException('Tenant invalid or not exist.');
         }
 
-        try {
-            $this->state->tenant($tenant);
-        } catch (\InvalidArgumentException $e) {
-            throw new NotFoundHttpException($e->getMessage());
+        if (!Tenant::isValid($tenant)) {
+            throw new NotFoundHttpException(\sprintf('Undefined tenant "%s"', $tenant));
         }
+
+        $this->state->tenant(Tenant::fromIdentifier($tenant));
     }
 
     public function onConsoleCommand(ConsoleCommandEvent $event): void
@@ -90,10 +92,14 @@ final class TenantListener implements EventSubscriberInterface
 
         $tenant = $this->validate($input->getOption('tenant'));
         if (null === $tenant) {
-            throw new InvalidOptionException('Tenant invalid or not exist.');
+            throw new InvalidOptionException('Tenant required.');
         }
 
-        $this->state->tenant($tenant, false);
+        if (!Tenant::isValid($tenant)) {
+            throw new InvalidArgumentException(\sprintf('Undefined tenant "%s"', $tenant));
+        }
+
+        $this->state->tenant(Tenant::fromIdentifier($tenant));
     }
 
     public function onRouterPreGenerate(GenericEvent $event): void

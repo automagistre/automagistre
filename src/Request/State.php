@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace App\Request;
 
 use App\Doctrine\DBAL\SwitchableConnection;
-use App\Entity\Landlord\Tenant;
 use App\Entity\Landlord\User;
-use InvalidArgumentException;
+use App\Enum\Tenant;
 use LogicException;
 use RuntimeException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -39,27 +38,11 @@ final class State
         $this->tokenStorage = $tokenStorage;
     }
 
-    public function tenant(string $tenant = null, bool $strict = true): Tenant
+    public function tenant(Tenant $tenant = null): Tenant
     {
         if (null !== $tenant) {
-            $em = $this->registry->getEntityManagerForClass(Tenant::class);
-
-            if (false === $strict) {
-                $this->switch($tenant);
-
-                return $em->getReference(Tenant::class, 0);
-            }
-
-            $entity = $em
-                ->getRepository(Tenant::class)
-                ->findOneBy(['identifier' => $tenant]);
-
-            if (!$entity instanceof Tenant) {
-                throw new InvalidArgumentException(\sprintf('Tenant "%s" not exist.', $tenant));
-            }
-
             $this->switch($tenant);
-            $this->tenant = $entity;
+            $this->tenant = $tenant;
         }
 
         return $this->tenant;
@@ -90,13 +73,13 @@ final class State
         return $user;
     }
 
-    private function switch(string $tenant): void
+    private function switch(Tenant $tenant): void
     {
         $connection = $this->registry->getConnection('tenant');
         if (!$connection instanceof SwitchableConnection) {
             throw new LogicException('SwitchableConnection required');
         }
 
-        $connection->switch($tenant);
+        $connection->switch($tenant->getDatabase());
     }
 }

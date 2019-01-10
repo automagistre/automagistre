@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Twig\Extension;
 
-use App\Entity\Landlord\Tenant;
 use App\Entity\Tenant\Wallet;
+use App\Enum\Tenant;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
@@ -54,8 +54,6 @@ final class LayoutExtension extends AbstractExtension
 
     public function tenants(): array
     {
-        return $this->registry->getManagerForClass(Tenant::class)
-            ->getRepository(Tenant::class)
-            ->findAll();
+        return Tenant::all();
     }
 }

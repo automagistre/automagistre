@@ -10,6 +10,7 @@ use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
 use App\Entity\Embeddable\OrderItemServiceRelation;
 use App\Entity\Tenant\OrderItemService;
+use App\Enum\Tenant;
 use App\Money\PriceInterface;
 use App\Money\TotalPriceInterface;
 use DateTime;

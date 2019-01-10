@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity\Embeddable;
 
-use App\Entity\Landlord\Tenant;
 use App\Entity\Tenant\OrderItemService;
+use App\Enum\Tenant;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -28,9 +28,9 @@ final class OrderItemServiceRelation extends Relation
     protected $uuid;
 
     /**
-     * @var int|null
+     * @var Tenant|null
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="tenant_enum")
      */
     protected $tenant;
 
@@ -38,7 +38,7 @@ final class OrderItemServiceRelation extends Relation
     {
         parent::__construct($entity);
 
-        $this->tenant = $tenant->getId();
+        $this->tenant = $tenant;
     }
 
     public static function entityClass(): string

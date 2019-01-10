@@ -3,7 +3,7 @@
 {% block header_logo %}
     {{ parent() }}
 
-    {# @var current \App\Entity\Landlord\Tenant #}
+    {# @var current \App\Enum\Tenant #}
     {% set current = state.tenant %}
 
     <ul class="nav navbar-nav" style="margin-top: 7px">
@@ -12,17 +12,17 @@
 
             <div class="btn-group">
                 <button type="button" class="btn" data-toggle="dropdown">
-                    {{ current.name }}
+                    {{ current.getDisplayName() }}
                 </button>
                 <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                    {% for tenant in tenants() if tenant.identifier != current.identifier %}
+                    {% for tenant in tenants() if not tenant.eq(current) %}
                         {# @var tenant \App\Entity\Landlord\Tenant #}
                         <li>
-                            <a href="{{ path('easyadmin', app.request.query.all()|merge({'tenant': tenant.identifier})) }}">
-                                <i class="fa fa-link"></i> {{ tenant.name }}
+                            <a href="{{ path('easyadmin', app.request.query.all()|merge({'tenant': tenant.getIdentifier()})) }}">
+                                <i class="fa fa-link"></i> {{ tenant.getDisplayName() }}
                             </a>
                         </li>
                     {% endfor %}

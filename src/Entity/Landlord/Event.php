@@ -7,6 +7,7 @@ namespace App\Entity\Landlord;
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\CreatedBy;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Enum\Tenant;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,7 +36,7 @@ class Event
     /**
      * @var Tenant|null
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\Tenant")
+     * @ORM\Column(type="tenant_enum", nullable=true)
      */
     private $tenant;
 
