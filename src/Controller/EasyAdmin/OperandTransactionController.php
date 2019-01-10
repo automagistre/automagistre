@@ -41,7 +41,7 @@ final class OperandTransactionController extends AbstractController
         $obj->recipient = $recipient;
         $obj->description = null;
         $obj->amount = null;
-        $obj->wallet = $this->em->getRepository(Wallet::class)
+        $obj->wallet = $this->registry->repository(Wallet::class)
             ->findOneBy(['defaultInManualTransaction' => true]);
 
         return $obj;

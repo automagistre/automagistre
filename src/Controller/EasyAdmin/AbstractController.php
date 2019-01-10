@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Doctrine\Registry;
 use App\Entity\Landlord\User;
 use App\Request\EntityTransformer;
 use Doctrine\ORM\QueryBuilder;
@@ -30,6 +31,10 @@ use Symfony\Component\HttpFoundation\Response;
  */
 abstract class AbstractController extends AdminController
 {
+    /**
+     * @var Registry
+     */
+    protected $registry;
     /**
      * @var EntityTransformer
      */
@@ -93,6 +98,14 @@ abstract class AbstractController extends AdminController
     public function setEventDispatcher(EventDispatcherInterface $dispatcher): void
     {
         $this->dispatcher = $dispatcher;
+    }
+
+    /**
+     * @required
+     */
+    public function setRegistry(Registry $registry): void
+    {
+        $this->registry = $registry;
     }
 
     protected function formatMoney(Money $money, bool $decimal = false): string

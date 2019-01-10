@@ -103,7 +103,7 @@ abstract class OrderItemController extends AbstractController
         }
 
         if ($item instanceof OrderItemService) {
-            if (null !== $em->getRepository(CarRecommendation::class)->findOneBy(['realization' => $item])) {
+            if (null !== $this->registry->repository(CarRecommendation::class)->findOneBy(['realization' => $item])) {
                 $this->recommendationManager->recommend($item);
 
                 return;

@@ -59,13 +59,11 @@ final class PartManager
             ->select('entity')
             ->from(Order::class, 'entity')
             ->join(OrderItemPart::class, 'order_item_part', Join::WITH, 'order_item_part.order = entity')
-            ->where('order_item_part.part = :part')
+            ->where('order_item_part.part.uuid = :part')
             ->andWhere('entity.status NOT IN (:statuses)')
             ->orderBy('entity.id', 'DESC')
-            ->setParameters([
-                'part' => $part,
-                'statuses' => OrderStatus::closed(),
-            ])
+            ->setParameter('part', $part->uuid(), 'uuid_binary')
+            ->setParameter('statuses', OrderStatus::closed())
             ->getQuery()
             ->getResult();
     }

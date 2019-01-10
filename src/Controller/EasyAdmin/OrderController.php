@@ -31,7 +31,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use LogicException;
 use Money\Currency;
 use Money\Money;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -60,19 +59,10 @@ final class OrderController extends AbstractController
      */
     private $paymentManager;
 
-    /**
-     * @var RegistryInterface
-     */
-    private $registry;
-
-    public function __construct(
-        ReservationManager $reservationManager,
-        PaymentManager $paymentManager,
-        RegistryInterface $registry
-    ) {
+    public function __construct(ReservationManager $reservationManager, PaymentManager $paymentManager)
+    {
         $this->reservationManager = $reservationManager;
         $this->paymentManager = $paymentManager;
-        $this->registry = $registry;
     }
 
     public function info(Order $order, bool $statusSelector = false): Response
@@ -212,7 +202,7 @@ final class OrderController extends AbstractController
     public function isActionAllowed($actionName): bool
     {
         if (!\in_array($actionName, ['show', 'finish'], true) && null !== $id = $this->request->get('id')) {
-            $entity = $this->em->getRepository(Order::class)->find($id);
+            $entity = $this->registry->repository(Order::class)->find($id);
 
             return $entity->isEditable();
         }
@@ -539,7 +529,7 @@ final class OrderController extends AbstractController
         $car = $order->getCar();
         if ($car instanceof Car) {
             $car->setMileage($order->getMileage());
-            $this->registry->getEntityManagerForClass(Car::class)->flush();
+            $this->registry->manager(Car::class)->flush();
         }
 
         $this->event(Events::ORDER_CLOSED, new GenericEvent($order));

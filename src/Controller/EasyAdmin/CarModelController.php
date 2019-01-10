@@ -43,7 +43,7 @@ final class CarModelController extends AbstractController
         $sortDirection = null,
         $dqlFilter = null
     ): QueryBuilder {
-        $qb = $this->em->getRepository(CarModel::class)->createQueryBuilder('model')
+        $qb = $this->registry->repository(CarModel::class)->createQueryBuilder('model')
             ->leftJoin('model.manufacturer', 'manufacturer');
 
         foreach (\explode(' ', $searchQuery) as $key => $item) {

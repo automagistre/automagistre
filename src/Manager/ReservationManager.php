@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
+use App\Doctrine\Registry;
 use App\Entity\Landlord\Part;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItemPart;
@@ -13,7 +14,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -23,7 +23,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 final class ReservationManager
 {
     /**
-     * @var RegistryInterface
+     * @var Registry
      */
     private $registry;
 
@@ -37,11 +37,8 @@ final class ReservationManager
      */
     private $dispatcher;
 
-    public function __construct(
-        RegistryInterface $registry,
-        PartManager $partManager,
-        EventDispatcherInterface $dispatcher
-    ) {
+    public function __construct(Registry $registry, PartManager $partManager, EventDispatcherInterface $dispatcher)
+    {
         $this->registry = $registry;
         $this->partManager = $partManager;
         $this->dispatcher = $dispatcher;
@@ -76,7 +73,7 @@ final class ReservationManager
         $reservation = new Reservation($orderItemPart, $quantity);
 
         /** @var EntityManagerInterface $em */
-        $em = $this->registry->getManagerForClass(Reservation::class);
+        $em = $this->registry->manager(Reservation::class);
         $em->persist($reservation);
 
         $this->dispatcher->dispatch(Events::PART_RESERVED, new GenericEvent($reservation));
@@ -102,7 +99,7 @@ final class ReservationManager
         }
 
         /** @var EntityManagerInterface $em */
-        $em = $this->registry->getManagerForClass(Reservation::class);
+        $em = $this->registry->manager(Reservation::class);
 
         $reservation = new Reservation($orderItemPart, 0 - $quantity);
         $em->persist($reservation);
@@ -122,10 +119,10 @@ final class ReservationManager
     public function reserved($part): int
     {
         /** @var EntityManagerInterface $em */
-        $em = $this->registry->getManagerForClass(Reservation::class);
+        $em = $this->registry->manager(Reservation::class);
 
-        /** @var Part $part */
         [$part, $orderItemPart] = $part instanceof OrderItemPart ? [$part->getPart(), $part] : [$part, null];
+        /** @var Part $part */
 
         $qb = $em->createQueryBuilder()
             ->select('SUM(reservation.quantity)')
@@ -154,20 +151,16 @@ final class ReservationManager
      */
     public function orders(Part $part): array
     {
-        $em = $this->registry->getEntityManager();
+        $em = $this->registry->manager(Order::class);
 
         return $em->createQueryBuilder()
             ->select('entity')
             ->from(Order::class, 'entity')
             ->join(OrderItemPart::class, 'order_item_part', Join::WITH, 'order_item_part.order = entity')
             ->join(Reservation::class, 'reservation', Join::WITH, 'reservation.orderItemPart = order_item_part')
-            ->where('order_item_part.part = :part')
+            ->where('order_item_part.part.uuid = :part')
             ->orderBy('entity.id', 'DESC')
-            ->setParameters(
-                [
-                    'part' => $part,
-                ]
-            )
+            ->setParameter('part', $part->uuid(), 'uuid_binary')
             ->getQuery()
             ->getResult();
     }

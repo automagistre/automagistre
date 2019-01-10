@@ -48,7 +48,9 @@ final class CarRecommendationController extends AbstractController
             throw new BadRequestHttpException();
         }
 
-        $recommendation = $this->em->getRepository(CarRecommendation::class)->findOneBy(['id' => $query->get('id')]);
+        $recommendation = $this->registry->repository(CarRecommendation::class)
+            ->findOneBy(['id' => $query->get('id')]);
+
         if (!$recommendation instanceof CarRecommendation) {
             throw new NotFoundHttpException();
         }
@@ -68,7 +70,7 @@ final class CarRecommendationController extends AbstractController
             throw new BadRequestHttpException('car_id is required');
         }
 
-        $car = $this->em->getRepository(Car::class)->findOneBy(['id' => $id]);
+        $car = $this->registry->repository(Car::class)->findOneBy(['id' => $id]);
         if (null === $car) {
             throw new NotFoundHttpException(\sprintf('Car id "%s" not found', $id));
         }

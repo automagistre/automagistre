@@ -45,12 +45,11 @@ final class CarController extends AbstractController
     protected function renderTemplate($actionName, $templatePath, array $parameters = []): Response
     {
         if ('show' === $actionName) {
-            $em = $this->em;
             $car = $parameters['entity'];
 
-            $parameters['orders'] = $em->getRepository(Order::class)
+            $parameters['orders'] = $this->registry->repository(Order::class)
                 ->findBy(['car' => $car], ['closedAt' => 'DESC'], 20);
-            $parameters['notes'] = $em->getRepository(CarNote::class)
+            $parameters['notes'] = $this->registry->repository(CarNote::class)
                 ->findBy(['car' => $car], ['createdAt' => 'DESC']);
         }
 
@@ -68,7 +67,7 @@ final class CarController extends AbstractController
         $sortDirection = null,
         $dqlFilter = null
     ): QueryBuilder {
-        $qb = $this->em->getRepository(Car::class)->createQueryBuilder('car');
+        $qb = $this->registry->repository(Car::class)->createQueryBuilder('car');
 
         if ('' === $searchQuery) {
             return $qb;

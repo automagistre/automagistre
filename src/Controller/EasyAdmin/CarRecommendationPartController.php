@@ -21,7 +21,7 @@ final class CarRecommendationPartController extends AbstractController
             throw new BadRequestHttpException('recommendation_id is required');
         }
 
-        $recommendation = $this->em->getRepository(CarRecommendation::class)->findOneBy(['id' => $id]);
+        $recommendation = $this->registry->repository(CarRecommendation::class)->findOneBy(['id' => $id]);
         if (null === $recommendation) {
             throw new NotFoundHttpException(\sprintf('Recommendation id "%s" not found', $id));
         }

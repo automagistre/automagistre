@@ -12,7 +12,6 @@ use App\Entity\Landlord\Person;
 use App\Entity\Tenant\OperandTransaction;
 use App\Entity\Tenant\Order;
 use App\Manager\PaymentManager;
-use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,9 +45,8 @@ class OperandController extends AbstractController
         }
 
         $id = $request->query->get('id');
-        $entity = $this->getDoctrine()->getManager()->getRepository(Operand::class)->find($id);
-        $class = ClassUtils::getClass($entity);
-        $config = $this->get('easyadmin.config.manager')->getEntityConfigByClass($class);
+        $entity = $this->registry->repository(Operand::class)->find($id);
+        $config = $this->get('easyadmin.config.manager')->getEntityConfigByClass($this->registry->class($entity));
 
         return $this->redirectToRoute('easyadmin', \array_merge($request->query->all(), [
             'entity' => $config['name'],
@@ -61,17 +59,17 @@ class OperandController extends AbstractController
     protected function renderTemplate($actionName, $templatePath, array $parameters = []): Response
     {
         if ('show' === $actionName) {
-            $em = $this->em;
+            $registry = $this->registry;
 
+            /** @var Operand $operand */
             $operand = $parameters['entity'];
 
-            $parameters['cars'] = $em->getRepository(Car::class)
-                ->findBy(['owner' => $operand]);
-            $parameters['orders'] = $em->getRepository(Order::class)
-                ->findBy(['customer' => $operand], ['closedAt' => 'DESC'], 20);
-            $parameters['payments'] = $em->getRepository(OperandTransaction::class)
-                ->findBy(['recipient' => $operand], ['id' => 'DESC'], 20);
-            $parameters['notes'] = $em->getRepository(OperandNote::class)
+            $parameters['cars'] = $registry->repository(Car::class)->findBy(['owner' => $operand]);
+            $parameters['orders'] = $registry->repository(Order::class)
+                ->findBy(['customer.uuid' => $operand->uuid()], ['closedAt' => 'DESC'], 20);
+            $parameters['payments'] = $registry->repository(OperandTransaction::class)
+                ->findBy(['recipient.uuid' => $operand->uuid()], ['id' => 'DESC'], 20);
+            $parameters['notes'] = $registry->repository(OperandNote::class)
                 ->findBy(['operand' => $operand], ['createdAt' => 'DESC']);
             $parameters['balance'] = $this->paymentManager->balance($operand);
         }
@@ -86,7 +84,7 @@ class OperandController extends AbstractController
     {
         $query = $this->request->query;
 
-        $qb = $this->em->getRepository(Operand::class)->createQueryBuilder('operand')
+        $qb = $this->registry->repository(Operand::class)->createQueryBuilder('operand')
             ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = operand.id AND operand INSTANCE OF '.Person::class)
             ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = operand.id AND operand INSTANCE OF '.Organization::class);
 
