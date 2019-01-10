@@ -94,16 +94,15 @@ final class Registry
      */
     public function isEntity($entity): bool
     {
-        if (!\is_object($entity) && !\class_exists((string) $entity)) {
+        if (\is_object($entity)) {
+            $entity = \get_class($entity);
+        }
+
+        if (!\class_exists((string) $entity)) {
             return false;
         }
 
-        $em = $this->managerOrNull($entity);
-        if (null === $em) {
-            return false;
-        }
-
-        return $this->manager($entity)->getMetadataFactory()->isTransient($this->class($entity));
+        return null !== $this->managerOrNull($entity);
     }
 
     /**
