@@ -225,7 +225,7 @@ abstract class AbstractController extends AdminController
      */
     protected function createNewEntity()
     {
-        if (\stdClass::class === $this->entity['new']['form_options']['data_class']) {
+        if (\stdClass::class === ($this->entity['new']['form_options']['data_class'] ?? null)) {
             $entity = new \stdClass();
 
             $entity->id = null;
