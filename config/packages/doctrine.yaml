@@ -26,7 +26,7 @@ doctrine:
                     uuid_binary: binary
                 charset:  UTF8
                 server_version: mariadb-10.3.10
-                wrapper_class: 'App\Doctrine\DBAL\SwitchableConnection'
+                wrapper_class: 'Facile\DoctrineMySQLComeBack\Doctrine\DBAL\Connection'
                 driver_class: 'Facile\DoctrineMySQLComeBack\Doctrine\DBAL\Driver\PDOMySql\Driver'
                 options:
                     x_reconnect_attempts: 3

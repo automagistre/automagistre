@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Doctrine\DBAL\SwitchableConnection;
 use App\Entity\Landlord\User;
 use App\Enum\Tenant;
+use App\Tenant\ConnectionSwitcher;
 use LogicException;
 use RuntimeException;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
@@ -23,25 +22,25 @@ final class State
     private $tenant;
 
     /**
-     * @var RegistryInterface
+     * @var ConnectionSwitcher
      */
-    private $registry;
+    private $switcher;
 
     /**
      * @var TokenStorageInterface
      */
     private $tokenStorage;
 
-    public function __construct(RegistryInterface $registry, TokenStorageInterface $tokenStorage)
+    public function __construct(ConnectionSwitcher $switcher, TokenStorageInterface $tokenStorage)
     {
-        $this->registry = $registry;
         $this->tokenStorage = $tokenStorage;
+        $this->switcher = $switcher;
     }
 
     public function tenant(Tenant $tenant = null): Tenant
     {
         if (null !== $tenant) {
-            $this->switch($tenant);
+            $this->switcher->switch($tenant);
             $this->tenant = $tenant;
         }
 
@@ -71,15 +70,5 @@ final class State
         }
 
         return $user;
-    }
-
-    private function switch(Tenant $tenant): void
-    {
-        $connection = $this->registry->getConnection('tenant');
-        if (!$connection instanceof SwitchableConnection) {
-            throw new LogicException('SwitchableConnection required');
-        }
-
-        $connection->switch($tenant->getDatabase());
     }
 }

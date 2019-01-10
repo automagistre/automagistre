@@ -37,11 +37,6 @@ final class Tenant extends Enum
         self::KAZAN => 'Казань',
     ];
 
-    public function getDatabase(): string
-    {
-        return \sprintf('tenant_%s', $this->getName());
-    }
-
     public function getIdentifier(): string
     {
         return self::$identifier[$this->getId()];
