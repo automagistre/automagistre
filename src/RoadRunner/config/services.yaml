@@ -8,3 +8,5 @@ services:
         arguments:
             $sessionStorageOptions: '%session.storage.options%'
             $memcached: '@session.memcached'
+
+    App\RoadRunner\EventListener\CleanerListener: ~
