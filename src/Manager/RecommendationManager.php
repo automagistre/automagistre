@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
+use App\Doctrine\Registry;
 use App\Entity\Landlord\CarRecommendation;
 use App\Entity\Landlord\CarRecommendationPart;
 use App\Entity\Landlord\User;
@@ -16,7 +17,6 @@ use App\Request\State;
 use Doctrine\ORM\EntityManagerInterface;
 use DomainException;
 use Generator;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -24,7 +24,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 final class RecommendationManager
 {
     /**
-     * @var RegistryInterface
+     * @var Registry
      */
     private $registry;
 
@@ -38,7 +38,7 @@ final class RecommendationManager
      */
     private $state;
 
-    public function __construct(RegistryInterface $registry, ReservationManager $reservationManager, State $state)
+    public function __construct(Registry $registry, ReservationManager $reservationManager, State $state)
     {
         $this->registry = $registry;
         $this->reservationManager = $reservationManager;
@@ -47,8 +47,7 @@ final class RecommendationManager
 
     public function realize(CarRecommendation $recommendation, Order $order, User $user): void
     {
-        /** @var EntityManagerInterface $em */
-        $em = $this->registry->getManagerForClass(OrderItemService::class);
+        $em = $this->registry->manager(OrderItemService::class);
 
         $orderItemService = new OrderItemService(
             $order,
@@ -76,7 +75,7 @@ final class RecommendationManager
         $em->flush();
 
         $recommendation->realize($orderItemService, $this->state->tenant());
-        $this->registry->getEntityManagerForClass(\get_class($recommendation))->flush();
+        $this->registry->manager($recommendation)->flush();
 
         foreach ($orderItemParts as $orderItemPart) {
             try {
@@ -88,8 +87,7 @@ final class RecommendationManager
 
     public function recommend(OrderItemService $orderItemService): void
     {
-        /** @var EntityManagerInterface $em */
-        $em = $this->registry->getManagerForClass(CarRecommendation::class);
+        $em = $this->registry->manager(CarRecommendation::class);
         $order = $orderItemService->getOrder();
 
         if (null === $car = $order->getCar()) {
@@ -145,15 +143,14 @@ final class RecommendationManager
             $em->persist($recommendation);
         });
 
-        $em = $this->registry->getEntityManagerForClass(OrderItemService::class);
+        $em = $this->registry->manager(OrderItemService::class);
         $em->remove($orderItemService);
         $em->flush();
     }
 
     public function findOldRecommendation(OrderItemService $orderItemService): ?CarRecommendation
     {
-        /** @var EntityManagerInterface $em */
-        $em = $this->registry->getManagerForClass(CarRecommendation::class);
+        $em = $this->registry->manager(CarRecommendation::class);
 
         return $em->createQueryBuilder()
             ->select('entity')

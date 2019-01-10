@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
+use App\Doctrine\Registry;
 use App\Entity\Landlord\Manufacturer;
 use App\Entity\Landlord\Part;
 use App\Entity\Tenant\Order;
+use App\Entity\Tenant\OrderItemPart;
 use App\Model\DeficitPart;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -16,11 +18,11 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 final class DeficitManager
 {
     /**
-     * @var RegistryInterface
+     * @var Registry
      */
     private $registry;
 
-    public function __construct(RegistryInterface $registry)
+    public function __construct(Registry $registry)
     {
         $this->registry = $registry;
     }
@@ -32,44 +34,44 @@ final class DeficitManager
     {
         $sql = <<<SQL
 SELECT
-  ordered.part_id,
+  ordered.part_uuid,
   ordered.quantity - COALESCE(stock.quantity, 0) AS needed,
   ordered.orders_id
 FROM (SELECT
-        order_item_part.part_id,
-        SUM(order_item_part.quantity)              AS quantity,
+        order_item_part.part_uuid,
+        SUM(order_item_part.quantity) AS quantity,
         GROUP_CONCAT(DISTINCT orders.id, ',') AS orders_id
       FROM order_item_part
         JOIN order_item ON order_item.id = order_item_part.id
         JOIN orders ON order_item.order_id = orders.id AND orders.closed_at IS NULL
-      GROUP BY order_item_part.part_id) AS ordered
+      GROUP BY order_item_part.part_uuid) AS ordered
   LEFT JOIN (SELECT
-               motion.part_id,
+               motion.part_uuid,
                SUM(motion.quantity) AS quantity
              FROM motion
                JOIN (SELECT
-                       DISTINCT order_item_part.part_id
+                       DISTINCT order_item_part.part_uuid
                      FROM order_item_part
                        JOIN order_item ON order_item.id = order_item_part.id
                        JOIN orders ON order_item.order_id = orders.id AND orders.closed_at IS NULL
-                    ) AS parts ON motion.part_id = parts.part_id
-             GROUP BY motion.part_id) AS stock ON stock.part_id = ordered.part_id
+                    ) AS parts ON motion.part_uuid = parts.part_uuid
+             GROUP BY motion.part_uuid) AS stock ON stock.part_uuid = ordered.part_uuid
 HAVING needed > 0;
 SQL;
 
-        $em = $this->registry->getEntityManager();
+        $em = $this->registry->manager(OrderItemPart::class);
         $conn = $em->getConnection();
 
         $result = $conn->fetchAll($sql);
 
-        $partRepository = $em->getRepository(Part::class);
+        $partRepository = $this->registry->repository(Part::class);
         $parts = $partRepository->findBy([
-            'id' => \array_map(function (array $item) {
-                return $item['part_id'];
+            'uuid' => \array_map(function (array $item) {
+                return $item['part_uuid'];
             }, $result),
         ]);
 
-        $em->getRepository(Manufacturer::class)->findBy([
+        $this->registry->repository(Manufacturer::class)->findBy([
             'id' => \array_map(function (Part $part) {
                 return $part->getManufacturer()->getId();
             }, $parts),
@@ -77,7 +79,7 @@ SQL;
 
         return \array_map(function (array $item) use ($em, $partRepository) {
             return new DeficitPart([
-                'part' => $partRepository->find($item['part_id']),
+                'part' => $partRepository->findOneBy(['uuid' => Uuid::fromBytes($item['part_uuid'])]),
                 'quantity' => $item['needed'],
                 'orders' => \array_map(function (int $id) use ($em) {
                     return $em->getReference(Order::class, $id);

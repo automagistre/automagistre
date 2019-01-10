@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
+use App\Doctrine\Registry;
 use App\Entity\Landlord\Operand;
 use App\Entity\Tenant\Transaction;
 use App\Entity\Transactional;
@@ -12,7 +13,6 @@ use App\Request\State;
 use Doctrine\ORM\EntityManagerInterface;
 use Money\Currency;
 use Money\Money;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -22,7 +22,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 final class PaymentManager
 {
     /**
-     * @var RegistryInterface
+     * @var Registry
      */
     private $registry;
 
@@ -36,7 +36,7 @@ final class PaymentManager
      */
     private $state;
 
-    public function __construct(RegistryInterface $registry, EventDispatcherInterface $dispatcher, State $state)
+    public function __construct(Registry $registry, EventDispatcherInterface $dispatcher, State $state)
     {
         $this->registry = $registry;
         $this->dispatcher = $dispatcher;
@@ -45,8 +45,7 @@ final class PaymentManager
 
     public function createPayment(Transactional $recipient, string $description, Money $money): Transaction
     {
-        /** @var EntityManagerInterface $em */
-        $em = $this->registry->getEntityManagerForClass($recipient->getTransactionClass());
+        $em = $this->registry->manager($recipient->getTransactionClass());
 
         $payment = $em->transactional(function (EntityManagerInterface $em) use ($recipient, $description, $money) {
             $transactionClass = $recipient->getTransactionClass();
@@ -71,8 +70,7 @@ final class PaymentManager
 
     public function balance(Transactional $transactional): Money
     {
-        /** @var EntityManagerInterface $em */
-        $em = $this->registry->getEntityManagerForClass($transactional->getTransactionClass());
+        $em = $this->registry->manager($transactional->getTransactionClass());
 
         $qb = $em->createQueryBuilder()
             ->select('SUM(payment.amount.amount)')

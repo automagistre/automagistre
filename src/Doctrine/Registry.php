@@ -6,6 +6,7 @@ namespace App\Doctrine;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use LogicException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -43,7 +44,16 @@ final class Registry
      */
     public function managerOrNull($entity): ?EntityManagerInterface
     {
-        return $this->registry->getEntityManagerForClass($this->entityToString($entity));
+        $em = $this->registry->getManagerForClass($this->entityToString($entity));
+        if (null === $em) {
+            return null;
+        }
+
+        if (!$em instanceof EntityManagerInterface) {
+            throw new LogicException('EntityManagerInterface expected.');
+        }
+
+        return $em;
     }
 
     /**
@@ -66,9 +76,17 @@ final class Registry
      */
     public function class($entity): string
     {
+        return $this->classMetaData($entity)->getName();
+    }
+
+    /**
+     * @param object|string $entity
+     */
+    public function classMetaData($entity): ClassMetadata
+    {
         $class = $this->entityToString($entity);
 
-        return $this->manager($entity)->getClassMetadata($class)->getName();
+        return $this->manager($entity)->getClassMetadata($class);
     }
 
     /**

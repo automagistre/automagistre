@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
+use App\Doctrine\Registry;
 use App\Entity\Tenant\OrderItemPart;
 use App\Entity\Tenant\Reservation;
 use App\Enum\OrderStatus;
 use App\Events;
 use App\Manager\ReservationManager;
 use LogicException;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -20,7 +20,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 final class OrderStatusListener implements EventSubscriberInterface
 {
     /**
-     * @var RegistryInterface
+     * @var Registry
      */
     private $registry;
 
@@ -29,7 +29,7 @@ final class OrderStatusListener implements EventSubscriberInterface
      */
     private $reservationManager;
 
-    public function __construct(RegistryInterface $registry, ReservationManager $reservationManager)
+    public function __construct(Registry $registry, ReservationManager $reservationManager)
     {
         $this->registry = $registry;
         $this->reservationManager = $reservationManager;
@@ -73,7 +73,7 @@ final class OrderStatusListener implements EventSubscriberInterface
             }
         }
 
-        $em = $this->registry->getEntityManager();
+        $em = $this->registry->manager($order);
 
         $order->setStatus(OrderStatus::notification());
         $em->flush();

@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Doctrine\Registry;
 use App\Entity\Embeddable\Relation;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Events;
 use LogicException;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -24,11 +24,11 @@ final class TenantRelationListener implements EventSubscriber
     private static $map = [];
 
     /**
-     * @var RegistryInterface
+     * @var Registry
      */
     private $registry;
 
-    public function __construct(RegistryInterface $registry)
+    public function __construct(Registry $registry)
     {
         $this->registry = $registry;
     }
@@ -62,8 +62,7 @@ final class TenantRelationListener implements EventSubscriber
         /** @var Identity $entity */
         $entity = $event->getEntity();
 
-        $em = $event->getEntityManager();
-        $classMetadata = $em->getClassMetadata(\get_class($entity));
+        $classMetadata = $this->registry->classMetaData($entity);
 
         $entityClass = $classMetadata->getName();
 
@@ -86,7 +85,7 @@ final class TenantRelationListener implements EventSubscriber
             }
 
             $relationEntityClass = $relation::entityClass();
-            $relationEntity = $this->registry->getManagerForClass($relationEntityClass)
+            $relationEntity = $this->registry->manager($relationEntityClass)
                 ->getRepository($relationEntityClass)
                 ->findOneBy(['uuid' => $relation->uuid()]);
 

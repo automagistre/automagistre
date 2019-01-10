@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
+use App\Doctrine\Registry;
 use App\Entity\Landlord\Part;
 use App\Entity\Landlord\PartCross;
 use App\Entity\Tenant\Motion;
@@ -14,7 +15,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -22,19 +22,18 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 final class PartManager
 {
     /**
-     * @var RegistryInterface
+     * @var Registry
      */
     private $registry;
 
-    public function __construct(RegistryInterface $registry)
+    public function __construct(Registry $registry)
     {
         $this->registry = $registry;
     }
 
     public function inStock(Part $part): int
     {
-        /** @var EntityManagerInterface $em */
-        $em = $this->registry->getEntityManagerForClass(Motion::class);
+        $em = $this->registry->manager(Motion::class);
 
         try {
             return (int) $em->createQueryBuilder()
@@ -52,8 +51,7 @@ final class PartManager
 
     public function inOrders(Part $part): array
     {
-        /** @var EntityManagerInterface $em */
-        $em = $this->registry->getManagerForClass(Order::class);
+        $em = $this->registry->manager(Order::class);
 
         return $em->createQueryBuilder()
             ->select('entity')
@@ -70,12 +68,11 @@ final class PartManager
 
     public function cross(Part $left, Part $right): void
     {
-        /** @var EntityManagerInterface $em */
-        $em = $this->registry->getManagerForClass(Part::class);
+        $em = $this->registry->manager(Part::class);
 
         $em->transactional(function (EntityManagerInterface $em) use ($left, $right): void {
-            $leftGroup = $this->findCross($em, $left);
-            $rightGroup = $this->findCross($em, $right);
+            $leftGroup = $this->findCross($left, $em);
+            $rightGroup = $this->findCross($right, $em);
 
             if (null === $leftGroup && null === $rightGroup) {
                 $em->persist(new PartCross($left, $right));
@@ -94,10 +91,9 @@ final class PartManager
 
     public function uncross(Part $part): void
     {
-        /** @var EntityManagerInterface $em */
-        $em = $this->registry->getManagerForClass(Part::class);
+        $em = $this->registry->manager(Part::class);
 
-        $cross = $this->findCross($em, $part);
+        $cross = $this->findCross($part, $em);
         $cross->removePart($part);
 
         if ($cross->isEmpty()) {
@@ -112,7 +108,7 @@ final class PartManager
      */
     public function getCrosses(Part $part): ?array
     {
-        $cross = $this->findCross($this->registry->getEntityManager(), $part);
+        $cross = $this->findCross($part);
         if (!$cross instanceof PartCross) {
             return null;
         }
@@ -120,8 +116,10 @@ final class PartManager
         return $cross->getParts();
     }
 
-    private function findCross(EntityManagerInterface $em, Part $part): ?PartCross
+    private function findCross(Part $part, EntityManagerInterface $em = null): ?PartCross
     {
+        $em = $em instanceof EntityManagerInterface ? $em : $this->registry->manager(PartCross::class);
+
         return $em->createQueryBuilder()
             ->select('entity')
             ->from(PartCross::class, 'entity')
