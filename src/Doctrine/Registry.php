@@ -90,10 +90,14 @@ final class Registry
     }
 
     /**
-     * @param object|string $entity
+     * @param mixed $entity
      */
     public function isEntity($entity): bool
     {
+        if (!\is_object($entity) && !\class_exists((string) $entity)) {
+            return false;
+        }
+
         $em = $this->managerOrNull($entity);
         if (null === $em) {
             return false;
