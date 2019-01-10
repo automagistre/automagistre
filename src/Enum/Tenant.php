@@ -15,6 +15,7 @@ use Grachevko\Enum\Enum;
  */
 final class Tenant extends Enum
 {
+    private const SANDBOX = 0;
     private const MSK = 1;
     private const KAZAN = 2;
 
@@ -22,6 +23,7 @@ final class Tenant extends Enum
      * @var array
      */
     protected static $identifier = [
+        self::SANDBOX => 'sandbox',
         self::MSK => 'msk',
         self::KAZAN => 'kazan',
     ];
@@ -30,6 +32,7 @@ final class Tenant extends Enum
      * @var array
      */
     protected static $displayName = [
+        self::SANDBOX => 'Песочница',
         self::MSK => 'Москва',
         self::KAZAN => 'Казань',
     ];

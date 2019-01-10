@@ -45,6 +45,17 @@ services:
             labels:
                 - "traefik.enable=false"
 
+    migration_tenant_sandbox:
+        <<: *app
+        command: wait-for-it.sh tenant_sandbox:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --db=tenant --em=tenant --tenant=sandbox
+        deploy:
+            mode: replicated
+            replicas: 1
+            restart_policy:
+                condition: none
+            labels:
+                - "traefik.enable=false"
+
     migration_tenant_msk:
         <<: *app
         command: wait-for-it.sh tenant_msk:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --db=tenant --em=tenant --tenant=msk
@@ -98,6 +109,21 @@ services:
             timeout: 5s
             retries: 3
             start_period: 10s
+
+    tenant_sandbox:
+        <<: *mysql
+        environment:
+            MYSQL_DATABASE: tenant
+            MYSQL_USER: db
+            MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
+            MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
+        volumes:
+            -   type: bind
+                source: /home/automagistre/tenant_sandbox
+                target: /var/lib/mysql
+            -   type: bind
+                source: /home/automagistre/backups
+                target: /backups
 
     tenant_msk:
         <<: *mysql
