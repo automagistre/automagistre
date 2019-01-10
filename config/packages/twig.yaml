@@ -5,4 +5,4 @@ twig:
         - '%kernel.project_dir%/templates'
     exception_controller: App\Controller\ExceptionController::showAction
     globals:
-        state: '@App\Request\State'
+        state: '@App\State'

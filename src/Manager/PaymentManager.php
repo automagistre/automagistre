@@ -9,7 +9,7 @@ use App\Entity\Landlord\Operand;
 use App\Entity\Tenant\Transaction;
 use App\Entity\Transactional;
 use App\Events;
-use App\Request\State;
+use App\State;
 use Doctrine\ORM\EntityManagerInterface;
 use Money\Currency;
 use Money\Money;

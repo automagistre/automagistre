@@ -8,7 +8,7 @@ use App\Doctrine\Registry;
 use App\Entity\Landlord\Event;
 use App\Events;
 use App\Request\EntityTransformer;
-use App\Request\State;
+use App\State;
 use LogicException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;

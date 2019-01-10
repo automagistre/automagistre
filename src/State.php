@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Request;
+namespace App;
 
 use App\Doctrine\DBAL\SwitchableConnection;
 use App\Entity\Landlord\User;
