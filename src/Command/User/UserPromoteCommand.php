@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Command\User;
 
+use App\Doctrine\Registry;
 use App\Entity\Landlord\User;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -18,15 +18,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 final class UserPromoteCommand extends Command
 {
     /**
-     * @var EntityManagerInterface
+     * @var Registry
      */
-    private $em;
+    private $registry;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(Registry $registry)
     {
         parent::__construct();
 
-        $this->em = $em;
+        $this->registry = $registry;
     }
 
     /**
@@ -45,11 +45,11 @@ final class UserPromoteCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $em = $this->em;
+        $em = $this->registry->manager(User::class);
 
         ['username' => $username, 'roles' => $roles] = $input->getArguments();
 
-        $user = $this->em->getRepository(User::class)->findOneBy(['username' => $username]);
+        $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
 
         if (!$user instanceof User) {
             throw new EntityNotFoundException(\sprintf('User with username "%s" not found.', $username));

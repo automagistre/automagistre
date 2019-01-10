@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
+use App\Doctrine\Registry;
 use App\Entity\Landlord\Part;
 use App\Entity\Tenant\IncomePart;
 use App\Entity\Tenant\OrderItemPart;
-use Doctrine\ORM\EntityManagerInterface;
 use Money\Money;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -19,19 +18,18 @@ final class PriceManager
     private const MARKUP = 1.15;
 
     /**
-     * @var RegistryInterface
+     * @var Registry
      */
     private $registry;
 
-    public function __construct(RegistryInterface $registry)
+    public function __construct(Registry $registry)
     {
         $this->registry = $registry;
     }
 
     public function suggestForPart(Part $part): Money
     {
-        /** @var EntityManagerInterface $em */
-        $em = $this->registry->getManagerForClass(IncomePart::class);
+        $em = $this->registry->manager(IncomePart::class);
         $suggestPrice = $part->getPrice();
 
         $incomePart = $em->createQueryBuilder()

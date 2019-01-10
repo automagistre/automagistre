@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
+use App\Doctrine\Registry;
 use App\Entity\Tenant\Income;
 use App\Entity\Tenant\MotionIncome;
 use App\Events;
 use LogicException;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -19,7 +19,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 final class AccrueIncomePartsListener implements EventSubscriberInterface
 {
     /**
-     * @var RegistryInterface
+     * @var Registry
      */
     private $registry;
 
@@ -28,7 +28,7 @@ final class AccrueIncomePartsListener implements EventSubscriberInterface
      */
     private $dispatcher;
 
-    public function __construct(RegistryInterface $registry, EventDispatcherInterface $dispatcher)
+    public function __construct(Registry $registry, EventDispatcherInterface $dispatcher)
     {
         $this->registry = $registry;
         $this->dispatcher = $dispatcher;
@@ -46,7 +46,7 @@ final class AccrueIncomePartsListener implements EventSubscriberInterface
 
     public function onIncomeAccrued(GenericEvent $event): void
     {
-        $em = $this->registry->getManagerForClass(MotionIncome::class);
+        $em = $this->registry->manager(MotionIncome::class);
 
         $income = $event->getSubject();
         if (!$income instanceof Income) {

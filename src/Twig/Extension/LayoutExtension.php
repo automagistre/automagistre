@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Twig\Extension;
 
+use App\Doctrine\Registry;
 use App\Entity\Tenant\Wallet;
 use App\Enum\Tenant;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -17,11 +17,11 @@ use Twig\TwigFunction;
 final class LayoutExtension extends AbstractExtension
 {
     /**
-     * @var RegistryInterface
+     * @var Registry
      */
     private $registry;
 
-    public function __construct(RegistryInterface $registry)
+    public function __construct(Registry $registry)
     {
         $this->registry = $registry;
     }
@@ -45,7 +45,7 @@ final class LayoutExtension extends AbstractExtension
 
     public function balance(Environment $twig): string
     {
-        $em = $this->registry->getManagerForClass(Wallet::class);
+        $em = $this->registry->manager(Wallet::class);
 
         return $twig->render('admin/layout/balance.html.twig', [
             'wallets' => $em->getRepository(Wallet::class)->findBy(['showInLayout' => true]),

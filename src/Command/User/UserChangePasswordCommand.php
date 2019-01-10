@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Command\User;
 
+use App\Doctrine\Registry;
 use App\Entity\Landlord\User;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -19,20 +19,20 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 final class UserChangePasswordCommand extends Command
 {
     /**
-     * @var EntityManagerInterface
+     * @var Registry
      */
-    private $em;
+    private $registry;
 
     /**
      * @var EncoderFactoryInterface
      */
     private $encoderFactory;
 
-    public function __construct(EntityManagerInterface $em, EncoderFactoryInterface $encoderFactory)
+    public function __construct(Registry $registry, EncoderFactoryInterface $encoderFactory)
     {
         parent::__construct();
 
-        $this->em = $em;
+        $this->registry = $registry;
         $this->encoderFactory = $encoderFactory;
     }
 
@@ -52,11 +52,11 @@ final class UserChangePasswordCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $em = $this->em;
+        $em = $this->registry->manager(User::class);
 
         ['username' => $username, 'password' => $password] = $input->getArguments();
 
-        $user = $this->em->getRepository(User::class)->findOneBy(['username' => $username]);
+        $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
 
         if (!$user instanceof User) {
             throw new EntityNotFoundException(\sprintf('User with username "%s" not found.', $username));
