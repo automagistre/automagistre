@@ -1,0 +1,6 @@
+ROLE_SUPER_ADMIN: Супер администратор
+ROLE_ADMIN: Администратор
+ROLE_EMPLOYEE: Возможность логиниться в СТО
+ROLE_CUSTOMER_FEEDBACK: Отзывы клиентов
+ROLE_MAINTENANCE_CONFIGURATOR: Конфигутор ТО
+ROLE_USER_MANAGER: Пользователи

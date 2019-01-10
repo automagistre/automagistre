@@ -35,6 +35,7 @@ abstract class AbstractController extends AdminController
      * @var Registry
      */
     protected $registry;
+
     /**
      * @var EntityTransformer
      */
@@ -211,7 +212,16 @@ abstract class AbstractController extends AdminController
      */
     protected function createNewEntity()
     {
-        $entity = parent::createNewEntity();
+        if (\stdClass::class === $this->entity['new']['form_options']['data_class']) {
+            $entity = new \stdClass();
+
+            $entity->id = null;
+            foreach (\array_keys($this->entity['new']['fields']) as $field) {
+                $entity->{$field} = null;
+            }
+        } else {
+            $entity = parent::createNewEntity();
+        }
 
         if (\method_exists($entity, 'setCreatedBy')) {
             $entity->setCreatedBy($this->getUser());

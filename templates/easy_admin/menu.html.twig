@@ -1,0 +1,11 @@
+{% extends '@EasyAdmin/default/menu.html.twig' %}
+
+{% block menu_item %}
+    {% if item.role is defined %}
+        {% if is_granted(item.role) %}
+            {{ parent() }}
+        {% endif %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}

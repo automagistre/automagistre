@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
 use DomainException;
 use Serializable;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -20,6 +21,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  * @ORM\Table(name="users")
+ *
+ * @UniqueEntity("person")
  */
 class User implements UserInterface, EquatableInterface, Serializable
 {
@@ -106,6 +109,11 @@ class User implements UserInterface, EquatableInterface, Serializable
         if (!\in_array($role, $this->roles, true)) {
             $this->roles[] = $role;
         }
+    }
+
+    public function setRoles(array $roles): void
+    {
+        $this->roles = $roles;
     }
 
     public function getPassword(): ?string

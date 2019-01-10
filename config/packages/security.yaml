@@ -48,3 +48,9 @@ security:
 
         ROLE_ADMIN:
             - ROLE_EMPLOYEE
+            - ROLE_MAINTENANCE_CONFIGURATOR
+            - ROLE_CUSTOMER_FEEDBACK
+            - ROLE_USER_MANAGER
+
+        ROLE_CUSTOMER_FEEDBACK:
+            - ROLE_WWW_SECTION
