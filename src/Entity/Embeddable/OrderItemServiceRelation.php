@@ -30,7 +30,7 @@ final class OrderItemServiceRelation extends Relation
     /**
      * @var Tenant|null
      *
-     * @ORM\Column(type="tenant_enum")
+     * @ORM\Column(type="tenant_enum", nullable=true)
      */
     protected $tenant;
 
