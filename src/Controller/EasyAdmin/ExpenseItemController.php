@@ -51,6 +51,9 @@ final class ExpenseItemController extends AbstractController
             $expense = $entity->getExpense();
 
             $description = \sprintf('# Списание по статье расходов - "%s"', $expense->getName());
+            if (null !== $entity->getDescription()) {
+                $description .= \sprintf(', с комментарием "%s"', $entity->getDescription());
+            }
 
             $this->paymentManager->createPayment($model->wallet, $description, $entity->getAmount()->negative());
 
