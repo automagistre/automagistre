@@ -363,9 +363,9 @@ class Order
         return $this->suspends->getValues();
     }
 
-    public function suspend(DateTimeImmutable $till, string $reason): void
+    public function suspend(DateTimeImmutable $till, string $reason, User $user): void
     {
-        $this->suspends[] = new OrderSuspend($this, $till, $reason);
+        $this->suspends[] = new OrderSuspend($this, $till, $reason, $user);
     }
 
     public function getAppointmentAt(): ?DateTimeImmutable

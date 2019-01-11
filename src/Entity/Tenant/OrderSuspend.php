@@ -7,6 +7,8 @@ namespace App\Entity\Tenant;
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\CreatedByRelation as CreatedBy;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Entity\Embeddable\UserRelation;
+use App\Entity\Landlord\User;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -40,11 +42,12 @@ class OrderSuspend
      */
     private $reason;
 
-    public function __construct(Order $order, DateTimeImmutable $till, string $reason)
+    public function __construct(Order $order, DateTimeImmutable $till, string $reason, User $user)
     {
         $this->order = $order;
         $this->till = $till;
         $this->reason = $reason;
+        $this->createdBy = new UserRelation($user);
     }
 
     public function getReason(): string
