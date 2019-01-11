@@ -10,7 +10,6 @@ use App\State;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
-use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -80,10 +79,6 @@ final class TenantListener implements EventSubscriberInterface
 
         $input->bind($command->getDefinition());
 
-        if (false === \strpos($command->getName(), 'doctrine')) {
-            return;
-        }
-
         foreach (['db', 'em', 'connection'] as $option) {
             if ($input->hasOption($option) && 'landlord' === $input->getOption($option)) {
                 return;
@@ -92,7 +87,7 @@ final class TenantListener implements EventSubscriberInterface
 
         $tenant = $this->validate($input->getOption('tenant'));
         if (null === $tenant) {
-            throw new InvalidOptionException('Tenant required.');
+            return;
         }
 
         if (!Tenant::isValid($tenant)) {

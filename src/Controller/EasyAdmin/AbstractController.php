@@ -7,6 +7,7 @@ namespace App\Controller\EasyAdmin;
 use App\Doctrine\Registry;
 use App\Entity\Landlord\User;
 use App\Request\EntityTransformer;
+use App\State;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController;
 use libphonenumber\PhoneNumber;
@@ -36,6 +37,11 @@ abstract class AbstractController extends AdminController
      * @var Registry
      */
     protected $registry;
+
+    /**
+     * @var State
+     */
+    protected $state;
 
     /**
      * @var EntityTransformer
@@ -108,6 +114,14 @@ abstract class AbstractController extends AdminController
     public function setRegistry(Registry $registry): void
     {
         $this->registry = $registry;
+    }
+
+    /**
+     * @required
+     */
+    public function setState(State $state): void
+    {
+        $this->state = $state;
     }
 
     protected function formatMoney(Money $money, bool $decimal = false): string

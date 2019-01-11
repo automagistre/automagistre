@@ -6,6 +6,7 @@ namespace App\Controller\EasyAdmin;
 
 use App\Entity\Landlord\Manufacturer;
 use App\Entity\Landlord\Part;
+use App\Entity\Landlord\Stockpile;
 use App\Entity\Tenant\Motion;
 use App\Entity\Tenant\MotionManual;
 use App\Entity\Tenant\Order;
@@ -339,6 +340,16 @@ final class PartController extends AbstractController
 
             $qb->setParameter($key, '%'.$searchString.'%');
         }
+
+        $qb->leftJoin(
+            Stockpile::class,
+            'stockpile',
+            Join::WITH,
+            'stockpile.part = part AND stockpile.tenant = :tenant'
+        )
+            ->setParameter('tenant', $this->state->tenant())
+            ->groupBy('part.id')
+            ->orderBy('SUM(stockpile.quantity)', 'DESC');
 
         return $qb;
     }
