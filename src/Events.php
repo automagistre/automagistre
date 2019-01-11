@@ -90,4 +90,14 @@ interface Events
      * Создан расход.
      */
     public const EXPENSE_ITEM_CREATED = 'expense.item.created';
+
+    /**
+     * Работнику выдата зарплата.
+     */
+    public const EMPLOYEE_SALARY = 'employee.salary';
+
+    /**
+     * Работник оштрафован.
+     */
+    public const EMPLOYEE_PENALTY = 'employee.penalty';
 }

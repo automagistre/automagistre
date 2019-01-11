@@ -372,6 +372,7 @@ easy_admin:
                     - { property: 'id' }
                     - { property: 'person', label: 'Ф.И.О' }
                     - { property: null, label: 'Баланс', template: 'easy_admin/employee/field_balance.html.twig' }
+                    - { property: null, label: 'Мотивация', template: 'easy_admin/employee/field_buttons.html.twig' }
                     - { property: 'ratio', label: '%', template: 'easy_admin/employee/field_podstanova.html.twig' }
                     - { property: 'hiredAt', label: 'Трудоустроен' }
                     - { property: 'firedAt', label: 'Уволен' }
@@ -623,7 +624,7 @@ easy_admin:
                     - { property: 'recipient', label: 'Получатель', template: 'field_association.html.twig' }
                     - { property: 'amount', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'createdAt', label: 'Дата' }
-                    - { property: 'description', label: 'Описание' }
+                    - { property: 'description', label: 'Описание', template: '@EasyAdmin/default/field_raw.html.twig' }
                     - { property: 'subtotal', label: 'Остаток', template: 'easy_admin/field_money.html.twig' }
             new:
                 title: 'Создать новую проводку'

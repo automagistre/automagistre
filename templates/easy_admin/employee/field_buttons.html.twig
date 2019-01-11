@@ -1,0 +1,8 @@
+{%- set parameters = [item.person, {'referer': true}]|to_query -%}
+
+<a href="{{ easyadmin_path('Employee', 'salary', parameters) }}" class="btn btn-success btn-sm">Выдать
+    зарплату
+</a>
+<a href="{{ easyadmin_path('Employee', 'penalty', parameters) }}" class="btn btn-danger btn-sm">
+    Оштрафовать
+</a>

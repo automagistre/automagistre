@@ -87,7 +87,11 @@ class AppExtension extends AbstractExtension
         if (\is_array($entity)) {
             $queries = [];
             foreach ($entity as $item) {
-                $queries[] = $this->entityTransformer->transform($item);
+                if (\is_object($item)) {
+                    $queries[] = $this->entityTransformer->transform($item);
+                } elseif (!\is_array($item)) {
+                    throw new LogicException('Object or array allowed');
+                }
             }
 
             return \array_merge(...$queries);
