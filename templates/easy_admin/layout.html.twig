@@ -48,3 +48,22 @@
         <strong>Copyright © 2017 - {{ date()|date('Y') }} <a href="//www.automagistre.ru">Автомагистр</a>.</strong>
     </footer>
 {% endblock %}
+
+{% block body_javascript %}
+    {{ parent() }}
+
+    <script>
+      $(document).ready(function() {
+        let urlParams = new URLSearchParams(window.location.search);
+
+        if (urlParams.has('lineIndex')) {
+          let tr = $('tr[data-id="' + urlParams.get('lineIndex') + '"]');
+          tr.addClass('warning');
+
+          $([document.documentElement, document.body]).animate({
+              scrollTop: tr.offset().top
+          }, 500);
+        }
+      });
+    </script>
+{% endblock %}

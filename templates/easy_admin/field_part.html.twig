@@ -13,11 +13,11 @@
         {{- value.manufacturer -}}
     {#</a>#}
     {%- endspaceless %}
-    {%- include 'easy_admin/field_part_number.html.twig' with {'value': value.number} only -%}
+    {%- include 'easy_admin/field_part_number.html.twig' with {'value': value.number, 'lineIndex': (item is defined ? item.id)} only -%}
     )
 
     {# Удалить это говно после возвращения страницы дефицита #}
-    {% if stock|default(false) %}
+    {% if stock|default(false) or (field_options is defined and true == field_options.stock) %}
         <span class="label label-primary">{{ part_in_stock(value) / 100 }}</span>
     {% endif %}
 {%- else -%}
