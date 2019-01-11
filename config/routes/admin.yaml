@@ -9,6 +9,7 @@ _home:
 _part_explorer:
     resource: '../src/Controller/Admin/PartExplorerController.php'
     type: annotation
+    prefix: /{tenant}
 
 logout:
     path: /logout

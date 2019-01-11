@@ -106,7 +106,7 @@ final class TenantListener implements EventSubscriberInterface
     {
         ['name' => $name, 'parameters' => $parameters, 'referenceType' => $referenceType] = $event->getArguments();
 
-        if ('easyadmin' !== $name) {
+        if ('easyadmin' !== $name && 0 !== \strpos($name, 'admin_')) {
             return;
         }
 
