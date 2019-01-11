@@ -789,7 +789,7 @@ easy_admin:
                     - { property: 'model', label: 'Модель автомобиля' }
                     - { property: 'content', label: 'Отзыв' }
                     - { property: 'url', label: 'Ссылка на источник' }
-                    - { property: 'publishAt', label: 'Когда обудликова', type: 'date' }
+                    - { property: 'publishAt', label: 'Когда обудликова', type: 'date_immutable', type_options: { input: 'datetime_immutable' } }
             new:
                 title: 'Создать новый Отзыв'
             edit:

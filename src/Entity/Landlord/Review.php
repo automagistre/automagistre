@@ -58,6 +58,7 @@ class Review
      * @var string
      *
      * @Assert\Url
+     * @Assert\Length(max=255)
      *
      * @ORM\Column
      */
