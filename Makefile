@@ -2,7 +2,8 @@
 
 MAKEFLAGS += --no-print-directory
 
-DEBUG_ECHO=$(if $(filter 1,$(DEBUG)),@echo " [DEBUG] ")
+DEBUG_PREFIX=" [DEBUG] "
+DEBUG_ECHO=$(if $(filter 1,$(DEBUG)),@echo ${DEBUG_PREFIX})
 
 ifndef EM
 ifdef TENANT
@@ -16,6 +17,8 @@ override TENANT = msk
 endif
 endif
 
+BACKUP_SERVER="s2.automagistre.ru"
+
 ###> CONSTANTS ###
 DOCKER_COMPOSE_VERSION=1.23.1
 APP_DIR = .
@@ -23,12 +26,12 @@ APP_DIR = .
 
 define success
     @tput setaf 2
-    @echo " [OK] $1"
+    @echo "$(if $(filter 1,$(DEBUG)),${DEBUG_PREFIX}) [OK] $1"
     @tput sgr0
 endef
 define failed
     @tput setaf 1
-    @echo " [FAIL] $1"
+    @echo "$(if $(filter 1,$(DEBUG)),${DEBUG_PREFIX}) [FAIL] $1"
     @tput sgr0
 endef
 
@@ -39,7 +42,7 @@ init:
 	cp -n docker-compose.override.yml.dist docker-compose.override.yml || true
 	cp -n contrib/* ./ || true
 	cp -n -r contrib/* ./ || true
-	mkdir -p var/snapshots
+	mkdir -p var/snapshots var/backups
 un-init:
 	rm -rf .env
 re-init: un-init init
@@ -252,8 +255,18 @@ fixtures: database cache do-fixtures
 	@$(notify)
 do-fixtures:
 	$(APP) console doctrine:fixtures:load --no-interaction
-backup: drop backup-restore migration
+backup: backup-fresh backup-download backup-restore migration
 	@$(notify)
+backup-fresh:
+	@ssh ${BACKUP_SERVER} automagistre_backup.sh
+	$(call success,"Backups creating on ${BACKUP_SERVER}")
+backup-download:
+	$(DEBUG_ECHO) @mkdir -p var/backups
+	@$(MAKE) do-backup-download
+	@$(MAKE) do-backup-download "TENANT=msk"
+do-backup-download:
+	$(DEBUG_ECHO) @scp -q -o LogLevel=QUIET ${BACKUP_SERVER}:/home/automagistre/backups/$(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz var/backups/$(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz
+	$(call success,"Backup $(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz downloaded.")
 
 drop: drop-landlord drop-tenant
 drop-landlord:
@@ -270,11 +283,16 @@ db-wait:
 ###> MYSQL ###
 mysql-cli:
 	@$(MYSQL) bash
-backup_file = $(APP_DIR)/var/backup.sql.gz
-backup-restore:
+backup_file = $(APP_DIR)/var/backups/$(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz
+backup-restore: backup-restore-landlord backup-restore-tenant
+backup-restore-landlord: drop-landlord
+	@$(MAKE) do-backup-restore
+backup-restore-tenant: drop-tenant
+	@$(MAKE) do-backup-restore TENANT=msk
+do-backup-restore:
 ifneq (,$(wildcard $(backup_file)))
-	@$(MYSQL) bash -c "gunzip < /usr/local/app/var/backup.sql.gz | mysql db"
-	$(call success,"Backup restored.")
+	@$(MYSQL) bash -c "gunzip < /usr/local/app/var/backups/$(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz | mysql ${EM}"
+	$(call success,"Backup $(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}) restored.")
 else
 	$(call failed,"Backup \"$(backup_file)\" does not exist!")
 	@exit 1
