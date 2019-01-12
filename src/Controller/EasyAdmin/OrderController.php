@@ -445,15 +445,19 @@ final class OrderController extends AbstractController
             return $this->redirectToEasyPath($order, 'show');
         }
 
+        $customer = $order->getCustomer();
+        $balance = $customer instanceof Operand ? $this->paymentManager->balance($customer) : null;
+
+        if (!$order->getTotalForPayment($balance)->isPositive()) {
+            goto close;
+        }
+
         $step = $request->query->get('step');
         if (null === $step) {
             return $this->render('easy_admin/order/close.html.twig', [
                 'order' => $order,
             ]);
         }
-
-        $customer = $order->getCustomer();
-        $balance = $customer instanceof Operand ? $this->paymentManager->balance($customer) : null;
 
         if ('paid' === $step) {
             if (!$this->canReceivePayments()) {
@@ -545,7 +549,9 @@ final class OrderController extends AbstractController
 
         $this->event(Events::ORDER_CLOSED, new GenericEvent($order));
 
-        return $this->redirectToReferrer();
+        $this->addFlash('success', \sprintf('Заказ №%s закрыт', $order->getId()));
+
+        return $this->redirectToEasyPath($order, 'show');
     }
 
     /**
