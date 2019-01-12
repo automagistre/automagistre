@@ -4,8 +4,10 @@
     {% set value = item %}
 {% endif %}
 
+{% set referer = field_options.referer is defined ? field_options.referer : true %}
+
 {%- if value is not empty -%}
-    <a href="{{ easyadmin_path(value, 'show', {'referer': true}) }}">
+    <a href="{{ easyadmin_path(value, 'show', {'referer': referer}) }}">
         <i class="fa fa-barcode"></i>
     </a>
 

@@ -473,7 +473,7 @@ easy_admin:
             list:
                 title: 'Запчасти'
                 fields:
-                    - { property: 'name', label: 'Название', template: 'easy_admin/field_part.html.twig', item: true, stock: true }
+                    - { property: 'name', label: 'Название', template: 'easy_admin/field_part.html.twig', item: true, stock: true, referer: false }
                     - { property: 'manufacturer.name', label: 'Производитель' }
                     - { property: 'number', label: 'Номер', template: 'easy_admin/field_part_number.html.twig' }
                     - { property: 'price', label: 'Цена', template: 'easy_admin/field_money.html.twig' }
@@ -490,6 +490,19 @@ easy_admin:
                 fields:
                     - { property: 'manufacturer', label: 'Производитель', type_options: { disabled: true } }
                     - { property: 'number', label: 'Номер', type_options: { disabled: true } }
+        PartCase:
+            class: App\Entity\Landlord\PartCase
+            controller: App\Controller\EasyAdmin\PartCaseController
+            disabled_actions: ['show', 'edit', 'search', 'list']
+            new:
+                title: 'Создать применения запчасти к кузову'
+                fields:
+                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { disabled: true } }
+                    -
+                        property: 'carModel'
+                        label: 'Модель'
+                        type: 'easyadmin_autocomplete'
+                        help: 'Проивзодитель, Модель, Год, Поколение, Комплектация, Лошадинные силы'
 
         Motion:
             class: App\Entity\Tenant\Motion

@@ -125,6 +125,39 @@
                     </div>
                 </div>
             </div>
+
+            <div class="field-group">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Применимость к кузовам</h3>
+                    </div>
+
+                    {% if carModels is not empty %}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <tbody>
+                                {% for carModel in carModels %}
+                                    <tr>
+                                        <td>
+                                            <a href="{{ easyadmin_path(carModel, 'show', {'referer': true}) }}">
+                                                {{- carModel -}}
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="box-body">
+                            <p>Записей нет</p>
+                        </div>
+                    {% endif %}
+                    <div class="box-footer">
+                        <a class="btn btn-primary" href="{{ easyadmin_path('PartCase', 'new', [{'referer': true}, entity]|to_query) }}">Добавить кузов</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

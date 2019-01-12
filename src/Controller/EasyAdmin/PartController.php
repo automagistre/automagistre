@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Entity\Landlord\CarModel;
 use App\Entity\Landlord\Manufacturer;
 use App\Entity\Landlord\Part;
+use App\Entity\Landlord\PartCase;
 use App\Entity\Landlord\Stockpile;
 use App\Entity\Tenant\Motion;
 use App\Entity\Tenant\MotionManual;
@@ -272,6 +274,13 @@ final class PartController extends AbstractController
             }, $this->reservationManager->orders($entity));
             $parameters['reserved'] = $this->reservationManager->reserved($entity);
             $parameters['crosses'] = $this->partManager->getCrosses($entity);
+            $parameters['carModels'] = $this->registry->repository(CarModel::class)
+                ->createQueryBuilder('carModel')
+                ->join(PartCase::class, 'partCase', Join::WITH, 'carModel = partCase.carModel')
+                ->where('partCase.part = :part')
+                ->setParameter('part', $entity)
+                ->getQuery()
+                ->getResult();
         }
 
         return parent::renderTemplate($actionName, $templatePath, $parameters);
