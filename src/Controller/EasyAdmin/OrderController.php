@@ -212,9 +212,15 @@ final class OrderController extends AbstractController
 
     public function paymentAction(): Response
     {
+        $request = $this->request;
+
         $order = $this->getEntity(Order::class);
         if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order is required');
+        }
+
+        if (!$this->canReceivePayments()) {
+            return $this->redirectToEasyPath('Wallet', 'new', ['referer' => $request->getUri()]);
         }
 
         $form = $this->createPaymentForm($order)
@@ -449,6 +455,10 @@ final class OrderController extends AbstractController
         $balance = $customer instanceof Operand ? $this->paymentManager->balance($customer) : null;
 
         if ('paid' === $step) {
+            if (!$this->canReceivePayments()) {
+                return $this->redirectToEasyPath('Wallet', 'new', ['referer' => $request->getUri()]);
+            }
+
             $form = $this->createPaymentForm($order)
                 ->handleRequest($request);
 
@@ -803,5 +813,18 @@ final class OrderController extends AbstractController
                 $this->paymentManager->createPayment($wallet, $model->description, $money);
             }
         });
+    }
+
+    private function canReceivePayments(): bool
+    {
+        $wallets = $this->registry->repository(Wallet::class)->findBy(['useInOrder' => true]);
+        if ([] === $wallets) {
+            $this->addFlash('error', 'У Вас нет счетов помеченных как используемые в заказах');
+            $this->addFlash('info', 'Для того чтобы принимать платежи создайте счет');
+
+            return false;
+        }
+
+        return true;
     }
 }
