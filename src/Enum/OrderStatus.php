@@ -31,6 +31,7 @@ final class OrderStatus extends Enum
     private const READY = 9;
     private const CLOSED = 10;
     private const SELECTION = 11;
+    private const PAYMENT_WAITING = 12;
 
     /**
      * @var array
@@ -47,6 +48,7 @@ final class OrderStatus extends Enum
         self::READY => 'primary',
         self::CLOSED => 'default',
         self::SELECTION => 'danger',
+        self::PAYMENT_WAITING => 'primary',
     ];
 
     /**
@@ -64,6 +66,7 @@ final class OrderStatus extends Enum
         self::READY => 'Ожидает выдачи',
         self::CLOSED => 'Закрыт',
         self::SELECTION => 'Подбор запчастей',
+        self::PAYMENT_WAITING => 'Ожидает Оплаты',
     ];
 
     public function isEditable(): bool
