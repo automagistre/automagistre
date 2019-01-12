@@ -47,7 +47,7 @@ final class Tenant extends Enum
         self::SANDBOX => [],
         self::MSK => [
             'name' => 'ООО "Автомагистр"',
-            'address' => 'г.Москва, ул.Люблинская, д.31/1',
+            'address' => 'г. Москва, ул. Люблинская, д. 31/1',
             'telephones' => [
                 '+7 (495) 984-81-82',
                 '+7 (985) 929-40-87',
