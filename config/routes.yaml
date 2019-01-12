@@ -3,6 +3,11 @@ _admin:
     condition: "request.getHost() matches '/%admin_host_pattern%/'"
     name_prefix: admin_
 
+_roadrunner:
+    resource: '../src/RoadRunner/Controller'
+    type: annotation
+
+# MUST BE LAST
 _easy_admin:
     resource: '@EasyAdminBundle/Controller/AdminController.php'
     type: annotation

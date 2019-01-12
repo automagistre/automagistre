@@ -11,6 +11,7 @@ use App\RoadRunner\SymfonyClient;
 use Spiral\Debug as SpiralDebug;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\Dotenv\Dotenv;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 require \dirname(__DIR__).'/vendor/autoload.php';
@@ -52,13 +53,17 @@ $kernel->boot();
 $client = new SymfonyClient();
 
 while ($request = $client->acceptRequest()) {
-    $request->overrideGlobals();
-
     try {
+        $request->overrideGlobals();
         $response = $kernel->handle($request);
         $client->respond($response);
         $kernel->terminate($request, $response);
     } catch (\Throwable $e) {
-        $client->error((string) $e);
+        $kernel->getContainer()->get('sentry.client')->captureException($e);
+
+        $referer = $request->query->get('referer') ?? $request->headers->get('referer');
+        $client->respond(new RedirectResponse('/_rr_error?referer='.\urlencode($referer)));
+
+        exit(1);
     }
 }
