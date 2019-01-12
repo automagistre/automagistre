@@ -31,6 +31,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use LogicException;
 use Money\Currency;
 use Money\Money;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -640,10 +641,11 @@ final class OrderController extends AbstractController
         $sortDirection = null,
         $dqlFilter = null
     ): QueryBuilder {
-        $qb = $this->em->getRepository(Order::class)
-            ->createQueryBuilder('orders')
-            ->leftJoin('orders.customer', 'customer')
-            ->leftJoin('orders.car', 'car')
+        $qb = $this->registry->repository(Car::class)
+            ->createQueryBuilder('car')
+            ->select('car.uuid AS car_uuid')
+            ->addSelect('customer.uuid AS operand_uuid')
+            ->leftJoin('car.owner', 'customer')
             ->leftJoin('car.carModel', 'carModel')
             ->leftJoin('carModel.manufacturer', 'manufacturer')
             ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = customer.id AND customer INSTANCE OF '.Person::class)
@@ -660,6 +662,7 @@ final class OrderController extends AbstractController
                 $qb->expr()->like('car.gosnomer', $key),
                 $qb->expr()->like('carModel.name', $key),
                 $qb->expr()->like('carModel.localizedName', $key),
+                $qb->expr()->like('carModel.caseName', $key),
                 $qb->expr()->like('manufacturer.name', $key),
                 $qb->expr()->like('manufacturer.localizedName', $key),
                 $qb->expr()->like('organization.name', $key)
@@ -668,16 +671,28 @@ final class OrderController extends AbstractController
             $qb->setParameter($key, '%'.$item.'%');
         }
 
-        // EAGER Loading
-        $qb
-            ->addSelect('customer', 'car', 'carModel', 'manufacturer', 'suspends')
-            ->leftJoin('orders.suspends', 'suspends');
+        $cars = [];
+        $customers = [];
+        foreach ($qb->getQuery()->getArrayResult() as $item) {
+            ['car_uuid' => $car, 'operand_uuid' => $customer] = $item;
 
-        $qb
-            ->orderBy('orders.closedAt', 'ASC')
-            ->addOrderBy('orders.id', 'DESC');
+            if ($car instanceof UuidInterface) {
+                $cars[] = $car->getBytes();
+            }
 
-        return $qb;
+            if ($customer instanceof UuidInterface) {
+                $customers[] = $customer->getBytes();
+            }
+        }
+
+        return $this->registry->repository(Order::class)
+            ->createQueryBuilder('entity')
+            ->where('entity.car.uuid IN (:car)')
+            ->orWhere('entity.customer.uuid IN (:customer)')
+            ->setParameter('car', $cars)
+            ->setParameter('customer', $customers)
+            ->orderBy('entity.closedAt', 'ASC')
+            ->addOrderBy('entity.id', 'DESC');
     }
 
     /**
@@ -708,9 +723,7 @@ final class OrderController extends AbstractController
             }
         }
 
-        $this->addFlash('warning', 'В данный момент поиск возможен только по номеру заказа');
-
-        return $this->redirectToReferrer();
+        return parent::searchAction();
     }
 
     private function createPaymentForm(Order $order): FormInterface
