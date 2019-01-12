@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+\define('RR_WORKER', true);
+
 \ini_set('display_errors', 'stderr');
 
 use App\Kernel;
@@ -20,20 +22,20 @@ if (\class_exists(Dotenv::class) && \file_exists($env = \dirname(__DIR__).'/.env
 if ($debug = \filter_var(\getenv('APP_DEBUG'), FILTER_VALIDATE_BOOLEAN)) {
     \umask(0000);
 
-    function sdump($var)
-    {
-        static $dumper = null;
-        if (null === $dumper) {
-            $dumper = new SpiralDebug\Dumper();
-            $dumper->setRenderer(SpiralDebug\Dumper::ERROR_LOG, new SpiralDebug\Renderer\ConsoleRenderer());
-        }
+    Debug::enable();
+}
 
-        $dumper->dump($var, SpiralDebug\Dumper::ERROR_LOG);
-
-        return $var;
+function sdump($var)
+{
+    static $dumper = null;
+    if (null === $dumper) {
+        $dumper = new SpiralDebug\Dumper();
+        $dumper->setRenderer(SpiralDebug\Dumper::ERROR_LOG, new SpiralDebug\Renderer\ConsoleRenderer());
     }
 
-    Debug::enable();
+    $dumper->dump($var, SpiralDebug\Dumper::ERROR_LOG);
+
+    return $var;
 }
 
 if ($trustedProxies = $_SERVER['TRUSTED_PROXIES'] ?? $_ENV['TRUSTED_PROXIES'] ?? false) {
@@ -50,6 +52,8 @@ $kernel->boot();
 $client = new SymfonyClient();
 
 while ($request = $client->acceptRequest()) {
+    $request->overrideGlobals();
+
     try {
         $response = $kernel->handle($request);
         $client->respond($response);
