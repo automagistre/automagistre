@@ -589,14 +589,14 @@ final class OrderController extends AbstractController
 
         $customer = $this->getEntity(Operand::class);
         if ($customer instanceof Operand) {
-            $qb->andWhere('entity.customer = :customer')
-                ->setParameter('customer', $customer);
+            $qb->andWhere('entity.customer.uuid = :customer')
+                ->setParameter('customer', $customer->uuid(), 'uuid_binary');
         }
 
         $car = $this->getEntity(Car::class);
         if ($car instanceof Car) {
-            $qb->andWhere('entity.car = :car')
-                ->setParameter('car', $car);
+            $qb->andWhere('entity.car.uuid = :car')
+                ->setParameter('car', $car->uuid(), 'uuid_binary');
         }
 
         if (null === $customer && null === $car) {
