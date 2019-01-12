@@ -473,7 +473,7 @@ easy_admin:
             list:
                 title: 'Запчасти'
                 fields:
-                    - { property: 'name', label: 'Название', template: 'easy_admin/field_show.html.twig' }
+                    - { property: 'name', label: 'Название', template: 'easy_admin/field_part.html.twig', item: true, stock: true }
                     - { property: 'manufacturer.name', label: 'Производитель' }
                     - { property: 'number', label: 'Номер', template: 'easy_admin/field_part_number.html.twig' }
                     - { property: 'price', label: 'Цена', template: 'easy_admin/field_money.html.twig' }

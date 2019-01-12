@@ -1,5 +1,9 @@
 {# @var value \App\Entity\Part #}
 
+{% if (field_options.item)|default(false) %}
+    {% set value = item %}
+{% endif %}
+
 {%- if value is not empty -%}
     <a href="{{ easyadmin_path(value, 'show', {'referer': true}) }}">
         <i class="fa fa-barcode"></i>
