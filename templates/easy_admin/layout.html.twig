@@ -38,6 +38,24 @@
     {{ layout_balance() }}
 {% endblock %}
 
+{% block user_menu_dropdown %}
+    {% if is_granted('ROLE_SUPER_ADMIN') %}
+        {% set uri = app.request.uri %}
+        {% if'.local' in app.request.host %}
+            {% set uri = uri|replace({'http': 'https', '.local': '.ru'}) %}
+            {% set label = 'На бой' %}
+        {% else %}
+            {% set uri = uri|replace({'https': 'http', '.ru': '.local'}) %}
+            {% set label = 'На локалку' %}
+        {% endif %}
+        <li>
+            <a href="{{ uri }}"><i class="fa fa-link"></i> {{ label }}</a>
+        </li>
+    {% endif %}
+
+    {{ parent() }}
+{% endblock %}
+
 {% block wrapper %}
     {{ parent() }}
 
@@ -61,7 +79,7 @@
           tr.addClass('warning');
 
           $([document.documentElement, document.body]).animate({
-              scrollTop: tr.offset().top
+            scrollTop: tr.offset().top,
           }, 500);
         }
       });
