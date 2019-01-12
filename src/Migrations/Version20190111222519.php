@@ -19,7 +19,7 @@ final class Version20190111222519 extends AbstractMigration
 
         $this->skipIf('landlord' !== $this->connection->getDatabase(), 'Landlord only');
 
-        $this->addSql('CREATE TABLE stockpile (id INT AUTO_INCREMENT NOT NULL, part_id INT DEFAULT NULL, tenant SMALLINT NOT NULL COMMENT \'(DC2Type:tenant)\', quantity INT NOT NULL, INDEX IDX_C2E8923F4CE34BEC (part_id), INDEX SEARCH_IDX (part_id, tenant, quantity), UNIQUE INDEX PART_TENANT_UNIQUE_IDX (part_id, tenant), PRIMARY KEY(id)) DEFAULT CHARACTER SET UTF8 COLLATE UTF8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE stockpile (id INT AUTO_INCREMENT NOT NULL, part_id INT DEFAULT NULL, tenant SMALLINT NOT NULL COMMENT \'(DC2Type:tenant_enum)\', quantity INT NOT NULL, INDEX IDX_C2E8923F4CE34BEC (part_id), INDEX SEARCH_IDX (part_id, tenant, quantity), UNIQUE INDEX PART_TENANT_UNIQUE_IDX (part_id, tenant), PRIMARY KEY(id)) DEFAULT CHARACTER SET UTF8 COLLATE UTF8_unicode_ci ENGINE = InnoDB');
         $this->addSql('ALTER TABLE stockpile ADD CONSTRAINT FK_C2E8923F4CE34BEC FOREIGN KEY (part_id) REFERENCES part (id)');
     }
 
