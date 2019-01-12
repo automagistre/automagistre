@@ -724,17 +724,8 @@ final class OrderController extends AbstractController
             'label' => false,
             'constraints' => [
                 new Assert\Callback(function (\stdClass $model, ExecutionContextInterface $context): void {
-                    if ([] === $model->wallets ?? []) {
-                        $context
-                            ->buildViolation('Это поле обязательно, создайте счёт')
-                            ->addViolation();
-
-                        return;
-                    }
-
                     /** @var Money|null $money */
                     $money = null;
-
                     foreach ($model->wallets as ['payment' => $payment]) {
                         $money = null === $money ? $payment : $money->add($payment);
                     }
