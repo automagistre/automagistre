@@ -106,11 +106,11 @@ final class PartManager
     /**
      * @return Part[]
      */
-    public function getCrosses(Part $part): ?array
+    public function getCrosses(Part $part): array
     {
         $cross = $this->findCross($part);
         if (!$cross instanceof PartCross) {
-            return null;
+            return [];
         }
 
         return $cross->getParts();
