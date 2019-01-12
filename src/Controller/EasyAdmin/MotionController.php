@@ -37,7 +37,7 @@ final class MotionController extends AbstractController
         $part = $this->getEntity(Part::class);
         if ($part instanceof Part) {
             $qb->andWhere('entity.part.uuid = :part')
-                ->setParameter('part', $part->uuid(), 'binary_uuid');
+                ->setParameter('part', $part->uuid(), 'uuid_binary');
         }
 
         return $qb;
