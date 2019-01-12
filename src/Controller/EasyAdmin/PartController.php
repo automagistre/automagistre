@@ -366,11 +366,17 @@ final class PartController extends AbstractController
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
-        $data = \array_map(function (Part $entity) {
+        $normalizer = function (Part $entity, bool $analog = false) {
+            $format = '%s - %s (%s) (Склад: %s) | %s';
+
+            if ($analog) {
+                $format = ' [АНАЛОГ] '.$format;
+            }
+
             return [
                 'id' => $entity->getId(),
                 'text' => \sprintf(
-                    '%s - %s (%s) (Склад: %s) | %s',
+                    $format,
                     $entity->getNumber(),
                     $entity->getManufacturer()->getName(),
                     $entity->getName(),
@@ -378,7 +384,27 @@ final class PartController extends AbstractController
                     $this->formatter->format($entity->getPrice())
                 ),
             ];
-        }, (array) $paginator->getCurrentPageResults());
+        };
+
+        $data = [];
+        if (3 >= $paginator->getNbResults()) {
+            foreach ($paginator->getCurrentPageResults() as $part) {
+                /* @var $part Part */
+                $data[] = $normalizer($part);
+
+                foreach ($this->partManager->getCrosses($part) as $cross) {
+                    if ($cross->getId() === $part->getId()) {
+                        continue;
+                    }
+
+                    if (0 < $this->partManager->inStock($cross)) {
+                        $data[] = $normalizer($cross, true);
+                    }
+                }
+            }
+        } else {
+            $data = \array_map($normalizer, (array) $paginator->getCurrentPageResults());
+        }
 
         return $this->json(['results' => $data]);
     }
