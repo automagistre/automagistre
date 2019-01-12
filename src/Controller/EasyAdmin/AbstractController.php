@@ -140,8 +140,11 @@ abstract class AbstractController extends AdminController
         return $this->phoneNumberUtil->format($telephone, $format);
     }
 
+    /**
+     * @param object|string $entity
+     */
     protected function redirectToEasyPath(
-        object $entity,
+        $entity,
         string $action,
         array $parameters = [],
         int $status = 302
