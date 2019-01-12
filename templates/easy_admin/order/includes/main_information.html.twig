@@ -93,6 +93,8 @@
                                     {% set tel = customer.telephone|phone_number_format %}
                                     (<a href="tel:{{ tel }}">{{ tel }}</a>)
                                 {% endif %}
+                            {% else %}
+                                {% include '@EasyAdmin/default/label_null.html.twig' %}
                             {% endif -%}
                         </div>
                     </div>
@@ -115,7 +117,7 @@
 
                                 <span class="label label-info" title="VIN">{{ car.vin }}</span>
                             {% else %}
-                                -
+                                {% include '@EasyAdmin/default/label_null.html.twig' %}
                             {%- endif -%}
                         </div>
                     </div>
@@ -128,7 +130,11 @@
 
                     <div class="col-sm-10">
                         <div class="form-control">
-                            {{- order.mileage|number_format -}}
+                            {% if order.mileage is not empty %}
+                                {{- order.mileage|number_format -}}
+                            {% else %}
+                                {% include '@EasyAdmin/default/label_null.html.twig' %}
+                            {% endif %}
                         </div>
                     </div>
                 </div>
