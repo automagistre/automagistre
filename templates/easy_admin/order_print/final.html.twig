@@ -4,6 +4,8 @@
 {# @var customer \App\Entity\Operand #}
 
 {% block content %}
+    {% set requisites = state.tenant.getRequisites() %}
+
     <div class="container" id="content">
         <header class="row">
             <div class="logo col-sm-6">
@@ -11,12 +13,13 @@
             </div>
             <div class="main-info col-sm-6 row">
                 <ul class="list-unstyled contacts col-sm-5">
-                    <li>+7 (495) 984-81-82</li>
-                    <li>+7 (985) 929-40-87</li>
+                    {% for telephone in requisites.telephones %}
+                        <li>{{ telephone }}</li>
+                    {% endfor %}
                 </ul>
                 <ul class="list-unstyled contacts col-sm-7">
                     <li>www.automagistre.ru</li>
-                    <li>Москва, Остаповский проезд, 17</li>
+                    <li>{{ requisites.address }}</li>
                 </ul>
             </div>
         </header>
@@ -63,31 +66,33 @@
                     <tbody>
                     <tr>
                         <td><strong>исполнитель:</strong></td>
-                        <td class="name">ООО "Автомагистр"</td>
+                        <td class="name">{{ requisites.name }}</td>
                     </tr>
                     <tr>
                         <td class="uppercase">огрн:</td>
-                        <td>5137746189060</td>
+                        <td>{{ requisites.ogrn }}</td>
                     </tr>
                     <tr>
                         <td class="uppercase">ИНН:</td>
-                        <td>7725812690</td>
+                        <td>{{ requisites.inn }}</td>
                     </tr>
-                    <tr>
-                        <td class="uppercase">КПП:</td>
-                        <td class="uppercase">772501001</td>
-                    </tr>
+                    {% if requisites.kpp is defined %}
+                        <tr>
+                            <td class="uppercase">КПП:</td>
+                            <td class="uppercase">{{ requisites.kpp }}</td>
+                        </tr>
+                    {% endif %}
                     <tr>
                         <td class="uppercase">Р/С:</td>
-                        <td class="uppercase">40702810202000000371</td>
+                        <td class="uppercase">{{ requisites.rs }}</td>
                     </tr>
                     <tr>
                         <td class="uppercase">К/С:</td>
-                        <td>30101810800000000427</td>
+                        <td>{{ requisites.ks }}</td>
                     </tr>
                     <tr>
                         <td class="uppercase">БИК:</td>
-                        <td>044583427</td>
+                        <td>{{ requisites.bik }}</td>
                     </tr>
                     </tbody>
                 </table>
