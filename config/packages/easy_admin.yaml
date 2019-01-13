@@ -257,6 +257,7 @@ easy_admin:
         Person:
             class: App\Entity\Landlord\Person
             controller: App\Controller\EasyAdmin\PersonController
+            disabled_actions: ['delete']
             search:
                 fields: ['firstname', 'lastname']
             templates:
@@ -309,6 +310,7 @@ easy_admin:
         Organization:
             class: App\Entity\Landlord\Organization
             controller: App\Controller\EasyAdmin\OrganizationController
+            disabled_actions: ['delete']
             templates:
                 show: 'easy_admin/organization/show.html.twig'
             list:
