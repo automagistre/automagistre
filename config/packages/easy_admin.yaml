@@ -461,6 +461,7 @@ easy_admin:
         Part:
             class: App\Entity\Landlord\Part
             controller: App\Controller\EasyAdmin\PartController
+            disabled_actions: ['delete']
             label: 'Запчасти'
             templates:
                 new: 'easy_admin/part/new.html.twig'
@@ -526,6 +527,7 @@ easy_admin:
         Income:
             class: App\Entity\Tenant\Income
             controller: App\Controller\EasyAdmin\IncomeController
+            disabled_actions: ['delete']
             templates:
                 show: 'easy_admin/income/show.html.twig'
             list:
@@ -571,7 +573,7 @@ easy_admin:
 
         Manufacturer:
             class: App\Entity\Landlord\Manufacturer
-            disabled_actions: ['show']
+            disabled_actions: ['delete', 'show']
             label: 'Производитель'
             search:
                 fields: ['name']
