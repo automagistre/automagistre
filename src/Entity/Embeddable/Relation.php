@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity\Embeddable;
 
-use App\Doctrine\ORM\Mapping\Traits\Uuid;
 use LogicException;
 use Ramsey\Uuid\UuidInterface;
 
