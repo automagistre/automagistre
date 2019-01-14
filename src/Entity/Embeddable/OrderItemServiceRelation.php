@@ -28,6 +28,13 @@ final class OrderItemServiceRelation extends Relation
     protected $uuid;
 
     /**
+     * @var int|null
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $id;
+
+    /**
      * @var Tenant|null
      *
      * @ORM\Column(type="tenant_enum", nullable=true)
@@ -37,6 +44,10 @@ final class OrderItemServiceRelation extends Relation
     public function __construct(OrderItemService $entity = null, Tenant $tenant = null)
     {
         parent::__construct($entity);
+
+        if (null !== $entity) {
+            $this->id = $entity->getId();
+        }
 
         $this->tenant = $tenant;
     }

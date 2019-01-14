@@ -26,9 +26,20 @@ final class CarRelation extends Relation
      */
     protected $uuid;
 
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $id;
+
     public function __construct(Car $entity = null)
     {
         parent::__construct($entity);
+
+        if (null !== $entity) {
+            $this->id = $entity->getId();
+        }
     }
 
     public static function entityClass(): string

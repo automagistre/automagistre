@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "92a56f9b843d72546a1ea264699cf5a1",
+    "content-hash": "7727671396a9bbb6a51bb3ab1afe1634",
     "packages": [
         {
             "name": "beberlei/DoctrineExtensions",
@@ -2543,6 +2543,55 @@
                 "psr-3"
             ],
             "time": "2018-11-05T09:00:11+00:00"
+        },
+        {
+            "name": "ocramius/doctrine-batch-utils",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Ocramius/DoctrineBatchUtils.git",
+                "reference": "b9489288c8c544f8c948c284aea7ca63a4298b5b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Ocramius/DoctrineBatchUtils/zipball/b9489288c8c544f8c948c284aea7ca63a4298b5b",
+                "reference": "b9489288c8c544f8c948c284aea7ca63a4298b5b",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/common": "^2.8.1",
+                "doctrine/orm": "^2.6.0",
+                "php": "^7.1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.0.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DoctrineBatchUtils\\": "src/DoctrineBatchUtils"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marco Pivetta",
+                    "email": "ocramius@gmail.com",
+                    "homepage": "http://ocramius.github.io/"
+                }
+            ],
+            "description": "A set of utilities to operate with Doctrine ORM's batch processing functionality",
+            "homepage": "https://github.com/Ocramius/DoctrineBatchUtils",
+            "keywords": [
+                "batch processing",
+                "doctrine",
+                "doctrine2",
+                "orm"
+            ],
+            "time": "2018-02-05T11:40:33+00:00"
         },
         {
             "name": "ocramius/package-versions",
