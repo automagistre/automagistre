@@ -6,6 +6,7 @@ namespace App\Entity\Embeddable;
 
 use App\Entity\Landlord\Car;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Embeddable
@@ -17,6 +18,8 @@ final class CarRelation extends Relation
 {
     /**
      * @var int|null
+     *
+     * @Assert\NotBlank
      *
      * @ORM\Column(type="integer", nullable=true)
      */

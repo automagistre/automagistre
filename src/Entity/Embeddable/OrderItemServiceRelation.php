@@ -7,6 +7,7 @@ namespace App\Entity\Embeddable;
 use App\Entity\Tenant\OrderItemService;
 use App\Enum\Tenant;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Embeddable
@@ -18,6 +19,8 @@ final class OrderItemServiceRelation extends Relation
 {
     /**
      * @var int|null
+     *
+     * @Assert\NotBlank
      *
      * @ORM\Column(type="integer", nullable=true)
      */
