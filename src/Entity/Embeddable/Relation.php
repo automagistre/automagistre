@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace App\Entity\Embeddable;
 
 use LogicException;
-use Ramsey\Uuid\UuidInterface;
 
 /**
- * @property UuidInterface|null $uuid
+ * @property int|null $id
  *
  * @author Konstantin Grachev <me@grachevko.ru>
  */
@@ -22,30 +21,22 @@ abstract class Relation
     public function __construct(object $entity = null)
     {
         $this->entity = $entity;
-
-        if (null !== $entity) {
-            if (!\method_exists($entity, 'uuid')) {
-                throw new LogicException(\sprintf('Method "%s::uuid()" not exist', \get_class($entity)));
-            }
-
-            $this->uuid = $entity->uuid();
-        }
     }
 
     abstract public static function entityClass(): string;
 
     public function isEmpty(): bool
     {
-        return null === $this->uuid;
+        return null === $this->id;
     }
 
-    public function uuid(): UuidInterface
+    public function id(): int
     {
-        if (null === $this->uuid) {
-            throw new LogicException('Uuid is null, are you use isEmpty() first?');
+        if (null === $this->id) {
+            throw new LogicException('ID is null, are you use isEmpty() first?');
         }
 
-        return $this->uuid;
+        return $this->id;
     }
 
     public function entity(): object

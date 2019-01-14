@@ -31,7 +31,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use LogicException;
 use Money\Currency;
 use Money\Money;
-use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -518,7 +517,7 @@ final class OrderController extends AbstractController
             foreach ($order->getItems(OrderItemService::class) as $item) {
                 /** @var OrderItemService $item */
                 $worker = $item->getWorker();
-                $employee = $em->getRepository(Employee::class)->findOneBy(['person.uuid' => $worker->uuid()]);
+                $employee = $em->getRepository(Employee::class)->findOneBy(['person.id' => $worker->getId()]);
 
                 if (!$employee instanceof Employee) {
                     $this->addFlash('warning', \sprintf(
@@ -606,14 +605,14 @@ final class OrderController extends AbstractController
 
         $customer = $this->getEntity(Operand::class);
         if ($customer instanceof Operand) {
-            $qb->andWhere('entity.customer.uuid = :customer')
-                ->setParameter('customer', $customer->uuid(), 'uuid_binary');
+            $qb->andWhere('entity.customer.id = :customer')
+                ->setParameter('customer', $customer->getId());
         }
 
         $car = $this->getEntity(Car::class);
         if ($car instanceof Car) {
-            $qb->andWhere('entity.car.uuid = :car')
-                ->setParameter('car', $car->uuid(), 'uuid_binary');
+            $qb->andWhere('entity.car.id = :car')
+                ->setParameter('car', $car->getId());
         }
 
         if (null === $customer && null === $car) {
@@ -649,8 +648,8 @@ final class OrderController extends AbstractController
     ): QueryBuilder {
         $qb = $this->registry->repository(Car::class)
             ->createQueryBuilder('car')
-            ->select('car.uuid AS car_uuid')
-            ->addSelect('customer.uuid AS operand_uuid')
+            ->select('car.id AS car_id')
+            ->addSelect('customer.id AS operand_id')
             ->leftJoin('car.owner', 'customer')
             ->leftJoin('car.carModel', 'carModel')
             ->leftJoin('carModel.manufacturer', 'manufacturer')
@@ -680,21 +679,15 @@ final class OrderController extends AbstractController
         $cars = [];
         $customers = [];
         foreach ($qb->getQuery()->getArrayResult() as $item) {
-            ['car_uuid' => $car, 'operand_uuid' => $customer] = $item;
-
-            if ($car instanceof UuidInterface) {
-                $cars[] = $car->getBytes();
-            }
-
-            if ($customer instanceof UuidInterface) {
-                $customers[] = $customer->getBytes();
-            }
+            ['car_id' => $carId, 'operand_id' => $customerId] = $item;
+            $cars[] = $carId;
+            $customers[] = $customerId;
         }
 
         return $this->registry->repository(Order::class)
             ->createQueryBuilder('entity')
-            ->where('entity.car.uuid IN (:car)')
-            ->orWhere('entity.customer.uuid IN (:customer)')
+            ->where('entity.car.id IN (:car)')
+            ->orWhere('entity.customer.id IN (:customer)')
             ->setParameter('car', $cars)
             ->setParameter('customer', $customers)
             ->orderBy('entity.closedAt', 'ASC')

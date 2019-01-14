@@ -6,7 +6,6 @@ namespace App\Entity\Landlord;
 
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
-use App\Doctrine\ORM\Mapping\Traits\Uuid;
 use App\Enum\Carcase;
 use App\Enum\CarTransmission;
 use App\Enum\CarWheelDrive;
@@ -27,7 +26,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Car
 {
     use Identity;
-    use Uuid;
     use CreatedAt;
 
     /**
@@ -131,7 +129,6 @@ class Car
 
     public function __construct()
     {
-        $this->generateUuid();
         $this->engineType = EngineType::unknown();
         $this->wheelDrive = CarWheelDrive::unknown();
         $this->transmission = CarTransmission::unknown();

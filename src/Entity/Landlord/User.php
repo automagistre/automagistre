@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity\Landlord;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
-use App\Doctrine\ORM\Mapping\Traits\Uuid;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
@@ -27,7 +26,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class User implements UserInterface, EquatableInterface, Serializable
 {
     use Identity;
-    use Uuid;
 
     public const PASSWORD_CREDENTIALS_TYPE = 'password';
 
@@ -65,7 +63,6 @@ class User implements UserInterface, EquatableInterface, Serializable
 
     public function __construct(Person $person = null)
     {
-        $this->generateUuid();
         $this->credentials = new ArrayCollection();
         $this->person = $person;
     }

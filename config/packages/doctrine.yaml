@@ -2,13 +2,11 @@ doctrine:
     dbal:
         types:
             phone_number: \Misd\PhoneNumberBundle\Doctrine\DBAL\Types\PhoneNumberType
-            uuid_binary:  \Ramsey\Uuid\Doctrine\UuidBinaryType
         default_connection: landlord
         connections:
             landlord:
                 mapping_types:
                     enum: string
-                    uuid_binary: binary
                 charset:  UTF8
                 server_version: mariadb-10.3.10
                 wrapper_class: 'Facile\DoctrineMySQLComeBack\Doctrine\DBAL\Connection'
@@ -23,7 +21,6 @@ doctrine:
             tenant:
                 mapping_types:
                     enum: string
-                    uuid_binary: binary
                 charset:  UTF8
                 server_version: mariadb-10.3.10
                 wrapper_class: 'Facile\DoctrineMySQLComeBack\Doctrine\DBAL\Connection'

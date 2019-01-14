@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Command\Part;
 
 use App\Doctrine\Registry;
-use App\Entity\Landlord\Part;
 use App\Entity\Tenant\Motion;
 use App\Manager\StockpileManager;
 use App\State;
@@ -53,8 +52,8 @@ final class PartStockActualizationCommand extends Command
         $tenant = $this->state->tenant();
 
         $values = $this->registry->repository(Motion::class)->createQueryBuilder('entity')
-            ->select('entity.part.uuid AS uuid, SUM(entity.quantity) AS quantity')
-            ->groupBy('entity.part.uuid')
+            ->select('entity.part.id AS part_id, SUM(entity.quantity) AS quantity')
+            ->groupBy('entity.part.id')
             ->having('SUM(entity.quantity) > 0')
             ->getQuery()
             ->getArrayResult();
@@ -62,16 +61,7 @@ final class PartStockActualizationCommand extends Command
         $count = \count($values);
 
         $values = \array_map(function (array $item) use ($tenant) {
-            $partId = $this->registry->repository(Part::class)->createQueryBuilder('entity')
-                ->select('entity.id')
-                ->where('entity.uuid = :uuid')
-                ->setParameter('uuid', $item['uuid'], 'uuid_binary')
-                ->getQuery()
-                ->useQueryCache(true)
-                ->useResultCache(true)
-                ->getSingleScalarResult();
-
-            return [$partId, $tenant, $item['quantity']];
+            return [$item['part_id'], $tenant, $item['quantity']];
         }, $values);
 
         $this->stockpileManager->actualize($values);

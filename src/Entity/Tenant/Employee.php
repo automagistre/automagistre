@@ -15,7 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity
  *
- * @UniqueEntity(fields={"person.uuid", "firedAt"}, message="Данный человек уже является сотрудником", ignoreNull=false)
+ * @UniqueEntity(fields={"person.id", "firedAt"}, message="Данный человек уже является сотрудником", ignoreNull=false)
  */
 class Employee
 {

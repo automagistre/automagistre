@@ -49,7 +49,7 @@ final class CarController extends AbstractController
             $car = $parameters['entity'];
 
             $parameters['orders'] = $this->registry->repository(Order::class)
-                ->findBy(['car.uuid' => $car->uuid()], ['closedAt' => 'DESC'], 20);
+                ->findBy(['car.id' => $car->getId()], ['closedAt' => 'DESC'], 20);
             $parameters['notes'] = $this->registry->repository(CarNote::class)
                 ->findBy(['car' => $car], ['createdAt' => 'DESC']);
         }

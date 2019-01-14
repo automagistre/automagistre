@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity\Landlord;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
-use App\Doctrine\ORM\Mapping\Traits\Uuid;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -14,7 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
 class Manufacturer
 {
     use Identity;
-    use Uuid;
 
     /**
      * @var string
@@ -39,7 +37,6 @@ class Manufacturer
 
     public function __construct(string $name = '')
     {
-        $this->generateUuid();
         $this->name = $name;
     }
 

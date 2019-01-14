@@ -107,8 +107,8 @@ final class OrderItemServiceController extends OrderItemController
         }
 
         $qb->join('entity.order', 'orders')
-            ->andWhere('orders.car.uuid = :car')
-            ->setParameter('car', $car->uuid(), 'uuid_binary');
+            ->andWhere('orders.car.id = :car')
+            ->setParameter('car', $car->getId());
 
         return $qb;
     }

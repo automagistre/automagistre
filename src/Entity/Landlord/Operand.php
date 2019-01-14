@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity\Landlord;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
-use App\Doctrine\ORM\Mapping\Traits\Uuid;
 use App\Entity\Tenant\OperandTransaction;
 use App\Entity\Transactional;
 use Doctrine\ORM\Mapping as ORM;
@@ -21,7 +20,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 abstract class Operand implements Transactional
 {
     use Identity;
-    use Uuid;
 
     /**
      * @var string
@@ -45,11 +43,6 @@ abstract class Operand implements Transactional
      * @ORM\Column(type="boolean")
      */
     private $seller = false;
-
-    public function __construct()
-    {
-        $this->generateUuid();
-    }
 
     abstract public function __toString(): string;
 

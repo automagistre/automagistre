@@ -155,10 +155,10 @@ final class RecommendationManager
         return $em->createQueryBuilder()
             ->select('entity')
             ->from(CarRecommendation::class, 'entity')
-            ->where('entity.realization.uuid = :realization')
+            ->where('entity.realization.id = :realization')
             ->orderBy('entity.id', 'DESC')
             ->getQuery()
-            ->setParameter('realization', $orderItemService->uuid(), 'uuid_binary')
+            ->setParameter('realization', $orderItemService->getId())
             ->getOneOrNullResult();
     }
 

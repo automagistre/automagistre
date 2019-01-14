@@ -87,7 +87,7 @@ final class TenantRelationListener implements EventSubscriber
             $relationEntityClass = $relation::entityClass();
             $relationEntity = $this->registry->manager($relationEntityClass)
                 ->getRepository($relationEntityClass)
-                ->findOneBy(['uuid' => $relation->uuid()]);
+                ->find($relation->id());
 
             if (null === $relationEntity) {
                 throw new LogicException(

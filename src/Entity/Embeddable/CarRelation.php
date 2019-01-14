@@ -6,8 +6,6 @@ namespace App\Entity\Embeddable;
 
 use App\Entity\Landlord\Car;
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\UuidInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Embeddable
@@ -17,15 +15,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 final class CarRelation extends Relation
 {
-    /**
-     * @var UuidInterface|null
-     *
-     * @Assert\NotBlank
-     *
-     * @ORM\Column(type="uuid_binary", nullable=true)
-     */
-    protected $uuid;
-
     /**
      * @var int|null
      *

@@ -35,11 +35,11 @@ final class PriceManager
         $incomePart = $em->createQueryBuilder()
             ->select('entity')
             ->from(IncomePart::class, 'entity')
-            ->where('entity.part.uuid = :part')
+            ->where('entity.part.id = :part')
             ->orderBy('entity.price.amount', 'DESC')
             ->getQuery()
             ->setMaxResults(1)
-            ->setParameter('part', $part->uuid(), 'uuid_binary')
+            ->setParameter('part', $part->getId())
             ->getOneOrNullResult();
 
         if ($incomePart instanceof IncomePart) {
@@ -53,11 +53,11 @@ final class PriceManager
         $lastOrderItemPart = $em->createQueryBuilder()
             ->select('entity')
             ->from(OrderItemPart::class, 'entity')
-            ->where('entity.part.uuid = :part')
+            ->where('entity.part.id = :part')
             ->orderBy('entity.id', 'DESC')
             ->getQuery()
             ->setMaxResults(1)
-            ->setParameter('part', $part->uuid(), 'uuid_binary')
+            ->setParameter('part', $part->getId())
             ->getOneOrNullResult();
 
         if ($lastOrderItemPart instanceof OrderItemPart) {

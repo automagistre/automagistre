@@ -78,8 +78,8 @@ final class PaymentManager
 
         if ($transactional instanceof Operand) {
             $qb
-                ->where('payment.recipient.uuid = :recipient')
-                ->setParameter('recipient', $transactional->uuid(), 'uuid_binary');
+                ->where('payment.recipient.id = :recipient')
+                ->setParameter('recipient', $transactional->getId());
         } else {
             $qb
                 ->where('payment.recipient = :recipient')
@@ -102,8 +102,8 @@ final class PaymentManager
 
         if ($transactional instanceof Operand) {
             $qb
-                ->where('payment.recipient.uuid = :recipient')
-                ->setParameter('recipient', $transactional->uuid(), 'uuid_binary');
+                ->where('payment.recipient.id = :recipient')
+                ->setParameter('recipient', $transactional->getId());
         } else {
             $qb
                 ->where('payment.recipient = :recipient')

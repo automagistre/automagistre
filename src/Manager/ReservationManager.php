@@ -129,9 +129,9 @@ final class ReservationManager
             ->select('SUM(reservation.quantity)')
             ->from(Reservation::class, 'reservation')
             ->join('reservation.orderItemPart', 'order_item_part')
-            ->groupBy('order_item_part.part.uuid')
-            ->where('order_item_part.part.uuid = :part')
-            ->setParameter('part', $part->uuid(), 'uuid_binary');
+            ->groupBy('order_item_part.part.id')
+            ->where('order_item_part.part.id = :part')
+            ->setParameter('part', $part->getId());
 
         if (null !== $orderItemPart) {
             $qb->andWhere('reservation.orderItemPart = :orderItemPart')
@@ -159,9 +159,9 @@ final class ReservationManager
             ->from(Order::class, 'entity')
             ->join(OrderItemPart::class, 'order_item_part', Join::WITH, 'order_item_part.order = entity')
             ->join(Reservation::class, 'reservation', Join::WITH, 'reservation.orderItemPart = order_item_part')
-            ->where('order_item_part.part.uuid = :part')
+            ->where('order_item_part.part.id = :part')
             ->orderBy('entity.id', 'DESC')
-            ->setParameter('part', $part->uuid(), 'uuid_binary')
+            ->setParameter('part', $part->getId())
             ->getQuery()
             ->getResult();
     }

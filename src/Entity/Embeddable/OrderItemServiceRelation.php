@@ -7,8 +7,6 @@ namespace App\Entity\Embeddable;
 use App\Entity\Tenant\OrderItemService;
 use App\Enum\Tenant;
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\UuidInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Embeddable
@@ -18,15 +16,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 final class OrderItemServiceRelation extends Relation
 {
-    /**
-     * @var UuidInterface|null
-     *
-     * @Assert\NotBlank
-     *
-     * @ORM\Column(type="uuid_binary", nullable=true)
-     */
-    protected $uuid;
-
     /**
      * @var int|null
      *

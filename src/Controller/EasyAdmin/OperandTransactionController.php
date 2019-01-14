@@ -101,8 +101,8 @@ final class OperandTransactionController extends AbstractController
 
         $recipient = $this->getEntity(Operand::class);
         if ($recipient instanceof Operand) {
-            $qb->andWhere('entity.recipient.uuid = :recipient')
-                ->setParameter('recipient', $recipient->uuid(), 'uuid_binary');
+            $qb->andWhere('entity.recipient.id = :recipient')
+                ->setParameter('recipient', $recipient->getId());
         }
 
         $qb->orderBy('entity.createdAt', 'DESC')

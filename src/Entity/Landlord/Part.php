@@ -6,7 +6,6 @@ namespace App\Entity\Landlord;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
-use App\Doctrine\ORM\Mapping\Traits\Uuid;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -23,7 +22,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Part
 {
     use Identity;
-    use Uuid;
     use Price;
 
     /**
@@ -88,11 +86,6 @@ class Part
      * @ORM\Column(name="reserved", type="integer", nullable=false)
      */
     private $reserved = 0;
-
-    public function __construct()
-    {
-        $this->generateUuid();
-    }
 
     public function __toString(): string
     {
