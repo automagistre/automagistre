@@ -85,16 +85,16 @@ final class TenantListener implements EventSubscriberInterface
             }
         }
 
-        $tenant = $this->validate($input->getOption('tenant'));
-        if (null === $tenant) {
+        $identifier = $this->validate($input->getOption('tenant'));
+        if (null === $identifier) {
             return;
         }
 
-        if (!Tenant::isValid($tenant)) {
-            throw new InvalidArgumentException(\sprintf('Undefined tenant "%s"', $tenant));
+        if (!Tenant::isValid($identifier)) {
+            throw new InvalidArgumentException(\sprintf('Undefined tenant "%s"', $identifier));
         }
 
-        $this->state->tenant(Tenant::fromIdentifier($tenant));
+        $this->state->tenant(Tenant::fromIdentifier($identifier));
     }
 
     public function onRouterPreGenerate(GenericEvent $event): void

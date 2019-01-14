@@ -7,8 +7,8 @@ namespace App\Command\Part;
 use App\Doctrine\Registry;
 use App\Entity\Landlord\Part;
 use App\Entity\Tenant\Motion;
-use App\Enum\Tenant;
 use App\Manager\StockpileManager;
+use App\State;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -29,12 +29,18 @@ final class PartStockActualizationCommand extends Command
      */
     private $stockpileManager;
 
-    public function __construct(Registry $registry, StockpileManager $stockpileManager)
+    /**
+     * @var State
+     */
+    private $state;
+
+    public function __construct(Registry $registry, StockpileManager $stockpileManager, State $state)
     {
         parent::__construct('part:stock:actualize');
 
         $this->registry = $registry;
         $this->stockpileManager = $stockpileManager;
+        $this->state = $state;
     }
 
     /**
@@ -44,9 +50,7 @@ final class PartStockActualizationCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        /** @var string $tenantIdentifier */
-        $tenantIdentifier = $input->getOption('tenant');
-        $tenant = Tenant::fromIdentifier($tenantIdentifier);
+        $tenant = $this->state->tenant();
 
         $values = $this->registry->repository(Motion::class)->createQueryBuilder('entity')
             ->select('entity.part.uuid AS uuid, SUM(entity.quantity) AS quantity')
