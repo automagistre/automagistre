@@ -125,7 +125,7 @@ class CarModel
         return $this->caseName;
     }
 
-    public function setCaseName(string $caseName): void
+    public function setCaseName(?string $caseName): void
     {
         $this->caseName = $caseName;
     }
