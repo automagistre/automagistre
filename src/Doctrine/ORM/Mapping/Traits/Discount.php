@@ -36,6 +36,11 @@ trait Discount
     public function discount(?Money $discount = null): ?Money
     {
         if (null === $discount) {
+            // Doctrine create nullable embedded
+            if (!\is_numeric($this->discount->getAmount())) {
+                return null;
+            }
+
             return $this->discount;
         }
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Landlord;
 
+use App\Doctrine\ORM\Mapping\Traits\Discount;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
 use Doctrine\ORM\Mapping as ORM;
@@ -23,6 +24,7 @@ class Part
 {
     use Identity;
     use Price;
+    use Discount;
 
     /**
      * @var Manufacturer
