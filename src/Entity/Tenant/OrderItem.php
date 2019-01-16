@@ -11,6 +11,7 @@ use App\Entity\Landlord\User;
 use App\Money\TotalPriceInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Money\Currency;
 use Money\Money;
 
 /**
@@ -107,6 +108,7 @@ abstract class OrderItem
             $price = $price instanceof Money ? $price->add($itemPrice) : $itemPrice;
         }
 
-        return $price;
+        // TODO Remove creation of Money
+        return $price ?? new Money(0, new Currency('RUB'));
     }
 }
