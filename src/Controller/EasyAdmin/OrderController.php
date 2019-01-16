@@ -528,7 +528,7 @@ final class OrderController extends AbstractController
                     continue;
                 }
 
-                $price = $item->getPrice();
+                $price = $item->getTotalPrice(true);
                 if (!$price->isPositive()) {
                     continue;
                 }
