@@ -47,13 +47,13 @@ class OrderItemGroup extends OrderItem
         return $this->name;
     }
 
-    public function getTotalPartPrice(): Money
+    public function getTotalPartPrice(bool $withDiscount = false): Money
     {
-        return $this->getTotalPriceByClass(OrderItemPart::class);
+        return $this->getTotalPriceByClass(OrderItemPart::class, $withDiscount);
     }
 
-    public function getTotalServicePrice(): Money
+    public function getTotalServicePrice(bool $withDiscount = false): Money
     {
-        return $this->getTotalPriceByClass(OrderItemService::class);
+        return $this->getTotalPriceByClass(OrderItemService::class, $withDiscount);
     }
 }

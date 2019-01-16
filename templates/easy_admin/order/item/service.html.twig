@@ -1,4 +1,4 @@
-{# @var item \App\Entity\OrderItemService #}
+{# @var item \App\Entity\Tenant\OrderItemService #}
 
 <td style="{% include 'easy_admin/order/item/padding.html.twig' with {'level': level} %}">
     <i class="fa fa-wrench"></i>
@@ -21,7 +21,7 @@
 <td>{{ item.price|localize_money }}</td>
 
 <td>
-    {{ item.price|localize_money }} / {{ item.totalPartPrice|localize_money }}
+    {{ item.totalPrice(true)|localize_money }} / {{ item.totalPartPrice(true)|localize_money }}
 </td>
 {% if order.editable %}
     <td></td>

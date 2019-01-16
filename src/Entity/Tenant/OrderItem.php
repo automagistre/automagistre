@@ -8,11 +8,9 @@ use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\CreatedByRelation as CreatedBy;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Entity\Landlord\User;
-use App\Money\PriceInterface;
 use App\Money\TotalPriceInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Money\Currency;
 use Money\Money;
 
 /**
@@ -34,7 +32,8 @@ abstract class OrderItem
     /**
      * @var OrderItem[]|ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Tenant\OrderItem", mappedBy="parent", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Tenant\OrderItem", mappedBy="parent", cascade={"persist"},
+     * orphanRemoval=true)
      */
     protected $children;
 
@@ -91,20 +90,21 @@ abstract class OrderItem
         return $this->children->toArray();
     }
 
-    protected function getTotalPriceByClass(string $class, self $item = null): Money
+    protected function getTotalPriceByClass(string $class, bool $withDiscount = false, self $item = null): Money
     {
-        $price = new Money(0, new Currency('RUB'));
+        /** @var Money|null $price */
+        $price = null;
 
-        if ($item instanceof $class) {
-            if ($item instanceof TotalPriceInterface) {
-                $price = $price->add($item->getTotalPrice());
-            } elseif ($item instanceof PriceInterface) {
-                $price = $price->add($item->getPrice());
-            }
+        if ($item instanceof $class && $item instanceof TotalPriceInterface) {
+            $itemPrice = $item->getTotalPrice($withDiscount);
+
+            $price = $price instanceof Money ? $price->add($itemPrice) : $itemPrice;
         }
 
         foreach ($item instanceof self ? $item->getChildren() : $this->children as $child) {
-            $price = $price->add($this->getTotalPriceByClass($class, $child));
+            $itemPrice = $this->getTotalPriceByClass($class, $withDiscount, $child);
+
+            $price = $price instanceof Money ? $price->add($itemPrice) : $itemPrice;
         }
 
         return $price;

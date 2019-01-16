@@ -13,6 +13,7 @@ use App\Entity\Landlord\Operand;
 use App\Entity\Landlord\User;
 use App\Entity\WarrantyInterface;
 use App\Money\PriceInterface;
+use App\Money\TotalPriceInterface;
 use Doctrine\ORM\Mapping as ORM;
 use DomainException;
 use Money\Money;
@@ -20,7 +21,7 @@ use Money\Money;
 /**
  * @ORM\Entity
  */
-class OrderItemService extends OrderItem implements PriceInterface, WarrantyInterface, Discounted
+class OrderItemService extends OrderItem implements PriceInterface, TotalPriceInterface, WarrantyInterface, Discounted
 {
     use Price;
     use Warranty;
@@ -87,8 +88,19 @@ class OrderItemService extends OrderItem implements PriceInterface, WarrantyInte
         $this->worker = new OperandRelation($worker);
     }
 
-    public function getTotalPartPrice(): Money
+    public function getTotalPartPrice(bool $withDiscount = false): Money
     {
-        return $this->getTotalPriceByClass(OrderItemPart::class);
+        return $this->getTotalPriceByClass(OrderItemPart::class, $withDiscount);
+    }
+
+    public function getTotalPrice(bool $withDiscount = false): Money
+    {
+        $price = $this->getPrice();
+
+        if ($withDiscount && $this->isDiscounted()) {
+            $price = $price->subtract($this->discount());
+        }
+
+        return $price;
     }
 }

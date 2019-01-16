@@ -11,5 +11,5 @@ use Money\Money;
  */
 interface TotalPriceInterface
 {
-    public function getTotalPrice(): Money;
+    public function getTotalPrice(bool $withDiscount = false): Money;
 }

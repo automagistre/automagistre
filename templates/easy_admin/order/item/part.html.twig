@@ -1,4 +1,4 @@
-{# @var item \App\Entity\OrderItemPart #}
+{# @var item \App\Entity\Tenant\OrderItemPart #}
 
 <td style="{% include 'easy_admin/order/item/padding.html.twig' with {'level': level} %}">
     {% include 'easy_admin/field_part.html.twig' with {'value': item.part} only %}
@@ -23,7 +23,7 @@
 </td>
 
 <td>
-    {{ item.totalPrice|localize_money }}
+    {{ item.totalPrice(true)|localize_money }}
 </td>
 
 {% if order.editable %}

@@ -79,8 +79,14 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
         $this->quantity = $quantity;
     }
 
-    public function getTotalPrice(): Money
+    public function getTotalPrice(bool $withDiscount = false): Money
     {
-        return $this->getPrice()->multiply($this->getQuantity() / 100);
+        $price = $this->getPrice()->multiply($this->getQuantity() / 100);
+
+        if ($withDiscount && $this->isDiscounted()) {
+            $price = $price->subtract($this->discount());
+        }
+
+        return $price;
     }
 }

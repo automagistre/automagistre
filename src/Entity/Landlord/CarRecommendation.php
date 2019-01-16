@@ -12,7 +12,6 @@ use App\Entity\Embeddable\OrderItemServiceRelation;
 use App\Entity\Tenant\OrderItemService;
 use App\Enum\Tenant;
 use App\Money\PriceInterface;
-use App\Money\TotalPriceInterface;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -23,7 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  */
-class CarRecommendation implements PriceInterface, TotalPriceInterface
+class CarRecommendation implements PriceInterface
 {
     use Identity;
     use Price;

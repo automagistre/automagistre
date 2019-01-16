@@ -8,14 +8,13 @@ use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\CreatedBy;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
-use App\Money\TotalPriceInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 
 /**
  * @ORM\Entity
  */
-class CarRecommendationPart implements TotalPriceInterface
+class CarRecommendationPart
 {
     use Identity;
     use Price;

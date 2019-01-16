@@ -16,7 +16,6 @@ use App\Entity\Landlord\Operand;
 use App\Entity\Landlord\User;
 use App\Entity\WarrantyInterface;
 use App\Enum\OrderStatus;
-use App\Money\PriceInterface;
 use App\Money\TotalPriceInterface;
 use DateTime;
 use DateTimeImmutable;
@@ -319,19 +318,19 @@ class Order
         $this->status = $status;
     }
 
-    public function getTotalPrice(): Money
+    public function getTotalPrice(bool $withDiscount = false): Money
     {
-        return $this->getTotalPriceByClass(null);
+        return $this->getTotalPriceByClass(null, $withDiscount);
     }
 
-    public function getTotalServicePrice(): Money
+    public function getTotalServicePrice(bool $withDiscount = false): Money
     {
-        return $this->getTotalPriceByClass(OrderItemService::class);
+        return $this->getTotalPriceByClass(OrderItemService::class, $withDiscount);
     }
 
-    public function getTotalPartPrice(): Money
+    public function getTotalPartPrice(bool $withDiscount = false): Money
     {
-        return $this->getTotalPriceByClass(OrderItemPart::class);
+        return $this->getTotalPriceByClass(OrderItemPart::class, $withDiscount);
     }
 
     public function isEditable(): bool
@@ -364,17 +363,9 @@ class Order
     public function getTotalForPayment(Money $balance = null): Money
     {
         $forPayment = (new Money(0, new Currency('RUB')))
-            ->add($this->getTotalPartPrice())
-            ->add($this->getTotalServicePrice())
+            ->add($this->getTotalPartPrice(true))
+            ->add($this->getTotalServicePrice(true))
             ->subtract($this->getTotalPayments());
-
-        if ($this->isPartsDiscounted()) {
-            $forPayment = $forPayment->subtract($this->partsDiscount());
-        }
-
-        if ($this->isServicesDiscounted()) {
-            $forPayment = $forPayment->subtract($this->servicesDiscount());
-        }
 
         if ($balance instanceof Money) {
             $forPayment = $forPayment->add($balance->multiply(-1));
@@ -452,7 +443,7 @@ class Order
         return $discount;
     }
 
-    private function getTotalPriceByClass(?string $class): Money
+    private function getTotalPriceByClass(?string $class, bool $withDiscount = false): Money
     {
         $price = new Money(0, new Currency('RUB'));
 
@@ -462,9 +453,7 @@ class Order
             }
 
             if ($item instanceof TotalPriceInterface) {
-                $price = $price->add($item->getTotalPrice());
-            } elseif ($item instanceof PriceInterface) {
-                $price = $price->add($item->getPrice());
+                $price = $price->add($item->getTotalPrice($withDiscount));
             } elseif ($item instanceof OrderItemGroup) {
                 continue;
             } else {
