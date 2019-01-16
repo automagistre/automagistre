@@ -476,6 +476,7 @@ easy_admin:
                     - { property: 'number', label: 'Номер', template: 'easy_admin/field_part_number.html.twig' }
                     - { property: 'price', label: 'Цена', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'discount', label: 'Скидка', template: 'easy_admin/field_money.html.twig' }
+                    - { property: 'universal', label: 'Универсальная' }
             list:
                 title: 'Запчасти'
                 fields:
@@ -484,6 +485,7 @@ easy_admin:
                     - { property: 'number', label: 'Номер', template: 'easy_admin/field_part_number.html.twig' }
                     - { property: 'price', label: 'Цена', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'discount', label: 'Скидка', template: 'easy_admin/field_money.html.twig' }
+                    - { property: 'universal', label: 'Универсальная', template: '@EasyAdmin/default/field_boolean.html.twig' }
             form:
                 fields:
                     - { property: 'manufacturer', label: 'Производитель' }
@@ -491,6 +493,7 @@ easy_admin:
                     - { property: 'name', label: 'Название' }
                     - { property: 'price', label: 'Цена', type: App\Form\Type\MoneyType }
                     - { property: 'discount', label: 'Скидка', type: App\Form\Type\MoneyType }
+                    - { property: 'universal', label: 'Универсальная' }
             new:
                 title: 'Создать новую запчасть'
             edit:

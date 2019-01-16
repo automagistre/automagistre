@@ -50,6 +50,9 @@ final class PartCaseFindCommand extends Command
             ->setParameter('cars', \array_keys($cars))
             ->getQuery()
             ->getScalarResult();
+        $universal = $this->getUniversal(\array_map(function (array $item) {
+            return $item['part_id'];
+        }, $data));
 
         $progress = $io->createProgressBar(\count($data));
         $em = $this->registry->manager(PartCase::class);
@@ -65,7 +68,7 @@ final class PartCaseFindCommand extends Command
             $carModelId = $cars[$carId];
 
             $hash = $partId.$carModelId;
-            if (\array_key_exists($hash, $map)) {
+            if (\array_key_exists($partId, $universal) || \array_key_exists($hash, $map)) {
                 continue;
             }
 
@@ -85,6 +88,21 @@ final class PartCaseFindCommand extends Command
         $io->success(\sprintf('Persisted %s.', $persisted));
 
         return 0;
+    }
+
+    private function getUniversal(array $partIds): array
+    {
+        $data = $this->registry->repository(Part::class)
+            ->createQueryBuilder('entity')
+            ->select('entity.id AS part_id')
+            ->where('entity.id IN (:parts)')
+            ->andWhere('entity.universal = :universal')
+            ->setParameter('parts', \array_unique($partIds))
+            ->setParameter('universal', true)
+            ->getQuery()
+            ->getScalarResult();
+
+        return \array_flip(\array_map('array_pop', $data));
     }
 
     private function getMap(): array

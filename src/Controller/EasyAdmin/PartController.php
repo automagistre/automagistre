@@ -432,4 +432,22 @@ final class PartController extends AbstractController
 
         $this->event(Events::PART_CREATED, new GenericEvent($entity));
     }
+
+    /**
+     * @param Part $entity
+     */
+    protected function updateEntity($entity): void
+    {
+        parent::updateEntity($entity);
+
+        if ($entity->isUniversal()) {
+            $this->registry->repository(PartCase::class)
+                ->createQueryBuilder('entity')
+                ->delete()
+                ->where('entity.part = :part')
+                ->setParameter('part', $entity)
+                ->getQuery()
+                ->execute();
+        }
+    }
 }

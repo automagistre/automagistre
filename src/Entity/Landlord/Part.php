@@ -55,39 +55,11 @@ class Part
     private $number;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="text", length=65535, nullable=true)
-     */
-    private $description;
-
-    /**
      * @var bool
      *
-     * @ORM\Column(name="negative", type="boolean", nullable=true)
+     * @ORM\Column(type="boolean")
      */
-    private $negative;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="fractional", type="boolean", nullable=true)
-     */
-    private $fractional;
-
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="quantity", type="float", precision=10, scale=0, nullable=true)
-     */
-    private $quantity;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="reserved", type="integer", nullable=false)
-     */
-    private $reserved = 0;
+    private $universal = false;
 
     public function __toString(): string
     {
@@ -124,23 +96,18 @@ class Part
         $this->number = \strtoupper(\preg_replace('/[^a-zA-Z0-9]/', '', $number));
     }
 
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): void
-    {
-        $this->description = $description;
-    }
-
-    public function getQuantity(): ?float
-    {
-        return $this->quantity;
-    }
-
     public function setPrice(Money $price): void
     {
         $this->price = $price;
+    }
+
+    public function isUniversal(): bool
+    {
+        return $this->universal;
+    }
+
+    public function setUniversal(bool $universal): void
+    {
+        $this->universal = $universal;
     }
 }
