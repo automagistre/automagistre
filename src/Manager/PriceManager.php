@@ -7,7 +7,6 @@ namespace App\Manager;
 use App\Doctrine\Registry;
 use App\Entity\Landlord\Part;
 use App\Entity\Tenant\IncomePart;
-use App\Entity\Tenant\OrderItemPart;
 use Money\Money;
 
 /**
@@ -36,7 +35,7 @@ final class PriceManager
             ->select('entity')
             ->from(IncomePart::class, 'entity')
             ->where('entity.part.id = :part')
-            ->orderBy('entity.price.amount', 'DESC')
+            ->orderBy('entity.id', 'DESC')
             ->getQuery()
             ->setMaxResults(1)
             ->setParameter('part', $part->getId())
@@ -47,24 +46,6 @@ final class PriceManager
 
             if ($incomePriceWithMarkup->greaterThan($suggestPrice)) {
                 $suggestPrice = $incomePriceWithMarkup;
-            }
-        }
-
-        $lastOrderItemPart = $em->createQueryBuilder()
-            ->select('entity')
-            ->from(OrderItemPart::class, 'entity')
-            ->where('entity.part.id = :part')
-            ->orderBy('entity.id', 'DESC')
-            ->getQuery()
-            ->setMaxResults(1)
-            ->setParameter('part', $part->getId())
-            ->getOneOrNullResult();
-
-        if ($lastOrderItemPart instanceof OrderItemPart) {
-            $lastPrice = $lastOrderItemPart->getPrice();
-
-            if ($lastPrice->greaterThan($suggestPrice)) {
-                $suggestPrice = $lastPrice;
             }
         }
 
