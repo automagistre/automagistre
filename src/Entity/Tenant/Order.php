@@ -432,7 +432,12 @@ class Order
         $discount = null;
         foreach ($this->getItems($class) as $item) {
             if ($item instanceof Discounted && $item->isDiscounted()) {
-                $discount = $discount instanceof Money ? $discount->add($item->discount()) : $item->discount();
+                $itemDiscount = $item->discount();
+                if ($item instanceof OrderItemPart) {
+                    $itemDiscount = $itemDiscount->multiply($item->getQuantity() / 100);
+                }
+
+                $discount = $discount instanceof Money ? $discount->add($itemDiscount) : $itemDiscount;
             }
         }
 
