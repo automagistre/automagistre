@@ -37,7 +37,7 @@ trait Discount
     {
         if (null === $discount) {
             // Doctrine create nullable embedded
-            if (!\is_numeric($this->discount->getAmount())) {
+            if ($this->discount instanceof Money && !\is_numeric($this->discount->getAmount())) {
                 return null;
             }
 
