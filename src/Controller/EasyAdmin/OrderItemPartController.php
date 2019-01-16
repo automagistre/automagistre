@@ -93,6 +93,7 @@ final class OrderItemPartController extends OrderItemController
         $entity = new OrderItemPart($model->order, $model->part, $model->quantity, $model->price, $this->getUser());
         $entity->setParent($model->parent);
         $entity->setWarranty($model->warranty);
+        $entity->discount($model->discount);
 
         parent::persistEntity($entity);
 

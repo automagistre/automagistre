@@ -16,7 +16,10 @@
     {%- endif -%}
 </td>
 <td>{{ item.worker }}</td>
-<td></td>
+<td>{{ item.discounted ? item.discount|localize_money }}</td>
+
+<td>{{ item.price|localize_money }}</td>
+
 <td>
     {{ item.price|localize_money }} / {{ item.totalPartPrice|localize_money }}
 </td>

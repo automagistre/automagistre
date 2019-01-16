@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Entity\Tenant;
 
+use App\Doctrine\ORM\Mapping\Traits\Discount;
 use App\Doctrine\ORM\Mapping\Traits\Price;
 use App\Doctrine\ORM\Mapping\Traits\Warranty;
+use App\Entity\Discounted;
 use App\Entity\Embeddable\PartRelation;
 use App\Entity\Landlord\Part;
 use App\Entity\Landlord\User;
@@ -19,10 +21,11 @@ use Money\Money;
 /**
  * @ORM\Entity
  */
-class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInterface, WarrantyInterface
+class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInterface, WarrantyInterface, Discounted
 {
     use Price;
     use Warranty;
+    use Discount;
 
     /**
      * @var PartRelation

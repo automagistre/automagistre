@@ -7,6 +7,7 @@ namespace App\Entity\Tenant;
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\CreatedByRelation as CreatedBy;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Entity\Discounted;
 use App\Entity\Embeddable\CarRelation;
 use App\Entity\Embeddable\OperandRelation;
 use App\Entity\Embeddable\UserRelation;
@@ -23,6 +24,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use DomainException;
+use LogicException;
 use Money\Currency;
 use Money\Money;
 
@@ -39,7 +41,8 @@ class Order
     /**
      * @var OrderItem[]|ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Tenant\OrderItem", mappedBy="order", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Tenant\OrderItem", mappedBy="order", cascade={"persist"},
+     * orphanRemoval=true)
      */
     private $items;
 
@@ -134,6 +137,47 @@ class Order
     public function __toString(): string
     {
         return (string) $this->getId();
+    }
+
+    public function isDiscounted(): bool
+    {
+        return $this->isPartsDiscounted() || $this->isServicesDiscounted();
+    }
+
+    public function discount(): Money
+    {
+        $discount = null;
+        if ($this->isPartsDiscounted()) {
+            $discount = $this->partsDiscount();
+        }
+
+        if ($this->isServicesDiscounted()) {
+            $discount = $discount instanceof Money
+                ? $discount->add($this->servicesDiscount())
+                : $this->servicesDiscount();
+        }
+
+        return $discount;
+    }
+
+    public function isPartsDiscounted(): bool
+    {
+        return $this->isDiscountedByClass(OrderItemPart::class);
+    }
+
+    public function isServicesDiscounted(): bool
+    {
+        return $this->isDiscountedByClass(OrderItemService::class);
+    }
+
+    public function partsDiscount(): Money
+    {
+        return $this->discountByClass(OrderItemPart::class);
+    }
+
+    public function servicesDiscount(): Money
+    {
+        return $this->discountByClass(OrderItemService::class);
     }
 
     /**
@@ -324,6 +368,14 @@ class Order
             ->add($this->getTotalServicePrice())
             ->subtract($this->getTotalPayments());
 
+        if ($this->isPartsDiscounted()) {
+            $forPayment = $forPayment->subtract($this->partsDiscount());
+        }
+
+        if ($this->isServicesDiscounted()) {
+            $forPayment = $forPayment->subtract($this->servicesDiscount());
+        }
+
         if ($balance instanceof Money) {
             $forPayment = $forPayment->add($balance->multiply(-1));
         }
@@ -371,6 +423,33 @@ class Order
     public function getAppointmentAt(): ?DateTimeImmutable
     {
         return $this->appointmentAt;
+    }
+
+    private function isDiscountedByClass(string $class): bool
+    {
+        foreach ($this->getItems($class) as $item) {
+            if ($item instanceof Discounted && $item->isDiscounted()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function discountByClass(string $class): Money
+    {
+        $discount = null;
+        foreach ($this->getItems($class) as $item) {
+            if ($item instanceof Discounted && $item->isDiscounted()) {
+                $discount = $discount instanceof Money ? $discount->add($item->discount()) : $item->discount();
+            }
+        }
+
+        if (null === $discount) {
+            throw new LogicException(\sprintf('Discount for class "%s" is null', $class));
+        }
+
+        return $discount;
     }
 
     private function getTotalPriceByClass(?string $class): Money

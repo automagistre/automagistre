@@ -33,6 +33,11 @@ final class OrderService extends OrderItemModel
      */
     public $warranty;
 
+    /**
+     * @var Money|null
+     */
+    public $discount;
+
     public static function getEntityClass(): string
     {
         return OrderItemService::class;

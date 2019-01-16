@@ -224,6 +224,14 @@
                         </span>
                     </td>
                 </tr>
+                {% if order.discounted %}
+                <tr class="table-active">
+                    <td class="table-summary legend">скидка:</td>
+                    <td class="table-summary">
+                        <span class="price">{{ order.discount|localize_money }}</span>
+                    </td>
+                </tr>
+                {% endif %}
                 <tr class="table-active">
                     <td class="table-summary legend">всего к оплате:</td>
                     <td class="table-summary">

@@ -7,7 +7,8 @@
         <span class="label label-success">Гарантия</span>
     {%- endif -%}
 </td>
-<td></td>
+<td>{# Исполнитель #}</td>
+<td>{{ item.discounted ? item.discount|localize_money }}</td>
 
 {% set price = item.price %}
 {% set recommendPrice = part_suggest_price(item.part) %}

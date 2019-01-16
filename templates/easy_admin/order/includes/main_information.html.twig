@@ -188,6 +188,68 @@
                 </div>
             {% endif %}
 
+            {% if order.discounted %}
+                <div class="form-horizontal">
+                    <div class="form-group field-association ">
+                        <label class="col-sm-2 control-label">Скидка</label>
+
+                        {% set partsDiscounted = order.partsDiscounted %}
+                        {% set servicesDiscounted = order.servicesDiscounted %}
+
+                        <div class="col-sm-10">
+                            <div class="form-control">
+                                <span class="text-danger">
+                                    <strong>
+                                        {% if partsDiscounted %}
+                                            {% set partDiscount = order.partsDiscount %}
+                                            {{ partDiscount|localize_money }}
+
+                                            ({{ (partDiscount.ratioOf(order.totalPartPrice) * 100)|round(0) }}%)
+                                        {% endif %}
+
+                                        {% if partsDiscounted and servicesDiscounted %}
+                                            +
+                                        {% endif %}
+
+                                        {% if servicesDiscounted %}
+                                            {% set serviceDiscount = order.servicesDiscount %}
+
+                                            {{ serviceDiscount|localize_money }}
+
+                                            ({{ (serviceDiscount.ratioOf(order.totalServicePrice) * 100)|round(0) }}%)
+                                        {% endif %}
+
+                                        {% if partsDiscounted and servicesDiscounted %}
+                                            {% set discount = order.discount %}
+                                            = {{ discount|localize_money }}
+
+                                            ({{ (discount.ratioOf(order.totalPrice) * 100)|round(0) }}%)
+                                        {% endif %}
+                                    </strong>
+                                </span>
+                            </div>
+                            <span class="help-block">
+                                {% if partsDiscounted %}
+                                    Запчасти
+                                {% endif %}
+
+                                {% if partsDiscounted and servicesDiscounted %}
+                                    +
+                                {% endif %}
+
+                                {% if servicesDiscounted %}
+                                    Работа
+                                {% endif %}
+
+                                {% if partsDiscounted and servicesDiscounted %}
+                                    = Итого
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
             <div class="form-horizontal">
                 <div class="form-group field-association ">
                     <label class="col-sm-2 control-label">Итого</label>
@@ -205,8 +267,18 @@
                             {% if balance is not empty %}
                                 {{ balance.isNegative ? '+' : '-' }} {{ balance.absolute|localize_money }}
                             {% endif %}
+
+                            {% if order.discounted %}
+                                -
+                                <span class="text-danger">
+                                    <strong>
+                                        {{ order.discount|localize_money }}
+                                    </strong>
+                                </span>
+                            {% endif %}
                             = <span class="label label-success">{{ totalForPayment|localize_money -}}</span>
                         </div>
+
                         <span class="help-block">
                             Запчасти
                             + Работа
@@ -222,6 +294,11 @@
                                     - Счёт
                                 {% endif %}
                             {% endif %}
+
+                            {% if order.discounted %}
+                                - Скидка
+                            {% endif %}
+
                             = К оплате
                         </span>
                     </div>
