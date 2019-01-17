@@ -97,6 +97,10 @@ class OrderItemService extends OrderItem implements PriceInterface, TotalPriceIn
     {
         $price = $this->getPrice();
 
+        if ($this->isWarranty()) {
+            return $price->multiply(0);
+        }
+
         if ($withDiscount && $this->isDiscounted()) {
             $price = $price->subtract($this->discount());
         }

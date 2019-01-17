@@ -1,7 +1,7 @@
 {% extends 'easy_admin/order_print/layout.html.twig' %}
 
-{# @var order \App\Entity\Order #}
-{# @var customer \App\Entity\Operand #}
+{# @var order \App\Entity\Tenant\Order #}
+{# @var customer \App\Entity\Landlord\Operand #}
 
 {% block content %}
     {% set requisites = state.tenant.getRequisites() %}
@@ -103,6 +103,8 @@
             <h3>заказ-наряд: {{ order.id }} от {{ order.createdAt|localizeddate('short', 'none') }}</h3>
         </section>
 
+        {% set isServicesDiscounted = order.servicesDiscounted %}
+
         {% if groups is not empty or services is not empty %}
             <section class="works">
                 <table class="table table-bordered table-striped table-sm">
@@ -111,13 +113,19 @@
                         <th scope="col">#</th>
                         <th scope="col">наименование работ</th>
                         <th scope="col">исполнитель</th>
+                        {% if isServicesDiscounted %}
+                            <th scope="col">скидка</th>
+                        {% endif %}
                         <th scope="col">стоимость</th>
+                        {% if isServicesDiscounted %}
+                            <th scope="col">итого</th>
+                        {% endif %}
                     </tr>
                     </thead>
                     <tbody>
                     {% set index = 0 %}
                     {% for group in groups %}
-                        {# @var group \App\Entity\OrderItemGroup #}
+                        {# @var group \App\Entity\Tenant\OrderItemGroup #}
                         {% set index = index + 1 %}
                         <tr>
                             <th scope="row">{{ index }}</th>
@@ -128,20 +136,35 @@
                     {% endfor %}
                     {% for service in services %}
                         {% set index = index + 1 %}
-                        {# @var service \App\Entity\OrderItemService #}
+                        {# @var service \App\Entity\Tenant\OrderItemService #}
                         <tr>
                             <th scope="row">{{ index }}</th>
-                            <td>{{ service }}{{ service.warranty ? ' - [гарантия]' }}</td>
+                            <td>{{ service }}{{ service.warranty and not isServicesDiscounted ? ' - [гарантия]' }}</td>
                             <td>{{ service.worker.id }}</td>
+                            {% if isServicesDiscounted %}
+                                <td>
+                                    {% if service.warranty %}
+                                        [гарантия]
+                                    {% elseif service.discounted %}
+                                        {{ (service.discount.ratioOf(service.totalPrice) * 100)|round(0, 'floor') }}%
+                                    {% endif %}
+                                </td>
+                            {% endif %}
                             <td>
                                 <span class="price">
-                                    {{- service.warranty ? '0,00 ₽' : service.price|localize_money -}}
+                                    {{- service.price|localize_money -}}
                                 </span>
                             </td>
+
+                            {% if isServicesDiscounted %}
+                                <td>
+                                    <span class="price">{{ service.totalPrice(true)|localize_money }}</span>
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                     <tr class="table-active">
-                        <td colspan="3" class="table-summary legend">итого:</td>
+                        <td colspan="{{ isServicesDiscounted ? '5' : '3' }}" class="table-summary legend">итого:</td>
                         <td class="table-summary">
                             <span class="price">{{ order.totalServicePrice|localize_money }}</span></td>
                     </tr>
@@ -150,6 +173,8 @@
             </section>
         {% endif %}
 
+        {% set isPartsDiscounted = order.partsDiscounted %}
+
         {% if parts is not empty %}
             <section class="parts">
                 <table class="table table-bordered table-striped table-sm">
@@ -157,38 +182,48 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">наименование запчасти</th>
-                        <th scope="col">производитель запчасти</th>
+                        <th scope="col">производитель</th>
                         <th scope="col">part number</th>
                         <th scope="col">кол-во</th>
+                        {% if isPartsDiscounted %}
+                            <th scope="col">скидка</th>
+                        {% endif %}
                         <th scope="col">стоимость</th>
                         <th scope="col">итого</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for part in parts %}
-                        {# @var part \App\Entity\OrderItemPart #}
+                        {# @var part \App\Entity\Tenant\OrderItemPart #}
                         <tr>
                             <th scope="row">{{ loop.index }}</th>
-                            <td>{{ part.part }}{{ part.warranty ? ' - [гарантия]' }}</td>
+                            <td>{{ part.part }}{{ part.warranty and not isPartsDiscounted ? ' - [гарантия]' }}</td>
                             <td>{{ part.part.manufacturer }}</td>
                             <td class="part-number">{{ part.part.number }}</td>
                             <td class="count">{{ part.quantity / 100 }}</td>
+                            {% if isPartsDiscounted %}
+                                <td>
+                                    {% if part.warranty %}
+                                        [гарантия]
+                                    {% elseif part.discounted %}
+                                        {{ (part.discount.ratioOf(part.totalPrice) * 100)|round(0, 'floor') }}%
+                                    {% endif %}
+                                </td>
+                            {% endif %}
                             <td>
                                 <span class="price">
-                                    {{- part.warranty ? '0,00 ₽' : part.price|localize_money -}}
+                                    {{- part.price|localize_money -}}
                                 </span>
                             </td>
                             <td>
                                 <span class="price">
-                                    {{- part.warranty ? '0,00 ₽' : part.totalPrice|localize_money -}}
+                                    {{- part.totalPrice(true)|localize_money -}}
                                 </span>
                             </td>
                         </tr>
                     {% endfor %}
                     <tr class="table-active">
-                        <td colspan="4" class="table-summary legend">итого:</td>
-                        <td class="table-summary"><span class="count">3</span></td>
-                        <td></td>
+                        <td colspan="{{ isPartsDiscounted ? '7' : '6' }}" class="table-summary legend">итого:</td>
                         <td class="table-summary">
                             <span class="price">{{ order.totalPartPrice|localize_money }}</span>
                         </td>
