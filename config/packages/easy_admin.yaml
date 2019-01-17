@@ -267,8 +267,8 @@ easy_admin:
             list:
                 title: 'Люди'
                 fields:
-                    - { property: 'id' }
-                    - { property: 'fullName', label: 'Ф.И.О', template: 'easy_admin/field_show.html.twig' }
+                    - { property: 'id', template: '@EasyAdmin/default/field_raw.html.twig' }
+                    - { property: 'fullName', label: 'Ф.И.О', template: 'easy_admin/field_item_show.html.twig' }
                     - { property: 'telephone', label: 'Телефон', template: 'easy_admin/field_telephone.html.twig' }
                     - { property: 'officePhone', label: 'Раб. Телефон', template: 'easy_admin/field_telephone.html.twig' }
                     - { property: 'email', label: 'Почта' }
@@ -319,7 +319,7 @@ easy_admin:
                 title: 'Организации'
                 fields:
                     - { property: 'id' }
-                    - { property: 'name', label: 'Название', template: 'easy_admin/field_show.html.twig' }
+                    - { property: 'name', label: 'Название', template: 'easy_admin/field_item_show.html.twig' }
                     - { property: 'address', label: 'Адрес' }
                     - { property: 'email', label: 'Почта' }
                     - { property: 'telephone', label: 'Телефон', template: 'easy_admin/field_telephone.html.twig' }
@@ -374,7 +374,7 @@ easy_admin:
                 title: 'Сотрудники'
                 fields:
                     - { property: 'id' }
-                    - { property: 'person', label: 'Ф.И.О' }
+                    - { property: 'person', label: 'Ф.И.О', template: 'easy_admin/field_show.html.twig' }
                     - { property: null, label: 'Баланс', template: 'easy_admin/employee/field_balance.html.twig' }
                     - { property: null, label: 'Мотивация', template: 'easy_admin/employee/field_buttons.html.twig' }
                     - { property: 'ratio', label: '%', template: 'easy_admin/employee/field_podstanova.html.twig' }
@@ -400,7 +400,7 @@ easy_admin:
                 title: 'Автомобили'
                 fields:
                     - { property: 'id' }
-                    - { property: 'carModificationDisplayName', label: 'Марка / Модель', template: 'easy_admin/field_show.html.twig' }
+                    - { property: 'carModificationDisplayName', label: 'Марка / Модель', template: 'easy_admin/field_item_show.html.twig' }
                     - { property: 'owner', label: 'Владелец' }
                     - { property: 'year', label: 'Год', type: 'string' }
                     - { property: 'caseType.name', label: 'Кузов' }
@@ -525,7 +525,7 @@ easy_admin:
                 title: 'Движения по складу'
                 max_results: 100
                 fields:
-                    - { property: 'id' }
+                    - { property: 'id', template: '@EasyAdmin/default/field_raw.html.twig' }
                     - { property: 'part', label: 'Наименование', template: 'easy_admin/field_part.html.twig', stock: true }
                     - { property: 'quantity', label: 'Количество', template: 'easy_admin/field_quantity.html.twig' }
                     - { property: 'description', label: 'Комментарий' }
@@ -541,7 +541,7 @@ easy_admin:
             list:
                 title: 'Приходы'
                 fields:
-                    - { property: 'id', template: 'easy_admin/field_show.html.twig' }
+                    - { property: 'id', template: 'easy_admin/field_id.html.twig' }
                     - { property: 'supplier', label: 'Поставщик' }
                     - { property: null, label: 'Статус', template: 'easy_admin/income/field_status.html.twig' }
                     - { property: 'totalPrice', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
@@ -645,7 +645,7 @@ easy_admin:
             list:
                 title: 'Список проводок'
                 fields:
-                    - { property: 'id' }
+                    - { property: 'id', template: '@EasyAdmin/default/field_raw.html.twig' }
                     - { property: 'recipient', label: 'Получатель', template: 'easy_admin/field_show.html.twig' }
                     - { property: 'amount', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'createdAt', label: 'Дата' }
@@ -695,7 +695,7 @@ easy_admin:
             list:
                 title: 'Список проводок'
                 fields:
-                    - { property: 'id' }
+                    - { property: 'id', template: '@EasyAdmin/default/field_raw.html.twig' }
                     - { property: 'recipient', label: 'Счет', template: 'field_association.html.twig' }
                     - { property: 'amount', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'createdAt', label: 'Дата' }
@@ -849,7 +849,7 @@ easy_admin:
             list:
                 title: 'Расходы'
                 fields:
-                    - { property: 'id' }
+                    - { property: 'id', template: '@EasyAdmin/default/field_raw.html.twig' }
                     - { property: 'expense', label: 'Статья расходов' }
                     - { property: 'amount', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'description', label: 'Комментарий' }
