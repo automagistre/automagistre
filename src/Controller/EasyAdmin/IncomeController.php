@@ -5,12 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\EasyAdmin;
 
 use App\Entity\Tenant\Income;
-use App\Entity\Tenant\Wallet;
 use App\Events;
 use App\Manager\PaymentManager;
-use Doctrine\ORM\EntityRepository;
 use LogicException;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -43,33 +40,18 @@ final class IncomeController extends AbstractController
         }
 
         $form = $this->createFormBuilder()
-            ->add('wallet', EntityType::class, [
-                'label' => 'Списать сумму со счёта',
-                'placeholder' => 'Не списывать',
-                'required' => false,
-                'class' => Wallet::class,
-                'query_builder' => function (EntityRepository $repository) {
-                    return $repository->createQueryBuilder('entity')
-                        ->where('entity.useInIncome = TRUE');
-                },
-            ])
             ->getForm()
             ->handleRequest($this->request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->em;
 
-            $em->transactional(function () use ($form, $income): void {
+            $em->transactional(function () use ($income): void {
                 $income->accrue($this->getUser());
 
-                $wallet = $form->get('wallet')->getData();
-                if ($wallet instanceof Wallet) {
-                    $this->paymentManager->createPayment(
-                        $wallet,
-                        \sprintf('# Списание по поступлению #%s', $income->getId()),
-                        $income->getTotalPrice()->negative()
-                    );
-                }
+                $description = \sprintf('# Начисление по поставке №%s', $income->getId());
+
+                $this->paymentManager->createPayment($income->getSupplier(), $description, $income->getTotalPrice());
             });
 
             $this->event(Events::INCOME_ACCRUED, new GenericEvent($income));
