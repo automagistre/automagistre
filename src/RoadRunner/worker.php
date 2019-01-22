@@ -14,9 +14,11 @@ use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-require \dirname(__DIR__).'/vendor/autoload.php';
+$projectDir = __DIR__.'/../..';
 
-if (\class_exists(Dotenv::class) && \file_exists($env = \dirname(__DIR__).'/.env')) {
+require $projectDir.'/vendor/autoload.php';
+
+if (\class_exists(Dotenv::class) && \file_exists($env = $projectDir.'/.env')) {
     (new Dotenv())->load($env);
 }
 
@@ -51,6 +53,7 @@ $kernel = new Kernel(\getenv('APP_ENV'), $debug);
 $kernel->boot();
 
 $client = new SymfonyClient();
+$defaultGlobals = Request::createFromGlobals();
 
 while ($request = $client->acceptRequest()) {
     try {
@@ -58,6 +61,7 @@ while ($request = $client->acceptRequest()) {
         $response = $kernel->handle($request);
         $client->respond($response);
         $kernel->terminate($request, $response);
+        $defaultGlobals->overrideGlobals();
     } catch (\Throwable $e) {
         $kernel->getContainer()->get('sentry.client')->captureException($e);
 
