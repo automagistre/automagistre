@@ -206,7 +206,7 @@
                                     {% if part.warranty %}
                                         [гарантия]
                                     {% elseif part.discounted %}
-                                        {{ (part.discount.ratioOf(part.totalPrice) * 100)|round(0, 'floor') }}%
+                                        {{ (part.discount.multiply(part.quantity).ratioOf(part.totalPrice))|round(0, 'floor') }}%
                                     {% endif %}
                                 </td>
                             {% endif %}
