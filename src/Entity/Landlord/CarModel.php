@@ -6,6 +6,7 @@ namespace App\Entity\Landlord;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -14,6 +15,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     uniqueConstraints={
  *         @ORM\UniqueConstraint(name="MANUFACTURER_CASE_IDX", columns={"manufacturer_id", "case_name"})
  *     }
+ * )
+ *
+ * @UniqueEntity(
+ *     fields={"manufacturer", "caseName"},
+ *     errorPath="caseName",
+ *     message="Такой кузов у выбранного производителя уже существует."
  * )
  */
 class CarModel
