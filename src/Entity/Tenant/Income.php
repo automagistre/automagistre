@@ -65,6 +65,13 @@ class Income
      */
     private $accruedBy;
 
+    /**
+     * @var Money|null
+     *
+     * @ORM\Embedded(class="Money\Money")
+     */
+    private $accruedAmount;
+
     public function __construct()
     {
         $this->supplier = new OperandRelation();
@@ -125,6 +132,7 @@ class Income
     {
         $this->accruedBy = new UserRelation($user);
         $this->accruedAt = new DateTimeImmutable();
+        $this->accruedAmount = $this->getTotalPrice();
     }
 
     public function getAccruedAt(): ?DateTimeImmutable
@@ -135,6 +143,11 @@ class Income
     public function getAccruedBy(): ?User
     {
         return $this->accruedBy->entityOrNull();
+    }
+
+    public function getAccruedAmount(): ?Money
+    {
+        return $this->accruedAmount;
     }
 
     public function getTotalPrice(): Money

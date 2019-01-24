@@ -1,0 +1,20 @@
+{% extends '@EasyAdmin/default/list.html.twig' %}
+
+{% block item_actions %}
+    {# @var item \App\Entity\Tenant\Income #}
+    {% set unpaidIncomes = supplier_unpaid_income(item.supplier) %}
+
+    {% if unpaidIncomes[item.id] is defined %}
+        {% set _list_item_actions = _list_item_actions|merge([{
+            name: "pay",
+            type: "method",
+            label: false,
+            title: null,
+            css_class: " action-show",
+            icon: "dollar",
+            target: "_self"
+        }]) %}
+    {% endif %}
+
+    {{ parent() }}
+{% endblock %}

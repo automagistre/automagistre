@@ -5,11 +5,17 @@ declare(strict_types=1);
 namespace App\Controller\EasyAdmin;
 
 use App\Entity\Tenant\Income;
+use App\Entity\Tenant\Wallet;
 use App\Events;
+use App\Form\Type\MoneyType;
 use App\Manager\PaymentManager;
+use Doctrine\ORM\EntityRepository;
 use LogicException;
+use Money\Money;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -24,6 +30,55 @@ final class IncomeController extends AbstractController
     public function __construct(PaymentManager $paymentManager)
     {
         $this->paymentManager = $paymentManager;
+    }
+
+    public function payAction(): Response
+    {
+        $request = $this->request;
+
+        $income = $this->getEntity(Income::class);
+        if (!$income instanceof Income) {
+            throw new BadRequestHttpException('Income is required');
+        }
+
+        $model = new \stdClass();
+        $model->money = $income->getTotalPrice();
+        $model->wallet = null;
+
+        $form = $this->createFormBuilder($model)
+            ->add('money', MoneyType::class, [])
+            ->add('wallet', EntityType::class, [
+                'label' => 'Списать сумму со счёта',
+                'required' => true,
+                'class' => Wallet::class,
+                'query_builder' => function (EntityRepository $repository) {
+                    return $repository->createQueryBuilder('entity')
+                        ->where('entity.useInIncome = TRUE');
+                },
+            ])
+            ->getForm()
+            ->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->registry->manager(Income::class)
+                ->transactional(function () use ($model, $income): void {
+                    $description = \sprintf('# Оплата за поставку #%s', $income->getId());
+
+                    /** @var Money $money */
+                    $money = $model->money;
+                    $money = $money->negative();
+
+                    $this->paymentManager->createPayment($income->getSupplier(), $description, $money);
+                    $this->paymentManager->createPayment($model->wallet, $description, $money);
+                });
+
+            return $this->redirectToReferrer();
+        }
+
+        return $this->render('easy_admin/income/pay.html.twig', [
+            'income' => $income,
+            'form' => $form->createView(),
+        ]);
     }
 
     public function accrueAction(): Response

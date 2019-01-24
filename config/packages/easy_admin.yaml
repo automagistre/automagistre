@@ -537,12 +537,13 @@ easy_admin:
             controller: App\Controller\EasyAdmin\IncomeController
             disabled_actions: ['delete']
             templates:
+                list: 'easy_admin/income/list.html.twig'
                 show: 'easy_admin/income/show.html.twig'
             list:
                 title: 'Приходы'
                 fields:
                     - { property: 'id', template: 'easy_admin/field_id.html.twig' }
-                    - { property: 'supplier', label: 'Поставщик' }
+                    - { property: 'supplier', label: 'Поставщик', template: 'easy_admin/field_show.html.twig' }
                     - { property: null, label: 'Статус', template: 'easy_admin/income/field_status.html.twig' }
                     - { property: 'totalPrice', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'itemsCount', label: 'Позиций' }
