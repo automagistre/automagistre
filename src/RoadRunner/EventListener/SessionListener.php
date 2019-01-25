@@ -48,6 +48,10 @@ final class SessionListener implements EventSubscriberInterface
 
     public function onKernelRequest(GetResponseEvent $event): void
     {
+        if (!$event->isMasterRequest()) {
+            return;
+        }
+
         $session = $this->session;
         $request = $event->getRequest();
 
@@ -56,11 +60,11 @@ final class SessionListener implements EventSubscriberInterface
 
     public function onKernelResponse(FilterResponseEvent $event): void
     {
-        $session = $this->session;
-        if ($session->isStarted()) {
-            $session->save();
+        if (!$event->isMasterRequest()) {
+            return;
         }
 
+        $session = $this->session;
         $request = $event->getRequest();
 
         if (\in_array($session->getId(), ['', $request->cookies->get($session->getName())], true)) {
