@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\RoadRunner\EventListener;
 
+use Error;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\PostResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
@@ -40,6 +42,7 @@ final class SessionListener implements EventSubscriberInterface
         return [
             KernelEvents::REQUEST => ['onKernelRequest', 9999],
             KernelEvents::RESPONSE => ['onKernelResponse', -9998],
+            KernelEvents::TERMINATE => ['onKernelTerminate', -9999],
         ];
     }
 
@@ -48,10 +51,6 @@ final class SessionListener implements EventSubscriberInterface
         $session = $this->session;
         $request = $event->getRequest();
 
-        if ($session->isStarted()) {
-            $this->closeSession();
-        }
-
         $session->setId($request->cookies->get($session->getName(), ''));
     }
 
@@ -59,7 +58,7 @@ final class SessionListener implements EventSubscriberInterface
     {
         $session = $this->session;
         if ($session->isStarted()) {
-            $this->closeSession();
+            $session->save();
         }
 
         $request = $event->getRequest();
@@ -86,13 +85,12 @@ final class SessionListener implements EventSubscriberInterface
         ));
     }
 
-    private function closeSession(): void
+    public function onKernelTerminate(PostResponseEvent $event): void
     {
-        $session = $this->session;
-        if ($session->isStarted()) {
-            $session->save();
-        }
+        $session = $event->getRequest()->getSession();
 
-        \session_unset();
+        if ($session->isStarted()) {
+            throw new Error('Session was not stopped after request!');
+        }
     }
 }
