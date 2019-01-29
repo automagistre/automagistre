@@ -45,6 +45,7 @@ class PartExtension extends AbstractExtension
         return [
             new TwigFunction('part_in_stock', [$this->partManager, 'inStock']),
             new TwigFunction('part_crosses', [$this->partManager, 'getCrosses']),
+            new TwigFunction('part_crosses_in_stock', [$this->partManager, 'crossesInStock']),
             new TwigFunction('part_reserved', [$this->reservationManager, 'reserved']),
             new TwigFunction('part_reservable', [$this->reservationManager, 'reservable']),
             new TwigFunction('part_suggest_price', [$this->priceManager, 'suggestForPart']),

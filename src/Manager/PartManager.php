@@ -116,6 +116,25 @@ final class PartManager
         return $cross->getParts();
     }
 
+    /**
+     * @return Part[] array
+     */
+    public function crossesInStock(Part $part): array
+    {
+        $crosses = [];
+        foreach ($this->getCrosses($part) as $cross) {
+            if ($part->equals($cross)) {
+                continue;
+            }
+
+            if (0 < $this->inStock($cross)) {
+                $crosses[] = $cross;
+            }
+        }
+
+        return $crosses;
+    }
+
     private function findCross(Part $part, EntityManagerInterface $em = null): ?PartCross
     {
         $em = $em instanceof EntityManagerInterface ? $em : $this->registry->manager(PartCross::class);

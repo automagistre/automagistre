@@ -66,6 +66,11 @@ class Part
         return (string) $this->getName();
     }
 
+    public function equals(self $part): bool
+    {
+        return $part->getId() === $this->id;
+    }
+
     public function getManufacturer(): ?Manufacturer
     {
         return $this->manufacturer;

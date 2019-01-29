@@ -336,9 +336,9 @@
                                                 <a href="{{ easyadmin_path(part, 'edit') }}">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
-                                                {% if part_crosses(part.part) is not empty %}
+                                                {% if part_crosses_in_stock(part.part) is not empty %}
                                                     <a href="{{ easyadmin_path(part, 'substitute', {'referer': true}) }}">
-                                                        <i class="fa fa-recycle"></i>
+                                                        <i class="fa fa-recycle" style="color: green"></i>
                                                     </a>
                                                 {% endif %}
                                             </td>
