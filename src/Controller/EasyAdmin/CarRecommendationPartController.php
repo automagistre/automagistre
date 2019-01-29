@@ -51,7 +51,7 @@ final class CarRecommendationPartController extends AbstractController
 
         $part = $recommendationPart->getPart();
 
-        $crosses = $this->partManager->getCrosses($part);
+        $crosses = $this->partManager->crossesInStock($part);
 
         if ([] === $crosses) {
             $this->addFlash('error', \sprintf('У запчасти "%s" нет аналогов.', (string) $part));
