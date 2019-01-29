@@ -336,6 +336,11 @@
                                                 <a href="{{ easyadmin_path(part, 'edit') }}">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
+                                                {% if part_crosses(part.part) is not empty %}
+                                                    <a href="{{ easyadmin_path(part, 'substitute', {'referer': true}) }}">
+                                                        <i class="fa fa-recycle"></i>
+                                                    </a>
+                                                {% endif %}
                                             </td>
                                             <td>{{ part.createdAt|localizeddate }} ({% include 'easy_admin/field_user.html.twig' with {'value': part.createdBy} only %})</td>
                                         {% endfor %}

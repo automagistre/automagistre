@@ -1,0 +1,39 @@
+{% extends 'easy_admin/layout.html.twig' %}
+
+{% block content_title -%}
+    Замена запчасти <strong>{{ part }}</strong> на аналог
+{%- endblock %}
+
+{% block main -%}
+
+    {% for form in forms %}
+        {% set form = form.createView() %}
+        {% form_theme form with easyadmin_config('design.form_theme') %}
+
+
+        {{ form_start(form) }}
+        <div class="row" style="margin-bottom: 10px">
+            <div class="col-md-12">{% include 'easy_admin/field_part.html.twig' with {'value': form.vars.value.part, 'stock': true} only %}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">{{ form_widget(form.quantity) }}</div>
+            <div class="col-md-4">{{ form_widget(form.price) }}</div>
+            <div class="col-md-4">
+                {% if form.vars.value.part.id == part.id %}
+                    <button type="submit" class="btn btn-success">Текущий выбор</button>
+                {% else %}
+                    <button type="submit" class="btn btn-primary">Выбрать</button>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if not loop.last %}
+            <hr>
+        {% endif %}
+        {{ form_end(form) }}
+    {% endfor %}
+
+    <a href="{{ app.request.query.get('referer')|easyadmin_urldecode }}" class="btn btn-primary" style="margin-top: 20px">
+        Отмена
+    </a>
+{%- endblock %}
