@@ -59,6 +59,8 @@ final class CarRecommendationPartController extends AbstractController
             return $this->redirectToReferrer();
         }
 
+        \array_unshift($crosses, $part);
+
         /** @var FormInterface[] $forms */
         $forms = [];
         foreach ($crosses as $cross) {
