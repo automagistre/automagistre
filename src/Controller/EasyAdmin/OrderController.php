@@ -498,7 +498,7 @@ final class OrderController extends AbstractController
                 }
 
                 $description = \sprintf('# Списание по заказу #%s', $order->getId());
-                $this->paymentManager->createPayment($customer, $description, $order->getTotalPrice()->negative());
+                $this->paymentManager->createPayment($customer, $description, $order->getTotalPrice(true)->negative());
             }
 
             foreach ($order->getItems(OrderItemPart::class) as $item) {
