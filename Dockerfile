@@ -17,8 +17,8 @@ COPY assets ${APP_DIR}/assets
 
 RUN gulp build:main-script build:scripts build:less
 
-FROM composer:1.8.0 as composer
-FROM php:7.2.13-cli-stretch as app
+FROM composer:1.8.3 as composer
+FROM php:7.2.14-cli-stretch as app
 
 LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 

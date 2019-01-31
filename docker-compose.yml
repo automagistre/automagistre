@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
     app:
-        image: automagistre/app@sha256:55d2fa25fa3d751bf886791e9b475f970f52a69ee662ef0bc2d1fa16e0378610
+        image: automagistre/app@sha256:cd4ea39e5869d3efe9de5993b3db152d5d86d669f5cfbe5a9e1e8e7ca0db778f
         command: rr serve
         labels:
             ru.grachevko.dhu: '{sto,www}.automagistre.local'
