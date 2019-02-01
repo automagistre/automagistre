@@ -204,7 +204,11 @@
                                             {% set partDiscount = order.partsDiscount %}
                                             {{ partDiscount|localize_money }}
 
-                                            ({{ (partDiscount.ratioOf(order.totalPartPrice) * 100)|round(0) }}%)
+                                            {% set partPrice = order.totalPartPrice %}
+
+                                            {% if not partPrice.zero %}
+                                                ({{ (partDiscount.ratioOf(order.totalPartPrice) * 100)|round(0) }}%)
+                                            {% endif %}
                                         {% endif %}
 
                                         {% if partsDiscounted and servicesDiscounted %}
@@ -216,7 +220,11 @@
 
                                             {{ serviceDiscount|localize_money }}
 
-                                            ({{ (serviceDiscount.ratioOf(order.totalServicePrice) * 100)|round(0) }}%)
+                                            {% set servicePrice = order.totalServicePrice %}
+
+                                            {% if not servicePrice.zero %}
+                                                ({{ (serviceDiscount.ratioOf(order.totalServicePrice) * 100)|round(0) }}%)
+                                            {% endif %}
                                         {% endif %}
 
                                         {% if partsDiscounted and servicesDiscounted %}

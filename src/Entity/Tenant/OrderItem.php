@@ -72,13 +72,18 @@ abstract class OrderItem
      */
     public function validate(ExecutionContextInterface $context): void
     {
-        if (
-            $this instanceof PriceInterface && $this instanceof Discounted
-            && $this->isDiscounted() && $this->getPrice()->isZero()
-        ) {
-            $context->buildViolation('Сумма не может быть равно нулю при наличии скидки.')
-                ->atPath('price')
-                ->addViolation();
+        if ($this instanceof PriceInterface && $this instanceof Discounted) {
+            if ($this->isDiscounted() && $this->getPrice()->isZero()) {
+                $context->buildViolation('Стоимость не может быть равно нулю при наличии скидки.')
+                    ->atPath('price')
+                    ->addViolation();
+            }
+
+            if ($this->isDiscounted() && $this->getPrice()->lessThan($this->discount())) {
+                $context->buildViolation('Стоимость не может быть меньше скидки.')
+                    ->atPath('price')
+                    ->addViolation();
+            }
         }
     }
 
