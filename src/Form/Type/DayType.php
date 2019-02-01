@@ -22,9 +22,11 @@ final class DayType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
+        $choices = \range(self::MONTH_FIRST_DAY, self::SHORT_MONTH_END_DAY);
+
         $resolver
             ->setDefaults([
-                'choices' => \array_flip(\range(self::MONTH_FIRST_DAY, self::SHORT_MONTH_END_DAY)),
+                'choices' => \array_combine($choices, $choices),
             ]);
     }
 
