@@ -31,6 +31,11 @@ final class State
      */
     private $tokenStorage;
 
+    /**
+     * @var User|null
+     */
+    private $user;
+
     public function __construct(ConnectionSwitcher $switcher, TokenStorageInterface $tokenStorage)
     {
         $this->tokenStorage = $tokenStorage;
@@ -47,8 +52,12 @@ final class State
         return $this->tenant;
     }
 
-    public function user(): User
+    public function user(User $user = null): User
     {
+        if ($user instanceof User) {
+            return $this->user = $user;
+        }
+
         $user = $this->userOrNull();
         if (!$user instanceof User) {
             throw new RuntimeException('User not exist.');
@@ -61,7 +70,7 @@ final class State
     {
         $token = $this->tokenStorage->getToken();
         if (null === $token) {
-            return null;
+            return $this->user;
         }
 
         $user = $token->getUser();

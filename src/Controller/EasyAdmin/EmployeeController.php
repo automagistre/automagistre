@@ -6,6 +6,7 @@ namespace App\Controller\EasyAdmin;
 
 use App\Entity\Landlord\Person;
 use App\Entity\Tenant\Employee;
+use App\Entity\Tenant\MonthlySalary;
 use App\Entity\Tenant\OperandTransaction;
 use App\Entity\Tenant\Penalty;
 use App\Entity\Tenant\Salary;
@@ -205,5 +206,21 @@ final class EmployeeController extends AbstractController
         parent::persistEntity($entity);
 
         $this->event(Events::EMPLOYEE_CREATED, $entity);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function renderTemplate($actionName, $templatePath, array $parameters = []): Response
+    {
+        if ('show' === $actionName) {
+            /** @var Employee $entity */
+            $entity = $parameters['entity'];
+
+            $parameters['monthlySalaries'] = $this->registry->repository(MonthlySalary::class)
+                ->findBy(['employee' => $entity]);
+        }
+
+        return parent::renderTemplate($actionName, $templatePath, $parameters);
     }
 }

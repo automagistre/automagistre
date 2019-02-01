@@ -371,9 +371,10 @@ easy_admin:
         Employee:
             class: App\Entity\Tenant\Employee
             controller: App\Controller\EasyAdmin\EmployeeController
-            disabled_actions: ['show', 'delete']
+            disabled_actions: ['delete']
             templates:
                 list: 'easy_admin/employee/list.html.twig'
+                show: 'easy_admin/employee/show.html.twig'
             list:
                 title: 'Сотрудники'
                 fields:
@@ -381,6 +382,14 @@ easy_admin:
                     - { property: 'person', label: 'Ф.И.О', template: 'easy_admin/field_show.html.twig' }
                     - { property: null, label: 'Баланс', template: 'easy_admin/employee/field_balance.html.twig' }
                     - { property: null, label: 'Мотивация', template: 'easy_admin/employee/field_buttons.html.twig' }
+                    - { property: 'ratio', label: '%', template: 'easy_admin/employee/field_podstanova.html.twig' }
+                    - { property: 'hiredAt', label: 'Трудоустроен' }
+                    - { property: 'firedAt', label: 'Уволен' }
+            show:
+                title: 'Сотрудник №%%entity_id%%'
+                fields:
+                    - { property: 'person', label: 'Ф.И.О', template: 'easy_admin/field_show.html.twig' }
+                    - { property: null, label: 'Баланс', template: 'easy_admin/employee/field_balance.html.twig' }
                     - { property: 'ratio', label: '%', template: 'easy_admin/employee/field_podstanova.html.twig' }
                     - { property: 'hiredAt', label: 'Трудоустроен' }
                     - { property: 'firedAt', label: 'Уволен' }
@@ -392,6 +401,17 @@ easy_admin:
                 title: 'Добавить нового сотрудника'
             edit:
                 title: 'Редактировать сотрудника'
+        MonthlySalary:
+            class: App\Entity\Tenant\MonthlySalary
+            controller: App\Controller\EasyAdmin\MonthlySalaryController
+            disabled_actions: ['delete', 'show', 'search', 'autocomplete', 'edit']
+            new:
+                title: 'Создать ежемесячный оклад для "{{ entity.employee }}"'
+                form_options: { data_class: stdClass }
+                fields:
+                    - { property: 'payday', label: 'День начисления', type: App\Form\Type\DayType }
+                    - { property: 'amount', label: 'Сумма', type: App\Form\Type\MoneyType }
+
         Car:
             class: App\Entity\Landlord\Car
             controller: App\Controller\EasyAdmin\CarController

@@ -1,0 +1,82 @@
+{% extends '@EasyAdmin/default/show.html.twig' %}
+
+{# @var entity \App\Entity\Person #}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="field-group">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Основная информация</h3>
+                    </div>
+
+                    <div class="box-body">
+                        {{ parent() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="field-group">
+                        <div class="box box-default">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Ежемесячные оклады</h3>
+                            </div>
+
+                            {% if monthlySalaries is not empty %}
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>День</th>
+                                            <th>Сумма</th>
+                                            <th>Создал</th>
+                                            <th>Создано</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for item in monthlySalaries %}
+                                            {# @var item \App\Entity\Tenant\MonthlySalary #}
+                                            <tr>
+                                                <td>{{ item.payday }}</td>
+                                                <td>{{ item.amount|localize_money }}</td>
+                                                <td>
+                                                    {%- spaceless %}
+                                                        {# @var cretedBy \App\Entity\Landlord\User #}
+                                                        {% set createdBy = item.createdBy %}
+                                                        {% if createdBy.person is not empty %}
+                                                            {{ createdBy.person.fullName }}
+                                                        {% else %}
+                                                            {{ createdBy.username }}
+                                                        {% endif %}
+                                                    {% endspaceless -%}
+                                                </td>
+                                                <td>{{ item.createdAt|localizeddate }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% else %}
+                                <div class="box-body">
+                                    Ежемесячных начислений нет
+                                </div>
+                            {% endif %}
+
+                            <div class="box-footer">
+                                <a href="{{ easyadmin_path('MonthlySalary', 'new', entity|to_query) }}" class="btn btn-primary">
+                                    Создать ежемесячный оклад
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
