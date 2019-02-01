@@ -8,6 +8,10 @@ easy_admin:
         color_scheme: 'light'
         templates:
             layout: 'easy_admin/layout.html.twig'
+            new: 'easy_admin/new.html.twig'
+            show: 'easy_admin/show.html.twig'
+            edit: 'easy_admin/edit.html.twig'
+            list: 'easy_admin/list.html.twig'
             field_datetime: 'easy_admin/field_datetime_gtm3.html.twig'
         form_theme: 'vertical'
         assets:
