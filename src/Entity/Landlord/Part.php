@@ -7,6 +7,7 @@ namespace App\Entity\Landlord;
 use App\Doctrine\ORM\Mapping\Traits\Discount;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -60,6 +61,14 @@ class Part
      * @ORM\Column(type="boolean")
      */
     private $universal = false;
+
+    /**
+     * @var Part[]|ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="App\Entity\Landlord\Part")
+     * @ORM\JoinTable
+     */
+    private $relation;
 
     public function __toString(): string
     {
