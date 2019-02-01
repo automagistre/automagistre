@@ -63,7 +63,7 @@
     {% if title is not empty and '%entity_id%' not in title %}
         {{ include(template_from_string(title)) }}
     {% else %}
-        {{ block('content_title', '@EasyAdmin/default/' ~ action ~'.html.twig') }}
+        {{ block('content_title', '@EasyAdmin/default/' ~ ('search' == action ? 'list' : action) ~'.html.twig') }}
     {% endif %}
 {% endblock %}
 
