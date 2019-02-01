@@ -7,12 +7,16 @@ namespace App\Entity\Tenant;
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\CreatedByRelation as CreatedBy;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Entity\Discounted;
 use App\Entity\Landlord\User;
+use App\Money\PriceInterface;
 use App\Money\TotalPriceInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;
 use Money\Money;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity
@@ -62,6 +66,21 @@ abstract class OrderItem
     }
 
     abstract public function __toString(): string;
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context): void
+    {
+        if (
+            $this instanceof PriceInterface && $this instanceof Discounted
+            && $this->isDiscounted() && $this->getPrice()->isZero()
+        ) {
+            $context->buildViolation('Сумма не может быть равно нулю при наличии скидки.')
+                ->atPath('price')
+                ->addViolation();
+        }
+    }
 
     public function getOrder(): Order
     {
