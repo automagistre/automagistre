@@ -58,6 +58,10 @@ final class PartCaseOnOrderCloseListener implements EventSubscriberInterface
             return;
         }
 
+        if (null === $carModel->getCaseName()) {
+            return;
+        }
+
         $parts = $order->getItems(OrderItemPart::class);
         if (0 === \count($parts)) {
             return;
