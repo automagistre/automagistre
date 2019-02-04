@@ -615,7 +615,8 @@ final class OrderController extends AbstractController
                 ->setParameter('car', $car->getId());
         }
 
-        if (null === $customer && null === $car) {
+        $request = $this->request;
+        if (null === $customer && null === $car && !$request->query->has('all')) {
             $qb->where(
                 $qb->expr()->orX(
                     $qb->expr()->neq('entity.status', ':closedStatus'),
