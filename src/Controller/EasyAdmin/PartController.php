@@ -355,7 +355,7 @@ final class PartController extends AbstractController
             }
 
             foreach ($cases as $case) {
-                $searchQuery = \str_replace($case->getCaseName(), '', $searchQuery);
+                $searchQuery = \str_ireplace($case->getCaseName(), '', $searchQuery);
             }
             $searchQuery = \str_replace('  ', ' ', $searchQuery);
 
