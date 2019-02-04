@@ -255,8 +255,9 @@ fixtures: database cache do-fixtures
 	@$(notify)
 do-fixtures:
 	$(APP) console doctrine:fixtures:load --no-interaction
-backup: backup-fresh backup-download backup-restore migration
+backup: backup-restore migration
 	@$(notify)
+backup-update: backup-fresh backup-download backup
 backup-fresh:
 	@ssh ${BACKUP_SERVER} automagistre_backup.sh
 	$(call success,"Backups creating on ${BACKUP_SERVER}")
