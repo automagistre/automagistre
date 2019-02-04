@@ -335,6 +335,32 @@ final class PartController extends AbstractController
             $searchQuery = \ltrim($searchQuery, '+');
         }
 
+        /** @var CarModel[] $cases */
+        $cases = $this->registry->repository(CarModel::class)
+            ->createQueryBuilder('entity')
+            ->select('PARTIAL entity.{id, caseName}')
+            ->where('entity.caseName IN (:cases)')
+            ->getQuery()
+            ->setParameter('cases', \explode(' ', \trim($searchQuery)))
+            ->getResult();
+
+        if (0 < \count($cases)) {
+            $this->addFlash(
+                'info',
+                \sprintf('Поиск по кузовам "%s"', \implode(',', $cases))
+            );
+
+            foreach ($cases as $case) {
+                $searchQuery = \str_replace($case->getCaseName(), '', $searchQuery);
+            }
+            $searchQuery = \str_replace('  ', ' ', $searchQuery);
+
+            $qb
+                ->join(PartCase::class, 'pc', Join::WITH, 'pc.part = part')
+                ->where('pc.carModel IN (:cases)')
+                ->setParameter('cases', $cases);
+        }
+
         foreach (\explode(' ', \trim($searchQuery)) as $key => $searchString) {
             $key = ':search_'.$key;
 
@@ -344,7 +370,7 @@ final class PartController extends AbstractController
                 $qb->expr()->like('manufacturer.name', $key)
             ));
 
-            $qb->setParameter($key, '%'.$searchString.'%');
+            $qb->setParameter($key, '%'.\trim($searchString).'%');
         }
 
         $qb->leftJoin(
