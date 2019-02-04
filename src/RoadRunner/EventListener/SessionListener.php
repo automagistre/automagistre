@@ -41,7 +41,7 @@ final class SessionListener implements EventSubscriberInterface
     {
         return [
             KernelEvents::REQUEST => ['onKernelRequest', 9999],
-            KernelEvents::RESPONSE => ['onKernelResponse', -9998],
+            KernelEvents::RESPONSE => ['onKernelResponse', -9999],
             KernelEvents::TERMINATE => ['onKernelTerminate', -9999],
         ];
     }
