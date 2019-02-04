@@ -330,11 +330,6 @@ final class PartController extends AbstractController
         $qb = $this->em->getRepository(Part::class)->createQueryBuilder('part')
             ->join('part.manufacturer', 'manufacturer');
 
-        if (0 === \strpos(\trim($searchQuery), '+')) {
-            $qb->andWhere('part.quantity > 0');
-            $searchQuery = \ltrim($searchQuery, '+');
-        }
-
         /** @var CarModel[] $cases */
         $cases = $this->registry->repository(CarModel::class)
             ->createQueryBuilder('entity')
