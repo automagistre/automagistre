@@ -345,10 +345,14 @@ final class PartController extends AbstractController
             ->getResult();
 
         if (0 < \count($cases)) {
-            $this->addFlash(
-                'info',
-                \sprintf('Поиск по кузовам "%s"', \implode(',', $cases))
-            );
+            $request = $this->request;
+
+            if (!$request->isXmlHttpRequest()) {
+                $this->addFlash(
+                    'info',
+                    \sprintf('Поиск по кузовам "%s"', \implode(',', $cases))
+                );
+            }
 
             foreach ($cases as $case) {
                 $searchQuery = \str_replace($case->getCaseName(), '', $searchQuery);
