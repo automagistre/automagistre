@@ -6,6 +6,7 @@ namespace App\Controller\EasyAdmin;
 
 use App\Entity\Landlord\Operand;
 use App\Entity\Tenant\Wallet;
+use App\Form\Model\OperandTransaction;
 use App\Manager\PaymentManager;
 use Doctrine\ORM\QueryBuilder;
 use LogicException;
@@ -29,22 +30,25 @@ final class OperandTransactionController extends AbstractController
         $this->paymentManager = $paymentManager;
     }
 
-    protected function createNewEntity(): stdClass
+    protected function createNewEntity(): OperandTransaction
     {
         $recipient = $this->getEntity(Operand::class);
         if (!$recipient instanceof Operand) {
             throw new LogicException('Operand required.');
         }
 
-        $obj = new stdClass();
-        $obj->id = null;
-        $obj->recipient = $recipient;
-        $obj->description = null;
-        $obj->amount = null;
-        $obj->wallet = $this->registry->repository(Wallet::class)
+        $request = $this->request;
+        if (!$request->query->has('type')) {
+            throw new LogicException('Type required.');
+        }
+
+        $model = new OperandTransaction();
+        $model->recipient = $recipient;
+        $model->increment = 'increment' === $request->query->getAlnum('type');
+        $model->wallet = $this->registry->repository(Wallet::class)
             ->findOneBy(['defaultInManualTransaction' => true]);
 
-        return $obj;
+        return $model;
     }
 
     /**
@@ -72,6 +76,7 @@ final class OperandTransactionController extends AbstractController
         $this->em->transactional(function () use ($entity): void {
             /** @var Money $money */
             $money = $entity->amount;
+            $money = $entity->increment ? $money->absolute() : $money->negative();
 
             $transaction = $this->paymentManager->createPayment($entity->recipient, $entity->description, $money);
 

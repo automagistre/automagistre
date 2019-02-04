@@ -678,8 +678,8 @@ easy_admin:
                     - { property: 'description', label: 'Описание', template: '@EasyAdmin/default/field_raw.html.twig' }
                     - { property: 'subtotal', label: 'Остаток', template: 'easy_admin/field_money.html.twig' }
             new:
-                title: 'Создать новую проводку'
-                form_options: { data_class: stdClass }
+                title: 'Создать новую проводку {{ "increment" == app.request.query.get("type") ? "пополнения" : "списания" }}'
+                form_options: { data_class: App\Form\Model\OperandTransaction }
                 fields:
                     - { property: 'recipient', label: 'Получатель', type: 'text', type_options: { disabled: true } }
                     - { property: 'amount', label: 'Сумма', type: App\Form\Type\MoneyType }
