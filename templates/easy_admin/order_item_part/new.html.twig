@@ -1,5 +1,7 @@
 {% extends '@EasyAdmin/default/new.html.twig' %}
 
+{% form_theme form.part with 'easy_admin/order_item_part/form.html.twig' %}
+
 {% use 'easy_admin/order/layout.html.twig' %}
 
 {% block content_title %}Создать новую запчасть{% endblock %}

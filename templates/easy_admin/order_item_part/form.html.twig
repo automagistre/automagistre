@@ -1,0 +1,17 @@
+{# EasyAdminAutocomplete form type #}
+{% block easyadmin_autocomplete_widget %}
+    {% set params = {} %}
+    {# @var car \App\Entity\Landlord\Car #}
+    {% set car = form.parent.vars.value.order.car %}
+    {% if car.carModel is not empty %}
+        {% set params = car.carModel|to_query %}
+    {% endif %}
+
+    {{ form_widget(form.autocomplete, {
+        attr: attr|merge({
+            'data-easyadmin-autocomplete-url' : path('easyadmin', {
+                action: 'autocomplete',
+                entity: autocomplete_entity_name
+            }|merge(params))|raw })
+    }) }}
+{% endblock easyadmin_autocomplete_widget %}

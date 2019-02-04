@@ -344,6 +344,12 @@ final class PartController extends AbstractController
             ->setParameter('cases', \explode(' ', \trim($searchQuery)))
             ->getResult();
 
+        $carModel = $this->getEntity(CarModel::class);
+        if ($carModel instanceof CarModel && false === \strpos($searchQuery, '+')) {
+            $cases[] = $carModel;
+        }
+        $searchQuery = \str_replace('+', '', $searchQuery);
+
         if (0 < \count($cases)) {
             $request = $this->request;
 
@@ -402,8 +408,15 @@ final class PartController extends AbstractController
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
-        $normalizer = function (Part $entity, bool $analog = false) {
+        $carModel = $this->getEntity(CarModel::class);
+        $useCarModelInFormat = false === \strpos($queryString, '+');
+
+        $normalizer = function (Part $entity, bool $analog = false) use ($carModel, $useCarModelInFormat) {
             $format = '%s - %s (%s) (Склад: %s) | %s';
+
+            if ($carModel instanceof CarModel && $useCarModelInFormat) {
+                $format = \sprintf('[%s] %s', $carModel->getDisplayName(false), $format);
+            }
 
             if ($analog) {
                 $format = ' [АНАЛОГ] '.$format;
