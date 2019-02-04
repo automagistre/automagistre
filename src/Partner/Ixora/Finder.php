@@ -64,11 +64,7 @@ final class Finder
                 continue;
             }
 
-            $parts[$key] = new Part([
-                'manufacturer' => $manufacturer,
-                'number' => $number,
-                'name' => $name,
-            ]);
+            $parts[$key] = new Part($manufacturer, $number, $name);
         }
 
         return \array_values($parts);

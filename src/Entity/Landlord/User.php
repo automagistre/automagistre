@@ -113,11 +113,11 @@ class User implements UserInterface, EquatableInterface, Serializable
         $this->roles = $roles;
     }
 
-    public function getPassword(): ?string
+    public function getPassword(): string
     {
         $credential = $this->getCredential(self::PASSWORD_CREDENTIALS_TYPE);
 
-        return $credential instanceof UserCredentials ? $credential->getIdentifier() : null;
+        return $credential instanceof UserCredentials ? $credential->getIdentifier() : '';
     }
 
     public function changePassword(string $password, PasswordEncoderInterface $encoder): void

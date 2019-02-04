@@ -12,12 +12,15 @@ final class UrlUtils
     public static function addQuery(string $url, string $key, string $value): string
     {
         $parsedUrl = \parse_url($url);
+        if (!\is_array($parsedUrl)) {
+            throw new \LogicException('ParseUrl should return array.');
+        }
 
-        if (!\array_key_exists('path', $parsedUrl) || null === $parsedUrl['path']) {
+        if (!\array_key_exists('path', $parsedUrl) || '' === $parsedUrl['path']) {
             $url .= '/';
         }
 
-        if (!isset($parsedUrl['query']) || null === $parsedUrl['query'] || '' === $parsedUrl['query']) {
+        if (!\array_key_exists('query', $parsedUrl) || '' === $parsedUrl['query']) {
             $url .= '?'.$key.'='.$value;
 
             return $url;

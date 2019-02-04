@@ -173,10 +173,7 @@ final class PartController extends AbstractController
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $request->query->getInt('page', 1), 99000);
 
         $parts = \array_map(function (array $data) {
-            return new WarehousePart([
-                'part' => $data[0],
-                'quantity' => $data['quantity'],
-            ]);
+            return new WarehousePart($data[0], $data['quantity']);
         }, (array) $paginator->getCurrentPageResults());
 
         return $this->render('easy_admin/part/stock.html.twig', [

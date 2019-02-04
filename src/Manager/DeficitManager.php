@@ -77,13 +77,14 @@ SQL;
         ]);
 
         return \array_map(function (array $item) use ($em, $partRepository) {
-            return new DeficitPart([
-                'part' => $partRepository->find($item['part_id']),
-                'quantity' => $item['needed'],
-                'orders' => \array_map(function (int $id) use ($em) {
-                    return $em->getReference(Order::class, $id);
-                }, \array_filter(\explode(',', $item['orders_id']), 'strlen')),
-            ]);
+            /** @var Part $part */
+            $part = $partRepository->find($item['part_id']);
+            $quantity = $item['needed'];
+            $orders = \array_map(function (int $id) use ($em) {
+                return $em->getReference(Order::class, $id);
+            }, \array_filter(\explode(',', $item['orders_id']), 'strlen'));
+
+            return new DeficitPart($part, $quantity, $orders);
         }, $result);
     }
 }

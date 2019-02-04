@@ -50,7 +50,7 @@ final class UserChangePasswordCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
         $em = $this->registry->manager(User::class);
 
@@ -65,5 +65,7 @@ final class UserChangePasswordCommand extends Command
         $user->changePassword($password, $this->encoderFactory->getEncoder($user));
 
         $em->flush();
+
+        return 0;
     }
 }

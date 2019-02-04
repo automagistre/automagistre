@@ -25,7 +25,7 @@ trait DoctrineCommandHelpers
     /**
      * {@inheritdoc}
      */
-    public function execute(InputInterface $input, OutputInterface $output): void
+    public function execute(InputInterface $input, OutputInterface $output): ?int
     {
         $application = $this->getApplication();
         if (!$application instanceof Application) {

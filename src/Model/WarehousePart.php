@@ -9,7 +9,7 @@ use App\Entity\Landlord\Part;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-class WarehousePart extends Model
+class WarehousePart
 {
     /**
      * @var Part
@@ -20,4 +20,10 @@ class WarehousePart extends Model
      * @var int
      */
     public $quantity;
+
+    public function __construct(Part $part, int $quantity)
+    {
+        $this->part = $part;
+        $this->quantity = $quantity;
+    }
 }

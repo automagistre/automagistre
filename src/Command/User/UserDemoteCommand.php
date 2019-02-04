@@ -43,7 +43,7 @@ final class UserDemoteCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
         $em = $this->registry->manager(User::class);
 
@@ -65,5 +65,7 @@ final class UserDemoteCommand extends Command
         $user->setRoles($currentRoles);
 
         $em->flush();
+
+        return 0;
     }
 }

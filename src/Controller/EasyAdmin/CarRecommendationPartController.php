@@ -68,14 +68,13 @@ final class CarRecommendationPartController extends AbstractController
 
             $isCurrent = $part->getId() === $crossId;
 
-            $data = [
-                'recommendation' => $recommendationPart->getRecommendation(),
-                'part' => $cross,
-                'quantity' => $recommendationPart->getQuantity(),
-                'price' => $isCurrent ? $recommendationPart->getPrice() : $this->priceManager->suggestForPart($cross),
-            ];
+            $model = new RecommendationPart();
+            $model->recommendation = $recommendationPart->getRecommendation();
+            $model->part = $cross;
+            $model->quantity = $recommendationPart->getQuantity();
+            $model->price = $isCurrent ? $recommendationPart->getPrice() : $this->priceManager->suggestForPart($cross);
 
-            $forms[$crossId] = $this->createFormBuilder(new RecommendationPart($data), [
+            $forms[$crossId] = $this->createFormBuilder($model, [
                 'action' => UrlUtils::addQuery($request->getUri(), 'cross', (string) $crossId),
             ])
                 ->add('quantity', QuantityType::class)

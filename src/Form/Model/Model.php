@@ -7,7 +7,7 @@ namespace App\Form\Model;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-abstract class Model extends \App\Model\Model
+abstract class Model
 {
     /**
      * @var int

@@ -14,5 +14,8 @@ parameters:
         - %rootDir%/../../../src/Command/TestCommand.php
         - %rootDir%/../../../src/Controller/TestController.php
         - %rootDir%/../../../src/RoadRunner/worker.php
+    ignoreErrors:
+        - '#should be contravariant with parameter#'
+        - '#Variable method call on Symfony\\Bridge\\Doctrine\\Form\\DoctrineOrmTypeGuesser#'
     symfony:
         container_xml_path: %rootDir%/../../../var/cache/test/srcApp_KernelTestDebugContainer.xml

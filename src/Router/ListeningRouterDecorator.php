@@ -36,13 +36,7 @@ class ListeningRouterDecorator implements RouterInterface, RequestMatcherInterfa
     }
 
     /**
-     * @param string $name
-     * @param array  $parameters
-     * @param int    $referenceType
-     *
-     * @throws \Symfony\Component\Routing\Exception\InvalidParameterException
-     * @throws \Symfony\Component\Routing\Exception\MissingMandatoryParametersException
-     * @throws \Symfony\Component\Routing\Exception\RouteNotFoundException
+     * {@inheritdoc}
      */
     public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH): string
     {
@@ -81,11 +75,7 @@ class ListeningRouterDecorator implements RouterInterface, RequestMatcherInterfa
     }
 
     /**
-     * @param string $pathinfo
-     *
-     * @throws \Symfony\Component\Routing\Exception\MethodNotAllowedException
-     * @throws \Symfony\Component\Routing\Exception\NoConfigurationException
-     * @throws \Symfony\Component\Routing\Exception\ResourceNotFoundException
+     * {@inheritdoc}
      */
     public function match($pathinfo): array
     {

@@ -15,4 +15,11 @@ final class DeficitPart extends WarehousePart
      * @var Order[]
      */
     public $orders;
+
+    public function __construct(\App\Entity\Landlord\Part $part, int $quantity, array $orders)
+    {
+        parent::__construct($part, $quantity);
+
+        $this->orders = $orders;
+    }
 }

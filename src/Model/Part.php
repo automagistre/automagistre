@@ -7,7 +7,7 @@ namespace App\Model;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class Part extends Model
+final class Part
 {
     /**
      * @var string
@@ -23,4 +23,11 @@ final class Part extends Model
      * @var string
      */
     public $name;
+
+    public function __construct(string $manufacturer, string $number, string $name)
+    {
+        $this->manufacturer = $manufacturer;
+        $this->number = $number;
+        $this->name = $name;
+    }
 }
