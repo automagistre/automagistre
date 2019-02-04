@@ -44,6 +44,6 @@ trait DoctrineCommandHelpers
 
         $input->setOption('db', null);
 
-        parent::execute($input, $output);
+        return parent::execute($input, $output);
     }
 }
