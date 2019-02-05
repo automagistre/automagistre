@@ -12,7 +12,6 @@ use App\Entity\Landlord\Person;
 use App\Entity\Tenant\Order;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
-use LogicException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -26,10 +25,7 @@ final class CarController extends AbstractController
      */
     protected function createNewEntity(): Car
     {
-        $entity = parent::createNewEntity();
-        if (!$entity instanceof Car) {
-            throw new LogicException('Car expected');
-        }
+        $entity = new Car();
 
         $owner = $this->getEntity(Operand::class);
         if ($owner instanceof Operand) {

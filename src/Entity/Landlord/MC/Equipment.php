@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Entity\Landlord\MC;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Entity\Embeddable\CarEquipment;
 use App\Entity\Landlord\CarModel;
-use App\Enum\CarTransmission;
-use App\Enum\CarWheelDrive;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -26,32 +26,13 @@ class Equipment
     public $model;
 
     /**
-     * @var string
+     * @var CarEquipment
      *
-     * @ORM\Column
-     */
-    public $engine;
-
-    /**
-     * @var string
+     * @Assert\Valid
      *
-     * @ORM\Column
+     * @ORM\Embedded(class="App\Entity\Embeddable\CarEquipment")
      */
-    public $engineCapacity;
-
-    /**
-     * @var CarTransmission
-     *
-     * @ORM\Column(type="car_transmission_enum")
-     */
-    public $transmission;
-
-    /**
-     * @var CarWheelDrive
-     *
-     * @ORM\Column(type="car_wheel_drive_enum")
-     */
-    public $wheelDrive;
+    public $equipment;
 
     /**
      * @var int
@@ -69,6 +50,7 @@ class Equipment
 
     public function __construct()
     {
+        $this->equipment = new CarEquipment();
         $this->lines = new ArrayCollection();
     }
 }

@@ -6,10 +6,8 @@ namespace App\Entity\Landlord;
 
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Entity\Embeddable\CarEquipment;
 use App\Enum\Carcase;
-use App\Enum\CarTransmission;
-use App\Enum\CarWheelDrive;
-use App\Enum\EngineType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
@@ -29,6 +27,13 @@ class Car
     use CreatedAt;
 
     /**
+     * @var CarEquipment
+     *
+     * @ORM\Embedded(class="App\Entity\Embeddable\CarEquipment")
+     */
+    public $equipment;
+
+    /**
      * @var CarModel
      *
      * @Assert\NotBlank
@@ -37,34 +42,6 @@ class Car
      * @ORM\JoinColumn
      */
     private $carModel;
-
-    /**
-     * @var EngineType
-     *
-     * @ORM\Column(type="engine_type_enum")
-     */
-    private $engineType;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $engineCapacity;
-
-    /**
-     * @var CarTransmission
-     *
-     * @ORM\Column(type="car_transmission_enum")
-     */
-    private $transmission;
-
-    /**
-     * @var CarWheelDrive
-     *
-     * @ORM\Column(type="car_wheel_drive_enum")
-     */
-    private $wheelDrive;
 
     /**
      * @var string
@@ -129,9 +106,7 @@ class Car
 
     public function __construct()
     {
-        $this->engineType = EngineType::unknown();
-        $this->wheelDrive = CarWheelDrive::unknown();
-        $this->transmission = CarTransmission::unknown();
+        $this->equipment = new CarEquipment();
         $this->caseType = Carcase::unknown();
         $this->recommendations = new ArrayCollection();
     }
@@ -166,46 +141,6 @@ class Car
     public function setCarModel(?CarModel $carModel): void
     {
         $this->carModel = $carModel;
-    }
-
-    public function getEngineType(): EngineType
-    {
-        return $this->engineType;
-    }
-
-    public function setEngineType(EngineType $engineType): void
-    {
-        $this->engineType = $engineType;
-    }
-
-    public function getEngineCapacity(): ?string
-    {
-        return $this->engineCapacity;
-    }
-
-    public function setEngineCapacity(?string $engineCapacity): void
-    {
-        $this->engineCapacity = $engineCapacity;
-    }
-
-    public function getTransmission(): CarTransmission
-    {
-        return $this->transmission;
-    }
-
-    public function setTransmission(CarTransmission $transmission): void
-    {
-        $this->transmission = $transmission;
-    }
-
-    public function getWheelDrive(): CarWheelDrive
-    {
-        return $this->wheelDrive;
-    }
-
-    public function setWheelDrive(CarWheelDrive $wheelDrive): void
-    {
-        $this->wheelDrive = $wheelDrive;
     }
 
     public function getVin(): ?string

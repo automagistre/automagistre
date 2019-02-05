@@ -440,10 +440,10 @@ easy_admin:
                     - { property: 'carModel', label: 'Модель' }
                     - { property: 'caseType.name', label: 'Тип кузова' }
                     - { property: 'year', label: 'Год', type: 'string' }
-                    - { property: 'engineCapacity', label: 'Объём двигателя' }
-                    - { property: 'engineType.name', label: 'Тип двигателя' }
-                    - { property: 'transmission.name', label: 'Трасмиссия' }
-                    - { property: 'wheelDrive.name', label: 'Привод' }
+                    - { property: 'equipment.engine.capacity', label: 'Объём двигателя' }
+                    - { property: 'equipment.type.name', label: 'Тип двигателя' }
+                    - { property: 'equipment.transmission.name', label: 'Трасмиссия' }
+                    - { property: 'equipment.wheelDrive.name', label: 'Привод' }
                     - { property: 'mileage', label: 'Пробег' }
                     - { property: 'gosnomer', label: 'Гос. Номер' }
             form:
@@ -458,15 +458,12 @@ easy_admin:
                         label: 'Модель'
                         type: 'easyadmin_autocomplete'
                         help: 'Проивзодитель, Модель, Год, Поколение, Комплектация, Лошадинные силы'
-                    - { property: 'engineCapacity', label: 'Объём двигателя', type: App\Form\Type\EngineCapacityType }
-                    - { property: 'engineType', label: 'Тип двигателя', type: App\Form\Type\EngineTypeType }
-                    - { property: 'transmission', type: App\Form\Type\CarTransmissionType, label: 'Трасмиссия' }
-                    - { property: 'wheelDrive', type: App\Form\Type\CarWheelDriveType, label: 'Привод' }
                     - { property: 'year', label: 'Год выпуска' }
                     - { property: 'caseType', label: 'Тип кузова', type: App\Form\Type\CarcaseType, type_options: { required: false } }
                     - { property: 'vin', label: 'VIN' }
                     - { property: 'gosnomer', label: 'Гос. Номер' }
                     - { property: 'description', label: 'Описание', type: 'textarea' }
+                    - { property: 'equipment', label: ' ', type: App\Form\Type\CarEquipmentType }
             edit:
                 title: 'Редактировать автомобиль №%%entity_id%%'
             new:
@@ -758,29 +755,26 @@ easy_admin:
                 fields:
                     - { property: 'id' }
                     - { property: 'model', label: 'Модель', template: 'field_association.html.twig' }
-                    - { property: 'engine', label: 'Двигатель' }
-                    - { property: 'engineCapacity', label: 'Объём' }
-                    - { property: 'transmission.name', label: 'КПП' }
-                    - { property: 'wheelDrive.name', label: 'Привод' }
+                    - { property: 'equipment.engine.name', label: 'Двигатель' }
+                    - { property: 'equipment.engine.capacity', label: 'Объём' }
+                    - { property: 'equipment.transmission.name', label: 'КПП' }
+                    - { property: 'equipment.wheelDrive.name', label: 'Привод' }
                     - { property: 'period', label: 'Период' }
             show:
                 title: 'Комплектация №%%entity_id%%'
                 fields:
                     - { property: 'id' }
                     - { property: 'model', label: 'Модель', template: 'field_association.html.twig' }
-                    - { property: 'engine', label: 'Двигатель' }
-                    - { property: 'engineCapacity', label: 'Объём' }
-                    - { property: 'transmission.name', label: 'КПП' }
-                    - { property: 'wheelDrive.name', label: 'Привод' }
+                    - { property: 'equipment.engine.name', label: 'Двигатель' }
+                    - { property: 'equipment.engine.capacity', label: 'Объём' }
+                    - { property: 'equipment.transmission.name', label: 'КПП' }
+                    - { property: 'equipment.wheelDrive.name', label: 'Привод' }
                     - { property: 'period', label: 'Период' }
             form:
                 fields:
                     - { property: 'model', label: 'Модель', type: 'easyadmin_autocomplete' }
-                    - { property: 'engine', label: 'Модель ДВС' }
-                    - { property: 'engineCapacity', label: 'Двигатель' }
-                    - { property: 'transmission', label: 'КПП', type: App\Form\Type\CarTransmissionType }
-                    - { property: 'wheelDrive', label: 'Привод', type: App\Form\Type\CarWheelDriveType }
                     - { property: 'period', label: 'Период ТО' }
+                    - { property: 'equipment', label: ' ', type: App\Form\Type\CarEquipmentType }
             new:
                 title: 'Создать комплектацию'
             edit:
