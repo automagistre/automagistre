@@ -91,6 +91,10 @@ final class PartCaseOnOrderCloseListener implements EventSubscriberInterface
                 continue;
             }
 
+            if ($part->isUniversal()) {
+                continue;
+            }
+
             $em->persist(new PartCase($part, $carModel));
         }
 
