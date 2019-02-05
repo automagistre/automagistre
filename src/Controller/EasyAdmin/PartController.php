@@ -327,6 +327,11 @@ final class PartController extends AbstractController
         $sortDirection = null,
         $dqlFilter = null
     ): QueryBuilder {
+        $isPlusExist = false !== \strpos($searchQuery, '+');
+        if ($isPlusExist) {
+            $searchQuery = \str_replace('+', '', $searchQuery);
+        }
+
         $qb = $this->em->getRepository(Part::class)->createQueryBuilder('part')
             ->join('part.manufacturer', 'manufacturer');
 
@@ -340,10 +345,10 @@ final class PartController extends AbstractController
             ->getResult();
 
         $carModel = $this->getEntity(CarModel::class);
-        if ($carModel instanceof CarModel && false === \strpos($searchQuery, '+')) {
+
+        if ($carModel instanceof CarModel && $isPlusExist) {
             $cases[] = $carModel;
         }
-        $searchQuery = \str_replace('+', '', $searchQuery);
 
         if (0 < \count($cases)) {
             $request = $this->request;
@@ -378,6 +383,10 @@ final class PartController extends AbstractController
             $qb->setParameter($key, '%'.\trim($searchString).'%');
         }
 
+        if ($isPlusExist) {
+            $qb->orWhere('part.universal IS TRUE');
+        }
+
         $qb->leftJoin(
             Stockpile::class,
             'stockpile',
@@ -409,7 +418,7 @@ final class PartController extends AbstractController
         $normalizer = function (Part $entity, bool $analog = false) use ($carModel, $useCarModelInFormat) {
             $format = '%s - %s (%s) (Склад: %s) | %s';
 
-            if ($carModel instanceof CarModel && $useCarModelInFormat) {
+            if ($carModel instanceof CarModel && $useCarModelInFormat && !$entity->isUniversal()) {
                 $format = \sprintf('[%s] %s', $carModel->getDisplayName(false), $format);
             }
 
