@@ -11,10 +11,10 @@ override EM = tenant
 else
 override EM = landlord
 endif
-else
+endif
+
 ifndef TENANT
 override TENANT = msk
-endif
 endif
 
 BACKUP_SERVER="s2.automagistre.ru"
@@ -263,8 +263,8 @@ backup-fresh:
 	$(call success,"Backups creating on ${BACKUP_SERVER}")
 backup-download:
 	$(DEBUG_ECHO) @mkdir -p var/backups
-	@$(MAKE) do-backup-download
-	@$(MAKE) do-backup-download "TENANT=msk"
+	@$(MAKE) do-backup-download EM=landlord
+	@$(MAKE) do-backup-download EM=tenant
 do-backup-download:
 	$(DEBUG_ECHO) @scp -q -o LogLevel=QUIET ${BACKUP_SERVER}:/home/automagistre/backups/$(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz var/backups/$(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz
 	$(call success,"Backup $(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz downloaded.")
@@ -289,7 +289,7 @@ backup-restore: backup-restore-landlord backup-restore-tenant
 backup-restore-landlord: drop-landlord
 	@$(MAKE) do-backup-restore
 backup-restore-tenant: drop-tenant
-	@$(MAKE) do-backup-restore TENANT=$(TENANT)
+	@$(MAKE) do-backup-restore EM=tenant
 do-backup-restore:
 ifneq (,$(wildcard $(backup_file)))
 	@$(MYSQL) bash -c "gunzip < /usr/local/app/var/backups/$(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz | mysql ${EM}"
