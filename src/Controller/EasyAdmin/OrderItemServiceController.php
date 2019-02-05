@@ -142,19 +142,13 @@ final class OrderItemServiceController extends OrderItemController
             throw new LogicException('Car required.');
         }
 
-        $qb = $this->createListQueryBuilder($entityClass, $sortDirection)
-            ->leftJoin(Person::class, 'person', Join::WITH, 'person = entity.worker')
-            ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization = entity.worker');
+        $qb = $this->createListQueryBuilder($entityClass, $sortDirection);
 
         foreach (\explode(' ', $searchQuery) as $key => $item) {
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->like('entity.service', $key),
-                $qb->expr()->like('person.firstname', $key),
-                $qb->expr()->like('person.lastname', $key),
-                $qb->expr()->like('person.email', $key),
-                $qb->expr()->like('organization.name', $key)
+                $qb->expr()->like('entity.service', $key)
             ));
 
             $qb->setParameter($key, '%'.$item.'%');
