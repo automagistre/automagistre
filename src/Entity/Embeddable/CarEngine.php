@@ -18,7 +18,7 @@ final class CarEngine
      *
      * @Assert\NotBlank
      *
-     * @ORM\Column
+     * @ORM\Column(nullable=true)
      */
     public $name;
 

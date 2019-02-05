@@ -7,6 +7,7 @@ namespace App\Entity\Embeddable;
 use App\Enum\CarTransmission;
 use App\Enum\CarWheelDrive;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Embeddable
@@ -15,6 +16,8 @@ final class CarEquipment
 {
     /**
      * @var CarEngine
+     *
+     * @Assert\Valid
      *
      * @ORM\Embedded(class="App\Entity\Embeddable\CarEngine")
      */
