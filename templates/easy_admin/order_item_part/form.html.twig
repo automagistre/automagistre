@@ -1,9 +1,9 @@
 {# EasyAdminAutocomplete form type #}
 {% block easyadmin_autocomplete_widget %}
     {% set params = {} %}
-    {# @var car \App\Entity\Landlord\Car #}
+    {# @var carModel \App\Entity\Landlord\CarModel #}
     {% set carModel = form.parent.vars.value.order.car.carModel|default %}
-    {% if carModel is not empty %}
+    {% if carModel.caseName is not empty %}
         {% set params = carModel|to_query %}
     {% endif %}
 
