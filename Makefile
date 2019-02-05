@@ -289,7 +289,7 @@ backup-restore: backup-restore-landlord backup-restore-tenant
 backup-restore-landlord: drop-landlord
 	@$(MAKE) do-backup-restore
 backup-restore-tenant: drop-tenant
-	@$(MAKE) do-backup-restore TENANT=msk
+	@$(MAKE) do-backup-restore TENANT=$(TENANT)
 do-backup-restore:
 ifneq (,$(wildcard $(backup_file)))
 	@$(MYSQL) bash -c "gunzip < /usr/local/app/var/backups/$(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz | mysql ${EM}"
