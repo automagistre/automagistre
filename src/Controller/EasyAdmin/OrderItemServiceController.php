@@ -5,13 +5,10 @@ declare(strict_types=1);
 namespace App\Controller\EasyAdmin;
 
 use App\Entity\Landlord\Car;
-use App\Entity\Landlord\Organization;
-use App\Entity\Landlord\Person;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItem;
 use App\Entity\Tenant\OrderItemService;
 use App\Form\Model\OrderService;
-use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use LogicException;
 use Symfony\Component\HttpFoundation\JsonResponse;
