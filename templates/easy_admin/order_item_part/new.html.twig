@@ -32,7 +32,7 @@
         {{ form_errors(form.part) }}
 
         {% set carModel = order.car.carModel|default %}
-        {% if carModel is not empty %}
+        {% if carModel.caseName is not empty %}
         <span class="help-block">
             Поиск осуществляется только по <strong>{{ carModel.displayName(false) }}</strong>, чтобы выполнить поиск по всему складу добавьте символ <strong>+</strong> (плюс) в любую часть строки.
         </span>
