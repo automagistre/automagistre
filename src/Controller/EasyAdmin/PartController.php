@@ -384,7 +384,9 @@ final class PartController extends AbstractController
         }
 
         if ($isPlusExist) {
-            $qb->orWhere('part.universal IS TRUE');
+            $qb
+                ->orWhere('part.universal = :universal')
+                ->setParameter('universal', true);
         }
 
         $qb->leftJoin(
