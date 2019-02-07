@@ -34,11 +34,6 @@ final class OrderTOService
     public $price;
 
     /**
-     * @var Money|null
-     */
-    public $discount;
-
-    /**
      * @var OrderTOPart[]
      *
      * @Assert\Valid

@@ -31,10 +31,6 @@ final class OrderTOServiceType extends AbstractType
             ->add('price', MoneyType::class, [
                 'label' => 'Стоимость работы',
             ])
-            ->add('discount', MoneyType::class, [
-                'label' => 'Скидка на работу',
-                'required' => false,
-            ])
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
                 $form = $event->getForm();
                 $model = $event->getData();

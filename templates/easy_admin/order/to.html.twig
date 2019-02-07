@@ -40,11 +40,7 @@
                     <div class="col-md-4">
                         <div class="row">
                             <div class="col-md-6">{{ form_row(service.selected) }}</div>
-                            <div class="col-md-6"></div>
-                        </div>
-                        <div class="row">
                             <div class="col-md-6">{{ form_row(service.price) }}</div>
-                            <div class="col-md-6">{{ form_row(service.discount) }}</div>
                         </div>
                     </div>
                     <div class="col-md-8">
@@ -55,9 +51,8 @@
 
                                 <div class="row">
                                     <div class="col-md-2">{{ form_row(part.selected) }}</div>
-                                    <div class="col-md-4">{{ form_row(part.part) }}</div>
+                                    <div class="col-md-7">{{ form_row(part.part) }}</div>
                                     <div class="col-md-3">{{ form_row(part.price) }}</div>
-                                    <div class="col-md-3">{{ form_row(part.discount) }}</div>
                                 </div>
                             {% endfor %}
                         {% endif %}

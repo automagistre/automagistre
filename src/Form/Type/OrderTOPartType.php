@@ -40,10 +40,6 @@ final class OrderTOPartType extends AbstractType
                 'required' => false,
             ])
             ->add('price', MoneyType::class)
-            ->add('discount', MoneyType::class, [
-                'label' => 'Скидка',
-                'required' => false,
-            ])
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
                 $form = $event->getForm();
                 $model = $event->getData();

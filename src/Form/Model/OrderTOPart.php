@@ -44,11 +44,6 @@ final class OrderTOPart
      */
     public $price;
 
-    /**
-     * @var Money|null
-     */
-    public $discount;
-
     public static function from(Part $part): self
     {
         $model = new self();
