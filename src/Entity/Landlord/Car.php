@@ -113,9 +113,20 @@ class Car
 
     public function __toString(): string
     {
+        return $this->toString();
+    }
+
+    public function toString(bool $full = false): string
+    {
         $string = $this->carModel->getDisplayName(false);
 
-        $string .= null !== $this->year ? \sprintf(' - %sг.', $this->year) : '';
+        if (null !== $this->year) {
+            $string .= \sprintf(' - %sг.', $this->year);
+        }
+
+        if ($full) {
+            $string .= \sprintf(' (%s)', $this->equipment->toString());
+        }
 
         return $string;
     }
@@ -242,6 +253,6 @@ class Car
 
     public function getCarModificationDisplayName(): string
     {
-        return (string) $this->carModel;
+        return $this->carModel->getDisplayName();
     }
 }
