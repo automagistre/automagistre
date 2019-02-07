@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\EasyAdmin;
 
 use App\Entity\Landlord\Car;
+use App\Entity\Landlord\CarModel;
+use App\Entity\Landlord\MC\Line;
 use App\Entity\Landlord\Operand;
 use App\Entity\Landlord\Organization;
 use App\Entity\Landlord\Person;
@@ -19,8 +21,10 @@ use App\Entity\Tenant\OrderNote;
 use App\Entity\Tenant\Wallet;
 use App\Enum\OrderStatus;
 use App\Events;
+use App\Form\Model\OrderTOService;
 use App\Form\Type\MoneyType;
 use App\Form\Type\OrderItemServiceType;
+use App\Form\Type\OrderTOServiceType;
 use App\Manager\PaymentManager;
 use App\Manager\ReservationManager;
 use DateTimeImmutable;
@@ -63,6 +67,135 @@ final class OrderController extends AbstractController
     {
         $this->reservationManager = $reservationManager;
         $this->paymentManager = $paymentManager;
+    }
+
+    public function TOAction(): Response
+    {
+        $request = $this->request;
+
+        $order = $this->getEntity(Order::class);
+        if (!$order instanceof Order) {
+            throw new LogicException('Order required.');
+        }
+
+        $car = $order->getCar();
+        if (!$car instanceof Car) {
+            throw new LogicException('Car required.');
+        }
+
+        $carModel = $car->getCarModel();
+        if (!$carModel instanceof CarModel) {
+            throw new LogicException('CarModel required.');
+        }
+
+        if (!$car->equipment->isFilled()) {
+            $this->addFlash('warning', 'Для отображения карты ТО необходимо заполнить комплектацию.');
+
+            return $this->redirectToEasyPath($car, 'edit', [
+                'order_id' => $order->getId(),
+                'validate' => 'equipment',
+            ]);
+        }
+
+        $qb = $this->registry->repository(Line::class)
+            ->createQueryBuilder('line')
+            ->join('line.equipment', 'equipment')
+            ->where('equipment.model = :model')
+            ->andWhere('equipment.equipment.engine.name = :engine')
+            ->andWhere('equipment.equipment.engine.capacity = :capacity')
+            ->andWhere('equipment.equipment.transmission = :transmission')
+            ->andWhere('equipment.equipment.wheelDrive = :wheelDrive')
+            ->setParameters([
+                'model' => $car->getCarModel(),
+                'engine' => $car->equipment->engine->name,
+                'capacity' => $car->equipment->engine->capacity,
+                'transmission' => $car->equipment->transmission,
+                'wheelDrive' => $car->equipment->wheelDrive,
+            ]);
+
+        $periods = (clone $qb)
+            ->select('line.period')
+            ->groupBy('line.period')
+            ->getQuery()
+            ->getArrayResult();
+        $periods = \array_map('array_shift', $periods);
+
+        if (0 === \count($periods)) {
+            $this->addFlash('warning', \sprintf('Карт ТО для "%s" не найдео.', $car->toString(true)));
+
+            return $this->redirectToReferrer();
+        }
+
+        $currentPeriod = $request->query->getAlnum('period', $periods[0]);
+
+        /** @var OrderTOService[] $services */
+        $services = [];
+
+        /** @var Line[] $lines */
+        $lines = $qb->getQuery()->getResult();
+        foreach ($lines as $line) {
+            if (0 !== $currentPeriod % $line->period) {
+                continue;
+            }
+
+            $services[$line->getId()] = OrderTOService::from($line);
+        }
+
+        $form = $this->createFormBuilder(['services' => $services])
+            ->add('services', CollectionType::class, [
+                'label' => false,
+                'entry_type' => OrderTOServiceType::class,
+                'allow_add' => false,
+                'allow_delete' => false,
+            ])
+            ->getForm()
+            ->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->registry->manager(OrderItem::class);
+            foreach ($services as $service) {
+                if (!$service->selected) {
+                    continue;
+                }
+
+                $orderItemService = new OrderItemService(
+                    $order,
+                    $service->service,
+                    $service->price,
+                    $this->getUser()
+                );
+                $em->persist($orderItemService);
+
+                foreach ($service->parts as $part) {
+                    if (!$part->selected) {
+                        continue;
+                    }
+
+                    $orderItemPart = new OrderItemPart(
+                        $order,
+                        $part->part,
+                        $part->quantity,
+                        $part->price,
+                        $this->getUser()
+                    );
+                    $em->persist($orderItemPart);
+
+                    $orderItemPart->setParent($orderItemService);
+                }
+            }
+
+            $em->flush();
+
+            return $this->redirectToReferrer();
+        }
+
+        return $this->render('easy_admin/order/to.html.twig', [
+            'order' => $order,
+            'car' => $car,
+            'periods' => $periods,
+            'currentPeriod' => $currentPeriod,
+            'form' => $form->createView(),
+        ]);
     }
 
     public function info(Order $order, bool $statusSelector = false): Response

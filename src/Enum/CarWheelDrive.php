@@ -8,7 +8,6 @@ use Grachevko\Enum\Enum;
 
 /**
  * @method static self unknown()
- * @method string getCode()
  *
  * @author Konstantin Grachev <me@grachevko.ru>
  */
@@ -38,4 +37,9 @@ final class CarWheelDrive extends Enum
         self::REAR_WHEEL_DRIVE => 'RWD',
         self::ALL_WHEEL_DRIVE => 'AWD',
     ];
+
+    public function getCode(): string
+    {
+        return self::$code[$this->getId()];
+    }
 }

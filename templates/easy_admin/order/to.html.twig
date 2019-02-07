@@ -1,0 +1,85 @@
+{% extends 'easy_admin/layout.html.twig' %}
+
+{% form_theme form with _self %}
+
+{% block content_title %}
+    Карта ТО для {{ car }}
+{% endblock %}
+
+{% block content_help %}
+    Для заказа №{{ order.id }}
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-12">
+            {% for period in periods %}
+                <a href="{{ app.request.uri|add_query('period', period) }}" class="btn btn-{{ currentPeriod == period ? 'primary': 'default' }}">
+                    {{ period }}
+                </a>
+            {% endfor %}
+            <p class="help-block">Период ТО</p>
+        </div>
+    </div>
+
+    <hr>
+
+    {{ form_start(form) }}
+
+    {% for service in form.services %}
+        {# @var modelService \App\Form\Model\OrderTOService #}
+        {% set modelService = service.vars.value %}
+
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">{{ service.vars.value.service }}</h3>
+            </div>
+
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-6">{{ form_row(service.selected) }}</div>
+                            <div class="col-md-6"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">{{ form_row(service.price) }}</div>
+                            <div class="col-md-6">{{ form_row(service.discount) }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        {% if service.parts is defined %}
+                            {% for part in service.parts %}
+                                {# @var modelPart \App\Form\Model\OrderTOPart #}
+                                {% set modelPart = part.vars.value %}
+
+                                <div class="row">
+                                    <div class="col-md-2">{{ form_row(part.selected) }}</div>
+                                    <div class="col-md-4">{{ form_row(part.part) }}</div>
+                                    <div class="col-md-3">{{ form_row(part.price) }}</div>
+                                    <div class="col-md-3">{{ form_row(part.discount) }}</div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    <button type="submit" class="btn btn-primary">Добавить в заказ</button>
+
+    <a href="{{ app.request.query.get('referer')|easyadmin_urldecode }}" class="btn btn-default">Отмена</a>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block _form_services_entry_selected_label %}
+    {{ block('checkbox_radio_label') }}
+
+    {# @var model \App\Form\Model\OrderTOService #}
+    {% set model = form.parent.vars.value %}
+
+    {% if model.recommend %}
+        <span class="badge badge-primary">Рекомендуемый</span>
+    {% endif %}
+{% endblock %}

@@ -46,4 +46,22 @@ final class CarEquipment
         $this->wheelDrive = $wheelDrive ?? CarWheelDrive::unknown();
         $this->transmission = $transmission ?? CarTransmission::unknown();
     }
+
+    public function isFilled(): bool
+    {
+        return
+            !$this->wheelDrive->eq(CarWheelDrive::unknown())
+            && !$this->transmission->eq(CarTransmission::unknown())
+            && $this->engine->isFilled();
+    }
+
+    public function toString(): string
+    {
+        return \sprintf(
+            '%s %s %s',
+            $this->engine->toString(),
+            $this->transmission->getCode(),
+            $this->wheelDrive->getCode()
+        );
+    }
 }

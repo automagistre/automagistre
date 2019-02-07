@@ -13,6 +13,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 final class CarEngine
 {
+    private const DEFAULT_CAPACITY = '0';
+
     /**
      * @var string
      *
@@ -24,6 +26,8 @@ final class CarEngine
 
     /**
      * @var EngineType
+     *
+     * @Assert\NotBlank
      *
      * @ORM\Column(type="engine_type_enum")
      */
@@ -42,6 +46,19 @@ final class CarEngine
     {
         $this->name = $name;
         $this->type = $type ?? EngineType::unknown();
-        $this->capacity = $capacity ?? '0';
+        $this->capacity = $capacity ?? self::DEFAULT_CAPACITY;
+    }
+
+    public function isFilled(): bool
+    {
+        return
+            null !== $this->name
+            && !$this->type->eq(EngineType::unknown())
+            && self::DEFAULT_CAPACITY !== $this->capacity;
+    }
+
+    public function toString(): string
+    {
+        return \sprintf('%s %s', $this->name, $this->capacity);
     }
 }

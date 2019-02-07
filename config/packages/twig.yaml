@@ -6,3 +6,6 @@ twig:
     exception_controller: App\Controller\ExceptionController::showAction
     globals:
         state: '@App\State'
+    form_themes:
+        - 'bootstrap_3_layout.html.twig'
+        - 'easy_admin/form.html.twig'

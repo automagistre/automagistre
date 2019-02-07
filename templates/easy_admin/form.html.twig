@@ -1,0 +1,23 @@
+{% block car_engine_row %}
+    <div class="box box-default">
+        <div class="box-header with-border">
+            <h3 class="box-title">{{ block('form_label') }}</h3>
+        </div>
+
+        <div class="box-body">
+            {{ block('form_errors') }}
+
+            <div class="row">
+                <div class="col-md-4">
+                    {{ form_row(form.name) }}
+                </div>
+                <div class="col-md-4">
+                    {{ form_row(form.type) }}
+                </div>
+                <div class="col-md-4">
+                    {{ form_row(form.capacity) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

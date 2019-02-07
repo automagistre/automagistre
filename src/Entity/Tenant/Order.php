@@ -88,7 +88,7 @@ class Order
     private $customer;
 
     /**
-     * @var int
+     * @var int|null
      *
      * @ORM\Column(type="integer", length=8, nullable=true, options={"unsigned": true})
      */

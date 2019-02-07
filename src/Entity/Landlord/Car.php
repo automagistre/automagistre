@@ -29,6 +29,8 @@ class Car
     /**
      * @var CarEquipment
      *
+     * @Assert\Valid
+     *
      * @ORM\Embedded(class="App\Entity\Embeddable\CarEquipment")
      */
     public $equipment;

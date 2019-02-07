@@ -42,4 +42,9 @@ final class CarEngineType extends AbstractType
                 'data_class' => CarEngine::class,
             ]);
     }
+
+    public function getBlockPrefix(): string
+    {
+        return 'car_engine';
+    }
 }
