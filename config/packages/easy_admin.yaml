@@ -807,7 +807,7 @@ easy_admin:
             form:
                 fields:
                     - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete' }
-                    - { property: 'quantity', label: 'Количество' }
+                    - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
                     - { property: 'recommended', label: 'Рекоммендуемый?' }
             new:
                 title: 'Создать новую запчасть для ТО'

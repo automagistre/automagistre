@@ -29,9 +29,9 @@ class Part
     public $part;
 
     /**
-     * @var float
+     * @var int
      *
-     * @ORM\Column(type="float", length=2)
+     * @ORM\Column(type="integer")
      */
     public $quantity;
 
