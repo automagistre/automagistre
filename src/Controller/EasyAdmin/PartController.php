@@ -371,8 +371,14 @@ final class PartController extends AbstractController
 
             $qb
                 ->leftJoin(PartCase::class, 'pc', Join::WITH, 'pc.part = part')
-                ->where('pc.carModel IN (:cases)')
-                ->setParameter('cases', $cases);
+                ->where($qb->expr()->orX(
+                    $qb->expr()->in('pc.carModel', ':cases'),
+                    $qb->expr()->eq('part.universal', ':universal')
+                ))
+                ->setParameters([
+                    'cases' => $cases,
+                    'universal' => true,
+                ]);
         }
 
         foreach (\explode(' ', \trim($searchQuery)) as $key => $searchString) {
@@ -386,10 +392,6 @@ final class PartController extends AbstractController
 
             $qb->setParameter($key, '%'.\trim($searchString).'%');
         }
-
-        $qb
-            ->orWhere('part.universal = :universal')
-            ->setParameter('universal', true);
 
         $qb->leftJoin(
             Stockpile::class,
