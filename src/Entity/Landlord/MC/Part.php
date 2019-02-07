@@ -22,7 +22,7 @@ class Part
     public $line;
 
     /**
-     * @var Part
+     * @var \App\Entity\Landlord\Part
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\Part")
      */
