@@ -370,7 +370,7 @@ final class PartController extends AbstractController
             $searchQuery = \str_replace('  ', ' ', $searchQuery);
 
             $qb
-                ->join(PartCase::class, 'pc', Join::WITH, 'pc.part = part')
+                ->leftJoin(PartCase::class, 'pc', Join::WITH, 'pc.part = part')
                 ->where('pc.carModel IN (:cases)')
                 ->setParameter('cases', $cases);
         }
