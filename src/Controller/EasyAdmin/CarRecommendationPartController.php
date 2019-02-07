@@ -10,7 +10,6 @@ use App\Form\Model\RecommendationPart;
 use App\Form\Type\MoneyType;
 use App\Form\Type\QuantityType;
 use App\Manager\PartManager;
-use App\Manager\PriceManager;
 use App\Utils\UrlUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
@@ -29,15 +28,9 @@ final class CarRecommendationPartController extends AbstractController
      */
     private $partManager;
 
-    /**
-     * @var PriceManager
-     */
-    private $priceManager;
-
-    public function __construct(PartManager $partManager, PriceManager $priceManager)
+    public function __construct(PartManager $partManager)
     {
         $this->partManager = $partManager;
-        $this->priceManager = $priceManager;
     }
 
     public function substituteAction(): Response
@@ -72,7 +65,7 @@ final class CarRecommendationPartController extends AbstractController
             $model->recommendation = $recommendationPart->getRecommendation();
             $model->part = $cross;
             $model->quantity = $recommendationPart->getQuantity();
-            $model->price = $isCurrent ? $recommendationPart->getPrice() : $this->priceManager->suggestForPart($cross);
+            $model->price = $isCurrent ? $recommendationPart->getPrice() : $this->partManager->suggestPrice($cross);
 
             $forms[$crossId] = $this->createFormBuilder($model, [
                 'action' => UrlUtils::addQuery($request->getUri(), 'cross', (string) $crossId),

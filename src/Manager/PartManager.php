@@ -7,6 +7,7 @@ namespace App\Manager;
 use App\Doctrine\Registry;
 use App\Entity\Landlord\Part;
 use App\Entity\Landlord\PartCross;
+use App\Entity\Tenant\IncomePart;
 use App\Entity\Tenant\Motion;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItemPart;
@@ -15,12 +16,15 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
+use Money\Money;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
 final class PartManager
 {
+    private const MARKUP = 1.15;
+
     /**
      * @var Registry
      */
@@ -133,6 +137,32 @@ final class PartManager
         }
 
         return $crosses;
+    }
+
+    public function suggestPrice(Part $part): Money
+    {
+        $em = $this->registry->manager(IncomePart::class);
+        $suggestPrice = $part->getPrice();
+
+        $incomePart = $em->createQueryBuilder()
+            ->select('entity')
+            ->from(IncomePart::class, 'entity')
+            ->where('entity.part.id = :part')
+            ->orderBy('entity.id', 'DESC')
+            ->getQuery()
+            ->setMaxResults(1)
+            ->setParameter('part', $part->getId())
+            ->getOneOrNullResult();
+
+        if ($incomePart instanceof IncomePart) {
+            $incomePriceWithMarkup = $incomePart->getPrice()->multiply(self::MARKUP);
+
+            if ($incomePriceWithMarkup->greaterThan($suggestPrice)) {
+                $suggestPrice = $incomePriceWithMarkup;
+            }
+        }
+
+        return $suggestPrice;
     }
 
     private function findCross(Part $part, EntityManagerInterface $em = null): ?PartCross
