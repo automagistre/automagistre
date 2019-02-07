@@ -75,6 +75,11 @@ class Part
         return (string) $this->getName();
     }
 
+    public function displayName(): string
+    {
+        return \sprintf('%s - %s (%s)', $this->manufacturer, $this->name, $this->number);
+    }
+
     public function equals(self $part): bool
     {
         return $part->getId() === $this->id;
