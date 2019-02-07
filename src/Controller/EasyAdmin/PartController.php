@@ -335,19 +335,23 @@ final class PartController extends AbstractController
         $qb = $this->em->getRepository(Part::class)->createQueryBuilder('part')
             ->join('part.manufacturer', 'manufacturer');
 
-        /** @var CarModel[] $cases */
-        $cases = $this->registry->repository(CarModel::class)
-            ->createQueryBuilder('entity')
-            ->select('PARTIAL entity.{id, caseName}')
-            ->where('entity.caseName IN (:cases)')
-            ->getQuery()
-            ->setParameter('cases', \explode(' ', \trim($searchQuery)))
-            ->getResult();
+        $cases = [];
 
-        $carModel = $this->getEntity(CarModel::class);
+        if (!$isPlusExist) {
+            /** @var CarModel[] $cases */
+            $cases = $this->registry->repository(CarModel::class)
+                ->createQueryBuilder('entity')
+                ->select('PARTIAL entity.{id, caseName}')
+                ->where('entity.caseName IN (:cases)')
+                ->getQuery()
+                ->setParameter('cases', \explode(' ', \trim($searchQuery)))
+                ->getResult();
 
-        if ($carModel instanceof CarModel && $isPlusExist) {
-            $cases[] = $carModel;
+            $carModel = $this->getEntity(CarModel::class);
+
+            if ($carModel instanceof CarModel) {
+                $cases[] = $carModel;
+            }
         }
 
         if (0 < \count($cases)) {
@@ -383,11 +387,9 @@ final class PartController extends AbstractController
             $qb->setParameter($key, '%'.\trim($searchString).'%');
         }
 
-        if ($isPlusExist) {
-            $qb
-                ->orWhere('part.universal = :universal')
-                ->setParameter('universal', true);
-        }
+        $qb
+            ->orWhere('part.universal = :universal')
+            ->setParameter('universal', true);
 
         $qb->leftJoin(
             Stockpile::class,
