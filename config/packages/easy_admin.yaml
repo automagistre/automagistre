@@ -441,7 +441,7 @@ easy_admin:
                     - { property: 'caseType.name', label: 'Тип кузова' }
                     - { property: 'year', label: 'Год', type: 'string' }
                     - { property: 'equipment.engine.capacity', label: 'Объём двигателя' }
-                    - { property: 'equipment.type.name', label: 'Тип двигателя' }
+                    - { property: 'equipment.engine.type.name', label: 'Тип двигателя' }
                     - { property: 'equipment.transmission.name', label: 'Трасмиссия' }
                     - { property: 'equipment.wheelDrive.name', label: 'Привод' }
                     - { property: 'mileage', label: 'Пробег' }
