@@ -280,7 +280,7 @@
                                             <i class="fa fa-wrench"></i>
                                             {{ recommendation.service }}
 
-                                            <a href="{{ easyadmin_path('CarRecommendationPart', 'new', {'recommendation_id': recommendation.id}) }}">
+                                            <a href="{{ easyadmin_path('CarRecommendationPart', 'new', recommendation|to_query) }}">
                                                 <i class="fa fa-plus"></i>
                                             </a>
                                         </td>

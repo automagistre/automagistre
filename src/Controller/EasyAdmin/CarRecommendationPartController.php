@@ -15,8 +15,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -118,13 +116,9 @@ final class CarRecommendationPartController extends AbstractController
 
     protected function createNewEntity(): RecommendationPart
     {
-        if (null === $id = $this->request->query->get('recommendation_id')) {
-            throw new BadRequestHttpException('recommendation_id is required');
-        }
-
-        $recommendation = $this->registry->repository(CarRecommendation::class)->findOneBy(['id' => $id]);
-        if (null === $recommendation) {
-            throw new NotFoundHttpException(\sprintf('Recommendation id "%s" not found', $id));
+        $recommendation = $this->getEntity(CarRecommendation::class);
+        if (!$recommendation instanceof CarRecommendation) {
+            throw new LogicException('CarRecommendation required.');
         }
 
         $model = new RecommendationPart();
