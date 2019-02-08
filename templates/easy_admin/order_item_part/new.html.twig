@@ -1,6 +1,6 @@
 {% extends '@EasyAdmin/default/new.html.twig' %}
 
-{% form_theme form.part with 'easy_admin/order_item_part/form.html.twig' %}
+{% form_theme form.part with 'easy_admin/order_item_part/part_form.html.twig' %}
 
 {% use 'easy_admin/order/layout.html.twig' %}
 
@@ -30,13 +30,6 @@
         </div>
 
         {{ form_errors(form.part) }}
-
-        {% set carModel = order.car.carModel|default %}
-        {% if carModel.caseName is not empty %}
-        <span class="help-block">
-            Поиск осуществляется только по <strong>{{ carModel.displayName(false) }}</strong>, чтобы выполнить поиск по всему складу добавьте символ <strong>+</strong> (плюс) в любую часть строки.
-        </span>
-        {% endif %}
     </div>
 
     {{ form_row(form.price, {'attr': {'class': 'ays-ignore'}}) }}

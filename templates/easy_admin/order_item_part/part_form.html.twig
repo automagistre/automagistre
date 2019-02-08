@@ -1,9 +1,12 @@
 {# EasyAdminAutocomplete form type #}
 {% block easyadmin_autocomplete_widget %}
     {% set params = {} %}
+
     {# @var carModel \App\Entity\Landlord\CarModel #}
     {% set carModel = form.parent.vars.value.order.car.carModel|default %}
-    {% if carModel.caseName is not empty %}
+    {% set carModel = form.parent.vars.value.recommendation.car.carModel|default(carModel) %}
+
+    {% if carModel.caseName|default is not empty %}
         {% set params = carModel|to_query %}
     {% endif %}
 
@@ -14,4 +17,10 @@
                 entity: autocomplete_entity_name
             }|merge(params))|raw })
     }) }}
+
+    {% if carModel.caseName|default is not empty %}
+    <span class="help-block">
+        Поиск осуществляется только по <strong>{{ carModel.displayName(false) }}</strong>, чтобы выполнить поиск по всему складу добавьте символ <strong>+</strong> (плюс) в любую часть строки.
+    </span>
+    {% endif %}
 {% endblock easyadmin_autocomplete_widget %}
