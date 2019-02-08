@@ -143,11 +143,9 @@ easy_admin:
                 fields:
                     - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
                     - { property: 'name', label: 'Название' }
+                    - { property: 'hideParts', label: 'Скрыть запчасти от клиента' }
             new:
                 form_options: { data_class: App\Form\Model\OrderGroup }
-                fields:
-                    - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
-                    - { property: 'name', label: 'Название' }
 
         OrderItemService:
             class: App\Entity\Tenant\OrderItemService

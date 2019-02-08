@@ -16,6 +16,11 @@ final class OrderGroup extends OrderItemModel
      */
     public $name;
 
+    /**
+     * @var boolean
+     */
+    public $hideParts;
+
     public static function getEntityClass(): string
     {
         return OrderItemGroup::class;

@@ -55,6 +55,16 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
         return (string) $this->getPart()->getName();
     }
 
+    public function isHidden(): bool
+    {
+        $group = $this->getParent();
+        if ($group instanceof OrderItemService) {
+            $group = $group->getParent();
+        }
+
+        return $group instanceof OrderItemGroup && $group->isHideParts();
+    }
+
     public function getPart(): Part
     {
         return $this->part->entity();
