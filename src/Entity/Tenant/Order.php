@@ -318,19 +318,60 @@ class Order
         $this->status = $status;
     }
 
+    public function getTotalGroupPrice(bool $withDiscount = false): Money
+    {
+        $money = new Money(0, new Currency('RUB'));
+
+        foreach ($this->getRootItems() as $item) {
+            if (!$item instanceof OrderItemGroup) {
+                continue;
+            }
+
+            $money = $money->add($item->getTotalServicePrice($withDiscount));
+
+            if ($item->isHideParts()) {
+                $money = $money->add($item->getTotalPartPrice($withDiscount));
+            }
+        }
+
+        return $money;
+    }
+
     public function getTotalPrice(bool $withDiscount = false): Money
     {
         return $this->getTotalPriceByClass(null, $withDiscount);
     }
 
-    public function getTotalServicePrice(bool $withDiscount = false): Money
+    public function getTotalServicePrice(bool $withDiscount = false, bool $excludeGroups = false): Money
     {
-        return $this->getTotalPriceByClass(OrderItemService::class, $withDiscount);
+        $money = new Money(0, new Currency('RUB'));
+
+        /** @var OrderItemService $item */
+        foreach ($this->getItems(OrderItemService::class) as $item) {
+            if ($excludeGroups && null !== $item->getParent()) {
+                continue;
+            }
+
+            $money = $money->add($item->getTotalPrice($withDiscount));
+        }
+
+        return $money;
     }
 
-    public function getTotalPartPrice(bool $withDiscount = false): Money
+    public function getTotalPartPrice(bool $withDiscount = false, bool $excludeHidden = false): Money
     {
-        return $this->getTotalPriceByClass(OrderItemPart::class, $withDiscount);
+        $money = new Money(0, new Currency('RUB'));
+
+        /** @var OrderItemPart $item */
+        foreach ($this->getItems(OrderItemPart::class) as $item) {
+            if ($excludeHidden && $item->isHidden()) {
+                continue;
+            }
+
+            $money = $money->add($item->getTotalPrice($withDiscount));
+        }
+
+        return $money;
     }
 
     public function isEditable(): bool

@@ -17,7 +17,7 @@ final class OrderGroup extends OrderItemModel
     public $name;
 
     /**
-     * @var boolean
+     * @var bool
      */
     public $hideParts;
 

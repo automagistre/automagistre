@@ -511,7 +511,9 @@ final class OrderController extends AbstractController
             'services' => \array_filter($order->getRootItems(), function (OrderItem $item) {
                 return $item instanceof OrderItemService;
             }),
-            'parts' => $order->getItems(OrderItemPart::class),
+            'parts' => \array_filter($order->getItems(OrderItemPart::class), function (OrderItemPart $item) {
+                return !$item->isHidden();
+            }),
         ];
 
         $customer = $order->getCustomer();

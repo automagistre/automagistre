@@ -131,7 +131,17 @@
                             <th scope="row">{{ index }}</th>
                             <td>{{ group }}</td>
                             <td>-</td>
-                            <td><span class="price">{{ group.totalServicePrice|localize_money }}</span></td>
+                            <td>
+                                <span class="price">
+                                    {% set groupPrice = group.totalServicePrice(true) %}
+
+                                    {% if group.hideParts %}
+                                        {% set groupPrice = groupPrice.add(group.totalPartPrice(true)) %}
+                                    {% endif %}
+
+                                    {{ groupPrice|localize_money }}
+                                </span>
+                            </td>
                         </tr>
                     {% endfor %}
                     {% for service in services %}
@@ -166,7 +176,7 @@
                     <tr class="table-active">
                         <td colspan="{{ isServicesDiscounted ? '5' : '3' }}" class="table-summary legend">итого:</td>
                         <td class="table-summary">
-                            <span class="price">{{ order.totalServicePrice|localize_money }}</span></td>
+                            <span class="price">{{ order.totalGroupPrice.add(order.totalServicePrice(true, true))|localize_money }}</span></td>
                     </tr>
                     </tbody>
                 </table>
@@ -225,7 +235,7 @@
                     <tr class="table-active">
                         <td colspan="{{ isPartsDiscounted ? '7' : '6' }}" class="table-summary legend">итого:</td>
                         <td class="table-summary">
-                            <span class="price">{{ order.totalPartPrice|localize_money }}</span>
+                            <span class="price">{{ order.totalPartPrice(false, true)|localize_money }}</span>
                         </td>
                     </tr>
                     </tbody>
