@@ -31,7 +31,7 @@ easy_admin:
             - { entity: 'ExpenseItem', label: 'Расходы', icon: 'list' }
             - { label: 'Склад' }
 #            - { entity: 'Part', label: 'Дефицит', icon: 'fire', params: { action: 'deficit' } }
-#            - { entity: 'Part', label: 'Наличие', icon: 'cubes', params: { action: 'stock' } }
+            - { entity: 'Part', label: 'Наличие', icon: 'cubes', params: { action: 'stock' } }
             - { entity: 'Motion', label: 'Движения', icon: 'recycle' }
             - { entity: 'Income', label: 'Приходы', icon: 'book' }
             - { label: 'Списки' }

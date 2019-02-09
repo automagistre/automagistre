@@ -18,7 +18,6 @@ use App\Manager\DeficitManager;
 use App\Manager\PartManager;
 use App\Manager\ReservationManager;
 use App\Model\Part as PartModel;
-use App\Model\WarehousePart;
 use App\Partner\Ixora\Finder;
 use App\Roles;
 use Doctrine\ORM\Query\Expr\Join;
@@ -159,25 +158,25 @@ final class PartController extends AbstractController
     public function stockAction(): Response
     {
         $request = $this->request;
-        $qb = $this->em->getRepository(Part::class)->createQueryBuilder('part')
-            ->addSelect('SUM(motion.quantity) AS quantity')
-            ->leftJoin(Motion::class, 'motion', Join::WITH, 'part.id = motion.part')
-            ->groupBy('part.id')
-            ->having('SUM(motion.quantity) <> 0');
+        $quantities = $this->registry->repository(Motion::class)->createQueryBuilder('motion', 'motion.part.id')
+            ->select('SUM(motion.quantity) AS quantity')
+            ->groupBy('motion.part.id')
+            ->having('SUM(motion.quantity) <> 0')
+            ->getQuery()
+            ->getArrayResult();
 
-        // EAGER Loading
-        $qb
-            ->addSelect('manufacturer')
-            ->join('part.manufacturer', 'manufacturer');
-
-        $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $request->query->getInt('page', 1), 99000);
-
-        $parts = \array_map(function (array $data) {
-            return new WarehousePart($data[0], $data['quantity']);
-        }, (array) $paginator->getCurrentPageResults());
+        $parts = $this->registry->repository(Part::class)->createQueryBuilder('part')
+            ->select('part, manufacturer')
+            ->join('part.manufacturer', 'manufacturer')
+            ->where('part.id IN (:ids)')
+            ->orderBy('part.id')
+            ->getQuery()
+            ->setParameter('ids', \array_keys($quantities))
+            ->getResult();
 
         return $this->render('easy_admin/part/stock.html.twig', [
             'parts' => $parts,
+            'quantities' => $quantities,
         ]);
     }
 

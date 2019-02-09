@@ -15,9 +15,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for warehouse in parts %}
-                {# @var warehouse \App\Model\WarehousePart #}
-                {% set part = warehouse.part %}
+            {% for part in parts %}
                 {# @var part \App\Entity\Part #}
                 <tr>
                     <td>{{ part.id }}</td>
@@ -33,7 +31,7 @@
                         </a>
                     </td>
                     <td>{{ part.price|localize_money }}</td>
-                    <td>{{ warehouse.quantity / 100 }}</td>
+                    <td>{{ attribute(quantities, part.id).quantity / 100 }}</td>
                 </tr>
             {% endfor %}
             </tbody>
