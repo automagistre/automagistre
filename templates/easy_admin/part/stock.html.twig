@@ -8,7 +8,6 @@
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Производитель</th>
                 <th>Наименование</th>
                 <th>Цена</th>
                 <th>Количество</th>
@@ -20,15 +19,7 @@
                 <tr>
                     <td>{{ part.id }}</td>
                     <td>
-                        <a href="{{ easyadmin_path(part.manufacturer, 'edit') }}">{{ part.manufacturer.name }}</a>
-                    </td>
-                    <td>
-                        <a href="{{ easyadmin_path(part, 'edit') }}">{{ part }}</a>
-                        - {{ part.number }}
-
-                        <a href="{{ path('admin_part_explorer', {'partnumber': part.number}) }}">
-                            <i class="fa fa-search"></i>
-                        </a>
+                        {% include 'easy_admin/field_part.html.twig' with {'value': part} %}
                     </td>
                     <td>{{ part.price|localize_money }}</td>
                     <td>{{ attribute(quantities, part.id).quantity / 100 }}</td>
