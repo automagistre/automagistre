@@ -159,7 +159,7 @@ final class PartController extends AbstractController
     {
         $quantities = $this->registry->repository(Motion::class)
             ->createQueryBuilder('motion', 'motion.part.id')
-            ->select('SUM(motion.quantity) AS quantity')
+            ->select('SUM(motion.quantity) AS quantity, motion.part.id AS part_id')
             ->groupBy('motion.part.id')
             ->having('SUM(motion.quantity) <> 0')
             ->getQuery()
