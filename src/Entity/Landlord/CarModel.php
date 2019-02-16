@@ -20,7 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(
  *     fields={"manufacturer", "caseName"},
  *     errorPath="caseName",
- *     message="Такой кузов у выбранного производителя уже существует."
+ *     message="Кузов {{ value }} у выбранного производителя уже существует."
  * )
  */
 class CarModel

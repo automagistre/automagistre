@@ -19,7 +19,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  * })
  * @ORM\Entity
  *
- * @UniqueEntity(fields={"manufacturer", "number"})
+ * @UniqueEntity(
+ *     fields={"manufacturer", "number"},
+ *     errorPath="number",
+ *     message="Запчасть {{ value }} у выбранного производителя уже существует."
+ * )
  */
 class Part
 {
