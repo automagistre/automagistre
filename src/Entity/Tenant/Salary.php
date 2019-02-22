@@ -19,7 +19,14 @@ class Salary
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\OperandTransaction")
      */
-    private $transaction;
+    private $income;
+
+    /**
+     * @var WalletTransaction
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\WalletTransaction")
+     */
+    private $outcome;
 
     /**
      * @var string|null
@@ -28,19 +35,10 @@ class Salary
      */
     private $description;
 
-    public function __construct(OperandTransaction $transaction, string $description = null)
+    public function __construct(OperandTransaction $income, WalletTransaction $outcome, string $description = null)
     {
-        $this->transaction = $transaction;
+        $this->income = $income;
+        $this->outcome = $outcome;
         $this->description = $description;
-    }
-
-    public function getTransaction(): OperandTransaction
-    {
-        return $this->transaction;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
     }
 }

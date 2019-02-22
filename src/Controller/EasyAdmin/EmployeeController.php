@@ -11,6 +11,7 @@ use App\Entity\Tenant\OperandTransaction;
 use App\Entity\Tenant\Penalty;
 use App\Entity\Tenant\Salary;
 use App\Entity\Tenant\Wallet;
+use App\Entity\Tenant\WalletTransaction;
 use App\Events;
 use App\Form\Type\MoneyType;
 use App\Manager\PaymentManager;
@@ -86,13 +87,16 @@ final class EmployeeController extends AbstractController
                 /** @var Money $money */
                 $money = $model->amount;
 
-                $this->paymentManager->createPayment($model->wallet, $description, $money->negative());
-                $transaction = $this->paymentManager->createPayment($recipient, $description, $money->negative());
-                if (!$transaction instanceof OperandTransaction) {
+                $outcome = $this->paymentManager->createPayment($model->wallet, $description, $money->negative());
+                if (!$outcome instanceof WalletTransaction) {
+                    throw new LogicException('WalletTransaction expected.');
+                }
+                $income = $this->paymentManager->createPayment($recipient, $description, $money->negative());
+                if (!$income instanceof OperandTransaction) {
                     throw new LogicException('OperandTransaction expected.');
                 }
 
-                $salary = new Salary($transaction, $model->description);
+                $salary = new Salary($income, $outcome, $model->description);
                 $em->persist($salary);
 
                 return $salary;
