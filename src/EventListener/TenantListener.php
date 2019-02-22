@@ -51,8 +51,14 @@ final class TenantListener implements EventSubscriberInterface
 
     public function onKernelRequest(GetResponseEvent $event): void
     {
+        if (!$event->isMasterRequest()) {
+            return;
+        }
+
         $request = $event->getRequest();
-        if ('easyadmin' !== $request->attributes->get('_route')) {
+
+        $route = $request->attributes->get('_route');
+        if ('easyadmin' !== $route && 0 !== \strpos($route, 'admin_')) {
             return;
         }
 
