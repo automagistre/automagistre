@@ -56,9 +56,7 @@ final class TenantListener implements EventSubscriberInterface
         }
 
         $request = $event->getRequest();
-
-        $route = $request->attributes->get('_route');
-        if ('easyadmin' !== $route && 0 !== \strpos($route, 'admin_')) {
+        if ('easyadmin' !== $request->attributes->get('_route')) {
             return;
         }
 
