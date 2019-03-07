@@ -17,7 +17,7 @@ class OrderSalary
     /**
      * @var Order
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\Order", inversedBy="payments")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\Order")
      */
     private $order;
 
