@@ -10,8 +10,6 @@ use App\Entity\Landlord\MC\Line;
 use App\Entity\Landlord\Operand;
 use App\Entity\Landlord\Organization;
 use App\Entity\Landlord\Person;
-use App\Entity\Tenant\Employee;
-use App\Entity\Tenant\MotionOrder;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItem;
 use App\Entity\Tenant\OrderItemGroup;
@@ -25,10 +23,9 @@ use App\Form\Model\OrderTOService;
 use App\Form\Type\MoneyType;
 use App\Form\Type\OrderItemServiceType;
 use App\Form\Type\OrderTOServiceType;
+use App\Manager\OrderManager;
 use App\Manager\PaymentManager;
-use App\Manager\ReservationManager;
 use DateTimeImmutable;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
@@ -54,19 +51,19 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 final class OrderController extends AbstractController
 {
     /**
-     * @var ReservationManager
-     */
-    private $reservationManager;
-
-    /**
      * @var PaymentManager
      */
     private $paymentManager;
 
-    public function __construct(ReservationManager $reservationManager, PaymentManager $paymentManager)
+    /**
+     * @var OrderManager
+     */
+    private $orderManager;
+
+    public function __construct(PaymentManager $paymentManager, OrderManager $orderManager)
     {
-        $this->reservationManager = $reservationManager;
         $this->paymentManager = $paymentManager;
+        $this->orderManager = $orderManager;
     }
 
     public function TOAction(): Response
@@ -559,7 +556,6 @@ final class OrderController extends AbstractController
 
     public function closeAction(): Response
     {
-        $em = $this->em;
         $request = $this->request;
 
         $order = $this->getEntity(Order::class);
@@ -615,65 +611,7 @@ final class OrderController extends AbstractController
 
         close:
 
-        $em->transactional(function (EntityManagerInterface $em) use ($order, $balance): void {
-            $em->refresh($order);
-            $customer = $order->getCustomer();
-
-            $order->close($this->getUser(), $balance);
-
-            if ($customer instanceof Operand) {
-                foreach ($order->getPayments() as $payment) {
-                    $description = \sprintf(
-                        '# Начисление предоплаты%s по заказу #%s',
-                        null !== $payment->getDescription() ? \sprintf(' "%s"', $payment->getDescription()) : '',
-                        $order->getId()
-                    );
-
-                    $this->paymentManager->createPayment($customer, $description, $payment->getMoney());
-                }
-
-                $description = \sprintf('# Списание по заказу #%s', $order->getId());
-                $this->paymentManager->createPayment($customer, $description, $order->getTotalPrice(true)->negative());
-            }
-
-            foreach ($order->getItems(OrderItemPart::class) as $item) {
-                /* @var OrderItemPart $item */
-
-                $part = $item->getPart();
-                $quantity = $item->getQuantity();
-
-                if (0 !== $this->reservationManager->reserved($item)) {
-                    $this->reservationManager->deReserve($item, $quantity);
-                }
-
-                $em->persist(new MotionOrder($part, $quantity, $order));
-            }
-
-            foreach ($order->getItems(OrderItemService::class) as $item) {
-                /** @var OrderItemService $item */
-                $worker = $item->getWorker();
-                $employee = $em->getRepository(Employee::class)->findOneBy(['person.id' => $worker->getId()]);
-
-                if (!$employee instanceof Employee) {
-                    $this->addFlash('warning', \sprintf(
-                        'Для исполнителя "%s" нет записи работника, зарплата по заказу не начислена.',
-                        $worker->getFullName()
-                    ));
-
-                    continue;
-                }
-
-                $price = $item->getTotalPrice(true);
-                if (!$price->isPositive()) {
-                    continue;
-                }
-
-                $salary = $price->multiply($employee->getRatio() / 100);
-                $description = \sprintf('# ЗП %s по заказу #%s', $worker->getFullName(), $order->getId());
-
-                $this->paymentManager->createPayment($worker, $description, $salary->absolute());
-            }
-        });
+        $this->orderManager->close($order);
 
         $car = $order->getCar();
         if ($car instanceof Car) {
