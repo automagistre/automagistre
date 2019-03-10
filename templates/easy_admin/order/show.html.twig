@@ -284,7 +284,7 @@
                                                 <i class="fa fa-plus"></i>
                                             </a>
                                         </td>
-                                        <td>{{ recommendation.price|localize_money }}</td>
+                                        <td>{{ recommendation.price|localize_money }} / {{ recommendation.totalPartPrice|localize_money }}</td>
                                         <td></td>
                                         <td>
                                             {% if recommendation.worker is not empty %}
