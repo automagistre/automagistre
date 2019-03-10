@@ -56,7 +56,11 @@ final class TenantListener implements EventSubscriberInterface
         }
 
         $request = $event->getRequest();
-        if ('easyadmin' !== $request->attributes->get('_route')) {
+        // TODO Refactor this expression
+        if (!\in_array($request->attributes->get('_route'), [
+            'easyadmin',
+            'admin_report_profit',
+        ], true)) {
             return;
         }
 

@@ -11,6 +11,11 @@ _part_explorer:
     type: annotation
     prefix: /{tenant}
 
+_report:
+    resource: '../src/Controller/Admin/ReportController.php'
+    type: annotation
+    prefix: /{tenant}
+
 logout:
     path: /logout
 

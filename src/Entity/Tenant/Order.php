@@ -28,7 +28,10 @@ use Money\Currency;
 use Money\Money;
 
 /**
- * @ORM\Table(name="orders")
+ * @ORM\Table(
+ *     name="orders",
+ *     indexes={@ORM\Index(name="SEARCH_IDX", columns={"closed_at"})}
+ * )
  * @ORM\Entity
  */
 class Order

@@ -49,6 +49,8 @@ easy_admin:
             - { entity: 'McEquipment', label: 'Комплектации', icon: 'cogs', role: !php/const App\Roles::MAINTENANCE_CONFIGURATOR }
             - { label: 'Сайт', role: 'ROLE_WWW_SECTION' }
             - { entity: 'Review', label: 'Отзывы', icon: 'comments', role: !php/const App\Roles::CUSTOMER_FEEDBACK }
+            - { label: 'Отчёты' }
+            - { label: 'Рентабельность', route: 'admin_report_profit' }
 
     formats:
         date: 'd.m.Y'

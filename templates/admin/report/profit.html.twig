@@ -1,0 +1,94 @@
+{% extends 'easy_admin/layout.html.twig' %}
+
+{% block content_title %}
+    Отчёты - Рентабельность
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-12">
+            <form method="GET" class="form">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="input-group">
+                            <div class="input-group-addon">С</div>
+                            <input type="datetime-local" name="start" class="form-control" value="{{ start|date('Y-m-d') }}T00:00">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-group">
+                            <div class="input-group-addon">По</div>
+                            <input type="datetime-local" name="end" class="form-control" value="{{ end|date('Y-m-d') }}T23:59">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary">Примнеить</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Дата закрытия</th>
+                        <th>Заказ</th>
+                        <th>Клиент</th>
+                        <th>Наименование</th>
+                        <th>Себестоимость</th>
+                        <th>Сумма клиента</th>
+                        <th>Валовая прибыль</th>
+                        <th>Рентабельность</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for order in orders %}
+                        <tr>
+                            <td rowspan="2">{{ order.closed_at|date('Y-m-d')|localizeddate('short', 'none') }}</td>
+                            <td rowspan="2">
+                                <a href="{{ easyadmin_path('Order', 'show', {'id': order.id}) }}">#{{ order.id }}</a>
+                            </td>
+                            <td rowspan="2">
+                                {% if order.customer is not empty %}
+                                    <a href="{{ easyadmin_path(order.customer, 'show') }}">{{ order.customer }}</a>
+                                {% else %}
+                                    {% include '@EasyAdmin/default/label_null.html.twig' %}
+                                {% endif %}
+                            </td>
+                            <td>Работа</td>
+                            <td>{{ order.salary|localize_money }}</td>
+                            <td>{{ order.service_price|localize_money }}</td>
+                            {% set serviceProfit = order.service_price.subtract(order.salary) %}
+                            <td>{{ serviceProfit|localize_money }}</td>
+                            <td>
+                                {% if not order.service_price.zero %}
+                                    {{ (serviceProfit.ratioOf(order.service_price) * 100)|number_format(2) }}%
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Запчасти</td>
+                            <td>{{ order.part_cost|localize_money }}</td>
+                            <td>{{ order.part_price|localize_money }}</td>
+                            {% set partProfit = order.part_price.subtract(order.part_cost) %}
+                            <td>{{ partProfit|localize_money }}</td>
+                            <td>
+                                {% if not order.part_price.zero %}
+                                    {{ (partProfit.ratioOf(order.part_price) * 100)|number_format(2) }}%
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
