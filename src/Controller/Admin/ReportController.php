@@ -72,7 +72,7 @@ final class ReportController extends AbstractController
                  FROM operand_transaction
                         JOIN order_salary os on operand_transaction.id = os.transaction_id
                  WHERE os.order_id = o.id
-               ) AS salary,
+               ) AS service_cost,
                (
                  SELECT SUM((sub.quantity / 100) * sub.price)
                  FROM (
@@ -111,20 +111,59 @@ final class ReportController extends AbstractController
 
         $operandRepository = $registry->repository(Operand::class);
 
+        $servicePrices = [];
+        $serviceProfits = [];
+        $serviceProfitabilities = [];
+
+        $partPrices = [];
+        $partProfits = [];
+        $partProfitabilities = [];
+
+        foreach ($orders as &$item) {
+            $item['service_price'] = $servicePrice = new Money((int) $item['service_price'], new Currency('RUB'));
+            $item['service_cost'] = $serviceCost = new Money((int) $item['service_cost'], new Currency('RUB'));
+            $item['service_profit'] = $serviceProfit = $servicePrice->subtract($serviceCost);
+            $item['service_profitability'] = $servicePrice->isPositive()
+                ? $serviceProfitabilities[] = ((float) $serviceProfit->ratioOf($servicePrice)) * 100
+                : null;
+
+            $servicePrices[] = $servicePrice;
+            $serviceProfits[] = $serviceProfit;
+
+            $item['part_price'] = $partPrice = new Money((int) $item['part_price'], new Currency('RUB'));
+            $item['part_cost'] = $partCost = new Money((int) $item['part_cost'], new Currency('RUB'));
+            $item['part_profit'] = $partProfit = $partPrice->subtract($partCost);
+            $item['part_profitability'] = $partPrice->isPositive()
+                ? $partProfitabilities[] = ((float) $partProfit->ratioOf($partPrice)) * 100
+                : null;
+
+            $partPrices[] = $partPrice;
+            $partProfits[] = $partProfit;
+
+            $item['customer'] = null !== $item['customer_id']
+                ? $operandRepository->find($item['customer_id'])
+                : null;
+        }
+
         return $this->render('admin/report/profit.html.twig', [
             'start' => $start,
             'end' => $end,
-            'orders' => \array_map(function (array $item) use ($operandRepository) {
-                foreach (['service_price', 'salary', 'part_price', 'part_cost'] as $property) {
-                    $item[$property] = new Money((int) $item[$property], new Currency('RUB'));
-                }
-
-                $item['customer'] = null !== $item['customer_id']
-                    ? $operandRepository->find($item['customer_id'])
-                    : null;
-
-                return $item;
-            }, $orders),
+            'orders' => $orders,
+            'total' => 0 < \count($orders) ? [
+                'service_price' => $this->sum(...$servicePrices),
+                'service_profit' => $this->sum(...$serviceProfits),
+                'service_profitability' => \array_sum($serviceProfitabilities) / \count($serviceProfitabilities),
+                'part_price' => $this->sum(...$partPrices),
+                'part_profit' => $this->sum(...$partProfits),
+                'part_profitability' => \array_sum($partProfitabilities) / \count($partProfitabilities),
+            ] : null,
         ]);
+    }
+
+    private function sum(Money ...$collection): Money
+    {
+        $first = \array_pop($collection);
+
+        return Money::sum($first, ...$collection);
     }
 }

@@ -63,13 +63,12 @@
                                 {% endif %}
                             </td>
                             <td>Работа</td>
-                            <td>{{ order.salary|localize_money }}</td>
+                            <td>{{ order.service_cost|localize_money }}</td>
                             <td>{{ order.service_price|localize_money }}</td>
-                            {% set serviceProfit = order.service_price.subtract(order.salary) %}
-                            <td>{{ serviceProfit|localize_money }}</td>
+                            <td>{{ order.service_profit|localize_money }}</td>
                             <td>
-                                {% if not order.service_price.zero %}
-                                    {{ (serviceProfit.ratioOf(order.service_price) * 100)|number_format(2) }}%
+                                {% if order.service_profitability is not empty %}
+                                    {{ order.service_profitability|number_format(2) }}%
                                 {% endif %}
                             </td>
                         </tr>
@@ -77,15 +76,27 @@
                             <td>Запчасти</td>
                             <td>{{ order.part_cost|localize_money }}</td>
                             <td>{{ order.part_price|localize_money }}</td>
-                            {% set partProfit = order.part_price.subtract(order.part_cost) %}
-                            <td>{{ partProfit|localize_money }}</td>
+                            <td>{{ order.part_profit|localize_money }}</td>
                             <td>
-                                {% if not order.part_price.zero %}
-                                    {{ (partProfit.ratioOf(order.part_price) * 100)|number_format(2) }}%
+                                {% if order.part_profitability is not empty %}
+                                    {{ order.part_profitability|number_format(2) }}%
                                 {% endif %}
                             </td>
                         </tr>
                     {% endfor %}
+                    <tr><td colspan="8"></td></tr>
+                    <tr>
+                        <td colspan="5"></td>
+                        <td>{{ total.service_price|localize_money }}</td>
+                        <td>{{ total.service_profit|localize_money }}</td>
+                        <td>{{ total.service_profitability|number_format(2) }}%</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5"></td>
+                        <td>{{ total.part_price|localize_money }}</td>
+                        <td>{{ total.part_profit|localize_money }}</td>
+                        <td>{{ total.part_profitability|number_format(2) }}%</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
