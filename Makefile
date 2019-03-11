@@ -47,6 +47,7 @@ un-init:
 	rm -rf .env
 re-init: un-init init
 
+start: do-up backup-download db-wait backup
 bootstrap: init pull do-install docker-hosts-updater do-up cache permissions db-wait fixtures
 
 install: do-install permissions
