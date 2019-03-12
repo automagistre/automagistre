@@ -113,19 +113,15 @@ final class ReportController extends AbstractController
 
         $servicePrices = [];
         $serviceProfits = [];
-        $serviceProfitabilities = [];
 
         $partPrices = [];
         $partProfits = [];
-        $partProfitabilities = [];
 
         foreach ($orders as &$item) {
             $item['service_price'] = $servicePrice = new Money((int) $item['service_price'], new Currency('RUB'));
             $item['service_cost'] = $serviceCost = new Money((int) $item['service_cost'], new Currency('RUB'));
             $item['service_profit'] = $serviceProfit = $servicePrice->subtract($serviceCost);
-            $item['service_profitability'] = $servicePrice->isPositive()
-                ? $serviceProfitabilities[] = ((float) $serviceProfit->ratioOf($servicePrice)) * 100
-                : null;
+            $item['service_profitability'] = $this->ratio($servicePrice, $serviceProfit);
 
             $servicePrices[] = $servicePrice;
             $serviceProfits[] = $serviceProfit;
@@ -133,9 +129,7 @@ final class ReportController extends AbstractController
             $item['part_price'] = $partPrice = new Money((int) $item['part_price'], new Currency('RUB'));
             $item['part_cost'] = $partCost = new Money((int) $item['part_cost'], new Currency('RUB'));
             $item['part_profit'] = $partProfit = $partPrice->subtract($partCost);
-            $item['part_profitability'] = $partPrice->isPositive()
-                ? $partProfitabilities[] = ((float) $partProfit->ratioOf($partPrice)) * 100
-                : null;
+            $item['part_profitability'] = $this->ratio($partPrice, $partProfit);
 
             $partPrices[] = $partPrice;
             $partProfits[] = $partProfit;
@@ -144,19 +138,30 @@ final class ReportController extends AbstractController
                 ? $operandRepository->find($item['customer_id'])
                 : null;
         }
+        unset($item);
+
+        $total = null;
+        if (0 < \count($orders)) {
+            $servicePrice = $this->sum(...$servicePrices);
+            $serviceProfit = $this->sum(...$serviceProfits);
+            $partPrice = $this->sum(...$partPrices);
+            $partProfit = $this->sum(...$partProfits);
+
+            $total = [
+                'service_price' => $servicePrice,
+                'service_profit' => $serviceProfit,
+                'service_profitability' => $this->ratio($servicePrice, $serviceProfit),
+                'part_price' => $partPrice,
+                'part_profit' => $partProfit,
+                'part_profitability' => $this->ratio($partPrice, $partProfit),
+            ];
+        }
 
         return $this->render('admin/report/profit.html.twig', [
             'start' => $start,
             'end' => $end,
             'orders' => $orders,
-            'total' => 0 < \count($orders) ? [
-                'service_price' => $this->sum(...$servicePrices),
-                'service_profit' => $this->sum(...$serviceProfits),
-                'service_profitability' => \array_sum($serviceProfitabilities) / \count($serviceProfitabilities),
-                'part_price' => $this->sum(...$partPrices),
-                'part_profit' => $this->sum(...$partProfits),
-                'part_profitability' => \array_sum($partProfitabilities) / \count($partProfitabilities),
-            ] : null,
+            'total' => $total,
         ]);
     }
 
@@ -165,5 +170,14 @@ final class ReportController extends AbstractController
         $first = \array_pop($collection);
 
         return Money::sum($first, ...$collection);
+    }
+
+    private function ratio(Money $left, Money $right): ?float
+    {
+        if (!$left->isPositive()) {
+            return null;
+        }
+
+        return ((float) $right->ratioOf($left)) * 100;
     }
 }

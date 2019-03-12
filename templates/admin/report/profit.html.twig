@@ -34,72 +34,81 @@
 
     <div class="row">
         <div class="col-md-12">
-            <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th>Дата закрытия</th>
-                        <th>Заказ</th>
-                        <th>Клиент</th>
-                        <th>Наименование</th>
-                        <th>Себестоимость</th>
-                        <th>Сумма клиента</th>
-                        <th>Валовая прибыль</th>
-                        <th>Рентабельность</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for order in orders %}
+            {% if orders is not empty %}
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
                         <tr>
-                            <td rowspan="2">{{ order.closed_at|date('Y-m-d')|localizeddate('short', 'none') }}</td>
-                            <td rowspan="2">
-                                <a href="{{ easyadmin_path('Order', 'show', {'id': order.id}) }}">#{{ order.id }}</a>
-                            </td>
-                            <td rowspan="2">
-                                {% if order.customer is not empty %}
-                                    <a href="{{ easyadmin_path(order.customer, 'show') }}">{{ order.customer }}</a>
-                                {% else %}
-                                    {% include '@EasyAdmin/default/label_null.html.twig' %}
-                                {% endif %}
-                            </td>
+                            <th>Дата закрытия</th>
+                            <th>Заказ</th>
+                            <th>Клиент</th>
+                            <th>Наименование</th>
+                            <th>Себестоимость</th>
+                            <th>Сумма клиента</th>
+                            <th>Валовая прибыль</th>
+                            <th>Рентабельность</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for order in orders %}
+                            <tr>
+                                <td rowspan="2">{{ order.closed_at|date('Y-m-d')|localizeddate('short', 'none') }}</td>
+                                <td rowspan="2">
+                                    <a href="{{ easyadmin_path('Order', 'show', {'id': order.id}) }}">
+                                        #{{ order.id }}</a>
+                                </td>
+                                <td rowspan="2">
+                                    {% if order.customer is not empty %}
+                                        <a href="{{ easyadmin_path(order.customer, 'show') }}">{{ order.customer }}</a>
+                                    {% else %}
+                                        {% include '@EasyAdmin/default/label_null.html.twig' %}
+                                    {% endif %}
+                                </td>
+                                <td>Работа</td>
+                                <td>{{ order.service_cost|localize_money }}</td>
+                                <td>{{ order.service_price|localize_money }}</td>
+                                <td>{{ order.service_profit|localize_money }}</td>
+                                <td>
+                                    {% if order.service_profitability is not empty %}
+                                        {{ order.service_profitability|number_format(2) }}%
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Запчасти</td>
+                                <td>{{ order.part_cost|localize_money }}</td>
+                                <td>{{ order.part_price|localize_money }}</td>
+                                <td>{{ order.part_profit|localize_money }}</td>
+                                <td>
+                                    {% if order.part_profitability is not empty %}
+                                        {{ order.part_profitability|number_format(2) }}%
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        <tr>
+                            <td colspan="8"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"></td>
                             <td>Работа</td>
-                            <td>{{ order.service_cost|localize_money }}</td>
-                            <td>{{ order.service_price|localize_money }}</td>
-                            <td>{{ order.service_profit|localize_money }}</td>
-                            <td>
-                                {% if order.service_profitability is not empty %}
-                                    {{ order.service_profitability|number_format(2) }}%
-                                {% endif %}
-                            </td>
+                            <td>{{ total.service_price|localize_money }}</td>
+                            <td>{{ total.service_profit|localize_money }}</td>
+                            <td>{{ total.service_profitability|number_format(2) }}%</td>
                         </tr>
                         <tr>
+                            <td colspan="4"></td>
                             <td>Запчасти</td>
-                            <td>{{ order.part_cost|localize_money }}</td>
-                            <td>{{ order.part_price|localize_money }}</td>
-                            <td>{{ order.part_profit|localize_money }}</td>
-                            <td>
-                                {% if order.part_profitability is not empty %}
-                                    {{ order.part_profitability|number_format(2) }}%
-                                {% endif %}
-                            </td>
+                            <td>{{ total.part_price|localize_money }}</td>
+                            <td>{{ total.part_profit|localize_money }}</td>
+                            <td>{{ total.part_profitability|number_format(2) }}%</td>
                         </tr>
-                    {% endfor %}
-                    <tr><td colspan="8"></td></tr>
-                    <tr>
-                        <td colspan="5"></td>
-                        <td>{{ total.service_price|localize_money }}</td>
-                        <td>{{ total.service_profit|localize_money }}</td>
-                        <td>{{ total.service_profitability|number_format(2) }}%</td>
-                    </tr>
-                    <tr>
-                        <td colspan="5"></td>
-                        <td>{{ total.part_price|localize_money }}</td>
-                        <td>{{ total.part_profit|localize_money }}</td>
-                        <td>{{ total.part_profitability|number_format(2) }}%</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                За указанный период закрытых заказов нет
+            {% endif %}
         </div>
     </div>
 {% endblock %}
