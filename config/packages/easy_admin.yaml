@@ -277,7 +277,7 @@ easy_admin:
                     - { property: 'telephone', label: 'Телефон', template: 'easy_admin/field_telephone.html.twig' }
                     - { property: 'officePhone', label: 'Раб. Телефон', template: 'easy_admin/field_telephone.html.twig' }
                     - { property: 'email', label: 'Почта' }
-                    - { property: 'balance', label: 'Баланс', virtual: true, sortable: false, template: 'easy_admin/operand/field_balance.html.twig' }
+                    - { property: 'balance', label: 'Баланс', virtual: true, sortable: true, template: 'easy_admin/operand/field_balance.html.twig' }
             form:
                 fields:
                     - { property: 'firstname', label: 'Имя' }
@@ -332,7 +332,7 @@ easy_admin:
                     - { property: 'officePhone', label: 'Офисный телефон', template: 'easy_admin/field_telephone.html.twig' }
                     - { property: 'contractor', label: 'Подрядчик', type: 'boolean' }
                     - { property: 'seller', label: 'Поставщик', type: 'boolean' }
-                    - { property: 'balance', label: 'Баланс', virtual: true, sortable: false, template: 'easy_admin/operand/field_balance.html.twig' }
+                    - { property: 'balance', label: 'Баланс', virtual: true, sortable: true, template: 'easy_admin/operand/field_balance.html.twig' }
             show:
                 title: Организация №%%entity_id%%
                 fields:

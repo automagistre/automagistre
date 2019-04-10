@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Entity\Landlord\Balance;
 use App\Entity\Landlord\Car;
 use App\Entity\Landlord\Operand;
 use App\Entity\Landlord\OperandNote;
@@ -13,6 +14,7 @@ use App\Entity\Tenant\OperandTransaction;
 use App\Entity\Tenant\Order;
 use App\Manager\PaymentManager;
 use Doctrine\ORM\Query\Expr\Join;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,6 +53,35 @@ class OperandController extends AbstractController
         return $this->redirectToRoute('easyadmin', \array_merge($request->query->all(), [
             'entity' => $config['name'],
         ]));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function createListQueryBuilder(
+        $entityClass,
+        $sortDirection,
+        $sortField = null,
+        $dqlFilter = null
+    ): QueryBuilder {
+        $isBalanceSort = 'balance' === $sortField;
+
+        $qb = parent::createListQueryBuilder(
+            $entityClass,
+            $sortDirection,
+            $isBalanceSort ? null : $sortField,
+            $dqlFilter
+        );
+
+        if ($isBalanceSort) {
+            $qb
+                ->addSelect('SUM(balance.price.amount) AS HIDDEN balances')
+                ->leftJoin(Balance::class, 'balance', Join::WITH, 'balance.operand = entity.id')
+                ->orderBy('balances', $sortDirection)
+                ->groupBy('entity.id');
+        }
+
+        return $qb;
     }
 
     /**
