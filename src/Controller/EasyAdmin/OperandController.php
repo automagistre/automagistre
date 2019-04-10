@@ -75,10 +75,15 @@ class OperandController extends AbstractController
 
         if ($isBalanceSort) {
             $qb
-                ->addSelect('SUM(balance.price.amount) AS HIDDEN balances')
-                ->leftJoin(Balance::class, 'balance', Join::WITH, 'balance.operand = entity.id')
-                ->orderBy('balances', $sortDirection)
-                ->groupBy('entity.id');
+                ->addSelect('SUM(COALESCE(b.price.amount,0)) AS HIDDEN balance')
+                ->leftJoin(
+                    Balance::class,
+                    'b',
+                    Join::WITH,
+                    'b.operand = entity.id AND b.tenant = :tenant')
+                ->orderBy('balance', $sortDirection)
+                ->groupBy('entity.id')
+                ->setParameter('tenant', $this->state->tenant());
         }
 
         return $qb;
