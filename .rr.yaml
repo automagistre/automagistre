@@ -4,7 +4,7 @@ http:
         command: "php src/RoadRunner/worker.php"
         pool:
             numWorkers: 8
-#            maxJobs:  500
+            maxJobs:  1000
 
 static:
     dir:   "public"
