@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin;
+namespace App\Controller\Admin\Report;
 
 use App\Doctrine\Registry;
 use App\Entity\Landlord\Operand;
@@ -17,16 +17,16 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/report", name="report_")
+ * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class ReportController extends AbstractController
+final class ProfitController extends AbstractController
 {
     private const DATETIME_FORMAT = 'Y-m-d\TH:i';
 
     /**
      * @Route("/profit", name="profit")
      */
-    public function profit(Request $request, Registry $registry): Response
+    public function __invoke(Request $request, Registry $registry): Response
     {
         $start = $request->query->has('start')
             ? DateTime::createFromFormat(self::DATETIME_FORMAT, $request->query->get('start'))

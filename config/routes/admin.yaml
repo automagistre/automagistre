@@ -12,9 +12,10 @@ _part_explorer:
     prefix: /{tenant}
 
 _report:
-    resource: '../src/Controller/Admin/ReportController.php'
+    resource: '../src/Controller/Admin/Report/'
     type: annotation
-    prefix: /{tenant}
+    prefix: /{tenant}/report
+    name_prefix: report_
 
 logout:
     path: /logout
