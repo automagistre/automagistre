@@ -1,0 +1,63 @@
+{% extends 'easy_admin/layout.html.twig' %}
+
+{% block content_title %}
+    Отчёты - Продажи
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-12">
+            <form method="GET" class="form">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="input-group">
+                            <div class="input-group-addon">С</div>
+                            <input type="datetime-local" name="start" class="form-control" value="{{ start|date('Y-m-d') }}T00:00">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-group">
+                            <div class="input-group-addon">По</div>
+                            <input type="datetime-local" name="end" class="form-control" value="{{ end|date('Y-m-d') }}T23:59">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary">Применить</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-12">
+            {% if items is not empty %}
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Наименование</th>
+                            <th>Продано</th>
+                            <th>На складе</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in items %}
+                            <tr>
+                                <td>{% include 'easy_admin/field_part.html.twig' with {'value': parts[item.part_id]} only %}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>{{ item.stock }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                За указанный период продаж нет
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -51,6 +51,7 @@ easy_admin:
             - { entity: 'Review', label: 'Отзывы', icon: 'comments', role: !php/const App\Roles::CUSTOMER_FEEDBACK }
             - { label: 'Отчёты' }
             - { label: 'Рентабельность', route: 'admin_report_profit' }
+            - { label: 'Продажи', route: 'admin_report_part_sell' }
 
     formats:
         date: 'd.m.Y'
