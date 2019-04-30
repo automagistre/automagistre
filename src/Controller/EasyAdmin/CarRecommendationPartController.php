@@ -10,7 +10,6 @@ use App\Form\Model\RecommendationPart;
 use App\Form\Type\MoneyType;
 use App\Form\Type\QuantityType;
 use App\Manager\PartManager;
-use App\Utils\UrlUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
 use Symfony\Component\Form\FormInterface;
@@ -66,7 +65,10 @@ final class CarRecommendationPartController extends AbstractController
             $model->price = $isCurrent ? $recommendationPart->getPrice() : $this->partManager->suggestPrice($cross);
 
             $forms[$crossId] = $this->createFormBuilder($model, [
-                'action' => UrlUtils::addQuery($request->getUri(), 'cross', (string) $crossId),
+                'action' => $this->generateEasyPath($recommendationPart, 'substitute', [
+                    'cross' => $crossId,
+                    'referer' => $request->query->get('referer'),
+                ]),
             ])
                 ->add('quantity', QuantityType::class)
                 ->add('price', MoneyType::class)
