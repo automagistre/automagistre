@@ -22,5 +22,37 @@ final class Roles
 
     public const CUSTOMER_FEEDBACK = 'ROLE_CUSTOMER_FEEDBACK';
 
-    public const ROLE_USER_MANAGER = 'ROLE_USER_MANAGER';
+    public const EMPLOYEE_MANAGER = 'ROLE_EMPLOYEE_MANAGER';
+
+    public const USER_MANAGER = 'ROLE_USER_MANAGER';
+
+    /**
+     * Доступ к справочникам (Производители, Кузова, Запчасти).
+     */
+    public const DICTIONARY = 'ROLE_DICTIONARY';
+
+    /**
+     * Бухгалтерия.
+     */
+    public const ACCOUNTING = 'ROLE_ACCOUNTING';
+
+    /**
+     * Доступ к клиентам (Люди, Организации, Автомобили).
+     */
+    public const CUSTOMER = 'ROLE_CUSTOMER';
+
+    /**
+     * Доступ к отчётам
+     */
+    public const REPORT = 'ROLE_REPORT';
+
+    /**
+     * Доступ к заказам
+     */
+    public const ORDER = 'ROLE_ORDER';
+
+    /**
+     * Доступ к складу.
+     */
+    public const STOCK = 'ROLE_STOCK';
 }

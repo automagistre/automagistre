@@ -35,7 +35,9 @@
 {% block header_custom_menu %}
     {{ parent() }}
 
-    {{ layout_balance() }}
+    {% if is_granted(constant('App\\Roles::ACCOUNTING')) %}
+        {{ layout_balance() }}
+    {% endif %}
 {% endblock %}
 
 {% block user_menu_dropdown %}

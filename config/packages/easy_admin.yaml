@@ -20,38 +20,38 @@ easy_admin:
                 - 'https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js'
                 - 'assets/js/sto.js'
         menu:
-            - { label: 'Заказы' }
-            - { entity: 'Order', label: 'Активные', icon: 'fire', default: true }
-            - { entity: 'Order', label: 'Все', icon: 'archive', params: { all: '1' } }
-            - { label: 'Бухгалтерия' }
-            - { entity: 'Wallet', label: 'Счета', icon: 'bank' }
-            - { entity: 'WalletTransaction', label: 'Проводки', icon: 'list' }
-            - { entity: 'OperandTransaction', label: 'Проводки клиентов', icon: 'list' }
-            - { entity: 'Expense', label: 'Статьи расходов', icon: 'list' }
-            - { entity: 'ExpenseItem', label: 'Расходы', icon: 'list' }
-            - { label: 'Склад' }
+            - { label: 'Заказы', role: !php/const App\Roles::ORDER }
+            - { entity: 'Order', label: 'Активные', icon: 'fire', default: true, role: !php/const App\Roles::ORDER }
+            - { entity: 'Order', label: 'Все', icon: 'archive', params: { all: '1' }, role: !php/const App\Roles::ORDER }
+            - { label: 'Бухгалтерия', role: !php/const App\Roles::ACCOUNTING }
+            - { entity: 'Wallet', label: 'Счета', icon: 'bank', role: !php/const App\Roles::ACCOUNTING }
+            - { entity: 'WalletTransaction', label: 'Проводки', icon: 'list', role: !php/const App\Roles::ACCOUNTING }
+            - { entity: 'OperandTransaction', label: 'Проводки клиентов', icon: 'list', role: !php/const App\Roles::ACCOUNTING }
+            - { entity: 'Expense', label: 'Статьи расходов', icon: 'list', role: !php/const App\Roles::ACCOUNTING }
+            - { entity: 'ExpenseItem', label: 'Расходы', icon: 'list', role: !php/const App\Roles::ACCOUNTING }
+            - { label: 'Склад', role: !php/const App\Roles::STOCK }
 #            - { entity: 'Part', label: 'Дефицит', icon: 'fire', params: { action: 'deficit' } }
-            - { entity: 'Part', label: 'Наличие', icon: 'cubes', params: { action: 'stock' } }
-            - { entity: 'Motion', label: 'Движения', icon: 'recycle' }
-            - { entity: 'Income', label: 'Приходы', icon: 'book' }
-            - { label: 'Списки' }
-            - { entity: 'Person', label: 'Люди', icon: 'users' }
-            - { entity: 'Organization', label: 'Организации', icon: 'industry' }
-            - { entity: 'Car', label: 'Автомобили', icon: 'car' }
-            - { entity: 'Employee', label: 'Сотрудники', icon: 'users' }
-            - { entity: 'User', label: 'Пользователи', icon: 'users', role: !php/const App\Roles::ROLE_USER_MANAGER }
-            - { label: 'Справочники' }
-            - { entity: 'Manufacturer', label: 'Производители', icon: 'industry' }
-            - { entity: 'CarModel', label: 'Кузова', icon: 'car' }
-            - { entity: 'Part', label: 'Запчасти', icon: 'cogs' }
+            - { entity: 'Part', label: 'Наличие', icon: 'cubes', params: { action: 'stock' }, role: !php/const App\Roles::STOCK }
+            - { entity: 'Motion', label: 'Движения', icon: 'recycle', role: !php/const App\Roles::STOCK }
+            - { entity: 'Income', label: 'Приходы', icon: 'book', role: !php/const App\Roles::STOCK }
+            - { label: 'Клиенты', role: !php/const App\Roles::CUSTOMER }
+            - { entity: 'Person', label: 'Люди', icon: 'users', role: !php/const App\Roles::CUSTOMER }
+            - { entity: 'Organization', label: 'Организации', icon: 'industry', role: !php/const App\Roles::CUSTOMER }
+            - { entity: 'Car', label: 'Автомобили', icon: 'car', role: !php/const App\Roles::CUSTOMER }
+            - { entity: 'Employee', label: 'Работники', icon: 'users', role: !php/const App\Roles::EMPLOYEE_MANAGER }
+            - { entity: 'User', label: 'Пользователи', icon: 'users', role: !php/const App\Roles::USER_MANAGER }
+            - { label: 'Справочники', role: !php/const App\Roles::DICTIONARY }
+            - { entity: 'Manufacturer', label: 'Производители', icon: 'industry', role: !php/const App\Roles::DICTIONARY }
+            - { entity: 'CarModel', label: 'Кузова', icon: 'car', role: !php/const App\Roles::DICTIONARY }
+            - { entity: 'Part', label: 'Запчасти', icon: 'cogs', role: !php/const App\Roles::DICTIONARY }
             - { label: 'Конфигуратор', role: !php/const App\Roles::MAINTENANCE_CONFIGURATOR }
             - { entity: 'McWork', label: 'Работы', icon: 'cogs', role: !php/const App\Roles::MAINTENANCE_CONFIGURATOR }
             - { entity: 'McEquipment', label: 'Комплектации', icon: 'cogs', role: !php/const App\Roles::MAINTENANCE_CONFIGURATOR }
             - { label: 'Сайт', role: 'ROLE_WWW_SECTION' }
             - { entity: 'Review', label: 'Отзывы', icon: 'comments', role: !php/const App\Roles::CUSTOMER_FEEDBACK }
-            - { label: 'Отчёты' }
-            - { label: 'Рентабельность', route: 'admin_report_profit' }
-            - { label: 'Продажи', route: 'admin_report_part_sell' }
+            - { label: 'Отчёты', role: !php/const App\Roles::REPORT }
+            - { label: 'Рентабельность', route: 'admin_report_profit', role: !php/const App\Roles::REPORT }
+            - { label: 'Продажи', route: 'admin_report_part_sell', role: !php/const App\Roles::REPORT }
 
     formats:
         date: 'd.m.Y'

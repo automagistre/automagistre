@@ -4,3 +4,10 @@ ROLE_EMPLOYEE: Возможность логиниться в СТО
 ROLE_CUSTOMER_FEEDBACK: Отзывы клиентов
 ROLE_MAINTENANCE_CONFIGURATOR: Конфигутор ТО
 ROLE_USER_MANAGER: Пользователи
+ROLE_EMPLOYEE_MANAGER: Работники
+ROLE_DICTIONARY: Справочники
+ROLE_ACCOUNTING: Бухгалтерия
+ROLE_CUSTOMER: Клиенты
+ROLE_REPORT: Отчеты
+ROLE_ORDER: Заказы
+ROLE_STOCK: Склад

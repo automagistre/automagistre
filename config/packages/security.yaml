@@ -51,6 +51,13 @@ security:
             - ROLE_MAINTENANCE_CONFIGURATOR
             - ROLE_CUSTOMER_FEEDBACK
             - ROLE_USER_MANAGER
+            - ROLE_EMPLOYEE_MANAGER
+            - ROLE_DICTIONARY
+            - ROLE_ACCOUNTING
+            - ROLE_CUSTOMER
+            - ROLE_REPORT
+            - ROLE_ORDER
+            - ROLE_STOCK
 
         ROLE_CUSTOMER_FEEDBACK:
             - ROLE_WWW_SECTION
