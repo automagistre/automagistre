@@ -38,11 +38,18 @@ final class SupplierManager
         }
 
         /** @var Income[] $incomes */
-        $incomes = $this->registry->repository(Income::class)->findBy(
-            ['supplier.id' => $supplier->getId()],
-            ['accruedAt' => 'DESC', 'id' => 'DESC'],
-            10
-        );
+        $incomes = $this->registry->repository(Income::class)
+            ->createQueryBuilder('entity')
+            ->where('entity.supplier.id = :supplier')
+            ->andWhere('entity.accruedAt IS NOT NULL')
+            ->orderBy('entity.accruedAt', 'DESC')
+            ->addOrderBy('entity.id', 'DESC')
+            ->getQuery()
+            ->setMaxResults(10)
+            ->setParameters([
+                'supplier' => $supplier->getId(),
+            ])
+            ->getResult();
 
         $result = [];
         foreach ($incomes as $income) {
