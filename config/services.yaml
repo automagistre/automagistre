@@ -1,6 +1,3 @@
-imports:
-    - { resource: ../src/RoadRunner/config/services.yaml }
-
 parameters:
     locale: ru
     app_version: '%env(APP_VERSION)%'

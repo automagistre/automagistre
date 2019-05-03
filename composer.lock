@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3c60e607e7fe1e7d89ef426385085cb1",
+    "content-hash": "83069cdda606fd552c6b24f3c1a7209d",
     "packages": [
         {
             "name": "beberlei/DoctrineExtensions",
@@ -3041,58 +3041,6 @@
             "time": "2017-02-14T16:28:37+00:00"
         },
         {
-            "name": "psr/http-factory",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/http-factory.git",
-                "reference": "378bfe27931ecc54ff824a20d6f6bfc303bbd04c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-factory/zipball/378bfe27931ecc54ff824a20d6f6bfc303bbd04c",
-                "reference": "378bfe27931ecc54ff824a20d6f6bfc303bbd04c",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.0.0",
-                "psr/http-message": "^1.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Psr\\Http\\Message\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
-                }
-            ],
-            "description": "Common interfaces for PSR-7 HTTP message factories",
-            "keywords": [
-                "factory",
-                "http",
-                "message",
-                "psr",
-                "psr-17",
-                "psr-7",
-                "request",
-                "response"
-            ],
-            "time": "2018-07-30T21:54:04+00:00"
-        },
-        {
             "name": "psr/http-message",
             "version": "1.0.1",
             "source": {
@@ -3526,89 +3474,6 @@
                 "symfony"
             ],
             "time": "2019-01-28T09:23:48+00:00"
-        },
-        {
-            "name": "spiral/goridge",
-            "version": "v2.1.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spiral/goridge.git",
-                "reference": "1d9d4cc79ddfc73a0e92d9c77ebdf54abcade694"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spiral/goridge/zipball/1d9d4cc79ddfc73a0e92d9c77ebdf54abcade694",
-                "reference": "1d9d4cc79ddfc73a0e92d9c77ebdf54abcade694",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~6.0"
-            },
-            "type": "goridge",
-            "autoload": {
-                "psr-4": {
-                    "Spiral\\Goridge\\": "php-src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Anton Titov / Wolfy-J",
-                    "email": "wolfy.jd@gmail.com"
-                }
-            ],
-            "description": "High-performance PHP-to-Golang RPC bridge",
-            "time": "2018-12-20T12:06:05+00:00"
-        },
-        {
-            "name": "spiral/roadrunner",
-            "version": "v1.3.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spiral/roadrunner.git",
-                "reference": "5d54e66187f1ff3c1a42009498b5e3749df6c334"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spiral/roadrunner/zipball/5d54e66187f1ff3c1a42009498b5e3749df6c334",
-                "reference": "5d54e66187f1ff3c1a42009498b5e3749df6c334",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "php": "^7.0",
-                "psr/http-factory": "^1.0",
-                "psr/http-message": "^1.0",
-                "spiral/goridge": "^2.0",
-                "zendframework/zend-diactoros": "^1.3|^2.0"
-            },
-            "bin": [
-                "qbuild/rr-build"
-            ],
-            "type": "server",
-            "autoload": {
-                "psr-4": {
-                    "Spiral\\RoadRunner\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Anton Titov / Wolfy-J",
-                    "email": "wolfy.jd@gmail.com"
-                }
-            ],
-            "description": "High-performance PHP load balancer and process manager library for Golang",
-            "time": "2019-02-02T14:27:29+00:00"
         },
         {
             "name": "stof/doctrine-extensions-bundle",
@@ -6948,72 +6813,6 @@
             "time": "2018-08-13T20:36:59+00:00"
         },
         {
-            "name": "zendframework/zend-diactoros",
-            "version": "2.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zendframework/zend-diactoros.git",
-                "reference": "c3c330192bc9cc51b7e9ce968ff721dc32ffa986"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/c3c330192bc9cc51b7e9ce968ff721dc32ffa986",
-                "reference": "c3c330192bc9cc51b7e9ce968ff721dc32ffa986",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1",
-                "psr/http-factory": "^1.0",
-                "psr/http-message": "^1.0"
-            },
-            "provide": {
-                "psr/http-factory-implementation": "1.0",
-                "psr/http-message-implementation": "1.0"
-            },
-            "require-dev": {
-                "ext-dom": "*",
-                "ext-libxml": "*",
-                "http-interop/http-factory-tests": "^0.5.0",
-                "php-http/psr7-integration-tests": "dev-master",
-                "phpunit/phpunit": "^7.0.2",
-                "zendframework/zend-coding-standard": "~1.0.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.1.x-dev",
-                    "dev-develop": "2.2.x-dev",
-                    "dev-release-1.8": "1.8.x-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "src/functions/create_uploaded_file.php",
-                    "src/functions/marshal_headers_from_sapi.php",
-                    "src/functions/marshal_method_from_sapi.php",
-                    "src/functions/marshal_protocol_version_from_sapi.php",
-                    "src/functions/marshal_uri_from_sapi.php",
-                    "src/functions/normalize_server.php",
-                    "src/functions/normalize_uploaded_files.php",
-                    "src/functions/parse_cookie_header.php"
-                ],
-                "psr-4": {
-                    "Zend\\Diactoros\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "PSR HTTP Message implementations",
-            "keywords": [
-                "http",
-                "psr",
-                "psr-7"
-            ],
-            "time": "2019-01-05T20:13:32+00:00"
-        },
-        {
             "name": "zendframework/zend-eventmanager",
             "version": "3.2.1",
             "source": {
@@ -7172,50 +6971,6 @@
                 "testing"
             ],
             "time": "2019-01-28T08:41:16+00:00"
-        },
-        {
-            "name": "codedungeon/php-cli-colors",
-            "version": "1.10.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mikeerickson/php-cli-colors.git",
-                "reference": "5649ef76ec0c9ed626e95bf40fdfaf4b8efcf79b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mikeerickson/php-cli-colors/zipball/5649ef76ec0c9ed626e95bf40fdfaf4b8efcf79b",
-                "reference": "5649ef76ec0c9ed626e95bf40fdfaf4b8efcf79b",
-                "shasum": ""
-            },
-            "require-dev": {
-                "phpunit/phpunit": ">=5.2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Codedungeon\\PHPCliColors\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mike Erickson",
-                    "email": "codedungeon@gmail.com"
-                }
-            ],
-            "description": "PHP Package for using color output in CLI commands",
-            "homepage": "https://github.com/mikeerickson/php-cli-colors",
-            "keywords": [
-                "color",
-                "colors",
-                "composer",
-                "package",
-                "php"
-            ],
-            "time": "2018-05-17T01:34:14+00:00"
         },
         {
             "name": "composer/semver",
@@ -9529,47 +9284,6 @@
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
             "homepage": "https://github.com/sebastianbergmann/version",
             "time": "2016-10-03T07:35:21+00:00"
-        },
-        {
-            "name": "spiral/dumper",
-            "version": "v1.1.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spiral/dumper.git",
-                "reference": "5d5ee4e1b3e88391bb2c429a3190466d4ea06da2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spiral/dumper/zipball/5d5ee4e1b3e88391bb2c429a3190466d4ea06da2",
-                "reference": "5d5ee4e1b3e88391bb2c429a3190466d4ea06da2",
-                "shasum": ""
-            },
-            "require": {
-                "codedungeon/php-cli-colors": "~1.0",
-                "php": "^7.1",
-                "psr/log": "^1.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~7.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Spiral\\Debug\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Wolfy-J",
-                    "email": "wolfy.jd@gmail.com"
-                }
-            ],
-            "description": "Colorful variable dumper",
-            "time": "2019-01-25T13:55:17+00:00"
         },
         {
             "name": "symfony/browser-kit",

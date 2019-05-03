@@ -1,6 +1,5 @@
 parameters:
     env(SENTRY_DSN): null
-    sentry.client: App\RoadRunner\SentryClient
 
 sentry:
     dsn: "%env(SENTRY_DSN)%"

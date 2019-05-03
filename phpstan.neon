@@ -13,7 +13,6 @@ parameters:
     excludes_analyse:
         - %rootDir%/../../../src/Command/TestCommand.php
         - %rootDir%/../../../src/Controller/TestController.php
-        - %rootDir%/../../../src/RoadRunner/worker.php
     ignoreErrors:
         - '#should be contravariant with parameter#'
         - '#Variable method call on Symfony\\Bridge\\Doctrine\\Form\\DoctrineOrmTypeGuesser#'
