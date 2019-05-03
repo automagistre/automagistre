@@ -16,6 +16,7 @@ pipeline:
                 --build-arg APP_DEBUG="1"
                 --build-arg APP_VERSION="$DRONE_BUILD_NUMBER"
                 --build-arg APP_BUILD_TIME="`date --rfc-2822`"
+                --target app
                 .
 
     validate php-cs-fixer:
