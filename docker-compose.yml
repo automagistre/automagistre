@@ -2,11 +2,14 @@ version: '3.7'
 
 services:
     app:
-        image: automagistre/app@sha256:0922fa64df09a0b61b19e4c9a2c372111121120b27387e09c14b913882e2ce7a
-        command: rr serve
+        image: automagistre/app@sha256:3bd08a6921dca2a7e733dc903596d8fd7f3acbdef8cc0612bdf44017128fd046
         labels:
             ru.grachevko.dhu: '{sto,www}.automagistre.local'
             restartable: 'true'
+        networks:
+            default:
+                aliases:
+                    - php-fpm
         volumes:
             - ./:/usr/local/app
         environment:

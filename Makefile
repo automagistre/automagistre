@@ -139,7 +139,7 @@ app-build:
 		--build-arg APP_DEBUG=1 \
 		--build-arg APP_VERSION=dev \
 		--build-arg APP_BUILD_TIME="`date --rfc-2822`" \
-		--target app \
+		--target dev \
 		--tag $(APP_IMAGE) \
 		.
 app-push:

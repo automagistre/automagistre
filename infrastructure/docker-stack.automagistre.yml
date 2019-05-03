@@ -1,15 +1,11 @@
 version: '3.7'
 
 services:
-    app: &app
-        image: automagistre/app:${DRONE_BUILD_NUMBER}
-        command: rr serve
+    nginx:
+        image: automagistre/app-nginx:${DRONE_BUILD_NUMBER}
         networks:
             - automagistre
             - ingress
-        secrets:
-            - { source: automagistre_env, target: /usr/local/app/.env }
-            - mysql_password
         deploy:
             mode: replicated
             replicas: 1
@@ -27,12 +23,24 @@ services:
                 - "traefik.port=80"
                 - "traefik.protocol=http"
                 - "traefik.backend.loadbalancer.method=drr"
-        healthcheck:
-            test: nc -z 127.0.0.1 80
-            interval: 5s
-            timeout: 5s
-            retries: 3
-            start_period: 10s
+
+    app: &app
+        image: automagistre/app:${DRONE_BUILD_NUMBER}
+        networks:
+            - automagistre
+        secrets:
+            - { source: automagistre_env, target: /usr/local/app/.env }
+            - mysql_password
+        deploy:
+            mode: replicated
+            replicas: 1
+            endpoint_mode: dnsrr
+            restart_policy:
+                condition: on-failure
+            update_config:
+                parallelism: 1
+                delay: 10s
+                order: start-first
 
     migration_landlord:
         <<: *app
