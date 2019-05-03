@@ -27,7 +27,9 @@ services:
     app: &app
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         networks:
-            - automagistre
+            automagistre:
+                aliases:
+                    - php-fpm
         secrets:
             - { source: automagistre_env, target: /usr/local/app/.env }
             - mysql_password
