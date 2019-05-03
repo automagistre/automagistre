@@ -107,7 +107,7 @@ pipeline:
                 .
             - >-
                 docker build -t "automagistre/app-nginx:${DRONE_BUILD_NUMBER}"
-                -- target static
+                -- target nginx
                 .
         when:
             event: push
