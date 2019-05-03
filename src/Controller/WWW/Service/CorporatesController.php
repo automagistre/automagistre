@@ -38,9 +38,9 @@ final class CorporatesController extends AbstractController
                 ->setTo(['info@automagistre.ru'])
                 ->setSubject('Запись на корпоративное обслуживание')
                 ->setBody(<<<TEXT
-Имя: $data->name
-Телефон: $data->telephone
-TEXT
+                    Имя: $data->name
+                    Телефон: $data->telephone
+                    TEXT
                 );
 
             $mailer->send($message);

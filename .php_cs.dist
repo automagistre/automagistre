@@ -24,6 +24,8 @@ return PhpCsFixer\Config::create()
         'array_syntax'                          => ['syntax' => 'short'],
         'binary_operator_spaces'                => ['operators' => ['=>' => 'single_space']],
         'fully_qualified_strict_types'          => true,
+        'fopen_flags'                           => ['b_mode' => true],
+        'heredoc_indentation'                   => true,
         'linebreak_after_opening_tag'           => true,
         'list_syntax'                           => ['syntax' => 'short'],
         'native_function_invocation'            => true,
@@ -31,6 +33,7 @@ return PhpCsFixer\Config::create()
         'no_unreachable_default_argument_value' => true,
         'no_useless_else'                       => true,
         'no_useless_return'                     => true,
+        'non_printable_character'               => false,
         'not_operator_with_space'               => false,
         'not_operator_with_successor_space'     => false,
         'ordered_class_elements'                => true,
@@ -47,7 +50,7 @@ return PhpCsFixer\Config::create()
         'php_unit_test_case_static_method_calls'=> true,
         'PedroTroller/line_break_between_method_arguments' => ['max-args' => 10, 'max-length' => 120],
         'PedroTroller/useless_comment'          => true,
-        'PedroTroller/single_line_comment'      => [ 'action' => 'expanded'],
+        'PedroTroller/single_line_comment'      => ['action' => 'expanded'],
         'PedroTroller/line_break_between_statements' => true,
     ])
     ->setFinder($finder)
