@@ -3,7 +3,7 @@
 MAKEFLAGS += --no-print-directory
 
 DEBUG_PREFIX=" [DEBUG] "
-DEBUG_ECHO=$(if $(filter 1,$(MAKE_DEBUG)),@echo ${DEBUG_PREFIX})
+DEBUG_ECHO=$(if $(MAKE_DEBUG),@echo ${DEBUG_PREFIX})
 
 ifndef EM
 ifdef TENANT
@@ -31,7 +31,7 @@ define success
 endef
 define failed
     @tput setaf 1
-    @echo "$(if $(filter 1,$(MAKE_DEBUG)),${DEBUG_PREFIX}) [FAIL] $1"
+    @echo "$(if $(MAKE_DEBUG),${DEBUG_PREFIX}) [FAIL] $1"
     @tput sgr0
 endef
 
@@ -157,9 +157,6 @@ permissions:
 
 app-cli:
 	$(APP)
-app-workers: EXEC=true
-app-workers:
-	$(APP) rr http:workers -i
 
 app-install: do-composer-install vendor-phar-remove
 
@@ -218,16 +215,16 @@ app-test:
 	$(APP) console test
 
 test: APP_ENV=test
-test: DRY=true
+test: DRY=1
 test: do-php-cs-fixer phpstan migration-test phpunit
 
 do-php-cs-fixer:
-	$(APP) php-cs-fixer fix $(if $(filter true,$(DRY)),--dry-run) $(if $(filter 1,$(DEBUG)),-vvv,--quiet $(if $(filter 1,$(DEBUG)),,> /dev/null))
+	$(APP) php-cs-fixer fix $(if $(DRY),--dry-run) $(if $(DEBUG),-vvv,--quiet > /dev/null)
 	$(call success,"php-cs-fixer fix")
 php-cs-fixer: do-php-cs-fixer permissions
 
 phpstan:
-	$(APP) phpstan analyse --configuration phpstan.neon $(if $(filter true,$(DEBUG)),--debug -vvv)
+	$(APP) phpstan analyse --configuration phpstan.neon $(if $(DEBUG),--debug -vvv)
 
 phpunit: APP_ENV=test
 phpunit:
