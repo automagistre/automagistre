@@ -73,7 +73,7 @@ services:
             start_period: 5s
 
     dockerhost:
-        image: qoomon/docker-host:2.0.4
+        image: qoomon/docker-host:2.2.0
         cap_add:
             - NET_ADMIN
             - NET_RAW
