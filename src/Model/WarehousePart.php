@@ -9,7 +9,7 @@ use App\Entity\Landlord\Part;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-class WarehousePart
+abstract class WarehousePart
 {
     /**
      * @var Part

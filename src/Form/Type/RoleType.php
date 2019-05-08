@@ -11,7 +11,7 @@ use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class RoleType extends AbstractType
+final class RoleType extends AbstractType
 {
     /**
      * {@inheritdoc}

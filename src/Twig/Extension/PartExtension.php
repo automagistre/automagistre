@@ -12,7 +12,7 @@ use Twig\TwigFunction;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-class PartExtension extends AbstractExtension
+final class PartExtension extends AbstractExtension
 {
     /**
      * @var PartManager

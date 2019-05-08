@@ -13,7 +13,7 @@ use Twig\TwigFilter;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-class MoneyExtension extends AbstractExtension
+final class MoneyExtension extends AbstractExtension
 {
     /**
      * @var MoneyFormatter

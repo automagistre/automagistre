@@ -14,7 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-class MoneyType extends \Symfony\Component\Form\Extension\Core\Type\MoneyType
+final class MoneyType extends \Symfony\Component\Form\Extension\Core\Type\MoneyType
 {
     /**
      * {@inheritdoc}

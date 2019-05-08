@@ -15,7 +15,7 @@ use Twig\TwigFunction;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-class AppExtension extends AbstractExtension
+final class AppExtension extends AbstractExtension
 {
     /**
      * @var EntityTransformer

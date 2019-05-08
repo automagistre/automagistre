@@ -14,7 +14,7 @@ use Symfony\Component\Routing\RouterInterface;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-class BrandRoutesListener implements EventSubscriberInterface
+final class BrandRoutesListener implements EventSubscriberInterface
 {
     /**
      * @var RequestStack

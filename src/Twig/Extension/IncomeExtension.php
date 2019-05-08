@@ -11,7 +11,7 @@ use Twig\TwigFunction;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-class IncomeExtension extends AbstractExtension
+final class IncomeExtension extends AbstractExtension
 {
     /**
      * @var SupplierManager

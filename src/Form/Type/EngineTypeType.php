@@ -12,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-class EngineTypeType extends AbstractType
+final class EngineTypeType extends AbstractType
 {
     /**
      * {@inheritdoc}

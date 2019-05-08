@@ -12,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-class QuantityType extends AbstractType
+final class QuantityType extends AbstractType
 {
     /**
      * {@inheritdoc}

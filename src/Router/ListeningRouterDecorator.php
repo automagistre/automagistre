@@ -17,7 +17,7 @@ use Symfony\Component\Routing\RouterInterface;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-class ListeningRouterDecorator implements RouterInterface, RequestMatcherInterface, WarmableInterface
+final class ListeningRouterDecorator implements RouterInterface, RequestMatcherInterface, WarmableInterface
 {
     /**
      * @var RouterInterface

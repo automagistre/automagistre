@@ -11,7 +11,7 @@ use Twig\TwigFilter;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-class WalletExtension extends AbstractExtension
+final class WalletExtension extends AbstractExtension
 {
     /**
      * @var PaymentManager

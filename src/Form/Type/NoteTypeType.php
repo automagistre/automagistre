@@ -12,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-class NoteTypeType extends AbstractType
+final class NoteTypeType extends AbstractType
 {
     /**
      * {@inheritdoc}

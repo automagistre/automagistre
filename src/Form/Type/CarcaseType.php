@@ -12,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-class CarcaseType extends AbstractType
+final class CarcaseType extends AbstractType
 {
     /**
      * {@inheritdoc}

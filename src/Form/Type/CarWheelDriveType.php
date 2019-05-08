@@ -12,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-class CarWheelDriveType extends AbstractType
+final class CarWheelDriveType extends AbstractType
 {
     /**
      * {@inheritdoc}

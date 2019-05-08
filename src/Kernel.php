@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel as SymfonyKernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 
-class Kernel extends SymfonyKernel implements CompilerPassInterface
+final class Kernel extends SymfonyKernel implements CompilerPassInterface
 {
     use MicroKernelTrait;
 

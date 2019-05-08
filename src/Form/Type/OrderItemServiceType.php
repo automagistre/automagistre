@@ -15,7 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-class OrderItemServiceType extends AbstractType
+final class OrderItemServiceType extends AbstractType
 {
     /**
      * {@inheritdoc}

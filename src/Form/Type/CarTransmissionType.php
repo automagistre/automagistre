@@ -12,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-class CarTransmissionType extends AbstractType
+final class CarTransmissionType extends AbstractType
 {
     /**
      * {@inheritdoc}
