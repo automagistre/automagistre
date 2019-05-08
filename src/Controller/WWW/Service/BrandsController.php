@@ -39,9 +39,9 @@ final class BrandsController extends AbstractController
                 ->setTo(['info@automagistre.ru'])
                 ->setSubject('Запись на бесплатную диагностику')
                 ->setBody(<<<TEXT
-                    Имя: $data->name
-                    Телефон: $data->telephone
-                    Дата: $data->date
+                    Имя: {$data->name}
+                    Телефон: {$data->telephone}
+                    Дата: {$data->date}
                     TEXT
                 );
 

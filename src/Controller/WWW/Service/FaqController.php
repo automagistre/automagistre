@@ -42,9 +42,9 @@ final class FaqController extends AbstractController
                 ->setTo(['info@automagistre.ru'])
                 ->setSubject(\sprintf('FAQ Вопрос от %s', $data->name))
                 ->setBody(<<<TEXT
-                    Имя: $data->name
-                    Почта: $data->email
-                    Вопрос: $data->question
+                    Имя: {$data->name}
+                    Почта: {$data->email}
+                    Вопрос: {$data->question}
                     TEXT
                 );
 

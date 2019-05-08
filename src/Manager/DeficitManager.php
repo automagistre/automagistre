@@ -31,7 +31,7 @@ final class DeficitManager
      */
     public function findDeficit(): array
     {
-        $sql = <<<SQL
+        $sql = <<<'SQL'
             SELECT
               ordered.part_id,
               ordered.quantity - COALESCE(stock.quantity, 0) AS needed,

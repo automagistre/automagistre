@@ -17,8 +17,9 @@ return PhpCsFixer\Config::create()
     ->setRiskyAllowed(true)
     ->setRules([
         '@DoctrineAnnotation'                   => true,
-        '@PHP71Migration:risky'                 => true,
-        '@PHPUnit60Migration:risky'             => true,
+        '@PHP73Migration'                       => true,
+        '@PhpCsFixer'                           => true,
+        '@PhpCsFixer:risky'                     => true,
         '@Symfony'                              => true,
         '@Symfony:risky'                        => true,
         'array_syntax'                          => ['syntax' => 'short'],
@@ -28,6 +29,7 @@ return PhpCsFixer\Config::create()
         'heredoc_indentation'                   => true,
         'linebreak_after_opening_tag'           => true,
         'list_syntax'                           => ['syntax' => 'short'],
+        'multiline_whitespace_before_semicolons'=> false,
         'native_function_invocation'            => true,
         'no_null_property_initialization'       => true,
         'no_unreachable_default_argument_value' => true,
@@ -39,6 +41,8 @@ return PhpCsFixer\Config::create()
         'ordered_class_elements'                => true,
         'ordered_imports'                       => true,
         'php_unit_strict'                       => true,
+        'php_unit_internal_class'               => false,
+        'php_unit_test_class_requires_covers'   => false,
         'phpdoc_order'                          => true,
         'phpdoc_types_order'                    => ['null_adjustment' => 'always_last', 'sort_algorithm' => 'none'],
         'random_api_migration'                  => true,

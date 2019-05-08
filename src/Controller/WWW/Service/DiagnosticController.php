@@ -43,9 +43,9 @@ final class DiagnosticController extends AbstractController
                     'comp' => 'компьютерную',
                 ][$type]))
                 ->setBody(<<<TEXT
-                    Имя: $data->name
-                    Телефон: $data->telephone
-                    Дата: $data->date
+                    Имя: {$data->name}
+                    Телефон: {$data->telephone}
+                    Дата: {$data->date}
                     TEXT
                 );
 
