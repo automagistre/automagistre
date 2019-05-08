@@ -3,7 +3,7 @@
 MAKEFLAGS += --no-print-directory
 
 DEBUG_PREFIX=" [DEBUG] "
-DEBUG_ECHO=$(if $(filter 1,$(DEBUG)),@echo ${DEBUG_PREFIX})
+DEBUG_ECHO=$(if $(filter 1,$(MAKE_DEBUG)),@echo ${DEBUG_PREFIX})
 
 ifndef EM
 ifdef TENANT
@@ -26,12 +26,12 @@ APP_DIR = .
 
 define success
     @tput setaf 2
-    @echo "$(if $(filter 1,$(DEBUG)),${DEBUG_PREFIX}) [OK] $1"
+    @echo "$(if $(filter 1,$(MAKE_DEBUG)),${DEBUG_PREFIX}) [OK] $1"
     @tput sgr0
 endef
 define failed
     @tput setaf 1
-    @echo "$(if $(filter 1,$(DEBUG)),${DEBUG_PREFIX}) [FAIL] $1"
+    @echo "$(if $(filter 1,$(MAKE_DEBUG)),${DEBUG_PREFIX}) [FAIL] $1"
     @tput sgr0
 endef
 
@@ -222,7 +222,7 @@ test: DRY=true
 test: do-php-cs-fixer phpstan migration-test phpunit
 
 do-php-cs-fixer:
-	$(APP) php-cs-fixer fix $(if $(filter true,$(DRY)),--dry-run) $(if $(filter 1,$(APP_DEBUG)),-vvv,--quiet $(if $(filter 1,$(DEBUG)),,> /dev/null))
+	$(APP) php-cs-fixer fix $(if $(filter true,$(DRY)),--dry-run) $(if $(filter 1,$(DEBUG)),-vvv,--quiet $(if $(filter 1,$(DEBUG)),,> /dev/null))
 	$(call success,"php-cs-fixer fix")
 php-cs-fixer: do-php-cs-fixer permissions
 
