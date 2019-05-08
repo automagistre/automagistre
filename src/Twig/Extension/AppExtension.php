@@ -76,7 +76,7 @@ final class AppExtension extends AbstractExtension
             );
         }
 
-        return $object;
+        return $object->setTimezone(new \DateTimeZone(date_default_timezone_get()));
     }
 
     /**
