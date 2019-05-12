@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
-use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\Registry;
 use App\Entity\Embeddable\Relation;
 use Doctrine\Common\EventSubscriber;
@@ -59,8 +58,8 @@ final class TenantRelationListener implements EventSubscriber
 
     public function postLoad(LifecycleEventArgs $event): void
     {
-        /** @var Identity $entity */
         $entity = $event->getEntity();
+        \assert(\method_exists($entity, 'getId'));
 
         $classMetadata = $this->registry->classMetaData($entity);
 

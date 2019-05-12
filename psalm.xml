@@ -39,8 +39,6 @@
         <PossiblyNullPropertyAssignmentValue errorLevel="info"/>
         <PossiblyNullPropertyFetch errorLevel="info"/>
         <PossiblyNullReference errorLevel="info"/>
-
-        <UndefinedClass errorLevel="info"/>
     </issueHandlers>
 
     <plugins>
