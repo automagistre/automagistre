@@ -64,6 +64,8 @@ final class EntityModelTypeGuesser implements FormTypeGuesserInterface
             return;
         }
 
+        \assert(\class_exists($class));
+
         /* @var Model $class */
         return $this->guesser->{$method}($class::getEntityClass(), $property);
     }

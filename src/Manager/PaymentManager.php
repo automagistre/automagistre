@@ -50,6 +50,8 @@ final class PaymentManager
         $payment = $em->transactional(function (EntityManagerInterface $em) use ($recipient, $description, $money) {
             $transactionClass = $recipient->getTransactionClass();
 
+            \assert(\class_exists($transactionClass));
+
             $payment = new $transactionClass(
                 $recipient,
                 $description,
