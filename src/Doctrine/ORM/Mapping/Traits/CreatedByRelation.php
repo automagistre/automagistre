@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 trait CreatedByRelation
 {
     /**
-     * @var UserRelation
+     * @var UserRelation|null
      *
      * @Assert\Valid
      *

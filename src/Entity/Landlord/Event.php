@@ -44,7 +44,7 @@ class Event
     {
         $this->name = $name;
         $this->arguments = $arguments;
+        $this->createdBy = $user;
         $this->tenant = $tenant;
-        $this->setCreatedBy($user);
     }
 }

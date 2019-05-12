@@ -28,7 +28,7 @@ class CarNote extends Note
     public function __construct(Car $car, User $user)
     {
         $this->car = $car;
-        $this->setCreatedBy($user);
+        $this->createdBy = $user;
     }
 
     public function getCar(): Car

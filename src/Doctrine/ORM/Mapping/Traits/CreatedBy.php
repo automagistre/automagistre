@@ -6,7 +6,6 @@ namespace App\Doctrine\ORM\Mapping\Traits;
 
 use App\Entity\Landlord\User;
 use Doctrine\ORM\Mapping as ORM;
-use LogicException;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -23,15 +22,6 @@ trait CreatedBy
      * @ORM\JoinColumn(nullable=false)
      */
     private $createdBy;
-
-    public function setCreatedBy(User $user): void
-    {
-        if (null !== $this->createdBy) {
-            throw new LogicException('CreatedBy already defined');
-        }
-
-        $this->createdBy = $user;
-    }
 
     public function getCreatedBy(): User
     {

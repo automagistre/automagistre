@@ -80,7 +80,7 @@ class CarRecommendation implements PriceInterface
      */
     private $expiredAt;
 
-    public function __construct(Car $car, string $service, Money $price, Operand $worker, User $createdBy)
+    public function __construct(Car $car, string $service, Money $price, Operand $worker, User $user)
     {
         $this->parts = new ArrayCollection();
         $this->realization = new OrderItemServiceRelation();
@@ -89,7 +89,7 @@ class CarRecommendation implements PriceInterface
         $this->service = $service;
         $this->price = $price;
         $this->worker = $worker;
-        $this->setCreatedBy($createdBy);
+        $this->createdBy = $user;
     }
 
     public function __toString(): string

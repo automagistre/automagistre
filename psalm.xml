@@ -56,7 +56,6 @@
         <PossiblyInvalidMethodCall errorLevel="info"/>
 
         <RedundantCondition errorLevel="info"/>
-        <RedundantConditionGivenDocblockType errorLevel="info"/>
 
         <UndefinedClass errorLevel="info"/>
     </issueHandlers>

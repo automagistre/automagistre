@@ -55,7 +55,7 @@ class CarRecommendationPart
         $this->part = $part;
         $this->quantity = $quantity;
         $this->price = $price;
-        $this->setCreatedBy($selector);
+        $this->createdBy = $selector;
     }
 
     public function getRecommendation(): CarRecommendation

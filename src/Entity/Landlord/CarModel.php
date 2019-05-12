@@ -52,7 +52,7 @@ class CarModel
     private $localizedName;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(nullable=true)
      */

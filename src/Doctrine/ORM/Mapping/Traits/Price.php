@@ -14,7 +14,7 @@ use Money\Money;
 trait Price
 {
     /**
-     * @var Money
+     * @var Money|null
      *
      * @ORM\Embedded(class="Money\Money")
      */

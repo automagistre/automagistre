@@ -16,7 +16,7 @@ final class CarEngine
     private const DEFAULT_CAPACITY = '0';
 
     /**
-     * @var string
+     * @var string|null
      *
      * @Assert\NotBlank
      *
