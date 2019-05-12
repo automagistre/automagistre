@@ -216,7 +216,7 @@ app-test:
 
 test: APP_ENV=test
 test: DRY=1
-test: do-php-cs-fixer phpstan migration-test phpunit
+test: do-php-cs-fixer phpstan psalm migration-test phpunit
 
 do-php-cs-fixer:
 	$(APP) php-cs-fixer fix $(if $(DRY),--dry-run) $(if $(DEBUG),-vvv,--quiet > /dev/null)
