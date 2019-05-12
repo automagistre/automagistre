@@ -42,8 +42,6 @@
 
         <NullableReturnStatement errorLevel="info"/>
 
-        <ParadoxicalCondition errorLevel="info"/>
-
         <PropertyNotSetInConstructor errorLevel="info"/>
 
         <PossiblyNullArgument errorLevel="info"/>
