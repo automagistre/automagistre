@@ -61,12 +61,15 @@
         "phpstan/phpstan-strict-rules": "^0.11",
         "phpstan/phpstan-symfony": "^0.11.5",
         "phpunit/phpunit": "^8.1.4",
+        "psalm/plugin-phpunit": "^0.5.5",
         "symfony/browser-kit": "^4.2.8",
         "symfony/debug-bundle": "^4.2.8",
         "symfony/phpunit-bridge": "^4.2.8",
         "symfony/requirements-checker": "^1.1.4",
         "symfony/web-profiler-bundle": "^4.2.8",
-        "symfony/web-server-bundle": "^4.2.8"
+        "symfony/web-server-bundle": "^4.2.8",
+        "vimeo/psalm": "^3.2",
+        "weirdan/doctrine-psalm-plugin": "^0.4.2"
     },
     "scripts": {
         "auto-scripts": {

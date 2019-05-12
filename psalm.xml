@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<psalm
+        totallyTyped="false"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="https://getpsalm.org/schema/config"
+        xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+>
+    <projectFiles>
+        <directory name="src"/>
+        <ignoreFiles>
+            <directory name="vendor"/>
+        </ignoreFiles>
+    </projectFiles>
+
+    <issueHandlers>
+        <ArgumentTypeCoercion errorLevel="info"/>
+
+        <DeprecatedClass errorLevel="info"/>
+
+        <DocblockTypeContradiction errorLevel="info"/>
+
+        <InvalidArgument errorLevel="info"/>
+        <InvalidNullableReturnType errorLevel="info"/>
+        <InvalidOperand errorLevel="info"/>
+        <InvalidReturnStatement errorLevel="info"/>
+        <InvalidReturnType errorLevel="info"/>
+        <InvalidScalarArgument errorLevel="info"/>
+        <InvalidStringClass errorLevel="info"/>
+
+        <LessSpecificImplementedReturnType errorLevel="info"/>
+        <LessSpecificReturnStatement errorLevel="info"/>
+
+        <MissingClosureReturnType errorLevel="info"/>
+        <MissingConstructor errorLevel="info"/>
+        <MissingParamType errorLevel="info"/>
+        <MissingPropertyType errorLevel="info"/>
+
+        <MismatchingDocblockReturnType errorLevel="info"/>
+
+        <MoreSpecificImplementedParamType errorLevel="info"/>
+        <MoreSpecificReturnType errorLevel="info"/>
+
+        <NullableReturnStatement errorLevel="info"/>
+
+        <ParadoxicalCondition errorLevel="info"/>
+
+        <PropertyNotSetInConstructor errorLevel="info"/>
+
+        <PossiblyNullArgument errorLevel="info"/>
+        <PossiblyNullArrayOffset errorLevel="info"/>
+        <PossiblyNullOperand errorLevel="info"/>
+        <PossiblyNullPropertyAssignmentValue errorLevel="info"/>
+        <PossiblyNullPropertyFetch errorLevel="info"/>
+        <PossiblyNullReference errorLevel="info"/>
+
+        <PossiblyInvalidMethodCall errorLevel="info"/>
+
+        <RedundantCondition errorLevel="info"/>
+        <RedundantConditionGivenDocblockType errorLevel="info"/>
+
+        <TooManyArguments errorLevel="info"/>
+
+        <UndefinedClass errorLevel="info"/>
+        <UnresolvableInclude errorLevel="info"/>
+    </issueHandlers>
+
+    <plugins>
+        <pluginClass class="Weirdan\DoctrinePsalmPlugin\Plugin"/>
+        <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
+    </plugins>
+</psalm>

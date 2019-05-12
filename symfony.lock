@@ -1,4 +1,10 @@
 {
+    "amphp/amp": {
+        "version": "v2.1.1"
+    },
+    "amphp/byte-stream": {
+        "version": "v1.5.1"
+    },
     "beberlei/doctrineextensions": {
         "version": "v1.1.4"
     },
@@ -119,6 +125,12 @@
     "facile-it/doctrine-mysql-come-back": {
         "version": "v1.6.5"
     },
+    "felixfbecker/advanced-json-rpc": {
+        "version": "v3.0.3"
+    },
+    "felixfbecker/language-server-protocol": {
+        "version": "v1.2.0"
+    },
     "friendsofphp/php-cs-fixer": {
         "version": "2.2",
         "recipe": {
@@ -173,8 +185,14 @@
     "monolog/monolog": {
         "version": "1.23.0"
     },
+    "muglug/package-versions-56": {
+        "version": "1.2.4"
+    },
     "myclabs/deep-copy": {
         "version": "1.7.0"
+    },
+    "netresearch/jsonmapper": {
+        "version": "v1.4.0"
     },
     "nette/bootstrap": {
         "version": "v2.4.5"
@@ -209,6 +227,9 @@
     "ocramius/proxy-manager": {
         "version": "2.2.0"
     },
+    "openlss/lib-array2xml": {
+        "version": "0.5.1"
+    },
     "pagerfanta/pagerfanta": {
         "version": "v1.0.5"
     },
@@ -235,6 +256,9 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "0.4.0"
+    },
+    "phpmyadmin/sql-parser": {
+        "version": "v4.3.1"
     },
     "phpspec/prophecy": {
         "version": "1.7.3"
@@ -280,6 +304,9 @@
             "version": "4.7",
             "ref": "8ebc9f29f52f2fff3acdb3e0d1198ddf9e7f81b7"
         }
+    },
+    "psalm/plugin-phpunit": {
+        "version": "0.5.5"
     },
     "psr/cache": {
         "version": "1.0.1"
@@ -647,8 +674,20 @@
     "twig/twig": {
         "version": "v2.4.4"
     },
+    "vimeo/psalm": {
+        "version": "3.2.11"
+    },
     "webmozart/assert": {
         "version": "1.2.0"
+    },
+    "webmozart/glob": {
+        "version": "4.1.0"
+    },
+    "webmozart/path-util": {
+        "version": "2.3.0"
+    },
+    "weirdan/doctrine-psalm-plugin": {
+        "version": "0.4.2"
     },
     "zendframework/zend-code": {
         "version": "3.3.0"
