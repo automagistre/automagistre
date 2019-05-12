@@ -17,7 +17,6 @@
 
         <InvalidArgument errorLevel="info"/>
         <InvalidReturnStatement errorLevel="info"/>
-        <InvalidScalarArgument errorLevel="info"/>
         <InvalidStringClass errorLevel="info"/>
 
         <MissingConstructor errorLevel="info"/>

@@ -33,11 +33,7 @@ final class DivisoredNumberToLocalizedStringTransformer extends NumberToLocalize
 
         parent::__construct($scale, $grouping, $roundingMode);
 
-        if (null === $divisor) {
-            $divisor = 1;
-        }
-
-        $this->divisor = $divisor;
+        $this->divisor = $divisor ?? 1;
     }
 
     /**
@@ -47,14 +43,17 @@ final class DivisoredNumberToLocalizedStringTransformer extends NumberToLocalize
      */
     public function transform($value): string
     {
-        if (null !== $value) {
-            if (!\is_numeric($value)) {
-                throw new TransformationFailedException('Expected a numeric.');
-            }
-
-            $value /= $this->divisor;
+        if (null === $value) {
+            return '';
         }
 
+        if (!\is_int($value) && !\is_float($value)) {
+            throw new TransformationFailedException('Expected a numeric.');
+        }
+
+        $value /= $this->divisor;
+
+        /* @psalm-var int|float $value */
         return parent::transform($value);
     }
 
