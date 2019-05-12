@@ -40,6 +40,7 @@ final class State
     {
         $this->tokenStorage = $tokenStorage;
         $this->switcher = $switcher;
+        $this->tenant = Tenant::msk();
     }
 
     public function tenant(Tenant $tenant = null): Tenant
