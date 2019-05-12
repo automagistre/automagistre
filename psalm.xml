@@ -16,7 +16,6 @@
         <DeprecatedClass errorLevel="info"/>
 
         <InvalidArgument errorLevel="info"/>
-        <InvalidNullableReturnType errorLevel="info"/>
         <InvalidOperand errorLevel="info"/>
         <InvalidReturnStatement errorLevel="info"/>
         <InvalidReturnType errorLevel="info"/>
