@@ -769,10 +769,12 @@ final class OrderController extends AbstractController
     }
 
     /**
-     * @param Order $entity
+     * {@inheritdoc}
      */
     protected function persistEntity($entity): void
     {
+        \assert($entity instanceof Order);
+
         parent::persistEntity($entity);
 
         $this->setReferer($this->generateUrl('easyadmin', [

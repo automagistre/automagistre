@@ -14,10 +14,12 @@ use Doctrine\ORM\QueryBuilder;
 final class EquipmentController extends AbstractController
 {
     /**
-     * @param Equipment $entity
+     * {@inheritdoc}
      */
     protected function persistEntity($entity): void
     {
+        \assert($entity instanceof Equipment);
+
         parent::persistEntity($entity);
 
         $this->setReferer($this->generateEasyPath($entity, 'show'));

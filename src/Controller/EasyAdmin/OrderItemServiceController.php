@@ -75,10 +75,13 @@ final class OrderItemServiceController extends OrderItemController
     }
 
     /**
-     * @param OrderService $model
+     * {@inheritdoc}
      */
-    protected function persistEntity($model): void
+    protected function persistEntity($entity): void
     {
+        $model = $entity;
+        \assert($model instanceof OrderService);
+
         $entity = new OrderItemService($model->order, $model->service, $model->price, $this->getUser());
         $entity->setParent($model->parent);
         $entity->setWorker($model->worker);

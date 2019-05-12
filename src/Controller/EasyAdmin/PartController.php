@@ -468,10 +468,12 @@ final class PartController extends AbstractController
     }
 
     /**
-     * @param Part $entity
+     * {@inheritdoc}
      */
     protected function persistEntity($entity): void
     {
+        \assert($entity instanceof Part);
+
         parent::persistEntity($entity);
 
         $referer = $this->request->query->get('referer');
@@ -483,10 +485,12 @@ final class PartController extends AbstractController
     }
 
     /**
-     * @param Part $entity
+     * {@inheritdoc}
      */
     protected function updateEntity($entity): void
     {
+        \assert($entity instanceof Part);
+
         parent::updateEntity($entity);
 
         if ($entity->isUniversal()) {

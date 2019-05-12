@@ -40,10 +40,13 @@ final class ExpenseItemController extends AbstractController
     }
 
     /**
-     * @param \stdClass $model
+     * {@inheritdoc}
      */
-    protected function persistEntity($model): void
+    protected function persistEntity($entity): void
     {
+        $model = $entity;
+        \assert($model instanceof \stdClass);
+
         $entity = $this->em->transactional(function (EntityManagerInterface $em) use ($model): ExpenseItem {
             $entity = new ExpenseItem($model->expense, $model->amount, $this->getUser(), $model->description);
             $em->persist($entity);

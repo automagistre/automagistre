@@ -13,10 +13,13 @@ use App\Events;
 final class ExpenseController extends AbstractController
 {
     /**
-     * @param \stdClass $model
+     * {@inheritdoc}
      */
-    protected function persistEntity($model): void
+    protected function persistEntity($entity): void
     {
+        $model = $entity;
+        \assert($model instanceof \stdClass);
+
         $entity = new Expense($model->name);
 
         parent::persistEntity($entity);

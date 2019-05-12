@@ -14,10 +14,12 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 final class OrganizationController extends OperandController
 {
     /**
-     * @param Organization $entity
+     * {@inheritdoc}
      */
     protected function persistEntity($entity): void
     {
+        \assert($entity instanceof Organization);
+
         parent::persistEntity($entity);
 
         $this->event(Events::ORGANIZATION_CREATED, new GenericEvent($entity));

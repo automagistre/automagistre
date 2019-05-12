@@ -24,10 +24,13 @@ final class UserController extends AbstractController
     }
 
     /**
-     * @param \stdClass $model
+     * {@inheritdoc}
      */
-    protected function persistEntity($model): void
+    protected function persistEntity($entity): void
     {
+        $model = $entity;
+        \assert($model instanceof \stdClass);
+
         $entity = new User($model->person);
         $entity->setUsername($model->username);
         $entity->setRoles($model->roles);
@@ -37,10 +40,12 @@ final class UserController extends AbstractController
     }
 
     /**
-     * @param User $entity
+     * {@inheritdoc}
      */
     protected function updateEntity($entity, FormInterface $form = null): void
     {
+        \assert($entity instanceof User);
+
         $password = $form->get('password')->getData();
         if (null !== $password) {
             $entity->changePassword($password, $this->encoderFactory->getEncoder($entity));

@@ -34,10 +34,13 @@ final class OrderItemGroupController extends OrderItemController
     }
 
     /**
-     * @param OrderGroup $model
+     * {@inheritdoc}
      */
-    protected function persistEntity($model): void
+    protected function persistEntity($entity): void
     {
+        $model = $entity;
+        \assert($model instanceof OrderGroup);
+
         $entity = new OrderItemGroup($model->order, $model->name, $this->getUser());
         $entity->setParent($model->parent);
 

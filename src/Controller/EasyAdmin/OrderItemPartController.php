@@ -86,10 +86,13 @@ final class OrderItemPartController extends OrderItemController
     }
 
     /**
-     * @param OrderPart $model
+     * {@inheritdoc}
      */
-    protected function persistEntity($model): void
+    protected function persistEntity($entity): void
     {
+        $model = $entity;
+        \assert($model instanceof OrderPart);
+
         $entity = new OrderItemPart($model->order, $model->part, $model->quantity, $model->price, $this->getUser());
         $entity->setParent($model->parent);
         $entity->setWarranty($model->warranty);
@@ -109,10 +112,12 @@ final class OrderItemPartController extends OrderItemController
     }
 
     /**
-     * @param OrderItemPart $entity
+     * {@inheritdoc}
      */
     protected function updateEntity($entity): void
     {
+        \assert($entity instanceof OrderItemPart);
+
         parent::updateEntity($entity);
 
         try {

@@ -31,10 +31,13 @@ final class MonthlySalaryController extends AbstractController
     }
 
     /**
-     * @param \stdClass $model
+     * {@inheritdoc}
      */
-    protected function persistEntity($model): void
+    protected function persistEntity($entity): void
     {
+        $model = $entity;
+        \assert($model instanceof \stdClass);
+
         $entity = new MonthlySalary($model->employee, $model->payday, $model->amount, $this->getUser());
 
         parent::persistEntity($entity);

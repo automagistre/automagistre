@@ -130,10 +130,13 @@ final class CarRecommendationPartController extends AbstractController
     }
 
     /**
-     * @param RecommendationPart $model
+     * {@inheritdoc}
      */
-    protected function persistEntity($model): void
+    protected function persistEntity($entity): void
     {
+        $model = $entity;
+        \assert($model instanceof RecommendationPart);
+
         $entity = new CarRecommendationPart(
             $model->recommendation,
             $model->part,

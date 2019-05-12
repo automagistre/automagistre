@@ -11,7 +11,6 @@ use App\Manager\PaymentManager;
 use Doctrine\ORM\QueryBuilder;
 use LogicException;
 use Money\Money;
-use stdClass;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormInterface;
 
@@ -69,10 +68,12 @@ final class OperandTransactionController extends AbstractController
     }
 
     /**
-     * @param stdClass $entity
+     * {@inheritdoc}
      */
     protected function persistEntity($entity): void
     {
+        \assert($entity instanceof \stdClass);
+
         $this->em->transactional(function () use ($entity): void {
             /** @var Money $money */
             $money = $entity->amount;

@@ -28,8 +28,6 @@
         <MissingParamType errorLevel="info"/>
         <MissingPropertyType errorLevel="info"/>
 
-        <MoreSpecificImplementedParamType errorLevel="info"/>
-
         <PropertyNotSetInConstructor errorLevel="info"/>
 
         <PossiblyNullArgument errorLevel="info"/>

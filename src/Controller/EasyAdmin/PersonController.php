@@ -16,10 +16,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 final class PersonController extends OperandController
 {
     /**
-     * @param Person $entity
+     * {@inheritdoc}
      */
     protected function persistEntity($entity): void
     {
+        \assert($entity instanceof Person);
+
         parent::persistEntity($entity);
 
         $this->setReferer($this->generateEasyPath($entity, 'show'));

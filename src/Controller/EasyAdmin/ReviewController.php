@@ -12,20 +12,24 @@ use App\Entity\Landlord\Review;
 final class ReviewController extends AbstractController
 {
     /**
-     * @param Review $entity
+     * {@inheritdoc}
      */
     protected function persistEntity($entity): void
     {
+        \assert($entity instanceof Review);
+
         $this->normalize($entity);
 
         parent::persistEntity($entity);
     }
 
     /**
-     * @param Review $entity
+     * {@inheritdoc}
      */
     protected function updateEntity($entity): void
     {
+        \assert($entity instanceof Review);
+
         $this->normalize($entity);
 
         parent::updateEntity($entity);

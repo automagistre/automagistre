@@ -203,10 +203,12 @@ final class EmployeeController extends AbstractController
     }
 
     /**
-     * @param Employee $entity
+     * {@inheritdoc}
      */
     protected function persistEntity($entity): void
     {
+        \assert($entity instanceof Employee);
+
         parent::persistEntity($entity);
 
         $this->event(Events::EMPLOYEE_CREATED, $entity);

@@ -50,10 +50,12 @@ final class IncomePartController extends AbstractController
     }
 
     /**
-     * @param IncomePart $entity
+     * {@inheritdoc}
      */
     protected function persistEntity($entity): void
     {
+        \assert($entity instanceof IncomePart);
+
         parent::persistEntity($entity);
 
         $this->setReferer($this->generateEasyPath($entity, 'new', [
@@ -69,10 +71,12 @@ final class IncomePartController extends AbstractController
     }
 
     /**
-     * @param IncomePart $entity
+     * {@inheritdoc}
      */
     protected function updateEntity($entity): void
     {
+        \assert($entity instanceof IncomePart);
+
         parent::updateEntity($entity);
 
         $this->setReferer($this->generateEasyPath($entity->getIncome(), 'show'));

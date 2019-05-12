@@ -68,10 +68,12 @@ abstract class OrderItemController extends AbstractController
     }
 
     /**
-     * @param OrderItem $entity
+     * {@inheritdoc}
      */
     protected function removeEntity($entity): void
     {
+        \assert($entity instanceof OrderItem);
+
         $this->em->transactional(function (EntityManagerInterface $em) use ($entity): void {
             $this->recursiveRemove($em, $entity);
         });
