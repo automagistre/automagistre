@@ -23,6 +23,9 @@ final class WalletExtension extends AbstractExtension
         $this->paymentManager = $paymentManager;
     }
 
+    /**
+     * @return TwigFilter[]
+     */
     public function getFilters(): array
     {
         return [

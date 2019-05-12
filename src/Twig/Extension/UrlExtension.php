@@ -14,7 +14,7 @@ use Twig\TwigFilter;
 final class UrlExtension extends AbstractExtension
 {
     /**
-     * {@inheritdoc}
+     * @return TwigFilter[]
      */
     public function getFilters(): array
     {

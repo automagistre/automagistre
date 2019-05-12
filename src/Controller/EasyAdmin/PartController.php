@@ -26,7 +26,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use LogicException;
 use Money\MoneyFormatter;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -285,7 +285,7 @@ final class PartController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function createEntityFormBuilder($entity, $view): FormBuilderInterface
+    protected function createEntityFormBuilder($entity, $view): FormBuilder
     {
         $formBuilder = parent::createEntityFormBuilder($entity, $view);
 

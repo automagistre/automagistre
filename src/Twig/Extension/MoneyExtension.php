@@ -32,7 +32,7 @@ final class MoneyExtension extends AbstractExtension
     }
 
     /**
-     * {@inheritdoc}
+     * @return TwigFilter[]
      */
     public function getFilters(): array
     {

@@ -20,7 +20,7 @@ use Pagerfanta\Pagerfanta;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -324,7 +324,7 @@ abstract class AbstractController extends AdminController
     /**
      * {@inheritdoc}
      */
-    protected function createEntityFormBuilder($entity, $view): FormBuilderInterface
+    protected function createEntityFormBuilder($entity, $view): FormBuilder
     {
         return parent::createEntityFormBuilder($entity, $view);
     }

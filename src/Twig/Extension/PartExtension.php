@@ -30,6 +30,9 @@ final class PartExtension extends AbstractExtension
         $this->reservationManager = $reservationManager;
     }
 
+    /**
+     * @return TwigFunction[]
+     */
     public function getFunctions(): array
     {
         return [
