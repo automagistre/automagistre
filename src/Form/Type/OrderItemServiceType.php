@@ -36,6 +36,7 @@ final class OrderItemServiceType extends AbstractType
             throw new LogicException(\sprintf('Data must be instance of "%s"', OrderItemService::class));
         }
 
+        /** @psalm-var array $view->vars */
         $view->vars['label'] = $item->getService();
 
         parent::buildView($view, $form, $options);

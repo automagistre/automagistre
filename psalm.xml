@@ -17,7 +17,6 @@
 
         <MissingConstructor errorLevel="info"/>
         <MissingParamType errorLevel="info"/>
-        <MissingPropertyType errorLevel="info"/>
 
         <PropertyNotSetInConstructor errorLevel="info"/>
 
