@@ -34,8 +34,6 @@
         <MoreSpecificImplementedParamType errorLevel="info"/>
         <MoreSpecificReturnType errorLevel="info"/>
 
-        <NullableReturnStatement errorLevel="info"/>
-
         <PropertyNotSetInConstructor errorLevel="info"/>
 
         <PossiblyNullArgument errorLevel="info"/>

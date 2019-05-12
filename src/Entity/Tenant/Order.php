@@ -146,7 +146,7 @@ class Order
         return $this->isPartsDiscounted() || $this->isServicesDiscounted();
     }
 
-    public function discount(): Money
+    public function discount(): ?Money
     {
         $discount = null;
         if ($this->isPartsDiscounted()) {
