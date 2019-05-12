@@ -13,8 +13,6 @@
     </projectFiles>
 
     <issueHandlers>
-        <DeprecatedClass errorLevel="info"/>
-
         <InvalidArgument errorLevel="info"/>
 
         <MissingConstructor errorLevel="info"/>
