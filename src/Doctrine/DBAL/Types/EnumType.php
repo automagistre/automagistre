@@ -40,7 +40,16 @@ abstract class EnumType extends Type
             throw ConversionException::conversionFailed($value, $this->getName());
         }
 
-        return new $class($id);
+        if (false === \class_exists($class)) {
+            throw ConversionException::conversionFailed($value, $this->getName());
+        }
+
+        $enum = new $class($id);
+        if (!$enum instanceof Enum) {
+            throw ConversionException::conversionFailed($value, $this->getName());
+        }
+
+        return $enum;
     }
 
     /**

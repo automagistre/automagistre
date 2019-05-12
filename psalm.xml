@@ -24,7 +24,6 @@
         <InvalidStringClass errorLevel="info"/>
 
         <LessSpecificImplementedReturnType errorLevel="info"/>
-        <LessSpecificReturnStatement errorLevel="info"/>
 
         <MissingClosureReturnType errorLevel="info"/>
         <MissingConstructor errorLevel="info"/>
