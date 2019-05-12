@@ -232,6 +232,8 @@ phpunit:
 requirements: APP_ENV=prod
 requirements:
 	$(APP) requirements-checker
+psalm:
+	$(APP) psalm --show-info=false
 
 cache: do-cache-clear do-cache-warmup permissions
 cache-clear: do-cache-clear permissions
