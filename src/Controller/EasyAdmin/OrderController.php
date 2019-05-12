@@ -702,7 +702,7 @@ final class OrderController extends AbstractController
 
         // EAGER Loading
         $qb
-            ->select('entity', 'items', 'suspends')
+            ->select(['entity', 'items', 'suspends'])
             ->leftJoin('entity.items', 'items')
             ->leftJoin('entity.suspends', 'suspends');
 

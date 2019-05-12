@@ -120,7 +120,7 @@ final class PartCaseFindCommand extends Command
     {
         $data = $this->registry->repository(Car::class)
             ->createQueryBuilder('car')
-            ->select('car.id AS car_id', 'carModel.id AS car_model_id')
+            ->select(['car.id AS car_id', 'carModel.id AS car_model_id'])
             ->join('car.carModel', 'carModel')
             ->where('carModel.caseName IS NOT NULL')
             ->getQuery()

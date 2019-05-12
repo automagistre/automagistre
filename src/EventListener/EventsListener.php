@@ -47,9 +47,12 @@ final class EventsListener implements EventSubscriberInterface
     {
         $reflection = new \ReflectionClass(Events::class);
 
-        return \array_map(function () {
-            return 'onEvent';
-        }, \array_flip(\array_values($reflection->getConstants())));
+        $events = \array_values($reflection->getConstants());
+        $subscribedEvents = \array_combine($events, \array_fill(0, \count($events), 'onEvent'));
+
+        \assert(\is_array($subscribedEvents));
+
+        return $subscribedEvents;
     }
 
     public function onEvent(GenericEvent $event, string $name): void

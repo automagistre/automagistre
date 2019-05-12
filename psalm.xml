@@ -58,8 +58,6 @@
         <RedundantCondition errorLevel="info"/>
         <RedundantConditionGivenDocblockType errorLevel="info"/>
 
-        <TooManyArguments errorLevel="info"/>
-
         <UndefinedClass errorLevel="info"/>
     </issueHandlers>
 

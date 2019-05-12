@@ -61,7 +61,7 @@ final class ReserveAccruedPartsListener implements EventSubscriberInterface
 
         /** @var OrderItemPart[] $items */
         $items = $em->createQueryBuilder()
-            ->select('entity', 'orders')
+            ->select(['entity', 'orders'])
             ->from(OrderItemPart::class, 'entity')
             ->join('entity.order', 'orders')
             ->where('entity.part.id = :part')
