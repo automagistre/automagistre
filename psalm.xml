@@ -20,7 +20,6 @@
 
         <PropertyNotSetInConstructor errorLevel="info"/>
 
-        <PossiblyNullArgument errorLevel="info"/>
         <PossiblyNullArrayOffset errorLevel="info"/>
         <PossiblyNullOperand errorLevel="info"/>
         <PossiblyNullPropertyAssignmentValue errorLevel="info"/>
