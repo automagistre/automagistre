@@ -46,6 +46,10 @@ final class PartExplorerRouteRefererListener implements EventSubscriberInterface
         }
 
         $request = $this->requestStack->getCurrentRequest();
+        if (null === $request) {
+            return;
+        }
+
         if ($request->query->has('referer')) {
             $parameters['referer'] = $request->query->get('referer');
         } else {

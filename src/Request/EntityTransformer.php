@@ -67,11 +67,12 @@ final class EntityTransformer
             return null;
         }
 
-        $query = $this->namingStrategy->joinKeyColumnName($class);
+        $request = $request ?? $this->requestStack->getCurrentRequest();
         if (null === $request) {
-            $request = $this->requestStack->getCurrentRequest();
+            return null;
         }
 
+        $query = $this->namingStrategy->joinKeyColumnName($class);
         if ('' === $id = $request->query->get($query, '')) {
             return null;
         }

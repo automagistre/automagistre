@@ -23,7 +23,6 @@
         <PossiblyNullArrayOffset errorLevel="info"/>
         <PossiblyNullOperand errorLevel="info"/>
         <PossiblyNullPropertyAssignmentValue errorLevel="info"/>
-        <PossiblyNullPropertyFetch errorLevel="info"/>
         <PossiblyNullReference errorLevel="info"/>
     </issueHandlers>
 

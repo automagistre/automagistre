@@ -110,6 +110,7 @@ final class TenantListener implements EventSubscriberInterface
     {
         ['name' => $name, 'parameters' => $parameters, 'referenceType' => $referenceType] = $event->getArguments();
 
+        // TODO Refactor this expression
         if ('easyadmin' !== $name && 0 !== \strpos($name, 'admin_')) {
             return;
         }
@@ -118,7 +119,7 @@ final class TenantListener implements EventSubscriberInterface
             return;
         }
 
-        $parameters['tenant'] = $this->requestStack->getMasterRequest()->attributes->get('tenant');
+        $parameters['tenant'] = $this->state->tenant()->getIdentifier();
 
         $event->setArguments(['name' => $name, 'parameters' => $parameters, 'referenceType' => $referenceType]);
     }

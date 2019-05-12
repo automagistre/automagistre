@@ -16,6 +16,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -42,7 +43,8 @@ final class OrderItemParentType extends AbstractType
         $resolver->setDefaults([
             'class' => OrderItem::class,
             'query_builder' => function (EntityRepository $repository) {
-                $currentItem = $this->requestStack->getMasterRequest()->attributes->get('easyadmin')['item'];
+                $request = $this->requestStack->getMasterRequest();
+                $currentItem = $request instanceof Request ? $request->attributes->get('easyadmin')['item'] : null;
 
                 $qb = $repository->createQueryBuilder('entity')
                     ->where('entity.order = :order');

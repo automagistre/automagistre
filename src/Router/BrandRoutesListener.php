@@ -60,6 +60,9 @@ final class BrandRoutesListener implements EventSubscriberInterface
         }
 
         $request = $this->requestStack->getCurrentRequest();
+        if (null === $request) {
+            return;
+        }
 
         $brand = $request->attributes->get('brand');
         if (null === $brand) {

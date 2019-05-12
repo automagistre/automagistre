@@ -60,9 +60,12 @@ final class ExceptionController extends TwigExceptionController
             return parent::findTemplate($request, $format, $code, $showException);
         }
 
-        $zone = null;
+        $masterRequest = $this->requestStack->getMasterRequest();
+        $firewallContext = $masterRequest instanceof Request
+            ? $masterRequest->attributes->get('_firewall_context')
+            : null;
 
-        $firewallContext = $this->requestStack->getMasterRequest()->attributes->get('_firewall_context');
+        $zone = null;
         if (null !== $firewallContext) {
             $zone = self::FIREWALL_MAP[$firewallContext];
         }
