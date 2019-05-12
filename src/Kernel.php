@@ -44,10 +44,15 @@ final class Kernel extends SymfonyKernel implements CompilerPassInterface
      */
     public function registerBundles(): iterable
     {
+        $path = $this->getProjectDir().'/config/bundles.php';
+        \assert(\file_exists($path));
+
         /** @noinspection PhpIncludeInspection */
-        $contents = require $this->getProjectDir().'/config/bundles.php';
+        $contents = require $path;
         foreach ((array) $contents as $class => $envs) {
             if (isset($envs['all']) || isset($envs[$this->getEnvironment()])) {
+                \assert(\class_exists($class));
+
                 yield new $class();
             }
         }

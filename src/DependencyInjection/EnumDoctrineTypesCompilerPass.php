@@ -77,6 +77,7 @@ final class EnumDoctrineTypesCompilerPass implements CompilerPassInterface
                 'body' => \implode(PHP_EOL, $body),
             ])->generate());
 
+            \assert(\file_exists($autoloadFile));
             /** @noinspection PhpIncludeInspection */
             require_once $autoloadFile;
         }

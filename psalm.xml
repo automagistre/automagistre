@@ -61,7 +61,6 @@
         <TooManyArguments errorLevel="info"/>
 
         <UndefinedClass errorLevel="info"/>
-        <UnresolvableInclude errorLevel="info"/>
     </issueHandlers>
 
     <plugins>
