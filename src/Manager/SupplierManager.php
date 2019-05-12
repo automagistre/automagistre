@@ -29,6 +29,9 @@ final class SupplierManager
         $this->paymentManager = $paymentManager;
     }
 
+    /**
+     * @return array<int, Income>
+     */
     public function unpaidIncome(Operand $supplier): array
     {
         $balance = $this->paymentManager->balance($supplier);
@@ -59,7 +62,7 @@ final class SupplierManager
 
             $balance = $balance->subtract($income->getAccruedAmount());
 
-            $result[$income->getId()] = $income;
+            $result[(int) $income->getId()] = $income;
         }
 
         return $result;
