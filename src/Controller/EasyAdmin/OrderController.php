@@ -123,7 +123,10 @@ final class OrderController extends AbstractController
             return $this->redirectToReferrer();
         }
 
-        $currentPeriod = $request->query->getAlnum('period', $periods[0]);
+        $currentPeriod = $request->query->getInt('period');
+        if (!\in_array($currentPeriod, $periods, true)) {
+            $currentPeriod = $periods[0];
+        }
 
         /** @var OrderTOService[] $services */
         $services = [];
