@@ -85,6 +85,7 @@ final class TenantRelationListener implements EventSubscriber
             }
 
             $relationEntityClass = $relation::entityClass();
+            \assert(\class_exists($relationEntityClass));
             $relationEntity = $this->registry->manager($relationEntityClass)
                 ->getRepository($relationEntityClass)
                 ->find($relation->id());

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Request;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping\NamingStrategy;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -62,6 +63,10 @@ final class EntityTransformer
 
     public function reverseTransform(string $class, ?Request $request = null): ?object
     {
+        if (!\class_exists($class)) {
+            return null;
+        }
+
         $query = $this->namingStrategy->joinKeyColumnName($class);
         if (null === $request) {
             $request = $this->requestStack->getCurrentRequest();
@@ -71,6 +76,9 @@ final class EntityTransformer
             return null;
         }
 
-        return $this->registry->getManagerForClass($class)->getRepository($class)->find($id);
+        $em = $this->registry->getManagerForClass($class);
+        \assert($em instanceof ObjectManager);
+
+        return $em->getRepository($class)->find($id);
     }
 }

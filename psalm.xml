@@ -13,8 +13,6 @@
     </projectFiles>
 
     <issueHandlers>
-        <ArgumentTypeCoercion errorLevel="info"/>
-
         <DeprecatedClass errorLevel="info"/>
 
         <InvalidArgument errorLevel="info"/>

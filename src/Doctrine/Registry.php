@@ -83,6 +83,8 @@ final class Registry
     {
         $class = $this->entityToString($entity);
 
+        \assert(\class_exists($class));
+
         return $this->manager($entity)->getClassMetadata($class);
     }
 
