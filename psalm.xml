@@ -33,8 +33,6 @@
         <MissingParamType errorLevel="info"/>
         <MissingPropertyType errorLevel="info"/>
 
-        <MismatchingDocblockReturnType errorLevel="info"/>
-
         <MoreSpecificImplementedParamType errorLevel="info"/>
         <MoreSpecificReturnType errorLevel="info"/>
 

@@ -31,11 +31,15 @@ final class MoneyNormalizer implements NormalizerInterface
     }
 
     /**
-     * @param Money       $money
-     * @param string|null $format
+     * @param mixed $money
+     * @param string|null  $format
+     *
+     * @return array<string>
      */
     public function normalize($money, $format = null, array $context = []): array
     {
+        \assert($money instanceof Money);
+
         return [
             'amount' => $this->decimalMoneyFormatter->format($money),
             'currency' => $money->getCurrency()->getCode(),

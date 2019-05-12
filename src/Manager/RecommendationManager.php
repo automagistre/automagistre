@@ -163,7 +163,7 @@ final class RecommendationManager
     }
 
     /**
-     * @return OrderItemPart[]|Generator
+     * @return Generator<OrderItemPart>
      */
     private function getParts(OrderItem $item): Generator
     {
