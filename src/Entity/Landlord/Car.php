@@ -9,8 +9,11 @@ use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Entity\Embeddable\CarEquipment;
 use App\Enum\Carcase;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
+use LogicException;
 use Money\Currency;
 use Money\Money;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -100,7 +103,7 @@ class Car
     private $mileage = 0;
 
     /**
-     * @var CarRecommendation[]|ArrayCollection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Landlord\CarRecommendation", mappedBy="car", cascade={"persist"})
      */
@@ -243,6 +246,10 @@ class Car
      */
     public function getRecommendations(Criteria $criteria = null): array
     {
+        if (!$this->recommendations instanceof Selectable) {
+            throw new LogicException(\sprintf('Collection must implement "%s"', Selectable::class));
+        }
+
         $criteria = $criteria ?: Criteria::create()->andWhere(Criteria::expr()->isNull('expiredAt'));
 
         return $this->recommendations->matching($criteria)->getValues();

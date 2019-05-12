@@ -20,7 +20,9 @@ use App\Money\TotalPriceInterface;
 use DateTime;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
 use DomainException;
 use LogicException;
@@ -41,7 +43,7 @@ class Order
     use CreatedBy;
 
     /**
-     * @var OrderItem[]|ArrayCollection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Tenant\OrderItem", mappedBy="order", cascade={"persist"},
      * orphanRemoval=true)
@@ -105,14 +107,14 @@ class Order
     private $description;
 
     /**
-     * @var OrderPayment[]|ArrayCollection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Tenant\OrderPayment", mappedBy="order", cascade={"persist"})
      */
     private $payments;
 
     /**
-     * @var ArrayCollection|OrderSuspend[]
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Tenant\OrderSuspend", mappedBy="order", cascade={"persist", "remove"})
      */
@@ -240,6 +242,10 @@ class Order
      */
     public function getRootItems(): array
     {
+        if (!$this->items instanceof Selectable) {
+            throw new LogicException(\sprintf('Collection must implement "%s"', Selectable::class));
+        }
+
         $criteria = Criteria::create()->where(Criteria::expr()->isNull('parent'));
 
         return $this->items->matching($criteria)->toArray();

@@ -6,6 +6,7 @@ namespace App\Entity\Landlord;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -16,7 +17,7 @@ class PartCross
     use Identity;
 
     /**
-     * @var Part[]|ArrayCollection
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="App\Entity\Landlord\Part")
      * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})

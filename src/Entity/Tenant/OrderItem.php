@@ -12,6 +12,7 @@ use App\Entity\Landlord\User;
 use App\Money\PriceInterface;
 use App\Money\TotalPriceInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;
 use Money\Money;
@@ -35,7 +36,7 @@ abstract class OrderItem
     use CreatedBy;
 
     /**
-     * @var OrderItem[]|ArrayCollection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Tenant\OrderItem", mappedBy="parent", cascade={"persist"},
      * orphanRemoval=true)

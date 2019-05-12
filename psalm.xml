@@ -42,8 +42,6 @@
         <PossiblyNullPropertyFetch errorLevel="info"/>
         <PossiblyNullReference errorLevel="info"/>
 
-        <PossiblyInvalidMethodCall errorLevel="info"/>
-
         <UndefinedClass errorLevel="info"/>
     </issueHandlers>
 

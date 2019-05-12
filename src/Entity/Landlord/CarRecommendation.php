@@ -14,6 +14,7 @@ use App\Enum\Tenant;
 use App\Money\PriceInterface;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;
 use Money\Money;
@@ -47,7 +48,7 @@ class CarRecommendation implements PriceInterface
     private $service;
 
     /**
-     * @var CarRecommendationPart[]|ArrayCollection
+     * @var Collection
      *
      * @ORM\OneToMany(
      *     targetEntity="App\Entity\Landlord\CarRecommendationPart",

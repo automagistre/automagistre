@@ -6,10 +6,13 @@ namespace App\Entity\Landlord;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
 use DomainException;
+use LogicException;
 use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
@@ -47,7 +50,7 @@ class User implements UserInterface, EquatableInterface, Serializable
     private $username;
 
     /**
-     * @var UserCredentials[]|ArrayCollection|PersistentCollection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Landlord\UserCredentials", mappedBy="user", cascade={"persist", "remove"})
      */
@@ -198,6 +201,10 @@ class User implements UserInterface, EquatableInterface, Serializable
 
     private function getCredential(string $type): ?UserCredentials
     {
+        if (!$this->credentials instanceof Selectable) {
+            throw new LogicException(\sprintf('Collection must implement "%s"', Selectable::class));
+        }
+
         $criteria = Criteria::create()
             ->andWhere(Criteria::expr()->eq('type', $type))
             ->andWhere(Criteria::expr()->isNull('expiredAt'));
