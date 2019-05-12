@@ -50,7 +50,7 @@ final class PartCaseFindCommand extends Command
             ->setParameter('cars', \array_keys($cars))
             ->getQuery()
             ->getScalarResult();
-        $universal = $this->getUniversal(\array_map(function (array $item) {
+        $universal = $this->getUniversal(\array_map(static function (array $item): string {
             return $item['part_id'];
         }, $data));
 

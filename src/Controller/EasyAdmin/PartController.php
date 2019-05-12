@@ -265,8 +265,8 @@ final class PartController extends AbstractController
 
             $parameters['inStock'] = $this->partManager->inStock($entity);
             $parameters['orders'] = $this->partManager->inOrders($entity);
-            $parameters['reservedIn'] = \array_map(function (Order $order) {
-                return $order->getId();
+            $parameters['reservedIn'] = \array_map(static function (Order $order): int {
+                return (int) $order->getId();
             }, $this->reservationManager->orders($entity));
             $parameters['reserved'] = $this->reservationManager->reserved($entity);
             $parameters['crosses'] = $this->partManager->getCrosses($entity);
@@ -420,7 +420,7 @@ final class PartController extends AbstractController
         $carModel = $this->getEntity(CarModel::class);
         $useCarModelInFormat = false === \strpos($queryString, '+');
 
-        $normalizer = function (Part $entity, bool $analog = false) use ($carModel, $useCarModelInFormat) {
+        $normalizer = function (Part $entity, bool $analog = false) use ($carModel, $useCarModelInFormat): array {
             $format = '%s - %s (%s) (Склад: %s) | %s';
 
             if ($carModel instanceof CarModel && $useCarModelInFormat && !$entity->isUniversal()) {

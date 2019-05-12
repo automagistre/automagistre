@@ -65,22 +65,22 @@ final class DeficitManager
 
         $partRepository = $this->registry->repository(Part::class);
         $parts = $partRepository->findBy([
-            'id' => \array_map(function (array $item) {
+            'id' => \array_map(static function (array $item): string {
                 return $item['part_id'];
             }, $result),
         ]);
 
         $this->registry->repository(Manufacturer::class)->findBy([
-            'id' => \array_map(function (Part $part) {
+            'id' => \array_map(static function (Part $part) {
                 return $part->getManufacturer()->getId();
             }, $parts),
         ]);
 
-        return \array_map(function (array $item) use ($em, $partRepository) {
+        return \array_map(static function (array $item) use ($em, $partRepository): DeficitPart {
             /** @var Part $part */
             $part = $partRepository->find($item['part_id']);
             $quantity = $item['needed'];
-            $orders = \array_map(function (int $id) use ($em) {
+            $orders = \array_map(static function (string $id) use ($em): object {
                 return $em->getReference(Order::class, $id);
             }, \array_filter(\explode(',', $item['orders_id']), 'strlen'));
 

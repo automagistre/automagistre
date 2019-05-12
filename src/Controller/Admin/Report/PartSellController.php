@@ -74,7 +74,7 @@ final class PartSellController extends AbstractController
             'end' => 'datetime',
         ]);
 
-        $ids = \array_map(static function (array $item) {
+        $ids = \array_map(static function (array $item): string {
             return $item['part_id'];
         }, $items);
 
@@ -86,8 +86,8 @@ final class PartSellController extends AbstractController
             ->setParameter('ids', $ids)
             ->getResult();
 
-        \usort($items, static function (array $left, array $right) {
-            return (int) $left['quantity'] < (int) $right['quantity'];
+        \usort($items, static function (array $left, array $right): int {
+            return (int) $right['quantity'] <=> (int) $left['quantity'];
         });
 
         return $this->render('admin/report/part_sell.html.twig', [

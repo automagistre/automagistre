@@ -23,7 +23,6 @@
         <InvalidScalarArgument errorLevel="info"/>
         <InvalidStringClass errorLevel="info"/>
 
-        <MissingClosureReturnType errorLevel="info"/>
         <MissingConstructor errorLevel="info"/>
         <MissingParamType errorLevel="info"/>
         <MissingPropertyType errorLevel="info"/>
