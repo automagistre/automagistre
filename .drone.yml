@@ -74,6 +74,15 @@ pipeline:
             - cd "$APP_DIR"
             - phpstan analyse --configuration phpstan.neon --no-progress
 
+    validate psalm:
+        group: validate
+        image: automagistre/app:${DRONE_BUILD_NUMBER}
+        commands:
+            - cd "$APP_DIR"
+            - psalm --show-info=false || true
+        when:
+            event: push
+
     validate doctrine:
         group: validate
         image: automagistre/app:${DRONE_BUILD_NUMBER}
