@@ -51,7 +51,7 @@ coding_style:
 build:
     environment:
         php:
-            version: 7.3.4
+            version: 7.3.3
         mysql: 5.5
         hosts:
             mysql: '127.0.0.1'
@@ -74,7 +74,4 @@ build:
         analysis:
             tests:
                 override:
-                    -
-                        command: phpcs-run
-                        use_website_config: true
                     - php-scrutinizer-run
