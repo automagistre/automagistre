@@ -16,7 +16,6 @@
         <DeprecatedClass errorLevel="info"/>
 
         <InvalidArgument errorLevel="info"/>
-        <InvalidReturnStatement errorLevel="info"/>
 
         <MissingConstructor errorLevel="info"/>
         <MissingParamType errorLevel="info"/>
