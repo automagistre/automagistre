@@ -63,12 +63,9 @@ final class Registry
     {
         $class = $this->entityToString($entity);
 
-        $repository = $this->manager($class)->getRepository($class);
-        if (!$repository instanceof EntityRepository) {
-            throw new LogicException('EntityRepository expected');
-        }
+        \assert(\class_exists($class));
 
-        return $repository;
+        return $this->manager($class)->getRepository($class);
     }
 
     /**

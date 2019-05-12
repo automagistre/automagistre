@@ -17,8 +17,6 @@
 
         <DeprecatedClass errorLevel="info"/>
 
-        <DocblockTypeContradiction errorLevel="info"/>
-
         <InvalidArgument errorLevel="info"/>
         <InvalidNullableReturnType errorLevel="info"/>
         <InvalidOperand errorLevel="info"/>

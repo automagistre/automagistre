@@ -30,7 +30,7 @@ final class Recommendation extends Model
     public $price;
 
     /**
-     * @var Operand
+     * @var Operand|null
      */
     public $worker;
 

@@ -27,7 +27,7 @@ final class ConnectionSwitcher
     private $connection;
 
     /**
-     * @var ReflectionProperty
+     * @var ReflectionProperty|null
      */
     private $reflection;
 
