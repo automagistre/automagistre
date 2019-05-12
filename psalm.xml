@@ -55,8 +55,6 @@
 
         <PossiblyInvalidMethodCall errorLevel="info"/>
 
-        <RedundantCondition errorLevel="info"/>
-
         <UndefinedClass errorLevel="info"/>
     </issueHandlers>
 
