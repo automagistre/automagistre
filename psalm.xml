@@ -29,7 +29,6 @@
         <MissingPropertyType errorLevel="info"/>
 
         <MoreSpecificImplementedParamType errorLevel="info"/>
-        <MoreSpecificReturnType errorLevel="info"/>
 
         <PropertyNotSetInConstructor errorLevel="info"/>
 
