@@ -79,7 +79,11 @@ pipeline:
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - $$WAIT_FOR_IT landlord:3306
-            - console doctrine:schema:create --em=landlord
+            - $$WAIT_FOR_IT tenant_msk:3306
+            - console doctrine:migrations:migrate --no-interaction --allow-no-migration --db=landlord --em=landlord
+            - console doctrine:migrations:migrate --no-interaction --allow-no-migration --db=tenant --em=tenant --tenant=msk
+            - console doctrine:schema:validate --em=landlord
+            - console doctrine:schema:validate --em=tenant --tenant=msk
         environment:
             MYSQL_PASSWORD: 'db'
 
@@ -138,7 +142,7 @@ services:
             MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
         tmpfs:
             - /var/lib/mysql
-    tenant:
+    tenant_msk:
         image: mariadb:10.3.10
         environment:
             MYSQL_DATABASE: 'tenant'
