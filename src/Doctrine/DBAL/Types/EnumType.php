@@ -74,5 +74,13 @@ abstract class EnumType extends Type
         return $id;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
+    {
+        return true;
+    }
+
     abstract protected function getClass(): string;
 }
