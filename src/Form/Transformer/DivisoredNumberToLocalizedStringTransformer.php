@@ -47,7 +47,7 @@ final class DivisoredNumberToLocalizedStringTransformer extends NumberToLocalize
             return '';
         }
 
-        if (!\is_int($value) && !\is_float($value)) {
+        if (!\is_numeric($value) && !\is_int($value) && !\is_float($value)) {
             throw new TransformationFailedException('Expected a numeric.');
         }
 
