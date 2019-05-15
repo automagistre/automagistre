@@ -18,10 +18,14 @@
 <td>{{ item.worker }}</td>
 <td>{{ item.discounted ? item.discount|localize_money }}</td>
 
-<td>{{ item.price|localize_money }}</td>
+{% set totalPartPrice = item.totalPartPrice(true) %}
 
 <td>
-    {{ item.totalPrice(true)|localize_money }} / {{ item.totalPartPrice(true)|localize_money }}
+    {{ item.price|localize_money }} / {{ totalPartPrice|localize_money }}
+</td>
+
+<td>
+    {{ totalPartPrice.add(item.totalPrice(true))|localize_money }}
 </td>
 {% if order.editable %}
     <td></td>
