@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace App;
 
 use App\DependencyInjection\EnumDoctrineTypesCompilerPass;
+use Generator;
+use phpDocumentor\Reflection\Types\Iterable_;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel as SymfonyKernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 
@@ -40,7 +43,7 @@ final class Kernel extends SymfonyKernel implements CompilerPassInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return Iterable_<int, BundleInterface>
      */
     public function registerBundles(): iterable
     {

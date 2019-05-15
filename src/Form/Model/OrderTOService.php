@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Form\Model;
 
 use App\Entity\Landlord\MC\Line;
+use App\Entity\Landlord\MC\Part;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -50,7 +51,9 @@ final class OrderTOService
         $model->selected = !$model->recommend;
 
         foreach ($line->parts as $part) {
-            $model->parts[$part->getId()] = OrderTOPart::from($part);
+            \assert($part instanceof Part);
+
+            $model->parts[(int) $part->getId()] = OrderTOPart::from($part);
         }
 
         return $model;

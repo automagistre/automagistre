@@ -8,6 +8,7 @@ use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Entity\Embeddable\CarEquipment;
 use App\Entity\Landlord\CarModel;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -42,7 +43,7 @@ class Equipment
     public $period;
 
     /**
-     * @var Line[]|ArrayCollection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Landlord\MC\Line", mappedBy="equipment")
      */
