@@ -132,12 +132,12 @@
                         <div class="form-control">
                             {% if order.mileage is not empty %}
                                 {{- order.mileage|number_format -}}
-
-                                {% if car.mileage is not empty %}
-                                    <span class="label label-info" title="Предыдущий пробег">{{ car.mileage|number_format }}</span>
-                                {% endif %}
                             {% else %}
                                 {% include '@EasyAdmin/default/label_null.html.twig' %}
+                            {% endif %}
+
+                            {% if car.mileage is not empty %}
+                                <span class="label label-info" title="Предыдущий пробег">{{ car.mileage|number_format }}</span>
                             {% endif %}
                         </div>
                     </div>
