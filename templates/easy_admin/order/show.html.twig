@@ -265,6 +265,7 @@
                                 <tr>
                                     <th>Наименование</th>
                                     <th>Цена</th>
+                                    <th>Итого</th>
                                     <th>Склад</th>
                                     <th>Диагностировал</th>
                                     <th>Действия</th>
@@ -284,7 +285,13 @@
                                                 <i class="fa fa-plus"></i>
                                             </a>
                                         </td>
-                                        <td>{{ recommendation.price|localize_money }} / {{ recommendation.totalPartPrice|localize_money }}</td>
+                                        <td>
+                                            {% set recommendationTotalPartPrice = recommendation.totalPartPrice %}
+                                            {{ recommendation.price|localize_money }} / {{ recommendationTotalPartPrice|localize_money }}
+                                        </td>
+                                        <td>
+                                            {{ recommendation.price.add(recommendationTotalPartPrice)|localize_money }}
+                                        </td>
                                         <td></td>
                                         <td>
                                             {% if recommendation.worker is not empty %}
@@ -316,6 +323,7 @@
                                                 {% include 'easy_admin/field_part.html.twig' with {'value': part.part} only %}
                                             </td>
                                             <td>{{ part.quantity / 100 }} x {{ part.price|localize_money }}</td>
+                                            <td>{{ part.price.multiply(part.quantity / 100)|localize_money }}</td>
                                             <td>
                                                 {% set reservable = part_reservable(part.part) %}
                                                 {% set reserved = part_reserved(part.part) %}
