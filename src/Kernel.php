@@ -6,7 +6,6 @@ namespace App;
 
 use App\DependencyInjection\EnumDoctrineTypesCompilerPass;
 use Generator;
-use phpDocumentor\Reflection\Types\Iterable_;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -43,7 +42,7 @@ final class Kernel extends SymfonyKernel implements CompilerPassInterface
     }
 
     /**
-     * @return Iterable_<int, BundleInterface>
+     * @return iterable<int, BundleInterface>
      */
     public function registerBundles(): iterable
     {
@@ -55,6 +54,7 @@ final class Kernel extends SymfonyKernel implements CompilerPassInterface
         foreach ((array) $contents as $class => $envs) {
             if (isset($envs['all']) || isset($envs[$this->getEnvironment()])) {
                 \assert(\class_exists($class));
+                \assert(is_subclass_of($class, BundleInterface::class));
 
                 yield new $class();
             }
