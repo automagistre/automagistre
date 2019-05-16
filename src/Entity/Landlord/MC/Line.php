@@ -6,6 +6,7 @@ namespace App\Entity\Landlord\MC;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,7 +31,7 @@ class Line
     public $work;
 
     /**
-     * @var Part[]|ArrayCollection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Landlord\MC\Part", mappedBy="line")
      */

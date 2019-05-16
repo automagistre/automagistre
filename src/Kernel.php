@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel as SymfonyKernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 
@@ -40,7 +41,7 @@ final class Kernel extends SymfonyKernel implements CompilerPassInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return iterable<int, BundleInterface>
      */
     public function registerBundles(): iterable
     {
@@ -52,6 +53,7 @@ final class Kernel extends SymfonyKernel implements CompilerPassInterface
         foreach ((array) $contents as $class => $envs) {
             if (isset($envs['all']) || isset($envs[$this->getEnvironment()])) {
                 \assert(\class_exists($class));
+                \assert(\is_subclass_of($class, BundleInterface::class));
 
                 yield new $class();
             }
