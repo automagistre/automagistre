@@ -10,6 +10,7 @@ use App\Request\EntityTransformer;
 use App\State;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
+use EasyCorp\Bundle\EasyAdminBundle\Router\EasyAdminRouter;
 use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
@@ -44,6 +45,7 @@ abstract class AbstractController extends EasyAdminController
             State::class,
             DecimalMoneyFormatter::class,
             PhoneNumberUtil::class,
+            EasyAdminRouter::class,
         ]);
     }
 
@@ -82,7 +84,7 @@ abstract class AbstractController extends EasyAdminController
      */
     protected function generateEasyPath($entity, string $action, array $parameters = []): string
     {
-        return $this->container->get('easyadmin.router')->generate($entity, $action, $parameters);
+        return $this->container->get(EasyAdminRouter::class)->generate($entity, $action, $parameters);
     }
 
     protected function setReferer(string $url): void
