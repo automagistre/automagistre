@@ -9,7 +9,7 @@ use App\Entity\Landlord\User;
 use App\Request\EntityTransformer;
 use App\State;
 use Doctrine\ORM\QueryBuilder;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
@@ -31,7 +31,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-abstract class AbstractController extends AdminController
+abstract class AbstractController extends EasyAdminController
 {
     /**
      * @var Registry
