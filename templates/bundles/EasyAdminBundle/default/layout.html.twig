@@ -10,7 +10,7 @@
         <title>{% block page_title %}{{ block('content_title')|striptags|raw }}{% endblock %}</title>
 
         {% block head_stylesheets %}
-            <link rel="stylesheet" href="{{ asset('easyadmin/stylesheet/easyadmin-all.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/easyadmin/stylesheet/easyadmin-all.min.css') }}">
             <style>
                 {% include '@EasyAdmin/css/easyadmin.css.twig' %}
             </style>
@@ -40,12 +40,12 @@
                 </script>
             {% endblock %}
 
-            <script src="{{ asset('easyadmin/javascript/easyadmin-all.min.js') }}"></script>
+            <script src="{{ asset('assets/easyadmin/javascript/easyadmin-all.min.js') }}"></script>
         {% endblock head_javascript %}
 
         {% if easyadmin_config('design.rtl') %}
-            <link rel="stylesheet" href="{{ asset('easyadmin/stylesheet/bootstrap-rtl.min.css') }}">
-            <link rel="stylesheet" href="{{ asset('easyadmin/stylesheet/adminlte-rtl.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/easyadmin/stylesheet/bootstrap-rtl.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/easyadmin/stylesheet/adminlte-rtl.min.css') }}">
         {% endif %}
     </head>
 
