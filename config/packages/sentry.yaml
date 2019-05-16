@@ -3,12 +3,9 @@ parameters:
 
 sentry:
     dsn: "%env(SENTRY_DSN)%"
-    skip_capture:
-        - 'Symfony\Component\HttpKernel\Exception\HttpExceptionInterface'
-        - 'Symfony\Component\Security\\Core\Exception\AccessDeniedException'
     options:
-        processors:
-            - 'Raven_Processor_SanitizeDataProcessor'
-        app_path: '%kernel.project_dir%'
         environment: '%kernel.environment%'
         release: '%env(APP_VERSION)%'
+        excluded_exceptions:
+            - 'Symfony\Component\HttpKernel\Exception\HttpExceptionInterface'
+            - 'Symfony\Component\Security\\Core\Exception\AccessDeniedException'
