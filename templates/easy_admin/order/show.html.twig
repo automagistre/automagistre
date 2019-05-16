@@ -218,7 +218,7 @@
                                 <th>Склад</th>
                                 <th>Действия</th>
                             {% endif %}
-                            <th>Создал</th>
+                            <th><i class="fa fa-info-circle"></i></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -269,7 +269,7 @@
                                     <th>Склад</th>
                                     <th>Диагностировал</th>
                                     <th>Действия</th>
-                                    <th>Создал</th>
+                                    <th><i class="fa fa-info-circle"></i></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -314,7 +314,12 @@
                                                 </form>
                                             {% endif %}
                                         </td>
-                                        <td>{{ recommendation.createdAt|localizeddate }} ({% include 'easy_admin/field_user.html.twig' with {'value': recommendation.createdBy} only %})</td>
+                                        <td>
+                                            {%- include 'easy_admin/order/includes/created_by.html.twig' with {
+                                                'createdAt': recommendation.createdAt,
+                                                'person': recommendation.createdBy.person
+                                            } -%}
+                                        </td>
 
                                         {% for part in recommendation.parts %}
                                             {# @var part \App\Entity\CarRecommendationPart #}
@@ -359,7 +364,12 @@
                                                     </a>
                                                 {% endif %}
                                             </td>
-                                            <td>{{ part.createdAt|localizeddate }} ({% include 'easy_admin/field_user.html.twig' with {'value': part.createdBy} only %})</td>
+                                            <td>
+                                                {%- include 'easy_admin/order/includes/created_by.html.twig' with {
+                                                    'createdAt': part.createdAt,
+                                                    'person': part.createdBy.person
+                                                } -%}
+                                            </td>
                                         {% endfor %}
                                     </tr>
                                 {% endfor %}

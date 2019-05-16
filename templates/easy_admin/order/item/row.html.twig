@@ -14,7 +14,12 @@
 <tr{% if tr_class is defined %} class="{{ tr_class }}"{% endif %}>
     {% include template %}
 
-    <td>{{ item.createdAt|localizeddate }} ({% include 'easy_admin/field_user.html.twig' with {'value': item.createdBy} %})</td>
+    <td>
+        {%- include 'easy_admin/order/includes/created_by.html.twig' with {
+            'createdAt': item.createdAt,
+            'person': item.createdBy.person
+        } %}
+    </td>
 </tr>
 
 {% for children in item.children %}
