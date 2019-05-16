@@ -17,7 +17,7 @@
     <td>
         {%- include 'easy_admin/order/includes/created_by.html.twig' with {
             'createdAt': item.createdAt,
-            'person': item.createdBy.person
+            'user': item.createdBy
         } %}
     </td>
 </tr>

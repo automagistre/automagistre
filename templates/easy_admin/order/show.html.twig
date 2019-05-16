@@ -317,7 +317,7 @@
                                         <td>
                                             {%- include 'easy_admin/order/includes/created_by.html.twig' with {
                                                 'createdAt': recommendation.createdAt,
-                                                'person': recommendation.createdBy.person
+                                                'user': recommendation.createdBy
                                             } -%}
                                         </td>
 
@@ -367,7 +367,7 @@
                                             <td>
                                                 {%- include 'easy_admin/order/includes/created_by.html.twig' with {
                                                     'createdAt': part.createdAt,
-                                                    'person': part.createdBy.person
+                                                    'user': part.createdBy
                                                 } -%}
                                             </td>
                                         {% endfor %}
