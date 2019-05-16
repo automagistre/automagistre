@@ -18,7 +18,6 @@ use Money\Money;
 use Money\MoneyFormatter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\EventDispatcher\Event;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormInterface;
@@ -34,99 +33,25 @@ use Symfony\Component\HttpFoundation\Response;
 abstract class AbstractController extends EasyAdminController
 {
     /**
-     * @var Registry
+     * {@inheritdoc}
      */
-    protected $registry;
-
-    /**
-     * @var State
-     */
-    protected $state;
-
-    /**
-     * @var EntityTransformer
-     */
-    private $entityTransformer;
-
-    /**
-     * @var MoneyFormatter
-     */
-    private $moneyFormatter;
-
-    /**
-     * @var DecimalMoneyFormatter
-     */
-    private $decimalMoneyFormatter;
-
-    /**
-     * @var PhoneNumberUtil
-     */
-    private $phoneNumberUtil;
-
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $dispatcher;
-
-    /**
-     * @required
-     */
-    public function setEntityTransformer(EntityTransformer $entityTransformer): void
+    public static function getSubscribedServices(): array
     {
-        $this->entityTransformer = $entityTransformer;
-    }
-
-    /**
-     * @required
-     */
-    public function setMoneyFormatter(MoneyFormatter $moneyFormatter): void
-    {
-        $this->moneyFormatter = $moneyFormatter;
-    }
-
-    /**
-     * @required
-     */
-    public function setDecimalMoneyFormatter(DecimalMoneyFormatter $moneyFormatter): void
-    {
-        $this->decimalMoneyFormatter = $moneyFormatter;
-    }
-
-    /**
-     * @required
-     */
-    public function setPhoneNumberUtil(PhoneNumberUtil $phoneNumberUtil): void
-    {
-        $this->phoneNumberUtil = $phoneNumberUtil;
-    }
-
-    /**
-     * @required
-     */
-    public function setEventDispatcher(EventDispatcherInterface $dispatcher): void
-    {
-        $this->dispatcher = $dispatcher;
-    }
-
-    /**
-     * @required
-     */
-    public function setRegistry(Registry $registry): void
-    {
-        $this->registry = $registry;
-    }
-
-    /**
-     * @required
-     */
-    public function setState(State $state): void
-    {
-        $this->state = $state;
+        return \array_merge(parent::getSubscribedServices(), [
+            Registry::class,
+            EntityTransformer::class,
+            MoneyFormatter::class,
+            State::class,
+            DecimalMoneyFormatter::class,
+            PhoneNumberUtil::class,
+        ]);
     }
 
     protected function formatMoney(Money $money, bool $decimal = false): string
     {
-        $formatter = $decimal ? $this->decimalMoneyFormatter : $this->moneyFormatter;
+        $formatter = $decimal
+            ? $this->container->get(DecimalMoneyFormatter::class)
+            : $this->container->get(MoneyFormatter::class);
 
         return $formatter->format($money);
     }
@@ -137,7 +62,7 @@ abstract class AbstractController extends EasyAdminController
             return '';
         }
 
-        return $this->phoneNumberUtil->format($telephone, $format);
+        return $this->container->get(PhoneNumberUtil::class)->format($telephone, $format);
     }
 
     /**
@@ -178,7 +103,7 @@ abstract class AbstractController extends EasyAdminController
 
     protected function getEntity(string $class): ?object
     {
-        $entity = $this->entityTransformer->reverseTransform($class);
+        $entity = $this->container->get(EntityTransformer::class)->reverseTransform($class);
 
         if (null === $entity) {
             $entity = $this->request->attributes->get('easyadmin')['item'];
@@ -197,7 +122,7 @@ abstract class AbstractController extends EasyAdminController
 
         if ('0' === $id = $request->query->get('id')) {
             $easyadmin = $request->attributes->get('easyadmin');
-            $easyadmin['item'] = $this->registry->repository($easyadmin['entity']['class'])->find($id);
+            $easyadmin['item'] = $this->container->get(Registry::class)->repository($easyadmin['entity']['class'])->find($id);
 
             $request->attributes->set('easyadmin', $easyadmin);
         }
@@ -214,7 +139,7 @@ abstract class AbstractController extends EasyAdminController
             $event = new GenericEvent($event);
         }
 
-        $this->dispatcher->dispatch($eventName, $event);
+        $this->container->get('event_dispatcher')->dispatch($eventName, $event);
     }
 
     /**

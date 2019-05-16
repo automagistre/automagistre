@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Doctrine\Registry;
 use App\Entity\Landlord\Person;
 use App\Entity\Tenant\Employee;
 use App\Entity\Tenant\MonthlySalary;
@@ -223,7 +224,9 @@ final class EmployeeController extends AbstractController
             /** @var Employee $entity */
             $entity = $parameters['entity'];
 
-            $parameters['monthlySalaries'] = $this->registry->repository(MonthlySalary::class)
+            $registry = $this->container->get(Registry::class);
+
+            $parameters['monthlySalaries'] = $registry->repository(MonthlySalary::class)
                 ->findBy(['employee' => $entity]);
         }
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Doctrine\Registry;
 use App\Entity\Landlord\CarModel;
 use App\Entity\Landlord\Manufacturer;
 use App\Entity\Landlord\Part;
@@ -20,6 +21,7 @@ use App\Manager\ReservationManager;
 use App\Model\Part as PartModel;
 use App\Partner\Ixora\Finder;
 use App\Roles;
+use App\State;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
@@ -150,14 +152,16 @@ final class PartController extends AbstractController
                 'name' => $model->name,
                 'number' => $model->number,
             ];
-        }, \array_filter($parts, function (PartModel $model) use ($number) {
+        }, \array_filter($parts, static function (PartModel $model) use ($number) {
             return false !== \strpos($model->number, $number);
         })));
     }
 
     public function stockAction(): Response
     {
-        $quantities = $this->registry->repository(Motion::class)
+        $registry = $this->container->get(Registry::class);
+
+        $quantities = $registry->repository(Motion::class)
             ->createQueryBuilder('motion', 'motion.part.id')
             ->select('SUM(motion.quantity) AS quantity, motion.part.id AS part_id')
             ->groupBy('motion.part.id')
@@ -165,7 +169,7 @@ final class PartController extends AbstractController
             ->getQuery()
             ->getArrayResult();
 
-        $parts = $this->registry->repository(Part::class)->createQueryBuilder('part')
+        $parts = $registry->repository(Part::class)->createQueryBuilder('part')
             ->select('part, manufacturer')
             ->join('part.manufacturer', 'manufacturer')
             ->where('part.id IN (:ids)')
@@ -200,7 +204,9 @@ final class PartController extends AbstractController
             ->handleRequest($this->request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->registry->manager(MotionManual::class);
+            $registry = $this->container->get(Registry::class);
+
+            $em = $registry->manager(MotionManual::class);
             $quantity = \abs((int) $form->get('quantity')->getData());
             $user = $this->getUser();
             $description = \sprintf('# Ручное пополнение - %s', $user->getId());
@@ -234,7 +240,9 @@ final class PartController extends AbstractController
             ->handleRequest($this->request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->registry->manager(MotionManual::class);
+            $registry = $this->container->get(Registry::class);
+
+            $em = $registry->manager(MotionManual::class);
             $quantity = \abs((int) $form->get('quantity')->getData());
             $user = $this->getUser();
             $description = \sprintf('# Ручное списание - %s', $user->getId());
@@ -270,7 +278,10 @@ final class PartController extends AbstractController
             }, $this->reservationManager->orders($entity));
             $parameters['reserved'] = $this->reservationManager->reserved($entity);
             $parameters['crosses'] = $this->partManager->getCrosses($entity);
-            $parameters['carModels'] = $this->registry->repository(CarModel::class)
+
+            $registry = $this->container->get(Registry::class);
+
+            $parameters['carModels'] = $registry->repository(CarModel::class)
                 ->createQueryBuilder('carModel')
                 ->join(PartCase::class, 'partCase', Join::WITH, 'carModel = partCase.carModel')
                 ->where('partCase.part = :part')
@@ -338,7 +349,9 @@ final class PartController extends AbstractController
 
         if (!$isPlusExist) {
             /** @var CarModel[] $cases */
-            $cases = $this->registry->repository(CarModel::class)
+            $registry = $this->container->get(Registry::class);
+
+            $cases = $registry->repository(CarModel::class)
                 ->createQueryBuilder('entity')
                 ->select('PARTIAL entity.{id, caseName}')
                 ->where('entity.caseName IN (:cases)')
@@ -392,13 +405,14 @@ final class PartController extends AbstractController
             $qb->setParameter($key, '%'.\trim($searchString).'%');
         }
 
+        $state = $this->container->get(State::class);
         $qb->leftJoin(
             Stockpile::class,
             'stockpile',
             Join::WITH,
             'stockpile.part = part AND stockpile.tenant = :tenant'
         )
-            ->setParameter('tenant', $this->state->tenant())
+            ->setParameter('tenant', $state->tenant())
             ->groupBy('part.id')
             ->orderBy('SUM(stockpile.quantity)', 'DESC');
 
@@ -494,7 +508,9 @@ final class PartController extends AbstractController
         parent::updateEntity($entity);
 
         if ($entity->isUniversal()) {
-            $this->registry->repository(PartCase::class)
+            $registry = $this->container->get(Registry::class);
+
+            $registry->repository(PartCase::class)
                 ->createQueryBuilder('entity')
                 ->delete()
                 ->where('entity.part = :part')

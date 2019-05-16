@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Doctrine\Registry;
 use App\Entity\Landlord\Car;
 use App\Entity\Landlord\CarModel;
 use App\Entity\Landlord\MC\Line;
@@ -94,7 +95,9 @@ final class OrderController extends AbstractController
             ]);
         }
 
-        $qb = $this->registry->repository(Line::class)
+        $registry = $this->container->get(Registry::class);
+
+        $qb = $registry->repository(Line::class)
             ->createQueryBuilder('line')
             ->join('line.equipment', 'equipment')
             ->where('equipment.model = :model')
@@ -152,7 +155,7 @@ final class OrderController extends AbstractController
             ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->registry->manager(OrderItem::class);
+            $em = $registry->manager(OrderItem::class);
             foreach ($services as $service) {
                 if (!$service->selected) {
                     continue;
@@ -335,7 +338,9 @@ final class OrderController extends AbstractController
     public function isActionAllowed($actionName): bool
     {
         if (!\in_array($actionName, ['show', 'finish'], true) && null !== $id = $this->request->get('id')) {
-            $entity = $this->registry->repository(Order::class)->find($id);
+            $registry = $this->container->get(Registry::class);
+
+            $entity = $registry->repository(Order::class)->find($id);
 
             return $entity->isEditable();
         }
@@ -505,13 +510,13 @@ final class OrderController extends AbstractController
 
         $parameters = [
             'order' => $order,
-            'groups' => \array_filter($order->getRootItems(), function (OrderItem $item) {
+            'groups' => \array_filter($order->getRootItems(), static function (OrderItem $item) {
                 return $item instanceof OrderItemGroup;
             }),
-            'services' => \array_filter($order->getRootItems(), function (OrderItem $item) {
+            'services' => \array_filter($order->getRootItems(), static function (OrderItem $item) {
                 return $item instanceof OrderItemService;
             }),
-            'parts' => \array_filter($order->getItems(OrderItemPart::class), function (OrderItemPart $item) {
+            'parts' => \array_filter($order->getItems(OrderItemPart::class), static function (OrderItemPart $item) {
                 return !$item->isHidden();
             }),
         ];
@@ -619,7 +624,9 @@ final class OrderController extends AbstractController
         $car = $order->getCar();
         if ($car instanceof Car) {
             $car->setMileage($order->getMileage());
-            $this->registry->manager(Car::class)->flush();
+            $registry = $this->container->get(Registry::class);
+
+            $registry->manager(Car::class)->flush();
         }
 
         $this->event(Events::ORDER_CLOSED, new GenericEvent($order));
@@ -723,7 +730,9 @@ final class OrderController extends AbstractController
         $sortDirection = null,
         $dqlFilter = null
     ): QueryBuilder {
-        $qb = $this->registry->repository(Car::class)
+        $registry = $this->container->get(Registry::class);
+
+        $qb = $registry->repository(Car::class)
             ->createQueryBuilder('car')
             ->select('car.id AS car_id')
             ->addSelect('customer.id AS operand_id')
@@ -761,7 +770,7 @@ final class OrderController extends AbstractController
             $customers[] = $customerId;
         }
 
-        return $this->registry->repository(Order::class)
+        return $registry->repository(Order::class)
             ->createQueryBuilder('entity')
             ->where('entity.car.id IN (:car)')
             ->orWhere('entity.customer.id IN (:customer)')
@@ -824,7 +833,7 @@ final class OrderController extends AbstractController
         $formBuilder = $this->createFormBuilder($model, [
             'label' => false,
             'constraints' => [
-                new Assert\Callback(function (\stdClass $model, ExecutionContextInterface $context): void {
+                new Assert\Callback(static function (\stdClass $model, ExecutionContextInterface $context): void {
                     /** @var Money|null $money */
                     $money = null;
                     foreach ($model->wallets as ['payment' => $payment]) {
@@ -869,7 +878,7 @@ final class OrderController extends AbstractController
                 ])
                 ->add('payment', MoneyType::class, [
                     'constraints' => [
-                        new Assert\Callback(function (Money $money, ExecutionContextInterface $context): void {
+                        new Assert\Callback(static function (Money $money, ExecutionContextInterface $context): void {
                             if ($money->isNegative()) {
                                 $context
                                     ->buildViolation('Сумма не может быть отрицательной!')
@@ -908,7 +917,9 @@ final class OrderController extends AbstractController
 
     private function canReceivePayments(): bool
     {
-        $wallets = $this->registry->repository(Wallet::class)->findBy(['useInOrder' => true]);
+        $registry = $this->container->get(Registry::class);
+
+        $wallets = $registry->repository(Wallet::class)->findBy(['useInOrder' => true]);
         if ([] === $wallets) {
             $this->addFlash('error', 'У Вас нет счетов помеченных как используемые в заказах');
             $this->addFlash('info', 'Для того чтобы принимать платежи создайте счет');

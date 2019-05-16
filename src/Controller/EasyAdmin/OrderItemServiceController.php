@@ -9,6 +9,7 @@ use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItem;
 use App\Entity\Tenant\OrderItemService;
 use App\Form\Model\OrderService;
+use App\Manager\RecommendationManager;
 use Doctrine\ORM\QueryBuilder;
 use LogicException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -35,8 +36,10 @@ final class OrderItemServiceController extends OrderItemController
             throw new NotFoundHttpException();
         }
 
+        $recommendationManager = $this->container->get(RecommendationManager::class);
+
         if (
-            null === $this->recommendationManager->findOldRecommendation($orderItemService)
+            null === $recommendationManager->findOldRecommendation($orderItemService)
             && null === $orderItemService->getWorker()
         ) {
             $this->addFlash(
@@ -50,7 +53,7 @@ final class OrderItemServiceController extends OrderItemController
             return $this->redirectToReferrer();
         }
 
-        $this->recommendationManager->recommend($orderItemService);
+        $recommendationManager->recommend($orderItemService);
 
         return $this->redirectToReferrer();
     }

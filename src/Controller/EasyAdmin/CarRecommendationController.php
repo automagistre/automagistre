@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Doctrine\Registry;
 use App\Entity\Landlord\Car;
 use App\Entity\Landlord\CarRecommendation;
 use App\Entity\Landlord\Operand;
@@ -48,7 +49,9 @@ final class CarRecommendationController extends AbstractController
             throw new BadRequestHttpException();
         }
 
-        $recommendation = $this->registry->repository(CarRecommendation::class)
+        $registry = $this->container->get(Registry::class);
+
+        $recommendation = $registry->repository(CarRecommendation::class)
             ->findOneBy(['id' => $query->get('id')]);
 
         if (!$recommendation instanceof CarRecommendation) {
@@ -70,7 +73,9 @@ final class CarRecommendationController extends AbstractController
             throw new BadRequestHttpException('car_id is required');
         }
 
-        $car = $this->registry->repository(Car::class)->findOneBy(['id' => $id]);
+        $registry = $this->container->get(Registry::class);
+
+        $car = $registry->repository(Car::class)->findOneBy(['id' => $id]);
         if (null === $car) {
             throw new NotFoundHttpException(\sprintf('Car id "%s" not found', $id));
         }

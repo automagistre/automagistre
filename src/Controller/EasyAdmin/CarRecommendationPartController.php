@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Doctrine\Registry;
 use App\Entity\Landlord\CarRecommendation;
 use App\Entity\Landlord\CarRecommendationPart;
 use App\Form\Model\RecommendationPart;
@@ -81,7 +82,9 @@ final class CarRecommendationPartController extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $em = $this->registry->manager(CarRecommendationPart::class);
+                $registry = $this->container->get(Registry::class);
+
+                $em = $registry->manager(CarRecommendationPart::class);
 
                 $em->transactional(function (EntityManagerInterface $em) use ($form, $recommendationPart, $part): void {
                     /** @var RecommendationPart $model */

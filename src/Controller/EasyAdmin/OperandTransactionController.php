@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Doctrine\Registry;
 use App\Entity\Landlord\Operand;
 use App\Entity\Tenant\Wallet;
 use App\Form\Model\OperandTransaction;
@@ -44,7 +45,10 @@ final class OperandTransactionController extends AbstractController
         $model = new OperandTransaction();
         $model->recipient = $recipient;
         $model->increment = 'increment' === $request->query->getAlnum('type');
-        $model->wallet = $this->registry->repository(Wallet::class)
+
+        $registry = $this->container->get(Registry::class);
+
+        $model->wallet = $registry->repository(Wallet::class)
             ->findOneBy(['defaultInManualTransaction' => true]);
 
         return $model;

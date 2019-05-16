@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Doctrine\Registry;
 use App\Entity\Landlord\CarModel;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -43,7 +44,9 @@ final class CarModelController extends AbstractController
         $sortDirection = null,
         $dqlFilter = null
     ): QueryBuilder {
-        $qb = $this->registry->repository(CarModel::class)->createQueryBuilder('model')
+        $registry = $this->container->get(Registry::class);
+
+        $qb = $registry->repository(CarModel::class)->createQueryBuilder('model')
             ->leftJoin('model.manufacturer', 'manufacturer');
 
         foreach (\explode(' ', $searchQuery) as $key => $item) {
@@ -74,7 +77,7 @@ final class CarModelController extends AbstractController
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
-        $data = \array_map(function (CarModel $entity) {
+        $data = \array_map(static function (CarModel $entity) {
             return [
                 'id' => $entity->getId(),
                 'text' => $entity->getDisplayName(),

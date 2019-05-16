@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\EasyAdmin\MC;
 
 use App\Controller\EasyAdmin\AbstractController;
+use App\Doctrine\Registry;
 use App\Entity\Landlord\MC\Equipment;
 use Doctrine\ORM\QueryBuilder;
 
@@ -36,7 +37,9 @@ final class EquipmentController extends AbstractController
         $sortDirection = null,
         $dqlFilter = null
     ): QueryBuilder {
-        $qb = $this->registry->repository(Equipment::class)->createQueryBuilder('entity');
+        $registry = $this->container->get(Registry::class);
+
+        $qb = $registry->repository(Equipment::class)->createQueryBuilder('entity');
 
         if ('' === $searchQuery) {
             return $qb;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Doctrine\Registry;
 use App\Entity\Landlord\Car;
 use App\Entity\Landlord\CarRecommendation;
 use App\Entity\Tenant\Order;
@@ -22,16 +23,13 @@ use Symfony\Component\HttpFoundation\Response;
 abstract class OrderItemController extends AbstractController
 {
     /**
-     * @var RecommendationManager
+     * {@inheritdoc}
      */
-    protected $recommendationManager;
-
-    /**
-     * @required
-     */
-    public function setRecommendationManager(RecommendationManager $recommendationManager): void
+    public static function getSubscribedServices(): array
     {
-        $this->recommendationManager = $recommendationManager;
+        return \array_merge(parent::getSubscribedServices(), [
+            RecommendationManager::class,
+        ]);
     }
 
     /**
@@ -105,8 +103,10 @@ abstract class OrderItemController extends AbstractController
         }
 
         if ($item instanceof OrderItemService) {
-            if (null !== $this->registry->repository(CarRecommendation::class)->findOneBy(['realization.id' => $item->getId()])) {
-                $this->recommendationManager->recommend($item);
+            $registry = $this->container->get(Registry::class);
+
+            if (null !== $registry->repository(CarRecommendation::class)->findOneBy(['realization.id' => $item->getId()])) {
+                $this->container->get(RecommendationManager::class)->recommend($item);
 
                 return;
             }

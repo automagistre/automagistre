@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Doctrine\Registry;
 use App\Entity\Landlord\Balance;
 use App\Entity\Landlord\Car;
 use App\Entity\Landlord\Operand;
@@ -13,6 +14,7 @@ use App\Entity\Landlord\Person;
 use App\Entity\Tenant\OperandTransaction;
 use App\Entity\Tenant\Order;
 use App\Manager\PaymentManager;
+use App\State;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -47,8 +49,10 @@ class OperandController extends AbstractController
         }
 
         $id = $request->query->get('id');
-        $entity = $this->registry->repository(Operand::class)->find($id);
-        $config = $this->get('easyadmin.config.manager')->getEntityConfigByClass($this->registry->class($entity));
+        $registry = $this->container->get(Registry::class);
+
+        $entity = $registry->repository(Operand::class)->find($id);
+        $config = $this->get('easyadmin.config.manager')->getEntityConfigByClass($registry->class($entity));
 
         return $this->redirectToRoute('easyadmin', \array_merge($request->query->all(), [
             'entity' => $config['name'],
@@ -74,6 +78,8 @@ class OperandController extends AbstractController
         );
 
         if ($isBalanceSort) {
+            $state = $this->container->get(State::class);
+
             $qb
                 ->addSelect('SUM(COALESCE(b.price.amount,0)) AS HIDDEN balance')
                 ->leftJoin(
@@ -83,7 +89,7 @@ class OperandController extends AbstractController
                     'b.operand = entity.id AND b.tenant = :tenant')
                 ->orderBy('balance', $sortDirection)
                 ->groupBy('entity.id')
-                ->setParameter('tenant', $this->state->tenant());
+                ->setParameter('tenant', $state->tenant());
         }
 
         return $qb;
@@ -95,7 +101,7 @@ class OperandController extends AbstractController
     protected function renderTemplate($actionName, $templatePath, array $parameters = []): Response
     {
         if ('show' === $actionName) {
-            $registry = $this->registry;
+            $registry = $this->container->get(Registry::class);
 
             /** @var Operand $operand */
             $operand = $parameters['entity'];
@@ -120,7 +126,9 @@ class OperandController extends AbstractController
     {
         $query = $this->request->query;
 
-        $qb = $this->registry->repository(Operand::class)->createQueryBuilder('operand')
+        $registry = $this->container->get(Registry::class);
+
+        $qb = $registry->repository(Operand::class)->createQueryBuilder('operand')
             ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = operand.id AND operand INSTANCE OF '.Person::class)
             ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = operand.id AND operand INSTANCE OF '.Organization::class);
 

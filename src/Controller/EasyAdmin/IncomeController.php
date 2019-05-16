@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Doctrine\Registry;
 use App\Entity\Tenant\Income;
 use App\Entity\Tenant\Wallet;
 use App\Events;
@@ -60,7 +61,9 @@ final class IncomeController extends AbstractController
             ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->registry->manager(Income::class)
+            $registry = $this->container->get(Registry::class);
+
+            $registry->manager(Income::class)
                 ->transactional(function () use ($model, $income): void {
                     $description = \sprintf('# Оплата за поставку #%s', $income->getId());
 

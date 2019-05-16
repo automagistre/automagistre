@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Doctrine\Registry;
 use App\Entity\Landlord\Car;
 use App\Entity\Landlord\CarNote;
 use App\Entity\Landlord\Operand;
@@ -59,9 +60,11 @@ final class CarController extends AbstractController
             /** @var Car $car */
             $car = $parameters['entity'];
 
-            $parameters['orders'] = $this->registry->repository(Order::class)
+            $registry = $this->container->get(Registry::class);
+
+            $parameters['orders'] = $registry->repository(Order::class)
                 ->findBy(['car.id' => $car->getId()], ['closedAt' => 'DESC'], 20);
-            $parameters['notes'] = $this->registry->repository(CarNote::class)
+            $parameters['notes'] = $registry->repository(CarNote::class)
                 ->findBy(['car' => $car], ['createdAt' => 'DESC']);
         }
 
@@ -79,7 +82,8 @@ final class CarController extends AbstractController
         $sortDirection = null,
         $dqlFilter = null
     ): QueryBuilder {
-        $qb = $this->registry->repository(Car::class)->createQueryBuilder('car');
+        $registry = $this->container->get(Registry::class);
+        $qb = $registry->repository(Car::class)->createQueryBuilder('car');
 
         if ('' === $searchQuery) {
             return $qb;
