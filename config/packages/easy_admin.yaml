@@ -721,7 +721,7 @@ easy_admin:
                 title: 'Список проводок'
                 fields:
                     - { property: 'id', template: '@EasyAdmin/default/field_raw.html.twig' }
-                    - { property: 'recipient', label: 'Счет', template: 'field_association.html.twig' }
+                    - { property: 'recipient', label: 'Счет' }
                     - { property: 'amount', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'createdAt', label: 'Дата' }
                     - { property: 'description', label: 'Описание', template: '@EasyAdmin/default/field_raw.html.twig' }
@@ -734,7 +734,7 @@ easy_admin:
                 title: 'Список работ'
                 fields:
                     - { property: 'id' }
-                    - { property: 'name', label: 'Название', template: 'field_association.html.twig' }
+                    - { property: 'name', label: 'Название' }
                     - { property: 'description', label: 'Сервисная информация' }
                     - { property: 'price', label: 'Цена', template: 'easy_admin/field_money.html.twig' }
             form:
@@ -756,7 +756,7 @@ easy_admin:
                 title: 'Список комплектаций'
                 fields:
                     - { property: 'id' }
-                    - { property: 'model', label: 'Модель', template: 'field_association.html.twig' }
+                    - { property: 'model', label: 'Модель' }
                     - { property: 'equipment.engine.name', label: 'Двигатель' }
                     - { property: 'equipment.engine.capacity', label: 'Объём' }
                     - { property: 'equipment.transmission.name', label: 'КПП' }
@@ -766,7 +766,7 @@ easy_admin:
                 title: 'Комплектация №%%entity_id%%'
                 fields:
                     - { property: 'id' }
-                    - { property: 'model', label: 'Модель', template: 'field_association.html.twig' }
+                    - { property: 'model', label: 'Модель' }
                     - { property: 'equipment.engine.name', label: 'Двигатель' }
                     - { property: 'equipment.engine.capacity', label: 'Объём' }
                     - { property: 'equipment.transmission.name', label: 'КПП' }
