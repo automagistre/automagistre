@@ -8,6 +8,7 @@ use App\Doctrine\ORM\Mapping\Traits\Discount;
 use App\Doctrine\ORM\Mapping\Traits\Price;
 use App\Doctrine\ORM\Mapping\Traits\Warranty;
 use App\Entity\Discounted;
+use App\Entity\Embeddable\OperandRelation;
 use App\Entity\Embeddable\PartRelation;
 use App\Entity\Landlord\Part;
 use App\Entity\Landlord\User;
@@ -28,6 +29,13 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
     use Discount;
 
     /**
+     * @var OperandRelation
+     *
+     * @ORM\Embedded(class="App\Entity\Embeddable\OperandRelation")
+     */
+    public $supplier;
+
+    /**
      * @var PartRelation
      *
      * @ORM\Embedded(class="App\Entity\Embeddable\PartRelation")
@@ -45,6 +53,7 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
     {
         parent::__construct($order, $selector);
 
+        $this->supplier = new OperandRelation();
         $this->part = new PartRelation($part);
         $this->quantity = $quantity;
         $this->price = $price;
