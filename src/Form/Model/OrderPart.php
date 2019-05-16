@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form\Model;
 
+use App\Entity\Embeddable\OperandRelation;
 use App\Entity\Landlord\Part;
 use App\Entity\Tenant\OrderItemPart;
 use Money\Money;
@@ -44,6 +45,16 @@ final class OrderPart extends OrderItemModel
      * @var Money|null
      */
     public $discount;
+
+    /**
+     * @var OperandRelation
+     */
+    public $supplier;
+
+    public function __construct()
+    {
+        $this->supplier = new OperandRelation();
+    }
 
     public static function getEntityClass(): string
     {
