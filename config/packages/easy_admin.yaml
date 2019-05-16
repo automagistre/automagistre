@@ -383,8 +383,8 @@ easy_admin:
                 fields:
                     - { property: 'id' }
                     - { property: 'person', label: 'Ф.И.О', template: 'easy_admin/field_show.html.twig' }
-                    - { property: null, label: 'Баланс', template: 'easy_admin/employee/field_balance.html.twig' }
-                    - { property: null, label: 'Мотивация', template: 'easy_admin/employee/field_buttons.html.twig' }
+                    - { property: 'balance', virtual: true, label: 'Баланс', template: 'easy_admin/employee/field_balance.html.twig' }
+                    - { property: 'motivation', virtual: true, label: 'Мотивация', template: 'easy_admin/employee/field_buttons.html.twig' }
                     - { property: 'ratio', label: '%', template: 'easy_admin/employee/field_podstanova.html.twig' }
                     - { property: 'hiredAt', label: 'Трудоустроен' }
                     - { property: 'firedAt', label: 'Уволен' }
@@ -392,7 +392,7 @@ easy_admin:
                 title: 'Сотрудник №%%entity_id%%'
                 fields:
                     - { property: 'person', label: 'Ф.И.О', template: 'easy_admin/field_show.html.twig' }
-                    - { property: null, label: 'Баланс', template: 'easy_admin/employee/field_balance.html.twig' }
+                    - { property: 'balance', virtual: true, label: 'Баланс', template: 'easy_admin/employee/field_balance.html.twig' }
                     - { property: 'ratio', label: '%', template: 'easy_admin/employee/field_podstanova.html.twig' }
                     - { property: 'hiredAt', label: 'Трудоустроен' }
                     - { property: 'firedAt', label: 'Уволен' }
@@ -568,7 +568,7 @@ easy_admin:
                 fields:
                     - { property: 'id', template: 'easy_admin/field_id.html.twig' }
                     - { property: 'supplier', label: 'Поставщик', template: 'easy_admin/field_show.html.twig' }
-                    - { property: null, label: 'Статус', template: 'easy_admin/income/field_status.html.twig' }
+                    - { property: 'status', vritual: true, label: 'Статус', template: 'easy_admin/income/field_status.html.twig' }
                     - { property: 'totalPrice', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'itemsCount', label: 'Позиций' }
                     - { property: 'accruedAt', label: 'Принято' }
@@ -852,7 +852,7 @@ easy_admin:
                     - { property: 'id' }
                     - { property: 'name', label: 'Название' }
                     - { property: 'wallet', label: 'Счет списания по умолчанию' }
-                    - { property: null, label: ' ', template: 'easy_admin/expense/field_button.html.twig' }
+                    - { property: 'create', virtual: true, label: ' ', template: 'easy_admin/expense/field_button.html.twig' }
             new:
                 title: 'Создать новую Статью расходов'
                 form_options: { data_class: stdClass }
