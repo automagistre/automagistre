@@ -1,3 +1,6 @@
+services:
+    EasyCorp\Bundle\EasyAdminBundle\Router\EasyAdminRouter: '@easyadmin.router'
+
 easy_admin:
     site_name: 'СТО Автомагистр'
     design:
