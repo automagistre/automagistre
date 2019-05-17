@@ -22,7 +22,6 @@ services:
                 - "traefik.frontend.rule=Host:www.rc.automagistre.ru,sto.automagistre.ru"
                 - "traefik.port=80"
                 - "traefik.protocol=http"
-                - "traefik.backend.loadbalancer.swarm=true"
                 - "traefik.backend.loadbalancer.method=drr"
 
     app: &app
