@@ -452,6 +452,7 @@ easy_admin:
                     - { property: 'gosnomer', label: 'Гос. Номер' }
             form:
                 fields:
+                    - { type: 'group', label: 'Основная информация', css_class: 'col-sm-6' }
                     -
                         property: 'owner'
                         label: 'Владелец'
@@ -467,6 +468,7 @@ easy_admin:
                     - { property: 'vin', label: 'VIN' }
                     - { property: 'gosnomer', label: 'Гос. Номер' }
                     - { property: 'description', label: 'Описание', type: 'textarea' }
+                    - { type: 'group', label: 'Комплектация', css_class: 'col-sm-6' }
                     - { property: 'equipment', label: ' ', type: App\Form\Type\CarEquipmentType }
             edit:
                 title: 'Редактировать автомобиль №%%entity_id%%'
