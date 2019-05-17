@@ -14,7 +14,7 @@
 {% set recommendPrice = part_suggest_price(item.part) %}
 {% set isLowerPrice = price.lessThan(recommendPrice) %}
 
-<td{% if isLowerPrice or price.isZero %} class="danger"{% endif %}>
+<td{% if isLowerPrice or price.isZero %} class="danger"{% endif %} style="{% include 'easy_admin/order/item/padding.html.twig' with {'level': level} %}">
     {{ item.quantity / 100 }} x {{ price|localize_money }}
 
     {% if isLowerPrice %}
@@ -22,7 +22,7 @@
     {% endif %}
 </td>
 
-<td>
+<td style="{% include 'easy_admin/order/item/padding.html.twig' with {'level': level} %}">
     {{ item.totalPrice(true)|localize_money }}
 </td>
 
