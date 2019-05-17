@@ -4,15 +4,26 @@ declare(strict_types=1);
 
 namespace App\Entity\Landlord;
 
+use App\Entity\Embeddable\Requisite;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhone;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
  */
 class Organization extends Operand
 {
+    /**
+     * @var Requisite
+     *
+     * @Assert\Valid
+     *
+     * @ORM\Embedded(class="App\Entity\Embeddable\Requisite")
+     */
+    public $requisite;
+
     /**
      * @var string
      *
@@ -44,6 +55,11 @@ class Organization extends Operand
      * @ORM\Column(type="phone_number", nullable=true)
      */
     private $officePhone;
+
+    public function __construct()
+    {
+        $this->requisite = new Requisite();
+    }
 
     public function __toString(): string
     {

@@ -336,7 +336,6 @@ easy_admin:
             show:
                 title: Организация №%%entity_id%%
                 fields:
-                    - { property: 'id' }
                     - { property: 'name', label: 'Название' }
                     - { property: 'address', label: 'Адрес' }
                     - { property: 'email', label: 'Почта' }
@@ -346,6 +345,7 @@ easy_admin:
                     - { property: 'seller', label: 'Поставщик' }
             form:
                 fields:
+                    - { type: 'group', label: 'Основная информация', css_class: 'col-sm-6' }
                     - { property: 'name', label: 'Название' }
                     - { property: 'address', label: 'Адрес' }
                     - { property: 'email', label: 'Почта' }
@@ -353,10 +353,12 @@ easy_admin:
                     - { property: 'officePhone', label: 'Офисный телефон', type: Misd\PhoneNumberBundle\Form\Type\PhoneNumberType }
                     - { property: 'contractor', label: 'Подрядчик' }
                     - { property: 'seller', label: 'Поставщик' }
+                    - { type: 'group', label: 'Реквизиты', css_class: 'col-sm-6' }
+                    - { property: 'requisite', type: App\Form\Type\RequisiteType, type_options: { label: false } }
             new:
                 title: 'Создать новую Организацию'
             edit:
-                title: 'Редактирование Организации'
+                title: 'Редактирование Организации № {{ entity.id }}'
         OrganizationNote:
             class: App\Entity\Landlord\OperandNote
             controller: App\Controller\EasyAdmin\OrganizationNoteController

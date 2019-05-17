@@ -1,10 +1,10 @@
 {% extends '@EasyAdmin/default/show.html.twig' %}
 
-{# @var entity \App\Entity\Organization #}
+{# @var entity \App\Entity\Landlord\Organization #}
 
 {% block main %}
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="field-group">
                 <div class="box box-default">
                     <div class="box-header with-border">
@@ -29,7 +29,35 @@
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-3">
+            <div class="field-group">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Реквизиты</h3>
+                    </div>
+
+                    <div class="box-body">
+                        {% set fields = {
+                            'ИНН': 'inn',
+                            'КПП': 'kpp',
+                            'ОГРН': 'ogrn',
+                            'Рассчётный счёт': 'rs',
+                            'Корреспондетский счёт': 'ks',
+                            'БИК': 'bik'
+                        } %}
+
+                        {% for label,field in fields %}
+                            <div class="form-group ">
+                                <label class="control-label">{{ label }}</label>
+                                <p class="form-control form-control-static">{{ attribute(entity.requisite, field) }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5">
             <div class="row">
                 <div class="col-md-12">
                     {% include 'easy_admin/_includes/notes_panel.html.twig' with {
