@@ -1,0 +1,268 @@
+@color_grey: #d9d9d9;
+
+body, html {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0 auto;
+}
+hr {
+  margin: 0;
+  border-top: 2px solid grey;
+}
+
+.container {
+  margin: 25px;
+  font-size: 12px;
+}
+
+//------------------ Buttons ------------------
+.btn-block {
+  position: fixed;
+  display: block;
+  bottom: 0;
+  background: #f7f7f9;
+  width: 100%;
+  &_items {
+    display: flex;
+    margin: 10px 0;
+    justify-content: center;
+  }
+}
+
+.btn {
+  display: block;
+  background: none;
+  border: none;
+  padding: 10px;
+  margin: 0 10px;
+  font-size: 18px;
+  border-radius: 5px;
+  text-transform: capitalize;
+  min-width: 160px;
+  &__pdf {
+    background: #ffc107;
+    &:hover {
+      background: darken(#ffc107, 10);
+    }
+  }
+  &__print {
+    background: #28a745;
+    &:hover {
+      background: darken(#28a745, 10);
+    }
+  }
+  &__cancel {
+    background: #dc3545;
+    &:hover {
+      background: darken(#dc3545, 10);
+    }
+  }
+}
+
+//------------------ Header ------------------
+
+.header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  font-size: 16px;
+  &__logo {
+    margin: auto 0;
+    padding: 10px 30px;
+  }
+  &_contacts {
+    display: flex;
+    padding: 10px 30px;
+    ul {
+      margin: auto 30px;
+      list-style: none;
+    }
+    &__phone{
+      min-width: 140px;
+    }
+  }
+  &__logo {
+    opacity: 0.5;
+  }
+}
+
+//------------------ Order Info ------------------
+
+.order-info {
+  margin: 10px auto;
+  &-customer, &-executor, &-car {
+    border: 1px dashed darken(@color_grey, 10);
+    border-radius: 2px;
+    margin: 5px auto;
+    padding: 5px 10px;
+  }
+  &-legend{
+    font-weight: bold;
+    &:after{
+      content: ":";
+      font-weight: bold;
+    }
+  }
+  &-title{
+    text-transform: uppercase;
+    font-weight: 500;
+    text-align: center;
+    font-size: 16px;
+  }
+}
+
+//------------------ Order Table ------------------
+
+.order, .recommendations {
+  margin: 10px auto;
+  &-table {
+    &__executor {
+      width: 80px;
+    }
+    &__num {
+      width: 80px;
+    }
+    &__row{
+      width: 25px;
+    }
+    &-work {
+      background: lighten(@color_grey, 10%);
+      td {
+        border-right: none !important;
+        border-left: none !important;
+        &:first-child {
+          border-left: 1px solid black !important;
+        }
+        &:last-child {
+          border-right: 1px solid black !important;
+        }
+      }
+    }
+  }
+  &-table {
+    border-collapse: collapse;
+    width: 100%;
+    //border: 1px solid black;
+    caption {
+      background: @color_grey;
+      padding: 5px;
+      border-left: 1px solid black;
+      border-right: 1px solid black;
+      border-top: 1px solid black;
+      font-weight: 600;
+      &:first-letter {
+        text-transform: capitalize;
+      }
+    }
+    thead {
+      td {
+        padding: 5px;
+        border: 1px solid black;
+        text-align: left;
+        font-weight: 600;
+        &:first-letter {
+          text-transform: capitalize;
+        }
+      }
+    }
+    tbody {
+       td {
+        padding: 5px 8px;
+        border: 1px solid black;
+        text-align: left;
+        &:first-letter {
+          text-transform: capitalize;
+        }
+      }
+      .order-table {
+        &-subtotals {
+          &__name {
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 10px;
+          }
+        }
+        &-totals {
+          &__name, &__sum {
+            text-transform: uppercase;
+            font-weight: 600;
+            background-color: lighten(@color_grey, 10%);
+            font-size: 14px;
+          }
+          &__name {
+            text-align: center;
+          }
+        }
+        &-part {
+          &__name{
+            padding-left: 25px;
+          }
+          &__part_number {
+            text-transform: uppercase;
+          }
+          &__only {
+            .order-table-part__name{
+              padding: 5px 8px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.recommendations {
+  //margin-top: 150px;
+  &-table {
+    &-work {
+      font-size: 14px;
+      font-weight: 600;
+      &__legend {
+        text-align: right !important;
+      }
+    }
+  }
+}
+
+//------------------ Stamps ------------------
+
+.stamps {
+  &_guaranty {
+    &__qr{
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+  }
+  &_final {
+    margin-top: 1cm;
+    padding: 0 1cm;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.stamp {
+  font-size: 16px;
+  text-transform: capitalize;
+  &:after {
+    content: "_____________________________";
+  }
+}
+
+.no-border {
+  border: none !important;
+  padding-right: 30px !important;
+}
+
+@media print {
+  .btn-block {
+    display: none;
+  }
+  section, tbody {
+    page-break-inside: avoid;
+  }
+  .recommendations{
+    page-break-before: always;
+  }
+}
