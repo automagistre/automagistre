@@ -59,8 +59,13 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{ easyadmin_path(order, 'finish', {'referer': true}) }}">
-                                            Заказ-наряд
+                                        <a href="{{ easyadmin_path(order, 'finish', {'referer': true, 'version': 1}) }}">
+                                            Заказ-наряд v1
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ easyadmin_path(order, 'finish', {'referer': true, 'version': 2}) }}">
+                                            Заказ-наряд v2
                                         </a>
                                     </li>
                                 </ul>

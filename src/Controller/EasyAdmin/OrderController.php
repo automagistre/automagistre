@@ -559,7 +559,10 @@ final class OrderController extends AbstractController
             }
         }
 
-        return $this->render('easy_admin/order_print/final.html.twig', $parameters);
+        $version = $request->query->getInt('version');
+        $template = \sprintf('easy_admin/order_print/final_v%s.html.twig', $version);
+
+        return $this->render($template, $parameters);
     }
 
     public function closeAction(): Response

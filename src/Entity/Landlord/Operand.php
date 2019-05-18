@@ -50,6 +50,8 @@ abstract class Operand implements Transactional
 
     abstract public function getTelephone(): ?PhoneNumber;
 
+    abstract public function isType(string $type): bool;
+
     public function getTransactionClass(): string
     {
         return OperandTransaction::class;
