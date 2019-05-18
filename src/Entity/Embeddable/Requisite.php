@@ -67,4 +67,44 @@ final class Requisite
      * @ORM\Column(nullable=true)
      */
     public $bik;
+
+    public function __toString(): string
+    {
+        $data = [];
+        if (null !== $this->ogrn) {
+            $data[] = 'ОГРН: '.$this->ogrn;
+        }
+
+        if (null !== $this->inn) {
+            $data[] = 'ИНН: '.$this->inn;
+        }
+
+        if (null !== $this->kpp) {
+            $data[] = 'КПП: '.$this->kpp;
+        }
+
+        if (null !== $this->rs) {
+            $data[] = 'Р/С: '.$this->rs;
+        }
+
+        if (null !== $this->ks) {
+            $data[] = 'К/С: '.$this->ks;
+        }
+
+        if (null !== $this->bik) {
+            $data[] = 'БИК: '.$this->bik;
+        }
+
+        return \implode(', ', $data);
+    }
+
+    public function isEmpty(): bool
+    {
+        return null === $this->ogrn
+            && null === $this->inn
+            && null === $this->kpp
+            && null === $this->rs
+            && null === $this->ks
+            && null === $this->bik;
+    }
 }

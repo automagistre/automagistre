@@ -60,6 +60,11 @@ class Person extends Operand
         return $string;
     }
 
+    public function isType(string $type): bool
+    {
+        return 'person' === $type;
+    }
+
     public function getFirstname(): ?string
     {
         return $this->firstname;
