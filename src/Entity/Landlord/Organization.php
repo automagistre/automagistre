@@ -66,6 +66,11 @@ class Organization extends Operand
         return $this->name;
     }
 
+    public function isType(string $type): bool
+    {
+        return 'organization' === $type;
+    }
+
     public function getFullName(): string
     {
         return (string) $this->getName();

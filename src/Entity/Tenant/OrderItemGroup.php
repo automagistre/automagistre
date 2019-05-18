@@ -73,4 +73,11 @@ class OrderItemGroup extends OrderItem
     {
         return $this->getTotalPriceByClass(OrderItemService::class, $withDiscount);
     }
+
+    public function getParts(): array
+    {
+        return $this->children->filter(static function (OrderItem $orderItem): bool {
+            return $orderItem instanceof OrderItemPart;
+        })->toArray();
+    }
 }
