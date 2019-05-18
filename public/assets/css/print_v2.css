@@ -9,7 +9,7 @@ hr {
 }
 .container {
   margin: 25px;
-  font-size: 12px;
+  font-size: 10px;
 }
 .btn-block {
   position: fixed;
@@ -82,10 +82,10 @@ hr {
 .order-info-customer,
 .order-info-executor,
 .order-info-car {
-  border: 1px dashed #c0c0c0;
+  border: 1px dashed #b3b3b3;
   border-radius: 2px;
   margin: 5px auto;
-  padding: 5px 10px;
+  padding: 2px 10px;
 }
 .order-info-legend {
   font-weight: bold;
@@ -127,11 +127,11 @@ hr {
 }
 .order-table-work td:first-child,
 .recommendations-table-work td:first-child {
-  border-left: 1px solid black !important;
+  border-left: 1px solid #999999 !important;
 }
 .order-table-work td:last-child,
 .recommendations-table-work td:last-child {
-  border-right: 1px solid black !important;
+  border-right: 1px solid #999999 !important;
 }
 .order-table,
 .recommendations-table {
@@ -141,10 +141,11 @@ hr {
 .order-table caption,
 .recommendations-table caption {
   background: #d9d9d9;
-  padding: 5px;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
-  border-top: 1px solid black;
+  padding: 2px;
+  font-size: 14px;
+  border-left: 1px solid #999999;
+  border-right: 1px solid #999999;
+  border-top: 1px solid #999999;
   font-weight: 600;
 }
 .order-table caption:first-letter,
@@ -153,8 +154,8 @@ hr {
 }
 .order-table thead td,
 .recommendations-table thead td {
-  padding: 5px;
-  border: 1px solid black;
+  padding: 2px 5px;
+  border: 1px solid #999999;
   text-align: left;
   font-weight: 600;
 }
@@ -164,8 +165,8 @@ hr {
 }
 .order-table tbody td,
 .recommendations-table tbody td {
-  padding: 5px 8px;
-  border: 1px solid black;
+  padding: 2px 5px;
+  border: 1px solid #999999;
   text-align: left;
 }
 .order-table tbody td:first-letter,
@@ -185,7 +186,7 @@ hr {
   text-transform: uppercase;
   font-weight: 600;
   background-color: #f3f3f3;
-  font-size: 14px;
+  font-size: 12px;
 }
 .order-table tbody .order-table-totals__name,
 .recommendations-table tbody .order-table-totals__name {
@@ -201,10 +202,10 @@ hr {
 }
 .order-table tbody .order-table-part__only .order-table-part__name,
 .recommendations-table tbody .order-table-part__only .order-table-part__name {
-  padding: 5px 8px;
+  padding: 2px 5px;
 }
 .recommendations-table-work {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
 }
 .recommendations-table-work__legend {
@@ -223,7 +224,7 @@ hr {
   justify-content: space-between;
 }
 .stamp {
-  font-size: 16px;
+  font-size: 14px;
   text-transform: capitalize;
 }
 .stamp:after {
@@ -245,4 +246,4 @@ hr {
     page-break-before: always;
   }
 }
-/*# sourceMappingURL=print.new.css.map */
+/*# sourceMappingURL=print_v2.css.map */

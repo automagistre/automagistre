@@ -1,0 +1,116 @@
+{% extends 'easy_admin/order_print/layout_v2.html.twig' %}
+
+{% block content %}
+<div class="container">
+    <h3 class="order-info-title">Форма согласования</h3>
+    <div class="order-info">
+        <div class="order-info-customer">
+            <span class="order-info-legend">
+                Заказчик
+            </span>
+            Вася Пупкин +7 926 602 33 32 vasyan@pupec.ru
+        </div>
+        <div class="order-info-car">
+            <span class="order-info-legend">
+                Автомобиль
+            </span>
+            Nissan X-TRAIL - T31
+            A711KY199
+            JN1TANT31U0014728
+        </div>
+    </div>
+    <div class="order">
+        <table class="recommendations-table">
+            <caption>рекомендуемые работы и запчасти</caption>
+            <tbody>
+            <tr class="recommendations-table-work">
+                {#                                <td>1</td>#}
+                <td>Замена масла ДВС</td>
+                <td class="recommendations-table-work__legend">работа:</td>
+                <td>2000</td>
+                <td class="recommendations-table-work__legend">Запчасти:</td>
+                <td>50000</td>
+                <td class="recommendations-table-work__legend">Всего:</td>
+                <td>52000</td>
+            </tr>
+            <tr class="order-table-part">
+                <td colspan="3" class="order-table-part__name">
+                    масло ДВС
+                    <span class="order-table-part__part_number">
+                                        (Nissan)
+                                    </span>
+                </td>
+                <td>1</td>
+                <td>500</td>
+                <td>500</td>
+            </tr>
+            <tr class="order-table-part">
+                <td colspan="3" class="order-table-part__name">
+                    масло ДВС
+                    <span class="order-table-part__part_number">
+                                            (Nissan)
+                                        </span>
+                </td>
+                <td>2</td>
+                <td>500</td>
+                <td>1000</td>
+            </tr>
+            </tbody>
+            <tbody>
+            <tr class="recommendations-table-work">
+                {#                                <td>1</td>#}
+                <td>Замена масла ДВС</td>
+                <td class="recommendations-table-work__legend">работа:</td>
+                <td>2000</td>
+                <td class="recommendations-table-work__legend">Запчасти:</td>
+                <td>50000</td>
+                <td class="recommendations-table-work__legend">Всего:</td>
+                <td>52000</td>
+            </tr>
+            <tr class="order-table-part">
+                <td colspan="3" class="order-table-part__name">
+                    масло ДВС
+                    <span class="order-table-part__part_number">
+                                        (Nissan)
+                                    </span>
+                </td>
+                <td>1</td>
+                <td>500</td>
+                <td>500</td>
+            </tr>
+            <tr class="order-table-part">
+                <td colspan="3" class="order-table-part__name">
+                    масло ДВС
+                    <span class="order-table-part__part_number">
+                                            (Nissan)
+                                        </span>
+                </td>
+                <td>2</td>
+                <td>500</td>
+                <td>1000</td>
+            </tr>
+            </tbody>
+            <tbody>
+            <tr class="order-table-subtotals">
+                <td colspan="3" rowspan="5" class="no-border"></td>
+                <td colspan="3" class="order-table-subtotals__name">всего по работам</td>
+                <td>100500</td>
+            </tr>
+            <tr class="order-table-subtotals">
+                <td colspan="3" class="order-table-subtotals__name">всего по материалам</td>
+                <td>100500</td>
+            </tr>
+            <tr class="order-table-totals">
+                <td colspan="3" class="order-table-totals__name">ВСЕГО РЕКОМЕНДАЦИЙ</td>
+                <td class="order-table-totals__sum">100500</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <section class="order">
+        <table class="order-table">
+            <caption>итоговый расчет</caption>
+        </table>
+    </section>
+</div>
+{% endblock %}

@@ -1,4 +1,7 @@
 @color_grey: #d9d9d9;
+@font_size: 10px;
+@border_color: lighten(black, 60%);
+@cell_padding: 2px;
 
 body, html {
   font-family: Arial, Helvetica, sans-serif;
@@ -11,7 +14,7 @@ hr {
 
 .container {
   margin: 25px;
-  font-size: 12px;
+  font-size: @font_size;
 }
 
 //------------------ Buttons ------------------
@@ -64,7 +67,7 @@ hr {
   display: flex;
   width: 100%;
   justify-content: space-between;
-  font-size: 16px;
+  font-size: @font_size+6;
   &__logo {
     margin: auto 0;
     padding: 10px 30px;
@@ -90,10 +93,10 @@ hr {
 .order-info {
   margin: 10px auto;
   &-customer, &-executor, &-car {
-    border: 1px dashed darken(@color_grey, 10);
+    border: 1px dashed darken(@color_grey, 15);
     border-radius: 2px;
     margin: 5px auto;
-    padding: 5px 10px;
+    padding: @cell_padding 10px;
   }
   &-legend{
     font-weight: bold;
@@ -106,7 +109,7 @@ hr {
     text-transform: uppercase;
     font-weight: 500;
     text-align: center;
-    font-size: 16px;
+    font-size: @font_size+6;
   }
 }
 
@@ -130,10 +133,10 @@ hr {
         border-right: none !important;
         border-left: none !important;
         &:first-child {
-          border-left: 1px solid black !important;
+          border-left: 1px solid @border_color !important;
         }
         &:last-child {
-          border-right: 1px solid black !important;
+          border-right: 1px solid @border_color !important;
         }
       }
     }
@@ -144,10 +147,11 @@ hr {
     //border: 1px solid black;
     caption {
       background: @color_grey;
-      padding: 5px;
-      border-left: 1px solid black;
-      border-right: 1px solid black;
-      border-top: 1px solid black;
+      padding: @cell_padding;
+      font-size: @font_size+4;
+      border-left: 1px solid @border_color;
+      border-right: 1px solid @border_color;
+      border-top: 1px solid @border_color;
       font-weight: 600;
       &:first-letter {
         text-transform: capitalize;
@@ -155,8 +159,8 @@ hr {
     }
     thead {
       td {
-        padding: 5px;
-        border: 1px solid black;
+        padding: @cell_padding 5px;
+        border: 1px solid @border_color;
         text-align: left;
         font-weight: 600;
         &:first-letter {
@@ -166,8 +170,8 @@ hr {
     }
     tbody {
        td {
-        padding: 5px 8px;
-        border: 1px solid black;
+        padding: @cell_padding 5px;
+        border: 1px solid @border_color;
         text-align: left;
         &:first-letter {
           text-transform: capitalize;
@@ -186,7 +190,7 @@ hr {
             text-transform: uppercase;
             font-weight: 600;
             background-color: lighten(@color_grey, 10%);
-            font-size: 14px;
+            font-size: @font_size+2;
           }
           &__name {
             text-align: center;
@@ -201,7 +205,7 @@ hr {
           }
           &__only {
             .order-table-part__name{
-              padding: 5px 8px;
+              padding: @cell_padding 5px;
             }
           }
         }
@@ -214,7 +218,7 @@ hr {
   //margin-top: 150px;
   &-table {
     &-work {
-      font-size: 14px;
+      font-size: @font_size+2;
       font-weight: 600;
       &__legend {
         text-align: right !important;
@@ -243,7 +247,7 @@ hr {
 }
 
 .stamp {
-  font-size: 16px;
+  font-size: @font_size+4;
   text-transform: capitalize;
   &:after {
     content: "_____________________________";
@@ -254,6 +258,8 @@ hr {
   border: none !important;
   padding-right: 30px !important;
 }
+
+//------------------ Media ------------------
 
 @media print {
   .btn-block {
