@@ -5,6 +5,81 @@
 
 {% set requisites = state.tenant.getRequisites() %}
 
+{% block order_item_group %}
+    <tbody>
+    {# @var orderItemGroup \App\Entity\Tenant\OrderItemGroup #}
+    <tr class="order-table-work">
+        <td>{{ orderItemGroup }}</td>
+        <td>{# Исполнитель #}</td>
+        <td>{# Количество #}</td>
+        <td>
+            {% set groupPrice = orderItemGroup.totalServicePrice(true) %}
+
+            {% if orderItemGroup.hideParts %}
+                {% set orderItemGroupPrice = groupPrice.add(orderItemGroup.totalPartPrice(true)) %}
+            {% endif %}
+
+            {{ groupPrice|localize_money }}
+        </td>
+        <td></td>
+        <td>{{ groupPrice|localize_money }}</td>
+    </tr>
+    {% if not orderItemGroup.hideParts %}
+        {% for orderItemPart in orderItemGroup.parts %}
+            {{ block('order_item_part') }}
+        {% endfor %}
+    {% endif %}
+    </tbody>
+{% endblock %}
+
+{% block order_item_service %}
+    {# @var orderItemService \App\Entity\Tenant\OrderItemService #}
+    <tbody>
+    <tr class="order-table-work">
+        <td>
+            {{- orderItemService -}}
+            {%- if orderItemService.warranty %}
+                <span style="font-weight: 600">(гарантия)</span>
+            {%- endif -%}
+        </td>
+        <td>{{ orderItemService.worker.id }}</td>
+        <td></td>
+        <td>{{ orderItemService.price|localize_money }}</td>
+        <td>
+            {% if orderItemService.discounted %}
+                {{ orderItemService.discount|localize_money }}
+            {% endif %}
+        </td>
+        <td>{{ orderItemService.totalPrice(true)|localize_money }}</td>
+    </tr>
+    {% for orderItemPart in orderItemService.children %}
+        {{ block('order_item_part') }}
+    {% endfor %}
+    </tbody>
+{% endblock %}
+
+{% block order_item_part %}
+    {# @var orderItemPart \App\Entity\Tenant\OrderItemPart #}
+    {% set part = orderItemPart.part %}
+    {# @var part \App\Entity\Landlord\Part #}
+    <tr class="order-table-part">
+        <td colspan="2" class="order-table-part__name">
+            {{ part.name }}
+            <span class="order-table-part__part_number">
+                ({{ part.number }} {{ part.manufacturer }})
+            </span>
+        </td>
+        <td>{{ orderItemPart.quantity / 100 }}</td>
+        <td>{{ orderItemPart.price|localize_money }}</td>
+        <td>
+            {% if orderItemPart.discounted %}
+                {{ orderItemPart.discount|localize_money }}
+            {% endif %}
+        </td>
+        <td>{{ orderItemPart.totalPrice(true)|localize_money }}</td>
+    </tr>
+{% endblock %}
+
 {% block content %}
     <div class="container">
         <header class="header">
@@ -84,76 +159,17 @@
                         <td class="order-table__num">итого</td>
                     </tr>
                     </thead>
-                    {% for group in groups %}
-                        <tbody>
-                        {# @var group \App\Entity\Tenant\OrderItemGroup #}
-                        <tr class="order-table-work">
-                            <td>{{ group }}</td>
-                            <td>{# Исполнитель #}</td>
-                            <td>{# Количество #}</td>
-                            <td>
-                                {% set groupPrice = group.totalServicePrice(true) %}
-
-                                {% if group.hideParts %}
-                                    {% set groupPrice = groupPrice.add(group.totalPartPrice(true)) %}
-                                {% endif %}
-
-                                {{ groupPrice|localize_money }}
-                            </td>
-                            <td></td>
-                            <td>{{ groupPrice|localize_money }}</td>
-                        </tr>
-                        {% if not group.hideParts %}
-                            {% for orderItemPart in group.parts %}
-                                {% block order_item_part_row %}
-                                    {# @var orderItemPart \App\Entity\Tenant\OrderItemPart #}
-                                    {% set part = orderItemPart.part %}
-                                    {# @var part \App\Entity\Landlord\Part #}
-                                    <tr class="order-table-part">
-                                        <td colspan="2" class="order-table-part__name">
-                                            {{ part.name }}
-                                            <span class="order-table-part__part_number">
-                                            ({{ part.number }} {{ part.manufacturer }})
-                                        </span>
-                                        </td>
-                                        <td>{{ orderItemPart.quantity / 100 }}</td>
-                                        <td>{{ orderItemPart.price|localize_money }}</td>
-                                        <td>
-                                            {% if orderItemPart.discounted %}
-                                                {{ orderItemPart.discount|localize_money }}
-                                            {% endif %}
-                                        </td>
-                                        <td>{{ orderItemPart.totalPrice(true)|localize_money }}</td>
-                                    </tr>
-                                {% endblock %}
-                            {% endfor %}
+                    {% for item in order.rootItems %}
+                        {% if instanceOf(item, 'App\\Entity\\Tenant\\OrderItemPart') %}
+                            {% set orderItemPart = item %}
+                            {{ block('order_item_part') }}
+                        {% elseif instanceOf(item, 'App\\Entity\\Tenant\\OrderItemService') %}
+                            {% set orderItemService = item %}
+                            {{ block('order_item_service') }}
+                        {% elseif instanceOf(item, 'App\\Entity\\Tenant\\OrderItemGroup') %}
+                            {% set orderItemGroup = item %}
+                            {{ block('order_item_group') }}
                         {% endif %}
-                        </tbody>
-                    {% endfor %}
-                    {% for service in services %}
-                        {# @var service \App\Entity\Tenant\OrderItemService #}
-                        <tbody>
-                        <tr class="order-table-work">
-                            <td>
-                                {{- service -}}
-                                {%- if service.warranty %}
-                                    <span style="font-weight: 600">(гарантия)</span>
-                                {%- endif -%}
-                            </td>
-                            <td>{{ service.worker.id }}</td>
-                            <td></td>
-                            <td>{{ service.price|localize_money }}</td>
-                            <td>
-                                {% if service.discounted %}
-                                    {{ service.discount|localize_money }}
-                                {% endif %}
-                            </td>
-                            <td>{{ service.totalPrice(true)|localize_money }}</td>
-                        </tr>
-                        {% for orderItemPart in service.children %}
-                            {{ block('order_item_part_row') }}
-                        {% endfor %}
-                        </tbody>
                     {% endfor %}
 
                     <tbody>
