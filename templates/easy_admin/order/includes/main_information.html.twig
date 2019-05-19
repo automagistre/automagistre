@@ -25,7 +25,7 @@
                                         </button>
 
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                            {% for stat in status.selectable if not status.eq(stat) %}
+                                            {% for stat in status.selectable|filter(stat => not status.eq(stat)) %}
                                                 <li>
                                                     <a href="{{ easyadmin_path(order, 'status', {'referer': easyadmin_path(order, 'show'), 'status': stat.id}|merge(order|to_query)) }}"
                                                        class="label-{{ stat.getColor() }}">

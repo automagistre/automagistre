@@ -104,7 +104,7 @@
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <tbody>
-                                {% for part in crosses if part.id != entity.id %}
+                                {% for part in crosses|filter(part => part.id != entity.id) %}
                                     <tr>
                                         <td>{% include 'easy_admin/field_part.html.twig' with {'value': part, 'stock': true} %}</td>
                                     </tr>

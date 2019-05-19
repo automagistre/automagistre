@@ -78,7 +78,7 @@
                                                 <span class="caret"></span>
                                             </button>
                                             <ul class="dropdown-menu" role="menu">
-                                                {% for tenant in tenants() if not tenant.eq(current) %}
+                                                {% for tenant in tenants()|filter(tenant => not tenant.eq(current)) %}
                                                     {# @var tenant \App\Entity\Landlord\Tenant #}
                                                     <li>
                                                         <a href="{{ path('easyadmin', app.request.query.all()|merge({'tenant': tenant.getIdentifier()})) }}">
