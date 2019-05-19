@@ -485,6 +485,12 @@ final class OrderController extends AbstractController
                 'label' => 'Пробег '.(0 === $mileage
                         ? '(предыдущий отсутствует)'
                         : \sprintf('(предыдущий: %s)', $mileage)),
+                'constraints' => [
+                    new Assert\GreaterThan([
+                        'value' => 2000,
+                        'message' => 'Пидр иди смотри пробег',
+                    ]),
+                ],
             ])
                 ->handleRequest($request);
 

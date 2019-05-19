@@ -28,6 +28,7 @@ use DomainException;
 use LogicException;
 use Money\Currency;
 use Money\Money;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(
@@ -94,6 +95,8 @@ class Order
 
     /**
      * @var int|null
+     *
+     * @Assert\GreaterThan("2000", message="Пидр иди смотри пробег")
      *
      * @ORM\Column(type="integer", length=8, nullable=true, options={"unsigned": true})
      */
