@@ -197,7 +197,7 @@
                                         {% else %}
                                             {{ attribute(_entity_config, action).title is defined
                                             ? attribute(_entity_config, action).title|trans(_trans_parameters|default([]))
-                                            : action ~ '.page_title'|trans(_trans_parameters|default([]), 'EasyAdminBundle') }}
+                                            : (action ~ '.page_title')|trans(_trans_parameters|default([]), 'EasyAdminBundle') }}
                                         {% endif %}
                                     {%- endapply -%}
                                 {%- endblock -%}
