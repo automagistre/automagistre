@@ -136,7 +136,7 @@
                                 {% include '@EasyAdmin/default/label_null.html.twig' %}
                             {% endif %}
 
-                            {% if car.mileage is not empty %}
+                            {% if car.mileage|default is not empty %}
                                 <span class="label label-info" title="Предыдущий пробег">{{ car.mileage|number_format }}</span>
                             {% endif %}
                         </div>
