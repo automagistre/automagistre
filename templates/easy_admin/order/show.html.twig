@@ -71,10 +71,15 @@
                                 </ul>
                             </div>
                         {% else %}
-                            <a href="{{ easyadmin_path(order, 'finish', {'referer': true}) }}"
+                            <a href="{{ easyadmin_path(order, 'finish', {'referer': true, 'version': 1}) }}"
                                class="btn btn-success">
                                 <i class="fa fa-print"></i>
-                                Финалка
+                                Финалка v1
+                            </a>
+                            <a href="{{ easyadmin_path(order, 'finish', {'referer': true, 'version': 2}) }}"
+                               class="btn btn-success">
+                                <i class="fa fa-print"></i>
+                                Финалка v2
                             </a>
                         {% endif %}
                     </div>
