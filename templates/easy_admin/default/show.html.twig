@@ -5,21 +5,9 @@
 {% set _trans_parameters = { '%entity_name%': _entity_config.name|trans, '%entity_label%': _entity_config.label|trans, '%entity_id%': _entity_id } %}
 
 {% extends _entity_config.templates.layout %}
-{% dump %}
+
 {% block body_id 'easyadmin-show-' ~ _entity_config.name ~ '-' ~ _entity_id %}
 {% block body_class 'show show-' ~ _entity_config.name|lower %}
-{% block content_title %}
-    {%- apply spaceless %}
-        {% set title = block('content_title', _entity_config.templates.layout) %}
-
-        {% if title is not empty %}
-            {{ title }}
-        {% else %}
-            {% set _default_title = 'show.page_title'|trans(_trans_parameters, 'EasyAdminBundle') %}
-            {{ _entity_config.show.title is defined ? _entity_config.show.title|trans(_trans_parameters) : _default_title }}
-        {% endif %}
-    {% endapply -%}
-{% endblock %}
 
 {% block main %}
     <div class="form-horizontal">

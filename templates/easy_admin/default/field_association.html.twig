@@ -17,7 +17,9 @@
 
                 {% set _remaining_items = value|length - entity_config.show.max_results %}
                 {% if _remaining_items > 0 %}
-                    <li class="remaining-items">({{ 'show.remaining_items'|transchoice(_remaining_items, {}, 'EasyAdminBundle') }})</li>
+                    <li class="remaining-items">
+                        ({{ 'show.remaining_items'|transchoice(_remaining_items, {}, 'EasyAdminBundle') }})
+                    </li>
                 {% endif %}
             </ul>
         {% else %}
@@ -28,7 +30,7 @@
     {% elseif 'list' == view %}
         <span class="badge">{{ value|length }}</span>
     {% endif %}
-{# a simple *-to-one value associated with an entity managed by this backend #}
+    {# a simple *-to-one value associated with an entity managed by this backend #}
 {% elseif link_parameters is defined %}
     <a href="{{ path('easyadmin', link_parameters|merge({ referer: '' })) }}">{{ value|easyadmin_truncate }}</a>
 {% else %}

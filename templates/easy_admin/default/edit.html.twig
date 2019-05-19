@@ -10,13 +10,6 @@
 {% block body_id 'easyadmin-edit-' ~ _entity_config.name ~ '-' ~ _entity_id %}
 {% block body_class 'edit edit-' ~ _entity_config.name|lower %}
 
-{% block content_title %}
-{% spaceless %}
-    {% set _default_title = 'edit.page_title'|trans(_trans_parameters, 'EasyAdminBundle') %}
-    {{ _entity_config.edit.title is defined ? _entity_config.edit.title|trans(_trans_parameters) : _default_title }}
-{% endspaceless %}
-{% endblock %}
-
 {% block main %}
     {% block entity_form %}
         {{ form(form) }}
@@ -38,21 +31,22 @@
     {{ parent() }}
 
     <script type="text/javascript">
-        $(function() {
-            $('.edit-form').areYouSure({ 'message': '{{ 'form.are_you_sure'|trans({}, 'EasyAdminBundle')|e('js') }}' });
+      $(function() {
+        $('.edit-form').areYouSure({'message': '{{ 'form.are_you_sure'|trans({}, 'EasyAdminBundle')|e('js') }}'});
 
-            $('.form-actions').easyAdminSticky();
+        $('.form-actions').easyAdminSticky();
 
-            $('a.action-delete').on('click', function(e) {
-                e.preventDefault();
+        $('a.action-delete').on('click', function(e) {
+          e.preventDefault();
 
-                $('#modal-delete').modal({ backdrop: true, keyboard: true })
-                    .off('click', '#modal-delete-button')
-                    .on('click', '#modal-delete-button', function () {
-                        $('#delete-form').trigger('submit');
-                    });
-            });
+          $('#modal-delete').
+              modal({backdrop: true, keyboard: true}).
+              off('click', '#modal-delete-button').
+              on('click', '#modal-delete-button', function() {
+                $('#delete-form').trigger('submit');
+              });
         });
+      });
     </script>
 
     {{ include('@EasyAdmin/default/includes/_select2_widget.html.twig') }}

@@ -7,8 +7,7 @@
             item.type == 'link' ? item.url :
             item.type == 'route' ? path(item.route, item.params) :
             item.type == 'entity' ? path('easyadmin', { entity: item.entity, action: 'list' }|merge(menu_params)|merge(item.params)) :
-            item.type == 'empty' ? '#' : ''
-        %}
+            item.type == 'empty' ? '#' : '' %}
 
         {# if the URL generated for the route belongs to the backend, regenerate
            the URL to include the menu_params to display the selected menu item
@@ -21,7 +20,8 @@
         <a href="{{ path }}" {% if item.target|default(false) %}target="{{ item.target }}"{% endif %} class="{{ item.css_class|default('') }}">
             {% if item.icon is not empty %}<i class="fa {{ item.icon }}"></i>{% endif %}
             <span>{{ item.label|trans(domain = translation_domain) }}</span>
-            {% if item.children|default([]) is not empty %}<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>{% endif %}
+            {% if item.children|default([]) is not empty %}
+                <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>{% endif %}
         </a>
     {% endif %}
 {% endmacro %}

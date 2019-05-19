@@ -1,10 +1,8 @@
-{{
-    form(delete_form, {
-        action: delete_form.vars.action ~ ('?' in delete_form.vars.action ? '&' : '?') ~ 'referer=' ~ referer,
-        method: 'DELETE',
-        attr: { id: 'delete-form', style: 'display: none' }
-    })
-}}
+{{ form(delete_form, {
+    action: delete_form.vars.action ~ ('?' in delete_form.vars.action ? '&' : '?') ~ 'referer=' ~ referer,
+    method: 'DELETE',
+    attr: { id: 'delete-form', style: 'display: none' }
+}) }}
 
 <div id="modal-delete" class="modal fade">
     <div class="modal-dialog">
