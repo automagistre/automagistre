@@ -57,6 +57,16 @@ hr {
 .btn__cancel:hover {
   background: #bd2130;
 }
+.check {
+  width: 8px;
+  padding: 0 2px !important;
+  border-right: none !important;
+}
+.check-box {
+  border: 1px solid #333333;
+  height: 8px;
+  width: 8px;
+}
 .header {
   display: flex;
   width: 100%;
