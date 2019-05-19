@@ -10184,21 +10184,21 @@
         },
         {
             "name": "psalm/plugin-phpunit",
-            "version": "0.5.6",
+            "version": "0.5.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/psalm/phpunit-psalm-plugin.git",
-                "reference": "bda2f2701d29c5523ce4d391f744f8fad74b7944"
+                "reference": "2f4c52819495f996c56be13e22a3d1e25ede4804"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/psalm/phpunit-psalm-plugin/zipball/bda2f2701d29c5523ce4d391f744f8fad74b7944",
-                "reference": "bda2f2701d29c5523ce4d391f744f8fad74b7944",
+                "url": "https://api.github.com/repos/psalm/phpunit-psalm-plugin/zipball/2f4c52819495f996c56be13e22a3d1e25ede4804",
+                "reference": "2f4c52819495f996c56be13e22a3d1e25ede4804",
                 "shasum": ""
             },
             "require": {
                 "composer/semver": "^1.4",
-                "muglug/package-versions-56": "^1.2",
+                "ocramius/package-versions": "^1.2",
                 "phpunit/phpunit": "^6.0 || ^7.0 || ^8.0",
                 "vimeo/psalm": "^3.2.9 || dev-master"
             },
@@ -10237,7 +10237,7 @@
                 }
             ],
             "description": "Psalm plugin for PHPUnit",
-            "time": "2019-05-14T18:30:53+00:00"
+            "time": "2019-05-16T22:26:16+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
