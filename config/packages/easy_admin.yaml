@@ -5,13 +5,50 @@ easy_admin:
     site_name: 'СТО Автомагистр'
     design:
         templates:
-            layout: 'easy_admin/layout.html.twig'
-            new: 'easy_admin/new.html.twig'
-            show: 'easy_admin/show.html.twig'
-            edit: 'easy_admin/edit.html.twig'
-            list: 'easy_admin/list.html.twig'
+            show: 'easy_admin/default/show.html.twig'
+            layout: 'easy_admin/default/layout.html.twig'
+            menu: 'easy_admin/default/menu.html.twig'
+            edit: 'easy_admin/default/edit.html.twig'
+            list: 'easy_admin/default/list.html.twig'
+            new: 'easy_admin/default/new.html.twig'
+            exception: 'easy_admin/default/exception.html.twig'
+            flash_messages: 'easy_admin/default/flash_messages.html.twig'
+            paginator: 'easy_admin/default/paginator.html.twig'
+            field_array: 'easy_admin/default/field_array.html.twig'
+            field_association: 'easy_admin/default/field_association.html.twig'
+            field_bigint: 'easy_admin/default/field_bigint.html.twig'
+            field_boolean: 'easy_admin/default/field_boolean.html.twig'
+            field_date: 'easy_admin/default/field_date.html.twig'
+#            field_dateinterval: 'easy_admin/default/field_dateinterval.html.twig'
             field_datetime: 'easy_admin/field_datetime_gtm3.html.twig'
-        form_theme: '@EasyAdmin/form/bootstrap_3_layout.html.twig'
+            field_datetimetz: 'easy_admin/default/field_datetimetz.html.twig'
+            field_decimal: 'easy_admin/default/field_decimal.html.twig'
+            field_email: 'easy_admin/default/field_email.html.twig'
+#            field_file: 'easy_admin/default/field_file.html.twig'
+            field_float: 'easy_admin/default/field_float.html.twig'
+#            field_guid: 'easy_admin/default/field_guid.html.twig'
+            field_id: 'easy_admin/default/field_id.html.twig'
+            field_image: 'easy_admin/default/field_image.html.twig'
+#            field_json: 'easy_admin/default/field_json.html.twig'
+#            field_json_array: 'easy_admin/default/field_json_array.html.twig'
+            field_integer: 'easy_admin/default/field_integer.html.twig'
+#            field_object: 'easy_admin/default/field_object.html.twig'
+#            field_percent: 'easy_admin/default/field_percent.html.twig'
+            field_raw: 'easy_admin/default/field_raw.html.twig'
+            field_simple_array: 'easy_admin/default/field_simple_array.html.twig'
+            field_smallint: 'easy_admin/default/field_smallint.html.twig'
+            field_string: 'easy_admin/default/field_string.html.twig'
+            field_tel: 'easy_admin/default/field_tel.html.twig'
+            field_text: 'easy_admin/default/field_text.html.twig'
+            field_time: 'easy_admin/default/field_time.html.twig'
+            field_toggle: 'easy_admin/default/field_toggle.html.twig'
+            field_url: 'easy_admin/default/field_url.html.twig'
+            label_empty: 'easy_admin/default/label_empty.html.twig'
+            label_inaccessible: 'easy_admin/default/label_inaccessible.html.twig'
+            label_null: 'easy_admin/default/label_null.html.twig'
+            label_undefined: 'easy_admin/default/label_undefined.html.twig'
+
+        form_theme: 'easy_admin/form/bootstrap_3_layout.html.twig'
         assets:
             js:
                 - 'includes/js/collection-autocomplete.js'
@@ -85,7 +122,7 @@ easy_admin:
                     - { property: 'password', label: 'Пароль', type: 'password', type_options: { required: true } }
                     - { property: 'roles', label: 'Роли', type: App\Form\Type\RoleType, type_options: { required: false, multiple: true, expanded: true } }
             show:
-                title: 'Пользователь №%%entity_id%%'
+                title: 'Пользователь № {{ entity.id }}'
                 form_options: { data_class: stdClass }
                 fields:
                     - { property: 'id', label: 'ID' }
@@ -93,7 +130,7 @@ easy_admin:
                     - { property: 'person', label: 'Клиент' }
                     - { property: 'roles', label: 'Роли', template: 'easy_admin/security/field_roles.html.twig' }
             edit:
-                title: 'Редактировать пользователя №%%entity_id%%'
+                title: 'Редактировать пользователя № {{ entity.id }}'
                 fields:
                     - { property: 'username', label: 'Имя пользователя', type: 'email', type_options: { disabled: true } }
                     - { property: 'person', label: 'Клиент', type: 'easyadmin_autocomplete', type_options: { class: App\Entity\Landlord\Person } }
@@ -131,7 +168,7 @@ easy_admin:
             new:
                 title: 'Создать новый заказ'
             edit:
-                title: 'Редактировать заказ №%%entity_id%%'
+                title: 'Редактировать заказ № {{ entity.id }}'
 
         OrderItemGroup:
             class: App\Entity\Tenant\OrderItemGroup
@@ -218,7 +255,7 @@ easy_admin:
             new:
                 title: 'Создать новую заметку по Заказу'
             edit:
-                title: 'Редактировать заметку №%%entity_id%% по Заказу'
+                title: 'Редактировать заметку № {{ entity.id }} по Заказу'
 
         CarRecommendation:
             class: App\Entity\Landlord\CarRecommendation
@@ -233,7 +270,7 @@ easy_admin:
                     - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType, type_options: { required: true } }
                     - { property: 'worker', label: 'Диагност', type: App\Form\Type\WorkerType, type_options: { required: true } }
             edit:
-                title: 'Рекомендация №%%entity_id%%'
+                title: 'Рекомендация № {{ entity.id }}'
             new:
                 title: 'Новая рекомендация'
                 form_options: { data_class: App\Form\Model\Recommendation }
@@ -272,7 +309,7 @@ easy_admin:
             list:
                 title: 'Люди'
                 fields:
-                    - { property: 'id', template: '@EasyAdmin/default/field_raw.html.twig' }
+                    - { property: 'id', template: 'easy_admin/default/field_raw.html.twig' }
                     - { property: 'fullName', label: 'Ф.И.О', template: 'easy_admin/field_item_show.html.twig' }
                     - { property: 'telephone', label: 'Телефон', template: 'easy_admin/field_telephone.html.twig' }
                     - { property: 'officePhone', label: 'Раб. Телефон', template: 'easy_admin/field_telephone.html.twig' }
@@ -292,7 +329,7 @@ easy_admin:
             edit:
                 title: 'Редактировать Человека'
             show:
-                title: 'Человек №%%entity_id%%'
+                title: 'Человек № {{ entity.id }}'
                 fields:
                     - { property: 'firstname', label: 'Имя' }
                     - { property: 'lastname', label: 'Фамилия' }
@@ -313,7 +350,7 @@ easy_admin:
             new:
                 title: 'Создать новую заметку по Человеку'
             edit:
-                title: 'Редактировать заметку №%%entity_id%% по Человеку'
+                title: 'Редактировать заметку № {{ entity.id }} по Человеку'
 
         Organization:
             class: App\Entity\Landlord\Organization
@@ -334,7 +371,7 @@ easy_admin:
                     - { property: 'seller', label: 'Поставщик', type: 'boolean' }
                     - { property: 'balance', label: 'Баланс', virtual: true, sortable: true, template: 'easy_admin/operand/field_balance.html.twig' }
             show:
-                title: Организация №%%entity_id%%
+                title: Организация № {{ entity.id }}
                 fields:
                     - { property: 'name', label: 'Название' }
                     - { property: 'address', label: 'Адрес' }
@@ -371,7 +408,7 @@ easy_admin:
             new:
                 title: 'Создать новую заметку по Организации'
             edit:
-                title: 'Редактировать заметку №%%entity_id%% по Организации'
+                title: 'Редактировать заметку № {{ entity.id }} по Организации'
 
         Employee:
             class: App\Entity\Tenant\Employee
@@ -391,7 +428,7 @@ easy_admin:
                     - { property: 'hiredAt', label: 'Трудоустроен' }
                     - { property: 'firedAt', label: 'Уволен' }
             show:
-                title: 'Сотрудник №%%entity_id%%'
+                title: 'Сотрудник № {{ entity.id }}'
                 fields:
                     - { property: 'person', label: 'Ф.И.О', template: 'easy_admin/field_show.html.twig' }
                     - { property: 'balance', virtual: true, label: 'Баланс', template: 'easy_admin/employee/field_balance.html.twig' }
@@ -437,7 +474,7 @@ easy_admin:
                     - { property: 'mileage', label: 'Пробег' }
                     - { property: 'gosnomer', label: 'Гос. Номер', sortable: false, template: 'easy_admin/car/field_gosnomer_img.html.twig' }
             show:
-                title: 'Автомобиль №%%entity_id%%'
+                title: 'Автомобиль № {{ entity.id }}'
                 fields:
                     - { property: 'owner', label: 'Владелец' }
                     - { property: 'vin', label: 'VIN' }
@@ -471,7 +508,7 @@ easy_admin:
                     - { type: 'group', label: 'Комплектация', css_class: 'col-sm-6' }
                     - { property: 'equipment', label: ' ', type: App\Form\Type\CarEquipmentType }
             edit:
-                title: 'Редактировать автомобиль №%%entity_id%%'
+                title: 'Редактировать автомобиль № {{ entity.id }}'
             new:
                 title: 'Создать новый автомобиль'
         CarNote:
@@ -486,7 +523,7 @@ easy_admin:
             new:
                 title: 'Создать новую заметку по Автомобилю'
             edit:
-                title: 'Редактировать заметку №%%entity_id%% по Автомобилю'
+                title: 'Редактировать заметку № {{ entity.id }} по Автомобилю'
 
         Part:
             class: App\Entity\Landlord\Part
@@ -497,7 +534,7 @@ easy_admin:
                 new: 'easy_admin/part/new.html.twig'
                 show: 'easy_admin/part/show.html.twig'
             show:
-                title: 'Запчасть №%%entity_id%%'
+                title: 'Запчасть № {{ entity.id }}'
                 fields:
                     - { property: 'name', label: 'Название' }
                     - { property: 'manufacturer.name', label: 'Производитель' }
@@ -513,7 +550,7 @@ easy_admin:
                     - { property: 'number', label: 'Номер', template: 'easy_admin/field_part_number.html.twig' }
                     - { property: 'price', label: 'Цена', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'discount', label: 'Скидка', template: 'easy_admin/field_money.html.twig' }
-                    - { property: 'universal', label: 'Универсальная', template: '@EasyAdmin/default/field_boolean.html.twig' }
+                    - { property: 'universal', label: 'Универсальная', template: 'easy_admin/default/field_boolean.html.twig' }
             form:
                 fields:
                     - { property: 'manufacturer', label: 'Производитель' }
@@ -553,7 +590,7 @@ easy_admin:
                 title: 'Движения по складу'
                 max_results: 100
                 fields:
-                    - { property: 'id', template: '@EasyAdmin/default/field_raw.html.twig' }
+                    - { property: 'id', template: 'easy_admin/default/field_raw.html.twig' }
                     - { property: 'part', label: 'Наименование', template: 'easy_admin/field_part.html.twig', stock: true }
                     - { property: 'quantity', label: 'Количество', template: 'easy_admin/field_quantity.html.twig' }
                     - { property: 'description', label: 'Комментарий' }
@@ -583,9 +620,9 @@ easy_admin:
             new:
                 title: 'Создать приход'
             edit:
-                title: 'Редактировать приход №%%entity_id%%'
+                title: 'Редактировать приход № {{ entity.id }}'
             show:
-                title: 'Приход №%%entity_id%%'
+                title: 'Приход № {{ entity.id }}'
                 fields:
                     - { property: 'supplier', label: 'Поставщик' }
                     - { property: 'document', label: 'Документ' }
@@ -645,7 +682,7 @@ easy_admin:
                     - { property: 'yearFrom', label: 'Начало производства' }
                     - { property: 'yearTill', label: 'Конец производства' }
             show:
-                title: 'Кузов №%%entity_id%%'
+                title: 'Кузов № {{ entity.id }}'
                 fields:
                     - { property: 'manufacturer', label: 'Производитель' }
                     - { property: 'name', label: 'Название' }
@@ -674,11 +711,11 @@ easy_admin:
             list:
                 title: 'Список проводок'
                 fields:
-                    - { property: 'id', template: '@EasyAdmin/default/field_raw.html.twig' }
+                    - { property: 'id', template: 'easy_admin/default/field_raw.html.twig' }
                     - { property: 'recipient', label: 'Получатель', template: 'easy_admin/field_show.html.twig' }
                     - { property: 'amount', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'createdAt', label: 'Дата' }
-                    - { property: 'description', label: 'Описание', template: '@EasyAdmin/default/field_raw.html.twig' }
+                    - { property: 'description', label: 'Описание', template: 'easy_admin/default/field_raw.html.twig' }
                     - { property: 'subtotal', label: 'Остаток', template: 'easy_admin/field_money.html.twig' }
             new:
                 title: 'Создать новую проводку {{ "increment" == app.request.query.get("type") ? "пополнения" : "списания" }}'
@@ -710,7 +747,7 @@ easy_admin:
                     - { property: 'useInOrder', label: 'Использовать для начислений по заказам' }
                     - { property: 'showInLayout', label: 'Показывать в шапке' }
             edit:
-                title: 'Редактировать счет №%%entity_id%%'
+                title: 'Редактировать счет № {{ entity.id }}'
                 fields:
                     - { property: 'name', label: 'Название' }
                     - { property: 'currency', label: 'Валюта', type: App\Form\Type\CurrencyType, type_options: { disabled: true } }
@@ -724,11 +761,11 @@ easy_admin:
             list:
                 title: 'Список проводок'
                 fields:
-                    - { property: 'id', template: '@EasyAdmin/default/field_raw.html.twig' }
+                    - { property: 'id', template: 'easy_admin/default/field_raw.html.twig' }
                     - { property: 'recipient', label: 'Счет' }
                     - { property: 'amount', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'createdAt', label: 'Дата' }
-                    - { property: 'description', label: 'Описание', template: '@EasyAdmin/default/field_raw.html.twig' }
+                    - { property: 'description', label: 'Описание', template: 'easy_admin/default/field_raw.html.twig' }
                     - { property: 'subtotal', label: 'Остаток', template: 'easy_admin/field_money.html.twig' }
 
         McWork:
@@ -749,7 +786,7 @@ easy_admin:
             new:
                 title: 'Создать работу'
             edit:
-                title: 'Редактировать работу №%%entity_id%%'
+                title: 'Редактировать работу № {{ entity.id }}'
 
         McEquipment:
             class: App\Entity\Landlord\MC\Equipment
@@ -767,7 +804,7 @@ easy_admin:
                     - { property: 'equipment.wheelDrive.name', label: 'Привод' }
                     - { property: 'period', label: 'Период' }
             show:
-                title: 'Комплектация №%%entity_id%%'
+                title: 'Комплектация № {{ entity.id }}'
                 fields:
                     - { property: 'id' }
                     - { property: 'model', label: 'Модель' }
@@ -784,7 +821,7 @@ easy_admin:
             new:
                 title: 'Создать комплектацию'
             edit:
-                title: 'Редактировать комплектацию №%%entity_id%%'
+                title: 'Редактировать комплектацию № {{ entity.id }}'
 
         McLine:
             class: App\Entity\Landlord\MC\Line
@@ -804,7 +841,7 @@ easy_admin:
             new:
                 title: 'Создать комплектацию'
             edit:
-                title: 'Редактировать комплектацию №%%entity_id%%'
+                title: 'Редактировать комплектацию № {{ entity.id }}'
 
         McPart:
             class: App\Entity\Landlord\MC\Part
@@ -818,7 +855,7 @@ easy_admin:
             new:
                 title: 'Создать новую запчасть для ТО'
             edit:
-                title: 'Редактировать запчасть №%%entity_id%% для ТО'
+                title: 'Редактировать запчасть № {{ entity.id }} для ТО'
 
         Review:
             class: App\Entity\Landlord\Review
@@ -844,7 +881,7 @@ easy_admin:
             new:
                 title: 'Создать новый Отзыв'
             edit:
-                title: 'Редактировать Отзыв №%%entity_id%%'
+                title: 'Редактировать Отзыв № {{ entity.id }}'
 
         Expense:
             class: App\Entity\Tenant\Expense
@@ -864,7 +901,7 @@ easy_admin:
                     - { property: 'name', label: 'Название' }
                     - { property: 'wallet', label: 'Счет списания по умолчанию', type_options: { required: false } }
             edit:
-                title: 'Редактировать Статью расходов №%%entity_id%%'
+                title: 'Редактировать Статью расходов № {{ entity.id }}'
                 fields:
                     - { property: 'name', label: 'Название', type_options: { disabled: true } }
                     - { property: 'wallet', label: 'Счет списания по умолчанию', type_options: { required: false } }
@@ -875,7 +912,7 @@ easy_admin:
             list:
                 title: 'Расходы'
                 fields:
-                    - { property: 'id', template: '@EasyAdmin/default/field_raw.html.twig' }
+                    - { property: 'id', template: 'easy_admin/default/field_raw.html.twig' }
                     - { property: 'expense', label: 'Статья расходов' }
                     - { property: 'amount', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'description', label: 'Комментарий' }
