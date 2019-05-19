@@ -8,8 +8,10 @@ hr {
   border-top: 2px solid grey;
 }
 .container {
-  margin: 25px;
-  font-size: 12px;
+  padding: 0 10px;
+  margin: 0 auto;
+  max-width: 1024px;
+  font-size: 10px;
 }
 .btn-block {
   position: fixed;
@@ -33,6 +35,9 @@ hr {
   border-radius: 5px;
   text-transform: capitalize;
   min-width: 160px;
+  text-align: center;
+  text-decoration: none;
+  color: black;
 }
 .btn__pdf {
   background: #ffc107;
@@ -51,6 +56,16 @@ hr {
 }
 .btn__cancel:hover {
   background: #bd2130;
+}
+.check {
+  width: 8px;
+  padding: 0 2px !important;
+  border-right: none !important;
+}
+.check-box {
+  border: 1px solid #333333;
+  height: 8px;
+  width: 8px;
 }
 .header {
   display: flex;
@@ -82,10 +97,10 @@ hr {
 .order-info-customer,
 .order-info-executor,
 .order-info-car {
-  border: 1px dashed #c0c0c0;
+  border: 1px dashed #b3b3b3;
   border-radius: 2px;
   margin: 5px auto;
-  padding: 5px 10px;
+  padding: 2px 10px;
 }
 .order-info-legend {
   font-weight: bold;
@@ -127,11 +142,24 @@ hr {
 }
 .order-table-work td:first-child,
 .recommendations-table-work td:first-child {
-  border-left: 1px solid black !important;
+  border-left: 1px solid #808080 !important;
 }
 .order-table-work td:last-child,
 .recommendations-table-work td:last-child {
-  border-right: 1px solid black !important;
+  border-right: 1px solid #808080 !important;
+}
+.order-table-work__simple td,
+.recommendations-table-work__simple td {
+  border-right: none !important;
+  border-left: none !important;
+}
+.order-table-work__simple td:first-child,
+.recommendations-table-work__simple td:first-child {
+  border-left: 1px solid #808080 !important;
+}
+.order-table-work__simple td:last-child,
+.recommendations-table-work__simple td:last-child {
+  border-right: 1px solid #808080 !important;
 }
 .order-table,
 .recommendations-table {
@@ -141,10 +169,11 @@ hr {
 .order-table caption,
 .recommendations-table caption {
   background: #d9d9d9;
-  padding: 5px;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
-  border-top: 1px solid black;
+  padding: 2px;
+  font-size: 14px;
+  border-left: 1px solid #808080;
+  border-right: 1px solid #808080;
+  border-top: 1px solid #808080;
   font-weight: 600;
 }
 .order-table caption:first-letter,
@@ -153,8 +182,8 @@ hr {
 }
 .order-table thead td,
 .recommendations-table thead td {
-  padding: 5px;
-  border: 1px solid black;
+  padding: 2px 5px;
+  border: 1px solid #808080;
   text-align: left;
   font-weight: 600;
 }
@@ -164,8 +193,8 @@ hr {
 }
 .order-table tbody td,
 .recommendations-table tbody td {
-  padding: 5px 8px;
-  border: 1px solid black;
+  padding: 2px 5px;
+  border: 1px solid #808080;
   text-align: left;
 }
 .order-table tbody td:first-letter,
@@ -185,7 +214,7 @@ hr {
   text-transform: uppercase;
   font-weight: 600;
   background-color: #f3f3f3;
-  font-size: 14px;
+  font-size: 12px;
 }
 .order-table tbody .order-table-totals__name,
 .recommendations-table tbody .order-table-totals__name {
@@ -201,13 +230,19 @@ hr {
 }
 .order-table tbody .order-table-part__only .order-table-part__name,
 .recommendations-table tbody .order-table-part__only .order-table-part__name {
-  padding: 5px 8px;
+  padding: 2px 5px;
 }
 .recommendations-table-work {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
 }
 .recommendations-table-work__legend {
+  text-align: right !important;
+}
+.order-table-work {
+  font-size: 10px;
+}
+.order-table-work__legend {
   text-align: right !important;
 }
 .stamps_guaranty__qr {
@@ -223,7 +258,7 @@ hr {
   justify-content: space-between;
 }
 .stamp {
-  font-size: 16px;
+  font-size: 14px;
   text-transform: capitalize;
 }
 .stamp:after {
@@ -234,6 +269,10 @@ hr {
   padding-right: 30px !important;
 }
 @media print {
+  @page {
+    size: A4;
+    margin: 1cm;
+  }
   .btn-block {
     display: none;
   }
