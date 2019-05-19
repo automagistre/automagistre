@@ -188,7 +188,7 @@
                         {% block content_header %}
                             <h1 class="title">
                                 {%- block content_title -%}
-                                    {% apply spaceless %}
+                                    {%- apply spaceless -%}
                                         {% set action = app.request.query.get('action') %}
                                         {% set template = (attribute(_entity_config, action).title)|default %}
 
@@ -199,7 +199,7 @@
                                             ? attribute(_entity_config, action).title|trans(_trans_parameters|default([]))
                                             : action ~ '.page_title'|trans(_trans_parameters, 'EasyAdminBundle') }}
                                         {% endif %}
-                                    {% endapply %}
+                                    {%- endapply -%}
                                 {%- endblock -%}
                             </h1>
                         {% endblock content_header %}

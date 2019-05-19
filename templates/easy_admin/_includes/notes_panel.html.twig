@@ -22,7 +22,7 @@
                             <td>{{ note.type.name }}</td>
                             <td>{{ note.text }}</td>
                             <td>
-                                {%- spaceless %}
+                                {%- apply spaceless -%}
                                     {# @var cretedBy \App\Entity\Landlord\User #}
                                     {% set createdBy = note.createdBy %}
                                     {% if createdBy.person is not empty %}
@@ -30,7 +30,7 @@
                                     {% else %}
                                         {{ createdBy.username }}
                                     {% endif %}
-                                {% endspaceless -%}
+                                {%- endapply %}
                             </td>
                             <td>{{ note.createdAt|localizeddate }}</td>
                         </tr>

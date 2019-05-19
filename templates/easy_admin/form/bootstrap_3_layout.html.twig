@@ -402,7 +402,7 @@
 {% endblock %}
 
 {% block vich_file_widget %}
-{% spaceless %}
+{%- apply spaceless -%}
     <div class="easyadmin-vich-file">
         {% if download_uri|default('') is not empty %}
             {% set download_title = download_uri|split('/')|last ?: 'download'|trans({}, 'VichUploaderBundle') %}
@@ -420,7 +420,7 @@
             </div>
         </div>
     </div>
-{% endspaceless %}
+{%- endapply -%}
 {% endblock %}
 
 {% block vich_image_row %}
@@ -429,7 +429,7 @@
 {% endblock %}
 
 {% block vich_image_widget %}
-{% spaceless %}
+{%- apply spaceless -%}
     <div class="easyadmin-vich-image">
         {{ form_widget(form.file) }}
         {% if form.delete is defined %}
@@ -454,7 +454,7 @@
             {% endif %}
         {% endif %}
     </div>
-{% endspaceless %}
+{%- endapply -%}
 {% endblock %}
 
 {% block easyadmin_rest %}

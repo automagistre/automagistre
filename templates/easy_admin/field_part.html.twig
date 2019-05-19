@@ -14,11 +14,11 @@
     {{- value }}
 
     (
-    {%- spaceless %}
+    {%- apply spaceless -%}
     {#<a href="{{ easyadmin_path(value.manufacturer, 'show', {'referer': true}) }}">#}
         {{- value.manufacturer -}}
     {#</a>#}
-    {%- endspaceless %}
+    {%- endapply %}
     {%- include 'easy_admin/field_part_number.html.twig' with {'value': value.number, 'lineIndex': (item is defined ? item.id)} only -%}
     )
 

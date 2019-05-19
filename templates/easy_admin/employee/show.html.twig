@@ -45,7 +45,7 @@
                                                 <td>{{ item.payday }}</td>
                                                 <td>{{ item.amount|localize_money }}</td>
                                                 <td>
-                                                    {%- spaceless %}
+                                                    {%- apply spaceless -%}
                                                         {# @var cretedBy \App\Entity\Landlord\User #}
                                                         {% set createdBy = item.createdBy %}
                                                         {% if createdBy.person is not empty %}
@@ -53,7 +53,7 @@
                                                         {% else %}
                                                             {{ createdBy.username }}
                                                         {% endif %}
-                                                    {% endspaceless -%}
+                                                    {%- endapply -%}
                                                 </td>
                                                 <td>{{ item.createdAt|localizeddate }}</td>
                                             </tr>

@@ -186,7 +186,7 @@
         </div>
 
         <h2 class="page-header">
-            {%- spaceless -%}
+            {%- apply spaceless -%}
                 {%- if order.editable %}
                     <a class="btn btn-primary" href="{{ easyadmin_path('OrderItemService', 'new', {'order_id': order.id}) }}">
                         <i class="fa fa-plus"></i>
@@ -210,7 +210,7 @@
                         </a>
                     {% endif %}
                 {% endif %}
-            {%- endspaceless -%}
+            {%- endapply -%}
         </h2>
 
         <div class="row">
@@ -244,13 +244,13 @@
 
         {% if car is not empty %}
             <h2 class="page-header">
-                {%- spaceless -%}
+                {%- apply spaceless -%}
                     <a class="btn btn-primary"
                        href="{{ easyadmin_path('CarRecommendation', 'new', {'car_id': order.car.id}|merge(order|to_query)) }}">
                         <i class="fa fa-plus"></i>
                         Рекомендация
                     </a>
-                {%- endspaceless -%}
+                {%- endapply -%}
                 <a>
                     {% for money in car.getRecommendationPrice %}
                         {% if 1 == loop.index %}

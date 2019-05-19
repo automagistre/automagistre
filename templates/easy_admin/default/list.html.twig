@@ -29,7 +29,7 @@
 {% block body_class 'list list-' ~ _entity_config.name|lower %}
 
 {% block content_title %}
-    {% spaceless %}
+    {%- apply spaceless -%}
         {% if 'search' == app.request.get('action') %}
             {{ (_entity_config.search.title is defined
             ? _entity_config.search.title|transchoice(paginator.nbResults)
@@ -37,7 +37,7 @@
         {% else %}
             {{ parent() }}
         {% endif %}
-    {% endspaceless %}
+    {%- endapply -%}
 {% endblock %}
 
 {% block content_header %}
