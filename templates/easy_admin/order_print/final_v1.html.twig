@@ -176,7 +176,7 @@
                     <tr class="table-active">
                         <td colspan="{{ isServicesDiscounted ? '5' : '3' }}" class="table-summary legend">итого:</td>
                         <td class="table-summary">
-                            <span class="price">{{ order.totalGroupPrice.add(order.totalServicePrice(true, true))|localize_money }}</span></td>
+                            <span class="price">{{ order.totalGroupPrice.add(order.totalServicePrice(false, true))|localize_money }}</span></td>
                     </tr>
                     </tbody>
                 </table>

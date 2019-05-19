@@ -169,7 +169,7 @@
                             </div>
                         </td>
                         <td colspan="3" class="order-table-subtotals__name">всего по работам</td>
-                        <td>{{ order.totalGroupPrice.add(order.totalServicePrice(true, true))|localize_money }}</td>
+                        <td>{{ order.totalGroupPrice.add(order.totalServicePrice(false, true))|localize_money }}</td>
                     </tr>
                     <tr class="order-table-subtotals">
                         <td colspan="3" class="order-table-subtotals__name">всего по материалам</td>
