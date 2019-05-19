@@ -15,7 +15,7 @@
     <div class="btn-block_items">
         <button class="btn btn__pdf" id="print__pdf" href="#">сохранить PDF</button>
         <button class="btn btn__print" id="print__btn" href="#">печать заказа</button>
-        <button class="btn btn__cancel" id ="print__cancel" href="{{ app.request.query.get('referer')|easyadmin_urldecode }}">назад</button>
+        <button class="btn btn__cancel" id ="print__cancel" href="{{ app.request.query.get('referer')|easyadmin_urldecode|raw }}">назад</button>
     </div>
 </div>
 

@@ -16,7 +16,7 @@
     <section class="print row">
         <a class="btn-warning btn-lg" id="print__pdf" href="#">сохранить PDF</a>
         <a class="btn-success btn-lg" id="print__btn" href="#">печать заказа</a>
-        <a class="btn-danger btn-lg" id ="print__cancel" href="{{ app.request.query.get('referer')|easyadmin_urldecode }}">отмена</a>
+        <a class="btn-danger btn-lg" id ="print__cancel" href="{{ app.request.query.get('referer')|easyadmin_urldecode|raw }}">отмена</a>
     </section>
 </div>
 
