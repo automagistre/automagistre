@@ -16,7 +16,7 @@
     {% endblock entity_form %}
 
     {% block delete_form %}
-        {{ include('@EasyAdmin/default/includes/_delete_form.html.twig', {
+        {{ include('easy_admin/default/includes/_delete_form.html.twig', {
             view: 'edit',
             referer: app.request.query.get('referer', ''),
             delete_form: delete_form,
@@ -49,5 +49,5 @@
       });
     </script>
 
-    {{ include('@EasyAdmin/default/includes/_select2_widget.html.twig') }}
+    {{ include('easy_admin/default/includes/_select2_widget.html.twig') }}
 {% endblock %}

@@ -150,7 +150,7 @@
                             {% set _column_label =  'list.row_actions'|trans(_trans_parameters, 'EasyAdminBundle') %}
                             <td data-label="{{ _column_label }}" class="actions">
                                 {% block item_actions %}
-                                    {{ include('@EasyAdmin/default/includes/_actions.html.twig', {
+                                    {{ include('easy_admin/default/includes/_actions.html.twig', {
                                         actions: _list_item_actions,
                                         request_parameters: _request_parameters,
                                         translation_domain: _entity_config.translation_domain,
@@ -182,7 +182,7 @@
             ? path('easyadmin', app.request.query|merge({ page: app.request.query.get('page') - 1 }))
             : app.request.requestUri %}
 
-        {{ include('@EasyAdmin/default/includes/_delete_form.html.twig', {
+        {{ include('easy_admin/default/includes/_delete_form.html.twig', {
             view: 'list',
             referer: referer|url_encode,
             delete_form: delete_form_template,

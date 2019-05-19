@@ -94,7 +94,7 @@
                                     (<a href="tel:{{ tel }}">{{ tel }}</a>)
                                 {% endif %}
                             {% else %}
-                                {% include '@EasyAdmin/default/label_null.html.twig' %}
+                                {% include 'easy_admin/default/label_null.html.twig' %}
                             {% endif -%}
                         </div>
                     </div>
@@ -117,7 +117,7 @@
 
                                 <span class="label label-info" title="VIN">{{ car.vin }}</span>
                             {% else %}
-                                {% include '@EasyAdmin/default/label_null.html.twig' %}
+                                {% include 'easy_admin/default/label_null.html.twig' %}
                             {%- endif -%}
                         </div>
                     </div>
@@ -133,7 +133,7 @@
                             {% if order.mileage is not empty %}
                                 {{- order.mileage|number_format -}}
                             {% else %}
-                                {% include '@EasyAdmin/default/label_null.html.twig' %}
+                                {% include 'easy_admin/default/label_null.html.twig' %}
                             {% endif %}
 
                             {% if car.mileage|default is not empty %}

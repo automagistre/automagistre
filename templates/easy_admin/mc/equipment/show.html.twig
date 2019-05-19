@@ -1,4 +1,4 @@
-{% extends '@EasyAdmin/default/show.html.twig' %}
+{% extends 'easy_admin/default/show.html.twig' %}
 
 {# @var entity \App\Entity\MC\Equipment #}
 
@@ -54,7 +54,7 @@
                                             </a>
                                         </td>
                                         <td>{{ line.period }}</td>
-                                        <td>{% include '@EasyAdmin/default/field_boolean.html.twig' with {'value': line.recommended} %}</td>
+                                        <td>{% include 'easy_admin/default/field_boolean.html.twig' with {'value': line.recommended} %}</td>
                                     </tr>
                                     {% for linePart in line.parts %}
                                         <tr>
@@ -65,7 +65,7 @@
                                             <td></td>
                                             <td>{% include 'easy_admin/field_part.html.twig' with {'value': linePart.part} %}</td>
                                             <td></td>
-                                            <td>{% include '@EasyAdmin/default/field_boolean.html.twig' with {'value': linePart.recommended} %}</td>
+                                            <td>{% include 'easy_admin/default/field_boolean.html.twig' with {'value': linePart.recommended} %}</td>
                                         </tr>
                                     {% endfor %}
                                 {% endfor %}
