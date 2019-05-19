@@ -39,10 +39,14 @@ RUN set -ex \
         libmemcached-dev \
         unzip \
         libfcgi-bin \
+        libpng-dev \
+        libjpeg62-turbo-dev \
+        libfreetype6-dev \
     && rm -r /var/lib/apt/lists/*
 
 RUN set -ex \
-    && docker-php-ext-install zip pdo_mysql iconv opcache pcntl
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include --with-jpeg-dir=/usr/include \
+    && docker-php-ext-install zip pdo_mysql iconv opcache pcntl gd
 
 RUN set -ex \
 	&& cd /tmp \
