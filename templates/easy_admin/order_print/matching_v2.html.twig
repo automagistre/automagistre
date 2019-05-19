@@ -93,11 +93,11 @@
             <tbody>
             <tr class="order-table-subtotals">
                 <td colspan="3" rowspan="5" class="no-border"></td>
-                <td colspan="3" class="order-table-subtotals__name">всего по работам</td>
+                <td colspan="3" class="order-table-subtotals__name">всего рекомендованных работ</td>
                 <td>100500</td>
             </tr>
             <tr class="order-table-subtotals">
-                <td colspan="3" class="order-table-subtotals__name">всего по материалам</td>
+                <td colspan="3" class="order-table-subtotals__name">всего рекомендованных зч</td>
                 <td>100500</td>
             </tr>
             <tr class="order-table-totals">
@@ -107,9 +107,64 @@
             </tbody>
         </table>
     </div>
+    Вывоводить, если есть согласованные работы и зч в текущем заказа наряде.
+    Результат выводить с учетом скидки.
     <section class="order">
         <table class="order-table">
-            <caption>итоговый расчет</caption>
+            <caption>Согласованные работы и запчасти</caption>
+            <tbody>
+            <tr class="order-table-work__simple">
+                {#                                <td>1</td>#}
+                <td>Замена масла ДВС</td>
+                <td class="order-table-work__legend">работа:</td>
+                <td>2000</td>
+                <td class="order-table-work__legend">Запчасти:</td>
+                <td>50000</td>
+                <td class="order-table-work__legend">Всего:</td>
+                <td>52000</td>
+            </tr>
+            <tr class="order-table-work__simple">
+                {#                                <td>1</td>#}
+                <td>Замена масла ДВС</td>
+                <td class="order-table-work__legend">работа:</td>
+                <td>2000</td>
+                <td class="order-table-work__legend">Запчасти:</td>
+                <td>50000</td>
+                <td class="order-table-work__legend">Всего:</td>
+                <td>52000</td>
+            </tr>
+            <tr class="order-table-work__simple">
+                {#                                <td>1</td>#}
+                <td>Замена масла ДВС</td>
+                <td class="order-table-work__legend">работа:</td>
+                <td>2000</td>
+                <td class="order-table-work__legend">Запчасти:</td>
+                <td>50000</td>
+                <td class="order-table-work__legend">Всего:</td>
+                <td>52000</td>
+            </tr>
+            </tbody>
+            <tbody>
+            <tr class="no-border" style="height: 5px"></tr>
+            <tr class="order-table-subtotals">
+                <td colspan="3" rowspan="5" class="no-border"></td>
+                <td colspan="3" class="order-table-subtotals__name">всего согласованных работ</td>
+                <td>100500</td>
+            </tr>
+            <tr class="order-table-subtotals">
+                <td colspan="3" class="order-table-subtotals__name">всего согласованных зч</td>
+                <td>100500</td>
+            </tr>
+            <tr class="order-table-totals">
+                <td colspan="3" class="order-table-subtotals__name">всего по заказу</td>
+                <td class="order-table-subtotals__sum">100500</td>
+            </tr>
+            <tr class="order-table-totals">
+                <td colspan="3" class="order-table-totals__name">полная стоимость с рекомендациями</td>
+                <td class="order-table-totals__sum">100500</td>
+            </tr>
+            </tbody>
+
         </table>
     </section>
 </div>

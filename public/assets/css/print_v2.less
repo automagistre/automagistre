@@ -1,6 +1,6 @@
 @color_grey: #d9d9d9;
 @font_size: 10px;
-@border_color: lighten(black, 60%);
+@border_color: lighten(black, 50%);
 @cell_padding: 2px;
 
 body, html {
@@ -13,7 +13,9 @@ hr {
 }
 
 .container {
-  margin: 25px;
+  padding: 0 10px;
+  margin: 0 auto;
+  max-width: 1024px;
   font-size: @font_size;
 }
 
@@ -41,6 +43,9 @@ hr {
   border-radius: 5px;
   text-transform: capitalize;
   min-width: 160px;
+  text-align: center;
+  text-decoration: none;
+  color: black;
   &__pdf {
     background: #ffc107;
     &:hover {
@@ -139,6 +144,19 @@ hr {
           border-right: 1px solid @border_color !important;
         }
       }
+      &__simple{
+        //background: lighten(@color_grey, 10%);
+        td {
+          border-right: none !important;
+          border-left: none !important;
+          &:first-child {
+            border-left: 1px solid @border_color !important;
+          }
+          &:last-child {
+            border-right: 1px solid @border_color !important;
+          }
+        }
+      }
     }
   }
   &-table {
@@ -227,6 +245,20 @@ hr {
   }
 }
 
+.order {
+  //margin-top: 150px;
+  &-table {
+    &-work {
+
+      font-size: @font_size;
+      &__legend {
+        text-align: right !important;
+      }
+    }
+  }
+}
+
+
 //------------------ Stamps ------------------
 
 .stamps {
@@ -262,6 +294,10 @@ hr {
 //------------------ Media ------------------
 
 @media print {
+  @page {
+    size: A4;
+    margin: 1cm;
+  }
   .btn-block {
     display: none;
   }

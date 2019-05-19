@@ -8,7 +8,9 @@ hr {
   border-top: 2px solid grey;
 }
 .container {
-  margin: 25px;
+  padding: 0 10px;
+  margin: 0 auto;
+  max-width: 1024px;
   font-size: 10px;
 }
 .btn-block {
@@ -33,6 +35,9 @@ hr {
   border-radius: 5px;
   text-transform: capitalize;
   min-width: 160px;
+  text-align: center;
+  text-decoration: none;
+  color: black;
 }
 .btn__pdf {
   background: #ffc107;
@@ -127,11 +132,24 @@ hr {
 }
 .order-table-work td:first-child,
 .recommendations-table-work td:first-child {
-  border-left: 1px solid #999999 !important;
+  border-left: 1px solid #808080 !important;
 }
 .order-table-work td:last-child,
 .recommendations-table-work td:last-child {
-  border-right: 1px solid #999999 !important;
+  border-right: 1px solid #808080 !important;
+}
+.order-table-work__simple td,
+.recommendations-table-work__simple td {
+  border-right: none !important;
+  border-left: none !important;
+}
+.order-table-work__simple td:first-child,
+.recommendations-table-work__simple td:first-child {
+  border-left: 1px solid #808080 !important;
+}
+.order-table-work__simple td:last-child,
+.recommendations-table-work__simple td:last-child {
+  border-right: 1px solid #808080 !important;
 }
 .order-table,
 .recommendations-table {
@@ -143,9 +161,9 @@ hr {
   background: #d9d9d9;
   padding: 2px;
   font-size: 14px;
-  border-left: 1px solid #999999;
-  border-right: 1px solid #999999;
-  border-top: 1px solid #999999;
+  border-left: 1px solid #808080;
+  border-right: 1px solid #808080;
+  border-top: 1px solid #808080;
   font-weight: 600;
 }
 .order-table caption:first-letter,
@@ -155,7 +173,7 @@ hr {
 .order-table thead td,
 .recommendations-table thead td {
   padding: 2px 5px;
-  border: 1px solid #999999;
+  border: 1px solid #808080;
   text-align: left;
   font-weight: 600;
 }
@@ -166,7 +184,7 @@ hr {
 .order-table tbody td,
 .recommendations-table tbody td {
   padding: 2px 5px;
-  border: 1px solid #999999;
+  border: 1px solid #808080;
   text-align: left;
 }
 .order-table tbody td:first-letter,
@@ -211,6 +229,12 @@ hr {
 .recommendations-table-work__legend {
   text-align: right !important;
 }
+.order-table-work {
+  font-size: 10px;
+}
+.order-table-work__legend {
+  text-align: right !important;
+}
 .stamps_guaranty__qr {
   width: 100%;
   display: flex;
@@ -235,6 +259,10 @@ hr {
   padding-right: 30px !important;
 }
 @media print {
+  @page {
+    size: A4;
+    margin: 1cm;
+  }
   .btn-block {
     display: none;
   }
