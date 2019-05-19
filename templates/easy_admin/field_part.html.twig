@@ -7,25 +7,25 @@
 {% set referer = field_options.referer is defined ? field_options.referer : true %}
 
 {%- if value is not empty -%}
-    <a href="{{ easyadmin_path(value, 'show', {'referer': referer}) }}">
-        <i class="fa fa-barcode"></i>
-    </a>
-
-    {{- value }}
-
-    (
     {%- apply spaceless -%}
-    {#<a href="{{ easyadmin_path(value.manufacturer, 'show', {'referer': true}) }}">#}
-        {{- value.manufacturer -}}
-    {#</a>#}
-    {%- endapply %}
-    {%- include 'easy_admin/field_part_number.html.twig' with {'value': value.number, 'lineIndex': (item is defined ? item.id)} only -%}
-    )
+        <a href="{{ easyadmin_path(value, 'show', {'referer': referer}) }}">
+            <i class="fa fa-barcode"></i>
+        </a>
+        {%- apply spaceless -%}
+            &nbsp; {{- value -}} &nbsp;(
+            {{- value.manufacturer -}} &nbsp;
+            {%- include 'easy_admin/field_part_number.html.twig' with {
+                'value': value.number,
+                'lineIndex': (item is defined ? item.id)
+            } only -%}
+            )
+        {%- endapply %}
 
-    {# Удалить это говно после возвращения страницы дефицита #}
-    {% if stock|default(false) or (field_options is defined and true == field_options.stock) %}
-        <span class="label label-primary">{{ part_in_stock(value) / 100 }}</span>
-    {% endif %}
+        {# Удалить это говно после возвращения страницы дефицита #}
+        {% if stock|default(false) or (field_options is defined and true == field_options.stock) %}
+            <span class="label label-primary">{{ part_in_stock(value) / 100 }}</span>
+        {% endif %}
+    {%- endapply %}
 {%- else -%}
     {% include 'easy_admin/default/label_null.html.twig' %}
 {%- endif -%}

@@ -1,27 +1,27 @@
-{% set level = level|default(0) %}
+{%- set level = level|default(0) -%}
 
-{% if instanceOf(item, 'App\\Entity\\Tenant\\OrderItemPart') %}
-    {% if item.part.id == app.request.query.get('part_id') %}
-        {% set tr_class = 'warning' %}
-    {% endif %}
-    {% set template = 'easy_admin/order/item/part.html.twig' %}
-{% elseif instanceOf(item, 'App\\Entity\\Tenant\\OrderItemService') %}
-    {% set template ='easy_admin/order/item/service.html.twig' %}
-{% elseif instanceOf(item, 'App\\Entity\\Tenant\\OrderItemGroup') %}
-    {% set template = 'easy_admin/order/item/group.html.twig' %}
-{% endif %}
+{%- if instanceOf(item, 'App\\Entity\\Tenant\\OrderItemPart') -%}
+    {%- if item.part.id == app.request.query.get('part_id') -%}
+        {%- set tr_class = 'warning' -%}
+    {%- endif -%}
+    {%- set template = 'easy_admin/order/item/part.html.twig' -%}
+{%- elseif instanceOf(item, 'App\\Entity\\Tenant\\OrderItemService') -%}
+    {%- set template ='easy_admin/order/item/service.html.twig' -%}
+{%- elseif instanceOf(item, 'App\\Entity\\Tenant\\OrderItemGroup') -%}
+    {%- set template = 'easy_admin/order/item/group.html.twig' -%}
+{%- endif -%}
 
-<tr{% if tr_class is defined %} class="{{ tr_class }}"{% endif %}>
-    {% include template %}
+<tr{%- if tr_class is defined -%} class="{{ tr_class }}"{%- endif -%}>
+    {%- include template -%}
 
     <td>
         {%- include 'easy_admin/order/includes/created_by.html.twig' with {
             'createdAt': item.createdAt,
             'user': item.createdBy
-        } %}
+        } -%}
     </td>
 </tr>
 
-{% for children in item.children %}
-    {% include _self with {'item': children, 'order': order, 'parent': item, 'level': level + 1} %}
-{% endfor %}
+{%- for children in item.children -%}
+    {%- include _self with {'item': children, 'order': order, 'parent': item, 'level': level + 1} -%}
+{%- endfor -%}

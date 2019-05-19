@@ -1,55 +1,60 @@
 {# @var item \App\Entity\Tenant\OrderItemPart #}
+{%- apply spaceless -%}
 
-<td style="{% include 'easy_admin/order/item/padding.html.twig' with {'level': level} %}">
-    {% include 'easy_admin/field_part.html.twig' with {'value': item.part} only %}
+    <td style="{%- include 'easy_admin/order/item/padding.html.twig' with {'level': level} -%}">
+        {%- include 'easy_admin/field_part.html.twig' with {'value': item.part} only -%}
 
-    {% if item.warranty -%}
-        <span class="label label-success">Гарантия</span>
-    {%- endif -%}
-</td>
-<td>{{ item.supplier.entityOrNull }}</td>
-<td>{{ item.discounted ? item.discount|localize_money }}</td>
+        {%- if item.warranty -%}
+            <span class="label label-success">Гарантия</span>
+        {%- endif -%}
+    </td>
+    <td>{{ item.supplier.entityOrNull }}</td>
+    <td>{{ item.discounted ? item.discount|localize_money }}</td>
 
-{% set price = item.price %}
-{% set recommendPrice = part_suggest_price(item.part) %}
-{% set isLowerPrice = price.lessThan(recommendPrice) %}
+    {% set price = item.price %}
+    {% set recommendPrice = part_suggest_price(item.part) %}
+    {% set isLowerPrice = price.lessThan(recommendPrice) %}
 
-<td{% if isLowerPrice or price.isZero %} class="danger"{% endif %} style="{% include 'easy_admin/order/item/padding.html.twig' with {'level': level} %}">
-    {{ item.quantity / 100 }} x {{ price|localize_money }}
+    <td{% if isLowerPrice or price.isZero %} class="danger"{% endif %} style="{%- include 'easy_admin/order/item/padding.html.twig' with {'level': level} -%}">
+        {{- item.quantity / 100 }} x {{ price|localize_money -}}
 
-    {% if isLowerPrice %}
-        < {{ recommendPrice|localize_money }}
-    {% endif %}
-</td>
-
-<td style="{% include 'easy_admin/order/item/padding.html.twig' with {'level': level} %}">
-    {{ item.totalPrice(true)|localize_money }}
-</td>
-
-{% if order.editable %}
-    <td>
-        {% set reservable = part_reservable(item.part) %}
-
-        <span class="label label-primary">{{ reservable / 100 }}</span>
-
-        {% set reserved = part_reserved(item) %}
-
-        {% set reserveStyle = 'danger' %}
-        {% set link = '#' %}
-        {% if 0 < reserved %}
-            {% set link = easyadmin_path(item, 'deReserve', ([item, order]|to_query)|merge({'referer': true})) %}
-            {% set reserveStyle = 'success' %}
-        {% elseif item.quantity <= reservable %}
-            {% set link = easyadmin_path(item, 'reserve', ([item, order]|to_query)|merge({'referer': true})) %}
+        {% if isLowerPrice %}
+            < {{ recommendPrice|localize_money -}}
         {% endif %}
+    </td>
 
-        <a href="{{ link }}">
-            <span class="label label-{{ reserveStyle }}">{{ reserved / 100 }}</span>
-        </a>
+    <td style="{%- include 'easy_admin/order/item/padding.html.twig' with {'level': level} -%}">
+        {{- item.totalPrice(true)|localize_money -}}
     </td>
-    <td>
-        <a href="{{ easyadmin_path(item, 'edit', order|to_query) }}">
-            <i class="fa fa-pencil"></i>
-        </a>
-    </td>
-{% endif %}
+
+    {% if order.editable %}
+        <td>
+            {%- apply spaceless -%}
+                {% set reservable = part_reservable(item.part) %}
+
+                <span class="label label-primary">{{ reservable / 100 }}</span>
+
+                {{- '&nbsp;'|raw -}}
+
+                {%- set reserved = part_reserved(item) -%}
+
+                {%- set reserveStyle = 'danger' -%}
+                {%- set link = '#' -%}
+                {%- if 0 < reserved -%}
+                    {%- set link = easyadmin_path(item, 'deReserve', ([item, order]|to_query)|merge({'referer': true})) -%}
+                    {%- set reserveStyle = 'success' -%}
+                {%- elseif item.quantity <= reservable -%}
+                    {%- set link = easyadmin_path(item, 'reserve', ([item, order]|to_query)|merge({'referer': true})) -%}
+                {%- endif -%}
+
+                <a href="{{ link }}">
+                    <span class="label label-{{ reserveStyle }}">{{ reserved / 100 }}</span>
+                </a>
+            {%- endapply %}        </td>
+        <td>
+            <a href="{{ easyadmin_path(item, 'edit', order|to_query) }}">
+                <i class="fa fa-pencil"></i>
+            </a>
+        </td>
+    {% endif %}
+{%- endapply %}

@@ -1,33 +1,37 @@
 {# @var item \App\Entity\Tenant\OrderItemGroup #}
 
-<td style="{% include 'easy_admin/order/item/padding.html.twig' with {'level': level} %}">
-    <i class="fa fa-folder"></i>
+{%- apply spaceless -%}
+    <td style="{% include 'easy_admin/order/item/padding.html.twig' with {'level': level} %}">
+        <i class="fa fa-folder"></i>
 
-    {{ item.name }}
+        {{ item.name }}
 
-    {% if order.editable %}
-        {% set urlParams = (order|to_query)|merge({'order_item_id': item.id}) %}
+        {% if order.editable %}
+            {% set urlParams = (order|to_query)|merge({'order_item_id': item.id}) %}
 
-        <a href="{{ easyadmin_path('OrderItemService', 'new', urlParams) }}">
-            <i class="fa fa-wrench"></i>
-        </a>
-        <a href="{{ easyadmin_path('OrderItemPart', 'new', urlParams) }}">
-            <i class="fa fa-barcode"></i>
-        </a>
-    {% endif %}
-</td>
+            <a href="{{ easyadmin_path('OrderItemService', 'new', urlParams) }}">
+                <i class="fa fa-wrench"></i>
+            </a>
 
-<td>{# Исполнитель #}</td>
-<td>{# Скидка #}</td>
-<td>{# Цена #}</td>
+            {{- '&nbsp;'|raw -}}
 
-<td>{{ item.totalServicePrice(true)|localize_money }} / {{ item.totalPartPrice(true)|localize_money }}</td>
-{% if order.editable %}
-    <td>-</td>
-    <td>
-        <a href="{{ easyadmin_path(item, 'edit', order|to_query) }}">
-            <i class="fa fa-pencil"></i>
-        </a>
+            <a href="{{ easyadmin_path('OrderItemPart', 'new', urlParams) }}">
+                <i class="fa fa-barcode"></i>
+            </a>
+        {% endif %}
     </td>
-{% endif %}
 
+    <td>{# Исполнитель #}</td>
+    <td>{# Скидка #}</td>
+    <td>{# Цена #}</td>
+
+    <td>{{ item.totalServicePrice(true).add(item.totalPartPrice(true))|localize_money }}</td>
+    {% if order.editable %}
+        <td></td>
+        <td>
+            <a href="{{ easyadmin_path(item, 'edit', order|to_query) }}">
+                <i class="fa fa-pencil"></i>
+            </a>
+        </td>
+    {% endif %}
+{%- endapply %}

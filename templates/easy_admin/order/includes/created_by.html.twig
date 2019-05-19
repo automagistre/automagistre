@@ -3,9 +3,11 @@
 
 {% set person = user.person %}
 
-<a href="{{ easyadmin_path(person ? person : user, 'show') }}">
-    <i class="fa fa-user"
-       data-toggle="tooltip"
-       data-placement="bottom"
-       title="{{ createdAt|localizeddate }} {{ person ? person.fullName : user }}"></i>
-</a>
+{%- apply spaceless -%}
+    <a href="{{ easyadmin_path(person ? person : user, 'show') }}">
+        <i class="fa fa-user"
+           data-toggle="tooltip"
+           data-placement="bottom"
+           title="{{ createdAt|localizeddate }} {{ person ? person.fullName : user }}"></i>
+    </a>
+{%- endapply %}
