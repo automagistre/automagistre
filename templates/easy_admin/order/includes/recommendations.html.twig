@@ -1,0 +1,138 @@
+{%- apply spaceless -%}
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Наименование</th>
+                        <th>Цена</th>
+                        <th>Итого</th>
+                        <th>Склад</th>
+                        <th>Диагностировал</th>
+                        <th>Действия</th>
+                        <th><i class="fa fa-info-circle"></i></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for recommendation in car.recommendations %}
+                        {# @var recommendation \App\Entity\CarRecommendation #}
+
+                        <tr>
+                            <td>
+                                <i class="fa fa-wrench"></i>
+                                {{ recommendation.service }}
+
+                                {{- '&nbsp;'|raw -}}
+
+                                <a href="{{ easyadmin_path('CarRecommendationPart', 'new', recommendation|to_query) }}">
+                                    <i class="fa fa-plus"></i>
+                                </a>
+                            </td>
+                            <td>
+                                {%- set recommendationTotalPartPrice = recommendation.totalPartPrice %}
+                                {{- recommendation.price|localize_money }}
+
+                                {{- '&nbsp;'|raw -}}
+                                /
+                                {{- '&nbsp;'|raw -}}
+
+                                {{ recommendationTotalPartPrice|localize_money -}}
+                            </td>
+                            <td>
+                                {{- recommendation.price.add(recommendationTotalPartPrice)|localize_money -}}
+                            </td>
+                            <td>{# Склад #}</td>
+                            <td>
+                                {% if recommendation.worker is not empty %}
+                                    <a href="{{ easyadmin_path(recommendation.worker, 'show') }}">
+                                        {{ recommendation.worker.fullName }}
+                                    </a>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{{ easyadmin_path(recommendation, 'edit', order|to_query) }}">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+
+                                {%- if order.editable %}
+                                    {{- '&nbsp;'|raw -}}
+
+                                    <form action="{{ easyadmin_path(recommendation, 'realize', {
+                                        'order_id': order.id
+                                    }) }}" method="post" style="display: inline">
+                                        <i class="fa fa-wrench icon-form-submit"
+                                           style="cursor: pointer"></i>
+                                    </form>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {%- include 'easy_admin/order/includes/created_by.html.twig' with {
+                                    'createdAt': recommendation.createdAt,
+                                    'user': recommendation.createdBy
+                                } -%}
+                            </td>
+
+                            {% for part in recommendation.parts %}
+                                {# @var part \App\Entity\CarRecommendationPart #}
+                                {{ '</tr><tr>' }}
+                                <td style="padding-left: 40px">
+                                    {% include 'easy_admin/field_part.html.twig' with {'value': part.part} only %}
+                                </td>
+                                <td>{{ part.quantity / 100 }} x {{ part.price|localize_money }}</td>
+                                <td>{{ part.price.multiply(part.quantity / 100)|localize_money }}</td>
+                                <td>
+                                    {% set reservable = part_reservable(part.part) %}
+                                    {% set reserved = part_reserved(part.part) %}
+                                    {% set inStock = part_in_stock(part.part) %}
+                                    {% set required = part.quantity %}
+
+                                    {% if reservable >= required %}
+                                        {% set stockStyle = 'success' %}
+                                        {% set reserveStyle = 'success' %}
+                                    {% elseif inStock >= required %}
+                                        {% set stockStyle = 'warning' %}
+                                        {% set reserveStyle = 'warning' %}
+                                    {% elseif inStock < required %}
+                                        {% set stockStyle = 'danger' %}
+                                        {% set reserveStyle = 'default' %}
+                                    {% endif %}
+
+                                    <span class="label label-{{ stockStyle }}">
+                                        {{- reservable / 100 -}}
+                                    </span>
+
+                                    {{- '&nbsp;'|raw -}}
+
+                                    <span class="label label-{{ reserveStyle }}">
+                                        {{- reserved / 100 -}}
+                                    </span>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <a href="{{ easyadmin_path(part, 'edit') }}">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                    {% if part_crosses_in_stock(part.part) is not empty %}
+                                        {{- '&nbsp;'|raw -}}
+
+                                        <a href="{{ easyadmin_path(part, 'substitute', {'referer': true}) }}">
+                                            <i class="fa fa-recycle" style="color: green"></i>
+                                        </a>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {%- include 'easy_admin/order/includes/created_by.html.twig' with {
+                                        'createdAt': part.createdAt,
+                                        'user': part.createdBy
+                                    } -%}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{%- endapply %}
