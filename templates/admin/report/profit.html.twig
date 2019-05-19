@@ -1,4 +1,4 @@
-{% extends 'easy_admin/layout.html.twig' %}
+{% extends 'easy_admin/default/layout.html.twig' %}
 
 {% block content_title %}
     Отчёты - Рентабельность
@@ -61,7 +61,7 @@
                                     {% if order.customer is not empty %}
                                         <a href="{{ easyadmin_path(order.customer, 'show') }}">{{ order.customer }}</a>
                                     {% else %}
-                                        {% include '@EasyAdmin/default/label_null.html.twig' %}
+                                        {% include 'easy_admin/default/label_null.html.twig' %}
                                     {% endif %}
                                 </td>
                                 <td>Работа</td>
