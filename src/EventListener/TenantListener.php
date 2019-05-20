@@ -13,7 +13,6 @@ use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -25,18 +24,12 @@ use Symfony\Component\HttpKernel\KernelEvents;
 final class TenantListener implements EventSubscriberInterface
 {
     /**
-     * @var RequestStack
-     */
-    private $requestStack;
-
-    /**
      * @var State
      */
     private $state;
 
-    public function __construct(RequestStack $requestStack, State $state)
+    public function __construct(State $state)
     {
-        $this->requestStack = $requestStack;
         $this->state = $state;
     }
 
@@ -59,6 +52,7 @@ final class TenantListener implements EventSubscriberInterface
         // TODO Refactor this expression
         if (!\in_array($request->attributes->get('_route'), [
             'easyadmin',
+            'admin_part_explorer',
             'admin_report_profit',
             'admin_report_part_sell',
         ], true)) {
