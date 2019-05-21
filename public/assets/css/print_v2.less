@@ -1,11 +1,17 @@
 @color_grey: #d9d9d9;
-@font_size: 10px;
+@font_size: 3.1mm;
 @border_color: lighten(black, 50%);
 @cell_padding: 2px;
+@btn_block_H: 60px;
 
 body, html {
   font-family: Arial, Helvetica, sans-serif;
   margin: 0 auto;
+
+}
+
+body{
+  background-color: #EAEAEA;
 }
 hr {
   margin: 0;
@@ -13,19 +19,25 @@ hr {
 }
 
 .container {
-  padding: 0 10px;
-  margin: 0 auto;
-  max-width: 1024px;
+  padding: 1cm;
+  margin: @btn_block_H + 15px auto;
+  max-width: 794px;
   font-size: @font_size;
+  background-color: white;
+  box-shadow: 0 2px 9px rgba(0, 0, 0, 0.25);
+
 }
 
 //------------------ Buttons ------------------
 .btn-block {
   position: fixed;
+  height: @btn_block_H;
   display: block;
-  bottom: 0;
+  top: 0;
   background: #f7f7f9;
   width: 100%;
+  box-shadow: 0 2px 9px rgba(0, 0, 0, 0.25);
+  z-index: 10;
   &_items {
     display: flex;
     margin: 10px 0;
@@ -67,40 +79,44 @@ hr {
 }
 
 .check {
-  width: @font_size - 2;
-  padding: 0 @cell_padding !important;
+  width: @font_size + 2px;
+  padding: 0 0 0 2px !important;
   border-right: none !important;
   &-box{
     border: 1px solid darken(@border_color, 30%);
-    height: @font_size - 2;
-    width: @font_size - 2;
+    height: @font_size - 1px;
+    width: @font_size - 1px;
   }
 }
 
 //------------------ Header ------------------
 
+h1 {
+  font-size: @font_size + 2mm;
+}
+
 .header {
   display: flex;
   width: 100%;
   justify-content: space-between;
-  font-size: @font_size+6;
+  font-size: @font_size + 0.5mm;
   &__logo {
     margin: auto 0;
-    padding: 10px 30px;
+    padding: 10px 0;
   }
   &_contacts {
     display: flex;
-    padding: 10px 30px;
+    padding: 10px 5px;
     ul {
-      margin: auto 30px;
+      margin: auto 5px;
       list-style: none;
-    }
-    &__phone{
-      min-width: 140px;
     }
   }
   &__logo {
     opacity: 0.5;
+    img {
+      max-width: 6cm;
+    }
   }
 }
 
@@ -125,7 +141,7 @@ hr {
     text-transform: uppercase;
     font-weight: 500;
     text-align: center;
-    font-size: @font_size+6;
+    font-size: @font_size + 2mm;
   }
 }
 
@@ -134,14 +150,15 @@ hr {
 .order, .recommendations {
   margin: 10px auto;
   &-table {
+    //width: 17cm;
     &__executor {
-      width: 80px;
+      width: 12mm;
     }
     &__num {
-      width: 80px;
+      width: 22mm;
     }
-    &__row{
-      width: 25px;
+    &__quantity{
+      width: 12mm;
     }
     &-work {
       background: lighten(@color_grey, 10%);
@@ -177,7 +194,7 @@ hr {
     caption {
       background: @color_grey;
       padding: @cell_padding;
-      font-size: @font_size+4;
+      font-size: @font_size + 1.5mm;
       border-left: 1px solid @border_color;
       border-right: 1px solid @border_color;
       border-top: 1px solid @border_color;
@@ -211,7 +228,7 @@ hr {
           &__name {
             text-align: center;
             text-transform: uppercase;
-            font-size: 10px;
+            font-size: @font_size - 0.2mm;
           }
         }
         &-totals {
@@ -219,7 +236,7 @@ hr {
             text-transform: uppercase;
             font-weight: 600;
             background-color: lighten(@color_grey, 10%);
-            font-size: @font_size+2;
+            font-size: @font_size + 1mm;
           }
           &__name {
             text-align: center;
@@ -247,7 +264,7 @@ hr {
   //margin-top: 150px;
   &-table {
     &-work {
-      font-size: @font_size+2;
+      font-size: @font_size + 0.5mm;
       font-weight: 600;
       &__legend {
         text-align: right !important;
@@ -263,6 +280,7 @@ hr {
 
       font-size: @font_size;
       &__legend {
+        width: 20mm;
         text-align: right !important;
       }
     }
@@ -274,11 +292,16 @@ hr {
 
 .stamps {
   &_guaranty {
-    &__qr{
+    &-qr{
       width: 100%;
       display: flex;
       justify-content: flex-end;
       align-items: center;
+      img {
+        margin-left: 10px;
+        margin-top: 5px;
+        height: 70px;
+      }
     }
   }
   &_final {
@@ -290,8 +313,9 @@ hr {
 }
 
 .stamp {
-  font-size: @font_size+4;
+  font-size: @font_size+1.5mm;
   text-transform: capitalize;
+
   &:after {
     content: "_____________________________";
   }
@@ -302,9 +326,91 @@ hr {
   padding-right: 30px !important;
 }
 
+
+//------------------ BookKeeping ------------------
+
+.bk {
+  &-info{
+    &-executer, &-customer {
+      margin-top: 15px;
+    }
+    &-legend {
+      font-weight: bold;
+
+      &:after {
+        content: ":";
+        font-weight: bold;
+      }
+    }
+  }
+  &-table {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    border-collapse: collapse;
+    th {
+      border: 1px solid black;
+      font-size: @font_size + 1mm;
+      padding: @cell_padding;
+    }
+    td {
+      border: 1px solid black;
+      padding: @cell_padding 5px;
+    }
+    &__loop {
+      width: 5mm;
+      text-align: center;
+    }
+    &__quantity, &__unit{
+      width: 18mm - @cell_padding;
+    }
+    &__num {
+      width: 22mm;
+    }
+    &-total {
+      text-align: right;
+      font-weight: 600;
+      font-size: @font_size + 0.5mm;
+    }
+  }
+  &-stamp {
+    width: 45%;
+    &-user {
+      display: inline-block;
+      margin-top: 10mm;
+      font-weight: 600;
+      font-size: @font_size + 1mm;
+    }
+    &-line {
+      margin-top: 10mm;
+      border: 1px solid black;
+      &-under {
+        margin: 0 1cm;
+        display: inline-block;
+        font-size: @font_size - 0.5mm;
+        text-transform: capitalize;
+        text-align: center;
+      }
+    }
+  }
+}
+
 //------------------ Media ------------------
 
 @media print {
+  body{
+    background: none;
+   }
+  .container{
+    margin: 0;
+    max-width: none;
+    padding: 0;
+    box-shadow: none;
+    background: none;
+  }
+  .table {
+    width: 22cm;
+  }
   @page {
     size: A4;
     margin: 1cm;

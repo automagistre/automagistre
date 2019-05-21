@@ -1,166 +1,147 @@
 {% extends 'easy_admin/order_print/layout_v2.html.twig' %}
 
+
+
 {% block content %}
-<div class="container">
-    <h3 class="order-info-title">Форма согласования</h3>
-    <div class="order-info">
-        <div class="order-info-customer">
-            <span class="order-info-legend">
-                Заказчик
-            </span>
-            Вася Пупкин +7 926 602 33 32 vasyan@pupec.ru
+<div class="container" id="content">
+    {{ block('header', 'easy_admin/order_print/header.html.twig') }}
+    <main class="main">
+        <h3 class="order-info-title">Форма согласования</h3>
+        <div class="order-info">
+            <div class="order-info-customer">
+                <span class="order-info-legend">
+                    Заказчик
+                </span>
+                {# Если заказчик организация, то выводить все доступные реквизиты#}
+                {{- customer.fullName -}}
+
+                {% if customer.type('person') %}
+                    {%- if customer.telephone is not empty %}
+                        тел: {{ customer.telephone|phone_number_format }}
+                    {%- endif -%}
+                    {%- if customer.email is not empty %}
+                        e-mail: {{ customer.email }}
+                    {% endif %}
+                {%- elseif customer.type('organization') -%}
+                    {# @var customer \App\Entity\Landlord\Organization #}
+                    {%- if not customer.requisite.empty -%}
+                        , {{- customer.requisite -}}
+                    {%- endif -%}
+                {% endif %}
+            </div>
+            {% if car is not empty %}
+                <div class="order-info-car">
+                    <span class="order-info-legend">
+                        Автомобиль
+                    </span>
+                    {{ car.toString }}
+                    {{ car.vin }}
+                    {{ car.gosnomer }}
+                </div>
+            {% endif %}
         </div>
-        <div class="order-info-car">
-            <span class="order-info-legend">
-                Автомобиль
-            </span>
-            Nissan X-TRAIL - T31
-            A711KY199
-            JN1TANT31U0014728
+        <div class="order">
+            <table class=" table recommendations-table">
+                <caption>рекомендуемые работы и запчасти</caption>
+                {% for recommendation in recommendations %}
+                    <tbody>
+                        {# @var recommendation \App\Entity\CarRecommendation #}
+                        <tr class="recommendations-table-work">
+                            <td class="check">
+                                <div class="check-box"></div>
+                            </td>
+                            <td>{{ recommendation.service }}</td>
+                            <td class="recommendations-table-work__legend">работа:</td>
+                            <td class="order-table__num">{{ recommendation.price|localize_money }}</td>
+                            <td class="recommendations-table-work__legend">Запчасти:</td>
+                            <td class="order-table__num">{{ recommendation.totalPartPrice|localize_money }}</td>
+                            <td class="recommendations-table-work__legend">Всего:</td>
+                            <td class="order-table__num">{{ recommendation.totalPrice|localize_money }}</td>
+                        </tr>
+                        {% for part in recommendation.parts %}
+                            {# @var part \App\Entity\CarRecommendationPart #}
+                            <tr class="order-table-part">
+                                <td colspan="4" class="order-table-part__name">
+                                    {{ part.part }}
+                                    <span class="order-table-part__part_number">
+                                        ({{ part.part.manufacturer }})
+                                    </span>
+                                </td>
+                                <td class="order-table__quantity">{{ part.quantity / 100 }}</td>
+                                <td class="order-table__num">{{ part.price|localize_money }}</td>
+                                <td class="order-table__num">{{ part.totalPrice|localize_money }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                {% endfor %}
+                <tbody>
+                <tr class="order-table-subtotals">
+                    <td colspan="4" rowspan="5" class="no-border"></td>
+                    <td colspan="3" class="order-table-subtotals__name">Рекоменадованных работ</td>
+                    <td>{{ totalRecommendationService|localize_money }}</td>
+                </tr>
+                <tr class="order-table-subtotals">
+                    <td colspan="3" class="order-table-subtotals__name">Рекомендованных запчастей</td>
+                    <td>{{ totalRecommendationPart|localize_money }}</td>
+                </tr>
+                <tr class="order-table-totals">
+                    <td colspan="3" class="order-table-totals__name">ВСЕГО РЕКОМЕНДАЦИЙ</td>
+                    <td class="order-table-totals__sum">{{ totalRecommendationAll|localize_money }}</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-    </div>
-    <div class="order">
-        <table class="recommendations-table">
-            <caption>рекомендуемые работы и запчасти</caption>
-            <tbody>
-            <tr class="recommendations-table-work">
-                <td class="check">
-                    <div class="check-box"></div>
-                </td>
-                <td>Замена масла ДВС</td>
-                <td class="recommendations-table-work__legend">работа:</td>
-                <td>2000</td>
-                <td class="recommendations-table-work__legend">Запчасти:</td>
-                <td>50000</td>
-                <td class="recommendations-table-work__legend">Всего:</td>
-                <td>52000</td>
-            </tr>
-            <tr class="order-table-part">
-                <td colspan="4" class="order-table-part__name">
-                    масло ДВС
-                    <span class="order-table-part__part_number">
-                                        (Nissan)
-                                    </span>
-                </td>
-                <td>1</td>
-                <td>500</td>
-                <td>500</td>
-            </tr>
-            <tr class="order-table-part">
-                <td colspan="4" class="order-table-part__name">
-                    масло ДВС
-                    <span class="order-table-part__part_number">
-                                            (Nissan)
-                                        </span>
-                </td>
-                <td>2</td>
-                <td>500</td>
-                <td>1000</td>
-            </tr>
-            </tbody>
-            <tbody>
-            <tr class="recommendations-table-work">
-                <td class="check">
-                    <div class="check-box"></div>
-                </td>
-                <td>Замена масла ДВС</td>
-                <td class="recommendations-table-work__legend">работа:</td>
-                <td>2000</td>
-                <td class="recommendations-table-work__legend">Запчасти:</td>
-                <td>50000</td>
-                <td class="recommendations-table-work__legend">Всего:</td>
-                <td>52000</td>
-            </tr>
-            <tr class="order-table-part">
-                <td colspan="4" class="order-table-part__name">
-                    масло ДВС
-                    <span class="order-table-part__part_number">
-                                        (Nissan)
-                                    </span>
-                </td>
-                <td>1</td>
-                <td>500</td>
-                <td>500</td>
-            </tr>
-            <tr class="order-table-part">
-                <td colspan="4" class="order-table-part__name">
-                    масло ДВС
-                    <span class="order-table-part__part_number">
-                                            (Nissan)
-                                        </span>
-                </td>
-                <td>2</td>
-                <td>500</td>
-                <td>1000</td>
-            </tr>
-            </tbody>
-            <tbody>
-            <tr class="order-table-subtotals">
-                <td colspan="4" rowspan="5" class="no-border"></td>
-                <td colspan="3" class="order-table-subtotals__name">Рекоменадованных работ</td>
-                <td>100500</td>
-            </tr>
-            <tr class="order-table-subtotals">
-                <td colspan="3" class="order-table-subtotals__name">Рекомендованных запчастей</td>
-                <td>100500</td>
-            </tr>
-            <tr class="order-table-totals">
-                <td colspan="3" class="order-table-totals__name">ВСЕГО РЕКОМЕНДАЦИЙ</td>
-                <td class="order-table-totals__sum">100500</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-{#    Выводить из согласованных работа текущего заказ наряда. Запчасти суммируются#}
-{#    Суммы уже с учетом скидки#}
-    <section class="order">
-        <table class="order-table">
-            <caption>согласованные запчасти и работы</caption>
-            <tbody>
-            <tr class="order-table-work__simple">
-                <td>Замена масла ДВС</td>
-                <td class="order-table-work__legend">работа:</td>
-                <td>2000</td>
-                <td class="order-table-work__legend">Запчасти:</td>
-                <td>50000</td>
-                <td class="order-table-work__legend">Всего:</td>
-                <td>52000</td>
-            </tr>
-            <tr class="order-table-work__simple">
-                <td>Замена масла ДВС</td>
-                <td class="order-table-work__legend">работа:</td>
-                <td>2000</td>
-                <td class="order-table-work__legend">Запчасти:</td>
-                <td>50000</td>
-                <td class="order-table-work__legend">Всего:</td>
-                <td>52000</td>
-            </tr>
-            <tr class="order-table-work__simple">
-                <td>Замена масла ДВС</td>
-                <td class="order-table-work__legend">работа:</td>
-                <td>2000</td>
-                <td class="order-table-work__legend">Запчасти:</td>
-                <td>50000</td>
-                <td class="order-table-work__legend">Всего:</td>
-                <td>52000</td>
-            </tr>
-            </tbody>
-            <tbody>
-            <tr class="order-table-subtotals">
-                <td colspan="2" rowspan="5" class="no-border"></td>
-                <td colspan="4" class="order-table-subtotals__name">Согласованных работ</td>
-                <td>100500</td>
-            </tr>
-            <tr class="order-table-subtotals">
-                <td colspan="4" class="order-table-subtotals__name">Согласованных запчастей</td>
-                <td>100500</td>
-            </tr>
-            <tr class="order-table-totals">
-                <td colspan="4" class="order-table-totals__name">полная стоимость с рекомендациями</td>
-                <td class="order-table-totals__sum">100500</td>
-            </tr>
-            </tbody>
-        </table>
-    </section>
+        {% if order.totalPrice.isPositive %}
+            <section class="order">
+                <table class="table order-table">
+                    <caption>согласованные запчасти и работы по заказу {{ order.id }}</caption>
+                    <tbody>
+                    <tr class="order-table-work__simple">
+                        <td>Замена масла ДВС</td>
+                        <td class="order-table-work__legend">работа:</td>
+                        <td class="order-table__num">2000</td>
+                        <td class="order-table-work__legend">Запчасти:</td>
+                        <td class="order-table__num">50000</td>
+                        <td class="order-table-work__legend">Всего:</td>
+                        <td class="order-table__num">52000</td>
+                    </tr>
+                    <tr class="order-table-work__simple">
+                        <td>Замена масла ДВС</td>
+                        <td class="order-table-work__legend">работа:</td>
+                        <td>2000</td>
+                        <td class="order-table-work__legend">Запчасти:</td>
+                        <td>50000</td>
+                        <td class="order-table-work__legend">Всего:</td>
+                        <td>52000</td>
+                    </tr>
+                    <tr class="order-table-work__simple">
+                        <td>Замена масла ДВС</td>
+                        <td class="order-table-work__legend">работа:</td>
+                        <td>2000</td>
+                        <td class="order-table-work__legend">Запчасти:</td>
+                        <td>50000</td>
+                        <td class="order-table-work__legend">Всего:</td>
+                        <td>52000</td>
+                    </tr>
+                    </tbody>
+                    <tbody>
+                    <tr class="order-table-subtotals">
+                        <td colspan="2" rowspan="5" class="no-border"></td>
+                        <td colspan="4" class="order-table-subtotals__name">Согласованных работ</td>
+                        <td>100500</td>
+                    </tr>
+                    <tr class="order-table-subtotals">
+                        <td colspan="4" class="order-table-subtotals__name">Согласованных запчастей</td>
+                        <td>100500</td>
+                    </tr>
+                    <tr class="order-table-totals">
+                        <td colspan="4" class="order-table-totals__name">полная стоимость<br> с рекомендациями</td>
+                        <td class="order-table-totals__sum">{{ potentialPrice|localize_money }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+        {% endif %}
+    </main>
 </div>
 {% endblock %}
