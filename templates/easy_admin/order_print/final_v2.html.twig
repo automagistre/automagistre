@@ -16,7 +16,7 @@
             {% set groupPrice = orderItemGroup.totalServicePrice(true) %}
 
             {% if orderItemGroup.hideParts %}
-                {% set orderItemGroupPrice = groupPrice.add(orderItemGroup.totalPartPrice(true)) %}
+                {% set groupPrice = groupPrice.add(orderItemGroup.totalPartPrice(true)) %}
             {% endif %}
 
             {{ groupPrice|localize_money }}
@@ -81,23 +81,8 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <header class="header">
-            <div class="header__logo">
-                <img src="{{ asset('assets/img/logo_print.svg') }}" alt="Автомагистр">
-            </div>
-            <div class="header_contacts">
-                <ul>
-                    {% for telephone in requisites.telephones %}
-                        <li class="header_contacts__phone">{{ telephone }}</li>
-                    {% endfor %}
-                </ul>
-                <ul>
-                    <li class="header_contacts__item">www.automgistre.ru</li>
-                    <li class="header_contacts__item">info@automagistre.ru</li>
-                </ul>
-            </div>
-        </header>
+    <div class="container" id="content">
+        {{ block('header', 'easy_admin/order_print/header.html.twig') }}
         <main>
             <section class="order-info">
                 <div class="order-info-customer">
@@ -130,7 +115,7 @@
                     ИНН: {{ requisites.inn }}
                     КПП: {{ requisites.kpp }}
                     Р/С: {{ requisites.rs }}
-                    К/С: {{ requisites.ks }}
+{#                    К/С: {{ requisites.ks }}#}
                     БИК: {{ requisites.bik }}
                 </div>
                 {% if car is not empty %}
@@ -147,13 +132,13 @@
                 ОТ {{ (order.closed ? order.closedAt : date(null, 'Europe/Moscow'))|localizeddate('short', 'none') }}
             </h2>
             <section class="order">
-                <table class="order-table">
+                <table class="table order-table">
                     <caption>выполненные работы и запчасти</caption>
                     <thead>
                     <tr>
                         <td>наименование</td>
                         <td class="order-table__executor">исп-ль</td>
-                        <td class="order-table__num">кол-во</td>
+                        <td class="order-table__quantity">кол-во</td>
                         <td class="order-table__num">стоимость</td>
                         <td class="order-table__num">скидка</td>
                         <td class="order-table__num">итого</td>
@@ -176,11 +161,12 @@
                     <tr class="order-table-subtotals">
                         <td colspan="2" rowspan="5" class="no-border">
                             <div class="stamps_guaranty">
-                                <div class="stamps_guaranty__qr">
+                                <div class="stamps_guaranty-qr">
                                     Гарантийные условия по ссылке:
                                     <img src="{{ qr_code_data_uri('www.automagistre.ru/gr') }}"
-                                         width="100"
-                                         height="100" title="QR код" alt="QR">
+{#                                         width="100"#}
+{#                                         height="100" #}
+                                         title="QR код" alt="QR">
                                 </div>
                             </div>
                         </td>
@@ -234,7 +220,7 @@
             {% if recommendations is defined %}
                 <section class="recommendations">
                     <h3 class="order-info-title">РЕКОМЕНДАЦИИ ПО АВТОМОБИЛЮ VIN: {{ car.vin }} </h3>
-                    <table class="recommendations-table">
+                    <table class="table recommendations-table">
                         <caption>рекомендуемые работы и запчасти</caption>
 
                         {% for recommendation in recommendations.items %}
