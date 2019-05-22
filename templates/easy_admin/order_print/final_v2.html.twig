@@ -82,7 +82,8 @@
 
 {% block content %}
     <div class="container" id="content">
-        {{ block('header', 'easy_admin/order_print/header.html.twig') }}
+        {% include 'easy_admin/order_print/header.html.twig' %}
+
         <main>
             <section class="order-info">
                 <div class="order-info-customer">
