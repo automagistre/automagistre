@@ -13,7 +13,6 @@ use App\Entity\Landlord\Organization;
 use App\Entity\Landlord\Person;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItem;
-use App\Entity\Tenant\OrderItemGroup;
 use App\Entity\Tenant\OrderItemPart;
 use App\Entity\Tenant\OrderItemService;
 use App\Entity\Tenant\OrderNote;
@@ -337,7 +336,7 @@ final class OrderController extends AbstractController
      */
     public function isActionAllowed($actionName): bool
     {
-        if (!\in_array($actionName, ['show', 'finish'], true) && null !== $id = $this->request->get('id')) {
+        if (!\in_array($actionName, ['show', 'finish', 'act'], true) && null !== $id = $this->request->get('id')) {
             $registry = $this->container->get(Registry::class);
 
             $entity = $registry->repository(Order::class)->find($id);
@@ -411,7 +410,7 @@ final class OrderController extends AbstractController
 
         [$servicePrice, $partPrice, $totalPrice] = $car->getRecommendationPrice();
 
-        return $this->render('easy_admin/order_print/matching.html.twig', [
+        return $this->render('easy_admin/order_print/matching_v2.html.twig', [
             'order' => $order,
             'car' => $car,
             'customer' => $order->getCustomer(),
@@ -430,11 +429,8 @@ final class OrderController extends AbstractController
             throw new BadRequestHttpException('Order is required');
         }
 
-        return $this->render('easy_admin/order_print/giveout.html.twig', [
+        return $this->render('easy_admin/order_print/giveout_v2.html.twig', [
             'order' => $order,
-            'car' => $order->getCar(),
-            'services' => $order->getItems(OrderItemService::class),
-            'parts' => $order->getItems(OrderItemPart::class),
         ]);
     }
 
@@ -516,15 +512,6 @@ final class OrderController extends AbstractController
 
         $parameters = [
             'order' => $order,
-            'groups' => \array_filter($order->getRootItems(), static function (OrderItem $item) {
-                return $item instanceof OrderItemGroup;
-            }),
-            'services' => \array_filter($order->getRootItems(), static function (OrderItem $item) {
-                return $item instanceof OrderItemService;
-            }),
-            'parts' => \array_filter($order->getItems(OrderItemPart::class), static function (OrderItemPart $item) {
-                return !$item->isHidden();
-            }),
         ];
 
         $customer = $order->getCustomer();
@@ -569,6 +556,24 @@ final class OrderController extends AbstractController
         $template = \sprintf('easy_admin/order_print/final_v%s.html.twig', $version);
 
         return $this->render($template, $parameters);
+    }
+
+    public function actAction(): Response
+    {
+        $order = $this->getEntity(Order::class);
+        if (!$order instanceof Order) {
+            throw new BadRequestHttpException('Order is required');
+        }
+
+        if (!$order->isClosed()) {
+            $this->addFlash('error', 'Печать акта возможно только после закрытия заказа.');
+
+            return $this->redirectToReferrer();
+        }
+
+        return $this->render('easy_admin/order_print/act.html.twig', [
+            'order' => $order,
+        ]);
     }
 
     public function closeAction(): Response
