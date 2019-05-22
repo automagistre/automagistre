@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\Tenant;
 
 use App\Entity\Landlord\User;
+use App\Money\TotalPriceInterface;
 use Doctrine\ORM\Mapping as ORM;
 use DomainException;
 use Money\Money;
@@ -12,7 +13,7 @@ use Money\Money;
 /**
  * @ORM\Entity
  */
-class OrderItemGroup extends OrderItem
+class OrderItemGroup extends OrderItem implements TotalPriceInterface
 {
     /**
      * @var string
@@ -38,6 +39,11 @@ class OrderItemGroup extends OrderItem
     public function __toString(): string
     {
         return $this->getName();
+    }
+
+    public function getTotalPrice(bool $withDiscount = false): Money
+    {
+        return $this->getTotalServicePrice($withDiscount)->add($this->getTotalPartPrice($withDiscount));
     }
 
     public function setName(string $name): void

@@ -3,6 +3,10 @@
 {# @var order \App\Entity\Tenant\Order #}
 {# @var customer \App\Entity\Landlord\Operand #}
 
+{% set groups = order.rootItems('group') %}
+{% set services = order.rootItems('service') %}
+{% set parts = order.rootItems('part') %}
+
 {% block content %}
     {% set requisites = state.tenant.getRequisites() %}
 

@@ -35,6 +35,12 @@ abstract class OrderItem
     use CreatedAt;
     use CreatedBy;
 
+    public const MAP = [
+        'group' => OrderItemGroup::class,
+        'service' => OrderItemService::class,
+        'part' => OrderItemPart::class,
+    ];
+
     /**
      * @var Collection
      *

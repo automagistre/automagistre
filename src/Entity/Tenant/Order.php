@@ -192,7 +192,7 @@ class Order
      */
     public function getServicesWithoutWorker(): array
     {
-        return $this->items->filter(function (OrderItem $item) {
+        return $this->items->filter(static function (OrderItem $item) {
             return $item instanceof OrderItemService && null === $item->getWorker();
         })->getValues();
     }
@@ -229,21 +229,26 @@ class Order
         $this->items[] = $item;
     }
 
-    public function getItems(string $class = null): array
+    public function getItems(string $class = null, bool $withoutHidden = false): array
     {
         if (null === $class) {
             return $this->items->toArray();
         }
 
-        return $this->items->filter(function (OrderItem $item) use ($class) {
+        if (!\class_exists($class)) {
+            $class = OrderItem::MAP[$class];
+        }
+
+        return $this->items->filter(static function (OrderItem $item) use ($class, $withoutHidden) {
+            if ($withoutHidden && $item instanceof OrderItemPart && $item->isHidden()) {
+                return false;
+            }
+
             return $item instanceof $class;
-        })->getValues();
+        })->toArray();
     }
 
-    /**
-     * @return OrderItem[]
-     */
-    public function getRootItems(): array
+    public function getRootItems(string $class = null): array
     {
         if (!$this->items instanceof Selectable) {
             throw new LogicException(\sprintf('Collection must implement "%s"', Selectable::class));
@@ -251,7 +256,18 @@ class Order
 
         $criteria = Criteria::create()->where(Criteria::expr()->isNull('parent'));
 
-        return $this->items->matching($criteria)->toArray();
+        $items = $this->items->matching($criteria);
+        if (null === $class) {
+            return $items->toArray();
+        }
+
+        if (!\class_exists($class)) {
+            $class = OrderItem::MAP[$class];
+        }
+
+        return $items->filter(static function (OrderItem $item) use ($class): bool {
+            return $item instanceof $class;
+        })->toArray();
     }
 
     public function getCar(): ?Car
@@ -413,12 +429,15 @@ class Order
         return $money;
     }
 
-    public function getTotalForPayment(Money $balance = null): Money
+    public function getTotalForPayment(Money $balance = null, bool $withPayments = true): Money
     {
         $forPayment = (new Money(0, new Currency('RUB')))
             ->add($this->getTotalPartPrice(true))
-            ->add($this->getTotalServicePrice(true))
-            ->subtract($this->getTotalPayments());
+            ->add($this->getTotalServicePrice(true));
+
+        if ($withPayments) {
+            $forPayment = $forPayment->subtract($this->getTotalPayments());
+        }
 
         if ($balance instanceof Money) {
             $forPayment = $forPayment->add($balance->multiply(-1));

@@ -1,50 +1,49 @@
 {% extends 'easy_admin/order_print/layout_v2.html.twig' %}
 
-
-
 {% block content %}
-<div class="container" id="content">
-    {{ block('header', 'easy_admin/order_print/header.html.twig') }}
-    <main class="main">
-        <h3 class="order-info-title">Форма согласования</h3>
-        <div class="order-info">
-            <div class="order-info-customer">
+    <div class="container" id="content">
+        {% include 'easy_admin/order_print/header.html.twig' %}
+
+        <main class="main">
+            <h3 class="order-info-title">Форма согласования</h3>
+            <div class="order-info">
+                <div class="order-info-customer">
                 <span class="order-info-legend">
                     Заказчик
                 </span>
-                {# Если заказчик организация, то выводить все доступные реквизиты#}
-                {{- customer.fullName -}}
+                    {# Если заказчик организация, то выводить все доступные реквизиты#}
+                    {{- customer.fullName -}}
 
-                {% if customer.type('person') %}
-                    {%- if customer.telephone is not empty %}
-                        тел: {{ customer.telephone|phone_number_format }}
-                    {%- endif -%}
-                    {%- if customer.email is not empty %}
-                        e-mail: {{ customer.email }}
+                    {% if customer.type('person') %}
+                        {%- if customer.telephone is not empty %}
+                            тел: {{ customer.telephone|phone_number_format }}
+                        {%- endif -%}
+                        {%- if customer.email is not empty %}
+                            e-mail: {{ customer.email }}
+                        {% endif %}
+                    {%- elseif customer.type('organization') -%}
+                        {# @var customer \App\Entity\Landlord\Organization #}
+                        {%- if not customer.requisite.empty -%}
+                            , {{- customer.requisite -}}
+                        {%- endif -%}
                     {% endif %}
-                {%- elseif customer.type('organization') -%}
-                    {# @var customer \App\Entity\Landlord\Organization #}
-                    {%- if not customer.requisite.empty -%}
-                        , {{- customer.requisite -}}
-                    {%- endif -%}
-                {% endif %}
-            </div>
-            {% if car is not empty %}
-                <div class="order-info-car">
+                </div>
+                {% if car is not empty %}
+                    <div class="order-info-car">
                     <span class="order-info-legend">
                         Автомобиль
                     </span>
-                    {{ car.toString }}
-                    {{ car.vin }}
-                    {{ car.gosnomer }}
-                </div>
-            {% endif %}
-        </div>
-        <div class="order">
-            <table class=" table recommendations-table">
-                <caption>рекомендуемые работы и запчасти</caption>
-                {% for recommendation in recommendations %}
-                    <tbody>
+                        {{ car.toString }}
+                        {{ car.vin }}
+                        {{ car.gosnomer }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="order">
+                <table class=" table recommendations-table">
+                    <caption>рекомендуемые работы и запчасти</caption>
+                    {% for recommendation in recommendations %}
+                        <tbody>
                         {# @var recommendation \App\Entity\CarRecommendation #}
                         <tr class="recommendations-table-work">
                             <td class="check">
@@ -72,76 +71,94 @@
                                 <td class="order-table__num">{{ part.totalPrice|localize_money }}</td>
                             </tr>
                         {% endfor %}
-                    </tbody>
-                {% endfor %}
-                <tbody>
-                <tr class="order-table-subtotals">
-                    <td colspan="4" rowspan="5" class="no-border"></td>
-                    <td colspan="3" class="order-table-subtotals__name">Рекоменадованных работ</td>
-                    <td>{{ totalRecommendationService|localize_money }}</td>
-                </tr>
-                <tr class="order-table-subtotals">
-                    <td colspan="3" class="order-table-subtotals__name">Рекомендованных запчастей</td>
-                    <td>{{ totalRecommendationPart|localize_money }}</td>
-                </tr>
-                <tr class="order-table-totals">
-                    <td colspan="3" class="order-table-totals__name">ВСЕГО РЕКОМЕНДАЦИЙ</td>
-                    <td class="order-table-totals__sum">{{ totalRecommendationAll|localize_money }}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        {% if order.totalPrice.isPositive %}
-            <section class="order">
-                <table class="table order-table">
-                    <caption>согласованные запчасти и работы по заказу {{ order.id }}</caption>
-                    <tbody>
-                    <tr class="order-table-work__simple">
-                        <td>Замена масла ДВС</td>
-                        <td class="order-table-work__legend">работа:</td>
-                        <td class="order-table__num">2000</td>
-                        <td class="order-table-work__legend">Запчасти:</td>
-                        <td class="order-table__num">50000</td>
-                        <td class="order-table-work__legend">Всего:</td>
-                        <td class="order-table__num">52000</td>
-                    </tr>
-                    <tr class="order-table-work__simple">
-                        <td>Замена масла ДВС</td>
-                        <td class="order-table-work__legend">работа:</td>
-                        <td>2000</td>
-                        <td class="order-table-work__legend">Запчасти:</td>
-                        <td>50000</td>
-                        <td class="order-table-work__legend">Всего:</td>
-                        <td>52000</td>
-                    </tr>
-                    <tr class="order-table-work__simple">
-                        <td>Замена масла ДВС</td>
-                        <td class="order-table-work__legend">работа:</td>
-                        <td>2000</td>
-                        <td class="order-table-work__legend">Запчасти:</td>
-                        <td>50000</td>
-                        <td class="order-table-work__legend">Всего:</td>
-                        <td>52000</td>
-                    </tr>
-                    </tbody>
+                        </tbody>
+                    {% endfor %}
                     <tbody>
                     <tr class="order-table-subtotals">
-                        <td colspan="2" rowspan="5" class="no-border"></td>
-                        <td colspan="4" class="order-table-subtotals__name">Согласованных работ</td>
-                        <td>100500</td>
+                        <td colspan="4" rowspan="5" class="no-border"></td>
+                        <td colspan="3" class="order-table-subtotals__name">Рекоменадованных работ</td>
+                        <td>{{ totalRecommendationService|localize_money }}</td>
                     </tr>
                     <tr class="order-table-subtotals">
-                        <td colspan="4" class="order-table-subtotals__name">Согласованных запчастей</td>
-                        <td>100500</td>
+                        <td colspan="3" class="order-table-subtotals__name">Рекомендованных запчастей</td>
+                        <td>{{ totalRecommendationPart|localize_money }}</td>
                     </tr>
                     <tr class="order-table-totals">
-                        <td colspan="4" class="order-table-totals__name">полная стоимость<br> с рекомендациями</td>
-                        <td class="order-table-totals__sum">{{ potentialPrice|localize_money }}</td>
+                        <td colspan="3" class="order-table-totals__name">ВСЕГО РЕКОМЕНДАЦИЙ</td>
+                        <td class="order-table-totals__sum">{{ totalRecommendationAll|localize_money }}</td>
                     </tr>
                     </tbody>
                 </table>
-            </section>
-        {% endif %}
-    </main>
-</div>
+            </div>
+            {% if order.totalPrice.isPositive %}
+                <section class="order">
+                    <table class="table order-table">
+                        <caption>согласованные запчасти и работы по заказу {{ order.id }}</caption>
+                        <tbody>
+                        {% for orderItemGroup in order.items('group') %}
+                            {# @var orderItemGroup \App\Entity\Tenant\OrderItemGroup #}
+                            <tr class="order-table-work__simple">
+                                <td>{{ orderItemGroup.name }}</td>
+                                <td class="order-table-work__legend">работа:</td>
+                                <td class="order-table__num">{{ orderItemGroup.totalServicePrice(true)|localize_money }}</td>
+                                <td class="order-table-work__legend">Запчасти:</td>
+                                <td class="order-table__num">{{ orderItemGroup.totalPartPrice(true)|localize_money }}</td>
+                                <td class="order-table-work__legend">Всего:</td>
+                                <td class="order-table__num">{{ orderItemGroup.totalPrice(true)|localize_money }}</td>
+                            </tr>
+                        {% endfor %}
+                        {% for orderItemService in order.rootItems('service') %}
+                            {# @var orderItemService \App\Entity\Tenant\OrderItemService #}
+                            <tr class="order-table-work__simple">
+                                <td>{{ orderItemService.service }}</td>
+                                <td class="order-table-work__legend">работа:</td>
+                                <td>{{ orderItemService.totalPrice(true)|localize_money }}</td>
+                                <td class="order-table-work__legend">Запчасти:</td>
+                                <td>{{ orderItemService.totalPartPrice(true)|localize_money }}</td>
+                                <td class="order-table-work__legend">Всего:</td>
+                                <td>{{ orderItemService.totalPrice(true).add(orderItemService.totalPartPrice(true))|localize_money }}</td>
+                            </tr>
+                        {% endfor %}
+                        {% set orderItemParts = order.rootItems('part') %}
+                        {% if orderItemParts %}
+                            {% set price = null %}
+                            {% for orderItemPart in orderItemParts %}
+                                {# @var orderItemPart \App\Entity\Tenant\OrderItemPart #}
+                                {% if price %}
+                                    {% set price = orderItemPart.totalPrice(true).add(price) %}
+                                {% else %}
+                                    {% set price = orderItemPart.totalPrice(true) %}
+                                {% endif %}
+                            {% endfor %}
+                            <tr class="order-table-work__simple">
+                                <td></td>
+                                <td class="order-table-work__legend"></td>
+                                <td></td>
+                                <td class="order-table-work__legend">Запчасти:</td>
+                                <td>{{ price|localize_money }}</td>
+                                <td class="order-table-work__legend">Всего:</td>
+                                <td>{{ price|localize_money }}</td>
+                            </tr>
+                        {% endif %}
+                        </tbody>
+                        <tbody>
+                        <tr class="order-table-subtotals">
+                            <td colspan="2" rowspan="5" class="no-border"></td>
+                            <td colspan="4" class="order-table-subtotals__name">Согласованных работ</td>
+                            <td>100500</td>
+                        </tr>
+                        <tr class="order-table-subtotals">
+                            <td colspan="4" class="order-table-subtotals__name">Согласованных запчастей</td>
+                            <td>100500</td>
+                        </tr>
+                        <tr class="order-table-totals">
+                            <td colspan="4" class="order-table-totals__name">полная стоимость<br> с рекомендациями</td>
+                            <td class="order-table-totals__sum">{{ potentialPrice|localize_money }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </section>
+            {% endif %}
+        </main>
+    </div>
 {% endblock %}
