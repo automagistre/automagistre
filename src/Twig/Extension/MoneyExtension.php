@@ -7,6 +7,7 @@ namespace App\Twig\Extension;
 use Money\Formatter\DecimalMoneyFormatter;
 use Money\Money;
 use Money\MoneyFormatter;
+use morphos\Russian\MoneySpeller;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
@@ -38,6 +39,7 @@ final class MoneyExtension extends AbstractExtension
     {
         return [
             new TwigFilter('localize_money', [$this, 'localizeMoney']),
+            new TwigFilter('localize_money_literal', [$this, 'literal']),
         ];
     }
 
@@ -48,5 +50,12 @@ final class MoneyExtension extends AbstractExtension
         }
 
         return $this->formatter->format($money);
+    }
+
+    public function literal(Money $money): string
+    {
+        $float = (float) $this->decimalMoneyFormatter->format($money);
+
+        return MoneySpeller::spell($float, $money->getCurrency()->getCode());
     }
 }

@@ -50,7 +50,8 @@
         "symfony/templating": "^4.2",
         "symfony/translation": "^4.2",
         "symfony/twig-bundle": "^4.2",
-        "symfony/yaml": "^4.2"
+        "symfony/yaml": "^4.2",
+        "wapmorgan/morphos": "^3.2"
     },
     "require-dev": {
         "brianium/paratest": "^3.0",
