@@ -4,32 +4,62 @@
 
 {% set customer = order.customer %}
 
+
 {% block content %}
     <div class="container" id="content">
         <main>
-            <h1>Акт сдачи-приемки выполненных работ (оказанных услуг)<br> №
-                {{ order.id }}/2
+            <h1>Счет на оплату №
+                {{ order.id }}
                 от
                 {{ (order.closed ? order.closedAt : date(null, 'Europe/Moscow'))|localizeddate('short', 'none') }} г.
             </h1>
             <section class="bk-info">
                 <div class="bk-info-executor">
                     <span class="bk-info-legend">
-                        Исполнитель
+                        Поставщик
                     </span>
                     <p>
                         {{ requisites.name }}
                         ОГРН: {{ requisites.ogrn }}
-                        ИНН: {{ requisites.inn }}
-                        КПП: {{ requisites.kpp }}
-                        Р/С: {{ requisites.rs }}
-                        К/С: {{ requisites.ks }}
-                        БИК: {{ requisites.bik }}
+                        {{ requisites.address }}
+                        {% for telephone in requisites.telephones %}
+                            &nbsp;{{ telephone }}
+                         {% endfor %}
                     </p>
                 </div>
-                <div class="bk-info-customer">
+            </section>
+            <section class="bank">
+                <table class="table bank-table" >
+                    <tbody>
+                    <tr>
+                        <td colspan="2" style="border-bottom: none;" class="bank-table-title" >{{ requisites.bank }}</td>
+                        <td>БИК</td>
+                        <td style="border-bottom: none;">{{ requisites.bik }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="bank-table-info">Банк получателя</td>
+                        <td>Сч. №</td>
+                        <td style="border-top: none;">{{ requisites.ks }}</td>
+                    </tr>
+                    <tr class="bank-table_row_2">
+                        <td class="bank-table_col_1">ИНН {{ requisites.inn }}</td>
+                        <td class="bank-table_col_2">КПП {{ requisites.kpp }}</td>
+                        <td class="bank-table_col_3" rowspan="3">Сч. №</td>
+                        <td class="bank-table_col_4" rowspan="3">{{ requisites.rs }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="border-bottom: none;" class="bank-table-title">{{ requisites.name }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="bank-table-info">Получатель</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+            <section class="bk-info">
+                <div class="bk-info-executor">
                     <span class="bk-info-legend">
-                        Заказчик
+                        Покупатель
                     </span>
                     <p>
                         {# Если заказчик организация, то выводить все доступные реквизиты#}
@@ -140,31 +170,22 @@
                     </tr>
                     </tbody>
                 </table>
+                <p style="margin: 0">
+                    Всего наименований {{ position }} на сумму:<br>
+                    <p class="bk-literal_num">
+                        {{ order.totalForPayment(null, false)|localize_money_literal }}
+                    </p>
+                </p>
             </section>
-            <section class="stamps">
-                <div>Вышеперечисленные услуги выполнены полностью и в срок. Заказчик претензий по объему, качеству и
-                    срокам оказания услуг
-                    не имеет.
-                </div>
-                <div style="display: flex; justify-content: space-between">
-                    <div class="bk-stamp">
-                        <span class="bk-stamp-user">Исполнитель</span><br>
+            <section class="stamps" >
+                <div class="bk-stamp" style="width: 100%; display: flex; justify-content: space-around">
+                    <div style="width: 80mm">
                         <hr class="bk-stamp-line">
                         <div style="display: flex; justify-content: center">
                             <span class="bk-stamp-line-under">должность</span>
-                        </div>
-                        <hr class="bk-stamp-line">
-                        <div style="display: flex; justify-content: space-between">
-                            <span class="bk-stamp-line-under">подпись</span>
-                            <span class="bk-stamp-line-under">расшифровка</span>
                         </div>
                     </div>
-                    <div class="bk-stamp">
-                        <span class="bk-stamp-user">Заказчик</span><br>
-                        <hr class="bk-stamp-line">
-                        <div style="display: flex; justify-content: center">
-                            <span class="bk-stamp-line-under">должность</span>
-                        </div>
+                    <div style="width: 80mm">
                         <hr class="bk-stamp-line">
                         <div style="display: flex; justify-content: space-between">
                             <span class="bk-stamp-line-under">подпись</span>
@@ -175,5 +196,4 @@
             </section>
         </main>
     </div>
-
 {% endblock %}
