@@ -330,17 +330,33 @@ h1 {
 //------------------ BookKeeping ------------------
 
 .bk {
+  &-literal_num {
+    margin-top: 2px;
+    font-weight: 600;
+    &:first-letter {
+      text-transform: capitalize;
+    }
+  }
   &-info{
-    &-executer, &-customer {
+    &-executor, &-customer {
+      display: flex;
+      align-content: stretch;
+      //flex-flow: row nowrap;
       margin-top: 15px;
     }
     &-legend {
       font-weight: bold;
-
+      width: 120px !important;
       &:after {
         content: ":";
         font-weight: bold;
       }
+    }
+    p {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin: 0;
     }
   }
   &-table {
@@ -382,7 +398,7 @@ h1 {
       font-size: @font_size + 1mm;
     }
     &-line {
-      margin-top: 10mm;
+      margin-top: 15mm;
       border: 1px solid black;
       &-under {
         margin: 0 1cm;
@@ -390,6 +406,48 @@ h1 {
         font-size: @font_size - 0.5mm;
         text-transform: capitalize;
         text-align: center;
+      }
+    }
+  }
+}
+
+.bank {
+  &-table {
+    margin-top: 20px;
+    width: 100%;
+    border-collapse: collapse;
+    height: 40mm;
+    td {
+      padding-left: @cell_padding + 1mm;
+      border: 1px solid black;
+    }
+    &-info {
+      border-top: none !important;
+      font-size: @font_size - 0.5mm;
+      vertical-align: bottom;
+      padding: @cell_padding;
+    }
+    &-title {
+      vertical-align: top;
+      padding-top: @cell_padding;
+    }
+    &_col {
+      &_1{
+        width: 25%;
+      }
+      &_2{
+        width: 25%;
+      }
+      &_3{
+        width: 10mm;
+      }
+      &_4{
+
+      }
+    }
+    &_row {
+      &_2 {
+        height: @font_size + 2mm;
       }
     }
   }
