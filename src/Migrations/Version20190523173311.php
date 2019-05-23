@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20190523172016 extends AbstractMigration
+final class Version20190523173311 extends AbstractMigration
 {
     public function up(Schema $schema): void
     {
@@ -19,7 +19,7 @@ final class Version20190523172016 extends AbstractMigration
 
         $this->skipIf('landlord' !== $this->connection->getDatabase(), 'Landlord only');
 
-        $this->addSql('ALTER TABLE organization ADD requisite_bank VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE organization CHANGE requisite_bank requisite_bank VARCHAR(255) DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
@@ -29,6 +29,6 @@ final class Version20190523172016 extends AbstractMigration
 
         $this->skipIf('landlord' !== $this->connection->getDatabase(), 'Landlord only');
 
-        $this->addSql('ALTER TABLE organization DROP requisite_bank');
+        $this->addSql('ALTER TABLE organization CHANGE requisite_bank requisite_bank VARCHAR(255) NOT NULL COLLATE utf8_unicode_ci');
     }
 }
