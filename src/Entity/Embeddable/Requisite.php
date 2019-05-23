@@ -15,6 +15,13 @@ final class Requisite
     /**
      * @var string|null
      *
+     * @ORM\Column
+     */
+    public $bank;
+
+    /**
+     * @var string|null
+     *
      * @Assert\Type("numeric", message="Значение может содержать только цифры.")
      *
      * @ORM\Column(nullable=true)
