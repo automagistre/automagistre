@@ -21,6 +21,12 @@ final class RequisiteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('bank', TextType::class, [
+                'label' => 'Банк',
+            ])
+            ->add('legalAddress', TextType::class, [
+                'label' => 'Юридический адрес',
+            ])
             ->add('inn', TextType::class, [
                 'label' => 'ИНН',
             ])

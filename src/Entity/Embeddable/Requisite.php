@@ -22,6 +22,13 @@ final class Requisite
     /**
      * @var string|null
      *
+     * @ORM\Column(nullable=true)
+     */
+    public $legalAddress;
+
+    /**
+     * @var string|null
+     *
      * @Assert\Type("numeric", message="Значение может содержать только цифры.")
      *
      * @ORM\Column(nullable=true)
