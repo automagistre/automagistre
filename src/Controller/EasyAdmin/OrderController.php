@@ -336,7 +336,7 @@ final class OrderController extends AbstractController
      */
     public function isActionAllowed($actionName): bool
     {
-        if (!\in_array($actionName, ['show', 'finish', 'act'], true) && null !== $id = $this->request->get('id')) {
+        if (!\in_array($actionName, ['show', 'finish', 'act', 'invoice'], true) && null !== $id = $this->request->get('id')) {
             $registry = $this->container->get(Registry::class);
 
             $entity = $registry->repository(Order::class)->find($id);
@@ -572,6 +572,18 @@ final class OrderController extends AbstractController
         }
 
         return $this->render('easy_admin/order_print/act.html.twig', [
+            'order' => $order,
+        ]);
+    }
+
+    public function invoiceAction(): Response
+    {
+        $order = $this->getEntity(Order::class);
+        if (!$order instanceof Order) {
+            throw new BadRequestHttpException('Order is required');
+        }
+
+        return $this->render('easy_admin/order_print/invoice.html.twig', [
             'order' => $order,
         ]);
     }

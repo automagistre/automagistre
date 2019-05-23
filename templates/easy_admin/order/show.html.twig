@@ -68,6 +68,13 @@
                                             Заказ-наряд v2
                                         </a>
                                     </li>
+                                    {% if order.customer is not empty %}
+                                        <li>
+                                            <a href="{{ easyadmin_path(order, 'invoice', {'referer': true}) }}">
+                                                Счёт
+                                            </a>
+                                        </li>
+                                    {% endif %}
                                 </ul>
                             </div>
                         {% else %}
@@ -85,6 +92,11 @@
                                class="btn btn-info">
                                 <i class="fa fa-print"></i>
                                 Акт
+                            </a>
+                            <a href="{{ easyadmin_path(order, 'invoice', {'referer': true}) }}"
+                               class="btn btn-info">
+                                <i class="fa fa-print"></i>
+                                Счёт
                             </a>
                         {% endif %}
                     </div>
