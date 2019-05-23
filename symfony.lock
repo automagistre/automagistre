@@ -179,6 +179,9 @@
     "guzzlehttp/psr7": {
         "version": "1.4.2"
     },
+    "http-interop/http-factory-guzzle": {
+        "version": "1.0.0"
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
@@ -205,9 +208,6 @@
     },
     "monolog/monolog": {
         "version": "1.23.0"
-    },
-    "muglug/package-versions-56": {
-        "version": "1.2.4"
     },
     "myclabs/deep-copy": {
         "version": "1.7.0"
@@ -301,9 +301,6 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "0.4.0"
-    },
-    "phpmyadmin/sql-parser": {
-        "version": "v4.3.1"
     },
     "phpspec/prophecy": {
         "version": "1.7.3"
