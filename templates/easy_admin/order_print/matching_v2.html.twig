@@ -1,5 +1,7 @@
 {% extends 'easy_admin/order_print/layout_v2.html.twig' %}
 
+{# @var order \App\Entity\Tenant\Order #}
+
 {% block content %}
     <div class="container" id="content">
         {% include 'easy_admin/order_print/header.html.twig' %}
@@ -145,11 +147,11 @@
                         <tr class="order-table-subtotals">
                             <td colspan="2" rowspan="5" class="no-border"></td>
                             <td colspan="4" class="order-table-subtotals__name">Согласованных работ</td>
-                            <td>100500</td>
+                            <td>{{ order.totalServicePrice(true)|localize_money }}</td>
                         </tr>
                         <tr class="order-table-subtotals">
                             <td colspan="4" class="order-table-subtotals__name">Согласованных запчастей</td>
-                            <td>100500</td>
+                            <td>{{ order.totalPartPrice(true)|localize_money }}</td>
                         </tr>
                         <tr class="order-table-totals">
                             <td colspan="4" class="order-table-totals__name">полная стоимость<br> с рекомендациями</td>
