@@ -15,7 +15,7 @@ final class Requisite
     /**
      * @var string|null
      *
-     * @ORM\Column
+     * @ORM\Column(nullable=true)
      */
     public $bank;
 
