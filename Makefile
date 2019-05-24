@@ -258,6 +258,7 @@ do-fixtures:
 backup: backup-restore migration
 	@$(notify)
 backup-update: backup-fresh backup-download backup
+backup-latest: backup-download backup
 backup-fresh:
 	@ssh ${BACKUP_SERVER} automagistre_backup.sh
 	$(call success,"Backups creating on ${BACKUP_SERVER}")
