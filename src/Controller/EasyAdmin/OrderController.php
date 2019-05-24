@@ -21,7 +21,6 @@ use App\Enum\OrderStatus;
 use App\Events;
 use App\Form\Model\OrderTOService;
 use App\Form\Type\MoneyType;
-use App\Form\Type\OrderItemServiceType;
 use App\Form\Type\OrderTOServiceType;
 use App\Manager\OrderManager;
 use App\Manager\PaymentManager;
@@ -30,13 +29,11 @@ use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use LogicException;
-use Money\Currency;
 use Money\Money;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -336,8 +333,8 @@ final class OrderController extends AbstractController
      */
     public function isActionAllowed($actionName): bool
     {
-        if (!\in_array($actionName, ['show', 'finish', 'act', 'invoice'], true) && null !== $id = $this->request->get('id')) {
-            $registry = $this->container->get(Registry::class);
+        if ('show' !== $actionName && null !== $id = $this->request->get('id')) {
+            $registry = $this->get(Registry::class);
 
             $entity = $registry->repository(Order::class)->find($id);
 
@@ -393,198 +390,6 @@ final class OrderController extends AbstractController
         return $this->render('easy_admin/order/payment.html.twig', [
             'order' => $order,
             'form' => $form->createView(),
-        ]);
-    }
-
-    public function matchingAction(): Response
-    {
-        $order = $this->getEntity(Order::class);
-        if (!$order instanceof Order) {
-            throw new BadRequestHttpException('Order is required.');
-        }
-
-        $car = $order->getCar();
-        if (!$car instanceof Car) {
-            throw new BadRequestHttpException('Car required.');
-        }
-
-        [$servicePrice, $partPrice, $totalPrice] = $car->getRecommendationPrice();
-
-        return $this->render('easy_admin/order_print/matching_v2.html.twig', [
-            'order' => $order,
-            'car' => $car,
-            'customer' => $order->getCustomer(),
-            'recommendations' => $car->getRecommendations(),
-            'totalRecommendationService' => $servicePrice,
-            'totalRecommendationPart' => $partPrice,
-            'totalRecommendationAll' => $totalPrice,
-            'potentialPrice' => $order->getTotalPrice()->add($totalPrice),
-        ]);
-    }
-
-    public function giveoutAction(): Response
-    {
-        $order = $this->getEntity(Order::class);
-        if (!$order instanceof Order) {
-            throw new BadRequestHttpException('Order is required');
-        }
-
-        return $this->render('easy_admin/order_print/giveout_v2.html.twig', [
-            'order' => $order,
-        ]);
-    }
-
-    public function finishAction(): Response
-    {
-        $em = $this->em;
-        $request = $this->request;
-
-        $order = $this->getEntity(Order::class);
-        if (!$order instanceof Order) {
-            throw new BadRequestHttpException('Order is required');
-        }
-
-        if ($order->isClosed() || $order->isReadyToClose()) {
-            goto finish;
-        }
-
-        /** @var OrderItemService[] $services */
-        $services = $order->getServicesWithoutWorker();
-
-        if ([] !== $services) {
-            $form = $this->createForm(CollectionType::class, $services, [
-                'label' => false,
-                'entry_type' => OrderItemServiceType::class,
-            ])
-                ->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                $em->flush();
-
-                goto mileage;
-            }
-
-            return $this->render('easy_admin/order/finish.html.twig', [
-                'header' => 'Введите исполнителей',
-                'order' => $order,
-                'form' => $form->createView(),
-            ]);
-        }
-
-        mileage:
-
-        $car = $order->getCar();
-        if (null !== $car && null === $order->getMileage()) {
-            $mileage = $car->getMileage();
-
-            $form = $this->createForm(IntegerType::class, null, [
-                'label' => 'Пробег '.(0 === $mileage
-                        ? '(предыдущий отсутствует)'
-                        : \sprintf('(предыдущий: %s)', $mileage)),
-                'constraints' => [
-                    new Assert\GreaterThan([
-                        'value' => 2000,
-                        'message' => 'Пидр иди смотри пробег',
-                    ]),
-                ],
-            ])
-                ->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                $order->setMileage($form->getData());
-                $em->flush();
-
-                goto finish;
-            }
-
-            return $this->render('easy_admin/order/finish.html.twig', [
-                'header' => 'Введите пробег',
-                'order' => $order,
-                'form' => $form->createView(),
-            ]);
-        }
-
-        finish:
-
-        if ($request->isMethod('POST')) {
-            return $this->redirect($request->getUri());
-        }
-
-        $parameters = [
-            'order' => $order,
-        ];
-
-        $customer = $order->getCustomer();
-        if ($customer instanceof Operand) {
-            $parameters['customer'] = $customer;
-            $parameters['title'] = $customer->getFullName();
-
-            $parameters['balance'] = $order->isClosed()
-                ? $order->getClosedBalance()
-                : $this->paymentManager->balance($customer);
-        }
-
-        $car = $order->getCar();
-        if ($car instanceof Car) {
-            $parameters['car'] = $car;
-
-            $recommendations = [];
-            foreach ($car->getRecommendations() as $recommendation) {
-                $recommendations['items'][] = $recommendation;
-
-                $totalServicePrice = $recommendations['totalServicePrice'] ?? new Money(0, new Currency('RUB'));
-                $totalPartPrice = $recommendations['totalPartPrice'] ?? new Money(0, new Currency('RUB'));
-                $totalPrice = $recommendations['totalPrice'] ?? new Money(0, new Currency('RUB'));
-
-                $servicePrice = $recommendation->getPrice();
-                $partPrice = $recommendation->getTotalPartPrice();
-
-                $totalServicePrice = $totalServicePrice->add($servicePrice);
-                $totalPartPrice = $totalPartPrice->add($partPrice);
-
-                $recommendations['totalServicePrice'] = $totalServicePrice;
-                $recommendations['totalPartPrice'] = $totalPartPrice;
-                $recommendations['totalPrice'] = $totalPrice->add($servicePrice)->add($partPrice);
-            }
-
-            if ([] !== $recommendations) {
-                $parameters['recommendations'] = $recommendations;
-            }
-        }
-
-        $version = $request->query->getInt('version');
-        $template = \sprintf('easy_admin/order_print/final_v%s.html.twig', $version);
-
-        return $this->render($template, $parameters);
-    }
-
-    public function actAction(): Response
-    {
-        $order = $this->getEntity(Order::class);
-        if (!$order instanceof Order) {
-            throw new BadRequestHttpException('Order is required');
-        }
-
-        if (!$order->isClosed()) {
-            $this->addFlash('error', 'Печать акта возможно только после закрытия заказа.');
-
-            return $this->redirectToReferrer();
-        }
-
-        return $this->render('easy_admin/order_print/act.html.twig', [
-            'order' => $order,
-        ]);
-    }
-
-    public function invoiceAction(): Response
-    {
-        $order = $this->getEntity(Order::class);
-        if (!$order instanceof Order) {
-            throw new BadRequestHttpException('Order is required');
-        }
-
-        return $this->render('easy_admin/order_print/invoice.html.twig', [
-            'order' => $order,
         ]);
     }
 

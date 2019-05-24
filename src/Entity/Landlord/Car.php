@@ -14,7 +14,6 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;
-use Money\Currency;
 use Money\Money;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -136,17 +135,27 @@ class Car
         return $string;
     }
 
-    public function getRecommendationPrice(): array
+    public function getRecommendationPrice(string $type): Money
     {
-        $services = new Money(0, new Currency('RUB'));
-        $parts = new Money(0, new Currency('RUB'));
+        $price = null;
 
         foreach ($this->getRecommendations() as $item) {
-            $services = $services->add($item->getPrice());
-            $parts = $parts->add($item->getTotalPartPrice());
+            if ('service' === $type) {
+                $item = $item->getPrice();
+            } elseif ('part' === $type) {
+                $item = $item->getTotalPartPrice();
+            } else {
+                throw new LogicException(\sprintf('Unexpected type "%s"', $type));
+            }
+
+            $price = $price instanceof Money ? $price->add($item) : $item;
         }
 
-        return [$services, $parts, $services->add($parts)];
+        if (null === $price) {
+            throw new LogicException('Car not have actual recommendations');
+        }
+
+        return $price;
     }
 
     public function getCarModel(): ?CarModel

@@ -169,6 +169,9 @@ easy_admin:
                 title: 'Создать новый заказ'
             edit:
                 title: 'Редактировать заказ № {{ entity.id }}'
+        OrderPrint:
+            class: App\Entity\Tenant\Order
+            controller: App\Controller\EasyAdmin\OrderPrintController
 
         OrderItemGroup:
             class: App\Entity\Tenant\OrderItemGroup
