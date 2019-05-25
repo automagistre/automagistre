@@ -62,9 +62,9 @@
                         {% for part in recommendation.parts %}
                             {# @var part \App\Entity\CarRecommendationPart #}
                             <tr class="order-table-part">
-                                <td colspan="4" class="order-table-part__name">
+                                <td colspan="4" class="recommendations-table-part__name">
                                     {{ part.part }}
-                                    <span class="order-table-part__part_number">
+                                    <span class="recommendations-table-part__part_number">
                                         ({{ part.part.manufacturer }})
                                     </span>
                                 </td>

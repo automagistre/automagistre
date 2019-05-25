@@ -9,7 +9,7 @@
     <tbody>
     {# @var orderItemGroup \App\Entity\Tenant\OrderItemGroup #}
     <tr class="order-table-work">
-        <td>{{ orderItemGroup }}</td>
+        <td colspan="2">{{ orderItemGroup }}</td>
         <td>{# Исполнитель #}</td>
         <td>{# Количество #}</td>
         <td>
@@ -22,7 +22,7 @@
             {{ groupPrice|localize_money }}
         </td>
         <td></td>
-        <td>{{ groupPrice|localize_money }}</td>
+        <td colspan="2">{{ groupPrice|localize_money }}</td>
     </tr>
     {% if not orderItemGroup.hideParts %}
         {% for orderItemPart in orderItemGroup.parts %}
@@ -36,7 +36,7 @@
     {# @var orderItemService \App\Entity\Tenant\OrderItemService #}
     <tbody>
     <tr class="order-table-work">
-        <td>
+        <td colspan="2">
             {{- orderItemService -}}
             {%- if orderItemService.warranty %}
                 <span style="font-weight: 600">(гарантия)</span>
@@ -50,7 +50,7 @@
                 {{ orderItemService.discount|localize_money }}
             {% endif %}
         </td>
-        <td>{{ orderItemService.totalPrice(true)|localize_money }}</td>
+        <td colspan="2">{{ orderItemService.totalPrice(true)|localize_money }}</td>
     </tr>
     {% for orderItemPart in orderItemService.children %}
         {{ block('order_item_part') }}
@@ -63,6 +63,7 @@
     {% set part = orderItemPart.part %}
     {# @var part \App\Entity\Landlord\Part #}
     <tr class="order-table-part">
+        <td style="border: none"></td>
         <td colspan="2" class="order-table-part__name">
             {{ part.name }}
             <span class="order-table-part__part_number">
@@ -137,12 +138,14 @@
                     <caption>выполненные работы и запчасти</caption>
                     <thead>
                     <tr>
-                        <td>наименование</td>
+                        <td style="width: 2mm; border-right: none"></td>
+                        <td   style="border-left: none">наименование</td>
                         <td class="order-table__executor">исп-ль</td>
                         <td class="order-table__quantity">кол-во</td>
                         <td class="order-table__num">стоимость</td>
                         <td class="order-table__num">скидка</td>
-                        <td class="order-table__num">итого</td>
+                        <td class="order-table__num"   style="border-right: none">итого</td>
+                        <td style="width: 2mm; border-left: none"></td>
                     </tr>
                     </thead>
                     {% for item in order.rootItems %}
@@ -160,7 +163,7 @@
 
                     <tbody>
                     <tr class="order-table-subtotals">
-                        <td colspan="2" rowspan="5" class="no-border">
+                        <td colspan="3" rowspan="5" class="no-border">
                             <div class="stamps_guaranty">
                                 <div class="stamps_guaranty-qr">
                                     Гарантийные условия по ссылке:
@@ -237,10 +240,10 @@
                             </tr>
 
                             {% for part in recommendation.parts %}
-                                <tr class="order-table-part">
-                                    <td colspan="3" class="order-table-part__name">
+                                <tr class="recommendations-table-part">
+                                    <td colspan="3" class="recommendations-table-part__name">
                                         {{ part.part }}
-                                        <span class="order-table-part__part_number">
+                                        <span class="recommendations-table-part__part_number">
                                         ({{ part.part.manufacturer }})
                                         </span>
                                     </td>

@@ -145,9 +145,12 @@ h1 {
 .order-table-work,
 .recommendations-table-work {
   background: #f3f3f3;
+  font-weight: 600;
+  font-size: 4.1mm;
 }
 .order-table-work td,
 .recommendations-table-work td {
+  font-size: 3.3mm;
   border-right: none !important;
   border-left: none !important;
 }
@@ -231,10 +234,6 @@ h1 {
 .recommendations-table tbody .order-table-totals__name {
   text-align: center;
 }
-.order-table tbody .order-table-part__name,
-.recommendations-table tbody .order-table-part__name {
-  padding-left: 25px;
-}
 .order-table tbody .order-table-part__part_number,
 .recommendations-table tbody .order-table-part__part_number {
   text-transform: uppercase;
@@ -249,6 +248,9 @@ h1 {
 }
 .recommendations-table-work__legend {
   text-align: right !important;
+}
+.recommendations-table-part__name {
+  padding-left: 25px !important;
 }
 .order-table-work {
   font-size: 3.1mm;

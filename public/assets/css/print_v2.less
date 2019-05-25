@@ -162,7 +162,10 @@ h1 {
     }
     &-work {
       background: lighten(@color_grey, 10%);
+      font-weight: 600;
+      font-size: @font_size + 1mm;
       td {
+        font-size: @font_size + 0.2mm;
         border-right: none !important;
         border-left: none !important;
         &:first-child {
@@ -244,7 +247,7 @@ h1 {
         }
         &-part {
           &__name{
-            padding-left: 25px;
+            //padding-left: 25px;
           }
           &__part_number {
             text-transform: uppercase;
@@ -268,6 +271,11 @@ h1 {
       font-weight: 600;
       &__legend {
         text-align: right !important;
+      }
+    }
+    &-part {
+      &__name {
+        padding-left: 25px !important;
       }
     }
   }
