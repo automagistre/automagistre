@@ -5,7 +5,7 @@
 <div class="container" id="content">
     <main>
         <h3 class="order-info-title">согласованные работы и запчасти по автомобилю</h3>
-        <h3 class="order-info-title">{{ car is defined ? car.gosnomer }}</h3>
+        <h3 class="order-info-title">{{ car is not empty ? car.gosnomer }}</h3>
         {#блок работ для выдачи мастеру#}
         <section class="order">
             <table class="table order-table">
@@ -49,8 +49,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% set parts = order.items('part') %}
-                {% for part in parts %}
+                {% set totalQuantity = 0 %}
+                {% for part in order.items('part') %}
                     {# @var part \App\Entity\OrderItemPart #}
                     <tr>
                         <td class="check">
@@ -60,7 +60,11 @@
                         {#<td class="uppercase">л2p6</td>#}
                         <td>{{ part.part.name }} <strong>({{ part.part.manufacturer }})</strong></td>
                         <td><strong>{{ part.part.number }}</strong></td>
-                        <td class="order-table__quantity"><strong>{{ part.quantity / 100 }}</strong></td>
+                        <td class="order-table__quantity">
+                            {% set quantity = part.quantity / 100 %}
+                            {% set totalQuantity = totalQuantity + quantity %}
+                            <strong>{{ quantity }}</strong>
+                        </td>
                     </tr>
                 {% endfor %}
 
@@ -69,7 +73,7 @@
                     <td colspan="3" class="table-summary legend" style="text-align: right">
                         <strong>всего позиций (шт.):</strong>
                     </td>
-                    <td class="table-summary"><span>{{ parts|length }}</span></td>
+                    <td class="table-summary"><span>{{ totalQuantity }}</span></td>
                 </tr>
                 </tbody>
             </table>

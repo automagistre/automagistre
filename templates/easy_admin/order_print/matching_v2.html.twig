@@ -1,7 +1,9 @@
 {% extends 'easy_admin/order_print/layout_v2.html.twig' %}
 
 {# @var order \App\Entity\Tenant\Order #}
+
 {% set customer = order.customer %}
+{# @var car \App\Entity\Landlord\Car #}
 {% set car = order.car %}
 
 {% block content %}
@@ -164,8 +166,8 @@
                         <tr class="order-table-totals">
                             <td colspan="4" class="order-table-totals__name">полная стоимость<br> с рекомендациями</td>
                             <td class="order-table-totals__sum">
-                                {% if totalRecommendationPrice is defined %}
-                                    {{ order.totalPrice(true).add(totalRecommendationPrice)|localize_money }}
+                                {% if car is not empty %}
+                                    {{ order.totalPrice(true).add(car.recommendationPrice)|localize_money }}
                                 {% else %}
                                     {{ order.totalPrice(true)|localize_money }}
                                 {% endif %}

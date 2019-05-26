@@ -1,7 +1,11 @@
 {% include 'easy_admin/order_print/layout.html.twig' %}
 
+{# @var order \App\Entity\Tenant\Order #}
+
+{% set car = order.car %}
+
 <h4>согласованные работы и запчасти по автомобилю</h4>
-<h1>{{ car is defined ? car.gosnomer }}</h1>
+<h1>{{ car is not empty ? car.gosnomer }}</h1>
 <div class="container" id="content">
     {#блок работ для выдачи мастеру#}
     <section class="works">

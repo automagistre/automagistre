@@ -193,7 +193,7 @@
                     <tr class="order-table-subtotals">
                         <td colspan="3" class="order-table-subtotals__name">Предоплата / Долг</td>
                         <td>
-                            {% if balance is defined %}
+                            {% if balance is not empty %}
                                 {% if balance.isZero %}
                                     {{ order.totalPayments|localize_money }}
                                 {% else %}
