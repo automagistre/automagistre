@@ -1,7 +1,10 @@
 {% extends 'easy_admin/order_print/layout_v2.html.twig' %}
 
 {# @var order \App\Entity\Tenant\Order #}
-{# @var customer \App\Entity\Landlord\Operand #}
+
+{% set customer = order.customer %}
+{% set car = order.car %}
+{% set balance = order.closed ? order.closedBalance : (customer is not empty ? customer|balance : null) %}
 
 {% set requisites = state.tenant.getRequisites() %}
 
@@ -190,7 +193,7 @@
                     <tr class="order-table-subtotals">
                         <td colspan="3" class="order-table-subtotals__name">Предоплата / Долг</td>
                         <td>
-                            {% if balance is defined %}
+                            {% if balance is not empty %}
                                 {% if balance.isZero %}
                                     {{ order.totalPayments|localize_money }}
                                 {% else %}
@@ -221,13 +224,14 @@
                 </div>
             </section>
 
-            {% if recommendations is defined %}
+            {% if car is not empty and car.recommendations is not empty %}
                 <section class="recommendations">
                     <h3 class="order-info-title">РЕКОМЕНДАЦИИ ПО АВТОМОБИЛЮ VIN: {{ car.vin }} </h3>
                     <table class="table recommendations-table">
                         <caption>рекомендуемые работы и запчасти</caption>
 
-                        {% for recommendation in recommendations.items %}
+                        {% for recommendation in car.recommendations %}
+                            {# @var recommendation \App\Entity\Landlord\CarRecommendation #}
                             <tbody>
                             <tr class="recommendations-table-work">
                                 <td>{{ recommendation.service }}</td>
@@ -240,8 +244,9 @@
                             </tr>
 
                             {% for part in recommendation.parts %}
-                                <tr class="recommendations-table-part">
-                                    <td colspan="3" class="recommendations-table-part__name">
+                                {# @var part \App\Entity\Landlord\CarRecommendationPart #}
+                                <tr class="order-table-part">
+                                    <td colspan="3" class="order-table-part__name">
                                         {{ part.part }}
                                         <span class="recommendations-table-part__part_number">
                                         ({{ part.part.manufacturer }})
@@ -255,19 +260,23 @@
                             </tbody>
                         {% endfor %}
 
+                        {% set totalServicePrice = car.recommendationPrice('service') %}
+                        {% set totalPartPrice = car.recommendationPrice('part') %}
+                        {% set totalRecommendationPrice = totalServicePrice.add(totalPartPrice) %}
+
                         <tbody>
                         <tr class="order-table-subtotals">
                             <td colspan="3" rowspan="5" class="no-border"></td>
                             <td colspan="3" class="order-table-subtotals__name">всего по работам</td>
-                            <td>{{ recommendations.totalServicePrice|localize_money }}</td>
+                            <td>{{ totalServicePrice|localize_money }}</td>
                         </tr>
                         <tr class="order-table-subtotals">
                             <td colspan="3" class="order-table-subtotals__name">всего по материалам</td>
-                            <td>{{ recommendations.totalPartPrice|localize_money }}</td>
+                            <td>{{ totalPartPrice|localize_money }}</td>
                         </tr>
                         <tr class="order-table-totals">
                             <td colspan="3" class="order-table-totals__name">ВСЕГО РЕКОМЕНДАЦИЙ</td>
-                            <td class="order-table-totals__sum">{{ recommendations.totalPrice|localize_money }}</td>
+                            <td class="order-table-totals__sum">{{ totalRecommendationPrice|localize_money }}</td>
                         </tr>
                         </tbody>
                     </table>

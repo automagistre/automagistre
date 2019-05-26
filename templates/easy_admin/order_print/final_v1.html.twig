@@ -1,11 +1,18 @@
 {% extends 'easy_admin/order_print/layout.html.twig' %}
 
 {# @var order \App\Entity\Tenant\Order #}
-{# @var customer \App\Entity\Landlord\Operand #}
+{# @var car \App\Entity\Landlord\Car #}
+
+{% set customer = order.customer %}
+{% set car = order.car %}
+
+{% set balance = customer is not empty ? customer|balance : null %}
 
 {% set groups = order.rootItems('group') %}
 {% set services = order.rootItems('service') %}
-{% set parts = order.rootItems('part') %}
+{% set parts = order.items('part', true) %}
+
+{% set recommendations = car is not empty ? car.recommendations : null %}
 
 {% block content %}
     {% set requisites = state.tenant.getRequisites() %}
@@ -253,13 +260,13 @@
                 <tr class="table-active ">
                     <td class="table-summary legend col-7">
                         предоплата
-                        {%- if balance is defined and not balance.isZero %}
+                        {%- if balance is not empty and not balance.isZero %}
                             {{- balance.isNegative ? ' - долг' }}
                         {%- endif -%}
                         :
                     </td>
                     <td class="table-summary"><span class="price">
-                            {% if balance is defined %}
+                            {% if balance is not empty %}
                                 {% if balance.isZero %}
                                     {{ order.totalPayments|localize_money }}
                                 {% else %}
@@ -305,14 +312,14 @@
             </div>
         </section>
 
-        {% if recommendations is defined %}
+        {% if recommendations is not empty %}
             <div class="html2pdf__page-break"></div>
             <section class="recommendations">
                 <h4>рекомендации по автомобилю VIN: {{ car.vin }}</h4>
                 <table class="table table-bordered table-sm">
                     <tbody>
-                    {% for recommendation in recommendations.items %}
-                        {# @var recommendation \App\Entity\CarRecommendation #}
+                    {% for recommendation in recommendations %}
+                        {# @var recommendation \App\Entity\Landlord\CarRecommendation #}
                         <tr class="work">
                             <th scope="row">{{ loop.index }}</th>
                             <td>{{ recommendation.service }}</td>
@@ -324,7 +331,7 @@
                             <td><span class="price">{{ recommendation.totalPrice|localize_money }}</span></td>
                         </tr>
                         {% for part in recommendation.parts %}
-                            {# @var part \App\Entity\CarRecommendationPart #}
+                            {# @var part \App\Entity\Landlord\CarRecommendationPart #}
                             <tr>
                                 <td colspan="2" class="part">{{ part.part }}</td>
                                 <td>{{ part.part.manufacturer }}</td>
@@ -338,18 +345,18 @@
                     <tr class="table-active">
                         <td colspan="7" class="table-summary legend">итого работы:</td>
                         <td class="table-summary">
-                            <span class="price">{{ recommendations.totalServicePrice|localize_money }}</span>
+                            <span class="price">{{ car.recommendationPrice('service')|localize_money }}</span>
                         </td>
                     </tr>
                     <tr class="table-active">
                         <td colspan="7" class="table-summary legend">итого запчасти:</td>
                         <td class="table-summary">
-                            <span class="price">{{ recommendations.totalPartPrice|localize_money }}</span>
+                            <span class="price">{{ car.recommendationPrice('part')|localize_money }}</span>
                         </td>
                     <tr class="table-active">
                         <td colspan="7" class="table-summary legend">всего рекомендаций:</td>
                         <td class="table-summary">
-                            <span class="price">{{ recommendations.totalPrice|localize_money }}</span>
+                            <span class="price">{{ car.recommendationPrice|localize_money }}</span>
                         </td>
                     </tr>
                     </tbody>

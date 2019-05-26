@@ -48,29 +48,29 @@
                                 <ul class="dropdown-menu">
                                     {% if car and car.recommendations is not empty %}
                                         <li>
-                                            <a href="{{ easyadmin_path(order, 'matching', {'referer': true}) }}">
+                                            <a href="{{ easyadmin_path('OrderPrint', 'matching', {'id': order.id, 'referer': true}) }}">
                                                 Согласование
                                             </a>
                                         </li>
                                     {% endif %}
                                     <li>
-                                        <a href="{{ easyadmin_path(order, 'giveout', {'referer': true}) }}">
+                                        <a href="{{ easyadmin_path('OrderPrint', 'giveOut', {'id': order.id, 'referer': true}) }}">
                                             Выдача
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{ easyadmin_path(order, 'finish', {'referer': true, 'version': 1}) }}">
+                                        <a href="{{ easyadmin_path('OrderPrint', 'finish', {'id': order.id, 'referer': true, 'version': 1}) }}">
                                             Заказ-наряд v1
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{ easyadmin_path(order, 'finish', {'referer': true, 'version': 2}) }}">
+                                        <a href="{{ easyadmin_path('OrderPrint', 'finish', {'id': order.id, 'referer': true, 'version': 2}) }}">
                                             Заказ-наряд v2
                                         </a>
                                     </li>
                                     {% if order.customer is not empty %}
                                         <li>
-                                            <a href="{{ easyadmin_path(order, 'invoice', {'referer': true}) }}">
+                                            <a href="{{ easyadmin_path('OrderPrint', 'invoice', {'id': order.id, 'referer': true}) }}">
                                                 Счёт
                                             </a>
                                         </li>
@@ -78,22 +78,22 @@
                                 </ul>
                             </div>
                         {% else %}
-                            <a href="{{ easyadmin_path(order, 'finish', {'referer': true, 'version': 1}) }}"
+                            <a href="{{ easyadmin_path('OrderPrint', 'finish', {'id': order.id, 'referer': true, 'version': 1}) }}"
                                class="btn btn-success">
                                 <i class="fa fa-print"></i>
                                 Финалка v1
                             </a>
-                            <a href="{{ easyadmin_path(order, 'finish', {'referer': true, 'version': 2}) }}"
+                            <a href="{{ easyadmin_path('OrderPrint', 'finish', {'id': order.id, 'referer': true, 'version': 2}) }}"
                                class="btn btn-success">
                                 <i class="fa fa-print"></i>
                                 Финалка v2
                             </a>
-                            <a href="{{ easyadmin_path(order, 'act', {'referer': true}) }}"
+                            <a href="{{ easyadmin_path('OrderPrint', 'act', {'id': order.id, 'referer': true}) }}"
                                class="btn btn-info">
                                 <i class="fa fa-print"></i>
                                 Акт
                             </a>
-                            <a href="{{ easyadmin_path(order, 'invoice', {'referer': true}) }}"
+                            <a href="{{ easyadmin_path('OrderPrint', 'invoice', {'id': order.id, 'referer': true}) }}"
                                class="btn btn-info">
                                 <i class="fa fa-print"></i>
                                 Счёт
@@ -269,25 +269,26 @@
                     </a>
                 {%- endapply -%}
                 <a>
-                    {%- for money in car.getRecommendationPrice -%}
-                        {%- if 1 == loop.index -%}
-                            {{- '&nbsp;'|raw -}}
+                    {% set totalServicePrice = car.recommendationPrice('service') %}
+                    {% set totalPartPrice = car.recommendationPrice('part') %}
+                    {% set totalRecommendationPrice = totalServicePrice.add(totalPartPrice) %}
 
-                            <i class="fa fa-barcode"></i>
-                        {%- elseif 2 == loop.index -%}
-                            {{- '&nbsp;'|raw -}}
+                    <i class="fa fa-wrench"></i>
+                    {{- '&nbsp;'|raw -}}
+                    {{ totalServicePrice|localize_money }}
 
-                            + <i class="fa fa-wrench"></i>
-                        {%- else -%}
-                            {{- '&nbsp;'|raw -}}
-
-                            =
-                        {%- endif -%}
-
+                    {% if totalPartPrice.positive %}
                         {{- '&nbsp;'|raw -}}
-
-                        {{- money|localize_money -}}
-                    {%- endfor -%}
+                        +
+                        {{- '&nbsp;'|raw -}}
+                        <i class="fa fa-barcode"></i>
+                        {{- '&nbsp;'|raw -}}
+                        {{ totalPartPrice|localize_money }}
+                    {% endif %}
+                    {{- '&nbsp;'|raw -}}
+                    =
+                    {{- '&nbsp;'|raw -}}
+                    {{ totalRecommendationPrice|localize_money }}
                 </a>
             </h2>
 
