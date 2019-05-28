@@ -90,27 +90,30 @@
 
         <main>
             <section class="order-info">
-                <div class="order-info-customer">
+                {% if customer is not empty %}
+                    <div class="order-info-customer">
                     <span class="order-info-legend">
                         Заказчик
                     </span>
-                    {# Если заказчик организация, то выводить все доступные реквизиты#}
-                    {{- customer.fullName -}}
+                        {# Если заказчик организация, то выводить все доступные реквизиты#}
+                        {{- customer.fullName -}}
 
-                    {% if customer.type('person') %}
-                        {%- if customer.telephone is not empty %}
-                            тел: {{ customer.telephone|phone_number_format }}
-                        {%- endif -%}
-                        {%- if customer.email is not empty %}
-                            e-mail: {{ customer.email }}
+                        {% if customer.type('person') %}
+                            {%- if customer.telephone is not empty %}
+                                тел: {{ customer.telephone|phone_number_format }}
+                            {%- endif -%}
+                            {%- if customer.email is not empty %}
+                                e-mail: {{ customer.email }}
+                            {% endif %}
+                        {%- elseif customer.type('organization') -%}
+                            {# @var customer \App\Entity\Landlord\Organization #}
+                            {%- if not customer.requisite.empty -%}
+                                , {{- customer.requisite -}}
+                            {%- endif -%}
                         {% endif %}
-                    {%- elseif customer.type('organization') -%}
-                        {# @var customer \App\Entity\Landlord\Organization #}
-                        {%- if not customer.requisite.empty -%}
-                            , {{- customer.requisite -}}
-                        {%- endif -%}
-                    {% endif %}
-                </div>
+                    </div>
+                {% endif %}
+
                 <div class="order-info-executor">
                     <span class="order-info-legend">
                         Исполнитель

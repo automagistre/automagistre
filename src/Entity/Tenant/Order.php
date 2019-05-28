@@ -319,6 +319,10 @@ class Order
 
     public function getClosedBalance(): ?Money
     {
+        if ($this->closedBalance instanceof Money && !\is_numeric($this->closedBalance->getAmount())) {
+            return null;
+        }
+
         return $this->closedBalance;
     }
 
@@ -423,6 +427,8 @@ class Order
     {
         $money = new Money(0, new Currency('RUB'));
         foreach ($this->payments as $payment) {
+            \assert($payment instanceof OrderPayment);
+
             $money = $money->add($payment->getMoney());
         }
 
