@@ -1,11 +1,22 @@
 {% include 'easy_admin/order_print/layout_v2.html.twig' %}
 
+{# @var order \App\Entity\Tenant\Order #}
+
 {% set car = order.car %}
+{% set customer = order.customer %}
 
 <div class="container" id="content">
     <main>
         <h3 class="order-info-title">согласованные работы и запчасти по автомобилю</h3>
-        <h3 class="order-info-title">{{ car is not empty ? car.gosnomer }}</h3>
+        <h3 class="order-info-title">
+            {% if car is not empty %}
+                {{ car.toString }} {{ car.gosnomer }}
+            {% endif %}
+
+            {% if customer is not empty %}
+                ({{ customer }})
+            {% endif %}
+        </h3>
         {#блок работ для выдачи мастеру#}
         <section class="order">
             <table class="table order-table">
