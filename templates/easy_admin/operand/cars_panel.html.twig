@@ -12,6 +12,7 @@
                     <thead>
                     <tr>
                         <th>Модификация</th>
+                        <th>Госномер</th>
                         <th>Пробег</th>
                         <th>VIN</th>
                         <th>Год</th>
@@ -26,6 +27,7 @@
                                     {{ car }}
                                 </a>
                             </td>
+                            <td>{{ include('easy_admin/car/field_gosnomer_img.html.twig', {'value': car.gosnomer}) }}</td>
                             <td>{{ car.mileage }}</td>
                             <td>{{ car.vin }}</td>
                             <td>{{ car.year }}</td>
