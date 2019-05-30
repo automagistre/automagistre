@@ -10,7 +10,7 @@ use App\Entity\Landlord\Part;
 use App\Entity\Landlord\PartCase;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItemPart;
-use App\Events;
+use App\Event\OrderClosed;
 use Doctrine\ORM\Query\Expr\Join;
 use LogicException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -37,7 +37,7 @@ final class PartCaseOnOrderCloseListener implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            Events::ORDER_CLOSED => 'onOrderClosed',
+            OrderClosed::class => 'onOrderClosed',
         ];
     }
 

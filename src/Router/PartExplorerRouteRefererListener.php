@@ -29,7 +29,7 @@ final class PartExplorerRouteRefererListener implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            ListeningRouterEvents::PRE_GENERATE => 'onRouterPreGenerate',
+            RoutePreGenerate::class => 'onRouterPreGenerate',
         ];
     }
 

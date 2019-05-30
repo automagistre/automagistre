@@ -18,7 +18,9 @@ use App\Entity\Tenant\OrderItemService;
 use App\Entity\Tenant\OrderNote;
 use App\Entity\Tenant\Wallet;
 use App\Enum\OrderStatus;
-use App\Events;
+use App\Event\OrderAppointmentMade;
+use App\Event\OrderClosed;
+use App\Event\OrderStatusChanged;
 use App\Form\Model\OrderTOService;
 use App\Form\Type\MoneyType;
 use App\Form\Type\OrderTOServiceType;
@@ -30,7 +32,6 @@ use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use LogicException;
 use Money\Money;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -287,7 +288,7 @@ final class OrderController extends AbstractController
             $order->setStatus(OrderStatus::scheduling());
             $this->em->flush();
 
-            $this->event(Events::ORDER_APPOINTMENT, new GenericEvent($order, [
+            $this->event(new OrderAppointmentMade($order, [
                 'date' => $date->format(DATE_RFC3339),
             ]));
 
@@ -323,7 +324,7 @@ final class OrderController extends AbstractController
         $order->setStatus($status);
         $this->em->flush();
 
-        $this->event(Events::ORDER_STATUS, new GenericEvent($order, ['status' => $status]));
+        $this->event(new OrderStatusChanged($order, ['status' => $status]));
 
         return $this->redirectToReferrer();
     }
@@ -460,7 +461,7 @@ final class OrderController extends AbstractController
             $registry->manager(Car::class)->flush();
         }
 
-        $this->event(Events::ORDER_CLOSED, new GenericEvent($order));
+        $this->event(new OrderClosed($order));
 
         $this->addFlash('success', \sprintf('Заказ №%s закрыт', $order->getId()));
 

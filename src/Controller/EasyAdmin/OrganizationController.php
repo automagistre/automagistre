@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\EasyAdmin;
 
 use App\Entity\Landlord\Organization;
-use App\Events;
-use Symfony\Component\EventDispatcher\GenericEvent;
+use App\Event\OrganizationCreated;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -22,6 +21,6 @@ final class OrganizationController extends OperandController
 
         parent::persistEntity($entity);
 
-        $this->event(Events::ORGANIZATION_CREATED, new GenericEvent($entity));
+        $this->event(new OrganizationCreated($entity));
     }
 }

@@ -6,7 +6,24 @@ namespace App\EventListener;
 
 use App\Doctrine\Registry;
 use App\Entity\Landlord\Event;
-use App\Events;
+use App\Event\EmployeeCreated;
+use App\Event\EmployeeFined;
+use App\Event\EmployeeFired;
+use App\Event\EmployeeSalaryIssued;
+use App\Event\ExpenseCreated;
+use App\Event\ExpenseItemCreated;
+use App\Event\IncomeAccrued;
+use App\Event\OrderAppointmentMade;
+use App\Event\OrderClosed;
+use App\Event\OrderStatusChanged;
+use App\Event\OrganizationCreated;
+use App\Event\PartAccrued;
+use App\Event\PartCreated;
+use App\Event\PartDecreased;
+use App\Event\PartDeReserved;
+use App\Event\PartReserved;
+use App\Event\PaymentCreated;
+use App\Event\PersonCreated;
 use App\Request\EntityTransformer;
 use App\State;
 use LogicException;
@@ -45,14 +62,26 @@ final class EventsListener implements EventSubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-        $reflection = new \ReflectionClass(Events::class);
-
-        $events = \array_values($reflection->getConstants());
-        $subscribedEvents = \array_combine($events, \array_fill(0, \count($events), 'onEvent'));
-
-        \assert(\is_array($subscribedEvents));
-
-        return $subscribedEvents;
+        return [
+            EmployeeCreated::class => 'onEvent',
+            EmployeeFined::class => 'onEvent',
+            EmployeeFired::class => 'onEvent',
+            EmployeeSalaryIssued::class => 'onEvent',
+            ExpenseCreated::class => 'onEvent',
+            ExpenseItemCreated::class => 'onEvent',
+            IncomeAccrued::class => 'onEvent',
+            OrderAppointmentMade::class => 'onEvent',
+            OrderClosed::class => 'onEvent',
+            OrderStatusChanged::class => 'onEvent',
+            OrganizationCreated::class => 'onEvent',
+            PartAccrued::class => 'onEvent',
+            PartCreated::class => 'onEvent',
+            PartDecreased::class => 'onEvent',
+            PartDeReserved::class => 'onEvent',
+            PartReserved::class => 'onEvent',
+            PaymentCreated::class => 'onEvent',
+            PersonCreated::class => 'onEvent',
+        ];
     }
 
     public function onEvent(GenericEvent $event, string $name): void

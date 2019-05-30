@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use App\Enum\Tenant;
-use App\Router\ListeningRouterEvents;
+use App\Router\RoutePreGenerate;
 use App\State;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
@@ -13,7 +13,7 @@ use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -38,11 +38,11 @@ final class TenantListener implements EventSubscriberInterface
         return [
             KernelEvents::REQUEST => ['onKernelRequest', 31],
             ConsoleEvents::COMMAND => ['onConsoleCommand'],
-            ListeningRouterEvents::PRE_GENERATE => 'onRouterPreGenerate',
+            RoutePreGenerate::class => 'onRouterPreGenerate',
         ];
     }
 
-    public function onKernelRequest(GetResponseEvent $event): void
+    public function onKernelRequest(RequestEvent $event): void
     {
         if (!$event->isMasterRequest()) {
             return;

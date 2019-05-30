@@ -7,7 +7,7 @@ namespace App\EventListener;
 use App\Doctrine\Registry;
 use App\Entity\Landlord\Part;
 use App\Entity\Tenant\OrderItemPart;
-use App\Events;
+use App\Event\PartAccrued;
 use App\Manager\ReservationException;
 use App\Manager\ReservationManager;
 use LogicException;
@@ -41,7 +41,7 @@ final class ReserveAccruedPartsListener implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            Events::PART_ACCRUED => 'onPartAccrued',
+            PartAccrued::class => 'onPartAccrued',
         ];
     }
 

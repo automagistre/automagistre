@@ -7,7 +7,7 @@ namespace App\EventListener;
 use App\Doctrine\Registry;
 use App\Entity\Landlord\Balance;
 use App\Entity\Tenant\OperandTransaction;
-use App\Events;
+use App\Event\PaymentCreated;
 use App\Manager\PaymentManager;
 use App\State;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -46,7 +46,7 @@ final class BalanceListener implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            Events::PAYMENT_CREATED => 'onPaymentCreated',
+            PaymentCreated::class => 'onPaymentCreated',
         ];
     }
 

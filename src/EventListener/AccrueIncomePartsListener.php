@@ -7,7 +7,8 @@ namespace App\EventListener;
 use App\Doctrine\Registry;
 use App\Entity\Tenant\Income;
 use App\Entity\Tenant\MotionIncome;
-use App\Events;
+use App\Event\IncomeAccrued;
+use App\Event\PartAccrued;
 use LogicException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -40,7 +41,7 @@ final class AccrueIncomePartsListener implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            Events::INCOME_ACCRUED => 'onIncomeAccrued',
+            IncomeAccrued::class => 'onIncomeAccrued',
         ];
     }
 
@@ -64,7 +65,7 @@ final class AccrueIncomePartsListener implements EventSubscriberInterface
             /* @noinspection DisconnectedForeachInstructionInspection */
             $em->flush();
 
-            $this->dispatcher->dispatch(Events::PART_ACCRUED, new GenericEvent($part, [
+            $this->dispatcher->dispatch(new PartAccrued($part, [
                 'quantity' => $quantity,
             ]));
         }

@@ -12,7 +12,6 @@ use App\Manager\PaymentManager;
 use App\State;
 use InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleErrorEvent;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -96,7 +95,7 @@ final class MonthlySalaryCommand extends Command
             } catch (\Throwable $e) {
                 $event = new ConsoleErrorEvent($input, $output, $e, $this);
 
-                $this->dispatcher->dispatch(ConsoleEvents::ERROR, $event);
+                $this->dispatcher->dispatch($event);
             }
         }
 

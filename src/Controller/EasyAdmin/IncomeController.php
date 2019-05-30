@@ -7,14 +7,13 @@ namespace App\Controller\EasyAdmin;
 use App\Doctrine\Registry;
 use App\Entity\Tenant\Income;
 use App\Entity\Tenant\Wallet;
-use App\Events;
+use App\Event\IncomeAccrued;
 use App\Form\Type\MoneyType;
 use App\Manager\PaymentManager;
 use Doctrine\ORM\EntityRepository;
 use LogicException;
 use Money\Money;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -47,12 +46,12 @@ final class IncomeController extends AbstractController
         $model->wallet = null;
 
         $form = $this->createFormBuilder($model)
-            ->add('money', MoneyType::class, [])
+            ->add('money', MoneyType::class)
             ->add('wallet', EntityType::class, [
                 'label' => 'Списать сумму со счёта',
                 'required' => true,
                 'class' => Wallet::class,
-                'query_builder' => function (EntityRepository $repository) {
+                'query_builder' => static function (EntityRepository $repository) {
                     return $repository->createQueryBuilder('entity')
                         ->where('entity.useInIncome = TRUE');
                 },
@@ -112,7 +111,7 @@ final class IncomeController extends AbstractController
                 $this->paymentManager->createPayment($income->getSupplier(), $description, $income->getTotalPrice());
             });
 
-            $this->event(Events::INCOME_ACCRUED, new GenericEvent($income));
+            $this->event(new IncomeAccrued($income));
 
             return $this->redirectToReferrer();
         }

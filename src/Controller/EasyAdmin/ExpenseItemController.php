@@ -6,7 +6,7 @@ namespace App\Controller\EasyAdmin;
 
 use App\Entity\Tenant\Expense;
 use App\Entity\Tenant\ExpenseItem;
-use App\Events;
+use App\Event\ExpenseItemCreated;
 use App\Manager\PaymentManager;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -63,7 +63,7 @@ final class ExpenseItemController extends AbstractController
             return $entity;
         });
 
-        $this->event(Events::EXPENSE_ITEM_CREATED, $entity);
+        $this->event(new ExpenseItemCreated($entity));
 
         $this->setReferer($this->generateEasyPath($entity, 'list'));
     }

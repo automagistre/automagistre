@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use App\Entity\Tenant\Employee;
-use App\Events;
+use App\Event\EmployeeCreated;
+use App\Event\EmployeeFired;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -20,8 +21,8 @@ final class EmployeeContractorListener implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            Events::EMPLOYEE_CREATED => 'onEmployeeCreatedOrFired',
-            Events::EMPLOYEE_FIRED => 'onEmployeeCreatedOrFired',
+            EmployeeCreated::class => 'onEmployeeCreatedOrFired',
+            EmployeeFired::class => 'onEmployeeCreatedOrFired',
         ];
     }
 
@@ -32,6 +33,6 @@ final class EmployeeContractorListener implements EventSubscriberInterface
             throw new \LogicException('Employee expected');
         }
 
-        $entity->getPerson()->setContractor(Events::EMPLOYEE_CREATED === $eventName);
+        $entity->getPerson()->setContractor(EmployeeCreated::class === $eventName);
     }
 }

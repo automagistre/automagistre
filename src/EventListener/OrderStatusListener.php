@@ -8,7 +8,7 @@ use App\Doctrine\Registry;
 use App\Entity\Tenant\OrderItemPart;
 use App\Entity\Tenant\Reservation;
 use App\Enum\OrderStatus;
-use App\Events;
+use App\Event\PartReserved;
 use App\Manager\ReservationManager;
 use LogicException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -41,7 +41,7 @@ final class OrderStatusListener implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            Events::PART_RESERVED => 'inPartReserved',
+            PartReserved::class => 'inPartReserved',
         ];
     }
 

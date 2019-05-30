@@ -18,7 +18,6 @@ use Money\Formatter\DecimalMoneyFormatter;
 use Money\Money;
 use Money\MoneyFormatter;
 use Pagerfanta\Pagerfanta;
-use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormInterface;
@@ -135,13 +134,9 @@ abstract class AbstractController extends EasyAdminController
         return $this->request->attributes->get('easyadmin')['item'] ?? null;
     }
 
-    protected function event(string $eventName, object $event): void
+    protected function event(GenericEvent $event): void
     {
-        if (!$event instanceof Event) {
-            $event = new GenericEvent($event);
-        }
-
-        $this->container->get('event_dispatcher')->dispatch($eventName, $event);
+        $this->container->get('event_dispatcher')->dispatch($event);
     }
 
     /**

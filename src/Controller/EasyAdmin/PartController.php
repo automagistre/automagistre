@@ -13,7 +13,9 @@ use App\Entity\Landlord\Stockpile;
 use App\Entity\Tenant\Motion;
 use App\Entity\Tenant\MotionManual;
 use App\Entity\Tenant\Order;
-use App\Events;
+use App\Event\PartAccrued;
+use App\Event\PartCreated;
+use App\Event\PartDecreased;
 use App\Form\Type\QuantityType;
 use App\Manager\DeficitManager;
 use App\Manager\PartManager;
@@ -27,7 +29,6 @@ use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use LogicException;
 use Money\MoneyFormatter;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -214,7 +215,7 @@ final class PartController extends AbstractController
             $em->persist(new MotionManual($user, $part, $quantity, $description));
             $em->flush();
 
-            $this->event(Events::PART_ACCRUED, new GenericEvent($part, [
+            $this->event(new PartAccrued($part, [
                 'quantity' => $quantity,
             ]));
 
@@ -250,7 +251,7 @@ final class PartController extends AbstractController
             $em->persist(new MotionManual($user, $part, 0 - $quantity, $description));
             $em->flush();
 
-            $this->event(Events::PART_OUTCOME, new GenericEvent($part, [
+            $this->event(new PartDecreased($part, [
                 'quantity' => $quantity,
             ]));
 
@@ -495,7 +496,7 @@ final class PartController extends AbstractController
             $this->setReferer(\urldecode($referer).'&part_id='.$entity->getId());
         }
 
-        $this->event(Events::PART_CREATED, new GenericEvent($entity));
+        $this->event(new PartCreated($entity));
     }
 
     /**

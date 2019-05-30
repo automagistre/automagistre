@@ -13,7 +13,10 @@ use App\Entity\Tenant\Penalty;
 use App\Entity\Tenant\Salary;
 use App\Entity\Tenant\Wallet;
 use App\Entity\Tenant\WalletTransaction;
-use App\Events;
+use App\Event\EmployeeCreated;
+use App\Event\EmployeeFined;
+use App\Event\EmployeeFired;
+use App\Event\EmployeeSalaryIssued;
 use App\Form\Type\MoneyType;
 use App\Manager\PaymentManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -103,7 +106,7 @@ final class EmployeeController extends AbstractController
                 return $salary;
             });
 
-            $this->event(Events::EMPLOYEE_SALARY, $salary);
+            $this->event(new EmployeeSalaryIssued($salary));
 
             return $this->redirectToReferrer();
         }
@@ -170,7 +173,7 @@ final class EmployeeController extends AbstractController
                 return $penalty;
             });
 
-            $this->event(Events::EMPLOYEE_PENALTY, $penalty);
+            $this->event(new EmployeeFined($penalty));
 
             return $this->redirectToReferrer();
         }
@@ -198,7 +201,7 @@ final class EmployeeController extends AbstractController
         $entity->fire();
         $this->em->flush();
 
-        $this->event(Events::EMPLOYEE_FIRED, $entity);
+        $this->event(new EmployeeFired($entity));
 
         return $this->redirectToReferrer();
     }
@@ -212,7 +215,7 @@ final class EmployeeController extends AbstractController
 
         parent::persistEntity($entity);
 
-        $this->event(Events::EMPLOYEE_CREATED, $entity);
+        $this->event(new EmployeeCreated($entity));
     }
 
     /**

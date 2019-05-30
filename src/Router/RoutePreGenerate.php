@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Router;
 
+use Symfony\Component\EventDispatcher\GenericEvent;
+
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-interface ListeningRouterEvents
+final class RoutePreGenerate extends GenericEvent
 {
-    public const PRE_GENERATE = 'listening_router.pre_generate';
 }

@@ -9,13 +9,13 @@ use App\Entity\Landlord\Part;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItemPart;
 use App\Entity\Tenant\Reservation;
-use App\Events;
+use App\Event\PartDeReserved;
+use App\Event\PartReserved;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -77,7 +77,7 @@ final class ReservationManager
         $em->persist($reservation);
         $em->flush();
 
-        $this->dispatcher->dispatch(Events::PART_RESERVED, new GenericEvent($reservation));
+        $this->dispatcher->dispatch(new PartReserved($reservation));
     }
 
     public function deReserve(OrderItemPart $orderItemPart, int $quantity = null): void
@@ -106,7 +106,7 @@ final class ReservationManager
         $em->persist($reservation);
         $em->flush();
 
-        $this->dispatcher->dispatch(Events::PART_DERESERVED, new GenericEvent($reservation));
+        $this->dispatcher->dispatch(new PartDeReserved($reservation));
     }
 
     public function reservable(Part $part): int

@@ -8,13 +8,12 @@ use App\Doctrine\Registry;
 use App\Entity\Landlord\Operand;
 use App\Entity\Tenant\Transaction;
 use App\Entity\Transactional;
-use App\Events;
+use App\Event\PaymentCreated;
 use App\State;
 use Doctrine\ORM\EntityManagerInterface;
 use Money\Currency;
 use Money\Money;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -65,7 +64,7 @@ final class PaymentManager
             return $payment;
         });
 
-        $this->dispatcher->dispatch(Events::PAYMENT_CREATED, new GenericEvent($payment));
+        $this->dispatcher->dispatch(new PaymentCreated($payment));
 
         return $payment;
     }

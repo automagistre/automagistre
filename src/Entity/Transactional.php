@@ -9,7 +9,7 @@ namespace App\Entity;
  */
 interface Transactional
 {
-    public function getTransactionClass(): string;
-
     public function __toString(): string;
+
+    public function getTransactionClass(): string;
 }

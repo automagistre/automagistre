@@ -7,7 +7,9 @@ namespace App\EventListener;
 use App\Entity\Landlord\Part;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItemPart;
-use App\Events;
+use App\Event\OrderClosed;
+use App\Event\PartAccrued;
+use App\Event\PartDecreased;
 use App\Manager\PartManager;
 use App\Manager\StockpileManager;
 use App\State;
@@ -48,9 +50,9 @@ final class StockpileListener implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            Events::PART_ACCRUED => 'onPartMove',
-            Events::PART_OUTCOME => 'onPartMove',
-            Events::ORDER_CLOSED => 'onPartOrderClose',
+            PartAccrued::class => 'onPartMove',
+            PartDecreased::class => 'onPartMove',
+            OrderClosed::class => 'onPartOrderClose',
         ];
     }
 
