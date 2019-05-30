@@ -37,6 +37,7 @@ final class CarEngine
      * @var string
      *
      * @Assert\NotBlank
+     * @Assert\Type("numeric")
      *
      * @ORM\Column
      */
