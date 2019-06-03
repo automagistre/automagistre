@@ -12,7 +12,6 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Validator\Constraints\GreaterThan;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -95,12 +94,6 @@ final class OrderPrintController extends AbstractController
                 'label' => 'Пробег '.(0 === $mileage
                         ? '(предыдущий отсутствует)'
                         : \sprintf('(предыдущий: %s)', $mileage)),
-                'constraints' => [
-                    new GreaterThan([
-                        'value' => 2000,
-                        'message' => 'Пидр иди смотри пробег',
-                    ]),
-                ],
             ])
                 ->handleRequest($request);
 
