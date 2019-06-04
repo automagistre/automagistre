@@ -59,17 +59,12 @@
                                             Выдача
                                         </a>
                                     </li>
-                                    {% endif %}
-                                <li>
-                                    <a href="{{ easyadmin_path('OrderPrint', 'finish', {'id': order.id, 'referer': true, 'version': 1}) }}">
-                                        Заказ-наряд v1
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ easyadmin_path('OrderPrint', 'finish', {'id': order.id, 'referer': true, 'version': 2}) }}">
-                                        Заказ-наряд v2
-                                    </a>
-                                </li>
+                                {% endif %}
+                                    <li>
+                                        <a href="{{ easyadmin_path('OrderPrint', 'finish', {'id': order.id, 'referer': true, 'version': 2}) }}">
+                                            Заказ-наряд
+                                        </a>
+                                    </li>
                                 {% if order.customer is not empty %}
                                     <li>
                                         <a href="{{ easyadmin_path('OrderPrint', 'invoice', {'id': order.id, 'referer': true}) }}">
