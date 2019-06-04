@@ -132,12 +132,6 @@ final class OrderPrintController extends AbstractController
             throw new BadRequestHttpException('Order is required');
         }
 
-        if (!$order->isClosed()) {
-            $this->addFlash('error', 'Печать акта возможно только после закрытия заказа.');
-
-            return $this->redirectToReferrer();
-        }
-
         return $this->render('easy_admin/order_print/act.html.twig', [
             'order' => $order,
         ]);

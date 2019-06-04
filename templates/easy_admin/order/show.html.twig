@@ -39,13 +39,14 @@
                                     Закрыть
                                 </a>
                             {% endif %}
+                        {% endif %}
 
-                            <!-- Single button -->
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-print"></i> Печать <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-print"></i> Печать <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                {% if order.editable %}
                                     {% if car and car.recommendations is not empty %}
                                         <li>
                                             <a href="{{ easyadmin_path('OrderPrint', 'matching', {'id': order.id, 'referer': true}) }}">
@@ -58,47 +59,31 @@
                                             Выдача
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="{{ easyadmin_path('OrderPrint', 'finish', {'id': order.id, 'referer': true, 'version': 1}) }}">
-                                            Заказ-наряд v1
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ easyadmin_path('OrderPrint', 'finish', {'id': order.id, 'referer': true, 'version': 2}) }}">
-                                            Заказ-наряд v2
-                                        </a>
-                                    </li>
-                                    {% if order.customer is not empty %}
-                                        <li>
-                                            <a href="{{ easyadmin_path('OrderPrint', 'invoice', {'id': order.id, 'referer': true}) }}">
-                                                Счёт
-                                            </a>
-                                        </li>
                                     {% endif %}
-                                </ul>
-                            </div>
-                        {% else %}
-                            <a href="{{ easyadmin_path('OrderPrint', 'finish', {'id': order.id, 'referer': true, 'version': 1}) }}"
-                               class="btn btn-success">
-                                <i class="fa fa-print"></i>
-                                Финалка v1
-                            </a>
-                            <a href="{{ easyadmin_path('OrderPrint', 'finish', {'id': order.id, 'referer': true, 'version': 2}) }}"
-                               class="btn btn-success">
-                                <i class="fa fa-print"></i>
-                                Финалка v2
-                            </a>
-                            <a href="{{ easyadmin_path('OrderPrint', 'act', {'id': order.id, 'referer': true}) }}"
-                               class="btn btn-info">
-                                <i class="fa fa-print"></i>
-                                Акт
-                            </a>
-                            <a href="{{ easyadmin_path('OrderPrint', 'invoice', {'id': order.id, 'referer': true}) }}"
-                               class="btn btn-info">
-                                <i class="fa fa-print"></i>
-                                Счёт
-                            </a>
-                        {% endif %}
+                                <li>
+                                    <a href="{{ easyadmin_path('OrderPrint', 'finish', {'id': order.id, 'referer': true, 'version': 1}) }}">
+                                        Заказ-наряд v1
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ easyadmin_path('OrderPrint', 'finish', {'id': order.id, 'referer': true, 'version': 2}) }}">
+                                        Заказ-наряд v2
+                                    </a>
+                                </li>
+                                {% if order.customer is not empty %}
+                                    <li>
+                                        <a href="{{ easyadmin_path('OrderPrint', 'invoice', {'id': order.id, 'referer': true}) }}">
+                                            Счёт
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ easyadmin_path('OrderPrint', 'act', {'id': order.id, 'referer': true}) }}">
+                                            Акт
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
