@@ -47,22 +47,27 @@
                             </button>
                             <ul class="dropdown-menu">
                                 {% if order.editable %}
-                                    {% if car and car.recommendations is not empty %}
+{#                                    {% if car and car.recommendations is not empty %}#}
                                         <li>
                                             <a href="{{ easyadmin_path('OrderPrint', 'matching', {'id': order.id, 'referer': true}) }}">
                                                 Согласование
                                             </a>
                                         </li>
-                                    {% endif %}
+{#                                    {% endif %}#}
                                     <li>
                                         <a href="{{ easyadmin_path('OrderPrint', 'giveOut', {'id': order.id, 'referer': true}) }}">
-                                            Выдача
+                                            Рабочий лист
                                         </a>
                                     </li>
                                 {% endif %}
                                     <li>
                                         <a href="{{ easyadmin_path('OrderPrint', 'finish', {'id': order.id, 'referer': true, 'version': 2}) }}">
-                                            Заказ-наряд
+                                            Заказ-наряд физ.л.
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ easyadmin_path('OrderPrint', 'finish', {'id': order.id, 'referer': true, 'version': 3}) }}">
+                                            Заказ-наряд юр.л.
                                         </a>
                                     </li>
                                 {% if order.customer is not empty %}

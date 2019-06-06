@@ -1,0 +1,211 @@
+{% extends 'easy_admin/order_print/layout_v2.html.twig' %}
+
+{# @var order \App\Entity\Tenant\Order #}
+
+{% set customer = order.customer %}
+{% set car = order.car %}
+{% set balance = order.closed ? order.closedBalance : (customer is not empty ? customer|balance : null) %}
+
+{% set requisites = state.tenant.getRequisites() %}
+
+{% block content %}
+    <div class="container" id="content">
+        {% include 'easy_admin/order_print/header.html.twig' %}
+        <main>
+            <section class="order-info">
+                {% if customer is not empty %}
+                    <div class="order-info-customer">
+                        <span class="order-info-legend">
+                            Заказчик
+                        </span>
+                        {# Если заказчик организация, то выводить все доступные реквизиты#}
+                        {{- customer.fullName -}}
+
+                        {% if customer.type('person') %}
+                            {%- if customer.telephone is not empty %}
+                                тел: {{ customer.telephone|phone_number_format }}
+                            {%- endif -%}
+                            {%- if customer.email is not empty %}
+                                e-mail: {{ customer.email }}
+                            {% endif %}
+                        {%- elseif customer.type('organization') -%}
+                            {# @var customer \App\Entity\Landlord\Organization #}
+                            {%- if not customer.requisite.empty -%}
+                                , {{- customer.requisite -}}
+                            {%- endif -%}
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+                <div class="order-info-executor">
+                        <span class="order-info-legend">
+                            Исполнитель
+                        </span>
+                    {{ requisites.name }}
+                    ОГРН: {{ requisites.ogrn }}
+                    ИНН: {{ requisites.inn }}
+                    КПП: {{ requisites.kpp }}
+                    Р/С: {{ requisites.rs }}
+                    {#                    К/С: {{ requisites.ks }}#}
+                    БИК: {{ requisites.bik }}
+                </div>
+                {% if car is not empty %}
+                    <div class="order-info-car">
+                        <span class="order-info-legend">
+                            Автомобиль
+                        </span>
+                        {{ car.toString }} {{ car.vin }} {{ car.gosnomer }} пробег: {{ order.mileage }}
+                    </div>
+                {% endif %}
+            </section>
+            <h2 class="order-info-title">
+                заказ-наряд: {{ order.id }}
+                ОТ {{ (order.closed ? order.closedAt : date(null, 'Europe/Moscow'))|localizeddate('short', 'none') }}
+            </h2>
+            <section class="order">
+                <table class="table order-table">
+                    <caption>Выполненные работы</caption>
+                    <thead>
+                        <tr>
+                            <td class="order-table__loop">№</td>
+                            <td>Наименование работы</td>
+                            <td class="order-table__num">ис-ль</td>
+                            <td class="order-table__num">Цена</td>
+                            <td class="order-table__num">Скидка</td>
+                            <td class="order-table__num">Итого</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% set position = 0 %}
+                    {% for orderItemGroup in order.rootItems('group') %}
+                        {# @var orderItemGroup \App\Entity\Tenant\OrderItemGroup #}
+                        {% set position = position + 1 %}
+                        {% set groupPrice = orderItemGroup.totalServicePrice() %}
+                        {% set groupPrice_disconted = orderItemGroup.totalServicePrice(true) %}
+                        {% if orderItemGroup.hideParts %}
+                            {% set groupPrice = groupPrice.add(orderItemGroup.totalPartPrice()) %}
+                            {% set groupPrice_disconted = groupPrice_disconted.add(orderItemGroup.totalPartPrice(true)) %}
+                        {% endif %}
+                        {% set groupPrice_discount = groupPrice.subtract(groupPrice_disconted) %}
+                        <tr>
+                            <td>{{ position }}</td>
+                            <td>{{ orderItemGroup }}</td>
+                            <td></td>
+                            <td>{{ groupPrice|localize_money }}</td>
+                            <td>{{ groupPrice_discount|localize_money }}</td>
+                            <td>{{ groupPrice_disconted|localize_money }}</td>
+                        </tr>
+                    {% endfor %}
+                    {% for orderItemService in order.rootItems('service') %}
+                        {# @var orderItemService \App\Entity\Tenant\OrderItemService #}
+                        {% set position = position + 1 %}
+                        <tr>
+                            <td>{{ position }}</td>
+                            <td>{{- orderItemService -}}</td>
+                            <td>{{ orderItemService.worker.id }}</td>
+                            <td>{{ orderItemService.totalPrice()|localize_money }}</td>
+                            <td>
+                                {% if orderItemService.discounted %}
+                                    {{ orderItemService.discount|localize_money }}</td>
+                                {% endif %}
+                            <td>{{ orderItemService.totalPrice(true)|localize_money }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tbody>
+                        {% set order_works_discount =
+                            order.totalGroupPrice.add(order.totalServicePrice(false, true)).
+                            subtract(order.totalGroupPrice(true).add(order.totalServicePrice(true, true)))
+                        %}
+                        {% set order_works_total =  order.totalGroupPrice.add(order.totalServicePrice(false, true)) %}
+                        {% set order_works_total_disc = order.totalGroupPrice(true).add(order.totalServicePrice(true, true)) %}
+                        <tr class="order-table-totals">
+                            <td colspan="2" class="no-border"></td>
+                            <td class="order-table-totals__name">Итого</td>
+                            <td class="order-table-totals__sum">
+                                {{ order_works_total|localize_money }}
+                            </td>
+                            <td class="order-table-totals__sum">
+                                {{ order_works_discount|localize_money }}
+                            </td>
+                            <td class="order-table-totals__sum">
+                                {{ order_works_total_disc|localize_money }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table order-table" style="margin-top: 10px">
+                    {% set position = 0 %}
+                    <caption>Установленные запчасти</caption>
+                    <thead>
+                    <tr>
+                        <td class="order-table__loop">№</td>
+                        <td>Наименование запасной части/материала</td>
+                        <td class="order-table__executor">Кол-во</td>
+                        <td class="order-table__num">цена</td>
+                        <td class="order-table__num">итого б.с</td>
+                        <td class="order-table__num">Скидка</td>
+                        <td class="order-table__num">Итого</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for orderItemPart in order.items('part', true) %}
+                        {# @var orderItemPart \App\Entity\Tenant\OrderItemPart #}
+
+                        {% set position = position + 1 %}
+                        {% set part = orderItemPart.part %}
+                        {% set part_q = orderItemPart.quantity / 100 %}
+                        <tr>
+                            <td>{{ position }}</td>
+                            <td> {{ part.name }}
+                                <span class="order-table-part__part_number">
+                                        {{ part.number }}
+                                </span>
+                            </td>
+                            <td>{{ part_q }}</td>
+                            <td>{{ orderItemPart.price()|localize_money }}</td>
+                            <td>{{ orderItemPart.price().multiply(part_q)|localize_money }}</td>
+                            <td>
+                                {% if orderItemPart.discounted %}
+                                    {{ orderItemPart.discount.multiply(part_q)|localize_money }}
+                                {% endif %}
+                            </td>
+                            <td>{{ orderItemPart.totalPrice(true)|localize_money }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tbody>
+                    <tr class="order-table-totals">
+                        {% set order_parts_discount =  order.totalPartPrice(false, true).subtract(order.totalPartPrice(true, true)) %}
+                        <td colspan="3" class="no-border"></td>
+                        <td class="order-table-totals__name">Итого</td>
+                        <td class="order-table-totals__sum">{{ order.totalPartPrice(false, true)|localize_money }}</td>
+                        <td class="order-table-totals__sum">{{ order_parts_discount|localize_money }}</td>
+                        <td class="order-table-totals__sum">{{ order.totalPartPrice(true, true)|localize_money }} </td>
+                    </tr>
+                    </tbody>
+                    <tbody >
+                    <tr style="height: 8px"></tr>
+                    <tr class="order-table-totals">
+                        {% set order_parts_discount =  order.totalPartPrice(false, true).subtract(order.totalPartPrice(true, true)) %}
+                        <td colspan="3" class="no-border"></td>
+                        <td class="order-table-totals__name">Всего</td>
+                        <td class="order-table-totals__sum">{{ order.totalPartPrice(false, true).add(order_works_total)|localize_money }}</td>
+                        <td class="order-table-totals__sum">{{ order_parts_discount.add(order_works_discount)|localize_money }}</td>
+                        <td class="order-table-totals__sum">{{ order.totalPartPrice(true, true).add(order_works_total_disc)|localize_money }} </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+            <section class="stamps">
+                <div>С объемами и стоимостью работ согласен.
+                    С правилами предоставления услуг ознакомлен:
+                </div>
+                <div class="stamps_final">
+                    <div class="stamp">заказчик</div>
+                    <div class="stamp">исполнитель</div>
+                </div>
+            </section>
+        </main>
+    </div>
+{% endblock %}
