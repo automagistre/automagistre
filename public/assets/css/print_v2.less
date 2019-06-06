@@ -1,7 +1,7 @@
 @color_grey: #d9d9d9;
-@font_size: 3.1mm;
+@font_size: 3.5mm;
 @border_color: lighten(black, 50%);
-@cell_padding: 2px;
+@cell_padding: 3px;
 @btn_block_H: 60px;
 
 body, html {
@@ -21,7 +21,7 @@ hr {
 .container {
   padding: 1cm;
   margin: @btn_block_H + 15px auto;
-  max-width: 794px;
+  max-width: 850px;
   font-size: @font_size;
   background-color: white;
   box-shadow: 0 2px 9px rgba(0, 0, 0, 0.25);
@@ -129,6 +129,7 @@ h1 {
     border-radius: 2px;
     margin: 5px auto;
     padding: @cell_padding 10px;
+    font-size: @font_size - 0.3mm;
   }
   &-legend{
     font-weight: bold;
@@ -159,6 +160,10 @@ h1 {
     }
     &__quantity{
       width: 12mm;
+    }
+    &__loop {
+      width: 5mm;
+      text-align: center;
     }
     &-work {
       background: lighten(@color_grey, 10%);
@@ -197,7 +202,7 @@ h1 {
     caption {
       background: @color_grey;
       padding: @cell_padding;
-      font-size: @font_size + 1.5mm;
+      font-size: @font_size + 1mm;
       border-left: 1px solid @border_color;
       border-right: 1px solid @border_color;
       border-top: 1px solid @border_color;
@@ -239,7 +244,7 @@ h1 {
             text-transform: uppercase;
             font-weight: 600;
             background-color: lighten(@color_grey, 10%);
-            font-size: @font_size + 1mm;
+            font-size: @font_size + 0.3mm;
           }
           &__name {
             text-align: center;
@@ -325,7 +330,7 @@ h1 {
   text-transform: capitalize;
 
   &:after {
-    content: "_____________________________";
+    content: "______________________";
   }
 }
 

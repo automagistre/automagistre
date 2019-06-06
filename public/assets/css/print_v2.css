@@ -13,8 +13,8 @@ hr {
 .container {
   padding: 1cm;
   margin: 75px auto;
-  max-width: 794px;
-  font-size: 3.1mm;
+  max-width: 850px;
+  font-size: 3.5mm;
   background-color: white;
   box-shadow: 0 2px 9px rgba(0, 0, 0, 0.25);
 }
@@ -66,23 +66,23 @@ hr {
   background: #bd2130;
 }
 .check {
-  width: 3.62916667mm;
+  width: 4.02916667mm;
   padding: 0 0 0 2px !important;
   border-right: none !important;
 }
 .check-box {
   border: 1px solid #333333;
-  height: 2.83541667mm;
-  width: 2.83541667mm;
+  height: 3.23541667mm;
+  width: 3.23541667mm;
 }
 h1 {
-  font-size: 5.1mm;
+  font-size: 5.5mm;
 }
 .header {
   display: flex;
   width: 100%;
   justify-content: space-between;
-  font-size: 3.6mm;
+  font-size: 4mm;
 }
 .header__logo {
   margin: auto 0;
@@ -111,7 +111,8 @@ h1 {
   border: 1px dashed #b3b3b3;
   border-radius: 2px;
   margin: 5px auto;
-  padding: 2px 10px;
+  padding: 3px 10px;
+  font-size: 3.2mm;
 }
 .order-info-legend {
   font-weight: bold;
@@ -124,7 +125,7 @@ h1 {
   text-transform: uppercase;
   font-weight: 500;
   text-align: center;
-  font-size: 5.1mm;
+  font-size: 5.5mm;
 }
 .order,
 .recommendations {
@@ -142,15 +143,20 @@ h1 {
 .recommendations-table__quantity {
   width: 12mm;
 }
+.order-table__loop,
+.recommendations-table__loop {
+  width: 5mm;
+  text-align: center;
+}
 .order-table-work,
 .recommendations-table-work {
   background: #f3f3f3;
   font-weight: 600;
-  font-size: 4.1mm;
+  font-size: 4.5mm;
 }
 .order-table-work td,
 .recommendations-table-work td {
-  font-size: 3.3mm;
+  font-size: 3.7mm;
   border-right: none !important;
   border-left: none !important;
 }
@@ -183,8 +189,8 @@ h1 {
 .order-table caption,
 .recommendations-table caption {
   background: #d9d9d9;
-  padding: 2px;
-  font-size: 4.6mm;
+  padding: 3px;
+  font-size: 4.5mm;
   border-left: 1px solid #808080;
   border-right: 1px solid #808080;
   border-top: 1px solid #808080;
@@ -196,7 +202,7 @@ h1 {
 }
 .order-table thead td,
 .recommendations-table thead td {
-  padding: 2px 5px;
+  padding: 3px 5px;
   border: 1px solid #808080;
   text-align: left;
   font-weight: 600;
@@ -207,7 +213,7 @@ h1 {
 }
 .order-table tbody td,
 .recommendations-table tbody td {
-  padding: 2px 5px;
+  padding: 3px 5px;
   border: 1px solid #808080;
   text-align: left;
 }
@@ -219,7 +225,7 @@ h1 {
 .recommendations-table tbody .order-table-subtotals__name {
   text-align: center;
   text-transform: uppercase;
-  font-size: 2.9mm;
+  font-size: 3.3mm;
 }
 .order-table tbody .order-table-totals__name,
 .recommendations-table tbody .order-table-totals__name,
@@ -228,7 +234,7 @@ h1 {
   text-transform: uppercase;
   font-weight: 600;
   background-color: #f3f3f3;
-  font-size: 4.1mm;
+  font-size: 3.8mm;
 }
 .order-table tbody .order-table-totals__name,
 .recommendations-table tbody .order-table-totals__name {
@@ -240,10 +246,10 @@ h1 {
 }
 .order-table tbody .order-table-part__only .order-table-part__name,
 .recommendations-table tbody .order-table-part__only .order-table-part__name {
-  padding: 2px 5px;
+  padding: 3px 5px;
 }
 .recommendations-table-work {
-  font-size: 3.6mm;
+  font-size: 4mm;
   font-weight: 600;
 }
 .recommendations-table-work__legend {
@@ -253,7 +259,7 @@ h1 {
   padding-left: 25px !important;
 }
 .order-table-work {
-  font-size: 3.1mm;
+  font-size: 3.5mm;
 }
 .order-table-work__legend {
   width: 20mm;
@@ -277,11 +283,11 @@ h1 {
   justify-content: space-between;
 }
 .stamp {
-  font-size: 4.6mm;
+  font-size: 5mm;
   text-transform: capitalize;
 }
 .stamp:after {
-  content: "_____________________________";
+  content: "______________________";
 }
 .no-border {
   border: none !important;
@@ -322,12 +328,12 @@ h1 {
 }
 .bk-table th {
   border: 1px solid black;
-  font-size: 4.1mm;
-  padding: 2px;
+  font-size: 4.5mm;
+  padding: 3px;
 }
 .bk-table td {
   border: 1px solid black;
-  padding: 2px 5px;
+  padding: 3px 5px;
 }
 .bk-table__loop {
   width: 5mm;
@@ -335,7 +341,7 @@ h1 {
 }
 .bk-table__quantity,
 .bk-table__unit {
-  width: 17.47083333mm;
+  width: 17.20625mm;
 }
 .bk-table__num {
   width: 22mm;
@@ -343,7 +349,7 @@ h1 {
 .bk-table-total {
   text-align: right;
   font-weight: 600;
-  font-size: 3.6mm;
+  font-size: 4mm;
 }
 .bk-stamp {
   width: 45%;
@@ -352,7 +358,7 @@ h1 {
   display: inline-block;
   margin-top: 10mm;
   font-weight: 600;
-  font-size: 4.1mm;
+  font-size: 4.5mm;
 }
 .bk-stamp-line {
   margin-top: 15mm;
@@ -361,7 +367,7 @@ h1 {
 .bk-stamp-line-under {
   margin: 0 1cm;
   display: inline-block;
-  font-size: 2.6mm;
+  font-size: 3mm;
   text-transform: capitalize;
   text-align: center;
 }
@@ -372,18 +378,18 @@ h1 {
   height: 40mm;
 }
 .bank-table td {
-  padding-left: 5.77952756px;
+  padding-left: 6.77952756px;
   border: 1px solid black;
 }
 .bank-table-info {
   border-top: none !important;
-  font-size: 2.6mm;
+  font-size: 3mm;
   vertical-align: bottom;
-  padding: 2px;
+  padding: 3px;
 }
 .bank-table-title {
   vertical-align: top;
-  padding-top: 2px;
+  padding-top: 3px;
 }
 .bank-table_col_1 {
   width: 25%;
@@ -395,7 +401,7 @@ h1 {
   width: 10mm;
 }
 .bank-table_row_2 {
-  height: 5.1mm;
+  height: 5.5mm;
 }
 @media print {
   body {

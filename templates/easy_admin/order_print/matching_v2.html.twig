@@ -45,6 +45,7 @@
                     </div>
                 {% endif %}
             </div>
+            {% if car.recommendations %}
             <div class="order">
                 <table class=" table recommendations-table">
                     <caption>рекомендуемые работы и запчасти</caption>
@@ -101,6 +102,7 @@
                     </tbody>
                 </table>
             </div>
+            {% endif %}
 
             {% if order.totalPrice.isPositive %}
                 <section class="order">
@@ -162,6 +164,10 @@
                         <tr class="order-table-subtotals">
                             <td colspan="4" class="order-table-subtotals__name">Согласованных запчастей</td>
                             <td>{{ order.totalPartPrice(true)|localize_money }}</td>
+                        </tr>
+                        <tr class="order-table-subtotals">
+                            <td colspan="4" class="order-table-subtotals__name">всего по заказу</td>
+                            <td>{{ order.totalPrice(true)|localize_money }}</td>
                         </tr>
                         <tr class="order-table-totals">
                             <td colspan="4" class="order-table-totals__name">полная стоимость<br> с рекомендациями</td>
