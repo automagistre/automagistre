@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "17517c43603ea41dfd392bf8cc5aa8e5",
+    "content-hash": "042a36eaf1e10008adb3057a7436a24b",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -5992,16 +5992,16 @@
         },
         {
             "name": "symfony/http-kernel",
-            "version": "v4.3.1",
+            "version": "v4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "738ad561cd6a8d1c44ee1da941b2e628e264c429"
+                "reference": "b4ce396bdce518978a17324d3d39d61058d039e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/738ad561cd6a8d1c44ee1da941b2e628e264c429",
-                "reference": "738ad561cd6a8d1c44ee1da941b2e628e264c429",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/b4ce396bdce518978a17324d3d39d61058d039e6",
+                "reference": "b4ce396bdce518978a17324d3d39d61058d039e6",
                 "shasum": ""
             },
             "require": {
@@ -6080,7 +6080,7 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "https://symfony.com",
-            "time": "2019-06-06T13:23:34+00:00"
+            "time": "2019-05-30T06:21:08+00:00"
         },
         {
             "name": "symfony/inflector",
