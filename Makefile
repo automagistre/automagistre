@@ -215,7 +215,6 @@ app-test:
 	$(APP) console test
 
 test: APP_ENV=test
-test: DRY=1
 test: do-php-cs-fixer phpstan psalm migration-test phpunit
 
 do-php-cs-fixer:
