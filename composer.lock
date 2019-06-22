@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "042a36eaf1e10008adb3057a7436a24b",
+    "content-hash": "69bf27a876eaccdc735f40fbc5ea5e22",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -2210,33 +2210,34 @@
         },
         {
             "name": "grachevko/enum",
-            "version": "v0.13.1",
+            "version": "v0.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/grachevko/Enum.git",
-                "reference": "526388bfd890f123f1fc57c533983d72a0fd7de9"
+                "reference": "18a286142b369fe655c4b514a4ae90e74f006379"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/grachevko/Enum/zipball/526388bfd890f123f1fc57c533983d72a0fd7de9",
-                "reference": "526388bfd890f123f1fc57c533983d72a0fd7de9",
+                "url": "https://api.github.com/repos/grachevko/Enum/zipball/18a286142b369fe655c4b514a4ae90e74f006379",
+                "reference": "18a286142b369fe655c4b514a4ae90e74f006379",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
-                "php": ">=7.1"
+                "php": ">=7.3"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.12.1",
-                "phpstan/phpstan": "^0.10",
-                "phpunit/phpunit": "^7.2.6"
+                "phpstan/phpstan": "^0.11.2",
+                "phpstan/phpstan-phpunit": "^0.11.2",
+                "phpstan/phpstan-strict-rules": "^0.11.1",
+                "phpunit/phpunit": "^8.2.1",
+                "vimeo/psalm": "^3.4"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Grachevko\\Enum\\": "src/",
-                    "Grachevko\\Enum\\Tests\\": "tests/",
-                    "Grachevko\\Enum\\PHPStan\\": "PHPStan/"
+                    "Grachevko\\Enum\\": "src/"
                 },
                 "exclude-from-classmap": [
                     "/tests/"
@@ -2253,7 +2254,7 @@
                 }
             ],
             "description": "Enum class.",
-            "time": "2018-06-26T14:55:07+00:00"
+            "time": "2019-06-08T07:46:50+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",

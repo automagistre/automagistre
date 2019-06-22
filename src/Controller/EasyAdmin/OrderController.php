@@ -314,7 +314,7 @@ final class OrderController extends AbstractController
             return $this->redirectToReferrer();
         }
 
-        $status = new OrderStatus($this->request->query->getInt('status'));
+        $status = OrderStatus::create($this->request->query->getInt('status'));
         if (!$status->isSelectable()) {
             $this->addFlash('error', 'Невозможно вручную установить указанный статус');
 

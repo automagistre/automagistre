@@ -1,5 +1,4 @@
 includes:
-    - vendor/grachevko/enum/extension.neon
     - vendor/phpstan/phpstan-doctrine/extension.neon
     - vendor/phpstan/phpstan-phpunit/extension.neon
     - vendor/phpstan/phpstan-strict-rules/rules.neon

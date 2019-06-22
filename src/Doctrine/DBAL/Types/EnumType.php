@@ -44,7 +44,10 @@ abstract class EnumType extends Type
             throw ConversionException::conversionFailed($value, $this->getName());
         }
 
-        $enum = new $class($id);
+        /** @var callable $func */
+        $func = [$class, 'create'];
+        $enum = $func($id);
+
         if (!$enum instanceof Enum) {
             throw ConversionException::conversionFailed($value, $this->getName());
         }
