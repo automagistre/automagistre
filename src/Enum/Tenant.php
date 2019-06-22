@@ -17,9 +17,7 @@ use Grachevko\Enum\Enum;
 final class Tenant extends Enum
 {
     private const SANDBOX = 0;
-
     private const MSK = 1;
-
     private const KAZAN = 2;
 
     /**

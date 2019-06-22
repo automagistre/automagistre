@@ -13,10 +13,10 @@ use Grachevko\Enum\Enum;
  */
 final class NoteType extends Enum
 {
-    protected const SUCCESS = 1;
-    protected const INFO = 2;
-    protected const WARNING = 3;
-    protected const DANGER = 4;
+    private const SUCCESS = 1;
+    private const INFO = 2;
+    private const WARNING = 3;
+    private const DANGER = 4;
 
     /**
      * @var array
