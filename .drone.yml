@@ -79,7 +79,7 @@ pipeline:
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - cd "$APP_DIR"
-            - psalm --show-info=false || true
+            - psalm --show-info=false
         when:
             event: push
 

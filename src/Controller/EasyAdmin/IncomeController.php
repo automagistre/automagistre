@@ -91,7 +91,7 @@ final class IncomeController extends AbstractController
         }
 
         if (!$income->isEditable()) {
-            $this->addFlash('error', \sprintf('Приход "%s" уже оприходван', $income));
+            $this->addFlash('error', \sprintf('Приход "%s" уже оприходван', (string) $income));
 
             return $this->redirectToReferrer();
         }

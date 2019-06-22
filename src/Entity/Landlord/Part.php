@@ -81,7 +81,7 @@ class Part
 
     public function displayName(): string
     {
-        return \sprintf('%s - %s (%s)', $this->manufacturer, $this->name, $this->number);
+        return \sprintf('%s - %s (%s)', (string) $this->manufacturer, $this->name, $this->number);
     }
 
     public function equals(self $part): bool
