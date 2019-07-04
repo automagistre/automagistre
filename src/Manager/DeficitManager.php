@@ -82,7 +82,7 @@ final class DeficitManager
             $quantity = $item['needed'];
             $orders = \array_map(static function (string $id) use ($em): object {
                 return $em->getReference(Order::class, $id);
-            }, \array_filter(\explode(',', $item['orders_id']), 'strlen'));
+            }, \array_filter(\explode(',', $item['orders_id'])));
 
             return new DeficitPart($part, $quantity, $orders);
         }, $result);
