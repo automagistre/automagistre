@@ -17,6 +17,7 @@ use App\Money\TotalPriceInterface;
 use Doctrine\ORM\Mapping as ORM;
 use DomainException;
 use Money\Money;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -26,6 +27,18 @@ class OrderItemService extends OrderItem implements PriceInterface, TotalPriceIn
     use Price;
     use Warranty;
     use Discount;
+
+    /**
+     * @var bool
+     *
+     * @Assert\Expression(
+     *     "value === true and null === this.getParent()",
+     *     message="У скрытой позиции должен быть родитель."
+     * )
+     *
+     * @ORM\Column(type="boolean")
+     */
+    public $hidden = false;
 
     /**
      * @var string

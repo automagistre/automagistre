@@ -185,7 +185,6 @@ easy_admin:
                 fields:
                     - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
                     - { property: 'name', label: 'Название' }
-                    - { property: 'hideParts', label: 'Скрыть запчасти от клиента' }
             new:
                 form_options: { data_class: App\Form\Model\OrderGroup }
 
@@ -218,6 +217,7 @@ easy_admin:
                     - { property: 'worker', label: 'Исполнитель', type: App\Form\Type\WorkerType }
                     - { property: 'warranty', label: 'По гарантии?' }
                     - { property: 'discount', label: 'Скидка', type: App\Form\Type\MoneyType }
+                    - { property: 'hidden', label: 'Скрытый' }
             new:
                 form_options: { data_class: App\Form\Model\OrderService }
 
@@ -242,6 +242,7 @@ easy_admin:
                     - { property: 'warranty', label: 'По гарантии?' }
                     - { property: 'discount', label: 'Скидка', type: App\Form\Type\MoneyType }
                     - { property: 'supplier', label: 'Поставщик', type: App\Form\Type\SellerType, type_options: { relational: true } }
+                    - { property: 'hidden', label: 'Скрытый' }
             new:
                 form_options: { data_class: App\Form\Model\OrderPart }
 

@@ -51,6 +51,11 @@ final class OrderPart extends OrderItemModel
      */
     public $supplier;
 
+    /**
+     * @var bool
+     */
+    public $hidden = false;
+
     public function __construct()
     {
         $this->supplier = new OperandRelation();

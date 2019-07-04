@@ -18,6 +18,7 @@ use App\Money\TotalPriceInterface;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;
 use Money\Money;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -34,6 +35,18 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
      * @ORM\Embedded(class="App\Entity\Embeddable\OperandRelation")
      */
     public $supplier;
+
+    /**
+     * @var bool
+     *
+     * @Assert\Expression(
+     *     "value === true and null === this.getParent()",
+     *     message="У скрытой позиции должен быть родитель."
+     * )
+     *
+     * @ORM\Column(type="boolean")
+     */
+    public $hidden = false;
 
     /**
      * @var PartRelation
@@ -62,16 +75,6 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
     public function __toString(): string
     {
         return (string) $this->getPart()->getName();
-    }
-
-    public function isHidden(): bool
-    {
-        $group = $this->getParent();
-        if ($group instanceof OrderItemService) {
-            $group = $group->getParent();
-        }
-
-        return $group instanceof OrderItemGroup && $group->isHideParts();
     }
 
     public function getPart(): Part
