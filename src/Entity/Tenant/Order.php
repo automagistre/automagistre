@@ -532,10 +532,12 @@ class Order
                 continue;
             }
 
+            if ($item instanceof OrderItemGroup) {
+                continue;
+            }
+
             if ($item instanceof TotalPriceInterface) {
                 $price = $price->add($item->getTotalPrice($withDiscount));
-            } elseif ($item instanceof OrderItemGroup) {
-                continue;
             } else {
                 throw new DomainException('Can\'t calculate total price for item which not have price');
             }
