@@ -124,22 +124,18 @@ abstract class OrderItem
 
     protected function getTotalPriceByClass(string $class, bool $withDiscount = false, self $item = null): Money
     {
-        /** @var Money|null $price */
-        $price = null;
+        $price = new Money(0, new Currency('RUB'));
 
         if ($item instanceof $class && $item instanceof TotalPriceInterface) {
-            $itemPrice = $item->getTotalPrice($withDiscount);
-
-            $price = $price instanceof Money ? $price->add($itemPrice) : $itemPrice;
+            $price = $price->add($item->getTotalPrice($withDiscount));
         }
 
-        foreach ($item instanceof self ? $item->getChildren() : $this->children as $child) {
-            $itemPrice = $this->getTotalPriceByClass($class, $withDiscount, $child);
-
-            $price = $price instanceof Money ? $price->add($itemPrice) : $itemPrice;
+        /** @noinspection ProperNullCoalescingOperatorUsageInspection */
+        $item = $item ?? $this;
+        foreach ($item->getChildren() as $child) {
+            $price = $price->add($this->getTotalPriceByClass($class, $withDiscount, $child));
         }
 
-        // TODO Remove creation of Money
-        return $price ?? new Money(0, new Currency('RUB'));
+        return $price;
     }
 }
