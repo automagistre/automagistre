@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Router;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
@@ -25,7 +25,7 @@ final class BrandListener implements EventSubscriberInterface
         ];
     }
 
-    public function onKernelRequest(GetResponseEvent $event): void
+    public function onKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
 
