@@ -19,6 +19,7 @@ final class Tenant extends Enum
     private const SANDBOX = 0;
     private const MSK = 1;
     private const KAZAN = 2;
+    private const SHAVLEV = 3;
 
     /**
      * @var array
@@ -27,6 +28,7 @@ final class Tenant extends Enum
         self::SANDBOX => 'sandbox',
         self::MSK => 'msk',
         self::KAZAN => 'kazan',
+        self::SHAVLEV => 'shavlev',
     ];
 
     /**
@@ -36,6 +38,7 @@ final class Tenant extends Enum
         self::SANDBOX => 'Песочница',
         self::MSK => 'Москва',
         self::KAZAN => 'Казань',
+        self::SHAVLEV => 'ИП Щавлев В.А.',
     ];
 
     /**
@@ -72,6 +75,20 @@ final class Tenant extends Enum
             'ks' => '30101810145250000974',
             'bik' => '044525974',
         ],
+        self::SHAVLEV => [
+            'name' => 'ИП Щавлев В.А.',
+            'address' => 'Моск. обл., Орехово-Зуевский район, п. Пригородный, Малодубенское шоссе, 3 км, цех № 1',
+            'telephones' => [
+                '+7 (496) 423-43-18',
+                '+7 (926) 214-56-65',
+            ],
+            'bank' => 'ПАО СБЕРБАНК',
+            'ogrn' => null,
+            'inn' => '507303160627',
+            'rs' => '40802810940000009848',
+            'ks' => '30101810400000000225',
+            'bik' => '044525225',
+        ]
     ];
 
     public function getIdentifier(): string

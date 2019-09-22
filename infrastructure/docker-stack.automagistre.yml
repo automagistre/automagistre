@@ -88,6 +88,17 @@ services:
             labels:
                 - "traefik.enable=false"
 
+    migration_tenant_shavlev:
+        <<: *app
+        command: wait-for-it.sh tenant_kazan:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --db=tenant --em=tenant --tenant=shavlev
+        deploy:
+            mode: replicated
+            replicas: 1
+            restart_policy:
+                condition: none
+            labels:
+                - "traefik.enable=false"
+
     landlord: &mysql
         image: mariadb:10.3.10
         volumes:
@@ -160,6 +171,21 @@ services:
         volumes:
             -   type: bind
                 source: /home/automagistre/tenant_kazan
+                target: /var/lib/mysql
+            -   type: bind
+                source: /home/automagistre/backups
+                target: /backups
+
+    tenant_shavlev:
+        <<: *mysql
+        environment:
+            MYSQL_DATABASE: tenant
+            MYSQL_USER: db
+            MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
+            MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
+        volumes:
+            -   type: bind
+                source: /home/automagistre/tenant_shavlev
                 target: /var/lib/mysql
             -   type: bind
                 source: /home/automagistre/backups
