@@ -66,7 +66,7 @@ class User implements UserInterface, EquatableInterface, Serializable
     private $person;
 
     /**
-     * @var Tenant[]
+     * @var int[]
      *
      * @ORM\Column(type="json_array")
      */
@@ -102,11 +102,12 @@ class User implements UserInterface, EquatableInterface, Serializable
         $collection = new ArrayCollection($this->tenants);
         $id = $tenant->getId();
 
-        if (!$collection->contains($id)) {
-            $collection->add($id);
-
-            $this->tenants = $collection->toArray();
+        if ($collection->contains($id)) {
+            return;
         }
+
+        $collection->add($id);
+        $this->tenants = $collection->toArray();
     }
 
     public function removeTenant(Tenant $tenant): void

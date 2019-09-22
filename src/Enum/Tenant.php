@@ -88,7 +88,7 @@ final class Tenant extends Enum
             'rs' => '40802810940000009848',
             'ks' => '30101810400000000225',
             'bik' => '044525225',
-        ]
+        ],
     ];
 
     public function getIdentifier(): string
