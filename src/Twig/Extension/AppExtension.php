@@ -67,16 +67,9 @@ final class AppExtension extends AbstractExtension
 
     public function buildTime(): DateTimeImmutable
     {
-        $string = $this->parameterBag->get('app_build_time');
-        $object = DateTimeImmutable::createFromFormat(DATE_RFC2822, $string);
+        $timestamp = $this->parameterBag->get('container.build_time');
 
-        if (!$object instanceof DateTimeImmutable) {
-            throw new LogicException(
-                \sprintf('Can\'t create "%s" from string "%s"', DateTimeImmutable::class, $string)
-            );
-        }
-
-        return $object;
+        return new DateTimeImmutable('@'.$timestamp);
     }
 
     /**

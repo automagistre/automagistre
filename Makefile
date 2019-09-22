@@ -138,7 +138,6 @@ app-build:
 		--build-arg APP_ENV=dev \
 		--build-arg APP_DEBUG=1 \
 		--build-arg APP_VERSION=dev \
-		--build-arg APP_BUILD_TIME="`date --rfc-2822`" \
 		--target dev \
 		--tag $(APP_IMAGE) \
 		.
