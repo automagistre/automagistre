@@ -65,6 +65,7 @@
                             {% block tenant_switch %}
                                 {# @var current \App\Enum\Tenant #}
                                 {% set current = state.tenant %}
+                                {% set tenants = app.user.tenants|filter(tenant => not tenant.eq(current)) %}
 
                                 <ul class="nav navbar-nav" style="margin-top: 7px">
                                     <li class="dropdown user user-menu">
@@ -74,19 +75,21 @@
                                             <button type="button" class="btn" data-toggle="dropdown">
                                                 {{ current.getDisplayName() }}
                                             </button>
-                                            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                {% for tenant in tenants()|filter(tenant => not tenant.eq(current)) %}
-                                                    {# @var tenant \App\Entity\Landlord\Tenant #}
-                                                    <li>
-                                                        <a href="{{ path('easyadmin', app.request.query.all()|merge({'tenant': tenant.getIdentifier()})) }}">
-                                                            <i class="fa fa-link"></i> {{ tenant.getDisplayName() }}
-                                                        </a>
-                                                    </li>
-                                                {% endfor %}
-                                            </ul>
+                                            {% if tenants is not empty %}
+                                                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    {% for tenant in tenants %}
+                                                        {# @var tenant \App\Entity\Landlord\Tenant #}
+                                                        <li>
+                                                            <a href="{{ path('easyadmin', app.request.query.all()|merge({'tenant': tenant.getIdentifier()})) }}">
+                                                                <i class="fa fa-link"></i> {{ tenant.getDisplayName() }}
+                                                            </a>
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            {% endif %}
                                         </div>
                                     </li>
                                 </ul>

@@ -6,7 +6,6 @@ namespace App\Twig\Extension;
 
 use App\Doctrine\Registry;
 use App\Entity\Tenant\Wallet;
-use App\Enum\Tenant;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -39,7 +38,6 @@ final class LayoutExtension extends AbstractExtension
                     'is_safe' => ['html'],
                     'needs_environment' => true,
                 ]),
-            new TwigFunction('tenants', [$this, 'tenants']),
         ];
     }
 
@@ -50,10 +48,5 @@ final class LayoutExtension extends AbstractExtension
         return $twig->render('admin/layout/balance.html.twig', [
             'wallets' => $em->getRepository(Wallet::class)->findBy(['showInLayout' => true]),
         ]);
-    }
-
-    public function tenants(): array
-    {
-        return Tenant::all();
     }
 }

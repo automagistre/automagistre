@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\Landlord;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Enum\Tenant;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -64,6 +65,13 @@ class User implements UserInterface, EquatableInterface, Serializable
      */
     private $person;
 
+    /**
+     * @var Tenant[]
+     *
+     * @ORM\Column(type="json_array")
+     */
+    private $tenants = [];
+
     public function __construct(Person $person = null)
     {
         $this->credentials = new ArrayCollection();
@@ -87,6 +95,35 @@ class User implements UserInterface, EquatableInterface, Serializable
     public function getPerson(): ?Person
     {
         return $this->person;
+    }
+
+    public function addTenant(Tenant $tenant): void
+    {
+        $collection = new ArrayCollection($this->tenants);
+        $id = $tenant->getId();
+
+        if (!$collection->contains($id)) {
+            $collection->add($id);
+
+            $this->tenants = $collection->toArray();
+        }
+    }
+
+    public function removeTenant(Tenant $tenant): void
+    {
+        $collection = new ArrayCollection($this->tenants);
+        $collection->removeElement($tenant->getId());
+
+        $this->tenants = $collection->toArray();
+    }
+
+    public function getTenants(): array
+    {
+        if ([] === $this->tenants) {
+            return [];
+        }
+
+        return Tenant::all($this->tenants);
     }
 
     public function getFirstname(): ?string

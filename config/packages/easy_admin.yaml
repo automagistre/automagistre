@@ -121,6 +121,7 @@ easy_admin:
                     - { property: 'person', label: 'Клиент', type: 'easyadmin_autocomplete', type_options: { class: App\Entity\Landlord\Person } }
                     - { property: 'password', label: 'Пароль', type: 'password', type_options: { required: true } }
                     - { property: 'roles', label: 'Роли', type: App\Form\Type\RoleType, type_options: { required: false, multiple: true, expanded: true } }
+                    - { property: 'tenants', label: 'Севрисы', type: App\Form\Type\TenantType, type_options: { required: false, multiple: true, expanded: true } }
             show:
                 title: 'Пользователь № {{ entity.id }}'
                 form_options: { data_class: stdClass }
@@ -136,6 +137,7 @@ easy_admin:
                     - { property: 'person', label: 'Клиент', type: 'easyadmin_autocomplete', type_options: { class: App\Entity\Landlord\Person } }
                     - { property: 'password', label: 'Пароль', type: 'password', type_options: { required: false, mapped: false } }
                     - { property: 'roles', label: 'Роли', type: App\Form\Type\RoleType, type_options: { required: false, multiple: true, expanded: true } }
+                    - { property: 'tenants', label: 'Севрисы', type: App\Form\Type\TenantType, type_options: { required: false, multiple: true, expanded: true } }
 
         Order:
             class: App\Entity\Tenant\Order
