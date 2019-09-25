@@ -57,13 +57,7 @@ final class TenantListener implements EventSubscriberInterface
         }
 
         $request = $event->getRequest();
-        // TODO Refactor this expression
-        if (!\in_array($request->attributes->get('_route'), [
-            'easyadmin',
-            'admin_part_explorer',
-            'admin_report_profit',
-            'admin_report_part_sell',
-        ], true)) {
+        if (!$this->isSupportedRoute($request->attributes->get('_route'))) {
             return;
         }
 
@@ -120,8 +114,7 @@ final class TenantListener implements EventSubscriberInterface
     {
         ['name' => $name, 'parameters' => $parameters, 'referenceType' => $referenceType] = $event->getArguments();
 
-        // TODO Refactor this expression
-        if ('easyadmin' !== $name && 0 !== \strpos($name, 'admin_')) {
+        if (!$this->isSupportedRoute($name)) {
             return;
         }
 
@@ -132,6 +125,19 @@ final class TenantListener implements EventSubscriberInterface
         $parameters['tenant'] = $this->state->tenant()->getIdentifier();
 
         $event->setArguments(['name' => $name, 'parameters' => $parameters, 'referenceType' => $referenceType]);
+    }
+
+    /**
+     * TODO Refactor this expression.
+     */
+    private function isSupportedRoute(string $routeName): bool
+    {
+        return \in_array($routeName, [
+            'easyadmin',
+            'admin_part_explorer',
+            'admin_report_profit',
+            'admin_report_part_sell',
+        ], true);
     }
 
     /**
