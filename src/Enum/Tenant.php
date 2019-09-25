@@ -9,8 +9,8 @@ use Grachevko\Enum\Enum;
 /**
  * @method bool isSandbox()
  * @method string getDisplayName()
- * @method static self msk()
- * @method static self fromIdentifier(string $name)
+ * @method static Tenant msk()
+ * @method static Tenant fromIdentifier(string $name)
  *
  * @author Konstantin Grachev <me@grachevko.ru>
  */

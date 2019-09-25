@@ -118,6 +118,9 @@ class User implements UserInterface, EquatableInterface, Serializable
         $this->tenants = $collection->toArray();
     }
 
+    /**
+     * @return Tenant[]
+     */
     public function getTenants(): array
     {
         if ([] === $this->tenants) {

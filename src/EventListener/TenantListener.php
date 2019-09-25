@@ -14,9 +14,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -28,15 +30,21 @@ final class TenantListener implements EventSubscriberInterface
      */
     private $state;
 
-    public function __construct(State $state)
+    /**
+     * @var AuthorizationCheckerInterface
+     */
+    private $authorizationChecker;
+
+    public function __construct(State $state, AuthorizationCheckerInterface $authorizationChecker)
     {
         $this->state = $state;
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::REQUEST => ['onKernelRequest', 31],
+            KernelEvents::REQUEST => 'onKernelRequest',
             ConsoleEvents::COMMAND => ['onConsoleCommand'],
             RoutePreGenerate::class => 'onRouterPreGenerate',
         ];
@@ -59,16 +67,23 @@ final class TenantListener implements EventSubscriberInterface
             return;
         }
 
-        $tenant = $this->validate($request->attributes->get('tenant'));
-        if (null === $tenant) {
+        $identifier = $this->validate($request->attributes->get('tenant'));
+        if (null === $identifier) {
             throw new BadRequestHttpException('Tenant invalid or not exist.');
         }
 
-        if (!Tenant::isValid($tenant)) {
-            throw new NotFoundHttpException(\sprintf('Undefined tenant "%s"', $tenant));
+        if (!Tenant::isValid($identifier)) {
+            throw new NotFoundHttpException(\sprintf('Undefined tenant "%s"', $identifier));
         }
 
-        $this->state->tenant(Tenant::fromIdentifier($tenant));
+        $tenant = Tenant::fromIdentifier($identifier);
+        if (!$this->authorizationChecker->isGranted('ACCESS', $tenant)) {
+            throw new AccessDeniedHttpException(
+                \sprintf('You are not permitted to access "%s" tenant', $tenant->getName())
+            );
+        }
+
+        $this->state->tenant($tenant);
     }
 
     public function onConsoleCommand(ConsoleCommandEvent $event): void
