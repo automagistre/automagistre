@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 final class State
 {
     /**
-     * @var Tenant
+     * @var Tenant|null
      */
     private $tenant;
 
@@ -40,7 +40,6 @@ final class State
     {
         $this->tokenStorage = $tokenStorage;
         $this->switcher = $switcher;
-        $this->tenant = Tenant::msk();
     }
 
     public function tenant(Tenant $tenant = null): Tenant
@@ -48,6 +47,10 @@ final class State
         if (null !== $tenant) {
             $this->switcher->switch($tenant);
             $this->tenant = $tenant;
+        }
+
+        if (null === $this->tenant) {
+            throw new LogicException('Tenant must be defined before getting it.');
         }
 
         return $this->tenant;
