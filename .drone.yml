@@ -119,6 +119,9 @@ pipeline:
                 .
             - >-
                 docker build -t "automagistre/app-nginx:${DRONE_BUILD_NUMBER}"
+                --build-arg APP_ENV="prod"
+                --build-arg APP_DEBUG="0"
+                --build-arg APP_VERSION="$DRONE_BUILD_NUMBER"
                 --target nginx
                 .
         when:
