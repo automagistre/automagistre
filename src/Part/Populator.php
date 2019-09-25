@@ -48,7 +48,8 @@ final class Populator
         $parts = [];
         foreach ($this->finder->search($number) as $model) {
             $exists = $partQuery
-                ->setParameters(['manufacturer' => $model->manufacturer, 'part' => $model->number])
+                ->setParameter('manufacturer', $model->manufacturer)
+                ->setParameter('part', $model->number)
                 ->getOneOrNullResult();
 
             if ($exists instanceof Part) {

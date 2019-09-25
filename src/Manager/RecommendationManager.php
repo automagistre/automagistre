@@ -121,9 +121,7 @@ final class RecommendationManager
                     ->from(Reservation::class, 'entity')
                     ->where('entity.orderItemPart = :item')
                     ->getQuery()
-                    ->setParameters([
-                        'item' => $orderItemPart,
-                    ])
+                    ->setParameter('item', $orderItemPart)
                     ->execute();
 
                 $recommendation->addPart(new CarRecommendationPart(

@@ -97,9 +97,7 @@ final class CarRecommendationController extends AbstractController
                 ->where('cr.car = :car')
                 ->orderBy('entity.id', 'DESC')
                 ->getQuery()
-                ->setParameters([
-                    'car' => $car,
-                ])
+                ->setParameter('car', $car)
                 ->setMaxResults(1)
                 ->getOneOrNullResult();
         }

@@ -96,9 +96,7 @@ abstract class OrderItemController extends AbstractController
                 ->from(Reservation::class, 'entity')
                 ->where('entity.orderItemPart = :item')
                 ->getQuery()
-                ->setParameters([
-                    'item' => $item,
-                ])
+                ->setParameter('item', $item)
                 ->execute();
         }
 

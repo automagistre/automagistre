@@ -73,9 +73,7 @@ final class ReviewsController extends AbstractController
             ->where('entity.manufacturer = :brand')
             ->setMaxResults(3 + 5)
             ->getQuery()
-            ->setParameters([
-                'brand' => $brand,
-            ])
+            ->setParameter('brand', $brand)
             ->getResult();
 
         return $this->render('www/Service/Reviews/section.html.twig', [

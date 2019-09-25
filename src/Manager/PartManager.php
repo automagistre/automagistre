@@ -174,9 +174,7 @@ final class PartManager
             ->from(PartCross::class, 'entity')
             ->where(':part MEMBER OF entity.parts')
             ->getQuery()
-            ->setParameters([
-                'part' => $part,
-            ])
+            ->setParameter('part', $part)
             ->getOneOrNullResult();
     }
 }

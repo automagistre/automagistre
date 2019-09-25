@@ -49,9 +49,7 @@ final class SupplierManager
             ->addOrderBy('entity.id', 'DESC')
             ->getQuery()
             ->setMaxResults(10)
-            ->setParameters([
-                'supplier' => $supplier->getId(),
-            ])
+            ->setParameter('supplier', $supplier->getId())
             ->getResult();
 
         $result = [];
