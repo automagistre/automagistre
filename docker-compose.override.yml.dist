@@ -2,7 +2,6 @@ version: '3.7'
 
 services:
     app:
-        command: console server:run 0.0.0.0:80
         environment:
             APP_ENV: dev
             APP_DEBUG: 1
@@ -10,12 +9,3 @@ services:
             PHP_OPCACHE_ENABLE: 0
             XDEBUG_CONFIG: remote_enable=0 remote_autostart=1
             PHP_IDE_CONFIG: serverName=automagistre.local
-
-    nginx:
-        build:
-            context: .
-            target: nginx
-        labels:
-            ru.grachevko.dhu: '{sto,www}.automagistre.local:2'
-        volumes:
-            - ./public:/usr/local/app/public

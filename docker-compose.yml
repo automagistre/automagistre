@@ -1,10 +1,22 @@
 version: '3.7'
 
 services:
+    nginx:
+        image: automagistre/nginx@sha256:4e9dc071d90e06506c1d43a42f77131b9cbabc2704492328036ea1095859c19a
+        build:
+            context: .
+            target: nginx
+        labels:
+            ru.grachevko.dhu: '{sto,www}.automagistre.local:2'
+        volumes:
+            - ./public:/usr/local/app/public
+
     app:
         image: automagistre/app@sha256:77cd51556357ad970e0b22a1681ff4a0b35ffaf184bce4eaeb2a45d8c94cdee6
+        build:
+            context: .
+            target: app
         labels:
-            ru.grachevko.dhu: '{sto,www}.automagistre.local'
             restartable: 'true'
         networks:
             default:
