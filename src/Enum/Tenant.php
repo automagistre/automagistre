@@ -88,7 +88,7 @@ final class Tenant extends Enum
             'email' => null,
             'logo' => 'logo_smith.png',
             'telephones' => [
-//                '+7 (496) 423-43-18',
+                //                '+7 (496) 423-43-18',
                 '+7 (926) 214-56-65',
             ],
             'bank' => 'ПАО СБЕРБАНК',
