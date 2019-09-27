@@ -2,7 +2,7 @@
 
 <header class="header">
     <div class="header__logo">
-        <img src="{{ asset('assets/img/logo_print.svg') }}" alt="Автомагистр">
+        <img src="{{ asset('assets/img/' ~ requisites.logo) }}" alt="{{ requisites.name }}">
     </div>
     <div class="header_contacts">
         <ul>
@@ -11,8 +11,8 @@
             {% endfor %}
         </ul>
         <ul>
-            <li class="header_contacts__item">www.automagistre.ru</li>
-            <li class="header_contacts__item">info@automagistre.ru</li>
+            <li class="header_contacts__item">{{ requisites.site }}</li>
+            <li class="header_contacts__item">{{ requisites.email }}</li>
         </ul>
     </div>
 </header>
