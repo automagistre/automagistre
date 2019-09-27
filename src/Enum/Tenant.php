@@ -49,6 +49,9 @@ final class Tenant extends Enum
         self::MSK => [
             'name' => 'ООО "Автомагистр"',
             'address' => 'г. Москва, ул. Люблинская, д. 31/1',
+            'site' => 'www.automagistre.ru',
+            'email' => 'info@automagistre.ru',
+            'logo' => 'logo_automagistre.svg',
             'telephones' => [
                 '+7 (495) 984-81-82',
                 '+7 (985) 929-40-87',
@@ -57,13 +60,16 @@ final class Tenant extends Enum
             'ogrn' => '5137746189060',
             'inn' => '7725812690',
             'kpp' => '772301001',
-            'rs' => '40702810202000000371',
-            'ks' => '30101810800000000427',
+            'rs' => '40702810810000060618',
+            'ks' => '30101810145250000974',
             'bik' => '044525974',
         ],
         self::KAZAN => [
             'name' => 'ИП Ахметзянов А.А.',
             'address' => 'г. Казань, Магистральная 33 к.1',
+            'site' => 'www.automagistre.ru',
+            'email' => 'info@automagistre.ru',
+            'logo' => 'logo_automagistre.svg',
             'telephones' => [
                 '+7 (843) 297-77-60',
                 '+7 (843) 297-77-61',
@@ -78,8 +84,11 @@ final class Tenant extends Enum
         self::SHAVLEV => [
             'name' => 'ИП Щавлев В.А.',
             'address' => 'Моск. обл., Орехово-Зуевский район, п. Пригородный, Малодубенское шоссе, 3 км, цех № 1',
+            'site' => 'vk.com/smitavtoservis',
+            'email' => null,
+            'logo' => 'logo_smith.png',
             'telephones' => [
-                '+7 (496) 423-43-18',
+                //                '+7 (496) 423-43-18',
                 '+7 (926) 214-56-65',
             ],
             'bank' => 'ПАО СБЕРБАНК',
