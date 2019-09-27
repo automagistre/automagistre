@@ -88,6 +88,9 @@ h1 {
   margin: auto 0;
   padding: 10px 0;
 }
+.header__logo img {
+  max-height: 70px;
+}
 .header_contacts {
   display: flex;
   padding: 10px 5px;
