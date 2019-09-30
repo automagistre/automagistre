@@ -63,7 +63,7 @@ final class Tenant extends Enum
             'rs' => '40702810810000060618',
             'ks' => '30101810145250000974',
             'bik' => '044525974',
-            'guarantyUrl' => 'www.automagistre.ru/gr',
+            'guarantyUrl' => 'https://www.automagistre.ru/gr',
         ],
         self::KAZAN => [
             'name' => 'ИП Ахметзянов А.А.',
@@ -81,7 +81,7 @@ final class Tenant extends Enum
             'rs' => '40802810500000686477',
             'ks' => '30101810145250000974',
             'bik' => '044525974',
-            'guarantyUrl' => 'www.automagistre.ru/gr',
+            'guarantyUrl' => 'https://www.automagistre.ru/gr',
         ],
         self::SHAVLEV => [
             'name' => 'ИП Щавлев В.А.',
