@@ -85,11 +85,12 @@ h1 {
   font-size: 4mm;
 }
 .header__logo {
+  opacity: 0.5;
   margin: auto 0;
   padding: 10px 0;
 }
 .header__logo img {
-  max-height: 70px;
+  max-height: 1.7cm;
 }
 .header_contacts {
   display: flex;
@@ -98,12 +99,6 @@ h1 {
 .header_contacts ul {
   margin: auto 5px;
   list-style: none;
-}
-.header__logo {
-  opacity: 0.5;
-}
-.header__logo img {
-  max-width: 6cm;
 }
 .order-info {
   margin: 10px auto;
