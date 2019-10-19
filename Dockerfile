@@ -91,7 +91,7 @@ COPY ./ ${APP_DIR}/
 
 RUN set -ex \
     && mv config/php.ini ${PHP_INI_DIR}/php.ini \
-    && mv config/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf \
+    && mv config/php-fpm.conf /usr/local/etc/php-fpm.d/automagistre.conf \
     && rm -f config/nginx.conf \
     && composer install --no-interaction --no-progress \
         $(if [ "prod" = "$APP_ENV" ]; then echo "--no-dev --classmap-authoritative"; fi) \
