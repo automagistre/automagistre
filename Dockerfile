@@ -21,7 +21,7 @@ RUN gulp build:main-script build:scripts build:less
 # PHP-FPM
 #
 FROM composer:1.9.0 as composer
-FROM php:7.3.9-fpm-stretch as app
+FROM php:7.3.10-fpm-stretch as app
 
 LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 
@@ -46,15 +46,15 @@ RUN set -ex \
 
 RUN set -ex \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include --with-jpeg-dir=/usr/include \
-    && docker-php-ext-install zip pdo_mysql iconv opcache pcntl gd
+    && docker-php-ext-install -j$(nproc) zip pdo_mysql iconv opcache pcntl gd
 
 RUN set -ex \
 	&& cd /tmp \
 	&& curl -L https://github.com/unicode-org/icu/releases/download/release-65-1/icu4c-65_1-src.tgz | tar xz \
 	&& cd icu/source \
-	&& ./configure --prefix=/opt/icu && make && make install \
+	&& ./configure --prefix=/opt/icu && make -j "$(nproc)" && make install \
 	&& docker-php-ext-configure intl --with-icu-dir=/opt/icu \
-	&& docker-php-ext-install intl \
+	&& docker-php-ext-install -j$(nproc) intl \
 	&& rm -rf /tmp/icu
 
 RUN set -ex \
