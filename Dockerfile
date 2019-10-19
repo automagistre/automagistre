@@ -50,7 +50,7 @@ RUN set -ex \
 
 RUN set -ex \
 	&& cd /tmp \
-	&& curl http://download.icu-project.org/files/icu4c/63.1/icu4c-63_1-src.tgz | tar xz \
+	&& curl -L https://github.com/unicode-org/icu/releases/download/release-65-1/icu4c-65_1-src.tgz | tar xz \
 	&& cd icu/source \
 	&& ./configure --prefix=/opt/icu && make && make install \
 	&& docker-php-ext-configure intl --with-icu-dir=/opt/icu \
@@ -86,12 +86,13 @@ ENV APP_VERSION ${APP_VERSION}
 
 ENV PHP_MEMORY_LIMIT 128m
 ENV PHP_OPCACHE_ENABLE 1
-COPY config/php.ini ${PHP_INI_DIR}/php.ini
-COPY config/php-fpm.conf /usr/local/etc/php-fpm.d/automagistre.conf
 
 COPY ./ ${APP_DIR}/
 
 RUN set -ex \
+    && mv config/php.ini ${PHP_INI_DIR}/php.ini \
+    && mv config/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf \
+    && rm -f config/nginx.conf \
     && composer install --no-interaction --no-progress \
         $(if [ "prod" = "$APP_ENV" ]; then echo "--no-dev --classmap-authoritative"; fi) \
     && chown -R www-data:www-data ${APP_DIR}/var
