@@ -70,7 +70,7 @@
         "symfony/requirements-checker": "^1.1",
         "symfony/web-profiler-bundle": "^4.2",
         "vimeo/psalm": "^3.2",
-        "weirdan/doctrine-psalm-plugin": "^0.6.0"
+        "weirdan/doctrine-psalm-plugin": "^0.8.0"
     },
     "scripts": {
         "auto-scripts": [
