@@ -9,7 +9,7 @@ services:
             - ./public:/usr/local/app/public
 
     app:
-        image: automagistre/app@sha256:77cd51556357ad970e0b22a1681ff4a0b35ffaf184bce4eaeb2a45d8c94cdee6
+        image: automagistre/app@sha256:f7d40b0fa55b587234275ea123a20cb2fd75941f51d0458ea8404b70de597181
         labels:
             restartable: 'true'
         networks:
