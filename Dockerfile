@@ -58,7 +58,7 @@ RUN set -ex \
 	&& rm -rf /tmp/icu
 
 RUN set -ex \
-    && pecl install memcached apcu \
+    && pecl install memcached apcu xdebug \
     && docker-php-ext-enable memcached apcu
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
@@ -134,10 +134,3 @@ RUN find . \
     -exec echo Compressed: {} \;
 
 HEALTHCHECK --interval=5s --timeout=3s --start-period=5s CMD curl --fail http://127.0.0.1/healthcheck || exit 1
-
-#
-# PHP-FPM DEV
-#
-FROM app as dev
-RUN set -ex \
-    && pecl install xdebug
