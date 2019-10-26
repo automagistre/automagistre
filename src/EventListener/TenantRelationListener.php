@@ -11,25 +11,29 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Events;
 use LogicException;
+use Psr\Cache\CacheItemPoolInterface;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
 final class TenantRelationListener implements EventSubscriber
 {
-    /**
-     * @var array
-     */
-    private static $map = [];
+    private const CACHE_KEY = 'tenant_mapping';
 
     /**
      * @var Registry
      */
     private $registry;
 
-    public function __construct(Registry $registry)
+    /**
+     * @var CacheItemPoolInterface
+     */
+    private $cache;
+
+    public function __construct(Registry $registry, CacheItemPoolInterface $cache)
     {
         $this->registry = $registry;
+        $this->cache = $cache;
     }
 
     /**
@@ -47,13 +51,19 @@ final class TenantRelationListener implements EventSubscriber
     {
         $classMetadata = $event->getClassMetadata();
 
+        $cacheItem = $this->cache->getItem(self::CACHE_KEY);
+
+        $map = $cacheItem->get() ?? [];
         foreach ($classMetadata->embeddedClasses as $property => $embedded) {
             $embeddedClass = $embedded['class'];
 
             if (\is_subclass_of($embeddedClass, Relation::class, true)) {
-                self::$map[$classMetadata->getName()][$property] = $embeddedClass;
+                $map[$classMetadata->getName()][$property] = $embeddedClass;
             }
         }
+
+        $cacheItem->set($map);
+        $this->cache->save($cacheItem);
     }
 
     public function postLoad(LifecycleEventArgs $event): void
@@ -65,11 +75,12 @@ final class TenantRelationListener implements EventSubscriber
 
         $entityClass = $classMetadata->getName();
 
-        if (!\array_key_exists($entityClass, self::$map)) {
+        $map = $this->cache->getItem(self::CACHE_KEY)->get() ?? [];
+        if (!\array_key_exists($entityClass, $map)) {
             return;
         }
 
-        foreach (self::$map[$entityClass] as $property => $class) {
+        foreach ($map[$entityClass] as $property => $class) {
             $reflectionProperty = $classMetadata->getReflectionProperty($property);
             $reflectionProperty->setAccessible(true);
 

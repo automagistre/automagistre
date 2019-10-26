@@ -44,3 +44,7 @@ services:
 
     App\Router\ListeningRouterDecorator:
         decorates: router
+
+    App\EventListener\TenantRelationListener:
+        arguments:
+            $cache: '@app.cache.tenant_relations'
