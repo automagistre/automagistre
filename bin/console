@@ -6,11 +6,6 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\Dotenv\Dotenv;
 
-// if you don't want to setup permissions the proper way, just uncomment the following PHP line
-// read http://symfony.com/doc/current/setup.html#checking-symfony-application-configuration-and-setup
-// for more information
-//umask(0000);
-
 set_time_limit(0);
 
 /** @var Composer\Autoload\ClassLoader $loader */
@@ -25,6 +20,7 @@ $env = $input->getParameterOption(['--env', '-e'], getenv('APP_ENV') ?: 'dev');
 $debug = getenv('APP_DEBUG') !== '0' && !$input->hasParameterOption(['--no-debug', '']);
 
 if ($debug) {
+    umask(0000);
     Debug::enable();
 }
 
