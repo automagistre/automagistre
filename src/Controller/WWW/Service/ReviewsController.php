@@ -76,6 +76,10 @@ final class ReviewsController extends AbstractController
             ->setParameter('brand', $brand)
             ->getResult();
 
+        if ([] === $reviews) {
+            return new Response();
+        }
+
         return $this->render('www/Service/Reviews/section.html.twig', [
             'reviews' => $reviews,
             'brand' => $brand,
