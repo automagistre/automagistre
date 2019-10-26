@@ -9,3 +9,15 @@ twig:
     form_themes:
         - 'bootstrap_3_layout.html.twig'
         - 'easy_admin/form.html.twig'
+
+services:
+    _defaults:
+        public: false
+        autowire: true
+        autoconfigure: true
+
+    #Twig\Extensions\ArrayExtension: ~
+    #Twig\Extensions\DateExtension: ~
+    Twig\Extensions\IntlExtension: ~
+    #Twig\Extensions\TextExtension: ~
+    Twig\Extension\StringLoaderExtension: ~
