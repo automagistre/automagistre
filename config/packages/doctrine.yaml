@@ -79,6 +79,10 @@ doctrine:
                     superclass:
                         <<: *superclass
 
+doctrine_migrations:
+    namespace: App\Migrations
+    dir_name: '%kernel.project_dir%/src/Migrations'
+
 parameters:
     env(MYSQL_USER): db
     env(MYSQL_PASSWORD): '%env(file:MYSQL_PASSWORD_FILE)%'
