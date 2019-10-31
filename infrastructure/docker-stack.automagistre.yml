@@ -205,7 +205,7 @@ services:
     old_site:
         image: grachev/swarm-nginx:12
         environment:
-            NGINX_BACKEND_HOST: 192.168.0.1:80
+            NGINX_BACKEND_HOST: 176.100.244.45:80
         networks:
             - ingress
         deploy:
