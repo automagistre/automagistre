@@ -17,7 +17,7 @@ ifndef TENANT
 override TENANT = msk
 endif
 
-BACKUP_SERVER="s2.automagistre.ru"
+BACKUP_SERVER="s3.automagistre.ru"
 
 ###> CONSTANTS ###
 DOCKER_COMPOSE_VERSION=1.24.0
