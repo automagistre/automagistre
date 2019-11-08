@@ -23,10 +23,9 @@ services:
 
     App\:
         resource: '../src'
-        exclude: '../src/{Entity,Enum,Model,RoadRunner}'
+        exclude: '../src/{Entity,Enum,Model}'
     App\Controller\:
         resource: '../src/Controller'
-        public: true
         tags:
             - { name: controller.service_arguments }
 
@@ -44,7 +43,3 @@ services:
 
     App\Router\ListeningRouterDecorator:
         decorates: router
-
-    App\EventListener\TenantRelationListener:
-        arguments:
-            $cache: '@app.cache.tenant_relations'

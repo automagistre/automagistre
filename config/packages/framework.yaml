@@ -16,11 +16,6 @@ framework:
     assets: ~
     php_errors:
         log: '%kernel.debug%'
-    cache:
-        pools:
-            app.cache.tenant_relations:
-                adapter: cache.adapter.apcu
-                public: false
 
 services:
     Symfony\Component\PropertyAccess\PropertyAccessorInterface:

@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App;
 
 use App\DependencyInjection\EnumDoctrineTypesCompilerPass;
+use App\Tenant\MetadataCompilerPass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel as SymfonyKernel;
@@ -87,6 +89,7 @@ final class Kernel extends SymfonyKernel implements CompilerPassInterface
     protected function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new EnumDoctrineTypesCompilerPass());
+        $container->addCompilerPass(new MetadataCompilerPass(), PassConfig::TYPE_OPTIMIZE);
     }
 
     /**

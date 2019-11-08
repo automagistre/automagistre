@@ -2,38 +2,34 @@
 
 declare(strict_types=1);
 
-namespace App\EventListener;
+namespace App\Tenant;
 
 use App\Doctrine\Registry;
 use App\Entity\Embeddable\Relation;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Events;
 use LogicException;
-use Psr\Cache\CacheItemPoolInterface;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
 final class TenantRelationListener implements EventSubscriber
 {
-    private const CACHE_KEY = 'tenant_mapping';
-
     /**
      * @var Registry
      */
     private $registry;
 
     /**
-     * @var CacheItemPoolInterface
+     * @var array
      */
-    private $cache;
+    private $map;
 
-    public function __construct(Registry $registry, CacheItemPoolInterface $cache)
+    public function __construct(Registry $registry, array $map = [])
     {
         $this->registry = $registry;
-        $this->cache = $cache;
+        $this->map = $map;
     }
 
     /**
@@ -42,28 +38,13 @@ final class TenantRelationListener implements EventSubscriber
     public function getSubscribedEvents(): array
     {
         return [
-            Events::loadClassMetadata,
             Events::postLoad,
         ];
     }
 
-    public function loadClassMetadata(LoadClassMetadataEventArgs $event): void
+    public function isOptional(): bool
     {
-        $classMetadata = $event->getClassMetadata();
-
-        $cacheItem = $this->cache->getItem(self::CACHE_KEY);
-
-        $map = $cacheItem->get() ?? [];
-        foreach ($classMetadata->embeddedClasses as $property => $embedded) {
-            $embeddedClass = $embedded['class'];
-
-            if (\is_subclass_of($embeddedClass, Relation::class, true)) {
-                $map[$classMetadata->getName()][$property] = $embeddedClass;
-            }
-        }
-
-        $cacheItem->set($map);
-        $this->cache->save($cacheItem);
+        return false;
     }
 
     public function postLoad(LifecycleEventArgs $event): void
@@ -75,12 +56,11 @@ final class TenantRelationListener implements EventSubscriber
 
         $entityClass = $classMetadata->getName();
 
-        $map = $this->cache->getItem(self::CACHE_KEY)->get() ?? [];
-        if (!\array_key_exists($entityClass, $map)) {
+        if (!\array_key_exists($entityClass, $this->map)) {
             return;
         }
 
-        foreach ($map[$entityClass] as $property => $class) {
+        foreach ($this->map[$entityClass] as $property => $class) {
             $reflectionProperty = $classMetadata->getReflectionProperty($property);
             $reflectionProperty->setAccessible(true);
 
