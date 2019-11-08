@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enum;
 
-use Grachevko\Enum\Enum;
+use Premier\Enum\Enum;
 
 /**
  * @method static self unknown()

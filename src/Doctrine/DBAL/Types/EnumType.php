@@ -7,7 +7,7 @@ namespace App\Doctrine\DBAL\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
-use Grachevko\Enum\Enum;
+use Premier\Enum\Enum;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
