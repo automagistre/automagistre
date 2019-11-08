@@ -23,7 +23,7 @@
         "doctrine/doctrine-bundle": "^1.11",
         "doctrine/doctrine-migrations-bundle": "^2.0",
         "doctrine/orm": "^2.6",
-        "easycorp/easyadmin-bundle": "^v2.1",
+        "easycorp/easyadmin-bundle": "^2.3",
         "endroid/qr-code-bundle": "^3.3",
         "facile-it/doctrine-mysql-come-back": "^1.7",
         "long-running/long-running": "^0.4.1",
