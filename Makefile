@@ -35,7 +35,7 @@ define failed
     @tput sgr0
 endef
 
-notify = $(DEBUG_ECHO) notify-send --urgency="critical" "Makefile: $@" "COMPLETE!"
+notify = $(DEBUG_ECHO) notify-send --urgency=low --expire-time=50 "Makefile" "$@ success!"
 
 init:
 	cp -n .env.dist .env || true
@@ -48,24 +48,23 @@ un-init:
 re-init: un-init init
 
 start: do-up backup-download db-wait backup
-bootstrap: init pull do-install docker-hosts-updater do-up cache permissions db-wait fixtures
+bootstrap: init pull do-install docker-hosts-updater do-up cache db-wait fixtures
 
-install: do-install permissions
+install: do-install
 do-install: app-install
 
-do-update: docker-compose-install pull do-install do-up db-wait permissions cache restart migration
+do-update: docker-compose-install pull do-install do-up db-wait cache restart migration
 update: do-update
 	@$(notify)
 master: git-check-stage-is-clear git-fetch git-checkout-master git-reset-master do-update
 	@$(notify)
 
-cs: do-php-cs-fixer permissions
-
 clear-logs: app-clear-logs
 
 docker-hosts-updater:
+	docker pull grachev/docker-hosts-updater
 	docker rm -f docker-hosts-updater || true
-	docker run -d --restart=always --name docker-hosts-updater -v /var/run/docker.sock:/var/run/docker.sock -v /etc/hosts:/opt/hosts grachev/docker-hosts-updater:0.3
+	docker run -d --restart=always --name docker-hosts-updater -v /var/run/docker.sock:/var/run/docker.sock -v /etc/hosts:/opt/hosts grachev/docker-hosts-updater
 
 ###> GIT ###
 git-check-stage-is-clear:
@@ -95,10 +94,8 @@ up: do-up
 	@$(notify)
 status:
 	watch docker-compose ps
-cli: do-cli permissions
-do-cli:
-	$(APP) bash
-cs: do-php-cs-fixer
+cli: app-cli
+
 
 RESTARTABLE_SERVICES = $(shell docker inspect --format='{{index .Config.Labels "com.docker.compose.service"}}' `docker ps --filter label="restartable=true" --filter label="com.docker.compose.project=${COMPOSE_PROJECT_NAME}" --quiet`)
 
@@ -148,32 +145,21 @@ APP = $(DEBUG_ECHO) @docker-compose $(if $(EXEC),exec,run --rm )\
 	$(if $(ENTRYPOINT),--entrypoint "$(ENTRYPOINT)" )\
 	$(if $(APP_ENV),-e APP_ENV=$(APP_ENV) )\
 	$(if $(APP_DEBUG),-e APP_DEBUG=$(APP_DEBUG) )\
+	$(if $(USER_ROOT),,--user $(shell id -u))\
 	app
 
+permissions: USER_ROOT=1
 permissions:
 	$(APP) sh -c "chown $(shell id -u):$(shell id -g) -R . && chmod 777 -R var/ || true"
 	$(call success,"Permissions fixed.")
 
-app-cli:
-	$(APP)
+app-cli: permissions
+	$(APP) bash
 
-app-install: do-composer-install vendor-phar-remove
+app-install: composer
 
-composer: do-cache-clear composer-install
-composer-install: do-composer-install permissions vendor-phar-remove
-composer-update: do-composer-update permissions vendor-phar-remove
-composer-update-lock: do-composer-update-lock permissions
-composer-outdated:
-	$(APP) composer outdated
-do-composer-install:
+composer: cache-clear
 	$(APP) composer install
-do-composer-update:
-	$(APP) composer update
-do-composer-update-lock:
-	$(APP) composer update --lock
-# Prevent idea to adding this phar to *.iml config
-vendor-phar-remove:
-	@rm -rf $(APP_DIR)/vendor/twig/twig/test/Twig/Tests/Loader/Fixtures/phar/phar-sample.phar $(APP_DIR)/vendor/symfony/symfony/src/Symfony/Component/DependencyInjection/Tests/Fixtures/includes/ProjectWithXsdExtensionInPhar.phar $(APP_DIR)/vendor/phpunit/phpunit/tests/_files/phpunit-example-extension/tools/phpunit.d/phpunit-example-extension-1.0.1.phar $(APP_DIR)/vendor/phar-io/manifest/tests/_fixture/test.phar || true
 
 MIGRATION_CONSOLE = --db=${EM} --em=${EM} $(TENANT_CONSOLE) --no-interaction
 
@@ -210,16 +196,12 @@ migration-test:
 schema-update:
 	$(APP) console doctrine:schema:update --force --em=${EM} $(TENANT_CONSOLE)
 
-app-test:
-	$(APP) console test
-
 test: APP_ENV=test
-test: do-php-cs-fixer phpstan psalm migration-test phpunit
+test: APP_DEBUG=1
+test: php-cs-fixer cache phpstan psalm migration-test phpunit
 
-do-php-cs-fixer:
-	$(APP) php-cs-fixer fix $(if $(DRY),--dry-run) $(if $(DEBUG),-vvv,--quiet > /dev/null)
-	$(call success,"php-cs-fixer fix")
-php-cs-fixer: do-php-cs-fixer permissions
+php-cs-fixer:
+	$(APP) php-cs-fixer fix $(if $(DRY),--dry-run) $(if $(DEBUG),-vvv)
 
 phpstan:
 	$(APP) phpstan analyse --configuration phpstan.neon $(if $(DEBUG),--debug -vvv)
@@ -233,16 +215,15 @@ requirements:
 psalm:
 	$(APP) psalm --show-info=false
 
-cache: do-cache-clear do-cache-warmup permissions
-cache-clear: do-cache-clear permissions
-cache-warmup: do-cache-warmup permissions
+cache: cache-clear cache-warmup
+cache-clear: USER_ROOT=1
+cache-clear:
+	$(APP) sh -c 'rm -rf var/cache/$$APP_ENV'
+cache-warmup:
+	$(APP) console cache:warmup
+	@$(MAKE) permissions
 cache-profiler:
 	$(APP) sh -c 'rm -rf var/cache/$$APP_ENV/profiler' || true
-
-do-cache-clear:
-	$(APP) sh -c 'rm -rf var/cache/$$APP_ENV'
-do-cache-warmup:
-	$(APP) console cache:warmup
 
 app-clear-logs:
 	$(APP) rm -rf var/logs/*
