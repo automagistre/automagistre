@@ -87,6 +87,7 @@ final class WorkerType extends AbstractType
             ->select('entity')
             ->from(OrderItemService::class, 'entity')
             ->where('entity.createdAt > :today')
+            ->andWhere('entity.worker.id IS NOT NULL')
             ->groupBy('entity.worker.id')
             ->setParameter('today', new \DateTime('-10 hour'))
             ->getQuery()
