@@ -1,34 +1,17 @@
-/public/check.php
-/docker-compose.override.yml
-
 # Dev
-/docker/php/php-dev.ini
+/.idea/
+/docker-compose.override.yml
 /config/routes/dev/test.yaml
 /src/Command/TestCommand.php
 /src/Controller/TestController.php
 /templates/test.html.twig
 
-# Node
-/node_modules
-/public/assets/build
-
-###> symfony/framework-bundle ###
+# Symfony
 .env
 /public/bundles/
 /var/
 /vendor/
-###< symfony/framework-bundle ###
 
-###> friendsofphp/php-cs-fixer ###
-.php_cs
-.php_cs.cache
-###< friendsofphp/php-cs-fixer ###
-
-###> phpunit/phpunit ###
-/phpunit.xml
-###< phpunit/phpunit ###
-/.idea/
-
-###> symfony/web-server-bundle ###
-/.web-server-pid
-###< symfony/web-server-bundle ###
+# Node
+/node_modules
+/public/assets/build
