@@ -425,6 +425,8 @@ easy_admin:
                 show: 'easy_admin/employee/show.html.twig'
             list:
                 title: 'Сотрудники'
+                sort: [firedAt, ASC]
+                max_results: 30
                 fields:
                     - { property: 'id' }
                     - { property: 'person', label: 'Ф.И.О', template: 'easy_admin/field_show.html.twig' }
