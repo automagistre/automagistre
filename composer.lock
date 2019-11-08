@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "044b6f9e37deb2ee6584c053f9719a55",
+    "content-hash": "96d858c1aff48fe4661fa4be50b159cf",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -3755,6 +3755,57 @@
             ],
             "description": "A PSR-5 based resolver of Class names, Types and Structural Element Names",
             "time": "2019-08-22T18:11:29+00:00"
+        },
+        {
+            "name": "premier/enum",
+            "version": "v1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/grachevko/Enum.git",
+                "reference": "4171266069a53eb9ada4b2ad27a8f27faa706ed0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/grachevko/Enum/zipball/4171266069a53eb9ada4b2ad27a8f27faa706ed0",
+                "reference": "4171266069a53eb9ada4b2ad27a8f27faa706ed0",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ctype": "*",
+                "php": ">=7.3"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.15",
+                "phpstan/phpstan": "^0.11",
+                "phpstan/phpstan-phpunit": "^0.11",
+                "phpstan/phpstan-strict-rules": "^0.11",
+                "phpunit/phpunit": "^8.2",
+                "vimeo/psalm": "^3.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Premier\\Enum\\": "src/"
+                },
+                "exclude-from-classmap": [
+                    "/tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Konstantin Grachev",
+                    "email": "me@grachevko.ru"
+                }
+            ],
+            "description": "PHP Enum implementation",
+            "keywords": [
+                "enum"
+            ],
+            "time": "2019-10-28T18:14:17+00:00"
         },
         {
             "name": "psr/cache",
@@ -10791,57 +10842,6 @@
                 "xunit"
             ],
             "time": "2019-11-06T09:42:23+00:00"
-        },
-        {
-            "name": "premier/enum",
-            "version": "v1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/grachevko/Enum.git",
-                "reference": "4171266069a53eb9ada4b2ad27a8f27faa706ed0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/grachevko/Enum/zipball/4171266069a53eb9ada4b2ad27a8f27faa706ed0",
-                "reference": "4171266069a53eb9ada4b2ad27a8f27faa706ed0",
-                "shasum": ""
-            },
-            "require": {
-                "ext-ctype": "*",
-                "php": ">=7.3"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.15",
-                "phpstan/phpstan": "^0.11",
-                "phpstan/phpstan-phpunit": "^0.11",
-                "phpstan/phpstan-strict-rules": "^0.11",
-                "phpunit/phpunit": "^8.2",
-                "vimeo/psalm": "^3.4"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Premier\\Enum\\": "src/"
-                },
-                "exclude-from-classmap": [
-                    "/tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Konstantin Grachev",
-                    "email": "me@grachevko.ru"
-                }
-            ],
-            "description": "PHP Enum implementation",
-            "keywords": [
-                "enum"
-            ],
-            "time": "2019-10-28T18:14:17+00:00"
         },
         {
             "name": "psalm/plugin-phpunit",
