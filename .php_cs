@@ -48,6 +48,7 @@ return PhpCsFixer\Config::create()
         'phpdoc_types_order'                    => ['null_adjustment' => 'always_last', 'sort_algorithm' => 'none'],
         'random_api_migration'                  => true,
         'simplified_null_return'                => false,
+        'single_line_throw'                     => false,
         'strict_comparison'                     => true,
         'strict_param'                          => true,
         'ternary_to_null_coalescing'            => true,
