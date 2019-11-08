@@ -50,7 +50,7 @@ final class WorkerType extends AbstractType
                     ->setParameter('is_contractor', true);
             },
             'preferred_choices' => static function (Operand $operand) use ($preferred) {
-                return array_key_exists($operand->getId(), $preferred);
+                return \array_key_exists($operand->getId(), $preferred);
             },
             'choice_label' => static function (Operand $operand) {
                 return (string) $operand;
@@ -65,7 +65,7 @@ final class WorkerType extends AbstractType
                     return 'Организация';
                 }
 
-                throw new LogicException(sprintf('Unexpected Operand: "%s"', get_class($operand)));
+                throw new LogicException(\sprintf('Unexpected Operand: "%s"', \get_class($operand)));
             },
         ]);
     }
