@@ -32,7 +32,7 @@ services:
                 - "traefik.backend.loadbalancer.method=drr"
 
     mysql:
-        image: mariadb:10.3.10
+        image: mariadb:10.4.10
         volumes:
             - /home/drone/db:/var/lib/mysql
         environment:

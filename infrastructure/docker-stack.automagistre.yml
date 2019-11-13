@@ -100,7 +100,7 @@ services:
                 - "traefik.enable=false"
 
     landlord: &mysql
-        image: mariadb:10.3.10
+        image: mariadb:10.4.10
         volumes:
             -   type: bind
                 source: /home/automagistre/landlord

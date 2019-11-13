@@ -8,7 +8,7 @@ doctrine:
                 mapping_types:
                     enum: string
                 charset:  UTF8
-                server_version: mariadb-10.3.10
+                server_version: mariadb-10.4.10
                 wrapper_class: 'Facile\DoctrineMySQLComeBack\Doctrine\DBAL\Connection'
                 driver_class: 'Facile\DoctrineMySQLComeBack\Doctrine\DBAL\Driver\PDOMySql\Driver'
                 options:
@@ -22,7 +22,7 @@ doctrine:
                 mapping_types:
                     enum: string
                 charset:  UTF8
-                server_version: mariadb-10.3.10
+                server_version: mariadb-10.4.10
                 wrapper_class: 'Facile\DoctrineMySQLComeBack\Doctrine\DBAL\Connection'
                 driver_class: 'Facile\DoctrineMySQLComeBack\Doctrine\DBAL\Driver\PDOMySql\Driver'
                 options:
