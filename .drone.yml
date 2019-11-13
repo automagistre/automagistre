@@ -23,11 +23,7 @@ pipeline:
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - >-
-                php-cs-fixer fix
-                --config=./.php_cs.dist
-                --verbose
-                --dry-run
-                --using-cache=no
+                php-cs-fixer fix --dry-run --diff-format udiff --using-cache=no
         when:
             branch:
                 exclude: master
@@ -78,7 +74,7 @@ pipeline:
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - cd "$APP_DIR"
-            - psalm --show-info=false
+            - psalm --show-info=false --no-progress
         when:
             event: push
 
