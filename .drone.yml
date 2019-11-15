@@ -10,7 +10,8 @@ steps:
     -   name: build app
         image: docker:18.06.1-ce
         volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
+            -   name: docker.sock
+                path: /var/run/docker.sock
         commands:
             - >-
                 docker build -t "automagistre/app:${DRONE_BUILD_NUMBER}"
@@ -30,7 +31,6 @@ steps:
                 exclude: master
 
     -   name: blank end line
-        group: validate
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - >-
@@ -54,7 +54,6 @@ steps:
                 exclude: [ master ]
 
     -   name:  symfony security
-        group: validate
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - security-checker security:check $APP_DIR/composer.lock
@@ -69,7 +68,6 @@ steps:
             - phpstan analyse --configuration phpstan.neon --no-progress
 
     -   name:  psalm
-        group: validate
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - cd "$APP_DIR"
@@ -78,7 +76,6 @@ steps:
             event: push
 
     -   name:  doctrine
-        group: validate
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - $$WAIT_FOR_IT landlord:3306
@@ -91,7 +88,6 @@ steps:
             MYSQL_PASSWORD: 'db'
 
     -   name:  phpunit
-        group: test
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - cd "$APP_DIR"
@@ -100,10 +96,10 @@ steps:
             MYSQL_PASSWORD: 'db'
 
     -   name: build app prod
-        group: deploy
         image: docker:18.06.1-ce
         volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
+            -   name: docker.sock
+                path: /var/run/docker.sock
         commands:
             - >-
                 docker build -t "automagistre/app:${DRONE_BUILD_NUMBER}"
@@ -127,7 +123,8 @@ steps:
     -   name: deploy
         image: docker/compose:1.23.1
         volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
+            -   name: docker.sock
+                path: /var/run/docker.sock
         commands:
             - cd infrastructure
             - docker-compose --file docker-stack.automagistre.yml config | docker stack deploy --prune --with-registry-auth --compose-file - automagistre
@@ -158,8 +155,13 @@ services:
         tmpfs:
             - /var/lib/mysql
 
+volumes:
+    -   name: docker.sock
+        host:
+            path: /var/run/docker.sock
+
 ---
 kind: signature
-hmac: 2369b52328d29034216f0b4a09da459c0f640048cd77351d21fa391d045fc433
+hmac: a1750bdf6fdd62b483f4fb47244bbe2787362fb89841e9174c0257a323c9ea4d
 
 ...
