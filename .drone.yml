@@ -1,14 +1,17 @@
-clone:
-    git:
-        image: plugins/git
-        depth: 1
+---
+kind: pipeline
+type: docker
+name: default
 
-pipeline:
-    build app:
-        group: build
-        image: docker:18.06.1-ce
+clone:
+    depth: 1
+
+steps:
+    -   name: build app
+        image: docker:19.03.5
         volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
+            -   name: docker.sock
+                path: /var/run/docker.sock
         commands:
             - >-
                 docker build -t "automagistre/app:${DRONE_BUILD_NUMBER}"
@@ -18,8 +21,7 @@ pipeline:
                 --target app
                 .
 
-    validate php-cs-fixer:
-        group: validate
+    -   name: php-cs-fixer
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - >-
@@ -27,9 +29,10 @@ pipeline:
         when:
             branch:
                 exclude: master
+        depends_on:
+            - build app
 
-    validate blank end line:
-        group: validate
+    -   name: blank end line
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - >-
@@ -43,43 +46,48 @@ pipeline:
         when:
             branch:
                 exclude: master
+        depends_on:
+            - build app
 
-    validate symfony requirements:
-        group: validate
+    -   name:  symfony requirements
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - requirements-checker
         when:
             branch:
                 exclude: [ master ]
+        depends_on:
+            - build app
 
-    validate symfony security:
-        group: validate
+    -   name:  symfony security
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - security-checker security:check $APP_DIR/composer.lock
         when:
             branch:
                 exclude: [ master ]
+        depends_on:
+            - build app
 
-    validate phpstan:
-        group: validate
+    -   name:  phpstan
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - cd "$APP_DIR"
             - phpstan analyse --configuration phpstan.neon --no-progress
+        depends_on:
+            - build app
 
-    validate psalm:
-        group: validate
+    -   name:  psalm
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - cd "$APP_DIR"
             - psalm --show-info=false --no-progress
         when:
             event: push
+        depends_on:
+            - build app
 
-    validate doctrine:
-        group: validate
+    -   name:  doctrine
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - $$WAIT_FOR_IT landlord:3306
@@ -90,21 +98,24 @@ pipeline:
             - console doctrine:schema:validate --em=tenant --tenant=msk
         environment:
             MYSQL_PASSWORD: 'db'
+        depends_on:
+            - build app
 
-    test phpunit:
-        group: test
+    -   name:  phpunit
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - cd "$APP_DIR"
             - paratest --processes=$(grep -c ^processor /proc/cpuinfo || 4)
         environment:
             MYSQL_PASSWORD: 'db'
+        depends_on:
+            - doctrine
 
-    build app prod:
-        group: deploy
+    -   name: build prod images
         image: docker:18.06.1-ce
         volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
+            -   name: docker.sock
+                path: /var/run/docker.sock
         commands:
             - >-
                 docker build -t "automagistre/app:${DRONE_BUILD_NUMBER}"
@@ -124,11 +135,14 @@ pipeline:
             event: push
             branch: master
             status: success
+        depends_on:
+            - phpunit
 
-    deploy:
+    -   name: deploy
         image: docker/compose:1.23.1
         volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
+            -   name: docker.sock
+                path: /var/run/docker.sock
         commands:
             - cd infrastructure
             - docker-compose --file docker-stack.automagistre.yml config | docker stack deploy --prune --with-registry-auth --compose-file - automagistre
@@ -137,10 +151,12 @@ pipeline:
             event: push
             branch: master
             status: success
+        depends_on:
+            - build prod images
 
 services:
-    landlord:
-        image: mariadb:10.3.10
+    -   name: landlord
+        image: mariadb:10.4.10
         environment:
             MYSQL_DATABASE: 'landlord'
             MYSQL_USER: 'db'
@@ -148,8 +164,9 @@ services:
             MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
         tmpfs:
             - /var/lib/mysql
-    tenant_msk:
-        image: mariadb:10.3.10
+
+    -   name: tenant_msk
+        image: mariadb:10.4.10
         environment:
             MYSQL_DATABASE: 'tenant'
             MYSQL_USER: 'db'
@@ -157,3 +174,14 @@ services:
             MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
         tmpfs:
             - /var/lib/mysql
+
+volumes:
+    -   name: docker.sock
+        host:
+            path: /var/run/docker.sock
+
+---
+kind: signature
+hmac: 26a5eee2cdf397ae27c0bac51b9b2caef2987e81b6ee4e45f35f86578ae8c3d2
+
+...
