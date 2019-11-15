@@ -8,7 +8,7 @@ clone:
 
 steps:
     -   name: build app
-        image: docker:18.06.1-ce
+        image: docker:19.03.5
         volumes:
             -   name: docker.sock
                 path: /var/run/docker.sock
@@ -29,6 +29,8 @@ steps:
         when:
             branch:
                 exclude: master
+        depends_on:
+            - build app
 
     -   name: blank end line
         image: automagistre/app:${DRONE_BUILD_NUMBER}
@@ -44,6 +46,8 @@ steps:
         when:
             branch:
                 exclude: master
+        depends_on:
+            - build app
 
     -   name:  symfony requirements
         image: automagistre/app:${DRONE_BUILD_NUMBER}
@@ -52,6 +56,8 @@ steps:
         when:
             branch:
                 exclude: [ master ]
+        depends_on:
+            - build app
 
     -   name:  symfony security
         image: automagistre/app:${DRONE_BUILD_NUMBER}
@@ -60,12 +66,16 @@ steps:
         when:
             branch:
                 exclude: [ master ]
+        depends_on:
+            - build app
 
     -   name:  phpstan
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - cd "$APP_DIR"
             - phpstan analyse --configuration phpstan.neon --no-progress
+        depends_on:
+            - build app
 
     -   name:  psalm
         image: automagistre/app:${DRONE_BUILD_NUMBER}
@@ -74,6 +84,8 @@ steps:
             - psalm --show-info=false --no-progress
         when:
             event: push
+        depends_on:
+            - build app
 
     -   name:  doctrine
         image: automagistre/app:${DRONE_BUILD_NUMBER}
@@ -86,6 +98,8 @@ steps:
             - console doctrine:schema:validate --em=tenant --tenant=msk
         environment:
             MYSQL_PASSWORD: 'db'
+        depends_on:
+            - build app
 
     -   name:  phpunit
         image: automagistre/app:${DRONE_BUILD_NUMBER}
@@ -94,8 +108,10 @@ steps:
             - paratest --processes=$(grep -c ^processor /proc/cpuinfo || 4)
         environment:
             MYSQL_PASSWORD: 'db'
+        depends_on:
+            - doctrine
 
-    -   name: build app prod
+    -   name: build prod images
         image: docker:18.06.1-ce
         volumes:
             -   name: docker.sock
@@ -119,6 +135,8 @@ steps:
             event: push
             branch: master
             status: success
+        depends_on:
+            - phpunit
 
     -   name: deploy
         image: docker/compose:1.23.1
@@ -133,10 +151,12 @@ steps:
             event: push
             branch: master
             status: success
+        depends_on:
+            - build prod images
 
 services:
     -   name: landlord
-        image: mariadb:10.3.10
+        image: mariadb:10.4.10
         environment:
             MYSQL_DATABASE: 'landlord'
             MYSQL_USER: 'db'
@@ -146,7 +166,7 @@ services:
             - /var/lib/mysql
 
     -   name: tenant_msk
-        image: mariadb:10.3.10
+        image: mariadb:10.4.10
         environment:
             MYSQL_DATABASE: 'tenant'
             MYSQL_USER: 'db'
@@ -162,6 +182,6 @@ volumes:
 
 ---
 kind: signature
-hmac: a1750bdf6fdd62b483f4fb47244bbe2787362fb89841e9174c0257a323c9ea4d
+hmac: 26a5eee2cdf397ae27c0bac51b9b2caef2987e81b6ee4e45f35f86578ae8c3d2
 
 ...
