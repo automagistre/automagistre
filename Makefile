@@ -145,23 +145,22 @@ APP = $(DEBUG_ECHO) @docker-compose $(if $(EXEC),exec,run --rm )\
 	$(if $(ENTRYPOINT),--entrypoint "$(ENTRYPOINT)" )\
 	$(if $(APP_ENV),-e APP_ENV=$(APP_ENV) )\
 	$(if $(APP_DEBUG),-e APP_DEBUG=$(APP_DEBUG) )\
-	$(if $(USER_ROOT),,--user $(shell id -u))\
 	app
 
-permissions: USER_ROOT=1
+PERMISSIONS = chown $(shell id -u):$(shell id -g) -R . && chmod 777 -R var/
 permissions:
-	$(APP) sh -c "chown $(shell id -u):$(shell id -g) -R . && chmod 777 -R var/ || true"
+	$(APP) sh -c "$(PERMISSIONS) || true"
 	$(call success,"Permissions fixed.")
 
-app-cli: permissions
+app-cli:
 	$(APP) bash
 
 app-install: composer
 
-composer: cache-clear
-	$(APP) composer install
+composer:
+	$(APP) sh -c 'rm -rf var/cache/* && composer install'
 
-MIGRATION_CONSOLE = --db=${EM} --em=${EM} $(TENANT_CONSOLE) --no-interaction
+MIGRATION_CONSOLE = --em=${EM} $(TENANT_CONSOLE) --no-interaction
 
 migration: migration-landlord migration-tenant
 migration-landlord:
@@ -171,7 +170,7 @@ migration-tenant:
 do-migration:
 	$(APP) console doctrine:migration:migrate --allow-no-migration $(MIGRATION_CONSOLE)
 
-migration-generate: do-migration-generate php-cs-fixer
+migration-generate: do-migration-generate php-cs-fixer permissions
 do-migration-generate:
 	$(APP) console doctrine:migrations:generate
 migration-rollback:latest = $(shell make app-cli CMD="console doctrine:migration:latest" | tr '\r' ' ')
@@ -201,7 +200,7 @@ test: APP_DEBUG=1
 test: php-cs-fixer cache phpstan psalm migration-test phpunit
 
 php-cs-fixer:
-	$(APP) php-cs-fixer fix $(if $(DRY),--dry-run) $(if $(DEBUG),-vvv)
+	$(APP) sh -c 'php-cs-fixer fix $(if $(DRY),--dry-run) $(if $(DEBUG),-vvv); $(PERMISSIONS)'
 
 phpstan:
 	$(APP) phpstan analyse --configuration phpstan.neon $(if $(DEBUG),--debug -vvv)
@@ -215,15 +214,8 @@ requirements:
 psalm:
 	$(APP) psalm --show-info=false
 
-cache: cache-clear cache-warmup
-cache-clear: USER_ROOT=1
-cache-clear:
-	$(APP) sh -c 'rm -rf var/cache/$$APP_ENV'
-cache-warmup:
-	$(APP) console cache:warmup
-	@$(MAKE) permissions
-cache-profiler:
-	$(APP) sh -c 'rm -rf var/cache/$$APP_ENV/profiler' || true
+cache:
+	$(APP) sh -c 'rm -rf var/cache/$$APP_ENV && console cache:warmup; $(PERMISSIONS)'
 
 app-clear-logs:
 	$(APP) rm -rf var/logs/*
