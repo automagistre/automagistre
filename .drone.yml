@@ -1,11 +1,13 @@
-clone:
-    git:
-        image: plugins/git
-        depth: 1
+---
+kind: pipeline
+type: docker
+name: default
 
-pipeline:
-    build app:
-        group: build
+clone:
+    depth: 1
+
+steps:
+    -   name: build app
         image: docker:18.06.1-ce
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
@@ -18,8 +20,7 @@ pipeline:
                 --target app
                 .
 
-    validate php-cs-fixer:
-        group: validate
+    -   name: php-cs-fixer
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - >-
@@ -28,7 +29,7 @@ pipeline:
             branch:
                 exclude: master
 
-    validate blank end line:
+    -   name: blank end line
         group: validate
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
@@ -44,8 +45,7 @@ pipeline:
             branch:
                 exclude: master
 
-    validate symfony requirements:
-        group: validate
+    -   name:  symfony requirements
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - requirements-checker
@@ -53,7 +53,7 @@ pipeline:
             branch:
                 exclude: [ master ]
 
-    validate symfony security:
+    -   name:  symfony security
         group: validate
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
@@ -62,14 +62,13 @@ pipeline:
             branch:
                 exclude: [ master ]
 
-    validate phpstan:
-        group: validate
+    -   name:  phpstan
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - cd "$APP_DIR"
             - phpstan analyse --configuration phpstan.neon --no-progress
 
-    validate psalm:
+    -   name:  psalm
         group: validate
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
@@ -78,7 +77,7 @@ pipeline:
         when:
             event: push
 
-    validate doctrine:
+    -   name:  doctrine
         group: validate
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
@@ -91,7 +90,7 @@ pipeline:
         environment:
             MYSQL_PASSWORD: 'db'
 
-    test phpunit:
+    -   name:  phpunit
         group: test
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
@@ -100,7 +99,7 @@ pipeline:
         environment:
             MYSQL_PASSWORD: 'db'
 
-    build app prod:
+    -   name: build app prod
         group: deploy
         image: docker:18.06.1-ce
         volumes:
@@ -125,7 +124,7 @@ pipeline:
             branch: master
             status: success
 
-    deploy:
+    -   name: deploy
         image: docker/compose:1.23.1
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
@@ -139,7 +138,7 @@ pipeline:
             status: success
 
 services:
-    landlord:
+    -   name: landlord
         image: mariadb:10.3.10
         environment:
             MYSQL_DATABASE: 'landlord'
@@ -148,7 +147,8 @@ services:
             MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
         tmpfs:
             - /var/lib/mysql
-    tenant_msk:
+
+    -   name: tenant_msk
         image: mariadb:10.3.10
         environment:
             MYSQL_DATABASE: 'tenant'

@@ -2,20 +2,20 @@ version: '3.7'
 
 services:
     server:
-        image: drone/drone:0.8.7
+        image: drone/drone:1.6.2
         environment:
-            GIN_MODE: release
-            DRONE_ADMIN: grachevko
-            DRONE_HOST: https://drone.automagistre.ru
-            DRONE_OPEN: 'false'
-            DRONE_DEBUG: 'false'
-            DRONE_DEBUG_PRETTY: 'true'
-            DRONE_GITHUB: 'true'
-            DRONE_GITHUB_CLIENT: ${DRONE_GITHUB_CLIENT}
-            DRONE_GITHUB_SECRET: ${DRONE_GITHUB_SECRET}
-            DRONE_SECRET: ${DRONE_SECRET}
-            DRONE_DATABASE_DRIVER: mysql
-            DRONE_DATABASE_DATASOURCE: 'db:${MYSQL_PASSWORD}@tcp(mysql:3306)/db?parseTime=true'
+            DRONE_LOGS_DEBUG: 'false'
+            DRONE_LOGS_PRETTY: 'false'
+            DRONE_LOGS_TRACE: 'false'
+            DRONE_USER_CREATE: username:grachevko,machine:false,admin:true
+            DRONE_SERVER_HOST: drone.automagistre.ru
+            DRONE_SERVER_PROTO: https
+            DRONE_GITHUB_CLIENT_ID: ${DRONE_GITHUB_CLIENT}
+            DRONE_GITHUB_CLIENT_SECRET: ${DRONE_GITHUB_SECRET}
+            DRONE_RPC_SECRET: ${DRONE_RPC_SECRET}
+            DRONE_DATABASE_SECRET: ${DRONE_SECRET}
+            DRONE_DATABASE_DRIVER: postgres
+            DRONE_DATABASE_DATASOURCE: postgres://db:${POSTGRES_PASSWORD}@postgres:5432/db?sslmode=disable
         networks:
             - drone
             - ingress
@@ -27,39 +27,31 @@ services:
                 - "traefik.docker.network=proxy"
                 - "traefik.enable=true"
                 - "traefik.frontend.rule=Host:drone.automagistre.ru"
-                - "traefik.port=8000"
+                - "traefik.port=80"
                 - "traefik.protocol=http"
                 - "traefik.backend.loadbalancer.method=drr"
 
-    mysql:
-        image: mariadb:10.4.10
+    postgres:
+        image: postgres:12.0
         volumes:
-            - /home/drone/db:/var/lib/mysql
+            - /home/drone/postgres:/var/lib/postgresql/data
         environment:
-            MYSQL_DATABASE: db
-            MYSQL_USER: db
-            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            POSTGRES_DB: db
+            POSTGRES_USER: db
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
         networks:
             - drone
-        healthcheck:
-            test: echo "SELECT 1" | mysql -u $$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE
-            interval: 5s
-            timeout: 5s
-            retries: 3
-            start_period: 10s
 
     agent:
-        image: drone/agent:0.8.7
-        command: agent
+        image: drone/drone-runner-docker:1.0.1
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
         environment:
-            DRONE_DEBUG: 'false'
-            DRONE_DEBUG_PRETTY: 'true'
-            DRONE_SERVER: "server:9000"
-            DRONE_MAX_PROCS: 2
-            DRONE_SECRET: ${DRONE_SECRET}
+            DRONE_RPC_HOST: "server"
+            DRONE_RPC_PROTO: http
+            DRONE_RPC_SECRET: ${DRONE_RPC_SECRET}
+            DRONE_RUNNER_NAME: ${HOSTNAME}
+            DRONE_RUNNER_MAX_PROCS: 2
         networks:
             - drone
 
