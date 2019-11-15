@@ -63,7 +63,7 @@ final class EnumDoctrineTypesCompilerPass implements CompilerPassInterface
 
             $doctrineTypes[$type.'_enum'] = [
                 'class' => self::GENERATED_NAMESPACE.'\\'.$typeClass,
-                'commented' => true,
+                'commented' => false,
             ];
         }
 
