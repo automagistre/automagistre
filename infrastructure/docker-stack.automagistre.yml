@@ -46,7 +46,7 @@ services:
 
     migration_landlord:
         <<: *app
-        command: wait-for-it.sh landlord:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --db=landlord --em=landlord
+        command: wait-for-it.sh landlord:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=landlord
         deploy:
             mode: replicated
             replicas: 1
@@ -57,7 +57,7 @@ services:
 
     migration_tenant_sandbox:
         <<: *app
-        command: wait-for-it.sh tenant_sandbox:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --db=tenant --em=tenant --tenant=sandbox
+        command: wait-for-it.sh tenant_sandbox:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=sandbox
         deploy:
             mode: replicated
             replicas: 1
@@ -68,7 +68,7 @@ services:
 
     migration_tenant_msk:
         <<: *app
-        command: wait-for-it.sh tenant_msk:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --db=tenant --em=tenant --tenant=msk
+        command: wait-for-it.sh tenant_msk:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=msk
         deploy:
             mode: replicated
             replicas: 1
@@ -79,7 +79,7 @@ services:
 
     migration_tenant_kazan:
         <<: *app
-        command: wait-for-it.sh tenant_kazan:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --db=tenant --em=tenant --tenant=kazan
+        command: wait-for-it.sh tenant_kazan:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=kazan
         deploy:
             mode: replicated
             replicas: 1
@@ -90,7 +90,7 @@ services:
 
     migration_tenant_shavlev:
         <<: *app
-        command: wait-for-it.sh tenant_kazan:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --db=tenant --em=tenant --tenant=shavlev
+        command: wait-for-it.sh tenant_kazan:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=shavlev
         deploy:
             mode: replicated
             replicas: 1

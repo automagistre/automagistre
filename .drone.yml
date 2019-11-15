@@ -92,8 +92,8 @@ steps:
         commands:
             - $$WAIT_FOR_IT landlord:3306
             - $$WAIT_FOR_IT tenant_msk:3306
-            - console doctrine:migrations:migrate --no-interaction --allow-no-migration --db=landlord --em=landlord
-            - console doctrine:migrations:migrate --no-interaction --allow-no-migration --db=tenant --em=tenant --tenant=msk
+            - console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=landlord
+            - console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=msk
             - console doctrine:schema:validate --em=landlord
             - console doctrine:schema:validate --em=tenant --tenant=msk
         environment:
