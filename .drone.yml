@@ -45,6 +45,7 @@ steps:
 
     -   name: php-cs-fixer
         image: automagistre/app:base
+        failure: ignore
         commands:
             - vendor/bin/php-cs-fixer fix --dry-run --diff-format udiff --using-cache=no
         when:
