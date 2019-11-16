@@ -73,7 +73,7 @@ steps:
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - cd "$APP_DIR"
-            - phpstan analyse --configuration phpstan.neon --no-progress
+            - phpstan analyse --configuration phpstan.neon --no-progress --memory-limit=-1
         depends_on:
             - build app
 
