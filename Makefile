@@ -202,7 +202,9 @@ test: php-cs-fixer cache phpstan psalm migration-test phpunit
 php-cs-fixer:
 	$(APP) sh -c 'php-cs-fixer fix $(if $(DRY),--dry-run) $(if $(DEBUG),-vvv); $(PERMISSIONS)'
 
-phpstan:
+phpstan: APP_ENV=test
+phpstan: APP_DEBUG=1
+phpstan: cache
 	$(APP) phpstan analyse --configuration phpstan.neon $(if $(DEBUG),--debug -vvv)
 
 phpunit: APP_ENV=test
