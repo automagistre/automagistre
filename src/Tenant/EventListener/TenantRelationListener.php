@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tenant;
+namespace App\Tenant\EventListener;
 
 use App\Doctrine\Registry;
 use App\Entity\Embeddable\Relation;

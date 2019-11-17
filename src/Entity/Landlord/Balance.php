@@ -6,7 +6,7 @@ namespace App\Entity\Landlord;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
-use App\Enum\Tenant;
+use App\Tenant\Tenant;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 

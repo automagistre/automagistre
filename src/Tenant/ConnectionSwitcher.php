@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tenant;
 
-use App\Enum\Tenant;
 use Doctrine\DBAL\Connection;
 use LogicException;
 use ReflectionClass;

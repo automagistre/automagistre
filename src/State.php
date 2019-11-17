@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App;
 
 use App\Entity\Landlord\User;
-use App\Enum\Tenant;
 use App\Tenant\ConnectionSwitcher;
+use App\Tenant\Tenant;
 use LogicException;
 use RuntimeException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;

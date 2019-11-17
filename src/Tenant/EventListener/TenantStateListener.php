@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\EventListener;
+namespace App\Tenant\EventListener;
 
-use App\Enum\Tenant;
 use App\Router\RoutePreGenerate;
 use App\State;
+use App\Tenant\Tenant;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
@@ -23,7 +23,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class TenantListener implements EventSubscriberInterface
+final class TenantStateListener implements EventSubscriberInterface
 {
     /**
      * @var State

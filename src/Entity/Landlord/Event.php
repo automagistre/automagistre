@@ -7,7 +7,7 @@ namespace App\Entity\Landlord;
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\CreatedBy;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
-use App\Enum\Tenant;
+use App\Tenant\Tenant;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tenant;
 
 use App\Entity\Embeddable\Relation;
+use App\Tenant\EventListener\TenantRelationListener;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;

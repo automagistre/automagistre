@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\Landlord;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
-use App\Enum\Tenant;
+use App\Tenant\Tenant;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

@@ -3,7 +3,6 @@
 namespace App\Tenant;
 
 use App\Entity\Landlord\User;
-use App\Enum\Tenant;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 

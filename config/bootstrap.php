@@ -28,4 +28,4 @@ Premier\Enum\Doctrine\EnumType::register(App\Enum\CarWheelDrive::class, 'car_whe
 Premier\Enum\Doctrine\EnumType::register(App\Enum\EngineType::class, 'engine_type_enum');
 Premier\Enum\Doctrine\EnumType::register(App\Enum\NoteType::class, 'note_type_enum');
 Premier\Enum\Doctrine\EnumType::register(App\Enum\OrderStatus::class, 'order_status_enum');
-Premier\Enum\Doctrine\EnumType::register(App\Enum\Tenant::class, 'tenant_enum');
+Premier\Enum\Doctrine\EnumType::register(App\Tenant\Tenant::class, 'tenant_enum');
