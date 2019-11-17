@@ -75,8 +75,8 @@
     },
     "scripts": {
         "auto-scripts": [
-            "console cache:warmup",
-            "console assets:install public"
+            "bin/console cache:warmup",
+            "bin/console assets:install public"
         ],
         "post-install-cmd": [
             "@auto-scripts"

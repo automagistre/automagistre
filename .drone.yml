@@ -7,111 +7,132 @@ clone:
     depth: 1
 
 steps:
-    -   name: build app
+    -   name: build base
         image: docker:19.03.5
         volumes:
             -   name: docker.sock
                 path: /var/run/docker.sock
         commands:
-            - >-
-                docker build -t "automagistre/app:${DRONE_BUILD_NUMBER}"
-                --build-arg APP_ENV="test"
-                --build-arg APP_DEBUG="1"
-                --target app
-                .
+            - docker build -t "automagistre/app:base" --target base .
+
+    -   name: push base
+        image: docker:19.03.5
+        volumes:
+            -   name: docker.sock
+                path: /var/run/docker.sock
+        commands:
+            - docker login --username "$USERNAME" --password "$PASSWORD"
+            - docker push automagistre/app:base
+        environment:
+            USERNAME:
+                from_secret: HUB_USER
+            PASSWORD:
+                from_secret: HUB_TOKEN
+        when:
+            branch: [ master ]
+        depends_on:
+            - build base
+
+    -   name: install
+        image: automagistre/app:base
+        commands:
+            - composer install --no-interaction --no-progress --classmap-authoritative
+        environment:
+            APP_ENV: test
+            APP_DEBUG: '1'
+        depends_on:
+            - build base
 
     -   name: php-cs-fixer
-        image: automagistre/app:${DRONE_BUILD_NUMBER}
+        image: automagistre/app:base
         commands:
-            - >-
-                php-cs-fixer fix --dry-run --diff-format udiff --using-cache=no
+            - vendor/bin/php-cs-fixer fix --dry-run --diff-format udiff --using-cache=no
         when:
             branch:
-                exclude: master
+                exclude: [ master ]
         depends_on:
-            - build app
+            - install
 
     -   name: blank end line
-        image: automagistre/app:${DRONE_BUILD_NUMBER}
+        image: automagistre/app:base
         commands:
             - >-
                 find .
                 -not -path "./public/*"
                 -not -path "./.idea/*"
+                -not -path "./var/*"
+                -not -path "./vendor/*"
                 -type f -exec grep -Iq . {} \; -and -print0
                 | xargs -0 -L1 bash -c 'test -z "$(tail -c 1 "$0")"
                 || (echo "No new line at end of $0" && exit 1)'
                 || exit 1
         when:
             branch:
-                exclude: master
+                exclude: [ master ]
         depends_on:
-            - build app
+            - install
 
     -   name:  symfony requirements
-        image: automagistre/app:${DRONE_BUILD_NUMBER}
+        image: automagistre/app:base
         commands:
-            - requirements-checker
+            - vendor/bin/requirements-checker
         when:
             branch:
                 exclude: [ master ]
         depends_on:
-            - build app
+            - install
 
     -   name:  symfony security
-        image: automagistre/app:${DRONE_BUILD_NUMBER}
+        image: automagistre/app:base
         commands:
-            - security-checker security:check $APP_DIR/composer.lock
+            - vendor/bin/security-checker security:check $APP_DIR/composer.lock
         when:
             branch:
                 exclude: [ master ]
         depends_on:
-            - build app
+            - install
 
     -   name:  phpstan
-        image: automagistre/app:${DRONE_BUILD_NUMBER}
+        image: automagistre/app:base
         commands:
-            - cd "$APP_DIR"
-            - phpstan analyse --configuration phpstan.neon --no-progress --memory-limit=-1
+            - vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress --memory-limit=-1
         depends_on:
-            - build app
+            - install
 
     -   name:  psalm
-        image: automagistre/app:${DRONE_BUILD_NUMBER}
+        image: automagistre/app:base
         commands:
-            - cd "$APP_DIR"
-            - psalm --show-info=false --no-progress
+            - vendor/bin/psalm --show-info=false --no-progress
         when:
-            event: push
+            event: [ push ]
         depends_on:
-            - build app
+            - install
 
     -   name:  doctrine
-        image: automagistre/app:${DRONE_BUILD_NUMBER}
+        image: automagistre/app:base
         commands:
             - $$WAIT_FOR_IT landlord:3306
             - $$WAIT_FOR_IT tenant_msk:3306
-            - console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=landlord
-            - console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=msk
-            - console doctrine:schema:validate --em=landlord
-            - console doctrine:schema:validate --em=tenant --tenant=msk
+            - bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=landlord
+            - bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=msk
+            - bin/console doctrine:schema:validate --em=landlord
+            - bin/console doctrine:schema:validate --em=tenant --tenant=msk
         environment:
             MYSQL_PASSWORD: 'db'
         depends_on:
-            - build app
+            - install
 
     -   name:  phpunit
-        image: automagistre/app:${DRONE_BUILD_NUMBER}
+        image: automagistre/app:base
         commands:
-            - cd "$APP_DIR"
-            - paratest --processes=$(grep -c ^processor /proc/cpuinfo || 4)
+            - vendor/bin/paratest --processes=$(grep -c ^processor /proc/cpuinfo || 4)
         environment:
             MYSQL_PASSWORD: 'db'
         depends_on:
             - doctrine
 
-    -   name: build prod images
-        image: docker:18.06.1-ce
+    -   name: build
+        image: docker:19.03.5
         volumes:
             -   name: docker.sock
                 path: /var/run/docker.sock
@@ -129,14 +150,12 @@ steps:
                 --target nginx
                 .
         when:
-            event: push
-            branch: master
-            status: success
+            branch: [ master ]
         depends_on:
             - phpunit
 
     -   name: deploy
-        image: docker/compose:1.23.1
+        image: docker/compose:1.24.1
         volumes:
             -   name: docker.sock
                 path: /var/run/docker.sock
@@ -145,11 +164,9 @@ steps:
             - docker-compose --file docker-stack.automagistre.yml config | docker stack deploy --prune --with-registry-auth --compose-file - automagistre
             - docker stack deploy --prune --with-registry-auth --compose-file docker-stack.redirects.yml redirect
         when:
-            event: push
-            branch: master
-            status: success
+            branch: [ master ]
         depends_on:
-            - build prod images
+            - build
 
 services:
     -   name: landlord
@@ -176,9 +193,3 @@ volumes:
     -   name: docker.sock
         host:
             path: /var/run/docker.sock
-
----
-kind: signature
-hmac: 26a5eee2cdf397ae27c0bac51b9b2caef2987e81b6ee4e45f35f86578ae8c3d2
-
-...
