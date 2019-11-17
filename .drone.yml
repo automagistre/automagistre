@@ -17,7 +17,6 @@ steps:
                 docker build -t "automagistre/app:${DRONE_BUILD_NUMBER}"
                 --build-arg APP_ENV="test"
                 --build-arg APP_DEBUG="1"
-                --build-arg APP_VERSION="$DRONE_BUILD_NUMBER"
                 --target app
                 .
 
@@ -121,14 +120,12 @@ steps:
                 docker build -t "automagistre/app:${DRONE_BUILD_NUMBER}"
                 --build-arg APP_ENV="prod"
                 --build-arg APP_DEBUG="0"
-                --build-arg APP_VERSION="$DRONE_BUILD_NUMBER"
                 --target app
                 .
             - >-
                 docker build -t "automagistre/app-nginx:${DRONE_BUILD_NUMBER}"
                 --build-arg APP_ENV="prod"
                 --build-arg APP_DEBUG="0"
-                --build-arg APP_VERSION="$DRONE_BUILD_NUMBER"
                 --target nginx
                 .
         when:

@@ -134,7 +134,6 @@ app-build:
 	$(DEBUG_ECHO) docker build \
 		--build-arg APP_ENV=dev \
 		--build-arg APP_DEBUG=1 \
-		--build-arg APP_VERSION=dev \
 		--target app \
 		--tag $(APP_IMAGE) \
 		.

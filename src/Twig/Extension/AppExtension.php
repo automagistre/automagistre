@@ -40,7 +40,6 @@ final class AppExtension extends AbstractExtension
     {
         return [
             new TwigFunction('instanceOf', [$this, 'doInstanceOf']),
-            new TwigFunction('build', [$this, 'build']),
             new TwigFunction('build_time', [$this, 'buildTime']),
         ];
     }
@@ -58,11 +57,6 @@ final class AppExtension extends AbstractExtension
     public function doInstanceOf(object $object, string $class): bool
     {
         return $object instanceof $class;
-    }
-
-    public function build(): string
-    {
-        return $this->parameterBag->get('app_version');
     }
 
     public function buildTime(): DateTimeImmutable
