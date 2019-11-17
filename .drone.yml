@@ -106,10 +106,10 @@ steps:
         commands:
             - $$WAIT_FOR_IT landlord:3306
             - $$WAIT_FOR_IT tenant_msk:3306
-            - console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=landlord
-            - console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=msk
-            - console doctrine:schema:validate --em=landlord
-            - console doctrine:schema:validate --em=tenant --tenant=msk
+            - vendor/console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=landlord
+            - vendor/console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=msk
+            - vendor/console doctrine:schema:validate --em=landlord
+            - vendor/console doctrine:schema:validate --em=tenant --tenant=msk
         environment:
             MYSQL_PASSWORD: 'db'
         depends_on:
@@ -118,8 +118,7 @@ steps:
     -   name:  phpunit
         image: automagistre/app:base
         commands:
-            - cd "$APP_DIR"
-            - paratest --processes=$(grep -c ^processor /proc/cpuinfo || 4)
+            - vendor/paratest --processes=$(grep -c ^processor /proc/cpuinfo || 4)
         environment:
             MYSQL_PASSWORD: 'db'
         depends_on:
