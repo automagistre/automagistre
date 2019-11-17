@@ -142,6 +142,8 @@ steps:
                 --build-arg APP_DEBUG="0"
                 --target nginx
                 .
+        when:
+            branch: [ master ]
         depends_on:
             - phpunit
 
@@ -155,9 +157,7 @@ steps:
             - docker-compose --file docker-stack.automagistre.yml config | docker stack deploy --prune --with-registry-auth --compose-file - automagistre
             - docker stack deploy --prune --with-registry-auth --compose-file docker-stack.redirects.yml redirect
         when:
-            event: [ push ]
             branch: [ master ]
-            status: [ success ]
         depends_on:
             - build
 
