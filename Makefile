@@ -89,6 +89,7 @@ empty-commit:
 pull:
 	docker-compose pull
 do-up:
+	docker-compose pull --parallel
 	docker-compose up --detach --remove-orphans --no-build
 up: do-up
 	@$(notify)

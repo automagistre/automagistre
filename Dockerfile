@@ -21,7 +21,7 @@ RUN gulp build:main-script build:scripts build:less
 # PHP-FPM
 #
 FROM composer:1.9.0 as composer
-FROM php:7.3.10-fpm-stretch as app
+FROM php:7.3.10-fpm-stretch as base
 
 LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 
@@ -77,6 +77,8 @@ RUN set -ex \
     && mkdir -p var \
     && composer install --no-interaction --no-progress --no-scripts
 
+FROM base as app
+
 ARG APP_ENV
 ENV APP_ENV ${APP_ENV}
 ARG APP_DEBUG
@@ -106,7 +108,7 @@ HEALTHCHECK --interval=10s --timeout=5s --start-period=5s \
 #
 # nginx
 #
-FROM nginx:1.17.1-alpine as nginx
+FROM nginx:1.17.5-alpine as nginx
 
 WORKDIR /usr/local/app/public
 

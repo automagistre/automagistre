@@ -7,49 +7,49 @@ clone:
     depth: 1
 
 steps:
-    -   name: build
+    -   name: build base
         image: docker:19.03.5
         volumes:
             -   name: docker.sock
                 path: /var/run/docker.sock
         commands:
-            - >-
-                docker build -t "automagistre/app:${DRONE_BUILD_NUMBER}"
-                --build-arg APP_ENV="prod"
-                --build-arg APP_DEBUG="0"
-                --build-arg APP_VERSION="$DRONE_BUILD_NUMBER"
-                --target app
-                .
-            - >-
-                docker build -t "automagistre/app-nginx:${DRONE_BUILD_NUMBER}"
-                --build-arg APP_ENV="prod"
-                --build-arg APP_DEBUG="0"
-                --build-arg APP_VERSION="$DRONE_BUILD_NUMBER"
-                --target nginx
-                .
+            - docker build -t "automagistre/app:base" --target base .
+
+    -   name: push base
+        image: docker:19.03.5
+        volumes:
+            -   name: docker.sock
+                path: /var/run/docker.sock
+        commands:
+            - docker push automagistre/app:base
+        detach: true
+        when:
+            branch: [ master ]
+        depends_on:
+            - build base
 
     -   name: install
-        image: automagistre/app:${DRONE_BUILD_NUMBER}
+        image: automagistre/app:base
         commands:
             - composer install --no-interaction --no-progress --classmap-authoritative
         environment:
             APP_ENV: test
             APP_DEBUG: '1'
         depends_on:
-            - build
+            - build base
 
     -   name: php-cs-fixer
-        image: automagistre/app:${DRONE_BUILD_NUMBER}
+        image: automagistre/app:base
         commands:
             - vendor/bin/php-cs-fixer fix --dry-run --diff-format udiff --using-cache=no
         when:
             branch:
-                exclude: master
+                exclude: [ master ]
         depends_on:
             - install
 
     -   name: blank end line
-        image: automagistre/app:${DRONE_BUILD_NUMBER}
+        image: automagistre/app:base
         commands:
             - >-
                 find .
@@ -61,12 +61,12 @@ steps:
                 || exit 1
         when:
             branch:
-                exclude: master
+                exclude: [ master ]
         depends_on:
             - install
 
     -   name:  symfony requirements
-        image: automagistre/app:${DRONE_BUILD_NUMBER}
+        image: automagistre/app:base
         commands:
             - vendor/bin/requirements-checker
         when:
@@ -76,7 +76,7 @@ steps:
             - install
 
     -   name:  symfony security
-        image: automagistre/app:${DRONE_BUILD_NUMBER}
+        image: automagistre/app:base
         commands:
             - vendor/bin/security-checker security:check $APP_DIR/composer.lock
         when:
@@ -86,23 +86,23 @@ steps:
             - install
 
     -   name:  phpstan
-        image: automagistre/app:${DRONE_BUILD_NUMBER}
+        image: automagistre/app:base
         commands:
             - vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress --memory-limit=-1
         depends_on:
             - install
 
     -   name:  psalm
-        image: automagistre/app:${DRONE_BUILD_NUMBER}
+        image: automagistre/app:base
         commands:
             - vendor/bin/psalm --show-info=false --no-progress
         when:
-            event: [push]
+            event: [ push ]
         depends_on:
             - install
 
     -   name:  doctrine
-        image: automagistre/app:${DRONE_BUILD_NUMBER}
+        image: automagistre/app:base
         commands:
             - $$WAIT_FOR_IT landlord:3306
             - $$WAIT_FOR_IT tenant_msk:3306
@@ -116,7 +116,7 @@ steps:
             - install
 
     -   name:  phpunit
-        image: automagistre/app:${DRONE_BUILD_NUMBER}
+        image: automagistre/app:base
         commands:
             - cd "$APP_DIR"
             - paratest --processes=$(grep -c ^processor /proc/cpuinfo || 4)
@@ -125,8 +125,27 @@ steps:
         depends_on:
             - doctrine
 
+    -   name: build
+        image: docker:19.03.5
+        volumes:
+            -   name: docker.sock
+                path: /var/run/docker.sock
+        commands:
+            - >-
+                docker build -t "automagistre/app:${DRONE_BUILD_NUMBER}"
+                --build-arg APP_ENV="prod"
+                --build-arg APP_DEBUG="0"
+                --target app
+                .
+            - >-
+                docker build -t "automagistre/app-nginx:${DRONE_BUILD_NUMBER}"
+                --build-arg APP_ENV="prod"
+                --build-arg APP_DEBUG="0"
+                --target nginx
+                .
+
     -   name: deploy
-        image: docker/compose:1.23.1
+        image: docker/compose:1.24.1
         volumes:
             -   name: docker.sock
                 path: /var/run/docker.sock
@@ -135,9 +154,9 @@ steps:
             - docker-compose --file docker-stack.automagistre.yml config | docker stack deploy --prune --with-registry-auth --compose-file - automagistre
             - docker stack deploy --prune --with-registry-auth --compose-file docker-stack.redirects.yml redirect
         when:
-            event: [push]
-            branch: [master]
-            status: [success]
+            event: [ push ]
+            branch: [ master ]
+            status: [ success ]
 
 services:
     -   name: landlord

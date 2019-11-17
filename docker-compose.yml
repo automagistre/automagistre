@@ -2,14 +2,15 @@ version: '3.7'
 
 services:
     nginx:
-        image: automagistre/nginx@sha256:4e9dc071d90e06506c1d43a42f77131b9cbabc2704492328036ea1095859c19a
+        image: nginx:1.17.5-alpine
         labels:
             ru.grachevko.dhu: '{sto,www}.automagistre.local:2'
         volumes:
             - ./public:/usr/local/app/public
+            - ./config/nginx.conf:/etc/nginx/nginx.conf
 
     app:
-        image: automagistre/app@sha256:f7d40b0fa55b587234275ea123a20cb2fd75941f51d0458ea8404b70de597181
+        image: automagistre/app:base
         labels:
             restartable: 'true'
         networks:
