@@ -77,6 +77,9 @@ RUN set -ex \
     && mkdir -p var \
     && composer install --no-interaction --no-progress --no-scripts
 
+COPY etc/php.ini ${PHP_INI_DIR}/php.ini
+COPY etc/php-fpm.conf /usr/local/etc/php-fpm.d/automagistre.conf
+
 FROM base as app
 
 ARG APP_ENV
@@ -95,9 +98,6 @@ COPY templates templates
 COPY translations translations
 
 RUN set -ex \
-    && mv config/php.ini ${PHP_INI_DIR}/php.ini \
-    && mv config/php-fpm.conf /usr/local/etc/php-fpm.d/automagistre.conf \
-    && rm -f config/nginx.conf \
     && composer install --no-interaction --no-progress \
         $(if [ "prod" = "$APP_ENV" ]; then echo "--no-dev --classmap-authoritative"; fi) \
     && chown -R www-data:www-data ${APP_DIR}/var
@@ -120,7 +120,7 @@ COPY --from=app /usr/local/app/public/bundles bundles
 COPY --from=app /usr/local/app/public/includes includes
 COPY --from=node /usr/local/app/public/assets/build assets/build
 
-COPY config/nginx.conf /etc/nginx/nginx.conf
+COPY etc/nginx.conf /etc/nginx/nginx.conf
 
 RUN find . \
     -type f \
