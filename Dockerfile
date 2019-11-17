@@ -87,7 +87,12 @@ ENV APP_VERSION ${APP_VERSION}
 ENV PHP_MEMORY_LIMIT 1G
 ENV PHP_OPCACHE_ENABLE 1
 
-COPY ./ ${APP_DIR}/
+COPY bin bin
+COPY config config
+COPY public public
+COPY src src
+COPY templates templates
+COPY translations translations
 
 RUN set -ex \
     && mv config/php.ini ${PHP_INI_DIR}/php.ini \
