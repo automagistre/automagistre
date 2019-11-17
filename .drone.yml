@@ -32,6 +32,9 @@ steps:
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
             - composer install
+        environment:
+            APP_ENV: test
+            APP_DEBUG: '1'
         depends_on:
             - build
 
