@@ -23,8 +23,8 @@ steps:
         commands:
             - docker push automagistre/app:base
         detach: true
-        when:
-            branch: [ master ]
+#        when:
+#            branch: [ master ]
         depends_on:
             - build base
 

@@ -31,10 +31,7 @@ final class Kernel extends SymfonyKernel
         $contents = require $path;
         foreach ((array) $contents as $class => $envs) {
             if (isset($envs['all']) || isset($envs[$this->getEnvironment()])) {
-                if (!\class_exists($class)) {
-                    throw new \LogicException(\sprintf('Class %s not exists', $class));
-                }
-
+                \assert(\class_exists($class));
                 \assert(\is_subclass_of($class, BundleInterface::class));
 
                 yield new $class();
