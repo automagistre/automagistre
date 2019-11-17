@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "96d858c1aff48fe4661fa4be50b159cf",
+    "content-hash": "5669b28ac5e8ace9c987a82007fdd259",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -3771,16 +3771,16 @@
         },
         {
             "name": "premier/enum",
-            "version": "v1.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/grachevko/Enum.git",
-                "reference": "efeab73f1909c6685ec66a98c57f765c40e49ec7"
+                "reference": "99e35d55d75b9286f60d6b38946fb5b6616ffe86"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/grachevko/Enum/zipball/efeab73f1909c6685ec66a98c57f765c40e49ec7",
-                "reference": "efeab73f1909c6685ec66a98c57f765c40e49ec7",
+                "url": "https://api.github.com/repos/grachevko/Enum/zipball/99e35d55d75b9286f60d6b38946fb5b6616ffe86",
+                "reference": "99e35d55d75b9286f60d6b38946fb5b6616ffe86",
                 "shasum": ""
             },
             "require": {
@@ -3788,6 +3788,7 @@
                 "php": ">=7.3"
             },
             "require-dev": {
+                "doctrine/dbal": "^2.10",
                 "friendsofphp/php-cs-fixer": "^2.15",
                 "phpstan/phpstan": "^0.11",
                 "phpstan/phpstan-phpunit": "^0.11",
@@ -3818,7 +3819,7 @@
             "keywords": [
                 "enum"
             ],
-            "time": "2019-11-15T23:57:01+00:00"
+            "time": "2019-11-17T19:24:09+00:00"
         },
         {
             "name": "psr/cache",
@@ -12371,7 +12372,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "premier/enum": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

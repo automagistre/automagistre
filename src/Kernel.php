@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\DependencyInjection\EnumDoctrineTypesCompilerPass;
 use App\Tenant\MetadataCompilerPass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -19,17 +18,6 @@ final class Kernel extends SymfonyKernel
     use MicroKernelTrait;
 
     private const CONFIG_EXTS = '.{php,xml,yaml,yml}';
-
-    public function __construct(string $environment, bool $debug)
-    {
-        parent::__construct($environment, $debug);
-
-        $enumAutoload = $this->getCacheDir().'/'.EnumDoctrineTypesCompilerPass::AUTOLOAD_FILE;
-        if (\file_exists($enumAutoload)) {
-            /** @noinspection PhpIncludeInspection */
-            require_once $enumAutoload;
-        }
-    }
 
     /**
      * @return iterable<int, BundleInterface>
@@ -77,7 +65,6 @@ final class Kernel extends SymfonyKernel
      */
     protected function build(ContainerBuilder $container): void
     {
-        $container->addCompilerPass(new EnumDoctrineTypesCompilerPass());
         $container->addCompilerPass(new MetadataCompilerPass(), PassConfig::TYPE_OPTIMIZE);
     }
 
