@@ -80,15 +80,15 @@ RUN set -ex \
 COPY etc/php.ini ${PHP_INI_DIR}/php.ini
 COPY etc/php-fpm.conf /usr/local/etc/php-fpm.d/automagistre.conf
 
+ENV PHP_MEMORY_LIMIT 1G
+ENV PHP_OPCACHE_ENABLE 1
+
 FROM base as app
 
 ARG APP_ENV
 ENV APP_ENV ${APP_ENV}
 ARG APP_DEBUG
 ENV APP_DEBUG ${APP_DEBUG}
-
-ENV PHP_MEMORY_LIMIT 1G
-ENV PHP_OPCACHE_ENABLE 1
 
 COPY bin bin
 COPY config config
