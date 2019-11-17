@@ -21,13 +21,15 @@ steps:
             -   name: docker.sock
                 path: /var/run/docker.sock
         commands:
-            - docker login --username grachev --password "$PASSWORD"
+            - docker login --username "$USERNAME" --password "$PASSWORD"
             - docker push automagistre/app:base
         environment:
+            USERNAME:
+                from_secret: HUB_USER
             PASSWORD:
                 from_secret: HUB_TOKEN
-        #        when:
-        #            branch: [ master ]
+#        when:
+#            branch: [ master ]
         depends_on:
             - build base
 
