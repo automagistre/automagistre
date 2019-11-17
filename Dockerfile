@@ -50,9 +50,8 @@ RUN set -ex \
 
 RUN set -ex \
 	&& cd /tmp \
-	&& curl -L https://github.com/unicode-org/icu/releases/download/release-65-1/icu4c-65_1-src.tgz | tar xz \
-	&& cd icu/source \
-	&& ./configure --prefix=/opt/icu && make -j "$(nproc)" && make install \
+	&& curl -L https://github.com/unicode-org/icu/releases/download/release-65-1/icu4c-65_1-Ubuntu18.04-x64.tgz | tar xz \
+	&& cp -R icu/usr/local/* /usr/local/ \
 	&& docker-php-ext-configure intl --with-icu-dir=/opt/icu \
 	&& docker-php-ext-install -j$(nproc) intl \
 	&& rm -rf /tmp/icu
