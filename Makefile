@@ -129,16 +129,11 @@ endif
 ###< DOCKER ###
 
 ###> APP ###
-APP_IMAGE = automagistre/app:dev
-app-build:
+build:
 	$(DEBUG_ECHO) docker build \
-		--build-arg APP_ENV=dev \
-		--build-arg APP_DEBUG=1 \
-		--target app \
-		--tag $(APP_IMAGE) \
+		--target base \
+		--tag automagistre/app:base \
 		.
-app-push:
-	docker push $(APP_IMAGE)
 
 APP = $(DEBUG_ECHO) @docker-compose $(if $(EXEC),exec,run --rm )\
 	$(if $(ENTRYPOINT),--entrypoint "$(ENTRYPOINT)" )\
