@@ -31,6 +31,8 @@ steps:
     -   name: install
         image: automagistre/app:${DRONE_BUILD_NUMBER}
         commands:
+            - pwd
+            - ls
             - composer install
         environment:
             APP_ENV: test
