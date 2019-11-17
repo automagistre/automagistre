@@ -142,6 +142,8 @@ steps:
                 --build-arg APP_DEBUG="0"
                 --target nginx
                 .
+        depends_on:
+            - phpunit
 
     -   name: deploy
         image: docker/compose:1.24.1
@@ -156,6 +158,8 @@ steps:
             event: [ push ]
             branch: [ master ]
             status: [ success ]
+        depends_on:
+            - build
 
 services:
     -   name: landlord
