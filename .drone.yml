@@ -28,8 +28,8 @@ steps:
                 from_secret: HUB_USER
             PASSWORD:
                 from_secret: HUB_TOKEN
-#        when:
-#            branch: [ master ]
+        when:
+            branch: [ master ]
         depends_on:
             - build base
 
