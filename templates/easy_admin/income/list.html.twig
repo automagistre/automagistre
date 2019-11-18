@@ -1,5 +1,14 @@
 {% extends 'easy_admin/default/list.html.twig' %}
 
+{% block content_title %}
+    {{ parent() }}
+
+    {% if part is not empty %}
+        {# @var part \App\Entity\Landlord\Part #}
+        с запчастью <a href="{{ easyadmin_path(part, 'show') }}">{{ part.displayName }}</a>
+    {% endif %}
+{% endblock %}
+
 {% block item_actions %}
     {# @var item \App\Entity\Tenant\Income #}
     {% set unpaidIncomes = supplier_unpaid_income(item.supplier) %}

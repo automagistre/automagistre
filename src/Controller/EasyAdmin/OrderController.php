@@ -10,6 +10,7 @@ use App\Entity\Landlord\CarModel;
 use App\Entity\Landlord\MC\Line;
 use App\Entity\Landlord\Operand;
 use App\Entity\Landlord\Organization;
+use App\Entity\Landlord\Part;
 use App\Entity\Landlord\Person;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItem;
@@ -530,8 +531,22 @@ final class OrderController extends AbstractController
                 ->setParameter('car', $car->getId());
         }
 
+        // EAGER Loading
+        $qb
+            ->select(['entity', 'items', 'suspends'])
+            ->leftJoin('entity.items', 'items')
+            ->leftJoin('entity.suspends', 'suspends');
+
+        $part = $this->getEntity(Part::class);
+        if ($part instanceof Part) {
+            $qb
+                ->join(OrderItemPart::class, 'order_item_part', Join::WITH, 'items.id = order_item_part.id AND order_item_part INSTANCE OF '.OrderItemPart::class)
+                ->andWhere('order_item_part.part.id = :part')
+                ->setParameter('part', $part->getId());
+        }
+
         $request = $this->request;
-        if (null === $customer && null === $car && !$request->query->has('all')) {
+        if (null === $customer && null === $car && null === $part && !$request->query->has('all')) {
             $qb->where(
                 $qb->expr()->orX(
                     $qb->expr()->neq('entity.status', ':closedStatus'),
@@ -541,12 +556,6 @@ final class OrderController extends AbstractController
                 ->setParameter('closedStatus', OrderStatus::closed())
                 ->setParameter('today', (new \DateTime())->format('Y-m-d'));
         }
-
-        // EAGER Loading
-        $qb
-            ->select(['entity', 'items', 'suspends'])
-            ->leftJoin('entity.items', 'items')
-            ->leftJoin('entity.suspends', 'suspends');
 
         return $qb;
     }

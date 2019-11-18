@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Controller\EasyAdmin;
 
 use App\Doctrine\Registry;
+use App\Entity\Landlord\Part;
 use App\Entity\Tenant\Income;
 use App\Entity\Tenant\Wallet;
 use App\Event\IncomeAccrued;
 use App\Form\Type\MoneyType;
 use App\Manager\PaymentManager;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use LogicException;
 use Money\Money;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -155,5 +157,33 @@ final class IncomeController extends AbstractController
             'income_id' => $entity->getId(),
             'referer' => \urlencode($this->generateEasyPath($entity, 'show')),
         ]));
+    }
+
+    protected function createListQueryBuilder(
+        $entityClass,
+        $sortDirection,
+        $sortField = null,
+        $dqlFilter = null
+    ): QueryBuilder {
+        $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
+
+        $part = $this->getEntity(Part::class);
+        if ($part instanceof Part) {
+            $qb
+                ->join('entity.incomeParts', 'income_parts')
+                ->where(':part = income_parts.part.id')
+                ->setParameter('part', $part->getId());
+        }
+
+        return $qb;
+    }
+
+    protected function renderTemplate($actionName, $templatePath, array $parameters = []): Response
+    {
+        if ('list' === $actionName) {
+            $parameters['part'] = $this->getEntity(Part::class);
+        }
+
+        return parent::renderTemplate($actionName, $templatePath, $parameters);
     }
 }
