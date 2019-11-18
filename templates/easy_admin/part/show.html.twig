@@ -60,7 +60,7 @@
             <div class="field-group">
                 <div class="box box-default">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Заказано в</h3>
+                        <h3 class="box-title">Активные заказы</h3>
                     </div>
 
                     {% if orders is not empty %}
@@ -96,6 +96,10 @@
                             <p>Заказов не найдено</p>
                         </div>
                     {% endif %}
+
+                    <div class="box-footer">
+                        <a class="btn btn-primary" href="{{ easyadmin_path('Order', 'list', entity|to_query) }}">Все заказы</a>
+                    </div>
                 </div>
             </div>
 
