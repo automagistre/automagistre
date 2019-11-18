@@ -102,6 +102,13 @@ abstract class AbstractController extends EasyAdminController
             : parent::redirectToReferrer();
     }
 
+    /**
+     * @template T
+     *
+     * @psalm-param class-string<T> $class
+     *
+     * @psalm-return ?T
+     */
     protected function getEntity(string $class): ?object
     {
         $entity = $this->container->get(EntityTransformer::class)->reverseTransform($class);
