@@ -30,7 +30,9 @@
 
 {% block content_title %}
     {%- apply spaceless -%}
-        {% if 'search' == app.request.get('action') %}
+        {% if content_title is defined %}
+            {{ content_title }}
+        {% elseif 'search' == app.request.get('action') %}
             {{ (_entity_config.search.title is defined
             ? _entity_config.search.title|transchoice(paginator.nbResults)
             : 'search.page_title'|trans({'%count%': paginator.nbResults}, 'EasyAdminBundle'))|raw }}
