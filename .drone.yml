@@ -108,19 +108,27 @@ steps:
         depends_on:
             - install
 
-    -   name:  doctrine
+    -   name:  migration
         image: automagistre/app:base
         commands:
             - $$WAIT_FOR_IT landlord:3306
             - $$WAIT_FOR_IT tenant_msk:3306
             - bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=landlord
             - bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=msk
+        environment:
+            MYSQL_PASSWORD: 'db'
+        depends_on:
+            - install
+
+    -   name:  doctrine schema validate
+        image: automagistre/app:base
+        commands:
             - bin/console doctrine:schema:validate --em=landlord
             - bin/console doctrine:schema:validate --em=tenant --tenant=msk
         environment:
             MYSQL_PASSWORD: 'db'
         depends_on:
-            - install
+            - migration
 
     -   name:  phpunit
         image: automagistre/app:base
@@ -129,7 +137,7 @@ steps:
         environment:
             MYSQL_PASSWORD: 'db'
         depends_on:
-            - doctrine
+            - migration
 
     -   name: build
         image: docker:19.03.5
