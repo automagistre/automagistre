@@ -152,7 +152,7 @@ steps:
         when:
             branch: [ master ]
         depends_on:
-            - phpunit
+            - build base
 
     -   name: deploy
         image: docker/compose:1.24.1
@@ -167,6 +167,7 @@ steps:
             branch: [ master ]
         depends_on:
             - build
+            - phpunit
 
 services:
     -   name: landlord
