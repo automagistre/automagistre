@@ -43,13 +43,7 @@ doctrine:
                 auto_mapping: false
                 metadata_cache_driver:
                     type: pool
-                    pool: doctrine.array_cache_pool
-                query_cache_driver:
-                    type: pool
-                    pool: doctrine.array_cache_pool
-                result_cache_driver:
-                    type: pool
-                    pool: doctrine.array_cache_pool
+                    pool: doctrine.metadata_cache.landlord_pool
                 mappings:
                     landlord:
                         type: annotation
@@ -77,13 +71,7 @@ doctrine:
                 auto_mapping: false
                 metadata_cache_driver:
                     type: pool
-                    pool: doctrine.array_cache_pool
-                query_cache_driver:
-                    type: pool
-                    pool: doctrine.array_cache_pool
-                result_cache_driver:
-                    type: pool
-                    pool: doctrine.array_cache_pool
+                    pool: doctrine.metadata_cache.tenant_pool
                 mappings:
                     tenant:
                         type: annotation
@@ -104,7 +92,9 @@ doctrine_migrations:
 framework:
     cache:
         pools:
-            doctrine.array_cache_pool:
+            doctrine.metadata_cache.landlord_pool:
+                adapter: cache.adapter.array
+            doctrine.metadata_cache.tenant_pool:
                 adapter: cache.adapter.array
 
 parameters:
