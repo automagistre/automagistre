@@ -87,7 +87,7 @@ empty-commit:
 
 ###> ALIASES ###
 pull:
-	docker-compose pull --parallel
+	docker-compose pull
 do-up: pull composer
 	docker-compose up --detach --remove-orphans --no-build
 up: do-up permissions
