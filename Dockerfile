@@ -106,7 +106,7 @@ HEALTHCHECK --interval=10s --timeout=5s --start-period=5s \
 #
 # nginx
 #
-FROM nginx:1.17.5-alpine as nginx
+FROM nginx:1.17.6-alpine as nginx
 
 WORKDIR /usr/local/app/public
 
