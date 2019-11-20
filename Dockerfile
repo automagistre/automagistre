@@ -21,7 +21,7 @@ RUN gulp build:main-script build:scripts build:less
 # PHP-FPM
 #
 FROM composer:1.9.1 as composer
-FROM php:7.3.10-fpm-stretch as base
+FROM php:7.3.11-fpm-stretch as base
 
 LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 
@@ -106,7 +106,7 @@ HEALTHCHECK --interval=10s --timeout=5s --start-period=5s \
 #
 # nginx
 #
-FROM nginx:1.17.5-alpine as nginx
+FROM nginx:1.17.6-alpine as nginx
 
 WORKDIR /usr/local/app/public
 
