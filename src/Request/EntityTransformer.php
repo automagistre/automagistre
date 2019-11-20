@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Request;
 
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\NamingStrategy;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -27,7 +28,7 @@ final class EntityTransformer
     private $namingStrategy;
 
     /**
-     * @var RegistryInterface
+     * @var ManagerRegistry
      */
     private $registry;
 
@@ -39,7 +40,7 @@ final class EntityTransformer
     public function __construct(
         PropertyAccessorInterface $propertyAccessor,
         NamingStrategy $namingStrategy,
-        RegistryInterface $registry,
+        ManagerRegistry $registry,
         RequestStack $requestStack
     ) {
         $this->propertyAccessor = $propertyAccessor;
@@ -56,6 +57,9 @@ final class EntityTransformer
 
         $class = \get_class($entity);
         $em = $this->registry->getManagerForClass($class);
+
+        \assert($em instanceof EntityManagerInterface);
+
         $name = $em->getClassMetadata($class)->getName();
 
         return [$this->namingStrategy->joinKeyColumnName($name) => $id];
