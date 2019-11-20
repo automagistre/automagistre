@@ -1,6 +1,6 @@
 security:
     encoders:
-        App\Entity\Landlord\User: argon2i
+        App\Entity\Landlord\User: auto
 
     providers:
         user_provider:
