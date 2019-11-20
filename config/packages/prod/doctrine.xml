@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:doctrine="http://symfony.com/schema/dic/doctrine"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        https://symfony.com/schema/dic/services/services-1.0.xsd
+        http://symfony.com/schema/dic/doctrine
+        https://symfony.com/schema/dic/doctrine/doctrine-1.0.xsd">
+
+    <doctrine:config>
+        <doctrine:orm>
+            <doctrine:entity-manager name="landlord">
+                <doctrine:metadata-cache-driver type="service" id="doctrine.metadata_cache"/>
+                <doctrine:query-cache-driver type="service" id="doctrine.query_cache"/>
+            </doctrine:entity-manager>
+            <doctrine:entity-manager name="tenant">
+                <doctrine:metadata-cache-driver type="service" id="doctrine.metadata_cache"/>
+                <doctrine:query-cache-driver type="service" id="doctrine.query_cache"/>
+            </doctrine:entity-manager>
+        </doctrine:orm>
+    </doctrine:config>
+
+    <services>
+        <service id="doctrine.metadata_cache.array_adapter" class="Symfony\Component\Cache\Adapter\ArrayAdapter"/>
+        <service id="doctrine.metadata_cache.apcu_adapter" class="Symfony\Component\Cache\Adapter\ApcuAdapter">
+            <argument>doctrine_metadata</argument>
+        </service>
+        <service id="doctrine.metadata_cache.phparray_adapter" class="Symfony\Component\Cache\Adapter\PhpArrayAdapter">
+            <argument>%kernel.cache_dir%/doctrine/metadata.php</argument>
+            <argument type="service" id="doctrine.metadata_cache.array_adapter"/>
+        </service>
+        <service id="doctrine.metadata_cache" class="Symfony\Component\Cache\DoctrineProvider">
+            <argument type="service" id="doctrine.metadata_cache.phparray_adapter"/>
+        </service>
+
+        <service id="doctrine.query_cache.apcu_adapter" class="Symfony\Component\Cache\Adapter\ApcuAdapter">
+            <argument>doctrine_query</argument>
+        </service>
+        <service id="doctrine.query_cache" class="Symfony\Component\Cache\DoctrineProvider">
+            <argument type="service" id="doctrine.query_cache.apcu_adapter"/>
+        </service>
+    </services>
+</container>
