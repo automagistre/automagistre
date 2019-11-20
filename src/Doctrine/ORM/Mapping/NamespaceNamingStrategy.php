@@ -16,6 +16,11 @@ final class NamespaceNamingStrategy extends UnderscoreNamingStrategy
 
     private const SEARCH = [self::PREFIX.'\\Landlord\\', self::PREFIX.'\\Tenant\\', self::PREFIX.'\\'];
 
+    public function __construct()
+    {
+        parent::__construct(CASE_LOWER, true);
+    }
+
     /**
      * @param string $className
      */
