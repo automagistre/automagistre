@@ -21,7 +21,7 @@ RUN gulp build:main-script build:scripts build:less
 # PHP-FPM
 #
 FROM composer:1.9.0 as composer
-FROM php:7.3.10-fpm-stretch as base
+FROM php:7.3.11-fpm-stretch as base
 
 LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 
