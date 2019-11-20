@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d53985f34ea6916e1d7a280f80320dfe",
+    "content-hash": "b0f773497ada1ce291a8159cffc84272",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -4530,6 +4530,71 @@
                 "tree"
             ],
             "time": "2017-12-24T16:06:50+00:00"
+        },
+        {
+            "name": "sunrise/vin",
+            "version": "v1.0.13",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sunrise-php/vin.git",
+                "reference": "ce6c0e1f1d6eca7f33569c5d44859df45c0d7785"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sunrise-php/vin/zipball/ce6c0e1f1d6eca7f33569c5d44859df45c0d7785",
+                "reference": "ce6c0e1f1d6eca7f33569c5d44859df45c0d7785",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "phpunit/php-code-coverage": "6.1.4",
+                "phpunit/phpunit": "7.5.13",
+                "sunrise/coding-standard": "1.0.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "data/manufacturers.php",
+                    "data/regions.php",
+                    "data/years.php"
+                ],
+                "psr-4": {
+                    "Sunrise\\Vin\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anatoly Fenric",
+                    "email": "anatoly@fenric.ru",
+                    "homepage": "https://anatoly.fenric.ru/"
+                },
+                {
+                    "name": "李昀陞 (Peter)",
+                    "email": "peter279k@gmail.com",
+                    "homepage": "https://github.com/peter279k"
+                },
+                {
+                    "name": "Saud bin Mohammed",
+                    "email": "saud@samaphp.com",
+                    "homepage": "https://github.com/samaphp"
+                }
+            ],
+            "description": "Sunrise // Simple VIN decoder for PHP 7.1+ based on ISO-3779",
+            "homepage": "https://github.com/sunrise-php/vin",
+            "keywords": [
+                "decoder",
+                "fenric",
+                "iso-3779",
+                "sunrise",
+                "vin"
+            ],
+            "time": "2019-07-05T22:58:45+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
