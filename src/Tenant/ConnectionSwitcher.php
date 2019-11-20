@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tenant;
 
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Connection;
 use LogicException;
 use ReflectionClass;
 use ReflectionProperty;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -16,7 +16,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 final class ConnectionSwitcher
 {
     /**
-     * @var RegistryInterface
+     * @var ManagerRegistry
      */
     private $registry;
 
@@ -30,7 +30,7 @@ final class ConnectionSwitcher
      */
     private $reflection;
 
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;
     }

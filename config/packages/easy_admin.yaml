@@ -928,7 +928,7 @@ easy_admin:
                 title: 'Создать новый Расход'
                 form_options: { data_class: stdClass }
                 fields:
-                    - { property: 'expense', label: 'Статья расходов', type_options: { required: true } }
+                    - { property: 'expense', label: 'Статья расходов', type_options: { placeholder: 'Выберите статью', required: true } }
                     - { property: 'wallet', label: 'Счет списания', type: 'entity', type_options: { class: App\Entity\Tenant\Wallet, required: true } }
                     - { property: 'amount', label: 'Стоимость', type: App\Form\Type\MoneyType, type_options: { required: true } }
                     - { property: 'description', label: 'Комментарий' }
