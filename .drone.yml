@@ -157,8 +157,6 @@ steps:
                 --build-arg APP_DEBUG="0"
                 --target nginx
                 .
-        when:
-            branch: [ master ]
         depends_on:
             - build base
 
