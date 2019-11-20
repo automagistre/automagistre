@@ -90,7 +90,7 @@ pull:
 	docker-compose pull --parallel
 do-up: pull composer
 	docker-compose up --detach --remove-orphans --no-build
-up: do-up
+up: do-up permissions
 	@$(notify)
 status:
 	watch docker-compose ps
