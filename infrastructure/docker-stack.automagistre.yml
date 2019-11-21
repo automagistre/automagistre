@@ -19,7 +19,7 @@ services:
             labels:
                 - "traefik.docker.network=proxy"
                 - "traefik.enable=true"
-                - "traefik.frontend.rule=Host:{api,sto}.automagistre.ru"
+                - "traefik.frontend.rule=Host:api.automagistre.ru,sto.automagistre.ru"
                 - "traefik.port=80"
                 - "traefik.protocol=http"
                 - "traefik.backend.loadbalancer.method=drr"
