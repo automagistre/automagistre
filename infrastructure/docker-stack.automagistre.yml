@@ -19,7 +19,7 @@ services:
             labels:
                 - "traefik.docker.network=proxy"
                 - "traefik.enable=true"
-                - "traefik.frontend.rule=Host:www.rc.automagistre.ru,sto.automagistre.ru"
+                - "traefik.frontend.rule=Host:api.automagistre.ru,sto.automagistre.ru"
                 - "traefik.port=80"
                 - "traefik.protocol=http"
                 - "traefik.backend.loadbalancer.method=drr"
@@ -201,28 +201,6 @@ services:
             timeout: 5s
             retries: 3
             start_period: 5s
-
-    old_site:
-        image: grachev/swarm-nginx:12
-        environment:
-            NGINX_BACKEND_HOST: 176.100.244.45:80
-        networks:
-            - ingress
-        deploy:
-            mode: global
-            endpoint_mode: dnsrr
-            update_config:
-                order: stop-first
-                failure_action: rollback
-                parallelism: 1
-                delay: 5s
-            labels:
-                - "traefik.docker.network=proxy"
-                - "traefik.enable=true"
-                - "traefik.frontend.rule=Host:www.automagistre.ru,automagistre.ru"
-                - "traefik.port=80"
-                - "traefik.protocol=http"
-                - "traefik.backend.loadbalancer.method=drr"
 
 networks:
     ingress:

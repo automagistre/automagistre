@@ -51,7 +51,7 @@ doctrine:
                         dir: '%kernel.project_dir%/src/Entity/Landlord'
                         is_bundle: false
                     moneyphp: &moneyphp
-                        type: yml
+                        type: xml
                         prefix: Money
                         dir: '%kernel.project_dir%/config/orm/money'
                         is_bundle: false

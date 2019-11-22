@@ -49,7 +49,7 @@ final class UserCreateCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $em = $this->registry->manager(User::class);
 

@@ -1,22 +1,3 @@
-FROM node:10.13.0-alpine as node
-
-LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
-
-ENV APP_DIR=/usr/local/app
-ENV PATH=${APP_DIR}/node_modules/.bin:${PATH}
-
-WORKDIR ${APP_DIR}
-
-RUN apk add --no-cache git
-
-COPY package.json package-lock.json ${APP_DIR}/
-RUN npm install
-
-COPY gulpfile.js ${APP_DIR}
-COPY assets ${APP_DIR}/assets
-
-RUN gulp build:main-script build:scripts build:less
-
 #
 # PHP-FPM
 #
@@ -116,7 +97,6 @@ COPY --from=app /usr/local/app/public/favicon.ico favicon.ico
 COPY --from=app /usr/local/app/public/assets assets
 COPY --from=app /usr/local/app/public/bundles bundles
 COPY --from=app /usr/local/app/public/includes includes
-COPY --from=node /usr/local/app/public/assets/build assets/build
 
 COPY etc/nginx.conf /etc/nginx/nginx.conf
 

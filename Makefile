@@ -38,95 +38,27 @@ endef
 notify = $(DEBUG_ECHO) notify-send --urgency=low --expire-time=50 "Makefile" "$@ success!"
 
 init:
-	cp -n .env.dist .env || true
-	cp -n docker-compose.override.yml.dist docker-compose.override.yml || true
-	cp -n contrib/* ./ || true
-	cp -n -r contrib/* ./ || true
-	mkdir -p var/snapshots var/backups
-un-init:
-	rm -rf .env
-re-init: un-init init
-
-start: do-up backup-download db-wait backup
-bootstrap: init pull do-install docker-hosts-updater do-up cache db-wait fixtures
-
-install: do-install
-do-install: app-install
-
-do-update: docker-compose-install pull do-install do-up db-wait cache restart migration
-update: do-update
-	@$(notify)
-master: git-check-stage-is-clear git-fetch git-checkout-master git-reset-master do-update
-	@$(notify)
-
-clear-logs: app-clear-logs
+	@cp -n .env.dist .env || true
+	@cp -n docker-compose.override.yml.dist docker-compose.override.yml || true
+	@cp -n -r contrib/* ./ || true
+	@mkdir -p var/snapshots var/backups
 
 docker-hosts-updater:
 	docker pull grachev/docker-hosts-updater
 	docker rm -f docker-hosts-updater || true
 	docker run -d --restart=always --name docker-hosts-updater -v /var/run/docker.sock:/var/run/docker.sock -v /etc/hosts:/opt/hosts grachev/docker-hosts-updater
 
-###> GIT ###
-git-check-stage-is-clear:
-	@git diff --exit-code > /dev/null
-	@git diff --cached --exit-code > /dev/null
-git-checkout-master:
-	git checkout master
-git-reset-master:
-	git reset --hard origin/master
-git-fetch:
-	git fetch origin
-git-pull: git-fetch
-	if git branch -a | fgrep remotes/origin/$(shell git rev-parse --abbrev-ref HEAD); then git pull origin $(shell git rev-parse --abbrev-ref HEAD); fi
-git-reset: git-fetch
-	if git branch -a | fgrep remotes/origin/$(shell git rev-parse --abbrev-ref HEAD); then git reset --hard origin/$(shell git rev-parse --abbrev-ref HEAD); fi
-empty-commit:
-	git commit --allow-empty -m "Empty commit."
-	git push
-###< GIT ###
-
 ###> ALIASES ###
 pull:
 	docker-compose pull
-do-up: pull composer
+up: init pull composer permissions
 	docker-compose up --detach --remove-orphans --no-build
-up: do-up permissions
 	@$(notify)
-status:
-	watch docker-compose ps
 cli: app-cli
 
-
-RESTARTABLE_SERVICES = $(shell docker inspect --format='{{index .Config.Labels "com.docker.compose.service"}}' `docker ps --filter label="restartable=true" --filter label="com.docker.compose.project=${COMPOSE_PROJECT_NAME}" --quiet`)
-
-restart:
-	docker-compose restart $(RESTARTABLE_SERVICES)
-docker-rm-restartable:
-	docker-compose rm --force --stop $(RESTARTABLE_SERVICES) || true
 down:
 	docker-compose down -v --remove-orphans
-terminate:
-	docker-compose down -v --remove-orphans --rmi all
-logs-all:
-	docker-compose logs --follow
 ###< ALIASES ###
-
-###> DOCKER ###
-docker-install: docker-install-engine docker-compose-install
-docker-install-engine:
-	curl -fsSL get.docker.com | sh
-	sudo usermod -a -G docker `whoami`
-docker-compose-install:
-ifneq ($(shell docker-compose version --short), $(DOCKER_COMPOSE_VERSION))
-	sudo rm -rf /usr/local/bin/docker-compose /etc/bash_completion.d/docker-compose
-	sudo curl -L https://github.com/docker/compose/releases/download/$(DOCKER_COMPOSE_VERSION)/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
-	sudo chmod +x /usr/local/bin/docker-compose
-	sudo curl -L https://raw.githubusercontent.com/docker/compose/$(DOCKER_COMPOSE_VERSION)/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
-	$(call success,"docker-compose version $(DOCKER_COMPOSE_VERSION) installed.")
-else
-	$(call success,"docker-compose already is up to date of $(DOCKER_COMPOSE_VERSION) version.")
-endif
-###< DOCKER ###
 
 ###> APP ###
 build:
@@ -148,8 +80,6 @@ permissions:
 
 app-cli:
 	$(APP) bash
-
-app-install: composer
 
 composer:
 	$(APP) sh -c 'rm -rf var/cache/* && composer install'
@@ -213,15 +143,6 @@ psalm:
 cache:
 	$(APP) sh -c 'rm -rf var/cache/$$APP_ENV && console cache:warmup; $(PERMISSIONS)'
 
-app-clear-logs:
-	$(APP) rm -rf var/logs/*
-
-database: drop migration
-fixtures: APP_ENV=test
-fixtures: database cache do-fixtures
-	@$(notify)
-do-fixtures:
-	$(APP) console doctrine:fixtures:load --no-interaction
 backup: backup-restore migration
 	@$(notify)
 backup-update: backup-fresh backup-download backup
@@ -244,9 +165,6 @@ drop-tenant:
 	@$(MAKE) do-drop EM=tenant
 do-drop:
 	$(APP) sh -c "console doctrine:database:drop --force --connection=${EM} ${TENANT_CONSOLE} || true && console doctrine:database:create --connection=${EM} ${TENANT_CONSOLE}"
-
-db-wait:
-	$(APP) wait-for-it.sh landlord:3306 -- wait-for-it.sh tenant_msk:3306
 ###< APP ###
 
 ###> MYSQL ###
@@ -316,16 +234,3 @@ memcached-cli:
 memcached-restart:
 	docker-compose restart memcached
 ###< MEMCACHED ###
-
-###> NODE ###
-NODE_IMAGE = node:10.13.0-alpine
-node-install: do-node-install permissions
-do-node-install:
-	docker run --rm -v `pwd`:/usr/local/app -w /usr/local/app $(NODE_IMAGE) sh -c "apk add --no-cache git && npm install"
-node-cli: do-node-cli permissions
-do-node-cli:
-	docker run --rm -v `pwd`:/usr/local/app -w /usr/local/app -ti $(NODE_IMAGE) sh
-node-build: do-node-build permissions
-do-node-build:
-	docker run --rm -ti -v `pwd`:/usr/local/app -w /usr/local/app $(NODE_IMAGE) ./node_modules/.bin/gulp build:main-script build:scripts build:less
-###< NODE ###
