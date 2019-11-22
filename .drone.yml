@@ -161,14 +161,14 @@ steps:
             - build base
 
     -   name: deploy
-        image: docker/compose:1.24.1
+        image: docker/compose:1.25.0-alpine
         volumes:
             -   name: docker.sock
                 path: /var/run/docker.sock
         commands:
-            - cd infrastructure
-            - docker-compose --file docker-stack.automagistre.yml config | docker stack deploy --prune --with-registry-auth --compose-file - automagistre
-            - docker stack deploy --prune --with-registry-auth --compose-file docker-stack.redirects.yml redirect
+            - docker-compose --file docker-compose.prod.yml config | docker stack deploy --prune --with-registry-auth --compose-file - automagistre
+        environment:
+            VERSION: ${DRONE_BUILD_NUMBER}
         when:
             branch: [ master ]
         depends_on:
