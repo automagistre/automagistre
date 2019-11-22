@@ -163,7 +163,7 @@ do-drop:
 ###> MYSQL ###
 mysql-cli:
 	@$(MYSQL) bash
-backup_file = $(APP_DIR)/var/backups/$(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz
+backup_file = var/backups/$(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz
 backup-restore: backup-restore-landlord backup-restore-tenant
 backup-restore-landlord: drop-landlord
 	@$(MAKE) do-backup-restore
@@ -183,7 +183,7 @@ TENANT_CONSOLE = $(if $(filter tenant,$(EM)),--tenant=$(TENANT))
 
 SNAPSHOT_FILE_NAME = $(shell git rev-parse --abbrev-ref HEAD | sed 's\#/\#\_\#g')_${EM}$(if $(filter tenant,$(EM)),_$(TENANT)).sql.gz
 SNAPSHOT_FILE_PATH = /usr/local/app/var/snapshots/$(SNAPSHOT_FILE_NAME)
-SNAPSHOT_FILE_LOCAL = $(APP_DIR)/var/snapshots/$(SNAPSHOT_FILE_NAME)
+SNAPSHOT_FILE_LOCAL = var/snapshots/$(SNAPSHOT_FILE_NAME)
 
 snapshot: snapshot-landlord snapshot-tenant
 snapshot-landlord:
