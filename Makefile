@@ -1,4 +1,4 @@
-.PHONY: dev contrib
+.PHONY: contrib
 
 MAKEFLAGS += --no-print-directory
 
@@ -19,11 +19,6 @@ endif
 
 BACKUP_SERVER="s3.automagistre.ru"
 
-###> CONSTANTS ###
-DOCKER_COMPOSE_VERSION=1.24.0
-APP_DIR = .
-###< CONSTANTS ###
-
 define success
     @tput setaf 2
     @echo "$(if $(filter 1,$(MAKE_DEBUG)),${DEBUG_PREFIX}) [OK] $1"
@@ -38,8 +33,6 @@ endef
 notify = $(DEBUG_ECHO) notify-send --urgency=low --expire-time=50 "Makefile" "$@ success!"
 
 init:
-	@cp -n .env.dist .env || true
-	@cp -n docker-compose.override.yml.dist docker-compose.override.yml || true
 	@cp -n -r contrib/* ./ || true
 	@mkdir -p var/snapshots var/backups
 
