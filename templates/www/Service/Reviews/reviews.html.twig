@@ -1,5 +1,0 @@
-{%- for review in reviews -%}
-    <div class="reviews-list__item{{ app.request.xmlHttpRequest ? ' just-loaded' }}">
-        {% include 'www/Service/Reviews/card.html.twig' with {'review': review, limit: false} only %}
-    </div>
-{%- endfor -%}
