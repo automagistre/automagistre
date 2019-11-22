@@ -96,7 +96,6 @@ RUN apk add --no-cache gzip curl
 COPY --from=app /usr/local/app/public/favicon.ico favicon.ico
 COPY --from=app /usr/local/app/public/assets assets
 COPY --from=app /usr/local/app/public/bundles bundles
-COPY --from=app /usr/local/app/public/includes includes
 
 COPY etc/nginx.conf /etc/nginx/nginx.conf
 
