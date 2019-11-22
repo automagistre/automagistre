@@ -15,7 +15,8 @@ final class TestCommand extends Command
         $this->setName('test');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        return 0;
     }
 }
