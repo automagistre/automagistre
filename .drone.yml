@@ -115,8 +115,6 @@ steps:
             - $$WAIT_FOR_IT tenant_msk:3306
             - bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=landlord
             - bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=msk
-        environment:
-            MYSQL_PASSWORD: 'db'
         depends_on:
             - install
 
@@ -125,8 +123,6 @@ steps:
         commands:
             - bin/console doctrine:schema:validate --em=landlord
             - bin/console doctrine:schema:validate --em=tenant --tenant=msk
-        environment:
-            MYSQL_PASSWORD: 'db'
         depends_on:
             - migration
 
@@ -134,8 +130,6 @@ steps:
         image: automagistre/app:base
         commands:
             - vendor/bin/paratest --processes=$(grep -c ^processor /proc/cpuinfo || 4)
-        environment:
-            MYSQL_PASSWORD: 'db'
         depends_on:
             - migration
 

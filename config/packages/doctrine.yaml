@@ -99,8 +99,9 @@ framework:
 
 parameters:
     env(MYSQL_USER): db
-    env(MYSQL_PASSWORD): '%env(file:MYSQL_PASSWORD_FILE)%'
+    env(MYSQL_PASSWORD): '%env(default:default_db_password:trim:file:MYSQL_PASSWORD_FILE)%'
     env(MYSQL_PASSWORD_FILE): /run/secrets/mysql_password
+    default_db_password: db
 
 services:
     Doctrine\ORM\Mapping\NamingStrategy:
