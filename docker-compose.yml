@@ -11,8 +11,6 @@ services:
 
     app:
         image: automagistre/app:base
-        labels:
-            restartable: 'true'
         networks:
             default:
                 aliases:
