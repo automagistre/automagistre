@@ -14,8 +14,6 @@
         <directory name="src"/>
         <ignoreFiles>
             <directory name="vendor"/>
-            <file name="src/Controller/TestController.php"/>
-            <file name="src/Command/TestCommand.php"/>
         </ignoreFiles>
     </projectFiles>
 
