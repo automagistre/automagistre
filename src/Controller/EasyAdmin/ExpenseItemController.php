@@ -42,7 +42,7 @@ final class ExpenseItemController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function persistEntity($entity): void
+    protected function persistEntity($entity): ExpenseItem
     {
         $model = $entity;
         \assert($model instanceof \stdClass);
@@ -66,5 +66,7 @@ final class ExpenseItemController extends AbstractController
         $this->event(new ExpenseItemCreated($entity));
 
         $this->setReferer($this->generateEasyPath($entity, 'list'));
+
+        return $entity;
     }
 }

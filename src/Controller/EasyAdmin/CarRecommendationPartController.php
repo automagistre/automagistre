@@ -135,7 +135,7 @@ final class CarRecommendationPartController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function persistEntity($entity): void
+    protected function persistEntity($entity): CarRecommendationPart
     {
         $model = $entity;
         \assert($model instanceof RecommendationPart);
@@ -149,5 +149,7 @@ final class CarRecommendationPartController extends AbstractController
         );
 
         parent::persistEntity($entity);
+
+        return $entity;
     }
 }

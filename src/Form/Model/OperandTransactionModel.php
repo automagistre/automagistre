@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class OperandTransaction
+final class OperandTransactionModel
 {
     /**
      * @var int|null
