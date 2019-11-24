@@ -95,8 +95,8 @@ steps:
     -   name:  symfony linters
         image: automagistre/app:base
         commands:
-            - console lint:yaml config
-            - console lint:twig templates
+            - bin/console lint:yaml config
+            - bin/console lint:twig templates
         depends_on:
             - install
 
