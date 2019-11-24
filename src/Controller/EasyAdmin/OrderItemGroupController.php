@@ -36,7 +36,7 @@ final class OrderItemGroupController extends OrderItemController
     /**
      * {@inheritdoc}
      */
-    protected function persistEntity($entity): void
+    protected function persistEntity($entity): OrderItemGroup
     {
         $model = $entity;
         \assert($model instanceof OrderGroup);
@@ -45,5 +45,7 @@ final class OrderItemGroupController extends OrderItemController
         $entity->setParent($model->parent);
 
         parent::persistEntity($entity);
+
+        return $entity;
     }
 }
