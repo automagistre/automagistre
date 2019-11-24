@@ -10,16 +10,38 @@
             color: black;
         }
     </style>
-    <ul class="nav navbar-nav" style="margin-right: 10px">
 
+    <ul class="nav navbar-nav" style="margin-right: 10px">
         {% for wallet in wallets %}
             {# @var wallet \App\Entity\Wallet #}
             <li>
                 <a href="{{ easyadmin_path('WalletTransaction', 'list', wallet|to_query) }}" class="balance__head">
-                    {{ wallet.name }}: {{ wallet|balance|localize_money }}
+                    {{ wallet.name }}:
+                    <span id="wallet-{{ wallet.id }}-amount">{{ wallet|balance|localize_money }}</span>
                 </a>
             </li>
         {% endfor %}
-
     </ul>
+
+    <script>
+      $(document).ready(function() {
+        const mercureUrl = new URL(MERCURE_URL);
+
+        {% for wallet in wallets %}
+        mercureUrl.searchParams.append('topic', 'http://automagistre.ru/{{ state.tenant.identifier }}/Wallet/{{ wallet.id }}');
+        {% endfor %}
+
+        const eventSource = new EventSource(mercureUrl);
+
+        eventSource.onmessage = event => {
+          const data = JSON.parse(event.data);
+          const selector = $('#wallet-' + data.id + '-amount');
+
+          selector.fadeOut('slow', () => {
+            selector.html(data.amount);
+            selector.fadeIn('slow');
+          });
+        };
+      });
+    </script>
 {% endif %}
