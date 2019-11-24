@@ -25,6 +25,7 @@
         <MissingDependency errorLevel="info"/>
 
         <PropertyNotSetInConstructor errorLevel="info"/>
+        <DeprecatedClass errorLevel="info"/>
 
         <PossiblyNullArrayOffset errorLevel="info"/>
         <PossiblyNullOperand errorLevel="info"/>
