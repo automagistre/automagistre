@@ -9,7 +9,6 @@ use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Entity\Embeddable\CarEquipment;
 use App\Enum\Carcase;
 use App\Exceptions\LogicException;
-use App\Vehicle\Validator\Constraints\Vin;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -53,7 +52,6 @@ class Car
      * @var string
      *
      * @Assert\Length(min="17", max="17")
-     * @Vin(message="VIN {{ vin }} не соответствует стандарту ISO 3779")
      *
      * @ORM\Column(length=17, nullable=true, unique=true)
      */

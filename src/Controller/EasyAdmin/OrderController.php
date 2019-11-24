@@ -325,7 +325,7 @@ final class OrderController extends AbstractController
         $order->setStatus($status);
         $this->em->flush();
 
-        $this->event(new OrderStatusChanged($order, ['status' => $status]));
+        $this->event(new OrderStatusChanged($order, $status));
 
         return $this->redirectToReferrer();
     }

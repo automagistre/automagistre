@@ -8,3 +8,4 @@ sentry:
         excluded_exceptions:
             - 'Symfony\Component\HttpKernel\Exception\HttpExceptionInterface'
             - 'Symfony\Component\Security\Core\Exception\AccessDeniedException'
+        send_default_pii: true

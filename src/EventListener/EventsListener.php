@@ -104,7 +104,7 @@ final class EventsListener implements EventSubscriberInterface
         }
 
         $user = $this->state->user();
-        $tenant = $this->registry->isTenantEntity($subject) ? $this->state->tenant() : null;
+        $tenant = $this->state->tenant();
 
         $em = $this->registry->manager(Event::class);
         $em->persist(new Event($name, $arguments, $user, $tenant));

@@ -1,4 +1,4 @@
-.PHONY: dev contrib
+.PHONY: contrib
 
 MAKEFLAGS += --no-print-directory
 
@@ -19,11 +19,6 @@ endif
 
 BACKUP_SERVER="s3.automagistre.ru"
 
-###> CONSTANTS ###
-DOCKER_COMPOSE_VERSION=1.24.0
-APP_DIR = .
-###< CONSTANTS ###
-
 define success
     @tput setaf 2
     @echo "$(if $(filter 1,$(MAKE_DEBUG)),${DEBUG_PREFIX}) [OK] $1"
@@ -38,8 +33,6 @@ endef
 notify = $(DEBUG_ECHO) notify-send --urgency=low --expire-time=50 "Makefile" "$@ success!"
 
 init:
-	@cp -n .env.dist .env || true
-	@cp -n docker-compose.override.yml.dist docker-compose.override.yml || true
 	@cp -n -r contrib/* ./ || true
 	@mkdir -p var/snapshots var/backups
 
@@ -170,7 +163,7 @@ do-drop:
 ###> MYSQL ###
 mysql-cli:
 	@$(MYSQL) bash
-backup_file = $(APP_DIR)/var/backups/$(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz
+backup_file = var/backups/$(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz
 backup-restore: backup-restore-landlord backup-restore-tenant
 backup-restore-landlord: drop-landlord
 	@$(MAKE) do-backup-restore
@@ -190,7 +183,7 @@ TENANT_CONSOLE = $(if $(filter tenant,$(EM)),--tenant=$(TENANT))
 
 SNAPSHOT_FILE_NAME = $(shell git rev-parse --abbrev-ref HEAD | sed 's\#/\#\_\#g')_${EM}$(if $(filter tenant,$(EM)),_$(TENANT)).sql.gz
 SNAPSHOT_FILE_PATH = /usr/local/app/var/snapshots/$(SNAPSHOT_FILE_NAME)
-SNAPSHOT_FILE_LOCAL = $(APP_DIR)/var/snapshots/$(SNAPSHOT_FILE_NAME)
+SNAPSHOT_FILE_LOCAL = var/snapshots/$(SNAPSHOT_FILE_NAME)
 
 snapshot: snapshot-landlord snapshot-tenant
 snapshot-landlord:

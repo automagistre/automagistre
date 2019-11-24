@@ -10,6 +10,7 @@ use App\Request\EntityTransformer;
 use App\State;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
+use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use EasyCorp\Bundle\EasyAdminBundle\Router\EasyAdminRouter;
 use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
@@ -144,6 +145,49 @@ abstract class AbstractController extends EasyAdminController
     protected function event(GenericEvent $event): void
     {
         $this->container->get('event_dispatcher')->dispatch($event);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function newAction(): Response
+    {
+        $this->dispatch(EasyAdminEvents::PRE_NEW);
+
+        $entity = $this->createNewEntity();
+
+        $easyadmin = $this->request->attributes->get('easyadmin');
+        $easyadmin['item'] = $entity;
+        $this->request->attributes->set('easyadmin', $easyadmin);
+
+        $fields = $this->entity['new']['fields'];
+
+        $newForm = $this->createNewForm($entity, $fields);
+
+        $newForm->handleRequest($this->request);
+        if ($newForm->isSubmitted() && $newForm->isValid()) {
+            $this->processUploadedFiles($newForm);
+
+            $this->dispatch(EasyAdminEvents::PRE_PERSIST, ['entity' => $entity]);
+            $entity = $this->persistEntity($entity) ?? $entity;
+            $this->dispatch(EasyAdminEvents::POST_PERSIST, ['entity' => $entity]);
+
+            return $this->redirectToReferrer();
+        }
+
+        $this->dispatch(EasyAdminEvents::POST_NEW, [
+            'entity_fields' => $fields,
+            'form' => $newForm,
+            'entity' => $entity,
+        ]);
+
+        $parameters = [
+            'form' => $newForm->createView(),
+            'entity_fields' => $fields,
+            'entity' => $entity,
+        ];
+
+        return $this->renderTemplate('new', $this->entity['templates']['new'], $parameters);
     }
 
     /**

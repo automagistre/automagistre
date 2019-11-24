@@ -6,8 +6,9 @@ namespace App\Controller\EasyAdmin;
 
 use App\Doctrine\Registry;
 use App\Entity\Landlord\Operand;
+use App\Entity\Tenant\OperandTransaction;
 use App\Entity\Tenant\Wallet;
-use App\Form\Model\OperandTransaction;
+use App\Form\Model\OperandTransactionModel;
 use App\Manager\PaymentManager;
 use Doctrine\ORM\QueryBuilder;
 use LogicException;
@@ -30,7 +31,7 @@ final class OperandTransactionController extends AbstractController
         $this->paymentManager = $paymentManager;
     }
 
-    protected function createNewEntity(): OperandTransaction
+    protected function createNewEntity(): OperandTransactionModel
     {
         $recipient = $this->getEntity(Operand::class);
         if (!$recipient instanceof Operand) {
@@ -42,7 +43,7 @@ final class OperandTransactionController extends AbstractController
             throw new LogicException('Type required.');
         }
 
-        $model = new OperandTransaction();
+        $model = new OperandTransactionModel();
         $model->recipient = $recipient;
         $model->increment = 'increment' === $request->query->getAlnum('type');
 
@@ -74,27 +75,31 @@ final class OperandTransactionController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function persistEntity($entity): void
+    protected function persistEntity($entity): OperandTransaction
     {
-        \assert($entity instanceof \stdClass);
+        $model = $entity;
+        \assert($model instanceof \stdClass);
 
-        $this->em->transactional(function () use ($entity): void {
+        return $this->em->transactional(function () use ($model): OperandTransaction {
             /** @var Money $money */
-            $money = $entity->amount;
-            $money = $entity->increment ? $money->absolute() : $money->negative();
+            $money = $model->amount;
+            $money = $model->increment ? $money->absolute() : $money->negative();
 
-            $transaction = $this->paymentManager->createPayment($entity->recipient, $entity->description, $money);
+            $transaction = $this->paymentManager->createPayment($model->recipient, $model->description, $money);
+            \assert($transaction instanceof OperandTransaction);
 
-            if ($entity->wallet instanceof Wallet) {
+            if ($model->wallet instanceof Wallet) {
                 $description = \sprintf(
                     '# Ручная транзакция "%s" для "%s", с комментарием "%s"',
                     $transaction->getId(),
-                    (string) $entity->recipient,
-                    $entity->description
+                    (string) $model->recipient,
+                    $model->description
                 );
 
-                $this->paymentManager->createPayment($entity->wallet, $description, $money);
+                $this->paymentManager->createPayment($model->wallet, $description, $money);
             }
+
+            return $transaction;
         });
     }
 

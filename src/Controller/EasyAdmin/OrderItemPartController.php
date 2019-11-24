@@ -88,7 +88,7 @@ final class OrderItemPartController extends OrderItemController
     /**
      * {@inheritdoc}
      */
-    protected function persistEntity($entity): void
+    protected function persistEntity($entity): OrderItemPart
     {
         $model = $entity;
         \assert($model instanceof OrderPart);
@@ -110,6 +110,8 @@ final class OrderItemPartController extends OrderItemController
         } catch (ReservationException $e) {
             $this->addFlash('warning', $e->getMessage());
         }
+
+        return $entity;
     }
 
     /**

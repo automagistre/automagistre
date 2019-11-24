@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
     nginx:
-        image: automagistre/app-nginx:${DRONE_BUILD_NUMBER}
+        image: automagistre/app-nginx:${VERSION}
         networks:
             - automagistre
             - ingress
@@ -25,13 +25,15 @@ services:
                 - "traefik.backend.loadbalancer.method=drr"
 
     app: &app
-        image: automagistre/app:${DRONE_BUILD_NUMBER}
+        image: automagistre/app:${VERSION}
         networks:
+            mercure: {}
             automagistre:
                 aliases:
                     - php-fpm
+        volumes:
+          - /etc/automagistre/env:/usr/local/app/.env:ro
         secrets:
-            - { source: automagistre_env, target: /usr/local/app/.env }
             - mysql_password
         deploy:
             mode: replicated
@@ -206,14 +208,14 @@ networks:
     ingress:
         external: true
         name: proxy
+    mercure:
+        external: true
+        name: mercure
     automagistre:
         driver: overlay
         name: automagistre
 
 secrets:
-    automagistre_env:
-        external: true
-        name: automagistre_env_v3
     mysql_password:
         external: true
         name: automagistre_mysql_password
