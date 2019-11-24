@@ -92,6 +92,14 @@ steps:
         depends_on:
             - install
 
+    -   name:  symfony linters
+        image: automagistre/app:base
+        commands:
+            - console lint:yaml config
+            - console lint:twig templates
+        depends_on:
+            - install
+
     -   name:  phpstan
         image: automagistre/app:base
         commands:
