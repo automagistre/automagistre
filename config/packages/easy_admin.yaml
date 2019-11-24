@@ -1,5 +1,6 @@
 services:
     EasyCorp\Bundle\EasyAdminBundle\Router\EasyAdminRouter: '@easyadmin.router'
+    EasyCorp\Bundle\EasyAdminBundle\Twig\EasyAdminTwigExtension: '@easyadmin.twig.extension'
 
 easy_admin:
     site_name: 'СТО Автомагистр'

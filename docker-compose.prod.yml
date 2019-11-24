@@ -27,6 +27,7 @@ services:
     app: &app
         image: automagistre/app:${VERSION}
         networks:
+            mercure: {}
             automagistre:
                 aliases:
                     - php-fpm
@@ -207,6 +208,9 @@ networks:
     ingress:
         external: true
         name: proxy
+    mercure:
+        external: true
+        name: mercure
     automagistre:
         driver: overlay
         name: automagistre
