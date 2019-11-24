@@ -80,7 +80,7 @@ final class OrderItemServiceController extends OrderItemController
     /**
      * {@inheritdoc}
      */
-    protected function persistEntity($entity): void
+    protected function persistEntity($entity): OrderItemService
     {
         $model = $entity;
         \assert($model instanceof OrderService);
@@ -92,6 +92,8 @@ final class OrderItemServiceController extends OrderItemController
         $entity->discount($model->discount);
 
         parent::persistEntity($entity);
+
+        return $entity;
     }
 
     /**
