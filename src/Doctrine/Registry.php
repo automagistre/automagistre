@@ -107,14 +107,6 @@ final class Registry
     /**
      * @param object|string $entity
      */
-    public function isTenantEntity($entity): bool
-    {
-        return $this->isEntity($entity) && 'tenant' === $this->manager($entity)->getConnection()->getDatabase();
-    }
-
-    /**
-     * @param object|string $entity
-     */
     private function entityToString($entity): string
     {
         return \is_object($entity) ? \get_class($entity) : $entity;
