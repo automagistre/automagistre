@@ -4,9 +4,9 @@
 
 {% set appointment = item.appointmentAt %}
 {% if value.isScheduling and appointment is not empty %}
-    {% if date(appointment) < date('now', appointment.timezone) %}
+    {% if date(appointment) < date('now', appointment.getTimezone()) %}
         {% set color = 'danger' %}
-    {% elseif date(appointment) > date('now', appointment.timezone) %}
+    {% elseif date(appointment) > date('now', appointment.getTimezone()) %}
         {% set color = 'default' %}
     {% endif %}
 {% endif %}
