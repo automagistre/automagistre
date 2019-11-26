@@ -422,12 +422,13 @@ easy_admin:
             controller: App\Controller\EasyAdmin\EmployeeController
             disabled_actions: ['delete']
             templates:
-                list: 'easy_admin/employee/list.html.twig'
                 show: 'easy_admin/employee/show.html.twig'
             list:
                 title: 'Сотрудники'
                 sort: [firedAt, ASC]
                 max_results: 30
+                actions:
+                    - { name: 'fire', template: 'easy_admin/employee/action_fire.html.twig' }
                 fields:
                     - { property: 'id' }
                     - { property: 'person', label: 'Ф.И.О', template: 'easy_admin/field_show.html.twig' }
@@ -615,6 +616,8 @@ easy_admin:
                 show: 'easy_admin/income/show.html.twig'
             list:
                 title: 'Приходы'
+                actions:
+                    - { name: 'pay', template: 'easy_admin/income/action_pay.html.twig' }
                 fields:
                     - { property: 'id', template: 'easy_admin/field_id.html.twig' }
                     - { property: 'supplier', label: 'Поставщик', template: 'easy_admin/field_show.html.twig' }
@@ -728,7 +731,7 @@ easy_admin:
                     - { property: 'subtotal', label: 'Остаток', template: 'easy_admin/field_money.html.twig' }
             new:
                 title: 'Создать новую проводку {{ "increment" == app.request.query.get("type") ? "пополнения" : "списания" }}'
-                form_options: { data_class: App\Form\Model\OperandTransaction }
+                form_options: { data_class: App\Form\Model\OperandTransactionModel }
                 fields:
                     - { property: 'recipient', label: 'Получатель', type: 'text', type_options: { disabled: true } }
                     - { property: 'amount', label: 'Сумма', type: App\Form\Type\MoneyType }

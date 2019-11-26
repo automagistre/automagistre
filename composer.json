@@ -69,10 +69,10 @@
         "phpunit/phpunit": "^8.1",
         "psalm/plugin-phpunit": "^0.7.0",
         "symfony/browser-kit": "^5.0",
-        "symfony/debug-bundle": "^4.2",
+        "symfony/debug-bundle": "^5.0",
         "symfony/phpunit-bridge": "^5.0",
         "symfony/requirements-checker": "^1.1",
-        "symfony/web-profiler-bundle": "^4.2",
+        "symfony/web-profiler-bundle": "^5.0",
         "vimeo/psalm": "^3.2",
         "weirdan/doctrine-psalm-plugin": "^0.8.0"
     },
