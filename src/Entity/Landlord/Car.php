@@ -8,12 +8,12 @@ use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Entity\Embeddable\CarEquipment;
 use App\Enum\Carcase;
-use App\Exceptions\LogicException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
+use LogicException;
 use Money\Currency;
 use Money\Money;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -139,7 +139,7 @@ class Car
     public function getRecommendationPrice(string $type = null): Money
     {
         if (!\in_array($type, ['service', 'part', null], true)) {
-            throw LogicException::unexpected('type', $type);
+            throw new LogicException(\sprintf('Unexpected type "%s".', $type));
         }
 
         $price = new Money(0, new Currency('RUB'));
@@ -254,7 +254,7 @@ class Car
     public function getRecommendations(Criteria $criteria = null): array
     {
         if (!$this->recommendations instanceof Selectable) {
-            throw LogicException::mustImplement($this->recommendations, Selectable::class);
+            throw new LogicException(\sprintf('Collection expected to be implement %s', Selectable::class));
         }
 
         $criteria = $criteria ?: Criteria::create()->andWhere(Criteria::expr()->isNull('expiredAt'));
