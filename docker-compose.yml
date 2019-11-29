@@ -17,6 +17,7 @@ services:
                     - php-fpm
         volumes:
             - ./:/usr/local/app
+            - ./etc/php-fpm.conf:/usr/local/etc/php-fpm.d/automagistre.conf
         environment:
             APP_ENV: prod
             APP_DEBUG: 0

@@ -35,6 +35,7 @@ services:
           - /etc/automagistre/env:/usr/local/app/.env:ro
         secrets:
             - mysql_password
+        stop_grace_period: 10s
         deploy:
             mode: replicated
             replicas: 1
