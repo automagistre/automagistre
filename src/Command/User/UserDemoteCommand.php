@@ -20,6 +20,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 final class UserDemoteCommand extends Command
 {
+    protected static $defaultName = 'user:demote';
+
     /**
      * @var Registry
      */

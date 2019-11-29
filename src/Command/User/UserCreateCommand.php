@@ -17,6 +17,8 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
  */
 final class UserCreateCommand extends Command
 {
+    protected static $defaultName = 'user:create';
+
     /**
      * @var Registry
      */

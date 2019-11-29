@@ -28,6 +28,8 @@ use Throwable;
  */
 final class MonthlySalaryCommand extends Command
 {
+    protected static $defaultName = 'employee:monthly:salary';
+
     /**
      * @var Registry
      */
@@ -54,7 +56,7 @@ final class MonthlySalaryCommand extends Command
         PaymentManager $paymentManager,
         EventDispatcherInterface $dispatcher
     ) {
-        parent::__construct('employee:monthly:salary');
+        parent::__construct();
 
         $this->registry = $registry;
         $this->paymentManager = $paymentManager;

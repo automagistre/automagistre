@@ -18,6 +18,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 final class UserPromoteCommand extends Command
 {
+    protected static $defaultName = 'user:promote';
+
     /**
      * @var Registry
      */

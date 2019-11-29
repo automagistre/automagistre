@@ -21,6 +21,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 final class PartStockActualizationCommand extends Command
 {
+    protected static $defaultName = 'part:stock:actualize';
+
     /**
      * @var Registry
      */
@@ -38,7 +40,7 @@ final class PartStockActualizationCommand extends Command
 
     public function __construct(Registry $registry, StockpileManager $stockpileManager, State $state)
     {
-        parent::__construct('part:stock:actualize');
+        parent::__construct();
 
         $this->registry = $registry;
         $this->stockpileManager = $stockpileManager;

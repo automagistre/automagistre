@@ -19,6 +19,8 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
  */
 final class UserChangePasswordCommand extends Command
 {
+    protected static $defaultName = 'user:change-password';
+
     /**
      * @var Registry
      */

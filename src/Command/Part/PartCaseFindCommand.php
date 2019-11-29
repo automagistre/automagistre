@@ -28,6 +28,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 final class PartCaseFindCommand extends Command
 {
+    protected static $defaultName = 'part:case:find';
+
     /**
      * @var Registry
      */
@@ -35,7 +37,7 @@ final class PartCaseFindCommand extends Command
 
     public function __construct(Registry $registry)
     {
-        parent::__construct('part:case:find');
+        parent::__construct();
 
         $this->registry = $registry;
     }
