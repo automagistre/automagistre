@@ -1,4 +1,4 @@
-.PHONY: contrib
+.PHONY: test contrib
 
 MAKEFLAGS += --no-print-directory
 
@@ -19,15 +19,18 @@ endif
 
 BACKUP_SERVER="s3.automagistre.ru"
 
-define success
-    @tput setaf 2
-    @echo "$(if $(filter 1,$(MAKE_DEBUG)),${DEBUG_PREFIX}) [OK] $1"
-    @tput sgr0
+COLOR_RESET   = \033[0m
+COLOR_INFO    = \033[32m
+COLOR_NOTE = \033[33m
+
+define OK
+    @echo "$(COLOR_INFO)$(if $(filter 1,$(MAKE_DEBUG)),${DEBUG_PREFIX}) [OK] $1$(COLOR_RESET)"
 endef
-define failed
-    @tput setaf 1
-    @echo "$(if $(MAKE_DEBUG),${DEBUG_PREFIX}) [FAIL] $1"
-    @tput sgr0
+define FAIL
+    @>&2 echo "$(if $(MAKE_DEBUG),${DEBUG_PREFIX}) [FAIL] $1$(COLOR_RESET)"
+endef
+define NOTE
+    @echo "$(COLOR_NOTE)$(if $(MAKE_DEBUG),${DEBUG_PREFIX}) [NOTE] $1$(COLOR_RESET)"
 endef
 
 notify = $(DEBUG_ECHO) notify-send --urgency=low --expire-time=50 "Makefile" "$@ success!"
@@ -69,7 +72,7 @@ APP = $(DEBUG_ECHO) @docker-compose $(if $(EXEC),exec,run --rm )\
 PERMISSIONS = chown $(shell id -u):$(shell id -g) -R . && chmod 777 -R var/
 permissions:
 	$(APP) sh -c "$(PERMISSIONS) || true"
-	$(call success,"Permissions fixed.")
+	$(call OK,"Permissions fixed.")
 
 app-cli:
 	$(APP) bash
@@ -142,14 +145,14 @@ backup-update: backup-fresh backup-download backup
 backup-latest: backup-download backup
 backup-fresh:
 	@ssh ${BACKUP_SERVER} automagistre_backup.sh
-	$(call success,"Backups creating on ${BACKUP_SERVER}")
+	$(call OK,"Backups creating on ${BACKUP_SERVER}")
 backup-download:
 	$(DEBUG_ECHO) @mkdir -p var/backups
 	@$(MAKE) do-backup-download EM=landlord
 	@$(MAKE) do-backup-download EM=tenant
 do-backup-download:
 	$(DEBUG_ECHO) @scp -q -o LogLevel=QUIET ${BACKUP_SERVER}:/home/automagistre/backups/$(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz var/backups/$(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz
-	$(call success,"Backup $(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz downloaded.")
+	$(call OK,"Backup $(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz downloaded.")
 
 drop: drop-landlord drop-tenant
 drop-landlord:
@@ -161,6 +164,9 @@ do-drop:
 ###< APP ###
 
 ###> MYSQL ###
+MYSQL=$(DEBUG_ECHO) @docker-compose exec -T ${EM}$(if $(filter tenant,$(EM)),_$(TENANT))
+TENANT_CONSOLE = $(if $(filter tenant,$(EM)),--tenant=$(TENANT))
+
 mysql-cli:
 	@$(MYSQL) bash
 backup_file = var/backups/$(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz
@@ -172,14 +178,11 @@ backup-restore-tenant: drop-tenant
 do-backup-restore:
 ifneq (,$(wildcard $(backup_file)))
 	@$(MYSQL) bash -c "gunzip < /usr/local/app/var/backups/$(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz | mysql ${EM}"
-	$(call success,"Backup $(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}) restored.")
+	$(call OK,"Backup $(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}) restored.")
 else
-	$(call failed,"Backup \"$(backup_file)\" does not exist!")
+	$(call FAIL,"Backup \"$(backup_file)\" does not exist!")
 	@exit 1
 endif
-
-MYSQL=$(DEBUG_ECHO) @docker-compose exec ${EM}$(if $(filter tenant,$(EM)),_$(TENANT))
-TENANT_CONSOLE = $(if $(filter tenant,$(EM)),--tenant=$(TENANT))
 
 SNAPSHOT_FILE_NAME = $(shell git rev-parse --abbrev-ref HEAD | sed 's\#/\#\_\#g')_${EM}$(if $(filter tenant,$(EM)),_$(TENANT)).sql.gz
 SNAPSHOT_FILE_PATH = /usr/local/app/var/snapshots/$(SNAPSHOT_FILE_NAME)
@@ -192,10 +195,10 @@ snapshot-tenant:
 	@$(MAKE) do-snapshot EM=tenant
 do-snapshot:
 ifneq (,$(wildcard $(SNAPSHOT_FILE_LOCAL)))
-	$(call failed,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" already exist! You can use \"snapshot-drop\" recipe.")
+	$(call FAIL,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" already exist! You can use \"snapshot-drop\" recipe.")
 else
 	$(MYSQL) bash -c "mysqldump ${EM} | gzip > $(SNAPSHOT_FILE_PATH)"
-	$(call success,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" created.")
+	$(call OK,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" created.")
 endif
 
 snapshot-drop: snapshot-drop-landlord snapshot-drop-tenant
@@ -205,10 +208,10 @@ snapshot-drop-tenant:
 	@$(MAKE) do-snapshot-drop EM=tenant
 do-snapshot-drop:
 ifeq (,$(wildcard $(SNAPSHOT_FILE_LOCAL)))
-	$(call failed,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" does not exist!")
+	$(call FAIL,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" does not exist!")
 else
 	$(MYSQL) rm -f $(SNAPSHOT_FILE_PATH)
-	$(call success,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" deleted.")
+	$(call OK,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" deleted.")
 endif
 
 snapshot-restore: snapshot-restore-landlord snapshot-restore-tenant
@@ -218,7 +221,7 @@ snapshot-restore-tenant: drop-tenant
 	@$(MAKE) do-snapshot-restore EM=tenant
 do-snapshot-restore:
 	$(MYSQL) bash -c "gunzip < $(SNAPSHOT_FILE_PATH) | mysql ${EM}"
-	$(call success,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" restored.")
+	$(call OK,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" restored.")
 ###< MYSQL ###
 
 ###> MEMCACHED ###
