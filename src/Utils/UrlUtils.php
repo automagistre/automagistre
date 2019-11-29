@@ -30,9 +30,7 @@ final class UrlUtils
         }
 
         if (!array_key_exists('query', $parsedUrl) || '' === $parsedUrl['query']) {
-            $url .= '?'.$key.'='.$value;
-
-            return $url;
+            return $url.('?'.$key.'='.$value);
         }
 
         $queryElements = [];
@@ -42,9 +40,7 @@ final class UrlUtils
             return str_replace([$key.'='.$queryElements[$key]], $key.'='.$value, $url);
         }
 
-        $url .= '&'.$key.'='.$value;
-
-        return $url;
+        return $url.('&'.$key.'='.$value);
     }
 
     public static function removeQuery(string $url, string $key): string

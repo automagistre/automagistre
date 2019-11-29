@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Router;
 
 use BadMethodCallException;
-use function compact;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
@@ -43,7 +42,7 @@ final class ListeningRouterDecorator implements RouterInterface, RequestMatcherI
         $router = $this->router;
         $dispatcher = $this->dispatcher;
 
-        $event = new RoutePreGenerate($router, compact('name', 'parameters', 'referenceType'));
+        $event = new RoutePreGenerate($router, ['name' => $name, 'parameters' => $parameters, 'referenceType' => $referenceType]);
         $dispatcher->dispatch($event);
         ['name' => $name, 'parameters' => $parameters, 'referenceType' => $referenceType] = $event->getArguments();
 

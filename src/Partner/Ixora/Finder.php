@@ -8,7 +8,7 @@ use App\Model\Part;
 use App\Utils\StringUtils;
 use function array_key_exists;
 use function array_values;
-use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ServerException;
 use function mb_convert_case;
 use SimpleXMLElement;
@@ -25,11 +25,11 @@ final class Finder
     private const IXORA_PART_FIND = '/soap/ApiService.asmx/Find';
 
     /**
-     * @var Client
+     * @var ClientInterface
      */
     private $client;
 
-    public function __construct(Client $client)
+    public function __construct(ClientInterface $client)
     {
         $this->client = $client;
     }
@@ -44,7 +44,7 @@ final class Finder
         }
 
         try {
-            $xml = $this->client->get(self::IXORA_PART_FIND, [
+            $xml = $this->client->request('GET', self::IXORA_PART_FIND, [
                 'query' => [
                     'Number' => $number,
                     'Maker' => '',

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Router;
 
 use function array_key_exists;
-use function compact;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -59,6 +58,6 @@ final class PartExplorerRouteRefererListener implements EventSubscriberInterface
             $parameters['referer'] = urlencode($request->getUri());
         }
 
-        $event->setArguments(compact('name', 'parameters', 'referenceType'));
+        $event->setArguments(['name' => $name, 'parameters' => $parameters, 'referenceType' => $referenceType]);
     }
 }
