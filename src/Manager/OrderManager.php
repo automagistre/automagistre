@@ -16,6 +16,7 @@ use App\Entity\Tenant\OrderItemService;
 use App\Entity\Tenant\OrderSalary;
 use App\State;
 use Doctrine\ORM\EntityManagerInterface;
+use function sprintf;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -69,16 +70,16 @@ final class OrderManager
 
             if ($customer instanceof Operand) {
                 foreach ($order->getPayments() as $payment) {
-                    $description = \sprintf(
+                    $description = sprintf(
                         '# Начисление предоплаты%s по заказу #%s',
-                        null !== $payment->getDescription() ? \sprintf(' "%s"', $payment->getDescription()) : '',
+                        null !== $payment->getDescription() ? sprintf(' "%s"', $payment->getDescription()) : '',
                         $order->getId()
                     );
 
                     $this->paymentManager->createPayment($customer, $description, $payment->getMoney());
                 }
 
-                $description = \sprintf('# Списание по заказу #%s', $order->getId());
+                $description = sprintf('# Списание по заказу #%s', $order->getId());
                 $this->paymentManager->createPayment($customer, $description, $order->getTotalPrice(true)->negative());
             }
 
@@ -116,7 +117,7 @@ final class OrderManager
                 }
 
                 $salary = $price->multiply($employee->getRatio() / 100);
-                $description = \sprintf('# ЗП %s по заказу #%s', $worker->getFullName(), $order->getId());
+                $description = sprintf('# ЗП %s по заказу #%s', $worker->getFullName(), $order->getId());
 
                 $salaryTransaction = $this->paymentManager->createPayment($worker, $description, $salary->absolute());
 

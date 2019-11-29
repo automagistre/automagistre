@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\Embeddable;
 
 use Doctrine\ORM\Mapping as ORM;
+use function implode;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -109,7 +110,7 @@ final class Requisite
             $data[] = 'БИК: '.$this->bik;
         }
 
-        return \implode(', ', $data);
+        return implode(', ', $data);
     }
 
     public function isEmpty(): bool

@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
+use function array_combine;
+use function array_map;
+use function number_format;
+use function range;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -21,11 +25,11 @@ final class EngineCapacityType extends AbstractType
     {
         $resolver->setDefaults([
             'choice_loader' => new CallbackChoiceLoader(function () {
-                $choices = \array_map(function (float $number) {
-                    return \number_format($number, 1);
-                }, \range(0.6, 6.0, 0.1));
+                $choices = array_map(function (float $number) {
+                    return number_format($number, 1);
+                }, range(0.6, 6.0, 0.1));
 
-                return \array_combine($choices, $choices);
+                return array_combine($choices, $choices);
             }),
         ]);
     }

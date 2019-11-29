@@ -7,6 +7,7 @@ namespace App\Controller\EasyAdmin\MC;
 use App\Controller\EasyAdmin\AbstractController;
 use App\Entity\Landlord\MC\Line;
 use App\Entity\Landlord\MC\Part;
+use LogicException;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -22,7 +23,7 @@ final class PartController extends AbstractController
 
         $line = $this->getEntity(Line::class);
         if (!$line instanceof Line) {
-            throw new \LogicException('Line required.');
+            throw new LogicException('Line required.');
         }
 
         $entity->line = $line;

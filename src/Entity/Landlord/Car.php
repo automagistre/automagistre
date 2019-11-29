@@ -13,9 +13,13 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
+use function in_array;
 use LogicException;
+use function mb_convert_case;
 use Money\Currency;
 use Money\Money;
+use function sprintf;
+use function str_replace;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -126,11 +130,11 @@ class Car
         $string = $this->carModel->getDisplayName(false);
 
         if (null !== $this->year) {
-            $string .= \sprintf(' - %sг.', $this->year);
+            $string .= sprintf(' - %sг.', $this->year);
         }
 
         if ($full) {
-            $string .= \sprintf(' (%s)', $this->equipment->toString());
+            $string .= sprintf(' (%s)', $this->equipment->toString());
         }
 
         return $string;
@@ -138,8 +142,8 @@ class Car
 
     public function getRecommendationPrice(string $type = null): Money
     {
-        if (!\in_array($type, ['service', 'part', null], true)) {
-            throw new LogicException(\sprintf('Unexpected type "%s".', $type));
+        if (!in_array($type, ['service', 'part', null], true)) {
+            throw new LogicException(sprintf('Unexpected type "%s".', $type));
         }
 
         $price = new Money(0, new Currency('RUB'));
@@ -230,7 +234,7 @@ class Car
         $roman = ['A', 'B', 'E', 'K', 'M', 'H', 'O', 'P', 'C', 'T', 'Y', 'X'];
         $cyrillic = ['А', 'В', 'Е', 'К', 'М', 'Н', 'О', 'Р', 'С', 'Т', 'У', 'Х'];
 
-        return \str_replace($roman, $cyrillic, \mb_convert_case($this->gosnomer, MB_CASE_UPPER, 'UTF-8'));
+        return str_replace($roman, $cyrillic, mb_convert_case($this->gosnomer, MB_CASE_UPPER, 'UTF-8'));
     }
 
     public function setGosnomer(string $gosnomer = null): void
@@ -254,7 +258,7 @@ class Car
     public function getRecommendations(Criteria $criteria = null): array
     {
         if (!$this->recommendations instanceof Selectable) {
-            throw new LogicException(\sprintf('Collection expected to be implement %s', Selectable::class));
+            throw new LogicException(sprintf('Collection expected to be implement %s', Selectable::class));
         }
 
         $criteria = $criteria ?: Criteria::create()->andWhere(Criteria::expr()->isNull('expiredAt'));

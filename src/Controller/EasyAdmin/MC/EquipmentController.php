@@ -7,7 +7,9 @@ namespace App\Controller\EasyAdmin\MC;
 use App\Controller\EasyAdmin\AbstractController;
 use App\Doctrine\Registry;
 use App\Entity\Landlord\MC\Equipment;
+use function assert;
 use Doctrine\ORM\QueryBuilder;
+use function explode;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -19,7 +21,7 @@ final class EquipmentController extends AbstractController
      */
     protected function persistEntity($entity): void
     {
-        \assert($entity instanceof Equipment);
+        assert($entity instanceof Equipment);
 
         parent::persistEntity($entity);
 
@@ -49,7 +51,7 @@ final class EquipmentController extends AbstractController
             ->leftJoin('entity.model', 'carModel')
             ->leftJoin('carModel.manufacturer', 'manufacturer');
 
-        foreach (\explode(' ', $searchQuery) as $key => $searchString) {
+        foreach (explode(' ', $searchQuery) as $key => $searchString) {
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(

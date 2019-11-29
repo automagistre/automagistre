@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\Doctrine;
 
+use function assert;
+use function class_exists;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use function get_class;
+use function is_object;
 use LogicException;
 
 /**
@@ -63,7 +67,7 @@ final class Registry
     {
         $class = $this->entityToString($entity);
 
-        \assert(\class_exists($class));
+        assert(class_exists($class));
 
         return $this->manager($class)->getRepository($class);
     }
@@ -83,7 +87,7 @@ final class Registry
     {
         $class = $this->entityToString($entity);
 
-        \assert(\class_exists($class));
+        assert(class_exists($class));
 
         return $this->manager($entity)->getClassMetadata($class);
     }
@@ -93,11 +97,11 @@ final class Registry
      */
     public function isEntity($entity): bool
     {
-        if (\is_object($entity)) {
-            $entity = \get_class($entity);
+        if (is_object($entity)) {
+            $entity = get_class($entity);
         }
 
-        if (!\class_exists((string) $entity)) {
+        if (!class_exists((string) $entity)) {
             return false;
         }
 
@@ -109,6 +113,6 @@ final class Registry
      */
     private function entityToString($entity): string
     {
-        return \is_object($entity) ? \get_class($entity) : $entity;
+        return is_object($entity) ? get_class($entity) : $entity;
     }
 }

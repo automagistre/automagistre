@@ -19,10 +19,13 @@ use App\Event\EmployeeFired;
 use App\Event\EmployeeSalaryIssued;
 use App\Form\Type\MoneyType;
 use App\Manager\PaymentManager;
+use function assert;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use LogicException;
 use Money\Money;
+use function sprintf;
+use stdClass;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
@@ -52,7 +55,7 @@ final class EmployeeController extends AbstractController
             throw new BadRequestHttpException('Person required.');
         }
 
-        $model = new \stdClass();
+        $model = new stdClass();
         $model->recipient = $recipient;
         $model->wallet = null;
         $model->amount = null;
@@ -83,9 +86,9 @@ final class EmployeeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->em;
             $salary = $em->transactional(function (EntityManagerInterface $em) use ($model, $recipient): Salary {
-                $description = \sprintf('# Выдача зарплаты "%s"', $recipient->getFullName());
+                $description = sprintf('# Выдача зарплаты "%s"', $recipient->getFullName());
                 if (null !== $model->description) {
-                    $description .= \sprintf(' Комментарий - "%s"', $model->description);
+                    $description .= sprintf(' Комментарий - "%s"', $model->description);
                 }
 
                 /** @var Money $money */
@@ -112,7 +115,7 @@ final class EmployeeController extends AbstractController
         }
 
         return $this->render('easy_admin/simple.html.twig', [
-            'content_title' => \sprintf('Выдача зарплаты - "%s"', $recipient->getFullName()),
+            'content_title' => sprintf('Выдача зарплаты - "%s"', $recipient->getFullName()),
             'button' => 'Выдать зарплату',
             'form' => $form->createView(),
         ]);
@@ -127,7 +130,7 @@ final class EmployeeController extends AbstractController
             throw new BadRequestHttpException('Person required.');
         }
 
-        $model = new \stdClass();
+        $model = new stdClass();
         $model->recipient = $recipient;
         $model->wallet = null;
         $model->amount = null;
@@ -153,7 +156,7 @@ final class EmployeeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->em;
             $penalty = $em->transactional(function (EntityManagerInterface $em) use ($model, $recipient): Penalty {
-                $description = \sprintf(
+                $description = sprintf(
                     '# Оштрафован "%s" по причине "%s"',
                     $recipient->getFullName(),
                     $model->description
@@ -179,7 +182,7 @@ final class EmployeeController extends AbstractController
         }
 
         return $this->render('easy_admin/simple.html.twig', [
-            'content_title' => \sprintf('Оштрафовать - "%s"', $recipient->getFullName()),
+            'content_title' => sprintf('Оштрафовать - "%s"', $recipient->getFullName()),
             'button' => 'Оштрафовать',
             'form' => $form->createView(),
         ]);
@@ -193,7 +196,7 @@ final class EmployeeController extends AbstractController
         }
 
         if ($entity->isFired()) {
-            $this->addFlash('error', \sprintf('Сотрудник "%s" уже уволен', (string) $entity));
+            $this->addFlash('error', sprintf('Сотрудник "%s" уже уволен', (string) $entity));
 
             return $this->redirectToReferrer();
         }
@@ -211,7 +214,7 @@ final class EmployeeController extends AbstractController
      */
     protected function persistEntity($entity): void
     {
-        \assert($entity instanceof Employee);
+        assert($entity instanceof Employee);
 
         parent::persistEntity($entity);
 

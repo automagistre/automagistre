@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Utils;
 
 use LogicException;
+use function sprintf;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 
@@ -28,7 +29,7 @@ final class FormUtil
         $errors = [];
         foreach ($form->getErrors() as $key => $error) {
             if (!$error instanceof FormError) {
-                throw new LogicException(\sprintf('$error must be instance of "%s"', FormError::class));
+                throw new LogicException(sprintf('$error must be instance of "%s"', FormError::class));
             }
 
             if ($root) {

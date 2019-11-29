@@ -6,7 +6,9 @@ namespace App\Tenant;
 
 use App\Entity\Embeddable\Relation;
 use App\Tenant\EventListener\TenantRelationListener;
+use function assert;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use function is_subclass_of;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Cache\Adapter\PhpArrayAdapter;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -28,12 +30,12 @@ final class MetadataCompilerPass implements CompilerPassInterface
         $map = [];
         foreach ($registry->getManagers() as $manager) {
             foreach ($manager->getMetadataFactory()->getAllMetadata() as $metadata) {
-                \assert($metadata instanceof ClassMetadataInfo);
+                assert($metadata instanceof ClassMetadataInfo);
 
                 foreach ($metadata->embeddedClasses as $property => $embedded) {
                     $embeddedClass = $embedded['class'];
 
-                    if (\is_subclass_of($embeddedClass, Relation::class, true)) {
+                    if (is_subclass_of($embeddedClass, Relation::class, true)) {
                         $map[$metadata->getName()][$property] = $embeddedClass;
                     }
                 }
@@ -47,10 +49,10 @@ final class MetadataCompilerPass implements CompilerPassInterface
         }
 
         $metadataCache = $container->get('doctrine.metadata_cache.phparray_adapter');
-        \assert($metadataCache instanceof PhpArrayAdapter);
+        assert($metadataCache instanceof PhpArrayAdapter);
 
         $fallbackCache = $container->get('doctrine.metadata_cache.array_adapter');
-        \assert($fallbackCache instanceof ArrayAdapter);
+        assert($fallbackCache instanceof ArrayAdapter);
 
         $metadataCache->warmUp($fallbackCache->getValues());
 

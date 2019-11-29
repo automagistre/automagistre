@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Roles;
+use function strpos;
 use Symfony\Bundle\TwigBundle\Controller\ExceptionController as TwigExceptionController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -73,9 +74,9 @@ final class ExceptionController extends TwigExceptionController
         if (null === $zone) {
             $host = $request->getHost();
 
-            if (0 === \strpos($host, 'www')) {
+            if (0 === strpos($host, 'www')) {
                 $zone = 'www';
-            } elseif (0 === \strpos($host, 'sto')) {
+            } elseif (0 === strpos($host, 'sto')) {
                 $zone = 'admin';
             }
         }

@@ -8,6 +8,8 @@ use App\Doctrine\Registry;
 use App\Entity\Landlord\User;
 use App\Request\EntityTransformer;
 use App\State;
+use function array_keys;
+use function array_merge;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
@@ -15,16 +17,21 @@ use EasyCorp\Bundle\EasyAdminBundle\Router\EasyAdminRouter;
 use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
+use function method_exists;
 use Money\Formatter\DecimalMoneyFormatter;
 use Money\Money;
 use Money\MoneyFormatter;
 use Pagerfanta\Pagerfanta;
+use stdClass;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use function trim;
+use function urldecode;
+use function urlencode;
 
 /**
  * @method User getUser()
@@ -38,7 +45,7 @@ abstract class AbstractController extends EasyAdminController
      */
     public static function getSubscribedServices(): array
     {
-        return \array_merge(parent::getSubscribedServices(), [
+        return array_merge(parent::getSubscribedServices(), [
             Registry::class,
             EntityTransformer::class,
             MoneyFormatter::class,
@@ -89,16 +96,16 @@ abstract class AbstractController extends EasyAdminController
 
     protected function setReferer(string $url): void
     {
-        $this->request->query->set('referer', \urlencode($url));
+        $this->request->query->set('referer', urlencode($url));
     }
 
     protected function redirectToReferrer(): RedirectResponse
     {
-        $refererUrl = \trim($this->request->query->get('referer', ''));
+        $refererUrl = trim($this->request->query->get('referer', ''));
 
         return '' !== $refererUrl
             ? $this->redirect(
-                \urldecode($refererUrl)
+                urldecode($refererUrl)
             )
             : parent::redirectToReferrer();
     }
@@ -215,18 +222,18 @@ abstract class AbstractController extends EasyAdminController
      */
     protected function createNewEntity()
     {
-        if (\stdClass::class === ($this->entity['new']['form_options']['data_class'] ?? null)) {
-            $entity = new \stdClass();
+        if (stdClass::class === ($this->entity['new']['form_options']['data_class'] ?? null)) {
+            $entity = new stdClass();
 
             $entity->id = null;
-            foreach (\array_keys($this->entity['new']['fields']) as $field) {
+            foreach (array_keys($this->entity['new']['fields']) as $field) {
                 $entity->{$field} = null;
             }
         } else {
             $entity = parent::createNewEntity();
         }
 
-        if (\method_exists($entity, 'setCreatedBy')) {
+        if (method_exists($entity, 'setCreatedBy')) {
             $entity->setCreatedBy($this->getUser());
         }
 

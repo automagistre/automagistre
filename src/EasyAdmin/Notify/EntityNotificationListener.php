@@ -11,8 +11,13 @@ use App\Tenant\EntityChecker;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigManager;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use EasyCorp\Bundle\EasyAdminBundle\Twig\EasyAdminTwigExtension;
+use function get_class;
+use function is_array;
+use function json_encode;
 use Sentry\Severity;
 use Sentry\State\HubInterface;
+use function sprintf;
+use function str_replace;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Mercure\PublisherInterface;
@@ -115,11 +120,11 @@ final class EntityNotificationListener implements EventSubscriberInterface
 
     private function notify(object $entity, bool $isNew): void
     {
-        $class = \str_replace('Proxies\\__CG__\\', '', \get_class($entity));
+        $class = str_replace('Proxies\\__CG__\\', '', get_class($entity));
         $entityConfig = $this->configManager->getEntityConfigByClass($class);
-        if (!\is_array($entityConfig)) {
+        if (!is_array($entityConfig)) {
             $this->sentry->captureMessage(
-                \sprintf('Not found config for entity class %s', $class), Severity::warning()
+                sprintf('Not found config for entity class %s', $class), Severity::warning()
             );
 
             return;
@@ -151,6 +156,6 @@ final class EntityNotificationListener implements EventSubscriberInterface
             ]),
         ];
 
-        ($this->publisher)(new Update($topics, \json_encode($data, JSON_THROW_ON_ERROR)));
+        ($this->publisher)(new Update($topics, json_encode($data, JSON_THROW_ON_ERROR)));
     }
 }

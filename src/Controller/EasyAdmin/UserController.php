@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\EasyAdmin;
 
 use App\Entity\Landlord\User;
+use function assert;
+use stdClass;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
@@ -29,7 +31,7 @@ final class UserController extends AbstractController
     protected function persistEntity($entity): void
     {
         $model = $entity;
-        \assert($model instanceof \stdClass);
+        assert($model instanceof stdClass);
 
         $entity = new User($model->person);
         $entity->setUsername($model->username);
@@ -44,7 +46,7 @@ final class UserController extends AbstractController
      */
     protected function updateEntity($entity, FormInterface $form = null): void
     {
-        \assert($entity instanceof User);
+        assert($entity instanceof User);
 
         $password = $form->get('password')->getData();
         if (null !== $password) {

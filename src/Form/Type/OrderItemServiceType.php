@@ -6,6 +6,7 @@ namespace App\Form\Type;
 
 use App\Entity\Tenant\OrderItemService;
 use LogicException;
+use function sprintf;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -33,7 +34,7 @@ final class OrderItemServiceType extends AbstractType
     {
         $item = $form->getData();
         if (!$item instanceof OrderItemService) {
-            throw new LogicException(\sprintf('Data must be instance of "%s"', OrderItemService::class));
+            throw new LogicException(sprintf('Data must be instance of "%s"', OrderItemService::class));
         }
 
         /** @psalm-var array $view->vars */

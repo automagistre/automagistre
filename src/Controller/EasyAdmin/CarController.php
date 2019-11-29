@@ -11,8 +11,11 @@ use App\Entity\Landlord\Operand;
 use App\Entity\Landlord\Organization;
 use App\Entity\Landlord\Person;
 use App\Entity\Tenant\Order;
+use function array_map;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
+use function explode;
+use function sprintf;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -96,7 +99,7 @@ final class CarController extends AbstractController
             ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = owner.id AND owner INSTANCE OF '.Person::class)
             ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = owner.id AND owner INSTANCE OF '.Organization::class);
 
-        foreach (\explode(' ', $searchQuery) as $key => $searchString) {
+        foreach (explode(' ', $searchQuery) as $key => $searchString) {
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
@@ -139,14 +142,14 @@ final class CarController extends AbstractController
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
-        $data = \array_map(function (Car $car) use ($ownerId) {
+        $data = array_map(function (Car $car) use ($ownerId) {
             $carModel = $car->getCarModel();
 
             $text = $carModel->getDisplayName();
 
             $gosnomer = $car->getGosnomer();
             if (null !== $gosnomer) {
-                $text .= \sprintf(' (%s)', $gosnomer);
+                $text .= sprintf(' (%s)', $gosnomer);
             }
 
             $person = $car->getOwner();
@@ -155,7 +158,7 @@ final class CarController extends AbstractController
 
                 $telephone = $person->getTelephone();
                 if (null !== $telephone) {
-                    $text .= \sprintf(' (%s)', $this->formatTelephone($telephone));
+                    $text .= sprintf(' (%s)', $this->formatTelephone($telephone));
                 }
             }
 

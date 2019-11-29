@@ -13,7 +13,10 @@ use App\Entity\Tenant\OrderItemPart;
 use App\Entity\Tenant\OrderItemService;
 use App\Entity\Tenant\Reservation;
 use App\Manager\RecommendationManager;
+use function array_merge;
+use function assert;
 use Doctrine\ORM\EntityManagerInterface;
+use function in_array;
 use LogicException;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -27,7 +30,7 @@ abstract class OrderItemController extends AbstractController
      */
     public static function getSubscribedServices(): array
     {
-        return \array_merge(parent::getSubscribedServices(), [
+        return array_merge(parent::getSubscribedServices(), [
             RecommendationManager::class,
         ]);
     }
@@ -41,7 +44,7 @@ abstract class OrderItemController extends AbstractController
             return parent::isActionAllowed($actionName);
         }
 
-        if (\in_array($actionName, ['edit', 'delete'], true) && null !== $id = $this->request->get('id')) {
+        if (in_array($actionName, ['edit', 'delete'], true) && null !== $id = $this->request->get('id')) {
             /** @var Order $order */
             $order = $this->em->getRepository(OrderItem::class)->find($id)->getOrder();
 
@@ -70,7 +73,7 @@ abstract class OrderItemController extends AbstractController
      */
     protected function removeEntity($entity): void
     {
-        \assert($entity instanceof OrderItem);
+        assert($entity instanceof OrderItem);
 
         $this->em->transactional(function (EntityManagerInterface $em) use ($entity): void {
             $this->recursiveRemove($em, $entity);

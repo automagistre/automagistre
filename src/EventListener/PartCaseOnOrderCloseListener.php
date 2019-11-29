@@ -11,6 +11,10 @@ use App\Entity\Landlord\PartCase;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItemPart;
 use App\Event\OrderClosed;
+use function array_flip;
+use function array_key_exists;
+use function array_map;
+use function count;
 use Doctrine\ORM\Query\Expr\Join;
 use LogicException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -63,12 +67,12 @@ final class PartCaseOnOrderCloseListener implements EventSubscriberInterface
         }
 
         $parts = $order->getItems(OrderItemPart::class);
-        if (0 === \count($parts)) {
+        if (0 === count($parts)) {
             return;
         }
 
         /** @var Part[] $parts */
-        $parts = \array_map(function (OrderItemPart $orderItemPart) {
+        $parts = array_map(function (OrderItemPart $orderItemPart) {
             return $orderItemPart->getPart();
         }, $parts);
 
@@ -83,11 +87,11 @@ final class PartCaseOnOrderCloseListener implements EventSubscriberInterface
             ->setParameter('carModel', $carModel)
             ->setParameter('parts', $parts)
             ->getScalarResult();
-        $existed = \array_map('array_shift', $existed);
-        $existed = \array_flip($existed);
+        $existed = array_map('array_shift', $existed);
+        $existed = array_flip($existed);
 
         foreach ($parts as $part) {
-            if (\array_key_exists($part->getId(), $existed)) {
+            if (array_key_exists($part->getId(), $existed)) {
                 continue;
             }
 

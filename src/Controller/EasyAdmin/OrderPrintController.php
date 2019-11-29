@@ -8,6 +8,9 @@ use App\Entity\Landlord\Car;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItemService;
 use App\Form\Type\OrderItemServiceType;
+use function assert;
+use function in_array;
+use function sprintf;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\HttpFoundation\Response;
@@ -93,7 +96,7 @@ final class OrderPrintController extends AbstractController
             $form = $this->createForm(IntegerType::class, null, [
                 'label' => 'Пробег '.(0 === $mileage
                         ? '(предыдущий отсутствует)'
-                        : \sprintf('(предыдущий: %s)', $mileage)),
+                        : sprintf('(предыдущий: %s)', $mileage)),
             ])
                 ->handleRequest($request);
 
@@ -118,7 +121,7 @@ final class OrderPrintController extends AbstractController
         }
 
         $version = $request->query->getInt('version');
-        $template = \sprintf('easy_admin/order_print/final_v%s.html.twig', $version);
+        $template = sprintf('easy_admin/order_print/final_v%s.html.twig', $version);
 
         return $this->render($template, [
             'order' => $order,
@@ -154,9 +157,9 @@ final class OrderPrintController extends AbstractController
      */
     protected function isActionAllowed($actionName): bool
     {
-        if (!\in_array($actionName, ['finish', 'act', 'invoice'], true)) {
+        if (!in_array($actionName, ['finish', 'act', 'invoice'], true)) {
             $order = $this->request->attributes->get('easyadmin')['item'];
-            \assert($order instanceof Order);
+            assert($order instanceof Order);
 
             return $order->isEditable();
         }

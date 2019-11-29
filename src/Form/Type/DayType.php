@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
+use function array_combine;
+use function range;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,11 +24,11 @@ final class DayType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $choices = \range(self::MONTH_FIRST_DAY, self::SHORT_MONTH_END_DAY);
+        $choices = range(self::MONTH_FIRST_DAY, self::SHORT_MONTH_END_DAY);
 
         $resolver
             ->setDefaults([
-                'choices' => \array_combine($choices, $choices),
+                'choices' => array_combine($choices, $choices),
             ]);
     }
 

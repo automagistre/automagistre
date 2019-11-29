@@ -16,6 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;
 use Money\Money;
+use function sprintf;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -85,7 +86,7 @@ class Income
 
     public function __toString(): string
     {
-        return \sprintf(
+        return sprintf(
             '№%s %s от %s',
             $this->getId(),
             (string) $this->getSupplier(),

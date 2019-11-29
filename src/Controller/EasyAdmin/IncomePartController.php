@@ -6,7 +6,11 @@ namespace App\Controller\EasyAdmin;
 
 use App\Entity\Tenant\Income;
 use App\Entity\Tenant\IncomePart;
+use function assert;
+use function in_array;
 use LogicException;
+use function sprintf;
+use function urlencode;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -18,7 +22,7 @@ final class IncomePartController extends AbstractController
      */
     protected function isActionAllowed($actionName): bool
     {
-        if (\in_array($actionName, ['edit', 'delete'], true)) {
+        if (in_array($actionName, ['edit', 'delete'], true)) {
             $incomePart = $this->findCurrentEntity();
             if (!$incomePart instanceof IncomePart) {
                 throw new LogicException('IncomePart required.');
@@ -54,16 +58,16 @@ final class IncomePartController extends AbstractController
      */
     protected function persistEntity($entity): void
     {
-        \assert($entity instanceof IncomePart);
+        assert($entity instanceof IncomePart);
 
         parent::persistEntity($entity);
 
         $this->setReferer($this->generateEasyPath($entity, 'new', [
             'income_id' => $entity->getIncome()->getId(),
-            'referer' => \urlencode($this->generateEasyPath($entity->getIncome(), 'show')),
+            'referer' => urlencode($this->generateEasyPath($entity->getIncome(), 'show')),
         ]));
 
-        $this->addFlash('success', \sprintf(
+        $this->addFlash('success', sprintf(
             'Запчасть "%s" в количестве "%s" добавлена в приход.',
             (string) $entity->getPart(),
             $entity->getQuantity() / 100
@@ -75,7 +79,7 @@ final class IncomePartController extends AbstractController
      */
     protected function updateEntity($entity): void
     {
-        \assert($entity instanceof IncomePart);
+        assert($entity instanceof IncomePart);
 
         parent::updateEntity($entity);
 

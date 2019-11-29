@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Form\Type;
 
 use App\Form\Model\OrderTOService;
+use function count;
+use LogicException;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -35,10 +37,10 @@ final class OrderTOServiceType extends AbstractType
                 $form = $event->getForm();
                 $model = $event->getData();
                 if (!$model instanceof OrderTOService) {
-                    throw new \LogicException('OrderTOService expected.');
+                    throw new LogicException('OrderTOService expected.');
                 }
 
-                if (0 === \count($model->parts)) {
+                if (0 === count($model->parts)) {
                     return;
                 }
 

@@ -26,7 +26,12 @@ use App\Event\PaymentCreated;
 use App\Event\PersonCreated;
 use App\Request\EntityTransformer;
 use App\State;
+use function get_class;
+use function is_object;
 use LogicException;
+use Serializable;
+use function serialize;
+use function sprintf;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -94,10 +99,10 @@ final class EventsListener implements EventSubscriberInterface
         foreach ($event->getArguments() as $key => $argument) {
             if ($this->registry->isEntity($argument)) {
                 $arguments['arguments'][$key] = $this->transformer->transform($argument);
-            } elseif ($argument instanceof \Serializable) {
-                $arguments['arguments'][$key] = \serialize($argument);
-            } elseif (\is_object($argument)) {
-                throw new LogicException(\sprintf('Object "%s" unsupported to EventLog', \get_class($argument)));
+            } elseif ($argument instanceof Serializable) {
+                $arguments['arguments'][$key] = serialize($argument);
+            } elseif (is_object($argument)) {
+                throw new LogicException(sprintf('Object "%s" unsupported to EventLog', get_class($argument)));
             } else {
                 $arguments['arguments'][$key] = $argument;
             }

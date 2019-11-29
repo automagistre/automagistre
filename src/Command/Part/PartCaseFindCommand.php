@@ -10,7 +10,14 @@ use App\Entity\Landlord\CarModel;
 use App\Entity\Landlord\Part;
 use App\Entity\Landlord\PartCase;
 use App\Entity\Tenant\OrderItemPart;
+use function array_flip;
+use function array_key_exists;
+use function array_keys;
+use function array_map;
+use function array_unique;
+use function count;
 use DoctrineBatchUtils\BatchProcessing\SimpleBatchIteratorAggregate;
+use function sprintf;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -47,14 +54,14 @@ final class PartCaseFindCommand extends Command
             ->join('entity.order', 'orders')
             ->where('orders.car.id IN (:cars)')
             ->andWhere('entity.part.id IS NOT NULL')
-            ->setParameter('cars', \array_keys($cars))
+            ->setParameter('cars', array_keys($cars))
             ->getQuery()
             ->getScalarResult();
-        $universal = $this->getUniversal(\array_map(static function (array $item): string {
+        $universal = $this->getUniversal(array_map(static function (array $item): string {
             return $item['part_id'];
         }, $data));
 
-        $progress = $io->createProgressBar(\count($data));
+        $progress = $io->createProgressBar(count($data));
         $em = $this->registry->manager(PartCase::class);
 
         $map = $this->getMap();
@@ -68,7 +75,7 @@ final class PartCaseFindCommand extends Command
             $carModelId = $cars[$carId];
 
             $hash = $partId.$carModelId;
-            if (\array_key_exists($partId, $universal) || \array_key_exists($hash, $map)) {
+            if (array_key_exists($partId, $universal) || array_key_exists($hash, $map)) {
                 continue;
             }
 
@@ -85,7 +92,7 @@ final class PartCaseFindCommand extends Command
 
         $progress->finish();
 
-        $io->success(\sprintf('Persisted %s.', $persisted));
+        $io->success(sprintf('Persisted %s.', $persisted));
 
         return 0;
     }
@@ -97,12 +104,12 @@ final class PartCaseFindCommand extends Command
             ->select('entity.id AS part_id')
             ->where('entity.id IN (:parts)')
             ->andWhere('entity.universal = :universal')
-            ->setParameter('parts', \array_unique($partIds))
+            ->setParameter('parts', array_unique($partIds))
             ->setParameter('universal', true)
             ->getQuery()
             ->getScalarResult();
 
-        return \array_flip(\array_map('array_pop', $data));
+        return array_flip(array_map('array_pop', $data));
     }
 
     private function getMap(): array
@@ -113,7 +120,7 @@ final class PartCaseFindCommand extends Command
             ->getQuery()
             ->getScalarResult();
 
-        return \array_flip(\array_map('array_pop', $data));
+        return array_flip(array_map('array_pop', $data));
     }
 
     private function getCars(): array

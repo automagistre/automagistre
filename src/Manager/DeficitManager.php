@@ -10,6 +10,9 @@ use App\Entity\Landlord\Part;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItemPart;
 use App\Model\DeficitPart;
+use function array_filter;
+use function array_map;
+use function explode;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -65,24 +68,24 @@ final class DeficitManager
 
         $partRepository = $this->registry->repository(Part::class);
         $parts = $partRepository->findBy([
-            'id' => \array_map(static function (array $item): string {
+            'id' => array_map(static function (array $item): string {
                 return $item['part_id'];
             }, $result),
         ]);
 
         $this->registry->repository(Manufacturer::class)->findBy([
-            'id' => \array_map(static function (Part $part) {
+            'id' => array_map(static function (Part $part) {
                 return $part->getManufacturer()->getId();
             }, $parts),
         ]);
 
-        return \array_map(static function (array $item) use ($em, $partRepository): DeficitPart {
+        return array_map(static function (array $item) use ($em, $partRepository): DeficitPart {
             /** @var Part $part */
             $part = $partRepository->find($item['part_id']);
             $quantity = $item['needed'];
-            $orders = \array_map(static function (string $id) use ($em): object {
+            $orders = array_map(static function (string $id) use ($em): object {
                 return $em->getReference(Order::class, $id);
-            }, \array_filter(\explode(',', $item['orders_id'])));
+            }, array_filter(explode(',', $item['orders_id'])));
 
             return new DeficitPart($part, $quantity, $orders);
         }, $result);

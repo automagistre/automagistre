@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\EasyAdmin;
 
 use App\Entity\Landlord\Review;
+use function assert;
+use function strtolower;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -16,7 +18,7 @@ final class ReviewController extends AbstractController
      */
     protected function persistEntity($entity): void
     {
-        \assert($entity instanceof Review);
+        assert($entity instanceof Review);
 
         $this->normalize($entity);
 
@@ -28,7 +30,7 @@ final class ReviewController extends AbstractController
      */
     protected function updateEntity($entity): void
     {
-        \assert($entity instanceof Review);
+        assert($entity instanceof Review);
 
         $this->normalize($entity);
 
@@ -37,6 +39,6 @@ final class ReviewController extends AbstractController
 
     private function normalize(Review $review): void
     {
-        $review->manufacturer = \strtolower($review->manufacturer);
+        $review->manufacturer = strtolower($review->manufacturer);
     }
 }

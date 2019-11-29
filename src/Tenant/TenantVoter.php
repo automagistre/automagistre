@@ -3,6 +3,7 @@
 namespace App\Tenant;
 
 use App\Entity\Landlord\User;
+use function assert;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
@@ -21,7 +22,7 @@ class TenantVoter extends Voter
      */
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
     {
-        \assert($subject instanceof Tenant);
+        assert($subject instanceof Tenant);
         $user = $token->getUser();
 
         if (!$user instanceof User) {

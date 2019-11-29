@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tenant;
 
+use function in_array;
 use Premier\Enum\Enum;
 
 /**
@@ -119,6 +120,6 @@ final class Tenant extends Enum
 
     public static function isValid(string $identifier): bool
     {
-        return \in_array($identifier, self::$identifier, true);
+        return in_array($identifier, self::$identifier, true);
     }
 }

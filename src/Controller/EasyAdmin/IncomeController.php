@@ -11,13 +11,18 @@ use App\Entity\Tenant\Wallet;
 use App\Event\IncomeAccrued;
 use App\Form\Type\MoneyType;
 use App\Manager\PaymentManager;
+use function assert;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use function in_array;
 use LogicException;
 use Money\Money;
+use function sprintf;
+use stdClass;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use function urlencode;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -43,7 +48,7 @@ final class IncomeController extends AbstractController
             throw new BadRequestHttpException('Income is required');
         }
 
-        $model = new \stdClass();
+        $model = new stdClass();
         $model->money = $income->getTotalPrice();
         $model->wallet = null;
 
@@ -66,7 +71,7 @@ final class IncomeController extends AbstractController
 
             $registry->manager(Income::class)
                 ->transactional(function () use ($model, $income): void {
-                    $description = \sprintf('# Оплата за поставку #%s', $income->getId());
+                    $description = sprintf('# Оплата за поставку #%s', $income->getId());
 
                     /** @var Money $money */
                     $money = $model->money;
@@ -93,7 +98,7 @@ final class IncomeController extends AbstractController
         }
 
         if (!$income->isEditable()) {
-            $this->addFlash('error', \sprintf('Приход "%s" уже оприходван', (string) $income));
+            $this->addFlash('error', sprintf('Приход "%s" уже оприходван', (string) $income));
 
             return $this->redirectToReferrer();
         }
@@ -108,7 +113,7 @@ final class IncomeController extends AbstractController
             $em->transactional(function () use ($income): void {
                 $income->accrue($this->getUser());
 
-                $description = \sprintf('# Начисление по поставке №%s', $income->getId());
+                $description = sprintf('# Начисление по поставке №%s', $income->getId());
 
                 $this->paymentManager->createPayment($income->getSupplier(), $description, $income->getTotalPrice());
             });
@@ -129,7 +134,7 @@ final class IncomeController extends AbstractController
      */
     protected function isActionAllowed($actionName): bool
     {
-        if (\in_array($actionName, ['edit', 'delete'], true)) {
+        if (in_array($actionName, ['edit', 'delete'], true)) {
             $income = $this->findCurrentEntity();
 
             if (!$income instanceof Income) {
@@ -149,13 +154,13 @@ final class IncomeController extends AbstractController
      */
     protected function persistEntity($entity): void
     {
-        \assert($entity instanceof Income);
+        assert($entity instanceof Income);
 
         parent::persistEntity($entity);
 
         $this->setReferer($this->generateEasyPath('IncomePart', 'new', [
             'income_id' => $entity->getId(),
-            'referer' => \urlencode($this->generateEasyPath($entity, 'show')),
+            'referer' => urlencode($this->generateEasyPath($entity, 'show')),
         ]));
     }
 

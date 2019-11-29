@@ -14,6 +14,10 @@ use App\Form\Model\OrderPart as OrderItemPartModel;
 use App\Form\Model\OrderService as OrderItemServiceModel;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
+use function get_class;
+use LogicException;
+use function sprintf;
+use function str_repeat;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\HttpFoundation\Request;
@@ -78,10 +82,10 @@ final class OrderItemParentType extends AbstractType
                     return $qb->andWhere($expr->orX(...$orExpr));
                 }
 
-                throw new \LogicException(\sprintf('Unsupported currentItem "%s"', \get_class($currentItem)));
+                throw new LogicException(sprintf('Unsupported currentItem "%s"', get_class($currentItem)));
             },
             'choice_label' => function (OrderItem $item) {
-                return \str_repeat(' - ', $item->getLevel()).$item;
+                return str_repeat(' - ', $item->getLevel()).$item;
             },
         ]);
     }

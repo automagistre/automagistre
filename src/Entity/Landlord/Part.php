@@ -10,6 +10,9 @@ use App\Doctrine\ORM\Mapping\Traits\Price;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
+use function preg_replace;
+use function sprintf;
+use function strtoupper;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -81,7 +84,7 @@ class Part
 
     public function displayName(): string
     {
-        return \sprintf('%s - %s (%s)', (string) $this->manufacturer, $this->name, $this->number);
+        return sprintf('%s - %s (%s)', (string) $this->manufacturer, $this->name, $this->number);
     }
 
     public function equals(self $part): bool
@@ -116,7 +119,7 @@ class Part
 
     public function setNumber(string $number): void
     {
-        $this->number = \strtoupper(\preg_replace('/[^a-zA-Z0-9]/', '', $number));
+        $this->number = strtoupper(preg_replace('/[^a-zA-Z0-9]/', '', $number));
     }
 
     public function setPrice(Money $price): void

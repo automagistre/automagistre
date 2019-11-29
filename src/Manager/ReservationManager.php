@@ -15,6 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
+use function sprintf;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -62,7 +63,7 @@ final class ReservationManager
         $reservable = $this->reservable($part);
         if ($reservable < $quantity) {
             throw new ReservationException(
-                \sprintf(
+                sprintf(
                     'Невозможно зарезервировать "%s" единиц товара, доступно "%s"',
                     $quantity / 100,
                     $reservable / 100
@@ -91,7 +92,7 @@ final class ReservationManager
         $reserved = $this->reserved($orderItemPart);
         if ($reserved < $quantity) {
             throw new ReservationException(
-                \sprintf(
+                sprintf(
                     'Невозможно снять с резервации "%s" единиц товара, в резерве "%s"',
                     $quantity / 100,
                     $reserved / 100

@@ -6,21 +6,23 @@ namespace App\Controller\EasyAdmin;
 
 use App\Entity\Tenant\Employee;
 use App\Entity\Tenant\MonthlySalary;
+use function assert;
 use LogicException;
+use stdClass;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
 final class MonthlySalaryController extends AbstractController
 {
-    protected function createNewEntity(): \stdClass
+    protected function createNewEntity(): stdClass
     {
         $employee = $this->getEntity(Employee::class);
         if (!$employee instanceof Employee) {
             throw new LogicException('Employee required.');
         }
 
-        $model = new \stdClass();
+        $model = new stdClass();
         $model->employee = $employee;
         $model->id
             = $model->payday
@@ -36,7 +38,7 @@ final class MonthlySalaryController extends AbstractController
     protected function persistEntity($entity): MonthlySalary
     {
         $model = $entity;
-        \assert($model instanceof \stdClass);
+        assert($model instanceof stdClass);
 
         $entity = new MonthlySalary($model->employee, $model->payday, $model->amount, $this->getUser());
 

@@ -5,6 +5,13 @@ declare(strict_types=1);
 namespace App;
 
 use App\Tenant\MetadataCompilerPass;
+use function assert;
+use function class_exists;
+use function file_exists;
+use InvalidArgumentException;
+use function is_dir;
+use function is_subclass_of;
+use function sprintf;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
@@ -25,17 +32,17 @@ final class Kernel extends SymfonyKernel
     public function registerBundles(): iterable
     {
         $path = $this->getProjectDir().'/config/bundles.php';
-        \assert(\file_exists($path));
+        assert(file_exists($path));
 
         /** @noinspection PhpIncludeInspection */
         $contents = require $path;
         foreach ((array) $contents as $class => $envs) {
             if (isset($envs['all']) || isset($envs[$this->getEnvironment()])) {
-                if (!\class_exists($class)) {
-                    throw new \InvalidArgumentException(\sprintf('Bundle %s not found.', $class));
+                if (!class_exists($class)) {
+                    throw new InvalidArgumentException(sprintf('Bundle %s not found.', $class));
                 }
 
-                \assert(\is_subclass_of($class, BundleInterface::class));
+                assert(is_subclass_of($class, BundleInterface::class));
 
                 yield new $class();
             }
@@ -78,7 +85,7 @@ final class Kernel extends SymfonyKernel
     {
         $confDir = $this->getConfDir();
 
-        if (\is_dir($confDir.'/routes/'.$this->environment)) {
+        if (is_dir($confDir.'/routes/'.$this->environment)) {
             $routes->import($confDir.'/routes/'.$this->environment.'/**/*'.self::CONFIG_EXTS, '/', 'glob');
         }
         $routes->import($confDir.'/routes'.self::CONFIG_EXTS, '/', 'glob');
@@ -96,7 +103,7 @@ final class Kernel extends SymfonyKernel
 
         $loader->load($confDir.'/packages/*'.self::CONFIG_EXTS, 'glob');
 
-        if (\is_dir($confDir.'/packages/'.$this->getEnvironment())) {
+        if (is_dir($confDir.'/packages/'.$this->getEnvironment())) {
             $loader->load($confDir.'/packages/'.$this->getEnvironment().'/**/*'.self::CONFIG_EXTS, 'glob');
         }
 

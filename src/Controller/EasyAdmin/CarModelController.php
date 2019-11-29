@@ -6,7 +6,9 @@ namespace App\Controller\EasyAdmin;
 
 use App\Doctrine\Registry;
 use App\Entity\Landlord\CarModel;
+use function array_map;
 use Doctrine\ORM\QueryBuilder;
+use function explode;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -49,7 +51,7 @@ final class CarModelController extends AbstractController
         $qb = $registry->repository(CarModel::class)->createQueryBuilder('model')
             ->leftJoin('model.manufacturer', 'manufacturer');
 
-        foreach (\explode(' ', $searchQuery) as $key => $item) {
+        foreach (explode(' ', $searchQuery) as $key => $item) {
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
@@ -77,7 +79,7 @@ final class CarModelController extends AbstractController
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
-        $data = \array_map(static function (CarModel $entity) {
+        $data = array_map(static function (CarModel $entity) {
             return [
                 'id' => $entity->getId(),
                 'text' => $entity->getDisplayName(),

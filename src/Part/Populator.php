@@ -7,7 +7,10 @@ namespace App\Part;
 use App\Entity\Landlord\Manufacturer;
 use App\Entity\Landlord\Part;
 use App\Partner\Ixora\Finder;
+use function array_filter;
+use function count;
 use Doctrine\ORM\EntityManager;
+use function strpos;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -72,12 +75,12 @@ final class Populator
             $parts[] = $part;
         }
 
-        if (0 < \count($parts)) {
+        if (0 < count($parts)) {
             $em->flush();
         }
 
-        return \array_filter($parts, function (Part $part) use ($number) {
-            return false !== \strpos((string) $part->getNumber(), $number);
+        return array_filter($parts, function (Part $part) use ($number) {
+            return false !== strpos((string) $part->getNumber(), $number);
         });
     }
 }

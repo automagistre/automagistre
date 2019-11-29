@@ -8,6 +8,7 @@ use App\Entity\Tenant\WalletTransaction;
 use App\Event\PaymentCreated;
 use App\Manager\PaymentManager;
 use App\State;
+use function json_encode;
 use Money\MoneyFormatter;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Mercure\PublisherInterface;
@@ -75,7 +76,7 @@ final class BalanceNotificationListener implements EventSubscriberInterface
                 'amount' => $this->formatter->format($this->manager->balance($wallet)),
             ];
 
-            ($this->publisher)(new Update($topics, \json_encode($data, JSON_THROW_ON_ERROR)));
+            ($this->publisher)(new Update($topics, json_encode($data, JSON_THROW_ON_ERROR)));
         }
     }
 }

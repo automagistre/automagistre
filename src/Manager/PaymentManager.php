@@ -10,6 +10,8 @@ use App\Entity\Tenant\Transaction;
 use App\Entity\Transactional;
 use App\Event\PaymentCreated;
 use App\State;
+use function assert;
+use function class_exists;
 use Doctrine\ORM\EntityManagerInterface;
 use Money\Currency;
 use Money\Money;
@@ -49,7 +51,7 @@ final class PaymentManager
         $payment = $em->transactional(function (EntityManagerInterface $em) use ($recipient, $description, $money) {
             $transactionClass = $recipient->getTransactionClass();
 
-            \assert(\class_exists($transactionClass));
+            assert(class_exists($transactionClass));
 
             $payment = new $transactionClass(
                 $recipient,

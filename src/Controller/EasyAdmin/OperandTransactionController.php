@@ -10,9 +10,12 @@ use App\Entity\Tenant\OperandTransaction;
 use App\Entity\Tenant\Wallet;
 use App\Form\Model\OperandTransactionModel;
 use App\Manager\PaymentManager;
+use function assert;
 use Doctrine\ORM\QueryBuilder;
 use LogicException;
 use Money\Money;
+use function sprintf;
+use stdClass;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormInterface;
 
@@ -78,7 +81,7 @@ final class OperandTransactionController extends AbstractController
     protected function persistEntity($entity): OperandTransaction
     {
         $model = $entity;
-        \assert($model instanceof \stdClass);
+        assert($model instanceof stdClass);
 
         return $this->em->transactional(function () use ($model): OperandTransaction {
             /** @var Money $money */
@@ -86,10 +89,10 @@ final class OperandTransactionController extends AbstractController
             $money = $model->increment ? $money->absolute() : $money->negative();
 
             $transaction = $this->paymentManager->createPayment($model->recipient, $model->description, $money);
-            \assert($transaction instanceof OperandTransaction);
+            assert($transaction instanceof OperandTransaction);
 
             if ($model->wallet instanceof Wallet) {
-                $description = \sprintf(
+                $description = sprintf(
                     '# Ручная транзакция "%s" для "%s", с комментарием "%s"',
                     $transaction->getId(),
                     (string) $model->recipient,

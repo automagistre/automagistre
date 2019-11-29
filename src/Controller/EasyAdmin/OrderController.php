@@ -27,12 +27,23 @@ use App\Form\Type\MoneyType;
 use App\Form\Type\OrderTOServiceType;
 use App\Manager\OrderManager;
 use App\Manager\PaymentManager;
+use function array_map;
+use function assert;
+use function count;
+use DateTime;
 use DateTimeImmutable;
+use DateTimeZone;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
+use function explode;
+use function filter_var;
+use function in_array;
 use LogicException;
 use Money\Money;
+use function range;
+use function sprintf;
+use stdClass;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -116,16 +127,16 @@ final class OrderController extends AbstractController
             ->groupBy('line.period')
             ->getQuery()
             ->getArrayResult();
-        $periods = \array_map('array_shift', $periods);
+        $periods = array_map('array_shift', $periods);
 
-        if (0 === \count($periods)) {
-            $this->addFlash('warning', \sprintf('Карт ТО для "%s" не найдео.', $car->toString(true)));
+        if (0 === count($periods)) {
+            $this->addFlash('warning', sprintf('Карт ТО для "%s" не найдео.', $car->toString(true)));
 
             return $this->redirectToReferrer();
         }
 
         $currentPeriod = $request->query->getInt('period');
-        if (!\in_array($currentPeriod, $periods, true)) {
+        if (!in_array($currentPeriod, $periods, true)) {
             $currentPeriod = $periods[0];
         }
 
@@ -269,11 +280,11 @@ final class OrderController extends AbstractController
                 'label' => 'Дата',
                 'required' => true,
                 'minutes' => [0, 30],
-                'hours' => \range(9, 23),
+                'hours' => range(9, 23),
                 'input' => 'datetime_immutable',
                 'model_timezone' => 'GMT+3',
                 'view_timezone' => 'GMT+3',
-                'data' => new DateTimeImmutable('now', new \DateTimeZone('GMT+3')),
+                'data' => new DateTimeImmutable('now', new DateTimeZone('GMT+3')),
                 'constraints' => [
                     new GreaterThan('now GMT+3'),
                 ],
@@ -368,7 +379,7 @@ final class OrderController extends AbstractController
             ->handleRequest($this->request);
 
         $model = $form->getData();
-        $model->description = \sprintf('# Аванс по заказу #%s', $order->getId());
+        $model->description = sprintf('# Аванс по заказу #%s', $order->getId());
 
         if ($form->isSubmitted() && $form->isValid()) {
             $model->recipient = null;
@@ -464,7 +475,7 @@ final class OrderController extends AbstractController
 
         $this->event(new OrderClosed($order));
 
-        $this->addFlash('success', \sprintf('Заказ №%s закрыт', $order->getId()));
+        $this->addFlash('success', sprintf('Заказ №%s закрыт', $order->getId()));
 
         return $this->redirectToEasyPath($order, 'show');
     }
@@ -554,7 +565,7 @@ final class OrderController extends AbstractController
                 )
             )
                 ->setParameter('closedStatus', OrderStatus::closed())
-                ->setParameter('today', (new \DateTime())->format('Y-m-d'));
+                ->setParameter('today', (new DateTime())->format('Y-m-d'));
         }
 
         return $qb;
@@ -583,7 +594,7 @@ final class OrderController extends AbstractController
             ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = customer.id AND customer INSTANCE OF '.Person::class)
             ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = customer.id AND customer INSTANCE OF '.Organization::class);
 
-        foreach (\explode(' ', $searchQuery) as $key => $item) {
+        foreach (explode(' ', $searchQuery) as $key => $item) {
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
@@ -626,7 +637,7 @@ final class OrderController extends AbstractController
      */
     protected function persistEntity($entity): void
     {
-        \assert($entity instanceof Order);
+        assert($entity instanceof Order);
 
         parent::persistEntity($entity);
 
@@ -642,7 +653,7 @@ final class OrderController extends AbstractController
      */
     protected function searchAction(): Response
     {
-        $id = \filter_var($this->request->query->get('query'), FILTER_VALIDATE_INT);
+        $id = filter_var($this->request->query->get('query'), FILTER_VALIDATE_INT);
 
         if (false !== $id) {
             $entity = $this->em->getRepository($this->entity['class'])->find($id);
@@ -666,7 +677,7 @@ final class OrderController extends AbstractController
 
         $forPayment = $order->getTotalForPayment($balance);
 
-        $model = new \stdClass();
+        $model = new stdClass();
         $model->forPayment = $forPayment->isPositive() ? $forPayment : new Money(0, $forPayment->getCurrency());
         $model->recipient = $customer;
         $model->description = '# Начисление по заказу #'.$order->getId();
@@ -674,7 +685,7 @@ final class OrderController extends AbstractController
         $formBuilder = $this->createFormBuilder($model, [
             'label' => false,
             'constraints' => [
-                new Assert\Callback(static function (\stdClass $model, ExecutionContextInterface $context): void {
+                new Assert\Callback(static function (stdClass $model, ExecutionContextInterface $context): void {
                     /** @var Money|null $money */
                     $money = null;
                     foreach ($model->wallets as ['payment' => $payment]) {
@@ -735,7 +746,7 @@ final class OrderController extends AbstractController
         return $formBuilder->getForm();
     }
 
-    private function handlePayment(\stdClass $model): void
+    private function handlePayment(stdClass $model): void
     {
         $em = $this->em;
 

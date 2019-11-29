@@ -6,6 +6,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\Landlord\User;
 use App\Tenant\Tenant;
+use function assert;
+use function reset;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,8 +26,8 @@ final class HomeController extends AbstractController
     {
         $user = $this->getUser();
         $tenants = $user->getTenants();
-        $tenant = \reset($tenants);
-        \assert($tenant instanceof Tenant);
+        $tenant = reset($tenants);
+        assert($tenant instanceof Tenant);
 
         return $this->redirectToRoute('easyadmin', [
             'tenant' => $tenant->getIdentifier(),

@@ -10,13 +10,18 @@ use App\Entity\Tenant\OrderItem;
 use App\Entity\Tenant\OrderItemService;
 use App\Form\Model\OrderService;
 use App\Manager\RecommendationManager;
+use function array_map;
+use function assert;
 use Doctrine\ORM\QueryBuilder;
+use function explode;
 use LogicException;
+use function sprintf;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use function trim;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -44,7 +49,7 @@ final class OrderItemServiceController extends OrderItemController
         ) {
             $this->addFlash(
                 'error',
-                \sprintf(
+                sprintf(
                     'Перед перенесом работы "%s" в рекоммендации нужно выбрать исполнителя.',
                     $orderItemService->getService()
                 )
@@ -83,7 +88,7 @@ final class OrderItemServiceController extends OrderItemController
     protected function persistEntity($entity): OrderItemService
     {
         $model = $entity;
-        \assert($model instanceof OrderService);
+        assert($model instanceof OrderService);
 
         $entity = new OrderItemService($model->order, $model->service, $model->price, $this->getUser());
         $entity->setParent($model->parent);
@@ -149,7 +154,7 @@ final class OrderItemServiceController extends OrderItemController
 
         $qb = $this->createListQueryBuilder($entityClass, $sortDirection);
 
-        foreach (\explode(' ', $searchQuery) as $key => $item) {
+        foreach (explode(' ', $searchQuery) as $key => $item) {
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
@@ -183,8 +188,8 @@ final class OrderItemServiceController extends OrderItemController
             $qb->groupBy('entity.service');
         }
 
-        foreach (\explode(' ', \trim($request->query->get('query'))) as $key => $searchString) {
-            $searchString = \trim($searchString);
+        foreach (explode(' ', trim($request->query->get('query'))) as $key => $searchString) {
+            $searchString = trim($searchString);
             if ('' === $searchString) {
                 continue;
             }
@@ -198,12 +203,12 @@ final class OrderItemServiceController extends OrderItemController
             $qb->setParameter($key, '%'.$searchString.'%');
         }
 
-        $data = \array_map(function (OrderItemService $entity) {
+        $data = array_map(function (OrderItemService $entity) {
             $price = $entity->getPrice();
 
             return [
                 'id' => $entity->getId(),
-                'text' => \sprintf('%s (%s)', $entity->getService(), $this->formatMoney($price)),
+                'text' => sprintf('%s (%s)', $entity->getService(), $this->formatMoney($price)),
                 'price' => $this->formatMoney($price, true),
             ];
         }, $qb->getQuery()->getResult());

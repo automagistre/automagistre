@@ -11,7 +11,9 @@ use App\Entity\Landlord\Operand;
 use App\Entity\Tenant\Order;
 use App\Form\Model\Recommendation;
 use App\Manager\RecommendationManager;
+use function assert;
 use Doctrine\ORM\Query\Expr\Join;
+use function sprintf;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -77,7 +79,7 @@ final class CarRecommendationController extends AbstractController
 
         $car = $registry->repository(Car::class)->findOneBy(['id' => $id]);
         if (null === $car) {
-            throw new NotFoundHttpException(\sprintf('Car id "%s" not found', $id));
+            throw new NotFoundHttpException(sprintf('Car id "%s" not found', $id));
         }
 
         $model = new Recommendation();
@@ -111,7 +113,7 @@ final class CarRecommendationController extends AbstractController
     protected function persistEntity($entity): CarRecommendation
     {
         $model = $entity;
-        \assert($model instanceof Recommendation);
+        assert($model instanceof Recommendation);
 
         $entity = new CarRecommendation($model->car, $model->service, $model->price, $model->worker, $this->getUser());
 

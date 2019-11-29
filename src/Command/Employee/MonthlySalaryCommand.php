@@ -10,7 +10,10 @@ use App\Entity\Tenant\MonthlySalary;
 use App\Manager\PaymentManager;
 use App\State;
 use App\Tenant\Tenant;
+use function date;
 use InvalidArgumentException;
+use function is_string;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleErrorEvent;
 use Symfony\Component\Console\Input\InputArgument;
@@ -18,6 +21,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Throwable;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -73,16 +77,16 @@ final class MonthlySalaryCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $payday = $input->getArgument('payday') ?? \date('j');
+        $payday = $input->getArgument('payday') ?? date('j');
         $description = $input->getOption('description') ?? '# Начисление ежемесячного оклада';
 
-        if (!\is_string($payday) || !\is_string($description)) {
+        if (!is_string($payday) || !is_string($description)) {
             throw new InvalidArgumentException('Payday and Description required.');
         }
 
         $user = $this->registry->repository(User::class)->findOneBy(['username' => 'service@automagistre.ru']);
         if (!$user instanceof User) {
-            throw new \RuntimeException('Service user not found.');
+            throw new RuntimeException('Service user not found.');
         }
         $this->state->user($user);
 
@@ -92,7 +96,7 @@ final class MonthlySalaryCommand extends Command
                 $this->state->tenant($tenant);
 
                 $this->paySalary($payday, $description);
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 $event = new ConsoleErrorEvent($input, $output, $e, $this);
 
                 $this->dispatcher->dispatch($event);

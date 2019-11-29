@@ -7,6 +7,7 @@ namespace App\Entity\Embeddable;
 use App\Enum\CarTransmission;
 use App\Enum\CarWheelDrive;
 use Doctrine\ORM\Mapping as ORM;
+use function sprintf;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -57,7 +58,7 @@ final class CarEquipment
 
     public function toString(): string
     {
-        return \sprintf(
+        return sprintf(
             '%s %s %s',
             $this->engine->toString(),
             $this->transmission->getCode(),

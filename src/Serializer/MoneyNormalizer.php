@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Serializer;
 
+use function assert;
 use Money\Formatter\DecimalMoneyFormatter;
 use Money\Money;
 use Money\MoneyFormatter;
@@ -32,13 +33,12 @@ final class MoneyNormalizer implements NormalizerInterface
 
     /**
      * @param mixed $money
-     * @param string|null  $format
      *
      * @return array<string>
      */
-    public function normalize($money, $format = null, array $context = []): array
+    public function normalize($money, string $format = null, array $context = []): array
     {
-        \assert($money instanceof Money);
+        assert($money instanceof Money);
 
         return [
             'amount' => $this->decimalMoneyFormatter->format($money),

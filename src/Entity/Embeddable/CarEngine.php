@@ -6,6 +6,7 @@ namespace App\Entity\Embeddable;
 
 use App\Enum\EngineType;
 use Doctrine\ORM\Mapping as ORM;
+use function sprintf;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -60,6 +61,6 @@ final class CarEngine
 
     public function toString(): string
     {
-        return \sprintf('%s %s', $this->name, $this->capacity);
+        return sprintf('%s %s', $this->name, $this->capacity);
     }
 }

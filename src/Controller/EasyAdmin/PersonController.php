@@ -6,7 +6,11 @@ namespace App\Controller\EasyAdmin;
 
 use App\Entity\Landlord\Person;
 use App\Event\PersonCreated;
+use function array_map;
+use function assert;
 use Doctrine\ORM\QueryBuilder;
+use function explode;
+use function sprintf;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -19,7 +23,7 @@ final class PersonController extends OperandController
      */
     protected function persistEntity($entity): void
     {
-        \assert($entity instanceof Person);
+        assert($entity instanceof Person);
 
         parent::persistEntity($entity);
 
@@ -41,7 +45,7 @@ final class PersonController extends OperandController
     ): QueryBuilder {
         $qb = $this->em->getRepository(Person::class)->createQueryBuilder('person');
 
-        foreach (\explode(' ', $searchQuery) as $key => $item) {
+        foreach (explode(' ', $searchQuery) as $key => $item) {
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
@@ -68,12 +72,12 @@ final class PersonController extends OperandController
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
-        $data = \array_map(function (Person $person) {
+        $data = array_map(function (Person $person) {
             $formattedTelephone = $this->formatTelephone($person->getTelephone() ?? $person->getOfficePhone());
 
             return [
                 'id' => $person->getId(),
-                'text' => \sprintf('%s %s', $person->getFullName(), $formattedTelephone),
+                'text' => sprintf('%s %s', $person->getFullName(), $formattedTelephone),
             ];
         }, (array) $paginator->getCurrentPageResults());
 

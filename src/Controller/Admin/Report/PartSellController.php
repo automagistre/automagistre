@@ -7,12 +7,14 @@ namespace App\Controller\Admin\Report;
 use App\Doctrine\Registry;
 use App\Entity\Landlord\Part;
 use App\Entity\Tenant\Motion;
+use function array_map;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use function usort;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -74,7 +76,7 @@ final class PartSellController extends AbstractController
             'end' => 'datetime',
         ]);
 
-        $ids = \array_map(static function (array $item): string {
+        $ids = array_map(static function (array $item): string {
             return $item['part_id'];
         }, $items);
 
@@ -86,7 +88,7 @@ final class PartSellController extends AbstractController
             ->setParameter('ids', $ids)
             ->getResult();
 
-        \usort($items, static function (array $left, array $right): int {
+        usort($items, static function (array $left, array $right): int {
             return (int) $right['quantity'] <=> (int) $left['quantity'];
         });
 

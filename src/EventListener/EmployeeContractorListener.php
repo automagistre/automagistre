@@ -7,6 +7,7 @@ namespace App\EventListener;
 use App\Entity\Tenant\Employee;
 use App\Event\EmployeeCreated;
 use App\Event\EmployeeFired;
+use LogicException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -30,7 +31,7 @@ final class EmployeeContractorListener implements EventSubscriberInterface
     {
         $entity = $event->getSubject();
         if (!$entity instanceof Employee) {
-            throw new \LogicException('Employee expected');
+            throw new LogicException('Employee expected');
         }
 
         $entity->getPerson()->setContractor(EmployeeCreated::class === $eventName);

@@ -9,9 +9,13 @@ use App\Entity\Landlord\Operand;
 use App\Entity\Landlord\Organization;
 use App\Entity\Landlord\Person;
 use App\Entity\Tenant\OrderItemService;
+use function array_key_exists;
+use DateTime;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
+use function get_class;
 use LogicException;
+use function sprintf;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -50,7 +54,7 @@ final class WorkerType extends AbstractType
                     ->setParameter('is_contractor', true);
             },
             'preferred_choices' => static function (Operand $operand) use ($preferred) {
-                return \array_key_exists($operand->getId(), $preferred);
+                return array_key_exists($operand->getId(), $preferred);
             },
             'choice_label' => static function (Operand $operand) {
                 return (string) $operand;
@@ -65,7 +69,7 @@ final class WorkerType extends AbstractType
                     return 'Организация';
                 }
 
-                throw new LogicException(\sprintf('Unexpected Operand: "%s"', \get_class($operand)));
+                throw new LogicException(sprintf('Unexpected Operand: "%s"', get_class($operand)));
             },
         ]);
     }
@@ -89,7 +93,7 @@ final class WorkerType extends AbstractType
             ->where('entity.createdAt > :today')
             ->andWhere('entity.worker.id IS NOT NULL')
             ->groupBy('entity.worker.id')
-            ->setParameter('today', new \DateTime('-10 hour'))
+            ->setParameter('today', new DateTime('-10 hour'))
             ->getQuery()
             ->getResult();
 

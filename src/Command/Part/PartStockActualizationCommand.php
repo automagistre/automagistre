@@ -8,6 +8,9 @@ use App\Doctrine\Registry;
 use App\Entity\Tenant\Motion;
 use App\Manager\StockpileManager;
 use App\State;
+use function array_map;
+use function count;
+use function sprintf;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -58,15 +61,15 @@ final class PartStockActualizationCommand extends Command
             ->getQuery()
             ->getArrayResult();
 
-        $count = \count($values);
+        $count = count($values);
 
-        $values = \array_map(function (array $item) use ($tenant) {
+        $values = array_map(function (array $item) use ($tenant) {
             return [$item['part_id'], $tenant, $item['quantity']];
         }, $values);
 
         $this->stockpileManager->actualize($values);
 
-        $io->success(\sprintf('Updated %s rows', $count));
+        $io->success(sprintf('Updated %s rows', $count));
 
         return 0;
     }

@@ -6,6 +6,9 @@ namespace App\Manager;
 
 use App\Doctrine\Registry;
 use App\Entity\Landlord\Part;
+use function array_map;
+use function implode;
+use function sprintf;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -24,10 +27,10 @@ final class StockpileManager
 
     public function actualize(array $values): void
     {
-        $values = \implode(',', \array_map(function (array $item) {
+        $values = implode(',', array_map(function (array $item) {
             [$partId, $tenant, $quantity] = $item;
 
-            return \sprintf('(%s, %s, %s)', $partId, $tenant, $quantity);
+            return sprintf('(%s, %s, %s)', $partId, $tenant, $quantity);
         }, $values));
 
         $sql = "INSERT INTO stockpile (part_id, tenant, quantity) VALUES {$values} ON DUPLICATE KEY UPDATE quantity=VALUES(quantity)";

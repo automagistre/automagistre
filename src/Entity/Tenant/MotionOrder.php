@@ -6,6 +6,7 @@ namespace App\Entity\Tenant;
 
 use App\Entity\Landlord\Part;
 use Doctrine\ORM\Mapping as ORM;
+use function sprintf;
 
 /**
  * @ORM\Entity
@@ -26,7 +27,7 @@ class MotionOrder extends Motion
             $quantity = 0 - $quantity;
         }
 
-        parent::__construct($part, $quantity, \sprintf('Заказ #%s', $order->getId()));
+        parent::__construct($part, $quantity, sprintf('Заказ #%s', $order->getId()));
 
         $this->order = $order;
     }

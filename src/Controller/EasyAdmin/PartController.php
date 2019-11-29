@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use function abs;
 use App\Doctrine\Registry;
 use App\Entity\Landlord\CarModel;
 use App\Entity\Landlord\Manufacturer;
@@ -24,16 +25,29 @@ use App\Model\Part as PartModel;
 use App\Partner\Ixora\Finder;
 use App\Roles;
 use App\State;
+use function array_filter;
+use function array_keys;
+use function array_map;
+use function assert;
+use function count;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
+use function explode;
+use function implode;
 use LogicException;
 use Money\MoneyFormatter;
+use function sprintf;
+use function str_ireplace;
+use function str_replace;
+use function strpos;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Validator\Constraints;
+use function trim;
+use function urldecode;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -137,7 +151,7 @@ final class PartController extends AbstractController
             return new Response('', Response::HTTP_NO_CONTENT);
         }
 
-        return $this->json(\array_map(function (PartModel $model) use ($manufacturerRepository) {
+        return $this->json(array_map(function (PartModel $model) use ($manufacturerRepository) {
             $manufacturer = $manufacturerRepository->findOneBy(['name' => $model->manufacturer]);
             if (!$manufacturer instanceof Manufacturer) {
                 $manufacturer = new Manufacturer();
@@ -153,8 +167,8 @@ final class PartController extends AbstractController
                 'name' => $model->name,
                 'number' => $model->number,
             ];
-        }, \array_filter($parts, static function (PartModel $model) use ($number) {
-            return false !== \strpos($model->number, $number);
+        }, array_filter($parts, static function (PartModel $model) use ($number) {
+            return false !== strpos($model->number, $number);
         })));
     }
 
@@ -176,7 +190,7 @@ final class PartController extends AbstractController
             ->where('part.id IN (:ids)')
             ->orderBy('part.id')
             ->getQuery()
-            ->setParameter('ids', \array_keys($quantities))
+            ->setParameter('ids', array_keys($quantities))
             ->getResult();
 
         return $this->render('easy_admin/part/stock.html.twig', [
@@ -208,9 +222,9 @@ final class PartController extends AbstractController
             $registry = $this->container->get(Registry::class);
 
             $em = $registry->manager(MotionManual::class);
-            $quantity = \abs((int) $form->get('quantity')->getData());
+            $quantity = abs((int) $form->get('quantity')->getData());
             $user = $this->getUser();
-            $description = \sprintf('# Ручное пополнение - %s', $user->getId());
+            $description = sprintf('# Ручное пополнение - %s', $user->getId());
 
             $em->persist(new MotionManual($user, $part, $quantity, $description));
             $em->flush();
@@ -244,9 +258,9 @@ final class PartController extends AbstractController
             $registry = $this->container->get(Registry::class);
 
             $em = $registry->manager(MotionManual::class);
-            $quantity = \abs((int) $form->get('quantity')->getData());
+            $quantity = abs((int) $form->get('quantity')->getData());
             $user = $this->getUser();
-            $description = \sprintf('# Ручное списание - %s', $user->getId());
+            $description = sprintf('# Ручное списание - %s', $user->getId());
 
             $em->persist(new MotionManual($user, $part, 0 - $quantity, $description));
             $em->flush();
@@ -274,7 +288,7 @@ final class PartController extends AbstractController
 
             $parameters['inStock'] = $this->partManager->inStock($entity);
             $parameters['orders'] = $this->partManager->inOrders($entity);
-            $parameters['reservedIn'] = \array_map(static function (Order $order): int {
+            $parameters['reservedIn'] = array_map(static function (Order $order): int {
                 return (int) $order->getId();
             }, $this->reservationManager->orders($entity));
             $parameters['reserved'] = $this->reservationManager->reserved($entity);
@@ -338,9 +352,9 @@ final class PartController extends AbstractController
         $sortDirection = null,
         $dqlFilter = null
     ): QueryBuilder {
-        $isPlusExist = false !== \strpos($searchQuery, '+');
+        $isPlusExist = false !== strpos($searchQuery, '+');
         if ($isPlusExist) {
-            $searchQuery = \str_replace('+', '', $searchQuery);
+            $searchQuery = str_replace('+', '', $searchQuery);
         }
 
         $qb = $this->em->getRepository(Part::class)->createQueryBuilder('part')
@@ -357,7 +371,7 @@ final class PartController extends AbstractController
                 ->select('PARTIAL entity.{id, caseName}')
                 ->where('entity.caseName IN (:cases)')
                 ->getQuery()
-                ->setParameter('cases', \explode(' ', \trim($searchQuery)))
+                ->setParameter('cases', explode(' ', trim($searchQuery)))
                 ->getResult();
 
             $carModel = $this->getEntity(CarModel::class);
@@ -367,20 +381,20 @@ final class PartController extends AbstractController
             }
         }
 
-        if (0 < \count($cases)) {
+        if (0 < count($cases)) {
             $request = $this->request;
 
             if (!$request->isXmlHttpRequest()) {
                 $this->addFlash(
                     'info',
-                    \sprintf('Поиск по кузовам "%s"', \implode(',', $cases))
+                    sprintf('Поиск по кузовам "%s"', implode(',', $cases))
                 );
             }
 
             foreach ($cases as $case) {
-                $searchQuery = \str_ireplace($case->getCaseName(), '', $searchQuery);
+                $searchQuery = str_ireplace($case->getCaseName(), '', $searchQuery);
             }
-            $searchQuery = \str_replace('  ', ' ', $searchQuery);
+            $searchQuery = str_replace('  ', ' ', $searchQuery);
 
             $qb
                 ->leftJoin(PartCase::class, 'pc', Join::WITH, 'pc.part = part')
@@ -394,7 +408,7 @@ final class PartController extends AbstractController
                 ]);
         }
 
-        foreach (\explode(' ', \trim($searchQuery)) as $key => $searchString) {
+        foreach (explode(' ', trim($searchQuery)) as $key => $searchString) {
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
@@ -403,7 +417,7 @@ final class PartController extends AbstractController
                 $qb->expr()->like('manufacturer.name', $key)
             ));
 
-            $qb->setParameter($key, '%'.\trim($searchString).'%');
+            $qb->setParameter($key, '%'.trim($searchString).'%');
         }
 
         $state = $this->container->get(State::class);
@@ -427,19 +441,19 @@ final class PartController extends AbstractController
     {
         $query = $this->request->query;
 
-        $queryString = \str_replace(['.', ',', '-', '_'], '', $query->get('query'));
+        $queryString = str_replace(['.', ',', '-', '_'], '', $query->get('query'));
         $qb = $this->createSearchQueryBuilder($query->get('entity'), $queryString, []);
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
         $carModel = $this->getEntity(CarModel::class);
-        $useCarModelInFormat = false === \strpos($queryString, '+');
+        $useCarModelInFormat = false === strpos($queryString, '+');
 
         $normalizer = function (Part $entity, bool $analog = false) use ($carModel, $useCarModelInFormat): array {
             $format = '%s - %s (%s) (Склад: %s) | %s';
 
             if ($carModel instanceof CarModel && $useCarModelInFormat && !$entity->isUniversal()) {
-                $format = \sprintf('[%s] %s', $carModel->getDisplayName(false), $format);
+                $format = sprintf('[%s] %s', $carModel->getDisplayName(false), $format);
             }
 
             if ($analog) {
@@ -448,7 +462,7 @@ final class PartController extends AbstractController
 
             return [
                 'id' => $entity->getId(),
-                'text' => \sprintf(
+                'text' => sprintf(
                     $format,
                     $entity->getNumber(),
                     $entity->getManufacturer()->getName(),
@@ -476,7 +490,7 @@ final class PartController extends AbstractController
                 }
             }
         } else {
-            $data = \array_map($normalizer, (array) $paginator->getCurrentPageResults());
+            $data = array_map($normalizer, (array) $paginator->getCurrentPageResults());
         }
 
         return $this->json(['results' => $data]);
@@ -487,13 +501,13 @@ final class PartController extends AbstractController
      */
     protected function persistEntity($entity): void
     {
-        \assert($entity instanceof Part);
+        assert($entity instanceof Part);
 
         parent::persistEntity($entity);
 
         $referer = $this->request->query->get('referer');
         if (null !== $referer) {
-            $this->setReferer(\urldecode($referer).'&part_id='.$entity->getId());
+            $this->setReferer(urldecode($referer).'&part_id='.$entity->getId());
         }
 
         $this->event(new PartCreated($entity));
@@ -504,7 +518,7 @@ final class PartController extends AbstractController
      */
     protected function updateEntity($entity): void
     {
-        \assert($entity instanceof Part);
+        assert($entity instanceof Part);
 
         parent::updateEntity($entity);
 

@@ -7,6 +7,7 @@ namespace App\Command\User;
 use App\Doctrine\Registry;
 use App\Entity\Landlord\User;
 use Doctrine\ORM\EntityNotFoundException;
+use function sprintf;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -59,7 +60,7 @@ final class UserChangePasswordCommand extends Command
         $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
 
         if (!$user instanceof User) {
-            throw new EntityNotFoundException(\sprintf('User with username "%s" not found.', $username));
+            throw new EntityNotFoundException(sprintf('User with username "%s" not found.', $username));
         }
 
         $user->changePassword($password, $this->encoderFactory->getEncoder($user));

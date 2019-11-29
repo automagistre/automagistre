@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Doctrine\ORM\Mapping\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
+use function is_numeric;
 use Money\Money;
 
 /**
@@ -26,7 +27,7 @@ trait Discount
         }
 
         // Doctrine create nullable embedded
-        if (!\is_numeric($this->discount->getAmount())) {
+        if (!is_numeric($this->discount->getAmount())) {
             return false;
         }
 
@@ -37,7 +38,7 @@ trait Discount
     {
         if (null === $discount) {
             // Doctrine create nullable embedded
-            if ($this->discount instanceof Money && !\is_numeric($this->discount->getAmount())) {
+            if ($this->discount instanceof Money && !is_numeric($this->discount->getAmount())) {
                 return null;
             }
 

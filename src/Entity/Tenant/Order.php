@@ -17,6 +17,8 @@ use App\Entity\Landlord\User;
 use App\Entity\WarrantyInterface;
 use App\Enum\OrderStatus;
 use App\Money\TotalPriceInterface;
+use function assert;
+use function class_exists;
 use DateTime;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -25,9 +27,11 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
 use DomainException;
+use function is_numeric;
 use LogicException;
 use Money\Currency;
 use Money\Money;
+use function sprintf;
 
 /**
  * @ORM\Table(
@@ -232,7 +236,7 @@ class Order
             return $this->items->toArray();
         }
 
-        if (!\class_exists($class)) {
+        if (!class_exists($class)) {
             $class = OrderItem::MAP[$class];
         }
 
@@ -248,7 +252,7 @@ class Order
     public function getRootItems(string $class = null): array
     {
         if (!$this->items instanceof Selectable) {
-            throw new LogicException(\sprintf('Collection must implement "%s"', Selectable::class));
+            throw new LogicException(sprintf('Collection must implement "%s"', Selectable::class));
         }
 
         $criteria = Criteria::create()->where(Criteria::expr()->isNull('parent'));
@@ -258,7 +262,7 @@ class Order
             return $items->toArray();
         }
 
-        if (!\class_exists($class)) {
+        if (!class_exists($class)) {
             $class = OrderItem::MAP[$class];
         }
 
@@ -316,7 +320,7 @@ class Order
 
     public function getClosedBalance(): ?Money
     {
-        if ($this->closedBalance instanceof Money && !\is_numeric($this->closedBalance->getAmount())) {
+        if ($this->closedBalance instanceof Money && !is_numeric($this->closedBalance->getAmount())) {
             return null;
         }
 
@@ -424,7 +428,7 @@ class Order
     {
         $money = new Money(0, new Currency('RUB'));
         foreach ($this->payments as $payment) {
-            \assert($payment instanceof OrderPayment);
+            assert($payment instanceof OrderPayment);
 
             $money = $money->add($payment->getMoney());
         }
@@ -517,7 +521,7 @@ class Order
         }
 
         if (null === $discount) {
-            throw new LogicException(\sprintf('Discount for class "%s" is null', $class));
+            throw new LogicException(sprintf('Discount for class "%s" is null', $class));
         }
 
         return $discount;

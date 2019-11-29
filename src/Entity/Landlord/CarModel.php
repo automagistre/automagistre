@@ -6,6 +6,7 @@ namespace App\Entity\Landlord;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
+use function sprintf;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -79,7 +80,7 @@ class CarModel
 
     public function getDisplayName(bool $withYears = true): string
     {
-        $main = \sprintf(
+        $main = sprintf(
             '%s %s',
             $this->manufacturer->getName(),
             $this->getName() ?? $this->getLocalizedName()
@@ -89,10 +90,10 @@ class CarModel
         $till = $this->getYearTill();
 
         $years = $withYears && (null !== $from || null !== $till)
-            ? \sprintf(' (%s - %s)', $from ?? '...', $till ?? '...')
+            ? sprintf(' (%s - %s)', $from ?? '...', $till ?? '...')
             : '';
 
-        $case = null !== $this->caseName ? \sprintf(' - %s', $this->caseName) : '';
+        $case = null !== $this->caseName ? sprintf(' - %s', $this->caseName) : '';
 
         return $main.$case.$years;
     }

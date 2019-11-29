@@ -8,7 +8,10 @@ use App\Entity\Tenant\Expense;
 use App\Entity\Tenant\ExpenseItem;
 use App\Event\ExpenseItemCreated;
 use App\Manager\PaymentManager;
+use function assert;
 use Doctrine\ORM\EntityManagerInterface;
+use function sprintf;
+use stdClass;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -25,9 +28,9 @@ final class ExpenseItemController extends AbstractController
         $this->paymentManager = $paymentManager;
     }
 
-    protected function createNewEntity(): \stdClass
+    protected function createNewEntity(): stdClass
     {
-        /** @var \stdClass $model */
+        /** @var stdClass $model */
         $model = parent::createNewEntity();
 
         $expense = $this->getEntity(Expense::class);
@@ -45,7 +48,7 @@ final class ExpenseItemController extends AbstractController
     protected function persistEntity($entity): ExpenseItem
     {
         $model = $entity;
-        \assert($model instanceof \stdClass);
+        assert($model instanceof stdClass);
 
         $entity = $this->em->transactional(function (EntityManagerInterface $em) use ($model): ExpenseItem {
             $entity = new ExpenseItem($model->expense, $model->amount, $this->getUser(), $model->description);
@@ -53,9 +56,9 @@ final class ExpenseItemController extends AbstractController
 
             $expense = $entity->getExpense();
 
-            $description = \sprintf('# Списание по статье расходов - "%s"', $expense->getName());
+            $description = sprintf('# Списание по статье расходов - "%s"', $expense->getName());
             if (null !== $entity->getDescription()) {
-                $description .= \sprintf(', с комментарием "%s"', $entity->getDescription());
+                $description .= sprintf(', с комментарием "%s"', $entity->getDescription());
             }
 
             $this->paymentManager->createPayment($model->wallet, $description, $entity->getAmount()->negative());

@@ -7,6 +7,7 @@ namespace App\Entity\Landlord;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhone;
+use function sprintf;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -54,7 +55,7 @@ class Person extends Operand
         $email = $this->getEmail();
 
         if (null !== $email) {
-            $string .= \sprintf(' (%s)', $email);
+            $string .= sprintf(' (%s)', $email);
         }
 
         return $string;
@@ -107,6 +108,6 @@ class Person extends Operand
 
     public function getFullName(): string
     {
-        return \sprintf('%s %s', $this->lastname, $this->firstname);
+        return sprintf('%s %s', $this->lastname, $this->firstname);
     }
 }

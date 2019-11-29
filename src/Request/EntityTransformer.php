@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Request;
 
+use function assert;
+use function class_exists;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\NamingStrategy;
+use function get_class;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -55,10 +58,10 @@ final class EntityTransformer
             $id = $this->propertyAccessor->getValue($entity, 'id');
         }
 
-        $class = \get_class($entity);
+        $class = get_class($entity);
         $em = $this->registry->getManagerForClass($class);
 
-        \assert($em instanceof EntityManagerInterface);
+        assert($em instanceof EntityManagerInterface);
 
         $name = $em->getClassMetadata($class)->getName();
 
@@ -67,7 +70,7 @@ final class EntityTransformer
 
     public function reverseTransform(string $class, ?Request $request = null): ?object
     {
-        if (!\class_exists($class)) {
+        if (!class_exists($class)) {
             return null;
         }
 
@@ -82,7 +85,7 @@ final class EntityTransformer
         }
 
         $em = $this->registry->getManagerForClass($class);
-        \assert($em instanceof ObjectManager);
+        assert($em instanceof ObjectManager);
 
         return $em->getRepository($class)->find($id);
     }

@@ -11,8 +11,12 @@ use App\Form\Model\RecommendationPart;
 use App\Form\Type\MoneyType;
 use App\Form\Type\QuantityType;
 use App\Manager\PartManager;
+use function array_unshift;
+use function assert;
 use Doctrine\ORM\EntityManagerInterface;
+use function is_numeric;
 use LogicException;
+use function sprintf;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -45,12 +49,12 @@ final class CarRecommendationPartController extends AbstractController
         $crosses = $this->partManager->crossesInStock($part);
 
         if ([] === $crosses) {
-            $this->addFlash('error', \sprintf('У запчасти "%s" нет аналогов.', (string) $part));
+            $this->addFlash('error', sprintf('У запчасти "%s" нет аналогов.', (string) $part));
 
             return $this->redirectToReferrer();
         }
 
-        \array_unshift($crosses, $part);
+        array_unshift($crosses, $part);
 
         /** @var FormInterface[] $forms */
         $forms = [];
@@ -77,7 +81,7 @@ final class CarRecommendationPartController extends AbstractController
         }
 
         $currentForm = $request->query->getAlnum('cross');
-        if (\is_numeric($currentForm)) {
+        if (is_numeric($currentForm)) {
             $form = $forms[$currentForm];
             $form->handleRequest($request);
 
@@ -138,7 +142,7 @@ final class CarRecommendationPartController extends AbstractController
     protected function persistEntity($entity): CarRecommendationPart
     {
         $model = $entity;
-        \assert($model instanceof RecommendationPart);
+        assert($model instanceof RecommendationPart);
 
         $entity = new CarRecommendationPart(
             $model->recommendation,

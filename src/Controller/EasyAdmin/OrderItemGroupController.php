@@ -8,6 +8,7 @@ use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItem;
 use App\Entity\Tenant\OrderItemGroup;
 use App\Form\Model\OrderGroup;
+use function assert;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
@@ -39,7 +40,7 @@ final class OrderItemGroupController extends OrderItemController
     protected function persistEntity($entity): OrderItemGroup
     {
         $model = $entity;
-        \assert($model instanceof OrderGroup);
+        assert($model instanceof OrderGroup);
 
         $entity = new OrderItemGroup($model->order, $model->name, $this->getUser());
         $entity->setParent($model->parent);

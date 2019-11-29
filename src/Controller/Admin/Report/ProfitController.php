@@ -7,6 +7,8 @@ namespace App\Controller\Admin\Report;
 use App\Doctrine\Registry;
 use App\Entity\Landlord\Operand;
 use App\Entity\Tenant\Order;
+use function array_pop;
+use function count;
 use DateTime;
 use Money\Currency;
 use Money\Money;
@@ -141,7 +143,7 @@ final class ProfitController extends AbstractController
         unset($item);
 
         $total = null;
-        if (0 < \count($orders)) {
+        if (0 < count($orders)) {
             $servicePrice = $this->sum(...$servicePrices);
             $serviceProfit = $this->sum(...$serviceProfits);
             $partPrice = $this->sum(...$partPrices);
@@ -167,7 +169,7 @@ final class ProfitController extends AbstractController
 
     private function sum(Money ...$collection): Money
     {
-        $first = \array_pop($collection);
+        $first = array_pop($collection);
 
         return Money::sum($first, ...$collection);
     }

@@ -6,6 +6,9 @@ namespace App\Form\Type;
 
 use App\Form\Model\OrderTOPart;
 use App\Manager\PartManager;
+use function array_merge;
+use function count;
+use LogicException;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -44,17 +47,17 @@ final class OrderTOPartType extends AbstractType
                 $form = $event->getForm();
                 $model = $event->getData();
                 if (!$model instanceof OrderTOPart) {
-                    throw new \LogicException('OrderTOPart expected.');
+                    throw new LogicException('OrderTOPart expected.');
                 }
 
                 $part = $model->part;
 
                 $analogs = $this->partManager->crossesInStock($part);
-                $hasAnalog = 0 < \count($analogs);
+                $hasAnalog = 0 < count($analogs);
 
                 $choices = [$part];
                 if ($hasAnalog) {
-                    $choices = \array_merge($choices, $analogs);
+                    $choices = array_merge($choices, $analogs);
                 }
 
                 $form->add('part', ChoiceType::class, [
@@ -71,7 +74,7 @@ final class OrderTOPartType extends AbstractType
                 $form = $event->getForm();
                 $model = $event->getData();
                 if (!$model instanceof OrderTOPart) {
-                    throw new \LogicException('OrderTOPart expected.');
+                    throw new LogicException('OrderTOPart expected.');
                 }
 
                 $price = $form->get('price');

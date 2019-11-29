@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Admin;
 
+use Generator;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
@@ -25,7 +26,7 @@ final class SmokeTest extends WebTestCase
         static::assertSame($statusCode, $response->getStatusCode());
     }
 
-    public function pages(): \Generator
+    public function pages(): Generator
     {
         yield ['/login', 200];
     }

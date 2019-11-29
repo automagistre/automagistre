@@ -6,7 +6,10 @@ namespace App\Command\User;
 
 use App\Doctrine\Registry;
 use App\Entity\Landlord\User;
+use function array_flip;
+use function array_key_exists;
 use Doctrine\ORM\EntityNotFoundException;
+use function sprintf;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -52,12 +55,12 @@ final class UserDemoteCommand extends Command
         $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
 
         if (!$user instanceof User) {
-            throw new EntityNotFoundException(\sprintf('User with username "%s" not found.', $username));
+            throw new EntityNotFoundException(sprintf('User with username "%s" not found.', $username));
         }
 
-        $currentRoles = \array_flip($user->getRoles());
+        $currentRoles = array_flip($user->getRoles());
         foreach ($roles as $role) {
-            if (\array_key_exists($role, $currentRoles)) {
+            if (array_key_exists($role, $currentRoles)) {
                 unset($currentRoles[$role]);
             }
         }

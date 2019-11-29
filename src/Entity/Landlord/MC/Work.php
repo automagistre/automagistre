@@ -7,6 +7,7 @@ namespace App\Entity\Landlord\MC;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
+use function sprintf;
 
 /**
  * @ORM\Entity
@@ -41,7 +42,7 @@ class Work
         $string = $this->name;
 
         if (null !== $this->description) {
-            $string .= \sprintf(' (%s)', $this->description);
+            $string .= sprintf(' (%s)', $this->description);
         }
 
         return $string;

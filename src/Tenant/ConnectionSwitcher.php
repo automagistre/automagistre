@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tenant;
 
+use function array_merge;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Connection;
 use LogicException;
 use ReflectionClass;
 use ReflectionProperty;
+use function sprintf;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -44,7 +46,7 @@ final class ConnectionSwitcher
         }
 
         $this->setParams($connection, [
-            'host' => \sprintf('tenant_%s', $tenant->getIdentifier()),
+            'host' => sprintf('tenant_%s', $tenant->getIdentifier()),
         ]);
 
         if ($connect) {
@@ -54,7 +56,7 @@ final class ConnectionSwitcher
 
     private function setParams(Connection $connection, array $params): void
     {
-        $params = \array_merge($connection->getParams(), $params);
+        $params = array_merge($connection->getParams(), $params);
 
         $property = $this->getProperty($connection);
         $property->setAccessible(true);

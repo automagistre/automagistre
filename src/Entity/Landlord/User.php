@@ -13,13 +13,17 @@ use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
 use DomainException;
+use function in_array;
 use LogicException;
 use Serializable;
+use function serialize;
+use function sprintf;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use function unserialize;
 
 /**
  * @ORM\Entity
@@ -147,7 +151,7 @@ class User implements UserInterface, EquatableInterface, Serializable
 
     public function addRole(string $role): void
     {
-        if (!\in_array($role, $this->roles, true)) {
+        if (!in_array($role, $this->roles, true)) {
             $this->roles[] = $role;
         }
     }
@@ -218,7 +222,7 @@ class User implements UserInterface, EquatableInterface, Serializable
      */
     public function serialize(): string
     {
-        return \serialize([
+        return serialize([
             $this->id,
             $this->username,
             $this->roles,
@@ -234,7 +238,7 @@ class User implements UserInterface, EquatableInterface, Serializable
             $this->id,
             $this->username,
             $roles,
-        ] = \unserialize($serialized, ['allowed_classes' => true]);
+        ] = unserialize($serialized, ['allowed_classes' => true]);
 
         $this->roles = $roles ?? [];
         $this->credentials = new ArrayCollection();
@@ -243,7 +247,7 @@ class User implements UserInterface, EquatableInterface, Serializable
     private function getCredential(string $type): ?UserCredentials
     {
         if (!$this->credentials instanceof Selectable) {
-            throw new LogicException(\sprintf('Collection must implement "%s"', Selectable::class));
+            throw new LogicException(sprintf('Collection must implement "%s"', Selectable::class));
         }
 
         $criteria = Criteria::create()

@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Request;
 
 use Generator;
+use function is_object;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
+use function trim;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -29,7 +31,7 @@ final class EntityTransformerArgumentValueResolver implements ArgumentValueResol
      */
     public function supports(Request $request, ArgumentMetadata $argument): bool
     {
-        return '' !== \trim($argument->getType()) && \is_object($this->resolve($request, $argument)->current());
+        return '' !== trim($argument->getType()) && is_object($this->resolve($request, $argument)->current());
     }
 
     /**

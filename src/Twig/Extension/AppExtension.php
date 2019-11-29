@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace App\Twig\Extension;
 
 use App\Request\EntityTransformer;
+use function array_merge;
 use DateTimeImmutable;
+use function is_array;
+use function is_object;
 use LogicException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Twig\Extension\AbstractExtension;
@@ -71,17 +74,17 @@ final class AppExtension extends AbstractExtension
      */
     public function toQuery($entity): array
     {
-        if (\is_array($entity)) {
+        if (is_array($entity)) {
             $queries = [];
             foreach ($entity as $item) {
-                if (\is_object($item)) {
+                if (is_object($item)) {
                     $queries[] = $this->entityTransformer->transform($item);
-                } elseif (!\is_array($item)) {
+                } elseif (!is_array($item)) {
                     throw new LogicException('Object or array allowed');
                 }
             }
 
-            return \array_merge(...$queries);
+            return array_merge(...$queries);
         }
 
         return $this->entityTransformer->transform($entity);

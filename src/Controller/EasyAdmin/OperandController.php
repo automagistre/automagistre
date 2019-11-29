@@ -15,8 +15,12 @@ use App\Entity\Tenant\OperandTransaction;
 use App\Entity\Tenant\Order;
 use App\Manager\PaymentManager;
 use App\State;
+use function array_map;
+use function array_merge;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
+use function explode;
+use function sprintf;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -54,7 +58,7 @@ class OperandController extends AbstractController
         $entity = $registry->repository(Operand::class)->find($id);
         $config = $this->get('easyadmin.config.manager')->getEntityConfigByClass($registry->class($entity));
 
-        return $this->redirectToRoute('easyadmin', \array_merge($request->query->all(), [
+        return $this->redirectToRoute('easyadmin', array_merge($request->query->all(), [
             'entity' => $config['name'],
         ]));
     }
@@ -132,7 +136,7 @@ class OperandController extends AbstractController
             ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = operand.id AND operand INSTANCE OF '.Person::class)
             ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = operand.id AND operand INSTANCE OF '.Organization::class);
 
-        foreach (\explode(' ', $query->get('query')) as $key => $item) {
+        foreach (explode(' ', $query->get('query')) as $key => $item) {
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
@@ -148,12 +152,12 @@ class OperandController extends AbstractController
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
-        $data = \array_map(function (Operand $entity) {
+        $data = array_map(function (Operand $entity) {
             $text = $entity->getFullName();
 
             $telephone = $entity->getTelephone();
             if (null !== $telephone) {
-                $text .= \sprintf(' (%s)', $this->formatTelephone($telephone));
+                $text .= sprintf(' (%s)', $this->formatTelephone($telephone));
             }
 
             return [

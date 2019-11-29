@@ -11,6 +11,7 @@ use App\Entity\Tenant\OrderItemPart;
 use App\Form\Model\OrderPart;
 use App\Manager\ReservationException;
 use App\Manager\ReservationManager;
+use function assert;
 use LogicException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -91,7 +92,7 @@ final class OrderItemPartController extends OrderItemController
     protected function persistEntity($entity): OrderItemPart
     {
         $model = $entity;
-        \assert($model instanceof OrderPart);
+        assert($model instanceof OrderPart);
 
         $entity = new OrderItemPart($model->order, $model->part, $model->quantity, $model->price, $this->getUser());
         $entity->setParent($model->parent);
@@ -119,7 +120,7 @@ final class OrderItemPartController extends OrderItemController
      */
     protected function updateEntity($entity): void
     {
-        \assert($entity instanceof OrderItemPart);
+        assert($entity instanceof OrderItemPart);
 
         parent::updateEntity($entity);
 

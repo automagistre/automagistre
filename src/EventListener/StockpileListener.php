@@ -13,6 +13,7 @@ use App\Event\PartDecreased;
 use App\Manager\PartManager;
 use App\Manager\StockpileManager;
 use App\State;
+use function count;
 use LogicException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -83,7 +84,7 @@ final class StockpileListener implements EventSubscriberInterface
             $values[] = [$part->getId(), $this->state->tenant(), $this->partManager->inStock($part)];
         }
 
-        if (0 === \count($values)) {
+        if (0 === count($values)) {
             return;
         }
 

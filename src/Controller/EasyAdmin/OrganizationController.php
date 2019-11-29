@@ -6,6 +6,7 @@ namespace App\Controller\EasyAdmin;
 
 use App\Entity\Landlord\Organization;
 use App\Event\OrganizationCreated;
+use function assert;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -17,7 +18,7 @@ final class OrganizationController extends OperandController
      */
     protected function persistEntity($entity): void
     {
-        \assert($entity instanceof Organization);
+        assert($entity instanceof Organization);
 
         parent::persistEntity($entity);
 

@@ -7,6 +7,10 @@ namespace App\Tenant\EventListener;
 use App\Router\RoutePreGenerate;
 use App\State;
 use App\Tenant\Tenant;
+use function array_key_exists;
+use function in_array;
+use function is_string;
+use function sprintf;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
@@ -67,7 +71,7 @@ final class TenantStateListener implements EventSubscriberInterface
         }
 
         if (!Tenant::isValid($identifier)) {
-            throw new NotFoundHttpException(\sprintf('Undefined tenant "%s"', $identifier));
+            throw new NotFoundHttpException(sprintf('Undefined tenant "%s"', $identifier));
         }
 
         $tenant = Tenant::fromIdentifier($identifier);
@@ -76,7 +80,7 @@ final class TenantStateListener implements EventSubscriberInterface
 
         if (!$this->authorizationChecker->isGranted('ACCESS', $tenant)) {
             throw new AccessDeniedHttpException(
-                \sprintf('You are not permitted to access "%s" tenant', $tenant->getName())
+                sprintf('You are not permitted to access "%s" tenant', $tenant->getName())
             );
         }
     }
@@ -104,7 +108,7 @@ final class TenantStateListener implements EventSubscriberInterface
         }
 
         if (!Tenant::isValid($identifier)) {
-            throw new InvalidArgumentException(\sprintf('Undefined tenant "%s"', $identifier));
+            throw new InvalidArgumentException(sprintf('Undefined tenant "%s"', $identifier));
         }
 
         $this->state->tenant(Tenant::fromIdentifier($identifier));
@@ -118,7 +122,7 @@ final class TenantStateListener implements EventSubscriberInterface
             return;
         }
 
-        if (\array_key_exists('tenant', $parameters)) {
+        if (array_key_exists('tenant', $parameters)) {
             return;
         }
 
@@ -132,7 +136,7 @@ final class TenantStateListener implements EventSubscriberInterface
      */
     private function isSupportedRoute(string $routeName): bool
     {
-        return \in_array($routeName, [
+        return in_array($routeName, [
             'easyadmin',
             'admin_part_explorer',
             'admin_report_profit',
@@ -145,6 +149,6 @@ final class TenantStateListener implements EventSubscriberInterface
      */
     private function validate($tenant): ?string
     {
-        return \is_string($tenant) ? $tenant : null;
+        return is_string($tenant) ? $tenant : null;
     }
 }
