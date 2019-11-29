@@ -15,20 +15,29 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 final class OperandTransactionModel
 {
-    public ?int $id;
+    public int $id = 0;
 
     /**
      * @Assert\NotBlank
      */
     public Operand $recipient;
 
-    public ?string $description;
+    /**
+     * @Assert\NotBlank
+     */
+    public ?Money $amount;
 
-    public Money $amount;
+    public ?string $description;
 
     public bool $increment = false;
 
     public ?Wallet $wallet;
+
+    public function __construct()
+    {
+        $this->amount = null;
+        $this->description = null;
+    }
 
     /**
      * @Assert\Callback

@@ -28,7 +28,7 @@ final class SellerType extends AbstractType
         }
 
         $builder->addModelTransformer(new CallbackTransformer(
-            fn (?OperandRelation $relation) => $relation->entityOrNull(),
+            fn (?OperandRelation $relation) => null === $relation ? null : $relation->entityOrNull(),
             fn (?Operand $operand) => null === $operand ? null : new OperandRelation($operand)
         ));
     }

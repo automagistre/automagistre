@@ -9,7 +9,7 @@ namespace App\Form\Model;
  */
 abstract class Model
 {
-    public int $id;
+    public int $id = 0;
 
     abstract public static function getEntityClass(): string;
 }

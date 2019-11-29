@@ -15,7 +15,6 @@ use Doctrine\ORM\QueryBuilder;
 use LogicException;
 use Money\Money;
 use function sprintf;
-use stdClass;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormInterface;
 
@@ -78,7 +77,7 @@ final class OperandTransactionController extends AbstractController
     protected function persistEntity($entity): OperandTransaction
     {
         $model = $entity;
-        assert($model instanceof stdClass);
+        assert($model instanceof OperandTransactionModel);
 
         return $this->em->transactional(function () use ($model): OperandTransaction {
             /** @var Money $money */

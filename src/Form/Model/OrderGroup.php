@@ -11,9 +11,16 @@ use App\Entity\Tenant\OrderItemGroup;
  */
 final class OrderGroup extends OrderItemModel
 {
-    public string $name;
+    public ?string $name;
 
-    public bool $hideParts;
+    public bool $hideParts = false;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->name = null;
+    }
 
     public static function getEntityClass(): string
     {
