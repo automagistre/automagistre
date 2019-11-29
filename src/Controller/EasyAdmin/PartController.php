@@ -54,29 +54,14 @@ use function urldecode;
  */
 final class PartController extends AbstractController
 {
-    /**
-     * @var DeficitManager
-     */
     private DeficitManager $deficitManager;
 
-    /**
-     * @var PartManager
-     */
     private PartManager $partManager;
 
-    /**
-     * @var Finder
-     */
     private Finder $finder;
 
-    /**
-     * @var MoneyFormatter
-     */
     private MoneyFormatter $formatter;
 
-    /**
-     * @var ReservationManager
-     */
     private ReservationManager $reservationManager;
 
     public function __construct(
