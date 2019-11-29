@@ -26,6 +26,8 @@ final class ConnectionSwitcher
     public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;
+        $this->connection = null;
+        $this->reflection = null;
     }
 
     public function switch(Tenant $tenant, bool $connect = false): void
