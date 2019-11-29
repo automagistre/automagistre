@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Twig\Extension;
 
 use App\Entity\Landlord\Part;
+use App\Entity\Tenant\OrderItemPart;
 use App\Manager\PartManager;
 use App\Manager\ReservationManager;
 use Money\Money;
@@ -36,6 +37,7 @@ final class PartExtension extends AbstractExtension
             new TwigFunction('part_crosses', fn (Part $part): array => $this->partManager->getCrosses($part)),
             new TwigFunction('part_crosses_in_stock', fn (Part $part): array => $this->partManager->crossesInStock($part)),
             new TwigFunction('part_reserved', fn (Part $part): int => $this->reservationManager->reserved($part)),
+            new TwigFunction('part_reserved_in_item', fn (OrderItemPart $part): int => $this->reservationManager->reserved($part)),
             new TwigFunction('part_reservable', fn (Part $part): int => $this->reservationManager->reservable($part)),
             new TwigFunction('part_suggest_price', fn (Part $part): Money => $this->partManager->suggestPrice($part)),
         ];
