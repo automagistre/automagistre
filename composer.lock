@@ -1735,17 +1735,63 @@
             "time": "2019-08-13T17:33:27+00:00"
         },
         {
-            "name": "endroid/qr-code",
-            "version": "3.5.9",
+            "name": "endroid/installer",
+            "version": "1.1.6",
             "source": {
                 "type": "git",
-                "url": "https://github.com/endroid/qr-code.git",
-                "reference": "ae14093866558c1d91aa1f9b0ca07c09a95effc7"
+                "url": "https://github.com/endroid/installer.git",
+                "reference": "2014fd3ee358dda50700e392d0b1ed78631a1264"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endroid/qr-code/zipball/ae14093866558c1d91aa1f9b0ca07c09a95effc7",
-                "reference": "ae14093866558c1d91aa1f9b0ca07c09a95effc7",
+                "url": "https://api.github.com/repos/endroid/installer/zipball/2014fd3ee358dda50700e392d0b1ed78631a1264",
+                "reference": "2014fd3ee358dda50700e392d0b1ed78631a1264",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.1",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "composer/composer": "^1.8",
+                "endroid/test": "dev-master"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                },
+                "class": "Endroid\\Installer\\Installer"
+            },
+            "autoload": {
+                "psr-4": {
+                    "Endroid\\Installer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeroen van den Enden",
+                    "email": "info@endroid.nl"
+                }
+            ],
+            "time": "2019-11-06T09:09:16+00:00"
+        },
+        {
+            "name": "endroid/qr-code",
+            "version": "3.7.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/endroid/qr-code.git",
+                "reference": "a19e3fef5fa5b92d94219947a63944ecf2493e4b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/endroid/qr-code/zipball/a19e3fef5fa5b92d94219947a63944ecf2493e4b",
+                "reference": "a19e3fef5fa5b92d94219947a63944ecf2493e4b",
                 "shasum": ""
             },
             "require": {
@@ -1753,15 +1799,13 @@
                 "ext-gd": "*",
                 "khanamiryan/qrcode-detector-decoder": "^1.0.2",
                 "myclabs/php-enum": "^1.5",
-                "php": ">=7.1",
-                "symfony/options-resolver": "^2.7|^3.0|^4.0",
-                "symfony/property-access": "^2.7|^3.0|^4.0"
+                "php": ">=7.2",
+                "symfony/http-foundation": "^3.4||^4.0||^5.0",
+                "symfony/options-resolver": "^3.4||^4.0||^5.0",
+                "symfony/property-access": "^3.4||^4.0||^5.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^5.7|^6.0"
-            },
-            "suggest": {
-                "symfony/http-foundation": "Install if you want to use QrCodeResponse"
+                "endroid/test": "dev-master"
             },
             "type": "library",
             "extra": {
@@ -1794,31 +1838,32 @@
                 "qr",
                 "qrcode"
             ],
-            "time": "2019-11-15T12:32:01+00:00"
+            "time": "2019-11-23T10:53:01+00:00"
         },
         {
             "name": "endroid/qr-code-bundle",
-            "version": "3.3.4",
+            "version": "3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/endroid/qr-code-bundle.git",
-                "reference": "975dc3d377aba75ddc9ada47315b4edd9c0687ba"
+                "reference": "e853ba6c87b5cb1386e58015c26edd0da7bbc780"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endroid/qr-code-bundle/zipball/975dc3d377aba75ddc9ada47315b4edd9c0687ba",
-                "reference": "975dc3d377aba75ddc9ada47315b4edd9c0687ba",
+                "url": "https://api.github.com/repos/endroid/qr-code-bundle/zipball/e853ba6c87b5cb1386e58015c26edd0da7bbc780",
+                "reference": "e853ba6c87b5cb1386e58015c26edd0da7bbc780",
                 "shasum": ""
             },
             "require": {
-                "endroid/qr-code": "^3.4.4",
-                "php": ">=7.1",
-                "symfony/framework-bundle": "^3.4|^4.0",
-                "symfony/twig-bundle": "^3.4|^4.0",
-                "symfony/yaml": "^3.4|^4.0"
+                "endroid/installer": "^1.1",
+                "endroid/qr-code": "^3.7.3",
+                "php": ">=7.2",
+                "symfony/framework-bundle": "^3.4||^4.1.12||^5.0",
+                "symfony/twig-bundle": "^3.4||^4.0||^5.0",
+                "symfony/yaml": "^3.4||^4.0||^5.0"
             },
             "require-dev": {
-                "endroid/bundle-test": "dev-master"
+                "endroid/test": "dev-master"
             },
             "type": "symfony-bundle",
             "extra": {
@@ -1851,7 +1896,7 @@
                 "qr",
                 "symfony"
             ],
-            "time": "2019-04-04T06:55:45+00:00"
+            "time": "2019-11-29T22:50:41+00:00"
         },
         {
             "name": "facile-it/doctrine-mysql-come-back",
@@ -7008,24 +7053,24 @@
         },
         {
             "name": "symfony/property-access",
-            "version": "v4.4.0",
+            "version": "v5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/property-access.git",
-                "reference": "4df120cbe473d850eb59f75c341915955e45f25b"
+                "reference": "8203dcdeb544dd0fa36a127fd04eb8bb08ae44f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/property-access/zipball/4df120cbe473d850eb59f75c341915955e45f25b",
-                "reference": "4df120cbe473d850eb59f75c341915955e45f25b",
+                "url": "https://api.github.com/repos/symfony/property-access/zipball/8203dcdeb544dd0fa36a127fd04eb8bb08ae44f1",
+                "reference": "8203dcdeb544dd0fa36a127fd04eb8bb08ae44f1",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1.3",
-                "symfony/inflector": "^3.4|^4.0|^5.0"
+                "php": "^7.2.5",
+                "symfony/inflector": "^4.4|^5.0"
             },
             "require-dev": {
-                "symfony/cache": "^3.4|^4.0|^5.0"
+                "symfony/cache": "^4.4|^5.0"
             },
             "suggest": {
                 "psr/cache-implementation": "To cache access methods."
@@ -7033,7 +7078,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.4-dev"
+                    "dev-master": "5.0-dev"
                 }
             },
             "autoload": {
@@ -7071,7 +7116,7 @@
                 "property path",
                 "reflection"
             ],
-            "time": "2019-10-12T00:35:04+00:00"
+            "time": "2019-11-18T17:27:11+00:00"
         },
         {
             "name": "symfony/property-info",
@@ -9523,9 +9568,9 @@
             "authors": [
                 {
                     "name": "Christian Weiske",
-                    "role": "Developer",
                     "email": "cweiske@cweiske.de",
-                    "homepage": "http://github.com/cweiske/jsonmapper/"
+                    "homepage": "http://github.com/cweiske/jsonmapper/",
+                    "role": "Developer"
                 }
             ],
             "description": "Map nested JSON structures onto PHP classes",
