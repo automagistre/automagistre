@@ -15,10 +15,7 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
  */
 final class UserController extends AbstractController
 {
-    /**
-     * @var EncoderFactoryInterface
-     */
-    private $encoderFactory;
+    private EncoderFactoryInterface $encoderFactory;
 
     public function __construct(EncoderFactoryInterface $encoderFactory)
     {

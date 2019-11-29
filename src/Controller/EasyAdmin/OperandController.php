@@ -30,10 +30,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class OperandController extends AbstractController
 {
-    /**
-     * @var PaymentManager
-     */
-    private $paymentManager;
+    private PaymentManager $paymentManager;
 
     /**
      * @required

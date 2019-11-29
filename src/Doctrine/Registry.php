@@ -19,10 +19,7 @@ use LogicException;
  */
 final class Registry
 {
-    /**
-     * @var ManagerRegistry
-     */
-    private $registry;
+    private ManagerRegistry $registry;
 
     public function __construct(ManagerRegistry $registry)
     {

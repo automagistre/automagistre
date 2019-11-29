@@ -24,10 +24,7 @@ use Symfony\Component\Form\FormInterface;
  */
 final class OperandTransactionController extends AbstractController
 {
-    /**
-     * @var PaymentManager
-     */
-    private $paymentManager;
+    private PaymentManager $paymentManager;
 
     public function __construct(PaymentManager $paymentManager)
     {

@@ -29,10 +29,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 final class OrderItemParentType extends AbstractType
 {
-    /**
-     * @var RequestStack
-     */
-    private $requestStack;
+    private RequestStack $requestStack;
 
     public function __construct(RequestStack $requestStack)
     {
@@ -84,9 +81,7 @@ final class OrderItemParentType extends AbstractType
 
                 throw new LogicException(sprintf('Unsupported currentItem "%s"', get_class($currentItem)));
             },
-            'choice_label' => function (OrderItem $item) {
-                return str_repeat(' - ', $item->getLevel()).$item;
-            },
+            'choice_label' => fn (OrderItem $item) => str_repeat(' - ', $item->getLevel()).$item,
         ]);
     }
 

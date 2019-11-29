@@ -13,30 +13,15 @@ use Money\Money;
  */
 final class OrderService extends OrderItemModel
 {
-    /**
-     * @var string
-     */
-    public $service;
+    public string $service;
 
-    /**
-     * @var Money
-     */
-    public $price;
+    public Money $price;
 
-    /**
-     * @var Operand
-     */
-    public $worker;
+    public Operand $worker;
 
-    /**
-     * @var bool
-     */
-    public $warranty;
+    public bool $warranty;
 
-    /**
-     * @var Money|null
-     */
-    public $discount;
+    public ?Money $discount;
 
     public static function getEntityClass(): string
     {

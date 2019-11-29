@@ -33,10 +33,7 @@ final class OrderStatus extends Enum
     private const SELECTION = 11;
     private const PAYMENT_WAITING = 12;
 
-    /**
-     * @var array
-     */
-    protected static $color = [
+    protected static array $color = [
         self::DRAFT => 'default',
         self::SCHEDULING => 'primary',
         self::ORDERING => 'danger',
@@ -51,10 +48,7 @@ final class OrderStatus extends Enum
         self::PAYMENT_WAITING => 'primary',
     ];
 
-    /**
-     * @var array
-     */
-    protected static $name = [
+    protected static array $name = [
         self::DRAFT => 'Черновик',
         self::SCHEDULING => 'Ожидание по записи',
         self::ORDERING => 'Заказ запчастей',

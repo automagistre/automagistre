@@ -25,8 +25,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 final class WorkerType extends AbstractType
 {
-    /** @var Registry */
-    private $registry;
+    private Registry $registry;
 
     public function __construct(Registry $registry)
     {
@@ -44,21 +43,15 @@ final class WorkerType extends AbstractType
             'label' => false,
             'placeholder' => 'Выберите исполнителя',
             'class' => Operand::class,
-            'query_builder' => static function (EntityRepository $repository) {
-                return $repository->createQueryBuilder('entity')
-                    ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = entity.id AND entity INSTANCE OF '.Person::class)
-                    ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = entity.id AND entity INSTANCE OF '.Organization::class)
-                    ->where('entity.contractor = :is_contractor')
-                    ->orderBy('person.lastname', 'ASC')
-                    ->addOrderBy('organization.name', 'ASC')
-                    ->setParameter('is_contractor', true);
-            },
-            'preferred_choices' => static function (Operand $operand) use ($preferred) {
-                return array_key_exists($operand->getId(), $preferred);
-            },
-            'choice_label' => static function (Operand $operand) {
-                return (string) $operand;
-            },
+            'query_builder' => fn (EntityRepository $repository) => $repository->createQueryBuilder('entity')
+                ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = entity.id AND entity INSTANCE OF '.Person::class)
+                ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = entity.id AND entity INSTANCE OF '.Organization::class)
+                ->where('entity.contractor = :is_contractor')
+                ->orderBy('person.lastname', 'ASC')
+                ->addOrderBy('organization.name', 'ASC')
+                ->setParameter('is_contractor', true),
+            'preferred_choices' => fn (Operand $operand) => array_key_exists($operand->getId(), $preferred),
+            'choice_label' => fn (Operand $operand) => (string) $operand,
             'choice_value' => 'id',
             'group_by' => static function (Operand $operand) {
                 if ($operand instanceof Person) {

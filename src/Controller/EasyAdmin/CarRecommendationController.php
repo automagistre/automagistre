@@ -24,10 +24,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 final class CarRecommendationController extends AbstractController
 {
-    /**
-     * @var RecommendationManager
-     */
-    private $manager;
+    private RecommendationManager $manager;
 
     public function __construct(RecommendationManager $manager)
     {

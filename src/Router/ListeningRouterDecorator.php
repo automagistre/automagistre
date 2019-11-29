@@ -18,15 +18,9 @@ use Symfony\Component\Routing\RouterInterface;
  */
 final class ListeningRouterDecorator implements RouterInterface, RequestMatcherInterface, WarmableInterface
 {
-    /**
-     * @var RouterInterface
-     */
-    private $router;
+    private RouterInterface $router;
 
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $dispatcher;
+    private EventDispatcherInterface $dispatcher;
 
     public function __construct(RouterInterface $router, EventDispatcherInterface $dispatcher)
     {

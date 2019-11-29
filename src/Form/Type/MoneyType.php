@@ -30,11 +30,10 @@ final class MoneyType extends \Symfony\Component\Form\Extension\Core\Type\MoneyT
                 null,
                 $divisor
             ))
-            ->addModelTransformer(new CallbackTransformer(function (?Money $money) {
-                return $money instanceof Money ? $money->getAmount() : $money;
-            }, function (string $amount) {
-                return new Money($amount, new Currency('RUB'));
-            }));
+            ->addModelTransformer(new CallbackTransformer(
+                fn (?Money $money) => $money instanceof Money ? $money->getAmount() : $money,
+                fn (string $amount) => new Money($amount, new Currency('RUB'))
+            ));
     }
 
     /**

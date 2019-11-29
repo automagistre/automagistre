@@ -21,15 +21,9 @@ use function sprintf;
  */
 final class TenantRelationListener implements EventSubscriber
 {
-    /**
-     * @var Registry
-     */
-    private $registry;
+    private Registry $registry;
 
-    /**
-     * @var array
-     */
-    private $map;
+    private array $map;
 
     public function __construct(Registry $registry, array $map = [])
     {

@@ -16,10 +16,7 @@ use Symfony\Component\Form\FormTypeGuesserInterface;
  */
 final class EntityModelTypeGuesser implements FormTypeGuesserInterface
 {
-    /**
-     * @var DoctrineOrmTypeGuesser
-     */
-    private $guesser;
+    private DoctrineOrmTypeGuesser $guesser;
 
     public function __construct(DoctrineOrmTypeGuesser $guesser)
     {

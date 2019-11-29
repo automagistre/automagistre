@@ -15,15 +15,9 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 final class MoneyNormalizer implements NormalizerInterface
 {
-    /**
-     * @var MoneyFormatter
-     */
-    private $formatter;
+    private MoneyFormatter $formatter;
 
-    /**
-     * @var DecimalMoneyFormatter
-     */
-    private $decimalMoneyFormatter;
+    private DecimalMoneyFormatter $decimalMoneyFormatter;
 
     public function __construct(MoneyFormatter $formatter, DecimalMoneyFormatter $decimalMoneyFormatter)
     {

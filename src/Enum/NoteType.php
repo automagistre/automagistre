@@ -18,10 +18,7 @@ final class NoteType extends Enum
     private const WARNING = 3;
     private const DANGER = 4;
 
-    /**
-     * @var array
-     */
-    protected static $name = [
+    protected static array $name = [
         self::SUCCESS => 'Лучи добра',
         self::INFO => 'Информация',
         self::WARNING => 'Внимание',

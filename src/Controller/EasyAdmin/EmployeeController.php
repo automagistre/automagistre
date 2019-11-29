@@ -36,10 +36,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  */
 final class EmployeeController extends AbstractController
 {
-    /**
-     * @var PaymentManager
-     */
-    private $paymentManager;
+    private PaymentManager $paymentManager;
 
     public function __construct(PaymentManager $paymentManager)
     {

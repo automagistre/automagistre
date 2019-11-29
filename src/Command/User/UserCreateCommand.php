@@ -19,15 +19,9 @@ final class UserCreateCommand extends Command
 {
     protected static $defaultName = 'user:create';
 
-    /**
-     * @var Registry
-     */
-    private $registry;
+    private Registry $registry;
 
-    /**
-     * @var EncoderFactoryInterface
-     */
-    private $encoderFactory;
+    private EncoderFactoryInterface $encoderFactory;
 
     public function __construct(Registry $registry, EncoderFactoryInterface $encoderFactory)
     {

@@ -17,15 +17,9 @@ use function strpos;
  */
 final class Populator
 {
-    /**
-     * @var Finder
-     */
-    private $finder;
+    private Finder $finder;
 
-    /**
-     * @var EntityManager
-     */
-    private $em;
+    private EntityManager $em;
 
     public function __construct(Finder $finder, EntityManager $em)
     {
@@ -79,8 +73,6 @@ final class Populator
             $em->flush();
         }
 
-        return array_filter($parts, function (Part $part) use ($number) {
-            return false !== strpos((string) $part->getNumber(), $number);
-        });
+        return array_filter($parts, fn (Part $part) => false !== strpos((string) $part->getNumber(), $number));
     }
 }

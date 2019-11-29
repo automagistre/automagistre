@@ -15,10 +15,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 final class OrderStatusChanged extends GenericEvent
 {
-    /**
-     * @var OrderStatus
-     */
-    private $status;
+    private OrderStatus $status;
 
     public function __construct(Order $subject, OrderStatus $status)
     {

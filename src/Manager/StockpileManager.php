@@ -15,10 +15,7 @@ use function sprintf;
  */
 final class StockpileManager
 {
-    /**
-     * @var Registry
-     */
-    private $registry;
+    private Registry $registry;
 
     public function __construct(Registry $registry)
     {

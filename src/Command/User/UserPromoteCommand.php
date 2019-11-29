@@ -20,10 +20,7 @@ final class UserPromoteCommand extends Command
 {
     protected static $defaultName = 'user:promote';
 
-    /**
-     * @var Registry
-     */
-    private $registry;
+    private Registry $registry;
 
     public function __construct(Registry $registry)
     {

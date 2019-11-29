@@ -6,7 +6,6 @@ namespace App\Form\Type;
 
 use App\Form\Model\OrderTOPart;
 use App\Manager\PartManager;
-use function array_merge;
 use function count;
 use LogicException;
 use Symfony\Component\Form\AbstractType;
@@ -22,10 +21,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 final class OrderTOPartType extends AbstractType
 {
-    /**
-     * @var PartManager
-     */
-    private $partManager;
+    private PartManager $partManager;
 
     public function __construct(PartManager $partManager)
     {
@@ -57,7 +53,7 @@ final class OrderTOPartType extends AbstractType
 
                 $choices = [$part];
                 if ($hasAnalog) {
-                    $choices = array_merge($choices, $analogs);
+                    $choices = [...$choices, ...$analogs];
                 }
 
                 $form->add('part', ChoiceType::class, [

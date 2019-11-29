@@ -15,32 +15,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 final class OrderTOService
 {
-    /**
-     * @var bool
-     */
-    public $selected;
+    public bool $selected;
 
-    /**
-     * @var bool
-     */
-    public $recommend;
+    public bool $recommend;
 
-    /**
-     * @var string
-     */
-    public $service;
+    public string $service;
 
-    /**
-     * @var Money
-     */
-    public $price;
+    public Money $price;
 
     /**
      * @var OrderTOPart[]
      *
      * @Assert\Valid
      */
-    public $parts = [];
+    public array $parts = [];
 
     public static function from(Line $line): self
     {

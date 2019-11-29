@@ -79,12 +79,10 @@ final class CarModelController extends AbstractController
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
-        $data = array_map(static function (CarModel $entity) {
-            return [
-                'id' => $entity->getId(),
-                'text' => $entity->getDisplayName(),
-            ];
-        }, (array) $paginator->getCurrentPageResults());
+        $data = array_map(fn (CarModel $entity) => [
+            'id' => $entity->getId(),
+            'text' => $entity->getDisplayName(),
+        ], (array) $paginator->getCurrentPageResults());
 
         return $this->json(['results' => $data]);
     }

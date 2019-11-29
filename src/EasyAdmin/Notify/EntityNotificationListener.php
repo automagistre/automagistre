@@ -30,45 +30,21 @@ use Twig\Environment;
  */
 final class EntityNotificationListener implements EventSubscriberInterface
 {
-    /**
-     * @var ConfigManager
-     */
-    private $configManager;
+    private ConfigManager $configManager;
 
-    /**
-     * @var EasyAdminTwigExtension
-     */
-    private $easyAdminTwigExtension;
+    private EasyAdminTwigExtension $easyAdminTwigExtension;
 
-    /**
-     * @var PropertyAccessorInterface
-     */
-    private $propertyAccessor;
+    private PropertyAccessorInterface $propertyAccessor;
 
-    /**
-     * @var Environment
-     */
-    private $twig;
+    private Environment $twig;
 
-    /**
-     * @var PublisherInterface
-     */
-    private $publisher;
+    private PublisherInterface $publisher;
 
-    /**
-     * @var HubInterface
-     */
-    private $sentry;
+    private HubInterface $sentry;
 
-    /**
-     * @var State
-     */
-    private $state;
+    private State $state;
 
-    /**
-     * @var EntityChecker
-     */
-    private $entityChecker;
+    private EntityChecker $entityChecker;
 
     public function __construct(
         ConfigManager $configManager,

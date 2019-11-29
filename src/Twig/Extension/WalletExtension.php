@@ -15,10 +15,7 @@ use Twig\TwigFilter;
  */
 final class WalletExtension extends AbstractExtension
 {
-    /**
-     * @var PaymentManager
-     */
-    private $paymentManager;
+    private PaymentManager $paymentManager;
 
     public function __construct(PaymentManager $paymentManager)
     {
@@ -31,9 +28,7 @@ final class WalletExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('balance', function (Transactional $transactional): Money {
-                return $this->paymentManager->balance($transactional);
-            }),
+            new TwigFilter('balance', fn (Transactional $transactional): Money => $this->paymentManager->balance($transactional)),
         ];
     }
 }

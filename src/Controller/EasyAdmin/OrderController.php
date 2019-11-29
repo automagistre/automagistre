@@ -60,15 +60,9 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 final class OrderController extends AbstractController
 {
-    /**
-     * @var PaymentManager
-     */
-    private $paymentManager;
+    private PaymentManager $paymentManager;
 
-    /**
-     * @var OrderManager
-     */
-    private $orderManager;
+    private OrderManager $orderManager;
 
     public function __construct(PaymentManager $paymentManager, OrderManager $orderManager)
     {

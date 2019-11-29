@@ -19,10 +19,7 @@ use function explode;
  */
 final class DeficitManager
 {
-    /**
-     * @var Registry
-     */
-    private $registry;
+    private Registry $registry;
 
     public function __construct(Registry $registry)
     {
@@ -68,24 +65,18 @@ final class DeficitManager
 
         $partRepository = $this->registry->repository(Part::class);
         $parts = $partRepository->findBy([
-            'id' => array_map(static function (array $item): string {
-                return $item['part_id'];
-            }, $result),
+            'id' => array_map(fn (array $item): string => $item['part_id'], $result),
         ]);
 
         $this->registry->repository(Manufacturer::class)->findBy([
-            'id' => array_map(static function (Part $part) {
-                return $part->getManufacturer()->getId();
-            }, $parts),
+            'id' => array_map(fn (Part $part) => $part->getManufacturer()->getId(), $parts),
         ]);
 
         return array_map(static function (array $item) use ($em, $partRepository): DeficitPart {
             /** @var Part $part */
             $part = $partRepository->find($item['part_id']);
             $quantity = $item['needed'];
-            $orders = array_map(static function (string $id) use ($em): object {
-                return $em->getReference(Order::class, $id);
-            }, array_filter(explode(',', $item['orders_id'])));
+            $orders = array_map(fn (string $id): object => $em->getReference(Order::class, $id), array_filter(explode(',', $item['orders_id'])));
 
             return new DeficitPart($part, $quantity, $orders);
         }, $result);

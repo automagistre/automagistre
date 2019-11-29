@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Twig\Extension;
 
 use App\Request\EntityTransformer;
-use function array_merge;
 use DateTimeImmutable;
 use function is_array;
 use function is_object;
@@ -20,15 +19,9 @@ use Twig\TwigFunction;
  */
 final class AppExtension extends AbstractExtension
 {
-    /**
-     * @var EntityTransformer
-     */
-    private $entityTransformer;
+    private EntityTransformer $entityTransformer;
 
-    /**
-     * @var ParameterBagInterface
-     */
-    private $parameterBag;
+    private ParameterBagInterface $parameterBag;
 
     public function __construct(EntityTransformer $entityTransformer, ParameterBagInterface $parameterBag)
     {
@@ -84,7 +77,7 @@ final class AppExtension extends AbstractExtension
                 }
             }
 
-            return array_merge(...$queries);
+            return [...$queries];
         }
 
         return $this->entityTransformer->transform($entity);

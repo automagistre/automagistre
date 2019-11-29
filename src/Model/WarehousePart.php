@@ -11,15 +11,9 @@ use App\Entity\Landlord\Part;
  */
 abstract class WarehousePart
 {
-    /**
-     * @var Part
-     */
-    public $part;
+    public Part $part;
 
-    /**
-     * @var int
-     */
-    public $quantity;
+    public int $quantity;
 
     public function __construct(Part $part, int $quantity)
     {

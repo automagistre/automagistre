@@ -20,25 +20,13 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
  */
 final class EntityTransformer
 {
-    /**
-     * @var PropertyAccessorInterface
-     */
-    private $propertyAccessor;
+    private PropertyAccessorInterface $propertyAccessor;
 
-    /**
-     * @var NamingStrategy
-     */
-    private $namingStrategy;
+    private NamingStrategy $namingStrategy;
 
-    /**
-     * @var ManagerRegistry
-     */
-    private $registry;
+    private ManagerRegistry $registry;
 
-    /**
-     * @var RequestStack
-     */
-    private $requestStack;
+    private RequestStack $requestStack;
 
     public function __construct(
         PropertyAccessorInterface $propertyAccessor,
@@ -74,7 +62,7 @@ final class EntityTransformer
             return null;
         }
 
-        $request = $request ?? $this->requestStack->getCurrentRequest();
+        $request ??= $this->requestStack->getCurrentRequest();
         if (null === $request) {
             return null;
         }

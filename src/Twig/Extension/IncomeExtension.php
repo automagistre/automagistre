@@ -14,10 +14,7 @@ use Twig\TwigFunction;
  */
 final class IncomeExtension extends AbstractExtension
 {
-    /**
-     * @var SupplierManager
-     */
-    private $supplierManager;
+    private SupplierManager $supplierManager;
 
     public function __construct(SupplierManager $supplierManager)
     {
@@ -30,9 +27,7 @@ final class IncomeExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('supplier_unpaid_income', function (Operand $supplier): array {
-                return $this->supplierManager->unpaidIncome($supplier);
-            }),
+            new TwigFunction('supplier_unpaid_income', fn (Operand $supplier): array => $this->supplierManager->unpaidIncome($supplier)),
         ];
     }
 }

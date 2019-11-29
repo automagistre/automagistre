@@ -23,20 +23,11 @@ use Generator;
  */
 final class RecommendationManager
 {
-    /**
-     * @var Registry
-     */
-    private $registry;
+    private Registry $registry;
 
-    /**
-     * @var ReservationManager
-     */
-    private $reservationManager;
+    private ReservationManager $reservationManager;
 
-    /**
-     * @var State
-     */
-    private $state;
+    private State $state;
 
     public function __construct(Registry $registry, ReservationManager $reservationManager, State $state)
     {

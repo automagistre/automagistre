@@ -11,10 +11,7 @@ use App\Doctrine\Registry;
  */
 final class EntityChecker
 {
-    /**
-     * @var Registry
-     */
-    private $registry;
+    private Registry $registry;
 
     public function __construct(Registry $registry)
     {

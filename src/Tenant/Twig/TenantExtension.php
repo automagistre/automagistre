@@ -13,10 +13,7 @@ use Twig\TwigFunction;
  */
 final class TenantExtension extends AbstractExtension
 {
-    /**
-     * @var EntityChecker
-     */
-    private $entityChecker;
+    private EntityChecker $entityChecker;
 
     public function __construct(EntityChecker $entityChecker)
     {
@@ -29,9 +26,7 @@ final class TenantExtension extends AbstractExtension
             /**
              * @param object|string $entity
              */
-            new TwigFunction('is_tenant_class', function (string $entity): bool {
-                return $this->entityChecker->isTenantEntity($entity);
-            }),
+            new TwigFunction('is_tenant_class', fn (string $entity): bool => $this->entityChecker->isTenantEntity($entity)),
         ];
     }
 }

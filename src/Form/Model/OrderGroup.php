@@ -11,15 +11,9 @@ use App\Entity\Tenant\OrderItemGroup;
  */
 final class OrderGroup extends OrderItemModel
 {
-    /**
-     * @var string
-     */
-    public $name;
+    public string $name;
 
-    /**
-     * @var bool
-     */
-    public $hideParts;
+    public bool $hideParts;
 
     public static function getEntityClass(): string
     {

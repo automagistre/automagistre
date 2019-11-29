@@ -15,10 +15,7 @@ use Twig\TwigFunction;
  */
 final class LayoutExtension extends AbstractExtension
 {
-    /**
-     * @var Registry
-     */
-    private $registry;
+    private Registry $registry;
 
     public function __construct(Registry $registry)
     {

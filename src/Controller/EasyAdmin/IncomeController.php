@@ -29,10 +29,7 @@ use function urlencode;
  */
 final class IncomeController extends AbstractController
 {
-    /**
-     * @var PaymentManager
-     */
-    private $paymentManager;
+    private PaymentManager $paymentManager;
 
     public function __construct(PaymentManager $paymentManager)
     {
@@ -58,10 +55,8 @@ final class IncomeController extends AbstractController
                 'label' => 'Списать сумму со счёта',
                 'required' => true,
                 'class' => Wallet::class,
-                'query_builder' => static function (EntityRepository $repository) {
-                    return $repository->createQueryBuilder('entity')
-                        ->where('entity.useInIncome = TRUE');
-                },
+                'query_builder' => fn (EntityRepository $repository) => $repository->createQueryBuilder('entity')
+                    ->where('entity.useInIncome = TRUE'),
             ])
             ->getForm()
             ->handleRequest($request);

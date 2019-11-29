@@ -19,10 +19,7 @@ final class EngineType extends Enum
     private const ETHANOL = 3;
     private const ELECTRIC = 4;
 
-    /**
-     * @var array
-     */
-    protected static $name = [
+    protected static array $name = [
         self::UNKNOWN => 'Неопределён',
         self::PETROL => 'Бензин',
         self::DIESEL => 'Дизель',

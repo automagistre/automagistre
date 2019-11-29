@@ -17,20 +17,11 @@ use function sprintf;
  */
 final class ConnectionSwitcher
 {
-    /**
-     * @var ManagerRegistry
-     */
-    private $registry;
+    private ManagerRegistry $registry;
 
-    /**
-     * @var Connection|null
-     */
-    private $connection;
+    private ?Connection $connection;
 
-    /**
-     * @var ReflectionProperty|null
-     */
-    private $reflection;
+    private ?ReflectionProperty $reflection;
 
     public function __construct(ManagerRegistry $registry)
     {

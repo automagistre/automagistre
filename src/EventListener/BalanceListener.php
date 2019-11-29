@@ -18,20 +18,11 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 final class BalanceListener implements EventSubscriberInterface
 {
-    /**
-     * @var State
-     */
-    private $state;
+    private State $state;
 
-    /**
-     * @var Registry
-     */
-    private $registry;
+    private Registry $registry;
 
-    /**
-     * @var PaymentManager
-     */
-    private $paymentManager;
+    private PaymentManager $paymentManager;
 
     public function __construct(State $state, Registry $registry, PaymentManager $paymentManager)
     {

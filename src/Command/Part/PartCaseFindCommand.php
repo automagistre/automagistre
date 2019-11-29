@@ -30,10 +30,7 @@ final class PartCaseFindCommand extends Command
 {
     protected static $defaultName = 'part:case:find';
 
-    /**
-     * @var Registry
-     */
-    private $registry;
+    private Registry $registry;
 
     public function __construct(Registry $registry)
     {
@@ -59,9 +56,7 @@ final class PartCaseFindCommand extends Command
             ->setParameter('cars', array_keys($cars))
             ->getQuery()
             ->getScalarResult();
-        $universal = $this->getUniversal(array_map(static function (array $item): string {
-            return $item['part_id'];
-        }, $data));
+        $universal = $this->getUniversal(array_map(fn (array $item): string => $item['part_id'], $data));
 
         $progress = $io->createProgressBar(count($data));
         $em = $this->registry->manager(PartCase::class);

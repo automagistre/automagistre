@@ -76,9 +76,7 @@ final class PartSellController extends AbstractController
             'end' => 'datetime',
         ]);
 
-        $ids = array_map(static function (array $item): string {
-            return $item['part_id'];
-        }, $items);
+        $ids = array_map(fn (array $item): string => $item['part_id'], $items);
 
         $parts = $registry->manager(Part::class)->createQueryBuilder()
             ->select('part')
@@ -88,9 +86,7 @@ final class PartSellController extends AbstractController
             ->setParameter('ids', $ids)
             ->getResult();
 
-        usort($items, static function (array $left, array $right): int {
-            return (int) $right['quantity'] <=> (int) $left['quantity'];
-        });
+        usort($items, fn (array $left, array $right): int => (int) $right['quantity'] <=> (int) $left['quantity']);
 
         return $this->render('admin/report/part_sell.html.twig', [
             'start' => $start,

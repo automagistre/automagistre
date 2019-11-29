@@ -13,36 +13,24 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 final class OrderTOPart
 {
-    /**
-     * @var bool
-     */
-    public $selected;
+    public bool $selected;
+
+    public bool $recommend;
 
     /**
-     * @var bool
-     */
-    public $recommend;
-
-    /**
-     * @var \App\Entity\Landlord\Part
-     *
      * @Assert\NotBlank
      */
-    public $part;
+    public \App\Entity\Landlord\Part $part;
 
     /**
-     * @var int
-     *
      * @Assert\NotBlank
      */
-    public $quantity;
+    public int $quantity;
 
     /**
-     * @var Money
-     *
      * @Assert\NotBlank
      */
-    public $price;
+    public Money $price;
 
     public static function from(Part $part): self
     {

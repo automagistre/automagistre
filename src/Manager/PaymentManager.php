@@ -22,20 +22,11 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 final class PaymentManager
 {
-    /**
-     * @var Registry
-     */
-    private $registry;
+    private Registry $registry;
 
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $dispatcher;
+    private EventDispatcherInterface $dispatcher;
 
-    /**
-     * @var State
-     */
-    private $state;
+    private State $state;
 
     public function __construct(Registry $registry, EventDispatcherInterface $dispatcher, State $state)
     {

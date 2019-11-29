@@ -40,20 +40,11 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 final class EventsListener implements EventSubscriberInterface
 {
-    /**
-     * @var Registry
-     */
-    private $registry;
+    private Registry $registry;
 
-    /**
-     * @var EntityTransformer
-     */
-    private $transformer;
+    private EntityTransformer $transformer;
 
-    /**
-     * @var State
-     */
-    private $state;
+    private State $state;
 
     public function __construct(Registry $registry, EntityTransformer $transformer, State $state)
     {

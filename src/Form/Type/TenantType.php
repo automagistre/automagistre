@@ -19,12 +19,8 @@ final class TenantType extends AbstractType
     {
         $resolver
             ->setDefaults([
-                'choice_loader' => new CallbackChoiceLoader(static function () {
-                    return Tenant::all();
-                }),
-                'choice_label' => static function (Tenant $tenant) {
-                    return $tenant->getDisplayName();
-                },
+                'choice_loader' => new CallbackChoiceLoader(fn () => Tenant::all()),
+                'choice_label' => fn (Tenant $tenant) => $tenant->getDisplayName(),
                 'choice_value' => 'id',
             ]);
     }

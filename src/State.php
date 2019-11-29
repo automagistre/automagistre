@@ -16,25 +16,13 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  */
 final class State
 {
-    /**
-     * @var Tenant|null
-     */
-    private $tenant;
+    private ?Tenant $tenant;
 
-    /**
-     * @var ConnectionSwitcher
-     */
-    private $switcher;
+    private ConnectionSwitcher $switcher;
 
-    /**
-     * @var TokenStorageInterface
-     */
-    private $tokenStorage;
+    private TokenStorageInterface $tokenStorage;
 
-    /**
-     * @var User|null
-     */
-    private $user;
+    private ?User $user;
 
     public function __construct(ConnectionSwitcher $switcher, TokenStorageInterface $tokenStorage)
     {

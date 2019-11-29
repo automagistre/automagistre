@@ -23,20 +23,11 @@ final class PartStockActualizationCommand extends Command
 {
     protected static $defaultName = 'part:stock:actualize';
 
-    /**
-     * @var Registry
-     */
-    private $registry;
+    private Registry $registry;
 
-    /**
-     * @var StockpileManager
-     */
-    private $stockpileManager;
+    private StockpileManager $stockpileManager;
 
-    /**
-     * @var State
-     */
-    private $state;
+    private State $state;
 
     public function __construct(Registry $registry, StockpileManager $stockpileManager, State $state)
     {
@@ -65,9 +56,7 @@ final class PartStockActualizationCommand extends Command
 
         $count = count($values);
 
-        $values = array_map(function (array $item) use ($tenant) {
-            return [$item['part_id'], $tenant, $item['quantity']];
-        }, $values);
+        $values = array_map(fn (array $item) => [$item['part_id'], $tenant, $item['quantity']], $values);
 
         $this->stockpileManager->actualize($values);
 

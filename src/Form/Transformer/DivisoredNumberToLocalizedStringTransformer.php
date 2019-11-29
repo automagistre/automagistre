@@ -16,10 +16,7 @@ use Symfony\Component\Form\Extension\Core\DataTransformer\NumberToLocalizedStrin
  */
 final class DivisoredNumberToLocalizedStringTransformer extends NumberToLocalizedStringTransformer
 {
-    /**
-     * @var int
-     */
-    private $divisor;
+    private int $divisor;
 
     public function __construct(
         ?int $scale = 2,

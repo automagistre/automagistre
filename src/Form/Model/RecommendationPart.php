@@ -16,32 +16,24 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class RecommendationPart extends Model
 {
     /**
-     * @var CarRecommendation
-     *
      * @Assert\NotBlank
      */
-    public $recommendation;
+    public CarRecommendation $recommendation;
 
     /**
-     * @var Part
-     *
      * @Assert\NotBlank
      */
-    public $part;
+    public Part $part;
 
     /**
-     * @var int
-     *
      * @Assert\NotBlank
      */
-    public $quantity;
+    public int $quantity;
 
     /**
-     * @var Money
-     *
      * @Assert\NotBlank
      */
-    public $price;
+    public Money $price;
 
     public static function getEntityClass(): string
     {

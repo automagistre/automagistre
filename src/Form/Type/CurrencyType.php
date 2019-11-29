@@ -18,10 +18,7 @@ final class CurrencyType extends AbstractType
 {
     private const PREFERRED = ['RUB', 'USD', 'EUR'];
 
-    /**
-     * @var Currencies
-     */
-    private $currencies;
+    private Currencies $currencies;
 
     public function __construct(Currencies $currencies)
     {
@@ -38,9 +35,7 @@ final class CurrencyType extends AbstractType
                 'choices' => $this->currencies->getIterator(),
                 'choice_label' => 'code',
                 'choice_value' => 'code',
-                'preferred_choices' => function (Currency $currency) {
-                    return in_array($currency->getCode(), self::PREFERRED, true);
-                },
+                'preferred_choices' => fn (Currency $currency) => in_array($currency->getCode(), self::PREFERRED, true),
             ]);
     }
 

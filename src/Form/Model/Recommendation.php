@@ -14,25 +14,13 @@ use Money\Money;
  */
 final class Recommendation extends Model
 {
-    /**
-     * @var Car
-     */
-    public $car;
+    public Car $car;
 
-    /**
-     * @var string
-     */
-    public $service;
+    public string $service;
 
-    /**
-     * @var Money
-     */
-    public $price;
+    public Money $price;
 
-    /**
-     * @var Operand|null
-     */
-    public $worker;
+    public ?Operand $worker;
 
     public static function getEntityClass(): string
     {

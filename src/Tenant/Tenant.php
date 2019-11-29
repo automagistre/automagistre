@@ -22,30 +22,21 @@ final class Tenant extends Enum
     private const KAZAN = 2;
     private const SHAVLEV = 3;
 
-    /**
-     * @var array
-     */
-    protected static $identifier = [
+    protected static array $identifier = [
         self::SANDBOX => 'sandbox',
         self::MSK => 'msk',
         self::KAZAN => 'kazan',
         self::SHAVLEV => 'shavlev',
     ];
 
-    /**
-     * @var array
-     */
-    protected static $displayName = [
+    protected static array $displayName = [
         self::SANDBOX => 'Песочница',
         self::MSK => 'Москва',
         self::KAZAN => 'Казань',
         self::SHAVLEV => 'ИП Щавлев В.А.',
     ];
 
-    /**
-     * @var array
-     */
-    protected static $requisites = [
+    protected static array $requisites = [
         self::SANDBOX => [],
         self::MSK => [
             'name' => 'ООО "Автомагистр"',

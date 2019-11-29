@@ -19,25 +19,13 @@ use Symfony\Component\Mercure\Update;
  */
 final class BalanceNotificationListener implements EventSubscriberInterface
 {
-    /**
-     * @var PublisherInterface
-     */
-    private $publisher;
+    private PublisherInterface $publisher;
 
-    /**
-     * @var State
-     */
-    private $state;
+    private State $state;
 
-    /**
-     * @var PaymentManager
-     */
-    private $manager;
+    private PaymentManager $manager;
 
-    /**
-     * @var MoneyFormatter
-     */
-    private $formatter;
+    private MoneyFormatter $formatter;
 
     public function __construct(
         PublisherInterface $publisher,

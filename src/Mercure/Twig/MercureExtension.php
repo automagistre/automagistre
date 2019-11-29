@@ -13,10 +13,7 @@ use Twig\TwigFunction;
  */
 final class MercureExtension extends AbstractExtension
 {
-    /**
-     * @var ParameterBagInterface
-     */
-    private $parameterBag;
+    private ParameterBagInterface $parameterBag;
 
     public function __construct(ParameterBagInterface $parameterBag)
     {

@@ -23,20 +23,11 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 final class ReservationManager
 {
-    /**
-     * @var Registry
-     */
-    private $registry;
+    private Registry $registry;
 
-    /**
-     * @var PartManager
-     */
-    private $partManager;
+    private PartManager $partManager;
 
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $dispatcher;
+    private EventDispatcherInterface $dispatcher;
 
     public function __construct(Registry $registry, PartManager $partManager, EventDispatcherInterface $dispatcher)
     {
@@ -47,7 +38,7 @@ final class ReservationManager
 
     public function reserve(OrderItemPart $orderItemPart, ?int $quantity = null): void
     {
-        $quantity = $quantity ?? $orderItemPart->getQuantity();
+        $quantity ??= $orderItemPart->getQuantity();
 
         if (0 >= $quantity) {
             throw new ReservationException('Количество резервируемого товара должно быть положительным.');
@@ -83,7 +74,7 @@ final class ReservationManager
 
     public function deReserve(OrderItemPart $orderItemPart, int $quantity = null): void
     {
-        $quantity = $quantity ?? $orderItemPart->getQuantity();
+        $quantity ??= $orderItemPart->getQuantity();
 
         if (0 >= $quantity) {
             throw new ReservationException('Количество снимаемого с резерва товара должно быть положительным.');

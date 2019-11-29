@@ -23,20 +23,11 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 final class StockpileListener implements EventSubscriberInterface
 {
-    /**
-     * @var PartManager
-     */
-    private $partManager;
+    private PartManager $partManager;
 
-    /**
-     * @var StockpileManager
-     */
-    private $stockpileManager;
+    private StockpileManager $stockpileManager;
 
-    /**
-     * @var State
-     */
-    private $state;
+    private State $state;
 
     public function __construct(PartManager $partManager, StockpileManager $stockpileManager, State $state)
     {

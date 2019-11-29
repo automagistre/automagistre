@@ -25,9 +25,7 @@ final class EngineCapacityType extends AbstractType
     {
         $resolver->setDefaults([
             'choice_loader' => new CallbackChoiceLoader(function () {
-                $choices = array_map(function (float $number) {
-                    return number_format($number, 1);
-                }, range(0.6, 6.0, 0.1));
+                $choices = array_map(fn (float $number) => number_format($number, 1), range(0.6, 6.0, 0.1));
 
                 return array_combine($choices, $choices);
             }),

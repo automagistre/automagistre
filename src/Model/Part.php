@@ -9,20 +9,11 @@ namespace App\Model;
  */
 final class Part
 {
-    /**
-     * @var string
-     */
-    public $manufacturer;
+    public string $manufacturer;
 
-    /**
-     * @var string
-     */
-    public $number;
+    public string $number;
 
-    /**
-     * @var string
-     */
-    public $name;
+    public string $name;
 
     public function __construct(string $manufacturer, string $number, string $name)
     {

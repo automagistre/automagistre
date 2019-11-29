@@ -16,15 +16,9 @@ use Twig\TwigFunction;
  */
 final class PartExtension extends AbstractExtension
 {
-    /**
-     * @var PartManager
-     */
-    private $partManager;
+    private PartManager $partManager;
 
-    /**
-     * @var ReservationManager
-     */
-    private $reservationManager;
+    private ReservationManager $reservationManager;
 
     public function __construct(PartManager $partManager, ReservationManager $reservationManager)
     {
@@ -38,24 +32,12 @@ final class PartExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('part_in_stock', function (Part $part): int {
-                return $this->partManager->inStock($part);
-            }),
-            new TwigFunction('part_crosses', function (Part $part): array {
-                return $this->partManager->getCrosses($part);
-            }),
-            new TwigFunction('part_crosses_in_stock', function (Part $part): array {
-                return $this->partManager->crossesInStock($part);
-            }),
-            new TwigFunction('part_reserved', function (Part $part): int {
-                return $this->reservationManager->reserved($part);
-            }),
-            new TwigFunction('part_reservable', function (Part $part): int {
-                return $this->reservationManager->reservable($part);
-            }),
-            new TwigFunction('part_suggest_price', function (Part $part): Money {
-                return $this->partManager->suggestPrice($part);
-            }),
+            new TwigFunction('part_in_stock', fn (Part $part): int => $this->partManager->inStock($part)),
+            new TwigFunction('part_crosses', fn (Part $part): array => $this->partManager->getCrosses($part)),
+            new TwigFunction('part_crosses_in_stock', fn (Part $part): array => $this->partManager->crossesInStock($part)),
+            new TwigFunction('part_reserved', fn (Part $part): int => $this->reservationManager->reserved($part)),
+            new TwigFunction('part_reservable', fn (Part $part): int => $this->reservationManager->reservable($part)),
+            new TwigFunction('part_suggest_price', fn (Part $part): Money => $this->partManager->suggestPrice($part)),
         ];
     }
 }

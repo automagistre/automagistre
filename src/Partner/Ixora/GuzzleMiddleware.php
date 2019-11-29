@@ -18,9 +18,11 @@ final class GuzzleMiddleware
 {
     public static function authQuery(string $authCode): Closure
     {
-        return Closure::fromCallable(Middleware::mapRequest(function (RequestInterface $request) use ($authCode) {
-            return $request->withUri(Uri::withQueryValue($request->getUri(), 'AuthCode', $authCode));
-        }));
+        return Closure::fromCallable(Middleware::mapRequest(
+            fn (RequestInterface $request) => $request->withUri(
+                Uri::withQueryValue($request->getUri(), 'AuthCode', $authCode)
+            )
+        ));
     }
 
     public static function logErrors(LoggerInterface $logger): Closure

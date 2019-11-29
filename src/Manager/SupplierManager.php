@@ -13,15 +13,9 @@ use App\Entity\Tenant\Income;
  */
 final class SupplierManager
 {
-    /**
-     * @var Registry
-     */
-    private $registry;
+    private Registry $registry;
 
-    /**
-     * @var PaymentManager
-     */
-    private $paymentManager;
+    private PaymentManager $paymentManager;
 
     public function __construct(Registry $registry, PaymentManager $paymentManager)
     {

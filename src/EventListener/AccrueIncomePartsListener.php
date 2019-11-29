@@ -19,15 +19,9 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 final class AccrueIncomePartsListener implements EventSubscriberInterface
 {
-    /**
-     * @var Registry
-     */
-    private $registry;
+    private Registry $registry;
 
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $dispatcher;
+    private EventDispatcherInterface $dispatcher;
 
     public function __construct(Registry $registry, EventDispatcherInterface $dispatcher)
     {

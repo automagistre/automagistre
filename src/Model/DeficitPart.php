@@ -14,7 +14,7 @@ final class DeficitPart extends WarehousePart
     /**
      * @var Order[]
      */
-    public $orders;
+    public array $orders;
 
     public function __construct(\App\Entity\Landlord\Part $part, int $quantity, array $orders)
     {

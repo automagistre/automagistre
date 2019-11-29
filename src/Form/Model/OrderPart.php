@@ -16,40 +16,25 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class OrderPart extends OrderItemModel
 {
     /**
-     * @var Part
-     *
      * @Assert\NotBlank
      */
-    public $part;
+    public Part $part;
 
     /**
-     * @var int
-     *
      * @Assert\NotBlank
      */
-    public $quantity;
+    public int $quantity;
 
     /**
-     * @var Money
-     *
      * @Assert\NotBlank
      */
-    public $price;
+    public Money $price;
 
-    /**
-     * @var bool
-     */
-    public $warranty = false;
+    public bool $warranty = false;
 
-    /**
-     * @var Money|null
-     */
-    public $discount;
+    public ?Money $discount;
 
-    /**
-     * @var OperandRelation
-     */
-    public $supplier;
+    public OperandRelation $supplier;
 
     public function __construct()
     {

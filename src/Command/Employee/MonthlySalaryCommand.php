@@ -30,25 +30,13 @@ final class MonthlySalaryCommand extends Command
 {
     protected static $defaultName = 'employee:monthly:salary';
 
-    /**
-     * @var Registry
-     */
-    private $registry;
+    private Registry $registry;
 
-    /**
-     * @var PaymentManager
-     */
-    private $paymentManager;
+    private PaymentManager $paymentManager;
 
-    /**
-     * @var State
-     */
-    private $state;
+    private State $state;
 
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $dispatcher;
+    private EventDispatcherInterface $dispatcher;
 
     public function __construct(
         State $state,

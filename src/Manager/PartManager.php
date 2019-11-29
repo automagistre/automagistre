@@ -25,10 +25,7 @@ final class PartManager
 {
     private const MARKUP = 1.15;
 
-    /**
-     * @var Registry
-     */
-    private $registry;
+    private Registry $registry;
 
     public function __construct(Registry $registry)
     {
@@ -121,7 +118,7 @@ final class PartManager
     }
 
     /**
-     * @return Part[] array
+     * @return array<int, Part>
      */
     public function crossesInStock(Part $part): array
     {

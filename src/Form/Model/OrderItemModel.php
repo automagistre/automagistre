@@ -12,13 +12,7 @@ use App\Entity\Tenant\OrderItem;
  */
 abstract class OrderItemModel extends Model
 {
-    /**
-     * @var Order
-     */
-    public $order;
+    public Order $order;
 
-    /**
-     * @var OrderItem
-     */
-    public $parent;
+    public OrderItem $parent;
 }

@@ -16,10 +16,7 @@ use function trim;
  */
 final class EntityTransformerArgumentValueResolver implements ArgumentValueResolverInterface
 {
-    /**
-     * @var EntityTransformer
-     */
-    private $entityTransformer;
+    private EntityTransformer $entityTransformer;
 
     public function __construct(EntityTransformer $entityTransformer)
     {

@@ -57,27 +57,27 @@ final class PartController extends AbstractController
     /**
      * @var DeficitManager
      */
-    private $deficitManager;
+    private DeficitManager $deficitManager;
 
     /**
      * @var PartManager
      */
-    private $partManager;
+    private PartManager $partManager;
 
     /**
      * @var Finder
      */
-    private $finder;
+    private Finder $finder;
 
     /**
      * @var MoneyFormatter
      */
-    private $formatter;
+    private MoneyFormatter $formatter;
 
     /**
      * @var ReservationManager
      */
-    private $reservationManager;
+    private ReservationManager $reservationManager;
 
     public function __construct(
         DeficitManager $deficitManager,
@@ -167,9 +167,7 @@ final class PartController extends AbstractController
                 'name' => $model->name,
                 'number' => $model->number,
             ];
-        }, array_filter($parts, static function (PartModel $model) use ($number) {
-            return false !== strpos($model->number, $number);
-        })));
+        }, array_filter($parts, fn (PartModel $model) => false !== strpos($model->number, $number))));
     }
 
     public function stockAction(): Response
@@ -288,9 +286,7 @@ final class PartController extends AbstractController
 
             $parameters['inStock'] = $this->partManager->inStock($entity);
             $parameters['orders'] = $this->partManager->inOrders($entity);
-            $parameters['reservedIn'] = array_map(static function (Order $order): int {
-                return (int) $order->getId();
-            }, $this->reservationManager->orders($entity));
+            $parameters['reservedIn'] = array_map(fn (Order $order): int => (int) $order->getId(), $this->reservationManager->orders($entity));
             $parameters['reserved'] = $this->reservationManager->reserved($entity);
             $parameters['crosses'] = $this->partManager->getCrosses($entity);
 

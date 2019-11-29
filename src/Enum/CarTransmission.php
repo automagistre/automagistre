@@ -21,10 +21,7 @@ final class CarTransmission extends Enum
     private const AUTOMATIC_5 = 5;
     private const AUTOMATIC_7 = 6;
 
-    /**
-     * @var array
-     */
-    protected static $name = [
+    protected static array $name = [
         self::UNKNOWN => 'Неопределена',
         self::AUTOMATIC => 'Автоматическая',
         self::ROBOT => 'Робот',
@@ -34,10 +31,7 @@ final class CarTransmission extends Enum
         self::AUTOMATIC_7 => 'Автоматическая (7 ступеней)',
     ];
 
-    /**
-     * @var array
-     */
-    protected static $code = [
+    protected static array $code = [
         self::UNKNOWN => '-',
         self::AUTOMATIC => 'AT',
         self::ROBOT => 'AMT',

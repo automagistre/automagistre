@@ -19,15 +19,9 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 final class ReserveAccruedPartsListener implements EventSubscriberInterface
 {
-    /**
-     * @var Registry
-     */
-    private $registry;
+    private Registry $registry;
 
-    /**
-     * @var ReservationManager
-     */
-    private $reservationManager;
+    private ReservationManager $reservationManager;
 
     public function __construct(Registry $registry, ReservationManager $reservationManager)
     {

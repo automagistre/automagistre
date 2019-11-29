@@ -25,10 +25,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final class CarRecommendationPartController extends AbstractController
 {
-    /**
-     * @var PartManager
-     */
-    private $partManager;
+    private PartManager $partManager;
 
     public function __construct(PartManager $partManager)
     {

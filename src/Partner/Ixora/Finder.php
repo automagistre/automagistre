@@ -24,10 +24,7 @@ final class Finder
 {
     private const IXORA_PART_FIND = '/soap/ApiService.asmx/Find';
 
-    /**
-     * @var ClientInterface
-     */
-    private $client;
+    private ClientInterface $client;
 
     public function __construct(ClientInterface $client)
     {

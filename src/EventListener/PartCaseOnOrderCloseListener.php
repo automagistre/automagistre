@@ -25,10 +25,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 final class PartCaseOnOrderCloseListener implements EventSubscriberInterface
 {
-    /**
-     * @var Registry
-     */
-    private $registry;
+    private Registry $registry;
 
     public function __construct(Registry $registry)
     {
@@ -72,9 +69,7 @@ final class PartCaseOnOrderCloseListener implements EventSubscriberInterface
         }
 
         /** @var Part[] $parts */
-        $parts = array_map(function (OrderItemPart $orderItemPart) {
-            return $orderItemPart->getPart();
-        }, $parts);
+        $parts = array_map(fn (OrderItemPart $orderItemPart) => $orderItemPart->getPart(), $parts);
 
         $em = $this->registry->manager(PartCase::class);
 

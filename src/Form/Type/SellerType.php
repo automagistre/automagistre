@@ -28,12 +28,8 @@ final class SellerType extends AbstractType
         }
 
         $builder->addModelTransformer(new CallbackTransformer(
-            static function (?OperandRelation $relation) {
-                return $relation->entityOrNull();
-            },
-            static function (?Operand $operand) {
-                return null === $operand ? null : new OperandRelation($operand);
-            }
+            fn (?OperandRelation $relation) => $relation->entityOrNull(),
+            fn (?Operand $operand) => null === $operand ? null : new OperandRelation($operand)
         ));
     }
 
@@ -46,14 +42,10 @@ final class SellerType extends AbstractType
             'label' => false,
             'placeholder' => 'Выберите поставщика',
             'class' => Operand::class,
-            'query_builder' => static function (EntityRepository $repository) {
-                return $repository->createQueryBuilder('entity')
-                    ->where('entity.seller = :is_seller')
-                    ->setParameter('is_seller', true);
-            },
-            'choice_label' => static function (Operand $operand) {
-                return (string) $operand;
-            },
+            'query_builder' => fn (EntityRepository $repository) => $repository->createQueryBuilder('entity')
+                ->where('entity.seller = :is_seller')
+                ->setParameter('is_seller', true),
+            'choice_label' => fn (Operand $operand) => (string) $operand,
             'choice_value' => 'id',
             'relational' => false,
         ]);

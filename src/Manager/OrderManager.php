@@ -23,25 +23,13 @@ use function sprintf;
  */
 final class OrderManager
 {
-    /**
-     * @var Registry
-     */
-    private $registry;
+    private Registry $registry;
 
-    /**
-     * @var State
-     */
-    private $state;
+    private State $state;
 
-    /**
-     * @var PaymentManager
-     */
-    private $paymentManager;
+    private PaymentManager $paymentManager;
 
-    /**
-     * @var ReservationManager
-     */
-    private $reservationManager;
+    private ReservationManager $reservationManager;
 
     public function __construct(
         Registry $registry,

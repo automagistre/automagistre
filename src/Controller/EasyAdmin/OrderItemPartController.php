@@ -21,10 +21,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  */
 final class OrderItemPartController extends OrderItemController
 {
-    /**
-     * @var ReservationManager
-     */
-    private $reservationManager;
+    private ReservationManager $reservationManager;
 
     public function __construct(ReservationManager $reservationManager)
     {

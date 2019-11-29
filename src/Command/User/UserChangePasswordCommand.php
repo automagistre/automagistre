@@ -21,15 +21,9 @@ final class UserChangePasswordCommand extends Command
 {
     protected static $defaultName = 'user:change-password';
 
-    /**
-     * @var Registry
-     */
-    private $registry;
+    private Registry $registry;
 
-    /**
-     * @var EncoderFactoryInterface
-     */
-    private $encoderFactory;
+    private EncoderFactoryInterface $encoderFactory;
 
     public function __construct(Registry $registry, EncoderFactoryInterface $encoderFactory)
     {
