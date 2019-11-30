@@ -4,7 +4,7 @@ services:
     nginx:
         image: nginx:1.17.5-alpine
         labels:
-            ru.grachevko.dhu: '{sto,www}.automagistre.local:2'
+            ru.grachevko.dhu: 'sto.automagistre.local:2'
         volumes:
             - ./public:/usr/local/app/public
             - ./etc/nginx.conf:/etc/nginx/nginx.conf
