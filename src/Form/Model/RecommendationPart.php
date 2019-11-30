@@ -23,17 +23,23 @@ final class RecommendationPart extends Model
     /**
      * @Assert\NotBlank
      */
-    public Part $part;
+    public ?Part $part;
 
     /**
      * @Assert\NotBlank
      */
-    public int $quantity;
+    public int $quantity = 100;
 
     /**
      * @Assert\NotBlank
      */
-    public Money $price;
+    public ?Money $price;
+
+    public function __construct()
+    {
+        $this->part = null;
+        $this->price = null;
+    }
 
     public static function getEntityClass(): string
     {

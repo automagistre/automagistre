@@ -16,11 +16,17 @@ final class Recommendation extends Model
 {
     public Car $car;
 
-    public string $service;
+    public ?string $service;
 
-    public Money $price;
+    public ?Money $price;
 
     public ?Operand $worker;
+
+    public function __construct()
+    {
+        $this->service = null;
+        $this->price = null;
+    }
 
     public static function getEntityClass(): string
     {
