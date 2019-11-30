@@ -10,9 +10,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class TestCommand extends Command
 {
+    protected static $defaultName = 'test';
+
     public function configure(): void
     {
-        $this->setName('test');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
