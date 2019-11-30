@@ -1,12 +1,7 @@
 <?php
 
-use function class_exists;
-use function dirname;
-use function file_exists;
-use function filter_var;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\ErrorHandler\Debug;
-use function umask;
 
 require dirname(__DIR__).'/vendor/autoload.php';
 

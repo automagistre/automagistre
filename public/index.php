@@ -1,7 +1,5 @@
 <?php
 
-use function dirname;
-use function explode;
 use Symfony\Component\HttpFoundation\Request;
 
 require dirname(__DIR__).'/config/bootstrap.php';
