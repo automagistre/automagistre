@@ -9,6 +9,8 @@ use App\Tenant\ConnectionSwitcher;
 use App\Tenant\Tenant;
 use LogicException;
 use RuntimeException;
+use Sentry\SentryBundle\SentryBundle;
+use Sentry\State\Scope;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
@@ -35,6 +37,9 @@ final class State
         if (null !== $tenant) {
             $this->switcher->switch($tenant);
             $this->tenant = $tenant;
+
+            SentryBundle::getCurrentHub()
+                ->configureScope(fn (Scope $scope) => $scope->setTag('tenant', $tenant->getIdentifier()));
         }
 
         if (null === $this->tenant) {
