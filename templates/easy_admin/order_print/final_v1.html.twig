@@ -55,7 +55,7 @@
                     </tr>
                     <tr>
                         <td class="uppercase">vin:</td>
-                        <td class="uppercase">{{ car.vin|default }}</td>
+                        <td class="uppercase">{{ car.identifier|default }}</td>
                     </tr>
                     <tr>
                         <td>гос. номер:</td>
@@ -315,7 +315,7 @@
         {% if recommendations is not empty %}
             <div class="html2pdf__page-break"></div>
             <section class="recommendations">
-                <h4>рекомендации по автомобилю VIN: {{ car.vin }}</h4>
+                <h4>рекомендации по автомобилю VIN: {{ car.identifier }}</h4>
                 <table class="table table-bordered table-sm">
                     <tbody>
                     {% for recommendation in recommendations %}

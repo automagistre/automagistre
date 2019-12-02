@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>{{ car.vin|default('Печать') }}</title>
+    <title>{{ car.identifier|default('Печать') }}</title>
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/print_v2.css') }}">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.min.js"></script>

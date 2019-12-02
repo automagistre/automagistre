@@ -131,7 +131,7 @@
                     <span class="order-info-legend">
                         Автомобиль
                     </span>
-                        {{ car.toString }} {{ car.vin }} {{ car.gosnomer }} пробег: {{ order.mileage }}
+                        {{ car.toString }} {{ car.identifier }} {{ car.gosnomer }} пробег: {{ order.mileage }}
                     </div>
                 {% endif %}
             </section>
@@ -229,7 +229,7 @@
 
             {% if car is not empty and car.recommendations is not empty %}
                 <section class="recommendations">
-                    <h3 class="order-info-title">РЕКОМЕНДАЦИИ ПО АВТОМОБИЛЮ VIN: {{ car.vin }} </h3>
+                    <h3 class="order-info-title">РЕКОМЕНДАЦИИ ПО АВТОМОБИЛЮ VIN: {{ car.identifier }} </h3>
                     <table class="table recommendations-table">
                         <caption>рекомендуемые работы и запчасти</caption>
 
