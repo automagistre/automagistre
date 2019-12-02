@@ -35,9 +35,8 @@ endef
 
 notify = $(DEBUG_ECHO) notify-send --urgency=low --expire-time=50 "Makefile" "$@ success!"
 
-init:
-	@cp -n -r contrib/* ./ || true
-	@mkdir -p var/snapshots var/backups
+contrib:
+	@cp -n -r contrib/.env contrib/* ./ || true
 
 docker-hosts-updater:
 	docker pull grachev/docker-hosts-updater
@@ -47,7 +46,7 @@ docker-hosts-updater:
 ###> ALIASES ###
 pull:
 	docker-compose pull
-up: init pull composer permissions
+up: contrib pull composer permissions
 	docker-compose up --detach --remove-orphans --no-build
 	@$(notify)
 cli: app-cli
