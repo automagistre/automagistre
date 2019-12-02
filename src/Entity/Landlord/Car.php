@@ -26,7 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  *
- * @UniqueEntity(fields={"vin"})
+ * @UniqueEntity(fields={"identifier"})
  */
 class Car
 {
@@ -55,11 +55,9 @@ class Car
     /**
      * @var string
      *
-     * @Assert\Length(min="17", max="17")
-     *
      * @ORM\Column(length=17, nullable=true, unique=true)
      */
-    private $vin;
+    private $identifier;
 
     /**
      * @var int|null
@@ -170,17 +168,17 @@ class Car
         $this->carModel = $carModel;
     }
 
-    public function getVin(): ?string
+    public function getIdentifier(): ?string
     {
-        return $this->vin;
+        return $this->identifier;
     }
 
     /**
-     * @param string $vin
+     * @param string $identifier
      */
-    public function setVin(string $vin = null): void
+    public function setIdentifier(string $identifier = null): void
     {
-        $this->vin = $vin;
+        $this->identifier = $identifier;
     }
 
     public function getYear(): ?int

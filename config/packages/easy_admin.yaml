@@ -469,7 +469,7 @@ easy_admin:
             controller: App\Controller\EasyAdmin\CarController
             label: 'Автомобили'
             search:
-                fields: ['gosnomer', 'vin']
+                fields: ['gosnomer', 'identifier']
             templates:
                 show: 'easy_admin/car/show.html.twig'
             list:
@@ -480,14 +480,14 @@ easy_admin:
                     - { property: 'owner', label: 'Владелец' }
                     - { property: 'year', label: 'Год', type: 'string' }
                     - { property: 'caseType.name', label: 'Кузов' }
-                    - { property: 'vin', label: 'VIN', sortable: false }
+                    - { property: 'identifier', label: 'Идентификатор (VIN, № Кузова/Шасси...)', sortable: false }
                     - { property: 'mileage', label: 'Пробег' }
                     - { property: 'gosnomer', label: 'Гос. Номер', sortable: false, template: 'easy_admin/car/field_gosnomer_img.html.twig' }
             show:
                 title: 'Автомобиль № {{ entity.id }}'
                 fields:
                     - { property: 'owner', label: 'Владелец' }
-                    - { property: 'vin', label: 'VIN' }
+                    - { property: 'identifier', label: 'Идентификатор', help: 'VIN, № Кузова/Шасси...' }
                     - { property: 'carModel', label: 'Модель' }
                     - { property: 'caseType.name', label: 'Тип кузова' }
                     - { property: 'year', label: 'Год', type: 'string' }
@@ -512,7 +512,7 @@ easy_admin:
                         help: 'Проивзодитель, Модель, Год, Поколение, Комплектация, Лошадинные силы'
                     - { property: 'year', label: 'Год выпуска' }
                     - { property: 'caseType', label: 'Тип кузова', type: App\Form\Type\CarcaseType, type_options: { required: false } }
-                    - { property: 'vin', label: 'VIN' }
+                    - { property: 'identifier', label: 'Идентификатор (VIN, № Кузова/Шасси...)' }
                     - { property: 'gosnomer', label: 'Гос. Номер' }
                     - { property: 'description', label: 'Описание', type: 'textarea' }
                     - { type: 'group', label: 'Комплектация', css_class: 'col-sm-6' }
