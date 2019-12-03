@@ -110,13 +110,14 @@ migration-diff-dry:
 migration-test: APP_ENV=test
 migration-test:
 	$(APP) console doctrine:schema:validate
+	$(APP) console doctrine:schema:validate --em=tenant --tenant=msk
 
 schema-update:
 	$(APP) console doctrine:schema:update --force --em=${EM} $(TENANT_CONSOLE)
 
 test: APP_ENV=test
 test: APP_DEBUG=1
-test: php-cs-fixer cache phpstan psalm migration-test phpunit
+test: php-cs-fixer cache phpstan psalm database-test migration-test fixtures phpunit
 
 php-cs-fixer:
 	$(APP) sh -c 'php-cs-fixer fix $(if $(DRY),--dry-run) $(if $(DEBUG),-vvv); $(PERMISSIONS)'
@@ -137,6 +138,17 @@ psalm:
 
 cache:
 	$(APP) sh -c 'rm -rf var/cache/$$APP_ENV && console cache:warmup; $(PERMISSIONS)'
+
+database-test:
+	APP_ENV=test $(MAKE) database
+	APP_ENV=test TENANT=msk $(MAKE) database
+
+database:
+	$(APP) sh -c "console doctrine:database:drop --if-exists --force --connection=${EM} ${TENANT_CONSOLE} && console doctrine:database:create --connection=${EM} ${TENANT_CONSOLE} && console doctrine:migration:migrate --allow-no-migration $(MIGRATION_CONSOLE)"
+
+fixtures: APP_ENV=test
+fixtures:
+	$(APP) console doctrine:fixtures:load --no-interaction
 
 backup: backup-restore migration
 	@$(notify)
@@ -159,7 +171,7 @@ drop-landlord:
 drop-tenant:
 	@$(MAKE) do-drop EM=tenant
 do-drop:
-	$(APP) sh -c "console doctrine:database:drop --force --connection=${EM} ${TENANT_CONSOLE} || true && console doctrine:database:create --connection=${EM} ${TENANT_CONSOLE}"
+	$(APP) sh -c "console doctrine:database:drop --if-exists --force --connection=${EM} ${TENANT_CONSOLE} && console doctrine:database:create --connection=${EM} ${TENANT_CONSOLE}"
 ###< APP ###
 
 ###> MYSQL ###

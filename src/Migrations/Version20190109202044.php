@@ -6,6 +6,7 @@ namespace App\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
+use function strpos;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
@@ -17,7 +18,7 @@ final class Version20190109202044 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->skipIf('tenant' !== $this->connection->getDatabase(), 'Tenant only');
+        $this->skipIf(0 !== strpos($this->connection->getDatabase(), 'tenant'), 'Tenant only');
 
         $this->addSql('CREATE TABLE orders (id INT AUTO_INCREMENT NOT NULL, closed_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', status SMALLINT NOT NULL COMMENT \'(DC2Type:order_status_enum)\', mileage INT UNSIGNED DEFAULT NULL, description LONGTEXT DEFAULT NULL, appointment_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', closed_by_uuid BINARY(16) DEFAULT NULL COMMENT \'(DC2Type:uuid_binary)\', closed_balance_amount VARCHAR(255) DEFAULT NULL, closed_balance_currency_code VARCHAR(3) DEFAULT NULL, car_uuid BINARY(16) DEFAULT NULL COMMENT \'(DC2Type:uuid_binary)\', customer_uuid BINARY(16) DEFAULT NULL COMMENT \'(DC2Type:uuid_binary)\', created_by_uuid BINARY(16) DEFAULT NULL COMMENT \'(DC2Type:uuid_binary)\', PRIMARY KEY(id)) DEFAULT CHARACTER SET UTF8 COLLATE UTF8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE order_item (id INT AUTO_INCREMENT NOT NULL, order_id INT DEFAULT NULL, parent_id INT DEFAULT NULL, created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', created_by_uuid BINARY(16) DEFAULT NULL COMMENT \'(DC2Type:uuid_binary)\', type INT NOT NULL, INDEX IDX_52EA1F098D9F6D38 (order_id), INDEX IDX_52EA1F09727ACA70 (parent_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET UTF8 COLLATE UTF8_unicode_ci ENGINE = InnoDB');

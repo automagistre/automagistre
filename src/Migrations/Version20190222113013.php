@@ -6,6 +6,7 @@ namespace App\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
+use function strpos;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
@@ -17,7 +18,7 @@ final class Version20190222113013 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->skipIf('tenant' !== $this->connection->getDatabase(), 'Tenant only');
+        $this->skipIf(0 !== strpos($this->connection->getDatabase(), 'tenant'), 'Tenant only');
 
         $this->addSql('ALTER TABLE salary DROP FOREIGN KEY FK_9413BB712FC0CB0F');
         $this->addSql('DROP INDEX IDX_9413BB712FC0CB0F ON salary');
@@ -33,7 +34,7 @@ final class Version20190222113013 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->skipIf('tenant' !== $this->connection->getDatabase(), 'Tenant only');
+        $this->skipIf(0 !== strpos($this->connection->getDatabase(), 'tenant'), 'Tenant only');
 
         $this->addSql('ALTER TABLE salary DROP FOREIGN KEY FK_9413BB71640ED2C0');
         $this->addSql('ALTER TABLE salary DROP FOREIGN KEY FK_9413BB71E6EE6D63');

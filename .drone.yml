@@ -36,10 +36,9 @@ steps:
     -   name: install
         image: automagistre/app:base
         commands:
+            - echo APP_ENV=test >> .env
+            - echo APP_DEBUG=1 >> .env
             - composer install --no-interaction --no-progress --classmap-authoritative
-        environment:
-            APP_ENV: test
-            APP_DEBUG: '1'
         depends_on:
             - build base
 
@@ -72,7 +71,7 @@ steps:
         depends_on:
             - install
 
-    -   name:  symfony requirements
+    -   name: symfony requirements
         image: automagistre/app:base
         commands:
             - vendor/bin/requirements-checker
@@ -82,7 +81,7 @@ steps:
         depends_on:
             - install
 
-    -   name:  symfony security
+    -   name: symfony security
         image: automagistre/app:base
         commands:
             - vendor/bin/security-checker security:check $APP_DIR/composer.lock
@@ -92,7 +91,7 @@ steps:
         depends_on:
             - install
 
-    -   name:  symfony linters
+    -   name: symfony linters
         image: automagistre/app:base
         commands:
             - bin/console lint:yaml config
@@ -100,14 +99,14 @@ steps:
         depends_on:
             - install
 
-    -   name:  phpstan
+    -   name: phpstan
         image: automagistre/app:base
         commands:
             - vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress --memory-limit=-1
         depends_on:
             - install
 
-    -   name:  psalm
+    -   name: psalm
         image: automagistre/app:base
         commands:
             - vendor/bin/psalm --show-info=false --no-progress
@@ -116,7 +115,7 @@ steps:
         depends_on:
             - install
 
-    -   name:  migration
+    -   name: migration
         image: automagistre/app:base
         commands:
             - $$WAIT_FOR_IT landlord:3306
@@ -126,7 +125,14 @@ steps:
         depends_on:
             - install
 
-    -   name:  doctrine schema validate
+    -   name: fixtures
+        image: automagistre/app:base
+        commands:
+            - bin/console doctrine:fixtures:load --no-interaction
+        depends_on:
+            - migration
+
+    -   name: doctrine schema validate
         image: automagistre/app:base
         commands:
             - bin/console doctrine:schema:validate --em=landlord
@@ -134,12 +140,12 @@ steps:
         depends_on:
             - migration
 
-    -   name:  phpunit
+    -   name: phpunit
         image: automagistre/app:base
         commands:
-            - vendor/bin/paratest --processes=$(grep -c ^processor /proc/cpuinfo || 4)
+            - vendor/bin/paratest --processes=$(nproc)
         depends_on:
-            - migration
+            - fixtures
 
     -   name: build
         image: docker:19.03.5
@@ -185,7 +191,7 @@ services:
     -   name: landlord
         image: mariadb:10.4.10
         environment:
-            MYSQL_DATABASE: 'landlord'
+            MYSQL_DATABASE: 'landlord_test'
             MYSQL_USER: 'db'
             MYSQL_PASSWORD: 'db'
             MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
@@ -195,7 +201,7 @@ services:
     -   name: tenant_msk
         image: mariadb:10.4.10
         environment:
-            MYSQL_DATABASE: 'tenant'
+            MYSQL_DATABASE: 'tenant_test'
             MYSQL_USER: 'db'
             MYSQL_PASSWORD: 'db'
             MYSQL_ALLOW_EMPTY_PASSWORD: 'true'

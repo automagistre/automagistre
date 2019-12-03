@@ -32,4 +32,3 @@ doctrine:
                         type: annotation
                         prefix: App\Manufacturer\Entity
                         dir: '%kernel.project_dir%/src/Manufacturer/Entity'
-                        is_bundle: false

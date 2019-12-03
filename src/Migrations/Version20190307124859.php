@@ -6,6 +6,7 @@ namespace App\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
+use function strpos;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
@@ -17,7 +18,7 @@ final class Version20190307124859 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->skipIf('tenant' !== $this->connection->getDatabase(), 'Tenant only');
+        $this->skipIf(0 !== strpos($this->connection->getDatabase(), 'tenant'), 'Tenant only');
 
         $this->addSql('CREATE TABLE order_salary (id INT AUTO_INCREMENT NOT NULL, order_id INT DEFAULT NULL, transaction_id INT DEFAULT NULL, INDEX IDX_579CABA48D9F6D38 (order_id), INDEX IDX_579CABA42FC0CB0F (transaction_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET UTF8 COLLATE UTF8_unicode_ci ENGINE = InnoDB');
         $this->addSql('ALTER TABLE order_salary ADD CONSTRAINT FK_579CABA48D9F6D38 FOREIGN KEY (order_id) REFERENCES orders (id)');
@@ -32,7 +33,7 @@ final class Version20190307124859 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->skipIf('tenant' !== $this->connection->getDatabase(), 'Tenant only');
+        $this->skipIf(0 !== strpos($this->connection->getDatabase(), 'tenant'), 'Tenant only');
 
         $this->addSql('DROP TABLE order_contractor');
         $this->addSql('DROP TABLE order_salary');
