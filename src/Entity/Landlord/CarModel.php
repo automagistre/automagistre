@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\Landlord;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Manufacturer\Entity\Manufacturer;
 use Doctrine\ORM\Mapping as ORM;
 use function sprintf;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -31,7 +32,7 @@ class CarModel
     /**
      * @var Manufacturer
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\Manufacturer")
+     * @ORM\ManyToOne(targetEntity="App\Manufacturer\Entity\Manufacturer")
      * @ORM\JoinColumn(nullable=false)
      */
     private $manufacturer;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Landlord;
+namespace App\Manufacturer\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;

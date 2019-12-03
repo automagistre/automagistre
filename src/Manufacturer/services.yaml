@@ -1,0 +1,35 @@
+easy_admin:
+    entities:
+        Manufacturer:
+            class: App\Manufacturer\Entity\Manufacturer
+            disabled_actions: ['show']
+            label: 'Производитель'
+            search:
+                fields: ['name']
+            list:
+                title: 'Производители'
+                fields:
+                    - { property: 'id' }
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'localizedName', label: 'Название на русском' }
+                    - { property: 'logo', label: 'Logo' }
+            form:
+                fields:
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'localizedName', label: 'Название на русском' }
+                    - { property: 'logo', label: 'Logo' }
+            new:
+                title: 'Создать нового Прозводителя'
+            edit:
+                title: 'Редактировать Производителя'
+
+doctrine:
+    orm:
+        entity_managers:
+            landlord:
+                mappings:
+                    manufacturer:
+                        type: annotation
+                        prefix: App\Manufacturer\Entity
+                        dir: '%kernel.project_dir%/src/Manufacturer/Entity'
+                        is_bundle: false

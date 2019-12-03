@@ -620,29 +620,6 @@ easy_admin:
             edit:
                 title: 'Редактировать Запчасть для Прихода'
 
-        Manufacturer:
-            class: App\Entity\Landlord\Manufacturer
-            disabled_actions: ['delete', 'show']
-            label: 'Производитель'
-            search:
-                fields: ['name']
-            list:
-                title: 'Производители'
-                fields:
-                    - { property: 'id' }
-                    - { property: 'name', label: 'Название' }
-                    - { property: 'localizedName', label: 'Название на русском' }
-                    - { property: 'logo', label: 'Logo' }
-            form:
-                fields:
-                    - { property: 'name', label: 'Название' }
-                    - { property: 'localizedName', label: 'Название на русском' }
-                    - { property: 'logo', label: 'Logo' }
-            new:
-                title: 'Создать нового Прозводителя'
-            edit:
-                title: 'Редактировать Производителя'
-
         CarModel:
             class: App\Entity\Landlord\CarModel
             controller: App\Controller\EasyAdmin\CarModelController

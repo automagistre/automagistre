@@ -7,6 +7,7 @@ namespace App\Entity\Landlord;
 use App\Doctrine\ORM\Mapping\Traits\Discount;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
+use App\Manufacturer\Entity\Manufacturer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
@@ -39,7 +40,7 @@ class Part
      *
      * @Assert\NotBlank
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\Manufacturer")
+     * @ORM\ManyToOne(targetEntity="App\Manufacturer\Entity\Manufacturer")
      * @ORM\JoinColumn
      */
     private $manufacturer;

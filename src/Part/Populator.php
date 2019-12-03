@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Part;
 
-use App\Entity\Landlord\Manufacturer;
 use App\Entity\Landlord\Part;
+use App\Manufacturer\Entity\Manufacturer;
 use App\Partner\Ixora\Finder;
 use function array_filter;
 use function count;
