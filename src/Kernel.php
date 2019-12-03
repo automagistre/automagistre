@@ -7,6 +7,7 @@ namespace App;
 use App\Tenant\MetadataCompilerPass;
 use function assert;
 use function class_exists;
+use function dirname;
 use function file_exists;
 use InvalidArgumentException;
 use function is_dir;
@@ -52,17 +53,9 @@ final class Kernel extends SymfonyKernel
     /**
      * {@inheritdoc}
      */
-    public function getCacheDir(): string
+    public function getProjectDir(): string
     {
-        return $this->getProjectDir().'/var/cache/'.$this->getEnvironment();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getLogDir(): string
-    {
-        return $this->getProjectDir().'/var/logs';
+        return dirname(__DIR__);
     }
 
     public function getConfDir(): string
@@ -99,15 +92,20 @@ final class Kernel extends SymfonyKernel
         $container->setParameter('container.dumper.inline_class_loader', true);
         $container->setParameter('container.autowiring.strict_mode', true);
 
+        $env = $this->getEnvironment();
         $confDir = $this->getConfDir();
+        $projectDir = $this->getProjectDir();
 
         $loader->load($confDir.'/packages/*'.self::CONFIG_EXTS, 'glob');
 
-        if (is_dir($confDir.'/packages/'.$this->getEnvironment())) {
-            $loader->load($confDir.'/packages/'.$this->getEnvironment().'/**/*'.self::CONFIG_EXTS, 'glob');
+        if (is_dir($confDir.'/packages/'.$env)) {
+            $loader->load($confDir.'/packages/'.$env.'/**/*'.self::CONFIG_EXTS, 'glob');
         }
 
         $loader->load($confDir.'/services'.self::CONFIG_EXTS, 'glob');
-        $loader->load($confDir.'/services_'.$this->getEnvironment().self::CONFIG_EXTS, 'glob');
+        $loader->load($confDir.'/services_'.$env.self::CONFIG_EXTS, 'glob');
+
+        $loader->load($projectDir.'/src/*/services'.self::CONFIG_EXTS, 'glob');
+        $loader->load($projectDir.'/src/*/services_'.$env.self::CONFIG_EXTS, 'glob');
     }
 }
