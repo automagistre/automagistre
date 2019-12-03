@@ -21,7 +21,7 @@ final class PartRelation extends Relation
      *
      * @Assert\NotBlank
      *
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=false)
      */
     protected $id;
 
