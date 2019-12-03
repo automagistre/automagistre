@@ -6,6 +6,7 @@ namespace App\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
+use function strpos;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
@@ -17,7 +18,7 @@ final class Version20190114193249 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->skipIf('landlord' !== $this->connection->getDatabase(), 'Landlord only');
+        $this->skipIf(0 !== strpos($this->connection->getDatabase(), 'landlord'), 'Landlord only');
 
         $this->addSql('DROP INDEX UNIQ_773DE69DD17F50A6 ON car');
         $this->addSql('ALTER TABLE car DROP uuid');
@@ -37,7 +38,7 @@ final class Version20190114193249 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->skipIf('landlord' !== $this->connection->getDatabase(), 'Landlord only');
+        $this->skipIf(0 !== strpos($this->connection->getDatabase(), 'landlord'), 'Landlord only');
 
         $this->addSql('ALTER TABLE car ADD uuid BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid_binary)\'');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_773DE69DD17F50A6 ON car (uuid)');

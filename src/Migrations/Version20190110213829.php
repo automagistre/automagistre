@@ -6,6 +6,7 @@ namespace App\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
+use function strpos;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
@@ -17,7 +18,7 @@ final class Version20190110213829 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->skipIf('landlord' !== $this->connection->getDatabase(), 'Landlord only');
+        $this->skipIf(0 !== strpos($this->connection->getDatabase(), 'landlord'), 'Landlord only');
 
         $this->addSql('ALTER TABLE event CHANGE arguments arguments LONGTEXT NOT NULL COMMENT \'(DC2Type:json_array)\'');
     }

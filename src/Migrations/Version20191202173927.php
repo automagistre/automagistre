@@ -6,6 +6,7 @@ namespace App\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
+use function strpos;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
@@ -17,7 +18,7 @@ final class Version20191202173927 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->skipIf('landlord' !== $this->connection->getDatabase(), 'Landlord only');
+        $this->skipIf(0 !== strpos($this->connection->getDatabase(), 'landlord'), 'Landlord only');
 
         $this->addSql('DROP INDEX UNIQ_773DE69DB1085141 ON car');
         $this->addSql('ALTER TABLE car CHANGE vin identifier VARCHAR(17) DEFAULT NULL');
@@ -31,6 +32,8 @@ final class Version20191202173927 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
+
+        $this->skipIf(0 !== strpos($this->connection->getDatabase(), 'landlord'), 'Landlord only');
 
         $this->addSql('DROP INDEX UNIQ_773DE69D772E836A ON car');
         $this->addSql('ALTER TABLE car CHANGE identifier vin VARCHAR(17) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`');

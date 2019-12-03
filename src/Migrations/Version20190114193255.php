@@ -6,6 +6,7 @@ namespace App\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
+use function strpos;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
@@ -17,7 +18,7 @@ final class Version20190114193255 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->skipIf('tenant' !== $this->connection->getDatabase(), 'Tenant only');
+        $this->skipIf(0 !== strpos($this->connection->getDatabase(), 'tenant'), 'Tenant only');
 
         $this->addSql('ALTER TABLE orders DROP car_uuid, DROP customer_uuid, DROP closed_by_uuid, DROP created_by_uuid');
         $this->addSql('ALTER TABLE order_item DROP created_by_uuid');
@@ -42,7 +43,7 @@ final class Version20190114193255 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->skipIf('tenant' !== $this->connection->getDatabase(), 'Tenant only');
+        $this->skipIf(0 !== strpos($this->connection->getDatabase(), 'tenant'), 'Tenant only');
 
         $this->addSql('ALTER TABLE employee ADD person_uuid BINARY(16) DEFAULT NULL COMMENT \'(DC2Type:uuid_binary)\'');
         $this->addSql('ALTER TABLE expense_item ADD created_by_uuid BINARY(16) DEFAULT NULL COMMENT \'(DC2Type:uuid_binary)\'');

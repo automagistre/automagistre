@@ -475,7 +475,7 @@
     {% set _trans_parameters = { '%entity_name%':  easyadmin.entity.name|trans, '%entity_label%': easyadmin.entity.label|trans } %}
 
     {# the 'save' action is hardcoded for the 'edit' and 'new' views #}
-    <button type="submit" class="btn btn-primary action-save">
+    <button type="submit" class="btn btn-primary action-save" id="save-button">
         <i class="fa fa-save"></i> {{ 'action.save'|trans(_trans_parameters, _translation_domain) }}
     </button>
 

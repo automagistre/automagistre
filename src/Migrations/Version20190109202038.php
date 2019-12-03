@@ -6,6 +6,7 @@ namespace App\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
+use function strpos;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
@@ -17,7 +18,7 @@ final class Version20190109202038 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->skipIf('landlord' !== $this->connection->getDatabase(), 'Landlord only');
+        $this->skipIf(0 !== strpos($this->connection->getDatabase(), 'landlord'), 'Landlord only');
 
         $this->addSql('CREATE TABLE car_recommendation (id INT AUTO_INCREMENT NOT NULL, car_id INT DEFAULT NULL, worker_id INT NOT NULL, created_by_id INT NOT NULL, service VARCHAR(255) NOT NULL, expired_at DATETIME DEFAULT NULL, created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', realization_uuid BINARY(16) DEFAULT NULL COMMENT \'(DC2Type:uuid_binary)\', realization_tenant INT NOT NULL, price_amount VARCHAR(255) DEFAULT NULL, price_currency_code VARCHAR(3) DEFAULT NULL, INDEX IDX_8E4BAAF2C3C6F69F (car_id), INDEX IDX_8E4BAAF26B20BA36 (worker_id), INDEX IDX_8E4BAAF2B03A8386 (created_by_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET UTF8 COLLATE UTF8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE user_credentials (id INT AUTO_INCREMENT NOT NULL, user_id INT DEFAULT NULL, type VARCHAR(255) NOT NULL, identifier VARCHAR(255) NOT NULL, payloads LONGTEXT NOT NULL COMMENT \'(DC2Type:array)\', expired_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', INDEX IDX_531EE19BA76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET UTF8 COLLATE UTF8_unicode_ci ENGINE = InnoDB');
