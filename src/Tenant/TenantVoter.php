@@ -2,7 +2,7 @@
 
 namespace App\Tenant;
 
-use App\Entity\Landlord\User;
+use App\User\Entity\User;
 use function assert;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;

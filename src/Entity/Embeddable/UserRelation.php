@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Embeddable;
 
-use App\Entity\Landlord\User;
+use App\User\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 

@@ -1,11 +1,11 @@
 security:
     encoders:
-        App\Entity\Landlord\User: auto
+        App\User\Entity\User: auto
 
     providers:
         user_provider:
             entity:
-                class: App\Entity\Landlord\User
+                class: App\User\Entity\User
                 property: username
                 manager_name: landlord
 

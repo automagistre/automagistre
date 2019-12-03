@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Entity\Landlord\User;
 use App\Tenant\ConnectionSwitcher;
 use App\Tenant\Tenant;
+use App\User\Entity\User;
 use LogicException;
 use RuntimeException;
 use Sentry\SentryBundle\SentryBundle;

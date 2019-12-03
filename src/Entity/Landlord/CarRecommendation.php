@@ -12,6 +12,7 @@ use App\Entity\Embeddable\OrderItemServiceRelation;
 use App\Entity\Tenant\OrderItemService;
 use App\Money\PriceInterface;
 use App\Tenant\Tenant;
+use App\User\Entity\User;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

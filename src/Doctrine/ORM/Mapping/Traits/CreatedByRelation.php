@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Doctrine\ORM\Mapping\Traits;
 
 use App\Entity\Embeddable\UserRelation;
-use App\Entity\Landlord\User;
+use App\User\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;
 use Symfony\Component\Validator\Constraints as Assert;

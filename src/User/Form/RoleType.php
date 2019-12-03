@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Type;
+namespace App\User\Form;
 
 use App\Roles;
 use function array_combine;

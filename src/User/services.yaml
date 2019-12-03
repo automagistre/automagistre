@@ -1,0 +1,48 @@
+easy_admin:
+    entities:
+        User:
+            class: App\User\Entity\User
+            controller: App\User\Controller\UserController
+            disabled_actions: ['delete']
+            list:
+                max_results: 50
+                title: 'Пользователи'
+                fields:
+                    - { property: 'id', label: 'Номер', template: 'easy_admin/order/field_id.html.twig' }
+                    - { property: 'username', label: 'Имя пользователя' }
+                    - { property: 'person', label: 'ФИО' }
+            new:
+                title: 'Создать нового Пользователя'
+                form_options: { data_class: stdClass }
+                fields:
+                    - { property: 'username', label: 'Имя пользователя', type: 'email' }
+                    - { property: 'person', label: 'Клиент', type: 'easyadmin_autocomplete', type_options: { class: App\Entity\Landlord\Person } }
+                    - { property: 'password', label: 'Пароль', type: 'password', type_options: { required: true } }
+                    - { property: 'roles', label: 'Роли', type: App\User\Form\RoleType, type_options: { required: false, multiple: true, expanded: true } }
+                    - { property: 'tenants', label: 'Севрисы', type: App\Form\Type\TenantType, type_options: { required: false, multiple: true, expanded: true } }
+            show:
+                title: 'Пользователь № {{ entity.id }}'
+                form_options: { data_class: stdClass }
+                fields:
+                    - { property: 'id', label: 'ID' }
+                    - { property: 'username', label: 'Имя пользователя' }
+                    - { property: 'person', label: 'Клиент' }
+                    - { property: 'roles', label: 'Роли', template: 'easy_admin/security/field_roles.html.twig' }
+            edit:
+                title: 'Редактировать пользователя № {{ entity.id }}'
+                fields:
+                    - { property: 'username', label: 'Имя пользователя', type: 'email', type_options: { disabled: true } }
+                    - { property: 'person', label: 'Клиент', type: 'easyadmin_autocomplete', type_options: { class: App\Entity\Landlord\Person } }
+                    - { property: 'password', label: 'Пароль', type: 'password', type_options: { required: false, mapped: false } }
+                    - { property: 'roles', label: 'Роли', type: App\User\Form\RoleType, type_options: { required: false, multiple: true, expanded: true } }
+                    - { property: 'tenants', label: 'Севрисы', type: App\Form\Type\TenantType, type_options: { required: false, multiple: true, expanded: true } }
+
+doctrine:
+    orm:
+        entity_managers:
+            landlord:
+                mappings:
+                    user:
+                        type: annotation
+                        prefix: App\User\Entity
+                        dir: '%kernel.project_dir%/src/User/Entity'

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\EasyAdmin;
 
 use App\Doctrine\Registry;
-use App\Entity\Landlord\User;
 use App\Request\EntityTransformer;
 use App\State;
+use App\User\Entity\User;
 use function array_keys;
 use function array_merge;
 use Doctrine\ORM\QueryBuilder;

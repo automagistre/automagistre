@@ -7,7 +7,7 @@ namespace App\Entity\Tenant;
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\CreatedByRelation as CreatedBy;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
-use App\Entity\Landlord\User;
+use App\User\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 

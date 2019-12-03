@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Command\User;
 
 use App\Doctrine\Registry;
-use App\Entity\Landlord\User;
+use App\User\Entity\User;
 use Doctrine\ORM\EntityNotFoundException;
 use function sprintf;
 use Symfony\Component\Console\Command\Command;

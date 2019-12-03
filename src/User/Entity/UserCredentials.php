@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Landlord;
+namespace App\User\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
@@ -20,7 +20,7 @@ class UserCredentials
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\User", inversedBy="credentials")
+     * @ORM\ManyToOne(targetEntity="App\User\Entity\User", inversedBy="credentials")
      */
     private $user;
 

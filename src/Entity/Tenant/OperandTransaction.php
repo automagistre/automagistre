@@ -6,7 +6,7 @@ namespace App\Entity\Tenant;
 
 use App\Entity\Embeddable\OperandRelation;
 use App\Entity\Landlord\Operand;
-use App\Entity\Landlord\User;
+use App\User\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 

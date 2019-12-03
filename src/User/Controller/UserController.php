@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin;
+namespace App\User\Controller;
 
-use App\Entity\Landlord\User;
+use App\Controller\EasyAdmin\AbstractController;
+use App\User\Entity\User;
 use function assert;
 use stdClass;
 use Symfony\Component\Form\FormInterface;

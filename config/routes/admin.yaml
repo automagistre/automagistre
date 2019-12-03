@@ -1,5 +1,5 @@
 _security:
-    resource: '../src/Controller/Admin/SecurityController.php'
+    resource: '../src/User/Controller/SecurityController.php'
     type: annotation
 
 _home:

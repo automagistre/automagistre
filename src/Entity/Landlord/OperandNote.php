@@ -6,6 +6,7 @@ namespace App\Entity\Landlord;
 
 use App\Doctrine\ORM\Mapping\Traits\CreatedBy;
 use App\Entity\Superclass\Note;
+use App\User\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 

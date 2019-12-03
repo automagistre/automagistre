@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Entity\Landlord\User;
 use App\Tenant\Tenant;
+use App\User\Entity\User;
 use function assert;
 use function reset;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

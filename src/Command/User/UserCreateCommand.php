@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Command\User;
 
 use App\Doctrine\Registry;
-use App\Entity\Landlord\User;
+use App\User\Entity\User;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

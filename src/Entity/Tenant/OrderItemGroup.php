@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity\Tenant;
 
-use App\Entity\Landlord\User;
 use App\Money\TotalPriceInterface;
+use App\User\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use DomainException;
 use Money\Money;

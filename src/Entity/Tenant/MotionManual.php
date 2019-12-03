@@ -6,7 +6,7 @@ namespace App\Entity\Tenant;
 
 use App\Entity\Embeddable\UserRelation;
 use App\Entity\Landlord\Part;
-use App\Entity\Landlord\User;
+use App\User\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

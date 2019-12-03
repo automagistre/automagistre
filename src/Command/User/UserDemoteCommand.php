@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Command\User;
 
 use App\Doctrine\Registry;
-use App\Entity\Landlord\User;
+use App\User\Entity\User;
 use function array_flip;
 use function array_key_exists;
 use Doctrine\ORM\EntityNotFoundException;

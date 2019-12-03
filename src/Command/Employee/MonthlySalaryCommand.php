@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Command\Employee;
 
 use App\Doctrine\Registry;
-use App\Entity\Landlord\User;
 use App\Entity\Tenant\MonthlySalary;
 use App\Manager\PaymentManager;
 use App\State;
 use App\Tenant\Tenant;
+use App\User\Entity\User;
 use function date;
 use InvalidArgumentException;
 use function is_string;

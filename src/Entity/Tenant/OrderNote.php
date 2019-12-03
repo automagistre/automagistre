@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Entity\Tenant;
 
 use App\Doctrine\ORM\Mapping\Traits\CreatedByRelation as CreatedBy;
-use App\Entity\Landlord\User;
 use App\Entity\Superclass\Note;
+use App\User\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 

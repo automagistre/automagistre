@@ -8,6 +8,7 @@ use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\CreatedBy;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Tenant\Tenant;
+use App\User\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

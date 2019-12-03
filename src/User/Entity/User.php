@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Landlord;
+namespace App\User\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Entity\Landlord\Person;
 use App\Tenant\Tenant;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -57,7 +58,7 @@ class User implements UserInterface, EquatableInterface, Serializable
     /**
      * @var Collection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Landlord\UserCredentials", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\User\Entity\UserCredentials", mappedBy="user", cascade={"persist", "remove"})
      */
     private $credentials;
 

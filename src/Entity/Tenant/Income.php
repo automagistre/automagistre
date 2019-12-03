@@ -10,7 +10,7 @@ use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Entity\Embeddable\OperandRelation;
 use App\Entity\Embeddable\UserRelation;
 use App\Entity\Landlord\Operand;
-use App\Entity\Landlord\User;
+use App\User\Entity\User;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
