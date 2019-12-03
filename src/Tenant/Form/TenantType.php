@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Type;
+namespace App\Tenant\Form;
 
 use App\Tenant\Tenant;
 use Symfony\Component\Form\AbstractType;
