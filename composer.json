@@ -26,7 +26,6 @@
         "doctrine/orm": "^2.6",
         "easycorp/easyadmin-bundle": "^2.3",
         "endroid/qr-code-bundle": "^3.3",
-        "facile-it/doctrine-mysql-come-back": "^1.7",
         "lcobucci/jwt": "^3.3",
         "long-running/long-running": "^0.4.1",
         "misd/phone-number-bundle": "^1.3",

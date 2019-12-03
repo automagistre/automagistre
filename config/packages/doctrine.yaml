@@ -9,8 +9,6 @@ doctrine:
                     enum: string
                 charset:  UTF8
                 server_version: mariadb-10.4.10
-                wrapper_class: 'Facile\DoctrineMySQLComeBack\Doctrine\DBAL\Connection'
-                driver_class: 'Facile\DoctrineMySQLComeBack\Doctrine\DBAL\Driver\PDOMySql\Driver'
                 options:
                     x_reconnect_attempts: 3
                 host:     landlord
@@ -23,8 +21,6 @@ doctrine:
                     enum: string
                 charset:  UTF8
                 server_version: mariadb-10.4.10
-                wrapper_class: 'Facile\DoctrineMySQLComeBack\Doctrine\DBAL\Connection'
-                driver_class: 'Facile\DoctrineMySQLComeBack\Doctrine\DBAL\Driver\PDOMySql\Driver'
                 options:
                     x_reconnect_attempts: 3
                 host:     tenant

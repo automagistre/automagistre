@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9d873ee2eb989e79d5f1df9805fe9715",
+    "content-hash": "7ec5d59e54e3c6c63688a6a0dce76d56",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1897,56 +1897,6 @@
                 "symfony"
             ],
             "time": "2019-11-29T22:50:41+00:00"
-        },
-        {
-            "name": "facile-it/doctrine-mysql-come-back",
-            "version": "v1.8",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/facile-it/doctrine-mysql-come-back.git",
-                "reference": "2408bcb9c764a1051f60e8d7a6a1d480c06a8ff2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/facile-it/doctrine-mysql-come-back/zipball/2408bcb9c764a1051f60e8d7a6a1d480c06a8ff2",
-                "reference": "2408bcb9c764a1051f60e8d7a6a1d480c06a8ff2",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/dbal": "^2.3",
-                "php": "^5.6 || ^7.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.3",
-                "phpunit/phpunit": "^5.4.3 || ^6.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Facile\\DoctrineMySQLComeBack\\Doctrine\\DBAL\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Luca Bo",
-                    "email": "luca.boeri@facile.it"
-                }
-            ],
-            "description": "Auto reconnect on Doctrine MySql has gone away exceptions on doctrine/dbal",
-            "keywords": [
-                "Connection",
-                "doctrine",
-                "exception",
-                "has gone away",
-                "mysql",
-                "reconnect",
-                "refresh"
-            ],
-            "time": "2019-09-05T16:04:03+00:00"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -9573,9 +9523,9 @@
             "authors": [
                 {
                     "name": "Christian Weiske",
+                    "role": "Developer",
                     "email": "cweiske@cweiske.de",
-                    "homepage": "http://github.com/cweiske/jsonmapper/",
-                    "role": "Developer"
+                    "homepage": "http://github.com/cweiske/jsonmapper/"
                 }
             ],
             "description": "Map nested JSON structures onto PHP classes",
