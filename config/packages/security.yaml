@@ -15,7 +15,6 @@ security:
             security: false
 
         admin:
-            host: '%admin_host_pattern%'
             anonymous: ~
             logout:
                 path: admin_logout
@@ -27,21 +26,9 @@ security:
                 check_path: admin_login_check
                 login_path: admin_login
 
-        www:
-            anonymous: ~
-            logout:
-                path: www_logout
-                delete_cookies:
-                    PHPSESSID: ~
-            form_login:
-                provider: user_provider
-                csrf_token_generator: security.csrf.token_manager
-                check_path: www_login_check
-                login_path: www_login
-
     access_control:
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { host: '%admin_host_pattern%', roles: ROLE_EMPLOYEE }
+        - { path: ^/, roles: ROLE_EMPLOYEE }
 
     role_hierarchy:
         ROLE_SUPER_ADMIN: ROLE_ADMIN

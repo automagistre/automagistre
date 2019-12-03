@@ -1,11 +1,9 @@
 _admin:
     resource: './routes/admin.yaml'
-    condition: "request.getHost() matches '/%admin_host_pattern%/'"
     name_prefix: admin_
 
 # MUST BE LAST
 _easy_admin:
     resource: '@EasyAdminBundle/Controller/AdminController.php'
     type: annotation
-    condition: "request.getHost() matches '/%admin_host_pattern%/'"
     prefix: /{tenant}
