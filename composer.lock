@@ -5120,16 +5120,16 @@
         },
         {
             "name": "symfony/doctrine-bridge",
-            "version": "v4.4.0",
+            "version": "v4.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/doctrine-bridge.git",
-                "reference": "cfbd5233162a5d01060ae696e7c8e52f91e6028b"
+                "reference": "31c3d72f9e7a03e1b9d136084a9201c2225ee348"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/doctrine-bridge/zipball/cfbd5233162a5d01060ae696e7c8e52f91e6028b",
-                "reference": "cfbd5233162a5d01060ae696e7c8e52f91e6028b",
+                "url": "https://api.github.com/repos/symfony/doctrine-bridge/zipball/31c3d72f9e7a03e1b9d136084a9201c2225ee348",
+                "reference": "31c3d72f9e7a03e1b9d136084a9201c2225ee348",
                 "shasum": ""
             },
             "require": {
@@ -5210,7 +5210,7 @@
             ],
             "description": "Symfony Doctrine Bridge",
             "homepage": "https://symfony.com",
-            "time": "2019-11-16T18:56:08+00:00"
+            "time": "2019-12-01T08:39:58+00:00"
         },
         {
             "name": "symfony/dotenv",
