@@ -171,7 +171,7 @@ steps:
     -   name: check deploy
         image: alpine/git
         commands:
-            - if [ ${DRONE_COMMIT_SHA} != $$(git ls-remote origin HEAD | awk '{ print $1}') ]; then exit 1; fi
+            - if [ "${DRONE_COMMIT_SHA}" != "git ls-remote origin HEAD | awk '{ print $1}'" ]; then exit 1; fi
         depends_on:
             - build
             - phpunit
