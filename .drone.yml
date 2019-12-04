@@ -172,6 +172,8 @@ steps:
         image: alpine/git:1.0.7
         commands:
             - \[ "${DRONE_COMMIT_SHA}" == "$$(git ls-remote origin ${DRONE_COMMIT_BRANCH} | awk '{ print $1}')" ]
+        when:
+            branch: [ master ]
         depends_on:
             - build
             - phpunit
