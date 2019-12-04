@@ -7979,20 +7979,20 @@
         },
         {
             "name": "symfony/translation-contracts",
-            "version": "v2.0.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation-contracts.git",
-                "reference": "8feb81e6bb1a42d6a3b1429c751d291eb6d05297"
+                "reference": "8cc682ac458d75557203b2f2f14b0b92e1c744ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/8feb81e6bb1a42d6a3b1429c751d291eb6d05297",
-                "reference": "8feb81e6bb1a42d6a3b1429c751d291eb6d05297",
+                "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/8cc682ac458d75557203b2f2f14b0b92e1c744ed",
+                "reference": "8cc682ac458d75557203b2f2f14b0b92e1c744ed",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2.9"
+                "php": "^7.2.5"
             },
             "suggest": {
                 "symfony/translation-implementation": ""
@@ -8032,7 +8032,7 @@
                 "interoperability",
                 "standards"
             ],
-            "time": "2019-11-09T09:18:34+00:00"
+            "time": "2019-11-18T17:27:11+00:00"
         },
         {
             "name": "symfony/twig-bridge",
@@ -8214,16 +8214,16 @@
         },
         {
             "name": "symfony/validator",
-            "version": "v5.0.0",
+            "version": "v5.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/validator.git",
-                "reference": "4c32fbacd1652271be449be4ebc57eb5c4c8793b"
+                "reference": "09af8612c2724960b4a604b65ddfe0ec352091b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/validator/zipball/4c32fbacd1652271be449be4ebc57eb5c4c8793b",
-                "reference": "4c32fbacd1652271be449be4ebc57eb5c4c8793b",
+                "url": "https://api.github.com/repos/symfony/validator/zipball/09af8612c2724960b4a604b65ddfe0ec352091b6",
+                "reference": "09af8612c2724960b4a604b65ddfe0ec352091b6",
                 "shasum": ""
             },
             "require": {
@@ -8302,7 +8302,7 @@
             ],
             "description": "Symfony Validator Component",
             "homepage": "https://symfony.com",
-            "time": "2019-11-18T17:27:11+00:00"
+            "time": "2019-11-30T14:12:50+00:00"
         },
         {
             "name": "symfony/var-dumper",
