@@ -26,7 +26,7 @@ final class UserController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function persistEntity($entity): void
+    protected function persistEntity($entity): User
     {
         $model = $entity;
         assert($model instanceof stdClass);
@@ -37,6 +37,8 @@ final class UserController extends AbstractController
         $entity->changePassword($model->password, $this->encoderFactory->getEncoder($entity));
 
         parent::persistEntity($entity);
+
+        return $entity;
     }
 
     /**
