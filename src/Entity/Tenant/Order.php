@@ -241,11 +241,19 @@ class Order
         }
 
         return $this->items->filter(static function (OrderItem $item) use ($class, $withoutHidden) {
-            if ($withoutHidden && $item instanceof OrderItemPart && $item->isHidden()) {
+            if (!$item instanceof $class) {
                 return false;
             }
 
-            return $item instanceof $class;
+            if (
+                $withoutHidden
+                && ($item instanceof OrderItemService || $item instanceof OrderItemPart)
+                && $item->hidden
+            ) {
+                return false;
+            }
+
+            return true;
         })->toArray();
     }
 
@@ -361,10 +369,6 @@ class Order
             }
 
             $money = $money->add($item->getTotalServicePrice($withDiscount));
-
-            if ($item->isHideParts()) {
-                $money = $money->add($item->getTotalPartPrice($withDiscount));
-            }
         }
 
         return $money;
@@ -397,7 +401,7 @@ class Order
 
         /** @var OrderItemPart $item */
         foreach ($this->getItems(OrderItemPart::class) as $item) {
-            if ($excludeHidden && $item->isHidden()) {
+            if ($excludeHidden && $item->hidden) {
                 continue;
             }
 

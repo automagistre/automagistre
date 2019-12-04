@@ -33,6 +33,11 @@ final class OrderService extends OrderItemModel
         $this->discount = null;
     }
 
+    /**
+     * @var bool
+     */
+    public $hidden = false;
+
     public static function getEntityClass(): string
     {
         return OrderItemService::class;

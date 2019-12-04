@@ -22,13 +22,6 @@ class OrderItemGroup extends OrderItem implements TotalPriceInterface
      */
     private $name;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(type="boolean")
-     */
-    private $hideParts = false;
-
     public function __construct(Order $order, string $name, User $user)
     {
         parent::__construct($order, $user);
@@ -58,16 +51,6 @@ class OrderItemGroup extends OrderItem implements TotalPriceInterface
     public function getName(): string
     {
         return $this->name;
-    }
-
-    public function isHideParts(): bool
-    {
-        return $this->hideParts;
-    }
-
-    public function setHideParts(bool $hideParts): void
-    {
-        $this->hideParts = $hideParts;
     }
 
     public function getTotalPartPrice(bool $withDiscount = false): Money

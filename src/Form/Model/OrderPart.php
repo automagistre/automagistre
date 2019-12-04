@@ -36,6 +36,11 @@ final class OrderPart extends OrderItemModel
 
     public ?OperandRelation $supplier;
 
+    /**
+     * @var bool
+     */
+    public $hidden = false;
+
     public function __construct()
     {
         parent::__construct();
