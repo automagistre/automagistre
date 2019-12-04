@@ -153,6 +153,10 @@ steps:
             -   name: docker.sock
                 path: /var/run/docker.sock
         commands:
+            - |
+                if [ ${DRONE_COMMIT_SHA} = $(git ls-remote origin HEAD | awk '{ print $1}') ]; then \
+                    echo 'CAN DEPLOY';\
+                fi
             - >-
                 docker build -t "automagistre/app:${DRONE_BUILD_NUMBER}"
                 --build-arg APP_ENV="prod"
