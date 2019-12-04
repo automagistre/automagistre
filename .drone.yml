@@ -180,7 +180,6 @@ steps:
             - symfony requirements
             - doctrine schema validate
 
-
     -   name: deploy
         image: docker/compose:1.25.0-alpine
         volumes:
