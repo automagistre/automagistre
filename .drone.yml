@@ -171,8 +171,7 @@ steps:
     -   name: check deploy
         image: alpine/git
         commands:
-            - echo $$(git ls-remote origin ${DRONE_COMMIT_BRANCH} | awk '{ print $1}')
-            - if [ "${DRONE_COMMIT_SHA}" != "$$(git ls-remote origin ${DRONE_COMMIT_BRANCH} | awk '{ print $1}')" ]; then exit 1; fi
+            - \[ "${DRONE_COMMIT_SHA}" != "$$(git ls-remote origin ${DRONE_COMMIT_BRANCH} | awk '{ print $1}')" ]
         depends_on:
             - build
             - phpunit
@@ -180,7 +179,6 @@ steps:
             - psalm
             - symfony requirements
             - doctrine schema validate
-
 
     -   name: deploy
         image: docker/compose:1.25.0-alpine
