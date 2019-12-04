@@ -153,10 +153,6 @@ steps:
             -   name: docker.sock
                 path: /var/run/docker.sock
         commands:
-            - |
-                if [ ${DRONE_COMMIT_SHA} = $(git ls-remote origin HEAD | awk '{ print $1}') ]; then \
-                    echo 'CAN DEPLOY';\
-                fi
             - >-
                 docker build -t "automagistre/app:${DRONE_BUILD_NUMBER}"
                 --build-arg APP_ENV="prod"
@@ -172,6 +168,18 @@ steps:
         depends_on:
             - build base
 
+    -   name: check deploy
+        image: alpine/git
+        commands:
+            - if [ ${DRONE_COMMIT_SHA} != $(git ls-remote origin HEAD | awk '{ print $1}') ]; then exit 1; fi
+        depends_on:
+            - build
+            - phpunit
+            - phpstan
+            - psalm
+            - symfony requirements
+            - doctrine schema validate
+
     -   name: deploy
         image: docker/compose:1.25.0-alpine
         volumes:
@@ -184,12 +192,7 @@ steps:
         when:
             branch: [ master ]
         depends_on:
-            - build
-            - phpunit
-            - phpstan
-            - psalm
-            - symfony requirements
-            - doctrine schema validate
+            - check deploy
 
 services:
     -   name: landlord
