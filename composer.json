@@ -83,7 +83,8 @@
     "scripts": {
         "auto-scripts": [
             "bin/console cache:warmup",
-            "bin/console assets:install public"
+            "bin/console assets:install public",
+            "rm -rf config/routes/endroid_qr_code.yaml"
         ],
         "post-install-cmd": [
             "@auto-scripts"
