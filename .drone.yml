@@ -115,12 +115,18 @@ steps:
         depends_on:
             - install
 
-    -   name: migration
+    -   name: migration landlord
         image: automagistre/app:base
         commands:
             - $$WAIT_FOR_IT landlord:3306
-            - $$WAIT_FOR_IT tenant_msk:3306
             - bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=landlord
+        depends_on:
+            - install
+
+    -   name: migration tenant
+        image: automagistre/app:base
+        commands:
+            - $$WAIT_FOR_IT tenant_msk:3306
             - bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=msk
         depends_on:
             - install
@@ -130,15 +136,22 @@ steps:
         commands:
             - bin/console doctrine:fixtures:load --no-interaction
         depends_on:
-            - migration
+            - migration landlord
+            - migration tenant
 
-    -   name: doctrine schema validate
+    -   name: doctrine schema validate landlord
         image: automagistre/app:base
         commands:
             - bin/console doctrine:schema:validate --em=landlord
+        depends_on:
+            - migration landlord
+
+    -   name: doctrine schema validate tenant
+        image: automagistre/app:base
+        commands:
             - bin/console doctrine:schema:validate --em=tenant --tenant=msk
         depends_on:
-            - migration
+            - migration tenant
 
     -   name: phpunit
         image: automagistre/app:base
