@@ -6,7 +6,6 @@ namespace App\Controller\EasyAdmin;
 
 use App\Entity\Landlord\Car;
 use App\Entity\Tenant\Order;
-use App\Entity\Tenant\OrderItemService;
 use App\Form\Type\OrderItemServiceType;
 use function assert;
 use function in_array;
@@ -64,7 +63,6 @@ final class OrderPrintController extends AbstractController
             goto finish;
         }
 
-        /** @var OrderItemService[] $services */
         $services = $order->getServicesWithoutWorker();
 
         if ([] !== $services) {

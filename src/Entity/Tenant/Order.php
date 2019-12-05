@@ -189,13 +189,13 @@ class Order
     }
 
     /**
-     * @return OrderItemService[]
+     * @return array<int, OrderItem>
      */
     public function getServicesWithoutWorker(): array
     {
-        return $this->items->filter(static function (OrderItem $item): bool {
-            return $item instanceof OrderItemService && null === $item->getWorker();
-        })->getValues();
+        return $this->items
+            ->filter(fn ($item) => $item instanceof OrderItemService && null === $item->getWorker())
+            ->getValues();
     }
 
     public function close(User $user, ?Money $balance): void
@@ -428,8 +428,6 @@ class Order
     {
         $money = new Money(0, new Currency('RUB'));
         foreach ($this->payments as $payment) {
-            assert($payment instanceof OrderPayment);
-
             $money = $money->add($payment->getMoney());
         }
 
@@ -477,7 +475,10 @@ class Order
 
     public function getLastSuspend(): OrderSuspend
     {
-        return $this->suspends->last();
+        $last = $this->suspends->last();
+        assert($last instanceof OrderSuspend);
+
+        return $last;
     }
 
     public function getSuspends(): array
