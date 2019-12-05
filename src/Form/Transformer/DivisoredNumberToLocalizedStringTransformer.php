@@ -7,6 +7,7 @@ namespace App\Form\Transformer;
 use function is_float;
 use function is_int;
 use function is_numeric;
+use function preg_replace;
 use function strpos;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\Extension\Core\DataTransformer\NumberToLocalizedStringTransformer;
@@ -63,17 +64,12 @@ final class DivisoredNumberToLocalizedStringTransformer extends NumberToLocalize
      */
     public function reverseTransform($value): int
     {
-        /** @var int|float|null $value */
-        $value = parent::reverseTransform($value);
+        $numeric = parent::reverseTransform(preg_replace('/\s/', '', $value)) * $this->divisor;
 
-        if (is_numeric($value)) {
-            $value *= $this->divisor;
-        }
-
-        if (false !== strpos((string) $value, '.')) {
+        if (false !== strpos((string) $numeric, '.')) {
             throw new TransformationFailedException('Value must be integer after reverseTransformation');
         }
 
-        return (int) $value;
+        return (int) $numeric;
     }
 }

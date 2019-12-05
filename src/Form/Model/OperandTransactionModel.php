@@ -8,7 +8,6 @@ use App\Entity\Landlord\Operand;
 use App\Entity\Tenant\Wallet;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -24,6 +23,10 @@ final class OperandTransactionModel
 
     /**
      * @Assert\NotBlank
+     * @Assert\Expression(
+     *     expression="this.amount !== null && this.amount.isPositive()",
+     *     message="Сумма должна быть больше нуля."
+     * )
      */
     public ?Money $amount;
 
@@ -37,17 +40,5 @@ final class OperandTransactionModel
     {
         $this->amount = null;
         $this->description = null;
-    }
-
-    /**
-     * @Assert\Callback
-     */
-    public function validate(ExecutionContextInterface $context): void
-    {
-        if ($this->amount->isNegative()) {
-            $context->buildViolation('Сумма должна быть больше нуля.')
-                ->atPath('amount')
-                ->addViolation();
-        }
     }
 }
