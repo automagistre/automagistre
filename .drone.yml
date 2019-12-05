@@ -193,7 +193,8 @@ steps:
             - phpstan
             - psalm
             - symfony requirements
-            - doctrine schema validate
+            - doctrine schema validate landlord
+            - doctrine schema validate tenant
 
     -   name: deploy
         image: docker/compose:1.25.0-alpine
