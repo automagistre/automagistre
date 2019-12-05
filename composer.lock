@@ -7562,16 +7562,16 @@
         },
         {
             "name": "symfony/serializer",
-            "version": "v5.0.0",
+            "version": "v5.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/serializer.git",
-                "reference": "358b1a42f5490d96dfde5bd55ee849159993bdff"
+                "reference": "8d565a47eede00bd69f04db8050e5bae1b9553ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/serializer/zipball/358b1a42f5490d96dfde5bd55ee849159993bdff",
-                "reference": "358b1a42f5490d96dfde5bd55ee849159993bdff",
+                "url": "https://api.github.com/repos/symfony/serializer/zipball/8d565a47eede00bd69f04db8050e5bae1b9553ad",
+                "reference": "8d565a47eede00bd69f04db8050e5bae1b9553ad",
                 "shasum": ""
             },
             "require": {
@@ -7640,7 +7640,7 @@
             ],
             "description": "Symfony Serializer Component",
             "homepage": "https://symfony.com",
-            "time": "2019-11-18T17:27:11+00:00"
+            "time": "2019-11-28T14:32:28+00:00"
         },
         {
             "name": "symfony/serializer-pack",
