@@ -13,6 +13,7 @@ use App\Entity\Landlord\Operand;
 use App\User\Entity\User;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;
 use Money\Money;
@@ -49,7 +50,7 @@ class Income
     private $document;
 
     /**
-     * @var ArrayCollection
+     * @var Collection<int, IncomePart>
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Tenant\IncomePart", mappedBy="income",
      * orphanRemoval=true, cascade={"persist", "remove"})

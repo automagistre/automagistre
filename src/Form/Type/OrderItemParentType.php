@@ -14,6 +14,7 @@ use App\Form\Model\OrderPart as OrderItemPartModel;
 use App\Form\Model\OrderService as OrderItemServiceModel;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
+use Doctrine\ORM\QueryBuilder;
 use function get_class;
 use LogicException;
 use function sprintf;
@@ -43,7 +44,7 @@ final class OrderItemParentType extends AbstractType
     {
         $resolver->setDefaults([
             'class' => OrderItem::class,
-            'query_builder' => function (EntityRepository $repository) {
+            'query_builder' => function (EntityRepository $repository): QueryBuilder {
                 $request = $this->requestStack->getMasterRequest();
                 $currentItem = $request instanceof Request ? $request->attributes->get('easyadmin')['item'] : null;
 

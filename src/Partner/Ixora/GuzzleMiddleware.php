@@ -19,7 +19,7 @@ final class GuzzleMiddleware
     public static function authQuery(string $authCode): Closure
     {
         return Closure::fromCallable(Middleware::mapRequest(
-            fn (RequestInterface $request) => $request->withUri(
+            fn (RequestInterface $request): RequestInterface => $request->withUri(
                 Uri::withQueryValue($request->getUri(), 'AuthCode', $authCode)
             )
         ));
@@ -27,7 +27,7 @@ final class GuzzleMiddleware
 
     public static function logErrors(LoggerInterface $logger): Closure
     {
-        return Closure::fromCallable(Middleware::mapResponse(function (Response $response) use ($logger) {
+        return Closure::fromCallable(Middleware::mapResponse(static function (Response $response) use ($logger): Response {
             if (200 !== $response->getStatusCode()) {
                 $logger->alert('IXORA ERROR: '.$response->getBody()->getContents());
             }

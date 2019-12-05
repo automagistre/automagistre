@@ -24,13 +24,13 @@ final class StockpileManager
 
     public function actualize(array $values): void
     {
-        $values = implode(',', array_map(function (array $item) {
+        $valueString = implode(',', array_map(static function (array $item): string {
             [$partId, $tenant, $quantity] = $item;
 
             return sprintf('(%s, %s, %s)', $partId, $tenant, $quantity);
         }, $values));
 
-        $sql = "INSERT INTO stockpile (part_id, tenant, quantity) VALUES {$values} ON DUPLICATE KEY UPDATE quantity=VALUES(quantity)";
+        $sql = "INSERT INTO stockpile (part_id, tenant, quantity) VALUES {$valueString} ON DUPLICATE KEY UPDATE quantity=VALUES(quantity)";
 
         $this->registry->manager(Part::class)->getConnection()->executeQuery($sql);
     }

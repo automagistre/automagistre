@@ -105,7 +105,7 @@ class Car
     private $mileage = 0;
 
     /**
-     * @var Collection
+     * @var Collection<int, CarRecommendation>
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Landlord\CarRecommendation", mappedBy="car", cascade={"persist"})
      */
@@ -259,7 +259,7 @@ class Car
             throw new LogicException(sprintf('Collection expected to be implement %s', Selectable::class));
         }
 
-        $criteria = $criteria ?: Criteria::create()->andWhere(Criteria::expr()->isNull('expiredAt'));
+        $criteria = $criteria ?? Criteria::create()->andWhere(Criteria::expr()->isNull('expiredAt'));
 
         return $this->recommendations->matching($criteria)->getValues();
     }

@@ -42,7 +42,7 @@ abstract class OrderItem
     ];
 
     /**
-     * @var Collection
+     * @var Collection<int, OrderItem>
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Tenant\OrderItem", mappedBy="parent", cascade={"persist"},
      * orphanRemoval=true)

@@ -49,7 +49,7 @@ class CarRecommendation implements PriceInterface
     private $service;
 
     /**
-     * @var Collection
+     * @var Collection<int, CarRecommendationPart>
      *
      * @ORM\OneToMany(
      *     targetEntity="App\Entity\Landlord\CarRecommendationPart",

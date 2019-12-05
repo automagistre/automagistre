@@ -149,7 +149,7 @@ class OperandController extends AbstractController
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
-        $data = array_map(function (Operand $entity) {
+        $data = array_map(function (Operand $entity): array {
             $text = $entity->getFullName();
 
             $telephone = $entity->getTelephone();

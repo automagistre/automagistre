@@ -8,7 +8,7 @@ use App\Doctrine\ORM\Mapping\Traits\Discount;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
 use App\Manufacturer\Entity\Manufacturer;
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 use function preg_replace;
@@ -71,7 +71,7 @@ class Part
     private $universal = false;
 
     /**
-     * @var Part[]|ArrayCollection
+     * @var Collection<int, Part>
      *
      * @ORM\ManyToMany(targetEntity="App\Entity\Landlord\Part")
      * @ORM\JoinTable

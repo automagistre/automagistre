@@ -47,7 +47,7 @@ class Order
     use CreatedBy;
 
     /**
-     * @var Collection
+     * @var Collection<int, OrderItem>
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Tenant\OrderItem", mappedBy="order", cascade={"persist"},
      * orphanRemoval=true)
@@ -111,14 +111,14 @@ class Order
     private $description;
 
     /**
-     * @var Collection
+     * @var Collection<int, OrderPayment>
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Tenant\OrderPayment", mappedBy="order", cascade={"persist"})
      */
     private $payments;
 
     /**
-     * @var Collection
+     * @var Collection<int, OrderSuspend>
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Tenant\OrderSuspend", mappedBy="order", cascade={"persist", "remove"})
      */
@@ -193,7 +193,7 @@ class Order
      */
     public function getServicesWithoutWorker(): array
     {
-        return $this->items->filter(static function (OrderItem $item) {
+        return $this->items->filter(static function (OrderItem $item): bool {
             return $item instanceof OrderItemService && null === $item->getWorker();
         })->getValues();
     }
@@ -240,7 +240,7 @@ class Order
             $class = OrderItem::MAP[$class];
         }
 
-        return $this->items->filter(static function (OrderItem $item) use ($class, $withoutHidden) {
+        return $this->items->filter(static function (OrderItem $item) use ($class, $withoutHidden): bool {
             if ($withoutHidden && $item instanceof OrderItemPart && $item->isHidden()) {
                 return false;
             }

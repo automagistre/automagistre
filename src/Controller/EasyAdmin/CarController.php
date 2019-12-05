@@ -142,7 +142,7 @@ final class CarController extends AbstractController
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
-        $data = array_map(function (Car $car) use ($ownerId) {
+        $data = array_map(function (Car $car) use ($ownerId): array {
             $carModel = $car->getCarModel();
 
             $text = $carModel->getDisplayName();

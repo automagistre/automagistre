@@ -203,7 +203,7 @@ final class OrderItemServiceController extends OrderItemController
             $qb->setParameter($key, '%'.$searchString.'%');
         }
 
-        $data = array_map(function (OrderItemService $entity) {
+        $data = array_map(function (OrderItemService $entity): array {
             $price = $entity->getPrice();
 
             return [

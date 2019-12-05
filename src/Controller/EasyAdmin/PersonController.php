@@ -72,7 +72,7 @@ final class PersonController extends OperandController
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
-        $data = array_map(function (Person $person) {
+        $data = array_map(function (Person $person): array {
             $formattedTelephone = $this->formatTelephone($person->getTelephone() ?? $person->getOfficePhone());
 
             return [

@@ -31,7 +31,7 @@ class Line
     public $work;
 
     /**
-     * @var Collection
+     * @var Collection<int, Part>
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Landlord\MC\Part", mappedBy="line")
      */

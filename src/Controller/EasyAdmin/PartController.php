@@ -136,7 +136,7 @@ final class PartController extends AbstractController
             return new Response('', Response::HTTP_NO_CONTENT);
         }
 
-        return $this->json(array_map(function (PartModel $model) use ($manufacturerRepository) {
+        return $this->json(array_map(function (PartModel $model) use ($manufacturerRepository): array {
             $manufacturer = $manufacturerRepository->findOneBy(['name' => $model->manufacturer]);
             if (!$manufacturer instanceof Manufacturer) {
                 $manufacturer = new Manufacturer();

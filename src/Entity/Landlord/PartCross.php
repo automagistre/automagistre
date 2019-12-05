@@ -17,7 +17,7 @@ class PartCross
     use Identity;
 
     /**
-     * @var Collection
+     * @var Collection<int, Part>
      *
      * @ORM\ManyToMany(targetEntity="App\Entity\Landlord\Part")
      * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})

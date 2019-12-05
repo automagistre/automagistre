@@ -43,7 +43,7 @@ class Equipment
     public $period;
 
     /**
-     * @var Collection
+     * @var Collection<int, Line>
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Landlord\MC\Line", mappedBy="equipment")
      */
