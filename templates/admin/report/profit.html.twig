@@ -52,7 +52,7 @@
                         <tbody>
                         {% for order in orders %}
                             <tr>
-                                <td rowspan="2">{{ order.closed_at|date('Y-m-d')|localizeddate('short', 'none') }}</td>
+                                <td rowspan="2">{{ order.closed_at|date('Y-m-d')|format_date('short', 'none') }}</td>
                                 <td rowspan="2">
                                     <a href="{{ easyadmin_path('Order', 'show', {'id': order.id}) }}">
                                         #{{ order.id }}</a>

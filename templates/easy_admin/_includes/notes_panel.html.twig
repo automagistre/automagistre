@@ -32,7 +32,7 @@
                                     {% endif %}
                                 {%- endapply %}
                             </td>
-                            <td>{{ note.createdAt|localizeddate }}</td>
+                            <td>{{ note.createdAt|format_date }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
