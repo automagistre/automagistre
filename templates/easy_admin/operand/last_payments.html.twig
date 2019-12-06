@@ -26,7 +26,7 @@
                             <td>{{ payment.amount|localize_money }}</td>
                             <td>{{ payment.description }}</td>
                             <td>{{ payment.subtotal|localize_money }}</td>
-                            <td>{{ payment.createdAt|localizeddate }}</td>
+                            <td>{{ payment.createdAt|format_date }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
