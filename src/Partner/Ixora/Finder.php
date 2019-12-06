@@ -6,6 +6,7 @@ namespace App\Partner\Ixora;
 
 use App\Model\Part;
 use App\Utils\StringUtils;
+use Sentry\SentryBundle\SentryBundle;
 use function array_key_exists;
 use function array_values;
 use GuzzleHttp\ClientInterface;
@@ -50,6 +51,8 @@ final class Finder
                 ],
             ])->getBody()->getContents();
         } catch (ServerException $e) {
+            SentryBundle::getCurrentHub()->captureException($e);
+
             return [];
         }
 
