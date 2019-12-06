@@ -504,7 +504,6 @@ easy_admin:
             disabled_actions: ['delete']
             label: 'Запчасти'
             templates:
-                new: 'easy_admin/part/new.html.twig'
                 show: 'easy_admin/part/show.html.twig'
             show:
                 title: 'Запчасть № {{ entity.id }}'

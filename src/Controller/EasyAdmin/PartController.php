@@ -20,12 +20,8 @@ use App\Form\Type\QuantityType;
 use App\Manager\DeficitManager;
 use App\Manager\PartManager;
 use App\Manager\ReservationManager;
-use App\Manufacturer\Entity\Manufacturer;
-use App\Model\Part as PartModel;
-use App\Partner\Ixora\Finder;
 use App\Roles;
 use App\State;
-use function array_filter;
 use function array_keys;
 use function array_map;
 use function assert;
@@ -44,7 +40,6 @@ use function strpos;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Validator\Constraints;
 use function trim;
 use function urldecode;
@@ -58,8 +53,6 @@ final class PartController extends AbstractController
 
     private PartManager $partManager;
 
-    private Finder $finder;
-
     private MoneyFormatter $formatter;
 
     private ReservationManager $reservationManager;
@@ -67,13 +60,11 @@ final class PartController extends AbstractController
     public function __construct(
         DeficitManager $deficitManager,
         PartManager $partManager,
-        Finder $finder,
         MoneyFormatter $formatter,
         ReservationManager $reservationManager
     ) {
         $this->deficitManager = $deficitManager;
         $this->partManager = $partManager;
-        $this->finder = $finder;
         $this->formatter = $formatter;
         $this->reservationManager = $reservationManager;
     }
@@ -120,39 +111,6 @@ final class PartController extends AbstractController
         $this->partManager->uncross($part);
 
         return $this->redirectToReferrer();
-    }
-
-    public function numberSearchAction(): Response
-    {
-        if (null === $number = $this->request->query->get('number')) {
-            throw new BadRequestHttpException();
-        }
-
-        $manufacturerRepository = $this->em->getRepository(Manufacturer::class);
-
-        $parts = $this->finder->search($number);
-
-        if ([] === $parts) {
-            return new Response('', Response::HTTP_NO_CONTENT);
-        }
-
-        return $this->json(array_map(function (PartModel $model) use ($manufacturerRepository): array {
-            $manufacturer = $manufacturerRepository->findOneBy(['name' => $model->manufacturer]);
-            if (!$manufacturer instanceof Manufacturer) {
-                $manufacturer = new Manufacturer();
-                $manufacturer->setName($model->manufacturer);
-                $this->em->persist($manufacturer);
-            }
-
-            return [
-                'manufacturer' => [
-                    'id' => $manufacturer->getId(),
-                    'name' => $manufacturer->getName(),
-                ],
-                'name' => $model->name,
-                'number' => $model->number,
-            ];
-        }, array_filter($parts, fn (PartModel $model) => false !== strpos($model->number, $number))));
     }
 
     public function stockAction(): Response

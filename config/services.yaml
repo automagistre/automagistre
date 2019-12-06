@@ -26,15 +26,6 @@ services:
         tags:
             - { name: controller.service_arguments }
 
-    App\Partner\Ixora\Finder:
-        arguments:
-            - '@csa_guzzle.client.ixora_ws'
-
-    App\Partner\Ixora\Orders:
-        arguments:
-            - '@csa_guzzle.client.ixora_ws'
-            - '@serializer'
-
     Symfony\Bridge\Doctrine\Form\DoctrineOrmTypeGuesser:
         alias: easyadmin.form.guesser.missing_doctrine_orm_type_guesser
 
