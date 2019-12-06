@@ -26,7 +26,7 @@ final class EntityModelTypeGuesser implements FormTypeGuesserInterface
     /**
      * {@inheritdoc}
      */
-    public function guessType($class, $property)
+    public function guessType(string $class, string $property)
     {
         return $this->guess(__FUNCTION__, $class, $property);
     }
@@ -34,7 +34,7 @@ final class EntityModelTypeGuesser implements FormTypeGuesserInterface
     /**
      * {@inheritdoc}
      */
-    public function guessRequired($class, $property)
+    public function guessRequired(string $class, string $property)
     {
         return $this->guess(__FUNCTION__, $class, $property);
     }
@@ -42,7 +42,7 @@ final class EntityModelTypeGuesser implements FormTypeGuesserInterface
     /**
      * {@inheritdoc}
      */
-    public function guessMaxLength($class, $property)
+    public function guessMaxLength(string $class, string $property)
     {
         return $this->guess(__FUNCTION__, $class, $property);
     }
@@ -50,7 +50,7 @@ final class EntityModelTypeGuesser implements FormTypeGuesserInterface
     /**
      * {@inheritdoc}
      */
-    public function guessPattern($class, $property)
+    public function guessPattern(string $class, string $property)
     {
         return $this->guess(__FUNCTION__, $class, $property);
     }
