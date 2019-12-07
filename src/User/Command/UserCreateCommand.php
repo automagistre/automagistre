@@ -2,33 +2,33 @@
 
 declare(strict_types=1);
 
-namespace App\Command\User;
+namespace App\User\Command;
 
 use App\Doctrine\Registry;
 use App\User\Entity\User;
-use function array_flip;
-use function array_key_exists;
-use Doctrine\ORM\EntityNotFoundException;
-use function sprintf;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class UserDemoteCommand extends Command
+final class UserCreateCommand extends Command
 {
-    protected static $defaultName = 'user:demote';
+    protected static $defaultName = 'user:create';
 
     private Registry $registry;
 
-    public function __construct(Registry $registry)
+    private EncoderFactoryInterface $encoderFactory;
+
+    public function __construct(Registry $registry, EncoderFactoryInterface $encoderFactory)
     {
         parent::__construct();
 
         $this->registry = $registry;
+        $this->encoderFactory = $encoderFactory;
     }
 
     /**
@@ -36,9 +36,9 @@ final class UserDemoteCommand extends Command
      */
     protected function configure(): void
     {
-        $this
-            ->setName('user:demote')
+        $this->setName('user:create')
             ->addArgument('username', InputArgument::REQUIRED)
+            ->addArgument('password', InputArgument::REQUIRED)
             ->addArgument('roles', InputArgument::IS_ARRAY);
     }
 
@@ -49,23 +49,17 @@ final class UserDemoteCommand extends Command
     {
         $em = $this->registry->manager(User::class);
 
-        ['username' => $username, 'roles' => $roles] = $input->getArguments();
+        ['username' => $username, 'password' => $password] = $input->getArguments();
 
-        $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
+        $user = new User();
+        $user->setUsername($username);
+        $user->changePassword($password, $this->encoderFactory->getEncoder($user));
 
-        if (!$user instanceof User) {
-            throw new EntityNotFoundException(sprintf('User with username "%s" not found.', $username));
+        foreach ((array) $input->getArgument('roles') as $role) {
+            $user->addRole($role);
         }
 
-        $currentRoles = array_flip($user->getRoles());
-        foreach ($roles as $role) {
-            if (array_key_exists($role, $currentRoles)) {
-                unset($currentRoles[$role]);
-            }
-        }
-
-        $user->setRoles($currentRoles);
-
+        $em->persist($user);
         $em->flush();
 
         return 0;

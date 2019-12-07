@@ -2,33 +2,31 @@
 
 declare(strict_types=1);
 
-namespace App\Command\User;
+namespace App\User\Command;
 
 use App\Doctrine\Registry;
 use App\User\Entity\User;
+use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
+use function sprintf;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class UserCreateCommand extends Command
+final class UserPromoteCommand extends Command
 {
-    protected static $defaultName = 'user:create';
+    protected static $defaultName = 'user:promote';
 
     private Registry $registry;
 
-    private EncoderFactoryInterface $encoderFactory;
-
-    public function __construct(Registry $registry, EncoderFactoryInterface $encoderFactory)
+    public function __construct(Registry $registry)
     {
         parent::__construct();
 
         $this->registry = $registry;
-        $this->encoderFactory = $encoderFactory;
     }
 
     /**
@@ -36,9 +34,9 @@ final class UserCreateCommand extends Command
      */
     protected function configure(): void
     {
-        $this->setName('user:create')
+        $this
+            ->setName('user:promote')
             ->addArgument('username', InputArgument::REQUIRED)
-            ->addArgument('password', InputArgument::REQUIRED)
             ->addArgument('roles', InputArgument::IS_ARRAY);
     }
 
@@ -49,17 +47,18 @@ final class UserCreateCommand extends Command
     {
         $em = $this->registry->manager(User::class);
 
-        ['username' => $username, 'password' => $password] = $input->getArguments();
+        ['username' => $username, 'roles' => $roles] = $input->getArguments();
 
-        $user = new User();
-        $user->setUsername($username);
-        $user->changePassword($password, $this->encoderFactory->getEncoder($user));
+        $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
 
-        foreach ((array) $input->getArgument('roles') as $role) {
+        if (!$user instanceof User) {
+            throw new EntityNotFoundException(sprintf('User with username "%s" not found.', $username));
+        }
+
+        foreach ($roles as $role) {
             $user->addRole($role);
         }
 
-        $em->persist($user);
         $em->flush();
 
         return 0;

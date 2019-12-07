@@ -2,35 +2,33 @@
 
 declare(strict_types=1);
 
-namespace App\Command\User;
+namespace App\User\Command;
 
 use App\Doctrine\Registry;
 use App\User\Entity\User;
 use Doctrine\ORM\EntityNotFoundException;
-use function sprintf;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
+use function array_flip;
+use function array_key_exists;
+use function sprintf;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class UserChangePasswordCommand extends Command
+final class UserDemoteCommand extends Command
 {
-    protected static $defaultName = 'user:change-password';
+    protected static $defaultName = 'user:demote';
 
     private Registry $registry;
 
-    private EncoderFactoryInterface $encoderFactory;
-
-    public function __construct(Registry $registry, EncoderFactoryInterface $encoderFactory)
+    public function __construct(Registry $registry)
     {
         parent::__construct();
 
         $this->registry = $registry;
-        $this->encoderFactory = $encoderFactory;
     }
 
     /**
@@ -39,9 +37,9 @@ final class UserChangePasswordCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('user:change-password')
+            ->setName('user:demote')
             ->addArgument('username', InputArgument::REQUIRED)
-            ->addArgument('password', InputArgument::REQUIRED);
+            ->addArgument('roles', InputArgument::IS_ARRAY);
     }
 
     /**
@@ -51,7 +49,7 @@ final class UserChangePasswordCommand extends Command
     {
         $em = $this->registry->manager(User::class);
 
-        ['username' => $username, 'password' => $password] = $input->getArguments();
+        ['username' => $username, 'roles' => $roles] = $input->getArguments();
 
         $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
 
@@ -59,7 +57,14 @@ final class UserChangePasswordCommand extends Command
             throw new EntityNotFoundException(sprintf('User with username "%s" not found.', $username));
         }
 
-        $user->changePassword($password, $this->encoderFactory->getEncoder($user));
+        $currentRoles = array_flip($user->getRoles());
+        foreach ($roles as $role) {
+            if (array_key_exists($role, $currentRoles)) {
+                unset($currentRoles[$role]);
+            }
+        }
+
+        $user->setRoles($currentRoles);
 
         $em->flush();
 
