@@ -34,8 +34,19 @@ final class NamespaceNamingStrategy extends UnderscoreNamingStrategy
             return parent::classToTableName($className);
         }
 
-        $namespace = StringUtils::underscore(str_replace(self::SEARCH, '', $className));
+        $namespace = $this->underscore(str_replace(self::SEARCH, '', $className));
 
         return implode('_', explode('\\', $namespace));
+    }
+
+    private function underscore(string $string, int $case = CASE_LOWER): string
+    {
+        $string = preg_replace('/(?<=[a-z])([A-Z])/', '_$1', $string);
+
+        if (CASE_UPPER === $case) {
+            return strtoupper($string);
+        }
+
+        return strtolower($string);
     }
 }

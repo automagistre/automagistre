@@ -2,9 +2,10 @@
     {%- apply spaceless %}
         {{ value -}}
 
-        {% set referer = app.request.uri %}
+        {% set referer = true %}
         {% if lineIndex is defined and lineIndex is not empty %}
-            {% set referer = referer|add_query('lineIndex', lineIndex) %}
+            {% set queries = app.request.query.all() %}
+            {% set referer = easyadmin_path(queries.entity, queries.action, queries|merge({'lineIndex': lineIndex})) %}
         {% endif %}
 
         <a href="{{ path('admin_part_explorer', {'partnumber': value, 'referer': referer}) }}">
