@@ -18,12 +18,13 @@ final class EntityChecker
         $this->registry = $registry;
     }
 
-    /**
-     * @param object|string $entity
-     */
-    public function isTenantEntity($entity): bool
+    public function isTenantEntity(string $entity): bool
     {
-        return $this->registry->isEntity($entity)
-            && 'tenant' === $this->registry->manager($entity)->getConnection()->getDatabase();
+        $manager = $this->registry->managerOrNull($entity);
+        if (null === $manager) {
+            return false;
+        }
+
+        return 'tenant' === $manager->getConnection()->getDatabase();
     }
 }

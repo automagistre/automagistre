@@ -11,5 +11,8 @@ interface Transactional
 {
     public function __toString(): string;
 
+    /**
+     * @psalm-return class-string
+     */
     public function getTransactionClass(): string;
 }

@@ -10,9 +10,11 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use function get_class;
 use function is_object;
 use LogicException;
+use function str_replace;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -27,11 +29,11 @@ final class Registry
     }
 
     /**
-     * @param object|string $entity
+     * @psalm-param class-string $class
      */
-    public function manager($entity): EntityManagerInterface
+    public function manager(string $class): EntityManagerInterface
     {
-        $em = $this->managerOrNull($entity);
+        $em = $this->managerOrNull($class);
 
         if (!$em instanceof EntityManagerInterface) {
             throw new LogicException('EntityManager expected');
@@ -40,32 +42,27 @@ final class Registry
         return $em;
     }
 
-    /**
-     * @param object|string $entity
-     */
-    public function managerOrNull($entity): ?EntityManagerInterface
+    public function managerOrNull(string $class): ?EntityManagerInterface
     {
-        $em = $this->registry->getManagerForClass($this->entityToString($entity));
+        $em = $this->registry->getManagerForClass($this->class($class));
         if (null === $em) {
             return null;
         }
 
-        if (!$em instanceof EntityManagerInterface) {
-            throw new LogicException('EntityManagerInterface expected.');
-        }
+        assert($em instanceof EntityManagerInterface);
 
         return $em;
     }
 
     /**
-     * @param object|string $entity
+     * @template T
+     *
+     * @psalm-param class-string<T> $class
+     *
+     * @psalm-return EntityRepository<T>
      */
-    public function repository($entity): EntityRepository
+    public function repository(string $class): EntityRepository
     {
-        $class = $this->entityToString($entity);
-
-        assert(class_exists($class));
-
         return $this->manager($class)->getRepository($class);
     }
 
@@ -74,22 +71,26 @@ final class Registry
      */
     public function class($entity): string
     {
-        return $this->classMetaData($entity)->getName();
+        return is_object($entity)
+                ? str_replace('Proxies\\__CG__\\', '', get_class($entity))
+                : $entity;
     }
 
     /**
      * @param object|string $entity
      */
-    public function classMetaData($entity): ClassMetadata
+    public function classMetaData($entity): ClassMetadataInfo
     {
-        $class = $this->entityToString($entity);
+        $class = $this->class($entity);
 
         assert(class_exists($class));
 
-        return $this->manager($entity)->getClassMetadata($class);
+        return $this->manager($class)->getClassMetadata($class);
     }
 
     /**
+     * @deprecated Must be removed with EventsListener
+     *
      * @param mixed $entity
      */
     public function isEntity($entity): bool
@@ -103,13 +104,5 @@ final class Registry
         }
 
         return null !== $this->managerOrNull($entity);
-    }
-
-    /**
-     * @param object|string $entity
-     */
-    private function entityToString($entity): string
-    {
-        return is_object($entity) ? get_class($entity) : $entity;
     }
 }

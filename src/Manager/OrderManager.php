@@ -45,7 +45,7 @@ final class OrderManager
 
     public function close(Order $order): void
     {
-        $em = $this->registry->manager($order);
+        $em = $this->registry->manager(Order::class);
 
         $em->transactional(function (EntityManagerInterface $em) use ($order): void {
             $em->refresh($order);

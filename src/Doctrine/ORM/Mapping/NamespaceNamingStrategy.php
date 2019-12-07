@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Doctrine\ORM\Mapping;
 
-use App\Utils\StringUtils;
 use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
 use function explode;
 use function implode;
+use function preg_replace;
 use function str_replace;
 use function strpos;
+use function strtolower;
+use function strtoupper;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>

@@ -17,6 +17,7 @@ use App\User\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use DomainException;
 use Generator;
+use function get_class;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -66,7 +67,7 @@ final class RecommendationManager
         $em->flush();
 
         $recommendation->realize($orderItemService, $this->state->tenant());
-        $this->registry->manager($recommendation)->flush();
+        $this->registry->manager(get_class($recommendation))->flush();
 
         foreach ($orderItemParts as $orderItemPart) {
             try {

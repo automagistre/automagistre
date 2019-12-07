@@ -13,9 +13,15 @@ parameters:
         - %rootDir%/../../../src/Command/TestCommand.php
         - %rootDir%/../../../src/Controller/TestController.php
         - %rootDir%/../../../src/Tenant/MetadataCompilerPass.php
+        - %rootDir%/../../../src/Form/TypeGuesser/EntityModelTypeGuesser.php
     ignoreErrors:
         - '#should be contravariant with parameter#'
-        - '#Variable method call on Symfony\\Bridge\\Doctrine\\Form\\DoctrineOrmTypeGuesser#'
         - "#connection'|'db'|'em' will always evaluate to true#"
+        - "#no value type specified in iterable type#"
+        - "#with mixed will always evaluate to false#"
+        - "#Unable to resolve the template type T in call to method#"
+        - "#PersistentCollection will always evaluate to false#"
+        - "#Result of && is always false#"
+        - "#FormView, array given#"
     symfony:
         container_xml_path: %rootDir%/../../../var/cache/test/srcApp_KernelTestDebugContainer.xml

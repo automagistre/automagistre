@@ -23,10 +23,7 @@ final class TenantExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            /**
-             * @param object|string $entity
-             */
-            new TwigFunction('is_tenant_class', fn (string $entity): bool => $this->entityChecker->isTenantEntity($entity)),
+            new TwigFunction('is_tenant_class', fn (string $class): bool => $this->entityChecker->isTenantEntity($class)),
         ];
     }
 }

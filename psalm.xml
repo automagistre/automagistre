@@ -26,6 +26,7 @@
 
         <PropertyNotSetInConstructor errorLevel="info"/>
         <DeprecatedClass errorLevel="info"/>
+        <DeprecatedMethod errorLevel="info"/>
 
         <PossiblyNullArrayOffset errorLevel="info"/>
         <PossiblyNullOperand errorLevel="info"/>

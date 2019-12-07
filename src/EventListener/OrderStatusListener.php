@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use App\Doctrine\Registry;
+use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItemPart;
 use App\Entity\Tenant\Reservation;
 use App\Enum\OrderStatus;
@@ -67,7 +68,7 @@ final class OrderStatusListener implements EventSubscriberInterface
             }
         }
 
-        $em = $this->registry->manager($order);
+        $em = $this->registry->manager(Order::class);
 
         $order->setStatus(OrderStatus::notification());
         $em->flush();
