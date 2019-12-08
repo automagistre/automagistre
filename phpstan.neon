@@ -20,8 +20,6 @@ parameters:
         - "#no value type specified in iterable type#"
         - "#with mixed will always evaluate to false#"
         - "#Unable to resolve the template type T in call to method#"
-        - "#PersistentCollection will always evaluate to false#"
-        - "#Result of && is always false#"
         - "#FormView, array given#"
     symfony:
         container_xml_path: %rootDir%/../../../var/cache/test/srcApp_KernelTestDebugContainer.xml
