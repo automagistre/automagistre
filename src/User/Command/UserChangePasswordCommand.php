@@ -7,12 +7,12 @@ namespace App\User\Command;
 use App\Doctrine\Registry;
 use App\User\Entity\User;
 use Doctrine\ORM\EntityNotFoundException;
+use function sprintf;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
-use function sprintf;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
