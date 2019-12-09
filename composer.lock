@@ -8920,16 +8920,16 @@
         },
         {
             "name": "dama/doctrine-test-bundle",
-            "version": "v6.3.0",
+            "version": "v6.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dmaicher/doctrine-test-bundle.git",
-                "reference": "903ec9c7025b3d0194adaaa9e19da5a527f388c9"
+                "reference": "13eaeacf5bda4fd716c5d6d8ec6bf7bac89d3947"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dmaicher/doctrine-test-bundle/zipball/903ec9c7025b3d0194adaaa9e19da5a527f388c9",
-                "reference": "903ec9c7025b3d0194adaaa9e19da5a527f388c9",
+                "url": "https://api.github.com/repos/dmaicher/doctrine-test-bundle/zipball/13eaeacf5bda4fd716c5d6d8ec6bf7bac89d3947",
+                "reference": "13eaeacf5bda4fd716c5d6d8ec6bf7bac89d3947",
                 "shasum": ""
             },
             "require": {
@@ -8973,7 +8973,7 @@
                 "symfony",
                 "tests"
             ],
-            "time": "2019-12-08T22:13:49+00:00"
+            "time": "2019-12-09T22:53:03+00:00"
         },
         {
             "name": "doctrine/data-fixtures",
