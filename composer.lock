@@ -1299,16 +1299,16 @@
         },
         {
             "name": "doctrine/persistence",
-            "version": "1.3.1",
+            "version": "1.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/persistence.git",
-                "reference": "5fde0b8c1261e5089ece1525e68be2be27c8b2a6"
+                "reference": "99b196bbd4715a94fa100fac664a351ffa46d6a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/persistence/zipball/5fde0b8c1261e5089ece1525e68be2be27c8b2a6",
-                "reference": "5fde0b8c1261e5089ece1525e68be2be27c8b2a6",
+                "url": "https://api.github.com/repos/doctrine/persistence/zipball/99b196bbd4715a94fa100fac664a351ffa46d6a5",
+                "reference": "99b196bbd4715a94fa100fac664a351ffa46d6a5",
                 "shasum": ""
             },
             "require": {
@@ -1378,7 +1378,7 @@
                 "orm",
                 "persistence"
             ],
-            "time": "2019-12-13T07:19:40+00:00"
+            "time": "2019-12-13T10:43:02+00:00"
         },
         {
             "name": "doctrine/reflection",
