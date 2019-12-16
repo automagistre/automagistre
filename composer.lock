@@ -1705,16 +1705,16 @@
         },
         {
             "name": "endroid/qr-code-bundle",
-            "version": "3.4.0",
+            "version": "3.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/endroid/qr-code-bundle.git",
-                "reference": "e853ba6c87b5cb1386e58015c26edd0da7bbc780"
+                "reference": "2399c5d36675c18689d75df6f38963f2e7cbd40d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endroid/qr-code-bundle/zipball/e853ba6c87b5cb1386e58015c26edd0da7bbc780",
-                "reference": "e853ba6c87b5cb1386e58015c26edd0da7bbc780",
+                "url": "https://api.github.com/repos/endroid/qr-code-bundle/zipball/2399c5d36675c18689d75df6f38963f2e7cbd40d",
+                "reference": "2399c5d36675c18689d75df6f38963f2e7cbd40d",
                 "shasum": ""
             },
             "require": {
@@ -1759,7 +1759,7 @@
                 "qr",
                 "symfony"
             ],
-            "time": "2019-11-29T22:50:41+00:00"
+            "time": "2019-12-16T14:20:09+00:00"
         },
         {
             "name": "gedmo/doctrine-extensions",
