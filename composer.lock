@@ -717,16 +717,16 @@
         },
         {
             "name": "doctrine/doctrine-bundle",
-            "version": "2.0.3",
+            "version": "2.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineBundle.git",
-                "reference": "651107e96680f8c600ea54f6389bf907a9f558f0"
+                "reference": "522c166a464750d087f905af3e63dbc40a980fee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/651107e96680f8c600ea54f6389bf907a9f558f0",
-                "reference": "651107e96680f8c600ea54f6389bf907a9f558f0",
+                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/522c166a464750d087f905af3e63dbc40a980fee",
+                "reference": "522c166a464750d087f905af3e63dbc40a980fee",
                 "shasum": ""
             },
             "require": {
@@ -749,6 +749,7 @@
             "require-dev": {
                 "doctrine/coding-standard": "^6.0",
                 "doctrine/orm": "^2.6",
+                "ocramius/proxy-manager": "^2.1",
                 "phpunit/phpunit": "^7.5",
                 "symfony/phpunit-bridge": "^4.2",
                 "symfony/property-info": "^4.3.3|^5.0",
@@ -803,7 +804,7 @@
                 "orm",
                 "persistence"
             ],
-            "time": "2019-12-18T14:10:47+00:00"
+            "time": "2019-12-18T18:20:58+00:00"
         },
         {
             "name": "doctrine/doctrine-migrations-bundle",
