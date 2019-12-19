@@ -26,7 +26,7 @@ RUN set -ex \
     && rm -r /var/lib/apt/lists/*
 
 RUN set -ex \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg-dir=/usr/include \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) zip pdo_mysql iconv opcache pcntl gd
 
 RUN set -ex \
