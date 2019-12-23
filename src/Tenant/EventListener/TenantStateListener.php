@@ -74,7 +74,7 @@ final class TenantStateListener implements EventSubscriberInterface
 
         if (!$this->authorizationChecker->isGranted('ACCESS', $tenant)) {
             throw new AccessDeniedHttpException(
-                sprintf('You are not permitted to access "%s" tenant', $tenant->getName())
+                sprintf('You are not permitted to access "%s" tenant', $tenant->toName())
             );
         }
     }
@@ -82,6 +82,10 @@ final class TenantStateListener implements EventSubscriberInterface
     public function onConsoleCommand(ConsoleCommandEvent $event): void
     {
         $command = $event->getCommand();
+        if (null === $command) {
+            return;
+        }
+
         $input = $event->getInput();
 
         $command->getDefinition()->addOption(
@@ -120,7 +124,7 @@ final class TenantStateListener implements EventSubscriberInterface
             return;
         }
 
-        $parameters['tenant'] = $this->state->tenant()->getIdentifier();
+        $parameters['tenant'] = $this->state->tenant()->toIdentifier();
 
         $event->setArguments(['name' => $name, 'parameters' => $parameters, 'referenceType' => $referenceType]);
     }

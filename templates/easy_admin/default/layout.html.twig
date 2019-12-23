@@ -77,7 +77,7 @@
 
                                         <div class="btn-group">
                                             <button type="button" class="btn" data-toggle="dropdown">
-                                                {{ current.getDisplayName() }}
+                                                {{ current.toDisplayName() }}
                                             </button>
                                             {% if tenants is not empty %}
                                                 <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -87,8 +87,8 @@
                                                     {% for tenant in tenants %}
                                                         {# @var tenant \App\Entity\Landlord\Tenant #}
                                                         <li>
-                                                            <a href="{{ path('easyadmin', app.request.query.all()|merge({'tenant': tenant.getIdentifier()})) }}">
-                                                                <i class="fa fa-link"></i> {{ tenant.getDisplayName() }}
+                                                            <a href="{{ path('easyadmin', app.request.query.all()|merge({'tenant': tenant.toIdentifier()})) }}">
+                                                                <i class="fa fa-link"></i> {{ tenant.toDisplayName() }}
                                                             </a>
                                                         </li>
                                                     {% endfor %}

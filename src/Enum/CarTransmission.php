@@ -8,6 +8,7 @@ use Premier\Enum\Enum;
 
 /**
  * @method static self unknown()
+ * @method string toCode()
  *
  * @author Konstantin Grachev <me@grachevko.ru>
  */
@@ -40,9 +41,4 @@ final class CarTransmission extends Enum
         self::AUTOMATIC_5 => 'AT-5',
         self::AUTOMATIC_7 => 'AT-7',
     ];
-
-    public function getCode(): string
-    {
-        return self::$code[$this->getId()];
-    }
 }

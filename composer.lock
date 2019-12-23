@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "38ad70caaab006aabf5330c72aecf543",
+    "content-hash": "3d4f230ac007d4ca8e9e9629a455e6fd",
     "packages": [
         {
             "name": "antishov/doctrine-extensions-bundle",
@@ -3523,16 +3523,16 @@
         },
         {
             "name": "premier/enum",
-            "version": "dev-master",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/grachevko/Enum.git",
-                "reference": "99e35d55d75b9286f60d6b38946fb5b6616ffe86"
+                "reference": "62a599cd9f7a57ad9f5caf14b2ecfa8a41c0c6c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/grachevko/Enum/zipball/99e35d55d75b9286f60d6b38946fb5b6616ffe86",
-                "reference": "99e35d55d75b9286f60d6b38946fb5b6616ffe86",
+                "url": "https://api.github.com/repos/grachevko/Enum/zipball/62a599cd9f7a57ad9f5caf14b2ecfa8a41c0c6c8",
+                "reference": "62a599cd9f7a57ad9f5caf14b2ecfa8a41c0c6c8",
                 "shasum": ""
             },
             "require": {
@@ -3571,7 +3571,7 @@
             "keywords": [
                 "enum"
             ],
-            "time": "2019-11-17T19:24:09+00:00"
+            "time": "2019-12-19T12:32:18+00:00"
         },
         {
             "name": "psr/cache",
@@ -11898,9 +11898,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "premier/enum": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

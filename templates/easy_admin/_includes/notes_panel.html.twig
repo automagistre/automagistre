@@ -19,7 +19,7 @@
                     {% for note in notes %}
                         {# @var note \App\Entity\Note #}
                         <tr>
-                            <td>{{ note.type.name }}</td>
+                            <td>{{ note.type.toName }}</td>
                             <td>{{ note.text }}</td>
                             <td>
                                 {%- apply spaceless -%}

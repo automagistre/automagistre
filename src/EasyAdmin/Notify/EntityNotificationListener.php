@@ -111,7 +111,7 @@ final class EntityNotificationListener implements EventSubscriberInterface
 
         $tenant = '';
         if ($this->entityChecker->isTenantEntity($class)) {
-            $tenant = $this->state->tenant()->getIdentifier().'/';
+            $tenant = $this->state->tenant()->toIdentifier().'/';
         }
 
         $topics = [

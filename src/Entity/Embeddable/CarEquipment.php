@@ -61,8 +61,8 @@ final class CarEquipment
         return sprintf(
             '%s %s %s',
             $this->engine->toString(),
-            $this->transmission->getCode(),
-            $this->wheelDrive->getCode()
+            $this->transmission->toCode(),
+            $this->wheelDrive->toCode()
         );
     }
 }

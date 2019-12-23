@@ -1,6 +1,6 @@
 {# @var item \App\Entity\Order #}
 
-{% set color = item.suspended ? 'default' : value.getColor %}
+{% set color = item.suspended ? 'default' : value.toColor %}
 
 {% set appointment = item.appointmentAt %}
 {% if value.isScheduling and appointment is not empty %}
@@ -11,4 +11,4 @@
     {% endif %}
 {% endif %}
 
-<span class="label label-{{ color }}">{{ value.name }}</span>
+<span class="label label-{{ color }}">{{ value.toName }}</span>

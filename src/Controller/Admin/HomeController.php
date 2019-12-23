@@ -30,7 +30,7 @@ final class HomeController extends AbstractController
         assert($tenant instanceof Tenant);
 
         return $this->redirectToRoute('easyadmin', [
-            'tenant' => $tenant->getIdentifier(),
+            'tenant' => $tenant->toIdentifier(),
         ]);
     }
 }

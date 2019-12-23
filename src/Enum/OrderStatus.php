@@ -65,7 +65,7 @@ final class OrderStatus extends Enum
 
     public function isEditable(): bool
     {
-        return self::CLOSED !== $this->getId();
+        return self::CLOSED !== $this->toId();
     }
 
     /**

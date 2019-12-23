@@ -39,7 +39,7 @@ final class State
             $this->tenant = $tenant;
 
             SentryBundle::getCurrentHub()
-                ->configureScope(fn (Scope $scope) => $scope->setTag('tenant', $tenant->getIdentifier()));
+                ->configureScope(fn (Scope $scope) => $scope->setTag('tenant', $tenant->toIdentifier()));
         }
 
         if (null === $this->tenant) {

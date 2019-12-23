@@ -105,7 +105,7 @@ class User implements UserInterface, EquatableInterface, Serializable
     public function addTenant(Tenant $tenant): void
     {
         $collection = new ArrayCollection($this->tenants);
-        $id = $tenant->getId();
+        $id = $tenant->toId();
 
         if ($collection->contains($id)) {
             return;
@@ -118,7 +118,7 @@ class User implements UserInterface, EquatableInterface, Serializable
     public function removeTenant(Tenant $tenant): void
     {
         $collection = new ArrayCollection($this->tenants);
-        $collection->removeElement($tenant->getId());
+        $collection->removeElement($tenant->toId());
 
         $this->tenants = $collection->toArray();
     }

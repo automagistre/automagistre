@@ -17,19 +17,19 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="dropdown">
-                                        <button class="btn btn-{{ status.getColor() }} dropdown-toggle" type="button"
+                                        <button class="btn btn-{{ status.toColor() }} dropdown-toggle" type="button"
                                                 id="dropdownMenu1"
                                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                            {{- status.name }}
+                                            {{- status.toName }}
                                             <span class="caret"></span>
                                         </button>
 
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                                             {% for stat in status.selectable|filter(stat => not status.eq(stat)) %}
                                                 <li>
-                                                    <a href="{{ easyadmin_path(order, 'status', {'referer': easyadmin_path(order, 'show'), 'status': stat.id}|merge(order|to_query)) }}"
-                                                       class="label-{{ stat.getColor() }}">
-                                                        {{ stat.name }}
+                                                    <a href="{{ easyadmin_path(order, 'status', {'referer': easyadmin_path(order, 'show'), 'status': stat.toId}|merge(order|to_query)) }}"
+                                                       class="label-{{ stat.toColor() }}">
+                                                        {{ stat.toName }}
                                                     </a>
                                                 </li>
                                             {% endfor %}
@@ -50,7 +50,7 @@
                             </div>
                         {% else %}
                             <div class="form-control">
-                                {{ status.name }}
+                                {{ status.toName }}
                             </div>
                         {% endif %}
                     </div>

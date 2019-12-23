@@ -31,7 +31,7 @@
         "moneyphp/money": "^3.2",
         "ocramius/doctrine-batch-utils": "^2.0",
         "odolbeau/phone-number-bundle": "^3.0",
-        "premier/enum": "dev-master",
+        "premier/enum": "^2.0",
         "sensio/framework-extra-bundle": "^5.3",
         "sensiolabs/security-checker": "^6.0",
         "sentry/sentry-symfony": "^3.0",

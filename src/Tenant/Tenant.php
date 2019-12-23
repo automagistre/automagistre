@@ -9,7 +9,8 @@ use Premier\Enum\Enum;
 
 /**
  * @method bool isSandbox()
- * @method string getDisplayName()
+ * @method string toDisplayName()
+ * @method string toIdentifier()
  * @method static Tenant msk()
  * @method static Tenant fromIdentifier(string $name)
  *
@@ -95,18 +96,13 @@ final class Tenant extends Enum
         ],
     ];
 
-    public function getIdentifier(): string
-    {
-        return self::$identifier[$this->getId()];
-    }
-
     public function getRequisites(): array
     {
         if ($this->isSandbox()) {
             return self::$requisites[self::MSK];
         }
 
-        return self::$requisites[$this->getId()];
+        return self::$requisites[$this->toId()];
     }
 
     public static function isValid(string $identifier): bool

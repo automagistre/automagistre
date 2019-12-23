@@ -39,7 +39,7 @@ final class ConnectionSwitcher
         }
 
         $this->setParams($connection, [
-            'host' => sprintf('tenant_%s', $tenant->getIdentifier()),
+            'host' => sprintf('tenant_%s', $tenant->toIdentifier()),
         ]);
 
         if ($connect) {
