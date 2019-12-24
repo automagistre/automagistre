@@ -21,7 +21,8 @@ final class NoteTypeType extends AbstractType
     {
         $resolver->setDefaults([
             'choices' => NoteType::all(),
-            'choice_label' => 'name',
+            'choice_label' => fn (NoteType $noteType) => $noteType->toName(),
+            'choice_id' => fn (NoteType $noteType) => $noteType->toId(),
             'expanded' => true,
         ]);
     }

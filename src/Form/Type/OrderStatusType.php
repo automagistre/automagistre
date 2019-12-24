@@ -21,8 +21,8 @@ final class OrderStatusType extends AbstractType
     {
         $resolver->setDefaults([
             'choices' => OrderStatus::all([OrderStatus::closed()], true),
-            'choice_label' => 'name',
-            'choice_value' => 'id',
+            'choice_label' => fn (OrderStatus $status) => $status->toName(),
+            'choice_value' => fn (OrderStatus $status) => $status->toId(),
         ]);
     }
 
