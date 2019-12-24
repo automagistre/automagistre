@@ -231,7 +231,7 @@
                 {% set buildTime = build_time() %}
                 <footer class="main-footer">
                     <div class="pull-right hidden-xs">
-                        Сборка от {{ buildTime|format_date('medium', 'short', null, 'Europe/Moscow') }}
+                        Сборка от {{ buildTime|format_datetime('medium', 'short', '', 'Europe/Moscow') }}
                     </div>
                     <strong>Copyright © 2017 - {{ buildTime|date('Y') }} <a href="//www.automagistre.ru">Автомагистр</a>.</strong>
                 </footer>
