@@ -21,8 +21,8 @@ final class EngineTypeType extends AbstractType
     {
         $resolver->setDefaults([
             'choices' => EngineType::all(),
-            'choice_label' => 'name',
-            'choice_value' => 'id',
+            'choice_label' => fn (EngineType $engineType) => $engineType->toName(),
+            'choice_value' => fn (EngineType $engineType) => $engineType->toId(),
             'placeholder' => null,
         ]);
     }

@@ -21,8 +21,8 @@ final class CarWheelDriveType extends AbstractType
     {
         $resolver->setDefaults([
             'choices' => CarWheelDrive::all(),
-            'choice_label' => 'name',
-            'choice_value' => 'id',
+            'choice_label' => fn (CarWheelDrive $carWheelDrive) => $carWheelDrive->toName(),
+            'choice_value' => fn (CarWheelDrive $carWheelDrive) => $carWheelDrive->toId(),
         ]);
     }
 
