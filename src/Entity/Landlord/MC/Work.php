@@ -17,25 +17,19 @@ class Work
     use Identity;
 
     /**
-     * @var string
-     *
      * @ORM\Column
      */
-    public $name;
+    public ?string $name = null;
 
     /**
-     * @var string|null
-     *
      * @ORM\Column(nullable=true)
      */
-    public $description;
+    public ?string $description = null;
 
     /**
-     * @var Money
-     *
      * @ORM\Embedded(class="Money\Money")
      */
-    public $price;
+    public ?Money $price = null;
 
     public function __toString(): string
     {
@@ -45,6 +39,6 @@ class Work
             $string .= sprintf(' (%s)', $this->description);
         }
 
-        return $string;
+        return $string ?? '';
     }
 }

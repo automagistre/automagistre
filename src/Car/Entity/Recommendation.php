@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Landlord;
+namespace App\Car\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\CreatedBy;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
 use App\Entity\Embeddable\OrderItemServiceRelation;
+use App\Entity\Landlord\Operand;
 use App\Entity\Tenant\OrderItemService;
 use App\Money\PriceInterface;
 use App\Tenant\Tenant;
@@ -23,8 +24,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(name="car_recommendation")
  */
-class CarRecommendation implements PriceInterface
+class Recommendation implements PriceInterface
 {
     use Identity;
     use Price;
@@ -34,10 +36,10 @@ class CarRecommendation implements PriceInterface
     /**
      * @var Car
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\Car", inversedBy="recommendations")
+     * @ORM\ManyToOne(targetEntity="App\Car\Entity\Car", inversedBy="recommendations")
      * @ORM\JoinColumn
      */
-    private $car;
+    public $car;
 
     /**
      * @var string
@@ -46,41 +48,39 @@ class CarRecommendation implements PriceInterface
      *
      * @ORM\Column
      */
-    private $service;
+    public $service;
 
     /**
-     * @var Collection<int, CarRecommendationPart>
+     * @var Operand
+     *
+     * @psalm-readonly
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\Operand")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    public $worker;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    public ?DateTime $expiredAt = null;
+
+    /**
+     * @ORM\Embedded(class="App\Entity\Embeddable\OrderItemServiceRelation")
+     */
+    private ?OrderItemServiceRelation $realization = null;
+
+    /**
+     * @var Collection<int, RecommendationPart>
      *
      * @ORM\OneToMany(
-     *     targetEntity="App\Entity\Landlord\CarRecommendationPart",
+     *     targetEntity="App\Car\Entity\RecommendationPart",
      *     mappedBy="recommendation",
      *     cascade={"persist"},
      *     orphanRemoval=true
      * )
      */
     private $parts;
-
-    /**
-     * @var OrderItemServiceRelation
-     *
-     * @ORM\Embedded(class="App\Entity\Embeddable\OrderItemServiceRelation")
-     */
-    private $realization;
-
-    /**
-     * @var Operand
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\Operand")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $worker;
-
-    /**
-     * @var DateTime|null
-     *
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $expiredAt;
 
     public function __construct(Car $car, string $service, Money $price, Operand $worker, User $user)
     {
@@ -115,35 +115,15 @@ class CarRecommendation implements PriceInterface
         return $price;
     }
 
-    public function getCar(): ?Car
-    {
-        return $this->car;
-    }
-
-    public function getService(): ?string
-    {
-        return $this->service;
-    }
-
-    public function setService(?string $service): void
-    {
-        $this->service = $service;
-    }
-
-    public function setPrice(Money $price): void
-    {
-        $this->price = $price;
-    }
-
     /**
-     * @return CarRecommendationPart[]
+     * @return RecommendationPart[]
      */
     public function getParts(): array
     {
         return $this->parts->toArray();
     }
 
-    public function addPart(CarRecommendationPart $part): void
+    public function addPart(RecommendationPart $part): void
     {
         $this->parts[] = $part;
     }
@@ -151,21 +131,6 @@ class CarRecommendation implements PriceInterface
     public function getRealization(): ?OrderItemService
     {
         return $this->realization->entityOrNull();
-    }
-
-    public function getWorker(): Operand
-    {
-        return $this->worker;
-    }
-
-    public function setWorker(Operand $worker): void
-    {
-        $this->worker = $worker;
-    }
-
-    public function getExpiredAt(): ?DateTime
-    {
-        return $this->expiredAt;
     }
 
     public function realize(OrderItemService $orderItemService, Tenant $tenant): void

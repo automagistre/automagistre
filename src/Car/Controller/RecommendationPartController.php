@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin;
+namespace App\Car\Controller;
 
+use App\Car\Entity\Recommendation;
+use App\Car\Entity\RecommendationPart;
+use App\Car\Form\DTO\RecommendationPartDTO;
+use App\Controller\EasyAdmin\AbstractController;
 use App\Doctrine\Registry;
-use App\Entity\Landlord\CarRecommendation;
-use App\Entity\Landlord\CarRecommendationPart;
-use App\Form\Model\RecommendationPart;
 use App\Form\Type\MoneyType;
 use App\Form\Type\QuantityType;
 use App\Manager\PartManager;
@@ -23,7 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class CarRecommendationPartController extends AbstractController
+final class RecommendationPartController extends AbstractController
 {
     private PartManager $partManager;
 
@@ -37,11 +38,11 @@ final class CarRecommendationPartController extends AbstractController
         $request = $this->request;
 
         $recommendationPart = $this->findCurrentEntity();
-        if (!$recommendationPart instanceof CarRecommendationPart) {
+        if (!$recommendationPart instanceof RecommendationPart) {
             throw new LogicException('CarRecommendationPart required.');
         }
 
-        $part = $recommendationPart->getPart();
+        $part = $recommendationPart->part;
 
         $crosses = $this->partManager->crossesInStock($part);
 
@@ -60,10 +61,10 @@ final class CarRecommendationPartController extends AbstractController
 
             $isCurrent = $part->getId() === $crossId;
 
-            $model = new RecommendationPart();
-            $model->recommendation = $recommendationPart->getRecommendation();
+            $model = new RecommendationPartDTO();
+            $model->recommendation = $recommendationPart->recommendation;
             $model->part = $cross;
-            $model->quantity = $recommendationPart->getQuantity();
+            $model->quantity = $recommendationPart->quantity;
             $model->price = $isCurrent ? $recommendationPart->getPrice() : $this->partManager->suggestPrice($cross);
 
             $forms[$crossId] = $this->createFormBuilder($model, [
@@ -85,19 +86,19 @@ final class CarRecommendationPartController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $registry = $this->container->get(Registry::class);
 
-                $em = $registry->manager(CarRecommendationPart::class);
+                $em = $registry->manager(RecommendationPart::class);
 
                 $em->transactional(function (EntityManagerInterface $em) use ($form, $recommendationPart, $part): void {
-                    /** @var RecommendationPart $model */
+                    /** @var RecommendationPartDTO $model */
                     $model = $form->getData();
 
                     $isCurrent = $model->part->getId() === $part->getId();
 
                     if ($isCurrent) {
                         $recommendationPart->setPrice($model->price);
-                        $recommendationPart->setQuantity($model->quantity);
+                        $recommendationPart->quantity = $model->quantity;
                     } else {
-                        $entity = new CarRecommendationPart(
+                        $entity = new RecommendationPart(
                             $model->recommendation,
                             $model->part,
                             $model->quantity,
@@ -120,14 +121,14 @@ final class CarRecommendationPartController extends AbstractController
         ]);
     }
 
-    protected function createNewEntity(): RecommendationPart
+    protected function createNewEntity(): RecommendationPartDTO
     {
-        $recommendation = $this->getEntity(CarRecommendation::class);
-        if (!$recommendation instanceof CarRecommendation) {
+        $recommendation = $this->getEntity(Recommendation::class);
+        if (!$recommendation instanceof Recommendation) {
             throw new LogicException('CarRecommendation required.');
         }
 
-        $model = new RecommendationPart();
+        $model = new RecommendationPartDTO();
         $model->recommendation = $recommendation;
 
         return $model;
@@ -136,12 +137,12 @@ final class CarRecommendationPartController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function persistEntity($entity): CarRecommendationPart
+    protected function persistEntity($entity): RecommendationPart
     {
         $model = $entity;
-        assert($model instanceof RecommendationPart);
+        assert($model instanceof RecommendationPartDTO);
 
-        $entity = new CarRecommendationPart(
+        $entity = new RecommendationPart(
             $model->recommendation,
             $model->part,
             $model->quantity,

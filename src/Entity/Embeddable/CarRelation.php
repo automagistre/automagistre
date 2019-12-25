@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Embeddable;
 
-use App\Entity\Landlord\Car;
+use App\Car\Entity\Car;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 

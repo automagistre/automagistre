@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Type;
+namespace App\Car\Form\Type;
 
-use App\Enum\Carcase;
+use App\Car\Enum\Transmission;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class CarcaseType extends AbstractType
+final class TransmissionType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -20,10 +20,9 @@ final class CarcaseType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'choices' => Carcase::all(),
-            'choice_label' => fn (Carcase $carcase) => $carcase->toName(),
-            'choice_value' => fn (Carcase $carcase) => $carcase->toId(),
-            'placeholder' => null,
+            'choices' => Transmission::all(),
+            'choice_label' => fn (Transmission $transmission) => $transmission->toName(),
+            'choice_value' => fn (Transmission $transmission) => $transmission->toId(),
         ]);
     }
 

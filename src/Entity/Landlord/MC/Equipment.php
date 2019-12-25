@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Entity\Landlord\MC;
 
+use App\Car\Entity\Equipment as CarEquipment;
+use App\Car\Entity\Model;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
-use App\Entity\Embeddable\CarEquipment;
-use App\Entity\Landlord\CarModel;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,34 +20,28 @@ class Equipment
     use Identity;
 
     /**
-     * @var CarModel
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\CarModel")
+     * @ORM\ManyToOne(targetEntity="App\Car\Entity\Model")
      */
-    public $model;
+    public ?Model $model = null;
 
     /**
-     * @var CarEquipment
-     *
      * @Assert\Valid
      *
-     * @ORM\Embedded(class="App\Entity\Embeddable\CarEquipment")
+     * @ORM\Embedded(class="App\Car\Entity\Equipment")
      */
-    public $equipment;
+    public ?CarEquipment $equipment = null;
 
     /**
-     * @var int
-     *
      * @ORM\Column(type="integer", length=4)
      */
-    public $period;
+    public int $period = 0;
 
     /**
      * @var Collection<int, Line>
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Landlord\MC\Line", mappedBy="equipment")
      */
-    public $lines;
+    public ?Collection $lines = null;
 
     public function __construct()
     {

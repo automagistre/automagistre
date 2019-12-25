@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Command\Part;
 
+use App\Car\Entity\Car;
+use App\Car\Entity\Model;
 use App\Doctrine\Registry;
-use App\Entity\Landlord\Car;
-use App\Entity\Landlord\CarModel;
 use App\Entity\Landlord\Part;
 use App\Entity\Landlord\PartCase;
 use App\Entity\Tenant\OrderItemPart;
@@ -80,8 +80,8 @@ final class PartCaseFindCommand extends Command
 
             /** @var Part $part */
             $part = $em->getReference(Part::class, $partId);
-            /** @var CarModel $carModel */
-            $carModel = $em->getReference(CarModel::class, $carModelId);
+            /** @var Model $carModel */
+            $carModel = $em->getReference(Model::class, $carModelId);
 
             $em->persist(new PartCase($part, $carModel));
             ++$persisted;

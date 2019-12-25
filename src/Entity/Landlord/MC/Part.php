@@ -15,30 +15,22 @@ class Part
     use Identity;
 
     /**
-     * @var Line
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\MC\Line", inversedBy="parts")
      */
-    public $line;
+    public ?Line $line = null;
 
     /**
-     * @var \App\Entity\Landlord\Part
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\Part")
      */
-    public $part;
+    public ?\App\Entity\Landlord\Part $part = null;
 
     /**
-     * @var int
-     *
      * @ORM\Column(type="integer")
      */
-    public $quantity;
+    public ?int $quantity = null;
 
     /**
-     * @var bool
-     *
      * @ORM\Column(type="boolean")
      */
-    public $recommended;
+    public bool $recommended = false;
 }

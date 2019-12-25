@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Type;
+namespace App\Car\Form\Type;
 
-use App\Entity\Embeddable\CarEquipment;
+use App\Car\Entity\Equipment;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class CarEquipmentType extends AbstractType
+final class EquipmentType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -20,13 +20,13 @@ final class CarEquipmentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('engine', CarEngineType::class, [
+            ->add('engine', EngineType::class, [
                 'label' => 'Двигатель',
             ])
-            ->add('transmission', CarTransmissionType::class, [
+            ->add('transmission', TransmissionType::class, [
                 'label' => 'КПП',
             ])
-            ->add('wheelDrive', CarWheelDriveType::class, [
+            ->add('wheelDrive', DriveWheelConfigurationType::class, [
                 'label' => 'Привод',
             ]);
     }
@@ -38,7 +38,7 @@ final class CarEquipmentType extends AbstractType
     {
         $resolver
             ->setDefaults([
-                'data_class' => CarEquipment::class,
+                'data_class' => Equipment::class,
             ]);
     }
 }

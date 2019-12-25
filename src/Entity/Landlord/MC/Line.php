@@ -17,39 +17,31 @@ class Line
     use Identity;
 
     /**
-     * @var Equipment
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\MC\Equipment", inversedBy="lines")
      */
-    public $equipment;
+    public ?Equipment $equipment = null;
 
     /**
-     * @var Work
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\MC\Work")
      */
-    public $work;
+    public ?Work $work = null;
 
     /**
-     * @var Collection<int, Part>
+     * @var Collection<int, Part>|iterable
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Landlord\MC\Part", mappedBy="line")
      */
-    public $parts;
+    public iterable $parts = [];
 
     /**
-     * @var int
-     *
      * @ORM\Column(type="integer")
      */
-    public $period;
+    public ?int $period = null;
 
     /**
-     * @var bool
-     *
      * @ORM\Column(type="boolean")
      */
-    public $recommended;
+    public bool $recommended = false;
 
     public function __construct()
     {

@@ -2,28 +2,29 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Model;
+namespace App\Car\Form\DTO;
 
-use App\Entity\Landlord\CarRecommendation;
-use App\Entity\Landlord\CarRecommendationPart;
+use App\Car\Entity\Recommendation;
+use App\Car\Entity\RecommendationPart;
 use App\Entity\Landlord\Part;
+use App\Form\Model\Model;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class RecommendationPart extends Model
+final class RecommendationPartDTO extends Model
 {
     /**
      * @Assert\NotBlank
      */
-    public CarRecommendation $recommendation;
+    public Recommendation $recommendation;
 
     /**
      * @Assert\NotBlank
      */
-    public ?Part $part;
+    public ?Part $part = null;
 
     /**
      * @Assert\NotBlank
@@ -33,16 +34,13 @@ final class RecommendationPart extends Model
     /**
      * @Assert\NotBlank
      */
-    public ?Money $price;
+    public ?Money $price = null;
 
-    public function __construct()
-    {
-        $this->part = null;
-        $this->price = null;
-    }
-
+    /**
+     * {@inheritdoc}
+     */
     public static function getEntityClass(): string
     {
-        return CarRecommendationPart::class;
+        return RecommendationPart::class;
     }
 }

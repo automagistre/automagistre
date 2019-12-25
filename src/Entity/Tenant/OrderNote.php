@@ -6,6 +6,7 @@ namespace App\Entity\Tenant;
 
 use App\Doctrine\ORM\Mapping\Traits\CreatedByRelation as CreatedBy;
 use App\Entity\Superclass\Note;
+use App\Enum\NoteType;
 use App\User\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -18,22 +19,17 @@ class OrderNote extends Note
     use CreatedBy;
 
     /**
-     * @var Order
-     *
      * @Assert\NotBlank
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\Order")
      */
-    private $order;
+    public ?Order $order = null;
 
-    public function __construct(Order $order, User $user)
+    public function __construct(Order $order, User $user, NoteType $noteType = null, string $text = null)
     {
+        parent::__construct($noteType, $text);
+
         $this->order = $order;
         $this->setCreatedBy($user);
-    }
-
-    public function getOrder(): Order
-    {
-        return $this->order;
     }
 }

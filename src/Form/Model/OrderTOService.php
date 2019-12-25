@@ -32,10 +32,14 @@ final class OrderTOService
     public static function from(Line $line): self
     {
         $model = new self();
-        $model->service = $line->work->name;
-        $model->price = $line->work->price;
-        $model->recommend = $line->recommended;
 
+        $work = $line->work;
+        if (null !== $work) {
+            $model->service = $work->name;
+            $model->price = $work->price;
+        }
+
+        $model->recommend = $line->recommended;
         $model->selected = !$model->recommend;
 
         foreach ($line->parts as $part) {

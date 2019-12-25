@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin;
+namespace App\Car\Controller;
 
+use App\Car\Entity\Car;
+use App\Car\Entity\Note;
+use App\Controller\EasyAdmin\AbstractController;
 use App\Doctrine\Registry;
-use App\Entity\Landlord\Car;
-use App\Entity\Landlord\CarNote;
 use App\Entity\Landlord\Operand;
 use App\Entity\Landlord\Organization;
 use App\Entity\Landlord\Person;
@@ -48,7 +49,7 @@ final class CarController extends AbstractController
 
         $owner = $this->getEntity(Operand::class);
         if ($owner instanceof Operand) {
-            $entity->setOwner($owner);
+            $entity->owner = $owner;
         }
 
         return $entity;
@@ -67,7 +68,7 @@ final class CarController extends AbstractController
 
             $parameters['orders'] = $registry->repository(Order::class)
                 ->findBy(['car.id' => $car->getId()], ['closedAt' => 'DESC'], 20);
-            $parameters['notes'] = $registry->repository(CarNote::class)
+            $parameters['notes'] = $registry->repository(Note::class)
                 ->findBy(['car' => $car], ['createdAt' => 'DESC']);
         }
 
@@ -143,7 +144,7 @@ final class CarController extends AbstractController
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
         $data = array_map(function (Car $car) use ($ownerId): array {
-            $carModel = $car->getCarModel();
+            $carModel = $car->model;
 
             $text = $carModel->getDisplayName();
 
@@ -152,7 +153,7 @@ final class CarController extends AbstractController
                 $text .= sprintf(' (%s)', $gosnomer);
             }
 
-            $person = $car->getOwner();
+            $person = $car->owner;
             if (null === $ownerId && $person instanceof Person) {
                 $text .= ' - '.$person->getFullName();
 

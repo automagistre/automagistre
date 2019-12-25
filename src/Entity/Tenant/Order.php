@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Tenant;
 
+use App\Car\Entity\Car;
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\CreatedByRelation as CreatedBy;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
@@ -11,7 +12,6 @@ use App\Entity\Discounted;
 use App\Entity\Embeddable\CarRelation;
 use App\Entity\Embeddable\OperandRelation;
 use App\Entity\Embeddable\UserRelation;
-use App\Entity\Landlord\Car;
 use App\Entity\Landlord\Operand;
 use App\Entity\WarrantyInterface;
 use App\Enum\OrderStatus;
@@ -281,7 +281,7 @@ class Order
         $this->car = new CarRelation($car);
 
         if ($car instanceof Car) {
-            $customer = $car->getOwner();
+            $customer = $car->owner;
             if ($customer instanceof Operand && $this->customer->isEmpty()) {
                 $this->customer = new OperandRelation($customer);
             }

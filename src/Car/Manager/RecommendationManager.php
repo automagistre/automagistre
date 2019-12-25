@@ -2,16 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Manager;
+namespace App\Car\Manager;
 
+use App\Car\Entity\Recommendation;
+use App\Car\Entity\RecommendationPart;
 use App\Doctrine\Registry;
-use App\Entity\Landlord\CarRecommendation;
-use App\Entity\Landlord\CarRecommendationPart;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItem;
 use App\Entity\Tenant\OrderItemPart;
 use App\Entity\Tenant\OrderItemService;
 use App\Entity\Tenant\Reservation;
+use App\Manager\ReservationException;
+use App\Manager\ReservationManager;
 use App\State;
 use App\User\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -37,13 +39,13 @@ final class RecommendationManager
         $this->state = $state;
     }
 
-    public function realize(CarRecommendation $recommendation, Order $order, User $user): void
+    public function realize(Recommendation $recommendation, Order $order, User $user): void
     {
         $em = $this->registry->manager(OrderItemService::class);
 
         $orderItemService = new OrderItemService(
             $order,
-            $recommendation->getService(),
+            $recommendation->service,
             $recommendation->getPrice(),
             $user,
             $order->getActiveWorker()
@@ -53,8 +55,8 @@ final class RecommendationManager
         foreach ($recommendation->getParts() as $recommendationPart) {
             $orderItemPart = $orderItemParts[] = new OrderItemPart(
                 $order,
-                $recommendationPart->getPart(),
-                $recommendationPart->getQuantity(),
+                $recommendationPart->part,
+                $recommendationPart->quantity,
                 $recommendationPart->getPrice(),
                 $recommendationPart->getCreatedBy()
             );
@@ -79,7 +81,7 @@ final class RecommendationManager
 
     public function recommend(OrderItemService $orderItemService): void
     {
-        $em = $this->registry->manager(CarRecommendation::class);
+        $em = $this->registry->manager(Recommendation::class);
         $order = $orderItemService->getOrder();
 
         if (null === $car = $order->getCar()) {
@@ -89,18 +91,18 @@ final class RecommendationManager
         $em->transactional(function (EntityManagerInterface $em) use ($orderItemService, $car): void {
             $oldRecommendation = $this->findOldRecommendation($orderItemService);
 
-            [$worker, $createdBy] = $oldRecommendation instanceof CarRecommendation
-                ? [$oldRecommendation->getWorker(), $oldRecommendation->getCreatedBy()]
+            [$worker, $createdBy] = $oldRecommendation instanceof Recommendation
+                ? [$oldRecommendation->worker, $oldRecommendation->getCreatedBy()]
                 : [$orderItemService->getWorker(), $orderItemService->getCreatedBy()];
 
-            $recommendation = new CarRecommendation(
+            $recommendation = new Recommendation(
                 $car,
                 $orderItemService->getService(),
                 $orderItemService->getPrice(),
                 $worker,
                 $createdBy
             );
-            if ($oldRecommendation instanceof CarRecommendation) {
+            if ($oldRecommendation instanceof Recommendation) {
                 foreach ($oldRecommendation->getParts() as $part) {
                     $em->remove($part);
                 }
@@ -116,7 +118,7 @@ final class RecommendationManager
                     ->setParameter('item', $orderItemPart)
                     ->execute();
 
-                $recommendation->addPart(new CarRecommendationPart(
+                $recommendation->addPart(new RecommendationPart(
                     $recommendation,
                     $orderItemPart->getPart(),
                     $orderItemPart->getQuantity(),
@@ -138,13 +140,13 @@ final class RecommendationManager
         $em->flush();
     }
 
-    public function findOldRecommendation(OrderItemService $orderItemService): ?CarRecommendation
+    public function findOldRecommendation(OrderItemService $orderItemService): ?Recommendation
     {
-        $em = $this->registry->manager(CarRecommendation::class);
+        $em = $this->registry->manager(Recommendation::class);
 
         return $em->createQueryBuilder()
             ->select('entity')
-            ->from(CarRecommendation::class, 'entity')
+            ->from(Recommendation::class, 'entity')
             ->where('entity.realization.id = :realization')
             ->orderBy('entity.id', 'DESC')
             ->getQuery()

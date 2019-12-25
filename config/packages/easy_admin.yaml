@@ -128,7 +128,7 @@ easy_admin:
                 fields:
                     - { type: 'group', label: 'Основная информация', css_class: 'col-sm-6' }
                     - { property: 'customer', label: 'Заказчик', type: 'easyadmin_autocomplete', type_options: { class: App\Entity\Landlord\Operand } }
-                    - { property: 'car', label: 'Автомобиль', type: 'easyadmin_autocomplete', type_options: { class: App\Entity\Landlord\Car } }
+                    - { property: 'car', label: 'Автомобиль', type: 'easyadmin_autocomplete', type_options: { class: App\Car\Entity\Car } }
                     - { property: 'mileage', label: 'Пробег' }
                     - { type: 'group', label: 'Описание', css_class: 'col-sm-6' }
                     - { property: 'description', label: 'Описание', type: 'textarea' }
@@ -139,6 +139,7 @@ easy_admin:
         OrderPrint:
             class: App\Entity\Tenant\Order
             controller: App\Controller\EasyAdmin\OrderPrintController
+            disabled_actions: ['show', 'list', 'new', 'edit']
 
         OrderItemGroup:
             class: App\Entity\Tenant\OrderItemGroup
@@ -227,46 +228,10 @@ easy_admin:
             edit:
                 title: 'Редактировать заметку № {{ entity.id }} по Заказу'
 
-        CarRecommendation:
-            class: App\Entity\Landlord\CarRecommendation
-            controller: App\Controller\EasyAdmin\CarRecommendationController
-            templates:
-                new: 'easy_admin/car_recommendation/new.html.twig'
-                edit: 'easy_admin/car_recommendation/edit.html.twig'
-            form:
-                fields:
-                    - { property: 'car', label: 'Автомобиль', type: 'text', type_options: { disabled: true } }
-                    - { property: 'service', label: 'Работа', type_options: { required: true } }
-                    - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType, type_options: { required: true } }
-                    - { property: 'worker', label: 'Диагност', type: App\Form\Type\WorkerType, type_options: { required: true } }
-            edit:
-                title: 'Рекомендация № {{ entity.id }}'
-            new:
-                title: 'Новая рекомендация'
-                form_options: { data_class: App\Form\Model\Recommendation }
-
-        CarRecommendationPart:
-            class: App\Entity\Landlord\CarRecommendationPart
-            controller: App\Controller\EasyAdmin\CarRecommendationPartController
-            templates:
-                new: 'easy_admin/car_recommendation_part/new.html.twig'
-            form:
-                fields:
-                    - { property: 'recommendation', label: 'Рекомендация', type: 'text', type_options: { disabled: true } }
-                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { required: true } }
-                    - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType }
-                    - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
-            edit:
-                fields:
-                    - { property: 'part', label: 'Запчасть', type: 'text', type_options: { disabled: true } }
-            new:
-                title: 'Добавить запчасть к рекомендации'
-                form_options: { data_class: App\Form\Model\RecommendationPart }
-
         Operand:
             class: App\Entity\Landlord\Operand
             controller: App\Controller\EasyAdmin\OperandController
-            disabled_actions: ['new', 'edit', 'delete']
+            disabled_actions: ['list', 'new', 'edit', 'delete']
 
         Person:
             class: App\Entity\Landlord\Person
@@ -427,77 +392,6 @@ easy_admin:
                     - { property: 'payday', label: 'День начисления', type: App\Form\Type\DayType }
                     - { property: 'amount', label: 'Сумма', type: App\Form\Type\MoneyType }
 
-        Car:
-            class: App\Entity\Landlord\Car
-            controller: App\Controller\EasyAdmin\CarController
-            label: 'Автомобили'
-            search:
-                fields: ['gosnomer', 'identifier']
-            templates:
-                show: 'easy_admin/car/show.html.twig'
-            list:
-                title: 'Автомобили'
-                fields:
-                    - { property: 'id' }
-                    - { property: 'carModificationDisplayName', label: 'Марка / Модель', template: 'easy_admin/field_item_show.html.twig' }
-                    - { property: 'owner', label: 'Владелец' }
-                    - { property: 'year', label: 'Год', type: 'string' }
-                    - { property: 'caseType.name', label: 'Кузов' }
-                    - { property: 'identifier', label: 'Идентификатор (VIN, № Кузова/Шасси...)', sortable: false }
-                    - { property: 'mileage', label: 'Пробег' }
-                    - { property: 'gosnomer', label: 'Гос. Номер', sortable: false, template: 'easy_admin/car/field_gosnomer_img.html.twig' }
-            show:
-                title: 'Автомобиль № {{ entity.id }}'
-                fields:
-                    - { property: 'owner', label: 'Владелец' }
-                    - { property: 'identifier', label: 'Идентификатор', help: 'VIN, № Кузова/Шасси...' }
-                    - { property: 'carModel', label: 'Модель' }
-                    - { property: 'caseType.name', label: 'Тип кузова' }
-                    - { property: 'year', label: 'Год', type: 'string' }
-                    - { property: 'equipment.engine.capacity', label: 'Объём двигателя' }
-                    - { property: 'equipment.engine.type.name', label: 'Тип двигателя' }
-                    - { property: 'equipment.transmission.name', label: 'Трасмиссия' }
-                    - { property: 'equipment.wheelDrive.name', label: 'Привод' }
-                    - { property: 'mileage', label: 'Пробег' }
-                    - { property: 'gosnomer', label: 'Гос. Номер' }
-            form:
-                fields:
-                    - { type: 'group', label: 'Основная информация', css_class: 'col-sm-6' }
-                    -
-                        property: 'owner'
-                        label: 'Владелец'
-                        type: 'easyadmin_autocomplete'
-                        help: 'Фамилия, Имя, Телефон, E-mail'
-                    -
-                        property: 'carModel'
-                        label: 'Модель'
-                        type: 'easyadmin_autocomplete'
-                        help: 'Проивзодитель, Модель, Год, Поколение, Комплектация, Лошадинные силы'
-                    - { property: 'year', label: 'Год выпуска' }
-                    - { property: 'caseType', label: 'Тип кузова', type: App\Form\Type\CarcaseType, type_options: { required: false } }
-                    - { property: 'identifier', label: 'Идентификатор (VIN, № Кузова/Шасси...)' }
-                    - { property: 'gosnomer', label: 'Гос. Номер' }
-                    - { property: 'description', label: 'Описание', type: 'textarea' }
-                    - { type: 'group', label: 'Комплектация', css_class: 'col-sm-6' }
-                    - { property: 'equipment', label: ' ', type: App\Form\Type\CarEquipmentType }
-            edit:
-                title: 'Редактировать автомобиль № {{ entity.id }}'
-            new:
-                title: 'Создать новый автомобиль'
-        CarNote:
-            class: App\Entity\Landlord\CarNote
-            controller: App\Controller\EasyAdmin\CarNoteController
-            disabled_actions: ['show', 'list', 'search', 'autocomplete']
-            form:
-                fields:
-                    - { property: 'car', label: 'Автомобиль', type: 'easyadmin_autocomplete', type_options: { disabled: true } }
-                    - { property: 'type', label: 'Тип', type: App\Form\Type\NoteTypeType }
-                    - { property: 'text', label: 'Текст' }
-            new:
-                title: 'Создать новую заметку по Автомобилю'
-            edit:
-                title: 'Редактировать заметку № {{ entity.id }} по Автомобилю'
-
         Part:
             class: App\Entity\Landlord\Part
             controller: App\Controller\EasyAdmin\PartController
@@ -619,42 +513,6 @@ easy_admin:
             edit:
                 title: 'Редактировать Запчасть для Прихода'
 
-        CarModel:
-            class: App\Entity\Landlord\CarModel
-            controller: App\Controller\EasyAdmin\CarModelController
-            label: 'Кузов'
-            list:
-                title: 'Кузова'
-                fields:
-                    - { property: 'id' }
-                    - { property: 'manufacturer', label: 'Производитель' }
-                    - { property: 'name', label: 'Название' }
-                    - { property: 'caseName', label: 'Кузов' }
-                    - { property: 'yearFrom', label: 'Начало производства' }
-                    - { property: 'yearTill', label: 'Конец производства' }
-            show:
-                title: 'Кузов № {{ entity.id }}'
-                fields:
-                    - { property: 'manufacturer', label: 'Производитель' }
-                    - { property: 'name', label: 'Название' }
-                    - { property: 'caseName', label: 'Кузов' }
-                    - { property: 'yearFrom', label: 'Начало производства' }
-                    - { property: 'yearTill', label: 'Конец производства' }
-            form:
-                fields:
-                    - { property: 'manufacturer', label: 'Производитель', type: 'easyadmin_autocomplete' }
-                    - { property: 'name', label: 'Название' }
-                    - { property: 'localizedName', label: 'Название на русском' }
-                    - { property: 'caseName', label: 'Кузов' }
-                    - { property: 'yearFrom', label: 'Начало производства' }
-                    - { property: 'yearTill', label: 'Конец производства' }
-            new:
-                title: 'Создать новый кузов'
-            edit:
-                title: 'Редактировать кузов'
-                fields:
-                    - { property: 'manufacturer', label: 'Производитель', type_options: { disabled: true } }
-
         OperandTransaction:
             class: App\Entity\Tenant\OperandTransaction
             controller: App\Controller\EasyAdmin\OperandTransactionController
@@ -768,7 +626,7 @@ easy_admin:
                 fields:
                     - { property: 'model', label: 'Модель', type: 'easyadmin_autocomplete' }
                     - { property: 'period', label: 'Период ТО' }
-                    - { property: 'equipment', label: ' ', type: App\Form\Type\CarEquipmentType }
+                    - { property: 'equipment', label: ' ', type: App\Car\Form\Type\EquipmentType }
             new:
                 title: 'Создать комплектацию'
             edit:

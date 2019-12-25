@@ -21,7 +21,7 @@ final class TenantType extends AbstractType
             ->setDefaults([
                 'choice_loader' => new CallbackChoiceLoader(fn () => Tenant::all()),
                 'choice_label' => fn (Tenant $tenant) => $tenant->toDisplayName(),
-                'choice_value' => 'id',
+                'choice_value' => fn (Tenant $tenant) => $tenant->toId(),
             ]);
     }
 

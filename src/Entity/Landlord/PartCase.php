@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Landlord;
 
+use App\Car\Entity\Model;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -20,20 +21,16 @@ class PartCase
     use Identity;
 
     /**
-     * @var Part
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\Part")
      */
-    public $part;
+    public ?Part $part = null;
 
     /**
-     * @var CarModel
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\CarModel")
+     * @ORM\ManyToOne(targetEntity="App\Car\Entity\Model")
      */
-    public $carModel;
+    public ?Model $carModel = null;
 
-    public function __construct(Part $part = null, CarModel $carModel = null)
+    public function __construct(Part $part = null, Model $carModel = null)
     {
         $this->part = $part;
         $this->carModel = $carModel;

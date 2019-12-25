@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin;
+namespace App\Car\Controller;
 
+use App\Car\Entity\Car;
+use App\Car\Entity\Recommendation;
+use App\Car\Form\DTO\RecommendationDTO;
+use App\Car\Manager\RecommendationManager;
+use App\Controller\EasyAdmin\AbstractController;
 use App\Doctrine\Registry;
-use App\Entity\Landlord\Car;
-use App\Entity\Landlord\CarRecommendation;
 use App\Entity\Landlord\Operand;
 use App\Entity\Tenant\Order;
-use App\Form\Model\Recommendation;
-use App\Manager\RecommendationManager;
 use function assert;
 use Doctrine\ORM\Query\Expr\Join;
 use function sprintf;
@@ -22,7 +23,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class CarRecommendationController extends AbstractController
+final class RecommendationController extends AbstractController
 {
     private RecommendationManager $manager;
 
@@ -50,10 +51,10 @@ final class CarRecommendationController extends AbstractController
 
         $registry = $this->container->get(Registry::class);
 
-        $recommendation = $registry->repository(CarRecommendation::class)
+        $recommendation = $registry->repository(Recommendation::class)
             ->findOneBy(['id' => $query->get('id')]);
 
-        if (!$recommendation instanceof CarRecommendation) {
+        if (!$recommendation instanceof Recommendation) {
             throw new NotFoundHttpException();
         }
 
@@ -66,7 +67,7 @@ final class CarRecommendationController extends AbstractController
         ]);
     }
 
-    protected function createNewEntity(): Recommendation
+    protected function createNewEntity(): RecommendationDTO
     {
         if (null === $id = $this->request->query->get('car_id')) {
             throw new BadRequestHttpException('car_id is required');
@@ -76,10 +77,10 @@ final class CarRecommendationController extends AbstractController
 
         $car = $registry->repository(Car::class)->findOneBy(['id' => $id]);
         if (null === $car) {
-            throw new NotFoundHttpException(sprintf('Car id "%s" not found', $id));
+            throw new BadRequestHttpException(sprintf('Car id "%s" not found', $id));
         }
 
-        $model = new Recommendation();
+        $model = new RecommendationDTO();
         $model->car = $car;
 
         $order = $this->getEntity(Order::class);
@@ -92,7 +93,7 @@ final class CarRecommendationController extends AbstractController
             $model->worker = $em->createQueryBuilder()
                 ->select('entity')
                 ->from(Operand::class, 'entity')
-                ->join(CarRecommendation::class, 'cr', Join::WITH, 'entity.id = cr.worker')
+                ->join(Recommendation::class, 'cr', Join::WITH, 'entity.id = cr.worker')
                 ->where('cr.car = :car')
                 ->orderBy('entity.id', 'DESC')
                 ->getQuery()
@@ -107,12 +108,12 @@ final class CarRecommendationController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function persistEntity($entity): CarRecommendation
+    protected function persistEntity($entity): Recommendation
     {
         $model = $entity;
-        assert($model instanceof Recommendation);
+        assert($model instanceof RecommendationDTO);
 
-        $entity = new CarRecommendation($model->car, $model->service, $model->price, $model->worker, $this->getUser());
+        $entity = new Recommendation($model->car, $model->service, $model->price, $model->worker, $this->getUser());
 
         parent::persistEntity($entity);
 
