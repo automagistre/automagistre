@@ -139,14 +139,14 @@ steps:
             - migration landlord
             - migration tenant
 
-    -   name: doctrine schema validate landlord
+    -   name: doctrine validate landlord
         image: automagistre/app:base
         commands:
             - bin/console doctrine:schema:validate --em=landlord
         depends_on:
             - migration landlord
 
-    -   name: doctrine schema validate tenant
+    -   name: doctrine validate tenant
         image: automagistre/app:base
         commands:
             - bin/console doctrine:schema:validate --em=tenant --tenant=msk
@@ -193,8 +193,8 @@ steps:
             - phpstan
             - psalm
             - symfony requirements
-            - doctrine schema validate landlord
-            - doctrine schema validate tenant
+            - doctrine validate landlord
+            - doctrine validate tenant
 
     -   name: deploy
         image: docker/compose:1.25.0-alpine
