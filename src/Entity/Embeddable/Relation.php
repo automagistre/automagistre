@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\Embeddable;
 
 use LogicException;
+use function sprintf;
 
 /**
  * @property int|null $id
@@ -42,7 +43,9 @@ abstract class Relation
     public function entity(): object
     {
         if (null === $this->entity) {
-            throw new LogicException('Entity is null, are you use isEmpty() first?');
+            throw new LogicException(
+                sprintf('Entity in %s is null, are you use isEmpty() first?', static::class)
+            );
         }
 
         return $this->entity;
