@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Enum;
+namespace App\Car\Enum;
 
 use Premier\Enum\Enum;
 
@@ -11,7 +11,7 @@ use Premier\Enum\Enum;
  *
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class Carcase extends Enum
+final class BodyType extends Enum
 {
     private const UNKNOWN = 0;
     private const SEDAN = 1;

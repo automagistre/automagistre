@@ -6,6 +6,7 @@ namespace App\Entity\Landlord;
 
 use App\Doctrine\ORM\Mapping\Traits\CreatedBy;
 use App\Entity\Superclass\Note;
+use App\Enum\NoteType;
 use App\User\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -18,22 +19,17 @@ class OperandNote extends Note
     use CreatedBy;
 
     /**
-     * @var Operand
-     *
      * @Assert\NotBlank
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\Operand")
      */
-    private $operand;
+    public ?Operand $operand = null;
 
-    public function __construct(Operand $operand, User $user)
+    public function __construct(Operand $operand, User $user, NoteType $noteType = null, string $text = null)
     {
+        parent::__construct($noteType, $text);
+
         $this->operand = $operand;
         $this->createdBy = $user;
-    }
-
-    public function getOperand(): Operand
-    {
-        return $this->operand;
     }
 }

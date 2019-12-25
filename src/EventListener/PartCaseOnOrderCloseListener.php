@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
+use App\Car\Entity\Model;
 use App\Doctrine\Registry;
-use App\Entity\Landlord\CarModel;
 use App\Entity\Landlord\Part;
 use App\Entity\Landlord\PartCase;
 use App\Entity\Tenant\Order;
@@ -54,12 +54,12 @@ final class PartCaseOnOrderCloseListener implements EventSubscriberInterface
             return;
         }
 
-        $carModel = $car->getCarModel();
-        if (!$carModel instanceof CarModel) {
+        $carModel = $car->model;
+        if (!$carModel instanceof Model) {
             return;
         }
 
-        if (null === $carModel->getCaseName()) {
+        if (null === $carModel->caseName) {
             return;
         }
 

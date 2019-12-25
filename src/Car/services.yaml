@@ -1,0 +1,161 @@
+easy_admin:
+    entities:
+        Car:
+            class: App\Car\Entity\Car
+            controller: App\Car\Controller\CarController
+            label: 'Автомобили'
+            search:
+                fields: ['gosnomer', 'identifier']
+            templates:
+                show: 'easy_admin/car/show.html.twig'
+            list:
+                title: 'Автомобили'
+                fields:
+                    - { property: 'id' }
+                    - { property: 'carModificationDisplayName', label: 'Марка / Модель', template: 'easy_admin/field_item_show.html.twig' }
+                    - { property: 'owner', label: 'Владелец' }
+                    - { property: 'year', label: 'Год', type: 'string' }
+                    - { property: 'caseType.name', label: 'Кузов' }
+                    - { property: 'identifier', label: 'Идентификатор (VIN, № Кузова/Шасси...)', sortable: false }
+                    - { property: 'mileage', label: 'Пробег' }
+                    - { property: 'gosnomer', label: 'Гос. Номер', sortable: false, template: 'easy_admin/car/field_gosnomer_img.html.twig' }
+            show:
+                title: 'Автомобиль № {{ entity.id }}'
+                fields:
+                    - { property: 'owner', label: 'Владелец' }
+                    - { property: 'identifier', label: 'Идентификатор', help: 'VIN, № Кузова/Шасси...' }
+                    - { property: 'carModel', label: 'Модель' }
+                    - { property: 'caseType.name', label: 'Тип кузова' }
+                    - { property: 'year', label: 'Год', type: 'string' }
+                    - { property: 'equipment.engine.capacity', label: 'Объём двигателя' }
+                    - { property: 'equipment.engine.type.name', label: 'Тип двигателя' }
+                    - { property: 'equipment.transmission.name', label: 'Трасмиссия' }
+                    - { property: 'equipment.wheelDrive.name', label: 'Привод' }
+                    - { property: 'mileage', label: 'Пробег' }
+                    - { property: 'gosnomer', label: 'Гос. Номер' }
+            form:
+                fields:
+                    - { type: 'group', label: 'Основная информация', css_class: 'col-sm-6' }
+                    -
+                        property: 'owner'
+                        label: 'Владелец'
+                        type: 'easyadmin_autocomplete'
+                        type_options:
+                            class: App\Entity\Landlord\Operand
+                        help: 'Фамилия, Имя, Телефон, E-mail'
+                    -
+                        property: 'model'
+                        label: 'Модель'
+                        type: 'easyadmin_autocomplete'
+                        type_options:
+                            class: App\Car\Entity\Model
+                        help: 'Проивзодитель, Модель, Год, Поколение, Комплектация, Лошадинные силы'
+                    - { property: 'year', label: 'Год выпуска' }
+                    - { property: 'caseType', label: 'Тип кузова', type: App\Car\Form\Type\BodyTypeType, type_options: { required: false } }
+                    - { property: 'identifier', label: 'Идентификатор (VIN, № Кузова/Шасси...)' }
+                    - { property: 'gosnomer', label: 'Гос. Номер' }
+                    - { property: 'description', label: 'Описание', type: 'textarea' }
+                    - { type: 'group', label: 'Комплектация', css_class: 'col-sm-6' }
+                    - { property: 'equipment', label: ' ', type: App\Car\Form\Type\EquipmentType }
+            edit:
+                title: 'Редактировать автомобиль № {{ entity.id }}'
+            new:
+                title: 'Создать новый автомобиль'
+
+        CarModel:
+            class: App\Car\Entity\Model
+            controller: App\Car\Controller\ModelController
+            label: 'Кузов'
+            list:
+                title: 'Кузова'
+                fields:
+                    - { property: 'id' }
+                    - { property: 'manufacturer', label: 'Производитель' }
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'caseName', label: 'Кузов' }
+                    - { property: 'yearFrom', label: 'Начало производства' }
+                    - { property: 'yearTill', label: 'Конец производства' }
+            show:
+                title: 'Кузов № {{ entity.id }}'
+                fields:
+                    - { property: 'manufacturer', label: 'Производитель' }
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'caseName', label: 'Кузов' }
+                    - { property: 'yearFrom', label: 'Начало производства' }
+                    - { property: 'yearTill', label: 'Конец производства' }
+            form:
+                fields:
+                    - { property: 'manufacturer', label: 'Производитель', type: 'easyadmin_autocomplete' }
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'localizedName', label: 'Название на русском' }
+                    - { property: 'caseName', label: 'Кузов' }
+                    - { property: 'yearFrom', label: 'Начало производства' }
+                    - { property: 'yearTill', label: 'Конец производства' }
+            new:
+                title: 'Создать новый кузов'
+            edit:
+                title: 'Редактировать кузов'
+                fields:
+                    - { property: 'manufacturer', label: 'Производитель', type_options: { disabled: true } }
+
+        CarNote:
+            class: App\Car\Entity\Note
+            controller: App\Car\Controller\NoteController
+            disabled_actions: ['show', 'list', 'search', 'autocomplete']
+            form:
+                fields:
+                    - { property: 'car', label: 'Автомобиль', type: 'easyadmin_autocomplete', type_options: { disabled: true } }
+                    - { property: 'type', label: 'Тип', type: App\Form\Type\NoteTypeType }
+                    - { property: 'text', label: 'Текст' }
+            new:
+                title: 'Создать новую заметку по Автомобилю'
+            edit:
+                title: 'Редактировать заметку № {{ entity.id }} по Автомобилю'
+
+        CarRecommendation:
+            class: App\Car\Entity\Recommendation
+            controller: App\Car\Controller\RecommendationController
+            disabled_actions: ['list']
+            templates:
+                new: 'easy_admin/car_recommendation/new.html.twig'
+                edit: 'easy_admin/car_recommendation/edit.html.twig'
+            form:
+                fields:
+                    - { property: 'car', label: 'Автомобиль', type: 'text', type_options: { disabled: true } }
+                    - { property: 'service', label: 'Работа', type_options: { required: true } }
+                    - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType, type_options: { required: true } }
+                    - { property: 'worker', label: 'Диагност', type: App\Form\Type\WorkerType, type_options: { required: true } }
+            edit:
+                title: 'Рекомендация № {{ entity.id }}'
+            new:
+                title: 'Новая рекомендация'
+                form_options: { data_class: App\Car\Form\DTO\RecommendationDTO }
+
+        CarRecommendationPart:
+            class: App\Car\Entity\RecommendationPart
+            controller: App\Car\Controller\RecommendationPartController
+            disabled_actions: ['list']
+            templates:
+                new: 'easy_admin/car_recommendation_part/new.html.twig'
+            form:
+                fields:
+                    - { property: 'recommendation', label: 'Рекомендация', type: 'text', type_options: { disabled: true } }
+                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { required: true } }
+                    - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType }
+                    - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
+            edit:
+                fields:
+                    - { property: 'part', label: 'Запчасть', type: 'text', type_options: { disabled: true } }
+            new:
+                title: 'Добавить запчасть к рекомендации'
+                form_options: { data_class: App\Car\Form\DTO\RecommendationPartDTO }
+
+doctrine:
+    orm:
+        entity_managers:
+            landlord:
+                mappings:
+                    car:
+                        type: annotation
+                        prefix: App\Car\Entity
+                        dir: '%kernel.project_dir%/src/Car/Entity'

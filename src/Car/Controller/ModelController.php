@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin;
+namespace App\Car\Controller;
 
+use App\Car\Entity\Model;
+use App\Controller\EasyAdmin\AbstractController;
 use App\Doctrine\Registry;
-use App\Entity\Landlord\CarModel;
 use function array_map;
 use Doctrine\ORM\QueryBuilder;
 use function explode;
@@ -14,7 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class CarModelController extends AbstractController
+final class ModelController extends AbstractController
 {
     /**
      * {@inheritdoc}
@@ -48,7 +49,7 @@ final class CarModelController extends AbstractController
     ): QueryBuilder {
         $registry = $this->container->get(Registry::class);
 
-        $qb = $registry->repository(CarModel::class)->createQueryBuilder('model')
+        $qb = $registry->repository(Model::class)->createQueryBuilder('model')
             ->leftJoin('model.manufacturer', 'manufacturer');
 
         foreach (explode(' ', $searchQuery) as $key => $item) {
@@ -79,7 +80,7 @@ final class CarModelController extends AbstractController
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
-        $data = array_map(fn (CarModel $entity) => [
+        $data = array_map(fn (Model $entity) => [
             'id' => $entity->getId(),
             'text' => $entity->getDisplayName(),
         ], (array) $paginator->getCurrentPageResults());

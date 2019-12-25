@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Car\Entity\Car;
+use App\Car\Entity\Recommendation;
+use App\Car\Manager\RecommendationManager;
 use App\Doctrine\Registry;
-use App\Entity\Landlord\Car;
-use App\Entity\Landlord\CarRecommendation;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItem;
 use App\Entity\Tenant\OrderItemPart;
 use App\Entity\Tenant\OrderItemService;
 use App\Entity\Tenant\Reservation;
-use App\Manager\RecommendationManager;
 use function array_merge;
 use function assert;
 use Doctrine\ORM\EntityManagerInterface;
@@ -106,7 +106,7 @@ abstract class OrderItemController extends AbstractController
         if ($item instanceof OrderItemService) {
             $registry = $this->container->get(Registry::class);
 
-            if (null !== $registry->repository(CarRecommendation::class)->findOneBy(['realization.id' => $item->getId()])) {
+            if (null !== $registry->repository(Recommendation::class)->findOneBy(['realization.id' => $item->getId()])) {
                 $this->container->get(RecommendationManager::class)->recommend($item);
 
                 return;

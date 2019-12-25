@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\EasyAdmin;
 
 use function abs;
+use App\Car\Entity\Model;
 use App\Doctrine\Registry;
-use App\Entity\Landlord\CarModel;
 use App\Entity\Landlord\Part;
 use App\Entity\Landlord\PartCase;
 use App\Entity\Landlord\Stockpile;
@@ -235,7 +235,7 @@ final class PartController extends AbstractController
 
             $registry = $this->container->get(Registry::class);
 
-            $parameters['carModels'] = $registry->repository(CarModel::class)
+            $parameters['carModels'] = $registry->repository(Model::class)
                 ->createQueryBuilder('carModel')
                 ->join(PartCase::class, 'partCase', Join::WITH, 'carModel = partCase.carModel')
                 ->where('partCase.part = :part')
@@ -302,10 +302,10 @@ final class PartController extends AbstractController
         $cases = [];
 
         if (!$isPlusExist) {
-            /** @var CarModel[] $cases */
+            /** @var Model[] $cases */
             $registry = $this->container->get(Registry::class);
 
-            $cases = $registry->repository(CarModel::class)
+            $cases = $registry->repository(Model::class)
                 ->createQueryBuilder('entity')
                 ->select('PARTIAL entity.{id, caseName}')
                 ->where('entity.caseName IN (:cases)')
@@ -313,9 +313,9 @@ final class PartController extends AbstractController
                 ->setParameter('cases', explode(' ', trim($searchQuery)))
                 ->getResult();
 
-            $carModel = $this->getEntity(CarModel::class);
+            $carModel = $this->getEntity(Model::class);
 
-            if ($carModel instanceof CarModel) {
+            if ($carModel instanceof Model) {
                 $cases[] = $carModel;
             }
         }
@@ -385,13 +385,13 @@ final class PartController extends AbstractController
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
-        $carModel = $this->getEntity(CarModel::class);
+        $carModel = $this->getEntity(Model::class);
         $useCarModelInFormat = false === strpos($queryString, '+');
 
         $normalizer = function (Part $entity, bool $analog = false) use ($carModel, $useCarModelInFormat): array {
             $format = '%s - %s (%s) (Склад: %s) | %s';
 
-            if ($carModel instanceof CarModel && $useCarModelInFormat && !$entity->isUniversal()) {
+            if ($carModel instanceof Model && $useCarModelInFormat && !$entity->isUniversal()) {
                 $format = sprintf('[%s] %s', $carModel->getDisplayName(false), $format);
             }
 

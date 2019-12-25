@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Landlord;
+namespace App\Car\Entity;
 
+use App\Car\Enum\BodyType;
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
-use App\Entity\Embeddable\CarEquipment;
-use App\Enum\Carcase;
+use App\Entity\Landlord\Operand;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -25,6 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(name="car")
  *
  * @UniqueEntity(fields={"identifier"})
  */
@@ -34,87 +35,69 @@ class Car
     use CreatedAt;
 
     /**
-     * @var CarEquipment
-     *
      * @Assert\Valid
      *
-     * @ORM\Embedded(class="App\Entity\Embeddable\CarEquipment")
+     * @ORM\Embedded(class="App\Car\Entity\Equipment")
      */
-    public $equipment;
+    public ?Equipment $equipment = null;
 
     /**
-     * @var CarModel
-     *
      * @Assert\NotBlank
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\CarModel")
+     * @ORM\ManyToOne(targetEntity="App\Car\Entity\Model")
      * @ORM\JoinColumn
      */
-    private $carModel;
+    public ?Model $model = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(length=17, nullable=true, unique=true)
      */
-    private $identifier;
+    public ?string $identifier = null;
 
     /**
-     * @var int|null
-     *
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $year;
+    public ?int $year = null;
 
     /**
-     * @var Carcase
-     *
      * @ORM\Column(type="carcase_enum")
      */
-    private $caseType;
+    public ?BodyType $caseType = null;
 
     /**
-     * @var Operand
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\Operand")
      * @ORM\JoinColumn
      */
-    private $owner;
+    public ?Operand $owner = null;
+
+    /**
+     * @ORM\Column(name="description", type="text", length=65535, nullable=true)
+     */
+    public ?string $description = null;
+
+    /**
+     * @var Collection<int, Recommendation>
+     *
+     * @ORM\OneToMany(targetEntity="App\Car\Entity\Recommendation", mappedBy="car", cascade={"persist"})
+     */
+    public ?Collection $recommendations = null;
 
     /**
      * license plate.
      *
-     * @var string|null
-     *
      * @ORM\Column(nullable=true)
      */
-    private $gosnomer;
+    private ?string $gosnomer = null;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="description", type="text", length=65535, nullable=true)
-     */
-    private $description;
-
-    /**
-     * @var int
-     *
      * @ORM\Column(type="integer")
      */
-    private $mileage = 0;
-
-    /**
-     * @var Collection<int, CarRecommendation>
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Landlord\CarRecommendation", mappedBy="car", cascade={"persist"})
-     */
-    private $recommendations;
+    private ?int $mileage = 0;
 
     public function __construct()
     {
-        $this->equipment = new CarEquipment();
-        $this->caseType = Carcase::unknown();
+        $this->equipment = new Equipment();
+        $this->caseType = BodyType::unknown();
         $this->recommendations = new ArrayCollection();
     }
 
@@ -125,7 +108,11 @@ class Car
 
     public function toString(bool $full = false): string
     {
-        $string = $this->carModel->getDisplayName(false);
+        $string = '';
+
+        if (null !== $this->model) {
+            $string = $this->model->getDisplayName(false);
+        }
 
         if (null !== $this->year) {
             $string .= sprintf(' - %sг.', $this->year);
@@ -133,6 +120,10 @@ class Car
 
         if ($full) {
             $string .= sprintf(' (%s)', $this->equipment->toString());
+        }
+
+        if ('' === $string) {
+            return 'Не определено';
         }
 
         return $string;
@@ -158,59 +149,6 @@ class Car
         return $price;
     }
 
-    public function getCarModel(): ?CarModel
-    {
-        return $this->carModel;
-    }
-
-    public function setCarModel(?CarModel $carModel): void
-    {
-        $this->carModel = $carModel;
-    }
-
-    public function getIdentifier(): ?string
-    {
-        return $this->identifier;
-    }
-
-    /**
-     * @param string $identifier
-     */
-    public function setIdentifier(string $identifier = null): void
-    {
-        $this->identifier = $identifier;
-    }
-
-    public function getYear(): ?int
-    {
-        return $this->year;
-    }
-
-    public function setYear(?int $year): void
-    {
-        $this->year = $year;
-    }
-
-    public function getCaseType(): Carcase
-    {
-        return $this->caseType;
-    }
-
-    public function setCaseType(Carcase $caseType): void
-    {
-        $this->caseType = $caseType;
-    }
-
-    public function getOwner(): ?Operand
-    {
-        return $this->owner;
-    }
-
-    public function setOwner(Operand $owner): void
-    {
-        $this->owner = $owner;
-    }
-
     public function setMileage(?int $mileage): void
     {
         if (null !== $mileage) {
@@ -218,7 +156,7 @@ class Car
         }
     }
 
-    public function getMileage(): int
+    public function getMileage(): ?int
     {
         return $this->mileage;
     }
@@ -240,18 +178,8 @@ class Car
         $this->gosnomer = $gosnomer;
     }
 
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description = null): void
-    {
-        $this->description = $description;
-    }
-
     /**
-     * @return CarRecommendation[]
+     * @return Recommendation[]
      */
     public function getRecommendations(Criteria $criteria = null): array
     {
@@ -264,13 +192,17 @@ class Car
         return $this->recommendations->matching($criteria)->getValues();
     }
 
-    public function addRecommendation(CarRecommendation $recommendation): void
+    public function addRecommendation(Recommendation $recommendation): void
     {
         $this->recommendations[] = $recommendation;
     }
 
     public function getCarModificationDisplayName(): string
     {
-        return $this->carModel->getDisplayName();
+        if (null === $this->model) {
+            return 'Не определено';
+        }
+
+        return $this->model->getDisplayName();
     }
 }

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
-use App\Entity\Landlord\Car;
+use App\Car\Entity\Car;
+use App\Car\Manager\RecommendationManager;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItem;
 use App\Entity\Tenant\OrderItemService;
 use App\Form\Model\OrderService;
-use App\Manager\RecommendationManager;
 use function array_map;
 use function assert;
 use Doctrine\ORM\QueryBuilder;

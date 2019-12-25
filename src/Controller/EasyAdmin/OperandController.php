@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Car\Entity\Car;
 use App\Doctrine\Registry;
 use App\Entity\Landlord\Balance;
-use App\Entity\Landlord\Car;
 use App\Entity\Landlord\Operand;
 use App\Entity\Landlord\OperandNote;
 use App\Entity\Landlord\Organization;

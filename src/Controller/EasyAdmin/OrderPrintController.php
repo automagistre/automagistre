@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
-use App\Entity\Landlord\Car;
+use App\Car\Entity\Car;
 use App\Entity\Tenant\Order;
 use App\Form\Type\OrderItemServiceType;
 use function assert;

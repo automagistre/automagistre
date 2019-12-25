@@ -2,17 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Type;
+namespace App\Car\Form\Type;
 
-use App\Enum\CarTransmission;
+use function array_combine;
+use function array_map;
+use function number_format;
+use function range;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class CarTransmissionType extends AbstractType
+final class EngineCapacityType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -20,9 +24,11 @@ final class CarTransmissionType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'choices' => CarTransmission::all(),
-            'choice_label' => fn (CarTransmission $transmission) => $transmission->toName(),
-            'choice_value' => fn (CarTransmission $transmission) => $transmission->toId(),
+            'choice_loader' => new CallbackChoiceLoader(static function () {
+                $choices = array_map(fn (float $number) => number_format($number, 1), range(0.6, 6.0, 0.1));
+
+                return array_combine($choices, $choices);
+            }),
         ]);
     }
 

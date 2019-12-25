@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Type;
+namespace App\Car\Form\Type;
 
-use App\Enum\EngineType;
+use App\Car\Enum\BodyType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class EngineTypeType extends AbstractType
+final class BodyTypeType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -20,9 +20,9 @@ final class EngineTypeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'choices' => EngineType::all(),
-            'choice_label' => fn (EngineType $engineType) => $engineType->toName(),
-            'choice_value' => fn (EngineType $engineType) => $engineType->toId(),
+            'choices' => BodyType::all(),
+            'choice_label' => fn (BodyType $bodyType) => $bodyType->toName(),
+            'choice_value' => fn (BodyType $bodyType) => $bodyType->toId(),
             'placeholder' => null,
         ]);
     }

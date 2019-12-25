@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Car\Entity\Car;
+use App\Car\Entity\Model;
 use App\Doctrine\Registry;
-use App\Entity\Landlord\Car;
-use App\Entity\Landlord\CarModel;
 use App\Entity\Landlord\MC\Line;
 use App\Entity\Landlord\Operand;
 use App\Entity\Landlord\Organization;
@@ -84,8 +84,8 @@ final class OrderController extends AbstractController
             throw new LogicException('Car required.');
         }
 
-        $carModel = $car->getCarModel();
-        if (!$carModel instanceof CarModel) {
+        $carModel = $car->model;
+        if (!$carModel instanceof Model) {
             throw new LogicException('CarModel required.');
         }
 
@@ -109,7 +109,7 @@ final class OrderController extends AbstractController
             ->andWhere('equipment.equipment.transmission = :transmission')
             ->andWhere('equipment.equipment.wheelDrive = :wheelDrive')
             ->setParameters([
-                'model' => $car->getCarModel(),
+                'model' => $car->model,
                 'engine' => $car->equipment->engine->name,
                 'capacity' => $car->equipment->engine->capacity,
                 'transmission' => $car->equipment->transmission,

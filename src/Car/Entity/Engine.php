@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Embeddable;
+namespace App\Car\Entity;
 
-use App\Enum\EngineType;
+use App\Car\Enum\FuelType;
 use Doctrine\ORM\Mapping as ORM;
 use function sprintf;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -12,42 +12,36 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Embeddable
  */
-final class CarEngine
+final class Engine
 {
     private const DEFAULT_CAPACITY = '0';
 
     /**
-     * @var string|null
-     *
      * @Assert\NotBlank
      *
      * @ORM\Column(nullable=true)
      */
-    public $name;
+    public ?string $name = null;
 
     /**
-     * @var EngineType
-     *
      * @Assert\NotBlank
      *
      * @ORM\Column(type="engine_type_enum")
      */
-    public $type;
+    public FuelType $type;
 
     /**
-     * @var string
-     *
      * @Assert\NotBlank
      * @Assert\Type("numeric")
      *
      * @ORM\Column
      */
-    public $capacity;
+    public string $capacity;
 
-    public function __construct(string $name = null, EngineType $type = null, string $capacity = null)
+    public function __construct(string $name = null, FuelType $type = null, string $capacity = null)
     {
         $this->name = $name;
-        $this->type = $type ?? EngineType::unknown();
+        $this->type = $type ?? FuelType::unknown();
         $this->capacity = $capacity ?? self::DEFAULT_CAPACITY;
     }
 
@@ -55,7 +49,7 @@ final class CarEngine
     {
         return
             null !== $this->name
-            && !$this->type->eq(EngineType::unknown())
+            && !$this->type->eq(FuelType::unknown())
             && self::DEFAULT_CAPACITY !== $this->capacity;
     }
 

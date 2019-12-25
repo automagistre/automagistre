@@ -21,10 +21,10 @@ if ($_SERVER['APP_DEBUG']) {
     }
 }
 
-Premier\Enum\Doctrine\EnumType::register(App\Enum\Carcase::class, 'carcase_enum');
-Premier\Enum\Doctrine\EnumType::register(App\Enum\CarTransmission::class, 'car_transmission_enum');
-Premier\Enum\Doctrine\EnumType::register(App\Enum\CarWheelDrive::class, 'car_wheel_drive_enum');
-Premier\Enum\Doctrine\EnumType::register(App\Enum\EngineType::class, 'engine_type_enum');
+Premier\Enum\Doctrine\EnumType::register(App\Car\Enum\BodyType::class, 'carcase_enum');
+Premier\Enum\Doctrine\EnumType::register(App\Car\Enum\Transmission::class, 'car_transmission_enum');
+Premier\Enum\Doctrine\EnumType::register(App\Car\Enum\DriveWheelConfiguration::class, 'car_wheel_drive_enum');
+Premier\Enum\Doctrine\EnumType::register(App\Car\Enum\FuelType::class, 'engine_type_enum');
 Premier\Enum\Doctrine\EnumType::register(App\Enum\NoteType::class, 'note_type_enum');
 Premier\Enum\Doctrine\EnumType::register(App\Enum\OrderStatus::class, 'order_status_enum');
 Premier\Enum\Doctrine\EnumType::register(App\Tenant\Tenant::class, 'tenant_enum');

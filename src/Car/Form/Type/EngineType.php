@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Type;
+namespace App\Car\Form\Type;
 
-use App\Entity\Embeddable\CarEngine;
+use App\Car\Entity\Engine;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -13,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class CarEngineType extends AbstractType
+final class EngineType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -24,7 +24,7 @@ final class CarEngineType extends AbstractType
             ->add('name', TextType::class, [
                 'label' => 'Модель ДВС',
             ])
-            ->add('type', EngineTypeType::class, [
+            ->add('type', FuelTypeType::class, [
                 'label' => 'Тип двигателя',
             ])
             ->add('capacity', EngineCapacityType::class, [
@@ -39,7 +39,7 @@ final class CarEngineType extends AbstractType
     {
         $resolver
             ->setDefaults([
-                'data_class' => CarEngine::class,
+                'data_class' => Engine::class,
             ]);
     }
 

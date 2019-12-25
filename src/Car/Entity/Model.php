@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Landlord;
+namespace App\Car\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Manufacturer\Entity\Manufacturer;
@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  * @ORM\Table(
+ *     name="car_model",
  *     uniqueConstraints={
  *         @ORM\UniqueConstraint(name="MANUFACTURER_CASE_IDX", columns={"manufacturer_id", "case_name"})
  *     }
@@ -25,54 +26,42 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     message="Кузов {{ value }} у выбранного производителя уже существует."
  * )
  */
-class CarModel
+class Model
 {
     use Identity;
 
     /**
-     * @var Manufacturer
-     *
      * @ORM\ManyToOne(targetEntity="App\Manufacturer\Entity\Manufacturer")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $manufacturer;
+    public ?Manufacturer $manufacturer = null;
 
     /**
-     * @var string
-     *
      * @Assert\NotBlank
      *
      * @ORM\Column
      */
-    private $name;
+    public ?string $name = null;
 
     /**
-     * @var string|null
-     *
      * @ORM\Column(nullable=true)
      */
-    private $localizedName;
+    public ?string $localizedName = null;
 
     /**
-     * @var string|null
-     *
      * @ORM\Column(nullable=true)
      */
-    private $caseName;
+    public ?string $caseName = null;
 
     /**
-     * @var int|null
-     *
      * @ORM\Column(type="smallint", nullable=true)
      */
-    private $yearFrom;
+    public ?int $yearFrom = null;
 
     /**
-     * @var int|null
-     *
      * @ORM\Column(type="smallint", nullable=true)
      */
-    private $yearTill;
+    public ?int $yearTill = null;
 
     public function __toString(): string
     {
@@ -84,11 +73,11 @@ class CarModel
         $main = sprintf(
             '%s %s',
             $this->manufacturer->getName(),
-            $this->getName() ?? $this->getLocalizedName()
+            $this->localizedName ?? $this->name
         );
 
-        $from = $this->getYearFrom();
-        $till = $this->getYearTill();
+        $from = $this->yearFrom;
+        $till = $this->yearTill;
 
         $years = $withYears && (null !== $from || null !== $till)
             ? sprintf(' (%s - %s)', $from ?? '...', $till ?? '...')
@@ -97,65 +86,5 @@ class CarModel
         $case = null !== $this->caseName ? sprintf(' - %s', $this->caseName) : '';
 
         return $main.$case.$years;
-    }
-
-    public function getManufacturer(): ?Manufacturer
-    {
-        return $this->manufacturer;
-    }
-
-    public function setManufacturer(Manufacturer $manufacturer): void
-    {
-        $this->manufacturer = $manufacturer;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(?string $name): void
-    {
-        $this->name = $name;
-    }
-
-    public function getLocalizedName(): ?string
-    {
-        return $this->localizedName;
-    }
-
-    public function setLocalizedName(?string $localizedName): void
-    {
-        $this->localizedName = $localizedName;
-    }
-
-    public function getCaseName(): ?string
-    {
-        return $this->caseName;
-    }
-
-    public function setCaseName(?string $caseName): void
-    {
-        $this->caseName = $caseName;
-    }
-
-    public function getYearFrom(): ?int
-    {
-        return $this->yearFrom;
-    }
-
-    public function setYearFrom(?int $yearFrom): void
-    {
-        $this->yearFrom = $yearFrom;
-    }
-
-    public function getYearTill(): ?int
-    {
-        return $this->yearTill;
-    }
-
-    public function setYearTill(?int $yearTill): void
-    {
-        $this->yearTill = $yearTill;
     }
 }
