@@ -1,0 +1,54 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Employee\Fixtures;
+
+use App\Doctrine\Registry;
+use App\Entity\Landlord\Operand;
+use App\Entity\Landlord\Person;
+use App\Entity\Tenant\Employee;
+use App\Manufacturer\Entity\Manufacturer;
+use function assert;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+
+final class EmployeeFixtures extends Fixture implements FixtureGroupInterface
+{
+    /**
+     * @var Registry
+     */
+    private Registry $registry;
+
+    public function __construct(Registry $registry)
+    {
+        $this->registry = $registry;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getGroups(): array
+    {
+        return ['tenant'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function load(ObjectManager $manager): void
+    {
+        $person = $this->registry->manager(Person::class)->getReference(Person::class, 2);
+        assert($person instanceof Person);
+
+        $employee = new Employee();
+        $employee->setPerson($person);
+        $employee->setRatio(50);
+
+        $this->addReference('employee-1', $employee);
+
+        $manager->persist($employee);
+        $manager->flush();
+    }
+}

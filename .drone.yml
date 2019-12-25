@@ -155,7 +155,8 @@ steps:
     -   name: fixtures
         image: automagistre/app:base
         commands:
-            - bin/console doctrine:fixtures:load --no-interaction
+            - bin/console doctrine:fixtures:load --no-interaction --group landlord
+            - bin/console doctrine:fixtures:load --no-interaction --group tenant --em=tenant --tenant=msk
         depends_on:
             - migration landlord
             - migration tenant

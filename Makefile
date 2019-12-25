@@ -148,7 +148,8 @@ database:
 
 fixtures: APP_ENV=test
 fixtures:
-	$(APP) console doctrine:fixtures:load --no-interaction
+	$(APP) console doctrine:fixtures:load --no-interaction --group landlord
+	$(APP) console doctrine:fixtures:load --no-interaction --group tenant --em=tenant --tenant=msk
 
 backup: backup-restore migration
 	@$(notify)
