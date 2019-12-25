@@ -53,7 +53,6 @@ RUN curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for
 COPY composer.json composer.lock ${APP_DIR}/
 RUN set -ex \
     && composer validate \
-    && mkdir -p var \
     && composer install --no-interaction --no-progress --no-scripts
 
 COPY etc/php.ini ${PHP_INI_DIR}/php.ini
@@ -65,9 +64,9 @@ ENV PHP_OPCACHE_ENABLE 1
 FROM base as app
 
 ARG APP_ENV
-ENV APP_ENV ${APP_ENV}
+ENV APP_ENV prod
 ARG APP_DEBUG
-ENV APP_DEBUG ${APP_DEBUG}
+ENV APP_DEBUG 0
 
 COPY bin bin
 COPY config config
@@ -77,8 +76,7 @@ COPY templates templates
 COPY translations translations
 
 RUN set -ex \
-    && composer install --no-interaction --no-progress \
-        $(if [ "prod" = "$APP_ENV" ]; then echo "--no-dev --classmap-authoritative"; fi) \
+    && composer install --no-interaction --no-progress --no-dev --classmap-authoritative \
     && chown -R www-data:www-data ${APP_DIR}/var
 
 HEALTHCHECK --interval=10s --timeout=5s --start-period=5s \
