@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\User\DataFixtures;
+namespace App\User\Fixtures;
 
 use App\Roles;
 use App\Tenant\Tenant;
 use App\User\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Generator;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
@@ -15,7 +16,7 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class UserFixtures extends Fixture
+final class UserFixtures extends Fixture implements FixtureGroupInterface
 {
     private EncoderFactoryInterface $encoderFactory;
 
@@ -27,10 +28,19 @@ final class UserFixtures extends Fixture
     /**
      * {@inheritdoc}
      */
+    public static function getGroups(): array
+    {
+        return ['landlord'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function load(ObjectManager $manager): void
     {
-        foreach ($this->users() as [$username, $roles, $tenants]) {
+        foreach ($this->users() as [$username, $roles, $tenants, $reference]) {
             $user = new User();
+            $this->addReference($reference, $user);
             $user->setUsername($username);
             $user->setRoles($roles);
             $user->changePassword('pa$$word', $this->encoderFactory->getEncoder($user));
@@ -47,7 +57,7 @@ final class UserFixtures extends Fixture
 
     private function users(): Generator
     {
-        yield ['admin@automagistre.ru', [Roles::ADMIN], []];
-        yield ['employee@automagistre.ru', [Roles::EMPLOYEE], [Tenant::msk()]];
+        yield ['admin@automagistre.ru', [Roles::ADMIN], [], 'user-admin'];
+        yield ['employee@automagistre.ru', [Roles::EMPLOYEE], [Tenant::msk()], 'user-employee'];
     }
 }
