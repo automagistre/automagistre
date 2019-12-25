@@ -15,6 +15,27 @@ steps:
         commands:
             - docker build -t "automagistre/app:base" --target base .
 
+    -   name: build prod
+        image: docker:19.03.5
+        volumes:
+            -   name: docker.sock
+                path: /var/run/docker.sock
+        commands:
+            - >-
+                docker build -t "automagistre/app:${DRONE_BUILD_NUMBER}"
+                --build-arg APP_ENV="prod"
+                --build-arg APP_DEBUG="0"
+                --target app
+                .
+            - >-
+                docker build -t "automagistre/app-nginx:${DRONE_BUILD_NUMBER}"
+                --build-arg APP_ENV="prod"
+                --build-arg APP_DEBUG="0"
+                --target nginx
+                .
+        depends_on:
+            - build base
+
     -   name: push base
         image: docker:19.03.5
         volumes:
@@ -139,14 +160,14 @@ steps:
             - migration landlord
             - migration tenant
 
-    -   name: doctrine schema validate landlord
+    -   name: doctrine validate landlord
         image: automagistre/app:base
         commands:
             - bin/console doctrine:schema:validate --em=landlord
         depends_on:
             - migration landlord
 
-    -   name: doctrine schema validate tenant
+    -   name: doctrine validate tenant
         image: automagistre/app:base
         commands:
             - bin/console doctrine:schema:validate --em=tenant --tenant=msk
@@ -160,27 +181,6 @@ steps:
         depends_on:
             - fixtures
 
-    -   name: build
-        image: docker:19.03.5
-        volumes:
-            -   name: docker.sock
-                path: /var/run/docker.sock
-        commands:
-            - >-
-                docker build -t "automagistre/app:${DRONE_BUILD_NUMBER}"
-                --build-arg APP_ENV="prod"
-                --build-arg APP_DEBUG="0"
-                --target app
-                .
-            - >-
-                docker build -t "automagistre/app-nginx:${DRONE_BUILD_NUMBER}"
-                --build-arg APP_ENV="prod"
-                --build-arg APP_DEBUG="0"
-                --target nginx
-                .
-        depends_on:
-            - build base
-
     -   name: check deploy
         image: alpine/git:1.0.7
         commands:
@@ -188,13 +188,13 @@ steps:
         when:
             branch: [ master ]
         depends_on:
-            - build
+            - build prod
             - phpunit
             - phpstan
             - psalm
             - symfony requirements
-            - doctrine schema validate landlord
-            - doctrine schema validate tenant
+            - doctrine validate landlord
+            - doctrine validate tenant
 
     -   name: deploy
         image: docker/compose:1.25.0-alpine
