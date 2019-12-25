@@ -15,6 +15,27 @@ steps:
         commands:
             - docker build -t "automagistre/app:base" --target base .
 
+    -   name: build prod
+        image: docker:19.03.5
+        volumes:
+            -   name: docker.sock
+                path: /var/run/docker.sock
+        commands:
+            - >-
+                docker build -t "automagistre/app:${DRONE_BUILD_NUMBER}"
+                --build-arg APP_ENV="prod"
+                --build-arg APP_DEBUG="0"
+                --target app
+                .
+            - >-
+                docker build -t "automagistre/app-nginx:${DRONE_BUILD_NUMBER}"
+                --build-arg APP_ENV="prod"
+                --build-arg APP_DEBUG="0"
+                --target nginx
+                .
+        depends_on:
+            - build base
+
     -   name: push base
         image: docker:19.03.5
         volumes:
@@ -159,27 +180,6 @@ steps:
             - vendor/bin/paratest --processes=$(nproc)
         depends_on:
             - fixtures
-
-    -   name: build
-        image: docker:19.03.5
-        volumes:
-            -   name: docker.sock
-                path: /var/run/docker.sock
-        commands:
-            - >-
-                docker build -t "automagistre/app:${DRONE_BUILD_NUMBER}"
-                --build-arg APP_ENV="prod"
-                --build-arg APP_DEBUG="0"
-                --target app
-                .
-            - >-
-                docker build -t "automagistre/app-nginx:${DRONE_BUILD_NUMBER}"
-                --build-arg APP_ENV="prod"
-                --build-arg APP_DEBUG="0"
-                --target nginx
-                .
-        depends_on:
-            - build base
 
     -   name: check deploy
         image: alpine/git:1.0.7
