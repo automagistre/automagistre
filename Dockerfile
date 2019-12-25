@@ -60,6 +60,7 @@ COPY etc/php-fpm.conf /usr/local/etc/php-fpm.d/automagistre.conf
 
 ENV PHP_MEMORY_LIMIT 1G
 ENV PHP_OPCACHE_ENABLE 1
+ENV PHP_ZEND_ASSERTIONS 1
 
 FROM base as app
 
@@ -67,6 +68,7 @@ ARG APP_ENV
 ENV APP_ENV prod
 ARG APP_DEBUG
 ENV APP_DEBUG 0
+ENV PHP_ZEND_ASSERTIONS -1
 
 COPY bin bin
 COPY config config
