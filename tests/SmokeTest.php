@@ -18,6 +18,7 @@ final class SmokeTest extends WebTestCase
 {
     private const ADDITIONAL_QUERY = [
         'edit' => ['id' => '1'],
+        'autocomplete' => ['query' => 'bla'],
         'OrderItemGroup' => [
             'new' => ['order_id' => '1'],
             'edit' => ['order_id' => '1', 'id' => '1'],
@@ -26,6 +27,7 @@ final class SmokeTest extends WebTestCase
             'list' => ['car_id' => '1'],
             'new' => ['order_id' => '1'],
             'edit' => ['order_id' => '1', 'id' => '2'],
+            'autocomplete' => ['textOnly' => '1'],
         ],
         'OrderItemPart' => [
             'new' => ['order_id' => '1'],
@@ -98,7 +100,7 @@ final class SmokeTest extends WebTestCase
     /**
      * @dataProvider authenticatedPages
      */
-    public function testAuthenticated(string $url, int $statusCode): void
+    public function testAuthenticated(string $url, int $statusCode, bool $ajax): void
     {
         $client = static::createClient([], [
             'PHP_AUTH_USER' => 'employee@automagistre.ru',
@@ -106,7 +108,11 @@ final class SmokeTest extends WebTestCase
         ]);
         $client->setServerParameter('HTTP_HOST', 'sto.automagistre.ru');
 
-        $client->request('GET', $url);
+        if ($ajax) {
+            $client->xmlHttpRequest('GET', $url);
+        } else {
+            $client->request('GET', $url);
+        }
         $response = $client->getResponse();
 
         static::assertSame($statusCode, $response->getStatusCode());
@@ -119,7 +125,7 @@ final class SmokeTest extends WebTestCase
         $configManager = $kernel->getContainer()->get('test.service_container')->get(ConfigManager::class);
 
         foreach ($configManager->getBackendConfig('entities') as $entity => $config) {
-            $actions = array_diff(['list', 'new', 'edit'], $config['disabled_actions']);
+            $actions = array_diff(['list', 'new', 'edit', 'autocomplete'], $config['disabled_actions']);
 
             foreach ($actions as $action) {
                 $queries = array_replace(
@@ -128,7 +134,9 @@ final class SmokeTest extends WebTestCase
                     ['action' => $action, 'entity' => $entity]
                 );
 
-                yield $entity.' '.$action => ['/msk/?'.http_build_query($queries), 200];
+                $isAjax = 'autocomplete' === $action;
+
+                yield $entity.' '.$action => ['/msk/?'.http_build_query($queries), 200, $isAjax];
             }
         }
     }

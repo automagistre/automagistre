@@ -139,7 +139,7 @@ easy_admin:
         OrderPrint:
             class: App\Entity\Tenant\Order
             controller: App\Controller\EasyAdmin\OrderPrintController
-            disabled_actions: ['show', 'list', 'new', 'edit']
+            disabled_actions: ['show', 'list', 'new', 'edit', 'autocomplete']
 
         OrderItemGroup:
             class: App\Entity\Tenant\OrderItemGroup
@@ -635,7 +635,7 @@ easy_admin:
         McLine:
             class: App\Entity\Landlord\MC\Line
             controller: App\Controller\EasyAdmin\MC\LineController
-            disabled_actions: ['show', 'list']
+            disabled_actions: ['show', 'list', 'autocomplete']
             list:
                 fields:
                     - { property: 'id' }
@@ -655,7 +655,7 @@ easy_admin:
         McPart:
             class: App\Entity\Landlord\MC\Part
             controller: App\Controller\EasyAdmin\MC\PartController
-            disabled_actions: ['show', 'list']
+            disabled_actions: ['show', 'list', 'autocomplete']
             form:
                 fields:
                     - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete' }
