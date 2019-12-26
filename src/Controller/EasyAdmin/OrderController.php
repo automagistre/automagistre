@@ -583,7 +583,7 @@ final class OrderController extends AbstractController
             ->select('car.id AS car_id')
             ->addSelect('customer.id AS operand_id')
             ->leftJoin('car.owner', 'customer')
-            ->leftJoin('car.carModel', 'carModel')
+            ->leftJoin('car.model', 'carModel')
             ->leftJoin('carModel.manufacturer', 'manufacturer')
             ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = customer.id AND customer INSTANCE OF '.Person::class)
             ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = customer.id AND customer INSTANCE OF '.Organization::class);
