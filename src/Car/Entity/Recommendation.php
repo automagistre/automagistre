@@ -99,6 +99,11 @@ class Recommendation implements PriceInterface
         return $this->service;
     }
 
+    public function setPrice(Money $price): void
+    {
+        $this->price = $price;
+    }
+
     public function getTotalPrice(): Money
     {
         return $this->getTotalPartPrice()->add($this->getPrice());
