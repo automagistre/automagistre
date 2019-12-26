@@ -94,8 +94,8 @@ final class CarController extends AbstractController
         }
 
         $qb
-            ->leftJoin('car.carModel', 'carModel')
-            ->leftJoin('carModel.manufacturer', 'manufacturer')
+            ->leftJoin('car.model', 'model')
+            ->leftJoin('model.manufacturer', 'manufacturer')
             ->leftJoin('car.owner', 'owner')
             ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = owner.id AND owner INSTANCE OF '.Person::class)
             ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = owner.id AND owner INSTANCE OF '.Organization::class);
@@ -108,8 +108,8 @@ final class CarController extends AbstractController
                 $qb->expr()->like('car.gosnomer', $key),
                 $qb->expr()->like('car.identifier', $key),
                 $qb->expr()->like('car.description', $key),
-                $qb->expr()->like('carModel.name', $key),
-                $qb->expr()->like('carModel.localizedName', $key),
+                $qb->expr()->like('model.name', $key),
+                $qb->expr()->like('model.localizedName', $key),
                 $qb->expr()->like('manufacturer.name', $key),
                 $qb->expr()->like('manufacturer.localizedName', $key),
                 $qb->expr()->like('person.firstname', $key),
