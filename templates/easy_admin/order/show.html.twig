@@ -2,7 +2,7 @@
 
 {% set order = entity %}
 {% set car = order.car %}
-{% set carModel = car.carModel|default %}
+{% set carModel = car.model|default %}
 
 {# @var order \App\Entity\Tenant\Order #}
 {# @var car \App\Entity\Landlord\Car #}
