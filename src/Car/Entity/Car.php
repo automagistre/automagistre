@@ -80,7 +80,7 @@ class Car
      *
      * @ORM\OneToMany(targetEntity="App\Car\Entity\Recommendation", mappedBy="car", cascade={"persist"})
      */
-    public ?Collection $recommendations = null;
+    private ?Collection $recommendations = null;
 
     /**
      * license plate.
