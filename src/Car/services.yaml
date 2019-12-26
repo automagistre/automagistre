@@ -24,7 +24,7 @@ easy_admin:
                 fields:
                     - { property: 'owner', label: 'Владелец' }
                     - { property: 'identifier', label: 'Идентификатор', help: 'VIN, № Кузова/Шасси...' }
-                    - { property: 'carModel', label: 'Модель' }
+                    - { property: 'model', label: 'Модель' }
                     - { property: 'caseType.name', label: 'Тип кузова' }
                     - { property: 'year', label: 'Год', type: 'string' }
                     - { property: 'equipment.engine.capacity', label: 'Объём двигателя' }
