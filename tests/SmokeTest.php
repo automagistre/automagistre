@@ -19,6 +19,7 @@ final class SmokeTest extends WebTestCase
     private const ADDITIONAL_QUERY = [
         'edit' => ['id' => '1'],
         'autocomplete' => ['query' => 'bla'],
+        'search' => ['query' => 'bla'],
         'OrderItemGroup' => [
             'new' => ['order_id' => '1'],
             'edit' => ['order_id' => '1', 'id' => '1'],
@@ -125,7 +126,7 @@ final class SmokeTest extends WebTestCase
         $configManager = $kernel->getContainer()->get('test.service_container')->get(ConfigManager::class);
 
         foreach ($configManager->getBackendConfig('entities') as $entity => $config) {
-            $actions = array_diff(['list', 'new', 'edit', 'autocomplete'], $config['disabled_actions']);
+            $actions = array_diff(['list', 'new', 'edit', 'autocomplete', 'search'], $config['disabled_actions']);
 
             foreach ($actions as $action) {
                 $queries = array_replace(

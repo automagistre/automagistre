@@ -139,12 +139,12 @@ easy_admin:
         OrderPrint:
             class: App\Entity\Tenant\Order
             controller: App\Controller\EasyAdmin\OrderPrintController
-            disabled_actions: ['show', 'list', 'new', 'edit', 'autocomplete']
+            disabled_actions: ['show', 'list', 'new', 'edit', 'autocomplete', 'search']
 
         OrderItemGroup:
             class: App\Entity\Tenant\OrderItemGroup
             controller: App\Controller\EasyAdmin\OrderItemGroupController
-            disabled_actions: ['show', 'list']
+            disabled_actions: ['show', 'list', 'search']
             templates:
                 new: 'easy_admin/order_item_group/new.html.twig'
                 edit: 'easy_admin/order_item_group/edit.html.twig'
@@ -159,7 +159,7 @@ easy_admin:
         OrderItemService:
             class: App\Entity\Tenant\OrderItemService
             controller: App\Controller\EasyAdmin\OrderItemServiceController
-            disabled_actions: ['show']
+            disabled_actions: ['show', 'search']
             templates:
                 list: 'easy_admin/order_item_service/list.html.twig'
                 new: 'easy_admin/order_item_service/new.html.twig'
@@ -191,7 +191,7 @@ easy_admin:
         OrderItemPart:
             class: App\Entity\Tenant\OrderItemPart
             controller: App\Controller\EasyAdmin\OrderItemPartController
-            disabled_actions: ['show', 'list']
+            disabled_actions: ['show', 'list', 'search']
             templates:
                 new: 'easy_admin/order_item_part/new.html.twig'
                 edit: 'easy_admin/order_item_part/edit.html.twig'
@@ -231,7 +231,7 @@ easy_admin:
         Operand:
             class: App\Entity\Landlord\Operand
             controller: App\Controller\EasyAdmin\OperandController
-            disabled_actions: ['list', 'new', 'edit', 'delete']
+            disabled_actions: ['list', 'new', 'edit', 'delete', 'search']
 
         Person:
             class: App\Entity\Landlord\Person
@@ -466,7 +466,7 @@ easy_admin:
         Income:
             class: App\Entity\Tenant\Income
             controller: App\Controller\EasyAdmin\IncomeController
-            disabled_actions: ['delete']
+            disabled_actions: ['delete', 'search']
             templates:
                 list: 'easy_admin/income/list.html.twig'
                 show: 'easy_admin/income/show.html.twig'
