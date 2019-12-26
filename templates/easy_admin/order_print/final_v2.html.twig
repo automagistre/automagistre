@@ -137,7 +137,7 @@
             </section>
             <h2 class="order-info-title">
                 заказ-наряд: {{ order.id }}
-                ОТ {{ (order.closed ? order.closedAt : date(null, 'Europe/Moscow'))|format_date('short', 'none') }}
+                ОТ {{ (order.closed ? order.closedAt : date(null, 'Europe/Moscow'))|format_date('short') }}
             </h2>
             <section class="order">
                 <table class="table order-table">

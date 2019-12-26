@@ -53,7 +53,7 @@
                                                 {{ order.id }}
                                             </a>
                                         </td>
-                                        <td>{{ order.closedAt|format_date }}</td>
+                                        <td>{{ order.closedAt|format_datetime }}</td>
                                         <td>{{ order.totalForPayment|localize_money }}</td>
                                     </tr>
                                 {% endfor %}

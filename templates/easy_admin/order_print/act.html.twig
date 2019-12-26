@@ -10,7 +10,7 @@
             <h1>Акт сдачи-приемки выполненных работ (оказанных услуг)<br> №
                 {{ order.id }}/2
                 от
-                {{ (order.closed ? order.closedAt : date(null, 'Europe/Moscow'))|format_date('short', 'none') }} г.
+                {{ (order.closed ? order.closedAt : date(null, 'Europe/Moscow'))|format_date('short') }} г.
             </h1>
             <section class="bk-info">
                 <div class="bk-info-executor">

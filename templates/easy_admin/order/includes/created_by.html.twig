@@ -8,6 +8,6 @@
         <i class="fa fa-user"
            data-toggle="tooltip"
            data-placement="bottom"
-           title="{{ createdAt|format_date }} {{ person ? person.fullName : user }}"></i>
+           title="{{ createdAt|format_datetime }} {{ person ? person.fullName : user }}"></i>
     </a>
 {%- endapply %}

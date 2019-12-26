@@ -111,7 +111,7 @@
         </section>
 
         <section class="order-info">
-            <h3>заказ-наряд: {{ order.id }} от {{ (order.closed ? order.closedAt : date(null, 'Europe/Moscow'))|format_date('short', 'none') }}</h3>
+            <h3>заказ-наряд: {{ order.id }} от {{ (order.closed ? order.closedAt : date(null, 'Europe/Moscow'))|format_date('short') }}</h3>
         </section>
 
         {% set isServicesDiscounted = order.servicesDiscounted %}
