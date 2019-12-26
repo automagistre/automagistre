@@ -331,7 +331,9 @@ final class PartController extends AbstractController
             }
 
             foreach ($cases as $case) {
-                $searchQuery = str_ireplace($case->getCaseName(), '', $searchQuery);
+                assert($case instanceof Model);
+
+                $searchQuery = str_ireplace($case->caseName, '', $searchQuery);
             }
             $searchQuery = str_replace('  ', ' ', $searchQuery);
 
