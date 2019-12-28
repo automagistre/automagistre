@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3d4f230ac007d4ca8e9e9629a455e6fd",
+    "content-hash": "91418e09c50ac623494d364e8e8bfe0b",
     "packages": [
         {
             "name": "antishov/doctrine-extensions-bundle",
@@ -11649,22 +11649,23 @@
         },
         {
             "name": "vimeo/psalm",
-            "version": "3.7.2",
+            "version": "3.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vimeo/psalm.git",
-                "reference": "d9cae720c1af31db9ba27c2bc1fcf9b0dd092fb0"
+                "reference": "bdb2f3c2be7bd56b180535dca33d72b74ffe1af7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vimeo/psalm/zipball/d9cae720c1af31db9ba27c2bc1fcf9b0dd092fb0",
-                "reference": "d9cae720c1af31db9ba27c2bc1fcf9b0dd092fb0",
+                "url": "https://api.github.com/repos/vimeo/psalm/zipball/bdb2f3c2be7bd56b180535dca33d72b74ffe1af7",
+                "reference": "bdb2f3c2be7bd56b180535dca33d72b74ffe1af7",
                 "shasum": ""
             },
             "require": {
                 "amphp/amp": "^2.1",
                 "amphp/byte-stream": "^1.5",
                 "composer/xdebug-handler": "^1.1",
+                "ext-dom": "*",
                 "felixfbecker/advanced-json-rpc": "^3.0.3",
                 "felixfbecker/language-server-protocol": "^1.4",
                 "netresearch/jsonmapper": "^1.0",
@@ -11715,7 +11716,8 @@
                     "Psalm\\": "src/Psalm"
                 },
                 "files": [
-                    "src/functions.php"
+                    "src/functions.php",
+                    "src/spl_object_id.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -11733,7 +11735,7 @@
                 "inspection",
                 "php"
             ],
-            "time": "2019-12-03T13:33:31+00:00"
+            "time": "2019-12-27T22:10:16+00:00"
         },
         {
             "name": "webmozart/glob",
