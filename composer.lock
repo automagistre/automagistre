@@ -1707,21 +1707,21 @@
         },
         {
             "name": "endroid/qr-code-bundle",
-            "version": "3.4.1",
+            "version": "3.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/endroid/qr-code-bundle.git",
-                "reference": "2399c5d36675c18689d75df6f38963f2e7cbd40d"
+                "reference": "51928eaaa30e7db1fd3f1076744dcbc8f8cec8c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endroid/qr-code-bundle/zipball/2399c5d36675c18689d75df6f38963f2e7cbd40d",
-                "reference": "2399c5d36675c18689d75df6f38963f2e7cbd40d",
+                "url": "https://api.github.com/repos/endroid/qr-code-bundle/zipball/51928eaaa30e7db1fd3f1076744dcbc8f8cec8c8",
+                "reference": "51928eaaa30e7db1fd3f1076744dcbc8f8cec8c8",
                 "shasum": ""
             },
             "require": {
                 "endroid/installer": "^1.1",
-                "endroid/qr-code": "^3.7.3",
+                "endroid/qr-code": "^3.7.5",
                 "php": ">=7.2",
                 "symfony/framework-bundle": "^3.4||^4.1.12||^5.0",
                 "symfony/twig-bundle": "^3.4||^4.0||^5.0",
@@ -1761,7 +1761,7 @@
                 "qr",
                 "symfony"
             ],
-            "time": "2019-12-16T14:20:09+00:00"
+            "time": "2020-01-01T15:15:59+00:00"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -8454,6 +8454,7 @@
                 "code",
                 "zf"
             ],
+            "abandoned": "laminas/laminas-code",
             "time": "2019-12-10T19:21:15+00:00"
         },
         {
@@ -8521,6 +8522,7 @@
                 "psr",
                 "psr-7"
             ],
+            "abandoned": "laminas/laminas-diactoros",
             "time": "2019-11-13T19:16:13+00:00"
         },
         {
@@ -8575,6 +8577,7 @@
                 "events",
                 "zf2"
             ],
+            "abandoned": "laminas/laminas-eventmanager",
             "time": "2018-04-25T15:33:34+00:00"
         }
     ],
