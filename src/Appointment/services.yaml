@@ -1,0 +1,55 @@
+easy_admin:
+    entities:
+        Appointment:
+            class: App\Appointment\Entity\Appointment
+            controller: App\Appointment\Controller\AppointmentController
+            disabled_actions: ['show', 'search', 'autocomplete']
+            list:
+                title: 'Запись'
+                fields:
+                    - { property: 'id' }
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'localizedName', label: 'Название на русском' }
+                    - { property: 'logo', label: 'Logo' }
+            form:
+                fields:
+                    -   property: 'date'
+                        label: 'Дата'
+                        type: Symfony\Component\Form\Extension\Core\Type\DateTimeType
+                        type_options:
+                            input: datetime_immutable
+                            hours: { 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 16: 16, 17: 17, 18: 18, 19: 19, 20: 20, 21: 21, 22: 22, 23: 23 }
+                            minutes: { 0: 0, 30: 30 }
+                    -   property: 'duration'
+                        label: 'Длительность'
+                        type: Symfony\Component\Form\Extension\Core\Type\DateIntervalType
+                        type_options:
+                            with_days: false
+                            with_hours: true
+                            with_invert: false
+                            with_minutes: true
+                            with_months: false
+                            with_seconds: false
+                            with_weeks: false
+                            with_years: false
+                            minutes: { 0: 0, 30: 30 }
+                    -   property: order
+                        label: null
+                        type: EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminFormType
+                        type_options:
+                            entity: Order
+                            view: edit
+            new:
+                title: 'Новая запись'
+            edit:
+                title: 'Редактировать Запись'
+
+doctrine:
+    orm:
+        entity_managers:
+            tenant:
+                mappings:
+                    appointment:
+                        type: annotation
+                        prefix: App\Appointment\Entity
+                        dir: '%kernel.project_dir%/src/Appointment/Entity'

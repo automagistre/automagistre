@@ -41,6 +41,7 @@ final class OrderFixtures extends Fixture implements FixtureGroupInterface
         $order->setCreatedBy($user);
         $manager->persist($order);
 
+        $this->addReference('order-1', $order);
         $manager->persist(new OrderNote($order, $user, NoteType::info(), 'Order Note'));
 
         $money = new Money(100, new Currency('RUB'));

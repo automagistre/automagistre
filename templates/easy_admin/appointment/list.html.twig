@@ -1,0 +1,113 @@
+{% extends 'easy_admin/default/list.html.twig' %}
+
+{% block content_title %}
+    Запись
+{% endblock %}
+
+{% block head_stylesheets %}
+    {{ parent() }}
+    <style>
+        a.create-plus-button {
+            opacity: 0;
+        }
+
+        a.create-plus-button:hover {
+            opacity: 1;
+        }
+    </style>
+{% endblock %}
+
+{% block global_actions %}{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-12">
+            <form id="date-form" method="GET" class="form" action="{{ app.request.requestUri }}">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="input-group">
+                            <div class="input-group-addon">Дата</div>
+                            <input id="date-input" type="date" name="date" class="form-control" value="{{ date|date('Y-m-d') }}">
+                        </div>
+                    </div>
+                    {% for query in ['entity', 'action', 'menuIndex', 'submenuIndex'] %}
+                        <input type="hidden" name="{{ query }}" value="{{ app.request.query.get(query) }}">
+                    {% endfor %}
+                    <div class="col-md-3">
+                        <button id="today-button" class="btn btn-primary">Сегодня</button>
+                        <script>
+                          $('#today-button').click(function(e) {
+                            $('#date-input').val('{{ today|date('Y-m-d') }}');
+                          });
+
+                          $('#date-input').change(() => $('#date-form').submit());
+                        </script>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th style="width: 10%"></th>
+                        {% for time in columns %}
+                            <th style="text-align: center; width: 50px"><strong>{{ time }}</strong></th>
+                        {% endfor %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for stream in streams %}
+                        {# @var stream \App\Appointment\View\Stream #}
+                        <tr style="height: 60px">
+                            <td>{{ include('easy_admin/field_show.html.twig', {'value': stream.worker}) }}</td>
+                            {% set skip = 0 %}
+
+                            {% for time in columns %}
+                                {# @var stream \App\Appointment\View\Stream #}
+                                {% if skip > 0 %}
+                                    {% set skip = skip - 1 %}
+                                {% elseif stream.has(time) %}
+                                    {% set item = stream.get(time) %}
+                                    {% set skip = item.length - 1 %}
+                                    <td{% if item.length > 1 %} colspan="{{ item.length }}"{% endif %} style="background-color: #dff0d8;">
+                                        {% set appointment = item.appointment %}
+                                        {% set order = appointment.order %}
+
+                                        <a href="{{ easyadmin_path(order, 'show') }}">
+                                            {{ order.customer ?? '<del>Клиента</del>' }} <br>
+                                            {{ order.car ?? '<del>Авто</del>' }}
+                                        </a>
+                                    </td>
+                                {% else %}
+                                    <td style="text-align: center">
+                                        <a href="{{ easyadmin_path('Appointment', 'new', {'date': date|date('Y-m-d') ~ ' ' ~ time}|merge(stream.worker ? stream.worker|to_query : {})) }}" class="btn btn-success create-plus-button">
+                                            <i class="fa fa-plus"></i>
+                                        </a>
+                                    </td>
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td></td>
+                        {% for time in columns %}
+                            <td style="text-align: center">
+                                <a href="{{ easyadmin_path('Appointment', 'new', {'date': date|date('Y-m-d') ~ ' ' ~ time}) }}" class="btn btn-success create-plus-button">
+                                    <i class="fa fa-plus"></i>
+                                </a>
+                            </td>
+                        {% endfor %}
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
