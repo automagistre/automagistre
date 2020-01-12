@@ -48,7 +48,7 @@ final class RecommendationManager
             $recommendation->service,
             $recommendation->getPrice(),
             $user,
-            $order->getActiveWorker()
+            $order->getWorkerPerson()
         );
 
         $orderItemParts = [];

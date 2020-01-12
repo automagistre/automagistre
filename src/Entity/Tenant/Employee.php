@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\Entity\Tenant;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
-use App\Entity\Embeddable\OperandRelation;
+use App\Entity\Embeddable\PersonRelation;
 use App\Entity\Landlord\Person;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use LogicException;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -22,9 +21,9 @@ class Employee
     use Identity;
 
     /**
-     * @var OperandRelation
+     * @var PersonRelation
      *
-     * @ORM\Embedded(class="App\Entity\Embeddable\OperandRelation")
+     * @ORM\Embedded(class="App\Entity\Embeddable\PersonRelation")
      */
     private $person;
 
@@ -51,7 +50,7 @@ class Employee
 
     public function __construct()
     {
-        $this->person = new OperandRelation();
+        $this->person = new PersonRelation();
         $this->hiredAt = new DateTime();
     }
 
@@ -60,23 +59,19 @@ class Employee
         return $this->getPerson()->getFullName();
     }
 
+    public function isEqual(?self $employee): bool
+    {
+        return null !== $employee && $this->getId() === $employee->getId();
+    }
+
     public function setPerson(Person $person): void
     {
-        $this->person = new OperandRelation($person);
+        $this->person = new PersonRelation($person);
     }
 
     public function getPerson(): ?Person
     {
-        if ($this->person->isEmpty()) {
-            return null;
-        }
-
-        $entity = $this->person->entity();
-        if (!$entity instanceof Person) {
-            throw new LogicException('Person expected');
-        }
-
-        return $entity;
+        return $this->person->entityOrNull();
     }
 
     public function setRatio(int $ratio): void

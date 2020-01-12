@@ -85,7 +85,7 @@ final class RecommendationController extends AbstractController
 
         $order = $this->getEntity(Order::class);
         if ($order instanceof Order) {
-            $model->worker = $order->getActiveWorker();
+            $model->worker = $order->getWorkerPerson();
         }
 
         if (null === $model->worker) {

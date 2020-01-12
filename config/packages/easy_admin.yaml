@@ -130,6 +130,7 @@ easy_admin:
                     - { property: 'customer', label: 'Заказчик', type: 'easyadmin_autocomplete', type_options: { class: App\Entity\Landlord\Operand } }
                     - { property: 'car', label: 'Автомобиль', type: 'easyadmin_autocomplete', type_options: { class: App\Car\Entity\Car } }
                     - { property: 'mileage', label: 'Пробег' }
+                    - { property: 'worker', label: 'Работник', type: App\Employee\Form\EmployeeType }
                     - { type: 'group', label: 'Описание', css_class: 'col-sm-6' }
                     - { property: 'description', label: 'Описание', type: 'textarea' }
             new:
