@@ -14,6 +14,7 @@ use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use EasyCorp\Bundle\EasyAdminBundle\Router\EasyAdminRouter;
+use function is_callable;
 use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
@@ -110,7 +111,7 @@ abstract class AbstractController extends EasyAdminController
             : parent::redirectToReferrer();
     }
 
-    protected function getEntity(string $class): ?object
+    protected function getEntity(string $class, callable $callable = null): ?object
     {
         $entity = $this->container->get(EntityTransformer::class)->reverseTransform($class);
 
@@ -120,6 +121,10 @@ abstract class AbstractController extends EasyAdminController
 
         if (!$entity instanceof $class) {
             return null;
+        }
+
+        if (is_callable($callable)) {
+            $callable($entity);
         }
 
         return $entity;
