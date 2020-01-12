@@ -1,3 +1,7 @@
-<a href="{{ easyadmin_path(value, 'show', {'referer': true}) }}">
-    {{- value|easyadmin_truncate -}}
-</a>
+{% if value is not empty %}
+    <a href="{{ easyadmin_path(value, 'show', {'referer': true}) }}">
+        {{- value|easyadmin_truncate -}}
+    </a>
+{% else %}
+    {% include 'easy_admin/default/label_null.html.twig' %}
+{% endif %}

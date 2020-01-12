@@ -144,6 +144,18 @@
                 </div>
             </div>
 
+            <div class="form-horizontal">
+                <div class="form-group field-association ">
+                    <label class="col-sm-2 control-label">Работник</label>
+
+                    <div class="col-sm-10">
+                        <div class="form-control">
+                            {% include 'easy_admin/field_show.html.twig' with {'value': order.worker} only %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             {% if order.description is not empty %}
                 <div class="form-horizontal">
                     <div class="form-group field-association ">

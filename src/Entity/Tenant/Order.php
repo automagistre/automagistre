@@ -13,6 +13,7 @@ use App\Entity\Embeddable\CarRelation;
 use App\Entity\Embeddable\OperandRelation;
 use App\Entity\Embeddable\UserRelation;
 use App\Entity\Landlord\Operand;
+use App\Entity\Landlord\Person;
 use App\Entity\WarrantyInterface;
 use App\Enum\OrderStatus;
 use App\Money\TotalPriceInterface;
@@ -95,6 +96,11 @@ class Order
      * @ORM\Embedded(class="App\Entity\Embeddable\OperandRelation")
      */
     private $customer;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\Employee")
+     */
+    private ?Employee $worker = null;
 
     /**
      * @var int|null
@@ -211,18 +217,13 @@ class Order
         $this->appointmentAt = $appointment;
     }
 
-    public function getActiveWorker(): ?Operand
+    public function getWorkerPerson(): ?Person
     {
-        foreach ($this->getItems(OrderItemService::class) as $service) {
-            /** @var OrderItemService $service */
-            $worker = $service->getWorker();
-
-            if (null !== $worker) {
-                return $worker;
-            }
+        if (null === $this->worker) {
+            return null;
         }
 
-        return null;
+        return $this->worker->getPerson();
     }
 
     public function addItem(OrderItem $item): void
@@ -296,6 +297,31 @@ class Order
     public function setCustomer(?Operand $customer): void
     {
         $this->customer = new OperandRelation($customer);
+    }
+
+    public function getWorker(): ?Employee
+    {
+        return $this->worker;
+    }
+
+    public function setWorker(?Employee $worker): void
+    {
+        $previous = null !== $this->worker ? $this->worker->getPerson() : null;
+        $this->worker = $worker;
+
+        if (null === $previous && null === $worker) {
+            return;
+        }
+
+        foreach ($this->items->filter(fn (OrderItem $item) => $item instanceof OrderItemService) as $item) {
+            assert($item instanceof OrderItemService);
+
+            if (null === $item->getWorker() || $item->getWorker()->isEqual($previous)) {
+                $item->setWorker($worker->getPerson());
+
+                continue;
+            }
+        }
     }
 
     public function getDescription(): ?string

@@ -57,6 +57,11 @@ abstract class Operand implements Transactional
         return OperandTransaction::class;
     }
 
+    public function isEqual(?self $operand): bool
+    {
+        return null !== $operand && $operand->getId() === $this->id;
+    }
+
     public function getEmail(): ?string
     {
         return $this->email;
