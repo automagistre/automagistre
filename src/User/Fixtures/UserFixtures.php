@@ -9,7 +9,7 @@ use App\Tenant\Tenant;
 use App\User\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Generator;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 

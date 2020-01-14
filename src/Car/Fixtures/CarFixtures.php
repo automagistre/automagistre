@@ -7,7 +7,7 @@ namespace App\Car\Fixtures;
 use App\Car\Entity\Car;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 final class CarFixtures extends Fixture implements FixtureGroupInterface
 {
