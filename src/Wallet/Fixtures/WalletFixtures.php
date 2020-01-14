@@ -7,7 +7,7 @@ namespace App\Wallet\Fixtures;
 use App\Entity\Tenant\Wallet;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Money\Currency;
 
 final class WalletFixtures extends Fixture implements FixtureGroupInterface
