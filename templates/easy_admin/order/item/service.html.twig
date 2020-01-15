@@ -36,12 +36,14 @@
             {% set popoverContent %}
             Создал: {{ recommendation.createdBy }} <br/>
             Диагност: {{ recommendation.worker }} <br/>
-            Запчасти: <br/>
+                {% if recommendation.parts is not empty %}
+                    Запчасти: <br/>
 
-            {% for part in recommendation.parts %}
-            {# @var part \App\Car\Entity\RecommendationPart #}
-            - {{ part.part }} (x{{ part.quantity / 100 }}) {{ part.price|localize_money }} <br/>
-            {% endfor %}
+                    {% for part in recommendation.parts %}
+                    {# @var part \App\Car\Entity\RecommendationPart #}
+                    - {{ part.part }} (x{{ part.quantity / 100 }}) {{ part.price|localize_money }} <br/>
+                    {% endfor %}
+                {% endif %}
             {% endset %}
 
             <script>
