@@ -20,7 +20,7 @@ class TenantVoter extends Voter
     /**
      * {@inheritdoc}
      */
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         assert($subject instanceof Tenant);
         $user = $token->getUser();
