@@ -20,7 +20,7 @@ final class SecurityController extends AbstractController
     /**
      * @Route("/login", name="login", methods={"GET"})
      */
-    public function loginAction(FormFactoryInterface $formFactory, AuthenticationUtils $authUtils): Response
+    public function login(FormFactoryInterface $formFactory, AuthenticationUtils $authUtils): Response
     {
         if ($this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return $this->redirect('/');

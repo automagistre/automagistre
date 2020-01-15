@@ -124,6 +124,7 @@ final class SmokeTest extends WebTestCase
         $kernel = self::bootKernel();
         /** @var ConfigManager $configManager */
         $configManager = $kernel->getContainer()->get('test.service_container')->get(ConfigManager::class);
+        self::ensureKernelShutdown();
 
         foreach ($configManager->getBackendConfig('entities') as $entity => $config) {
             $actions = array_diff(['list', 'new', 'edit', 'autocomplete', 'search'], $config['disabled_actions']);

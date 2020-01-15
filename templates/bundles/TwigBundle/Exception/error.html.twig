@@ -1,0 +1,13 @@
+{% extends 'easy_admin/default/layout.html.twig' %}
+
+{% block content_title %}Ой! Произошла ошибка{% endblock %}
+
+{% block main %}
+    <h4>Сервер ответил "{{ status_code }} {{ status_text }}".</h4>
+
+    <p>
+        Что-то сломалось. Скорее всего мы уже получили уведомление об этой ошибке.
+        Но вы так же можете сообщите об ошибке в общем чате в WhatsApp.
+        Извиняться не будем, потому что жизнь боль.
+    </p>
+{% endblock %}
