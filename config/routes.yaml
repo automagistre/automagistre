@@ -4,6 +4,6 @@ _admin:
 
 # MUST BE LAST
 _easy_admin:
-    resource: '@EasyAdminBundle/Controller/AdminController.php'
+    resource: '@EasyAdminBundle/Controller/EasyAdminController.php'
     type: annotation
     prefix: /{tenant}

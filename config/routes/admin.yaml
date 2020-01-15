@@ -1,18 +1,18 @@
 _security:
-    resource: '../src/User/Controller/SecurityController.php'
+    resource: '../../src/User/Controller/SecurityController.php'
     type: annotation
 
 _home:
-    resource: '../src/Controller/Admin/HomeController.php'
+    resource: '../../src/Controller/Admin/HomeController.php'
     type: annotation
 
 _part_explorer:
-    resource: '../src/Controller/Admin/PartExplorerController.php'
+    resource: '../../src/Controller/Admin/PartExplorerController.php'
     type: annotation
     prefix: /{tenant}
 
 _report:
-    resource: '../src/Controller/Admin/Report/'
+    resource: '../../src/Controller/Admin/Report/'
     type: annotation
     prefix: /{tenant}/report
     name_prefix: report_

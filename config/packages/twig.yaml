@@ -3,7 +3,6 @@ twig:
     strict_variables: "%kernel.debug%"
     paths:
         - '%kernel.project_dir%/templates'
-    exception_controller: App\Controller\ExceptionController::showAction
     globals:
         state: '@App\State'
     form_themes:

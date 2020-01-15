@@ -529,7 +529,7 @@ final class OrderController extends AbstractController
             $qb->andWhere('entity.customer.id = :customer')
                 ->setParameter('customer', $customer->getId());
         }
-
+        throw new \Exception();
         $car = $this->getEntity(Car::class);
         if ($car instanceof Car) {
             $qb->andWhere('entity.car.id = :car')
