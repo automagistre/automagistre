@@ -50,7 +50,7 @@ final class OrderItemServiceController extends OrderItemController
             $this->addFlash(
                 'error',
                 sprintf(
-                    'Перед перенесом работы "%s" в рекоммендации нужно выбрать исполнителя.',
+                    'Перед перенесом работы "%s" в рекомендации нужно выбрать исполнителя.',
                     $orderItemService->getService()
                 )
             );

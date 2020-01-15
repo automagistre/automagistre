@@ -648,7 +648,7 @@ easy_admin:
                 fields:
                     - { property: 'work', label: 'Работа' }
                     - { property: 'period', label: 'Период' }
-                    - { property: 'recommended', label: 'Рекоммендуемый?' }
+                    - { property: 'recommended', label: 'Рекомендуемый?' }
             new:
                 title: 'Создать комплектацию'
             edit:
@@ -662,7 +662,7 @@ easy_admin:
                 fields:
                     - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete' }
                     - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
-                    - { property: 'recommended', label: 'Рекоммендуемый?' }
+                    - { property: 'recommended', label: 'Рекомендуемый?' }
             new:
                 title: 'Создать новую запчасть для ТО'
             edit:
