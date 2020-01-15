@@ -21,6 +21,37 @@
         {%- if item.warranty -%}
             <span class="label label-success">Гарантия</span>
         {%- endif -%}
+
+        {% set recommendation = recommendation_by_service(item) %}
+        {% if recommendation is not empty %}
+            {# @var recommendation \App\Car\Entity\Recommendation #}
+            {% set recommendationId = 'recommendation-' ~ recommendation.id %}
+            <a id="{{ recommendationId }}"
+               style="cursor: pointer"
+               data-toggle="popover"
+               title="Рекоммендация от {{ recommendation.createdAt|format_date }}">
+                <span class="label label-info">Рекоммендация</span>
+            </a>
+
+            {% set popoverContent %}
+            Создал: {{ recommendation.createdBy }} <br/>
+            Диагност: {{ recommendation.worker }} <br/>
+            Запчасти: <br/>
+
+            {% for part in recommendation.parts %}
+            {# @var part \App\Car\Entity\RecommendationPart #}
+            - {{ part.part }} (x{{ part.quantity / 100 }}) {{ part.price|localize_money }} <br/>
+            {% endfor %}
+            {% endset %}
+
+            <script>
+              $('#{{ recommendationId }}').popover({
+                html: true,
+                placement: 'top',
+                content: `{{ popoverContent }}`,
+              });
+            </script>
+        {% endif %}
     </td>
     <td>{{ item.worker }}</td>
     <td>{{ item.discounted ? item.discount|localize_money }}</td>
