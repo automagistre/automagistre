@@ -21,7 +21,6 @@
         "ext-json": "*",
         "antishov/doctrine-extensions-bundle": "^1.4",
         "beberlei/doctrineextensions": "^1.2",
-        "brianium/paratest": "dev-master",
         "doctrine/doctrine-bundle": "^2.0",
         "doctrine/doctrine-migrations-bundle": "^2.0",
         "doctrine/orm": "^2.6",
@@ -66,6 +65,7 @@
         "wapmorgan/morphos": "^3.2"
     },
     "require-dev": {
+        "brianium/paratest": "dev-master",
         "dama/doctrine-test-bundle": "^6.2",
         "doctrine/doctrine-fixtures-bundle": "^3.3",
         "friendsofphp/php-cs-fixer": "^2.15",
