@@ -50,6 +50,8 @@ class Car
     public ?Model $model = null;
 
     /**
+     * @Assert\Length(max="17")
+     *
      * @ORM\Column(length=17, nullable=true, unique=true)
      */
     public ?string $identifier = null;
