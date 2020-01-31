@@ -49,6 +49,7 @@ pull:
 up: contrib pull composer permissions
 	docker-compose up --detach --remove-orphans --no-build
 	@$(notify)
+latest: up backup-latest
 cli: app-cli
 
 down:
