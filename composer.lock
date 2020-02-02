@@ -8612,16 +8612,16 @@
         },
         {
             "name": "wapmorgan/morphos",
-            "version": "3.2.19",
+            "version": "3.2.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wapmorgan/Morphos.git",
-                "reference": "de177b3759119c3ff9ff3e55d4555e65e0508791"
+                "reference": "7212132f9094db12008a23503a9e6d3dea7fc3bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wapmorgan/Morphos/zipball/de177b3759119c3ff9ff3e55d4555e65e0508791",
-                "reference": "de177b3759119c3ff9ff3e55d4555e65e0508791",
+                "url": "https://api.github.com/repos/wapmorgan/Morphos/zipball/7212132f9094db12008a23503a9e6d3dea7fc3bc",
+                "reference": "7212132f9094db12008a23503a9e6d3dea7fc3bc",
                 "shasum": ""
             },
             "require": {
@@ -8677,7 +8677,7 @@
                 "spelling",
                 "time"
             ],
-            "time": "2019-08-17T13:33:23+00:00"
+            "time": "2020-02-02T00:26:42+00:00"
         },
         {
             "name": "webimpress/safe-writer",
@@ -9624,9 +9624,9 @@
             "authors": [
                 {
                     "name": "Christian Weiske",
-                    "role": "Developer",
                     "email": "cweiske@cweiske.de",
-                    "homepage": "http://github.com/cweiske/jsonmapper/"
+                    "homepage": "http://github.com/cweiske/jsonmapper/",
+                    "role": "Developer"
                 }
             ],
             "description": "Map nested JSON structures onto PHP classes",
