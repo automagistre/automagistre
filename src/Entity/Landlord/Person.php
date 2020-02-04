@@ -9,6 +9,7 @@ use libphonenumber\PhoneNumber;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhone;
 use function sprintf;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -19,6 +20,8 @@ class Person extends Operand
 {
     /**
      * @var string
+     *
+     * @Assert\Length(max="32")
      *
      * @ORM\Column(length=32, nullable=true)
      */
