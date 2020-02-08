@@ -2955,16 +2955,16 @@
         },
         {
             "name": "ocramius/proxy-manager",
-            "version": "2.6.1",
+            "version": "2.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ocramius/ProxyManager.git",
-                "reference": "dec37bfb3c3594440ee4fa263494189344787d22"
+                "reference": "e77928e8f11ea36b388f87e75c993d05f5da6bf1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ocramius/ProxyManager/zipball/dec37bfb3c3594440ee4fa263494189344787d22",
-                "reference": "dec37bfb3c3594440ee4fa263494189344787d22",
+                "url": "https://api.github.com/repos/Ocramius/ProxyManager/zipball/e77928e8f11ea36b388f87e75c993d05f5da6bf1",
+                "reference": "e77928e8f11ea36b388f87e75c993d05f5da6bf1",
                 "shasum": ""
             },
             "require": {
@@ -2982,14 +2982,12 @@
                 "doctrine/coding-standard": "^6.0.0",
                 "ext-phar": "*",
                 "infection/infection": "^0.15.0",
-                "mikey179/vfsstream": "^1.6.8",
                 "nikic/php-parser": "^4.3.0",
-                "phpbench/phpbench": "^0.16.10",
-                "phpunit/phpunit": "^8.5.1",
+                "phpbench/phpbench": "^0.17.0",
+                "phpunit/phpunit": "^8.5.2",
                 "slevomat/coding-standard": "^5.0.4",
-                "squizlabs/php_codesniffer": "^3.5.3",
-                "symfony/console": "^4.4.2",
-                "vimeo/psalm": "3.7.0"
+                "squizlabs/php_codesniffer": "^3.5.4",
+                "vimeo/psalm": "^3.8.5"
             },
             "suggest": {
                 "laminas/laminas-json": "To have the JsonRpc adapter (Remote Object feature)",
@@ -3028,7 +3026,7 @@
                 "proxy pattern",
                 "service proxies"
             ],
-            "time": "2020-01-27T09:25:51+00:00"
+            "time": "2020-02-08T19:22:03+00:00"
         },
         {
             "name": "odolbeau/phone-number-bundle",
@@ -8961,12 +8959,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/paratestphp/paratest.git",
-                "reference": "be62103b00485442ed2909b69854d6c7ec4614ed"
+                "reference": "65ae32494ac892adb3c0708740956fcf31a34527"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/be62103b00485442ed2909b69854d6c7ec4614ed",
-                "reference": "be62103b00485442ed2909b69854d6c7ec4614ed",
+                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/65ae32494ac892adb3c0708740956fcf31a34527",
+                "reference": "65ae32494ac892adb3c0708740956fcf31a34527",
                 "shasum": ""
             },
             "require": {
@@ -8976,9 +8974,9 @@
                 "ext-reflection": "*",
                 "ext-simplexml": "*",
                 "php": "^7.1",
-                "phpunit/php-code-coverage": "^6.1.4|^7.0.2",
-                "phpunit/php-timer": "^2.0",
-                "phpunit/phpunit": "^7.5.8|^8.0",
+                "phpunit/php-code-coverage": "^6.1.4|^7.0.2|^8.0",
+                "phpunit/php-timer": "^2.0|^3.0",
+                "phpunit/phpunit": "^7.5.8|^8.0|^9.0",
                 "symfony/console": "^3.4||^4.0||^5.0",
                 "symfony/process": "^3.4||^4.0||^5.0"
             },
@@ -9017,7 +9015,7 @@
                 "phpunit",
                 "testing"
             ],
-            "time": "2019-12-27T20:54:56+00:00"
+            "time": "2020-02-07T23:04:32+00:00"
         },
         {
             "name": "composer/semver",
