@@ -8496,16 +8496,16 @@
         },
         {
             "name": "twig/intl-extra",
-            "version": "v3.0.1",
+            "version": "v3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/intl-extra.git",
-                "reference": "291d79ef98891da3efe14f0771fbe03a25fe6bec"
+                "reference": "55d68a5836f40d62695488b4bdbc71fa71f52574"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/intl-extra/zipball/291d79ef98891da3efe14f0771fbe03a25fe6bec",
-                "reference": "291d79ef98891da3efe14f0771fbe03a25fe6bec",
+                "url": "https://api.github.com/repos/twigphp/intl-extra/zipball/55d68a5836f40d62695488b4bdbc71fa71f52574",
+                "reference": "55d68a5836f40d62695488b4bdbc71fa71f52574",
                 "shasum": ""
             },
             "require": {
@@ -8545,7 +8545,7 @@
                 "intl",
                 "twig"
             ],
-            "time": "2019-12-28T07:09:27+00:00"
+            "time": "2020-02-11T05:45:44+00:00"
         },
         {
             "name": "twig/twig",
