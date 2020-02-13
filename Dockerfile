@@ -79,8 +79,7 @@ COPY translations translations
 
 RUN set -ex \
     && composer install --no-interaction --no-progress --no-dev --classmap-authoritative \
-    && chown -R www-data:www-data ${APP_DIR}/var \
-    && ln -sf /dev/stdout ${APP_DIR}/var/log/prod.log
+    && chown -R www-data:www-data ${APP_DIR}/var
 
 HEALTHCHECK --interval=10s --timeout=5s --start-period=5s \
         CMD REDIRECT_STATUS=true SCRIPT_NAME=/ping SCRIPT_FILENAME=/ping REQUEST_METHOD=GET cgi-fcgi -bind -connect 127.0.0.1:9000
