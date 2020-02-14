@@ -6898,16 +6898,16 @@
         },
         {
             "name": "symfony/polyfill-uuid",
-            "version": "v1.13.1",
+            "version": "v1.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-uuid.git",
-                "reference": "7d4215b6944add5073f0ec313a21e1bc2520520d"
+                "reference": "80781e68dbd85373eb36a1b67608b1a731931000"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-uuid/zipball/7d4215b6944add5073f0ec313a21e1bc2520520d",
-                "reference": "7d4215b6944add5073f0ec313a21e1bc2520520d",
+                "url": "https://api.github.com/repos/symfony/polyfill-uuid/zipball/80781e68dbd85373eb36a1b67608b1a731931000",
+                "reference": "80781e68dbd85373eb36a1b67608b1a731931000",
                 "shasum": ""
             },
             "require": {
@@ -6920,7 +6920,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.13-dev"
+                    "dev-master": "1.14-dev"
                 }
             },
             "autoload": {
@@ -6953,7 +6953,7 @@
                 "portable",
                 "uuid"
             ],
-            "time": "2019-11-30T08:58:35+00:00"
+            "time": "2020-01-13T11:15:53+00:00"
         },
         {
             "name": "symfony/process",
