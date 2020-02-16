@@ -3,8 +3,8 @@
     {% set params = {} %}
 
     {# @var carModel \App\Entity\Landlord\CarModel #}
-    {% set carModel = form.parent.vars.value.order.car.carModel|default %}
-    {% set carModel = form.parent.vars.value.recommendation.car.carModel|default(carModel) %}
+    {% set carModel = form.parent.vars.value.order.car.model|default %}
+    {% set carModel = form.parent.vars.value.recommendation.car.model|default(carModel) %}
 
     {% if carModel.caseName|default is not empty %}
         {% set params = carModel|to_query %}
