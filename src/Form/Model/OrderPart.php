@@ -18,7 +18,7 @@ final class OrderPart extends OrderItemModel
     /**
      * @Assert\NotBlank
      */
-    public ?Part $part;
+    public ?Part $part = null;
 
     /**
      * @Assert\NotBlank
@@ -28,22 +28,19 @@ final class OrderPart extends OrderItemModel
     /**
      * @Assert\NotBlank
      */
-    public ?Money $price;
+    public ?Money $price = null;
 
     public bool $warranty = false;
 
-    public ?Money $discount;
+    public ?Money $discount = null;
 
-    public ?OperandRelation $supplier;
+    public OperandRelation $supplier;
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->part = null;
-        $this->price = null;
-        $this->discount = null;
-        $this->supplier = null;
+        $this->supplier = new OperandRelation();
     }
 
     public static function getEntityClass(): string

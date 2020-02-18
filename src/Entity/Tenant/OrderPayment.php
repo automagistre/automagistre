@@ -21,25 +21,19 @@ class OrderPayment
     use CreatedBy;
 
     /**
-     * @var Order
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\Order", inversedBy="payments")
      */
-    private $order;
+    private Order $order;
 
     /**
-     * @var Money
-     *
      * @ORM\Embedded(class="Money\Money")
      */
-    private $money;
+    private Money $money;
 
     /**
-     * @var string
-     *
      * @ORM\Column(nullable=true)
      */
-    private $description;
+    private ?string $description = null;
 
     public function __construct(Order $order, Money $money, ?string $description, User $user)
     {

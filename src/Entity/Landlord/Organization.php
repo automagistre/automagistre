@@ -39,22 +39,18 @@ class Organization extends Operand
     private $address;
 
     /**
-     * @var PhoneNumber
-     *
      * @AssertPhone
      *
      * @ORM\Column(type="phone_number", nullable=true)
      */
-    private $telephone;
+    private ?PhoneNumber $telephone = null;
 
     /**
-     * @var PhoneNumber
-     *
      * @AssertPhone
      *
      * @ORM\Column(type="phone_number", nullable=true)
      */
-    private $officePhone;
+    private ?PhoneNumber $officePhone = null;
 
     public function __construct()
     {

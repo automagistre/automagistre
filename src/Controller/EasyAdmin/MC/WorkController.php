@@ -5,16 +5,14 @@ declare(strict_types=1);
 namespace App\Controller\EasyAdmin\MC;
 
 use App\Controller\EasyAdmin\AbstractController;
-use App\Entity\Landlord\MC\Line;
-use App\Entity\Landlord\MC\Part;
+use App\Entity\Landlord\MC\Work;
 use function assert;
-use LogicException;
 use stdClass;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class PartController extends AbstractController
+final class WorkController extends AbstractController
 {
     /**
      * {@inheritdoc}
@@ -23,16 +21,10 @@ final class PartController extends AbstractController
     {
         $model = new stdClass();
 
-        $line = $this->getEntity(Line::class);
-        if (!$line instanceof Line) {
-            throw new LogicException('Line required.');
-        }
-
         $model->id = null;
-        $model->line = $line;
-        $model->part = null;
-        $model->quantity = null;
-        $model->recommended = null;
+        $model->name = null;
+        $model->description = null;
+        $model->price = null;
 
         return $model;
     }
@@ -40,12 +32,12 @@ final class PartController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function persistEntity($entity): Part
+    protected function persistEntity($entity): Work
     {
         $model = $entity;
         assert($model instanceof stdClass);
 
-        $entity = new Part($model->line, $model->part, $model->quantity, $model->recommended);
+        $entity = new Work($model->name, $model->description, $model->price);
 
         parent::persistEntity($entity);
 

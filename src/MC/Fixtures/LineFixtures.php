@@ -44,10 +44,7 @@ final class LineFixtures extends Fixture implements FixtureGroupInterface, Depen
         $work = $this->getReference('work-1');
         assert($work instanceof Work);
 
-        $line = new Line();
-        $line->equipment = $equipment;
-        $line->work = $work;
-        $line->period = 10;
+        $line = new Line($equipment, $work, 10, false);
 
         $this->addReference('line-1', $line);
 

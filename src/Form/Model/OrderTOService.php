@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Form\Model;
 
 use App\Entity\Landlord\MC\Line;
-use function assert;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -34,11 +33,8 @@ final class OrderTOService
         $model = new self();
 
         $work = $line->work;
-        if (null !== $work) {
-            $model->service = $work->name;
-            $model->price = $work->price;
-        }
-
+        $model->service = $work->name;
+        $model->price = $work->price;
         $model->recommend = $line->recommended;
         $model->selected = !$model->recommend;
 

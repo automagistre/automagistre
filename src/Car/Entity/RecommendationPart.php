@@ -30,7 +30,7 @@ class RecommendationPart
      * @ORM\ManyToOne(targetEntity="App\Car\Entity\Recommendation", inversedBy="parts")
      * @ORM\JoinColumn
      */
-    public ?Recommendation $recommendation = null;
+    public Recommendation $recommendation;
 
     /**
      * @psalm-readonly
@@ -43,7 +43,7 @@ class RecommendationPart
     /**
      * @ORM\Column(type="integer")
      */
-    public ?int $quantity = null;
+    public int $quantity = 0;
 
     public function __construct(Recommendation $recommendation, Part $part, int $quantity, Money $price, User $selector)
     {

@@ -56,46 +56,34 @@ class Order
     private $items;
 
     /**
-     * @var DateTimeImmutable|null
-     *
      * @ORM\Column(type="datetime_immutable", nullable=true)
      */
-    private $closedAt;
+    private ?DateTimeImmutable $closedAt = null;
 
     /**
-     * @var UserRelation
-     *
      * @ORM\Embedded(class="App\Entity\Embeddable\UserRelation")
      */
-    private $closedBy;
+    private UserRelation $closedBy;
 
     /**
-     * @var Money|null
-     *
      * @ORM\Embedded(class="Money\Money")
      */
-    private $closedBalance;
+    private ?Money $closedBalance = null;
 
     /**
-     * @var OrderStatus
-     *
      * @ORM\Column(name="status", type="order_status_enum")
      */
-    private $status;
+    private OrderStatus $status;
 
     /**
-     * @var CarRelation
-     *
      * @ORM\Embedded(class="App\Entity\Embeddable\CarRelation")
      */
-    private $car;
+    private CarRelation $car;
 
     /**
-     * @var OperandRelation
-     *
      * @ORM\Embedded(class="App\Entity\Embeddable\OperandRelation")
      */
-    private $customer;
+    private OperandRelation $customer;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\Employee")
@@ -103,18 +91,14 @@ class Order
     private ?Employee $worker = null;
 
     /**
-     * @var int|null
-     *
      * @ORM\Column(type="integer", length=8, nullable=true, options={"unsigned": true})
      */
-    private $mileage;
+    private ?int $mileage = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $description;
+    private ?string $description = null;
 
     /**
      * @var Collection<int, OrderPayment>
@@ -131,11 +115,9 @@ class Order
     private $suspends;
 
     /**
-     * @var DateTimeImmutable|null
-     *
      * @ORM\Column(type="datetime_immutable", nullable=true)
      */
-    private $appointmentAt;
+    private ?DateTimeImmutable $appointmentAt = null;
 
     public function __construct()
     {
