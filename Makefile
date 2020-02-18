@@ -106,7 +106,7 @@ migration-diff-landlord:
 migration-diff-tenant:
 		@$(MAKE) do-migration-diff EM=tenant
 do-migration-diff:
-	$(APP) console doctrine:migration:diff $(MIGRATION_CONSOLE) || true
+	$(APP) console doctrine:migration:diff --formatted $(MIGRATION_CONSOLE) || true
 migration-diff-dry:
 	$(APP) console doctrine:schema:update --dump-sql --em=${EM} $(TENANT_CONSOLE)
 
