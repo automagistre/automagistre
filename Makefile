@@ -33,7 +33,7 @@ define NOTE
     @echo "$(COLOR_NOTE)$(if $(MAKE_DEBUG),${DEBUG_PREFIX}) [NOTE] $1$(COLOR_RESET)"
 endef
 
-notify = $(DEBUG_ECHO) notify-send --urgency=low --expire-time=50 "Makefile" "$@ success!"
+notify = $(DEBUG_ECHO) notify-send --urgency=low --expire-time=50 "Success!" "make $@"
 
 contrib:
 	@cp -n -r contrib/.env contrib/* ./ || true
@@ -46,10 +46,12 @@ docker-hosts-updater:
 ###> ALIASES ###
 pull:
 	docker-compose pull
-up: contrib pull composer permissions
+do-up: contrib pull composer permissions
 	docker-compose up --detach --remove-orphans --no-build
+up: do-up
 	@$(notify)
-latest: up backup-latest
+latest: do-up backup-latest
+	@$(notify)
 cli: app-cli
 
 down:
