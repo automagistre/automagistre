@@ -38,6 +38,10 @@ class Review
     public string $content;
 
     /**
+     * @Assert\Url
+     * @Assert\NotBlank
+     * @Assert\Length(max=255)
+     *
      * @ORM\Column
      */
     public string $url;
