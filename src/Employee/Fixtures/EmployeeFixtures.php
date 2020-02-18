@@ -40,7 +40,6 @@ final class EmployeeFixtures extends Fixture implements FixtureGroupInterface
     public function load(ObjectManager $manager): void
     {
         $person = $this->registry->manager(Person::class)->getReference(Person::class, 2);
-        assert($person instanceof Person);
 
         $employee = new Employee();
         $employee->setPerson($person);

@@ -41,7 +41,6 @@ final class IncomePartFixtures extends Fixture implements FixtureGroupInterface,
     public function load(ObjectManager $manager): void
     {
         $part = $this->registry->manager(Part::class)->getReference(Part::class, 1);
-        assert($part instanceof Part);
         $income = $this->getReference('income-1');
         assert($income instanceof Income);
 

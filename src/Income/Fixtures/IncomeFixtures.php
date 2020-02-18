@@ -27,7 +27,6 @@ final class IncomeFixtures extends Fixture implements FixtureGroupInterface
     public function load(ObjectManager $manager): void
     {
         $operand = $this->registry->manager(Operand::class)->getReference(Operand::class, 1);
-        assert($operand instanceof Operand);
 
         $income = new Income();
         $income->setSupplier($operand);
