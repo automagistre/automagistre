@@ -28,18 +28,14 @@ class OrderItemService extends OrderItem implements PriceInterface, TotalPriceIn
     use Discount;
 
     /**
-     * @var string
-     *
      * @ORM\Column
      */
-    private $service;
+    private string $service;
 
     /**
-     * @var OperandRelation
-     *
      * @ORM\Embedded(class="App\Entity\Embeddable\OperandRelation")
      */
-    private $worker;
+    private OperandRelation $worker;
 
     public function __construct(Order $order, string $service, Money $price, User $user, Operand $worker = null)
     {
@@ -64,7 +60,7 @@ class OrderItemService extends OrderItem implements PriceInterface, TotalPriceIn
         $this->price = $price;
     }
 
-    public function setService(?string $service): void
+    public function setService(string $service): void
     {
         $this->service = $service;
     }

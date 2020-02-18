@@ -581,6 +581,7 @@ easy_admin:
 
         McWork:
             class: App\Entity\Landlord\MC\Work
+            controller: App\Controller\EasyAdmin\MC\WorkController
             disabled_actions: ['show']
             list:
                 title: 'Список работ'
@@ -596,6 +597,7 @@ easy_admin:
                     - { property: 'price', label: 'Сумма', type: App\Form\Type\MoneyType }
             new:
                 title: 'Создать работу'
+                form_options: { data_class: stdClass }
             edit:
                 title: 'Редактировать работу № {{ entity.id }}'
 
@@ -650,9 +652,9 @@ easy_admin:
                     - { property: 'period', label: 'Период' }
                     - { property: 'recommended', label: 'Рекомендуемый?' }
             new:
-                title: 'Создать комплектацию'
+                title: 'Создать работу'
             edit:
-                title: 'Редактировать комплектацию № {{ entity.id }}'
+                title: 'Редактировать работу № {{ entity.id }}'
 
         McPart:
             class: App\Entity\Landlord\MC\Part
@@ -665,6 +667,7 @@ easy_admin:
                     - { property: 'recommended', label: 'Рекомендуемый?' }
             new:
                 title: 'Создать новую запчасть для ТО'
+                form_options: { data_class: stdClass }
             edit:
                 title: 'Редактировать запчасть № {{ entity.id }} для ТО'
 

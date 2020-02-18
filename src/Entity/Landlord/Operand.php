@@ -22,27 +22,21 @@ abstract class Operand implements Transactional
     use Identity;
 
     /**
-     * @var string
-     *
      * @Assert\Email
      *
      * @ORM\Column(nullable=true)
      */
-    private $email;
+    private ?string $email = null;
 
     /**
-     * @var bool Подрядчик
-     *
      * @ORM\Column(type="boolean")
      */
-    private $contractor = false;
+    private bool $contractor = false;
 
     /**
-     * @var bool Поставщик
-     *
      * @ORM\Column(type="boolean")
      */
-    private $seller = false;
+    private bool $seller = false;
 
     abstract public function __toString(): string;
 

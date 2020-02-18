@@ -43,10 +43,7 @@ final class PartFixtures extends Fixture implements FixtureGroupInterface, Depen
         $part = $this->getReference('part-1');
         assert($part instanceof \App\Entity\Landlord\Part);
 
-        $mcPart = new Part();
-        $mcPart->line = $line;
-        $mcPart->part = $part;
-        $mcPart->quantity = 1;
+        $mcPart = new Part($line, $part, 1, false);
 
         $this->addReference('mc-part-1', $mcPart);
 

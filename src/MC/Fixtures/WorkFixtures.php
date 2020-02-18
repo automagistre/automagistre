@@ -29,9 +29,7 @@ final class WorkFixtures extends Fixture implements FixtureGroupInterface
      */
     public function load(ObjectManager $manager): void
     {
-        $work = new Work();
-        $work->name = 'Work 1';
-        $work->price = new Money(100, new Currency('RUB'));
+        $work = new Work('Work 1', null, new Money(100, new Currency('RUB')));
 
         $this->addReference('work-1', $work);
 

@@ -19,7 +19,7 @@ class Work
     /**
      * @ORM\Column
      */
-    public ?string $name = null;
+    public string $name;
 
     /**
      * @ORM\Column(nullable=true)
@@ -29,7 +29,14 @@ class Work
     /**
      * @ORM\Embedded(class="Money\Money")
      */
-    public ?Money $price = null;
+    public Money $price;
+
+    public function __construct(string $name, ?string $description, Money $price)
+    {
+        $this->name = $name;
+        $this->description = $description;
+        $this->price = $price;
+    }
 
     public function __toString(): string
     {
@@ -39,6 +46,6 @@ class Work
             $string .= sprintf(' (%s)', $this->description);
         }
 
-        return $string ?? '';
+        return $string;
     }
 }

@@ -17,20 +17,28 @@ class Part
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\MC\Line", inversedBy="parts")
      */
-    public ?Line $line = null;
+    public ?Line $line;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\Part")
      */
-    public ?\App\Entity\Landlord\Part $part = null;
+    public \App\Entity\Landlord\Part $part;
 
     /**
      * @ORM\Column(type="integer")
      */
-    public ?int $quantity = null;
+    public int $quantity;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    public bool $recommended = false;
+    public bool $recommended;
+
+    public function __construct(Line $line, \App\Entity\Landlord\Part $part, int $quantity, bool $recommended)
+    {
+        $this->line = $line;
+        $this->part = $part;
+        $this->quantity = $quantity;
+        $this->recommended = $recommended;
+    }
 }

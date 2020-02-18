@@ -19,32 +19,36 @@ class Line
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\MC\Equipment", inversedBy="lines")
      */
-    public ?Equipment $equipment = null;
+    public Equipment $equipment;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\MC\Work")
      */
-    public ?Work $work = null;
+    public Work $work;
 
     /**
      * @var Collection<int, Part>|iterable
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Landlord\MC\Part", mappedBy="line")
      */
-    public iterable $parts = [];
+    public iterable $parts;
 
     /**
      * @ORM\Column(type="integer")
      */
-    public ?int $period = null;
+    public int $period;
 
     /**
      * @ORM\Column(type="boolean")
      */
     public bool $recommended = false;
 
-    public function __construct()
+    public function __construct(Equipment $equipment, Work $work, int $period, bool $recommended)
     {
+        $this->equipment = $equipment;
+        $this->work = $work;
         $this->parts = new ArrayCollection();
+        $this->period = $period;
+        $this->recommended = $recommended;
     }
 }

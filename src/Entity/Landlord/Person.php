@@ -19,38 +19,30 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Person extends Operand
 {
     /**
-     * @var string
-     *
      * @Assert\Length(max="32")
      *
      * @ORM\Column(length=32, nullable=true)
      */
-    private $firstname;
+    private ?string $firstname = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(nullable=true)
      */
-    private $lastname;
+    private ?string $lastname = null;
 
     /**
-     * @var PhoneNumber
-     *
      * @AssertPhone
      *
      * @ORM\Column(type="phone_number", nullable=true, unique=true)
      */
-    private $telephone;
+    private ?PhoneNumber $telephone = null;
 
     /**
-     * @var PhoneNumber
-     *
      * @AssertPhone
      *
      * @ORM\Column(type="phone_number", nullable=true)
      */
-    private $officePhone;
+    private ?PhoneNumber $officePhone = null;
 
     public function __toString(): string
     {
