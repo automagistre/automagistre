@@ -35,7 +35,6 @@ final class OrderFixtures extends Fixture implements FixtureGroupInterface
     public function load(ObjectManager $manager): void
     {
         $user = $this->registry->manager(User::class)->getReference(User::class, 1);
-        assert($user instanceof User);
 
         $order = new Order();
         $order->setCreatedBy($user);
@@ -46,7 +45,6 @@ final class OrderFixtures extends Fixture implements FixtureGroupInterface
 
         $money = new Money(100, new Currency('RUB'));
         $part = $this->registry->manager(Part::class)->getReference(Part::class, 1);
-        assert($part instanceof Part);
 
         $orderItemGroup = new OrderItemGroup($order, 'Group', $user);
         $manager->persist($orderItemGroup);
