@@ -41,10 +41,7 @@ final class PartFixtures extends Fixture implements FixtureGroupInterface, Depen
         $manufacturer = $this->getReference('manufacturer-1');
         assert($manufacturer instanceof Manufacturer);
 
-        $part = new Part();
-        $part->setManufacturer($manufacturer);
-        $part->setName('Part 1');
-        $part->setNumber('part1number');
+        $part = new Part($manufacturer, 'Part 1', 'part1number', false, null);
 
         $this->addReference('part-1', $part);
         $manager->persist($part);

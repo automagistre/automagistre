@@ -61,11 +61,12 @@ final class RecommendationPartController extends AbstractController
 
             $isCurrent = $part->getId() === $crossId;
 
-            $model = new RecommendationPartDTO();
-            $model->recommendation = $recommendationPart->recommendation;
-            $model->part = $cross;
-            $model->quantity = $recommendationPart->quantity;
-            $model->price = $isCurrent ? $recommendationPart->getPrice() : $this->partManager->suggestPrice($cross);
+            $model = new RecommendationPartDTO(
+                $recommendationPart->recommendation,
+                $cross,
+                $recommendationPart->quantity,
+                $isCurrent ? $recommendationPart->getPrice() : $this->partManager->suggestPrice($cross)
+            );
 
             $forms[$crossId] = $this->createFormBuilder($model, [
                 'action' => $this->generateEasyPath($recommendationPart, 'substitute', [
@@ -128,10 +129,7 @@ final class RecommendationPartController extends AbstractController
             throw new LogicException('CarRecommendation required.');
         }
 
-        $model = new RecommendationPartDTO();
-        $model->recommendation = $recommendation;
-
-        return $model;
+        return new RecommendationPartDTO($recommendation);
     }
 
     /**

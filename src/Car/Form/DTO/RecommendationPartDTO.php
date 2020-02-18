@@ -36,6 +36,18 @@ final class RecommendationPartDTO extends Model
      */
     public ?Money $price = null;
 
+    public function __construct(
+        Recommendation $recommendation,
+        Part $part = null,
+        int $quantity = 100,
+        Money $price = null
+    ) {
+        $this->recommendation = $recommendation;
+        $this->part = $part;
+        $this->quantity = $quantity;
+        $this->price = $price;
+    }
+
     /**
      * {@inheritdoc}
      */

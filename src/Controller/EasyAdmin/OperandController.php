@@ -30,14 +30,11 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class OperandController extends AbstractController
 {
-    private PaymentManager $paymentManager;
-
-    /**
-     * @required
-     */
-    public function setPaymentManager(PaymentManager $paymentManager): void
+    public static function getSubscribedServices(): array
     {
-        $this->paymentManager = $paymentManager;
+        return array_merge(parent::getSubscribedServices(), [
+            PaymentManager::class,
+        ]);
     }
 
     /**
@@ -114,7 +111,7 @@ class OperandController extends AbstractController
                 ->findBy(['recipient.id' => $operand->getId()], ['id' => 'DESC'], 20);
             $parameters['notes'] = $registry->repository(OperandNote::class)
                 ->findBy(['operand' => $operand], ['createdAt' => 'DESC']);
-            $parameters['balance'] = $this->paymentManager->balance($operand);
+            $parameters['balance'] = $this->get(PaymentManager::class)->balance($operand);
         }
 
         return parent::renderTemplate($actionName, $templatePath, $parameters);

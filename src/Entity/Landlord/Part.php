@@ -8,6 +8,7 @@ use App\Doctrine\ORM\Mapping\Traits\Discount;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
 use App\Manufacturer\Entity\Manufacturer;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
@@ -15,7 +16,6 @@ use function preg_replace;
 use function sprintf;
 use function strtoupper;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="part", uniqueConstraints={
@@ -36,39 +36,25 @@ class Part
     use Discount;
 
     /**
-     * @var Manufacturer
-     *
-     * @Assert\NotBlank
-     *
      * @ORM\ManyToOne(targetEntity="App\Manufacturer\Entity\Manufacturer")
      * @ORM\JoinColumn
      */
-    private $manufacturer;
+    public Manufacturer $manufacturer;
 
     /**
-     * @var string
-     *
-     * @Assert\NotBlank
-     *
-     * @ORM\Column(nullable=true)
+     * @ORM\Column
      */
-    private $name;
+    public string $name;
 
     /**
-     * @var string
-     *
-     * @Assert\NotBlank
-     *
      * @ORM\Column(length=30)
      */
-    private $number;
+    public string $number;
 
     /**
-     * @var bool
-     *
      * @ORM\Column(type="boolean")
      */
-    private $universal = false;
+    public bool $universal = false;
 
     /**
      * @var Collection<int, Part>
@@ -76,7 +62,22 @@ class Part
      * @ORM\ManyToMany(targetEntity="App\Entity\Landlord\Part")
      * @ORM\JoinTable
      */
-    private $relation;
+    public iterable $relation;
+
+    public function __construct(
+        Manufacturer $manufacturer,
+        string $name,
+        string $number,
+        bool $universal,
+        ?Money $discount
+    ) {
+        $this->manufacturer = $manufacturer;
+        $this->name = $name;
+        $this->number = $number;
+        $this->universal = $universal;
+        $this->relation = new ArrayCollection();
+        $this->discount = $discount;
+    }
 
     public function __toString(): string
     {

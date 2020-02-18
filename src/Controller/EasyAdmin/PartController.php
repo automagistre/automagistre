@@ -34,6 +34,7 @@ use function implode;
 use LogicException;
 use Money\MoneyFormatter;
 use function sprintf;
+use stdClass;
 use function str_ireplace;
 use function str_replace;
 use function strpos;
@@ -442,7 +443,10 @@ final class PartController extends AbstractController
      */
     protected function persistEntity($entity): void
     {
-        assert($entity instanceof Part);
+        $model = $entity;
+        assert($model instanceof stdClass);
+
+        $entity = new Part($model->manufacturer, $model->name, $model->number, $model->universal, $model->discount);
 
         parent::persistEntity($entity);
 

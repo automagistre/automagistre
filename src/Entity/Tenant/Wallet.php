@@ -17,46 +17,48 @@ class Wallet implements Transactional
     use Identity;
 
     /**
-     * @var string
-     *
      * @ORM\Column
      */
-    public $name;
+    public string $name;
 
     /**
-     * @var Currency
-     *
      * @ORM\Embedded(class="Money\Currency")
      */
-    public $currency;
+    public Currency $currency;
 
     /**
-     * @var bool
-     *
      * @ORM\Column(type="boolean")
      */
-    public $useInIncome = false;
+    public bool $useInIncome;
 
     /**
-     * @var bool
-     *
      * @ORM\Column(type="boolean")
      */
-    public $useInOrder = false;
+    public bool $useInOrder;
 
     /**
-     * @var bool
-     *
      * @ORM\Column(type="boolean")
      */
-    public $showInLayout = true;
+    public bool $showInLayout;
 
     /**
-     * @var bool
-     *
      * @ORM\Column(type="boolean")
      */
-    public $defaultInManualTransaction = false;
+    public bool $defaultInManualTransaction = false;
+
+    public function __construct(
+        string $name,
+        Currency $currency,
+        bool $useInIncome = false,
+        bool $useInOrder = false,
+        bool $showInLayout = true
+    ) {
+        $this->name = $name;
+        $this->currency = $currency;
+        $this->useInIncome = $useInIncome;
+        $this->useInOrder = $useInOrder;
+        $this->showInLayout = $showInLayout;
+    }
 
     public function __toString(): string
     {

@@ -25,9 +25,7 @@ final class WalletFixtures extends Fixture implements FixtureGroupInterface
      */
     public function load(ObjectManager $manager): void
     {
-        $wallet = new Wallet();
-        $wallet->name = 'Main';
-        $wallet->currency = new Currency('RUB');
+        $wallet = new Wallet('Main', new Currency('RUB'));
 
         $this->addReference('wallet-1', $wallet);
 

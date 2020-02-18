@@ -23,6 +23,14 @@ final class RecommendationDTO extends Model
 
     public ?Operand $worker = null;
 
+    public function __construct(Car $car, string $service = null, Money $price = null, Operand $worker = null)
+    {
+        $this->car = $car;
+        $this->service = $service;
+        $this->price = $price;
+        $this->worker = $worker;
+    }
+
     /**
      * {@inheritdoc}
      */

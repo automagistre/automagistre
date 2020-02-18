@@ -76,12 +76,11 @@ final class RecommendationController extends AbstractController
         $registry = $this->container->get(Registry::class);
 
         $car = $registry->repository(Car::class)->findOneBy(['id' => $id]);
-        if (null === $car) {
+        if (!$car instanceof Car) {
             throw new BadRequestHttpException(sprintf('Car id "%s" not found', $id));
         }
 
-        $model = new RecommendationDTO();
-        $model->car = $car;
+        $model = new RecommendationDTO($car);
 
         $order = $this->getEntity(Order::class);
         if ($order instanceof Order) {

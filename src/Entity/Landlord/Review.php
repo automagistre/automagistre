@@ -8,7 +8,6 @@ use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -19,58 +18,48 @@ class Review
     use CreatedAt;
 
     /**
-     * @var string
-     *
-     * @Assert\NotBlank
-     *
      * @ORM\Column
      */
-    public $author;
+    public string $author;
 
     /**
-     * @var string
-     *
-     * @Assert\NotBlank
-     *
      * @ORM\Column
      */
-    public $manufacturer;
+    public string $manufacturer;
 
     /**
-     * @var string
-     *
-     * @Assert\NotBlank
-     *
      * @ORM\Column
      */
-    public $model;
+    public string $model;
 
     /**
-     * @var string
-     *
-     * @Assert\NotBlank
-     *
      * @ORM\Column(type="text")
      */
-    public $content;
+    public string $content;
 
     /**
-     * @var string
-     *
-     * @Assert\Url
-     * @Assert\NotBlank
-     * @Assert\Length(max=255)
-     *
      * @ORM\Column
      */
-    public $url;
+    public string $url;
 
     /**
-     * @var DateTimeImmutable
-     *
-     * @Assert\NotBlank
-     *
      * @ORM\Column(type="datetime_immutable")
      */
-    public $publishAt;
+    public DateTimeImmutable $publishAt;
+
+    public function __construct(
+        string $author,
+        string $manufacturer,
+        string $model,
+        string $content,
+        string $url,
+        DateTimeImmutable $publishAt
+    ) {
+        $this->author = $author;
+        $this->manufacturer = $manufacturer;
+        $this->model = $model;
+        $this->content = $content;
+        $this->url = $url;
+        $this->publishAt = $publishAt;
+    }
 }

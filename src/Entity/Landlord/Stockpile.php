@@ -22,23 +22,24 @@ class Stockpile
     use Identity;
 
     /**
-     * @var Part
-     *
      * @ORM\ManyToOne(targetEntity="Part")
      */
-    public $part;
+    public Part $part;
 
     /**
-     * @var Tenant
-     *
      * @ORM\Column(type="tenant_enum")
      */
-    public $tenant;
+    public Tenant $tenant;
 
     /**
-     * @var int
-     *
      * @ORM\Column(type="integer")
      */
-    public $quantity;
+    public int $quantity;
+
+    public function __construct(Part $part, Tenant $tenant, int $quantity)
+    {
+        $this->part = $part;
+        $this->tenant = $tenant;
+        $this->quantity = $quantity;
+    }
 }

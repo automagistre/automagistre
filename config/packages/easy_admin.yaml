@@ -429,6 +429,7 @@ easy_admin:
                     - { property: 'universal', label: 'Универсальная' }
             new:
                 title: 'Создать новую запчасть'
+                form_options: { data_class: stdClass }
             edit:
                 title: 'Редактировать запчасть'
                 fields:
@@ -551,6 +552,7 @@ easy_admin:
                     - { property: 'defaultInManualTransaction', label: 'По умолчанию в ручной проводке' }
             new:
                 title: 'Создать новый счет'
+                form_options: { data_class: stdClass }
                 fields:
                     - { property: 'name', label: 'Название' }
                     - { property: 'currency', label: 'Валюта', type: App\Form\Type\CurrencyType }
@@ -694,6 +696,7 @@ easy_admin:
                     - { property: 'publishAt', label: 'Когда обудликова', type: 'date_immutable', type_options: { input: 'datetime_immutable' } }
             new:
                 title: 'Создать новый Отзыв'
+                form_options: { data_class: stdClass }
             edit:
                 title: 'Редактировать Отзыв № {{ entity.id }}'
 

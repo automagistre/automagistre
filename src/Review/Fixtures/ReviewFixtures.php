@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace App\Review\Fixtures;
 
-use App\Car\Entity\Model;
 use App\Entity\Landlord\Review;
-use App\Manufacturer\Entity\Manufacturer;
-use function assert;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
@@ -28,13 +25,7 @@ final class ReviewFixtures extends Fixture implements FixtureGroupInterface
      */
     public function load(ObjectManager $manager): void
     {
-        $review = new Review();
-        $review->manufacturer = 'Nissan';
-        $review->model = 'GTR';
-        $review->content = 'Zaibatsu';
-        $review->author = 'Uzver';
-        $review->publishAt = new DateTimeImmutable('2019-12-25 23:51');
-        $review->url = 'http://reviews.club/item/1';
+        $review = new Review('Uzver', 'Nissan', 'GTR', 'Zaibatsu', 'http://reviews.club/item/1', new DateTimeImmutable('2019-12-25 23:51'));
 
         $this->addReference('review-1', $review);
 

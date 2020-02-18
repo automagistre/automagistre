@@ -14,11 +14,9 @@ use Money\Money;
 trait Discount
 {
     /**
-     * @var Money|null
-     *
      * @ORM\Embedded(class="Money\Money")
      */
-    private $discount;
+    private ?Money $discount = null;
 
     public function isDiscounted(): bool
     {
