@@ -14,6 +14,7 @@ use DateTimeImmutable;
 use DateTimeZone;
 use function range;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 final class AppointmentController extends AbstractController
 {
@@ -29,6 +30,9 @@ final class AppointmentController extends AbstractController
         $date = $this->request->query->get('date');
         $today = new DateTimeImmutable();
         $date = null === $date ? $today : DateTimeImmutable::createFromFormat('Y-m-d', $date);
+        if (false === $date) {
+            throw new BadRequestHttpException('Wrong date.');
+        }
 
         return $this->render('easy_admin/appointment/list.html.twig', [
             'date' => $date,
@@ -41,11 +45,16 @@ final class AppointmentController extends AbstractController
     protected function createNewEntity()
     {
         $date = $this->request->query->get('date');
-
-        $entity = new Appointment();
-        $entity->date = null === $date
+        $date = null === $date
             ? new DateTimeImmutable('+1 hour', new DateTimeZone('+3 GTM'))
             : DateTimeImmutable::createFromFormat('Y-m-d H:i', $date);
+        if (false === $date) {
+            throw new BadRequestHttpException('Wrong date.');
+        }
+
+        $entity = new Appointment();
+        $entity->date = $date;
+
         $entity->order = new Order();
         $entity->order->setCreatedBy($this->getUser());
 

@@ -265,6 +265,8 @@ class User implements UserInterface, EquatableInterface, Serializable
             return null;
         }
 
-        return $collection->first();
+        $credential = $collection->first();
+
+        return false === $credential ? null : $credential;
     }
 }
