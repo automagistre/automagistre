@@ -429,7 +429,7 @@ easy_admin:
                     - { property: 'universal', label: 'Универсальная' }
             new:
                 title: 'Создать новую запчасть'
-                form_options: { data_class: stdClass }
+                form_options: { data_class: \App\Part\Form\Part }
             edit:
                 title: 'Редактировать запчасть'
                 fields:

@@ -20,12 +20,14 @@ use App\Form\Type\QuantityType;
 use App\Manager\DeficitManager;
 use App\Manager\PartManager;
 use App\Manager\ReservationManager;
+use App\Part\Form\Part as PartModel;
 use App\Roles;
 use App\State;
 use function array_keys;
 use function array_map;
 use function assert;
 use function count;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
@@ -34,7 +36,6 @@ use function implode;
 use LogicException;
 use Money\MoneyFormatter;
 use function sprintf;
-use stdClass;
 use function str_ireplace;
 use function str_replace;
 use function strpos;
@@ -438,17 +439,29 @@ final class PartController extends AbstractController
         return $this->json(['results' => $data]);
     }
 
+    protected function createNewEntity(): PartModel
+    {
+        return new PartModel();
+    }
+
     /**
      * {@inheritdoc}
      */
     protected function persistEntity($entity): void
     {
         $model = $entity;
-        assert($model instanceof stdClass);
+        assert($model instanceof PartModel);
 
         $entity = new Part($model->manufacturer, $model->name, $model->number, $model->universal, $model->discount);
 
-        parent::persistEntity($entity);
+        try {
+            parent::persistEntity($entity);
+        } catch (UniqueConstraintViolationException $e) {
+            // TODO Написать нормальный валидатор для модели
+            $this->addFlash('error', sprintf('Запчасть %s у %s уже существует!', $model->number, (string) $model->manufacturer));
+
+            throw $e;
+        }
 
         $referer = $this->request->query->get('referer');
         if (null !== $referer) {
