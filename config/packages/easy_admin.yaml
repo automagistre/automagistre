@@ -421,7 +421,7 @@ easy_admin:
                     - { property: 'universal', label: 'Универсальная', template: 'easy_admin/default/field_boolean.html.twig' }
             form:
                 fields:
-                    - { property: 'manufacturer', label: 'Производитель' }
+                    - { property: 'manufacturer', label: 'Производитель', type_options: { required: true, placeholder: 'Пусто' } }
                     - { property: 'number', label: 'Номер' }
                     - { property: 'name', label: 'Название' }
                     - { property: 'price', label: 'Цена', type: App\Form\Type\MoneyType }
