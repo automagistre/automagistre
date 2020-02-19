@@ -10,6 +10,7 @@ use App\Doctrine\ORM\Mapping\Traits\Warranty;
 use App\Entity\Discounted;
 use App\Entity\Embeddable\OperandRelation;
 use App\Entity\Embeddable\PartRelation;
+use App\Entity\Landlord\Operand;
 use App\Entity\Landlord\Part;
 use App\Entity\WarrantyInterface;
 use App\Money\PriceInterface;
@@ -33,7 +34,7 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
      *
      * @ORM\Embedded(class="App\Entity\Embeddable\OperandRelation")
      */
-    public $supplier;
+    private $supplier;
 
     /**
      * @var PartRelation
@@ -111,5 +112,15 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
         }
 
         return $price->multiply($this->getQuantity() / 100);
+    }
+
+    public function getSupplier(): ?Operand
+    {
+        return $this->supplier->entityOrNull();
+    }
+
+    public function setSupplier(?Operand $supplier): void
+    {
+        $this->supplier = new OperandRelation($supplier);
     }
 }

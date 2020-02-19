@@ -95,7 +95,7 @@ final class OrderItemPartController extends OrderItemController
         $entity->setParent($model->parent);
         $entity->setWarranty($model->warranty);
         $entity->discount($model->discount);
-        $entity->supplier = $model->supplier;
+        $entity->setSupplier($model->supplier);
 
         if (!$entity->isDiscounted() && $model->part->isDiscounted()) {
             $entity->discount($model->part->discount());
