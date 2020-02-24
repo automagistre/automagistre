@@ -26,6 +26,7 @@ final class SmokeTest extends WebTestCase
         ],
         'OrderItemService' => [
             'list' => ['car_id' => '1'],
+            'search' => ['car_id' => '1'],
             'new' => ['order_id' => '1'],
             'edit' => ['order_id' => '1', 'id' => '2'],
             'autocomplete' => ['textOnly' => '1'],

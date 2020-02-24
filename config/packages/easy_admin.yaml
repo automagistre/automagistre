@@ -161,7 +161,7 @@ easy_admin:
         OrderItemService:
             class: App\Entity\Tenant\OrderItemService
             controller: App\Controller\EasyAdmin\OrderItemServiceController
-            disabled_actions: ['show', 'search']
+            disabled_actions: ['show']
             templates:
                 list: 'easy_admin/order_item_service/list.html.twig'
                 new: 'easy_admin/order_item_service/new.html.twig'
