@@ -13,7 +13,7 @@ steps:
             -   name: docker.sock
                 path: /var/run/docker.sock
         commands:
-            - docker build -t "automagistre/app:base" --target base .
+            - docker build -t "automagistre/app:base" --progress=plain --target base .
         environment:
             DOCKER_BUILDKIT: '1'
 
@@ -25,12 +25,14 @@ steps:
         commands:
             - >-
                 docker build -t "automagistre/app:${DRONE_BUILD_NUMBER}"
+                --progress=plain
                 --build-arg APP_ENV="prod"
                 --build-arg APP_DEBUG="0"
                 --target app
                 .
             - >-
                 docker build -t "automagistre/app-nginx:${DRONE_BUILD_NUMBER}"
+                --progress=plain
                 --build-arg APP_ENV="prod"
                 --build-arg APP_DEBUG="0"
                 --target nginx
