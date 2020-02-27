@@ -8,15 +8,17 @@ clone:
 
 steps:
     -   name: build base
-        image: docker:19.03.5
+        image: docker:19.03.6
         volumes:
             -   name: docker.sock
                 path: /var/run/docker.sock
         commands:
             - docker build -t "automagistre/app:base" --target base .
+        environment:
+            DOCKER_BUILDKIT: '1'
 
     -   name: build prod
-        image: docker:19.03.5
+        image: docker:19.03.6
         volumes:
             -   name: docker.sock
                 path: /var/run/docker.sock
@@ -33,11 +35,13 @@ steps:
                 --build-arg APP_DEBUG="0"
                 --target nginx
                 .
+        environment:
+            DOCKER_BUILDKIT: '1'
         depends_on:
             - build base
 
     -   name: push base
-        image: docker:19.03.5
+        image: docker:19.03.6
         volumes:
             -   name: docker.sock
                 path: /var/run/docker.sock
