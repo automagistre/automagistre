@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dbd83922b9914788f7f0d19ca133da35",
+    "content-hash": "dba1155466cb781bfc1d37e517cd3f1e",
     "packages": [
         {
             "name": "antishov/doctrine-extensions-bundle",
@@ -12050,22 +12050,26 @@
         },
         {
             "name": "weirdan/doctrine-psalm-plugin",
-            "version": "0.9.0",
+            "version": "0.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/weirdan/doctrine-psalm-plugin.git",
-                "reference": "f962d9efc0ff90c0b4d4871fc6e3f5e499c7ae8a"
+                "reference": "2622bfa464eaab1b32e3d353d9c7cf7c05bfe7ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/weirdan/doctrine-psalm-plugin/zipball/f962d9efc0ff90c0b4d4871fc6e3f5e499c7ae8a",
-                "reference": "f962d9efc0ff90c0b4d4871fc6e3f5e499c7ae8a",
+                "url": "https://api.github.com/repos/weirdan/doctrine-psalm-plugin/zipball/2622bfa464eaab1b32e3d353d9c7cf7c05bfe7ff",
+                "reference": "2622bfa464eaab1b32e3d353d9c7cf7c05bfe7ff",
                 "shasum": ""
             },
             "require": {
                 "doctrine/collections": "^1.0",
                 "doctrine/orm": "^2.6",
+                "php": "^7.2|^8",
                 "vimeo/psalm": "^3.6.2 || dev-master"
+            },
+            "conflict": {
+                "slevomat/coding-standard": "6.1.1"
             },
             "require-dev": {
                 "codeception/base": "^2.5 || ^3.0",
@@ -12115,7 +12119,7 @@
                 "static analysis",
                 "static-analysis"
             ],
-            "time": "2020-01-19T19:03:13+00:00"
+            "time": "2020-02-26T23:54:26+00:00"
         }
     ],
     "aliases": [],
