@@ -194,6 +194,7 @@ steps:
             - \[ "${DRONE_COMMIT_SHA}" == "$$(git ls-remote origin ${DRONE_COMMIT_BRANCH} | awk '{ print $1}')" ]
 #        when:
 #            branch: [ master ]
+
         depends_on:
             - build prod
             - phpunit
