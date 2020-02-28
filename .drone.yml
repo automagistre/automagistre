@@ -203,6 +203,13 @@ steps:
             - doctrine validate landlord
             - doctrine validate tenant
 
+    -   name: deploy test
+        image: docker/compose:1.25.0-alpine
+        commands:
+            - exit 0
+        depends_on:
+            - check deploy
+
     -   name: deploy
         image: docker/compose:1.25.0-alpine
         volumes:
