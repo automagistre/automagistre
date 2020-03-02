@@ -59,12 +59,6 @@ down:
 ###< ALIASES ###
 
 ###> APP ###
-build:
-	$(DEBUG_ECHO) docker build \
-		--target base \
-		--tag automagistre/app:base \
-		.
-
 APP = $(DEBUG_ECHO) @docker-compose $(if $(EXEC),exec,run --rm )\
 	$(if $(ENTRYPOINT),--entrypoint "$(ENTRYPOINT)" )\
 	$(if $(APP_ENV),-e APP_ENV=$(APP_ENV) )\
@@ -238,10 +232,3 @@ do-snapshot-restore:
 	$(MYSQL) bash -c "gunzip < $(SNAPSHOT_FILE_PATH) | mysql ${EM}"
 	$(call OK,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" restored.")
 ###< MYSQL ###
-
-###> MEMCACHED ###
-memcached-cli:
-	docker-compose exec memcached sh
-memcached-restart:
-	docker-compose restart memcached
-###< MEMCACHED ###
