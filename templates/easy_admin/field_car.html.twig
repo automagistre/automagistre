@@ -2,7 +2,7 @@
 
 {% if value is not empty %}
     <a href="{{ easyadmin_path(value, 'show', {'referer': true}) }}">
-        {{ value }}
+        {{ value }} {{ value.equipment.toString }}
     </a>
 {% else %}
     {% include 'easy_admin/default/label_null.html.twig' %}
