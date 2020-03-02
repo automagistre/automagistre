@@ -22,13 +22,13 @@ final class EngineType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Модель ДВС',
+                'label' => 'Модель',
             ])
             ->add('type', FuelTypeType::class, [
-                'label' => 'Тип двигателя',
+                'label' => 'Тип',
             ])
             ->add('capacity', EngineCapacityType::class, [
-                'label' => 'Объём двигателя',
+                'label' => 'Объём',
             ]);
     }
 
