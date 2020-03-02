@@ -109,6 +109,7 @@
                         <div class="form-control">
                             {% set car = order.car %}
                             {%- if car is not empty -%}
+                                {# @var car \App\Car\Entity\Car #}
                                 <a href="{{ easyadmin_path(car, 'show') }}">
                                     {{- car -}}
                                 </a>
@@ -116,6 +117,10 @@
                                 <span class="label label-info" title="Госномер">{{ car.gosnomer }}</span>
 
                                 <span class="label label-info" title="Идентификатор (VIN, № Кузова/Шасси...)">{{ car.identifier }}</span>
+
+                                <a href="{{ easyadmin_path(car, 'edit', {'referer': easyadmin_path(order, 'show')}) }}">
+                                    <span class="label label-info" title="Комплектация">{{ car.equipment.toString }}</span>
+                                </a>
                             {% else %}
                                 {% include 'easy_admin/default/label_null.html.twig' %}
                             {%- endif -%}
