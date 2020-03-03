@@ -55,7 +55,7 @@
                                         </td>
                                         <td>
                                             {% if order.closedAt is null %}
-                                                <label class="label label-info">Открыт</label>
+                                                {% include 'easy_admin/order/field_status.html.twig' with {'value': order.status, 'item': order} only %}
                                             {% else %}
                                                 {{ order.closedAt|format_datetime }}
                                             {% endif %}
