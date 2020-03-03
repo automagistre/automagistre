@@ -45,7 +45,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% for order in orders %}
+                                {% for order in orders|sort((order) => order.closedAt is null ? -1 : 1) %}
                                     {# @var order \App\Entity\Order #}
                                     <tr class="tr">
                                         <td>
@@ -53,7 +53,13 @@
                                                 {{ order.id }}
                                             </a>
                                         </td>
-                                        <td>{{ order.closedAt|format_datetime }}</td>
+                                        <td>
+                                            {% if order.closedAt is null %}
+                                                <label class="label label-info">Открыт</label>
+                                            {% else %}
+                                                {{ order.closedAt|format_datetime }}
+                                            {% endif %}
+                                        </td>
                                         <td>{{ order.totalForPayment|localize_money }}</td>
                                     </tr>
                                 {% endfor %}
