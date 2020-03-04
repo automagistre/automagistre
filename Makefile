@@ -104,8 +104,8 @@ do-migration-diff:
 migration-diff-dry:
 	$(APP) console doctrine:schema:update --dump-sql --em=${EM} $(TENANT_CONSOLE)
 
-migration-test: APP_ENV=test
-migration-test:
+migration-validate: APP_ENV=test
+migration-validate:
 	$(APP) console doctrine:schema:validate
 	$(APP) console doctrine:schema:validate --em=tenant --tenant=msk
 
@@ -114,7 +114,7 @@ schema-update:
 
 test: APP_ENV=test
 test: APP_DEBUG=1
-test: php-cs-fixer cache phpstan psalm database-test migration-test fixtures phpunit
+test: php-cs-fixer cache phpstan psalm database-test migration-validate fixtures phpunit
 
 php-cs-fixer:
 	$(APP) sh -c 'php-cs-fixer fix $(if $(DRY),--dry-run) $(if $(DEBUG),-vvv); $(PERMISSIONS)'
