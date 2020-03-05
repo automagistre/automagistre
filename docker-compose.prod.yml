@@ -195,7 +195,7 @@ services:
                 target: /backups
 
     memcached:
-        image: memcached:1.5.11-alpine
+        image: memcached:1.5.22-alpine
         networks:
             - automagistre
         healthcheck:
