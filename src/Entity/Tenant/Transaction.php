@@ -20,31 +20,19 @@ abstract class Transaction
     use CreatedByRelation;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(type="text", length=65535, nullable=true)
+     * @ORM\Column(type="text", length=512)
      */
-    protected $description;
+    protected string $description;
 
     /**
-     * @var Money
-     *
      * @ORM\Embedded(class="Money\Money")
      */
-    protected $amount;
+    protected Money $amount;
 
-    /**
-     * @var Money
-     *
-     * @ORM\Embedded(class="Money\Money")
-     */
-    protected $subtotal;
-
-    public function __construct(string $description, Money $money, Money $subtotal)
+    public function __construct(string $description, Money $money)
     {
         $this->description = $description;
         $this->amount = $money;
-        $this->subtotal = $subtotal;
     }
 
     public function getDescription(): string
@@ -55,10 +43,5 @@ abstract class Transaction
     public function getAmount(): Money
     {
         return $this->amount;
-    }
-
-    public function getSubtotal(): Money
-    {
-        return $this->subtotal;
     }
 }

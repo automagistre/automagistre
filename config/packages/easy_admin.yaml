@@ -528,7 +528,6 @@ easy_admin:
                     - { property: 'amount', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'createdAt', label: 'Дата' }
                     - { property: 'description', label: 'Описание', template: 'easy_admin/default/field_raw.html.twig' }
-                    - { property: 'subtotal', label: 'Остаток', template: 'easy_admin/field_money.html.twig' }
             new:
                 title: 'Создать новую проводку {{ "increment" == app.request.query.get("type") ? "пополнения" : "списания" }}'
                 form_options: { data_class: App\Form\Model\OperandTransactionModel }
@@ -579,7 +578,6 @@ easy_admin:
                     - { property: 'amount', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'createdAt', label: 'Дата' }
                     - { property: 'description', label: 'Описание', template: 'easy_admin/default/field_raw.html.twig' }
-                    - { property: 'subtotal', label: 'Остаток', template: 'easy_admin/field_money.html.twig' }
 
         McWork:
             class: App\Entity\Landlord\MC\Work

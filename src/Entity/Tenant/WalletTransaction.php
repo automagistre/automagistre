@@ -20,11 +20,11 @@ class WalletTransaction extends Transaction
      */
     private $recipient;
 
-    public function __construct(Wallet $wallet, string $description, Money $money, Money $subtotal)
+    public function __construct(Wallet $wallet, string $description, Money $money)
     {
         $this->recipient = $wallet;
 
-        parent::__construct($description, $money, $subtotal);
+        parent::__construct($description, $money);
     }
 
     public function getRecipient(): Wallet

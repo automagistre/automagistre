@@ -14,7 +14,7 @@
                         <th>ID</th>
                         <th>Сумма</th>
                         <th>Описание</th>
-                        <th>Баланс</th>
+{#                        <th>Баланс</th>#}
                         <th>Дата</th>
                     </tr>
                     </thead>
@@ -25,7 +25,7 @@
                             <td>{{ payment.id }}</td>
                             <td>{{ payment.amount|localize_money }}</td>
                             <td>{{ payment.description }}</td>
-                            <td>{{ payment.subtotal|localize_money }}</td>
+{#                            <td>{{ payment.subtotal|localize_money }}</td>#}
                             <td>{{ payment.createdAt|format_datetime }}</td>
                         </tr>
                     {% endfor %}

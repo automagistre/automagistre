@@ -40,7 +40,6 @@ final class PaymentManager
                 $recipient,
                 $description,
                 $money,
-                $this->calcSubtotal($em, $recipient, $money),
             );
 
             $em->persist($payment);
@@ -74,34 +73,5 @@ final class PaymentManager
         $amount = $qb->getQuery()->getSingleScalarResult();
 
         return new Money($amount, new Currency('RUB'));
-    }
-
-    private function calcSubtotal(EntityManagerInterface $em, Transactional $transactional, Money $money): Money
-    {
-        $qb = $em->createQueryBuilder()
-            ->select('payment')
-            ->from($transactional->getTransactionClass(), 'payment')
-            ->orderBy('payment.id', 'DESC')
-            ->setMaxResults(1);
-
-        if ($transactional instanceof Operand) {
-            $qb
-                ->where('payment.recipient.id = :recipient')
-                ->setParameter('recipient', $transactional->getId());
-        } else {
-            $qb
-                ->where('payment.recipient = :recipient')
-                ->setParameter('recipient', $transactional);
-        }
-
-        $lastPayment = $qb
-            ->getQuery()
-            ->getOneOrNullResult();
-
-        if ($lastPayment instanceof Transaction) {
-            return $lastPayment->getSubtotal()->add($money);
-        }
-
-        return $money;
     }
 }

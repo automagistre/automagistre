@@ -19,11 +19,11 @@ class OperandTransaction extends Transaction
      */
     private OperandRelation $recipient;
 
-    public function __construct(Operand $operand, string $description, Money $money, Money $subtotal)
+    public function __construct(Operand $operand, string $description, Money $money)
     {
         $this->recipient = new OperandRelation($operand);
 
-        parent::__construct($description, $money, $subtotal);
+        parent::__construct($description, $money);
     }
 
     public function getRecipient(): Operand
