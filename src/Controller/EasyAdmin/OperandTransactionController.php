@@ -87,7 +87,9 @@ final class OperandTransactionController extends AbstractController
             $transaction = $this->paymentManager->createPayment($model->recipient, $model->description, $money);
             assert($transaction instanceof OperandTransaction);
 
-            if ($model->wallet instanceof Wallet) {
+            $wallet = $model->wallet;
+
+            if ($wallet instanceof Wallet) {
                 $description = sprintf(
                     '# Ручная транзакция "%s" для "%s", с комментарием "%s"',
                     $transaction->getId(),
@@ -95,7 +97,11 @@ final class OperandTransactionController extends AbstractController
                     $model->description
                 );
 
-                $this->paymentManager->createPayment($model->wallet, $description, $money);
+                if ($model->increment) {
+                    $wallet->debit($money, $description);
+                } else {
+                    $wallet->credit($money, $description);
+                }
             }
 
             return $transaction;

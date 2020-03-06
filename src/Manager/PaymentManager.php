@@ -6,8 +6,8 @@ namespace App\Manager;
 
 use App\Doctrine\Registry;
 use App\Entity\Landlord\Operand;
+use App\Entity\Tenant\OperandTransaction;
 use App\Entity\Tenant\Transaction;
-use App\Entity\Transactional;
 use App\Event\PaymentCreated;
 use Doctrine\ORM\EntityManagerInterface;
 use Money\Currency;
@@ -29,14 +29,16 @@ final class PaymentManager
         $this->dispatcher = $dispatcher;
     }
 
-    public function createPayment(Transactional $recipient, string $description, Money $money): Transaction
+    public function createPayment(Operand $recipient, string $description, Money $money): Transaction
     {
-        $em = $this->registry->manager($recipient->getTransactionClass());
+        $em = $this->registry->manager(Operand::class);
 
-        $payment = $em->transactional(function (EntityManagerInterface $em) use ($recipient, $description, $money) {
-            $transactionClass = $recipient->getTransactionClass();
-
-            $payment = new $transactionClass(
+        $payment = $em->transactional(static function (EntityManagerInterface $em) use (
+            $recipient,
+            $description,
+            $money
+        ): OperandTransaction {
+            $payment = new OperandTransaction(
                 $recipient,
                 $description,
                 $money,
@@ -52,23 +54,15 @@ final class PaymentManager
         return $payment;
     }
 
-    public function balance(Transactional $transactional): Money
+    public function balance(Operand $transactional): Money
     {
-        $em = $this->registry->manager($transactional->getTransactionClass());
+        $em = $this->registry->manager(OperandTransaction::class);
 
         $qb = $em->createQueryBuilder()
             ->select('SUM(CAST(payment.amount.amount AS int))')
-            ->from($transactional->getTransactionClass(), 'payment');
-
-        if ($transactional instanceof Operand) {
-            $qb
-                ->where('payment.recipient.id = :recipient')
-                ->setParameter('recipient', $transactional->getId());
-        } else {
-            $qb
-                ->where('payment.recipient = :recipient')
-                ->setParameter('recipient', $transactional);
-        }
+            ->from(OperandTransaction::class, 'payment')
+            ->where('payment.recipient.id = :recipient')
+            ->setParameter('recipient', $transactional->getId());
 
         $amount = $qb->getQuery()->getSingleScalarResult();
 

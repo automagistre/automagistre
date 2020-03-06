@@ -13,12 +13,10 @@ use Money\Money;
 class WalletTransaction extends Transaction
 {
     /**
-     * @var Wallet
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\Wallet")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\Wallet", inversedBy="transactions")
      * @ORM\JoinColumn
      */
-    private $recipient;
+    private Wallet $recipient;
 
     public function __construct(Wallet $wallet, string $description, Money $money)
     {

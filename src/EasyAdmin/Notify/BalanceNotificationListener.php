@@ -6,8 +6,8 @@ namespace App\EasyAdmin\Notify;
 
 use App\Entity\Tenant\WalletTransaction;
 use App\Event\PaymentCreated;
-use App\Manager\PaymentManager;
 use App\State;
+use App\Wallet\BalanceProvider;
 use function json_encode;
 use Money\MoneyFormatter;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -23,20 +23,20 @@ final class BalanceNotificationListener implements EventSubscriberInterface
 
     private State $state;
 
-    private PaymentManager $manager;
-
     private MoneyFormatter $formatter;
+
+    private BalanceProvider $balanceProvider;
 
     public function __construct(
         PublisherInterface $publisher,
         State $state,
-        PaymentManager $manager,
-        MoneyFormatter $formatter
+        MoneyFormatter $formatter,
+        BalanceProvider $balanceProvider
     ) {
         $this->publisher = $publisher;
         $this->state = $state;
-        $this->manager = $manager;
         $this->formatter = $formatter;
+        $this->balanceProvider = $balanceProvider;
     }
 
     /**
@@ -61,7 +61,7 @@ final class BalanceNotificationListener implements EventSubscriberInterface
 
             $data = [
                 'id' => $wallet->getId(),
-                'amount' => $this->formatter->format($this->manager->balance($wallet)),
+                'amount' => $this->formatter->format($this->balanceProvider->balance($wallet)),
             ];
 
             ($this->publisher)(new Update($topics, json_encode($data, JSON_THROW_ON_ERROR)));

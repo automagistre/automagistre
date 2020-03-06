@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig\Extension;
 
-use App\Entity\Transactional;
+use App\Entity\Landlord\Operand;
 use App\Manager\PaymentManager;
 use Money\Money;
 use Twig\Extension\AbstractExtension;
@@ -13,7 +13,7 @@ use Twig\TwigFilter;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class WalletExtension extends AbstractExtension
+final class OperandExtension extends AbstractExtension
 {
     private PaymentManager $paymentManager;
 
@@ -28,7 +28,7 @@ final class WalletExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('balance', fn (Transactional $transactional): Money => $this->paymentManager->balance($transactional)),
+            new TwigFilter('balance', fn (Operand $transactional): Money => $this->paymentManager->balance($transactional)),
         ];
     }
 }

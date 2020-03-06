@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Entity\Landlord;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
-use App\Entity\Tenant\OperandTransaction;
-use App\Entity\Transactional;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -17,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({"1": "Person", "2": "Organization"})
  */
-abstract class Operand implements Transactional
+abstract class Operand
 {
     use Identity;
 
@@ -45,11 +43,6 @@ abstract class Operand implements Transactional
     abstract public function getTelephone(): ?PhoneNumber;
 
     abstract public function isType(string $type): bool;
-
-    public function getTransactionClass(): string
-    {
-        return OperandTransaction::class;
-    }
 
     public function isEqual(?self $operand): bool
     {

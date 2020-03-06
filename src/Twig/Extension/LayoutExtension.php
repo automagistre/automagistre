@@ -6,6 +6,8 @@ namespace App\Twig\Extension;
 
 use App\Doctrine\Registry;
 use App\Entity\Tenant\Wallet;
+use App\Wallet\BalanceProvider;
+use function array_map;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -17,9 +19,13 @@ final class LayoutExtension extends AbstractExtension
 {
     private Registry $registry;
 
-    public function __construct(Registry $registry)
+    /** @var BalanceProvider */
+    private BalanceProvider $balanceProvider;
+
+    public function __construct(Registry $registry, BalanceProvider $balanceProvider)
     {
         $this->registry = $registry;
+        $this->balanceProvider = $balanceProvider;
     }
 
     /**
@@ -43,7 +49,11 @@ final class LayoutExtension extends AbstractExtension
         $em = $this->registry->manager(Wallet::class);
 
         return $twig->render('admin/layout/balance.html.twig', [
-            'wallets' => $em->getRepository(Wallet::class)->findBy(['showInLayout' => true]),
+            'wallets' => array_map(fn (Wallet $wallet) => [
+                'id' => $wallet->getId(),
+                'name' => $wallet->name,
+                'balance' => $this->balanceProvider->balance($wallet),
+            ], $em->getRepository(Wallet::class)->findBy(['showInLayout' => true])),
         ]);
     }
 }

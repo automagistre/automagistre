@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace App\Entity\Tenant;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
-use App\Entity\Transactional;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;
+use Money\Money;
 
 /**
  * @ORM\Entity
  */
-class Wallet implements Transactional
+class Wallet
 {
     use Identity;
 
@@ -46,6 +48,13 @@ class Wallet implements Transactional
      */
     public bool $defaultInManualTransaction = false;
 
+    /**
+     * @var Collection<int, WalletTransaction>
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Tenant\WalletTransaction", mappedBy="recipient")
+     */
+    private Collection $transactions;
+
     public function __construct(
         string $name,
         Currency $currency,
@@ -58,6 +67,7 @@ class Wallet implements Transactional
         $this->useInIncome = $useInIncome;
         $this->useInOrder = $useInOrder;
         $this->showInLayout = $showInLayout;
+        $this->transactions = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -65,8 +75,13 @@ class Wallet implements Transactional
         return $this->name;
     }
 
-    public function getTransactionClass(): string
+    public function debit(Money $money, string $description): void
     {
-        return WalletTransaction::class;
+        $this->transactions[] = new WalletTransaction($this, $description, $money->absolute());
+    }
+
+    public function credit(Money $money, string $description): void
+    {
+        $this->transactions[] = new WalletTransaction($this, $description, $money->negative());
     }
 }

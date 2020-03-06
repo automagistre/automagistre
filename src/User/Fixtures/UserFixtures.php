@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\User\Fixtures;
 
 use App\Roles;
+use App\State;
 use App\Tenant\Tenant;
 use App\User\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -20,9 +21,12 @@ final class UserFixtures extends Fixture implements FixtureGroupInterface
 {
     private EncoderFactoryInterface $encoderFactory;
 
-    public function __construct(EncoderFactoryInterface $encoderFactory)
+    private State $state;
+
+    public function __construct(EncoderFactoryInterface $encoderFactory, State $state)
     {
         $this->encoderFactory = $encoderFactory;
+        $this->state = $state;
     }
 
     /**
@@ -50,6 +54,10 @@ final class UserFixtures extends Fixture implements FixtureGroupInterface
             }
 
             $manager->persist($user);
+
+            if (null === $this->state->userOrNull()) {
+                $this->state->user($user);
+            }
         }
 
         $manager->flush();

@@ -755,7 +755,7 @@ final class OrderController extends AbstractController
                     $this->paymentManager->createPayment($model->recipient, $model->description, $money);
                 }
 
-                $this->paymentManager->createPayment($wallet, $model->description, $money);
+                $wallet->debit($money, $model->description);
             }
         });
     }
