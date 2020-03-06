@@ -65,7 +65,7 @@
         "wapmorgan/morphos": "^3.2"
     },
     "require-dev": {
-        "brianium/paratest": "dev-master",
+        "brianium/paratest": "^4.0",
         "dama/doctrine-test-bundle": "^6.2",
         "doctrine/doctrine-fixtures-bundle": "^3.3",
         "friendsofphp/php-cs-fixer": "^2.15",

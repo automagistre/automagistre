@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dba1155466cb781bfc1d37e517cd3f1e",
+    "content-hash": "f5eb3c5ccf644b5a3b01a31389b32307",
     "packages": [
         {
             "name": "antishov/doctrine-extensions-bundle",
@@ -8956,16 +8956,16 @@
         },
         {
             "name": "brianium/paratest",
-            "version": "dev-master",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paratestphp/paratest.git",
-                "reference": "65ae32494ac892adb3c0708740956fcf31a34527"
+                "reference": "2a06a82742fa303b59179fb8d6037dfb9897b9b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/65ae32494ac892adb3c0708740956fcf31a34527",
-                "reference": "65ae32494ac892adb3c0708740956fcf31a34527",
+                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/2a06a82742fa303b59179fb8d6037dfb9897b9b2",
+                "reference": "2a06a82742fa303b59179fb8d6037dfb9897b9b2",
                 "shasum": ""
             },
             "require": {
@@ -9016,7 +9016,7 @@
                 "phpunit",
                 "testing"
             ],
-            "time": "2020-02-07T23:04:32+00:00"
+            "time": "2020-02-07T22:07:07+00:00"
         },
         {
             "name": "composer/semver",
@@ -9624,9 +9624,9 @@
             "authors": [
                 {
                     "name": "Christian Weiske",
+                    "role": "Developer",
                     "email": "cweiske@cweiske.de",
-                    "homepage": "http://github.com/cweiske/jsonmapper/",
-                    "role": "Developer"
+                    "homepage": "http://github.com/cweiske/jsonmapper/"
                 }
             ],
             "description": "Map nested JSON structures onto PHP classes",
@@ -12124,9 +12124,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "brianium/paratest": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
