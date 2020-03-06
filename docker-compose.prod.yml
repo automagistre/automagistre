@@ -201,7 +201,7 @@ services:
                 source: /opt/am/db/landlord
                 target: /var/lib/postgresql/data
             -   type: bind
-                source: /opt/db/backups
+                source: /opt/am/db/backups
                 target: /backups
         environment:
             POSTGRES_DB: landlord
