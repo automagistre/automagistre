@@ -6,6 +6,7 @@ namespace App\Doctrine\ORM\Mapping\Traits;
 
 use App\User\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
+use LogicException;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -14,17 +15,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 trait CreatedBy
 {
     /**
-     * @var User
-     *
      * @Assert\NotBlank
      *
      * @ORM\ManyToOne(targetEntity="App\User\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $createdBy;
+    private ?User $createdBy = null;
 
     public function getCreatedBy(): User
     {
+        if (null === $this->createdBy) {
+            throw new LogicException('CreatedBy must be set first.');
+        }
+
         return $this->createdBy;
     }
 }

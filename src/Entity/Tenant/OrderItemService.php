@@ -13,7 +13,6 @@ use App\Entity\Landlord\Operand;
 use App\Entity\WarrantyInterface;
 use App\Money\PriceInterface;
 use App\Money\TotalPriceInterface;
-use App\User\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use DomainException;
 use Money\Money;
@@ -37,9 +36,9 @@ class OrderItemService extends OrderItem implements PriceInterface, TotalPriceIn
      */
     private OperandRelation $worker;
 
-    public function __construct(Order $order, string $service, Money $price, User $user, Operand $worker = null)
+    public function __construct(Order $order, string $service, Money $price, Operand $worker = null)
     {
-        parent::__construct($order, $user);
+        parent::__construct($order);
 
         $this->service = $service;
         $this->price = $price;

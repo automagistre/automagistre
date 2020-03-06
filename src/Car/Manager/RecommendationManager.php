@@ -15,7 +15,6 @@ use App\Entity\Tenant\Reservation;
 use App\Manager\ReservationException;
 use App\Manager\ReservationManager;
 use App\State;
-use App\User\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use DomainException;
 use Generator;
@@ -39,7 +38,7 @@ final class RecommendationManager
         $this->state = $state;
     }
 
-    public function realize(Recommendation $recommendation, Order $order, User $user): void
+    public function realize(Recommendation $recommendation, Order $order): void
     {
         $em = $this->registry->manager(OrderItemService::class);
 
@@ -47,7 +46,6 @@ final class RecommendationManager
             $order,
             $recommendation->service,
             $recommendation->getPrice(),
-            $user,
             $order->getWorkerPerson()
         );
 
@@ -58,7 +56,6 @@ final class RecommendationManager
                 $recommendationPart->part,
                 $recommendationPart->quantity,
                 $recommendationPart->getPrice(),
-                $recommendationPart->getCreatedBy()
             );
 
             $orderItemPart->setParent($orderItemService);

@@ -7,7 +7,6 @@ namespace App\Entity\Tenant;
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\CreatedByRelation as CreatedBy;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
-use App\User\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 
@@ -35,12 +34,11 @@ class OrderPayment
      */
     private ?string $description = null;
 
-    public function __construct(Order $order, Money $money, ?string $description, User $user)
+    public function __construct(Order $order, Money $money, ?string $description)
     {
         $this->order = $order;
         $this->money = $money;
         $this->description = $description;
-        $this->setCreatedBy($user);
     }
 
     public function getMoney(): Money

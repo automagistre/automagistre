@@ -7,7 +7,6 @@ namespace App\Entity\Tenant;
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\CreatedByRelation;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
-use App\User\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 
@@ -41,12 +40,11 @@ class ExpenseItem
      */
     private $description;
 
-    public function __construct(Expense $expense, Money $amount, User $user, string $description = null)
+    public function __construct(Expense $expense, Money $amount, string $description = null)
     {
         $this->expense = $expense;
         $this->amount = $amount;
         $this->description = $description;
-        $this->setCreatedBy($user);
     }
 
     public function getExpense(): Expense

@@ -47,7 +47,7 @@ class OrderSuspend
         $this->order = $order;
         $this->till = $till;
         $this->reason = $reason;
-        $this->createdBy = new UserRelation($user);
+        $this->createdByRelation = new UserRelation($user);
     }
 
     public function getReason(): string

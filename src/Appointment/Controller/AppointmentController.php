@@ -56,7 +56,6 @@ final class AppointmentController extends AbstractController
         $entity->date = $date;
 
         $entity->order = new Order();
-        $entity->order->setCreatedBy($this->getUser());
 
         $this->getEntity(Employee::class, static function (Employee $worker) use ($entity): void {
             $entity->order->setWorker($worker);

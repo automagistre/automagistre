@@ -168,7 +168,6 @@ final class OrderController extends AbstractController
                     $order,
                     $service->service,
                     $service->price,
-                    $this->getUser()
                 );
                 $em->persist($orderItemService);
 
@@ -182,7 +181,6 @@ final class OrderController extends AbstractController
                         $part->part,
                         $part->quantity,
                         $part->price,
-                        $this->getUser()
                     );
                     $em->persist($orderItemPart);
 

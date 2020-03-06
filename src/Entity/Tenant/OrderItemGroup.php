@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity\Tenant;
 
 use App\Money\TotalPriceInterface;
-use App\User\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use DomainException;
 use Money\Money;
@@ -29,9 +28,9 @@ class OrderItemGroup extends OrderItem implements TotalPriceInterface
      */
     private $hideParts = false;
 
-    public function __construct(Order $order, string $name, User $user)
+    public function __construct(Order $order, string $name)
     {
-        parent::__construct($order, $user);
+        parent::__construct($order);
 
         $this->name = $name;
     }

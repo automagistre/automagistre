@@ -91,7 +91,7 @@ final class OrderItemPartController extends OrderItemController
         $model = $entity;
         assert($model instanceof OrderPart);
 
-        $entity = new OrderItemPart($model->order, $model->part, $model->quantity, $model->price, $this->getUser());
+        $entity = new OrderItemPart($model->order, $model->part, $model->quantity, $model->price);
         $entity->setParent($model->parent);
         $entity->setWarranty($model->warranty);
         $entity->discount($model->discount);

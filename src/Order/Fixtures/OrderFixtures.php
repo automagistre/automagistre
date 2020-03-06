@@ -12,8 +12,8 @@ use App\Entity\Tenant\OrderItemPart;
 use App\Entity\Tenant\OrderItemService;
 use App\Entity\Tenant\OrderNote;
 use App\Enum\NoteType;
+use App\State;
 use App\User\Entity\User;
-use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -24,9 +24,12 @@ final class OrderFixtures extends Fixture implements FixtureGroupInterface
 {
     private Registry $registry;
 
-    public function __construct(Registry $registry)
+    private State $state;
+
+    public function __construct(Registry $registry, State $state)
     {
         $this->registry = $registry;
+        $this->state = $state;
     }
 
     /**
@@ -35,26 +38,26 @@ final class OrderFixtures extends Fixture implements FixtureGroupInterface
     public function load(ObjectManager $manager): void
     {
         $user = $this->registry->manager(User::class)->getReference(User::class, 1);
+        $this->state->user($user);
 
         $order = new Order();
-        $order->setCreatedBy($user);
         $manager->persist($order);
 
         $this->addReference('order-1', $order);
-        $manager->persist(new OrderNote($order, $user, NoteType::info(), 'Order Note'));
+        $manager->persist(new OrderNote($order, NoteType::info(), 'Order Note'));
 
         $money = new Money(100, new Currency('RUB'));
         $part = $this->registry->manager(Part::class)->getReference(Part::class, 1);
 
-        $orderItemGroup = new OrderItemGroup($order, 'Group', $user);
+        $orderItemGroup = new OrderItemGroup($order, 'Group');
         $manager->persist($orderItemGroup);
         $manager->flush();
 
-        $orderItemService = new OrderItemService($order, 'Service', $money, $user);
+        $orderItemService = new OrderItemService($order, 'Service', $money);
         $manager->persist($orderItemService);
         $manager->flush();
 
-        $orderItemPart = new OrderItemPart($order, $part, 1, $money, $user);
+        $orderItemPart = new OrderItemPart($order, $part, 1, $money);
         $manager->persist($orderItemPart);
         $manager->flush();
     }

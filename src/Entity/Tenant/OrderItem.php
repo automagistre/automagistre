@@ -10,7 +10,6 @@ use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Entity\Discounted;
 use App\Money\PriceInterface;
 use App\Money\TotalPriceInterface;
-use App\User\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -64,12 +63,11 @@ abstract class OrderItem
      */
     private $parent;
 
-    public function __construct(Order $order, User $user)
+    public function __construct(Order $order)
     {
         $this->children = new ArrayCollection();
 
         $this->order = $order;
-        $this->setCreatedBy($user);
     }
 
     abstract public function __toString(): string;

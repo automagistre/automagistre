@@ -90,7 +90,7 @@ final class OrderItemServiceController extends OrderItemController
         $model = $entity;
         assert($model instanceof OrderService);
 
-        $entity = new OrderItemService($model->order, $model->service, $model->price, $this->getUser());
+        $entity = new OrderItemService($model->order, $model->service, $model->price);
         $entity->setParent($model->parent);
         $entity->setWorker($model->worker);
         $entity->setWarranty($model->warranty);

@@ -48,7 +48,7 @@ final class ExpenseItemController extends AbstractController
         assert($model instanceof stdClass);
 
         $entity = $this->em->transactional(function (EntityManagerInterface $em) use ($model): ExpenseItem {
-            $entity = new ExpenseItem($model->expense, $model->amount, $this->getUser(), $model->description);
+            $entity = new ExpenseItem($model->expense, $model->amount, $model->description);
             $em->persist($entity);
 
             $expense = $entity->getExpense();

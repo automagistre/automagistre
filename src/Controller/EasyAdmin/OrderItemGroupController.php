@@ -42,7 +42,7 @@ final class OrderItemGroupController extends OrderItemController
         $model = $entity;
         assert($model instanceof OrderGroup);
 
-        $entity = new OrderItemGroup($model->order, $model->name, $this->getUser());
+        $entity = new OrderItemGroup($model->order, $model->name);
         $entity->setParent($model->parent);
 
         parent::persistEntity($entity);

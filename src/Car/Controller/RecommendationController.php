@@ -58,7 +58,7 @@ final class RecommendationController extends AbstractController
             throw new NotFoundHttpException();
         }
 
-        $this->manager->realize($recommendation, $order, $this->getUser());
+        $this->manager->realize($recommendation, $order);
 
         return $this->redirectToRoute('easyadmin', [
             'entity' => 'Order',

@@ -16,25 +16,18 @@ use Symfony\Component\Validator\Constraints as Assert;
 trait CreatedByRelation
 {
     /**
-     * @var UserRelation|null
-     *
      * @Assert\Valid
      *
-     * @ORM\Embedded(class="App\Entity\Embeddable\UserRelation")
+     * @ORM\Embedded(class="App\Entity\Embeddable\UserRelation", columnPrefix="created_by_")
      */
-    protected $createdBy;
-
-    public function setCreatedBy(User $user): void
-    {
-        if (null !== $this->createdBy && !$this->createdBy->isEmpty()) {
-            throw new LogicException('CreatedBy already defined');
-        }
-
-        $this->createdBy = new UserRelation($user);
-    }
+    protected ?UserRelation $createdByRelation = null;
 
     public function getCreatedBy(): User
     {
-        return $this->createdBy->entity();
+        if (null === $this->createdByRelation) {
+            throw new LogicException('CreatedBy must be set first.');
+        }
+
+        return $this->createdByRelation->entity();
     }
 }

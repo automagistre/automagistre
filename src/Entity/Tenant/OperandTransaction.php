@@ -6,7 +6,6 @@ namespace App\Entity\Tenant;
 
 use App\Entity\Embeddable\OperandRelation;
 use App\Entity\Landlord\Operand;
-use App\User\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 
@@ -16,17 +15,15 @@ use Money\Money;
 class OperandTransaction extends Transaction
 {
     /**
-     * @var OperandRelation
-     *
      * @ORM\Embedded(class="App\Entity\Embeddable\OperandRelation")
      */
-    private $recipient;
+    private OperandRelation $recipient;
 
-    public function __construct(Operand $operand, string $description, Money $money, Money $subtotal, User $user)
+    public function __construct(Operand $operand, string $description, Money $money, Money $subtotal)
     {
         $this->recipient = new OperandRelation($operand);
 
-        parent::__construct($description, $money, $subtotal, $user);
+        parent::__construct($description, $money, $subtotal);
     }
 
     public function getRecipient(): Operand

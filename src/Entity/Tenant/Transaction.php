@@ -7,7 +7,6 @@ namespace App\Entity\Tenant;
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\CreatedByRelation;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
-use App\User\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 
@@ -41,12 +40,11 @@ abstract class Transaction
      */
     protected $subtotal;
 
-    public function __construct(string $description, Money $money, Money $subtotal, User $user)
+    public function __construct(string $description, Money $money, Money $subtotal)
     {
         $this->description = $description;
         $this->amount = $money;
         $this->subtotal = $subtotal;
-        $this->setCreatedBy($user);
     }
 
     public function getDescription(): string

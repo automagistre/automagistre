@@ -15,7 +15,6 @@ use App\Entity\Landlord\Part;
 use App\Entity\WarrantyInterface;
 use App\Money\PriceInterface;
 use App\Money\TotalPriceInterface;
-use App\User\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;
 use Money\Money;
@@ -50,9 +49,9 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
      */
     private $quantity;
 
-    public function __construct(Order $order, Part $part, int $quantity, Money $price, User $selector)
+    public function __construct(Order $order, Part $part, int $quantity, Money $price)
     {
-        parent::__construct($order, $selector);
+        parent::__construct($order);
 
         $this->supplier = new OperandRelation();
         $this->part = new PartRelation($part);

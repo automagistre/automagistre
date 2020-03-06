@@ -21,7 +21,7 @@ final class OrderNoteController extends AbstractController
             throw new LogicException('Order required.');
         }
 
-        return new OrderNote($order, $this->getUser());
+        return new OrderNote($order);
     }
 
     /**

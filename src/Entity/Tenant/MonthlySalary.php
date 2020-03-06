@@ -60,7 +60,7 @@ class MonthlySalary
 
     public function __construct(Employee $employee, int $payday, Money $amount, User $user)
     {
-        $this->createdBy = new UserRelation($user);
+        $this->createdByRelation = new UserRelation($user);
 
         $this->employee = $employee;
         $this->payday = $payday;
