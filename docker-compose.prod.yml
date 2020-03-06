@@ -194,6 +194,92 @@ services:
                 source: /home/automagistre/backups
                 target: /backups
 
+    landlord_pg: &psql
+        image: postgres:12.2
+        volumes:
+            -   type: bind
+                source: /opt/am/db/landlord
+                target: /var/lib/postgresql/data
+            -   type: bind
+                source: /opt/db/backups
+                target: /backups
+        environment:
+            POSTGRES_DB: landlord
+            POSTGRES_USER: db
+            POSTGRES_PASSWORD_FILE: /run/secrets/database_password
+        networks:
+            - automagistre
+        secrets:
+            - database_password
+        deploy:
+            mode: global
+            update_config:
+                failure_action: rollback
+                parallelism: 1
+                delay: 5s
+        healthcheck:
+            test: pg_isready
+            interval: 5s
+            timeout: 5s
+            retries: 3
+            start_period: 10s
+
+    tenant_sandbox_pg:
+        <<: *psql
+        environment:
+            POSTGRES_DB: tenant
+            POSTGRES_USER: db
+            POSTGRES_PASSWORD_FILE: /run/secrets/database_password
+        volumes:
+            -   type: bind
+                source: /opt/am/db/tenant/sandbox
+                target: /var/lib/postgresql/data
+            -   type: bind
+                source: /opt/am/db/backups
+                target: /backups
+
+    tenant_msk_pg:
+        <<: *psql
+        environment:
+            POSTGRES_DB: tenant
+            POSTGRES_USER: db
+            POSTGRES_PASSWORD_FILE: /run/secrets/database_password
+        volumes:
+            -   type: bind
+                source: /opt/am/db/tenant/msk
+                target: /var/lib/postgresql/data
+            -   type: bind
+                source: /opt/am/db/backups
+                target: /backups
+
+    tenant_kazan_pg:
+        <<: *psql
+        environment:
+            POSTGRES_DB: tenant
+            POSTGRES_USER: db
+            POSTGRES_PASSWORD_FILE: /run/secrets/database_password
+        volumes:
+            -   type: bind
+                source: /opt/am/db/tenant/kazan
+                target: /var/lib/postgresql/data
+            -   type: bind
+                source: /opt/am/db/backups
+                target: /backups
+
+    tenant_shavlev_pg:
+        <<: *psql
+        environment:
+            POSTGRES_DB: tenant
+            POSTGRES_USER: db
+            POSTGRES_PASSWORD_FILE: /run/secrets/database_password
+        volumes:
+            -   type: bind
+                source: /opt/am/db/tenant/shavlev
+                target: /var/lib/postgresql/data
+            -   type: bind
+                source: /opt/am/db/backups
+                target: /backups
+
     memcached:
         image: memcached:1.5.22-alpine
         networks:
@@ -217,6 +303,9 @@ networks:
         name: automagistre
 
 secrets:
+    database_password:
+        external: true
+        name: automagistre_database_password
     mysql_password:
         external: true
         name: automagistre_mysql_password
