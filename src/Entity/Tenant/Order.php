@@ -291,7 +291,7 @@ class Order
         $previous = null !== $this->worker ? $this->worker->getPerson() : null;
         $this->worker = $worker;
 
-        if (null === $previous && null === $worker) {
+        if (null === $worker) {
             return;
         }
 
