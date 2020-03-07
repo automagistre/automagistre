@@ -15,7 +15,7 @@ trait Identity
      *
      * @ORM\Id
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     protected ?int $id = null;
 
