@@ -146,7 +146,7 @@ steps:
         image: automagistre/app:base
         commands:
             - $$WAIT_FOR_IT landlord:5432
-            - bin/console doctrine:migrations:version 20200307221417 --add
+            - bin/console doctrine:migrations:version --no-interaction 20200307221417 --add
             - bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=landlord
         depends_on:
             - install
@@ -155,7 +155,7 @@ steps:
         image: automagistre/app:base
         commands:
             - $$WAIT_FOR_IT tenant_msk:5432
-            - bin/console doctrine:migrations:version 20200307221419 --add
+            - bin/console doctrine:migrations:version --no-interaction 20200307221419 --add
             - bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=msk
         depends_on:
             - install
