@@ -164,10 +164,12 @@ do-backup-download:
 	$(call OK,"Backup $(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz downloaded.")
 
 drop: drop-landlord drop-tenant
-drop-landlord:
-	@$(MAKE) do-drop EM=landlord
-drop-tenant:
-	@$(MAKE) do-drop EM=tenant
+drop-landlord: EM=landlord
+drop-landlord: drop-connection do-drop
+drop-tenant: EM=tenant
+drop-tenant: drop-connection do-drop
+drop-connection:
+	$(APP) console doctrine:query:sql --connection=${EM} ${TENANT_CONSOLE} "SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = '${EM}' AND pid <> pg_backend_pid();" || true
 do-drop:
 	$(APP) sh -c "console doctrine:database:drop --if-exists --force --connection=${EM} ${TENANT_CONSOLE} && console doctrine:database:create --connection=${EM} ${TENANT_CONSOLE}"
 ###< APP ###

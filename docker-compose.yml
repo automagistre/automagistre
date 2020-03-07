@@ -10,7 +10,7 @@ services:
             - ./etc/nginx.conf:/etc/nginx/nginx.conf
 
     app:
-        image: automagistre/app:base
+        image: automagistre/app:base-pg
         networks:
             default:
                 aliases:
@@ -23,6 +23,41 @@ services:
             APP_ENV: prod
             APP_DEBUG: 0
             MERCURE_HUB_URL: //mercure.automagistre.local/.well-known/mercure
+
+    landlord_pg: &psql
+        image: postgres:12.2
+        labels:
+            ru.grachevko.dhu: 'landlord_pg.automagistre.local'
+        volumes:
+            -   type: tmpfs
+                target: /var/lib/postgresql/data
+                tmpfs:
+                    size: 1024m
+            - ./:/usr/local/app
+        environment:
+            POSTGRES_DB: landlord
+            POSTGRES_USER: db
+            POSTGRES_PASSWORD: db
+        healthcheck:
+            test: pg_isready -U db
+            interval: 5s
+            timeout: 5s
+            retries: 3
+            start_period: 10s
+
+    tenant_msk_pg:
+        <<: *psql
+        labels:
+            ru.grachevko.dhu: 'tenant_msk_pg.automagistre.local'
+        environment:
+            POSTGRES_DB: tenant
+            POSTGRES_USER: db
+            POSTGRES_PASSWORD: db
+
+#pgloader mysql://root@landlord/landlord postgres://db:db@localhost/landlord
+#pgloader mysql://root@tenant_msk/tenant postgres://db:db@localhost/tenant
+#drop schema public;
+#alter schema landlord rename to public;
 
     landlord: &mysql
         image: mariadb:10.4.10
