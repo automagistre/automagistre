@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200307211437 extends AbstractMigration
+final class Version20200307221105 extends AbstractMigration
 {
     public function up(Schema $schema): void
     {
@@ -49,7 +49,7 @@ final class Version20200307211437 extends AbstractMigration
           description TEXT DEFAULT NULL, 
           created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, 
           part_id INT NOT NULL, 
-          type INT NOT NULL, 
+          type VARCHAR(255) NOT NULL, 
           PRIMARY KEY(id)
         )');
         $this->addSql('CREATE INDEX IDX_F5FEA1E84CE34BEC ON motion (part_id)');
@@ -87,7 +87,7 @@ final class Version20200307211437 extends AbstractMigration
           parent_id INT DEFAULT NULL, 
           created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, 
           created_by_id INT DEFAULT NULL, 
-          type INT NOT NULL, 
+          type VARCHAR(255) NOT NULL, 
           PRIMARY KEY(id)
         )');
         $this->addSql('CREATE INDEX IDX_52EA1F098D9F6D38 ON order_item (order_id)');

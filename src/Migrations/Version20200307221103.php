@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200307211435 extends AbstractMigration
+final class Version20200307221103 extends AbstractMigration
 {
     public function up(Schema $schema): void
     {
@@ -55,7 +55,7 @@ final class Version20200307211435 extends AbstractMigration
           email VARCHAR(255) DEFAULT NULL, 
           contractor BOOLEAN NOT NULL, 
           seller BOOLEAN NOT NULL, 
-          type INT NOT NULL, 
+          type VARCHAR(255) NOT NULL, 
           PRIMARY KEY(id)
         )');
         $this->addSql('CREATE TABLE organization (
