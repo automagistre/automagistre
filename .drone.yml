@@ -219,24 +219,22 @@ steps:
 
 services:
     -   name: landlord
-        image: mariadb:10.4.10
+        image: postgres:12.2
         environment:
-            MYSQL_DATABASE: 'landlord_test'
-            MYSQL_USER: 'db'
-            MYSQL_PASSWORD: 'db'
-            MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+            POSTGRES_DB: landlord_test
+            POSTGRES_USER: db
+            POSTGRES_PASSWORD: db
         tmpfs:
-            - /var/lib/mysql
+            - /var/lib/postgresql/data
 
     -   name: tenant_msk
-        image: mariadb:10.4.10
+        image: postgres:12.2
         environment:
-            MYSQL_DATABASE: 'tenant_test'
-            MYSQL_USER: 'db'
-            MYSQL_PASSWORD: 'db'
-            MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+            POSTGRES_DB: tenant_test
+            POSTGRES_USER: db
+            POSTGRES_PASSWORD: db
         tmpfs:
-            - /var/lib/mysql
+            - /var/lib/postgresql/data
 
 volumes:
     -   name: docker.sock
