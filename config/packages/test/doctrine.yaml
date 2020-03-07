@@ -3,12 +3,8 @@ doctrine:
         connections:
             landlord:
                 dbname:   landlord_test
-                user:     root
-                password: db
             tenant:
                 dbname:   tenant_test
-                user:     root
-                password: db
 
 dama_doctrine_test:
     enable_static_connection: true
