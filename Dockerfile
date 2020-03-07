@@ -23,11 +23,12 @@ RUN set -ex \
         libpng-dev \
         libjpeg62-turbo-dev \
         libfreetype6-dev \
+        libpq-dev \
     && rm -r /var/lib/apt/lists/*
 
 RUN set -ex \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) zip pdo_mysql iconv opcache pcntl gd
+    && docker-php-ext-install -j$(nproc) zip pdo_pgsql iconv opcache pcntl gd
 
 RUN set -ex \
 	&& cd /tmp \

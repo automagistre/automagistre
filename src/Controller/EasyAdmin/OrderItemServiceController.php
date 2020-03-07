@@ -180,12 +180,16 @@ final class OrderItemServiceController extends OrderItemController
 
         $qb = $this->em->getRepository(OrderItemService::class)
             ->createQueryBuilder('entity')
+            ->select('partial entity.{id, service, price.amount, price.currency.code}')
+            ->groupBy('entity.id')
+            ->addGroupBy('entity.price.amount')
+            ->addGroupBy('entity.price.currency.code')
             ->orderBy('COUNT(entity.service)', 'DESC')
             ->addOrderBy('entity.service', 'ASC')
             ->setMaxResults(15);
 
         if ($request->query->getBoolean('textOnly')) {
-            $qb->groupBy('entity.service');
+            $qb->addGroupBy('entity.service');
         }
 
         foreach (explode(' ', trim($request->query->get('query'))) as $key => $searchString) {

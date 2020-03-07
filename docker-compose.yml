@@ -24,48 +24,35 @@ services:
             APP_DEBUG: 0
             MERCURE_HUB_URL: //mercure.automagistre.local/.well-known/mercure
 
-    landlord: &mysql
-        image: mariadb:10.4.10
+    landlord: &postgres
+        image: postgres:12.2
         labels:
             ru.grachevko.dhu: 'landlord.automagistre.local'
         volumes:
-            -
-                type: tmpfs
-                target: /var/lib/mysql
+            -   type: tmpfs
+                target: /var/lib/postgresql/data
                 tmpfs:
-                    size: 1024m
+                    size: 2G
             - ./:/usr/local/app
         environment:
-            MYSQL_DATABASE: landlord
-            MYSQL_USER: db
-            MYSQL_PASSWORD: db
-            MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+            POSTGRES_DB: landlord
+            POSTGRES_USER: db
+            POSTGRES_PASSWORD: db
         healthcheck:
-            test: CMD echo "SELECT 1" | mysql -u $$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE
+            test: pg_isready -U db
             interval: 5s
             timeout: 5s
             retries: 3
             start_period: 10s
 
     tenant_msk:
-        <<: *mysql
+        <<: *postgres
         labels:
             ru.grachevko.dhu: 'tenant_msk.automagistre.local'
         environment:
-            MYSQL_DATABASE: tenant
-            MYSQL_USER: db
-            MYSQL_PASSWORD: db
-            MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
-
-    tenant_kazan:
-        <<: *mysql
-        labels:
-            ru.grachevko.dhu: 'tenant_kazan.automagistre.local'
-        environment:
-            MYSQL_DATABASE: tenant
-            MYSQL_USER: db
-            MYSQL_PASSWORD: db
-            MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+            POSTGRES_DB: tenant
+            POSTGRES_USER: db
+            POSTGRES_PASSWORD: db
 
     memcached:
         image: memcached:1.5.11-alpine

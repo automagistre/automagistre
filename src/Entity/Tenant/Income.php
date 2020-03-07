@@ -24,7 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  *
  * @ORM\Table(
- *     indexes={@ORM\Index(name="SEARCH_IDX", columns={"accrued_at"})}
+ *     indexes={@ORM\Index(columns={"accrued_at"})}
  * )
  */
 class Income

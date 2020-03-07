@@ -14,11 +14,11 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(
  *     indexes={
- *         @ORM\Index(name="PART_IDX", columns={"part_id"})
+ *         @ORM\Index(columns={"part_id"})
  *     }
  * )
  * @ORM\InheritanceType("JOINED")
- * @ORM\DiscriminatorColumn(name="type", type="integer")
+ * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({
  *     "0": "App\Entity\Tenant\MotionOld",
  *     "1": "App\Entity\Tenant\MotionOrder",

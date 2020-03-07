@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="UNIQUE_IDX", columns={"part_id", "car_model_id"})
+ *         @ORM\UniqueConstraint(columns={"part_id", "car_model_id"})
  *     }
  * )
  */

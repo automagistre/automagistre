@@ -34,7 +34,7 @@ services:
         volumes:
           - /etc/automagistre/env:/usr/local/app/.env:ro
         secrets:
-            - mysql_password
+            - database_password
         stop_grace_period: 120s
         deploy:
             mode: replicated
@@ -49,7 +49,7 @@ services:
 
     migration_landlord:
         <<: *app
-        command: wait-for-it.sh landlord:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=landlord
+        command: wait-for-it.sh landlord:5432 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=landlord
         deploy:
             mode: replicated
             replicas: 1
@@ -60,7 +60,7 @@ services:
 
     migration_tenant_sandbox:
         <<: *app
-        command: wait-for-it.sh tenant_sandbox:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=sandbox
+        command: wait-for-it.sh tenant_sandbox:5432 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=sandbox
         deploy:
             mode: replicated
             replicas: 1
@@ -71,7 +71,7 @@ services:
 
     migration_tenant_msk:
         <<: *app
-        command: wait-for-it.sh tenant_msk:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=msk
+        command: wait-for-it.sh tenant_msk:5432 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=msk
         deploy:
             mode: replicated
             replicas: 1
@@ -82,7 +82,7 @@ services:
 
     migration_tenant_kazan:
         <<: *app
-        command: wait-for-it.sh tenant_kazan:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=kazan
+        command: wait-for-it.sh tenant_kazan:5432 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=kazan
         deploy:
             mode: replicated
             replicas: 1
@@ -93,7 +93,7 @@ services:
 
     migration_tenant_shavlev:
         <<: *app
-        command: wait-for-it.sh tenant_kazan:3306 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=shavlev
+        command: wait-for-it.sh tenant_kazan:5432 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=shavlev
         deploy:
             mode: replicated
             replicas: 1
@@ -102,99 +102,7 @@ services:
             labels:
                 - "traefik.enable=false"
 
-    landlord: &mysql
-        image: mariadb:10.4.10
-        volumes:
-            -   type: bind
-                source: /home/automagistre/landlord
-                target: /var/lib/mysql
-            -   type: bind
-                source: /home/automagistre/backups
-                target: /backups
-        environment:
-            MYSQL_DATABASE: landlord
-            MYSQL_USER: db
-            MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
-            MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
-        networks:
-            - automagistre
-        secrets:
-            - mysql_password
-            - mysql_root_password
-        deploy:
-            mode: global
-            update_config:
-                failure_action: rollback
-                parallelism: 1
-                delay: 5s
-        healthcheck:
-            test: echo "SELECT 1" | mysql -u $$MYSQL_USER -p$$(cat $$MYSQL_PASSWORD_FILE) $$MYSQL_DATABASE
-            interval: 5s
-            timeout: 5s
-            retries: 3
-            start_period: 10s
-
-    tenant_sandbox:
-        <<: *mysql
-        environment:
-            MYSQL_DATABASE: tenant
-            MYSQL_USER: db
-            MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
-            MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
-        volumes:
-            -   type: bind
-                source: /home/automagistre/tenant_sandbox
-                target: /var/lib/mysql
-            -   type: bind
-                source: /home/automagistre/backups
-                target: /backups
-
-    tenant_msk:
-        <<: *mysql
-        environment:
-            MYSQL_DATABASE: tenant
-            MYSQL_USER: db
-            MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
-            MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
-        volumes:
-            -   type: bind
-                source: /home/automagistre/tenant_msk
-                target: /var/lib/mysql
-            -   type: bind
-                source: /home/automagistre/backups
-                target: /backups
-
-    tenant_kazan:
-        <<: *mysql
-        environment:
-            MYSQL_DATABASE: tenant
-            MYSQL_USER: db
-            MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
-            MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
-        volumes:
-            -   type: bind
-                source: /home/automagistre/tenant_kazan
-                target: /var/lib/mysql
-            -   type: bind
-                source: /home/automagistre/backups
-                target: /backups
-
-    tenant_shavlev:
-        <<: *mysql
-        environment:
-            MYSQL_DATABASE: tenant
-            MYSQL_USER: db
-            MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
-            MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
-        volumes:
-            -   type: bind
-                source: /home/automagistre/tenant_shavlev
-                target: /var/lib/mysql
-            -   type: bind
-                source: /home/automagistre/backups
-                target: /backups
-
-    landlord_pg: &psql
+    landlord: &postgres
         image: postgres:12.2
         volumes:
             -   type: bind
@@ -224,8 +132,8 @@ services:
             retries: 3
             start_period: 10s
 
-    tenant_sandbox_pg:
-        <<: *psql
+    tenant_sandbox:
+        <<: *postgres
         environment:
             POSTGRES_DB: tenant
             POSTGRES_USER: db
@@ -238,8 +146,8 @@ services:
                 source: /opt/am/db/backups
                 target: /backups
 
-    tenant_msk_pg:
-        <<: *psql
+    tenant_msk:
+        <<: *postgres
         environment:
             POSTGRES_DB: tenant
             POSTGRES_USER: db
@@ -252,8 +160,8 @@ services:
                 source: /opt/am/db/backups
                 target: /backups
 
-    tenant_kazan_pg:
-        <<: *psql
+    tenant_kazan:
+        <<: *postgres
         environment:
             POSTGRES_DB: tenant
             POSTGRES_USER: db
@@ -266,8 +174,8 @@ services:
                 source: /opt/am/db/backups
                 target: /backups
 
-    tenant_shavlev_pg:
-        <<: *psql
+    tenant_shavlev:
+        <<: *postgres
         environment:
             POSTGRES_DB: tenant
             POSTGRES_USER: db
@@ -306,9 +214,3 @@ secrets:
     database_password:
         external: true
         name: automagistre_database_password
-    mysql_password:
-        external: true
-        name: automagistre_mysql_password
-    mysql_root_password:
-        external: true
-        name: automagistre_mysql_root_password

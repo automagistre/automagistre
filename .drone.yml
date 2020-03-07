@@ -145,7 +145,8 @@ steps:
     -   name: migration landlord
         image: automagistre/app:base
         commands:
-            - $$WAIT_FOR_IT landlord:3306
+            - $$WAIT_FOR_IT landlord:5432
+            - bin/console doctrine:migrations:version --no-interaction 20200307221417 --add --em=landlord
             - bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=landlord
         depends_on:
             - install
@@ -153,7 +154,8 @@ steps:
     -   name: migration tenant
         image: automagistre/app:base
         commands:
-            - $$WAIT_FOR_IT tenant_msk:3306
+            - $$WAIT_FOR_IT tenant_msk:5432
+            - bin/console doctrine:migrations:version --no-interaction 20200307221419 --add --em=tenant --tenant=msk
             - bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=msk
         depends_on:
             - install
@@ -219,24 +221,22 @@ steps:
 
 services:
     -   name: landlord
-        image: mariadb:10.4.10
+        image: postgres:12.2
         environment:
-            MYSQL_DATABASE: 'landlord_test'
-            MYSQL_USER: 'db'
-            MYSQL_PASSWORD: 'db'
-            MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+            POSTGRES_DB: landlord_test
+            POSTGRES_USER: db
+            POSTGRES_PASSWORD: db
         tmpfs:
-            - /var/lib/mysql
+            - /var/lib/postgresql/data
 
     -   name: tenant_msk
-        image: mariadb:10.4.10
+        image: postgres:12.2
         environment:
-            MYSQL_DATABASE: 'tenant_test'
-            MYSQL_USER: 'db'
-            MYSQL_PASSWORD: 'db'
-            MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+            POSTGRES_DB: tenant_test
+            POSTGRES_USER: db
+            POSTGRES_PASSWORD: db
         tmpfs:
-            - /var/lib/mysql
+            - /var/lib/postgresql/data
 
 volumes:
     -   name: docker.sock

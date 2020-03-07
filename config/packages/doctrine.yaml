@@ -8,26 +8,28 @@ doctrine:
                 mapping_types:
                     enum: string
                 charset:  UTF8
-                server_version: mariadb-10.4.10
+                server_version: 12.2
                 options:
                     x_reconnect_attempts: 3
+                driver:   pdo_pgsql
                 host:     landlord
-                port:     3306
+                port:     5432
                 dbname:   landlord
-                user:     "%env(MYSQL_USER)%"
-                password: "%env(MYSQL_PASSWORD)%"
+                user:     "%env(DATABASE_USER)%"
+                password: "%env(DATABASE_PASSWORD)%"
             tenant:
                 mapping_types:
                     enum: string
                 charset:  UTF8
-                server_version: mariadb-10.4.10
+                server_version: 12.2
                 options:
                     x_reconnect_attempts: 3
+                driver:   pdo_pgsql
                 host:     tenant
-                port:     3306
+                port:     5432
                 dbname:   tenant
-                user:     "%env(MYSQL_USER)%"
-                password: "%env(MYSQL_PASSWORD)%"
+                user:     "%env(DATABASE_USER)%"
+                password: "%env(DATABASE_PASSWORD)%"
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
@@ -94,9 +96,9 @@ framework:
                 adapter: cache.adapter.array
 
 parameters:
-    env(MYSQL_USER): db
-    env(MYSQL_PASSWORD): '%env(default:default_db_password:trim:file:MYSQL_PASSWORD_FILE)%'
-    env(MYSQL_PASSWORD_FILE): /run/secrets/mysql_password
+    env(DATABASE_USER): db
+    env(DATABASE_PASSWORD): '%env(default:default_db_password:trim:file:DATABASE_PASSWORD_FILE)%'
+    env(DATABASE_PASSWORD_FILE): /run/secrets/database_password
     default_db_password: db
 
 services:

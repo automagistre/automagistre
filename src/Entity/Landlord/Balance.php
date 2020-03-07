@@ -14,7 +14,7 @@ use Money\Money;
  * @ORM\Entity
  * @ORM\Table(
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="UNIQUE_IDX", columns={"operand_id", "tenant"})
+ *         @ORM\UniqueConstraint(columns={"operand_id", "tenant"})
  *     }
  * )
  */

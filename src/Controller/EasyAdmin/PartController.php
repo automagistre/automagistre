@@ -372,7 +372,8 @@ final class PartController extends AbstractController
         )
             ->setParameter('tenant', $state->tenant())
             ->groupBy('part.id')
-            ->orderBy('SUM(stockpile.quantity)', 'DESC');
+            ->addSelect('SUM(CAST(stockpile.quantity AS integer)) as HIDDEN stock')
+            ->orderBy('stock', 'DESC');
 
         return $qb;
     }

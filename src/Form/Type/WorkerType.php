@@ -79,20 +79,19 @@ final class WorkerType extends AbstractType
     {
         $em = $this->registry->manager(OrderItemService::class);
 
-        /** @var OrderItemService[] $services */
         $services = $em->createQueryBuilder()
-            ->select('entity')
+            ->select('entity.worker.id')
             ->from(OrderItemService::class, 'entity')
             ->where('entity.createdAt > :today')
             ->andWhere('entity.worker.id IS NOT NULL')
             ->groupBy('entity.worker.id')
             ->setParameter('today', new DateTime('-10 hour'))
             ->getQuery()
-            ->getResult();
+            ->getScalarResult();
 
         $map = [];
         foreach ($services as $service) {
-            $map[$service->getWorker()->getId()] = true;
+            $map[$service['worker.id']] = true;
         }
 
         return $map;

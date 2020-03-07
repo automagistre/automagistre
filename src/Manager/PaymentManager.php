@@ -57,7 +57,7 @@ final class PaymentManager
         $em = $this->registry->manager($transactional->getTransactionClass());
 
         $qb = $em->createQueryBuilder()
-            ->select('SUM(payment.amount.amount)')
+            ->select('SUM(CAST(payment.amount.amount AS int))')
             ->from($transactional->getTransactionClass(), 'payment');
 
         if ($transactional instanceof Operand) {

@@ -104,7 +104,7 @@ final class CarController extends AbstractController
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->like('car.year', $key),
+                $qb->expr()->like('CAST(car.year AS string)', $key),
                 $qb->expr()->like('car.gosnomer', $key),
                 $qb->expr()->like('car.identifier', $key),
                 $qb->expr()->like('car.description', $key),
