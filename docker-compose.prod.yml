@@ -34,7 +34,7 @@ services:
         volumes:
           - /etc/automagistre/env:/usr/local/app/.env:ro
         secrets:
-            - mysql_password
+            - database_password
         stop_grace_period: 120s
         deploy:
             mode: replicated
@@ -214,9 +214,3 @@ secrets:
     database_password:
         external: true
         name: automagistre_database_password
-    mysql_password:
-        external: true
-        name: automagistre_mysql_password
-    mysql_root_password:
-        external: true
-        name: automagistre_mysql_root_password
