@@ -25,7 +25,7 @@ final class BalanceProvider
     {
         $result = $this->registry->manager(WalletTransaction::class)
             ->createQueryBuilder()
-            ->select('SUM(payment.amount.amount) as amount, payment.amount.currency.code as code')
+            ->select('SUM(CAST(payment.amount.amount AS integer)) as amount, payment.amount.currency.code as code')
             ->from(WalletTransaction::class, 'payment')
             ->where('payment.recipient = :recipient')
             ->setParameter('recipient', $wallet)
