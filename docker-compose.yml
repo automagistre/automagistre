@@ -10,7 +10,7 @@ services:
             - ./etc/nginx.conf:/etc/nginx/nginx.conf
 
     app:
-        image: automagistre/app:base-pg
+        image: automagistre/app:base
         networks:
             default:
                 aliases:
@@ -24,15 +24,15 @@ services:
             APP_DEBUG: 0
             MERCURE_HUB_URL: //mercure.automagistre.local/.well-known/mercure
 
-    landlord_pg: &psql
+    landlord: &postgres
         image: postgres:12.2
         labels:
-            ru.grachevko.dhu: 'landlord_pg.automagistre.local'
+            ru.grachevko.dhu: 'landlord.automagistre.local'
         volumes:
             -   type: tmpfs
                 target: /var/lib/postgresql/data
                 tmpfs:
-                    size: 1024m
+                    size: 2G
             - ./:/usr/local/app
         environment:
             POSTGRES_DB: landlord
@@ -45,62 +45,14 @@ services:
             retries: 3
             start_period: 10s
 
-    tenant_msk_pg:
-        <<: *psql
+    tenant_msk:
+        <<: *postgres
         labels:
-            ru.grachevko.dhu: 'tenant_msk_pg.automagistre.local'
+            ru.grachevko.dhu: 'tenant_msk.automagistre.local'
         environment:
             POSTGRES_DB: tenant
             POSTGRES_USER: db
             POSTGRES_PASSWORD: db
-
-#pgloader mysql://root@landlord/landlord postgres://db:db@localhost/landlord
-#pgloader mysql://root@tenant_msk/tenant postgres://db:db@localhost/tenant
-#drop schema public;
-#alter schema landlord rename to public;
-
-    landlord: &mysql
-        image: mariadb:10.4.10
-        labels:
-            ru.grachevko.dhu: 'landlord.automagistre.local'
-        volumes:
-            -
-                type: tmpfs
-                target: /var/lib/mysql
-                tmpfs:
-                    size: 1024m
-            - ./:/usr/local/app
-        environment:
-            MYSQL_DATABASE: landlord
-            MYSQL_USER: db
-            MYSQL_PASSWORD: db
-            MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
-        healthcheck:
-            test: CMD echo "SELECT 1" | mysql -u $$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE
-            interval: 5s
-            timeout: 5s
-            retries: 3
-            start_period: 10s
-
-    tenant_msk:
-        <<: *mysql
-        labels:
-            ru.grachevko.dhu: 'tenant_msk.automagistre.local'
-        environment:
-            MYSQL_DATABASE: tenant
-            MYSQL_USER: db
-            MYSQL_PASSWORD: db
-            MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
-
-    tenant_kazan:
-        <<: *mysql
-        labels:
-            ru.grachevko.dhu: 'tenant_kazan.automagistre.local'
-        environment:
-            MYSQL_DATABASE: tenant
-            MYSQL_USER: db
-            MYSQL_PASSWORD: db
-            MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
 
     memcached:
         image: memcached:1.5.11-alpine
