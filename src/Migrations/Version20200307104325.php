@@ -11,7 +11,7 @@ use function strpos;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200307103926 extends AbstractMigration
+final class Version20200307104325 extends AbstractMigration
 {
     public function up(Schema $schema): void
     {
@@ -74,7 +74,7 @@ final class Version20200307103926 extends AbstractMigration
           type INT NOT NULL, 
           PRIMARY KEY(id)
         )');
-        $this->addSql('CREATE INDEX PART_IDX ON motion (part_id)');
+        $this->addSql('CREATE INDEX IDX_F5FEA1E84CE34BEC ON motion (part_id)');
         $this->addSql('COMMENT ON COLUMN motion.created_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('CREATE TABLE order_payment (
           id INT NOT NULL, 

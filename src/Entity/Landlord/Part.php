@@ -19,7 +19,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Table(name="part", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="part_idx", columns={"number", "manufacturer_id"})
+ *     @ORM\UniqueConstraint(columns={"number", "manufacturer_id"})
  * })
  * @ORM\Entity
  *

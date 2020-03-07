@@ -12,9 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="PART_TENANT_UNIQUE_IDX", columns={"part_id", "tenant"})
+ *         @ORM\UniqueConstraint(columns={"part_id", "tenant"})
  *     },
- *     indexes={@ORM\Index(name="SEARCH_IDX", columns={"part_id", "tenant", "quantity"})}
+ *     indexes={@ORM\Index(columns={"part_id", "tenant", "quantity"})}
  * )
  */
 class Stockpile

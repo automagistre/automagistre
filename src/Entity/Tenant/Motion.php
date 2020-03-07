@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(
  *     indexes={
- *         @ORM\Index(name="PART_IDX", columns={"part_id"})
+ *         @ORM\Index(columns={"part_id"})
  *     }
  * )
  * @ORM\InheritanceType("JOINED")
