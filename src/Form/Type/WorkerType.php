@@ -79,7 +79,6 @@ final class WorkerType extends AbstractType
     {
         $em = $this->registry->manager(OrderItemService::class);
 
-        /** @var OrderItemService[] $services */
         $services = $em->createQueryBuilder()
             ->select('entity.worker.id')
             ->from(OrderItemService::class, 'entity')
