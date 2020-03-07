@@ -11,7 +11,7 @@ use function strpos;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200307102615 extends AbstractMigration
+final class Version20200307103926 extends AbstractMigration
 {
     public function up(Schema $schema): void
     {
@@ -59,7 +59,7 @@ final class Version20200307102615 extends AbstractMigration
           PRIMARY KEY(id)
         )');
         $this->addSql('CREATE INDEX IDX_E52FFDEE6B20BA36 ON orders (worker_id)');
-        $this->addSql('CREATE INDEX SEARCH_IDX ON orders (closed_at)');
+        $this->addSql('CREATE INDEX IDX_E52FFDEE5D13417F ON orders (closed_at)');
         $this->addSql('COMMENT ON COLUMN orders.closed_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('COMMENT ON COLUMN orders.status IS \'(DC2Type:order_status_enum)\'');
         $this->addSql('COMMENT ON COLUMN orders.appointment_at IS \'(DC2Type:datetime_immutable)\'');
@@ -148,7 +148,7 @@ final class Version20200307102615 extends AbstractMigration
           created_by_id INT DEFAULT NULL, 
           PRIMARY KEY(id)
         )');
-        $this->addSql('CREATE INDEX SEARCH_IDX ON income (accrued_at)');
+        $this->addSql('CREATE INDEX IDX_3FA862D06FC55E56 ON income (accrued_at)');
         $this->addSql('COMMENT ON COLUMN income.accrued_at IS \'(DC2Type:date_immutable)\'');
         $this->addSql('COMMENT ON COLUMN income.created_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('CREATE TABLE order_suspend (

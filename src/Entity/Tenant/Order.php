@@ -37,7 +37,7 @@ use function sprintf;
 /**
  * @ORM\Table(
  *     name="orders",
- *     indexes={@ORM\Index(name="SEARCH_IDX", columns={"closed_at"})}
+ *     indexes={@ORM\Index(columns={"closed_at"})}
  * )
  * @ORM\Entity
  */
