@@ -55,7 +55,7 @@ final class BalanceListener implements EventSubscriberInterface
         $conn->prepare('
             INSERT INTO balance (operand_id, tenant, price_amount, price_currency_code) 
             VALUES (:operand, :tenant, :price, :currency) 
-            ON DUPLICATE KEY UPDATE price_amount = :price
+            ON CONFLICT (operand_id, tenant) DO UPDATE SET price_amount = :price
         ')
             ->execute([
                 'operand' => $operand->getId(),
