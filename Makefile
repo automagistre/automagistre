@@ -174,12 +174,10 @@ do-drop:
 	$(APP) sh -c "console doctrine:database:drop --if-exists --force --connection=${EM} ${TENANT_CONSOLE} && console doctrine:database:create --connection=${EM} ${TENANT_CONSOLE}"
 ###< APP ###
 
-###> MYSQL ###
-MYSQL=$(DEBUG_ECHO) @docker-compose exec -T ${EM}$(if $(filter tenant,$(EM)),_$(TENANT))
+###> DATABASE ###
+DB=$(DEBUG_ECHO) @docker-compose exec -T ${EM}$(if $(filter tenant,$(EM)),_$(TENANT))
 TENANT_CONSOLE = $(if $(filter tenant,$(EM)),--tenant=$(TENANT))
 
-mysql-cli:
-	@$(MYSQL) bash
 backup_file = var/backups/$(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz
 backup-restore: backup-restore-landlord backup-restore-tenant
 backup-restore-landlord: drop-landlord
@@ -188,49 +186,10 @@ backup-restore-tenant: drop-tenant
 	@$(MAKE) do-backup-restore EM=tenant
 do-backup-restore:
 ifneq (,$(wildcard $(backup_file)))
-	@$(MYSQL) bash -c "gunzip < /usr/local/app/var/backups/$(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz | mysql ${EM}"
+	@$(DB) bash -c "gunzip < /usr/local/app/var/backups/$(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz | psql -U db ${EM}"
 	$(call OK,"Backup $(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}) restored.")
 else
 	$(call FAIL,"Backup \"$(backup_file)\" does not exist!")
 	@exit 1
 endif
-
-SNAPSHOT_FILE_NAME = $(shell git rev-parse --abbrev-ref HEAD | sed 's\#/\#\_\#g')_${EM}$(if $(filter tenant,$(EM)),_$(TENANT)).sql.gz
-SNAPSHOT_FILE_PATH = /usr/local/app/var/snapshots/$(SNAPSHOT_FILE_NAME)
-SNAPSHOT_FILE_LOCAL = var/snapshots/$(SNAPSHOT_FILE_NAME)
-
-snapshot: snapshot-landlord snapshot-tenant
-snapshot-landlord:
-	@$(MAKE) do-snapshot EM=landlord
-snapshot-tenant:
-	@$(MAKE) do-snapshot EM=tenant
-do-snapshot:
-ifneq (,$(wildcard $(SNAPSHOT_FILE_LOCAL)))
-	$(call FAIL,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" already exist! You can use \"snapshot-drop\" recipe.")
-else
-	$(MYSQL) bash -c "mysqldump ${EM} | gzip > $(SNAPSHOT_FILE_PATH)"
-	$(call OK,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" created.")
-endif
-
-snapshot-drop: snapshot-drop-landlord snapshot-drop-tenant
-snapshot-drop-landlord:
-	@$(MAKE) do-snapshot-drop EM=landlord
-snapshot-drop-tenant:
-	@$(MAKE) do-snapshot-drop EM=tenant
-do-snapshot-drop:
-ifeq (,$(wildcard $(SNAPSHOT_FILE_LOCAL)))
-	$(call FAIL,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" does not exist!")
-else
-	$(MYSQL) rm -f $(SNAPSHOT_FILE_PATH)
-	$(call OK,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" deleted.")
-endif
-
-snapshot-restore: snapshot-restore-landlord snapshot-restore-tenant
-snapshot-restore-landlord: drop-landlord
-	@$(MAKE) do-snapshot-restore EM=landlord
-snapshot-restore-tenant: drop-tenant
-	@$(MAKE) do-snapshot-restore EM=tenant
-do-snapshot-restore:
-	$(MYSQL) bash -c "gunzip < $(SNAPSHOT_FILE_PATH) | mysql ${EM}"
-	$(call OK,"Snapshot \"$(SNAPSHOT_FILE_NAME)\" restored.")
-###< MYSQL ###
+###< DATABASE ###
