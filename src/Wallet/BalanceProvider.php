@@ -28,6 +28,7 @@ final class BalanceProvider
             ->select('SUM(CAST(payment.amount.amount AS integer)) as amount, payment.amount.currency.code as code')
             ->from(WalletTransaction::class, 'payment')
             ->where('payment.recipient = :recipient')
+            ->groupBy('code')
             ->setParameter('recipient', $wallet)
             ->getQuery()
             ->getResult();
