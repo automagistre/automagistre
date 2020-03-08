@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\Landlord;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Operand\Domain\OperandId;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -18,6 +19,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 abstract class Operand
 {
     use Identity;
+
+    /**
+     * @ORM\Column(type="operand_id", unique=true)
+     */
+    private OperandId $uuid;
 
     /**
      * @Assert\Email
@@ -35,6 +41,11 @@ abstract class Operand
      * @ORM\Column(type="boolean")
      */
     private bool $seller = false;
+
+    public function __construct()
+    {
+        $this->uuid = OperandId::generate();
+    }
 
     abstract public function __toString(): string;
 

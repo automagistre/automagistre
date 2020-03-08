@@ -1,0 +1,10 @@
+doctrine:
+    orm:
+        entity_managers:
+            tenant:
+                mappings:
+                    Customer:
+                        type: annotation
+                        prefix: App\Customer\Domain
+                        dir: '%kernel.project_dir%/src/Customer/Domain'
+                        is_bundle: false

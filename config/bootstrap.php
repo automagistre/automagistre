@@ -28,3 +28,6 @@ Premier\Enum\Doctrine\EnumType::register(App\Car\Enum\FuelType::class, 'engine_t
 Premier\Enum\Doctrine\EnumType::register(App\Enum\NoteType::class, 'note_type_enum');
 Premier\Enum\Doctrine\EnumType::register(App\Enum\OrderStatus::class, 'order_status_enum');
 Premier\Enum\Doctrine\EnumType::register(App\Tenant\Tenant::class, 'tenant_enum');
+
+App\Doctrine\ORM\Type\CustomIdType::register('customer_id', App\Doctrine\ORM\Type\CustomId::class);
+App\Doctrine\ORM\Type\CustomIdType::register('operand_id', App\Operand\Domain\OperandId::class);
