@@ -2,8 +2,8 @@
 
 namespace App\Operand\Domain;
 
-use App\Doctrine\ORM\Type\CustomId;
+use App\Doctrine\ORM\Type\Identifier;
 
-final class OperandId extends CustomId
+final class OperandId extends Identifier
 {
 }

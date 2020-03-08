@@ -3,8 +3,8 @@
 namespace App\Customer\Infrastructure;
 
 use App\Customer\Domain\Customer;
+use App\Customer\Domain\CustomerId;
 use App\Customer\Domain\CustomerRepository;
-use App\Doctrine\ORM\Type\CustomId;
 use App\Doctrine\Registry;
 use App\Operand\Domain\OperandId;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,9 +23,9 @@ final class DoctrineCustomerRepository implements CustomerRepository
         $this->em()->persist($customer);
     }
 
-    public function get(CustomId $customId): Customer
+    public function get(CustomerId $customerId): Customer
     {
-        return $this->em()->getRepository(Customer::class)->find($customId);
+        return $this->em()->getRepository(Customer::class)->find($customerId);
     }
 
     public function getByOperandId(OperandId $operandId): Customer

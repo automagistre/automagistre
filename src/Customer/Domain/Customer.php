@@ -4,11 +4,11 @@ namespace App\Customer\Domain;
 
 use App\Customer\Domain\Event\CustomerCreated;
 use App\Customer\Domain\Event\CustomerLinkedWithOperand;
-use App\Doctrine\ORM\Type\CustomId;
 use App\Infrastructure\DomainEvents\RaiseEventsInterface;
 use App\Infrastructure\DomainEvents\RaiseEventsTrait;
 use App\Operand\Domain\OperandId;
 use Doctrine\ORM\Mapping as ORM;
+use DomainException;
 
 /**
  * @ORM\Entity
@@ -43,7 +43,7 @@ class Customer implements RaiseEventsInterface
         return $customer;
     }
 
-    public function id(): CustomId
+    public function id(): CustomerId
     {
         return $this->id;
     }
@@ -51,7 +51,7 @@ class Customer implements RaiseEventsInterface
     public function linkWithOperand(OperandId $operandId): void
     {
         if (null !== $this->operand) {
-            throw new \DomainException('Operand already defined.');
+            throw new DomainException('Operand already defined.');
         }
 
         $this->operand = $operandId;

@@ -29,5 +29,5 @@ Premier\Enum\Doctrine\EnumType::register(App\Enum\NoteType::class, 'note_type_en
 Premier\Enum\Doctrine\EnumType::register(App\Enum\OrderStatus::class, 'order_status_enum');
 Premier\Enum\Doctrine\EnumType::register(App\Tenant\Tenant::class, 'tenant_enum');
 
-App\Doctrine\ORM\Type\CustomIdType::register('customer_id', App\Doctrine\ORM\Type\CustomId::class);
-App\Doctrine\ORM\Type\CustomIdType::register('operand_id', App\Operand\Domain\OperandId::class);
+App\Doctrine\ORM\Type\IdentifierType::register('customer_id', App\Doctrine\ORM\Type\Identifier::class);
+App\Doctrine\ORM\Type\IdentifierType::register('operand_id', App\Operand\Domain\OperandId::class);
