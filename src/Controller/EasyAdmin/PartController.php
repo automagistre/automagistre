@@ -39,6 +39,7 @@ use function sprintf;
 use function str_ireplace;
 use function str_replace;
 use function strpos;
+use function strtolower;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -355,12 +356,12 @@ final class PartController extends AbstractController
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->like('part.name', $key),
-                $qb->expr()->like('part.number', $key),
-                $qb->expr()->like('manufacturer.name', $key)
+                $qb->expr()->like('LOWER(part.name)', $key),
+                $qb->expr()->like('LOWER(part.number)', $key),
+                $qb->expr()->like('LOWER(manufacturer.name)', $key)
             ));
 
-            $qb->setParameter($key, '%'.trim($searchString).'%');
+            $qb->setParameter($key, '%'.strtolower(trim($searchString)).'%');
         }
 
         $state = $this->container->get(State::class);

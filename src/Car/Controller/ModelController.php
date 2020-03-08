@@ -10,6 +10,7 @@ use App\Doctrine\Registry;
 use function array_map;
 use Doctrine\ORM\QueryBuilder;
 use function explode;
+use function strtolower;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -56,14 +57,14 @@ final class ModelController extends AbstractController
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->like('model.name', $key),
-                $qb->expr()->like('model.localizedName', $key),
-                $qb->expr()->like('model.caseName', $key),
-                $qb->expr()->like('manufacturer.name', $key),
-                $qb->expr()->like('manufacturer.localizedName', $key)
+                $qb->expr()->like('LOWER(model.name)', $key),
+                $qb->expr()->like('LOWER(model.localizedName)', $key),
+                $qb->expr()->like('LOWER(model.caseName)', $key),
+                $qb->expr()->like('LOWER(manufacturer.name)', $key),
+                $qb->expr()->like('LOWER(manufacturer.localizedName)', $key)
             ));
 
-            $qb->setParameter($key, '%'.$item.'%');
+            $qb->setParameter($key, '%'.strtolower($item).'%');
         }
 
         return $qb;

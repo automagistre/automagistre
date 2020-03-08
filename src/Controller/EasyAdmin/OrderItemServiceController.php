@@ -16,6 +16,7 @@ use Doctrine\ORM\QueryBuilder;
 use function explode;
 use LogicException;
 use function sprintf;
+use function strtolower;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -158,10 +159,10 @@ final class OrderItemServiceController extends OrderItemController
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->like('entity.service', $key)
+                $qb->expr()->like('LOWER(entity.service)', $key)
             ));
 
-            $qb->setParameter($key, '%'.$item.'%');
+            $qb->setParameter($key, '%'.strtolower($item).'%');
         }
 
         $qb
@@ -201,10 +202,10 @@ final class OrderItemServiceController extends OrderItemController
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->like('entity.service', $key)
+                $qb->expr()->like('LOWER(entity.service)', $key)
             ));
 
-            $qb->setParameter($key, '%'.$searchString.'%');
+            $qb->setParameter($key, '%'.strtolower($searchString).'%');
         }
 
         $data = array_map(function (OrderItemService $entity): array {

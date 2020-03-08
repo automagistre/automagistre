@@ -10,6 +10,7 @@ use App\Entity\Landlord\MC\Equipment;
 use function assert;
 use Doctrine\ORM\QueryBuilder;
 use function explode;
+use function strtolower;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -55,15 +56,15 @@ final class EquipmentController extends AbstractController
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->like('entity.equipment.engine.name', $key),
-                $qb->expr()->like('carModel.name', $key),
-                $qb->expr()->like('carModel.caseName', $key),
-                $qb->expr()->like('carModel.localizedName', $key),
-                $qb->expr()->like('manufacturer.name', $key),
-                $qb->expr()->like('manufacturer.localizedName', $key)
+                $qb->expr()->like('LOWER(entity.equipment.engine.name)', $key),
+                $qb->expr()->like('LOWER(carModel.name)', $key),
+                $qb->expr()->like('LOWER(carModel.caseName)', $key),
+                $qb->expr()->like('LOWER(carModel.localizedName)', $key),
+                $qb->expr()->like('LOWER(manufacturer.name)', $key),
+                $qb->expr()->like('LOWER(manufacturer.localizedName)', $key)
             ));
 
-            $qb->setParameter($key, '%'.$searchString.'%');
+            $qb->setParameter($key, '%'.strtolower($searchString).'%');
         }
 
         return $qb;

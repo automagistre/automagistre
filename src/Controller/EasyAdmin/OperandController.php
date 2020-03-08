@@ -21,6 +21,7 @@ use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use function explode;
 use function sprintf;
+use function strtolower;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -134,14 +135,14 @@ class OperandController extends AbstractController
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->like('person.firstname', $key),
-                $qb->expr()->like('person.lastname', $key),
-                $qb->expr()->like('person.telephone', $key),
-                $qb->expr()->like('person.email', $key),
-                $qb->expr()->like('organization.name', $key)
+                $qb->expr()->like('LOWER(person.firstname)', $key),
+                $qb->expr()->like('LOWER(person.lastname)', $key),
+                $qb->expr()->like('LOWER(person.telephone)', $key),
+                $qb->expr()->like('LOWER(person.email)', $key),
+                $qb->expr()->like('LOWER(organization.name)', $key)
             ));
 
-            $qb->setParameter($key, '%'.$item.'%');
+            $qb->setParameter($key, '%'.strtolower($item).'%');
         }
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));

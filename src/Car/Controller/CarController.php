@@ -17,6 +17,7 @@ use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use function explode;
 use function sprintf;
+use function strtolower;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -104,22 +105,22 @@ final class CarController extends AbstractController
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->like('CAST(car.year AS string)', $key),
-                $qb->expr()->like('car.gosnomer', $key),
-                $qb->expr()->like('car.identifier', $key),
-                $qb->expr()->like('car.description', $key),
-                $qb->expr()->like('model.name', $key),
-                $qb->expr()->like('model.localizedName', $key),
-                $qb->expr()->like('manufacturer.name', $key),
-                $qb->expr()->like('manufacturer.localizedName', $key),
-                $qb->expr()->like('person.firstname', $key),
-                $qb->expr()->like('person.lastname', $key),
-                $qb->expr()->like('person.telephone', $key),
-                $qb->expr()->like('person.email', $key),
-                $qb->expr()->like('organization.name', $key)
+                $qb->expr()->like('LOWER(CAST(car.year AS string))', $key),
+                $qb->expr()->like('LOWER(car.gosnomer)', $key),
+                $qb->expr()->like('LOWER(car.identifier)', $key),
+                $qb->expr()->like('LOWER(car.description)', $key),
+                $qb->expr()->like('LOWER(model.name)', $key),
+                $qb->expr()->like('LOWER(model.localizedName)', $key),
+                $qb->expr()->like('LOWER(manufacturer.name)', $key),
+                $qb->expr()->like('LOWER(manufacturer.localizedName)', $key),
+                $qb->expr()->like('LOWER(person.firstname)', $key),
+                $qb->expr()->like('LOWER(person.lastname)', $key),
+                $qb->expr()->like('LOWER(person.telephone)', $key),
+                $qb->expr()->like('LOWER(person.email)', $key),
+                $qb->expr()->like('LOWER(organization.name)', $key)
             ));
 
-            $qb->setParameter($key, '%'.$searchString.'%');
+            $qb->setParameter($key, '%'.strtolower($searchString).'%');
         }
 
         return $qb;

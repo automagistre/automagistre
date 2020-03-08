@@ -44,6 +44,7 @@ use Money\Money;
 use function range;
 use function sprintf;
 use stdClass;
+use function strtolower;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -590,20 +591,20 @@ final class OrderController extends AbstractController
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->like('person.firstname', $key),
-                $qb->expr()->like('person.lastname', $key),
-                $qb->expr()->like('person.telephone', $key),
-                $qb->expr()->like('person.email', $key),
-                $qb->expr()->like('car.gosnomer', $key),
-                $qb->expr()->like('carModel.name', $key),
-                $qb->expr()->like('carModel.localizedName', $key),
-                $qb->expr()->like('carModel.caseName', $key),
-                $qb->expr()->like('manufacturer.name', $key),
-                $qb->expr()->like('manufacturer.localizedName', $key),
-                $qb->expr()->like('organization.name', $key)
+                $qb->expr()->like('LOWER(person.firstname)', $key),
+                $qb->expr()->like('LOWER(person.lastname)', $key),
+                $qb->expr()->like('LOWER(person.telephone)', $key),
+                $qb->expr()->like('LOWER(person.email)', $key),
+                $qb->expr()->like('LOWER(car.gosnomer)', $key),
+                $qb->expr()->like('LOWER(carModel.name)', $key),
+                $qb->expr()->like('LOWER(carModel.localizedName)', $key),
+                $qb->expr()->like('LOWER(carModel.caseName)', $key),
+                $qb->expr()->like('LOWER(manufacturer.name)', $key),
+                $qb->expr()->like('LOWER(manufacturer.localizedName)', $key),
+                $qb->expr()->like('LOWER(organization.name)', $key)
             ));
 
-            $qb->setParameter($key, '%'.$item.'%');
+            $qb->setParameter($key, '%'.strtolower($item).'%');
         }
 
         $cars = [];
