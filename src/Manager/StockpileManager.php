@@ -30,7 +30,7 @@ final class StockpileManager
             return sprintf('(%s, %s, %s)', $partId, $tenant, $quantity);
         }, $values));
 
-        $sql = "INSERT INTO stockpile (part_id, tenant, quantity) VALUES {$valueString} ON DUPLICATE KEY UPDATE quantity=VALUES(quantity)";
+        $sql = "INSERT INTO stockpile (part_id, tenant, quantity) VALUES {$valueString} ON CONFLICT (part_id, tenant) DO UPDATE SET quantity=EXCLUDED.quantity";
 
         $this->registry->manager(Part::class)->getConnection()->executeQuery($sql);
     }
