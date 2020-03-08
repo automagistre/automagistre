@@ -2,11 +2,10 @@ doctrine:
     dbal:
         types:
             phone_number: \Misd\PhoneNumberBundle\Doctrine\DBAL\Types\PhoneNumberType
+            uuid:  Ramsey\Uuid\Doctrine\UuidBinaryType
         default_connection: landlord
         connections:
             landlord:
-                mapping_types:
-                    enum: string
                 charset:  UTF8
                 server_version: 12.2
                 options:
@@ -18,8 +17,6 @@ doctrine:
                 user:     "%env(DATABASE_USER)%"
                 password: "%env(DATABASE_PASSWORD)%"
             tenant:
-                mapping_types:
-                    enum: string
                 charset:  UTF8
                 server_version: 12.2
                 options:
