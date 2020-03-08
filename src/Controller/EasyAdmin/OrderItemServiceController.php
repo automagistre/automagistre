@@ -183,9 +183,9 @@ final class OrderItemServiceController extends OrderItemController
         $connection = $this->em->getConnection();
 
         $qb = $connection->createQueryBuilder()
-            ->select('MIN(service) service, MAX(price_amount) price, MAX(price_currency_code) currency')
+            ->select('MIN(service) service, price_amount price, price_currency_code currency')
             ->from('order_item_service')
-            ->groupBy('service')
+            ->groupBy('service', 'price_amount', 'price_currency_code')
             ->orderBy('COUNT(service)', 'DESC')
             ->setMaxResults(15);
 
