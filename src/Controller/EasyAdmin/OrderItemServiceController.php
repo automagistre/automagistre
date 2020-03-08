@@ -15,6 +15,8 @@ use function assert;
 use Doctrine\ORM\QueryBuilder;
 use function explode;
 use LogicException;
+use Money\Currency;
+use Money\Money;
 use function sprintf;
 use function strtolower;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -178,20 +180,14 @@ final class OrderItemServiceController extends OrderItemController
     protected function autocompleteAction(): JsonResponse
     {
         $request = $this->request;
+        $connection = $this->em->getConnection();
 
-        $qb = $this->em->getRepository(OrderItemService::class)
-            ->createQueryBuilder('entity')
-            ->select('partial entity.{id, service, price.amount, price.currency.code}')
-            ->groupBy('entity.id')
-            ->addGroupBy('entity.price.amount')
-            ->addGroupBy('entity.price.currency.code')
-            ->orderBy('COUNT(entity.service)', 'DESC')
-            ->addOrderBy('entity.service', 'ASC')
+        $qb = $connection->createQueryBuilder()
+            ->select('id, service, price_amount AS price, price_currency_code AS currency')
+            ->from('order_item_service')
+            ->groupBy('service, id, price, currency')
+            ->orderBy('COUNT(service)', 'DESC')
             ->setMaxResults(15);
-
-        if ($request->query->getBoolean('textOnly')) {
-            $qb->addGroupBy('entity.service');
-        }
 
         foreach (explode(' ', trim($request->query->get('query'))) as $key => $searchString) {
             $searchString = trim($searchString);
@@ -202,21 +198,21 @@ final class OrderItemServiceController extends OrderItemController
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->like('LOWER(entity.service)', $key)
+                $qb->expr()->like('LOWER(service)', $key)
             ));
 
             $qb->setParameter($key, '%'.strtolower($searchString).'%');
         }
 
-        $data = array_map(function (OrderItemService $entity): array {
-            $price = $entity->getPrice();
+        $data = array_map(function ($row): array {
+            $price = new Money($row['price'], new Currency($row['currency']));
 
             return [
-                'id' => $entity->getId(),
-                'text' => sprintf('%s (%s)', $entity->getService(), $this->formatMoney($price)),
+                'id' => $row['id'],
+                'text' => sprintf('%s (%s)', $row['service'], $this->formatMoney($price)),
                 'price' => $this->formatMoney($price, true),
             ];
-        }, $qb->getQuery()->getResult());
+        }, $connection->executeQuery($qb->getSQL(), $qb->getParameters(), $qb->getParameterTypes())->fetchAll());
 
         return $this->json(['results' => $data]);
     }

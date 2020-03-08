@@ -9,7 +9,7 @@
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     remote: {
-      url: '{{ easyadmin_path('OrderItemService', 'autocomplete', {'query': '__QUERY__', 'textOnly': true}|merge(params))|raw }}',
+      url: '{{ easyadmin_path('OrderItemService', 'autocomplete', {'query': '__QUERY__'}|merge(params))|raw }}',
       wildcard: '__QUERY__',
       transform: function(res) {
         return res.results;
