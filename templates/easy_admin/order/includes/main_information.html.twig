@@ -64,6 +64,7 @@
 
                         <div class="col-sm-10">
                             <div class="form-control">
+                                {% include 'easy_admin/field_datetime_gtm3.html.twig' with {'value': order.createdAt} only %}
                                 {{ order.appointmentAt|format_date('long') }}
                             </div>
                         </div>
@@ -181,7 +182,7 @@
 
                     <div class="col-sm-10">
                         <div class="form-control">
-                            {{- order.createdAt|format_datetime -}}
+                            {% include 'easy_admin/field_datetime_gtm3.html.twig' with {'value': order.createdAt} only %}
 
                             {% if order.createdBy is not empty %}
                                 ({% include 'easy_admin/field_user.html.twig' with {'value': order.createdBy} %})
@@ -198,7 +199,7 @@
 
                         <div class="col-sm-10">
                             <div class="form-control">
-                                {{- order.closedAt|format_datetime }}
+                                {% include 'easy_admin/field_datetime_gtm3.html.twig' with {'value': order.closedAt} only %}
 
                                 {% if order.closedBy is not empty %}
                                     ({% include 'easy_admin/field_user.html.twig' with {'value': order.closedBy} %})
