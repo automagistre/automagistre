@@ -31,3 +31,7 @@ services:
 
     App\Router\ListeningRouterDecorator:
         decorates: router
+
+    App\Doctrine\DBAL\FixPostgreSQLDefaultSchemaListener:
+        tags:
+            - { name: doctrine.event_listener, event: postGenerateSchema }
