@@ -100,7 +100,8 @@ final class SmokeTest extends WebTestCase
     }
 
     /**
-     * @dataProvider authenticatedPages
+     * @dataProvider easyadmin
+     * @dataProvider admin
      */
     public function testAuthenticated(string $url, int $statusCode, bool $ajax): void
     {
@@ -120,7 +121,7 @@ final class SmokeTest extends WebTestCase
         static::assertSame($statusCode, $response->getStatusCode());
     }
 
-    public function authenticatedPages(): Generator
+    public function easyadmin(): Generator
     {
         $kernel = self::bootKernel();
         /** @var ConfigManager $configManager */
@@ -142,5 +143,11 @@ final class SmokeTest extends WebTestCase
                 yield $entity.' '.$action => ['/msk/?'.http_build_query($queries), 200, $isAjax];
             }
         }
+    }
+
+    public function admin(): Generator
+    {
+        yield ['/msk/report/profit', 200, false];
+        yield ['/msk/report/part-sell', 200, false];
     }
 }

@@ -63,7 +63,6 @@ final class PartSellController extends AbstractController
                      INNER JOIN motion_order mo on m.id = mo.id
             WHERE m.created_at BETWEEN :start AND :end
             GROUP BY m.part_id
-            ORDER BY NULL
         ';
 
         $conn = $registry->manager(Motion::class)->getConnection();
@@ -76,7 +75,7 @@ final class PartSellController extends AbstractController
             'end' => 'datetime',
         ]);
 
-        $ids = array_map(fn (array $item): string => $item['part_id'], $items);
+        $ids = array_map(fn (array $item): int => $item['part_id'], $items);
 
         $parts = $registry->manager(Part::class)->createQueryBuilder()
             ->select('part')
