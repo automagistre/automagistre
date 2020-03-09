@@ -8,7 +8,8 @@ use App\Doctrine\Registry;
 use App\Entity\Landlord\Part;
 use App\Entity\Tenant\Motion;
 use function array_map;
-use DateTime;
+use DateInterval;
+use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,16 +30,16 @@ final class PartSellController extends AbstractController
     public function __invoke(Request $request, Registry $registry): Response
     {
         $start = $request->query->has('start')
-            ? DateTime::createFromFormat(self::DATETIME_FORMAT, $request->query->get('start'))
-            : (new DateTime('-1 day'))->setTime(0, 0);
-        if (!$start instanceof DateTime) {
+            ? DateTimeImmutable::createFromFormat(self::DATETIME_FORMAT, $request->query->get('start'))
+            : (new DateTimeImmutable('-1 day'))->setTime(0, 0);
+        if (!$start instanceof DateTimeImmutable) {
             throw new BadRequestHttpException('Wrong date form of Start');
         }
 
         $end = $request->query->has('end')
-            ? DateTime::createFromFormat(self::DATETIME_FORMAT, $request->query->get('end'))
-            : (new DateTime())->setTime(23, 59, 59);
-        if (!$end instanceof DateTime) {
+            ? DateTimeImmutable::createFromFormat(self::DATETIME_FORMAT, $request->query->get('end'))
+            : (new DateTimeImmutable('now'))->setTime(23, 59, 59);
+        if (!$end instanceof DateTimeImmutable) {
             throw new BadRequestHttpException('Wrong date form of End');
         }
 
@@ -72,8 +73,8 @@ final class PartSellController extends AbstractController
         $conn = $registry->manager(Motion::class)->getConnection();
 
         $items = $conn->fetchAll($sql, [
-            'start' => $start,
-            'end' => $end,
+            'start' => $start->sub(new DateInterval('PT3H')), // TO UTC
+            'end' => $end->sub(new DateInterval('PT3H')), // TO UTC
         ], [
             'start' => 'datetime',
             'end' => 'datetime',
