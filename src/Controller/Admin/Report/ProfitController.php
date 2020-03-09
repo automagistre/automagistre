@@ -7,7 +7,6 @@ namespace App\Controller\Admin\Report;
 use App\Doctrine\Registry;
 use App\Entity\Landlord\Operand;
 use App\Entity\Tenant\Order;
-use function array_pop;
 use function count;
 use DateTime;
 use Money\Currency;
@@ -144,10 +143,10 @@ final class ProfitController extends AbstractController
 
         $total = null;
         if (0 < count($orders)) {
-            $servicePrice = $this->sum(...$servicePrices);
-            $serviceProfit = $this->sum(...$serviceProfits);
-            $partPrice = $this->sum(...$partPrices);
-            $partProfit = $this->sum(...$partProfits);
+            $servicePrice = Money::sum(...$servicePrices);
+            $serviceProfit = Money::sum(...$serviceProfits);
+            $partPrice = Money::sum(...$partPrices);
+            $partProfit = Money::sum(...$partProfits);
 
             $total = [
                 'service_price' => $servicePrice,
@@ -165,13 +164,6 @@ final class ProfitController extends AbstractController
             'orders' => $orders,
             'total' => $total,
         ]);
-    }
-
-    private function sum(Money ...$collection): Money
-    {
-        $first = array_pop($collection);
-
-        return Money::sum($first, ...$collection);
     }
 
     private function ratio(Money $left, Money $right): ?float
