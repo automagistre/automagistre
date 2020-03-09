@@ -2,6 +2,7 @@ version: '3.7'
 
 services:
     app:
+#        command: sh -c 'docker-php-ext-enable xdebug && exec php-fpm'
         environment:
             APP_ENV: dev
             APP_DEBUG: 1
