@@ -48,19 +48,23 @@ final class PartSellController extends AbstractController
 
         $sql = '
             SELECT m.part_id,
-                   SUM(CAST(ABS(m.quantity) / 100 AS INTEGER))                                                     AS quantity,
-                   (SELECT CAST(SUM(sub.quantity / 100) AS INTEGER) FROM motion sub WHERE sub.part_id = m.part_id) AS stock,
-                   (
-                       SELECT CAST(SUM(r.quantity / 100) AS INTEGER)
-                       FROM reservation r
-                                JOIN order_item_part oip on r.order_item_part_id = oip.id
-                                JOIN order_item oi on oip.id = oi.id
-                                JOIN orders o on oi.order_id = o.id
-                       WHERE oip.part_id = m.part_id
-                         AND o.closed_at IS NULL
-                   )                                                                                               AS reserved
+                ABS(ROUND(SUM(m.quantity::numeric / 100 ), 2))          AS quantity,
+                (
+                    SELECT ROUND(SUM(sub.quantity)::numeric / 100, 2) 
+                    FROM motion sub 
+                    WHERE sub.part_id = m.part_id
+                )                                                       AS stock,
+                (
+                    SELECT ROUND(SUM(r.quantity)::numeric / 100, 2)
+                    FROM reservation r
+                        JOIN order_item_part oip on r.order_item_part_id = oip.id
+                        JOIN order_item oi on oip.id = oi.id
+                        JOIN orders o on oi.order_id = o.id
+                    WHERE oip.part_id = m.part_id
+                        AND o.closed_at IS NULL
+                )                                                       AS reserved
             FROM motion m
-                     INNER JOIN motion_order mo on m.id = mo.id
+                INNER JOIN motion_order mo on m.id = mo.id
             WHERE m.created_at BETWEEN :start AND :end
             GROUP BY m.part_id
         ';

@@ -53,7 +53,7 @@ final class ProfitController extends AbstractController
                o.id,
                o.customer_id,
                (
-                 SELECT SUM((oip.price_amount::integer - COALESCE(oip.discount_amount, \'0\')::integer) * (oip.quantity / 100))
+                 SELECT SUM((oip.price_amount::integer - COALESCE(oip.discount_amount, \'0\')::integer) * (oip.quantity::numeric / 100))
                  FROM order_item_part oip
                         JOIN order_item ON oip.id = order_item.id
                  WHERE order_item.order_id = o.id
@@ -76,7 +76,7 @@ final class ProfitController extends AbstractController
                  WHERE os.order_id = o.id
                ) AS service_cost,
                (
-                 SELECT SUM((sub.quantity / 100) * sub.price::integer)
+                 SELECT SUM((sub.quantity)::numeric / 100 * sub.price::integer)
                  FROM (
                         SELECT oip.quantity AS quantity,
                                (
