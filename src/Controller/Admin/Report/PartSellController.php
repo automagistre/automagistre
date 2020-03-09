@@ -30,14 +30,14 @@ final class PartSellController extends AbstractController
     {
         $start = $request->query->has('start')
             ? DateTime::createFromFormat(self::DATETIME_FORMAT, $request->query->get('start'))
-            : new DateTime('-1 month');
+            : (new DateTime('-1 day'))->setTime(0, 0);
         if (!$start instanceof DateTime) {
             throw new BadRequestHttpException('Wrong date form of Start');
         }
 
         $end = $request->query->has('end')
             ? DateTime::createFromFormat(self::DATETIME_FORMAT, $request->query->get('end'))
-            : new DateTime();
+            : (new DateTime())->setTime(23, 59, 59);
         if (!$end instanceof DateTime) {
             throw new BadRequestHttpException('Wrong date form of End');
         }
@@ -72,8 +72,8 @@ final class PartSellController extends AbstractController
         $conn = $registry->manager(Motion::class)->getConnection();
 
         $items = $conn->fetchAll($sql, [
-            'start' => $start->setTime(0, 0),
-            'end' => $end->setTime(23, 59, 59),
+            'start' => $start,
+            'end' => $end,
         ], [
             'start' => 'datetime',
             'end' => 'datetime',

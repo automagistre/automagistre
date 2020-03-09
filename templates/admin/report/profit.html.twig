@@ -12,13 +12,13 @@
                     <div class="col-md-2">
                         <div class="input-group">
                             <div class="input-group-addon">С</div>
-                            <input type="datetime-local" name="start" class="form-control" value="{{ start|date('Y-m-d') }}T00:00">
+                            <input type="datetime-local" name="start" class="form-control" value="{{ start|date('Y-m-d\\TH:i') }}">
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="input-group">
                             <div class="input-group-addon">По</div>
-                            <input type="datetime-local" name="end" class="form-control" value="{{ end|date('Y-m-d') }}T23:59">
+                            <input type="datetime-local" name="end" class="form-control" value="{{ end|date('Y-m-d\\TH:i') }}">
                         </div>
                     </div>
 
