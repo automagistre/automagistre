@@ -56,7 +56,7 @@ final class PersonController extends OperandController
                 $qb->expr()->like('LOWER(person.email)', $key)
             ));
 
-            $qb->setParameter($key, '%'.strtolower($item).'%');
+            $qb->setParameter($key, '%'.mb_strtolower($item).'%');
         }
 
         return $qb;

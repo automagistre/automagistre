@@ -120,7 +120,7 @@ final class CarController extends AbstractController
                 $qb->expr()->like('LOWER(organization.name)', $key)
             ));
 
-            $qb->setParameter($key, '%'.strtolower($searchString).'%');
+            $qb->setParameter($key, '%'.mb_strtolower($searchString).'%');
         }
 
         return $qb;

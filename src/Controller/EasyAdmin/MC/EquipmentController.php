@@ -64,7 +64,7 @@ final class EquipmentController extends AbstractController
                 $qb->expr()->like('LOWER(manufacturer.localizedName)', $key)
             ));
 
-            $qb->setParameter($key, '%'.strtolower($searchString).'%');
+            $qb->setParameter($key, '%'.mb_strtolower($searchString).'%');
         }
 
         return $qb;

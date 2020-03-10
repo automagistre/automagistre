@@ -64,7 +64,7 @@ final class ModelController extends AbstractController
                 $qb->expr()->like('LOWER(manufacturer.localizedName)', $key)
             ));
 
-            $qb->setParameter($key, '%'.strtolower($item).'%');
+            $qb->setParameter($key, '%'.mb_strtolower($item).'%');
         }
 
         return $qb;

@@ -361,7 +361,7 @@ final class PartController extends AbstractController
                 $qb->expr()->like('LOWER(manufacturer.name)', $key)
             ));
 
-            $qb->setParameter($key, '%'.strtolower(trim($searchString)).'%');
+            $qb->setParameter($key, '%'.mb_strtolower(trim($searchString)).'%');
         }
 
         $state = $this->container->get(State::class);

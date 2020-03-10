@@ -604,7 +604,7 @@ final class OrderController extends AbstractController
                 $qb->expr()->like('LOWER(organization.name)', $key)
             ));
 
-            $qb->setParameter($key, '%'.strtolower($item).'%');
+            $qb->setParameter($key, '%'.mb_strtolower($item).'%');
         }
 
         $cars = [];

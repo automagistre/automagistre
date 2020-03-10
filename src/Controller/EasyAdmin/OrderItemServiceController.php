@@ -164,7 +164,7 @@ final class OrderItemServiceController extends OrderItemController
                 $qb->expr()->like('LOWER(entity.service)', $key)
             ));
 
-            $qb->setParameter($key, '%'.strtolower($item).'%');
+            $qb->setParameter($key, '%'.mb_strtolower($item).'%');
         }
 
         $qb
@@ -201,7 +201,7 @@ final class OrderItemServiceController extends OrderItemController
                 $qb->expr()->like('LOWER(service)', $key)
             ));
 
-            $qb->setParameter($key, '%'.strtolower($searchString).'%');
+            $qb->setParameter($key, '%'.mb_strtolower($searchString).'%');
         }
 
         $data = array_map(function ($row): array {
