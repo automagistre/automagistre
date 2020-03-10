@@ -107,5 +107,8 @@ final class Kernel extends SymfonyKernel
 
         $loader->load($projectDir.'/src/*/services'.self::CONFIG_EXTS, 'glob');
         $loader->load($projectDir.'/src/*/services_'.$env.self::CONFIG_EXTS, 'glob');
+
+        $loader->load($projectDir.'/src/*/config'.self::CONFIG_EXTS, 'glob');
+        $loader->load($projectDir.'/src/*/config_'.$env.self::CONFIG_EXTS, 'glob');
     }
 }
