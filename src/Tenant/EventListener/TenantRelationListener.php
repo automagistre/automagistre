@@ -49,15 +49,14 @@ final class TenantRelationListener implements EventSubscriber
     public function postLoad(LifecycleEventArgs $event): void
     {
         $entity = $event->getEntity();
-        assert(method_exists($entity, 'getId'));
-
         $classMetadata = $this->registry->classMetaData($entity);
-
         $entityClass = $classMetadata->getName();
 
         if (!array_key_exists($entityClass, $this->map)) {
             return;
         }
+
+        assert(method_exists($entity, 'getId'));
 
         foreach ($this->map[$entityClass] as $property => $class) {
             $reflectionProperty = $classMetadata->getReflectionProperty($property);
