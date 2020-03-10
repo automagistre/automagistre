@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Appointment\View;
+namespace App\Calendar\Application;
 
 use function implode;
 use InvalidArgumentException;

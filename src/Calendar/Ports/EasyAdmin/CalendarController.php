@@ -1,22 +1,21 @@
 <?php
 
-namespace App\Appointment\Controller;
+namespace App\Calendar\Ports\EasyAdmin;
 
-use App\Appointment\Entity\Appointment;
-use App\Appointment\View\Streamer;
+use App\Calendar\Application\Streamer;
+use App\Calendar\Domain\CalendarEntry;
 use App\Controller\EasyAdmin\AbstractController;
-use App\Entity\Tenant\Employee;
-use App\Entity\Tenant\Order;
 use function array_map;
 use function array_merge;
 use function assert;
+use DateInterval;
 use DateTimeImmutable;
 use DateTimeZone;
 use function range;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-final class AppointmentController extends AbstractController
+final class CalendarController extends AbstractController
 {
     private Streamer $streamer;
 
@@ -34,7 +33,7 @@ final class AppointmentController extends AbstractController
             throw new BadRequestHttpException('Wrong date.');
         }
 
-        return $this->render('easy_admin/appointment/list.html.twig', [
+        return $this->render('easy_admin/calendar/list.html.twig', [
             'date' => $date,
             'today' => $today,
             'streams' => $this->streamer->byDate($date),
@@ -48,18 +47,14 @@ final class AppointmentController extends AbstractController
         $date = null === $date
             ? new DateTimeImmutable('+1 hour', new DateTimeZone('+3 GTM'))
             : DateTimeImmutable::createFromFormat('Y-m-d H:i', $date);
+
         if (false === $date) {
             throw new BadRequestHttpException('Wrong date.');
         }
 
-        $entity = new Appointment();
+        $entity = new CalendarEntryDto();
         $entity->date = $date;
-
-        $entity->order = new Order();
-
-        $this->getEntity(Employee::class, static function (Employee $worker) use ($entity): void {
-            $entity->order->setWorker($worker);
-        });
+        $entity->duration = new DateInterval('PT1H');
 
         return $entity;
     }
@@ -67,11 +62,11 @@ final class AppointmentController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function persistEntity($entity): void
+    protected function persistEntity($model): void
     {
-        assert($entity instanceof Appointment);
+        assert($model instanceof CalendarEntryDto);
 
-        $this->em->persist($entity->order);
+        $entity = new CalendarEntry($model->date, $model->duration, $model->worker, $model->description);
 
         parent::persistEntity($entity);
     }

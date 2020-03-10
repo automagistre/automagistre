@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Appointment\View;
+namespace App\Calendar\Application;
 
-use App\Appointment\Entity\Appointment;
 use App\Entity\Tenant\Employee;
 use function array_intersect;
 use function array_keys;
@@ -18,20 +17,20 @@ final class Stream
     private array $items = [];
 
     /**
-     * @param Appointment[] $appointments
+     * @param CalendarEntryView[] $calendars
      */
-    public function __construct(Employee $worker = null, array $appointments = [])
+    public function __construct(Employee $worker = null, array $calendars = [])
     {
         $this->worker = $worker;
-        foreach ($appointments as $appointment) {
-            $this->add($appointment);
+        foreach ($calendars as $calendar) {
+            $this->add($calendar);
         }
     }
 
-    public function add(Appointment $appointment): void
+    public function add(CalendarEntryView $calendar): void
     {
-        $date = $appointment->date;
-        $interval = $appointment->duration;
+        $date = $calendar->date;
+        $interval = $calendar->duration;
 
         $key = $date->format('H:i');
         /** @psalm-suppress PossiblyNullPropertyFetch */
@@ -48,7 +47,7 @@ final class Stream
             throw StreamOverflowException::fromKeys($definedKeys);
         }
 
-        $item = new StreamItem($length, $appointment);
+        $item = new StreamItem($length, $calendar);
         foreach ($keys as $k) {
             $this->items[$k] = $item;
         }
