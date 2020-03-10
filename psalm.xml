@@ -33,6 +33,7 @@
         <PossiblyNullArrayOffset errorLevel="info"/>
         <PossiblyNullOperand errorLevel="info"/>
         <PossiblyNullReference errorLevel="info"/>
+        <PossiblyFalseOperand errorLevel="info"/>
     </issueHandlers>
 
     <plugins>
