@@ -34,6 +34,12 @@
         <PossiblyNullOperand errorLevel="info"/>
         <PossiblyNullReference errorLevel="info"/>
         <PossiblyFalseOperand errorLevel="info"/>
+        
+        <InternalMethod>
+            <errorLevel type="suppress">
+                <referencedMethod name="Doctrine\DBAL\Types\Type::__construct"/>
+            </errorLevel>
+        </InternalMethod>
     </issueHandlers>
 
     <plugins>
