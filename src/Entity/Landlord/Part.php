@@ -73,7 +73,7 @@ class Part
     ) {
         $this->manufacturer = $manufacturer;
         $this->name = $name;
-        $this->number = $number;
+        $this->setNumber($number);
         $this->universal = $universal;
         $this->relation = new ArrayCollection();
         $this->discount = $discount;
