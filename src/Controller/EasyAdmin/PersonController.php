@@ -10,8 +10,8 @@ use function array_map;
 use function assert;
 use Doctrine\ORM\QueryBuilder;
 use function explode;
+use function mb_strtolower;
 use function sprintf;
-use function strtolower;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**

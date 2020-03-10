@@ -10,7 +10,7 @@ use App\Entity\Landlord\MC\Equipment;
 use function assert;
 use Doctrine\ORM\QueryBuilder;
 use function explode;
-use function strtolower;
+use function mb_strtolower;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>

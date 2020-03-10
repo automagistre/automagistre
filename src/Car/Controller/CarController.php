@@ -16,8 +16,8 @@ use function array_map;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use function explode;
+use function mb_strtolower;
 use function sprintf;
-use function strtolower;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
