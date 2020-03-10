@@ -64,30 +64,27 @@
                     </thead>
                     <tbody>
                     {% for stream in streams %}
-                        {# @var stream \App\Appointment\View\Stream #}
+                        {# @var stream \App\Calendar\View\Stream #}
                         <tr style="height: 60px">
                             <td>{{ include('easy_admin/field_show.html.twig', {'value': stream.worker}) }}</td>
                             {% set skip = 0 %}
 
                             {% for time in columns %}
-                                {# @var stream \App\Appointment\View\Stream #}
+                                {# @var stream \App\Calendar\View\Stream #}
                                 {% if skip > 0 %}
                                     {% set skip = skip - 1 %}
                                 {% elseif stream.has(time) %}
                                     {% set item = stream.get(time) %}
                                     {% set skip = item.length - 1 %}
                                     <td{% if item.length > 1 %} colspan="{{ item.length }}"{% endif %} style="background-color: #dff0d8;">
-                                        {% set appointment = item.appointment %}
-                                        {% set order = appointment.order %}
+                                        {# @var calendar \App\Calendar\Application\CalendarEntryView #}
+                                        {% set calendar = item.calendar %}
 
-                                        <a href="{{ easyadmin_path(order, 'show') }}">
-                                            {{ order.customer ?? '<del>Клиента</del>' }} <br>
-                                            {{ order.car ?? '<del>Авто</del>' }}
-                                        </a>
+                                        <pre>{{ calendar.description }}</pre>
                                     </td>
                                 {% else %}
                                     <td style="text-align: center">
-                                        <a href="{{ easyadmin_path('Appointment', 'new', {'date': date|date('Y-m-d') ~ ' ' ~ time}|merge(stream.worker ? stream.worker|to_query : {})) }}" class="btn btn-success create-plus-button">
+                                        <a href="{{ easyadmin_path('Calendar', 'new', {'date': date|date('Y-m-d') ~ ' ' ~ time}|merge(stream.worker ? stream.worker|to_query : {})) }}" class="btn btn-success create-plus-button">
                                             <i class="fa fa-plus"></i>
                                         </a>
                                     </td>
@@ -99,7 +96,7 @@
                         <td></td>
                         {% for time in columns %}
                             <td style="text-align: center">
-                                <a href="{{ easyadmin_path('Appointment', 'new', {'date': date|date('Y-m-d') ~ ' ' ~ time}) }}" class="btn btn-success create-plus-button">
+                                <a href="{{ easyadmin_path('Calendar', 'new', {'date': date|date('Y-m-d') ~ ' ' ~ time}) }}" class="btn btn-success create-plus-button">
                                     <i class="fa fa-plus"></i>
                                 </a>
                             </td>

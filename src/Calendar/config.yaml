@@ -1,16 +1,11 @@
 easy_admin:
     entities:
-        Appointment:
-            class: App\Appointment\Entity\Appointment
-            controller: App\Appointment\Controller\AppointmentController
-            disabled_actions: ['show', 'search', 'autocomplete']
+        Calendar:
+            class: App\Calendar\Domain\CalendarEntry
+            controller: App\Calendar\Ports\EasyAdmin\CalendarController
+            disabled_actions: ['show', 'search', 'autocomplete', 'edit']
             list:
                 title: 'Запись'
-                fields:
-                    - { property: 'id' }
-                    - { property: 'name', label: 'Название' }
-                    - { property: 'localizedName', label: 'Название на русском' }
-                    - { property: 'logo', label: 'Logo' }
             form:
                 fields:
                     -   property: 'date'
@@ -33,12 +28,8 @@ easy_admin:
                             with_weeks: false
                             with_years: false
                             minutes: { 0: 0, 30: 30 }
-                    -   property: order
-                        label: null
-                        type: EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminFormType
-                        type_options:
-                            entity: Order
-                            view: edit
+                    - { property: 'description', label: 'Описание', type: 'textarea' }
+                    - { property: 'worker', label: 'Работник', type: App\Employee\Form\EmployeeType }
             new:
                 title: 'Новая запись'
             edit:
@@ -49,7 +40,7 @@ doctrine:
         entity_managers:
             tenant:
                 mappings:
-                    appointment:
+                    calendar:
                         type: annotation
-                        prefix: App\Appointment\Entity
-                        dir: '%kernel.project_dir%/src/Appointment/Entity'
+                        prefix: App\Calendar\Domain
+                        dir: '%kernel.project_dir%/src/Calendar/Domain'

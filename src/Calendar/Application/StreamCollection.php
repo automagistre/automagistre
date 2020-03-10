@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Appointment\View;
+namespace App\Calendar\Application;
 
-use App\Appointment\Entity\Appointment;
 use ArrayIterator;
 use IteratorAggregate;
 use Traversable;
@@ -19,48 +18,48 @@ final class StreamCollection implements IteratorAggregate
     private array $streams = [];
 
     /**
-     * @param Appointment[] $appointments
+     * @param CalendarEntryView[] $calendars
      */
-    public function __construct(array $appointments)
+    public function __construct(array $calendars)
     {
-        foreach ($appointments as $appointment) {
-            $this->add($appointment);
+        foreach ($calendars as $calendar) {
+            $this->add($calendar);
         }
     }
 
-    public function add(Appointment $appointment): void
+    public function add(CalendarEntryView $entry): void
     {
-        $worker = null !== $appointment->order ? $appointment->order->getWorker() : null;
+        $worker = $entry->worker;
         if (null !== $worker) {
             foreach ($this->streams as $stream) {
                 if ($stream->worker === $worker) {
                     try {
-                        $stream->add($appointment);
+                        $stream->add($entry);
 
                         return;
                     } catch (StreamOverflowException $e) {
-                        $this->streams[] = new Stream($worker, [$appointment]);
+                        $this->streams[] = new Stream($worker, [$entry]);
 
                         return;
                     }
                 }
             }
 
-            $this->streams[] = new Stream($worker, [$appointment]);
+            $this->streams[] = new Stream($worker, [$entry]);
 
             return;
         }
 
         foreach ($this->streams as $stream) {
             try {
-                $stream->add($appointment);
+                $stream->add($entry);
 
                 return;
             } catch (StreamOverflowException $e) {
             }
         }
 
-        $this->streams[] = new Stream(null, [$appointment]);
+        $this->streams[] = new Stream(null, [$entry]);
     }
 
     /**
