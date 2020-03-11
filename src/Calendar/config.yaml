@@ -1,9 +1,9 @@
 easy_admin:
     entities:
-        Calendar:
+        CalendarEntry:
             class: App\Calendar\Domain\CalendarEntry
-            controller: App\Calendar\Ports\EasyAdmin\CalendarController
-            disabled_actions: ['show', 'search', 'autocomplete', 'edit']
+            controller: App\Calendar\Ports\EasyAdmin\CalendarEntryController
+            disabled_actions: ['show', 'search', 'autocomplete', 'delete']
             list:
                 title: 'Запись'
             form:

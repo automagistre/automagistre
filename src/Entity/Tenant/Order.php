@@ -111,7 +111,7 @@ class Order
      * @var Collection<int, OrderSuspend>
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Tenant\OrderSuspend", mappedBy="order", cascade={"persist", "remove"})
-     * @ORM\OrderBy({"createdAt" = "ASC"})
+     * @ORM\OrderBy({"createdAt": "ASC"})
      */
     private $suspends;
 

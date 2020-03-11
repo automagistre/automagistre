@@ -57,7 +57,7 @@ easy_admin:
                 - 'assets/js/sto.js'
         menu:
             - { label: 'Заказы', role: !php/const App\Roles::ORDER }
-            - { entity: 'Calendar', label: 'Запись', icon: 'calendar', role: !php/const App\Roles::ORDER }
+            - { entity: 'CalendarEntry', label: 'Запись', icon: 'calendar', role: !php/const App\Roles::ORDER }
             - { entity: 'Order', label: 'Активные', icon: 'fire', default: true, role: !php/const App\Roles::ORDER }
             - { entity: 'Order', label: 'Все', icon: 'archive', params: { all: '1' }, role: !php/const App\Roles::ORDER }
             - { label: 'Бухгалтерия', role: !php/const App\Roles::ACCOUNTING }

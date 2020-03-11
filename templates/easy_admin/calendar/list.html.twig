@@ -80,11 +80,13 @@
                                         {# @var calendar \App\Calendar\Application\CalendarEntryView #}
                                         {% set calendar = item.calendar %}
 
-                                        <pre>{{ calendar.description }}</pre>
+                                        <a href="{{ easyadmin_path('CalendarEntry', 'edit', {'id': item.calendar.id.toString(), 'referer': false}) }}">
+                                            {{ calendar.description }}
+                                        </a>
                                     </td>
                                 {% else %}
                                     <td style="text-align: center">
-                                        <a href="{{ easyadmin_path('Calendar', 'new', {'date': date|date('Y-m-d') ~ ' ' ~ time}|merge(stream.worker ? stream.worker|to_query : {})) }}" class="btn btn-success create-plus-button">
+                                        <a href="{{ easyadmin_path('CalendarEntry', 'new', {'date': date|date('Y-m-d') ~ ' ' ~ time}|merge(stream.worker ? stream.worker|to_query : {})) }}" class="btn btn-success create-plus-button">
                                             <i class="fa fa-plus"></i>
                                         </a>
                                     </td>
@@ -96,7 +98,7 @@
                         <td></td>
                         {% for time in columns %}
                             <td style="text-align: center">
-                                <a href="{{ easyadmin_path('Calendar', 'new', {'date': date|date('Y-m-d') ~ ' ' ~ time}) }}" class="btn btn-success create-plus-button">
+                                <a href="{{ easyadmin_path('CalendarEntry', 'new', {'date': date|date('Y-m-d') ~ ' ' ~ time}) }}" class="btn btn-success create-plus-button">
                                     <i class="fa fa-plus"></i>
                                 </a>
                             </td>

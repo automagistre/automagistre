@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
+use App\Calendar\Infrastructure\Fixtures\CalendarEntryFixtures;
 use function array_diff;
 use function array_replace;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigManager;
@@ -20,6 +21,9 @@ final class SmokeTest extends WebTestCase
         'edit' => ['id' => '1'],
         'autocomplete' => ['query' => 'bla'],
         'search' => ['query' => 'bla'],
+        'CalendarEntry' => [
+            'edit' => ['id' => CalendarEntryFixtures::UUID],
+        ],
         'OrderItemGroup' => [
             'new' => ['order_id' => '1'],
             'edit' => ['order_id' => '1', 'id' => '1'],

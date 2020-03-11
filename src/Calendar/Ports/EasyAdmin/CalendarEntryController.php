@@ -5,6 +5,7 @@ namespace App\Calendar\Ports\EasyAdmin;
 use App\Calendar\Application\Streamer;
 use App\Calendar\Domain\CalendarEntry;
 use App\Controller\EasyAdmin\AbstractController;
+use App\Entity\Tenant\Employee;
 use function array_map;
 use function array_merge;
 use function assert;
@@ -15,7 +16,7 @@ use function range;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-final class CalendarController extends AbstractController
+final class CalendarEntryController extends AbstractController
 {
     private Streamer $streamer;
 
@@ -52,11 +53,11 @@ final class CalendarController extends AbstractController
             throw new BadRequestHttpException('Wrong date.');
         }
 
-        $entity = new CalendarEntryDto();
-        $entity->date = $date;
-        $entity->duration = new DateInterval('PT1H');
-
-        return $entity;
+        return new CalendarEntryDto(
+            null,
+            $date,
+            new DateInterval('PT1H')
+        );
     }
 
     /**
@@ -69,5 +70,42 @@ final class CalendarController extends AbstractController
         $entity = new CalendarEntry($model->date, $model->duration, $model->worker, $model->description);
 
         parent::persistEntity($entity);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function editAction()
+    {
+        $row = $this->em->createQueryBuilder()
+            ->select('entity.id, entity.date, entity.duration, entity.description, IDENTITY(entity.worker) AS workerId')
+            ->from(CalendarEntry::class, 'entity')
+            ->where('entity.id = :id')
+            ->getQuery()
+            ->setParameter('id', $this->request->query->get('id'))
+            ->getSingleResult();
+
+        $easyadmin = $this->request->attributes->get('easyadmin');
+        $easyadmin['item'] = new CalendarEntryDto(
+            $row['id'],
+            $row['date'],
+            $row['duration'],
+            $row['description'],
+            null !== $row['workerId'] ? $this->em->getRepository(Employee::class)->find($row['workerId']) : null,
+        );
+        $this->request->attributes->set('easyadmin', $easyadmin);
+
+        return parent::editAction();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function updateEntity($entity): void
+    {
+        $dto = $entity;
+        assert($dto instanceof CalendarEntryDto);
+
+        parent::updateEntity(new CalendarEntry($dto->date, $dto->duration, $dto->worker, $dto->description, $dto->id));
     }
 }

@@ -43,11 +43,17 @@ class CalendarEntry
      */
     private ?Employee $worker;
 
+    /**
+     * @ORM\Column(type="calendar_entry_id", nullable=true)
+     */
+    private ?CalendarEntryId $previous;
+
     public function __construct(
         DateTimeImmutable $date,
         DateInterval $duration,
         ?Employee $worker,
-        ?string $description
+        ?string $description,
+        CalendarEntryId $previous = null
     ) {
         $this->id = CalendarEntryId::generate();
         $this->date = $date;
@@ -55,6 +61,7 @@ class CalendarEntry
         $this->createdAt = new DateTimeImmutable();
         $this->worker = $worker;
         $this->description = $description;
+        $this->previous = $previous;
     }
 
     public function id(): CalendarEntryId

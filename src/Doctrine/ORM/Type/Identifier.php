@@ -19,6 +19,11 @@ abstract class Identifier
 
     final public function __toString(): string
     {
+        return $this->toString();
+    }
+
+    final public function toString(): string
+    {
         return $this->uuid->toString();
     }
 
