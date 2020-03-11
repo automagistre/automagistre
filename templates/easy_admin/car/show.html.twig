@@ -57,7 +57,7 @@
                                             {% if order.closedAt is null %}
                                                 {% include 'easy_admin/order/field_status.html.twig' with {'value': order.status, 'item': order} only %}
                                             {% else %}
-                                                {{ order.closedAt|format_datetime }}
+                                                {{ order.closedAt|format_datetime('short', 'short', '', 'GMT+3') }}
                                             {% endif %}
                                         </td>
                                         <td>{{ order.totalForPayment|localize_money }}</td>

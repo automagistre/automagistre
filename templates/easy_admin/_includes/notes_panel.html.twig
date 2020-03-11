@@ -32,7 +32,7 @@
                                     {% endif %}
                                 {%- endapply %}
                             </td>
-                            <td>{{ note.createdAt|format_datetime }}</td>
+                            <td>{{ note.createdAt|format_datetime('short', 'short', '', 'GMT+3') }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>

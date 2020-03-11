@@ -114,7 +114,7 @@
                                                 <tr>
                                                     <td>{{ payment.money|localize_money }}</td>
                                                     <td>{{ payment.description }}</td>
-                                                    <td>{{ payment.createdAt|format_datetime }} ({% include 'easy_admin/field_user.html.twig' with {'value': payment.createdBy} %})</td>
+                                                    <td>{{ payment.createdAt|format_datetime('short', 'short', '', 'GMT+3') }} ({% include 'easy_admin/field_user.html.twig' with {'value': payment.createdBy} %})</td>
                                                 </tr>
                                             {% endfor %}
                                             </tbody>
@@ -170,10 +170,10 @@
                                             <tbody>
                                             {% for suspend in order.suspends %}
                                                 <tr>
-                                                    <td>{{ suspend.till|format_datetime }}</td>
+                                                    <td>{{ suspend.till|format_date('short', '', 'GMT+3') }}</td>
                                                     <td>{{ suspend.reason }}</td>
                                                     <td>{{ include('easy_admin/field_user.html.twig', {'value': suspend.createdBy}) }}</td>
-                                                    <td>{{ suspend.createdAt|format_datetime }}</td>
+                                                    <td>{{ suspend.createdAt|format_datetime('short', 'short', '', 'GMT+3') }}</td>
                                                 </tr>
                                             {% endfor %}
                                             </tbody>

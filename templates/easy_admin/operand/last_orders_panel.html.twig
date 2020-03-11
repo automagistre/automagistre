@@ -26,7 +26,7 @@
                                     {{ order.id }}
                                 </a>
                             </td>
-                            <td>{{ order.closedAt|format_datetime }}</td>
+                            <td>{{ order.closedAt|format_datetime('short', 'short', '', 'GMT+3') }}</td>
                             <td>{% include 'easy_admin/field_car.html.twig' with {'value': order.car} only %}</td>
                             <td>{{ order.totalForPayment|localize_money }}</td>
                         </tr>

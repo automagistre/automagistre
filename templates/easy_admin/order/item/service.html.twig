@@ -29,7 +29,7 @@
             <a id="{{ recommendationId }}"
                style="cursor: pointer"
                data-toggle="popover"
-               title="Рекомендация от {{ recommendation.createdAt|format_date }}">
+               title="Рекомендация от {{ recommendation.createdAt|format_datetime('short', 'short', '', 'GMT+3') }}">
                 <span class="label label-info">Рекомендация</span>
             </a>
 

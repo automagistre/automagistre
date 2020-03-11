@@ -55,7 +55,7 @@
                                                         {% endif %}
                                                     {%- endapply -%}
                                                 </td>
-                                                <td>{{ item.createdAt|format_datetime }}</td>
+                                                <td>{{ item.createdAt|format_datetime('short', 'short', '', 'GMT+3') }}</td>
                                             </tr>
                                         {% endfor %}
                                         </tbody>
