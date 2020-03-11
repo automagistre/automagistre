@@ -72,4 +72,12 @@ final class IdentifierType extends Type
     {
         return $this->name;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
+    {
+        return true;
+    }
 }

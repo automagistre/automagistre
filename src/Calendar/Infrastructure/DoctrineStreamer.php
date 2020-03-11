@@ -10,6 +10,7 @@ use App\Doctrine\Registry;
 use App\Entity\Tenant\Employee;
 use function array_map;
 use DateTimeImmutable;
+use Doctrine\ORM\Query\Expr\Join;
 
 final class DoctrineStreamer implements Streamer
 {
@@ -26,13 +27,14 @@ final class DoctrineStreamer implements Streamer
     public function byDate(DateTimeImmutable $date): StreamCollection
     {
         $entities = $this->registry->manager(CalendarEntry::class)->createQueryBuilder()
-            ->select('entity.date, entity.duration, entity.description')
-            ->addSelect('worker.id AS workerId')
+            ->select('entity.id, entity.date, entity.duration, entity.description')
+            ->addSelect('IDENTITY(entity.worker) AS workerId')
             ->from(CalendarEntry::class, 'entity')
-            ->leftJoin('entity.worker', 'worker')
+            ->leftJoin(CalendarEntry::class, 'previous', Join::WITH, 'entity.id = previous.previous')
             ->where('entity.date >= :start')
             ->andWhere('entity.date <= :end')
-            ->orderBy('worker.id', 'DESC')
+            ->andWhere('previous IS NULL')
+            ->orderBy('entity.worker', 'DESC')
             ->setParameter('start', $date->setTime(0, 0, 0), 'datetime')
             ->setParameter('end', $date->setTime(23, 59, 59), 'datetime')
             ->getQuery()
@@ -43,6 +45,7 @@ final class DoctrineStreamer implements Streamer
         return new StreamCollection(
             array_map(
                 fn (array $row) => new CalendarEntryView(
+                    $row['id'],
                     $row['date'],
                     $row['duration'],
                     $row['description'],
