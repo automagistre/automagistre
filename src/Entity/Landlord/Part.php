@@ -13,6 +13,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 use function preg_replace;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 use function sprintf;
 use function strtoupper;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -34,6 +36,11 @@ class Part
     use Identity;
     use Price;
     use Discount;
+
+    /**
+     * @ORM\Column(type="uuid", unique=true)
+     */
+    public UuidInterface $uuid;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Manufacturer\Entity\Manufacturer")
@@ -71,6 +78,7 @@ class Part
         bool $universal,
         ?Money $discount
     ) {
+        $this->uuid = Uuid::uuid4();
         $this->manufacturer = $manufacturer;
         $this->name = $name;
         $this->setNumber($number);

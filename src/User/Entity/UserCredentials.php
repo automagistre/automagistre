@@ -20,7 +20,7 @@ class UserCredentials
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="App\User\Entity\User", inversedBy="credentials")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="credentials")
      */
     private $user;
 

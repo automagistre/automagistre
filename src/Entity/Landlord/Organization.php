@@ -54,6 +54,8 @@ class Organization extends Operand
 
     public function __construct()
     {
+        parent::__construct();
+
         $this->requisite = new Requisite();
     }
 

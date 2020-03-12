@@ -17,7 +17,7 @@ trait CreatedBy
     /**
      * @Assert\NotBlank
      *
-     * @ORM\ManyToOne(targetEntity="App\User\Entity\User")
+     * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private ?User $createdBy = null;

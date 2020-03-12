@@ -7,6 +7,7 @@ namespace App\User\Entity;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Entity\Landlord\Person;
 use App\Tenant\Tenant;
+use App\User\Domain\UserId;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -39,49 +40,51 @@ class User implements UserInterface, EquatableInterface, Serializable
     public const PASSWORD_CREDENTIALS_TYPE = 'password';
 
     /**
-     * @var array
-     *
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="user_id", unique=true)
      */
-    protected $roles = [];
+    public UserId $uuid;
 
     /**
-     * @var string
-     *
+     * @ORM\Column(type="array")
+     */
+    protected array $roles = [];
+
+    /**
      * @Assert\Email
      * @Assert\NotBlank
      *
      * @ORM\Column(unique=true)
      */
-    private $username;
+    private string $username;
 
     /**
      * @var Collection<int, UserCredentials>
      *
-     * @ORM\OneToMany(targetEntity="App\User\Entity\UserCredentials", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=UserCredentials::class, mappedBy="user", cascade={"persist", "remove"})
      * @ORM\OrderBy({"createdAt": "ASC"})
      */
-    private $credentials;
+    private Collection $credentials;
 
     /**
-     * @var Person|null
-     *
      * @ORM\OneToOne(targetEntity="App\Entity\Landlord\Person", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
-    private $person;
+    private ?Person $person;
 
     /**
      * @var int[]
      *
-     * @ORM\Column(type="json_array")
+     * @ORM\Column(type="json")
      */
-    private $tenants = [];
+    private array $tenants = [];
 
-    public function __construct(Person $person = null)
+    public function __construct(array $roles, string $username, ?Person $person)
     {
-        $this->credentials = new ArrayCollection();
+        $this->uuid = UserId::generate();
+        $this->roles = $roles;
+        $this->username = $username;
         $this->person = $person;
+        $this->credentials = new ArrayCollection();
     }
 
     public function __toString(): string

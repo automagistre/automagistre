@@ -39,10 +39,8 @@ final class UserFixtures extends Fixture implements FixtureGroupInterface
     public function load(ObjectManager $manager): void
     {
         foreach ($this->users() as [$username, $roles, $tenants, $reference]) {
-            $user = new User();
+            $user = new User($roles, $username, null);
             $this->addReference($reference, $user);
-            $user->setUsername($username);
-            $user->setRoles($roles);
             $user->changePassword('pa$$word', $this->encoderFactory->getEncoder($user));
 
             foreach ($tenants as $tenant) {

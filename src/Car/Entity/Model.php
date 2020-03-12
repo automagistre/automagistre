@@ -7,6 +7,8 @@ namespace App\Car\Entity;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Manufacturer\Entity\Manufacturer;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 use function sprintf;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -29,6 +31,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Model
 {
     use Identity;
+
+    /**
+     * @ORM\Column(type="uuid", unique=true)
+     */
+    public UuidInterface $uuid;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Manufacturer\Entity\Manufacturer")
@@ -62,6 +69,11 @@ class Model
      * @ORM\Column(type="smallint", nullable=true)
      */
     public ?int $yearTill = null;
+
+    public function __construct()
+    {
+        $this->uuid = Uuid::uuid4();
+    }
 
     public function __toString(): string
     {

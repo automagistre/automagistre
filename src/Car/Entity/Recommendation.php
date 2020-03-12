@@ -20,6 +20,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;
 use Money\Money;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -32,6 +34,11 @@ class Recommendation implements PriceInterface
     use Price;
     use CreatedAt;
     use CreatedBy;
+
+    /**
+     * @ORM\Column(type="uuid", unique=true)
+     */
+    public UuidInterface $uuid;
 
     /**
      * @var Car
@@ -85,6 +92,7 @@ class Recommendation implements PriceInterface
 
     public function __construct(Car $car, string $service, Money $price, Operand $worker, User $user)
     {
+        $this->uuid = Uuid::uuid4();
         $this->parts = new ArrayCollection();
         $this->realization = new OrderItemServiceRelation();
 

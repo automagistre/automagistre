@@ -31,9 +31,7 @@ final class UserController extends AbstractController
         $model = $entity;
         assert($model instanceof stdClass);
 
-        $entity = new User($model->person);
-        $entity->setUsername($model->username);
-        $entity->setRoles($model->roles);
+        $entity = new User($model->roles, $model->username, $model->person);
         $entity->changePassword($model->password, $this->encoderFactory->getEncoder($entity));
 
         parent::persistEntity($entity);

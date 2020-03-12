@@ -30,3 +30,4 @@ Premier\Enum\Doctrine\EnumType::register(App\Enum\OrderStatus::class, 'order_sta
 Premier\Enum\Doctrine\EnumType::register(App\Tenant\Tenant::class, 'tenant_enum');
 
 App\Doctrine\ORM\Type\IdentifierType::register('calendar_entry_id', App\Calendar\Domain\CalendarEntryId::class);
+App\Doctrine\ORM\Type\IdentifierType::register('user_id', App\User\Domain\UserId::class);
