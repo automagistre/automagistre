@@ -81,8 +81,9 @@ class Car
      * @var Collection<int, Recommendation>
      *
      * @ORM\OneToMany(targetEntity="App\Car\Entity\Recommendation", mappedBy="car", cascade={"persist"})
+     * @ORM\OrderBy({"createdAt": "ASC"})
      */
-    private ?Collection $recommendations = null;
+    private ?Collection $recommendations;
 
     /**
      * license plate.

@@ -52,8 +52,12 @@ class Income
     /**
      * @var Collection<int, IncomePart>
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Tenant\IncomePart", mappedBy="income",
-     * orphanRemoval=true, cascade={"persist", "remove"})
+     * @ORM\OneToMany(
+     *     targetEntity="App\Entity\Tenant\IncomePart",
+     *     mappedBy="income",
+     *     orphanRemoval=true,
+     *     cascade={"persist", "remove"}
+     * )
      */
     private $incomeParts;
 

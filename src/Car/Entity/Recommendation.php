@@ -79,6 +79,7 @@ class Recommendation implements PriceInterface
      *     cascade={"persist"},
      *     orphanRemoval=true
      * )
+     * @ORM\OrderBy({"createdAt": "ASC"})
      */
     private $parts;
 

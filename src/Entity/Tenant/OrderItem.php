@@ -43,8 +43,13 @@ abstract class OrderItem
     /**
      * @var Collection<int, OrderItem>
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Tenant\OrderItem", mappedBy="parent", cascade={"persist"},
-     * orphanRemoval=true)
+     * @ORM\OneToMany(
+     *     targetEntity="App\Entity\Tenant\OrderItem",
+     *     mappedBy="parent",
+     *     cascade={"persist"},
+     *     orphanRemoval=true
+     * )
+     * @ORM\OrderBy({"createdAt": "ASC"})
      */
     protected $children;
 

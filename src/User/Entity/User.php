@@ -59,6 +59,7 @@ class User implements UserInterface, EquatableInterface, Serializable
      * @var Collection<int, UserCredentials>
      *
      * @ORM\OneToMany(targetEntity="App\User\Entity\UserCredentials", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"createdAt": "ASC"})
      */
     private $credentials;
 

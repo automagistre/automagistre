@@ -50,8 +50,13 @@ class Order
     /**
      * @var Collection<int, OrderItem>
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Tenant\OrderItem", mappedBy="order", cascade={"persist"},
-     * orphanRemoval=true)
+     * @ORM\OneToMany(
+     *     targetEntity="App\Entity\Tenant\OrderItem",
+     *     mappedBy="order",
+     *     cascade={"persist"},
+     *     orphanRemoval=true
+     * )
+     * @ORM\OrderBy({"createdAt": "ASC"})
      */
     private $items;
 
@@ -104,6 +109,7 @@ class Order
      * @var Collection<int, OrderPayment>
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Tenant\OrderPayment", mappedBy="order", cascade={"persist"})
+     * @ORM\OrderBy({"createdAt": "ASC"})
      */
     private $payments;
 
