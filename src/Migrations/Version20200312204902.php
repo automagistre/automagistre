@@ -20,7 +20,6 @@ final class Version20200312204902 extends AbstractMigration
 
         $this->skipIf(0 !== strpos($this->connection->getDatabase(), 'tenant'), 'Tenant only');
 
-        $this->addSql('DELETE FROM calendar_entry');
         $this->addSql('ALTER TABLE calendar_entry ADD created_by UUID NOT NULL');
         $this->addSql('COMMENT ON COLUMN calendar_entry.created_by IS \'(DC2Type:user_id)\'');
     }
