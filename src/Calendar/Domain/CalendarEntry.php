@@ -3,6 +3,7 @@
 namespace App\Calendar\Domain;
 
 use App\Entity\Tenant\Employee;
+use App\User\Domain\UserId;
 use DateInterval;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -34,6 +35,11 @@ class CalendarEntry
     private DateTimeImmutable $createdAt;
 
     /**
+     * @ORM\Column(type="user_id")
+     */
+    private UserId $createdBy;
+
+    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private ?string $description;
@@ -51,6 +57,7 @@ class CalendarEntry
     public function __construct(
         DateTimeImmutable $date,
         DateInterval $duration,
+        UserId $userId,
         ?Employee $worker,
         ?string $description,
         CalendarEntryId $previous = null
@@ -59,6 +66,7 @@ class CalendarEntry
         $this->date = $date;
         $this->duration = $duration;
         $this->createdAt = new DateTimeImmutable();
+        $this->createdBy = $userId;
         $this->worker = $worker;
         $this->description = $description;
         $this->previous = $previous;

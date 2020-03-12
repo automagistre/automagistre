@@ -9,6 +9,7 @@ use App\Tenant\EventListener\TenantRelationListener;
 use function assert;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use function is_subclass_of;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Cache\Adapter\PhpArrayAdapter;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -26,6 +27,7 @@ final class MetadataCompilerPass implements CompilerPassInterface
     public function process(ContainerBuilder $container): void
     {
         $registry = $container->get('doctrine');
+        assert($registry instanceof ManagerRegistry);
 
         $map = [];
         foreach ($registry->getManagers() as $manager) {

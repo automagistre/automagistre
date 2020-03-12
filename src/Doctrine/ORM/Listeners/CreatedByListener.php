@@ -39,10 +39,6 @@ final class CreatedByListener implements EventSubscriber
         $entity = $event->getEntity();
         $classMetadata = $event->getEntityManager()->getClassMetadata(get_class($entity));
 
-        if ($classMetadata->hasField('createdBy')) {
-            $classMetadata->setFieldValue($entity, 'createdBy', $this->state->user());
-        }
-
         if ($classMetadata->hasField('createdByRelation')) {
             $classMetadata->setFieldValue($entity, 'createdByRelation', new UserRelation($this->state->user()));
         }

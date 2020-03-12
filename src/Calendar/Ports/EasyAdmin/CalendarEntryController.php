@@ -67,7 +67,13 @@ final class CalendarEntryController extends AbstractController
     {
         assert($model instanceof CalendarEntryDto);
 
-        $entity = new CalendarEntry($model->date, $model->duration, $model->worker, $model->description);
+        $entity = new CalendarEntry(
+            $model->date,
+            $model->duration,
+            $this->getUser()->uuid,
+            $model->worker,
+            $model->description
+        );
 
         parent::persistEntity($entity);
     }
@@ -106,6 +112,15 @@ final class CalendarEntryController extends AbstractController
         $dto = $entity;
         assert($dto instanceof CalendarEntryDto);
 
-        parent::updateEntity(new CalendarEntry($dto->date, $dto->duration, $dto->worker, $dto->description, $dto->id));
+        parent::updateEntity(
+            new CalendarEntry(
+                $dto->date,
+                $dto->duration,
+                $this->getUser()->uuid,
+                $dto->worker,
+                $dto->description,
+                $dto->id
+            )
+        );
     }
 }
