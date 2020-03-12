@@ -28,7 +28,7 @@ easy_admin:
                             with_weeks: false
                             with_years: false
                             minutes: { 0: 0, 30: 30 }
-                    - { property: 'description', label: 'Описание', type: 'textarea' }
+                    - { property: 'description', label: 'Описание', type: 'textarea', type_options: { required: true } }
                     - { property: 'worker', label: 'Работник', type: App\Employee\Form\EmployeeType }
             new:
                 title: 'Новая запись'
