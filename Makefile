@@ -80,9 +80,9 @@ MIGRATION_CONSOLE = --em=${EM} $(TENANT_CONSOLE) --no-interaction
 
 migration: migration-landlord migration-tenant
 migration-landlord:
-	@$(MAKE) do-migration EM=landlord
+	@$(MAKE) APP_ENV=$(APP_ENV) APP_DEBUG=$(APP_DEBUG) do-migration EM=landlord
 migration-tenant:
-	@$(MAKE) do-migration EM=tenant
+	@$(MAKE) APP_ENV=$(APP_ENV) APP_DEBUG=$(APP_DEBUG) do-migration EM=tenant
 do-migration:
 	$(APP) console doctrine:migration:migrate --allow-no-migration $(MIGRATION_CONSOLE)
 
@@ -96,9 +96,9 @@ migration-rollback:
 migration-diff: migration-diff-all php-cs-fixer
 migration-diff-all: migration-diff-landlord migration-diff-tenant
 migration-diff-landlord:
-		@$(MAKE) do-migration-diff EM=landlord
+	@$(MAKE) do-migration-diff EM=landlord
 migration-diff-tenant:
-		@$(MAKE) do-migration-diff EM=tenant
+	@$(MAKE) do-migration-diff EM=tenant
 do-migration-diff:
 	$(APP) console doctrine:migration:diff --formatted $(MIGRATION_CONSOLE) || true
 migration-diff-dry:
@@ -148,11 +148,7 @@ cache-prod:
 cache:
 	$(APP) sh -c 'rm -rf var/cache/$$APP_ENV && console cache:warmup; $(PERMISSIONS)'
 
-database:
-	@$(MAKE) do-database
-	@$(MAKE) do-database TENANT=msk
-do-database:
-	$(APP) sh -c "console doctrine:database:drop --if-exists --force --connection=${EM} ${TENANT_CONSOLE} && console doctrine:database:create --connection=${EM} ${TENANT_CONSOLE} && console doctrine:migration:migrate --allow-no-migration $(MIGRATION_CONSOLE)"
+database: drop migration
 
 fixtures: APP_ENV=test
 fixtures:
@@ -176,13 +172,13 @@ do-backup-download:
 
 drop: drop-landlord drop-tenant
 drop-landlord:
-	@$(MAKE) EM=landlord drop-connection
-	@$(MAKE) EM=landlord do-drop
+	@$(MAKE) EM=landlord APP_ENV=$(APP_ENV) APP_DEBUG=$(APP_DEBUG) drop-connection
+	@$(MAKE) EM=landlord APP_ENV=$(APP_ENV) APP_DEBUG=$(APP_DEBUG) do-drop
 drop-tenant:
-	@$(MAKE) EM=tenant drop-connection
-	@$(MAKE) EM=tenant do-drop
+	@$(MAKE) EM=tenant APP_ENV=$(APP_ENV) APP_DEBUG=$(APP_DEBUG) drop-connection
+	@$(MAKE) EM=tenant APP_ENV=$(APP_ENV) APP_DEBUG=$(APP_DEBUG) do-drop
 drop-connection:
-	$(APP) console doctrine:query:sql --connection=${EM} ${TENANT_CONSOLE} "SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = '${EM}' AND pid <> pg_backend_pid();" || true
+	$(APP) console doctrine:query:sql --connection=${EM} ${TENANT_CONSOLE} "SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = '${EM}$(if $(filter test,$(APP_ENV)),_test)' AND pid <> pg_backend_pid();" || true
 do-drop:
 	$(APP) sh -c "console doctrine:database:drop --if-exists --force --connection=${EM} ${TENANT_CONSOLE} && console doctrine:database:create --connection=${EM} ${TENANT_CONSOLE}"
 ###< APP ###
