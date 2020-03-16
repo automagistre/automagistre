@@ -86,11 +86,20 @@
                                     {% set item = stream.get(time) %}
                                     {% set skip = item.length - 1 %}
                                     <td{% if item.length > 1 %} colspan="{{ item.length }}"{% endif %} style="background-color: #dff0d8;">
-                                        {# @var calendar \App\Calendar\Application\CalendarEntryView #}
-                                        {% set calendar = item.calendar %}
+                                        {# @var entry \App\Calendar\Application\CalendarEntryView #}
+                                        {% set entry = item.calendar %}
 
                                         <a href="{{ easyadmin_path('CalendarEntry', 'edit', {'id': item.calendar.id.toString(), 'referer': false}) }}">
-                                            {{ calendar.description }}
+                                            {% if entry.phone is not empty and entry.firstName is empty and entry.lastName is empty %}
+                                                {{ entry.phone|phone_number_format|default }}
+                                            {% else %}
+                                                {{ entry.firstName }}
+                                                {{ entry.lastName }}
+                                            {% endif %}
+
+                                            <br>
+
+                                            {{ entry.description }}
                                         </a>
                                     </td>
                                 {% else %}

@@ -4,6 +4,9 @@ easy_admin:
             class: App\Calendar\Domain\CalendarEntry
             controller: App\Calendar\Ports\EasyAdmin\CalendarEntryController
             disabled_actions: ['show', 'search', 'autocomplete', 'delete']
+            templates:
+                new: 'easy_admin/calendar/new.html.twig'
+                edit: 'easy_admin/calendar/edit.html.twig'
             list:
                 title: 'Запись'
             form:
@@ -28,7 +31,11 @@ easy_admin:
                             with_weeks: false
                             with_years: false
                             minutes: { 0: 0, 30: 30 }
-                    - { property: 'description', label: 'Описание', type: 'textarea', type_options: { required: true } }
+                    - { property: 'firstName', label: 'Имя', type: 'text', type_options: { required: false } }
+                    - { property: 'lastName', label: 'Фамилия', type: 'text', type_options: { required: false } }
+                    - { property: 'phone', label: 'Телефон', type: Misd\PhoneNumberBundle\Form\Type\PhoneNumberType, type_options: { required: false } }
+                    - { property: 'carId', type: 'hidden', type_options: { required: false } }
+                    - { property: 'description', label: 'Комментарий', type: 'text' }
                     - { property: 'worker', label: 'Работник', type: App\Employee\Form\EmployeeType }
             new:
                 title: 'Новая запись'
@@ -46,7 +53,6 @@ doctrine:
                         type: annotation
                         prefix: App\Calendar\Domain
                         dir: '%kernel.project_dir%/src/Calendar/Domain'
-
 
 services:
     _defaults:

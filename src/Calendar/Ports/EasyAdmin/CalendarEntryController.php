@@ -72,16 +72,21 @@ final class CalendarEntryController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function persistEntity($model): void
+    protected function persistEntity($entity): void
     {
-        assert($model instanceof CalendarEntryDto);
+        $dto = $entity;
+        assert($dto instanceof CalendarEntryDto);
 
         $this->commandBus->handle(
             new CreateCalendarEntryCommand(
-                $model->date,
-                $model->duration,
-                $model->description,
-                $model->worker,
+                $dto->date,
+                $dto->duration,
+                $dto->firstName,
+                $dto->lastName,
+                $dto->phone,
+                $dto->carId,
+                $dto->description,
+                $dto->worker,
             )
         );
     }
@@ -111,6 +116,10 @@ final class CalendarEntryController extends AbstractController
                 $dto->id,
                 $dto->date,
                 $dto->duration,
+                $dto->firstName,
+                $dto->lastName,
+                $dto->phone,
+                $dto->carId,
                 $dto->description,
                 $dto->worker,
             )
@@ -155,7 +164,15 @@ final class CalendarEntryController extends AbstractController
     private function getDto(CalendarEntryId $id): CalendarEntryDto
     {
         $item = $this->em->createQueryBuilder()
-            ->select('entity.id, entity.date, entity.duration, entity.description, IDENTITY(entity.worker) AS workerId')
+            ->select('entity.id')
+            ->addSelect('entity.date')
+            ->addSelect('entity.duration')
+            ->addSelect('entity.customer.firstName AS firstName')
+            ->addSelect('entity.customer.lastName AS lastName')
+            ->addSelect('entity.customer.phone AS phone')
+            ->addSelect('entity.customer.carId AS carId')
+            ->addSelect('entity.customer.description AS description')
+            ->addSelect('IDENTITY(entity.worker) AS workerId')
             ->from(CalendarEntry::class, 'entity')
             ->where('entity.id = :id')
             ->getQuery()
@@ -171,6 +188,10 @@ final class CalendarEntryController extends AbstractController
             $item['id'],
             $item['date'],
             $item['duration'],
+            $item['firstName'],
+            $item['lastName'],
+            $item['phone'],
+            $item['carId'],
             $item['description'],
             $worker,
         );

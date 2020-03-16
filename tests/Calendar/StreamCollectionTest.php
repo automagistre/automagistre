@@ -52,6 +52,10 @@ class StreamCollectionTest extends TestCase
             new DateTimeImmutable('10:30'),
             new DateInterval('PT1H'),
             null,
+            null,
+            null,
+            null,
+            null,
             $worker1
         );
 
@@ -60,6 +64,10 @@ class StreamCollectionTest extends TestCase
             new DateTimeImmutable('11:00'),
             new DateInterval('PT8H'),
             null,
+            null,
+            null,
+            null,
+            null,
             $worker1
         );
 
@@ -67,6 +75,10 @@ class StreamCollectionTest extends TestCase
             CalendarEntryId::generate(),
             new DateTimeImmutable('12:00'),
             new DateInterval('PT5H30M'),
+            null,
+            null,
+            null,
+            null,
             null,
             $worker2
         );

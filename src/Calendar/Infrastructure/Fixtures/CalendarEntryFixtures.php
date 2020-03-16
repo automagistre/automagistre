@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Calendar\Infrastructure\Fixtures;
 
 use App\Calendar\Domain\CalendarEntry;
+use App\Calendar\Domain\CalendarEntryCustomerInformation;
 use App\Calendar\Domain\CalendarEntryId;
 use App\User\Domain\UserId;
 use DateInterval;
@@ -34,10 +35,10 @@ final class CalendarEntryFixtures extends Fixture implements FixtureGroupInterfa
         $calendar = CalendarEntry::create(
             new DateTimeImmutable('10:30'),
             new DateInterval('PT1H'),
+            new CalendarEntryCustomerInformation(),
             UserId::generate(),
             null,
-            null
-        );
+            );
 
         $ref = new ReflectionClass($calendar);
         $propRef = $ref->getProperty('id');

@@ -69,7 +69,7 @@ final class PersonController extends OperandController
     {
         $query = $this->request->query;
 
-        $qb = $this->createSearchQueryBuilder($query->get('entity'), $query->get('query'), []);
+        $qb = $this->createSearchQueryBuilder($query->get('entity'), $query->getAlnum('query'), []);
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
@@ -79,6 +79,9 @@ final class PersonController extends OperandController
             return [
                 'id' => $person->getId(),
                 'text' => sprintf('%s %s', $person->getFullName(), $formattedTelephone),
+                'firstName' => $person->getFirstname(),
+                'lastName' => $person->getLastname(),
+                'phone' => $formattedTelephone,
             ];
         }, (array) $paginator->getCurrentPageResults());
 
