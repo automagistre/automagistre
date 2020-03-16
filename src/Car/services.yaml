@@ -15,7 +15,7 @@ easy_admin:
                     - { property: 'carModificationDisplayName', label: 'Марка / Модель', template: 'easy_admin/field_item_show.html.twig' }
                     - { property: 'owner', label: 'Владелец' }
                     - { property: 'year', label: 'Год', type: 'string' }
-                    - { property: 'caseType.name', label: 'Кузов' }
+                    - { property: 'caseType.toName', label: 'Кузов' }
                     - { property: 'identifier', label: 'Идентификатор (VIN, № Кузова/Шасси...)', sortable: false }
                     - { property: 'mileage', label: 'Пробег' }
                     - { property: 'gosnomer', label: 'Гос. Номер', sortable: false, template: 'easy_admin/car/field_gosnomer_img.html.twig' }
@@ -25,12 +25,12 @@ easy_admin:
                     - { property: 'owner', label: 'Владелец' }
                     - { property: 'identifier', label: 'Идентификатор', help: 'VIN, № Кузова/Шасси...' }
                     - { property: 'model', label: 'Модель' }
-                    - { property: 'caseType.name', label: 'Тип кузова' }
+                    - { property: 'caseType.toName', label: 'Тип кузова' }
                     - { property: 'year', label: 'Год', type: 'string' }
                     - { property: 'equipment.engine.capacity', label: 'Объём двигателя' }
-                    - { property: 'equipment.engine.type.name', label: 'Тип двигателя' }
-                    - { property: 'equipment.transmission.name', label: 'Трасмиссия' }
-                    - { property: 'equipment.wheelDrive.name', label: 'Привод' }
+                    - { property: 'equipment.engine.type.toName', label: 'Тип двигателя' }
+                    - { property: 'equipment.transmission.toName', label: 'Трасмиссия' }
+                    - { property: 'equipment.wheelDrive.toName', label: 'Привод' }
                     - { property: 'mileage', label: 'Пробег' }
                     - { property: 'gosnomer', label: 'Гос. Номер' }
             form:
