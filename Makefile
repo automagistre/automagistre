@@ -113,7 +113,7 @@ schema-update:
 
 test: APP_ENV=test
 test: APP_DEBUG=1
-test: php-cs-fixer cache phpstan psalm database-test migration-validate fixtures phpunit
+test: php-cs-fixer cache phpstan psalm doctrine-ensure-production-settings database migration-validate fixtures paratest
 
 php-cs-fixer:
 	$(APP) sh -c 'php-cs-fixer fix $(if $(DRY),--dry-run) $(if $(DEBUG),-vvv); $(PERMISSIONS)'
@@ -124,22 +124,34 @@ phpstan: cache
 	$(APP) phpstan analyse --configuration phpstan.neon $(if $(DEBUG),--debug -vvv)
 
 phpunit: APP_ENV=test
+phpunit: APP_DEBUG=1
 phpunit:
+	$(APP) phpunit --stop-on-failure
+paratest: APP_ENV=test
+paratest: APP_DEBUG=1
+paratest:
 	$(APP) paratest -p $(shell grep -c ^processor /proc/cpuinfo || 4) --stop-on-failure
+
 requirements: APP_ENV=prod
 requirements:
 	$(APP) requirements-checker
 psalm:
 	$(APP) psalm --show-info=false
 
+doctrine-ensure-production-settings: APP_ENV=prod
+doctrine-ensure-production-settings: APP_DEBUG=0
+doctrine-ensure-production-settings:
+	$(APP) sh -c 'rm -rf var/cache/$$APP_ENV && console doctrine:ensure-production-settings'
+
+cache-prod:
+	@$(MAKE) APP_ENV=prod APP_DEBUG=0 cache
 cache:
 	$(APP) sh -c 'rm -rf var/cache/$$APP_ENV && console cache:warmup; $(PERMISSIONS)'
 
-database-test:
-	APP_ENV=test $(MAKE) database
-	APP_ENV=test TENANT=msk $(MAKE) database
-
 database:
+	@$(MAKE) do-database
+	@$(MAKE) do-database TENANT=msk
+do-database:
 	$(APP) sh -c "console doctrine:database:drop --if-exists --force --connection=${EM} ${TENANT_CONSOLE} && console doctrine:database:create --connection=${EM} ${TENANT_CONSOLE} && console doctrine:migration:migrate --allow-no-migration $(MIGRATION_CONSOLE)"
 
 fixtures: APP_ENV=test
