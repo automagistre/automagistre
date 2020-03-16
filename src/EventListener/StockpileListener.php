@@ -13,6 +13,7 @@ use App\Event\PartDecreased;
 use App\Manager\PartManager;
 use App\Manager\StockpileManager;
 use App\State;
+use function array_values;
 use function count;
 use LogicException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -72,13 +73,14 @@ final class StockpileListener implements EventSubscriberInterface
             /** @var OrderItemPart $item */
             $part = $item->getPart();
 
-            $values[] = [$part->getId(), $this->state->tenant(), $this->partManager->inStock($part)];
+            $id = $part->getId();
+            $values[$id] = [$id, $this->state->tenant(), $this->partManager->inStock($part)];
         }
 
         if (0 === count($values)) {
             return;
         }
 
-        $this->stockpileManager->actualize($values);
+        $this->stockpileManager->actualize(array_values($values));
     }
 }
