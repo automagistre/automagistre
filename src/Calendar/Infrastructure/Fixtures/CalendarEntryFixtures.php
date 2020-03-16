@@ -31,7 +31,7 @@ final class CalendarEntryFixtures extends Fixture implements FixtureGroupInterfa
      */
     public function load(ObjectManager $manager): void
     {
-        $calendar = new CalendarEntry(
+        $calendar = CalendarEntry::create(
             new DateTimeImmutable('10:30'),
             new DateInterval('PT1H'),
             UserId::generate(),

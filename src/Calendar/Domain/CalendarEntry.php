@@ -50,17 +50,23 @@ class CalendarEntry
     private ?Employee $worker;
 
     /**
-     * @ORM\Column(type="calendar_entry_id", nullable=true)
+     * @ORM\OneToOne(targetEntity=CalendarEntry::class, cascade={"persist"})
+     * @ORM\JoinColumn(name="previous")
      */
-    private ?CalendarEntryId $previous;
+    private ?CalendarEntry $previous;
 
-    public function __construct(
+    /**
+     * @ORM\OneToOne(targetEntity=CalendarEntryDeletion::class, mappedBy="entry", cascade={"persist"})
+     */
+    private ?CalendarEntryDeletion $deletion = null;
+
+    private function __construct(
         DateTimeImmutable $date,
         DateInterval $duration,
         UserId $userId,
         ?Employee $worker,
         ?string $description,
-        CalendarEntryId $previous = null
+        ?self $previous = null
     ) {
         $this->id = CalendarEntryId::generate();
         $this->date = $date;
@@ -75,5 +81,30 @@ class CalendarEntry
     public function id(): CalendarEntryId
     {
         return $this->id;
+    }
+
+    public static function create(
+        DateTimeImmutable $date,
+        DateInterval $duration,
+        UserId $userId,
+        ?Employee $worker,
+        ?string $description
+    ): self {
+        return new self($date, $duration, $userId, $worker, $description);
+    }
+
+    public function reschedule(
+        DateTimeImmutable $date,
+        DateInterval $duration,
+        UserId $userId,
+        ?Employee $worker,
+        ?string $description
+    ): self {
+        return new self($date, $duration, $userId, $worker, $description, $this);
+    }
+
+    public function delete(DeletionReason $reason, ?string $description, UserId $deletedBy): void
+    {
+        $this->deletion = new CalendarEntryDeletion($this, $reason, $description, $deletedBy);
     }
 }

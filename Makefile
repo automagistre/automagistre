@@ -104,7 +104,6 @@ do-migration-diff:
 migration-diff-dry:
 	$(APP) console doctrine:schema:update --dump-sql --em=${EM} $(TENANT_CONSOLE)
 
-migration-validate: APP_ENV=test
 migration-validate:
 	$(APP) console doctrine:schema:validate
 	$(APP) console doctrine:schema:validate --em=tenant --tenant=msk

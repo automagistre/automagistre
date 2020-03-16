@@ -34,6 +34,8 @@ easy_admin:
                 title: 'Новая запись'
             edit:
                 title: 'Редактировать Запись'
+                actions:
+                    - { name: remove, template: 'easy_admin/calendar/deletion_action.html.twig' }
 
 doctrine:
     orm:

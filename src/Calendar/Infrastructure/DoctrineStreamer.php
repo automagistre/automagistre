@@ -6,6 +6,7 @@ use App\Calendar\Application\CalendarEntryView;
 use App\Calendar\Application\StreamCollection;
 use App\Calendar\Application\Streamer;
 use App\Calendar\Domain\CalendarEntry;
+use App\Calendar\Domain\CalendarEntryDeletion;
 use App\Doctrine\Registry;
 use App\Entity\Tenant\Employee;
 use function array_map;
@@ -31,9 +32,11 @@ final class DoctrineStreamer implements Streamer
             ->addSelect('IDENTITY(entity.worker) AS workerId')
             ->from(CalendarEntry::class, 'entity')
             ->leftJoin(CalendarEntry::class, 'previous', Join::WITH, 'entity.id = previous.previous')
+            ->leftJoin(CalendarEntryDeletion::class, 'deletion', Join::WITH, 'entity.id = deletion.entry')
             ->where('entity.date >= :start')
             ->andWhere('entity.date <= :end')
             ->andWhere('previous IS NULL')
+            ->andWhere('deletion IS NULL')
             ->orderBy('entity.worker', 'DESC')
             ->setParameter('start', $date->setTime(0, 0, 0), 'datetime')
             ->setParameter('end', $date->setTime(23, 59, 59), 'datetime')

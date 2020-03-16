@@ -1,0 +1,20 @@
+{% extends 'easy_admin/default/layout.html.twig' %}
+
+{% block content_title %}
+    Удаление записи на {{ item.date|format_date }}
+{% endblock %}
+
+{% block main %}
+    {{ form_start(form) }}
+
+    {{ form_widget(form) }}
+
+    <button type="submit" class="btn btn-danger" href="{{ easyadmin_path('CalendarEntry', 'edit', {'id': item.id}) }}">
+        <i class="fa fa-trash"></i> Удалить
+    </button>
+    <a class="btn btn-default" href="{{ easyadmin_path('CalendarEntry', 'edit', {'id': item.id}) }}">
+        Вернуться
+    </a>
+
+    {{ form_end(form) }}
+{% endblock %}

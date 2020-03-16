@@ -28,6 +28,7 @@ Premier\Enum\Doctrine\EnumType::register(App\Car\Enum\FuelType::class, 'engine_t
 Premier\Enum\Doctrine\EnumType::register(App\Enum\NoteType::class, 'note_type_enum');
 Premier\Enum\Doctrine\EnumType::register(App\Enum\OrderStatus::class, 'order_status_enum');
 Premier\Enum\Doctrine\EnumType::register(App\Tenant\Tenant::class, 'tenant_enum');
+Premier\Enum\Doctrine\EnumType::register(App\Calendar\Domain\DeletionReason::class, 'deletion_reason');
 
 App\Doctrine\ORM\Type\IdentifierType::register('calendar_entry_id', App\Calendar\Domain\CalendarEntryId::class);
 App\Doctrine\ORM\Type\IdentifierType::register('user_id', App\User\Domain\UserId::class);
