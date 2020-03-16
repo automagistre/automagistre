@@ -21,29 +21,38 @@
 
 {% block main %}
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-4 col-md-offset-3">
             <form id="date-form" method="GET" class="form" action="{{ app.request.requestUri }}">
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="input-group">
-                            <div class="input-group-addon">Дата</div>
-                            <input id="date-input" type="date" name="date" class="form-control" value="{{ date|date('Y-m-d') }}">
-                        </div>
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button id="yesterday-button" class="btn btn-primary">Назад</button>
                     </div>
+                    <div class="input-group-addon">Дата</div>
+                    <input id="date-input" type="date" name="date" class="form-control" value="{{ date|date('Y-m-d') }}">
                     {% for query in ['entity', 'action', 'menuIndex', 'submenuIndex'] %}
                         <input type="hidden" name="{{ query }}" value="{{ app.request.query.get(query) }}">
                     {% endfor %}
-                    <div class="col-md-3">
-                        <button id="today-button" class="btn btn-primary">Сегодня</button>
-                        <script>
-                          $('#today-button').click(function(e) {
-                            $('#date-input').val('{{ today|date('Y-m-d') }}');
-                          });
-
-                          $('#date-input').change(() => $('#date-form').submit());
-                        </script>
+                    <div class="input-group-btn">
+                        <button id="today-button" class="btn btn-info">Сегодня</button>
+                        <button id="tomorrow-button" class="btn btn-primary">Вперёд</button>
                     </div>
                 </div>
+
+                <script>
+                  $('#today-button').click(function(e) {
+                    $('#date-input').val('{{ today|date('Y-m-d') }}');
+                  });
+
+                  $('#tomorrow-button').click(function(e) {
+                    $('#date-input').val('{{ date.modify('+1 day')|date('Y-m-d') }}');
+                  });
+
+                  $('#yesterday-button').click(function(e) {
+                    $('#date-input').val('{{ date.modify('-1 day')|date('Y-m-d') }}');
+                  });
+
+                  $('#date-input').change(() => $('#date-form').submit());
+                </script>
             </form>
         </div>
     </div>
