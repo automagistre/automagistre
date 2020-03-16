@@ -9,7 +9,6 @@ use function class_exists;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use function get_class;
 use function is_object;
@@ -63,7 +62,11 @@ final class Registry
      */
     public function repository(string $class): EntityRepository
     {
-        return $this->manager($class)->getRepository($class);
+        $entityRepository = $this->manager($class)->getRepository($class);
+
+        assert($entityRepository instanceof EntityRepository);
+
+        return $entityRepository;
     }
 
     /**
