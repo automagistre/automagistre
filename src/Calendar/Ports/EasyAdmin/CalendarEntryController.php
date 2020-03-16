@@ -5,7 +5,9 @@ namespace App\Calendar\Ports\EasyAdmin;
 use App\Calendar\Application\Streamer;
 use App\Calendar\Domain\CalendarEntry;
 use App\Calendar\Domain\CalendarEntryId;
-use App\Calendar\Domain\CalendarEntryRepository;
+use App\Calendar\Domain\Command\CreateCalendarEntryCommand;
+use App\Calendar\Domain\Command\DeleteCalendarEntryCommand;
+use App\Calendar\Domain\Command\RescheduleCalendarEntryCommand;
 use App\Controller\EasyAdmin\AbstractController;
 use App\Entity\Tenant\Employee;
 use function array_map;
@@ -15,22 +17,21 @@ use DateInterval;
 use DateTimeImmutable;
 use DateTimeZone;
 use function range;
-use function sprintf;
+use SimpleBus\SymfonyBridge\Bus\CommandBus;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 final class CalendarEntryController extends AbstractController
 {
     private Streamer $streamer;
 
-    private CalendarEntryRepository $repository;
+    private CommandBus $commandBus;
 
-    public function __construct(Streamer $streamer, CalendarEntryRepository $repository)
+    public function __construct(Streamer $streamer, CommandBus $commandBus)
     {
         $this->streamer = $streamer;
-        $this->repository = $repository;
+        $this->commandBus = $commandBus;
     }
 
     protected function listAction(): Response
@@ -75,15 +76,14 @@ final class CalendarEntryController extends AbstractController
     {
         assert($model instanceof CalendarEntryDto);
 
-        $entity = CalendarEntry::create(
-            $model->date,
-            $model->duration,
-            $this->getUser()->uuid,
-            $model->worker,
-            $model->description
+        $this->commandBus->handle(
+            new CreateCalendarEntryCommand(
+                $model->date,
+                $model->duration,
+                $model->description,
+                $model->worker,
+            )
         );
-
-        parent::persistEntity($entity);
     }
 
     /**
@@ -106,30 +106,21 @@ final class CalendarEntryController extends AbstractController
         $dto = $entity;
         assert($dto instanceof CalendarEntryDto);
 
-        $previous = $this->em->getRepository(CalendarEntry::class)->find($dto->id);
-        assert($previous instanceof CalendarEntry);
-
-        $entity = $previous->reschedule(
-            $dto->date,
-            $dto->duration,
-            $this->getUser()->uuid,
-            $dto->worker,
-            $dto->description
+        $this->commandBus->handle(
+            new RescheduleCalendarEntryCommand(
+                $dto->id,
+                $dto->date,
+                $dto->duration,
+                $dto->description,
+                $dto->worker,
+            )
         );
-
-        parent::updateEntity($entity);
     }
 
     protected function deletionAction(): Response
     {
         $id = CalendarEntryId::fromString($this->request->query->get('id'));
-
-        $entity = $this->repository->get($id);
-        if (null === $entity) {
-            throw new NotFoundHttpException(sprintf('CalendarEntry with id "%s" not found.', $id->toString()));
-        }
-
-        $dto = new CalendarEntryDeletionDto();
+        $dto = new CalendarEntryDeletionDto($id);
 
         $form = $this->createFormBuilder($dto)
             ->add('reason', DeletionReasonFormType::class, [
@@ -144,22 +135,20 @@ final class CalendarEntryController extends AbstractController
             ->handleRequest($this->request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entity->delete($dto->reason, $dto->description, $this->getUser()->uuid);
-
-            $this->em->flush();
+            $this->commandBus->handle(
+                new DeleteCalendarEntryCommand(
+                    $dto->id,
+                    $dto->reason,
+                    $dto->description
+                )
+            );
 
             return $this->redirectToEasyPath('CalendarEntry', 'list');
         }
 
         return $this->render('easy_admin/calendar/deletion.html.twig', [
             'form' => $form->createView(),
-            'item' => $row = $this->em->createQueryBuilder()
-                ->select('entity.id, entity.date, entity.duration, entity.description')
-                ->from(CalendarEntry::class, 'entity')
-                ->where('entity.id = :id')
-                ->getQuery()
-                ->setParameter('id', $id)
-                ->getSingleResult(),
+            'item' => $this->getDto($id),
         ]);
     }
 

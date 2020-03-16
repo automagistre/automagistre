@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cde8605ff417063505f6cd22f1becd4a",
+    "content-hash": "b96d4b8e97cabb4b51213b96991755bb",
     "packages": [
         {
             "name": "antishov/doctrine-extensions-bundle",
@@ -127,6 +127,68 @@
             "description": "BaconQrCode is a QR code generator for PHP.",
             "homepage": "https://github.com/Bacon/BaconQrCode",
             "time": "2018-04-25T17:53:56+00:00"
+        },
+        {
+            "name": "beberlei/assert",
+            "version": "v3.2.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/beberlei/assert.git",
+                "reference": "d63a6943fc4fd1a2aedb65994e3548715105abcf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/beberlei/assert/zipball/d63a6943fc4fd1a2aedb65994e3548715105abcf",
+                "reference": "d63a6943fc4fd1a2aedb65994e3548715105abcf",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ctype": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "ext-simplexml": "*",
+                "php": "^7"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "*",
+                "phpstan/phpstan-shim": "*",
+                "phpunit/phpunit": ">=6.0.0 <8"
+            },
+            "suggest": {
+                "ext-intl": "Needed to allow Assertion::count(), Assertion::isCountable(), Assertion::minCount(), and Assertion::maxCount() to operate on ResourceBundles"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Assert\\": "lib/Assert"
+                },
+                "files": [
+                    "lib/Assert/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Richard Quadling",
+                    "email": "rquadling@gmail.com",
+                    "role": "Collaborator"
+                }
+            ],
+            "description": "Thin assertion library for input validation in business models.",
+            "keywords": [
+                "assert",
+                "assertion",
+                "validation"
+            ],
+            "time": "2019-12-19T17:51:41+00:00"
         },
         {
             "name": "beberlei/doctrineextensions",
@@ -4725,6 +4787,200 @@
             "time": "2020-02-03T08:58:56+00:00"
         },
         {
+            "name": "simple-bus/doctrine-orm-bridge",
+            "version": "v5.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SimpleBus/DoctrineORMBridge.git",
+                "reference": "e05623a3714f6e3f28ed420940933004fa37ac61"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SimpleBus/DoctrineORMBridge/zipball/e05623a3714f6e3f28ed420940933004fa37ac61",
+                "reference": "e05623a3714f6e3f28ed420940933004fa37ac61",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/orm": "^2.7",
+                "php": "^7.3",
+                "simple-bus/message-bus": "^3.0"
+            },
+            "require-dev": {
+                "matthiasnoback/doctrine-orm-test-service-provider": "^3.0",
+                "phpunit/phpunit": "^8.2.3"
+            },
+            "suggest": {
+                "simple-bus/symfony-bridge": "Bridge for using command buses and event buses with Symfony"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SimpleBus\\DoctrineORMBridge\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Cliff Odijk",
+                    "email": "cliff@jcid.nl"
+                },
+                {
+                    "name": "Ruud Kamphuis",
+                    "homepage": "https://github.com/ruudk"
+                },
+                {
+                    "name": "Matthias Noback",
+                    "email": "matthiasnoback@gmail.com",
+                    "homepage": "http://php-and-symfony.matthiasnoback.nl"
+                }
+            ],
+            "description": "Doctrine ORM bridge for using command and event buses",
+            "homepage": "http://github.com/SimpleBus/DoctrineORMBridge",
+            "keywords": [
+                "command bus",
+                "doctrine",
+                "event bus"
+            ],
+            "time": "2020-01-03T07:56:47+00:00"
+        },
+        {
+            "name": "simple-bus/message-bus",
+            "version": "v3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SimpleBus/MessageBus.git",
+                "reference": "2feb277a7b63b93ca82a854571b51503b6bbb69a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SimpleBus/MessageBus/zipball/2feb277a7b63b93ca82a854571b51503b6bbb69a",
+                "reference": "2feb277a7b63b93ca82a854571b51503b6bbb69a",
+                "shasum": ""
+            },
+            "require": {
+                "beberlei/assert": "^3.0",
+                "php": "^7.3",
+                "psr/log": "^1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SimpleBus\\Message\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Cliff Odijk",
+                    "email": "cliff@jcid.nl"
+                },
+                {
+                    "name": "Ruud Kamphuis",
+                    "homepage": "https://github.com/ruudk"
+                },
+                {
+                    "name": "Matthias Noback",
+                    "email": "matthiasnoback@gmail.com",
+                    "homepage": "http://php-and-symfony.matthiasnoback.nl"
+                }
+            ],
+            "description": "Generic classes and interfaces for messages and message buses",
+            "homepage": "http://github.com/SimpleBus/MessageBus",
+            "keywords": [
+                "command bus",
+                "event bus",
+                "message",
+                "message bus"
+            ],
+            "time": "2019-12-23T09:34:13+00:00"
+        },
+        {
+            "name": "simple-bus/symfony-bridge",
+            "version": "v5.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SimpleBus/SymfonyBridge.git",
+                "reference": "49ae3d9730ed97f935303baea13172d7de019f77"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SimpleBus/SymfonyBridge/zipball/49ae3d9730ed97f935303baea13172d7de019f77",
+                "reference": "49ae3d9730ed97f935303baea13172d7de019f77",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.3",
+                "simple-bus/message-bus": "^3.0.3",
+                "symfony/config": "^4.4 || ^5.0",
+                "symfony/dependency-injection": "^4.4 || ^5.0",
+                "symfony/http-kernel": "^4.4 || ^5.0",
+                "symfony/yaml": "^4.4 || ^5.0"
+            },
+            "conflict": {
+                "zendframework/zend-code": "<3.3.1"
+            },
+            "require-dev": {
+                "doctrine/doctrine-bundle": "^2.0",
+                "doctrine/orm": "^2.7",
+                "phpunit/phpunit": "^8.5",
+                "simple-bus/doctrine-orm-bridge": "^5.0",
+                "symfony/framework-bundle": "^4.4 || ^5.0",
+                "symfony/monolog-bridge": "^4.4 || ^5.0",
+                "symfony/monolog-bundle": "^3.4",
+                "symfony/proxy-manager-bridge": "^4.4 || ^5.0"
+            },
+            "suggest": {
+                "doctrine/doctrine-bundle": "For integration with Doctrine ORM",
+                "doctrine/orm": "For integration with Doctrine ORM",
+                "simple-bus/doctrine-orm-bridge": "For integration with Doctrine ORM",
+                "symfony/monolog-bundle": "For logging messages",
+                "symfony/proxy-manager-bridge": "For integration with Symfony and Doctrine ORM"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "SimpleBus\\SymfonyBridge\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Cliff Odijk",
+                    "email": "cliff@jcid.nl"
+                },
+                {
+                    "name": "Ruud Kamphuis",
+                    "homepage": "https://github.com/ruudk"
+                },
+                {
+                    "name": "Matthias Noback",
+                    "email": "matthiasnoback@gmail.com",
+                    "homepage": "http://php-and-symfony.matthiasnoback.nl"
+                }
+            ],
+            "description": "Bridge for using command buses and event buses in Symfony projects",
+            "homepage": "http://github.com/SimpleBus/SymfonyBridge",
+            "keywords": [
+                "command bus",
+                "doctrine",
+                "event bus",
+                "symfony"
+            ],
+            "time": "2019-12-23T09:34:13+00:00"
+        },
+        {
             "name": "swiftmailer/swiftmailer",
             "version": "v6.2.3",
             "source": {
@@ -7336,6 +7592,77 @@
             "time": "2020-01-04T14:08:26+00:00"
         },
         {
+            "name": "symfony/proxy-manager-bridge",
+            "version": "v5.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/proxy-manager-bridge.git",
+                "reference": "04db5e211ec98c3053b37d5cc393677a619e6002"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/proxy-manager-bridge/zipball/04db5e211ec98c3053b37d5cc393677a619e6002",
+                "reference": "04db5e211ec98c3053b37d5cc393677a619e6002",
+                "shasum": ""
+            },
+            "require": {
+                "ocramius/proxy-manager": "~2.1",
+                "php": "^7.2.5",
+                "symfony/dependency-injection": "^5.0"
+            },
+            "conflict": {
+                "zendframework/zend-eventmanager": "2.6.0"
+            },
+            "require-dev": {
+                "symfony/config": "^4.4|^5.0"
+            },
+            "type": "symfony-bridge",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Bridge\\ProxyManager\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony ProxyManager Bridge",
+            "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-01-04T14:08:26+00:00"
+        },
+        {
             "name": "symfony/routing",
             "version": "v5.0.5",
             "source": {
@@ -9812,9 +10139,9 @@
             "authors": [
                 {
                     "name": "Christian Weiske",
+                    "role": "Developer",
                     "email": "cweiske@cweiske.de",
-                    "homepage": "http://github.com/cweiske/jsonmapper/",
-                    "role": "Developer"
+                    "homepage": "http://github.com/cweiske/jsonmapper/"
                 }
             ],
             "description": "Map nested JSON structures onto PHP classes",
@@ -12319,5 +12646,6 @@
         "php": ">=7.4",
         "ext-json": "*"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }

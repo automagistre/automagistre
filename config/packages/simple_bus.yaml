@@ -1,0 +1,3 @@
+doctrine_orm_bridge:
+    entity_manager: tenant
+    connection: tenant

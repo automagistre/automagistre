@@ -6,6 +6,7 @@ namespace App;
 
 use App\Tenant\ConnectionSwitcher;
 use App\Tenant\Tenant;
+use App\User\Domain\UserId;
 use App\User\Entity\User;
 use LogicException;
 use RuntimeException;
@@ -47,6 +48,11 @@ final class State
         }
 
         return $this->tenant;
+    }
+
+    public function userId(): UserId
+    {
+        return $this->user()->uuid;
     }
 
     public function user(User $user = null): User

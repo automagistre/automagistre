@@ -46,3 +46,16 @@ doctrine:
                         type: annotation
                         prefix: App\Calendar\Domain
                         dir: '%kernel.project_dir%/src/Calendar/Domain'
+
+
+services:
+    _defaults:
+        public: false
+        autowire: true
+        autoconfigure: true
+
+    App\Calendar\Application\CalendarEntryHandler:
+        tags:
+            - { name: command_handler, handles: App\Calendar\Domain\Command\CreateCalendarEntryCommand, method: create }
+            - { name: command_handler, handles: App\Calendar\Domain\Command\RescheduleCalendarEntryCommand, method: reschedule }
+            - { name: command_handler, handles: App\Calendar\Domain\Command\DeleteCalendarEntryCommand, method: delete }
