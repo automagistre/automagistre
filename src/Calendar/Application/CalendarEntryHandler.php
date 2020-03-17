@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Calendar\Application;
 
 use App\Calendar\Domain\CalendarEntry;
+use App\Calendar\Domain\CalendarEntryCustomerInformation;
 use App\Calendar\Domain\CalendarEntryRepository;
 use App\Calendar\Domain\Command\CreateCalendarEntryCommand;
 use App\Calendar\Domain\Command\DeleteCalendarEntryCommand;
@@ -31,10 +32,16 @@ final class CalendarEntryHandler
             CalendarEntry::create(
                 $command->date,
                 $command->duration,
+                new CalendarEntryCustomerInformation(
+                    $command->firstName,
+                    $command->lastName,
+                    $command->phone,
+                    $command->carId,
+                    $command->description,
+                ),
                 $this->state->user()->uuid,
                 $command->worker,
-                $command->description
-            )
+                )
         );
     }
 
@@ -48,10 +55,16 @@ final class CalendarEntryHandler
         $entity = $previous->reschedule(
             $command->date,
             $command->duration,
+            new CalendarEntryCustomerInformation(
+                $command->firstName,
+                $command->lastName,
+                $command->phone,
+                $command->carId,
+                $command->description,
+            ),
             $this->state->userId(),
             $command->worker,
-            $command->description
-        );
+            );
 
         $this->repository->add($entity);
     }

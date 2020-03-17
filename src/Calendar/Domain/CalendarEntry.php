@@ -30,6 +30,11 @@ class CalendarEntry
     private DateInterval $duration;
 
     /**
+     * @ORM\Embedded(class=CalendarEntryCustomerInformation::class, columnPrefix=false)
+     */
+    private CalendarEntryCustomerInformation $customer;
+
+    /**
      * @ORM\Column(type="datetime_immutable")
      */
     private DateTimeImmutable $createdAt;
@@ -38,11 +43,6 @@ class CalendarEntry
      * @ORM\Column(type="user_id")
      */
     private UserId $createdBy;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private ?string $description;
 
     /**
      * @ORM\ManyToOne(targetEntity=Employee::class)
@@ -64,8 +64,8 @@ class CalendarEntry
         DateTimeImmutable $date,
         DateInterval $duration,
         UserId $userId,
+        CalendarEntryCustomerInformation $customer,
         ?Employee $worker,
-        ?string $description,
         ?self $previous = null
     ) {
         $this->id = CalendarEntryId::generate();
@@ -73,8 +73,8 @@ class CalendarEntry
         $this->duration = $duration;
         $this->createdAt = new DateTimeImmutable();
         $this->createdBy = $userId;
+        $this->customer = $customer;
         $this->worker = $worker;
-        $this->description = $description;
         $this->previous = $previous;
     }
 
@@ -86,21 +86,21 @@ class CalendarEntry
     public static function create(
         DateTimeImmutable $date,
         DateInterval $duration,
+        CalendarEntryCustomerInformation $customer,
         UserId $userId,
-        ?Employee $worker,
-        ?string $description
+        ?Employee $worker
     ): self {
-        return new self($date, $duration, $userId, $worker, $description);
+        return new self($date, $duration, $userId, $customer, $worker);
     }
 
     public function reschedule(
         DateTimeImmutable $date,
         DateInterval $duration,
+        CalendarEntryCustomerInformation $customer,
         UserId $userId,
-        ?Employee $worker,
-        ?string $description
+        ?Employee $worker
     ): self {
-        return new self($date, $duration, $userId, $worker, $description, $this);
+        return new self($date, $duration, $userId, $customer, $worker, $this);
     }
 
     public function delete(DeletionReason $reason, ?string $description, UserId $deletedBy): void

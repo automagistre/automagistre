@@ -57,6 +57,7 @@ return PhpCsFixer\Config::create()
         'ternary_to_null_coalescing'            => true,
         'void_return'                           => true,
         'php_unit_test_case_static_method_calls'=> true,
+        'PedroTroller/doctrine_migrations'      => true,
         'PedroTroller/line_break_between_method_arguments' => ['max-args' => 10, 'max-length' => 120],
         'PedroTroller/useless_comment'          => true,
         'PedroTroller/single_line_comment'      => ['action' => 'expanded'],

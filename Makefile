@@ -80,9 +80,9 @@ MIGRATION_CONSOLE = --em=${EM} $(TENANT_CONSOLE) --no-interaction
 
 migration: migration-landlord migration-tenant
 migration-landlord:
-	@$(MAKE) do-migration EM=landlord
+	@$(MAKE) APP_ENV=$(APP_ENV) APP_DEBUG=$(APP_DEBUG) do-migration EM=landlord
 migration-tenant:
-	@$(MAKE) do-migration EM=tenant
+	@$(MAKE) APP_ENV=$(APP_ENV) APP_DEBUG=$(APP_DEBUG) do-migration EM=tenant
 do-migration:
 	$(APP) console doctrine:migration:migrate --allow-no-migration $(MIGRATION_CONSOLE)
 
@@ -96,11 +96,11 @@ migration-rollback:
 migration-diff: migration-diff-all php-cs-fixer
 migration-diff-all: migration-diff-landlord migration-diff-tenant
 migration-diff-landlord:
-		@$(MAKE) do-migration-diff EM=landlord
+	@$(MAKE) do-migration-diff EM=landlord
 migration-diff-tenant:
-		@$(MAKE) do-migration-diff EM=tenant
+	@$(MAKE) do-migration-diff EM=tenant
 do-migration-diff:
-	$(APP) console doctrine:migration:diff --formatted $(MIGRATION_CONSOLE) || true
+	$(APP) console doctrine:migration:diff --formatted $(MIGRATION_CONSOLE) && sed -i "s/this->abortIf.*/&\n\n        \$$this->skipIf(0 !== strpos(\$$this->connection->getDatabase(), '${EM}'), '${EM} only');/" `git ls-files --others --exclude-standard | tail -n 1` || true
 migration-diff-dry:
 	$(APP) console doctrine:schema:update --dump-sql --em=${EM} $(TENANT_CONSOLE)
 
@@ -113,7 +113,7 @@ schema-update:
 
 test: APP_ENV=test
 test: APP_DEBUG=1
-test: php-cs-fixer cache phpstan psalm database-test migration-validate fixtures phpunit
+test: php-cs-fixer cache phpstan psalm doctrine-ensure-production-settings database migration-validate fixtures paratest
 
 php-cs-fixer:
 	$(APP) sh -c 'php-cs-fixer fix $(if $(DRY),--dry-run) $(if $(DEBUG),-vvv); $(PERMISSIONS)'
@@ -124,23 +124,31 @@ phpstan: cache
 	$(APP) phpstan analyse --configuration phpstan.neon $(if $(DEBUG),--debug -vvv)
 
 phpunit: APP_ENV=test
+phpunit: APP_DEBUG=1
 phpunit:
+	$(APP) phpunit --stop-on-failure
+paratest: APP_ENV=test
+paratest: APP_DEBUG=1
+paratest:
 	$(APP) paratest -p $(shell grep -c ^processor /proc/cpuinfo || 4) --stop-on-failure
+
 requirements: APP_ENV=prod
 requirements:
 	$(APP) requirements-checker
 psalm:
 	$(APP) psalm --show-info=false
 
+doctrine-ensure-production-settings: APP_ENV=prod
+doctrine-ensure-production-settings: APP_DEBUG=0
+doctrine-ensure-production-settings:
+	$(APP) sh -c 'rm -rf var/cache/$$APP_ENV && console doctrine:ensure-production-settings'
+
+cache-prod:
+	@$(MAKE) APP_ENV=prod APP_DEBUG=0 cache
 cache:
 	$(APP) sh -c 'rm -rf var/cache/$$APP_ENV && console cache:warmup; $(PERMISSIONS)'
 
-database-test:
-	APP_ENV=test $(MAKE) database
-	APP_ENV=test TENANT=msk $(MAKE) database
-
-database:
-	$(APP) sh -c "console doctrine:database:drop --if-exists --force --connection=${EM} ${TENANT_CONSOLE} && console doctrine:database:create --connection=${EM} ${TENANT_CONSOLE} && console doctrine:migration:migrate --allow-no-migration $(MIGRATION_CONSOLE)"
+database: drop migration
 
 fixtures: APP_ENV=test
 fixtures:
@@ -164,13 +172,13 @@ do-backup-download:
 
 drop: drop-landlord drop-tenant
 drop-landlord:
-	@$(MAKE) EM=landlord drop-connection
-	@$(MAKE) EM=landlord do-drop
+	@$(MAKE) EM=landlord APP_ENV=$(APP_ENV) APP_DEBUG=$(APP_DEBUG) drop-connection
+	@$(MAKE) EM=landlord APP_ENV=$(APP_ENV) APP_DEBUG=$(APP_DEBUG) do-drop
 drop-tenant:
-	@$(MAKE) EM=tenant drop-connection
-	@$(MAKE) EM=tenant do-drop
+	@$(MAKE) EM=tenant APP_ENV=$(APP_ENV) APP_DEBUG=$(APP_DEBUG) drop-connection
+	@$(MAKE) EM=tenant APP_ENV=$(APP_ENV) APP_DEBUG=$(APP_DEBUG) do-drop
 drop-connection:
-	$(APP) console doctrine:query:sql --connection=${EM} ${TENANT_CONSOLE} "SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = '${EM}' AND pid <> pg_backend_pid();" || true
+	$(APP) console doctrine:query:sql --connection=${EM} ${TENANT_CONSOLE} "SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = '${EM}$(if $(filter test,$(APP_ENV)),_test)' AND pid <> pg_backend_pid();" || true
 do-drop:
 	$(APP) sh -c "console doctrine:database:drop --if-exists --force --connection=${EM} ${TENANT_CONSOLE} && console doctrine:database:create --connection=${EM} ${TENANT_CONSOLE}"
 ###< APP ###

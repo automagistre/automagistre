@@ -13,7 +13,7 @@ use Ramsey\Uuid\UuidInterface;
 /**
  * @ORM\Entity
  */
-final class CalendarEntryDeletion
+class CalendarEntryDeletion
 {
     /**
      * @ORM\Id()

@@ -32,3 +32,4 @@ Premier\Enum\Doctrine\EnumType::register(App\Calendar\Domain\DeletionReason::cla
 
 App\Doctrine\ORM\Type\IdentifierType::register('calendar_entry_id', App\Calendar\Domain\CalendarEntryId::class);
 App\Doctrine\ORM\Type\IdentifierType::register('user_id', App\User\Domain\UserId::class);
+App\Doctrine\ORM\Type\IdentifierType::register('car_id', App\Car\Entity\CarId::class);

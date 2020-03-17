@@ -1,0 +1,90 @@
+{% block main %}
+    {{ form_start(form) }}
+    {{ form_row(form.date) }}
+    {{ form_row(form.duration) }}
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-4">{{ form_row(form.phone) }}</div>
+                <div class="col-md-4">{{ form_row(form.firstName) }}</div>
+                <div class="col-md-4">{{ form_row(form.lastName) }}</div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{{ asset('assets/js/typeahead.bundle.min.js') }}"></script>
+
+
+    <script>
+      let phoneInput = $('#{{ form.phone.vars.id }}');
+
+      let bh = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+          url: '{{ easyadmin_path('Person', 'autocomplete', {'query': '__QUERY__'})|raw }}',
+          wildcard: '__QUERY__',
+          transform: (res) => res.results,
+        },
+      });
+
+      phoneInput.typeahead({
+        minLength: 4,
+      }, {
+        display: 'phone',
+        source: bh.ttAdapter(),
+        limit: 25,
+        templates: {
+          empty: [
+            '<div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found.</div></div>',
+          ],
+          header: [
+            '<div class="list-group search-results-dropdown">',
+          ],
+          suggestion: function(data) {
+            return '<div>' + data.text + '</div>';
+          },
+        },
+      });
+
+      phoneInput.bind('typeahead:select', function(ev, suggestion) {
+        $('#{{ form.firstName.vars.id }}').val(suggestion.firstName);
+        $('#{{ form.lastName.vars.id }}').val(suggestion.lastName);
+      });
+
+      let carInput = $('#{{ form.carId.vars.id }}');
+
+      $(document).on('ready', function() {
+        $('.twitter-typeahead').css('display', 'block');
+      });
+    </script>
+{% endblock %}
+
+{% block css %}
+    <style>
+        .tt-menu {
+            width: 100%;
+            background-color: white;
+            border: 1px solid #D09482;
+            border-top-width: 0;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .tt-suggestion {
+            padding: 0 12px;
+            font-size: 14px;
+        }
+
+        .tt-selectable {
+            cursor: pointer;
+        }
+
+        .tt-selectable:hover {
+            background-color: #F9744E;
+        }
+    </style>
+{% endblock %}

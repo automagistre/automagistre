@@ -28,7 +28,14 @@ final class DoctrineStreamer implements Streamer
     public function byDate(DateTimeImmutable $date): StreamCollection
     {
         $entities = $this->registry->manager(CalendarEntry::class)->createQueryBuilder()
-            ->select('entity.id, entity.date, entity.duration, entity.description')
+            ->select('entity.id')
+            ->addSelect('entity.date')
+            ->addSelect('entity.duration')
+            ->addSelect('entity.customer.firstName AS firstName')
+            ->addSelect('entity.customer.lastName AS lastName')
+            ->addSelect('entity.customer.phone AS phone')
+            ->addSelect('entity.customer.carId AS carId')
+            ->addSelect('entity.customer.description AS description')
             ->addSelect('IDENTITY(entity.worker) AS workerId')
             ->from(CalendarEntry::class, 'entity')
             ->leftJoin(CalendarEntry::class, 'previous', Join::WITH, 'entity.id = previous.previous')
@@ -51,6 +58,10 @@ final class DoctrineStreamer implements Streamer
                     $row['id'],
                     $row['date'],
                     $row['duration'],
+                    $row['firstName'],
+                    $row['lastName'],
+                    $row['phone'],
+                    $row['carId'],
                     $row['description'],
                     null !== $row['workerId'] ? $employeeRepository->find($row['workerId']) : null,
                 ),

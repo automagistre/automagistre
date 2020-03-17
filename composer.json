@@ -53,6 +53,7 @@
         "symfony/mercure-bundle": "^0.2.3",
         "symfony/monolog-bundle": "^3.3",
         "symfony/process": "^5.0",
+        "symfony/proxy-manager-bridge": "^5.0",
         "symfony/routing": "^5.0",
         "symfony/security-bundle": "^5.0",
         "symfony/security-core": "^5.0",

@@ -18,8 +18,6 @@ use LogicException;
 use function mb_convert_case;
 use Money\Currency;
 use Money\Money;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 use function sprintf;
 use function str_replace;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -37,9 +35,9 @@ class Car
     use CreatedAt;
 
     /**
-     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\Column(type="car_id", unique=true)
      */
-    public UuidInterface $uuid;
+    public CarId $uuid;
 
     /**
      * @Assert\Valid
@@ -106,7 +104,7 @@ class Car
 
     public function __construct()
     {
-        $this->uuid = Uuid::uuid4();
+        $this->uuid = CarId::generate();
         $this->equipment = new Equipment();
         $this->caseType = BodyType::unknown();
         $this->recommendations = new ArrayCollection();
