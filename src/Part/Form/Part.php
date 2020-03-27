@@ -6,9 +6,6 @@ use App\Manufacturer\Entity\Manufacturer;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @psalm-immutable
- */
 final class Part
 {
     /**

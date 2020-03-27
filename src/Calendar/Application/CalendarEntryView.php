@@ -9,9 +9,6 @@ use DateInterval;
 use DateTimeImmutable;
 use libphonenumber\PhoneNumber;
 
-/**
- * @psalm-immutable
- */
 final class CalendarEntryView
 {
     public CalendarEntryId $id;

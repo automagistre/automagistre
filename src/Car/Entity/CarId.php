@@ -6,6 +6,9 @@ namespace App\Car\Entity;
 
 use App\Doctrine\ORM\Type\Identifier;
 
+/**
+ * @psalm-immutable
+ */
 final class CarId extends Identifier
 {
 }

@@ -5,6 +5,9 @@ namespace App\Doctrine\ORM\Type;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
+/**
+ * @psalm-immutable
+ */
 abstract class Identifier
 {
     private UuidInterface $uuid;

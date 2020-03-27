@@ -11,9 +11,6 @@ use DateInterval;
 use DateTimeImmutable;
 use libphonenumber\PhoneNumber;
 
-/**
- * @psalm-immutable
- */
 final class RescheduleCalendarEntryCommand
 {
     public CalendarEntryId $id;

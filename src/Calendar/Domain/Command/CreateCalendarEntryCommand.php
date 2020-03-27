@@ -10,9 +10,6 @@ use DateInterval;
 use DateTimeImmutable;
 use libphonenumber\PhoneNumber;
 
-/**
- * @psalm-immutable
- */
 final class CreateCalendarEntryCommand
 {
     public DateTimeImmutable $date;

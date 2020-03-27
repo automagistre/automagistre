@@ -6,6 +6,9 @@ namespace App\Calendar\Domain;
 
 use Premier\Enum\Enum;
 
+/**
+ * @psalm-immutable
+ */
 final class DeletionReason extends Enum
 {
     private const NO_REASON = 1;
