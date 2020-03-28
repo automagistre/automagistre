@@ -8,5 +8,3 @@ services:
             APP_DEBUG: 1
             PHP_MEMORY_LIMIT: 2G
             PHP_OPCACHE_ENABLE: 0
-            XDEBUG_CONFIG: remote_enable=0 remote_autostart=1
-            PHP_IDE_CONFIG: serverName=automagistre.local

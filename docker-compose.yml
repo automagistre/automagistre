@@ -78,9 +78,3 @@ services:
             default:
                 aliases:
                     - mercure.automagistre.local
-
-    dockerhost:
-        image: qoomon/docker-host:2.2.0
-        cap_add:
-            - NET_ADMIN
-            - NET_RAW
