@@ -78,3 +78,8 @@ services:
             default:
                 aliases:
                     - mercure.automagistre.local
+
+    host.docker.internal:
+        image: alpine/socat:1.7.3.4-r0
+        entrypoint: sh
+        command: -c "socat tcp-listen:9000,fork,reuseaddr tcp-connect:$$(/sbin/ip route|awk '/default/ { print $$3 }'):9000"
