@@ -9,6 +9,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="https://getpsalm.org/schema/config"
         xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+        errorBaseline="psalm-baseline.xml"
 >
     <projectFiles>
         <directory name="src"/>
@@ -21,22 +22,6 @@
     </projectFiles>
 
     <issueHandlers>
-        <InvalidArgument errorLevel="info"/>
-
-        <MissingParamType errorLevel="info"/>
-        <MissingDependency errorLevel="info"/>
-
-        <PropertyNotSetInConstructor errorLevel="info"/>
-        <DeprecatedClass errorLevel="info"/>
-        <DeprecatedMethod errorLevel="info"/>
-
-        <PossiblyNullArrayOffset errorLevel="info"/>
-        <PossiblyNullOperand errorLevel="info"/>
-        <PossiblyNullReference errorLevel="info"/>
-        <PossiblyFalseOperand errorLevel="info"/>
-
-        <ImpureArgument errorLevel="info"/>
-
         <InternalMethod>
             <errorLevel type="suppress">
                 <referencedMethod name="Doctrine\DBAL\Types\Type::__construct"/>

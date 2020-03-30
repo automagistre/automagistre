@@ -1,0 +1,592 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method App\\\\Calendar\\\\Application\\\\StreamOverflowException\\:\\:fromKeys\\(\\) has parameter \\$keys with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Calendar/Application/StreamOverflowException.php
+
+		-
+			message: "#^Property App\\\\Calendar\\\\Domain\\\\DeletionReason\\:\\:\\$name type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Calendar/Domain/DeletionReason.php
+
+		-
+			message: "#^Method App\\\\Car\\\\Controller\\\\CarController\\:\\:getEntityFormOptions\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Car/Controller/CarController.php
+
+		-
+			message: "#^Method App\\\\Car\\\\Controller\\\\CarController\\:\\:renderTemplate\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Car/Controller/CarController.php
+
+		-
+			message: "#^Method App\\\\Car\\\\Controller\\\\CarController\\:\\:createSearchQueryBuilder\\(\\) has parameter \\$searchableFields with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Car/Controller/CarController.php
+
+		-
+			message: "#^Method App\\\\Car\\\\Controller\\\\ModelController\\:\\:createSearchQueryBuilder\\(\\) has parameter \\$searchableFields with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Car/Controller/ModelController.php
+
+		-
+			message: "#^Method App\\\\Car\\\\Controller\\\\RecommendationController\\:\\:renderTemplate\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Car/Controller/RecommendationController.php
+
+		-
+			message: "#^Property App\\\\Car\\\\Enum\\\\BodyType\\:\\:\\$name type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Car/Enum/BodyType.php
+
+		-
+			message: "#^Property App\\\\Car\\\\Enum\\\\DriveWheelConfiguration\\:\\:\\$name type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Car/Enum/DriveWheelConfiguration.php
+
+		-
+			message: "#^Property App\\\\Car\\\\Enum\\\\DriveWheelConfiguration\\:\\:\\$code type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Car/Enum/DriveWheelConfiguration.php
+
+		-
+			message: "#^Property App\\\\Car\\\\Enum\\\\FuelType\\:\\:\\$name type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Car/Enum/FuelType.php
+
+		-
+			message: "#^Property App\\\\Car\\\\Enum\\\\Transmission\\:\\:\\$name type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Car/Enum/Transmission.php
+
+		-
+			message: "#^Property App\\\\Car\\\\Enum\\\\Transmission\\:\\:\\$code type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Car/Enum/Transmission.php
+
+		-
+			message: "#^Method App\\\\Command\\\\Part\\\\PartCaseFindCommand\\:\\:getUniversal\\(\\) has parameter \\$partIds with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Command/Part/PartCaseFindCommand.php
+
+		-
+			message: "#^Method App\\\\Command\\\\Part\\\\PartCaseFindCommand\\:\\:getUniversal\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Command/Part/PartCaseFindCommand.php
+
+		-
+			message: "#^Method App\\\\Command\\\\Part\\\\PartCaseFindCommand\\:\\:getMap\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Command/Part/PartCaseFindCommand.php
+
+		-
+			message: "#^Method App\\\\Command\\\\Part\\\\PartCaseFindCommand\\:\\:getCars\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Command/Part/PartCaseFindCommand.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\EasyAdmin\\\\AbstractController\\:\\:getSubscribedServices\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Controller/EasyAdmin/AbstractController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\EasyAdmin\\\\AbstractController\\:\\:redirectToEasyPath\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Controller/EasyAdmin/AbstractController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\EasyAdmin\\\\AbstractController\\:\\:generateEasyPath\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Controller/EasyAdmin/AbstractController.php
+
+		-
+			message: "#^Unable to resolve the template type T in call to method App\\\\Doctrine\\\\Registry\\:\\:repository\\(\\)$#"
+			count: 1
+			path: src/Controller/EasyAdmin/AbstractController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\EasyAdmin\\\\AbstractController\\:\\:event\\(\\) has parameter \\$event with no value type specified in iterable type Symfony\\\\Component\\\\EventDispatcher\\\\GenericEvent\\.$#"
+			count: 1
+			path: src/Controller/EasyAdmin/AbstractController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\EasyAdmin\\\\AbstractController\\:\\:createEntityForm\\(\\) has parameter \\$entityProperties with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Controller/EasyAdmin/AbstractController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\EasyAdmin\\\\AbstractController\\:\\:createSearchQueryBuilder\\(\\) has parameter \\$searchableFields with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Controller/EasyAdmin/AbstractController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\EasyAdmin\\\\AbstractController\\:\\:renderTemplate\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Controller/EasyAdmin/AbstractController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\EasyAdmin\\\\AbstractController\\:\\:findBy\\(\\) has parameter \\$searchableFields with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Controller/EasyAdmin/AbstractController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\EasyAdmin\\\\AbstractController\\:\\:findBy\\(\\) return type has no value type specified in iterable type Pagerfanta\\\\Pagerfanta\\.$#"
+			count: 1
+			path: src/Controller/EasyAdmin/AbstractController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\EasyAdmin\\\\AbstractController\\:\\:createEntityFormBuilder\\(\\) return type has no value type specified in iterable type Symfony\\\\Component\\\\Form\\\\FormBuilder\\.$#"
+			count: 1
+			path: src/Controller/EasyAdmin/AbstractController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\EasyAdmin\\\\EmployeeController\\:\\:renderTemplate\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Controller/EasyAdmin/EmployeeController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\EasyAdmin\\\\IncomeController\\:\\:renderTemplate\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Controller/EasyAdmin/IncomeController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\EasyAdmin\\\\MC\\\\EquipmentController\\:\\:createSearchQueryBuilder\\(\\) has parameter \\$searchableFields with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Controller/EasyAdmin/MC/EquipmentController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\EasyAdmin\\\\MotionController\\:\\:renderTemplate\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Controller/EasyAdmin/MotionController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\EasyAdmin\\\\OperandController\\:\\:getSubscribedServices\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Controller/EasyAdmin/OperandController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\EasyAdmin\\\\OperandController\\:\\:renderTemplate\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Controller/EasyAdmin/OperandController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\EasyAdmin\\\\OperandTransactionController\\:\\:createEntityForm\\(\\) has parameter \\$entityProperties with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Controller/EasyAdmin/OperandTransactionController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\EasyAdmin\\\\OrderController\\:\\:renderTemplate\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Controller/EasyAdmin/OrderController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\EasyAdmin\\\\OrderController\\:\\:createSearchQueryBuilder\\(\\) has parameter \\$searchableFields with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Controller/EasyAdmin/OrderController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\EasyAdmin\\\\OrderItemController\\:\\:getSubscribedServices\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Controller/EasyAdmin/OrderItemController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\EasyAdmin\\\\OrderItemController\\:\\:renderTemplate\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Controller/EasyAdmin/OrderItemController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\EasyAdmin\\\\OrderItemServiceController\\:\\:renderTemplate\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Controller/EasyAdmin/OrderItemServiceController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\EasyAdmin\\\\OrderItemServiceController\\:\\:createSearchQueryBuilder\\(\\) has parameter \\$searchableFields with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Controller/EasyAdmin/OrderItemServiceController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\EasyAdmin\\\\OrderNoteController\\:\\:renderTemplate\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Controller/EasyAdmin/OrderNoteController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\EasyAdmin\\\\PartController\\:\\:renderTemplate\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Controller/EasyAdmin/PartController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\EasyAdmin\\\\PartController\\:\\:createEntityFormBuilder\\(\\) return type has no value type specified in iterable type Symfony\\\\Component\\\\Form\\\\FormBuilder\\.$#"
+			count: 1
+			path: src/Controller/EasyAdmin/PartController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\EasyAdmin\\\\PartController\\:\\:createSearchQueryBuilder\\(\\) has parameter \\$searchableFields with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Controller/EasyAdmin/PartController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\EasyAdmin\\\\PersonController\\:\\:createSearchQueryBuilder\\(\\) has parameter \\$searchableFields with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Controller/EasyAdmin/PersonController.php
+
+		-
+			message: "#^Method App\\\\EasyAdmin\\\\Notify\\\\BalanceNotificationListener\\:\\:onPaymentCreated\\(\\) has parameter \\$event with no value type specified in iterable type App\\\\Event\\\\PaymentCreated\\.$#"
+			count: 1
+			path: src/EasyAdmin/Notify/BalanceNotificationListener.php
+
+		-
+			message: "#^Method App\\\\EasyAdmin\\\\Notify\\\\EntityNotificationListener\\:\\:onCreateOrUpdate\\(\\) has parameter \\$event with no value type specified in iterable type Symfony\\\\Component\\\\EventDispatcher\\\\GenericEvent\\.$#"
+			count: 1
+			path: src/EasyAdmin/Notify/EntityNotificationListener.php
+
+		-
+			message: "#^Method App\\\\EasyAdmin\\\\Notify\\\\EntityNotificationListener\\:\\:onStatusChanged\\(\\) has parameter \\$event with no value type specified in iterable type App\\\\Event\\\\OrderStatusChanged\\.$#"
+			count: 1
+			path: src/EasyAdmin/Notify/EntityNotificationListener.php
+
+		-
+			message: "#^Property App\\\\Entity\\\\Landlord\\\\Event\\:\\:\\$arguments type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Entity/Landlord/Event.php
+
+		-
+			message: "#^Method App\\\\Entity\\\\Landlord\\\\Event\\:\\:__construct\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Entity/Landlord/Event.php
+
+		-
+			message: "#^Property App\\\\Entity\\\\Landlord\\\\MC\\\\Line\\:\\:\\$parts type has no value type specified in iterable type iterable\\.$#"
+			count: 1
+			path: src/Entity/Landlord/MC/Line.php
+
+		-
+			message: "#^Method App\\\\Entity\\\\Landlord\\\\PartCross\\:\\:getParts\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Entity/Landlord/PartCross.php
+
+		-
+			message: "#^Method App\\\\Entity\\\\Tenant\\\\Order\\:\\:getItems\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Entity/Tenant/Order.php
+
+		-
+			message: "#^Method App\\\\Entity\\\\Tenant\\\\Order\\:\\:getRootItems\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Entity/Tenant/Order.php
+
+		-
+			message: "#^Method App\\\\Entity\\\\Tenant\\\\Order\\:\\:getSuspends\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Entity/Tenant/Order.php
+
+		-
+			message: "#^Method App\\\\Entity\\\\Tenant\\\\OrderItemGroup\\:\\:getParts\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Entity/Tenant/OrderItemGroup.php
+
+		-
+			message: "#^Property App\\\\Enum\\\\NoteType\\:\\:\\$name type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Enum/NoteType.php
+
+		-
+			message: "#^Property App\\\\Enum\\\\OrderStatus\\:\\:\\$color type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Enum/OrderStatus.php
+
+		-
+			message: "#^Property App\\\\Enum\\\\OrderStatus\\:\\:\\$name type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Enum/OrderStatus.php
+
+		-
+			message: "#^Method App\\\\Event\\\\OrderAppointmentMade\\:\\:__construct\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Event/OrderAppointmentMade.php
+
+		-
+			message: "#^Method App\\\\Event\\\\PaymentCreated\\:\\:__construct\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Event/PaymentCreated.php
+
+		-
+			message: "#^Method App\\\\EventListener\\\\AccrueIncomePartsListener\\:\\:onIncomeAccrued\\(\\) has parameter \\$event with no value type specified in iterable type Symfony\\\\Component\\\\EventDispatcher\\\\GenericEvent\\.$#"
+			count: 1
+			path: src/EventListener/AccrueIncomePartsListener.php
+
+		-
+			message: "#^Method App\\\\EventListener\\\\BalanceListener\\:\\:onPaymentCreated\\(\\) has parameter \\$event with no value type specified in iterable type Symfony\\\\Component\\\\EventDispatcher\\\\GenericEvent\\.$#"
+			count: 1
+			path: src/EventListener/BalanceListener.php
+
+		-
+			message: "#^Method App\\\\EventListener\\\\EmployeeContractorListener\\:\\:onEmployeeCreatedOrFired\\(\\) has parameter \\$event with no value type specified in iterable type Symfony\\\\Component\\\\EventDispatcher\\\\GenericEvent\\.$#"
+			count: 1
+			path: src/EventListener/EmployeeContractorListener.php
+
+		-
+			message: "#^Method App\\\\EventListener\\\\EventsListener\\:\\:onEvent\\(\\) has parameter \\$event with no value type specified in iterable type Symfony\\\\Component\\\\EventDispatcher\\\\GenericEvent\\.$#"
+			count: 1
+			path: src/EventListener/EventsListener.php
+
+		-
+			message: "#^Method App\\\\EventListener\\\\OrderStatusListener\\:\\:inPartReserved\\(\\) has parameter \\$event with no value type specified in iterable type Symfony\\\\Component\\\\EventDispatcher\\\\GenericEvent\\.$#"
+			count: 1
+			path: src/EventListener/OrderStatusListener.php
+
+		-
+			message: "#^Method App\\\\EventListener\\\\PartCaseOnOrderCloseListener\\:\\:onOrderClosed\\(\\) has parameter \\$event with no value type specified in iterable type Symfony\\\\Component\\\\EventDispatcher\\\\GenericEvent\\.$#"
+			count: 1
+			path: src/EventListener/PartCaseOnOrderCloseListener.php
+
+		-
+			message: "#^Method App\\\\EventListener\\\\ReserveAccruedPartsListener\\:\\:onPartAccrued\\(\\) has parameter \\$event with no value type specified in iterable type Symfony\\\\Component\\\\EventDispatcher\\\\GenericEvent\\.$#"
+			count: 1
+			path: src/EventListener/ReserveAccruedPartsListener.php
+
+		-
+			message: "#^Method App\\\\EventListener\\\\StockpileListener\\:\\:onPartMove\\(\\) has parameter \\$event with no value type specified in iterable type Symfony\\\\Component\\\\EventDispatcher\\\\GenericEvent\\.$#"
+			count: 1
+			path: src/EventListener/StockpileListener.php
+
+		-
+			message: "#^Method App\\\\EventListener\\\\StockpileListener\\:\\:onPartOrderClose\\(\\) has parameter \\$event with no value type specified in iterable type Symfony\\\\Component\\\\EventDispatcher\\\\GenericEvent\\.$#"
+			count: 1
+			path: src/EventListener/StockpileListener.php
+
+		-
+			message: "#^Method App\\\\Form\\\\Model\\\\OrderTOService\\:\\:__construct\\(\\) has parameter \\$parts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Form/Model/OrderTOService.php
+
+		-
+			message: "#^Call to function is_float\\(\\) with mixed will always evaluate to false\\.$#"
+			count: 1
+			path: src/Form/Transformer/DivisoredNumberToLocalizedStringTransformer.php
+
+		-
+			message: "#^Call to function is_int\\(\\) with mixed will always evaluate to false\\.$#"
+			count: 1
+			path: src/Form/Transformer/DivisoredNumberToLocalizedStringTransformer.php
+
+		-
+			message: "#^Parameter \\#1 \\$value \\(string\\) of method App\\\\Form\\\\Transformer\\\\DivisoredNumberToLocalizedStringTransformer\\:\\:reverseTransform\\(\\) should be contravariant with parameter \\$value \\(mixed\\) of method Symfony\\\\Component\\\\Form\\\\DataTransformerInterface\\:\\:reverseTransform\\(\\)$#"
+			count: 1
+			path: src/Form/Transformer/DivisoredNumberToLocalizedStringTransformer.php
+
+		-
+			message: "#^Property App\\\\Form\\\\Type\\\\CurrencyType\\:\\:\\$currencies type has no value type specified in iterable type Money\\\\Currencies\\.$#"
+			count: 1
+			path: src/Form/Type/CurrencyType.php
+
+		-
+			message: "#^Method App\\\\Form\\\\Type\\\\CurrencyType\\:\\:__construct\\(\\) has parameter \\$currencies with no value type specified in iterable type Money\\\\Currencies\\.$#"
+			count: 1
+			path: src/Form/Type/CurrencyType.php
+
+		-
+			message: "#^PHPDoc tag @var for variable \\$view has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Form/Type/OrderItemServiceType.php
+
+		-
+			message: "#^Parameter \\#1 \\$view of method Symfony\\\\Component\\\\Form\\\\AbstractType\\:\\:buildView\\(\\) expects Symfony\\\\Component\\\\Form\\\\FormView, array given\\.$#"
+			count: 1
+			path: src/Form/Type/OrderItemServiceType.php
+
+		-
+			message: "#^Method App\\\\Form\\\\Type\\\\WorkerType\\:\\:getPreferredOperands\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Form/Type/WorkerType.php
+
+		-
+			message: "#^Call to function is_subclass_of\\(\\) with 'App\\\\\\\\Form\\\\\\\\Model\\\\\\\\Model' and string will always evaluate to true\\.$#"
+			count: 1
+			path: src/Form/TypeGuesser/EntityModelTypeGuesser.php
+
+		-
+			message: "#^Variable method call on Symfony\\\\Bridge\\\\Doctrine\\\\Form\\\\DoctrineOrmTypeGuesser\\.$#"
+			count: 1
+			path: src/Form/TypeGuesser/EntityModelTypeGuesser.php
+
+		-
+			message: "#^Method App\\\\Manager\\\\PartManager\\:\\:inOrders\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Manager/PartManager.php
+
+		-
+			message: "#^Method App\\\\Manager\\\\StockpileManager\\:\\:actualize\\(\\) has parameter \\$values with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Manager/StockpileManager.php
+
+		-
+			message: "#^Method App\\\\Model\\\\DeficitPart\\:\\:__construct\\(\\) has parameter \\$orders with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Model/DeficitPart.php
+
+		-
+			message: "#^Method App\\\\Request\\\\EntityTransformer\\:\\:transform\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Request/EntityTransformer.php
+
+		-
+			message: "#^Method App\\\\Request\\\\EntityTransformerArgumentValueResolver\\:\\:resolve\\(\\) return type has no value type specified in iterable type Generator\\.$#"
+			count: 1
+			path: src/Request/EntityTransformerArgumentValueResolver.php
+
+		-
+			message: "#^Method App\\\\Router\\\\ListeningRouterDecorator\\:\\:generate\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Router/ListeningRouterDecorator.php
+
+		-
+			message: "#^Method App\\\\Router\\\\ListeningRouterDecorator\\:\\:match\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Router/ListeningRouterDecorator.php
+
+		-
+			message: "#^Method App\\\\Router\\\\ListeningRouterDecorator\\:\\:matchRequest\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Router/ListeningRouterDecorator.php
+
+		-
+			message: "#^Method App\\\\Router\\\\PartExplorerRouteRefererListener\\:\\:onRouterPreGenerate\\(\\) has parameter \\$event with no value type specified in iterable type Symfony\\\\Component\\\\EventDispatcher\\\\GenericEvent\\.$#"
+			count: 1
+			path: src/Router/PartExplorerRouteRefererListener.php
+
+		-
+			message: "#^Method App\\\\Serializer\\\\MoneyNormalizer\\:\\:normalize\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Serializer/MoneyNormalizer.php
+
+		-
+			message: "#^Method App\\\\Tenant\\\\ConnectionSwitcher\\:\\:setParams\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Tenant/ConnectionSwitcher.php
+
+		-
+			message: "#^Property App\\\\Tenant\\\\EventListener\\\\TenantRelationListener\\:\\:\\$map type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Tenant/EventListener/TenantRelationListener.php
+
+		-
+			message: "#^Method App\\\\Tenant\\\\EventListener\\\\TenantRelationListener\\:\\:__construct\\(\\) has parameter \\$map with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Tenant/EventListener/TenantRelationListener.php
+
+		-
+			message: "#^Call to method Symfony\\\\Component\\\\Console\\\\Input\\\\InputInterface\\:\\:hasOption\\(\\) with 'connection'\\|'db'\\|'em' will always evaluate to true\\.$#"
+			count: 1
+			path: src/Tenant/EventListener/TenantStateListener.php
+
+		-
+			message: "#^Method App\\\\Tenant\\\\EventListener\\\\TenantStateListener\\:\\:onRouterPreGenerate\\(\\) has parameter \\$event with no value type specified in iterable type Symfony\\\\Component\\\\EventDispatcher\\\\GenericEvent\\.$#"
+			count: 1
+			path: src/Tenant/EventListener/TenantStateListener.php
+
+		-
+			message: "#^Call to function assert\\(\\) with true will always evaluate to true\\.$#"
+			count: 1
+			path: src/Tenant/MetadataCompilerPass.php
+
+		-
+			message: "#^Instanceof between Doctrine\\\\Bundle\\\\DoctrineBundle\\\\Registry and Symfony\\\\Bridge\\\\Doctrine\\\\ManagerRegistry will always evaluate to true\\.$#"
+			count: 1
+			path: src/Tenant/MetadataCompilerPass.php
+
+		-
+			message: "#^Property App\\\\Tenant\\\\Tenant\\:\\:\\$identifier type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Tenant/Tenant.php
+
+		-
+			message: "#^Property App\\\\Tenant\\\\Tenant\\:\\:\\$displayName type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Tenant/Tenant.php
+
+		-
+			message: "#^Property App\\\\Tenant\\\\Tenant\\:\\:\\$requisites type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Tenant/Tenant.php
+
+		-
+			message: "#^Method App\\\\Tenant\\\\Tenant\\:\\:getRequisites\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Tenant/Tenant.php
+
+		-
+			message: "#^Method App\\\\Twig\\\\Extension\\\\AppExtension\\:\\:toQuery\\(\\) has parameter \\$entity with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Twig/Extension/AppExtension.php
+
+		-
+			message: "#^Method App\\\\Twig\\\\Extension\\\\AppExtension\\:\\:toQuery\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Twig/Extension/AppExtension.php
+
+		-
+			message: "#^Property App\\\\User\\\\Entity\\\\User\\:\\:\\$roles type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/User/Entity/User.php
+
+		-
+			message: "#^Method App\\\\User\\\\Entity\\\\User\\:\\:__construct\\(\\) has parameter \\$roles with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/User/Entity/User.php
+
+		-
+			message: "#^Method App\\\\User\\\\Entity\\\\User\\:\\:setRoles\\(\\) has parameter \\$roles with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/User/Entity/User.php
+
+		-
+			message: "#^Property App\\\\User\\\\Entity\\\\UserCredentials\\:\\:\\$payloads type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/User/Entity/UserCredentials.php
+
+		-
+			message: "#^Method App\\\\User\\\\Entity\\\\UserCredentials\\:\\:__construct\\(\\) has parameter \\$payloads with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/User/Entity/UserCredentials.php
+
+		-
+			message: "#^Method App\\\\User\\\\Entity\\\\UserCredentials\\:\\:getPayloads\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/User/Entity/UserCredentials.php
+
+		-
+			message: "#^Method App\\\\User\\\\Fixtures\\\\UserFixtures\\:\\:users\\(\\) return type has no value type specified in iterable type Generator\\.$#"
+			count: 1
+			path: src/User/Fixtures/UserFixtures.php
+
+		-
+			message: "#^Method App\\\\Tests\\\\Calendar\\\\StreamCollectionTest\\:\\:validData\\(\\) return type has no value type specified in iterable type Generator\\.$#"
+			count: 1
+			path: tests/Calendar/StreamCollectionTest.php
+
+		-
+			message: "#^Method App\\\\Tests\\\\Calendar\\\\StreamTest\\:\\:validData\\(\\) return type has no value type specified in iterable type Generator\\.$#"
+			count: 1
+			path: tests/Calendar/StreamTest.php
+
+		-
+			message: "#^Method App\\\\Tests\\\\Calendar\\\\StreamTest\\:\\:overflowData\\(\\) return type has no value type specified in iterable type Generator\\.$#"
+			count: 1
+			path: tests/Calendar/StreamTest.php
+
+		-
+			message: "#^Method App\\\\Tests\\\\SmokeTest\\:\\:anonymousPages\\(\\) return type has no value type specified in iterable type Generator\\.$#"
+			count: 1
+			path: tests/SmokeTest.php
+
+		-
+			message: "#^Method App\\\\Tests\\\\SmokeTest\\:\\:easyadmin\\(\\) return type has no value type specified in iterable type Generator\\.$#"
+			count: 1
+			path: tests/SmokeTest.php
+
+		-
+			message: "#^Method App\\\\Tests\\\\SmokeTest\\:\\:admin\\(\\) return type has no value type specified in iterable type Generator\\.$#"
+			count: 1
+			path: tests/SmokeTest.php
+

@@ -122,6 +122,10 @@ phpstan: APP_ENV=test
 phpstan: APP_DEBUG=1
 phpstan: cache
 	$(APP) phpstan analyse --configuration phpstan.neon $(if $(DEBUG),--debug -vvv)
+phpstan-baseline: APP_ENV=test
+phpstan-baseline: APP_DEBUG=1
+phpstan-baseline: cache
+	$(APP) phpstan analyse --configuration phpstan.neon --generate-baseline
 
 phpunit: APP_ENV=test
 phpunit: APP_DEBUG=1
@@ -135,8 +139,11 @@ paratest:
 requirements: APP_ENV=prod
 requirements:
 	$(APP) requirements-checker
+
 psalm:
 	$(APP) psalm --show-info=false
+psalm-baseline:
+	$(APP) psalm --update-baseline --set-baseline=psalm-baseline.xml
 
 doctrine-ensure-production-settings: APP_ENV=prod
 doctrine-ensure-production-settings: APP_DEBUG=0

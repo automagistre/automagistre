@@ -4,6 +4,7 @@ includes:
     - vendor/phpstan/phpstan-strict-rules/rules.neon
     - vendor/phpstan/phpstan-symfony/extension.neon
     - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+    - phpstan-baseline.neon
 
 parameters:
     level: 7
@@ -13,14 +14,5 @@ parameters:
     excludes_analyse:
         - %rootDir%/../../../src/Command/TestCommand.php
         - %rootDir%/../../../src/Controller/TestController.php
-        - %rootDir%/../../../src/Tenant/MetadataCompilerPass.php
-        - %rootDir%/../../../src/Form/TypeGuesser/EntityModelTypeGuesser.php
-    ignoreErrors:
-        - '#should be contravariant with parameter#'
-        - "#connection'|'db'|'em' will always evaluate to true#"
-        - "#no value type specified in iterable type#"
-        - "#with mixed will always evaluate to false#"
-        - "#Unable to resolve the template type T in call to method#"
-        - "#FormView, array given#"
     symfony:
         container_xml_path: %rootDir%/../../../var/cache/test/App_KernelTestDebugContainer.xml
