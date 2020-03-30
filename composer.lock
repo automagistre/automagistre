@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dfb1060d642749e2a58eee21df396e51",
+    "content-hash": "0799d71991fda4eec220596bff0c8235",
     "packages": [
         {
             "name": "antishov/doctrine-extensions-bundle",
@@ -12714,16 +12714,16 @@
         },
         {
             "name": "weirdan/doctrine-psalm-plugin",
-            "version": "0.10.0",
+            "version": "0.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/weirdan/doctrine-psalm-plugin.git",
-                "reference": "2622bfa464eaab1b32e3d353d9c7cf7c05bfe7ff"
+                "reference": "229a38f68991551bef48d5262b4d2ae2dd5785ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/weirdan/doctrine-psalm-plugin/zipball/2622bfa464eaab1b32e3d353d9c7cf7c05bfe7ff",
-                "reference": "2622bfa464eaab1b32e3d353d9c7cf7c05bfe7ff",
+                "url": "https://api.github.com/repos/weirdan/doctrine-psalm-plugin/zipball/229a38f68991551bef48d5262b4d2ae2dd5785ab",
+                "reference": "229a38f68991551bef48d5262b4d2ae2dd5785ab",
                 "shasum": ""
             },
             "require": {
@@ -12783,7 +12783,7 @@
                 "static analysis",
                 "static-analysis"
             ],
-            "time": "2020-02-26T23:54:26+00:00"
+            "time": "2020-03-29T21:14:00+00:00"
         }
     ],
     "aliases": [],
