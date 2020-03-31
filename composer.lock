@@ -1715,16 +1715,16 @@
         },
         {
             "name": "endroid/installer",
-            "version": "1.1.6",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/endroid/installer.git",
-                "reference": "2014fd3ee358dda50700e392d0b1ed78631a1264"
+                "reference": "bbfc52152f6b96c6dbcb1d3f6e10c97e71057751"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endroid/installer/zipball/2014fd3ee358dda50700e392d0b1ed78631a1264",
-                "reference": "2014fd3ee358dda50700e392d0b1ed78631a1264",
+                "url": "https://api.github.com/repos/endroid/installer/zipball/bbfc52152f6b96c6dbcb1d3f6e10c97e71057751",
+                "reference": "bbfc52152f6b96c6dbcb1d3f6e10c97e71057751",
                 "shasum": ""
             },
             "require": {
@@ -1734,6 +1734,10 @@
             "require-dev": {
                 "composer/composer": "^1.8",
                 "endroid/test": "dev-master"
+            },
+            "suggest": {
+                "roave/security-advisories": "Avoids installation of package versions with vulnerabilities",
+                "symfony/security-checker": "Checks your composer.lock for vulnerabilities"
             },
             "type": "composer-plugin",
             "extra": {
@@ -1757,7 +1761,7 @@
                     "email": "info@endroid.nl"
                 }
             ],
-            "time": "2019-11-06T09:09:16+00:00"
+            "time": "2020-03-31T13:13:21+00:00"
         },
         {
             "name": "endroid/qr-code",
