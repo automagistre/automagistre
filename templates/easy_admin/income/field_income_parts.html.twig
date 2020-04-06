@@ -21,11 +21,11 @@
         {% for incomePart in value %}
             {% set trClass = null %}
             {% if incomePart.part.price.positive() %}
-                {% set ratio = incomePart.price.ratioOf(incomePart.part.price) %}
-                {% if ratio >= 1.1 and ratio < 1.25 %}
-                    {% set trClass = 'warning' %}
-                {% elseif ratio >= 1.25 %}
+                {% set markup = incomePart.part.price.ratioOf(incomePart.price) %}
+                {% if markup <= 1.1 %}
                     {% set trClass = 'danger' %}
+                {% elseif markup <= 1.25 %}
+                    {% set trClass = 'warning' %}
                 {% endif %}
             {% endif %}
 
