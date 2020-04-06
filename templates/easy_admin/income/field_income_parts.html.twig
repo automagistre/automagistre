@@ -19,6 +19,7 @@
         </thead>
         <tbody>
         {% for incomePart in value %}
+            {% set trClass = null %}
             {% if incomePart.part.price.positive() %}
                 {% set ratio = incomePart.price.ratioOf(incomePart.part.price) %}
                 {% if ratio >= 1.1 and ratio < 1.25 %}
@@ -28,7 +29,7 @@
                 {% endif %}
             {% endif %}
 
-            <tr{% if trClass is defined %} class="{{ trClass }}"{% endif %}>
+            <tr{% if trClass is not empty %} class="{{ trClass }}"{% endif %}>
                 <td>{{ loop.index }}</td>
                 <td>{% include 'easy_admin/field_part.html.twig' with {'value': incomePart.part} only %}</td>
                 <td>{{ incomePart.price|localize_money }}</td>
