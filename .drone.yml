@@ -81,6 +81,22 @@ steps:
         depends_on:
             - install
 
+    -   name: php-cs-fixer fix
+        image: automagistre/app:base
+        commands:
+            - \[ "$DRONE_COMMIT_AUTHOR" = "dependabot-preview[bot]" ] || exit 78
+            - vendor/bin/php-cs-fixer fix --using-cache=no
+            - git add *.php
+            - git commit --amend
+            - git push --force-with-lease
+        when:
+            branch:
+                exclude: [ master ]
+            status:
+                - failure
+        depends_on:
+            - php-cs-fixer
+
     -   name: blank end line
         image: automagistre/app:base
         commands:
