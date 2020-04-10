@@ -11,14 +11,8 @@ use Twig\TwigFunction;
 
 final class OrderExtension extends AbstractExtension
 {
-    /**
-     * @var Registry
-     */
     private Registry $registry;
 
-    /**
-     * @var State
-     */
     private State $state;
 
     public function __construct(Registry $registry, State $state)
