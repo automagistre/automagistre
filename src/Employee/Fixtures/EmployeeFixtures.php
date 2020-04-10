@@ -16,9 +16,6 @@ use Doctrine\Persistence\ObjectManager;
 
 final class EmployeeFixtures extends Fixture implements FixtureGroupInterface
 {
-    /**
-     * @var Registry
-     */
     private Registry $registry;
 
     public function __construct(Registry $registry)

@@ -15,9 +15,6 @@ use Doctrine\ORM\Query\Expr\Join;
 
 final class DoctrineStreamer implements Streamer
 {
-    /**
-     * @var Registry
-     */
     private Registry $registry;
 
     public function __construct(Registry $registry)
