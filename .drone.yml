@@ -85,9 +85,10 @@ steps:
         image: automagistre/app:base
         commands:
             - \[ "$DRONE_COMMIT_AUTHOR" = "dependabot-preview[bot]" ] || exit 78
+            - git pull --unshallow origin ${DRONE_BRANCH}
             - vendor/bin/php-cs-fixer fix --using-cache=no
             - git add *.php
-            - git commit --amend
+            - git commit --amend -m "`git log -1 --pretty=%B`"
             - git push --force-with-lease
         when:
             branch:
