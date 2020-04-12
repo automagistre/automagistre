@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="3.10.1@eeed5ecccc10131397f0eb7ee6da810c0be3a7fc">
+  <file src="src/ArgumentResolver/ArgumentResolver.php">
+    <PossiblyFalseArgument occurrences="1">
+      <code>get_class($representative[0])</code>
+    </PossiblyFalseArgument>
+    <PossiblyInvalidArgument occurrences="1">
+      <code>$representative[0]</code>
+    </PossiblyInvalidArgument>
+  </file>
   <file src="src/Calendar/Ports/EasyAdmin/CalendarEntryController.php">
     <PossiblyNullArgument occurrences="6">
       <code>$dto-&gt;date</code>
@@ -459,6 +467,17 @@
     <PropertyNotSetInConstructor occurrences="1">
       <code>IncomePartFixtures</code>
     </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/JSONRPC/EndpointAction.php">
+    <PossiblyInvalidArgument occurrences="1">
+      <code>$request-&gt;getContent()</code>
+    </PossiblyInvalidArgument>
+  </file>
+  <file src="src/JSONRPC/ValidationException.php">
+    <TooManyTemplateParams occurrences="2">
+      <code>ConstraintViolationListInterface</code>
+      <code>ConstraintViolationListInterface&lt;ConstraintViolationInterface&gt;</code>
+    </TooManyTemplateParams>
   </file>
   <file src="src/Manager/DeficitManager.php">
     <InvalidNullableReturnType occurrences="1">

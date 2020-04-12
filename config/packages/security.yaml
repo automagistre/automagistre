@@ -26,8 +26,14 @@ security:
                 check_path: admin_login_check
                 login_path: admin_login
 
+        api:
+            pattern: ^/api/jsonrpc$
+            stateless: true
+            anonymous: true
+
     access_control:
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/jsonrpc, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_EMPLOYEE }
 
     role_hierarchy:

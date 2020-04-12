@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        public: false
+        autowire: true
+        autoconfigure: true
+
+    App\ArgumentResolver\ArgumentResolver:
+        arguments:
+            $argumentValueResolvers: !tagged_iterator
+                tag: 'app.argument_value_resolver'
+                index_by: 'priority'
+
+    App\ArgumentResolver\ArgumentResolverInterface: '@App\ArgumentResolver\ArgumentResolver'

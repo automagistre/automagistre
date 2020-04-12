@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        public: false
+        autowire: true
+        autoconfigure: true
+
+    Datto\JsonRpc\Server:
+        arguments:
+            - '@App\JSONRPC\ApiEvaluator'

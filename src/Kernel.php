@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\JSONRPC\Test\JsonRPCClient;
 use App\Tenant\MetadataCompilerPass;
 use function assert;
 use function class_exists;
@@ -15,13 +16,14 @@ use function is_subclass_of;
 use function sprintf;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel as SymfonyKernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 
-final class Kernel extends SymfonyKernel
+final class Kernel extends SymfonyKernel implements CompilerPassInterface
 {
     use MicroKernelTrait;
 
@@ -66,6 +68,16 @@ final class Kernel extends SymfonyKernel
     /**
      * {@inheritdoc}
      */
+    public function process(ContainerBuilder $container): void
+    {
+        if ('test' === $this->environment) {
+            $container->getDefinition('test.client')->setClass(JsonRPCClient::class);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new MetadataCompilerPass(), PassConfig::TYPE_OPTIMIZE);
@@ -82,6 +94,10 @@ final class Kernel extends SymfonyKernel
             $routes->import($confDir.'/routes/'.$this->environment.'/**/*'.self::CONFIG_EXTS, '/', 'glob');
         }
         $routes->import($confDir.'/routes'.self::CONFIG_EXTS, '/', 'glob');
+
+        $projectDir = $this->getProjectDir();
+        $routes->import($projectDir.'/src/*/routes'.self::CONFIG_EXTS, '/', 'glob');
+        $routes->import($projectDir.'/src/*/routes_'.$this->environment.self::CONFIG_EXTS, '/', 'glob');
     }
 
     /**

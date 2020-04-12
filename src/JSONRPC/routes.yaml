@@ -1,0 +1,5 @@
+jsonrpc:
+    resource: 'EndpointAction.php'
+    type: annotation
+    prefix: /api/jsonrpc
+    trailing_slash_on_root: false
