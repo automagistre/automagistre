@@ -16,3 +16,4 @@ parameters:
         - %rootDir%/../../../src/Controller/TestController.php
     symfony:
         container_xml_path: %rootDir%/../../../var/cache/test/App_KernelTestDebugContainer.xml
+    checkMissingIterableValueType: false
