@@ -91,10 +91,13 @@ steps:
             - git commit --amend -m "`git log -1 --pretty=%B`"
             - git remote set-url origin ${DRONE_GIT_SSH_URL}
             - mkdir -p ~/.ssh -m 700
-            - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+            - echo "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
             - echo "$GIT_SSH_KEY" > ~/.ssh/id_rsa
             - chmod 600 ~/.ssh/id_rsa
-            - git push --force-with-lease origin/${DRONE_BRANCH}
+            - git push --force-with-lease origin ${DRONE_COMMIT_REF}
+        environment:
+            GIT_SSH_KEY:
+                from_secret: GIT_SSH_KEY
         when:
             branch:
                 exclude: [ master ]
