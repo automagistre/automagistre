@@ -28,10 +28,10 @@ final class ModelListQuery
     /**
      * @var Paging
      *
-     * @Assert\NotBlank()
-     * @Assert\Valid()
+     * @Assert\NotBlank
+     * @Assert\Valid
      */
-    public Paging $paging;
+    public $paging;
 
     public function __construct()
     {

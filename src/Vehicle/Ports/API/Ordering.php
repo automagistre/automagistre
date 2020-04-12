@@ -12,15 +12,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class Ordering
 {
     /**
-     * @Assert\NotBlank()
+     * @var string
+     *
+     * @Assert\NotBlank
      */
-    public string $field;
+    public $field;
 
     /**
+     * @var string
+     *
      * @Assert\Choice(choices={"asc", "desc"})
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      */
-    public string $direction;
+    public $direction;
 
     private function __construct(string $field, string $direction)
     {
