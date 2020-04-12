@@ -39,7 +39,7 @@ final class ModelList
             ->addSelect('\'\' AS img')
             ->from('car_model', 't');
 
-        foreach ($query->filters as $filter) {
+        foreach ($query->filtering as $filter) {
             [$format, $value] = is_array($filter->value)
                 ? ['t.%s %s (:%s)', implode(',', $filter->value)]
                 : ['t.%s %s :%s', $filter->value];
@@ -50,7 +50,7 @@ final class ModelList
                 ->setParameter($field, $value);
         }
 
-        foreach ($query->orderings as $orderBy) {
+        foreach ($query->ordering as $orderBy) {
             $qb->addOrderBy($orderBy->field, $orderBy->direction);
         }
 

@@ -16,14 +16,14 @@ final class ModelListQuery
      *
      * @Assert\Valid()
      */
-    public array $filters = [];
+    public array $filtering = [];
 
     /**
      * @var Ordering[]
      *
      * @Assert\Valid()
      */
-    public array $orderings = [];
+    public array $ordering = [];
 
     /**
      * @var Paging

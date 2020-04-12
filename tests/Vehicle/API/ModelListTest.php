@@ -33,7 +33,7 @@ final class ModelListTest extends JsonRPCTestCase
             [
             ],
             [
-                'result' => [
+                'results' => [
                     [
                         'id' => 1,
                         'manufacturerId' => 1,
@@ -75,12 +75,12 @@ final class ModelListTest extends JsonRPCTestCase
 
         yield 'IN' => [
             [
-                'filters' => [
+                'filtering' => [
                     ['field' => 'id', 'comparison' => 'IN', 'value' => ['1']],
                 ],
             ],
             [
-                'result' => [
+                'results' => [
                     [
                         'id' => 1,
                         'manufacturerId' => 1,
@@ -103,7 +103,7 @@ final class ModelListTest extends JsonRPCTestCase
                 'paging' => ['page' => 3, 'size' => 1],
             ],
             [
-                'result' => [
+                'results' => [
                     [
                         'id' => 3,
                         'manufacturerId' => 1,
@@ -123,12 +123,12 @@ final class ModelListTest extends JsonRPCTestCase
 
         yield 'EQ' => [
             [
-                'filters' => [
+                'filtering' => [
                     ['field' => 'name', 'comparison' => '=', 'value' => 'Primera'],
                 ],
             ],
             [
-                'result' => [
+                'results' => [
                     0 => [
                         'id' => 2,
                         'manufacturerId' => 1,
@@ -148,12 +148,12 @@ final class ModelListTest extends JsonRPCTestCase
 
         yield 'NOT IN' => [
             [
-                'filters' => [
+                'filtering' => [
                     ['field' => 'manufacturerId', 'comparison' => 'NOT IN', 'value' => ['1']],
                 ],
             ],
             [
-                'result' => [],
+                'results' => [],
                 'count' => 0,
                 'paging' => ['page' => 1, 'size' => 50],
             ],

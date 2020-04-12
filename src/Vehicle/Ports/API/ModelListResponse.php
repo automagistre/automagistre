@@ -18,7 +18,7 @@ final class ModelListResponse
     public function toArray(): array
     {
         return [
-            'result' => $this->pager->getCurrentPageResults(),
+            'results' => $this->pager->getCurrentPageResults(),
             'count' => $this->pager->count(),
             'paging' => [
                 'page' => $this->pager->getCurrentPage(),
