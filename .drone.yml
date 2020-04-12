@@ -89,7 +89,12 @@ steps:
             - vendor/bin/php-cs-fixer fix --using-cache=no
             - git add *.php
             - git commit --amend -m "`git log -1 --pretty=%B`"
-            - git push --force-with-lease
+            - git remote set-url origin ${DRONE_GIT_SSH_URL}
+            - mkdir -p ~/.ssh -m 700
+            - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+            - echo "$GIT_SSH_KEY" > ~/.ssh/id_rsa
+            - chmod 600 ~/.ssh/id_rsa
+            - git push --force-with-lease origin/${DRONE_BRANCH}
         when:
             branch:
                 exclude: [ master ]
