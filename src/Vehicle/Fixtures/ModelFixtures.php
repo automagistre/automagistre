@@ -12,6 +12,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Generator;
 
 final class ModelFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
 {
@@ -38,16 +39,26 @@ final class ModelFixtures extends Fixture implements FixtureGroupInterface, Depe
      */
     public function load(ObjectManager $manager): void
     {
-        $manufacturer = $this->getReference('manufacturer-1');
-        assert($manufacturer instanceof Manufacturer);
+        foreach ($this->generate() as [$manRef, $ref, $name]) {
+            $manufacturer = $this->getReference($manRef);
+            assert($manufacturer instanceof Manufacturer);
 
-        $model = new Model();
-        $model->name = 'GTR';
-        $model->manufacturer = $manufacturer;
+            $model = new Model();
+            $model->name = $name;
+            $model->manufacturer = $manufacturer;
 
-        $this->addReference('model-1', $model);
+            $this->addReference($ref, $model);
 
-        $manager->persist($model);
+            $manager->persist($model);
+        }
+
         $manager->flush();
+    }
+
+    public function generate(): Generator
+    {
+        yield ['manufacturer-1', 'model-1', 'GTR'];
+        yield ['manufacturer-1', 'model-2', 'Primera'];
+        yield ['manufacturer-1', 'model-3', 'Qashqai'];
     }
 }
