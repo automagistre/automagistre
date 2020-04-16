@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="3.10.1@eeed5ecccc10131397f0eb7ee6da810c0be3a7fc">
+<files psalm-version="3.11.2@d470903722cfcbc1cd04744c5491d3e6d13ec3d9">
   <file src="src/ArgumentResolver/ArgumentResolver.php">
     <PossiblyFalseArgument occurrences="1">
       <code>get_class($representative[0])</code>
@@ -305,6 +305,11 @@
       <code>$class</code>
     </PropertyNotSetInConstructor>
   </file>
+  <file src="src/Doctrine/Registry.php">
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>assert($entityRepository instanceof EntityRepository)</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
   <file src="src/EasyAdmin/Notify/BalanceNotificationListener.php">
     <PossiblyFalseArgument occurrences="1">
       <code>json_encode($data, JSON_THROW_ON_ERROR)</code>
@@ -451,6 +456,11 @@
   <file src="src/Form/Transformer/DivisoredNumberToLocalizedStringTransformer.php">
     <PossiblyNullArgument occurrences="1">
       <code>preg_replace('/\s/', '', $value)</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/Form/Type/OrderItemParentType.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$currentItem</code>
     </PossiblyNullArgument>
   </file>
   <file src="src/Form/Type/WorkerType.php">
