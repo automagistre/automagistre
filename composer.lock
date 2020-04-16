@@ -13059,16 +13059,16 @@
         },
         {
             "name": "weirdan/doctrine-psalm-plugin",
-            "version": "0.11.0",
+            "version": "0.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/weirdan/doctrine-psalm-plugin.git",
-                "reference": "229a38f68991551bef48d5262b4d2ae2dd5785ab"
+                "reference": "8bd1fba0e2156be4b4738dfa195f705b499d3bdc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/weirdan/doctrine-psalm-plugin/zipball/229a38f68991551bef48d5262b4d2ae2dd5785ab",
-                "reference": "229a38f68991551bef48d5262b4d2ae2dd5785ab",
+                "url": "https://api.github.com/repos/weirdan/doctrine-psalm-plugin/zipball/8bd1fba0e2156be4b4738dfa195f705b499d3bdc",
+                "reference": "8bd1fba0e2156be4b4738dfa195f705b499d3bdc",
                 "shasum": ""
             },
             "require": {
@@ -13081,13 +13081,13 @@
                 "slevomat/coding-standard": "6.1.1"
             },
             "require-dev": {
-                "codeception/base": "^2.5 || ^3.0",
+                "codeception/codeception": "^4.0",
                 "composer/semver": "^1.4",
                 "doctrine/coding-standard": "^7.0",
                 "doctrine/doctrine-bundle": "^1.11",
                 "phly/keep-a-changelog": "^2.1",
                 "squizlabs/php_codesniffer": "^3.3",
-                "weirdan/codeception-psalm-module": "^0.2.2"
+                "weirdan/codeception-psalm-module": "^0.6"
             },
             "type": "psalm-plugin",
             "extra": {
@@ -13128,7 +13128,7 @@
                 "static analysis",
                 "static-analysis"
             ],
-            "time": "2020-03-29T21:14:00+00:00"
+            "time": "2020-04-16T11:04:26+00:00"
         }
     ],
     "aliases": [],
