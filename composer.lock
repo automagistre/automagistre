@@ -11453,16 +11453,16 @@
         },
         {
             "name": "phpunit/php-timer",
-            "version": "3.1.0",
+            "version": "3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-timer.git",
-                "reference": "7b620d643aabeb9d84f59b6fa9227b810cbea7af"
+                "reference": "5fb3c5a73acbb1e19907bd37c15e686f468bf63d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/7b620d643aabeb9d84f59b6fa9227b810cbea7af",
-                "reference": "7b620d643aabeb9d84f59b6fa9227b810cbea7af",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/5fb3c5a73acbb1e19907bd37c15e686f468bf63d",
+                "reference": "5fb3c5a73acbb1e19907bd37c15e686f468bf63d",
                 "shasum": ""
             },
             "require": {
@@ -11498,7 +11498,7 @@
             "keywords": [
                 "timer"
             ],
-            "time": "2020-04-17T11:33:08+00:00"
+            "time": "2020-04-17T13:40:28+00:00"
         },
         {
             "name": "phpunit/php-token-stream",
