@@ -39,13 +39,12 @@ class Review
     public string $content;
 
     /**
-     * @Assert\Url
      * @Assert\NotBlank
      * @Assert\Length(max=255)
      *
      * @ORM\Column
      */
-    public string $url;
+    public string $source;
 
     /**
      * @ORM\Column(type="datetime_immutable")
@@ -64,7 +63,7 @@ class Review
         $this->manufacturer = $manufacturer;
         $this->model = $model;
         $this->content = $content;
-        $this->url = $url;
+        $this->source = $url;
         $this->publishAt = $publishAt;
     }
 }
