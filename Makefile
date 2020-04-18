@@ -36,18 +36,18 @@ endef
 notify = $(DEBUG_ECHO) notify-send --urgency=low --expire-time=50 "Success!" "make $@"
 
 contrib:
-	@cp -n -r contrib/.env contrib/* ./ || true
+	$(DEBUG_ECHO) @cp -n -r contrib/.env contrib/* ./ || true
 
 docker-hosts-updater:
-	docker pull grachev/docker-hosts-updater
-	docker rm -f docker-hosts-updater || true
-	docker run -d --restart=always --name docker-hosts-updater -v /var/run/docker.sock:/var/run/docker.sock -v /etc/hosts:/opt/hosts grachev/docker-hosts-updater
+	$(DEBUG_ECHO) docker pull grachev/docker-hosts-updater
+	$(DEBUG_ECHO) docker rm -f docker-hosts-updater || true
+	$(DEBUG_ECHO) docker run -d --restart=always --name docker-hosts-updater -v /var/run/docker.sock:/var/run/docker.sock -v /etc/hosts:/opt/hosts grachev/docker-hosts-updater
 
 ###> ALIASES ###
 pull:
-	docker-compose pull
+	$(DEBUG_ECHO) docker-compose pull
 do-up: contrib pull composer permissions
-	docker-compose up --detach --remove-orphans --no-build
+	$(DEBUG_ECHO) docker-compose up --detach --remove-orphans --no-build
 up: do-up
 	@$(notify)
 latest: do-up backup-latest
@@ -55,7 +55,7 @@ latest: do-up backup-latest
 cli: app-cli
 
 down:
-	docker-compose down -v --remove-orphans
+	$(DEBUG_ECHO) docker-compose down -v --remove-orphans
 ###< ALIASES ###
 
 ###> APP ###
