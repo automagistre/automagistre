@@ -682,7 +682,7 @@ easy_admin:
                     - { property: 'manufacturer', label: 'Производитель автомобиля' }
                     - { property: 'model', label: 'Модель автомобиля' }
                     - { property: 'content', label: 'Отзыв' }
-                    - { property: 'url', label: 'Ссылка на источник' }
+                    - { property: 'source', label: 'Источник' }
                     - { property: 'publishAt', label: 'Когда обудликова' }
             form:
                 fields:
@@ -690,7 +690,7 @@ easy_admin:
                     - { property: 'manufacturer', label: 'Производитель автомобиля' }
                     - { property: 'model', label: 'Модель автомобиля' }
                     - { property: 'content', label: 'Отзыв' }
-                    - { property: 'url', label: 'Ссылка на источник' }
+                    - { property: 'source', label: 'Источник' }
                     - { property: 'publishAt', label: 'Когда обудликова', type: 'date_immutable', type_options: { input: 'datetime_immutable' } }
             new:
                 title: 'Создать новый Отзыв'

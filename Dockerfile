@@ -48,7 +48,8 @@ RUN set -ex \
     && composer global require "hirak/prestissimo:^0.3"
 
 ENV WAIT_FOR_IT /usr/local/bin/wait-for-it.sh
-RUN curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh -o ${WAIT_FOR_IT} \
+RUN set -ex \
+    && curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh -o ${WAIT_FOR_IT} \
     && chmod +x ${WAIT_FOR_IT}
 
 COPY composer.json composer.lock ${APP_DIR}/
