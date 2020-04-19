@@ -15,6 +15,7 @@ final class Ordering
      * @var string
      *
      * @Assert\NotBlank
+     * @Assert\Choice({"id", "name", "localized_name"})
      */
     public $field;
 

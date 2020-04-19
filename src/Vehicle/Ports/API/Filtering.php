@@ -15,6 +15,7 @@ final class Filtering
      * @var string
      *
      * @Assert\NotBlank
+     * @Assert\Choice({"id", "name", "manufacturerId"})
      */
     public $field;
 
