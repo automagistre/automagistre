@@ -9738,16 +9738,16 @@
     "packages-dev": [
         {
             "name": "amphp/amp",
-            "version": "v2.4.2",
+            "version": "v2.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amphp/amp.git",
-                "reference": "feca077369a47263b22156b3c6389e55f3809f24"
+                "reference": "23ac95fc6d6973231763f5ed7d1309b39429b974"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amphp/amp/zipball/feca077369a47263b22156b3c6389e55f3809f24",
-                "reference": "feca077369a47263b22156b3c6389e55f3809f24",
+                "url": "https://api.github.com/repos/amphp/amp/zipball/23ac95fc6d6973231763f5ed7d1309b39429b974",
+                "reference": "23ac95fc6d6973231763f5ed7d1309b39429b974",
                 "shasum": ""
             },
             "require": {
@@ -9760,7 +9760,7 @@
                 "jetbrains/phpstorm-stubs": "^2019.3",
                 "phpunit/phpunit": "^6.0.9 | ^7",
                 "react/promise": "^2",
-                "vimeo/psalm": "^3.9@dev"
+                "vimeo/psalm": "^3.11@dev"
             },
             "type": "library",
             "extra": {
@@ -9812,7 +9812,7 @@
                 "non-blocking",
                 "promise"
             ],
-            "time": "2020-04-04T15:05:26+00:00"
+            "time": "2020-04-19T15:54:21+00:00"
         },
         {
             "name": "amphp/byte-stream",
