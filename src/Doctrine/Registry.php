@@ -7,6 +7,7 @@ namespace App\Doctrine;
 use function assert;
 use function class_exists;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
@@ -25,6 +26,14 @@ final class Registry
     public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;
+    }
+
+    /**
+     * @psalm-param class-string $class
+     */
+    public function connection(string $class): Connection
+    {
+        return $this->manager($class)->getConnection();
     }
 
     /**
