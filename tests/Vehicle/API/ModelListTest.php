@@ -42,8 +42,6 @@ final class ModelListTest extends JsonRPCTestCase
                         'model' => null,
                         'yearFrom' => null,
                         'yearTill' => null,
-                        'url' => '',
-                        'img' => '',
                     ],
                     [
                         'id' => 2,
@@ -53,8 +51,6 @@ final class ModelListTest extends JsonRPCTestCase
                         'model' => null,
                         'yearFrom' => null,
                         'yearTill' => null,
-                        'url' => '',
-                        'img' => '',
                     ],
                     [
                         'id' => 3,
@@ -64,8 +60,6 @@ final class ModelListTest extends JsonRPCTestCase
                         'model' => null,
                         'yearFrom' => null,
                         'yearTill' => null,
-                        'url' => '',
-                        'img' => '',
                     ],
                 ],
                 'count' => 3,
@@ -78,6 +72,9 @@ final class ModelListTest extends JsonRPCTestCase
                 'filtering' => [
                     ['field' => 'id', 'comparison' => 'IN', 'value' => ['1']],
                 ],
+                'ordering' => [
+                    ['field' => 'name', 'direction' => 'desc'],
+                ],
             ],
             [
                 'list' => [
@@ -89,8 +86,6 @@ final class ModelListTest extends JsonRPCTestCase
                         'model' => null,
                         'yearFrom' => null,
                         'yearTill' => null,
-                        'url' => '',
-                        'img' => '',
                     ],
                 ],
                 'count' => 1,
@@ -101,6 +96,9 @@ final class ModelListTest extends JsonRPCTestCase
         yield 'Page 3 Size 1' => [
             [
                 'paging' => ['page' => 3, 'size' => 1],
+                'ordering' => [
+                    ['field' => 'id', 'direction' => 'asc'],
+                ],
             ],
             [
                 'list' => [
@@ -112,8 +110,6 @@ final class ModelListTest extends JsonRPCTestCase
                         'model' => null,
                         'yearFrom' => null,
                         'yearTill' => null,
-                        'url' => '',
-                        'img' => '',
                     ],
                 ],
                 'count' => 3,
@@ -126,6 +122,10 @@ final class ModelListTest extends JsonRPCTestCase
                 'filtering' => [
                     ['field' => 'name', 'comparison' => '=', 'value' => 'Primera'],
                 ],
+                'ordering' => [
+                    ['field' => 'name', 'direction' => 'desc'],
+                    ['field' => 'id', 'direction' => 'desc'],
+                ],
             ],
             [
                 'list' => [
@@ -137,8 +137,6 @@ final class ModelListTest extends JsonRPCTestCase
                         'model' => null,
                         'yearFrom' => null,
                         'yearTill' => null,
-                        'url' => '',
-                        'img' => '',
                     ],
                 ],
                 'count' => 1,
