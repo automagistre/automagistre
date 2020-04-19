@@ -33,7 +33,7 @@ final class ModelListTest extends JsonRPCTestCase
             [
             ],
             [
-                'results' => [
+                'list' => [
                     [
                         'id' => 1,
                         'manufacturerId' => 1,
@@ -80,7 +80,7 @@ final class ModelListTest extends JsonRPCTestCase
                 ],
             ],
             [
-                'results' => [
+                'list' => [
                     [
                         'id' => 1,
                         'manufacturerId' => 1,
@@ -103,7 +103,7 @@ final class ModelListTest extends JsonRPCTestCase
                 'paging' => ['page' => 3, 'size' => 1],
             ],
             [
-                'results' => [
+                'list' => [
                     [
                         'id' => 3,
                         'manufacturerId' => 1,
@@ -128,7 +128,7 @@ final class ModelListTest extends JsonRPCTestCase
                 ],
             ],
             [
-                'results' => [
+                'list' => [
                     0 => [
                         'id' => 2,
                         'manufacturerId' => 1,
@@ -153,7 +153,7 @@ final class ModelListTest extends JsonRPCTestCase
                 ],
             ],
             [
-                'results' => [],
+                'list' => [],
                 'count' => 0,
                 'paging' => ['page' => 1, 'size' => 50],
             ],
