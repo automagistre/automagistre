@@ -15,29 +15,25 @@ class Manufacturer
     use Identity;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="name", length=64, nullable=true)
      */
-    private $name;
+    private ?string $name;
 
     /**
-     * @var string|null
-     *
      * @ORM\Column(nullable=true)
      */
-    private $localizedName;
+    private ?string $localizedName;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="logo", length=25, nullable=true)
      */
-    private $logo;
+    private ?string $logo;
 
-    public function __construct(string $name = '')
+    public function __construct(string $name = null, string $localizedName = null, string $logo = null)
     {
         $this->name = $name;
+        $this->localizedName = $localizedName;
+        $this->logo = $logo;
     }
 
     public function __toString(): string

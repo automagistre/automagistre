@@ -57,8 +57,8 @@ final class ModelFixtures extends Fixture implements FixtureGroupInterface, Depe
 
     public function generate(): Generator
     {
-        yield ['manufacturer-1', 'model-1', 'GTR'];
-        yield ['manufacturer-1', 'model-2', 'Primera'];
-        yield ['manufacturer-1', 'model-3', 'Qashqai'];
+        yield ['Nissan', 'model-1', 'GTR'];
+        yield ['Nissan', 'model-2', 'Primera'];
+        yield ['Nissan', 'model-3', 'Qashqai'];
     }
 }

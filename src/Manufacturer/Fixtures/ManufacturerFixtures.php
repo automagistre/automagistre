@@ -8,6 +8,7 @@ use App\Manufacturer\Entity\Manufacturer;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
+use Generator;
 
 final class ManufacturerFixtures extends Fixture implements FixtureGroupInterface
 {
@@ -24,11 +25,22 @@ final class ManufacturerFixtures extends Fixture implements FixtureGroupInterfac
      */
     public function load(ObjectManager $manager): void
     {
-        $manufacturer = new Manufacturer('Nissan');
+        foreach ($this->generate() as [$name, $localizedName]) {
+            $manufacturer = new Manufacturer($name, $localizedName);
 
-        $this->addReference('manufacturer-1', $manufacturer);
+            $this->addReference($name, $manufacturer);
 
-        $manager->persist($manufacturer);
+            $manager->persist($manufacturer);
+        }
+
         $manager->flush();
+    }
+
+    private function generate(): Generator
+    {
+        yield ['Infinity', 'Инфинити'];
+        yield ['Lexus', 'Лексус'];
+        yield ['Nissan', 'Ниссан'];
+        yield ['Toyota', 'Тойота'];
     }
 }

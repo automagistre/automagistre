@@ -38,7 +38,7 @@ final class PartFixtures extends Fixture implements FixtureGroupInterface, Depen
      */
     public function load(ObjectManager $manager): void
     {
-        $manufacturer = $this->getReference('manufacturer-1');
+        $manufacturer = $this->getReference('Nissan');
         assert($manufacturer instanceof Manufacturer);
 
         $part = new Part($manufacturer, 'Part 1', 'part1number', false, null);

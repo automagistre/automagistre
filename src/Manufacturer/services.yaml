@@ -32,3 +32,13 @@ doctrine:
                         type: annotation
                         prefix: App\Manufacturer\Entity
                         dir: '%kernel.project_dir%/src/Manufacturer/Entity'
+
+services:
+    _defaults:
+        public: false
+        autowire: true
+        autoconfigure: true
+
+    App\Manufacturer\Ports\API\ManufacturerList:
+        tags:
+            - { name: jsonrpc.method, jsonrpc.method: manufacturer.list }

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Vehicle\API;
+namespace App\Tests\Manufacturer\API;
 
 use App\JSONRPC\Test\JsonRPCTestCase;
 use Generator;
 
 /**
- * @see \App\Vehicle\Ports\API\ModelList
+ * @see \App\Manufacturer\Ports\API\ManufacturerList
  */
-final class ModelListTest extends JsonRPCTestCase
+final class ManufacturerListTest extends JsonRPCTestCase
 {
     /**
      * @param mixed[] $request
@@ -22,7 +22,7 @@ final class ModelListTest extends JsonRPCTestCase
     {
         $client = self::createClient();
 
-        $rpcResponse = $client->successJsonrpc('vehicle.model.list', $request);
+        $rpcResponse = $client->successJsonrpc('manufacturer.list', $request);
 
         static::assertSame($expected, $rpcResponse->getValue());
     }
@@ -36,33 +36,26 @@ final class ModelListTest extends JsonRPCTestCase
                 'list' => [
                     [
                         'id' => 1,
-                        'manufacturerId' => 3,
-                        'name' => 'GTR',
-                        'localizedName' => null,
-                        'model' => null,
-                        'yearFrom' => null,
-                        'yearTill' => null,
+                        'name' => 'Infinity',
+                        'localizedName' => 'Инфинити',
                     ],
                     [
                         'id' => 2,
-                        'manufacturerId' => 3,
-                        'name' => 'Primera',
-                        'localizedName' => null,
-                        'model' => null,
-                        'yearFrom' => null,
-                        'yearTill' => null,
+                        'name' => 'Lexus',
+                        'localizedName' => 'Лексус',
                     ],
                     [
                         'id' => 3,
-                        'manufacturerId' => 3,
-                        'name' => 'Qashqai',
-                        'localizedName' => null,
-                        'model' => null,
-                        'yearFrom' => null,
-                        'yearTill' => null,
+                        'name' => 'Nissan',
+                        'localizedName' => 'Ниссан',
+                    ],
+                    [
+                        'id' => 4,
+                        'name' => 'Toyota',
+                        'localizedName' => 'Тойота',
                     ],
                 ],
-                'count' => 3,
+                'count' => 4,
                 'paging' => ['page' => 1, 'size' => 50],
             ],
         ];
@@ -70,7 +63,7 @@ final class ModelListTest extends JsonRPCTestCase
         yield 'IN' => [
             [
                 'filtering' => [
-                    ['field' => 'id', 'comparison' => 'IN', 'value' => ['1']],
+                    ['field' => 'id', 'comparison' => 'IN', 'value' => ['3']],
                 ],
                 'ordering' => [
                     ['field' => 'name', 'direction' => 'desc'],
@@ -79,13 +72,9 @@ final class ModelListTest extends JsonRPCTestCase
             [
                 'list' => [
                     [
-                        'id' => 1,
-                        'manufacturerId' => 3,
-                        'name' => 'GTR',
-                        'localizedName' => null,
-                        'model' => null,
-                        'yearFrom' => null,
-                        'yearTill' => null,
+                        'id' => 3,
+                        'name' => 'Nissan',
+                        'localizedName' => 'Ниссан',
                     ],
                 ],
                 'count' => 1,
@@ -96,23 +85,16 @@ final class ModelListTest extends JsonRPCTestCase
         yield 'Page 3 Size 1' => [
             [
                 'paging' => ['page' => 3, 'size' => 1],
-                'ordering' => [
-                    ['field' => 'id', 'direction' => 'asc'],
-                ],
             ],
             [
                 'list' => [
                     [
                         'id' => 3,
-                        'manufacturerId' => 3,
-                        'name' => 'Qashqai',
-                        'localizedName' => null,
-                        'model' => null,
-                        'yearFrom' => null,
-                        'yearTill' => null,
+                        'name' => 'Nissan',
+                        'localizedName' => 'Ниссан',
                     ],
                 ],
-                'count' => 3,
+                'count' => 4,
                 'paging' => ['page' => 3, 'size' => 1],
             ],
         ];
@@ -120,23 +102,19 @@ final class ModelListTest extends JsonRPCTestCase
         yield 'EQ' => [
             [
                 'filtering' => [
-                    ['field' => 'name', 'comparison' => '=', 'value' => 'Primera'],
+                    ['field' => 'name', 'comparison' => '=', 'value' => 'Lexus'],
                 ],
                 'ordering' => [
                     ['field' => 'name', 'direction' => 'desc'],
-                    ['field' => 'id', 'direction' => 'desc'],
+                    ['field' => 'localizedName', 'direction' => 'desc'],
                 ],
             ],
             [
                 'list' => [
-                    0 => [
+                    [
                         'id' => 2,
-                        'manufacturerId' => 3,
-                        'name' => 'Primera',
-                        'localizedName' => null,
-                        'model' => null,
-                        'yearFrom' => null,
-                        'yearTill' => null,
+                        'name' => 'Lexus',
+                        'localizedName' => 'Лексус',
                     ],
                 ],
                 'count' => 1,
@@ -147,7 +125,7 @@ final class ModelListTest extends JsonRPCTestCase
         yield 'NOT IN' => [
             [
                 'filtering' => [
-                    ['field' => 'manufacturerId', 'comparison' => 'NOT IN', 'value' => ['3']],
+                    ['field' => 'name', 'comparison' => 'NOT IN', 'value' => ['Nissan', 'Toyota', 'Lexus', 'Infinity']],
                 ],
             ],
             [
