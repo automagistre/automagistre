@@ -81,31 +81,6 @@ steps:
         depends_on:
             - install
 
-    -   name: php-cs-fixer fix
-        image: automagistre/app:base
-        commands:
-            - \[ "$DRONE_COMMIT_AUTHOR" = "dependabot-preview[bot]" ] || exit 78
-            - git pull --unshallow origin ${DRONE_BRANCH}
-            - vendor/bin/php-cs-fixer fix --using-cache=no
-            - git add *.php
-            - git commit --amend -m "`git log -1 --pretty=%B`"
-            - git remote set-url origin ${DRONE_GIT_SSH_URL}
-            - mkdir -p ~/.ssh -m 700
-            - echo "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-            - echo "$GIT_SSH_KEY" > ~/.ssh/id_rsa
-            - chmod 600 ~/.ssh/id_rsa
-            - git push --force-with-lease origin ${DRONE_COMMIT_REF}
-        environment:
-            GIT_SSH_KEY:
-                from_secret: GIT_SSH_KEY
-        when:
-            branch:
-                exclude: [ master ]
-            status:
-                - failure
-        depends_on:
-            - php-cs-fixer
-
     -   name: blank end line
         image: automagistre/app:base
         commands:
