@@ -9573,16 +9573,16 @@
         },
         {
             "name": "wapmorgan/morphos",
-            "version": "3.2.20",
+            "version": "3.2.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wapmorgan/Morphos.git",
-                "reference": "7212132f9094db12008a23503a9e6d3dea7fc3bc"
+                "reference": "fcdd09f7a84da56c73e70d9b164a40f9e21cc365"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wapmorgan/Morphos/zipball/7212132f9094db12008a23503a9e6d3dea7fc3bc",
-                "reference": "7212132f9094db12008a23503a9e6d3dea7fc3bc",
+                "url": "https://api.github.com/repos/wapmorgan/Morphos/zipball/fcdd09f7a84da56c73e70d9b164a40f9e21cc365",
+                "reference": "fcdd09f7a84da56c73e70d9b164a40f9e21cc365",
                 "shasum": ""
             },
             "require": {
@@ -9638,7 +9638,7 @@
                 "spelling",
                 "time"
             ],
-            "time": "2020-02-02T00:26:42+00:00"
+            "time": "2020-04-21T20:09:32+00:00"
         },
         {
             "name": "webimpress/safe-writer",
