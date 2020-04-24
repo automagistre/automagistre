@@ -10706,16 +10706,16 @@
         },
         {
             "name": "pedrotroller/php-cs-custom-fixer",
-            "version": "v2.20.0",
+            "version": "v2.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PedroTroller/PhpCSFixer-Custom-Fixers.git",
-                "reference": "d0cd60ec75d0450c1d160c13895db5bfc4145546"
+                "reference": "547d07c0cde82f268df12d728af3f56592d7cb60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PedroTroller/PhpCSFixer-Custom-Fixers/zipball/d0cd60ec75d0450c1d160c13895db5bfc4145546",
-                "reference": "d0cd60ec75d0450c1d160c13895db5bfc4145546",
+                "url": "https://api.github.com/repos/PedroTroller/PhpCSFixer-Custom-Fixers/zipball/547d07c0cde82f268df12d728af3f56592d7cb60",
+                "reference": "547d07c0cde82f268df12d728af3f56592d7cb60",
                 "shasum": ""
             },
             "require": {
@@ -10744,7 +10744,7 @@
                 "MIT"
             ],
             "description": "PHP-CS-FIXER : my custom fixers",
-            "time": "2020-02-26T13:23:47+00:00"
+            "time": "2020-04-23T11:56:33+00:00"
         },
         {
             "name": "phar-io/manifest",
