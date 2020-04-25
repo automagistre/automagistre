@@ -1770,29 +1770,25 @@
         },
         {
             "name": "endroid/installer",
-            "version": "1.2.2",
+            "version": "1.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/endroid/installer.git",
-                "reference": "bbfc52152f6b96c6dbcb1d3f6e10c97e71057751"
+                "reference": "f6c383d69fe94b7d194a56caccb5f1f79725ad65"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endroid/installer/zipball/bbfc52152f6b96c6dbcb1d3f6e10c97e71057751",
-                "reference": "bbfc52152f6b96c6dbcb1d3f6e10c97e71057751",
+                "url": "https://api.github.com/repos/endroid/installer/zipball/f6c383d69fe94b7d194a56caccb5f1f79725ad65",
+                "reference": "f6c383d69fe94b7d194a56caccb5f1f79725ad65",
                 "shasum": ""
             },
             "require": {
-                "composer-plugin-api": "^1.1",
+                "composer-plugin-api": "^1.1 || ^2.0",
                 "php": ">=7.2"
             },
             "require-dev": {
                 "composer/composer": "^1.8",
-                "endroid/test": "dev-master"
-            },
-            "suggest": {
-                "roave/security-advisories": "Avoids installation of package versions with vulnerabilities",
-                "symfony/security-checker": "Checks your composer.lock for vulnerabilities"
+                "endroid/quality": "dev-master"
             },
             "type": "composer-plugin",
             "extra": {
@@ -1816,20 +1812,20 @@
                     "email": "info@endroid.nl"
                 }
             ],
-            "time": "2020-03-31T13:13:21+00:00"
+            "time": "2020-04-23T12:37:40+00:00"
         },
         {
             "name": "endroid/qr-code",
-            "version": "3.7.7",
+            "version": "3.7.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/endroid/qr-code.git",
-                "reference": "bfb64f163628b59ba250a6a1da95b6252b5718c3"
+                "reference": "322ade73b1afeb5f51a5bb0293255d1d8508354a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endroid/qr-code/zipball/bfb64f163628b59ba250a6a1da95b6252b5718c3",
-                "reference": "bfb64f163628b59ba250a6a1da95b6252b5718c3",
+                "url": "https://api.github.com/repos/endroid/qr-code/zipball/322ade73b1afeb5f51a5bb0293255d1d8508354a",
+                "reference": "322ade73b1afeb5f51a5bb0293255d1d8508354a",
                 "shasum": ""
             },
             "require": {
@@ -1838,12 +1834,15 @@
                 "khanamiryan/qrcode-detector-decoder": "^1.0.2",
                 "myclabs/php-enum": "^1.5",
                 "php": ">=7.2",
-                "symfony/http-foundation": "^3.4||^4.2.12||^5.0",
-                "symfony/options-resolver": "^3.4||^4.0||^5.0",
-                "symfony/property-access": "^3.4||^4.0||^5.0"
+                "symfony/options-resolver": "^3.4||^4.4||^5.0",
+                "symfony/property-access": "^3.4||^4.4||^5.0"
             },
             "require-dev": {
-                "endroid/test": "dev-master"
+                "endroid/quality": "dev-master"
+            },
+            "suggest": {
+                "roave/security-advisories": "Avoids installation of package versions with vulnerabilities",
+                "symfony/security-checker": "Checks your composer.lock for vulnerabilities"
             },
             "type": "library",
             "extra": {
@@ -1876,32 +1875,36 @@
                 "qr",
                 "qrcode"
             ],
-            "time": "2020-03-10T08:32:43+00:00"
+            "time": "2020-04-25T13:43:02+00:00"
         },
         {
             "name": "endroid/qr-code-bundle",
-            "version": "3.4.2",
+            "version": "3.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/endroid/qr-code-bundle.git",
-                "reference": "51928eaaa30e7db1fd3f1076744dcbc8f8cec8c8"
+                "reference": "36d7e61e02d84c92702138cc1c6dac5a0565a5ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endroid/qr-code-bundle/zipball/51928eaaa30e7db1fd3f1076744dcbc8f8cec8c8",
-                "reference": "51928eaaa30e7db1fd3f1076744dcbc8f8cec8c8",
+                "url": "https://api.github.com/repos/endroid/qr-code-bundle/zipball/36d7e61e02d84c92702138cc1c6dac5a0565a5ff",
+                "reference": "36d7e61e02d84c92702138cc1c6dac5a0565a5ff",
                 "shasum": ""
             },
             "require": {
-                "endroid/installer": "^1.1",
-                "endroid/qr-code": "^3.7.5",
+                "endroid/installer": "^1.2.2",
+                "endroid/qr-code": "^3.7.8",
                 "php": ">=7.2",
-                "symfony/framework-bundle": "^3.4||^4.1.12||^5.0",
-                "symfony/twig-bundle": "^3.4||^4.0||^5.0",
-                "symfony/yaml": "^3.4||^4.0||^5.0"
+                "symfony/framework-bundle": "^3.4||^4.4||^5.0",
+                "symfony/twig-bundle": "^3.4||^4.4||^5.0",
+                "symfony/yaml": "^3.4||^4.4||^5.0"
             },
             "require-dev": {
-                "endroid/test": "dev-master"
+                "endroid/quality": "dev-master"
+            },
+            "suggest": {
+                "roave/security-advisories": "Avoids installation of package versions with vulnerabilities",
+                "symfony/security-checker": "Checks your composer.lock for vulnerabilities"
             },
             "type": "symfony-bundle",
             "extra": {
@@ -1934,7 +1937,7 @@
                 "qr",
                 "symfony"
             ],
-            "time": "2020-01-01T15:15:59+00:00"
+            "time": "2020-04-25T13:48:19+00:00"
         },
         {
             "name": "gedmo/doctrine-extensions",
