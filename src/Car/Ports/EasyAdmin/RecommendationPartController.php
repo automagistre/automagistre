@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Car\Controller;
+namespace App\Car\Ports\EasyAdmin;
 
 use App\Car\Entity\Recommendation;
 use App\Car\Entity\RecommendationPart;
@@ -12,14 +12,14 @@ use App\Doctrine\Registry;
 use App\Form\Type\MoneyType;
 use App\Form\Type\QuantityType;
 use App\Manager\PartManager;
-use function array_unshift;
-use function assert;
 use Doctrine\ORM\EntityManagerInterface;
-use function is_numeric;
 use LogicException;
-use function sprintf;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
+use function array_unshift;
+use function assert;
+use function is_numeric;
+use function sprintf;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>

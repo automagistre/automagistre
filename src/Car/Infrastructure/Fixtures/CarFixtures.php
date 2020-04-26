@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Car\Fixtures;
+namespace App\Car\Infrastructure\Fixtures;
 
 use App\Car\Entity\Car;
 use Doctrine\Bundle\FixturesBundle\Fixture;

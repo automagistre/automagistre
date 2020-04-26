@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Car\Fixtures;
+namespace App\Car\Infrastructure\Fixtures;
 
 use App\Car\Entity\Car;
 use App\Car\Entity\Recommendation;
@@ -9,13 +9,13 @@ use App\Customer\Domain\Operand;
 use App\Part\Domain\Part;
 use App\Part\Fixtures\PartFixtures;
 use App\User\Entity\User;
-use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Money\Currency;
 use Money\Money;
+use function assert;
 
 final class RecommendationFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
 {

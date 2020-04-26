@@ -2,7 +2,7 @@ easy_admin:
     entities:
         Car:
             class: App\Car\Entity\Car
-            controller: App\Car\Controller\CarController
+            controller: App\Car\Ports\EasyAdmin\CarController
             label: 'Автомобили'
             search:
                 fields: ['gosnomer', 'identifier']
@@ -64,7 +64,7 @@ easy_admin:
 
         CarNote:
             class: App\Car\Entity\Note
-            controller: App\Car\Controller\NoteController
+            controller: App\Car\Ports\EasyAdmin\NoteController
             disabled_actions: ['show', 'list', 'search', 'autocomplete']
             form:
                 fields:
@@ -78,7 +78,7 @@ easy_admin:
 
         CarRecommendation:
             class: App\Car\Entity\Recommendation
-            controller: App\Car\Controller\RecommendationController
+            controller: App\Car\Ports\EasyAdmin\RecommendationController
             disabled_actions: ['list']
             templates:
                 new: 'easy_admin/car_recommendation/new.html.twig'
@@ -97,7 +97,7 @@ easy_admin:
 
         CarRecommendationPart:
             class: App\Car\Entity\RecommendationPart
-            controller: App\Car\Controller\RecommendationPartController
+            controller: App\Car\Ports\EasyAdmin\RecommendationPartController
             disabled_actions: ['list']
             templates:
                 new: 'easy_admin/car_recommendation_part/new.html.twig'

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Car\Controller;
+namespace App\Car\Ports\EasyAdmin;
 
 use App\Car\Entity\Car;
 use App\Car\Entity\Note;
