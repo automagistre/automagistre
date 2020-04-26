@@ -12,8 +12,6 @@ use App\Part\Domain\Part;
 use App\User\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
@@ -27,9 +25,9 @@ class RecommendationPart
     use CreatedBy;
 
     /**
-     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\Column(type="recommendation_part_id", unique=true)
      */
-    public UuidInterface $uuid;
+    public RecommendationPartId $uuid;
 
     /**
      * @psalm-readonly
@@ -54,7 +52,7 @@ class RecommendationPart
 
     public function __construct(Recommendation $recommendation, Part $part, int $quantity, Money $price, User $selector)
     {
-        $this->uuid = Uuid::uuid4();
+        $this->uuid = RecommendationPartId::generate();
         $this->recommendation = $recommendation;
         $this->part = $part;
         $this->quantity = $quantity;

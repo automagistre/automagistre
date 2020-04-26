@@ -9,8 +9,6 @@ use App\Entity\Tenant\OperandTransaction;
 use App\Entity\Transactional;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -24,9 +22,9 @@ abstract class Operand implements Transactional
     use Identity;
 
     /**
-     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\Column(type="operand_id", unique=true)
      */
-    public UuidInterface $uuid;
+    public OperandId $uuid;
 
     /**
      * @Assert\Email
@@ -47,7 +45,7 @@ abstract class Operand implements Transactional
 
     public function __construct()
     {
-        $this->uuid = Uuid::uuid4();
+        $this->uuid = OperandId::generate();
     }
 
     abstract public function __toString(): string;
