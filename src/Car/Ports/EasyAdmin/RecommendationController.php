@@ -12,13 +12,13 @@ use App\Controller\EasyAdmin\AbstractController;
 use App\Customer\Domain\Operand;
 use App\Doctrine\Registry;
 use App\Entity\Tenant\Order;
+use function assert;
 use Doctrine\ORM\Query\Expr\Join;
+use function sprintf;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use function assert;
-use function sprintf;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>

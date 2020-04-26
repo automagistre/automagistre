@@ -8,11 +8,11 @@ use App\Car\Entity\Car;
 use App\Car\Entity\Note;
 use App\Enum\NoteType;
 use App\User\Entity\User;
+use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use function assert;
 
 final class NoteFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
 {

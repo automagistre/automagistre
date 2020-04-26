@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Vehicle\Domain;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
-use App\Manufacturer\Entity\Manufacturer;
+use App\Manufacturer\Domain\Manufacturer;
 use Doctrine\ORM\Mapping as ORM;
 use function sprintf;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;

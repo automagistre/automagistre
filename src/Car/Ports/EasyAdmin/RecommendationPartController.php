@@ -12,14 +12,14 @@ use App\Doctrine\Registry;
 use App\Form\Type\MoneyType;
 use App\Form\Type\QuantityType;
 use App\Manager\PartManager;
-use Doctrine\ORM\EntityManagerInterface;
-use LogicException;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\Response;
 use function array_unshift;
 use function assert;
+use Doctrine\ORM\EntityManagerInterface;
 use function is_numeric;
+use LogicException;
 use function sprintf;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>

@@ -36,7 +36,7 @@ final class ManufacturerListTest extends JsonRPCTestCase
                 'list' => [
                     [
                         'id' => 1,
-                        'name' => 'Infinity',
+                        'name' => 'Infiniti',
                         'localizedName' => 'Инфинити',
                     ],
                     [
@@ -125,7 +125,7 @@ final class ManufacturerListTest extends JsonRPCTestCase
         yield 'NOT IN' => [
             [
                 'filtering' => [
-                    ['field' => 'name', 'comparison' => 'NOT IN', 'value' => ['Nissan', 'Toyota', 'Lexus', 'Infinity']],
+                    ['field' => 'name', 'comparison' => 'NOT IN', 'value' => ['Nissan', 'Toyota', 'Lexus', 'Infiniti']],
                 ],
             ],
             [

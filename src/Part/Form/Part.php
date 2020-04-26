@@ -2,7 +2,7 @@
 
 namespace App\Part\Form;
 
-use App\Manufacturer\Entity\Manufacturer;
+use App\Manufacturer\Domain\Manufacturer;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
 

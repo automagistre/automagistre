@@ -12,14 +12,14 @@ use App\Customer\Domain\Organization;
 use App\Customer\Domain\Person;
 use App\Doctrine\Registry;
 use App\Entity\Tenant\Order;
+use function array_map;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
-use function array_map;
 use function explode;
 use function mb_strtolower;
 use function sprintf;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>

@@ -1,7 +1,7 @@
 easy_admin:
     entities:
         Manufacturer:
-            class: App\Manufacturer\Entity\Manufacturer
+            class: App\Manufacturer\Domain\Manufacturer
             disabled_actions: ['show']
             label: 'Производитель'
             search:
@@ -30,8 +30,8 @@ doctrine:
                 mappings:
                     manufacturer:
                         type: annotation
-                        prefix: App\Manufacturer\Entity
-                        dir: '%kernel.project_dir%/src/Manufacturer/Entity'
+                        prefix: App\Manufacturer\Domain
+                        dir: '%kernel.project_dir%/src/Manufacturer/Domain'
 
 services:
     _defaults:

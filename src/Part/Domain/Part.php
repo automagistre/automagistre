@@ -7,7 +7,7 @@ namespace App\Part\Domain;
 use App\Doctrine\ORM\Mapping\Traits\Discount;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
-use App\Manufacturer\Entity\Manufacturer;
+use App\Manufacturer\Domain\Manufacturer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;

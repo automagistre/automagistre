@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Manufacturer\Ports\API;
 
 use App\Doctrine\Registry;
-use App\Manufacturer\Entity\Manufacturer;
+use App\Manufacturer\Domain\Manufacturer;
 use function array_flip;
 use function array_key_exists;
 use function array_map;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Manufacturer\Entity;
+namespace App\Manufacturer\Domain;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,6 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Manufacturer
 {
     use Identity;
+
+    /**
+     * @ORM\Column(type="manufacturer_id")
+     */
+    private ManufacturerId $uuid;
 
     /**
      * @ORM\Column(name="name", length=64, nullable=true)
@@ -29,8 +34,13 @@ class Manufacturer
      */
     private ?string $logo;
 
-    public function __construct(string $name = null, string $localizedName = null, string $logo = null)
-    {
+    public function __construct(
+        ManufacturerId $id = null,
+        string $name = null,
+        string $localizedName = null,
+        string $logo = null
+    ) {
+        $this->uuid = $id ?? ManufacturerId::generate();
         $this->name = $name;
         $this->localizedName = $localizedName;
         $this->logo = $logo;

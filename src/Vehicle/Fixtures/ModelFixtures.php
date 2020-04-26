@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Vehicle\Fixtures;
 
-use App\Manufacturer\Entity\Manufacturer;
-use App\Manufacturer\Fixtures\ManufacturerFixtures;
+use App\Manufacturer\Domain\Manufacturer;
+use App\Manufacturer\Infrastructure\Fixtures\NissanFixture;
 use App\Vehicle\Domain\Model;
 use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -22,7 +22,7 @@ final class ModelFixtures extends Fixture implements FixtureGroupInterface, Depe
     public function getDependencies(): array
     {
         return [
-            ManufacturerFixtures::class,
+            NissanFixture::class,
         ];
     }
 
@@ -40,7 +40,7 @@ final class ModelFixtures extends Fixture implements FixtureGroupInterface, Depe
     public function load(ObjectManager $manager): void
     {
         foreach ($this->generate() as [$manRef, $ref, $name]) {
-            $manufacturer = $this->getReference($manRef);
+            $manufacturer = $this->getReference(NissanFixture::REF);
             assert($manufacturer instanceof Manufacturer);
 
             $model = new Model();

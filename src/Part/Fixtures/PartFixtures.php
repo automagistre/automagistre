@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Part\Fixtures;
 
-use App\Manufacturer\Entity\Manufacturer;
-use App\Manufacturer\Fixtures\ManufacturerFixtures;
+use App\Manufacturer\Domain\Manufacturer;
+use App\Manufacturer\Infrastructure\Fixtures\NissanFixture;
 use App\Part\Domain\Part;
 use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -21,7 +21,7 @@ final class PartFixtures extends Fixture implements FixtureGroupInterface, Depen
     public function getDependencies(): array
     {
         return [
-            ManufacturerFixtures::class,
+            NissanFixture::class,
         ];
     }
 
@@ -38,7 +38,7 @@ final class PartFixtures extends Fixture implements FixtureGroupInterface, Depen
      */
     public function load(ObjectManager $manager): void
     {
-        $manufacturer = $this->getReference('Nissan');
+        $manufacturer = $this->getReference(NissanFixture::REF);
         assert($manufacturer instanceof Manufacturer);
 
         $part = new Part($manufacturer, 'Part 1', 'part1number', false, null);
