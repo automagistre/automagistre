@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
-use App\Car\Entity\Model;
 use App\Doctrine\Registry;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItemPart;
 use App\Event\OrderClosed;
 use App\Part\Domain\Part;
 use App\Part\Domain\PartCase;
+use App\Vehicle\Domain\Model;
 use function array_flip;
 use function array_key_exists;
 use function array_map;

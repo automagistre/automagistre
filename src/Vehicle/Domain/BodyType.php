@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Car\Enum;
+namespace App\Vehicle\Domain;
 
 use Premier\Enum\Enum;
 

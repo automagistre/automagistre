@@ -1,3 +1,51 @@
+easy_admin:
+    entities:
+        CarModel:
+            class: App\Vehicle\Domain\Model
+            controller: App\Vehicle\Ports\EasyAdmin\ModelController
+            label: 'Кузов'
+            list:
+                title: 'Кузова'
+                fields:
+                    - { property: 'id' }
+                    - { property: 'manufacturer', label: 'Производитель' }
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'caseName', label: 'Кузов' }
+                    - { property: 'yearFrom', label: 'Начало производства' }
+                    - { property: 'yearTill', label: 'Конец производства' }
+            show:
+                title: 'Кузов № {{ entity.id }}'
+                fields:
+                    - { property: 'manufacturer', label: 'Производитель' }
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'caseName', label: 'Кузов' }
+                    - { property: 'yearFrom', label: 'Начало производства' }
+                    - { property: 'yearTill', label: 'Конец производства' }
+            form:
+                fields:
+                    - { property: 'manufacturer', label: 'Производитель', type: 'easyadmin_autocomplete' }
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'localizedName', label: 'Название на русском' }
+                    - { property: 'caseName', label: 'Кузов' }
+                    - { property: 'yearFrom', label: 'Начало производства' }
+                    - { property: 'yearTill', label: 'Конец производства' }
+            new:
+                title: 'Создать новый кузов'
+            edit:
+                title: 'Редактировать кузов'
+                fields:
+                    - { property: 'manufacturer', label: 'Производитель', type_options: { disabled: true } }
+
+doctrine:
+    orm:
+        entity_managers:
+            landlord:
+                mappings:
+                    vehicle:
+                        type: annotation
+                        prefix: App\Vehicle\Domain
+                        dir: '%kernel.project_dir%/src/Vehicle/Domain'
+
 services:
     _defaults:
         public: false

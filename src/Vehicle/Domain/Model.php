@@ -2,13 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Car\Entity;
+namespace App\Vehicle\Domain;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Manufacturer\Entity\Manufacturer;
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 use function sprintf;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -33,9 +31,9 @@ class Model
     use Identity;
 
     /**
-     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\Column(type="vehicle_id", unique=true)
      */
-    public UuidInterface $uuid;
+    public VehicleId $uuid;
 
     /**
      * @ORM\ManyToOne(targetEntity=Manufacturer::class)
@@ -72,7 +70,7 @@ class Model
 
     public function __construct()
     {
-        $this->uuid = Uuid::uuid4();
+        $this->uuid = VehicleId::generate();
     }
 
     public function __toString(): string

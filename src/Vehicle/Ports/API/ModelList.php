@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Vehicle\Ports\API;
 
-use App\Car\Entity\Model;
 use App\Doctrine\Registry;
+use App\Vehicle\Domain\Model;
 use Doctrine\DBAL\Query\QueryBuilder;
 use function implode;
 use function is_array;

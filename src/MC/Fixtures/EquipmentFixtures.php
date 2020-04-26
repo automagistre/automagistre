@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\MC\Fixtures;
 
-use App\Car\Entity\Model;
 use App\Entity\Landlord\MC\Equipment;
+use App\Vehicle\Domain\Model;
 use App\Vehicle\Fixtures\ModelFixtures;
 use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;

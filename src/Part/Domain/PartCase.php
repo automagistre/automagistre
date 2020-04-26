@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Part\Domain;
 
-use App\Car\Entity\Model;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Vehicle\Domain\Model;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

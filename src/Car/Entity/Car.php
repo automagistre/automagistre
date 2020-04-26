@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Car\Entity;
 
-use App\Car\Enum\BodyType;
 use App\Customer\Domain\Operand;
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Vehicle\Domain\BodyType;
+use App\Vehicle\Domain\Equipment;
+use App\Vehicle\Domain\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;

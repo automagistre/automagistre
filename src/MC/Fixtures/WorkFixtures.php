@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace App\MC\Fixtures;
 
-use App\Car\Entity\Model;
-use App\Entity\Landlord\MC\Equipment;
 use App\Entity\Landlord\MC\Work;
-use App\Manufacturer\Entity\Manufacturer;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;

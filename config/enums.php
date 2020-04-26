@@ -2,11 +2,11 @@
 
 return [
     App\Calendar\Domain\DeletionReason::class => ['deletion_reason'],
-    App\Car\Enum\BodyType::class => ['carcase_enum'],
-    App\Car\Enum\DriveWheelConfiguration::class => ['car_wheel_drive_enum'],
-    App\Car\Enum\FuelType::class => ['engine_type_enum'],
-    App\Car\Enum\Transmission::class => ['car_transmission_enum'],
     App\Enum\NoteType::class => ['note_type_enum'],
     App\Enum\OrderStatus::class => ['order_status_enum'],
     App\Tenant\Tenant::class => ['tenant_enum'],
+    App\Vehicle\Domain\BodyType::class => ['carcase_enum'],
+    App\Vehicle\Domain\DriveWheelConfiguration::class => ['car_wheel_drive_enum'],
+    App\Vehicle\Domain\FuelType::class => ['engine_type_enum'],
+    App\Vehicle\Domain\Transmission::class => ['car_transmission_enum'],
 ];

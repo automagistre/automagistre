@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Part\Ports\EasyAdmin;
 
 use function abs;
-use App\Car\Entity\Model;
 use App\Controller\EasyAdmin\AbstractController;
 use App\Doctrine\Registry;
 use App\Entity\Tenant\Motion;
@@ -24,6 +23,7 @@ use App\Part\Domain\Stockpile;
 use App\Part\Form\Part as PartModel;
 use App\Roles;
 use App\State;
+use App\Vehicle\Domain\Model;
 use function array_keys;
 use function array_map;
 use function assert;

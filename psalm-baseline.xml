@@ -33,11 +33,6 @@
       <code>getDisplayName</code>
     </PossiblyNullReference>
   </file>
-  <file src="src/Car/Controller/ModelController.php">
-    <PossiblyFalseOperand occurrences="1">
-      <code>mb_strtolower($item)</code>
-    </PossiblyFalseOperand>
-  </file>
   <file src="src/Car/Controller/RecommendationController.php">
     <PossiblyNullArgument occurrences="3">
       <code>$model-&gt;service</code>
@@ -79,20 +74,6 @@
     <PossiblyNullReference occurrences="2">
       <code>toString</code>
       <code>$this-&gt;recommendations</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="src/Car/Entity/Engine.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$this-&gt;name</code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="src/Car/Entity/Model.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$this-&gt;manufacturer-&gt;getName()</code>
-      <code>$this-&gt;localizedName ?? $this-&gt;name</code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>getName</code>
     </PossiblyNullReference>
   </file>
   <file src="src/Car/Entity/Recommendation.php">
@@ -489,11 +470,6 @@
       <code>$this-&gt;parts</code>
     </NullArgument>
   </file>
-  <file src="src/Part/Domain/PartId.php">
-    <MissingImmutableAnnotation occurrences="1">
-      <code>Identifier</code>
-    </MissingImmutableAnnotation>
-  </file>
   <file src="src/Part/Ports/EasyAdmin/PartController.php">
     <InvalidArgument occurrences="1">
       <code>fn (Order $order): int =&gt; (int) $order-&gt;getId()</code>
@@ -554,6 +530,25 @@
     <PropertyNotSetInConstructor occurrences="1">
       <code>UserRelationFixtures</code>
     </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Vehicle/Domain/Engine.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$this-&gt;name</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/Vehicle/Domain/Model.php">
+    <PossiblyNullArgument occurrences="2">
+      <code>$this-&gt;manufacturer-&gt;getName()</code>
+      <code>$this-&gt;localizedName ?? $this-&gt;name</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="1">
+      <code>getName</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Vehicle/Ports/EasyAdmin/ModelController.php">
+    <PossiblyFalseOperand occurrences="1">
+      <code>mb_strtolower($item)</code>
+    </PossiblyFalseOperand>
   </file>
   <file src="tests/SmokeTest.php">
     <PossiblyInvalidArgument occurrences="1">

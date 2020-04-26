@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Car\Form\Type;
+namespace App\Vehicle\Infrastructure\Form;
 
-use App\Car\Enum\BodyType;
+use App\Vehicle\Domain\Transmission;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class BodyTypeType extends AbstractType
+final class TransmissionType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -20,10 +20,9 @@ final class BodyTypeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'choices' => BodyType::all(),
-            'choice_label' => fn (BodyType $bodyType) => $bodyType->toName(),
-            'choice_value' => fn (BodyType $bodyType) => $bodyType->toId(),
-            'placeholder' => null,
+            'choices' => Transmission::all(),
+            'choice_label' => fn (Transmission $transmission) => $transmission->toName(),
+            'choice_value' => fn (Transmission $transmission) => $transmission->toId(),
         ]);
     }
 

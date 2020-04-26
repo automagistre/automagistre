@@ -438,7 +438,7 @@ easy_admin:
                 fields:
                     - { property: 'model', label: 'Модель', type: 'easyadmin_autocomplete' }
                     - { property: 'period', label: 'Период ТО' }
-                    - { property: 'equipment', label: ' ', type: App\Car\Form\Type\EquipmentType }
+                    - { property: 'equipment', label: ' ', type: App\Vehicle\Infrastructure\Form\EquipmentType }
             new:
                 title: 'Создать комплектацию'
             edit:

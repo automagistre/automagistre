@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Vehicle\Fixtures;
 
-use App\Car\Entity\Model;
 use App\Manufacturer\Entity\Manufacturer;
 use App\Manufacturer\Fixtures\ManufacturerFixtures;
+use App\Vehicle\Domain\Model;
 use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;

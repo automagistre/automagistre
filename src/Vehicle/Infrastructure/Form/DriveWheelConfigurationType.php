@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Car\Form\Type;
+namespace App\Vehicle\Infrastructure\Form;
 
-use App\Car\Enum\DriveWheelConfiguration;
+use App\Vehicle\Domain\DriveWheelConfiguration;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;

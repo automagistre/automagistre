@@ -48,55 +48,19 @@ easy_admin:
                         label: 'Модель'
                         type: 'easyadmin_autocomplete'
                         type_options:
-                            class: App\Car\Entity\Model
+                            class: App\Vehicle\Domain\Model
                         help: 'Проивзодитель, Модель, Год, Поколение, Комплектация, Лошадинные силы'
                     - { property: 'year', label: 'Год выпуска' }
-                    - { property: 'caseType', label: 'Тип кузова', type: App\Car\Form\Type\BodyTypeType, type_options: { required: false } }
+                    - { property: 'caseType', label: 'Тип кузова', type: App\Vehicle\Infrastructure\Form\BodyTypeType, type_options: { required: false } }
                     - { property: 'identifier', label: 'Идентификатор (VIN, № Кузова/Шасси...)' }
                     - { property: 'gosnomer', label: 'Гос. Номер' }
                     - { property: 'description', label: 'Описание', type: 'textarea' }
                     - { type: 'group', label: 'Комплектация', css_class: 'col-sm-6' }
-                    - { property: 'equipment', label: ' ', type: App\Car\Form\Type\EquipmentType }
+                    - { property: 'equipment', label: ' ', type: App\Vehicle\Infrastructure\Form\EquipmentType }
             edit:
                 title: 'Редактировать автомобиль № {{ entity.id }}'
             new:
                 title: 'Создать новый автомобиль'
-
-        CarModel:
-            class: App\Car\Entity\Model
-            controller: App\Car\Controller\ModelController
-            label: 'Кузов'
-            list:
-                title: 'Кузова'
-                fields:
-                    - { property: 'id' }
-                    - { property: 'manufacturer', label: 'Производитель' }
-                    - { property: 'name', label: 'Название' }
-                    - { property: 'caseName', label: 'Кузов' }
-                    - { property: 'yearFrom', label: 'Начало производства' }
-                    - { property: 'yearTill', label: 'Конец производства' }
-            show:
-                title: 'Кузов № {{ entity.id }}'
-                fields:
-                    - { property: 'manufacturer', label: 'Производитель' }
-                    - { property: 'name', label: 'Название' }
-                    - { property: 'caseName', label: 'Кузов' }
-                    - { property: 'yearFrom', label: 'Начало производства' }
-                    - { property: 'yearTill', label: 'Конец производства' }
-            form:
-                fields:
-                    - { property: 'manufacturer', label: 'Производитель', type: 'easyadmin_autocomplete' }
-                    - { property: 'name', label: 'Название' }
-                    - { property: 'localizedName', label: 'Название на русском' }
-                    - { property: 'caseName', label: 'Кузов' }
-                    - { property: 'yearFrom', label: 'Начало производства' }
-                    - { property: 'yearTill', label: 'Конец производства' }
-            new:
-                title: 'Создать новый кузов'
-            edit:
-                title: 'Редактировать кузов'
-                fields:
-                    - { property: 'manufacturer', label: 'Производитель', type_options: { disabled: true } }
 
         CarNote:
             class: App\Car\Entity\Note

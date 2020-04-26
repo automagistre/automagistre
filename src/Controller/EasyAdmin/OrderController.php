@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\EasyAdmin;
 
 use App\Car\Entity\Car;
-use App\Car\Entity\Model;
 use App\Customer\Domain\Operand;
 use App\Customer\Domain\Organization;
 use App\Customer\Domain\Person;
@@ -27,6 +26,7 @@ use App\Form\Type\OrderTOServiceType;
 use App\Manager\OrderManager;
 use App\Manager\PaymentManager;
 use App\Part\Domain\Part;
+use App\Vehicle\Domain\Model;
 use function array_map;
 use function assert;
 use function count;

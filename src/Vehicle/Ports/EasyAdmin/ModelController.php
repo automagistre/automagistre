@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Car\Controller;
+namespace App\Vehicle\Ports\EasyAdmin;
 
-use App\Car\Entity\Model;
 use App\Controller\EasyAdmin\AbstractController;
 use App\Doctrine\Registry;
+use App\Vehicle\Domain\Model;
 use function array_map;
 use Doctrine\ORM\QueryBuilder;
 use function explode;
