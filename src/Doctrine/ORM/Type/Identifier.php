@@ -35,7 +35,7 @@ abstract class Identifier
      */
     final public static function generate(): self
     {
-        return new static(Uuid::uuid4());
+        return new static(Uuid::uuid6());
     }
 
     /**
