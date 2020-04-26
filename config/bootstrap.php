@@ -21,15 +21,10 @@ if ($_SERVER['APP_DEBUG']) {
     }
 }
 
-Premier\Enum\Doctrine\EnumType::register(App\Car\Enum\BodyType::class, 'carcase_enum');
-Premier\Enum\Doctrine\EnumType::register(App\Car\Enum\Transmission::class, 'car_transmission_enum');
-Premier\Enum\Doctrine\EnumType::register(App\Car\Enum\DriveWheelConfiguration::class, 'car_wheel_drive_enum');
-Premier\Enum\Doctrine\EnumType::register(App\Car\Enum\FuelType::class, 'engine_type_enum');
-Premier\Enum\Doctrine\EnumType::register(App\Enum\NoteType::class, 'note_type_enum');
-Premier\Enum\Doctrine\EnumType::register(App\Enum\OrderStatus::class, 'order_status_enum');
-Premier\Enum\Doctrine\EnumType::register(App\Tenant\Tenant::class, 'tenant_enum');
-Premier\Enum\Doctrine\EnumType::register(App\Calendar\Domain\DeletionReason::class, 'deletion_reason');
+foreach ((array) require __DIR__.'/enums.php' as $class => [$id]) {
+    Premier\Enum\Doctrine\EnumType::register($class, $id);
+}
 
-App\Doctrine\ORM\Type\IdentifierType::register('calendar_entry_id', App\Calendar\Domain\CalendarEntryId::class);
-App\Doctrine\ORM\Type\IdentifierType::register('user_id', App\User\Domain\UserId::class);
-App\Doctrine\ORM\Type\IdentifierType::register('car_id', App\Car\Entity\CarId::class);
+foreach ((array) require __DIR__.'/identifiers.php' as $class => [$id]) {
+    App\Doctrine\ORM\Type\IdentifierType::register($id, $class);
+}
