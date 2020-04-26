@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Order\Fixtures;
 
 use App\Doctrine\Registry;
-use App\Entity\Landlord\Part;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItemGroup;
 use App\Entity\Tenant\OrderItemPart;
 use App\Entity\Tenant\OrderItemService;
 use App\Entity\Tenant\OrderNote;
 use App\Enum\NoteType;
+use App\Part\Domain\Part;
 use App\State;
 use App\User\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;

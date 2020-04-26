@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Twig\Extension;
 
-use App\Entity\Landlord\Part;
 use App\Entity\Tenant\OrderItemPart;
 use App\Manager\PartManager;
 use App\Manager\ReservationManager;
+use App\Part\Domain\Part;
 use Money\Money;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;

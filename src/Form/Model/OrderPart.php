@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Form\Model;
 
 use App\Customer\Domain\Operand;
-use App\Entity\Landlord\Part;
 use App\Entity\Tenant\OrderItemPart;
+use App\Part\Domain\Part;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
 

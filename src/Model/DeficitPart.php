@@ -16,7 +16,7 @@ final class DeficitPart extends WarehousePart
      */
     public array $orders;
 
-    public function __construct(\App\Entity\Landlord\Part $part, int $quantity, array $orders)
+    public function __construct(\App\Part\Domain\Part $part, int $quantity, array $orders)
     {
         parent::__construct($part, $quantity);
 

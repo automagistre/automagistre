@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Landlord;
+namespace App\Part\Domain;
 
 use App\Doctrine\ORM\Mapping\Traits\Discount;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
@@ -13,8 +13,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 use function preg_replace;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 use function sprintf;
 use function strtoupper;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -38,9 +36,9 @@ class Part
     use Discount;
 
     /**
-     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\Column(type="part_id", unique=true)
      */
-    public UuidInterface $uuid;
+    public PartId $partId;
 
     /**
      * @ORM\ManyToOne(targetEntity=Manufacturer::class)
@@ -78,7 +76,7 @@ class Part
         bool $universal,
         ?Money $discount
     ) {
-        $this->uuid = Uuid::uuid4();
+        $this->partId = PartId::generate();
         $this->manufacturer = $manufacturer;
         $this->name = $name;
         $this->setNumber($number);

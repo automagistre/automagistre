@@ -6,8 +6,8 @@ namespace App\Car\Form\DTO;
 
 use App\Car\Entity\Recommendation;
 use App\Car\Entity\RecommendationPart;
-use App\Entity\Landlord\Part;
 use App\Form\Model\Model;
+use App\Part\Domain\Part;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
 

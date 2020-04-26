@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Manager;
 
 use App\Doctrine\Registry;
-use App\Entity\Landlord\Part;
+use App\Part\Domain\Part;
 use function array_map;
 use function implode;
 use function sprintf;

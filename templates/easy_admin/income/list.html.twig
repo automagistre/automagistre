@@ -4,7 +4,7 @@
     {{ parent() }}
 
     {% if part is not empty %}
-        {# @var part \App\Entity\Landlord\Part #}
+        {# @var part \App\Part\Domain\Part #}
         с запчастью <a href="{{ easyadmin_path(part, 'show') }}">{{ part.displayName }}</a>
     {% endif %}
 {% endblock %}

@@ -232,32 +232,6 @@
       <code>flush</code>
     </PossiblyNullReference>
   </file>
-  <file src="src/Controller/EasyAdmin/PartController.php">
-    <InvalidArgument occurrences="1">
-      <code>fn (Order $order): int =&gt; (int) $order-&gt;getId()</code>
-    </InvalidArgument>
-    <PossiblyFalseOperand occurrences="1">
-      <code>mb_strtolower(trim($searchString))</code>
-    </PossiblyFalseOperand>
-    <PossiblyNullArgument occurrences="9">
-      <code>$user-&gt;getId()</code>
-      <code>$user-&gt;getId()</code>
-      <code>$case-&gt;caseName</code>
-      <code>$entity-&gt;getNumber()</code>
-      <code>$entity-&gt;getManufacturer()-&gt;getName()</code>
-      <code>$entity-&gt;getName()</code>
-      <code>$model-&gt;manufacturer</code>
-      <code>$model-&gt;name</code>
-      <code>$model-&gt;number</code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="2">
-      <code>getRepository</code>
-      <code>getName</code>
-    </PossiblyNullReference>
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>PartController</code>
-    </PropertyNotSetInConstructor>
-  </file>
   <file src="src/Controller/TestController.php">
     <PropertyNotSetInConstructor occurrences="1">
       <code>TestController</code>
@@ -340,16 +314,6 @@
     <PropertyNotSetInConstructor occurrences="1">
       <code>EmployeeFixtures</code>
     </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Entity/Landlord/Part.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>preg_replace('/[^a-zA-Z0-9]/', '', $number)</code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="src/Entity/Landlord/PartCross.php">
-    <NullArgument occurrences="1">
-      <code>$this-&gt;parts</code>
-    </NullArgument>
   </file>
   <file src="src/Entity/Tenant/Employee.php">
     <PossiblyNullReference occurrences="2">
@@ -513,6 +477,47 @@
     </PossiblyNullArgument>
     <PropertyNotSetInConstructor occurrences="1">
       <code>OrderFixtures</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Part/Domain/Part.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>preg_replace('/[^a-zA-Z0-9]/', '', $number)</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/Part/Domain/PartCross.php">
+    <NullArgument occurrences="1">
+      <code>$this-&gt;parts</code>
+    </NullArgument>
+  </file>
+  <file src="src/Part/Domain/PartId.php">
+    <MissingImmutableAnnotation occurrences="1">
+      <code>Identifier</code>
+    </MissingImmutableAnnotation>
+  </file>
+  <file src="src/Part/Ports/EasyAdmin/PartController.php">
+    <InvalidArgument occurrences="1">
+      <code>fn (Order $order): int =&gt; (int) $order-&gt;getId()</code>
+    </InvalidArgument>
+    <PossiblyFalseOperand occurrences="1">
+      <code>mb_strtolower(trim($searchString))</code>
+    </PossiblyFalseOperand>
+    <PossiblyNullArgument occurrences="9">
+      <code>$user-&gt;getId()</code>
+      <code>$user-&gt;getId()</code>
+      <code>$case-&gt;caseName</code>
+      <code>$entity-&gt;getNumber()</code>
+      <code>$entity-&gt;getManufacturer()-&gt;getName()</code>
+      <code>$entity-&gt;getName()</code>
+      <code>$model-&gt;manufacturer</code>
+      <code>$model-&gt;name</code>
+      <code>$model-&gt;number</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="2">
+      <code>getRepository</code>
+      <code>getName</code>
+    </PossiblyNullReference>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>PartController</code>
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Request/EntityTransformerArgumentValueResolver.php">

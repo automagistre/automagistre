@@ -7,7 +7,7 @@ namespace App\Entity\Tenant;
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Entity\Embeddable\PartRelation;
-use App\Entity\Landlord\Part;
+use App\Part\Domain\Part;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

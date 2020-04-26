@@ -8,7 +8,7 @@ use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
 use App\Doctrine\ORM\Mapping\Traits\Quantity;
 use App\Entity\Embeddable\PartRelation;
-use App\Entity\Landlord\Part;
+use App\Part\Domain\Part;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;
 use Money\Money;

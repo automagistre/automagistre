@@ -2,14 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin;
+namespace App\Part\Ports\EasyAdmin;
 
 use function abs;
 use App\Car\Entity\Model;
+use App\Controller\EasyAdmin\AbstractController;
 use App\Doctrine\Registry;
-use App\Entity\Landlord\Part;
-use App\Entity\Landlord\PartCase;
-use App\Entity\Landlord\Stockpile;
 use App\Entity\Tenant\Motion;
 use App\Entity\Tenant\MotionManual;
 use App\Entity\Tenant\Order;
@@ -20,6 +18,9 @@ use App\Form\Type\QuantityType;
 use App\Manager\DeficitManager;
 use App\Manager\PartManager;
 use App\Manager\ReservationManager;
+use App\Part\Domain\Part;
+use App\Part\Domain\PartCase;
+use App\Part\Domain\Stockpile;
 use App\Part\Form\Part as PartModel;
 use App\Roles;
 use App\State;

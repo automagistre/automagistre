@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin;
+namespace App\Part\Ports\EasyAdmin;
 
-use App\Entity\Landlord\Part;
-use App\Entity\Landlord\PartCase;
+use App\Controller\EasyAdmin\AbstractController;
+use App\Part\Domain\Part;
+use App\Part\Domain\PartCase;
 use LogicException;
 
 /**

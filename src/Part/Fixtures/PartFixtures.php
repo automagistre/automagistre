@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Part\Fixtures;
 
-use App\Entity\Landlord\Part;
 use App\Manufacturer\Entity\Manufacturer;
 use App\Manufacturer\Fixtures\ManufacturerFixtures;
+use App\Part\Domain\Part;
 use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Landlord;
+namespace App\Part\Domain;
 
 use App\Car\Entity\Model;
 use App\Doctrine\ORM\Mapping\Traits\Identity;

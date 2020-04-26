@@ -6,11 +6,11 @@ namespace App\EventListener;
 
 use App\Car\Entity\Model;
 use App\Doctrine\Registry;
-use App\Entity\Landlord\Part;
-use App\Entity\Landlord\PartCase;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItemPart;
 use App\Event\OrderClosed;
+use App\Part\Domain\Part;
+use App\Part\Domain\PartCase;
 use function array_flip;
 use function array_key_exists;
 use function array_map;

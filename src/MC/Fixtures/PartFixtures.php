@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\MC\Fixtures;
 
-use App\Entity\Landlord\MC\Equipment;
 use App\Entity\Landlord\MC\Line;
 use App\Entity\Landlord\MC\Part;
 use function assert;
@@ -41,7 +40,7 @@ final class PartFixtures extends Fixture implements FixtureGroupInterface, Depen
         $line = $this->getReference('line-1');
         assert($line instanceof Line);
         $part = $this->getReference('part-1');
-        assert($part instanceof \App\Entity\Landlord\Part);
+        assert($part instanceof \App\Part\Domain\Part);
 
         $mcPart = new Part($line, $part, 1, false);
 

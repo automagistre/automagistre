@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Controller\EasyAdmin;
 
 use App\Doctrine\Registry;
-use App\Entity\Landlord\Part;
 use App\Entity\Tenant\Income;
 use App\Entity\Tenant\Wallet;
 use App\Event\IncomeAccrued;
 use App\Form\Type\MoneyType;
 use App\Manager\PaymentManager;
+use App\Part\Domain\Part;
 use function assert;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;

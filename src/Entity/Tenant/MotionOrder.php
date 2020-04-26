@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Tenant;
 
-use App\Entity\Landlord\Part;
+use App\Part\Domain\Part;
 use Doctrine\ORM\Mapping as ORM;
 use function sprintf;
 

@@ -200,12 +200,12 @@ easy_admin:
             edit:
                 actions: ['delete']
                 fields:
-                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { disabled: true, class: App\Entity\Landlord\Part } }
+                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { disabled: true, class: App\Part\Domain\Part } }
             form:
                 fields:
                     - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
                     - { property: 'parent', label: 'Работа / Группа', type: App\Form\Type\OrderItemParentType }
-                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { required: true, class: App\Entity\Landlord\Part } }
+                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { required: true, class: App\Part\Domain\Part } }
                     - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType }
                     - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
                     - { property: 'warranty', label: 'По гарантии?' }
@@ -277,61 +277,6 @@ easy_admin:
                     - { property: 'payday', label: 'День начисления', type: App\Form\Type\DayType }
                     - { property: 'amount', label: 'Сумма', type: App\Form\Type\MoneyType }
 
-        Part:
-            class: App\Entity\Landlord\Part
-            controller: App\Controller\EasyAdmin\PartController
-            disabled_actions: ['delete']
-            label: 'Запчасти'
-            templates:
-                show: 'easy_admin/part/show.html.twig'
-            show:
-                title: 'Запчасть № {{ entity.id }}'
-                fields:
-                    - { property: 'name', label: 'Название' }
-                    - { property: 'manufacturer.name', label: 'Производитель' }
-                    - { property: 'number', label: 'Номер', template: 'easy_admin/field_part_number.html.twig' }
-                    - { property: 'price', label: 'Цена', template: 'easy_admin/field_money.html.twig' }
-                    - { property: 'discount', label: 'Скидка', template: 'easy_admin/field_money.html.twig' }
-                    - { property: 'universal', label: 'Универсальная' }
-            list:
-                title: 'Запчасти'
-                fields:
-                    - { property: 'name', label: 'Название', template: 'easy_admin/field_part.html.twig', item: true, stock: true, referer: false }
-                    - { property: 'manufacturer.name', label: 'Производитель' }
-                    - { property: 'number', label: 'Номер', template: 'easy_admin/field_part_number.html.twig' }
-                    - { property: 'price', label: 'Цена', template: 'easy_admin/field_money.html.twig' }
-                    - { property: 'discount', label: 'Скидка', template: 'easy_admin/field_money.html.twig' }
-                    - { property: 'universal', label: 'Универсальная', template: 'easy_admin/default/field_boolean.html.twig' }
-            form:
-                fields:
-                    - { property: 'manufacturer', label: 'Производитель', type_options: { required: true, placeholder: 'Пусто' } }
-                    - { property: 'number', label: 'Номер' }
-                    - { property: 'name', label: 'Название' }
-                    - { property: 'price', label: 'Цена', type: App\Form\Type\MoneyType }
-                    - { property: 'discount', label: 'Скидка', type: App\Form\Type\MoneyType }
-                    - { property: 'universal', label: 'Универсальная' }
-            new:
-                title: 'Создать новую запчасть'
-                form_options: { data_class: \App\Part\Form\Part }
-            edit:
-                title: 'Редактировать запчасть'
-                fields:
-                    - { property: 'manufacturer', label: 'Производитель', type_options: { disabled: true } }
-                    - { property: 'number', label: 'Номер', type_options: { disabled: true } }
-        PartCase:
-            class: App\Entity\Landlord\PartCase
-            controller: App\Controller\EasyAdmin\PartCaseController
-            disabled_actions: ['show', 'edit', 'search', 'list']
-            new:
-                title: 'Создать применения запчасти к кузову'
-                fields:
-                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { disabled: true } }
-                    -
-                        property: 'carModel'
-                        label: 'Модель'
-                        type: 'easyadmin_autocomplete'
-                        help: 'Проивзодитель, Модель, Год, Поколение, Комплектация, Лошадинные силы'
-
         Motion:
             class: App\Entity\Tenant\Motion
             controller: App\Controller\EasyAdmin\MotionController
@@ -391,7 +336,7 @@ easy_admin:
             form:
                 fields:
                     - { property: 'income', label: 'Поставка', type_options: { disabled: true } }
-                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { class: App\Entity\Landlord\Part } }
+                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { class: App\Part\Domain\Part } }
                     - { property: 'price', label: 'Цена', type: App\Form\Type\MoneyType }
                     - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
             new:

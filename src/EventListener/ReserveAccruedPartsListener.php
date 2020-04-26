@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use App\Doctrine\Registry;
-use App\Entity\Landlord\Part;
 use App\Entity\Tenant\OrderItemPart;
 use App\Event\PartAccrued;
 use App\Manager\ReservationException;
 use App\Manager\ReservationManager;
+use App\Part\Domain\Part;
 use LogicException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;

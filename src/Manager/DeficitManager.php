@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Manager;
 
 use App\Doctrine\Registry;
-use App\Entity\Landlord\Part;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItemPart;
 use App\Manufacturer\Entity\Manufacturer;
 use App\Model\DeficitPart;
+use App\Part\Domain\Part;
 use function array_filter;
 use function array_map;
 use function explode;

@@ -8,7 +8,7 @@ use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\CreatedBy;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
-use App\Entity\Landlord\Part;
+use App\Part\Domain\Part;
 use App\User\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;

@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Manager;
 
 use App\Doctrine\Registry;
-use App\Entity\Landlord\Part;
-use App\Entity\Landlord\PartCross;
 use App\Entity\Tenant\IncomePart;
 use App\Entity\Tenant\Motion;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItemPart;
 use App\Enum\OrderStatus;
+use App\Part\Domain\Part;
+use App\Part\Domain\PartCross;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;

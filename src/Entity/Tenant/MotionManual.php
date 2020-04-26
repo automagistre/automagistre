@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\Tenant;
 
 use App\Entity\Embeddable\UserRelation;
-use App\Entity\Landlord\Part;
+use App\Part\Domain\Part;
 use App\User\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 

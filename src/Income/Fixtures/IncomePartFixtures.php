@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Income\Fixtures;
 
 use App\Doctrine\Registry;
-use App\Entity\Landlord\Part;
 use App\Entity\Tenant\Income;
 use App\Entity\Tenant\IncomePart;
+use App\Part\Domain\Part;
 use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
