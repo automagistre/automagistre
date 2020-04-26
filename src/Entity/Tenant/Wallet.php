@@ -22,7 +22,7 @@ class Wallet implements Transactional
     public string $name;
 
     /**
-     * @ORM\Embedded(class="Money\Currency")
+     * @ORM\Embedded(class=Currency::class)
      */
     public Currency $currency;
 

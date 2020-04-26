@@ -14,7 +14,7 @@ use Money\Money;
 trait Discount
 {
     /**
-     * @ORM\Embedded(class="Money\Money")
+     * @ORM\Embedded(class=Money::class)
      */
     private ?Money $discount = null;
 

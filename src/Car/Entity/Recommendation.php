@@ -73,7 +73,7 @@ class Recommendation implements PriceInterface
     public ?DateTime $expiredAt = null;
 
     /**
-     * @ORM\Embedded(class="App\Entity\Embeddable\OrderItemServiceRelation")
+     * @ORM\Embedded(class=OrderItemServiceRelation::class)
      */
     private ?OrderItemServiceRelation $realization = null;
 

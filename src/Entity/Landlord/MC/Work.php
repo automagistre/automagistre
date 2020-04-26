@@ -27,7 +27,7 @@ class Work
     public ?string $description = null;
 
     /**
-     * @ORM\Embedded(class="Money\Money")
+     * @ORM\Embedded(class=Money::class)
      */
     public Money $price;
 

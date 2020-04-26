@@ -40,7 +40,7 @@ class MonthlySalary
     /**
      * @var Money
      *
-     * @ORM\Embedded(class="Money\Money")
+     * @ORM\Embedded(class=Money::class)
      */
     private $amount;
 
@@ -54,7 +54,7 @@ class MonthlySalary
     /**
      * @var UserRelation|null
      *
-     * @ORM\Embedded(class="App\Entity\Embeddable\UserRelation")
+     * @ORM\Embedded(class=UserRelation::class)
      */
     private $endedBy;
 

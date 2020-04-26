@@ -25,7 +25,7 @@ class OrderPayment
     private Order $order;
 
     /**
-     * @ORM\Embedded(class="Money\Money")
+     * @ORM\Embedded(class=Money::class)
      */
     private Money $money;
 

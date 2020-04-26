@@ -41,7 +41,7 @@ abstract class Motion
     /**
      * @var PartRelation
      *
-     * @ORM\Embedded(class="App\Entity\Embeddable\PartRelation")
+     * @ORM\Embedded(class=PartRelation::class)
      */
     private $part;
 

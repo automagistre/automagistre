@@ -27,7 +27,7 @@ class Equipment
     /**
      * @Assert\Valid
      *
-     * @ORM\Embedded(class="App\Car\Entity\Equipment")
+     * @ORM\Embedded(class=CarEquipment::class)
      */
     public ?CarEquipment $equipment = null;
 

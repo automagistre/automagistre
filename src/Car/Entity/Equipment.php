@@ -18,7 +18,7 @@ final class Equipment
     /**
      * @Assert\Valid
      *
-     * @ORM\Embedded(class="App\Car\Entity\Engine")
+     * @ORM\Embedded(class=Engine::class)
      */
     public Engine $engine;
 

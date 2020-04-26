@@ -20,7 +20,7 @@ class Organization extends Operand
      *
      * @Assert\Valid
      *
-     * @ORM\Embedded(class="App\Entity\Embeddable\Requisite")
+     * @ORM\Embedded(class=Requisite::class)
      */
     public $requisite;
 

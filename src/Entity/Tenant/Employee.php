@@ -23,7 +23,7 @@ class Employee
     /**
      * @var PersonRelation
      *
-     * @ORM\Embedded(class="App\Entity\Embeddable\PersonRelation")
+     * @ORM\Embedded(class=PersonRelation::class)
      */
     private $person;
 

@@ -18,7 +18,7 @@ trait CreatedByRelation
     /**
      * @Assert\Valid
      *
-     * @ORM\Embedded(class="App\Entity\Embeddable\UserRelation", columnPrefix="created_by_")
+     * @ORM\Embedded(class=UserRelation::class, columnPrefix="created_by_")
      */
     protected ?UserRelation $createdByRelation = null;
 

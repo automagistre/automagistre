@@ -17,7 +17,7 @@ class MotionManual extends Motion
     /**
      * @var UserRelation
      *
-     * @ORM\Embedded(class="App\Entity\Embeddable\UserRelation")
+     * @ORM\Embedded(class=UserRelation::class)
      */
     private $user;
 

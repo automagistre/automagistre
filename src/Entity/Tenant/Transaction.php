@@ -25,7 +25,7 @@ abstract class Transaction
     protected string $description;
 
     /**
-     * @ORM\Embedded(class="Money\Money")
+     * @ORM\Embedded(class=Money::class)
      */
     protected Money $amount;
 

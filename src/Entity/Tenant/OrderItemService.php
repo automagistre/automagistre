@@ -32,7 +32,7 @@ class OrderItemService extends OrderItem implements PriceInterface, TotalPriceIn
     private string $service;
 
     /**
-     * @ORM\Embedded(class="App\Entity\Embeddable\OperandRelation")
+     * @ORM\Embedded(class=OperandRelation::class)
      */
     private OperandRelation $worker;
 

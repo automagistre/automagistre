@@ -29,7 +29,7 @@ class ExpenseItem
     /**
      * @var Money
      *
-     * @ORM\Embedded(class="Money\Money")
+     * @ORM\Embedded(class=Money::class)
      */
     private $amount;
 

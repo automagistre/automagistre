@@ -38,7 +38,7 @@ class Income
      *
      * @Assert\Valid
      *
-     * @ORM\Embedded(class="App\Entity\Embeddable\OperandRelation")
+     * @ORM\Embedded(class=OperandRelation::class)
      */
     private $supplier;
 
@@ -71,14 +71,14 @@ class Income
     /**
      * @var UserRelation
      *
-     * @ORM\Embedded(class="App\Entity\Embeddable\UserRelation")
+     * @ORM\Embedded(class=UserRelation::class)
      */
     private $accruedBy;
 
     /**
      * @var Money|null
      *
-     * @ORM\Embedded(class="Money\Money")
+     * @ORM\Embedded(class=Money::class)
      */
     private $accruedAmount;
 

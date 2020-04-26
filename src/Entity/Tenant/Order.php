@@ -66,12 +66,12 @@ class Order
     private ?DateTimeImmutable $closedAt = null;
 
     /**
-     * @ORM\Embedded(class="App\Entity\Embeddable\UserRelation")
+     * @ORM\Embedded(class=UserRelation::class)
      */
     private UserRelation $closedBy;
 
     /**
-     * @ORM\Embedded(class="Money\Money")
+     * @ORM\Embedded(class=Money::class)
      */
     private ?Money $closedBalance = null;
 
@@ -81,12 +81,12 @@ class Order
     private OrderStatus $status;
 
     /**
-     * @ORM\Embedded(class="App\Entity\Embeddable\CarRelation")
+     * @ORM\Embedded(class=CarRelation::class)
      */
     private CarRelation $car;
 
     /**
-     * @ORM\Embedded(class="App\Entity\Embeddable\OperandRelation")
+     * @ORM\Embedded(class=OperandRelation::class)
      */
     private OperandRelation $customer;
 

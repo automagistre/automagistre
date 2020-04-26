@@ -31,14 +31,14 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
     /**
      * @var OperandRelation
      *
-     * @ORM\Embedded(class="App\Entity\Embeddable\OperandRelation")
+     * @ORM\Embedded(class=OperandRelation::class)
      */
     private $supplier;
 
     /**
      * @var PartRelation
      *
-     * @ORM\Embedded(class="App\Entity\Embeddable\PartRelation")
+     * @ORM\Embedded(class=PartRelation::class)
      */
     private $part;
 

@@ -37,7 +37,7 @@ class IncomePart
      *
      * @Assert\Valid
      *
-     * @ORM\Embedded(class="App\Entity\Embeddable\PartRelation")
+     * @ORM\Embedded(class=PartRelation::class)
      */
     private $part;
 

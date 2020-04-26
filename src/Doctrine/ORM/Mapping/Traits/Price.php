@@ -17,7 +17,7 @@ trait Price
     /**
      * @var Money|null
      *
-     * @ORM\Embedded(class="Money\Money")
+     * @ORM\Embedded(class=Money::class)
      */
     private $price;
 

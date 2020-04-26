@@ -15,7 +15,7 @@ use Money\Money;
 class OperandTransaction extends Transaction
 {
     /**
-     * @ORM\Embedded(class="App\Entity\Embeddable\OperandRelation")
+     * @ORM\Embedded(class=OperandRelation::class)
      */
     private OperandRelation $recipient;
 

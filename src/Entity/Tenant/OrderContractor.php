@@ -27,14 +27,14 @@ class OrderContractor
     /**
      * @var OperandRelation
      *
-     * @ORM\Embedded(class="App\Entity\Embeddable\OperandRelation")
+     * @ORM\Embedded(class=OperandRelation::class)
      */
     private $contractor;
 
     /**
      * @var Money
      *
-     * @ORM\Embedded(class="Money\Money")
+     * @ORM\Embedded(class=Money::class)
      */
     private $money;
 
