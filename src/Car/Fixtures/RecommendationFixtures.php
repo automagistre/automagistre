@@ -5,7 +5,7 @@ namespace App\Car\Fixtures;
 use App\Car\Entity\Car;
 use App\Car\Entity\Recommendation;
 use App\Car\Entity\RecommendationPart;
-use App\Entity\Landlord\Operand;
+use App\Customer\Domain\Operand;
 use App\Entity\Landlord\Part;
 use App\Part\Fixtures\PartFixtures;
 use App\User\Entity\User;

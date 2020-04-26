@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Customer\Domain\Person;
 use App\Doctrine\Registry;
-use App\Entity\Landlord\Person;
 use App\Entity\Tenant\Employee;
 use App\Entity\Tenant\MonthlySalary;
 use App\Entity\Tenant\OperandTransaction;

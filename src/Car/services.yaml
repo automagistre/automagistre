@@ -41,7 +41,7 @@ easy_admin:
                         label: 'Владелец'
                         type: 'easyadmin_autocomplete'
                         type_options:
-                            class: App\Entity\Landlord\Operand
+                            class: App\Customer\Domain\Operand
                         help: 'Фамилия, Имя, Телефон, E-mail'
                     -
                         property: 'model'

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig\Extension;
 
-use App\Entity\Landlord\Operand;
+use App\Customer\Domain\Operand;
 use App\Manager\SupplierManager;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;

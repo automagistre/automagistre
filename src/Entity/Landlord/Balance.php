@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Landlord;
 
+use App\Customer\Domain\Operand;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
 use App\Tenant\Tenant;
@@ -26,18 +27,14 @@ class Balance
     }
 
     /**
-     * @var Operand
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\Operand")
+     * @ORM\ManyToOne(targetEntity=Operand::class)
      */
-    private $operand;
+    private Operand $operand;
 
     /**
-     * @var Tenant
-     *
      * @ORM\Column(type="tenant_enum")
      */
-    private $tenant;
+    private Tenant $tenant;
 
     public function __construct(Operand $operand, Tenant $tenant, Money $balance)
     {

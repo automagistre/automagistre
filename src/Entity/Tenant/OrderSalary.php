@@ -17,14 +17,14 @@ class OrderSalary
     /**
      * @var Order
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\Order")
+     * @ORM\ManyToOne(targetEntity=Order::class)
      */
     private $order;
 
     /**
      * @var OperandTransaction
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\OperandTransaction")
+     * @ORM\ManyToOne(targetEntity=OperandTransaction::class)
      */
     private $transaction;
 

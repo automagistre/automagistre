@@ -28,7 +28,7 @@ class IncomePart
      *
      * @Assert\NotBlank
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\Income", inversedBy="incomeParts")
+     * @ORM\ManyToOne(targetEntity=Income::class, inversedBy="incomeParts")
      */
     private $income;
 
@@ -44,7 +44,7 @@ class IncomePart
     /**
      * @var MotionIncome|null
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\MotionIncome")
+     * @ORM\ManyToOne(targetEntity=MotionIncome::class)
      */
     private $accruedMotion;
 

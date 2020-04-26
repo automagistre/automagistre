@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Car\Entity;
 
 use App\Car\Enum\BodyType;
+use App\Customer\Domain\Operand;
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
-use App\Entity\Landlord\Operand;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -42,14 +42,14 @@ class Car
     /**
      * @Assert\Valid
      *
-     * @ORM\Embedded(class="App\Car\Entity\Equipment")
+     * @ORM\Embedded(class=Equipment::class)
      */
     public ?Equipment $equipment = null;
 
     /**
      * @Assert\NotBlank
      *
-     * @ORM\ManyToOne(targetEntity="App\Car\Entity\Model")
+     * @ORM\ManyToOne(targetEntity=Model::class)
      * @ORM\JoinColumn
      */
     public ?Model $model = null;
@@ -72,7 +72,7 @@ class Car
     public ?BodyType $caseType = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\Operand")
+     * @ORM\ManyToOne(targetEntity=Operand::class)
      * @ORM\JoinColumn
      */
     public ?Operand $owner = null;
@@ -85,7 +85,7 @@ class Car
     /**
      * @var Collection<int, Recommendation>
      *
-     * @ORM\OneToMany(targetEntity="App\Car\Entity\Recommendation", mappedBy="car", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Recommendation::class, mappedBy="car", cascade={"persist"})
      * @ORM\OrderBy({"createdAt": "ASC"})
      */
     private ?Collection $recommendations;

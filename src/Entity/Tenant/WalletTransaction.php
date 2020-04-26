@@ -15,7 +15,7 @@ class WalletTransaction extends Transaction
     /**
      * @var Wallet
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\Wallet")
+     * @ORM\ManyToOne(targetEntity=Wallet::class)
      * @ORM\JoinColumn
      */
     private $recipient;

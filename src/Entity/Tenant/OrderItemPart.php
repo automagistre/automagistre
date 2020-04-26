@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Entity\Tenant;
 
+use App\Customer\Domain\Operand;
 use App\Doctrine\ORM\Mapping\Traits\Discount;
 use App\Doctrine\ORM\Mapping\Traits\Price;
 use App\Doctrine\ORM\Mapping\Traits\Warranty;
 use App\Entity\Discounted;
 use App\Entity\Embeddable\OperandRelation;
 use App\Entity\Embeddable\PartRelation;
-use App\Entity\Landlord\Operand;
 use App\Entity\Landlord\Part;
 use App\Entity\WarrantyInterface;
 use App\Money\PriceInterface;

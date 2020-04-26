@@ -6,7 +6,7 @@ namespace App\Car\Form\DTO;
 
 use App\Car\Entity\Car;
 use App\Car\Entity\Recommendation;
-use App\Entity\Landlord\Operand;
+use App\Customer\Domain\Operand;
 use App\Form\Model\Model;
 use Money\Money;
 

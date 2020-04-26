@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin;
+namespace App\Customer\Ports\EasyAdmin;
 
-use App\Entity\Landlord\Person;
+use App\Customer\Domain\Person;
 use App\Event\PersonCreated;
 use function array_map;
 use function assert;

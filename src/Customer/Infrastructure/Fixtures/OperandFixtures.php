@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Operand\Fixtures;
+namespace App\Customer\Infrastructure\Fixtures;
 
-use App\Entity\Landlord\OperandNote;
-use App\Entity\Landlord\Organization;
-use App\Entity\Landlord\Person;
+use App\Customer\Domain\OperandNote;
+use App\Customer\Domain\Organization;
+use App\Customer\Domain\Person;
 use App\Enum\NoteType;
 use App\User\Entity\User;
 use App\User\Fixtures\UserFixtures;

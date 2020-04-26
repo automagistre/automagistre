@@ -20,7 +20,7 @@ class Equipment
     use Identity;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Car\Entity\Model")
+     * @ORM\ManyToOne(targetEntity=Model::class)
      */
     public ?Model $model = null;
 
@@ -39,7 +39,7 @@ class Equipment
     /**
      * @var Collection<int, Line>
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Landlord\MC\Line", mappedBy="equipment")
+     * @ORM\OneToMany(targetEntity=Line::class, mappedBy="equipment")
      */
     public ?Collection $lines = null;
 

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
+use App\Customer\Domain\Operand;
 use App\Doctrine\Registry;
-use App\Entity\Landlord\Operand;
 use App\Entity\Tenant\Employee;
 use App\Entity\Tenant\MotionOrder;
 use App\Entity\Tenant\OperandTransaction;

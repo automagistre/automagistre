@@ -1,0 +1,150 @@
+easy_admin:
+    entities:
+        Operand:
+            class: App\Customer\Domain\Operand
+            controller: App\Customer\Ports\EasyAdmin\OperandController
+            disabled_actions: ['list', 'new', 'edit', 'delete', 'search']
+
+        Person:
+            class: App\Customer\Domain\Person
+            controller: App\Customer\Ports\EasyAdmin\PersonController
+            disabled_actions: ['delete']
+            search:
+                fields: ['firstname', 'lastname']
+            templates:
+                show: 'easy_admin/person/show.html.twig'
+            list:
+                title: 'Люди'
+                fields:
+                    - { property: 'id', template: 'easy_admin/default/field_raw.html.twig' }
+                    - { property: 'fullName', label: 'Ф.И.О', template: 'easy_admin/field_item_show.html.twig' }
+                    - { property: 'telephone', label: 'Телефон', template: 'easy_admin/field_telephone.html.twig' }
+                    - { property: 'officePhone', label: 'Раб. Телефон', template: 'easy_admin/field_telephone.html.twig' }
+                    - { property: 'email', label: 'Почта' }
+                    - { property: 'balance', label: 'Баланс', virtual: true, sortable: true, template: 'easy_admin/operand/field_balance.html.twig' }
+            form:
+                fields:
+                    - { property: 'firstname', label: 'Имя' }
+                    - { property: 'lastname', label: 'Фамилия' }
+                    - { property: 'telephone', label: 'Телефон', type: Misd\PhoneNumberBundle\Form\Type\PhoneNumberType }
+                    - { property: 'officePhone', label: 'Раб. Телефон', type: Misd\PhoneNumberBundle\Form\Type\PhoneNumberType }
+                    - { property: 'email', label: 'Почта' }
+                    - { property: 'contractor', label: 'Подрядчик' }
+                    - { property: 'seller', label: 'Поставщик' }
+            new:
+                title: 'Создать нового Человека'
+            edit:
+                title: 'Редактировать Человека'
+            show:
+                title: 'Человек № {{ entity.id }}'
+                fields:
+                    - { property: 'firstname', label: 'Имя' }
+                    - { property: 'lastname', label: 'Фамилия' }
+                    - { property: 'telephone', label: 'Телефон', template: 'easy_admin/field_telephone.html.twig' }
+                    - { property: 'officePhone', label: 'Раб. Телефон', template: 'easy_admin/field_telephone.html.twig' }
+                    - { property: 'email', label: 'Почта' }
+                    - { property: 'contractor', label: 'Подрядчик' }
+                    - { property: 'seller', label: 'Поставщик' }
+
+        PersonNote:
+            class: App\Customer\Domain\OperandNote
+            controller: App\Customer\Ports\EasyAdmin\PersonNoteController
+            disabled_actions: ['show', 'list', 'search', 'autocomplete']
+            form:
+                fields:
+                    - { property: 'operand', label: 'Человек', type: 'easyadmin_autocomplete', type_options: { disabled: true } }
+                    - { property: 'type', label: 'Тип', type: App\Form\Type\NoteTypeType }
+                    - { property: 'text', label: 'Текст' }
+            new:
+                title: 'Создать новую заметку по Человеку'
+            edit:
+                title: 'Редактировать заметку № {{ entity.id }} по Человеку'
+
+        Organization:
+            class: App\Customer\Domain\Organization
+            controller: App\Customer\Ports\EasyAdmin\OrganizationController
+            disabled_actions: ['delete']
+            templates:
+                show: 'easy_admin/organization/show.html.twig'
+            list:
+                title: 'Организации'
+                fields:
+                    - { property: 'id' }
+                    - { property: 'name', label: 'Название', template: 'easy_admin/field_item_show.html.twig' }
+                    - { property: 'address', label: 'Адрес' }
+                    - { property: 'email', label: 'Почта' }
+                    - { property: 'telephone', label: 'Телефон', template: 'easy_admin/field_telephone.html.twig' }
+                    - { property: 'officePhone', label: 'Офисный телефон', template: 'easy_admin/field_telephone.html.twig' }
+                    - { property: 'contractor', label: 'Подрядчик', type: 'boolean' }
+                    - { property: 'seller', label: 'Поставщик', type: 'boolean' }
+                    - { property: 'balance', label: 'Баланс', virtual: true, sortable: true, template: 'easy_admin/operand/field_balance.html.twig' }
+            show:
+                title: Организация № {{ entity.id }}
+                fields:
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'address', label: 'Адрес' }
+                    - { property: 'email', label: 'Почта' }
+                    - { property: 'telephone', label: 'Телефон', template: 'easy_admin/field_telephone.html.twig' }
+                    - { property: 'officePhone', label: 'Офисный телефон', template: 'easy_admin/field_telephone.html.twig' }
+                    - { property: 'contractor', label: 'Подрядчик' }
+                    - { property: 'seller', label: 'Поставщик' }
+            form:
+                fields:
+                    - { type: 'group', label: 'Основная информация', css_class: 'col-sm-6' }
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'address', label: 'Адрес' }
+                    - { property: 'email', label: 'Почта' }
+                    - { property: 'telephone', label: 'Телефон', type: Misd\PhoneNumberBundle\Form\Type\PhoneNumberType }
+                    - { property: 'officePhone', label: 'Офисный телефон', type: Misd\PhoneNumberBundle\Form\Type\PhoneNumberType }
+                    - { property: 'contractor', label: 'Подрядчик' }
+                    - { property: 'seller', label: 'Поставщик' }
+                    - { type: 'group', label: 'Реквизиты', css_class: 'col-sm-6' }
+                    - { property: 'requisite', type: App\Form\Type\RequisiteType, type_options: { label: false } }
+            new:
+                title: 'Создать новую Организацию'
+            edit:
+                title: 'Редактирование Организации № {{ entity.id }}'
+
+        OrganizationNote:
+            class: App\Customer\Domain\OperandNote
+            controller: App\Customer\Ports\EasyAdmin\OrganizationNoteController
+            disabled_actions: ['show', 'list', 'search', 'autocomplete']
+            form:
+                fields:
+                    - { property: 'operand', label: 'Организация', type: 'easyadmin_autocomplete', type_options: { disabled: true } }
+                    - { property: 'type', label: 'Тип', type: App\Form\Type\NoteTypeType }
+                    - { property: 'text', label: 'Текст' }
+            new:
+                title: 'Создать новую заметку по Организации'
+            edit:
+                title: 'Редактировать заметку № {{ entity.id }} по Организации'
+
+        OperandTransaction:
+            class: App\Entity\Tenant\OperandTransaction
+            controller: App\Customer\Ports\EasyAdmin\OperandTransactionController
+            disabled_actions: ['show', 'delete', 'edit']
+            list:
+                title: 'Список проводок'
+                fields:
+                    - { property: 'id', template: 'easy_admin/default/field_raw.html.twig' }
+                    - { property: 'recipient', label: 'Получатель', template: 'easy_admin/field_show.html.twig' }
+                    - { property: 'amount', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
+                    - { property: 'createdAt', label: 'Дата' }
+                    - { property: 'description', label: 'Описание', template: 'easy_admin/default/field_raw.html.twig' }
+            new:
+                title: 'Создать новую проводку {{ "increment" == app.request.query.get("type") ? "пополнения" : "списания" }}'
+                form_options: { data_class: App\Customer\Form\OperandTransactionModel }
+                fields:
+                    - { property: 'recipient', label: 'Получатель', type: 'text', type_options: { disabled: true } }
+                    - { property: 'amount', label: 'Сумма', type: App\Form\Type\MoneyType }
+                    - { property: 'description', label: 'Описание', type: 'text', type_options: { required: true } }
+
+doctrine:
+    orm:
+        entity_managers:
+            landlord:
+                mappings:
+                    customer:
+                        type: annotation
+                        prefix: App\Customer\Domain
+                        dir: '%kernel.project_dir%/src/Customer/Domain'

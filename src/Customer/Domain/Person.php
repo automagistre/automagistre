@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Landlord;
+namespace App\Customer\Domain;
 
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\User\Entity;
 
+use App\Customer\Domain\Person;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
-use App\Entity\Landlord\Person;
 use App\Tenant\Tenant;
 use App\User\Domain\UserId;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -66,7 +66,7 @@ class User implements UserInterface, EquatableInterface, Serializable
     private Collection $credentials;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Landlord\Person", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity=Person::class, cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private ?Person $person;

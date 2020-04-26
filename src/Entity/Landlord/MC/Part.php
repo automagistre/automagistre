@@ -15,12 +15,12 @@ class Part
     use Identity;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\MC\Line", inversedBy="parts")
+     * @ORM\ManyToOne(targetEntity=Line::class, inversedBy="parts")
      */
     public ?Line $line;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\Part")
+     * @ORM\ManyToOne(targetEntity=App\Entity\Landlord\Part::class)
      */
     public \App\Entity\Landlord\Part $part;
 

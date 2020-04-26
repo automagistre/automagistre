@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity\Tenant;
 
+use App\Customer\Domain\Operand;
 use App\Entity\Embeddable\OperandRelation;
-use App\Entity\Landlord\Operand;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 

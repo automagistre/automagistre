@@ -17,19 +17,19 @@ class Line
     use Identity;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\MC\Equipment", inversedBy="lines")
+     * @ORM\ManyToOne(targetEntity=Equipment::class, inversedBy="lines")
      */
     public Equipment $equipment;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\MC\Work")
+     * @ORM\ManyToOne(targetEntity=Work::class)
      */
     public Work $work;
 
     /**
      * @var Collection<int, Part>|iterable
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Landlord\MC\Part", mappedBy="line")
+     * @ORM\OneToMany(targetEntity=Part::class, mappedBy="line")
      */
     public iterable $parts;
 

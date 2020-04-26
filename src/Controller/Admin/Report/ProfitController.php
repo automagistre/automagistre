@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Report;
 
+use App\Customer\Domain\Operand;
 use App\Doctrine\Registry;
-use App\Entity\Landlord\Operand;
 use App\Entity\Tenant\Order;
 use function count;
 use DateInterval;

@@ -38,7 +38,7 @@ class Model
     public UuidInterface $uuid;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Manufacturer\Entity\Manufacturer")
+     * @ORM\ManyToOne(targetEntity=Manufacturer::class)
      * @ORM\JoinColumn(nullable=false)
      */
     public ?Manufacturer $manufacturer = null;

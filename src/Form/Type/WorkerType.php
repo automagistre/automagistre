@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
+use App\Customer\Domain\Operand;
+use App\Customer\Domain\Organization;
+use App\Customer\Domain\Person;
 use App\Doctrine\Registry;
-use App\Entity\Landlord\Operand;
-use App\Entity\Landlord\Organization;
-use App\Entity\Landlord\Person;
 use App\Entity\Tenant\OrderItemService;
 use function array_key_exists;
 use DateTime;

@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin;
+namespace App\Customer\Ports\EasyAdmin;
 
+use App\Controller\EasyAdmin\AbstractController;
+use App\Customer\Domain\Operand;
+use App\Customer\Form\OperandTransactionModel;
 use App\Doctrine\Registry;
-use App\Entity\Landlord\Operand;
 use App\Entity\Tenant\OperandTransaction;
 use App\Entity\Tenant\Wallet;
-use App\Form\Model\OperandTransactionModel;
 use App\Manager\PaymentManager;
 use function assert;
 use Doctrine\ORM\QueryBuilder;

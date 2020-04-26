@@ -17,14 +17,14 @@ class Salary
     /**
      * @var OperandTransaction
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\OperandTransaction")
+     * @ORM\ManyToOne(targetEntity=OperandTransaction::class)
      */
     private $income;
 
     /**
      * @var WalletTransaction
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\WalletTransaction")
+     * @ORM\ManyToOne(targetEntity=WalletTransaction::class)
      */
     private $outcome;
 

@@ -43,7 +43,7 @@ class Part
     public UuidInterface $uuid;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Manufacturer\Entity\Manufacturer")
+     * @ORM\ManyToOne(targetEntity=Manufacturer::class)
      * @ORM\JoinColumn
      */
     public Manufacturer $manufacturer;
@@ -66,7 +66,7 @@ class Part
     /**
      * @var Collection<int, Part>
      *
-     * @ORM\ManyToMany(targetEntity="App\Entity\Landlord\Part")
+     * @ORM\ManyToMany(targetEntity=Part::class)
      * @ORM\JoinTable
      */
     public iterable $relation;

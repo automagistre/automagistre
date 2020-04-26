@@ -34,7 +34,7 @@ class RecommendationPart
     /**
      * @psalm-readonly
      *
-     * @ORM\ManyToOne(targetEntity="App\Car\Entity\Recommendation", inversedBy="parts")
+     * @ORM\ManyToOne(targetEntity=Recommendation::class, inversedBy="parts")
      * @ORM\JoinColumn
      */
     public Recommendation $recommendation;
@@ -42,7 +42,7 @@ class RecommendationPart
     /**
      * @psalm-readonly
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\Part")
+     * @ORM\ManyToOne(targetEntity=Part::class)
      * @ORM\JoinColumn
      */
     public ?Part $part = null;

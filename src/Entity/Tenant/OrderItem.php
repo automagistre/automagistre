@@ -44,7 +44,7 @@ abstract class OrderItem
      * @var Collection<int, OrderItem>
      *
      * @ORM\OneToMany(
-     *     targetEntity="App\Entity\Tenant\OrderItem",
+     *     targetEntity=OrderItem::class,
      *     mappedBy="parent",
      *     cascade={"persist"},
      *     orphanRemoval=true
@@ -56,14 +56,14 @@ abstract class OrderItem
     /**
      * @var Order
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\Order", inversedBy="items")
+     * @ORM\ManyToOne(targetEntity=Order::class, inversedBy="items")
      */
     private $order;
 
     /**
      * @var OrderItem|null
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\OrderItem", inversedBy="children", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity=OrderItem::class, inversedBy="children", cascade={"persist"})
      * @ORM\JoinColumn(referencedColumnName="id", onDelete="CASCADE")
      */
     private $parent;

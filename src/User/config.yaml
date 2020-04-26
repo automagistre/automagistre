@@ -16,7 +16,7 @@ easy_admin:
                 form_options: { data_class: stdClass }
                 fields:
                     - { property: 'username', label: 'Имя пользователя', type: 'email' }
-                    - { property: 'person', label: 'Клиент', type: 'easyadmin_autocomplete', type_options: { class: App\Entity\Landlord\Person } }
+                    - { property: 'person', label: 'Клиент', type: 'easyadmin_autocomplete', type_options: { class: App\Customer\Domain\Person } }
                     - { property: 'password', label: 'Пароль', type: 'password', type_options: { required: true } }
                     - { property: 'roles', label: 'Роли', type: App\User\Form\RoleType, type_options: { required: false, multiple: true, expanded: true } }
                     - { property: 'tenants', label: 'Севрисы', type: App\Tenant\Form\TenantType, type_options: { required: false, multiple: true, expanded: true } }
@@ -32,7 +32,7 @@ easy_admin:
                 title: 'Редактировать пользователя № {{ entity.id }}'
                 fields:
                     - { property: 'username', label: 'Имя пользователя', type: 'email', type_options: { disabled: true } }
-                    - { property: 'person', label: 'Клиент', type: 'easyadmin_autocomplete', type_options: { class: App\Entity\Landlord\Person } }
+                    - { property: 'person', label: 'Клиент', type: 'easyadmin_autocomplete', type_options: { class: App\Customer\Domain\Person } }
                     - { property: 'password', label: 'Пароль', type: 'password', type_options: { required: false, mapped: false } }
                     - { property: 'roles', label: 'Роли', type: App\User\Form\RoleType, type_options: { required: false, multiple: true, expanded: true } }
                     - { property: 'tenants', label: 'Севрисы', type: App\Tenant\Form\TenantType, type_options: { required: false, multiple: true, expanded: true } }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Landlord;
+namespace App\Customer\Domain;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Entity\Tenant\OperandTransaction;

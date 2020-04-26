@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form\Model;
 
-use App\Entity\Landlord\Operand;
+use App\Customer\Domain\Operand;
 use App\Entity\Landlord\Part;
 use App\Entity\Tenant\OrderItemPart;
 use Money\Money;

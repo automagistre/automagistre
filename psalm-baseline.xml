@@ -111,11 +111,6 @@
       <code>$person</code>
     </PossiblyNullArgument>
   </file>
-  <file src="src/Command/TestCommand.php">
-    <PossiblyFalseArgument occurrences="1">
-      <code>json_encode(['bla' =&gt; 'fuck'])</code>
-    </PossiblyFalseArgument>
-  </file>
   <file src="src/Controller/EasyAdmin/EmployeeController.php">
     <PossiblyNullReference occurrences="3">
       <code>transactional</code>
@@ -165,23 +160,6 @@
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtolower($searchString)</code>
     </PossiblyFalseOperand>
-  </file>
-  <file src="src/Controller/EasyAdmin/OperandController.php">
-    <PossiblyFalseOperand occurrences="1">
-      <code>mb_strtolower($item)</code>
-    </PossiblyFalseOperand>
-  </file>
-  <file src="src/Controller/EasyAdmin/OperandTransactionController.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$model-&gt;description</code>
-      <code>$transaction-&gt;getId()</code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>transactional</code>
-    </PossiblyNullReference>
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>OperandTransactionController</code>
-    </PropertyNotSetInConstructor>
   </file>
   <file src="src/Controller/EasyAdmin/OrderController.php">
     <PossiblyFalseOperand occurrences="1">
@@ -280,18 +258,53 @@
       <code>PartController</code>
     </PropertyNotSetInConstructor>
   </file>
-  <file src="src/Controller/EasyAdmin/PersonController.php">
+  <file src="src/Controller/TestController.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>TestController</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Customer/Domain/Organization.php">
+    <PropertyNotSetInConstructor occurrences="2">
+      <code>$name</code>
+      <code>$address</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Customer/Domain/Person.php">
+    <PossiblyNullArgument occurrences="2">
+      <code>$this-&gt;lastname</code>
+      <code>$this-&gt;firstname</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/Customer/Form/OperandTransactionModel.php">
+    <PropertyNotSetInConstructor occurrences="2">
+      <code>$recipient</code>
+      <code>$wallet</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Customer/Ports/EasyAdmin/OperandController.php">
+    <PossiblyFalseOperand occurrences="1">
+      <code>mb_strtolower($item)</code>
+    </PossiblyFalseOperand>
+  </file>
+  <file src="src/Customer/Ports/EasyAdmin/OperandTransactionController.php">
+    <PossiblyNullArgument occurrences="2">
+      <code>$model-&gt;description</code>
+      <code>$transaction-&gt;getId()</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="1">
+      <code>transactional</code>
+    </PossiblyNullReference>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>OperandTransactionController</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Customer/Ports/EasyAdmin/PersonController.php">
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtolower($item)</code>
     </PossiblyFalseOperand>
     <PossiblyNullReference occurrences="1">
       <code>getRepository</code>
     </PossiblyNullReference>
-  </file>
-  <file src="src/Controller/TestController.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>TestController</code>
-    </PropertyNotSetInConstructor>
   </file>
   <file src="src/Doctrine/ORM/Mapping/NamespaceNamingStrategy.php">
     <PossiblyNullArgument occurrences="2">
@@ -328,12 +341,6 @@
       <code>EmployeeFixtures</code>
     </PropertyNotSetInConstructor>
   </file>
-  <file src="src/Entity/Landlord/Organization.php">
-    <PropertyNotSetInConstructor occurrences="2">
-      <code>$name</code>
-      <code>$address</code>
-    </PropertyNotSetInConstructor>
-  </file>
   <file src="src/Entity/Landlord/Part.php">
     <PossiblyNullArgument occurrences="1">
       <code>preg_replace('/[^a-zA-Z0-9]/', '', $number)</code>
@@ -343,12 +350,6 @@
     <NullArgument occurrences="1">
       <code>$this-&gt;parts</code>
     </NullArgument>
-  </file>
-  <file src="src/Entity/Landlord/Person.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$this-&gt;lastname</code>
-      <code>$this-&gt;firstname</code>
-    </PossiblyNullArgument>
   </file>
   <file src="src/Entity/Tenant/Employee.php">
     <PossiblyNullReference occurrences="2">
@@ -426,12 +427,6 @@
       <code>$values</code>
     </PossiblyNullArrayOffset>
   </file>
-  <file src="src/Form/Model/OperandTransactionModel.php">
-    <PropertyNotSetInConstructor occurrences="2">
-      <code>$recipient</code>
-      <code>$wallet</code>
-    </PropertyNotSetInConstructor>
-  </file>
   <file src="src/Form/Model/OrderGroup.php">
     <PropertyNotSetInConstructor occurrences="1">
       <code>OrderGroup</code>
@@ -483,12 +478,6 @@
       <code>$request-&gt;getContent()</code>
     </PossiblyInvalidArgument>
   </file>
-  <file src="src/JSONRPC/ValidationException.php">
-    <TooManyTemplateParams occurrences="2">
-      <code>ConstraintViolationListInterface</code>
-      <code>ConstraintViolationListInterface&lt;ConstraintViolationInterface&gt;</code>
-    </TooManyTemplateParams>
-  </file>
   <file src="src/Manager/DeficitManager.php">
     <InvalidNullableReturnType occurrences="1">
       <code>object</code>
@@ -517,11 +506,6 @@
     <PossiblyNullArgument occurrences="1">
       <code>$income-&gt;getAccruedAmount()</code>
     </PossiblyNullArgument>
-  </file>
-  <file src="src/Manufacturer/Entity/Manufacturer.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>$logo</code>
-    </PropertyNotSetInConstructor>
   </file>
   <file src="src/Order/Fixtures/OrderFixtures.php">
     <PossiblyNullArgument occurrences="1">

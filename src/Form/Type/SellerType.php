@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
+use App\Customer\Domain\Operand;
 use App\Entity\Embeddable\OperandRelation;
-use App\Entity\Landlord\Operand;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;

@@ -17,7 +17,7 @@ class Penalty
     /**
      * @var OperandTransaction
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\OperandTransaction")
+     * @ORM\ManyToOne(targetEntity=OperandTransaction::class)
      */
     private $transaction;
 

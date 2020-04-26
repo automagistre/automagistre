@@ -6,12 +6,12 @@ namespace App\Controller\EasyAdmin;
 
 use App\Car\Entity\Car;
 use App\Car\Entity\Model;
+use App\Customer\Domain\Operand;
+use App\Customer\Domain\Organization;
+use App\Customer\Domain\Person;
 use App\Doctrine\Registry;
 use App\Entity\Landlord\MC\Line;
-use App\Entity\Landlord\Operand;
-use App\Entity\Landlord\Organization;
 use App\Entity\Landlord\Part;
-use App\Entity\Landlord\Person;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItem;
 use App\Entity\Tenant\OrderItemPart;

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Entity\Tenant;
 
+use App\Customer\Domain\Operand;
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\CreatedByRelation as CreatedBy;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Entity\Embeddable\OperandRelation;
 use App\Entity\Embeddable\UserRelation;
-use App\Entity\Landlord\Operand;
 use App\User\Entity\User;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -53,7 +53,7 @@ class Income
      * @var Collection<int, IncomePart>
      *
      * @ORM\OneToMany(
-     *     targetEntity="App\Entity\Tenant\IncomePart",
+     *     targetEntity=IncomePart::class,
      *     mappedBy="income",
      *     orphanRemoval=true,
      *     cascade={"persist", "remove"}

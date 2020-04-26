@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Entity\Tenant;
 
+use App\Customer\Domain\Operand;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Entity\Embeddable\OperandRelation;
-use App\Entity\Landlord\Operand;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 
@@ -20,7 +20,7 @@ class OrderContractor
     /**
      * @var Order
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\Order")
+     * @ORM\ManyToOne(targetEntity=Order::class)
      */
     private $order;
 

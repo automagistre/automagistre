@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Entity\Tenant;
 
 use App\Car\Entity\Car;
+use App\Customer\Domain\Operand;
+use App\Customer\Domain\Person;
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\CreatedByRelation as CreatedBy;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
@@ -12,8 +14,6 @@ use App\Entity\Discounted;
 use App\Entity\Embeddable\CarRelation;
 use App\Entity\Embeddable\OperandRelation;
 use App\Entity\Embeddable\UserRelation;
-use App\Entity\Landlord\Operand;
-use App\Entity\Landlord\Person;
 use App\Entity\WarrantyInterface;
 use App\Enum\OrderStatus;
 use App\Money\TotalPriceInterface;
@@ -51,7 +51,7 @@ class Order
      * @var Collection<int, OrderItem>
      *
      * @ORM\OneToMany(
-     *     targetEntity="App\Entity\Tenant\OrderItem",
+     *     targetEntity=OrderItem::class,
      *     mappedBy="order",
      *     cascade={"persist"},
      *     orphanRemoval=true
@@ -91,7 +91,7 @@ class Order
     private OperandRelation $customer;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\Employee")
+     * @ORM\ManyToOne(targetEntity=Employee::class)
      */
     private ?Employee $worker = null;
 
@@ -108,7 +108,7 @@ class Order
     /**
      * @var Collection<int, OrderPayment>
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Tenant\OrderPayment", mappedBy="order", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=OrderPayment::class, mappedBy="order", cascade={"persist"})
      * @ORM\OrderBy({"createdAt": "ASC"})
      */
     private $payments;
@@ -116,7 +116,7 @@ class Order
     /**
      * @var Collection<int, OrderSuspend>
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Tenant\OrderSuspend", mappedBy="order", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=OrderSuspend::class, mappedBy="order", cascade={"persist", "remove"})
      * @ORM\OrderBy({"createdAt": "ASC"})
      */
     private $suspends;

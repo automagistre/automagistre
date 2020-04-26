@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace App\Employee\Fixtures;
 
+use App\Customer\Domain\Person;
 use App\Doctrine\Registry;
-use App\Entity\Landlord\Operand;
-use App\Entity\Landlord\Person;
 use App\Entity\Tenant\Employee;
-use App\Manufacturer\Entity\Manufacturer;
-use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;

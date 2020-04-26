@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Car\Entity;
 
+use App\Customer\Domain\Operand;
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\CreatedBy;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
 use App\Entity\Embeddable\OrderItemServiceRelation;
-use App\Entity\Landlord\Operand;
 use App\Entity\Tenant\OrderItemService;
 use App\Money\PriceInterface;
 use App\Tenant\Tenant;
@@ -43,7 +43,7 @@ class Recommendation implements PriceInterface
     /**
      * @var Car
      *
-     * @ORM\ManyToOne(targetEntity="App\Car\Entity\Car", inversedBy="recommendations")
+     * @ORM\ManyToOne(targetEntity=Car::class, inversedBy="recommendations")
      * @ORM\JoinColumn
      */
     public $car;
@@ -62,7 +62,7 @@ class Recommendation implements PriceInterface
      *
      * @psalm-readonly
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\Operand")
+     * @ORM\ManyToOne(targetEntity=Operand::class)
      * @ORM\JoinColumn(nullable=false)
      */
     public $worker;
@@ -81,7 +81,7 @@ class Recommendation implements PriceInterface
      * @var Collection<int, RecommendationPart>
      *
      * @ORM\OneToMany(
-     *     targetEntity="App\Car\Entity\RecommendationPart",
+     *     targetEntity=RecommendationPart::class,
      *     mappedBy="recommendation",
      *     cascade={"persist"},
      *     orphanRemoval=true

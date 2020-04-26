@@ -15,7 +15,7 @@ class MotionIncome extends Motion
     /**
      * @var IncomePart
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\IncomePart")
+     * @ORM\ManyToOne(targetEntity=IncomePart::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $incomePart;

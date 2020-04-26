@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Model;
+namespace App\Customer\Form;
 
-use App\Entity\Landlord\Operand;
+use App\Customer\Domain\Operand;
 use App\Entity\Tenant\Wallet;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;

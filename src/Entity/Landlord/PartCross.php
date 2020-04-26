@@ -19,7 +19,7 @@ class PartCross
     /**
      * @var Collection<int, Part>
      *
-     * @ORM\ManyToMany(targetEntity="App\Entity\Landlord\Part")
+     * @ORM\ManyToMany(targetEntity=Part::class)
      * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
      */
     private $parts;

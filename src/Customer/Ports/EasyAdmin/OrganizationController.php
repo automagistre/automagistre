@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin;
+namespace App\Customer\Ports\EasyAdmin;
 
-use App\Entity\Landlord\Organization;
+use App\Customer\Domain\Organization;
 use App\Event\OrganizationCreated;
 use function assert;
 

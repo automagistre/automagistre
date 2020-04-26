@@ -20,7 +20,7 @@ class OrderNote extends Note
     /**
      * @Assert\NotBlank
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\Order")
+     * @ORM\ManyToOne(targetEntity=Order::class)
      */
     public ?Order $order = null;
 

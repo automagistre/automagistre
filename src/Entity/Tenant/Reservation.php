@@ -24,7 +24,7 @@ class Reservation
     /**
      * @var OrderItemPart
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\OrderItemPart")
+     * @ORM\ManyToOne(targetEntity=OrderItemPart::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $orderItemPart;

@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin;
+namespace App\Customer\Ports\EasyAdmin;
 
 use App\Car\Entity\Car;
+use App\Controller\EasyAdmin\AbstractController;
+use App\Customer\Domain\Operand;
+use App\Customer\Domain\OperandNote;
+use App\Customer\Domain\Organization;
+use App\Customer\Domain\Person;
 use App\Doctrine\Registry;
 use App\Entity\Landlord\Balance;
-use App\Entity\Landlord\Operand;
-use App\Entity\Landlord\OperandNote;
-use App\Entity\Landlord\Organization;
-use App\Entity\Landlord\Person;
 use App\Entity\Tenant\OperandTransaction;
 use App\Entity\Tenant\Order;
 use App\Manager\PaymentManager;

@@ -6,7 +6,7 @@ use App\Calendar\Application\CalendarEntryView;
 use App\Calendar\Application\Stream;
 use App\Calendar\Application\StreamCollection;
 use App\Calendar\Domain\CalendarEntryId;
-use App\Entity\Landlord\Person;
+use App\Customer\Domain\Person;
 use App\Entity\Tenant\Employee;
 use DateInterval;
 use DateTimeImmutable;

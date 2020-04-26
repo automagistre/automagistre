@@ -24,7 +24,7 @@ class OrderSuspend
     /**
      * @var Order
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\Order", inversedBy="suspends")
+     * @ORM\ManyToOne(targetEntity=Order::class, inversedBy="suspends")
      */
     private $order;
 

@@ -21,12 +21,12 @@ class PartCase
     use Identity;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\Part")
+     * @ORM\ManyToOne(targetEntity=Part::class)
      */
     public ?Part $part = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Car\Entity\Model")
+     * @ORM\ManyToOne(targetEntity=Model::class)
      */
     public ?Model $carModel = null;
 

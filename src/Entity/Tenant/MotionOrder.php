@@ -16,7 +16,7 @@ class MotionOrder extends Motion
     /**
      * @var Order
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\Order")
+     * @ORM\ManyToOne(targetEntity=Order::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $order;

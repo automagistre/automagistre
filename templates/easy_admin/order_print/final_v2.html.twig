@@ -106,7 +106,7 @@
                                 e-mail: {{ customer.email }}
                             {% endif %}
                         {%- elseif customer.type('organization') -%}
-                            {# @var customer \App\Entity\Landlord\Organization #}
+                            {# @var customer \App\Customer\Domain\Organization #}
                             {%- if not customer.requisite.empty -%}
                                 , {{- customer.requisite -}}
                             {%- endif -%}

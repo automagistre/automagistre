@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Landlord;
+namespace App\Customer\Domain;
 
 use App\Doctrine\ORM\Mapping\Traits\CreatedBy;
 use App\Entity\Superclass\Note;
@@ -21,7 +21,7 @@ class OperandNote extends Note
     /**
      * @Assert\NotBlank
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Landlord\Operand")
+     * @ORM\ManyToOne(targetEntity=Operand::class)
      */
     public ?Operand $operand = null;
 

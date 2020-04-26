@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Income\Fixtures;
 
+use App\Customer\Domain\Operand;
 use App\Doctrine\Registry;
-use App\Entity\Landlord\Operand;
 use App\Entity\Tenant\Income;
 use App\User\Fixtures\UserRelationFixtures;
-use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;

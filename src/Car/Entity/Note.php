@@ -25,7 +25,7 @@ class Note
     /**
      * @Assert\NotBlank
      *
-     * @ORM\ManyToOne(targetEntity="App\Car\Entity\Car")
+     * @ORM\ManyToOne(targetEntity=Car::class)
      */
     public Car $car;
 

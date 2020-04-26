@@ -20,7 +20,7 @@ class OrderPayment
     use CreatedBy;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\Order", inversedBy="payments")
+     * @ORM\ManyToOne(targetEntity=Order::class, inversedBy="payments")
      */
     private Order $order;
 

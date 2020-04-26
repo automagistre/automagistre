@@ -26,7 +26,7 @@ class MonthlySalary
     /**
      * @var Employee
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tenant\Employee")
+     * @ORM\ManyToOne(targetEntity=Employee::class)
      */
     private $employee;
 
