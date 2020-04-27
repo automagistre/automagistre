@@ -3257,22 +3257,25 @@
         },
         {
             "name": "odolbeau/phone-number-bundle",
-            "version": "v3.0.0",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/odolbeau/phone-number-bundle.git",
-                "reference": "aa996f8fc45677d8ec9e518af895161e0428efce"
+                "reference": "7e89b82ccf8e0fc64ce5dda5e4c7111ea0d54592"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/odolbeau/phone-number-bundle/zipball/aa996f8fc45677d8ec9e518af895161e0428efce",
-                "reference": "aa996f8fc45677d8ec9e518af895161e0428efce",
+                "url": "https://api.github.com/repos/odolbeau/phone-number-bundle/zipball/7e89b82ccf8e0fc64ce5dda5e4c7111ea0d54592",
+                "reference": "7e89b82ccf8e0fc64ce5dda5e4c7111ea0d54592",
                 "shasum": ""
             },
             "require": {
                 "giggsey/libphonenumber-for-php": "^8.0",
                 "php": "^7.2",
                 "symfony/framework-bundle": "^3.4|^4.3|^5.0"
+            },
+            "conflict": {
+                "misd/phone-number-bundle": "*"
             },
             "require-dev": {
                 "doctrine/doctrine-bundle": "^1.12|^2.0",
@@ -3292,16 +3295,13 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0.x-dev"
+                    "dev-master": "3.1.x-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Misd\\PhoneNumberBundle\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
+                    "Misd\\PhoneNumberBundle\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -3316,7 +3316,7 @@
                 "phonenumber",
                 "telephone number"
             ],
-            "time": "2019-11-26T16:42:13+00:00"
+            "time": "2020-04-27T20:34:27+00:00"
         },
         {
             "name": "oro/doctrine-extensions",
