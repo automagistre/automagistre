@@ -35,3 +35,7 @@ services:
     App\Doctrine\DBAL\FixPostgreSQLDefaultSchemaListener:
         tags:
             - { name: doctrine.event_listener, event: postGenerateSchema }
+
+    App\Mercure\JwtProvider:
+        arguments:
+            - '%env(MERCURE_JWT_KEY)%'
