@@ -461,7 +461,7 @@ final class PartController extends AbstractController
             // TODO Написать нормальный валидатор для модели
             $this->addFlash('error', sprintf('Запчасть %s у %s уже существует!', $model->number, $this->display($model->manufacturer->toId())));
 
-            throw $e;
+            return;
         }
 
         $referer = $this->request->query->get('referer');

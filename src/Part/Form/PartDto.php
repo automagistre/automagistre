@@ -36,7 +36,7 @@ final class PartDto
     /**
      * @var bool
      *
-     * @Assert\NotBlank
+     * @Assert\Type("bool")
      */
     public $universal;
 
