@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Vehicle\Domain;
 
+use App\Costil;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
-use App\Manufacturer\Domain\Manufacturer;
+use App\Manufacturer\Domain\ManufacturerId;
 use Doctrine\ORM\Mapping as ORM;
-use function sprintf;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -36,10 +36,9 @@ class Model
     public VehicleId $uuid;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Manufacturer::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="manufacturer_id")
      */
-    public ?Manufacturer $manufacturer = null;
+    public ManufacturerId $manufacturerId;
 
     /**
      * @Assert\NotBlank
@@ -68,33 +67,45 @@ class Model
      */
     public ?int $yearTill = null;
 
-    public function __construct()
-    {
-        $this->uuid = VehicleId::generate();
+    public function __construct(
+        VehicleId $uuid,
+        ManufacturerId $manufacturerId,
+        string $name,
+        ?string $localizedName,
+        ?string $caseName,
+        ?int $yearFrom,
+        ?int $yearTill
+    ) {
+        $this->uuid = $uuid;
+        $this->manufacturerId = $manufacturerId;
+        $this->name = $name;
+        $this->localizedName = $localizedName;
+        $this->caseName = $caseName;
+        $this->yearFrom = $yearFrom;
+        $this->yearTill = $yearTill;
     }
 
-    public function __toString(): string
+    public function __toString()
     {
-        return $this->getDisplayName();
+        return Costil::display($this->uuid);
     }
 
-    public function getDisplayName(bool $withYears = true): string
+    public function toId(): VehicleId
     {
-        $main = sprintf(
-            '%s %s',
-            $this->manufacturer->getName(),
-            $this->localizedName ?? $this->name
-        );
+        return $this->uuid;
+    }
 
-        $from = $this->yearFrom;
-        $till = $this->yearTill;
-
-        $years = $withYears && (null !== $from || null !== $till)
-            ? sprintf(' (%s - %s)', $from ?? '...', $till ?? '...')
-            : '';
-
-        $case = null !== $this->caseName ? sprintf(' - %s', $this->caseName) : '';
-
-        return $main.$case.$years;
+    public function update(
+        string $name,
+        ?string $localizedName,
+        ?string $caseName,
+        ?int $yearFrom,
+        ?int $yearTill
+    ): void {
+        $this->name = $name;
+        $this->localizedName = $localizedName;
+        $this->caseName = $caseName;
+        $this->yearFrom = $yearFrom;
+        $this->yearTill = $yearTill;
     }
 }

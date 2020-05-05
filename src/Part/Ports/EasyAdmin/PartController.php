@@ -17,18 +17,22 @@ use App\Form\Type\QuantityType;
 use App\Manager\DeficitManager;
 use App\Manager\PartManager;
 use App\Manager\ReservationManager;
+use App\Manufacturer\Domain\Manufacturer;
 use App\Part\Domain\Part;
 use App\Part\Domain\PartCase;
+use App\Part\Domain\PartId;
 use App\Part\Domain\Stockpile;
-use App\Part\Form\Part as PartModel;
+use App\Part\Form\PartDto;
 use App\Roles;
 use App\State;
 use App\Vehicle\Domain\Model;
 use function array_keys;
 use function array_map;
 use function assert;
+use Closure;
 use function count;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
@@ -36,6 +40,8 @@ use function explode;
 use function implode;
 use LogicException;
 use function mb_strtolower;
+use Money\Currency;
+use Money\Money;
 use Money\MoneyFormatter;
 use function sprintf;
 use function str_ireplace;
@@ -130,8 +136,7 @@ final class PartController extends AbstractController
             ->getArrayResult();
 
         $parts = $registry->repository(Part::class)->createQueryBuilder('part')
-            ->select('part, manufacturer')
-            ->join('part.manufacturer', 'manufacturer')
+            ->select('part')
             ->where('part.id IN (:ids)')
             ->orderBy('part.id')
             ->getQuery()
@@ -230,10 +235,14 @@ final class PartController extends AbstractController
     {
         if ('show' === $actionName) {
             $entity = $parameters['entity'];
+            assert($entity instanceof Part);
 
             $parameters['inStock'] = $this->partManager->inStock($entity);
             $parameters['orders'] = $this->partManager->inOrders($entity);
-            $parameters['reservedIn'] = array_map(fn (Order $order): int => (int) $order->getId(), $this->reservationManager->orders($entity));
+            $parameters['reservedIn'] = array_map(
+                fn (Order $order): int => (int) $order->getId(),
+                $this->reservationManager->orders($entity)
+            );
             $parameters['reserved'] = $this->reservationManager->reserved($entity);
             $parameters['crosses'] = $this->partManager->getCrosses($entity);
 
@@ -241,11 +250,11 @@ final class PartController extends AbstractController
 
             $parameters['carModels'] = $registry->repository(Model::class)
                 ->createQueryBuilder('carModel')
-                ->join(PartCase::class, 'partCase', Join::WITH, 'carModel = partCase.carModel')
-                ->where('partCase.part = :part')
-                ->setParameter('part', $entity)
+                ->join(PartCase::class, 'partCase', Join::WITH, 'carModel.uuid = partCase.vehicleId')
+                ->where('partCase.partId = :part')
+                ->setParameter('part', $entity->toId())
                 ->getQuery()
-                ->getResult();
+                ->getResult(AbstractQuery::HYDRATE_ARRAY);
         }
 
         return parent::renderTemplate($actionName, $templatePath, $parameters);
@@ -268,25 +277,6 @@ final class PartController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function createListQueryBuilder(
-        $entityClass,
-        $sortDirection,
-        $sortField = null,
-        $dqlFilter = null
-    ): QueryBuilder {
-        $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
-
-        // EAGER Loading
-        $qb
-            ->addSelect('manufacturer')
-            ->join('entity.manufacturer', 'manufacturer');
-
-        return $qb;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function createSearchQueryBuilder(
         $entityClass,
         $searchQuery,
@@ -301,7 +291,7 @@ final class PartController extends AbstractController
         }
 
         $qb = $this->em->getRepository(Part::class)->createQueryBuilder('part')
-            ->join('part.manufacturer', 'manufacturer');
+            ->join(Manufacturer::class, 'manufacturer', Join::WITH, 'manufacturer.uuid = part.manufacturerId');
 
         $cases = [];
 
@@ -398,26 +388,24 @@ final class PartController extends AbstractController
         $useCarModelInFormat = false === strpos($queryString, '+');
 
         $normalizer = function (Part $entity, bool $analog = false) use ($carModel, $useCarModelInFormat): array {
-            $format = '%s - %s (%s) (Склад: %s) | %s';
+            $text = sprintf(
+                '%s (Склад: %s) | %s',
+                $this->display($entity->toId()),
+                $this->partManager->inStock($entity) / 100,
+                $this->formatter->format($entity->price),
+            );
 
-            if ($carModel instanceof Model && $useCarModelInFormat && !$entity->isUniversal()) {
-                $format = sprintf('[%s] %s', $carModel->getDisplayName(false), $format);
+            if ($carModel instanceof Model && $useCarModelInFormat && !$entity->universal) {
+                $text = sprintf('[%s] %s', $this->display($carModel->toId()), $text);
             }
 
             if ($analog) {
-                $format = ' [АНАЛОГ] '.$format;
+                $text = ' [АНАЛОГ] '.$text;
             }
 
             return [
                 'id' => $entity->getId(),
-                'text' => sprintf(
-                    $format,
-                    $entity->getNumber(),
-                    $entity->getManufacturer()->getName(),
-                    $entity->getName(),
-                    $this->partManager->inStock($entity) / 100,
-                    $this->formatter->format($entity->getPrice())
-                ),
+                'text' => $text,
             ];
         };
 
@@ -444,9 +432,9 @@ final class PartController extends AbstractController
         return $this->json(['results' => $data]);
     }
 
-    protected function createNewEntity(): PartModel
+    protected function createNewEntity(): PartDto
     {
-        return new PartModel();
+        return $this->createWithoutConstructor(PartDto::class);
     }
 
     /**
@@ -455,22 +443,23 @@ final class PartController extends AbstractController
     protected function persistEntity($entity): void
     {
         $model = $entity;
-        assert($model instanceof PartModel);
+        assert($model instanceof PartDto);
 
         $entity = new Part(
-            $model->manufacturer,
+            PartId::generate(),
+            $model->manufacturer->toId(),
             $model->name,
             $model->number,
             $model->universal,
             $model->price,
-            $model->discount,
+            $model->discount
         );
 
         try {
             parent::persistEntity($entity);
         } catch (UniqueConstraintViolationException $e) {
             // TODO Написать нормальный валидатор для модели
-            $this->addFlash('error', sprintf('Запчасть %s у %s уже существует!', $model->number, (string) $model->manufacturer));
+            $this->addFlash('error', sprintf('Запчасть %s у %s уже существует!', $model->number, $this->display($model->manufacturer->toId())));
 
             throw $e;
         }
@@ -483,25 +472,55 @@ final class PartController extends AbstractController
         $this->event(new PartCreated($entity));
     }
 
+    protected function createEditDto(Closure $closure): ?object
+    {
+        $registry = $this->container->get(Registry::class);
+
+        $arr = $closure();
+
+        return new PartDto(
+            $arr['partId'],
+            $registry->findBy(Manufacturer::class, ['uuid' => $arr['manufacturerId']]),
+            $arr['name'],
+            $arr['number'],
+            new Money($arr['price.amount'], new Currency($arr['price.currency.code'])),
+            $arr['universal'],
+            new Money($arr['discount.amount'], new Currency($arr['discount.currency.code'])),
+        );
+    }
+
     /**
      * {@inheritdoc}
      */
-    protected function updateEntity($entity): void
+    protected function updateEntity($entity): Part
     {
-        assert($entity instanceof Part);
+        $registry = $this->container->get(Registry::class);
+
+        $dto = $entity;
+        assert($dto instanceof PartDto);
+
+        /** @var Part $entity */
+        $entity = $registry->findBy(Part::class, ['partId' => $dto->partId]);
+
+        $entity->update(
+            $dto->name,
+            $dto->universal,
+            $dto->price,
+            $dto->discount,
+        );
 
         parent::updateEntity($entity);
 
-        if ($entity->isUniversal()) {
-            $registry = $this->container->get(Registry::class);
-
+        if ($dto->universal) {
             $registry->repository(PartCase::class)
                 ->createQueryBuilder('entity')
                 ->delete()
-                ->where('entity.part = :part')
-                ->setParameter('part', $entity)
+                ->where('entity.partId = :part')
+                ->setParameter('part', $entity->toId())
                 ->getQuery()
                 ->execute();
         }
+
+        return $entity;
     }
 }

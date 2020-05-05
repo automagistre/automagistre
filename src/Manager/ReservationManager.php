@@ -140,7 +140,7 @@ final class ReservationManager
     }
 
     /**
-     * @return OrderItemPart[]
+     * @return Order[]
      */
     public function orders(Part $part): array
     {

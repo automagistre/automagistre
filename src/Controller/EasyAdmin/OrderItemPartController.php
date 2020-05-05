@@ -127,4 +127,13 @@ final class OrderItemPartController extends OrderItemController
             $this->addFlash('error', $e->getMessage());
         }
     }
+
+    protected function createEditForm($entity, array $entityProperties)
+    {
+        $fb = $this->createEntityFormBuilder($entity, 'edit');
+
+        dump($fb->get('part')->getOptions());
+
+        return $fb->getForm();
+    }
 }

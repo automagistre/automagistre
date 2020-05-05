@@ -1,4 +1,4 @@
-{# @var value \App\Entity\Part #}
+{# @var value \App\Part\Domain\Part #}
 
 {% if (field_options.item)|default(false) %}
     {% set value = item %}
@@ -12,10 +12,10 @@
             <i class="fa fa-barcode"></i>
         </a>
         {%- apply spaceless -%}
-            &nbsp; {{- value -}} &nbsp;(
-            {{- value.manufacturer -}} &nbsp;
+            &nbsp; {{- value.toId|display_name('name') -}} &nbsp;(
+            {{- value.manufacturerId|display_name -}} &nbsp;
             {%- include 'easy_admin/field_part_number.html.twig' with {
-                'value': value.number,
+                'value': value.toId|display_name('number'),
                 'lineIndex': (item is defined ? item.id)
             } only -%}
             )

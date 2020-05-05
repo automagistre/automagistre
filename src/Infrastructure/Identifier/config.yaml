@@ -1,0 +1,10 @@
+services:
+    _defaults:
+        public: false
+        autowire: true
+        autoconfigure: true
+
+    App\Infrastructure\Identifier\IdentifierFormatter:
+        public: true
+        arguments:
+            $formatters: !tagged_locator { tag: 'identifier_formatter', default_index_method: 'support' }

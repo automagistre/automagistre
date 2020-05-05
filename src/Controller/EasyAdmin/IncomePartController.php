@@ -6,6 +6,7 @@ namespace App\Controller\EasyAdmin;
 
 use App\Entity\Tenant\Income;
 use App\Entity\Tenant\IncomePart;
+use App\Infrastructure\Identifier\IdentifierFormatter;
 use function assert;
 use function in_array;
 use LogicException;
@@ -69,7 +70,7 @@ final class IncomePartController extends AbstractController
 
         $this->addFlash('success', sprintf(
             'Запчасть "%s" в количестве "%s" добавлена в приход.',
-            (string) $entity->getPart(),
+            $this->container->get(IdentifierFormatter::class)->format($entity->getPart()->toId()),
             $entity->getQuantity() / 100
         ));
     }

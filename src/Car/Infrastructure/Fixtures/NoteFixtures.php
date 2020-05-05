@@ -22,7 +22,7 @@ final class NoteFixtures extends Fixture implements FixtureGroupInterface, Depen
     public function getDependencies(): array
     {
         return [
-            CarFixtures::class,
+            EmptyCarFixtures::class,
         ];
     }
 

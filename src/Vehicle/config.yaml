@@ -7,8 +7,7 @@ easy_admin:
             list:
                 title: 'Кузова'
                 fields:
-                    - { property: 'id' }
-                    - { property: 'manufacturer', label: 'Производитель' }
+                    - { property: 'manufacturerId', label: 'Производитель', template: 'easy_admin/field_identifier.html.twig' }
                     - { property: 'name', label: 'Название' }
                     - { property: 'caseName', label: 'Кузов' }
                     - { property: 'yearFrom', label: 'Начало производства' }
@@ -22,8 +21,13 @@ easy_admin:
                     - { property: 'yearFrom', label: 'Начало производства' }
                     - { property: 'yearTill', label: 'Конец производства' }
             form:
+                form_options: { data_class: \App\Vehicle\Infrastructure\Form\ModelDto }
                 fields:
-                    - { property: 'manufacturer', label: 'Производитель', type: 'easyadmin_autocomplete' }
+                    -   property: 'manufacturer'
+                        label: 'Производитель'
+                        type: 'easyadmin_autocomplete'
+                        type_options:
+                            class: App\Manufacturer\Domain\Manufacturer
                     - { property: 'name', label: 'Название' }
                     - { property: 'localizedName', label: 'Название на русском' }
                     - { property: 'caseName', label: 'Кузов' }

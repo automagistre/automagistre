@@ -83,7 +83,7 @@ final class PartCaseFindCommand extends Command
             /** @var Model $carModel */
             $carModel = $em->getReference(Model::class, $carModelId);
 
-            $em->persist(new PartCase($part, $carModel));
+            $em->persist(new PartCase($part->toId(), $carModel->toId()));
             ++$persisted;
         }
 

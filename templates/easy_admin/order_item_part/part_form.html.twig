@@ -20,7 +20,7 @@
 
     {% if carModel.caseName|default is not empty %}
     <span class="help-block">
-        Поиск осуществляется только по <strong>{{ carModel.displayName(false) }}</strong>, чтобы выполнить поиск по всему складу добавьте символ <strong>+</strong> (плюс) в любую часть строки.
+        Поиск осуществляется только по <strong>{{ carModel.toId|display_name }}</strong>, чтобы выполнить поиск по всему складу добавьте символ <strong>+</strong> (плюс) в любую часть строки.
     </span>
     {% endif %}
 {% endblock easyadmin_autocomplete_widget %}

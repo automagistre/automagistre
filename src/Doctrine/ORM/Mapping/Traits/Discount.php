@@ -6,6 +6,7 @@ namespace App\Doctrine\ORM\Mapping\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
 use function is_numeric;
+use LogicException;
 use Money\Money;
 
 /**
@@ -32,14 +33,13 @@ trait Discount
         return !$this->discount->isZero();
     }
 
-    public function discount(?Money $discount = null): ?Money
+    public function discount(?Money $discount = null): Money
     {
-        if (null === $discount) {
-            // Doctrine create nullable embedded
-            if ($this->discount instanceof Money && !is_numeric($this->discount->getAmount())) {
-                return null;
-            }
+        if (null === $discount && null === $this->discount) {
+            throw new LogicException('Discount not defined.');
+        }
 
+        if (null === $discount) {
             return $this->discount;
         }
 

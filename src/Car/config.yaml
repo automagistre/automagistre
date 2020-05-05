@@ -12,7 +12,7 @@ easy_admin:
                 title: 'Автомобили'
                 fields:
                     - { property: 'id' }
-                    - { property: 'carModificationDisplayName', label: 'Марка / Модель', template: 'easy_admin/field_item_show.html.twig' }
+                    - { property: 'vehicleId', label: 'Марка / Модель', template: 'easy_admin/field_item_show.html.twig' }
                     - { property: 'owner', label: 'Владелец' }
                     - { property: 'year', label: 'Год', type: 'string' }
                     - { property: 'caseType.toName', label: 'Кузов' }
@@ -37,13 +37,6 @@ easy_admin:
                 fields:
                     - { type: 'group', label: 'Основная информация', css_class: 'col-sm-6' }
                     -
-                        property: 'owner'
-                        label: 'Владелец'
-                        type: 'easyadmin_autocomplete'
-                        type_options:
-                            class: App\Customer\Domain\Operand
-                        help: 'Фамилия, Имя, Телефон, E-mail'
-                    -
                         property: 'model'
                         label: 'Модель'
                         type: 'easyadmin_autocomplete'
@@ -58,7 +51,7 @@ easy_admin:
                     - { type: 'group', label: 'Комплектация', css_class: 'col-sm-6' }
                     - { property: 'equipment', label: ' ', type: App\Vehicle\Infrastructure\Form\EquipmentType }
             edit:
-                title: 'Редактировать автомобиль № {{ entity.id }}'
+                title: 'Редактировать автомобиль'
             new:
                 title: 'Создать новый автомобиль'
 

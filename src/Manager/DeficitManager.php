@@ -68,9 +68,9 @@ final class DeficitManager
             'id' => array_map(fn (array $item): string => $item['part_id'], $result),
         ]);
 
-        $this->registry->repository(Manufacturer::class)->findBy([
-            'id' => array_map(fn (Part $part) => $part->getManufacturer()->getId(), $parts),
-        ]);
+//        $this->registry->repository(Manufacturer::class)->findBy([
+//            'id' => array_map(fn (Part $part) => $part->getManufacturer()->getId(), $parts),
+//        ]);
 
         return array_map(static function (array $item) use ($em, $partRepository): DeficitPart {
             /** @var Part $part */

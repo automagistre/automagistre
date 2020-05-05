@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Infrastructure\Identifier\IdentifierFormatter;
 use App\JSONRPC\Test\JsonRPCClient;
 use App\Tenant\MetadataCompilerPass;
 use function assert;
@@ -28,6 +29,8 @@ final class Kernel extends SymfonyKernel implements CompilerPassInterface
     use MicroKernelTrait;
 
     private const CONFIG_EXTS = '.{php,xml,yaml,yml}';
+
+    private static IdentifierFormatter $formatter;
 
     /**
      * @return iterable<int, BundleInterface>
@@ -63,6 +66,16 @@ final class Kernel extends SymfonyKernel implements CompilerPassInterface
     public function getConfDir(): string
     {
         return $this->getProjectDir().'/config';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function boot(): void
+    {
+        parent::boot();
+
+        Costil::$formatter = $this->getContainer()->get(IdentifierFormatter::class);
     }
 
     /**

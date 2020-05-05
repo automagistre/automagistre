@@ -148,8 +148,8 @@
                                 {% for carModel in carModels %}
                                     <tr>
                                         <td>
-                                            <a href="{{ easyadmin_path(carModel, 'show', {'referer': true}) }}">
-                                                {{- carModel -}}
+                                            <a href="{{ easyadmin_path('CarModel', 'show', {'id': carModel.id, 'referer': true}) }}">
+                                                {{- carModel.uuid|display_name('long') -}}
                                             </a>
                                         </td>
                                     </tr>

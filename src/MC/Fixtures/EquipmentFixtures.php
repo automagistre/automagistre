@@ -6,7 +6,7 @@ namespace App\MC\Fixtures;
 
 use App\Entity\Landlord\MC\Equipment;
 use App\Vehicle\Domain\Model;
-use App\Vehicle\Fixtures\ModelFixtures;
+use App\Vehicle\Infrastructure\Fixtures\NissanGTRFixture;
 use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
@@ -21,7 +21,7 @@ final class EquipmentFixtures extends Fixture implements FixtureGroupInterface, 
     public function getDependencies(): array
     {
         return [
-            ModelFixtures::class,
+            NissanGTRFixture::class,
         ];
     }
 
@@ -38,7 +38,7 @@ final class EquipmentFixtures extends Fixture implements FixtureGroupInterface, 
      */
     public function load(ObjectManager $manager): void
     {
-        $model = $this->getReference('model-1');
+        $model = $this->getReference(NissanGTRFixture::class);
         assert($model instanceof Model);
 
         $equipment = new Equipment();

@@ -16,7 +16,6 @@ final class NissanFixture extends Fixture implements FixtureGroupInterface, Depe
     public const ID = '1ea88058-1c1f-6f20-9482-ba1ca6d07248';
     public const NAME = 'Nissan';
     public const LOCALIZED_NAME = 'Ниссан';
-    public const REF = __CLASS__;
 
     /**
      * {@inheritdoc}
@@ -45,7 +44,7 @@ final class NissanFixture extends Fixture implements FixtureGroupInterface, Depe
             self::LOCALIZED_NAME,
         );
 
-        $this->addReference(self::REF, $manufacturer);
+        $this->addReference(__CLASS__, $manufacturer);
 
         $manager->persist($manufacturer);
         $manager->flush();

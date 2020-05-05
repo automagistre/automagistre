@@ -3,29 +3,42 @@
 namespace App\Part\Form;
 
 use App\Manufacturer\Domain\Manufacturer;
+use App\Part\Domain\PartId;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class Part
+final class PartDto
 {
-    /**
-     * @Assert\NotBlank()
-     */
-    public ?Manufacturer $manufacturer;
+    public PartId $partId;
 
     /**
-     * @Assert\NotBlank()
+     * @var Manufacturer
+     *
+     * @Assert\NotBlank
+     */
+    public $manufacturer;
+
+    /**
+     * @var string
+     *
+     * @Assert\NotBlank
      * @Assert\Length(max="255")
      */
-    public ?string $name;
+    public $name;
 
     /**
-     * @Assert\NotBlank()
+     * @var string
+     * @Assert\NotBlank
      * @Assert\Length(max="30")
      */
-    public ?string $number;
+    public $number;
 
-    public bool $universal;
+    /**
+     * @var bool
+     *
+     * @Assert\NotBlank
+     */
+    public $universal;
 
     /**
      * @var Money
@@ -42,13 +55,15 @@ final class Part
     public $discount;
 
     public function __construct(
-        Manufacturer $manufacturer = null,
-        string $name = null,
-        string $number = null,
-        Money $price = null,
-        bool $universal = false,
-        Money $discount = null
+        PartId $partId,
+        Manufacturer $manufacturer,
+        string $name,
+        string $number,
+        Money $price,
+        bool $universal,
+        Money $discount
     ) {
+        $this->partId = $partId;
         $this->manufacturer = $manufacturer;
         $this->name = $name;
         $this->number = $number;

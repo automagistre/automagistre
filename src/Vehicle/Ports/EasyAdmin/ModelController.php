@@ -6,8 +6,14 @@ namespace App\Vehicle\Ports\EasyAdmin;
 
 use App\Controller\EasyAdmin\AbstractController;
 use App\Doctrine\Registry;
+use App\Manufacturer\Domain\Manufacturer;
 use App\Vehicle\Domain\Model;
+use App\Vehicle\Domain\VehicleId;
+use App\Vehicle\Infrastructure\Form\ModelDto;
 use function array_map;
+use function assert;
+use Closure;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use function explode;
 use function mb_strtolower;
@@ -18,25 +24,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 final class ModelController extends AbstractController
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function createListQueryBuilder(
-        $entityClass,
-        $sortDirection,
-        $sortField = null,
-        $dqlFilter = null
-    ): QueryBuilder {
-        $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
-
-        // EAGER Loading
-        $qb
-            ->addSelect('manufacturer')
-            ->join('entity.manufacturer', 'manufacturer');
-
-        return $qb;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -51,7 +38,7 @@ final class ModelController extends AbstractController
         $registry = $this->container->get(Registry::class);
 
         $qb = $registry->repository(Model::class)->createQueryBuilder('model')
-            ->leftJoin('model.manufacturer', 'manufacturer');
+            ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'model.manufacturerId = manufacturer.uuid');
 
         foreach (explode(' ', $searchQuery) as $key => $item) {
             $key = ':search_'.$key;
@@ -83,9 +70,76 @@ final class ModelController extends AbstractController
 
         $data = array_map(fn (Model $entity) => [
             'id' => $entity->getId(),
-            'text' => $entity->getDisplayName(),
+            'text' => $this->display($entity->toId(), 'long'),
         ], (array) $paginator->getCurrentPageResults());
 
         return $this->json(['results' => $data]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function createNewEntity(): ModelDto
+    {
+        return $this->createWithoutConstructor(ModelDto::class);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function persistEntity($entity): Model
+    {
+        $model = $entity;
+        assert($model instanceof ModelDto);
+
+        $entity = new Model(
+            VehicleId::generate(),
+            $model->manufacturer->toId(),
+            $model->name,
+            $model->localizedName,
+            $model->caseName,
+            $model->yearFrom,
+            $model->yearTill,
+        );
+
+        parent::persistEntity($entity);
+
+        return $entity;
+    }
+
+    protected function createEditDto(Closure $closure): ?object
+    {
+        $registry = $this->container->get(Registry::class);
+
+        $array = $closure();
+
+        return new ModelDto(
+            $array['uuid'],
+            $registry->findBy(Manufacturer::class, ['uuid' => $array['manufacturerId']]),
+            $array['name'],
+            $array['localizedName'],
+            $array['caseName'],
+            $array['yearFrom'],
+            $array['yearTill'],
+        );
+    }
+
+    protected function updateEntity($entity): void
+    {
+        $dto = $entity;
+        assert($dto instanceof ModelDto);
+
+        /** @var Model $entity */
+        $entity = $this->container->get(Registry::class)->findBy(Model::class, ['uuid' => $dto->vehicleId]);
+
+        $entity->update(
+            $dto->name,
+            $dto->localizedName,
+            $dto->caseName,
+            $dto->yearFrom,
+            $dto->yearTill,
+        );
+
+        parent::updateEntity($entity);
     }
 }

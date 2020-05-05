@@ -47,7 +47,7 @@ final class RecommendationPartController extends AbstractController
         $crosses = $this->partManager->crossesInStock($part);
 
         if ([] === $crosses) {
-            $this->addFlash('error', sprintf('У запчасти "%s" нет аналогов.', (string) $part));
+            $this->addFlash('error', sprintf('У запчасти "%s" нет аналогов.', $this->display($part->toId())));
 
             return $this->redirectToReferrer();
         }

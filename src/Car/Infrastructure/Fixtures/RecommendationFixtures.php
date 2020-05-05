@@ -6,8 +6,9 @@ use App\Car\Entity\Car;
 use App\Car\Entity\Recommendation;
 use App\Car\Entity\RecommendationPart;
 use App\Customer\Domain\Operand;
+use App\Customer\Infrastructure\Fixtures\OperandFixtures;
 use App\Part\Domain\Part;
-use App\Part\Fixtures\PartFixtures;
+use App\Part\Infrastructure\Fixtures\GasketFixture;
 use App\User\Entity\User;
 use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -25,8 +26,9 @@ final class RecommendationFixtures extends Fixture implements FixtureGroupInterf
     public function getDependencies(): array
     {
         return [
-            CarFixtures::class,
-            PartFixtures::class,
+            EmptyCarFixtures::class,
+            GasketFixture::class,
+            OperandFixtures::class,
         ];
     }
 

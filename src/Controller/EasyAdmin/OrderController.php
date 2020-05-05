@@ -23,10 +23,13 @@ use App\Event\OrderStatusChanged;
 use App\Form\Model\OrderTOService;
 use App\Form\Type\MoneyType;
 use App\Form\Type\OrderTOServiceType;
+use App\Infrastructure\Identifier\IdentifierFormatter;
 use App\Manager\OrderManager;
 use App\Manager\PaymentManager;
+use App\Manufacturer\Domain\Manufacturer;
 use App\Part\Domain\Part;
 use App\Vehicle\Domain\Model;
+use App\Vehicle\Domain\VehicleId;
 use function array_map;
 use function assert;
 use function count;
@@ -85,8 +88,8 @@ final class OrderController extends AbstractController
             throw new LogicException('Car required.');
         }
 
-        $carModel = $car->model;
-        if (!$carModel instanceof Model) {
+        $carModel = $car->vehicleId;
+        if (!$carModel instanceof VehicleId) {
             throw new LogicException('CarModel required.');
         }
 
@@ -110,7 +113,7 @@ final class OrderController extends AbstractController
             ->andWhere('equipment.equipment.transmission = :transmission')
             ->andWhere('equipment.equipment.wheelDrive = :wheelDrive')
             ->setParameters([
-                'model' => $car->model,
+                'model' => $car->vehicleId,
                 'engine' => $car->equipment->engine->name,
                 'capacity' => $car->equipment->engine->capacity,
                 'transmission' => $car->equipment->transmission,
@@ -125,7 +128,7 @@ final class OrderController extends AbstractController
         $periods = array_map('array_shift', $periods);
 
         if (0 === count($periods)) {
-            $this->addFlash('warning', sprintf('Карт ТО для "%s" не найдео.', $car->toString(true)));
+            $this->addFlash('warning', sprintf('Карт ТО для "%s" не найдео.', $this->container->get(IdentifierFormatter::class)->format($car->toId(), 'long')));
 
             return $this->redirectToReferrer();
         }
@@ -582,8 +585,8 @@ final class OrderController extends AbstractController
             ->select('car.id AS car_id')
             ->addSelect('customer.id AS operand_id')
             ->leftJoin('car.owner', 'customer')
-            ->leftJoin('car.model', 'carModel')
-            ->leftJoin('carModel.manufacturer', 'manufacturer')
+            ->leftJoin(Model::class, 'carModel', Join::WITH, 'carModel.uuid = car.vehicleId')
+            ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'manufacturer.uuid = carModel.manufacturerId')
             ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = customer.id AND customer INSTANCE OF '.Person::class)
             ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = customer.id AND customer INSTANCE OF '.Organization::class);
 

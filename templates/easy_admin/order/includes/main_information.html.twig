@@ -111,7 +111,7 @@
                             {%- if car is not empty -%}
                                 {# @var car \App\Car\Entity\Car #}
                                 <a href="{{ easyadmin_path(car, 'show') }}">
-                                    {{- car -}}
+                                    {{- car.toId|display_name -}}
                                 </a>
 
                                 <span class="label label-info" title="Госномер">{{ car.gosnomer }}</span>

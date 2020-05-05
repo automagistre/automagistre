@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Car\Entity;
 
+use App\Costil;
 use App\Customer\Domain\Operand;
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Vehicle\Domain\BodyType;
 use App\Vehicle\Domain\Equipment;
-use App\Vehicle\Domain\Model;
+use App\Vehicle\Domain\VehicleId;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -49,16 +50,11 @@ class Car
     public ?Equipment $equipment = null;
 
     /**
-     * @Assert\NotBlank
-     *
-     * @ORM\ManyToOne(targetEntity=Model::class)
-     * @ORM\JoinColumn
+     * @ORM\Column(type="vehicle_id", nullable=true)
      */
-    public ?Model $model = null;
+    public ?VehicleId $vehicleId = null;
 
     /**
-     * @Assert\Length(max="17")
-     *
      * @ORM\Column(length=17, nullable=true, unique=true)
      */
     public ?string $identifier = null;
@@ -104,40 +100,22 @@ class Car
      */
     private ?int $mileage = 0;
 
-    public function __construct()
+    public function __construct(CarId $carId)
     {
-        $this->uuid = CarId::generate();
+        $this->uuid = $carId;
         $this->equipment = new Equipment();
         $this->caseType = BodyType::unknown();
         $this->recommendations = new ArrayCollection();
     }
 
-    public function __toString(): string
+    public function __toString()
     {
-        return $this->toString();
+        return Costil::display($this->uuid);
     }
 
-    public function toString(bool $full = false): string
+    public function toId(): CarId
     {
-        $string = '';
-
-        if (null !== $this->model) {
-            $string = $this->model->getDisplayName(false);
-        }
-
-        if (null !== $this->year) {
-            $string .= sprintf(' - %sг.', $this->year);
-        }
-
-        if ($full) {
-            $string .= sprintf(' (%s)', $this->equipment->toString());
-        }
-
-        if ('' === $string) {
-            return 'Не определено';
-        }
-
-        return $string;
+        return $this->uuid;
     }
 
     public function getRecommendationPrice(string $type = null): Money
@@ -206,14 +184,5 @@ class Car
     public function addRecommendation(Recommendation $recommendation): void
     {
         $this->recommendations[] = $recommendation;
-    }
-
-    public function getCarModificationDisplayName(): string
-    {
-        if (null === $this->model) {
-            return 'Не определено';
-        }
-
-        return $this->model->getDisplayName();
     }
 }

@@ -18,6 +18,10 @@ services:
             tags:
                 - { name: controller.argument_value_resolver, priority: 50 }
 
+        App\Infrastructure\Identifier\IdentifierFormatterInterface:
+            tags:
+                - { name: identifier_formatter }
+
     App\:
         resource: '../src'
         exclude: '../src/{Entity,Enum,Model}'

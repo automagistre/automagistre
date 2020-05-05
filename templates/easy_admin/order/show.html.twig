@@ -2,11 +2,9 @@
 
 {% set order = entity %}
 {% set car = order.car %}
-{% set carModel = car is not empty ? car.model %}
 
 {# @var order \App\Entity\Tenant\Order #}
 {# @var car \App\Entity\Landlord\Car #}
-{# @var carModel \App\Entity\Landlord\CarModel #}
 
 {% block page_title %}Заказ № {{ order.id }}{% endblock %}
 
@@ -205,7 +203,7 @@
                         Группа
                     </a>
 
-                    {% if carModel.caseName|default is not empty %}
+                    {% if car.vehicleId|default is not empty %}
                         <a class="btn btn-primary" href="{{ easyadmin_path(order, 'TO', {'referer': true}) }}">
                             <i class="fa fa-heartbeat"></i>
                             ТО

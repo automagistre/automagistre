@@ -44,6 +44,12 @@ final class OrderTOPart
 
     public static function from(MCPart $part): self
     {
-        return new self($part->part, $part->quantity, $part->part->getPrice(), $part->recommended, !$part->recommended);
+        return new self(
+            $part->part,
+            $part->quantity,
+            $part->part->price,
+            $part->recommended,
+            !$part->recommended,
+        );
     }
 }

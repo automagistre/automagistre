@@ -7,20 +7,33 @@ namespace App\Part\Ports\EasyAdmin;
 use App\Controller\EasyAdmin\AbstractController;
 use App\Part\Domain\Part;
 use App\Part\Domain\PartCase;
-use LogicException;
+use function assert;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
 final class PartCaseController extends AbstractController
 {
-    protected function createNewEntity(): PartCase
+    protected function createNewEntity(): PartCaseDTO
     {
+        /** @var Part|null $part */
         $part = $this->getEntity(Part::class);
-        if (!$part instanceof Part) {
-            throw new LogicException('Part required.');
-        }
 
-        return new PartCase($part);
+        return new PartCaseDTO($part);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function persistEntity($entity): PartCase
+    {
+        $model = $entity;
+        assert($model instanceof PartCaseDTO);
+
+        $entity = new PartCase($model->part->toId(), $model->vehicle->toId());
+
+        parent::persistEntity($entity);
+
+        return $entity;
     }
 }

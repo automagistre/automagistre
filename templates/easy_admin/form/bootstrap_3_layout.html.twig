@@ -483,9 +483,7 @@
         ? easyadmin_get_actions_for_new_item(easyadmin.entity.name)
         : easyadmin_get_actions_for_edit_item(easyadmin.entity.name) %}
 
-    {% set _entity_id = (easyadmin.view == 'new')
-        ? null
-        : attribute(easyadmin.item, easyadmin.entity.primary_key_field_name) %}
+    {% set _entity_id = attribute(easyadmin.item, easyadmin.entity.primary_key_field_name)|default %}
 
     {% set _request_parameters = { entity: easyadmin.entity.name, referer: app.request.query.get('referer') } %}
 

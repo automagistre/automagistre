@@ -10,7 +10,7 @@ use App\Entity\Tenant\OrderItemPart;
 use App\Event\OrderClosed;
 use App\Part\Domain\Part;
 use App\Part\Domain\PartCase;
-use App\Vehicle\Domain\Model;
+use App\Vehicle\Domain\VehicleId;
 use function array_flip;
 use function array_key_exists;
 use function array_map;
@@ -54,12 +54,13 @@ final class PartCaseOnOrderCloseListener implements EventSubscriberInterface
             return;
         }
 
-        $carModel = $car->model;
-        if (!$carModel instanceof Model) {
+        $vehicleId = $car->vehicleId;
+        if (!$vehicleId instanceof VehicleId) {
             return;
         }
 
-        if (null === $carModel->caseName) {
+        $vehicleView = $this->registry->view($vehicleId);
+        if (null === $vehicleView['caseName']) {
             return;
         }
 
@@ -73,13 +74,14 @@ final class PartCaseOnOrderCloseListener implements EventSubscriberInterface
 
         $em = $this->registry->manager(PartCase::class);
 
-        $existed = $this->registry->repository(Part::class)->createQueryBuilder('entity')
+        $existed = $this->registry->repository(Part::class)
+            ->createQueryBuilder('entity')
             ->select('entity.id')
             ->join(PartCase::class, 'pc', Join::WITH, 'entity = pc.part')
             ->where('pc.part IN (:parts)')
             ->andWhere('pc.carModel = :carModel')
             ->getQuery()
-            ->setParameter('carModel', $carModel)
+            ->setParameter('carModel', $vehicleId)
             ->setParameter('parts', $parts)
             ->getScalarResult();
         $existed = array_map('array_shift', $existed);
@@ -90,11 +92,11 @@ final class PartCaseOnOrderCloseListener implements EventSubscriberInterface
                 continue;
             }
 
-            if ($part->isUniversal()) {
+            if ($part->universal) {
                 continue;
             }
 
-            $em->persist(new PartCase($part, $carModel));
+            $em->persist(new PartCase($part->toId(), $vehicleId));
         }
 
         $em->flush();

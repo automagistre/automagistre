@@ -31,8 +31,7 @@
     <PossiblyNullArgument occurrences="1">
       <code>$type</code>
     </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="2">
-      <code>toString</code>
+    <PossiblyNullReference occurrences="1">
       <code>$this-&gt;recommendations</code>
     </PossiblyNullReference>
   </file>
@@ -51,9 +50,8 @@
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtolower($searchString)</code>
     </PossiblyFalseOperand>
-    <PossiblyNullReference occurrences="2">
+    <PossiblyNullReference occurrences="1">
       <code>getReference</code>
-      <code>getDisplayName</code>
     </PossiblyNullReference>
   </file>
   <file src="src/Car/Ports/EasyAdmin/RecommendationController.php">
@@ -132,9 +130,10 @@
       <code>$entity-&gt;getIncome()</code>
       <code>$entity-&gt;getIncome()</code>
     </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="2">
+    <PossiblyNullReference occurrences="3">
       <code>isEditable</code>
       <code>getId</code>
+      <code>toId</code>
     </PossiblyNullReference>
   </file>
   <file src="src/Controller/EasyAdmin/MC/EquipmentController.php">
@@ -274,6 +273,7 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Doctrine/Registry.php">
+    <InvalidArrayOffset occurrences="1"/>
     <RedundantConditionGivenDocblockType occurrences="1">
       <code>assert($entityRepository instanceof EntityRepository)</code>
     </RedundantConditionGivenDocblockType>
@@ -338,16 +338,6 @@
     </PossiblyNullReference>
   </file>
   <file src="src/Entity/Tenant/OrderItem.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$this-&gt;discount()</code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="src/Entity/Tenant/OrderItemPart.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$this-&gt;discount()</code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="src/Entity/Tenant/OrderItemService.php">
     <PossiblyNullArgument occurrences="1">
       <code>$this-&gt;discount()</code>
     </PossiblyNullArgument>
@@ -418,10 +408,23 @@
       <code>IncomePartFixtures</code>
     </PropertyNotSetInConstructor>
   </file>
+  <file src="src/Infrastructure/Identifier/IdentifierTwigExtension.php">
+    <MissingClosureReturnType occurrences="1">
+      <code>fn (</code>
+    </MissingClosureReturnType>
+    <MissingParamType occurrences="1">
+      <code>$value</code>
+    </MissingParamType>
+  </file>
   <file src="src/JSONRPC/EndpointAction.php">
     <PossiblyInvalidArgument occurrences="1">
       <code>$request-&gt;getContent()</code>
     </PossiblyInvalidArgument>
+  </file>
+  <file src="src/Kernel.php">
+    <PropertyTypeCoercion occurrences="1">
+      <code>$this-&gt;getContainer()-&gt;get(IdentifierFormatter::class)</code>
+    </PropertyTypeCoercion>
   </file>
   <file src="src/Manager/DeficitManager.php">
     <InvalidNullableReturnType occurrences="1">
@@ -430,9 +433,6 @@
     <NullableReturnStatement occurrences="1">
       <code>$em-&gt;getReference(Order::class, $id)</code>
     </NullableReturnStatement>
-    <PossiblyNullReference occurrences="1">
-      <code>getId</code>
-    </PossiblyNullReference>
   </file>
   <file src="src/Manager/OrderManager.php">
     <PossiblyNullArgument occurrences="4">
@@ -441,11 +441,6 @@
       <code>$order-&gt;getId()</code>
       <code>$order-&gt;getId()</code>
     </PossiblyNullArgument>
-  </file>
-  <file src="src/Manager/PartManager.php">
-    <PossiblyNullReference occurrences="1">
-      <code>removePart</code>
-    </PossiblyNullReference>
   </file>
   <file src="src/Manager/SupplierManager.php">
     <PossiblyNullArgument occurrences="1">
@@ -470,33 +465,28 @@
       <code>$this-&gt;parts</code>
     </NullArgument>
   </file>
-  <file src="src/Part/Form/Part.php">
+  <file src="src/Part/Infrastructure/PartFormatter.php">
+    <PossiblyNullArrayOffset occurrences="1">
+      <code>self::FORMATS</code>
+    </PossiblyNullArrayOffset>
+  </file>
+  <file src="src/Part/Ports/EasyAdmin/PartCaseDTO.php">
     <PossiblyNullPropertyAssignmentValue occurrences="2">
-      <code>$price</code>
-      <code>$discount</code>
+      <code>$part</code>
+      <code>$vehicle</code>
     </PossiblyNullPropertyAssignmentValue>
   </file>
   <file src="src/Part/Ports/EasyAdmin/PartController.php">
-    <InvalidArgument occurrences="1">
-      <code>fn (Order $order): int =&gt; (int) $order-&gt;getId()</code>
-    </InvalidArgument>
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtolower(trim($searchString))</code>
     </PossiblyFalseOperand>
-    <PossiblyNullArgument occurrences="9">
+    <PossiblyNullArgument occurrences="3">
       <code>$user-&gt;getId()</code>
       <code>$user-&gt;getId()</code>
       <code>$case-&gt;caseName</code>
-      <code>$entity-&gt;getNumber()</code>
-      <code>$entity-&gt;getManufacturer()-&gt;getName()</code>
-      <code>$entity-&gt;getName()</code>
-      <code>$model-&gt;manufacturer</code>
-      <code>$model-&gt;name</code>
-      <code>$model-&gt;number</code>
     </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="2">
+    <PossiblyNullReference occurrences="1">
       <code>getRepository</code>
-      <code>getName</code>
     </PossiblyNullReference>
     <PropertyNotSetInConstructor occurrences="1">
       <code>PartController</code>
@@ -542,19 +532,20 @@
       <code>$this-&gt;name</code>
     </PossiblyNullArgument>
   </file>
-  <file src="src/Vehicle/Domain/Model.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$this-&gt;manufacturer-&gt;getName()</code>
-      <code>$this-&gt;localizedName ?? $this-&gt;name</code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>getName</code>
-    </PossiblyNullReference>
+  <file src="src/Vehicle/Infrastructure/Form/ModelDto.php">
+    <ImpurePropertyAssignment occurrences="1">
+      <code>$this-&gt;manufacturer</code>
+    </ImpurePropertyAssignment>
   </file>
   <file src="src/Vehicle/Ports/EasyAdmin/ModelController.php">
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtolower($item)</code>
     </PossiblyFalseOperand>
+  </file>
+  <file src="tests/Infrastructure/Identifier/IdentifierTestCase.php">
+    <PossiblyNullReference occurrences="1">
+      <code>format</code>
+    </PossiblyNullReference>
   </file>
   <file src="tests/SmokeTest.php">
     <PossiblyInvalidArgument occurrences="1">

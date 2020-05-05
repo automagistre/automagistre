@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace App\Tests\Vehicle\API;
 
 use App\JSONRPC\Test\JsonRPCTestCase;
+use App\Manufacturer\Infrastructure\Fixtures\NissanFixture;
+use App\Vehicle\Infrastructure\Fixtures\NissanGTRFixture;
+use App\Vehicle\Infrastructure\Fixtures\NissanPrimeraFixture;
+use App\Vehicle\Infrastructure\Fixtures\NissanQashqaiFixture;
 use Generator;
 
 /**
@@ -12,6 +16,34 @@ use Generator;
  */
 final class ModelListTest extends JsonRPCTestCase
 {
+    private const NISSAN_GTR = [
+        'id' => NissanGTRFixture::ID,
+        'localizedName' => null,
+        'manufacturerId' => NissanGTRFixture::MANUFACTURER_ID,
+        'model' => null,
+        'name' => NissanGTRFixture::NAME,
+        'yearFrom' => null,
+        'yearTill' => null,
+    ];
+    private const NISSAN_PRIMERA = [
+        'id' => NissanPrimeraFixture::ID,
+        'localizedName' => null,
+        'manufacturerId' => NissanPrimeraFixture::MANUFACTURER_ID,
+        'model' => NissanPrimeraFixture::CASE_NAME,
+        'name' => NissanPrimeraFixture::NAME,
+        'yearFrom' => null,
+        'yearTill' => null,
+    ];
+    private const NISSAN_QASHQAI = [
+        'id' => NissanQashqaiFixture::ID,
+        'localizedName' => NissanQashqaiFixture::LOCALIZED_NAME,
+        'manufacturerId' => NissanQashqaiFixture::MANUFACTURER_ID,
+        'model' => NissanQashqaiFixture::CASE_NAME,
+        'name' => NissanQashqaiFixture::NAME,
+        'yearFrom' => NissanQashqaiFixture::YEAR_FROM,
+        'yearTill' => NissanQashqaiFixture::YEAR_TILL,
+    ];
+
     /**
      * @param mixed[] $request
      * @param mixed[] $expected
@@ -35,33 +67,9 @@ final class ModelListTest extends JsonRPCTestCase
             [
                 'count' => 3,
                 'list' => [
-                    [
-                        'id' => 1,
-                        'localizedName' => null,
-                        'manufacturerId' => 3,
-                        'model' => null,
-                        'name' => 'GTR',
-                        'yearFrom' => null,
-                        'yearTill' => null,
-                    ],
-                    [
-                        'id' => 2,
-                        'localizedName' => null,
-                        'manufacturerId' => 3,
-                        'model' => null,
-                        'name' => 'Primera',
-                        'yearFrom' => null,
-                        'yearTill' => null,
-                    ],
-                    [
-                        'id' => 3,
-                        'localizedName' => null,
-                        'manufacturerId' => 3,
-                        'model' => null,
-                        'name' => 'Qashqai',
-                        'yearFrom' => null,
-                        'yearTill' => null,
-                    ],
+                    self::NISSAN_GTR,
+                    self::NISSAN_PRIMERA,
+                    self::NISSAN_QASHQAI,
                 ],
                 'paging' => ['page' => 1, 'size' => 50],
             ],
@@ -79,15 +87,7 @@ final class ModelListTest extends JsonRPCTestCase
             [
                 'count' => 1,
                 'list' => [
-                    [
-                        'id' => 1,
-                        'localizedName' => null,
-                        'manufacturerId' => 3,
-                        'model' => null,
-                        'name' => 'GTR',
-                        'yearFrom' => null,
-                        'yearTill' => null,
-                    ],
+                    self::NISSAN_QASHQAI,
                 ],
                 'paging' => ['page' => 1, 'size' => 50],
             ],
@@ -103,15 +103,7 @@ final class ModelListTest extends JsonRPCTestCase
             [
                 'count' => 3,
                 'list' => [
-                    [
-                        'id' => 3,
-                        'localizedName' => null,
-                        'manufacturerId' => 3,
-                        'model' => null,
-                        'name' => 'Qashqai',
-                        'yearFrom' => null,
-                        'yearTill' => null,
-                    ],
+                    self::NISSAN_QASHQAI,
                 ],
                 'paging' => ['page' => 3, 'size' => 1],
             ],
@@ -130,15 +122,7 @@ final class ModelListTest extends JsonRPCTestCase
             [
                 'count' => 1,
                 'list' => [
-                    0 => [
-                        'id' => 2,
-                        'localizedName' => null,
-                        'manufacturerId' => 3,
-                        'model' => null,
-                        'name' => 'Primera',
-                        'yearFrom' => null,
-                        'yearTill' => null,
-                    ],
+                    self::NISSAN_PRIMERA,
                 ],
                 'paging' => ['page' => 1, 'size' => 50],
             ],
@@ -147,7 +131,7 @@ final class ModelListTest extends JsonRPCTestCase
         yield 'NOT IN' => [
             [
                 'filtering' => [
-                    ['field' => 'manufacturerId', 'comparison' => 'NOT IN', 'value' => ['3']],
+                    ['field' => 'manufacturerId', 'comparison' => 'NOT IN', 'value' => [NissanFixture::ID]],
                 ],
             ],
             [

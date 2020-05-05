@@ -7,7 +7,9 @@ namespace App\Controller\EasyAdmin\MC;
 use App\Controller\EasyAdmin\AbstractController;
 use App\Doctrine\Registry;
 use App\Entity\Landlord\MC\Equipment;
+use App\Manufacturer\Domain\Manufacturer;
 use function assert;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use function explode;
 use function mb_strtolower;
@@ -50,7 +52,7 @@ final class EquipmentController extends AbstractController
 
         $qb
             ->leftJoin('entity.model', 'carModel')
-            ->leftJoin('carModel.manufacturer', 'manufacturer');
+            ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'carModel.manufacturerId = manufacturer.uuid');
 
         foreach (explode(' ', $searchQuery) as $key => $searchString) {
             $key = ':search_'.$key;

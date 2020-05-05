@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Tenant;
 
+use App\Costil;
 use App\Customer\Domain\Operand;
 use App\Doctrine\ORM\Mapping\Traits\Discount;
 use App\Doctrine\ORM\Mapping\Traits\Price;
@@ -61,7 +62,7 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
 
     public function __toString(): string
     {
-        return (string) $this->getPart()->getName();
+        return Costil::display($this->getPart()->toId());
     }
 
     public function isHidden(): bool

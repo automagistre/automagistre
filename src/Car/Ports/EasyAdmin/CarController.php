@@ -5,14 +5,23 @@ declare(strict_types=1);
 namespace App\Car\Ports\EasyAdmin;
 
 use App\Car\Entity\Car;
+use App\Car\Entity\CarId;
 use App\Car\Entity\Note;
+use App\Car\Form\DTO\CarDto;
 use App\Controller\EasyAdmin\AbstractController;
 use App\Customer\Domain\Operand;
 use App\Customer\Domain\Organization;
 use App\Customer\Domain\Person;
 use App\Doctrine\Registry;
 use App\Entity\Tenant\Order;
+use App\Manufacturer\Domain\Manufacturer;
+use App\Vehicle\Domain\Engine;
+use App\Vehicle\Domain\Equipment;
+use App\Vehicle\Domain\Model;
+use App\Vehicle\Domain\VehicleId;
 use function array_map;
+use function assert;
+use Closure;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use function explode;
@@ -44,14 +53,83 @@ final class CarController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function createNewEntity(): Car
+    protected function createNewEntity(): CarDto
     {
-        $entity = new Car();
+        return new CarDto(CarId::generate());
+    }
 
-        $owner = $this->getEntity(Operand::class);
-        if ($owner instanceof Operand) {
-            $entity->owner = $owner;
+    protected function persistEntity($entity): Car
+    {
+        $dto = $entity;
+        assert($dto instanceof CarDto);
+
+        $entity = new Car(
+            CarId::generate(),
+        );
+        $entity->equipment = $dto->equipment;
+        $entity->setGosnomer($dto->gosnomer);
+        $entity->identifier = $dto->identifier;
+        $entity->year = $dto->year;
+        $entity->caseType = $dto->caseType;
+        $entity->description = $dto->description;
+
+        if (null !== $dto->model) {
+            $entity->vehicleId = $dto->model->toId();
         }
+
+        parent::persistEntity($entity);
+
+        return $entity;
+    }
+
+    protected function createEditDto(Closure $callable): ?object
+    {
+        $registry = $this->container->get(Registry::class);
+
+        $arr = $callable();
+
+        $vehicleId = $arr['vehicleId'];
+        $vehicle = $vehicleId instanceof VehicleId
+            ? $registry->findBy(Model::class, ['uuid' => $vehicleId])
+            : null;
+
+        $equipment = new Equipment(
+            new Engine($arr['equipment.engine.name'], $arr['equipment.engine.type'], $arr['equipment.engine.capacity']),
+            $arr['equipment.transmission'],
+            $arr['equipment.wheelDrive'],
+        );
+
+        return new CarDto(
+            $arr['uuid'],
+            $equipment,
+            $vehicle,
+            $arr['identifier'],
+            $arr['year'],
+            $arr['caseType'],
+            $arr['description'],
+            $arr['gosnomer'],
+        );
+    }
+
+    protected function updateEntity($entity): Car
+    {
+        $dto = $entity;
+        assert($dto instanceof CarDto);
+
+        $entity = $this->container->get(Registry::class)->findBy(Car::class, ['uuid' => $dto->carId]);
+
+        $entity->equipment = $dto->equipment;
+        $entity->setGosnomer($dto->gosnomer);
+        $entity->identifier = $dto->identifier;
+        $entity->year = $dto->year;
+        $entity->caseType = $dto->caseType;
+        $entity->description = $dto->description;
+
+        if (null !== $dto->model) {
+            $entity->vehicleId = $dto->model->toId();
+        }
+
+        parent::updateEntity($entity);
 
         return $entity;
     }
@@ -95,8 +173,8 @@ final class CarController extends AbstractController
         }
 
         $qb
-            ->leftJoin('car.model', 'model')
-            ->leftJoin('model.manufacturer', 'manufacturer')
+            ->leftJoin(Model::class, 'model', Join::WITH, 'model.uuid = car.vehicleId')
+            ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'manufacturer.uuid = model.manufacturerId')
             ->leftJoin('car.owner', 'owner')
             ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = owner.id AND owner INSTANCE OF '.Person::class)
             ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = owner.id AND owner INSTANCE OF '.Organization::class);
@@ -145,9 +223,11 @@ final class CarController extends AbstractController
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
         $data = array_map(function (Car $car) use ($ownerId): array {
-            $carModel = $car->model;
+            $text = '';
 
-            $text = $carModel->getDisplayName();
+            if (null !== $car->vehicleId) {
+                $text .= $this->display($car->vehicleId, 'long');
+            }
 
             $gosnomer = $car->getGosnomer();
             if (null !== $gosnomer) {

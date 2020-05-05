@@ -4,14 +4,23 @@ declare(strict_types=1);
 
 namespace App\Doctrine;
 
+use App\Car\Entity\Car;
+use App\Car\Entity\CarId;
+use App\Doctrine\ORM\Type\Identifier;
+use App\Manufacturer\Domain\Manufacturer;
+use App\Manufacturer\Domain\ManufacturerId;
+use App\Vehicle\Domain\Model;
+use App\Vehicle\Domain\VehicleId;
 use function assert;
 use function class_exists;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Connection;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use function get_class;
+use function is_array;
 use function is_object;
 use LogicException;
 use function str_replace;
@@ -26,6 +35,18 @@ final class Registry
     public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;
+    }
+
+    /**
+     * @template T
+     *
+     * @psalm-param class-string<T> $class
+     *
+     * @psalm-return T
+     */
+    public function findBy(string $class, array $criteria)
+    {
+        return $this->repository($class)->findOneBy($criteria);
     }
 
     /**
@@ -84,8 +105,8 @@ final class Registry
     public function class($entity): string
     {
         return is_object($entity)
-                ? str_replace('Proxies\\__CG__\\', '', get_class($entity))
-                : $entity;
+            ? str_replace('Proxies\\__CG__\\', '', get_class($entity))
+            : $entity;
     }
 
     /**
@@ -101,9 +122,9 @@ final class Registry
     }
 
     /**
-     * @deprecated Must be removed with EventsListener
-     *
      * @param mixed $entity
+     *
+     * @deprecated Must be removed with EventsListener
      */
     public function isEntity($entity): bool
     {
@@ -116,5 +137,25 @@ final class Registry
         }
 
         return null !== $this->managerOrNull($entity);
+    }
+
+    public function view(Identifier $identifier): array
+    {
+        $class = [
+            VehicleId::class => Model::class,
+            CarId::class => Car::class,
+            ManufacturerId::class => Manufacturer::class,
+        ][get_class($identifier)];
+
+        $view = $this->repository($class)
+            ->createQueryBuilder('t')
+            ->where('t.uuid = :id')
+            ->setParameter('id', $identifier)
+            ->getQuery()
+            ->getSingleResult(AbstractQuery::HYDRATE_ARRAY);
+
+        assert(is_array($view));
+
+        return $view;
     }
 }

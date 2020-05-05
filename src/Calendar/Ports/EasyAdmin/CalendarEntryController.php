@@ -13,13 +13,13 @@ use App\Entity\Tenant\Employee;
 use function array_map;
 use function array_merge;
 use function assert;
+use Closure;
 use DateInterval;
 use DateTimeImmutable;
 use DateTimeZone;
 use function range;
 use SimpleBus\SymfonyBridge\Bus\CommandBus;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -95,9 +95,9 @@ final class CalendarEntryController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function getEditEntity(Request $request): ?object
+    protected function createEditDto(Closure $closure): ?object
     {
-        return $this->getDto(CalendarEntryId::fromString($request->query->get('id')));
+        return $this->getDto(CalendarEntryId::fromString($this->request->query->get('id')));
     }
 
     /**

@@ -41,7 +41,7 @@
 
                     {% for part in recommendation.parts %}
                     {# @var part \App\Car\Entity\RecommendationPart #}
-                    - {{ part.part }} (x{{ part.quantity / 100 }}) {{ part.price|localize_money }} <br/>
+                    - {{ part.part.toId|display_name }} (x{{ part.quantity / 100 }}) {{ part.price|localize_money }} <br/>
                     {% endfor %}
                 {% endif %}
             {% endset %}

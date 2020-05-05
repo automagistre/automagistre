@@ -28,7 +28,7 @@ final class ModelList
         $conn = $this->registry->connection(Model::class);
 
         $qb = $conn->createQueryBuilder()
-            ->select('t.id AS id')
+            ->select('t.uuid AS id')
             ->addSelect('t.manufacturer_id AS "manufacturerId"')
             ->addSelect('t.name AS name')
             ->addSelect('t.localized_name AS "localizedName"')

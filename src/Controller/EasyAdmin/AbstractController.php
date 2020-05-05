@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Doctrine\ORM\Type\Identifier;
 use App\Doctrine\Registry;
+use App\Infrastructure\Identifier\IdentifierFormatter;
 use App\Request\EntityTransformer;
 use App\State;
 use App\User\Entity\User;
 use function array_keys;
 use function array_merge;
+use Closure;
+use Doctrine\ORM\AbstractQuery;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use EasyCorp\Bundle\EasyAdminBundle\Router\EasyAdminRouter;
@@ -17,10 +21,14 @@ use function is_callable;
 use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
+use function mb_strtolower;
 use function method_exists;
 use Money\Formatter\DecimalMoneyFormatter;
 use Money\Money;
 use Money\MoneyFormatter;
+use ReflectionClass;
+use RuntimeException;
+use function sprintf;
 use stdClass;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -50,7 +58,13 @@ abstract class AbstractController extends EasyAdminController
             DecimalMoneyFormatter::class,
             PhoneNumberUtil::class,
             EasyAdminRouter::class,
+            IdentifierFormatter::class,
         ]);
+    }
+
+    protected function display(Identifier $identifier, string $format = null): string
+    {
+        return $this->get(IdentifierFormatter::class)->format($identifier, $format);
     }
 
     protected function formatMoney(Money $money, bool $decimal = false): string
@@ -214,7 +228,7 @@ abstract class AbstractController extends EasyAdminController
         return $entity;
     }
 
-    protected function getEditEntity(Request $request): ?object
+    protected function createEditDto(Closure $callable): ?object
     {
         return null;
     }
@@ -224,14 +238,75 @@ abstract class AbstractController extends EasyAdminController
      */
     protected function editAction()
     {
-        $entity = $this->getEditEntity($this->request);
+        $this->dispatch(EasyAdminEvents::PRE_EDIT);
 
-        if (null !== $entity) {
-            $easyadmin = $this->request->attributes->get('easyadmin');
-            $easyadmin['item'] = $entity;
-            $this->request->attributes->set('easyadmin', $easyadmin);
+        $id = $this->request->query->get('id');
+        $easyadmin = $this->request->attributes->get('easyadmin');
+
+        $dtoClosure = fn (): array => $this->get(Registry::class)->repository($this->entity['class'])
+            ->createQueryBuilder('t')
+            ->where('t.id = :id')
+            ->setParameter('id', $this->request->get('id'))
+            ->getQuery()
+            ->getOneOrNullResult(AbstractQuery::HYDRATE_ARRAY);
+
+        $entity = $this->createEditDto($dtoClosure) ?? $easyadmin['item'];
+
+        if ($this->request->isXmlHttpRequest() && $property = $this->request->query->get('property')) {
+            $newValue = 'true' === mb_strtolower($this->request->query->get('newValue'));
+            $fieldsMetadata = $this->entity['list']['fields'];
+
+            if (!isset($fieldsMetadata[$property]) || 'toggle' !== $fieldsMetadata[$property]['dataType']) {
+                throw new RuntimeException(sprintf('The type of the "%s" property is not "toggle".', $property));
+            }
+
+            $this->updateEntityProperty($entity, $property, $newValue);
+
+            return new Response((string) ((int) $newValue));
         }
 
-        return parent::editAction();
+        $fields = $this->entity['edit']['fields'];
+
+        $editForm = $this->executeDynamicMethod('create<EntityName>EditForm', [$entity, $fields]);
+        $deleteForm = $this->createDeleteForm($this->entity['name'], $id);
+
+        $editForm->handleRequest($this->request);
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $this->processUploadedFiles($editForm);
+
+            $this->dispatch(EasyAdminEvents::PRE_UPDATE, ['entity' => $entity]);
+
+            $entity = $this->executeDynamicMethod('update<EntityName>Entity', [$entity, $editForm]) ?? $entity;
+            $this->dispatch(EasyAdminEvents::POST_UPDATE, ['entity' => $entity]);
+
+            return $this->redirectToReferrer();
+        }
+
+        $this->dispatch(EasyAdminEvents::POST_EDIT);
+
+        $parameters = [
+            'form' => $editForm->createView(),
+            'entity_fields' => $fields,
+            'entity' => $entity,
+            'delete_form' => $deleteForm->createView(),
+        ];
+
+        return $this->executeDynamicMethod('render<EntityName>Template', [
+            'edit',
+            $this->entity['templates']['edit'],
+            $parameters,
+        ]);
+    }
+
+    /**
+     * @template T
+     *
+     * @psalm-param class-string<T> $class
+     *
+     * @psalm-return T
+     */
+    protected function createWithoutConstructor(string $class)
+    {
+        return (new ReflectionClass($class))->newInstanceWithoutConstructor();
     }
 }

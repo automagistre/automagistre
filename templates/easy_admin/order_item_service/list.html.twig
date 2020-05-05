@@ -1,7 +1,9 @@
 {% extends 'easy_admin/default/list.html.twig' %}
 
+{# @var car \App\Car\Entity\Car #}
+
 {% block content_title %}
-    Работы по автомобилю: <a href="{{ easyadmin_path(car, 'show') }}">{{ car }}</a>
+    Работы по автомобилю: <a href="{{ easyadmin_path(car, 'show') }}">{{ car.toId|display_name }}</a>
 {% endblock %}
 
 {% block search_form %}

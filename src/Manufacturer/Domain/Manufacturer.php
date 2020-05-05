@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Manufacturer\Domain;
 
+use App\Costil;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -48,7 +49,12 @@ class Manufacturer
 
     public function __toString(): string
     {
-        return (string) $this->getName();
+        return Costil::display($this->uuid);
+    }
+
+    public function toId(): ManufacturerId
+    {
+        return $this->uuid;
     }
 
     public function getName(): ?string

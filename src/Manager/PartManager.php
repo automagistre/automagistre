@@ -12,6 +12,7 @@ use App\Entity\Tenant\OrderItemPart;
 use App\Enum\OrderStatus;
 use App\Part\Domain\Part;
 use App\Part\Domain\PartCross;
+use function assert;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
@@ -95,6 +96,8 @@ final class PartManager
         $em = $this->registry->manager(Part::class);
 
         $cross = $this->findCross($part, $em);
+        assert($cross instanceof PartCross);
+
         $cross->removePart($part);
 
         if ($cross->isEmpty()) {
@@ -139,7 +142,7 @@ final class PartManager
     public function suggestPrice(Part $part): Money
     {
         $em = $this->registry->manager(IncomePart::class);
-        $suggestPrice = $part->getPrice();
+        $suggestPrice = $part->price;
 
         $incomePart = $em->createQueryBuilder()
             ->select('entity')

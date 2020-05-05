@@ -26,8 +26,14 @@ easy_admin:
                     - { property: 'discount', label: 'Скидка', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'universal', label: 'Универсальная', template: 'easy_admin/default/field_boolean.html.twig' }
             form:
+                form_options: { data_class: \App\Part\Form\PartDto }
                 fields:
-                    - { property: 'manufacturer', label: 'Производитель', type_options: { required: true, placeholder: 'Пусто' } }
+                    -   property: 'manufacturer'
+                        label: 'Производитель'
+                        type: 'easyadmin_autocomplete'
+                        type_options:
+                            required: true
+                            class: App\Manufacturer\Domain\Manufacturer
                     - { property: 'number', label: 'Номер' }
                     - { property: 'name', label: 'Название' }
                     - { property: 'price', label: 'Цена', type: App\Form\Type\MoneyType }
@@ -35,7 +41,6 @@ easy_admin:
                     - { property: 'universal', label: 'Универсальная' }
             new:
                 title: 'Создать новую запчасть'
-                form_options: { data_class: \App\Part\Form\Part }
             edit:
                 title: 'Редактировать запчасть'
                 fields:
@@ -48,11 +53,18 @@ easy_admin:
             new:
                 title: 'Создать применения запчасти к кузову'
                 fields:
-                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { disabled: true } }
-                    -   property: 'carModel'
+                    -   property: 'part'
+                        label: 'Запчасть'
+                        type: 'easyadmin_autocomplete'
+                        type_options:
+                            class: App\Part\Domain\Part
+                            disabled: true
+                    -   property: 'vehicle'
                         label: 'Модель'
                         type: 'easyadmin_autocomplete'
                         help: 'Проивзодитель, Модель, Год, Поколение, Комплектация, Лошадинные силы'
+                        type_options:
+                            class: App\Vehicle\Domain\Model
 
 doctrine:
     orm:
