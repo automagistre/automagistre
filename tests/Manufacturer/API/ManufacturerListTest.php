@@ -33,29 +33,29 @@ final class ManufacturerListTest extends JsonRPCTestCase
             [
             ],
             [
+                'count' => 4,
                 'list' => [
                     [
                         'id' => 1,
-                        'name' => 'Infiniti',
                         'localizedName' => 'Инфинити',
+                        'name' => 'Infiniti',
                     ],
                     [
                         'id' => 2,
-                        'name' => 'Lexus',
                         'localizedName' => 'Лексус',
+                        'name' => 'Lexus',
                     ],
                     [
                         'id' => 3,
-                        'name' => 'Nissan',
                         'localizedName' => 'Ниссан',
+                        'name' => 'Nissan',
                     ],
                     [
                         'id' => 4,
-                        'name' => 'Toyota',
                         'localizedName' => 'Тойота',
+                        'name' => 'Toyota',
                     ],
                 ],
-                'count' => 4,
                 'paging' => ['page' => 1, 'size' => 50],
             ],
         ];
@@ -70,14 +70,14 @@ final class ManufacturerListTest extends JsonRPCTestCase
                 ],
             ],
             [
+                'count' => 1,
                 'list' => [
                     [
                         'id' => 3,
-                        'name' => 'Nissan',
                         'localizedName' => 'Ниссан',
+                        'name' => 'Nissan',
                     ],
                 ],
-                'count' => 1,
                 'paging' => ['page' => 1, 'size' => 50],
             ],
         ];
@@ -87,14 +87,14 @@ final class ManufacturerListTest extends JsonRPCTestCase
                 'paging' => ['page' => 3, 'size' => 1],
             ],
             [
+                'count' => 4,
                 'list' => [
                     [
                         'id' => 3,
-                        'name' => 'Nissan',
                         'localizedName' => 'Ниссан',
+                        'name' => 'Nissan',
                     ],
                 ],
-                'count' => 4,
                 'paging' => ['page' => 3, 'size' => 1],
             ],
         ];
@@ -110,14 +110,14 @@ final class ManufacturerListTest extends JsonRPCTestCase
                 ],
             ],
             [
+                'count' => 1,
                 'list' => [
                     [
                         'id' => 2,
-                        'name' => 'Lexus',
                         'localizedName' => 'Лексус',
+                        'name' => 'Lexus',
                     ],
                 ],
-                'count' => 1,
                 'paging' => ['page' => 1, 'size' => 50],
             ],
         ];
@@ -129,8 +129,8 @@ final class ManufacturerListTest extends JsonRPCTestCase
                 ],
             ],
             [
-                'list' => [],
                 'count' => 0,
+                'list' => [],
                 'paging' => ['page' => 1, 'size' => 50],
             ],
         ];

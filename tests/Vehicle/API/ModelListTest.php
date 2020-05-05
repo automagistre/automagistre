@@ -33,36 +33,36 @@ final class ModelListTest extends JsonRPCTestCase
             [
             ],
             [
+                'count' => 3,
                 'list' => [
                     [
                         'id' => 1,
-                        'manufacturerId' => 3,
-                        'name' => 'GTR',
                         'localizedName' => null,
+                        'manufacturerId' => 3,
                         'model' => null,
+                        'name' => 'GTR',
                         'yearFrom' => null,
                         'yearTill' => null,
                     ],
                     [
                         'id' => 2,
-                        'manufacturerId' => 3,
-                        'name' => 'Primera',
                         'localizedName' => null,
+                        'manufacturerId' => 3,
                         'model' => null,
+                        'name' => 'Primera',
                         'yearFrom' => null,
                         'yearTill' => null,
                     ],
                     [
                         'id' => 3,
-                        'manufacturerId' => 3,
-                        'name' => 'Qashqai',
                         'localizedName' => null,
+                        'manufacturerId' => 3,
                         'model' => null,
+                        'name' => 'Qashqai',
                         'yearFrom' => null,
                         'yearTill' => null,
                     ],
                 ],
-                'count' => 3,
                 'paging' => ['page' => 1, 'size' => 50],
             ],
         ];
@@ -77,18 +77,18 @@ final class ModelListTest extends JsonRPCTestCase
                 ],
             ],
             [
+                'count' => 1,
                 'list' => [
                     [
                         'id' => 1,
-                        'manufacturerId' => 3,
-                        'name' => 'GTR',
                         'localizedName' => null,
+                        'manufacturerId' => 3,
                         'model' => null,
+                        'name' => 'GTR',
                         'yearFrom' => null,
                         'yearTill' => null,
                     ],
                 ],
-                'count' => 1,
                 'paging' => ['page' => 1, 'size' => 50],
             ],
         ];
@@ -101,18 +101,18 @@ final class ModelListTest extends JsonRPCTestCase
                 ],
             ],
             [
+                'count' => 3,
                 'list' => [
                     [
                         'id' => 3,
-                        'manufacturerId' => 3,
-                        'name' => 'Qashqai',
                         'localizedName' => null,
+                        'manufacturerId' => 3,
                         'model' => null,
+                        'name' => 'Qashqai',
                         'yearFrom' => null,
                         'yearTill' => null,
                     ],
                 ],
-                'count' => 3,
                 'paging' => ['page' => 3, 'size' => 1],
             ],
         ];
@@ -128,18 +128,18 @@ final class ModelListTest extends JsonRPCTestCase
                 ],
             ],
             [
+                'count' => 1,
                 'list' => [
                     0 => [
                         'id' => 2,
-                        'manufacturerId' => 3,
-                        'name' => 'Primera',
                         'localizedName' => null,
+                        'manufacturerId' => 3,
                         'model' => null,
+                        'name' => 'Primera',
                         'yearFrom' => null,
                         'yearTill' => null,
                     ],
                 ],
-                'count' => 1,
                 'paging' => ['page' => 1, 'size' => 50],
             ],
         ];
@@ -151,8 +151,8 @@ final class ModelListTest extends JsonRPCTestCase
                 ],
             ],
             [
-                'list' => [],
                 'count' => 0,
+                'list' => [],
                 'paging' => ['page' => 1, 'size' => 50],
             ],
         ];

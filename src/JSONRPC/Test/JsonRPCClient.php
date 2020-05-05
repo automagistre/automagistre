@@ -9,7 +9,9 @@ use Datto\JsonRpc\Client;
 use Datto\JsonRpc\Responses\ErrorResponse;
 use Datto\JsonRpc\Responses\Response;
 use Datto\JsonRpc\Responses\ResultResponse;
+use function is_array;
 use function is_string;
+use function ksort;
 use LogicException;
 use Sentry\Util\JSON;
 use function sprintf;
@@ -34,6 +36,13 @@ final class JsonRPCClient extends KernelBrowser
             assert($response instanceof ErrorResponse);
 
             throw new LogicException(sprintf('Method "%s", code "%s", message "%s", data: "%s', $method, $response->getCode(), $response->getMessage(), JSON::encode($response->getData())));
+        }
+
+        $value = $response->getValue();
+        if (is_array($value)) {
+            self::deepSort($value);
+
+            return new ResultResponse($response->getId(), $value);
         }
 
         return $response;
@@ -83,5 +92,16 @@ final class JsonRPCClient extends KernelBrowser
         }
 
         return $this->endpoint;
+    }
+
+    private static function deepSort(array &$array): void
+    {
+        ksort($array);
+
+        foreach ($array as &$value) {
+            if (is_array($value)) {
+                self::deepSort($value);
+            }
+        }
     }
 }
