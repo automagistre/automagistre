@@ -10,7 +10,6 @@ use App\State;
 use App\User\Entity\User;
 use function array_keys;
 use function array_merge;
-use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use EasyCorp\Bundle\EasyAdminBundle\Router\EasyAdminRouter;
@@ -22,11 +21,8 @@ use function method_exists;
 use Money\Formatter\DecimalMoneyFormatter;
 use Money\Money;
 use Money\MoneyFormatter;
-use Pagerfanta\Pagerfanta;
 use stdClass;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Symfony\Component\Form\FormBuilder;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -198,26 +194,6 @@ abstract class AbstractController extends EasyAdminController
     /**
      * {@inheritdoc}
      */
-    protected function isActionAllowed($actionName): bool
-    {
-        return parent::isActionAllowed($actionName);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function createListQueryBuilder(
-        $entityClass,
-        $sortDirection,
-        $sortField = null,
-        $dqlFilter = null
-    ): QueryBuilder {
-        return parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function createNewEntity()
     {
         if (stdClass::class === ($this->entity['new']['form_options']['data_class'] ?? null)) {
@@ -236,74 +212,5 @@ abstract class AbstractController extends EasyAdminController
         }
 
         return $entity;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function createEntityForm($entity, array $entityProperties, $view): FormInterface
-    {
-        return parent::createEntityForm($entity, $entityProperties, $view);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function createSearchQueryBuilder(
-        $entityClass,
-        $searchQuery,
-        array $searchableFields,
-        $sortField = null,
-        $sortDirection = null,
-        $dqlFilter = null
-    ): QueryBuilder {
-        return parent::createSearchQueryBuilder(
-            $entityClass,
-            $searchQuery,
-            $searchableFields,
-            $sortField,
-            $sortDirection,
-            $dqlFilter
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function renderTemplate($actionName, $templatePath, array $parameters = []): Response
-    {
-        return parent::renderTemplate($actionName, $templatePath, $parameters);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function findBy(
-        $entityClass,
-        $searchQuery,
-        array $searchableFields,
-        $page = 1,
-        $maxPerPage = 15,
-        $sortField = null,
-        $sortDirection = null,
-        $dqlFilter = null
-    ): Pagerfanta {
-        return parent::findBy($entityClass, $searchQuery, $searchableFields, $page, $maxPerPage, $sortField, $sortDirection, $dqlFilter);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function createDeleteForm($entityName, $entityId): FormInterface
-    {
-        return parent::createDeleteForm($entityName, $entityId);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function createEntityFormBuilder($entity, $view): FormBuilder
-    {
-        return parent::createEntityFormBuilder($entity, $view);
     }
 }
