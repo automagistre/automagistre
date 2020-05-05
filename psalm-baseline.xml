@@ -281,13 +281,12 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Entity/Tenant/MotionIncome.php">
-    <PossiblyNullArgument occurrences="3">
-      <code>$incomePart-&gt;getIncome()-&gt;getId()</code>
+    <PossiblyNullArgument occurrences="2">
       <code>$incomePart-&gt;getPart()</code>
       <code>$incomePart-&gt;getQuantity()</code>
     </PossiblyNullArgument>
     <PossiblyNullReference occurrences="1">
-      <code>getId</code>
+      <code>toId</code>
     </PossiblyNullReference>
   </file>
   <file src="src/Entity/Tenant/MotionOrder.php">
@@ -366,10 +365,8 @@
     </PossiblyNullArgument>
   </file>
   <file src="src/Income/Controller/IncomeController.php">
-    <PossiblyNullArgument occurrences="4">
-      <code>$income-&gt;getId()</code>
+    <PossiblyNullArgument occurrences="2">
       <code>$income-&gt;getSupplier()</code>
-      <code>$income-&gt;getId()</code>
       <code>$income-&gt;getSupplier()</code>
     </PossiblyNullArgument>
     <PossiblyNullReference occurrences="1">
@@ -386,16 +383,8 @@
     </PossiblyNullArgument>
     <PossiblyNullReference occurrences="3">
       <code>isEditable</code>
-      <code>getId</code>
       <code>toId</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="src/Income/Entity/Income.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$this-&gt;getId()</code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>format</code>
+      <code>toId</code>
     </PossiblyNullReference>
   </file>
   <file src="src/Income/Fixtures/IncomeFixtures.php">

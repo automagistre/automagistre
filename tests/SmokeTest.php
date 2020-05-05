@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests;
 
 use App\Calendar\Infrastructure\Fixtures\CalendarEntryFixtures;
+use App\Income\Fixtures\IncomeFixtures;
 use function array_diff;
 use function array_replace;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigManager;
@@ -73,8 +74,11 @@ final class SmokeTest extends WebTestCase
         'PartCase' => [
             'new' => ['part_id' => '1'],
         ],
+        'Income' => [
+            'edit' => ['id' => IncomeFixtures::ID],
+        ],
         'IncomePart' => [
-            'new' => ['income_id' => '1'],
+            'new' => ['income_id' => IncomeFixtures::ID],
         ],
         'McLine' => [
             'new' => ['mc_equipment_id' => '1'],

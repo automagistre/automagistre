@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Income\Entity;
 
 use App\Customer\Domain\Operand;
-use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\CreatedByRelation as CreatedBy;
-use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Entity\Embeddable\OperandRelation;
 use App\Entity\Embeddable\UserRelation;
 use App\User\Entity\User;
@@ -17,7 +15,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;
 use Money\Money;
-use function sprintf;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -29,9 +26,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Income
 {
-    use Identity;
-    use CreatedAt;
     use CreatedBy;
+
+    /**
+     * @ORM\Id()
+     * @ORM\Column(type="income_id")
+     */
+    private IncomeId $id;
 
     /**
      * @var OperandRelation
@@ -82,21 +83,31 @@ class Income
      */
     private $accruedAmount;
 
-    public function __construct()
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private DateTimeImmutable $createdAt;
+
+    public function __construct(IncomeId $incomeId)
     {
+        $this->id = $incomeId;
         $this->supplier = new OperandRelation();
         $this->accruedBy = new UserRelation();
         $this->incomeParts = new ArrayCollection();
+        $this->createdAt = new DateTimeImmutable();
     }
 
-    public function __toString(): string
+    /**
+     * @deprecated for BC with TenantListener
+     */
+    public function getId(): string
     {
-        return sprintf(
-            '№%s %s от %s',
-            $this->getId(),
-            (string) $this->getSupplier(),
-            $this->getCreatedAt()->format('d.m.Y')
-        );
+        return $this->toId()->toString();
+    }
+
+    public function toId(): IncomeId
+    {
+        return $this->id;
     }
 
     public function isEditable(): bool

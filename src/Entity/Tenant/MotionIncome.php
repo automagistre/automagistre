@@ -25,7 +25,7 @@ class MotionIncome extends Motion
     {
         $this->incomePart = $incomePart;
 
-        $description = sprintf('# Приход #%s', $incomePart->getIncome()->getId());
+        $description = sprintf('# Приход #%s', $incomePart->getIncome()->toId()->toString());
 
         parent::__construct($incomePart->getPart(), $incomePart->getQuantity(), $description);
     }

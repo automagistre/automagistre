@@ -10,6 +10,7 @@ use App\Entity\Tenant\Wallet;
 use App\Event\IncomeAccrued;
 use App\Form\Type\MoneyType;
 use App\Income\Entity\Income;
+use App\Income\Entity\IncomeId;
 use App\Manager\PaymentManager;
 use App\Part\Domain\Part;
 use function assert;
@@ -67,7 +68,7 @@ final class IncomeController extends AbstractController
 
             $registry->manager(Income::class)
                 ->transactional(function () use ($model, $income): void {
-                    $description = sprintf('# Оплата за поставку #%s', $income->getId());
+                    $description = sprintf('# Оплата за поставку #%s', $income->toId()->toString());
 
                     /** @var Money $money */
                     $money = $model->money;
@@ -94,7 +95,7 @@ final class IncomeController extends AbstractController
         }
 
         if (!$income->isEditable()) {
-            $this->addFlash('error', sprintf('Приход "%s" уже оприходван', (string) $income));
+            $this->addFlash('error', 'Приход уже оприходван');
 
             return $this->redirectToReferrer();
         }
@@ -109,7 +110,7 @@ final class IncomeController extends AbstractController
             $em->transactional(function () use ($income): void {
                 $income->accrue($this->getUser());
 
-                $description = sprintf('# Начисление по поставке №%s', $income->getId());
+                $description = sprintf('# Начисление по поставке №%s', $income->toId()->toString());
 
                 $this->paymentManager->createPayment($income->getSupplier(), $description, $income->getTotalPrice());
             });
@@ -145,6 +146,13 @@ final class IncomeController extends AbstractController
         return parent::isActionAllowed($actionName);
     }
 
+    protected function createNewEntity()
+    {
+        return new Income(
+            IncomeId::generate(),
+        );
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -155,7 +163,7 @@ final class IncomeController extends AbstractController
         parent::persistEntity($entity);
 
         $this->setReferer($this->generateEasyPath('IncomePart', 'new', [
-            'income_id' => $entity->getId(),
+            'income_id' => $entity->toId()->toString(),
             'referer' => urlencode($this->generateEasyPath($entity, 'show')),
         ]));
     }

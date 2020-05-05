@@ -65,7 +65,7 @@ final class IncomePartController extends AbstractController
         parent::persistEntity($entity);
 
         $this->setReferer($this->generateEasyPath($entity, 'new', [
-            'income_id' => $entity->getIncome()->getId(),
+            'income_id' => $entity->getIncome()->toId()->toString(),
             'referer' => urlencode($this->generateEasyPath($entity->getIncome(), 'show')),
         ]));
 

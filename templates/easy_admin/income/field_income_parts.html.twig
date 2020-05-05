@@ -20,7 +20,7 @@
         <tbody>
         {% for incomePart in value %}
             {% set trClass = null %}
-            {% if incomePart.part.price.positive() %}
+            {% if incomePart.part.price.positive() and incomePart.price.positive() %}
                 {% set markup = incomePart.part.price.ratioOf(incomePart.price) %}
                 {% if markup <= 1.1 %}
                     {% set trClass = 'danger' %}

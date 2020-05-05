@@ -12,7 +12,6 @@ easy_admin:
                 actions:
                     - { name: 'pay', template: 'easy_admin/income/action_pay.html.twig' }
                 fields:
-                    - { property: 'id', template: 'easy_admin/field_id.html.twig' }
                     - { property: 'supplier', label: 'Поставщик', template: 'easy_admin/field_show.html.twig' }
                     - { property: 'status', vritual: true, label: 'Статус', template: 'easy_admin/income/field_status.html.twig' }
                     - { property: 'totalPrice', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
@@ -25,7 +24,7 @@ easy_admin:
             new:
                 title: 'Создать приход'
             edit:
-                title: 'Редактировать приход № {{ entity.id }}'
+                title: 'Редактировать приход'
             show:
                 title: 'Приход № {{ entity.id }}'
                 fields:
@@ -41,7 +40,6 @@ easy_admin:
             controller: App\Income\Controller\IncomePartController
             form:
                 fields:
-                    - { property: 'income', label: 'Поставка', type_options: { disabled: true } }
                     - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { class: App\Part\Domain\Part } }
                     - { property: 'price', label: 'Цена', type: App\Form\Type\MoneyType }
                     - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
