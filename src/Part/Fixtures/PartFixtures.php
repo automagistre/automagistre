@@ -12,6 +12,8 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Money\Currency;
+use Money\Money;
 
 final class PartFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
 {
@@ -41,7 +43,14 @@ final class PartFixtures extends Fixture implements FixtureGroupInterface, Depen
         $manufacturer = $this->getReference(NissanFixture::REF);
         assert($manufacturer instanceof Manufacturer);
 
-        $part = new Part($manufacturer, 'Part 1', 'part1number', false, null);
+        $part = new Part(
+            $manufacturer,
+            'Part 1',
+            'part1number',
+            false,
+            new Money(1500, new Currency('RUB')),
+            new Money(0, new Currency('RUB')),
+        );
 
         $this->addReference('part-1', $part);
         $manager->persist($part);

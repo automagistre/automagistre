@@ -470,6 +470,12 @@
       <code>$this-&gt;parts</code>
     </NullArgument>
   </file>
+  <file src="src/Part/Form/Part.php">
+    <PossiblyNullPropertyAssignmentValue occurrences="2">
+      <code>$price</code>
+      <code>$discount</code>
+    </PossiblyNullPropertyAssignmentValue>
+  </file>
   <file src="src/Part/Ports/EasyAdmin/PartController.php">
     <InvalidArgument occurrences="1">
       <code>fn (Order $order): int =&gt; (int) $order-&gt;getId()</code>

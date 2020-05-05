@@ -6,7 +6,6 @@ namespace App\Part\Domain;
 
 use App\Doctrine\ORM\Mapping\Traits\Discount;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
-use App\Doctrine\ORM\Mapping\Traits\Price;
 use App\Manufacturer\Domain\Manufacturer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -32,7 +31,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class Part
 {
     use Identity;
-    use Price;
     use Discount;
 
     /**
@@ -69,18 +67,26 @@ class Part
      */
     public iterable $relation;
 
+    /**
+     *
+     * @ORM\Embedded(class=Money::class)
+     */
+    private Money $price;
+
     public function __construct(
         Manufacturer $manufacturer,
         string $name,
         string $number,
         bool $universal,
-        ?Money $discount
+        Money $price,
+        Money $discount
     ) {
         $this->partId = PartId::generate();
         $this->manufacturer = $manufacturer;
         $this->name = $name;
         $this->setNumber($number);
         $this->universal = $universal;
+        $this->price = $price;
         $this->relation = new ArrayCollection();
         $this->discount = $discount;
     }
@@ -128,6 +134,11 @@ class Part
     public function setNumber(string $number): void
     {
         $this->number = strtoupper(preg_replace('/[^a-zA-Z0-9]/', '', $number));
+    }
+
+    public function getPrice(): Money
+    {
+        return $this->price;
     }
 
     public function setPrice(Money $price): void

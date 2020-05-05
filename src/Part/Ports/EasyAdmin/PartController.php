@@ -457,7 +457,14 @@ final class PartController extends AbstractController
         $model = $entity;
         assert($model instanceof PartModel);
 
-        $entity = new Part($model->manufacturer, $model->name, $model->number, $model->universal, $model->discount);
+        $entity = new Part(
+            $model->manufacturer,
+            $model->name,
+            $model->number,
+            $model->universal,
+            $model->price,
+            $model->discount,
+        );
 
         try {
             parent::persistEntity($entity);

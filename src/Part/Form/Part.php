@@ -27,9 +27,19 @@ final class Part
 
     public bool $universal;
 
-    public ?Money $price;
+    /**
+     * @var Money
+     *
+     * @Assert\NotBlank
+     */
+    public $price;
 
-    public ?Money $discount;
+    /**
+     * @var Money
+     *
+     * @Assert\NotBlank
+     */
+    public $discount;
 
     public function __construct(
         Manufacturer $manufacturer = null,
