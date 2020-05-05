@@ -6,7 +6,7 @@ namespace App\Income\Fixtures;
 
 use App\Customer\Domain\Operand;
 use App\Doctrine\Registry;
-use App\Entity\Tenant\Income;
+use App\Income\Entity\Income;
 use App\User\Fixtures\UserRelationFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use App\Doctrine\Registry;
-use App\Entity\Tenant\Income;
 use App\Entity\Tenant\MotionIncome;
 use App\Event\IncomeAccrued;
 use App\Event\PartAccrued;
+use App\Income\Entity\Income;
 use LogicException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

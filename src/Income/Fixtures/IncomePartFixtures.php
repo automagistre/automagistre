@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Income\Fixtures;
 
 use App\Doctrine\Registry;
-use App\Entity\Tenant\Income;
-use App\Entity\Tenant\IncomePart;
+use App\Income\Entity\Income;
+use App\Income\Entity\IncomePart;
 use App\Part\Domain\Part;
 use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;

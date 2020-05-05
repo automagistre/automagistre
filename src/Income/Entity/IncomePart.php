@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Tenant;
+namespace App\Income\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
 use App\Doctrine\ORM\Mapping\Traits\Quantity;
 use App\Entity\Embeddable\PartRelation;
+use App\Entity\Tenant\MotionIncome;
 use App\Part\Domain\Part;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;

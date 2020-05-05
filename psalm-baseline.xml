@@ -111,31 +111,6 @@
       <code>ExpenseItemController</code>
     </PropertyNotSetInConstructor>
   </file>
-  <file src="src/Controller/EasyAdmin/IncomeController.php">
-    <PossiblyNullArgument occurrences="4">
-      <code>$income-&gt;getId()</code>
-      <code>$income-&gt;getSupplier()</code>
-      <code>$income-&gt;getId()</code>
-      <code>$income-&gt;getSupplier()</code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>transactional</code>
-    </PossiblyNullReference>
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>IncomeController</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Controller/EasyAdmin/IncomePartController.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$entity-&gt;getIncome()</code>
-      <code>$entity-&gt;getIncome()</code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="3">
-      <code>isEditable</code>
-      <code>getId</code>
-      <code>toId</code>
-    </PossiblyNullReference>
-  </file>
   <file src="src/Controller/EasyAdmin/MC/EquipmentController.php">
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtolower($searchString)</code>
@@ -305,14 +280,6 @@
       <code>$ratio</code>
     </PropertyNotSetInConstructor>
   </file>
-  <file src="src/Entity/Tenant/Income.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$this-&gt;getId()</code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>format</code>
-    </PossiblyNullReference>
-  </file>
   <file src="src/Entity/Tenant/MotionIncome.php">
     <PossiblyNullArgument occurrences="3">
       <code>$incomePart-&gt;getIncome()-&gt;getId()</code>
@@ -397,6 +364,39 @@
     <PossiblyNullArgument occurrences="1">
       <code>$operand-&gt;getId()</code>
     </PossiblyNullArgument>
+  </file>
+  <file src="src/Income/Controller/IncomeController.php">
+    <PossiblyNullArgument occurrences="4">
+      <code>$income-&gt;getId()</code>
+      <code>$income-&gt;getSupplier()</code>
+      <code>$income-&gt;getId()</code>
+      <code>$income-&gt;getSupplier()</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="1">
+      <code>transactional</code>
+    </PossiblyNullReference>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>IncomeController</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Income/Controller/IncomePartController.php">
+    <PossiblyNullArgument occurrences="2">
+      <code>$entity-&gt;getIncome()</code>
+      <code>$entity-&gt;getIncome()</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="3">
+      <code>isEditable</code>
+      <code>getId</code>
+      <code>toId</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Income/Entity/Income.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$this-&gt;getId()</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="1">
+      <code>format</code>
+    </PossiblyNullReference>
   </file>
   <file src="src/Income/Fixtures/IncomeFixtures.php">
     <PropertyNotSetInConstructor occurrences="1">

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Tenant;
 
+use App\Income\Entity\IncomePart;
 use Doctrine\ORM\Mapping as ORM;
 use function sprintf;
 

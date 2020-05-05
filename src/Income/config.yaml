@@ -1,0 +1,61 @@
+easy_admin:
+    entities:
+        Income:
+            class: App\Income\Entity\Income
+            controller: App\Income\Controller\IncomeController
+            disabled_actions: ['delete', 'search']
+            templates:
+                list: 'easy_admin/income/list.html.twig'
+                show: 'easy_admin/income/show.html.twig'
+            list:
+                title: 'Приходы'
+                actions:
+                    - { name: 'pay', template: 'easy_admin/income/action_pay.html.twig' }
+                fields:
+                    - { property: 'id', template: 'easy_admin/field_id.html.twig' }
+                    - { property: 'supplier', label: 'Поставщик', template: 'easy_admin/field_show.html.twig' }
+                    - { property: 'status', vritual: true, label: 'Статус', template: 'easy_admin/income/field_status.html.twig' }
+                    - { property: 'totalPrice', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
+                    - { property: 'itemsCount', label: 'Позиций' }
+                    - { property: 'accruedAt', label: 'Принято' }
+            form:
+                fields:
+                    - { property: 'supplier', label: 'Поставщик', type: App\Form\Type\SellerType, type_options: { required: true } }
+                    - { property: 'document', label: 'Документ' }
+            new:
+                title: 'Создать приход'
+            edit:
+                title: 'Редактировать приход № {{ entity.id }}'
+            show:
+                title: 'Приход № {{ entity.id }}'
+                fields:
+                    - { property: 'supplier', label: 'Поставщик' }
+                    - { property: 'document', label: 'Документ' }
+                    - { property: 'incomeParts', label: 'Позиции', template: 'easy_admin/income/field_income_parts.html.twig' }
+                    - { property: 'totalPrice', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
+                    - { property: 'accruedAt', label: 'Принято' }
+                    - { property: 'accruedBy', label: 'Принял', template: 'easy_admin/field_user.html.twig' }
+
+        IncomePart:
+            class: App\Income\Entity\IncomePart
+            controller: App\Income\Controller\IncomePartController
+            form:
+                fields:
+                    - { property: 'income', label: 'Поставка', type_options: { disabled: true } }
+                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { class: App\Part\Domain\Part } }
+                    - { property: 'price', label: 'Цена', type: App\Form\Type\MoneyType }
+                    - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
+            new:
+                title: 'Создать новую Запчасть для Прихода'
+            edit:
+                title: 'Редактировать Запчасть для Прихода'
+
+doctrine:
+    orm:
+        entity_managers:
+            tenant:
+                mappings:
+                    income:
+                        type: annotation
+                        prefix: App\Income\Entity
+                        dir: '%kernel.project_dir%/src/Income/Entity'

@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin;
+namespace App\Income\Controller;
 
+use App\Controller\EasyAdmin\AbstractController;
 use App\Doctrine\Registry;
-use App\Entity\Tenant\Income;
 use App\Entity\Tenant\Wallet;
 use App\Event\IncomeAccrued;
 use App\Form\Type\MoneyType;
+use App\Income\Entity\Income;
 use App\Manager\PaymentManager;
 use App\Part\Domain\Part;
 use function assert;

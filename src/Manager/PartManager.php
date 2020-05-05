@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Manager;
 
 use App\Doctrine\Registry;
-use App\Entity\Tenant\IncomePart;
 use App\Entity\Tenant\Motion;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItemPart;
 use App\Enum\OrderStatus;
+use App\Income\Entity\IncomePart;
 use App\Part\Domain\Part;
 use App\Part\Domain\PartCross;
 use function assert;

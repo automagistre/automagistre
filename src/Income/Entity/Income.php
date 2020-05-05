@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Tenant;
+namespace App\Income\Entity;
 
 use App\Customer\Domain\Operand;
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;

@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin;
+namespace App\Income\Controller;
 
-use App\Entity\Tenant\Income;
-use App\Entity\Tenant\IncomePart;
+use App\Controller\EasyAdmin\AbstractController;
+use App\Income\Entity\Income;
+use App\Income\Entity\IncomePart;
 use App\Infrastructure\Identifier\IdentifierFormatter;
 use function assert;
 use function in_array;
