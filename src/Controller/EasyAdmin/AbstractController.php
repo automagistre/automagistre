@@ -213,4 +213,25 @@ abstract class AbstractController extends EasyAdminController
 
         return $entity;
     }
+
+    protected function getEditEntity(Request $request): ?object
+    {
+        return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function editAction()
+    {
+        $entity = $this->getEditEntity($this->request);
+
+        if (null !== $entity) {
+            $easyadmin = $this->request->attributes->get('easyadmin');
+            $easyadmin['item'] = $entity;
+            $this->request->attributes->set('easyadmin', $easyadmin);
+        }
+
+        return parent::editAction();
+    }
 }

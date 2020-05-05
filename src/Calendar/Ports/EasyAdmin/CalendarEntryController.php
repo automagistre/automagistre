@@ -19,6 +19,7 @@ use DateTimeZone;
 use function range;
 use SimpleBus\SymfonyBridge\Bus\CommandBus;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -94,13 +95,9 @@ final class CalendarEntryController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function editAction()
+    protected function getEditEntity(Request $request): ?object
     {
-        $easyadmin = $this->request->attributes->get('easyadmin');
-        $easyadmin['item'] = $this->getDto(CalendarEntryId::fromString($this->request->query->get('id')));
-        $this->request->attributes->set('easyadmin', $easyadmin);
-
-        return parent::editAction();
+        return $this->getDto(CalendarEntryId::fromString($request->query->get('id')));
     }
 
     /**
