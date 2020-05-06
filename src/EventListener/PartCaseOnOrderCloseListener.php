@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
+use App\Doctrine\ORM\Type\Identifier;
 use App\Doctrine\Registry;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItemPart;
@@ -76,15 +77,16 @@ final class PartCaseOnOrderCloseListener implements EventSubscriberInterface
 
         $existed = $this->registry->repository(Part::class)
             ->createQueryBuilder('entity')
-            ->select('entity.id')
-            ->join(PartCase::class, 'pc', Join::WITH, 'entity = pc.part')
-            ->where('pc.part IN (:parts)')
-            ->andWhere('pc.carModel = :carModel')
+            ->select('entity.partId')
+            ->join(PartCase::class, 'pc', Join::WITH, 'entity.partId = pc.partId')
+            ->where('pc.partId IN (:parts)')
+            ->andWhere('pc.vehicleId = :vehicle')
             ->getQuery()
-            ->setParameter('carModel', $vehicleId)
-            ->setParameter('parts', $parts)
+            ->setParameter('vehicle', $vehicleId)
+            ->setParameter('parts', array_map(fn (Part $part) => $part->toId(), $parts))
             ->getScalarResult();
         $existed = array_map('array_shift', $existed);
+        $existed = array_map(fn (Identifier $identifier) => $identifier->toString(), $existed);
         $existed = array_flip($existed);
 
         foreach ($parts as $part) {

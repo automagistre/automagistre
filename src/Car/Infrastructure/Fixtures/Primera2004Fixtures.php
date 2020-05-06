@@ -35,6 +35,8 @@ final class Primera2004Fixtures extends Fixture implements FixtureGroupInterface
         $car->year = self::YEAR;
         $car->vehicleId = VehicleId::fromString(self::VEHICLE_ID);
 
+        $this->addReference(__CLASS__, $car);
+
         $manager->persist($car);
         $manager->flush();
     }

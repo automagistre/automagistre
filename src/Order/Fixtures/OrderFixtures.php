@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Order\Fixtures;
 
+use App\Car\Entity\Car;
+use App\Car\Infrastructure\Fixtures\Primera2004Fixtures;
 use App\Doctrine\Registry;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItemGroup;
@@ -14,6 +16,7 @@ use App\Enum\NoteType;
 use App\Part\Domain\Part;
 use App\State;
 use App\User\Entity\User;
+use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -42,6 +45,9 @@ final class OrderFixtures extends Fixture implements FixtureGroupInterface
 
         $order = new Order();
         $manager->persist($order);
+
+        $car = $this->registry->reference(Car::class, 2);
+        $order->setCar($car);
 
         $this->addReference('order-1', $order);
         $manager->persist(new OrderNote($order, NoteType::info(), 'Order Note'));

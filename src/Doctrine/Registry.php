@@ -158,4 +158,17 @@ final class Registry
 
         return $view;
     }
+
+    /**
+     * @template T
+     *
+     * @psalm-param class-string<T> $class
+     * @param mixed $id
+     *
+     * @psalm-return T
+     */
+    public function reference(string $class, $id)
+    {
+        return $this->manager($class)->getReference($class, $id);
+    }
 }

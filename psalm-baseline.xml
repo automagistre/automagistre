@@ -187,11 +187,6 @@
       <code>flush</code>
     </PossiblyNullReference>
   </file>
-  <file src="src/Controller/TestController.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>TestController</code>
-    </PropertyNotSetInConstructor>
-  </file>
   <file src="src/Customer/Domain/Organization.php">
     <PropertyNotSetInConstructor occurrences="2">
       <code>$name</code>
@@ -530,6 +525,14 @@
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtolower($item)</code>
     </PossiblyFalseOperand>
+  </file>
+  <file src="tests/EventListener/PartCaseOnOrderCloseListenerTest.php">
+    <PossiblyNullReference occurrences="4">
+      <code>tenant</code>
+      <code>findBy</code>
+      <code>onOrderClosed</code>
+      <code>findBy</code>
+    </PossiblyNullReference>
   </file>
   <file src="tests/Infrastructure/Identifier/IdentifierTestCase.php">
     <PossiblyNullReference occurrences="1">
