@@ -89,6 +89,14 @@
     <PossiblyNullArgument occurrences="1">
       <code>$person</code>
     </PossiblyNullArgument>
+    <RedundantCondition occurrences="2">
+      <code>!is_string($payday) || !is_string($description)</code>
+      <code>is_string($payday)</code>
+    </RedundantCondition>
+    <TypeDoesNotContainType occurrences="2">
+      <code>is_string($payday)</code>
+      <code>is_string($description)</code>
+    </TypeDoesNotContainType>
   </file>
   <file src="src/Controller/EasyAdmin/EmployeeController.php">
     <PossiblyNullReference occurrences="3">
@@ -127,11 +135,12 @@
     <PossiblyNullArrayOffset occurrences="1">
       <code>$services</code>
     </PossiblyNullArrayOffset>
-    <PossiblyNullReference occurrences="9">
+    <PossiblyNullReference occurrences="10">
       <code>isFilled</code>
       <code>flush</code>
       <code>flush</code>
       <code>flush</code>
+      <code>isEditable</code>
       <code>transactional</code>
       <code>getRepository</code>
       <code>getRepository</code>
@@ -187,6 +196,11 @@
       <code>flush</code>
     </PossiblyNullReference>
   </file>
+  <file src="src/Controller/TestController.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>TestController</code>
+    </PropertyNotSetInConstructor>
+  </file>
   <file src="src/Customer/Domain/Organization.php">
     <PropertyNotSetInConstructor occurrences="2">
       <code>$name</code>
@@ -209,6 +223,9 @@
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtolower($item)</code>
     </PossiblyFalseOperand>
+    <PossiblyNullArgument occurrences="1">
+      <code>$entity</code>
+    </PossiblyNullArgument>
   </file>
   <file src="src/Customer/Ports/EasyAdmin/OperandTransactionController.php">
     <PossiblyNullArgument occurrences="2">
@@ -247,6 +264,9 @@
     <RedundantConditionGivenDocblockType occurrences="1">
       <code>assert($entityRepository instanceof EntityRepository)</code>
     </RedundantConditionGivenDocblockType>
+    <RepositoryStringShortcut occurrences="1">
+      <code>$class</code>
+    </RepositoryStringShortcut>
   </file>
   <file src="src/EasyAdmin/Notify/BalanceNotificationListener.php">
     <PossiblyFalseArgument occurrences="1">
@@ -400,16 +420,6 @@
       <code>$value</code>
     </MissingParamType>
   </file>
-  <file src="src/JSONRPC/EndpointAction.php">
-    <PossiblyInvalidArgument occurrences="1">
-      <code>$request-&gt;getContent()</code>
-    </PossiblyInvalidArgument>
-  </file>
-  <file src="src/Kernel.php">
-    <PropertyTypeCoercion occurrences="1">
-      <code>$this-&gt;getContainer()-&gt;get(IdentifierFormatter::class)</code>
-    </PropertyTypeCoercion>
-  </file>
   <file src="src/Manager/DeficitManager.php">
     <InvalidNullableReturnType occurrences="1">
       <code>object</code>
@@ -476,6 +486,11 @@
       <code>PartController</code>
     </PropertyNotSetInConstructor>
   </file>
+  <file src="src/Request/EntityTransformer.php">
+    <RepositoryStringShortcut occurrences="1">
+      <code>$class</code>
+    </RepositoryStringShortcut>
+  </file>
   <file src="src/Request/EntityTransformerArgumentValueResolver.php">
     <PossiblyNullArgument occurrences="2">
       <code>$argument-&gt;getType()</code>
@@ -487,6 +502,11 @@
       <code>$tenant</code>
       <code>$user</code>
     </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Tenant/EventListener/TenantRelationListener.php">
+    <RepositoryStringShortcut occurrences="1">
+      <code>$relationEntityClass</code>
+    </RepositoryStringShortcut>
   </file>
   <file src="src/User/Controller/UserController.php">
     <PossiblyNullReference occurrences="1">
@@ -527,17 +547,9 @@
     </PossiblyFalseOperand>
   </file>
   <file src="tests/EventListener/PartCaseOnOrderCloseListenerTest.php">
-    <PossiblyNullReference occurrences="4">
-      <code>tenant</code>
-      <code>findBy</code>
-      <code>onOrderClosed</code>
-      <code>findBy</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="tests/Infrastructure/Identifier/IdentifierTestCase.php">
-    <PossiblyNullReference occurrences="1">
-      <code>format</code>
-    </PossiblyNullReference>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>assertNotEmpty</code>
+    </RedundantConditionGivenDocblockType>
   </file>
   <file src="tests/SmokeTest.php">
     <PossiblyInvalidArgument occurrences="1">
