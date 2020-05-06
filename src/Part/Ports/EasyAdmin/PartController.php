@@ -301,7 +301,7 @@ final class PartController extends AbstractController
 
             $cases = $registry->repository(Model::class)
                 ->createQueryBuilder('entity')
-                ->select('PARTIAL entity.{id, caseName}')
+                ->select('PARTIAL entity.{id, uuid, caseName}')
                 ->where('entity.caseName IN (:cases)')
                 ->getQuery()
                 ->setParameter('cases', explode(' ', trim($searchQuery)))
@@ -332,13 +332,13 @@ final class PartController extends AbstractController
             $searchQuery = str_replace('  ', ' ', $searchQuery);
 
             $qb
-                ->leftJoin(PartCase::class, 'pc', Join::WITH, 'pc.part = part')
+                ->leftJoin(PartCase::class, 'pc', Join::WITH, 'pc.partId = part.partId')
                 ->where($qb->expr()->orX(
-                    $qb->expr()->in('pc.carModel', ':cases'),
+                    $qb->expr()->in('pc.vehicleId', ':cases'),
                     $qb->expr()->eq('part.universal', ':universal')
                 ))
                 ->setParameters([
-                    'cases' => $cases,
+                    'cases' => array_map(fn (Model $model) => $model->toId(), $cases),
                     'universal' => true,
                 ]);
         }
