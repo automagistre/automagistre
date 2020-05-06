@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
-use App\Doctrine\ORM\Type\Identifier;
 use App\Doctrine\Registry;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItemPart;
@@ -86,7 +85,6 @@ final class PartCaseOnOrderCloseListener implements EventSubscriberInterface
             ->setParameter('parts', array_map(fn (Part $part) => $part->toId(), $parts))
             ->getScalarResult();
         $existed = array_map('array_shift', $existed);
-        $existed = array_map(fn (Identifier $identifier) => $identifier->toString(), $existed);
         $existed = array_flip($existed);
 
         foreach ($parts as $part) {
