@@ -6,6 +6,7 @@ namespace App\Order\Fixtures;
 
 use App\Car\Entity\Car;
 use App\Car\Infrastructure\Fixtures\Primera2004Fixtures;
+use App\Customer\Domain\Operand;
 use App\Doctrine\Registry;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItemGroup;
@@ -45,6 +46,9 @@ final class OrderFixtures extends Fixture implements FixtureGroupInterface
 
         $order = new Order();
         $manager->persist($order);
+
+        $customer = $this->registry->reference(Operand::class, 1);
+        $order->setCustomer($customer);
 
         $car = $this->registry->reference(Car::class, 2);
         $order->setCar($car);

@@ -7,7 +7,9 @@ namespace App\Tests;
 use App\Calendar\Infrastructure\Fixtures\CalendarEntryFixtures;
 use App\Income\Fixtures\IncomeFixtures;
 use function array_diff;
+use function array_keys;
 use function array_replace;
+use function array_unique;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigManager;
 use Generator;
 use function http_build_query;
@@ -39,6 +41,13 @@ final class SmokeTest extends WebTestCase
         'OrderItemPart' => [
             'new' => ['order_id' => '1'],
             'edit' => ['order_id' => '1', 'id' => '3'],
+        ],
+        'OrderPrint' => [
+            'matching' => ['id' => '1'],
+            'giveOut' => ['id' => '1'],
+            'finish' => ['id' => '1'],
+            'act' => ['id' => '1'],
+            'invoice' => ['id' => '1'],
         ],
         'CarRecommendation' => [
             'new' => ['car_id' => '1', 'order_id' => '1'],
@@ -138,6 +147,8 @@ final class SmokeTest extends WebTestCase
 
         foreach ($configManager->getBackendConfig('entities') as $entity => $config) {
             $actions = array_diff(['list', 'new', 'edit', 'autocomplete', 'search'], $config['disabled_actions']);
+            $actions = [...$actions, ...(array_keys(self::ADDITIONAL_QUERY[$entity] ?? []))];
+            $actions = array_unique($actions);
 
             foreach ($actions as $action) {
                 $queries = array_replace(

@@ -54,7 +54,7 @@
                         <span class="order-info-legend">
                             Автомобиль
                         </span>
-                        {{ car.toString }} {{ car.identifier }} {{ car.gosnomer }} пробег: {{ order.mileage }}
+                        {{ car.toId|display_name }} {{ car.identifier }} {{ car.gosnomer }} пробег: {{ order.mileage }}
                     </div>
                 {% endif %}
             </section>
@@ -231,7 +231,7 @@
                                     <td colspan="3" class="recommendations-table-part__name">
                                         {{ part.part }}
                                         <span class="recommendations-table-part__part_number">
-                                        ({{ part.part.manufacturer }})
+                                        ({{ part.part.manufacturerId|display_name }})
                                         </span>
                                     </td>
                                     <td>{{ part.quantity / 100 }}</td>

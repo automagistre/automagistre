@@ -10,7 +10,7 @@
         <h3 class="order-info-title">согласованные работы и запчасти по автомобилю</h3>
         <h3 class="order-info-title">
             {% if car is not empty %}
-                {{ car.toString }} {{ car.gosnomer }}
+                {{ car.toId|display_name }} {{ car.gosnomer }}
             {% endif %}
 
             {% if customer is not empty %}
@@ -69,7 +69,7 @@
                         </td>
                         <td class="check">{{ loop.index }}</td>
                         {#<td class="uppercase">л2p6</td>#}
-                        <td>{{ part.part.name }} <strong>({{ part.part.manufacturer }})</strong></td>
+                        <td>{{ part.part.name }} <strong>({{ part.part.manufacturerId|display_name }})</strong></td>
                         <td><strong>{{ part.part.number }}</strong></td>
                         <td class="order-table__quantity">
                             {% set quantity = part.quantity / 100 %}
