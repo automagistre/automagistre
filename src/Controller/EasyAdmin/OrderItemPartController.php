@@ -132,8 +132,6 @@ final class OrderItemPartController extends OrderItemController
     {
         $fb = $this->createEntityFormBuilder($entity, 'edit');
 
-        dump($fb->get('part')->getOptions());
-
         return $fb->getForm();
     }
 }
