@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Part\Domain;
 
-use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Vehicle\Domain\VehicleId;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -18,17 +17,17 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PartCase
 {
-    use Identity;
-
     /**
+     * @ORM\Id()
      * @ORM\Column(type="part_id")
      */
-    public PartId $partId;
+    private PartId $partId;
 
     /**
+     * @ORM\Id()
      * @ORM\Column(type="vehicle_id")
      */
-    public VehicleId $vehicleId;
+    private VehicleId $vehicleId;
 
     public function __construct(PartId $part, VehicleId $vehicleId)
     {

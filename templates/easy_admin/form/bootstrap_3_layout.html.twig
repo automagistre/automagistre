@@ -595,6 +595,12 @@
             })|raw })
         })
     }}
+    {% if help is not empty %}
+        <span class="help-block">
+            <i class="fa fa-info-circle"></i>
+            {{ help }}
+        </span>
+    {% endif %}
 {% endblock easyadmin_autocomplete_widget %}
 
 {% block easyadmin_autocomplete_inner_label %}

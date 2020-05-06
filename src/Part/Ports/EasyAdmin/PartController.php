@@ -50,6 +50,7 @@ use function strpos;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Validator\Constraints;
 use function trim;
 use function urldecode;
@@ -522,5 +523,44 @@ final class PartController extends AbstractController
         }
 
         return $entity;
+    }
+
+    protected function caseAction(): Response
+    {
+        /** @var Part|null $part */
+        $part = $this->getEntity(Part::class);
+        if (!$part instanceof Part) {
+            throw new BadRequestHttpException('Part required.');
+        }
+
+        $dto = new PartCaseDTO($part);
+
+        $form = $this->createFormBuilder($dto)
+            ->add('part', EasyAdminAutocompleteType::class, [
+                'label' => 'Запчасть',
+                'class' => Part::class,
+                'disabled' => true,
+            ])
+            ->add('vehicle', EasyAdminAutocompleteType::class, [
+                'label' => 'Модель',
+                'class' => Model::class,
+                'help' => 'Проивзодитель, Модель, Год, Поколение, Комплектация, Лошадинные силы',
+            ])
+            ->getForm()
+            ->handleRequest($this->request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->container->get(Registry::class)->manager(PartCase::class);
+            $em->persist(new PartCase($dto->part->toId(), $dto->vehicle->toId()));
+            $em->flush();
+
+            return $this->redirectToReferrer();
+        }
+
+        return $this->render('easy_admin/default/new.html.twig', [
+            'form' => $form->createView(),
+            'entity_fields' => [],
+            'entity' => $dto,
+        ]);
     }
 }

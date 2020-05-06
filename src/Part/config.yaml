@@ -46,25 +46,8 @@ easy_admin:
                 fields:
                     - { property: 'manufacturer', label: 'Производитель', type_options: { disabled: true } }
                     - { property: 'number', label: 'Номер', type_options: { disabled: true } }
-        PartCase:
-            class: App\Part\Domain\PartCase
-            controller: App\Part\Ports\EasyAdmin\PartCaseController
-            disabled_actions: ['show', 'edit', 'search', 'list']
-            new:
+            case:
                 title: 'Создать применения запчасти к кузову'
-                fields:
-                    -   property: 'part'
-                        label: 'Запчасть'
-                        type: 'easyadmin_autocomplete'
-                        type_options:
-                            class: App\Part\Domain\Part
-                            disabled: true
-                    -   property: 'vehicle'
-                        label: 'Модель'
-                        type: 'easyadmin_autocomplete'
-                        help: 'Проивзодитель, Модель, Год, Поколение, Комплектация, Лошадинные силы'
-                        type_options:
-                            class: App\Vehicle\Domain\Model
 
 doctrine:
     orm:

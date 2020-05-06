@@ -80,8 +80,8 @@ final class SmokeTest extends WebTestCase
         'MonthlySalary' => [
             'new' => ['employee_id' => '1'],
         ],
-        'PartCase' => [
-            'new' => ['part_id' => '1'],
+        'Part' => [
+            'case' => ['part_id' => '1'],
         ],
         'Income' => [
             'edit' => ['id' => IncomeFixtures::ID],
