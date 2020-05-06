@@ -8,14 +8,11 @@ use App\Doctrine\Registry;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItemPart;
 use App\Event\OrderClosed;
-use App\Part\Domain\Part;
 use App\Part\Domain\PartCase;
 use App\Vehicle\Domain\VehicleId;
-use function array_flip;
-use function array_key_exists;
 use function array_map;
 use function count;
-use Doctrine\ORM\Query\Expr\Join;
+use function implode;
 use LogicException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -69,36 +66,21 @@ final class PartCaseOnOrderCloseListener implements EventSubscriberInterface
             return;
         }
 
-        /** @var Part[] $parts */
-        $parts = array_map(fn (OrderItemPart $orderItemPart) => $orderItemPart->getPart(), $parts);
+        $parts = array_map(fn (OrderItemPart $orderItemPart) => $orderItemPart->getPart()->toId()->toString(), $parts);
 
-        $em = $this->registry->manager(PartCase::class);
-
-        $existed = $this->registry->repository(Part::class)
-            ->createQueryBuilder('entity')
-            ->select('entity.partId')
-            ->join(PartCase::class, 'pc', Join::WITH, 'entity.partId = pc.partId')
-            ->where('pc.partId IN (:parts)')
-            ->andWhere('pc.vehicleId = :vehicle')
-            ->getQuery()
-            ->setParameter('vehicle', $vehicleId)
-            ->setParameter('parts', array_map(fn (Part $part) => $part->toId(), $parts))
-            ->getScalarResult();
-        $existed = array_map('array_shift', $existed);
-        $existed = array_flip($existed);
-
-        foreach ($parts as $part) {
-            if (array_key_exists($part->getId(), $existed)) {
-                continue;
-            }
-
-            if ($part->universal) {
-                continue;
-            }
-
-            $em->persist(new PartCase($part->toId(), $vehicleId));
-        }
-
-        $em->flush();
+        $this->registry->connection(PartCase::class)
+            ->executeUpdate(
+                'INSERT INTO part_case (part_id, vehicle_id)
+                    SELECT part_id, :vehicle
+                    FROM part 
+                    WHERE universal IS FALSE 
+                    AND part_id IN (:parts) 
+                ON CONFLICT DO NOTHING
+                ',
+                [
+                    'vehicle' => $vehicleId->toString(),
+                    'parts' => implode(', ', $parts),
+                ]
+            );
     }
 }
