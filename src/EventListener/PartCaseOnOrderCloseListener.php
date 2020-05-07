@@ -12,7 +12,7 @@ use App\Part\Domain\PartCase;
 use App\Vehicle\Domain\VehicleId;
 use function array_map;
 use function count;
-use function implode;
+use Doctrine\DBAL\Connection;
 use LogicException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -79,7 +79,10 @@ final class PartCaseOnOrderCloseListener implements EventSubscriberInterface
                 ',
                 [
                     'vehicle' => $vehicleId->toString(),
-                    'parts' => implode(', ', $parts),
+                    'parts' => $parts,
+                ],
+                [
+                    'parts' => Connection::PARAM_STR_ARRAY,
                 ]
             );
     }
