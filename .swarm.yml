@@ -31,10 +31,11 @@ services:
             automagistre:
                 aliases:
                     - php-fpm
-        volumes:
-          - /etc/automagistre/env:/usr/local/app/.env:ro
-        secrets:
-            - database_password
+        environment:
+            APP_SECRET: ${APP_SECRET}
+            DB_PASSWORD: ${DB_PASSWORD}
+            SENTRY_DSN: ${SENTRY_DSN}
+            MERCURE_JWT_KEY: ${MERCURE_JWT_KEY}
         stop_grace_period: 120s
         deploy:
             mode: replicated
@@ -114,11 +115,9 @@ services:
         environment:
             POSTGRES_DB: landlord
             POSTGRES_USER: db
-            POSTGRES_PASSWORD_FILE: /run/secrets/database_password
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
         networks:
             - automagistre
-        secrets:
-            - database_password
         deploy:
             mode: global
             update_config:
@@ -137,7 +136,7 @@ services:
         environment:
             POSTGRES_DB: tenant
             POSTGRES_USER: db
-            POSTGRES_PASSWORD_FILE: /run/secrets/database_password
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
         volumes:
             -   type: bind
                 source: /opt/am/db/tenant/sandbox
@@ -151,7 +150,7 @@ services:
         environment:
             POSTGRES_DB: tenant
             POSTGRES_USER: db
-            POSTGRES_PASSWORD_FILE: /run/secrets/database_password
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
         volumes:
             -   type: bind
                 source: /opt/am/db/tenant/msk
@@ -165,7 +164,7 @@ services:
         environment:
             POSTGRES_DB: tenant
             POSTGRES_USER: db
-            POSTGRES_PASSWORD_FILE: /run/secrets/database_password
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
         volumes:
             -   type: bind
                 source: /opt/am/db/tenant/kazan
@@ -179,7 +178,7 @@ services:
         environment:
             POSTGRES_DB: tenant
             POSTGRES_USER: db
-            POSTGRES_PASSWORD_FILE: /run/secrets/database_password
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
         volumes:
             -   type: bind
                 source: /opt/am/db/tenant/shavlev
@@ -209,8 +208,3 @@ networks:
     automagistre:
         driver: overlay
         name: automagistre
-
-secrets:
-    database_password:
-        external: true
-        name: automagistre_database_password
