@@ -31,7 +31,7 @@ services:
             - mercure
         environment:
             APP_SECRET: ${APP_SECRET}
-            DB_PASSWORD: ${DB_PASSWORD}
+            DATABASE_PASSWORD: ${DB_PASSWORD}
             SENTRY_DSN: ${SENTRY_DSN}
             MERCURE_JWT_KEY: ${MERCURE_JWT_KEY}
         stop_grace_period: 120s
