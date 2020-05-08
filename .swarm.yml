@@ -4,7 +4,7 @@ services:
     nginx:
         image: automagistre/app-nginx:${VERSION}
         networks:
-            - automagistre
+            - default
             - ingress
         deploy:
             mode: replicated
@@ -28,7 +28,7 @@ services:
         image: automagistre/app:${VERSION}
         networks:
             mercure: {}
-            automagistre:
+            default:
                 aliases:
                     - php-fpm
         environment:
@@ -116,8 +116,6 @@ services:
             POSTGRES_DB: landlord
             POSTGRES_USER: db
             POSTGRES_PASSWORD: ${DB_PASSWORD}
-        networks:
-            - automagistre
         deploy:
             mode: global
             update_config:
@@ -189,8 +187,6 @@ services:
 
     memcached:
         image: memcached:1.5.22-alpine
-        networks:
-            - automagistre
         healthcheck:
             test: nc -z 127.0.0.1 11211
             interval: 5s
@@ -205,6 +201,6 @@ networks:
     mercure:
         external: true
         name: mercure
-    automagistre:
+    default:
         driver: overlay
         name: automagistre
