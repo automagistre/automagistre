@@ -24,13 +24,11 @@ services:
                 - "traefik.protocol=http"
                 - "traefik.backend.loadbalancer.method=drr"
 
-    app: &app
+    php-fpm: &app
         image: automagistre/app:${VERSION}
         networks:
-            mercure: {}
-            default:
-                aliases:
-                    - php-fpm
+            - default
+            - mercure
         environment:
             APP_SECRET: ${APP_SECRET}
             DB_PASSWORD: ${DB_PASSWORD}
