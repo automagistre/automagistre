@@ -6,7 +6,7 @@ use App\Car\Entity\Car;
 use App\Car\Entity\Recommendation;
 use App\Car\Entity\RecommendationPart;
 use App\Customer\Domain\Operand;
-use App\Customer\Infrastructure\Fixtures\OperandFixtures;
+use App\Customer\Infrastructure\Fixtures\PersonVasyaFixtures;
 use App\Part\Domain\Part;
 use App\Part\Infrastructure\Fixtures\GasketFixture;
 use App\User\Entity\User;
@@ -28,7 +28,7 @@ final class RecommendationFixtures extends Fixture implements FixtureGroupInterf
         return [
             EmptyCarFixtures::class,
             GasketFixture::class,
-            OperandFixtures::class,
+            PersonVasyaFixtures::class,
         ];
     }
 

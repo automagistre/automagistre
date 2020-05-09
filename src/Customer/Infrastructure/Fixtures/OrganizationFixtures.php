@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Customer\Infrastructure\Fixtures;
 
+use App\Customer\Domain\OperandId;
 use App\Customer\Domain\OperandNote;
 use App\Customer\Domain\Organization;
-use App\Customer\Domain\Person;
 use App\Enum\NoteType;
 use App\User\Entity\User;
 use App\User\Fixtures\UserFixtures;
@@ -16,8 +16,10 @@ use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class OperandFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
+final class OrganizationFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
 {
+    public const ID = '1ea91f74-3fc0-6e46-96ae-5e6bd0ab745f';
+
     /**
      * {@inheritdoc}
      */
@@ -44,20 +46,12 @@ final class OperandFixtures extends Fixture implements FixtureGroupInterface, De
         $user = $this->getReference('user-employee');
         assert($user instanceof User);
 
-        $organization = new Organization();
+        $organization = new Organization(OperandId::fromString(self::ID));
         $organization->setName('Org 1');
 
         $this->addReference('organization-1', $organization);
         $manager->persist($organization);
         $manager->persist(new OperandNote($organization, $user, NoteType::info(), 'Organization Note'));
-        $manager->flush();
-
-        $person = new Person();
-        $person->setFirstname('Person 1');
-
-        $this->addReference('person-1', $person);
-        $manager->persist($person);
-        $manager->persist(new OperandNote($person, $user, NoteType::info(), 'Person Note'));
 
         $manager->flush();
     }

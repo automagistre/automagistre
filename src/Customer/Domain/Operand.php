@@ -43,12 +43,17 @@ abstract class Operand implements Transactional
      */
     private bool $seller = false;
 
-    public function __construct()
+    public function __construct(OperandId $id)
     {
-        $this->uuid = OperandId::generate();
+        $this->uuid = $id;
     }
 
     abstract public function __toString(): string;
+
+    public function toId(): OperandId
+    {
+        return $this->uuid;
+    }
 
     abstract public function getFullName(): string;
 

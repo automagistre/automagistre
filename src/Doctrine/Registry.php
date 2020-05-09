@@ -6,6 +6,8 @@ namespace App\Doctrine;
 
 use App\Car\Entity\Car;
 use App\Car\Entity\CarId;
+use App\Customer\Domain\Operand;
+use App\Customer\Domain\OperandId;
 use App\Doctrine\ORM\Type\Identifier;
 use App\Manufacturer\Domain\Manufacturer;
 use App\Manufacturer\Domain\ManufacturerId;
@@ -145,6 +147,7 @@ final class Registry
             VehicleId::class => Model::class,
             CarId::class => Car::class,
             ManufacturerId::class => Manufacturer::class,
+            OperandId::class => Operand::class,
         ][get_class($identifier)];
 
         $view = $this->repository($class)
@@ -163,6 +166,7 @@ final class Registry
      * @template T
      *
      * @psalm-param class-string<T> $class
+     *
      * @param mixed $id
      *
      * @psalm-return T

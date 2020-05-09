@@ -6,6 +6,7 @@ use App\Calendar\Application\CalendarEntryView;
 use App\Calendar\Application\Stream;
 use App\Calendar\Application\StreamCollection;
 use App\Calendar\Domain\CalendarEntryId;
+use App\Customer\Domain\OperandId;
 use App\Customer\Domain\Person;
 use App\Entity\Tenant\Employee;
 use DateInterval;
@@ -38,12 +39,12 @@ class StreamCollectionTest extends TestCase
         $entities = [];
 
         $worker1 = new Employee();
-        $worker1->setPerson($person = new Person());
+        $worker1->setPerson($person = new Person(OperandId::generate()));
         $person->setFirstname('Vasya');
         $person->setLastname('Pupkin');
 
         $worker2 = new Employee();
-        $worker2->setPerson($person = new Person());
+        $worker2->setPerson($person = new Person(OperandId::generate()));
         $person->setFirstname('Petr');
         $person->setLastname('Pushkin');
 

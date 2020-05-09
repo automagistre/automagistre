@@ -52,9 +52,9 @@ class Organization extends Operand
      */
     private ?PhoneNumber $officePhone = null;
 
-    public function __construct()
+    public function __construct(OperandId $id)
     {
-        parent::__construct();
+        parent::__construct($id);
 
         $this->requisite = new Requisite();
     }

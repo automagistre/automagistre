@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Customer\Ports\EasyAdmin;
 
+use App\Customer\Domain\OperandId;
 use App\Customer\Domain\Person;
 use App\Event\PersonCreated;
 use function array_map;
@@ -19,6 +20,14 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 final class PersonController extends OperandController
 {
+    /**
+     * {@inheritdoc}
+     */
+    protected function createNewEntity(): Person
+    {
+        return new Person(OperandId::generate());
+    }
+
     /**
      * {@inheritdoc}
      */

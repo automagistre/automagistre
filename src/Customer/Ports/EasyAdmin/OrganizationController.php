@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Customer\Ports\EasyAdmin;
 
+use App\Customer\Domain\OperandId;
 use App\Customer\Domain\Organization;
 use App\Event\OrganizationCreated;
 use function assert;
@@ -13,6 +14,14 @@ use function assert;
  */
 final class OrganizationController extends OperandController
 {
+    /**
+     * {@inheritdoc}
+     */
+    protected function createNewEntity(): Organization
+    {
+        return new Organization(OperandId::generate());
+    }
+
     /**
      * {@inheritdoc}
      */
