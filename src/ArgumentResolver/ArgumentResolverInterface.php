@@ -12,12 +12,12 @@ interface ArgumentResolverInterface
     /**
      * Returns the arguments to pass to the callable.
      *
-     * @param mixed $data
+     * @param mixed    $data
      * @param callable $callable
      *
-     * @return array An array of arguments to pass to the callable
-     *
      * @throws RuntimeException When no value could be provided for a required argument
+     *
+     * @return array An array of arguments to pass to the callable
      */
     public function getArguments($data, $callable): array;
 }

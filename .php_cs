@@ -36,6 +36,7 @@ return PhpCsFixer\Config::create()
         'native_function_invocation'            => true,
         'no_null_property_initialization'       => true,
         'no_unreachable_default_argument_value' => true,
+        'no_unused_imports'                     => true,
         'no_useless_else'                       => true,
         'no_useless_return'                     => true,
         'non_printable_character'               => false,
@@ -60,7 +61,6 @@ return PhpCsFixer\Config::create()
         'PedroTroller/doctrine_migrations'      => true,
         'PedroTroller/line_break_between_method_arguments' => ['max-args' => 10, 'max-length' => 120],
         'PedroTroller/useless_comment'          => true,
-        'PedroTroller/single_line_comment'      => ['action' => 'expanded'],
         'PedroTroller/line_break_between_statements' => true,
     ])
     ->setFinder($finder)

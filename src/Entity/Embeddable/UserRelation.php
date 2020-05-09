@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Embeddable
  *
- * @method User entity()
+ * @method User      entity()
  * @method User|null entityOrNull()
  */
 final class UserRelation extends Relation

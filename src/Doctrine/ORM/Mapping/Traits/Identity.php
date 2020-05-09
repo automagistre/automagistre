@@ -12,7 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
 trait Identity
 {
     /**
-     *
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="IDENTITY")

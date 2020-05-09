@@ -73,7 +73,6 @@ final class OrderManager
 
             foreach ($order->getItems(OrderItemPart::class) as $item) {
                 /** @var OrderItemPart $item */
-
                 $part = $item->getPart();
                 $quantity = $item->getQuantity();
 

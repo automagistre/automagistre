@@ -116,7 +116,6 @@ final class ReservationManager
 
         [$part, $orderItemPart] = $part instanceof OrderItemPart ? [$part->getPart(), $part] : [$part, null];
         /** @var Part $part */
-
         $qb = $em->createQueryBuilder()
             ->select('SUM(reservation.quantity)')
             ->from(Reservation::class, 'reservation')

@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Embeddable
  *
- * @method Part entity()
+ * @method Part      entity()
  * @method Part|null entityOrNull()
  */
 final class PartRelation extends Relation

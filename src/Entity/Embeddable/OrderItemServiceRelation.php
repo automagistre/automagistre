@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Embeddable
  *
- * @method OrderItemService entity()
+ * @method OrderItemService      entity()
  * @method OrderItemService|null entityOrNull()
  */
 final class OrderItemServiceRelation extends Relation

@@ -8,7 +8,7 @@ use function in_array;
 use Premier\Enum\Enum;
 
 /**
- * @method bool isSandbox()
+ * @method bool   isSandbox()
  * @method string toDisplayName()
  * @method string toIdentifier()
  * @method static Tenant msk()
