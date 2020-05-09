@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Manager;
 
 use App\Customer\Domain\Operand;
+use App\Customer\Domain\OperandId;
 use App\Doctrine\Registry;
 use App\Income\Entity\Income;
 
@@ -26,9 +27,11 @@ final class SupplierManager
     /**
      * @return array<string, Income>
      */
-    public function unpaidIncome(Operand $supplier): array
+    public function unpaidIncome(OperandId $supplierId): array
     {
-        $balance = $this->paymentManager->balance($supplier);
+        $balance = $this->paymentManager->balance(
+            $this->registry->findBy(Operand::class, ['uuid' => $supplierId])
+        );
 
         if (!$balance->isPositive()) {
             return [];
@@ -37,13 +40,13 @@ final class SupplierManager
         /** @var Income[] $incomes */
         $incomes = $this->registry->repository(Income::class)
             ->createQueryBuilder('entity')
-            ->where('entity.supplier.id = :supplier')
+            ->where('entity.supplierId = :supplier')
             ->andWhere('entity.accruedAt IS NOT NULL')
             ->orderBy('entity.accruedAt', 'DESC')
             ->addOrderBy('entity.id', 'DESC')
             ->getQuery()
             ->setMaxResults(10)
-            ->setParameter('supplier', $supplier->getId())
+            ->setParameter('supplier', $supplierId)
             ->getResult();
 
         $result = [];

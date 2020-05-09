@@ -2,10 +2,15 @@ easy_admin:
     entities:
         Manufacturer:
             class: App\Manufacturer\Domain\Manufacturer
-            disabled_actions: ['show']
             label: 'Производитель'
             search:
                 fields: ['name']
+            show:
+                title: 'Производитель'
+                fields:
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'localizedName', label: 'Название на русском' }
+                    - { property: 'logo', label: 'Logo' }
             list:
                 title: 'Производители'
                 fields:

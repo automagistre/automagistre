@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig\Extension;
 
-use App\Customer\Domain\Operand;
+use App\Customer\Domain\OperandId;
 use App\Manager\SupplierManager;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -27,7 +27,10 @@ final class IncomeExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('supplier_unpaid_income', fn (Operand $supplier): array => $this->supplierManager->unpaidIncome($supplier)),
+            new TwigFunction(
+                'supplier_unpaid_income',
+                fn (OperandId $supplierId): array => $this->supplierManager->unpaidIncome($supplierId)
+            ),
         ];
     }
 }

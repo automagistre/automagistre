@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Income\Entity;
 
 use App\Customer\Domain\Operand;
-use App\Entity\Embeddable\OperandRelation;
+use App\Customer\Domain\OperandId;
 use App\Entity\Embeddable\UserRelation;
 use App\User\Entity\User;
 use DateTimeImmutable;
@@ -14,7 +14,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;
 use Money\Money;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -32,13 +31,11 @@ class Income
     private IncomeId $id;
 
     /**
-     * @var OperandRelation
+     * @var OperandId
      *
-     * @Assert\Valid
-     *
-     * @ORM\Embedded(class=OperandRelation::class)
+     * @ORM\Column(type="operand_id")
      */
-    private $supplier;
+    private $supplierId;
 
     /**
      * @var string|null
@@ -80,10 +77,11 @@ class Income
      */
     private $accruedAmount;
 
-    public function __construct(IncomeId $incomeId)
+    public function __construct(IncomeId $incomeId, OperandId $supplierId, ?string $document)
     {
         $this->id = $incomeId;
-        $this->supplier = new OperandRelation();
+        $this->supplierId = $supplierId;
+        $this->document = $document;
         $this->accruedBy = new UserRelation();
         $this->incomeParts = new ArrayCollection();
     }
@@ -101,19 +99,14 @@ class Income
         return $this->id;
     }
 
-    public function isEditable(): bool
+    public function getSupplierId(): OperandId
     {
-        return null === $this->accruedAt;
+        return $this->supplierId;
     }
 
-    public function getSupplier(): ?Operand
+    public function setSupplierId(OperandId $supplierId): void
     {
-        return $this->supplier->entityOrNull();
-    }
-
-    public function setSupplier(?Operand $supplier): void
-    {
-        $this->supplier = new OperandRelation($supplier);
+        $this->supplierId = $supplierId;
     }
 
     public function getDocument(): ?string
@@ -124,6 +117,11 @@ class Income
     public function setDocument(?string $document): void
     {
         $this->document = $document;
+    }
+
+    public function isEditable(): bool
+    {
+        return null === $this->accruedAt;
     }
 
     /**

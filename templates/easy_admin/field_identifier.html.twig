@@ -1,5 +1,7 @@
 {% if value is not empty %}
-    {{- value|display_name|easyadmin_truncate -}}
+    <a href="{{ easyadmin_path_by_id(value, field_options.action|default('show')) }}">
+        {{- value|display_name|easyadmin_truncate -}}
+    </a>
 {% else %}
     {% include 'easy_admin/default/label_null.html.twig' %}
 {% endif %}

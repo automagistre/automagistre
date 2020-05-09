@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Income\Controller;
 
 use App\Controller\EasyAdmin\AbstractController;
+use App\Customer\Domain\Operand;
 use App\Doctrine\Registry;
 use App\Entity\Tenant\Wallet;
 use App\Event\IncomeAccrued;
 use App\Form\Type\MoneyType;
 use App\Income\Entity\Income;
 use App\Income\Entity\IncomeId;
+use App\Income\Form\IncomeDto;
 use App\Manager\PaymentManager;
 use App\Part\Domain\Part;
 use function assert;
@@ -74,7 +76,10 @@ final class IncomeController extends AbstractController
                     $money = $model->money;
                     $money = $money->negative();
 
-                    $this->paymentManager->createPayment($income->getSupplier(), $description, $money);
+                    $supplier = $this->container->get(Registry::class)
+                        ->findBy(Operand::class, ['uuid' => $income->getSupplierId()]);
+
+                    $this->paymentManager->createPayment($supplier, $description, $money);
                     $this->paymentManager->createPayment($model->wallet, $description, $money);
                 });
 
@@ -112,7 +117,9 @@ final class IncomeController extends AbstractController
 
                 $description = sprintf('# Начисление по поставке №%s', $income->toId()->toString());
 
-                $this->paymentManager->createPayment($income->getSupplier(), $description, $income->getTotalPrice());
+                $supplier = $this->container->get(Registry::class)
+                    ->findBy(Operand::class, ['uuid' => $income->getSupplierId()]);
+                $this->paymentManager->createPayment($supplier, $description, $income->getTotalPrice());
             });
 
             $this->event(new IncomeAccrued($income));
@@ -146,26 +153,37 @@ final class IncomeController extends AbstractController
         return parent::isActionAllowed($actionName);
     }
 
-    protected function createNewEntity()
+    /**
+     * {@inheritdoc}
+     */
+    protected function createNewEntity(): IncomeDto
     {
-        return new Income(
-            IncomeId::generate(),
-        );
+        return $this->createWithoutConstructor(IncomeDto::class);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function persistEntity($entity): void
+    protected function persistEntity($entity): Income
     {
-        assert($entity instanceof Income);
+        $dto = $entity;
+        assert($dto instanceof IncomeDto);
+
+        $incomeId = IncomeId::generate();
+        $entity = new Income(
+            $incomeId,
+            $dto->supplierId,
+            $dto->document
+        );
 
         parent::persistEntity($entity);
 
         $this->setReferer($this->generateEasyPath('IncomePart', 'new', [
-            'income_id' => $entity->toId()->toString(),
+            'income_id' => $incomeId->toString(),
             'referer' => urlencode($this->generateEasyPath($entity, 'show')),
         ]));
+
+        return $entity;
     }
 
     protected function createListQueryBuilder(

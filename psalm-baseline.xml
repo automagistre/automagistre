@@ -268,6 +268,12 @@
       <code>$class</code>
     </RepositoryStringShortcut>
   </file>
+  <file src="src/EasyAdmin/IdentifierRouterExtension.php">
+    <InvalidArrayOffset occurrences="2">
+      <code>Costil::ENTITY[$class]</code>
+      <code>Costil::EASYADMIN_CONFIG[$class]</code>
+    </InvalidArrayOffset>
+  </file>
   <file src="src/EasyAdmin/Notify/BalanceNotificationListener.php">
     <PossiblyFalseArgument occurrences="1">
       <code>json_encode($data, JSON_THROW_ON_ERROR)</code>
@@ -375,10 +381,6 @@
     </PossiblyNullArgument>
   </file>
   <file src="src/Income/Controller/IncomeController.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$income-&gt;getSupplier()</code>
-      <code>$income-&gt;getSupplier()</code>
-    </PossiblyNullArgument>
     <PossiblyNullReference occurrences="1">
       <code>transactional</code>
     </PossiblyNullReference>
@@ -442,6 +444,14 @@
     </PossiblyNullReference>
     <PropertyNotSetInConstructor occurrences="1">
       <code>Version20200509115654</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Migrations/Version20200509143743.php">
+    <PossiblyNullReference occurrences="1">
+      <code>fetchAll</code>
+    </PossiblyNullReference>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>Version20200509143743</code>
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Order/Fixtures/OrderFixtures.php">
