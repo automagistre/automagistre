@@ -92,6 +92,11 @@ class User implements UserInterface, EquatableInterface, Serializable
         return $this->username;
     }
 
+    public function toId(): UserId
+    {
+        return $this->uuid;
+    }
+
     public function setPerson(Person $person): void
     {
         if ($this->person instanceof Person) {
