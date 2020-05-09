@@ -333,11 +333,6 @@
       <code>isEntity</code>
     </DeprecatedMethod>
   </file>
-  <file src="src/EventListener/PartCaseOnOrderCloseListener.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$part-&gt;getId()</code>
-    </PossiblyNullArgument>
-  </file>
   <file src="src/EventListener/StockpileListener.php">
     <PossiblyNullArrayOffset occurrences="1">
       <code>$values</code>
@@ -440,6 +435,14 @@
     <PossiblyNullArgument occurrences="1">
       <code>$income-&gt;getAccruedAmount()</code>
     </PossiblyNullArgument>
+  </file>
+  <file src="src/Migrations/Version20200509115654.php">
+    <PossiblyNullReference occurrences="1">
+      <code>executeQuery</code>
+    </PossiblyNullReference>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>Version20200509115654</code>
+    </PropertyNotSetInConstructor>
   </file>
   <file src="src/Order/Fixtures/OrderFixtures.php">
     <PossiblyNullArgument occurrences="1">

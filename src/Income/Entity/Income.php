@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Income\Entity;
 
 use App\Customer\Domain\Operand;
-use App\Doctrine\ORM\Mapping\Traits\CreatedByRelation as CreatedBy;
 use App\Entity\Embeddable\OperandRelation;
 use App\Entity\Embeddable\UserRelation;
 use App\User\Entity\User;
@@ -26,8 +25,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Income
 {
-    use CreatedBy;
-
     /**
      * @ORM\Id()
      * @ORM\Column(type="income_id")
@@ -83,18 +80,12 @@ class Income
      */
     private $accruedAmount;
 
-    /**
-     * @ORM\Column(type="datetime_immutable")
-     */
-    private DateTimeImmutable $createdAt;
-
     public function __construct(IncomeId $incomeId)
     {
         $this->id = $incomeId;
         $this->supplier = new OperandRelation();
         $this->accruedBy = new UserRelation();
         $this->incomeParts = new ArrayCollection();
-        $this->createdAt = new DateTimeImmutable();
     }
 
     /**
