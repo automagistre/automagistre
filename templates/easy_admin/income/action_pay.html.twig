@@ -1,4 +1,3 @@
-{% dump %}
 {% set unpaidIncomes = supplier_unpaid_income(item.supplierId) %}
 
 {% if unpaidIncomes[item.toId.toString] is defined %}
