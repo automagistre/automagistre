@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Income\Entity;
 
-use App\Customer\Domain\Operand;
 use App\Customer\Domain\OperandId;
 use App\Entity\Embeddable\UserRelation;
 use App\User\Entity\User;

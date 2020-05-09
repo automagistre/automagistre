@@ -10,7 +10,6 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Generator;
 
 final class LexusFixture extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
 {

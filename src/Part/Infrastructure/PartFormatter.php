@@ -21,6 +21,7 @@ final class PartFormatter implements IdentifierFormatterInterface
         'number' => ':number:',
         'autocomplete' => ':number: - :manufacturer: (:name:)',
     ];
+
     private Registry $registry;
 
     public function __construct(Registry $registry)

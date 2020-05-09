@@ -38,7 +38,7 @@ final class CalendarEntryFixtures extends Fixture implements FixtureGroupInterfa
             new CalendarEntryCustomerInformation(),
             UserId::generate(),
             null,
-            );
+        );
 
         $ref = new ReflectionClass($calendar);
         $propRef = $ref->getProperty('id');

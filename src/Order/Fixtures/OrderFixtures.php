@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Order\Fixtures;
 
 use App\Car\Entity\Car;
-use App\Car\Infrastructure\Fixtures\Primera2004Fixtures;
 use App\Customer\Domain\Operand;
 use App\Doctrine\Registry;
 use App\Entity\Tenant\Order;
@@ -17,7 +16,6 @@ use App\Enum\NoteType;
 use App\Part\Domain\Part;
 use App\State;
 use App\User\Entity\User;
-use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;

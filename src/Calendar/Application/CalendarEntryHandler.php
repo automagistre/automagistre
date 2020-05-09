@@ -41,7 +41,7 @@ final class CalendarEntryHandler
                 ),
                 $this->state->user()->uuid,
                 $command->worker,
-                )
+            )
         );
     }
 
@@ -64,7 +64,7 @@ final class CalendarEntryHandler
             ),
             $this->state->userId(),
             $command->worker,
-            );
+        );
 
         $this->repository->add($entity);
     }

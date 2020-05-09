@@ -36,8 +36,7 @@ easy_admin:
             form:
                 fields:
                     - { type: 'group', label: 'Основная информация', css_class: 'col-sm-6' }
-                    -
-                        property: 'model'
+                    -   property: 'model'
                         label: 'Модель'
                         type: 'easyadmin_autocomplete'
                         type_options:

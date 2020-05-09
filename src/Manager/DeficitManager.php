@@ -7,7 +7,6 @@ namespace App\Manager;
 use App\Doctrine\Registry;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderItemPart;
-use App\Manufacturer\Domain\Manufacturer;
 use App\Model\DeficitPart;
 use App\Part\Domain\Part;
 use function array_filter;
@@ -76,7 +75,10 @@ final class DeficitManager
             /** @var Part $part */
             $part = $partRepository->find($item['part_id']);
             $quantity = $item['needed'];
-            $orders = array_map(fn (string $id): object => $em->getReference(Order::class, $id), array_filter(explode(',', $item['orders_id'])));
+            $orders = array_map(
+                fn (string $id): object => $em->getReference(Order::class, $id),
+                array_filter(explode(',', $item['orders_id']))
+            );
 
             return new DeficitPart($part, $quantity, $orders);
         }, $result);
