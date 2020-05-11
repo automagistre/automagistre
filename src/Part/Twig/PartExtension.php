@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Twig\Extension;
+namespace App\Part\Twig;
 
 use App\Manager\PartManager;
 use App\Manager\ReservationManager;
