@@ -155,13 +155,13 @@
                     </tr>
                     </thead>
                     {% for item in order.rootItems %}
-                        {% if instanceOf(item, 'App\\Entity\\Tenant\\OrderItemPart') %}
+                        {% if instanceOf(item, 'App\\Order\\Entity\\OrderItemPart') %}
                             {% set orderItemPart = item %}
                             {{ block('order_item_part') }}
-                        {% elseif instanceOf(item, 'App\\Entity\\Tenant\\OrderItemService') %}
+                        {% elseif instanceOf(item, 'App\\Order\\Entity\\OrderItemService') %}
                             {% set orderItemService = item %}
                             {{ block('order_item_service') }}
-                        {% elseif instanceOf(item, 'App\\Entity\\Tenant\\OrderItemGroup') %}
+                        {% elseif instanceOf(item, 'App\\Order\\Entity\\OrderItemGroup') %}
                             {% set orderItemGroup = item %}
                             {{ block('order_item_group') }}
                         {% endif %}
