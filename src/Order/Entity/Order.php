@@ -49,6 +49,11 @@ class Order
     use CreatedBy;
 
     /**
+     * @ORM\Column(type="order_id")
+     */
+    private OrderId $uuid;
+
+    /**
      * @var Collection<int, OrderItem>
      *
      * @ORM\OneToMany(
@@ -129,6 +134,7 @@ class Order
 
     public function __construct()
     {
+        $this->uuid = OrderId::generate();
         $this->status = OrderStatus::working();
         $this->car = new CarRelation();
         $this->customer = new OperandRelation();
