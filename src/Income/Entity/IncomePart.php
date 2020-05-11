@@ -13,6 +13,7 @@ use App\Storage\Entity\MotionIncome;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;
 use Money\Money;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -23,6 +24,11 @@ class IncomePart
     use Identity;
     use Price;
     use Quantity;
+
+    /**
+     * @ORM\Column(type="uuid")
+     */
+    private UuidInterface $uuid;
 
     /**
      * @var Income|null
@@ -51,7 +57,13 @@ class IncomePart
 
     public function __construct()
     {
+        $this->uuid = IncomeId::generate()->toUuid();
         $this->part = new PartRelation();
+    }
+
+    public function toId(): UuidInterface
+    {
+        return $this->uuid;
     }
 
     public function accrue(MotionIncome $motion): void
