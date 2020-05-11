@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Tenant;
+namespace App\Storage\Entity;
 
 use App\Entity\Embeddable\UserRelation;
 use App\Part\Domain\Part;

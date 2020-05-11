@@ -7,7 +7,6 @@ namespace App\Manager;
 use App\Customer\Domain\Operand;
 use App\Doctrine\Registry;
 use App\Entity\Tenant\Employee;
-use App\Entity\Tenant\MotionOrder;
 use App\Entity\Tenant\OperandTransaction;
 use App\Entity\Tenant\Order;
 use App\Entity\Tenant\OrderContractor;
@@ -15,6 +14,7 @@ use App\Entity\Tenant\OrderItemPart;
 use App\Entity\Tenant\OrderItemService;
 use App\Entity\Tenant\OrderSalary;
 use App\State;
+use App\Storage\Entity\MotionOrder;
 use Doctrine\ORM\EntityManagerInterface;
 use function sprintf;
 

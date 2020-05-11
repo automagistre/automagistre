@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin;
+namespace App\Storage\Controller;
 
+use App\Controller\EasyAdmin\AbstractController;
 use App\Part\Domain\Part;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\Admin\Report;
 
 use App\Doctrine\Registry;
-use App\Entity\Tenant\Motion;
 use App\Part\Domain\Part;
+use App\Storage\Entity\Motion;
 use function array_map;
 use DateInterval;
 use DateTimeImmutable;

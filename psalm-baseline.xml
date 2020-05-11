@@ -301,20 +301,6 @@
       <code>$ratio</code>
     </PropertyNotSetInConstructor>
   </file>
-  <file src="src/Entity/Tenant/MotionIncome.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$incomePart-&gt;getPart()</code>
-      <code>$incomePart-&gt;getQuantity()</code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>toId</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="src/Entity/Tenant/MotionOrder.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$order-&gt;getId()</code>
-    </PossiblyNullArgument>
-  </file>
   <file src="src/Entity/Tenant/Order.php">
     <PossiblyNullArgument occurrences="1">
       <code>$itemDiscount</code>
@@ -439,17 +425,11 @@
     </PossiblyNullArgument>
   </file>
   <file src="src/Migrations/Version20200509115654.php">
-    <PossiblyNullReference occurrences="1">
-      <code>executeQuery</code>
-    </PossiblyNullReference>
     <PropertyNotSetInConstructor occurrences="1">
       <code>Version20200509115654</code>
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Migrations/Version20200509143743.php">
-    <PossiblyNullReference occurrences="1">
-      <code>fetchAll</code>
-    </PossiblyNullReference>
     <PropertyNotSetInConstructor occurrences="1">
       <code>Version20200509143743</code>
     </PropertyNotSetInConstructor>
@@ -515,6 +495,20 @@
       <code>$tenant</code>
       <code>$user</code>
     </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Storage/Entity/MotionIncome.php">
+    <PossiblyNullArgument occurrences="2">
+      <code>$incomePart-&gt;getPart()</code>
+      <code>$incomePart-&gt;getQuantity()</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="1">
+      <code>toId</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Storage/Entity/MotionOrder.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$order-&gt;getId()</code>
+    </PossiblyNullArgument>
   </file>
   <file src="src/Tenant/EventListener/TenantRelationListener.php">
     <RepositoryStringShortcut occurrences="1">

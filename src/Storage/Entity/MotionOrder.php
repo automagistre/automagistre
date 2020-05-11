@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Tenant;
+namespace App\Storage\Entity;
 
+use App\Entity\Tenant\Order;
 use App\Part\Domain\Part;
 use Doctrine\ORM\Mapping as ORM;
 use function sprintf;

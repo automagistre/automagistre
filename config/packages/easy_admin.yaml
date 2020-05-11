@@ -277,23 +277,6 @@ easy_admin:
                     - { property: 'payday', label: 'День начисления', type: App\Form\Type\DayType }
                     - { property: 'amount', label: 'Сумма', type: App\Form\Type\MoneyType }
 
-        Motion:
-            class: App\Entity\Tenant\Motion
-            controller: App\Controller\EasyAdmin\MotionController
-            disabled_actions: ['show', 'edit', 'new', 'search', 'delete']
-            templates:
-                list: 'easy_admin/motion/list.html.twig'
-            list:
-                title: 'Движения по складу'
-                max_results: 100
-                fields:
-                    - { property: 'id', template: 'easy_admin/default/field_raw.html.twig' }
-                    - { property: 'part', label: 'Наименование', template: 'easy_admin/field_part.html.twig', stock: true }
-                    - { property: 'quantity', label: 'Количество', template: 'easy_admin/field_quantity.html.twig' }
-                    - { property: 'description', label: 'Комментарий' }
-                    - { property: 'order', label: 'Заказ', template: 'easy_admin/motion/field_order.html.twig' }
-                    - { property: 'createdAt', label: 'Создано' }
-
         Wallet:
             class: App\Entity\Tenant\Wallet
             controller: App\Controller\EasyAdmin\WalletController

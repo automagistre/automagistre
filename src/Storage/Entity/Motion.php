@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Tenant;
+namespace App\Storage\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
@@ -20,10 +20,10 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({
- *     "0": "App\Entity\Tenant\MotionOld",
- *     "1": "App\Entity\Tenant\MotionOrder",
- *     "2": "App\Entity\Tenant\MotionIncome",
- *     "3": "App\Entity\Tenant\MotionManual",
+ *     "0": "App\Storage\Entity\MotionOld",
+ *     "1": "App\Storage\Entity\MotionOrder",
+ *     "2": "App\Storage\Entity\MotionIncome",
+ *     "3": "App\Storage\Entity\MotionManual",
  * })
  */
 abstract class Motion
