@@ -159,7 +159,6 @@ steps:
             - bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=msk
         depends_on:
             - install
-            - migration landlord
 
     -   name: fixtures
         image: automagistre/app:base
