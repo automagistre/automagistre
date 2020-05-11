@@ -229,12 +229,14 @@ steps:
             - ssh-keyscan github.com >> ~/.ssh/known_hosts
             - echo "$GIT_SSH_KEY" > ~/.ssh/id_rsa
             - chmod 600 ~/.ssh/id_rsa
-            - git push origin --delete rc
+            - git push origin --delete ${DRONE_COMMIT_BRANCH}
         environment:
             GIT_SSH_KEY:
                 from_secret: GIT_SSH_KEY
         when:
-            branch: [ rc ]
+            branch:
+                - rc
+                - test
 
 services:
     -   name: landlord
