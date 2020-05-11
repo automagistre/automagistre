@@ -7,13 +7,9 @@ namespace App\Migrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 use function strpos;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-final class Version20200509115654 extends AbstractMigration implements ContainerAwareInterface
+final class Version20200509115654 extends AbstractMigration
 {
-    use ContainerAwareTrait;
-
     public function up(Schema $schema): void
     {
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
