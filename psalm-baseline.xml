@@ -196,6 +196,12 @@
       <code>$class</code>
     </RepositoryStringShortcut>
   </file>
+  <file src="src/EasyAdmin/Form/AutocompleteType.php">
+    <PossiblyFalseReference occurrences="2">
+      <code>setData</code>
+      <code>getData</code>
+    </PossiblyFalseReference>
+  </file>
   <file src="src/EasyAdmin/IdentifierRouterExtension.php">
     <InvalidArrayOffset occurrences="2">
       <code>Costil::ENTITY[$class]</code>
@@ -230,8 +236,7 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/EventListener/AccrueIncomePartsListener.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$incomePart-&gt;getPart()</code>
+    <PossiblyNullArgument occurrences="1">
       <code>$incomePart-&gt;getQuantity()</code>
     </PossiblyNullArgument>
   </file>
@@ -295,13 +300,13 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Income/Controller/IncomePartController.php">
-    <PossiblyNullArgument occurrences="2">
+    <PossiblyNullArgument occurrences="3">
       <code>$entity-&gt;getIncome()</code>
+      <code>$entity-&gt;partId</code>
       <code>$entity-&gt;getIncome()</code>
     </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="3">
+    <PossiblyNullReference occurrences="2">
       <code>isEditable</code>
-      <code>toId</code>
       <code>toId</code>
     </PossiblyNullReference>
   </file>
@@ -344,9 +349,9 @@
       <code>$income-&gt;getAccruedAmount()</code>
     </PossiblyNullArgument>
   </file>
-  <file src="src/Migrations/Version20200511183133.php">
+  <file src="src/Migrations/Version20200511190211.php">
     <PropertyNotSetInConstructor occurrences="1">
-      <code>Version20200511183133</code>
+      <code>Version20200511190211</code>
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Order/Controller/OrderController.php">

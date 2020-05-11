@@ -16,6 +16,7 @@ use App\Entity\WarrantyInterface;
 use App\Money\PriceInterface;
 use App\Money\TotalPriceInterface;
 use App\Part\Domain\Part;
+use App\Part\Domain\PartId;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;
 use Money\Money;
@@ -44,6 +45,11 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
     private $part;
 
     /**
+     * @ORM\Column(type="part_id")
+     */
+    private PartId $partUuid;
+
+    /**
      * @var int
      *
      * @ORM\Column(type="integer")
@@ -56,6 +62,7 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
 
         $this->supplier = new OperandRelation();
         $this->part = new PartRelation($part);
+        $this->partUuid = $part->toId();
         $this->quantity = $quantity;
         $this->price = $price;
     }

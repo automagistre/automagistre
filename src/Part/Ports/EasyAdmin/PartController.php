@@ -379,6 +379,7 @@ final class PartController extends AbstractController
     protected function autocompleteAction(): JsonResponse
     {
         $query = $this->request->query;
+        $isUuid = $query->has('use_uuid');
 
         $queryString = str_replace(['.', ',', '-', '_'], '', $query->get('query'));
         $qb = $this->createSearchQueryBuilder($query->get('entity'), $queryString, []);
@@ -388,7 +389,11 @@ final class PartController extends AbstractController
         $carModel = $this->getEntity(Model::class);
         $useCarModelInFormat = false === strpos($queryString, '+');
 
-        $normalizer = function (Part $entity, bool $analog = false) use ($carModel, $useCarModelInFormat): array {
+        $normalizer = function (Part $entity, bool $analog = false) use (
+            $carModel,
+            $useCarModelInFormat,
+            $isUuid
+        ): array {
             $text = sprintf(
                 '%s (Склад: %s) | %s',
                 $this->display($entity->toId()),
@@ -405,7 +410,7 @@ final class PartController extends AbstractController
             }
 
             return [
-                'id' => $entity->getId(),
+                'id' => $isUuid ? $entity->toId()->toString() : $entity->getId(),
                 'text' => $text,
             ];
         };

@@ -11,6 +11,7 @@ use App\Order\Entity\Order;
 use App\Order\Entity\OrderItemPart;
 use App\Part\Domain\Part;
 use App\Part\Domain\PartCross;
+use App\Part\Domain\PartId;
 use App\Storage\Entity\Motion;
 use function assert;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,6 +32,19 @@ final class PartManager
     public function __construct(Registry $registry)
     {
         $this->registry = $registry;
+    }
+
+    public function byId(PartId $partId): Part
+    {
+        return $this->registry->findBy(Part::class, ['partId' => $partId]);
+    }
+
+    public function price(PartId $partId): Money
+    {
+        /** @var Part $part */
+        $part = $this->registry->findBy(Part::class, ['partId' => $partId]);
+
+        return $part->price;
     }
 
     public function inStock(Part $part): int
@@ -147,11 +161,11 @@ final class PartManager
         $incomePart = $em->createQueryBuilder()
             ->select('entity')
             ->from(IncomePart::class, 'entity')
-            ->where('entity.part.id = :part')
+            ->where('entity.partId = :part')
             ->orderBy('entity.id', 'DESC')
             ->getQuery()
             ->setMaxResults(1)
-            ->setParameter('part', $part->getId())
+            ->setParameter('part', $part->toId())
             ->getOneOrNullResult();
 
         if ($incomePart instanceof IncomePart) {

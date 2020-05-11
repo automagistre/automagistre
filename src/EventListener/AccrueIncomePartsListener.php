@@ -8,6 +8,7 @@ use App\Doctrine\Registry;
 use App\Event\IncomeAccrued;
 use App\Event\PartAccrued;
 use App\Income\Entity\Income;
+use App\Part\Domain\Part;
 use App\Storage\Entity\Motion;
 use App\Storage\Enum\Source;
 use LogicException;
@@ -50,11 +51,12 @@ final class AccrueIncomePartsListener implements EventSubscriberInterface
         }
 
         foreach ($income->getIncomeParts() as $incomePart) {
-            $part = $incomePart->getPart();
+            /** @var Part $part */
+            $part = $this->registry->findBy(Part::class, ['partId' => $incomePart->partId]);
             $quantity = $incomePart->getQuantity();
 
             $motion = new Motion(
-                $incomePart->getPart(),
+                $part,
                 $incomePart->getQuantity(),
                 Source::income(),
                 $incomePart->toId(),

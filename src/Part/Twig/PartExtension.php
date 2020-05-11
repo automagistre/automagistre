@@ -8,6 +8,7 @@ use App\Manager\PartManager;
 use App\Manager\ReservationManager;
 use App\Order\Entity\OrderItemPart;
 use App\Part\Domain\Part;
+use App\Part\Domain\PartId;
 use Money\Money;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -40,6 +41,8 @@ final class PartExtension extends AbstractExtension
             new TwigFunction('part_reserved_in_item', fn (OrderItemPart $part): int => $this->reservationManager->reserved($part)),
             new TwigFunction('part_reservable', fn (Part $part): int => $this->reservationManager->reservable($part)),
             new TwigFunction('part_suggest_price', fn (Part $part): Money => $this->partManager->suggestPrice($part)),
+            new TwigFunction('part_price', fn (PartId $partId): Money => $this->partManager->price($partId)),
+            new TwigFunction('part_by_id', fn (PartId $partId): Part => $this->partManager->byId($partId)),
         ];
     }
 }

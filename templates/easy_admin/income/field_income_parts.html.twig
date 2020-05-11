@@ -20,8 +20,9 @@
         <tbody>
         {% for incomePart in value %}
             {% set trClass = null %}
-            {% if incomePart.part.price.positive() and incomePart.price.positive() %}
-                {% set markup = incomePart.part.price.ratioOf(incomePart.price) %}
+            {% set partPrice = part_price(incomePart.partId) %}
+            {% if partPrice.positive() and incomePart.price.positive() %}
+                {% set markup = partPrice.ratioOf(incomePart.price) %}
                 {% if markup <= 1.1 %}
                     {% set trClass = 'danger' %}
                 {% elseif markup <= 1.25 %}
@@ -31,7 +32,7 @@
 
             <tr{% if trClass is not empty %} class="{{ trClass }}"{% endif %}>
                 <td>{{ loop.index }}</td>
-                <td>{% include 'easy_admin/field_part.html.twig' with {'value': incomePart.part} only %}</td>
+                <td>{% include 'easy_admin/field_part.html.twig' with {'value': part_by_id(incomePart.partId)} only %}</td>
                 <td>{{ incomePart.price|localize_money }}</td>
                 <td>{{ incomePart.quantity / 100 }}</td>
                 <td>{{ incomePart.totalPrice|localize_money }}</td>

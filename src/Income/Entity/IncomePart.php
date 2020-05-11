@@ -7,8 +7,7 @@ namespace App\Income\Entity;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
 use App\Doctrine\ORM\Mapping\Traits\Quantity;
-use App\Entity\Embeddable\PartRelation;
-use App\Part\Domain\Part;
+use App\Part\Domain\PartId;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;
 use Money\Money;
@@ -25,6 +24,11 @@ class IncomePart
     use Quantity;
 
     /**
+     * @ORM\Column(type="part_id")
+     */
+    public ?PartId $partId = null;
+
+    /**
      * @ORM\Column(type="uuid")
      */
     private UuidInterface $uuid;
@@ -38,19 +42,9 @@ class IncomePart
      */
     private $income;
 
-    /**
-     * @var PartRelation
-     *
-     * @Assert\Valid
-     *
-     * @ORM\Embedded(class=PartRelation::class)
-     */
-    private $part;
-
     public function __construct()
     {
         $this->uuid = IncomeId::generate()->toUuid();
-        $this->part = new PartRelation();
     }
 
     public function toId(): UuidInterface
@@ -80,15 +74,5 @@ class IncomePart
         }
 
         $this->income = $income;
-    }
-
-    public function getPart(): ?Part
-    {
-        return $this->part->entityOrNull();
-    }
-
-    public function setPart(?Part $part): void
-    {
-        $this->part = new PartRelation($part);
     }
 }
