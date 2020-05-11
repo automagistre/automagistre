@@ -8,7 +8,8 @@ use App\Doctrine\Registry;
 use App\Event\IncomeAccrued;
 use App\Event\PartAccrued;
 use App\Income\Entity\Income;
-use App\Storage\Entity\MotionIncome;
+use App\Storage\Entity\Motion;
+use App\Storage\Enum\Source;
 use LogicException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -41,7 +42,7 @@ final class AccrueIncomePartsListener implements EventSubscriberInterface
 
     public function onIncomeAccrued(GenericEvent $event): void
     {
-        $em = $this->registry->manager(MotionIncome::class);
+        $em = $this->registry->manager(Motion::class);
 
         $income = $event->getSubject();
         if (!$income instanceof Income) {
@@ -52,11 +53,14 @@ final class AccrueIncomePartsListener implements EventSubscriberInterface
             $part = $incomePart->getPart();
             $quantity = $incomePart->getQuantity();
 
-            $em->persist($motion = new MotionIncome($incomePart));
+            $motion = new Motion(
+                $incomePart->getPart(),
+                $incomePart->getQuantity(),
+                Source::income(),
+                $incomePart->toId(),
+            );
+            $em->persist($motion);
 
-            $incomePart->accrue($motion);
-
-            /* @noinspection DisconnectedForeachInstructionInspection */
             $em->flush();
 
             $this->dispatcher->dispatch(new PartAccrued($part, [

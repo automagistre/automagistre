@@ -24,7 +24,7 @@ use App\Part\Form\PartDto;
 use App\Roles;
 use App\State;
 use App\Storage\Entity\Motion;
-use App\Storage\Entity\MotionManual;
+use App\Storage\Enum\Source;
 use App\Vehicle\Domain\Model;
 use function array_keys;
 use function array_map;
@@ -172,12 +172,12 @@ final class PartController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $registry = $this->container->get(Registry::class);
 
-            $em = $registry->manager(MotionManual::class);
+            $em = $registry->manager(Motion::class);
             $quantity = abs((int) $form->get('quantity')->getData());
             $user = $this->getUser();
             $description = sprintf('# Ручное пополнение - %s', $user->getId());
 
-            $em->persist(new MotionManual($user, $part, $quantity, $description));
+            $em->persist(new Motion($part, $quantity, Source::manual(), $user->toId()->toUuid(), $description));
             $em->flush();
 
             $this->event(new PartAccrued($part, [
@@ -208,12 +208,12 @@ final class PartController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $registry = $this->container->get(Registry::class);
 
-            $em = $registry->manager(MotionManual::class);
+            $em = $registry->manager(Motion::class);
             $quantity = abs((int) $form->get('quantity')->getData());
             $user = $this->getUser();
             $description = sprintf('# Ручное списание - %s', $user->getId());
 
-            $em->persist(new MotionManual($user, $part, 0 - $quantity, $description));
+            $em->persist(new Motion($part, 0 - $quantity, Source::manual(), $user->toId()->toUuid(), $description));
             $em->flush();
 
             $this->event(new PartDecreased($part, [

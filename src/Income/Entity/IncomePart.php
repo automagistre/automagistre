@@ -9,7 +9,6 @@ use App\Doctrine\ORM\Mapping\Traits\Price;
 use App\Doctrine\ORM\Mapping\Traits\Quantity;
 use App\Entity\Embeddable\PartRelation;
 use App\Part\Domain\Part;
-use App\Storage\Entity\MotionIncome;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;
 use Money\Money;
@@ -48,13 +47,6 @@ class IncomePart
      */
     private $part;
 
-    /**
-     * @var MotionIncome|null
-     *
-     * @ORM\ManyToOne(targetEntity=MotionIncome::class)
-     */
-    private $accruedMotion;
-
     public function __construct()
     {
         $this->uuid = IncomeId::generate()->toUuid();
@@ -64,11 +56,6 @@ class IncomePart
     public function toId(): UuidInterface
     {
         return $this->uuid;
-    }
-
-    public function accrue(MotionIncome $motion): void
-    {
-        $this->accruedMotion = $motion;
     }
 
     public function setPrice(Money $price): void

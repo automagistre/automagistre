@@ -149,6 +149,11 @@ class Order
         return (string) $this->getId();
     }
 
+    public function toId(): OrderId
+    {
+        return $this->uuid;
+    }
+
     public function isDiscounted(): bool
     {
         return $this->isPartsDiscounted() || $this->isServicesDiscounted();

@@ -14,7 +14,8 @@ use App\Order\Entity\OrderItemPart;
 use App\Order\Entity\OrderItemService;
 use App\Order\Entity\OrderSalary;
 use App\State;
-use App\Storage\Entity\MotionOrder;
+use App\Storage\Entity\Motion;
+use App\Storage\Enum\Source;
 use Doctrine\ORM\EntityManagerInterface;
 use function sprintf;
 
@@ -80,7 +81,7 @@ final class OrderManager
                     $this->reservationManager->deReserve($item, $quantity);
                 }
 
-                $em->persist(new MotionOrder($part, $quantity, $order));
+                $em->persist(new Motion($part, $quantity, Source::order(), $order->toId()->toUuid()));
             }
 
             foreach ($order->getItems(OrderItemService::class) as $item) {

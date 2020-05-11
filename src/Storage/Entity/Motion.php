@@ -8,7 +8,9 @@ use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Entity\Embeddable\PartRelation;
 use App\Part\Domain\Part;
+use App\Storage\Enum\Source;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
@@ -17,45 +19,48 @@ use Doctrine\ORM\Mapping as ORM;
  *         @ORM\Index(columns={"part_id", "created_at"}),
  *     }
  * )
- * @ORM\InheritanceType("JOINED")
- * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({
- *     "0": "App\Storage\Entity\MotionOld",
- *     "1": "App\Storage\Entity\MotionOrder",
- *     "2": "App\Storage\Entity\MotionIncome",
- *     "3": "App\Storage\Entity\MotionManual",
- * })
  */
-abstract class Motion
+class Motion
 {
     use Identity;
     use CreatedAt;
 
     /**
-     * @var int
-     *
      * @ORM\Column(type="integer")
      */
-    private $quantity;
+    private int $quantity;
 
     /**
-     * @var PartRelation
-     *
      * @ORM\Embedded(class=PartRelation::class)
      */
-    private $part;
+    private PartRelation $part;
 
     /**
-     * @var string
-     *
+     * @ORM\Column(type="motion_source_enum")
+     */
+    private Source $source;
+
+    /**
+     * @ORM\Column(type="uuid")
+     */
+    private UuidInterface $sourceId;
+
+    /**
      * @ORM\Column(type="text", length=65535, nullable=true)
      */
-    private $description;
+    private ?string $description;
 
-    public function __construct(Part $part, int $quantity, string $description)
-    {
+    public function __construct(
+        Part $part,
+        int $quantity,
+        Source $source,
+        UuidInterface $sourceId,
+        string $description = null
+    ) {
         $this->part = new PartRelation($part);
         $this->quantity = $quantity;
+        $this->source = $source;
+        $this->sourceId = $sourceId;
         $this->description = $description;
     }
 

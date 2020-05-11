@@ -229,6 +229,12 @@
       <code>$ratio</code>
     </PropertyNotSetInConstructor>
   </file>
+  <file src="src/EventListener/AccrueIncomePartsListener.php">
+    <PossiblyNullArgument occurrences="2">
+      <code>$incomePart-&gt;getPart()</code>
+      <code>$incomePart-&gt;getQuantity()</code>
+    </PossiblyNullArgument>
+  </file>
   <file src="src/EventListener/EmployeeContractorListener.php">
     <PossiblyNullReference occurrences="1">
       <code>setContractor</code>
@@ -338,14 +344,9 @@
       <code>$income-&gt;getAccruedAmount()</code>
     </PossiblyNullArgument>
   </file>
-  <file src="src/Migrations/Version20200509115654.php">
+  <file src="src/Migrations/Version20200511183133.php">
     <PropertyNotSetInConstructor occurrences="1">
-      <code>Version20200509115654</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Migrations/Version20200509143743.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>Version20200509143743</code>
+      <code>Version20200511183133</code>
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Order/Controller/OrderController.php">
@@ -495,20 +496,6 @@
       <code>$tenant</code>
       <code>$user</code>
     </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Storage/Entity/MotionIncome.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$incomePart-&gt;getPart()</code>
-      <code>$incomePart-&gt;getQuantity()</code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>toId</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="src/Storage/Entity/MotionOrder.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$order-&gt;getId()</code>
-    </PossiblyNullArgument>
   </file>
   <file src="src/Tenant/EventListener/TenantRelationListener.php">
     <RepositoryStringShortcut occurrences="1">
