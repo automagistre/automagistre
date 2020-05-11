@@ -11,7 +11,7 @@ use App\Car\Manager\RecommendationManager;
 use App\Controller\EasyAdmin\AbstractController;
 use App\Customer\Domain\Operand;
 use App\Doctrine\Registry;
-use App\Entity\Tenant\Order;
+use App\Order\Entity\Order;
 use function assert;
 use Doctrine\ORM\Query\Expr\Join;
 use function sprintf;

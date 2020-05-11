@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin;
+namespace App\Order\Controller;
 
-use App\Entity\Tenant\Order;
-use App\Entity\Tenant\OrderItem;
-use App\Entity\Tenant\OrderItemPart;
 use App\Form\Model\OrderPart;
 use App\Manager\ReservationException;
 use App\Manager\ReservationManager;
+use App\Order\Entity\Order;
+use App\Order\Entity\OrderItem;
+use App\Order\Entity\OrderItemPart;
 use App\Part\Domain\Part;
 use function assert;
 use LogicException;

@@ -3,8 +3,8 @@
 namespace App\Tests\EventListener;
 
 use App\Doctrine\Registry;
-use App\Entity\Tenant\Order;
 use App\EventListener\PartCaseOnOrderCloseListener;
+use App\Order\Entity\Order;
 use App\Part\Domain\PartCase;
 use App\Part\Infrastructure\Fixtures\GasketFixture;
 use App\State;

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin;
+namespace App\Order\Controller;
 
-use App\Entity\Tenant\Order;
-use App\Entity\Tenant\OrderItem;
-use App\Entity\Tenant\OrderItemGroup;
 use App\Form\Model\OrderGroup;
+use App\Order\Entity\Order;
+use App\Order\Entity\OrderItem;
+use App\Order\Entity\OrderItemGroup;
 use function assert;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 

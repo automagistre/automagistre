@@ -6,7 +6,7 @@ namespace App\Controller\Admin\Report;
 
 use App\Customer\Domain\Operand;
 use App\Doctrine\Registry;
-use App\Entity\Tenant\Order;
+use App\Order\Entity\Order;
 use function count;
 use DateInterval;
 use DateTimeImmutable;

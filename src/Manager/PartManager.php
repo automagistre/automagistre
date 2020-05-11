@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Manager;
 
 use App\Doctrine\Registry;
-use App\Entity\Tenant\Order;
-use App\Entity\Tenant\OrderItemPart;
 use App\Enum\OrderStatus;
 use App\Income\Entity\IncomePart;
+use App\Order\Entity\Order;
+use App\Order\Entity\OrderItemPart;
 use App\Part\Domain\Part;
 use App\Part\Domain\PartCross;
 use App\Storage\Entity\Motion;

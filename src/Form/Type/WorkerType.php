@@ -8,7 +8,7 @@ use App\Customer\Domain\Operand;
 use App\Customer\Domain\Organization;
 use App\Customer\Domain\Person;
 use App\Doctrine\Registry;
-use App\Entity\Tenant\OrderItemService;
+use App\Order\Entity\OrderItemService;
 use function array_key_exists;
 use DateTime;
 use Doctrine\ORM\EntityRepository;

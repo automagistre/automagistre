@@ -124,78 +124,6 @@
       <code>mb_strtolower($searchString)</code>
     </PossiblyFalseOperand>
   </file>
-  <file src="src/Controller/EasyAdmin/OrderController.php">
-    <PossiblyFalseOperand occurrences="1">
-      <code>mb_strtolower($item)</code>
-    </PossiblyFalseOperand>
-    <PossiblyNullArgument occurrences="2">
-      <code>$order-&gt;getId()</code>
-      <code>$order-&gt;getId()</code>
-    </PossiblyNullArgument>
-    <PossiblyNullArrayOffset occurrences="1">
-      <code>$services</code>
-    </PossiblyNullArrayOffset>
-    <PossiblyNullReference occurrences="10">
-      <code>isFilled</code>
-      <code>flush</code>
-      <code>flush</code>
-      <code>flush</code>
-      <code>isEditable</code>
-      <code>transactional</code>
-      <code>getRepository</code>
-      <code>getRepository</code>
-      <code>getRepository</code>
-      <code>transactional</code>
-    </PossiblyNullReference>
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>OrderController</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Controller/EasyAdmin/OrderItemController.php">
-    <PossiblyNullReference occurrences="3">
-      <code>getRepository</code>
-      <code>getOrder</code>
-      <code>transactional</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="src/Controller/EasyAdmin/OrderItemGroupController.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$model-&gt;name</code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="src/Controller/EasyAdmin/OrderItemPartController.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$model-&gt;part</code>
-      <code>$model-&gt;price</code>
-    </PossiblyNullArgument>
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>OrderItemPartController</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Controller/EasyAdmin/OrderItemServiceController.php">
-    <PossiblyFalseOperand occurrences="2">
-      <code>mb_strtolower($item)</code>
-      <code>mb_strtolower($searchString)</code>
-    </PossiblyFalseOperand>
-    <PossiblyNullArgument occurrences="3">
-      <code>$model-&gt;service</code>
-      <code>$model-&gt;price</code>
-      <code>$sortDirection</code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="2">
-      <code>getRepository</code>
-      <code>getConnection</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="src/Controller/EasyAdmin/OrderPrintController.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$mileage</code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="2">
-      <code>flush</code>
-      <code>flush</code>
-    </PossiblyNullReference>
-  </file>
   <file src="src/Controller/TestController.php">
     <PropertyNotSetInConstructor occurrences="1">
       <code>TestController</code>
@@ -300,20 +228,6 @@
     <PropertyNotSetInConstructor occurrences="1">
       <code>$ratio</code>
     </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Entity/Tenant/Order.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$itemDiscount</code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="2">
-      <code>isEqual</code>
-      <code>multiply</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="src/Entity/Tenant/OrderItem.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$this-&gt;discount()</code>
-    </PossiblyNullArgument>
   </file>
   <file src="src/EventListener/EmployeeContractorListener.php">
     <PossiblyNullReference occurrences="1">
@@ -433,6 +347,92 @@
     <PropertyNotSetInConstructor occurrences="1">
       <code>Version20200509143743</code>
     </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Order/Controller/OrderController.php">
+    <PossiblyFalseOperand occurrences="1">
+      <code>mb_strtolower($item)</code>
+    </PossiblyFalseOperand>
+    <PossiblyNullArgument occurrences="2">
+      <code>$order-&gt;getId()</code>
+      <code>$order-&gt;getId()</code>
+    </PossiblyNullArgument>
+    <PossiblyNullArrayOffset occurrences="1">
+      <code>$services</code>
+    </PossiblyNullArrayOffset>
+    <PossiblyNullReference occurrences="10">
+      <code>isFilled</code>
+      <code>flush</code>
+      <code>flush</code>
+      <code>flush</code>
+      <code>isEditable</code>
+      <code>transactional</code>
+      <code>getRepository</code>
+      <code>getRepository</code>
+      <code>getRepository</code>
+      <code>transactional</code>
+    </PossiblyNullReference>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>OrderController</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Order/Controller/OrderItemController.php">
+    <PossiblyNullReference occurrences="3">
+      <code>getRepository</code>
+      <code>getOrder</code>
+      <code>transactional</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Order/Controller/OrderItemGroupController.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$model-&gt;name</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/Order/Controller/OrderItemPartController.php">
+    <PossiblyNullArgument occurrences="2">
+      <code>$model-&gt;part</code>
+      <code>$model-&gt;price</code>
+    </PossiblyNullArgument>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>OrderItemPartController</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Order/Controller/OrderItemServiceController.php">
+    <PossiblyFalseOperand occurrences="2">
+      <code>mb_strtolower($item)</code>
+      <code>mb_strtolower($searchString)</code>
+    </PossiblyFalseOperand>
+    <PossiblyNullArgument occurrences="3">
+      <code>$model-&gt;service</code>
+      <code>$model-&gt;price</code>
+      <code>$sortDirection</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="2">
+      <code>getRepository</code>
+      <code>getConnection</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Order/Controller/OrderPrintController.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$mileage</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="2">
+      <code>flush</code>
+      <code>flush</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Order/Entity/Order.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$itemDiscount</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="2">
+      <code>isEqual</code>
+      <code>multiply</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Order/Entity/OrderItem.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$this-&gt;discount()</code>
+    </PossiblyNullArgument>
   </file>
   <file src="src/Order/Fixtures/OrderFixtures.php">
     <PossiblyNullArgument occurrences="1">

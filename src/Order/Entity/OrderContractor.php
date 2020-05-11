@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Tenant;
+namespace App\Order\Entity;
 
 use App\Customer\Domain\Operand;
 use App\Doctrine\ORM\Mapping\Traits\Identity;

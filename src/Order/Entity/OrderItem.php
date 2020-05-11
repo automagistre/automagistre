@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Tenant;
+namespace App\Order\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\CreatedByRelation as CreatedBy;
@@ -23,9 +23,9 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({
- *     "1": "App\Entity\Tenant\OrderItemService",
- *     "2": "App\Entity\Tenant\OrderItemPart",
- *     "3": "App\Entity\Tenant\OrderItemGroup"
+ *     "1": "App\Order\Entity\OrderItemService",
+ *     "2": "App\Order\Entity\OrderItemPart",
+ *     "3": "App\Order\Entity\OrderItemGroup"
  * })
  */
 abstract class OrderItem

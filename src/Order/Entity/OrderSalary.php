@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Tenant;
+namespace App\Order\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Entity\Tenant\OperandTransaction;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

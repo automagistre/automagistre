@@ -2,19 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin;
+namespace App\Order\Controller;
 
 use App\Car\Entity\Car;
+use App\Controller\EasyAdmin\AbstractController;
 use App\Customer\Domain\Operand;
 use App\Customer\Domain\Organization;
 use App\Customer\Domain\Person;
 use App\Doctrine\Registry;
 use App\Entity\Landlord\MC\Line;
-use App\Entity\Tenant\Order;
-use App\Entity\Tenant\OrderItem;
-use App\Entity\Tenant\OrderItemPart;
-use App\Entity\Tenant\OrderItemService;
-use App\Entity\Tenant\OrderNote;
 use App\Entity\Tenant\Wallet;
 use App\Enum\OrderStatus;
 use App\Event\OrderAppointmentMade;
@@ -27,6 +23,11 @@ use App\Infrastructure\Identifier\IdentifierFormatter;
 use App\Manager\OrderManager;
 use App\Manager\PaymentManager;
 use App\Manufacturer\Domain\Manufacturer;
+use App\Order\Entity\Order;
+use App\Order\Entity\OrderItem;
+use App\Order\Entity\OrderItemPart;
+use App\Order\Entity\OrderItemService;
+use App\Order\Entity\OrderNote;
 use App\Part\Domain\Part;
 use App\Vehicle\Domain\Model;
 use App\Vehicle\Domain\VehicleId;

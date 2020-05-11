@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-use App\Entity\Tenant\Order;
+use App\Order\Entity\Order;
 use App\Part\Domain\Part;
 
 /**

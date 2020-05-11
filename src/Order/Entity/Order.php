@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Tenant;
+namespace App\Order\Entity;
 
 use App\Car\Entity\Car;
 use App\Customer\Domain\Operand;
@@ -14,6 +14,7 @@ use App\Entity\Discounted;
 use App\Entity\Embeddable\CarRelation;
 use App\Entity\Embeddable\OperandRelation;
 use App\Entity\Embeddable\UserRelation;
+use App\Entity\Tenant\Employee;
 use App\Entity\WarrantyInterface;
 use App\Enum\OrderStatus;
 use App\Money\TotalPriceInterface;

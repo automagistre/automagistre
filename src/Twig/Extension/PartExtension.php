@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Twig\Extension;
 
-use App\Entity\Tenant\OrderItemPart;
 use App\Manager\PartManager;
 use App\Manager\ReservationManager;
+use App\Order\Entity\OrderItemPart;
 use App\Part\Domain\Part;
 use Money\Money;
 use Twig\Extension\AbstractExtension;

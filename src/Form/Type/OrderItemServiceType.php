@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
-use App\Entity\Tenant\OrderItemService;
+use App\Order\Entity\OrderItemService;
 use LogicException;
 use function sprintf;
 use Symfony\Component\Form\AbstractType;

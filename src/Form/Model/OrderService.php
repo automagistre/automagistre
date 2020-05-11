@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Form\Model;
 
 use App\Customer\Domain\Operand;
-use App\Entity\Tenant\OrderItemService;
+use App\Order\Entity\OrderItemService;
 use Money\Money;
 
 /**

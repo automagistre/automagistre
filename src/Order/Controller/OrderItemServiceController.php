@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin;
+namespace App\Order\Controller;
 
 use App\Car\Entity\Car;
 use App\Car\Manager\RecommendationManager;
-use App\Entity\Tenant\Order;
-use App\Entity\Tenant\OrderItem;
-use App\Entity\Tenant\OrderItemService;
 use App\Form\Model\OrderService;
+use App\Order\Entity\Order;
+use App\Order\Entity\OrderItem;
+use App\Order\Entity\OrderItemService;
 use function array_map;
 use function assert;
 use Doctrine\ORM\QueryBuilder;

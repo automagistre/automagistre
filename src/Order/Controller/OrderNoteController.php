@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin;
+namespace App\Order\Controller;
 
-use App\Entity\Tenant\Order;
-use App\Entity\Tenant\OrderNote;
+use App\Controller\EasyAdmin\AbstractController;
+use App\Order\Entity\Order;
+use App\Order\Entity\OrderNote;
 use LogicException;
 use Symfony\Component\HttpFoundation\Response;
 

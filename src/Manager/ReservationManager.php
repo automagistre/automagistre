@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Manager;
 
 use App\Doctrine\Registry;
-use App\Entity\Tenant\Order;
-use App\Entity\Tenant\OrderItemPart;
 use App\Entity\Tenant\Reservation;
 use App\Event\PartDeReserved;
 use App\Event\PartReserved;
+use App\Order\Entity\Order;
+use App\Order\Entity\OrderItemPart;
 use App\Part\Domain\Part;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;

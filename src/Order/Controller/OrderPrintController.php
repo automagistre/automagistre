@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin;
+namespace App\Order\Controller;
 
 use App\Car\Entity\Car;
-use App\Entity\Tenant\Order;
+use App\Controller\EasyAdmin\AbstractController;
 use App\Form\Type\OrderItemServiceType;
+use App\Order\Entity\Order;
 use function assert;
 use function in_array;
 use function sprintf;

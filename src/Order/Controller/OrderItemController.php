@@ -2,17 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin;
+namespace App\Order\Controller;
 
 use App\Car\Entity\Car;
 use App\Car\Entity\Recommendation;
 use App\Car\Manager\RecommendationManager;
+use App\Controller\EasyAdmin\AbstractController;
 use App\Doctrine\Registry;
-use App\Entity\Tenant\Order;
-use App\Entity\Tenant\OrderItem;
-use App\Entity\Tenant\OrderItemPart;
-use App\Entity\Tenant\OrderItemService;
 use App\Entity\Tenant\Reservation;
+use App\Order\Entity\Order;
+use App\Order\Entity\OrderItem;
+use App\Order\Entity\OrderItemPart;
+use App\Order\Entity\OrderItemService;
 use function array_merge;
 use function assert;
 use Doctrine\ORM\EntityManagerInterface;

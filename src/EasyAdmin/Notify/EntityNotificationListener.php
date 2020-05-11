@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\EasyAdmin\Notify;
 
-use App\Entity\Tenant\OrderItem;
 use App\Event\OrderStatusChanged;
+use App\Order\Entity\OrderItem;
 use App\State;
 use App\Tenant\EntityChecker;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigManager;
