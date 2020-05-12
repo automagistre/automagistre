@@ -18,19 +18,6 @@ final class Version20200512223245 extends AbstractMigration
 
         $this->addSql('ALTER TABLE users ADD person_uuid uuid DEFAULT NULL');
 
-        //> Migrate Operand
-        $this->addSql('
-            UPDATE users
-            SET person_uuid = b.uuid
-            FROM (
-                     SELECT u.id, o.uuid
-                     FROM operand o
-                              JOIN users u ON u.person_id = o.id
-                 ) b
-            WHERE users.id = b.id
-        ');
-        //< Migrate Operand
-
         $this->addSql('ALTER TABLE users DROP CONSTRAINT fk_1483a5e9217bbb47');
         $this->addSql('DROP INDEX uniq_1483a5e9217bbb47');
         $this->addSql('ALTER TABLE users DROP person_id');
