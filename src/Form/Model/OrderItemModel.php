@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Form\Model;
 
-use App\Entity\Tenant\Order;
-use App\Entity\Tenant\OrderItem;
+use App\Order\Entity\Order;
+use App\Order\Entity\OrderItem;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>

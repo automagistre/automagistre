@@ -44,9 +44,9 @@
                             </td>
                             <td>{# Склад #}</td>
                             <td>
-                                {% if recommendation.worker is not empty %}
-                                    <a href="{{ easyadmin_path(recommendation.worker, 'show') }}">
-                                        {{ recommendation.worker.fullName }}
+                                {% if recommendation.workerId is not empty %}
+                                    <a href="{{ easyadmin_path_by_id(recommendation.workerId, 'show') }}">
+                                        {{ recommendation.workerId|display_name }}
                                     </a>
                                 {% endif %}
                             </td>
@@ -73,19 +73,22 @@
                                 } -%}
                             </td>
 
-                            {% for part in recommendation.parts %}
-                                {# @var part \App\Entity\CarRecommendationPart #}
+                            {% for recommendationPart in recommendation.parts %}
+                                {# @var recommendationPart \App\Entity\CarRecommendationPart #}
+                                {% set part = part_by_id(recommendationPart.partId) %}
+
                                 {{ '</tr><tr>' }}
                                 <td style="padding-left: 40px">
-                                    {% include 'easy_admin/field_part.html.twig' with {'value': part.part} only %}
+                                    {% include 'easy_admin/field_part.html.twig' with {'value': part} only %}
                                 </td>
-                                <td>{{ part.quantity / 100 }} x {{ part.price|localize_money }}</td>
-                                <td>{{ part.price.multiply(part.quantity / 100)|localize_money }}</td>
+                                <td>{{ recommendationPart.quantity / 100 }}
+                                    x {{ recommendationPart.price|localize_money }}</td>
+                                <td>{{ recommendationPart.price.multiply(recommendationPart.quantity / 100)|localize_money }}</td>
                                 <td>
-                                    {% set reservable = part_reservable(part.part) %}
-                                    {% set reserved = part_reserved(part.part) %}
-                                    {% set inStock = part_in_stock(part.part) %}
-                                    {% set required = part.quantity %}
+                                    {% set reservable = part_reservable(part) %}
+                                    {% set reserved = part_reserved(part) %}
+                                    {% set inStock = part_in_stock(part) %}
+                                    {% set required = recommendationPart.quantity %}
 
                                     {% if reservable >= required %}
                                         {% set stockStyle = 'success' %}
@@ -110,21 +113,21 @@
                                 </td>
                                 <td></td>
                                 <td>
-                                    <a href="{{ easyadmin_path(part, 'edit') }}">
+                                    <a href="{{ easyadmin_path(recommendationPart, 'edit') }}">
                                         <i class="fa fa-pencil"></i>
                                     </a>
-                                    {% if part_crosses_in_stock(part.part) is not empty %}
+                                    {% if part_crosses_in_stock(part) is not empty %}
                                         {{- '&nbsp;'|raw -}}
 
-                                        <a href="{{ easyadmin_path(part, 'substitute', {'referer': true}) }}">
+                                        <a href="{{ easyadmin_path(recommendationPart, 'substitute', {'referer': true}) }}">
                                             <i class="fa fa-recycle" style="color: green"></i>
                                         </a>
                                     {% endif %}
                                 </td>
                                 <td>
                                     {%- include 'easy_admin/order/includes/created_by.html.twig' with {
-                                        'createdAt': part.createdAt,
-                                        'user': part.createdBy
+                                        'createdAt': recommendationPart.createdAt,
+                                        'user': recommendationPart.createdBy
                                     } -%}
                                 </td>
                             {% endfor %}

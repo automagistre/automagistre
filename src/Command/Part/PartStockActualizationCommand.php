@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Command\Part;
 
 use App\Doctrine\Registry;
-use App\Entity\Tenant\Motion;
 use App\Manager\StockpileManager;
 use App\State;
+use App\Storage\Entity\Motion;
 use function array_map;
 use function count;
 use function sprintf;

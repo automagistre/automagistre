@@ -7,7 +7,7 @@ namespace App\Car\Form\DTO;
 use App\Car\Entity\Recommendation;
 use App\Car\Entity\RecommendationPart;
 use App\Form\Model\Model;
-use App\Part\Domain\Part;
+use App\Part\Domain\PartId;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -24,7 +24,7 @@ final class RecommendationPartDTO extends Model
     /**
      * @Assert\NotBlank
      */
-    public ?Part $part = null;
+    public ?PartId $partId = null;
 
     /**
      * @Assert\NotBlank
@@ -38,12 +38,12 @@ final class RecommendationPartDTO extends Model
 
     public function __construct(
         Recommendation $recommendation,
-        Part $part = null,
+        PartId $partId = null,
         int $quantity = 100,
         Money $price = null
     ) {
         $this->recommendation = $recommendation;
-        $this->part = $part;
+        $this->partId = $partId;
         $this->quantity = $quantity;
         $this->price = $price;
     }

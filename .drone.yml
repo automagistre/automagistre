@@ -159,6 +159,7 @@ steps:
             - bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=msk
         depends_on:
             - install
+            - migration landlord
 
     -   name: fixtures
         image: automagistre/app:base
@@ -195,7 +196,7 @@ steps:
         commands:
             - \[ "${DRONE_COMMIT_SHA}" == "$$(git ls-remote origin ${DRONE_COMMIT_BRANCH} | awk '{ print $1}')" ] || exit 78
         when:
-            branch: [ master ]
+            branch: [ master, rc ]
         depends_on:
             - build prod
             - phpunit
@@ -217,9 +218,26 @@ steps:
         environment:
             VERSION: ${DRONE_BUILD_NUMBER}
         when:
-            branch: [ master ]
+            branch: [ master, rc ]
         depends_on:
             - check deploy
+
+    -   name: remove rc branch
+        image: alpine/git:1.0.7
+        commands:
+            - git remote set-url origin ${DRONE_GIT_SSH_URL}
+            - mkdir -p ~/.ssh -m 700
+            - ssh-keyscan github.com >> ~/.ssh/known_hosts
+            - echo "$GIT_SSH_KEY" > ~/.ssh/id_rsa
+            - chmod 600 ~/.ssh/id_rsa
+            - git push origin --delete ${DRONE_COMMIT_BRANCH}
+        environment:
+            GIT_SSH_KEY:
+                from_secret: GIT_SSH_KEY
+        when:
+            branch:
+                - rc
+                - test
 
 services:
     -   name: landlord

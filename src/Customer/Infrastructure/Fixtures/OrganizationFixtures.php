@@ -9,7 +9,7 @@ use App\Customer\Domain\OperandNote;
 use App\Customer\Domain\Organization;
 use App\Enum\NoteType;
 use App\User\Entity\User;
-use App\User\Fixtures\UserFixtures;
+use App\User\Fixtures\EmployeeFixtures;
 use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
@@ -26,7 +26,7 @@ final class OrganizationFixtures extends Fixture implements FixtureGroupInterfac
     public function getDependencies(): array
     {
         return [
-            UserFixtures::class,
+            EmployeeFixtures::class,
         ];
     }
 
@@ -43,7 +43,7 @@ final class OrganizationFixtures extends Fixture implements FixtureGroupInterfac
      */
     public function load(ObjectManager $manager): void
     {
-        $user = $this->getReference('user-employee');
+        $user = $this->getReference(EmployeeFixtures::REFERENCE);
         assert($user instanceof User);
 
         $organization = new Organization(OperandId::fromString(self::ID));

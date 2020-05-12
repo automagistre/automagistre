@@ -4,7 +4,7 @@
     {% set value = item %}
 {% endif %}
 
-{% set referer = field_options.referer is defined ? field_options.referer : true %}
+{% set referer = field_options.referer|default(true) %}
 
 {%- if value is not empty -%}
     {%- apply spaceless -%}

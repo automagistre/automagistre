@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\Admin\Report;
 
 use App\Doctrine\Registry;
-use App\Entity\Tenant\Motion;
 use App\Part\Domain\Part;
+use App\Storage\Entity\Motion;
+use App\Storage\Enum\Source;
 use function array_map;
 use DateInterval;
 use DateTimeImmutable;
@@ -65,8 +66,8 @@ final class PartSellController extends AbstractController
                         AND o.closed_at IS NULL
                 )                                                       AS reserved
             FROM motion m
-                INNER JOIN motion_order mo on m.id = mo.id
             WHERE m.created_at BETWEEN :start AND :end
+            AND m.source = :source_order
             GROUP BY m.part_id
         ';
 
@@ -75,9 +76,11 @@ final class PartSellController extends AbstractController
         $items = $conn->fetchAll($sql, [
             'start' => $start->sub(new DateInterval('PT3H')), // TO UTC
             'end' => $end->sub(new DateInterval('PT3H')), // TO UTC
+            'source_order' => Source::order(),
         ], [
             'start' => 'datetime',
             'end' => 'datetime',
+            'source_order' => 'motion_source_enum',
         ]);
 
         $ids = array_map(fn (array $item): int => $item['part_id'], $items);

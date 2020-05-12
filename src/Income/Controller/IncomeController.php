@@ -198,8 +198,8 @@ final class IncomeController extends AbstractController
         if ($part instanceof Part) {
             $qb
                 ->join('entity.incomeParts', 'income_parts')
-                ->where(':part = income_parts.part.id')
-                ->setParameter('part', $part->getId());
+                ->where(':part = income_parts.partId')
+                ->setParameter('part', $part->toId());
         }
 
         return $qb;

@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\Car\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
-use App\Doctrine\ORM\Mapping\Traits\CreatedBy;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
-use App\Part\Domain\Part;
-use App\User\Entity\User;
+use App\Part\Domain\PartId;
+use App\User\Domain\UserId;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 
@@ -22,7 +21,6 @@ class RecommendationPart
     use Identity;
     use Price;
     use CreatedAt;
-    use CreatedBy;
 
     /**
      * @ORM\Column(type="recommendation_part_id", unique=true)
@@ -38,26 +36,33 @@ class RecommendationPart
     public Recommendation $recommendation;
 
     /**
-     * @psalm-readonly
-     *
-     * @ORM\ManyToOne(targetEntity=Part::class)
-     * @ORM\JoinColumn
+     * @ORM\Column(type="part_id")
      */
-    public ?Part $part = null;
+    public PartId $partId;
 
     /**
      * @ORM\Column(type="integer")
      */
     public int $quantity = 0;
 
-    public function __construct(Recommendation $recommendation, Part $part, int $quantity, Money $price, User $selector)
-    {
+    /**
+     * @ORM\Column(type="user_id")
+     */
+    public UserId $createdBy;
+
+    public function __construct(
+        Recommendation $recommendation,
+        PartId $partId,
+        int $quantity,
+        Money $price,
+        UserId $selectorId
+    ) {
         $this->uuid = RecommendationPartId::generate();
         $this->recommendation = $recommendation;
-        $this->part = $part;
+        $this->partId = $partId;
         $this->quantity = $quantity;
         $this->price = $price;
-        $this->createdBy = $selector;
+        $this->createdBy = $selectorId;
     }
 
     public function setPrice(Money $price): void

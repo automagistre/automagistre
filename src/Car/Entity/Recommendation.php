@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace App\Car\Entity;
 
-use App\Customer\Domain\Operand;
+use App\Customer\Domain\OperandId;
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
-use App\Doctrine\ORM\Mapping\Traits\CreatedBy;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
 use App\Entity\Embeddable\OrderItemServiceRelation;
-use App\Entity\Tenant\OrderItemService;
 use App\Money\PriceInterface;
+use App\Order\Entity\OrderItemService;
 use App\Tenant\Tenant;
-use App\User\Entity\User;
+use App\User\Domain\UserId;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -31,7 +30,6 @@ class Recommendation implements PriceInterface
     use Identity;
     use Price;
     use CreatedAt;
-    use CreatedBy;
 
     /**
      * @ORM\Column(type="recommendation_id", unique=true)
@@ -56,19 +54,19 @@ class Recommendation implements PriceInterface
     public $service;
 
     /**
-     * @var Operand
-     *
-     * @psalm-readonly
-     *
-     * @ORM\ManyToOne(targetEntity=Operand::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="operand_id")
      */
-    public $worker;
+    public OperandId $workerId;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     public ?DateTime $expiredAt = null;
+
+    /**
+     * @ORM\Column(type="user_id")
+     */
+    public UserId $createdBy;
 
     /**
      * @ORM\Embedded(class=OrderItemServiceRelation::class)
@@ -88,7 +86,7 @@ class Recommendation implements PriceInterface
      */
     private $parts;
 
-    public function __construct(Car $car, string $service, Money $price, Operand $worker, User $user)
+    public function __construct(Car $car, string $service, Money $price, OperandId $workerId, UserId $userId)
     {
         $this->uuid = RecommendationId::generate();
         $this->parts = new ArrayCollection();
@@ -97,8 +95,8 @@ class Recommendation implements PriceInterface
         $this->car = $car;
         $this->service = $service;
         $this->price = $price;
-        $this->worker = $worker;
-        $this->createdBy = $user;
+        $this->workerId = $workerId;
+        $this->createdBy = $userId;
     }
 
     public function __toString(): string
