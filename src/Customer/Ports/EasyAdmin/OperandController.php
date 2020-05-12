@@ -106,7 +106,7 @@ class OperandController extends AbstractController
             /** @var Operand $operand */
             $operand = $parameters['entity'];
 
-            $parameters['cars'] = $registry->repository(Car::class)->findBy(['owner' => $operand]);
+            $parameters['cars'] = $registry->viewListBy(Car::class, ['owner' => $operand]);
             $parameters['orders'] = $registry->repository(Order::class)
                 ->findBy(['customer.id' => $operand->getId()], ['closedAt' => 'DESC'], 20);
             $parameters['payments'] = $registry->repository(OperandTransaction::class)

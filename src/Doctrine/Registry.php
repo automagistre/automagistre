@@ -25,6 +25,7 @@ use function get_class;
 use function is_array;
 use function is_object;
 use LogicException;
+use function sprintf;
 use function str_replace;
 
 /**
@@ -160,6 +161,25 @@ final class Registry
         assert(is_array($view));
 
         return $view;
+    }
+
+    /**
+     * @psalm-param class-string $class
+     */
+    public function viewListBy(string $class, array $criteria): array
+    {
+        $qb = $this->manager($class)
+            ->createQueryBuilder()
+            ->select('t')
+            ->from($class, 't');
+
+        foreach ($criteria as $field => $value) {
+            $qb
+                ->andWhere(sprintf('t.%s = :%s', $field, $field))
+                ->setParameter($field, $value);
+        }
+
+        return $qb->getQuery()->getArrayResult();
     }
 
     /**
