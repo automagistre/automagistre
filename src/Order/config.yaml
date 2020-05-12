@@ -1,0 +1,145 @@
+easy_admin:
+    entities:
+        Order:
+            class: App\Order\Entity\Order
+            controller: App\Order\Controller\OrderController
+            disabled_actions: ['edit', 'delete']
+            templates:
+                show: 'easy_admin/order/show.html.twig'
+                new: 'easy_admin/order/new.html.twig'
+                edit: 'easy_admin/order/edit.html.twig'
+            label: 'Заказ'
+            list:
+                max_results: 50
+                title: '{{ app.request.query.has("all") ? "Все" : "Активные" }} Заказы'
+                fields:
+                    - { property: 'id', label: 'Номер', template: 'easy_admin/order/field_id.html.twig' }
+                    - { property: 'status', label: 'Статус', template: 'easy_admin/order/field_status.html.twig' }
+                    - { property: 'createdAt', label: 'Дата начала', type: 'datetime' }
+                    - { property: 'car', label: 'Автомобиль', template: 'easy_admin/order/field_car.html.twig' }
+                    - { property: 'car.gosnomer', label: 'Госномер', template: 'easy_admin/car/field_gosnomer_img.html.twig' }
+                    - { property: 'customer', label: 'Клиент', type: 'string', template: 'easy_admin/order/customer.html.twig' }
+                    - { property: 'totalServicePrice', label: 'Работы', template: 'easy_admin/field_money.html.twig' }
+                    - { property: 'totalPartPrice', label: 'Запчасти', template: 'easy_admin/field_money.html.twig' }
+            form:
+                fields:
+                    - { type: 'group', label: 'Основная информация', css_class: 'col-sm-6' }
+                    - { property: 'customer', label: 'Заказчик', type: 'easyadmin_autocomplete', type_options: { class: App\Customer\Domain\Operand } }
+                    - { property: 'car', label: 'Автомобиль', type: 'easyadmin_autocomplete', type_options: { class: App\Car\Entity\Car } }
+                    - { property: 'mileage', label: 'Пробег' }
+                    - { property: 'worker', label: 'Работник', type: App\Employee\Form\EmployeeType }
+                    - { type: 'group', label: 'Описание', css_class: 'col-sm-6' }
+                    - { property: 'description', label: 'Описание', type: 'textarea' }
+            new:
+                title: 'Создать новый заказ'
+            edit:
+                title: 'Редактировать заказ № {{ entity.id }}'
+
+        OrderPrint:
+            class: App\Order\Entity\Order
+            controller: App\Order\Controller\OrderPrintController
+            disabled_actions: ['show', 'list', 'new', 'edit', 'autocomplete', 'search']
+
+        OrderItemGroup:
+            class: App\Order\Entity\OrderItemGroup
+            controller: App\Order\Controller\OrderItemGroupController
+            disabled_actions: ['show', 'list', 'search']
+            templates:
+                new: 'easy_admin/order_item_group/new.html.twig'
+                edit: 'easy_admin/order_item_group/edit.html.twig'
+            form:
+                fields:
+                    - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'hideParts', label: 'Скрыть запчасти от клиента' }
+            new:
+                form_options: { data_class: App\Form\Model\OrderGroup }
+
+        OrderItemService:
+            class: App\Order\Entity\OrderItemService
+            controller: App\Order\Controller\OrderItemServiceController
+            disabled_actions: ['show']
+            templates:
+                list: 'easy_admin/order_item_service/list.html.twig'
+                new: 'easy_admin/order_item_service/new.html.twig'
+                edit: 'easy_admin/order_item_service/edit.html.twig'
+            list:
+                fields:
+                    - { property: 'order', label: 'Заказ' }
+                    - { property: 'service', label: 'Работа' }
+                    - { property: 'price', label: 'Стоимость', template: 'easy_admin/field_money.html.twig' }
+                    - { property: 'order.closedAt', label: 'Дата', type: 'datetime' }
+                    - { property: 'order.mileage', label: 'Пробег' }
+                    - { property: 'workerId', label: 'Исполнитель', template: 'easy_admin/field_identifier.html.twig' }
+            edit:
+                actions: ['delete']
+                fields:
+                    - { property: 'service', label: 'Работа' }
+            form:
+                fields:
+                    - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
+                    - { property: 'parent', label: 'Группа', type: App\Form\Type\OrderItemParentType }
+                    - { property: 'service', label: 'Работа', type_options: { required: true } }
+                    - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType }
+                    - { property: 'workerId', label: 'Исполнитель', type: App\Form\Type\WorkerType }
+                    - { property: 'warranty', label: 'По гарантии?' }
+                    - { property: 'discount', label: 'Скидка', type: App\Form\Type\MoneyType }
+            new:
+                form_options: { data_class: App\Form\Model\OrderService }
+
+        OrderItemPart:
+            class: App\Order\Entity\OrderItemPart
+            controller: App\Order\Controller\OrderItemPartController
+            disabled_actions: ['show', 'list', 'search']
+            templates:
+                new: 'easy_admin/order_item_part/new.html.twig'
+                edit: 'easy_admin/order_item_part/edit.html.twig'
+            edit:
+                actions: ['delete']
+                fields:
+                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { disabled: true, class: App\Part\Domain\Part } }
+            form:
+                fields:
+                    - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
+                    - { property: 'parent', label: 'Работа / Группа', type: App\Form\Type\OrderItemParentType }
+                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { required: true, class: App\Part\Domain\Part } }
+                    - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType }
+                    - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
+                    - { property: 'warranty', label: 'По гарантии?' }
+                    - { property: 'discount', label: 'Скидка', type: App\Form\Type\MoneyType }
+                    - { property: 'supplier', label: 'Поставщик', type: App\Form\Type\SellerType }
+            new:
+                form_options: { data_class: App\Form\Model\OrderPart }
+
+        OrderNote:
+            class: App\Order\Entity\OrderNote
+            controller: App\Order\Controller\OrderNoteController
+            disabled_actions: ['show', 'list', 'search', 'autocomplete']
+            templates:
+                new: 'easy_admin/order_note/new.html.twig'
+                edit: 'easy_admin/order_note/edit.html.twig'
+            form:
+                fields:
+                    - { property: 'type', label: 'Тип', type: App\Form\Type\NoteTypeType }
+                    - { property: 'text', label: 'Текст' }
+            new:
+                title: 'Создать новую заметку по Заказу'
+            edit:
+                title: 'Редактировать заметку № {{ entity.id }} по Заказу'
+
+doctrine:
+    orm:
+        entity_managers:
+            tenant:
+                mappings:
+                    order:
+                        type: annotation
+                        prefix: App\Order\Entity
+                        dir: '%kernel.project_dir%/src/Order/Entity'
+
+services:
+    _defaults:
+        public: false
+        autowire: true
+        autoconfigure: true
+

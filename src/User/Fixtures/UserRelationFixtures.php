@@ -28,7 +28,7 @@ final class UserRelationFixtures extends Fixture implements FixtureGroupInterfac
      */
     public function load(ObjectManager $manager): void
     {
-        $user = $this->registry->manager(User::class)->getReference(User::class, 1);
+        $user = $this->registry->findBy(User::class, ['uuid' => AdminFixtures::ID]);
         $this->state->user($user);
     }
 

@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use App\Doctrine\Registry;
-use App\Entity\Tenant\Order;
-use App\Entity\Tenant\OrderItemPart;
 use App\Entity\Tenant\Reservation;
 use App\Enum\OrderStatus;
 use App\Event\PartReserved;
 use App\Manager\ReservationManager;
+use App\Order\Entity\Order;
+use App\Order\Entity\OrderItemPart;
 use LogicException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;

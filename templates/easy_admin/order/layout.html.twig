@@ -38,7 +38,7 @@
         </div>
 
         <div class="col-md-6">
-            {{ render(controller('App\\Controller\\EasyAdmin\\OrderController::info', {'order': order})) }}
+            {{ render(controller('App\\Order\\Controller\\OrderController::info', {'order': order})) }}
         </div>
     </div>
 {% endblock %}

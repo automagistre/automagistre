@@ -7,12 +7,11 @@ namespace App\Income\Entity;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Doctrine\ORM\Mapping\Traits\Price;
 use App\Doctrine\ORM\Mapping\Traits\Quantity;
-use App\Entity\Embeddable\PartRelation;
-use App\Entity\Tenant\MotionIncome;
-use App\Part\Domain\Part;
+use App\Part\Domain\PartId;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;
 use Money\Money;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -25,6 +24,16 @@ class IncomePart
     use Quantity;
 
     /**
+     * @ORM\Column(type="part_id")
+     */
+    public ?PartId $partId = null;
+
+    /**
+     * @ORM\Column(type="uuid")
+     */
+    private UuidInterface $uuid;
+
+    /**
      * @var Income|null
      *
      * @Assert\NotBlank
@@ -33,30 +42,14 @@ class IncomePart
      */
     private $income;
 
-    /**
-     * @var PartRelation
-     *
-     * @Assert\Valid
-     *
-     * @ORM\Embedded(class=PartRelation::class)
-     */
-    private $part;
-
-    /**
-     * @var MotionIncome|null
-     *
-     * @ORM\ManyToOne(targetEntity=MotionIncome::class)
-     */
-    private $accruedMotion;
-
     public function __construct()
     {
-        $this->part = new PartRelation();
+        $this->uuid = IncomeId::generate()->toUuid();
     }
 
-    public function accrue(MotionIncome $motion): void
+    public function toId(): UuidInterface
     {
-        $this->accruedMotion = $motion;
+        return $this->uuid;
     }
 
     public function setPrice(Money $price): void
@@ -81,15 +74,5 @@ class IncomePart
         }
 
         $this->income = $income;
-    }
-
-    public function getPart(): ?Part
-    {
-        return $this->part->entityOrNull();
-    }
-
-    public function setPart(?Part $part): void
-    {
-        $this->part = new PartRelation($part);
     }
 }

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
-use App\Entity\Tenant\Order;
-use App\Entity\Tenant\OrderItemPart;
 use App\Event\OrderClosed;
 use App\Event\PartAccrued;
 use App\Event\PartDecreased;
 use App\Manager\PartManager;
 use App\Manager\StockpileManager;
+use App\Order\Entity\Order;
+use App\Order\Entity\OrderItemPart;
 use App\Part\Domain\Part;
 use App\State;
 use function array_values;

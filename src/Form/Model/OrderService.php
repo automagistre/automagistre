@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Form\Model;
 
-use App\Customer\Domain\Operand;
-use App\Entity\Tenant\OrderItemService;
+use App\Customer\Domain\OperandId;
+use App\Order\Entity\OrderItemService;
 use Money\Money;
 
 /**
@@ -17,7 +17,7 @@ final class OrderService extends OrderItemModel
 
     public ?Money $price;
 
-    public ?Operand $worker;
+    public ?OperandId $workerId;
 
     public bool $warranty;
 

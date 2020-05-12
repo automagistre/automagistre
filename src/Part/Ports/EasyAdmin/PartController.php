@@ -7,9 +7,6 @@ namespace App\Part\Ports\EasyAdmin;
 use function abs;
 use App\Controller\EasyAdmin\AbstractController;
 use App\Doctrine\Registry;
-use App\Entity\Tenant\Motion;
-use App\Entity\Tenant\MotionManual;
-use App\Entity\Tenant\Order;
 use App\Event\PartAccrued;
 use App\Event\PartCreated;
 use App\Event\PartDecreased;
@@ -18,6 +15,7 @@ use App\Manager\DeficitManager;
 use App\Manager\PartManager;
 use App\Manager\ReservationManager;
 use App\Manufacturer\Domain\Manufacturer;
+use App\Order\Entity\Order;
 use App\Part\Domain\Part;
 use App\Part\Domain\PartCase;
 use App\Part\Domain\PartId;
@@ -25,6 +23,8 @@ use App\Part\Domain\Stockpile;
 use App\Part\Form\PartDto;
 use App\Roles;
 use App\State;
+use App\Storage\Entity\Motion;
+use App\Storage\Enum\Source;
 use App\Vehicle\Domain\Model;
 use function array_keys;
 use function array_map;
@@ -172,12 +172,12 @@ final class PartController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $registry = $this->container->get(Registry::class);
 
-            $em = $registry->manager(MotionManual::class);
+            $em = $registry->manager(Motion::class);
             $quantity = abs((int) $form->get('quantity')->getData());
             $user = $this->getUser();
             $description = sprintf('# Ручное пополнение - %s', $user->getId());
 
-            $em->persist(new MotionManual($user, $part, $quantity, $description));
+            $em->persist(new Motion($part, $quantity, Source::manual(), $user->toId()->toUuid(), $description));
             $em->flush();
 
             $this->event(new PartAccrued($part, [
@@ -208,12 +208,12 @@ final class PartController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $registry = $this->container->get(Registry::class);
 
-            $em = $registry->manager(MotionManual::class);
+            $em = $registry->manager(Motion::class);
             $quantity = abs((int) $form->get('quantity')->getData());
             $user = $this->getUser();
             $description = sprintf('# Ручное списание - %s', $user->getId());
 
-            $em->persist(new MotionManual($user, $part, 0 - $quantity, $description));
+            $em->persist(new Motion($part, 0 - $quantity, Source::manual(), $user->toId()->toUuid(), $description));
             $em->flush();
 
             $this->event(new PartDecreased($part, [
@@ -379,6 +379,7 @@ final class PartController extends AbstractController
     protected function autocompleteAction(): JsonResponse
     {
         $query = $this->request->query;
+        $isUuid = $query->has('use_uuid');
 
         $queryString = str_replace(['.', ',', '-', '_'], '', $query->get('query'));
         $qb = $this->createSearchQueryBuilder($query->get('entity'), $queryString, []);
@@ -388,7 +389,11 @@ final class PartController extends AbstractController
         $carModel = $this->getEntity(Model::class);
         $useCarModelInFormat = false === strpos($queryString, '+');
 
-        $normalizer = function (Part $entity, bool $analog = false) use ($carModel, $useCarModelInFormat): array {
+        $normalizer = function (Part $entity, bool $analog = false) use (
+            $carModel,
+            $useCarModelInFormat,
+            $isUuid
+        ): array {
             $text = sprintf(
                 '%s (Склад: %s) | %s',
                 $this->display($entity->toId()),
@@ -405,7 +410,7 @@ final class PartController extends AbstractController
             }
 
             return [
-                'id' => $entity->getId(),
+                'id' => $isUuid ? $entity->toId()->toString() : $entity->getId(),
                 'text' => $text,
             ];
         };

@@ -4,7 +4,7 @@ namespace App\Order\Twig;
 
 use App\Car\Entity\Recommendation;
 use App\Doctrine\Registry;
-use App\Entity\Tenant\OrderItemService;
+use App\Order\Entity\OrderItemService;
 use App\State;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;

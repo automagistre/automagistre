@@ -58,4 +58,9 @@ abstract class Identifier
     {
         return $this->uuid;
     }
+
+    public function equal(self $identifier): bool
+    {
+        return $identifier->toString() === $this->toString();
+    }
 }

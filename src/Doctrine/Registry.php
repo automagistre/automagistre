@@ -4,15 +4,8 @@ declare(strict_types=1);
 
 namespace App\Doctrine;
 
-use App\Car\Entity\Car;
-use App\Car\Entity\CarId;
-use App\Customer\Domain\Operand;
-use App\Customer\Domain\OperandId;
+use App\Costil;
 use App\Doctrine\ORM\Type\Identifier;
-use App\Manufacturer\Domain\Manufacturer;
-use App\Manufacturer\Domain\ManufacturerId;
-use App\Vehicle\Domain\Model;
-use App\Vehicle\Domain\VehicleId;
 use function assert;
 use function class_exists;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -25,6 +18,7 @@ use function get_class;
 use function is_array;
 use function is_object;
 use LogicException;
+use function sprintf;
 use function str_replace;
 
 /**
@@ -143,12 +137,7 @@ final class Registry
 
     public function view(Identifier $identifier): array
     {
-        $class = [
-            VehicleId::class => Model::class,
-            CarId::class => Car::class,
-            ManufacturerId::class => Manufacturer::class,
-            OperandId::class => Operand::class,
-        ][get_class($identifier)];
+        $class = Costil::ENTITY[get_class($identifier)];
 
         $view = $this->repository($class)
             ->createQueryBuilder('t')
@@ -160,6 +149,25 @@ final class Registry
         assert(is_array($view));
 
         return $view;
+    }
+
+    /**
+     * @psalm-param class-string $class
+     */
+    public function viewListBy(string $class, array $criteria): array
+    {
+        $qb = $this->manager($class)
+            ->createQueryBuilder()
+            ->select('t')
+            ->from($class, 't');
+
+        foreach ($criteria as $field => $value) {
+            $qb
+                ->andWhere(sprintf('t.%s = :%s', $field, $field))
+                ->setParameter($field, $value);
+        }
+
+        return $qb->getQuery()->getArrayResult();
     }
 
     /**

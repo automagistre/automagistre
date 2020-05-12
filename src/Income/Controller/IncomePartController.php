@@ -71,7 +71,7 @@ final class IncomePartController extends AbstractController
 
         $this->addFlash('success', sprintf(
             'Запчасть "%s" в количестве "%s" добавлена в приход.',
-            $this->container->get(IdentifierFormatter::class)->format($entity->getPart()->toId()),
+            $this->container->get(IdentifierFormatter::class)->format($entity->partId),
             $entity->getQuantity() / 100
         ));
     }

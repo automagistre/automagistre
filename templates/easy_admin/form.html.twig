@@ -21,3 +21,15 @@
         </div>
     </div>
 {% endblock %}
+
+{# Autocomplete form type #}
+{% block autocomplete_widget %}
+    {{ form_widget(form.autocomplete, {attr: attr}) }}
+
+    {% if help is not empty %}
+        <span class="help-block">
+            <i class="fa fa-info-circle"></i>
+            {{ help }}
+        </span>
+    {% endif %}
+{% endblock autocomplete_widget %}

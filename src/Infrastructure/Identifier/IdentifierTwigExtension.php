@@ -7,6 +7,7 @@ namespace App\Infrastructure\Identifier;
 use App\Doctrine\ORM\Type\Identifier;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 final class IdentifierTwigExtension extends AbstractExtension
 {
@@ -15,6 +16,16 @@ final class IdentifierTwigExtension extends AbstractExtension
     public function __construct(IdentifierFormatter $formatter)
     {
         $this->formatter = $formatter;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFunctions(): array
+    {
+        return [
+            new TwigFunction('is_identifier', fn ($mixed) => $mixed instanceof Identifier),
+        ];
     }
 
     /**

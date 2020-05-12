@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\User\Command;
 
 use App\Doctrine\Registry;
+use App\User\Domain\UserId;
 use App\User\Entity\User;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -51,7 +52,12 @@ final class UserCreateCommand extends Command
 
         ['username' => $username, 'password' => $password] = $input->getArguments();
 
-        $user = new User((array) $input->getArgument('roles'), $username, null);
+        $user = new User(
+            UserId::generate(),
+            (array) $input->getArgument('roles'),
+            $username,
+            null
+        );
         $user->changePassword($password, $this->encoderFactory->getEncoder($user));
 
         $em->persist($user);

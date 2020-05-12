@@ -13,7 +13,6 @@
     {# @var orderItemGroup \App\Entity\Tenant\OrderItemGroup #}
     <tr class="order-table-work">
         <td colspan="2">{{ orderItemGroup }}</td>
-        <td>{# Исполнитель #}</td>
         <td>{# Количество #}</td>
         <td>
             {% set groupPrice = orderItemGroup.totalServicePrice(true) %}
@@ -45,7 +44,6 @@
                 <span style="font-weight: 600">(гарантия)</span>
             {%- endif -%}
         </td>
-        <td>{{ orderItemService.worker.id }}</td>
         <td></td>
         <td>{{ orderItemService.price|localize_money }}</td>
         <td>
@@ -67,7 +65,7 @@
     {# @var part \App\Part\Domain\Part #}
     <tr class="order-table-part">
         <td style="border: none"></td>
-        <td colspan="2" class="order-table-part__name">
+        <td colspan="1" class="order-table-part__name">
             {{ part.name }}
             <span class="order-table-part__part_number">
                 ({{ part.number }} {{ part.manufacturerId|display_name }})
@@ -123,7 +121,7 @@
                     ИНН: {{ requisites.inn }}
                     КПП: {{ requisites.kpp }}
                     Р/С: {{ requisites.rs }}
-{#                    К/С: {{ requisites.ks }}#}
+                    {#                    К/С: {{ requisites.ks }}#}
                     БИК: {{ requisites.bik }}
                 </div>
                 {% if car is not empty %}
@@ -145,23 +143,22 @@
                     <thead>
                     <tr>
                         <td style="width: 2mm; border-right: none"></td>
-                        <td   style="border-left: none">наименование</td>
-                        <td class="order-table__executor">исп-ль</td>
+                        <td style="border-left: none">наименование</td>
                         <td class="order-table__quantity">кол-во</td>
                         <td class="order-table__num">стоимость</td>
                         <td class="order-table__num">скидка</td>
-                        <td class="order-table__num"   style="border-right: none">итого</td>
+                        <td class="order-table__num" style="border-right: none">итого</td>
                         <td style="width: 2mm; border-left: none"></td>
                     </tr>
                     </thead>
                     {% for item in order.rootItems %}
-                        {% if instanceOf(item, 'App\\Entity\\Tenant\\OrderItemPart') %}
+                        {% if instanceOf(item, 'App\\Order\\Entity\\OrderItemPart') %}
                             {% set orderItemPart = item %}
                             {{ block('order_item_part') }}
-                        {% elseif instanceOf(item, 'App\\Entity\\Tenant\\OrderItemService') %}
+                        {% elseif instanceOf(item, 'App\\Order\\Entity\\OrderItemService') %}
                             {% set orderItemService = item %}
                             {{ block('order_item_service') }}
-                        {% elseif instanceOf(item, 'App\\Entity\\Tenant\\OrderItemGroup') %}
+                        {% elseif instanceOf(item, 'App\\Order\\Entity\\OrderItemGroup') %}
                             {% set orderItemGroup = item %}
                             {{ block('order_item_group') }}
                         {% endif %}
@@ -174,8 +171,8 @@
                                 <div class="stamps_guaranty-qr">
                                     Гарантийные условия по ссылке:
                                     <img src="{{ qr_code_data_uri(requisites.guarantyUrl) }}"
-{#                                         width="100"#}
-{#                                         height="100" #}
+                                            {#                                         width="100"#}
+                                            {#                                         height="100" #}
                                          title="QR код" alt="QR">
                                 </div>
                             </div>
@@ -250,9 +247,9 @@
                                 {# @var part \App\Entity\Landlord\CarRecommendationPart #}
                                 <tr class="recommendations-table-part">
                                     <td colspan="3" class="recommendations-table-part__name">
-                                        {{ part.part }}
+                                        {{ part.partId|display_name }}
                                         <span class="recommendations-table-part__part_number">
-                                        ({{ part.part.manufacturerId|display_name }})
+                                        ({{ part.partId|display_name('manufacturer') }})
                                         </span>
                                     </td>
                                     <td>{{ part.quantity / 100 }}</td>
