@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\User\Controller;
 
 use App\Controller\EasyAdmin\AbstractController;
+use App\User\Domain\UserId;
 use App\User\Entity\User;
 use function assert;
 use stdClass;
@@ -31,7 +32,12 @@ final class UserController extends AbstractController
         $model = $entity;
         assert($model instanceof stdClass);
 
-        $entity = new User($model->roles, $model->username, $model->person);
+        $entity = new User(
+            UserId::generate(),
+            $model->roles,
+            $model->username,
+            $model->person
+        );
         $entity->changePassword($model->password, $this->encoderFactory->getEncoder($entity));
 
         parent::persistEntity($entity);

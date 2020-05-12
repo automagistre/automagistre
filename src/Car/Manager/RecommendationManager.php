@@ -14,6 +14,7 @@ use App\Order\Entity\Order;
 use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Entity\OrderItemService;
+use App\Part\Domain\Part;
 use App\State;
 use Doctrine\ORM\EntityManagerInterface;
 use DomainException;
@@ -46,14 +47,14 @@ final class RecommendationManager
             $order,
             $recommendation->service,
             $recommendation->getPrice(),
-            $order->getWorkerPerson()
+            null === $order->getWorkerPerson() ? null : $order->getWorkerPerson()->toId(),
         );
 
         $orderItemParts = [];
         foreach ($recommendation->getParts() as $recommendationPart) {
             $orderItemPart = $orderItemParts[] = new OrderItemPart(
                 $order,
-                $recommendationPart->part,
+                $this->registry->findBy(Part::class, ['partId' => $recommendationPart->partId]),
                 $recommendationPart->quantity,
                 $recommendationPart->getPrice(),
             );
@@ -89,12 +90,12 @@ final class RecommendationManager
             $oldRecommendation = $this->findOldRecommendation($orderItemService);
 
             [$worker, $createdBy] = $oldRecommendation instanceof Recommendation
-                ? [$oldRecommendation->worker, $oldRecommendation->getCreatedBy()]
-                : [$orderItemService->getWorker(), $orderItemService->getCreatedBy()];
+                ? [$oldRecommendation->workerId, $oldRecommendation->createdBy]
+                : [$orderItemService->workerId, $orderItemService->getCreatedBy()->toId()];
 
             $recommendation = new Recommendation(
                 $car,
-                $orderItemService->getService(),
+                $orderItemService->service,
                 $orderItemService->getPrice(),
                 $worker,
                 $createdBy
@@ -117,10 +118,10 @@ final class RecommendationManager
 
                 $recommendation->addPart(new RecommendationPart(
                     $recommendation,
-                    $orderItemPart->getPart(),
+                    $orderItemPart->getPart()->toId(),
                     $orderItemPart->getQuantity(),
                     $orderItemPart->getPrice(),
-                    $orderItemPart->getCreatedBy()
+                    $orderItemPart->getCreatedBy()->toId()
                 ));
 
                 try {

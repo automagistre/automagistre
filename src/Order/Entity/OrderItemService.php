@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Order\Entity;
 
-use App\Customer\Domain\Operand;
+use App\Customer\Domain\OperandId;
 use App\Doctrine\ORM\Mapping\Traits\Discount;
 use App\Doctrine\ORM\Mapping\Traits\Price;
 use App\Doctrine\ORM\Mapping\Traits\Warranty;
 use App\Entity\Discounted;
-use App\Entity\Embeddable\OperandRelation;
 use App\Entity\WarrantyInterface;
 use App\Money\PriceInterface;
 use App\Money\TotalPriceInterface;
@@ -29,25 +28,25 @@ class OrderItemService extends OrderItem implements PriceInterface, TotalPriceIn
     /**
      * @ORM\Column
      */
-    private string $service;
+    public string $service;
 
     /**
-     * @ORM\Embedded(class=OperandRelation::class)
+     * @ORM\Column(type="operand_id", nullable=true)
      */
-    private OperandRelation $worker;
+    public ?OperandId $workerId;
 
-    public function __construct(Order $order, string $service, Money $price, Operand $worker = null)
+    public function __construct(Order $order, string $service, Money $price, OperandId $workerId = null)
     {
         parent::__construct($order);
 
         $this->service = $service;
         $this->price = $price;
-        $this->worker = new OperandRelation($worker ?? $order->getWorkerPerson());
+        $this->workerId = $workerId ?? (null === $order->getWorkerPerson() ? null : $order->getWorkerPerson()->toId());
     }
 
     public function __toString(): string
     {
-        return $this->getService();
+        return $this->service;
     }
 
     public function setPrice(Money $price): void
@@ -57,30 +56,6 @@ class OrderItemService extends OrderItem implements PriceInterface, TotalPriceIn
         }
 
         $this->price = $price;
-    }
-
-    public function setService(string $service): void
-    {
-        $this->service = $service;
-    }
-
-    public function getService(): string
-    {
-        return $this->service;
-    }
-
-    public function getWorker(): ?Operand
-    {
-        return $this->worker->entityOrNull();
-    }
-
-    public function setWorker(?Operand $worker): void
-    {
-        if (!$this->getOrder()->isEditable()) {
-            throw new DomainException('Can\'t change order service worker on closed order.');
-        }
-
-        $this->worker = new OperandRelation($worker);
     }
 
     public function getTotalPartPrice(bool $withDiscount = false): Money

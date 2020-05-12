@@ -70,7 +70,7 @@ easy_admin:
                     - { property: 'price', label: 'Стоимость', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'order.closedAt', label: 'Дата', type: 'datetime' }
                     - { property: 'order.mileage', label: 'Пробег' }
-                    - { property: 'worker', label: 'Исполнитель' }
+                    - { property: 'workerId', label: 'Исполнитель', template: 'easy_admin/field_identifier.html.twig' }
             edit:
                 actions: ['delete']
                 fields:
@@ -81,7 +81,7 @@ easy_admin:
                     - { property: 'parent', label: 'Группа', type: App\Form\Type\OrderItemParentType }
                     - { property: 'service', label: 'Работа', type_options: { required: true } }
                     - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType }
-                    - { property: 'worker', label: 'Исполнитель', type: App\Form\Type\WorkerType }
+                    - { property: 'workerId', label: 'Исполнитель', type: App\Form\Type\WorkerType }
                     - { property: 'warranty', label: 'По гарантии?' }
                     - { property: 'discount', label: 'Скидка', type: App\Form\Type\MoneyType }
             new:

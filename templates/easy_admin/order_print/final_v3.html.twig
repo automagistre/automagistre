@@ -66,14 +66,13 @@
                 <table class="table order-table">
                     <caption>Выполненные работы</caption>
                     <thead>
-                        <tr>
-                            <td class="order-table__loop">№</td>
-                            <td>Наименование работы</td>
-                            <td class="order-table__num">ис-ль</td>
-                            <td class="order-table__num">Цена</td>
-                            <td class="order-table__num">Скидка</td>
-                            <td class="order-table__num">Итого</td>
-                        </tr>
+                    <tr>
+                        <td class="order-table__loop">№</td>
+                        <td>Наименование работы</td>
+                        <td class="order-table__num">Цена</td>
+                        <td class="order-table__num">Скидка</td>
+                        <td class="order-table__num">Итого</td>
+                    </tr>
                     </thead>
                     <tbody>
                     {% set position = 0 %}
@@ -102,36 +101,34 @@
                         <tr>
                             <td>{{ position }}</td>
                             <td>{{- orderItemService -}}</td>
-                            <td>{{ orderItemService.worker.id }}</td>
                             <td>{{ orderItemService.totalPrice()|localize_money }}</td>
                             <td>
                                 {% if orderItemService.discounted %}
-                                    {{ orderItemService.discount|localize_money }}</td>
-                                {% endif %}
+                                {{ orderItemService.discount|localize_money }}</td>
+                            {% endif %}
                             <td>{{ orderItemService.totalPrice(true)|localize_money }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
                     <tbody>
-                        {% set order_works_discount =
-                            order.totalGroupPrice.add(order.totalServicePrice(false, true)).
-                            subtract(order.totalGroupPrice(true).add(order.totalServicePrice(true, true)))
-                        %}
-                        {% set order_works_total =  order.totalGroupPrice.add(order.totalServicePrice(false, true)) %}
-                        {% set order_works_total_disc = order.totalGroupPrice(true).add(order.totalServicePrice(true, true)) %}
-                        <tr class="order-table-totals">
-                            <td colspan="2" class="no-border"></td>
-                            <td class="order-table-totals__name">Итого</td>
-                            <td class="order-table-totals__sum">
-                                {{ order_works_total|localize_money }}
-                            </td>
-                            <td class="order-table-totals__sum">
-                                {{ order_works_discount|localize_money }}
-                            </td>
-                            <td class="order-table-totals__sum">
-                                {{ order_works_total_disc|localize_money }}
-                            </td>
-                        </tr>
+                    {% set order_works_discount =
+                        order.totalGroupPrice.add(order.totalServicePrice(false, true)).
+                        subtract(order.totalGroupPrice(true).add(order.totalServicePrice(true, true))) %}
+                    {% set order_works_total =  order.totalGroupPrice.add(order.totalServicePrice(false, true)) %}
+                    {% set order_works_total_disc = order.totalGroupPrice(true).add(order.totalServicePrice(true, true)) %}
+                    <tr class="order-table-totals">
+                        <td colspan="1" class="no-border"></td>
+                        <td class="order-table-totals__name">Итого</td>
+                        <td class="order-table-totals__sum">
+                            {{ order_works_total|localize_money }}
+                        </td>
+                        <td class="order-table-totals__sum">
+                            {{ order_works_discount|localize_money }}
+                        </td>
+                        <td class="order-table-totals__sum">
+                            {{ order_works_total_disc|localize_money }}
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
                 <table class="table order-table" style="margin-top: 10px">
@@ -184,7 +181,7 @@
                         <td class="order-table-totals__sum">{{ order.totalPartPrice(true, true)|localize_money }} </td>
                     </tr>
                     </tbody>
-                    <tbody >
+                    <tbody>
                     <tr style="height: 8px"></tr>
                     <tr class="order-table-totals">
                         {% set order_parts_discount =  order.totalPartPrice(false, true).subtract(order.totalPartPrice(true, true)) %}
@@ -229,9 +226,9 @@
                                 {# @var part \App\Entity\Landlord\CarRecommendationPart #}
                                 <tr class="recommendations-table-part">
                                     <td colspan="3" class="recommendations-table-part__name">
-                                        {{ part.part }}
+                                        {{ part.partId|display_name }}
                                         <span class="recommendations-table-part__part_number">
-                                        ({{ part.part.manufacturerId|display_name }})
+                                        ({{ part.partId|display_name('manufacturer') }})
                                         </span>
                                     </td>
                                     <td>{{ part.quantity / 100 }}</td>

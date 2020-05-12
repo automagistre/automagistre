@@ -1,13 +1,20 @@
 {# @var user \App\Entity\Landlord\User #}
 {# @var createdAt \DateTimeInterface #}
 
-{% set person = user.person %}
+{% if (is_identifier(user)) %}
+    {% set url = easyadmin_path_by_id(user, 'show') %}
+    {% set displayName = user|display_name %}
+{% else %}
+    {% set person = user.person %}
+    {% set url = easyadmin_path(person ? person : user, 'show') %}
+    {% set displayName = person ? person.fullName : user %}
+{% endif %}
 
 {%- apply spaceless -%}
-    <a href="{{ easyadmin_path(person ? person : user, 'show') }}">
+    <a href="{{ url }}">
         <i class="fa fa-user"
            data-toggle="tooltip"
            data-placement="bottom"
-           title="{{ createdAt|format_datetime('short', 'short', '', 'GMT+3') }} {{ person ? person.fullName : user }}"></i>
+           title="{{ createdAt|format_datetime('short', 'short', '', 'GMT+3') }} {{ displayName }}"></i>
     </a>
 {%- endapply %}

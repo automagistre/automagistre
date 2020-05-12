@@ -6,7 +6,7 @@ namespace App\Car\Form\DTO;
 
 use App\Car\Entity\Car;
 use App\Car\Entity\Recommendation;
-use App\Customer\Domain\Operand;
+use App\Customer\Domain\OperandId;
 use App\Form\Model\Model;
 use Money\Money;
 
@@ -21,14 +21,14 @@ final class RecommendationDTO extends Model
 
     public ?Money $price = null;
 
-    public ?Operand $worker = null;
+    public ?OperandId $workerId = null;
 
-    public function __construct(Car $car, string $service = null, Money $price = null, Operand $worker = null)
+    public function __construct(Car $car, string $service = null, Money $price = null, OperandId $workerId = null)
     {
         $this->car = $car;
         $this->service = $service;
         $this->price = $price;
-        $this->worker = $worker;
+        $this->workerId = $workerId;
     }
 
     /**

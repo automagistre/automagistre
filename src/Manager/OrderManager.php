@@ -91,11 +91,13 @@ final class OrderManager
                     continue;
                 }
 
-                $worker = $item->getWorker();
+                $worker = $item->workerId;
                 if (null === $worker) {
                     continue;
                 }
 
+                /** @var Operand $worker */
+                $worker = $this->registry->findBy(Operand::class, ['uuid' => $worker]);
                 $employee = $em->getRepository(Employee::class)->findOneBy(['person.id' => $worker->getId()]);
 
                 if (!$employee instanceof Employee) {

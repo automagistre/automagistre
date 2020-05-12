@@ -48,13 +48,13 @@ final class OrderItemServiceController extends OrderItemController
 
         if (
             null === $recommendationManager->findOldRecommendation($orderItemService)
-            && null === $orderItemService->getWorker()
+            && null === $orderItemService->workerId
         ) {
             $this->addFlash(
                 'error',
                 sprintf(
                     'Перед перенесом работы "%s" в рекомендации нужно выбрать исполнителя.',
-                    $orderItemService->getService()
+                    $orderItemService->service
                 )
             );
 
@@ -75,7 +75,7 @@ final class OrderItemServiceController extends OrderItemController
 
         $model = new OrderService();
         $model->order = $order;
-        $model->worker = $order->getWorkerPerson();
+        $model->workerId = null !== $order->getWorkerPerson() ? $order->getWorkerPerson()->toId() : null;
 
         $parent = $this->getEntity(OrderItem::class);
         if ($parent instanceof OrderItem) {
@@ -95,7 +95,7 @@ final class OrderItemServiceController extends OrderItemController
 
         $entity = new OrderItemService($model->order, $model->service, $model->price);
         $entity->setParent($model->parent);
-        $entity->setWorker($model->worker);
+        $entity->workerId = $model->workerId;
         $entity->setWarranty($model->warranty);
         $entity->discount($model->discount);
 

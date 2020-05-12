@@ -42,7 +42,7 @@ final class RecommendationPartController extends AbstractController
             throw new LogicException('CarRecommendationPart required.');
         }
 
-        $part = $recommendationPart->part;
+        $part = $this->partManager->byId($recommendationPart->partId);
 
         $crosses = $this->partManager->crossesInStock($part);
 
@@ -63,7 +63,7 @@ final class RecommendationPartController extends AbstractController
 
             $model = new RecommendationPartDTO(
                 $recommendationPart->recommendation,
-                $cross,
+                $cross->toId(),
                 $recommendationPart->quantity,
                 $isCurrent ? $recommendationPart->getPrice() : $this->partManager->suggestPrice($cross)
             );
@@ -93,7 +93,7 @@ final class RecommendationPartController extends AbstractController
                     /** @var RecommendationPartDTO $model */
                     $model = $form->getData();
 
-                    $isCurrent = $model->part->getId() === $part->getId();
+                    $isCurrent = $model->partId->equal($part->toId());
 
                     if ($isCurrent) {
                         $recommendationPart->setPrice($model->price);
@@ -101,10 +101,10 @@ final class RecommendationPartController extends AbstractController
                     } else {
                         $entity = new RecommendationPart(
                             $model->recommendation,
-                            $model->part,
+                            $model->partId,
                             $model->quantity,
                             $model->price,
-                            $this->getUser()
+                            $this->getUser()->toId()
                         );
 
                         $em->persist($entity);
@@ -142,10 +142,10 @@ final class RecommendationPartController extends AbstractController
 
         $entity = new RecommendationPart(
             $model->recommendation,
-            $model->part,
+            $model->partId,
             $model->quantity,
             $model->price,
-            $this->getUser()
+            $this->getUser()->toId()
         );
 
         parent::persistEntity($entity);

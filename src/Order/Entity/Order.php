@@ -201,7 +201,7 @@ class Order
     public function getServicesWithoutWorker(): array
     {
         return $this->items
-            ->filter(fn ($item) => $item instanceof OrderItemService && null === $item->getWorker())
+            ->filter(fn ($item) => $item instanceof OrderItemService && null === $item->workerId)
             ->getValues();
     }
 
@@ -310,15 +310,18 @@ class Order
         $previous = null !== $this->worker ? $this->worker->getPerson() : null;
         $this->worker = $worker;
 
-        if (null === $worker) {
+        if (null === $worker || null === $worker->getPerson()) {
             return;
         }
+
+        $previousId = $previous instanceof Person ? $previous->toId()->toUuid() : null;
+        $newWorkerId = $worker->getPerson()->toId();
 
         foreach ($this->items->filter(fn (OrderItem $item) => $item instanceof OrderItemService) as $item) {
             assert($item instanceof OrderItemService);
 
-            if (null === $item->getWorker() || $item->getWorker()->isEqual($previous)) {
-                $item->setWorker($worker->getPerson());
+            if (null === $item->workerId || $item->workerId->toUuid()->equals($previousId)) {
+                $item->workerId = $newWorkerId;
 
                 continue;
             }

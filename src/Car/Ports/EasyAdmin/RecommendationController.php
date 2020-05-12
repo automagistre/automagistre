@@ -84,21 +84,25 @@ final class RecommendationController extends AbstractController
 
         $order = $this->getEntity(Order::class);
         if ($order instanceof Order) {
-            $model->worker = $order->getWorkerPerson();
+            $model->workerId = null === $order->getWorkerPerson() ? null : $order->getWorkerPerson()->toId();
         }
 
-        if (null === $model->worker) {
+        if (null === $model->workerId) {
             $em = $this->em;
-            $model->worker = $em->createQueryBuilder()
-                ->select('entity')
+            $result = $em->createQueryBuilder()
+                ->select('entity.uuid AS id')
                 ->from(Operand::class, 'entity')
-                ->join(Recommendation::class, 'cr', Join::WITH, 'entity.id = cr.worker')
+                ->join(Recommendation::class, 'cr', Join::WITH, 'entity.uuid = cr.workerId')
                 ->where('cr.car = :car')
                 ->orderBy('entity.id', 'DESC')
                 ->getQuery()
                 ->setParameter('car', $car)
                 ->setMaxResults(1)
                 ->getOneOrNullResult();
+
+            if (null !== $result) {
+                $model->workerId = $result['id'];
+            }
         }
 
         return $model;
@@ -112,7 +116,13 @@ final class RecommendationController extends AbstractController
         $model = $entity;
         assert($model instanceof RecommendationDTO);
 
-        $entity = new Recommendation($model->car, $model->service, $model->price, $model->worker, $this->getUser());
+        $entity = new Recommendation(
+            $model->car,
+            $model->service,
+            $model->price,
+            $model->workerId,
+            $this->getUser()->toId()
+        );
 
         parent::persistEntity($entity);
 

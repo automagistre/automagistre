@@ -24,7 +24,7 @@ final class OrderItemServiceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('worker', WorkerType::class);
+            ->add('workerId', WorkerType::class);
     }
 
     /**
@@ -38,7 +38,7 @@ final class OrderItemServiceType extends AbstractType
         }
 
         /** @psalm-var array $view->vars */
-        $view->vars['label'] = $item->getService();
+        $view->vars['label'] = $item->service;
 
         parent::buildView($view, $form, $options);
     }
