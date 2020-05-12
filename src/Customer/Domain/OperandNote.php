@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Customer\Domain;
 
-use App\Doctrine\ORM\Mapping\Traits\CreatedBy;
 use App\Entity\Superclass\Note;
 use App\Enum\NoteType;
-use App\User\Entity\User;
+use App\User\Domain\UserId;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -16,8 +15,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class OperandNote extends Note
 {
-    use CreatedBy;
-
     /**
      * @Assert\NotBlank
      *
@@ -25,11 +22,16 @@ class OperandNote extends Note
      */
     public ?Operand $operand = null;
 
-    public function __construct(Operand $operand, User $user, NoteType $noteType = null, string $text = null)
+    /**
+     * @ORM\Column(type="user_id")
+     */
+    public UserId $createdBy;
+
+    public function __construct(Operand $operand, UserId $userId, NoteType $noteType = null, string $text = null)
     {
         parent::__construct($noteType, $text);
 
         $this->operand = $operand;
-        $this->createdBy = $user;
+        $this->createdBy = $userId;
     }
 }

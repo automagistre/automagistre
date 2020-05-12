@@ -21,6 +21,6 @@ final class OrganizationNoteController extends AbstractController
             throw new LogicException('Organization required.');
         }
 
-        return new OperandNote($order, $this->getUser());
+        return new OperandNote($order, $this->getUser()->toId());
     }
 }

@@ -21,6 +21,6 @@ final class PersonNoteController extends AbstractController
             throw new LogicException('Person required.');
         }
 
-        return new OperandNote($order, $this->getUser());
+        return new OperandNote($order, $this->getUser()->toId());
     }
 }

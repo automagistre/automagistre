@@ -8,6 +8,7 @@ use App\Customer\Domain\OperandId;
 use App\Customer\Domain\OperandNote;
 use App\Customer\Domain\Organization;
 use App\Enum\NoteType;
+use App\User\Domain\UserId;
 use App\User\Entity\User;
 use App\User\Fixtures\EmployeeFixtures;
 use function assert;
@@ -19,6 +20,7 @@ use Doctrine\Persistence\ObjectManager;
 final class OrganizationFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
 {
     public const ID = '1ea91f74-3fc0-6e46-96ae-5e6bd0ab745f';
+    public const CREATED_BY = EmployeeFixtures::ID;
 
     /**
      * {@inheritdoc}
@@ -51,7 +53,7 @@ final class OrganizationFixtures extends Fixture implements FixtureGroupInterfac
 
         $this->addReference('organization-1', $organization);
         $manager->persist($organization);
-        $manager->persist(new OperandNote($organization, $user, NoteType::info(), 'Organization Note'));
+        $manager->persist(new OperandNote($organization, UserId::fromString(self::CREATED_BY), NoteType::info(), 'Organization Note'));
 
         $manager->flush();
     }

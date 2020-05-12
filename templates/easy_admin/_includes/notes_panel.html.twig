@@ -21,17 +21,7 @@
                         <tr>
                             <td>{{ note.type.toName }}</td>
                             <td>{{ note.text }}</td>
-                            <td>
-                                {%- apply spaceless -%}
-                                    {# @var cretedBy \App\Entity\Landlord\User #}
-                                    {% set createdBy = note.createdBy %}
-                                    {% if createdBy.person is not empty %}
-                                        {{ createdBy.person.fullName }}
-                                    {% else %}
-                                        {{ createdBy.username }}
-                                    {% endif %}
-                                {%- endapply %}
-                            </td>
+                            <td>{{ note.createdBy|display_name }}</td>
                             <td>{{ note.createdAt|format_datetime('short', 'short', '', 'GMT+3') }}</td>
                         </tr>
                     {% endfor %}
