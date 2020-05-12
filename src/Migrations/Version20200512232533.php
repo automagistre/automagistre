@@ -17,19 +17,6 @@ final class Version20200512232533 extends AbstractMigration
         $this->skipIf(0 !== strpos($this->connection->getDatabase(), 'landlord'), 'landlord only');
 
         $this->addSql('ALTER TABLE car_note ADD created_by UUID DEFAULT NULL');
-        //> Migrate User
-        $this->addSql('
-            UPDATE car_note
-            SET created_by = b.uuid
-            FROM (
-                     SELECT bon.id, u.uuid
-                     FROM users u
-                              JOIN car_note bon ON bon.created_by_id = u.id
-                 ) b
-            WHERE car_note.id = b.id
-        ');
-        //< Migrate User
-
         $this->addSql('ALTER TABLE car_note DROP CONSTRAINT fk_4d7eeb8b03a8386');
         $this->addSql('DROP INDEX idx_4d7eeb8b03a8386');
 
