@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\Tenant;
 
 use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Order\Entity\OrderItemPart;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

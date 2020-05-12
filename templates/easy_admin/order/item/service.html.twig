@@ -35,15 +35,15 @@
 
             {% set popoverContent %}
             Создал: {{ recommendation.createdBy }} <br/>
-            Диагност: {{ recommendation.worker }} <br/>
-                {% if recommendation.parts is not empty %}
-                    Запчасти: <br/>
+            Диагност: {{ recommendation.workerId|display_name }} <br/>
+        {% if recommendation.parts is not empty %}
+            Запчасти: <br/>
 
-                    {% for part in recommendation.parts %}
-                    {# @var part \App\Car\Entity\RecommendationPart #}
-                    - {{ part.part.toId|display_name }} (x{{ part.quantity / 100 }}) {{ part.price|localize_money }} <br/>
-                    {% endfor %}
-                {% endif %}
+            {% for part in recommendation.parts %}
+            {# @var part \App\Car\Entity\RecommendationPart #}
+            - {{ part.partId|display_name }} (x{{ part.quantity / 100 }}) {{ part.price|localize_money }} <br/>
+            {% endfor %}
+        {% endif %}
             {% endset %}
 
             <script>
@@ -55,7 +55,7 @@
             </script>
         {% endif %}
     </td>
-    <td>{{ item.worker }}</td>
+    <td>{{ item.workerId|display_name }}</td>
     <td>{{ item.discounted ? item.discount|localize_money }}</td>
 
     {% set totalPartPrice = item.totalPartPrice(true) %}

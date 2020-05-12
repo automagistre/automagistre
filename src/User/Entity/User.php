@@ -78,9 +78,9 @@ class User implements UserInterface, EquatableInterface, Serializable
      */
     private array $tenants = [];
 
-    public function __construct(array $roles, string $username, ?Person $person)
+    public function __construct(UserId $userId, array $roles, string $username, ?Person $person)
     {
-        $this->uuid = UserId::generate();
+        $this->uuid = $userId;
         $this->roles = $roles;
         $this->username = $username;
         $this->person = $person;

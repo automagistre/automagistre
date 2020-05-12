@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use App\Doctrine\Registry;
-use App\Entity\Tenant\MotionIncome;
 use App\Event\IncomeAccrued;
 use App\Event\PartAccrued;
 use App\Income\Entity\Income;
+use App\Part\Domain\Part;
+use App\Storage\Entity\Motion;
+use App\Storage\Enum\Source;
 use LogicException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -41,7 +43,7 @@ final class AccrueIncomePartsListener implements EventSubscriberInterface
 
     public function onIncomeAccrued(GenericEvent $event): void
     {
-        $em = $this->registry->manager(MotionIncome::class);
+        $em = $this->registry->manager(Motion::class);
 
         $income = $event->getSubject();
         if (!$income instanceof Income) {
@@ -49,14 +51,18 @@ final class AccrueIncomePartsListener implements EventSubscriberInterface
         }
 
         foreach ($income->getIncomeParts() as $incomePart) {
-            $part = $incomePart->getPart();
+            /** @var Part $part */
+            $part = $this->registry->findBy(Part::class, ['partId' => $incomePart->partId]);
             $quantity = $incomePart->getQuantity();
 
-            $em->persist($motion = new MotionIncome($incomePart));
+            $motion = new Motion(
+                $part,
+                $incomePart->getQuantity(),
+                Source::income(),
+                $incomePart->toId(),
+            );
+            $em->persist($motion);
 
-            $incomePart->accrue($motion);
-
-            /* @noinspection DisconnectedForeachInstructionInspection */
             $em->flush();
 
             $this->dispatcher->dispatch(new PartAccrued($part, [

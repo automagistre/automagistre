@@ -80,7 +80,7 @@ easy_admin:
                     - { property: 'car', label: 'Автомобиль', type: 'text', type_options: { disabled: true } }
                     - { property: 'service', label: 'Работа', type_options: { required: true } }
                     - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType, type_options: { required: true } }
-                    - { property: 'worker', label: 'Диагност', type: App\Form\Type\WorkerType, type_options: { required: true } }
+                    - { property: 'workerId', label: 'Диагност', type: App\Form\Type\WorkerType, type_options: { required: true } }
             edit:
                 title: 'Рекомендация № {{ entity.id }}'
             new:
@@ -96,12 +96,16 @@ easy_admin:
             form:
                 fields:
                     - { property: 'recommendation', label: 'Рекомендация', type: 'text', type_options: { disabled: true } }
-                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { required: true } }
+                    -   property: 'partId'
+                        label: 'Запчасть'
+                        type: App\EasyAdmin\Form\AutocompleteType
+                        type_options:
+                            class: App\Part\Domain\Part
                     - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType }
                     - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
             edit:
                 fields:
-                    - { property: 'part', label: 'Запчасть', type: 'text', type_options: { disabled: true } }
+                    - { property: 'partId', label: 'Запчасть', type_options: { disabled: true } }
             new:
                 title: 'Добавить запчасть к рекомендации'
                 form_options: { data_class: App\Car\Form\DTO\RecommendationPartDTO }

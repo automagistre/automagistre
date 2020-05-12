@@ -40,7 +40,11 @@ easy_admin:
             controller: App\Income\Controller\IncomePartController
             form:
                 fields:
-                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { class: App\Part\Domain\Part } }
+                    -   property: 'partId'
+                        label: 'Запчасть'
+                        type: App\EasyAdmin\Form\AutocompleteType
+                        type_options:
+                            class: App\Part\Domain\Part
                     - { property: 'price', label: 'Цена', type: App\Form\Type\MoneyType }
                     - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
             new:

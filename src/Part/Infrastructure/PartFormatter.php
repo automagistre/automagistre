@@ -20,6 +20,7 @@ final class PartFormatter implements IdentifierFormatterInterface
         'name' => ':name:',
         'number' => ':number:',
         'autocomplete' => ':number: - :manufacturer: (:name:)',
+        'manufacturer' => ':manufacturer:',
     ];
 
     private Registry $registry;

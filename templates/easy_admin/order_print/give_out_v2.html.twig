@@ -37,7 +37,7 @@
                             <div class="check-box"></div>
                         </td>
                         <td>{{ service }}</td>
-                        <td>{{ service.worker }}</td>
+                        <td>{{ service.workerId|display_name }}</td>
                         <td>{{ service.price|localize_money }}</td>
                     </tr>
                 {% endfor %}

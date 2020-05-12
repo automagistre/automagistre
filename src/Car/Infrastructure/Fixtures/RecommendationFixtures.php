@@ -6,10 +6,14 @@ use App\Car\Entity\Car;
 use App\Car\Entity\Recommendation;
 use App\Car\Entity\RecommendationPart;
 use App\Customer\Domain\Operand;
+use App\Customer\Domain\OperandId;
 use App\Customer\Infrastructure\Fixtures\PersonVasyaFixtures;
 use App\Part\Domain\Part;
+use App\Part\Domain\PartId;
 use App\Part\Infrastructure\Fixtures\GasketFixture;
+use App\User\Domain\UserId;
 use App\User\Entity\User;
+use App\User\Fixtures\EmployeeFixtures;
 use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
@@ -20,6 +24,11 @@ use Money\Money;
 
 final class RecommendationFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
 {
+    public const PART_ID = GasketFixture::ID;
+    public const PART_SELECTOR_ID = EmployeeFixtures::ID;
+    public const WORKER_ID = EmployeeFixtures::ID;
+    public const CREATED_BY = EmployeeFixtures::ID;
+
     /**
      * {@inheritdoc}
      */
@@ -56,8 +65,8 @@ final class RecommendationFixtures extends Fixture implements FixtureGroupInterf
             $car,
             'Test Service',
             new Money(100, new Currency('RUB')),
-            $worker,
-            $user
+            OperandId::fromString(self::WORKER_ID),
+            UserId::fromString(self::CREATED_BY),
         );
 
         $part = $this->getReference('part-1');
@@ -65,10 +74,10 @@ final class RecommendationFixtures extends Fixture implements FixtureGroupInterf
 
         $recommendation->addPart(new RecommendationPart(
             $recommendation,
-            $part,
+            PartId::fromString(self::PART_ID),
             1,
             new Money(100, new Currency('RUB')),
-            $user
+            UserId::fromString(self::PART_SELECTOR_ID),
         ));
 
         $manager->persist($recommendation);

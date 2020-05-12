@@ -1,12 +1,10 @@
 {% extends 'easy_admin/default/new.html.twig' %}
 
-{% form_theme form.part with 'easy_admin/order_item_part/part_form.html.twig' %}
-
 {% block body_javascript %}
     {{ parent() }}
 
     <script type="text/javascript">
-      let partInput = $("#{{ form.part.children.autocomplete.vars.id }}"),
+      let partInput = $("#{{ form.partId.children.autocomplete.vars.id }}"),
           costInput = $("#{{ form.price.vars.id }}");
 
       partInput.on('change', function() {

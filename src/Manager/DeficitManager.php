@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Manager;
 
 use App\Doctrine\Registry;
-use App\Entity\Tenant\Order;
-use App\Entity\Tenant\OrderItemPart;
 use App\Model\DeficitPart;
+use App\Order\Entity\Order;
+use App\Order\Entity\OrderItemPart;
 use App\Part\Domain\Part;
 use function array_filter;
 use function array_map;

@@ -7,14 +7,15 @@ namespace App\Manager;
 use App\Customer\Domain\Operand;
 use App\Doctrine\Registry;
 use App\Entity\Tenant\Employee;
-use App\Entity\Tenant\MotionOrder;
 use App\Entity\Tenant\OperandTransaction;
-use App\Entity\Tenant\Order;
-use App\Entity\Tenant\OrderContractor;
-use App\Entity\Tenant\OrderItemPart;
-use App\Entity\Tenant\OrderItemService;
-use App\Entity\Tenant\OrderSalary;
+use App\Order\Entity\Order;
+use App\Order\Entity\OrderContractor;
+use App\Order\Entity\OrderItemPart;
+use App\Order\Entity\OrderItemService;
+use App\Order\Entity\OrderSalary;
 use App\State;
+use App\Storage\Entity\Motion;
+use App\Storage\Enum\Source;
 use Doctrine\ORM\EntityManagerInterface;
 use function sprintf;
 
@@ -80,7 +81,7 @@ final class OrderManager
                     $this->reservationManager->deReserve($item, $quantity);
                 }
 
-                $em->persist(new MotionOrder($part, $quantity, $order));
+                $em->persist(new Motion($part, $quantity, Source::order(), $order->toId()->toUuid()));
             }
 
             foreach ($order->getItems(OrderItemService::class) as $item) {
@@ -90,11 +91,13 @@ final class OrderManager
                     continue;
                 }
 
-                $worker = $item->getWorker();
+                $worker = $item->workerId;
                 if (null === $worker) {
                     continue;
                 }
 
+                /** @var Operand $worker */
+                $worker = $this->registry->findBy(Operand::class, ['uuid' => $worker]);
                 $employee = $em->getRepository(Employee::class)->findOneBy(['person.id' => $worker->getId()]);
 
                 if (!$employee instanceof Employee) {

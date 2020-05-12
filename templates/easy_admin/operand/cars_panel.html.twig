@@ -23,8 +23,8 @@
                         {# @var car \App\Car\Entity\Car #}
                         <tr class="tr">
                             <td>
-                                <a href="{{ easyadmin_path(car, 'show', {'referer': true}) }}">
-                                    {{ car.toId|display_name }}
+                                <a href="{{ easyadmin_path('Car', 'show', {'id': car.id, 'referer': true}) }}">
+                                    {{ car.uuid|display_name }}
                                 </a>
                             </td>
                             <td>{{ include('easy_admin/car/field_gosnomer_img.html.twig', {'value': car.gosnomer}) }}</td>

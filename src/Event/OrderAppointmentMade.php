@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Event;
 
-use App\Entity\Tenant\Order;
+use App\Order\Entity\Order;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
