@@ -17,19 +17,6 @@ final class Version20200512230522 extends AbstractMigration
         $this->skipIf(0 !== strpos($this->connection->getDatabase(), 'landlord'), 'landlord only');
 
         $this->addSql('ALTER TABLE operand_note ADD created_by UUID DEFAULT NULL');
-        //> Migrate User
-        $this->addSql('
-            UPDATE operand_note
-            SET created_by = b.uuid
-            FROM (
-                     SELECT bon.id, u.uuid
-                     FROM users u
-                              JOIN operand_note bon ON bon.created_by_id = u.id
-                 ) b
-            WHERE operand_note.id = b.id
-        ');
-        //< Migrate User
-
         $this->addSql('ALTER TABLE operand_note DROP CONSTRAINT fk_36bde441b03a8386');
         $this->addSql('DROP INDEX idx_36bde441b03a8386');
 
