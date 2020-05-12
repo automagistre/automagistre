@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace App\Car\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
-use App\Doctrine\ORM\Mapping\Traits\CreatedBy;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Enum\NoteType;
-use App\User\Entity\User;
+use App\User\Domain\UserId;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -19,7 +18,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Note
 {
     use Identity;
-    use CreatedBy;
     use CreatedAt;
 
     /**
@@ -45,10 +43,15 @@ class Note
      */
     public ?string $text = null;
 
-    public function __construct(Car $car, User $user, NoteType $type = null, string $text = null)
+    /**
+     * @ORM\Column(type="user_id")
+     */
+    public UserId $createdBy;
+
+    public function __construct(Car $car, UserId $userId, NoteType $type = null, string $text = null)
     {
         $this->car = $car;
-        $this->createdBy = $user;
+        $this->createdBy = $userId;
         $this->type = $type;
         $this->text = $text;
     }

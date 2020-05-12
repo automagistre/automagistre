@@ -7,7 +7,8 @@ namespace App\Car\Infrastructure\Fixtures;
 use App\Car\Entity\Car;
 use App\Car\Entity\Note;
 use App\Enum\NoteType;
-use App\User\Entity\User;
+use App\User\Domain\UserId;
+use App\User\Fixtures\EmployeeFixtures;
 use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
@@ -16,6 +17,8 @@ use Doctrine\Persistence\ObjectManager;
 
 final class NoteFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
 {
+    public const CREATED_BY = EmployeeFixtures::ID;
+
     /**
      * {@inheritdoc}
      */
@@ -41,10 +44,8 @@ final class NoteFixtures extends Fixture implements FixtureGroupInterface, Depen
     {
         $car = $this->getReference('car-1');
         assert($car instanceof Car);
-        $user = $this->getReference('user-employee');
-        assert($user instanceof User);
 
-        $note = new Note($car, $user, NoteType::info(), 'Car Note');
+        $note = new Note($car, UserId::fromString(self::CREATED_BY), NoteType::info(), 'Car Note');
 
         $manager->persist($note);
         $manager->flush();

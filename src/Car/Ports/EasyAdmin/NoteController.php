@@ -21,6 +21,6 @@ final class NoteController extends AbstractController
             throw new LogicException('Car required.');
         }
 
-        return new Note($order, $this->getUser());
+        return new Note($order, $this->getUser()->toId());
     }
 }
