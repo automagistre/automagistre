@@ -1,9 +1,9 @@
 {# @var value \App\Entity\User #}
 {% if value is not empty %}
-    {% set person = value.person %}
-    {# @var person \App\Entity\Person #}
-    {% if person is not empty %}
-        <a href="{{ easyadmin_path(person, 'show') }}">{{ person.fullName }}</a>
+    {% set personId = value.personId %}
+
+    {% if personId is not empty %}
+        <a href="{{ easyadmin_path('Operand', 'show') }}">{{ personId|display_name }}</a>
     {% else %}
         {{ value }}
     {% endif %}

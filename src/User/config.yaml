@@ -9,33 +9,33 @@ easy_admin:
                 title: 'Пользователи'
                 fields:
                     - { property: 'id', label: 'Номер', template: 'easy_admin/order/field_id.html.twig' }
-                    - { property: 'username', label: 'Имя пользователя' }
-                    - { property: 'person', label: 'ФИО' }
-            new:
-                title: 'Создать нового Пользователя'
-                form_options: { data_class: stdClass }
+                    - { property: 'username', label: 'E-Mail' }
+                    - { property: 'personId', label: 'ФИО', template: 'easy_admin/field_identifier.html.twig' }
+            show:
+                title: 'Пользователь № {{ entity.id }}'
                 fields:
-                    - { property: 'username', label: 'Имя пользователя', type: 'email' }
-                    - { property: 'person', label: 'Клиент', type: 'easyadmin_autocomplete', type_options: { class: App\Customer\Domain\Person } }
+                    - { property: 'id', label: 'ID' }
+                    - { property: 'username', label: 'E-Mail' }
+                    - { property: 'personId', label: 'Клиент', template: 'easy_admin/field_identifier.html.twig' }
+                    - { property: 'roles', label: 'Роли', template: 'easy_admin/security/field_roles.html.twig' }
+            form:
+                fields:
+                    - { property: 'username', label: 'E-Mail', type: 'email' }
+                    -   property: 'personId'
+                        label: 'Клиент'
+                        type: App\EasyAdmin\Form\AutocompleteType
+                        type_options:
+                            class: App\Customer\Domain\Operand
                     - { property: 'password', label: 'Пароль', type: 'password', type_options: { required: true } }
                     - { property: 'roles', label: 'Роли', type: App\User\Form\RoleType, type_options: { required: false, multiple: true, expanded: true } }
                     - { property: 'tenants', label: 'Севрисы', type: App\Tenant\Form\TenantType, type_options: { required: false, multiple: true, expanded: true } }
-            show:
-                title: 'Пользователь № {{ entity.id }}'
+            new:
+                title: 'Создать нового Пользователя'
                 form_options: { data_class: stdClass }
-                fields:
-                    - { property: 'id', label: 'ID' }
-                    - { property: 'username', label: 'Имя пользователя' }
-                    - { property: 'person', label: 'Клиент' }
-                    - { property: 'roles', label: 'Роли', template: 'easy_admin/security/field_roles.html.twig' }
             edit:
                 title: 'Редактировать пользователя № {{ entity.id }}'
                 fields:
-                    - { property: 'username', label: 'Имя пользователя', type: 'email', type_options: { disabled: true } }
-                    - { property: 'person', label: 'Клиент', type: 'easyadmin_autocomplete', type_options: { class: App\Customer\Domain\Person } }
-                    - { property: 'password', label: 'Пароль', type: 'password', type_options: { required: false, mapped: false } }
-                    - { property: 'roles', label: 'Роли', type: App\User\Form\RoleType, type_options: { required: false, multiple: true, expanded: true } }
-                    - { property: 'tenants', label: 'Севрисы', type: App\Tenant\Form\TenantType, type_options: { required: false, multiple: true, expanded: true } }
+                    - { property: 'username', type_options: { disabled: true } }
 
 doctrine:
     orm:

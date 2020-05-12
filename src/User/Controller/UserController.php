@@ -36,7 +36,7 @@ final class UserController extends AbstractController
             UserId::generate(),
             $model->roles,
             $model->username,
-            $model->person
+            $model->personId
         );
         $entity->changePassword($model->password, $this->encoderFactory->getEncoder($entity));
 

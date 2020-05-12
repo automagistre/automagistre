@@ -125,6 +125,7 @@ class OperandController extends AbstractController
     protected function autocompleteAction(): JsonResponse
     {
         $query = $this->request->query;
+        $isUuid = $query->has('use_uuid');
 
         $registry = $this->container->get(Registry::class);
 
@@ -148,7 +149,7 @@ class OperandController extends AbstractController
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
-        $data = array_map(function (Operand $entity): array {
+        $data = array_map(function (Operand $entity) use ($isUuid): array {
             $text = $entity->getFullName();
 
             $telephone = $entity->getTelephone();
@@ -157,7 +158,7 @@ class OperandController extends AbstractController
             }
 
             return [
-                'id' => $entity->getId(),
+                'id' => $isUuid ? $entity->toId()->toString() : $entity->getId(),
                 'text' => $text,
             ];
         }, (array) $paginator->getCurrentPageResults());

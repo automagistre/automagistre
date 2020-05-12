@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\User\Entity;
 
+use App\Customer\Domain\OperandId;
 use App\Customer\Domain\Person;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Tenant\Tenant;
@@ -66,10 +67,9 @@ class User implements UserInterface, EquatableInterface, Serializable
     private Collection $credentials;
 
     /**
-     * @ORM\OneToOne(targetEntity=Person::class, cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\Column(type="operand_id", nullable=true)
      */
-    private ?Person $person;
+    private ?OperandId $personId;
 
     /**
      * @var int[]
@@ -78,12 +78,12 @@ class User implements UserInterface, EquatableInterface, Serializable
      */
     private array $tenants = [];
 
-    public function __construct(UserId $userId, array $roles, string $username, ?Person $person)
+    public function __construct(UserId $userId, array $roles, string $username, ?OperandId $personId)
     {
         $this->uuid = $userId;
         $this->roles = $roles;
         $this->username = $username;
-        $this->person = $person;
+        $this->personId = $personId;
         $this->credentials = new ArrayCollection();
     }
 
@@ -97,18 +97,18 @@ class User implements UserInterface, EquatableInterface, Serializable
         return $this->uuid;
     }
 
-    public function setPerson(Person $person): void
+    public function setPersonId(OperandId $personId): void
     {
-        if ($this->person instanceof Person) {
+        if (null !== $this->personId) {
             throw new DomainException('Person already defined for this user');
         }
 
-        $this->person = $person;
+        $this->personId = $personId;
     }
 
-    public function getPerson(): ?Person
+    public function getPersonId(): ?OperandId
     {
-        return $this->person;
+        return $this->personId;
     }
 
     public function addTenant(Tenant $tenant): void
@@ -142,16 +142,6 @@ class User implements UserInterface, EquatableInterface, Serializable
         }
 
         return Tenant::all($this->tenants);
-    }
-
-    public function getFirstname(): ?string
-    {
-        return $this->person instanceof Person ? $this->person->getFirstname() : null;
-    }
-
-    public function getLastname(): ?string
-    {
-        return $this->person instanceof Person ? $this->person->getLastname() : null;
     }
 
     public function getRoles(): array
