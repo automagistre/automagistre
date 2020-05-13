@@ -44,8 +44,8 @@ final class CarController extends AbstractController
         $options = parent::getEntityFormOptions($entity, $view);
 
         $options['validation_groups'] = 'equipment' === $request->query->getAlnum('validate')
-            ? ['Car', 'CarEquipment', 'CarEngine']
-            : ['Car'];
+            ? ['Default', 'CarEquipment', 'CarEngine']
+            : ['Default'];
 
         return $options;
     }
