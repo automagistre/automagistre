@@ -81,7 +81,7 @@ final class OrderManager
                     $this->reservationManager->deReserve($item, $quantity);
                 }
 
-                $em->persist(new Motion($part, $quantity, Source::order(), $order->toId()->toUuid()));
+                $em->persist(new Motion($part, 0 - $quantity, Source::order(), $order->toId()->toUuid()));
             }
 
             foreach ($order->getItems(OrderItemService::class) as $item) {
