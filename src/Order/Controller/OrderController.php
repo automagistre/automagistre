@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Order\Controller;
 
 use App\Car\Entity\Car;
+use App\Car\Entity\CarPossession;
 use App\Controller\EasyAdmin\AbstractController;
 use App\Customer\Domain\Operand;
 use App\Customer\Domain\Organization;
@@ -589,7 +590,8 @@ final class OrderController extends AbstractController
             ->createQueryBuilder('car')
             ->select('car.id AS car_id')
             ->addSelect('customer.id AS operand_id')
-            ->leftJoin('car.owner', 'customer')
+            ->leftJoin(CarPossession::class, 'possession', Join::WITH, 'possession.carId = car.uuid')
+            ->leftJoin(Operand::class, 'customer', Join::WITH, 'customer.uuid = possession.possessorId')
 //            ->leftJoin(Model::class, 'carModel', Join::WITH, 'carModel.uuid = car.vehicleId')
 //            ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'manufacturer.uuid = carModel.manufacturerId')
             ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = customer.id AND customer INSTANCE OF '.Person::class)
@@ -604,6 +606,7 @@ final class OrderController extends AbstractController
                 $qb->expr()->like('LOWER(person.telephone)', $key),
                 $qb->expr()->like('LOWER(person.email)', $key),
                 $qb->expr()->like('LOWER(car.gosnomer)', $key),
+                $qb->expr()->like('LOWER(car.identifier)', $key),
 //                $qb->expr()->like('LOWER(carModel.name)', $key),
 //                $qb->expr()->like('LOWER(carModel.localizedName)', $key),
 //                $qb->expr()->like('LOWER(carModel.caseName)', $key),

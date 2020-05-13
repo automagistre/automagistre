@@ -85,6 +85,43 @@
                     </div>
                 </div>
             </div>
+
+            <div class="field-group">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Владельцы</h3>
+                    </div>
+
+                    {% if possessors is not empty %}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <tbody>
+                                {% for possessor in possessors %}
+                                    <tr>
+                                        <td>
+                                            <a href="{{ easyadmin_path_by_id(possessor.uuid, 'show', {'referer': true}) }}">
+                                                {{ possessor.uuid|display_name }}
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="box-body">
+                            Владельцев нет
+                        </div>
+                    {% endif %}
+
+                    <div class="box-footer">
+                        <a href="{{ easyadmin_path('Car', 'possession', {'car_id': entity.uuid.toString, 'referer': true}) }}" class="btn btn-primary">
+                            Добавить владельца
+                        </a>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 {% endblock %}

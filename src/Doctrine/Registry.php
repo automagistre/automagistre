@@ -162,9 +162,15 @@ final class Registry
             ->from($class, 't');
 
         foreach ($criteria as $field => $value) {
-            $qb
-                ->andWhere(sprintf('t.%s = :%s', $field, $field))
-                ->setParameter($field, $value);
+            if (is_array($value)) {
+                $qb
+                    ->andWhere(sprintf('t.%s IN (:%s)', $field, $field))
+                    ->setParameter($field, $value);
+            } else {
+                $qb
+                    ->andWhere(sprintf('t.%s = :%s', $field, $field))
+                    ->setParameter($field, $value);
+            }
         }
 
         return $qb->getQuery()->getArrayResult();

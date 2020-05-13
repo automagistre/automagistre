@@ -281,13 +281,6 @@ class Order
     public function setCar(?Car $car): void
     {
         $this->car = new CarRelation($car);
-
-        if ($car instanceof Car) {
-            $customer = $car->owner;
-            if ($customer instanceof Operand && $this->customer->isEmpty()) {
-                $this->customer = new OperandRelation($customer);
-            }
-        }
     }
 
     public function getCustomer(): ?Operand

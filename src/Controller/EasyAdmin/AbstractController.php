@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EasyAdmin;
 
+use App\Costil;
 use App\Doctrine\ORM\Type\Identifier;
 use App\Doctrine\Registry;
 use App\Infrastructure\Identifier\IdentifierFormatter;
@@ -12,12 +13,14 @@ use App\State;
 use App\User\Entity\User;
 use function array_keys;
 use function array_merge;
+use function assert;
 use Closure;
 use Doctrine\ORM\AbstractQuery;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use EasyCorp\Bundle\EasyAdminBundle\Router\EasyAdminRouter;
 use function is_callable;
+use function is_string;
 use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
@@ -138,6 +141,24 @@ abstract class AbstractController extends EasyAdminController
         }
 
         return $entity;
+    }
+
+    /**
+     * @psalm-param class-string<Identifier> $class
+     */
+    protected function getIdentifier(string $class): ?Identifier
+    {
+        $uuid = $this->request->query->get(Costil::QUERY[$class]);
+        if (is_string($uuid)) {
+            /** @var callable $callable */
+            $callable = $class.'::fromString';
+            $identifier = $callable($uuid);
+            assert($identifier instanceof Identifier);
+
+            return $identifier;
+        }
+
+        return null;
     }
 
     protected function initialize(Request $request): void

@@ -40,6 +40,12 @@
       <code>entityOrNull</code>
     </PossiblyNullReference>
   </file>
+  <file src="src/Car/Form/DTO/CarPossessionDto.php">
+    <PossiblyNullPropertyAssignmentValue occurrences="2">
+      <code>$carId</code>
+      <code>$possessorId</code>
+    </PossiblyNullPropertyAssignmentValue>
+  </file>
   <file src="src/Car/Manager/RecommendationManager.php">
     <PossiblyNullArgument occurrences="1">
       <code>$worker</code>
@@ -53,8 +59,12 @@
       <code>mb_strtolower($searchString)</code>
     </PossiblyFalseOperand>
     <PossiblyNullReference occurrences="1">
-      <code>getReference</code>
+      <code>persist</code>
     </PossiblyNullReference>
+    <RedundantConditionGivenDocblockType occurrences="2">
+      <code>null !== $dto-&gt;possessorId</code>
+      <code>null !== $dto-&gt;carId</code>
+    </RedundantConditionGivenDocblockType>
   </file>
   <file src="src/Car/Ports/EasyAdmin/RecommendationController.php">
     <PossiblyNullArgument occurrences="3">
@@ -99,6 +109,11 @@
       <code>is_string($payday)</code>
       <code>is_string($description)</code>
     </TypeDoesNotContainType>
+  </file>
+  <file src="src/Controller/EasyAdmin/AbstractController.php">
+    <InvalidArrayOffset occurrences="1">
+      <code>Costil::QUERY[$class]</code>
+    </InvalidArrayOffset>
   </file>
   <file src="src/Controller/EasyAdmin/EmployeeController.php">
     <PossiblyNullReference occurrences="3">
@@ -447,9 +462,6 @@
     </PossiblyNullReference>
   </file>
   <file src="src/Order/Fixtures/OrderFixtures.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$part</code>
-    </PossiblyNullArgument>
     <PropertyNotSetInConstructor occurrences="1">
       <code>OrderFixtures</code>
     </PropertyNotSetInConstructor>

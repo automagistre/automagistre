@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Car\Entity;
 
 use App\Costil;
-use App\Customer\Domain\Operand;
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Vehicle\Domain\Embeddable\Equipment;
@@ -68,12 +67,6 @@ class Car
      * @ORM\Column(type="carcase_enum")
      */
     public ?BodyType $caseType = null;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Operand::class)
-     * @ORM\JoinColumn
-     */
-    public ?Operand $owner = null;
 
     /**
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)

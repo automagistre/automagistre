@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Customer\Ports\EasyAdmin;
 
-use App\Car\Entity\Car;
+use App\Car\Repository\CarPossessionRepository;
 use App\Controller\EasyAdmin\AbstractController;
 use App\Customer\Domain\Operand;
 use App\Customer\Domain\OperandNote;
@@ -35,6 +35,7 @@ class OperandController extends AbstractController
     {
         return array_merge(parent::getSubscribedServices(), [
             PaymentManager::class,
+            CarPossessionRepository::class,
         ]);
     }
 
@@ -105,8 +106,10 @@ class OperandController extends AbstractController
 
             /** @var Operand $operand */
             $operand = $parameters['entity'];
+            /** @var CarPossessionRepository $carRepository */
+            $carRepository = $this->container->get(CarPossessionRepository::class);
 
-            $parameters['cars'] = $registry->viewListBy(Car::class, ['owner' => $operand]);
+            $parameters['cars'] = $carRepository->carsByPossessor($operand->toId());
             $parameters['orders'] = $registry->repository(Order::class)
                 ->findBy(['customer.id' => $operand->getId()], ['closedAt' => 'DESC'], 20);
             $parameters['payments'] = $registry->repository(OperandTransaction::class)

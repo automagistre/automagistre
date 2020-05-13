@@ -13,7 +13,6 @@ easy_admin:
                 fields:
                     - { property: 'id' }
                     - { property: 'vehicleId', label: 'Марка / Модель', template: 'easy_admin/field_item_show.html.twig' }
-                    - { property: 'owner', label: 'Владелец' }
                     - { property: 'year', label: 'Год', type: 'string' }
                     - { property: 'caseType.toName', label: 'Кузов' }
                     - { property: 'identifier', label: 'Идентификатор (VIN, № Кузова/Шасси...)', sortable: false }
@@ -22,7 +21,6 @@ easy_admin:
             show:
                 title: 'Автомобиль № {{ entity.id }}'
                 fields:
-                    - { property: 'owner', label: 'Владелец' }
                     - { property: 'identifier', label: 'Идентификатор', help: 'VIN, № Кузова/Шасси...' }
                     - { property: 'model', label: 'Модель' }
                     - { property: 'caseType.toName', label: 'Тип кузова' }
