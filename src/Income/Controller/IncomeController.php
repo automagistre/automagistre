@@ -51,7 +51,10 @@ final class IncomeController extends AbstractController
         /** @var IncomePart $incomePart */
         $incomePart = $registry->findBy(IncomePart::class, ['uuid' => $incomePartId]);
 
-        return $this->redirectToEasyPath('Income', 'show', ['id' => $incomePart->getIncome()->toId()->toString()]);
+        return $this->redirectToEasyPath('Income', 'show', [
+            'id' => $incomePart->getIncome()->toId()->toString(),
+            'referer' => $this->request->query->get('referer'),
+        ]);
     }
 
     public function payAction(): Response
