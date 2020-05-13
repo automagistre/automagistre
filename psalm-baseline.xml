@@ -200,8 +200,9 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Doctrine/Registry.php">
-    <InvalidArrayOffset occurrences="1">
+    <InvalidArrayOffset occurrences="2">
       <code>Costil::ENTITY[get_class($identifier)]</code>
+      <code>Costil::UUID_FIELDS[get_class($identifier)]</code>
     </InvalidArrayOffset>
     <RedundantConditionGivenDocblockType occurrences="1">
       <code>assert($entityRepository instanceof EntityRepository)</code>
@@ -301,7 +302,8 @@
     </PossiblyNullArgument>
   </file>
   <file src="src/Income/Controller/IncomeController.php">
-    <PossiblyNullReference occurrences="1">
+    <PossiblyNullReference occurrences="2">
+      <code>toId</code>
       <code>transactional</code>
     </PossiblyNullReference>
     <PropertyNotSetInConstructor occurrences="1">
@@ -328,6 +330,11 @@
     <PropertyNotSetInConstructor occurrences="1">
       <code>IncomePartFixtures</code>
     </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Income/View/IncomePartFormatter.php">
+    <PossiblyNullReference occurrences="1">
+      <code>toId</code>
+    </PossiblyNullReference>
   </file>
   <file src="src/Infrastructure/Identifier/IdentifierTwigExtension.php">
     <MissingClosureReturnType occurrences="1">

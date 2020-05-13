@@ -11,7 +11,6 @@ use App\Part\Domain\PartId;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;
 use Money\Money;
-use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -29,9 +28,9 @@ class IncomePart
     public ?PartId $partId = null;
 
     /**
-     * @ORM\Column(type="uuid")
+     * @ORM\Column(type="income_part_id")
      */
-    private UuidInterface $uuid;
+    private IncomePartId $uuid;
 
     /**
      * @var Income|null
@@ -44,10 +43,10 @@ class IncomePart
 
     public function __construct()
     {
-        $this->uuid = IncomeId::generate()->toUuid();
+        $this->uuid = IncomePartId::generate();
     }
 
-    public function toId(): UuidInterface
+    public function toId(): IncomePartId
     {
         return $this->uuid;
     }

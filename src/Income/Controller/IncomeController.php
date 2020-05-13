@@ -12,6 +12,7 @@ use App\Event\IncomeAccrued;
 use App\Form\Type\MoneyType;
 use App\Income\Entity\Income;
 use App\Income\Entity\IncomeId;
+use App\Income\Entity\IncomePart;
 use App\Income\Form\IncomeDto;
 use App\Manager\PaymentManager;
 use App\Part\Domain\Part;
@@ -38,6 +39,19 @@ final class IncomeController extends AbstractController
     public function __construct(PaymentManager $paymentManager)
     {
         $this->paymentManager = $paymentManager;
+    }
+
+    public function partAction(): Response
+    {
+        $incomePartId = $this->request->query->get('income_part_id');
+
+        /** @var Registry $registry */
+        $registry = $this->container->get(Registry::class);
+
+        /** @var IncomePart $incomePart */
+        $incomePart = $registry->findBy(IncomePart::class, ['uuid' => $incomePartId]);
+
+        return $this->redirectToEasyPath('Income', 'show', ['id' => $incomePart->getIncome()->toId()->toString()]);
     }
 
     public function payAction(): Response

@@ -59,7 +59,7 @@ final class AccrueIncomePartsListener implements EventSubscriberInterface
                 $part,
                 $incomePart->getQuantity(),
                 Source::income(),
-                $incomePart->toId(),
+                $incomePart->toId()->toUuid(),
             );
             $em->persist($motion);
 

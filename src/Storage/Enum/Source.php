@@ -12,6 +12,9 @@ use Premier\Enum\Enum;
  * @method static self manual()
  * @method static self income()
  * @method static self order()
+ * @method bool   isManual()
+ * @method bool   isIncome()
+ * @method bool   isOrder()
  */
 final class Source extends Enum
 {

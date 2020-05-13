@@ -138,10 +138,11 @@ final class Registry
     public function view(Identifier $identifier): array
     {
         $class = Costil::ENTITY[get_class($identifier)];
+        $uuidField = Costil::UUID_FIELDS[get_class($identifier)];
 
         $view = $this->repository($class)
             ->createQueryBuilder('t')
-            ->where('t.uuid = :id')
+            ->where(sprintf('t.%s = :id', $uuidField))
             ->setParameter('id', $identifier)
             ->getQuery()
             ->getSingleResult(AbstractQuery::HYDRATE_ARRAY);

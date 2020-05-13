@@ -28,7 +28,7 @@ easy_admin:
             show:
                 title: 'Приход'
                 fields:
-                    - { property: 'supplier', label: 'Поставщик' }
+                    - { property: 'supplierId', label: 'Поставщик', template: 'easy_admin/field_identifier.html.twig' }
                     - { property: 'document', label: 'Документ' }
                     - { property: 'incomeParts', label: 'Позиции', template: 'easy_admin/income/field_income_parts.html.twig' }
                     - { property: 'totalPrice', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
