@@ -103,8 +103,8 @@ class CalendarEntry
         return new self($date, $duration, $userId, $customer, $worker, $this);
     }
 
-    public function delete(DeletionReason $reason, ?string $description, UserId $deletedBy): void
+    public function delete(DeletionReason $reason, ?string $description, UserId $deletedBy): CalendarEntryDeletion
     {
-        $this->deletion = new CalendarEntryDeletion($this, $reason, $description, $deletedBy);
+        return $this->deletion = new CalendarEntryDeletion($this, $reason, $description, $deletedBy);
     }
 }
