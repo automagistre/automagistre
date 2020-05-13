@@ -267,6 +267,7 @@ final class CarController extends AbstractController
     protected function autocompleteAction(): JsonResponse
     {
         $query = $this->request->query;
+        $isUuid = $query->has('use_uuid');
 
         $qb = $this->createSearchQueryBuilder($query->get('entity'), $query->get('query', ''), []);
 
@@ -279,7 +280,7 @@ final class CarController extends AbstractController
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
-        $data = array_map(function (Car $car): array {
+        $data = array_map(function (Car $car) use ($isUuid): array {
             $text = '';
 
             if (null !== $car->vehicleId) {
@@ -303,7 +304,7 @@ final class CarController extends AbstractController
 //            }
 
             return [
-                'id' => $car->getId(),
+                'id' => $isUuid ? $car->toId()->toUuid() : $car->getId(),
                 'text' => $text,
             ];
         }, (array) $paginator->getCurrentPageResults());
