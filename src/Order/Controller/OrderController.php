@@ -104,6 +104,8 @@ final class OrderController extends AbstractController
         }
 
         $registry = $this->container->get(Registry::class);
+        /** @var Model $carModel */
+        $carModel = $registry->findBy(Model::class, ['uuid' => $car->vehicleId]);
 
         $qb = $registry->repository(Line::class)
             ->createQueryBuilder('line')
@@ -114,7 +116,7 @@ final class OrderController extends AbstractController
             ->andWhere('equipment.equipment.transmission = :transmission')
             ->andWhere('equipment.equipment.wheelDrive = :wheelDrive')
             ->setParameters([
-                'model' => $car->vehicleId,
+                'model' => $carModel->getId(),
                 'engine' => $car->equipment->engine->name,
                 'capacity' => $car->equipment->engine->capacity,
                 'transmission' => $car->equipment->transmission,

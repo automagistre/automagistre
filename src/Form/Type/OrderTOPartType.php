@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Form\Type;
 
 use App\Form\Model\OrderTOPart;
+use App\Infrastructure\Identifier\IdentifierFormatter;
 use App\Manager\PartManager;
+use App\Part\Domain\Part;
 use function count;
 use LogicException;
 use Symfony\Component\Form\AbstractType;
@@ -23,9 +25,12 @@ final class OrderTOPartType extends AbstractType
 {
     private PartManager $partManager;
 
-    public function __construct(PartManager $partManager)
+    private IdentifierFormatter $formatter;
+
+    public function __construct(PartManager $partManager, IdentifierFormatter $formatter)
     {
         $this->partManager = $partManager;
+        $this->formatter = $formatter;
     }
 
     /**
@@ -41,12 +46,12 @@ final class OrderTOPartType extends AbstractType
             ->add('price', MoneyType::class)
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
                 $form = $event->getForm();
-                $model = $event->getData();
-                if (!$model instanceof OrderTOPart) {
+                $data = $event->getData();
+                if (!$data instanceof OrderTOPart) {
                     throw new LogicException('OrderTOPart expected.');
                 }
 
-                $part = $model->part;
+                $part = $data->part;
 
                 $analogs = $this->partManager->crossesInStock($part);
                 $hasAnalog = 0 < count($analogs);
@@ -59,7 +64,7 @@ final class OrderTOPartType extends AbstractType
                 $form->add('part', ChoiceType::class, [
                     'label' => 'Запчасть',
                     'choices' => $choices,
-                    'choice_label' => 'displayName',
+                    'choice_label' => fn (Part $part) => $this->formatter->format($part->toId()),
                     'choice_value' => 'id',
                     'expanded' => false,
                     'multiple' => false,
