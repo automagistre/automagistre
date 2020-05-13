@@ -49,6 +49,12 @@ doctrine:
                         type: annotation
                         prefix: App\Vehicle\Domain
                         dir: '%kernel.project_dir%/src/Vehicle/Domain'
+            tenant:
+                mappings:
+                    vehicle_embeddable:
+                        type: annotation
+                        prefix: App\Vehicle\Domain\Embeddable
+                        dir: '%kernel.project_dir%/src/Vehicle/Domain/Embeddable'
 
 services:
     _defaults:

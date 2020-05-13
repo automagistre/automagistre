@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Vehicle\Infrastructure\Form;
 
-use App\Vehicle\Domain\DriveWheelConfiguration;
+use App\Vehicle\Enum\DriveWheelConfiguration;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;

@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Vehicle\Domain;
+namespace App\Vehicle\Domain\Embeddable;
 
+use App\Vehicle\Enum\FuelType;
 use Doctrine\ORM\Mapping as ORM;
 use function sprintf;
 use Symfony\Component\Validator\Constraints as Assert;

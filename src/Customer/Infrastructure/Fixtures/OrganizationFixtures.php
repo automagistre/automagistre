@@ -9,15 +9,12 @@ use App\Customer\Domain\OperandNote;
 use App\Customer\Domain\Organization;
 use App\Enum\NoteType;
 use App\User\Domain\UserId;
-use App\User\Entity\User;
 use App\User\Fixtures\EmployeeFixtures;
-use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class OrganizationFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
+final class OrganizationFixtures extends Fixture implements FixtureGroupInterface
 {
     public const ID = '1ea91f74-3fc0-6e46-96ae-5e6bd0ab745f';
     public const CREATED_BY = EmployeeFixtures::ID;
@@ -25,19 +22,9 @@ final class OrganizationFixtures extends Fixture implements FixtureGroupInterfac
     /**
      * {@inheritdoc}
      */
-    public function getDependencies(): array
-    {
-        return [
-            EmployeeFixtures::class,
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public static function getGroups(): array
     {
-        return ['landlord'];
+        return ['tenant'];
     }
 
     /**
@@ -45,9 +32,6 @@ final class OrganizationFixtures extends Fixture implements FixtureGroupInterfac
      */
     public function load(ObjectManager $manager): void
     {
-        $user = $this->getReference(EmployeeFixtures::REFERENCE);
-        assert($user instanceof User);
-
         $organization = new Organization(OperandId::fromString(self::ID));
         $organization->setName('Org 1');
 

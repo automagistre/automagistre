@@ -11,7 +11,6 @@ use App\Customer\Domain\OperandNote;
 use App\Customer\Domain\Organization;
 use App\Customer\Domain\Person;
 use App\Doctrine\Registry;
-use App\Entity\Landlord\Balance;
 use App\Entity\Tenant\OperandTransaction;
 use App\Manager\PaymentManager;
 use App\Order\Entity\Order;
@@ -80,16 +79,17 @@ class OperandController extends AbstractController
         if ($isBalanceSort) {
             $state = $this->container->get(State::class);
 
-            $qb
-                ->addSelect('SUM(COALESCE(b.price.amount,0)) AS HIDDEN balance')
-                ->leftJoin(
-                    Balance::class,
-                    'b',
-                    Join::WITH,
-                    'b.operand = entity.id AND b.tenant = :tenant')
-                ->orderBy('balance', $sortDirection)
-                ->groupBy('entity.id')
-                ->setParameter('tenant', $state->tenant());
+            // TODO
+//            $qb
+//                ->addSelect('SUM(COALESCE(b.price.amount,0)) AS HIDDEN balance')
+//                ->leftJoin(
+//                    Balance::class,
+//                    'b',
+//                    Join::WITH,
+//                    'b.operand = entity.id AND b.tenant = :tenant')
+//                ->orderBy('balance', $sortDirection)
+//                ->groupBy('entity.id')
+//                ->setParameter('tenant', $state->tenant());
         }
 
         return $qb;

@@ -5,14 +5,10 @@ namespace App\Car\Infrastructure\Fixtures;
 use App\Car\Entity\Car;
 use App\Car\Entity\Recommendation;
 use App\Car\Entity\RecommendationPart;
-use App\Customer\Domain\Operand;
 use App\Customer\Domain\OperandId;
-use App\Customer\Infrastructure\Fixtures\PersonVasyaFixtures;
-use App\Part\Domain\Part;
 use App\Part\Domain\PartId;
 use App\Part\Infrastructure\Fixtures\GasketFixture;
 use App\User\Domain\UserId;
-use App\User\Entity\User;
 use App\User\Fixtures\EmployeeFixtures;
 use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -36,8 +32,6 @@ final class RecommendationFixtures extends Fixture implements FixtureGroupInterf
     {
         return [
             EmptyCarFixtures::class,
-            GasketFixture::class,
-            PersonVasyaFixtures::class,
         ];
     }
 
@@ -46,7 +40,7 @@ final class RecommendationFixtures extends Fixture implements FixtureGroupInterf
      */
     public static function getGroups(): array
     {
-        return ['landlord'];
+        return ['tenant'];
     }
 
     /**
@@ -56,10 +50,6 @@ final class RecommendationFixtures extends Fixture implements FixtureGroupInterf
     {
         $car = $this->getReference('car-1');
         assert($car instanceof Car);
-        $worker = $this->getReference('person-1');
-        assert($worker instanceof Operand);
-        $user = $this->getReference('user-employee');
-        assert($user instanceof User);
 
         $recommendation = new Recommendation(
             $car,
@@ -68,9 +58,6 @@ final class RecommendationFixtures extends Fixture implements FixtureGroupInterf
             OperandId::fromString(self::WORKER_ID),
             UserId::fromString(self::CREATED_BY),
         );
-
-        $part = $this->getReference('part-1');
-        assert($part instanceof Part);
 
         $recommendation->addPart(new RecommendationPart(
             $recommendation,

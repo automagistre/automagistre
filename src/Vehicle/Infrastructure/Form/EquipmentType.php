@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Vehicle\Infrastructure\Form;
 
-use App\Vehicle\Domain\Equipment;
+use App\Vehicle\Domain\Embeddable\Equipment;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

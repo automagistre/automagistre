@@ -9,9 +9,7 @@ use App\Customer\Domain\OperandNote;
 use App\Customer\Domain\Person;
 use App\Enum\NoteType;
 use App\User\Domain\UserId;
-use App\User\Entity\User;
 use App\User\Fixtures\EmployeeFixtures;
-use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -28,7 +26,6 @@ final class PersonVasyaFixtures extends Fixture implements FixtureGroupInterface
     public function getDependencies(): array
     {
         return [
-            EmployeeFixtures::class,
             OrganizationFixtures::class, // Organization must have ID = 1
         ];
     }
@@ -38,7 +35,7 @@ final class PersonVasyaFixtures extends Fixture implements FixtureGroupInterface
      */
     public static function getGroups(): array
     {
-        return ['landlord'];
+        return ['tenant'];
     }
 
     /**
@@ -46,9 +43,6 @@ final class PersonVasyaFixtures extends Fixture implements FixtureGroupInterface
      */
     public function load(ObjectManager $manager): void
     {
-        $user = $this->getReference(EmployeeFixtures::REFERENCE);
-        assert($user instanceof User);
-
         $person = new Person(OperandId::fromString(self::ID));
         $person->setFirstname('Vasya');
 

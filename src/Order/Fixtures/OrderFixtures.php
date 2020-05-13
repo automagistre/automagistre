@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace App\Order\Fixtures;
 
 use App\Car\Entity\Car;
+use App\Car\Infrastructure\Fixtures\Primera2004Fixtures;
 use App\Customer\Domain\Operand;
+use App\Customer\Domain\Person;
+use App\Customer\Infrastructure\Fixtures\PersonVasyaFixtures;
 use App\Doctrine\Registry;
 use App\Enum\NoteType;
 use App\Order\Entity\Order;
@@ -14,15 +17,17 @@ use App\Order\Entity\OrderItemPart;
 use App\Order\Entity\OrderItemService;
 use App\Order\Entity\OrderNote;
 use App\Part\Domain\Part;
+use App\Part\Infrastructure\Fixtures\GasketFixture;
 use App\State;
 use App\User\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Money\Currency;
 use Money\Money;
 
-final class OrderFixtures extends Fixture implements FixtureGroupInterface
+final class OrderFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
 {
     private Registry $registry;
 
@@ -37,6 +42,17 @@ final class OrderFixtures extends Fixture implements FixtureGroupInterface
     /**
      * {@inheritdoc}
      */
+    public function getDependencies(): array
+    {
+        return [
+            PersonVasyaFixtures::class,
+            Primera2004Fixtures::class,
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function load(ObjectManager $manager): void
     {
         $user = $this->registry->manager(User::class)->getReference(User::class, 1);
@@ -45,17 +61,17 @@ final class OrderFixtures extends Fixture implements FixtureGroupInterface
         $order = new Order();
         $manager->persist($order);
 
-        $customer = $this->registry->reference(Operand::class, 1);
+        $customer = $this->registry->findBy(Person::class, ['uuid' => PersonVasyaFixtures::ID]);
         $order->setCustomer($customer);
 
-        $car = $this->registry->reference(Car::class, 2);
+        $car = $this->registry->findBy(Car::class, ['uuid' => Primera2004Fixtures::ID]);
         $order->setCar($car);
 
         $this->addReference('order-1', $order);
         $manager->persist(new OrderNote($order, NoteType::info(), 'Order Note'));
 
         $money = new Money(100, new Currency('RUB'));
-        $part = $this->registry->manager(Part::class)->getReference(Part::class, 1);
+        $part = $this->registry->findBy(Part::class, ['partId' => GasketFixture::ID]);
 
         $orderItemGroup = new OrderItemGroup($order, 'Group');
         $manager->persist($orderItemGroup);

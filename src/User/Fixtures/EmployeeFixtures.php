@@ -11,7 +11,6 @@ use App\User\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
-use Generator;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 /**
@@ -58,11 +57,5 @@ final class EmployeeFixtures extends Fixture implements FixtureGroupInterface
         $this->addReference(self::REFERENCE, $user);
         $manager->persist($user);
         $manager->flush();
-    }
-
-    private function users(): Generator
-    {
-        yield ['admin@automagistre.ru', [Roles::ADMIN], [], 'user-admin'];
-        yield ['employee@automagistre.ru', [Roles::EMPLOYEE], [Tenant::msk()], 'user-employee'];
     }
 }

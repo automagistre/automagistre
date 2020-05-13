@@ -34,7 +34,7 @@ final class NoteFixtures extends Fixture implements FixtureGroupInterface, Depen
      */
     public static function getGroups(): array
     {
-        return ['landlord'];
+        return ['tenant'];
     }
 
     /**

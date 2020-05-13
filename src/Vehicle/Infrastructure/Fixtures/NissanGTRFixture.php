@@ -10,13 +10,24 @@ use App\Vehicle\Domain\Model;
 use App\Vehicle\Domain\VehicleId;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class NissanGTRFixture extends Fixture implements FixtureGroupInterface
+final class NissanGTRFixture extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
 {
     public const ID = '1ea88042-e4ff-6faa-80f4-ba1ca6d07248';
     public const MANUFACTURER_ID = NissanFixture::ID;
     public const NAME = 'GTR';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDependencies(): array
+    {
+        return [
+            NissanPrimeraFixture::class,
+        ];
+    }
 
     /**
      * {@inheritdoc}

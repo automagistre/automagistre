@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Car\Form\DTO;
 
 use App\Car\Entity\CarId;
-use App\Vehicle\Domain\BodyType;
-use App\Vehicle\Domain\Equipment;
+use App\Vehicle\Domain\Embeddable\Equipment;
 use App\Vehicle\Domain\Model;
+use App\Vehicle\Enum\BodyType;
 use Symfony\Component\Validator\Constraints as Assert;
 
 final class CarDto

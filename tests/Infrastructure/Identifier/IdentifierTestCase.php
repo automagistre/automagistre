@@ -6,6 +6,8 @@ namespace App\Tests\Infrastructure\Identifier;
 
 use App\Doctrine\ORM\Type\Identifier;
 use App\Infrastructure\Identifier\IdentifierFormatter;
+use App\State;
+use App\Tenant\Tenant;
 use Generator;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -17,6 +19,7 @@ abstract class IdentifierTestCase extends KernelTestCase
     public function test(Identifier $identifier, string $expected, string $format = null): void
     {
         self::bootKernel();
+        self::$container->get(State::class)->tenant(Tenant::msk());
 
         $formatter = self::$container->get(IdentifierFormatter::class);
 

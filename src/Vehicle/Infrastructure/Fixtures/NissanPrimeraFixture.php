@@ -10,14 +10,25 @@ use App\Vehicle\Domain\Model;
 use App\Vehicle\Domain\VehicleId;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class NissanPrimeraFixture extends Fixture implements FixtureGroupInterface
+final class NissanPrimeraFixture extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
 {
     public const ID = '1ea88045-9807-6664-b601-ba1ca6d07248';
     public const MANUFACTURER_ID = NissanFixture::ID;
     public const NAME = 'Primera';
     public const CASE_NAME = 'P12';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDependencies(): array
+    {
+        return [
+            NissanQashqaiFixture::class,
+        ];
+    }
 
     /**
      * {@inheritdoc}
