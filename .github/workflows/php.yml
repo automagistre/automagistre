@@ -15,7 +15,7 @@ jobs:
         steps:
             -   uses: actions/checkout@v2
             -   name: Build base php-fpm
-                run: docker build --tag $PHP_FPM_IMAGE --progress=plain --target base .
+                run: docker build --tag $PHP_FPM_BASE --progress=plain --target base .
             -   name: Build base nginx
                 run: docker build --tag $NGINX_BASE --progress=plain --target nginx-base .
 
