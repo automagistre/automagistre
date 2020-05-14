@@ -105,12 +105,12 @@ class CalendarEntry
         return new self($date, $duration, $userId, $customer, $worker, $this);
     }
 
-    public function delete(DeletionReason $reason, ?string $description, UserId $deletedBy): CalendarEntryDeletion
+    public function delete(DeletionReason $reason, ?string $description, UserId $deletedBy): void
     {
         if (null !== $this->deletion) {
             throw new DomainException(sprintf('%s %s already deleted.', __CLASS__, $this->id->toString()));
         }
 
-        return $this->deletion = new CalendarEntryDeletion($this, $reason, $description, $deletedBy);
+        $this->deletion = new CalendarEntryDeletion($this, $reason, $description, $deletedBy);
     }
 }

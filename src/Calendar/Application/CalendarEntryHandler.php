@@ -6,12 +6,10 @@ namespace App\Calendar\Application;
 
 use App\Calendar\Domain\CalendarEntry;
 use App\Calendar\Domain\CalendarEntryCustomerInformation;
-use App\Calendar\Domain\CalendarEntryDeletion;
 use App\Calendar\Domain\CalendarEntryRepository;
 use App\Calendar\Domain\Command\CreateCalendarEntryCommand;
 use App\Calendar\Domain\Command\DeleteCalendarEntryCommand;
 use App\Calendar\Domain\Command\RescheduleCalendarEntryCommand;
-use App\Doctrine\Registry;
 use App\State;
 use DomainException;
 use function sprintf;
@@ -22,13 +20,10 @@ final class CalendarEntryHandler
 
     private State $state;
 
-    private Registry $registry;
-
-    public function __construct(CalendarEntryRepository $repository, State $state, Registry $registry)
+    public function __construct(CalendarEntryRepository $repository, State $state)
     {
         $this->repository = $repository;
         $this->state = $state;
-        $this->registry = $registry;
     }
 
     public function create(CreateCalendarEntryCommand $command): void
@@ -81,9 +76,6 @@ final class CalendarEntryHandler
             throw new DomainException(sprintf('Can\'t delete "%s" CalendarEntry, as it doesn\'t exists', $command->id->toString()));
         }
 
-        // TODO Разобраться почему Doctrine не хочет CreatedBy через \App\CreatedBy\EventListener\PostPersistEventListener сохранять
-        $this->registry->manager(CalendarEntryDeletion::class)->persist(
-            $entity->delete($command->reason, $command->description, $this->state->userId())
-        );
+        $entity->delete($command->reason, $command->description, $this->state->userId());
     }
 }
