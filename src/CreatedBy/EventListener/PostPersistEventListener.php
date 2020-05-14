@@ -4,19 +4,20 @@ declare(strict_types=1);
 
 namespace App\CreatedBy\EventListener;
 
-use App\CreatedBy\Entity\CreatedBy;
 use App\Doctrine\ORM\Type\Identifier;
 use App\Doctrine\Registry;
 use App\User\Entity\User;
 use function assert;
+use DateTimeImmutable;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Events;
 use function is_int;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Security\Core\Security;
 
-final class PrePersistEventListener implements EventSubscriber
+final class PostPersistEventListener implements EventSubscriber
 {
     private Registry $registry;
 
@@ -34,17 +35,13 @@ final class PrePersistEventListener implements EventSubscriber
     public function getSubscribedEvents(): array
     {
         return [
-            Events::prePersist,
+            Events::postPersist,
         ];
     }
 
-    public function prePersist(LifecycleEventArgs $args): void
+    public function postPersist(LifecycleEventArgs $args): void
     {
         $entity = $args->getObject();
-        if ($entity instanceof CreatedBy) {
-            return;
-        }
-
         $id = $this->registry->classMetaData($entity)->getSingleIdReflectionProperty()->getValue($entity);
 
         if (is_int($id) || null === $id) {
@@ -65,6 +62,20 @@ final class PrePersistEventListener implements EventSubscriber
         }
 
         $em = $args->getObjectManager();
-        $em->persist(new CreatedBy($id, $userId));
+        assert($em instanceof EntityManagerInterface);
+
+        $em->getConnection()->executeQuery(
+            'INSERT INTO created_by (id, user_id, created_at) VALUES (:id, :user, :date)',
+            [
+                'id' => $id,
+                'user' => $userId,
+                'date' => new DateTimeImmutable(),
+            ],
+            [
+                'id' => 'uuid',
+                'user' => 'user_id',
+                'date' => 'datetime',
+            ]
+        );
     }
 }

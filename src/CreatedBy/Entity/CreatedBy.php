@@ -30,7 +30,7 @@ class CreatedBy
      */
     private DateTimeImmutable $createdAt;
 
-    public function __construct(UuidInterface $id, ?UserId $userId)
+    private function __construct(UuidInterface $id, ?UserId $userId)
     {
         $this->id = $id;
         $this->userId = $userId;
