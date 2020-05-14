@@ -10,7 +10,7 @@ env:
     TAG: ${{ github.run_id }}
 
 jobs:
-    build base:
+    build_base:
         runs-on: ubuntu-latest
         steps:
             -   uses: actions/checkout@v2
@@ -19,7 +19,7 @@ jobs:
             -   name: Build base nginx
                 run: docker build --tag $NGINX_BASE --progress=plain --target nginx-base .
 
-    build prod:
+    build_prod:
         #        needs: build base
         runs-on: ubuntu-latest
         steps:
