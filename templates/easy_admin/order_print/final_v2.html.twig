@@ -51,7 +51,8 @@
                 {{ orderItemService.discount|localize_money }}
             {% endif %}
         </td>
-        <td colspan="2">{{ orderItemService.totalPrice(true)|localize_money }}</td>
+        <td colspan="1">{{ orderItemService.totalPrice(true)|localize_money }}</td>
+        <td></td>
     </tr>
     {% for orderItemPart in orderItemService.children %}
         {{ block('order_item_part') }}
@@ -177,21 +178,21 @@
                                 </div>
                             </div>
                         </td>
-                        <td colspan="3" class="order-table-subtotals__name">всего по работам</td>
+                        <td colspan="2" class="order-table-subtotals__name">всего по работам</td>
                         <td>{{ order.totalGroupPrice.add(order.totalServicePrice(false, true))|localize_money }}</td>
                     </tr>
                     <tr class="order-table-subtotals">
-                        <td colspan="3" class="order-table-subtotals__name">всего по материалам</td>
+                        <td colspan="2" class="order-table-subtotals__name">всего по материалам</td>
                         <td>{{ order.totalPartPrice(false, true)|localize_money }}</td>
                     </tr>
                     {% if order.discounted %}
                         <tr class="order-table-subtotals">
-                            <td colspan="3" class="order-table-subtotals__name">всего скидка</td>
+                            <td colspan="2" class="order-table-subtotals__name">всего скидка</td>
                             <td>{{ order.discount|localize_money }}</td>
                         </tr>
                     {% endif %}
                     <tr class="order-table-subtotals">
-                        <td colspan="3" class="order-table-subtotals__name">Предоплата / Долг</td>
+                        <td colspan="2" class="order-table-subtotals__name">Предоплата / Долг</td>
                         <td>
                             {% if balance is not empty %}
                                 {% if balance.isZero %}
@@ -207,7 +208,7 @@
                         </td>
                     </tr>
                     <tr class="order-table-totals">
-                        <td colspan="3" class="order-table-totals__name">итого к оплате</td>
+                        <td colspan="2" class="order-table-totals__name">итого к оплате</td>
                         <td class="order-table-totals__sum">{{ order.totalForPayment(balance|default(null))|localize_money }}</td>
                     </tr>
                     </tbody>
