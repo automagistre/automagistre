@@ -3,11 +3,28 @@ name: default
 on:
     push:
 
+env:
+    DOCKER_BUILDKIT: '1'
+    PHP_FPM_BASE: automagistre/app:base
+    NGINX_BASE: automagistre/app-nginx:base
+    TAG: ${{ github.run_id }}
+
 jobs:
-    build:
+    build base:
         runs-on: ubuntu-latest
         steps:
             -   uses: actions/checkout@v2
+            -   name: Build base php-fpm
+                run: docker build --tag $PHP_FPM_IMAGE --progress=plain --target base .
+            -   name: Build base nginx
+                run: docker build --tag $NGINX_BASE --progress=plain --target nginx-base .
 
-            -   name: ref
-                run: echo ${{ github.ref }}
+    build prod:
+        #        needs: build base
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v2
+            -   name: Build php-fpm
+                run: docker build --tag automagistre/app:$TAG --progress=plain --target app .
+            -   name: Build nginx
+                run: docker build --tag automagistre/app-nginx:$TAG" --progress=plain --target nginx .
