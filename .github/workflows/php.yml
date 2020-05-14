@@ -27,4 +27,4 @@ jobs:
             -   name: Build php-fpm
                 run: docker build --tag automagistre/app:$TAG --progress=plain --target app .
             -   name: Build nginx
-                run: docker build --tag automagistre/app-nginx:$TAG" --progress=plain --target nginx .
+                run: docker build --tag automagistre/app-nginx:$TAG --progress=plain --target nginx .
