@@ -117,7 +117,7 @@
                     {% set order_works_total =  order.totalGroupPrice.add(order.totalServicePrice(false, true)) %}
                     {% set order_works_total_disc = order.totalGroupPrice(true).add(order.totalServicePrice(true, true)) %}
                     <tr class="order-table-totals">
-                        <td colspan="1" class="no-border"></td>
+                        <td colspan="2" class="no-border"></td>
                         <td class="order-table-totals__name">Итого</td>
                         <td class="order-table-totals__sum">
                             {{ order_works_total|localize_money }}
