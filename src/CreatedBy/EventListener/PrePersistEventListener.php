@@ -16,7 +16,7 @@ use function is_int;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Security\Core\Security;
 
-final class PostPersistEventListener implements EventSubscriber
+final class PrePersistEventListener implements EventSubscriber
 {
     private Registry $registry;
 
