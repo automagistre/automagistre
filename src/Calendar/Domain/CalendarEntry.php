@@ -7,6 +7,8 @@ use App\User\Domain\UserId;
 use DateInterval;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use DomainException;
+use function sprintf;
 
 /**
  * @ORM\Entity
@@ -105,6 +107,10 @@ class CalendarEntry
 
     public function delete(DeletionReason $reason, ?string $description, UserId $deletedBy): CalendarEntryDeletion
     {
+        if (null !== $this->deletion) {
+            throw new DomainException(sprintf('%s %s already deleted.', __CLASS__, $this->id->toString()));
+        }
+
         return $this->deletion = new CalendarEntryDeletion($this, $reason, $description, $deletedBy);
     }
 }
