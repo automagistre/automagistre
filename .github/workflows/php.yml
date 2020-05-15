@@ -5,7 +5,7 @@ on:
 
 env:
     DOCKER_BUILDKIT: '1'
-    PHP_FPM_BASE: automagistre/app:base
+    PHP_BASE: automagistre/app:base
     NGINX_BASE: automagistre/app-nginx:base
     TAG: ${{ github.run_id }}
 
@@ -15,7 +15,7 @@ jobs:
         steps:
             -   uses: actions/checkout@v2
             -   name: Build base php-fpm
-                run: docker build --tag $PHP_FPM_BASE --progress=plain --target base .
+                run: docker build --tag $PHP_BASE --progress=plain --target base .
             -   name: Build base nginx
                 run: docker build --tag $NGINX_BASE --progress=plain --target nginx-base .
 
@@ -28,3 +28,26 @@ jobs:
                 run: docker build --tag automagistre/app:$TAG --progress=plain --target app .
             -   name: Build nginx
                 run: docker build --tag automagistre/app-nginx:$TAG --progress=plain --target nginx .
+
+    composer:
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v2
+            -   name: composer install
+                run: docker run --rm  -v `pwd`:/usr/local/app $PHP_BASE composer install
+            -   name: Upload vendor
+                uses: actions/upload-artifact@v1
+                with:
+                    name: vendor
+                    path: vendor
+
+    php-cs-fixer:
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v2
+            -   name: Download vendor
+                uses: actions/download-artifact@v1
+                with:
+                    name: vendor
+            -   name: composer install
+                run: docker run --rm  -v `pwd`:/usr/local/app $PHP_BASE php-cs-fixer fix --dry-run --diff-format udiff --using-cache=no
