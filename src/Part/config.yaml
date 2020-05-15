@@ -11,7 +11,7 @@ easy_admin:
                 title: 'Запчасть № {{ entity.id }}'
                 fields:
                     - { property: 'name', label: 'Название' }
-                    - { property: 'manufacturer.name', label: 'Производитель' }
+                    - { property: 'manufacturerId', label: 'Производитель', template: 'easy_admin/field_identifier.html.twig' }
                     - { property: 'number', label: 'Номер', template: 'easy_admin/field_part_number.html.twig' }
                     - { property: 'price', label: 'Цена', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'discount', label: 'Скидка', template: 'easy_admin/field_money.html.twig' }
@@ -20,7 +20,7 @@ easy_admin:
                 title: 'Запчасти'
                 fields:
                     - { property: 'name', label: 'Название', template: 'easy_admin/field_part.html.twig', item: true, stock: true, referer: false }
-                    - { property: 'manufacturer.name', label: 'Производитель' }
+                    - { property: 'manufacturerId', label: 'Производитель', template: 'easy_admin/field_identifier.html.twig' }
                     - { property: 'number', label: 'Номер', template: 'easy_admin/field_part_number.html.twig' }
                     - { property: 'price', label: 'Цена', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'discount', label: 'Скидка', template: 'easy_admin/field_money.html.twig' }
