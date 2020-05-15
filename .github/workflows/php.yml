@@ -30,6 +30,7 @@ jobs:
                 run: docker build --tag automagistre/app-nginx:$TAG --progress=plain --target nginx .
 
     composer:
+        needs: build_base
         runs-on: ubuntu-latest
         steps:
             -   uses: actions/checkout@v2
@@ -42,6 +43,7 @@ jobs:
                     path: vendor
 
     php-cs-fixer:
+        needs: composer
         runs-on: ubuntu-latest
         steps:
             -   uses: actions/checkout@v2
