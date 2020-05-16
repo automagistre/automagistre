@@ -18,34 +18,10 @@ final class Version20200516182701 extends AbstractMigration
         $this->skipIf(0 !== strpos($this->connection->getDatabase(), 'tenant'), 'tenant only');
 
         $this->addSql('ALTER TABLE orders ADD car_uuid UUID DEFAULT NULL');
-        //> Migrate Car
-        $this->addSql('
-            UPDATE orders
-            SET car_uuid = b.uuid
-            FROM (
-                     SELECT nested.id, target.uuid
-                     FROM car target
-                              JOIN orders nested ON nested.car_id = target.id
-                 ) b
-            WHERE orders.id = b.id
-        ');
-        //< Migrate Customer
         $this->addSql('ALTER TABLE orders DROP car_id');
         $this->addSql('ALTER TABLE orders RENAME car_uuid TO car_id');
 
         $this->addSql('ALTER TABLE orders ADD customer_uuid UUID DEFAULT NULL');
-        //> Migrate Car
-        $this->addSql('
-            UPDATE orders
-            SET customer_uuid = b.uuid
-            FROM (
-                     SELECT nested.id, target.uuid
-                     FROM operand target
-                              JOIN orders nested ON nested.customer_id = target.id
-                 ) b
-            WHERE orders.id = b.id
-        ');
-        //< Migrate Customer
         $this->addSql('ALTER TABLE orders DROP customer_id');
         $this->addSql('ALTER TABLE orders RENAME customer_uuid TO customer_id');
 
