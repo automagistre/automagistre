@@ -10,6 +10,7 @@ use App\Controller\EasyAdmin\AbstractController;
 use App\Customer\Domain\Operand;
 use App\Customer\Domain\Organization;
 use App\Customer\Domain\Person;
+use App\Doctrine\Registry;
 use App\Entity\Landlord\MC\Line;
 use App\Entity\Tenant\Wallet;
 use App\Enum\OrderStatus;
@@ -83,11 +84,13 @@ final class OrderController extends AbstractController
             throw new LogicException('Order required.');
         }
 
-        $car = $order->getCar();
-        if (!$car instanceof Car) {
+        $carId = $order->getCarId();
+        if (null === $carId) {
             throw new LogicException('Car required.');
         }
 
+        /** @var Car $car */
+        $car = $this->registry->findBy(Car::class, ['uuid' => $carId]);
         $carModel = $car->vehicleId;
         if (!$carModel instanceof VehicleId) {
             throw new LogicException('CarModel required.');
@@ -209,7 +212,11 @@ final class OrderController extends AbstractController
 
     public function info(Order $order, bool $statusSelector = false): Response
     {
-        $customer = $order->getCustomer();
+        $registry = $this->container->get(Registry::class);
+
+        $customer = null === $order->getCustomerId()
+            ? null
+            : $registry->findBy(Operand::class, ['uuid' => $order->getCustomerId()]);
 
         $balance = null;
         if ($customer instanceof Operand) {
@@ -221,6 +228,8 @@ final class OrderController extends AbstractController
             'status_selector' => $statusSelector,
             'balance' => $balance,
             'totalForPayment' => $order->getTotalForPayment($balance),
+            'car' => $registry->findBy(Car::class, ['uuid' => $order->getCarId()]),
+            'customer' => $customer,
         ]);
     }
 
@@ -422,7 +431,9 @@ final class OrderController extends AbstractController
             return $this->redirectToEasyPath($order, 'show');
         }
 
-        $customer = $order->getCustomer();
+        $customer = null === $order->getCustomerId()
+            ? null
+            : $this->registry->findBy(Operand::class, ['uuid' => $order->getCustomerId()]);
         $balance = $customer instanceof Operand ? $this->paymentManager->balance($customer) : null;
 
         if (!$order->getTotalForPayment($balance)->isPositive()) {
@@ -460,7 +471,9 @@ final class OrderController extends AbstractController
 
         $this->orderManager->close($order);
 
-        $car = $order->getCar();
+        $car = null === $order->getCarId()
+            ? null
+            : $this->registry->findBy(Car::class, ['uuid' => $order->getCarId()]);
         if ($car instanceof Car) {
             $car->setMileage($order->getMileage());
 
@@ -481,10 +494,13 @@ final class OrderController extends AbstractController
     {
         if ('show' === $actionName) {
             $em = $this->em;
+            /** @var Order $entity */
             $entity = $parameters['entity'];
 
             $parameters['notes'] = $em->getRepository(OrderNote::class)
                 ->findBy(['order' => $entity], ['createdAt' => 'DESC']);
+            $parameters['car'] = $this->registry->findBy(Car::class, ['uuid' => $entity->getCarId()]);
+            $parameters['customer'] = $this->registry->findBy(Operand::class, ['uuid' => $entity->getCustomerId()]);
         }
 
         return parent::renderTemplate($actionName, $templatePath, $parameters);
@@ -502,12 +518,12 @@ final class OrderController extends AbstractController
 
         $customer = $this->getEntity(Operand::class);
         if ($customer instanceof Operand) {
-            $entity->setCustomer($customer);
+            $entity->setCustomerId($customer->toId());
         }
 
         $car = $this->getEntity(Car::class);
         if ($car instanceof Car) {
-            $entity->setCar($car);
+            $entity->setCarId($car->toId());
         }
 
         return $entity;
@@ -526,14 +542,14 @@ final class OrderController extends AbstractController
 
         $customer = $this->getEntity(Operand::class);
         if ($customer instanceof Operand) {
-            $qb->andWhere('entity.customer.id = :customer')
-                ->setParameter('customer', $customer->getId());
+            $qb->andWhere('entity.customerId = :customer')
+                ->setParameter('customer', $customer->toId());
         }
 
         $car = $this->getEntity(Car::class);
         if ($car instanceof Car) {
-            $qb->andWhere('entity.car.id = :car')
-                ->setParameter('car', $car->getId());
+            $qb->andWhere('entity.carId = :car')
+                ->setParameter('car', $car->toId());
         }
 
         // EAGER Loading
@@ -580,8 +596,8 @@ final class OrderController extends AbstractController
 
         $qb = $this->registry->repository(Car::class)
             ->createQueryBuilder('car')
-            ->select('car.id AS car_id')
-            ->addSelect('customer.id AS operand_id')
+            ->select('car.uuid AS car_id')
+            ->addSelect('customer.uuid AS operand_id')
             ->leftJoin(CarPossession::class, 'possession', Join::WITH, 'possession.carId = car.uuid')
             ->leftJoin(Operand::class, 'customer', Join::WITH, 'customer.uuid = possession.possessorId')
 //            ->leftJoin(Model::class, 'carModel', Join::WITH, 'carModel.uuid = car.vehicleId')
@@ -620,8 +636,8 @@ final class OrderController extends AbstractController
 
         return $this->registry->repository(Order::class)
             ->createQueryBuilder('entity')
-            ->where('entity.car.id IN (:car)')
-            ->orWhere('entity.customer.id IN (:customer)')
+            ->where('entity.carId IN (:car)')
+            ->orWhere('entity.customerId IN (:customer)')
             ->setParameter('car', $cars)
             ->setParameter('customer', $customers)
             ->orderBy('entity.closedAt', 'ASC')
@@ -665,7 +681,9 @@ final class OrderController extends AbstractController
     {
         $em = $this->em;
 
-        $customer = $order->getCustomer();
+        $customer = null === $order->getCustomerId()
+            ? null
+            : $this->registry->findBy(Operand::class, ['uuid' => $order->getCustomerId()]);
         $balance = null;
         if ($customer instanceof Operand) {
             $balance = $this->paymentManager->balance($customer);

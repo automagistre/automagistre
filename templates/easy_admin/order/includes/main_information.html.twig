@@ -1,3 +1,6 @@
+{# @var customer \App\Customer\Domain\Operand #}
+{# @var car \App\Car\Entity\Car #}
+
 <div class="field-group">
     <div class="box box-default">
         <div class="box-header with-border">
@@ -77,9 +80,6 @@
 
                     <div class="col-sm-10">
                         <div class="form-control">
-                            {# @var customer \App\Entity\Operand #}
-                            {% set customer = order.customer %}
-
                             {%- if customer is not empty %}
                                 <a href="{{ easyadmin_path(customer, 'show') }}">
                                     {{- customer.fullName -}}
@@ -107,9 +107,7 @@
 
                     <div class="col-sm-10">
                         <div class="form-control">
-                            {% set car = order.car %}
                             {%- if car is not empty -%}
-                                {# @var car \App\Car\Entity\Car #}
                                 <a href="{{ easyadmin_path(car, 'show') }}">
                                     {{- car.toId|display_name -}}
                                 </a>

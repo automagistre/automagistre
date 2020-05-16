@@ -12,17 +12,17 @@ easy_admin:
                 title: 'Автомобили'
                 fields:
                     - { property: 'id' }
-                    - { property: 'vehicleId', label: 'Марка / Модель', template: 'easy_admin/field_item_show.html.twig' }
+                    - { property: 'vehicleId', label: 'Марка / Модель', template: 'easy_admin/field_identifier.html.twig' }
                     - { property: 'year', label: 'Год', type: 'string' }
                     - { property: 'caseType.toName', label: 'Кузов' }
                     - { property: 'identifier', label: 'Идентификатор (VIN, № Кузова/Шасси...)', sortable: false }
                     - { property: 'mileage', label: 'Пробег' }
-                    - { property: 'gosnomer', label: 'Гос. Номер', sortable: false, template: 'easy_admin/car/field_gosnomer_img.html.twig' }
+                    - { property: 'gosnomer', label: 'Гос. Номер', sortable: false }
             show:
                 title: 'Автомобиль № {{ entity.id }}'
                 fields:
                     - { property: 'identifier', label: 'Идентификатор', help: 'VIN, № Кузова/Шасси...' }
-                    - { property: 'model', label: 'Модель' }
+                    - { property: 'vehicleId', label: 'Модель', template: 'easy_admin/field_identifier.html.twig' }
                     - { property: 'caseType.toName', label: 'Тип кузова' }
                     - { property: 'year', label: 'Год', type: 'string' }
                     - { property: 'equipment.engine.capacity', label: 'Объём двигателя' }

@@ -6,6 +6,8 @@ namespace App\Order\Controller;
 
 use App\Car\Entity\Car;
 use App\Controller\EasyAdmin\AbstractController;
+use App\Customer\Domain\Operand;
+use App\Doctrine\Registry;
 use App\Form\Type\OrderItemServiceType;
 use App\Order\Entity\Order;
 use function assert;
@@ -28,8 +30,7 @@ final class OrderPrintController extends AbstractController
             throw new BadRequestHttpException('Order is required.');
         }
 
-        $car = $order->getCar();
-        if (!$car instanceof Car) {
+        if (null === $order->getCarId()) {
             throw new BadRequestHttpException('Car required.');
         }
 
@@ -88,9 +89,10 @@ final class OrderPrintController extends AbstractController
 
         mileage:
 
-        $car = $order->getCar();
-        if (null !== $car && null === $order->getMileage()) {
-            $mileage = $car->getMileage();
+        $carId = $order->getCarId();
+        if (null !== $carId && null === $order->getMileage()) {
+            $carView = $this->container->get(Registry::class)->view($carId);
+            $mileage = $carView['mileage'];
 
             $form = $this->createForm(IntegerType::class, null, [
                 'label' => 'Пробег '.(0 === $mileage
@@ -164,5 +166,19 @@ final class OrderPrintController extends AbstractController
         }
 
         return parent::isActionAllowed($actionName);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function render(string $view, array $parameters = [], Response $response = null): Response
+    {
+        $order = $parameters['order'];
+        assert($order instanceof Order);
+
+        $parameters['car'] = $this->registry->findBy(Car::class, ['uuid' => $order->getCarId()]);
+        $parameters['customer'] = $this->registry->findBy(Operand::class, ['uuid' => $order->getCustomerId()]);
+
+        return parent::render($view, $parameters, $response);
     }
 }

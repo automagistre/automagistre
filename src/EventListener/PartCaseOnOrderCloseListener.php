@@ -46,12 +46,13 @@ final class PartCaseOnOrderCloseListener implements EventSubscriberInterface
             throw new LogicException('Order expected.');
         }
 
-        $car = $order->getCar();
-        if (null === $car) {
+        $carId = $order->getCarId();
+        if (null === $carId) {
             return;
         }
 
-        $vehicleId = $car->vehicleId;
+        $carView = $this->registry->view($carId);
+        $vehicleId = $carView['vehicleId'];
         if (!$vehicleId instanceof VehicleId) {
             return;
         }

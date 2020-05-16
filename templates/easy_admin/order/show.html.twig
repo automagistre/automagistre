@@ -1,7 +1,6 @@
 {% extends 'easy_admin/default/show.html.twig' %}
 
 {% set order = entity %}
-{% set car = order.car %}
 
 {# @var order \App\Entity\Tenant\Order #}
 {# @var car \App\Entity\Landlord\Car #}
@@ -45,30 +44,30 @@
                             </button>
                             <ul class="dropdown-menu">
                                 {% if order.editable %}
-{#                                    {% if car and car.recommendations is not empty %}#}
-                                        <li>
-                                            <a href="{{ easyadmin_path('OrderPrint', 'matching', {'id': order.id, 'referer': true}) }}">
-                                                Согласование
-                                            </a>
-                                        </li>
-{#                                    {% endif %}#}
+                                    {#                                    {% if car and car.recommendations is not empty %}#}
+                                    <li>
+                                        <a href="{{ easyadmin_path('OrderPrint', 'matching', {'id': order.id, 'referer': true}) }}">
+                                            Согласование
+                                        </a>
+                                    </li>
+                                    {#                                    {% endif %}#}
                                     <li>
                                         <a href="{{ easyadmin_path('OrderPrint', 'giveOut', {'id': order.id, 'referer': true}) }}">
                                             Рабочий лист
                                         </a>
                                     </li>
                                 {% endif %}
-                                    <li>
-                                        <a href="{{ easyadmin_path('OrderPrint', 'finish', {'id': order.id, 'referer': true, 'version': 2}) }}">
-                                            Заказ-наряд физ.л.
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ easyadmin_path('OrderPrint', 'finish', {'id': order.id, 'referer': true, 'version': 3}) }}">
-                                            Заказ-наряд юр.л.
-                                        </a>
-                                    </li>
-                                {% if order.customer is not empty %}
+                                <li>
+                                    <a href="{{ easyadmin_path('OrderPrint', 'finish', {'id': order.id, 'referer': true, 'version': 2}) }}">
+                                        Заказ-наряд физ.л.
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ easyadmin_path('OrderPrint', 'finish', {'id': order.id, 'referer': true, 'version': 3}) }}">
+                                        Заказ-наряд юр.л.
+                                    </a>
+                                </li>
+                                {% if customer is not empty %}
                                     <li>
                                         <a href="{{ easyadmin_path('OrderPrint', 'invoice', {'id': order.id, 'referer': true}) }}">
                                             Счёт
@@ -112,7 +111,10 @@
                                                 <tr>
                                                     <td>{{ payment.money|localize_money }}</td>
                                                     <td>{{ payment.description }}</td>
-                                                    <td>{{ payment.createdAt|format_datetime('short', 'short', '', 'GMT+3') }} ({% include 'easy_admin/field_user.html.twig' with {'value': payment.createdBy} %})</td>
+                                                    <td>{{ payment.createdAt|format_datetime('short', 'short', '', 'GMT+3') }}
+                                                        ({% include 'easy_admin/field_user.html.twig' with {'value': payment.createdBy} %}
+                                                        )
+                                                    </td>
                                                 </tr>
                                             {% endfor %}
                                             </tbody>
@@ -234,7 +236,7 @@
                         <tbody>
                         {% for item in order.rootItems %}
                             {# @var item \App\Entity\OrderItem #}
-                            {% include 'easy_admin/order/item/row.html.twig' with {'item': item, 'order': order} %}
+                            {% include 'easy_admin/order/item/row.html.twig' with {'item': item, 'order': order, 'car': car, 'customer': customer} %}
                         {% endfor %}
                         </tbody>
                     </table>
@@ -246,7 +248,7 @@
             <h2 class="page-header">
                 {%- apply spaceless -%}
                     <a class="btn btn-primary"
-                       href="{{ easyadmin_path('CarRecommendation', 'new', {'car_id': order.car.id}|merge(order|to_query)) }}">
+                       href="{{ easyadmin_path('CarRecommendation', 'new', {'car_id': car.id}|merge(order|to_query)) }}">
                         <i class="fa fa-plus"></i>
                         Рекомендация
                     </a>

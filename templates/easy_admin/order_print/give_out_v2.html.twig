@@ -1,9 +1,8 @@
 {% include 'easy_admin/order_print/layout_v2.html.twig' %}
 
-{# @var order \App\Entity\Tenant\Order #}
-
-{% set car = order.car %}
-{% set customer = order.customer %}
+{# @var order \App\Order\Entity\Order #}
+{# @var car \App\Car\Entity\Car #}
+{# @var customer \App\Customer\Domain\Operand #}
 
 <div class="container" id="content">
     <main>

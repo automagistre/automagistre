@@ -1,10 +1,8 @@
 {% extends 'easy_admin/order_print/layout.html.twig' %}
 
-{# @var order \App\Entity\Tenant\Order #}
-{# @var car \App\Entity\Landlord\Car #}
-
-{% set customer = order.customer %}
-{% set car = order.car %}
+{# @var order \App\Order\Entity\Order #}
+{# @var car \App\Car\Entity\Car #}
+{# @var customer \App\Customer\Domain\Operand #}
 
 {% set balance = customer is not empty ? customer|balance : null %}
 
@@ -111,7 +109,8 @@
         </section>
 
         <section class="order-info">
-            <h3>заказ-наряд: {{ order.id }} от {{ (order.closed ? order.closedAt : date(null, 'Europe/Moscow'))|format_date('short') }}</h3>
+            <h3>заказ-наряд: {{ order.id }}
+                от {{ (order.closed ? order.closedAt : date(null, 'Europe/Moscow'))|format_date('short') }}</h3>
         </section>
 
         {% set isServicesDiscounted = order.servicesDiscounted %}
@@ -187,7 +186,8 @@
                     <tr class="table-active">
                         <td colspan="{{ isServicesDiscounted ? '5' : '3' }}" class="table-summary legend">итого:</td>
                         <td class="table-summary">
-                            <span class="price">{{ order.totalGroupPrice.add(order.totalServicePrice(false, true))|localize_money }}</span></td>
+                            <span class="price">{{ order.totalGroupPrice.add(order.totalServicePrice(false, true))|localize_money }}</span>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -281,12 +281,12 @@
                     </td>
                 </tr>
                 {% if order.discounted %}
-                <tr class="table-active">
-                    <td class="table-summary legend">скидка:</td>
-                    <td class="table-summary">
-                        <span class="price">{{ order.discount|localize_money }}</span>
-                    </td>
-                </tr>
+                    <tr class="table-active">
+                        <td class="table-summary legend">скидка:</td>
+                        <td class="table-summary">
+                            <span class="price">{{ order.discount|localize_money }}</span>
+                        </td>
+                    </tr>
                 {% endif %}
                 <tr class="table-active">
                     <td class="table-summary legend">всего к оплате:</td>
@@ -303,7 +303,8 @@
                 <div><strong>С объемами и стоимостью работ согласен. <br>
                         С правилами предоставления услуг ознакомлен.</strong></div>
                 <div>
-                    Гарантийные условия<img src="{{ qr_code_data_uri('www.automagistre.ru/gr') }}" width="100" height="100" border="0" title="QR код">
+                    Гарантийные
+                    условия<img src="{{ qr_code_data_uri('www.automagistre.ru/gr') }}" width="100" height="100" border="0" title="QR код">
                 </div>
             </div>
             <div class="row justify-content-around">

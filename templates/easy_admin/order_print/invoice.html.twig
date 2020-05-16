@@ -2,8 +2,9 @@
 
 {% set requisites = state.tenant.getRequisites() %}
 
-{% set customer = order.customer %}
-
+{# @var order \App\Order\Entity\Order #}
+{# @var car \App\Car\Entity\Car #}
+{# @var customer \App\Customer\Domain\Operand #}
 
 {% block content %}
     <div class="container" id="content">
@@ -24,15 +25,15 @@
                         {{ requisites.address }}
                         {% for telephone in requisites.telephones %}
                             &nbsp;{{ telephone }}
-                         {% endfor %}
+                        {% endfor %}
                     </p>
                 </div>
             </section>
             <section class="bank">
-                <table class="table bank-table" >
+                <table class="table bank-table">
                     <tbody>
                     <tr>
-                        <td colspan="2" style="border-bottom: none;" class="bank-table-title" >{{ requisites.bank }}</td>
+                        <td colspan="2" style="border-bottom: none;" class="bank-table-title">{{ requisites.bank }}</td>
                         <td>БИК</td>
                         <td style="border-bottom: none;">{{ requisites.bik }}</td>
                     </tr>
@@ -172,12 +173,12 @@
                 </table>
                 <p style="margin: 0">
                     Всего наименований {{ position }} на сумму:<br>
-                    <p class="bk-literal_num">
-                        {{ order.totalForPayment(null, false)|localize_money_literal }}
-                    </p>
+                <p class="bk-literal_num">
+                    {{ order.totalForPayment(null, false)|localize_money_literal }}
+                </p>
                 </p>
             </section>
-            <section class="stamps" >
+            <section class="stamps">
                 <div class="bk-stamp" style="width: 100%; display: flex; justify-content: space-around">
                     <div style="width: 80mm">
                         <hr class="bk-stamp-line">

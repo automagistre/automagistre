@@ -195,7 +195,7 @@ final class CarController extends AbstractController
             $possessions = $this->container->get(CarPossessionRepository::class);
 
             $parameters['orders'] = $this->registry->repository(Order::class)
-                ->findBy(['car.id' => $car->getId()], ['closedAt' => 'DESC'], 20);
+                ->findBy(['carId' => $car->toId()], ['closedAt' => 'DESC'], 20);
             $parameters['notes'] = $this->registry->repository(Note::class)
                 ->findBy(['car' => $car], ['createdAt' => 'DESC']);
             $parameters['possessors'] = $possessions->possessorsByCar($car->toId());
@@ -215,7 +215,8 @@ final class CarController extends AbstractController
         $sortDirection = null,
         $dqlFilter = null
     ): QueryBuilder {
-        $qb = $this->registry->repository(Car::class)->createQueryBuilder('car');
+        $qb = $this->registry->repository(Car::class)->createQueryBuilder('car')
+            ->leftJoin(CarPossession::class, 'possession', Join::WITH, 'possession.carId = car.uuid');
 
         if ('' === $searchQuery) {
             return $qb;
@@ -226,7 +227,6 @@ final class CarController extends AbstractController
         $qb
 //            ->leftJoin(Model::class, 'model', Join::WITH, 'model.uuid = car.vehicleId')
 //            ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'manufacturer.uuid = model.manufacturerId')
-            ->leftJoin(CarPossession::class, 'possession', Join::WITH, 'possession.carId = car.uuid')
             ->leftJoin(Operand::class, 'owner', Join::WITH, 'possession.possessorId = owner.uuid')
             ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = owner.id AND owner INSTANCE OF '.Person::class)
             ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = owner.id AND owner INSTANCE OF '.Organization::class);
@@ -266,12 +266,11 @@ final class CarController extends AbstractController
 
         $qb = $this->createSearchQueryBuilder($query->get('entity'), $query->get('query', ''), []);
 
-        // TODO Поиск по собственнику
-//        $ownerId = $query->get('owner_id');
-//        if (null !== $ownerId) {
-//            $qb->andWhere('car.owner = :owner')
-//                ->setParameter('owner', $em->getReference(Operand::class, $ownerId));
-//        }
+        $ownerId = $query->get('owner_id');
+        if (null !== $ownerId) {
+            $qb->andWhere('possession.possessorId = :possessor')
+                ->setParameter('possessor', $ownerId);
+        }
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 

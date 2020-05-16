@@ -1,8 +1,8 @@
 {% include 'easy_admin/order_print/layout.html.twig' %}
 
-{# @var order \App\Entity\Tenant\Order #}
-
-{% set car = order.car %}
+{# @var order \App\Order\Entity\Order #}
+{# @var car \App\Car\Entity\Car #}
+{# @var customer \App\Customer\Domain\Operand #}
 
 <h4>согласованные работы и запчасти по автомобилю</h4>
 <h1>{{ car is not empty ? car.gosnomer }}</h1>

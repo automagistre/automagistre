@@ -1,9 +1,9 @@
 {% extends 'easy_admin/order_print/layout_v2.html.twig' %}
 
-{# @var order \App\Entity\Tenant\Order #}
+{# @var order \App\Order\Entity\Order #}
+{# @var car \App\Car\Entity\Car #}
+{# @var customer \App\Customer\Domain\Operand #}
 
-{% set customer = order.customer %}
-{% set car = order.car %}
 {% set balance = order.closed ? order.closedBalance : (customer is not empty ? customer|balance : null) %}
 
 {% set requisites = state.tenant.getRequisites() %}

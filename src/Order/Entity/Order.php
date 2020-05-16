@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace App\Order\Entity;
 
-use App\Car\Entity\Car;
-use App\Customer\Domain\Operand;
+use App\Car\Entity\CarId;
+use App\Customer\Domain\OperandId;
 use App\Customer\Domain\Person;
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\CreatedByRelation as CreatedBy;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Entity\Discounted;
-use App\Entity\Embeddable\CarRelation;
-use App\Entity\Embeddable\OperandRelation;
 use App\Entity\Embeddable\UserRelation;
 use App\Entity\Tenant\Employee;
 use App\Entity\WarrantyInterface;
@@ -87,14 +85,14 @@ class Order
     private OrderStatus $status;
 
     /**
-     * @ORM\Embedded(class=CarRelation::class)
+     * @ORM\Column(type="car_id", nullable=true)
      */
-    private CarRelation $car;
+    private ?CarId $carId = null;
 
     /**
-     * @ORM\Embedded(class=OperandRelation::class)
+     * @ORM\Column(type="operand_id", nullable=true)
      */
-    private OperandRelation $customer;
+    private ?OperandId $customerId = null;
 
     /**
      * @ORM\ManyToOne(targetEntity=Employee::class)
@@ -136,8 +134,6 @@ class Order
     {
         $this->uuid = OrderId::generate();
         $this->status = OrderStatus::working();
-        $this->car = new CarRelation();
-        $this->customer = new OperandRelation();
         $this->items = new ArrayCollection();
         $this->payments = new ArrayCollection();
         $this->suspends = new ArrayCollection();
@@ -273,24 +269,24 @@ class Order
         })->toArray();
     }
 
-    public function getCar(): ?Car
+    public function getCarId(): ?CarId
     {
-        return $this->car->entityOrNull();
+        return $this->carId;
     }
 
-    public function setCar(?Car $car): void
+    public function setCarId(?CarId $carId): void
     {
-        $this->car = new CarRelation($car);
+        $this->carId = $carId;
     }
 
-    public function getCustomer(): ?Operand
+    public function getCustomerId(): ?OperandId
     {
-        return $this->customer->entityOrNull();
+        return $this->customerId;
     }
 
-    public function setCustomer(?Operand $customer): void
+    public function setCustomerId(?OperandId $customerId): void
     {
-        $this->customer = new OperandRelation($customer);
+        $this->customerId = $customerId;
     }
 
     public function getWorker(): ?Employee
@@ -439,7 +435,7 @@ class Order
     {
         return $this->isEditable()
             && [] === $this->getServicesWithoutWorker()
-            && ($this->car->isEmpty() || null !== $this->mileage);
+            && (null === $this->carId || null !== $this->mileage);
     }
 
     public function isClosed(): bool

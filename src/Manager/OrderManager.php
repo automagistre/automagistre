@@ -52,7 +52,9 @@ final class OrderManager
             $em->refresh($order);
 
             $user = $this->state->user();
-            $customer = $order->getCustomer();
+            $customer = null === $order->getCustomerId()
+                ? null
+                : $this->registry->findBy(Operand::class, ['uuid' => $order->getCustomerId()]);
             $balance = $customer instanceof Operand ? $this->paymentManager->balance($customer) : null;
 
             $order->close($user, $balance);

@@ -1,8 +1,8 @@
 {% block js %}
     <script>
-      let operandInput = $('#{{ form.customer.autocomplete.vars.id }}'),
-          carInput = $('#{{ form.car.autocomplete.vars.id }}'),
-          autocompleteCarUrl = '{{ easyadmin_path('Car', 'autocomplete', {'owner_id': '__CAR__'})|raw }}';
+      let operandInput = $('#{{ form.customerId.autocomplete.vars.id }}'),
+          carInput = $('#{{ form.carId.autocomplete.vars.id }}'),
+          autocompleteCarUrl = '{{ easyadmin_path('Car', 'autocomplete', {'owner_id': '__CAR__', 'use_uuid': 1})|raw }}';
 
       if (!operandInput.val()) {
         $('#' + operandInput.attr('id') + ' option').text('Выберите клиента');

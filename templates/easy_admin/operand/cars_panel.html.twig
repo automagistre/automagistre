@@ -16,6 +16,7 @@
                         <th>Пробег</th>
                         <th>Идентификатор (VIN, № Кузова/Шасси...)</th>
                         <th>Год</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -23,14 +24,19 @@
                         {# @var car \App\Car\Entity\Car #}
                         <tr class="tr">
                             <td>
-                                <a href="{{ easyadmin_path('Car', 'show', {'id': car.id, 'referer': true}) }}">
-                                    {{ car.uuid|display_name }}
+                                <a href="{{ easyadmin_path_by_id(car.vehicleId, 'show', {'referer': true}) }}">
+                                    {{ car.vehicleId|display_name }}
                                 </a>
                             </td>
-                            <td>{{ include('easy_admin/car/field_gosnomer_img.html.twig', {'value': car.gosnomer}) }}</td>
+                            <td>{{ car.gosnomer }}</td>
                             <td>{{ car.mileage }}</td>
                             <td>{{ car.identifier }}</td>
                             <td>{{ car.year }}</td>
+                            <td>
+                                <a href="{{ easyadmin_path_by_id(car.uuid, 'show', {'referer': true}) }}">
+                                    <i class="fa fa-search"></i>
+                                </a>
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>

@@ -107,7 +107,7 @@ class OperandController extends AbstractController
 
             $parameters['cars'] = $carRepository->carsByPossessor($operand->toId());
             $parameters['orders'] = $this->registry->repository(Order::class)
-                ->findBy(['customer.id' => $operand->getId()], ['closedAt' => 'DESC'], 20);
+                ->findBy(['customerId' => $operand->toId()], ['closedAt' => 'DESC'], 20);
             $parameters['payments'] = $this->registry->repository(OperandTransaction::class)
                 ->findBy(['recipient.id' => $operand->getId()], ['id' => 'DESC'], 20);
             $parameters['notes'] = $this->registry->repository(OperandNote::class)

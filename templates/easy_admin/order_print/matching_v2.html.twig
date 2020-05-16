@@ -1,10 +1,8 @@
 {% extends 'easy_admin/order_print/layout_v2.html.twig' %}
 
-{# @var order \App\Entity\Tenant\Order #}
-
-{% set customer = order.customer %}
-{# @var car \App\Entity\Landlord\Car #}
-{% set car = order.car %}
+{# @var order \App\Order\Entity\Order #}
+{# @var car \App\Car\Entity\Car #}
+{# @var customer \App\Customer\Domain\Operand #}
 
 {% block content %}
     <div class="container" id="content">
@@ -45,7 +43,7 @@
                     </div>
                 {% endif %}
             </div>
-            {% if car.recommendations %}
+            {% if car is not empty and car.recommendations %}
                 <div class="order">
                     <table class=" table recommendations-table">
                         <caption>рекомендуемые работы и запчасти</caption>

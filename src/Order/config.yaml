@@ -15,17 +15,16 @@ easy_admin:
                 fields:
                     - { property: 'id', label: 'Номер', template: 'easy_admin/order/field_id.html.twig' }
                     - { property: 'status', label: 'Статус', template: 'easy_admin/order/field_status.html.twig' }
-                    - { property: 'createdAt', label: 'Дата начала', type: 'datetime' }
-                    - { property: 'car', label: 'Автомобиль', template: 'easy_admin/order/field_car.html.twig' }
-                    - { property: 'car.gosnomer', label: 'Госномер', template: 'easy_admin/car/field_gosnomer_img.html.twig' }
-                    - { property: 'customer', label: 'Клиент', type: 'string', template: 'easy_admin/order/customer.html.twig' }
+                    - { property: 'createdAt', label: 'Дата начала' }
+                    - { property: 'carId', label: 'Автомобиль', template: 'easy_admin/field_identifier.html.twig', format: long }
+                    - { property: 'customerId', label: 'Клиент', template: 'easy_admin/field_identifier.html.twig' }
                     - { property: 'totalServicePrice', label: 'Работы', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'totalPartPrice', label: 'Запчасти', template: 'easy_admin/field_money.html.twig' }
             form:
                 fields:
                     - { type: 'group', label: 'Основная информация', css_class: 'col-sm-6' }
-                    - { property: 'customer', label: 'Заказчик', type: 'easyadmin_autocomplete', type_options: { class: App\Customer\Domain\Operand } }
-                    - { property: 'car', label: 'Автомобиль', type: 'easyadmin_autocomplete', type_options: { class: App\Car\Entity\Car } }
+                    - { property: 'customerId', label: 'Заказчик', type: App\EasyAdmin\Form\AutocompleteType, type_options: { class: App\Customer\Domain\Operand } }
+                    - { property: 'carId', label: 'Автомобиль', type: App\EasyAdmin\Form\AutocompleteType, type_options: { class: App\Car\Entity\Car } }
                     - { property: 'mileage', label: 'Пробег' }
                     - { property: 'worker', label: 'Работник', type: App\Employee\Form\EmployeeType }
                     - { type: 'group', label: 'Описание', css_class: 'col-sm-6' }

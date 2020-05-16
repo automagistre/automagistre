@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Order\Fixtures;
 
-use App\Car\Entity\Car;
+use App\Car\Entity\CarId;
 use App\Car\Infrastructure\Fixtures\Primera2004Fixtures;
-use App\Customer\Domain\Operand;
-use App\Customer\Domain\Person;
+use App\Customer\Domain\OperandId;
 use App\Customer\Infrastructure\Fixtures\PersonVasyaFixtures;
 use App\Doctrine\Registry;
 use App\Enum\NoteType;
@@ -29,6 +28,9 @@ use Money\Money;
 
 final class OrderFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
 {
+    public const CAR_ID = Primera2004Fixtures::ID;
+    public const CUSTOMER_ID = PersonVasyaFixtures::ID;
+
     private Registry $registry;
 
     private State $state;
@@ -61,11 +63,9 @@ final class OrderFixtures extends Fixture implements FixtureGroupInterface, Depe
         $order = new Order();
         $manager->persist($order);
 
-        $customer = $this->registry->findBy(Person::class, ['uuid' => PersonVasyaFixtures::ID]);
-        $order->setCustomer($customer);
+        $order->setCustomerId(OperandId::fromString(self::CUSTOMER_ID));
 
-        $car = $this->registry->findBy(Car::class, ['uuid' => Primera2004Fixtures::ID]);
-        $order->setCar($car);
+        $order->setCarId(CarId::fromString(self::CAR_ID));
 
         $this->addReference('order-1', $order);
         $manager->persist(new OrderNote($order, NoteType::info(), 'Order Note'));

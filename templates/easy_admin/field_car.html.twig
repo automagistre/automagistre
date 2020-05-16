@@ -1,9 +1,0 @@
-{# @var value \App\Entity\Car #}
-
-{% if value is not empty %}
-    <a href="{{ easyadmin_path(value, 'show', {'referer': true}) }}">
-        {{ value.toId|display_name('long') }}
-    </a>
-{% else %}
-    {% include 'easy_admin/default/label_null.html.twig' %}
-{% endif %}

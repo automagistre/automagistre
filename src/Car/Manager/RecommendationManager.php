@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Car\Manager;
 
+use App\Car\Entity\Car;
 use App\Car\Entity\Recommendation;
 use App\Car\Entity\RecommendationPart;
 use App\Doctrine\Registry;
@@ -82,9 +83,12 @@ final class RecommendationManager
         $em = $this->registry->manager(Recommendation::class);
         $order = $orderItemService->getOrder();
 
-        if (null === $car = $order->getCar()) {
+        if (null === $carId = $order->getCarId()) {
             throw new DomainException('Can\' recommend service on undefined car');
         }
+
+        /** @var Car $car */
+        $car = $this->registry->findBy(Car::class, ['uuid' => $carId]);
 
         $em->transactional(function (EntityManagerInterface $em) use ($orderItemService, $car): void {
             $oldRecommendation = $this->findOldRecommendation($orderItemService);

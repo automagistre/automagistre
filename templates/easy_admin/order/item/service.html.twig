@@ -77,7 +77,7 @@
 
                 {{- '&nbsp;'|raw -}}
 
-                {% if item.order.car is not empty %}
+                {% if car is not empty %}
                     <form action="{{ easyadmin_path(item, 'recommend', {
                         'order_id': order.id,
                         'referer': true
