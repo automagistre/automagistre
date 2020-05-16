@@ -135,11 +135,11 @@ phpstan-baseline: cache ### Update phpstan baseline
 
 phpunit: APP_ENV=test
 phpunit: APP_DEBUG=1
-phpunit: ### Run phpunit
+phpunit: clear-log ### Run phpunit
 	$(APP) phpunit --stop-on-failure
 paratest: APP_ENV=test
 paratest: APP_DEBUG=1
-paratest: ### Run paratest
+paratest: clear-log ### Run paratest
 	$(APP) paratest -p $(shell grep -c ^processor /proc/cpuinfo || 4) --stop-on-failure
 
 requirements: APP_ENV=prod
@@ -160,7 +160,8 @@ cache-prod:
 	@$(MAKE) APP_ENV=prod APP_DEBUG=0 cache
 cache: ## Clear then warmup symfony cache
 	$(APP) sh -c 'rm -rf var/cache/$$APP_ENV && console cache:warmup; $(PERMISSIONS)'
-
+clear-log:
+	$(APP) rm -rf var/log/$$APP_ENV.log
 database: drop migration ### Drop database then restore from migrations
 
 fixtures: APP_ENV=test
