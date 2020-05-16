@@ -11,12 +11,19 @@ use App\Infrastructure\Identifier\IdentifierFormatter;
 use App\Infrastructure\Identifier\IdentifierFormatterInterface;
 use App\Vehicle\Enum\DriveWheelConfiguration;
 use App\Vehicle\Enum\Transmission;
+use function array_keys;
+use function array_values;
 use function assert;
 use function implode;
-use function sprintf;
+use function str_replace;
 
 final class CarFormatter implements IdentifierFormatterInterface
 {
+    private const DEFAULT = ':vehicle: - :year:г.';
+    private const FORMATS = [
+        'long' => ':vehicle: | :equipment: | :gosnomer:',
+    ];
+
     private Registry $registry;
 
     public function __construct(Registry $registry)
@@ -27,23 +34,18 @@ final class CarFormatter implements IdentifierFormatterInterface
     public function format(IdentifierFormatter $formatter, Identifier $identifier, string $format = null): string
     {
         $view = $this->registry->view($identifier);
-        $string = '';
-
         $vehicle = $view['vehicleId'] ?? null;
-        if (null !== $vehicle) {
-            $string = $formatter->format($vehicle);
-        }
-
-        if ('' === $string) {
+        if (null === $vehicle) {
             return 'Не определено';
         }
 
-        $year = $view['year'] ?? null;
-        if (null !== $year) {
-            $string .= sprintf(' - %sг.', $year);
-        }
+        $values = [
+            ':year:' => $view['year'],
+            ':gosnomer:' => $view['gosnomer'],
+            ':vehicle:' => $formatter->format($vehicle),
+        ];
 
-        if ('long' === $format) {
+        $values[':equipment:'] = (static function (array $view): string {
             $equipment = [];
             $equipment[] = $view['equipment.engine.name'];
             $equipment[] = $view['equipment.engine.capacity'];
@@ -56,10 +58,10 @@ final class CarFormatter implements IdentifierFormatterInterface
             assert($wheelDrive instanceof DriveWheelConfiguration);
             $equipment[] = $wheelDrive->toCode();
 
-            $string .= ' '.implode(' ', $equipment);
-        }
+            return implode(' ', $equipment);
+        })($view);
 
-        return $string;
+        return str_replace(array_keys($values), array_values($values), self::FORMATS[$format] ?? self::DEFAULT);
     }
 
     public static function support(): string
