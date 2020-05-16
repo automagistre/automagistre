@@ -8,7 +8,6 @@ use App\Car\Entity\Recommendation;
 use App\Car\Entity\RecommendationPart;
 use App\Car\Form\DTO\RecommendationPartDTO;
 use App\Controller\EasyAdmin\AbstractController;
-use App\Doctrine\Registry;
 use App\Form\Type\MoneyType;
 use App\Form\Type\QuantityType;
 use App\Manager\PartManager;
@@ -85,9 +84,7 @@ final class RecommendationPartController extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $registry = $this->container->get(Registry::class);
-
-                $em = $registry->manager(RecommendationPart::class);
+                $em = $this->registry->manager(RecommendationPart::class);
 
                 $em->transactional(function (EntityManagerInterface $em) use ($form, $recommendationPart, $part): void {
                     /** @var RecommendationPartDTO $model */

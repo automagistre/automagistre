@@ -6,7 +6,6 @@ namespace App\Income\Controller;
 
 use App\Controller\EasyAdmin\AbstractController;
 use App\Customer\Domain\Operand;
-use App\Doctrine\Registry;
 use App\Entity\Tenant\Wallet;
 use App\Event\IncomeAccrued;
 use App\Form\Type\MoneyType;
@@ -45,11 +44,8 @@ final class IncomeController extends AbstractController
     {
         $incomePartId = $this->request->query->get('income_part_id');
 
-        /** @var Registry $registry */
-        $registry = $this->container->get(Registry::class);
-
         /** @var IncomePart $incomePart */
-        $incomePart = $registry->findBy(IncomePart::class, ['uuid' => $incomePartId]);
+        $incomePart = $this->registry->findBy(IncomePart::class, ['uuid' => $incomePartId]);
 
         return $this->redirectToEasyPath('Income', 'show', [
             'id' => $incomePart->getIncome()->toId()->toString(),
@@ -83,9 +79,7 @@ final class IncomeController extends AbstractController
             ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $registry = $this->container->get(Registry::class);
-
-            $registry->manager(Income::class)
+            $this->registry->manager(Income::class)
                 ->transactional(function () use ($model, $income): void {
                     $description = sprintf('# Оплата за поставку #%s', $income->toId()->toString());
 
@@ -93,7 +87,7 @@ final class IncomeController extends AbstractController
                     $money = $model->money;
                     $money = $money->negative();
 
-                    $supplier = $this->container->get(Registry::class)
+                    $supplier = $this->registry
                         ->findBy(Operand::class, ['uuid' => $income->getSupplierId()]);
 
                     $this->paymentManager->createPayment($supplier, $description, $money);
@@ -134,7 +128,7 @@ final class IncomeController extends AbstractController
 
                 $description = sprintf('# Начисление по поставке №%s', $income->toId()->toString());
 
-                $supplier = $this->container->get(Registry::class)
+                $supplier = $this->registry
                     ->findBy(Operand::class, ['uuid' => $income->getSupplierId()]);
                 $this->paymentManager->createPayment($supplier, $description, $income->getTotalPrice());
             });

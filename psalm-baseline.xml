@@ -114,6 +114,9 @@
     <InvalidArrayOffset occurrences="1">
       <code>Costil::QUERY[$class]</code>
     </InvalidArrayOffset>
+    <MissingConstructor occurrences="1">
+      <code>$registry</code>
+    </MissingConstructor>
   </file>
   <file src="src/Controller/EasyAdmin/EmployeeController.php">
     <PossiblyNullReference occurrences="3">

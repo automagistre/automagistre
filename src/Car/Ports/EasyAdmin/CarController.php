@@ -16,7 +16,6 @@ use App\Customer\Domain\Operand;
 use App\Customer\Domain\OperandId;
 use App\Customer\Domain\Organization;
 use App\Customer\Domain\Person;
-use App\Doctrine\Registry;
 use App\EasyAdmin\Form\AutocompleteType;
 use App\Order\Entity\Order;
 use App\Shared\Enum\Transition;
@@ -135,13 +134,11 @@ final class CarController extends AbstractController
 
     protected function createEditDto(Closure $callable): ?object
     {
-        $registry = $this->container->get(Registry::class);
-
         $arr = $callable();
 
         $vehicleId = $arr['vehicleId'];
         $vehicle = $vehicleId instanceof VehicleId
-            ? $registry->findBy(Model::class, ['uuid' => $vehicleId])
+            ? $this->registry->findBy(Model::class, ['uuid' => $vehicleId])
             : null;
 
         $equipment = new Equipment(
@@ -167,7 +164,7 @@ final class CarController extends AbstractController
         $dto = $entity;
         assert($dto instanceof CarDto);
 
-        $entity = $this->container->get(Registry::class)->findBy(Car::class, ['uuid' => $dto->carId]);
+        $entity = $this->registry->findBy(Car::class, ['uuid' => $dto->carId]);
 
         $entity->equipment = $dto->equipment;
         $entity->setGosnomer($dto->gosnomer);
@@ -194,13 +191,12 @@ final class CarController extends AbstractController
             /** @var Car $car */
             $car = $parameters['entity'];
 
-            $registry = $this->container->get(Registry::class);
             /** @var CarPossessionRepository $possessions */
             $possessions = $this->container->get(CarPossessionRepository::class);
 
-            $parameters['orders'] = $registry->repository(Order::class)
+            $parameters['orders'] = $this->registry->repository(Order::class)
                 ->findBy(['car.id' => $car->getId()], ['closedAt' => 'DESC'], 20);
-            $parameters['notes'] = $registry->repository(Note::class)
+            $parameters['notes'] = $this->registry->repository(Note::class)
                 ->findBy(['car' => $car], ['createdAt' => 'DESC']);
             $parameters['possessors'] = $possessions->possessorsByCar($car->toId());
         }
@@ -219,8 +215,7 @@ final class CarController extends AbstractController
         $sortDirection = null,
         $dqlFilter = null
     ): QueryBuilder {
-        $registry = $this->container->get(Registry::class);
-        $qb = $registry->repository(Car::class)->createQueryBuilder('car');
+        $qb = $this->registry->repository(Car::class)->createQueryBuilder('car');
 
         if ('' === $searchQuery) {
             return $qb;

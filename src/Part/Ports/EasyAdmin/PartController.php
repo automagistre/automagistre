@@ -6,7 +6,6 @@ namespace App\Part\Ports\EasyAdmin;
 
 use function abs;
 use App\Controller\EasyAdmin\AbstractController;
-use App\Doctrine\Registry;
 use App\Event\PartAccrued;
 use App\Event\PartCreated;
 use App\Event\PartDecreased;
@@ -126,9 +125,7 @@ final class PartController extends AbstractController
 
     public function stockAction(): Response
     {
-        $registry = $this->container->get(Registry::class);
-
-        $quantities = $registry->repository(Motion::class)
+        $quantities = $this->registry->repository(Motion::class)
             ->createQueryBuilder('motion', 'motion.part.id')
             ->select('SUM(motion.quantity) AS quantity, motion.part.id AS part_id')
             ->groupBy('motion.part.id')
@@ -136,7 +133,7 @@ final class PartController extends AbstractController
             ->getQuery()
             ->getArrayResult();
 
-        $parts = $registry->repository(Part::class)->createQueryBuilder('part')
+        $parts = $this->registry->repository(Part::class)->createQueryBuilder('part')
             ->select('part')
             ->where('part.id IN (:ids)')
             ->orderBy('part.id')
@@ -170,9 +167,7 @@ final class PartController extends AbstractController
             ->handleRequest($this->request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $registry = $this->container->get(Registry::class);
-
-            $em = $registry->manager(Motion::class);
+            $em = $this->registry->manager(Motion::class);
             $quantity = abs((int) $form->get('quantity')->getData());
             $user = $this->getUser();
             $description = sprintf('# Ручное пополнение - %s', $user->getId());
@@ -206,9 +201,7 @@ final class PartController extends AbstractController
             ->handleRequest($this->request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $registry = $this->container->get(Registry::class);
-
-            $em = $registry->manager(Motion::class);
+            $em = $this->registry->manager(Motion::class);
             $quantity = abs((int) $form->get('quantity')->getData());
             $user = $this->getUser();
             $description = sprintf('# Ручное списание - %s', $user->getId());
@@ -247,9 +240,7 @@ final class PartController extends AbstractController
             $parameters['reserved'] = $this->reservationManager->reserved($entity);
             $parameters['crosses'] = $this->partManager->getCrosses($entity);
 
-            $registry = $this->container->get(Registry::class);
-
-            $parameters['carModels'] = $registry->repository(Model::class)
+            $parameters['carModels'] = $this->registry->repository(Model::class)
                 ->createQueryBuilder('carModel')
                 ->join(PartCase::class, 'partCase', Join::WITH, 'carModel.uuid = partCase.vehicleId')
                 ->where('partCase.partId = :part')
@@ -298,9 +289,7 @@ final class PartController extends AbstractController
 
         if (!$isPlusExist) {
             /** @var Model[] $cases */
-            $registry = $this->container->get(Registry::class);
-
-            $cases = $registry->repository(Model::class)
+            $cases = $this->registry->repository(Model::class)
                 ->createQueryBuilder('entity')
                 ->select('PARTIAL entity.{id, uuid, caseName}')
                 ->where('entity.caseName IN (:cases)')
@@ -326,8 +315,6 @@ final class PartController extends AbstractController
             }
 
             foreach ($cases as $case) {
-                assert($case instanceof Model);
-
                 $searchQuery = str_ireplace($case->caseName, '', $searchQuery);
             }
             $searchQuery = str_replace('  ', ' ', $searchQuery);
@@ -480,13 +467,11 @@ final class PartController extends AbstractController
 
     protected function createEditDto(Closure $closure): ?object
     {
-        $registry = $this->container->get(Registry::class);
-
         $arr = $closure();
 
         return new PartDto(
             $arr['partId'],
-            $registry->findBy(Manufacturer::class, ['uuid' => $arr['manufacturerId']]),
+            $this->registry->findBy(Manufacturer::class, ['uuid' => $arr['manufacturerId']]),
             $arr['name'],
             $arr['number'],
             new Money($arr['price.amount'], new Currency($arr['price.currency.code'])),
@@ -500,13 +485,11 @@ final class PartController extends AbstractController
      */
     protected function updateEntity($entity): Part
     {
-        $registry = $this->container->get(Registry::class);
-
         $dto = $entity;
         assert($dto instanceof PartDto);
 
         /** @var Part $entity */
-        $entity = $registry->findBy(Part::class, ['partId' => $dto->partId]);
+        $entity = $this->registry->findBy(Part::class, ['partId' => $dto->partId]);
 
         $entity->update(
             $dto->name,
@@ -518,7 +501,7 @@ final class PartController extends AbstractController
         parent::updateEntity($entity);
 
         if ($dto->universal) {
-            $registry->repository(PartCase::class)
+            $this->registry->repository(PartCase::class)
                 ->createQueryBuilder('entity')
                 ->delete()
                 ->where('entity.partId = :part')
@@ -555,7 +538,7 @@ final class PartController extends AbstractController
             ->handleRequest($this->request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->container->get(Registry::class)->manager(PartCase::class);
+            $em = $this->registry->manager(PartCase::class);
             $em->persist(new PartCase($dto->part->toId(), $dto->vehicle->toId()));
             $em->flush();
 

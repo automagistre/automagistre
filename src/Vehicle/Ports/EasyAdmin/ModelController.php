@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Vehicle\Ports\EasyAdmin;
 
 use App\Controller\EasyAdmin\AbstractController;
-use App\Doctrine\Registry;
 use App\Manufacturer\Domain\Manufacturer;
 use App\Vehicle\Domain\Model;
 use App\Vehicle\Domain\VehicleId;
@@ -35,9 +34,7 @@ final class ModelController extends AbstractController
         $sortDirection = null,
         $dqlFilter = null
     ): QueryBuilder {
-        $registry = $this->container->get(Registry::class);
-
-        $qb = $registry->repository(Model::class)->createQueryBuilder('model')
+        $qb = $this->registry->repository(Model::class)->createQueryBuilder('model')
             ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'model.manufacturerId = manufacturer.uuid');
 
         foreach (explode(' ', $searchQuery) as $key => $item) {
@@ -109,13 +106,11 @@ final class ModelController extends AbstractController
 
     protected function createEditDto(Closure $closure): ?object
     {
-        $registry = $this->container->get(Registry::class);
-
         $array = $closure();
 
         return new ModelDto(
             $array['uuid'],
-            $registry->findBy(Manufacturer::class, ['uuid' => $array['manufacturerId']]),
+            $this->registry->findBy(Manufacturer::class, ['uuid' => $array['manufacturerId']]),
             $array['name'],
             $array['localizedName'],
             $array['caseName'],
@@ -130,7 +125,7 @@ final class ModelController extends AbstractController
         assert($dto instanceof ModelDto);
 
         /** @var Model $entity */
-        $entity = $this->container->get(Registry::class)->findBy(Model::class, ['uuid' => $dto->vehicleId]);
+        $entity = $this->registry->findBy(Model::class, ['uuid' => $dto->vehicleId]);
 
         $entity->update(
             $dto->name,

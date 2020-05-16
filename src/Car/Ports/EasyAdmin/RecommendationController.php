@@ -10,7 +10,6 @@ use App\Car\Form\DTO\RecommendationDTO;
 use App\Car\Manager\RecommendationManager;
 use App\Controller\EasyAdmin\AbstractController;
 use App\Customer\Domain\Operand;
-use App\Doctrine\Registry;
 use App\Order\Entity\Order;
 use function assert;
 use Doctrine\ORM\Query\Expr\Join;
@@ -49,9 +48,7 @@ final class RecommendationController extends AbstractController
             throw new BadRequestHttpException();
         }
 
-        $registry = $this->container->get(Registry::class);
-
-        $recommendation = $registry->repository(Recommendation::class)
+        $recommendation = $this->registry->repository(Recommendation::class)
             ->findOneBy(['id' => $query->get('id')]);
 
         if (!$recommendation instanceof Recommendation) {
@@ -73,9 +70,7 @@ final class RecommendationController extends AbstractController
             throw new BadRequestHttpException('car_id is required');
         }
 
-        $registry = $this->container->get(Registry::class);
-
-        $car = $registry->repository(Car::class)->findOneBy(['id' => $id]);
+        $car = $this->registry->repository(Car::class)->findOneBy(['id' => $id]);
         if (!$car instanceof Car) {
             throw new BadRequestHttpException(sprintf('Car id "%s" not found', $id));
         }

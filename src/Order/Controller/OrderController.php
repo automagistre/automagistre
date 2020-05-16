@@ -10,7 +10,6 @@ use App\Controller\EasyAdmin\AbstractController;
 use App\Customer\Domain\Operand;
 use App\Customer\Domain\Organization;
 use App\Customer\Domain\Person;
-use App\Doctrine\Registry;
 use App\Entity\Landlord\MC\Line;
 use App\Entity\Tenant\Wallet;
 use App\Enum\OrderStatus;
@@ -23,7 +22,6 @@ use App\Form\Type\OrderTOServiceType;
 use App\Infrastructure\Identifier\IdentifierFormatter;
 use App\Manager\OrderManager;
 use App\Manager\PaymentManager;
-use App\Manufacturer\Domain\Manufacturer;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemPart;
@@ -104,11 +102,10 @@ final class OrderController extends AbstractController
             ]);
         }
 
-        $registry = $this->container->get(Registry::class);
         /** @var Model $carModel */
-        $carModel = $registry->findBy(Model::class, ['uuid' => $car->vehicleId]);
+        $carModel = $this->registry->findBy(Model::class, ['uuid' => $car->vehicleId]);
 
-        $qb = $registry->repository(Line::class)
+        $qb = $this->registry->repository(Line::class)
             ->createQueryBuilder('line')
             ->join('line.equipment', 'equipment')
             ->where('equipment.model = :model')
@@ -166,7 +163,7 @@ final class OrderController extends AbstractController
             ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $registry->manager(OrderItem::class);
+            $em = $this->registry->manager(OrderItem::class);
             foreach ($services as $service) {
                 if (!$service->selected) {
                     continue;
@@ -347,9 +344,7 @@ final class OrderController extends AbstractController
     public function isActionAllowed($actionName): bool
     {
         if ('show' !== $actionName && null !== $id = $this->request->get('id')) {
-            $registry = $this->get(Registry::class);
-
-            $entity = $registry->repository(Order::class)->find($id);
+            $entity = $this->registry->repository(Order::class)->find($id);
 
             return $entity->isEditable();
         }
@@ -468,9 +463,8 @@ final class OrderController extends AbstractController
         $car = $order->getCar();
         if ($car instanceof Car) {
             $car->setMileage($order->getMileage());
-            $registry = $this->container->get(Registry::class);
 
-            $registry->manager(Car::class)->flush();
+            $this->registry->manager(Car::class)->flush();
         }
 
         $this->event(new OrderClosed($order));
@@ -582,11 +576,9 @@ final class OrderController extends AbstractController
         $sortDirection = null,
         $dqlFilter = null
     ): QueryBuilder {
-        $registry = $this->container->get(Registry::class);
-
         // TODO Восстановить поиск по производителю и кузову
 
-        $qb = $registry->repository(Car::class)
+        $qb = $this->registry->repository(Car::class)
             ->createQueryBuilder('car')
             ->select('car.id AS car_id')
             ->addSelect('customer.id AS operand_id')
@@ -626,7 +618,7 @@ final class OrderController extends AbstractController
             $customers[] = $customerId;
         }
 
-        return $registry->repository(Order::class)
+        return $this->registry->repository(Order::class)
             ->createQueryBuilder('entity')
             ->where('entity.car.id IN (:car)')
             ->orWhere('entity.customer.id IN (:customer)')
@@ -773,9 +765,7 @@ final class OrderController extends AbstractController
 
     private function canReceivePayments(): bool
     {
-        $registry = $this->container->get(Registry::class);
-
-        $wallets = $registry->repository(Wallet::class)->findBy(['useInOrder' => true]);
+        $wallets = $this->registry->repository(Wallet::class)->findBy(['useInOrder' => true]);
         if ([] === $wallets) {
             $this->addFlash('error', 'У Вас нет счетов помеченных как используемые в заказах');
             $this->addFlash('info', 'Для того чтобы принимать платежи создайте счет');

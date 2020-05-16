@@ -48,6 +48,8 @@ use function urlencode;
  */
 abstract class AbstractController extends EasyAdminController
 {
+    protected Registry $registry;
+
     /**
      * {@inheritdoc}
      */
@@ -165,9 +167,11 @@ abstract class AbstractController extends EasyAdminController
     {
         parent::initialize($request);
 
+        $this->registry = $this->container->get(Registry::class);
+
         if ('0' === $id = $request->query->get('id')) {
             $easyadmin = $request->attributes->get('easyadmin');
-            $easyadmin['item'] = $this->container->get(Registry::class)->repository($easyadmin['entity']['class'])->find($id);
+            $easyadmin['item'] = $this->registry->repository($easyadmin['entity']['class'])->find($id);
 
             $request->attributes->set('easyadmin', $easyadmin);
         }
@@ -264,7 +268,7 @@ abstract class AbstractController extends EasyAdminController
         $id = $this->request->query->get('id');
         $easyadmin = $this->request->attributes->get('easyadmin');
 
-        $dtoClosure = fn (): array => $this->get(Registry::class)->repository($this->entity['class'])
+        $dtoClosure = fn (): array => $this->registry->repository($this->entity['class'])
             ->createQueryBuilder('t')
             ->where('t.id = :id')
             ->setParameter('id', $this->request->get('id'))

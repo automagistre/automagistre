@@ -8,7 +8,6 @@ use App\Car\Entity\Car;
 use App\Car\Entity\Recommendation;
 use App\Car\Manager\RecommendationManager;
 use App\Controller\EasyAdmin\AbstractController;
-use App\Doctrine\Registry;
 use App\Entity\Tenant\Reservation;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItem;
@@ -105,9 +104,7 @@ abstract class OrderItemController extends AbstractController
         }
 
         if ($item instanceof OrderItemService) {
-            $registry = $this->container->get(Registry::class);
-
-            if (null !== $registry->repository(Recommendation::class)->findOneBy(['realization.id' => $item->getId()])) {
+            if (null !== $this->registry->repository(Recommendation::class)->findOneBy(['realization.id' => $item->getId()])) {
                 $this->container->get(RecommendationManager::class)->recommend($item);
 
                 return;
