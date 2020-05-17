@@ -19,7 +19,6 @@ use function strtoupper;
  *     @ORM\UniqueConstraint(columns={"number", "manufacturer_id"})
  * })
  * @ORM\Entity
- *
  */
 class Part implements Discounted
 {

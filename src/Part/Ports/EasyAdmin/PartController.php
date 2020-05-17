@@ -433,7 +433,7 @@ final class PartController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function persistEntity($entity): void
+    protected function persistEntity($entity): Part
     {
         $model = $entity;
         assert($model instanceof PartDto);
@@ -456,6 +456,8 @@ final class PartController extends AbstractController
         }
 
         $this->event(new PartCreated($entity));
+
+        return $entity;
     }
 
     protected function createEditDto(Closure $closure): ?object
