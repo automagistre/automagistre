@@ -13,7 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 use function preg_replace;
 use function strtoupper;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Table(name="part", uniqueConstraints={
@@ -21,11 +20,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * })
  * @ORM\Entity
  *
- * @UniqueEntity(
- *     fields={"manufacturer", "number"},
- *     errorPath="number",
- *     message="Запчасть {{ value }} у выбранного производителя уже существует."
- * )
  */
 class Part implements Discounted
 {

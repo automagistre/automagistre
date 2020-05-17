@@ -6,6 +6,7 @@ namespace App\Part\Ports\EasyAdmin;
 
 use function abs;
 use App\Controller\EasyAdmin\AbstractController;
+use App\EasyAdmin\Form\AutocompleteType;
 use App\Event\PartAccrued;
 use App\Event\PartCreated;
 use App\Event\PartDecreased;
@@ -87,19 +88,19 @@ final class PartController extends AbstractController
         }
 
         $form = $this->createFormBuilder()
-            ->add('right', EasyAdminAutocompleteType::class, [
+            ->add('right', AutocompleteType::class, [
                 'class' => Part::class,
                 'label' => 'Аналог',
                 'constraints' => [
                     new Constraints\NotBlank(),
-                    new Constraints\NotEqualTo(['value' => $left]),
+                    new Constraints\NotEqualTo(['value' => $left->toId()]),
                 ],
             ])
             ->getForm()
             ->handleRequest($this->request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->partManager->cross($left, $form->get('right')->getData());
+            $this->partManager->cross($left->toId(), $form->get('right')->getData());
 
             return $this->redirectToReferrer();
         }
