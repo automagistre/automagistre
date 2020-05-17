@@ -4,12 +4,23 @@ declare(strict_types=1);
 
 namespace App\Car\Form\DTO;
 
+use App\Car\Entity\Car;
 use App\Car\Entity\CarId;
+use App\Shared\Validator\EntityCheck;
 use App\Vehicle\Domain\Embeddable\Equipment;
 use App\Vehicle\Domain\Model;
 use App\Vehicle\Enum\BodyType;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @EntityCheck(
+ *     class=Car::class,
+ *     message="Автомобиль с такими идентификатором уже существует",
+ *     fields={"identifier": "identifier"},
+ *     exists=false,
+ *     errorPath="identifier",
+ * )
+ */
 final class CarDto
 {
     public CarId $carId;

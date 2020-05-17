@@ -40,12 +40,6 @@
       <code>entityOrNull</code>
     </PossiblyNullReference>
   </file>
-  <file src="src/Car/Form/DTO/CarPossessionDto.php">
-    <PossiblyNullPropertyAssignmentValue occurrences="2">
-      <code>$carId</code>
-      <code>$possessorId</code>
-    </PossiblyNullPropertyAssignmentValue>
-  </file>
   <file src="src/Car/Manager/RecommendationManager.php">
     <PossiblyNullArgument occurrences="1">
       <code>$worker</code>
@@ -58,13 +52,6 @@
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtolower($searchString)</code>
     </PossiblyFalseOperand>
-    <PossiblyNullReference occurrences="1">
-      <code>persist</code>
-    </PossiblyNullReference>
-    <RedundantConditionGivenDocblockType occurrences="2">
-      <code>null !== $dto-&gt;possessorId</code>
-      <code>null !== $dto-&gt;carId</code>
-    </RedundantConditionGivenDocblockType>
   </file>
   <file src="src/Car/Ports/EasyAdmin/RecommendationController.php">
     <PossiblyNullArgument occurrences="3">
@@ -444,9 +431,6 @@
     </PossiblyNullReference>
   </file>
   <file src="src/Order/Controller/OrderPrintController.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$mileage</code>
-    </PossiblyNullArgument>
     <PossiblyNullReference occurrences="2">
       <code>flush</code>
       <code>flush</code>
@@ -523,6 +507,19 @@
       <code>$argument-&gt;getType()</code>
       <code>$argument-&gt;getType()</code>
     </PossiblyNullArgument>
+  </file>
+  <file src="src/Shared/Validator/EntityCheck.php">
+    <PropertyNotSetInConstructor occurrences="4">
+      <code>$message</code>
+      <code>$class</code>
+      <code>$fields</code>
+      <code>$errorPath</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Shared/Validator/EntityCheckValidator.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>EntityCheckValidator</code>
+    </PropertyNotSetInConstructor>
   </file>
   <file src="src/State.php">
     <PropertyNotSetInConstructor occurrences="2">
