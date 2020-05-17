@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin\Report;
 
 use App\Customer\Domain\Operand;
+use App\Customer\Domain\OperandId;
 use App\Doctrine\Registry;
 use App\Order\Entity\Order;
 use function count;
@@ -136,9 +137,9 @@ final class ProfitController extends AbstractController
             $partPrices[] = $partPrice;
             $partProfits[] = $partProfit;
 
-            $item['customer'] = null !== $item['customer_id']
-                ? $operandRepository->find($item['customer_id'])
-                : null;
+            if (null !== $item['customer_id']) {
+                $item['customer_id'] = OperandId::fromString($item['customer_id']);
+            }
         }
         unset($item);
 

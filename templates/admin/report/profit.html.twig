@@ -58,8 +58,10 @@
                                         #{{ order.id }}</a>
                                 </td>
                                 <td rowspan="2">
-                                    {% if order.customer is not empty %}
-                                        <a href="{{ easyadmin_path(order.customer, 'show') }}">{{ order.customer }}</a>
+                                    {% if order.customer_id is not empty %}
+                                        <a href="{{ easyadmin_path('Operand', 'show', {'id': order.customer_id}) }}">
+                                            {{ order.customer_id|display_name }}
+                                        </a>
                                     {% else %}
                                         {% include 'easy_admin/default/label_null.html.twig' %}
                                     {% endif %}
