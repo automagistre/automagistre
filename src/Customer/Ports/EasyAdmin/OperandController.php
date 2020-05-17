@@ -14,7 +14,6 @@ use App\Customer\Domain\Person;
 use App\Entity\Tenant\OperandTransaction;
 use App\Manager\PaymentManager;
 use App\Order\Entity\Order;
-use App\State;
 use function array_map;
 use function array_merge;
 use Doctrine\ORM\Query\Expr\Join;
@@ -78,19 +77,33 @@ class OperandController extends AbstractController
         );
 
         if ($isBalanceSort) {
-            $state = $this->container->get(State::class);
+            $this->sortByBalance($qb, $sortDirection);
+        }
 
-            // TODO
-//            $qb
-//                ->addSelect('SUM(COALESCE(b.price.amount,0)) AS HIDDEN balance')
-//                ->leftJoin(
-//                    Balance::class,
-//                    'b',
-//                    Join::WITH,
-//                    'b.operand = entity.id AND b.tenant = :tenant')
-//                ->orderBy('balance', $sortDirection)
-//                ->groupBy('entity.id')
-//                ->setParameter('tenant', $state->tenant());
+        return $qb;
+    }
+
+    protected function createSearchQueryBuilder(
+        $entityClass,
+        $searchQuery,
+        array $searchableFields,
+        $sortField = null,
+        $sortDirection = null,
+        $dqlFilter = null
+    ): QueryBuilder {
+        $isBalanceSort = 'balance' === $sortField;
+
+        $qb = parent::createSearchQueryBuilder(
+            $entityClass,
+            $searchQuery,
+            $searchableFields,
+            $isBalanceSort ? null : $sortField,
+            $sortDirection,
+            $dqlFilter,
+        );
+
+        if ($isBalanceSort) {
+            $this->sortByBalance($qb, $sortDirection);
         }
 
         return $qb;
@@ -174,5 +187,18 @@ class OperandController extends AbstractController
         }, (array) $paginator->getCurrentPageResults());
 
         return new JsonResponse(['results' => $data]);
+    }
+
+    private function sortByBalance(QueryBuilder $qb, ?string $sortDirection): void
+    {
+        $qb
+            ->addSelect('SUM(COALESCE(ot.amount.amount,0)) AS HIDDEN balance')
+            ->leftJoin(
+                OperandTransaction::class,
+                'ot',
+                Join::WITH,
+                'ot.recipient.id = entity.id')
+            ->orderBy('balance', $sortDirection)
+            ->groupBy('entity');
     }
 }
