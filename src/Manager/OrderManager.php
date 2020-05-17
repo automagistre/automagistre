@@ -6,7 +6,7 @@ namespace App\Manager;
 
 use App\Customer\Domain\Operand;
 use App\Doctrine\Registry;
-use App\Entity\Tenant\Employee;
+use App\Employee\Entity\Employee;
 use App\Entity\Tenant\OperandTransaction;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderContractor;

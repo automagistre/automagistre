@@ -107,16 +107,6 @@
       <code>$registry</code>
     </MissingConstructor>
   </file>
-  <file src="src/Controller/EasyAdmin/EmployeeController.php">
-    <PossiblyNullReference occurrences="3">
-      <code>transactional</code>
-      <code>transactional</code>
-      <code>flush</code>
-    </PossiblyNullReference>
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>EmployeeController</code>
-    </PropertyNotSetInConstructor>
-  </file>
   <file src="src/Controller/EasyAdmin/ExpenseItemController.php">
     <PossiblyNullArgument occurrences="1">
       <code>$entity-&gt;getDescription()</code>
@@ -225,6 +215,25 @@
       <code>json_encode($data, JSON_THROW_ON_ERROR)</code>
     </PossiblyFalseArgument>
   </file>
+  <file src="src/Employee/Controller/EmployeeController.php">
+    <PossiblyNullReference occurrences="3">
+      <code>transactional</code>
+      <code>transactional</code>
+      <code>flush</code>
+    </PossiblyNullReference>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>EmployeeController</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Employee/Entity/Employee.php">
+    <PossiblyNullReference occurrences="2">
+      <code>getFullName</code>
+      <code>getFullName</code>
+    </PossiblyNullReference>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>$ratio</code>
+    </PropertyNotSetInConstructor>
+  </file>
   <file src="src/Employee/Fixtures/EmployeeFixtures.php">
     <PossiblyNullArgument occurrences="1">
       <code>$person</code>
@@ -238,15 +247,6 @@
       <code>$this-&gt;id</code>
       <code>$this-&gt;id</code>
     </UndefinedThisPropertyFetch>
-  </file>
-  <file src="src/Entity/Tenant/Employee.php">
-    <PossiblyNullReference occurrences="2">
-      <code>getFullName</code>
-      <code>getFullName</code>
-    </PossiblyNullReference>
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>$ratio</code>
-    </PropertyNotSetInConstructor>
   </file>
   <file src="src/EventListener/AccrueIncomePartsListener.php">
     <PossiblyNullArgument occurrences="1">
@@ -373,6 +373,11 @@
     <PropertyNotSetInConstructor occurrences="1">
       <code>Version20200512184714</code>
     </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Migrations/Version20200517225439.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$id</code>
+    </PossiblyNullArgument>
   </file>
   <file src="src/Order/Controller/OrderController.php">
     <PossiblyFalseOperand occurrences="1">

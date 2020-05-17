@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Employee\Form;
 
-use App\Entity\Tenant\Employee;
+use App\Employee\Entity\Employee;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;

@@ -8,7 +8,7 @@ use App\Calendar\View\Stream;
 use App\Calendar\View\StreamCollection;
 use App\Customer\Domain\OperandId;
 use App\Customer\Domain\Person;
-use App\Entity\Tenant\Employee;
+use App\Employee\Entity\Employee;
 use DateInterval;
 use DateTimeImmutable;
 use Generator;

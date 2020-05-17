@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\EventListener;
+namespace App\Employee\EventListener;
 
-use App\Entity\Tenant\Employee;
+use App\Employee\Entity\Employee;
 use App\Event\EmployeeCreated;
 use App\Event\EmployeeFired;
 use LogicException;
@@ -34,6 +34,11 @@ final class EmployeeContractorListener implements EventSubscriberInterface
             throw new LogicException('Employee expected');
         }
 
-        $entity->getPerson()->setContractor(EmployeeCreated::class === $eventName);
+        $person = $entity->getPerson();
+        if (null === $person) {
+            return;
+        }
+
+        $person->setContractor(EmployeeCreated::class === $eventName);
     }
 }

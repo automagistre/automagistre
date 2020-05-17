@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Calendar\Application\Create;
 
 use App\Car\Entity\CarId;
-use App\Entity\Tenant\Employee;
+use App\Employee\Entity\Employee;
 use DateInterval;
 use DateTimeImmutable;
 use libphonenumber\PhoneNumber;

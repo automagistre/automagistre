@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin;
+namespace App\Employee\Controller;
 
-use App\Entity\Tenant\Employee;
-use App\Entity\Tenant\MonthlySalary;
+use App\Controller\EasyAdmin\AbstractController;
+use App\Employee\Entity\Employee;
+use App\Employee\Entity\MonthlySalary;
 use function assert;
 use LogicException;
 use stdClass;

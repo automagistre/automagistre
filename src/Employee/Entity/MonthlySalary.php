@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Tenant;
+namespace App\Employee\Entity;
 
 use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Doctrine\ORM\Mapping\Traits\CreatedByRelation;

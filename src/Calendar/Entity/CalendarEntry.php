@@ -3,7 +3,7 @@
 namespace App\Calendar\Entity;
 
 use App\Calendar\Enum\DeletionReason;
-use App\Entity\Tenant\Employee;
+use App\Employee\Entity\Employee;
 use DateInterval;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;

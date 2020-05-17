@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin;
+namespace App\Employee\Controller;
 
+use App\Controller\EasyAdmin\AbstractController;
 use App\Customer\Domain\Person;
-use App\Entity\Tenant\Employee;
-use App\Entity\Tenant\MonthlySalary;
+use App\Employee\Entity\Employee;
+use App\Employee\Entity\MonthlySalary;
 use App\Entity\Tenant\OperandTransaction;
 use App\Entity\Tenant\Penalty;
 use App\Entity\Tenant\Salary;

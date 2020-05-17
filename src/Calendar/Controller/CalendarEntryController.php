@@ -12,7 +12,7 @@ use App\Calendar\Form\CalendarEntryDto;
 use App\Calendar\Form\DeletionReasonFormType;
 use App\Calendar\View\Streamer;
 use App\Controller\EasyAdmin\AbstractController;
-use App\Entity\Tenant\Employee;
+use App\Employee\Entity\Employee;
 use function array_map;
 use function array_merge;
 use function assert;

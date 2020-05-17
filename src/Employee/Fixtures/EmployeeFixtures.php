@@ -6,7 +6,7 @@ namespace App\Employee\Fixtures;
 
 use App\Customer\Domain\Person;
 use App\Doctrine\Registry;
-use App\Entity\Tenant\Employee;
+use App\Employee\Entity\Employee;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;

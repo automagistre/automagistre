@@ -2,7 +2,7 @@
 
 namespace App\Calendar\View;
 
-use App\Entity\Tenant\Employee;
+use App\Employee\Entity\Employee;
 use function array_intersect;
 use function array_keys;
 use DateInterval;

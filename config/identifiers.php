@@ -6,6 +6,7 @@ return [
     App\Car\Entity\RecommendationId::class => ['recommendation_id'],
     App\Car\Entity\RecommendationPartId::class => ['recommendation_part_id'],
     App\Customer\Domain\OperandId::class => ['operand_id'],
+    App\Employee\Entity\EmployeeId::class => ['employee_id'],
     App\Income\Entity\IncomeId::class => ['income_id'],
     App\Income\Entity\IncomePartId::class => ['income_part_id'],
     App\Manufacturer\Domain\ManufacturerId::class => ['manufacturer_id'],

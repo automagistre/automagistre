@@ -6,7 +6,7 @@ namespace App\Calendar\Application\Reschedule;
 
 use App\Calendar\Entity\CalendarEntryId;
 use App\Car\Entity\CarId;
-use App\Entity\Tenant\Employee;
+use App\Employee\Entity\Employee;
 use DateInterval;
 use DateTimeImmutable;
 use libphonenumber\PhoneNumber;

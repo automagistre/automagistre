@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Command\Employee;
 
 use App\Doctrine\Registry;
-use App\Entity\Tenant\MonthlySalary;
+use App\Employee\Entity\MonthlySalary;
 use App\Manager\PaymentManager;
 use App\State;
 use App\Tenant\Tenant;

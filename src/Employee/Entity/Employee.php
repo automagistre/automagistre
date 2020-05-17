@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Tenant;
+namespace App\Employee\Entity;
 
 use App\Customer\Domain\Person;
 use App\Doctrine\ORM\Mapping\Traits\Identity;
@@ -19,6 +19,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class Employee
 {
     use Identity;
+
+    /**
+     * @ORM\Column(type="employee_id")
+     */
+    private EmployeeId $uuid;
 
     /**
      * @var PersonRelation
@@ -50,6 +55,7 @@ class Employee
 
     public function __construct()
     {
+        $this->uuid = EmployeeId::generate();
         $this->person = new PersonRelation();
         $this->hiredAt = new DateTime();
     }

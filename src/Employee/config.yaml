@@ -1,0 +1,65 @@
+easy_admin:
+    entities:
+        Employee:
+            class: App\Employee\Entity\Employee
+            controller: App\Employee\Controller\EmployeeController
+            disabled_actions: ['delete']
+            templates:
+                show: 'easy_admin/employee/show.html.twig'
+            list:
+                title: 'Сотрудники'
+                sort: [firedAt, ASC]
+                max_results: 30
+                actions:
+                    - { name: 'fire', template: 'easy_admin/employee/action_fire.html.twig' }
+                fields:
+                    - { property: 'id' }
+                    - { property: 'person', label: 'Ф.И.О', template: 'easy_admin/field_show.html.twig' }
+                    - { property: 'balance', virtual: true, label: 'Баланс', template: 'easy_admin/employee/field_balance.html.twig' }
+                    - { property: 'motivation', virtual: true, label: 'Мотивация', template: 'easy_admin/employee/field_buttons.html.twig' }
+                    - { property: 'ratio', label: '%', template: 'easy_admin/employee/field_podstanova.html.twig' }
+                    - { property: 'hiredAt', label: 'Трудоустроен' }
+                    - { property: 'firedAt', label: 'Уволен' }
+            show:
+                title: 'Сотрудник № {{ entity.id }}'
+                fields:
+                    - { property: 'person', label: 'Ф.И.О', template: 'easy_admin/field_show.html.twig' }
+                    - { property: 'balance', virtual: true, label: 'Баланс', template: 'easy_admin/employee/field_balance.html.twig' }
+                    - { property: 'ratio', label: '%', template: 'easy_admin/employee/field_podstanova.html.twig' }
+                    - { property: 'hiredAt', label: 'Трудоустроен' }
+                    - { property: 'firedAt', label: 'Уволен' }
+            form:
+                fields:
+                    - { property: 'person', label: 'Ф.И.О', type: 'easyadmin_autocomplete', type_options: { required: true, class: App\Customer\Domain\Person } }
+                    - { property: 'ratio', label: 'Ставка' }
+            new:
+                title: 'Добавить нового сотрудника'
+            edit:
+                title: 'Редактировать сотрудника'
+
+        MonthlySalary:
+            class: App\Employee\Entity\MonthlySalary
+            controller: App\Employee\Controller\MonthlySalaryController
+            disabled_actions: ['delete', 'show', 'search', 'autocomplete', 'edit']
+            new:
+                title: 'Создать ежемесячный оклад для "{{ entity.employee }}"'
+                form_options: { data_class: stdClass }
+                fields:
+                    - { property: 'payday', label: 'День начисления', type: App\Form\Type\DayType }
+                    - { property: 'amount', label: 'Сумма', type: App\Form\Type\MoneyType }
+
+doctrine:
+    orm:
+        entity_managers:
+            tenant:
+                mappings:
+                    employee:
+                        type: annotation
+                        prefix: App\Employee\Entity
+                        dir: '%kernel.project_dir%/src/Employee/Entity'
+
+services:
+    _defaults:
+        public: false
+        autowire: true
+        autoconfigure: true
