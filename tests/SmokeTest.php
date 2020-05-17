@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Calendar\Infrastructure\Fixtures\CalendarEntryFixtures;
+use App\Calendar\Fixtures\CalendarEntryFixtures;
 use App\Income\Fixtures\IncomeFixtures;
 use function array_diff;
 use function array_keys;

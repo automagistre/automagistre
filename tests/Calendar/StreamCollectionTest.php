@@ -2,10 +2,10 @@
 
 namespace App\Tests\Calendar;
 
-use App\Calendar\Application\CalendarEntryView;
-use App\Calendar\Application\Stream;
-use App\Calendar\Application\StreamCollection;
-use App\Calendar\Domain\CalendarEntryId;
+use App\Calendar\Entity\CalendarEntryId;
+use App\Calendar\View\CalendarEntryView;
+use App\Calendar\View\Stream;
+use App\Calendar\View\StreamCollection;
 use App\Customer\Domain\OperandId;
 use App\Customer\Domain\Person;
 use App\Entity\Tenant\Employee;

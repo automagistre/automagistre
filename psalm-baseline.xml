@@ -8,7 +8,7 @@
       <code>$representative[0]</code>
     </PossiblyInvalidArgument>
   </file>
-  <file src="src/Calendar/Ports/EasyAdmin/CalendarEntryController.php">
+  <file src="src/Calendar/Controller/CalendarEntryController.php">
     <PossiblyNullArgument occurrences="6">
       <code>$dto-&gt;date</code>
       <code>$dto-&gt;duration</code>

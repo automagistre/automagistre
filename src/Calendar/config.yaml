@@ -1,8 +1,8 @@
 easy_admin:
     entities:
         CalendarEntry:
-            class: App\Calendar\Domain\CalendarEntry
-            controller: App\Calendar\Ports\EasyAdmin\CalendarEntryController
+            class: App\Calendar\Entity\CalendarEntry
+            controller: App\Calendar\Controller\CalendarEntryController
             disabled_actions: ['show', 'search', 'autocomplete', 'delete']
             templates:
                 new: 'easy_admin/calendar/new.html.twig'
@@ -51,8 +51,8 @@ doctrine:
                 mappings:
                     calendar:
                         type: annotation
-                        prefix: App\Calendar\Domain
-                        dir: '%kernel.project_dir%/src/Calendar/Domain'
+                        prefix: App\Calendar\Entity
+                        dir: '%kernel.project_dir%/src/Calendar/Entity'
 
 services:
     _defaults:
@@ -60,8 +60,12 @@ services:
         autowire: true
         autoconfigure: true
 
-    App\Calendar\Application\CalendarEntryHandler:
+    App\Calendar\Application\Create\CreateCalendarEntryHandler:
         tags:
-            - { name: command_handler, handles: App\Calendar\Domain\Command\CreateCalendarEntryCommand, method: create }
-            - { name: command_handler, handles: App\Calendar\Domain\Command\RescheduleCalendarEntryCommand, method: reschedule }
-            - { name: command_handler, handles: App\Calendar\Domain\Command\DeleteCalendarEntryCommand, method: delete }
+            - { name: command_handler, handles: App\Calendar\Application\Create\CreateCalendarEntryCommand }
+    App\Calendar\Application\Reschedule\RescheduleCalendarEntryHandler:
+        tags:
+            - { name: command_handler, handles: App\Calendar\Application\Reschedule\RescheduleCalendarEntryCommand }
+    App\Calendar\Application\Delete\DeleteCalendarEntryHandler:
+        tags:
+            - { name: command_handler, handles: App\Calendar\Application\Delete\DeleteCalendarEntryCommand }

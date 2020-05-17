@@ -1,7 +1,7 @@
 <?php
 
 return [
-    App\Calendar\Domain\CalendarEntryId::class => ['calendar_entry_id'],
+    App\Calendar\Entity\CalendarEntryId::class => ['calendar_entry_id'],
     App\Car\Entity\CarId::class => ['car_id'],
     App\Car\Entity\RecommendationId::class => ['recommendation_id'],
     App\Car\Entity\RecommendationPartId::class => ['recommendation_part_id'],

@@ -2,10 +2,10 @@
 
 namespace App\Tests\Calendar;
 
-use App\Calendar\Application\CalendarEntryView;
-use App\Calendar\Application\Stream;
-use App\Calendar\Application\StreamOverflowException;
-use App\Calendar\Domain\CalendarEntryId;
+use App\Calendar\Entity\CalendarEntryId;
+use App\Calendar\View\CalendarEntryView;
+use App\Calendar\View\Stream;
+use App\Calendar\View\StreamOverflowException;
 use DateInterval;
 use DateTimeImmutable;
 use Generator;

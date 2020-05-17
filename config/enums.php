@@ -1,7 +1,7 @@
 <?php
 
 return [
-    App\Calendar\Domain\DeletionReason::class => ['deletion_reason'],
+    App\Calendar\Enum\DeletionReason::class => ['deletion_reason'],
     App\Enum\NoteType::class => ['note_type_enum'],
     App\Enum\OrderStatus::class => ['order_status_enum'],
     App\Shared\Enum\Transition::class => ['transition_enum'],
