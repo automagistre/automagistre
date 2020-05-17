@@ -23,8 +23,8 @@ final class DoctrineStreamer implements Streamer
     {
         $entities = $this->registry->manager(CalendarEntry::class)->createQueryBuilder()
             ->select('entity.id')
-            ->addSelect('entity.date')
-            ->addSelect('entity.duration')
+            ->addSelect('entity.schedule.date')
+            ->addSelect('entity.schedule.duration')
             ->addSelect('entity.customer.firstName AS firstName')
             ->addSelect('entity.customer.lastName AS lastName')
             ->addSelect('entity.customer.phone AS phone')
@@ -34,8 +34,8 @@ final class DoctrineStreamer implements Streamer
             ->from(CalendarEntry::class, 'entity')
             ->leftJoin(CalendarEntry::class, 'previous', Join::WITH, 'entity.id = previous.previous')
             ->leftJoin(CalendarEntryDeletion::class, 'deletion', Join::WITH, 'entity.id = deletion.entry')
-            ->where('entity.date >= :start')
-            ->andWhere('entity.date <= :end')
+            ->where('entity.schedule.date >= :start')
+            ->andWhere('entity.schedule.date <= :end')
             ->andWhere('previous IS NULL')
             ->andWhere('deletion IS NULL')
             ->orderBy('entity.worker', 'DESC')
@@ -50,8 +50,8 @@ final class DoctrineStreamer implements Streamer
             array_map(
                 fn (array $row) => new CalendarEntryView(
                     $row['id'],
-                    $row['date'],
-                    $row['duration'],
+                    $row['schedule.date'],
+                    $row['schedule.duration'],
                     $row['firstName'],
                     $row['lastName'],
                     $row['phone'],

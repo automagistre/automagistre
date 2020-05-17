@@ -23,14 +23,9 @@ class CalendarEntry
     private CalendarEntryId $id;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Embedded(class=Schedule::class, columnPrefix=false)
      */
-    private DateTimeImmutable $date;
-
-    /**
-     * @ORM\Column(type="dateinterval")
-     */
-    private DateInterval $duration;
+    private Schedule $schedule;
 
     /**
      * @ORM\Embedded(class=CalendarEntryCustomerInformation::class, columnPrefix=false)
@@ -72,8 +67,7 @@ class CalendarEntry
         ?self $previous = null
     ) {
         $this->id = CalendarEntryId::generate();
-        $this->date = $date;
-        $this->duration = $duration;
+        $this->schedule = new Schedule($date, $duration);
         $this->createdAt = new DateTimeImmutable();
         $this->createdBy = $userId;
         $this->customer = $customer;

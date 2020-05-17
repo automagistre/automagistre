@@ -165,8 +165,8 @@ final class CalendarEntryController extends AbstractController
     {
         $item = $this->em->createQueryBuilder()
             ->select('entity.id')
-            ->addSelect('entity.date')
-            ->addSelect('entity.duration')
+            ->addSelect('entity.schedule.date')
+            ->addSelect('entity.schedule.duration')
             ->addSelect('entity.customer.firstName AS firstName')
             ->addSelect('entity.customer.lastName AS lastName')
             ->addSelect('entity.customer.phone AS phone')
@@ -186,8 +186,8 @@ final class CalendarEntryController extends AbstractController
 
         return new CalendarEntryDto(
             $item['id'],
-            $item['date'],
-            $item['duration'],
+            $item['schedule.date'],
+            $item['schedule.duration'],
             $item['firstName'],
             $item['lastName'],
             $item['phone'],
