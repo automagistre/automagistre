@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Order\Controller;
 
 use App\Car\Entity\Car;
-use App\Car\Entity\CarPossession;
 use App\Controller\EasyAdmin\AbstractController;
 use App\Customer\Domain\Operand;
 use App\Customer\Domain\Organization;
@@ -594,12 +593,12 @@ final class OrderController extends AbstractController
     ): QueryBuilder {
         // TODO Восстановить поиск по производителю и кузову
 
-        $qb = $this->registry->repository(Car::class)
-            ->createQueryBuilder('car')
-            ->select('car.uuid AS car_id')
-            ->addSelect('customer.uuid AS operand_id')
-            ->leftJoin(CarPossession::class, 'possession', Join::WITH, 'possession.carId = car.uuid')
-            ->leftJoin(Operand::class, 'customer', Join::WITH, 'customer.uuid = possession.possessorId')
+        $qb = $this->registry->manager(Order::class)
+            ->createQueryBuilder()
+            ->select('o')
+            ->from(Order::class, 'o')
+            ->leftJoin(Car::class, 'car', Join::WITH, 'o.carId = car.uuid')
+            ->leftJoin(Operand::class, 'customer', Join::WITH, 'customer.uuid = o.customerId')
 //            ->leftJoin(Model::class, 'carModel', Join::WITH, 'carModel.uuid = car.vehicleId')
 //            ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'manufacturer.uuid = carModel.manufacturerId')
             ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = customer.id AND customer INSTANCE OF '.Person::class)
@@ -626,22 +625,9 @@ final class OrderController extends AbstractController
             $qb->setParameter($key, '%'.mb_strtolower($item).'%');
         }
 
-        $cars = [];
-        $customers = [];
-        foreach ($qb->getQuery()->getArrayResult() as $item) {
-            ['car_id' => $carId, 'operand_id' => $customerId] = $item;
-            $cars[] = $carId;
-            $customers[] = $customerId;
-        }
-
-        return $this->registry->repository(Order::class)
-            ->createQueryBuilder('entity')
-            ->where('entity.carId IN (:car)')
-            ->orWhere('entity.customerId IN (:customer)')
-            ->setParameter('car', $cars)
-            ->setParameter('customer', $customers)
-            ->orderBy('entity.closedAt', 'ASC')
-            ->addOrderBy('entity.id', 'DESC');
+        return $qb
+            ->orderBy('o.closedAt', 'ASC')
+            ->addOrderBy('o.id', 'DESC');
     }
 
     /**

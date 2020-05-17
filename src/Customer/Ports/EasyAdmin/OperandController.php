@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Customer\Ports\EasyAdmin;
 
-use App\Car\Repository\CarPossessionRepository;
+use App\Car\Repository\CarCustomerRepository;
 use App\Controller\EasyAdmin\AbstractController;
 use App\Customer\Domain\Operand;
 use App\Customer\Domain\OperandNote;
@@ -34,7 +34,7 @@ class OperandController extends AbstractController
     {
         return array_merge(parent::getSubscribedServices(), [
             PaymentManager::class,
-            CarPossessionRepository::class,
+            CarCustomerRepository::class,
         ]);
     }
 
@@ -47,6 +47,7 @@ class OperandController extends AbstractController
             return parent::indexAction($request);
         }
 
+        $this->initialize($request);
         $id = $request->query->get('id');
 
         $entity = $this->registry->repository(Operand::class)->find($id);
@@ -102,10 +103,10 @@ class OperandController extends AbstractController
         if ('show' === $actionName) {
             /** @var Operand $operand */
             $operand = $parameters['entity'];
-            /** @var CarPossessionRepository $carRepository */
-            $carRepository = $this->container->get(CarPossessionRepository::class);
+            /** @var CarCustomerRepository $carRepository */
+            $carRepository = $this->container->get(CarCustomerRepository::class);
 
-            $parameters['cars'] = $carRepository->carsByPossessor($operand->toId());
+            $parameters['cars'] = $carRepository->carsByCustomer($operand->toId());
             $parameters['orders'] = $this->registry->repository(Order::class)
                 ->findBy(['customerId' => $operand->toId()], ['closedAt' => 'DESC'], 20);
             $parameters['payments'] = $this->registry->repository(OperandTransaction::class)

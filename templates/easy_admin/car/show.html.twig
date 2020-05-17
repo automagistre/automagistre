@@ -1,7 +1,5 @@
 {% extends 'easy_admin/default/show.html.twig' %}
 
-{# @var entity \App\Entity\Person #}
-
 {% block main %}
     <div class="row">
         <div class="col-md-6">
@@ -92,15 +90,15 @@
                         <h3 class="box-title">Владельцы</h3>
                     </div>
 
-                    {% if possessors is not empty %}
+                    {% if customers is not empty %}
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <tbody>
-                                {% for possessor in possessors %}
+                                {% for customer in customers %}
                                     <tr>
                                         <td>
-                                            <a href="{{ easyadmin_path_by_id(possessor.uuid, 'show', {'referer': true}) }}">
-                                                {{ possessor.uuid|display_name }}
+                                            <a href="{{ easyadmin_path_by_id(customer.uuid, 'show', {'referer': true}) }}">
+                                                {{ customer.uuid|display_name }}
                                             </a>
                                         </td>
                                     </tr>
@@ -113,15 +111,8 @@
                             Владельцев нет
                         </div>
                     {% endif %}
-
-                    <div class="box-footer">
-                        <a href="{{ easyadmin_path('Car', 'possession', {'car_id': entity.uuid.toString, 'referer': true}) }}" class="btn btn-primary">
-                            Добавить владельца
-                        </a>
-                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 {% endblock %}

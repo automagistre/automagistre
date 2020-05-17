@@ -6,19 +6,14 @@ namespace App\Car\Ports\EasyAdmin;
 
 use App\Car\Entity\Car;
 use App\Car\Entity\CarId;
-use App\Car\Entity\CarPossession;
 use App\Car\Entity\Note;
 use App\Car\Form\DTO\CarDto;
-use App\Car\Form\DTO\CarPossessionDto;
-use App\Car\Repository\CarPossessionRepository;
+use App\Car\Repository\CarCustomerRepository;
 use App\Controller\EasyAdmin\AbstractController;
 use App\Customer\Domain\Operand;
-use App\Customer\Domain\OperandId;
 use App\Customer\Domain\Organization;
 use App\Customer\Domain\Person;
-use App\EasyAdmin\Form\AutocompleteType;
 use App\Order\Entity\Order;
-use App\Shared\Enum\Transition;
 use App\Vehicle\Domain\Embeddable\Engine;
 use App\Vehicle\Domain\Embeddable\Equipment;
 use App\Vehicle\Domain\Model;
@@ -43,45 +38,7 @@ final class CarController extends AbstractController
     public static function getSubscribedServices(): array
     {
         return array_merge(parent::getSubscribedServices(), [
-            CarPossessionRepository::class,
-        ]);
-    }
-
-    public function possessionAction(): Response
-    {
-        /** @var CarId|null $carId */
-        $carId = $this->getIdentifier(CarId::class);
-        /** @var OperandId|null $possessorId */
-        $possessorId = $this->getIdentifier(OperandId::class);
-
-        $dto = new CarPossessionDto($carId, $possessorId);
-
-        $form = $this->createFormBuilder($dto)
-            ->add('possessorId', AutocompleteType::class, [
-                'label' => 'Владелец',
-                'class' => Operand::class,
-                'disabled' => null !== $dto->possessorId,
-            ])
-            ->add('carId', AutocompleteType::class, [
-                'label' => 'Автомобиль',
-                'class' => Car::class,
-                'disabled' => null !== $dto->carId,
-            ])
-            ->getForm()
-            ->handleRequest($this->request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->em;
-            $em->persist(new CarPossession($dto->possessorId, $dto->carId, Transition::promote()));
-            $em->flush();
-
-            return $this->redirectToReferrer();
-        }
-
-        return $this->render('easy_admin/simple.html.twig', [
-            'content_title' => 'Связать автомобиль и владельца',
-            'form' => $form->createView(),
-            'button' => 'Связать',
+            CarCustomerRepository::class,
         ]);
     }
 
@@ -191,14 +148,14 @@ final class CarController extends AbstractController
             /** @var Car $car */
             $car = $parameters['entity'];
 
-            /** @var CarPossessionRepository $possessions */
-            $possessions = $this->container->get(CarPossessionRepository::class);
+            /** @var CarCustomerRepository $customers */
+            $customers = $this->container->get(CarCustomerRepository::class);
 
             $parameters['orders'] = $this->registry->repository(Order::class)
                 ->findBy(['carId' => $car->toId()], ['closedAt' => 'DESC'], 20);
             $parameters['notes'] = $this->registry->repository(Note::class)
                 ->findBy(['car' => $car], ['createdAt' => 'DESC']);
-            $parameters['possessors'] = $possessions->possessorsByCar($car->toId());
+            $parameters['customers'] = $customers->customersByCar($car->toId());
         }
 
         return parent::renderTemplate($actionName, $templatePath, $parameters);
@@ -216,7 +173,13 @@ final class CarController extends AbstractController
         $dqlFilter = null
     ): QueryBuilder {
         $qb = $this->registry->repository(Car::class)->createQueryBuilder('car')
-            ->leftJoin(CarPossession::class, 'possession', Join::WITH, 'possession.carId = car.uuid');
+            ->leftJoin(Order::class, 'o', Join::WITH, 'o.carId = car.uuid');
+
+        $customerId = $this->request->query->get('customer_id');
+        if (null !== $customerId) {
+            $qb->andWhere('o.customerId = :customer')
+                ->setParameter('customer', $customerId);
+        }
 
         if ('' === $searchQuery) {
             return $qb;
@@ -227,9 +190,9 @@ final class CarController extends AbstractController
         $qb
 //            ->leftJoin(Model::class, 'model', Join::WITH, 'model.uuid = car.vehicleId')
 //            ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'manufacturer.uuid = model.manufacturerId')
-            ->leftJoin(Operand::class, 'owner', Join::WITH, 'possession.possessorId = owner.uuid')
-            ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = owner.id AND owner INSTANCE OF '.Person::class)
-            ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = owner.id AND owner INSTANCE OF '.Organization::class);
+            ->leftJoin(Operand::class, 'customer', Join::WITH, 'o.customerId = customer.uuid')
+            ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = customer.id AND customer INSTANCE OF '.Person::class)
+            ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = customer.id AND customer INSTANCE OF '.Organization::class);
 
         foreach (explode(' ', $searchQuery) as $key => $searchString) {
             $key = ':search_'.$key;
@@ -265,12 +228,6 @@ final class CarController extends AbstractController
         $isUuid = $query->has('use_uuid');
 
         $qb = $this->createSearchQueryBuilder($query->get('entity'), $query->get('query', ''), []);
-
-        $ownerId = $query->get('owner_id');
-        if (null !== $ownerId) {
-            $qb->andWhere('possession.possessorId = :possessor')
-                ->setParameter('possessor', $ownerId);
-        }
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
