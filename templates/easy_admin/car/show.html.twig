@@ -39,6 +39,7 @@
                                 <tr>
                                     <th>Номер</th>
                                     <th>Дата закрытия</th>
+                                    <th>Заказчик</th>
                                     <th>Сумма</th>
                                 </tr>
                                 </thead>
@@ -56,6 +57,13 @@
                                                 {% include 'easy_admin/order/field_status.html.twig' with {'value': order.status, 'item': order} only %}
                                             {% else %}
                                                 {{ order.closedAt|format_datetime('short', 'short', '', 'GMT+3') }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if order.customerId is not empty %}
+                                                <a href="{{ easyadmin_path_by_id(order.customerId, 'show', {'referer': true}) }}">
+                                                    {{ order.customerId|display_name }}
+                                                </a>
                                             {% endif %}
                                         </td>
                                         <td>{{ order.totalForPayment|localize_money }}</td>
