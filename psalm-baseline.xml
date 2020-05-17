@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="3.11.2@d470903722cfcbc1cd04744c5491d3e6d13ec3d9">
+<files psalm-version="3.11.4@58e1d8e68e5098bf4fbfdfb420c38d563f882549">
   <file src="src/ArgumentResolver/ArgumentResolver.php">
     <PossiblyFalseArgument occurrences="1">
       <code>get_class($representative[0])</code>
@@ -85,15 +85,17 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Command/Employee/MonthlySalaryCommand.php">
+    <DocblockTypeContradiction occurrences="1">
+      <code>is_string($payday)</code>
+    </DocblockTypeContradiction>
     <PossiblyNullArgument occurrences="1">
       <code>$person</code>
     </PossiblyNullArgument>
-    <RedundantCondition occurrences="2">
+    <RedundantConditionGivenDocblockType occurrences="2">
       <code>!is_string($payday) || !is_string($description)</code>
       <code>is_string($payday)</code>
-    </RedundantCondition>
-    <TypeDoesNotContainType occurrences="2">
-      <code>is_string($payday)</code>
+    </RedundantConditionGivenDocblockType>
+    <TypeDoesNotContainType occurrences="1">
       <code>is_string($description)</code>
     </TypeDoesNotContainType>
   </file>
@@ -231,6 +233,12 @@
       <code>EmployeeFixtures</code>
     </PropertyNotSetInConstructor>
   </file>
+  <file src="src/Entity/Embeddable/Relation.php">
+    <UndefinedThisPropertyFetch occurrences="2">
+      <code>$this-&gt;id</code>
+      <code>$this-&gt;id</code>
+    </UndefinedThisPropertyFetch>
+  </file>
   <file src="src/Entity/Tenant/Employee.php">
     <PossiblyNullReference occurrences="2">
       <code>getFullName</code>
@@ -327,13 +335,13 @@
     </PossiblyNullReference>
   </file>
   <file src="src/Infrastructure/Identifier/IdentifierTwigExtension.php">
+    <MissingClosureParamType occurrences="2">
+      <code>$mixed</code>
+      <code>$value</code>
+    </MissingClosureParamType>
     <MissingClosureReturnType occurrences="1">
       <code>fn (</code>
     </MissingClosureReturnType>
-    <MissingParamType occurrences="2">
-      <code>$mixed</code>
-      <code>$value</code>
-    </MissingParamType>
   </file>
   <file src="src/Manager/DeficitManager.php">
     <InvalidNullableReturnType occurrences="1">
@@ -464,11 +472,6 @@
     <PossiblyNullArgument occurrences="1">
       <code>preg_replace('/[^a-zA-Z0-9]/', '', $number)</code>
     </PossiblyNullArgument>
-  </file>
-  <file src="src/Part/Domain/PartCross.php">
-    <NullArgument occurrences="1">
-      <code>$this-&gt;parts</code>
-    </NullArgument>
   </file>
   <file src="src/Part/Infrastructure/PartFormatter.php">
     <PossiblyNullArrayOffset occurrences="1">
