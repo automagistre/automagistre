@@ -6,7 +6,6 @@ namespace App\Calendar\Application\Reschedule;
 
 use App\Calendar\Entity\CalendarEntryCustomerInformation;
 use App\Calendar\Repository\CalendarEntryRepository;
-use App\State;
 use DomainException;
 use function sprintf;
 
@@ -14,12 +13,9 @@ final class RescheduleCalendarEntryHandler
 {
     private CalendarEntryRepository $repository;
 
-    private State $state;
-
-    public function __construct(CalendarEntryRepository $repository, State $state)
+    public function __construct(CalendarEntryRepository $repository)
     {
         $this->repository = $repository;
-        $this->state = $state;
     }
 
     public function __invoke(RescheduleCalendarEntryCommand $command): void
@@ -39,7 +35,6 @@ final class RescheduleCalendarEntryHandler
                 $command->carId,
                 $command->description,
             ),
-            $this->state->userId(),
             $command->worker,
         );
 

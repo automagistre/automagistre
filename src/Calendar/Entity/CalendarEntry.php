@@ -4,7 +4,6 @@ namespace App\Calendar\Entity;
 
 use App\Calendar\Enum\DeletionReason;
 use App\Entity\Tenant\Employee;
-use App\User\Domain\UserId;
 use DateInterval;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -33,16 +32,6 @@ class CalendarEntry
     private CalendarEntryCustomerInformation $customer;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
-     */
-    private DateTimeImmutable $createdAt;
-
-    /**
-     * @ORM\Column(type="user_id")
-     */
-    private UserId $createdBy;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Employee::class)
      */
     private ?Employee $worker;
@@ -61,15 +50,12 @@ class CalendarEntry
     private function __construct(
         DateTimeImmutable $date,
         DateInterval $duration,
-        UserId $userId,
         CalendarEntryCustomerInformation $customer,
         ?Employee $worker,
         ?self $previous = null
     ) {
         $this->id = CalendarEntryId::generate();
         $this->schedule = new Schedule($date, $duration);
-        $this->createdAt = new DateTimeImmutable();
-        $this->createdBy = $userId;
         $this->customer = $customer;
         $this->worker = $worker;
         $this->previous = $previous;
@@ -84,28 +70,26 @@ class CalendarEntry
         DateTimeImmutable $date,
         DateInterval $duration,
         CalendarEntryCustomerInformation $customer,
-        UserId $userId,
         ?Employee $worker
     ): self {
-        return new self($date, $duration, $userId, $customer, $worker);
+        return new self($date, $duration, $customer, $worker);
     }
 
     public function reschedule(
         DateTimeImmutable $date,
         DateInterval $duration,
         CalendarEntryCustomerInformation $customer,
-        UserId $userId,
         ?Employee $worker
     ): self {
-        return new self($date, $duration, $userId, $customer, $worker, $this);
+        return new self($date, $duration, $customer, $worker, $this);
     }
 
-    public function delete(DeletionReason $reason, ?string $description, UserId $deletedBy): void
+    public function delete(DeletionReason $reason, ?string $description): void
     {
         if (null !== $this->deletion) {
             throw new DomainException(sprintf('%s %s already deleted.', __CLASS__, $this->id->toString()));
         }
 
-        $this->deletion = new CalendarEntryDeletion($this, $reason, $description, $deletedBy);
+        $this->deletion = new CalendarEntryDeletion($this, $reason, $description);
     }
 }

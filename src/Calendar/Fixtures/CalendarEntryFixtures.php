@@ -7,7 +7,6 @@ namespace App\Calendar\Fixtures;
 use App\Calendar\Entity\CalendarEntry;
 use App\Calendar\Entity\CalendarEntryCustomerInformation;
 use App\Calendar\Entity\CalendarEntryId;
-use App\User\Domain\UserId;
 use DateInterval;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -36,7 +35,6 @@ final class CalendarEntryFixtures extends Fixture implements FixtureGroupInterfa
             new DateTimeImmutable('10:30'),
             new DateInterval('PT1H'),
             new CalendarEntryCustomerInformation(),
-            UserId::generate(),
             null,
         );
 

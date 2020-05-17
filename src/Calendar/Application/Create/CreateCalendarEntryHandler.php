@@ -5,18 +5,14 @@ namespace App\Calendar\Application\Create;
 use App\Calendar\Entity\CalendarEntry;
 use App\Calendar\Entity\CalendarEntryCustomerInformation;
 use App\Calendar\Repository\CalendarEntryRepository;
-use App\State;
 
 final class CreateCalendarEntryHandler
 {
     private CalendarEntryRepository $repository;
 
-    private State $state;
-
-    public function __construct(CalendarEntryRepository $repository, State $state)
+    public function __construct(CalendarEntryRepository $repository)
     {
         $this->repository = $repository;
-        $this->state = $state;
     }
 
     public function __invoke(CreateCalendarEntryCommand $command): void
@@ -32,7 +28,6 @@ final class CreateCalendarEntryHandler
                     $command->carId,
                     $command->description,
                 ),
-                $this->state->user()->uuid,
                 $command->worker,
             )
         );
