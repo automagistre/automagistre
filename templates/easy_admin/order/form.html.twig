@@ -23,11 +23,9 @@
           const currentValue = carInput.val();
           const cars = data.results;
 
-          carInput.select2('destroy').select2({
-            theme: 'bootstrap',
-            language: 'ru',
-            data: cars,
-          });
+          if (0 === cars.length) {
+            return;
+          }
 
           let value = null;
           if ('' !== currentValue) {
@@ -35,6 +33,12 @@
           } else if (0 < cars.length) {
             value = cars[0]['id'];
           }
+
+          carInput.select2('destroy').select2({
+            theme: 'bootstrap',
+            language: 'ru',
+            data: cars,
+          });
 
           carInput.val(value).trigger('change');
         });
@@ -48,6 +52,10 @@
         }).then(function(data) {
           const currentValue = operandInput.val();
           const list = data.results;
+
+          if (0 === list.length) {
+            return;
+          }
 
           operandInput.select2('destroy').select2({
             theme: 'bootstrap',
@@ -76,7 +84,6 @@
       carInput.on('select2:select', prefetchClients);
       $(document).on('ready', function() {
         if (carInput.val()) {
-          console.log('www');
           prefetchClients();
         }
       });
