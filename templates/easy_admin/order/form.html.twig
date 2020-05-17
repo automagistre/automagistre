@@ -2,7 +2,8 @@
     <script>
       let operandInput = $('#{{ form.customerId.autocomplete.vars.id }}'),
           carInput = $('#{{ form.carId.autocomplete.vars.id }}'),
-          autocompleteCarUrl = '{{ easyadmin_path('Car', 'autocomplete', {'customer_id': '__CAR__', 'use_uuid': 1})|raw }}';
+          autocompleteCarUrl = '{{ easyadmin_path('Car', 'autocomplete', {'customer_id': '__CUSTOMER__', 'use_uuid': 1})|raw }}',
+          autocompleteClientsUrl = '{{ easyadmin_path('Operand', 'autocomplete', {'car_id': '__CAR__', 'use_uuid': 1})|raw }}';
 
       if (!operandInput.val()) {
         $('#' + operandInput.attr('id') + ' option').text('Выберите клиента');
@@ -13,7 +14,7 @@
       }
 
       let prefetchCars = function() {
-        let url = autocompleteCarUrl.replace('__CAR__', operandInput.val());
+        let url = autocompleteCarUrl.replace('__CUSTOMER__', operandInput.val());
 
         $.ajax({
           type: 'GET',
@@ -38,11 +39,45 @@
           carInput.val(value).trigger('change');
         });
       };
+      let prefetchClients = function() {
+        let url = autocompleteClientsUrl.replace('__CAR__', carInput.val());
+
+        $.ajax({
+          type: 'GET',
+          url: url,
+        }).then(function(data) {
+          const currentValue = operandInput.val();
+          const list = data.results;
+
+          operandInput.select2('destroy').select2({
+            theme: 'bootstrap',
+            language: 'ru',
+            data: list,
+          });
+
+          let value = null;
+          if ('' !== currentValue) {
+            value = currentValue;
+          } else if (0 < list.length) {
+            value = list[0]['id'];
+          }
+
+          operandInput.val(value).trigger('change');
+        });
+      };
 
       operandInput.on('select2:select', prefetchCars);
       $(document).on('ready', function() {
         if (operandInput.val()) {
           prefetchCars();
+        }
+      });
+
+      carInput.on('select2:select', prefetchClients);
+      $(document).on('ready', function() {
+        if (carInput.val()) {
+          console.log('www');
+          prefetchClients();
         }
       });
     </script>

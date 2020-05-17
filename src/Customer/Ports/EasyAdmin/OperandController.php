@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Customer\Ports\EasyAdmin;
 
+use App\Car\Entity\Car;
 use App\Car\Repository\CarCustomerRepository;
 use App\Controller\EasyAdmin\AbstractController;
 use App\Customer\Domain\Operand;
@@ -131,7 +132,18 @@ class OperandController extends AbstractController
             ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = operand.id AND operand INSTANCE OF '.Person::class)
             ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = operand.id AND operand INSTANCE OF '.Organization::class);
 
-        foreach (explode(' ', $query->get('query')) as $key => $item) {
+        $carId = $query->get('car_id');
+        if (null !== $carId) {
+            $qb
+                ->leftJoin(Order::class, 'o', Join::WITH, 'o.customerId = operand.uuid')
+                ->leftJoin(Car::class, 'car', Join::WITH, 'car.uuid = o.carId')
+                ->orderBy('o.closedAt', 'DESC')
+                ->andWhere('o.carId = :car')
+                ->setParameter('car', $carId);
+        }
+
+        $search = $query->has('query') ? explode(' ', $query->get('query')) : [];
+        foreach ($search as $key => $item) {
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
