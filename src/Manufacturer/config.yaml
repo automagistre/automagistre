@@ -2,6 +2,7 @@ easy_admin:
     entities:
         Manufacturer:
             class: App\Manufacturer\Domain\Manufacturer
+            controller: App\Manufacturer\Controller\ManufacturerController
             label: 'Производитель'
             search:
                 fields: ['name']

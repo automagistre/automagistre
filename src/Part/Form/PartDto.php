@@ -2,21 +2,32 @@
 
 namespace App\Part\Form;
 
-use App\Manufacturer\Domain\Manufacturer;
+use App\Manufacturer\Domain\ManufacturerId;
+use App\Part\Domain\Part;
 use App\Part\Domain\PartId;
+use App\Shared\Validator\EntityCheck;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @EntityCheck(
+ *     class=Part::class,
+ *     message="Запчасть с такими идентификатором уже существует",
+ *     fields={"manufacturerId": "manufacturerId", "number": "number"},
+ *     exists=false,
+ *     errorPath="number",
+ * )
+ */
 final class PartDto
 {
     public PartId $partId;
 
     /**
-     * @var Manufacturer
+     * @var ManufacturerId
      *
      * @Assert\NotBlank
      */
-    public $manufacturer;
+    public $manufacturerId;
 
     /**
      * @var string
@@ -56,7 +67,7 @@ final class PartDto
 
     public function __construct(
         PartId $partId,
-        Manufacturer $manufacturer,
+        ManufacturerId $manufacturerId,
         string $name,
         string $number,
         Money $price,
@@ -64,7 +75,7 @@ final class PartDto
         Money $discount
     ) {
         $this->partId = $partId;
-        $this->manufacturer = $manufacturer;
+        $this->manufacturerId = $manufacturerId;
         $this->name = $name;
         $this->number = $number;
         $this->price = $price;

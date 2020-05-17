@@ -30,7 +30,6 @@ use function array_map;
 use function assert;
 use Closure;
 use function count;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
@@ -440,7 +439,7 @@ final class PartController extends AbstractController
 
         $entity = new Part(
             PartId::generate(),
-            $model->manufacturer->toId(),
+            $model->manufacturerId,
             $model->name,
             $model->number,
             $model->universal,
@@ -448,14 +447,7 @@ final class PartController extends AbstractController
             $model->discount
         );
 
-        try {
-            parent::persistEntity($entity);
-        } catch (UniqueConstraintViolationException $e) {
-            // TODO Написать нормальный валидатор для модели
-            $this->addFlash('error', sprintf('Запчасть %s у %s уже существует!', $model->number, $this->display($model->manufacturer->toId())));
-
-            return;
-        }
+        parent::persistEntity($entity);
 
         $referer = $this->request->query->get('referer');
         if (null !== $referer) {
@@ -471,7 +463,7 @@ final class PartController extends AbstractController
 
         return new PartDto(
             $arr['partId'],
-            $this->registry->findBy(Manufacturer::class, ['uuid' => $arr['manufacturerId']]),
+            $arr['manufacturerId'],
             $arr['name'],
             $arr['number'],
             new Money($arr['price.amount'], new Currency($arr['price.currency.code'])),

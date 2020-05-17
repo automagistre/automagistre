@@ -28,9 +28,9 @@ easy_admin:
             form:
                 form_options: { data_class: \App\Part\Form\PartDto }
                 fields:
-                    -   property: 'manufacturer'
+                    -   property: 'manufacturerId'
                         label: 'Производитель'
-                        type: 'easyadmin_autocomplete'
+                        type: App\EasyAdmin\Form\AutocompleteType
                         type_options:
                             required: true
                             class: App\Manufacturer\Domain\Manufacturer
@@ -44,7 +44,7 @@ easy_admin:
             edit:
                 title: 'Редактировать запчасть'
                 fields:
-                    - { property: 'manufacturer', label: 'Производитель', type_options: { disabled: true } }
+                    - { property: 'manufacturerId', label: 'Производитель', type_options: { disabled: true } }
                     - { property: 'number', label: 'Номер', type_options: { disabled: true } }
             case:
                 title: 'Создать применения запчасти к кузову'
