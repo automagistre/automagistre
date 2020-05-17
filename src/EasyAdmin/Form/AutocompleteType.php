@@ -7,6 +7,7 @@ namespace App\EasyAdmin\Form;
 use App\Costil;
 use App\Doctrine\ORM\Type\Identifier;
 use App\Infrastructure\Identifier\IdentifierFormatter;
+use function array_filter;
 use function array_flip;
 use function array_map;
 use function assert;
@@ -25,6 +26,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Traversable;
+use function trim;
 
 final class AutocompleteType extends AbstractType implements DataMapperInterface
 {
@@ -65,6 +67,7 @@ final class AutocompleteType extends AbstractType implements DataMapperInterface
                 $options = $form->get('autocomplete')->getConfig()->getOptions();
 
                 $choices = (array) $data['autocomplete'];
+                $choices = array_filter($choices, fn (string $choice) => '' !== trim($choice));
                 $options['choices'] = array_map(fn (string $uuid) => $identifierClass::fromString($uuid), $choices);
 
                 $form->add('autocomplete', ChoiceType::class, $options);
