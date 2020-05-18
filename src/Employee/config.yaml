@@ -7,7 +7,7 @@ easy_admin:
             templates:
                 show: 'easy_admin/employee/show.html.twig'
             list:
-                title: 'Сотрудники'
+                title: 'Работники'
                 sort: [firedAt, ASC]
                 max_results: 30
                 actions:
@@ -21,7 +21,7 @@ easy_admin:
                     - { property: 'hiredAt', label: 'Трудоустроен' }
                     - { property: 'firedAt', label: 'Уволен' }
             show:
-                title: 'Сотрудник № {{ entity.id }}'
+                title: 'Работник № {{ entity.id }}'
                 fields:
                     - { property: 'person', label: 'Ф.И.О', template: 'easy_admin/field_show.html.twig' }
                     - { property: 'balance', virtual: true, label: 'Баланс', template: 'easy_admin/employee/field_balance.html.twig' }
@@ -33,9 +33,9 @@ easy_admin:
                     - { property: 'person', label: 'Ф.И.О', type: 'easyadmin_autocomplete', type_options: { required: true, class: App\Customer\Domain\Person } }
                     - { property: 'ratio', label: 'Ставка' }
             new:
-                title: 'Добавить нового сотрудника'
+                title: 'Добавить нового работника'
             edit:
-                title: 'Редактировать сотрудника'
+                title: 'Редактировать работника'
 
         MonthlySalary:
             class: App\Employee\Entity\MonthlySalary

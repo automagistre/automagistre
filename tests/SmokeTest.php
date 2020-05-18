@@ -25,7 +25,7 @@ final class SmokeTest extends WebTestCase
         'autocomplete' => ['query' => 'bla'],
         'search' => ['query' => 'bla'],
         'CalendarEntry' => [
-            'edit' => ['id' => CalendarEntryFixtures::UUID],
+            'edit' => ['id' => CalendarEntryFixtures::ID],
         ],
         'OrderItemGroup' => [
             'new' => ['order_id' => '1'],

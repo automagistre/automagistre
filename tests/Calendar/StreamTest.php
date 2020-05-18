@@ -3,9 +3,13 @@
 namespace App\Tests\Calendar;
 
 use App\Calendar\Entity\CalendarEntryId;
-use App\Calendar\View\CalendarEntryView;
+use App\Calendar\Form\CalendarEntryDto;
+use App\Calendar\Form\OrderInfoDto;
+use App\Calendar\Form\ScheduleDto;
 use App\Calendar\View\Stream;
 use App\Calendar\View\StreamOverflowException;
+use App\Customer\Domain\OperandId;
+use App\Customer\Infrastructure\Fixtures\PersonVasyaFixtures;
 use DateInterval;
 use DateTimeImmutable;
 use Generator;
@@ -14,8 +18,8 @@ use PHPUnit\Framework\TestCase;
 class StreamTest extends TestCase
 {
     /**
-     * @param CalendarEntryView[] $entities
-     * @param CalendarEntryView[] $items
+     * @param CalendarEntryDto[] $entities
+     * @param CalendarEntryDto[] $items
      *
      * @dataProvider validData
      */
@@ -34,34 +38,41 @@ class StreamTest extends TestCase
         $entities = [];
         $items = [];
 
-        $entities[] = $items['10:30'] = new CalendarEntryView(
-            CalendarEntryId::generate(),
-            new DateTimeImmutable('10:30'),
-            new DateInterval('PT30M')
-        );
-        $entities[] = $items['11:00'] = new CalendarEntryView(
-            CalendarEntryId::generate(),
-            new DateTimeImmutable('11:00'),
-            new DateInterval('PT1H'),
+        $orderInfo = new OrderInfoDto(
+            OperandId::fromString(PersonVasyaFixtures::ID),
+            null,
+            null,
+            null,
         );
 
-        $entities[] = $items['12:00'] = new CalendarEntryView(
+        $entities[] = $items['10:30'] = new CalendarEntryDto(
             CalendarEntryId::generate(),
-            new DateTimeImmutable('12:00'),
-            new DateInterval('PT2H30M'),
+            new ScheduleDto(new DateTimeImmutable('10:30'), new DateInterval('PT30M')),
+            $orderInfo,
+        );
+        $entities[] = $items['11:00'] = new CalendarEntryDto(
+            CalendarEntryId::generate(),
+            new ScheduleDto(new DateTimeImmutable('11:00'), new DateInterval('PT1H')),
+            $orderInfo,
         );
 
-        $entities[] = $items['15:00'] = new CalendarEntryView(
+        $entities[] = $items['12:00'] = new CalendarEntryDto(
             CalendarEntryId::generate(),
-            new DateTimeImmutable('15:00'),
-            new DateInterval('PT30M'),
+            new ScheduleDto(new DateTimeImmutable('12:00'), new DateInterval('PT2H30M')),
+            $orderInfo,
+        );
+
+        $entities[] = $items['15:00'] = new CalendarEntryDto(
+            CalendarEntryId::generate(),
+            new ScheduleDto(new DateTimeImmutable('15:00'), new DateInterval('PT30M')),
+            $orderInfo,
         );
 
         yield [$entities, $items];
     }
 
     /**
-     * @param CalendarEntryView[] $entities
+     * @param CalendarEntryDto[] $entities
      *
      * @dataProvider overflowData
      */
@@ -76,16 +87,23 @@ class StreamTest extends TestCase
     {
         $entities = [];
 
-        $entities[] = new CalendarEntryView(
-            CalendarEntryId::generate(),
-            new DateTimeImmutable('10:30'),
-            new DateInterval('PT1H'),
+        $orderInfo = new OrderInfoDto(
+            OperandId::fromString(PersonVasyaFixtures::ID),
+            null,
+            null,
+            null,
         );
 
-        $entities[] = new CalendarEntryView(
+        $entities[] = new CalendarEntryDto(
             CalendarEntryId::generate(),
-            new DateTimeImmutable('11:00'),
-            new DateInterval('PT1H'),
+            new ScheduleDto(new DateTimeImmutable('10:30'), new DateInterval('PT1H')),
+            $orderInfo,
+        );
+
+        $entities[] = new CalendarEntryDto(
+            CalendarEntryId::generate(),
+            new ScheduleDto(new DateTimeImmutable('11:00'), new DateInterval('PT1H')),
+            $orderInfo,
         );
 
         yield [$entities];

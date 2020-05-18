@@ -11,32 +11,10 @@ easy_admin:
                 title: 'Запись'
             form:
                 fields:
-                    -   property: 'date'
-                        label: 'Дата'
-                        type: Symfony\Component\Form\Extension\Core\Type\DateTimeType
-                        type_options:
-                            input: datetime_immutable
-                            hours: { 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 16: 16, 17: 17, 18: 18, 19: 19, 20: 20, 21: 21, 22: 22, 23: 23 }
-                            minutes: { 0: 0, 30: 30 }
-                    -   property: 'duration'
-                        label: 'Длительность'
-                        type: Symfony\Component\Form\Extension\Core\Type\DateIntervalType
-                        type_options:
-                            with_days: false
-                            with_hours: true
-                            with_invert: false
-                            with_minutes: true
-                            with_months: false
-                            with_seconds: false
-                            with_weeks: false
-                            with_years: false
-                            minutes: { 0: 0, 30: 30 }
-                    - { property: 'firstName', label: 'Имя', type: 'text', type_options: { required: false } }
-                    - { property: 'lastName', label: 'Фамилия', type: 'text', type_options: { required: false } }
-                    - { property: 'phone', label: 'Телефон', type: Misd\PhoneNumberBundle\Form\Type\PhoneNumberType, type_options: { required: false } }
-                    - { property: 'carId', type: 'hidden', type_options: { required: false } }
-                    - { property: 'description', label: 'Комментарий', type: 'text' }
-                    - { property: 'worker', label: 'Работник', type: App\Employee\Form\EmployeeType }
+                    -   property: 'schedule'
+                        type: App\Calendar\Form\ScheduleType
+                    -   property: 'orderInfo'
+                        type: App\Calendar\Form\OrderInfoType
             new:
                 title: 'Новая запись'
             edit:

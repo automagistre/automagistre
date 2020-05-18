@@ -17,9 +17,6 @@
       <code>$dto-&gt;duration</code>
       <code>$dto-&gt;reason</code>
     </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>createQueryBuilder</code>
-    </PossiblyNullReference>
     <PropertyNotSetInConstructor occurrences="1">
       <code>CalendarEntryController</code>
     </PropertyNotSetInConstructor>
@@ -28,6 +25,12 @@
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtolower($searchString)</code>
     </PossiblyFalseOperand>
+    <PossiblyNullPropertyAssignment occurrences="1">
+      <code>$entity</code>
+    </PossiblyNullPropertyAssignment>
+    <PossiblyNullReference occurrences="1">
+      <code>setGosnomer</code>
+    </PossiblyNullReference>
   </file>
   <file src="src/Car/Controller/RecommendationController.php">
     <PossiblyNullArgument occurrences="3">
@@ -77,7 +80,8 @@
     </PossiblyNullReference>
   </file>
   <file src="src/Car/Manager/RecommendationManager.php">
-    <PossiblyNullArgument occurrences="1">
+    <PossiblyNullArgument occurrences="2">
+      <code>$this-&gt;registry-&gt;findBy(Part::class, ['partId' =&gt; $recommendationPart-&gt;partId])</code>
       <code>$worker</code>
     </PossiblyNullArgument>
     <PossiblyNullReference occurrences="1">
@@ -295,6 +299,10 @@
     </PossiblyNullArgument>
   </file>
   <file src="src/Income/Controller/IncomeController.php">
+    <PossiblyNullArgument occurrences="2">
+      <code>$supplier</code>
+      <code>$supplier</code>
+    </PossiblyNullArgument>
     <PossiblyNullReference occurrences="2">
       <code>toId</code>
       <code>transactional</code>
@@ -354,8 +362,17 @@
       <code>$order-&gt;getId()</code>
     </PossiblyNullArgument>
   </file>
+  <file src="src/Manager/PartManager.php">
+    <InvalidNullableReturnType occurrences="1">
+      <code>Part</code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement occurrences="1">
+      <code>$this-&gt;registry-&gt;findBy(Part::class, ['partId' =&gt; $partId])</code>
+    </NullableReturnStatement>
+  </file>
   <file src="src/Manager/SupplierManager.php">
-    <PossiblyNullArgument occurrences="1">
+    <PossiblyNullArgument occurrences="2">
+      <code>$this-&gt;registry-&gt;findBy(Operand::class, ['uuid' =&gt; $supplierId])</code>
       <code>$income-&gt;getAccruedAmount()</code>
     </PossiblyNullArgument>
   </file>
@@ -368,11 +385,6 @@
     <PropertyNotSetInConstructor occurrences="1">
       <code>Version20200512184714</code>
     </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Migrations/Version20200517225439.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$id</code>
-    </PossiblyNullArgument>
   </file>
   <file src="src/Order/Controller/OrderController.php">
     <PossiblyFalseOperand occurrences="1">
@@ -464,6 +476,9 @@
     </PossiblyNullReference>
   </file>
   <file src="src/Order/Fixtures/OrderFixtures.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$part</code>
+    </PossiblyNullArgument>
     <PropertyNotSetInConstructor occurrences="1">
       <code>OrderFixtures</code>
     </PropertyNotSetInConstructor>
@@ -577,11 +592,9 @@
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtolower($item)</code>
     </PossiblyFalseOperand>
-  </file>
-  <file src="tests/EventListener/PartCaseOnOrderCloseListenerTest.php">
-    <RedundantConditionGivenDocblockType occurrences="1">
-      <code>assertNotEmpty</code>
-    </RedundantConditionGivenDocblockType>
+    <PossiblyNullArgument occurrences="1">
+      <code>$this-&gt;registry-&gt;findBy(Manufacturer::class, ['uuid' =&gt; $array['manufacturerId']])</code>
+    </PossiblyNullArgument>
   </file>
   <file src="tests/SmokeTest.php">
     <PossiblyInvalidArgument occurrences="1">

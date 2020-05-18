@@ -31,6 +31,11 @@ final class OperandFormatter implements IdentifierFormatterInterface
 
         if ('1' === $view['type']) {
             $string = sprintf('%s %s', $view['lastname'], $view['firstname']);
+
+            if ('short' === $format) {
+                return $string;
+            }
+
             $email = $view['email'];
 
             if (null !== $email) {

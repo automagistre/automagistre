@@ -2,13 +2,15 @@
 
 namespace App\Calendar\View;
 
+use App\Calendar\Form\CalendarEntryDto;
+
 final class StreamItem
 {
     public int $length;
 
-    public CalendarEntryView $calendar;
+    public CalendarEntryDto $calendar;
 
-    public function __construct(int $length, CalendarEntryView $calendar)
+    public function __construct(int $length, CalendarEntryDto $calendar)
     {
         $this->length = $length;
         $this->calendar = $calendar;

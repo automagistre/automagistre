@@ -5,51 +5,37 @@ declare(strict_types=1);
 namespace App\Calendar\Application\Reschedule;
 
 use App\Calendar\Entity\CalendarEntryId;
-use App\Car\Entity\CarId;
-use App\Employee\Entity\Employee;
-use DateInterval;
-use DateTimeImmutable;
-use libphonenumber\PhoneNumber;
+use App\Calendar\Entity\OrderInfo;
+use App\Calendar\Entity\Schedule;
 
+/**
+ * @psalm-immutable
+ */
 final class RescheduleCalendarEntryCommand
 {
     public CalendarEntryId $id;
 
-    public DateTimeImmutable $date;
+    public CalendarEntryId $previousId;
 
-    public DateInterval $duration;
+    /**
+     * @Assert\Valid()
+     */
+    public Schedule $schedule;
 
-    public ?string $firstName;
-
-    public ?string $lastName;
-
-    public ?PhoneNumber $phone;
-
-    public ?CarId $carId;
-
-    public ?string $description;
-
-    public ?Employee $worker;
+    /**
+     * @Assert\Valid()
+     */
+    public OrderInfo $orderInfo;
 
     public function __construct(
         CalendarEntryId $id,
-        DateTimeImmutable $date,
-        DateInterval $duration,
-        ?string $firstName,
-        ?string $lastName,
-        ?PhoneNumber $phone,
-        ?CarId $carId,
-        ?string $description,
-        ?Employee $worker
+        CalendarEntryId $previousId,
+        Schedule $schedule,
+        OrderInfo $orderInfo
     ) {
         $this->id = $id;
-        $this->date = $date;
-        $this->duration = $duration;
-        $this->firstName = $firstName;
-        $this->lastName = $lastName;
-        $this->phone = $phone;
-        $this->carId = $carId;
-        $this->description = $description;
-        $this->worker = $worker;
+        $this->previousId = $previousId;
+        $this->schedule = clone $schedule;
+        $this->orderInfo = clone $orderInfo;
     }
 }

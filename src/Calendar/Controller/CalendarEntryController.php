@@ -5,14 +5,17 @@ namespace App\Calendar\Controller;
 use App\Calendar\Application\Create\CreateCalendarEntryCommand;
 use App\Calendar\Application\Delete\DeleteCalendarEntryCommand;
 use App\Calendar\Application\Reschedule\RescheduleCalendarEntryCommand;
-use App\Calendar\Entity\CalendarEntry;
 use App\Calendar\Entity\CalendarEntryId;
+use App\Calendar\Entity\OrderInfo;
+use App\Calendar\Entity\Schedule;
 use App\Calendar\Form\CalendarEntryDeletionDto;
 use App\Calendar\Form\CalendarEntryDto;
 use App\Calendar\Form\DeletionReasonFormType;
+use App\Calendar\Form\OrderInfoDto;
+use App\Calendar\Form\ScheduleDto;
+use App\Calendar\Repository\CalendarEntryRepository;
 use App\Calendar\View\Streamer;
 use App\Controller\EasyAdmin\AbstractController;
-use App\Employee\Entity\Employee;
 use function array_map;
 use function array_merge;
 use function assert;
@@ -32,10 +35,13 @@ final class CalendarEntryController extends AbstractController
 
     private CommandBus $commandBus;
 
-    public function __construct(Streamer $streamer, CommandBus $commandBus)
+    private CalendarEntryRepository $repository;
+
+    public function __construct(Streamer $streamer, CommandBus $commandBus, CalendarEntryRepository $repository)
     {
         $this->streamer = $streamer;
         $this->commandBus = $commandBus;
+        $this->repository = $repository;
     }
 
     protected function listAction(): Response
@@ -66,10 +72,14 @@ final class CalendarEntryController extends AbstractController
             throw new BadRequestHttpException('Wrong date.');
         }
 
+        $schedule = $this->createWithoutConstructor(ScheduleDto::class);
+        $schedule->date = $date;
+        $schedule->duration = new DateInterval('PT1H');
+
         return new CalendarEntryDto(
-            null,
-            $date,
-            new DateInterval('PT1H')
+            CalendarEntryId::generate(),
+            $schedule,
+            $this->createWithoutConstructor(OrderInfoDto::class),
         );
     }
 
@@ -83,14 +93,17 @@ final class CalendarEntryController extends AbstractController
 
         $this->commandBus->handle(
             new CreateCalendarEntryCommand(
-                $dto->date,
-                $dto->duration,
-                $dto->firstName,
-                $dto->lastName,
-                $dto->phone,
-                $dto->carId,
-                $dto->description,
-                $dto->worker,
+                $dto->id,
+                new Schedule(
+                    $dto->schedule->date,
+                    $dto->schedule->duration,
+                ),
+                new OrderInfo(
+                    $dto->orderInfo->customerId,
+                    $dto->orderInfo->carId,
+                    $dto->orderInfo->description,
+                    $dto->orderInfo->workerId,
+                ),
             )
         );
     }
@@ -98,9 +111,9 @@ final class CalendarEntryController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function createEditDto(Closure $closure): ?object
+    protected function createEditDto(Closure $closure): CalendarEntryDto
     {
-        return $this->getDto(CalendarEntryId::fromString($this->request->query->get('id')));
+        return CalendarEntryDto::fromArray($closure());
     }
 
     /**
@@ -113,23 +126,26 @@ final class CalendarEntryController extends AbstractController
 
         $this->commandBus->handle(
             new RescheduleCalendarEntryCommand(
+                CalendarEntryId::generate(),
                 $dto->id,
-                $dto->date,
-                $dto->duration,
-                $dto->firstName,
-                $dto->lastName,
-                $dto->phone,
-                $dto->carId,
-                $dto->description,
-                $dto->worker,
+                new Schedule(
+                    $dto->schedule->date,
+                    $dto->schedule->duration,
+                ),
+                new OrderInfo(
+                    $dto->orderInfo->customerId,
+                    $dto->orderInfo->carId,
+                    $dto->orderInfo->description,
+                    $dto->orderInfo->workerId,
+                ),
             )
         );
     }
 
     protected function deletionAction(): Response
     {
-        $id = CalendarEntryId::fromString($this->request->query->get('id'));
-        $dto = new CalendarEntryDeletionDto($id);
+        $view = $this->repository->view(CalendarEntryId::fromString($this->request->query->get('id')));
+        $dto = new CalendarEntryDeletionDto($view->id);
 
         $form = $this->createFormBuilder($dto)
             ->add('reason', DeletionReasonFormType::class, [
@@ -157,43 +173,7 @@ final class CalendarEntryController extends AbstractController
 
         return $this->render('easy_admin/calendar/deletion.html.twig', [
             'form' => $form->createView(),
-            'item' => $this->getDto($id),
+            'entry' => $view,
         ]);
-    }
-
-    private function getDto(CalendarEntryId $id): CalendarEntryDto
-    {
-        $item = $this->em->createQueryBuilder()
-            ->select('entity.id')
-            ->addSelect('entity.schedule.date')
-            ->addSelect('entity.schedule.duration')
-            ->addSelect('entity.customer.firstName AS firstName')
-            ->addSelect('entity.customer.lastName AS lastName')
-            ->addSelect('entity.customer.phone AS phone')
-            ->addSelect('entity.customer.carId AS carId')
-            ->addSelect('entity.customer.description AS description')
-            ->addSelect('IDENTITY(entity.worker) AS workerId')
-            ->from(CalendarEntry::class, 'entity')
-            ->where('entity.id = :id')
-            ->getQuery()
-            ->setParameter('id', $id)
-            ->getSingleResult();
-
-        /** @var Employee|null $worker */
-        $worker = null !== $item['workerId']
-            ? $this->em->getRepository(Employee::class)->find($item['workerId'])
-            : null;
-
-        return new CalendarEntryDto(
-            $item['id'],
-            $item['schedule.date'],
-            $item['schedule.duration'],
-            $item['firstName'],
-            $item['lastName'],
-            $item['phone'],
-            $item['carId'],
-            $item['description'],
-            $worker,
-        );
     }
 }

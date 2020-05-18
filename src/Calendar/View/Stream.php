@@ -2,14 +2,15 @@
 
 namespace App\Calendar\View;
 
-use App\Employee\Entity\Employee;
+use App\Calendar\Form\CalendarEntryDto;
+use App\Employee\Entity\EmployeeId;
 use function array_intersect;
 use function array_keys;
 use DateInterval;
 
 final class Stream
 {
-    public ?Employee $worker;
+    public ?EmployeeId $workerId;
 
     /**
      * @var StreamItem[]
@@ -17,20 +18,20 @@ final class Stream
     private array $items = [];
 
     /**
-     * @param CalendarEntryView[] $calendars
+     * @param CalendarEntryDto[] $calendars
      */
-    public function __construct(Employee $worker = null, array $calendars = [])
+    public function __construct(EmployeeId $worker = null, array $calendars = [])
     {
-        $this->worker = $worker;
+        $this->workerId = $worker;
         foreach ($calendars as $calendar) {
             $this->add($calendar);
         }
     }
 
-    public function add(CalendarEntryView $calendar): void
+    public function add(CalendarEntryDto $calendar): void
     {
-        $date = $calendar->date;
-        $interval = $calendar->duration;
+        $date = $calendar->schedule->date;
+        $interval = $calendar->schedule->duration;
 
         $key = $date->format('H:i');
         /** @psalm-suppress PossiblyNullPropertyFetch */

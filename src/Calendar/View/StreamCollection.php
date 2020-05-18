@@ -2,6 +2,7 @@
 
 namespace App\Calendar\View;
 
+use App\Calendar\Form\CalendarEntryDto;
 use ArrayIterator;
 use IteratorAggregate;
 use Traversable;
@@ -18,7 +19,7 @@ final class StreamCollection implements IteratorAggregate
     private array $streams = [];
 
     /**
-     * @param CalendarEntryView[] $calendars
+     * @param CalendarEntryDto[] $calendars
      */
     public function __construct(array $calendars)
     {
@@ -27,12 +28,12 @@ final class StreamCollection implements IteratorAggregate
         }
     }
 
-    public function add(CalendarEntryView $entry): void
+    public function add(CalendarEntryDto $entry): void
     {
-        $worker = $entry->worker;
+        $worker = $entry->orderInfo->workerId;
         if (null !== $worker) {
             foreach ($this->streams as $stream) {
-                if ($stream->worker === $worker) {
+                if ($stream->workerId === $worker) {
                     try {
                         $stream->add($entry);
 
@@ -68,19 +69,19 @@ final class StreamCollection implements IteratorAggregate
     public function getIterator(): Traversable
     {
         usort($this->streams, static function (Stream $left, Stream $right): int {
-            if (null === $left->worker && null === $right->worker) {
+            if (null === $left->workerId && null === $right->workerId) {
                 return 0;
             }
 
-            if (null !== $left->worker && null === $right->worker) {
+            if (null !== $left->workerId && null === $right->workerId) {
                 return -1;
             }
 
-            if (null === $left->worker) {
+            if (null === $left->workerId) {
                 return 1;
             }
 
-            return $left->worker->getFullName() <=> $right->worker->getFullName();
+            return $left->workerId->toString() <=> $right->workerId->toString();
         });
 
         return new ArrayIterator($this->streams);

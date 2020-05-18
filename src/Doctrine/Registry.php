@@ -38,7 +38,7 @@ final class Registry
      *
      * @psalm-param class-string<T> $class
      *
-     * @psalm-return T
+     * @psalm-return ?T
      */
     public function findBy(string $class, array $criteria)
     {

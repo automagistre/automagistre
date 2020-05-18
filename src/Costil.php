@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Calendar\Entity\CalendarEntry;
+use App\Calendar\Entity\CalendarEntryId;
 use App\Car\Entity\Car;
 use App\Car\Entity\CarId;
 use App\Customer\Domain\Operand;
 use App\Customer\Domain\OperandId;
 use App\Doctrine\ORM\Type\Identifier;
+use App\Employee\Entity\Employee;
+use App\Employee\Entity\EmployeeId;
 use App\Income\Entity\Income;
 use App\Income\Entity\IncomeId;
 use App\Income\Entity\IncomePart;
@@ -33,7 +37,9 @@ final class Costil
     public const PODSTANOVA = 45;
 
     public const ENTITY = [
+        CalendarEntryId::class => CalendarEntry::class,
         CarId::class => Car::class,
+        EmployeeId::class => Employee::class,
         IncomeId::class => Income::class,
         IncomePartId::class => IncomePart::class,
         ManufacturerId::class => Manufacturer::class,
@@ -44,7 +50,9 @@ final class Costil
         VehicleId::class => Model::class,
     ];
     public const EASYADMIN_CONFIG = [
+        CalendarEntryId::class => 'CalendarEntry',
         CarId::class => 'Car',
+        EmployeeId::class => 'Employee',
         IncomeId::class => 'Income',
         IncomePartId::class => 'IncomePart',
         ManufacturerId::class => 'Manufacturer',
@@ -55,7 +63,9 @@ final class Costil
         VehicleId::class => 'CarModel',
     ];
     public const UUID_FIELDS = [
+        CalendarEntryId::class => 'id',
         CarId::class => 'uuid',
+        EmployeeId::class => 'uuid',
         IncomeId::class => 'id',
         IncomePartId::class => 'uuid',
         ManufacturerId::class => 'uuid',

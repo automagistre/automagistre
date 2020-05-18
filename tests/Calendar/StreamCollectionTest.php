@@ -3,12 +3,12 @@
 namespace App\Tests\Calendar;
 
 use App\Calendar\Entity\CalendarEntryId;
-use App\Calendar\View\CalendarEntryView;
+use App\Calendar\Form\CalendarEntryDto;
+use App\Calendar\Form\OrderInfoDto;
+use App\Calendar\Form\ScheduleDto;
 use App\Calendar\View\Stream;
 use App\Calendar\View\StreamCollection;
-use App\Customer\Domain\OperandId;
-use App\Customer\Domain\Person;
-use App\Employee\Entity\Employee;
+use App\Employee\Entity\EmployeeId;
 use DateInterval;
 use DateTimeImmutable;
 use Generator;
@@ -24,7 +24,7 @@ class StreamCollectionTest extends TestCase
     public function testHappyPath(StreamCollection $collection, array $expected): void
     {
         foreach ($collection as $key => $value) {
-            static::assertSame($expected[$key]->worker, $value->worker);
+            static::assertSame($expected[$key]->workerId, $value->workerId);
 
             $items = $expected[$key]->all();
             foreach ($value->all() as $key2 => $item) {
@@ -38,62 +38,37 @@ class StreamCollectionTest extends TestCase
     {
         $entities = [];
 
-        $worker1 = new Employee();
-        $worker1->setPerson($person = new Person(OperandId::generate()));
-        $person->setFirstname('Vasya');
-        $person->setLastname('Pupkin');
+        $worker1 = EmployeeId::generate();
+        $worker2 = EmployeeId::generate();
 
-        $worker2 = new Employee();
-        $worker2->setPerson($person = new Person(OperandId::generate()));
-        $person->setFirstname('Petr');
-        $person->setLastname('Pushkin');
-
-        $entity1 = $entities[] = new CalendarEntryView(
+        $entity1 = $entities[] = new CalendarEntryDto(
             CalendarEntryId::generate(),
-            new DateTimeImmutable('10:30'),
-            new DateInterval('PT1H'),
-            null,
-            null,
-            null,
-            null,
-            null,
-            $worker1
+            new ScheduleDto(new DateTimeImmutable('10:30'), new DateInterval('PT1H')),
+            new OrderInfoDto(null, null, null, $worker1),
         );
 
-        $entity2 = $entities[] = new CalendarEntryView(
+        $entity2 = $entities[] = new CalendarEntryDto(
             CalendarEntryId::generate(),
-            new DateTimeImmutable('11:00'),
-            new DateInterval('PT8H'),
-            null,
-            null,
-            null,
-            null,
-            null,
-            $worker1
+            new ScheduleDto(new DateTimeImmutable('11:00'), new DateInterval('PT8H')),
+            new OrderInfoDto(null, null, null, $worker1),
         );
 
-        $entity3 = $entities[] = new CalendarEntryView(
+        $entity3 = $entities[] = new CalendarEntryDto(
             CalendarEntryId::generate(),
-            new DateTimeImmutable('12:00'),
-            new DateInterval('PT5H30M'),
-            null,
-            null,
-            null,
-            null,
-            null,
-            $worker2
+            new ScheduleDto(new DateTimeImmutable('12:00'), new DateInterval('PT5H30M')),
+            new OrderInfoDto(null, null, null, $worker2),
         );
 
-        $entity4 = $entities[] = new CalendarEntryView(
+        $entity4 = $entities[] = new CalendarEntryDto(
             CalendarEntryId::generate(),
-            new DateTimeImmutable('15:00'),
-            new DateInterval('PT30M'),
+            new ScheduleDto(new DateTimeImmutable('15:00'), new DateInterval('PT30M')),
+            new OrderInfoDto(null, null, null, null),
         );
 
-        $entity5 = $entities[] = new CalendarEntryView(
+        $entity5 = $entities[] = new CalendarEntryDto(
             CalendarEntryId::generate(),
-            new DateTimeImmutable('15:00'),
-            new DateInterval('PT30M')
+            new ScheduleDto(new DateTimeImmutable('15:00'), new DateInterval('PT30M')),
+            new OrderInfoDto(null, null, null, null),
         );
 
         $result = [

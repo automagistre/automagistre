@@ -75,7 +75,7 @@
                     {% for stream in streams %}
                         {# @var stream \App\Calendar\View\Stream #}
                         <tr style="height: 60px">
-                            <td>{{ include('easy_admin/field_show.html.twig', {'value': stream.worker}) }}</td>
+                            <td>{% include 'easy_admin/field_identifier.html.twig' with {'value': stream.workerId} %}</td>
                             {% set skip = 0 %}
 
                             {% for time in columns %}
@@ -90,21 +90,20 @@
                                         {% set entry = item.calendar %}
 
                                         <a href="{{ easyadmin_path('CalendarEntry', 'edit', {'id': item.calendar.id.toString(), 'referer': false}) }}">
-                                            {% if entry.phone is not empty and entry.firstName is empty and entry.lastName is empty %}
-                                                {{ entry.phone|phone_number_format|default }}
-                                            {% else %}
-                                                {{ entry.firstName }}
-                                                {{ entry.lastName }}
+                                            {% if entry.orderInfo.customerId is not empty %}
+                                                {{ entry.orderInfo.customerId|display_name('short') }} <br>
                                             {% endif %}
 
-                                            <br>
+                                            {% if entry.orderInfo.carId is not empty %}
+                                                {{ entry.orderInfo.carId|display_name('short') }} <br>
+                                            {% endif %}
 
-                                            {{ entry.description }}
+                                            {{ entry.orderInfo.description }}
                                         </a>
                                     </td>
                                 {% else %}
                                     <td style="text-align: center">
-                                        <a href="{{ easyadmin_path('CalendarEntry', 'new', {'date': date|date('Y-m-d') ~ ' ' ~ time}|merge(stream.worker ? stream.worker|to_query : {})) }}" class="btn btn-success create-plus-button">
+                                        <a href="{{ easyadmin_path('CalendarEntry', 'new', {'date': date|date('Y-m-d') ~ ' ' ~ time}|merge(stream.workerId ? {'worker_id': stream.workerId.toString} : {})) }}" class="btn btn-success create-plus-button">
                                             <i class="fa fa-plus"></i>
                                         </a>
                                     </td>

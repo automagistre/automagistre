@@ -3,82 +3,43 @@
 namespace App\Calendar\Form;
 
 use App\Calendar\Entity\CalendarEntryId;
-use App\Car\Entity\CarId;
-use App\Employee\Entity\Employee;
-use DateInterval;
-use DateTimeImmutable;
-use libphonenumber\PhoneNumber;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 final class CalendarEntryDto
 {
-    public ?CalendarEntryId $id;
+    public CalendarEntryId $id;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\Valid())
      */
-    public ?DateTimeImmutable $date;
+    public ScheduleDto $schedule;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\Valid()
      */
-    public ?DateInterval $duration;
+    public OrderInfoDto $orderInfo;
 
-    /**
-     * @Assert\Length(max="32")
-     */
-    public ?string $firstName;
-
-    /**
-     * @Assert\Length(max="32")
-     */
-    public ?string $lastName;
-
-    public ?PhoneNumber $phone;
-
-    public ?CarId $carId;
-
-    public ?string $description;
-
-    public ?Employee $worker;
-
-    public function __construct(
-        ?CalendarEntryId $id = null,
-        ?DateTimeImmutable $date = null,
-        ?DateInterval $duration = null,
-        ?string $firstName = null,
-        ?string $lastName = null,
-        ?PhoneNumber $phone = null,
-        ?CarId $carId = null,
-        ?string $description = null,
-        ?Employee $worker = null
-    ) {
+    public function __construct(CalendarEntryId $id, ScheduleDto $schedule, OrderInfoDto $orderInfo)
+    {
         $this->id = $id;
-        $this->date = $date;
-        $this->duration = $duration;
-        $this->firstName = $firstName;
-        $this->lastName = $lastName;
-        $this->phone = $phone;
-        $this->carId = $carId;
-        $this->description = $description;
-        $this->worker = $worker;
+        $this->schedule = $schedule;
+        $this->orderInfo = $orderInfo;
     }
 
-    /**
-     * @Assert\Callback
-     */
-    public function validate(ExecutionContextInterface $context): void
+    public static function fromArray(array $item): self
     {
-        if (
-            null === $this->description
-            && null === $this->phone
-            && null === $this->firstName
-            && null === $this->lastName
-        ) {
-            $context->addViolation(
-                'Нужно заполнить хотя бы одно из следующий полей: Телефон, Имя, Фамилия, Комментарий.'
-            );
-        }
+        return new self(
+            CalendarEntryId::fromString($item['id']),
+            new ScheduleDto(
+                $item['schedule.date'],
+                $item['schedule.duration'],
+            ),
+            new OrderInfoDto(
+                $item['orderInfo.customerId'],
+                $item['orderInfo.carId'],
+                $item['orderInfo.description'],
+                $item['orderInfo.workerId'],
+            ),
+        );
     }
 }
