@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Command\Part;
+namespace App\Part\Command;
 
 use App\Car\Entity\Car;
 use App\Doctrine\Registry;
