@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Income\View;
 
-use App\Doctrine\ORM\Type\Identifier;
-use App\Doctrine\Registry;
 use App\Income\Entity\IncomeId;
+use App\Shared\Doctrine\Registry;
+use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
 use function sprintf;

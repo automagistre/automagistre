@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Income\View;
 
-use App\Doctrine\ORM\Type\Identifier;
-use App\Doctrine\Registry;
 use App\Income\Entity\IncomePart;
 use App\Income\Entity\IncomePartId;
+use App\Shared\Doctrine\Registry;
+use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
 

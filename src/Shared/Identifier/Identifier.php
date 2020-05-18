@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Doctrine\ORM\Type;
+namespace App\Shared\Identifier;
 
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;

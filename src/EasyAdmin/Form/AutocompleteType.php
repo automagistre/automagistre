@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\EasyAdmin\Form;
 
 use App\Costil;
-use App\Doctrine\ORM\Type\Identifier;
+use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use function array_filter;
 use function array_flip;

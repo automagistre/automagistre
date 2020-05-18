@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Manufacturer\Infrastructure;
 
-use App\Doctrine\ORM\Type\Identifier;
-use App\Doctrine\Registry;
 use App\Manufacturer\Domain\ManufacturerId;
+use App\Shared\Doctrine\Registry;
+use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
 

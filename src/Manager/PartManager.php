@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
-use App\Doctrine\Registry;
 use App\Enum\OrderStatus;
 use App\Income\Entity\IncomePart;
 use App\Order\Entity\Order;
@@ -12,6 +11,7 @@ use App\Order\Entity\OrderItemPart;
 use App\Part\Domain\Part;
 use App\Part\Domain\PartCross;
 use App\Part\Domain\PartId;
+use App\Shared\Doctrine\Registry;
 use App\Storage\Entity\Motion;
 use function assert;
 use Doctrine\ORM\EntityManagerInterface;

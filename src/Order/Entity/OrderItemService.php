@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Order\Entity;
 
 use App\Customer\Domain\OperandId;
-use App\Doctrine\ORM\Mapping\Traits\Discount;
-use App\Doctrine\ORM\Mapping\Traits\Price;
-use App\Doctrine\ORM\Mapping\Traits\Warranty;
 use App\Entity\Discounted;
 use App\Entity\WarrantyInterface;
 use App\Money\PriceInterface;
 use App\Money\TotalPriceInterface;
+use App\Shared\Doctrine\ORM\Mapping\Traits\Discount;
+use App\Shared\Doctrine\ORM\Mapping\Traits\Price;
+use App\Shared\Doctrine\ORM\Mapping\Traits\Warranty;
 use Doctrine\ORM\Mapping as ORM;
 use DomainException;
 use Money\Money;

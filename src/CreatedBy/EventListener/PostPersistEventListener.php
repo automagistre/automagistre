@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\CreatedBy\EventListener;
 
-use App\Doctrine\ORM\Type\Identifier;
-use App\Doctrine\Registry;
+use App\Shared\Doctrine\Registry;
+use App\Shared\Identifier\Identifier;
 use App\User\Entity\User;
 use function assert;
 use DateTimeImmutable;

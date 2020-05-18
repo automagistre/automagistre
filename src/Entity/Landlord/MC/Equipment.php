@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Landlord\MC;
 
-use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Vehicle\Domain\Embeddable\Equipment as CarEquipment;
 use App\Vehicle\Domain\Model;
 use Doctrine\Common\Collections\ArrayCollection;

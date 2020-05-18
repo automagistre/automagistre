@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tenant\EventListener;
 
-use App\Doctrine\Registry;
 use App\Entity\Embeddable\Relation;
+use App\Shared\Doctrine\Registry;
 use function array_key_exists;
 use function assert;
 use function class_exists;

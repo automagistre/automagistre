@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity\Landlord\MC;
 
-use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Part\Domain\Part as BasePart;
+use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

@@ -6,8 +6,6 @@ services:
         public: false
         autowire: true
         autoconfigure: true
-        bind:
-            $debug: '%kernel.debug%'
 
     _instanceof:
         Doctrine\Common\EventSubscriber:
@@ -24,7 +22,6 @@ services:
 
     App\:
         resource: '../src'
-        exclude: '../src/{Entity,Enum,Model}'
     App\Controller\:
         resource: '../src/Controller'
         tags:
@@ -35,10 +32,6 @@ services:
 
     App\Router\ListeningRouterDecorator:
         decorates: router
-
-    App\Doctrine\DBAL\FixPostgreSQLDefaultSchemaListener:
-        tags:
-            - { name: doctrine.event_listener, event: postGenerateSchema }
 
     App\Mercure\JwtProvider:
         arguments:

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Storage\Entity;
 
-use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
-use App\Doctrine\ORM\Mapping\Traits\Identity;
-use App\Doctrine\ORM\Type\Identifier;
 use App\Entity\Embeddable\PartRelation;
 use App\Income\Entity\IncomePartId;
 use App\Order\Entity\OrderId;
 use App\Part\Domain\Part;
+use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedAt;
+use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Shared\Identifier\Identifier;
 use App\Storage\Enum\Source;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;

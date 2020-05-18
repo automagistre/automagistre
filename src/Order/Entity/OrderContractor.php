@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Order\Entity;
 
 use App\Customer\Domain\Operand;
-use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Entity\Embeddable\OperandRelation;
+use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 

@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace App\User\Entity;
 
 use App\Customer\Domain\OperandId;
-use App\Customer\Domain\Person;
-use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Tenant\Tenant;
 use App\User\Domain\UserId;
 use Doctrine\Common\Collections\ArrayCollection;

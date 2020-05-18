@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tenant;
 
-use App\Doctrine\Registry;
+use App\Shared\Doctrine\Registry;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Manager;
 
 use App\Customer\Domain\Operand;
-use App\Doctrine\Registry;
 use App\Entity\Tenant\Transaction;
 use App\Entity\Transactional;
 use App\Event\PaymentCreated;
+use App\Shared\Doctrine\Registry;
 use Doctrine\ORM\EntityManagerInterface;
 use Money\Currency;
 use Money\Money;

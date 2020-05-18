@@ -2,11 +2,11 @@
 
 namespace App\Tests\EventListener;
 
-use App\Doctrine\Registry;
 use App\EventListener\PartCaseOnOrderCloseListener;
 use App\Order\Entity\Order;
 use App\Part\Domain\PartCase;
 use App\Part\Infrastructure\Fixtures\GasketFixture;
+use App\Shared\Doctrine\Registry;
 use App\State;
 use App\Tenant\Tenant;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;

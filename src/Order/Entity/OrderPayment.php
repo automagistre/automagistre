@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Order\Entity;
 
-use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
-use App\Doctrine\ORM\Mapping\Traits\CreatedByRelation as CreatedBy;
-use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedAt;
+use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedByRelation as CreatedBy;
+use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 

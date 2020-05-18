@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Employee\Entity;
 
 use App\Customer\Domain\Person;
-use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Entity\Embeddable\PersonRelation;
+use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;

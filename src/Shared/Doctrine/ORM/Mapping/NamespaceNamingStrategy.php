@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Doctrine\ORM\Mapping;
+namespace App\Shared\Doctrine\ORM\Mapping;
 
 use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
 use function explode;

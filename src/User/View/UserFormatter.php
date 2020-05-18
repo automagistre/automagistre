@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\User\View;
 
-use App\Doctrine\ORM\Type\Identifier;
-use App\Doctrine\Registry;
+use App\Shared\Doctrine\Registry;
+use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
 use App\User\Domain\UserId;

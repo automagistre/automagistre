@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Part\Domain;
 
-use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Entity\Discounted;
 use App\Manufacturer\Domain\ManufacturerId;
+use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;

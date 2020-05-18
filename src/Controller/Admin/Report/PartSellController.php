@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Report;
 
-use App\Doctrine\Registry;
 use App\Part\Domain\Part;
+use App\Shared\Doctrine\Registry;
 use App\Storage\Entity\Motion;
 use App\Storage\Enum\Source;
 use function array_map;

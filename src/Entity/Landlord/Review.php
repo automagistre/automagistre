@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity\Landlord;
 
-use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
-use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedAt;
+use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;

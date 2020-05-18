@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\EasyAdmin;
 
 use App\Costil;
-use App\Doctrine\ORM\Type\Identifier;
-use App\Doctrine\Registry;
 use App\Request\EntityTransformer;
+use App\Shared\Doctrine\Registry;
+use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\State;
 use App\User\Entity\User;
@@ -171,6 +171,7 @@ abstract class AbstractController extends EasyAdminController
 
         if ('0' === $id = $request->query->get('id')) {
             $easyadmin = $request->attributes->get('easyadmin');
+            /** @phpstan-ignore-next-line */
             $easyadmin['item'] = $this->registry->repository($easyadmin['entity']['class'])->find($id);
 
             $request->attributes->set('easyadmin', $easyadmin);
@@ -268,6 +269,7 @@ abstract class AbstractController extends EasyAdminController
         $id = $this->request->query->get('id');
         $easyadmin = $this->request->attributes->get('easyadmin');
 
+        /** @phpstan-ignore-next-line */
         $dtoClosure = fn (): array => $this->registry->repository($this->entity['class'])
             ->createQueryBuilder('t')
             ->where('t.id = :id')

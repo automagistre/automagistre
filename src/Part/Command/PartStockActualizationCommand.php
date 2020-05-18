@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Part\Command;
 
-use App\Doctrine\Registry;
 use App\Manager\StockpileManager;
+use App\Shared\Doctrine\Registry;
 use App\State;
 use App\Storage\Entity\Motion;
 use function array_map;

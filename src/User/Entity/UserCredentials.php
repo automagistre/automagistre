@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\User\Entity;
 
-use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
-use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedAt;
+use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 

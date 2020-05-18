@@ -2,7 +2,7 @@
 
 namespace App\Employee\Entity;
 
-use App\Doctrine\ORM\Type\Identifier;
+use App\Shared\Identifier\Identifier;
 
 /**
  * @psalm-immutable

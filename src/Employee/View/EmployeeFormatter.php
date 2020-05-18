@@ -6,9 +6,9 @@ namespace App\Employee\View;
 
 use App\Customer\Domain\Operand;
 use App\Customer\Domain\OperandId;
-use App\Doctrine\ORM\Type\Identifier;
-use App\Doctrine\Registry;
 use App\Employee\Entity\EmployeeId;
+use App\Shared\Doctrine\Registry;
+use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
 use function assert;

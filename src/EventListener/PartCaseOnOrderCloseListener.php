@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
-use App\Doctrine\Registry;
 use App\Event\OrderClosed;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItemPart;
 use App\Part\Domain\PartCase;
+use App\Shared\Doctrine\Registry;
 use App\Vehicle\Domain\VehicleId;
 use function array_map;
 use function count;

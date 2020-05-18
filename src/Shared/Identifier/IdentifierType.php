@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Doctrine\ORM\Type;
+namespace App\Shared\Identifier;
 
 use function assert;
 use function call_user_func;

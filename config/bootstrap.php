@@ -26,5 +26,5 @@ foreach ((array) require __DIR__.'/enums.php' as $class => [$id]) {
 }
 
 foreach ((array) require __DIR__.'/identifiers.php' as $class => [$id]) {
-    App\Doctrine\ORM\Type\IdentifierType::register($id, $class);
+    \App\Shared\Identifier\IdentifierType::register($id, $class);
 }

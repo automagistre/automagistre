@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Customer\Domain;
 
-use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Entity\Tenant\OperandTransaction;
 use App\Entity\Transactional;
+use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 use Symfony\Component\Validator\Constraints as Assert;

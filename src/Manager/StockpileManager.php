@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
-use App\Doctrine\Registry;
 use App\Part\Domain\Part;
+use App\Shared\Doctrine\Registry;
 use function array_map;
 use function implode;
 use function sprintf;

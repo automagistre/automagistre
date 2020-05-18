@@ -75,21 +75,6 @@
       <code>toId</code>
     </PossiblyNullReference>
   </file>
-  <file src="src/Command/Employee/MonthlySalaryCommand.php">
-    <DocblockTypeContradiction occurrences="1">
-      <code>is_string($payday)</code>
-    </DocblockTypeContradiction>
-    <PossiblyNullArgument occurrences="1">
-      <code>$person</code>
-    </PossiblyNullArgument>
-    <RedundantConditionGivenDocblockType occurrences="2">
-      <code>!is_string($payday) || !is_string($description)</code>
-      <code>is_string($payday)</code>
-    </RedundantConditionGivenDocblockType>
-    <TypeDoesNotContainType occurrences="1">
-      <code>is_string($description)</code>
-    </TypeDoesNotContainType>
-  </file>
   <file src="src/Controller/EasyAdmin/AbstractController.php">
     <InvalidArrayOffset occurrences="1">
       <code>Costil::QUERY[$class]</code>
@@ -159,30 +144,6 @@
     <PossiblyNullReference occurrences="1">
       <code>getRepository</code>
     </PossiblyNullReference>
-  </file>
-  <file src="src/Doctrine/ORM/Mapping/NamespaceNamingStrategy.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$string</code>
-      <code>$string</code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="src/Doctrine/ORM/Type/IdentifierType.php">
-    <PropertyNotSetInConstructor occurrences="2">
-      <code>$name</code>
-      <code>$class</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Doctrine/Registry.php">
-    <InvalidArrayOffset occurrences="2">
-      <code>Costil::ENTITY[get_class($identifier)]</code>
-      <code>Costil::UUID_FIELDS[get_class($identifier)]</code>
-    </InvalidArrayOffset>
-    <RedundantConditionGivenDocblockType occurrences="1">
-      <code>assert($entityRepository instanceof EntityRepository)</code>
-    </RedundantConditionGivenDocblockType>
-    <RepositoryStringShortcut occurrences="1">
-      <code>$class</code>
-    </RepositoryStringShortcut>
   </file>
   <file src="src/EasyAdmin/Form/AutocompleteType.php">
     <PossiblyFalseReference occurrences="2">
@@ -512,6 +473,24 @@
       <code>$representative[0]</code>
     </PossiblyInvalidArgument>
   </file>
+  <file src="src/Shared/Doctrine/ORM/Mapping/NamespaceNamingStrategy.php">
+    <PossiblyNullArgument occurrences="2">
+      <code>$string</code>
+      <code>$string</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/Shared/Doctrine/Registry.php">
+    <InvalidArrayOffset occurrences="2">
+      <code>Costil::ENTITY[get_class($identifier)]</code>
+      <code>Costil::UUID_FIELDS[get_class($identifier)]</code>
+    </InvalidArrayOffset>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>assert($entityRepository instanceof EntityRepository)</code>
+    </RedundantConditionGivenDocblockType>
+    <RepositoryStringShortcut occurrences="1">
+      <code>$class</code>
+    </RepositoryStringShortcut>
+  </file>
   <file src="src/Shared/Identifier/IdentifierTwigExtension.php">
     <MissingClosureParamType occurrences="2">
       <code>$mixed</code>
@@ -520,6 +499,12 @@
     <MissingClosureReturnType occurrences="1">
       <code>fn (</code>
     </MissingClosureReturnType>
+  </file>
+  <file src="src/Shared/Identifier/IdentifierType.php">
+    <PropertyNotSetInConstructor occurrences="2">
+      <code>$name</code>
+      <code>$class</code>
+    </PropertyNotSetInConstructor>
   </file>
   <file src="src/Shared/Validator/EntityCheck.php">
     <PropertyNotSetInConstructor occurrences="4">

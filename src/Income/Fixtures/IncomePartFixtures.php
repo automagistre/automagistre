@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Income\Fixtures;
 
-use App\Doctrine\Registry;
 use App\Income\Entity\Income;
 use App\Income\Entity\IncomePart;
 use App\Part\Domain\PartId;
 use App\Part\Infrastructure\Fixtures\GasketFixture;
+use App\Shared\Doctrine\Registry;
 use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;

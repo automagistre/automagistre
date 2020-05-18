@@ -6,8 +6,8 @@ namespace App\Controller\Admin\Report;
 
 use App\Customer\Domain\Operand;
 use App\Customer\Domain\OperandId;
-use App\Doctrine\Registry;
 use App\Order\Entity\Order;
+use App\Shared\Doctrine\Registry;
 use function count;
 use DateInterval;
 use DateTimeImmutable;

@@ -6,8 +6,8 @@ namespace App\Form\Type;
 
 use App\Customer\Domain\Operand;
 use App\Customer\Domain\OperandId;
-use App\Doctrine\Registry;
 use App\Order\Entity\OrderItemService;
+use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\IdentifierFormatter;
 use function array_flip;
 use function array_key_exists;

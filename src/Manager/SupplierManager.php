@@ -6,8 +6,8 @@ namespace App\Manager;
 
 use App\Customer\Domain\Operand;
 use App\Customer\Domain\OperandId;
-use App\Doctrine\Registry;
 use App\Income\Entity\Income;
+use App\Shared\Doctrine\Registry;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>

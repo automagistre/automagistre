@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Shared\Identifier;
 
-use App\Doctrine\ORM\Type\Identifier;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;

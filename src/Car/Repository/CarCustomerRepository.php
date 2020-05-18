@@ -8,7 +8,7 @@ use App\Car\Entity\Car;
 use App\Car\Entity\CarId;
 use App\Customer\Domain\Operand;
 use App\Customer\Domain\OperandId;
-use App\Doctrine\Registry;
+use App\Shared\Doctrine\Registry;
 use function array_map;
 
 final class CarCustomerRepository

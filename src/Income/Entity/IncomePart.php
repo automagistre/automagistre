@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Income\Entity;
 
-use App\Doctrine\ORM\Mapping\Traits\Identity;
-use App\Doctrine\ORM\Mapping\Traits\Price;
-use App\Doctrine\ORM\Mapping\Traits\Quantity;
 use App\Part\Domain\PartId;
+use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Shared\Doctrine\ORM\Mapping\Traits\Price;
+use App\Shared\Doctrine\ORM\Mapping\Traits\Quantity;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;
 use Money\Money;

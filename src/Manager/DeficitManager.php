@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
-use App\Doctrine\Registry;
 use App\Model\DeficitPart;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItemPart;
 use App\Part\Domain\Part;
+use App\Shared\Doctrine\Registry;
 use function array_filter;
 use function array_map;
 use function explode;

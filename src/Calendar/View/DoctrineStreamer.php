@@ -5,7 +5,7 @@ namespace App\Calendar\View;
 use App\Calendar\Entity\CalendarEntry;
 use App\Calendar\Entity\CalendarEntryDeletion;
 use App\Calendar\Form\CalendarEntryDto;
-use App\Doctrine\Registry;
+use App\Shared\Doctrine\Registry;
 use function array_map;
 use DateTimeImmutable;
 use Doctrine\ORM\AbstractQuery;

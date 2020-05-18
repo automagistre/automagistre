@@ -3,8 +3,8 @@
 namespace App\Order\Twig;
 
 use App\Car\Entity\Recommendation;
-use App\Doctrine\Registry;
 use App\Order\Entity\OrderItemService;
+use App\Shared\Doctrine\Registry;
 use App\State;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;

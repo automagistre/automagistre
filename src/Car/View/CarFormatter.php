@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Car\View;
 
 use App\Car\Entity\CarId;
-use App\Doctrine\ORM\Type\Identifier;
-use App\Doctrine\Registry;
+use App\Shared\Doctrine\Registry;
+use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
 use App\Vehicle\Enum\DriveWheelConfiguration;

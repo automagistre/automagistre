@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Vehicle\Domain;
 
 use App\Costil;
-use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Manufacturer\Domain\ManufacturerId;
+use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;

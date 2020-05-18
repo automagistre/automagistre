@@ -8,7 +8,7 @@ use App\Calendar\Entity\CalendarEntry;
 use App\Calendar\Entity\CalendarEntryId;
 use App\Calendar\Exception\CalendarEntryNotFound;
 use App\Calendar\Form\CalendarEntryDto;
-use App\Doctrine\Registry;
+use App\Shared\Doctrine\Registry;
 
 final class DoctrineCalendarEntryRepository implements CalendarEntryRepository
 {

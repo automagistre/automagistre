@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Vehicle\Ports\API;
 
-use App\Doctrine\Registry;
+use App\Shared\Doctrine\Registry;
 use App\Vehicle\Domain\Model;
 use Doctrine\DBAL\Query\QueryBuilder;
 use function implode;

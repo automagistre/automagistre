@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Manager;
 
 use App\Customer\Domain\Operand;
-use App\Doctrine\Registry;
 use App\Employee\Entity\Employee;
 use App\Entity\Tenant\OperandTransaction;
 use App\Order\Entity\Order;
@@ -13,6 +12,7 @@ use App\Order\Entity\OrderContractor;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Entity\OrderItemService;
 use App\Order\Entity\OrderSalary;
+use App\Shared\Doctrine\Registry;
 use App\State;
 use App\Storage\Entity\Motion;
 use App\Storage\Enum\Source;

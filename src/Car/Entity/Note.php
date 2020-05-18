@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Car\Entity;
 
-use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
-use App\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Enum\NoteType;
+use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedAt;
+use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\User\Domain\UserId;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;

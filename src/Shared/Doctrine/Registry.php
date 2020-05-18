@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Doctrine;
+namespace App\Shared\Doctrine;
 
 use App\Costil;
-use App\Doctrine\ORM\Type\Identifier;
+use App\Shared\Identifier\Identifier;
 use function assert;
 use function class_exists;
 use Doctrine\Common\Persistence\ManagerRegistry;

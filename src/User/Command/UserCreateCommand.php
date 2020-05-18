@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\User\Command;
 
-use App\Doctrine\Registry;
+use App\Shared\Doctrine\Registry;
 use App\User\Domain\UserId;
 use App\User\Entity\User;
 use Symfony\Component\Console\Command\Command;

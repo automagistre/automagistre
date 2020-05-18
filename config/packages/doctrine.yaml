@@ -34,7 +34,7 @@ doctrine:
         entity_managers:
             landlord:
                 connection: landlord
-                naming_strategy: App\Doctrine\ORM\Mapping\NamespaceNamingStrategy
+                naming_strategy: App\Shared\Doctrine\ORM\Mapping\NamespaceNamingStrategy
                 auto_mapping: false
                 metadata_cache_driver:
                     type: pool
@@ -62,7 +62,7 @@ doctrine:
                         is_bundle: false
             tenant:
                 connection: tenant
-                naming_strategy: App\Doctrine\ORM\Mapping\NamespaceNamingStrategy
+                naming_strategy: App\Shared\Doctrine\ORM\Mapping\NamespaceNamingStrategy
                 auto_mapping: false
                 metadata_cache_driver:
                     type: pool
@@ -100,4 +100,4 @@ parameters:
 
 services:
     Doctrine\ORM\Mapping\NamingStrategy:
-        alias: App\Doctrine\ORM\Mapping\NamespaceNamingStrategy
+        alias: App\Shared\Doctrine\ORM\Mapping\NamespaceNamingStrategy

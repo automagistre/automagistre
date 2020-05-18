@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Employee\Fixtures;
 
 use App\Customer\Domain\Person;
-use App\Doctrine\Registry;
 use App\Employee\Entity\Employee;
+use App\Shared\Doctrine\Registry;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;

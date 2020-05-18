@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Part\Command;
 
 use App\Car\Entity\Car;
-use App\Doctrine\Registry;
 use App\Order\Entity\OrderItemPart;
 use App\Part\Domain\Part;
 use App\Part\Domain\PartCase;
+use App\Shared\Doctrine\Registry;
 use App\Vehicle\Domain\Model;
 use function array_flip;
 use function array_key_exists;

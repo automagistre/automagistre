@@ -2,7 +2,7 @@
 
 namespace App\Calendar\Entity;
 
-use App\Doctrine\ORM\Type\Identifier;
+use App\Shared\Identifier\Identifier;
 
 /**
  * @psalm-immutable

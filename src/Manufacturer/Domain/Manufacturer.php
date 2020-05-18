@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Manufacturer\Domain;
 
 use App\Costil;
-use App\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

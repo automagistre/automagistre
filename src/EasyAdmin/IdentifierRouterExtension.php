@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\EasyAdmin;
 
 use App\Costil;
-use App\Doctrine\ORM\Type\Identifier;
-use App\Doctrine\Registry;
+use App\Shared\Doctrine\Registry;
+use App\Shared\Identifier\Identifier;
 use EasyCorp\Bundle\EasyAdminBundle\Router\EasyAdminRouter;
 use function get_class;
 use Twig\Extension\AbstractExtension;

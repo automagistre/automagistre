@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Car\Entity;
 
 use App\Customer\Domain\OperandId;
-use App\Doctrine\ORM\Mapping\Traits\CreatedAt;
-use App\Doctrine\ORM\Mapping\Traits\Identity;
-use App\Doctrine\ORM\Mapping\Traits\Price;
 use App\Entity\Embeddable\OrderItemServiceRelation;
 use App\Money\PriceInterface;
 use App\Order\Entity\OrderItemService;
+use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedAt;
+use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Shared\Doctrine\ORM\Mapping\Traits\Price;
 use App\Tenant\Tenant;
 use App\User\Domain\UserId;
 use DateTime;

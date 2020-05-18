@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
-use App\Doctrine\Registry;
 use App\Entity\Landlord\Event;
 use App\Event\EmployeeCreated;
 use App\Event\EmployeeFined;
@@ -25,6 +24,7 @@ use App\Event\PartReserved;
 use App\Event\PaymentCreated;
 use App\Event\PersonCreated;
 use App\Request\EntityTransformer;
+use App\Shared\Doctrine\Registry;
 use App\State;
 use function get_class;
 use function is_object;
