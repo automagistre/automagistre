@@ -1,5 +1,6 @@
 {% extends 'easy_admin/default/list.html.twig' %}
 
+{% block content_title_wrapper %}{% endblock %}
 {% block content_title %}
     Запись
 {% endblock %}
@@ -55,6 +56,26 @@
                 </script>
             </form>
         </div>
+    </div>
+
+    <br>
+
+    <div id="day_buttons" class="btn-group">
+        {% for day in -7..7 %}
+            {% set day = date|date_modify(day~' days') %}
+            {% set current = day == date %}
+
+            <a href="{{ easyadmin_path('CalendarEntry', 'list', {'date': day|date('Y-m-d')}) }}" class="btn btn-sm {% if current %}disabled btn-success{% else %}btn-default{% endif %}" style="
+                    border-radius: 3px;
+                    border: 1px solid {{ current ? '#006B2E' : '#ccc' }};
+                    color: {{ current ? '#ffffff' : '#333333' }};
+                    background-color: {{ current ? '#006B2E' : '#ffffff' }};
+                    ">
+                {{ day|format_date(pattern='dd.MM.Y') }}
+                <br>
+                {{ day|format_date(pattern='eeee') }}
+            </a>
+        {% endfor %}
     </div>
 
     <hr>
