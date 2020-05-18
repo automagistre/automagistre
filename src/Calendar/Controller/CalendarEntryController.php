@@ -47,11 +47,15 @@ final class CalendarEntryController extends AbstractController
     protected function listAction(): Response
     {
         $date = $this->request->query->get('date');
-        $today = new DateTimeImmutable();
-        $date = null === $date ? $today : DateTimeImmutable::createFromFormat('Y-m-d', $date);
+        $today = (new DateTimeImmutable())->setTime(0, 0, 0, 0);
+        $date = null === $date
+            ? $today
+            : DateTimeImmutable::createFromFormat('Y-m-d', $date);
         if (false === $date) {
             throw new BadRequestHttpException('Wrong date.');
         }
+
+        $date = $date->setTime(0, 0, 0, 0);
 
         return $this->render('easy_admin/calendar/list.html.twig', [
             'date' => $date,

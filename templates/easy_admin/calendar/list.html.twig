@@ -65,11 +65,22 @@
             {% set day = date|date_modify(day~' days') %}
             {% set current = day == date %}
 
+            {% if today == day %}
+                {% set color = '#ffffff' %}
+                {% set background = '#39A0ED' %}
+            {% elseif current %}
+                {% set color = '#ffffff' %}
+                {% set background = '#006B2E' %}
+            {% else %}
+                {% set color = '#333333' %}
+                {% set background = '#ffffff' %}
+            {% endif %}
+
             <a href="{{ easyadmin_path('CalendarEntry', 'list', {'date': day|date('Y-m-d')}) }}" class="btn btn-sm {% if current %}disabled btn-success{% else %}btn-default{% endif %}" style="
                     border-radius: {{ current ? '0px' : '3px' }};
                     border: 1px solid {{ current ? '#006B2E' : '#ccc' }};
-                    color: {{ current ? '#ffffff' : '#333333' }};
-                    background-color: {{ current ? '#006B2E' : '#ffffff' }};
+                    color: {{ color }};
+                    background-color: {{ background }};
                     ">
                 {{ day|format_date(pattern='dd.MM.Y') }}
                 <br>
