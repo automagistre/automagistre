@@ -75,17 +75,17 @@
       };
 
       operandInput.on('select2:select', prefetchCars);
-      $(document).on('ready', function() {
-        if (operandInput.val()) {
-          prefetchCars();
-        }
-      });
+      // $(document).on('ready', function() {
+      //   if (operandInput.val()) {
+      //     prefetchCars();
+      //   }
+      // });
 
       carInput.on('select2:select', prefetchClients);
-      $(document).on('ready', function() {
-        if (carInput.val()) {
-          prefetchClients();
-        }
-      });
+      // $(document).on('ready', function() {
+      //   if (carInput.val()) {
+      //     prefetchClients();
+      //   }
+      // });
     </script>
 {% endblock %}
