@@ -4,10 +4,10 @@ services:
         autowire: true
         autoconfigure: true
 
-    App\ArgumentResolver\ArgumentResolver:
+    App\Shared\ArgumentResolver\ArgumentResolver:
         arguments:
             $argumentValueResolvers: !tagged_iterator
                 tag: 'app.argument_value_resolver'
                 index_by: 'priority'
 
-    App\ArgumentResolver\ArgumentResolverInterface: '@App\ArgumentResolver\ArgumentResolver'
+    App\Shared\ArgumentResolver\ArgumentResolverInterface: '@App\Shared\ArgumentResolver\ArgumentResolver'

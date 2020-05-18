@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\JSONRPC;
 
-use App\ArgumentResolver\ArgumentResolverInterface;
+use App\Shared\ArgumentResolver\ArgumentResolverInterface;
 use function assert;
 use Datto\JsonRpc\Evaluator;
 use Datto\JsonRpc\Exceptions\ApplicationException;

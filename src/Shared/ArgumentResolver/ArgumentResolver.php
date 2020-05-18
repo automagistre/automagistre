@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ArgumentResolver;
+namespace App\Shared\ArgumentResolver;
 
 use function get_class;
 use InvalidArgumentException;

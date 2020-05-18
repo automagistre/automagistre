@@ -1,11 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Parameter \\#2 \\.\\.\\.\\$args of function sprintf expects bool\\|float\\|int\\|string\\|null, \\(callable\\)\\|class\\-string given\\.$#"
-			count: 1
-			path: src/ArgumentResolver/ArgumentResolver.php
-
-		-
 			message: "#^Unable to resolve the template type T in call to method App\\\\Doctrine\\\\Registry\\:\\:repository\\(\\)$#"
 			count: 2
 			path: src/Controller/EasyAdmin/AbstractController.php
@@ -49,6 +44,11 @@ parameters:
 			message: "#^Variable method call on Symfony\\\\Bridge\\\\Doctrine\\\\Form\\\\DoctrineOrmTypeGuesser\\.$#"
 			count: 1
 			path: src/Form/TypeGuesser/EntityModelTypeGuesser.php
+
+		-
+			message: "#^Parameter \\#2 \\.\\.\\.\\$args of function sprintf expects bool\\|float\\|int\\|string\\|null, \\(callable\\)\\|class\\-string given\\.$#"
+			count: 1
+			path: src/Shared/ArgumentResolver/ArgumentResolver.php
 
 		-
 			message: "#^Call to method Symfony\\\\Component\\\\Console\\\\Input\\\\InputInterface\\:\\:hasOption\\(\\) with 'connection'\\|'db'\\|'em' will always evaluate to true\\.$#"

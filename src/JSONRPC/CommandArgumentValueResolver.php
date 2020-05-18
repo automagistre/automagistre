@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\JSONRPC;
 
-use App\ArgumentResolver\ArgumentValueResolverInterface;
+use App\Shared\ArgumentResolver\ArgumentValueResolverInterface;
 use function array_map;
 use function assert;
 use function class_exists;
