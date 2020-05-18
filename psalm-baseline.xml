@@ -200,20 +200,10 @@
       <code>$this-&gt;id</code>
     </UndefinedThisPropertyFetch>
   </file>
-  <file src="src/EventListener/AccrueIncomePartsListener.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$incomePart-&gt;getQuantity()</code>
-    </PossiblyNullArgument>
-  </file>
   <file src="src/EventListener/EventsListener.php">
     <DeprecatedMethod occurrences="1">
       <code>isEntity</code>
     </DeprecatedMethod>
-  </file>
-  <file src="src/EventListener/StockpileListener.php">
-    <PossiblyNullArrayOffset occurrences="1">
-      <code>$values</code>
-    </PossiblyNullArrayOffset>
   </file>
   <file src="src/Form/Model/OrderGroup.php">
     <PropertyNotSetInConstructor occurrences="1">
@@ -270,6 +260,11 @@
       <code>toId</code>
     </PossiblyNullReference>
   </file>
+  <file src="src/Income/EventListener/AccrueIncomePartsListener.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$incomePart-&gt;getQuantity()</code>
+    </PossiblyNullArgument>
+  </file>
   <file src="src/Income/Fixtures/IncomeFixtures.php">
     <PropertyNotSetInConstructor occurrences="1">
       <code>IncomeFixtures</code>
@@ -280,40 +275,16 @@
       <code>IncomePartFixtures</code>
     </PropertyNotSetInConstructor>
   </file>
-  <file src="src/Income/View/IncomePartFormatter.php">
-    <PossiblyNullReference occurrences="1">
-      <code>toId</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="src/Manager/DeficitManager.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>object</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>$em-&gt;getReference(Order::class, $id)</code>
-    </NullableReturnStatement>
-  </file>
-  <file src="src/Manager/OrderManager.php">
-    <PossiblyNullArgument occurrences="4">
-      <code>$payment-&gt;getDescription()</code>
-      <code>$order-&gt;getId()</code>
-      <code>$order-&gt;getId()</code>
-      <code>$order-&gt;getId()</code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="src/Manager/PartManager.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>Part</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>$this-&gt;registry-&gt;findBy(Part::class, ['partId' =&gt; $partId])</code>
-    </NullableReturnStatement>
-  </file>
-  <file src="src/Manager/SupplierManager.php">
+  <file src="src/Income/Manager/SupplierManager.php">
     <PossiblyNullArgument occurrences="2">
       <code>$this-&gt;registry-&gt;findBy(Operand::class, ['uuid' =&gt; $supplierId])</code>
       <code>$income-&gt;getAccruedAmount()</code>
     </PossiblyNullArgument>
+  </file>
+  <file src="src/Income/View/IncomePartFormatter.php">
+    <PossiblyNullReference occurrences="1">
+      <code>toId</code>
+    </PossiblyNullReference>
   </file>
   <file src="src/Migrations/Version20200511190211.php">
     <PropertyNotSetInConstructor occurrences="1">
@@ -422,6 +393,14 @@
       <code>OrderFixtures</code>
     </PropertyNotSetInConstructor>
   </file>
+  <file src="src/Order/Manager/OrderManager.php">
+    <PossiblyNullArgument occurrences="4">
+      <code>$payment-&gt;getDescription()</code>
+      <code>$order-&gt;getId()</code>
+      <code>$order-&gt;getId()</code>
+      <code>$order-&gt;getId()</code>
+    </PossiblyNullArgument>
+  </file>
   <file src="src/Part/Domain/Part.php">
     <PossiblyNullArgument occurrences="1">
       <code>preg_replace('/[^a-zA-Z0-9]/', '', $number)</code>
@@ -431,6 +410,22 @@
     <PossiblyNullArrayOffset occurrences="1">
       <code>self::FORMATS</code>
     </PossiblyNullArrayOffset>
+  </file>
+  <file src="src/Part/Manager/DeficitManager.php">
+    <InvalidNullableReturnType occurrences="1">
+      <code>object</code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement occurrences="1">
+      <code>$em-&gt;getReference(Order::class, $id)</code>
+    </NullableReturnStatement>
+  </file>
+  <file src="src/Part/Manager/PartManager.php">
+    <InvalidNullableReturnType occurrences="1">
+      <code>Part</code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement occurrences="1">
+      <code>$this-&gt;registry-&gt;findBy(Part::class, ['partId' =&gt; $partId])</code>
+    </NullableReturnStatement>
   </file>
   <file src="src/Part/Ports/EasyAdmin/PartCaseDTO.php">
     <PossiblyNullPropertyAssignmentValue occurrences="2">
@@ -524,6 +519,11 @@
       <code>$tenant</code>
       <code>$user</code>
     </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Stockpile/EventListener/StockpileListener.php">
+    <PossiblyNullArrayOffset occurrences="1">
+      <code>$values</code>
+    </PossiblyNullArrayOffset>
   </file>
   <file src="src/Tenant/EventListener/TenantRelationListener.php">
     <RepositoryStringShortcut occurrences="1">

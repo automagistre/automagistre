@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Twig\Extension;
 
 use App\Customer\Domain\OperandId;
-use App\Manager\SupplierManager;
+use App\Income\Manager\SupplierManager;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 

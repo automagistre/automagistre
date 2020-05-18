@@ -10,7 +10,7 @@ use App\Car\Form\DTO\RecommendationPartDTO;
 use App\Controller\EasyAdmin\AbstractController;
 use App\Form\Type\MoneyType;
 use App\Form\Type\QuantityType;
-use App\Manager\PartManager;
+use App\Part\Manager\PartManager;
 use function array_unshift;
 use function assert;
 use Doctrine\ORM\EntityManagerInterface;

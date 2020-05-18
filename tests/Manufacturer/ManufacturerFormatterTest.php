@@ -6,7 +6,7 @@ namespace App\Tests\Manufacturer;
 
 use App\Manufacturer\Domain\ManufacturerId;
 use App\Manufacturer\Infrastructure\Fixtures\NissanFixture;
-use App\Tests\Infrastructure\Identifier\IdentifierTestCase;
+use App\Tests\Shared\IdentifierTestCase;
 use Generator;
 
 /**

@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Order\Controller;
 
 use App\Form\Model\OrderPart;
-use App\Manager\ReservationException;
-use App\Manager\ReservationManager;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemPart;
 use App\Part\Domain\Part;
+use App\Storage\Exception\ReservationException;
+use App\Storage\Manager\ReservationManager;
 use function assert;
 use LogicException;
 use Symfony\Component\HttpFoundation\Response;

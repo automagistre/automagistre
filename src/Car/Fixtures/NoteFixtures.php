@@ -6,7 +6,7 @@ namespace App\Car\Fixtures;
 
 use App\Car\Entity\Car;
 use App\Car\Entity\Note;
-use App\Enum\NoteType;
+use App\Shared\Enum\NoteType;
 use App\User\Domain\UserId;
 use App\User\Fixtures\EmployeeFixtures;
 use function assert;

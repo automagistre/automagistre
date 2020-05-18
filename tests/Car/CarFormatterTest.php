@@ -7,7 +7,7 @@ namespace App\Tests\Car;
 use App\Car\Entity\CarId;
 use App\Car\Fixtures\EmptyCarFixtures;
 use App\Car\Fixtures\Primera2004Fixtures;
-use App\Tests\Infrastructure\Identifier\IdentifierTestCase;
+use App\Tests\Shared\IdentifierTestCase;
 use Generator;
 
 /**

@@ -7,7 +7,7 @@ namespace App\Tests\Customer;
 use App\Customer\Domain\OperandId;
 use App\Customer\Infrastructure\Fixtures\OrganizationFixtures;
 use App\Customer\Infrastructure\Fixtures\PersonVasyaFixtures;
-use App\Tests\Infrastructure\Identifier\IdentifierTestCase;
+use App\Tests\Shared\IdentifierTestCase;
 use Generator;
 
 final class OperandFormatterTest extends IdentifierTestCase

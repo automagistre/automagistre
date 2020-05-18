@@ -6,7 +6,7 @@ namespace App\Customer\Ports\EasyAdmin;
 
 use App\Customer\Domain\OperandId;
 use App\Customer\Domain\Person;
-use App\Event\PersonCreated;
+use App\Customer\Event\PersonCreated;
 use function array_map;
 use function assert;
 use Doctrine\ORM\QueryBuilder;

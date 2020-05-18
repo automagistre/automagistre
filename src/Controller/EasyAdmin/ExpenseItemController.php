@@ -6,8 +6,8 @@ namespace App\Controller\EasyAdmin;
 
 use App\Entity\Tenant\Expense;
 use App\Entity\Tenant\ExpenseItem;
-use App\Event\ExpenseItemCreated;
-use App\Manager\PaymentManager;
+use App\Expense\Event\ExpenseItemCreated;
+use App\Payment\Manager\PaymentManager;
 use function assert;
 use Doctrine\ORM\EntityManagerInterface;
 use function sprintf;

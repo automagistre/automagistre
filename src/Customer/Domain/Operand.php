@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Customer\Domain;
 
 use App\Entity\Tenant\OperandTransaction;
-use App\Entity\Transactional;
+use App\Payment\Transactional;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;

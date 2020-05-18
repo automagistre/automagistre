@@ -9,7 +9,7 @@ use App\Customer\Domain\Operand;
 use App\Customer\Form\OperandTransactionModel;
 use App\Entity\Tenant\OperandTransaction;
 use App\Entity\Tenant\Wallet;
-use App\Manager\PaymentManager;
+use App\Payment\Manager\PaymentManager;
 use function assert;
 use Doctrine\ORM\QueryBuilder;
 use LogicException;

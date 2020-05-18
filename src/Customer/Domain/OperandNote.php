@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Customer\Domain;
 
 use App\Entity\Superclass\Note;
-use App\Enum\NoteType;
+use App\Shared\Enum\NoteType;
 use App\User\Domain\UserId;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;

@@ -2,8 +2,8 @@
 
 return [
     App\Calendar\Enum\DeletionReason::class => ['deletion_reason'],
-    App\Enum\NoteType::class => ['note_type_enum'],
-    App\Enum\OrderStatus::class => ['order_status_enum'],
+    App\Order\Enum\OrderStatus::class => ['order_status_enum'],
+    App\Shared\Enum\NoteType::class => ['note_type_enum'],
     App\Shared\Enum\Transition::class => ['transition_enum'],
     App\Storage\Enum\Source::class => ['motion_source_enum'],
     App\Tenant\Tenant::class => ['tenant_enum'],

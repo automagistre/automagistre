@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\EasyAdmin\Notify;
 
 use App\Entity\Tenant\WalletTransaction;
-use App\Event\PaymentCreated;
-use App\Manager\PaymentManager;
+use App\Payment\Event\PaymentCreated;
+use App\Payment\Manager\PaymentManager;
 use App\State;
 use function json_encode;
 use Money\MoneyFormatter;

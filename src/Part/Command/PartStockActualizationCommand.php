@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Part\Command;
 
-use App\Manager\StockpileManager;
 use App\Shared\Doctrine\Registry;
 use App\State;
+use App\Stockpile\Manager\StockpileManager;
 use App\Storage\Entity\Motion;
 use function array_map;
 use function count;

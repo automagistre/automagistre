@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\EasyAdmin;
 
 use App\Entity\Tenant\Expense;
-use App\Event\ExpenseCreated;
+use App\Expense\Event\ExpenseCreated;
 use function assert;
 use stdClass;
 

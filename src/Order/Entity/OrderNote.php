@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Order\Entity;
 
 use App\Entity\Superclass\Note;
-use App\Enum\NoteType;
 use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedByRelation as CreatedBy;
+use App\Shared\Enum\NoteType;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 

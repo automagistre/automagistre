@@ -6,7 +6,7 @@ namespace App\Customer\Ports\EasyAdmin;
 
 use App\Customer\Domain\OperandId;
 use App\Customer\Domain\Organization;
-use App\Event\OrganizationCreated;
+use App\Customer\Event\OrganizationCreated;
 use function assert;
 
 /**

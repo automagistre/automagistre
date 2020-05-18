@@ -7,7 +7,7 @@ namespace App\Customer\Infrastructure\Fixtures;
 use App\Customer\Domain\OperandId;
 use App\Customer\Domain\OperandNote;
 use App\Customer\Domain\Person;
-use App\Enum\NoteType;
+use App\Shared\Enum\NoteType;
 use App\User\Domain\UserId;
 use App\User\Fixtures\EmployeeFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;

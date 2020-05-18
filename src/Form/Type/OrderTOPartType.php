@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Form\Type;
 
 use App\Form\Model\OrderTOPart;
-use App\Manager\PartManager;
 use App\Part\Domain\Part;
+use App\Part\Manager\PartManager;
 use App\Shared\Identifier\IdentifierFormatter;
 use function count;
 use LogicException;

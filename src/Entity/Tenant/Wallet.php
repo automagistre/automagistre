@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Tenant;
 
-use App\Entity\Transactional;
+use App\Payment\Transactional;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;

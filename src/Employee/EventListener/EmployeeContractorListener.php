@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Employee\EventListener;
 
 use App\Employee\Entity\Employee;
-use App\Event\EmployeeCreated;
-use App\Event\EmployeeFired;
+use App\Employee\Event\EmployeeCreated;
+use App\Employee\Event\EmployeeFired;
 use LogicException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;

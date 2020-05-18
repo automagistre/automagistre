@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Twig\Extension;
 
-use App\Entity\Transactional;
-use App\Manager\PaymentManager;
+use App\Payment\Manager\PaymentManager;
+use App\Payment\Transactional;
 use Money\Money;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;

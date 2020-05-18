@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Vehicle;
 
-use App\Tests\Infrastructure\Identifier\IdentifierTestCase;
+use App\Tests\Shared\IdentifierTestCase;
 use App\Vehicle\Domain\VehicleId;
 use App\Vehicle\Infrastructure\Fixtures\NissanGTRFixture;
 use App\Vehicle\Infrastructure\Fixtures\NissanPrimeraFixture;
