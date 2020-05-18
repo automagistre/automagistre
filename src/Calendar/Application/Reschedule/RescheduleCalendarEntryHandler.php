@@ -19,12 +19,10 @@ final class RescheduleCalendarEntryHandler
     {
         $previous = $this->repository->get($command->previousId);
 
-        $entity = $previous->reschedule(
+        $previous->reschedule(
             $command->id,
             $command->schedule,
             $command->orderInfo,
         );
-
-        $this->repository->add($entity);
     }
 }

@@ -29,7 +29,12 @@ class CalendarEntry
     private OrderInfo $orderInfo;
 
     /**
-     * @ORM\OneToOne(targetEntity=CalendarEntry::class, cascade={"persist"})
+     * @ORM\OneToOne(targetEntity=CalendarEntry::class, mappedBy="previous", cascade={"persist"})
+     */
+    private ?CalendarEntry $replacement = null;
+
+    /**
+     * @ORM\OneToOne(targetEntity=CalendarEntry::class, inversedBy="replacement")
      * @ORM\JoinColumn(name="previous")
      */
     private ?CalendarEntry $previous;
@@ -52,9 +57,13 @@ class CalendarEntry
         return new self($id, $schedule, $orderInfo);
     }
 
-    public function reschedule(CalendarEntryId $id, Schedule $schedule, OrderInfo $orderInfo): self
+    public function reschedule(CalendarEntryId $id, Schedule $schedule, OrderInfo $orderInfo): void
     {
-        return new self($id, $schedule, $orderInfo, $this);
+        if (null !== $this->replacement) {
+            throw new DomainException(sprintf('%s %s already replaced.', __CLASS__, $this->id->toString()));
+        }
+
+        $this->replacement = new self($id, $schedule, $orderInfo, $this);
     }
 
     public function delete(DeletionReason $reason, ?string $description): void
