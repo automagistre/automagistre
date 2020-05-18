@@ -104,50 +104,6 @@ easy_admin:
             - { name: 'delete', icon: 'trash', label: false }
 
     entities:
-
-        Wallet:
-            class: App\Entity\Tenant\Wallet
-            controller: App\Controller\EasyAdmin\WalletController
-            disabled_actions: ['show', 'search']
-            list:
-                title: 'Счета'
-                fields:
-                    - { property: 'name', label: 'Название' }
-                    - { property: 'currency', label: 'Валюта' }
-                    - { property: 'useInIncome', label: 'Использовать для оплаты приходов' }
-                    - { property: 'useInOrder', label: 'Использовать для начислений по заказам' }
-                    - { property: 'showInLayout', label: 'Показывать в шапке' }
-                    - { property: 'defaultInManualTransaction', label: 'По умолчанию в ручной проводке' }
-            new:
-                title: 'Создать новый счет'
-                form_options: { data_class: stdClass }
-                fields:
-                    - { property: 'name', label: 'Название' }
-                    - { property: 'currency', label: 'Валюта', type: App\Form\Type\CurrencyType }
-                    - { property: 'useInIncome', label: 'Использовать для оплаты приходов' }
-                    - { property: 'useInOrder', label: 'Использовать для начислений по заказам' }
-                    - { property: 'showInLayout', label: 'Показывать в шапке' }
-            edit:
-                title: 'Редактировать счет № {{ entity.id }}'
-                fields:
-                    - { property: 'name', label: 'Название' }
-                    - { property: 'currency', label: 'Валюта', type: App\Form\Type\CurrencyType, type_options: { disabled: true } }
-                    - { property: 'useInIncome', label: 'Использовать для оплаты приходов' }
-                    - { property: 'useInOrder', label: 'Использовать для начислений по заказам' }
-                    - { property: 'showInLayout', label: 'Показывать в шапке' }
-        WalletTransaction:
-            class: App\Entity\Tenant\WalletTransaction
-            controller: App\Controller\EasyAdmin\WalletTransactionController
-            disabled_actions: ['show', 'delete', 'edit', 'new']
-            list:
-                title: 'Список проводок'
-                fields:
-                    - { property: 'id', template: 'easy_admin/default/field_raw.html.twig' }
-                    - { property: 'recipient', label: 'Счет' }
-                    - { property: 'amount', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
-                    - { property: 'createdAt', label: 'Дата' }
-                    - { property: 'description', label: 'Описание', template: 'easy_admin/default/field_raw.html.twig' }
-
         McWork:
             class: App\Entity\Landlord\MC\Work
             controller: App\Controller\EasyAdmin\MC\WorkController
@@ -305,6 +261,6 @@ easy_admin:
                 form_options: { data_class: stdClass }
                 fields:
                     - { property: 'expense', label: 'Статья расходов', type_options: { placeholder: 'Выберите статью', required: true } }
-                    - { property: 'wallet', label: 'Счет списания', type: 'entity', type_options: { class: App\Entity\Tenant\Wallet, required: true } }
+                    - { property: 'wallet', label: 'Счет списания', type: 'entity', type_options: { class: App\Wallet\Entity\Wallet, required: true } }
                     - { property: 'amount', label: 'Стоимость', type: App\Form\Type\MoneyType, type_options: { required: true } }
                     - { property: 'description', label: 'Комментарий' }

@@ -6,7 +6,6 @@ namespace App\Income\Controller;
 
 use App\Controller\EasyAdmin\AbstractController;
 use App\Customer\Domain\Operand;
-use App\Entity\Tenant\Wallet;
 use App\Form\Type\MoneyType;
 use App\Income\Entity\Income;
 use App\Income\Entity\IncomeId;
@@ -15,6 +14,7 @@ use App\Income\Event\IncomeAccrued;
 use App\Income\Form\IncomeDto;
 use App\Part\Domain\Part;
 use App\Payment\Manager\PaymentManager;
+use App\Wallet\Entity\Wallet;
 use function assert;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;

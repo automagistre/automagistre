@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Customer\Form;
 
 use App\Customer\Domain\Operand;
-use App\Entity\Tenant\Wallet;
+use App\Wallet\Entity\Wallet;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
 

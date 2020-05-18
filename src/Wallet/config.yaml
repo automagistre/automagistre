@@ -1,0 +1,61 @@
+easy_admin:
+    entities:
+        Wallet:
+            class: App\Wallet\Entity\Wallet
+            controller: App\Wallet\Controller\WalletController
+            disabled_actions: ['show', 'search']
+            list:
+                title: 'Счета'
+                fields:
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'currency', label: 'Валюта' }
+                    - { property: 'useInIncome', label: 'Использовать для оплаты приходов' }
+                    - { property: 'useInOrder', label: 'Использовать для начислений по заказам' }
+                    - { property: 'showInLayout', label: 'Показывать в шапке' }
+                    - { property: 'defaultInManualTransaction', label: 'По умолчанию в ручной проводке' }
+            new:
+                title: 'Создать новый счет'
+                form_options: { data_class: stdClass }
+                fields:
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'currency', label: 'Валюта', type: App\Form\Type\CurrencyType }
+                    - { property: 'useInIncome', label: 'Использовать для оплаты приходов' }
+                    - { property: 'useInOrder', label: 'Использовать для начислений по заказам' }
+                    - { property: 'showInLayout', label: 'Показывать в шапке' }
+            edit:
+                title: 'Редактировать счет № {{ entity.id }}'
+                fields:
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'currency', label: 'Валюта', type: App\Form\Type\CurrencyType, type_options: { disabled: true } }
+                    - { property: 'useInIncome', label: 'Использовать для оплаты приходов' }
+                    - { property: 'useInOrder', label: 'Использовать для начислений по заказам' }
+                    - { property: 'showInLayout', label: 'Показывать в шапке' }
+
+        WalletTransaction:
+            class: App\Wallet\Entity\WalletTransaction
+            controller: App\Wallet\Controller\WalletTransactionController
+            disabled_actions: ['show', 'delete', 'edit', 'new']
+            list:
+                title: 'Список проводок'
+                fields:
+                    - { property: 'id', template: 'easy_admin/default/field_raw.html.twig' }
+                    - { property: 'recipient', label: 'Счет' }
+                    - { property: 'amount', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
+                    - { property: 'createdAt', label: 'Дата' }
+                    - { property: 'description', label: 'Описание', template: 'easy_admin/default/field_raw.html.twig' }
+
+doctrine:
+    orm:
+        entity_managers:
+            tenant:
+                mappings:
+                    wallet:
+                        type: annotation
+                        prefix: App\Wallet\Entity
+                        dir: '%kernel.project_dir%/src/Wallet/Entity'
+
+services:
+    _defaults:
+        public: false
+        autowire: true
+        autoconfigure: true

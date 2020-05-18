@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Tenant;
+namespace App\Wallet\Entity;
 
+use App\Entity\Tenant\Transaction;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 

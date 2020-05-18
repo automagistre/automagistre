@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Tenant;
+namespace App\Wallet\Entity;
 
 use App\Payment\Transactional;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;

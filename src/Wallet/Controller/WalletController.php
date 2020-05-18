@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin;
+namespace App\Wallet\Controller;
 
-use App\Entity\Tenant\Wallet;
+use App\Controller\EasyAdmin\AbstractController;
+use App\Wallet\Entity\Wallet;
 use function assert;
 use Money\Currency;
 use stdClass;

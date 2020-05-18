@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Wallet\Fixtures;
 
-use App\Entity\Tenant\Wallet;
+use App\Wallet\Entity\Wallet;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;

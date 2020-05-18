@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\EasyAdmin\Notify;
 
-use App\Entity\Tenant\WalletTransaction;
 use App\Payment\Event\PaymentCreated;
 use App\Payment\Manager\PaymentManager;
 use App\State;
+use App\Wallet\Entity\WalletTransaction;
 use function json_encode;
 use Money\MoneyFormatter;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

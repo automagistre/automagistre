@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\Tenant;
 
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Wallet\Entity\WalletTransaction;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

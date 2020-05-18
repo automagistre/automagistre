@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\Tenant;
 
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Wallet\Entity\Wallet;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -26,7 +27,7 @@ class Expense
      *
      * @var Wallet|null
      *
-     * @ORM\ManyToOne(targetEntity="Wallet")
+     * @ORM\ManyToOne(targetEntity=Wallet::class)
      */
     private $wallet;
 
