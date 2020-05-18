@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Controller\EasyAdmin;
 
 use App\Costil;
-use App\Request\EntityTransformer;
 use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
+use App\Shared\Request\EntityTransformer;
 use App\State;
 use App\User\Entity\User;
 use function array_keys;

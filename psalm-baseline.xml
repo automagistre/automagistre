@@ -449,17 +449,6 @@
       <code>PartController</code>
     </PropertyNotSetInConstructor>
   </file>
-  <file src="src/Request/EntityTransformer.php">
-    <RepositoryStringShortcut occurrences="1">
-      <code>$class</code>
-    </RepositoryStringShortcut>
-  </file>
-  <file src="src/Request/EntityTransformerArgumentValueResolver.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$argument-&gt;getType()</code>
-      <code>$argument-&gt;getType()</code>
-    </PossiblyNullArgument>
-  </file>
   <file src="src/Shared/ArgumentResolver/ArgumentResolver.php">
     <PossiblyFalseArgument occurrences="1">
       <code>get_class($representative[0])</code>
@@ -500,6 +489,17 @@
       <code>$name</code>
       <code>$class</code>
     </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Shared/Request/EntityTransformer.php">
+    <RepositoryStringShortcut occurrences="1">
+      <code>$class</code>
+    </RepositoryStringShortcut>
+  </file>
+  <file src="src/Shared/Request/EntityTransformerArgumentValueResolver.php">
+    <PossiblyNullArgument occurrences="2">
+      <code>$argument-&gt;getType()</code>
+      <code>$argument-&gt;getType()</code>
+    </PossiblyNullArgument>
   </file>
   <file src="src/Shared/Validator/EntityCheck.php">
     <PropertyNotSetInConstructor occurrences="4">

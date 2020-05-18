@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig\Extension;
 
-use App\Request\EntityTransformer;
+use App\Shared\Request\EntityTransformer;
 use function array_merge;
 use DateTimeImmutable;
 use function is_array;

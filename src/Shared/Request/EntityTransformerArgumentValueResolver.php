@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Request;
+namespace App\Shared\Request;
 
 use Generator;
 use function is_object;
