@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Router;
+namespace App\Shared\Router;
 
 use BadMethodCallException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;

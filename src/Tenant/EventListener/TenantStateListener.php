@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tenant\EventListener;
 
-use App\Router\RoutePreGenerate;
+use App\Shared\Router\RoutePreGenerate;
 use App\State;
 use App\Tenant\Tenant;
 use function array_key_exists;

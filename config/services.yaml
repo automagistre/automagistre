@@ -29,7 +29,3 @@ services:
 
     Symfony\Bridge\Doctrine\Form\DoctrineOrmTypeGuesser:
         alias: easyadmin.form.guesser.missing_doctrine_orm_type_guesser
-
-    App\Router\ListeningRouterDecorator:
-        decorates: router
-

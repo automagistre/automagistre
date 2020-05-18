@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Router;
+namespace App\Shared\Router;
 
 use function array_key_exists;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
