@@ -159,8 +159,10 @@
                                                             <hr>
                                                         {% endif %}
 
-                                                        Комментарий:
-                                                        {{ entry.orderInfo.description }}
+                                                        {% if entry.orderInfo.description is not empty %}
+                                                            Комментарий:
+                                                            {{ entry.orderInfo.description }}
+                                                        {% endif %}
                                                     </div>
                                                     <div class="modal-footer">
                                                         <a
