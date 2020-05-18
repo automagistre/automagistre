@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Order\Entity;
 
-use App\Money\TotalPriceInterface;
+use App\Shared\Money\TotalPriceInterface;
 use Doctrine\ORM\Mapping as ORM;
 use DomainException;
 use Money\Money;

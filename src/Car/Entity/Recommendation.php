@@ -6,11 +6,11 @@ namespace App\Car\Entity;
 
 use App\Customer\Domain\OperandId;
 use App\Entity\Embeddable\OrderItemServiceRelation;
-use App\Money\PriceInterface;
 use App\Order\Entity\OrderItemService;
 use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Price;
+use App\Shared\Money\PriceInterface;
 use App\Tenant\Tenant;
 use App\User\Domain\UserId;
 use DateTime;
