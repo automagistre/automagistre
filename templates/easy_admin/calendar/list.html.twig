@@ -86,10 +86,10 @@
                                     {% set item = stream.get(time) %}
                                     {% set skip = item.length - 1 %}
                                     <td{% if item.length > 1 %} colspan="{{ item.length }}"{% endif %} style="background-color: #dff0d8;">
-                                        {# @var entry \App\Calendar\Application\CalendarEntryView #}
+                                        {# @var entry \App\Calendar\Form\CalendarEntryDto #}
                                         {% set entry = item.calendar %}
 
-                                        <a href="{{ easyadmin_path('CalendarEntry', 'edit', {'id': item.calendar.id.toString(), 'referer': false}) }}">
+                                        <a data-toggle="modal" data-target="#{{ entry.id.toString }}" style="cursor: pointer">
                                             {% if entry.orderInfo.customerId is not empty %}
                                                 {{ entry.orderInfo.customerId|display_name('short') }} <br>
                                             {% endif %}
@@ -100,6 +100,51 @@
 
                                             {{ entry.orderInfo.description }}
                                         </a>
+
+                                        <div class="modal fade" id="{{ entry.id.toString }}" tabindex="-1" role="dialog">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span></button>
+                                                        <h4 class="modal-title" id="myModalLabel">Запись
+                                                            на {{ entry.schedule.date|format_datetime }}</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        {% if entry.orderInfo.customerId is not empty %}
+                                                            Заказчик:
+                                                            <a href="{{ easyadmin_path_by_id(entry.orderInfo.customerId, 'show', {'referer': true}) }}">
+                                                                {{ entry.orderInfo.customerId|display_name }}
+                                                            </a>
+                                                            <hr>
+                                                        {% endif %}
+
+                                                        {% if entry.orderInfo.carId is not empty %}
+                                                            Автомобиль:
+                                                            <a href="{{ easyadmin_path_by_id(entry.orderInfo.carId, 'show', {'referer': true}) }}">
+                                                                {{ entry.orderInfo.carId|display_name('long') }}
+                                                            </a>
+                                                            <hr>
+                                                        {% endif %}
+
+                                                        Комментарий:
+                                                        {{ entry.orderInfo.description }}
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a
+                                                                href="{{ easyadmin_path('CalendarEntry', 'deletion', {'id': item.calendar.id.toString(), 'referer': true}) }}"
+                                                                class="btn btn-danger">
+                                                            Удалить
+                                                        </a>
+                                                        <a
+                                                                href="{{ easyadmin_path('CalendarEntry', 'edit', {'id': item.calendar.id.toString(), 'referer': true}) }}"
+                                                                class="btn btn-primary">
+                                                            Редактировать
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 {% else %}
                                     <td style="text-align: center">
