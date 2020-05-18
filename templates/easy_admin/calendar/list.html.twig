@@ -66,7 +66,7 @@
             {% set current = day == date %}
 
             <a href="{{ easyadmin_path('CalendarEntry', 'list', {'date': day|date('Y-m-d')}) }}" class="btn btn-sm {% if current %}disabled btn-success{% else %}btn-default{% endif %}" style="
-                    border-radius: 3px;
+                    border-radius: {{ current ? '0px' : '3px' }};
                     border: 1px solid {{ current ? '#006B2E' : '#ccc' }};
                     color: {{ current ? '#ffffff' : '#333333' }};
                     background-color: {{ current ? '#006B2E' : '#ffffff' }};
