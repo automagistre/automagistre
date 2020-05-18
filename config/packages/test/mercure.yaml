@@ -1,2 +1,2 @@
 services:
-    Symfony\Component\Mercure\PublisherInterface: '@App\Mercure\NullPublisher'
+    Symfony\Component\Mercure\PublisherInterface: '@App\Shared\Mercure\NullPublisher'

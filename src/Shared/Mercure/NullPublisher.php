@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Mercure;
+namespace App\Shared\Mercure;
 
 use Symfony\Component\Mercure\PublisherInterface;
 use Symfony\Component\Mercure\Update;

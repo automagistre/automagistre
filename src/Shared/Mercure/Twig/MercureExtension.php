@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Mercure\Twig;
+namespace App\Shared\Mercure\Twig;
 
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Twig\Extension\AbstractExtension;

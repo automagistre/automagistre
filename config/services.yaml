@@ -33,6 +33,3 @@ services:
     App\Router\ListeningRouterDecorator:
         decorates: router
 
-    App\Mercure\JwtProvider:
-        arguments:
-            - '%env(MERCURE_JWT_KEY)%'
