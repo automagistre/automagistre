@@ -30,19 +30,7 @@ final class OperandFormatter implements IdentifierFormatterInterface
         $view = $this->registry->view($identifier);
 
         if ('1' === $view['type']) {
-            $string = sprintf('%s %s', $view['lastname'], $view['firstname']);
-
-            if ('short' === $format) {
-                return $string;
-            }
-
-            $email = $view['email'];
-
-            if (null !== $email) {
-                $string .= sprintf(' (%s)', $email);
-            }
-
-            return trim($string);
+            return trim(sprintf('%s %s', $view['lastname'], $view['firstname']));
         }
 
         if ('2' === $view['type']) {
