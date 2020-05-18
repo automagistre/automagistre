@@ -1,3 +1,0 @@
-_test:
-    resource: '../../../src/Controller/TestController.php'
-    type:     annotation
