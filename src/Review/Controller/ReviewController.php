@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin;
+namespace App\Review\Controller;
 
-use App\Entity\Landlord\Review;
+use App\Controller\EasyAdmin\AbstractController;
+use App\Review\Entity\Review;
 use function assert;
 use function strtolower;
 

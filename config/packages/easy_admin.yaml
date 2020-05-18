@@ -195,30 +195,3 @@ easy_admin:
                 form_options: { data_class: stdClass }
             edit:
                 title: 'Редактировать запчасть № {{ entity.id }} для ТО'
-
-        Review:
-            class: App\Entity\Landlord\Review
-            controller: App\Controller\EasyAdmin\ReviewController
-            disabled_actions: ['show']
-            list:
-                fields:
-                    - { property: 'id' }
-                    - { property: 'author', label: 'Автор' }
-                    - { property: 'manufacturer', label: 'Производитель автомобиля' }
-                    - { property: 'model', label: 'Модель автомобиля' }
-                    - { property: 'content', label: 'Отзыв' }
-                    - { property: 'source', label: 'Источник' }
-                    - { property: 'publishAt', label: 'Когда обудликова' }
-            form:
-                fields:
-                    - { property: 'author', label: 'Автор' }
-                    - { property: 'manufacturer', label: 'Производитель автомобиля' }
-                    - { property: 'model', label: 'Модель автомобиля' }
-                    - { property: 'content', label: 'Отзыв' }
-                    - { property: 'source', label: 'Источник' }
-                    - { property: 'publishAt', label: 'Когда обудликова', type: 'date_immutable', type_options: { input: 'datetime_immutable' } }
-            new:
-                title: 'Создать новый Отзыв'
-                form_options: { data_class: stdClass }
-            edit:
-                title: 'Редактировать Отзыв № {{ entity.id }}'

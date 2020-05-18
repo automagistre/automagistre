@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Review\Fixtures;
 
-use App\Entity\Landlord\Review;
+use App\Review\Entity\Review;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
