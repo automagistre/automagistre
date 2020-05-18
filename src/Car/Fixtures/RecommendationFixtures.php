@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Car\Infrastructure\Fixtures;
+namespace App\Car\Fixtures;
 
 use App\Car\Entity\Car;
 use App\Car\Entity\Recommendation;

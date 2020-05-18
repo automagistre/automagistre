@@ -2,21 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Car\Infrastructure\Fixtures;
+namespace App\Car\Fixtures;
 
 use App\Car\Entity\Car;
 use App\Car\Entity\CarId;
-use App\Vehicle\Domain\VehicleId;
-use App\Vehicle\Infrastructure\Fixtures\NissanPrimeraFixture;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class Primera2004Fixtures extends Fixture implements FixtureGroupInterface
+final class EmptyCarFixtures extends Fixture implements FixtureGroupInterface
 {
-    public const ID = '1ea88193-17fa-6b7a-ac1b-ba1ca6d07248';
-    public const YEAR = 2004;
-    public const VEHICLE_ID = NissanPrimeraFixture::ID;
+    public const ID = '1ea8818c-bf1b-6820-b45f-ba1ca6d07248';
 
     /**
      * {@inheritdoc}
@@ -32,10 +28,7 @@ final class Primera2004Fixtures extends Fixture implements FixtureGroupInterface
     public function load(ObjectManager $manager): void
     {
         $car = new Car(CarId::fromString(self::ID));
-        $car->year = self::YEAR;
-        $car->vehicleId = VehicleId::fromString(self::VEHICLE_ID);
-
-        $this->addReference(__CLASS__, $car);
+        $this->addReference('car-1', $car);
 
         $manager->persist($car);
         $manager->flush();

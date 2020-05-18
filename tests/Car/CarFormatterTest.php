@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Tests\Car;
 
 use App\Car\Entity\CarId;
-use App\Car\Infrastructure\Fixtures\EmptyCarFixtures;
-use App\Car\Infrastructure\Fixtures\Primera2004Fixtures;
+use App\Car\Fixtures\EmptyCarFixtures;
+use App\Car\Fixtures\Primera2004Fixtures;
 use App\Tests\Infrastructure\Identifier\IdentifierTestCase;
 use Generator;
 
 /**
- * @see \App\Car\Infrastructure\CarFormatter
+ * @see \App\Car\View\CarFormatter
  */
 final class CarFormatterTest extends IdentifierTestCase
 {

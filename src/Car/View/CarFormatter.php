@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Car\Infrastructure;
+namespace App\Car\View;
 
 use App\Car\Entity\CarId;
 use App\Doctrine\ORM\Type\Identifier;

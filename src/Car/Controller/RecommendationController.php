@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Car\Ports\EasyAdmin;
+namespace App\Car\Controller;
 
 use App\Car\Entity\Car;
 use App\Car\Entity\Recommendation;

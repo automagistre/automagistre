@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Car\Infrastructure\Fixtures;
+namespace App\Car\Fixtures;
 
 use App\Car\Entity\Car;
 use App\Car\Entity\Note;

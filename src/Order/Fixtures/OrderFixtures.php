@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Order\Fixtures;
 
 use App\Car\Entity\CarId;
-use App\Car\Infrastructure\Fixtures\Primera2004Fixtures;
+use App\Car\Fixtures\Primera2004Fixtures;
 use App\Customer\Domain\OperandId;
 use App\Customer\Infrastructure\Fixtures\PersonVasyaFixtures;
 use App\Doctrine\Registry;

@@ -24,6 +24,42 @@
       <code>CalendarEntryController</code>
     </PropertyNotSetInConstructor>
   </file>
+  <file src="src/Car/Controller/CarController.php">
+    <PossiblyFalseOperand occurrences="1">
+      <code>mb_strtolower($searchString)</code>
+    </PossiblyFalseOperand>
+  </file>
+  <file src="src/Car/Controller/RecommendationController.php">
+    <PossiblyNullArgument occurrences="3">
+      <code>$model-&gt;service</code>
+      <code>$model-&gt;price</code>
+      <code>$model-&gt;workerId</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="2">
+      <code>toId</code>
+      <code>createQueryBuilder</code>
+    </PossiblyNullReference>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>RecommendationController</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Car/Controller/RecommendationPartController.php">
+    <PossiblyNullArgument occurrences="4">
+      <code>$model-&gt;price</code>
+      <code>$model-&gt;price</code>
+      <code>$model-&gt;partId</code>
+      <code>$model-&gt;price</code>
+    </PossiblyNullArgument>
+    <PossiblyNullArrayOffset occurrences="1">
+      <code>$forms</code>
+    </PossiblyNullArrayOffset>
+    <PossiblyNullReference occurrences="1">
+      <code>equal</code>
+    </PossiblyNullReference>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>RecommendationPartController</code>
+    </PropertyNotSetInConstructor>
+  </file>
   <file src="src/Car/Entity/Car.php">
     <PossiblyFalseArgument occurrences="1">
       <code>mb_convert_case($this-&gt;gosnomer, MB_CASE_UPPER, 'UTF-8')</code>
@@ -47,42 +83,6 @@
     <PossiblyNullReference occurrences="1">
       <code>toId</code>
     </PossiblyNullReference>
-  </file>
-  <file src="src/Car/Ports/EasyAdmin/CarController.php">
-    <PossiblyFalseOperand occurrences="1">
-      <code>mb_strtolower($searchString)</code>
-    </PossiblyFalseOperand>
-  </file>
-  <file src="src/Car/Ports/EasyAdmin/RecommendationController.php">
-    <PossiblyNullArgument occurrences="3">
-      <code>$model-&gt;service</code>
-      <code>$model-&gt;price</code>
-      <code>$model-&gt;workerId</code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="2">
-      <code>toId</code>
-      <code>createQueryBuilder</code>
-    </PossiblyNullReference>
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>RecommendationController</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Car/Ports/EasyAdmin/RecommendationPartController.php">
-    <PossiblyNullArgument occurrences="4">
-      <code>$model-&gt;price</code>
-      <code>$model-&gt;price</code>
-      <code>$model-&gt;partId</code>
-      <code>$model-&gt;price</code>
-    </PossiblyNullArgument>
-    <PossiblyNullArrayOffset occurrences="1">
-      <code>$forms</code>
-    </PossiblyNullArrayOffset>
-    <PossiblyNullReference occurrences="1">
-      <code>equal</code>
-    </PossiblyNullReference>
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>RecommendationPartController</code>
-    </PropertyNotSetInConstructor>
   </file>
   <file src="src/Command/Employee/MonthlySalaryCommand.php">
     <DocblockTypeContradiction occurrences="1">
@@ -252,11 +252,6 @@
     <PossiblyNullArgument occurrences="1">
       <code>$incomePart-&gt;getQuantity()</code>
     </PossiblyNullArgument>
-  </file>
-  <file src="src/EventListener/EmployeeContractorListener.php">
-    <PossiblyNullReference occurrences="1">
-      <code>setContractor</code>
-    </PossiblyNullReference>
   </file>
   <file src="src/EventListener/EventsListener.php">
     <DeprecatedMethod occurrences="1">
