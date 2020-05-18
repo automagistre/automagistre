@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Command\Employee;
+namespace App\Employee\Command;
 
 use App\Doctrine\Registry;
 use App\Employee\Entity\MonthlySalary;
@@ -10,9 +10,8 @@ use App\Manager\PaymentManager;
 use App\State;
 use App\Tenant\Tenant;
 use App\User\Entity\User;
+use function assert;
 use function date;
-use InvalidArgumentException;
-use function is_string;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleErrorEvent;
@@ -67,12 +66,10 @@ final class MonthlySalaryCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        /** @var string $payday */
         $payday = $input->getArgument('payday') ?? date('j');
+        /** @var string $description */
         $description = $input->getOption('description') ?? '# Начисление ежемесячного оклада';
-
-        if (!is_string($payday) || !is_string($description)) {
-            throw new InvalidArgumentException('Payday and Description required.');
-        }
 
         $user = $this->registry->repository(User::class)->findOneBy(['username' => 'service@automagistre.ru']);
         if (!$user instanceof User) {
@@ -111,6 +108,7 @@ final class MonthlySalaryCommand extends Command
 
         foreach ($salaries as $salary) {
             $person = $salary->getEmployee()->getPerson();
+            assert(null !== $person);
 
             $desc = $description.' #'.$salary->getId();
             $this->paymentManager->createPayment($person, $desc, $salary->getAmount());
