@@ -6,9 +6,9 @@ namespace App\Manufacturer\Infrastructure;
 
 use App\Doctrine\ORM\Type\Identifier;
 use App\Doctrine\Registry;
-use App\Infrastructure\Identifier\IdentifierFormatter;
-use App\Infrastructure\Identifier\IdentifierFormatterInterface;
 use App\Manufacturer\Domain\ManufacturerId;
+use App\Shared\Identifier\IdentifierFormatter;
+use App\Shared\Identifier\IdentifierFormatterInterface;
 
 final class ManufacturerFormatter implements IdentifierFormatterInterface
 {

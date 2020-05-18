@@ -9,8 +9,8 @@ use App\Customer\Domain\OperandId;
 use App\Doctrine\ORM\Type\Identifier;
 use App\Doctrine\Registry;
 use App\Employee\Entity\EmployeeId;
-use App\Infrastructure\Identifier\IdentifierFormatter;
-use App\Infrastructure\Identifier\IdentifierFormatterInterface;
+use App\Shared\Identifier\IdentifierFormatter;
+use App\Shared\Identifier\IdentifierFormatterInterface;
 use function assert;
 use function is_string;
 

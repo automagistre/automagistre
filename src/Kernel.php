@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Infrastructure\Identifier\IdentifierFormatter;
 use App\JSONRPC\Test\JsonRPCClient;
+use App\Shared\Identifier\IdentifierFormatter;
 use App\Tenant\MetadataCompilerPass;
 use function assert;
 use function class_exists;

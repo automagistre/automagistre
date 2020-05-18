@@ -7,7 +7,7 @@ namespace App\Employee\Form;
 use App\Customer\Domain\Operand;
 use App\Doctrine\Registry;
 use App\Employee\Entity\EmployeeId;
-use App\Infrastructure\Identifier\IdentifierFormatter;
+use App\Shared\Identifier\IdentifierFormatter;
 use function array_map;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;

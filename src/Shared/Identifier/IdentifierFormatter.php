@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Identifier;
+namespace App\Shared\Identifier;
 
 use App\Doctrine\ORM\Type\Identifier;
 use function array_key_exists;

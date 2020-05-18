@@ -7,7 +7,7 @@ namespace App\Income\Form;
 use App\Customer\Domain\Operand;
 use App\Customer\Domain\OperandId;
 use App\Doctrine\Registry;
-use App\Infrastructure\Identifier\IdentifierFormatter;
+use App\Shared\Identifier\IdentifierFormatter;
 use function array_combine;
 use function array_map;
 use function assert;

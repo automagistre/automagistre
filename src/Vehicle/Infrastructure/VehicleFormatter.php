@@ -6,8 +6,8 @@ namespace App\Vehicle\Infrastructure;
 
 use App\Doctrine\ORM\Type\Identifier;
 use App\Doctrine\Registry;
-use App\Infrastructure\Identifier\IdentifierFormatter;
-use App\Infrastructure\Identifier\IdentifierFormatterInterface;
+use App\Shared\Identifier\IdentifierFormatter;
+use App\Shared\Identifier\IdentifierFormatterInterface;
 use App\Vehicle\Domain\VehicleId;
 use function sprintf;
 

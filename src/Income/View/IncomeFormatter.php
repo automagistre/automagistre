@@ -7,8 +7,8 @@ namespace App\Income\View;
 use App\Doctrine\ORM\Type\Identifier;
 use App\Doctrine\Registry;
 use App\Income\Entity\IncomeId;
-use App\Infrastructure\Identifier\IdentifierFormatter;
-use App\Infrastructure\Identifier\IdentifierFormatterInterface;
+use App\Shared\Identifier\IdentifierFormatter;
+use App\Shared\Identifier\IdentifierFormatterInterface;
 use function sprintf;
 
 final class IncomeFormatter implements IdentifierFormatterInterface

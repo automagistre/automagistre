@@ -6,10 +6,10 @@ namespace App\Part\Infrastructure;
 
 use App\Doctrine\ORM\Type\Identifier;
 use App\Doctrine\Registry;
-use App\Infrastructure\Identifier\IdentifierFormatter;
-use App\Infrastructure\Identifier\IdentifierFormatterInterface;
 use App\Part\Domain\Part;
 use App\Part\Domain\PartId;
+use App\Shared\Identifier\IdentifierFormatter;
+use App\Shared\Identifier\IdentifierFormatterInterface;
 use Doctrine\ORM\AbstractQuery;
 use function str_replace;
 

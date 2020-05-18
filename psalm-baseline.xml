@@ -9,12 +9,7 @@
     </PossiblyInvalidArgument>
   </file>
   <file src="src/Calendar/Controller/CalendarEntryController.php">
-    <PossiblyNullArgument occurrences="6">
-      <code>$dto-&gt;date</code>
-      <code>$dto-&gt;duration</code>
-      <code>$dto-&gt;id</code>
-      <code>$dto-&gt;date</code>
-      <code>$dto-&gt;duration</code>
+    <PossiblyNullArgument occurrences="1">
       <code>$dto-&gt;reason</code>
     </PossiblyNullArgument>
     <PropertyNotSetInConstructor occurrences="1">
@@ -337,15 +332,6 @@
       <code>toId</code>
     </PossiblyNullReference>
   </file>
-  <file src="src/Infrastructure/Identifier/IdentifierTwigExtension.php">
-    <MissingClosureParamType occurrences="2">
-      <code>$mixed</code>
-      <code>$value</code>
-    </MissingClosureParamType>
-    <MissingClosureReturnType occurrences="1">
-      <code>fn (</code>
-    </MissingClosureReturnType>
-  </file>
   <file src="src/Manager/DeficitManager.php">
     <InvalidNullableReturnType occurrences="1">
       <code>object</code>
@@ -525,6 +511,15 @@
       <code>$argument-&gt;getType()</code>
       <code>$argument-&gt;getType()</code>
     </PossiblyNullArgument>
+  </file>
+  <file src="src/Shared/Identifier/IdentifierTwigExtension.php">
+    <MissingClosureParamType occurrences="2">
+      <code>$mixed</code>
+      <code>$value</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="1">
+      <code>fn (</code>
+    </MissingClosureReturnType>
   </file>
   <file src="src/Shared/Validator/EntityCheck.php">
     <PropertyNotSetInConstructor occurrences="4">

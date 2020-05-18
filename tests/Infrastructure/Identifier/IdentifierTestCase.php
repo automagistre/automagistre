@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Infrastructure\Identifier;
 
 use App\Doctrine\ORM\Type\Identifier;
-use App\Infrastructure\Identifier\IdentifierFormatter;
+use App\Shared\Identifier\IdentifierFormatter;
 use App\State;
 use App\Tenant\Tenant;
 use Generator;

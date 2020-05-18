@@ -7,7 +7,7 @@ namespace App\Income\Controller;
 use App\Controller\EasyAdmin\AbstractController;
 use App\Income\Entity\Income;
 use App\Income\Entity\IncomePart;
-use App\Infrastructure\Identifier\IdentifierFormatter;
+use App\Shared\Identifier\IdentifierFormatter;
 use function assert;
 use function in_array;
 use LogicException;
