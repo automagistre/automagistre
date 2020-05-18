@@ -1,0 +1,59 @@
+easy_admin:
+    entities:
+        Expense:
+            class: App\Expense\Entity\Expense
+            controller: App\Expense\Controller\ExpenseController
+            disabled_actions: ['show', 'delete']
+            list:
+                title: 'Статьи расходов'
+                fields:
+                    - { property: 'id' }
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'wallet', label: 'Счет списания по умолчанию' }
+                    - { property: 'create', virtual: true, label: ' ', template: 'easy_admin/expense/field_button.html.twig' }
+            new:
+                title: 'Создать новую Статью расходов'
+                form_options: { data_class: stdClass }
+                fields:
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'wallet', label: 'Счет списания по умолчанию', type_options: { required: false } }
+            edit:
+                title: 'Редактировать Статью расходов № {{ entity.id }}'
+                fields:
+                    - { property: 'name', label: 'Название', type_options: { disabled: true } }
+                    - { property: 'wallet', label: 'Счет списания по умолчанию', type_options: { required: false } }
+        ExpenseItem:
+            class: App\Expense\Entity\ExpenseItem
+            controller: App\Expense\Controller\ExpenseItemController
+            disabled_actions: ['edit', 'show', 'delete']
+            list:
+                title: 'Расходы'
+                fields:
+                    - { property: 'id', template: 'easy_admin/default/field_raw.html.twig' }
+                    - { property: 'expense', label: 'Статья расходов' }
+                    - { property: 'amount', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
+                    - { property: 'description', label: 'Комментарий' }
+            new:
+                title: 'Создать новый Расход'
+                form_options: { data_class: stdClass }
+                fields:
+                    - { property: 'expense', label: 'Статья расходов', type_options: { placeholder: 'Выберите статью', required: true } }
+                    - { property: 'wallet', label: 'Счет списания', type: 'entity', type_options: { class: App\Wallet\Entity\Wallet, required: true } }
+                    - { property: 'amount', label: 'Стоимость', type: App\Form\Type\MoneyType, type_options: { required: true } }
+                    - { property: 'description', label: 'Комментарий' }
+
+doctrine:
+    orm:
+        entity_managers:
+            tenant:
+                mappings:
+                    expense:
+                        type: annotation
+                        prefix: App\Expense\Entity
+                        dir: '%kernel.project_dir%/src/Expense/Entity'
+
+services:
+    _defaults:
+        public: false
+        autowire: true
+        autoconfigure: true

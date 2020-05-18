@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin;
+namespace App\Expense\Controller;
 
-use App\Entity\Tenant\Expense;
-use App\Entity\Tenant\ExpenseItem;
+use App\Controller\EasyAdmin\AbstractController;
+use App\Expense\Entity\Expense;
+use App\Expense\Entity\ExpenseItem;
 use App\Expense\Event\ExpenseItemCreated;
 use App\Payment\Manager\PaymentManager;
 use function assert;

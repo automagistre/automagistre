@@ -83,17 +83,6 @@
       <code>$registry</code>
     </MissingConstructor>
   </file>
-  <file src="src/Controller/EasyAdmin/ExpenseItemController.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$entity-&gt;getDescription()</code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>transactional</code>
-    </PossiblyNullReference>
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>ExpenseItemController</code>
-    </PropertyNotSetInConstructor>
-  </file>
   <file src="src/Controller/EasyAdmin/MC/EquipmentController.php">
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtolower($searchString)</code>
@@ -198,6 +187,17 @@
     <DeprecatedMethod occurrences="1">
       <code>isEntity</code>
     </DeprecatedMethod>
+  </file>
+  <file src="src/Expense/Controller/ExpenseItemController.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$entity-&gt;getDescription()</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="1">
+      <code>transactional</code>
+    </PossiblyNullReference>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>ExpenseItemController</code>
+    </PropertyNotSetInConstructor>
   </file>
   <file src="src/Form/Model/OrderGroup.php">
     <PropertyNotSetInConstructor occurrences="1">

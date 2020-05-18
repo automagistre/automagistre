@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Expense\Fixtures;
 
-use App\Entity\Tenant\Expense;
+use App\Expense\Entity\Expense;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
