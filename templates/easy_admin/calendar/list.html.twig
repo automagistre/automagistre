@@ -107,7 +107,15 @@
                     {% for stream in streams %}
                         {# @var stream \App\Calendar\View\Stream #}
                         <tr style="height: 60px">
-                            <td>{% include 'easy_admin/field_identifier.html.twig' with {'value': stream.workerId} %}</td>
+                            <td>
+                                {% if stream.workerId is not empty %}
+                                    <a href="{{ easyadmin_path_by_id(stream.workerId, 'show', {'referer': true}) }}">
+                                        {{- stream.workerId|display_name -}}
+                                    </a>
+                                {% else %}
+                                    {% include 'easy_admin/default/label_null.html.twig' %}
+                                {% endif %}
+                            </td>
                             {% set skip = 0 %}
 
                             {% for time in columns %}
