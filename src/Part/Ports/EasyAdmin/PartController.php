@@ -21,7 +21,6 @@ use App\Part\Domain\PartCase;
 use App\Part\Domain\PartId;
 use App\Part\Domain\Stockpile;
 use App\Part\Form\PartDto;
-use App\Roles;
 use App\State;
 use App\Storage\Entity\Motion;
 use App\Storage\Enum\Source;
@@ -46,7 +45,6 @@ use function sprintf;
 use function str_ireplace;
 use function str_replace;
 use function strpos;
-use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -250,20 +248,6 @@ final class PartController extends AbstractController
         }
 
         return parent::renderTemplate($actionName, $templatePath, $parameters);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function createEntityFormBuilder($entity, $view): FormBuilder
-    {
-        $formBuilder = parent::createEntityFormBuilder($entity, $view);
-
-        if ('edit' === $view) {
-            $formBuilder->get('number')->setDisabled(!$this->isGranted(Roles::SUPER_ADMIN));
-        }
-
-        return $formBuilder;
     }
 
     /**

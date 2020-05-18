@@ -49,6 +49,8 @@ easy_admin:
                     - { property: 'equipment', label: ' ', type: App\Vehicle\Infrastructure\Form\EquipmentType }
             edit:
                 title: 'Редактировать автомобиль'
+                fields:
+                    - { property: 'identifier', type_options: { disabled: true } }
             new:
                 title: 'Создать новый автомобиль'
 
