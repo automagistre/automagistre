@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Order\Twig;
+namespace App\Order\View;
 
 use App\Car\Entity\Recommendation;
 use App\Order\Entity\OrderItemService;

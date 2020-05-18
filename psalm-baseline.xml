@@ -151,12 +151,6 @@
       <code>getData</code>
     </PossiblyFalseReference>
   </file>
-  <file src="src/EasyAdmin/IdentifierRouterExtension.php">
-    <InvalidArrayOffset occurrences="2">
-      <code>Costil::ENTITY[$class]</code>
-      <code>Costil::EASYADMIN_CONFIG[$class]</code>
-    </InvalidArrayOffset>
-  </file>
   <file src="src/EasyAdmin/Notify/BalanceNotificationListener.php">
     <PossiblyFalseArgument occurrences="1">
       <code>json_encode($data, JSON_THROW_ON_ERROR)</code>
@@ -474,6 +468,12 @@
     <RepositoryStringShortcut occurrences="1">
       <code>$class</code>
     </RepositoryStringShortcut>
+  </file>
+  <file src="src/Shared/Identifier/IdentifierRouterExtension.php">
+    <InvalidArrayOffset occurrences="2">
+      <code>Costil::ENTITY[$class]</code>
+      <code>Costil::EASYADMIN_CONFIG[$class]</code>
+    </InvalidArrayOffset>
   </file>
   <file src="src/Shared/Identifier/IdentifierTwigExtension.php">
     <MissingClosureParamType occurrences="2">

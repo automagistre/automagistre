@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Twig\Extension;
+namespace App\Shared\Money;
 
 use Money\Formatter\DecimalMoneyFormatter;
 use Money\Money;

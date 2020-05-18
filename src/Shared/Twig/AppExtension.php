@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Twig\Extension;
+namespace App\Shared\Twig;
 
 use App\Shared\Request\EntityTransformer;
 use function array_merge;

@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\EasyAdmin;
+namespace App\Shared\Identifier;
 
 use App\Costil;
 use App\Shared\Doctrine\Registry;
-use App\Shared\Identifier\Identifier;
 use EasyCorp\Bundle\EasyAdminBundle\Router\EasyAdminRouter;
 use function get_class;
 use Twig\Extension\AbstractExtension;

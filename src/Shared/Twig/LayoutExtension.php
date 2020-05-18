@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Twig\Extension;
+namespace App\Shared\Twig;
 
 use App\Entity\Tenant\Wallet;
 use App\Shared\Doctrine\Registry;

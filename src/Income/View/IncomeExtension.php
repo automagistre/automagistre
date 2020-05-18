@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Twig\Extension;
+namespace App\Income\View;
 
 use App\Customer\Domain\OperandId;
 use App\Income\Manager\SupplierManager;

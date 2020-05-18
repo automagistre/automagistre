@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Part\Twig;
+namespace App\Part\View;
 
 use App\Order\Entity\OrderItemPart;
 use App\Part\Domain\Part;
