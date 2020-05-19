@@ -30,23 +30,23 @@ final class StreamCollection implements IteratorAggregate
 
     public function add(CalendarEntryDto $entry): void
     {
-        $worker = $entry->orderInfo->workerId;
-        if (null !== $worker) {
+        $workerId = $entry->orderInfo->workerId;
+        if (null !== $workerId) {
             foreach ($this->streams as $stream) {
-                if ($stream->workerId === $worker) {
+                if ($workerId->equal($stream->workerId)) {
                     try {
                         $stream->add($entry);
 
                         return;
                     } catch (StreamOverflowException $e) {
-                        $this->streams[] = new Stream($worker, [$entry]);
+                        $this->streams[] = new Stream($workerId, [$entry]);
 
                         return;
                     }
                 }
             }
 
-            $this->streams[] = new Stream($worker, [$entry]);
+            $this->streams[] = new Stream($workerId, [$entry]);
 
             return;
         }
