@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  *
- * @UniqueEntity(fields={"telephone"}, message="Клиент с таким телефоном уже существует")
+ * @UniqueEntity(fields={"telephone"}, message="Заказчик с таким телефоном уже существует")
  */
 class Person extends Operand
 {

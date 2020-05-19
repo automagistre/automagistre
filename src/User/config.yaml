@@ -16,13 +16,13 @@ easy_admin:
                 fields:
                     - { property: 'id', label: 'ID' }
                     - { property: 'username', label: 'E-Mail' }
-                    - { property: 'personId', label: 'Клиент', template: 'easy_admin/field_identifier.html.twig' }
+                    - { property: 'personId', label: 'Заказчик', template: 'easy_admin/field_identifier.html.twig' }
                     - { property: 'roles', label: 'Роли', template: 'easy_admin/security/field_roles.html.twig' }
             form:
                 fields:
                     - { property: 'username', label: 'E-Mail', type: 'email' }
                     -   property: 'personId'
-                        label: 'Клиент'
+                        label: 'Заказчик'
                         type: App\EasyAdmin\Form\AutocompleteType
                         type_options:
                             class: App\Customer\Domain\Operand

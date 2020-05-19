@@ -18,10 +18,10 @@ final class DeletionReason extends Enum
     private const WE_ARE_CONDOMS = 5;
 
     protected static array $name = [
-        self::NO_REASON => 'Клиент отменил запись без причины',
-        self::PLAN_ANOTHER_TIME => 'Клиент планирует записаться на другое время',
-        self::NOT_HAVE_TIME_TO_ARRIVE => 'Клиент не успевает приехать',
-        self::SOLVE_PROBLEM_WITHOUT_SERVICE => 'Клиент решил проблему до приезда в сервис',
-        self::WE_ARE_CONDOMS => 'Клиент где то узнал что мы гондоны и не приехал',
+        self::NO_REASON => 'Заказчик отменил запись без причины',
+        self::PLAN_ANOTHER_TIME => 'Заказчик планирует записаться на другое время',
+        self::NOT_HAVE_TIME_TO_ARRIVE => 'Заказчик не успевает приехать',
+        self::SOLVE_PROBLEM_WITHOUT_SERVICE => 'Заказчик решил проблему до приезда в сервис',
+        self::WE_ARE_CONDOMS => 'Заказчик где то узнал что мы гондоны и не приехал',
     ];
 }
