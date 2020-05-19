@@ -125,7 +125,10 @@
                                 {% elseif stream.has(time) %}
                                     {% set item = stream.get(time) %}
                                     {% set skip = item.length - 1 %}
-                                    <td{% if item.length > 1 %} colspan="{{ item.length }}"{% endif %} style="background-color: #dff0d8;">
+                                    <td
+                                            {% if item.length > 1 %} colspan="{{ item.length }}"{% endif %}
+                                            style="background-color: #dff0d8;border: 1px solid #205081"
+                                    >
                                         {# @var entry \App\Calendar\Form\CalendarEntryDto #}
                                         {% set entry = item.calendar %}
 
