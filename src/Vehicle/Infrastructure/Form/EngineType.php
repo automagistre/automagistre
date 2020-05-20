@@ -28,6 +28,14 @@ final class EngineType extends AbstractType
             ->add('type', FuelTypeType::class, [
                 'label' => 'Тип',
             ])
+            ->add('airIntake', AirIntakeType::class, [
+                'label' => 'Наддув',
+                'expanded' => true,
+            ])
+            ->add('injection', InjectionType::class, [
+                'label' => 'Впрыск',
+                'expanded' => true,
+            ])
             ->add('capacity', EngineCapacityType::class, [
                 'label' => 'Объём',
             ]);

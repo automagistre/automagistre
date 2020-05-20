@@ -45,21 +45,6 @@ final class CarController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function getEntityFormOptions($entity, $view): array
-    {
-        $request = $this->request;
-        $options = parent::getEntityFormOptions($entity, $view);
-
-        $options['validation_groups'] = 'equipment' === $request->query->getAlnum('validate')
-            ? ['Default', 'CarEquipment', 'CarEngine']
-            : ['Default'];
-
-        return $options;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function createNewEntity(): CarDto
     {
         return new CarDto(CarId::generate());
@@ -99,7 +84,12 @@ final class CarController extends AbstractController
             : null;
 
         $equipment = new Equipment(
-            new Engine($arr['equipment.engine.name'], $arr['equipment.engine.type'], $arr['equipment.engine.capacity']),
+            new Engine(
+                $arr['equipment.engine.name'],
+                $arr['equipment.engine.type'],
+                $arr['equipment.engine.airIntake'],
+                $arr['equipment.engine.injection'],
+                $arr['equipment.engine.capacity']),
             $arr['equipment.transmission'],
             $arr['equipment.wheelDrive'],
         );

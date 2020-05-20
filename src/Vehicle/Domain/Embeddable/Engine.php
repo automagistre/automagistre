@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Vehicle\Domain\Embeddable;
 
+use App\Vehicle\Enum\AirIntake;
 use App\Vehicle\Enum\FuelType;
+use App\Vehicle\Enum\Injection;
 use Doctrine\ORM\Mapping as ORM;
 use function sprintf;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -17,8 +19,6 @@ final class Engine
     private const DEFAULT_CAPACITY = '0';
 
     /**
-     * @Assert\NotBlank
-     *
      * @ORM\Column(nullable=true)
      */
     public ?string $name = null;
@@ -31,6 +31,16 @@ final class Engine
     public FuelType $type;
 
     /**
+     * @ORM\Column(type="engine_air_intake", nullable=true)
+     */
+    public ?AirIntake $airIntake;
+
+    /**
+     * @ORM\Column(type="engine_injection", nullable=true)
+     */
+    public ?Injection $injection;
+
+    /**
      * @Assert\NotBlank
      * @Assert\Type("numeric")
      *
@@ -38,10 +48,17 @@ final class Engine
      */
     public string $capacity;
 
-    public function __construct(string $name = null, FuelType $type = null, string $capacity = null)
-    {
+    public function __construct(
+        string $name = null,
+        FuelType $type = null,
+        AirIntake $airIntake = null,
+        Injection $injection = null,
+        string $capacity = null
+    ) {
         $this->name = $name;
         $this->type = $type ?? FuelType::unknown();
+        $this->airIntake = $airIntake;
+        $this->injection = $injection;
         $this->capacity = $capacity ?? self::DEFAULT_CAPACITY;
     }
 
