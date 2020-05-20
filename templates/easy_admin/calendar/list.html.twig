@@ -159,6 +159,9 @@
                                                             <a href="{{ easyadmin_path_by_id(entry.orderInfo.customerId, 'show', {'referer': true}) }}">
                                                                 {{ entry.orderInfo.customerId|display_name }}
                                                             </a>
+
+                                                            {% set tel = entry.orderInfo.customerId|display_name('tel') %}
+                                                            <a href="tel:{{ tel }}">{{ tel }}</a>
                                                             <hr>
                                                         {% endif %}
 
