@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Car\Form\Type;
+namespace App\Vehicle\Infrastructure\Form;
 
 use function array_combine;
 use function array_map;

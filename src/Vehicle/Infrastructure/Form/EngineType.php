@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Vehicle\Infrastructure\Form;
 
-use App\Car\Form\Type\EngineCapacityType;
 use App\Vehicle\Domain\Embeddable\Engine;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
