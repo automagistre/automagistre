@@ -18,7 +18,7 @@ final class AirIntakeType extends AbstractType
             'choices' => AirIntake::all(),
             'choice_label' => fn (AirIntake $enum) => $enum->toName(),
             'choice_value' => fn (?AirIntake $enum) => null === $enum ? null : $enum->toId(),
-            'placeholder' => null,
+            'placeholder' => 'Не определено',
         ]);
     }
 
