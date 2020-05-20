@@ -35,8 +35,13 @@ final class OrderFormatter implements IdentifierFormatterInterface
     {
         $view = $this->registry->view($identifier);
 
-        // TODO Добавить вывод с автомобилем/клиентом после перевода Order на uuid
+        $suffix = '#'.$view['id'];
+        if (null !== $view['carId']) {
+            $suffix = 'на '.$formatter->format($view['carId'], 'long');
+        } elseif (null !== $view['customerId']) {
+            $suffix = 'от '.$formatter->format($view['customerId']);
+        }
 
-        return sprintf('Заказ #%s', $view['id']);
+        return sprintf('Заказ %s', $suffix);
     }
 }
