@@ -16,7 +16,7 @@ class CalendarEntryDeletion
      * @ORM\Id()
      * @ORM\OneToOne(targetEntity=CalendarEntry::class, inversedBy="deletion")
      */
-    private ?CalendarEntry $entry;
+    private CalendarEntry $entry;
 
     /**
      * @ORM\Column(type="deletion_reason")
