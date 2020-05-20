@@ -11,8 +11,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
-use function preg_replace;
-use function strtoupper;
 
 /**
  * @ORM\Table(name="part", uniqueConstraints={
@@ -40,9 +38,9 @@ class Part implements Discounted
     public string $name;
 
     /**
-     * @ORM\Column(length=30)
+     * @ORM\Column(type="part_number", length=30)
      */
-    public string $number;
+    public PartNumber $number;
 
     /**
      * @ORM\Column(type="boolean")
@@ -71,7 +69,7 @@ class Part implements Discounted
         PartId $partId,
         ManufacturerId $manufacturerId,
         string $name,
-        string $number,
+        PartNumber $number,
         bool $universal,
         Money $price,
         Money $discount
@@ -79,7 +77,7 @@ class Part implements Discounted
         $this->partId = $partId;
         $this->manufacturerId = $manufacturerId;
         $this->name = $name;
-        $this->number = self::sanitize($number);
+        $this->number = $number;
         $this->universal = $universal;
         $this->price = $price;
         $this->relation = new ArrayCollection();
@@ -107,11 +105,6 @@ class Part implements Discounted
     public function equals(self $part): bool
     {
         return $part->getId() === $this->id;
-    }
-
-    public static function sanitize(string $number): string
-    {
-        return strtoupper(preg_replace('/[^a-zA-Z0-9]/', '', $number));
     }
 
     public function isDiscounted(): bool

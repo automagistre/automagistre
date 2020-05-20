@@ -13,6 +13,7 @@ use App\Order\Entity\Order;
 use App\Part\Domain\Part;
 use App\Part\Domain\PartCase;
 use App\Part\Domain\PartId;
+use App\Part\Domain\PartNumber;
 use App\Part\Domain\Stockpile;
 use App\Part\Event\PartAccrued;
 use App\Part\Event\PartCreated;
@@ -317,14 +318,17 @@ final class PartController extends AbstractController
 
         foreach (explode(' ', trim($searchQuery)) as $key => $searchString) {
             $key = ':search_'.$key;
+            $numberKey = $key.'_number';
 
             $qb->andWhere($qb->expr()->orX(
                 $qb->expr()->like('LOWER(part.name)', $key),
-                $qb->expr()->like('LOWER(part.number)', $key),
+                $qb->expr()->like('part.number', $numberKey),
                 $qb->expr()->like('LOWER(manufacturer.name)', $key)
             ));
 
-            $qb->setParameter($key, '%'.mb_strtolower(trim($searchString)).'%');
+            $qb
+                ->setParameter($numberKey, PartNumber::sanitize($searchString))
+                ->setParameter($key, '%'.mb_strtolower(trim($searchString)).'%');
         }
 
         $state = $this->container->get(State::class);
@@ -426,7 +430,7 @@ final class PartController extends AbstractController
             PartId::generate(),
             $model->manufacturerId,
             $model->name,
-            $model->number,
+            new PartNumber($model->number),
             $model->universal,
             $model->price,
             $model->discount
@@ -452,7 +456,7 @@ final class PartController extends AbstractController
             $arr['partId'],
             $arr['manufacturerId'],
             $arr['name'],
-            $arr['number'],
+            $arr['number']->number,
             new Money($arr['price.amount'], new Currency($arr['price.currency.code'])),
             $arr['universal'],
             new Money($arr['discount.amount'], new Currency($arr['discount.currency.code'])),

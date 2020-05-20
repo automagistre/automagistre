@@ -34,7 +34,7 @@ easy_admin:
                         type_options:
                             required: true
                             class: App\Manufacturer\Domain\Manufacturer
-                    - { property: 'number', label: 'Номер' }
+                    - { property: 'number', label: 'Номер', type: App\Part\Form\PartNumberType }
                     - { property: 'name', label: 'Название' }
                     - { property: 'price', label: 'Цена', type: App\Form\Type\MoneyType }
                     - { property: 'discount', label: 'Скидка', type: App\Form\Type\MoneyType }
@@ -50,6 +50,9 @@ easy_admin:
                 title: 'Создать применения запчасти к кузову'
 
 doctrine:
+    dbal:
+        types:
+            part_number: App\Part\Doctrine\PartNumberType
     orm:
         entity_managers:
             landlord:

@@ -39,6 +39,7 @@ final class PartDto
 
     /**
      * @var string
+     *
      * @Assert\NotBlank
      * @Assert\Length(max="30")
      */
