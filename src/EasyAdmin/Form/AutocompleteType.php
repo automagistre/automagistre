@@ -66,7 +66,7 @@ final class AutocompleteType extends AbstractType implements DataMapperInterface
                 $form = $event->getForm();
                 $options = $form->get('autocomplete')->getConfig()->getOptions();
 
-                $choices = (array) $data['autocomplete'];
+                $choices = (array) ($data['autocomplete'] ?? []);
                 $choices = array_filter($choices, fn (string $choice) => '' !== trim($choice));
                 $options['choices'] = array_map(fn (string $uuid) => $identifierClass::fromString($uuid), $choices);
 

@@ -4,6 +4,9 @@
     <PossiblyNullArgument occurrences="1">
       <code>$dto-&gt;reason</code>
     </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="1">
+      <code>persist</code>
+    </PossiblyNullReference>
     <PropertyNotSetInConstructor occurrences="1">
       <code>CalendarEntryController</code>
     </PropertyNotSetInConstructor>
@@ -133,6 +136,16 @@
     <PossiblyNullReference occurrences="1">
       <code>getRepository</code>
     </PossiblyNullReference>
+  </file>
+  <file src="src/Customer/Validator/CustomerPhoneNotExists.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>$errorPath</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Customer/Validator/CustomerPhoneNotExistsValidator.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>CustomerPhoneNotExistsValidator</code>
+    </PropertyNotSetInConstructor>
   </file>
   <file src="src/EasyAdmin/Form/AutocompleteType.php">
     <PossiblyFalseReference occurrences="2">
@@ -393,11 +406,6 @@
       <code>$order-&gt;getId()</code>
       <code>$order-&gt;getId()</code>
       <code>$order-&gt;getId()</code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="src/Part/Domain/Part.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>preg_replace('/[^a-zA-Z0-9]/', '', $number)</code>
     </PossiblyNullArgument>
   </file>
   <file src="src/Part/Infrastructure/PartFormatter.php">

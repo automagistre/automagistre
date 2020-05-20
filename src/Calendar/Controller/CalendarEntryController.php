@@ -16,6 +16,8 @@ use App\Calendar\Form\ScheduleDto;
 use App\Calendar\Repository\CalendarEntryRepository;
 use App\Calendar\View\Streamer;
 use App\Controller\EasyAdmin\AbstractController;
+use App\Customer\Domain\OperandId;
+use App\Customer\Domain\Person;
 use function array_map;
 use function array_merge;
 use function assert;
@@ -95,6 +97,19 @@ final class CalendarEntryController extends AbstractController
         $dto = $entity;
         assert($dto instanceof CalendarEntryDto);
 
+        $customerId = $dto->orderInfo->customerId;
+        $newCustomer = $dto->orderInfo->customer;
+        if (null !== $newCustomer) {
+            $customerId = OperandId::generate();
+            $person = new Person($customerId);
+            $person->setFirstname($newCustomer->firstName);
+            $person->setLastname($newCustomer->lastName);
+            $person->setTelephone($newCustomer->telephone);
+
+            $this->em->persist($person);
+            $this->em->flush();
+        }
+
         $this->commandBus->handle(
             new CreateCalendarEntryCommand(
                 $dto->id,
@@ -103,7 +118,7 @@ final class CalendarEntryController extends AbstractController
                     $dto->schedule->duration,
                 ),
                 new OrderInfo(
-                    $dto->orderInfo->customerId,
+                    $customerId,
                     $dto->orderInfo->carId,
                     $dto->orderInfo->description,
                     $dto->orderInfo->workerId,

@@ -1,8 +1,6 @@
 {% block main %}
     {{ form_start(form) }}
 
-    {% form_theme form.orderInfo _self %}
-
     <div class="row">
         <div class="col-md-8">
             <div class="row">
@@ -13,19 +11,19 @@
 
             <hr>
 
-            {{ form_row(form.orderInfo) }}
+            {{ form_errors(form.orderInfo) }}
+
+            <div class="row">
+                <div class="col-md-4">{{ form_row(form.orderInfo.customerId) }}</div>
+                <div class="col-md-4">{{ form_row(form.orderInfo.carId) }}</div>
+                <div class="col-md-4">{{ form_row(form.orderInfo.description) }}</div>
+            </div>
+
+            {% if block('customer') is defined %}
+                {{ block('customer') }}
+            {% endif %}
 
             {{ form_end(form) }}
         </div>
-    </div>
-{% endblock %}
-
-{% block order_info_row %}
-    {{ form_errors(form) }}
-
-    <div class="row">
-        <div class="col-md-4">{{ form_row(form.customerId) }}</div>
-        <div class="col-md-4">{{ form_row(form.carId) }}</div>
-        <div class="col-md-4">{{ form_row(form.description) }}</div>
     </div>
 {% endblock %}

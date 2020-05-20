@@ -39,6 +39,13 @@ final class OrderInfoType extends AbstractType
                 'required' => false,
                 'label' => 'Работник',
             ]);
+
+        if ((bool) $options['new_customer']) {
+            $builder->add('customer', PersonType::class, [
+                'label' => 'Новый заказчик',
+                'required' => false,
+            ]);
+        }
     }
 
     /**
@@ -49,6 +56,8 @@ final class OrderInfoType extends AbstractType
         $resolver->setDefaults([
             'data_class' => OrderInfoDto::class,
             'error_bubbling' => false,
-        ]);
+            'new_customer' => false,
+        ])
+            ->setAllowedTypes('new_customer', 'bool');
     }
 }

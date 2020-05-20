@@ -39,6 +39,7 @@ final class CalendarEntryDto
                 $item['orderInfo.carId'],
                 $item['orderInfo.description'],
                 $item['orderInfo.workerId'],
+                null,
             ),
         );
     }

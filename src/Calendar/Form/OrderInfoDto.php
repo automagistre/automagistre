@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @Assert\Expression(
- *     "this.customerId != null or this.carId != null or this.description != null",
+ *     "this.customerId != null or this.carId != null or this.description != null or this.customer != null",
  *     message="Нужно заполнить хотя бы одно из полей"
  * )
  */
@@ -37,11 +37,22 @@ final class OrderInfoDto
      */
     public $workerId;
 
-    public function __construct(?OperandId $customerId, ?CarId $carId, ?string $description, ?EmployeeId $workerId)
-    {
+    /**
+     * @Assert\Valid()
+     */
+    public ?PersonDto $customer = null;
+
+    public function __construct(
+        ?OperandId $customerId = null,
+        ?CarId $carId = null,
+        ?string $description = null,
+        ?EmployeeId $workerId = null,
+        ?PersonDto $customer = null
+    ) {
         $this->customerId = $customerId;
         $this->carId = $carId;
         $this->description = $description;
         $this->workerId = $workerId;
+        $this->customer = $customer;
     }
 }

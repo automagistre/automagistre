@@ -17,6 +17,10 @@ easy_admin:
                         type: App\Calendar\Form\OrderInfoType
             new:
                 title: 'Новая запись'
+                fields:
+                    -   property: 'orderInfo'
+                        type_options:
+                            new_customer: true
             edit:
                 title: 'Редактировать Запись'
                 actions:
