@@ -4,9 +4,6 @@
     <PossiblyNullArgument occurrences="1">
       <code>$dto-&gt;reason</code>
     </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>persist</code>
-    </PossiblyNullReference>
     <PropertyNotSetInConstructor occurrences="1">
       <code>CalendarEntryController</code>
     </PropertyNotSetInConstructor>
@@ -28,9 +25,8 @@
       <code>$model-&gt;price</code>
       <code>$model-&gt;workerId</code>
     </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="2">
+    <PossiblyNullReference occurrences="1">
       <code>toId</code>
-      <code>createQueryBuilder</code>
     </PossiblyNullReference>
     <PropertyNotSetInConstructor occurrences="1">
       <code>RecommendationController</code>
@@ -122,9 +118,6 @@
       <code>$model-&gt;description</code>
       <code>$transaction-&gt;getId()</code>
     </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>transactional</code>
-    </PossiblyNullReference>
     <PropertyNotSetInConstructor occurrences="1">
       <code>OperandTransactionController</code>
     </PropertyNotSetInConstructor>
@@ -133,9 +126,6 @@
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtolower($item)</code>
     </PossiblyFalseOperand>
-    <PossiblyNullReference occurrences="1">
-      <code>getRepository</code>
-    </PossiblyNullReference>
   </file>
   <file src="src/Customer/Validator/CustomerPhoneNotExists.php">
     <PropertyNotSetInConstructor occurrences="1">
@@ -164,11 +154,6 @@
     </PossiblyFalseArgument>
   </file>
   <file src="src/Employee/Controller/EmployeeController.php">
-    <PossiblyNullReference occurrences="3">
-      <code>transactional</code>
-      <code>transactional</code>
-      <code>flush</code>
-    </PossiblyNullReference>
     <PropertyNotSetInConstructor occurrences="1">
       <code>EmployeeController</code>
     </PropertyNotSetInConstructor>
@@ -205,9 +190,6 @@
     <PossiblyNullArgument occurrences="1">
       <code>$entity-&gt;getDescription()</code>
     </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>transactional</code>
-    </PossiblyNullReference>
     <PropertyNotSetInConstructor occurrences="1">
       <code>ExpenseItemController</code>
     </PropertyNotSetInConstructor>
@@ -248,9 +230,8 @@
       <code>$supplier</code>
       <code>$supplier</code>
     </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="2">
+    <PossiblyNullReference occurrences="1">
       <code>toId</code>
-      <code>transactional</code>
     </PossiblyNullReference>
     <PropertyNotSetInConstructor occurrences="1">
       <code>IncomeController</code>
@@ -314,27 +295,17 @@
     <PossiblyNullArrayOffset occurrences="1">
       <code>$services</code>
     </PossiblyNullArrayOffset>
-    <PossiblyNullReference occurrences="10">
+    <PossiblyNullReference occurrences="2">
       <code>isFilled</code>
-      <code>flush</code>
-      <code>flush</code>
-      <code>flush</code>
       <code>isEditable</code>
-      <code>transactional</code>
-      <code>getRepository</code>
-      <code>getRepository</code>
-      <code>getRepository</code>
-      <code>transactional</code>
     </PossiblyNullReference>
     <PropertyNotSetInConstructor occurrences="1">
       <code>OrderController</code>
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Order/Controller/OrderItemController.php">
-    <PossiblyNullReference occurrences="3">
-      <code>getRepository</code>
+    <PossiblyNullReference occurrences="1">
       <code>getOrder</code>
-      <code>transactional</code>
     </PossiblyNullReference>
   </file>
   <file src="src/Order/Controller/OrderItemGroupController.php">
@@ -361,16 +332,8 @@
       <code>$model-&gt;price</code>
       <code>$sortDirection</code>
     </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="3">
-      <code>getRepository</code>
+    <PossiblyNullReference occurrences="1">
       <code>toId</code>
-      <code>getConnection</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="src/Order/Controller/OrderPrintController.php">
-    <PossiblyNullReference occurrences="2">
-      <code>flush</code>
-      <code>flush</code>
     </PossiblyNullReference>
   </file>
   <file src="src/Order/Entity/Order.php">
@@ -444,9 +407,6 @@
       <code>$user-&gt;getId()</code>
       <code>$case-&gt;caseName</code>
     </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>getRepository</code>
-    </PossiblyNullReference>
     <PropertyNotSetInConstructor occurrences="1">
       <code>PartController</code>
     </PropertyNotSetInConstructor>

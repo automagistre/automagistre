@@ -11,6 +11,7 @@ use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Request\EntityTransformer;
 use App\State;
 use App\User\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use function array_keys;
 use function array_merge;
 use function assert;
@@ -42,6 +43,8 @@ use function urldecode;
 use function urlencode;
 
 /**
+ * @property EntityManagerInterface $em
+ *
  * @method User getUser()
  *
  * @author Konstantin Grachev <me@grachevko.ru>
