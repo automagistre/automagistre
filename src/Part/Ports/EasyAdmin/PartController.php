@@ -327,7 +327,7 @@ final class PartController extends AbstractController
             ));
 
             $qb
-                ->setParameter($numberKey, PartNumber::sanitize($searchString))
+                ->setParameter($numberKey, '%'.PartNumber::sanitize($searchString).'%')
                 ->setParameter($key, '%'.mb_strtolower(trim($searchString)).'%');
         }
 
