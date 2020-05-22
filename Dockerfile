@@ -38,7 +38,7 @@ RUN set -ex \
 	&& rm -rf /tmp/icu
 
 RUN set -ex \
-    && pecl install memcached apcu xdebug \
+    && pecl install memcached apcu xdebug mongodb \
     && docker-php-ext-enable memcached apcu
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
