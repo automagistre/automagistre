@@ -13,13 +13,13 @@
 
         {{ form_start(form) }}
         <div class="row" style="margin-bottom: 10px">
-            <div class="col-md-12">{% include 'easy_admin/field_part.html.twig' with {'value': form.vars.value.part, 'stock': true} only %}</div>
+            <div class="col-md-12">{% include 'easy_admin/field_part.html.twig' with {'value': part_by_id(form.vars.value.partId), 'stock': true} only %}</div>
         </div>
         <div class="row">
             <div class="col-md-4">{{ form_widget(form.quantity) }}</div>
             <div class="col-md-4">{{ form_widget(form.price) }}</div>
             <div class="col-md-4">
-                {% if form.vars.value.part.id == part.id %}
+                {% if form.vars.value.partId.toString == part.toId %}
                     <button type="submit" class="btn btn-success">Текущий выбор</button>
                 {% else %}
                     <button type="submit" class="btn btn-primary">Выбрать</button>
