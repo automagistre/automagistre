@@ -80,7 +80,11 @@
                                     <tr>
                                         <td><a href="{{ easyadmin_path(order, 'show', {'part_id': entity.id}) }}">{{ order.id }}</a></td>
                                         <td>{{ include('easy_admin/order/field_status.html.twig', {'value': order.status, 'item': order}) }}</td>
-                                        <td>{{ order.car }}</td>
+                                        <td>
+                                            <a href="{{ easyadmin_path_by_id(order.carId, 'show', {'referer': true}) }}">
+                                                {{ order.carId|display_name('long') }}
+                                            </a>
+                                        </td>
                                         <td>
                                             {% if order.id in reservedIn %}
                                             <span class="label label-success">РЕЗЕРВ</span>
