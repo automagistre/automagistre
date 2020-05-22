@@ -222,7 +222,7 @@ steps:
         depends_on:
             - check deploy
 
-    -   name: remove rc branch
+    -   name: remove branch
         image: alpine/git:1.0.7
         commands:
             - git remote set-url origin ${DRONE_GIT_SSH_URL}
