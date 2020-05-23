@@ -18,7 +18,12 @@
     },
     "require": {
         "php": ">=7.4",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "ext-intl": "*",
         "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-uuid": "*",
         "antishov/doctrine-extensions-bundle": "^1.4",
         "beberlei/doctrineextensions": "^1.2",
         "datto/json-rpc": "^6.1",
@@ -97,17 +102,28 @@
         "vimeo/psalm": "^3.8",
         "weirdan/doctrine-psalm-plugin": "^0.11.0"
     },
+    "replace": {
+        "endroid/installer": "*",
+        "paragonie/random_compat": "*",
+        "ralouphie/getallheaders": "*",
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-intl-grapheme": "*",
+        "symfony/polyfill-intl-icu": "*",
+        "symfony/polyfill-intl-idn": "*",
+        "symfony/polyfill-intl-normalizer": "*",
+        "symfony/polyfill-mbstring": "*",
+        "symfony/polyfill-php70": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-uuid": "*"
+    },
     "extra": {
         "symfony-app-dir": "src",
         "symfony-bin-dir": "bin",
         "symfony-var-dir": "var",
         "symfony-web-dir": "public",
-        "symfony-tests-dir": "tests",
-        "endroid": {
-            "installer": {
-                "enabled": false
-            }
-        }
+        "symfony-tests-dir": "tests"
     },
     "config": {
         "cache-dir": "/var/cache/composer",
