@@ -24,6 +24,7 @@ RUN set -ex \
         libjpeg62-turbo-dev \
         libfreetype6-dev \
         libpq-dev \
+        uuid-dev \
     && rm -r /var/lib/apt/lists/*
 
 RUN set -ex \
