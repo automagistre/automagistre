@@ -26,7 +26,6 @@ use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use function explode;
 use function mb_strtolower;
-use function sprintf;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -222,27 +221,7 @@ final class CarController extends AbstractController
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
         $data = array_map(function (Car $car) use ($isUuid): array {
-            $text = '';
-
-            if (null !== $car->vehicleId) {
-                $text .= $this->display($car->vehicleId, 'long');
-            }
-
-            $gosnomer = $car->getGosnomer();
-            if (null !== $gosnomer) {
-                $text .= sprintf(' (%s)', $gosnomer);
-            }
-
-            // TODO Как выводить нескольких владельцев?
-//            $person = $car->owner;
-//            if (null === $ownerId && $person instanceof Person) {
-//                $text .= ' - '.$person->getFullName();
-//
-//                $telephone = $person->getTelephone();
-//                if (null !== $telephone) {
-//                    $text .= sprintf(' (%s)', $this->formatTelephone($telephone));
-//                }
-//            }
+            $text = $this->display($car->toId(), 'autocomplete');
 
             return [
                 'id' => $isUuid ? $car->toId()->toUuid() : $car->getId(),
