@@ -17,14 +17,14 @@ security:
         admin:
             anonymous: ~
             logout:
-                path: admin_logout
+                path: logout
                 delete_cookies:
                     PHPSESSID: ~
             form_login:
                 provider: user_provider
                 csrf_token_generator: security.csrf.token_manager
-                check_path: admin_login_check
-                login_path: admin_login
+                check_path: login_check
+                login_path: login
 
         api:
             pattern: ^/api/v1

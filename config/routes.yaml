@@ -1,9 +1,0 @@
-_admin:
-    resource: './routes/admin.yaml'
-    name_prefix: admin_
-
-# MUST BE LAST
-_easy_admin:
-    resource: '@EasyAdminBundle/Controller/EasyAdminController.php'
-    type: annotation
-    prefix: /{tenant}

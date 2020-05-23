@@ -136,9 +136,9 @@ final class TenantStateListener implements EventSubscriberInterface
     {
         return in_array($routeName, [
             'easyadmin',
-            'admin_part_explorer',
-            'admin_report_profit',
-            'admin_report_part_sell',
+            'part_explorer',
+            'report_profit',
+            'report_part_sell',
         ], true);
     }
 

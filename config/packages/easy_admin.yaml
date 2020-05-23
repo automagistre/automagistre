@@ -87,8 +87,8 @@ easy_admin:
             - { label: 'Сайт', role: 'ROLE_WWW_SECTION' }
             - { entity: 'Review', label: 'Отзывы', icon: 'comments', role: !php/const App\Roles::CUSTOMER_FEEDBACK }
             - { label: 'Отчёты', role: !php/const App\Roles::REPORT }
-            - { label: 'Рентабельность', route: 'admin_report_profit', role: !php/const App\Roles::REPORT }
-            - { label: 'Продажи', route: 'admin_report_part_sell', role: !php/const App\Roles::REPORT }
+            - { label: 'Рентабельность', route: 'report_profit', role: !php/const App\Roles::REPORT }
+            - { label: 'Продажи', route: 'report_part_sell', role: !php/const App\Roles::REPORT }
 
     formats:
         date: 'd.m.Y'

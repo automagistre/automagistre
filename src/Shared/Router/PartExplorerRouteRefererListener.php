@@ -36,7 +36,7 @@ final class PartExplorerRouteRefererListener implements EventSubscriberInterface
     {
         ['name' => $name, 'parameters' => $parameters, 'referenceType' => $referenceType] = $event->getArguments();
 
-        if ('admin_part_explorer' !== $name) {
+        if ('part_explorer' !== $name) {
             return;
         }
 

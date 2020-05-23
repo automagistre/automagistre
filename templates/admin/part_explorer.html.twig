@@ -16,7 +16,7 @@
             {% endif %}
         </div>
         <div class="col-md-2">
-            <form id="part-search-form" data-url="{{ path('admin_part_explorer', {'partnumber': '__PART_NUMBER__'}) }}">
+            <form id="part-search-form" data-url="{{ path('part_explorer', {'partnumber': '__PART_NUMBER__'}) }}">
                 <div class="input-group">
                     <input id="part-search-form-input" type="text" value="{{ partnumber }}" class="form-control">
 

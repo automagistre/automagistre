@@ -8,7 +8,7 @@
             {% set referer = easyadmin_path(queries.entity, queries.action, queries|merge({'lineIndex': lineIndex})) %}
         {% endif %}
 
-        <a href="{{ path('admin_part_explorer', {'partnumber': value, 'referer': referer}) }}">
+        <a href="{{ path('part_explorer', {'partnumber': value, 'referer': referer}) }}">
             <i class="fa fa-search"></i>
         </a>
     {% endapply -%}

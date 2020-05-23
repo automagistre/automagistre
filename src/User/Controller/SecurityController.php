@@ -27,7 +27,7 @@ final class SecurityController extends AbstractController
         }
 
         $form = $formFactory->createNamedBuilder('', FormType::class, null, [
-            'action' => $this->generateUrl('admin_login_check'),
+            'action' => $this->generateUrl('login_check'),
             'csrf_field_name' => '_csrf_token',
             'csrf_token_id' => 'authenticate',
         ])
