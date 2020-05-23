@@ -22,6 +22,7 @@ final class CarFormatter implements IdentifierFormatterInterface
     private const DEFAULT = ':vehicle: - :year:г.';
     private const FORMATS = [
         'short' => ':vehicle:',
+        'autocomplete' => ':vehicle: | :gosnomer:',
         'long' => ':vehicle: | :equipment: | :gosnomer:',
     ];
 

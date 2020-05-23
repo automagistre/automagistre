@@ -9,14 +9,22 @@ use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
+use function array_keys;
+use function array_values;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
-use LogicException;
 use function sprintf;
+use function str_replace;
 use function trim;
 
 final class OperandFormatter implements IdentifierFormatterInterface
 {
+    private const DEFAULT = ':name:';
+    private const FORMATS = [
+        'tel' => ':tel:',
+        'autocomplete' => ':name: | :tel:',
+    ];
+
     private Registry $registry;
 
     private PhoneNumberUtil $phoneNumberUtil;
@@ -33,20 +41,18 @@ final class OperandFormatter implements IdentifierFormatterInterface
     public function format(IdentifierFormatter $formatter, Identifier $identifier, string $format = null): string
     {
         $view = $this->registry->view($identifier);
+        $isPerson = '1' === $view['type'];
 
-        if ('tel' === $format && null !== $view['telephone']) {
-            return $this->phoneNumberUtil->format($view['telephone'], PhoneNumberFormat::NATIONAL);
-        }
+        $values = [
+            ':name:' => $isPerson
+                ? trim(sprintf('%s %s', $view['lastname'], $view['firstname']))
+                : $view['name'],
+            ':tel:' => null !== $view['telephone']
+                ? $this->phoneNumberUtil->format($view['telephone'], PhoneNumberFormat::NATIONAL)
+                : '-',
+        ];
 
-        if ('1' === $view['type']) {
-            return trim(sprintf('%s %s', $view['lastname'], $view['firstname']));
-        }
-
-        if ('2' === $view['type']) {
-            return $view['name'];
-        }
-
-        throw new LogicException('Unreachable statement.');
+        return str_replace(array_keys($values), array_values($values), self::FORMATS[$format] ?? self::DEFAULT);
     }
 
     /**

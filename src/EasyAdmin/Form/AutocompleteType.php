@@ -48,15 +48,19 @@ final class AutocompleteType extends AbstractType implements DataMapperInterface
         $builder
             ->setDataMapper($this)
             ->resetViewTransformers()
-            ->addEventListener(FormEvents::PRE_SET_DATA, static function (PreSetDataEvent $event): void {
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (PreSetDataEvent $event): void {
                 $form = $event->getForm();
                 $data = $event->getData() ?? [];
 
                 $options = $form->getConfig()->getOptions();
                 $options['compound'] = false;
                 $options['choices'] = is_iterable($data) ? $data : [$data];
+                $options['choice_label'] = fn (Identifier $identifier): string => $this->formatter->format(
+                    $identifier,
+                    $options['formatter_format']
+                );
 
-                unset($options['class']);
+                unset($options['class'], $options['formatter_format']);
 
                 $form->add('autocomplete', ChoiceType::class, $options);
             })
@@ -95,7 +99,7 @@ final class AutocompleteType extends AbstractType implements DataMapperInterface
     {
         $resolver
             ->setDefaults([
-                'choice_label' => fn (Identifier $identifier) => $this->formatter->format($identifier),
+                'formatter_format' => 'autocomplete',
                 'choice_value' => fn (?Identifier $identifier) => null === $identifier ? null : $identifier->toString(),
             ])
             ->setRequired('class');
