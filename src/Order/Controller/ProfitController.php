@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin\Report;
+namespace App\Order\Controller;
 
 use App\Customer\Domain\Operand;
 use App\Customer\Domain\OperandId;

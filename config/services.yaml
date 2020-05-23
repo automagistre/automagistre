@@ -22,10 +22,6 @@ services:
 
     App\:
         resource: '../src'
-    App\Controller\:
-        resource: '../src/Controller'
-        tags:
-            - { name: controller.service_arguments }
 
     Symfony\Bridge\Doctrine\Form\DoctrineOrmTypeGuesser:
         alias: easyadmin.form.guesser.missing_doctrine_orm_type_guesser

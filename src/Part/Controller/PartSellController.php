@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin\Report;
+namespace App\Part\Controller;
 
 use App\Part\Domain\Part;
 use App\Shared\Doctrine\Registry;
