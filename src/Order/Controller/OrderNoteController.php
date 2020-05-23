@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Order\Controller;
 
-use App\Controller\EasyAdmin\AbstractController;
+use App\EasyAdmin\Controller\AbstractController;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderNote;
 use LogicException;

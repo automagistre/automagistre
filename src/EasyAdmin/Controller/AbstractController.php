@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin;
+namespace App\EasyAdmin\Controller;
 
 use App\Costil;
 use App\Shared\Doctrine\Registry;
@@ -153,6 +153,7 @@ abstract class AbstractController extends EasyAdminController
      */
     protected function getIdentifier(string $class): ?Identifier
     {
+        /** @psalm-suppress InvalidArrayOffset */
         $uuid = $this->request->query->get(Costil::QUERY[$class]);
         if (is_string($uuid)) {
             /** @var callable $callable */
@@ -282,7 +283,8 @@ abstract class AbstractController extends EasyAdminController
 
         $entity = $this->createEditDto($dtoClosure) ?? $easyadmin['item'];
 
-        if ($this->request->isXmlHttpRequest() && $property = $this->request->query->get('property')) {
+        $property = $this->request->query->get('property');
+        if (null !== $property && $this->request->isXmlHttpRequest()) {
             $newValue = 'true' === mb_strtolower($this->request->query->get('newValue'));
             $fieldsMetadata = $this->entity['list']['fields'];
 
@@ -337,6 +339,10 @@ abstract class AbstractController extends EasyAdminController
      */
     protected function createWithoutConstructor(string $class)
     {
-        return (new ReflectionClass($class))->newInstanceWithoutConstructor();
+        $object = (new ReflectionClass($class))->newInstanceWithoutConstructor();
+
+        assert($object instanceof $class);
+
+        return $object;
     }
 }

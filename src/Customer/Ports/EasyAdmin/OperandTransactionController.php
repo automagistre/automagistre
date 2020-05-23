@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Customer\Ports\EasyAdmin;
 
-use App\Controller\EasyAdmin\AbstractController;
 use App\Customer\Domain\Operand;
 use App\Customer\Form\OperandTransactionModel;
+use App\EasyAdmin\Controller\AbstractController;
 use App\Entity\Tenant\OperandTransaction;
 use App\Payment\Manager\PaymentManager;
 use App\Wallet\Entity\Wallet;

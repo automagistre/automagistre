@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Order\Controller;
 
 use App\Car\Entity\Car;
-use App\Controller\EasyAdmin\AbstractController;
 use App\Customer\Domain\Operand;
+use App\EasyAdmin\Controller\AbstractController;
 use App\Form\Type\OrderItemServiceType;
 use App\Order\Entity\Order;
 use App\Shared\Doctrine\Registry;

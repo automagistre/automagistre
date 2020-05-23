@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Customer\Ports\EasyAdmin;
 
-use App\Controller\EasyAdmin\AbstractController;
 use App\Customer\Domain\OperandNote;
 use App\Customer\Domain\Person;
+use App\EasyAdmin\Controller\AbstractController;
 use LogicException;
 
 /**

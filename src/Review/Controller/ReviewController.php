@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Review\Controller;
 
-use App\Controller\EasyAdmin\AbstractController;
+use App\EasyAdmin\Controller\AbstractController;
 use App\Review\Entity\Review;
 use function assert;
 use function strtolower;

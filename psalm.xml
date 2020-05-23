@@ -27,6 +27,11 @@
                 <referencedMethod name="Doctrine\DBAL\Types\Type::__construct"/>
             </errorLevel>
         </InternalMethod>
+        <MissingConstructor>
+            <errorLevel type="suppress">
+                <file name="src/EasyAdmin/Controller/AbstractController.php"/>
+            </errorLevel>
+        </MissingConstructor>
     </issueHandlers>
 
     <plugins>

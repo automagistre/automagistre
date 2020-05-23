@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Storage\Controller;
 
-use App\Controller\EasyAdmin\AbstractController;
+use App\EasyAdmin\Controller\AbstractController;
 use App\Part\Domain\Part;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Part\Ports\EasyAdmin;
 
 use function abs;
-use App\Controller\EasyAdmin\AbstractController;
+use App\EasyAdmin\Controller\AbstractController;
 use App\EasyAdmin\Form\AutocompleteType;
 use App\Form\Type\QuantityType;
 use App\Manufacturer\Domain\Manufacturer;

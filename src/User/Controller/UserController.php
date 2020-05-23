@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\User\Controller;
 
-use App\Controller\EasyAdmin\AbstractController;
+use App\EasyAdmin\Controller\AbstractController;
 use App\User\Domain\UserId;
 use App\User\Entity\User;
 use function assert;

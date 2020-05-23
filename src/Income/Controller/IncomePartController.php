@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Income\Controller;
 
-use App\Controller\EasyAdmin\AbstractController;
+use App\EasyAdmin\Controller\AbstractController;
 use App\Income\Entity\Income;
 use App\Income\Entity\IncomePart;
 use App\Shared\Identifier\IdentifierFormatter;

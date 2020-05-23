@@ -6,7 +6,7 @@ namespace App\Car\Controller;
 
 use App\Car\Entity\Car;
 use App\Car\Entity\Note;
-use App\Controller\EasyAdmin\AbstractController;
+use App\EasyAdmin\Controller\AbstractController;
 use LogicException;
 
 /**

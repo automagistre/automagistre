@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Employee\Controller;
 
-use App\Controller\EasyAdmin\AbstractController;
 use App\Customer\Domain\Person;
+use App\EasyAdmin\Controller\AbstractController;
 use App\Employee\Entity\Employee;
 use App\Employee\Entity\MonthlySalary;
 use App\Employee\Event\EmployeeCreated;

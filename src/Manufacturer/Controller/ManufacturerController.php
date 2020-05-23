@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Manufacturer\Controller;
 
-use App\Controller\EasyAdmin\AbstractController;
+use App\EasyAdmin\Controller\AbstractController;
 use App\Manufacturer\Domain\Manufacturer;
 use function array_map;
 use function str_replace;

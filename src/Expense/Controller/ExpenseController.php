@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Expense\Controller;
 
-use App\Controller\EasyAdmin\AbstractController;
+use App\EasyAdmin\Controller\AbstractController;
 use App\Expense\Entity\Expense;
 use App\Expense\Event\ExpenseCreated;
 use function assert;

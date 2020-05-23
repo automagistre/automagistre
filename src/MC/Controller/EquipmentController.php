@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\MC\Controller;
 
-use App\Controller\EasyAdmin\AbstractController;
+use App\EasyAdmin\Controller\AbstractController;
 use App\Manufacturer\Domain\Manufacturer;
 use App\MC\Entity\McEquipment;
 use function assert;

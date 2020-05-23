@@ -7,7 +7,7 @@ namespace App\Order\Controller;
 use App\Car\Entity\Car;
 use App\Car\Entity\Recommendation;
 use App\Car\Manager\RecommendationManager;
-use App\Controller\EasyAdmin\AbstractController;
+use App\EasyAdmin\Controller\AbstractController;
 use App\Entity\Tenant\Reservation;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItem;

@@ -7,7 +7,7 @@ namespace App\Car\Controller;
 use App\Car\Entity\Recommendation;
 use App\Car\Entity\RecommendationPart;
 use App\Car\Form\DTO\RecommendationPartDTO;
-use App\Controller\EasyAdmin\AbstractController;
+use App\EasyAdmin\Controller\AbstractController;
 use App\Form\Type\MoneyType;
 use App\Form\Type\QuantityType;
 use App\Part\Manager\PartManager;
