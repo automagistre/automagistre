@@ -97,25 +97,17 @@
         "vimeo/psalm": "^3.8",
         "weirdan/doctrine-psalm-plugin": "^0.11.0"
     },
-    "scripts": {
-        "auto-scripts": [
-            "bin/console cache:warmup",
-            "bin/console assets:install public",
-            "rm -rf config/routes/endroid_qr_code.yaml"
-        ],
-        "post-install-cmd": [
-            "@auto-scripts"
-        ],
-        "post-update-cmd": [
-            "@auto-scripts"
-        ]
-    },
     "extra": {
         "symfony-app-dir": "src",
         "symfony-bin-dir": "bin",
         "symfony-var-dir": "var",
         "symfony-web-dir": "public",
-        "symfony-tests-dir": "tests"
+        "symfony-tests-dir": "tests",
+        "endroid": {
+            "installer": {
+                "enabled": false
+            }
+        }
     },
     "config": {
         "cache-dir": "/var/cache/composer",

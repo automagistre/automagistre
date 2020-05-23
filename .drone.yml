@@ -68,6 +68,8 @@ steps:
             - echo APP_ENV=test >> .env
             - echo APP_DEBUG=1 >> .env
             - composer install --no-interaction --no-progress --classmap-authoritative
+            - bin/console cache:warmup
+            - bin/console assets:install public
         depends_on:
             - build base
 

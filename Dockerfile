@@ -81,6 +81,8 @@ COPY translations translations
 
 RUN set -ex \
     && composer install --no-interaction --no-progress --no-dev --classmap-authoritative \
+    && console cache:warmup \
+    && console assets:install public \
     && chown -R www-data:www-data ${APP_DIR}/var
 
 HEALTHCHECK --interval=10s --timeout=5s --start-period=5s \
