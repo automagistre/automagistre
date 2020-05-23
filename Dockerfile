@@ -38,8 +38,8 @@ RUN set -ex \
 	&& rm -rf /tmp/icu
 
 RUN set -ex \
-    && pecl install memcached apcu xdebug mongodb \
-    && docker-php-ext-enable memcached apcu mongodb
+    && pecl install memcached apcu xdebug mongodb uuid \
+    && docker-php-ext-enable memcached apcu mongodb uuid
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_MEMORY_LIMIT -1
