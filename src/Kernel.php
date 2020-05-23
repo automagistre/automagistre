@@ -12,11 +12,11 @@ use function class_exists;
 use function dirname;
 use function file_exists;
 use InvalidArgumentException;
-use function is_dir;
 use function is_subclass_of;
 use function sprintf;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -101,16 +101,11 @@ final class Kernel extends SymfonyKernel implements CompilerPassInterface
      */
     protected function configureRoutes(RouteCollectionBuilder $routes): void
     {
-        $confDir = $this->getConfDir();
+        $confDir = $this->getProjectDir().'/config';
 
-        if (is_dir($confDir.'/routes/'.$this->environment)) {
-            $routes->import($confDir.'/routes/'.$this->environment.'/**/*'.self::CONFIG_EXTS, '/', 'glob');
-        }
-        $routes->import($confDir.'/routes'.self::CONFIG_EXTS, '/', 'glob');
-
-        $projectDir = $this->getProjectDir();
-        $routes->import($projectDir.'/src/*/routes'.self::CONFIG_EXTS, '/', 'glob');
-        $routes->import($projectDir.'/src/*/routes_'.$this->environment.self::CONFIG_EXTS, '/', 'glob');
+        $routes->import($confDir.'/{routes}/'.$this->environment.'/*'.self::CONFIG_EXTS, '/', 'glob');
+        $routes->import($confDir.'/{routes}/*'.self::CONFIG_EXTS, '/', 'glob');
+        $routes->import($confDir.'/{routes}'.self::CONFIG_EXTS, '/', 'glob');
     }
 
     /**
@@ -118,26 +113,18 @@ final class Kernel extends SymfonyKernel implements CompilerPassInterface
      */
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
     {
-        $container->setParameter('container.dumper.inline_class_loader', true);
-        $container->setParameter('container.autowiring.strict_mode', true);
+        $container->addResource(new FileResource($this->getProjectDir().'/config/bundles.php'));
+        $container->setParameter('container.dumper.inline_class_loader', $this->debug);
+        $container->setParameter('container.dumper.inline_factories', true);
 
-        $env = $this->getEnvironment();
-        $confDir = $this->getConfDir();
+        $confDir = $this->getProjectDir().'/config';
+        $loader->load($confDir.'/{packages}/*'.self::CONFIG_EXTS, 'glob');
+        $loader->load($confDir.'/{packages}/'.$this->environment.'/*'.self::CONFIG_EXTS, 'glob');
+        $loader->load($confDir.'/{services}'.self::CONFIG_EXTS, 'glob');
+        $loader->load($confDir.'/{services}_'.$this->environment.self::CONFIG_EXTS, 'glob');
+
         $projectDir = $this->getProjectDir();
-
-        $loader->load($confDir.'/packages/*'.self::CONFIG_EXTS, 'glob');
-
-        if (is_dir($confDir.'/packages/'.$env)) {
-            $loader->load($confDir.'/packages/'.$env.'/**/*'.self::CONFIG_EXTS, 'glob');
-        }
-
-        $loader->load($confDir.'/services'.self::CONFIG_EXTS, 'glob');
-        $loader->load($confDir.'/services_'.$env.self::CONFIG_EXTS, 'glob');
-
-        $loader->load($projectDir.'/src/*/services'.self::CONFIG_EXTS, 'glob');
-        $loader->load($projectDir.'/src/*/services_'.$env.self::CONFIG_EXTS, 'glob');
-
         $loader->load($projectDir.'/src/*/config'.self::CONFIG_EXTS, 'glob');
-        $loader->load($projectDir.'/src/*/config_'.$env.self::CONFIG_EXTS, 'glob');
+        $loader->load($projectDir.'/src/*/config_'.$this->environment.self::CONFIG_EXTS, 'glob');
     }
 }
