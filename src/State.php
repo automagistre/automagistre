@@ -19,7 +19,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  */
 final class State
 {
-    private ?Tenant $tenant;
+    private ?Tenant $tenant = null;
 
     private ConnectionSwitcher $switcher;
 
@@ -48,6 +48,11 @@ final class State
         }
 
         return $this->tenant;
+    }
+
+    public function isTenantDefined(): bool
+    {
+        return null !== $this->tenant;
     }
 
     public function userId(): UserId

@@ -120,6 +120,10 @@ final class TenantStateListener implements EventSubscriberInterface
             return;
         }
 
+        if (!$this->state->isTenantDefined()) {
+            return;
+        }
+
         if (array_key_exists('tenant', $parameters)) {
             return;
         }

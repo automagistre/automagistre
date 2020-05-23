@@ -22,6 +22,7 @@ services:
 
     App\:
         resource: '../src'
+        exclude: '../src/*/config.php'
 
     Symfony\Bridge\Doctrine\Form\DoctrineOrmTypeGuesser:
         alias: easyadmin.form.guesser.missing_doctrine_orm_type_guesser

@@ -11,3 +11,21 @@
         Извиняться не будем, потому что жизнь боль.
     </p>
 {% endblock %}
+
+{% block tenant_switch %}
+    {% if state.isTenantDefined %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{% block wallets %}
+    {% if state.isTenantDefined %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{% block sidebar %}
+    {% if state.isTenantDefined %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
