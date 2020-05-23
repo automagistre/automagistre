@@ -19,7 +19,7 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
 final class JsonRPCClient extends KernelBrowser
 {
-    private string $endpoint = '/api/jsonrpc';
+    private string $endpoint = '/api/v1';
 
     public function successJsonrpc(string $method, array $params = []): ResultResponse
     {
