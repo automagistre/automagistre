@@ -19,14 +19,7 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
 final class JsonRPCClient extends KernelBrowser
 {
-    private ?string $endpoint = '/api/jsonrpc';
-
-    public function withEndpoint(string $endpoint): self
-    {
-        $this->endpoint = $endpoint;
-
-        return $this;
-    }
+    private string $endpoint = '/api/jsonrpc';
 
     public function successJsonrpc(string $method, array $params = []): ResultResponse
     {
@@ -63,7 +56,7 @@ final class JsonRPCClient extends KernelBrowser
 
         $request = $client->query(1, $method, $params)->encode();
 
-        $this->request('POST', $this->getEndpoint(), [], [], $this->getHeaders(), $request);
+        $this->request('POST', $this->endpoint, [], [], $this->getHeaders(), $request);
 
         $response = $this->getResponse()->getContent();
         assert(is_string($response));
@@ -83,15 +76,6 @@ final class JsonRPCClient extends KernelBrowser
             'HTTP_ACCEPT' => 'application/json',
             'HTTP_ACCEPT_LANGUAGE' => 'RU',
         ];
-    }
-
-    private function getEndpoint(): string
-    {
-        if (null === $this->endpoint) {
-            throw new LogicException(sprintf('You must call "%s::withEndpoint()" first.', __CLASS__));
-        }
-
-        return $this->endpoint;
     }
 
     private static function deepSort(array &$array): void
