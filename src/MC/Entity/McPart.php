@@ -2,28 +2,28 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Landlord\MC;
+namespace App\MC\Entity;
 
-use App\Part\Domain\Part as BasePart;
+use App\Part\Domain\Part;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  */
-class Part
+class McPart
 {
     use Identity;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Line::class, inversedBy="parts")
+     * @ORM\ManyToOne(targetEntity=McLine::class, inversedBy="parts")
      */
-    public ?Line $line;
+    public ?McLine $line;
 
     /**
-     * @ORM\ManyToOne(targetEntity=BasePart::class)
+     * @ORM\ManyToOne(targetEntity=Part::class)
      */
-    public BasePart $part;
+    public Part $part;
 
     /**
      * @ORM\Column(type="integer")
@@ -35,7 +35,7 @@ class Part
      */
     public bool $recommended;
 
-    public function __construct(Line $line, BasePart $part, int $quantity, bool $recommended)
+    public function __construct(McLine $line, Part $part, int $quantity, bool $recommended)
     {
         $this->line = $line;
         $this->part = $part;

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin\MC;
+namespace App\MC\Controller;
 
 use App\Controller\EasyAdmin\AbstractController;
-use App\Entity\Landlord\MC\Equipment;
-use App\Entity\Landlord\MC\Line;
+use App\MC\Entity\McEquipment;
+use App\MC\Entity\McLine;
 use function assert;
 use LogicException;
 use stdClass;
@@ -22,8 +22,8 @@ final class LineController extends AbstractController
     protected function createNewEntity(): stdClass
     {
         $model = new stdClass();
-        $equipment = $this->getEntity(Equipment::class);
-        if (!$equipment instanceof Equipment) {
+        $equipment = $this->getEntity(McEquipment::class);
+        if (!$equipment instanceof McEquipment) {
             throw new LogicException('Equipment required.');
         }
 
@@ -39,12 +39,12 @@ final class LineController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function persistEntity($entity): Line
+    protected function persistEntity($entity): McLine
     {
         $model = $entity;
         assert($model instanceof stdClass);
 
-        $entity = new Line($model->equipment, $model->work, $model->period, $model->recommended);
+        $entity = new McLine($model->equipment, $model->work, $model->period, $model->recommended);
 
         parent::persistEntity($entity);
 

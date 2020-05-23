@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin\MC;
+namespace App\MC\Controller;
 
 use App\Controller\EasyAdmin\AbstractController;
-use App\Entity\Landlord\MC\Line;
-use App\Entity\Landlord\MC\Part;
+use App\MC\Entity\McLine;
+use App\MC\Entity\McPart;
 use function assert;
 use LogicException;
 use stdClass;
@@ -23,8 +23,8 @@ final class PartController extends AbstractController
     {
         $model = new stdClass();
 
-        $line = $this->getEntity(Line::class);
-        if (!$line instanceof Line) {
+        $line = $this->getEntity(McLine::class);
+        if (!$line instanceof McLine) {
             throw new LogicException('Line required.');
         }
 
@@ -40,12 +40,12 @@ final class PartController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function persistEntity($entity): Part
+    protected function persistEntity($entity): McPart
     {
         $model = $entity;
         assert($model instanceof stdClass);
 
-        $entity = new Part($model->line, $model->part, $model->quantity, $model->recommended);
+        $entity = new McPart($model->line, $model->part, $model->quantity, $model->recommended);
 
         parent::persistEntity($entity);
 

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin\MC;
+namespace App\MC\Controller;
 
 use App\Controller\EasyAdmin\AbstractController;
-use App\Entity\Landlord\MC\Work;
+use App\MC\Entity\McWork;
 use function assert;
 use stdClass;
 
@@ -32,12 +32,12 @@ final class WorkController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function persistEntity($entity): Work
+    protected function persistEntity($entity): McWork
     {
         $model = $entity;
         assert($model instanceof stdClass);
 
-        $entity = new Work($model->name, $model->description, $model->price);
+        $entity = new McWork($model->name, $model->description, $model->price);
 
         parent::persistEntity($entity);
 

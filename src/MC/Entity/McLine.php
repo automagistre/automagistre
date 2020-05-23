@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Landlord\MC;
+namespace App\MC\Entity;
 
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -12,24 +12,24 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  */
-class Line
+class McLine
 {
     use Identity;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Equipment::class, inversedBy="lines")
+     * @ORM\ManyToOne(targetEntity=McEquipment::class, inversedBy="lines")
      */
-    public Equipment $equipment;
+    public McEquipment $equipment;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Work::class)
+     * @ORM\ManyToOne(targetEntity=McWork::class)
      */
-    public Work $work;
+    public McWork $work;
 
     /**
-     * @var Collection<int, Part>|iterable
+     * @var Collection<int, McPart>|iterable
      *
-     * @ORM\OneToMany(targetEntity=Part::class, mappedBy="line")
+     * @ORM\OneToMany(targetEntity=McPart::class, mappedBy="line")
      */
     public iterable $parts;
 
@@ -43,7 +43,7 @@ class Line
      */
     public bool $recommended = false;
 
-    public function __construct(Equipment $equipment, Work $work, int $period, bool $recommended)
+    public function __construct(McEquipment $equipment, McWork $work, int $period, bool $recommended)
     {
         $this->equipment = $equipment;
         $this->work = $work;

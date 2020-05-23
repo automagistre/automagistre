@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\MC\Fixtures;
 
-use App\Entity\Landlord\MC\Equipment;
+use App\MC\Entity\McEquipment;
 use App\Vehicle\Domain\Model;
 use App\Vehicle\Infrastructure\Fixtures\NissanGTRFixture;
 use function assert;
@@ -41,7 +41,7 @@ final class EquipmentFixtures extends Fixture implements FixtureGroupInterface, 
         $model = $this->getReference(NissanGTRFixture::class);
         assert($model instanceof Model);
 
-        $equipment = new Equipment();
+        $equipment = new McEquipment();
         $equipment->model = $model;
         $equipment->period = 10;
 

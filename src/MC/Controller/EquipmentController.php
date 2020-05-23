@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\EasyAdmin\MC;
+namespace App\MC\Controller;
 
 use App\Controller\EasyAdmin\AbstractController;
-use App\Entity\Landlord\MC\Equipment;
 use App\Manufacturer\Domain\Manufacturer;
+use App\MC\Entity\McEquipment;
 use function assert;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
@@ -23,7 +23,7 @@ final class EquipmentController extends AbstractController
      */
     protected function persistEntity($entity): void
     {
-        assert($entity instanceof Equipment);
+        assert($entity instanceof McEquipment);
 
         parent::persistEntity($entity);
 
@@ -41,7 +41,7 @@ final class EquipmentController extends AbstractController
         $sortDirection = null,
         $dqlFilter = null
     ): QueryBuilder {
-        $qb = $this->registry->repository(Equipment::class)->createQueryBuilder('entity');
+        $qb = $this->registry->repository(McEquipment::class)->createQueryBuilder('entity');
 
         if ('' === $searchQuery) {
             return $qb;

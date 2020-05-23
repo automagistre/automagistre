@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Landlord\MC;
+namespace App\MC\Entity;
 
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Vehicle\Domain\Embeddable\Equipment as CarEquipment;
@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  */
-class Equipment
+class McEquipment
 {
     use Identity;
 
@@ -37,9 +37,9 @@ class Equipment
     public int $period = 0;
 
     /**
-     * @var Collection<int, Line>
+     * @var Collection<int, McLine>
      *
-     * @ORM\OneToMany(targetEntity=Line::class, mappedBy="equipment")
+     * @ORM\OneToMany(targetEntity=McLine::class, mappedBy="equipment")
      */
     public ?Collection $lines = null;
 

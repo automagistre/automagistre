@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Landlord\MC;
+namespace App\MC\Entity;
 
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,7 +12,7 @@ use function sprintf;
 /**
  * @ORM\Entity
  */
-class Work
+class McWork
 {
     use Identity;
 

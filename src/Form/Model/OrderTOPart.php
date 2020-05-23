@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form\Model;
 
-use App\Entity\Landlord\MC\Part as MCPart;
+use App\MC\Entity\McPart as MCPart;
 use App\Part\Domain\Part;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;

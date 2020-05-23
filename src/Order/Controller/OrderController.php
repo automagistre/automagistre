@@ -9,10 +9,10 @@ use App\Controller\EasyAdmin\AbstractController;
 use App\Customer\Domain\Operand;
 use App\Customer\Domain\Organization;
 use App\Customer\Domain\Person;
-use App\Entity\Landlord\MC\Line;
 use App\Form\Model\OrderTOService;
 use App\Form\Type\MoneyType;
 use App\Form\Type\OrderTOServiceType;
+use App\MC\Entity\McLine;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemPart;
@@ -107,7 +107,7 @@ final class OrderController extends AbstractController
         /** @var Model $carModel */
         $carModel = $this->registry->findBy(Model::class, ['uuid' => $car->vehicleId]);
 
-        $qb = $this->registry->repository(Line::class)
+        $qb = $this->registry->repository(McLine::class)
             ->createQueryBuilder('line')
             ->join('line.equipment', 'equipment')
             ->where('equipment.model = :model')
@@ -144,7 +144,7 @@ final class OrderController extends AbstractController
         /** @var OrderTOService[] $services */
         $services = [];
 
-        /** @var Line[] $lines */
+        /** @var McLine[] $lines */
         $lines = $qb->getQuery()->getResult();
         foreach ($lines as $line) {
             if (0 !== $currentPeriod % $line->period) {

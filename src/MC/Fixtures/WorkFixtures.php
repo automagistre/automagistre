@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\MC\Fixtures;
 
-use App\Entity\Landlord\MC\Work;
+use App\MC\Entity\McWork;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -26,7 +26,7 @@ final class WorkFixtures extends Fixture implements FixtureGroupInterface
      */
     public function load(ObjectManager $manager): void
     {
-        $work = new Work('Work 1', null, new Money(100, new Currency('RUB')));
+        $work = new McWork('Work 1', null, new Money(100, new Currency('RUB')));
 
         $this->addReference('work-1', $work);
 

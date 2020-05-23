@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\MC\Fixtures;
 
-use App\Entity\Landlord\MC\Equipment;
-use App\Entity\Landlord\MC\Line;
-use App\Entity\Landlord\MC\Work;
+use App\MC\Entity\McEquipment;
+use App\MC\Entity\McLine;
+use App\MC\Entity\McWork;
 use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
@@ -40,11 +40,11 @@ final class LineFixtures extends Fixture implements FixtureGroupInterface, Depen
     public function load(ObjectManager $manager): void
     {
         $equipment = $this->getReference('equipment-1');
-        assert($equipment instanceof Equipment);
+        assert($equipment instanceof McEquipment);
         $work = $this->getReference('work-1');
-        assert($work instanceof Work);
+        assert($work instanceof McWork);
 
-        $line = new Line($equipment, $work, 10, false);
+        $line = new McLine($equipment, $work, 10, false);
 
         $this->addReference('line-1', $line);
 

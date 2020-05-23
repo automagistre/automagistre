@@ -82,11 +82,6 @@
       <code>$registry</code>
     </MissingConstructor>
   </file>
-  <file src="src/Controller/EasyAdmin/MC/EquipmentController.php">
-    <PossiblyFalseOperand occurrences="1">
-      <code>mb_strtolower($searchString)</code>
-    </PossiblyFalseOperand>
-  </file>
   <file src="src/Customer/Domain/Organization.php">
     <PropertyNotSetInConstructor occurrences="2">
       <code>$name</code>
@@ -273,6 +268,11 @@
     <PossiblyNullReference occurrences="1">
       <code>toId</code>
     </PossiblyNullReference>
+  </file>
+  <file src="src/MC/Controller/EquipmentController.php">
+    <PossiblyFalseOperand occurrences="1">
+      <code>mb_strtolower($searchString)</code>
+    </PossiblyFalseOperand>
   </file>
   <file src="src/Migrations/Version20200511190211.php">
     <PropertyNotSetInConstructor occurrences="1">

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Form\Model;
 
-use App\Entity\Landlord\MC\Line;
-use App\Entity\Landlord\MC\Part;
+use App\MC\Entity\McLine;
+use App\MC\Entity\McPart;
 use function assert;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -39,13 +39,13 @@ final class OrderTOService
         $this->recommend = $recommend;
     }
 
-    public static function from(Line $line): self
+    public static function from(McLine $line): self
     {
         $work = $line->work;
 
         $parts = [];
         foreach ($line->parts as $part) {
-            assert($part instanceof Part);
+            assert($part instanceof McPart);
 
             $parts[(int) $part->getId()] = OrderTOPart::from($part);
         }

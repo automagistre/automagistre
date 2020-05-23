@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\MC\Fixtures;
 
-use App\Entity\Landlord\MC\Line;
-use App\Entity\Landlord\MC\Part;
+use App\MC\Entity\McLine;
+use App\MC\Entity\McPart;
 use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
@@ -38,11 +38,11 @@ final class PartFixtures extends Fixture implements FixtureGroupInterface, Depen
     public function load(ObjectManager $manager): void
     {
         $line = $this->getReference('line-1');
-        assert($line instanceof Line);
+        assert($line instanceof McLine);
         $part = $this->getReference('part-1');
         assert($part instanceof \App\Part\Domain\Part);
 
-        $mcPart = new Part($line, $part, 1, false);
+        $mcPart = new McPart($line, $part, 1, false);
 
         $this->addReference('mc-part-1', $mcPart);
 
