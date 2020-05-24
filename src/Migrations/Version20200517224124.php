@@ -16,9 +16,6 @@ final class Version20200517224124 extends AbstractMigration
 
         $this->skipIf(0 !== strpos($this->connection->getDatabase(), 'tenant'), 'tenant only');
 
-        $this->addSql('INSERT INTO created_by (id, user_id, created_at) SELECT id, created_by, created_at FROM calendar_entry ON CONFLICT DO NOTHING ');
-        $this->addSql('INSERT INTO created_by (id, user_id, created_at) SELECT id, deleted_by, deleted_at FROM calendar_entry_deletion ON CONFLICT DO NOTHING ');
-
         $this->addSql('ALTER TABLE calendar_entry DROP created_at');
         $this->addSql('ALTER TABLE calendar_entry DROP created_by');
         $this->addSql('ALTER TABLE calendar_entry_deletion DROP deleted_by');
