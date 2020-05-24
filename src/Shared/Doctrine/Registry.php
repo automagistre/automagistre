@@ -46,6 +46,28 @@ final class Registry
     }
 
     /**
+     * @template T
+     *
+     * @psalm-param class-string<T> $class
+     *
+     * @psalm-return T
+     *
+     * @param Identifier|array $criteria
+     */
+    public function getBy(string $class, $criteria)
+    {
+        if ($criteria instanceof Identifier) {
+            $criteria = [Costil::UUID_FIELDS[get_class($criteria)] => $criteria];
+        }
+
+        $entity = $this->repository($class)->findOneBy($criteria);
+
+        assert($entity instanceof $class);
+
+        return $entity;
+    }
+
+    /**
      * @psalm-param class-string $class
      */
     public function connection(string $class): Connection
