@@ -17,10 +17,6 @@ final class Version20200524171649 extends AbstractMigration
         $this->skipIf(0 !== strpos($this->connection->getDatabase(), 'landlord'), 'landlord only');
 
         $this->addSql('ALTER TABLE mc_part ADD part_uuid UUID DEFAULT NULL');
-        // Data migration
-        $this->addSql('UPDATE mc_part SET part_uuid = b.uuid FROM (SELECT id, part_id AS uuid FROM part) b WHERE b.id = part_id');
-        // Data migration
-
         $this->addSql('ALTER TABLE mc_part DROP CONSTRAINT fk_2b65786f4ce34bec');
         $this->addSql('DROP INDEX idx_2b65786f4ce34bec');
         $this->addSql('ALTER TABLE mc_part DROP part_id');
