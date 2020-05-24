@@ -5,14 +5,11 @@ declare(strict_types=1);
 namespace App\Part\EventListener;
 
 use App\Order\Entity\OrderItemPart;
-use App\Part\Domain\Part;
 use App\Part\Event\PartAccrued;
 use App\Shared\Doctrine\Registry;
 use App\Storage\Exception\ReservationException;
 use App\Storage\Manager\ReservationManager;
-use LogicException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -39,14 +36,11 @@ final class ReserveAccruedPartsListener implements EventSubscriberInterface
         ];
     }
 
-    public function onPartAccrued(GenericEvent $event): void
+    public function onPartAccrued(PartAccrued $event): void
     {
-        $part = $event->getSubject();
-        if (!$part instanceof Part) {
-            throw new LogicException('Part required.');
-        }
+        $partId = $event->getSubject();
 
-        $reservable = $this->reservationManager->reservable($part);
+        $reservable = $this->reservationManager->reservable($partId);
         if (0 >= $reservable) {
             return;
         }
@@ -58,10 +52,10 @@ final class ReserveAccruedPartsListener implements EventSubscriberInterface
             ->select(['entity', 'orders'])
             ->from(OrderItemPart::class, 'entity')
             ->join('entity.order', 'orders')
-            ->where('entity.part.id = :part')
+            ->where('entity.part.part_id = :part')
             ->andWhere('orders.closedAt IS NULL')
             ->getQuery()
-            ->setParameter('part', $part->getId())
+            ->setParameter('part', $partId)
             ->getResult();
 
         if ([] === $items) {
@@ -79,7 +73,7 @@ final class ReserveAccruedPartsListener implements EventSubscriberInterface
                 continue;
             }
 
-            $reservable = $this->reservationManager->reservable($part);
+            $reservable = $this->reservationManager->reservable($partId);
         }
     }
 }

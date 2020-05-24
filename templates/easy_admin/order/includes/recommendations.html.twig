@@ -85,7 +85,7 @@
                                     x {{ recommendationPart.price|localize_money }}</td>
                                 <td>{{ recommendationPart.price.multiply(recommendationPart.quantity / 100)|localize_money }}</td>
                                 <td>
-                                    {% set reservable = part_reservable(part) %}
+                                    {% set reservable = part_reservable(recommendationPart.partId) %}
                                     {% set reserved = part_reserved(part) %}
                                     {% set inStock = part_in_stock(part) %}
                                     {% set required = recommendationPart.quantity %}

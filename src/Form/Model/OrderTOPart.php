@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form\Model;
 
-use App\MC\Entity\McPart as MCPart;
-use App\Part\Domain\Part;
+use App\Part\Domain\PartId;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -17,7 +16,7 @@ final class OrderTOPart
     /**
      * @Assert\NotBlank
      */
-    public Part $part;
+    public PartId $partId;
 
     /**
      * @Assert\NotBlank
@@ -33,23 +32,12 @@ final class OrderTOPart
 
     public bool $recommend;
 
-    public function __construct(Part $part, int $quantity, Money $price, bool $selected, bool $recommend)
+    public function __construct(PartId $partId, int $quantity, Money $price, bool $selected, bool $recommend)
     {
-        $this->part = $part;
+        $this->partId = $partId;
         $this->quantity = $quantity;
         $this->price = $price;
         $this->selected = $selected;
         $this->recommend = $recommend;
-    }
-
-    public static function from(MCPart $part): self
-    {
-        return new self(
-            $part->part,
-            $part->quantity,
-            $part->part->price,
-            $part->recommended,
-            !$part->recommended,
-        );
     }
 }

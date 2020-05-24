@@ -13,7 +13,7 @@ use App\Order\Entity\OrderItemGroup;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Entity\OrderItemService;
 use App\Order\Entity\OrderNote;
-use App\Part\Domain\Part;
+use App\Part\Domain\PartId;
 use App\Part\Infrastructure\Fixtures\GasketFixture;
 use App\Shared\Doctrine\Registry;
 use App\Shared\Enum\NoteType;
@@ -71,7 +71,6 @@ final class OrderFixtures extends Fixture implements FixtureGroupInterface, Depe
         $manager->persist(new OrderNote($order, NoteType::info(), 'Order Note'));
 
         $money = new Money(100, new Currency('RUB'));
-        $part = $this->registry->findBy(Part::class, ['partId' => GasketFixture::ID]);
 
         $orderItemGroup = new OrderItemGroup($order, 'Group');
         $manager->persist($orderItemGroup);
@@ -81,7 +80,7 @@ final class OrderFixtures extends Fixture implements FixtureGroupInterface, Depe
         $manager->persist($orderItemService);
         $manager->flush();
 
-        $orderItemPart = new OrderItemPart($order, $part, 1, $money);
+        $orderItemPart = new OrderItemPart($order, PartId::fromString(GasketFixture::ID), 1, $money);
         $manager->persist($orderItemPart);
         $manager->flush();
     }

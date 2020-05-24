@@ -100,10 +100,10 @@
                     {% endfor %}
 
                     {% for orderItemPart in order.items('part', true) %}
-                        {# @var orderItemPart \App\Entity\Tenant\OrderItemPart #}
+                        {# @var orderItemPart \App\Order\Entity\OrderItemPart #}
 
                         {% set position = position + 1 %}
-                        {% set part = orderItemPart.part %}
+                        {% set part = part_by_id(orderItemPart.partId) %}
                         <tr>
                             <td class="bk-table__loop">{{ position }}</td>
                             <td> {{ part.name }}

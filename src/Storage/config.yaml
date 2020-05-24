@@ -11,7 +11,7 @@ easy_admin:
                 max_results: 100
                 fields:
                     - { property: 'id', template: 'easy_admin/default/field_raw.html.twig' }
-                    - { property: 'part', label: 'Наименование', template: 'easy_admin/field_part.html.twig', stock: true }
+                    - { property: 'partId', label: 'Наименование', template: 'easy_admin/field_part.html.twig', stock: true }
                     - { property: 'quantity', label: 'Количество', template: 'easy_admin/field_quantity.html.twig' }
                     - { property: 'description', label: 'Комментарий', template: 'easy_admin/motion/description.html.twig' }
                     - { property: 'createdAt', label: 'Создано' }

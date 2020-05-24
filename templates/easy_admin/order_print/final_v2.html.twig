@@ -61,8 +61,8 @@
 {% endblock %}
 
 {% block order_item_part %}
-    {# @var orderItemPart \App\Entity\Tenant\OrderItemPart #}
-    {% set part = orderItemPart.part %}
+    {# @var orderItemPart \App\Order\Entity\OrderItemPart #}
+    {% set part = part_by_id(orderItemPart.partId) %}
     {# @var part \App\Part\Domain\Part #}
     <tr class="order-table-part">
         <td style="border: none"></td>

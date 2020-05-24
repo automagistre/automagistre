@@ -83,12 +83,17 @@ easy_admin:
             disabled_actions: ['show', 'list', 'autocomplete']
             form:
                 fields:
-                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete' }
+                    -   property: 'partId'
+                        label: 'Запчасть'
+                        type: App\EasyAdmin\Form\AutocompleteType
+                        type_options:
+                            required: true
+                            class: App\Part\Domain\Part
                     - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
                     - { property: 'recommended', label: 'Рекомендуемый?' }
             new:
                 title: 'Создать новую запчасть для ТО'
-                form_options: { data_class: stdClass }
+                form_options: { data_class: App\MC\Form\McPartDto }
             edit:
                 title: 'Редактировать запчасть № {{ entity.id }} для ТО'
 

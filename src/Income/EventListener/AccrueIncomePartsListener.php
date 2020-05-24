@@ -4,17 +4,13 @@ declare(strict_types=1);
 
 namespace App\Income\EventListener;
 
-use App\Income\Entity\Income;
 use App\Income\Event\IncomeAccrued;
-use App\Part\Domain\Part;
 use App\Part\Event\PartAccrued;
 use App\Shared\Doctrine\Registry;
 use App\Storage\Entity\Motion;
 use App\Storage\Enum\Source;
-use LogicException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -41,22 +37,18 @@ final class AccrueIncomePartsListener implements EventSubscriberInterface
         ];
     }
 
-    public function onIncomeAccrued(GenericEvent $event): void
+    public function onIncomeAccrued(IncomeAccrued $event): void
     {
         $em = $this->registry->manager(Motion::class);
 
         $income = $event->getSubject();
-        if (!$income instanceof Income) {
-            throw new LogicException('Income required.');
-        }
 
         foreach ($income->getIncomeParts() as $incomePart) {
-            /** @var Part $part */
-            $part = $this->registry->findBy(Part::class, ['partId' => $incomePart->partId]);
+            $partId = $incomePart->partId;
             $quantity = $incomePart->getQuantity();
 
             $motion = new Motion(
-                $part,
+                $partId,
                 $incomePart->getQuantity(),
                 Source::income(),
                 $incomePart->toId()->toUuid(),
@@ -65,7 +57,7 @@ final class AccrueIncomePartsListener implements EventSubscriberInterface
 
             $em->flush();
 
-            $this->dispatcher->dispatch(new PartAccrued($part, [
+            $this->dispatcher->dispatch(new PartAccrued($partId, [
                 'quantity' => $quantity,
             ]));
         }

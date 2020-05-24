@@ -6,6 +6,8 @@ namespace App\MC\Fixtures;
 
 use App\MC\Entity\McLine;
 use App\MC\Entity\McPart;
+use App\Part\Domain\PartId;
+use App\Part\Infrastructure\Fixtures\GasketFixture;
 use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
@@ -39,10 +41,13 @@ final class PartFixtures extends Fixture implements FixtureGroupInterface, Depen
     {
         $line = $this->getReference('line-1');
         assert($line instanceof McLine);
-        $part = $this->getReference('part-1');
-        assert($part instanceof \App\Part\Domain\Part);
 
-        $mcPart = new McPart($line, $part, 1, false);
+        $mcPart = new McPart(
+            $line,
+            PartId::fromString(GasketFixture::ID),
+            1,
+            false
+        );
 
         $this->addReference('mc-part-1', $mcPart);
 

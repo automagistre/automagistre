@@ -7,13 +7,12 @@ namespace App\Storage\Manager;
 use App\Entity\Tenant\Reservation;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItemPart;
-use App\Part\Domain\Part;
+use App\Part\Domain\PartId;
 use App\Part\Event\PartDeReserved;
 use App\Part\Event\PartReserved;
 use App\Part\Manager\PartManager;
 use App\Shared\Doctrine\Registry;
 use App\Storage\Exception\ReservationException;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
@@ -46,14 +45,14 @@ final class ReservationManager
             throw new ReservationException('Количество резервируемого товара должно быть положительным.');
         }
 
-        $part = $orderItemPart->getPart();
+        $partId = $orderItemPart->getPartId();
 
         $reserved = $this->reserved($orderItemPart);
         if (0 < $reserved) {
             $this->deReserve($orderItemPart, $reserved);
         }
 
-        $reservable = $this->reservable($part);
+        $reservable = $this->reservable($partId);
         if ($reservable < $quantity) {
             throw new ReservationException(
                 sprintf(
@@ -66,7 +65,6 @@ final class ReservationManager
 
         $reservation = new Reservation($orderItemPart, $quantity);
 
-        /** @var EntityManagerInterface $em */
         $em = $this->registry->manager(Reservation::class);
         $em->persist($reservation);
         $em->flush();
@@ -93,7 +91,6 @@ final class ReservationManager
             );
         }
 
-        /** @var EntityManagerInterface $em */
         $em = $this->registry->manager(Reservation::class);
 
         $reservation = new Reservation($orderItemPart, 0 - $quantity);
@@ -103,28 +100,29 @@ final class ReservationManager
         $this->dispatcher->dispatch(new PartDeReserved($reservation));
     }
 
-    public function reservable(Part $part): int
+    public function reservable(PartId $part): int
     {
         return $this->partManager->inStock($part) - $this->reserved($part);
     }
 
     /**
-     * @param Part|OrderItemPart $part
+     * @param PartId|OrderItemPart $part
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function reserved($part): int
     {
-        /** @var EntityManagerInterface $em */
         $em = $this->registry->manager(Reservation::class);
 
-        [$part, $orderItemPart] = $part instanceof OrderItemPart ? [$part->getPart(), $part] : [$part, null];
-        /** @var Part $part */
+        [$partId, $orderItemPart] = $part instanceof OrderItemPart ? [$part->getPartId(), $part] : [$part, null];
+
         $qb = $em->createQueryBuilder()
             ->select('SUM(reservation.quantity)')
             ->from(Reservation::class, 'reservation')
             ->join('reservation.orderItemPart', 'order_item_part')
-            ->groupBy('order_item_part.part.id')
-            ->where('order_item_part.part.id = :part')
-            ->setParameter('part', $part->getId());
+            ->groupBy('order_item_part.partId')
+            ->where('order_item_part.partId = :part')
+            ->setParameter('part', $partId);
 
         if (null !== $orderItemPart) {
             $qb->andWhere('reservation.orderItemPart = :orderItemPart')
@@ -143,7 +141,7 @@ final class ReservationManager
     /**
      * @return Order[]
      */
-    public function orders(Part $part): array
+    public function orders(PartId $partId): array
     {
         $em = $this->registry->manager(Order::class);
 
@@ -152,9 +150,9 @@ final class ReservationManager
             ->from(Order::class, 'entity')
             ->join(OrderItemPart::class, 'order_item_part', Join::WITH, 'order_item_part.order = entity')
             ->join(Reservation::class, 'reservation', Join::WITH, 'reservation.orderItemPart = order_item_part')
-            ->where('order_item_part.part.id = :part')
+            ->where('order_item_part.part.part_id = :part')
             ->orderBy('entity.id', 'DESC')
-            ->setParameter('part', $part->getId())
+            ->setParameter('part', $partId)
             ->getQuery()
             ->getResult();
     }

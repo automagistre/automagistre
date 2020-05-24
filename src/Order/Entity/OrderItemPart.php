@@ -8,9 +8,7 @@ use App\Costil;
 use App\Customer\Domain\Operand;
 use App\Entity\Discounted;
 use App\Entity\Embeddable\OperandRelation;
-use App\Entity\Embeddable\PartRelation;
 use App\Entity\WarrantyInterface;
-use App\Part\Domain\Part;
 use App\Part\Domain\PartId;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Discount;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Price;
@@ -38,16 +36,9 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
     private $supplier;
 
     /**
-     * @var PartRelation
-     *
-     * @ORM\Embedded(class=PartRelation::class)
-     */
-    private $part;
-
-    /**
      * @ORM\Column(type="part_id")
      */
-    private PartId $partUuid;
+    private PartId $partId;
 
     /**
      * @var int
@@ -56,20 +47,19 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
      */
     private $quantity;
 
-    public function __construct(Order $order, Part $part, int $quantity, Money $price)
+    public function __construct(Order $order, PartId $partId, int $quantity, Money $price)
     {
         parent::__construct($order);
 
         $this->supplier = new OperandRelation();
-        $this->part = new PartRelation($part);
-        $this->partUuid = $part->toId();
+        $this->partId = $partId;
         $this->quantity = $quantity;
         $this->price = $price;
     }
 
     public function __toString(): string
     {
-        return Costil::display($this->getPart()->toId());
+        return Costil::display($this->partId);
     }
 
     public function isHidden(): bool
@@ -82,9 +72,9 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
         return $group instanceof OrderItemGroup && $group->isHideParts();
     }
 
-    public function getPart(): Part
+    public function getPartId(): PartId
     {
-        return $this->part->entity();
+        return $this->partId;
     }
 
     public function setPrice(Money $price): void

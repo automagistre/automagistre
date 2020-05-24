@@ -6,7 +6,7 @@ namespace App\Form\Model;
 
 use App\Customer\Domain\Operand;
 use App\Order\Entity\OrderItemPart;
-use App\Part\Domain\Part;
+use App\Part\Domain\PartId;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -16,9 +16,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class OrderPart extends OrderItemModel
 {
     /**
+     * @var PartId
+     *
      * @Assert\NotBlank
      */
-    public ?Part $part = null;
+    public $partId;
 
     /**
      * @Assert\NotBlank

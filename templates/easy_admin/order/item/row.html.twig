@@ -2,7 +2,7 @@
 
 {%- apply spaceless -%}
     {%- if instanceOf(item, 'App\\Order\\Entity\\OrderItemPart') -%}
-        {%- if item.part.id == app.request.query.get('part_id') -%}
+        {%- if item.partId.toString == app.request.query.get('part_id') -%}
             {%- set tr_class = 'warning' -%}
         {%- endif -%}
         {%- set template = 'easy_admin/order/item/part.html.twig' -%}

@@ -72,7 +72,7 @@ final class OrderItemPartController extends OrderItemController
 
         $part = $this->getEntity(Part::class);
         if ($part instanceof Part) {
-            $model->part = $part;
+            $model->partId = $part->toId();
         }
 
         $parent = $this->getEntity(OrderItem::class);
@@ -86,30 +86,32 @@ final class OrderItemPartController extends OrderItemController
     /**
      * {@inheritdoc}
      */
-    protected function persistEntity($entity): OrderItemPart
+    protected function persistEntity($orderItemPart): OrderItemPart
     {
-        $model = $entity;
+        $model = $orderItemPart;
         assert($model instanceof OrderPart);
 
-        $entity = new OrderItemPart($model->order, $model->part, $model->quantity, $model->price);
-        $entity->setParent($model->parent);
-        $entity->setWarranty($model->warranty);
-        $entity->discount($model->discount);
-        $entity->setSupplier($model->supplier);
+        $orderItemPart = new OrderItemPart($model->order, $model->partId, $model->quantity, $model->price);
+        $orderItemPart->setParent($model->parent);
+        $orderItemPart->setWarranty($model->warranty);
+        $orderItemPart->discount($model->discount);
+        $orderItemPart->setSupplier($model->supplier);
 
-        if (!$entity->isDiscounted() && $model->part->isDiscounted()) {
-            $entity->discount($model->part->discount());
+        $part = $this->registry->getBy(Part::class, $model->partId);
+
+        if (!$orderItemPart->isDiscounted() && $part->isDiscounted()) {
+            $orderItemPart->discount($part->discount());
         }
 
-        parent::persistEntity($entity);
+        parent::persistEntity($orderItemPart);
 
         try {
-            $this->reservationManager->reserve($entity);
+            $this->reservationManager->reserve($orderItemPart);
         } catch (ReservationException $e) {
             $this->addFlash('warning', $e->getMessage());
         }
 
-        return $entity;
+        return $orderItemPart;
     }
 
     /**

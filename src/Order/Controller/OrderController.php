@@ -9,10 +9,12 @@ use App\Customer\Domain\Operand;
 use App\Customer\Domain\Organization;
 use App\Customer\Domain\Person;
 use App\EasyAdmin\Controller\AbstractController;
+use App\Form\Model\OrderTOPart;
 use App\Form\Model\OrderTOService;
 use App\Form\Type\MoneyType;
 use App\Form\Type\OrderTOServiceType;
 use App\MC\Entity\McLine;
+use App\MC\Entity\McPart;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemPart;
@@ -41,9 +43,11 @@ use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use function explode;
 use function filter_var;
+use Generator;
 use function in_array;
 use LogicException;
 use function mb_strtolower;
+use Money\Currency;
 use Money\Money;
 use function range;
 use function sprintf;
@@ -151,7 +155,25 @@ final class OrderController extends AbstractController
                 continue;
             }
 
-            $services[$line->getId()] = OrderTOService::from($line);
+            $services[$line->getId()] = new OrderTOService(
+                $line->work->name,
+                $line->work->price,
+                (function (array $parts): Generator {
+                    foreach ($parts as $part) {
+                        assert($part instanceof McPart);
+
+                        yield (int) $part->getId() => new OrderTOPart(
+                            $part->partId,
+                            $part->quantity,
+                            new Money(0, new Currency('RUB')),
+                            $part->recommended,
+                            !$part->recommended,
+                        );
+                    }
+                })($line->parts->toArray()),
+                !$line->recommended,
+                $line->recommended
+            );
         }
 
         $form = $this->createFormBuilder(['services' => $services])
@@ -185,7 +207,7 @@ final class OrderController extends AbstractController
 
                     $orderItemPart = new OrderItemPart(
                         $order,
-                        $part->part,
+                        $part->partId,
                         $part->quantity,
                         $part->price,
                     );

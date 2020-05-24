@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Stockpile\EventListener;
 
-use App\Order\Entity\Order;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Event\OrderClosed;
-use App\Part\Domain\Part;
+use App\Part\Domain\PartId;
 use App\Part\Event\PartAccrued;
 use App\Part\Event\PartDecreased;
 use App\Part\Manager\PartManager;
@@ -15,9 +14,7 @@ use App\State;
 use App\Stockpile\Manager\StockpileManager;
 use function array_values;
 use function count;
-use LogicException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -43,38 +40,39 @@ final class StockpileListener implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            PartAccrued::class => 'onPartMove',
-            PartDecreased::class => 'onPartMove',
+            PartAccrued::class => 'onPartAccrued',
+            PartDecreased::class => 'onPartDecreased',
             OrderClosed::class => 'onPartOrderClose',
         ];
     }
 
-    public function onPartMove(GenericEvent $event): void
+    public function onPartAccrued(PartAccrued $event): void
     {
-        $part = $event->getSubject();
-        if (!$part instanceof Part) {
-            throw new LogicException('Part required.');
-        }
+        $this->actualize($event->getSubject());
+    }
 
+    public function onPartDecreased(PartDecreased $event): void
+    {
+        $this->actualize($event->getSubject());
+    }
+
+    public function actualize(PartId $partId): void
+    {
         $this->stockpileManager->actualize([
-            [$part->getId(), $this->state->tenant(), $this->partManager->inStock($part)],
+            [$partId, $this->state->tenant(), $this->partManager->inStock($partId)],
         ]);
     }
 
-    public function onPartOrderClose(GenericEvent $event): void
+    public function onPartOrderClose(OrderClosed $event): void
     {
         $order = $event->getSubject();
-        if (!$order instanceof Order) {
-            throw new LogicException('Order required.');
-        }
 
         $values = [];
         foreach ($order->getItems(OrderItemPart::class) as $item) {
             /** @var OrderItemPart $item */
-            $part = $item->getPart();
+            $partId = $item->getPartId();
 
-            $id = $part->getId();
-            $values[$id] = [$id, $this->state->tenant(), $this->partManager->inStock($part)];
+            $values[$partId->toString()] = [$partId, $this->state->tenant(), $this->partManager->inStock($partId)];
         }
 
         if (0 === count($values)) {

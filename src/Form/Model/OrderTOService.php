@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Form\Model;
 
-use App\MC\Entity\McLine;
-use App\MC\Entity\McPart;
-use function assert;
+use function iterator_to_array;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
+use Traversable;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -30,26 +29,12 @@ final class OrderTOService
 
     public bool $recommend;
 
-    public function __construct(string $service, Money $price, array $parts, bool $selected, bool $recommend)
+    public function __construct(string $service, Money $price, Traversable $parts, bool $selected, bool $recommend)
     {
         $this->service = $service;
         $this->price = $price;
-        $this->parts = $parts;
+        $this->parts = iterator_to_array($parts);
         $this->selected = $selected;
         $this->recommend = $recommend;
-    }
-
-    public static function from(McLine $line): self
-    {
-        $work = $line->work;
-
-        $parts = [];
-        foreach ($line->parts as $part) {
-            assert($part instanceof McPart);
-
-            $parts[(int) $part->getId()] = OrderTOPart::from($part);
-        }
-
-        return new self($work->name, $work->price, $parts, !$line->recommended, $line->recommended);
     }
 }

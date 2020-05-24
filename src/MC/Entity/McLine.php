@@ -27,7 +27,7 @@ class McLine
     public McWork $work;
 
     /**
-     * @var Collection<int, McPart>|iterable
+     * @var Collection<int, McPart>
      *
      * @ORM\OneToMany(targetEntity=McPart::class, mappedBy="line")
      */

@@ -7,9 +7,9 @@ namespace App\MC\Controller;
 use App\EasyAdmin\Controller\AbstractController;
 use App\MC\Entity\McLine;
 use App\MC\Entity\McPart;
+use App\MC\Form\McPartDto;
 use function assert;
 use LogicException;
-use stdClass;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -19,22 +19,18 @@ final class PartController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function createNewEntity(): stdClass
+    protected function createNewEntity(): McPartDto
     {
-        $model = new stdClass();
+        $dto = $this->createWithoutConstructor(McPartDto::class);
 
         $line = $this->getEntity(McLine::class);
         if (!$line instanceof McLine) {
             throw new LogicException('Line required.');
         }
 
-        $model->id = null;
-        $model->line = $line;
-        $model->part = null;
-        $model->quantity = null;
-        $model->recommended = null;
+        $dto->line = $line;
 
-        return $model;
+        return $dto;
     }
 
     /**
@@ -42,10 +38,10 @@ final class PartController extends AbstractController
      */
     protected function persistEntity($entity): McPart
     {
-        $model = $entity;
-        assert($model instanceof stdClass);
+        $dto = $entity;
+        assert($dto instanceof McPartDto);
 
-        $entity = new McPart($model->line, $model->part, $model->quantity, $model->recommended);
+        $entity = new McPart($dto->line, $dto->partId, $dto->quantity, $dto->recommended);
 
         parent::persistEntity($entity);
 

@@ -47,7 +47,7 @@ final class PartManager
         return $part->price;
     }
 
-    public function inStock(Part $part): int
+    public function inStock(PartId $partId): int
     {
         $em = $this->registry->manager(Motion::class);
 
@@ -55,9 +55,9 @@ final class PartManager
             return (int) $em->createQueryBuilder()
                 ->select('SUM(entity.quantity)')
                 ->from(Motion::class, 'entity')
-                ->groupBy('entity.part.id')
-                ->where('entity.part.id = :part')
-                ->setParameter('part', $part->getId())
+                ->groupBy('entity.partId')
+                ->where('entity.partId = :part')
+                ->setParameter('part', $partId)
                 ->getQuery()
                 ->getSingleResult(Query::HYDRATE_SINGLE_SCALAR);
         } catch (NoResultException $e) {
@@ -65,7 +65,7 @@ final class PartManager
         }
     }
 
-    public function inOrders(Part $part): array
+    public function inOrders(PartId $partId): array
     {
         $em = $this->registry->manager(Order::class);
 
@@ -73,10 +73,10 @@ final class PartManager
             ->select('entity')
             ->from(Order::class, 'entity')
             ->join(OrderItemPart::class, 'order_item_part', Join::WITH, 'order_item_part.order = entity')
-            ->where('order_item_part.part.id = :part')
+            ->where('order_item_part.part.part_id = :part')
             ->andWhere('entity.status NOT IN (:statuses)')
             ->orderBy('entity.id', 'DESC')
-            ->setParameter('part', $part->getId())
+            ->setParameter('part', $partId)
             ->setParameter('statuses', OrderStatus::closed())
             ->getQuery()
             ->getResult();
@@ -89,8 +89,8 @@ final class PartManager
         $right = $this->byId($rightId);
 
         $em->transactional(function (EntityManagerInterface $em) use ($left, $right): void {
-            $leftGroup = $this->findCross($left, $em);
-            $rightGroup = $this->findCross($right, $em);
+            $leftGroup = $this->findCross($left->partId);
+            $rightGroup = $this->findCross($right->partId);
 
             if (null === $leftGroup && null === $rightGroup) {
                 $em->persist(new PartCross($left, $right));
@@ -107,11 +107,12 @@ final class PartManager
         });
     }
 
-    public function uncross(Part $part): void
+    public function uncross(PartId $partId): void
     {
         $em = $this->registry->manager(Part::class);
 
-        $cross = $this->findCross($part, $em);
+        $part = $this->byId($partId);
+        $cross = $this->findCross($partId);
         assert($cross instanceof PartCross);
 
         $cross->removePart($part);
@@ -126,9 +127,9 @@ final class PartManager
     /**
      * @return Part[]
      */
-    public function getCrosses(Part $part): array
+    public function getCrosses(PartId $partId): array
     {
-        $cross = $this->findCross($part);
+        $cross = $this->findCross($partId);
         if (!$cross instanceof PartCross) {
             return [];
         }
@@ -139,15 +140,16 @@ final class PartManager
     /**
      * @return array<int, Part>
      */
-    public function crossesInStock(Part $part): array
+    public function crossesInStock(PartId $partId): array
     {
+        $part = $this->byId($partId);
         $crosses = [];
-        foreach ($this->getCrosses($part) as $cross) {
+        foreach ($this->getCrosses($partId) as $cross) {
             if ($part->equals($cross)) {
                 continue;
             }
 
-            if (0 < $this->inStock($cross)) {
+            if (0 < $this->inStock($cross->partId)) {
                 $crosses[] = $cross;
             }
         }
@@ -155,19 +157,19 @@ final class PartManager
         return $crosses;
     }
 
-    public function suggestPrice(Part $part): Money
+    public function suggestPrice(PartId $partId): Money
     {
-        $em = $this->registry->manager(IncomePart::class);
-        $suggestPrice = $part->price;
+        $suggestPrice = $this->byId($partId)->price;
 
-        $incomePart = $em->createQueryBuilder()
+        $incomePart = $this->registry->manager(IncomePart::class)
+            ->createQueryBuilder()
             ->select('entity')
             ->from(IncomePart::class, 'entity')
             ->where('entity.partId = :part')
             ->orderBy('entity.id', 'DESC')
             ->getQuery()
             ->setMaxResults(1)
-            ->setParameter('part', $part->toId())
+            ->setParameter('part', $partId)
             ->getOneOrNullResult();
 
         if ($incomePart instanceof IncomePart) {
@@ -181,11 +183,12 @@ final class PartManager
         return $suggestPrice;
     }
 
-    private function findCross(Part $part, EntityManagerInterface $em = null): ?PartCross
+    private function findCross(PartId $partId): ?PartCross
     {
-        $em = $em instanceof EntityManagerInterface ? $em : $this->registry->manager(PartCross::class);
+        $part = $this->byId($partId);
 
-        return $em->createQueryBuilder()
+        return $this->registry->manager(PartCross::class)
+            ->createQueryBuilder()
             ->select('entity')
             ->from(PartCross::class, 'entity')
             ->where(':part MEMBER OF entity.parts')

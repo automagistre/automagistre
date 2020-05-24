@@ -62,7 +62,7 @@ final class OrderStatusListener implements EventSubscriberInterface
                 return;
             }
 
-            $reservable = $this->reservationManager->reservable($item->getPart());
+            $reservable = $this->reservationManager->reservable($item->getPartId());
             if (($reserved + $reservable) < $required) {
                 return;
             }

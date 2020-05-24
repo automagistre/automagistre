@@ -1,555 +1,529 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="3.11.4@58e1d8e68e5098bf4fbfdfb420c38d563f882549">
-  <file src="src/Calendar/Controller/CalendarEntryController.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$dto-&gt;reason</code>
-    </PossiblyNullArgument>
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>CalendarEntryController</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Car/Controller/CarController.php">
-    <PossiblyFalseOperand occurrences="1">
-      <code>mb_strtolower($searchString)</code>
-    </PossiblyFalseOperand>
-    <PossiblyNullPropertyAssignment occurrences="1">
-      <code>$entity</code>
-    </PossiblyNullPropertyAssignment>
-    <PossiblyNullReference occurrences="1">
-      <code>setGosnomer</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="src/Car/Controller/RecommendationController.php">
-    <PossiblyNullArgument occurrences="3">
-      <code>$model-&gt;service</code>
-      <code>$model-&gt;price</code>
-      <code>$model-&gt;workerId</code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>toId</code>
-    </PossiblyNullReference>
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>RecommendationController</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Car/Controller/RecommendationPartController.php">
-    <PossiblyNullArgument occurrences="4">
-      <code>$model-&gt;price</code>
-      <code>$model-&gt;price</code>
-      <code>$model-&gt;partId</code>
-      <code>$model-&gt;price</code>
-    </PossiblyNullArgument>
-    <PossiblyNullArrayOffset occurrences="1">
-      <code>$forms</code>
-    </PossiblyNullArrayOffset>
-    <PossiblyNullReference occurrences="1">
-      <code>equal</code>
-    </PossiblyNullReference>
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>RecommendationPartController</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Car/Entity/Car.php">
-    <PossiblyFalseArgument occurrences="1">
-      <code>mb_convert_case($this-&gt;gosnomer, MB_CASE_UPPER, 'UTF-8')</code>
-    </PossiblyFalseArgument>
-    <PossiblyNullArgument occurrences="1">
-      <code>$type</code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>$this-&gt;recommendations</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="src/Car/Entity/Recommendation.php">
-    <PossiblyNullReference occurrences="1">
-      <code>entityOrNull</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="src/Car/Manager/RecommendationManager.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$this-&gt;registry-&gt;findBy(Part::class, ['partId' =&gt; $recommendationPart-&gt;partId])</code>
-      <code>$worker</code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>toId</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="src/Controller/EasyAdmin/AbstractController.php">
-    <InvalidArrayOffset occurrences="1">
-      <code>Costil::QUERY[$class]</code>
-    </InvalidArrayOffset>
-    <MissingConstructor occurrences="1">
-      <code>$registry</code>
-    </MissingConstructor>
-  </file>
-  <file src="src/Customer/Domain/Organization.php">
-    <PropertyNotSetInConstructor occurrences="2">
-      <code>$name</code>
-      <code>$address</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Customer/Domain/Person.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$this-&gt;lastname</code>
-      <code>$this-&gt;firstname</code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="src/Customer/Form/OperandTransactionModel.php">
-    <PropertyNotSetInConstructor occurrences="2">
-      <code>$recipient</code>
-      <code>$wallet</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Customer/Ports/EasyAdmin/OperandController.php">
-    <PossiblyFalseOperand occurrences="1">
-      <code>mb_strtolower($item)</code>
-    </PossiblyFalseOperand>
-    <PossiblyNullArgument occurrences="1">
-      <code>$entity</code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="src/Customer/Ports/EasyAdmin/OperandTransactionController.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$model-&gt;description</code>
-      <code>$transaction-&gt;getId()</code>
-    </PossiblyNullArgument>
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>OperandTransactionController</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Customer/Ports/EasyAdmin/PersonController.php">
-    <PossiblyFalseOperand occurrences="1">
-      <code>mb_strtolower($item)</code>
-    </PossiblyFalseOperand>
-  </file>
-  <file src="src/Customer/Validator/CustomerPhoneNotExists.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>$errorPath</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Customer/Validator/CustomerPhoneNotExistsValidator.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>CustomerPhoneNotExistsValidator</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/EasyAdmin/Form/AutocompleteType.php">
-    <PossiblyFalseReference occurrences="2">
-      <code>setData</code>
-      <code>getData</code>
-    </PossiblyFalseReference>
-  </file>
-  <file src="src/EasyAdmin/Notify/BalanceNotificationListener.php">
-    <PossiblyFalseArgument occurrences="1">
-      <code>json_encode($data, JSON_THROW_ON_ERROR)</code>
-    </PossiblyFalseArgument>
-  </file>
-  <file src="src/EasyAdmin/Notify/EntityNotificationListener.php">
-    <PossiblyFalseArgument occurrences="1">
-      <code>json_encode($data, JSON_THROW_ON_ERROR)</code>
-    </PossiblyFalseArgument>
-  </file>
-  <file src="src/Employee/Controller/EmployeeController.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>EmployeeController</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Employee/Entity/Employee.php">
-    <PossiblyNullReference occurrences="2">
-      <code>getFullName</code>
-      <code>getFullName</code>
-    </PossiblyNullReference>
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>$ratio</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Employee/Fixtures/EmployeeFixtures.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$person</code>
-    </PossiblyNullArgument>
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>EmployeeFixtures</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Entity/Embeddable/Relation.php">
-    <UndefinedThisPropertyFetch occurrences="2">
-      <code>$this-&gt;id</code>
-      <code>$this-&gt;id</code>
-    </UndefinedThisPropertyFetch>
-  </file>
-  <file src="src/EventListener/EventsListener.php">
-    <DeprecatedMethod occurrences="1">
-      <code>isEntity</code>
-    </DeprecatedMethod>
-  </file>
-  <file src="src/Expense/Controller/ExpenseItemController.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$entity-&gt;getDescription()</code>
-    </PossiblyNullArgument>
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>ExpenseItemController</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Form/Model/OrderGroup.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>OrderGroup</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Form/Model/OrderItemModel.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>$order</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Form/Model/OrderPart.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>OrderPart</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Form/Model/OrderService.php">
-    <PropertyNotSetInConstructor occurrences="2">
-      <code>$workerId</code>
-      <code>OrderService</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Form/Transformer/DivisoredNumberToLocalizedStringTransformer.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>preg_replace('/\s/', '', $value)</code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="src/Form/Type/OrderItemParentType.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$currentItem</code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="src/Income/Controller/IncomeController.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$supplier</code>
-      <code>$supplier</code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>toId</code>
-    </PossiblyNullReference>
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>IncomeController</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Income/Controller/IncomePartController.php">
-    <PossiblyNullArgument occurrences="3">
-      <code>$entity-&gt;getIncome()</code>
-      <code>$entity-&gt;partId</code>
-      <code>$entity-&gt;getIncome()</code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="2">
-      <code>isEditable</code>
-      <code>toId</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="src/Income/EventListener/AccrueIncomePartsListener.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$incomePart-&gt;getQuantity()</code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="src/Income/Fixtures/IncomeFixtures.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>IncomeFixtures</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Income/Fixtures/IncomePartFixtures.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>IncomePartFixtures</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Income/Manager/SupplierManager.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$this-&gt;registry-&gt;findBy(Operand::class, ['uuid' =&gt; $supplierId])</code>
-      <code>$income-&gt;getAccruedAmount()</code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="src/Income/View/IncomePartFormatter.php">
-    <PossiblyNullReference occurrences="1">
-      <code>toId</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="src/MC/Controller/EquipmentController.php">
-    <PossiblyFalseOperand occurrences="1">
-      <code>mb_strtolower($searchString)</code>
-    </PossiblyFalseOperand>
-  </file>
-  <file src="src/Migrations/Version20200511190211.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>Version20200511190211</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Migrations/Version20200512184714.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>Version20200512184714</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Order/Controller/OrderController.php">
-    <PossiblyFalseOperand occurrences="1">
-      <code>mb_strtolower($item)</code>
-    </PossiblyFalseOperand>
-    <PossiblyNullArgument occurrences="2">
-      <code>$order-&gt;getId()</code>
-      <code>$order-&gt;getId()</code>
-    </PossiblyNullArgument>
-    <PossiblyNullArrayOffset occurrences="1">
-      <code>$services</code>
-    </PossiblyNullArrayOffset>
-    <PossiblyNullReference occurrences="2">
-      <code>isFilled</code>
-      <code>isEditable</code>
-    </PossiblyNullReference>
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>OrderController</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Order/Controller/OrderItemController.php">
-    <PossiblyNullReference occurrences="1">
-      <code>getOrder</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="src/Order/Controller/OrderItemGroupController.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$model-&gt;name</code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="src/Order/Controller/OrderItemPartController.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$model-&gt;part</code>
-      <code>$model-&gt;price</code>
-    </PossiblyNullArgument>
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>OrderItemPartController</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Order/Controller/OrderItemServiceController.php">
-    <PossiblyFalseOperand occurrences="2">
-      <code>mb_strtolower($item)</code>
-      <code>mb_strtolower($searchString)</code>
-    </PossiblyFalseOperand>
-    <PossiblyNullArgument occurrences="3">
-      <code>$model-&gt;service</code>
-      <code>$model-&gt;price</code>
-      <code>$sortDirection</code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>toId</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="src/Order/Entity/Order.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$itemDiscount</code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="2">
-      <code>toId</code>
-      <code>multiply</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="src/Order/Entity/OrderItem.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$this-&gt;discount()</code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="src/Order/Entity/OrderItemService.php">
-    <PossiblyNullReference occurrences="1">
-      <code>toId</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="src/Order/Fixtures/OrderFixtures.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$part</code>
-    </PossiblyNullArgument>
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>OrderFixtures</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Order/Manager/OrderManager.php">
-    <PossiblyNullArgument occurrences="4">
-      <code>$payment-&gt;getDescription()</code>
-      <code>$order-&gt;getId()</code>
-      <code>$order-&gt;getId()</code>
-      <code>$order-&gt;getId()</code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="src/Part/Infrastructure/PartFormatter.php">
-    <PossiblyNullArrayOffset occurrences="1">
-      <code>self::FORMATS</code>
-    </PossiblyNullArrayOffset>
-  </file>
-  <file src="src/Part/Manager/DeficitManager.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>object</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>$em-&gt;getReference(Order::class, $id)</code>
-    </NullableReturnStatement>
-  </file>
-  <file src="src/Part/Manager/PartManager.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>Part</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>$this-&gt;registry-&gt;findBy(Part::class, ['partId' =&gt; $partId])</code>
-    </NullableReturnStatement>
-  </file>
-  <file src="src/Part/Ports/EasyAdmin/PartCaseDTO.php">
-    <PossiblyNullPropertyAssignmentValue occurrences="2">
-      <code>$part</code>
-      <code>$vehicle</code>
-    </PossiblyNullPropertyAssignmentValue>
-  </file>
-  <file src="src/Part/Ports/EasyAdmin/PartController.php">
-    <PossiblyFalseOperand occurrences="1">
-      <code>mb_strtolower(trim($searchString))</code>
-    </PossiblyFalseOperand>
-    <PossiblyNullArgument occurrences="3">
-      <code>$user-&gt;getId()</code>
-      <code>$user-&gt;getId()</code>
-      <code>$case-&gt;caseName</code>
-    </PossiblyNullArgument>
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>PartController</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Shared/ArgumentResolver/ArgumentResolver.php">
-    <PossiblyFalseArgument occurrences="1">
-      <code>get_class($representative[0])</code>
-    </PossiblyFalseArgument>
-    <PossiblyInvalidArgument occurrences="1">
-      <code>$representative[0]</code>
-    </PossiblyInvalidArgument>
-  </file>
-  <file src="src/Shared/Doctrine/ORM/Mapping/NamespaceNamingStrategy.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$string</code>
-      <code>$string</code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="src/Shared/Doctrine/Registry.php">
-    <InvalidArrayOffset occurrences="2">
-      <code>Costil::ENTITY[get_class($identifier)]</code>
-      <code>Costil::UUID_FIELDS[get_class($identifier)]</code>
-    </InvalidArrayOffset>
-    <RedundantConditionGivenDocblockType occurrences="1">
-      <code>assert($entityRepository instanceof EntityRepository)</code>
-    </RedundantConditionGivenDocblockType>
-    <RepositoryStringShortcut occurrences="1">
-      <code>$class</code>
-    </RepositoryStringShortcut>
-  </file>
-  <file src="src/Shared/Identifier/IdentifierRouterExtension.php">
-    <InvalidArrayOffset occurrences="2">
-      <code>Costil::ENTITY[$class]</code>
-      <code>Costil::EASYADMIN_CONFIG[$class]</code>
-    </InvalidArrayOffset>
-  </file>
-  <file src="src/Shared/Identifier/IdentifierTwigExtension.php">
-    <MissingClosureParamType occurrences="2">
-      <code>$mixed</code>
-      <code>$value</code>
-    </MissingClosureParamType>
-    <MissingClosureReturnType occurrences="1">
-      <code>fn (</code>
-    </MissingClosureReturnType>
-  </file>
-  <file src="src/Shared/Identifier/IdentifierType.php">
-    <PropertyNotSetInConstructor occurrences="2">
-      <code>$name</code>
-      <code>$class</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Shared/Request/EntityTransformer.php">
-    <RepositoryStringShortcut occurrences="1">
-      <code>$class</code>
-    </RepositoryStringShortcut>
-  </file>
-  <file src="src/Shared/Request/EntityTransformerArgumentValueResolver.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$argument-&gt;getType()</code>
-      <code>$argument-&gt;getType()</code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="src/Shared/Validator/EntityCheck.php">
-    <PropertyNotSetInConstructor occurrences="4">
-      <code>$message</code>
-      <code>$class</code>
-      <code>$fields</code>
-      <code>$errorPath</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Shared/Validator/EntityCheckValidator.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>EntityCheckValidator</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/State.php">
-    <PropertyNotSetInConstructor occurrences="2">
-      <code>$tenant</code>
-      <code>$user</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Stockpile/EventListener/StockpileListener.php">
-    <PossiblyNullArrayOffset occurrences="1">
-      <code>$values</code>
-    </PossiblyNullArrayOffset>
-  </file>
-  <file src="src/Tenant/EventListener/TenantRelationListener.php">
-    <RepositoryStringShortcut occurrences="1">
-      <code>$relationEntityClass</code>
-    </RepositoryStringShortcut>
-  </file>
-  <file src="src/User/Controller/UserController.php">
-    <PossiblyNullReference occurrences="1">
-      <code>get</code>
-    </PossiblyNullReference>
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>UserController</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/User/Entity/UserCredentials.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>$expiredAt</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/User/Fixtures/AdminFixtures.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>AdminFixtures</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/User/Fixtures/EmployeeFixtures.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>EmployeeFixtures</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/User/Fixtures/UserRelationFixtures.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>UserRelationFixtures</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Vehicle/Domain/Embeddable/Engine.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$this-&gt;name</code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="src/Vehicle/Infrastructure/Form/ModelDto.php">
-    <ImpurePropertyAssignment occurrences="1">
-      <code>$this-&gt;manufacturer</code>
-    </ImpurePropertyAssignment>
-  </file>
-  <file src="src/Vehicle/Ports/EasyAdmin/ModelController.php">
-    <PossiblyFalseOperand occurrences="1">
-      <code>mb_strtolower($item)</code>
-    </PossiblyFalseOperand>
-    <PossiblyNullArgument occurrences="1">
-      <code>$this-&gt;registry-&gt;findBy(Manufacturer::class, ['uuid' =&gt; $array['manufacturerId']])</code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="tests/SmokeTest.php">
-    <PossiblyInvalidArgument occurrences="1">
-      <code>self::ADDITIONAL_QUERY[$entity][$action] ?? []</code>
-    </PossiblyInvalidArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>get</code>
-    </PossiblyNullReference>
-  </file>
+    <file src="src/Calendar/Controller/CalendarEntryController.php">
+        <PossiblyNullArgument occurrences="1">
+            <code>$dto-&gt;reason</code>
+        </PossiblyNullArgument>
+        <PropertyNotSetInConstructor occurrences="1">
+            <code>CalendarEntryController</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/Car/Controller/CarController.php">
+        <PossiblyFalseOperand occurrences="1">
+            <code>mb_strtolower($searchString)</code>
+        </PossiblyFalseOperand>
+        <PossiblyNullPropertyAssignment occurrences="1">
+            <code>$entity</code>
+        </PossiblyNullPropertyAssignment>
+        <PossiblyNullReference occurrences="1">
+            <code>setGosnomer</code>
+        </PossiblyNullReference>
+    </file>
+    <file src="src/Car/Controller/RecommendationController.php">
+        <PossiblyNullArgument occurrences="3">
+            <code>$model-&gt;service</code>
+            <code>$model-&gt;price</code>
+            <code>$model-&gt;workerId</code>
+        </PossiblyNullArgument>
+        <PossiblyNullReference occurrences="1">
+            <code>toId</code>
+        </PossiblyNullReference>
+        <PropertyNotSetInConstructor occurrences="1">
+            <code>RecommendationController</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/Car/Controller/RecommendationPartController.php">
+        <PossiblyNullArgument occurrences="4">
+            <code>$model-&gt;price</code>
+            <code>$model-&gt;price</code>
+            <code>$model-&gt;partId</code>
+            <code>$model-&gt;price</code>
+        </PossiblyNullArgument>
+        <PossiblyNullArrayOffset occurrences="1">
+            <code>$forms</code>
+        </PossiblyNullArrayOffset>
+        <PossiblyNullReference occurrences="1">
+            <code>equal</code>
+        </PossiblyNullReference>
+        <PropertyNotSetInConstructor occurrences="1">
+            <code>RecommendationPartController</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/Car/Entity/Car.php">
+        <PossiblyFalseArgument occurrences="1">
+            <code>mb_convert_case($this-&gt;gosnomer, MB_CASE_UPPER, 'UTF-8')</code>
+        </PossiblyFalseArgument>
+        <PossiblyNullArgument occurrences="1">
+            <code>$type</code>
+        </PossiblyNullArgument>
+        <PossiblyNullReference occurrences="1">
+            <code>$this-&gt;recommendations</code>
+        </PossiblyNullReference>
+    </file>
+    <file src="src/Car/Entity/Recommendation.php">
+        <PossiblyNullReference occurrences="1">
+            <code>entityOrNull</code>
+        </PossiblyNullReference>
+    </file>
+    <file src="src/Car/Manager/RecommendationManager.php">
+        <PossiblyNullArgument occurrences="1">
+            <code>$worker</code>
+        </PossiblyNullArgument>
+        <PossiblyNullReference occurrences="1">
+            <code>toId</code>
+        </PossiblyNullReference>
+    </file>
+    <file src="src/Customer/Domain/Organization.php">
+        <PropertyNotSetInConstructor occurrences="2">
+            <code>$name</code>
+            <code>$address</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/Customer/Domain/Person.php">
+        <PossiblyNullArgument occurrences="2">
+            <code>$this-&gt;lastname</code>
+            <code>$this-&gt;firstname</code>
+        </PossiblyNullArgument>
+    </file>
+    <file src="src/Customer/Form/OperandTransactionModel.php">
+        <PropertyNotSetInConstructor occurrences="2">
+            <code>$recipient</code>
+            <code>$wallet</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/Customer/Ports/EasyAdmin/OperandController.php">
+        <PossiblyFalseOperand occurrences="1">
+            <code>mb_strtolower($item)</code>
+        </PossiblyFalseOperand>
+        <PossiblyNullArgument occurrences="1">
+            <code>$entity</code>
+        </PossiblyNullArgument>
+    </file>
+    <file src="src/Customer/Ports/EasyAdmin/OperandTransactionController.php">
+        <PossiblyNullArgument occurrences="2">
+            <code>$model-&gt;description</code>
+            <code>$transaction-&gt;getId()</code>
+        </PossiblyNullArgument>
+        <PropertyNotSetInConstructor occurrences="1">
+            <code>OperandTransactionController</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/Customer/Ports/EasyAdmin/PersonController.php">
+        <PossiblyFalseOperand occurrences="1">
+            <code>mb_strtolower($item)</code>
+        </PossiblyFalseOperand>
+    </file>
+    <file src="src/Customer/Validator/CustomerPhoneNotExists.php">
+        <PropertyNotSetInConstructor occurrences="1">
+            <code>$errorPath</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/Customer/Validator/CustomerPhoneNotExistsValidator.php">
+        <PropertyNotSetInConstructor occurrences="1">
+            <code>CustomerPhoneNotExistsValidator</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/EasyAdmin/Form/AutocompleteType.php">
+        <PossiblyFalseReference occurrences="2">
+            <code>setData</code>
+            <code>getData</code>
+        </PossiblyFalseReference>
+    </file>
+    <file src="src/EasyAdmin/Notify/BalanceNotificationListener.php">
+        <PossiblyFalseArgument occurrences="1">
+            <code>json_encode($data, JSON_THROW_ON_ERROR)</code>
+        </PossiblyFalseArgument>
+    </file>
+    <file src="src/EasyAdmin/Notify/EntityNotificationListener.php">
+        <PossiblyFalseArgument occurrences="1">
+            <code>json_encode($data, JSON_THROW_ON_ERROR)</code>
+        </PossiblyFalseArgument>
+    </file>
+    <file src="src/Employee/Controller/EmployeeController.php">
+        <PropertyNotSetInConstructor occurrences="1">
+            <code>EmployeeController</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/Employee/Entity/Employee.php">
+        <PossiblyNullReference occurrences="2">
+            <code>getFullName</code>
+            <code>getFullName</code>
+        </PossiblyNullReference>
+        <PropertyNotSetInConstructor occurrences="1">
+            <code>$ratio</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/Employee/Fixtures/EmployeeFixtures.php">
+        <PossiblyNullArgument occurrences="1">
+            <code>$person</code>
+        </PossiblyNullArgument>
+        <PropertyNotSetInConstructor occurrences="1">
+            <code>EmployeeFixtures</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/Entity/Embeddable/Relation.php">
+        <UndefinedThisPropertyFetch occurrences="2">
+            <code>$this-&gt;id</code>
+            <code>$this-&gt;id</code>
+        </UndefinedThisPropertyFetch>
+    </file>
+    <file src="src/EventListener/EventsListener.php">
+        <DeprecatedMethod occurrences="1">
+            <code>isEntity</code>
+        </DeprecatedMethod>
+    </file>
+    <file src="src/Expense/Controller/ExpenseItemController.php">
+        <PossiblyNullArgument occurrences="1">
+            <code>$entity-&gt;getDescription()</code>
+        </PossiblyNullArgument>
+        <PropertyNotSetInConstructor occurrences="1">
+            <code>ExpenseItemController</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/Form/Model/OrderGroup.php">
+        <PropertyNotSetInConstructor occurrences="1">
+            <code>OrderGroup</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/Form/Model/OrderItemModel.php">
+        <PropertyNotSetInConstructor occurrences="1">
+            <code>$order</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/Form/Model/OrderPart.php">
+        <PropertyNotSetInConstructor occurrences="2">
+            <code>$partId</code>
+            <code>OrderPart</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/Form/Model/OrderService.php">
+        <PropertyNotSetInConstructor occurrences="2">
+            <code>$workerId</code>
+            <code>OrderService</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/Form/Transformer/DivisoredNumberToLocalizedStringTransformer.php">
+        <PossiblyNullArgument occurrences="1">
+            <code>preg_replace('/\s/', '', $value)</code>
+        </PossiblyNullArgument>
+    </file>
+    <file src="src/Form/Type/OrderItemParentType.php">
+        <PossiblyNullArgument occurrences="1">
+            <code>$currentItem</code>
+        </PossiblyNullArgument>
+    </file>
+    <file src="src/Income/Controller/IncomeController.php">
+        <PossiblyNullArgument occurrences="2">
+            <code>$supplier</code>
+            <code>$supplier</code>
+        </PossiblyNullArgument>
+        <PossiblyNullReference occurrences="1">
+            <code>toId</code>
+        </PossiblyNullReference>
+        <PropertyNotSetInConstructor occurrences="1">
+            <code>IncomeController</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/Income/Controller/IncomePartController.php">
+        <PossiblyNullArgument occurrences="3">
+            <code>$entity-&gt;getIncome()</code>
+            <code>$entity-&gt;partId</code>
+            <code>$entity-&gt;getIncome()</code>
+        </PossiblyNullArgument>
+        <PossiblyNullReference occurrences="2">
+            <code>isEditable</code>
+            <code>toId</code>
+        </PossiblyNullReference>
+    </file>
+    <file src="src/Income/EventListener/AccrueIncomePartsListener.php">
+        <PossiblyNullArgument occurrences="2">
+            <code>$partId</code>
+            <code>$incomePart-&gt;getQuantity()</code>
+        </PossiblyNullArgument>
+    </file>
+    <file src="src/Income/Fixtures/IncomeFixtures.php">
+        <PropertyNotSetInConstructor occurrences="1">
+            <code>IncomeFixtures</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/Income/Fixtures/IncomePartFixtures.php">
+        <PropertyNotSetInConstructor occurrences="1">
+            <code>IncomePartFixtures</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/Income/Manager/SupplierManager.php">
+        <PossiblyNullArgument occurrences="2">
+            <code>$this-&gt;registry-&gt;findBy(Operand::class, ['uuid' =&gt; $supplierId])</code>
+            <code>$income-&gt;getAccruedAmount()</code>
+        </PossiblyNullArgument>
+    </file>
+    <file src="src/Income/View/IncomePartFormatter.php">
+        <PossiblyNullReference occurrences="1">
+            <code>toId</code>
+        </PossiblyNullReference>
+    </file>
+    <file src="src/MC/Controller/EquipmentController.php">
+        <PossiblyFalseOperand occurrences="1">
+            <code>mb_strtolower($searchString)</code>
+        </PossiblyFalseOperand>
+    </file>
+    <file src="src/Order/Controller/OrderController.php">
+        <PossiblyFalseOperand occurrences="1">
+            <code>mb_strtolower($item)</code>
+        </PossiblyFalseOperand>
+        <PossiblyNullArgument occurrences="2">
+            <code>$order-&gt;getId()</code>
+            <code>$order-&gt;getId()</code>
+        </PossiblyNullArgument>
+        <PossiblyNullArrayOffset occurrences="1">
+            <code>$services</code>
+        </PossiblyNullArrayOffset>
+        <PossiblyNullReference occurrences="2">
+            <code>isFilled</code>
+            <code>isEditable</code>
+        </PossiblyNullReference>
+        <PropertyNotSetInConstructor occurrences="1">
+            <code>OrderController</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/Order/Controller/OrderItemController.php">
+        <PossiblyNullReference occurrences="1">
+            <code>getOrder</code>
+        </PossiblyNullReference>
+    </file>
+    <file src="src/Order/Controller/OrderItemGroupController.php">
+        <PossiblyNullArgument occurrences="1">
+            <code>$model-&gt;name</code>
+        </PossiblyNullArgument>
+    </file>
+    <file src="src/Order/Controller/OrderItemPartController.php">
+        <PossiblyNullArgument occurrences="1">
+            <code>$model-&gt;price</code>
+        </PossiblyNullArgument>
+        <PropertyNotSetInConstructor occurrences="1">
+            <code>OrderItemPartController</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/Order/Controller/OrderItemServiceController.php">
+        <PossiblyFalseOperand occurrences="2">
+            <code>mb_strtolower($item)</code>
+            <code>mb_strtolower($searchString)</code>
+        </PossiblyFalseOperand>
+        <PossiblyNullArgument occurrences="3">
+            <code>$model-&gt;service</code>
+            <code>$model-&gt;price</code>
+            <code>$sortDirection</code>
+        </PossiblyNullArgument>
+        <PossiblyNullReference occurrences="1">
+            <code>toId</code>
+        </PossiblyNullReference>
+    </file>
+    <file src="src/Order/Entity/Order.php">
+        <PossiblyNullArgument occurrences="1">
+            <code>$itemDiscount</code>
+        </PossiblyNullArgument>
+        <PossiblyNullReference occurrences="2">
+            <code>toId</code>
+            <code>multiply</code>
+        </PossiblyNullReference>
+    </file>
+    <file src="src/Order/Entity/OrderItem.php">
+        <PossiblyNullArgument occurrences="1">
+            <code>$this-&gt;discount()</code>
+        </PossiblyNullArgument>
+    </file>
+    <file src="src/Order/Entity/OrderItemService.php">
+        <PossiblyNullReference occurrences="1">
+            <code>toId</code>
+        </PossiblyNullReference>
+    </file>
+    <file src="src/Order/Fixtures/OrderFixtures.php">
+        <PropertyNotSetInConstructor occurrences="1">
+            <code>OrderFixtures</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/Order/Manager/OrderManager.php">
+        <PossiblyNullArgument occurrences="4">
+            <code>$payment-&gt;getDescription()</code>
+            <code>$order-&gt;getId()</code>
+            <code>$order-&gt;getId()</code>
+            <code>$order-&gt;getId()</code>
+        </PossiblyNullArgument>
+    </file>
+    <file src="src/Part/Infrastructure/PartFormatter.php">
+        <PossiblyNullArrayOffset occurrences="1">
+            <code>self::FORMATS</code>
+        </PossiblyNullArrayOffset>
+    </file>
+    <file src="src/Part/Manager/DeficitManager.php">
+        <InvalidNullableReturnType occurrences="1">
+            <code>object</code>
+        </InvalidNullableReturnType>
+        <NullableReturnStatement occurrences="1">
+            <code>$em-&gt;getReference(Order::class, $id)</code>
+        </NullableReturnStatement>
+    </file>
+    <file src="src/Part/Manager/PartManager.php">
+        <InvalidNullableReturnType occurrences="1">
+            <code>Part</code>
+        </InvalidNullableReturnType>
+        <NullableReturnStatement occurrences="1">
+            <code>$this-&gt;registry-&gt;findBy(Part::class, ['partId' =&gt; $partId])</code>
+        </NullableReturnStatement>
+    </file>
+    <file src="src/Part/Ports/EasyAdmin/PartCaseDTO.php">
+        <PossiblyNullPropertyAssignmentValue occurrences="2">
+            <code>$part</code>
+            <code>$vehicle</code>
+        </PossiblyNullPropertyAssignmentValue>
+    </file>
+    <file src="src/Part/Ports/EasyAdmin/PartController.php">
+        <PossiblyFalseOperand occurrences="1">
+            <code>mb_strtolower(trim($searchString))</code>
+        </PossiblyFalseOperand>
+        <PossiblyNullArgument occurrences="3">
+            <code>$user-&gt;getId()</code>
+            <code>$user-&gt;getId()</code>
+            <code>$case-&gt;caseName</code>
+        </PossiblyNullArgument>
+        <PropertyNotSetInConstructor occurrences="1">
+            <code>PartController</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/Shared/ArgumentResolver/ArgumentResolver.php">
+        <PossiblyFalseArgument occurrences="1">
+            <code>get_class($representative[0])</code>
+        </PossiblyFalseArgument>
+        <PossiblyInvalidArgument occurrences="1">
+            <code>$representative[0]</code>
+        </PossiblyInvalidArgument>
+    </file>
+    <file src="src/Shared/Doctrine/ORM/Mapping/NamespaceNamingStrategy.php">
+        <PossiblyNullArgument occurrences="2">
+            <code>$string</code>
+            <code>$string</code>
+        </PossiblyNullArgument>
+    </file>
+    <file src="src/Shared/Doctrine/Registry.php">
+        <InvalidArrayOffset occurrences="3">
+            <code>Costil::UUID_FIELDS[get_class($criteria)]</code>
+            <code>Costil::ENTITY[get_class($identifier)]</code>
+            <code>Costil::UUID_FIELDS[get_class($identifier)]</code>
+        </InvalidArrayOffset>
+        <RedundantConditionGivenDocblockType occurrences="1">
+            <code>assert($entityRepository instanceof EntityRepository)</code>
+        </RedundantConditionGivenDocblockType>
+        <RepositoryStringShortcut occurrences="1">
+            <code>$class</code>
+        </RepositoryStringShortcut>
+    </file>
+    <file src="src/Shared/Identifier/IdentifierRouterExtension.php">
+        <InvalidArrayOffset occurrences="2">
+            <code>Costil::ENTITY[$class]</code>
+            <code>Costil::EASYADMIN_CONFIG[$class]</code>
+        </InvalidArrayOffset>
+    </file>
+    <file src="src/Shared/Identifier/IdentifierTwigExtension.php">
+        <MissingClosureParamType occurrences="2">
+            <code>$mixed</code>
+            <code>$value</code>
+        </MissingClosureParamType>
+        <MissingClosureReturnType occurrences="1">
+            <code>fn (</code>
+        </MissingClosureReturnType>
+    </file>
+    <file src="src/Shared/Identifier/IdentifierType.php">
+        <PropertyNotSetInConstructor occurrences="2">
+            <code>$name</code>
+            <code>$class</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/Shared/Request/EntityTransformer.php">
+        <RepositoryStringShortcut occurrences="1">
+            <code>$class</code>
+        </RepositoryStringShortcut>
+    </file>
+    <file src="src/Shared/Request/EntityTransformerArgumentValueResolver.php">
+        <PossiblyNullArgument occurrences="2">
+            <code>$argument-&gt;getType()</code>
+            <code>$argument-&gt;getType()</code>
+        </PossiblyNullArgument>
+    </file>
+    <file src="src/Shared/Validator/EntityCheck.php">
+        <PropertyNotSetInConstructor occurrences="4">
+            <code>$message</code>
+            <code>$class</code>
+            <code>$fields</code>
+            <code>$errorPath</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/Shared/Validator/EntityCheckValidator.php">
+        <PropertyNotSetInConstructor occurrences="1">
+            <code>EntityCheckValidator</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/State.php">
+        <PropertyNotSetInConstructor occurrences="1">
+            <code>$user</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/Tenant/EventListener/TenantRelationListener.php">
+        <RepositoryStringShortcut occurrences="1">
+            <code>$relationEntityClass</code>
+        </RepositoryStringShortcut>
+    </file>
+    <file src="src/User/Controller/UserController.php">
+        <PossiblyNullReference occurrences="1">
+            <code>get</code>
+        </PossiblyNullReference>
+        <PropertyNotSetInConstructor occurrences="1">
+            <code>UserController</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/User/Entity/UserCredentials.php">
+        <PropertyNotSetInConstructor occurrences="1">
+            <code>$expiredAt</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/User/Fixtures/AdminFixtures.php">
+        <PropertyNotSetInConstructor occurrences="1">
+            <code>AdminFixtures</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/User/Fixtures/EmployeeFixtures.php">
+        <PropertyNotSetInConstructor occurrences="1">
+            <code>EmployeeFixtures</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/User/Fixtures/UserRelationFixtures.php">
+        <PropertyNotSetInConstructor occurrences="1">
+            <code>UserRelationFixtures</code>
+        </PropertyNotSetInConstructor>
+    </file>
+    <file src="src/Vehicle/Domain/Embeddable/Engine.php">
+        <PossiblyNullArgument occurrences="1">
+            <code>$this-&gt;name</code>
+        </PossiblyNullArgument>
+    </file>
+    <file src="src/Vehicle/Infrastructure/Form/ModelDto.php">
+        <ImpurePropertyAssignment occurrences="1">
+            <code>$this-&gt;manufacturer</code>
+        </ImpurePropertyAssignment>
+    </file>
+    <file src="src/Vehicle/Ports/EasyAdmin/ModelController.php">
+        <PossiblyFalseOperand occurrences="1">
+            <code>mb_strtolower($item)</code>
+        </PossiblyFalseOperand>
+        <PossiblyNullArgument occurrences="1">
+            <code>$this-&gt;registry-&gt;findBy(Manufacturer::class, ['uuid' =&gt; $array['manufacturerId']])</code>
+        </PossiblyNullArgument>
+    </file>
+    <file src="tests/SmokeTest.php">
+        <PossiblyInvalidArgument occurrences="1">
+            <code>self::ADDITIONAL_QUERY[$entity][$action] ?? []</code>
+        </PossiblyInvalidArgument>
+        <PossiblyNullReference occurrences="1">
+            <code>get</code>
+        </PossiblyNullReference>
+    </file>
 </files>

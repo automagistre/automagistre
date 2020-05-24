@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\MC\Entity;
 
-use App\Part\Domain\Part;
+use App\Part\Domain\PartId;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -21,9 +21,9 @@ class McPart
     public ?McLine $line;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Part::class)
+     * @ORM\Column(type="part_id")
      */
-    public Part $part;
+    public PartId $partId;
 
     /**
      * @ORM\Column(type="integer")
@@ -35,10 +35,10 @@ class McPart
      */
     public bool $recommended;
 
-    public function __construct(McLine $line, Part $part, int $quantity, bool $recommended)
+    public function __construct(McLine $line, PartId $partId, int $quantity, bool $recommended)
     {
         $this->line = $line;
-        $this->part = $part;
+        $this->partId = $partId;
         $this->quantity = $quantity;
         $this->recommended = $recommended;
     }

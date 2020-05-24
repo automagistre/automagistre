@@ -32,6 +32,11 @@
                 <file name="src/EasyAdmin/Controller/AbstractController.php"/>
             </errorLevel>
         </MissingConstructor>
+        <PropertyNotSetInConstructor>
+            <errorLevel type="suppress">
+                <directory name="src/Migrations"/>
+            </errorLevel>
+        </PropertyNotSetInConstructor>
     </issueHandlers>
 
     <plugins>

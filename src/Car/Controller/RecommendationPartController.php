@@ -41,12 +41,14 @@ final class RecommendationPartController extends AbstractController
             throw new LogicException('CarRecommendationPart required.');
         }
 
-        $part = $this->partManager->byId($recommendationPart->partId);
+        $partId = $recommendationPart->partId;
 
-        $crosses = $this->partManager->crossesInStock($part);
+        $part = $this->partManager->byId($partId);
+
+        $crosses = $this->partManager->crossesInStock($partId);
 
         if ([] === $crosses) {
-            $this->addFlash('error', sprintf('У запчасти "%s" нет аналогов.', $this->display($part->toId())));
+            $this->addFlash('error', sprintf('У запчасти "%s" нет аналогов.', $this->display($partId)));
 
             return $this->redirectToReferrer();
         }
@@ -64,7 +66,7 @@ final class RecommendationPartController extends AbstractController
                 $recommendationPart->recommendation,
                 $cross->toId(),
                 $recommendationPart->quantity,
-                $isCurrent ? $recommendationPart->getPrice() : $this->partManager->suggestPrice($cross)
+                $isCurrent ? $recommendationPart->getPrice() : $this->partManager->suggestPrice($cross->toId())
             );
 
             $forms[$crossId] = $this->createFormBuilder($model, [
@@ -86,11 +88,15 @@ final class RecommendationPartController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $em = $this->registry->manager(RecommendationPart::class);
 
-                $em->transactional(function (EntityManagerInterface $em) use ($form, $recommendationPart, $part): void {
+                $em->transactional(function (EntityManagerInterface $em) use (
+                    $form,
+                    $recommendationPart,
+                    $partId
+                ): void {
                     /** @var RecommendationPartDTO $model */
                     $model = $form->getData();
 
-                    $isCurrent = $model->partId->equal($part->toId());
+                    $isCurrent = $model->partId->equal($partId);
 
                     if ($isCurrent) {
                         $recommendationPart->setPrice($model->price);

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Part\Domain;
 
-use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Tenant\Tenant;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -19,14 +18,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Stockpile
 {
-    use Identity;
-
     /**
-     * @ORM\ManyToOne(targetEntity="Part")
+     * @ORM\Id()
+     * @ORM\Column(type="part_id")
      */
-    public Part $part;
+    public PartId $partId;
 
     /**
+     * @ORM\Id()
      * @ORM\Column(type="tenant_enum")
      */
     public Tenant $tenant;
@@ -36,9 +35,9 @@ class Stockpile
      */
     public int $quantity;
 
-    public function __construct(Part $part, Tenant $tenant, int $quantity)
+    public function __construct(PartId $partId, Tenant $tenant, int $quantity)
     {
-        $this->part = $part;
+        $this->partId = $partId;
         $this->tenant = $tenant;
         $this->quantity = $quantity;
     }

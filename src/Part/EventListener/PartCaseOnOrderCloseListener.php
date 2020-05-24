@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Part\EventListener;
 
-use App\Order\Entity\Order;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Event\OrderClosed;
 use App\Part\Domain\PartCase;
@@ -13,9 +12,7 @@ use App\Vehicle\Domain\VehicleId;
 use function array_map;
 use function count;
 use Doctrine\DBAL\Connection;
-use LogicException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -39,12 +36,9 @@ final class PartCaseOnOrderCloseListener implements EventSubscriberInterface
         ];
     }
 
-    public function onOrderClosed(GenericEvent $event): void
+    public function onOrderClosed(OrderClosed $event): void
     {
         $order = $event->getSubject();
-        if (!$order instanceof Order) {
-            throw new LogicException('Order expected.');
-        }
 
         $carId = $order->getCarId();
         if (null === $carId) {
@@ -67,7 +61,7 @@ final class PartCaseOnOrderCloseListener implements EventSubscriberInterface
             return;
         }
 
-        $parts = array_map(fn (OrderItemPart $orderItemPart) => $orderItemPart->getPart()->toId()->toString(), $parts);
+        $parts = array_map(fn (OrderItemPart $orderItemPart) => $orderItemPart->getPartId()->toString(), $parts);
 
         $this->registry->connection(PartCase::class)
             ->executeUpdate(

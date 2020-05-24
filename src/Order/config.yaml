@@ -96,12 +96,17 @@ easy_admin:
             edit:
                 actions: ['delete']
                 fields:
-                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { disabled: true, class: App\Part\Domain\Part } }
+                    - { property: 'partId', type_options: { disabled: true } }
             form:
                 fields:
                     - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
                     - { property: 'parent', label: 'Работа / Группа', type: App\Form\Type\OrderItemParentType }
-                    - { property: 'part', label: 'Запчасть', type: 'easyadmin_autocomplete', type_options: { required: true, class: App\Part\Domain\Part } }
+                    -   property: 'partId'
+                        label: 'Запчасть'
+                        type: App\EasyAdmin\Form\AutocompleteType
+                        type_options:
+                            required: true
+                            class: App\Part\Domain\Part
                     - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType }
                     - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
                     - { property: 'warranty', label: 'По гарантии?' }

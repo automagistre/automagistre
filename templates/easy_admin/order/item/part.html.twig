@@ -2,7 +2,7 @@
 {%- apply spaceless -%}
 
     <td style="{%- include 'easy_admin/order/item/padding.html.twig' with {'level': level} -%}">
-        {%- include 'easy_admin/field_part.html.twig' with {'value': item.part} only -%}
+        {%- include 'easy_admin/field_part.html.twig' with {'value': part_by_id(item.partId)} only -%}
 
         {%- if item.warranty %}
             <span class="label label-success">Гарантия</span>
@@ -12,7 +12,7 @@
     <td>{{ item.discounted ? item.discount|localize_money }}</td>
 
     {% set price = item.price %}
-    {% set recommendPrice = part_suggest_price(item.part) %}
+    {% set recommendPrice = part_suggest_price(item.partId) %}
     {% set isLowerPrice = price.lessThan(recommendPrice) %}
 
     <td{% if isLowerPrice or price.isZero %} class="danger"{% endif %} style="{%- include 'easy_admin/order/item/padding.html.twig' with {'level': level} -%}">
@@ -30,7 +30,7 @@
     {% if order.editable %}
         <td>
             {%- apply spaceless -%}
-                {% set reservable = part_reservable(item.part) %}
+                {% set reservable = part_reservable(item.partId) %}
 
                 <span class="label label-primary">{{ reservable / 100 }}</span>
 

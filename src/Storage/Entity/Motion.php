@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Storage\Entity;
 
-use App\Entity\Embeddable\PartRelation;
 use App\Income\Entity\IncomePartId;
 use App\Order\Entity\OrderId;
-use App\Part\Domain\Part;
+use App\Part\Domain\PartId;
 use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Shared\Identifier\Identifier;
@@ -35,9 +34,9 @@ class Motion
     private int $quantity;
 
     /**
-     * @ORM\Embedded(class=PartRelation::class)
+     * @ORM\Column(type="part_id")
      */
-    private PartRelation $part;
+    private PartId $partId;
 
     /**
      * @ORM\Column(type="motion_source_enum")
@@ -55,22 +54,22 @@ class Motion
     private ?string $description;
 
     public function __construct(
-        Part $part,
+        PartId $partId,
         int $quantity,
         Source $source,
         UuidInterface $sourceId,
         string $description = null
     ) {
-        $this->part = new PartRelation($part);
+        $this->partId = $partId;
         $this->quantity = $quantity;
         $this->source = $source;
         $this->sourceId = $sourceId;
         $this->description = $description;
     }
 
-    public function getPart(): Part
+    public function getPartId(): PartId
     {
-        return $this->part->entity();
+        return $this->partId;
     }
 
     public function getQuantity(): int

@@ -117,7 +117,7 @@ final class PartController extends AbstractController
             throw new LogicException('Parts required.');
         }
 
-        $this->partManager->uncross($part);
+        $this->partManager->uncross($part->toId());
 
         return $this->redirectToReferrer();
     }
@@ -171,10 +171,10 @@ final class PartController extends AbstractController
             $user = $this->getUser();
             $description = sprintf('# Ручное пополнение - %s', $user->getId());
 
-            $em->persist(new Motion($part, $quantity, Source::manual(), $user->toId()->toUuid(), $description));
+            $em->persist(new Motion($part->toId(), $quantity, Source::manual(), $user->toId()->toUuid(), $description));
             $em->flush();
 
-            $this->event(new PartAccrued($part, [
+            $this->event(new PartAccrued($part->toId(), [
                 'quantity' => $quantity,
             ]));
 
@@ -205,10 +205,10 @@ final class PartController extends AbstractController
             $user = $this->getUser();
             $description = sprintf('# Ручное списание - %s', $user->getId());
 
-            $em->persist(new Motion($part, 0 - $quantity, Source::manual(), $user->toId()->toUuid(), $description));
+            $em->persist(new Motion($part->toId(), 0 - $quantity, Source::manual(), $user->toId()->toUuid(), $description));
             $em->flush();
 
-            $this->event(new PartDecreased($part, [
+            $this->event(new PartDecreased($part->toId(), [
                 'quantity' => $quantity,
             ]));
 
@@ -227,23 +227,23 @@ final class PartController extends AbstractController
     protected function renderTemplate($actionName, $templatePath, array $parameters = []): Response
     {
         if ('show' === $actionName) {
-            $entity = $parameters['entity'];
-            assert($entity instanceof Part);
+            $part = $parameters['entity'];
+            assert($part instanceof Part);
 
-            $parameters['inStock'] = $this->partManager->inStock($entity);
-            $parameters['orders'] = $this->partManager->inOrders($entity);
+            $parameters['inStock'] = $this->partManager->inStock($part->toId());
+            $parameters['orders'] = $this->partManager->inOrders($part->toId());
             $parameters['reservedIn'] = array_map(
                 fn (Order $order): int => (int) $order->getId(),
-                $this->reservationManager->orders($entity)
+                $this->reservationManager->orders($part->partId)
             );
-            $parameters['reserved'] = $this->reservationManager->reserved($entity);
-            $parameters['crosses'] = $this->partManager->getCrosses($entity);
+            $parameters['reserved'] = $this->reservationManager->reserved($part->toId());
+            $parameters['crosses'] = $this->partManager->getCrosses($part->toId());
 
             $parameters['carModels'] = $this->registry->repository(Model::class)
                 ->createQueryBuilder('carModel')
                 ->join(PartCase::class, 'partCase', Join::WITH, 'carModel.uuid = partCase.vehicleId')
                 ->where('partCase.partId = :part')
-                ->setParameter('part', $entity->toId())
+                ->setParameter('part', $part->toId())
                 ->getQuery()
                 ->getResult(AbstractQuery::HYDRATE_ARRAY);
         }
@@ -336,7 +336,7 @@ final class PartController extends AbstractController
             Stockpile::class,
             'stockpile',
             Join::WITH,
-            'stockpile.part = part AND stockpile.tenant = :tenant'
+            'stockpile.partId = part.partId AND stockpile.tenant = :tenant'
         )
             ->setParameter('tenant', $state->tenant())
             ->groupBy('part.id')
@@ -364,19 +364,19 @@ final class PartController extends AbstractController
         $carModel = $this->getEntity(Model::class);
         $useCarModelInFormat = false === strpos($queryString, '+');
 
-        $normalizer = function (Part $entity, bool $analog = false) use (
+        $normalizer = function (Part $part, bool $analog = false) use (
             $carModel,
             $useCarModelInFormat,
             $isUuid
         ): array {
             $text = sprintf(
                 '%s (Склад: %s) | %s',
-                $this->display($entity->toId()),
-                $this->partManager->inStock($entity) / 100,
-                $this->formatter->format($entity->price),
+                $this->display($part->toId()),
+                $this->partManager->inStock($part->toId()) / 100,
+                $this->formatter->format($part->price),
             );
 
-            if ($carModel instanceof Model && $useCarModelInFormat && !$entity->universal) {
+            if ($carModel instanceof Model && $useCarModelInFormat && !$part->universal) {
                 $text = sprintf('[%s] %s', $this->display($carModel->toId()), $text);
             }
 
@@ -385,7 +385,7 @@ final class PartController extends AbstractController
             }
 
             return [
-                'id' => $isUuid ? $entity->toId()->toString() : $entity->getId(),
+                'id' => $isUuid ? $part->toId()->toString() : $part->getId(),
                 'text' => $text,
             ];
         };
@@ -396,12 +396,12 @@ final class PartController extends AbstractController
                 /* @var $part Part */
                 $data[] = $normalizer($part);
 
-                foreach ($this->partManager->getCrosses($part) as $cross) {
+                foreach ($this->partManager->getCrosses($part->toId()) as $cross) {
                     if ($cross->getId() === $part->getId()) {
                         continue;
                     }
 
-                    if (0 < $this->partManager->inStock($cross)) {
+                    if (0 < $this->partManager->inStock($cross->partId)) {
                         $data[] = $normalizer($cross, true);
                     }
                 }

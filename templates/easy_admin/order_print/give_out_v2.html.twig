@@ -60,18 +60,19 @@
                 </thead>
                 <tbody>
                 {% set totalQuantity = 0 %}
-                {% for part in order.items('part') %}
-                    {# @var part \App\Entity\OrderItemPart #}
+                {% for orderItemPart in order.items('part') %}
+                    {# @var orderItemPart \App\Order\Entity\OrderItemPart #}
+                    {% set part = part_by_id(orderItemPart.partId) %}
                     <tr>
                         <td class="check">
                             <div class="check-box"></div>
                         </td>
                         <td class="check">{{ loop.index }}</td>
                         {#<td class="uppercase">л2p6</td>#}
-                        <td>{{ part.part.name }} <strong>({{ part.part.manufacturerId|display_name }})</strong></td>
-                        <td><strong>{{ part.part.number }}</strong></td>
+                        <td>{{ part.name }} <strong>({{ part.manufacturerId|display_name }})</strong></td>
+                        <td><strong>{{ part.number }}</strong></td>
                         <td class="order-table__quantity">
-                            {% set quantity = part.quantity / 100 %}
+                            {% set quantity = orderItemPart.quantity / 100 %}
                             {% set totalQuantity = totalQuantity + quantity %}
                             <strong>{{ quantity }}</strong>
                         </td>

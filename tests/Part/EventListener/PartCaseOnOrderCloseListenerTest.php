@@ -3,14 +3,15 @@
 namespace App\Tests\Part\EventListener;
 
 use App\Order\Entity\Order;
+use App\Order\Event\OrderClosed;
 use App\Part\Domain\PartCase;
 use App\Part\EventListener\PartCaseOnOrderCloseListener;
 use App\Part\Infrastructure\Fixtures\GasketFixture;
 use App\Shared\Doctrine\Registry;
 use App\State;
 use App\Tenant\Tenant;
+use function assert;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 final class PartCaseOnOrderCloseListenerTest extends KernelTestCase
 {
@@ -22,7 +23,8 @@ final class PartCaseOnOrderCloseListenerTest extends KernelTestCase
         $registry = self::$container->get(Registry::class);
 
         $order = $registry->findBy(Order::class, ['id' => '1']);
-        self::$container->get(PartCaseOnOrderCloseListener::class)->onOrderClosed(new GenericEvent($order));
+        assert($order instanceof Order);
+        self::$container->get(PartCaseOnOrderCloseListener::class)->onOrderClosed(new OrderClosed($order));
 
         $partCase = $registry->findBy(PartCase::class, ['partId' => GasketFixture::ID]);
 

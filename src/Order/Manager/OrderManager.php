@@ -78,14 +78,14 @@ final class OrderManager
 
             foreach ($order->getItems(OrderItemPart::class) as $item) {
                 /** @var OrderItemPart $item */
-                $part = $item->getPart();
+                $partId = $item->getPartId();
                 $quantity = $item->getQuantity();
 
                 if (0 !== $this->reservationManager->reserved($item)) {
                     $this->reservationManager->deReserve($item, $quantity);
                 }
 
-                $em->persist(new Motion($part, 0 - $quantity, Source::order(), $order->toId()->toUuid()));
+                $em->persist(new Motion($partId, 0 - $quantity, Source::order(), $order->toId()->toUuid()));
             }
 
             foreach ($order->getItems(OrderItemService::class) as $item) {

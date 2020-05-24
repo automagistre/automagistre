@@ -12,7 +12,6 @@ use App\Order\Entity\Order;
 use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Entity\OrderItemService;
-use App\Part\Domain\Part;
 use App\Shared\Doctrine\Registry;
 use App\State;
 use App\Storage\Exception\ReservationException;
@@ -55,7 +54,7 @@ final class RecommendationManager
         foreach ($recommendation->getParts() as $recommendationPart) {
             $orderItemPart = $orderItemParts[] = new OrderItemPart(
                 $order,
-                $this->registry->findBy(Part::class, ['partId' => $recommendationPart->partId]),
+                $recommendationPart->partId,
                 $recommendationPart->quantity,
                 $recommendationPart->getPrice(),
             );
@@ -122,7 +121,7 @@ final class RecommendationManager
 
                 $recommendation->addPart(new RecommendationPart(
                     $recommendation,
-                    $orderItemPart->getPart()->toId(),
+                    $orderItemPart->getPartId(),
                     $orderItemPart->getQuantity(),
                     $orderItemPart->getPrice(),
                     $orderItemPart->getCreatedBy()->toId()

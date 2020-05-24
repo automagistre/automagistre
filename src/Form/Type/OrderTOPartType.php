@@ -6,8 +6,11 @@ namespace App\Form\Type;
 
 use App\Form\Model\OrderTOPart;
 use App\Part\Domain\Part;
+use App\Part\Domain\PartId;
 use App\Part\Manager\PartManager;
 use App\Shared\Identifier\IdentifierFormatter;
+use function array_map;
+use function assert;
 use function count;
 use LogicException;
 use Symfony\Component\Form\AbstractType;
@@ -51,21 +54,21 @@ final class OrderTOPartType extends AbstractType
                     throw new LogicException('OrderTOPart expected.');
                 }
 
-                $part = $data->part;
+                $partId = $data->partId;
 
-                $analogs = $this->partManager->crossesInStock($part);
+                $analogs = $this->partManager->crossesInStock($partId);
                 $hasAnalog = 0 < count($analogs);
 
-                $choices = [$part];
+                $choices = [$partId];
                 if ($hasAnalog) {
-                    $choices = [...$choices, ...$analogs];
+                    $choices = [...$choices, ...array_map(fn (Part $part) => $part->toId(), $analogs)];
                 }
 
-                $form->add('part', ChoiceType::class, [
+                $form->add('partId', ChoiceType::class, [
                     'label' => 'Запчасть',
                     'choices' => $choices,
-                    'choice_label' => fn (Part $part) => $this->formatter->format($part->toId()),
-                    'choice_value' => 'id',
+                    'choice_label' => fn (PartId $partId) => $this->formatter->format($partId),
+                    'choice_value' => fn (PartId $partId) => $partId->toString(),
                     'expanded' => false,
                     'multiple' => false,
                     'disabled' => !$hasAnalog,
@@ -74,13 +77,11 @@ final class OrderTOPartType extends AbstractType
             ->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event): void {
                 $form = $event->getForm();
                 $model = $event->getData();
-                if (!$model instanceof OrderTOPart) {
-                    throw new LogicException('OrderTOPart expected.');
-                }
+                assert($model instanceof OrderTOPart);
 
                 $price = $form->get('price');
                 if (null === $price->getData()) {
-                    $price->setData($this->partManager->suggestPrice($model->part));
+                    $price->setData($this->partManager->suggestPrice($model->partId));
                 }
             });
     }

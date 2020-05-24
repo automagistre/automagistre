@@ -147,10 +147,10 @@
                     </thead>
                     <tbody>
                     {% for orderItemPart in order.items('part', true) %}
-                        {# @var orderItemPart \App\Entity\Tenant\OrderItemPart #}
+                        {# @var orderItemPart \App\Order\Entity\OrderItemPart #}
 
                         {% set position = position + 1 %}
-                        {% set part = orderItemPart.part %}
+                        {% set part = part_by_id(orderItemPart.partId) %}
                         {% set part_q = orderItemPart.quantity / 100 %}
                         <tr>
                             <td>{{ position }}</td>

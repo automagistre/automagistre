@@ -1,6 +1,6 @@
 {% extends 'easy_admin/default/new.html.twig' %}
 
-{% form_theme form.part with 'easy_admin/order_item_part/part_form.html.twig' %}
+{% form_theme form.partId with 'easy_admin/order_item_part/part_form.html.twig' %}
 
 {% use 'easy_admin/order/layout.html.twig' %}
 
@@ -17,10 +17,10 @@
     {{ form_row(form.parent, {'attr': {'class': 'ays-ignore'}}) }}
 
     <div class="form-group field-easyadmin_autocomplete">
-        {{ form_label(form.part) }}
+        {{ form_label(form.partId) }}
 
         <div class="input-group">
-            {{ form_widget(form.part) }}
+            {{ form_widget(form.partId) }}
             <div class="input-group-btn">
                 {% set referer = easyadmin_path('OrderItemPart', 'new', {'order_id': order.id, 'referer': app.request.query.get('referer'), 'token': formStorageToken}) %}
                 <a href="{{ easyadmin_path('Part', 'new', {'referer': referer|url_encode}) }}" class="btn btn-primary js-btn-part-new">
@@ -29,7 +29,7 @@
             </div>
         </div>
 
-        {{ form_errors(form.part) }}
+        {{ form_errors(form.partId) }}
     </div>
 
     {{ form_row(form.price, {'attr': {'class': 'ays-ignore'}}) }}
@@ -46,7 +46,7 @@
       const storageKey = 'orderItemPart-' + {{ formStorageToken }};
 
       let parentInput = $('#{{ form.parent.vars.id }}'),
-          partInput = $("#{{ form.part.children.autocomplete.vars.id }}"),
+          partInput = $("#{{ form.partId.children.autocomplete.vars.id }}"),
           costInput = $("#{{ form.price.vars.id }}"),
           quantityInput = $('#{{ form.quantity.vars.id }}'),
           warrantyInput = $('#{{ form.warranty.vars.id }}');
