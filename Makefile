@@ -136,7 +136,7 @@ phpstan-baseline: cache ### Update phpstan baseline
 phpunit: APP_ENV=test
 phpunit: APP_DEBUG=1
 phpunit: clear-log ### Run phpunit
-	$(APP) phpunit --stop-on-failure
+	$(APP) phpunit --stop-on-failure --testdox
 paratest: APP_ENV=test
 paratest: APP_DEBUG=1
 paratest: clear-log ### Run paratest
