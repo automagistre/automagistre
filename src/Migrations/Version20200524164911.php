@@ -18,10 +18,6 @@ final class Version20200524164911 extends AbstractMigration
         $this->skipIf(0 !== strpos($this->connection->getDatabase(), 'landlord'), 'landlord only');
 
         $this->addSql('ALTER TABLE stockpile ADD part_uuid UUID DEFAULT NULL');
-        // Data migration
-        $this->addSql('UPDATE stockpile SET part_uuid = b.uuid FROM (SELECT id, part_id AS uuid FROM part) b WHERE b.id = part_id');
-        // Data migration
-
         $this->addSql('DROP SEQUENCE stockpile_id_seq CASCADE');
         $this->addSql('ALTER TABLE stockpile DROP id');
         $this->addSql('ALTER TABLE stockpile DROP part_id');
