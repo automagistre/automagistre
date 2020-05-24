@@ -83,7 +83,7 @@ final class PartSellController extends AbstractController
             'source_order' => 'motion_source_enum',
         ]);
 
-        $ids = array_map(fn (array $item): int => $item['part_id'], $items);
+        $ids = array_map(fn (array $item): string => $item['part_id'], $items);
 
         $parts = $registry->manager(Part::class)->createQueryBuilder()
             ->select('part')

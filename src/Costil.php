@@ -71,7 +71,7 @@ final class Costil
         ManufacturerId::class => 'uuid',
         OperandId::class => 'uuid',
         OrderId::class => 'uuid',
-        PartId::class => 'partId',
+        PartId::class => 'id',
         UserId::class => 'uuid',
         VehicleId::class => 'uuid',
     ];

@@ -6,6 +6,7 @@ namespace App\Tests;
 
 use App\Calendar\Fixtures\CalendarEntryFixtures;
 use App\Income\Fixtures\IncomeFixtures;
+use App\Part\Infrastructure\Fixtures\GasketFixture;
 use function array_diff;
 use function array_keys;
 use function array_replace;
@@ -81,7 +82,8 @@ final class SmokeTest extends WebTestCase
             'new' => ['employee_id' => '1'],
         ],
         'Part' => [
-            'case' => ['part_id' => '1'],
+            'edit' => ['id' => GasketFixture::ID],
+            'case' => ['part_id' => GasketFixture::ID],
         ],
         'Income' => [
             'edit' => ['id' => IncomeFixtures::ID],

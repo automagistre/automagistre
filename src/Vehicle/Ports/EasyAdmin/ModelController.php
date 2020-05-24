@@ -66,7 +66,7 @@ final class ModelController extends AbstractController
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
 
         $data = array_map(fn (Model $entity) => [
-            'id' => $entity->getId(),
+            'id' => $query->has('use_uuid') ? $entity->toId()->toString() : $entity->getId(),
             'text' => $this->display($entity->toId(), 'long'),
         ], (array) $paginator->getCurrentPageResults());
 

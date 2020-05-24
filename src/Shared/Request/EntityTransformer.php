@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Shared\Request;
 
+use App\Shared\Identifier\Identifier;
 use function assert;
 use function class_exists;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -44,6 +45,9 @@ final class EntityTransformer
     {
         if (null === $id) {
             $id = $this->propertyAccessor->getValue($entity, 'id');
+            if ($id instanceof Identifier) {
+                $id = $id->toString();
+            }
         }
 
         $class = get_class($entity);

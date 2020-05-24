@@ -8,7 +8,7 @@ easy_admin:
             templates:
                 show: 'easy_admin/part/show.html.twig'
             show:
-                title: 'Запчасть № {{ entity.id }}'
+                title: '{{ entity.toId|display_name }}'
                 fields:
                     - { property: 'name', label: 'Название' }
                     - { property: 'manufacturerId', label: 'Производитель', template: 'easy_admin/field_identifier.html.twig' }

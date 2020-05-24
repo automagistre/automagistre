@@ -58,9 +58,9 @@ final class RecommendationPartController extends AbstractController
         /** @var FormInterface[] $forms */
         $forms = [];
         foreach ($crosses as $cross) {
-            $crossId = $cross->getId();
+            $crossId = $cross->toId()->toString();
 
-            $isCurrent = $part->getId() === $crossId;
+            $isCurrent = $part->equals($cross);
 
             $model = new RecommendationPartDTO(
                 $recommendationPart->recommendation,

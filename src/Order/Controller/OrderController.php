@@ -25,7 +25,7 @@ use App\Order\Event\OrderAppointmentMade;
 use App\Order\Event\OrderClosed;
 use App\Order\Event\OrderStatusChanged;
 use App\Order\Manager\OrderManager;
-use App\Part\Domain\Part;
+use App\Part\Domain\PartId;
 use App\Payment\Manager\PaymentManager;
 use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\IdentifierFormatter;
@@ -579,16 +579,16 @@ final class OrderController extends AbstractController
             ->leftJoin('entity.items', 'items')
             ->leftJoin('entity.suspends', 'suspends');
 
-        $part = $this->getEntity(Part::class);
-        if ($part instanceof Part) {
+        $partId = $this->getIdentifier(PartId::class);
+        if ($partId instanceof PartId) {
             $qb
                 ->join(OrderItemPart::class, 'order_item_part', Join::WITH, 'items.id = order_item_part.id AND order_item_part INSTANCE OF '.OrderItemPart::class)
-                ->andWhere('order_item_part.part.id = :part')
-                ->setParameter('part', $part->getId());
+                ->andWhere('order_item_part.partId = :part')
+                ->setParameter('part', $partId);
         }
 
         $request = $this->request;
-        if (null === $customer && null === $car && null === $part && !$request->query->has('all')) {
+        if (null === $customer && null === $car && null === $partId && !$request->query->has('all')) {
             $qb->where(
                 $qb->expr()->orX(
                     $qb->expr()->neq('entity.status', ':closedStatus'),

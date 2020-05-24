@@ -19,18 +19,23 @@ class PartCase
 {
     /**
      * @ORM\Id()
+     * @ORM\Column(type="part_case_id")
+     */
+    private PartCaseId $id;
+
+    /**
      * @ORM\Column(type="part_id")
      */
     private PartId $partId;
 
     /**
-     * @ORM\Id()
      * @ORM\Column(type="vehicle_id")
      */
     private VehicleId $vehicleId;
 
     public function __construct(PartId $part, VehicleId $vehicleId)
     {
+        $this->id = PartCaseId::generate();
         $this->partId = $part;
         $this->vehicleId = $vehicleId;
     }

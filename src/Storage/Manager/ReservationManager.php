@@ -150,7 +150,7 @@ final class ReservationManager
             ->from(Order::class, 'entity')
             ->join(OrderItemPart::class, 'order_item_part', Join::WITH, 'order_item_part.order = entity')
             ->join(Reservation::class, 'reservation', Join::WITH, 'reservation.orderItemPart = order_item_part')
-            ->where('order_item_part.part.part_id = :part')
+            ->where('order_item_part.partId = :part')
             ->orderBy('entity.id', 'DESC')
             ->setParameter('part', $partId)
             ->getQuery()

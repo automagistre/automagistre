@@ -36,7 +36,7 @@ final class PartManager
 
     public function byId(PartId $partId): Part
     {
-        return $this->registry->findBy(Part::class, ['partId' => $partId]);
+        return $this->registry->getBy(Part::class, ['id' => $partId]);
     }
 
     public function price(PartId $partId): Money
@@ -73,7 +73,7 @@ final class PartManager
             ->select('entity')
             ->from(Order::class, 'entity')
             ->join(OrderItemPart::class, 'order_item_part', Join::WITH, 'order_item_part.order = entity')
-            ->where('order_item_part.part.part_id = :part')
+            ->where('order_item_part.partId = :part')
             ->andWhere('entity.status NOT IN (:statuses)')
             ->orderBy('entity.id', 'DESC')
             ->setParameter('part', $partId)
@@ -89,8 +89,8 @@ final class PartManager
         $right = $this->byId($rightId);
 
         $em->transactional(function (EntityManagerInterface $em) use ($left, $right): void {
-            $leftGroup = $this->findCross($left->partId);
-            $rightGroup = $this->findCross($right->partId);
+            $leftGroup = $this->findCross($left->toId());
+            $rightGroup = $this->findCross($right->toId());
 
             if (null === $leftGroup && null === $rightGroup) {
                 $em->persist(new PartCross($left, $right));
@@ -149,7 +149,7 @@ final class PartManager
                 continue;
             }
 
-            if (0 < $this->inStock($cross->partId)) {
+            if (0 < $this->inStock($cross->toId())) {
                 $crosses[] = $cross;
             }
         }

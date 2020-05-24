@@ -6,9 +6,6 @@ namespace App\Part\Domain;
 
 use App\Entity\Discounted;
 use App\Manufacturer\Domain\ManufacturerId;
-use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 
@@ -20,12 +17,11 @@ use Money\Money;
  */
 class Part implements Discounted
 {
-    use Identity;
-
     /**
+     * @ORM\Id()
      * @ORM\Column(type="part_id", unique=true)
      */
-    public PartId $partId;
+    public PartId $id;
 
     /**
      * @ORM\Column(type="manufacturer_id")
@@ -53,20 +49,12 @@ class Part implements Discounted
     public Money $price;
 
     /**
-     * @var Collection<int, Part>
-     *
-     * @ORM\ManyToMany(targetEntity=Part::class)
-     * @ORM\JoinTable
-     */
-    public iterable $relation;
-
-    /**
      * @ORM\Embedded(class=Money::class)
      */
     private Money $discount;
 
     public function __construct(
-        PartId $partId,
+        PartId $id,
         ManufacturerId $manufacturerId,
         string $name,
         PartNumber $number,
@@ -74,13 +62,12 @@ class Part implements Discounted
         Money $price,
         Money $discount
     ) {
-        $this->partId = $partId;
+        $this->id = $id;
         $this->manufacturerId = $manufacturerId;
         $this->name = $name;
         $this->number = $number;
         $this->universal = $universal;
         $this->price = $price;
-        $this->relation = new ArrayCollection();
         $this->discount = $discount;
     }
 
@@ -91,7 +78,7 @@ class Part implements Discounted
 
     public function toId(): PartId
     {
-        return $this->partId;
+        return $this->id;
     }
 
     public function update(string $name, bool $universal, Money $price, Money $discount): void
@@ -104,7 +91,7 @@ class Part implements Discounted
 
     public function equals(self $part): bool
     {
-        return $part->getId() === $this->id;
+        return $part->toId()->equal($this->id);
     }
 
     public function isDiscounted(): bool

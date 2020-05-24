@@ -11,6 +11,7 @@ return [
     App\Income\Entity\IncomePartId::class => ['income_part_id'],
     App\Manufacturer\Domain\ManufacturerId::class => ['manufacturer_id'],
     App\Order\Entity\OrderId::class => ['order_id'],
+    App\Part\Domain\PartCaseId::class => ['part_case_id'],
     App\Part\Domain\PartId::class => ['part_id'],
     App\Storage\Entity\MotionId::class => ['motion_id'],
     App\User\Domain\UserId::class => ['user_id'],

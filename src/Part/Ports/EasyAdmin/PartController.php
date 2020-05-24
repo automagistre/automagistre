@@ -34,7 +34,6 @@ use function count;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
-use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use function explode;
 use function implode;
 use LogicException;
@@ -234,7 +233,7 @@ final class PartController extends AbstractController
             $parameters['orders'] = $this->partManager->inOrders($part->toId());
             $parameters['reservedIn'] = array_map(
                 fn (Order $order): int => (int) $order->getId(),
-                $this->reservationManager->orders($part->partId)
+                $this->reservationManager->orders($part->toId())
             );
             $parameters['reserved'] = $this->reservationManager->reserved($part->toId());
             $parameters['crosses'] = $this->partManager->getCrosses($part->toId());
@@ -336,7 +335,7 @@ final class PartController extends AbstractController
             Stockpile::class,
             'stockpile',
             Join::WITH,
-            'stockpile.partId = part.partId AND stockpile.tenant = :tenant'
+            'stockpile.partId = part.id AND stockpile.tenant = :tenant'
         )
             ->setParameter('tenant', $state->tenant())
             ->groupBy('part.id')
@@ -354,7 +353,6 @@ final class PartController extends AbstractController
     protected function autocompleteAction(): JsonResponse
     {
         $query = $this->request->query;
-        $isUuid = $query->has('use_uuid');
 
         $queryString = str_replace(['.', ',', '-', '_'], '', $query->get('query'));
         $qb = $this->createSearchQueryBuilder($query->get('entity'), $queryString, []);
@@ -364,11 +362,7 @@ final class PartController extends AbstractController
         $carModel = $this->getEntity(Model::class);
         $useCarModelInFormat = false === strpos($queryString, '+');
 
-        $normalizer = function (Part $part, bool $analog = false) use (
-            $carModel,
-            $useCarModelInFormat,
-            $isUuid
-        ): array {
+        $normalizer = function (Part $part, bool $analog = false) use ($carModel, $useCarModelInFormat): array {
             $text = sprintf(
                 '%s (Склад: %s) | %s',
                 $this->display($part->toId()),
@@ -385,7 +379,7 @@ final class PartController extends AbstractController
             }
 
             return [
-                'id' => $isUuid ? $part->toId()->toString() : $part->getId(),
+                'id' => $part->toId()->toString(),
                 'text' => $text,
             ];
         };
@@ -397,11 +391,11 @@ final class PartController extends AbstractController
                 $data[] = $normalizer($part);
 
                 foreach ($this->partManager->getCrosses($part->toId()) as $cross) {
-                    if ($cross->getId() === $part->getId()) {
+                    if ($cross->equals($part)) {
                         continue;
                     }
 
-                    if (0 < $this->partManager->inStock($cross->partId)) {
+                    if (0 < $this->partManager->inStock($cross->toId())) {
                         $data[] = $normalizer($cross, true);
                     }
                 }
@@ -440,7 +434,7 @@ final class PartController extends AbstractController
 
         $referer = $this->request->query->get('referer');
         if (null !== $referer) {
-            $this->setReferer(urldecode($referer).'&part_id='.$entity->getId());
+            $this->setReferer(urldecode($referer).'&part_id='.$entity->toId()->toString());
         }
 
         $this->event(new PartCreated($entity));
@@ -453,7 +447,7 @@ final class PartController extends AbstractController
         $arr = $closure();
 
         return new PartDto(
-            $arr['partId'],
+            $arr['id'],
             $arr['manufacturerId'],
             $arr['name'],
             $arr['number']->number,
@@ -472,7 +466,7 @@ final class PartController extends AbstractController
         assert($dto instanceof PartDto);
 
         /** @var Part $entity */
-        $entity = $this->registry->findBy(Part::class, ['partId' => $dto->partId]);
+        $entity = $this->registry->getBy(Part::class, $dto->partId);
 
         $entity->update(
             $dto->name,
@@ -498,21 +492,21 @@ final class PartController extends AbstractController
 
     protected function caseAction(): Response
     {
-        /** @var Part|null $part */
-        $part = $this->getEntity(Part::class);
-        if (!$part instanceof Part) {
+        $partId = $this->getIdentifier(PartId::class);
+        if (!$partId instanceof PartId) {
             throw new BadRequestHttpException('Part required.');
         }
 
-        $dto = new PartCaseDTO($part);
+        $dto = $this->createWithoutConstructor(PartCaseDTO::class);
+        $dto->partId = $partId;
 
         $form = $this->createFormBuilder($dto)
-            ->add('part', EasyAdminAutocompleteType::class, [
+            ->add('partId', AutocompleteType::class, [
                 'label' => 'Запчасть',
                 'class' => Part::class,
                 'disabled' => true,
             ])
-            ->add('vehicle', EasyAdminAutocompleteType::class, [
+            ->add('vehicleId', AutocompleteType::class, [
                 'label' => 'Модель',
                 'class' => Model::class,
                 'help' => 'Проивзодитель, Модель, Год, Поколение, Комплектация, Лошадинные силы',
@@ -522,13 +516,15 @@ final class PartController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->registry->manager(PartCase::class);
-            $em->persist(new PartCase($dto->part->toId(), $dto->vehicle->toId()));
+            $em->persist(new PartCase($dto->partId, $dto->vehicleId));
             $em->flush();
 
             return $this->redirectToReferrer();
         }
 
-        return $this->render('easy_admin/default/new.html.twig', [
+        return $this->render('easy_admin/simple.html.twig', [
+            'content_title' => 'Добавить кузов',
+            'button' => 'Добавить',
             'form' => $form->createView(),
             'entity_fields' => [],
             'entity' => $dto,

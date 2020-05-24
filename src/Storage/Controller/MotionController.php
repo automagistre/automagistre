@@ -6,6 +6,7 @@ namespace App\Storage\Controller;
 
 use App\EasyAdmin\Controller\AbstractController;
 use App\Part\Domain\Part;
+use App\Part\Domain\PartId;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -35,10 +36,10 @@ final class MotionController extends AbstractController
             $qb->andWhere('entity.quantity <= 0');
         }
 
-        $part = $this->getEntity(Part::class);
-        if ($part instanceof Part) {
-            $qb->andWhere('entity.part.id = :part')
-                ->setParameter('part', $part->getId());
+        $partId = $this->getIdentifier(PartId::class);
+        if ($partId instanceof PartId) {
+            $qb->andWhere('entity.id = :id')
+                ->setParameter('id', $partId);
         }
 
         return $qb;

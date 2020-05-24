@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\Part\Infrastructure;
 
-use App\Part\Domain\Part;
 use App\Part\Domain\PartId;
 use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
-use Doctrine\ORM\AbstractQuery;
 use function str_replace;
 
 final class PartFormatter implements IdentifierFormatterInterface
@@ -35,12 +33,7 @@ final class PartFormatter implements IdentifierFormatterInterface
      */
     public function format(IdentifierFormatter $formatter, Identifier $identifier, string $format = null): string
     {
-        $view = $this->registry->repository(Part::class)
-            ->createQueryBuilder('t')
-            ->where('t.partId = :id')
-            ->setParameter('id', $identifier)
-            ->getQuery()
-            ->getSingleResult(AbstractQuery::HYDRATE_ARRAY);
+        $view = $this->registry->view($identifier);
 
         return str_replace(
             [

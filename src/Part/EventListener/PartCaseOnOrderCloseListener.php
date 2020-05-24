@@ -7,11 +7,11 @@ namespace App\Part\EventListener;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Event\OrderClosed;
 use App\Part\Domain\PartCase;
+use App\Part\Domain\PartCaseId;
 use App\Shared\Doctrine\Registry;
 use App\Vehicle\Domain\VehicleId;
 use function array_map;
 use function count;
-use Doctrine\DBAL\Connection;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -63,22 +63,22 @@ final class PartCaseOnOrderCloseListener implements EventSubscriberInterface
 
         $parts = array_map(fn (OrderItemPart $orderItemPart) => $orderItemPart->getPartId()->toString(), $parts);
 
-        $this->registry->connection(PartCase::class)
-            ->executeUpdate(
-                'INSERT INTO part_case (part_id, vehicle_id)
-                    SELECT part_id, :vehicle
-                    FROM part 
-                    WHERE universal IS FALSE 
-                    AND part_id IN (:parts) 
-                ON CONFLICT DO NOTHING
-                ',
-                [
-                    'vehicle' => $vehicleId->toString(),
-                    'parts' => $parts,
-                ],
-                [
-                    'parts' => Connection::PARAM_STR_ARRAY,
-                ]
-            );
+        foreach ($parts as $part) {
+            $this->registry->connection(PartCase::class)
+                ->executeUpdate(
+                    'INSERT INTO part_case (id, part_id, vehicle_id)
+                        SELECT :id, id, :vehicle
+                        FROM part 
+                        WHERE universal IS FALSE 
+                        AND id = :part
+                    ON CONFLICT DO NOTHING
+                    ',
+                    [
+                        'id' => PartCaseId::generate()->toString(),
+                        'vehicle' => $vehicleId->toString(),
+                        'part' => $part,
+                    ]
+                );
+        }
     }
 }
