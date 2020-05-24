@@ -6,7 +6,6 @@ namespace App\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use function sprintf;
 use function strpos;
 
 final class Version20200518112411 extends AbstractMigration
@@ -25,20 +24,6 @@ final class Version20200518112411 extends AbstractMigration
         $this->addSql('ALTER TABLE calendar_entry DROP last_name');
         $this->addSql('ALTER TABLE calendar_entry DROP phone');
         $this->addSql('ALTER TABLE calendar_entry ADD worker_uuid UUID DEFAULT NULL');
-
-        //> Data migration
-        $ids = $this->connection->fetchAll('SELECT id, uuid FROM employee');
-        foreach ($ids as ['id' => $id, 'uuid' => $uuid]) {
-            $this->addSql(
-                sprintf(
-                    'UPDATE calendar_entry SET worker_uuid = \'%s\'::uuid WHERE worker_id = %s',
-                    $uuid,
-                    $id
-                )
-            );
-        }
-        //< Data migration
-
         $this->addSql('ALTER TABLE calendar_entry DROP worker_id');
         $this->addSql('ALTER TABLE calendar_entry RENAME worker_uuid TO worker_id');
 
