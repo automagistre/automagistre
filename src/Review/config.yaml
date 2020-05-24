@@ -20,7 +20,7 @@ easy_admin:
                     - { property: 'model', label: 'Модель автомобиля' }
                     - { property: 'content', label: 'Отзыв' }
                     - { property: 'source', label: 'Источник' }
-                    - { property: 'publishAt', label: 'Когда обудликова', type: 'date_immutable', type_options: { input: 'datetime_immutable' } }
+                    - { property: 'publishAt', label: 'Опубликована', type: 'date_immutable', type_options: { input: 'datetime_immutable' } }
             new:
                 title: 'Создать новый Отзыв'
                 form_options: { data_class: stdClass }
