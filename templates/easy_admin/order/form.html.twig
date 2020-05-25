@@ -14,6 +14,10 @@
       }
 
       let prefetchCars = function() {
+        if (!operandInput.val()) {
+          return;
+        }
+
         let url = autocompleteCarUrl.replace('__CUSTOMER__', operandInput.val());
 
         $.ajax({
@@ -44,6 +48,10 @@
         });
       };
       let prefetchClients = function() {
+        if (!carInput.val()) {
+          return;
+        }
+
         let url = autocompleteClientsUrl.replace('__CAR__', carInput.val());
 
         $.ajax({

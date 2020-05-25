@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Customer\Ports\EasyAdmin;
 
-use App\Car\Entity\Car;
 use App\Car\Repository\CarCustomerRepository;
 use App\Customer\Domain\Operand;
 use App\Customer\Domain\OperandNote;
@@ -149,7 +148,6 @@ class OperandController extends AbstractController
         if (null !== $carId) {
             $qb
                 ->leftJoin(Order::class, 'o', Join::WITH, 'o.customerId = operand.uuid')
-                ->leftJoin(Car::class, 'car', Join::WITH, 'car.uuid = o.carId')
                 ->orderBy('o.closedAt', 'DESC')
                 ->andWhere('o.carId = :car')
                 ->setParameter('car', $carId);
