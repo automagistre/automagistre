@@ -47,10 +47,10 @@ final class PartStockActualizationCommand extends Command
 
         $tenant = $this->state->tenant();
 
-        $values = $this->registry->repository(Motion::class)->createQueryBuilder('entity')
-            ->select('entity.part.id AS part_id, SUM(entity.quantity) AS quantity')
-            ->groupBy('entity.part.id')
-            ->having('SUM(entity.quantity) > 0')
+        $values = $this->registry->repository(Motion::class)
+            ->createQueryBuilder('entity')
+            ->select('entity.partId AS part_id, SUM(entity.quantity) AS quantity')
+            ->groupBy('entity.partId')
             ->getQuery()
             ->getArrayResult();
 
