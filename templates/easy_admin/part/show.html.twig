@@ -76,14 +76,18 @@
                                 </thead>
                                 <tbody>
                                 {% for order in orders %}
-                                    {# @var order \App\Entity\Order #}
+                                    {# @var order \App\Order\Entity\Order #}
                                     <tr>
                                         <td><a href="{{ easyadmin_path(order, 'show', {'part_id': entity.id}) }}">{{ order.id }}</a></td>
                                         <td>{{ include('easy_admin/order/field_status.html.twig', {'value': order.status, 'item': order}) }}</td>
                                         <td>
-                                            <a href="{{ easyadmin_path_by_id(order.carId, 'show', {'referer': true}) }}">
-                                                {{ order.carId|display_name('long') }}
-                                            </a>
+                                            {% if order.carId is not empty %}
+                                                <a href="{{ easyadmin_path_by_id(order.carId, 'show', {'referer': true}) }}">
+                                                    {{ order.carId|display_name('long') }}
+                                                </a>
+                                            {% else %}
+                                                {% include 'easy_admin/default/label_null.html.twig' %}
+                                            {% endif %}
                                         </td>
                                         <td>
                                             {% if order.id in reservedIn %}
