@@ -139,24 +139,6 @@ final class Registry
         return $this->manager($class)->getClassMetadata($class);
     }
 
-    /**
-     * @param mixed $entity
-     *
-     * @deprecated Must be removed with EventsListener
-     */
-    public function isEntity($entity): bool
-    {
-        if (is_object($entity)) {
-            $entity = get_class($entity);
-        }
-
-        if (!class_exists((string) $entity)) {
-            return false;
-        }
-
-        return null !== $this->managerOrNull($entity);
-    }
-
     public function view(Identifier $identifier): array
     {
         $class = Costil::ENTITY[get_class($identifier)];

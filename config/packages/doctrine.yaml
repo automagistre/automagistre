@@ -40,11 +40,6 @@ doctrine:
                     type: pool
                     pool: doctrine.metadata_cache.landlord_pool
                 mappings:
-                    landlord:
-                        type: annotation
-                        prefix: App\Entity\Landlord
-                        dir: '%kernel.project_dir%/src/Entity/Landlord'
-                        is_bundle: false
                     moneyphp: &moneyphp
                         type: xml
                         prefix: Money
