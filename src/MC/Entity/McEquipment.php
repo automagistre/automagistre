@@ -20,6 +20,11 @@ class McEquipment
     use Identity;
 
     /**
+     * @ORM\Column(type="mc_equipment_id")
+     */
+    public McEquipmentId $uuid;
+
+    /**
      * @ORM\ManyToOne(targetEntity=Model::class)
      */
     public ?Model $model = null;
@@ -45,6 +50,7 @@ class McEquipment
 
     public function __construct()
     {
+        $this->uuid = McEquipmentId::generate();
         $this->equipment = new CarEquipment();
         $this->lines = new ArrayCollection();
     }

@@ -9,6 +9,7 @@ return [
     App\Employee\Entity\EmployeeId::class => ['employee_id'],
     App\Income\Entity\IncomeId::class => ['income_id'],
     App\Income\Entity\IncomePartId::class => ['income_part_id'],
+    App\MC\Entity\McEquipmentId::class => ['mc_equipment_id'],
     App\Manufacturer\Domain\ManufacturerId::class => ['manufacturer_id'],
     App\Order\Entity\OrderId::class => ['order_id'],
     App\Part\Domain\PartCaseId::class => ['part_case_id'],
