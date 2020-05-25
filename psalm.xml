@@ -35,6 +35,9 @@
         <PropertyNotSetInConstructor>
             <errorLevel type="suppress">
                 <directory name="src/Migrations"/>
+                <file name="src/Shared/Enum/EnumODMType.php"/>
+                <file name="src/Shared/Identifier/ORM/IdentifierType.php"/>
+                <file name="src/Shared/Identifier/ODM/IdentifierType.php"/>
             </errorLevel>
         </PropertyNotSetInConstructor>
     </issueHandlers>

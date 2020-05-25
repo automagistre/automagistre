@@ -56,6 +56,15 @@ doctrine:
                         prefix: App\Vehicle\Domain\Embeddable
                         dir: '%kernel.project_dir%/src/Vehicle/Domain/Embeddable'
 
+doctrine_mongodb:
+    document_managers:
+        www:
+            mappings:
+                vehicle:
+                    type: annotation
+                    prefix: App\Vehicle
+                    dir: "%kernel.project_dir%/src/Vehicle"
+
 services:
     _defaults:
         public: false

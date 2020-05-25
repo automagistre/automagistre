@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Shared\Identifier;
+namespace App\Shared\Identifier\ORM;
 
+use App\Shared\Identifier\Identifier;
 use function assert;
-use function call_user_func;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
-use Ramsey\Uuid\UuidInterface;
+use function is_string;
+use Ramsey\Uuid\Uuid;
 
 final class IdentifierType extends Type
 {
@@ -33,24 +35,30 @@ final class IdentifierType extends Type
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
-        if ($value instanceof Identifier) {
-            return Type::getType('uuid')->convertToDatabaseValue($value->toUuid(), $platform);
+        if (null === $value || '' === $value) {
+            return null;
         }
 
-        return Type::getType('uuid')->convertToDatabaseValue($value, $platform);
+        if (is_string($value) && Uuid::isValid($value)) {
+            return $value;
+        }
+
+        if (!$value instanceof Identifier) {
+            throw ConversionException::conversionFailed($value, $this->name);
+        }
+
+        return $value->toString();
     }
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?Identifier
     {
-        $uuid = Type::getType('uuid')->convertToPHPValue($value, $platform);
-
-        if (!$uuid instanceof UuidInterface) {
+        if (null === $value || '' === $value) {
             return null;
         }
 
         /** @var callable $callable */
-        $callable = $this->class.'::fromUuid';
-        $identifier = call_user_func($callable, $uuid);
+        $callable = $this->class.'::fromString';
+        $identifier = $callable($value);
 
         assert($identifier instanceof Identifier);
 

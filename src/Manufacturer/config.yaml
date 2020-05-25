@@ -39,6 +39,15 @@ doctrine:
                         prefix: App\Manufacturer\Domain
                         dir: '%kernel.project_dir%/src/Manufacturer/Domain'
 
+doctrine_mongodb:
+    document_managers:
+        www:
+            mappings:
+                manufacturer:
+                    type: annotation
+                    prefix: App\Manufacturer\Documents
+                    dir: "%kernel.project_dir%/src/Manufacturer/Documents"
+
 services:
     _defaults:
         public: false

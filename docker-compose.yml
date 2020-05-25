@@ -83,3 +83,18 @@ services:
         image: alpine/socat:1.7.3.4-r0
         entrypoint: sh
         command: -c "socat tcp-listen:9000,fork,reuseaddr tcp-connect:$$(/sbin/ip route|awk '/default/ { print $$3 }'):9000"
+
+    mongo:
+        image: mongo:4.2.6
+        command: --serviceExecutor adaptive
+
+    mongo-express:
+        image: mongo-express:0.54.0
+        labels:
+            ru.grachevko.dhu: 'mongo-express.automagistre.local'
+        environment:
+            VCAP_APP_PORT: 80
+
+networks:
+    default:
+        name: automagistre

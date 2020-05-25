@@ -1,0 +1,8 @@
+doctrine_mongodb:
+    document_managers:
+        www:
+            mappings:
+                money:
+                    type: annotation
+                    prefix: App\Shared\Money\Documents
+                    dir: "%kernel.project_dir%/src/Shared/Money/Documents"

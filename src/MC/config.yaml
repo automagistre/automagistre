@@ -106,3 +106,12 @@ doctrine:
                         type: annotation
                         prefix: App\MC\Entity
                         dir: '%kernel.project_dir%/src/MC/Entity'
+
+doctrine_mongodb:
+    document_managers:
+        www:
+            mappings:
+                mc:
+                    type: annotation
+                    prefix: App\MC\Documents
+                    dir: "%kernel.project_dir%/src/MC/Documents"

@@ -1,16 +1,16 @@
 <?php
 
 return [
-    App\Calendar\Enum\DeletionReason::class => ['deletion_reason'],
-    App\Order\Enum\OrderStatus::class => ['order_status_enum'],
-    App\Shared\Enum\NoteType::class => ['note_type_enum'],
-    App\Shared\Enum\Transition::class => ['transition_enum'],
-    App\Storage\Enum\Source::class => ['motion_source_enum'],
-    App\Tenant\Tenant::class => ['tenant_enum'],
-    App\Vehicle\Enum\AirIntake::class => ['engine_air_intake'],
-    App\Vehicle\Enum\BodyType::class => ['carcase_enum'],
-    App\Vehicle\Enum\DriveWheelConfiguration::class => ['car_wheel_drive_enum'],
-    App\Vehicle\Enum\FuelType::class => ['engine_type_enum'],
-    App\Vehicle\Enum\Injection::class => ['engine_injection'],
-    App\Vehicle\Enum\Transmission::class => ['car_transmission_enum'],
+    App\Calendar\Enum\DeletionReason::class => ['deletion_reason', null],
+    App\Order\Enum\OrderStatus::class => ['order_status_enum', null],
+    App\Shared\Enum\NoteType::class => ['note_type_enum', null],
+    App\Shared\Enum\Transition::class => ['transition_enum', null],
+    App\Storage\Enum\Source::class => ['motion_source_enum', null],
+    App\Tenant\Tenant::class => ['tenant_enum', null],
+    App\Vehicle\Enum\AirIntake::class => ['engine_air_intake', 'name'],
+    App\Vehicle\Enum\BodyType::class => ['carcase_enum', 'name'],
+    App\Vehicle\Enum\DriveWheelConfiguration::class => ['car_wheel_drive_enum', 'code'],
+    App\Vehicle\Enum\FuelType::class => ['engine_type_enum', 'name'],
+    App\Vehicle\Enum\Injection::class => ['engine_injection', 'name'],
+    App\Vehicle\Enum\Transmission::class => ['car_transmission_enum', 'code'],
 ];

@@ -1,0 +1,10 @@
+doctrine_mongodb:
+    connections:
+        www:
+            server: mongodb://mongo:27017
+            options: {}
+    default_database: www
+    document_managers:
+        www:
+            connection: www
+            database: www
