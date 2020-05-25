@@ -304,7 +304,7 @@ final class PartController extends AbstractController
             $searchQuery = str_replace('  ', ' ', $searchQuery);
 
             $qb
-                ->leftJoin(PartCase::class, 'pc', Join::WITH, 'pc.partId = part.partId')
+                ->leftJoin(PartCase::class, 'pc', Join::WITH, 'pc.partId = part.id')
                 ->where($qb->expr()->orX(
                     $qb->expr()->in('pc.vehicleId', ':cases'),
                     $qb->expr()->eq('part.universal', ':universal')
