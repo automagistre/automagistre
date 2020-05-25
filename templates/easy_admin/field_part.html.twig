@@ -4,6 +4,10 @@
     {% set value = item %}
 {% endif %}
 
+{% if is_identifier(value) %}
+    {% set value = part_by_id(value) %}
+{% endif %}
+
 {% set referer = field_options.referer|default(true) %}
 
 {%- if value is not empty -%}

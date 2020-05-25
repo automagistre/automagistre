@@ -5,7 +5,7 @@
 
     {# @var part \App\Entity\Part #}
     {% if part is not empty %}
-        запчасти №{{ part.id }}
+        {{ part.id|display_name }}
     {% endif %}
 {% endblock %}
 
