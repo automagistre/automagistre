@@ -27,7 +27,7 @@ final class StockpileManager
         $valueString = implode(',', array_map(static function (array $item): string {
             [$partId, $tenant, $quantity] = $item;
 
-            return sprintf('(%s, %s, %s)', $partId, $tenant, $quantity);
+            return sprintf('(\'%s\', %s, %s)', $partId, $tenant, $quantity);
         }, $values));
 
         $sql = "INSERT INTO stockpile (part_id, tenant, quantity) VALUES {$valueString} ON CONFLICT (part_id, tenant) DO UPDATE SET quantity=EXCLUDED.quantity";
