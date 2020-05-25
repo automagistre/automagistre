@@ -1834,22 +1834,22 @@
         },
         {
             "name": "endroid/qr-code",
-            "version": "3.7.9",
+            "version": "3.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/endroid/qr-code.git",
-                "reference": "727c6b212d77e04c9f873877906068674a9f8c3e"
+                "reference": "a44bae807b5f3722695920e4e494a466cbd79bec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endroid/qr-code/zipball/727c6b212d77e04c9f873877906068674a9f8c3e",
-                "reference": "727c6b212d77e04c9f873877906068674a9f8c3e",
+                "url": "https://api.github.com/repos/endroid/qr-code/zipball/a44bae807b5f3722695920e4e494a466cbd79bec",
+                "reference": "a44bae807b5f3722695920e4e494a466cbd79bec",
                 "shasum": ""
             },
             "require": {
                 "bacon/bacon-qr-code": "^2.0",
                 "ext-gd": "*",
-                "khanamiryan/qrcode-detector-decoder": "^1.0.3",
+                "khanamiryan/qrcode-detector-decoder": "^1.0.2",
                 "myclabs/php-enum": "^1.5",
                 "php": ">=7.2",
                 "symfony/options-resolver": "^3.4||^4.4||^5.0",
@@ -1893,7 +1893,7 @@
                 "qr",
                 "qrcode"
             ],
-            "time": "2020-04-25T15:40:37+00:00"
+            "time": "2020-05-25T20:02:47+00:00"
         },
         {
             "name": "endroid/qr-code-bundle",
