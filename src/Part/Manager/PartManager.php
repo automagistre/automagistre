@@ -41,10 +41,7 @@ final class PartManager
 
     public function price(PartId $partId): Money
     {
-        /** @var Part $part */
-        $part = $this->registry->findBy(Part::class, ['partId' => $partId]);
-
-        return $part->price;
+        return $this->byId($partId)->price;
     }
 
     public function inStock(PartId $partId): int
