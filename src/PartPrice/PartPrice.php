@@ -36,7 +36,7 @@ final class PartPrice
             ->setMaxResults(1)
             ->getOneOrNullResult(AbstractQuery::HYDRATE_ARRAY);
 
-        return new Money($view['price.amount'], new Currency($view['price.currency.code']));
+        return new Money($view['price.amount'] ?? 0, new Currency($view['price.currency.code'] ?? 'RUB'));
     }
 
     public function discount(PartId $partId): ?Money
