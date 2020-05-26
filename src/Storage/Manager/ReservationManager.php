@@ -13,6 +13,7 @@ use App\Part\Event\PartReserved;
 use App\Part\Manager\PartManager;
 use App\Shared\Doctrine\Registry;
 use App\Storage\Exception\ReservationException;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
@@ -108,7 +109,7 @@ final class ReservationManager
     /**
      * @param PartId|OrderItemPart $part
      *
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function reserved($part): int
     {

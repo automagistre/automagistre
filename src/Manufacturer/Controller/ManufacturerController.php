@@ -8,13 +8,14 @@ use App\EasyAdmin\Controller\AbstractController;
 use App\Manufacturer\Entity\Manufacturer;
 use function array_map;
 use function str_replace;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 final class ManufacturerController extends AbstractController
 {
     /**
      * {@inheritdoc}
      */
-    protected function autocompleteAction(): \Symfony\Component\HttpFoundation\JsonResponse
+    protected function autocompleteAction(): JsonResponse
     {
         $request = $this->request;
         $isUuid = $request->query->has('use_uuid');
