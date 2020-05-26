@@ -48,7 +48,6 @@ use Generator;
 use function in_array;
 use LogicException;
 use function mb_strtolower;
-use Money\Currency;
 use Money\Money;
 use function range;
 use function sprintf;
@@ -169,7 +168,7 @@ final class OrderController extends AbstractController
                         yield (int) $part->getId() => new OrderTOPart(
                             $part->partId,
                             $part->quantity,
-                            new Money(0, new Currency('RUB')),
+                            $this->partPrice->sell($part->partId),
                             $part->recommended,
                             !$part->recommended,
                         );
