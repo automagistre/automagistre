@@ -23,6 +23,7 @@ use App\Part\Form\PartDto;
 use App\Part\Manager\DeficitManager;
 use App\Part\Manager\PartManager;
 use App\PartPrice\Entity\Discount;
+use App\PartPrice\Entity\Price;
 use App\PartPrice\PartPrice;
 use App\State;
 use App\Storage\Entity\Motion;
@@ -245,7 +246,7 @@ final class PartController extends AbstractController
             $parameters['crosses'] = $this->partManager->getCrosses($part->toId());
 
             $parameters['prices'] = $this->registry->viewListBy(
-                PartPrice::class,
+                Price::class,
                 ['partId' => $part->toId()],
                 ['since' => 'DESC'],
             );
@@ -448,8 +449,8 @@ final class PartController extends AbstractController
 
         parent::persistEntity($entity);
 
-        $tenant = $this->registry->manager(PartPrice::class);
-        $tenant->persist(new \App\PartPrice\Entity\Price($partId, $model->price, new DateTimeImmutable()));
+        $tenant = $this->registry->manager(Price::class);
+        $tenant->persist(new Price($partId, $model->price, new DateTimeImmutable()));
         if ($model->discount->isPositive()) {
             $tenant->persist(new Discount($partId, $model->discount, new DateTimeImmutable()));
         }
