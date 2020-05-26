@@ -6,7 +6,6 @@ namespace App\Part\Entity;
 
 use App\Manufacturer\Entity\ManufacturerId;
 use Doctrine\ORM\Mapping as ORM;
-use Money\Money;
 
 /**
  * @ORM\Table(name="part", uniqueConstraints={
@@ -41,16 +40,6 @@ class Part
      * @ORM\Column(type="boolean")
      */
     public bool $universal = false;
-
-    /**
-     * @ORM\Embedded(class=Money::class)
-     */
-    public Money $price;
-
-    /**
-     * @ORM\Embedded(class=Money::class)
-     */
-    private Money $discount;
 
     public function __construct(
         PartId $id,
