@@ -26,6 +26,7 @@ use App\Order\Event\OrderClosed;
 use App\Order\Event\OrderStatusChanged;
 use App\Order\Manager\OrderManager;
 use App\Part\Entity\PartId;
+use App\PartPrice\PartPrice;
 use App\Payment\Manager\PaymentManager;
 use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\IdentifierFormatter;
@@ -72,10 +73,13 @@ final class OrderController extends AbstractController
 
     private OrderManager $orderManager;
 
-    public function __construct(PaymentManager $paymentManager, OrderManager $orderManager)
+    private PartPrice $partPrice;
+
+    public function __construct(PaymentManager $paymentManager, OrderManager $orderManager, PartPrice $partPrice)
     {
         $this->paymentManager = $paymentManager;
         $this->orderManager = $orderManager;
+        $this->partPrice = $partPrice;
     }
 
     public function TOAction(): Response
@@ -209,8 +213,8 @@ final class OrderController extends AbstractController
                         $order,
                         $part->partId,
                         $part->quantity,
-                        $part->price,
                     );
+                    $orderItemPart->setPrice($part->price, $this->partPrice);
                     $em->persist($orderItemPart);
 
                     $orderItemPart->setParent($orderItemService);

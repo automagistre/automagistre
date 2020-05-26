@@ -25,8 +25,6 @@ final class OrderService extends OrderItemModel
 
     public function __construct()
     {
-        parent::__construct();
-
         $this->service = null;
         $this->price = null;
         $this->warranty = false;

@@ -14,10 +14,5 @@ abstract class OrderItemModel extends Model
 {
     public Order $order;
 
-    public ?OrderItem $parent;
-
-    public function __construct()
-    {
-        $this->parent = null;
-    }
+    public ?OrderItem $parent = null;
 }

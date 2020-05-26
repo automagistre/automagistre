@@ -110,7 +110,6 @@ easy_admin:
                     - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType }
                     - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
                     - { property: 'warranty', label: 'По гарантии?' }
-                    - { property: 'discount', label: 'Скидка', type: App\Form\Type\MoneyType }
                     - { property: 'supplier', label: 'Поставщик', type: App\Form\Type\SellerType }
             new:
                 form_options: { data_class: App\Form\Model\OrderPart }

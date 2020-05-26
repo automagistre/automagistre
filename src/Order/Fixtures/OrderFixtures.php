@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Order\Fixtures;
 
+use _HumbugBox01d8f9a04075\Roave\BetterReflection\Reflection\Adapter\ReflectionClass;
 use App\Car\Entity\CarId;
 use App\Car\Fixtures\Primera2004Fixtures;
 use App\Customer\Entity\OperandId;
@@ -15,6 +16,7 @@ use App\Order\Entity\OrderItemService;
 use App\Order\Entity\OrderNote;
 use App\Part\Entity\PartId;
 use App\Part\Fixtures\GasketFixture;
+use App\PartPrice\PartPrice;
 use App\Shared\Doctrine\Registry;
 use App\Shared\Enum\NoteType;
 use App\State;
@@ -35,10 +37,13 @@ final class OrderFixtures extends Fixture implements FixtureGroupInterface, Depe
 
     private State $state;
 
-    public function __construct(Registry $registry, State $state)
+    private PartPrice $partPrice;
+
+    public function __construct(Registry $registry, State $state, PartPrice $partPrice)
     {
         $this->registry = $registry;
         $this->state = $state;
+        $this->partPrice = $partPrice;
     }
 
     /**
@@ -80,7 +85,9 @@ final class OrderFixtures extends Fixture implements FixtureGroupInterface, Depe
         $manager->persist($orderItemService);
         $manager->flush();
 
-        $orderItemPart = new OrderItemPart($order, PartId::fromString(GasketFixture::ID), 1, $money);
+        $orderItemPart = new OrderItemPart($order, PartId::fromString(GasketFixture::ID), 1);
+        $orderItemPart->setPrice($money, $this->partPrice);
+
         $manager->persist($orderItemPart);
         $manager->flush();
     }

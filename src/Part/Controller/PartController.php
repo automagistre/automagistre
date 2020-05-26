@@ -43,7 +43,6 @@ use function explode;
 use function implode;
 use LogicException;
 use function mb_strtolower;
-use Money\MoneyFormatter;
 use function sprintf;
 use function str_ireplace;
 use function str_replace;
@@ -64,8 +63,6 @@ final class PartController extends AbstractController
 
     private PartManager $partManager;
 
-    private MoneyFormatter $formatter;
-
     private ReservationManager $reservationManager;
 
     private PartPrice $partPrice;
@@ -73,13 +70,11 @@ final class PartController extends AbstractController
     public function __construct(
         DeficitManager $deficitManager,
         PartManager $partManager,
-        MoneyFormatter $formatter,
         ReservationManager $reservationManager,
         PartPrice $partPrice
     ) {
         $this->deficitManager = $deficitManager;
         $this->partManager = $partManager;
-        $this->formatter = $formatter;
         $this->reservationManager = $reservationManager;
         $this->partPrice = $partPrice;
     }
@@ -385,7 +380,7 @@ final class PartController extends AbstractController
                 '%s (Склад: %s) | %s',
                 $this->display($part->toId()),
                 $this->partManager->inStock($part->toId()) / 100,
-                $this->formatter->format($this->partPrice->price($part->toId())),
+                $this->formatMoney($this->partPrice->sell($part->toId())),
             );
 
             if ($carModel instanceof Model && $useCarModelInFormat && !$part->universal) {

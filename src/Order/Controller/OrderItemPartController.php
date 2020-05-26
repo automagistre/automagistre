@@ -13,6 +13,7 @@ use App\PartPrice\PartPrice;
 use App\Storage\Exception\ReservationException;
 use App\Storage\Manager\ReservationManager;
 use function assert;
+use Closure;
 use LogicException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -71,7 +72,7 @@ final class OrderItemPartController extends OrderItemController
             throw new BadRequestHttpException('Order not found');
         }
 
-        $model = new OrderPart();
+        $model = $this->createWithoutConstructor(OrderPart::class);
         $model->order = $order;
 
         $part = $this->getEntity(Part::class);
@@ -95,17 +96,11 @@ final class OrderItemPartController extends OrderItemController
         $model = $orderItemPart;
         assert($model instanceof OrderPart);
 
-        $orderItemPart = new OrderItemPart($model->order, $model->partId, $model->quantity, $model->price);
+        $orderItemPart = new OrderItemPart($model->order, $model->partId, $model->quantity);
         $orderItemPart->setParent($model->parent);
         $orderItemPart->setWarranty($model->warranty);
-        $orderItemPart->discount($model->discount);
         $orderItemPart->setSupplier($model->supplier);
-
-        $part = $this->registry->getBy(Part::class, $model->partId);
-
-        if (!$orderItemPart->isDiscounted()) {
-            $orderItemPart->discount($this->partPrice->discount($part->id));
-        }
+        $orderItemPart->setPrice($model->price, $this->partPrice);
 
         parent::persistEntity($orderItemPart);
 
@@ -118,12 +113,41 @@ final class OrderItemPartController extends OrderItemController
         return $orderItemPart;
     }
 
+    protected function createEditDto(Closure $callable): ?object
+    {
+        $entity = $this->registry->getBy(OrderItemPart::class, ['id' => $this->request->query->get('id')]);
+
+        $price = $entity->getPrice();
+        $discount = $entity->discount();
+        if ($discount->isPositive()) {
+            $price = $price->subtract($discount);
+        }
+
+        return new OrderPart(
+            $entity->getOrder(),
+            $entity->getParent(),
+            $entity->getPartId(),
+            $entity->getQuantity(),
+            $price,
+            $entity->isWarranty(),
+            $entity->getSupplier(),
+        );
+    }
+
     /**
      * {@inheritdoc}
      */
     protected function updateEntity($entity): void
     {
-        assert($entity instanceof OrderItemPart);
+        $dto = $entity;
+        assert($dto instanceof OrderPart);
+        $entity = $this->registry->getBy(OrderItemPart::class, ['id' => $this->request->query->get('id')]);
+
+        $entity->setParent($dto->parent);
+        $entity->setPrice($dto->price, $this->partPrice);
+        $entity->setQuantity($dto->quantity);
+        $entity->setWarranty($dto->warranty);
+        $entity->setSupplier($dto->supplier);
 
         parent::updateEntity($entity);
 

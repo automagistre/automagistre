@@ -10,6 +10,7 @@ use App\Entity\Discounted;
 use App\Entity\Embeddable\OperandRelation;
 use App\Entity\WarrantyInterface;
 use App\Part\Entity\PartId;
+use App\PartPrice\PartPrice;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Discount;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Price;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Warranty;
@@ -47,14 +48,13 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
      */
     private $quantity;
 
-    public function __construct(Order $order, PartId $partId, int $quantity, Money $price)
+    public function __construct(Order $order, PartId $partId, int $quantity)
     {
         parent::__construct($order);
 
         $this->supplier = new OperandRelation();
         $this->partId = $partId;
         $this->quantity = $quantity;
-        $this->price = $price;
     }
 
     public function __toString(): string
@@ -77,13 +77,21 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
         return $this->partId;
     }
 
-    public function setPrice(Money $price): void
+    public function setPrice(Money $price, PartPrice $partPrice): void
     {
         if (!$this->getOrder()->isEditable()) {
             throw new LogicException('Can\'t change price on part on closed order.');
         }
 
+        $priceFromCatalog = $partPrice->price($this->partId);
+        $discount = $priceFromCatalog->subtract($price);
+
+        if ($discount->isPositive()) {
+            $price = $priceFromCatalog;
+        }
+
         $this->price = $price;
+        $this->discount = $discount->isPositive() ? $discount : null;
     }
 
     public function getQuantity(): int

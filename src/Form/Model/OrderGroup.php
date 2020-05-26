@@ -17,8 +17,6 @@ final class OrderGroup extends OrderItemModel
 
     public function __construct()
     {
-        parent::__construct();
-
         $this->name = null;
     }
 

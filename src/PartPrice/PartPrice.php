@@ -21,6 +21,17 @@ final class PartPrice
         $this->registry = $registry;
     }
 
+    public function sell(PartId $partId): Money
+    {
+        $price = $this->price($partId);
+        $discount = $this->discount($partId);
+        if (null !== $discount) {
+            return $price->subtract($discount);
+        }
+
+        return $price;
+    }
+
     public function price(PartId $partId): Money
     {
         $view = $this->registry->manager(Entity\Price::class)

@@ -12,6 +12,7 @@ use App\Order\Entity\Order;
 use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Entity\OrderItemService;
+use App\PartPrice\PartPrice;
 use App\Shared\Doctrine\Registry;
 use App\State;
 use App\Storage\Exception\ReservationException;
@@ -32,11 +33,18 @@ final class RecommendationManager
 
     private State $state;
 
-    public function __construct(Registry $registry, ReservationManager $reservationManager, State $state)
-    {
+    private PartPrice $partPrice;
+
+    public function __construct(
+        Registry $registry,
+        ReservationManager $reservationManager,
+        State $state,
+        PartPrice $partPrice
+    ) {
         $this->registry = $registry;
         $this->reservationManager = $reservationManager;
         $this->state = $state;
+        $this->partPrice = $partPrice;
     }
 
     public function realize(Recommendation $recommendation, Order $order): void
@@ -56,9 +64,9 @@ final class RecommendationManager
                 $order,
                 $recommendationPart->partId,
                 $recommendationPart->quantity,
-                $recommendationPart->getPrice(),
             );
 
+            $orderItemPart->setPrice($recommendationPart->getPrice(), $this->partPrice);
             $orderItemPart->setParent($orderItemService);
             $em->persist($orderItemPart);
         }
