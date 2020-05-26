@@ -9,6 +9,7 @@ use App\Order\Entity\Order;
 use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemPart;
 use App\Part\Entity\Part;
+use App\PartPrice\PartPrice;
 use App\Storage\Exception\ReservationException;
 use App\Storage\Manager\ReservationManager;
 use function assert;
@@ -23,9 +24,12 @@ final class OrderItemPartController extends OrderItemController
 {
     private ReservationManager $reservationManager;
 
-    public function __construct(ReservationManager $reservationManager)
+    private PartPrice $partPrice;
+
+    public function __construct(ReservationManager $reservationManager, PartPrice $partPrice)
     {
         $this->reservationManager = $reservationManager;
+        $this->partPrice = $partPrice;
     }
 
     public function reserveAction(): Response
@@ -99,8 +103,8 @@ final class OrderItemPartController extends OrderItemController
 
         $part = $this->registry->getBy(Part::class, $model->partId);
 
-        if (!$orderItemPart->isDiscounted() && $part->isDiscounted()) {
-            $orderItemPart->discount($part->discount());
+        if (!$orderItemPart->isDiscounted()) {
+            $orderItemPart->discount($this->partPrice->discount($part->id));
         }
 
         parent::persistEntity($orderItemPart);

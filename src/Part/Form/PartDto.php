@@ -54,15 +54,11 @@ final class PartDto
 
     /**
      * @var Money
-     *
-     * @Assert\NotBlank
      */
     public $price;
 
     /**
      * @var Money
-     *
-     * @Assert\NotBlank
      */
     public $discount;
 
@@ -71,16 +67,16 @@ final class PartDto
         ManufacturerId $manufacturerId,
         string $name,
         string $number,
-        Money $price,
         bool $universal,
+        Money $price,
         Money $discount
     ) {
         $this->partId = $partId;
         $this->manufacturerId = $manufacturerId;
         $this->name = $name;
         $this->number = $number;
-        $this->price = $price;
         $this->universal = $universal;
+        $this->price = $price;
         $this->discount = $discount;
     }
 }

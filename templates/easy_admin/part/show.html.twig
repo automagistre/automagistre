@@ -32,6 +32,78 @@
                     </div>
                 </div>
             </div>
+
+            <div class="field-group">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">История цен</h3>
+                    </div>
+
+                    {% if prices is not empty %}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Цена</th>
+                                    <th>С даты</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for price in prices %}
+                                    <tr>
+                                        <td>{{ price.price|localize_money }}</td>
+                                        <td>{{ price.since|format_datetime(timezone='+3GMT') }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="box-body">
+                            <p>Записей нет</p>
+                        </div>
+                    {% endif %}
+                    <div class="box-footer">
+                        <a class="btn btn-primary" href="{{ easyadmin_path('PartPrice', 'new', [{'referer': true}, entity]|to_query) }}">Новая цена</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field-group">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">История скидок</h3>
+                    </div>
+
+                    {% if discounts is not empty %}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Цена</th>
+                                    <th>С даты</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for discount in discounts %}
+                                    <tr>
+                                        <td>{{ discount.discount|localize_money }}</td>
+                                        <td>{{ discount.since|format_datetime(timezone='+3GMT') }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="box-body">
+                            <p>Записей нет</p>
+                        </div>
+                    {% endif %}
+                    <div class="box-footer">
+                        <a class="btn btn-primary" href="{{ easyadmin_path('PartDiscount', 'new', [{'referer': true}, entity]|to_query) }}">Новая скидка</a>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="col-md-6" style="margin-bottom: 15px">

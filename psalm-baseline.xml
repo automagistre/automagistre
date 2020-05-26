@@ -70,6 +70,12 @@
       <code>toId</code>
     </PossiblyNullReference>
   </file>
+  <file src="src/Costil.php">
+    <PossiblyNullArgument occurrences="2">
+      <code>$array[$moneyKey.'.currency.code']</code>
+      <code>$array[$moneyKey.'.amount']</code>
+    </PossiblyNullArgument>
+  </file>
   <file src="src/Customer/Controller/OperandController.php">
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtolower($item)</code>
@@ -355,6 +361,12 @@
       <code>PartController</code>
     </PropertyNotSetInConstructor>
   </file>
+  <file src="src/Part/Entity/Part.php">
+    <PropertyNotSetInConstructor occurrences="2">
+      <code>$price</code>
+      <code>$discount</code>
+    </PropertyNotSetInConstructor>
+  </file>
   <file src="src/Part/Manager/DeficitManager.php">
     <InvalidNullableReturnType occurrences="1">
       <code>object</code>
@@ -478,11 +490,6 @@
     </PossiblyFalseOperand>
     <PossiblyNullArgument occurrences="1">
       <code>$this-&gt;registry-&gt;findBy(Manufacturer::class, ['uuid' =&gt; $array['manufacturerId']])</code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="src/Vehicle/Entity/Engine.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$this-&gt;name</code>
     </PossiblyNullArgument>
   </file>
   <file src="src/Vehicle/Form/ModelDto.php">

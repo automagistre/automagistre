@@ -1,0 +1,20 @@
+easy_admin:
+    entities:
+        PartPrice:
+            class: App\PartPrice\Entity\Price
+            controller: App\PartPrice\Controller\PartPriceController
+            disabled_actions: ['list', 'show', 'autocomplete', 'edit', 'search', 'delete']
+        PartDiscount:
+            class: App\PartPrice\Entity\Discount
+            controller: App\PartPrice\Controller\PartDiscountController
+            disabled_actions: ['list', 'show', 'autocomplete', 'edit', 'search', 'delete']
+
+doctrine:
+    orm:
+        entity_managers:
+            tenant:
+                mappings:
+                    part_price:
+                        type: annotation
+                        prefix: App\PartPrice
+                        dir: '%kernel.project_dir%/src/PartPrice'

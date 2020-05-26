@@ -22,6 +22,8 @@ use App\Part\Form\PartCaseDTO;
 use App\Part\Form\PartDto;
 use App\Part\Manager\DeficitManager;
 use App\Part\Manager\PartManager;
+use App\PartPrice\Entity\Discount;
+use App\PartPrice\PartPrice;
 use App\State;
 use App\Storage\Entity\Motion;
 use App\Storage\Enum\Source;
@@ -32,6 +34,7 @@ use function array_map;
 use function assert;
 use Closure;
 use function count;
+use DateTimeImmutable;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
@@ -39,8 +42,6 @@ use function explode;
 use function implode;
 use LogicException;
 use function mb_strtolower;
-use Money\Currency;
-use Money\Money;
 use Money\MoneyFormatter;
 use function sprintf;
 use function str_ireplace;
@@ -66,16 +67,20 @@ final class PartController extends AbstractController
 
     private ReservationManager $reservationManager;
 
+    private PartPrice $partPrice;
+
     public function __construct(
         DeficitManager $deficitManager,
         PartManager $partManager,
         MoneyFormatter $formatter,
-        ReservationManager $reservationManager
+        ReservationManager $reservationManager,
+        PartPrice $partPrice
     ) {
         $this->deficitManager = $deficitManager;
         $this->partManager = $partManager;
         $this->formatter = $formatter;
         $this->reservationManager = $reservationManager;
+        $this->partPrice = $partPrice;
     }
 
     public function crossAction(): Response
@@ -239,6 +244,17 @@ final class PartController extends AbstractController
             $parameters['reserved'] = $this->reservationManager->reserved($part->toId());
             $parameters['crosses'] = $this->partManager->getCrosses($part->toId());
 
+            $parameters['prices'] = $this->registry->viewListBy(
+                PartPrice::class,
+                ['partId' => $part->toId()],
+                ['since' => 'DESC'],
+            );
+            $parameters['discounts'] = $this->registry->viewListBy(
+                Discount::class,
+                ['partId' => $part->toId()],
+                ['since' => 'DESC'],
+            );
+
             $parameters['carModels'] = $this->registry->repository(Model::class)
                 ->createQueryBuilder('carModel')
                 ->join(PartCase::class, 'partCase', Join::WITH, 'carModel.uuid = partCase.vehicleId')
@@ -368,7 +384,7 @@ final class PartController extends AbstractController
                 '%s (Склад: %s) | %s',
                 $this->display($part->toId()),
                 $this->partManager->inStock($part->toId()) / 100,
-                $this->formatter->format($part->price),
+                $this->formatter->format($this->partPrice->price($part->toId())),
             );
 
             if ($carModel instanceof Model && $useCarModelInFormat && !$part->universal) {
@@ -421,17 +437,23 @@ final class PartController extends AbstractController
         $model = $entity;
         assert($model instanceof PartDto);
 
+        $partId = PartId::generate();
         $entity = new Part(
-            PartId::generate(),
+            $partId,
             $model->manufacturerId,
             $model->name,
             new PartNumber($model->number),
             $model->universal,
-            $model->price,
-            $model->discount
         );
 
         parent::persistEntity($entity);
+
+        $tenant = $this->registry->manager(PartPrice::class);
+        $tenant->persist(new \App\PartPrice\Entity\Price($partId, $model->price, new DateTimeImmutable()));
+        if ($model->discount->isPositive()) {
+            $tenant->persist(new Discount($partId, $model->discount, new DateTimeImmutable()));
+        }
+        $tenant->flush();
 
         $referer = $this->request->query->get('referer');
         if (null !== $referer) {
@@ -447,15 +469,14 @@ final class PartController extends AbstractController
     {
         $arr = $closure();
 
-        return new PartDto(
-            $arr['id'],
-            $arr['manufacturerId'],
-            $arr['name'],
-            $arr['number']->number,
-            new Money($arr['price.amount'], new Currency($arr['price.currency.code'])),
-            $arr['universal'],
-            new Money($arr['discount.amount'], new Currency($arr['discount.currency.code'])),
-        );
+        $dto = $this->createWithoutConstructor(PartDto::class);
+        $dto->partId = $arr['id'];
+        $dto->manufacturerId = $arr['manufacturerId'];
+        $dto->name = $arr['name'];
+        $dto->number = $arr['number']->number;
+        $dto->universal = $arr['universal'];
+
+        return $dto;
     }
 
     /**
@@ -472,8 +493,6 @@ final class PartController extends AbstractController
         $entity->update(
             $dto->name,
             $dto->universal,
-            $dto->price,
-            $dto->discount,
         );
 
         parent::updateEntity($entity);

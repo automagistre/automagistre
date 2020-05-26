@@ -13,8 +13,6 @@ easy_admin:
                     - { property: 'name', label: 'Название' }
                     - { property: 'manufacturerId', label: 'Производитель', template: 'easy_admin/field_identifier.html.twig' }
                     - { property: 'number', label: 'Номер', template: 'easy_admin/field_part_number.html.twig' }
-                    - { property: 'price', label: 'Цена', template: 'easy_admin/field_money.html.twig' }
-                    - { property: 'discount', label: 'Скидка', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'universal', label: 'Универсальная' }
             list:
                 title: 'Запчасти'
@@ -22,8 +20,8 @@ easy_admin:
                     - { property: 'name', label: 'Название', template: 'easy_admin/field_part.html.twig', item: true, stock: true, referer: false }
                     - { property: 'manufacturerId', label: 'Производитель', template: 'easy_admin/field_identifier.html.twig' }
                     - { property: 'number', label: 'Номер', template: 'easy_admin/field_part_number.html.twig' }
-                    - { property: 'price', label: 'Цена', template: 'easy_admin/field_money.html.twig' }
-                    - { property: 'discount', label: 'Скидка', template: 'easy_admin/field_money.html.twig' }
+                    - { property: 'price', label: 'Цена', template: 'easy_admin/part/field_price.html.twig' }
+                    - { property: 'discount', label: 'Скидка', template: 'easy_admin/part/field_discount.html.twig' }
                     - { property: 'universal', label: 'Универсальная', template: 'easy_admin/default/field_boolean.html.twig' }
             form:
                 form_options: { data_class: \App\Part\Form\PartDto }

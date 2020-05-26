@@ -12,8 +12,6 @@ use App\Part\Entity\PartNumber;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
-use Money\Currency;
-use Money\Money;
 
 final class GasketFixture extends Fixture implements FixtureGroupInterface
 {
@@ -40,14 +38,14 @@ final class GasketFixture extends Fixture implements FixtureGroupInterface
      */
     public function load(ObjectManager $manager): void
     {
+        $partId = PartId::fromString(self::ID);
+
         $part = new Part(
-            PartId::fromString(self::ID),
+            $partId,
             ManufacturerId::fromString(self::MANUFACTURER_ID),
             self::NAME,
             new PartNumber(self::NUMBER),
             self::IS_UNIVERSAL,
-            new Money(self::PRICE, new Currency(self::PRICE_CURRENCY)),
-            new Money(self::DISCOUNT, new Currency(self::DISCOUNT_CURRENCY)),
         );
 
         $this->addReference('part-1', $part);

@@ -8,6 +8,7 @@ use App\Order\Entity\OrderItemPart;
 use App\Part\Entity\Part;
 use App\Part\Entity\PartId;
 use App\Part\Manager\PartManager;
+use App\PartPrice\PartPrice;
 use App\Storage\Manager\ReservationManager;
 use Money\Money;
 use Twig\Extension\AbstractExtension;
@@ -22,10 +23,13 @@ final class PartExtension extends AbstractExtension
 
     private ReservationManager $reservationManager;
 
-    public function __construct(PartManager $partManager, ReservationManager $reservationManager)
+    private PartPrice $partPrice;
+
+    public function __construct(PartManager $partManager, ReservationManager $reservationManager, PartPrice $partPrice)
     {
         $this->partManager = $partManager;
         $this->reservationManager = $reservationManager;
+        $this->partPrice = $partPrice;
     }
 
     /**
@@ -46,7 +50,7 @@ final class PartExtension extends AbstractExtension
             ): int => $this->reservationManager->reservable($partId)),
             new TwigFunction('part_suggest_price', fn (PartId $partId
             ): Money => $this->partManager->suggestPrice($partId)),
-            new TwigFunction('part_price', fn (PartId $partId): Money => $this->partManager->price($partId)),
+            new TwigFunction('part_price', fn (PartId $partId): Money => $this->partPrice->price($partId)),
             new TwigFunction('part_by_id', fn (PartId $partId): Part => $this->partManager->byId($partId)),
         ];
     }

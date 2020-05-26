@@ -54,6 +54,11 @@ abstract class Identifier
         return new static($uuid);
     }
 
+    public static function isValid(string $uuid): bool
+    {
+        return Uuid::isValid($uuid);
+    }
+
     final public function toUuid(): UuidInterface
     {
         return $this->uuid;

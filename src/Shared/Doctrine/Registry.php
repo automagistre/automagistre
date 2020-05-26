@@ -6,6 +6,7 @@ namespace App\Shared\Doctrine;
 
 use App\Costil;
 use App\Shared\Identifier\Identifier;
+use function array_map;
 use function assert;
 use function class_exists;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -153,13 +154,13 @@ final class Registry
 
         assert(is_array($view));
 
-        return $view;
+        return Costil::convertToMoney($view);
     }
 
     /**
      * @psalm-param class-string $class
      */
-    public function viewListBy(string $class, array $criteria): array
+    public function viewListBy(string $class, array $criteria, array $ordering = []): array
     {
         $qb = $this->manager($class)
             ->createQueryBuilder()
@@ -178,7 +179,11 @@ final class Registry
             }
         }
 
-        return $qb->getQuery()->getArrayResult();
+        foreach ($ordering as $field => $direction) {
+            $qb->addOrderBy('t.'.$field, $direction);
+        }
+
+        return array_map(fn (array $item) => Costil::convertToMoney($item), $qb->getQuery()->getArrayResult());
     }
 
     /**

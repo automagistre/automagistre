@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Part\Entity;
 
-use App\Entity\Discounted;
 use App\Manufacturer\Entity\ManufacturerId;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
@@ -15,7 +14,7 @@ use Money\Money;
  * })
  * @ORM\Entity
  */
-class Part implements Discounted
+class Part
 {
     /**
      * @ORM\Id()
@@ -58,17 +57,13 @@ class Part implements Discounted
         ManufacturerId $manufacturerId,
         string $name,
         PartNumber $number,
-        bool $universal,
-        Money $price,
-        Money $discount
+        bool $universal
     ) {
         $this->id = $id;
         $this->manufacturerId = $manufacturerId;
         $this->name = $name;
         $this->number = $number;
         $this->universal = $universal;
-        $this->price = $price;
-        $this->discount = $discount;
     }
 
     public function __toString(): string
@@ -81,26 +76,14 @@ class Part implements Discounted
         return $this->id;
     }
 
-    public function update(string $name, bool $universal, Money $price, Money $discount): void
+    public function update(string $name, bool $universal): void
     {
         $this->name = $name;
         $this->universal = $universal;
-        $this->price = $price;
-        $this->discount = $discount;
     }
 
     public function equals(self $part): bool
     {
         return $part->toId()->equal($this->id);
-    }
-
-    public function isDiscounted(): bool
-    {
-        return $this->discount->isPositive();
-    }
-
-    public function discount(?Money $discount = null): Money
-    {
-        return $this->discount;
     }
 }

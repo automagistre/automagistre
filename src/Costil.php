@@ -28,6 +28,10 @@ use App\User\Entity\User;
 use App\User\Entity\UserId;
 use App\Vehicle\Entity\Model;
 use App\Vehicle\Entity\VehicleId;
+use Money\Currency;
+use Money\Money;
+use function str_contains;
+use function str_replace;
 
 /**
  * Сборник костылей.
@@ -35,7 +39,7 @@ use App\Vehicle\Entity\VehicleId;
 final class Costil
 {
     public const PODSTANOVA = 45;
-
+    public const OLD_USER = '4ffc24e2-8e60-42e0-9c8f-7a73888b2da6';
     public const ENTITY = [
         CalendarEntryId::class => CalendarEntry::class,
         CarId::class => Car::class,
@@ -99,5 +103,27 @@ final class Costil
     public static function display(Identifier $identifier, string $format = null): string
     {
         return self::$formatter->format($identifier, $format);
+    }
+
+    public static function convertToMoney(array $array): array
+    {
+        foreach ($array as $key => $value) {
+            if (!str_contains($key, 'currency.code')) {
+                continue;
+            }
+
+            $moneyKey = str_replace('.currency.code', '', $key);
+
+            $array[$moneyKey] = null !== $array[$moneyKey.'.amount']
+                ? new Money(
+                    $array[$moneyKey.'.amount'],
+                    new Currency($array[$moneyKey.'.currency.code']),
+                )
+                : null;
+
+            unset($array[$moneyKey.'.amount'], $array[$moneyKey.'.currency.code']);
+        }
+
+        return $array;
     }
 }

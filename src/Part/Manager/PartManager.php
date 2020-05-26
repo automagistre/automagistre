@@ -11,6 +11,7 @@ use App\Order\Enum\OrderStatus;
 use App\Part\Entity\Part;
 use App\Part\Entity\PartCross;
 use App\Part\Entity\PartId;
+use App\PartPrice\PartPrice;
 use App\Shared\Doctrine\Registry;
 use App\Storage\Entity\Motion;
 use function assert;
@@ -29,19 +30,17 @@ final class PartManager
 
     private Registry $registry;
 
-    public function __construct(Registry $registry)
+    private PartPrice $partPrice;
+
+    public function __construct(Registry $registry, PartPrice $partPrice)
     {
         $this->registry = $registry;
+        $this->partPrice = $partPrice;
     }
 
     public function byId(PartId $partId): Part
     {
         return $this->registry->getBy(Part::class, ['id' => $partId]);
-    }
-
-    public function price(PartId $partId): Money
-    {
-        return $this->byId($partId)->price;
     }
 
     public function inStock(PartId $partId): int
@@ -156,7 +155,7 @@ final class PartManager
 
     public function suggestPrice(PartId $partId): Money
     {
-        $suggestPrice = $this->byId($partId)->price;
+        $suggestPrice = $this->partPrice->price($partId);
 
         $incomePart = $this->registry->manager(IncomePart::class)
             ->createQueryBuilder()
