@@ -9,9 +9,9 @@ use App\EasyAdmin\Form\AutocompleteType;
 use App\Form\Type\MoneyType;
 use App\Part\Entity\Part;
 use App\Part\Entity\PartId;
+use App\PartPrice\Entity\Discount;
 use App\PartPrice\Form\PartDiscountDto;
 use DateTimeImmutable;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -37,11 +37,15 @@ final class PartDiscountController extends AbstractController
                 'disabled' => true,
             ])
             ->add('price', MoneyType::class)
-            ->add('since', DateTimeType::class)
             ->getForm()
             ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->em;
+            $em->persist(new Discount($dto->partId, $dto->price, $dto->since));
+            $em->flush();
+
+            return $this->redirectToReferrer();
         }
 
         return $this->render('easy_admin/simple.html.twig', [
