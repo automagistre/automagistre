@@ -7,7 +7,7 @@ namespace App\Car\Form\DTO;
 use App\Car\Entity\Recommendation;
 use App\Car\Entity\RecommendationPart;
 use App\Form\Model\Model;
-use App\Part\Domain\PartId;
+use App\Part\Entity\PartId;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
 

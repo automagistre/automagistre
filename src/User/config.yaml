@@ -25,7 +25,7 @@ easy_admin:
                         label: 'Заказчик'
                         type: App\EasyAdmin\Form\AutocompleteType
                         type_options:
-                            class: App\Customer\Domain\Operand
+                            class: App\Customer\Entity\Operand
                     - { property: 'password', label: 'Пароль', type: 'password', type_options: { required: true } }
                     - { property: 'roles', label: 'Роли', type: App\User\Form\RoleType, type_options: { required: false, multiple: true, expanded: true } }
                     - { property: 'tenants', label: 'Севрисы', type: App\Tenant\Form\TenantType, type_options: { required: false, multiple: true, expanded: true } }

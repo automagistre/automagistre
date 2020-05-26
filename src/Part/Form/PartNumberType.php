@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Part\Form;
 
-use App\Part\Domain\PartNumber;
+use App\Part\Entity\PartNumber;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

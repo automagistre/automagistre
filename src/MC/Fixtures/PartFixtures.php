@@ -6,8 +6,8 @@ namespace App\MC\Fixtures;
 
 use App\MC\Entity\McLine;
 use App\MC\Entity\McPart;
-use App\Part\Domain\PartId;
-use App\Part\Infrastructure\Fixtures\GasketFixture;
+use App\Part\Entity\PartId;
+use App\Part\Fixtures\GasketFixture;
 use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;

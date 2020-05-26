@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\MC\Fixtures;
 
 use App\MC\Entity\McEquipment;
-use App\Vehicle\Domain\Model;
-use App\Vehicle\Infrastructure\Fixtures\NissanGTRFixture;
+use App\Vehicle\Entity\Model;
+use App\Vehicle\Fixtures\NissanGTRFixture;
 use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;

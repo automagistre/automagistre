@@ -6,10 +6,10 @@ namespace App\Part\EventListener;
 
 use App\Order\Entity\OrderItemPart;
 use App\Order\Event\OrderClosed;
-use App\Part\Domain\PartCase;
-use App\Part\Domain\PartCaseId;
+use App\Part\Entity\PartCase;
+use App\Part\Entity\PartCaseId;
 use App\Shared\Doctrine\Registry;
-use App\Vehicle\Domain\VehicleId;
+use App\Vehicle\Entity\VehicleId;
 use function array_map;
 use function count;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

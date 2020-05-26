@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Employee\Fixtures;
 
-use App\Customer\Domain\Person;
+use App\Customer\Entity\Person;
 use App\Employee\Entity\Employee;
 use App\Shared\Doctrine\Registry;
 use Doctrine\Bundle\FixturesBundle\Fixture;

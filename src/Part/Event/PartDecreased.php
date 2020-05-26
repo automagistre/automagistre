@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Part\Event;
 
-use App\Part\Domain\PartId;
+use App\Part\Entity\PartId;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**

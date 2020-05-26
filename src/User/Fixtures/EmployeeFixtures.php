@@ -6,8 +6,8 @@ namespace App\User\Fixtures;
 
 use App\Roles;
 use App\Tenant\Tenant;
-use App\User\Domain\UserId;
 use App\User\Entity\User;
+use App\User\Entity\UserId;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;

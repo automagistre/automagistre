@@ -6,8 +6,8 @@ namespace App\Car\Repository;
 
 use App\Car\Entity\Car;
 use App\Car\Entity\CarId;
-use App\Customer\Domain\Operand;
-use App\Customer\Domain\OperandId;
+use App\Customer\Entity\Operand;
+use App\Customer\Entity\OperandId;
 use App\Shared\Doctrine\Registry;
 use function array_map;
 

@@ -7,7 +7,7 @@ namespace App\Car\Entity;
 use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Shared\Enum\NoteType;
-use App\User\Domain\UserId;
+use App\User\Entity\UserId;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 

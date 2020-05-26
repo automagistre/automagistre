@@ -8,7 +8,7 @@ use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
-use App\User\Domain\UserId;
+use App\User\Entity\UserId;
 
 final class UserFormatter implements IdentifierFormatterInterface
 {

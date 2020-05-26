@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Part\Controller;
 
-use App\Part\Domain\Part;
+use App\Part\Entity\Part;
 use App\Shared\Doctrine\Registry;
 use App\Storage\Entity\Motion;
 use App\Storage\Enum\Source;

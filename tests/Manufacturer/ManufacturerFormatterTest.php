@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Manufacturer;
 
-use App\Manufacturer\Domain\ManufacturerId;
-use App\Manufacturer\Infrastructure\Fixtures\NissanFixture;
+use App\Manufacturer\Entity\ManufacturerId;
+use App\Manufacturer\Fixtures\NissanFixture;
 use App\Tests\Shared\IdentifierTestCase;
 use Generator;
 
 /**
- * @see \App\Manufacturer\Infrastructure\ManufacturerFormatter
+ * @see \App\Manufacturer\View\ManufacturerFormatter
  */
 final class ManufacturerFormatterTest extends IdentifierTestCase
 {

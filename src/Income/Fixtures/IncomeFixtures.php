@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Income\Fixtures;
 
-use App\Customer\Domain\Operand;
-use App\Customer\Domain\OperandId;
-use App\Customer\Infrastructure\Fixtures\OrganizationFixtures;
+use App\Customer\Entity\Operand;
+use App\Customer\Entity\OperandId;
+use App\Customer\Fixtures\OrganizationFixtures;
 use App\Income\Entity\Income;
 use App\Income\Entity\IncomeId;
 use App\Shared\Doctrine\Registry;

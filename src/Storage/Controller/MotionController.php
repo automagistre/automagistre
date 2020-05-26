@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Storage\Controller;
 
 use App\EasyAdmin\Controller\AbstractController;
-use App\Part\Domain\Part;
-use App\Part\Domain\PartId;
+use App\Part\Entity\Part;
+use App\Part\Entity\PartId;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;
 

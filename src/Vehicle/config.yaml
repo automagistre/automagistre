@@ -1,8 +1,8 @@
 easy_admin:
     entities:
         CarModel:
-            class: App\Vehicle\Domain\Model
-            controller: App\Vehicle\Ports\EasyAdmin\ModelController
+            class: App\Vehicle\Entity\Model
+            controller: App\Vehicle\Controller\ModelController
             label: 'Кузов'
             list:
                 title: 'Кузова'
@@ -21,13 +21,13 @@ easy_admin:
                     - { property: 'yearFrom', label: 'Начало производства' }
                     - { property: 'yearTill', label: 'Конец производства' }
             form:
-                form_options: { data_class: \App\Vehicle\Infrastructure\Form\ModelDto }
+                form_options: { data_class: \App\Vehicle\Form\ModelDto }
                 fields:
                     -   property: 'manufacturer'
                         label: 'Производитель'
                         type: 'easyadmin_autocomplete'
                         type_options:
-                            class: App\Manufacturer\Domain\Manufacturer
+                            class: App\Manufacturer\Entity\Manufacturer
                     - { property: 'name', label: 'Название' }
                     - { property: 'localizedName', label: 'Название на русском' }
                     - { property: 'caseName', label: 'Кузов' }
@@ -47,14 +47,14 @@ doctrine:
                 mappings:
                     vehicle:
                         type: annotation
-                        prefix: App\Vehicle\Domain
-                        dir: '%kernel.project_dir%/src/Vehicle/Domain'
+                        prefix: App\Vehicle\Entity
+                        dir: '%kernel.project_dir%/src/Vehicle/Entity'
             tenant:
                 mappings:
                     vehicle_embeddable:
                         type: annotation
-                        prefix: App\Vehicle\Domain\Embeddable
-                        dir: '%kernel.project_dir%/src/Vehicle/Domain/Embeddable'
+                        prefix: App\Vehicle\Entity\Embedded
+                        dir: '%kernel.project_dir%/src/Vehicle/Entity/Embedded'
 
 doctrine_mongodb:
     document_managers:

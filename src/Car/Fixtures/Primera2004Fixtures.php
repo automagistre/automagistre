@@ -6,8 +6,8 @@ namespace App\Car\Fixtures;
 
 use App\Car\Entity\Car;
 use App\Car\Entity\CarId;
-use App\Vehicle\Domain\VehicleId;
-use App\Vehicle\Infrastructure\Fixtures\NissanPrimeraFixture;
+use App\Vehicle\Entity\VehicleId;
+use App\Vehicle\Fixtures\NissanPrimeraFixture;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;

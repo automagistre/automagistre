@@ -1,13 +1,13 @@
 easy_admin:
     entities:
         Operand:
-            class: App\Customer\Domain\Operand
-            controller: App\Customer\Ports\EasyAdmin\OperandController
+            class: App\Customer\Entity\Operand
+            controller: App\Customer\Controller\OperandController
             disabled_actions: ['list', 'new', 'edit', 'delete', 'search']
 
         Person:
-            class: App\Customer\Domain\Person
-            controller: App\Customer\Ports\EasyAdmin\PersonController
+            class: App\Customer\Entity\Person
+            controller: App\Customer\Controller\PersonController
             disabled_actions: ['delete']
             search:
                 fields: ['firstname', 'lastname']
@@ -47,8 +47,8 @@ easy_admin:
                     - { property: 'seller', label: 'Поставщик' }
 
         PersonNote:
-            class: App\Customer\Domain\OperandNote
-            controller: App\Customer\Ports\EasyAdmin\PersonNoteController
+            class: App\Customer\Entity\OperandNote
+            controller: App\Customer\Controller\PersonNoteController
             disabled_actions: ['show', 'list', 'search', 'autocomplete']
             form:
                 fields:
@@ -61,8 +61,8 @@ easy_admin:
                 title: 'Редактировать заметку № {{ entity.id }} по Человеку'
 
         Organization:
-            class: App\Customer\Domain\Organization
-            controller: App\Customer\Ports\EasyAdmin\OrganizationController
+            class: App\Customer\Entity\Organization
+            controller: App\Customer\Controller\OrganizationController
             disabled_actions: ['delete']
             templates:
                 show: 'easy_admin/organization/show.html.twig'
@@ -106,8 +106,8 @@ easy_admin:
                 title: 'Редактирование Организации № {{ entity.id }}'
 
         OrganizationNote:
-            class: App\Customer\Domain\OperandNote
-            controller: App\Customer\Ports\EasyAdmin\OrganizationNoteController
+            class: App\Customer\Entity\OperandNote
+            controller: App\Customer\Controller\OrganizationNoteController
             disabled_actions: ['show', 'list', 'search', 'autocomplete']
             form:
                 fields:
@@ -121,7 +121,7 @@ easy_admin:
 
         OperandTransaction:
             class: App\Entity\Tenant\OperandTransaction
-            controller: App\Customer\Ports\EasyAdmin\OperandTransactionController
+            controller: App\Customer\Controller\OperandTransactionController
             disabled_actions: ['show', 'delete', 'edit']
             list:
                 title: 'Список проводок'
@@ -146,5 +146,5 @@ doctrine:
                 mappings:
                     customer:
                         type: annotation
-                        prefix: App\Customer\Domain
-                        dir: '%kernel.project_dir%/src/Customer/Domain'
+                        prefix: App\Customer
+                        dir: '%kernel.project_dir%/src/Customer'

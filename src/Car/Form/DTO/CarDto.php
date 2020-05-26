@@ -7,8 +7,8 @@ namespace App\Car\Form\DTO;
 use App\Car\Entity\Car;
 use App\Car\Entity\CarId;
 use App\Shared\Validator\EntityCheck;
-use App\Vehicle\Domain\Embeddable\Equipment;
-use App\Vehicle\Domain\Model;
+use App\Vehicle\Entity\Embedded\Equipment;
+use App\Vehicle\Entity\Model;
 use App\Vehicle\Enum\BodyType;
 use Symfony\Component\Validator\Constraints as Assert;
 

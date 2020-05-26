@@ -6,7 +6,7 @@ namespace App\Tests;
 
 use App\Calendar\Fixtures\CalendarEntryFixtures;
 use App\Income\Fixtures\IncomeFixtures;
-use App\Part\Infrastructure\Fixtures\GasketFixture;
+use App\Part\Fixtures\GasketFixture;
 use function array_diff;
 use function array_keys;
 use function array_replace;

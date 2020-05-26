@@ -8,26 +8,26 @@ use App\Calendar\Entity\CalendarEntry;
 use App\Calendar\Entity\CalendarEntryId;
 use App\Car\Entity\Car;
 use App\Car\Entity\CarId;
-use App\Customer\Domain\Operand;
-use App\Customer\Domain\OperandId;
+use App\Customer\Entity\Operand;
+use App\Customer\Entity\OperandId;
 use App\Employee\Entity\Employee;
 use App\Employee\Entity\EmployeeId;
 use App\Income\Entity\Income;
 use App\Income\Entity\IncomeId;
 use App\Income\Entity\IncomePart;
 use App\Income\Entity\IncomePartId;
-use App\Manufacturer\Domain\Manufacturer;
-use App\Manufacturer\Domain\ManufacturerId;
+use App\Manufacturer\Entity\Manufacturer;
+use App\Manufacturer\Entity\ManufacturerId;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderId;
-use App\Part\Domain\Part;
-use App\Part\Domain\PartId;
+use App\Part\Entity\Part;
+use App\Part\Entity\PartId;
 use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
-use App\User\Domain\UserId;
 use App\User\Entity\User;
-use App\Vehicle\Domain\Model;
-use App\Vehicle\Domain\VehicleId;
+use App\User\Entity\UserId;
+use App\Vehicle\Entity\Model;
+use App\Vehicle\Entity\VehicleId;
 
 /**
  * Сборник костылей.

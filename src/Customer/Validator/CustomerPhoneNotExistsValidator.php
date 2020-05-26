@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Customer\Validator;
 
-use App\Customer\Domain\Operand;
-use App\Customer\Domain\Organization;
-use App\Customer\Domain\Person;
+use App\Customer\Entity\Operand;
+use App\Customer\Entity\Organization;
+use App\Customer\Entity\Person;
 use App\Shared\Doctrine\Registry;
 use Doctrine\ORM\Query\Expr\Join;
 use libphonenumber\PhoneNumber;

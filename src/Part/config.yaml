@@ -1,8 +1,8 @@
 easy_admin:
     entities:
         Part:
-            class: App\Part\Domain\Part
-            controller: App\Part\Ports\EasyAdmin\PartController
+            class: App\Part\Entity\Part
+            controller: App\Part\Controller\PartController
             disabled_actions: ['delete']
             label: 'Запчасти'
             templates:
@@ -33,7 +33,7 @@ easy_admin:
                         type: App\EasyAdmin\Form\AutocompleteType
                         type_options:
                             required: true
-                            class: App\Manufacturer\Domain\Manufacturer
+                            class: App\Manufacturer\Entity\Manufacturer
                     - { property: 'number', label: 'Номер', type: App\Part\Form\PartNumberType }
                     - { property: 'name', label: 'Название' }
                     - { property: 'price', label: 'Цена', type: App\Form\Type\MoneyType }
@@ -59,8 +59,8 @@ doctrine:
                 mappings:
                     part:
                         type: annotation
-                        prefix: App\Part\Domain
-                        dir: '%kernel.project_dir%/src/Part/Domain'
+                        prefix: App\Part\Entity
+                        dir: '%kernel.project_dir%/src/Part/Entity'
 
 doctrine_mongodb:
     document_managers:

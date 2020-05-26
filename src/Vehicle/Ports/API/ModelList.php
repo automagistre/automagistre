@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Vehicle\Ports\API;
 
 use App\Shared\Doctrine\Registry;
-use App\Vehicle\Domain\Model;
+use App\Vehicle\Entity\Model;
 use Doctrine\DBAL\Query\QueryBuilder;
 use function implode;
 use function is_array;

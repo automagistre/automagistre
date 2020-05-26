@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Tests\Vehicle;
 
 use App\Tests\Shared\IdentifierTestCase;
-use App\Vehicle\Domain\VehicleId;
-use App\Vehicle\Infrastructure\Fixtures\NissanGTRFixture;
-use App\Vehicle\Infrastructure\Fixtures\NissanPrimeraFixture;
-use App\Vehicle\Infrastructure\Fixtures\NissanQashqaiFixture;
+use App\Vehicle\Entity\VehicleId;
+use App\Vehicle\Fixtures\NissanGTRFixture;
+use App\Vehicle\Fixtures\NissanPrimeraFixture;
+use App\Vehicle\Fixtures\NissanQashqaiFixture;
 use Generator;
 
 /**
- * @see \App\Vehicle\Infrastructure\VehicleFormatter
+ * @see \App\Vehicle\View\VehicleFormatter
  */
 final class VehicleFormatterTest extends IdentifierTestCase
 {

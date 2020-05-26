@@ -8,7 +8,7 @@ use App\Form\Model\OrderPart;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemPart;
-use App\Part\Domain\Part;
+use App\Part\Entity\Part;
 use App\Storage\Exception\ReservationException;
 use App\Storage\Manager\ReservationManager;
 use function assert;

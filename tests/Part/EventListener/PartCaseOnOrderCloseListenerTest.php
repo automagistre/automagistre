@@ -4,9 +4,9 @@ namespace App\Tests\Part\EventListener;
 
 use App\Order\Entity\Order;
 use App\Order\Event\OrderClosed;
-use App\Part\Domain\PartCase;
+use App\Part\Entity\PartCase;
 use App\Part\EventListener\PartCaseOnOrderCloseListener;
-use App\Part\Infrastructure\Fixtures\GasketFixture;
+use App\Part\Fixtures\GasketFixture;
 use App\Shared\Doctrine\Registry;
 use App\State;
 use App\Tenant\Tenant;

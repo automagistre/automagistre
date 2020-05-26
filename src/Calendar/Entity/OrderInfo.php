@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Calendar\Entity;
 
 use App\Car\Entity\CarId;
-use App\Customer\Domain\OperandId;
+use App\Customer\Entity\OperandId;
 use App\Employee\Entity\EmployeeId;
 use Doctrine\ORM\Mapping as ORM;
 

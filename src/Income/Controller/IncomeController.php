@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Income\Controller;
 
-use App\Customer\Domain\Operand;
+use App\Customer\Entity\Operand;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Form\Type\MoneyType;
 use App\Income\Entity\Income;
@@ -12,7 +12,7 @@ use App\Income\Entity\IncomeId;
 use App\Income\Entity\IncomePart;
 use App\Income\Event\IncomeAccrued;
 use App\Income\Form\IncomeDto;
-use App\Part\Domain\Part;
+use App\Part\Entity\Part;
 use App\Payment\Manager\PaymentManager;
 use App\Wallet\Entity\Wallet;
 use function assert;

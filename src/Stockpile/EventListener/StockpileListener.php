@@ -6,7 +6,7 @@ namespace App\Stockpile\EventListener;
 
 use App\Order\Entity\OrderItemPart;
 use App\Order\Event\OrderClosed;
-use App\Part\Domain\PartId;
+use App\Part\Entity\PartId;
 use App\Part\Event\PartAccrued;
 use App\Part\Event\PartDecreased;
 use App\Part\Manager\PartManager;

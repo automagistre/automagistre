@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Income\Entity;
 
-use App\Part\Domain\PartId;
+use App\Part\Entity\PartId;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Price;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Quantity;

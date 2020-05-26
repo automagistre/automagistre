@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Manufacturer\Controller;
 
 use App\EasyAdmin\Controller\AbstractController;
-use App\Manufacturer\Domain\Manufacturer;
+use App\Manufacturer\Entity\Manufacturer;
 use function array_map;
 use function str_replace;
 

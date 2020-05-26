@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Part\Documents;
 
 use App\Manufacturer\Documents\Manufacturer;
-use App\Part\Domain\PartId;
-use App\Part\Domain\PartNumber;
+use App\Part\Entity\PartId;
+use App\Part\Entity\PartNumber;
 use App\Shared\Money\Documents\Money;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 

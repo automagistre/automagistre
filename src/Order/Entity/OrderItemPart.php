@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Order\Entity;
 
 use App\Costil;
-use App\Customer\Domain\Operand;
+use App\Customer\Entity\Operand;
 use App\Entity\Discounted;
 use App\Entity\Embeddable\OperandRelation;
 use App\Entity\WarrantyInterface;
-use App\Part\Domain\PartId;
+use App\Part\Entity\PartId;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Discount;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Price;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Warranty;

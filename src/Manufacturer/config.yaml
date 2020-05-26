@@ -1,7 +1,7 @@
 easy_admin:
     entities:
         Manufacturer:
-            class: App\Manufacturer\Domain\Manufacturer
+            class: App\Manufacturer\Entity\Manufacturer
             controller: App\Manufacturer\Controller\ManufacturerController
             label: 'Производитель'
             search:
@@ -36,8 +36,8 @@ doctrine:
                 mappings:
                     manufacturer:
                         type: annotation
-                        prefix: App\Manufacturer\Domain
-                        dir: '%kernel.project_dir%/src/Manufacturer/Domain'
+                        prefix: App\Manufacturer
+                        dir: '%kernel.project_dir%/src/Manufacturer'
 
 doctrine_mongodb:
     document_managers:

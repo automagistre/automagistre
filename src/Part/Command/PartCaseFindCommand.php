@@ -6,10 +6,10 @@ namespace App\Part\Command;
 
 use App\Car\Entity\Car;
 use App\Order\Entity\OrderItemPart;
-use App\Part\Domain\Part;
-use App\Part\Domain\PartCase;
+use App\Part\Entity\Part;
+use App\Part\Entity\PartCase;
 use App\Shared\Doctrine\Registry;
-use App\Vehicle\Domain\Model;
+use App\Vehicle\Entity\Model;
 use function array_flip;
 use function array_key_exists;
 use function array_keys;

@@ -3,7 +3,7 @@
 namespace App\Vehicle\Documents;
 
 use App\Manufacturer\Documents\Manufacturer;
-use App\Vehicle\Domain\VehicleId;
+use App\Vehicle\Entity\VehicleId;
 use Doctrine\ODM\MongoDB\Mapping\Annotations\EmbeddedDocument;
 use Doctrine\ODM\MongoDB\Mapping\Annotations\EmbedOne;
 use Doctrine\ODM\MongoDB\Mapping\Annotations\Field;

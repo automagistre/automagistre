@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Part;
 
-use App\Part\Domain\PartNumber;
+use App\Part\Entity\PartNumber;
 use Generator;
 use PHPUnit\Framework\TestCase;
 

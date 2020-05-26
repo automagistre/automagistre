@@ -7,7 +7,7 @@ namespace App\Car\Fixtures;
 use App\Car\Entity\Car;
 use App\Car\Entity\Note;
 use App\Shared\Enum\NoteType;
-use App\User\Domain\UserId;
+use App\User\Entity\UserId;
 use App\User\Fixtures\EmployeeFixtures;
 use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;

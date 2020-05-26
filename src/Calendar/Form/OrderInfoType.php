@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Calendar\Form;
 
 use App\Car\Entity\Car;
-use App\Customer\Domain\Operand;
+use App\Customer\Entity\Operand;
 use App\EasyAdmin\Form\AutocompleteType;
 use App\Employee\Form\EmployeeUuidType;
 use Symfony\Component\Form\AbstractType;

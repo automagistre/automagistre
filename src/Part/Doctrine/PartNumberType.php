@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Part\Doctrine;
 
-use App\Part\Domain\PartNumber;
+use App\Part\Entity\PartNumber;
 use function assert;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;

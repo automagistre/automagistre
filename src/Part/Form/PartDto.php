@@ -2,9 +2,9 @@
 
 namespace App\Part\Form;
 
-use App\Manufacturer\Domain\ManufacturerId;
-use App\Part\Domain\Part;
-use App\Part\Domain\PartId;
+use App\Manufacturer\Entity\ManufacturerId;
+use App\Part\Entity\Part;
+use App\Part\Entity\PartId;
 use App\Shared\Validator\EntityCheck;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;

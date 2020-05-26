@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Customer;
 
-use App\Customer\Domain\OperandId;
-use App\Customer\Infrastructure\Fixtures\OrganizationFixtures;
-use App\Customer\Infrastructure\Fixtures\PersonVasyaFixtures;
+use App\Customer\Entity\OperandId;
+use App\Customer\Fixtures\OrganizationFixtures;
+use App\Customer\Fixtures\PersonVasyaFixtures;
 use App\Tests\Shared\IdentifierTestCase;
 use Generator;
 

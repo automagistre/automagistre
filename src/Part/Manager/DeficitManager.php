@@ -7,7 +7,7 @@ namespace App\Part\Manager;
 use App\Model\DeficitPart;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItemPart;
-use App\Part\Domain\Part;
+use App\Part\Entity\Part;
 use App\Shared\Doctrine\Registry;
 use function array_filter;
 use function array_map;

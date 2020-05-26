@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Form\Type;
 
 use App\Form\Model\OrderTOPart;
-use App\Part\Domain\Part;
-use App\Part\Domain\PartId;
+use App\Part\Entity\Part;
+use App\Part\Entity\PartId;
 use App\Part\Manager\PartManager;
 use App\Shared\Identifier\IdentifierFormatter;
 use function array_map;
