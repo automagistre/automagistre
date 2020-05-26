@@ -8,7 +8,7 @@ use App\Car\Entity\Car;
 use App\Car\Entity\Recommendation;
 use App\Car\Form\DTO\RecommendationDTO;
 use App\Car\Manager\RecommendationManager;
-use App\Customer\Domain\Operand;
+use App\Customer\Entity\Operand;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Order\Entity\Order;
 use function assert;

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Order\Entity;
 
 use App\Car\Entity\CarId;
-use App\Customer\Domain\OperandId;
-use App\Customer\Domain\Person;
+use App\Customer\Entity\OperandId;
+use App\Customer\Entity\Person;
 use App\Employee\Entity\Employee;
 use App\Entity\Discounted;
 use App\Entity\Embeddable\UserRelation;

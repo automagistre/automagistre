@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Migrations;
 
-use App\Part\Domain\PartCaseId;
+use App\Part\Entity\PartCaseId;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 use function sprintf;

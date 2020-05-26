@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\MC\Entity;
 
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
-use App\Vehicle\Domain\Embeddable\Equipment as CarEquipment;
-use App\Vehicle\Domain\Model;
+use App\Vehicle\Entity\Embedded\Equipment as CarEquipment;
+use App\Vehicle\Entity\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;

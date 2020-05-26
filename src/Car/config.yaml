@@ -38,15 +38,15 @@ easy_admin:
                         label: 'Модель'
                         type: 'easyadmin_autocomplete'
                         type_options:
-                            class: App\Vehicle\Domain\Model
+                            class: App\Vehicle\Entity\Model
                         help: 'Проивзодитель, Модель, Год, Поколение, Комплектация, Лошадинные силы'
                     - { property: 'year', label: 'Год выпуска' }
-                    - { property: 'caseType', label: 'Тип кузова', type: App\Vehicle\Infrastructure\Form\BodyTypeType, type_options: { required: false } }
+                    - { property: 'caseType', label: 'Тип кузова', type: App\Vehicle\Form\BodyTypeType, type_options: { required: false } }
                     - { property: 'identifier', label: 'Идентификатор (VIN, № Кузова/Шасси...)' }
                     - { property: 'gosnomer', label: 'Гос. Номер' }
                     - { property: 'description', label: 'Описание', type: 'textarea' }
                     - { type: 'group', label: 'Комплектация', css_class: 'col-sm-6' }
-                    - { property: 'equipment', label: ' ', type: App\Vehicle\Infrastructure\Form\EquipmentType }
+                    - { property: 'equipment', label: ' ', type: App\Vehicle\Form\EquipmentType }
             edit:
                 title: 'Редактировать автомобиль'
                 fields:
@@ -100,7 +100,7 @@ easy_admin:
                         label: 'Запчасть'
                         type: App\EasyAdmin\Form\AutocompleteType
                         type_options:
-                            class: App\Part\Domain\Part
+                            class: App\Part\Entity\Part
                     - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType }
                     - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
             edit:

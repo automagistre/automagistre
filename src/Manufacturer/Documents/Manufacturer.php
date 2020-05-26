@@ -2,7 +2,7 @@
 
 namespace App\Manufacturer\Documents;
 
-use App\Manufacturer\Domain\ManufacturerId;
+use App\Manufacturer\Entity\ManufacturerId;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /**

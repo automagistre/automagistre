@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form\Model;
 
-use App\Part\Domain\PartId;
+use App\Part\Entity\PartId;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Order\Manager;
 
-use App\Customer\Domain\Operand;
+use App\Customer\Entity\Operand;
 use App\Employee\Entity\Employee;
 use App\Entity\Tenant\OperandTransaction;
 use App\Order\Entity\Order;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Payment\Manager;
 
-use App\Customer\Domain\Operand;
+use App\Customer\Entity\Operand;
 use App\Entity\Tenant\Transaction;
 use App\Payment\Event\PaymentCreated;
 use App\Payment\Transactional;

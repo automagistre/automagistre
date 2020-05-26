@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
-use App\Customer\Domain\Operand;
+use App\Customer\Entity\Operand;
 use App\Entity\Embeddable\OperandRelation;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

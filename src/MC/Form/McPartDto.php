@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\MC\Form;
 
 use App\MC\Entity\McLine;
-use App\Part\Domain\PartId;
+use App\Part\Entity\PartId;
 use Symfony\Component\Validator\Constraints as Assert;
 
 final class McPartDto

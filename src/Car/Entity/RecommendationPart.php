@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Car\Entity;
 
-use App\Part\Domain\PartId;
+use App\Part\Entity\PartId;
 use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Price;
-use App\User\Domain\UserId;
+use App\User\Entity\UserId;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 

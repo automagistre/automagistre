@@ -6,8 +6,8 @@ namespace App;
 
 use App\Tenant\ConnectionSwitcher;
 use App\Tenant\Tenant;
-use App\User\Domain\UserId;
 use App\User\Entity\User;
+use App\User\Entity\UserId;
 use LogicException;
 use RuntimeException;
 use Sentry\SentryBundle\SentryBundle;

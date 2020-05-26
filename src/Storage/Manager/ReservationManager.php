@@ -7,7 +7,7 @@ namespace App\Storage\Manager;
 use App\Entity\Tenant\Reservation;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItemPart;
-use App\Part\Domain\PartId;
+use App\Part\Entity\PartId;
 use App\Part\Event\PartDeReserved;
 use App\Part\Event\PartReserved;
 use App\Part\Manager\PartManager;

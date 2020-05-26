@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\User\Controller;
 
 use App\EasyAdmin\Controller\AbstractController;
-use App\User\Domain\UserId;
 use App\User\Entity\User;
+use App\User\Entity\UserId;
 use function assert;
 use stdClass;
 use Symfony\Component\Form\FormInterface;

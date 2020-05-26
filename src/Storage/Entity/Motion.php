@@ -6,7 +6,7 @@ namespace App\Storage\Entity;
 
 use App\Income\Entity\IncomePartId;
 use App\Order\Entity\OrderId;
-use App\Part\Domain\PartId;
+use App\Part\Entity\PartId;
 use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Shared\Identifier\Identifier;

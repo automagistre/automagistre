@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Stockpile\Manager;
 
-use App\Part\Domain\Part;
+use App\Part\Entity\Part;
 use App\Shared\Doctrine\Registry;
 use function array_map;
 use function implode;

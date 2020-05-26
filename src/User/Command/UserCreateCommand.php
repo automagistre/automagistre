@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\User\Command;
 
 use App\Shared\Doctrine\Registry;
-use App\User\Domain\UserId;
 use App\User\Entity\User;
+use App\User\Entity\UserId;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Car\Entity;
 
-use App\Customer\Domain\OperandId;
+use App\Customer\Entity\OperandId;
 use App\Entity\Embeddable\OrderItemServiceRelation;
 use App\Order\Entity\OrderItemService;
 use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedAt;
@@ -12,7 +12,7 @@ use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Price;
 use App\Shared\Money\PriceInterface;
 use App\Tenant\Tenant;
-use App\User\Domain\UserId;
+use App\User\Entity\UserId;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

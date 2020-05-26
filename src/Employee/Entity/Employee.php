@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Employee\Entity;
 
-use App\Customer\Domain\Person;
+use App\Customer\Entity\Person;
 use App\Entity\Embeddable\PersonRelation;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use DateTime;

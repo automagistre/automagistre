@@ -30,7 +30,7 @@ easy_admin:
                     - { property: 'firedAt', label: 'Уволен' }
             form:
                 fields:
-                    - { property: 'person', label: 'Ф.И.О', type: 'easyadmin_autocomplete', type_options: { required: true, class: App\Customer\Domain\Person } }
+                    - { property: 'person', label: 'Ф.И.О', type: 'easyadmin_autocomplete', type_options: { required: true, class: App\Customer\Entity\Person } }
                     - { property: 'ratio', label: 'Ставка' }
             new:
                 title: 'Добавить нового работника'

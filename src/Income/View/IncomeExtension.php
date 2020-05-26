@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Income\View;
 
-use App\Customer\Domain\OperandId;
+use App\Customer\Entity\OperandId;
 use App\Income\Manager\SupplierManager;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;

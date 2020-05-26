@@ -51,7 +51,7 @@ easy_admin:
                 fields:
                     - { property: 'model', label: 'Модель', type: 'easyadmin_autocomplete' }
                     - { property: 'period', label: 'Период ТО' }
-                    - { property: 'equipment', label: ' ', type: App\Vehicle\Infrastructure\Form\EquipmentType }
+                    - { property: 'equipment', label: ' ', type: App\Vehicle\Form\EquipmentType }
             new:
                 title: 'Создать комплектацию'
             edit:
@@ -88,7 +88,7 @@ easy_admin:
                         type: App\EasyAdmin\Form\AutocompleteType
                         type_options:
                             required: true
-                            class: App\Part\Domain\Part
+                            class: App\Part\Entity\Part
                     - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
                     - { property: 'recommended', label: 'Рекомендуемый?' }
             new:

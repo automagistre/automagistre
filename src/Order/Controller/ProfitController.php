@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Order\Controller;
 
-use App\Customer\Domain\Operand;
-use App\Customer\Domain\OperandId;
+use App\Customer\Entity\Operand;
+use App\Customer\Entity\OperandId;
 use App\Order\Entity\Order;
 use App\Shared\Doctrine\Registry;
 use function count;

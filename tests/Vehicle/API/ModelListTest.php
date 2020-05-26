@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Tests\Vehicle\API;
 
 use App\JSONRPC\Test\JsonRPCTestCase;
-use App\Manufacturer\Infrastructure\Fixtures\NissanFixture;
-use App\Vehicle\Infrastructure\Fixtures\NissanGTRFixture;
-use App\Vehicle\Infrastructure\Fixtures\NissanPrimeraFixture;
-use App\Vehicle\Infrastructure\Fixtures\NissanQashqaiFixture;
+use App\Manufacturer\Fixtures\NissanFixture;
+use App\Vehicle\Fixtures\NissanGTRFixture;
+use App\Vehicle\Fixtures\NissanPrimeraFixture;
+use App\Vehicle\Fixtures\NissanQashqaiFixture;
 use Generator;
 
 /**

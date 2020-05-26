@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Order\Entity;
 
-use App\Customer\Domain\OperandId;
+use App\Customer\Entity\OperandId;
 use App\Entity\Discounted;
 use App\Entity\WarrantyInterface;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Discount;

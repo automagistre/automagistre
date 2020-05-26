@@ -6,7 +6,7 @@ namespace App\MC\Documents;
 
 use App\MC\Entity\McEquipmentId;
 use App\Vehicle\Documents\Vehicle;
-use App\Vehicle\Domain\Embeddable\Engine;
+use App\Vehicle\Entity\Embedded\Engine;
 use App\Vehicle\Enum\DriveWheelConfiguration;
 use App\Vehicle\Enum\Transmission;
 use Doctrine\Common\Collections\ArrayCollection;
