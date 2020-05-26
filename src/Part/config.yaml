@@ -34,7 +34,7 @@ easy_admin:
                             class: App\Manufacturer\Entity\Manufacturer
                     - { property: 'number', label: 'Номер', type: App\Part\Form\PartNumberType }
                     - { property: 'name', label: 'Название' }
-                    - { property: 'price', label: 'Цена', type: App\Form\Type\MoneyType }
+                    - { property: 'price', label: 'Цена', type: App\Form\Type\MoneyType, type_options: { required: true } }
                     - { property: 'discount', label: 'Скидка', type: App\Form\Type\MoneyType }
                     - { property: 'universal', label: 'Универсальная' }
             new:
