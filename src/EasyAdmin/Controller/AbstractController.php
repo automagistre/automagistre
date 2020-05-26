@@ -30,6 +30,7 @@ use function method_exists;
 use Money\Formatter\DecimalMoneyFormatter;
 use Money\Money;
 use Money\MoneyFormatter;
+use Ramsey\Uuid\Uuid;
 use ReflectionClass;
 use RuntimeException;
 use function sprintf;
@@ -261,6 +262,20 @@ abstract class AbstractController extends EasyAdminController
     protected function createEditDto(Closure $callable): ?object
     {
         return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function searchAction(): Response
+    {
+        $uuid = $this->request->query->get('query');
+
+        if (is_string($uuid) && Uuid::isValid($uuid = trim($uuid))) {
+            return $this->redirectToEasyPath($this->entity['name'], 'show', ['id' => $uuid]);
+        }
+
+        return parent::searchAction();
     }
 
     /**
