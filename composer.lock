@@ -6699,16 +6699,16 @@
         },
         {
             "name": "symfony/mercure",
-            "version": "v0.3.0",
+            "version": "v0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/mercure.git",
-                "reference": "999c125d3a8f96a2b6e9be3da40ff4c25844d1da"
+                "reference": "7cec6a0e5ac5ad5bb4ac04939ff752ccda2af4cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/mercure/zipball/999c125d3a8f96a2b6e9be3da40ff4c25844d1da",
-                "reference": "999c125d3a8f96a2b6e9be3da40ff4c25844d1da",
+                "url": "https://api.github.com/repos/symfony/mercure/zipball/7cec6a0e5ac5ad5bb4ac04939ff752ccda2af4cc",
+                "reference": "7cec6a0e5ac5ad5bb4ac04939ff752ccda2af4cc",
                 "shasum": ""
             },
             "require": {
@@ -6759,20 +6759,20 @@
                 "sse",
                 "updates"
             ],
-            "time": "2019-11-08T19:13:31+00:00"
+            "time": "2020-05-27T14:53:11+00:00"
         },
         {
             "name": "symfony/mercure-bundle",
-            "version": "0.2.3",
+            "version": "v0.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/mercure-bundle.git",
-                "reference": "9c5fe6e761816449d84d5f0429e74415cb0590f2"
+                "reference": "d46c48f0ba074d73d0493ac5256596d9ce785ce6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/mercure-bundle/zipball/9c5fe6e761816449d84d5f0429e74415cb0590f2",
-                "reference": "9c5fe6e761816449d84d5f0429e74415cb0590f2",
+                "url": "https://api.github.com/repos/symfony/mercure-bundle/zipball/d46c48f0ba074d73d0493ac5256596d9ce785ce6",
+                "reference": "d46c48f0ba074d73d0493ac5256596d9ce785ce6",
                 "shasum": ""
             },
             "require": {
@@ -6780,7 +6780,7 @@
                 "symfony/config": "^4.3.7|^5.0",
                 "symfony/dependency-injection": "^4.3.7|^5.0",
                 "symfony/http-kernel": "^4.3.7|^5.0",
-                "symfony/mercure": "^0.3"
+                "symfony/mercure": "^0.3|^0.4"
             },
             "require-dev": {
                 "symfony/phpunit-bridge": "^4.3.7|^5.0",
@@ -6823,7 +6823,7 @@
                 "sse",
                 "updates"
             ],
-            "time": "2019-11-24T10:29:29+00:00"
+            "time": "2020-05-27T14:57:23+00:00"
         },
         {
             "name": "symfony/mime",
