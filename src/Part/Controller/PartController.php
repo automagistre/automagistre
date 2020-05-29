@@ -126,9 +126,9 @@ final class PartController extends AbstractController
     public function stockAction(): Response
     {
         $quantities = $this->registry->repository(Motion::class)
-            ->createQueryBuilder('motion', 'motion.part.id')
-            ->select('SUM(motion.quantity) AS quantity, motion.part.id AS part_id')
-            ->groupBy('motion.part.id')
+            ->createQueryBuilder('motion', 'motion.partId')
+            ->select('SUM(motion.quantity) AS quantity, motion.partId AS part_id')
+            ->groupBy('motion.partId')
             ->having('SUM(motion.quantity) <> 0')
             ->getQuery()
             ->getArrayResult();
