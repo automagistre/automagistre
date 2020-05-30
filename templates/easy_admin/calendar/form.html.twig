@@ -29,3 +29,20 @@
         </div>
     </div>
 {% endblock %}
+
+{% block js %}
+    <script>
+      $(document).on('ready', function() {
+        customer_car_form({
+          customer: {
+            input: '#{{ form.orderInfo.customerId.autocomplete.vars.id }}',
+            autocomplete: '{{ easyadmin_path('Operand', 'autocomplete', {'car_id': '__CAR__', 'use_uuid': 1})|raw }}',
+          },
+          car: {
+            input: '#{{ form.orderInfo.carId.autocomplete.vars.id }}',
+            autocomplete: '{{ easyadmin_path('Car', 'autocomplete', {'customer_id': '__CUSTOMER__', 'use_uuid': 1})|raw }}',
+          },
+        });
+      });
+    </script>
+{% endblock %}

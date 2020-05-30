@@ -23,6 +23,7 @@
 {% endblock %}
 
 {% block body_javascript %}
+    {{ block('js') }}
     <script>
       let cloak = $('#form-customer-cloak'),
           customerInput = $('#{{ form.orderInfo.customerId.autocomplete.vars.id }}'),
@@ -46,6 +47,5 @@
         customerLastNameInput.prop('disabled', true);
         customerFirstNameInput.prop('disabled', true);
       });
-
     </script>
 {% endblock %}
