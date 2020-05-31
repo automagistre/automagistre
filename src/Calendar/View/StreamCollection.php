@@ -2,7 +2,7 @@
 
 namespace App\Calendar\View;
 
-use App\Calendar\Form\CalendarEntryDto;
+use App\Calendar\Entity\EntryView;
 use ArrayIterator;
 use IteratorAggregate;
 use Traversable;
@@ -19,7 +19,7 @@ final class StreamCollection implements IteratorAggregate
     private array $streams = [];
 
     /**
-     * @param CalendarEntryDto[] $calendars
+     * @param EntryView[] $calendars
      */
     public function __construct(array $calendars)
     {
@@ -28,7 +28,7 @@ final class StreamCollection implements IteratorAggregate
         }
     }
 
-    public function add(CalendarEntryDto $entry): void
+    public function add(EntryView $entry): void
     {
         $workerId = $entry->orderInfo->workerId;
         if (null !== $workerId) {

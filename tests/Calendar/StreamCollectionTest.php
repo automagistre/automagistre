@@ -3,9 +3,9 @@
 namespace App\Tests\Calendar;
 
 use App\Calendar\Entity\CalendarEntryId;
-use App\Calendar\Form\CalendarEntryDto;
-use App\Calendar\Form\OrderInfoDto;
-use App\Calendar\Form\ScheduleDto;
+use App\Calendar\Entity\EntryView;
+use App\Calendar\Entity\OrderInfo;
+use App\Calendar\Entity\Schedule;
 use App\Calendar\View\Stream;
 use App\Calendar\View\StreamCollection;
 use App\Employee\Entity\EmployeeId;
@@ -41,34 +41,34 @@ class StreamCollectionTest extends TestCase
         $worker1 = EmployeeId::generate();
         $worker2 = EmployeeId::generate();
 
-        $entity1 = $entities[] = new CalendarEntryDto(
+        $entity1 = $entities[] = new EntryView(
             CalendarEntryId::generate(),
-            new ScheduleDto(new DateTimeImmutable('10:30'), new DateInterval('PT1H')),
-            new OrderInfoDto(null, null, null, $worker1),
+            new Schedule(new DateTimeImmutable('10:30'), new DateInterval('PT1H')),
+            new OrderInfo(null, null, null, $worker1),
         );
 
-        $entity2 = $entities[] = new CalendarEntryDto(
+        $entity2 = $entities[] = new EntryView(
             CalendarEntryId::generate(),
-            new ScheduleDto(new DateTimeImmutable('11:00'), new DateInterval('PT8H')),
-            new OrderInfoDto(null, null, null, $worker1),
+            new Schedule(new DateTimeImmutable('11:00'), new DateInterval('PT8H')),
+            new OrderInfo(null, null, null, $worker1),
         );
 
-        $entity3 = $entities[] = new CalendarEntryDto(
+        $entity3 = $entities[] = new EntryView(
             CalendarEntryId::generate(),
-            new ScheduleDto(new DateTimeImmutable('12:00'), new DateInterval('PT5H30M')),
-            new OrderInfoDto(null, null, null, $worker2),
+            new Schedule(new DateTimeImmutable('12:00'), new DateInterval('PT5H30M')),
+            new OrderInfo(null, null, null, $worker2),
         );
 
-        $entity4 = $entities[] = new CalendarEntryDto(
+        $entity4 = $entities[] = new EntryView(
             CalendarEntryId::generate(),
-            new ScheduleDto(new DateTimeImmutable('15:00'), new DateInterval('PT30M')),
-            new OrderInfoDto(null, null, null, null),
+            new Schedule(new DateTimeImmutable('15:00'), new DateInterval('PT30M')),
+            new OrderInfo(null, null, null, null),
         );
 
-        $entity5 = $entities[] = new CalendarEntryDto(
+        $entity5 = $entities[] = new EntryView(
             CalendarEntryId::generate(),
-            new ScheduleDto(new DateTimeImmutable('15:00'), new DateInterval('PT30M')),
-            new OrderInfoDto(null, null, null, null),
+            new Schedule(new DateTimeImmutable('15:00'), new DateInterval('PT30M')),
+            new OrderInfo(null, null, null, null),
         );
 
         $result = [

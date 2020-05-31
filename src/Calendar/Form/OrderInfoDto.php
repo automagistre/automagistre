@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Calendar\Form;
 
+use App\Calendar\Entity\OrderInfo;
 use App\Car\Entity\CarId;
 use App\Customer\Entity\OperandId;
 use App\Employee\Entity\EmployeeId;
@@ -54,5 +55,15 @@ final class OrderInfoDto
         $this->description = $description;
         $this->workerId = $workerId;
         $this->customer = $customer;
+    }
+
+    public static function fromOrderInfo(OrderInfo $orderInfo): self
+    {
+        return new self(
+            $orderInfo->customerId,
+            $orderInfo->carId,
+            $orderInfo->description,
+            $orderInfo->workerId
+        );
     }
 }

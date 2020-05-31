@@ -6,7 +6,7 @@ namespace App\Calendar\Repository;
 
 use App\Calendar\Entity\CalendarEntry;
 use App\Calendar\Entity\CalendarEntryId;
-use App\Calendar\Form\CalendarEntryDto;
+use App\Calendar\Entity\EntryView;
 
 interface CalendarEntryRepository
 {
@@ -14,5 +14,5 @@ interface CalendarEntryRepository
 
     public function add(CalendarEntry $entry): void;
 
-    public function view(CalendarEntryId $id): CalendarEntryDto;
+    public function view(CalendarEntryId $id): EntryView;
 }

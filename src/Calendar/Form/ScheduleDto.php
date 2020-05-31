@@ -2,6 +2,7 @@
 
 namespace App\Calendar\Form;
 
+use App\Calendar\Entity\Schedule;
 use DateInterval;
 use DateTimeImmutable;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -26,5 +27,10 @@ final class ScheduleDto
     {
         $this->date = $date;
         $this->duration = $duration;
+    }
+
+    public static function fromSchedule(Schedule $schedule): self
+    {
+        return new self($schedule->date, $schedule->duration);
     }
 }

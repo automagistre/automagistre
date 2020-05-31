@@ -3,6 +3,7 @@
 namespace App\Calendar\Form;
 
 use App\Calendar\Entity\CalendarEntryId;
+use App\Calendar\Entity\EntryView;
 use Symfony\Component\Validator\Constraints as Assert;
 
 final class CalendarEntryDto
@@ -26,21 +27,12 @@ final class CalendarEntryDto
         $this->orderInfo = $orderInfo;
     }
 
-    public static function fromArray(array $item): self
+    public static function fromView(EntryView $view): self
     {
         return new self(
-            CalendarEntryId::fromString($item['id']),
-            new ScheduleDto(
-                $item['schedule.date'],
-                $item['schedule.duration'],
-            ),
-            new OrderInfoDto(
-                $item['orderInfo.customerId'],
-                $item['orderInfo.carId'],
-                $item['orderInfo.description'],
-                $item['orderInfo.workerId'],
-                null,
-            ),
+            $view->id,
+            ScheduleDto::fromSchedule($view->schedule),
+            OrderInfoDto::fromOrderInfo($view->orderInfo),
         );
     }
 }

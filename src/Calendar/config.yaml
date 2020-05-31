@@ -48,6 +48,9 @@ services:
     App\Calendar\Application\Reschedule\RescheduleCalendarEntryHandler:
         tags:
             - { name: command_handler, handles: App\Calendar\Application\Reschedule\RescheduleCalendarEntryCommand }
+    App\Calendar\Application\ChangeOrder\ChangeOrderCalendarEntryHandler:
+        tags:
+            - { name: command_handler, handles: App\Calendar\Application\ChangeOrder\ChangeOrderCalendarEntryCommand }
     App\Calendar\Application\Delete\DeleteCalendarEntryHandler:
         tags:
             - { name: command_handler, handles: App\Calendar\Application\Delete\DeleteCalendarEntryCommand }

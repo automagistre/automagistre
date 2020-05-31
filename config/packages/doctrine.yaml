@@ -27,6 +27,7 @@ doctrine:
                 dbname:   tenant
                 user:     "%env(DATABASE_USER)%"
                 password: "%env(DATABASE_PASSWORD)%"
+                schema_filter: ~^(?!.*_view$).*~
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"

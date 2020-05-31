@@ -31,6 +31,15 @@ abstract class Identifier
     }
 
     /**
+     * @psalm-mutation-free
+     */
+    final public static function same(?self $left, ?self $right): bool
+    {
+        return (null === $left && null === $right)
+            || (null === $left ? null : $left->toString()) === (null === $right ? null : $right->toString());
+    }
+
+    /**
      * @return static
      */
     final public static function generate(): self

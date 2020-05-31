@@ -2,7 +2,7 @@
 
 namespace App\Calendar\View;
 
-use App\Calendar\Form\CalendarEntryDto;
+use App\Calendar\Entity\EntryView;
 use App\Employee\Entity\EmployeeId;
 use function array_intersect;
 use function array_keys;
@@ -18,7 +18,7 @@ final class Stream
     private array $items = [];
 
     /**
-     * @param CalendarEntryDto[] $calendars
+     * @param EntryView[] $calendars
      */
     public function __construct(EmployeeId $worker = null, array $calendars = [])
     {
@@ -28,7 +28,7 @@ final class Stream
         }
     }
 
-    public function add(CalendarEntryDto $calendar): void
+    public function add(EntryView $calendar): void
     {
         $date = $calendar->schedule->date;
         $interval = $calendar->schedule->duration;

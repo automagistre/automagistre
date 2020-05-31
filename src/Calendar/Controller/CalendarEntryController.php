@@ -2,6 +2,7 @@
 
 namespace App\Calendar\Controller;
 
+use App\Calendar\Application\ChangeOrder\ChangeOrderCalendarEntryCommand;
 use App\Calendar\Application\Create\CreateCalendarEntryCommand;
 use App\Calendar\Application\Delete\DeleteCalendarEntryCommand;
 use App\Calendar\Application\Reschedule\RescheduleCalendarEntryCommand;
@@ -132,7 +133,9 @@ final class CalendarEntryController extends AbstractController
      */
     protected function createEditDto(Closure $closure): CalendarEntryDto
     {
-        return CalendarEntryDto::fromArray($closure());
+        return CalendarEntryDto::fromView(
+            $this->repository->view(CalendarEntryId::fromString($this->request->query->get('id')))
+        );
     }
 
     /**
@@ -145,12 +148,17 @@ final class CalendarEntryController extends AbstractController
 
         $this->commandBus->handle(
             new RescheduleCalendarEntryCommand(
-                CalendarEntryId::generate(),
                 $dto->id,
                 new Schedule(
                     $dto->schedule->date,
                     $dto->schedule->duration,
                 ),
+            )
+        );
+
+        $this->commandBus->handle(
+            new ChangeOrderCalendarEntryCommand(
+                $dto->id,
                 new OrderInfo(
                     $dto->orderInfo->customerId,
                     $dto->orderInfo->carId,

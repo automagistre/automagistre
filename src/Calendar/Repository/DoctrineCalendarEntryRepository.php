@@ -6,8 +6,8 @@ namespace App\Calendar\Repository;
 
 use App\Calendar\Entity\CalendarEntry;
 use App\Calendar\Entity\CalendarEntryId;
+use App\Calendar\Entity\EntryView;
 use App\Calendar\Exception\CalendarEntryNotFound;
-use App\Calendar\Form\CalendarEntryDto;
 use App\Shared\Doctrine\Registry;
 
 final class DoctrineCalendarEntryRepository implements CalendarEntryRepository
@@ -35,8 +35,8 @@ final class DoctrineCalendarEntryRepository implements CalendarEntryRepository
         $this->registry->manager(CalendarEntry::class)->persist($entry);
     }
 
-    public function view(CalendarEntryId $id): CalendarEntryDto
+    public function view(CalendarEntryId $id): EntryView
     {
-        return CalendarEntryDto::fromArray($this->registry->view($id));
+        return $this->registry->getBy(EntryView::class, ['id' => $id]);
     }
 }

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Calendar\Application\Reschedule;
+namespace App\Calendar\Application\ChangeOrder;
 
 use App\Calendar\Repository\CalendarEntryRepository;
 
-final class RescheduleCalendarEntryHandler
+final class ChangeOrderCalendarEntryHandler
 {
     private CalendarEntryRepository $repository;
 
@@ -15,12 +15,12 @@ final class RescheduleCalendarEntryHandler
         $this->repository = $repository;
     }
 
-    public function __invoke(RescheduleCalendarEntryCommand $command): void
+    public function __invoke(ChangeOrderCalendarEntryCommand $command): void
     {
         $entry = $this->repository->get($command->id);
 
-        $entry->reschedule(
-            $command->schedule,
+        $entry->changeOrderInfo(
+            $command->orderInfo,
         );
     }
 }
