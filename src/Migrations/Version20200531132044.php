@@ -6,9 +6,6 @@ namespace App\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use function implode;
-use Ramsey\Uuid\Uuid;
-use function sprintf;
 use function strpos;
 
 final class Version20200531132044 extends AbstractMigration
@@ -36,118 +33,6 @@ final class Version20200531132044 extends AbstractMigration
         $this->addSql('ALTER TABLE calendar_entry_schedule ADD CONSTRAINT FK_86FDAEE3BA364942 FOREIGN KEY (entry_id) REFERENCES calendar_entry (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE calendar_entry DROP CONSTRAINT fk_47759e1e2cf9ddc');
         $this->addSql('DROP INDEX uniq_47759e1e2cf9ddc');
-
-        // Data migration
-        $rootEntries = $this->connection->fetchAll(
-            'SELECT e1.id 
-                    FROM calendar_entry e1 
-                    LEFT JOIN calendar_entry e2 ON e2.previous = e1.id
-                    WHERE e1.previous IS NULL AND e2.id IS NULL'
-        );
-
-        foreach ($rootEntries as ['id' => $rootEntryId]) {
-            $scheduleId = Uuid::uuid6()->toString();
-            $this->addSql(
-                sprintf(
-                    'INSERT INTO calendar_entry_schedule 
-                            (id, entry_id, duration, date) 
-                            SELECT \'%s\'::uuid, id, duration, date
-                            FROM calendar_entry
-                            WHERE id = \'%s\'::uuid',
-                    $scheduleId,
-                    $rootEntryId
-                )
-            );
-            $this->addSql(
-                sprintf(
-                    'INSERT INTO created_by (id, user_id, created_at) 
-                            SELECT \'%s\'::uuid, cb.user_id, cb.created_at 
-                            FROM created_by cb
-                            WHERE cb.id = \'%s\'::uuid',
-                    $scheduleId,
-                    $rootEntryId
-                )
-            );
-
-            $orderId = Uuid::uuid6()->toString();
-            $this->addSql(
-                sprintf(
-                    'INSERT INTO calendar_entry_order 
-                            (id, entry_id, car_id, customer_id, worker_id, description)
-                            SELECT \'%s\'::uuid, id, car_id, customer_id, worker_id, description
-                            FROM calendar_entry
-                            WHERE id = \'%s\'::uuid',
-                    $orderId,
-                    $rootEntryId
-                )
-            );
-            $this->addSql(
-                sprintf(
-                    'INSERT INTO created_by (id, user_id, created_at) 
-                            SELECT \'%s\'::uuid, cb.user_id, cb.created_at 
-                            FROM created_by cb
-                            WHERE cb.id = \'%s\'::uuid',
-                    $orderId,
-                    $rootEntryId
-                )
-            );
-        }
-
-        foreach ([6, 5, 4, 3, 2] as $count) {
-            $selects = ['d.id AS deletion_id'];
-            $joins = ['LEFT JOIN calendar_entry_deletion d ON e1.id = d.entry_id'];
-
-            for ($i = 1; $i < $count + 1; ++$i) {
-                $selects[] = sprintf('e%s.id AS e%s', $i, $i);
-                if ($i > 1) {
-                    $joins[] = sprintf('JOIN calendar_entry e%s ON e%s.previous = e%s.id', $i, $i, $i - 1);
-                }
-            }
-
-            $select = implode(', ', $selects);
-            $join = implode(' ', $joins);
-            $entries = $this->connection->fetchAll("SELECT {$select} FROM calendar_entry e1 {$join}");
-
-            foreach ($entries as $row) {
-                $currentId = $row[sprintf('e%s', $count)];
-
-                $this->addSql(
-                    sprintf(
-                        'INSERT INTO calendar_entry_schedule 
-                                (id, entry_id, duration, date) 
-                                SELECT id, \'%s\'::uuid, duration, date
-                                FROM calendar_entry
-                                WHERE id = \'%s\'::uuid',
-                        $row['e1'],
-                        $currentId,
-                    )
-                );
-                $this->addSql(
-                    sprintf(
-                        'INSERT INTO calendar_entry_order 
-                                (id, entry_id, car_id, customer_id, worker_id, description)
-                                SELECT id, \'%s\'::uuid, car_id, customer_id, worker_id, description
-                                FROM calendar_entry
-                                WHERE id = \'%s\'::uuid',
-                        $row['e1'],
-                        $currentId,
-                    )
-                );
-                $this->addSql(sprintf('DELETE FROM calendar_entry WHERE id = \'%s\'::uuid', $currentId));
-
-                if (null !== $row['deletion_id']) {
-                    $this->addSql(
-                        sprintf(
-                            'UPDATE calendar_entry_deletion SET entry_id = \'%s\'::uuid WHERE id = \'%s\'::uuid',
-                            $row['e1'],
-                            $row['deletion_id']
-                        )
-                    );
-                }
-            }
-        }
-        // Data migration
-
         $this->addSql('ALTER TABLE calendar_entry DROP previous');
         $this->addSql('ALTER TABLE calendar_entry DROP date');
         $this->addSql('ALTER TABLE calendar_entry DROP duration');
