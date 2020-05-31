@@ -142,6 +142,9 @@ paratest: APP_DEBUG=1
 paratest: clear-log ### Run paratest
 	$(APP) paratest -p $(shell grep -c ^processor /proc/cpuinfo || 4) --stop-on-failure
 
+phpmetrics: ## Generate phpmetrics to public/phpmetrics folder
+	$(APP) phpmetrics --report-html=public/phpmetrics --exclude src/Migrations src
+
 requirements: APP_ENV=prod
 requirements: ### Check symfony requirements
 	$(APP) requirements-checker APP_ENV=prod APP_DEBUG=0

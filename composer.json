@@ -85,6 +85,7 @@
         "friendsofphp/php-cs-fixer": "^2.15",
         "fzaninotto/faker": "^1.9",
         "pedrotroller/php-cs-custom-fixer": "^2.17",
+        "phpmetrics/phpmetrics": "^2.6",
         "phpstan/phpstan": "^0.12.0",
         "phpstan/phpstan-doctrine": "^0.12.0",
         "phpstan/phpstan-phpunit": "^0.12.0",

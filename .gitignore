@@ -5,6 +5,7 @@
 /src/Command/TestCommand.php
 /src/Controller/TestController.php
 /templates/test.html.twig
+/public/phpmetrics
 
 # Symfony
 .env
