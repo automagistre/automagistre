@@ -43,9 +43,9 @@ use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use function explode;
-use function filter_var;
 use Generator;
 use function in_array;
+use function is_numeric;
 use LogicException;
 use function mb_strtolower;
 use Money\Money;
@@ -676,9 +676,9 @@ final class OrderController extends AbstractController
      */
     protected function searchAction(): Response
     {
-        $id = filter_var($this->request->query->get('query'), FILTER_VALIDATE_INT);
+        $id = (string) $this->request->query->get('query');
 
-        if (false !== $id) {
+        if (is_numeric($id)) {
             $entity = $this->em->getRepository(Order::class)->find($id);
             if (null !== $entity) {
                 return $this->redirectToEasyPath($entity, 'show');

@@ -153,7 +153,7 @@ class OperandController extends AbstractController
                 ->setParameter('car', $carId);
         }
 
-        $search = $query->has('query') ? explode(' ', $query->get('query')) : [];
+        $search = $query->has('query') ? explode(' ', (string) $query->get('query')) : [];
         foreach ($search as $key => $item) {
             $key = ':search_'.$key;
 
@@ -168,7 +168,7 @@ class OperandController extends AbstractController
             $qb->setParameter($key, '%'.mb_strtolower($item).'%');
         }
 
-        $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
+        $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->getInt('page', 1));
 
         $data = array_map(function (Operand $entity) use ($isUuid): array {
             $text = $entity->getFullName();

@@ -78,9 +78,9 @@ final class PersonController extends OperandController
     {
         $query = $this->request->query;
 
-        $qb = $this->createSearchQueryBuilder($query->get('entity'), $query->getAlnum('query'), []);
+        $qb = $this->createSearchQueryBuilder((string) $query->get('entity'), $query->getAlnum('query'), []);
 
-        $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
+        $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->getInt('page', 1));
 
         $data = array_map(function (Person $person): array {
             $formattedTelephone = $this->formatTelephone($person->getTelephone() ?? $person->getOfficePhone());

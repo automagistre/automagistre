@@ -189,7 +189,7 @@ final class OrderItemServiceController extends OrderItemController
             ->orderBy('COUNT(service)', 'DESC')
             ->setMaxResults(15);
 
-        foreach (explode(' ', trim($request->query->get('query'))) as $key => $searchString) {
+        foreach (explode(' ', trim((string) $request->query->get('query'))) as $key => $searchString) {
             $searchString = trim($searchString);
             if ('' === $searchString) {
                 continue;

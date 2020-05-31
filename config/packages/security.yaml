@@ -18,8 +18,8 @@ security:
             anonymous: ~
             logout:
                 path: logout
-                delete_cookies:
-                    PHPSESSID: ~
+#                delete_cookies:
+#                    PHPSESSID: ~
             form_login:
                 provider: user_provider
                 csrf_token_generator: security.csrf.token_manager

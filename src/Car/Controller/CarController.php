@@ -216,9 +216,9 @@ final class CarController extends AbstractController
         $query = $this->request->query;
         $isUuid = $query->has('use_uuid');
 
-        $qb = $this->createSearchQueryBuilder($query->get('entity'), $query->get('query', ''), []);
+        $qb = $this->createSearchQueryBuilder((string) $query->get('entity'), $query->get('query', ''), []);
 
-        $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
+        $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->getInt('page', 1));
 
         $data = array_map(function (Car $car) use ($isUuid): array {
             $text = $this->display($car->toId(), 'autocomplete');

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="3.11.4@58e1d8e68e5098bf4fbfdfb420c38d563f882549">
+<files psalm-version="3.11.5@3c60609c218d4d4b3b257728b8089094e5c6c6c2">
   <file src="src/Calendar/Controller/CalendarEntryController.php">
-    <PossiblyNullArgument occurrences="1">
+    <PossiblyNullArgument occurrences="2">
+      <code>$this-&gt;request-&gt;query-&gt;get('id')</code>
       <code>$dto-&gt;reason</code>
     </PossiblyNullArgument>
     <PropertyNotSetInConstructor occurrences="1">
@@ -12,6 +13,9 @@
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtolower($searchString)</code>
     </PossiblyFalseOperand>
+    <PossiblyNullArgument occurrences="1">
+      <code>$query-&gt;get('query', '')</code>
+    </PossiblyNullArgument>
     <PossiblyNullPropertyAssignment occurrences="1">
       <code>$entity</code>
     </PossiblyNullPropertyAssignment>
@@ -126,6 +130,13 @@
       <code>CustomerPhoneNotExistsValidator</code>
     </PropertyNotSetInConstructor>
   </file>
+  <file src="src/EasyAdmin/Controller/AbstractController.php">
+    <PossiblyNullArgument occurrences="3">
+      <code>$this-&gt;request-&gt;query-&gt;get('referer', '')</code>
+      <code>$this-&gt;request-&gt;query-&gt;get('newValue')</code>
+      <code>$id</code>
+    </PossiblyNullArgument>
+  </file>
   <file src="src/EasyAdmin/Form/AutocompleteType.php">
     <PossiblyFalseReference occurrences="2">
       <code>setData</code>
@@ -181,17 +192,6 @@
   <file src="src/Form/Model/OrderGroup.php">
     <PropertyNotSetInConstructor occurrences="1">
       <code>OrderGroup</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Form/Model/OrderItemModel.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>$order</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Form/Model/OrderPart.php">
-    <PropertyNotSetInConstructor occurrences="2">
-      <code>$partId</code>
-      <code>OrderPart</code>
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Form/Model/OrderService.php">
@@ -295,9 +295,6 @@
     </PossiblyNullArgument>
   </file>
   <file src="src/Order/Controller/OrderItemPartController.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$model-&gt;price</code>
-    </PossiblyNullArgument>
     <PropertyNotSetInConstructor occurrences="1">
       <code>OrderItemPartController</code>
     </PropertyNotSetInConstructor>
@@ -315,6 +312,12 @@
     <PossiblyNullReference occurrences="1">
       <code>toId</code>
     </PossiblyNullReference>
+  </file>
+  <file src="src/Order/Controller/ProfitController.php">
+    <PossiblyNullArgument occurrences="2">
+      <code>$request-&gt;query-&gt;get('start')</code>
+      <code>$request-&gt;query-&gt;get('end')</code>
+    </PossiblyNullArgument>
   </file>
   <file src="src/Order/Entity/Order.php">
     <PossiblyNullArgument occurrences="1">
@@ -361,11 +364,16 @@
       <code>PartController</code>
     </PropertyNotSetInConstructor>
   </file>
-  <file src="src/Part/Entity/Part.php">
-    <PropertyNotSetInConstructor occurrences="2">
-      <code>$price</code>
-      <code>$discount</code>
-    </PropertyNotSetInConstructor>
+  <file src="src/Part/Controller/PartExplorerController.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$request-&gt;query-&gt;get('referer')</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/Part/Controller/PartSellController.php">
+    <PossiblyNullArgument occurrences="2">
+      <code>$request-&gt;query-&gt;get('start')</code>
+      <code>$request-&gt;query-&gt;get('end')</code>
+    </PossiblyNullArgument>
   </file>
   <file src="src/Part/Manager/DeficitManager.php">
     <InvalidNullableReturnType occurrences="1">
@@ -403,9 +411,6 @@
     <RedundantConditionGivenDocblockType occurrences="1">
       <code>assert($entityRepository instanceof EntityRepository)</code>
     </RedundantConditionGivenDocblockType>
-    <RepositoryStringShortcut occurrences="1">
-      <code>$class</code>
-    </RepositoryStringShortcut>
   </file>
   <file src="src/Shared/Identifier/IdentifierRouterExtension.php">
     <InvalidArrayOffset occurrences="2">
@@ -421,11 +426,6 @@
     <MissingClosureReturnType occurrences="1">
       <code>fn (</code>
     </MissingClosureReturnType>
-  </file>
-  <file src="src/Shared/Request/EntityTransformer.php">
-    <RepositoryStringShortcut occurrences="1">
-      <code>$class</code>
-    </RepositoryStringShortcut>
   </file>
   <file src="src/Shared/Request/EntityTransformerArgumentValueResolver.php">
     <PossiblyNullArgument occurrences="2">
@@ -450,11 +450,6 @@
     <PropertyNotSetInConstructor occurrences="1">
       <code>$user</code>
     </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Tenant/EventListener/TenantRelationListener.php">
-    <RepositoryStringShortcut occurrences="1">
-      <code>$relationEntityClass</code>
-    </RepositoryStringShortcut>
   </file>
   <file src="src/User/Controller/UserController.php">
     <PossiblyNullReference occurrences="1">

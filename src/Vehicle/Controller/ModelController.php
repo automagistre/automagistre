@@ -61,9 +61,9 @@ final class ModelController extends AbstractController
     {
         $query = $this->request->query;
 
-        $qb = $this->createSearchQueryBuilder($query->get('entity'), $query->get('query'), []);
+        $qb = $this->createSearchQueryBuilder((string) $query->get('entity'), (string) $query->get('query'), []);
 
-        $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->get('page', 1));
+        $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->getInt('page', 1));
 
         $data = array_map(fn (Model $entity) => [
             'id' => $query->has('use_uuid') ? $entity->toId()->toString() : $entity->getId(),

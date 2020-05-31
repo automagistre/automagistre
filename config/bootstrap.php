@@ -5,8 +5,8 @@ use Symfony\Component\ErrorHandler\Debug;
 
 require dirname(__DIR__).'/vendor/autoload.php';
 
-if (class_exists(Dotenv::class) && file_exists($path = dirname(__DIR__).'/.env')) {
-    (new Dotenv(false))->loadEnv($path);
+if (file_exists($path = dirname(__DIR__).'/.env')) {
+    (new Dotenv())->bootEnv(dirname(__DIR__).'/.env');
 }
 
 $_SERVER += $_ENV;

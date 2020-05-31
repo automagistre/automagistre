@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Shared\Router;
 
 use BadMethodCallException;
+use LogicException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
@@ -90,10 +91,12 @@ final class ListeningRouterDecorator implements RouterInterface, RequestMatcherI
     /**
      * {@inheritdoc}
      */
-    public function warmUp(string $cacheDir): void
+    public function warmUp(string $cacheDir): array
     {
-        if ($this->router instanceof WarmableInterface) {
-            $this->router->warmUp($cacheDir);
+        if (!$this->router instanceof WarmableInterface) {
+            throw new LogicException('Something wrong.');
         }
+
+        return $this->router->warmUp($cacheDir);
     }
 }

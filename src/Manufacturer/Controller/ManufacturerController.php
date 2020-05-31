@@ -20,10 +20,10 @@ final class ManufacturerController extends AbstractController
         $request = $this->request;
         $isUuid = $request->query->has('use_uuid');
 
-        $queryString = str_replace(['.', ',', '-', '_'], '', $request->query->get('query'));
-        $qb = $this->createSearchQueryBuilder($request->query->get('entity'), $queryString, []);
+        $queryString = str_replace(['.', ',', '-', '_'], '', (string) $request->query->get('query'));
+        $qb = $this->createSearchQueryBuilder((string) $request->query->get('entity'), $queryString, []);
 
-        $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $request->query->get('page', 1));
+        $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $request->query->getInt('page', 1));
 
         return $this->json([
             'results' => array_map(

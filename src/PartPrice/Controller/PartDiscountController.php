@@ -12,6 +12,7 @@ use App\Part\Entity\PartId;
 use App\PartPrice\Entity\Discount;
 use App\PartPrice\Form\PartDiscountDto;
 use DateTimeImmutable;
+use function is_string;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -22,7 +23,7 @@ final class PartDiscountController extends AbstractController
         $request = $this->request;
 
         $partId = $request->query->get('part_id');
-        if (!PartId::isValid($partId)) {
+        if (!is_string($partId) || !PartId::isValid($partId)) {
             throw new BadRequestHttpException('part_id is not valid uuid.');
         }
 
