@@ -106,7 +106,7 @@ migration-diff-landlord: ### Generate diff migration for landlord database
 migration-diff-tenant: ### Generate diff migration for tenant database
 	@$(MAKE) do-migration-diff EM=tenant
 do-migration-diff:
-	$(APP) console doctrine:migration:diff --formatted $(MIGRATION_CONSOLE) && sed -i "s/this->abortIf.*/&\n\n        \$$this->skipIf(0 !== strpos(\$$this->connection->getDatabase(), '${EM}'), '${EM} only');/" `git ls-files --others --exclude-standard | tail -n 1` || true
+	$(APP) console doctrine:migration:diff $(MIGRATION_CONSOLE) && sed -i "s/this->abortIf.*/&\n\n        \$$this->skipIf(0 !== strpos(\$$this->connection->getDatabase(), '${EM}'), '${EM} only');/" `git ls-files --others --exclude-standard | tail -n 1` || true
 migration-diff-dry:
 	$(APP) console doctrine:schema:update --dump-sql --em=${EM} $(TENANT_CONSOLE)
 
