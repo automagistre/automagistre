@@ -75,7 +75,6 @@ final class OrderStatus extends Enum
     {
         return self::all(
             [
-                self::SCHEDULING,
                 self::CLOSED,
             ],
             true
