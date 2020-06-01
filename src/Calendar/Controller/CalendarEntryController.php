@@ -7,6 +7,7 @@ use App\Calendar\Application\Create\CreateCalendarEntryCommand;
 use App\Calendar\Application\Delete\DeleteCalendarEntryCommand;
 use App\Calendar\Application\Reschedule\RescheduleCalendarEntryCommand;
 use App\Calendar\Entity\CalendarEntryId;
+use App\Calendar\Entity\EntryOrder;
 use App\Calendar\Entity\OrderInfo;
 use App\Calendar\Entity\Schedule;
 use App\Calendar\Form\CalendarEntryDeletionDto;
@@ -19,6 +20,9 @@ use App\Calendar\View\Streamer;
 use App\Customer\Entity\OperandId;
 use App\Customer\Entity\Person;
 use App\EasyAdmin\Controller\AbstractController;
+use App\Order\Entity\Order;
+use App\Order\Entity\OrderId;
+use App\Order\Enum\OrderStatus;
 use function array_map;
 use function array_merge;
 use function assert;
@@ -26,6 +30,8 @@ use Closure;
 use DateInterval;
 use DateTimeImmutable;
 use DateTimeZone;
+use function is_string;
+use Ramsey\Uuid\Uuid;
 use function range;
 use SimpleBus\SymfonyBridge\Bus\CommandBus;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -60,10 +66,13 @@ final class CalendarEntryController extends AbstractController
 
         $date = $date->setTime(0, 0, 0, 0);
 
+        $orderId = $this->request->query->get('order_id');
+
         return $this->render('easy_admin/calendar/list.html.twig', [
             'date' => $date,
             'today' => $today,
             'streams' => $this->streamer->byDate($date),
+            'orderId' => is_string($orderId) && Uuid::isValid($orderId) ? $orderId : null,
             'columns' => array_merge(...array_map(fn (int $val) => [$val.':00', $val.':30'], range(10, 21))),
         ]);
     }
@@ -83,10 +92,23 @@ final class CalendarEntryController extends AbstractController
         $schedule->date = $date;
         $schedule->duration = new DateInterval('PT1H');
 
+        $orderInfo = $this->createWithoutConstructor(OrderInfoDto::class);
+        $orderId = $this->getIdentifier(OrderId::class);
+        if ($orderId instanceof OrderId) {
+            $orderView = $this->registry->view($orderId);
+
+            $orderInfo->carId = $orderView['carId'];
+            $orderInfo->customerId = $orderView['customerId'];
+
+            if (null === $orderInfo->carId && null === $orderInfo->customerId) {
+                $orderInfo->description = $this->display($orderId);
+            }
+        }
+
         return new CalendarEntryDto(
             CalendarEntryId::generate(),
             $schedule,
-            $this->createWithoutConstructor(OrderInfoDto::class),
+            $orderInfo,
         );
     }
 
@@ -109,6 +131,14 @@ final class CalendarEntryController extends AbstractController
 
             $this->em->persist($person);
             $this->em->flush();
+        }
+
+        $orderId = $this->getIdentifier(OrderId::class);
+        if ($orderId instanceof OrderId) {
+            $order = $this->registry->getBy(Order::class, $orderId);
+            $order->setStatus(OrderStatus::scheduling());
+
+            $this->em->persist(new EntryOrder($dto->id, $orderId));
         }
 
         $this->commandBus->handle(

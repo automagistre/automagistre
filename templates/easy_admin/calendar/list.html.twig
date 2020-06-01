@@ -30,7 +30,7 @@
                     </div>
                     <div class="input-group-addon">Дата</div>
                     <input id="date-input" type="date" name="date" class="form-control" value="{{ date|date('Y-m-d') }}">
-                    {% for query in ['entity', 'action', 'menuIndex', 'submenuIndex'] %}
+                    {% for query in ['entity', 'action', 'menuIndex', 'submenuIndex', 'order_id']|filter(key => app.request.query.has(key)) %}
                         <input type="hidden" name="{{ query }}" value="{{ app.request.query.get(query) }}">
                     {% endfor %}
                     <div class="input-group-btn">
@@ -76,7 +76,7 @@
                 {% set background = '#ffffff' %}
             {% endif %}
 
-            <a href="{{ easyadmin_path('CalendarEntry', 'list', {'date': day|date('Y-m-d')}) }}" class="btn btn-sm {% if current %}disabled btn-success{% else %}btn-default{% endif %}" style="
+            <a href="{{ easyadmin_path('CalendarEntry', 'list', {'date': day|date('Y-m-d'), 'order_id': orderId}) }}" class="btn btn-sm {% if current %}disabled btn-success{% else %}btn-default{% endif %}" style="
                     border-radius: {{ current ? '0px' : '3px' }};
                     border: 1px solid {{ current ? '#006B2E' : '#ccc' }};
                     color: {{ color }};
@@ -109,7 +109,7 @@
                         <tr style="height: 60px">
                             <td>
                                 {% if stream.workerId is not empty %}
-                                    <a href="{{ easyadmin_path_by_id(stream.workerId, 'show', {'referer': true}) }}">
+                                    <a href="{{ easyadmin_path_by_id(stream.workerId, 'show', {'order_id': orderId, 'referer': true}) }}">
                                         {{- stream.workerId|display_name -}}
                                     </a>
                                 {% else %}
@@ -179,6 +179,15 @@
                                                         {% endif %}
                                                     </div>
                                                     <div class="modal-footer">
+                                                        {% if entry.orderId is not empty %}
+                                                            <a href="{{ easyadmin_path('Order', 'show', {'id': entry.orderId.toString}) }}" class="btn btn-info">
+                                                                В Заказ
+                                                            </a>
+                                                            {% else %}
+                                                            <a href="{{ easyadmin_path('Order', 'new', {'calendar_entry_id': entry.id.toString}) }}" class="btn btn-success">
+                                                                Создать заказ
+                                                            </a>
+                                                        {% endif %}
                                                         <a
                                                                 href="{{ easyadmin_path('CalendarEntry', 'deletion', {'id': item.calendar.id.toString(), 'referer': true}) }}"
                                                                 class="btn btn-danger">
@@ -196,7 +205,7 @@
                                     </td>
                                 {% else %}
                                     <td style="text-align: center">
-                                        <a href="{{ easyadmin_path('CalendarEntry', 'new', {'date': date|date('Y-m-d') ~ ' ' ~ time}|merge(stream.workerId ? {'worker_id': stream.workerId.toString} : {})) }}" class="btn btn-success create-plus-button">
+                                        <a href="{{ easyadmin_path('CalendarEntry', 'new', {'order_id': orderId, 'date': date|date('Y-m-d') ~ ' ' ~ time}|merge(stream.workerId ? {'worker_id': stream.workerId.toString} : {})) }}" class="btn btn-success create-plus-button">
                                             <i class="fa fa-plus"></i>
                                         </a>
                                     </td>
@@ -208,7 +217,7 @@
                         <td></td>
                         {% for time in columns %}
                             <td style="text-align: center">
-                                <a href="{{ easyadmin_path('CalendarEntry', 'new', {'date': date|date('Y-m-d') ~ ' ' ~ time}) }}" class="btn btn-success create-plus-button">
+                                <a href="{{ easyadmin_path('CalendarEntry', 'new', {'order_id': orderId, 'date': date|date('Y-m-d') ~ ' ' ~ time}) }}" class="btn btn-success create-plus-button">
                                     <i class="fa fa-plus"></i>
                                 </a>
                             </td>

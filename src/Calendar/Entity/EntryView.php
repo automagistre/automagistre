@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Calendar\Entity;
 
+use App\Order\Entity\OrderId;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,10 +31,16 @@ class EntryView
      */
     public OrderInfo $orderInfo;
 
-    public function __construct(CalendarEntryId $id, Schedule $schedule, OrderInfo $orderInfo)
+    /**
+     * @ORM\Column(type="order_id")
+     */
+    public ?OrderId $orderId;
+
+    public function __construct(CalendarEntryId $id, Schedule $schedule, OrderInfo $orderInfo, OrderId $orderId = null)
     {
         $this->id = $id;
         $this->schedule = $schedule;
         $this->orderInfo = $orderInfo;
+        $this->orderId = $orderId;
     }
 }

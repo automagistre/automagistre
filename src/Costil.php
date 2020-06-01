@@ -80,6 +80,7 @@ final class Costil
         VehicleId::class => 'uuid',
     ];
     public const QUERY = [
+        CalendarEntryId::class => 'calendar_entry_id',
         CarId::class => 'car_id',
         IncomeId::class => 'income_id',
         IncomePartId::class => 'income_part_id',

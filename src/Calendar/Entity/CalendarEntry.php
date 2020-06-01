@@ -29,9 +29,9 @@ class CalendarEntry
     private Collection $schedules;
 
     /**
-     * @var Collection<int, EntryOrder>
+     * @var Collection<int, EntryOrderInfo>
      *
-     * @ORM\OneToMany(targetEntity=EntryOrder::class, mappedBy="entry", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=EntryOrderInfo::class, mappedBy="entry", cascade={"persist"})
      * @ORM\OrderBy({"id": "DESC"})
      */
     private Collection $orders;
@@ -45,7 +45,7 @@ class CalendarEntry
     {
         $this->id = $id;
         $this->schedules = new ArrayCollection([new EntrySchedule($this, $schedule)]);
-        $this->orders = new ArrayCollection([new EntryOrder($this, $orderInfo)]);
+        $this->orders = new ArrayCollection([new EntryOrderInfo($this, $orderInfo)]);
     }
 
     public static function create(CalendarEntryId $id, Schedule $schedule, OrderInfo $orderInfo): self
@@ -70,7 +70,7 @@ class CalendarEntry
             return;
         }
 
-        $this->orders[] = new EntryOrder($this, $orderInfo);
+        $this->orders[] = new EntryOrderInfo($this, $orderInfo);
     }
 
     public function delete(DeletionReason $reason, ?string $description): void

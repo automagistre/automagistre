@@ -125,11 +125,6 @@ class Order
      */
     private $suspends;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
-    private ?DateTimeImmutable $appointmentAt = null;
-
     public function __construct()
     {
         $this->uuid = OrderId::generate();
@@ -207,11 +202,6 @@ class Order
         $this->closedBy = new UserRelation($user);
         $this->closedAt = new DateTimeImmutable();
         $this->closedBalance = $balance;
-    }
-
-    public function appointment(DateTimeImmutable $appointment): void
-    {
-        $this->appointmentAt = $appointment;
     }
 
     public function getWorkerPerson(): ?Person
@@ -508,11 +498,6 @@ class Order
     public function suspend(DateTimeImmutable $till, string $reason, User $user): void
     {
         $this->suspends[] = new OrderSuspend($this, $till, $reason, $user);
-    }
-
-    public function getAppointmentAt(): ?DateTimeImmutable
-    {
-        return $this->appointmentAt;
     }
 
     private function isDiscountedByClass(string $class): bool

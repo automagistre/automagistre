@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Calendar\Entity;
 
+use App\Order\Entity\OrderId;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -21,24 +22,19 @@ class EntryOrder
     private UuidInterface $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=CalendarEntry::class, inversedBy="orders")
+     * @ORM\Column(type="calendar_entry_id")
      */
-    private CalendarEntry $entry;
+    private CalendarEntryId $entryId;
 
     /**
-     * @ORM\Embedded(class=OrderInfo::class, columnPrefix=false)
+     * @ORM\Column(type="order_id")
      */
-    private OrderInfo $orderInfo;
+    private OrderId $orderId;
 
-    public function __construct(CalendarEntry $entry, OrderInfo $orderInfo)
+    public function __construct(CalendarEntryId $entryId, OrderId $orderId)
     {
         $this->id = Uuid::uuid6();
-        $this->entry = $entry;
-        $this->orderInfo = $orderInfo;
-    }
-
-    public function equal(OrderInfo $orderInfo): bool
-    {
-        return $this->orderInfo->equal($orderInfo);
+        $this->entryId = $entryId;
+        $this->orderId = $orderId;
     }
 }

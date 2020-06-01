@@ -2,7 +2,7 @@
 
 {% set color = item.suspended ? 'default' : value.toColor %}
 
-{% set appointment = item.appointmentAt %}
+{% set appointment = item.appointmentAt|default %}
 {% if value.isScheduling and appointment is not empty %}
     {% if date(appointment) < date('now', appointment.getTimezone()) %}
         {% set color = 'danger' %}

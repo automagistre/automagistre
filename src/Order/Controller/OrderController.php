@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Order\Controller;
 
+use App\Calendar\Entity\CalendarEntryId;
+use App\Calendar\Entity\EntryOrder;
+use App\Calendar\Entity\EntryView;
+use App\Calendar\Repository\CalendarEntryRepository;
 use App\Car\Entity\Car;
 use App\Customer\Entity\Operand;
 use App\Customer\Entity\Organization;
@@ -16,12 +20,12 @@ use App\Form\Type\OrderTOServiceType;
 use App\MC\Entity\McLine;
 use App\MC\Entity\McPart;
 use App\Order\Entity\Order;
+use App\Order\Entity\OrderId;
 use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Entity\OrderItemService;
 use App\Order\Entity\OrderNote;
 use App\Order\Enum\OrderStatus;
-use App\Order\Event\OrderAppointmentMade;
 use App\Order\Event\OrderClosed;
 use App\Order\Event\OrderStatusChanged;
 use App\Order\Manager\OrderManager;
@@ -38,7 +42,6 @@ use function assert;
 use function count;
 use DateTime;
 use DateTimeImmutable;
-use DateTimeZone;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
@@ -46,21 +49,21 @@ use function explode;
 use Generator;
 use function in_array;
 use function is_numeric;
+use function is_string;
 use LogicException;
 use function mb_strtolower;
 use Money\Money;
-use function range;
+use Ramsey\Uuid\Uuid;
 use function sprintf;
 use stdClass;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
@@ -74,11 +77,32 @@ final class OrderController extends AbstractController
 
     private PartPrice $partPrice;
 
-    public function __construct(PaymentManager $paymentManager, OrderManager $orderManager, PartPrice $partPrice)
-    {
+    private CalendarEntryRepository $calendarEntryRepository;
+
+    public function __construct(
+        PaymentManager $paymentManager,
+        OrderManager $orderManager,
+        PartPrice $partPrice,
+        CalendarEntryRepository $calendarEntryRepository
+    ) {
         $this->paymentManager = $paymentManager;
         $this->orderManager = $orderManager;
         $this->partPrice = $partPrice;
+        $this->calendarEntryRepository = $calendarEntryRepository;
+    }
+
+    public function indexAction(Request $request)
+    {
+        $id = $request->query->get('id');
+        if (is_string($id) && Uuid::isValid($id)) {
+            $view = $this->get(Registry::class)->view(OrderId::fromString($id));
+
+            return $this->redirectToEasyPath('Order', 'show', [
+                'id' => $view['id'],
+            ]);
+        }
+
+        return parent::indexAction($request);
     }
 
     public function TOAction(): Response
@@ -254,6 +278,7 @@ final class OrderController extends AbstractController
             'totalForPayment' => $order->getTotalForPayment($balance),
             'car' => $registry->findBy(Car::class, ['uuid' => $order->getCarId()]),
             'customer' => $customer,
+            'calendarEntry' => $registry->findBy(EntryView::class, ['orderId' => $order->toId()]),
         ]);
     }
 
@@ -292,52 +317,6 @@ final class OrderController extends AbstractController
         }
 
         return $this->render('easy_admin/order/suspend.html.twig', [
-            'order' => $order,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    public function appointmentAction(): Response
-    {
-        $order = $this->getEntity(Order::class);
-        if (!$order instanceof Order) {
-            throw new LogicException('Order required.');
-        }
-
-        $request = $this->request;
-        $form = $this->createFormBuilder()
-            ->add('date', DateTimeType::class, [
-                'label' => 'Дата',
-                'required' => true,
-                'minutes' => [0, 30],
-                'hours' => range(9, 23),
-                'input' => 'datetime_immutable',
-                'model_timezone' => 'GMT+3',
-                'view_timezone' => 'GMT+3',
-                'data' => new DateTimeImmutable('now', new DateTimeZone('GMT+3')),
-                'constraints' => [
-                    new GreaterThan('now GMT+3'),
-                ],
-            ])
-            ->getForm()
-            ->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            /** @var DateTimeImmutable $date */
-            $date = $form->get('date')->getData();
-
-            $order->appointment($date);
-            $order->setStatus(OrderStatus::scheduling());
-            $this->em->flush();
-
-            $this->event(new OrderAppointmentMade($order, [
-                'date' => $date->format(DATE_RFC3339),
-            ]));
-
-            return $this->redirectToReferrer();
-        }
-
-        return $this->render('easy_admin/order/appointment.html.twig', [
             'order' => $order,
             'form' => $form->createView(),
         ]);
@@ -550,6 +529,14 @@ final class OrderController extends AbstractController
             $entity->setCarId($car->toId());
         }
 
+        $calendarId = $this->getIdentifier(CalendarEntryId::class);
+        if ($calendarId instanceof CalendarEntryId) {
+            $calendarEntry = $this->calendarEntryRepository->view($calendarId);
+
+            $entity->setCarId($calendarEntry->orderInfo->carId);
+            $entity->setCustomerId($calendarEntry->orderInfo->customerId);
+        }
+
         return $entity;
     }
 
@@ -661,6 +648,11 @@ final class OrderController extends AbstractController
     protected function persistEntity($entity): void
     {
         assert($entity instanceof Order);
+
+        $calendarId = $this->getIdentifier(CalendarEntryId::class);
+        if ($calendarId instanceof CalendarEntryId) {
+            $this->em->persist(new EntryOrder($calendarId, $entity->toId()));
+        }
 
         parent::persistEntity($entity);
 
