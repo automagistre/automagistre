@@ -40,15 +40,15 @@ final class EntryScheduledListener
 
         $date = $entry->schedule->date;
 
-        $message = 'В';
+        $message = '';
         if ($date->format('Y-m-d') === (new DateTimeImmutable())->format('Y-m-d')) {
-            $message = 'Сегодня в';
+            $message = 'Сегодня ';
         } elseif ($date->format('Y-m-d') === (new DateTimeImmutable('+1 day'))->format('Y-m-d')) {
-            $message = 'Завтра в';
+            $message = 'Завтра ';
         }
 
-        $message .= $date->format('d.m');
-        $message .= ' вас ожидают в ТехЦентре Автомагистр, по адресу Остаповский проезд, дом 17.';
+        $message .= $date->format('d.m в H:i');
+        $message .= ' вас ожидают в ТехЦентре Автомагистр, по адресу Остаповский проезд, дом 17';
 
         if (null !== $entry->orderId) {
             /** @var Order $order */
