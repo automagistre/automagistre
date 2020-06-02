@@ -2,11 +2,13 @@
 
 {% set color = item.suspended ? 'default' : value.toColor %}
 
-{% set appointment = item.appointmentAt|default %}
-{% if value.isScheduling and appointment is not empty %}
-    {% if date(appointment) < date('now', appointment.getTimezone()) %}
+{% set entry = entry_by_order(item.toId) %}
+{# @var entry \App\Calendar\Entity\EntryView #}
+{% if value.isScheduling and entry is not empty %}
+    {% set date = entry.schedule.date %}
+    {% if date < date('now', date.getTimezone()) %}
         {% set color = 'danger' %}
-    {% elseif date(appointment) > date('now', appointment.getTimezone()) %}
+    {% elseif date > date('now', date.getTimezone()) %}
         {% set color = 'default' %}
     {% endif %}
 {% endif %}

@@ -2,7 +2,9 @@
 
 namespace App\Order\View;
 
+use App\Calendar\Entity\EntryView;
 use App\Car\Entity\Recommendation;
+use App\Order\Entity\OrderId;
 use App\Order\Entity\OrderItemService;
 use App\Shared\Doctrine\Registry;
 use App\State;
@@ -35,6 +37,10 @@ final class OrderExtension extends AbstractExtension
                         'realization.id' => $service->getId(),
                         'realization.tenant' => $this->state->tenant(),
                     ], ['id' => 'DESC'])
+            ),
+            new TwigFunction(
+                'entry_by_order',
+                fn (OrderId $orderId) => $this->registry->findBy(EntryView::class, ['orderId' => $orderId])
             ),
         ];
     }
