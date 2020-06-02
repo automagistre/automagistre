@@ -6,7 +6,6 @@ namespace App\Order\Controller;
 
 use App\Calendar\Entity\CalendarEntryId;
 use App\Calendar\Entity\EntryOrder;
-use App\Calendar\Entity\EntryView;
 use App\Calendar\Repository\CalendarEntryRepository;
 use App\Car\Entity\Car;
 use App\Customer\Entity\Operand;
@@ -255,30 +254,6 @@ final class OrderController extends AbstractController
             'periods' => $periods,
             'currentPeriod' => $currentPeriod,
             'form' => $form->createView(),
-        ]);
-    }
-
-    public function info(Order $order, bool $statusSelector = false): Response
-    {
-        $registry = $this->container->get(Registry::class);
-
-        $customer = null === $order->getCustomerId()
-            ? null
-            : $registry->findBy(Operand::class, ['uuid' => $order->getCustomerId()]);
-
-        $balance = null;
-        if ($customer instanceof Operand) {
-            $balance = $order->isClosed() ? $order->getClosedBalance() : $this->paymentManager->balance($customer);
-        }
-
-        return $this->render('easy_admin/order/includes/main_information.html.twig', [
-            'order' => $order,
-            'status_selector' => $statusSelector,
-            'balance' => $balance,
-            'totalForPayment' => $order->getTotalForPayment($balance),
-            'car' => $registry->findBy(Car::class, ['uuid' => $order->getCarId()]),
-            'customer' => $customer,
-            'calendarEntry' => $registry->findBy(EntryView::class, ['orderId' => $order->toId()]),
         ]);
     }
 

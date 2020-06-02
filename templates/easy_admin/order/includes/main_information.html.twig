@@ -1,5 +1,6 @@
-{# @var customer \App\Customer\Domain\Operand #}
+{# @var customer \App\Customer\Entity\Operand #}
 {# @var car \App\Car\Entity\Car #}
+{# @var order \App\Order\Entity\Order #}
 
 <div class="field-group">
     <div class="box box-default">
@@ -295,7 +296,8 @@
                                 - {{ payments|localize_money }}
                             {% endif %}
 
-                            {% if balance is not empty %}
+                            {% if customer is not empty %}
+                                {% set balance = customer|balance %}
                                 {{ balance.isNegative ? '+' : '-' }} {{ balance.absolute|localize_money }}
                             {% endif %}
 
@@ -307,7 +309,7 @@
                                     </strong>
                                 </span>
                             {% endif %}
-                            = <span class="label label-success">{{ totalForPayment|localize_money -}}</span>
+                            = <span class="label label-success">{{ order.totalForPayment(customer ? customer|balance)|localize_money -}}</span>
                         </div>
 
                         <span class="help-block">

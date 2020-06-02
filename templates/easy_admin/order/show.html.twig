@@ -13,7 +13,7 @@
     <section id="main" class="content">
         <div class="row">
             <div class="col-md-6">
-                {{ render(controller('App\\Order\\Controller\\OrderController::info', {'order': order, 'statusSelector': true})) }}
+                {{ order_info(order, true) }}
             </div>
 
             <div class="col-md-6">
