@@ -30,10 +30,15 @@ security:
             pattern: ^/api/v1
             stateless: true
             anonymous: true
+        callback:
+            pattern: ^/callback
+            stateless: true
+            anonymous: true
 
     access_control:
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/v1, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/callback, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_EMPLOYEE }
 
     role_hierarchy:

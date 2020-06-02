@@ -4,16 +4,23 @@ declare(strict_types=1);
 
 namespace App\Calendar\Entity;
 
+use App\Calendar\Event\EntryScheduled;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use DomainException;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use SimpleBus\Message\Recorder\ContainsRecordedMessages;
+use SimpleBus\Message\Recorder\PrivateMessageRecorderCapabilities;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="calendar_entry_schedule")
  */
-class EntrySchedule
+class EntrySchedule implements ContainsRecordedMessages
 {
+    use PrivateMessageRecorderCapabilities;
+
     /**
      * @ORM\Id()
      * @ORM\Column(type="uuid")
@@ -35,6 +42,12 @@ class EntrySchedule
         $this->id = Uuid::uuid6();
         $this->entry = $entry;
         $this->schedule = $schedule;
+
+        if ($schedule->date->getTimestamp() < (new DateTimeImmutable())->getTimestamp()) {
+            throw new DomainException('Can\'t schedule Entry in past.');
+        }
+
+        $this->record(new EntryScheduled($entry->toId()));
     }
 
     public function equal(Schedule $schedule): bool

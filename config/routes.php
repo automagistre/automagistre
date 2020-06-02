@@ -27,6 +27,10 @@ return static function (RoutingConfigurator $routes): void {
     ;
 
     $routes
+        ->import(__DIR__.'/../src/Sms/Controller/CallbackController.php', 'annotation')
+    ;
+
+    $routes
         ->import(__DIR__.'/routes/tenant.php')
         ->prefix('/{tenant}')
     ;

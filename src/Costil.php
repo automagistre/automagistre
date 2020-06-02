@@ -24,6 +24,8 @@ use App\Part\Entity\Part;
 use App\Part\Entity\PartId;
 use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
+use App\Sms\Entity\Sms;
+use App\Sms\Entity\SmsId;
 use App\User\Entity\User;
 use App\User\Entity\UserId;
 use App\Vehicle\Entity\Model;
@@ -50,6 +52,7 @@ final class Costil
         OperandId::class => Operand::class,
         OrderId::class => Order::class,
         PartId::class => Part::class,
+        SmsId::class => Sms::class,
         UserId::class => User::class,
         VehicleId::class => Model::class,
     ];
@@ -76,6 +79,7 @@ final class Costil
         OperandId::class => 'uuid',
         OrderId::class => 'uuid',
         PartId::class => 'id',
+        SmsId::class => 'id',
         UserId::class => 'uuid',
         VehicleId::class => 'uuid',
     ];

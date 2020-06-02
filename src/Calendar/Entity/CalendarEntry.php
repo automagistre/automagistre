@@ -48,6 +48,11 @@ class CalendarEntry
         $this->orders = new ArrayCollection([new EntryOrderInfo($this, $orderInfo)]);
     }
 
+    public function toId(): CalendarEntryId
+    {
+        return $this->id;
+    }
+
     public static function create(CalendarEntryId $id, Schedule $schedule, OrderInfo $orderInfo): self
     {
         return new self($id, $schedule, $orderInfo);

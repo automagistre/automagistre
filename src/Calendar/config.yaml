@@ -54,3 +54,7 @@ services:
     App\Calendar\Application\Delete\DeleteCalendarEntryHandler:
         tags:
             - { name: command_handler, handles: App\Calendar\Application\Delete\DeleteCalendarEntryCommand }
+
+    App\Calendar\EventListener\EntryScheduledListener:
+        tags:
+            - { name: event_subscriber, subscribes_to: App\Calendar\Event\EntryScheduled }

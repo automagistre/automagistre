@@ -14,6 +14,7 @@ return [
     App\Order\Entity\OrderId::class => ['order_id'],
     App\Part\Entity\PartCaseId::class => ['part_case_id'],
     App\Part\Entity\PartId::class => ['part_id'],
+    App\Sms\Entity\SmsId::class => ['sms_id'],
     App\Storage\Entity\MotionId::class => ['motion_id'],
     App\User\Entity\UserId::class => ['user_id'],
     App\Vehicle\Entity\VehicleId::class => ['vehicle_id'],
