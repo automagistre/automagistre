@@ -138,8 +138,8 @@ final class MongoMaintenancePopulateCommand extends Command
             $view['name'],
             $view['number'],
             $view['universal'],
-            new Money($view['price.amount'], $view['price.currency.code']),
-            new Money($view['discount.amount'], $view['discount.currency.code']),
+            new Money('0', 'RUB'),
+            new Money('0', 'RUB'),
         );
     }
 
