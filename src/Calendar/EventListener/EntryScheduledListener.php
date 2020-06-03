@@ -38,6 +38,10 @@ final class EntryScheduledListener
             return;
         }
 
+        if ($entry->schedule->date < new DateTimeImmutable()) {
+            return;
+        }
+
         $date = $entry->schedule->date;
 
         $message = '';
