@@ -2,6 +2,9 @@
 {# @var car \App\Car\Entity\Car #}
 {# @var order \App\Order\Entity\Order #}
 
+{% set balance = customer is not empty ? customer|balance : null %}
+{# @var balance \Money\Money #}
+
 <div class="field-group">
     <div class="box box-default">
         <div class="box-header with-border">
@@ -296,8 +299,7 @@
                                 - {{ payments|localize_money }}
                             {% endif %}
 
-                            {% if customer is not empty %}
-                                {% set balance = customer|balance %}
+                            {% if balance is not empty %}
                                 {{ balance.isNegative ? '+' : '-' }} {{ balance.absolute|localize_money }}
                             {% endif %}
 
@@ -309,7 +311,7 @@
                                     </strong>
                                 </span>
                             {% endif %}
-                            = <span class="label label-success">{{ order.totalForPayment(customer ? customer|balance)|localize_money -}}</span>
+                            = <span class="label label-success">{{ order.totalForPayment(customer is not empty ? customer|balance : null)|localize_money -}}</span>
                         </div>
 
                         <span class="help-block">
@@ -320,7 +322,6 @@
                             {% endif %}
 
                             {% if balance is not empty %}
-                                {# @var balance \Money\Money #}
                                 {% if balance.isNegative %}
                                     + Долг
                                 {% else %}
