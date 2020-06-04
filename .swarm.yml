@@ -47,6 +47,19 @@ services:
                 delay: 10s
                 order: start-first
 
+    cron_msk:
+        <<: *app
+        command: console cron:start --blocking --tenant=msk
+        healthcheck:
+            disable: true
+        deploy:
+            mode: replicated
+            replicas: 1
+            restart_policy:
+                condition: none
+            labels:
+                - "traefik.enable=false"
+
     migration_landlord:
         <<: *app
         command: wait-for-it.sh landlord:5432 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=landlord

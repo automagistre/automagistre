@@ -25,6 +25,7 @@
         "ext-mbstring": "*",
         "ext-uuid": "*",
         "beberlei/doctrineextensions": "^1.2",
+        "cron/cron-bundle": "^2.4",
         "datto/json-rpc": "^6.1",
         "doctrine/doctrine-bundle": "^2.0",
         "doctrine/doctrine-migrations-bundle": "^2.0",

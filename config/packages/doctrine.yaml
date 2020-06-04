@@ -69,6 +69,11 @@ doctrine:
                         prefix: App\Entity\Tenant
                         dir: '%kernel.project_dir%/src/Entity/Tenant'
                         is_bundle: false
+                    cron:
+                        type: annotation
+                        prefix: Cron\CronBundle\Entity
+                        dir: '%kernel.project_dir%/vendor/cron/cron-bundle/Entity'
+                        is_bundle: false
                     moneyphp:
                         <<: *moneyphp
                     embeddable:
