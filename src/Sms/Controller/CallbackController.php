@@ -22,7 +22,7 @@ final class CallbackController
     }
 
     /**
-     * @Route("/{provider}/{id}", name="sms_callback")
+     * @Route("/callback/{provider}/{id}", name="sms_callback")
      */
     public function __invoke(Request $request, string $provider, string $id): Response
     {
