@@ -8,7 +8,7 @@ easy_admin:
         templates:
             show: 'easy_admin/default/show.html.twig'
             layout: 'easy_admin/default/layout.html.twig'
-            menu: 'easy_admin/default/menu.html.twig'
+            menu: 'easy_admin/menu.html.twig'
             edit: 'easy_admin/default/edit.html.twig'
             list: 'easy_admin/default/list.html.twig'
             new: 'easy_admin/default/new.html.twig'
