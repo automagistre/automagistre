@@ -14,9 +14,6 @@ final class ChangeOrderCalendarEntryCommand
 {
     public CalendarEntryId $id;
 
-    /**
-     * @Assert\Valid()
-     */
     public OrderInfo $orderInfo;
 
     public function __construct(CalendarEntryId $id, OrderInfo $orderInfo)

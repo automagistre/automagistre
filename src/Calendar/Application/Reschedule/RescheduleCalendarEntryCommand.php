@@ -14,9 +14,6 @@ final class RescheduleCalendarEntryCommand
 {
     public CalendarEntryId $id;
 
-    /**
-     * @Assert\Valid()
-     */
     public Schedule $schedule;
 
     public function __construct(CalendarEntryId $id, Schedule $schedule)
