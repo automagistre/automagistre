@@ -3,11 +3,10 @@
 namespace App\Calendar\Entity;
 
 use App\Calendar\Enum\DeletionReason;
+use App\Calendar\Exception\EntryDeleted;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use DomainException;
-use function sprintf;
 
 /**
  * @ORM\Entity
@@ -60,6 +59,8 @@ class CalendarEntry
 
     public function reschedule(Schedule $schedule): void
     {
+        $this->failIfClosed();
+
         $last = $this->schedules->last();
         if (false !== $last && $last->equal($schedule)) {
             return;
@@ -70,6 +71,8 @@ class CalendarEntry
 
     public function changeOrderInfo(OrderInfo $orderInfo): void
     {
+        $this->failIfClosed();
+
         $last = $this->orders->last();
         if (false !== $last && $last->equal($orderInfo)) {
             return;
@@ -80,10 +83,17 @@ class CalendarEntry
 
     public function delete(DeletionReason $reason, ?string $description): void
     {
-        if (null !== $this->deletion) {
-            throw new DomainException(sprintf('%s %s already deleted.', __CLASS__, $this->id->toString()));
-        }
+        $this->failIfClosed();
 
         $this->deletion = new CalendarEntryDeletion($this, $reason, $description);
+    }
+
+    private function failIfClosed(): void
+    {
+        if (null === $this->deletion) {
+            return;
+        }
+
+        throw EntryDeleted::fromEntryId($this->id);
     }
 }
