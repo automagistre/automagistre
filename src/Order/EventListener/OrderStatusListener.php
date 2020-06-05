@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Order\EventListener;
 
-use App\Entity\Tenant\Reservation;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItemPart;
+use App\Order\Entity\Reservation;
 use App\Order\Enum\OrderStatus;
+use App\Order\Manager\ReservationManager;
 use App\Part\Event\PartReserved;
 use App\Shared\Doctrine\Registry;
-use App\Storage\Manager\ReservationManager;
 use LogicException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;

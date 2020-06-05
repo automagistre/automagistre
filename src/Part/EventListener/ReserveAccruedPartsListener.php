@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Part\EventListener;
 
 use App\Order\Entity\OrderItemPart;
+use App\Order\Exception\ReservationException;
+use App\Order\Manager\ReservationManager;
 use App\Part\Event\PartAccrued;
 use App\Shared\Doctrine\Registry;
-use App\Storage\Exception\ReservationException;
-use App\Storage\Manager\ReservationManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**

@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Part\View;
 
 use App\Order\Entity\OrderItemPart;
+use App\Order\Manager\ReservationManager;
 use App\Part\Entity\Part;
 use App\Part\Entity\PartId;
 use App\Part\Manager\PartManager;
 use App\PartPrice\PartPrice;
-use App\Storage\Manager\ReservationManager;
 use Money\Money;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;

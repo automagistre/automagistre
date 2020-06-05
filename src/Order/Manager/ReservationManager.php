@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Storage\Manager;
+namespace App\Order\Manager;
 
-use App\Entity\Tenant\Reservation;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItemPart;
+use App\Order\Entity\Reservation;
+use App\Order\Exception\ReservationException;
 use App\Part\Entity\PartId;
 use App\Part\Event\PartDeReserved;
 use App\Part\Event\PartReserved;
 use App\Part\Manager\PartManager;
 use App\Shared\Doctrine\Registry;
-use App\Storage\Exception\ReservationException;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;

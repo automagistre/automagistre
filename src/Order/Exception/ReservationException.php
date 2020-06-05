@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Storage\Exception;
+namespace App\Order\Exception;
 
 use Exception;
 

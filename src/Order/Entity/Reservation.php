@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Tenant;
+namespace App\Order\Entity;
 
-use App\Order\Entity\OrderItemPart;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 
