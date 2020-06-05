@@ -3,6 +3,7 @@ easy_admin:
         Car:
             class: App\Car\Entity\Car
             controller: App\Car\Controller\CarController
+            disabled_actions: ['delete']
             label: 'Автомобили'
             search:
                 fields: ['gosnomer', 'identifier']

@@ -3,6 +3,7 @@ easy_admin:
         Manufacturer:
             class: App\Manufacturer\Entity\Manufacturer
             controller: App\Manufacturer\Controller\ManufacturerController
+            disabled_actions: ['delete']
             label: 'Производитель'
             search:
                 fields: ['name']

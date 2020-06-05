@@ -3,6 +3,7 @@ easy_admin:
         CarModel:
             class: App\Vehicle\Entity\Model
             controller: App\Vehicle\Controller\ModelController
+            disabled_actions: ['delete']
             label: 'Кузов'
             list:
                 title: 'Кузова'
