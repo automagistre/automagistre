@@ -7,7 +7,6 @@ namespace App\Sms\Controller;
 use App\Shared\Doctrine\Registry;
 use App\Sms\Entity\SmsId;
 use App\Sms\Entity\SmsStatus;
-use Sentry\Util\JSON;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,7 +32,7 @@ final class CallbackController
                 SmsId::fromString($id),
                 [
                     'provider' => $provider,
-                    'content' => JSON::decode($request->getContent()),
+                    'content' => $request->request->all(),
                 ]
             )
         );
