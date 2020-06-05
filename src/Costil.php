@@ -26,6 +26,8 @@ use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Sms\Entity\Sms;
 use App\Sms\Entity\SmsId;
+use App\Storage\Entity\WarehouseId;
+use App\Storage\Entity\WarehouseView;
 use App\User\Entity\User;
 use App\User\Entity\UserId;
 use App\Vehicle\Entity\Model;
@@ -55,6 +57,7 @@ final class Costil
         SmsId::class => Sms::class,
         UserId::class => User::class,
         VehicleId::class => Model::class,
+        WarehouseId::class => WarehouseView::class,
     ];
     public const EASYADMIN_CONFIG = [
         CalendarEntryId::class => 'CalendarEntry',
@@ -68,6 +71,7 @@ final class Costil
         PartId::class => 'Part',
         UserId::class => 'User',
         VehicleId::class => 'CarModel',
+        WarehouseId::class => 'Warehouse',
     ];
     public const UUID_FIELDS = [
         CalendarEntryId::class => 'id',
@@ -82,6 +86,7 @@ final class Costil
         SmsId::class => 'id',
         UserId::class => 'uuid',
         VehicleId::class => 'uuid',
+        WarehouseId::class => 'id',
     ];
     public const QUERY = [
         CalendarEntryId::class => 'calendar_entry_id',

@@ -10,6 +10,7 @@ final class DropViewSchemaListener
 {
     private const VIEWS = [
         'calendar_entry_view',
+        'warehouse_view',
     ];
 
     public function postGenerateSchema(GenerateSchemaEventArgs $args): void

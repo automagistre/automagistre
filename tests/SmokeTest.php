@@ -7,6 +7,7 @@ namespace App\Tests;
 use App\Calendar\Fixtures\CalendarEntryFixtures;
 use App\Income\Fixtures\IncomeFixtures;
 use App\Part\Fixtures\GasketFixture;
+use App\Storage\Fixtures\MainWarehouseFixture;
 use function array_diff;
 use function array_keys;
 use function array_replace;
@@ -102,6 +103,9 @@ final class SmokeTest extends WebTestCase
         ],
         'McPart' => [
             'new' => ['mc_line_id' => '1'],
+        ],
+        'Warehouse' => [
+            'edit' => ['id' => MainWarehouseFixture::ID],
         ],
     ];
 

@@ -69,6 +69,7 @@ easy_admin:
             - { label: 'Склад', role: !php/const App\Roles::STOCK }
 #            - { entity: 'Part', label: 'Дефицит', icon: 'fire', params: { action: 'deficit' } }
             - { entity: 'Part', label: 'Наличие', icon: 'cubes', params: { action: 'stock' }, role: !php/const App\Roles::STOCK }
+#            - { entity: 'Warehouse', label: 'Склады', icon: 'cube', role: !php/const App\Roles::STOCK }
             - { entity: 'Motion', label: 'Движения', icon: 'recycle', role: !php/const App\Roles::STOCK }
             - { entity: 'Income', label: 'Приходы', icon: 'book', role: !php/const App\Roles::STOCK }
             - { label: 'Клиенты', role: !php/const App\Roles::CUSTOMER }

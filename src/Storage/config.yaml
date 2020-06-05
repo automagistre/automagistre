@@ -16,6 +16,16 @@ easy_admin:
                     - { property: 'description', label: 'Комментарий', template: 'easy_admin/motion/description.html.twig' }
                     - { property: 'createdAt', label: 'Создано' }
 
+        Warehouse:
+            class:  App\Storage\Entity\WarehouseView
+            controller: App\Storage\Controller\WarehouseController
+            disabled_actions: ['show', 'delete']
+            list:
+                title: 'Склады'
+                fields:
+                    - { property: 'name', label: 'Название' }
+                    - { property: 'parentId', label: 'Родитель', template: 'easy_admin/field_identifier.html.twig' }
+
 doctrine:
     orm:
         entity_managers:
@@ -31,4 +41,3 @@ services:
         public: false
         autowire: true
         autoconfigure: true
-
