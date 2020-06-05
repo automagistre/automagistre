@@ -21,7 +21,7 @@ easy_admin:
                     - { property: 'telephone', label: 'Телефон', template: 'easy_admin/field_telephone.html.twig' }
                     - { property: 'officePhone', label: 'Раб. Телефон', template: 'easy_admin/field_telephone.html.twig' }
                     - { property: 'email', label: 'Почта' }
-#                    - { property: 'balance', label: 'Баланс', virtual: true, sortable: true, template: 'easy_admin/operand/field_balance.html.twig' }
+                    - { property: 'balance', label: 'Баланс', virtual: true, sortable: true, template: 'easy_admin/operand/field_balance.html.twig' }
             form:
                 fields:
                     - { property: 'firstname', label: 'Имя' }
