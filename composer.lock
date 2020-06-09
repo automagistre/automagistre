@@ -11320,16 +11320,16 @@
         },
         {
             "name": "psalm/plugin-symfony",
-            "version": "v1.2.2",
+            "version": "v1.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/psalm/psalm-plugin-symfony.git",
-                "reference": "8abc28c3a3fe8a6c656cc896b0e4956948f3f26e"
+                "reference": "f0b6ffab06a031490ea201cf45766b3f5883a412"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/psalm/psalm-plugin-symfony/zipball/8abc28c3a3fe8a6c656cc896b0e4956948f3f26e",
-                "reference": "8abc28c3a3fe8a6c656cc896b0e4956948f3f26e",
+                "url": "https://api.github.com/repos/psalm/psalm-plugin-symfony/zipball/f0b6ffab06a031490ea201cf45766b3f5883a412",
+                "reference": "f0b6ffab06a031490ea201cf45766b3f5883a412",
                 "shasum": ""
             },
             "require": {
@@ -11369,7 +11369,7 @@
                 }
             ],
             "description": "Psalm Plugin for Symfony",
-            "time": "2020-05-27T14:08:01+00:00"
+            "time": "2020-06-09T09:15:09+00:00"
         },
         {
             "name": "sebastian/code-unit",
