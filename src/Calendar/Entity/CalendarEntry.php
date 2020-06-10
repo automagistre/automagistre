@@ -23,7 +23,7 @@ class CalendarEntry
      * @var Collection<int, EntrySchedule>
      *
      * @ORM\OneToMany(targetEntity=EntrySchedule::class, mappedBy="entry", cascade={"persist"})
-     * @ORM\OrderBy({"id": "DESC"})
+     * @ORM\OrderBy({"id": "ASC"})
      */
     private Collection $schedules;
 
@@ -31,7 +31,7 @@ class CalendarEntry
      * @var Collection<int, EntryOrderInfo>
      *
      * @ORM\OneToMany(targetEntity=EntryOrderInfo::class, mappedBy="entry", cascade={"persist"})
-     * @ORM\OrderBy({"id": "DESC"})
+     * @ORM\OrderBy({"id": "ASC"})
      */
     private Collection $orders;
 
