@@ -8,13 +8,123 @@
 {% block head_stylesheets %}
     {{ parent() }}
     <style>
-        a.create-plus-button {
+        .create-plus-button {
             opacity: 0;
         }
 
-        a.create-plus-button:hover {
+        a:hover > .create-plus-button {
             opacity: 1;
         }
+
+        .calendar_table {
+            table-layout: fixed;
+        }
+
+
+        .calendar-head__item {
+            text-align: center;
+            padding: 3px 0 !important;
+        }
+
+        .calendar-head__item:first-child {
+            width: 200px;
+        }
+
+
+        .calendar__item {
+            background-color: white !important;
+            height: 85px;
+            border-radius: 10px ;
+        }
+
+        .calendar__item.event {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            background: #3399CC !important;
+            color: white;
+
+        }
+
+        .calendar__item.event > a {
+            color: white;
+        }
+
+        .calendar__item.event:hover {
+            overflow: visible;
+            position: relative;
+        }
+
+        .calendar__item.event:hover > a {
+            border-radius: 10px;
+            padding-left: inherit;
+            padding-right: inherit;
+            align-items: center;
+            display: flex;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0;
+            height: 84px;
+            background-color: inherit;
+            width: auto;
+            opacity: 1;
+            font-weight: bold;
+        }
+
+        .calendar__item.empty {
+            height: 85px;
+            text-align: center;
+            padding: 0;
+        }
+
+        .calendar__item.empty > a{
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .calendar__item.event.is-assigned {
+
+        }
+
+        .calendar__item.event.is-assigned.green {
+            background-color: #339966 !important;
+        }
+
+        .calendar__item.event.is-assigned.orange {
+            background-color: #CC6633 !important;
+        }
+
+        .calendar__item.event.is-assigned.red {
+            background-color: #CC3333 !important;
+        }
+
+        .calendar__item.event.is-assigned.purple {
+            background-color: #9933CC !important;
+        }
+
+        .calendar__item.event.is-assigned.pink {
+            background-color: #CC3399 !important;
+        }
+
+        .modal {
+            color: black;
+            overflow: visible;
+            white-space: normal;
+            text-overflow: unset;
+        }
+
+        body.list .table tbody tr:hover td {
+            background-color: inherit;
+        }
+
+        /*.calendar__item > a {*/
+        /*    overflow: hidden;*/
+        /*}*/
+
+
     </style>
 {% endblock %}
 
@@ -93,21 +203,21 @@
 
     <div class="row">
         <div class="col-md-12">
-            <div class="table-responsive">
-                <table class="table table-bordered">
+
+                <table class="table table-bordered calendar_table">
                     <thead>
-                    <tr>
-                        <th style="width: 10%"></th>
+                    <tr class="calendar-head__row">
+                        <th class="calendar-head__item"></th>
                         {% for time in columns %}
-                            <th style="text-align: center; width: 50px"><strong>{{ time }}</strong></th>
+                            <th class="calendar-head__item"><strong>{{ time }}</strong></th>
                         {% endfor %}
                     </tr>
                     </thead>
                     <tbody>
                     {% for stream in streams %}
                         {# @var stream \App\Calendar\View\Stream #}
-                        <tr style="height: 60px">
-                            <td>
+                        <tr class="calendar-row">
+                            <td class="calendar__item master">
                                 {% if stream.workerId is not empty %}
                                     <a href="{{ easyadmin_path_by_id(stream.workerId, 'show', {'order_id': orderId, 'referer': true}) }}">
                                         {{- stream.workerId|display_name -}}
@@ -125,10 +235,11 @@
                                 {% elseif stream.has(time) %}
                                     {% set item = stream.get(time) %}
                                     {% set skip = item.length - 1 %}
-                                    <td
-                                            {% if item.length > 1 %} colspan="{{ item.length }}"{% endif %}
-                                            style="background-color: #dff0d8;border: 1px solid #205081"
-                                    >
+{#                                    Если у записи есть мастер, то добавить класс is-assigned,  так же можно выбрать для каждого мастера цвет
+                                      Добавив классы
+ #}
+                                    <td class="calendar__item event"
+                                        {% if item.length > 1 %} colspan="{{ item.length }}"{% endif %} >
                                         {# @var entry \App\Calendar\Form\CalendarEntryDto #}
                                         {% set entry = item.calendar %}
 
@@ -144,7 +255,7 @@
                                             {{ entry.orderInfo.description }}
                                         </a>
 
-                                        <div class="modal fade" id="{{ entry.id.toString }}" tabindex="-1" role="dialog">
+                                        <div class="modal fade" id="{{ entry.id.toString }}" tabindex="-1" role="dialog" style="color: black">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -204,9 +315,11 @@
                                         </div>
                                     </td>
                                 {% else %}
-                                    <td style="text-align: center">
-                                        <a href="{{ easyadmin_path('CalendarEntry', 'new', {'order_id': orderId, 'date': date|date('Y-m-d') ~ ' ' ~ time}|merge(stream.workerId ? {'worker_id': stream.workerId.toString} : {})) }}" class="btn btn-success create-plus-button">
-                                            <i class="fa fa-plus"></i>
+                                    <td class="calendar__item empty">
+                                        <a href="{{ easyadmin_path('CalendarEntry', 'new', {'order_id': orderId, 'date': date|date('Y-m-d') ~ ' ' ~ time}|merge(stream.workerId ? {'worker_id': stream.workerId.toString} : {})) }}" >
+                                            <div class="btn btn-success create-plus-button">
+                                                <i class="fa fa-plus"></i>
+                                            </div>
                                         </a>
                                     </td>
                                 {% endif %}
@@ -214,18 +327,19 @@
                         </tr>
                     {% endfor %}
                     <tr>
-                        <td></td>
+                        <td>Новый поток</td>
                         {% for time in columns %}
-                            <td style="text-align: center">
-                                <a href="{{ easyadmin_path('CalendarEntry', 'new', {'order_id': orderId, 'date': date|date('Y-m-d') ~ ' ' ~ time}) }}" class="btn btn-success create-plus-button">
-                                    <i class="fa fa-plus"></i>
+                            <td class="calendar__item empty">
+                                <a href="{{ easyadmin_path('CalendarEntry', 'new', {'order_id': orderId, 'date': date|date('Y-m-d') ~ ' ' ~ time}) }}">
+                                    <div class="btn btn-success create-plus-button">
+                                        <i class="fa fa-plus"></i>
+                                    </div>
                                 </a>
                             </td>
                         {% endfor %}
                     </tr>
                     </tbody>
                 </table>
-            </div>
         </div>
     </div>
 {% endblock %}
