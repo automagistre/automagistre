@@ -238,10 +238,10 @@
 {#                                    Если у записи есть мастер, то добавить класс is-assigned,  так же можно выбрать для каждого мастера цвет
                                       Добавив классы
  #}
-                                    <td class="calendar__item event"
+                                    {% set entry = item.calendar %}
+                                    {# @var entry \App\Calendar\Entity\EntryView #}
+                                    <td class="calendar__item event{% if entry.orderInfo.workerId is not null %} is-assigned purple{% endif %}"
                                         {% if item.length > 1 %} colspan="{{ item.length }}"{% endif %} >
-                                        {# @var entry \App\Calendar\Form\CalendarEntryDto #}
-                                        {% set entry = item.calendar %}
 
                                         <a data-toggle="modal" data-target="#{{ entry.id.toString }}" style="cursor: pointer">
                                             {% if entry.orderInfo.customerId is not empty %}
