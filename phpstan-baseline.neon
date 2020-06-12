@@ -1,6 +1,11 @@
 parameters:
 	ignoreErrors:
 		-
+			message: "#^Function str_contains invoked with 2 parameters, 0 required\\.$#"
+			count: 1
+			path: src/Costil.php
+
+		-
 			message: "#^Call to function is_float\\(\\) with mixed will always evaluate to false\\.$#"
 			count: 1
 			path: src/Form/Transformer/DivisoredNumberToLocalizedStringTransformer.php
@@ -31,9 +36,24 @@ parameters:
 			path: src/Form/TypeGuesser/EntityModelTypeGuesser.php
 
 		-
-			message: "#^Parameter \\#2 \\.\\.\\.\\$args of function sprintf expects bool\\|float\\|int\\|string\\|null, \\(callable\\)\\|class\\-string given\\.$#"
+			message: "#^Parameter \\#2 \\.\\.\\.\\$args of function sprintf expects bool\\|float\\|int\\|string\\|null, \\(callable\\)\\|string given\\.$#"
 			count: 1
 			path: src/Shared/ArgumentResolver/ArgumentResolver.php
+
+		-
+			message: "#^Parameter \\#1 \\$class of method App\\\\Shared\\\\Doctrine\\\\Registry\\:\\:repository\\(\\) expects class\\-string\\<mixed\\>, string given\\.$#"
+			count: 1
+			path: src/Shared/Doctrine/Registry.php
+
+		-
+			message: "#^Unable to resolve the template type T in call to method App\\\\Shared\\\\Doctrine\\\\Registry\\:\\:repository\\(\\)$#"
+			count: 1
+			path: src/Shared/Doctrine/Registry.php
+
+		-
+			message: "#^Parameter \\#1 \\$class of method App\\\\Shared\\\\Doctrine\\\\Registry\\:\\:manager\\(\\) expects class\\-string, string given\\.$#"
+			count: 1
+			path: src/Shared/Identifier/IdentifierRouterExtension.php
 
 		-
 			message: "#^Call to method Symfony\\\\Component\\\\Console\\\\Input\\\\InputInterface\\:\\:hasOption\\(\\) with 'connection'\\|'db'\\|'em' will always evaluate to true\\.$#"
