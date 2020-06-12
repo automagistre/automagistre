@@ -10,6 +10,7 @@
     <style>
         .create-plus-button {
             opacity: 0;
+            transition: all 0.3s ease-in-out;
         }
 
         a:hover > .create-plus-button {
@@ -23,11 +24,12 @@
 
         .calendar-head__item {
             text-align: center;
-            padding: 3px 0 !important;
+            padding: 3px !important;
+            width: 4em;
         }
 
         .calendar-head__item:first-child {
-            width: 200px;
+            width: 180px;
         }
 
 
@@ -38,43 +40,61 @@
         }
 
         .calendar__item.event {
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
             background: #3399CC !important;
             color: white;
-
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
         }
 
         .calendar__item.event > a {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0;
+            display: flex;
             color: white;
+            border-radius: 10px;
+            padding: inherit;
+            height: 100%;
+            width: 100%;
+            align-items: center;
+        }
+
+        .calendar__item.event > a:after {
+            content: '';
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, .1);
+            border: inherit;
+            border-radius: inherit;
+            opacity: 0;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .calendar__item.event > a:hover:after {
+            opacity: 1;
         }
 
         .calendar__item.event:hover {
             overflow: visible;
-            position: relative;
         }
 
-        .calendar__item.event:hover > a {
-            border-radius: 10px;
-            padding-left: inherit;
-            padding-right: inherit;
-            align-items: center;
-            display: flex;
-            position: absolute !important;
-            top: 0 !important;
-            left: 0;
-            height: 84px;
+        .calendar__item.event > a:hover {
+            z-index: 10;
             background-color: inherit;
-            width: auto;
             opacity: 1;
-            font-weight: bold;
+            font-weight: 500;
+            min-width: fit-content;
         }
 
         .calendar__item.empty {
             height: 85px;
             text-align: center;
             padding: 0;
+
         }
 
         .calendar__item.empty > a {
@@ -119,10 +139,6 @@
         body.list .table tbody tr:hover td {
             background-color: inherit;
         }
-
-        /*.calendar__item > a {*/
-        /*    overflow: hidden;*/
-        /*}*/
 
     </style>
 {% endblock %}
@@ -201,14 +217,14 @@
     <hr>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12" style="overflow: auto">
 
             <table class="table table-bordered calendar_table">
                 <thead>
                 <tr class="calendar-head__row">
                     <th class="calendar-head__item"></th>
                     {% for time in columns %}
-                        <th class="calendar-head__item"><strong>{{ time }}</strong></th>
+                        <th class="calendar-head__item">{{ time }}</th>
                     {% endfor %}
                 </tr>
                 </thead>
