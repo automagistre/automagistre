@@ -10,6 +10,7 @@
     <style>
         .create-plus-button {
             opacity: 0;
+            transition: all 0.3s ease-in-out;
         }
 
         a:hover > .create-plus-button {
@@ -23,11 +24,12 @@
 
         .calendar-head__item {
             text-align: center;
-            padding: 3px 0 !important;
+            padding: 3px !important;
+            width: 4em;
         }
 
         .calendar-head__item:first-child {
-            width: 200px;
+            width: 180px;
         }
 
 
@@ -38,43 +40,61 @@
         }
 
         .calendar__item.event {
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
             background: #3399CC !important;
             color: white;
-
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
         }
 
         .calendar__item.event > a {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0;
+            display: flex;
             color: white;
+            border-radius: 10px;
+            padding: inherit;
+            height: 100%;
+            width: 100%;
+            align-items: center;
+        }
+
+        .calendar__item.event > a:after {
+            content: '';
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: rgba(0,0,0,.1);
+            border: inherit;
+            border-radius: inherit;
+            opacity: 0;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .calendar__item.event > a:hover:after {
+            opacity: 1;
         }
 
         .calendar__item.event:hover {
             overflow: visible;
-            position: relative;
         }
 
-        .calendar__item.event:hover > a {
-            border-radius: 10px;
-            padding-left: inherit;
-            padding-right: inherit;
-            align-items: center;
-            display: flex;
-            position: absolute !important;
-            top: 0 !important;
-            left: 0;
-            height: 84px;
+        .calendar__item.event > a:hover {
+            z-index: 10;
             background-color: inherit;
-            width: auto;
             opacity: 1;
-            font-weight: bold;
+            font-weight: 500;
+            min-width: fit-content;
         }
 
         .calendar__item.empty {
             height: 85px;
             text-align: center;
             padding: 0;
+
         }
 
         .calendar__item.empty > a{
@@ -119,10 +139,6 @@
         body.list .table tbody tr:hover td {
             background-color: inherit;
         }
-
-        /*.calendar__item > a {*/
-        /*    overflow: hidden;*/
-        /*}*/
 
 
     </style>
@@ -202,144 +218,144 @@
     <hr>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12" style="overflow: auto">
 
-                <table class="table table-bordered calendar_table">
-                    <thead>
-                    <tr class="calendar-head__row">
-                        <th class="calendar-head__item"></th>
+            <table class="table table-bordered calendar_table">
+                <thead>
+                <tr class="calendar-head__row">
+                    <th class="calendar-head__item"></th>
+                    {% for time in columns %}
+                        <th class="calendar-head__item">{{ time }}</th>
+                    {% endfor %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for stream in streams %}
+                    {# @var stream \App\Calendar\View\Stream #}
+                    <tr class="calendar-row">
+                        <td class="calendar__item master">
+                            {% if stream.workerId is not empty %}
+                                <a href="{{ easyadmin_path_by_id(stream.workerId, 'show', {'order_id': orderId, 'referer': true}) }}">
+                                    {{- stream.workerId|display_name -}}
+                                </a>
+                            {% else %}
+                                {% include 'easy_admin/default/label_null.html.twig' %}
+                            {% endif %}
+                        </td>
+                        {% set skip = 0 %}
+
                         {% for time in columns %}
-                            <th class="calendar-head__item"><strong>{{ time }}</strong></th>
-                        {% endfor %}
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for stream in streams %}
-                        {# @var stream \App\Calendar\View\Stream #}
-                        <tr class="calendar-row">
-                            <td class="calendar__item master">
-                                {% if stream.workerId is not empty %}
-                                    <a href="{{ easyadmin_path_by_id(stream.workerId, 'show', {'order_id': orderId, 'referer': true}) }}">
-                                        {{- stream.workerId|display_name -}}
-                                    </a>
-                                {% else %}
-                                    {% include 'easy_admin/default/label_null.html.twig' %}
-                                {% endif %}
-                            </td>
-                            {% set skip = 0 %}
-
-                            {% for time in columns %}
-                                {# @var stream \App\Calendar\View\Stream #}
-                                {% if skip > 0 %}
-                                    {% set skip = skip - 1 %}
-                                {% elseif stream.has(time) %}
-                                    {% set item = stream.get(time) %}
-                                    {% set skip = item.length - 1 %}
-{#                                    Если у записи есть мастер, то добавить класс is-assigned,  так же можно выбрать для каждого мастера цвет
-                                      Добавив классы
- #}
-                                    {% set entry = item.calendar %}
-                                    {# @var entry \App\Calendar\Entity\EntryView #}
-                                    <td class="calendar__item event{% if entry.orderInfo.workerId is not null %} is-assigned purple{% endif %}"
+                            {# @var stream \App\Calendar\View\Stream #}
+                            {% if skip > 0 %}
+                                {% set skip = skip - 1 %}
+                            {% elseif stream.has(time) %}
+                                {% set item = stream.get(time) %}
+                                {% set skip = item.length - 1 %}
+                                {#                                    Если у записи есть мастер, то добавить класс is-assigned,  так же можно выбрать для каждого мастера цвет
+                                                                      Добавив классы
+                                 #}
+                                {% set entry = item.calendar %}
+                                {# @var entry \App\Calendar\Entity\EntryView #}
+                                <td class="calendar__item event{% if entry.orderInfo.workerId is not null %} is-assigned purple{% endif %}"
                                         {% if item.length > 1 %} colspan="{{ item.length }}"{% endif %} >
 
-                                        <a data-toggle="modal" data-target="#{{ entry.id.toString }}" style="cursor: pointer">
-                                            {% if entry.orderInfo.customerId is not empty %}
-                                                {{ entry.orderInfo.customerId|display_name('short') }} <br>
-                                            {% endif %}
+                                    <a data-toggle="modal" data-target="#{{ entry.id.toString }}" style="cursor: pointer">
+                                        {% if entry.orderInfo.customerId is not empty %}
+                                            {{ entry.orderInfo.customerId|display_name('short') }} <br>
+                                        {% endif %}
 
-                                            {% if entry.orderInfo.carId is not empty %}
-                                                {{ entry.orderInfo.carId|display_name('short') }} <br>
-                                            {% endif %}
+                                        {% if entry.orderInfo.carId is not empty %}
+                                            {{ entry.orderInfo.carId|display_name('short') }} <br>
+                                        {% endif %}
 
-                                            {{ entry.orderInfo.description }}
-                                        </a>
+                                        {{ entry.orderInfo.description }}
+                                    </a>
 
-                                        <div class="modal fade" id="{{ entry.id.toString }}" tabindex="-1" role="dialog" style="color: black">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span></button>
-                                                        <h4 class="modal-title" id="myModalLabel">Запись
-                                                            на {{ entry.schedule.date|format_datetime }}</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        {% if entry.orderInfo.customerId is not empty %}
-                                                            Заказчик:
-                                                            <a href="{{ easyadmin_path_by_id(entry.orderInfo.customerId, 'show', {'referer': true}) }}">
-                                                                {{ entry.orderInfo.customerId|display_name }}
-                                                            </a>
-
-                                                            {% set tel = entry.orderInfo.customerId|display_name('tel') %}
-                                                            <a href="tel:{{ tel }}">{{ tel }}</a>
-                                                            <hr>
-                                                        {% endif %}
-
-                                                        {% if entry.orderInfo.carId is not empty %}
-                                                            Автомобиль:
-                                                            <a href="{{ easyadmin_path_by_id(entry.orderInfo.carId, 'show', {'referer': true}) }}">
-                                                                {{ entry.orderInfo.carId|display_name('long') }}
-                                                            </a>
-                                                            <hr>
-                                                        {% endif %}
-
-                                                        {% if entry.orderInfo.description is not empty %}
-                                                            Комментарий:
-                                                            {{ entry.orderInfo.description }}
-                                                        {% endif %}
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        {% if entry.orderId is not empty %}
-                                                            <a href="{{ easyadmin_path('Order', 'show', {'id': entry.orderId.toString}) }}" class="btn btn-info">
-                                                                В Заказ
-                                                            </a>
-                                                            {% else %}
-                                                            <a href="{{ easyadmin_path('Order', 'new', {'calendar_entry_id': entry.id.toString}) }}" class="btn btn-success">
-                                                                Создать заказ
-                                                            </a>
-                                                        {% endif %}
-                                                        <a
-                                                                href="{{ easyadmin_path('CalendarEntry', 'deletion', {'id': item.calendar.id.toString(), 'referer': true}) }}"
-                                                                class="btn btn-danger">
-                                                            Удалить
+                                    <div class="modal fade" id="{{ entry.id.toString }}" tabindex="-1" role="dialog" style="color: black">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span></button>
+                                                    <h4 class="modal-title" id="myModalLabel">Запись
+                                                        на {{ entry.schedule.date|format_datetime }}</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    {% if entry.orderInfo.customerId is not empty %}
+                                                        Заказчик:
+                                                        <a href="{{ easyadmin_path_by_id(entry.orderInfo.customerId, 'show', {'referer': true}) }}">
+                                                            {{ entry.orderInfo.customerId|display_name }}
                                                         </a>
-                                                        <a
-                                                                href="{{ easyadmin_path('CalendarEntry', 'edit', {'id': item.calendar.id.toString(), 'referer': true}) }}"
-                                                                class="btn btn-primary">
-                                                            Редактировать
+
+                                                        {% set tel = entry.orderInfo.customerId|display_name('tel') %}
+                                                        <a href="tel:{{ tel }}">{{ tel }}</a>
+                                                        <hr>
+                                                    {% endif %}
+
+                                                    {% if entry.orderInfo.carId is not empty %}
+                                                        Автомобиль:
+                                                        <a href="{{ easyadmin_path_by_id(entry.orderInfo.carId, 'show', {'referer': true}) }}">
+                                                            {{ entry.orderInfo.carId|display_name('long') }}
                                                         </a>
-                                                    </div>
+                                                        <hr>
+                                                    {% endif %}
+
+                                                    {% if entry.orderInfo.description is not empty %}
+                                                        Комментарий:
+                                                        {{ entry.orderInfo.description }}
+                                                    {% endif %}
+                                                </div>
+                                                <div class="modal-footer">
+                                                    {% if entry.orderId is not empty %}
+                                                        <a href="{{ easyadmin_path('Order', 'show', {'id': entry.orderId.toString}) }}" class="btn btn-info">
+                                                            В Заказ
+                                                        </a>
+                                                    {% else %}
+                                                        <a href="{{ easyadmin_path('Order', 'new', {'calendar_entry_id': entry.id.toString}) }}" class="btn btn-success">
+                                                            Создать заказ
+                                                        </a>
+                                                    {% endif %}
+                                                    <a
+                                                            href="{{ easyadmin_path('CalendarEntry', 'deletion', {'id': item.calendar.id.toString(), 'referer': true}) }}"
+                                                            class="btn btn-danger">
+                                                        Удалить
+                                                    </a>
+                                                    <a
+                                                            href="{{ easyadmin_path('CalendarEntry', 'edit', {'id': item.calendar.id.toString(), 'referer': true}) }}"
+                                                            class="btn btn-primary">
+                                                        Редактировать
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
-                                    </td>
-                                {% else %}
-                                    <td class="calendar__item empty">
-                                        <a href="{{ easyadmin_path('CalendarEntry', 'new', {'order_id': orderId, 'date': date|date('Y-m-d') ~ ' ' ~ time}|merge(stream.workerId ? {'worker_id': stream.workerId.toString} : {})) }}" >
-                                            <div class="btn btn-success create-plus-button">
-                                                <i class="fa fa-plus"></i>
-                                            </div>
-                                        </a>
-                                    </td>
-                                {% endif %}
-                            {% endfor %}
-                        </tr>
-                    {% endfor %}
-                    <tr>
-                        <td>Новый поток</td>
-                        {% for time in columns %}
-                            <td class="calendar__item empty">
-                                <a href="{{ easyadmin_path('CalendarEntry', 'new', {'order_id': orderId, 'date': date|date('Y-m-d') ~ ' ' ~ time}) }}">
-                                    <div class="btn btn-success create-plus-button">
-                                        <i class="fa fa-plus"></i>
                                     </div>
-                                </a>
-                            </td>
+                                </td>
+                            {% else %}
+                                <td class="calendar__item empty">
+                                    <a href="{{ easyadmin_path('CalendarEntry', 'new', {'order_id': orderId, 'date': date|date('Y-m-d') ~ ' ' ~ time}|merge(stream.workerId ? {'worker_id': stream.workerId.toString} : {})) }}" >
+                                        <div class="btn btn-success create-plus-button">
+                                            <i class="fa fa-plus"></i>
+                                        </div>
+                                    </a>
+                                </td>
+                            {% endif %}
                         {% endfor %}
                     </tr>
-                    </tbody>
-                </table>
+                {% endfor %}
+                <tr>
+                    <td>Новый поток</td>
+                    {% for time in columns %}
+                        <td class="calendar__item empty">
+                            <a href="{{ easyadmin_path('CalendarEntry', 'new', {'order_id': orderId, 'date': date|date('Y-m-d') ~ ' ' ~ time}) }}">
+                                <div class="btn btn-success create-plus-button">
+                                    <i class="fa fa-plus"></i>
+                                </div>
+                            </a>
+                        </td>
+                    {% endfor %}
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 {% endblock %}
