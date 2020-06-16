@@ -26,7 +26,7 @@ easy_admin:
                         type: App\EasyAdmin\Form\AutocompleteType
                         type_options:
                             class: App\Customer\Entity\Operand
-                    - { property: 'password', label: 'Пароль', type: 'password', type_options: { required: true } }
+                    - { property: 'password', label: 'Пароль', type: 'password', type_options: { required: true, mapped: false } }
                     - { property: 'roles', label: 'Роли', type: App\User\Form\RoleType, type_options: { required: false, multiple: true, expanded: true } }
             new:
                 title: 'Создать нового Пользователя'
@@ -34,6 +34,7 @@ easy_admin:
             edit:
                 title: 'Редактировать пользователя № {{ entity.id }}'
                 fields:
+                    - { property: 'password', type_options: { required: false } }
                     - { property: 'username', type_options: { disabled: true } }
 
 doctrine:

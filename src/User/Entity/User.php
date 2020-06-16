@@ -8,17 +8,11 @@ use App\Customer\Entity\OperandId;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\Criteria;
-use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\PersistentCollection;
 use DomainException;
 use function in_array;
-use LogicException;
 use Serializable;
 use function serialize;
-use function sprintf;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -28,14 +22,10 @@ use function unserialize;
 /**
  * @ORM\Entity
  * @ORM\Table(name="users")
- *
- * @UniqueEntity("person")
  */
 class User implements UserInterface, EquatableInterface, Serializable
 {
     use Identity;
-
-    public const PASSWORD_CREDENTIALS_TYPE = 'password';
 
     /**
      * @ORM\Column(type="user_id", unique=true)
@@ -56,12 +46,12 @@ class User implements UserInterface, EquatableInterface, Serializable
     private string $username;
 
     /**
-     * @var Collection<int, UserCredentials>
+     * @var Collection<int, UserPassword>
      *
-     * @ORM\OneToMany(targetEntity=UserCredentials::class, mappedBy="user", cascade={"persist", "remove"})
-     * @ORM\OrderBy({"createdAt": "ASC"})
+     * @ORM\OneToMany(targetEntity=UserPassword::class, mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"id": "ASC"})
      */
-    private Collection $credentials;
+    private Collection $passwords;
 
     /**
      * @ORM\Column(type="operand_id", nullable=true)
@@ -74,7 +64,7 @@ class User implements UserInterface, EquatableInterface, Serializable
         $this->roles = $roles;
         $this->username = $username;
         $this->personId = $personId;
-        $this->credentials = new ArrayCollection();
+        $this->passwords = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -89,7 +79,7 @@ class User implements UserInterface, EquatableInterface, Serializable
 
     public function setPersonId(OperandId $personId): void
     {
-        if (null !== $this->personId) {
+        if (null !== $this->personId && !$personId->equal($this->personId)) {
             throw new DomainException('Person already defined for this user');
         }
 
@@ -118,22 +108,18 @@ class User implements UserInterface, EquatableInterface, Serializable
         $this->roles = $roles;
     }
 
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
-        $credential = $this->getCredential(self::PASSWORD_CREDENTIALS_TYPE);
+        $userPassword = $this->passwords->last();
 
-        return $credential instanceof UserCredentials ? $credential->getIdentifier() : '';
+        return false === $userPassword ? null : $userPassword->toPassword();
     }
 
     public function changePassword(string $password, PasswordEncoderInterface $encoder): void
     {
-        if (null !== $credential = $this->getCredential(self::PASSWORD_CREDENTIALS_TYPE)) {
-            $credential->expire();
-        }
-
         $encoded = $encoder->encodePassword($password, $this->getSalt());
 
-        $this->credentials[] = new UserCredentials($this, self::PASSWORD_CREDENTIALS_TYPE, $encoded);
+        $this->passwords[] = new UserPassword($this, $encoded);
     }
 
     public function getSalt(): ?string
@@ -198,31 +184,6 @@ class User implements UserInterface, EquatableInterface, Serializable
         ] = unserialize($serialized, ['allowed_classes' => true]);
 
         $this->roles = $roles ?? [];
-        $this->credentials = new ArrayCollection();
-    }
-
-    private function getCredential(string $type): ?UserCredentials
-    {
-        if (!$this->credentials instanceof Selectable) {
-            throw new LogicException(sprintf('Collection must implement "%s"', Selectable::class));
-        }
-
-        $criteria = Criteria::create()
-            ->andWhere(Criteria::expr()->eq('type', $type))
-            ->andWhere(Criteria::expr()->isNull('expiredAt'));
-
-        if ($this->credentials instanceof PersistentCollection && !$this->credentials->isInitialized()) {
-            $this->credentials->initialize();
-        }
-
-        $collection = $this->credentials->matching($criteria);
-
-        if ($collection->isEmpty()) {
-            return null;
-        }
-
-        $credential = $collection->first();
-
-        return false === $credential ? null : $credential;
+        $this->passwords = new ArrayCollection();
     }
 }
