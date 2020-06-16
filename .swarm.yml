@@ -50,7 +50,7 @@ services:
 
     cron:
         <<: *php-fpm
-        command: console cron:start --blocking --tenant=msk
+        command: console cron:start --blocking
         healthcheck:
             disable: true
         deploy:
