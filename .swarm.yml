@@ -72,7 +72,7 @@ services:
         image: postgres:12.2
         volumes:
             -   type: bind
-                source: /tmp/tenants/${TENANT}
+                source: /opt/am/db/tenant/${TENANT}
                 target: /var/lib/postgresql/data
             -   type: bind
                 source: /opt/am/db/backups
