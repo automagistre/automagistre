@@ -141,10 +141,8 @@ easy_admin:
 
 doctrine:
     orm:
-        entity_managers:
-            tenant:
-                mappings:
-                    customer:
-                        type: annotation
-                        prefix: App\Customer
-                        dir: '%kernel.project_dir%/src/Customer'
+        mappings:
+            customer:
+                type: annotation
+                prefix: App\Customer
+                dir: '%kernel.project_dir%/src/Customer'

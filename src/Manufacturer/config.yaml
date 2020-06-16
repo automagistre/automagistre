@@ -32,13 +32,11 @@ easy_admin:
 
 doctrine:
     orm:
-        entity_managers:
-            tenant:
-                mappings:
-                    manufacturer:
-                        type: annotation
-                        prefix: App\Manufacturer
-                        dir: '%kernel.project_dir%/src/Manufacturer'
+        mappings:
+            manufacturer:
+                type: annotation
+                prefix: App\Manufacturer
+                dir: '%kernel.project_dir%/src/Manufacturer'
 
 doctrine_mongodb:
     document_managers:

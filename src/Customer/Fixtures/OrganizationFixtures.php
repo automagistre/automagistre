@@ -11,21 +11,12 @@ use App\Shared\Enum\NoteType;
 use App\User\Entity\UserId;
 use App\User\Fixtures\EmployeeFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class OrganizationFixtures extends Fixture implements FixtureGroupInterface
+final class OrganizationFixtures extends Fixture
 {
     public const ID = '1ea91f74-3fc0-6e46-96ae-5e6bd0ab745f';
     public const CREATED_BY = EmployeeFixtures::ID;
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getGroups(): array
-    {
-        return ['tenant'];
-    }
 
     /**
      * {@inheritdoc}

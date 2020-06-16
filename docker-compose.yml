@@ -2,32 +2,29 @@ version: '3.7'
 
 services:
     nginx:
-        image: automagistre/app-nginx:base
+        image: automagistre/tenant-nginx:base
         labels:
-            ru.grachevko.dhu: 'sto.automagistre.local:2'
+            ru.grachevko.dhu: '${TENANT}.automagistre.local:2'
         volumes:
             - ./public:/usr/local/app/public
             - ./etc/nginx.conf:/etc/nginx/nginx.conf
 
-    app:
-        image: automagistre/app:base
-        networks:
-            default:
-                aliases:
-                    - php-fpm
+    php-fpm:
+        image: automagistre/tenant-php:base
         volumes:
             - ./:/usr/local/app
             - ./etc/php.ini:/usr/local/etc/php/php.ini
             - ./etc/php-fpm.conf:/usr/local/etc/php-fpm.d/automagistre.conf
         environment:
-            APP_ENV: prod
-            APP_DEBUG: 0
-            MERCURE_HUB_URL: //mercure.automagistre.local/.well-known/mercure
+            APP_ENV: dev
+            APP_DEBUG: 1
+            MERCURE_HUB_URL: //mercure.${TENANT}.automagistre.local/.well-known/mercure
+            TENANT: ${TENANT}
 
-    landlord: &postgres
+    db:
         image: postgres:12.2
         labels:
-            ru.grachevko.dhu: 'landlord.automagistre.local'
+            ru.grachevko.dhu: 'db.${TENANT}.automagistre.local'
         volumes:
             -   type: tmpfs
                 target: /var/lib/postgresql/data
@@ -35,41 +32,19 @@ services:
                     size: 2G
             - ./:/usr/local/app
         environment:
-            POSTGRES_DB: landlord
-            POSTGRES_USER: db
-            POSTGRES_PASSWORD: db
-        healthcheck:
-            test: pg_isready -U db
-            interval: 5s
-            timeout: 5s
-            retries: 3
-            start_period: 10s
-
-    tenant_msk:
-        <<: *postgres
-        labels:
-            ru.grachevko.dhu: 'tenant_msk.automagistre.local'
-        environment:
-            POSTGRES_DB: tenant
+            POSTGRES_DB: db
             POSTGRES_USER: db
             POSTGRES_PASSWORD: db
 
     memcached:
         image: memcached:1.5.11-alpine
         labels:
-            ru.grachevko.dhu: 'memcached.automagistre.local'
-            restartable: 'false'
-        healthcheck:
-            test: nc -z 127.0.0.1 11211
-            interval: 5s
-            timeout: 5s
-            retries: 3
-            start_period: 5s
+            ru.grachevko.dhu: 'memcached.${TENANT}.automagistre.local'
 
     mercure:
         image: dunglas/mercure:v0.8.0
         labels:
-            ru.grachevko.dhu: 'mercure.automagistre.local'
+            ru.grachevko.dhu: 'mercure.${TENANT}.automagistre.local'
         environment:
             ALLOW_ANONYMOUS: 1
             CORS_ALLOWED_ORIGINS: 'http://sto.automagistre.local'

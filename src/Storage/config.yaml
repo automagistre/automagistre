@@ -28,13 +28,11 @@ easy_admin:
 
 doctrine:
     orm:
-        entity_managers:
-            tenant:
-                mappings:
-                    storage:
-                        type: annotation
-                        prefix: App\Storage\Entity
-                        dir: '%kernel.project_dir%/src/Storage/Entity'
+        mappings:
+            storage:
+                type: annotation
+                prefix: App\Storage\Entity
+                dir: '%kernel.project_dir%/src/Storage/Entity'
 
 services:
     _defaults:

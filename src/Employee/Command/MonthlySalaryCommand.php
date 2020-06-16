@@ -7,8 +7,6 @@ namespace App\Employee\Command;
 use App\Employee\Entity\MonthlySalary;
 use App\Payment\Manager\PaymentManager;
 use App\Shared\Doctrine\Registry;
-use App\State;
-use App\Tenant\Tenant;
 use App\User\Entity\User;
 use function assert;
 use function date;
@@ -33,12 +31,9 @@ final class MonthlySalaryCommand extends Command
 
     private PaymentManager $paymentManager;
 
-    private State $state;
-
     private EventDispatcherInterface $dispatcher;
 
     public function __construct(
-        State $state,
         Registry $registry,
         PaymentManager $paymentManager,
         EventDispatcherInterface $dispatcher
@@ -47,7 +42,6 @@ final class MonthlySalaryCommand extends Command
 
         $this->registry = $registry;
         $this->paymentManager = $paymentManager;
-        $this->state = $state;
         $this->dispatcher = $dispatcher;
     }
 
@@ -75,19 +69,13 @@ final class MonthlySalaryCommand extends Command
         if (!$user instanceof User) {
             throw new RuntimeException('Service user not found.');
         }
-        $this->state->user($user);
 
-        /** @var Tenant $tenant */
-        foreach (Tenant::all() as $tenant) {
-            try {
-                $this->state->tenant($tenant);
+        try {
+            $this->paySalary($payday, $description);
+        } catch (Throwable $e) {
+            $event = new ConsoleErrorEvent($input, $output, $e, $this);
 
-                $this->paySalary($payday, $description);
-            } catch (Throwable $e) {
-                $event = new ConsoleErrorEvent($input, $output, $e, $this);
-
-                $this->dispatcher->dispatch($event);
-            }
+            $this->dispatcher->dispatch($event);
         }
 
         return 0;

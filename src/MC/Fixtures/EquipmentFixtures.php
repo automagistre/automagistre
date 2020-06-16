@@ -8,20 +8,11 @@ use App\MC\Entity\McEquipment;
 use App\Vehicle\Entity\VehicleId;
 use App\Vehicle\Fixtures\NissanGTRFixture;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class EquipmentFixtures extends Fixture implements FixtureGroupInterface
+final class EquipmentFixtures extends Fixture
 {
     public const VEHICLE_ID = NissanGTRFixture::ID;
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getGroups(): array
-    {
-        return ['tenant'];
-    }
 
     /**
      * {@inheritdoc}

@@ -54,10 +54,8 @@ easy_admin:
 
 doctrine:
     orm:
-        entity_managers:
-            tenant:
-                mappings:
-                    income:
-                        type: annotation
-                        prefix: App\Income\Entity
-                        dir: '%kernel.project_dir%/src/Income/Entity'
+        mappings:
+            income:
+                type: annotation
+                prefix: App\Income\Entity
+                dir: '%kernel.project_dir%/src/Income/Entity'

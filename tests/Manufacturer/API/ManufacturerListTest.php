@@ -20,8 +20,6 @@ final class ManufacturerListTest extends JsonRPCTestCase
      */
     public function testSuccess(array $request, array $expected): void
     {
-        static::markTestSkipped('Wait for explode tenants');
-
         $client = self::createClient();
 
         $rpcResponse = $client->successJsonrpc('manufacturer.list', $request);

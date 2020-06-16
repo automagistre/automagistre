@@ -7,20 +7,11 @@ namespace App\Car\Fixtures;
 use App\Car\Entity\Car;
 use App\Car\Entity\CarId;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class EmptyCarFixtures extends Fixture implements FixtureGroupInterface
+final class EmptyCarFixtures extends Fixture
 {
     public const ID = '1ea8818c-bf1b-6820-b45f-ba1ca6d07248';
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getGroups(): array
-    {
-        return ['tenant'];
-    }
 
     /**
      * {@inheritdoc}

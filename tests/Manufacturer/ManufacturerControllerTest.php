@@ -13,7 +13,8 @@ class ManufacturerControllerTest extends WebTestCase
             'PHP_AUTH_PW' => 'pa$$word',
         ]);
 
-        $client->request('GET', '/msk/?entity=Manufacturer&action=list');
+        $client->request('GET', '/?entity=Manufacturer&action=list');
+        $content = $client->getResponse()->getContent();
         static::assertTrue($client->getResponse()->isSuccessful());
         static::assertSelectorTextContains('html h1.title', 'Производители');
 

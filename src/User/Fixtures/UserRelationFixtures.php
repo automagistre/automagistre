@@ -8,10 +8,9 @@ use App\Shared\Doctrine\Registry;
 use App\State;
 use App\User\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class UserRelationFixtures extends Fixture implements FixtureGroupInterface
+final class UserRelationFixtures extends Fixture
 {
     private Registry $registry;
 
@@ -30,13 +29,5 @@ final class UserRelationFixtures extends Fixture implements FixtureGroupInterfac
     {
         $user = $this->registry->findBy(User::class, ['uuid' => AdminFixtures::ID]);
         $this->state->user($user);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getGroups(): array
-    {
-        return ['tenant'];
     }
 }

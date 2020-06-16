@@ -11,11 +11,10 @@ use App\User\Entity\UserId;
 use App\User\Fixtures\EmployeeFixtures;
 use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class NoteFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
+final class NoteFixtures extends Fixture implements DependentFixtureInterface
 {
     public const CREATED_BY = EmployeeFixtures::ID;
 
@@ -27,14 +26,6 @@ final class NoteFixtures extends Fixture implements FixtureGroupInterface, Depen
         return [
             EmptyCarFixtures::class,
         ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getGroups(): array
-    {
-        return ['tenant'];
     }
 
     /**

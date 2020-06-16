@@ -9,14 +9,13 @@ use App\Tenant\Tenant;
 use App\User\Entity\User;
 use App\User\Entity\UserId;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class EmployeeFixtures extends Fixture implements FixtureGroupInterface
+final class EmployeeFixtures extends Fixture
 {
     public const ID = '1ea9478c-eca4-6f96-a221-3ab8c77b35e5';
     public const USERNAME = 'employee@automagistre.ru';
@@ -29,14 +28,6 @@ final class EmployeeFixtures extends Fixture implements FixtureGroupInterface
     public function __construct(EncoderFactoryInterface $encoderFactory)
     {
         $this->encoderFactory = $encoderFactory;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getGroups(): array
-    {
-        return ['landlord'];
     }
 
     /**

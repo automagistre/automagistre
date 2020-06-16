@@ -46,13 +46,11 @@ easy_admin:
 
 doctrine:
     orm:
-        entity_managers:
-            tenant:
-                mappings:
-                    wallet:
-                        type: annotation
-                        prefix: App\Wallet\Entity
-                        dir: '%kernel.project_dir%/src/Wallet/Entity'
+        mappings:
+            wallet:
+                type: annotation
+                prefix: App\Wallet\Entity
+                dir: '%kernel.project_dir%/src/Wallet/Entity'
 
 services:
     _defaults:

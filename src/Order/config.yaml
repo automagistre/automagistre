@@ -132,13 +132,11 @@ easy_admin:
 
 doctrine:
     orm:
-        entity_managers:
-            tenant:
-                mappings:
-                    order:
-                        type: annotation
-                        prefix: App\Order\Entity
-                        dir: '%kernel.project_dir%/src/Order/Entity'
+        mappings:
+            order:
+                type: annotation
+                prefix: App\Order\Entity
+                dir: '%kernel.project_dir%/src/Order/Entity'
 
 services:
     _defaults:

@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tenant;
 
+use function getenv;
 use function in_array;
+use function is_string;
+use LogicException;
 use Premier\Enum\Enum;
 
 /**
@@ -108,5 +111,16 @@ final class Tenant extends Enum
     public static function isValid(string $identifier): bool
     {
         return in_array($identifier, self::$identifier, true);
+    }
+
+    public static function fromEnv(): self
+    {
+        $identifier = getenv('TENANT');
+
+        if (!is_string($identifier)) {
+            throw new LogicException('TENANT env must be defined.');
+        }
+
+        return self::fromIdentifier($identifier);
     }
 }

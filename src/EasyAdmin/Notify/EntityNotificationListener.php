@@ -7,7 +7,6 @@ namespace App\EasyAdmin\Notify;
 use App\Order\Entity\OrderItem;
 use App\Order\Event\OrderStatusChanged;
 use App\State;
-use App\Tenant\EntityChecker;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigManager;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use EasyCorp\Bundle\EasyAdminBundle\Twig\EasyAdminTwigExtension;
@@ -44,8 +43,6 @@ final class EntityNotificationListener implements EventSubscriberInterface
 
     private State $state;
 
-    private EntityChecker $entityChecker;
-
     public function __construct(
         ConfigManager $configManager,
         EasyAdminTwigExtension $easyAdminTwigExtension,
@@ -53,8 +50,7 @@ final class EntityNotificationListener implements EventSubscriberInterface
         Environment $twig,
         PublisherInterface $publisher,
         HubInterface $sentry,
-        State $state,
-        EntityChecker $entityChecker
+        State $state
     ) {
         $this->configManager = $configManager;
         $this->easyAdminTwigExtension = $easyAdminTwigExtension;
@@ -63,7 +59,6 @@ final class EntityNotificationListener implements EventSubscriberInterface
         $this->publisher = $publisher;
         $this->sentry = $sentry;
         $this->state = $state;
-        $this->entityChecker = $entityChecker;
     }
 
     /**
@@ -109,14 +104,11 @@ final class EntityNotificationListener implements EventSubscriberInterface
         $id = $this->propertyAccessor->getValue($entity, 'id');
         $name = $entityConfig['name'];
 
-        $tenant = '';
-        if ($this->entityChecker->isTenantEntity($class)) {
-            $tenant = $this->state->tenant()->toIdentifier().'/';
-        }
+        $tenant = $this->state->tenant()->toIdentifier();
 
         $topics = [
-            "http://automagistre.ru/{$tenant}{$name}",
-            "http://automagistre.ru/{$tenant}{$name}/{$id}",
+            "http://automagistre.ru/{$tenant}/{$name}",
+            "http://automagistre.ru/{$tenant}/{$name}/{$id}",
         ];
 
         $data = [

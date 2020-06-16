@@ -13,6 +13,7 @@
         <env name="KERNEL_CLASS" value="App\Kernel"/>
         <env name="APP_ENV" value="test" force="true" />
         <env name="APP_DEBUG" value="1" force="true" />
+        <env name="TENANT" value="msk" force="true" />
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
     </php>
 

@@ -10,11 +10,7 @@
 
     <doctrine:config>
         <doctrine:orm>
-            <doctrine:entity-manager name="landlord">
-                <doctrine:metadata-cache-driver type="service" id="doctrine.metadata_cache"/>
-                <doctrine:query-cache-driver type="service" id="doctrine.query_cache"/>
-            </doctrine:entity-manager>
-            <doctrine:entity-manager name="tenant">
+            <doctrine:entity-manager name="default">
                 <doctrine:metadata-cache-driver type="service" id="doctrine.metadata_cache"/>
                 <doctrine:query-cache-driver type="service" id="doctrine.query_cache"/>
             </doctrine:entity-manager>

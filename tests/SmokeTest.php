@@ -171,14 +171,14 @@ final class SmokeTest extends WebTestCase
 
                 $isAjax = 'autocomplete' === $action;
 
-                yield $entity.' '.$action => ['/msk/?'.http_build_query($queries), 200, $isAjax];
+                yield $entity.' '.$action => ['/?'.http_build_query($queries), 200, $isAjax];
             }
         }
     }
 
     public function admin(): Generator
     {
-        yield ['/msk/report/profit', 200, false];
-        yield ['/msk/report/part-sell', 200, false];
+        yield ['/report/profit', 200, false];
+        yield ['/report/part-sell', 200, false];
     }
 }

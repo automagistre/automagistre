@@ -28,13 +28,11 @@ easy_admin:
 
 doctrine:
     orm:
-        entity_managers:
-            tenant:
-                mappings:
-                    calendar:
-                        type: annotation
-                        prefix: App\Calendar\Entity
-                        dir: '%kernel.project_dir%/src/Calendar/Entity'
+        mappings:
+            calendar:
+                type: annotation
+                prefix: App\Calendar\Entity
+                dir: '%kernel.project_dir%/src/Calendar/Entity'
 
 services:
     _defaults:

@@ -8,24 +8,15 @@ use App\Customer\Entity\Person;
 use App\Employee\Entity\Employee;
 use App\Shared\Doctrine\Registry;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class EmployeeFixtures extends Fixture implements FixtureGroupInterface
+final class EmployeeFixtures extends Fixture
 {
     private Registry $registry;
 
     public function __construct(Registry $registry)
     {
         $this->registry = $registry;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getGroups(): array
-    {
-        return ['tenant'];
     }
 
     /**

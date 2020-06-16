@@ -7,23 +7,14 @@ namespace App\Manufacturer\Fixtures;
 use App\Manufacturer\Entity\Manufacturer;
 use App\Manufacturer\Entity\ManufacturerId;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class LexusFixture extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
+final class LexusFixture extends Fixture implements DependentFixtureInterface
 {
     public const ID = '1ea88058-f18f-64c6-88ac-ba1ca6d07248';
     public const NAME = 'Lexus';
     public const LOCALIZED_NAME = 'Лексус';
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getGroups(): array
-    {
-        return ['tenant'];
-    }
 
     /**
      * {@inheritdoc}

@@ -6,19 +6,10 @@ namespace App\Expense\Fixtures;
 
 use App\Expense\Entity\Expense;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class ExpenseFixtures extends Fixture implements FixtureGroupInterface
+final class ExpenseFixtures extends Fixture
 {
-    /**
-     * {@inheritdoc}
-     */
-    public static function getGroups(): array
-    {
-        return ['tenant'];
-    }
-
     /**
      * {@inheritdoc}
      */

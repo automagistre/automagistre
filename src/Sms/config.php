@@ -22,15 +22,11 @@ return static function (ContainerConfigurator $configurator): void {
 
     $configurator->extension('doctrine', [
         'orm' => [
-            'entity_managers' => [
-                'tenant' => [
-                    'mappings' => [
-                        'sms' => [
-                            'type' => 'annotation',
-                            'prefix' => 'App\\Sms\\Entity',
-                            'dir' => '%kernel.project_dir%/src/Sms/Entity',
-                        ],
-                    ],
+            'mappings' => [
+                'sms' => [
+                    'type' => 'annotation',
+                    'prefix' => 'App\\Sms\\Entity',
+                    'dir' => '%kernel.project_dir%/src/Sms/Entity',
                 ],
             ],
         ],

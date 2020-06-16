@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
     nginx:
-        image: automagistre/app-nginx:${VERSION}
+        image: automagistre/tenant-nginx:${VERSION}
         networks:
             - default
             - ingress
@@ -17,15 +17,15 @@ services:
                 delay: 10s
                 order: start-first
             labels:
-                - "traefik.docker.network=proxy"
-                - "traefik.enable=true"
-                - "traefik.frontend.rule=Host:api.automagistre.ru,sto.automagistre.ru"
-                - "traefik.port=80"
-                - "traefik.protocol=http"
-                - "traefik.backend.loadbalancer.method=drr"
+                - traefik.docker.network=proxy
+                - traefik.enable=true
+                - traefik.frontend.rule=Host:${TENANT}.automagistre.ru
+                - traefik.port=80
+                - traefik.protocol=http
+                - traefik.backend.loadbalancer.method=drr
 
-    php-fpm: &app
-        image: automagistre/app:${VERSION}
+    php-fpm: &php-fpm
+        image: automagistre/tenant-php:${VERSION}
         networks:
             - default
             - mercure
@@ -35,6 +35,7 @@ services:
             SENTRY_DSN: ${SENTRY_DSN}
             MERCURE_JWT_KEY: ${MERCURE_JWT_KEY}
             SMSAERO_AUTH: ${SMSAERO_AUTH}
+            TENANT: ${TENANT}
         stop_grace_period: 120s
         deploy:
             mode: replicated
@@ -47,22 +48,18 @@ services:
                 delay: 10s
                 order: start-first
 
-    cron_msk:
-        <<: *app
+    cron:
+        <<: *php-fpm
         command: console cron:start --blocking --tenant=msk
         healthcheck:
             disable: true
         deploy:
             mode: replicated
             replicas: 1
-            restart_policy:
-                condition: none
-            labels:
-                - "traefik.enable=false"
 
-    migration_landlord:
-        <<: *app
-        command: wait-for-it.sh landlord:5432 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=landlord
+    migration:
+        <<: *php-fpm
+        command: wait-for-it.sh db:5432 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration
         healthcheck:
             disable: true
         deploy:
@@ -70,72 +67,18 @@ services:
             replicas: 1
             restart_policy:
                 condition: none
-            labels:
-                - "traefik.enable=false"
 
-    migration_tenant_sandbox:
-        <<: *app
-        command: wait-for-it.sh tenant_sandbox:5432 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=sandbox
-        healthcheck:
-            disable: true
-        deploy:
-            mode: replicated
-            replicas: 1
-            restart_policy:
-                condition: none
-            labels:
-                - "traefik.enable=false"
-
-    migration_tenant_msk:
-        <<: *app
-        command: wait-for-it.sh tenant_msk:5432 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=msk
-        healthcheck:
-            disable: true
-        deploy:
-            mode: replicated
-            replicas: 1
-            restart_policy:
-                condition: none
-            labels:
-                - "traefik.enable=false"
-
-    migration_tenant_kazan:
-        <<: *app
-        command: wait-for-it.sh tenant_kazan:5432 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=kazan
-        healthcheck:
-            disable: true
-        deploy:
-            mode: replicated
-            replicas: 1
-            restart_policy:
-                condition: none
-            labels:
-                - "traefik.enable=false"
-
-    migration_tenant_shavlev:
-        <<: *app
-        command: wait-for-it.sh tenant_kazan:5432 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=shavlev
-        healthcheck:
-            disable: true
-        deploy:
-            mode: replicated
-            replicas: 1
-            restart_policy:
-                condition: none
-            labels:
-                - "traefik.enable=false"
-
-    landlord: &postgres
+    db:
         image: postgres:12.2
         volumes:
             -   type: bind
-                source: /opt/am/db/landlord
+                source: /tmp/tenants/${TENANT}
                 target: /var/lib/postgresql/data
             -   type: bind
                 source: /opt/am/db/backups
                 target: /backups
         environment:
-            POSTGRES_DB: landlord
+            POSTGRES_DB: db
             POSTGRES_USER: db
             POSTGRES_PASSWORD: ${DB_PASSWORD}
         deploy:
@@ -150,62 +93,6 @@ services:
             timeout: 5s
             retries: 3
             start_period: 10s
-
-    tenant_sandbox:
-        <<: *postgres
-        environment:
-            POSTGRES_DB: tenant
-            POSTGRES_USER: db
-            POSTGRES_PASSWORD: ${DB_PASSWORD}
-        volumes:
-            -   type: bind
-                source: /opt/am/db/tenant/sandbox
-                target: /var/lib/postgresql/data
-            -   type: bind
-                source: /opt/am/db/backups
-                target: /backups
-
-    tenant_msk:
-        <<: *postgres
-        environment:
-            POSTGRES_DB: tenant
-            POSTGRES_USER: db
-            POSTGRES_PASSWORD: ${DB_PASSWORD}
-        volumes:
-            -   type: bind
-                source: /opt/am/db/tenant/msk
-                target: /var/lib/postgresql/data
-            -   type: bind
-                source: /opt/am/db/backups
-                target: /backups
-
-    tenant_kazan:
-        <<: *postgres
-        environment:
-            POSTGRES_DB: tenant
-            POSTGRES_USER: db
-            POSTGRES_PASSWORD: ${DB_PASSWORD}
-        volumes:
-            -   type: bind
-                source: /opt/am/db/tenant/kazan
-                target: /var/lib/postgresql/data
-            -   type: bind
-                source: /opt/am/db/backups
-                target: /backups
-
-    tenant_shavlev:
-        <<: *postgres
-        environment:
-            POSTGRES_DB: tenant
-            POSTGRES_USER: db
-            POSTGRES_PASSWORD: ${DB_PASSWORD}
-        volumes:
-            -   type: bind
-                source: /opt/am/db/tenant/shavlev
-                target: /var/lib/postgresql/data
-            -   type: bind
-                source: /opt/am/db/backups
-                target: /backups
 
     memcached:
         image: memcached:1.5.22-alpine
@@ -225,4 +112,4 @@ networks:
         name: mercure
     default:
         driver: overlay
-        name: automagistre
+        name: tenant

@@ -12,13 +12,12 @@ use App\User\Entity\UserId;
 use App\User\Fixtures\EmployeeFixtures;
 use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Money\Currency;
 use Money\Money;
 
-final class RecommendationFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
+final class RecommendationFixtures extends Fixture implements DependentFixtureInterface
 {
     public const PART_ID = GasketFixture::ID;
     public const PART_SELECTOR_ID = EmployeeFixtures::ID;
@@ -33,14 +32,6 @@ final class RecommendationFixtures extends Fixture implements FixtureGroupInterf
         return [
             EmptyCarFixtures::class,
         ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getGroups(): array
-    {
-        return ['tenant'];
     }
 
     /**

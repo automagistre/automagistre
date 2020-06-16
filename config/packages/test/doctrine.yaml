@@ -1,10 +1,8 @@
 doctrine:
     dbal:
         connections:
-            landlord:
-                dbname:   landlord_test
-            tenant:
-                dbname:   tenant_test
+            default:
+                dbname:   db_test
 
 dama_doctrine_test:
     enable_static_connection: true

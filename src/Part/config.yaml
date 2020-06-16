@@ -54,13 +54,11 @@ doctrine:
         types:
             part_number: App\Part\Doctrine\PartNumberType
     orm:
-        entity_managers:
-            tenant:
-                mappings:
-                    part:
-                        type: annotation
-                        prefix: App\Part\Entity
-                        dir: '%kernel.project_dir%/src/Part/Entity'
+        mappings:
+            part:
+                type: annotation
+                prefix: App\Part\Entity
+                dir: '%kernel.project_dir%/src/Part/Entity'
 
 doctrine_mongodb:
     document_managers:

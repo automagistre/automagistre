@@ -103,13 +103,11 @@ easy_admin:
 
 doctrine:
     orm:
-        entity_managers:
-            tenant:
-                mappings:
-                    mc:
-                        type: annotation
-                        prefix: App\MC\Entity
-                        dir: '%kernel.project_dir%/src/MC/Entity'
+        mappings:
+            mc:
+                type: annotation
+                prefix: App\MC\Entity
+                dir: '%kernel.project_dir%/src/MC/Entity'
 
 doctrine_mongodb:
     document_managers:

@@ -8,21 +8,12 @@ use App\Storage\Entity\Warehouse;
 use App\Storage\Entity\WarehouseId;
 use App\Storage\Entity\WarehouseName;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class MainWarehouseFixture extends Fixture implements FixtureGroupInterface
+final class MainWarehouseFixture extends Fixture
 {
     public const ID = '1eaa75a7-7c4e-6360-8ee5-0242ac1c0002';
     public const NAME = 'Основной';
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getGroups(): array
-    {
-        return ['tenant'];
-    }
 
     /**
      * {@inheritdoc}

@@ -113,10 +113,8 @@ easy_admin:
 
 doctrine:
     orm:
-        entity_managers:
-            tenant:
-                mappings:
-                    car:
-                        type: annotation
-                        prefix: App\Car\Entity
-                        dir: '%kernel.project_dir%/src/Car/Entity'
+        mappings:
+            car:
+                type: annotation
+                prefix: App\Car\Entity
+                dir: '%kernel.project_dir%/src/Car/Entity'

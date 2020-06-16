@@ -10,11 +10,10 @@ use App\Part\Entity\PartId;
 use App\Part\Fixtures\GasketFixture;
 use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class PartFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
+final class PartFixtures extends Fixture implements DependentFixtureInterface
 {
     /**
      * {@inheritdoc}
@@ -24,14 +23,6 @@ final class PartFixtures extends Fixture implements FixtureGroupInterface, Depen
         return [
             LineFixtures::class,
         ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getGroups(): array
-    {
-        return ['tenant'];
     }
 
     /**

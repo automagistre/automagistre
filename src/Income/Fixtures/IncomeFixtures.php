@@ -12,11 +12,10 @@ use App\Income\Entity\IncomeId;
 use App\Shared\Doctrine\Registry;
 use App\User\Fixtures\UserRelationFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class IncomeFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
+final class IncomeFixtures extends Fixture implements DependentFixtureInterface
 {
     public const ID = '1ea8f183-f4b0-6fe6-aa61-5e6bd0ab745f';
     public const SUPPLIER_ID = OrganizationFixtures::ID;
@@ -55,13 +54,5 @@ final class IncomeFixtures extends Fixture implements FixtureGroupInterface, Dep
 
         $manager->persist($income);
         $manager->flush();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getGroups(): array
-    {
-        return ['tenant'];
     }
 }
