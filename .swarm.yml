@@ -112,4 +112,4 @@ networks:
         name: mercure
     default:
         driver: overlay
-        name: tenant
+        name: tenant_${TENANT}
