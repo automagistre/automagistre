@@ -52,7 +52,3 @@ services:
         public: false
         autowire: true
         autoconfigure: true
-
-    App\Manufacturer\Ports\API\ManufacturerList:
-        tags:
-            - { name: jsonrpc.method, jsonrpc.method: manufacturer.list }

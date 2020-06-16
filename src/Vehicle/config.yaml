@@ -63,7 +63,3 @@ services:
         public: false
         autowire: true
         autoconfigure: true
-
-    App\Vehicle\Ports\API\ModelList:
-        tags:
-            - { name: jsonrpc.method, jsonrpc.method: vehicle.model.list }
