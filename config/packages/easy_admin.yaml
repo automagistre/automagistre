@@ -3,7 +3,6 @@ services:
     EasyCorp\Bundle\EasyAdminBundle\Twig\EasyAdminTwigExtension: '@easyadmin.twig.extension'
 
 easy_admin:
-    site_name: 'СТО Автомагистр'
     design:
         templates:
             show: 'easy_admin/default/show.html.twig'

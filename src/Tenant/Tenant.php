@@ -37,8 +37,8 @@ final class Tenant extends Enum
 
     protected static array $displayName = [
         self::DEMO => 'Демо',
-        self::MSK => 'Москва',
-        self::KAZAN => 'Казань',
+        self::MSK => 'Автомагистр Москва',
+        self::KAZAN => 'Автомагистр Казань',
         self::SHAVLEV => 'ИП Щавлев В.А.',
         self::BUNKER => 'Бункер Гараж',
     ];
