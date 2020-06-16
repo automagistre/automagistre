@@ -13,7 +13,7 @@ final class Version20200616173534 extends AbstractMigration
     {
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
-        $this->addSql('INSERT INTO migration_versions (version, executed_at) VALUES (\'20200616180432\', now())');
+        $this->addSql('INSERT INTO migration_versions (version, executed_at) VALUES (\'20200616180432\', now()) ON CONFLICT DO NOTHING ');
 
         $this->addSql('CREATE TABLE users (id SERIAL NOT NULL, uuid UUID NOT NULL, roles TEXT NOT NULL, username VARCHAR(255) NOT NULL, person_id UUID DEFAULT NULL, tenants JSON NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_1483A5E9D17F50A6 ON users (uuid)');
