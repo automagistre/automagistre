@@ -9,10 +9,9 @@ use App\Manufacturer\Fixtures\NissanFixture;
 use App\Vehicle\Entity\Model;
 use App\Vehicle\Entity\VehicleId;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class NissanQashqaiFixture extends Fixture implements FixtureGroupInterface
+final class NissanQashqaiFixture extends Fixture
 {
     public const ID = '1ea88045-a0e2-60ea-9a06-ba1ca6d07248';
     public const MANUFACTURER_ID = NissanFixture::ID;
@@ -21,14 +20,6 @@ final class NissanQashqaiFixture extends Fixture implements FixtureGroupInterfac
     public const CASE_NAME = 'J10';
     public const YEAR_FROM = 2006;
     public const YEAR_TILL = 2013;
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getGroups(): array
-    {
-        return ['tenant'];
-    }
 
     /**
      * {@inheritdoc}

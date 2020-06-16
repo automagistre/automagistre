@@ -7,19 +7,10 @@ namespace App\Review\Fixtures;
 use App\Review\Entity\Review;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class ReviewFixtures extends Fixture implements FixtureGroupInterface
+final class ReviewFixtures extends Fixture
 {
-    /**
-     * {@inheritdoc}
-     */
-    public static function getGroups(): array
-    {
-        return ['tenant'];
-    }
-
     /**
      * {@inheritdoc}
      */

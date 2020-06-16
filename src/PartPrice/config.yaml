@@ -11,10 +11,8 @@ easy_admin:
 
 doctrine:
     orm:
-        entity_managers:
-            tenant:
-                mappings:
-                    part_price:
-                        type: annotation
-                        prefix: App\PartPrice
-                        dir: '%kernel.project_dir%/src/PartPrice'
+        mappings:
+            part_price:
+                type: annotation
+                prefix: App\PartPrice
+                dir: '%kernel.project_dir%/src/PartPrice'

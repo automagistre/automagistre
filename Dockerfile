@@ -2,7 +2,7 @@
 # PHP-FPM
 #
 FROM composer:1.10.7 as composer
-FROM php:7.4.7-fpm-buster as base
+FROM php:7.4.7-fpm-buster as php-base
 
 LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 
@@ -65,7 +65,7 @@ ENV PHP_MEMORY_LIMIT 1G
 ENV PHP_OPCACHE_ENABLE 1
 ENV PHP_ZEND_ASSERTIONS 1
 
-FROM base as app
+FROM php-base as php
 
 ARG APP_ENV
 ENV APP_ENV prod
@@ -100,9 +100,9 @@ RUN apk add --no-cache gzip curl
 
 FROM nginx-base AS nginx
 
-COPY --from=app /usr/local/app/public/favicon.ico favicon.ico
-COPY --from=app /usr/local/app/public/assets assets
-COPY --from=app /usr/local/app/public/bundles bundles
+COPY --from=php /usr/local/app/public/favicon.ico favicon.ico
+COPY --from=php /usr/local/app/public/assets assets
+COPY --from=php /usr/local/app/public/bundles bundles
 
 COPY etc/nginx.conf /etc/nginx/nginx.conf
 

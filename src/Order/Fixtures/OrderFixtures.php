@@ -21,13 +21,12 @@ use App\Shared\Enum\NoteType;
 use App\State;
 use App\User\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Money\Currency;
 use Money\Money;
 
-final class OrderFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
+final class OrderFixtures extends Fixture implements DependentFixtureInterface
 {
     public const CAR_ID = Primera2004Fixtures::ID;
     public const CUSTOMER_ID = PersonVasyaFixtures::ID;
@@ -89,13 +88,5 @@ final class OrderFixtures extends Fixture implements FixtureGroupInterface, Depe
 
         $manager->persist($orderItemPart);
         $manager->flush();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getGroups(): array
-    {
-        return ['tenant'];
     }
 }

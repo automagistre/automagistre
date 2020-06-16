@@ -44,13 +44,11 @@ easy_admin:
 
 doctrine:
     orm:
-        entity_managers:
-            tenant:
-                mappings:
-                    expense:
-                        type: annotation
-                        prefix: App\Expense\Entity
-                        dir: '%kernel.project_dir%/src/Expense/Entity'
+        mappings:
+            expense:
+                type: annotation
+                prefix: App\Expense\Entity
+                dir: '%kernel.project_dir%/src/Expense/Entity'
 
 services:
     _defaults:

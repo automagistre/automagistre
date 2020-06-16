@@ -6,14 +6,6 @@ MAKEFLAGS += --no-print-directory
 DEBUG_PREFIX=" [DEBUG] "
 DEBUG_ECHO=$(if $(MAKE_DEBUG),@echo ${DEBUG_PREFIX})
 
-ifndef EM
-ifdef TENANT
-override EM = tenant
-else
-override EM = landlord
-endif
-endif
-
 ifndef TENANT
 override TENANT = msk
 endif
@@ -69,7 +61,7 @@ APP = $(DEBUG_ECHO) @docker-compose $(if $(EXEC),exec,run --rm )\
 	$(if $(ENTRYPOINT),--entrypoint "$(ENTRYPOINT)" )\
 	$(if $(APP_ENV),-e APP_ENV=$(APP_ENV) )\
 	$(if $(APP_DEBUG),-e APP_DEBUG=$(APP_DEBUG) )\
-	app
+	php-fpm
 
 PERMISSIONS = chown $(shell id -u):$(shell id -g) -R . && chmod 777 -R var/
 permissions: ## Fix file permissions in project
@@ -82,40 +74,27 @@ app-cli:
 composer: ### composer install
 	$(APP) sh -c 'rm -rf var/cache/* && composer install'
 
-MIGRATION_CONSOLE = --em=${EM} $(TENANT_CONSOLE) --no-interaction
-
-migration: migration-landlord migration-tenant ## Run migrations
-migration-landlord:
-	@$(MAKE) APP_ENV=$(APP_ENV) APP_DEBUG=$(APP_DEBUG) do-migration EM=landlord
-migration-tenant:
-	@$(MAKE) APP_ENV=$(APP_ENV) APP_DEBUG=$(APP_DEBUG) do-migration EM=tenant
-do-migration:
-	$(APP) console doctrine:migration:migrate --allow-no-migration $(MIGRATION_CONSOLE)
+migration: ## Run migrations
+	$(APP) console doctrine:migration:migrate --allow-no-migration --no-interaction
 
 migration-generate: do-migration-generate php-cs-fixer permissions ## Generate empty migration
 do-migration-generate:
 	$(APP) console doctrine:migrations:generate
 migration-rollback:latest = $(shell make app-cli CMD="console doctrine:migration:latest" | tr '\r' ' ')
 migration-rollback:
-	$(APP) console doctrine:migration:execute --down $(latest) $(MIGRATION_CONSOLE)
+	$(APP) console doctrine:migration:execute --down $(latest) --no-interaction
 
-migration-diff: migration-diff-all php-cs-fixer ## Generate diff migrations for landlord and tenant databases
-migration-diff-all: migration-diff-landlord migration-diff-tenant
-migration-diff-landlord: ### Generate diff migration for landlord database
-	@$(MAKE) do-migration-diff EM=landlord
-migration-diff-tenant: ### Generate diff migration for tenant database
-	@$(MAKE) do-migration-diff EM=tenant
+migration-diff: do-migration-diff php-cs-fixer ## Generate diff migrations for landlord and tenant databases
 do-migration-diff:
-	$(APP) console doctrine:migration:diff $(MIGRATION_CONSOLE) && sed -i "s/this->abortIf.*/&\n\n        \$$this->skipIf(0 !== strpos(\$$this->connection->getDatabase(), '${EM}'), '${EM} only');/" `git ls-files --others --exclude-standard | tail -n 1` || true
+	$(APP) console doctrine:migration:diff --no-interaction
 migration-diff-dry:
-	$(APP) console doctrine:schema:update --dump-sql --em=${EM} $(TENANT_CONSOLE)
+	$(APP) console doctrine:schema:update --dump-sql --no-interaction
 
-migration-validate: ### Validate database schema for landlord and tenant databases
+migration-validate: ### Validate database schema
 	$(APP) console doctrine:schema:validate
-	$(APP) console doctrine:schema:validate --em=tenant --tenant=msk
 
 schema-update:
-	$(APP) console doctrine:schema:update --force --em=${EM} $(TENANT_CONSOLE)
+	$(APP) console doctrine:schema:update --force --no-interaction
 
 test: APP_ENV=test
 test: APP_DEBUG=1
@@ -167,12 +146,10 @@ clear-log:
 	$(APP) rm -rf var/log/$$APP_ENV.log
 database: drop migration ### Drop database then restore from migrations
 
-fixtures: APP_ENV=test
-fixtures: ### Load fixtures for landlord and tenant databases
-	$(APP) console doctrine:fixtures:load --no-interaction --group landlord
-	$(APP) console doctrine:fixtures:load --no-interaction --group tenant --em=tenant --tenant=msk
+fixtures: ### Load fixtures to database
+	$(APP) console doctrine:fixtures:load --no-interaction
 
-backup: backup-restore migration ### Restore local backup then run migrations
+backup: drop backup-restore migration ### Restore local backup then run migrations
 	@$(notify)
 backup-update: backup-fresh backup-download backup ### Backup production database then download and restore it
 backup-latest: backup-download backup ### Download latest backup from server then restore it
@@ -181,39 +158,29 @@ backup-fresh:
 	$(call OK,"Backups creating on ${BACKUP_SERVER}")
 backup-download:
 	$(DEBUG_ECHO) @mkdir -p var/backups
-	@$(MAKE) do-backup-download EM=landlord
-	@$(MAKE) do-backup-download EM=tenant
+	@$(MAKE) do-backup-download
 do-backup-download:
-	$(DEBUG_ECHO) @scp -q -o LogLevel=QUIET ${BACKUP_SERVER}:/opt/am/db/backups/$(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz var/backups/$(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz
-	$(call OK,"Backup $(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz downloaded.")
+	$(DEBUG_ECHO) @scp -q -o LogLevel=QUIET ${BACKUP_SERVER}:/opt/am/db/backups/tenant_$(TENANT).sql.gz var/backups/tenant_$(TENANT).sql.gz
+	$(call OK,"Backup tenant_$(TENANT).sql.gz downloaded.")
 
-drop: drop-landlord drop-tenant ### Drop landlord and tenant databases
-drop-landlord: ### Drop landlord database
-	@$(MAKE) EM=landlord APP_ENV=$(APP_ENV) APP_DEBUG=$(APP_DEBUG) drop-connection
-	@$(MAKE) EM=landlord APP_ENV=$(APP_ENV) APP_DEBUG=$(APP_DEBUG) do-drop
-drop-tenant: ### Drop tenant database
-	@$(MAKE) EM=tenant APP_ENV=$(APP_ENV) APP_DEBUG=$(APP_DEBUG) drop-connection
-	@$(MAKE) EM=tenant APP_ENV=$(APP_ENV) APP_DEBUG=$(APP_DEBUG) do-drop
+drop: drop-connection do-drop ### Drop database
 drop-connection:
-	$(APP) console doctrine:query:sql --connection=${EM} ${TENANT_CONSOLE} "SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = '${EM}$(if $(filter test,$(APP_ENV)),_test)' AND pid <> pg_backend_pid();" || true
+	$(APP) console doctrine:query:sql "SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = 'db$(if $(filter test,$(APP_ENV)),_test)' AND pid <> pg_backend_pid();" || true
 do-drop:
-	$(APP) sh -c "console doctrine:database:drop --if-exists --force --connection=${EM} ${TENANT_CONSOLE} && console doctrine:database:create --connection=${EM} ${TENANT_CONSOLE}"
+	$(APP) sh -c "console doctrine:database:drop --if-exists --force && console doctrine:database:create"
 ###< APP ###
 
 ###> DATABASE ###
-DB=$(DEBUG_ECHO) @docker-compose exec -T ${EM}$(if $(filter tenant,$(EM)),_$(TENANT))
-TENANT_CONSOLE = $(if $(filter tenant,$(EM)),--tenant=$(TENANT))
+DB=$(DEBUG_ECHO) @docker-compose exec db
 
-backup_file = var/backups/$(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz
-backup-restore: backup-restore-landlord backup-restore-tenant
-backup-restore-landlord: drop-landlord
-	@$(MAKE) do-backup-restore
-backup-restore-tenant: drop-tenant
-	@$(MAKE) do-backup-restore EM=tenant
-do-backup-restore:
+db:
+	$(DB) bash
+
+backup_file = var/backups/tenant_$(TENANT).sql.gz
+backup-restore:
 ifneq (,$(wildcard $(backup_file)))
-	@$(DB) bash -c "gunzip < /usr/local/app/var/backups/$(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}).sql.gz | psql -U db ${EM}"
-	$(call OK,"Backup $(if $(filter tenant,$(EM)),tenant_$(TENANT),${EM}) restored.")
+	@$(DB) bash -c "gunzip < /usr/local/app/var/backups/tenant_$(TENANT).sql.gz | psql -U db"
+	$(call OK,"Backup tenant_$(TENANT).sql.gz restored.")
 else
 	$(call FAIL,"Backup \"$(backup_file)\" does not exist!")
 	@exit 1

@@ -1,11 +1,7 @@
 doctrine:
     orm:
-        entity_managers:
-            landlord: &mapping
-                mappings:
-                    created_by:
-                        type: annotation
-                        prefix: App\CreatedBy\Entity
-                        dir: '%kernel.project_dir%/src/CreatedBy/Entity'
-            tenant:
-                <<: *mapping
+        mappings:
+            created_by:
+                type: annotation
+                prefix: App\CreatedBy\Entity
+                dir: '%kernel.project_dir%/src/CreatedBy/Entity'

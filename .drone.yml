@@ -13,8 +13,8 @@ steps:
             -   name: docker.sock
                 path: /var/run/docker.sock
         commands:
-            - docker build -t "automagistre/app:base" --progress=plain --target base .
-            - docker build -t "automagistre/app-nginx:base" --progress=plain --target nginx-base .
+            - docker build -t "automagistre/tenant-php:base" --progress=plain --target php-base .
+            - docker build -t "automagistre/tenant-nginx:base" --progress=plain --target nginx-base .
         environment:
             DOCKER_BUILDKIT: '1'
 
@@ -24,20 +24,8 @@ steps:
             -   name: docker.sock
                 path: /var/run/docker.sock
         commands:
-            - >-
-                docker build -t "automagistre/app:${DRONE_BUILD_NUMBER}"
-                --progress=plain
-                --build-arg APP_ENV="prod"
-                --build-arg APP_DEBUG="0"
-                --target app
-                .
-            - >-
-                docker build -t "automagistre/app-nginx:${DRONE_BUILD_NUMBER}"
-                --progress=plain
-                --build-arg APP_ENV="prod"
-                --build-arg APP_DEBUG="0"
-                --target nginx
-                .
+            - docker build -t "automagistre/tenant-php:${DRONE_BUILD_NUMBER}" --progress=plain --target php .
+            - docker build -t "automagistre/tenant-nginx:${DRONE_BUILD_NUMBER}" --progress=plain --target nginx .
         environment:
             DOCKER_BUILDKIT: '1'
         depends_on:
@@ -50,8 +38,8 @@ steps:
                 path: /var/run/docker.sock
         commands:
             - docker login --username "$USERNAME" --password "$PASSWORD"
-            - docker push automagistre/app:base
-            - docker push automagistre/app-nginx:base
+            - docker push automagistre/tenant-php:base
+            - docker push automagistre/tenant-nginx:base
         environment:
             USERNAME:
                 from_secret: HUB_USER
@@ -63,7 +51,7 @@ steps:
             - build base
 
     -   name: install
-        image: automagistre/app:base
+        image: automagistre/tenant-php:base
         commands:
             - echo APP_ENV=test >> .env
             - echo APP_DEBUG=1 >> .env
@@ -74,7 +62,7 @@ steps:
             - build base
 
     -   name: php-cs-fixer
-        image: automagistre/app:base
+        image: automagistre/tenant-php:base
         commands:
             - vendor/bin/php-cs-fixer fix --dry-run --diff-format udiff --using-cache=no
         when:
@@ -84,7 +72,7 @@ steps:
             - install
 
     -   name: blank end line
-        image: automagistre/app:base
+        image: automagistre/tenant-php:base
         commands:
             - >-
                 find .
@@ -103,7 +91,7 @@ steps:
             - install
 
     -   name: symfony requirements
-        image: automagistre/app:base
+        image: automagistre/tenant-php:base
         commands:
             - vendor/bin/requirements-checker
         when:
@@ -113,7 +101,7 @@ steps:
             - install
 
     -   name: symfony security
-        image: automagistre/app:base
+        image: automagistre/tenant-php:base
         commands:
             - vendor/bin/security-checker security:check $APP_DIR/composer.lock
         when:
@@ -123,7 +111,7 @@ steps:
             - install
 
     -   name: symfony linters
-        image: automagistre/app:base
+        image: automagistre/tenant-php:base
         commands:
             - bin/console lint:yaml config
             - bin/console lint:twig templates
@@ -131,14 +119,14 @@ steps:
             - install
 
     -   name: phpstan
-        image: automagistre/app:base
+        image: automagistre/tenant-php:base
         commands:
             - vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress --memory-limit=-1
         depends_on:
             - install
 
     -   name: psalm
-        image: automagistre/app:base
+        image: automagistre/tenant-php:base
         commands:
             - vendor/bin/psalm --show-info=false --no-progress
         when:
@@ -146,48 +134,30 @@ steps:
         depends_on:
             - install
 
-    -   name: migration landlord
-        image: automagistre/app:base
+    -   name: migration
+        image: automagistre/tenant-php:base
         commands:
-            - $$WAIT_FOR_IT landlord:5432
-            - bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=landlord
+            - $$WAIT_FOR_IT db:5432
+            - bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
         depends_on:
             - install
-
-    -   name: migration tenant
-        image: automagistre/app:base
-        commands:
-            - $$WAIT_FOR_IT tenant_msk:5432
-            - bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration --em=tenant --tenant=msk
-        depends_on:
-            - install
-            - migration landlord
 
     -   name: fixtures
-        image: automagistre/app:base
+        image: automagistre/tenant-php:base
         commands:
-            - bin/console doctrine:fixtures:load --no-interaction --group landlord
-            - bin/console doctrine:fixtures:load --no-interaction --group tenant --em=tenant --tenant=msk
+            - bin/console doctrine:fixtures:load --no-interaction
         depends_on:
-            - migration landlord
-            - migration tenant
+            - migration
 
-    -   name: doctrine validate landlord
-        image: automagistre/app:base
+    -   name: doctrine validate
+        image: automagistre/tenant-php:base
         commands:
-            - bin/console doctrine:schema:validate --em=landlord
+            - bin/console doctrine:schema:validate
         depends_on:
-            - migration landlord
-
-    -   name: doctrine validate tenant
-        image: automagistre/app:base
-        commands:
-            - bin/console doctrine:schema:validate --em=tenant --tenant=msk
-        depends_on:
-            - migration tenant
+            - migration
 
     -   name: phpunit
-        image: automagistre/app:base
+        image: automagistre/tenant-php:base
         commands:
             - vendor/bin/paratest --processes=$(nproc)
         depends_on:
@@ -205,8 +175,7 @@ steps:
             - phpstan
             - psalm
             - symfony requirements
-            - doctrine validate landlord
-            - doctrine validate tenant
+            - doctrine validate
 
     -   name: deploy
         image: docker/compose:1.25.0-alpine
@@ -216,7 +185,10 @@ steps:
             -   name: docker.sock
                 path: /var/run/docker.sock
         commands:
-            - docker-compose --file .swarm.yml config | docker stack deploy --prune --with-registry-auth --compose-file - automagistre
+            - >-
+                cat .tenants | while read tenant; do
+                TENANT=$tenant docker-compose --file .swarm.yml config | docker stack deploy --prune --with-registry-auth --compose-file - tenant_$tenant
+                ; done
         environment:
             VERSION: ${DRONE_BUILD_NUMBER}
         when:
@@ -242,19 +214,10 @@ steps:
                 - test
 
 services:
-    -   name: landlord
+    -   name: db
         image: postgres:12.2
         environment:
-            POSTGRES_DB: landlord_test
-            POSTGRES_USER: db
-            POSTGRES_PASSWORD: db
-        tmpfs:
-            - /var/lib/postgresql/data
-
-    -   name: tenant_msk
-        image: postgres:12.2
-        environment:
-            POSTGRES_DB: tenant_test
+            POSTGRES_DB: db_test
             POSTGRES_USER: db
             POSTGRES_PASSWORD: db
         tmpfs:

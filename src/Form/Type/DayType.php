@@ -16,7 +16,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class DayType extends AbstractType
 {
     private const MONTH_FIRST_DAY = 1;
-
     private const SHORT_MONTH_END_DAY = 28;
 
     /**

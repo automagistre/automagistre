@@ -61,43 +61,10 @@
 
                         <div id="header-logo">
                             {% block header_logo %}
-                                <a class="logo {{ easyadmin_config('site_name')|length > 14 ? 'logo-long' }}" title="{{ easyadmin_config('site_name')|striptags }}" href="{{ state.isTenantDefined ? path('easyadmin') : '/' }}">
+                                <a class="logo {{ easyadmin_config('site_name')|length > 14 ? 'logo-long' }}" title="{{ easyadmin_config('site_name')|striptags }}" href="/">
                                     {{ easyadmin_config('site_name')|raw }}
                                 </a>
                             {% endblock header_logo %}
-
-                            {% block tenant_switch %}
-                                {# @var current \App\Enum\Tenant #}
-                                {% set current = state.tenant %}
-                                {% set tenants = app.user.tenants|filter(tenant => not tenant.eq(current)) %}
-
-                                <ul class="nav navbar-nav" style="margin-top: 7px">
-                                    <li class="dropdown user user-menu">
-                                        <span class="sr-only">Вы вошли как</span>
-
-                                        <div class="btn-group">
-                                            <button type="button" class="btn" data-toggle="dropdown">
-                                                {{ current.toDisplayName() }}
-                                            </button>
-                                            {% if tenants is not empty %}
-                                                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                    <span class="caret"></span>
-                                                </button>
-                                                <ul class="dropdown-menu" role="menu">
-                                                    {% for tenant in tenants %}
-                                                        {# @var tenant \App\Entity\Landlord\Tenant #}
-                                                        <li>
-                                                            <a href="{{ path('easyadmin', app.request.query.all()|merge({'tenant': tenant.toIdentifier()})) }}">
-                                                                <i class="fa fa-link"></i> {{ tenant.toDisplayName() }}
-                                                            </a>
-                                                        </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            {% endif %}
-                                        </div>
-                                    </li>
-                                </ul>
-                            {% endblock %}
                         </div>
 
                         <div class="navbar-custom-menu">

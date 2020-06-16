@@ -10,21 +10,12 @@ use App\PartPrice\Entity\Discount;
 use App\PartPrice\Entity\Price;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 use Money\Currency;
 use Money\Money;
 
-final class GasketPriceFixtures extends Fixture implements FixtureGroupInterface
+final class GasketPriceFixtures extends Fixture
 {
-    /**
-     * {@inheritdoc}
-     */
-    public static function getGroups(): array
-    {
-        return ['tenant'];
-    }
-
     /**
      * {@inheritdoc}
      */

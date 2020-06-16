@@ -11,13 +11,12 @@ use App\Part\Fixtures\GasketFixture;
 use App\Shared\Doctrine\Registry;
 use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Money\Currency;
 use Money\Money;
 
-final class IncomePartFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
+final class IncomePartFixtures extends Fixture implements DependentFixtureInterface
 {
     private const PART_ID = GasketFixture::ID;
 
@@ -56,13 +55,5 @@ final class IncomePartFixtures extends Fixture implements FixtureGroupInterface,
 
         $manager->persist($incomePart);
         $manager->flush();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getGroups(): array
-    {
-        return ['tenant'];
     }
 }

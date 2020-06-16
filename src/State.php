@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Tenant\ConnectionSwitcher;
 use App\Tenant\Tenant;
 use App\User\Entity\User;
-use App\User\Entity\UserId;
 use LogicException;
 use RuntimeException;
 use Sentry\SentryBundle\SentryBundle;
@@ -19,45 +17,24 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  */
 final class State
 {
-    private ?Tenant $tenant = null;
-
-    private ConnectionSwitcher $switcher;
+    private Tenant $tenant;
 
     private TokenStorageInterface $tokenStorage;
 
     private ?User $user;
 
-    public function __construct(ConnectionSwitcher $switcher, TokenStorageInterface $tokenStorage)
+    public function __construct(TokenStorageInterface $tokenStorage, Tenant $tenant)
     {
+        $this->tenant = $tenant;
         $this->tokenStorage = $tokenStorage;
-        $this->switcher = $switcher;
+
+        SentryBundle::getCurrentHub()
+            ->configureScope(fn (Scope $scope) => $scope->setTag('tenant', $tenant->toIdentifier()));
     }
 
-    public function tenant(Tenant $tenant = null): Tenant
+    public function tenant(): Tenant
     {
-        if (null !== $tenant) {
-            $this->switcher->switch($tenant);
-            $this->tenant = $tenant;
-
-            SentryBundle::getCurrentHub()
-                ->configureScope(fn (Scope $scope) => $scope->setTag('tenant', $tenant->toIdentifier()));
-        }
-
-        if (null === $this->tenant) {
-            throw new LogicException('Tenant must be defined before getting it.');
-        }
-
         return $this->tenant;
-    }
-
-    public function isTenantDefined(): bool
-    {
-        return null !== $this->tenant;
-    }
-
-    public function userId(): UserId
-    {
-        return $this->user()->uuid;
     }
 
     public function user(User $user = null): User

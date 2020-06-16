@@ -28,7 +28,6 @@ easy_admin:
                             class: App\Customer\Entity\Operand
                     - { property: 'password', label: 'Пароль', type: 'password', type_options: { required: true } }
                     - { property: 'roles', label: 'Роли', type: App\User\Form\RoleType, type_options: { required: false, multiple: true, expanded: true } }
-                    - { property: 'tenants', label: 'Севрисы', type: App\Tenant\Form\TenantType, type_options: { required: false, multiple: true, expanded: true } }
             new:
                 title: 'Создать нового Пользователя'
                 form_options: { data_class: stdClass }
@@ -39,10 +38,8 @@ easy_admin:
 
 doctrine:
     orm:
-        entity_managers:
-            landlord:
-                mappings:
-                    user:
-                        type: annotation
-                        prefix: App\User\Entity
-                        dir: '%kernel.project_dir%/src/User/Entity'
+        mappings:
+            user:
+                type: annotation
+                prefix: App\User\Entity
+                dir: '%kernel.project_dir%/src/User/Entity'

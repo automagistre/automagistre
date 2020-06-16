@@ -50,13 +50,11 @@ easy_admin:
 
 doctrine:
     orm:
-        entity_managers:
-            tenant:
-                mappings:
-                    employee:
-                        type: annotation
-                        prefix: App\Employee\Entity
-                        dir: '%kernel.project_dir%/src/Employee/Entity'
+        mappings:
+            employee:
+                type: annotation
+                prefix: App\Employee\Entity
+                dir: '%kernel.project_dir%/src/Employee/Entity'
 
 services:
     _defaults:

@@ -10,10 +10,9 @@ use App\Part\Entity\Part;
 use App\Part\Entity\PartId;
 use App\Part\Entity\PartNumber;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class GasketFixture extends Fixture implements FixtureGroupInterface
+final class GasketFixture extends Fixture
 {
     public const ID = '1ea88126-9b50-62f8-9995-ba1ca6d07248';
     public const MANUFACTURER_ID = ToyotaFixture::ID;
@@ -24,14 +23,6 @@ final class GasketFixture extends Fixture implements FixtureGroupInterface
     public const PRICE_CURRENCY = 'RUB';
     public const DISCOUNT = 10000;
     public const DISCOUNT_CURRENCY = 'RUB';
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getGroups(): array
-    {
-        return ['tenant'];
-    }
 
     /**
      * {@inheritdoc}

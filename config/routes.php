@@ -16,9 +16,6 @@ return static function (RoutingConfigurator $routes): void {
     $routes
         ->import(__DIR__.'/../src/User/Controller/SecurityController.php', 'annotation')
     ;
-    $routes
-        ->import(__DIR__.'/../src/EasyAdmin/Controller/HomeController.php', 'annotation')
-    ;
 
     $routes
         ->add('json_rpc', '/api/v1')
@@ -32,6 +29,5 @@ return static function (RoutingConfigurator $routes): void {
 
     $routes
         ->import(__DIR__.'/routes/tenant.php')
-        ->prefix('/{tenant}')
     ;
 };

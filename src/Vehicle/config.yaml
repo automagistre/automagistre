@@ -43,19 +43,11 @@ easy_admin:
 
 doctrine:
     orm:
-        entity_managers:
-            tenant:
-                mappings:
-                    vehicle:
-                        type: annotation
-                        prefix: App\Vehicle\Entity
-                        dir: '%kernel.project_dir%/src/Vehicle/Entity'
-            landlord:
-                mappings:
-                    vehicle_embeddable:
-                        type: annotation
-                        prefix: App\Vehicle\Entity\Embedded
-                        dir: '%kernel.project_dir%/src/Vehicle/Entity/Embedded'
+        mappings:
+            vehicle:
+                type: annotation
+                prefix: App\Vehicle\Entity
+                dir: '%kernel.project_dir%/src/Vehicle/Entity'
 
 doctrine_mongodb:
     document_managers:
@@ -71,7 +63,3 @@ services:
         public: false
         autowire: true
         autoconfigure: true
-
-    App\Vehicle\Ports\API\ModelList:
-        tags:
-            - { name: jsonrpc.method, jsonrpc.method: vehicle.model.list }

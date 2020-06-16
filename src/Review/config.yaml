@@ -29,13 +29,11 @@ easy_admin:
 
 doctrine:
     orm:
-        entity_managers:
-            tenant:
-                mappings:
-                    review:
-                        type: annotation
-                        prefix: App\Review\Entity
-                        dir: '%kernel.project_dir%/src/Review/Entity'
+        mappings:
+            review:
+                type: annotation
+                prefix: App\Review\Entity
+                dir: '%kernel.project_dir%/src/Review/Entity'
 
 services:
     _defaults:

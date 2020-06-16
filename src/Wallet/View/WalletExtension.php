@@ -28,7 +28,8 @@ final class WalletExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('balance', fn (Transactional $transactional): Money => $this->paymentManager->balance($transactional)),
+            new TwigFilter('balance', fn (Transactional $transactional
+            ): Money => $this->paymentManager->balance($transactional)),
         ];
     }
 }

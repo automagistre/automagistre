@@ -37,7 +37,11 @@ final class ListeningRouterDecorator implements RouterInterface, RequestMatcherI
         $router = $this->router;
         $dispatcher = $this->dispatcher;
 
-        $event = new RoutePreGenerate($router, ['name' => $name, 'parameters' => $parameters, 'referenceType' => $referenceType]);
+        $event = new RoutePreGenerate($router, [
+            'name' => $name,
+            'parameters' => $parameters,
+            'referenceType' => $referenceType,
+        ]);
         $dispatcher->dispatch($event);
         ['name' => $name, 'parameters' => $parameters, 'referenceType' => $referenceType] = $event->getArguments();
 

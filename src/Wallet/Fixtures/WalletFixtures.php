@@ -6,20 +6,11 @@ namespace App\Wallet\Fixtures;
 
 use App\Wallet\Entity\Wallet;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 use Money\Currency;
 
-final class WalletFixtures extends Fixture implements FixtureGroupInterface
+final class WalletFixtures extends Fixture
 {
-    /**
-     * {@inheritdoc}
-     */
-    public static function getGroups(): array
-    {
-        return ['tenant'];
-    }
-
     /**
      * {@inheritdoc}
      */

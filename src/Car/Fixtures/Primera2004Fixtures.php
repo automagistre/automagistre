@@ -9,22 +9,13 @@ use App\Car\Entity\CarId;
 use App\Vehicle\Entity\VehicleId;
 use App\Vehicle\Fixtures\NissanPrimeraFixture;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class Primera2004Fixtures extends Fixture implements FixtureGroupInterface
+final class Primera2004Fixtures extends Fixture
 {
     public const ID = '1ea88193-17fa-6b7a-ac1b-ba1ca6d07248';
     public const YEAR = 2004;
     public const VEHICLE_ID = NissanPrimeraFixture::ID;
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getGroups(): array
-    {
-        return ['tenant'];
-    }
 
     /**
      * {@inheritdoc}

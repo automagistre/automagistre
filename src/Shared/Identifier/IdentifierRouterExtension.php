@@ -6,8 +6,11 @@ namespace App\Shared\Identifier;
 
 use App\Costil;
 use App\Shared\Doctrine\Registry;
+use Doctrine\ORM\NoResultException;
 use EasyCorp\Bundle\EasyAdminBundle\Router\EasyAdminRouter;
 use function get_class;
+use LogicException;
+use function sprintf;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -35,16 +38,20 @@ final class IdentifierRouterExtension extends AbstractExtension
                     $class = get_class($uuid);
                     $uuidField = Costil::UUID_FIELDS[$class] ?? null;
 
-                    $params['id'] = null === $uuidField
-                        ? $uuid->toString()
-                        : $this->registry->manager(Costil::ENTITY[$class])
-                            ->createQueryBuilder()
-                            ->select('t.id')
-                            ->from(Costil::ENTITY[$class], 't')
-                            ->where('t.'.$uuidField.' = :uuid')
-                            ->setParameter('uuid', $uuid)
-                            ->getQuery()
-                            ->getSingleScalarResult();
+                    try {
+                        $params['id'] = null === $uuidField
+                            ? $uuid->toString()
+                            : $this->registry->manager(Costil::ENTITY[$class])
+                                ->createQueryBuilder()
+                                ->select('t.id')
+                                ->from(Costil::ENTITY[$class], 't')
+                                ->where('t.'.$uuidField.' = :uuid')
+                                ->setParameter('uuid', $uuid)
+                                ->getQuery()
+                                ->getSingleScalarResult();
+                    } catch (NoResultException $e) {
+                        throw new LogicException(sprintf('Not Found entity %s by id %s', $class, $uuid->toString()));
+                    }
 
                     return $this->router->generate(Costil::EASYADMIN_CONFIG[$class], $action, $params);
                 }

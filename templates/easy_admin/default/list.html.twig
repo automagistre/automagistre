@@ -227,7 +227,7 @@
       $(document).ready(function() {
         const mercureUrl = new URL(MERCURE_URL);
         mercureUrl.searchParams.append('topic',
-            'http://automagistre.ru/{{ is_tenant_class(_entity_config.class) ? state.tenant.toIdentifier ~ '/' }}{{ _entity_config.name }}');
+            'http://automagistre.ru/{{ state.tenant.toIdentifier }}/{{ _entity_config.name }}');
 
         const eventSource = new EventSource(mercureUrl);
 

@@ -7,22 +7,13 @@ namespace App\Manufacturer\Fixtures;
 use App\Manufacturer\Entity\Manufacturer;
 use App\Manufacturer\Entity\ManufacturerId;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class InfinitiFixture extends Fixture implements FixtureGroupInterface
+final class InfinitiFixture extends Fixture
 {
     public const ID = '1ea88050-34e6-68f4-a718-ba1ca6d07248';
     public const NAME = 'Infiniti';
     public const LOCALIZED_NAME = 'Инфинити';
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getGroups(): array
-    {
-        return ['tenant'];
-    }
 
     /**
      * {@inheritdoc}

@@ -11,11 +11,10 @@ use App\Shared\Enum\NoteType;
 use App\User\Entity\UserId;
 use App\User\Fixtures\EmployeeFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class PersonVasyaFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
+final class PersonVasyaFixtures extends Fixture implements DependentFixtureInterface
 {
     public const ID = '1ea91f71-dfaf-6374-837c-5e6bd0ab745f';
     public const CREATED_BY = EmployeeFixtures::ID;
@@ -28,14 +27,6 @@ final class PersonVasyaFixtures extends Fixture implements FixtureGroupInterface
         return [
             OrganizationFixtures::class, // Organization must have ID = 1
         ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getGroups(): array
-    {
-        return ['tenant'];
     }
 
     /**

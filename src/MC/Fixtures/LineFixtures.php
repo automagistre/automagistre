@@ -9,11 +9,10 @@ use App\MC\Entity\McLine;
 use App\MC\Entity\McWork;
 use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class LineFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
+final class LineFixtures extends Fixture implements DependentFixtureInterface
 {
     /**
      * {@inheritdoc}
@@ -24,14 +23,6 @@ final class LineFixtures extends Fixture implements FixtureGroupInterface, Depen
             EquipmentFixtures::class,
             WorkFixtures::class,
         ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getGroups(): array
-    {
-        return ['tenant'];
     }
 
     /**

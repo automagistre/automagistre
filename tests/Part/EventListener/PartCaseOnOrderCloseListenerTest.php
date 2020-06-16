@@ -8,8 +8,6 @@ use App\Part\Entity\PartCase;
 use App\Part\EventListener\PartCaseOnOrderCloseListener;
 use App\Part\Fixtures\GasketFixture;
 use App\Shared\Doctrine\Registry;
-use App\State;
-use App\Tenant\Tenant;
 use function assert;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -18,7 +16,6 @@ final class PartCaseOnOrderCloseListenerTest extends KernelTestCase
     public function test(): void
     {
         self::bootKernel();
-        self::$container->get(State::class)->tenant(Tenant::fromIdentifier('msk'));
 
         $registry = self::$container->get(Registry::class);
 

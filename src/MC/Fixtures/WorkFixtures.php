@@ -6,21 +6,12 @@ namespace App\MC\Fixtures;
 
 use App\MC\Entity\McWork;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 use Money\Currency;
 use Money\Money;
 
-final class WorkFixtures extends Fixture implements FixtureGroupInterface
+final class WorkFixtures extends Fixture
 {
-    /**
-     * {@inheritdoc}
-     */
-    public static function getGroups(): array
-    {
-        return ['tenant'];
-    }
-
     /**
      * {@inheritdoc}
      */

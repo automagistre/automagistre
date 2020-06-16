@@ -11,20 +11,11 @@ use App\Calendar\Entity\Schedule;
 use DateInterval;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class CalendarEntryFixtures extends Fixture implements FixtureGroupInterface
+final class CalendarEntryFixtures extends Fixture
 {
     public const ID = '3d8118b7-1773-452a-b3de-0f141b344001';
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getGroups(): array
-    {
-        return ['tenant'];
-    }
 
     /**
      * {@inheritdoc}

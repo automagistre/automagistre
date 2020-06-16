@@ -7,23 +7,14 @@ namespace App\Manufacturer\Fixtures;
 use App\Manufacturer\Entity\Manufacturer;
 use App\Manufacturer\Entity\ManufacturerId;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class ToyotaFixture extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
+final class ToyotaFixture extends Fixture implements DependentFixtureInterface
 {
     public const ID = '1ea88057-31b5-6c6e-bc87-ba1ca6d07248';
     public const NAME = 'Toyota';
     public const LOCALIZED_NAME = 'Тойота';
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getGroups(): array
-    {
-        return ['tenant'];
-    }
 
     /**
      * {@inheritdoc}

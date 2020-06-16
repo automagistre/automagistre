@@ -19,7 +19,6 @@ use function strtoupper;
 final class NamespaceNamingStrategy extends UnderscoreNamingStrategy
 {
     private const PREFIX = 'App\\Entity';
-
     private const SEARCH = [self::PREFIX.'\\Landlord\\', self::PREFIX.'\\Tenant\\', self::PREFIX.'\\'];
 
     public function __construct()

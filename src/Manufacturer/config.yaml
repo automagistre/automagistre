@@ -32,13 +32,11 @@ easy_admin:
 
 doctrine:
     orm:
-        entity_managers:
-            tenant:
-                mappings:
-                    manufacturer:
-                        type: annotation
-                        prefix: App\Manufacturer
-                        dir: '%kernel.project_dir%/src/Manufacturer'
+        mappings:
+            manufacturer:
+                type: annotation
+                prefix: App\Manufacturer
+                dir: '%kernel.project_dir%/src/Manufacturer'
 
 doctrine_mongodb:
     document_managers:
@@ -54,7 +52,3 @@ services:
         public: false
         autowire: true
         autoconfigure: true
-
-    App\Manufacturer\Ports\API\ManufacturerList:
-        tags:
-            - { name: jsonrpc.method, jsonrpc.method: manufacturer.list }
