@@ -20,7 +20,7 @@ final class EquipmentFixtures extends Fixture implements FixtureGroupInterface
      */
     public static function getGroups(): array
     {
-        return ['landlord'];
+        return ['tenant'];
     }
 
     /**

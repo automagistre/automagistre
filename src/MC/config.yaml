@@ -104,7 +104,7 @@ easy_admin:
 doctrine:
     orm:
         entity_managers:
-            landlord:
+            tenant:
                 mappings:
                     mc:
                         type: annotation

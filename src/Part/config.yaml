@@ -55,7 +55,7 @@ doctrine:
             part_number: App\Part\Doctrine\PartNumberType
     orm:
         entity_managers:
-            landlord:
+            tenant:
                 mappings:
                     part:
                         type: annotation

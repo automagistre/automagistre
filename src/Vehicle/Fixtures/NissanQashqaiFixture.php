@@ -27,7 +27,7 @@ final class NissanQashqaiFixture extends Fixture implements FixtureGroupInterfac
      */
     public static function getGroups(): array
     {
-        return ['landlord'];
+        return ['tenant'];
     }
 
     /**

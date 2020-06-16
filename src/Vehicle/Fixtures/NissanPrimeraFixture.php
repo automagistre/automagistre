@@ -35,7 +35,7 @@ final class NissanPrimeraFixture extends Fixture implements FixtureGroupInterfac
      */
     public static function getGroups(): array
     {
-        return ['landlord'];
+        return ['tenant'];
     }
 
     /**

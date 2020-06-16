@@ -22,7 +22,7 @@ final class NissanFixture extends Fixture implements FixtureGroupInterface, Depe
      */
     public static function getGroups(): array
     {
-        return ['landlord'];
+        return ['tenant'];
     }
 
     /**

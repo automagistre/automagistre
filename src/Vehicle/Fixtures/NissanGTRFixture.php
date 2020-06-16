@@ -34,7 +34,7 @@ final class NissanGTRFixture extends Fixture implements FixtureGroupInterface, D
      */
     public static function getGroups(): array
     {
-        return ['landlord'];
+        return ['tenant'];
     }
 
     /**
