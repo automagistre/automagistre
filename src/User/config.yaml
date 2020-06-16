@@ -17,7 +17,6 @@ easy_admin:
                     - { property: 'id', label: 'ID' }
                     - { property: 'username', label: 'E-Mail' }
                     - { property: 'personId', label: 'Заказчик', template: 'easy_admin/field_identifier.html.twig' }
-                    - { property: 'roles', label: 'Роли', template: 'easy_admin/security/field_roles.html.twig' }
             form:
                 fields:
                     - { property: 'username', label: 'E-Mail', type: 'email' }
@@ -27,7 +26,6 @@ easy_admin:
                         type_options:
                             class: App\Customer\Entity\Operand
                     - { property: 'password', label: 'Пароль', type: 'password', type_options: { required: true, mapped: false } }
-                    - { property: 'roles', label: 'Роли', type: App\User\Form\RoleType, type_options: { required: false, multiple: true, expanded: true } }
             new:
                 title: 'Создать нового Пользователя'
                 form_options: { data_class: stdClass }

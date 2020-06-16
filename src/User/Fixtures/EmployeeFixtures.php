@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\User\Fixtures;
 
-use App\Roles;
 use App\User\Entity\User;
 use App\User\Entity\UserId;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -19,7 +18,7 @@ final class EmployeeFixtures extends Fixture
     public const ID = '1ea9478c-eca4-6f96-a221-3ab8c77b35e5';
     public const USERNAME = 'employee@automagistre.ru';
     public const PASSWORD = 'pa$$word';
-    public const ROLES = [Roles::EMPLOYEE];
+    public const ROLES = ['ROLE_ADMIN'];
     public const REFERENCE = 'user-employee';
 
     private EncoderFactoryInterface $encoderFactory;

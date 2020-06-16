@@ -129,9 +129,7 @@
                             {% endblock header_custom_menu %}
 
                             {% block wallets %}
-                                {% if is_granted(constant('App\\Roles::ACCOUNTING')) %}
-                                    {{ layout_balance() }}
-                                {% endif %}
+                                {{ layout_balance() }}
                             {% endblock %}
                         </div>
                     </nav>

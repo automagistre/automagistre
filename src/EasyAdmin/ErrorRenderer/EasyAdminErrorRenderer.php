@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\EasyAdmin\ErrorRenderer;
 
-use App\Roles;
 use Symfony\Component\ErrorHandler\ErrorRenderer\ErrorRendererInterface;
 use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use Symfony\Component\Security\Core\Security;
@@ -42,10 +41,6 @@ final class EasyAdminErrorRenderer implements ErrorRendererInterface
         }
 
         if (null === $this->security->getToken()) {
-            return $flatten;
-        }
-
-        if (!$this->security->isGranted(Roles::EMPLOYEE)) {
             return $flatten;
         }
 

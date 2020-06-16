@@ -33,7 +33,7 @@ class User implements UserInterface, EquatableInterface, Serializable
     public UserId $uuid;
 
     /**
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="json")
      */
     protected array $roles = [];
 

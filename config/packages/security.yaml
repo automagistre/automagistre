@@ -38,23 +38,7 @@ security:
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/v1, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/callback, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/, roles: ROLE_EMPLOYEE }
+        - { path: ^/, roles: IS_AUTHENTICATED_REMEMBERED }
 
     role_hierarchy:
         ROLE_SUPER_ADMIN: ROLE_ADMIN
-
-        ROLE_ADMIN:
-            - ROLE_EMPLOYEE
-            - ROLE_MAINTENANCE_CONFIGURATOR
-            - ROLE_CUSTOMER_FEEDBACK
-            - ROLE_USER_MANAGER
-            - ROLE_EMPLOYEE_MANAGER
-            - ROLE_DICTIONARY
-            - ROLE_ACCOUNTING
-            - ROLE_CUSTOMER
-            - ROLE_REPORT
-            - ROLE_ORDER
-            - ROLE_STOCK
-
-        ROLE_CUSTOMER_FEEDBACK:
-            - ROLE_WWW_SECTION
