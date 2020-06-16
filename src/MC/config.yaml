@@ -31,7 +31,7 @@ easy_admin:
                 title: 'Список комплектаций'
                 fields:
                     - { property: 'id' }
-                    - { property: 'model', label: 'Модель' }
+                    - { property: 'vehicleId', label: 'Модель', template: 'easy_admin/field_identifier.html.twig' }
                     - { property: 'equipment.engine.name', label: 'Двигатель' }
                     - { property: 'equipment.engine.capacity', label: 'Объём' }
                     - { property: 'equipment.transmission.name', label: 'КПП' }
@@ -41,7 +41,7 @@ easy_admin:
                 title: 'Комплектация № {{ entity.id }}'
                 fields:
                     - { property: 'id' }
-                    - { property: 'model', label: 'Модель' }
+                    - { property: 'vehicleId', label: 'Модель', template: 'easy_admin/field_identifier.html.twig' }
                     - { property: 'equipment.engine.name', label: 'Двигатель' }
                     - { property: 'equipment.engine.capacity', label: 'Объём' }
                     - { property: 'equipment.transmission.name', label: 'КПП' }
@@ -49,7 +49,11 @@ easy_admin:
                     - { property: 'period', label: 'Период' }
             form:
                 fields:
-                    - { property: 'model', label: 'Модель', type: 'easyadmin_autocomplete' }
+                    -   property: 'vehicleId'
+                        label: 'Модель'
+                        type: App\EasyAdmin\Form\AutocompleteType
+                        type_options:
+                            class: App\Vehicle\Entity\Model
                     - { property: 'period', label: 'Период ТО' }
                     - { property: 'equipment', label: ' ', type: App\Vehicle\Form\EquipmentType }
             new:

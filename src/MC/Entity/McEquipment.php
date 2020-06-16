@@ -6,7 +6,7 @@ namespace App\MC\Entity;
 
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Vehicle\Entity\Embedded\Equipment as CarEquipment;
-use App\Vehicle\Entity\Model;
+use App\Vehicle\Entity\VehicleId;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,9 +25,9 @@ class McEquipment
     public McEquipmentId $uuid;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Model::class)
+     * @ORM\Column(type="vehicle_id", nullable=true)
      */
-    public ?Model $model = null;
+    public ?VehicleId $vehicleId = null;
 
     /**
      * @Assert\Valid

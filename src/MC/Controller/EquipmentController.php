@@ -7,6 +7,7 @@ namespace App\MC\Controller;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Manufacturer\Entity\Manufacturer;
 use App\MC\Entity\McEquipment;
+use App\Vehicle\Entity\Model;
 use function assert;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
@@ -48,7 +49,7 @@ final class EquipmentController extends AbstractController
         }
 
         $qb
-            ->leftJoin('entity.model', 'carModel')
+            ->leftJoin(Model::class, 'carModel', Join::WITH, 'entity.vehicleId = carModel.uuid')
             ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'carModel.manufacturerId = manufacturer.uuid');
 
         foreach (explode(' ', $searchQuery) as $key => $searchString) {

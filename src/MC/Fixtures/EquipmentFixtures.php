@@ -5,25 +5,15 @@ declare(strict_types=1);
 namespace App\MC\Fixtures;
 
 use App\MC\Entity\McEquipment;
-use App\Vehicle\Entity\Model;
+use App\Vehicle\Entity\VehicleId;
 use App\Vehicle\Fixtures\NissanGTRFixture;
-use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class EquipmentFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
+final class EquipmentFixtures extends Fixture implements FixtureGroupInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getDependencies(): array
-    {
-        return [
-            NissanGTRFixture::class,
-        ];
-    }
+    public const VEHICLE_ID = NissanGTRFixture::ID;
 
     /**
      * {@inheritdoc}
@@ -38,11 +28,8 @@ final class EquipmentFixtures extends Fixture implements FixtureGroupInterface, 
      */
     public function load(ObjectManager $manager): void
     {
-        $model = $this->getReference(NissanGTRFixture::class);
-        assert($model instanceof Model);
-
         $equipment = new McEquipment();
-        $equipment->model = $model;
+        $equipment->vehicleId = VehicleId::fromString(self::VEHICLE_ID);
         $equipment->period = 10;
 
         $this->addReference('equipment-1', $equipment);
