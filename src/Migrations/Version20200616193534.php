@@ -7,7 +7,7 @@ namespace App\Migrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20200616173534 extends AbstractMigration
+final class Version20200616193534 extends AbstractMigration
 {
     public function up(Schema $schema): void
     {
