@@ -11,9 +11,10 @@ use LogicException;
 use Premier\Enum\Enum;
 
 /**
- * @method bool   isSandbox()
+ * @method bool   isDemo()
  * @method string toDisplayName()
  * @method string toIdentifier()
+ * @method static Tenant demo()
  * @method static Tenant msk()
  * @method static Tenant fromIdentifier(string $name)
  *
@@ -21,27 +22,27 @@ use Premier\Enum\Enum;
  */
 final class Tenant extends Enum
 {
-    private const SANDBOX = 0;
+    private const DEMO = 0;
     private const MSK = 1;
     private const KAZAN = 2;
     private const SHAVLEV = 3;
 
     protected static array $identifier = [
-        self::SANDBOX => 'sandbox',
+        self::DEMO => 'demo',
         self::MSK => 'msk',
         self::KAZAN => 'kazan',
         self::SHAVLEV => 'shavlev',
     ];
 
     protected static array $displayName = [
-        self::SANDBOX => 'Песочница',
+        self::DEMO => 'Демо',
         self::MSK => 'Москва',
         self::KAZAN => 'Казань',
         self::SHAVLEV => 'ИП Щавлев В.А.',
     ];
 
     protected static array $requisites = [
-        self::SANDBOX => [],
+        self::DEMO => [],
         self::MSK => [
             'name' => 'ООО "Автомагистр"',
             'address' => 'г. Москва, ул. Люблинская, д. 31/1',
@@ -101,7 +102,7 @@ final class Tenant extends Enum
 
     public function getRequisites(): array
     {
-        if ($this->isSandbox()) {
+        if ($this->isDemo()) {
             return self::$requisites[self::MSK];
         }
 
@@ -118,7 +119,7 @@ final class Tenant extends Enum
         $identifier = getenv('TENANT');
 
         if (!is_string($identifier)) {
-            throw new LogicException('TENANT env must be defined.');
+            return self::demo();
         }
 
         return self::fromIdentifier($identifier);
