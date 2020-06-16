@@ -7,7 +7,6 @@ namespace App\Tenant;
 use function getenv;
 use function in_array;
 use function is_string;
-use LogicException;
 use Premier\Enum\Enum;
 
 /**
