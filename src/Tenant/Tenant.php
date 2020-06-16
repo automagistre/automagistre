@@ -25,12 +25,14 @@ final class Tenant extends Enum
     private const MSK = 1;
     private const KAZAN = 2;
     private const SHAVLEV = 3;
+    private const BUNKER = 4;
 
     protected static array $identifier = [
         self::DEMO => 'demo',
         self::MSK => 'msk',
         self::KAZAN => 'kazan',
         self::SHAVLEV => 'shavlev',
+        self::BUNKER => 'bunker',
     ];
 
     protected static array $displayName = [
@@ -38,6 +40,7 @@ final class Tenant extends Enum
         self::MSK => 'Москва',
         self::KAZAN => 'Казань',
         self::SHAVLEV => 'ИП Щавлев В.А.',
+        self::BUNKER => 'Бункер Гараж',
     ];
 
     protected static array $requisites = [
@@ -96,6 +99,8 @@ final class Tenant extends Enum
             'ks' => '30101810400000000225',
             'bik' => '044525225',
             'guarantyUrl' => 'https://vk.com/topic-51443133_40629700',
+        ],
+        self::BUNKER => [
         ],
     ];
 
