@@ -217,7 +217,7 @@ services:
     -   name: db
         image: postgres:12.2
         environment:
-            POSTGRES_DB: db
+            POSTGRES_DB: db_test
             POSTGRES_USER: db
             POSTGRES_PASSWORD: db
         tmpfs:
