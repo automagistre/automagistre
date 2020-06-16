@@ -52,7 +52,7 @@ services:
         networks:
             default:
                 aliases:
-                    - mercure.automagistre.local
+                    - mercure.${TENANT}.automagistre.local
 
     host.docker.internal:
         image: alpine/socat:1.7.3.4-r0
