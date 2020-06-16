@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\User\Fixtures;
 
 use App\Roles;
-use App\Tenant\Tenant;
 use App\User\Entity\User;
 use App\User\Entity\UserId;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -43,7 +42,6 @@ final class EmployeeFixtures extends Fixture
         );
 
         $user->changePassword(self::PASSWORD, $this->encoderFactory->getEncoder($user));
-        $user->addTenant(Tenant::msk());
 
         $this->addReference(self::REFERENCE, $user);
         $manager->persist($user);

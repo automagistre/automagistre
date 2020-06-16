@@ -6,7 +6,6 @@ namespace App\User\Entity;
 
 use App\Customer\Entity\OperandId;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
-use App\Tenant\Tenant;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -69,13 +68,6 @@ class User implements UserInterface, EquatableInterface, Serializable
      */
     private ?OperandId $personId;
 
-    /**
-     * @var int[]
-     *
-     * @ORM\Column(type="json")
-     */
-    private array $tenants = [];
-
     public function __construct(UserId $userId, array $roles, string $username, ?OperandId $personId)
     {
         $this->uuid = $userId;
@@ -107,39 +99,6 @@ class User implements UserInterface, EquatableInterface, Serializable
     public function getPersonId(): ?OperandId
     {
         return $this->personId;
-    }
-
-    public function addTenant(Tenant $tenant): void
-    {
-        $collection = new ArrayCollection($this->tenants);
-        $id = $tenant->toId();
-
-        if ($collection->contains($id)) {
-            return;
-        }
-
-        $collection->add($id);
-        $this->tenants = $collection->toArray();
-    }
-
-    public function removeTenant(Tenant $tenant): void
-    {
-        $collection = new ArrayCollection($this->tenants);
-        $collection->removeElement($tenant->toId());
-
-        $this->tenants = $collection->toArray();
-    }
-
-    /**
-     * @return Tenant[]
-     */
-    public function getTenants(): array
-    {
-        if ([] === $this->tenants) {
-            return [];
-        }
-
-        return Tenant::all($this->tenants);
     }
 
     public function getRoles(): array
