@@ -140,13 +140,13 @@ final class OrderController extends AbstractController
         $qb = $this->registry->repository(McLine::class)
             ->createQueryBuilder('line')
             ->join('line.equipment', 'equipment')
-            ->where('equipment.model = :model')
+            ->where('equipment.vehicleId = :model')
             ->andWhere('equipment.equipment.engine.name = :engine')
             ->andWhere('equipment.equipment.engine.capacity = :capacity')
             ->andWhere('equipment.equipment.transmission = :transmission')
             ->andWhere('equipment.equipment.wheelDrive = :wheelDrive')
             ->setParameters([
-                'model' => $carModel->getId(),
+                'model' => $carModel->toId(),
                 'engine' => $car->equipment->engine->name,
                 'capacity' => $car->equipment->engine->capacity,
                 'transmission' => $car->equipment->transmission,
