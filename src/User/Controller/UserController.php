@@ -34,7 +34,7 @@ final class UserController extends AbstractController
 
         $entity = new User(
             UserId::generate(),
-            $model->roles,
+            [],
             $model->username,
             $model->personId
         );
