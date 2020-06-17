@@ -25,14 +25,14 @@ easy_admin:
                         type: App\EasyAdmin\Form\AutocompleteType
                         type_options:
                             class: App\Customer\Entity\Operand
-                    - { property: 'password', label: 'Пароль', type: 'password', type_options: { required: true, mapped: false } }
+                    - { property: 'password', label: 'Пароль', type: 'password', type_options: { required: true } }
             new:
                 title: 'Создать нового Пользователя'
                 form_options: { data_class: stdClass }
             edit:
                 title: 'Редактировать пользователя № {{ entity.id }}'
                 fields:
-                    - { property: 'password', type_options: { required: false } }
+                    - { property: 'password', type_options: { required: false, mapped: false } }
                     - { property: 'username', type_options: { disabled: true } }
 
 doctrine:
