@@ -9,6 +9,8 @@ use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedByRelation;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\MappedSuperclass
@@ -29,8 +31,14 @@ abstract class Transaction
      */
     protected Money $amount;
 
+    /**
+     * @ORM\Column(type="uuid")
+     */
+    private UuidInterface $uuid;
+
     public function __construct(string $description, Money $money)
     {
+        $this->uuid = Uuid::uuid6();
         $this->description = $description;
         $this->amount = $money;
     }
