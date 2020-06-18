@@ -26,7 +26,7 @@ final class WalletTransactionController extends AbstractController
 
         $recipient = $this->getEntity(Wallet::class);
         if ($recipient instanceof Wallet) {
-            $qb->andWhere('entity.recipient = :recipient')
+            $qb->andWhere('entity.wallet = :recipient')
                 ->setParameter('recipient', $recipient);
         }
 
