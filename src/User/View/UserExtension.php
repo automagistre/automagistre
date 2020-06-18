@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\User\View;
@@ -19,7 +20,7 @@ final class UserExtension extends AbstractExtension
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getFunctions(): array
     {
