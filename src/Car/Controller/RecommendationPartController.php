@@ -14,8 +14,9 @@ use App\Part\Manager\PartManager;
 use function array_unshift;
 use function assert;
 use Doctrine\ORM\EntityManagerInterface;
-use function is_numeric;
+use function is_string;
 use LogicException;
+use Ramsey\Uuid\Uuid;
 use function sprintf;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -80,8 +81,8 @@ final class RecommendationPartController extends AbstractController
                 ->getForm();
         }
 
-        $currentForm = $request->query->getAlnum('cross');
-        if (is_numeric($currentForm)) {
+        $currentForm = $request->query->get('cross');
+        if (is_string($currentForm) && Uuid::isValid($currentForm)) {
             $form = $forms[$currentForm];
             $form->handleRequest($request);
 
