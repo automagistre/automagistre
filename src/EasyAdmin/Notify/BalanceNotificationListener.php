@@ -53,14 +53,14 @@ final class BalanceNotificationListener implements EventSubscriberInterface
     {
         $payment = $event->getSubject();
         if ($payment instanceof WalletTransaction) {
-            $wallet = $payment->getRecipient();
+            $wallet = $payment->getWallet();
 
             $topics = [
-                "http://automagistre.ru/{$this->state->tenant()->toIdentifier()}/Wallet/{$wallet->getId()}",
+                "http://automagistre.ru/{$this->state->tenant()->toIdentifier()}/Wallet/{$wallet->toId()}",
             ];
 
             $data = [
-                'id' => $wallet->getId(),
+                'id' => $wallet->toId(),
                 'amount' => $this->formatter->format($this->manager->balance($wallet)),
             ];
 

@@ -19,17 +19,17 @@ class WalletTransaction extends Transaction
      * @ORM\ManyToOne(targetEntity=Wallet::class)
      * @ORM\JoinColumn
      */
-    private $recipient;
+    private $wallet;
 
     public function __construct(Wallet $wallet, string $description, Money $money)
     {
-        $this->recipient = $wallet;
+        $this->wallet = $wallet;
 
         parent::__construct($description, $money);
     }
 
-    public function getRecipient(): Wallet
+    public function getWallet(): Wallet
     {
-        return $this->recipient;
+        return $this->wallet;
     }
 }

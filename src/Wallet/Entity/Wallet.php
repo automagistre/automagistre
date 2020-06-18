@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Wallet\Entity;
 
 use App\Payment\Transactional;
-use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;
 
@@ -14,7 +13,11 @@ use Money\Currency;
  */
 class Wallet implements Transactional
 {
-    use Identity;
+    /**
+     * @ORM\Id()
+     * @ORM\Column(type="wallet_id")
+     */
+    public WalletId $id;
 
     /**
      * @ORM\Column
@@ -47,12 +50,14 @@ class Wallet implements Transactional
     public bool $defaultInManualTransaction = false;
 
     public function __construct(
+        WalletId $walletId,
         string $name,
         Currency $currency,
         bool $useInIncome = false,
         bool $useInOrder = false,
         bool $showInLayout = true
     ) {
+        $this->id = $walletId;
         $this->name = $name;
         $this->currency = $currency;
         $this->useInIncome = $useInIncome;
@@ -63,6 +68,11 @@ class Wallet implements Transactional
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    public function toId(): WalletId
+    {
+        return $this->id;
     }
 
     public function getTransactionClass(): string

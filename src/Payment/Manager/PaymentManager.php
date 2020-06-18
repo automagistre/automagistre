@@ -66,7 +66,7 @@ final class PaymentManager
                 ->setParameter('recipient', $transactional->getId());
         } else {
             $qb
-                ->where('payment.recipient = :recipient')
+                ->where('payment.wallet = :recipient')
                 ->setParameter('recipient', $transactional);
         }
 

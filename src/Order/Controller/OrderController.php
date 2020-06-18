@@ -705,15 +705,17 @@ final class OrderController extends AbstractController
         $wallets = $em->getRepository(Wallet::class)->findBy(['useInOrder' => true]);
 
         foreach ($wallets as $index => $wallet) {
-            $model->wallets['wallet_'.$wallet->getId()] = [
+            $walletId = $wallet->toId()->toString();
+
+            $model->wallets['wallet_'.$walletId] = [
                 'wallet' => $wallet,
                 'payment' => 0 === $index
                     ? $model->forPayment
                     : new Money(0, $forPayment->getCurrency()),
             ];
 
-            $walletType = $formBuilder->create('wallet_'.$wallet->getId(), null, [
-                'property_path' => 'wallets[wallet_'.$wallet->getId().']',
+            $walletType = $formBuilder->create('wallet_'.$walletId, null, [
+                'property_path' => 'wallets[wallet_'.$walletId.']',
                 'compound' => true,
             ])
                 ->add('wallet', TextType::class, [

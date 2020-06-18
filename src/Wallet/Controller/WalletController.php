@@ -6,6 +6,7 @@ namespace App\Wallet\Controller;
 
 use App\EasyAdmin\Controller\AbstractController;
 use App\Wallet\Entity\Wallet;
+use App\Wallet\Entity\WalletId;
 use function assert;
 use Money\Currency;
 use stdClass;
@@ -34,6 +35,7 @@ final class WalletController extends AbstractController
         assert($model instanceof stdClass);
 
         $entity = new Wallet(
+            WalletId::generate(),
             $model->name,
             $model->currency,
             $model->useInIncome,
