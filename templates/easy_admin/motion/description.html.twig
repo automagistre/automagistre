@@ -8,6 +8,16 @@
     <a href="{{ easyadmin_path('Income', 'part', {'income_part_id': item.sourceId.toString, 'referer': true}) }}">
         {{ item.sourceAsIdentifier|display_name }}
     </a>
+{% elseif item.source.isManual() %}
+    {% set personId = user_to_person(item.sourceAsIdentifier) %}
+
+    {% if personId is not empty %}
+        <a href="{{ easyadmin_path_by_id(personId, 'show', {'referer': true}) }}">
+            {{ personId|display_name }}
+        </a>
+    {% else %}
+        {{ item.sourceAsIdentifier|display_name }}
+    {% endif %}
 {% else %}
     {{ value }}
 {% endif %}

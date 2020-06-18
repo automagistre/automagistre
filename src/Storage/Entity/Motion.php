@@ -11,6 +11,7 @@ use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Shared\Identifier\Identifier;
 use App\Storage\Enum\Source;
+use App\User\Entity\UserId;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;
 use Ramsey\Uuid\UuidInterface;
@@ -100,6 +101,10 @@ class Motion
 
         if ($this->source->isOrder()) {
             return OrderId::fromUuid($this->sourceId);
+        }
+
+        if ($this->source->isManual()) {
+            return UserId::fromUuid($this->sourceId);
         }
 
         throw new LogicException('Not implemented');
