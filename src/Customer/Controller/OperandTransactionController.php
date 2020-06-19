@@ -15,7 +15,8 @@ use Doctrine\ORM\QueryBuilder;
 use LogicException;
 use Money\Money;
 use function sprintf;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormInterface;
 
 /**
@@ -59,9 +60,13 @@ final class OperandTransactionController extends AbstractController
     {
         $form = parent::createEntityForm($entity, $entityProperties, $view);
 
-        $form->add('wallet', EntityType::class, [
+        $form->add('wallet', ChoiceType::class, [
             'label' => 'Учитывать в',
-            'class' => Wallet::class,
+            'choice_loader' => new CallbackChoiceLoader(function (): array {
+                return $this->registry->repository(Wallet::class)->findAll();
+            }),
+            'choice_label' => fn (Wallet $wallet) => $wallet->name,
+            'choice_value' => fn (?Wallet $wallet) => null === $wallet ? null : $wallet->toId()->toString(),
             'required' => false,
             'placeholder' => 'Не дублировать начисление',
         ]);
