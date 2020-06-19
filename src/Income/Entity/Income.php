@@ -76,6 +76,11 @@ class Income
      */
     private $accruedAmount;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $oldId = null;
+
     public function __construct(IncomeId $incomeId, OperandId $supplierId, ?string $document)
     {
         $this->id = $incomeId;
