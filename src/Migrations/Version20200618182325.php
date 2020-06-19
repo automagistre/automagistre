@@ -6,8 +6,6 @@ namespace App\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Ramsey\Uuid\Uuid;
-use function sprintf;
 
 final class Version20200618182325 extends AbstractMigration
 {
@@ -19,17 +17,6 @@ final class Version20200618182325 extends AbstractMigration
         $this->addSql('ALTER TABLE wallet ADD uuid UUID DEFAULT NULL');
         $this->addSql('ALTER TABLE wallet_transaction ADD wallet_id UUID DEFAULT NULL');
         $this->addSql('ALTER TABLE expense ADD wallet_uuid UUID DEFAULT NULL');
-
-        // data migration
-        $ids = $this->connection->fetchAll('SELECT id FROM wallet');
-        foreach ($ids as ['id' => $id]) {
-            $uuid = Uuid::uuid6()->toString();
-
-            $this->addSql(sprintf('UPDATE wallet SET uuid = \'%s\'::uuid WHERE id = %s', $uuid, $id));
-            $this->addSql(sprintf('UPDATE wallet_transaction SET wallet_id = \'%s\'::uuid WHERE recipient_id = %s', $uuid, $id));
-            $this->addSql(sprintf('UPDATE expense SET wallet_uuid = \'%s\'::uuid WHERE wallet_id = %s', $uuid, $id));
-        }
-        // data migration
 
         $this->addSql('ALTER TABLE expense DROP wallet_id');
         $this->addSql('ALTER TABLE expense RENAME wallet_uuid TO wallet_id');
