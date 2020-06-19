@@ -2153,16 +2153,16 @@
         },
         {
             "name": "endroid/qr-code",
-            "version": "3.8.1",
+            "version": "3.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/endroid/qr-code.git",
-                "reference": "a7e07d26fad46d7032b39a076f6c85e07757028d"
+                "reference": "1616778c697238b16e1b7592ea824bafcf7d108c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endroid/qr-code/zipball/a7e07d26fad46d7032b39a076f6c85e07757028d",
-                "reference": "a7e07d26fad46d7032b39a076f6c85e07757028d",
+                "url": "https://api.github.com/repos/endroid/qr-code/zipball/1616778c697238b16e1b7592ea824bafcf7d108c",
+                "reference": "1616778c697238b16e1b7592ea824bafcf7d108c",
                 "shasum": ""
             },
             "require": {
@@ -2218,7 +2218,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-06-02T20:10:27+00:00"
+            "time": "2020-06-19T08:57:37+00:00"
         },
         {
             "name": "endroid/qr-code-bundle",
