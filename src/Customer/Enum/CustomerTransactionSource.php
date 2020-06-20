@@ -52,7 +52,7 @@ final class CustomerTransactionSource extends Enum
         self::ORDER_PREPAY => 'Предоплата по заказу',
         self::ORDER_DEBIT => 'Начисление по заказу',
         self::ORDER_PAYMENT => 'Списание по заказу',
-        self::ORDER_SALARY => 'ЗП По заказу',
+        self::ORDER_SALARY => 'Зарплата по заказу',
         self::PAYROLL => 'Выдача зарплаты',
         self::INCOME_DEBIT => 'Начисление по поставке',
         self::INCOME_PAYMENT => 'Оплата за поставку',
