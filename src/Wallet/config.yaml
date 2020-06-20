@@ -39,12 +39,12 @@ easy_admin:
                 title: 'Список проводок'
                 fields:
 #                    - { property: 'id', template: 'easy_admin/default/field_raw.html.twig' }
-                    - { property: 'walletId', label: 'Счет', template: 'easy_admin/field_identifier.html.twig' }
-                    - { property: 'amount', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
-                    - { property: 'source', label: 'Описание', template: 'easy_admin/wallet/field_description.html.twig' }
-                    - { property: 'description', label: 'Комментарий', template: 'easy_admin/default/field_raw.html.twig' }
-                    - { property: 'createdAt', label: 'Дата' }
-                    - { property: 'createdBy', label: 'Создал', template: 'easy_admin/field_identifier.html.twig' }
+                    - { property: 'walletId', label: 'Счет', sortable: false, template: 'easy_admin/field_identifier.html.twig' }
+                    - { property: 'amount', label: 'Сумма', sortable: false, template: 'easy_admin/field_money.html.twig' }
+                    - { property: 'source', label: 'Описание', sortable: false, template: 'easy_admin/wallet/field_description.html.twig' }
+                    - { property: 'description', label: 'Комментарий', sortable: false, template: 'easy_admin/default/field_raw.html.twig' }
+                    - { property: 'createdAt', label: 'Дата', sortable: false }
+                    - { property: 'createdBy', label: 'Создал', sortable: false, template: 'easy_admin/field_identifier.html.twig' }
 
 doctrine:
     orm:
