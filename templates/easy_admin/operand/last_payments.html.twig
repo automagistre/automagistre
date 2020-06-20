@@ -11,10 +11,9 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Сумма</th>
                         <th>Описание</th>
-{#                        <th>Баланс</th>#}
+                        <th>Комментарий</th>
                         <th>Дата</th>
                     </tr>
                     </thead>
@@ -22,10 +21,9 @@
                     {% for payment in payments %}
                         {# @var payment \App\Entity\Payment #}
                         <tr class="tr">
-                            <td>{{ payment.id }}</td>
                             <td>{{ payment.amount|localize_money }}</td>
+                            <td>{% include 'easy_admin/customer/field_description.html.twig' with {'item': payment} only %}</td>
                             <td>{{ payment.description }}</td>
-{#                            <td>{{ payment.subtotal|localize_money }}</td>#}
                             <td>{{ payment.createdAt|format_datetime('short', 'short', '', 'GMT+3') }}</td>
                         </tr>
                     {% endfor %}
