@@ -76,7 +76,15 @@ final class Version20200620152533 extends AbstractMigration
             SELECT wt.uuid, wt.wallet_id, wt.amount_amount, wt.amount_currency_code, '.WalletSource::operandManual()->toId().', ot.uuid, null
             FROM wallet_transaction_old wt
                     JOIN operand_transaction ot on ot.id = substring(wt.description FROM \'[0-9]+\')::integer
-            WHERE wt.description LIKE \'# Ручная транзакция %\'        
+            WHERE wt.description LIKE \'# Ручная транзакция %\'
+        ');
+        $this->addSql('
+            INSERT INTO customer_transaction (id, operand_id, amount_amount, amount_currency_code, source, source_id, description)
+            SELECT ot.uuid, operand.uuid, ot.amount_amount, ot.amount_currency_code, '.CustomerSource::manual()->toId().', wt.uuid, null
+            FROM wallet_transaction_old wt
+                    JOIN operand_transaction ot on ot.id = substring(wt.description FROM \'[0-9]+\')::integer
+                    JOIN operand ON operand.id = ot.recipient_id
+            WHERE wt.description LIKE \'# Ручная транзакция %\'
         ');
 
         $this->addSql('
