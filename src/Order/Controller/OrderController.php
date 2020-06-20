@@ -770,7 +770,7 @@ final class OrderController extends AbstractController
                             $money,
                             $prepayment
                                 ? CustomerTransactionSource::orderPrepay()
-                                : CustomerTransactionSource::incomeDebit(),
+                                : CustomerTransactionSource::orderDebit(),
                             $order->toId()->toUuid(),
                             null
                         )
