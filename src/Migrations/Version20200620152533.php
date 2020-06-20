@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Migrations;
 
-use App\Customer\Enum\TransactionSource as CustomerSource;
-use App\Wallet\Enum\TransactionSource as WalletSource;
+use App\Balance\Entity\BalanceView;
+use App\Customer\Entity\CustomerTransactionView;
+use App\Customer\Enum\CustomerTransactionSource as CustomerSource;
+use App\Wallet\Entity\WalletTransactionView;
+use App\Wallet\Enum\WalletTransactionSource as WalletSource;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
@@ -120,7 +123,7 @@ final class Version20200620152533 extends AbstractMigration
 
         $this->addSql('
             INSERT INTO customer_transaction (id, operand_id, amount_amount, amount_currency_code, source, source_id, description)
-            SELECT ot.uuid, o.uuid, ot.amount_amount, ot.amount_currency_code, '.CustomerSource::payroll()->toId().', wt.uuid, salary.description 
+            SELECT ot.uuid, o.uuid, ot.amount_amount, ot.amount_currency_code, '.CustomerSource::payroll()->toId().', u.uuid, salary.description 
             FROM salary
                     JOIN operand_transaction ot on salary.income_id = ot.id
                     JOIN operand o on ot.recipient_id = o.id
@@ -318,6 +321,10 @@ final class Version20200620152533 extends AbstractMigration
         $this->addSql('DROP TABLE expense_item');
         $this->addSql('DROP TABLE salary');
         $this->addSql('DROP TABLE IF EXISTS penalty');
+
+        $this->addSql(BalanceView::VIEW);
+        $this->addSql(WalletTransactionView::VIEW);
+        $this->addSql(CustomerTransactionView::VIEW);
     }
 
     public function down(Schema $schema): void

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Wallet\View;
 
 use App\Payment\Manager\PaymentManager;
-use App\Payment\Transactional;
 use Money\Money;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -28,7 +27,7 @@ final class WalletExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('balance', fn (Transactional $transactional
+            new TwigFilter('balance', fn (object $transactional
             ): Money => $this->paymentManager->balance($transactional)),
         ];
     }

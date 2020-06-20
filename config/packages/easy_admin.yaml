@@ -62,9 +62,8 @@ easy_admin:
             - { label: 'Бухгалтерия' }
             - { entity: 'Wallet', label: 'Счета', icon: 'bank' }
             - { entity: 'WalletTransaction', label: 'Проводки', icon: 'list' }
-            - { entity: 'OperandTransaction', label: 'Проводки клиентов', icon: 'list' }
+            - { entity: 'CustomerTransaction', label: 'Проводки клиентов', icon: 'list' }
             - { entity: 'Expense', label: 'Статьи расходов', icon: 'list' }
-            - { entity: 'ExpenseItem', label: 'Расходы', icon: 'list' }
             - { label: 'Склад' }
 #            - { entity: 'Part', label: 'Дефицит', icon: 'fire', params: { action: 'deficit' } }
             - { entity: 'Part', label: 'Наличие', icon: 'cubes', params: { action: 'stock' } }

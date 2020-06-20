@@ -22,25 +22,7 @@ easy_admin:
                 fields:
                     - { property: 'name', label: 'Название', type_options: { disabled: true } }
                     - { property: 'wallet', label: 'Счет списания по умолчанию', type_options: { required: false } }
-        ExpenseItem:
-            class: App\Expense\Entity\ExpenseItem
-            controller: App\Expense\Controller\ExpenseItemController
-            disabled_actions: ['edit', 'show', 'delete']
-            list:
-                title: 'Расходы'
-                fields:
-                    - { property: 'id', template: 'easy_admin/default/field_raw.html.twig' }
-                    - { property: 'expense', label: 'Статья расходов' }
-                    - { property: 'amount', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
-                    - { property: 'description', label: 'Комментарий' }
-            new:
-                title: 'Создать новый Расход'
-                form_options: { data_class: stdClass }
-                fields:
-                    - { property: 'expense', label: 'Статья расходов', type_options: { placeholder: 'Выберите статью', required: true } }
-                    - { property: 'wallet', label: 'Счет списания', type: 'entity', type_options: { class: App\Wallet\Entity\Wallet, required: true } }
-                    - { property: 'amount', label: 'Стоимость', type: App\Form\Type\MoneyType, type_options: { required: true } }
-                    - { property: 'description', label: 'Комментарий' }
+
 
 doctrine:
     orm:

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Income\View;
+namespace App\Expense\View;
 
-use App\Income\Entity\IncomeId;
+use App\Expense\Entity\ExpenseId;
 use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
 
-final class IncomeFormatter implements IdentifierFormatterInterface
+final class ExpenseFormatter implements IdentifierFormatterInterface
 {
     private Registry $registry;
 
@@ -22,18 +22,18 @@ final class IncomeFormatter implements IdentifierFormatterInterface
     /**
      * {@inheritdoc}
      */
-    public static function support(): string
+    public function format(IdentifierFormatter $formatter, Identifier $identifier, string $format = null): string
     {
-        return IncomeId::class;
+        $view = $this->registry->view($identifier);
+
+        return $view['name'];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function format(IdentifierFormatter $formatter, Identifier $identifier, string $format = null): string
+    public static function support(): string
     {
-        $view = $this->registry->view($identifier);
-
-        return $formatter->format($view['supplierId']);
+        return ExpenseId::class;
     }
 }

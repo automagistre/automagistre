@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Order\Manager;
 
+use App\Customer\Entity\CustomerTransaction;
+use App\Customer\Entity\CustomerTransactionId;
 use App\Customer\Entity\Operand;
+use App\Customer\Enum\CustomerTransactionSource;
 use App\Employee\Entity\Employee;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderContractor;
@@ -16,7 +19,6 @@ use App\State;
 use App\Storage\Entity\Motion;
 use App\Storage\Enum\Source;
 use Doctrine\ORM\EntityManagerInterface;
-use function sprintf;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -60,17 +62,28 @@ final class OrderManager
 
             if ($customer instanceof Operand) {
                 foreach ($order->getPayments() as $payment) {
-                    $description = sprintf(
-                        '# Начисление предоплаты%s по заказу #%s',
-                        null !== $payment->getDescription() ? sprintf(' "%s"', $payment->getDescription()) : '',
-                        $order->getId()
+                    $em->persist(
+                        new CustomerTransaction(
+                            CustomerTransactionId::generate(),
+                            $customer->toId(),
+                            $payment->getMoney(),
+                            CustomerTransactionSource::orderPrepay(),
+                            $order->toId()->toUuid(),
+                            null
+                        )
                     );
-
-                    $this->paymentManager->createPayment($customer, $description, $payment->getMoney());
                 }
 
-                $description = sprintf('# Списание по заказу #%s', $order->getId());
-                $this->paymentManager->createPayment($customer, $description, $order->getTotalPrice(true)->negative());
+                $em->persist(
+                    new CustomerTransaction(
+                        CustomerTransactionId::generate(),
+                        $customer->toId(),
+                        $order->getTotalPrice(true)->negative(),
+                        CustomerTransactionSource::orderPayment(),
+                        $order->toId()->toUuid(),
+                        null
+                    )
+                );
             }
 
             foreach ($order->getItems(OrderItemPart::class) as $item) {
@@ -108,9 +121,17 @@ final class OrderManager
                 }
 
                 $salary = $price->multiply($employee->getRatio() / 100);
-                $description = sprintf('# ЗП %s по заказу #%s', $worker->getFullName(), $order->getId());
 
-                $salaryTransaction = $this->paymentManager->createPayment($worker, $description, $salary->absolute());
+                $em->persist(
+                    new CustomerTransaction(
+                        CustomerTransactionId::generate(),
+                        $worker->toId(),
+                        $salary->absolute(),
+                        CustomerTransactionSource::orderSalary(),
+                        $order->toId()->toUuid(),
+                        null
+                    )
+                );
             }
         });
     }

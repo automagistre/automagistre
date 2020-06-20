@@ -8,9 +8,12 @@ use App\Calendar\Entity\CalendarEntryId;
 use App\Calendar\Entity\EntryOrder;
 use App\Calendar\Repository\CalendarEntryRepository;
 use App\Car\Entity\Car;
+use App\Customer\Entity\CustomerTransaction;
+use App\Customer\Entity\CustomerTransactionId;
 use App\Customer\Entity\Operand;
 use App\Customer\Entity\Organization;
 use App\Customer\Entity\Person;
+use App\Customer\Enum\CustomerTransactionSource;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Form\Model\OrderTOPart;
 use App\Form\Model\OrderTOService;
@@ -36,11 +39,15 @@ use App\Shared\Identifier\IdentifierFormatter;
 use App\Vehicle\Entity\Model;
 use App\Vehicle\Entity\VehicleId;
 use App\Wallet\Entity\Wallet;
+use App\Wallet\Entity\WalletTransaction;
+use App\Wallet\Entity\WalletTransactionId;
+use App\Wallet\Enum\WalletTransactionSource;
 use function array_map;
 use function assert;
 use function count;
 use DateTime;
 use DateTimeImmutable;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
@@ -376,7 +383,7 @@ final class OrderController extends AbstractController
                     $order->addPayment($payment, $form->get('desc')->getData(), $this->getUser());
                 }
 
-                $this->handlePayment($model);
+                $this->handlePayment($model, true);
             });
 
             return $this->redirectToReferrer();
@@ -434,7 +441,7 @@ final class OrderController extends AbstractController
                 ->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $this->handlePayment($form->getData());
+                $this->handlePayment($form->getData(), false);
 
                 goto close;
             }
@@ -740,11 +747,14 @@ final class OrderController extends AbstractController
         return $formBuilder->getForm();
     }
 
-    private function handlePayment(stdClass $model): void
+    private function handlePayment(stdClass $model, bool $prepayment): void
     {
         $em = $this->em;
 
-        $em->transactional(function () use ($model): void {
+        $em->transactional(function (EntityManagerInterface $em) use ($model, $prepayment): void {
+            $order = $this->getEntity(Order::class);
+            assert($order instanceof Order);
+
             /** @var Wallet $wallet */
             /** @var Money $money */
             foreach ($model->wallets as ['wallet' => $wallet, 'payment' => $money]) {
@@ -753,10 +763,32 @@ final class OrderController extends AbstractController
                 }
 
                 if (null !== $model->recipient) {
-                    $this->paymentManager->createPayment($model->recipient, $model->description, $money);
+                    $em->persist(
+                        new CustomerTransaction(
+                            CustomerTransactionId::generate(),
+                            $model->recipient->toId(),
+                            $money,
+                            $prepayment
+                                ? CustomerTransactionSource::orderPrepay()
+                                : CustomerTransactionSource::incomeDebit(),
+                            $order->toId()->toUuid(),
+                            null
+                        )
+                    );
                 }
 
-                $this->paymentManager->createPayment($wallet, $model->description, $money);
+                $em->persist(
+                    new WalletTransaction(
+                        WalletTransactionId::generate(),
+                        $wallet->toId(),
+                        $money,
+                        $prepayment
+                            ? WalletTransactionSource::orderPrepay()
+                            : WalletTransactionSource::orderDebit(),
+                        $order->toId()->toUuid(),
+                        null
+                    )
+                );
             }
         });
     }

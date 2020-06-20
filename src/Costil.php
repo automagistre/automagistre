@@ -8,10 +8,14 @@ use App\Calendar\Entity\CalendarEntry;
 use App\Calendar\Entity\CalendarEntryId;
 use App\Car\Entity\Car;
 use App\Car\Entity\CarId;
+use App\Customer\Entity\CustomerTransaction;
+use App\Customer\Entity\CustomerTransactionId;
 use App\Customer\Entity\Operand;
 use App\Customer\Entity\OperandId;
 use App\Employee\Entity\Employee;
 use App\Employee\Entity\EmployeeId;
+use App\Expense\Entity\Expense;
+use App\Expense\Entity\ExpenseId;
 use App\Income\Entity\Income;
 use App\Income\Entity\IncomeId;
 use App\Income\Entity\IncomePart;
@@ -32,6 +36,9 @@ use App\User\Entity\User;
 use App\User\Entity\UserId;
 use App\Vehicle\Entity\Model;
 use App\Vehicle\Entity\VehicleId;
+use App\Wallet\Entity\Wallet;
+use App\Wallet\Entity\WalletId;
+use function array_key_exists;
 use function array_key_exists;
 use Money\Currency;
 use Money\Money;
@@ -48,7 +55,9 @@ final class Costil
     public const ENTITY = [
         CalendarEntryId::class => CalendarEntry::class,
         CarId::class => Car::class,
+        CustomerTransactionId::class => CustomerTransaction::class,
         EmployeeId::class => Employee::class,
+        ExpenseId::class => Expense::class,
         IncomeId::class => Income::class,
         IncomePartId::class => IncomePart::class,
         ManufacturerId::class => Manufacturer::class,
@@ -58,12 +67,15 @@ final class Costil
         SmsId::class => Sms::class,
         UserId::class => User::class,
         VehicleId::class => Model::class,
+        WalletId::class => Wallet::class,
         WarehouseId::class => WarehouseView::class,
     ];
     public const EASYADMIN_CONFIG = [
         CalendarEntryId::class => 'CalendarEntry',
         CarId::class => 'Car',
+        CustomerTransactionId::class => 'CustomerTransaction',
         EmployeeId::class => 'Employee',
+        ExpenseId::class => 'Expense',
         IncomeId::class => 'Income',
         IncomePartId::class => 'IncomePart',
         ManufacturerId::class => 'Manufacturer',
@@ -72,12 +84,15 @@ final class Costil
         PartId::class => 'Part',
         UserId::class => 'User',
         VehicleId::class => 'CarModel',
+        WalletId::class => 'Wallet',
         WarehouseId::class => 'Warehouse',
     ];
     public const UUID_FIELDS = [
         CalendarEntryId::class => 'id',
         CarId::class => 'uuid',
+        CustomerTransactionId::class => 'id',
         EmployeeId::class => 'uuid',
+        ExpenseId::class => 'uuid',
         IncomeId::class => 'id',
         IncomePartId::class => 'uuid',
         ManufacturerId::class => 'uuid',
@@ -87,6 +102,7 @@ final class Costil
         SmsId::class => 'id',
         UserId::class => 'uuid',
         VehicleId::class => 'uuid',
+        WalletId::class => 'id',
         WarehouseId::class => 'id',
     ];
 

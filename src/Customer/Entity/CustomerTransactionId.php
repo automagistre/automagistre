@@ -9,6 +9,6 @@ use App\Shared\Identifier\Identifier;
 /**
  * @psalm-immutable
  */
-final class TransactionId extends Identifier
+final class CustomerTransactionId extends Identifier
 {
 }

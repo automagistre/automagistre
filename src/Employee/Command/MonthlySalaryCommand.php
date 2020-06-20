@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Employee\Command;
 
+use App\Customer\Entity\CustomerTransaction;
+use App\Customer\Entity\CustomerTransactionId;
+use App\Customer\Enum\CustomerTransactionSource;
 use App\Employee\Entity\MonthlySalary;
 use App\Payment\Manager\PaymentManager;
 use App\Shared\Doctrine\Registry;
@@ -94,12 +97,24 @@ final class MonthlySalaryCommand extends Command
             ->setParameter('payday', $payday)
             ->getResult();
 
+        $em = $this->registry->manager(CustomerTransaction::class);
+
         foreach ($salaries as $salary) {
             $person = $salary->getEmployee()->getPerson();
             assert(null !== $person);
 
-            $desc = $description.' #'.$salary->getId();
-            $this->paymentManager->createPayment($person, $desc, $salary->getAmount());
+            $em->persist(
+                new CustomerTransaction(
+                    CustomerTransactionId::generate(),
+                    $person->toId(),
+                    $salary->getAmount(),
+                    CustomerTransactionSource::salary(),
+                    $salary->toId(),
+                    null
+                )
+            );
         }
+
+        $em->flush();
     }
 }

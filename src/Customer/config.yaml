@@ -119,21 +119,21 @@ easy_admin:
             edit:
                 title: 'Редактировать заметку № {{ entity.id }} по Организации'
 
-        OperandTransaction:
-            class: App\Entity\Tenant\OperandTransaction
-            controller: App\Customer\Controller\OperandTransactionController
+        CustomerTransaction:
+            class: App\Customer\Entity\CustomerTransactionView
+            controller: App\Customer\Controller\TransactionController
             disabled_actions: ['show', 'delete', 'edit']
             list:
                 title: 'Список проводок'
                 fields:
                     - { property: 'id', template: 'easy_admin/default/field_raw.html.twig' }
-                    - { property: 'recipient', label: 'Получатель', template: 'easy_admin/field_show.html.twig' }
+                    - { property: 'operandId', label: 'Получатель', template: 'easy_admin/field_identifier.html.twig' }
                     - { property: 'amount', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
+                    - { property: 'description', label: 'Описание', template: 'easy_admin/customer/field_description.html.twig' }
                     - { property: 'createdAt', label: 'Дата' }
-                    - { property: 'description', label: 'Описание', template: 'easy_admin/default/field_raw.html.twig' }
             new:
                 title: 'Создать новую проводку {{ "increment" == app.request.query.get("type") ? "пополнения" : "списания" }}'
-                form_options: { data_class: App\Customer\Form\OperandTransactionModel }
+                form_options: { data_class: App\Customer\Form\TransactionDto }
                 fields:
                     - { property: 'recipient', label: 'Получатель', type: 'text', type_options: { disabled: true } }
                     - { property: 'amount', label: 'Сумма', type: App\Form\Type\MoneyType }

@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Customer\Controller;
 
+use App\Balance\Entity\BalanceView;
 use App\Car\Repository\CarCustomerRepository;
+use App\Customer\Entity\CustomerTransactionView;
 use App\Customer\Entity\Operand;
 use App\Customer\Entity\OperandNote;
 use App\Customer\Entity\Organization;
 use App\Customer\Entity\Person;
 use App\EasyAdmin\Controller\AbstractController;
-use App\Entity\Tenant\OperandTransaction;
 use App\Order\Entity\Order;
 use App\Payment\Manager\PaymentManager;
 use function array_map;
@@ -122,8 +123,8 @@ class OperandController extends AbstractController
             $parameters['cars'] = $carRepository->carsByCustomer($operand->toId());
             $parameters['orders'] = $this->registry->repository(Order::class)
                 ->findBy(['customerId' => $operand->toId()], ['closedAt' => 'DESC'], 20);
-            $parameters['payments'] = $this->registry->repository(OperandTransaction::class)
-                ->findBy(['recipient.id' => $operand->getId()], ['id' => 'DESC'], 20);
+            $parameters['payments'] = $this->registry->repository(CustomerTransactionView::class)
+                ->findBy(['operandId' => $operand->toId()], ['id' => 'DESC'], 20);
             $parameters['notes'] = $this->registry->repository(OperandNote::class)
                 ->findBy(['operand' => $operand], ['createdAt' => 'DESC']);
             $parameters['balance'] = $this->get(PaymentManager::class)->balance($operand);
@@ -190,13 +191,13 @@ class OperandController extends AbstractController
     private function sortByBalance(QueryBuilder $qb, ?string $sortDirection): void
     {
         $qb
-            ->addSelect('SUM(COALESCE(ot.amount.amount,0)) AS HIDDEN balance')
             ->leftJoin(
-                OperandTransaction::class,
-                'ot',
+                BalanceView::class,
+                'balance',
                 Join::WITH,
-                'ot.recipient.id = entity.id')
-            ->orderBy('balance', $sortDirection)
-            ->groupBy('entity');
+                'balance.id = entity.uuid')
+            ->orderBy('balance.money.amount', $sortDirection)
+            ->groupBy('entity')
+            ->addGroupBy('balance.money.amount');
     }
 }

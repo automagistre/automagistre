@@ -2,36 +2,29 @@
 
 declare(strict_types=1);
 
-namespace App\Customer\Entity;
+namespace App\Wallet\Entity;
 
-use App\Customer\Enum\TransactionSource;
+use App\Wallet\Enum\WalletTransactionSource;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 use Ramsey\Uuid\UuidInterface;
-use SimpleBus\Message\Recorder\ContainsRecordedMessages;
-use SimpleBus\Message\Recorder\PrivateMessageRecorderCapabilities;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="customer_transaction")
- *
- * @psalm-immutable
- * @psalm-internal App\Customer\Entity
+ * @ORM\Table(name="wallet_transaction")
  */
-class Transaction implements ContainsRecordedMessages
+class WalletTransaction
 {
-    use PrivateMessageRecorderCapabilities;
-
     /**
      * @ORM\Id()
-     * @ORM\Column(type="customer_transaction_id")
+     * @ORM\Column(type="wallet_transaction_id")
      */
-    private TransactionId $id;
+    private WalletTransactionId $id;
 
     /**
-     * @ORM\Column(type="operand_id")
+     * @ORM\Column(type="wallet_id")
      */
-    private OperandId $operandId;
+    private WalletId $walletId;
 
     /**
      * @ORM\Embedded(class=Money::class)
@@ -39,9 +32,9 @@ class Transaction implements ContainsRecordedMessages
     private Money $amount;
 
     /**
-     * @ORM\Column(type="operand_transaction_source")
+     * @ORM\Column(type="wallet_transaction_source")
      */
-    private TransactionSource $source;
+    private WalletTransactionSource $source;
 
     /**
      * @ORM\Column(type="uuid")
@@ -54,15 +47,15 @@ class Transaction implements ContainsRecordedMessages
     private ?string $description;
 
     public function __construct(
-        TransactionId $id,
-        OperandId $operandId,
+        WalletTransactionId $id,
+        WalletId $walletId,
         Money $amount,
-        TransactionSource $source,
+        WalletTransactionSource $source,
         UuidInterface $sourceId,
         ?string $description
     ) {
         $this->id = $id;
-        $this->operandId = $operandId;
+        $this->walletId = $walletId;
         $this->amount = $amount;
         $this->source = $source;
         $this->sourceId = $sourceId;

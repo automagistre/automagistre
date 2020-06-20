@@ -39,13 +39,13 @@
         {% endif %}
 
         <div class="box-footer">
-            <a href="{{ easyadmin_path('OperandTransaction', 'new', {'operand_id': entity.id, 'type': 'increment'}) }}" class="btn btn-info">
+            <a href="{{ easyadmin_path('CustomerTransaction', 'new', {'operand_id': entity.id, 'type': 'increment'}) }}" class="btn btn-info">
                 Пополнить
             </a>
-            <a href="{{ easyadmin_path('OperandTransaction', 'new', {'operand_id': entity.id, 'type': 'decrement'}) }}" class="btn btn-warning">
+            <a href="{{ easyadmin_path('CustomerTransaction', 'new', {'operand_id': entity.id, 'type': 'decrement'}) }}" class="btn btn-warning">
                 Списать
             </a>
-            <a href="{{ easyadmin_path('OperandTransaction', 'list', {'operand_id': entity.id}) }}" class="btn btn-primary">
+            <a href="{{ easyadmin_path('CustomerTransaction', 'list', {'operand_id': entity.id}) }}" class="btn btn-primary">
                 Все проводки
             </a>
         </div>

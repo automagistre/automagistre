@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace App\Payment\Manager;
 
+use App\Balance\Entity\BalanceView;
 use App\Customer\Entity\Operand;
-use App\Entity\Tenant\Transaction;
-use App\Payment\Event\PaymentCreated;
-use App\Payment\Transactional;
 use App\Shared\Doctrine\Registry;
-use Doctrine\ORM\EntityManagerInterface;
-use Money\Currency;
+use App\Wallet\Entity\Wallet;
+use LogicException;
 use Money\Money;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -21,57 +18,21 @@ final class PaymentManager
 {
     private Registry $registry;
 
-    private EventDispatcherInterface $dispatcher;
-
-    public function __construct(Registry $registry, EventDispatcherInterface $dispatcher)
+    public function __construct(Registry $registry)
     {
         $this->registry = $registry;
-        $this->dispatcher = $dispatcher;
     }
 
-    public function createPayment(Transactional $recipient, string $description, Money $money): Transaction
+    public function balance(object $transactional): Money
     {
-        $em = $this->registry->manager($recipient->getTransactionClass());
-
-        $payment = $em->transactional(function (EntityManagerInterface $em) use ($recipient, $description, $money) {
-            $transactionClass = $recipient->getTransactionClass();
-
-            $payment = new $transactionClass(
-                $recipient,
-                $description,
-                $money,
-            );
-
-            $em->persist($payment);
-
-            return $payment;
-        });
-
-        $this->dispatcher->dispatch(new PaymentCreated($payment));
-
-        return $payment;
-    }
-
-    public function balance(Transactional $transactional): Money
-    {
-        $em = $this->registry->manager($transactional->getTransactionClass());
-
-        $qb = $em->createQueryBuilder()
-            ->select('SUM(CAST(payment.amount.amount AS int))')
-            ->from($transactional->getTransactionClass(), 'payment');
-
         if ($transactional instanceof Operand) {
-            $qb
-                ->where('payment.recipient.id = :recipient')
-                ->setParameter('recipient', $transactional->getId());
+            $id = $transactional->toId();
+        } elseif ($transactional instanceof Wallet) {
+            $id = $transactional->toId();
         } else {
-            $qb
-                ->where('payment.wallet = :recipient')
-                ->setParameter('recipient', $transactional);
+            throw new LogicException('Unsupported transactional');
         }
 
-        $amount = $qb->getQuery()->getSingleScalarResult();
-
-        return new Money($amount, new Currency('RUB'));
+        return $this->registry->getBy(BalanceView::class, ['id' => $id])->money;
     }
 }
