@@ -43,6 +43,7 @@ easy_admin:
                     - { property: 'amount', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'description', label: 'Описание', template: 'easy_admin/wallet/field_description.html.twig' }
                     - { property: 'createdAt', label: 'Дата' }
+                    - { property: 'createdBy', label: 'Создал', template: 'easy_admin/field_identifier.html.twig' }
 
 doctrine:
     orm:
