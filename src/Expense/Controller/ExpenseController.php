@@ -65,6 +65,8 @@ final class ExpenseController extends AbstractController
                 )
             );
 
+            $em->flush();
+
             return $this->redirectToReferrer();
         }
 
