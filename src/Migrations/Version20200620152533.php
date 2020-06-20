@@ -181,7 +181,7 @@ final class Version20200620152533 extends AbstractMigration
 
         $this->addSql('
             INSERT INTO customer_transaction (id, operand_id, amount_amount, amount_currency_code, source, source_id, description)
-            SELECT ot.uuid, o.uuid, ot.amount_amount, ot.amount_currency_code, '.CustomerSource::orderPrepay()->toId().', orders.uuid, null
+            SELECT ot.uuid, o.uuid, ot.amount_amount, ot.amount_currency_code, '.CustomerSource::orderDebit()->toId().', orders.uuid, null
             FROM operand_transaction ot
                      JOIN operand o ON o.id = ot.recipient_id
                      JOIN orders ON orders.id = substring(substring(ot.description FROM \'#[0-9]+\') FROM \'[0-9]+\')::integer
