@@ -7,6 +7,8 @@ namespace App\Expense\Entity;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Wallet\Entity\Wallet;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
@@ -14,6 +16,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Expense
 {
     use Identity;
+
+    /**
+     * @ORM\Column(type="uuid")
+     */
+    private UuidInterface $uuid;
 
     /**
      * @var string
@@ -33,6 +40,7 @@ class Expense
 
     public function __construct(string $name, Wallet $wallet = null)
     {
+        $this->uuid = Uuid::uuid6();
         $this->name = $name;
         $this->wallet = $wallet;
     }
