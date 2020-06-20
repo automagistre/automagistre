@@ -132,10 +132,10 @@ final class TransactionController extends AbstractController
     ): QueryBuilder {
         $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
 
-        $recipient = $this->getEntity(Operand::class);
-        if ($recipient instanceof Operand) {
-            $qb->andWhere('entity.recipient.id = :recipient')
-                ->setParameter('recipient', $recipient->getId());
+        $operand = $this->getEntity(Operand::class);
+        if ($operand instanceof Operand) {
+            $qb->andWhere('entity.operandId = :operand')
+                ->setParameter('operand', $operand->toId());
         }
 
         $qb->orderBy('entity.createdAt', 'DESC')
