@@ -18,21 +18,6 @@ use Ramsey\Uuid\UuidInterface;
  */
 class CustomerTransactionView
 {
-    public const VIEW = '
-        CREATE VIEW customer_transaction_view AS
-        SELECT 
-            ct.id, 
-            ct.operand_id,
-            CONCAT(ct.amount_currency_code, \' \', ct.amount_amount) AS amount,
-            ct.source,
-            ct.source_id,
-            ct.description,
-            cb.created_at,
-            cb.user_id AS created_by
-        FROM customer_transaction ct
-        JOIN created_by cb ON cb.id = ct.id
-    ';
-
     /**
      * @ORM\Id()
      * @ORM\Column(type="customer_transaction_id")
@@ -92,6 +77,35 @@ class CustomerTransactionView
         $this->description = $description;
         $this->createdAt = $createdAt;
         $this->createdBy = $createdBy;
+    }
+
+    public static function sql(): string
+    {
+        return '
+                CREATE VIEW customer_transaction_view AS
+                SELECT 
+                    ct.id, 
+                    ct.operand_id,
+                    CONCAT(ct.amount_currency_code, \' \', ct.amount_amount) AS amount,
+                    ct.source,
+                    CASE 
+                        WHEN 
+                            ct.source IN (
+                            '.CustomerTransactionSource::payroll()->toId().',
+                            '.CustomerTransactionSource::manual()->toId().'
+                            )
+                        THEN 
+                            wt.wallet_id 
+                        ELSE 
+                            ct.source_id 
+                    END,
+                    ct.description,
+                    cb.created_at,
+                    cb.user_id AS created_by
+                FROM customer_transaction ct
+                JOIN created_by cb ON cb.id = ct.id
+                LEFT JOIN wallet_transaction wt ON wt.id = ct.source_id
+            ';
     }
 
     public function toSourceIdentifier(): Identifier

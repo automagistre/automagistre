@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Wallet\Enum;
 
-use App\Customer\Entity\CustomerTransactionId;
+use App\Customer\Entity\OperandId;
 use App\Expense\Entity\ExpenseId;
 use App\Income\Entity\IncomeId;
 use App\Order\Entity\OrderId;
@@ -49,9 +49,9 @@ final class WalletTransactionSource extends Enum
         self::LEGACY => UserId::class,
         self::ORDER_PREPAY => OrderId::class,
         self::ORDER_DEBIT => OrderId::class,
-        self::PAYROLL => CustomerTransactionId::class,
+        self::PAYROLL => OperandId::class,
         self::INCOME_PAYMENT => IncomeId::class,
         self::EXPENSE => ExpenseId::class,
-        self::OPERAND_MANUAL => CustomerTransactionId::class,
+        self::OPERAND_MANUAL => OperandId::class,
     ];
 }

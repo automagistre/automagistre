@@ -74,32 +74,33 @@ final class TransactionController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function persistEntity($entity): CustomerTransaction
+    protected function persistEntity($entity): void
     {
         $model = $entity;
         assert($model instanceof TransactionDto);
 
-        return $this->em->transactional(function (EntityManagerInterface $em) use ($model): CustomerTransaction {
+        $this->em->transactional(function (EntityManagerInterface $em) use ($model): void {
             /** @var Money $money */
             $money = $model->amount;
             $money = $model->increment ? $money->absolute() : $money->negative();
 
             $customerTransactionId = CustomerTransactionId::generate();
-            $transaction = new CustomerTransaction(
-                $customerTransactionId,
-                $model->recipient->toId(),
-                $money,
-                CustomerTransactionSource::manual(),
-                $this->getUser()->toId()->toUuid(),
-                $model->description
-            );
-
-            $em->persist($transaction);
 
             if ($model->wallet instanceof Wallet) {
+                $walletTransactionId = WalletTransactionId::generate();
+
+                $em->persist(new CustomerTransaction(
+                    $customerTransactionId,
+                    $model->recipient->toId(),
+                    $money,
+                    CustomerTransactionSource::manual(),
+                    $walletTransactionId->toUuid(),
+                    $model->description
+                ));
+
                 $em->persist(
                     new WalletTransaction(
-                        WalletTransactionId::generate(),
+                        $walletTransactionId,
                         $model->wallet->toId(),
                         $money,
                         WalletTransactionSource::operandManual(),
@@ -107,9 +108,16 @@ final class TransactionController extends AbstractController
                         null
                     )
                 );
+            } else {
+                $em->persist(new CustomerTransaction(
+                    $customerTransactionId,
+                    $model->recipient->toId(),
+                    $money,
+                    CustomerTransactionSource::manualWithoutWallet(),
+                    $this->getUser()->toId()->toUuid(),
+                    $model->description
+                ));
             }
-
-            return $transaction;
         });
     }
 

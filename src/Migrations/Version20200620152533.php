@@ -61,7 +61,7 @@ final class Version20200620152533 extends AbstractMigration
         ');
         $this->addSql('
             INSERT INTO customer_transaction (id, operand_id, amount_amount, amount_currency_code, source, source_id, description)
-            SELECT ot.uuid, ot.uuid, ot.amount_amount, ot.amount_currency_code, '.CustomerSource::manual()->toId().', u.uuid, ot.description
+            SELECT ot.uuid, ot.uuid, ot.amount_amount, ot.amount_currency_code, '.CustomerSource::manual()->toId().', wt.uuid, ot.description
             FROM operand_transaction ot
                      JOIN operand o ON o.id = ot.recipient_id
                      JOIN wallet_transaction_old wt ON wt.created_at = ot.created_at
@@ -301,7 +301,7 @@ final class Version20200620152533 extends AbstractMigration
         // Last manual customer_transactions
         $this->addSql('
             INSERT INTO customer_transaction (id, operand_id, amount_amount, amount_currency_code, source, source_id, description)
-            SELECT ot.uuid, o.uuid, ot.amount_amount, ot.amount_currency_code, '.CustomerSource::manual()->toId().', u.uuid, ot.description
+            SELECT ot.uuid, o.uuid, ot.amount_amount, ot.amount_currency_code, '.CustomerSource::manualWithoutWallet()->toId().', u.uuid, ot.description
             FROM operand_transaction ot
                      JOIN operand o ON o.id = ot.recipient_id
                      JOIN users u ON ot.created_by_id = u.id
@@ -324,8 +324,8 @@ final class Version20200620152533 extends AbstractMigration
         $this->addSql('DROP TABLE IF EXISTS penalty');
 
         $this->addSql(BalanceView::VIEW);
-        $this->addSql(WalletTransactionView::VIEW);
-        $this->addSql(CustomerTransactionView::VIEW);
+        $this->addSql(WalletTransactionView::sql());
+        $this->addSql(CustomerTransactionView::sql());
     }
 
     public function down(Schema $schema): void

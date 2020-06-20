@@ -7,7 +7,7 @@ namespace App\Customer\Enum;
 use App\Income\Entity\IncomeId;
 use App\Order\Entity\OrderId;
 use App\User\Entity\UserId;
-use App\Wallet\Entity\WalletTransactionId;
+use App\Wallet\Entity\WalletId;
 use Premier\Enum\Enum;
 
 /**
@@ -21,6 +21,7 @@ use Premier\Enum\Enum;
  * @method static self salary()
  * @method static self penalty()
  * @method static self manual()
+ * @method static self manualWithoutWallet()
  * @method string toDescription()
  * @method bool   isPayroll()
  */
@@ -36,6 +37,7 @@ final class CustomerTransactionSource extends Enum
     private const SALARY = 8;
     private const PENALTY = 9;
     private const MANUAL = 10;
+    private const MANUAL_WITHOUT_WALLET = 11;
 
     protected static array $description = [
         self::ORDER_PREPAY => 'Предоплата по заказу',
@@ -48,6 +50,7 @@ final class CustomerTransactionSource extends Enum
         self::SALARY => 'Начисление ежемесячного оклада',
         self::PENALTY => 'Штраф работника',
         self::MANUAL => 'Ручная проводка',
+        self::MANUAL_WITHOUT_WALLET => 'Ручная проводка',
     ];
 
     protected static array $sourceClass = [
@@ -55,11 +58,12 @@ final class CustomerTransactionSource extends Enum
         self::ORDER_DEBIT => OrderId::class,
         self::ORDER_PAYMENT => OrderId::class,
         self::ORDER_SALARY => OrderId::class,
-        self::PAYROLL => WalletTransactionId::class,
+        self::PAYROLL => WalletId::class,
         self::INCOME_DEBIT => IncomeId::class,
         self::INCOME_PAYMENT => IncomeId::class,
         self::SALARY => OrderId::class,
         self::PENALTY => UserId::class,
-        self::MANUAL => UserId::class,
+        self::MANUAL => WalletId::class,
+        self::MANUAL_WITHOUT_WALLET => UserId::class,
     ];
 }
