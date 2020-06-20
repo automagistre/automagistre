@@ -14,7 +14,6 @@ use App\Employee\Entity\MonthlySalary;
 use App\Employee\Event\EmployeeCreated;
 use App\Employee\Event\EmployeeFired;
 use App\Form\Type\MoneyType;
-use App\Payment\Manager\PaymentManager;
 use App\Wallet\Entity\Wallet;
 use App\Wallet\Entity\WalletTransaction;
 use App\Wallet\Entity\WalletTransactionId;
@@ -36,13 +35,6 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  */
 final class EmployeeController extends AbstractController
 {
-    private PaymentManager $paymentManager;
-
-    public function __construct(PaymentManager $paymentManager)
-    {
-        $this->paymentManager = $paymentManager;
-    }
-
     public function salaryAction(): Response
     {
         $request = $this->request;
@@ -87,20 +79,22 @@ final class EmployeeController extends AbstractController
                 $money = $money->negative();
 
                 $customerTransactionId = CustomerTransactionId::generate();
+                $walletTransactionId = WalletTransactionId::generate();
+
                 $em->persist(
                     new CustomerTransaction(
                         $customerTransactionId,
                         $recipient->toId(),
                         $money,
                         CustomerTransactionSource::payroll(),
-                        $this->getUser()->toId()->toUuid(),
+                        $walletTransactionId->toUuid(),
                         $model->description
                     )
                 );
 
                 $em->persist(
                     new WalletTransaction(
-                        WalletTransactionId::generate(),
+                        $walletTransactionId,
                         $model->wallet->toId(),
                         $money,
                         WalletTransactionSource::payroll(),

@@ -27,7 +27,11 @@ final class CustomerTransactionFormatter implements IdentifierFormatterInterface
     {
         $view = $this->registry->getBy(CustomerTransactionView::class, ['id' => $identifier]);
 
-        return $formatter->format($view->toSourceIdentifier());
+        if (!$view->source->isPayroll()) {
+            return $formatter->format($view->toSourceIdentifier());
+        }
+
+        return $formatter->format($view->operandId);
     }
 
     /**

@@ -38,6 +38,7 @@ use App\Vehicle\Entity\Model;
 use App\Vehicle\Entity\VehicleId;
 use App\Wallet\Entity\Wallet;
 use App\Wallet\Entity\WalletId;
+use App\Wallet\Entity\WalletTransactionId;
 use function array_key_exists;
 use function array_key_exists;
 use Money\Currency;
@@ -85,6 +86,7 @@ final class Costil
         UserId::class => 'User',
         VehicleId::class => 'CarModel',
         WalletId::class => 'Wallet',
+        WalletTransactionId::class => 'WalletTransaction',
         WarehouseId::class => 'Warehouse',
     ];
     public const UUID_FIELDS = [

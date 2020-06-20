@@ -27,7 +27,11 @@ final class WalletTransactionFormatter implements IdentifierFormatterInterface
     {
         $view = $this->registry->getBy(WalletTransactionView::class, ['id' => $identifier]);
 
-        return $formatter->format($view->toSourceIdentifier());
+        if (!$view->source->isPayroll()) {
+            return $formatter->format($view->toSourceIdentifier());
+        }
+
+        return $formatter->format($view->walletId);
     }
 
     /**

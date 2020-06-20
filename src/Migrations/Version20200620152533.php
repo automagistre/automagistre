@@ -123,7 +123,7 @@ final class Version20200620152533 extends AbstractMigration
 
         $this->addSql('
             INSERT INTO customer_transaction (id, operand_id, amount_amount, amount_currency_code, source, source_id, description)
-            SELECT ot.uuid, o.uuid, ot.amount_amount, ot.amount_currency_code, '.CustomerSource::payroll()->toId().', u.uuid, salary.description 
+            SELECT ot.uuid, o.uuid, ot.amount_amount, ot.amount_currency_code, '.CustomerSource::payroll()->toId().', wt.uuid, salary.description 
             FROM salary
                     JOIN operand_transaction ot on salary.income_id = ot.id
                     JOIN operand o on ot.recipient_id = o.id
@@ -135,6 +135,7 @@ final class Version20200620152533 extends AbstractMigration
             SELECT wt.uuid, wt.wallet_id, wt.amount_amount, wt.amount_currency_code, '.WalletSource::payroll()->toId().', ot.uuid, salary.description 
             FROM salary
                     JOIN operand_transaction ot on salary.income_id = ot.id
+                    JOIN operand o on o.id = ot.recipient_id
                     JOIN wallet_transaction_old wt on salary.outcome_id = wt.id
         ');
 

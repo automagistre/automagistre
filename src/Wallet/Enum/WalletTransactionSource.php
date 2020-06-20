@@ -20,6 +20,7 @@ use Premier\Enum\Enum;
  * @method static self expense()
  * @method static self operandManual()
  * @method string toDescription()
+ * @method bool   isPayroll()
  */
 final class WalletTransactionSource extends Enum
 {
