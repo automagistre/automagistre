@@ -5,8 +5,3 @@
 <a href="{{ easyadmin_path_by_id(item.toSourceIdentifier, 'show') }}">
     {{ item.toSourceIdentifier|display_name }}
 </a>
-
-{% if item.description is not empty %}
-    <br>
-    {{ item.description }}
-{% endif %}
