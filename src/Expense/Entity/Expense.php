@@ -45,6 +45,11 @@ class Expense
         $this->wallet = $wallet;
     }
 
+    public function toId(): ExpenseId
+    {
+        return ExpenseId::fromUuid($this->uuid);
+    }
+
     public function __toString(): string
     {
         return $this->getName();

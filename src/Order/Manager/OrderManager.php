@@ -6,12 +6,10 @@ namespace App\Order\Manager;
 
 use App\Customer\Entity\Operand;
 use App\Employee\Entity\Employee;
-use App\Entity\Tenant\OperandTransaction;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderContractor;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Entity\OrderItemService;
-use App\Order\Entity\OrderSalary;
 use App\Payment\Manager\PaymentManager;
 use App\Shared\Doctrine\Registry;
 use App\State;
@@ -113,10 +111,6 @@ final class OrderManager
                 $description = sprintf('# ЗП %s по заказу #%s', $worker->getFullName(), $order->getId());
 
                 $salaryTransaction = $this->paymentManager->createPayment($worker, $description, $salary->absolute());
-
-                if ($salaryTransaction instanceof OperandTransaction) {
-                    $em->persist(new OrderSalary($order, $salaryTransaction));
-                }
             }
         });
     }
