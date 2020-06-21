@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\EasyAdmin\Controller;
 
-use App\Costil;
 use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
@@ -20,6 +19,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use EasyCorp\Bundle\EasyAdminBundle\Router\EasyAdminRouter;
+use function in_array;
 use function is_callable;
 use function is_string;
 use libphonenumber\PhoneNumber;
@@ -39,6 +39,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use function Symfony\Component\String\u;
 use function trim;
 use function urldecode;
 use function urlencode;
@@ -154,15 +155,10 @@ abstract class AbstractController extends EasyAdminController
      */
     protected function getIdentifier(string $class): ?Identifier
     {
-        /** @psalm-suppress InvalidArrayOffset */
-        $uuid = $this->request->query->get(Costil::QUERY[$class]);
-        if (is_string($uuid)) {
-            /** @var callable $callable */
-            $callable = $class.'::fromString';
-            $identifier = $callable($uuid);
-            assert($identifier instanceof Identifier);
+        $uuid = $this->request->query->get(u($class)->afterLast('\\')->snake()->toString());
 
-            return $identifier;
+        if (is_string($uuid)) {
+            return Identifier::fromClass($class, $uuid);
         }
 
         return null;

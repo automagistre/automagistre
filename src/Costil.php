@@ -89,18 +89,6 @@ final class Costil
         VehicleId::class => 'uuid',
         WarehouseId::class => 'id',
     ];
-    public const QUERY = [
-        CalendarEntryId::class => 'calendar_entry_id',
-        CarId::class => 'car_id',
-        IncomeId::class => 'income_id',
-        IncomePartId::class => 'income_part_id',
-        ManufacturerId::class => 'manufacturer_id',
-        OperandId::class => 'operand_id',
-        OrderId::class => 'order_id',
-        PartId::class => 'part_id',
-        UserId::class => 'user_id',
-        VehicleId::class => 'vehicle_id',
-    ];
 
     public static IdentifierFormatter $formatter;
 

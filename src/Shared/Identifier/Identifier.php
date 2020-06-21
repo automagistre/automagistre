@@ -2,6 +2,8 @@
 
 namespace App\Shared\Identifier;
 
+use function assert;
+use function is_string;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
@@ -28,6 +30,21 @@ abstract class Identifier
     final public function toString(): string
     {
         return $this->uuid->toString();
+    }
+
+    /**
+     * @psalm-param class-string<Identifier> $class
+     *
+     * @param UuidInterface|string $uuid
+     */
+    final public static function fromClass(string $class, $uuid): self
+    {
+        /** @var callable $callable */
+        $callable = $class.'::'.(is_string($uuid) ? 'fromString' : 'fromUuid');
+        $identifier = $callable($uuid);
+        assert($identifier instanceof self);
+
+        return $identifier;
     }
 
     /**
