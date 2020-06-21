@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Wallet\Controller;
 
 use App\EasyAdmin\Controller\AbstractController;
-use App\Wallet\Entity\Wallet;
+use App\Wallet\Entity\WalletId;
 use Doctrine\ORM\QueryBuilder;
 
 /**
@@ -24,10 +24,10 @@ final class TransactionController extends AbstractController
     ): QueryBuilder {
         $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
 
-        $recipient = $this->getEntity(Wallet::class);
-        if ($recipient instanceof Wallet) {
-            $qb->andWhere('entity.wallet = :recipient')
-                ->setParameter('recipient', $recipient);
+        $walletId = $this->getIdentifier(WalletId::class);
+        if ($walletId instanceof WalletId) {
+            $qb->andWhere('entity.walletId = :walletId')
+                ->setParameter('walletId', $walletId);
         }
 
         $qb
