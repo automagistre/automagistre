@@ -29,7 +29,11 @@ use App\Storage\Entity\Motion;
 use App\Storage\Enum\Source;
 use App\Vehicle\Entity\Model;
 use App\Vehicle\Entity\VehicleId;
+use function array_diff;
+use function array_keys;
 use function array_map;
+use function array_unique;
+use function array_values;
 use function assert;
 use Closure;
 use DateTimeImmutable;
@@ -331,13 +335,13 @@ final class PartController extends AbstractController
         $normalizer = function (PartView $part, bool $analog = false) use ($vehicleId, $useCarModelInFormat): array {
             $text = sprintf(
                 '%s (Склад: %s) | %s',
-                $this->display($part->id),
+                $part->display(),
                 $part->quantity / 100,
                 $this->formatMoney($part->sellPrice()),
             );
 
             if ($vehicleId instanceof VehicleId && $useCarModelInFormat && !$part->isUniversal) {
-                $text = sprintf('[%s] %s', $part->display(), $text);
+                $text = sprintf('[%s] %s', $this->display($vehicleId), $text);
             }
 
             if ($analog) {
@@ -351,30 +355,35 @@ final class PartController extends AbstractController
         };
 
         $data = [];
+        $analogs = [];
         if (3 >= $paginator->getNbResults()) {
             foreach ($paginator->getCurrentPageResults() as $part) {
                 /* @var $part PartView */
-                $data[] = $normalizer($part);
+                $data[$part->toId()->toString()] = $normalizer($part);
 
-                $analogs = (array) $this->registry->manager(PartView::class)
-                    ->createQueryBuilder()
-                    ->select('entity')
-                    ->from(PartView::class, 'entity')
-                    ->where('entity.id IN (:ids)')
-                    ->andWhere('entity.quantity > 0')
-                    ->getQuery()
-                    ->setParameter('ids', $part->analogs)
-                    ->getResult();
-
-                foreach ($analogs as $analog) {
-                    $data[] = $normalizer($analog);
-                }
+                $analogs = [...$analogs, ...$part->analogs];
             }
         } else {
             $data = array_map($normalizer, (array) $paginator->getCurrentPageResults());
         }
 
-        return $this->json(['results' => $data]);
+        if ([] !== $analogs) {
+            $analogs = $this->registry->manager(PartView::class)
+                ->createQueryBuilder()
+                ->select('entity')
+                ->from(PartView::class, 'entity')
+                ->where('entity.id IN (:ids)')
+                ->andWhere('entity.quantity > 0')
+                ->getQuery()
+                ->setParameter('ids', array_diff(array_unique($analogs), array_keys($data)))
+                ->getResult();
+
+            foreach ($analogs as $analog) {
+                $data[] = $normalizer($analog);
+            }
+        }
+
+        return $this->json(['results' => array_values($data)]);
     }
 
     protected function createNewEntity(): PartDto
