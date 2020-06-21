@@ -2,7 +2,7 @@
 {%- apply spaceless -%}
 
     <td style="{%- include 'easy_admin/order/item/padding.html.twig' with {'level': level} -%}">
-        {%- include 'easy_admin/field_part.html.twig' with {'value': part_by_id(item.partId)} only -%}
+        {%- include 'easy_admin/field_part.html.twig' with {'value': part_view(item.partId)} only -%}
 
         {%- if item.warranty %}
             <span class="label label-success">Гарантия</span>

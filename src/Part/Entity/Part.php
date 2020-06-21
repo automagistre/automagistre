@@ -71,8 +71,13 @@ class Part
         $this->universal = $universal;
     }
 
-    public function equals(self $part): bool
+    /**
+     * @param self|PartId $part
+     */
+    public function equals($part): bool
     {
-        return $part->toId()->equal($this->id);
+        $id = $part instanceof self ? $part->id : $part;
+
+        return $this->toId()->equal($id);
     }
 }
