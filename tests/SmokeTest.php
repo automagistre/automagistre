@@ -77,7 +77,7 @@ final class SmokeTest extends WebTestCase
             'new' => ['order_id' => '1'],
             'edit' => ['order_id' => '1'],
         ],
-        'OperandTransaction' => [
+        'CustomerTransaction' => [
             'new' => ['operand_id' => '1', 'type' => 'increment'],
         ],
         'MonthlySalary' => [

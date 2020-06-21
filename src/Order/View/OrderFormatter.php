@@ -9,7 +9,6 @@ use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
-use function sprintf;
 
 final class OrderFormatter implements IdentifierFormatterInterface
 {
@@ -35,13 +34,13 @@ final class OrderFormatter implements IdentifierFormatterInterface
     {
         $view = $this->registry->view($identifier);
 
-        $suffix = '#'.$view['id'];
+        $string = '#'.$view['id'];
         if (null !== $view['carId']) {
-            $suffix = 'на '.$formatter->format($view['carId'], 'long');
+            $string = $formatter->format($view['carId'], 'long');
         } elseif (null !== $view['customerId']) {
-            $suffix = 'от '.$formatter->format($view['customerId']);
+            $string = $formatter->format($view['customerId']);
         }
 
-        return sprintf('Заказ %s', $suffix);
+        return $string;
     }
 }

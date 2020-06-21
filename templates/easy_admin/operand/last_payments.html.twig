@@ -11,10 +11,9 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Сумма</th>
                         <th>Описание</th>
-{#                        <th>Баланс</th>#}
+                        <th>Комментарий</th>
                         <th>Дата</th>
                     </tr>
                     </thead>
@@ -22,10 +21,9 @@
                     {% for payment in payments %}
                         {# @var payment \App\Entity\Payment #}
                         <tr class="tr">
-                            <td>{{ payment.id }}</td>
                             <td>{{ payment.amount|localize_money }}</td>
+                            <td>{% include 'easy_admin/customer/field_description.html.twig' with {'item': payment} only %}</td>
                             <td>{{ payment.description }}</td>
-{#                            <td>{{ payment.subtotal|localize_money }}</td>#}
                             <td>{{ payment.createdAt|format_datetime('short', 'short', '', 'GMT+3') }}</td>
                         </tr>
                     {% endfor %}
@@ -39,13 +37,13 @@
         {% endif %}
 
         <div class="box-footer">
-            <a href="{{ easyadmin_path('OperandTransaction', 'new', {'operand_id': entity.id, 'type': 'increment'}) }}" class="btn btn-info">
+            <a href="{{ easyadmin_path('CustomerTransaction', 'new', {'operand_id': entity.id, 'type': 'increment'}) }}" class="btn btn-info">
                 Пополнить
             </a>
-            <a href="{{ easyadmin_path('OperandTransaction', 'new', {'operand_id': entity.id, 'type': 'decrement'}) }}" class="btn btn-warning">
+            <a href="{{ easyadmin_path('CustomerTransaction', 'new', {'operand_id': entity.id, 'type': 'decrement'}) }}" class="btn btn-warning">
                 Списать
             </a>
-            <a href="{{ easyadmin_path('OperandTransaction', 'list', {'operand_id': entity.id}) }}" class="btn btn-primary">
+            <a href="{{ easyadmin_path('CustomerTransaction', 'list', {'operand_id': entity.id}) }}" class="btn btn-primary">
                 Все проводки
             </a>
         </div>

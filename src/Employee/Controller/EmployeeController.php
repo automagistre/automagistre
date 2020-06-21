@@ -4,21 +4,20 @@ declare(strict_types=1);
 
 namespace App\Employee\Controller;
 
+use App\Customer\Entity\CustomerTransaction;
+use App\Customer\Entity\CustomerTransactionId;
 use App\Customer\Entity\Person;
+use App\Customer\Enum\CustomerTransactionSource;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Employee\Entity\Employee;
 use App\Employee\Entity\MonthlySalary;
 use App\Employee\Event\EmployeeCreated;
-use App\Employee\Event\EmployeeFined;
 use App\Employee\Event\EmployeeFired;
-use App\Employee\Event\EmployeeSalaryIssued;
-use App\Entity\Tenant\OperandTransaction;
-use App\Entity\Tenant\Penalty;
-use App\Entity\Tenant\Salary;
 use App\Form\Type\MoneyType;
-use App\Payment\Manager\PaymentManager;
 use App\Wallet\Entity\Wallet;
 use App\Wallet\Entity\WalletTransaction;
+use App\Wallet\Entity\WalletTransactionId;
+use App\Wallet\Enum\WalletTransactionSource;
 use function assert;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
@@ -36,13 +35,6 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  */
 final class EmployeeController extends AbstractController
 {
-    private PaymentManager $paymentManager;
-
-    public function __construct(PaymentManager $paymentManager)
-    {
-        $this->paymentManager = $paymentManager;
-    }
-
     public function salaryAction(): Response
     {
         $request = $this->request;
@@ -81,32 +73,36 @@ final class EmployeeController extends AbstractController
             ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->em;
-            $salary = $em->transactional(function (EntityManagerInterface $em) use ($model, $recipient): Salary {
-                $description = sprintf('# Выдача зарплаты "%s"', $recipient->getFullName());
-                if (null !== $model->description) {
-                    $description .= sprintf(' Комментарий - "%s"', $model->description);
-                }
-
+            $this->em->transactional(function (EntityManagerInterface $em) use ($model, $recipient): void {
                 /** @var Money $money */
                 $money = $model->amount;
+                $money = $money->negative();
 
-                $outcome = $this->paymentManager->createPayment($model->wallet, $description, $money->negative());
-                if (!$outcome instanceof WalletTransaction) {
-                    throw new LogicException('WalletTransaction expected.');
-                }
-                $income = $this->paymentManager->createPayment($recipient, $description, $money->negative());
-                if (!$income instanceof OperandTransaction) {
-                    throw new LogicException('OperandTransaction expected.');
-                }
+                $customerTransactionId = CustomerTransactionId::generate();
+                $walletTransactionId = WalletTransactionId::generate();
 
-                $salary = new Salary($income, $outcome, $model->description);
-                $em->persist($salary);
+                $em->persist(
+                    new CustomerTransaction(
+                        $customerTransactionId,
+                        $recipient->toId(),
+                        $money,
+                        CustomerTransactionSource::payroll(),
+                        $walletTransactionId->toUuid(),
+                        $model->description
+                    )
+                );
 
-                return $salary;
+                $em->persist(
+                    new WalletTransaction(
+                        $walletTransactionId,
+                        $model->wallet->toId(),
+                        $money,
+                        WalletTransactionSource::payroll(),
+                        $customerTransactionId->toUuid(),
+                        null,
+                    )
+                );
             });
-
-            $this->event(new EmployeeSalaryIssued($salary));
 
             return $this->redirectToReferrer();
         }
@@ -151,8 +147,7 @@ final class EmployeeController extends AbstractController
             ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->em;
-            $penalty = $em->transactional(function (EntityManagerInterface $em) use ($model, $recipient): Penalty {
+            $this->em->transactional(function (EntityManagerInterface $em) use ($model, $recipient): void {
                 $description = sprintf(
                     '# Оштрафован "%s" по причине "%s"',
                     $recipient->getFullName(),
@@ -162,18 +157,17 @@ final class EmployeeController extends AbstractController
                 /** @var Money $money */
                 $money = $model->amount;
 
-                $transaction = $this->paymentManager->createPayment($recipient, $description, $money->negative());
-                if (!$transaction instanceof OperandTransaction) {
-                    throw new LogicException('OperandTransaction expected.');
-                }
-
-                $penalty = new Penalty($transaction, $model->description);
-                $em->persist($penalty);
-
-                return $penalty;
+                $em->persist(
+                    new CustomerTransaction(
+                        CustomerTransactionId::generate(),
+                        $recipient->toId(),
+                        $money,
+                        CustomerTransactionSource::penalty(),
+                        $this->getUser()->toId()->toUuid(),
+                        $model->{$description},
+                    )
+                );
             });
-
-            $this->event(new EmployeeFined($penalty));
 
             return $this->redirectToReferrer();
         }

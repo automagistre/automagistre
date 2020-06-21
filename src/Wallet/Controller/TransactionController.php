@@ -11,7 +11,7 @@ use Doctrine\ORM\QueryBuilder;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class WalletTransactionController extends AbstractController
+final class TransactionController extends AbstractController
 {
     /**
      * {@inheritdoc}
@@ -30,7 +30,8 @@ final class WalletTransactionController extends AbstractController
                 ->setParameter('recipient', $recipient);
         }
 
-        $qb->orderBy('entity.createdAt', 'DESC')
+        $qb
+            ->orderBy('entity.createdAt', 'DESC')
             ->addOrderBy('entity.id', 'DESC');
 
         return $qb;

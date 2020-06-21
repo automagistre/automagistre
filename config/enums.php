@@ -2,6 +2,7 @@
 
 return [
     App\Calendar\Enum\DeletionReason::class => ['deletion_reason', null],
+    App\Customer\Enum\CustomerTransactionSource::class => ['operand_transaction_source', null],
     App\Order\Enum\OrderStatus::class => ['order_status_enum', null],
     App\Shared\Enum\NoteType::class => ['note_type_enum', null],
     App\Shared\Enum\Transition::class => ['transition_enum', null],
@@ -13,4 +14,5 @@ return [
     App\Vehicle\Enum\FuelType::class => ['engine_type_enum', 'name'],
     App\Vehicle\Enum\Injection::class => ['engine_injection', 'name'],
     App\Vehicle\Enum\Transmission::class => ['car_transmission_enum', 'code'],
+    App\Wallet\Enum\WalletTransactionSource::class => ['wallet_transaction_source', null],
 ];

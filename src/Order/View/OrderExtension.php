@@ -9,7 +9,6 @@ use App\Customer\Entity\Operand;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderId;
 use App\Order\Entity\OrderItemService;
-use App\Payment\Manager\PaymentManager;
 use App\Shared\Doctrine\Registry;
 use App\State;
 use Twig\Environment;
@@ -22,13 +21,10 @@ final class OrderExtension extends AbstractExtension
 
     private State $state;
 
-    private PaymentManager $paymentManager;
-
-    public function __construct(Registry $registry, State $state, PaymentManager $paymentManager)
+    public function __construct(Registry $registry, State $state)
     {
         $this->registry = $registry;
         $this->state = $state;
-        $this->paymentManager = $paymentManager;
     }
 
     /**

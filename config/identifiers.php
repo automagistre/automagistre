@@ -5,8 +5,11 @@ return [
     App\Car\Entity\CarId::class => ['car_id'],
     App\Car\Entity\RecommendationId::class => ['recommendation_id'],
     App\Car\Entity\RecommendationPartId::class => ['recommendation_part_id'],
+    App\Customer\Entity\CustomerTransactionId::class => ['customer_transaction_id'],
     App\Customer\Entity\OperandId::class => ['operand_id'],
     App\Employee\Entity\EmployeeId::class => ['employee_id'],
+    App\Employee\Entity\SalaryId::class => ['salary_id'],
+    App\Expense\Entity\ExpenseId::class => ['expense_id'],
     App\Income\Entity\IncomeId::class => ['income_id'],
     App\Income\Entity\IncomePartId::class => ['income_part_id'],
     App\MC\Entity\McEquipmentId::class => ['mc_equipment_id'],
@@ -21,4 +24,5 @@ return [
     App\User\Entity\UserPasswordId::class => ['user_password_id'],
     App\Vehicle\Entity\VehicleId::class => ['vehicle_id'],
     App\Wallet\Entity\WalletId::class => ['wallet_id'],
+    App\Wallet\Entity\WalletTransactionId::class => ['wallet_transaction_id'],
 ];
