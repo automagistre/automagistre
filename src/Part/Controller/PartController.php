@@ -268,7 +268,7 @@ final class PartController extends AbstractController
 
         $qb = $this->em->getRepository(PartView::class)
             ->createQueryBuilder('part')
-            ->orderBy('part.quantity', 'DESC');
+            ->orderBy('part.'.$sortField, $sortDirection);
 
         $vehicleId = $this->getIdentifier(VehicleId::class);
 
