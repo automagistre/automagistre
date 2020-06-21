@@ -19,6 +19,7 @@ use function get_class;
 use function is_array;
 use function is_object;
 use LogicException;
+use function serialize;
 use function sprintf;
 use function str_replace;
 
@@ -63,7 +64,13 @@ final class Registry
 
         $entity = $this->repository($class)->findOneBy($criteria);
 
-        assert($entity instanceof $class);
+        if (!$entity instanceof $class) {
+            throw new LogicException(sprintf(
+                'Entity %s not found for criteria %s',
+                $class,
+                serialize($criteria),
+            ));
+        }
 
         return $entity;
     }
@@ -150,9 +157,15 @@ final class Registry
             ->where(sprintf('t.%s = :id', $uuidField))
             ->setParameter('id', $identifier)
             ->getQuery()
-            ->getSingleResult(AbstractQuery::HYDRATE_ARRAY);
+            ->getOneOrNullResult(AbstractQuery::HYDRATE_ARRAY);
 
-        assert(is_array($view));
+        if (!is_array($view)) {
+            throw new LogicException(sprintf(
+                'Not found %s for id %s',
+                $class,
+                $identifier->toString(),
+            ));
+        }
 
         return Costil::convertToMoney($view);
     }
