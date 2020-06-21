@@ -28,7 +28,7 @@
         "cron/cron-bundle": "^2.4",
         "datto/json-rpc": "^6.1",
         "doctrine/doctrine-bundle": "^2.0",
-        "doctrine/doctrine-migrations-bundle": "^2.0",
+        "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/mongodb-odm-bundle": "^4.1",
         "doctrine/orm": "^2.6",
         "easycorp/easyadmin-bundle": "^2.3",
