@@ -6,8 +6,6 @@ namespace App\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Ramsey\Uuid\Uuid;
-use function sprintf;
 
 final class Version20200620094322 extends AbstractMigration
 {
@@ -17,13 +15,6 @@ final class Version20200620094322 extends AbstractMigration
 
         $this->addSql('ALTER TABLE expense ADD uuid UUID DEFAULT NULL');
         $this->addSql('COMMENT ON COLUMN expense.uuid IS \'(DC2Type:uuid)\'');
-        foreach ($this->connection->fetchAll('SELECT id FROM expense order by id') as $row) {
-            $this->addSql(sprintf(
-                'UPDATE expense SET uuid = \'%s\'::uuid WHERE id = %s',
-                Uuid::uuid6()->toString(),
-                $row['id'],
-            ));
-        }
         $this->addSql('ALTER TABLE expense ALTER uuid SET NOT NULL');
     }
 

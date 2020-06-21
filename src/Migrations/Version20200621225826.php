@@ -15,7 +15,6 @@ final class Version20200621225826 extends AbstractMigration
 
         $this->addSql('ALTER TABLE users ADD first_name VARCHAR(32) DEFAULT NULL');
         $this->addSql('ALTER TABLE users ADD last_name VARCHAR(255) DEFAULT NULL');
-        $this->addSql('UPDATE users SET last_name = o.lastname, first_name = o.firstname  FROM (SELECT p.firstname, p.lastname, operand.uuid FROM operand JOIN person p ON operand.id = p.id) o WHERE o.uuid = users.person_id');
         $this->addSql('ALTER TABLE users DROP person_id');
     }
 
