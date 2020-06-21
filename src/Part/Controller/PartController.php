@@ -29,7 +29,6 @@ use App\Storage\Entity\Motion;
 use App\Storage\Enum\Source;
 use App\Vehicle\Entity\Model;
 use App\Vehicle\Entity\VehicleId;
-use function array_keys;
 use function array_map;
 use function assert;
 use Closure;
@@ -122,25 +121,16 @@ final class PartController extends AbstractController
 
     public function stockAction(): Response
     {
-        $quantities = $this->registry->repository(Motion::class)
-            ->createQueryBuilder('motion', 'motion.partId')
-            ->select('SUM(motion.quantity) AS quantity, motion.partId AS part_id')
-            ->groupBy('motion.partId')
-            ->having('SUM(motion.quantity) <> 0')
-            ->getQuery()
-            ->getArrayResult();
-
-        $parts = $this->registry->repository(Part::class)->createQueryBuilder('part')
+        $parts = $this->registry->repository(PartView::class)
+            ->createQueryBuilder('part')
             ->select('part')
-            ->where('part.id IN (:ids)')
+            ->where('part.quantity > 0')
             ->orderBy('part.id')
             ->getQuery()
-            ->setParameter('ids', array_keys($quantities))
             ->getResult();
 
         return $this->render('easy_admin/part/stock.html.twig', [
             'parts' => $parts,
-            'quantities' => $quantities,
         ]);
     }
 
