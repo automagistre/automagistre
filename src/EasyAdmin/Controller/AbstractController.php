@@ -271,7 +271,11 @@ abstract class AbstractController extends EasyAdminController
     {
         $uuid = $this->request->query->get('query');
 
-        if (is_string($uuid) && Uuid::isValid($uuid = trim($uuid))) {
+        if (
+            is_string($uuid)
+            && !in_array('show', $this->entity['disabled_actions'], true)
+            && Uuid::isValid($uuid = trim($uuid))
+        ) {
             return $this->redirectToEasyPath($this->entity['name'], 'show', ['id' => $uuid]);
         }
 
