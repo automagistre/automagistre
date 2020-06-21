@@ -8,7 +8,6 @@ use App\Customer\Entity\CustomerTransaction;
 use App\Customer\Entity\CustomerTransactionId;
 use App\Customer\Enum\CustomerTransactionSource;
 use App\Employee\Entity\MonthlySalary;
-use App\Payment\Manager\PaymentManager;
 use App\Shared\Doctrine\Registry;
 use App\User\Entity\User;
 use function assert;
@@ -32,19 +31,13 @@ final class MonthlySalaryCommand extends Command
 
     private Registry $registry;
 
-    private PaymentManager $paymentManager;
-
     private EventDispatcherInterface $dispatcher;
 
-    public function __construct(
-        Registry $registry,
-        PaymentManager $paymentManager,
-        EventDispatcherInterface $dispatcher
-    ) {
+    public function __construct(Registry $registry, EventDispatcherInterface $dispatcher)
+    {
         parent::__construct();
 
         $this->registry = $registry;
-        $this->paymentManager = $paymentManager;
         $this->dispatcher = $dispatcher;
     }
 
@@ -109,7 +102,7 @@ final class MonthlySalaryCommand extends Command
                     $person->toId(),
                     $salary->getAmount(),
                     CustomerTransactionSource::salary(),
-                    $salary->toId(),
+                    $salary->toId()->toUuid(),
                     null
                 )
             );

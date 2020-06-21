@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Customer\Enum;
 
+use App\Employee\Entity\SalaryId;
 use App\Income\Entity\IncomeId;
 use App\Order\Entity\OrderId;
 use App\User\Entity\UserId;
@@ -61,7 +62,7 @@ final class CustomerTransactionSource extends Enum
         self::PAYROLL => WalletId::class,
         self::INCOME_DEBIT => IncomeId::class,
         self::INCOME_PAYMENT => IncomeId::class,
-        self::SALARY => OrderId::class,
+        self::SALARY => SalaryId::class,
         self::PENALTY => UserId::class,
         self::MANUAL => WalletId::class,
         self::MANUAL_WITHOUT_WALLET => UserId::class,
