@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\User\Entity;
 
-use App\Customer\Entity\OperandId;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use function array_unique;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use DomainException;
 use function in_array;
 use Serializable;
 use function serialize;
@@ -34,6 +32,16 @@ class User implements UserInterface, EquatableInterface, Serializable
     public UserId $uuid;
 
     /**
+     * @ORM\Column(length=32, nullable=true)
+     */
+    public ?string $firstName = null;
+
+    /**
+     * @ORM\Column(nullable=true)
+     */
+    public ?string $lastName = null;
+
+    /**
      * @ORM\Column(type="json")
      */
     protected array $roles = [];
@@ -54,42 +62,26 @@ class User implements UserInterface, EquatableInterface, Serializable
      */
     private Collection $passwords;
 
-    /**
-     * @ORM\Column(type="operand_id", nullable=true)
-     */
-    private ?OperandId $personId;
-
-    public function __construct(UserId $userId, array $roles, string $username, ?OperandId $personId)
+    public function __construct(UserId $userId, array $roles, string $username)
     {
         $this->uuid = $userId;
         $this->roles = $roles;
         $this->username = $username;
-        $this->personId = $personId;
         $this->passwords = new ArrayCollection();
     }
 
     public function __toString(): string
     {
+        if (null !== $this->lastName && null !== $this->firstName) {
+            return $this->lastName.' '.$this->firstName;
+        }
+
         return $this->username;
     }
 
     public function toId(): UserId
     {
         return $this->uuid;
-    }
-
-    public function setPersonId(OperandId $personId): void
-    {
-        if (null !== $this->personId && !$personId->equal($this->personId)) {
-            throw new DomainException('Person already defined for this user');
-        }
-
-        $this->personId = $personId;
-    }
-
-    public function getPersonId(): ?OperandId
-    {
-        return $this->personId;
     }
 
     public function getRoles(): array

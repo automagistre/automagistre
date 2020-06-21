@@ -56,7 +56,6 @@ final class UserCreateCommand extends Command
             UserId::generate(),
             (array) $input->getArgument('roles'),
             $username,
-            null
         );
         $user->changePassword($password, $this->encoderFactory->getEncoder($user));
 

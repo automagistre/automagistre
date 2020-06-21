@@ -1,10 +1,4 @@
-{# @var value \App\Entity\User #}
+{# @var value \App\User\Entity\User #}
 {% if value is not empty %}
-    {% set personId = value.personId %}
-
-    {% if personId is not empty %}
-        <a href="{{ easyadmin_path('Operand', 'show') }}">{{ personId|display_name }}</a>
-    {% else %}
-        {{ value }}
-    {% endif %}
+    <a href="{{ easyadmin_path('User', 'show', {'id': value.id}) }}">{{ value.lastName }} {{ value.firstName }}</a>
 {% endif %}
