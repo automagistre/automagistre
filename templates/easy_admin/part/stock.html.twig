@@ -14,13 +14,13 @@
             </thead>
             <tbody>
             {% for part in parts %}
-                {# @var part \App\Part\Entity\Part #}
+                {# @var part \App\Part\Entity\PartView #}
                 <tr>
                     <td>
                         {% include 'easy_admin/field_part.html.twig' with {'value': part} %}
                     </td>
-                    <td>{{ part_price(part.id)|localize_money }}</td>
-                    <td>{{ attribute(quantities, part.id.toString).quantity / 100 }}</td>
+                    <td>{{ part.price|localize_money }}</td>
+                    <td>{{ part.quantity / 100 }}</td>
                 </tr>
             {% endfor %}
             </tbody>

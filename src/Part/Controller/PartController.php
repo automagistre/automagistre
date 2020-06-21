@@ -8,14 +8,13 @@ use function abs;
 use App\EasyAdmin\Controller\AbstractController;
 use App\EasyAdmin\Form\AutocompleteType;
 use App\Form\Type\QuantityType;
-use App\Manufacturer\Entity\Manufacturer;
 use App\Order\Entity\Order;
 use App\Order\Manager\ReservationManager;
 use App\Part\Entity\Part;
 use App\Part\Entity\PartCase;
 use App\Part\Entity\PartId;
 use App\Part\Entity\PartNumber;
-use App\Part\Entity\Stockpile;
+use App\Part\Entity\PartView;
 use App\Part\Event\PartAccrued;
 use App\Part\Event\PartCreated;
 use App\Part\Event\PartDecreased;
@@ -26,27 +25,28 @@ use App\Part\Manager\PartManager;
 use App\PartPrice\Entity\Discount;
 use App\PartPrice\Entity\Price;
 use App\PartPrice\PartPrice;
-use App\State;
 use App\Storage\Entity\Motion;
 use App\Storage\Enum\Source;
 use App\Vehicle\Entity\Model;
+use App\Vehicle\Entity\VehicleId;
+use function array_diff;
 use function array_keys;
 use function array_map;
+use function array_unique;
+use function array_values;
 use function assert;
 use Closure;
-use function count;
 use DateTimeImmutable;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use function explode;
-use function implode;
 use LogicException;
-use function mb_strtolower;
+use function mb_strtoupper;
 use function sprintf;
-use function str_ireplace;
 use function str_replace;
 use function strpos;
+use function strtoupper;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -125,25 +125,16 @@ final class PartController extends AbstractController
 
     public function stockAction(): Response
     {
-        $quantities = $this->registry->repository(Motion::class)
-            ->createQueryBuilder('motion', 'motion.partId')
-            ->select('SUM(motion.quantity) AS quantity, motion.partId AS part_id')
-            ->groupBy('motion.partId')
-            ->having('SUM(motion.quantity) <> 0')
-            ->getQuery()
-            ->getArrayResult();
-
-        $parts = $this->registry->repository(Part::class)->createQueryBuilder('part')
+        $parts = $this->registry->repository(PartView::class)
+            ->createQueryBuilder('part')
             ->select('part')
-            ->where('part.id IN (:ids)')
+            ->where('part.quantity > 0')
             ->orderBy('part.id')
             ->getQuery()
-            ->setParameter('ids', array_keys($quantities))
             ->getResult();
 
         return $this->render('easy_admin/part/stock.html.twig', [
             'parts' => $parts,
-            'quantities' => $quantities,
         ]);
     }
 
@@ -229,7 +220,7 @@ final class PartController extends AbstractController
     {
         if ('show' === $actionName) {
             $part = $parameters['entity'];
-            assert($part instanceof Part);
+            assert($part instanceof PartView);
 
             $parameters['inStock'] = $this->partManager->inStock($part->toId());
             $parameters['orders'] = $this->partManager->inOrders($part->toId());
@@ -279,53 +270,33 @@ final class PartController extends AbstractController
             $searchQuery = str_replace('+', '', $searchQuery);
         }
 
-        $qb = $this->em->getRepository(Part::class)->createQueryBuilder('part')
-            ->join(Manufacturer::class, 'manufacturer', Join::WITH, 'manufacturer.uuid = part.manufacturerId');
+        $qb = $this->em->getRepository(PartView::class)
+            ->createQueryBuilder('part')
+            ->orderBy('part.'.$sortField, $sortDirection);
 
-        $cases = [];
+        $vehicleId = $this->getIdentifier(VehicleId::class);
 
-        if (!$isPlusExist) {
-            /** @var Model[] $cases */
-            $cases = $this->registry->repository(Model::class)
-                ->createQueryBuilder('entity')
-                ->select('PARTIAL entity.{id, uuid, caseName}')
-                ->where('entity.caseName IN (:cases)')
-                ->getQuery()
-                ->setParameter('cases', explode(' ', trim($searchQuery)))
-                ->getResult();
+        if (!$isPlusExist && $vehicleId instanceof VehicleId) {
+            $carModel = $this->registry->getBy(Model::class, ['uuid' => $vehicleId]);
 
-            $carModel = $this->getEntity(Model::class);
+            if (null !== $carModel->caseName) {
+                if (!$this->request->isXmlHttpRequest()) {
+                    $this->addFlash(
+                        'info',
+                        sprintf('Поиск по кузову "%s"', $carModel->caseName)
+                    );
+                }
 
-            if ($carModel instanceof Model) {
-                $cases[] = $carModel;
+                $qb
+                    ->where($qb->expr()->orX(
+                        $qb->expr()->like('part.cases', ':case'),
+                        $qb->expr()->eq('part.isUniversal', ':universal')
+                    ))
+                    ->setParameters([
+                        'case' => strtoupper($carModel->caseName),
+                        'universal' => true,
+                    ]);
             }
-        }
-
-        if (0 < count($cases)) {
-            $request = $this->request;
-
-            if (!$request->isXmlHttpRequest()) {
-                $this->addFlash(
-                    'info',
-                    sprintf('Поиск по кузовам "%s"', implode(',', $cases))
-                );
-            }
-
-            foreach ($cases as $case) {
-                $searchQuery = str_ireplace($case->caseName, '', $searchQuery);
-            }
-            $searchQuery = str_replace('  ', ' ', $searchQuery);
-
-            $qb
-                ->leftJoin(PartCase::class, 'pc', Join::WITH, 'pc.partId = part.id')
-                ->where($qb->expr()->orX(
-                    $qb->expr()->in('pc.vehicleId', ':cases'),
-                    $qb->expr()->eq('part.universal', ':universal')
-                ))
-                ->setParameters([
-                    'cases' => array_map(fn (Model $model) => $model->toId(), $cases),
-                    'universal' => true,
-                ]);
         }
 
         foreach (explode(' ', trim($searchQuery)) as $key => $searchString) {
@@ -333,29 +304,14 @@ final class PartController extends AbstractController
             $numberKey = $key.'_number';
 
             $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->like('LOWER(part.name)', $key),
+                $qb->expr()->like('part.search', $key),
                 $qb->expr()->like('part.number', $numberKey),
-                $qb->expr()->like('LOWER(manufacturer.name)', $key)
             ));
 
             $qb
                 ->setParameter($numberKey, '%'.PartNumber::sanitize($searchString).'%')
-                ->setParameter($key, '%'.mb_strtolower(trim($searchString)).'%');
+                ->setParameter($key, '%'.mb_strtoupper(trim($searchString)).'%');
         }
-
-        $state = $this->container->get(State::class);
-        $qb->leftJoin(
-            Stockpile::class,
-            'stockpile',
-            Join::WITH,
-            'stockpile.partId = part.id AND stockpile.tenant = :tenant'
-        )
-            ->setParameter('tenant', $state->tenant())
-            ->groupBy('part.id')
-            ->addSelect('SUM(stockpile.quantity) as HIDDEN stock')
-            ->addSelect('CASE WHEN SUM(stockpile.quantity) IS NULL THEN 1 ELSE 0 END as HIDDEN null_stock')
-            ->orderBy('null_stock', 'ASC')
-            ->addOrderBy('stock', 'DESC');
 
         return $qb;
     }
@@ -368,23 +324,24 @@ final class PartController extends AbstractController
         $query = $this->request->query;
 
         $queryString = str_replace(['.', ',', '-', '_'], '', (string) $query->get('query'));
-        $qb = $this->createSearchQueryBuilder((string) $query->get('entity'), $queryString, []);
+        $qb = $this->createSearchQueryBuilder((string) $query->get('entity'), $queryString, [])
+            ->orderBy('part.quantity', 'DESC');
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->getInt('page', 1));
 
-        $carModel = $this->getEntity(Model::class);
+        $vehicleId = $this->getIdentifier(VehicleId::class);
         $useCarModelInFormat = false === strpos($queryString, '+');
 
-        $normalizer = function (Part $part, bool $analog = false) use ($carModel, $useCarModelInFormat): array {
+        $normalizer = function (PartView $part, bool $analog = false) use ($vehicleId, $useCarModelInFormat): array {
             $text = sprintf(
                 '%s (Склад: %s) | %s',
-                $this->display($part->toId()),
-                $this->partManager->inStock($part->toId()) / 100,
-                $this->formatMoney($this->partPrice->sell($part->toId())),
+                $part->display(),
+                $part->quantity / 100,
+                $this->formatMoney($part->sellPrice()),
             );
 
-            if ($carModel instanceof Model && $useCarModelInFormat && !$part->universal) {
-                $text = sprintf('[%s] %s', $this->display($carModel->toId()), $text);
+            if ($vehicleId instanceof VehicleId && $useCarModelInFormat && !$part->isUniversal) {
+                $text = sprintf('[%s] %s', $this->display($vehicleId), $text);
             }
 
             if ($analog) {
@@ -392,32 +349,41 @@ final class PartController extends AbstractController
             }
 
             return [
-                'id' => $part->toId()->toString(),
+                'id' => $part->id->toString(),
                 'text' => $text,
             ];
         };
 
         $data = [];
+        $analogs = [];
         if (3 >= $paginator->getNbResults()) {
             foreach ($paginator->getCurrentPageResults() as $part) {
-                /* @var $part Part */
-                $data[] = $normalizer($part);
+                /* @var $part PartView */
+                $data[$part->toId()->toString()] = $normalizer($part);
 
-                foreach ($this->partManager->getCrosses($part->toId()) as $cross) {
-                    if ($cross->equals($part)) {
-                        continue;
-                    }
-
-                    if (0 < $this->partManager->inStock($cross->toId())) {
-                        $data[] = $normalizer($cross, true);
-                    }
-                }
+                $analogs = [...$analogs, ...$part->analogs];
             }
         } else {
             $data = array_map($normalizer, (array) $paginator->getCurrentPageResults());
         }
 
-        return $this->json(['results' => $data]);
+        if ([] !== $analogs) {
+            $analogs = $this->registry->manager(PartView::class)
+                ->createQueryBuilder()
+                ->select('entity')
+                ->from(PartView::class, 'entity')
+                ->where('entity.id IN (:ids)')
+                ->andWhere('entity.quantity > 0')
+                ->getQuery()
+                ->setParameter('ids', array_diff(array_unique($analogs), array_keys($data)))
+                ->getResult();
+
+            foreach ($analogs as $analog) {
+                $data[] = $normalizer($analog);
+            }
+        }
+
+        return $this->json(['results' => array_values($data)]);
     }
 
     protected function createNewEntity(): PartDto
@@ -463,14 +429,15 @@ final class PartController extends AbstractController
 
     protected function createEditDto(Closure $closure): ?object
     {
-        $arr = $closure();
+        /** @var PartView $view */
+        $view = $this->registry->getBy(PartView::class, ['id' => $this->request->query->get('id')]);
 
         $dto = $this->createWithoutConstructor(PartDto::class);
-        $dto->partId = $arr['id'];
-        $dto->manufacturerId = $arr['manufacturerId'];
-        $dto->name = $arr['name'];
-        $dto->number = $arr['number']->number;
-        $dto->universal = $arr['universal'];
+        $dto->partId = $view->toId();
+        $dto->manufacturerId = $view->manufacturer->id;
+        $dto->name = $view->name;
+        $dto->number = $view->number;
+        $dto->universal = $view->isUniversal;
 
         return $dto;
     }

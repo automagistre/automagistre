@@ -586,8 +586,6 @@ final class OrderController extends AbstractController
         $sortDirection = null,
         $dqlFilter = null
     ): QueryBuilder {
-        // TODO Восстановить поиск по производителю и кузову
-
         $qb = $this->registry->manager(Order::class)
             ->createQueryBuilder()
             ->select('o')

@@ -1,33 +1,32 @@
-{# @var value \App\Part\Domain\Part #}
+{# @var value \App\Part\Entity\PartView #}
 
 {% if (field_options.item)|default(false) %}
     {% set value = item %}
 {% endif %}
 
 {% if is_identifier(value) %}
-    {% set value = part_by_id(value) %}
+    {% set value = part_view(value) %}
 {% endif %}
 
 {% set referer = field_options.referer|default(true) %}
 
 {%- if value is not empty -%}
     {%- apply spaceless -%}
-        <a href="{{ easyadmin_path(value, 'show', {'referer': referer}) }}">
+        <a href="{{ easyadmin_path('Part', 'show', {'id': value.toId.toString, 'referer': referer}) }}">
             <i class="fa fa-barcode"></i>
         </a>
         {%- apply spaceless -%}
-            &nbsp; {{- value.toId|display_name('name') -}} &nbsp;(
-            {{- value.manufacturerId|display_name -}} &nbsp;
+            &nbsp; {{- value.name -}} &nbsp;(
+            {{- value.manufacturer.name -}} &nbsp;
             {%- include 'easy_admin/field_part_number.html.twig' with {
-                'value': value.toId|display_name('number'),
+                'value': value.number,
                 'lineIndex': (item is defined ? item.id)
             } only -%}
             )
         {%- endapply %}
 
-        {# Удалить это говно после возвращения страницы дефицита #}
         {% if stock|default(false) or (field_options is defined and true == field_options.stock) %}
-            <span class="label label-primary">{{ part_in_stock(value) / 100 }}</span>
+            <span class="label label-primary">{{ value.quantity / 100 }}</span>
         {% endif %}
     {%- endapply %}
 {%- else -%}

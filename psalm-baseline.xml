@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="3.11.5@3c60609c218d4d4b3b257728b8089094e5c6c6c2">
+<files psalm-version="3.11.6@7fc1f50f54bd6b174b1c43a37c1b0b151915d55c">
   <file src="src/Calendar/Controller/CalendarEntryController.php">
     <PossiblyNullArgument occurrences="3">
       <code>$this-&gt;request-&gt;query-&gt;get('id')</code>
@@ -95,15 +95,6 @@
       <code>$entity</code>
     </PossiblyNullArgument>
   </file>
-  <file src="src/Customer/Controller/OperandTransactionController.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$model-&gt;description</code>
-      <code>$transaction-&gt;getId()</code>
-    </PossiblyNullArgument>
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>OperandTransactionController</code>
-    </PropertyNotSetInConstructor>
-  </file>
   <file src="src/Customer/Controller/PersonController.php">
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtolower($item)</code>
@@ -120,12 +111,6 @@
       <code>$this-&gt;lastname</code>
       <code>$this-&gt;firstname</code>
     </PossiblyNullArgument>
-  </file>
-  <file src="src/Customer/Form/OperandTransactionModel.php">
-    <PropertyNotSetInConstructor occurrences="2">
-      <code>$recipient</code>
-      <code>$wallet</code>
-    </PropertyNotSetInConstructor>
   </file>
   <file src="src/Customer/Validator/CustomerPhoneNotExists.php">
     <PropertyNotSetInConstructor occurrences="1">
@@ -145,25 +130,18 @@
     </PossiblyNullArgument>
   </file>
   <file src="src/EasyAdmin/Form/AutocompleteType.php">
+    <InvalidArrayOffset occurrences="1">
+      <code>Costil::EASYADMIN_CONFIG[array_flip(Costil::ENTITY)[$options['class']]]</code>
+    </InvalidArrayOffset>
     <PossiblyFalseReference occurrences="2">
       <code>setData</code>
       <code>getData</code>
     </PossiblyFalseReference>
   </file>
-  <file src="src/EasyAdmin/Notify/BalanceNotificationListener.php">
-    <PossiblyFalseArgument occurrences="1">
-      <code>json_encode($data, JSON_THROW_ON_ERROR)</code>
-    </PossiblyFalseArgument>
-  </file>
   <file src="src/EasyAdmin/Notify/EntityNotificationListener.php">
     <PossiblyFalseArgument occurrences="1">
       <code>json_encode($data, JSON_THROW_ON_ERROR)</code>
     </PossiblyFalseArgument>
-  </file>
-  <file src="src/Employee/Controller/EmployeeController.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>EmployeeController</code>
-    </PropertyNotSetInConstructor>
   </file>
   <file src="src/Employee/Entity/Employee.php">
     <PossiblyNullReference occurrences="2">
@@ -188,14 +166,6 @@
       <code>$this-&gt;id</code>
     </UndefinedThisPropertyFetch>
   </file>
-  <file src="src/Expense/Controller/ExpenseItemController.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$entity-&gt;getDescription()</code>
-    </PossiblyNullArgument>
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>ExpenseItemController</code>
-    </PropertyNotSetInConstructor>
-  </file>
   <file src="src/Form/Model/OrderGroup.php">
     <PropertyNotSetInConstructor occurrences="1">
       <code>OrderGroup</code>
@@ -218,16 +188,9 @@
     </PossiblyNullArgument>
   </file>
   <file src="src/Income/Controller/IncomeController.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$supplier</code>
-      <code>$supplier</code>
-    </PossiblyNullArgument>
     <PossiblyNullReference occurrences="1">
       <code>toId</code>
     </PossiblyNullReference>
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>IncomeController</code>
-    </PropertyNotSetInConstructor>
   </file>
   <file src="src/Income/Controller/IncomePartController.php">
     <PossiblyNullArgument occurrences="3">
@@ -350,22 +313,13 @@
       <code>OrderFixtures</code>
     </PropertyNotSetInConstructor>
   </file>
-  <file src="src/Order/Manager/OrderManager.php">
-    <PossiblyNullArgument occurrences="4">
-      <code>$payment-&gt;getDescription()</code>
-      <code>$order-&gt;getId()</code>
-      <code>$order-&gt;getId()</code>
-      <code>$order-&gt;getId()</code>
-    </PossiblyNullArgument>
-  </file>
   <file src="src/Part/Controller/PartController.php">
     <PossiblyFalseOperand occurrences="1">
-      <code>mb_strtolower(trim($searchString))</code>
+      <code>mb_strtoupper(trim($searchString))</code>
     </PossiblyFalseOperand>
-    <PossiblyNullArgument occurrences="3">
+    <PossiblyNullArgument occurrences="2">
       <code>$user-&gt;getId()</code>
       <code>$user-&gt;getId()</code>
-      <code>$case-&gt;caseName</code>
     </PossiblyNullArgument>
     <PropertyNotSetInConstructor occurrences="1">
       <code>PartController</code>
@@ -464,11 +418,6 @@
     </PossiblyNullReference>
     <PropertyNotSetInConstructor occurrences="1">
       <code>UserController</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/User/Entity/UserCredentials.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>$expiredAt</code>
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/User/Fixtures/AdminFixtures.php">

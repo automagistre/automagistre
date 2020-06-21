@@ -195,7 +195,7 @@
                                 <tbody>
                                 {% for part in crosses|filter(part => part.id != entity.id) %}
                                     <tr>
-                                        <td>{% include 'easy_admin/field_part.html.twig' with {'value': part, 'stock': true} %}</td>
+                                        <td>{% include 'easy_admin/field_part.html.twig' with {'value': part_view(part.toId), 'stock': true} %}</td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>

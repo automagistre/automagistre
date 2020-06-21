@@ -13,7 +13,7 @@
 
         {{ form_start(form) }}
         <div class="row" style="margin-bottom: 10px">
-            <div class="col-md-12">{% include 'easy_admin/field_part.html.twig' with {'value': part_by_id(form.vars.value.partId), 'stock': true} only %}</div>
+            <div class="col-md-12">{% include 'easy_admin/field_part.html.twig' with {'value': part_view(form.vars.value.partId), 'stock': true} only %}</div>
         </div>
         <div class="row">
             <div class="col-md-4">{{ form_widget(form.quantity) }}</div>

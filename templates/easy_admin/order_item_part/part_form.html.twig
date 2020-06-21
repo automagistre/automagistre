@@ -1,25 +1,23 @@
 {# EasyAdminAutocomplete form type #}
-{% block easyadmin_autocomplete_widget %}
+{% block autocomplete_widget %}
     {% set params = {} %}
 
-    {# @var carModel \App\Entity\Landlord\CarModel #}
-    {% set carModel = form.parent.vars.value.order.car.model|default %}
-
-    {% if carModel.caseName|default is not empty %}
-        {% set params = carModel|to_query %}
-    {% endif %}
+    {% set carId = form.parent.vars.value.order.carId|default %}
+    {% set car = carId is not empty ? get_car_by_id(carId) : null %}
+    {# @var car \App\Car\Entity\Car #}
 
     {{ form_widget(form.autocomplete, {
         attr: attr|merge({
             'data-easyadmin-autocomplete-url' : path('easyadmin', {
                 action: 'autocomplete',
-                entity: autocomplete_entity_name
+                entity: 'Part',
+                vehicle_id: car is defined ? car.vehicleId.toString : null
             }|merge(params))|raw })
     }) }}
 
-    {% if carModel.caseName|default is not empty %}
+    {% if car.vehicleId|default is not empty and vehicle_case_is_defined(car.vehicleId) %}
         <span class="help-block">
-        Поиск осуществляется только по <strong>{{ carModel.toId|display_name }}</strong>, чтобы выполнить поиск по всему складу добавьте символ <strong>+</strong> (плюс) в любую часть строки.
+        Поиск осуществляется только по <strong>{{ car.vehicleId|display_name }}</strong>, чтобы выполнить поиск по всему складу добавьте символ <strong>+</strong> (плюс) в любую часть строки.
     </span>
     {% endif %}
-{% endblock easyadmin_autocomplete_widget %}
+{% endblock autocomplete_widget %}

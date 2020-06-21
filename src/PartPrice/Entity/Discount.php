@@ -13,7 +13,7 @@ use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="part_discount")
+ * @ORM\Table(name="part_discount", indexes={@ORM\Index(columns={"part_id"})})
  */
 class Discount
 {
