@@ -36,6 +36,7 @@ use DateTimeImmutable;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
+use function dump;
 use function explode;
 use LogicException;
 use function mb_strtoupper;
@@ -285,7 +286,7 @@ final class PartController extends AbstractController
 
                 $qb
                     ->where($qb->expr()->orX(
-                        $qb->expr()->like('part.search', ':case'),
+                        $qb->expr()->like('part.cases', ':case'),
                         $qb->expr()->eq('part.isUniversal', ':universal')
                     ))
                     ->setParameters([
@@ -358,6 +359,7 @@ final class PartController extends AbstractController
 
                 $analogs = (array) $this->registry->manager(PartView::class)
                     ->createQueryBuilder()
+                    ->select('entity')
                     ->from(PartView::class, 'entity')
                     ->where('entity.id IN (:ids)')
                     ->andWhere('entity.quantity > 0')

@@ -64,7 +64,12 @@ class PartView
     /**
      * @ORM\Column()
      */
-    public string $search;
+    private string $search;
+
+    /**
+     * @ORM\Column()
+     */
+    private string $cases;
 
     private function __construct(
         PartId $id,
@@ -76,7 +81,8 @@ class PartView
         Money $price,
         Money $discount,
         array $analogs,
-        string $search
+        string $search,
+        string $cases
     ) {
         $this->id = $id;
         $this->manufacturer = $manufacturer;
@@ -88,6 +94,7 @@ class PartView
         $this->discount = $discount;
         $this->analogs = $analogs;
         $this->search = $search;
+        $this->cases = $cases;
     }
 
     public function toId(): PartId
@@ -114,14 +121,15 @@ class PartView
     {
         return '
             CREATE VIEW part_view AS
-            SELECT part.id                                                                                          AS id,
-                   part.name                                                                                        AS name,
-                   part.number                                                                                      AS number,
-                   part.universal                                                                                   AS is_universal,
-                   COALESCE(stock.quantity, 0)                                                                      AS quantity,
-                   COALESCE(crosses.parts, \'[]\'::JSON)                                                            AS analogs,
-                   m.name                                                                                           AS manufacturer_name,
-                   m.uuid                                                                                           AS manufacturer_id,
+            SELECT part.id                                                                                              AS id,
+                   part.name                                                                                            AS name,
+                   part.number                                                                                          AS number,
+                   part.universal                                                                                       AS is_universal,
+                   COALESCE(stock.quantity, 0)                                                                          AS quantity,
+                   COALESCE(crosses.parts, \'[]\'::JSON)                                                                AS analogs,
+                   m.name                                                                                               AS manufacturer_name,
+                   m.uuid                                                                                               AS manufacturer_id,
+                   pc.cases                                                                                             AS cases,
                    UPPER(concat_ws(\' \', part.name, m.name, m.localized_name, pc.cases))                               AS search,
                    COALESCE(price.price_currency_code, \'RUB\') || \' \' || COALESCE(price.price_amount, 0)             AS price,
                    COALESCE(discount.discount_currency_code, \'RUB\') || \' \' || COALESCE(discount.discount_amount, 0) AS discount
