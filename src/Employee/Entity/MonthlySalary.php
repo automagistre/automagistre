@@ -13,6 +13,8 @@ use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;
 use Money\Money;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
@@ -22,6 +24,11 @@ class MonthlySalary
     use Identity;
     use CreatedAt;
     use CreatedByRelation;
+
+    /**
+     * @ORM\Column(type="uuid")
+     */
+    private UuidInterface $uuid;
 
     /**
      * @var Employee
@@ -60,6 +67,7 @@ class MonthlySalary
 
     public function __construct(Employee $employee, int $payday, Money $amount, User $user)
     {
+        $this->uuid = Uuid::uuid6();
         $this->createdByRelation = new UserRelation($user);
 
         $this->employee = $employee;
