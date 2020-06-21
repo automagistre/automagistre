@@ -13,6 +13,7 @@ use App\Customer\Entity\Operand;
 use App\Customer\Entity\Organization;
 use App\Customer\Entity\Person;
 use App\EasyAdmin\Controller\AbstractController;
+use App\Manufacturer\Entity\Manufacturer;
 use App\Order\Entity\Order;
 use App\Vehicle\Entity\Embedded\Engine;
 use App\Vehicle\Entity\Embedded\Equipment;
@@ -174,11 +175,9 @@ final class CarController extends AbstractController
             return $qb;
         }
 
-        // TODO Восстановить поиск по производителю и модели
-
         $qb
-//            ->leftJoin(Model::class, 'model', Join::WITH, 'model.uuid = car.vehicleId')
-//            ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'manufacturer.uuid = model.manufacturerId')
+            ->leftJoin(Model::class, 'model', Join::WITH, 'model.uuid = car.vehicleId')
+            ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'manufacturer.id = model.manufacturerId')
             ->leftJoin(Operand::class, 'customer', Join::WITH, 'o.customerId = customer.uuid')
             ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = customer.id AND customer INSTANCE OF '.Person::class)
             ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = customer.id AND customer INSTANCE OF '.Organization::class);
@@ -191,10 +190,10 @@ final class CarController extends AbstractController
                 $qb->expr()->like('LOWER(car.gosnomer)', $key),
                 $qb->expr()->like('LOWER(car.identifier)', $key),
                 $qb->expr()->like('LOWER(car.description)', $key),
-//                $qb->expr()->like('LOWER(model.name)', $key),
-//                $qb->expr()->like('LOWER(model.localizedName)', $key),
-//                $qb->expr()->like('LOWER(manufacturer.name)', $key),
-//                $qb->expr()->like('LOWER(manufacturer.localizedName)', $key),
+                $qb->expr()->like('LOWER(model.name)', $key),
+                $qb->expr()->like('LOWER(model.localizedName)', $key),
+                $qb->expr()->like('LOWER(manufacturer.name)', $key),
+                $qb->expr()->like('LOWER(manufacturer.localizedName)', $key),
                 $qb->expr()->like('LOWER(person.firstname)', $key),
                 $qb->expr()->like('LOWER(person.lastname)', $key),
                 $qb->expr()->like('LOWER(person.telephone)', $key),
