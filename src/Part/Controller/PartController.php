@@ -320,7 +320,8 @@ final class PartController extends AbstractController
         $query = $this->request->query;
 
         $queryString = str_replace(['.', ',', '-', '_'], '', (string) $query->get('query'));
-        $qb = $this->createSearchQueryBuilder((string) $query->get('entity'), $queryString, []);
+        $qb = $this->createSearchQueryBuilder((string) $query->get('entity'), $queryString, [])
+            ->orderBy('part.quantity', 'DESC');
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->getInt('page', 1));
 
