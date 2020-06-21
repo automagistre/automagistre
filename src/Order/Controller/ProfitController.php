@@ -74,7 +74,7 @@ final class ProfitController extends AbstractController
                (
                  SELECT SUM(ct.amount_amount::integer)
                  FROM customer_transaction ct
-                 WHERE o.uuid = ct.id
+                 WHERE o.uuid = ct.source_id
                     AND ct.source = '.CustomerTransactionSource::orderSalary()->toId().'
                ) AS service_cost,
                (
