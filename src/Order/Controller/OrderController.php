@@ -593,7 +593,7 @@ final class OrderController extends AbstractController
             ->leftJoin(Car::class, 'car', Join::WITH, 'o.carId = car.uuid')
             ->leftJoin(Operand::class, 'customer', Join::WITH, 'customer.uuid = o.customerId')
             ->leftJoin(Model::class, 'carModel', Join::WITH, 'carModel.uuid = car.vehicleId')
-            ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'manufacturer.uuid = carModel.manufacturerId')
+            ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'manufacturer.id = carModel.manufacturerId')
             ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = customer.id AND customer INSTANCE OF '.Person::class)
             ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = customer.id AND customer INSTANCE OF '.Organization::class);
 

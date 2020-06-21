@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Manufacturer\Entity;
 
 use App\Costil;
-use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -13,12 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Manufacturer
 {
-    use Identity;
-
     /**
+     * @ORM\Id()
      * @ORM\Column(type="manufacturer_id")
      */
-    private ManufacturerId $uuid;
+    public ManufacturerId $id;
 
     /**
      * @ORM\Column(name="name", length=64, nullable=true)
@@ -41,7 +39,7 @@ class Manufacturer
         string $localizedName = null,
         string $logo = null
     ) {
-        $this->uuid = $id ?? ManufacturerId::generate();
+        $this->id = $id ?? ManufacturerId::generate();
         $this->name = $name;
         $this->localizedName = $localizedName;
         $this->logo = $logo;
@@ -49,12 +47,12 @@ class Manufacturer
 
     public function __toString(): string
     {
-        return Costil::display($this->uuid);
+        return Costil::display($this->id);
     }
 
     public function toId(): ManufacturerId
     {
-        return $this->uuid;
+        return $this->id;
     }
 
     public function getName(): ?string

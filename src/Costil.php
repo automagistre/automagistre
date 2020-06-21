@@ -98,7 +98,7 @@ final class Costil
         ExpenseId::class => 'uuid',
         IncomeId::class => 'id',
         IncomePartId::class => 'uuid',
-        ManufacturerId::class => 'uuid',
+        ManufacturerId::class => 'id',
         OperandId::class => 'uuid',
         OrderId::class => 'uuid',
         PartId::class => 'id',

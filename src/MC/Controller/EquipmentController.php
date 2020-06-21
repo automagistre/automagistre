@@ -50,7 +50,7 @@ final class EquipmentController extends AbstractController
 
         $qb
             ->leftJoin(Model::class, 'carModel', Join::WITH, 'entity.vehicleId = carModel.uuid')
-            ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'carModel.manufacturerId = manufacturer.uuid');
+            ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'carModel.manufacturerId = manufacturer.id');
 
         foreach (explode(' ', $searchQuery) as $key => $searchString) {
             $key = ':search_'.$key;
