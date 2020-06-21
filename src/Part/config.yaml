@@ -19,10 +19,10 @@ easy_admin:
                 fields:
                     - { property: 'manufacturer', label: 'Производитель', template: 'easy_admin/manufacturer/field_manufacturer_view.html.twig' }
                     - { property: 'name', label: 'Название' }
-                    - { property: 'number', label: 'Номер', template: 'easy_admin/field_part_number.html.twig' }
+                    - { property: 'number', label: 'Номер', template: 'easy_admin/field_part_number.html.twig', sortable: false }
                     - { property: 'quantity', label: 'Наличие', template: 'easy_admin/field_quantity.html.twig' }
-                    - { property: 'price', label: 'Цена', template: 'easy_admin/field_money.html.twig' }
-                    - { property: 'discount', label: 'Скидка', template: 'easy_admin/field_money.html.twig' }
+                    - { property: 'price', label: 'Цена', template: 'easy_admin/field_money.html.twig', sortable: false }
+                    - { property: 'discount', label: 'Скидка', template: 'easy_admin/field_money.html.twig', sortable: false }
                     - { property: 'isUniversal', label: 'Универсальная', template: 'easy_admin/default/field_boolean.html.twig' }
             form:
                 form_options: { data_class: \App\Part\Form\PartDto }
