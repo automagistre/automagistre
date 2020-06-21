@@ -23,23 +23,24 @@ final class IdentifierFormatter
 
     public function format(Identifier $identifier, string $format = null): string
     {
-        if (Identifier::class === get_class($identifier)) {
+        $class = get_class($identifier);
+
+        if (Identifier::class === $class) {
             throw new LogicException(sprintf('%s support only specific identifiers.', __CLASS__));
         }
 
-        $formatter = $this->formatters->get(get_class($identifier));
-        if (!$formatter instanceof IdentifierFormatterInterface) {
-            throw new LogicException(sprintf('Formatter for identifier "%s" not registered.', get_class($identifier)));
+        if (!$this->formatters->has($class)) {
+            throw new LogicException(sprintf('Formatter for identifier "%s" not registered.', $class));
         }
 
         if (array_key_exists($identifier->toString(), $this->map)) {
-            throw new LogicException(sprintf('Circular reference detected for %s with id %s', get_class($identifier), $identifier->toString()));
+            throw new LogicException(sprintf('Circular reference detected for %s with id %s', $class, $identifier->toString()));
         }
 
         $this->map[$identifier->toString()] = true;
 
         try {
-            return $formatter->format($this, $identifier, $format);
+            return $this->formatters->get($class)->format($this, $identifier, $format);
         } finally {
             unset($this->map[$identifier->toString()]);
         }
