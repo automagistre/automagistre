@@ -41,7 +41,6 @@ use App\Wallet\Entity\Wallet;
 use App\Wallet\Entity\WalletId;
 use App\Wallet\Entity\WalletTransactionId;
 use function array_key_exists;
-use function array_key_exists;
 use Money\Currency;
 use Money\Money;
 use function str_contains;
