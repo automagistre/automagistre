@@ -58,7 +58,7 @@ final class ExpenseController extends AbstractController
                 new WalletTransaction(
                     WalletTransactionId::generate(),
                     $dto->walletId,
-                    $dto->money,
+                    $dto->money->negative(),
                     WalletTransactionSource::expense(),
                     $dto->expenseId->toUuid(),
                     $dto->description,
