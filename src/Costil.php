@@ -32,6 +32,7 @@ use App\User\Entity\User;
 use App\User\Entity\UserId;
 use App\Vehicle\Entity\Model;
 use App\Vehicle\Entity\VehicleId;
+use function array_key_exists;
 use Money\Currency;
 use Money\Money;
 use function str_contains;
@@ -123,6 +124,9 @@ final class Costil
             }
 
             $moneyKey = str_replace('.currency.code', '', $key);
+            if (!array_key_exists($moneyKey.'.amount', $array)) {
+                continue;
+            }
 
             $array[$moneyKey] = null !== $array[$moneyKey.'.amount']
                 ? new Money(
