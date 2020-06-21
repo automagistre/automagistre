@@ -3588,16 +3588,16 @@
         },
         {
             "name": "odolbeau/phone-number-bundle",
-            "version": "v3.1.0",
+            "version": "v3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/odolbeau/phone-number-bundle.git",
-                "reference": "7e89b82ccf8e0fc64ce5dda5e4c7111ea0d54592"
+                "reference": "7f9530b521f4baaf55232f47a13b737b9343e895"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/odolbeau/phone-number-bundle/zipball/7e89b82ccf8e0fc64ce5dda5e4c7111ea0d54592",
-                "reference": "7e89b82ccf8e0fc64ce5dda5e4c7111ea0d54592",
+                "url": "https://api.github.com/repos/odolbeau/phone-number-bundle/zipball/7f9530b521f4baaf55232f47a13b737b9343e895",
+                "reference": "7f9530b521f4baaf55232f47a13b737b9343e895",
                 "shasum": ""
             },
             "require": {
@@ -3605,8 +3605,8 @@
                 "php": "^7.2",
                 "symfony/framework-bundle": "^3.4|^4.3|^5.0"
             },
-            "conflict": {
-                "misd/phone-number-bundle": "*"
+            "replace": {
+                "misd/phone-number-bundle": "self.version"
             },
             "require-dev": {
                 "doctrine/doctrine-bundle": "^1.12|^2.0",
@@ -3647,7 +3647,7 @@
                 "phonenumber",
                 "telephone number"
             ],
-            "time": "2020-04-27T20:34:27+00:00"
+            "time": "2020-06-19T12:08:34+00:00"
         },
         {
             "name": "oro/doctrine-extensions",
