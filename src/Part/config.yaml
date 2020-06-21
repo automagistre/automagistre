@@ -17,9 +17,10 @@ easy_admin:
             list:
                 title: 'Запчасти'
                 fields:
-                    - { property: 'name', label: 'Название', template: 'easy_admin/field_part.html.twig', item: true, stock: true, referer: false }
                     - { property: 'manufacturer', label: 'Производитель', template: 'easy_admin/manufacturer/field_manufacturer_view.html.twig' }
+                    - { property: 'name', label: 'Название' }
                     - { property: 'number', label: 'Номер', template: 'easy_admin/field_part_number.html.twig' }
+                    - { property: 'quantity', label: 'Наличие', template: 'easy_admin/field_quantity.html.twig' }
                     - { property: 'price', label: 'Цена', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'discount', label: 'Скидка', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'isUniversal', label: 'Универсальная', template: 'easy_admin/default/field_boolean.html.twig' }
