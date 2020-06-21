@@ -49,7 +49,7 @@
                         <tbody>
                         {% for item in items %}
                             <tr>
-                                <td>{% include 'easy_admin/field_part.html.twig' with {'value': part_view(item.part_id)} only %}</td>
+                                <td>{% include 'easy_admin/field_part.html.twig' with {'value': parts[item.part_id]} only %}</td>
                                 <td>{{ item.quantity }}</td>
                                 <td>{{ item.stock }}</td>
                                 <td>{{ item.reserved }}</td>
