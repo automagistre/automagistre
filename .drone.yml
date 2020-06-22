@@ -71,6 +71,16 @@ steps:
         depends_on:
             - install
 
+    -   name: composer normalize
+        image: automagistre/tenant-php:base
+        commands:
+            - composer normalize --dry-run
+        when:
+            branch:
+                exclude: [ master ]
+        depends_on:
+            - install
+
     -   name: blank end line
         image: automagistre/tenant-php:base
         commands:

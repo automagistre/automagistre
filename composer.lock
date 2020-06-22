@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4fe55813f4b3a4e100fe0b62cdfe0061",
+    "content-hash": "370af863fec20220c2735580f03cfdaf",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -214,12 +214,6 @@
                 "bignum",
                 "brick",
                 "math"
-            ],
-            "funding": [
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/brick/math",
-                    "type": "tidelift"
-                }
             ],
             "time": "2020-04-15T15:59:35+00:00"
         },
@@ -613,20 +607,6 @@
                 "redis",
                 "xcache"
             ],
-            "funding": [
-                {
-                    "url": "https://www.doctrine-project.org/sponsorship.html",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://www.patreon.com/phpdoctrine",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fcache",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2020-05-27T16:24:54+00:00"
         },
         {
@@ -691,20 +671,6 @@
                 "collections",
                 "iterators",
                 "php"
-            ],
-            "funding": [
-                {
-                    "url": "https://www.doctrine-project.org/sponsorship.html",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://www.patreon.com/phpdoctrine",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fcollections",
-                    "type": "tidelift"
-                }
             ],
             "time": "2020-05-25T19:24:35+00:00"
         },
@@ -788,20 +754,6 @@
                 "common",
                 "doctrine",
                 "php"
-            ],
-            "funding": [
-                {
-                    "url": "https://www.doctrine-project.org/sponsorship.html",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://www.patreon.com/phpdoctrine",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fcommon",
-                    "type": "tidelift"
-                }
             ],
             "time": "2020-06-05T16:46:05+00:00"
         },
@@ -897,20 +849,6 @@
                 "sqlserver",
                 "sqlsrv"
             ],
-            "funding": [
-                {
-                    "url": "https://www.doctrine-project.org/sponsorship.html",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://www.patreon.com/phpdoctrine",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fdbal",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2020-04-20T17:19:26+00:00"
         },
         {
@@ -1002,20 +940,6 @@
                 "dbal",
                 "orm",
                 "persistence"
-            ],
-            "funding": [
-                {
-                    "url": "https://www.doctrine-project.org/sponsorship.html",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://www.patreon.com/phpdoctrine",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fdoctrine-bundle",
-                    "type": "tidelift"
-                }
             ],
             "time": "2020-05-25T19:56:00+00:00"
         },
@@ -1239,20 +1163,6 @@
                 "uppercase",
                 "words"
             ],
-            "funding": [
-                {
-                    "url": "https://www.doctrine-project.org/sponsorship.html",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://www.patreon.com/phpdoctrine",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Finflector",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2020-05-29T07:19:59+00:00"
         },
         {
@@ -1384,20 +1294,6 @@
                 "lexer",
                 "parser",
                 "php"
-            ],
-            "funding": [
-                {
-                    "url": "https://www.doctrine-project.org/sponsorship.html",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://www.patreon.com/phpdoctrine",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Flexer",
-                    "type": "tidelift"
-                }
             ],
             "time": "2020-05-25T17:44:05+00:00"
         },
@@ -1754,20 +1650,6 @@
                 "database",
                 "orm"
             ],
-            "funding": [
-                {
-                    "url": "https://www.doctrine-project.org/sponsorship.html",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://www.patreon.com/phpdoctrine",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/doctrine/orm",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2020-05-26T16:03:49+00:00"
         },
         {
@@ -1850,20 +1732,6 @@
                 "odm",
                 "orm",
                 "persistence"
-            ],
-            "funding": [
-                {
-                    "url": "https://www.doctrine-project.org/sponsorship.html",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://www.patreon.com/phpdoctrine",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fpersistence",
-                    "type": "tidelift"
-                }
             ],
             "time": "2020-03-21T15:13:52+00:00"
         },
@@ -2085,12 +1953,6 @@
                 "backend",
                 "generator"
             ],
-            "funding": [
-                {
-                    "url": "https://github.com/javiereguiluz",
-                    "type": "github"
-                }
-            ],
             "time": "2020-06-14T17:11:08+00:00"
         },
         {
@@ -2279,12 +2141,6 @@
                 "php",
                 "qr",
                 "symfony"
-            ],
-            "funding": [
-                {
-                    "url": "https://github.com/endroid",
-                    "type": "github"
-                }
             ],
             "time": "2020-04-25T13:48:19+00:00"
         },
@@ -2914,12 +2770,6 @@
                 "laminas",
                 "zf"
             ],
-            "funding": [
-                {
-                    "url": "https://funding.communitybridge.org/projects/laminas-project",
-                    "type": "community_bridge"
-                }
-            ],
             "time": "2020-05-20T16:45:56+00:00"
         },
         {
@@ -2974,16 +2824,6 @@
             "keywords": [
                 "JWS",
                 "jwt"
-            ],
-            "funding": [
-                {
-                    "url": "https://github.com/lcobucci",
-                    "type": "github"
-                },
-                {
-                    "url": "https://www.patreon.com/lcobucci",
-                    "type": "patreon"
-                }
             ],
             "time": "2020-05-22T08:21:12+00:00"
         },
@@ -3269,16 +3109,6 @@
                 "log",
                 "logging",
                 "psr-3"
-            ],
-            "funding": [
-                {
-                    "url": "https://github.com/Seldaek",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/monolog/monolog",
-                    "type": "tidelift"
-                }
             ],
             "time": "2020-05-22T08:12:19+00:00"
         },
@@ -3574,16 +3404,6 @@
                 "proxy pattern",
                 "service proxies"
             ],
-            "funding": [
-                {
-                    "url": "https://github.com/Ocramius",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/ocramius/proxy-manager",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2020-04-13T14:42:16+00:00"
         },
         {
@@ -3766,12 +3586,6 @@
                 "pagination",
                 "paginator",
                 "paging"
-            ],
-            "funding": [
-                {
-                    "url": "https://github.com/mbabker",
-                    "type": "github"
-                }
             ],
             "time": "2020-06-09T15:25:12+00:00"
         },
@@ -4877,12 +4691,6 @@
                 "identifier",
                 "uuid"
             ],
-            "funding": [
-                {
-                    "url": "https://github.com/ramsey",
-                    "type": "github"
-                }
-            ],
             "time": "2020-03-29T20:13:32+00:00"
         },
         {
@@ -5170,16 +4978,6 @@
                 "logging",
                 "sentry"
             ],
-            "funding": [
-                {
-                    "url": "https://sentry.io/",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://sentry.io/pricing/",
-                    "type": "custom"
-                }
-            ],
             "time": "2020-05-20T20:49:38+00:00"
         },
         {
@@ -5265,16 +5063,6 @@
                 "logging",
                 "sentry",
                 "symfony"
-            ],
-            "funding": [
-                {
-                    "url": "https://sentry.io/",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://sentry.io/pricing/",
-                    "type": "custom"
-                }
             ],
             "time": "2020-05-07T13:11:22+00:00"
         },
@@ -7520,20 +7308,6 @@
                 "sse",
                 "updates"
             ],
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2020-05-27T14:53:11+00:00"
         },
         {
@@ -7597,20 +7371,6 @@
                 "push",
                 "sse",
                 "updates"
-            ],
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
             ],
             "time": "2020-05-27T14:57:23+00:00"
         },
@@ -8925,20 +8685,6 @@
                 "MIT"
             ],
             "description": "A pack for the Symfony serializer",
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2020-03-28T16:26:24+00:00"
         },
         {
@@ -10246,12 +9992,6 @@
                 "safe writer",
                 "webimpress"
             ],
-            "funding": [
-                {
-                    "url": "https://github.com/michalbundyra",
-                    "type": "github"
-                }
-            ],
             "time": "2020-03-21T15:49:08+00:00"
         },
         {
@@ -10656,20 +10396,6 @@
                 "Xdebug",
                 "performance"
             ],
-            "funding": [
-                {
-                    "url": "https://packagist.com",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/composer",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2020-06-04T11:16:35+00:00"
         },
         {
@@ -10791,20 +10517,6 @@
             "keywords": [
                 "database"
             ],
-            "funding": [
-                {
-                    "url": "https://www.doctrine-project.org/sponsorship.html",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://www.patreon.com/phpdoctrine",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fdata-fixtures",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2020-05-25T19:45:03+00:00"
         },
         {
@@ -10873,21 +10585,223 @@
                 "Fixture",
                 "persistence"
             ],
+            "time": "2020-04-02T16:40:37+00:00"
+        },
+        {
+            "name": "ergebnis/composer-normalize",
+            "version": "2.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ergebnis/composer-normalize.git",
+                "reference": "d0faf549e565757a7ffbf1f306a4293080e43bdd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ergebnis/composer-normalize/zipball/d0faf549e565757a7ffbf1f306a4293080e43bdd",
+                "reference": "d0faf549e565757a7ffbf1f306a4293080e43bdd",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.1.0 || ^2.0.0",
+                "ergebnis/json-normalizer": "~0.12.0",
+                "ergebnis/json-printer": "^3.0.2",
+                "localheinz/diff": "^1.0.1",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "composer/composer": "^1.10.5 || ^2.0.0",
+                "composer/package-versions-deprecated": "^1.8.0",
+                "ergebnis/phpstan-rules": "~0.14.4",
+                "ergebnis/test-util": "~1.0.0",
+                "jangregor/phpstan-prophecy": "~0.6.2",
+                "phpstan/extension-installer": "^1.0.4",
+                "phpstan/phpstan": "~0.12.19",
+                "phpstan/phpstan-deprecation-rules": "~0.12.2",
+                "phpstan/phpstan-phpunit": "~0.12.8",
+                "phpstan/phpstan-strict-rules": "~0.12.2",
+                "phpunit/phpunit": "^7.5.20",
+                "symfony/filesystem": "^4.4.8"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Ergebnis\\Composer\\Normalize\\NormalizePlugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ergebnis\\Composer\\Normalize\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andreas Möller",
+                    "email": "am@localheinz.com"
+                }
+            ],
+            "description": "Provides a composer plugin for normalizing composer.json.",
+            "homepage": "https://github.com/ergebnis/composer-normalize",
+            "keywords": [
+                "composer",
+                "normalize",
+                "normalizer",
+                "plugin"
+            ],
             "funding": [
                 {
-                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "url": "https://paypal.me/localheinz",
                     "type": "custom"
                 },
                 {
-                    "url": "https://www.patreon.com/phpdoctrine",
-                    "type": "patreon"
+                    "url": "https://www.amazon.de/hz/wishlist/ls/2NCHMSJ4BC1OW",
+                    "type": "custom"
                 },
                 {
-                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fdoctrine-fixtures-bundle",
-                    "type": "tidelift"
+                    "url": "https://www.buymeacoffee.com/localheinz",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/localheinz",
+                    "type": "github"
                 }
             ],
-            "time": "2020-04-02T16:40:37+00:00"
+            "time": "2020-05-01T12:02:09+00:00"
+        },
+        {
+            "name": "ergebnis/json-normalizer",
+            "version": "0.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ergebnis/json-normalizer.git",
+                "reference": "0197447cd5d8f7e82116e904196a3e9f470655db"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ergebnis/json-normalizer/zipball/0197447cd5d8f7e82116e904196a3e9f470655db",
+                "reference": "0197447cd5d8f7e82116e904196a3e9f470655db",
+                "shasum": ""
+            },
+            "require": {
+                "ergebnis/json-printer": "^3.0.2",
+                "ext-json": "*",
+                "justinrainbow/json-schema": "^4.0.0 || ^5.0.0",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "ergebnis/license": "~0.1.0",
+                "ergebnis/php-cs-fixer-config": "^2.1.2",
+                "ergebnis/phpstan-rules": "~0.14.4",
+                "ergebnis/test-util": "~1.0.0",
+                "infection/infection": "~0.13.6",
+                "jangregor/phpstan-prophecy": "~0.6.2",
+                "phpstan/extension-installer": "^1.0.4",
+                "phpstan/phpstan": "~0.12.18",
+                "phpstan/phpstan-deprecation-rules": "~0.12.2",
+                "phpstan/phpstan-phpunit": "~0.12.8",
+                "phpstan/phpstan-strict-rules": "~0.12.2",
+                "phpunit/phpunit": "^7.5.20",
+                "psalm/plugin-phpunit": "~0.10.0",
+                "vimeo/psalm": "^3.11.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ergebnis\\Json\\Normalizer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andreas Möller",
+                    "email": "am@localheinz.com"
+                }
+            ],
+            "description": "Provides generic and vendor-specific normalizers for normalizing JSON documents.",
+            "homepage": "https://github.com/ergebnis/json-normalizer",
+            "keywords": [
+                "json",
+                "normalizer"
+            ],
+            "funding": [
+                {
+                    "url": "https://paypal.me/localheinz",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.amazon.de/hz/wishlist/ls/2NCHMSJ4BC1OW",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.buymeacoffee.com/localheinz",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/localheinz",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-04-19T12:30:41+00:00"
+        },
+        {
+            "name": "ergebnis/json-printer",
+            "version": "3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ergebnis/json-printer.git",
+                "reference": "c7985dc4879777f2e4ab689da25bdd49f59dd2cb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ergebnis/json-printer/zipball/c7985dc4879777f2e4ab689da25bdd49f59dd2cb",
+                "reference": "c7985dc4879777f2e4ab689da25bdd49f59dd2cb",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "ergebnis/php-cs-fixer-config": "~1.1.1",
+                "ergebnis/phpstan-rules": "~0.14.1",
+                "ergebnis/test-util": "~0.9.0",
+                "infection/infection": "~0.13.6",
+                "phpbench/phpbench": "~0.16.10",
+                "phpstan/extension-installer": "^1.0.3",
+                "phpstan/phpstan": "~0.11.19",
+                "phpstan/phpstan-deprecation-rules": "~0.11.2",
+                "phpstan/phpstan-strict-rules": "~0.11.1",
+                "phpunit/phpunit": "^7.5.18"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ergebnis\\Json\\Printer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andreas Möller",
+                    "email": "am@localheinz.com"
+                }
+            ],
+            "description": "Provides a JSON printer, allowing for flexible indentation.",
+            "homepage": "https://github.com/ergebnis/json-printer",
+            "keywords": [
+                "formatter",
+                "json",
+                "printer"
+            ],
+            "time": "2019-12-19T14:42:54+00:00"
         },
         {
             "name": "felixfbecker/advanced-json-rpc",
@@ -11066,12 +10980,6 @@
                 }
             ],
             "description": "A tool to automatically fix PHP code style",
-            "funding": [
-                {
-                    "url": "https://github.com/keradus",
-                    "type": "github"
-                }
-            ],
             "time": "2020-04-15T18:51:10+00:00"
         },
         {
@@ -11123,6 +11031,123 @@
                 "fixtures"
             ],
             "time": "2019-12-12T13:22:17+00:00"
+        },
+        {
+            "name": "justinrainbow/json-schema",
+            "version": "5.2.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/justinrainbow/json-schema.git",
+                "reference": "2ba9c8c862ecd5510ed16c6340aa9f6eadb4f31b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/justinrainbow/json-schema/zipball/2ba9c8c862ecd5510ed16c6340aa9f6eadb4f31b",
+                "reference": "2ba9c8c862ecd5510ed16c6340aa9f6eadb4f31b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "~2.2.20||~2.15.1",
+                "json-schema/json-schema-test-suite": "1.2.0",
+                "phpunit/phpunit": "^4.8.35"
+            },
+            "bin": [
+                "bin/validate-json"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "JsonSchema\\": "src/JsonSchema/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bruno Prieto Reis",
+                    "email": "bruno.p.reis@gmail.com"
+                },
+                {
+                    "name": "Justin Rainbow",
+                    "email": "justin.rainbow@gmail.com"
+                },
+                {
+                    "name": "Igor Wiedler",
+                    "email": "igor@wiedler.ch"
+                },
+                {
+                    "name": "Robert Schönthal",
+                    "email": "seroscho@googlemail.com"
+                }
+            ],
+            "description": "A library to validate a json schema.",
+            "homepage": "https://github.com/justinrainbow/json-schema",
+            "keywords": [
+                "json",
+                "schema"
+            ],
+            "time": "2020-05-27T16:41:55+00:00"
+        },
+        {
+            "name": "localheinz/diff",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/localheinz/diff.git",
+                "reference": "bd5661db4bbed26c6f25df8851fd9f4b424a356e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/localheinz/diff/zipball/bd5661db4bbed26c6f25df8851fd9f4b424a356e",
+                "reference": "bd5661db4bbed26c6f25df8851fd9f4b424a356e",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.5 || ^8.0",
+                "symfony/process": "^2 || ^3.3 || ^4"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian Bergmann",
+                    "email": "sebastian@phpunit.de"
+                },
+                {
+                    "name": "Kore Nordmann",
+                    "email": "mail@kore-nordmann.de"
+                }
+            ],
+            "description": "Fork of sebastian/diff for use with ergebnis/composer-normalize",
+            "homepage": "https://github.com/sebastianbergmann/diff",
+            "keywords": [
+                "diff",
+                "udiff",
+                "unidiff",
+                "unified diff"
+            ],
+            "time": "2019-12-17T07:42:37+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -12000,12 +12025,6 @@
                 "testing",
                 "xunit"
             ],
-            "funding": [
-                {
-                    "url": "https://github.com/sebastianbergmann",
-                    "type": "github"
-                }
-            ],
             "time": "2020-05-23T08:02:54+00:00"
         },
         {
@@ -12115,12 +12134,6 @@
             "keywords": [
                 "process"
             ],
-            "funding": [
-                {
-                    "url": "https://github.com/sebastianbergmann",
-                    "type": "github"
-                }
-            ],
             "time": "2020-06-15T13:10:07+00:00"
         },
         {
@@ -12224,12 +12237,6 @@
             "homepage": "https://github.com/sebastianbergmann/php-timer/",
             "keywords": [
                 "timer"
-            ],
-            "funding": [
-                {
-                    "url": "https://github.com/sebastianbergmann",
-                    "type": "github"
-                }
             ],
             "time": "2020-04-20T06:00:37+00:00"
         },
@@ -12373,16 +12380,6 @@
                 "phpunit",
                 "testing",
                 "xunit"
-            ],
-            "funding": [
-                {
-                    "url": "https://phpunit.de/donate.html",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/sebastianbergmann",
-                    "type": "github"
-                }
             ],
             "time": "2020-05-22T13:54:05+00:00"
         },
@@ -12717,12 +12714,6 @@
                 "udiff",
                 "unidiff",
                 "unified diff"
-            ],
-            "funding": [
-                {
-                    "url": "https://github.com/sebastianbergmann",
-                    "type": "github"
-                }
             ],
             "time": "2020-05-08T05:01:12+00:00"
         },
@@ -13170,12 +13161,6 @@
             ],
             "description": "Collection of value objects that represent the types of the PHP type system",
             "homepage": "https://github.com/sebastianbergmann/type",
-            "funding": [
-                {
-                    "url": "https://github.com/sebastianbergmann",
-                    "type": "github"
-                }
-            ],
             "time": "2020-06-01T12:21:09+00:00"
         },
         {
