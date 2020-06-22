@@ -24,7 +24,6 @@ use App\Part\Manager\DeficitManager;
 use App\Part\Manager\PartManager;
 use App\PartPrice\Entity\Discount;
 use App\PartPrice\Entity\Price;
-use App\PartPrice\PartPrice;
 use App\Storage\Entity\Motion;
 use App\Storage\Enum\Source;
 use App\Vehicle\Entity\Model;
@@ -65,25 +64,21 @@ final class PartController extends AbstractController
 
     private ReservationManager $reservationManager;
 
-    private PartPrice $partPrice;
-
     public function __construct(
         DeficitManager $deficitManager,
         PartManager $partManager,
-        ReservationManager $reservationManager,
-        PartPrice $partPrice
+        ReservationManager $reservationManager
     ) {
         $this->deficitManager = $deficitManager;
         $this->partManager = $partManager;
         $this->reservationManager = $reservationManager;
-        $this->partPrice = $partPrice;
     }
 
     public function crossAction(): Response
     {
         $left = $this->findCurrentEntity();
 
-        if (!$left instanceof Part) {
+        if (!$left instanceof PartView) {
             throw new LogicException('Parts required.');
         }
 
@@ -114,7 +109,7 @@ final class PartController extends AbstractController
     public function uncrossAction(): Response
     {
         $part = $this->findCurrentEntity();
-        if (!$part instanceof Part) {
+        if (!$part instanceof PartView) {
             throw new LogicException('Parts required.');
         }
 
