@@ -12,7 +12,7 @@ easy_admin:
                 actions:
                     - { name: 'pay', template: 'easy_admin/income/action_pay.html.twig' }
                 fields:
-                    - { property: 'supplierId', label: 'Поставщик', template: 'easy_admin/field_identifier.html.twig', bka: wow }
+                    - { property: 'supplierId', label: 'Поставщик', template: 'easy_admin/field_identifier.html.twig' }
                     - { property: 'status', vritual: true, label: 'Статус', template: 'easy_admin/income/field_status.html.twig' }
                     - { property: 'totalPrice', label: 'Сумма', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'itemsCount', label: 'Позиций' }
