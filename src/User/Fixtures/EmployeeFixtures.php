@@ -37,7 +37,6 @@ final class EmployeeFixtures extends Fixture
             UserId::fromString(self::ID),
             self::ROLES,
             self::USERNAME,
-            null
         );
 
         $user->changePassword(self::PASSWORD, $this->encoderFactory->getEncoder($user));

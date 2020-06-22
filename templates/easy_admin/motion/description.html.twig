@@ -2,11 +2,11 @@
 
 {% if item.source.isOrder() %}
     <a href="{{ easyadmin_path_by_id(item.sourceAsIdentifier, 'show', {'referer': true}) }}">
-        {{ item.sourceAsIdentifier|display_name }}
+        Заказ {{ item.sourceAsIdentifier|display_name }}
     </a>
 {% elseif item.source.isIncome() %}
     <a href="{{ easyadmin_path('Income', 'part', {'income_part_id': item.sourceId.toString, 'referer': true}) }}">
-        {{ item.sourceAsIdentifier|display_name }}
+        Приход от {{ item.sourceAsIdentifier|display_name }}
     </a>
 {% elseif item.source.isManual() %}
     {% set personId = user_to_person(item.sourceAsIdentifier) %}

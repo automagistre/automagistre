@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Income\Controller;
 
-use App\Customer\Entity\Operand;
+use App\Customer\Entity\CustomerTransaction;
+use App\Customer\Entity\CustomerTransactionId;
+use App\Customer\Enum\CustomerTransactionSource;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Form\Type\MoneyType;
 use App\Income\Entity\Income;
@@ -13,15 +15,17 @@ use App\Income\Entity\IncomePart;
 use App\Income\Event\IncomeAccrued;
 use App\Income\Form\IncomeDto;
 use App\Part\Entity\Part;
-use App\Payment\Manager\PaymentManager;
 use App\Wallet\Entity\Wallet;
+use App\Wallet\Entity\WalletTransaction;
+use App\Wallet\Entity\WalletTransactionId;
+use App\Wallet\Enum\WalletTransactionSource;
 use function assert;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use function in_array;
 use LogicException;
 use Money\Money;
-use function sprintf;
 use stdClass;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,13 +37,6 @@ use function urlencode;
  */
 final class IncomeController extends AbstractController
 {
-    private PaymentManager $paymentManager;
-
-    public function __construct(PaymentManager $paymentManager)
-    {
-        $this->paymentManager = $paymentManager;
-    }
-
     public function partAction(): Response
     {
         $incomePartId = $this->request->query->get('income_part_id');
@@ -80,18 +77,33 @@ final class IncomeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->registry->manager(Income::class)
-                ->transactional(function () use ($model, $income): void {
-                    $description = sprintf('# Оплата за поставку #%s', $income->toId()->toString());
-
+                ->transactional(static function (EntityManagerInterface $em) use ($model, $income): void {
                     /** @var Money $money */
                     $money = $model->money;
                     $money = $money->negative();
 
-                    $supplier = $this->registry
-                        ->findBy(Operand::class, ['uuid' => $income->getSupplierId()]);
+                    $customerTransactionId = CustomerTransactionId::generate();
+                    $em->persist(
+                        new CustomerTransaction(
+                            $customerTransactionId,
+                            $income->getSupplierId(),
+                            $money,
+                            CustomerTransactionSource::incomePayment(),
+                            $income->toId()->toUuid(),
+                            null
+                        )
+                    );
 
-                    $this->paymentManager->createPayment($supplier, $description, $money);
-                    $this->paymentManager->createPayment($model->wallet, $description, $money);
+                    $em->persist(
+                        new WalletTransaction(
+                            WalletTransactionId::generate(),
+                            $model->wallet->toId(),
+                            $money,
+                            WalletTransactionSource::incomePayment(),
+                            $income->toId()->toUuid(),
+                            null
+                        )
+                    );
                 });
 
             return $this->redirectToReferrer();
@@ -123,15 +135,19 @@ final class IncomeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->em;
 
-            $em->transactional(function () use ($income): void {
-                $income->accrue($this->getUser());
+            $income->accrue($this->getUser());
+            $em->persist(
+                new CustomerTransaction(
+                    CustomerTransactionId::generate(),
+                    $income->getSupplierId(),
+                    $income->getTotalPrice(),
+                    CustomerTransactionSource::incomeDebit(),
+                    $income->toId()->toUuid(),
+                    null,
+                )
+            );
 
-                $description = sprintf('# Начисление по поставке №%s', $income->toId()->toString());
-
-                $supplier = $this->registry
-                    ->findBy(Operand::class, ['uuid' => $income->getSupplierId()]);
-                $this->paymentManager->createPayment($supplier, $description, $income->getTotalPrice());
-            });
+            $em->flush();
 
             $this->event(new IncomeAccrued($income));
 

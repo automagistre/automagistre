@@ -25,11 +25,6 @@ doctrine:
                     type: pool
                     pool: doctrine.metadata_cache.pool
                 mappings:
-                    tenant:
-                        type: annotation
-                        prefix: App\Entity\Tenant
-                        dir: '%kernel.project_dir%/src/Entity/Tenant'
-                        is_bundle: false
                     cron:
                         type: annotation
                         prefix: Cron\CronBundle\Entity

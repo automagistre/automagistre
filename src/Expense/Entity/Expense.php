@@ -50,6 +50,11 @@ class Expense
         return $this->getName();
     }
 
+    public function toId(): ExpenseId
+    {
+        return ExpenseId::fromUuid($this->uuid);
+    }
+
     public function getName(): string
     {
         return $this->name;

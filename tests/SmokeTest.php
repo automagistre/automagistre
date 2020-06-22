@@ -6,6 +6,7 @@ namespace App\Tests;
 
 use App\Calendar\Fixtures\CalendarEntryFixtures;
 use App\Income\Fixtures\IncomeFixtures;
+use App\Manufacturer\Fixtures\NissanFixture;
 use App\Part\Fixtures\GasketFixture;
 use App\Storage\Fixtures\MainWarehouseFixture;
 use App\Wallet\Fixtures\WalletFixtures;
@@ -77,7 +78,7 @@ final class SmokeTest extends WebTestCase
             'new' => ['order_id' => '1'],
             'edit' => ['order_id' => '1'],
         ],
-        'OperandTransaction' => [
+        'CustomerTransaction' => [
             'new' => ['operand_id' => '1', 'type' => 'increment'],
         ],
         'MonthlySalary' => [
@@ -98,6 +99,9 @@ final class SmokeTest extends WebTestCase
         ],
         'IncomePart' => [
             'new' => ['income_id' => IncomeFixtures::ID],
+        ],
+        'Manufacturer' => [
+            'edit' => ['id' => NissanFixture::ID],
         ],
         'McLine' => [
             'new' => ['mc_equipment_id' => '1'],

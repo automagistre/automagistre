@@ -10,21 +10,20 @@ easy_admin:
                 fields:
                     - { property: 'id', label: 'Номер', template: 'easy_admin/order/field_id.html.twig' }
                     - { property: 'username', label: 'E-Mail' }
-                    - { property: 'personId', label: 'ФИО', template: 'easy_admin/field_identifier.html.twig' }
+                    - { property: 'firstName', label: 'Имя' }
+                    - { property: 'lastName', label: 'Фамилия' }
             show:
                 title: 'Пользователь № {{ entity.id }}'
                 fields:
                     - { property: 'id', label: 'ID' }
                     - { property: 'username', label: 'E-Mail' }
-                    - { property: 'personId', label: 'Заказчик', template: 'easy_admin/field_identifier.html.twig' }
+                    - { property: 'firstName', label: 'Имя' }
+                    - { property: 'lastName', label: 'Фамилия' }
             form:
                 fields:
                     - { property: 'username', label: 'E-Mail', type: 'email' }
-                    -   property: 'personId'
-                        label: 'Заказчик'
-                        type: App\EasyAdmin\Form\AutocompleteType
-                        type_options:
-                            class: App\Customer\Entity\Operand
+                    - { property: 'firstName', label: 'Имя', type_options: { required: false } }
+                    - { property: 'lastName', label: 'Фамилия', type_options: { required: false } }
                     - { property: 'password', label: 'Пароль', type: 'password', type_options: { required: true } }
             new:
                 title: 'Создать нового Пользователя'
@@ -32,8 +31,10 @@ easy_admin:
             edit:
                 title: 'Редактировать пользователя № {{ entity.id }}'
                 fields:
-                    - { property: 'password', type_options: { required: false, mapped: false } }
                     - { property: 'username', type_options: { disabled: true } }
+                    - { property: 'firstName', label: 'Имя', type_options: { required: false } }
+                    - { property: 'lastName', label: 'Фамилия', type_options: { required: false } }
+                    - { property: 'password', type_options: { required: false, mapped: false } }
 
 doctrine:
     orm:

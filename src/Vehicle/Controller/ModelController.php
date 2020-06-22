@@ -35,7 +35,7 @@ final class ModelController extends AbstractController
         $dqlFilter = null
     ): QueryBuilder {
         $qb = $this->registry->repository(Model::class)->createQueryBuilder('model')
-            ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'model.manufacturerId = manufacturer.uuid');
+            ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'model.manufacturerId = manufacturer.id');
 
         foreach (explode(' ', $searchQuery) as $key => $item) {
             $key = ':search_'.$key;
@@ -110,7 +110,7 @@ final class ModelController extends AbstractController
 
         return new ModelDto(
             $array['uuid'],
-            $this->registry->findBy(Manufacturer::class, ['uuid' => $array['manufacturerId']]),
+            $this->registry->getBy(Manufacturer::class, ['id' => $array['manufacturerId']]),
             $array['name'],
             $array['localizedName'],
             $array['caseName'],

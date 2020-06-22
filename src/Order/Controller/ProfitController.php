@@ -6,6 +6,7 @@ namespace App\Order\Controller;
 
 use App\Customer\Entity\Operand;
 use App\Customer\Entity\OperandId;
+use App\Customer\Enum\CustomerTransactionSource;
 use App\Order\Entity\Order;
 use App\Shared\Doctrine\Registry;
 use function count;
@@ -71,10 +72,10 @@ final class ProfitController extends AbstractController
                  WHERE sub.order_id = o.id
                ) AS service_price,
                (
-                 SELECT SUM(operand_transaction.amount_amount::integer)
-                 FROM operand_transaction
-                        JOIN order_salary os on operand_transaction.id = os.transaction_id
-                 WHERE os.order_id = o.id
+                 SELECT SUM(ct.amount_amount::integer)
+                 FROM customer_transaction ct
+                 WHERE o.uuid = ct.source_id
+                    AND ct.source = '.CustomerTransactionSource::orderSalary()->toId().'
                ) AS service_cost,
                (
                  SELECT SUM((sub.quantity)::numeric / 100 * sub.price::integer)

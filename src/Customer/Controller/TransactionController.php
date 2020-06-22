@@ -4,17 +4,21 @@ declare(strict_types=1);
 
 namespace App\Customer\Controller;
 
+use App\Customer\Entity\CustomerTransaction;
+use App\Customer\Entity\CustomerTransactionId;
 use App\Customer\Entity\Operand;
-use App\Customer\Form\OperandTransactionModel;
+use App\Customer\Enum\CustomerTransactionSource;
+use App\Customer\Form\TransactionDto;
 use App\EasyAdmin\Controller\AbstractController;
-use App\Entity\Tenant\OperandTransaction;
-use App\Payment\Manager\PaymentManager;
 use App\Wallet\Entity\Wallet;
+use App\Wallet\Entity\WalletTransaction;
+use App\Wallet\Entity\WalletTransactionId;
+use App\Wallet\Enum\WalletTransactionSource;
 use function assert;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use LogicException;
 use Money\Money;
-use function sprintf;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormInterface;
@@ -22,16 +26,9 @@ use Symfony\Component\Form\FormInterface;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class OperandTransactionController extends AbstractController
+final class TransactionController extends AbstractController
 {
-    private PaymentManager $paymentManager;
-
-    public function __construct(PaymentManager $paymentManager)
-    {
-        $this->paymentManager = $paymentManager;
-    }
-
-    protected function createNewEntity(): OperandTransactionModel
+    protected function createNewEntity(): TransactionDto
     {
         $recipient = $this->getEntity(Operand::class);
         if (!$recipient instanceof Operand) {
@@ -43,7 +40,7 @@ final class OperandTransactionController extends AbstractController
             throw new LogicException('Type required.');
         }
 
-        $model = new OperandTransactionModel();
+        $model = $this->createWithoutConstructor(TransactionDto::class);
         $model->recipient = $recipient;
         $model->increment = 'increment' === $request->query->getAlnum('type');
 
@@ -77,31 +74,50 @@ final class OperandTransactionController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function persistEntity($entity): OperandTransaction
+    protected function persistEntity($entity): void
     {
         $model = $entity;
-        assert($model instanceof OperandTransactionModel);
+        assert($model instanceof TransactionDto);
 
-        return $this->em->transactional(function () use ($model): OperandTransaction {
+        $this->em->transactional(function (EntityManagerInterface $em) use ($model): void {
             /** @var Money $money */
             $money = $model->amount;
             $money = $model->increment ? $money->absolute() : $money->negative();
 
-            $transaction = $this->paymentManager->createPayment($model->recipient, $model->description, $money);
-            assert($transaction instanceof OperandTransaction);
+            $customerTransactionId = CustomerTransactionId::generate();
 
             if ($model->wallet instanceof Wallet) {
-                $description = sprintf(
-                    '# Ручная транзакция "%s" для "%s", с комментарием "%s"',
-                    $transaction->getId(),
-                    (string) $model->recipient,
+                $walletTransactionId = WalletTransactionId::generate();
+
+                $em->persist(new CustomerTransaction(
+                    $customerTransactionId,
+                    $model->recipient->toId(),
+                    $money,
+                    CustomerTransactionSource::manual(),
+                    $walletTransactionId->toUuid(),
                     $model->description
+                ));
+
+                $em->persist(
+                    new WalletTransaction(
+                        $walletTransactionId,
+                        $model->wallet->toId(),
+                        $money,
+                        WalletTransactionSource::operandManual(),
+                        $customerTransactionId->toUuid(),
+                        null
+                    )
                 );
-
-                $this->paymentManager->createPayment($model->wallet, $description, $money);
+            } else {
+                $em->persist(new CustomerTransaction(
+                    $customerTransactionId,
+                    $model->recipient->toId(),
+                    $money,
+                    CustomerTransactionSource::manualWithoutWallet(),
+                    $this->getUser()->toId()->toUuid(),
+                    $model->description
+                ));
             }
-
-            return $transaction;
         });
     }
 
@@ -116,10 +132,10 @@ final class OperandTransactionController extends AbstractController
     ): QueryBuilder {
         $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
 
-        $recipient = $this->getEntity(Operand::class);
-        if ($recipient instanceof Operand) {
-            $qb->andWhere('entity.recipient.id = :recipient')
-                ->setParameter('recipient', $recipient->getId());
+        $operand = $this->getEntity(Operand::class);
+        if ($operand instanceof Operand) {
+            $qb->andWhere('entity.operandId = :operand')
+                ->setParameter('operand', $operand->toId());
         }
 
         $qb->orderBy('entity.createdAt', 'DESC')

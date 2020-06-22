@@ -13,6 +13,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Twig\EasyAdminTwigExtension;
 use function get_class;
 use function is_array;
 use function json_encode;
+use function method_exists;
 use Sentry\Severity;
 use Sentry\State\HubInterface;
 use function sprintf;
@@ -101,7 +102,9 @@ final class EntityNotificationListener implements EventSubscriberInterface
             return;
         }
 
-        $id = $this->propertyAccessor->getValue($entity, 'id');
+        $id = method_exists($entity, 'toId')
+            ? (string) $entity->toId()
+            : $this->propertyAccessor->getValue($entity, 'id');
         $name = $entityConfig['name'];
 
         $tenant = $this->state->tenant()->toIdentifier();

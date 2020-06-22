@@ -1,7 +1,7 @@
 easy_admin:
     entities:
         Part:
-            class: App\Part\Entity\Part
+            class: App\Part\Entity\PartView
             controller: App\Part\Controller\PartController
             disabled_actions: ['delete']
             label: 'Запчасти'
@@ -11,18 +11,19 @@ easy_admin:
                 title: '{{ entity.toId|display_name }}'
                 fields:
                     - { property: 'name', label: 'Название' }
-                    - { property: 'manufacturerId', label: 'Производитель', template: 'easy_admin/field_identifier.html.twig' }
+                    - { property: 'manufacturer', label: 'Производитель', template: 'easy_admin/manufacturer/field_manufacturer_view.html.twig' }
                     - { property: 'number', label: 'Номер', template: 'easy_admin/field_part_number.html.twig' }
-                    - { property: 'universal', label: 'Универсальная' }
+                    - { property: 'isUniversal', label: 'Универсальная' }
             list:
                 title: 'Запчасти'
                 fields:
-                    - { property: 'name', label: 'Название', template: 'easy_admin/field_part.html.twig', item: true, stock: true, referer: false }
-                    - { property: 'manufacturerId', label: 'Производитель', template: 'easy_admin/field_identifier.html.twig' }
-                    - { property: 'number', label: 'Номер', template: 'easy_admin/field_part_number.html.twig' }
-                    - { property: 'price', label: 'Цена', template: 'easy_admin/part/field_price.html.twig' }
-                    - { property: 'discount', label: 'Скидка', template: 'easy_admin/part/field_discount.html.twig' }
-                    - { property: 'universal', label: 'Универсальная', template: 'easy_admin/default/field_boolean.html.twig' }
+                    - { property: 'manufacturer', label: 'Производитель', template: 'easy_admin/manufacturer/field_manufacturer_view.html.twig' }
+                    - { property: 'name', label: 'Название', template: 'easy_admin/field_item_show.html.twig' }
+                    - { property: 'number', label: 'Номер', template: 'easy_admin/field_part_number.html.twig', sortable: false }
+                    - { property: 'quantity', label: 'Наличие', template: 'easy_admin/field_quantity.html.twig' }
+                    - { property: 'price', label: 'Цена', template: 'easy_admin/field_money.html.twig', sortable: false }
+                    - { property: 'discount', label: 'Скидка', template: 'easy_admin/field_money.html.twig', sortable: false }
+                    - { property: 'isUniversal', label: 'Универсальная', template: 'easy_admin/default/field_boolean.html.twig' }
             form:
                 form_options: { data_class: \App\Part\Form\PartDto }
                 fields:
@@ -36,7 +37,7 @@ easy_admin:
                     - { property: 'name', label: 'Название' }
                     - { property: 'price', label: 'Цена', type: App\Form\Type\MoneyType, type_options: { required: true } }
                     - { property: 'discount', label: 'Скидка', type: App\Form\Type\MoneyType }
-                    - { property: 'universal', label: 'Универсальная' }
+                    - { property: 'universal', label: 'Универсальная', type: 'checkbox' }
             new:
                 title: 'Создать новую запчасть'
             edit:

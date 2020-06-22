@@ -28,7 +28,7 @@ final class ManufacturerController extends AbstractController
         return $this->json([
             'results' => array_map(
                 fn (Manufacturer $manufacturer) => [
-                    'id' => $isUuid ? $manufacturer->toId()->toString() : $manufacturer->getId(),
+                    'id' => $manufacturer->toId()->toString(),
                     'text' => $this->display($manufacturer->toId()),
                 ],
                 (array) $paginator->getCurrentPageResults()

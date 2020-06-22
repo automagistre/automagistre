@@ -16,8 +16,7 @@ easy_admin:
             list:
                 title: 'Производители'
                 fields:
-                    - { property: 'id' }
-                    - { property: 'name', label: 'Название' }
+                    - { property: 'name', label: 'Название', template: 'easy_admin/field_item_show.html.twig' }
                     - { property: 'localizedName', label: 'Название на русском' }
                     - { property: 'logo', label: 'Logo' }
             form:

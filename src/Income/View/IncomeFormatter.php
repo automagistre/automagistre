@@ -9,7 +9,6 @@ use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
-use function sprintf;
 
 final class IncomeFormatter implements IdentifierFormatterInterface
 {
@@ -35,6 +34,6 @@ final class IncomeFormatter implements IdentifierFormatterInterface
     {
         $view = $this->registry->view($identifier);
 
-        return sprintf('Приход от %s', $formatter->format($view['supplierId']));
+        return $formatter->format($view['supplierId']);
     }
 }

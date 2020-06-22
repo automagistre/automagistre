@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Wallet\Entity;
 
-use App\Payment\Transactional;
+use App\Costil;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;
 
 /**
  * @ORM\Entity
  */
-class Wallet implements Transactional
+class Wallet
 {
     /**
      * @ORM\Id()
@@ -67,16 +67,11 @@ class Wallet implements Transactional
 
     public function __toString(): string
     {
-        return $this->name;
+        return Costil::$formatter->format($this->id);
     }
 
     public function toId(): WalletId
     {
         return $this->id;
-    }
-
-    public function getTransactionClass(): string
-    {
-        return WalletTransaction::class;
     }
 }

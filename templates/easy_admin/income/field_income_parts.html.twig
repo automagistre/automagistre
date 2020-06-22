@@ -32,7 +32,7 @@
 
             <tr{% if trClass is not empty %} class="{{ trClass }}"{% endif %}>
                 <td>{{ loop.index }}</td>
-                <td>{% include 'easy_admin/field_part.html.twig' with {'value': part_by_id(incomePart.partId)} only %}</td>
+                <td>{% include 'easy_admin/field_part.html.twig' with {'value': part_view(incomePart.partId)} only %}</td>
                 <td>{{ incomePart.price|localize_money }}</td>
                 <td>{{ incomePart.quantity / 100 }}</td>
                 <td>{{ incomePart.totalPrice|localize_money }}</td>

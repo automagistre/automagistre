@@ -63,7 +63,7 @@
                                                 <a href="{{ easyadmin_path(linePart, 'edit') }}">{{ linePart.id }}</a>
                                             </td>
                                             <td></td>
-                                            <td>{% include 'easy_admin/field_part.html.twig' with {'value': part_by_id(linePart.partId)} %}</td>
+                                            <td>{% include 'easy_admin/field_part.html.twig' with {'value': part_view(linePart.partId)} %}</td>
                                             <td></td>
                                             <td>{% include 'easy_admin/default/field_boolean.html.twig' with {'value': linePart.recommended} %}</td>
                                         </tr>

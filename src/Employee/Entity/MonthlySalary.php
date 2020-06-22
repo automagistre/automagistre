@@ -75,6 +75,11 @@ class MonthlySalary
         $this->amount = $amount;
     }
 
+    public function toId(): SalaryId
+    {
+        return SalaryId::fromUuid($this->uuid);
+    }
+
     public function isEnded(): bool
     {
         return null !== $this->endedAt;

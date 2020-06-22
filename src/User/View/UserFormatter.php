@@ -34,6 +34,10 @@ final class UserFormatter implements IdentifierFormatterInterface
     {
         $view = $this->registry->view($identifier);
 
+        if (null !== $view['firstName'] && null !== $view['lastName']) {
+            return $view['lastName'].' '.$view['firstName'];
+        }
+
         return $view['username'];
     }
 }
