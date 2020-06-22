@@ -64,7 +64,7 @@
                         </div>
                     {% endif %}
                     <div class="box-footer">
-                        <a class="btn btn-primary" href="{{ easyadmin_path('PartPrice', 'new', [{'referer': true}, entity]|to_query) }}">Новая цена</a>
+                        <a class="btn btn-primary" href="{{ easyadmin_path('PartPrice', 'new', {'part_id': entity.toId.toString, 'referer': true}) }}">Новая цена</a>
                     </div>
                 </div>
             </div>
@@ -100,29 +100,29 @@
                         </div>
                     {% endif %}
                     <div class="box-footer">
-                        <a class="btn btn-primary" href="{{ easyadmin_path('PartDiscount', 'new', [{'referer': true}, entity]|to_query) }}">Новая скидка</a>
+                        <a class="btn btn-primary" href="{{ easyadmin_path('PartDiscount', 'new', {'part_id': entity.toId.toString, 'referer': true}) }}">Новая скидка</a>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="col-md-6" style="margin-bottom: 15px">
-            <a href="{{ easyadmin_path('Part', 'income', {'referer': true}|merge(entity|to_query)) }}" class="btn btn-primary">
+            <a href="{{ easyadmin_path('Part', 'income', {'part_id': entity.toId.toString, 'referer': true}) }}" class="btn btn-primary">
                 <i class="fa fa-arrow-down"></i>
                 Пополнить вручную
             </a>
 
-            <a href="{{ easyadmin_path('Part', 'outcome', {'referer': true}|merge(entity|to_query)) }}" class="btn btn-danger">
+            <a href="{{ easyadmin_path('Part', 'outcome', {'part_id': entity.toId.toString, 'referer': true}) }}" class="btn btn-danger">
                 <i class="fa fa-arrow-up"></i>
                 Списать вручную
             </a>
 
-            <a href="{{ easyadmin_path('Motion', 'list', entity|to_query) }}" class="btn btn-success">
+            <a href="{{ easyadmin_path('Motion', 'list', {'part_id': entity.toId.toString}) }}" class="btn btn-success">
                 <i class="fa fa-recycle"></i>
                 Движения
             </a>
 
-            <a href="{{ easyadmin_path('Income', 'list', entity|to_query) }}" class="btn btn-info">
+            <a href="{{ easyadmin_path('Income', 'list', {'part_id': entity.toId.toString}) }}" class="btn btn-info">
                 <i class="fa fa-book"></i>
                 Приходы
             </a>
@@ -178,7 +178,7 @@
                     {% endif %}
 
                     <div class="box-footer">
-                        <a class="btn btn-primary" href="{{ easyadmin_path('Order', 'list', entity|to_query) }}">Все заказы</a>
+                        <a class="btn btn-primary" href="{{ easyadmin_path('Order', 'list', {'part_id': entity.toId.toString}) }}">Все заказы</a>
                     </div>
                 </div>
             </div>
@@ -243,7 +243,7 @@
                         </div>
                     {% endif %}
                     <div class="box-footer">
-                        <a class="btn btn-primary" href="{{ easyadmin_path('Part', 'case', [{'referer': true}, entity]|to_query) }}">Добавить кузов</a>
+                        <a class="btn btn-primary" href="{{ easyadmin_path('Part', 'case', {'part_id': entity.toId.toString, 'referer': true}) }}">Добавить кузов</a>
                     </div>
                 </div>
             </div>
