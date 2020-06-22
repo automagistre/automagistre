@@ -42,7 +42,7 @@ services:
             replicas: 1
             endpoint_mode: dnsrr
             restart_policy:
-                condition: on-failure
+                condition: any
             update_config:
                 parallelism: 1
                 delay: 10s
