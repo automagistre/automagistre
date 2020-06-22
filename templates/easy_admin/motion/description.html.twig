@@ -9,15 +9,9 @@
         Приход от {{ item.sourceAsIdentifier|display_name }}
     </a>
 {% elseif item.source.isManual() %}
-    {% set personId = user_to_person(item.sourceAsIdentifier) %}
-
-    {% if personId is not empty %}
-        <a href="{{ easyadmin_path_by_id(personId, 'show', {'referer': true}) }}">
-            {{ personId|display_name }}
-        </a>
-    {% else %}
+    <a href="{{ easyadmin_path('User', 'show', {'id': item.sourceAsIdentifier.toString, 'referer': true}) }}">
         {{ item.sourceAsIdentifier|display_name }}
-    {% endif %}
+    </a>
 {% else %}
     {{ value }}
 {% endif %}
