@@ -37,6 +37,9 @@ easy_admin:
                     - { property: 'password', type_options: { required: false, mapped: false } }
 
 doctrine:
+    dbal:
+        types:
+            user_view: App\User\Doctrine\UserViewType
     orm:
         mappings:
             user:

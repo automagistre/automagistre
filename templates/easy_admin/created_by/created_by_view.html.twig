@@ -1,0 +1,4 @@
+{# @var value \App\CreatedBy\Entity\CreatedByView #}
+{% include 'easy_admin/user/user_view.html.twig' with {'value': value.by} only %}
+
+{{ value.at|format_datetime('short', 'short', '', 'GMT+3') }}
