@@ -53,6 +53,7 @@ final class Costil
 {
     public const PODSTANOVA = 45;
     public const OLD_USER = '4ffc24e2-8e60-42e0-9c8f-7a73888b2da6';
+    public const SERVICE_USER = '59861141-83b2-416c-b672-8ba8a1cb76b2';
     public const ENTITY = [
         CalendarEntryId::class => CalendarEntry::class,
         CarId::class => Car::class,

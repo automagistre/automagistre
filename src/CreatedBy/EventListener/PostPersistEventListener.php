@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\CreatedBy\EventListener;
 
+use App\Costil;
 use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\Identifier;
 use App\User\Entity\User;
@@ -14,6 +15,7 @@ use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Events;
 use function is_int;
+use const PHP_SAPI;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Security\Core\Security;
 
@@ -59,6 +61,10 @@ final class PostPersistEventListener implements EventSubscriber
         $userId = null;
         if ($user instanceof User) {
             $userId = $user->toId();
+        }
+
+        if (null === $userId && 'cli' === PHP_SAPI) {
+            $userId = Costil::SERVICE_USER;
         }
 
         $em = $args->getObjectManager();

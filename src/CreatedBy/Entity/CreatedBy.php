@@ -21,16 +21,16 @@ class CreatedBy
     private UuidInterface $id;
 
     /**
-     * @ORM\Column(type="user_id", nullable=true)
+     * @ORM\Column(type="user_id")
      */
-    private ?UserId $userId;
+    private UserId $userId;
 
     /**
      * @ORM\Column(type="datetimetz_immutable")
      */
     private DateTimeImmutable $createdAt;
 
-    private function __construct(UuidInterface $id, ?UserId $userId)
+    private function __construct(UuidInterface $id, UserId $userId)
     {
         $this->id = $id;
         $this->userId = $userId;
