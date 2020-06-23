@@ -43,4 +43,9 @@ final class MoneyType extends Type
     {
         return 'money';
     }
+
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
+    {
+        return true;
+    }
 }
