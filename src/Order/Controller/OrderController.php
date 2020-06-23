@@ -293,7 +293,7 @@ final class OrderController extends AbstractController
             $till = $form->get('till')->getData();
             $reason = $form->get('reason')->getData();
 
-            $order->suspend($till, $reason, $this->getUser());
+            $order->suspend($till, $reason);
             $this->em->flush();
 
             return $this->redirectToReferrer();

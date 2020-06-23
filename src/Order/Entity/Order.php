@@ -121,7 +121,7 @@ class Order
      * @var Collection<int, OrderSuspend>
      *
      * @ORM\OneToMany(targetEntity=OrderSuspend::class, mappedBy="order", cascade={"persist", "remove"})
-     * @ORM\OrderBy({"createdAt": "ASC"})
+     * @ORM\OrderBy({"id": "ASC"})
      */
     private $suspends;
 
@@ -495,9 +495,9 @@ class Order
         return $this->suspends->getValues();
     }
 
-    public function suspend(DateTimeImmutable $till, string $reason, User $user): void
+    public function suspend(DateTimeImmutable $till, string $reason): void
     {
-        $this->suspends[] = new OrderSuspend($this, $till, $reason, $user);
+        $this->suspends[] = new OrderSuspend($this, $till, $reason);
     }
 
     private function isDiscountedByClass(string $class): bool

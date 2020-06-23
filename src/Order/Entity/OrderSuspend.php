@@ -4,22 +4,21 @@ declare(strict_types=1);
 
 namespace App\Order\Entity;
 
-use App\Entity\Embeddable\UserRelation;
-use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedAt;
-use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedByRelation as CreatedBy;
-use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
-use App\User\Entity\User;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
  */
 class OrderSuspend
 {
-    use Identity;
-    use CreatedAt;
-    use CreatedBy;
+    /**
+     * @ORM\Id()
+     * @ORM\Column(type="uuid")
+     */
+    private UuidInterface $id;
 
     /**
      * @var Order
@@ -27,6 +26,11 @@ class OrderSuspend
      * @ORM\ManyToOne(targetEntity=Order::class, inversedBy="suspends")
      */
     private $order;
+
+    /**
+     * @ORM\Column(type="order_id", name="order_uuid")
+     */
+    private OrderId $orderId;
 
     /**
      * @var DateTimeImmutable
@@ -42,12 +46,18 @@ class OrderSuspend
      */
     private $reason;
 
-    public function __construct(Order $order, DateTimeImmutable $till, string $reason, User $user)
+    public function __construct(Order $order, DateTimeImmutable $till, string $reason)
     {
+        $this->id = Uuid::uuid6();
         $this->order = $order;
+        $this->orderId = $order->toId();
         $this->till = $till;
         $this->reason = $reason;
-        $this->createdByRelation = new UserRelation($user);
+    }
+
+    public function toId(): UuidInterface
+    {
+        return $this->id;
     }
 
     public function getReason(): string

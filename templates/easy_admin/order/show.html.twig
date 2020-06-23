@@ -163,8 +163,7 @@
                                             <tr>
                                                 <th>До</th>
                                                 <th>Причина</th>
-                                                <th>Создал</th>
-                                                <th>Дата</th>
+                                                <th>Создано</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -172,8 +171,7 @@
                                                 <tr>
                                                     <td>{{ suspend.till|format_date('short', '', 'GMT+3') }}</td>
                                                     <td>{{ suspend.reason }}</td>
-                                                    <td>{{ include('easy_admin/field_user.html.twig', {'value': suspend.createdBy}) }}</td>
-                                                    <td>{{ suspend.createdAt|format_datetime('short', 'short', '', 'GMT+3') }}</td>
+                                                    <td>{{ created_by_view(suspend.toId) }}</td>
                                                 </tr>
                                             {% endfor %}
                                             </tbody>

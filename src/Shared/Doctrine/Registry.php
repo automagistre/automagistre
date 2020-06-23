@@ -88,23 +88,11 @@ final class Registry
      */
     public function manager(string $class): EntityManagerInterface
     {
-        $em = $this->managerOrNull($class);
+        $em = $this->registry->getManager();
 
         if (!$em instanceof EntityManagerInterface) {
             throw new LogicException('EntityManager expected');
         }
-
-        return $em;
-    }
-
-    public function managerOrNull(string $class): ?EntityManagerInterface
-    {
-        $em = $this->registry->getManagerForClass($this->class($class));
-        if (null === $em) {
-            return null;
-        }
-
-        assert($em instanceof EntityManagerInterface);
 
         return $em;
     }
