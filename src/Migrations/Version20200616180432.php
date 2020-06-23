@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Migrations;
 
+use App\Calendar\Entity\EntryView;
+use App\Storage\Entity\WarehouseView;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
@@ -276,52 +278,8 @@ final class Version20200616180432 extends AbstractMigration
         $this->addSql('ALTER TABLE part_cross_part ADD CONSTRAINT FK_B98F499C4CE34BEC FOREIGN KEY (part_id) REFERENCES part (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE wallet_transaction ADD CONSTRAINT FK_7DAF972E92F8F78 FOREIGN KEY (recipient_id) REFERENCES wallet (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
 
-        $this->addSql('
-            CREATE VIEW warehouse_view AS
-            SELECT root.id                AS id,
-                   wn.name                AS name,
-                   wp.warehouse_parent_id AS parent_id
-            FROM warehouse root
-                     JOIN LATERAL (SELECT name
-                                   FROM warehouse_name sub
-                                   WHERE sub.warehouse_id = root.id
-                                   ORDER BY sub.id DESC
-                                   LIMIT 1
-                ) wn ON true
-                     LEFT JOIN LATERAL (SELECT warehouse_parent_id
-                                        FROM warehouse_parent sub
-                                        WHERE sub.warehouse_id = root.id
-                                        ORDER BY sub.id DESC
-                                        LIMIT 1
-                ) wp ON true
-        ');
-        $this->addSql('
-                    CREATE VIEW calendar_entry_view AS
-                    SELECT e.id,
-                           ces.date         AS schedule_date,
-                           ces.duration     AS schedule_duration,
-                           ceoi.customer_id AS order_info_customer_id,
-                           ceoi.car_id      AS order_info_car_id,
-                           ceoi.description AS order_info_description,
-                           ceoi.worker_id   AS order_info_worker_id,
-                           ceo.order_id     AS order_id
-                    FROM calendar_entry e
-                             LEFT JOIN calendar_entry_deletion ced on e.id = ced.entry_id
-                             LEFT JOIN calendar_entry_order ceo ON ceo.entry_id = e.id
-                             JOIN LATERAL (SELECT *
-                                           FROM calendar_entry_schedule sub
-                                           WHERE sub.entry_id = e.id
-                                           ORDER BY sub.id DESC
-                                           LIMIT 1
-                        ) ces ON true
-                             JOIN LATERAL (SELECT *
-                                           FROM calendar_entry_order_info sub
-                                           WHERE sub.entry_id = e.id
-                                           ORDER BY sub.id DESC
-                                           LIMIT 1
-                        ) ceoi ON true
-                    WHERE ced IS NULL
-                ');
+        $this->addSql(WarehouseView::sql());
+        $this->addSql(EntryView::sql());
     }
 
     public function down(Schema $schema): void
