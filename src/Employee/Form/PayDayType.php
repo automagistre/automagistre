@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Type;
+namespace App\Employee\Form;
 
 use function array_combine;
 use function range;
@@ -13,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class DayType extends AbstractType
+final class PayDayType extends AbstractType
 {
     private const MONTH_FIRST_DAY = 1;
     private const SHORT_MONTH_END_DAY = 28;

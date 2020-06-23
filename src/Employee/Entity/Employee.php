@@ -53,9 +53,9 @@ class Employee
      */
     private $firedAt;
 
-    public function __construct()
+    public function __construct(EmployeeId $employeeId = null)
     {
-        $this->uuid = EmployeeId::generate();
+        $this->uuid = $employeeId ?? EmployeeId::generate();
         $this->person = new PersonRelation();
         $this->hiredAt = new DateTime();
     }
@@ -63,6 +63,11 @@ class Employee
     public function __toString(): string
     {
         return $this->getPerson()->getFullName();
+    }
+
+    public function toId(): EmployeeId
+    {
+        return $this->uuid;
     }
 
     public function isEqual(?self $employee): bool

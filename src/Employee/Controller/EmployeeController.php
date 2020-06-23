@@ -10,7 +10,7 @@ use App\Customer\Entity\Person;
 use App\Customer\Enum\CustomerTransactionSource;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Employee\Entity\Employee;
-use App\Employee\Entity\MonthlySalary;
+use App\Employee\Entity\SalaryView;
 use App\Employee\Event\EmployeeCreated;
 use App\Employee\Event\EmployeeFired;
 use App\Form\Type\MoneyType;
@@ -221,8 +221,8 @@ final class EmployeeController extends AbstractController
             /** @var Employee $entity */
             $entity = $parameters['entity'];
 
-            $parameters['monthlySalaries'] = $this->registry->repository(MonthlySalary::class)
-                ->findBy(['employee' => $entity]);
+            $parameters['salaries'] = $this->registry->repository(SalaryView::class)
+                ->findBy(['employeeId' => $entity->toId()]);
         }
 
         return parent::renderTemplate($actionName, $templatePath, $parameters);

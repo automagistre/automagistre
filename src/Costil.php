@@ -83,7 +83,7 @@ final class Costil
         OperandId::class => 'Operand',
         OrderId::class => 'Order',
         PartId::class => 'Part',
-        SalaryId::class => 'MonthlySalary',
+        SalaryId::class => 'Salary',
         UserId::class => 'User',
         VehicleId::class => 'CarModel',
         WalletId::class => 'Wallet',

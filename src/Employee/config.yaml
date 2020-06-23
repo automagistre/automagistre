@@ -37,16 +37,10 @@ easy_admin:
             edit:
                 title: 'Редактировать работника'
 
-        MonthlySalary:
-            class: App\Employee\Entity\MonthlySalary
-            controller: App\Employee\Controller\MonthlySalaryController
+        Salary:
+            class: App\Employee\Entity\Salary
+            controller: App\Employee\Controller\SalaryController
             disabled_actions: ['delete', 'show', 'search', 'autocomplete', 'edit']
-            new:
-                title: 'Создать ежемесячный оклад для "{{ entity.employee }}"'
-                form_options: { data_class: stdClass }
-                fields:
-                    - { property: 'payday', label: 'День начисления', type: App\Form\Type\DayType }
-                    - { property: 'amount', label: 'Сумма', type: App\Form\Type\MoneyType }
 
 doctrine:
     orm:

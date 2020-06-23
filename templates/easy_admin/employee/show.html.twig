@@ -1,6 +1,6 @@
 {% extends 'easy_admin/default/show.html.twig' %}
 
-{# @var entity \App\Entity\Person #}
+{# @var entity \App\Employee\Entity\Employee #}
 
 {% block main %}
     <div class="row">
@@ -27,35 +27,23 @@
                                 <h3 class="box-title">Ежемесячные оклады</h3>
                             </div>
 
-                            {% if monthlySalaries is not empty %}
+                            {% if salaries is not empty %}
                                 <div class="table-responsive">
                                     <table class="table table-striped">
                                         <thead>
                                         <tr>
                                             <th>День</th>
                                             <th>Сумма</th>
-                                            <th>Создал</th>
                                             <th>Создано</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {% for item in monthlySalaries %}
-                                            {# @var item \App\Entity\Tenant\MonthlySalary #}
+                                        {% for item in salaries %}
+                                            {# @var item \App\Employee\Entity\SalaryView #}
                                             <tr>
                                                 <td>{{ item.payday }}</td>
                                                 <td>{{ item.amount|localize_money }}</td>
-                                                <td>
-                                                    {%- apply spaceless -%}
-                                                        {# @var cretedBy \App\Entity\Landlord\User #}
-                                                        {% set createdBy = item.createdBy %}
-                                                        {% if createdBy.person is not empty %}
-                                                            {{ createdBy.person.fullName }}
-                                                        {% else %}
-                                                            {{ createdBy.username }}
-                                                        {% endif %}
-                                                    {%- endapply -%}
-                                                </td>
-                                                <td>{{ item.createdAt|format_datetime('short', 'short', '', 'GMT+3') }}</td>
+                                                <td>{% include 'easy_admin/created_by/created_by_view.html.twig' with {'value': item.created} only %}</td>
                                             </tr>
                                         {% endfor %}
                                         </tbody>
@@ -68,7 +56,7 @@
                             {% endif %}
 
                             <div class="box-footer">
-                                <a href="{{ easyadmin_path('MonthlySalary', 'new', entity|to_query) }}" class="btn btn-primary">
+                                <a href="{{ easyadmin_path('Salary', 'new', {'employee_id': entity.toId.toString}) }}" class="btn btn-primary">
                                     Создать ежемесячный оклад
                                 </a>
                             </div>

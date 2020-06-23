@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests;
 
 use App\Calendar\Fixtures\CalendarEntryFixtures;
+use App\Employee\Fixtures\EmployeeFixtures;
 use App\Income\Fixtures\IncomeFixtures;
 use App\Manufacturer\Fixtures\NissanFixture;
 use App\Part\Fixtures\GasketFixture;
@@ -81,8 +82,8 @@ final class SmokeTest extends WebTestCase
         'CustomerTransaction' => [
             'new' => ['operand_id' => '1', 'type' => 'increment'],
         ],
-        'MonthlySalary' => [
-            'new' => ['employee_id' => '1'],
+        'Salary' => [
+            'new' => ['employee_id' => EmployeeFixtures::ID],
         ],
         'Part' => [
             'edit' => ['id' => GasketFixture::ID],

@@ -7,17 +7,15 @@ namespace App\Employee\Command;
 use App\Customer\Entity\CustomerTransaction;
 use App\Customer\Entity\CustomerTransactionId;
 use App\Customer\Enum\CustomerTransactionSource;
-use App\Employee\Entity\MonthlySalary;
+use App\Employee\Entity\Employee;
+use App\Employee\Entity\SalaryView;
 use App\Shared\Doctrine\Registry;
-use App\User\Entity\User;
-use function assert;
 use function date;
-use RuntimeException;
+use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleErrorEvent;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Throwable;
@@ -25,9 +23,9 @@ use Throwable;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class MonthlySalaryCommand extends Command
+final class SalaryChargeCommand extends Command
 {
-    protected static $defaultName = 'employee:monthly:salary';
+    protected static $defaultName = 'employee:salary:charge';
 
     private Registry $registry;
 
@@ -47,8 +45,7 @@ final class MonthlySalaryCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('payday', InputArgument::OPTIONAL)
-            ->addOption('description', 'd', InputOption::VALUE_OPTIONAL);
+            ->addArgument('payday', InputArgument::OPTIONAL);
     }
 
     /**
@@ -58,16 +55,9 @@ final class MonthlySalaryCommand extends Command
     {
         /** @var string $payday */
         $payday = $input->getArgument('payday') ?? date('j');
-        /** @var string $description */
-        $description = $input->getOption('description') ?? '# Начисление ежемесячного оклада';
-
-        $user = $this->registry->repository(User::class)->findOneBy(['username' => 'service@automagistre.ru']);
-        if (!$user instanceof User) {
-            throw new RuntimeException('Service user not found.');
-        }
 
         try {
-            $this->paySalary($payday, $description);
+            $this->paySalary($payday);
         } catch (Throwable $e) {
             $event = new ConsoleErrorEvent($input, $output, $e, $this);
 
@@ -77,15 +67,15 @@ final class MonthlySalaryCommand extends Command
         return 0;
     }
 
-    private function paySalary(string $payday, string $description): void
+    private function paySalary(string $payday): void
     {
-        /** @var MonthlySalary[] $salaries */
-        $salaries = $this->registry->repository(MonthlySalary::class)
+        /** @var SalaryView[] $salaries */
+        $salaries = $this->registry->repository(SalaryView::class)
             ->createQueryBuilder('entity')
-            ->join('entity.employee', 'employee')
+            ->join(Employee::class, 'employee', Join::WITH, 'employee.uuid = entity.employeeId')
             ->where('employee.firedAt IS NULL')
             ->andWhere('entity.payday = :payday')
-            ->andWhere('entity.endedAt IS NULL')
+            ->andWhere('entity.ended IS NULL')
             ->getQuery()
             ->setParameter('payday', $payday)
             ->getResult();
@@ -93,16 +83,13 @@ final class MonthlySalaryCommand extends Command
         $em = $this->registry->manager(CustomerTransaction::class);
 
         foreach ($salaries as $salary) {
-            $person = $salary->getEmployee()->getPerson();
-            assert(null !== $person);
-
             $em->persist(
                 new CustomerTransaction(
                     CustomerTransactionId::generate(),
-                    $person->toId(),
-                    $salary->getAmount(),
+                    $salary->personId,
+                    $salary->amount,
                     CustomerTransactionSource::salary(),
-                    $salary->toId()->toUuid(),
+                    $salary->id->toUuid(),
                     null
                 )
             );
