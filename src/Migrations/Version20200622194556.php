@@ -25,24 +25,6 @@ final class Version20200622194556 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN employee_salary_end.salary_id IS \'(DC2Type:salary_id)\'');
         $this->addSql('ALTER TABLE employee_salary_end ADD CONSTRAINT FK_59455A58B0FDF16E FOREIGN KEY (salary_id) REFERENCES employee_salary (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
 
-        // data migration
-        $this->addSql('
-            INSERT INTO created_by (id, user_id, created_at) 
-            SELECT monthly_salary.uuid, u.uuid, monthly_salary.created_at FROM monthly_salary
-            JOIN users u ON u.id = monthly_salary.created_by_id
-        ');
-        $this->addSql('
-            INSERT INTO employee_salary (id, employee_id, payday, amount) 
-            SELECT ms.uuid AS id,
-                   e.uuid AS employee_id,
-                   ms.payday AS payday,
-                   ms.amount_currency_code || \' \' || ms.amount_amount AS amount
-            FROM monthly_salary ms
-                JOIN employee e ON e.id = ms.employee_id
-            ORDER BY ms.id
-        ');
-        // data migration
-
         $this->addSql(SalaryView::sql());
         $this->addSql('DROP TABLE monthly_salary');
     }
