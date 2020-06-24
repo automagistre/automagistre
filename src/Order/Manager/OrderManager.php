@@ -112,7 +112,7 @@ final class OrderManager
 
                 /** @var Operand $worker */
                 $worker = $this->registry->findBy(Operand::class, ['uuid' => $worker]);
-                $employee = $em->getRepository(Employee::class)->findOneBy(['person.id' => $worker->getId()]);
+                $employee = $em->getRepository(Employee::class)->findOneBy(['personId' => $worker->toId()]);
 
                 if (!$employee instanceof Employee) {
                     $em->persist(new OrderContractor($order->toId(), $worker->toId(), $price));
