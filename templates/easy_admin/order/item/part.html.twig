@@ -1,8 +1,12 @@
 {# @var item \App\Order\Entity\OrderItemPart #}
+
+{# @var partView \App\Part\Entity\PartView #}
+{% set partView = part_view(item.partId) %}
+
 {%- apply spaceless -%}
 
     <td style="{%- include 'easy_admin/order/item/padding.html.twig' with {'level': level} -%}">
-        {%- include 'easy_admin/field_part.html.twig' with {'value': part_view(item.partId)} only -%}
+        {%- include 'easy_admin/field_part.html.twig' with {'value': partView} only -%}
 
         {%- if item.warranty %}
             <span class="label label-success">Гарантия</span>
@@ -12,7 +16,7 @@
     <td>{{ item.discounted ? item.discount|localize_money }}</td>
 
     {% set price = item.price %}
-    {% set recommendPrice = part_suggest_price(item.partId) %}
+    {% set recommendPrice = partView.suggestPrice %}
     {% set isLowerPrice = price.lessThan(recommendPrice) %}
 
     <td{% if isLowerPrice or price.isZero %} class="danger"{% endif %} style="{%- include 'easy_admin/order/item/padding.html.twig' with {'level': level} -%}">

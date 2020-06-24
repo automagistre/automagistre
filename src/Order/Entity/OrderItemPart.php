@@ -7,7 +7,7 @@ namespace App\Order\Entity;
 use App\Costil;
 use App\Customer\Entity\OperandId;
 use App\Part\Entity\PartId;
-use App\PartPrice\PartPrice;
+use App\Part\Entity\PartView;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Discount;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Price;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Warranty;
@@ -71,13 +71,13 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
         return $this->partId;
     }
 
-    public function setPrice(Money $price, PartPrice $partPrice): void
+    public function setPrice(Money $price, PartView $partView): void
     {
         if (!$this->getOrder()->isEditable()) {
             throw new LogicException('Can\'t change price on part on closed order.');
         }
 
-        $priceFromCatalog = $partPrice->price($this->partId);
+        $priceFromCatalog = $partView->price;
         $discount = $priceFromCatalog->subtract($price);
 
         if ($discount->isPositive()) {

@@ -11,7 +11,7 @@ use App\Order\Exception\ReservationException;
 use App\Order\Form\OrderPart;
 use App\Order\Manager\ReservationManager;
 use App\Part\Entity\Part;
-use App\PartPrice\PartPrice;
+use App\Part\Entity\PartView;
 use function assert;
 use Closure;
 use LogicException;
@@ -25,12 +25,9 @@ final class OrderItemPartController extends OrderItemController
 {
     private ReservationManager $reservationManager;
 
-    private PartPrice $partPrice;
-
-    public function __construct(ReservationManager $reservationManager, PartPrice $partPrice)
+    public function __construct(ReservationManager $reservationManager)
     {
         $this->reservationManager = $reservationManager;
-        $this->partPrice = $partPrice;
     }
 
     public function reserveAction(): Response
@@ -100,7 +97,10 @@ final class OrderItemPartController extends OrderItemController
         $orderItemPart->setParent($model->parent);
         $orderItemPart->setWarranty($model->warranty);
         $orderItemPart->setSupplierId($model->supplier);
-        $orderItemPart->setPrice($model->price, $this->partPrice);
+        $orderItemPart->setPrice(
+            $model->price,
+            $this->registry->get(PartView::class, $model->partId),
+        );
 
         parent::persistEntity($orderItemPart);
 
@@ -145,7 +145,7 @@ final class OrderItemPartController extends OrderItemController
         $entity = $this->registry->getBy(OrderItemPart::class, ['id' => $this->request->query->get('id')]);
 
         $entity->setParent($dto->parent);
-        $entity->setPrice($dto->price, $this->partPrice);
+        $entity->setPrice($dto->price, $this->registry->get(PartView::class, $dto->partId));
         $entity->setQuantity($dto->quantity);
         $entity->setWarranty($dto->warranty);
         $entity->setSupplierId($dto->supplier);

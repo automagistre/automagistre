@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Part\Manager;
 
-use App\Income\Entity\IncomePart;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Enum\OrderStatus;
 use App\Part\Entity\Part;
 use App\Part\Entity\PartCross;
 use App\Part\Entity\PartId;
-use App\PartPrice\PartPrice;
+use App\Part\Entity\PartView;
 use App\Shared\Doctrine\Registry;
 use App\Storage\Entity\Motion;
 use function assert;
@@ -19,23 +18,17 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
-use Money\Money;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
 final class PartManager
 {
-    private const MARKUP = 1.15;
-
     private Registry $registry;
 
-    private PartPrice $partPrice;
-
-    public function __construct(Registry $registry, PartPrice $partPrice)
+    public function __construct(Registry $registry)
     {
         $this->registry = $registry;
-        $this->partPrice = $partPrice;
     }
 
     public function byId(PartId $partId): Part
@@ -134,49 +127,22 @@ final class PartManager
     }
 
     /**
-     * @return array<int, Part>
+     * @return array<string, PartView>
      */
     public function crossesInStock(PartId $partId): array
     {
-        $part = $this->byId($partId);
-        $crosses = [];
-        foreach ($this->getCrosses($partId) as $cross) {
-            if ($part->equals($cross)) {
-                continue;
-            }
+        /** @var PartView $partView */
+        $partView = $this->registry->getBy(PartView::class, ['id' => $partId]);
 
-            if (0 < $this->inStock($cross->toId())) {
-                $crosses[] = $cross;
-            }
-        }
-
-        return $crosses;
-    }
-
-    public function suggestPrice(PartId $partId): Money
-    {
-        $suggestPrice = $this->partPrice->price($partId);
-
-        $incomePart = $this->registry->manager(IncomePart::class)
+        return $this->registry->manager(PartView::class)
             ->createQueryBuilder()
-            ->select('entity')
-            ->from(IncomePart::class, 'entity')
-            ->where('entity.partId = :part')
-            ->orderBy('entity.id', 'DESC')
+            ->select('t')
+            ->from(PartView::class, 't', 't.id')
+            ->where('t.id IN (:ids)')
+            ->andWhere('t.quantity > 0')
             ->getQuery()
-            ->setMaxResults(1)
-            ->setParameter('part', $partId)
-            ->getOneOrNullResult();
-
-        if ($incomePart instanceof IncomePart) {
-            $incomePriceWithMarkup = $incomePart->getPrice()->multiply(self::MARKUP);
-
-            if ($incomePriceWithMarkup->greaterThan($suggestPrice)) {
-                $suggestPrice = $incomePriceWithMarkup;
-            }
-        }
-
-        return $suggestPrice;
+            ->setParameter('ids', $partView->analogs)
+            ->getResult();
     }
 
     private function findCross(PartId $partId): ?PartCross

@@ -33,7 +33,7 @@ use App\Order\Form\OrderTOService;
 use App\Order\Form\Type\OrderTOServiceType;
 use App\Order\Manager\OrderManager;
 use App\Part\Entity\PartId;
-use App\PartPrice\PartPrice;
+use App\Part\Entity\PartView;
 use App\Payment\Manager\PaymentManager;
 use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\IdentifierFormatter;
@@ -82,19 +82,15 @@ final class OrderController extends AbstractController
 
     private OrderManager $orderManager;
 
-    private PartPrice $partPrice;
-
     private CalendarEntryRepository $calendarEntryRepository;
 
     public function __construct(
         PaymentManager $paymentManager,
         OrderManager $orderManager,
-        PartPrice $partPrice,
         CalendarEntryRepository $calendarEntryRepository
     ) {
         $this->paymentManager = $paymentManager;
         $this->orderManager = $orderManager;
-        $this->partPrice = $partPrice;
         $this->calendarEntryRepository = $calendarEntryRepository;
     }
 
@@ -193,15 +189,18 @@ final class OrderController extends AbstractController
                 $line->work->name,
                 $line->work->price,
                 (function (array $parts): Generator {
-                    foreach ($parts as $part) {
-                        assert($part instanceof McPart);
+                    foreach ($parts as $mcPart) {
+                        assert($mcPart instanceof McPart);
 
-                        yield (int) $part->getId() => new OrderTOPart(
-                            $part->partId,
-                            $part->quantity,
-                            $this->partPrice->sell($part->partId),
-                            $part->recommended,
-                            !$part->recommended,
+                        /** @var PartView $partView */
+                        $partView = $this->registry->getBy(PartView::class, ['id' => $mcPart->partId]);
+
+                        yield (int) $mcPart->getId() => new OrderTOPart(
+                            $mcPart->partId,
+                            $mcPart->quantity,
+                            $partView->sellPrice(),
+                            $mcPart->recommended,
+                            !$mcPart->recommended,
                         );
                     }
                 })($line->parts->toArray()),
@@ -244,7 +243,10 @@ final class OrderController extends AbstractController
                         $part->partId,
                         $part->quantity,
                     );
-                    $orderItemPart->setPrice($part->price, $this->partPrice);
+                    $orderItemPart->setPrice(
+                        $part->price,
+                        $this->registry->get(PartView::class, $part->partId),
+                    );
                     $em->persist($orderItemPart);
 
                     $orderItemPart->setParent($orderItemService);
