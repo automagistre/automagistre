@@ -2,14 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tenant;
+namespace App\Shared\Doctrine\ORM\Listeners;
 
-use App\Entity\Embeddable\Relation;
-use App\Tenant\EventListener\TenantRelationListener;
 use function assert;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
-use function is_subclass_of;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Cache\Adapter\PhpArrayAdapter;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -19,33 +14,13 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class MetadataCompilerPass implements CompilerPassInterface
+final class MetadataCacheCompilerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}
      */
     public function process(ContainerBuilder $container): void
     {
-        $registry = $container->get('doctrine');
-        assert($registry instanceof ManagerRegistry);
-
-        $map = [];
-        foreach ($registry->getManagers() as $manager) {
-            foreach ($manager->getMetadataFactory()->getAllMetadata() as $metadata) {
-                assert($metadata instanceof ClassMetadataInfo);
-
-                foreach ($metadata->embeddedClasses as $property => $embedded) {
-                    $embeddedClass = $embedded['class'];
-
-                    if (is_subclass_of($embeddedClass, Relation::class, true)) {
-                        $map[$metadata->getName()][$property] = $embeddedClass;
-                    }
-                }
-            }
-        }
-
-        $container->getDefinition(TenantRelationListener::class)->setArgument(1, $map);
-
         if ('prod' !== $container->getParameter('kernel.environment')) {
             return;
         }

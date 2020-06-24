@@ -16,7 +16,6 @@ use App\Order\Exception\ReservationException;
 use App\Order\Manager\ReservationManager;
 use App\PartPrice\PartPrice;
 use App\Shared\Doctrine\Registry;
-use App\State;
 use Doctrine\ORM\EntityManagerInterface;
 use DomainException;
 use Generator;
@@ -31,19 +30,12 @@ final class RecommendationManager
 
     private ReservationManager $reservationManager;
 
-    private State $state;
-
     private PartPrice $partPrice;
 
-    public function __construct(
-        Registry $registry,
-        ReservationManager $reservationManager,
-        State $state,
-        PartPrice $partPrice
-    ) {
+    public function __construct(Registry $registry, ReservationManager $reservationManager, PartPrice $partPrice)
+    {
         $this->registry = $registry;
         $this->reservationManager = $reservationManager;
-        $this->state = $state;
         $this->partPrice = $partPrice;
     }
 
@@ -74,7 +66,7 @@ final class RecommendationManager
         $em->persist($orderItemService);
         $em->flush();
 
-        $recommendation->realize($orderItemService, $this->state->tenant());
+        $recommendation->realize($orderItemService);
         $this->registry->manager(get_class($recommendation))->flush();
 
         foreach ($orderItemParts as $orderItemPart) {
@@ -156,7 +148,7 @@ final class RecommendationManager
         return $em->createQueryBuilder()
             ->select('entity')
             ->from(Recommendation::class, 'entity')
-            ->where('entity.realization.id = :realization')
+            ->where('entity.realization = :realization')
             ->orderBy('entity.id', 'DESC')
             ->getQuery()
             ->setParameter('realization', $orderItemService->getId())

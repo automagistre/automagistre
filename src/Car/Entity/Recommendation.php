@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace App\Car\Entity;
 
 use App\Customer\Entity\OperandId;
-use App\Entity\Embeddable\OrderItemServiceRelation;
 use App\Order\Entity\OrderItemService;
 use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Price;
 use App\Shared\Money\PriceInterface;
-use App\Tenant\Tenant;
 use App\User\Entity\UserId;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -69,9 +67,9 @@ class Recommendation implements PriceInterface
     public UserId $createdBy;
 
     /**
-     * @ORM\Embedded(class=OrderItemServiceRelation::class)
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private ?OrderItemServiceRelation $realization = null;
+    private ?int $realization = null;
 
     /**
      * @var Collection<int, RecommendationPart>
@@ -90,7 +88,6 @@ class Recommendation implements PriceInterface
     {
         $this->uuid = RecommendationId::generate();
         $this->parts = new ArrayCollection();
-        $this->realization = new OrderItemServiceRelation();
 
         $this->car = $car;
         $this->service = $service;
@@ -138,14 +135,14 @@ class Recommendation implements PriceInterface
         $this->parts[] = $part;
     }
 
-    public function getRealization(): ?OrderItemService
+    public function getRealization(): ?int
     {
-        return $this->realization->entityOrNull();
+        return $this->realization;
     }
 
-    public function realize(OrderItemService $orderItemService, Tenant $tenant): void
+    public function realize(OrderItemService $orderItemService): void
     {
-        $this->realization = new OrderItemServiceRelation($orderItemService, $tenant);
+        $this->realization = $orderItemService->getId();
         $this->expiredAt = new DateTime();
     }
 }

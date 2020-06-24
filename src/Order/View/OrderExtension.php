@@ -10,7 +10,6 @@ use App\Order\Entity\Order;
 use App\Order\Entity\OrderId;
 use App\Order\Entity\OrderItemService;
 use App\Shared\Doctrine\Registry;
-use App\State;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -19,12 +18,9 @@ final class OrderExtension extends AbstractExtension
 {
     private Registry $registry;
 
-    private State $state;
-
-    public function __construct(Registry $registry, State $state)
+    public function __construct(Registry $registry)
     {
         $this->registry = $registry;
-        $this->state = $state;
     }
 
     /**
@@ -38,8 +34,7 @@ final class OrderExtension extends AbstractExtension
                 fn (OrderItemService $service) => $this->registry
                     ->repository(Recommendation::class)
                     ->findOneBy([
-                        'realization.id' => $service->getId(),
-                        'realization.tenant' => $this->state->tenant(),
+                        'realization' => $service->getId(),
                     ], ['id' => 'DESC'])
             ),
             new TwigFunction(
