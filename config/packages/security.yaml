@@ -31,13 +31,14 @@ security:
             anonymous: true
         callback:
             pattern: ^/callback
+            guard:
+                authenticators:
+                    - App\Sms\Security\CallbackGuard
             stateless: true
-            anonymous: true
 
     access_control:
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/v1, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/callback, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: IS_AUTHENTICATED_REMEMBERED }
 
     role_hierarchy:
