@@ -25,9 +25,7 @@
             )
         {%- endapply %}
 
-        {% if stock|default(false) or (field_options is defined and true == field_options.stock) %}
-            <span class="label label-primary">{{ value.quantity / 100 }}</span>
-        {% endif %}
+        <span class="label label-primary">{{ value.quantity / 100 }}</span>
     {%- endapply %}
 {%- else -%}
     {% include 'easy_admin/default/label_null.html.twig' %}

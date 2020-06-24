@@ -10,9 +10,7 @@ use App\Part\Entity\Part;
 use App\Part\Entity\PartId;
 use App\Part\Entity\PartView;
 use App\Part\Manager\PartManager;
-use App\PartPrice\PartPrice;
 use App\Shared\Doctrine\Registry;
-use Money\Money;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -27,18 +25,11 @@ final class PartExtension extends AbstractExtension
 
     private ReservationManager $reservationManager;
 
-    private PartPrice $partPrice;
-
-    public function __construct(
-        Registry $registry,
-        PartManager $partManager,
-        ReservationManager $reservationManager,
-        PartPrice $partPrice
-    ) {
+    public function __construct(Registry $registry, PartManager $partManager, ReservationManager $reservationManager)
+    {
         $this->registry = $registry;
         $this->partManager = $partManager;
         $this->reservationManager = $reservationManager;
-        $this->partPrice = $partPrice;
     }
 
     /**
@@ -57,9 +48,6 @@ final class PartExtension extends AbstractExtension
             ): int => $this->reservationManager->reserved($part)),
             new TwigFunction('part_reservable', fn (PartId $partId
             ): int => $this->reservationManager->reservable($partId)),
-            new TwigFunction('part_suggest_price', fn (PartId $partId
-            ): Money => $this->partManager->suggestPrice($partId)),
-            new TwigFunction('part_price', fn (PartId $partId): Money => $this->partPrice->price($partId)),
             new TwigFunction('part_by_id', fn (PartId $partId): Part => $this->partManager->byId($partId)),
             new TwigFunction(
                 'part_view',

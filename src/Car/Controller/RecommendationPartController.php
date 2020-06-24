@@ -10,8 +10,8 @@ use App\Car\Form\DTO\RecommendationPartDTO;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Form\Type\MoneyType;
 use App\Form\Type\QuantityType;
+use App\Part\Entity\PartView;
 use App\Part\Manager\PartManager;
-use function array_unshift;
 use function assert;
 use Doctrine\ORM\EntityManagerInterface;
 use function is_string;
@@ -43,9 +43,9 @@ final class RecommendationPartController extends AbstractController
         }
 
         $partId = $recommendationPart->partId;
-
-        $part = $this->partManager->byId($partId);
-
+        /** @var PartView $part */
+        $part = $this->registry->getBy(PartView::class, ['id' => $partId]);
+        /** @var PartView[] $crosses */
         $crosses = $this->partManager->crossesInStock($partId);
 
         if ([] === $crosses) {
@@ -54,20 +54,16 @@ final class RecommendationPartController extends AbstractController
             return $this->redirectToReferrer();
         }
 
-        array_unshift($crosses, $part);
-
         /** @var FormInterface[] $forms */
         $forms = [];
-        foreach ($crosses as $cross) {
-            $crossId = $cross->toId()->toString();
-
-            $isCurrent = $part->equals($cross);
+        foreach ($crosses as $crossId => $cross) {
+            $isCurrent = $partId->equal($cross->toId());
 
             $model = new RecommendationPartDTO(
                 $recommendationPart->recommendation,
                 $cross->toId(),
                 $recommendationPart->quantity,
-                $isCurrent ? $recommendationPart->getPrice() : $this->partManager->suggestPrice($cross->toId())
+                $isCurrent ? $recommendationPart->getPrice() : $cross->suggestPrice()
             );
 
             $forms[$crossId] = $this->createFormBuilder($model, [
@@ -122,6 +118,7 @@ final class RecommendationPartController extends AbstractController
 
         return $this->render('easy_admin/car_recommendation_part/substitute.html.twig', [
             'part' => $part,
+            'crosses' => $crosses,
             'forms' => $forms,
         ]);
     }

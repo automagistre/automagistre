@@ -20,7 +20,10 @@
         <tbody>
         {% for incomePart in value %}
             {% set trClass = null %}
-            {% set partPrice = part_price(incomePart.partId) %}
+            {# @var partView \App\Part\Entity\PartView #}
+            {% set partView = part_view(incomePart.partId) %}
+            {% set partPrice = partView.suggestPrice %}
+
             {% if partPrice.positive() and incomePart.price.positive() %}
                 {% set markup = partPrice.ratioOf(incomePart.price) %}
                 {% if markup <= 1.1 %}
@@ -32,7 +35,7 @@
 
             <tr{% if trClass is not empty %} class="{{ trClass }}"{% endif %}>
                 <td>{{ loop.index }}</td>
-                <td>{% include 'easy_admin/field_part.html.twig' with {'value': part_view(incomePart.partId)} only %}</td>
+                <td>{% include 'easy_admin/field_part.html.twig' with {'value': partView} only %}</td>
                 <td>{{ incomePart.price|localize_money }}</td>
                 <td>{{ incomePart.quantity / 100 }}</td>
                 <td>{{ incomePart.totalPrice|localize_money }}</td>

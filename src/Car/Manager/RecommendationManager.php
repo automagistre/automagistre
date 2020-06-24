@@ -14,7 +14,7 @@ use App\Order\Entity\OrderItemService;
 use App\Order\Entity\Reservation;
 use App\Order\Exception\ReservationException;
 use App\Order\Manager\ReservationManager;
-use App\PartPrice\PartPrice;
+use App\Part\Entity\PartView;
 use App\Shared\Doctrine\Registry;
 use Doctrine\ORM\EntityManagerInterface;
 use DomainException;
@@ -30,13 +30,10 @@ final class RecommendationManager
 
     private ReservationManager $reservationManager;
 
-    private PartPrice $partPrice;
-
-    public function __construct(Registry $registry, ReservationManager $reservationManager, PartPrice $partPrice)
+    public function __construct(Registry $registry, ReservationManager $reservationManager)
     {
         $this->registry = $registry;
         $this->reservationManager = $reservationManager;
-        $this->partPrice = $partPrice;
     }
 
     public function realize(Recommendation $recommendation, Order $order): void
@@ -52,13 +49,18 @@ final class RecommendationManager
 
         $orderItemParts = [];
         foreach ($recommendation->getParts() as $recommendationPart) {
+            $partId = $recommendationPart->partId;
+
             $orderItemPart = $orderItemParts[] = new OrderItemPart(
                 $order,
-                $recommendationPart->partId,
+                $partId,
                 $recommendationPart->quantity,
             );
 
-            $orderItemPart->setPrice($recommendationPart->getPrice(), $this->partPrice);
+            $orderItemPart->setPrice(
+                $recommendationPart->getPrice(),
+                $this->registry->get(PartView::class, $partId)
+            );
             $orderItemPart->setParent($orderItemService);
             $em->persist($orderItemPart);
         }

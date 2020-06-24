@@ -16,8 +16,8 @@ use App\Order\Entity\OrderItemGroup;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Entity\OrderItemService;
 use App\Part\Entity\PartId;
+use App\Part\Entity\PartView;
 use App\Part\Fixtures\GasketFixture;
-use App\PartPrice\PartPrice;
 use App\Shared\Doctrine\Registry;
 use App\State;
 use App\User\Entity\User;
@@ -38,13 +38,10 @@ final class OrderFixtures extends Fixture implements DependentFixtureInterface
 
     private State $state;
 
-    private PartPrice $partPrice;
-
-    public function __construct(Registry $registry, State $state, PartPrice $partPrice)
+    public function __construct(Registry $registry, State $state)
     {
         $this->registry = $registry;
         $this->state = $state;
-        $this->partPrice = $partPrice;
     }
 
     /**
@@ -56,6 +53,7 @@ final class OrderFixtures extends Fixture implements DependentFixtureInterface
             PersonVasyaFixtures::class,
             Primera2004Fixtures::class,
             EmployeeFixtures::class,
+            GasketFixture::class,
         ];
     }
 
@@ -90,8 +88,9 @@ final class OrderFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($orderItemService);
         $manager->flush();
 
-        $orderItemPart = new OrderItemPart($order, PartId::fromString(GasketFixture::ID), 1);
-        $orderItemPart->setPrice($money, $this->partPrice);
+        $partId = PartId::fromString(GasketFixture::ID);
+        $orderItemPart = new OrderItemPart($order, $partId, 1);
+        $orderItemPart->setPrice($money, $this->registry->get(PartView::class, $partId));
 
         $manager->persist($orderItemPart);
         $manager->flush();

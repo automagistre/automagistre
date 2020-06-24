@@ -6,11 +6,13 @@ namespace App\Order\Form\Type;
 
 use App\Form\Type\MoneyType;
 use App\Order\Form\OrderTOPart;
-use App\Part\Entity\Part;
 use App\Part\Entity\PartId;
+use App\Part\Entity\PartView;
 use App\Part\Manager\PartManager;
+use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\IdentifierFormatter;
 use function array_map;
+use function array_values;
 use function assert;
 use function count;
 use LogicException;
@@ -31,10 +33,13 @@ final class OrderTOPartType extends AbstractType
 
     private IdentifierFormatter $formatter;
 
-    public function __construct(PartManager $partManager, IdentifierFormatter $formatter)
+    private Registry $registry;
+
+    public function __construct(PartManager $partManager, IdentifierFormatter $formatter, Registry $registry)
     {
         $this->partManager = $partManager;
         $this->formatter = $formatter;
+        $this->registry = $registry;
     }
 
     /**
@@ -62,7 +67,7 @@ final class OrderTOPartType extends AbstractType
 
                 $choices = [$partId];
                 if ($hasAnalog) {
-                    $choices = [...$choices, ...array_map(fn (Part $part) => $part->toId(), $analogs)];
+                    $choices = [...$choices, ...array_map(fn (PartView $part) => $part->toId(), array_values($analogs))];
                 }
 
                 $form->add('partId', ChoiceType::class, [
@@ -82,7 +87,9 @@ final class OrderTOPartType extends AbstractType
 
                 $price = $form->get('price');
                 if (null === $price->getData()) {
-                    $price->setData($this->partManager->suggestPrice($model->partId));
+                    $price->setData(
+                        $this->registry->get(PartView::class, $model->partId)->suggestPrice()
+                    );
                 }
             });
     }

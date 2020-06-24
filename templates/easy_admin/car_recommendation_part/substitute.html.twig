@@ -1,7 +1,7 @@
 {% extends 'easy_admin/default/layout.html.twig' %}
 
 {% block content_title -%}
-    Замена запчасти <strong>{{ part }}</strong> на аналог
+    Замена запчасти <strong>{{ part.display }}</strong> на аналог
 {%- endblock %}
 
 {% block main -%}
@@ -10,16 +10,17 @@
         {% set form = form.createView() %}
         {% form_theme form with easyadmin_config('design.form_theme') %}
 
-
         {{ form_start(form) }}
         <div class="row" style="margin-bottom: 10px">
-            <div class="col-md-12">{% include 'easy_admin/field_part.html.twig' with {'value': part_view(form.vars.value.partId), 'stock': true} only %}</div>
+            <div class="col-md-12">
+                {% include 'easy_admin/field_part.html.twig' with {'value': crosses[form.vars.value.partId.toString]} only %}
+            </div>
         </div>
         <div class="row">
             <div class="col-md-4">{{ form_widget(form.quantity) }}</div>
             <div class="col-md-4">{{ form_widget(form.price) }}</div>
             <div class="col-md-4">
-                {% if form.vars.value.partId.toString == part.toId %}
+                {% if part.toId.equal(form.vars.value.partId) %}
                     <button type="submit" class="btn btn-success">Текущий выбор</button>
                 {% else %}
                     <button type="submit" class="btn btn-primary">Выбрать</button>
