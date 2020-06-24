@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\PartPrice\Controller;
+namespace App\Part\Controller;
 
 use App\EasyAdmin\Controller\AbstractController;
 use App\EasyAdmin\Form\AutocompleteType;
 use App\Form\Type\MoneyType;
+use App\Part\Entity\Discount;
 use App\Part\Entity\Part;
 use App\Part\Entity\PartId;
-use App\PartPrice\Entity\Price;
-use App\PartPrice\Form\PartPriceDto;
+use App\Part\Form\PartDiscountDto;
 use DateTimeImmutable;
 use function is_string;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-final class PartPriceController extends AbstractController
+final class PartDiscountController extends AbstractController
 {
     public function newAction(): Response
     {
@@ -27,7 +27,7 @@ final class PartPriceController extends AbstractController
             throw new BadRequestHttpException('part_id is not valid uuid.');
         }
 
-        $dto = $this->createWithoutConstructor(PartPriceDto::class);
+        $dto = $this->createWithoutConstructor(PartDiscountDto::class);
         $dto->partId = PartId::fromString($partId);
         $dto->since = new DateTimeImmutable();
 
@@ -43,14 +43,14 @@ final class PartPriceController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->em;
-            $em->persist(new Price($dto->partId, $dto->price, $dto->since));
+            $em->persist(new Discount($dto->partId, $dto->price, $dto->since));
             $em->flush();
 
             return $this->redirectToReferrer();
         }
 
         return $this->render('easy_admin/simple.html.twig', [
-            'content_title' => 'Новая цена',
+            'content_title' => 'Новая скидка',
             'form' => $form->createView(),
         ]);
     }

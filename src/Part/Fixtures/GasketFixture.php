@@ -6,11 +6,16 @@ namespace App\Part\Fixtures;
 
 use App\Manufacturer\Entity\ManufacturerId;
 use App\Manufacturer\Fixtures\ToyotaFixture;
+use App\Part\Entity\Discount;
 use App\Part\Entity\Part;
 use App\Part\Entity\PartId;
 use App\Part\Entity\PartNumber;
+use App\Part\Entity\Price;
+use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Money\Currency;
+use Money\Money;
 
 final class GasketFixture extends Fixture
 {
@@ -40,6 +45,18 @@ final class GasketFixture extends Fixture
         );
 
         $this->addReference('part-1', $part);
+
+        $manager->persist(new Price(
+            $partId,
+            new Money(self::PRICE, new Currency(self::PRICE_CURRENCY)),
+            new DateTimeImmutable(),
+        ));
+
+        $manager->persist(new Discount(
+            $partId,
+            new Money(self::DISCOUNT, new Currency(self::DISCOUNT_CURRENCY)),
+            new DateTimeImmutable(),
+        ));
 
         $manager->persist($part);
         $manager->flush();

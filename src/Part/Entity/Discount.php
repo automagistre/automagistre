@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\PartPrice\Entity;
+namespace App\Part\Entity;
 
-use App\Part\Entity\PartId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;

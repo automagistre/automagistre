@@ -50,6 +50,16 @@ easy_admin:
             case:
                 title: 'Создать применения запчасти к кузову'
 
+        PartPrice:
+            class: App\Part\Entity\Price
+            controller: App\Part\Controller\PartPriceController
+            disabled_actions: ['list', 'show', 'autocomplete', 'edit', 'search', 'delete']
+
+        PartDiscount:
+            class: App\Part\Entity\Discount
+            controller: App\Part\Controller\PartDiscountController
+            disabled_actions: ['list', 'show', 'autocomplete', 'edit', 'search', 'delete']
+
 doctrine:
     dbal:
         types:

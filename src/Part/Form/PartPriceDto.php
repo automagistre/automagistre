@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\PartPrice\Form;
+namespace App\Part\Form;
 
 use App\Part\Entity\PartId;
 use DateTimeImmutable;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class PartDiscountDto
+final class PartPriceDto
 {
     /**
      * @var PartId
