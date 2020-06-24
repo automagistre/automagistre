@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="3.11.6@7fc1f50f54bd6b174b1c43a37c1b0b151915d55c">
+<files psalm-version="3.12.0@d46283075d76ed244f7825b378eeb1cee246af73">
   <file src="src/Calendar/Controller/CalendarEntryController.php">
     <PossiblyNullArgument occurrences="3">
       <code>$this-&gt;request-&gt;query-&gt;get('id')</code>
@@ -153,9 +153,6 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Employee/Fixtures/EmployeeFixtures.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$person</code>
-    </PossiblyNullArgument>
     <PropertyNotSetInConstructor occurrences="1">
       <code>EmployeeFixtures</code>
     </PropertyNotSetInConstructor>
@@ -208,11 +205,6 @@
       <code>$partId</code>
       <code>$incomePart-&gt;getQuantity()</code>
     </PossiblyNullArgument>
-  </file>
-  <file src="src/Income/Fixtures/IncomeFixtures.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>IncomeFixtures</code>
-    </PropertyNotSetInConstructor>
   </file>
   <file src="src/Income/Fixtures/IncomePartFixtures.php">
     <PropertyNotSetInConstructor occurrences="1">
@@ -357,6 +349,11 @@
       <code>$representative[0]</code>
     </PossiblyInvalidArgument>
   </file>
+  <file src="src/Shared/Doctrine/ORM/Listeners/CreatedByListener.php">
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>assert(method_exists($reflectionType, 'getName'))</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
   <file src="src/Shared/Doctrine/ORM/Mapping/NamespaceNamingStrategy.php">
     <PossiblyNullArgument occurrences="2">
       <code>$string</code>
@@ -439,9 +436,6 @@
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtolower($item)</code>
     </PossiblyFalseOperand>
-    <PossiblyNullArgument occurrences="1">
-      <code>$this-&gt;registry-&gt;findBy(Manufacturer::class, ['uuid' =&gt; $array['manufacturerId']])</code>
-    </PossiblyNullArgument>
   </file>
   <file src="src/Vehicle/Form/ModelDto.php">
     <ImpurePropertyAssignment occurrences="1">

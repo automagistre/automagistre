@@ -7,7 +7,6 @@ namespace App\Shared\Doctrine\ORM\Mapping\Traits;
 use App\User\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -15,8 +14,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 trait CreatedBy
 {
     /**
-     * @Assert\NotBlank
-     *
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */

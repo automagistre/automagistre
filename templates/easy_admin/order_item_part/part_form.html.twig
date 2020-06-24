@@ -11,7 +11,7 @@
             'data-easyadmin-autocomplete-url' : path('easyadmin', {
                 action: 'autocomplete',
                 entity: 'Part',
-                vehicle_id: car is defined ? car.vehicleId.toString : null
+                vehicle_id: car is not empty ? car.vehicleId.toString : null
             }|merge(params))|raw })
     }) }}
 

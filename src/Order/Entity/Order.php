@@ -9,11 +9,10 @@ use App\Customer\Entity\OperandId;
 use App\Customer\Entity\Person;
 use App\Employee\Entity\Employee;
 use App\Entity\Discounted;
-use App\Entity\Embeddable\UserRelation;
 use App\Entity\WarrantyInterface;
 use App\Order\Enum\OrderStatus;
 use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedAt;
-use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedByRelation as CreatedBy;
+use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedBy;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Shared\Money\TotalPriceInterface;
 use App\User\Entity\User;
@@ -70,9 +69,9 @@ class Order
     private ?DateTimeImmutable $closedAt = null;
 
     /**
-     * @ORM\Embedded(class=UserRelation::class)
+     * @ORM\ManyToOne(targetEntity=User::class)
      */
-    private UserRelation $closedBy;
+    private ?User $closedBy = null;
 
     /**
      * @ORM\Embedded(class=Money::class)
@@ -132,7 +131,6 @@ class Order
         $this->items = new ArrayCollection();
         $this->payments = new ArrayCollection();
         $this->suspends = new ArrayCollection();
-        $this->closedBy = new UserRelation();
     }
 
     public function __toString(): string
@@ -199,7 +197,7 @@ class Order
     public function close(User $user, ?Money $balance): void
     {
         $this->status = OrderStatus::closed();
-        $this->closedBy = new UserRelation($user);
+        $this->closedBy = $user;
         $this->closedAt = new DateTimeImmutable();
         $this->closedBalance = $balance;
     }
@@ -324,7 +322,7 @@ class Order
 
     public function getClosedBy(): ?User
     {
-        return $this->closedBy->entityOrNull();
+        return $this->closedBy;
     }
 
     public function getClosedBalance(): ?Money

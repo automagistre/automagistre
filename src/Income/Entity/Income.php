@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Income\Entity;
 
 use App\Customer\Entity\OperandId;
-use App\Entity\Embeddable\UserRelation;
 use App\User\Entity\User;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -63,11 +62,9 @@ class Income
     private $accruedAt;
 
     /**
-     * @var UserRelation
-     *
-     * @ORM\Embedded(class=UserRelation::class)
+     * @ORM\ManyToOne(targetEntity=User::class)
      */
-    private $accruedBy;
+    private ?User $accruedBy = null;
 
     /**
      * @var Money|null
@@ -86,7 +83,6 @@ class Income
         $this->id = $incomeId;
         $this->supplierId = $supplierId;
         $this->document = $document;
-        $this->accruedBy = new UserRelation();
         $this->incomeParts = new ArrayCollection();
     }
 
@@ -149,7 +145,7 @@ class Income
 
     public function accrue(User $user): void
     {
-        $this->accruedBy = new UserRelation($user);
+        $this->accruedBy = $user;
         $this->accruedAt = new DateTimeImmutable();
         $this->accruedAmount = $this->getTotalPrice();
     }
@@ -161,7 +157,7 @@ class Income
 
     public function getAccruedBy(): ?User
     {
-        return $this->accruedBy->entityOrNull();
+        return $this->accruedBy;
     }
 
     public function getAccruedAmount(): ?Money

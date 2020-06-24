@@ -6,7 +6,7 @@ namespace App\Order\Entity;
 
 use App\Entity\Discounted;
 use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedAt;
-use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedByRelation as CreatedBy;
+use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedBy;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Shared\Money\PriceInterface;
 use App\Shared\Money\TotalPriceInterface;

@@ -20,9 +20,11 @@ use App\Shared\Doctrine\Registry;
 use App\Shared\Enum\NoteType;
 use App\State;
 use App\User\Entity\User;
+use App\User\Fixtures\EmployeeFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use function dump;
 use Money\Currency;
 use Money\Money;
 
@@ -52,6 +54,7 @@ final class OrderFixtures extends Fixture implements DependentFixtureInterface
         return [
             PersonVasyaFixtures::class,
             Primera2004Fixtures::class,
+            EmployeeFixtures::class,
         ];
     }
 
@@ -60,7 +63,7 @@ final class OrderFixtures extends Fixture implements DependentFixtureInterface
      */
     public function load(ObjectManager $manager): void
     {
-        $user = $this->registry->manager(User::class)->getReference(User::class, 1);
+        $user = $this->registry->getBy(User::class, ['uuid' => EmployeeFixtures::ID]);
         $this->state->user($user);
 
         $order = new Order();
