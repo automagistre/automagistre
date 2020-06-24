@@ -2,7 +2,7 @@
 
 {# @var order \App\Order\Entity\Order #}
 {# @var car \App\Car\Entity\Car #}
-{# @var customer \App\Customer\Domain\Operand #}
+{# @var customer \App\Customer\Entity\Operand #}
 
 {% block content %}
     <div class="container" id="content">
@@ -11,27 +11,29 @@
         <main class="main">
             <h3 class="order-info-title">Форма согласования</h3>
             <div class="order-info">
-                <div class="order-info-customer">
-                <span class="order-info-legend">
-                    Заказчик
-                </span>
-                    {# Если заказчик организация, то выводить все доступные реквизиты#}
-                    {{- customer.fullName -}}
+                {% if customer is not empty %}
+                    <div class="order-info-customer">
+                        <span class="order-info-legend">Заказчик</span>
 
-                    {% if customer.type('person') %}
-                        {%- if customer.telephone is not empty %}
-                            тел: {{ customer.telephone|phone_number_format }}
-                        {%- endif -%}
-                        {%- if customer.email is not empty %}
-                            e-mail: {{ customer.email }}
+                        {# Если заказчик организация, то выводить все доступные реквизиты#}
+                        {{- customer.fullName -}}
+
+                        {% if customer.type('person') %}
+                            {%- if customer.telephone is not empty %}
+                                тел: {{ customer.telephone|phone_number_format }}
+                            {%- endif -%}
+                            {%- if customer.email is not empty %}
+                                e-mail: {{ customer.email }}
+                            {% endif %}
+                        {%- elseif customer.type('organization') -%}
+                            {# @var customer \App\Customer\Entity\Organization #}
+                            {%- if not customer.requisite.empty -%}
+                                , {{- customer.requisite -}}
+                            {%- endif -%}
                         {% endif %}
-                    {%- elseif customer.type('organization') -%}
-                        {# @var customer \App\Customer\Domain\Organization #}
-                        {%- if not customer.requisite.empty -%}
-                            , {{- customer.requisite -}}
-                        {%- endif -%}
-                    {% endif %}
-                </div>
+                    </div>
+                {% endif %}
+
                 {% if car is not empty %}
                     <div class="order-info-car">
                     <span class="order-info-legend">

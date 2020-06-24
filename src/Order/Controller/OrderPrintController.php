@@ -30,12 +30,14 @@ final class OrderPrintController extends AbstractController
             throw new BadRequestHttpException('Order is required.');
         }
 
-        if (null === $order->getCarId()) {
-            throw new BadRequestHttpException('Car required.');
-        }
-
         return $this->render('easy_admin/order_print/matching_v2.html.twig', [
             'order' => $order,
+            'car' => null === $order->getCarId()
+                ? null
+                : $this->registry->getBy(Car::class, ['uuid' => $order->getCarId()]),
+            'customer' => null === $order->getCustomerId()
+                ? null
+                : $this->registry->getBy(Operand::class, ['uuid' => $order->getCustomerId()]),
         ]);
     }
 
