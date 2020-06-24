@@ -115,7 +115,7 @@ final class OrderManager
                 $employee = $em->getRepository(Employee::class)->findOneBy(['person.id' => $worker->getId()]);
 
                 if (!$employee instanceof Employee) {
-                    $em->persist(new OrderContractor($order, $worker, $price));
+                    $em->persist(new OrderContractor($order->toId(), $worker->toId(), $price));
 
                     continue;
                 }

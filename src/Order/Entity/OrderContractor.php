@@ -4,32 +4,32 @@ declare(strict_types=1);
 
 namespace App\Order\Entity;
 
-use App\Customer\Entity\Operand;
-use App\Entity\Embeddable\OperandRelation;
-use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
+use App\Customer\Entity\OperandId;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
  */
 class OrderContractor
 {
-    use Identity;
+    /**
+     * @ORM\Id()
+     * @ORM\Column(type="uuid")
+     */
+    private UuidInterface $id;
 
     /**
-     * @var Order
-     *
-     * @ORM\ManyToOne(targetEntity=Order::class)
+     * @ORM\Column(type="order_id")
      */
-    private $order;
+    private OrderId $orderId;
 
     /**
-     * @var OperandRelation
-     *
-     * @ORM\Embedded(class=OperandRelation::class)
+     * @ORM\Column(type="operand_id")
      */
-    private $contractor;
+    private OperandId $operandId;
 
     /**
      * @var Money
@@ -38,10 +38,11 @@ class OrderContractor
      */
     private $money;
 
-    public function __construct(Order $order, Operand $contractor, Money $money)
+    public function __construct(OrderId $orderId, OperandId $operandId, Money $money)
     {
-        $this->order = $order;
-        $this->contractor = new OperandRelation($contractor);
+        $this->id = Uuid::uuid6();
+        $this->orderId = $orderId;
+        $this->operandId = $operandId;
         $this->money = $money;
     }
 }
