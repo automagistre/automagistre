@@ -128,9 +128,8 @@ final class PartController extends AbstractController
             $em = $this->registry->manager(Motion::class);
             $quantity = abs((int) $form->get('quantity')->getData());
             $user = $this->getUser();
-            $description = sprintf('# Ручное пополнение - %s', $user->getId());
 
-            $em->persist(new Motion($part->toId(), $quantity, Source::manual(), $user->toId()->toUuid(), $description));
+            $em->persist(new Motion($part->toId(), $quantity, Source::manual(), $user->toId()->toUuid()));
             $em->flush();
 
             $this->event(new PartAccrued($part->toId(), [
