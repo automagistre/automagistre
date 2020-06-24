@@ -1,9 +1,0 @@
-services:
-    _defaults:
-        public: false
-        autowire: true
-        autoconfigure: true
-
-    App\Shared\Mercure\JwtProvider:
-        arguments:
-            - '%env(MERCURE_JWT_KEY)%'

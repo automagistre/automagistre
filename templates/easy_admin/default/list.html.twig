@@ -222,30 +222,4 @@
           $('#main').find('table tbody').highlight($.merge([_search_query], _search_query.split(' ')));
         </script>
     {% endif %}
-
-    <script>
-      $(document).ready(function() {
-        const mercureUrl = new URL(MERCURE_URL);
-        mercureUrl.searchParams.append('topic',
-            'http://automagistre.ru/{{ state.tenant.toIdentifier }}/{{ _entity_config.name }}');
-
-        const eventSource = new EventSource(mercureUrl);
-
-        eventSource.onmessage = event => {
-          const data = JSON.parse(event.data);
-          const selector = 'tr[data-id="' + data.id + '"]';
-          const div = $(data.tr).hide();
-
-          if (data.new) {
-            $('#items-container').prepend(div);
-            $(selector).fadeIn('slow');
-          } else {
-            $(selector).fadeOut('slow', () => {
-              $(selector).replaceWith(div);
-              $(selector).fadeIn('slow');
-            });
-          }
-        };
-      });
-    </script>
 {% endblock %}

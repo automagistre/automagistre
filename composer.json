@@ -45,7 +45,6 @@
         "symfony/form": "^5.0",
         "symfony/framework-bundle": "^5.0",
         "symfony/http-kernel": "^5.0",
-        "symfony/mercure-bundle": "^0.2.3",
         "symfony/monolog-bundle": "^3.3",
         "symfony/polyfill-php80": "^1.15",
         "symfony/process": "^5.0",

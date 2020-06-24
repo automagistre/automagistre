@@ -18,7 +18,6 @@ services:
         environment:
             APP_ENV: dev
             APP_DEBUG: 1
-            MERCURE_HUB_URL: //mercure.${TENANT}.automagistre.local/.well-known/mercure
             TENANT: ${TENANT}
 
     db:
@@ -40,19 +39,6 @@ services:
         image: memcached:1.5.11-alpine
         labels:
             ru.grachevko.dhu: 'memcached.${TENANT}.automagistre.local'
-
-    mercure:
-        image: dunglas/mercure:v0.8.0
-        labels:
-            ru.grachevko.dhu: 'mercure.${TENANT}.automagistre.local'
-        environment:
-            ALLOW_ANONYMOUS: 1
-            CORS_ALLOWED_ORIGINS: 'http://sto.automagistre.local'
-            JWT_KEY: aVerySecretKey
-        networks:
-            default:
-                aliases:
-                    - mercure.${TENANT}.automagistre.local
 
     host.docker.internal:
         image: alpine/socat:1.7.3.4-r0

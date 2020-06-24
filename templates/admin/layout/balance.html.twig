@@ -22,26 +22,4 @@
             </li>
         {% endfor %}
     </ul>
-
-    <script>
-      $(document).ready(function() {
-        const mercureUrl = new URL(MERCURE_URL);
-
-        {% for wallet in wallets %}
-        mercureUrl.searchParams.append('topic', 'http://automagistre.ru/{{ state.tenant.toIdentifier }}/Wallet/{{ wallet.id }}');
-        {% endfor %}
-
-        const eventSource = new EventSource(mercureUrl);
-
-        eventSource.onmessage = event => {
-          const data = JSON.parse(event.data);
-          const selector = $('#wallet-' + data.id + '-amount');
-
-          selector.fadeOut('slow', () => {
-            selector.html(data.amount);
-            selector.fadeIn('slow');
-          });
-        };
-      });
-    </script>
 {% endif %}
