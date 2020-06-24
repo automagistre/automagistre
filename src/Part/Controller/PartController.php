@@ -112,21 +112,6 @@ final class PartController extends AbstractController
         return $this->redirectToReferrer();
     }
 
-    public function stockAction(): Response
-    {
-        $parts = $this->registry->repository(PartView::class)
-            ->createQueryBuilder('part')
-            ->select('part')
-            ->where('part.quantity > 0')
-            ->orderBy('part.id')
-            ->getQuery()
-            ->getResult();
-
-        return $this->render('easy_admin/part/stock.html.twig', [
-            'parts' => $parts,
-        ]);
-    }
-
     public function incomeAction(): Response
     {
         $part = $this->getEntity(Part::class);
