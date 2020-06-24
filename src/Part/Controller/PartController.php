@@ -20,7 +20,6 @@ use App\Part\Event\PartCreated;
 use App\Part\Event\PartDecreased;
 use App\Part\Form\PartCaseDTO;
 use App\Part\Form\PartDto;
-use App\Part\Manager\DeficitManager;
 use App\Part\Manager\PartManager;
 use App\PartPrice\Entity\Discount;
 use App\PartPrice\Entity\Price;
@@ -59,18 +58,12 @@ use function urldecode;
  */
 final class PartController extends AbstractController
 {
-    private DeficitManager $deficitManager;
-
     private PartManager $partManager;
 
     private ReservationManager $reservationManager;
 
-    public function __construct(
-        DeficitManager $deficitManager,
-        PartManager $partManager,
-        ReservationManager $reservationManager
-    ) {
-        $this->deficitManager = $deficitManager;
+    public function __construct(PartManager $partManager, ReservationManager $reservationManager)
+    {
         $this->partManager = $partManager;
         $this->reservationManager = $reservationManager;
     }
@@ -131,13 +124,6 @@ final class PartController extends AbstractController
 
         return $this->render('easy_admin/part/stock.html.twig', [
             'parts' => $parts,
-        ]);
-    }
-
-    public function deficitAction(): Response
-    {
-        return $this->render('easy_admin/part/deficit.html.twig', [
-            'parts' => $this->deficitManager->findDeficit(),
         ]);
     }
 
