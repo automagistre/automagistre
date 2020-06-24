@@ -76,6 +76,6 @@ final class CallbackGuard extends AbstractGuardAuthenticator
      */
     public function start(Request $request, AuthenticationException $authException = null): Response
     {
-        return new Response();
+        return new Response('', 403);
     }
 }

@@ -13,6 +13,18 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
+        api:
+            pattern: ^/api/v1
+            stateless: true
+            anonymous: true
+
+        callback:
+            pattern: ^/callback
+            guard:
+                authenticators:
+                    - App\Sms\Security\CallbackGuard
+            stateless: true
+
         admin:
             anonymous: ~
             logout:
@@ -24,17 +36,6 @@ security:
                 csrf_token_generator: security.csrf.token_manager
                 check_path: login_check
                 login_path: login
-
-        api:
-            pattern: ^/api/v1
-            stateless: true
-            anonymous: true
-        callback:
-            pattern: ^/callback
-            guard:
-                authenticators:
-                    - App\Sms\Security\CallbackGuard
-            stateless: true
 
     access_control:
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
