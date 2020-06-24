@@ -84,7 +84,7 @@ final class AutocompleteType extends AbstractType implements DataMapperInterface
     public function finishView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['attr']['data-easyadmin-autocomplete-url'] = $this->router->generate(
-            Costil::EASYADMIN_CONFIG[array_flip(Costil::ENTITY)[$options['class']]],
+            $options['class'],
             'autocomplete',
             [
                 'use_uuid' => true,

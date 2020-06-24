@@ -14,7 +14,6 @@ use App\Customer\Entity\Operand;
 use App\Customer\Entity\OperandId;
 use App\Employee\Entity\Employee;
 use App\Employee\Entity\EmployeeId;
-use App\Employee\Entity\SalaryId;
 use App\Expense\Entity\Expense;
 use App\Expense\Entity\ExpenseId;
 use App\Income\Entity\Income;
@@ -39,7 +38,6 @@ use App\Vehicle\Entity\Model;
 use App\Vehicle\Entity\VehicleId;
 use App\Wallet\Entity\Wallet;
 use App\Wallet\Entity\WalletId;
-use App\Wallet\Entity\WalletTransactionId;
 use function array_key_exists;
 use Money\Currency;
 use Money\Money;
@@ -71,25 +69,6 @@ final class Costil
         VehicleId::class => Model::class,
         WalletId::class => Wallet::class,
         WarehouseId::class => WarehouseView::class,
-    ];
-    public const EASYADMIN_CONFIG = [
-        CalendarEntryId::class => 'CalendarEntry',
-        CarId::class => 'Car',
-        CustomerTransactionId::class => 'CustomerTransaction',
-        EmployeeId::class => 'Employee',
-        ExpenseId::class => 'Expense',
-        IncomeId::class => 'Income',
-        IncomePartId::class => 'IncomePart',
-        ManufacturerId::class => 'Manufacturer',
-        OperandId::class => 'Operand',
-        OrderId::class => 'Order',
-        PartId::class => 'Part',
-        SalaryId::class => 'Salary',
-        UserId::class => 'User',
-        VehicleId::class => 'CarModel',
-        WalletId::class => 'Wallet',
-        WalletTransactionId::class => 'WalletTransaction',
-        WarehouseId::class => 'Warehouse',
     ];
     public const UUID_FIELDS = [
         CalendarEntryId::class => 'id',

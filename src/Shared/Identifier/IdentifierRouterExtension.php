@@ -53,7 +53,7 @@ final class IdentifierRouterExtension extends AbstractExtension
                         throw new LogicException(sprintf('Not Found entity %s by id %s', $class, $uuid->toString()));
                     }
 
-                    return $this->router->generate(Costil::EASYADMIN_CONFIG[$class], $action, $params);
+                    return $this->router->generate(Costil::ENTITY[$class], $action, $params);
                 }
             ),
         ];
