@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Customer\Entity;
 
-use App\Entity\Embeddable\Requisite;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhone;

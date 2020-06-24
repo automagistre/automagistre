@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Type;
+namespace App\Customer\Form;
 
 use App\Customer\Entity\Operand;
 use App\Customer\Entity\OperandId;

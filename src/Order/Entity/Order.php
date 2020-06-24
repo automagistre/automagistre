@@ -7,8 +7,6 @@ namespace App\Order\Entity;
 use App\Car\Entity\CarId;
 use App\Customer\Entity\OperandId;
 use App\Employee\Entity\Employee;
-use App\Entity\Discounted;
-use App\Entity\WarrantyInterface;
 use App\Order\Enum\OrderStatus;
 use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedBy;

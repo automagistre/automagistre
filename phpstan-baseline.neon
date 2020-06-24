@@ -16,11 +16,6 @@ parameters:
 			path: src/Form/Transformer/DivisoredNumberToLocalizedStringTransformer.php
 
 		-
-			message: "#^Parameter \\#1 \\$view of method Symfony\\\\Component\\\\Form\\\\AbstractType\\:\\:buildView\\(\\) expects Symfony\\\\Component\\\\Form\\\\FormView, array given\\.$#"
-			count: 1
-			path: src/Form/Type/OrderItemServiceType.php
-
-		-
 			message: "#^Call to function is_subclass_of\\(\\) with 'App\\\\\\\\Form\\\\\\\\Model\\\\\\\\Model' and string will always evaluate to true\\.$#"
 			count: 1
 			path: src/Form/TypeGuesser/EntityModelTypeGuesser.php

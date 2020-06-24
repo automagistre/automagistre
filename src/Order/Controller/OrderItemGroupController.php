@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Order\Controller;
 
-use App\Form\Model\OrderGroup;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemGroup;
+use App\Order\Form\OrderGroup;
 use function assert;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 

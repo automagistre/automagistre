@@ -35,11 +35,6 @@ doctrine:
                         prefix: Money
                         dir: '%kernel.project_dir%/config/orm/money'
                         is_bundle: false
-                    embeddable:
-                        type: annotation
-                        prefix: App\Entity\Embeddable
-                        dir: '%kernel.project_dir%/src/Entity/Embeddable'
-                        is_bundle: false
                     superclass:
                         type: annotation
                         prefix: App\Entity\Superclass

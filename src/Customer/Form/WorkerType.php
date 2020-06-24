@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Type;
+namespace App\Customer\Form;
 
 use App\Customer\Entity\Operand;
 use App\Customer\Entity\OperandId;
@@ -43,7 +43,7 @@ final class WorkerType extends AbstractType
         $groupMap = [];
 
         $resolver->setDefaults([
-            'label' => false,
+            'label' => 'Исполнитель',
             'placeholder' => 'Выберите исполнителя',
             'class' => Operand::class,
             'choice_loader' => new CallbackChoiceLoader(function () use (&$groupMap): array {

@@ -99,7 +99,7 @@ easy_admin:
                     - { property: 'contractor', label: 'Подрядчик' }
                     - { property: 'seller', label: 'Поставщик' }
                     - { type: 'group', label: 'Реквизиты', css_class: 'col-sm-6' }
-                    - { property: 'requisite', type: App\Form\Type\RequisiteType, type_options: { label: false } }
+                    - { property: 'requisite', type: App\Customer\Form\RequisiteType, type_options: { label: false } }
             new:
                 title: 'Создать новую Организацию'
             edit:

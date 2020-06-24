@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Type;
+namespace App\Order\Form\Type;
 
-use App\Form\Model\OrderTOService;
+use App\Form\Type\MoneyType;
+use App\Order\Form\OrderTOService;
 use function count;
 use LogicException;
 use Symfony\Component\Form\AbstractType;

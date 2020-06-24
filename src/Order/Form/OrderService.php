@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Model;
+namespace App\Order\Form;
 
 use App\Customer\Entity\OperandId;
 use App\Order\Entity\OrderItemService;

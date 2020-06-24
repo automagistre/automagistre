@@ -52,7 +52,7 @@ easy_admin:
                     - { property: 'name', label: 'Название' }
                     - { property: 'hideParts', label: 'Скрыть запчасти от клиента' }
             new:
-                form_options: { data_class: App\Form\Model\OrderGroup }
+                form_options: { data_class: App\Order\Form\OrderGroup }
 
         OrderItemService:
             class: App\Order\Entity\OrderItemService
@@ -77,14 +77,14 @@ easy_admin:
             form:
                 fields:
                     - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
-                    - { property: 'parent', label: 'Группа', type: App\Form\Type\OrderItemParentType }
+                    - { property: 'parent', label: 'Группа', type: App\Order\Form\Type\OrderItemParentType }
                     - { property: 'service', label: 'Работа', type_options: { required: true } }
                     - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType }
-                    - { property: 'workerId', label: 'Исполнитель', type: App\Form\Type\WorkerType }
+                    - { property: 'workerId', label: 'Исполнитель', type: App\Customer\Form\WorkerType }
                     - { property: 'warranty', label: 'По гарантии?' }
                     - { property: 'discount', label: 'Скидка', type: App\Form\Type\MoneyType }
             new:
-                form_options: { data_class: App\Form\Model\OrderService }
+                form_options: { data_class: App\Order\Form\OrderService }
 
         OrderItemPart:
             class: App\Order\Entity\OrderItemPart
@@ -100,7 +100,7 @@ easy_admin:
             form:
                 fields:
                     - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
-                    - { property: 'parent', label: 'Работа / Группа', type: App\Form\Type\OrderItemParentType }
+                    - { property: 'parent', label: 'Работа / Группа', type: App\Order\Form\Type\OrderItemParentType }
                     -   property: 'partId'
                         label: 'Запчасть'
                         type: App\EasyAdmin\Form\AutocompleteType
@@ -110,9 +110,9 @@ easy_admin:
                     - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType }
                     - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
                     - { property: 'warranty', label: 'По гарантии?' }
-                    - { property: 'supplier', label: 'Поставщик', type: App\Form\Type\SellerType }
+                    - { property: 'supplier', label: 'Поставщик', type: App\Customer\Form\SellerType }
             new:
-                form_options: { data_class: App\Form\Model\OrderPart }
+                form_options: { data_class: App\Order\Form\OrderPart }
 
         OrderNote:
             class: App\Order\Entity\OrderNote

@@ -6,8 +6,6 @@ namespace App\Order\Entity;
 
 use App\Costil;
 use App\Customer\Entity\OperandId;
-use App\Entity\Discounted;
-use App\Entity\WarrantyInterface;
 use App\Part\Entity\PartId;
 use App\PartPrice\PartPrice;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Discount;

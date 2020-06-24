@@ -65,11 +65,6 @@
       <code>$this-&gt;recommendations</code>
     </PossiblyNullReference>
   </file>
-  <file src="src/Car/Entity/Recommendation.php">
-    <PossiblyNullReference occurrences="1">
-      <code>entityOrNull</code>
-    </PossiblyNullReference>
-  </file>
   <file src="src/Car/Manager/RecommendationManager.php">
     <PossiblyNullArgument occurrences="1">
       <code>$worker</code>
@@ -139,31 +134,9 @@
       <code>$ratio</code>
     </PropertyNotSetInConstructor>
   </file>
-  <file src="src/Entity/Embeddable/Relation.php">
-    <UndefinedThisPropertyFetch occurrences="2">
-      <code>$this-&gt;id</code>
-      <code>$this-&gt;id</code>
-    </UndefinedThisPropertyFetch>
-  </file>
-  <file src="src/Form/Model/OrderGroup.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>OrderGroup</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Form/Model/OrderService.php">
-    <PropertyNotSetInConstructor occurrences="2">
-      <code>$workerId</code>
-      <code>OrderService</code>
-    </PropertyNotSetInConstructor>
-  </file>
   <file src="src/Form/Transformer/DivisoredNumberToLocalizedStringTransformer.php">
     <PossiblyNullArgument occurrences="1">
       <code>preg_replace('/\s/', '', $value)</code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="src/Form/Type/OrderItemParentType.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$currentItem</code>
     </PossiblyNullArgument>
   </file>
   <file src="src/Income/Controller/IncomeController.php">
@@ -277,6 +250,22 @@
     <PropertyNotSetInConstructor occurrences="1">
       <code>OrderFixtures</code>
     </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Order/Form/OrderGroup.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>OrderGroup</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Order/Form/OrderService.php">
+    <PropertyNotSetInConstructor occurrences="2">
+      <code>$workerId</code>
+      <code>OrderService</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Order/Form/Type/OrderItemParentType.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$currentItem</code>
+    </PossiblyNullArgument>
   </file>
   <file src="src/Part/Controller/PartController.php">
     <PossiblyFalseOperand occurrences="1">

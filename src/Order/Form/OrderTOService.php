@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Model;
+namespace App\Order\Form;
 
 use function iterator_to_array;
 use Money\Money;

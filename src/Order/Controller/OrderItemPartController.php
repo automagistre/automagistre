@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Order\Controller;
 
-use App\Form\Model\OrderPart;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Exception\ReservationException;
+use App\Order\Form\OrderPart;
 use App\Order\Manager\ReservationManager;
 use App\Part\Entity\Part;
 use App\PartPrice\PartPrice;

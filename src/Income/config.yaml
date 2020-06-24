@@ -19,7 +19,7 @@ easy_admin:
                     - { property: 'accruedAt', label: 'Принято' }
             form:
                 fields:
-                    - { property: 'supplierId', label: 'Поставщик', type: App\Income\Form\SellerType, type_options: { required: true } }
+                    - { property: 'supplierId', label: 'Поставщик', type: App\Customer\Form\SellerType, type_options: { required: true } }
                     - { property: 'document', label: 'Документ' }
             new:
                 title: 'Создать приход'

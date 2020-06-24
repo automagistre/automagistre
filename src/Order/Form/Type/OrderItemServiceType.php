@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Type;
+namespace App\Order\Form\Type;
 
+use App\Customer\Form\WorkerType;
 use App\Order\Entity\OrderItemService;
 use LogicException;
 use function sprintf;
@@ -37,7 +38,6 @@ final class OrderItemServiceType extends AbstractType
             throw new LogicException(sprintf('Data must be instance of "%s"', OrderItemService::class));
         }
 
-        /** @psalm-var array $view->vars */
         $view->vars['label'] = $item->service;
 
         parent::buildView($view, $form, $options);

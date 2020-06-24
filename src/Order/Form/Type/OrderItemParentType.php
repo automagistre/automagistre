@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Type;
+namespace App\Order\Form\Type;
 
-use App\Form\Model\OrderGroup as OrderItemGroupModel;
-use App\Form\Model\OrderItemModel;
-use App\Form\Model\OrderPart as OrderItemPartModel;
-use App\Form\Model\OrderService as OrderItemServiceModel;
 use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemGroup;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Entity\OrderItemService;
+use App\Order\Form\OrderGroup as OrderItemGroupModel;
+use App\Order\Form\OrderItemModel;
+use App\Order\Form\OrderPart as OrderItemPartModel;
+use App\Order\Form\OrderService as OrderItemServiceModel;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;

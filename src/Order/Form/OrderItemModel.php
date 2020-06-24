@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Model;
+namespace App\Order\Form;
 
+use App\Form\Model\Model;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItem;
 
