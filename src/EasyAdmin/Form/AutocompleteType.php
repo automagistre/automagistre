@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace App\EasyAdmin\Form;
 
-use App\Costil;
+use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use function array_filter;
-use function array_flip;
 use function array_map;
 use function assert;
 use function current;
 use EasyCorp\Bundle\EasyAdminBundle\Router\EasyAdminRouter;
 use function is_iterable;
+use function is_subclass_of;
 use function iterator_to_array;
+use LogicException;
+use function method_exists;
+use function sprintf;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\Event\PreSetDataEvent;
@@ -34,16 +37,36 @@ final class AutocompleteType extends AbstractType implements DataMapperInterface
 
     private EasyAdminRouter $router;
 
-    public function __construct(IdentifierFormatter $formatter, EasyAdminRouter $router)
+    private Registry $registry;
+
+    public function __construct(IdentifierFormatter $formatter, EasyAdminRouter $router, Registry $registry)
     {
         $this->formatter = $formatter;
         $this->router = $router;
+        $this->registry = $registry;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $entityClass = $options['class'];
-        $identifierClass = array_flip(Costil::ENTITY)[$entityClass];
+        $classMetaData = $this->registry->classMetaData($entityClass);
+        $reflectionClass = $classMetaData->getReflectionClass();
+
+        $reflectionType = $reflectionClass->getProperty('id')->getType();
+
+        /** @psalm-suppress RedundantCondition */
+        assert(null !== $reflectionType && method_exists($reflectionType, 'getName'));
+        $identifierClass = $reflectionType->getName();
+        if (!is_subclass_of($identifierClass, Identifier::class)) {
+            $reflectionType = $reflectionClass->getProperty('uuid')->getType();
+            /** @psalm-suppress RedundantCondition */
+            assert(null !== $reflectionType && method_exists($reflectionType, 'getName'));
+            $identifierClass = $reflectionType->getName();
+        }
+
+        if (!is_subclass_of($identifierClass, Identifier::class)) {
+            throw new LogicException(sprintf('Can\'t find identifier class for %s', $entityClass));
+        }
 
         $builder
             ->setDataMapper($this)
