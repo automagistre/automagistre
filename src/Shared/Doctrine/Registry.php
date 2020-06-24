@@ -19,6 +19,7 @@ use function get_class;
 use function is_array;
 use function is_object;
 use LogicException;
+use Ramsey\Uuid\UuidInterface;
 use function serialize;
 use function sprintf;
 use function str_replace;
@@ -45,6 +46,32 @@ final class Registry
     public function findBy(string $class, array $criteria)
     {
         return $this->repository($class)->findOneBy($criteria);
+    }
+
+    /**
+     * @template T
+     *
+     * @psalm-param class-string<T> $class
+     *
+     * @psalm-return T
+     *
+     * @param Identifier|UuidInterface|string $id
+     * @param mixed|null                      $lockMode
+     * @param mixed|null                      $lockVersion
+     */
+    public function get(string $class, $id, $lockMode = null, $lockVersion = null)
+    {
+        $entity = $this->repository($class)->find($id, $lockMode, $lockVersion);
+
+        if (!$entity instanceof $class) {
+            throw new LogicException(sprintf(
+                'Entity %s not found for criteria %s',
+                $class,
+                serialize($id),
+            ));
+        }
+
+        return $entity;
     }
 
     /**
