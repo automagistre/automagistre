@@ -6,7 +6,7 @@ namespace App\Employee\Controller;
 
 use App\Customer\Entity\CustomerTransaction;
 use App\Customer\Entity\CustomerTransactionId;
-use App\Customer\Entity\Person;
+use App\Customer\Entity\OperandId;
 use App\Customer\Enum\CustomerTransactionSource;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Employee\Entity\Employee;
@@ -20,7 +20,6 @@ use App\Wallet\Entity\WalletTransactionId;
 use App\Wallet\Enum\WalletTransactionSource;
 use function assert;
 use Doctrine\ORM\EntityManagerInterface;
-use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use LogicException;
 use Money\Money;
 use function sprintf;
@@ -37,25 +36,18 @@ final class EmployeeController extends AbstractController
 {
     public function salaryAction(): Response
     {
-        $request = $this->request;
-
-        $recipient = $this->getEntity(Person::class);
-        if (!$recipient instanceof Person) {
+        $recipientId = $this->getIdentifier(OperandId::class);
+        if (!$recipientId instanceof OperandId) {
             throw new BadRequestHttpException('Person required.');
         }
 
         $model = new stdClass();
-        $model->recipient = $recipient;
+        $model->recipient = $recipientId;
         $model->wallet = null;
         $model->amount = null;
         $model->description = null;
 
         $form = $this->createFormBuilder($model)
-            ->add('recipient', EasyAdminAutocompleteType::class, [
-                'label' => 'Получатель',
-                'class' => Person::class,
-                'disabled' => true,
-            ])
             ->add('wallet', EntityType::class, [
                 'label' => 'Счет списания',
                 'class' => Wallet::class,
@@ -70,10 +62,10 @@ final class EmployeeController extends AbstractController
                 'required' => false,
             ])
             ->getForm()
-            ->handleRequest($request);
+            ->handleRequest($this->request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->em->transactional(function (EntityManagerInterface $em) use ($model, $recipient): void {
+            $this->em->transactional(static function (EntityManagerInterface $em) use ($model, $recipientId): void {
                 /** @var Money $money */
                 $money = $model->amount;
                 $money = $money->negative();
@@ -84,7 +76,7 @@ final class EmployeeController extends AbstractController
                 $em->persist(
                     new CustomerTransaction(
                         $customerTransactionId,
-                        $recipient->toId(),
+                        $recipientId,
                         $money,
                         CustomerTransactionSource::payroll(),
                         $walletTransactionId->toUuid(),
@@ -108,7 +100,7 @@ final class EmployeeController extends AbstractController
         }
 
         return $this->render('easy_admin/simple.html.twig', [
-            'content_title' => sprintf('Выдача зарплаты - "%s"', $recipient->getFullName()),
+            'content_title' => sprintf('Выдача зарплаты - "%s"', $this->display($recipientId)),
             'button' => 'Выдать зарплату',
             'form' => $form->createView(),
         ]);
@@ -116,25 +108,18 @@ final class EmployeeController extends AbstractController
 
     public function penaltyAction(): Response
     {
-        $request = $this->request;
-
-        $recipient = $this->getEntity(Person::class);
-        if (!$recipient instanceof Person) {
+        $personId = $this->getIdentifier(OperandId::class);
+        if (!$personId instanceof OperandId) {
             throw new BadRequestHttpException('Person required.');
         }
 
         $model = new stdClass();
-        $model->recipient = $recipient;
+        $model->recipient = $personId;
         $model->wallet = null;
         $model->amount = null;
         $model->description = null;
 
         $form = $this->createFormBuilder($model)
-            ->add('recipient', EasyAdminAutocompleteType::class, [
-                'label' => 'Получатель',
-                'class' => Person::class,
-                'disabled' => true,
-            ])
             ->add('amount', MoneyType::class, [
                 'label' => 'Сумма',
                 'required' => true,
@@ -144,13 +129,13 @@ final class EmployeeController extends AbstractController
                 'required' => true,
             ])
             ->getForm()
-            ->handleRequest($request);
+            ->handleRequest($this->request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->em->transactional(function (EntityManagerInterface $em) use ($model, $recipient): void {
+            $this->em->transactional(function (EntityManagerInterface $em) use ($model, $personId): void {
                 $description = sprintf(
                     '# Оштрафован "%s" по причине "%s"',
-                    $recipient->getFullName(),
+                    $this->display($personId),
                     $model->description
                 );
 
@@ -160,7 +145,7 @@ final class EmployeeController extends AbstractController
                 $em->persist(
                     new CustomerTransaction(
                         CustomerTransactionId::generate(),
-                        $recipient->toId(),
+                        $personId,
                         $money,
                         CustomerTransactionSource::penalty(),
                         $this->getUser()->toId()->toUuid(),
@@ -173,7 +158,7 @@ final class EmployeeController extends AbstractController
         }
 
         return $this->render('easy_admin/simple.html.twig', [
-            'content_title' => sprintf('Оштрафовать - "%s"', $recipient->getFullName()),
+            'content_title' => sprintf('Оштрафовать - "%s"', $this->display($personId)),
             'button' => 'Оштрафовать',
             'form' => $form->createView(),
         ]);
