@@ -39,7 +39,7 @@ final class EmployeeFormatter implements IdentifierFormatterInterface
         $view = $this->registry->view($identifier);
 
         $uuid = $this->registry->connection(Operand::class)
-            ->fetchColumn('SELECT uuid FROM operand WHERE id = :id', ['id' => $view['person.id']]);
+            ->fetchColumn('SELECT uuid FROM operand WHERE uuid = :id', ['id' => $view['personId']]);
 
         assert(is_string($uuid));
 

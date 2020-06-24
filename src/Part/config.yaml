@@ -1,7 +1,7 @@
 easy_admin:
     entities:
         Part:
-            class: App\Part\Entity\PartView
+            class: App\Part\Entity\Part
             controller: App\Part\Controller\PartController
             disabled_actions: ['delete']
             label: 'Запчасти'

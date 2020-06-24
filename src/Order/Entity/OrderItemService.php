@@ -41,7 +41,7 @@ class OrderItemService extends OrderItem implements PriceInterface, TotalPriceIn
 
         $this->service = $service;
         $this->price = $price;
-        $this->workerId = $workerId ?? (null === $order->getWorkerPerson() ? null : $order->getWorkerPerson()->toId());
+        $this->workerId = $workerId ?? $order->getWorkerPersonId();
     }
 
     public function __toString(): string

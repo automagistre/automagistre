@@ -7,6 +7,7 @@ namespace App\Payment\Manager;
 use App\Balance\Entity\BalanceView;
 use App\Customer\Entity\Operand;
 use App\Shared\Doctrine\Registry;
+use App\Shared\Identifier\Identifier;
 use App\Wallet\Entity\Wallet;
 use LogicException;
 use Money\Money;
@@ -29,6 +30,8 @@ final class PaymentManager
             $id = $transactional->toId();
         } elseif ($transactional instanceof Wallet) {
             $id = $transactional->toId();
+        } elseif ($transactional instanceof Identifier) {
+            $id = $transactional;
         } else {
             throw new LogicException('Unsupported transactional');
         }

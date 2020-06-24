@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace App\Employee\Entity;
 
-use App\Customer\Entity\Person;
-use App\Entity\Embeddable\PersonRelation;
+use App\Costil;
+use App\Customer\Entity\OperandId;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use LogicException;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
  *
- * @UniqueEntity(fields={"person.id", "firedAt"}, message="Данный человек уже является работником", ignoreNull=false)
+ * @UniqueEntity(fields={"personId", "firedAt"}, message="Данный человек уже является работником", ignoreNull=false)
  */
 class Employee
 {
@@ -26,11 +27,9 @@ class Employee
     private EmployeeId $uuid;
 
     /**
-     * @var PersonRelation
-     *
-     * @ORM\Embedded(class=PersonRelation::class)
+     * @ORM\Column(type="operand_id")
      */
-    private $person;
+    private ?OperandId $personId = null;
 
     /**
      * @var int
@@ -56,13 +55,12 @@ class Employee
     public function __construct(EmployeeId $employeeId = null)
     {
         $this->uuid = $employeeId ?? EmployeeId::generate();
-        $this->person = new PersonRelation();
         $this->hiredAt = new DateTime();
     }
 
     public function __toString(): string
     {
-        return $this->getPerson()->getFullName();
+        return Costil::display($this->toPersonId());
     }
 
     public function toId(): EmployeeId
@@ -75,14 +73,23 @@ class Employee
         return null !== $employee && $this->getId() === $employee->getId();
     }
 
-    public function setPerson(Person $person): void
+    public function setPersonId(OperandId $personId): void
     {
-        $this->person = new PersonRelation($person);
+        $this->personId = $personId;
     }
 
-    public function getPerson(): ?Person
+    public function toPersonId(): OperandId
     {
-        return $this->person->entityOrNull();
+        if (null === $this->personId) {
+            throw new LogicException('Need define PersonId first.');
+        }
+
+        return $this->personId;
+    }
+
+    public function getPersonId(): ?OperandId
+    {
+        return $this->personId;
     }
 
     public function setRatio(int $ratio): void
@@ -105,11 +112,6 @@ class Employee
         return $this->firedAt;
     }
 
-    public function getFullName(): string
-    {
-        return $this->getPerson()->getFullName();
-    }
-
     public function isFired(): bool
     {
         return null !== $this->firedAt;
@@ -117,7 +119,6 @@ class Employee
 
     public function fire(): void
     {
-        $this->person->entity()->setContractor(false);
         $this->firedAt = new DateTime();
     }
 }

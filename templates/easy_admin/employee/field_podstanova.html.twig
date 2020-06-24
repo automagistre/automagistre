@@ -1,5 +1,5 @@
-{# @var item \App\Entity\Employee #}
-{% if 4 == item.person.id %}
+{# @var item \App\Employee\Entity\Employee #}
+{% if '1ea87f90-bf36-6696-94e1-02420a000547' == item.personId.toString %}
     {{ constant('App\\Costil::PODSTANOVA') }}
 {% else %}
     {{ value }}

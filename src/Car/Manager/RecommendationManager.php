@@ -55,7 +55,7 @@ final class RecommendationManager
             $order,
             $recommendation->service,
             $recommendation->getPrice(),
-            null === $order->getWorkerPerson() ? null : $order->getWorkerPerson()->toId(),
+            $order->getWorkerPersonId(),
         );
 
         $orderItemParts = [];

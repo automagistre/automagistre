@@ -1,4 +1,6 @@
-{%- set parameters = [item.person, {'referer': true}]|to_query -%}
+{# @var item \App\Employee\Entity\Employee #}
+
+{%- set parameters = {'operand_id': item.personId.toString, 'referer': true} -%}
 
 <a href="{{ easyadmin_path('Employee', 'salary', parameters) }}" class="btn btn-success btn-sm">Выдать
     зарплату

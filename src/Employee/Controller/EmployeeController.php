@@ -187,7 +187,7 @@ final class EmployeeController extends AbstractController
         }
 
         if ($entity->isFired()) {
-            $this->addFlash('error', sprintf('Работник "%s" уже уволен', (string) $entity));
+            $this->addFlash('error', sprintf('Работник "%s" уже уволен', $this->display($entity->toPersonId())));
 
             return $this->redirectToReferrer();
         }

@@ -36,9 +36,6 @@
       <code>$model-&gt;price</code>
       <code>$model-&gt;workerId</code>
     </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>toId</code>
-    </PossiblyNullReference>
     <PropertyNotSetInConstructor occurrences="1">
       <code>RecommendationController</code>
     </PropertyNotSetInConstructor>
@@ -77,9 +74,6 @@
     <PossiblyNullArgument occurrences="1">
       <code>$worker</code>
     </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>toId</code>
-    </PossiblyNullReference>
   </file>
   <file src="src/Costil.php">
     <PossiblyNullArgument occurrences="2">
@@ -130,9 +124,6 @@
     </PossiblyNullArgument>
   </file>
   <file src="src/EasyAdmin/Form/AutocompleteType.php">
-    <InvalidArrayOffset occurrences="1">
-      <code>Costil::EASYADMIN_CONFIG[array_flip(Costil::ENTITY)[$options['class']]]</code>
-    </InvalidArrayOffset>
     <PossiblyFalseReference occurrences="2">
       <code>setData</code>
       <code>getData</code>
@@ -144,17 +135,8 @@
     </PossiblyFalseArgument>
   </file>
   <file src="src/Employee/Entity/Employee.php">
-    <PossiblyNullReference occurrences="2">
-      <code>getFullName</code>
-      <code>getFullName</code>
-    </PossiblyNullReference>
     <PropertyNotSetInConstructor occurrences="1">
       <code>$ratio</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Employee/Fixtures/EmployeeFixtures.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>EmployeeFixtures</code>
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Entity/Embeddable/Relation.php">
@@ -271,9 +253,6 @@
       <code>$model-&gt;price</code>
       <code>$sortDirection</code>
     </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>toId</code>
-    </PossiblyNullReference>
   </file>
   <file src="src/Order/Controller/ProfitController.php">
     <PossiblyNullArgument occurrences="2">
@@ -285,8 +264,7 @@
     <PossiblyNullArgument occurrences="1">
       <code>$itemDiscount</code>
     </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="2">
-      <code>toId</code>
+    <PossiblyNullReference occurrences="1">
       <code>multiply</code>
     </PossiblyNullReference>
   </file>
@@ -294,11 +272,6 @@
     <PossiblyNullArgument occurrences="1">
       <code>$this-&gt;discount()</code>
     </PossiblyNullArgument>
-  </file>
-  <file src="src/Order/Entity/OrderItemService.php">
-    <PossiblyNullReference occurrences="1">
-      <code>toId</code>
-    </PossiblyNullReference>
   </file>
   <file src="src/Order/Fixtures/OrderFixtures.php">
     <PropertyNotSetInConstructor occurrences="1">
@@ -373,7 +346,7 @@
   <file src="src/Shared/Identifier/IdentifierRouterExtension.php">
     <InvalidArrayOffset occurrences="2">
       <code>Costil::ENTITY[$class]</code>
-      <code>Costil::EASYADMIN_CONFIG[$class]</code>
+      <code>Costil::ENTITY[$class]</code>
     </InvalidArrayOffset>
   </file>
   <file src="src/Shared/Identifier/IdentifierTwigExtension.php">
@@ -425,11 +398,6 @@
   <file src="src/User/Fixtures/EmployeeFixtures.php">
     <PropertyNotSetInConstructor occurrences="1">
       <code>EmployeeFixtures</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/User/Fixtures/UserRelationFixtures.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>UserRelationFixtures</code>
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Vehicle/Controller/ModelController.php">

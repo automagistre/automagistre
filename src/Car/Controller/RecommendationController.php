@@ -79,7 +79,7 @@ final class RecommendationController extends AbstractController
 
         $order = $this->getEntity(Order::class);
         if ($order instanceof Order) {
-            $model->workerId = null === $order->getWorkerPerson() ? null : $order->getWorkerPerson()->toId();
+            $model->workerId = $order->getWorkerPersonId();
         }
 
         if (null === $model->workerId) {

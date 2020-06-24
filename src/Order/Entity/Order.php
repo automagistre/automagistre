@@ -6,7 +6,6 @@ namespace App\Order\Entity;
 
 use App\Car\Entity\CarId;
 use App\Customer\Entity\OperandId;
-use App\Customer\Entity\Person;
 use App\Employee\Entity\Employee;
 use App\Entity\Discounted;
 use App\Entity\WarrantyInterface;
@@ -202,13 +201,13 @@ class Order
         $this->closedBalance = $balance;
     }
 
-    public function getWorkerPerson(): ?Person
+    public function getWorkerPersonId(): ?OperandId
     {
         if (null === $this->worker) {
             return null;
         }
 
-        return $this->worker->getPerson();
+        return $this->worker->getPersonId();
     }
 
     public function addItem(OrderItem $item): void
@@ -284,15 +283,14 @@ class Order
 
     public function setWorker(?Employee $worker): void
     {
-        $previous = null !== $this->worker ? $this->worker->getPerson() : null;
+        $previousId = null !== $this->worker ? $this->worker->getPersonId() : null;
         $this->worker = $worker;
 
-        if (null === $worker || null === $worker->getPerson()) {
+        if (null === $worker || null === $worker->getPersonId()) {
             return;
         }
 
-        $previousId = $previous instanceof Person ? $previous->toId()->toUuid() : null;
-        $newWorkerId = $worker->getPerson()->toId();
+        $newWorkerId = $worker->getPersonId();
 
         foreach ($this->items->filter(fn (OrderItem $item) => $item instanceof OrderItemService) as $item) {
             assert($item instanceof OrderItemService);

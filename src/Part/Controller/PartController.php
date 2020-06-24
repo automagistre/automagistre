@@ -47,6 +47,7 @@ use function str_replace;
 use function strpos;
 use function strtoupper;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Validator\Constraints;
@@ -206,6 +207,20 @@ final class PartController extends AbstractController
             'part' => $part,
             'form' => $form->createView(),
         ]);
+    }
+
+    protected function initialize(Request $request): void
+    {
+        parent::initialize($request);
+
+        $this->entity['class'] = PartView::class;
+
+        $easyadmin = $this->request->attributes->get('easyadmin');
+        $entity = $easyadmin['item'] ?? null;
+        if ($entity instanceof Part) {
+            $easyadmin['item'] = $this->registry->getBy(PartView::class, ['id' => $entity->toId()]);
+            $request->attributes->set('easyadmin', $easyadmin);
+        }
     }
 
     /**
