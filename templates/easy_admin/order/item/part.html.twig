@@ -1,4 +1,4 @@
-{# @var item \App\Entity\Tenant\OrderItemPart #}
+{# @var item \App\Order\Entity\OrderItemPart #}
 {%- apply spaceless -%}
 
     <td style="{%- include 'easy_admin/order/item/padding.html.twig' with {'level': level} -%}">
@@ -8,7 +8,7 @@
             <span class="label label-success">Гарантия</span>
         {%- endif -%}
     </td>
-    <td>{{ item.supplier }}</td>
+    <td>{{ item.supplierId is not empty ? item.supplierId|display_name }}</td>
     <td>{{ item.discounted ? item.discount|localize_money }}</td>
 
     {% set price = item.price %}

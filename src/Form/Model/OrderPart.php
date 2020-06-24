@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form\Model;
 
-use App\Customer\Entity\Operand;
+use App\Customer\Entity\OperandId;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemPart;
@@ -44,7 +44,7 @@ final class OrderPart extends OrderItemModel
     public $warranty = false;
 
     /**
-     * @var Operand|null
+     * @var OperandId|null
      */
     public $supplier;
 
@@ -55,7 +55,7 @@ final class OrderPart extends OrderItemModel
         int $quantity,
         Money $price,
         bool $warranty,
-        ?Operand $supplier
+        ?OperandId $supplier
     ) {
         $this->order = $order;
         $this->parent = $parent;

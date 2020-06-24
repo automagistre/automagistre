@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Form\Type;
 
 use App\Customer\Entity\Operand;
-use App\Entity\Embeddable\OperandRelation;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Customer\Entity\OperandId;
+use App\Shared\Doctrine\Registry;
+use App\Shared\Identifier\IdentifierFormatter;
+use function array_map;
+use Doctrine\ORM\AbstractQuery;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\CallbackTransformer;
-use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -18,19 +20,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 final class SellerType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
-        if (!(bool) $options['relational']) {
-            return;
-        }
+    private Registry $registry;
 
-        $builder->addModelTransformer(new CallbackTransformer(
-            fn (?OperandRelation $relation) => null === $relation ? null : $relation->entityOrNull(),
-            fn (?Operand $operand) => null === $operand ? null : new OperandRelation($operand)
-        ));
+    private IdentifierFormatter $formatter;
+
+    public function __construct(Registry $registry, IdentifierFormatter $formatter)
+    {
+        $this->registry = $registry;
+        $this->formatter = $formatter;
     }
 
     /**
@@ -41,13 +38,19 @@ final class SellerType extends AbstractType
         $resolver->setDefaults([
             'label' => false,
             'placeholder' => 'Выберите поставщика',
-            'class' => Operand::class,
-            'query_builder' => fn (EntityRepository $repository) => $repository->createQueryBuilder('entity')
-                ->where('entity.seller = :is_seller')
-                ->setParameter('is_seller', true),
-            'choice_label' => fn (Operand $operand) => (string) $operand,
-            'choice_value' => 'id',
-            'relational' => false,
+            'choice_loader' => new CallbackChoiceLoader(function (): array {
+                $sellers = $this->registry->manager(Operand::class)
+                    ->createQueryBuilder()
+                    ->select('t.uuid AS id')
+                    ->from(Operand::class, 't')
+                    ->where('t.seller = TRUE')
+                    ->getQuery()
+                    ->getResult(AbstractQuery::HYDRATE_ARRAY);
+
+                return array_map('array_shift', $sellers);
+            }),
+            'choice_label' => fn (OperandId $operandId) => $this->formatter->format($operandId),
+            'choice_value' => fn (?OperandId $operandId) => null === $operandId ? null : $operandId->toString(),
         ]);
     }
 
@@ -56,6 +59,6 @@ final class SellerType extends AbstractType
      */
     public function getParent(): string
     {
-        return EntityType::class;
+        return ChoiceType::class;
     }
 }

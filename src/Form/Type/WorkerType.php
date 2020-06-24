@@ -14,10 +14,8 @@ use function array_key_exists;
 use function array_map;
 use DateTime;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -33,17 +31,6 @@ final class WorkerType extends AbstractType
     {
         $this->registry = $registry;
         $this->formatter = $formatter;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
-        $builder->addModelTransformer(new CallbackTransformer(
-            fn (?OperandId $operandId) => null === $operandId ? null : $operandId->toString(),
-            fn (?string $uuid) => null === $uuid ? null : OperandId::fromString($uuid)
-        ));
     }
 
     /**
@@ -68,10 +55,11 @@ final class WorkerType extends AbstractType
                     $groupMap[$id] = $type;
                 }
 
-                return array_map(fn (array $item): string => $item['id'], $ids);
+                return array_map(fn (array $item): OperandId => OperandId::fromString($item['id']), $ids);
             }),
             'preferred_choices' => fn (string $operand) => array_key_exists($operand, $preferred),
-            'choice_label' => fn (string $operand) => $this->formatter->format(OperandId::fromString($operand)),
+            'choice_label' => fn (OperandId $operandId) => $this->formatter->format($operandId),
+            'choice_value' => fn (?OperandId $operandId) => null === $operandId ? null : $operandId->toString(),
             'group_by' => static function (string $operand) use (&$groupMap) {
                 return [
                     '1' => 'Работник',

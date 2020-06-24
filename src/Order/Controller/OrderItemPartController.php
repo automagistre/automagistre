@@ -99,7 +99,7 @@ final class OrderItemPartController extends OrderItemController
         $orderItemPart = new OrderItemPart($model->order, $model->partId, $model->quantity);
         $orderItemPart->setParent($model->parent);
         $orderItemPart->setWarranty($model->warranty);
-        $orderItemPart->setSupplier($model->supplier);
+        $orderItemPart->setSupplierId($model->supplier);
         $orderItemPart->setPrice($model->price, $this->partPrice);
 
         parent::persistEntity($orderItemPart);
@@ -115,6 +115,7 @@ final class OrderItemPartController extends OrderItemController
 
     protected function createEditDto(Closure $callable): ?object
     {
+        /** @var OrderItemPart $entity */
         $entity = $this->registry->getBy(OrderItemPart::class, ['id' => $this->request->query->get('id')]);
 
         $price = $entity->getPrice();
@@ -130,7 +131,7 @@ final class OrderItemPartController extends OrderItemController
             $entity->getQuantity(),
             $price,
             $entity->isWarranty(),
-            $entity->getSupplier(),
+            $entity->getSupplierId(),
         );
     }
 
@@ -147,7 +148,7 @@ final class OrderItemPartController extends OrderItemController
         $entity->setPrice($dto->price, $this->partPrice);
         $entity->setQuantity($dto->quantity);
         $entity->setWarranty($dto->warranty);
-        $entity->setSupplier($dto->supplier);
+        $entity->setSupplierId($dto->supplier);
 
         parent::updateEntity($entity);
 

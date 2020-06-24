@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace App\Order\Entity;
 
 use App\Costil;
-use App\Customer\Entity\Operand;
+use App\Customer\Entity\OperandId;
 use App\Entity\Discounted;
-use App\Entity\Embeddable\OperandRelation;
 use App\Entity\WarrantyInterface;
 use App\Part\Entity\PartId;
 use App\PartPrice\PartPrice;
@@ -30,11 +29,9 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
     use Discount;
 
     /**
-     * @var OperandRelation
-     *
-     * @ORM\Embedded(class=OperandRelation::class)
+     * @ORM\Column(type="operand_id", nullable=true)
      */
-    private $supplier;
+    private ?OperandId $supplierId = null;
 
     /**
      * @ORM\Column(type="part_id")
@@ -52,7 +49,6 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
     {
         parent::__construct($order);
 
-        $this->supplier = new OperandRelation();
         $this->partId = $partId;
         $this->quantity = $quantity;
     }
@@ -119,13 +115,13 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
         return $price->multiply($this->getQuantity() / 100);
     }
 
-    public function getSupplier(): ?Operand
+    public function getSupplierId(): ?OperandId
     {
-        return $this->supplier->entityOrNull();
+        return $this->supplierId;
     }
 
-    public function setSupplier(?Operand $supplier): void
+    public function setSupplierId(?OperandId $supplierId): void
     {
-        $this->supplier = new OperandRelation($supplier);
+        $this->supplierId = $supplierId;
     }
 }
