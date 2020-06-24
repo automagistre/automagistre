@@ -25,7 +25,6 @@ final class PartPriceExtension extends AbstractExtension
     {
         return [
             new TwigFunction('part_price', fn (PartId $partId) => $this->partPrice->price($partId)),
-            new TwigFunction('part_discount', fn (PartId $partId) => $this->partPrice->discount($partId)),
         ];
     }
 }
