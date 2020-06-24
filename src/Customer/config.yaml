@@ -46,20 +46,6 @@ easy_admin:
                     - { property: 'contractor', label: 'Подрядчик' }
                     - { property: 'seller', label: 'Поставщик' }
 
-        PersonNote:
-            class: App\Customer\Entity\OperandNote
-            controller: App\Customer\Controller\PersonNoteController
-            disabled_actions: ['show', 'list', 'search', 'autocomplete']
-            form:
-                fields:
-                    - { property: 'operand', label: 'Человек', type: 'easyadmin_autocomplete', type_options: { disabled: true } }
-                    - { property: 'type', label: 'Тип', type: App\Form\Type\NoteTypeType }
-                    - { property: 'text', label: 'Текст' }
-            new:
-                title: 'Создать новую заметку по Человеку'
-            edit:
-                title: 'Редактировать заметку № {{ entity.id }} по Человеку'
-
         Organization:
             class: App\Customer\Entity\Organization
             controller: App\Customer\Controller\OrganizationController
@@ -104,20 +90,6 @@ easy_admin:
                 title: 'Создать новую Организацию'
             edit:
                 title: 'Редактирование Организации № {{ entity.id }}'
-
-        OrganizationNote:
-            class: App\Customer\Entity\OperandNote
-            controller: App\Customer\Controller\OrganizationNoteController
-            disabled_actions: ['show', 'list', 'search', 'autocomplete']
-            form:
-                fields:
-                    - { property: 'operand', label: 'Организация', type: 'easyadmin_autocomplete', type_options: { disabled: true } }
-                    - { property: 'type', label: 'Тип', type: App\Form\Type\NoteTypeType }
-                    - { property: 'text', label: 'Текст' }
-            new:
-                title: 'Создать новую заметку по Организации'
-            edit:
-                title: 'Редактировать заметку № {{ entity.id }} по Организации'
 
         CustomerTransaction:
             class: App\Customer\Entity\CustomerTransactionView

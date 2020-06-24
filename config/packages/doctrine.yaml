@@ -35,11 +35,6 @@ doctrine:
                         prefix: Money
                         dir: '%kernel.project_dir%/config/orm/money'
                         is_bundle: false
-                    superclass:
-                        type: annotation
-                        prefix: App\Entity\Superclass
-                        dir: '%kernel.project_dir%/src/Entity/Superclass'
-                        is_bundle: false
 
 doctrine_migrations:
     namespace: App\Migrations

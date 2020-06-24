@@ -55,20 +55,6 @@ easy_admin:
             new:
                 title: 'Создать новый автомобиль'
 
-        CarNote:
-            class: App\Car\Entity\Note
-            controller: App\Car\Controller\NoteController
-            disabled_actions: ['show', 'list', 'search', 'autocomplete']
-            form:
-                fields:
-                    - { property: 'car', label: 'Автомобиль', type: 'easyadmin_autocomplete', type_options: { disabled: true } }
-                    - { property: 'type', label: 'Тип', type: App\Form\Type\NoteTypeType }
-                    - { property: 'text', label: 'Текст' }
-            new:
-                title: 'Создать новую заметку по Автомобилю'
-            edit:
-                title: 'Редактировать заметку № {{ entity.id }} по Автомобилю'
-
         CarRecommendation:
             class: App\Car\Entity\Recommendation
             controller: App\Car\Controller\RecommendationController

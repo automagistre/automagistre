@@ -114,22 +114,6 @@ easy_admin:
             new:
                 form_options: { data_class: App\Order\Form\OrderPart }
 
-        OrderNote:
-            class: App\Order\Entity\OrderNote
-            controller: App\Order\Controller\OrderNoteController
-            disabled_actions: ['show', 'list', 'search', 'autocomplete']
-            templates:
-                new: 'easy_admin/order_note/new.html.twig'
-                edit: 'easy_admin/order_note/edit.html.twig'
-            form:
-                fields:
-                    - { property: 'type', label: 'Тип', type: App\Form\Type\NoteTypeType }
-                    - { property: 'text', label: 'Текст' }
-            new:
-                title: 'Создать новую заметку по Заказу'
-            edit:
-                title: 'Редактировать заметку № {{ entity.id }} по Заказу'
-
 doctrine:
     orm:
         mappings:

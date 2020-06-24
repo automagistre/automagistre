@@ -26,12 +26,19 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 final class SmokeTest extends WebTestCase
 {
+    /**
+     * @var string[][]
+     */
     private const ADDITIONAL_QUERY = [
+        'show' => ['id' => '1'],
         'edit' => ['id' => '1'],
         'autocomplete' => ['query' => 'bla'],
         'search' => ['query' => 'bla'],
         'CalendarEntry' => [
             'edit' => ['id' => CalendarEntryFixtures::ID],
+        ],
+        'Order' => [
+            'show' => ['id' => '1'],
         ],
         'OrderItemGroup' => [
             'new' => ['order_id' => '1'],
@@ -62,27 +69,12 @@ final class SmokeTest extends WebTestCase
         'CarRecommendationPart' => [
             'new' => ['recommendation_id' => '1'],
         ],
-        'CarNote' => [
-            'new' => ['car_id' => '1'],
-        ],
-        'OrganizationNote' => [
-            'new' => ['organization_id' => '1'],
-            'edit' => ['id' => '1'],
-        ],
         'Person' => [
             'edit' => ['id' => '2'],
         ],
         'Employee' => [
             'salary' => ['operand_id' => PersonVasyaFixtures::ID],
             'penalty' => ['operand_id' => PersonVasyaFixtures::ID],
-        ],
-        'PersonNote' => [
-            'new' => ['person_id' => '2'],
-            'edit' => ['id' => '2'],
-        ],
-        'OrderNote' => [
-            'new' => ['order_id' => '1'],
-            'edit' => ['order_id' => '1'],
         ],
         'CustomerTransaction' => [
             'new' => ['operand_id' => '1', 'type' => 'increment'],
@@ -111,6 +103,9 @@ final class SmokeTest extends WebTestCase
         ],
         'McLine' => [
             'new' => ['mc_equipment_id' => '1'],
+        ],
+        'Note' => [
+            'new' => ['subject' => PersonVasyaFixtures::ID],
         ],
         'McPart' => [
             'new' => ['mc_line_id' => '1'],

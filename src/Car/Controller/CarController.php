@@ -6,7 +6,6 @@ namespace App\Car\Controller;
 
 use App\Car\Entity\Car;
 use App\Car\Entity\CarId;
-use App\Car\Entity\Note;
 use App\Car\Form\DTO\CarDto;
 use App\Car\Repository\CarCustomerRepository;
 use App\Customer\Entity\Operand;
@@ -14,6 +13,7 @@ use App\Customer\Entity\Organization;
 use App\Customer\Entity\Person;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Manufacturer\Entity\Manufacturer;
+use App\Note\Entity\NoteView;
 use App\Order\Entity\Order;
 use App\Vehicle\Entity\Embedded\Engine;
 use App\Vehicle\Entity\Embedded\Equipment;
@@ -143,8 +143,8 @@ final class CarController extends AbstractController
 
             $parameters['orders'] = $this->registry->repository(Order::class)
                 ->findBy(['carId' => $car->toId()], ['closedAt' => 'DESC'], 20);
-            $parameters['notes'] = $this->registry->repository(Note::class)
-                ->findBy(['car' => $car], ['createdAt' => 'DESC']);
+            $parameters['notes'] = $this->registry->repository(NoteView::class)
+                ->findBy(['subject' => $car->toId()->toUuid()], ['id' => 'DESC']);
             $parameters['customers'] = $customers->customersByCar($car->toId());
         }
 

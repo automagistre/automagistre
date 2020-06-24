@@ -8,28 +8,29 @@ use App\Car\Entity\CarId;
 use App\Car\Fixtures\Primera2004Fixtures;
 use App\Customer\Entity\OperandId;
 use App\Customer\Fixtures\PersonVasyaFixtures;
+use App\Note\Entity\Note;
+use App\Note\Enum\NoteType;
 use App\Order\Entity\Order;
+use App\Order\Entity\OrderId;
 use App\Order\Entity\OrderItemGroup;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Entity\OrderItemService;
-use App\Order\Entity\OrderNote;
 use App\Part\Entity\PartId;
 use App\Part\Fixtures\GasketFixture;
 use App\PartPrice\PartPrice;
 use App\Shared\Doctrine\Registry;
-use App\Shared\Enum\NoteType;
 use App\State;
 use App\User\Entity\User;
 use App\User\Fixtures\EmployeeFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use function dump;
 use Money\Currency;
 use Money\Money;
 
 final class OrderFixtures extends Fixture implements DependentFixtureInterface
 {
+    public const ID = '1eab641c-9f5f-63a4-86d0-0242c0a8100a';
     public const CAR_ID = Primera2004Fixtures::ID;
     public const CUSTOMER_ID = PersonVasyaFixtures::ID;
 
@@ -66,7 +67,10 @@ final class OrderFixtures extends Fixture implements DependentFixtureInterface
         $user = $this->registry->getBy(User::class, ['uuid' => EmployeeFixtures::ID]);
         $this->state->user($user);
 
-        $order = new Order();
+        $orderId = OrderId::fromString(self::ID);
+        $order = new Order(
+            $orderId
+        );
         $manager->persist($order);
 
         $order->setCustomerId(OperandId::fromString(self::CUSTOMER_ID));
@@ -74,7 +78,7 @@ final class OrderFixtures extends Fixture implements DependentFixtureInterface
         $order->setCarId(CarId::fromString(self::CAR_ID));
 
         $this->addReference('order-1', $order);
-        $manager->persist(new OrderNote($order, NoteType::info(), 'Order Note'));
+        $manager->persist(new Note($orderId->toUuid(), NoteType::info(), 'Order Note'));
 
         $money = new Money(100, new Currency('RUB'));
 

@@ -8,10 +8,10 @@ use App\Balance\Entity\BalanceView;
 use App\Car\Repository\CarCustomerRepository;
 use App\Customer\Entity\CustomerTransactionView;
 use App\Customer\Entity\Operand;
-use App\Customer\Entity\OperandNote;
 use App\Customer\Entity\Organization;
 use App\Customer\Entity\Person;
 use App\EasyAdmin\Controller\AbstractController;
+use App\Note\Entity\NoteView;
 use App\Order\Entity\Order;
 use App\Payment\Manager\PaymentManager;
 use function array_map;
@@ -125,8 +125,8 @@ class OperandController extends AbstractController
                 ->findBy(['customerId' => $operand->toId()], ['closedAt' => 'DESC'], 20);
             $parameters['payments'] = $this->registry->repository(CustomerTransactionView::class)
                 ->findBy(['operandId' => $operand->toId()], ['id' => 'DESC'], 20);
-            $parameters['notes'] = $this->registry->repository(OperandNote::class)
-                ->findBy(['operand' => $operand], ['createdAt' => 'DESC']);
+            $parameters['notes'] = $this->registry->repository(NoteView::class)
+                ->findBy(['subject' => $operand->toId()->toUuid()], ['id' => 'DESC']);
             $parameters['balance'] = $this->get(PaymentManager::class)->balance($operand);
         }
 

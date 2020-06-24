@@ -1,3 +1,7 @@
+{# @var subject \Ramsey\Uuid\UuidInterface #}
+
+{% set notes = notes_by_subject(subject) %}
+
 <div class="field-group">
     <div class="box box-default">
         <div class="box-header with-border">
@@ -11,18 +15,16 @@
                     <tr>
                         <th>Тип</th>
                         <th>Текст</th>
-                        <th>Создал</th>
-                        <th>Дата</th>
+                        <th>Создано</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for note in notes %}
-                        {# @var note \App\Entity\Note #}
+                        {# @var note \App\Note\Entity\NoteView #}
                         <tr>
                             <td>{{ note.type.toName }}</td>
                             <td>{{ note.text }}</td>
-                            <td>{{ note.createdBy|display_name }}</td>
-                            <td>{{ note.createdAt|format_datetime('short', 'short', '', 'GMT+3') }}</td>
+                            <td>{% include 'easy_admin/created_by/created_by_view.html.twig' with {'value': note.created} only %}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -35,7 +37,7 @@
         {% endif %}
 
         <div class="box-footer">
-            <a href="{{ create_url }}" class="btn btn-primary">
+            <a href="{{ easyadmin_path('Note', 'new', {'subject': subject.toString, 'referer': true}) }}" class="btn btn-primary">
                 Создать заметку
             </a>
         </div>

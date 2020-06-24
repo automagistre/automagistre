@@ -19,12 +19,12 @@ use App\Form\Type\MoneyType;
 use App\Manufacturer\Entity\Manufacturer;
 use App\MC\Entity\McLine;
 use App\MC\Entity\McPart;
+use App\Note\Entity\NoteView;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderId;
 use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Entity\OrderItemService;
-use App\Order\Entity\OrderNote;
 use App\Order\Enum\OrderStatus;
 use App\Order\Event\OrderClosed;
 use App\Order\Event\OrderStatusChanged;
@@ -483,8 +483,8 @@ final class OrderController extends AbstractController
             /** @var Order $entity */
             $entity = $parameters['entity'];
 
-            $parameters['notes'] = $em->getRepository(OrderNote::class)
-                ->findBy(['order' => $entity], ['createdAt' => 'DESC']);
+            $parameters['notes'] = $em->getRepository(NoteView::class)
+                ->findBy(['subject' => $entity->toId()->toUuid()], ['id' => 'DESC']);
             $parameters['car'] = $this->registry->findBy(Car::class, ['uuid' => $entity->getCarId()]);
             $parameters['customer'] = $this->registry->findBy(Operand::class, ['uuid' => $entity->getCustomerId()]);
         }

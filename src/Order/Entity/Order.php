@@ -121,9 +121,9 @@ class Order
      */
     private $suspends;
 
-    public function __construct()
+    public function __construct(OrderId $orderId = null)
     {
-        $this->uuid = OrderId::generate();
+        $this->uuid = $orderId ?? OrderId::generate();
         $this->status = OrderStatus::working();
         $this->items = new ArrayCollection();
         $this->payments = new ArrayCollection();

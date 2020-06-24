@@ -6,6 +6,8 @@ namespace App\Car\Fixtures;
 
 use App\Car\Entity\Car;
 use App\Car\Entity\CarId;
+use App\Note\Entity\Note;
+use App\Note\Enum\NoteType;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -18,10 +20,16 @@ final class EmptyCarFixtures extends Fixture
      */
     public function load(ObjectManager $manager): void
     {
-        $car = new Car(CarId::fromString(self::ID));
+        $carId = CarId::fromString(self::ID);
+        $car = new Car($carId);
         $this->addReference('car-1', $car);
 
         $manager->persist($car);
+
+        $manager->persist(
+            new Note($carId->toUuid(), NoteType::info(), 'Car Note')
+        );
+
         $manager->flush();
     }
 }

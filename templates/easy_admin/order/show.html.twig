@@ -139,10 +139,7 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        {% include 'easy_admin/_includes/notes_panel.html.twig' with {
-                            'create_url': easyadmin_path('OrderNote', 'new', order|to_query),
-                            'notes': notes
-                        } only %}
+                        {% include 'easy_admin/note/notes_panel.html.twig' with {'subject': order.toId.toUuid} only %}
                     </div>
                 </div>
 
