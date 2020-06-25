@@ -8,8 +8,6 @@ use App\Car\Entity\CarId;
 use App\Customer\Entity\OperandId;
 use App\Employee\Entity\Employee;
 use App\Order\Enum\OrderStatus;
-use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedAt;
-use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedBy;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Shared\Money\TotalPriceInterface;
 use App\User\Entity\User;
@@ -39,8 +37,6 @@ use function sprintf;
 class Order
 {
     use Identity;
-    use CreatedAt;
-    use CreatedBy;
 
     /**
      * @ORM\Column(type="order_id")

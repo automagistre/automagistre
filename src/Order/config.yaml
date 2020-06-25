@@ -15,7 +15,7 @@ easy_admin:
                 fields:
                     - { property: 'id', label: 'Номер', template: 'easy_admin/order/field_id.html.twig' }
                     - { property: 'status', label: 'Статус', template: 'easy_admin/order/field_status.html.twig' }
-                    - { property: 'createdAt', label: 'Дата начала' }
+                    - { property: 'createdAt', label: 'Дата начала', template: 'easy_admin/order/field_created_at.html.twig' }
                     - { property: 'carId', label: 'Автомобиль', template: 'easy_admin/field_identifier.html.twig', format: long }
                     - { property: 'customerId', label: 'Заказчик', template: 'easy_admin/field_identifier.html.twig' }
                     - { property: 'totalServicePrice', label: 'Работы', template: 'easy_admin/field_money.html.twig' }

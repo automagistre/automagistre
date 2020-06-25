@@ -31,11 +31,12 @@ final class CreatedByExtension extends AbstractExtension
         return [
             new TwigFunction(
                 'created_by_view',
-                function (Environment $twig, UuidInterface $uuid): string {
+                function (Environment $twig, UuidInterface $uuid, array $options = []): string {
                     $view = $this->registry->get(CreatedByView::class, $uuid);
 
                     return $twig->render('easy_admin/created_by/created_by_view.html.twig', [
                         'value' => $view,
+                        'withUser' => $options['withUser'] ?? true,
                     ]);
                 },
                 [
