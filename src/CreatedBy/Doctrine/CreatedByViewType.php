@@ -8,6 +8,7 @@ use App\CreatedBy\Entity\CreatedByView;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 use function explode;
+use Ramsey\Uuid\Uuid;
 
 final class CreatedByViewType extends Type
 {
@@ -17,9 +18,10 @@ final class CreatedByViewType extends Type
             return null;
         }
 
-        [$user, $date] = explode(';', $value);
+        [$uuid, $user, $date] = explode(';', $value);
 
         return new CreatedByView(
+            Uuid::fromString($uuid),
             Type::getType('user_view')->convertToPHPValue($user, $platform),
             Type::getType('datetime_immutable')->convertToPHPValue($date, $platform),
         );

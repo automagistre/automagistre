@@ -65,6 +65,7 @@ class NoteView
                 note.type,
                 CONCAT_WS(
                     \';\',
+                    cb.id,
                     CONCAT_WS(
                         \',\', 
                         u.uuid, 

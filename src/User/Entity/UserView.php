@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\User\Entity;
 
+/**
+ * @psalm-immutable
+ */
 class UserView
 {
     public UserId $id;

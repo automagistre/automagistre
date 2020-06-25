@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Order\Entity;
 
-use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedAt;
-use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedBy;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Shared\Money\PriceInterface;
 use App\Shared\Money\TotalPriceInterface;
@@ -14,6 +12,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;
 use Money\Money;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
@@ -30,8 +30,6 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 abstract class OrderItem
 {
     use Identity;
-    use CreatedAt;
-    use CreatedBy;
 
     public const MAP = [
         'group' => OrderItemGroup::class,
@@ -48,9 +46,14 @@ abstract class OrderItem
      *     cascade={"persist"},
      *     orphanRemoval=true
      * )
-     * @ORM\OrderBy({"createdAt": "ASC"})
+     * @ORM\OrderBy({"id": "ASC"})
      */
     protected $children;
+
+    /**
+     * @ORM\Column(type="uuid")
+     */
+    private UuidInterface $uuid;
 
     /**
      * @var Order
@@ -69,12 +72,18 @@ abstract class OrderItem
 
     public function __construct(Order $order)
     {
+        $this->uuid = Uuid::uuid6();
         $this->children = new ArrayCollection();
 
         $this->order = $order;
     }
 
     abstract public function __toString(): string;
+
+    public function toId(): UuidInterface
+    {
+        return $this->uuid;
+    }
 
     /**
      * @Assert\Callback

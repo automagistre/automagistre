@@ -16,10 +16,11 @@
         {%- include template -%}
 
         <td>
-            {%- include 'easy_admin/order/includes/created_by.html.twig' with {
-                'createdAt': item.createdAt,
-                'user': item.createdBy
-            } -%}
+            <span class="created-by" style="display: none">
+                {{ created_by_view(item.toId) }}
+            </span>
+            &nbsp;
+            <i class="fa fa-user"></i>
         </td>
     </tr>
 

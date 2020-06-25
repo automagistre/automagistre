@@ -8,7 +8,6 @@ use App\Car\Entity\RecommendationPart;
 use App\Customer\Entity\OperandId;
 use App\Part\Entity\PartId;
 use App\Part\Fixtures\GasketFixture;
-use App\User\Entity\UserId;
 use App\User\Fixtures\EmployeeFixtures;
 use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -20,9 +19,7 @@ use Money\Money;
 final class RecommendationFixtures extends Fixture implements DependentFixtureInterface
 {
     public const PART_ID = GasketFixture::ID;
-    public const PART_SELECTOR_ID = EmployeeFixtures::ID;
     public const WORKER_ID = EmployeeFixtures::ID;
-    public const CREATED_BY = EmployeeFixtures::ID;
 
     /**
      * {@inheritdoc}
@@ -47,7 +44,6 @@ final class RecommendationFixtures extends Fixture implements DependentFixtureIn
             'Test Service',
             new Money(100, new Currency('RUB')),
             OperandId::fromString(self::WORKER_ID),
-            UserId::fromString(self::CREATED_BY),
         );
 
         $recommendation->addPart(new RecommendationPart(
@@ -55,7 +51,6 @@ final class RecommendationFixtures extends Fixture implements DependentFixtureIn
             PartId::fromString(self::PART_ID),
             1,
             new Money(100, new Currency('RUB')),
-            UserId::fromString(self::PART_SELECTOR_ID),
         ));
 
         $manager->persist($recommendation);

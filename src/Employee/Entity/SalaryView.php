@@ -80,6 +80,7 @@ class SalaryView
                 employee.person_id AS person_id,
                 CONCAT_WS(
                     \';\',
+                    es_cb.id,
                     CONCAT_WS(
                         \',\',
                         es_cb_u.uuid,
@@ -91,6 +92,7 @@ class SalaryView
                 ) AS created,
                 CONCAT_WS(
                     \';\',
+                    ese_cb.id,
                     CONCAT_WS(
                         \',\',
                         ese_cb_u.uuid,

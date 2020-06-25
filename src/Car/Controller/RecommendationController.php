@@ -116,7 +116,6 @@ final class RecommendationController extends AbstractController
             $model->service,
             $model->price,
             $model->workerId,
-            $this->getUser()->toId()
         );
 
         parent::persistEntity($entity);

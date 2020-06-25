@@ -77,7 +77,7 @@ class Car
      * @var Collection<int, Recommendation>
      *
      * @ORM\OneToMany(targetEntity=Recommendation::class, mappedBy="car", cascade={"persist"})
-     * @ORM\OrderBy({"createdAt": "ASC"})
+     * @ORM\OrderBy({"id": "ASC"})
      */
     private ?Collection $recommendations;
 

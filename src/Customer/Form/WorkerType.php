@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Customer\Form;
 
+use App\CreatedBy\Entity\CreatedBy;
 use App\Customer\Entity\Operand;
 use App\Customer\Entity\OperandId;
 use App\Order\Entity\OrderItemService;
@@ -13,6 +14,7 @@ use function array_flip;
 use function array_key_exists;
 use function array_map;
 use DateTime;
+use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -84,7 +86,8 @@ final class WorkerType extends AbstractType
         $services = $em->createQueryBuilder()
             ->select('entity.workerId')
             ->from(OrderItemService::class, 'entity')
-            ->where('entity.createdAt > :today')
+            ->join(CreatedBy::class, 'cb', Join::WITH, 'cb.id = entity.uuid')
+            ->where('cb.createdAt > :today')
             ->andWhere('entity.workerId IS NOT NULL')
             ->groupBy('entity.workerId')
             ->setParameter('today', new DateTime('-1000 hour'))

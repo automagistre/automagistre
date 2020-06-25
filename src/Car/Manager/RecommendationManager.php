@@ -94,16 +94,15 @@ final class RecommendationManager
         $em->transactional(function (EntityManagerInterface $em) use ($orderItemService, $car): void {
             $oldRecommendation = $this->findOldRecommendation($orderItemService);
 
-            [$worker, $createdBy] = $oldRecommendation instanceof Recommendation
-                ? [$oldRecommendation->workerId, $oldRecommendation->createdBy]
-                : [$orderItemService->workerId, $orderItemService->getCreatedBy()->toId()];
+            $worker = $oldRecommendation instanceof Recommendation
+                ? $oldRecommendation->workerId
+                : $orderItemService->workerId;
 
             $recommendation = new Recommendation(
                 $car,
                 $orderItemService->service,
                 $orderItemService->getPrice(),
                 $worker,
-                $createdBy
             );
             if ($oldRecommendation instanceof Recommendation) {
                 foreach ($oldRecommendation->getParts() as $part) {
@@ -126,7 +125,6 @@ final class RecommendationManager
                     $orderItemPart->getPartId(),
                     $orderItemPart->getQuantity(),
                     $orderItemPart->getPrice(),
-                    $orderItemPart->getCreatedBy()->toId()
                 ));
 
                 try {

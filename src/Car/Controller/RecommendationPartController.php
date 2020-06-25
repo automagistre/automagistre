@@ -104,7 +104,6 @@ final class RecommendationPartController extends AbstractController
                             $model->partId,
                             $model->quantity,
                             $model->price,
-                            $this->getUser()->toId()
                         );
 
                         $em->persist($entity);
@@ -146,7 +145,6 @@ final class RecommendationPartController extends AbstractController
             $model->partId,
             $model->quantity,
             $model->price,
-            $this->getUser()->toId()
         );
 
         parent::persistEntity($entity);

@@ -6,11 +6,9 @@ namespace App\Car\Entity;
 
 use App\Customer\Entity\OperandId;
 use App\Order\Entity\OrderItemService;
-use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Price;
 use App\Shared\Money\PriceInterface;
-use App\User\Entity\UserId;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -27,7 +25,6 @@ class Recommendation implements PriceInterface
 {
     use Identity;
     use Price;
-    use CreatedAt;
 
     /**
      * @ORM\Column(type="recommendation_id", unique=true)
@@ -62,11 +59,6 @@ class Recommendation implements PriceInterface
     public ?DateTime $expiredAt = null;
 
     /**
-     * @ORM\Column(type="user_id")
-     */
-    public UserId $createdBy;
-
-    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private ?int $realization = null;
@@ -80,11 +72,11 @@ class Recommendation implements PriceInterface
      *     cascade={"persist"},
      *     orphanRemoval=true
      * )
-     * @ORM\OrderBy({"createdAt": "ASC"})
+     * @ORM\OrderBy({"id": "ASC"})
      */
     private $parts;
 
-    public function __construct(Car $car, string $service, Money $price, OperandId $workerId, UserId $userId)
+    public function __construct(Car $car, string $service, Money $price, OperandId $workerId)
     {
         $this->uuid = RecommendationId::generate();
         $this->parts = new ArrayCollection();
@@ -93,12 +85,16 @@ class Recommendation implements PriceInterface
         $this->service = $service;
         $this->price = $price;
         $this->workerId = $workerId;
-        $this->createdBy = $userId;
     }
 
     public function __toString(): string
     {
         return $this->service;
+    }
+
+    public function toId(): RecommendationId
+    {
+        return $this->uuid;
     }
 
     public function setPrice(Money $price): void

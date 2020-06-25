@@ -56,7 +56,7 @@ class Order
      *     cascade={"persist"},
      *     orphanRemoval=true
      * )
-     * @ORM\OrderBy({"createdAt": "ASC"})
+     * @ORM\OrderBy({"id": "ASC"})
      */
     private $items;
 

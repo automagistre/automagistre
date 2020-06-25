@@ -11,13 +11,15 @@
                         <th>Склад</th>
                         <th>Диагностировал</th>
                         <th>Действия</th>
-                        <th><i class="fa fa-info-circle"></i></th>
+                        <th>
+                            <a onclick="$('.created-by').slideToggle(0)">
+                                <i class="fa fa-info-circle"></i>
+                            </a>
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for recommendation in car.recommendations %}
-                        {# @var recommendation \App\Entity\CarRecommendation #}
-
                         <tr>
                             <td>
                                 <i class="fa fa-wrench"></i>
@@ -67,10 +69,11 @@
                                 {% endif %}
                             </td>
                             <td>
-                                {%- include 'easy_admin/order/includes/created_by.html.twig' with {
-                                    'createdAt': recommendation.createdAt,
-                                    'user': recommendation.createdBy
-                                } -%}
+                                <span class="created-by" style="display: none">
+                                    {{ created_by_view(recommendation.toId.toUuid) }}
+                                </span>
+                                &nbsp;
+                                <i class="fa fa-user"></i>
                             </td>
 
                             {% for recommendationPart in recommendation.parts %}
@@ -125,10 +128,11 @@
                                     {% endif %}
                                 </td>
                                 <td>
-                                    {%- include 'easy_admin/order/includes/created_by.html.twig' with {
-                                        'createdAt': recommendationPart.createdAt,
-                                        'user': recommendationPart.createdBy
-                                    } -%}
+                                    <span class="created-by" style="display: none">
+                                        {{ created_by_view(recommendationPart.toId.toUuid) }}
+                                    </span>
+                                    &nbsp;
+                                    <i class="fa fa-user"></i>
                                 </td>
                             {% endfor %}
                         </tr>
