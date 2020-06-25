@@ -21,6 +21,7 @@ final class Version20200625190605 extends AbstractMigration
             SELECT o.uuid, u.uuid, o.created_at
             FROM orders o
                 JOIN users u ON u.id = o.created_by_id
+            ON CONFLICT DO NOTHING
         ');
         // data migration
         $this->addSql('ALTER TABLE orders DROP created_by_id');
