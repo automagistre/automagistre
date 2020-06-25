@@ -28,13 +28,12 @@
             {% set recommendationId = 'recommendation-' ~ recommendation.id %}
             <a id="{{ recommendationId }}"
                style="cursor: pointer"
-               data-toggle="popover"
-               title="Рекомендация от {{ recommendation.createdAt|format_datetime('short', 'short', '', 'GMT+3') }}">
+               data-toggle="popover">
                 <span class="label label-info">Рекомендация</span>
             </a>
 
             {% set popoverContent %}
-            Создал: {{ recommendation.createdBy }} <br/>
+            Создал: {{ created_by_view(recommendation.toId.toUuid) }} <br/>
             Диагност: {{ recommendation.workerId|display_name }} <br/>
         {% if recommendation.parts is not empty %}
             Запчасти: <br/>
@@ -51,6 +50,7 @@
                 html: true,
                 placement: 'top',
                 content: `{{ popoverContent }}`,
+                container: 'body'
               });
             </script>
         {% endif %}
