@@ -3,10 +3,9 @@ easy_admin:
         Review:
             class: App\Review\Entity\Review
             controller: App\Review\Controller\ReviewController
-            disabled_actions: ['show']
+            disabled_actions: ['show', 'edit', 'delete']
             list:
                 fields:
-                    - { property: 'id' }
                     - { property: 'author', label: 'Автор' }
                     - { property: 'manufacturer', label: 'Производитель автомобиля' }
                     - { property: 'model', label: 'Модель автомобиля' }
@@ -23,7 +22,7 @@ easy_admin:
                     - { property: 'publishAt', label: 'Опубликована', type: 'date_immutable', type_options: { input: 'datetime_immutable' } }
             new:
                 title: 'Создать новый Отзыв'
-                form_options: { data_class: stdClass }
+                form_options: { data_class: App\Review\Form\ReviewDto }
             edit:
                 title: 'Редактировать Отзыв № {{ entity.id }}'
 

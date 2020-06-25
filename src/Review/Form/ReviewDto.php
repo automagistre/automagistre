@@ -2,59 +2,57 @@
 
 declare(strict_types=1);
 
-namespace App\Review\Entity;
+namespace App\Review\Form;
 
 use DateTimeImmutable;
-use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity
- */
-class Review
+final class ReviewDto
 {
     /**
-     * @ORM\Id()
-     * @ORM\Column(type="uuid")
+     * @var string
+     *
+     * @Assert\NotBlank
      */
-    public UuidInterface $id;
+    public $author;
 
     /**
-     * @ORM\Column
+     * @var string
+     *
+     * @Assert\NotBlank
      */
-    public string $author;
+    public $manufacturer;
 
     /**
-     * @ORM\Column
+     * @var string
+     *
+     * @Assert\NotBlank
      */
-    public string $manufacturer;
+    public $model;
 
     /**
-     * @ORM\Column
+     * @var string
+     *
+     * @Assert\NotBlank
      */
-    public string $model;
+    public $content;
 
     /**
-     * @ORM\Column(type="text")
-     */
-    public string $content;
-
-    /**
+     * @var string
+     *
      * @Assert\NotBlank
      * @Assert\Length(max=255)
-     *
-     * @ORM\Column
      */
-    public string $source;
+    public $source;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @var DateTimeImmutable
+     *
+     * @Assert\NotBlank
      */
-    public DateTimeImmutable $publishAt;
+    public $publishAt;
 
     public function __construct(
-        UuidInterface $id,
         string $author,
         string $manufacturer,
         string $model,
@@ -62,7 +60,6 @@ class Review
         string $source,
         DateTimeImmutable $publishAt
     ) {
-        $this->id = $id;
         $this->author = $author;
         $this->manufacturer = $manufacturer;
         $this->model = $model;

@@ -6,7 +6,9 @@ namespace App\Review\Controller;
 
 use App\EasyAdmin\Controller\AbstractController;
 use App\Review\Entity\Review;
+use App\Review\Form\ReviewDto;
 use function assert;
+use Ramsey\Uuid\Uuid;
 use function strtolower;
 
 /**
@@ -14,13 +16,28 @@ use function strtolower;
  */
 final class ReviewController extends AbstractController
 {
+    protected function createNewEntity(): ReviewDto
+    {
+        return $this->createWithoutConstructor(ReviewDto::class);
+    }
+
     /**
      * {@inheritdoc}
      */
     protected function persistEntity($entity): void
     {
-        assert($entity instanceof Review);
+        $dto = $entity;
+        assert($dto instanceof ReviewDto);
 
+        $entity = new Review(
+            Uuid::uuid6(),
+            $dto->author,
+            $dto->manufacturer,
+            $dto->model,
+            $dto->content,
+            $dto->source,
+            $dto->publishAt,
+        );
         $this->normalize($entity);
 
         parent::persistEntity($entity);
