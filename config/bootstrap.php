@@ -33,5 +33,5 @@ foreach ((array) require __DIR__.'/identifiers.php' as $class => [$id]) {
 
 Sentry\SentryBundle\SentryBundle::getCurrentHub()
     ->configureScope(static function (Sentry\State\Scope $scope) {
-        $scope->setTag('tenant', getenv('TENANT'));
+        $scope->setTag('tenant', (string) getenv('TENANT'));
     });
