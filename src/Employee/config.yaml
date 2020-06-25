@@ -45,7 +45,7 @@ easy_admin:
         Salary:
             class: App\Employee\Entity\Salary
             controller: App\Employee\Controller\SalaryController
-            disabled_actions: ['delete', 'show', 'search', 'autocomplete', 'edit']
+            disabled_actions: ['delete', 'show', 'search', 'autocomplete', 'edit', 'list']
 
 doctrine:
     orm:

@@ -60,13 +60,23 @@ class NoteView
         return '
             CREATE VIEW note_view AS
             SELECT note.id,
-                   note.subject,
-                   note.text,
-                   note.type,
-                   CONCAT_WS(\',\', u.uuid, u.username, u.last_name, u.first_name) || \';\' || cb.created_at AS created
+                note.subject,
+                note.text,
+                note.type,
+                CONCAT_WS(
+                    \';\',
+                    CONCAT_WS(
+                        \',\', 
+                        u.uuid, 
+                        u.username, 
+                        COALESCE(u.last_name, \'\'), 
+                        COALESCE(u.first_name, \'\')
+                    ),
+                    cb.created_at
+                ) AS created
             FROM note
-                     JOIN created_by cb ON cb.id = note.id
-                     JOIN users u ON u.uuid = cb.user_id        
+                    JOIN created_by cb ON cb.id = note.id
+                    JOIN users u ON u.uuid = cb.user_id
         ';
     }
 }

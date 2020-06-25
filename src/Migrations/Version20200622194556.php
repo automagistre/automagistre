@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Migrations;
 
-use App\Employee\Entity\SalaryView;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
@@ -25,7 +24,6 @@ final class Version20200622194556 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN employee_salary_end.salary_id IS \'(DC2Type:salary_id)\'');
         $this->addSql('ALTER TABLE employee_salary_end ADD CONSTRAINT FK_59455A58B0FDF16E FOREIGN KEY (salary_id) REFERENCES employee_salary (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
 
-        $this->addSql(SalaryView::sql());
         $this->addSql('DROP TABLE monthly_salary');
     }
 

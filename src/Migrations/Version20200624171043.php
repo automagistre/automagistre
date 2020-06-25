@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Migrations;
 
-use App\Note\Entity\NoteView;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 use Ramsey\Uuid\Uuid;
@@ -75,8 +74,6 @@ final class Version20200624171043 extends AbstractMigration
         $this->addSql('DROP TABLE car_note');
         $this->addSql('DROP TABLE operand_note');
         $this->addSql('DROP TABLE order_note');
-
-        $this->addSql(NoteView::sql());
     }
 
     public function down(Schema $schema): void
