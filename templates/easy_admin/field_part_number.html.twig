@@ -2,7 +2,7 @@
     {%- apply spaceless %}
         {{ value -}}
 
-        {% set referer = true %}
+        {% set referer = app.request.uri %}
         {% if lineIndex is defined and lineIndex is not empty %}
             {% set queries = app.request.query.all() %}
             {% set referer = easyadmin_path(queries.entity, queries.action, queries|merge({'lineIndex': lineIndex})) %}
