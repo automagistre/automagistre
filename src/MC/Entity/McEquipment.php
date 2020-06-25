@@ -54,4 +54,9 @@ class McEquipment
         $this->equipment = new CarEquipment();
         $this->lines = new ArrayCollection();
     }
+
+    public function toId(): McEquipmentId
+    {
+        return $this->uuid;
+    }
 }

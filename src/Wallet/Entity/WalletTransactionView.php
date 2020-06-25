@@ -79,6 +79,11 @@ class WalletTransactionView
         $this->createdBy = $createdBy;
     }
 
+    public function toId(): WalletTransactionId
+    {
+        return $this->id;
+    }
+
     public static function sql(): string
     {
         return '

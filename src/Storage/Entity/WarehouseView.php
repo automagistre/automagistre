@@ -35,6 +35,11 @@ class WarehouseView
         $this->parentId = $parentId;
     }
 
+    public function toId(): WarehouseId
+    {
+        return $this->id;
+    }
+
     public static function sql(): string
     {
         return '

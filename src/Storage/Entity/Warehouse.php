@@ -21,4 +21,9 @@ class Warehouse
     {
         $this->id = $id;
     }
+
+    public function toId(): WarehouseId
+    {
+        return $this->id;
+    }
 }

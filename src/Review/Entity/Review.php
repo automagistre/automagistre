@@ -70,4 +70,9 @@ class Review
         $this->source = $source;
         $this->publishAt = $publishAt;
     }
+
+    public function toId(): UuidInterface
+    {
+        return $this->id;
+    }
 }

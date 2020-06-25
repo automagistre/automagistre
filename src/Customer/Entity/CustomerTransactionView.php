@@ -79,6 +79,11 @@ class CustomerTransactionView
         $this->createdBy = $createdBy;
     }
 
+    public function toId(): CustomerTransactionId
+    {
+        return $this->id;
+    }
+
     public static function sql(): string
     {
         return '
