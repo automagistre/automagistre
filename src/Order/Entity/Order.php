@@ -109,7 +109,7 @@ class Order
      * @var Collection<int, OrderPayment>
      *
      * @ORM\OneToMany(targetEntity=OrderPayment::class, mappedBy="order", cascade={"persist"})
-     * @ORM\OrderBy({"createdAt": "ASC"})
+     * @ORM\OrderBy({"id": "ASC"})
      */
     private $payments;
 

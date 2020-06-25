@@ -15,6 +15,7 @@ use App\Order\Entity\OrderId;
 use App\Order\Entity\OrderItemGroup;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Entity\OrderItemService;
+use App\Order\Entity\OrderPayment;
 use App\Part\Entity\PartId;
 use App\Part\Entity\PartView;
 use App\Part\Fixtures\GasketFixture;
@@ -91,6 +92,14 @@ final class OrderFixtures extends Fixture implements DependentFixtureInterface
         $partId = PartId::fromString(GasketFixture::ID);
         $orderItemPart = new OrderItemPart($order, $partId, 1);
         $orderItemPart->setPrice($money, $this->registry->get(PartView::class, $partId));
+
+        $manager->persist(
+            new OrderPayment(
+                $order,
+                new Money('100', new Currency('RUB')),
+                null
+            )
+        );
 
         $manager->persist($orderItemPart);
         $manager->flush();

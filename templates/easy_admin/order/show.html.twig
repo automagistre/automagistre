@@ -44,13 +44,11 @@
                             </button>
                             <ul class="dropdown-menu">
                                 {% if order.editable %}
-                                    {#                                    {% if car and car.recommendations is not empty %}#}
                                     <li>
                                         <a href="{{ easyadmin_path('OrderPrint', 'matching', {'id': order.id, 'referer': true}) }}">
                                             Согласование
                                         </a>
                                     </li>
-                                    {#                                    {% endif %}#}
                                     <li>
                                         <a href="{{ easyadmin_path('OrderPrint', 'giveOut', {'id': order.id, 'referer': true}) }}">
                                             Рабочий лист
@@ -106,15 +104,12 @@
                                             </thead>
                                             <tbody>
                                             {% for payment in order.payments %}
-                                                {# @var payment \App\Entity\OrderPayment #}
+                                                {# @var payment \App\Order\Entity\OrderPayment #}
 
                                                 <tr>
                                                     <td>{{ payment.money|localize_money }}</td>
                                                     <td>{{ payment.description }}</td>
-                                                    <td>{{ payment.createdAt|format_datetime('short', 'short', '', 'GMT+3') }}
-                                                        ({% include 'easy_admin/field_user.html.twig' with {'value': payment.createdBy} %}
-                                                        )
-                                                    </td>
+                                                    <td>{{ created_by_view(payment.toId) }}</td>
                                                 </tr>
                                             {% endfor %}
                                             </tbody>
