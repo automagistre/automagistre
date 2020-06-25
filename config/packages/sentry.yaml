@@ -6,5 +6,3 @@ sentry:
     options:
         environment: '%kernel.environment%'
         send_default_pii: true
-        tags:
-            tenant: '%env(TENANT)%'
