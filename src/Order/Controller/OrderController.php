@@ -60,6 +60,7 @@ use function is_string;
 use LogicException;
 use function mb_strtolower;
 use Money\Money;
+use Pagerfanta\Pagerfanta;
 use Ramsey\Uuid\Uuid;
 use function sprintf;
 use stdClass;
@@ -523,6 +524,24 @@ final class OrderController extends AbstractController
         }
 
         return $entity;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function findAll(
+        $entityClass,
+        $page = 1,
+        $maxPerPage = 15,
+        $sortField = null,
+        $sortDirection = null,
+        $dqlFilter = null
+    ): Pagerfanta {
+        if (!$this->request->query->has('all')) {
+            $maxPerPage = 200;
+        }
+
+        return parent::findAll($entityClass, $page, $maxPerPage, $sortField, $sortDirection, $dqlFilter);
     }
 
     /**
