@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Car\Entity;
 
 use App\Costil;
-use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedAt;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Vehicle\Entity\Embedded\Equipment;
 use App\Vehicle\Entity\VehicleId;
@@ -34,7 +33,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Car
 {
     use Identity;
-    use CreatedAt;
 
     /**
      * @ORM\Column(type="car_id", unique=true)
