@@ -20,7 +20,7 @@
             {{- value.manufacturer.name -}} &nbsp;
             {%- include 'easy_admin/field_part_number.html.twig' with {
                 'value': value.number,
-                'lineIndex': (item is defined ? item.id)
+                'lineIndex': (item is defined ? item.toId.toString)
             } only -%}
             )
         {%- endapply %}

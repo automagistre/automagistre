@@ -7,27 +7,24 @@ namespace App\Storage\Entity;
 use App\Income\Entity\IncomePartId;
 use App\Order\Entity\OrderId;
 use App\Part\Entity\PartId;
-use App\Shared\Doctrine\ORM\Mapping\Traits\CreatedAt;
-use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Shared\Identifier\Identifier;
 use App\Storage\Enum\Source;
 use App\User\Entity\UserId;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
- * @ORM\Table(
- *     indexes={
- *         @ORM\Index(columns={"part_id", "created_at"}),
- *     }
- * )
  */
 class Motion
 {
-    use Identity;
-    use CreatedAt;
+    /**
+     * @ORM\Id()
+     * @ORM\Column(type="uuid")
+     */
+    private UuidInterface $id;
 
     /**
      * @ORM\Column(type="integer")
@@ -61,11 +58,17 @@ class Motion
         UuidInterface $sourceId,
         string $description = null
     ) {
+        $this->id = Uuid::uuid6();
         $this->partId = $partId;
         $this->quantity = $quantity;
         $this->source = $source;
         $this->sourceId = $sourceId;
         $this->description = $description;
+    }
+
+    public function toId(): UuidInterface
+    {
+        return $this->id;
     }
 
     public function getPartId(): PartId

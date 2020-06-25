@@ -67,7 +67,8 @@ final class PartSellController extends AbstractController
                         AND o.closed_at IS NULL
                 )                                                       AS reserved
             FROM motion m
-            WHERE m.created_at BETWEEN :start AND :end
+            JOIN created_by cb ON cb.id = m.id
+            WHERE cb.created_at BETWEEN :start AND :end
             AND m.source = :source_order
             GROUP BY m.part_id
         ';
