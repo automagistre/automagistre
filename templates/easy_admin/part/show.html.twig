@@ -194,7 +194,7 @@
                             <table class="table table-striped">
                                 <tbody>
                                 {# @var crosses \App\Part\Entity\PartView[] #}
-                                {% for part in crosses|filter(part => not part.toId.equals(entity.toId)) %}
+                                {% for part in crosses|filter(part => not part.equals(entity.toId)) %}
                                     <tr>
                                         <td>{% include 'easy_admin/field_part.html.twig' with {'value': part_view(part.toId), 'stock': true} %}</td>
                                     </tr>
@@ -229,8 +229,8 @@
                                 {% for carModel in carModels %}
                                     <tr>
                                         <td>
-                                            <a href="{{ easyadmin_path('CarModel', 'show', {'id': carModel|toUuid, 'referer': true}) }}">
-                                                {{- carModel.uuid|display_name('long') -}}
+                                            <a href="{{ easyadmin_path('CarModel', 'show', {'id': carModel.id|toId, 'referer': true}) }}">
+                                                {{- carModel.id|display_name('long') -}}
                                             </a>
                                         </td>
                                     </tr>
