@@ -234,7 +234,7 @@
                     <tr class="calendar-row">
                         <td class="calendar__item master">
                             {% if stream.workerId is not empty %}
-                                <a href="{{ easyadmin_path_by_id('Employee', 'show', {
+                                <a href="{{ easyadmin_path('Employee', 'show', {
                                     'id': stream.workerId|toId,
                                     'order_id': orderId,
                                     'referer': true
