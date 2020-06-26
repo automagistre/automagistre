@@ -4,17 +4,22 @@ declare(strict_types=1);
 
 namespace App\Part\Entity;
 
-use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
  */
 class PartCross
 {
-    use Identity;
+    /**
+     * @ORM\Id()
+     * @ORM\Column(type="uuid")
+     */
+    private UuidInterface $id;
 
     /**
      * @var Collection<int, Part>
@@ -26,8 +31,14 @@ class PartCross
 
     public function __construct(Part $left, Part $right)
     {
+        $this->id = Uuid::uuid6();
         $this->parts = new ArrayCollection();
         $this->addPart($left, $right);
+    }
+
+    public function toId(): UuidInterface
+    {
+        return $this->id;
     }
 
     public function isEmpty(): bool

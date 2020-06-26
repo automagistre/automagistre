@@ -4,15 +4,20 @@ declare(strict_types=1);
 
 namespace App\Order\Entity;
 
-use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
  */
 class Reservation
 {
-    use Identity;
+    /**
+     * @ORM\Id()
+     * @ORM\Column(type="uuid")
+     */
+    private UuidInterface $id;
 
     /**
      * @var int
@@ -31,8 +36,14 @@ class Reservation
 
     public function __construct(OrderItemPart $orderItemPart, int $quantity)
     {
+        $this->id = Uuid::uuid6();
         $this->orderItemPart = $orderItemPart;
         $this->quantity = $quantity;
+    }
+
+    public function toId(): UuidInterface
+    {
+        return $this->id;
     }
 
     public function getQuantity(): int
