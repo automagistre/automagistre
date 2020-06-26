@@ -7,6 +7,7 @@ namespace App\MC\Controller;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Manufacturer\Entity\Manufacturer;
 use App\MC\Entity\McEquipment;
+use App\MC\Entity\McEquipmentId;
 use App\Vehicle\Entity\Model;
 use function assert;
 use Doctrine\ORM\Query\Expr\Join;
@@ -19,6 +20,13 @@ use function mb_strtolower;
  */
 final class EquipmentController extends AbstractController
 {
+    protected function createNewEntity(): McEquipment
+    {
+        return new McEquipment(
+            McEquipmentId::generate(),
+        );
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -28,7 +36,7 @@ final class EquipmentController extends AbstractController
 
         parent::persistEntity($entity);
 
-        $this->setReferer($this->generateEasyPath($entity, 'show'));
+        $this->setReferer($this->generateEasyPath('McEquipment', 'show', ['id' => $entity->toId()->toString()]));
     }
 
     /**
@@ -49,7 +57,7 @@ final class EquipmentController extends AbstractController
         }
 
         $qb
-            ->leftJoin(Model::class, 'carModel', Join::WITH, 'entity.vehicleId = carModel.uuid')
+            ->leftJoin(Model::class, 'carModel', Join::WITH, 'entity.vehicleId = carModel.id')
             ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'carModel.manufacturerId = manufacturer.id');
 
         foreach (explode(' ', $searchQuery) as $key => $searchString) {

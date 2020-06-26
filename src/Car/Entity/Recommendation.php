@@ -6,7 +6,6 @@ namespace App\Car\Entity;
 
 use App\Customer\Entity\OperandId;
 use App\Order\Entity\OrderItemService;
-use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Price;
 use App\Shared\Money\PriceInterface;
 use DateTime;
@@ -15,6 +14,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;
 use Money\Money;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -23,13 +23,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Recommendation implements PriceInterface
 {
-    use Identity;
     use Price;
 
     /**
-     * @ORM\Column(type="recommendation_id", unique=true)
+     * @ORM\Id()
+     * @ORM\Column(type="recommendation_id")
      */
-    public RecommendationId $uuid;
+    public RecommendationId $id;
 
     /**
      * @var Car
@@ -59,9 +59,9 @@ class Recommendation implements PriceInterface
     public ?DateTime $expiredAt = null;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="uuid", nullable=true)
      */
-    private ?int $realization = null;
+    private ?UuidInterface $realization = null;
 
     /**
      * @var Collection<int, RecommendationPart>
@@ -76,9 +76,9 @@ class Recommendation implements PriceInterface
      */
     private $parts;
 
-    public function __construct(Car $car, string $service, Money $price, OperandId $workerId)
+    public function __construct(RecommendationId $id, Car $car, string $service, Money $price, OperandId $workerId)
     {
-        $this->uuid = RecommendationId::generate();
+        $this->id = $id;
         $this->parts = new ArrayCollection();
 
         $this->car = $car;
@@ -94,7 +94,7 @@ class Recommendation implements PriceInterface
 
     public function toId(): RecommendationId
     {
-        return $this->uuid;
+        return $this->id;
     }
 
     public function setPrice(Money $price): void
@@ -131,14 +131,14 @@ class Recommendation implements PriceInterface
         $this->parts[] = $part;
     }
 
-    public function getRealization(): ?int
+    public function getRealization(): ?UuidInterface
     {
         return $this->realization;
     }
 
     public function realize(OrderItemService $orderItemService): void
     {
-        $this->realization = $orderItemService->getId();
+        $this->realization = $orderItemService->toId();
         $this->expiredAt = new DateTime();
     }
 }

@@ -15,6 +15,7 @@ use App\Part\Entity\PartView;
 use function assert;
 use Closure;
 use LogicException;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -93,7 +94,12 @@ final class OrderItemPartController extends OrderItemController
         $model = $orderItemPart;
         assert($model instanceof OrderPart);
 
-        $orderItemPart = new OrderItemPart($model->order, $model->partId, $model->quantity);
+        $orderItemPart = new OrderItemPart(
+            Uuid::uuid6(),
+            $model->order,
+            $model->partId,
+            $model->quantity
+        );
         $orderItemPart->setParent($model->parent);
         $orderItemPart->setWarranty($model->warranty);
         $orderItemPart->setSupplierId($model->supplier);

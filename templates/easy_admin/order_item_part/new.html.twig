@@ -22,7 +22,7 @@
         <div class="input-group">
             {{ form_widget(form.partId) }}
             <div class="input-group-btn">
-                {% set referer = easyadmin_path('OrderItemPart', 'new', {'order_id': order.id, 'referer': app.request.query.get('referer'), 'token': formStorageToken}) %}
+                {% set referer = easyadmin_path('OrderItemPart', 'new', {'order_id': order|toId, 'referer': app.request.query.get('referer'), 'token': formStorageToken}) %}
                 <a href="{{ easyadmin_path('Part', 'new', {'referer': referer|url_encode}) }}" class="btn btn-primary js-btn-part-new">
                     Создать
                 </a>

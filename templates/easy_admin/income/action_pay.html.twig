@@ -1,7 +1,7 @@
 {% set unpaidIncomes = supplier_unpaid_income(item.supplierId) %}
 
-{% if unpaidIncomes[item.toId.toString] is defined %}
-    <a href="{{ easyadmin_path(item, 'pay') }}">
+{% if unpaidIncomes[item|toId] is defined %}
+    <a href="{{ easyadmin_path('Income', 'pay', {'id': item|toId}) }}">
         <i class="fa fa-dollar"></i>
     </a>
 {% endif %}

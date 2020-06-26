@@ -3,7 +3,7 @@ easy_admin:
         Employee:
             class: App\Employee\Entity\Employee
             controller: App\Employee\Controller\EmployeeController
-            disabled_actions: ['delete']
+            disabled_actions: ['delete', 'autocomplete', 'search']
             templates:
                 show: 'easy_admin/employee/show.html.twig'
             list:
@@ -21,7 +21,7 @@ easy_admin:
                     - { property: 'hiredAt', label: 'Трудоустроен' }
                     - { property: 'firedAt', label: 'Уволен' }
             show:
-                title: 'Работник № {{ entity.id }}'
+                title: 'Работник'
                 fields:
                     - { property: 'personId', label: 'Ф.И.О', template: 'easy_admin/field_identifier.html.twig' }
                     - { property: 'balance', virtual: true, label: 'Баланс', template: 'easy_admin/employee/field_balance.html.twig' }

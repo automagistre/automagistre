@@ -10,6 +10,7 @@ use App\MC\Entity\McPart;
 use App\MC\Form\McPartDto;
 use function assert;
 use LogicException;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -41,7 +42,13 @@ final class PartController extends AbstractController
         $dto = $entity;
         assert($dto instanceof McPartDto);
 
-        $entity = new McPart($dto->line, $dto->partId, $dto->quantity, $dto->recommended);
+        $entity = new McPart(
+            Uuid::uuid6(),
+            $dto->line,
+            $dto->partId,
+            $dto->quantity,
+            $dto->recommended
+        );
 
         parent::persistEntity($entity);
 

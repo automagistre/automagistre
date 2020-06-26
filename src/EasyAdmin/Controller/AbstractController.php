@@ -95,11 +95,8 @@ abstract class AbstractController extends EasyAdminController
         return $this->container->get(PhoneNumberUtil::class)->format($telephone, $format);
     }
 
-    /**
-     * @param object|string $entity
-     */
     protected function redirectToEasyPath(
-        $entity,
+        string $entity,
         string $action,
         array $parameters = [],
         int $status = 302
@@ -107,10 +104,7 @@ abstract class AbstractController extends EasyAdminController
         return $this->redirect($this->generateEasyPath($entity, $action, $parameters), $status);
     }
 
-    /**
-     * @param object|string $entity
-     */
-    protected function generateEasyPath($entity, string $action, array $parameters = []): string
+    protected function generateEasyPath(string $entity, string $action, array $parameters = []): string
     {
         return $this->container->get(EasyAdminRouter::class)->generate($entity, $action, $parameters);
     }
@@ -151,14 +145,22 @@ abstract class AbstractController extends EasyAdminController
     }
 
     /**
-     * @psalm-param class-string<Identifier> $class
+     * @template T
+     *
+     * @psalm-param class-string<T> $class
+     *
+     * @psalm-return ?T
      */
-    protected function getIdentifier(string $class): ?Identifier
+    protected function getIdentifier(string $class)
     {
         $uuid = $this->request->query->get(u($class)->afterLast('\\')->snake()->toString());
 
         if (is_string($uuid)) {
-            return Identifier::fromClass($class, $uuid);
+            $identifier = Identifier::fromClass($class, $uuid);
+
+            assert($identifier instanceof $class);
+
+            return $identifier;
         }
 
         return null;
@@ -169,14 +171,6 @@ abstract class AbstractController extends EasyAdminController
         parent::initialize($request);
 
         $this->registry = $this->container->get(Registry::class);
-
-        if ('0' === $id = $request->query->get('id')) {
-            $easyadmin = $request->attributes->get('easyadmin');
-            /** @phpstan-ignore-next-line */
-            $easyadmin['item'] = $this->registry->repository($easyadmin['entity']['class'])->find($id);
-
-            $request->attributes->set('easyadmin', $easyadmin);
-        }
     }
 
     protected function findCurrentEntity(): ?object

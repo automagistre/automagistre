@@ -34,7 +34,11 @@ final class OrderFormatter implements IdentifierFormatterInterface
     {
         $view = $this->registry->view($identifier);
 
-        $string = '#'.$view['id'];
+        $string = $view['number'];
+        if ('number' === $format) {
+            return $string;
+        }
+
         if (null !== $view['carId']) {
             $string = $formatter->format($view['carId'], 'long');
         } elseif (null !== $view['customerId']) {

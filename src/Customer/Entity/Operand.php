@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Customer\Entity;
 
-use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -17,12 +16,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 abstract class Operand
 {
-    use Identity;
-
     /**
-     * @ORM\Column(type="operand_id", unique=true)
+     * @ORM\Id()
+     * @ORM\Column(type="operand_id")
      */
-    public OperandId $uuid;
+    public OperandId $id;
 
     /**
      * @Assert\Email
@@ -43,14 +41,14 @@ abstract class Operand
 
     public function __construct(OperandId $id)
     {
-        $this->uuid = $id;
+        $this->id = $id;
     }
 
     abstract public function __toString(): string;
 
     public function toId(): OperandId
     {
-        return $this->uuid;
+        return $this->id;
     }
 
     abstract public function getFullName(): string;
@@ -61,7 +59,7 @@ abstract class Operand
 
     public function isEqual(?self $operand): bool
     {
-        return null !== $operand && $operand->getId() === $this->id;
+        return null !== $operand && $operand->toId()->equal($this->id);
     }
 
     public function getEmail(): ?string

@@ -33,16 +33,21 @@ abstract class Identifier
     }
 
     /**
-     * @psalm-param class-string<Identifier> $class
+     * @template T
+     *
+     * @psalm-param class-string<T> $class
+     *
+     * @psalm-return T
      *
      * @param UuidInterface|string $uuid
      */
-    final public static function fromClass(string $class, $uuid): self
+    final public static function fromClass(string $class, $uuid)
     {
         /** @var callable $callable */
         $callable = $class.'::'.(is_string($uuid) ? 'fromString' : 'fromUuid');
         $identifier = $callable($uuid);
-        assert($identifier instanceof self);
+
+        assert($identifier instanceof $class);
 
         return $identifier;
     }

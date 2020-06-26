@@ -139,7 +139,6 @@ class OperandController extends AbstractController
     protected function autocompleteAction(): JsonResponse
     {
         $query = $this->request->query;
-        $isUuid = $query->has('use_uuid');
 
         $qb = $this->registry->repository(Operand::class)->createQueryBuilder('operand')
             ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = operand.id AND operand INSTANCE OF '.Person::class)
@@ -148,7 +147,7 @@ class OperandController extends AbstractController
         $carId = $query->get('car_id');
         if (null !== $carId) {
             $qb
-                ->leftJoin(Order::class, 'o', Join::WITH, 'o.customerId = operand.uuid')
+                ->leftJoin(Order::class, 'o', Join::WITH, 'o.customerId = operand.id')
                 ->orderBy('o.closedAt', 'DESC')
                 ->andWhere('o.carId = :car')
                 ->setParameter('car', $carId);
@@ -171,7 +170,7 @@ class OperandController extends AbstractController
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->getInt('page', 1));
 
-        $data = array_map(function (Operand $entity) use ($isUuid): array {
+        $data = array_map(function (Operand $entity): array {
             $text = $entity->getFullName();
 
             $telephone = $entity->getTelephone();
@@ -180,7 +179,7 @@ class OperandController extends AbstractController
             }
 
             return [
-                'id' => $isUuid ? $entity->toId()->toString() : $entity->getId(),
+                'id' => $entity->toId()->toString(),
                 'text' => $text,
             ];
         }, (array) $paginator->getCurrentPageResults());
@@ -195,7 +194,7 @@ class OperandController extends AbstractController
                 BalanceView::class,
                 'balance',
                 Join::WITH,
-                'balance.id = entity.uuid')
+                'balance.id = entity.id')
             ->orderBy('balance.money.amount', $sortDirection)
             ->groupBy('entity')
             ->addGroupBy('balance.money.amount');

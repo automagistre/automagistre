@@ -34,7 +34,7 @@ final class OrderExtension extends AbstractExtension
                 fn (OrderItemService $service) => $this->registry
                     ->repository(Recommendation::class)
                     ->findOneBy([
-                        'realization' => $service->getId(),
+                        'realization' => $service->toId(),
                     ], ['id' => 'DESC'])
             ),
             new TwigFunction(
@@ -47,8 +47,8 @@ final class OrderExtension extends AbstractExtension
                     return $twig->render('easy_admin/order/includes/main_information.html.twig', [
                         'order' => $order,
                         'status_selector' => $statusSelector,
-                        'car' => $this->registry->findBy(Car::class, ['uuid' => $order->getCarId()]),
-                        'customer' => $this->registry->findBy(Operand::class, ['uuid' => $order->getCustomerId()]),
+                        'car' => $this->registry->findBy(Car::class, ['id' => $order->getCarId()]),
+                        'customer' => $this->registry->findBy(Operand::class, ['id' => $order->getCustomerId()]),
                         'calendarEntry' => $this->registry->findBy(EntryView::class, ['orderId' => $order->toId()]),
                     ]);
                 },

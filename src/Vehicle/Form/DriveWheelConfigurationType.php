@@ -21,9 +21,8 @@ final class DriveWheelConfigurationType extends AbstractType
     {
         $resolver->setDefaults([
             'choices' => DriveWheelConfiguration::all(),
-            'choice_label' => fn (DriveWheelConfiguration $driveWheelConfiguration
-            ) => $driveWheelConfiguration->toName(),
-            'choice_value' => fn (DriveWheelConfiguration $driveWheelConfiguration) => $driveWheelConfiguration->toId(),
+            'choice_label' => fn (DriveWheelConfiguration $value) => $value->toName(),
+            'choice_value' => fn (?DriveWheelConfiguration $value) => null === $value ? null : $value->toId(),
         ]);
     }
 

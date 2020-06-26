@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Income\Manager;
 
-use App\Customer\Entity\Operand;
 use App\Customer\Entity\OperandId;
 use App\Income\Entity\Income;
 use App\Payment\Manager\PaymentManager;
@@ -30,9 +29,7 @@ final class SupplierManager
      */
     public function unpaidIncome(OperandId $supplierId): array
     {
-        $balance = $this->paymentManager->balance(
-            $this->registry->findBy(Operand::class, ['uuid' => $supplierId])
-        );
+        $balance = $this->paymentManager->balance($supplierId);
 
         if (!$balance->isPositive()) {
             return [];

@@ -33,7 +33,7 @@ final class CarCustomerRepository
                     'customer' => $operandId,
                 ]);
 
-        return $this->registry->viewListBy(Car::class, ['uuid' => array_map('array_shift', $ids)]);
+        return $this->registry->viewListBy(Car::class, ['id' => array_map('array_shift', $ids)]);
     }
 
     public function customersByCar(CarId $carId): array
@@ -49,6 +49,6 @@ final class CarCustomerRepository
                     'car' => $carId,
                 ]);
 
-        return $this->registry->viewListBy(Operand::class, ['uuid' => array_map('array_shift', $ids)]);
+        return $this->registry->viewListBy(Operand::class, ['id' => array_map('array_shift', $ids)]);
     }
 }

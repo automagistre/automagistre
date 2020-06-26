@@ -13,6 +13,7 @@ use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Entity\OrderItemService;
 use App\Order\Entity\Reservation;
+use App\Order\Form\OrderItemModel;
 use function array_merge;
 use function assert;
 use Doctrine\ORM\EntityManagerInterface;
@@ -85,8 +86,18 @@ abstract class OrderItemController extends AbstractController
      */
     protected function renderTemplate($actionName, $templatePath, array $parameters = []): Response
     {
-        $parameters['order'] = $this->getEntity(Order::class);
-        $parameters['car'] = $this->getEntity(Car::class);
+        $entity = $parameters['entity'] ?? null;
+        if ($entity instanceof OrderItem) {
+            $parameters['order'] = $parameters['order'] ?? $entity->getOrder();
+            $carId = $entity->getOrder()->getCarId();
+            if (null !== $carId) {
+                $parameters['car'] = $parameters['car'] ?? $this->registry->get(Car::class, $carId);
+            }
+        } elseif ($entity instanceof OrderItemModel) {
+            $parameters['order'] = $parameters['order'] ?? $entity->order;
+        } else {
+            $parameters['car'] = $this->getEntity(Car::class);
+        }
 
         return parent::renderTemplate($actionName, $templatePath, $parameters);
     }
@@ -104,7 +115,7 @@ abstract class OrderItemController extends AbstractController
         }
 
         if ($item instanceof OrderItemService) {
-            if (null !== $this->registry->repository(Recommendation::class)->findOneBy(['realization' => $item->getId()])) {
+            if (null !== $this->registry->repository(Recommendation::class)->findOneBy(['realization' => $item->toId()])) {
                 $this->container->get(RecommendationManager::class)->recommend($item);
 
                 return;

@@ -22,7 +22,7 @@ final class FuelTypeType extends AbstractType
         $resolver->setDefaults([
             'choices' => FuelType::all(),
             'choice_label' => fn (FuelType $fuelType) => $fuelType->toName(),
-            'choice_value' => fn (FuelType $fuelType) => $fuelType->toId(),
+            'choice_value' => fn (?FuelType $fuelType) => null === $fuelType ? null : $fuelType->toId(),
             'placeholder' => null,
         ]);
     }

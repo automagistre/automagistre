@@ -13,7 +13,7 @@ easy_admin:
                 max_results: 50
                 title: '{{ app.request.query.has("all") ? "Все" : "Активные" }} Заказы'
                 fields:
-                    - { property: 'id', label: 'Номер', template: 'easy_admin/order/field_id.html.twig' }
+                    - { property: 'number', label: 'Номер', template: 'easy_admin/order/field_number.html.twig' }
                     - { property: 'status', label: 'Статус', template: 'easy_admin/order/field_status.html.twig' }
                     - { property: 'createdAt', label: 'Дата начала', template: 'easy_admin/order/field_created_at.html.twig' }
                     - { property: 'carId', label: 'Автомобиль', template: 'easy_admin/field_identifier.html.twig', format: long }
@@ -32,7 +32,7 @@ easy_admin:
             new:
                 title: 'Создать новый заказ'
             edit:
-                title: 'Редактировать заказ № {{ entity.id }}'
+                title: 'Редактировать заказ'
 
         OrderPrint:
             class: App\Order\Entity\Order
@@ -64,7 +64,7 @@ easy_admin:
                 edit: 'easy_admin/order_item_service/edit.html.twig'
             list:
                 fields:
-                    - { property: 'order', label: 'Заказ' }
+                    - { property: 'order', label: 'Заказ', template: 'easy_admin/order_item_service/field_order.html.twig' }
                     - { property: 'service', label: 'Работа' }
                     - { property: 'price', label: 'Стоимость', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'order.closedAt', label: 'Дата', type: 'datetime' }

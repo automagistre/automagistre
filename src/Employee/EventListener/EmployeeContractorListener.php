@@ -49,7 +49,7 @@ final class EmployeeContractorListener implements EventSubscriberInterface
         }
 
         /** @var Person $person */
-        $person = $this->registry->getBy(Person::class, ['uuid' => $personId]);
+        $person = $this->registry->getBy(Person::class, ['id' => $personId]);
 
         $person->setContractor(EmployeeCreated::class === $eventName);
 

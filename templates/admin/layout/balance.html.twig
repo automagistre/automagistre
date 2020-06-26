@@ -15,7 +15,7 @@
         {% for wallet in wallets %}
             {# @var wallet \App\Entity\Wallet #}
             <li>
-                <a href="{{ easyadmin_path('WalletTransaction', 'list', wallet|to_query) }}" class="balance__head">
+                <a href="{{ easyadmin_path('WalletTransaction', 'list', {'wallet_id': wallet|toId}) }}" class="balance__head">
                     {{ wallet.name }}:
                     <span id="wallet-{{ wallet.toId }}-amount">{{ wallet|balance|localize_money }}</span>
                 </a>

@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Employee\Form;
 
 use App\Employee\Entity\Employee;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Shared\Doctrine\Registry;
+use App\Shared\Identifier\IdentifierFormatter;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\ChoiceList\View\ChoiceView;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,6 +21,16 @@ use function usort;
  */
 final class EmployeeType extends AbstractType
 {
+    private Registry $registry;
+
+    private IdentifierFormatter $formatter;
+
+    public function __construct(Registry $registry, IdentifierFormatter $formatter)
+    {
+        $this->registry = $registry;
+        $this->formatter = $formatter;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -28,8 +40,17 @@ final class EmployeeType extends AbstractType
             'label' => false,
             'placeholder' => 'Выберите работника',
             'class' => Employee::class,
-            'query_builder' => fn (EntityRepository $repository) => $repository->createQueryBuilder('entity')
-                ->where('entity.firedAt IS NULL'),
+            'choice_loader' => new CallbackChoiceLoader(
+                fn (): array => $this->registry->manager(Employee::class)
+                    ->createQueryBuilder()
+                    ->select('t')
+                    ->from(Employee::class, 't')
+                    ->where('t.firedAt IS NULL')
+                    ->getQuery()
+                    ->getResult()
+            ),
+            'choice_label' => fn (Employee $employee) => $this->formatter->format($employee->toPersonId()),
+            'choice_value' => fn (?Employee $employee) => null === $employee ? null : $employee->toId()->toString(),
         ]);
     }
 
@@ -49,6 +70,6 @@ final class EmployeeType extends AbstractType
      */
     public function getParent(): string
     {
-        return EntityType::class;
+        return ChoiceType::class;
     }
 }

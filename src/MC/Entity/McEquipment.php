@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\MC\Entity;
 
-use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Vehicle\Entity\Embedded\Equipment as CarEquipment;
 use App\Vehicle\Entity\VehicleId;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -17,12 +16,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class McEquipment
 {
-    use Identity;
-
     /**
+     * @ORM\Id()
      * @ORM\Column(type="mc_equipment_id")
      */
-    public McEquipmentId $uuid;
+    public McEquipmentId $id;
 
     /**
      * @ORM\Column(type="vehicle_id", nullable=true)
@@ -48,15 +46,15 @@ class McEquipment
      */
     public ?Collection $lines = null;
 
-    public function __construct()
+    public function __construct(McEquipmentId $id)
     {
-        $this->uuid = McEquipmentId::generate();
+        $this->id = $id;
         $this->equipment = new CarEquipment();
         $this->lines = new ArrayCollection();
     }
 
     public function toId(): McEquipmentId
     {
-        return $this->uuid;
+        return $this->id;
     }
 }

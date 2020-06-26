@@ -80,7 +80,7 @@ final class CarController extends AbstractController
 
         $vehicleId = $arr['vehicleId'];
         $vehicle = $vehicleId instanceof VehicleId
-            ? $this->registry->findBy(Model::class, ['uuid' => $vehicleId])
+            ? $this->registry->findBy(Model::class, ['id' => $vehicleId])
             : null;
 
         $equipment = new Equipment(
@@ -95,7 +95,7 @@ final class CarController extends AbstractController
         );
 
         return new CarDto(
-            $arr['uuid'],
+            $arr['id'],
             $equipment,
             $vehicle,
             $arr['identifier'],
@@ -111,7 +111,7 @@ final class CarController extends AbstractController
         $dto = $entity;
         assert($dto instanceof CarDto);
 
-        $entity = $this->registry->findBy(Car::class, ['uuid' => $dto->carId]);
+        $entity = $this->registry->findBy(Car::class, ['id' => $dto->carId]);
 
         $entity->equipment = $dto->equipment;
         $entity->setGosnomer($dto->gosnomer);
@@ -163,7 +163,7 @@ final class CarController extends AbstractController
         $dqlFilter = null
     ): QueryBuilder {
         $qb = $this->registry->repository(Car::class)->createQueryBuilder('car')
-            ->leftJoin(Order::class, 'o', Join::WITH, 'o.carId = car.uuid');
+            ->leftJoin(Order::class, 'o', Join::WITH, 'o.carId = car.id');
 
         $customerId = $this->request->query->get('customer_id');
         if (null !== $customerId) {
@@ -176,9 +176,9 @@ final class CarController extends AbstractController
         }
 
         $qb
-            ->leftJoin(Model::class, 'model', Join::WITH, 'model.uuid = car.vehicleId')
+            ->leftJoin(Model::class, 'model', Join::WITH, 'model.id = car.vehicleId')
             ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'manufacturer.id = model.manufacturerId')
-            ->leftJoin(Operand::class, 'customer', Join::WITH, 'o.customerId = customer.uuid')
+            ->leftJoin(Operand::class, 'customer', Join::WITH, 'o.customerId = customer.id')
             ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = customer.id AND customer INSTANCE OF '.Person::class)
             ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = customer.id AND customer INSTANCE OF '.Organization::class);
 
@@ -213,17 +213,16 @@ final class CarController extends AbstractController
     protected function autocompleteAction(): JsonResponse
     {
         $query = $this->request->query;
-        $isUuid = $query->has('use_uuid');
 
         $qb = $this->createSearchQueryBuilder((string) $query->get('entity'), $query->get('query', ''), []);
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->getInt('page', 1));
 
-        $data = array_map(function (Car $car) use ($isUuid): array {
+        $data = array_map(function (Car $car): array {
             $text = $this->display($car->toId(), 'autocomplete');
 
             return [
-                'id' => $isUuid ? $car->toId()->toUuid() : $car->getId(),
+                'id' => $car->toId()->toString(),
                 'text' => $text,
             ];
         }, (array) $paginator->getCurrentPageResults());

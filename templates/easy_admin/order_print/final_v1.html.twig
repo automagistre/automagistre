@@ -109,7 +109,7 @@
         </section>
 
         <section class="order-info">
-            <h3>заказ-наряд: {{ order.id }}
+            <h3>заказ-наряд: {{ order.number }}
                 от {{ (order.closed ? order.closedAt : date(null, 'Europe/Moscow'))|format_date('short') }}</h3>
         </section>
 
@@ -156,11 +156,11 @@
                     {% endfor %}
                     {% for service in services %}
                         {% set index = index + 1 %}
-                        {# @var service \App\Entity\Tenant\OrderItemService #}
+                        {# @var service \App\Order\Entity\OrderItemService #}
                         <tr>
                             <th scope="row">{{ index }}</th>
                             <td>{{ service }}{{ service.warranty and not isServicesDiscounted ? ' - [гарантия]' }}</td>
-                            <td>{{ service.worker.id }}</td>
+                            <td></td>
                             {% if isServicesDiscounted %}
                                 <td>
                                     {% if service.warranty %}

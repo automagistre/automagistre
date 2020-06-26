@@ -1,3 +1,3 @@
-<a href="{{ easyadmin_path(field_options.entity|default(item), 'show', {'id': item.toId.toString, 'referer': true}) }}">
+<a href="{{ easyadmin_path(field_options.entity|default(item), 'show', {'id': item|toId, 'referer': true}) }}">
     {{- value|display_name|easyadmin_truncate -}}
 </a>

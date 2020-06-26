@@ -4,6 +4,7 @@ namespace App\Tests\Part\EventListener;
 
 use App\Order\Entity\Order;
 use App\Order\Event\OrderClosed;
+use App\Order\Fixtures\OrderFixtures;
 use App\Part\Entity\PartCase;
 use App\Part\EventListener\PartCaseOnOrderCloseListener;
 use App\Part\Fixtures\GasketFixture;
@@ -19,7 +20,7 @@ final class PartCaseOnOrderCloseListenerTest extends KernelTestCase
 
         $registry = self::$container->get(Registry::class);
 
-        $order = $registry->findBy(Order::class, ['id' => '1']);
+        $order = $registry->findBy(Order::class, ['id' => OrderFixtures::ID]);
         assert($order instanceof Order);
         self::$container->get(PartCaseOnOrderCloseListener::class)->onOrderClosed(new OrderClosed($order));
 

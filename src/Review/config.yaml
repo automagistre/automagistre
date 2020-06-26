@@ -24,7 +24,7 @@ easy_admin:
                 title: 'Создать новый Отзыв'
                 form_options: { data_class: App\Review\Form\ReviewDto }
             edit:
-                title: 'Редактировать Отзыв № {{ entity.id }}'
+                title: 'Редактировать Отзыв'
 
 doctrine:
     orm:

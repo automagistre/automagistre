@@ -7,7 +7,6 @@ easy_admin:
             list:
                 title: 'Список работ'
                 fields:
-                    - { property: 'id' }
                     - { property: 'name', label: 'Название' }
                     - { property: 'description', label: 'Сервисная информация' }
                     - { property: 'price', label: 'Цена', template: 'easy_admin/field_money.html.twig' }
@@ -20,7 +19,7 @@ easy_admin:
                 title: 'Создать работу'
                 form_options: { data_class: stdClass }
             edit:
-                title: 'Редактировать работу № {{ entity.id }}'
+                title: 'Редактировать работу'
 
         McEquipment:
             class: App\MC\Entity\McEquipment
@@ -30,7 +29,6 @@ easy_admin:
             list:
                 title: 'Список комплектаций'
                 fields:
-                    - { property: 'id' }
                     - { property: 'vehicleId', label: 'Модель', template: 'easy_admin/field_identifier.html.twig' }
                     - { property: 'equipment.engine.name', label: 'Двигатель' }
                     - { property: 'equipment.engine.capacity', label: 'Объём' }
@@ -38,9 +36,8 @@ easy_admin:
                     - { property: 'equipment.wheelDrive.name', label: 'Привод' }
                     - { property: 'period', label: 'Период' }
             show:
-                title: 'Комплектация № {{ entity.id }}'
+                title: 'Комплектация'
                 fields:
-                    - { property: 'id' }
                     - { property: 'vehicleId', label: 'Модель', template: 'easy_admin/field_identifier.html.twig' }
                     - { property: 'equipment.engine.name', label: 'Двигатель' }
                     - { property: 'equipment.engine.capacity', label: 'Объём' }
@@ -59,7 +56,7 @@ easy_admin:
             new:
                 title: 'Создать комплектацию'
             edit:
-                title: 'Редактировать комплектацию № {{ entity.id }}'
+                title: 'Редактировать комплектацию'
 
         McLine:
             class: App\MC\Entity\McLine
@@ -67,7 +64,6 @@ easy_admin:
             disabled_actions: ['show', 'list', 'autocomplete']
             list:
                 fields:
-                    - { property: 'id' }
                     - { property: 'work', label: 'Модель' }
                     - { property: 'period', label: 'Модель ДВС' }
                     - { property: 'recommended', label: 'Двигатель' }
@@ -79,7 +75,7 @@ easy_admin:
             new:
                 title: 'Создать работу'
             edit:
-                title: 'Редактировать работу № {{ entity.id }}'
+                title: 'Редактировать работу'
 
         McPart:
             class: App\MC\Entity\McPart
@@ -99,7 +95,7 @@ easy_admin:
                 title: 'Создать новую запчасть для ТО'
                 form_options: { data_class: App\MC\Form\McPartDto }
             edit:
-                title: 'Редактировать запчасть № {{ entity.id }} для ТО'
+                title: 'Редактировать запчасть для ТО'
 
 doctrine:
     orm:

@@ -7,6 +7,7 @@ namespace App\Income\Controller;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Income\Entity\Income;
 use App\Income\Entity\IncomePart;
+use App\Income\Entity\IncomePartId;
 use App\Shared\Identifier\IdentifierFormatter;
 use function assert;
 use function in_array;
@@ -40,10 +41,7 @@ final class IncomePartController extends AbstractController
 
     protected function createNewEntity(): IncomePart
     {
-        $entity = parent::createNewEntity();
-        if (!$entity instanceof IncomePart) {
-            throw new LogicException('IncomePart excepted');
-        }
+        $entity = new IncomePart(IncomePartId::generate());
 
         $income = $this->getEntity(Income::class);
         if (!$income instanceof Income) {
@@ -64,9 +62,13 @@ final class IncomePartController extends AbstractController
 
         parent::persistEntity($entity);
 
-        $this->setReferer($this->generateEasyPath($entity, 'new', [
-            'income_id' => $entity->getIncome()->toId()->toString(),
-            'referer' => urlencode($this->generateEasyPath($entity->getIncome(), 'show')),
+        $income = $entity->getIncome();
+        assert($income instanceof Income);
+
+        $this->setReferer($this->generateEasyPath('IncomePart', 'new', [
+            'id' => $entity->toId()->toString(),
+            'income_id' => $income->toId()->toString(),
+            'referer' => urlencode($this->generateEasyPath('Income', 'show', ['id' => $income->toId()->toString()])),
         ]));
 
         $this->addFlash('success', sprintf(
@@ -85,6 +87,9 @@ final class IncomePartController extends AbstractController
 
         parent::updateEntity($entity);
 
-        $this->setReferer($this->generateEasyPath($entity->getIncome(), 'show'));
+        $income = $entity->getIncome();
+        assert($income instanceof Income);
+
+        $this->setReferer($this->generateEasyPath('Income', 'show', ['id' => $income->toId()]));
     }
 }

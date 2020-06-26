@@ -28,11 +28,6 @@ class OrderSuspend
     private $order;
 
     /**
-     * @ORM\Column(type="order_id", name="order_uuid")
-     */
-    private OrderId $orderId;
-
-    /**
      * @var DateTimeImmutable
      *
      * @ORM\Column(type="datetime_immutable")
@@ -50,7 +45,6 @@ class OrderSuspend
     {
         $this->id = Uuid::uuid6();
         $this->order = $order;
-        $this->orderId = $order->toId();
         $this->till = $till;
         $this->reason = $reason;
     }

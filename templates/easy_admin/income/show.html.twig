@@ -4,11 +4,11 @@
 
 {% block item_actions %}
     {% if entity.editable %}
-        <a href="{{ easyadmin_path('IncomePart', 'new', {'referer': true}|merge(entity|to_query)) }}" class="btn btn-success">
+        <a href="{{ easyadmin_path('IncomePart', 'new', {'income_id': entity|toId, 'referer': true}) }}" class="btn btn-success">
             Добавить новую позицию
         </a>
 
-        <a href="{{ easyadmin_path(entity, 'accrue', {'referer': true}) }}" class="btn btn-danger">
+        <a href="{{ easyadmin_path('Income', 'accrue', {'id': entity|toId, 'referer': true}) }}" class="btn btn-danger">
             Оприходовать
         </a>
     {% endif %}

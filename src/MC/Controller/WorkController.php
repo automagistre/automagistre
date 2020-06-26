@@ -7,6 +7,7 @@ namespace App\MC\Controller;
 use App\EasyAdmin\Controller\AbstractController;
 use App\MC\Entity\McWork;
 use function assert;
+use Ramsey\Uuid\Uuid;
 use stdClass;
 
 /**
@@ -37,7 +38,12 @@ final class WorkController extends AbstractController
         $model = $entity;
         assert($model instanceof stdClass);
 
-        $entity = new McWork($model->name, $model->description, $model->price);
+        $entity = new McWork(
+            Uuid::uuid6(),
+            $model->name,
+            $model->description,
+            $model->price
+        );
 
         parent::persistEntity($entity);
 

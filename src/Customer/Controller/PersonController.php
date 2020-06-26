@@ -37,7 +37,7 @@ final class PersonController extends OperandController
 
         parent::persistEntity($entity);
 
-        $this->setReferer($this->generateEasyPath($entity, 'show'));
+        $this->setReferer($this->generateEasyPath('Person', 'show', ['id' => $entity]));
 
         $this->event(new PersonCreated($entity));
     }
@@ -86,7 +86,7 @@ final class PersonController extends OperandController
             $formattedTelephone = $this->formatTelephone($person->getTelephone() ?? $person->getOfficePhone());
 
             return [
-                'id' => $person->getId(),
+                'id' => $person->toId()->toString(),
                 'text' => sprintf('%s %s', $person->getFullName(), $formattedTelephone),
                 'firstName' => $person->getFirstname(),
                 'lastName' => $person->getLastname(),

@@ -10,7 +10,7 @@
     <div class="container" id="content">
         <main>
             <h1>Счет на оплату №
-                {{ order.id }}
+                {{ order.number }}
                 от
                 {{ (order.closed ? order.closedAt : date(null, 'Europe/Moscow'))|format_date('short') }} г.
             </h1>

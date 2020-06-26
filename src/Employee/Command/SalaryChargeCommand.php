@@ -72,7 +72,7 @@ final class SalaryChargeCommand extends Command
         /** @var SalaryView[] $salaries */
         $salaries = $this->registry->repository(SalaryView::class)
             ->createQueryBuilder('entity')
-            ->join(Employee::class, 'employee', Join::WITH, 'employee.uuid = entity.employeeId')
+            ->join(Employee::class, 'employee', Join::WITH, 'employee.id = entity.employeeId')
             ->where('employee.firedAt IS NULL')
             ->andWhere('entity.payday = :payday')
             ->andWhere('entity.ended IS NULL')

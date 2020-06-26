@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Car\Entity;
 
 use App\Costil;
-use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Vehicle\Entity\Embedded\Equipment;
 use App\Vehicle\Entity\VehicleId;
 use App\Vehicle\Enum\BodyType;
@@ -32,12 +31,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Car
 {
-    use Identity;
-
     /**
+     * @ORM\Id()
      * @ORM\Column(type="car_id", unique=true)
      */
-    public CarId $uuid;
+    public CarId $id;
 
     /**
      * @Assert\Valid
@@ -93,7 +91,7 @@ class Car
 
     public function __construct(CarId $carId)
     {
-        $this->uuid = $carId;
+        $this->id = $carId;
         $this->equipment = new Equipment();
         $this->caseType = BodyType::unknown();
         $this->recommendations = new ArrayCollection();
@@ -101,12 +99,12 @@ class Car
 
     public function __toString()
     {
-        return Costil::display($this->uuid);
+        return Costil::display($this->id);
     }
 
     public function toId(): CarId
     {
-        return $this->uuid;
+        return $this->id;
     }
 
     public function getRecommendationPrice(string $type = null): Money

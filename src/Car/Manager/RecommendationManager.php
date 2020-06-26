@@ -6,7 +6,9 @@ namespace App\Car\Manager;
 
 use App\Car\Entity\Car;
 use App\Car\Entity\Recommendation;
+use App\Car\Entity\RecommendationId;
 use App\Car\Entity\RecommendationPart;
+use App\Car\Entity\RecommendationPartId;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemPart;
@@ -20,6 +22,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use DomainException;
 use Generator;
 use function get_class;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -41,6 +44,7 @@ final class RecommendationManager
         $em = $this->registry->manager(OrderItemService::class);
 
         $orderItemService = new OrderItemService(
+            Uuid::uuid6(),
             $order,
             $recommendation->service,
             $recommendation->getPrice(),
@@ -52,6 +56,7 @@ final class RecommendationManager
             $partId = $recommendationPart->partId;
 
             $orderItemPart = $orderItemParts[] = new OrderItemPart(
+                Uuid::uuid6(),
                 $order,
                 $partId,
                 $recommendationPart->quantity,
@@ -89,7 +94,7 @@ final class RecommendationManager
         }
 
         /** @var Car $car */
-        $car = $this->registry->findBy(Car::class, ['uuid' => $carId]);
+        $car = $this->registry->findBy(Car::class, ['id' => $carId]);
 
         $em->transactional(function (EntityManagerInterface $em) use ($orderItemService, $car): void {
             $oldRecommendation = $this->findOldRecommendation($orderItemService);
@@ -99,6 +104,7 @@ final class RecommendationManager
                 : $orderItemService->workerId;
 
             $recommendation = new Recommendation(
+                RecommendationId::generate(),
                 $car,
                 $orderItemService->service,
                 $orderItemService->getPrice(),
@@ -121,6 +127,7 @@ final class RecommendationManager
                     ->execute();
 
                 $recommendation->addPart(new RecommendationPart(
+                    RecommendationPartId::generate(),
                     $recommendation,
                     $orderItemPart->getPartId(),
                     $orderItemPart->getQuantity(),
@@ -151,7 +158,7 @@ final class RecommendationManager
             ->where('entity.realization = :realization')
             ->orderBy('entity.id', 'DESC')
             ->getQuery()
-            ->setParameter('realization', $orderItemService->getId())
+            ->setParameter('realization', $orderItemService->toId())
             ->getOneOrNullResult();
     }
 

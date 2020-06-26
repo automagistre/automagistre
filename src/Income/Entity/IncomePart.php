@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Income\Entity;
 
 use App\Part\Entity\PartId;
-use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Price;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Quantity;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,7 +17,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class IncomePart
 {
-    use Identity;
     use Price;
     use Quantity;
 
@@ -28,9 +26,10 @@ class IncomePart
     public ?PartId $partId = null;
 
     /**
+     * @ORM\Id()
      * @ORM\Column(type="income_part_id")
      */
-    private IncomePartId $uuid;
+    private IncomePartId $id;
 
     /**
      * @var Income|null
@@ -41,14 +40,14 @@ class IncomePart
      */
     private $income;
 
-    public function __construct()
+    public function __construct(IncomePartId $id)
     {
-        $this->uuid = IncomePartId::generate();
+        $this->id = $id;
     }
 
     public function toId(): IncomePartId
     {
-        return $this->uuid;
+        return $this->id;
     }
 
     public function setPrice(Money $price): void

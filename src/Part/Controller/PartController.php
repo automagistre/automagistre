@@ -114,8 +114,8 @@ final class PartController extends AbstractController
 
     public function incomeAction(): Response
     {
-        $part = $this->getEntity(Part::class);
-        if (!$part instanceof Part) {
+        $partId = $this->getIdentifier(PartId::class);
+        if (!$partId instanceof PartId) {
             throw new LogicException('Part required.');
         }
 
@@ -129,10 +129,10 @@ final class PartController extends AbstractController
             $quantity = abs((int) $form->get('quantity')->getData());
             $user = $this->getUser();
 
-            $em->persist(new Motion($part->toId(), $quantity, Source::manual(), $user->toId()->toUuid()));
+            $em->persist(new Motion($partId, $quantity, Source::manual(), $user->toId()->toUuid()));
             $em->flush();
 
-            $this->event(new PartAccrued($part->toId(), [
+            $this->event(new PartAccrued($partId, [
                 'quantity' => $quantity,
             ]));
 
@@ -140,15 +140,15 @@ final class PartController extends AbstractController
         }
 
         return $this->render('easy_admin/part/income.html.twig', [
-            'part' => $part,
+            'part' => $this->registry->get(PartView::class, $partId),
             'form' => $form->createView(),
         ]);
     }
 
     public function outcomeAction(): Response
     {
-        $part = $this->getEntity(Part::class);
-        if (!$part instanceof Part) {
+        $partId = $this->getIdentifier(PartId::class);
+        if (!$partId instanceof PartId) {
             throw new LogicException('Part required.');
         }
 
@@ -161,12 +161,11 @@ final class PartController extends AbstractController
             $em = $this->registry->manager(Motion::class);
             $quantity = abs((int) $form->get('quantity')->getData());
             $user = $this->getUser();
-            $description = sprintf('# Ручное списание - %s', $user->getId());
 
-            $em->persist(new Motion($part->toId(), 0 - $quantity, Source::manual(), $user->toId()->toUuid(), $description));
+            $em->persist(new Motion($partId, 0 - $quantity, Source::manual(), $user->toId()->toUuid()));
             $em->flush();
 
-            $this->event(new PartDecreased($part->toId(), [
+            $this->event(new PartDecreased($partId, [
                 'quantity' => $quantity,
             ]));
 
@@ -174,7 +173,7 @@ final class PartController extends AbstractController
         }
 
         return $this->render('easy_admin/part/outcome.html.twig', [
-            'part' => $part,
+            'part' => $this->registry->get(PartView::class, $partId),
             'form' => $form->createView(),
         ]);
     }
@@ -205,7 +204,7 @@ final class PartController extends AbstractController
             $parameters['inStock'] = $this->partManager->inStock($part->toId());
             $parameters['orders'] = $this->partManager->inOrders($part->toId());
             $parameters['reservedIn'] = array_map(
-                fn (Order $order): int => (int) $order->getId(),
+                fn (Order $order): string => $order->toId()->toString(),
                 $this->reservationManager->orders($part->toId())
             );
             $parameters['reserved'] = $this->reservationManager->reserved($part->toId());
@@ -224,7 +223,7 @@ final class PartController extends AbstractController
 
             $parameters['carModels'] = $this->registry->repository(Model::class)
                 ->createQueryBuilder('carModel')
-                ->join(PartCase::class, 'partCase', Join::WITH, 'carModel.uuid = partCase.vehicleId')
+                ->join(PartCase::class, 'partCase', Join::WITH, 'carModel.id = partCase.vehicleId')
                 ->where('partCase.partId = :part')
                 ->setParameter('part', $part->toId())
                 ->getQuery()
@@ -257,7 +256,7 @@ final class PartController extends AbstractController
         $vehicleId = $this->getIdentifier(VehicleId::class);
 
         if (!$isPlusExist && $vehicleId instanceof VehicleId) {
-            $carModel = $this->registry->getBy(Model::class, ['uuid' => $vehicleId]);
+            $carModel = $this->registry->getBy(Model::class, ['id' => $vehicleId]);
 
             if (null !== $carModel->caseName) {
                 if (!$this->request->isXmlHttpRequest()) {

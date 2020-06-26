@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Order\Entity;
 
-use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Shared\Money\PriceInterface;
 use App\Shared\Money\TotalPriceInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -29,8 +28,6 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 abstract class OrderItem
 {
-    use Identity;
-
     public const MAP = [
         'group' => OrderItemGroup::class,
         'service' => OrderItemService::class,
@@ -51,9 +48,10 @@ abstract class OrderItem
     protected $children;
 
     /**
+     * @ORM\Id()
      * @ORM\Column(type="uuid")
      */
-    private UuidInterface $uuid;
+    private UuidInterface $id;
 
     /**
      * @var Order
@@ -70,9 +68,9 @@ abstract class OrderItem
      */
     private $parent;
 
-    public function __construct(Order $order)
+    public function __construct(UuidInterface $id, Order $order)
     {
-        $this->uuid = Uuid::uuid6();
+        $this->id = $id;
         $this->children = new ArrayCollection();
 
         $this->order = $order;
@@ -82,7 +80,7 @@ abstract class OrderItem
 
     public function toId(): UuidInterface
     {
-        return $this->uuid;
+        return $this->id;
     }
 
     /**

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Migrations;
 
-use App\Part\Entity\PartView;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 use function implode;
@@ -97,8 +96,6 @@ final class Version20200626081428 extends AbstractMigration
         $this->addSql('ALTER TABLE part_cross_part ADD CONSTRAINT FK_B98F499C70B9088C FOREIGN KEY (part_cross_id) REFERENCES part_cross (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('COMMENT ON COLUMN part_cross.id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN part_cross_part.part_cross_id IS \'(DC2Type:uuid)\'');
-
-        $this->addSql(PartView::sql());
     }
 
     public function down(Schema $schema): void

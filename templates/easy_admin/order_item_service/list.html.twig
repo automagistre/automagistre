@@ -3,11 +3,11 @@
 {# @var car \App\Car\Entity\Car #}
 
 {% block content_title %}
-    Работы по автомобилю: <a href="{{ easyadmin_path(car, 'show') }}">{{ car.toId|display_name }}</a>
+    Работы по автомобилю: <a href="{{ easyadmin_path('Car', 'show', {'id': car|toId}) }}">{{ car.toId|display_name }}</a>
 {% endblock %}
 
 {% block search_form %}
-    <input type="hidden" name="car_id" value="{{ car.id }}">
+    <input type="hidden" name="car_id" value="{{ car|toId }}">
 
     {{ parent() }}
 {% endblock %}

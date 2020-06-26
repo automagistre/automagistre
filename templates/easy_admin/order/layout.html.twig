@@ -27,7 +27,7 @@
                                 {% endif %}
                             {% endblock %}
 
-                            <a href="{{ easyadmin_path(order, 'show') }}" class="btn btn-primary">Отмена</a>
+                            <a href="{{ easyadmin_path('Order', 'show', {'id': order|toId}) }}" class="btn btn-primary">Отмена</a>
                         </div>
                     {% endblock %}
                 </div>

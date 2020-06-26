@@ -19,11 +19,11 @@
                     </thead>
                     <tbody>
                     {% for order in orders %}
-                        {# @var order \App\Entity\Order #}
+                        {# @var order \App\Order\Entity\Order #}
                         <tr class="tr">
                             <td>
-                                <a href="{{ easyadmin_path(order, 'show', {'referer': true}) }}">
-                                    {{ order.id }}
+                                <a href="{{ easyadmin_path('Order', 'show', {'id': order|toId, 'referer': true}) }}">
+                                    {{ order.number }}
                                 </a>
                             </td>
                             <td>{{ order.closedAt|format_datetime('short', 'short', '', 'GMT+3') }}</td>
@@ -41,10 +41,10 @@
         {% endif %}
 
         <div class="box-footer">
-            <a href="{{ easyadmin_path('Order', 'new', {'operand_id': entity.id}) }}" class="btn btn-primary">
+            <a href="{{ easyadmin_path('Order', 'new', {'operand_id': entity|toId}) }}" class="btn btn-primary">
                 Создать заказ
             </a>
-            <a href="{{ easyadmin_path('Order', 'list', {'operand_id': entity.id}) }}" class="btn btn-primary">
+            <a href="{{ easyadmin_path('Order', 'list', {'operand_id': entity|toId}) }}" class="btn btn-primary">
                 Все заказы
             </a>
         </div>

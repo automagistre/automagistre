@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Migrations;
 
-use App\Balance\Entity\BalanceView;
 use App\Customer\Entity\CustomerTransactionView;
 use App\Wallet\Entity\WalletTransactionView;
 use Doctrine\DBAL\Schema\Schema;
@@ -40,7 +39,6 @@ final class Version20200620152533 extends AbstractMigration
         $this->addSql('DROP TABLE wallet_transaction_old');
         $this->addSql('DROP TABLE operand_transaction');
 
-        $this->addSql(BalanceView::VIEW);
         $this->addSql(WalletTransactionView::sql());
         $this->addSql(CustomerTransactionView::sql());
     }

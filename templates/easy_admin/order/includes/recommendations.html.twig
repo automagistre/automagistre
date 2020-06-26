@@ -27,7 +27,7 @@
 
                                 {{- '&nbsp;'|raw -}}
 
-                                <a href="{{ easyadmin_path('CarRecommendationPart', 'new', recommendation|to_query) }}">
+                                <a href="{{ easyadmin_path('CarRecommendationPart', 'new', {'recommendation_id': recommendation|toId}) }}">
                                     <i class="fa fa-plus"></i>
                                 </a>
                             </td>
@@ -47,21 +47,25 @@
                             <td>{# Склад #}</td>
                             <td>
                                 {% if recommendation.workerId is not empty %}
-                                    <a href="{{ easyadmin_path_by_id(recommendation.workerId, 'show') }}">
+                                    <a href="{{ easyadmin_path('Operand', 'show', {'id': recommendation.workerId|toId}) }}">
                                         {{ recommendation.workerId|display_name }}
                                     </a>
                                 {% endif %}
                             </td>
                             <td>
-                                <a href="{{ easyadmin_path(recommendation, 'edit', order|to_query) }}">
+                                <a href="{{ easyadmin_path('CarRecommendation', 'edit', {
+                                    'id': recommendation|toId,
+                                    'order_id': order|toId
+                                }) }}">
                                     <i class="fa fa-pencil"></i>
                                 </a>
 
                                 {%- if order.editable %}
                                     {{- '&nbsp;'|raw -}}
 
-                                    <form action="{{ easyadmin_path(recommendation, 'realize', {
-                                        'order_id': order.id
+                                    <form action="{{ easyadmin_path('CarRecommendation', 'realize', {
+                                        'id': recommendation|toId,
+                                        'order_id': order|toId
                                     }) }}" method="post" style="display: inline">
                                         <i class="fa fa-wrench icon-form-submit"
                                            style="cursor: pointer"></i>
@@ -70,7 +74,7 @@
                             </td>
                             <td>
                                 <span class="created-by" style="display: none">
-                                    {{ created_by_view(recommendation.toId.toUuid) }}
+                                    {{ created_by_view(recommendation|toUuid) }}
                                 </span>
                                 &nbsp;
                                 <i class="fa fa-user"></i>
@@ -116,20 +120,25 @@
                                 </td>
                                 <td></td>
                                 <td>
-                                    <a href="{{ easyadmin_path(recommendationPart, 'edit') }}">
+                                    <a href="{{ easyadmin_path('CarRecommendationPart', 'edit', {
+                                        'id': recommendationPart|toId
+                                    }) }}">
                                         <i class="fa fa-pencil"></i>
                                     </a>
                                     {% if part_crosses_in_stock(part) is not empty %}
                                         {{- '&nbsp;'|raw -}}
 
-                                        <a href="{{ easyadmin_path(recommendationPart, 'substitute', {'referer': true}) }}">
+                                        <a href="{{ easyadmin_path('CarRecommendationPart', 'substitute', {
+                                            'id': recommendationPart|toId,
+                                            'referer': true
+                                        }) }}">
                                             <i class="fa fa-recycle" style="color: green"></i>
                                         </a>
                                     {% endif %}
                                 </td>
                                 <td>
                                     <span class="created-by" style="display: none">
-                                        {{ created_by_view(recommendationPart.toId.toUuid) }}
+                                        {{ created_by_view(recommendationPart|toUuid) }}
                                     </span>
                                     &nbsp;
                                     <i class="fa fa-user"></i>

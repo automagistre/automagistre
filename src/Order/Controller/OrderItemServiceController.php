@@ -18,6 +18,7 @@ use LogicException;
 use function mb_strtolower;
 use Money\Currency;
 use Money\Money;
+use Ramsey\Uuid\Uuid;
 use function sprintf;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -93,7 +94,12 @@ final class OrderItemServiceController extends OrderItemController
         $model = $entity;
         assert($model instanceof OrderService);
 
-        $entity = new OrderItemService($model->order, $model->service, $model->price);
+        $entity = new OrderItemService(
+            Uuid::uuid6(),
+            $model->order,
+            $model->service,
+            $model->price
+        );
         $entity->setParent($model->parent);
         $entity->workerId = $model->workerId;
         $entity->setWarranty($model->warranty);

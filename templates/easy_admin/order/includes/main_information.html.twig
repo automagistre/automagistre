@@ -34,7 +34,7 @@
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                                             {% for stat in status.selectable|filter(stat => not status.eq(stat)) %}
                                                 <li>
-                                                    <a href="{{ easyadmin_path(order, 'status', {'referer': easyadmin_path(order, 'show'), 'status': stat.toId}|merge(order|to_query)) }}"
+                                                    <a href="{{ easyadmin_path('Order', 'status', {'id': order|toId, 'referer': true, 'status': stat.toId}) }}"
                                                        class="label-{{ stat.toColor() }}">
                                                         {{ stat.toName }}
                                                     </a>
@@ -45,12 +45,12 @@
                                 </div>
 
                                 <div class="col-md-6">
-                                    <a href="{{ easyadmin_path(order, 'suspend', {'referer': easyadmin_path(order, 'show')}) }}" class="btn btn-danger">
+                                    <a href="{{ easyadmin_path('Order', 'suspend', {'id': order|toId, 'referer': true}) }}" class="btn btn-danger">
                                         <i class="fa fa-clock-o"></i>
                                         Отложить
                                     </a>
                                     {% if calendarEntry is empty %}
-                                        <a href="{{ easyadmin_path('CalendarEntry', 'list', {'referer': easyadmin_path(order, 'show'), 'order_id': order.toId.toString}) }}" class="btn btn-success">
+                                        <a href="{{ easyadmin_path('CalendarEntry', 'list', {'referer': true, 'order_id': order|toId}) }}" class="btn btn-success">
                                             <i class="fa fa-clock-o"></i>
                                             Записать
                                         </a>
@@ -73,7 +73,7 @@
 
                         <div class="col-sm-10">
                             <div class="form-control">
-                                <a href="{{ easyadmin_path_by_id(calendarEntry.id, 'edit', {'referer': false}) }}">
+                                <a href="{{ easyadmin_path('CalendarEntry', 'edit', {'id': calendarEntry|toId, 'referer': false}) }}">
                                     {{ calendarEntry.schedule.date|format_date }}
                                 </a>
                             </div>
@@ -89,7 +89,7 @@
                     <div class="col-sm-10">
                         <div class="form-control">
                             {%- if customer is not empty %}
-                                <a href="{{ easyadmin_path(customer, 'show') }}">
+                                <a href="{{ easyadmin_path('Operand', 'show', {'id': customer|toId}) }}">
                                     {{- customer.fullName -}}
                                 </a>
 
@@ -116,7 +116,7 @@
                     <div class="col-sm-10">
                         <div class="form-control">
                             {%- if car is not empty -%}
-                                <a href="{{ easyadmin_path(car, 'show') }}">
+                                <a href="{{ easyadmin_path('Car', 'show', {'id': car|toId}) }}">
                                     {{- car.toId|display_name -}}
                                 </a>
 
@@ -124,7 +124,7 @@
 
                                 <span class="label label-info" title="Идентификатор (VIN, № Кузова/Шасси...)">{{ car.identifier }}</span>
 
-                                <a href="{{ easyadmin_path(car, 'edit', {'referer': easyadmin_path(order, 'show')}) }}">
+                                <a href="{{ easyadmin_path('Car', 'edit', {'id': car|toId, 'referer': true}) }}">
                                     <span class="label label-info" title="Комплектация">{{ car.equipment.toString }}</span>
                                 </a>
                             {% else %}
@@ -161,7 +161,14 @@
 
                     <div class="col-sm-10">
                         <div class="form-control">
-                            {% include 'easy_admin/field_show.html.twig' with {'value': order.worker} only %}
+                            {% set worker = order.worker %}
+                            {% if worker is not empty %}
+                                <a href="{{ easyadmin_path('Person', 'show', {'id': worker.toPersonId.toString, 'referer': true}) }}">
+                                    {{- worker.toPersonId|display_name -}}
+                                </a>
+                            {% else %}
+                                {% include 'easy_admin/default/label_null.html.twig' %}
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -187,7 +194,7 @@
 
                     <div class="col-sm-10">
                         <div class="form-control">
-                            {{ created_by_view(order.toId.toUuid) }}
+                            {{ created_by_view(order|toUuid) }}
                         </div>
                     </div>
                 </div>

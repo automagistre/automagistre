@@ -16,6 +16,6 @@
         Подтвердить
     </button>
 
-    <a href="{{ easyadmin_path(income, 'show') }}" class="btn btn-primary">Назад</a>
+    <a href="{{ easyadmin_path('Income', 'show', {'id': income|toId}) }}" class="btn btn-primary">Назад</a>
     {{ form_end(form) }}
 {% endblock %}

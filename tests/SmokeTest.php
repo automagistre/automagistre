@@ -5,12 +5,23 @@ declare(strict_types=1);
 namespace App\Tests;
 
 use App\Calendar\Fixtures\CalendarEntryFixtures;
+use App\Car\Fixtures\Primera2004Fixtures;
+use App\Car\Fixtures\RecommendationFixtures;
+use App\Customer\Fixtures\OrganizationFixtures;
 use App\Customer\Fixtures\PersonVasyaFixtures;
 use App\Employee\Fixtures\EmployeeFixtures;
 use App\Income\Fixtures\IncomeFixtures;
+use App\Income\Fixtures\IncomePartFixtures;
 use App\Manufacturer\Fixtures\NissanFixture;
+use App\MC\Fixtures\EquipmentFixtures;
+use App\MC\Fixtures\LineFixtures;
+use App\MC\Fixtures\PartFixtures;
+use App\MC\Fixtures\WorkFixtures;
+use App\Order\Fixtures\OrderFixtures;
 use App\Part\Fixtures\GasketFixture;
 use App\Storage\Fixtures\MainWarehouseFixture;
+use App\User\Fixtures\AdminFixtures;
+use App\Vehicle\Fixtures\NissanGTRFixture;
 use App\Wallet\Fixtures\WalletFixtures;
 use function array_diff;
 use function array_keys;
@@ -30,54 +41,68 @@ final class SmokeTest extends WebTestCase
      * @var string[][]
      */
     private const ADDITIONAL_QUERY = [
-        'show' => ['id' => '1'],
-        'edit' => ['id' => '1'],
         'autocomplete' => ['query' => 'bla'],
         'search' => ['query' => 'bla'],
         'CalendarEntry' => [
             'edit' => ['id' => CalendarEntryFixtures::ID],
         ],
+        'CarModel' => [
+            'show' => ['id' => NissanGTRFixture::ID],
+            'edit' => ['id' => NissanGTRFixture::ID],
+        ],
         'Order' => [
-            'show' => ['id' => '1'],
+            'show' => ['id' => OrderFixtures::ID],
         ],
         'OrderItemGroup' => [
-            'new' => ['order_id' => '1'],
-            'edit' => ['order_id' => '1', 'id' => '1'],
+            'new' => ['order_id' => OrderFixtures::ID],
+            'edit' => ['id' => OrderFixtures::GROUP_ID],
         ],
         'OrderItemService' => [
-            'list' => ['car_id' => '1'],
-            'search' => ['car_id' => '1'],
-            'new' => ['order_id' => '1'],
-            'edit' => ['order_id' => '1', 'id' => '2'],
+            'list' => ['car_id' => Primera2004Fixtures::ID],
+            'search' => ['car_id' => Primera2004Fixtures::ID],
+            'new' => ['order_id' => OrderFixtures::ID],
+            'edit' => ['id' => OrderFixtures::SERVICE_ID],
             'autocomplete' => ['textOnly' => '1'],
         ],
         'OrderItemPart' => [
-            'new' => ['order_id' => '1'],
-            'edit' => ['order_id' => '1', 'id' => '3'],
+            'new' => ['order_id' => OrderFixtures::ID],
+            'edit' => ['id' => OrderFixtures::PART_ID],
         ],
         'OrderPrint' => [
-            'matching' => ['id' => '1'],
-            'giveOut' => ['id' => '1'],
-            'finish' => ['id' => '1'],
-            'act' => ['id' => '1'],
-            'invoice' => ['id' => '1'],
+            'matching' => ['id' => OrderFixtures::ID],
+            'giveOut' => ['id' => OrderFixtures::ID],
+            'finish' => ['id' => OrderFixtures::ID],
+            'act' => ['id' => OrderFixtures::ID],
+            'invoice' => ['id' => OrderFixtures::ID],
+        ],
+        'Car' => [
+            'show' => ['id' => Primera2004Fixtures::ID],
+            'edit' => ['id' => Primera2004Fixtures::ID],
         ],
         'CarRecommendation' => [
-            'new' => ['car_id' => '1', 'order_id' => '1'],
-            'edit' => ['order_id' => '1'],
+            'new' => ['car_id' => Primera2004Fixtures::ID, 'order_id' => OrderFixtures::ID],
+            'edit' => ['id' => RecommendationFixtures::ID, 'order_id' => OrderFixtures::ID],
         ],
         'CarRecommendationPart' => [
-            'new' => ['recommendation_id' => '1'],
+            'new' => ['recommendation_id' => RecommendationFixtures::ID],
+            'edit' => ['id' => RecommendationFixtures::RECOMMENDATION_PART_ID],
         ],
         'Person' => [
-            'edit' => ['id' => '2'],
+            'show' => ['id' => PersonVasyaFixtures::ID],
+            'edit' => ['id' => PersonVasyaFixtures::ID],
+        ],
+        'Organization' => [
+            'show' => ['id' => OrganizationFixtures::ID],
+            'edit' => ['id' => OrganizationFixtures::ID],
         ],
         'Employee' => [
+            'show' => ['id' => EmployeeFixtures::ID],
+            'edit' => ['id' => EmployeeFixtures::ID],
             'salary' => ['operand_id' => PersonVasyaFixtures::ID],
             'penalty' => ['operand_id' => PersonVasyaFixtures::ID],
         ],
         'CustomerTransaction' => [
-            'new' => ['operand_id' => '1', 'type' => 'increment'],
+            'new' => ['operand_id' => PersonVasyaFixtures::ID, 'type' => 'increment'],
         ],
         'Salary' => [
             'new' => ['employee_id' => EmployeeFixtures::ID],
@@ -97,18 +122,28 @@ final class SmokeTest extends WebTestCase
         ],
         'IncomePart' => [
             'new' => ['income_id' => IncomeFixtures::ID],
+            'edit' => ['id' => IncomePartFixtures::ID],
         ],
         'Manufacturer' => [
             'edit' => ['id' => NissanFixture::ID],
         ],
         'McLine' => [
-            'new' => ['mc_equipment_id' => '1'],
+            'new' => ['mc_equipment_id' => EquipmentFixtures::ID],
+            'edit' => ['id' => LineFixtures::ID],
+        ],
+        'McWork' => [
+            'edit' => ['id' => WorkFixtures::ID],
         ],
         'Note' => [
             'new' => ['subject' => PersonVasyaFixtures::ID],
         ],
         'McPart' => [
-            'new' => ['mc_line_id' => '1'],
+            'new' => ['mc_line_id' => LineFixtures::ID],
+            'edit' => ['id' => PartFixtures::ID],
+        ],
+        'User' => [
+            'show' => ['id' => AdminFixtures::ID],
+            'edit' => ['id' => AdminFixtures::ID],
         ],
         'Wallet' => [
             'edit' => ['id' => WalletFixtures::ID],

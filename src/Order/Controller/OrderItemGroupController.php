@@ -9,6 +9,7 @@ use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemGroup;
 use App\Order\Form\OrderGroup;
 use function assert;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
@@ -42,7 +43,11 @@ final class OrderItemGroupController extends OrderItemController
         $model = $entity;
         assert($model instanceof OrderGroup);
 
-        $entity = new OrderItemGroup($model->order, $model->name);
+        $entity = new OrderItemGroup(
+            Uuid::uuid6(),
+            $model->order,
+            $model->name
+        );
         $entity->setParent($model->parent);
 
         parent::persistEntity($entity);

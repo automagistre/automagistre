@@ -7,14 +7,18 @@
 {% endblock %}
 
 {% block content_help %}
-    Для заказа №{{ order.id }}
+    Для заказа №{{ order.number }}
 {% endblock %}
 
 {% block main %}
     <div class="row">
         <div class="col-md-12">
             {% for period in periods %}
-                <a href="{{ easyadmin_path(order, 'TO', {'period': period, 'referer': app.request.query.get('referer')|easyadmin_urldecode}) }}" class="btn btn-{{ currentPeriod == period ? 'primary': 'default' }}">
+                <a href="{{ easyadmin_path('Order', 'TO', {
+                    'id': order|toId,
+                    'period': period,
+                    'referer': app.request.query.get('referer')|easyadmin_urldecode}
+                ) }}" class="btn btn-{{ currentPeriod == period ? 'primary': 'default' }}">
                     {{ period }}
                 </a>
             {% endfor %}

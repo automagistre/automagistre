@@ -68,7 +68,7 @@ class NoteView
                     cb.id,
                     CONCAT_WS(
                         \',\', 
-                        u.uuid, 
+                        u.id, 
                         u.username, 
                         COALESCE(u.last_name, \'\'), 
                         COALESCE(u.first_name, \'\')
@@ -77,7 +77,7 @@ class NoteView
                 ) AS created
             FROM note
                     JOIN created_by cb ON cb.id = note.id
-                    JOIN users u ON u.uuid = cb.user_id
+                    JOIN users u ON u.id = cb.user_id
         ';
     }
 }

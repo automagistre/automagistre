@@ -12,7 +12,6 @@ easy_admin:
             list:
                 title: 'Автомобили'
                 fields:
-                    - { property: 'id' }
                     - { property: 'vehicleId', label: 'Марка / Модель', template: 'easy_admin/field_identifier.html.twig' }
                     - { property: 'year', label: 'Год', type: 'string' }
                     - { property: 'caseType.toName', label: 'Кузов' }
@@ -20,7 +19,7 @@ easy_admin:
                     - { property: 'mileage', label: 'Пробег' }
                     - { property: 'gosnomer', label: 'Гос. Номер', sortable: false }
             show:
-                title: 'Автомобиль № {{ entity.id }}'
+                title: 'Автомобиль № {{ entity|toId|display_name }}'
                 fields:
                     - { property: 'identifier', label: 'Идентификатор', help: 'VIN, № Кузова/Шасси...' }
                     - { property: 'vehicleId', label: 'Модель', template: 'easy_admin/field_identifier.html.twig' }
@@ -69,7 +68,7 @@ easy_admin:
                     - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType, type_options: { required: true } }
                     - { property: 'workerId', label: 'Диагност', type: App\Customer\Form\WorkerType, type_options: { required: true } }
             edit:
-                title: 'Рекомендация № {{ entity.id }}'
+                title: 'Рекомендация'
             new:
                 title: 'Новая рекомендация'
                 form_options: { data_class: App\Car\Form\DTO\RecommendationDTO }

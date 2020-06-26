@@ -61,7 +61,7 @@ final class PartCaseOnOrderCloseListener implements EventSubscriberInterface
             return;
         }
 
-        $parts = array_map(fn (OrderItemPart $orderItemPart) => $orderItemPart->getPartId()->toString(), $parts);
+        $parts = array_map(fn (OrderItemPart $orderItemPart) => $orderItemPart->getPartId(), $parts);
 
         foreach ($parts as $part) {
             $this->registry->connection(PartCase::class)
@@ -74,7 +74,7 @@ final class PartCaseOnOrderCloseListener implements EventSubscriberInterface
                     ON CONFLICT DO NOTHING
                     ',
                     [
-                        'id' => PartCaseId::generate()->toString(),
+                        'id' => PartCaseId::generate(),
                         'vehicle' => $vehicleId->toString(),
                         'part' => $part,
                     ]
