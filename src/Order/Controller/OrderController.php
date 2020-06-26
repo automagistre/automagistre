@@ -58,7 +58,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use function explode;
 use Generator;
 use function in_array;
-use function is_numeric;
 use LogicException;
 use function mb_strtolower;
 use Money\Money;
@@ -74,6 +73,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use function trim;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -664,12 +664,13 @@ final class OrderController extends AbstractController
      */
     protected function searchAction(): Response
     {
-        $id = (string) $this->request->query->get('query');
+        $number = (string) $this->request->query->get('query');
+        $number = trim($number);
 
-        if (is_numeric($id)) {
-            $entity = $this->em->getRepository(Order::class)->find($id);
+        if ('' !== $number) {
+            $entity = $this->em->getRepository(Order::class)->findOneBy(['number' => $number]);
             if (null !== $entity) {
-                return $this->redirectToEasyPath('Order', 'show', ['id' => $entity]);
+                return $this->redirectToEasyPath('Order', 'show', ['id' => $entity->toId()->toString()]);
             }
         }
 
