@@ -7,7 +7,6 @@ namespace App\CreatedBy\Doctrine;
 use App\CreatedBy\Entity\CreatedByView;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
-use function dump;
 use function explode;
 use Ramsey\Uuid\Uuid;
 
@@ -18,7 +17,7 @@ final class CreatedByViewType extends Type
         if (null === $value) {
             return null;
         }
-        dump($value);
+
         [$uuid, $user, $date] = explode(';', $value);
 
         return new CreatedByView(
