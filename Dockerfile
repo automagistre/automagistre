@@ -25,7 +25,6 @@ RUN set -ex \
         libfreetype6-dev \
         libpq-dev \
         uuid-dev \
-        libevent-dev \
     && rm -r /var/lib/apt/lists/*
 
 RUN set -ex \
@@ -40,8 +39,8 @@ RUN set -ex \
 	&& rm -rf /tmp/icu
 
 RUN set -ex \
-    && pecl install memcached apcu xdebug mongodb uuid nsq \
-    && docker-php-ext-enable memcached apcu mongodb uuid nsq
+    && pecl install memcached apcu xdebug mongodb uuid \
+    && docker-php-ext-enable memcached apcu mongodb uuid
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_MEMORY_LIMIT -1
