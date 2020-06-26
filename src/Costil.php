@@ -14,6 +14,8 @@ use App\Customer\Entity\Operand;
 use App\Customer\Entity\OperandId;
 use App\Employee\Entity\Employee;
 use App\Employee\Entity\EmployeeId;
+use App\Employee\Entity\Salary;
+use App\Employee\Entity\SalaryId;
 use App\Expense\Entity\Expense;
 use App\Expense\Entity\ExpenseId;
 use App\Income\Entity\Income;
@@ -65,6 +67,7 @@ final class Costil
         OrderId::class => Order::class,
         PartId::class => Part::class,
         SmsId::class => Sms::class,
+        SalaryId::class => Salary::class,
         UserId::class => User::class,
         VehicleId::class => Model::class,
         WalletId::class => Wallet::class,
