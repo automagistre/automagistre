@@ -12670,16 +12670,16 @@
         },
         {
             "name": "sebastian/code-unit",
-            "version": "1.0.4",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/code-unit.git",
-                "reference": "0e317f915db26c4206f59d8e7c04f358de8aee09"
+                "reference": "c1e2df332c905079980b119c4db103117e5e5c90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/code-unit/zipball/0e317f915db26c4206f59d8e7c04f358de8aee09",
-                "reference": "0e317f915db26c4206f59d8e7c04f358de8aee09",
+                "url": "https://api.github.com/repos/sebastianbergmann/code-unit/zipball/c1e2df332c905079980b119c4db103117e5e5c90",
+                "reference": "c1e2df332c905079980b119c4db103117e5e5c90",
                 "shasum": ""
             },
             "require": {
@@ -12718,7 +12718,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-06-26T12:02:26+00:00"
+            "time": "2020-06-26T12:50:45+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
