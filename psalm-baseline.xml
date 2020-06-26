@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="3.12.0@d46283075d76ed244f7825b378eeb1cee246af73">
+<files psalm-version="3.12.1@9b860214d58c48b5cbe99bdb17914d0eb723c9cd">
   <file src="src/Calendar/Controller/CalendarEntryController.php">
     <PossiblyNullArgument occurrences="3">
       <code>$this-&gt;request-&gt;query-&gt;get('id')</code>
@@ -124,11 +124,6 @@
       <code>getData</code>
     </PossiblyFalseReference>
   </file>
-  <file src="src/EasyAdmin/Notify/EntityNotificationListener.php">
-    <PossiblyFalseArgument occurrences="1">
-      <code>json_encode($data, JSON_THROW_ON_ERROR)</code>
-    </PossiblyFalseArgument>
-  </file>
   <file src="src/Employee/Entity/Employee.php">
     <PropertyNotSetInConstructor occurrences="1">
       <code>$ratio</code>
@@ -145,14 +140,11 @@
     </PossiblyNullReference>
   </file>
   <file src="src/Income/Controller/IncomePartController.php">
-    <PossiblyNullArgument occurrences="3">
-      <code>$entity-&gt;getIncome()</code>
+    <PossiblyNullArgument occurrences="1">
       <code>$entity-&gt;partId</code>
-      <code>$entity-&gt;getIncome()</code>
     </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="2">
+    <PossiblyNullReference occurrences="1">
       <code>isEditable</code>
-      <code>toId</code>
     </PossiblyNullReference>
   </file>
   <file src="src/Income/EventListener/AccrueIncomePartsListener.php">
@@ -161,14 +153,8 @@
       <code>$incomePart-&gt;getQuantity()</code>
     </PossiblyNullArgument>
   </file>
-  <file src="src/Income/Fixtures/IncomePartFixtures.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>IncomePartFixtures</code>
-    </PropertyNotSetInConstructor>
-  </file>
   <file src="src/Income/Manager/SupplierManager.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$this-&gt;registry-&gt;findBy(Operand::class, ['uuid' =&gt; $supplierId])</code>
+    <PossiblyNullArgument occurrences="1">
       <code>$income-&gt;getAccruedAmount()</code>
     </PossiblyNullArgument>
   </file>
@@ -186,13 +172,6 @@
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtolower($item)</code>
     </PossiblyFalseOperand>
-    <PossiblyNullArgument occurrences="2">
-      <code>$order-&gt;getId()</code>
-      <code>$order-&gt;getId()</code>
-    </PossiblyNullArgument>
-    <PossiblyNullArrayOffset occurrences="1">
-      <code>$services</code>
-    </PossiblyNullArrayOffset>
     <PossiblyNullReference occurrences="2">
       <code>isFilled</code>
       <code>isEditable</code>
@@ -271,10 +250,6 @@
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtoupper(trim($searchString))</code>
     </PossiblyFalseOperand>
-    <PossiblyNullArgument occurrences="2">
-      <code>$user-&gt;getId()</code>
-      <code>$user-&gt;getId()</code>
-    </PossiblyNullArgument>
     <PropertyNotSetInConstructor occurrences="1">
       <code>PartController</code>
     </PropertyNotSetInConstructor>
@@ -290,14 +265,6 @@
       <code>$request-&gt;query-&gt;get('end')</code>
     </PossiblyNullArgument>
   </file>
-  <file src="src/Part/Manager/DeficitManager.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>object</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>$em-&gt;getReference(Order::class, $id)</code>
-    </NullableReturnStatement>
-  </file>
   <file src="src/Part/View/PartFormatter.php">
     <PossiblyNullArrayOffset occurrences="1">
       <code>self::FORMATS</code>
@@ -311,11 +278,6 @@
       <code>$representative[0]</code>
     </PossiblyInvalidArgument>
   </file>
-  <file src="src/Shared/Doctrine/ORM/Listeners/CreatedByListener.php">
-    <RedundantConditionGivenDocblockType occurrences="1">
-      <code>assert(method_exists($reflectionType, 'getName'))</code>
-    </RedundantConditionGivenDocblockType>
-  </file>
   <file src="src/Shared/Doctrine/ORM/Mapping/NamespaceNamingStrategy.php">
     <PossiblyNullArgument occurrences="2">
       <code>$string</code>
@@ -323,18 +285,15 @@
     </PossiblyNullArgument>
   </file>
   <file src="src/Shared/Doctrine/Registry.php">
-    <InvalidArrayOffset occurrences="3">
-      <code>Costil::UUID_FIELDS[get_class($criteria)]</code>
+    <InvalidArrayOffset occurrences="1">
       <code>Costil::ENTITY[get_class($identifier)]</code>
-      <code>Costil::UUID_FIELDS[get_class($identifier)]</code>
     </InvalidArrayOffset>
     <RedundantConditionGivenDocblockType occurrences="1">
       <code>assert($entityRepository instanceof EntityRepository)</code>
     </RedundantConditionGivenDocblockType>
   </file>
   <file src="src/Shared/Identifier/IdentifierRouterExtension.php">
-    <InvalidArrayOffset occurrences="2">
-      <code>Costil::ENTITY[$class]</code>
+    <InvalidArrayOffset occurrences="1">
       <code>Costil::ENTITY[$class]</code>
     </InvalidArrayOffset>
   </file>
