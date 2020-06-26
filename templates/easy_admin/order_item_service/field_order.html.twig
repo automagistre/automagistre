@@ -1,0 +1,5 @@
+{# @var item \App\Order\Entity\OrderItemService #}
+
+<a href="{{ easyadmin_path('Order', 'show', {'id': item.order|toId}) }}">
+    {{ item.order.toId|display_name('number') }}
+</a>

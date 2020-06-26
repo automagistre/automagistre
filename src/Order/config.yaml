@@ -64,7 +64,7 @@ easy_admin:
                 edit: 'easy_admin/order_item_service/edit.html.twig'
             list:
                 fields:
-                    - { property: 'order', label: 'Заказ' }
+                    - { property: 'order', label: 'Заказ', template: 'easy_admin/order_item_service/field_order.html.twig' }
                     - { property: 'service', label: 'Работа' }
                     - { property: 'price', label: 'Стоимость', template: 'easy_admin/field_money.html.twig' }
                     - { property: 'order.closedAt', label: 'Дата', type: 'datetime' }
