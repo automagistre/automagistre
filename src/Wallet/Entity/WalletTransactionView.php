@@ -7,8 +7,10 @@ namespace App\Wallet\Entity;
 use App\Shared\Identifier\Identifier;
 use App\User\Entity\UserId;
 use App\Wallet\Enum\WalletTransactionSource;
+use function assert;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use function is_subclass_of;
 use Money\Money;
 use Ramsey\Uuid\UuidInterface;
 
@@ -114,6 +116,10 @@ class WalletTransactionView
 
     public function toSourceIdentifier(): Identifier
     {
-        return Identifier::fromClass($this->source->to('sourceClass'), $this->sourceId);
+        $class = $this->source->toSourceClass();
+
+        assert(is_subclass_of($class, Identifier::class));
+
+        return Identifier::fromClass($class, $this->sourceId);
     }
 }

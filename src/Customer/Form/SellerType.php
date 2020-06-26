@@ -41,7 +41,7 @@ final class SellerType extends AbstractType
             'choice_loader' => new CallbackChoiceLoader(function (): array {
                 $sellers = $this->registry->manager(Operand::class)
                     ->createQueryBuilder()
-                    ->select('t.uuid AS id')
+                    ->select('t.id AS id')
                     ->from(Operand::class, 't')
                     ->where('t.seller = TRUE')
                     ->getQuery()

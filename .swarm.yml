@@ -93,7 +93,7 @@ services:
             start_period: 10s
 
     memcached:
-        image: memcached:1.5.22-alpine
+        image: memcached:1.6.6-alpine
         healthcheck:
             test: nc -z 127.0.0.1 11211
             interval: 5s

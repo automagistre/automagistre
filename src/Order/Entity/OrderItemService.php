@@ -13,6 +13,7 @@ use App\Shared\Money\TotalPriceInterface;
 use Doctrine\ORM\Mapping as ORM;
 use DomainException;
 use Money\Money;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
@@ -33,9 +34,14 @@ class OrderItemService extends OrderItem implements PriceInterface, TotalPriceIn
      */
     public ?OperandId $workerId;
 
-    public function __construct(Order $order, string $service, Money $price, OperandId $workerId = null)
-    {
-        parent::__construct($order);
+    public function __construct(
+        UuidInterface $id,
+        Order $order,
+        string $service,
+        Money $price,
+        OperandId $workerId = null
+    ) {
+        parent::__construct($id, $order);
 
         $this->service = $service;
         $this->price = $price;

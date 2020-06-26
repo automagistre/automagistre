@@ -1,5 +1,5 @@
 {# @var value \App\Manufacturer\Entity\ManufacturerView #}
 
-<a href="{{ easyadmin_path('Manufacturer', 'show', {'id': value.id.toString, 'referer': true}) }}">
+<a href="{{ easyadmin_path('Manufacturer', 'show', {'id': value|toId, 'referer': true}) }}">
     {{ value.name }}
 </a>

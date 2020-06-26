@@ -5,6 +5,6 @@
 
     {% if part is not empty %}
         {# @var part \App\Part\Domain\Part #}
-        с запчастью <a href="{{ easyadmin_path('Part', 'show', {'id': part.toId.toString}) }}">{{ part.toId|display_name }}</a>
+        с запчастью <a href="{{ easyadmin_path('Part', 'show', {'id': part|toId}) }}">{{ part.toId|display_name }}</a>
     {% endif %}
 {% endblock %}

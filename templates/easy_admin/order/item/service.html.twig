@@ -11,7 +11,7 @@
         {{- '&nbsp;'|raw -}}
 
         {% if order.editable %}
-            <a href="{{ easyadmin_path('OrderItemPart', 'new', (order|to_query)|merge({'order_item_id': item.id})) }}">
+            <a href="{{ easyadmin_path('OrderItemPart', 'new', {'order_id': order|toId, 'order_item_id': item|toId}) }}">
                 <i class="fa fa-plus"></i>
             </a>
 
@@ -25,7 +25,7 @@
         {% set recommendation = recommendation_by_service(item) %}
         {% if recommendation is not empty %}
             {# @var recommendation \App\Car\Entity\Recommendation #}
-            {% set recommendationId = 'recommendation-' ~ recommendation.id %}
+            {% set recommendationId = 'recommendation-' ~ recommendation|toId %}
             <a id="{{ recommendationId }}"
                style="cursor: pointer"
                data-toggle="popover">
@@ -33,7 +33,7 @@
             </a>
 
             {% set popoverContent %}
-            Создал: {{ created_by_view(recommendation.toId.toUuid) }} <br/>
+            Создал: {{ created_by_view(recommendation|toUuid) }} <br/>
             Диагност: {{ recommendation.workerId|display_name }} <br/>
         {% if recommendation.parts is not empty %}
             Запчасти: <br/>
@@ -71,15 +71,14 @@
         <td></td>
         <td>
             {%- apply spaceless -%}
-                <a href="{{ easyadmin_path(item, 'edit', order|to_query) }}">
+                <a href="{{ easyadmin_path('OrderItemService', 'edit', {'order_id': order|toId}) }}">
                     <i class="fa fa-pencil"></i>
                 </a>
-
-                {{- '&nbsp;'|raw -}}
-
+                &nbsp;
                 {% if car is not empty %}
-                    <form action="{{ easyadmin_path(item, 'recommend', {
-                        'order_id': order.id,
+                    <form action="{{ easyadmin_path('OrderItemService', 'recommend', {
+                        'id': item|toId,
+                        'order_id': order|toId,
                         'referer': true
                     }) }}" method="post" style="display: inline">
                         <i class="fa fa-asterisk icon-form-submit" style="cursor: pointer"></i>

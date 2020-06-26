@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Order\Controller;
 
-use App\Customer\Entity\Operand;
 use App\Customer\Entity\OperandId;
 use App\Customer\Enum\CustomerTransactionSource;
 use App\Order\Entity\Order;
@@ -53,6 +52,7 @@ final class ProfitController extends AbstractController
         $sql = '
             SELECT DATE(o.closed_at) AS closed_at,
                o.id,
+               o.number,
                o.customer_id,
                (
                  SELECT SUM((oip.price_amount::integer - COALESCE(oip.discount_amount, \'0\')::integer) * (oip.quantity::numeric / 100))
@@ -74,7 +74,7 @@ final class ProfitController extends AbstractController
                (
                  SELECT SUM(ct.amount_amount::integer)
                  FROM customer_transaction ct
-                 WHERE o.uuid = ct.source_id
+                 WHERE o.id = ct.source_id
                     AND ct.source = '.CustomerTransactionSource::orderSalary()->toId().'
                ) AS service_cost,
                (
@@ -112,8 +112,6 @@ final class ProfitController extends AbstractController
             'start' => 'datetime',
             'end' => 'datetime',
         ]);
-
-        $operandRepository = $registry->repository(Operand::class);
 
         $servicePrices = [];
         $serviceProfits = [];

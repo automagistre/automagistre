@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\MC\Entity;
 
-use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,12 +15,11 @@ use Ramsey\Uuid\UuidInterface;
  */
 class McLine
 {
-    use Identity;
-
     /**
+     * @ORM\Id()
      * @ORM\Column(type="uuid")
      */
-    public UuidInterface $uuid;
+    public UuidInterface $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=McEquipment::class, inversedBy="lines")
@@ -50,9 +48,9 @@ class McLine
      */
     public bool $recommended = false;
 
-    public function __construct(McEquipment $equipment, McWork $work, int $period, bool $recommended)
+    public function __construct(UuidInterface $id, McEquipment $equipment, McWork $work, int $period, bool $recommended)
     {
-        $this->uuid = Uuid::uuid6();
+        $this->id = $id;
         $this->equipment = $equipment;
         $this->work = $work;
         $this->parts = new ArrayCollection();
@@ -62,6 +60,6 @@ class McLine
 
     public function toId(): UuidInterface
     {
-        return $this->uuid;
+        return $this->id;
     }
 }

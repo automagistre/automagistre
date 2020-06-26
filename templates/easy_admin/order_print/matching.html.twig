@@ -94,7 +94,7 @@
                 {% if order.totalPrice.isPositive %}
                     <tr class="">
                         <td colspan="7" class="table-summary legend">
-                            согласованных работ и зачастей по заказу {{ order.id }}:
+                            согласованных работ и зачастей по заказу {{ order.number }}:
                         </td>
                         <td class="table-summary"><span class="price">{{ order.totalPrice|localize_money }}</span></td>
                     </tr>

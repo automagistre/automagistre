@@ -1,2 +1,2 @@
 {# @var item \App\Order\Entity\Order #}
-{{ created_by_view(item.toId.toUuid, {'withUser': false}) }}
+{{ created_by_view(item|toUuid, {'withUser': false}) }}

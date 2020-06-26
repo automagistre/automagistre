@@ -12,7 +12,7 @@
 
 {%- if value is not empty -%}
     {%- apply spaceless -%}
-        <a href="{{ easyadmin_path('Part', 'show', {'id': value.toId.toString, 'referer': referer}) }}">
+        <a href="{{ easyadmin_path('Part', 'show', {'id': value|toId, 'referer': referer}) }}">
             <i class="fa fa-barcode"></i>
         </a>
         {%- apply spaceless -%}
@@ -20,7 +20,7 @@
             {{- value.manufacturer.name -}} &nbsp;
             {%- include 'easy_admin/field_part_number.html.twig' with {
                 'value': value.number,
-                'lineIndex': (item is defined ? item.toId.toString)
+                'lineIndex': (item is defined ? item|toId)
             } only -%}
             )
         {%- endapply %}

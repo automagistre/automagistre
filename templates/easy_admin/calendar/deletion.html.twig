@@ -13,7 +13,7 @@
         <i class="fa fa-trash"></i> Удалить
     </button>
 
-    <a class="btn btn-default" href="{{ app.request.query.has('referer') ? app.request.query.get('referer')|easyadmin_urldecode : easyadmin_path('CalendarEntry', 'edit', {'id': entry.id}) }}">
+    <a class="btn btn-default" href="{{ app.request.query.has('referer') ? app.request.query.get('referer')|easyadmin_urldecode : easyadmin_path('CalendarEntry', 'edit', {'id': entry|toId}) }}">
         Вернуться
     </a>
 

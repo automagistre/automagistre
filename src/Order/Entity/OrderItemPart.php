@@ -16,6 +16,7 @@ use App\Shared\Money\TotalPriceInterface;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;
 use Money\Money;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
@@ -43,9 +44,9 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
      */
     private $quantity;
 
-    public function __construct(Order $order, PartId $partId, int $quantity)
+    public function __construct(UuidInterface $id, Order $order, PartId $partId, int $quantity)
     {
-        parent::__construct($order);
+        parent::__construct($id, $order);
 
         $this->partId = $partId;
         $this->quantity = $quantity;

@@ -234,7 +234,11 @@
                     <tr class="calendar-row">
                         <td class="calendar__item master">
                             {% if stream.workerId is not empty %}
-                                <a href="{{ easyadmin_path_by_id(stream.workerId, 'show', {'order_id': orderId, 'referer': true}) }}">
+                                <a href="{{ easyadmin_path_by_id('Employee', 'show', {
+                                    'id': stream.workerId|toId,
+                                    'order_id': orderId,
+                                    'referer': true
+                                }) }}">
                                     {{- stream.workerId|display_name -}}
                                 </a>
                             {% else %}
@@ -258,7 +262,7 @@
                                 <td class="calendar__item event{% if entry.orderInfo.workerId is not null %} is-assigned purple{% endif %}"
                                         {% if item.length > 1 %} colspan="{{ item.length }}"{% endif %} >
 
-                                    <a data-toggle="modal" data-target="#{{ entry.id.toString }}" style="cursor: pointer">
+                                    <a data-toggle="modal" data-target="#{{ entry|toId }}" style="cursor: pointer">
                                         {% if entry.orderInfo.customerId is not empty %}
                                             {{ entry.orderInfo.customerId|display_name('short') }} <br>
                                         {% endif %}
@@ -270,7 +274,7 @@
                                         {{ entry.orderInfo.description }}
                                     </a>
 
-                                    <div class="modal fade" id="{{ entry.id.toString }}" tabindex="-1" role="dialog" style="color: black">
+                                    <div class="modal fade" id="{{ entry|toId }}" tabindex="-1" role="dialog" style="color: black">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -282,7 +286,10 @@
                                                 <div class="modal-body">
                                                     {% if entry.orderInfo.customerId is not empty %}
                                                         Заказчик:
-                                                        <a href="{{ easyadmin_path_by_id(entry.orderInfo.customerId, 'show', {'referer': true}) }}">
+                                                        <a href="{{ easyadmin_path('Operand', 'show', {
+                                                            'id': entry.orderInfo.customerId|toId,
+                                                            'referer': true
+                                                        }) }}">
                                                             {{ entry.orderInfo.customerId|display_name }}
                                                         </a>
 
@@ -293,7 +300,10 @@
 
                                                     {% if entry.orderInfo.carId is not empty %}
                                                         Автомобиль:
-                                                        <a href="{{ easyadmin_path_by_id(entry.orderInfo.carId, 'show', {'referer': true}) }}">
+                                                        <a href="{{ easyadmin_path('Car', 'show', {
+                                                            'id': entry.orderInfo.carId|toId,
+                                                            'referer': true
+                                                        }) }}">
                                                             {{ entry.orderInfo.carId|display_name('long') }}
                                                         </a>
                                                         <hr>
@@ -310,17 +320,17 @@
                                                             В Заказ
                                                         </a>
                                                     {% else %}
-                                                        <a href="{{ easyadmin_path('Order', 'new', {'calendar_entry_id': entry.id.toString}) }}" class="btn btn-success">
+                                                        <a href="{{ easyadmin_path('Order', 'new', {'calendar_entry_id': entry|toId}) }}" class="btn btn-success">
                                                             Создать заказ
                                                         </a>
                                                     {% endif %}
                                                     <a
-                                                            href="{{ easyadmin_path('CalendarEntry', 'deletion', {'id': item.calendar.id.toString(), 'referer': true}) }}"
+                                                            href="{{ easyadmin_path('CalendarEntry', 'deletion', {'id': item.calendar|toId(), 'referer': true}) }}"
                                                             class="btn btn-danger">
                                                         Удалить
                                                     </a>
                                                     <a
-                                                            href="{{ easyadmin_path('CalendarEntry', 'edit', {'id': item.calendar.id.toString(), 'referer': true}) }}"
+                                                            href="{{ easyadmin_path('CalendarEntry', 'edit', {'id': item.calendar|toId(), 'referer': true}) }}"
                                                             class="btn btn-primary">
                                                         Редактировать
                                                     </a>

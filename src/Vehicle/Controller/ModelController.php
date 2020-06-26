@@ -66,7 +66,7 @@ final class ModelController extends AbstractController
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->getInt('page', 1));
 
         $data = array_map(fn (Model $entity) => [
-            'id' => $query->has('use_uuid') ? $entity->toId()->toString() : $entity->getId(),
+            'id' => $entity->toId()->toString(),
             'text' => $this->display($entity->toId(), 'long'),
         ], (array) $paginator->getCurrentPageResults());
 
@@ -109,7 +109,7 @@ final class ModelController extends AbstractController
         $array = $closure();
 
         return new ModelDto(
-            $array['uuid'],
+            $array['id'],
             $this->registry->getBy(Manufacturer::class, ['id' => $array['manufacturerId']]),
             $array['name'],
             $array['localizedName'],
@@ -125,7 +125,7 @@ final class ModelController extends AbstractController
         assert($dto instanceof ModelDto);
 
         /** @var Model $entity */
-        $entity = $this->registry->findBy(Model::class, ['uuid' => $dto->vehicleId]);
+        $entity = $this->registry->findBy(Model::class, ['id' => $dto->vehicleId]);
 
         $entity->update(
             $dto->name,

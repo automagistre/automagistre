@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\User\Entity;
 
-use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use function array_unique;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -24,12 +23,11 @@ use function unserialize;
  */
 class User implements UserInterface, EquatableInterface, Serializable
 {
-    use Identity;
-
     /**
-     * @ORM\Column(type="user_id", unique=true)
+     * @ORM\Id()
+     * @ORM\Column(type="user_id")
      */
-    public UserId $uuid;
+    public UserId $id;
 
     /**
      * @ORM\Column(length=32, nullable=true)
@@ -64,7 +62,7 @@ class User implements UserInterface, EquatableInterface, Serializable
 
     public function __construct(UserId $userId, array $roles, string $username)
     {
-        $this->uuid = $userId;
+        $this->id = $userId;
         $this->roles = $roles;
         $this->username = $username;
         $this->passwords = new ArrayCollection();
@@ -81,7 +79,7 @@ class User implements UserInterface, EquatableInterface, Serializable
 
     public function toId(): UserId
     {
-        return $this->uuid;
+        return $this->id;
     }
 
     public function getRoles(): array

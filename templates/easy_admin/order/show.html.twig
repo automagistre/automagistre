@@ -2,12 +2,12 @@
 
 {% set order = entity %}
 
-{# @var order \App\Entity\Tenant\Order #}
+{# @var order \App\Order\Entity\Order #}
 {# @var car \App\Entity\Landlord\Car #}
 
-{% block page_title %}Заказ № {{ order.id }}{% endblock %}
+{% block page_title %}Заказ № {{ order.number }}{% endblock %}
 
-{% block content_title %}Заказ № {{ order.id }}{% endblock %}
+{% block content_title %}Заказ № {{ order.number }}{% endblock %}
 
 {% block main %}
     <section id="main" class="content">
@@ -20,13 +20,13 @@
                 <div class="row">
                     <div class="col-md-12" style="margin-bottom: 15px">
                         {% if order.editable %}
-                            <a href="{{ easyadmin_path(order, 'edit') }}" class="btn btn-primary">
+                            <a href="{{ easyadmin_path('Order', 'edit', {'id': order|toId}) }}" class="btn btn-primary">
                                 <i class="fa fa-pencil"></i>
                                 Редактировать
                             </a>
 
                             {% if order.readyToClose %}
-                                <a href="{{ easyadmin_path(order, 'close', {'referer': true}) }}" class="btn btn-danger">
+                                <a href="{{ easyadmin_path('Order', 'close', {'id': order|toId, 'referer': true}) }}" class="btn btn-danger">
                                     <i class="fa fa-close"></i>
                                     Закрыть
                                 </a>
@@ -45,34 +45,34 @@
                             <ul class="dropdown-menu">
                                 {% if order.editable %}
                                     <li>
-                                        <a href="{{ easyadmin_path('OrderPrint', 'matching', {'id': order.id, 'referer': true}) }}">
+                                        <a href="{{ easyadmin_path('OrderPrint', 'matching', {'id': order|toId, 'referer': true}) }}">
                                             Согласование
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{ easyadmin_path('OrderPrint', 'giveOut', {'id': order.id, 'referer': true}) }}">
+                                        <a href="{{ easyadmin_path('OrderPrint', 'giveOut', {'id': order|toId, 'referer': true}) }}">
                                             Рабочий лист
                                         </a>
                                     </li>
                                 {% endif %}
                                 <li>
-                                    <a href="{{ easyadmin_path('OrderPrint', 'finish', {'id': order.id, 'referer': true, 'version': 2}) }}">
+                                    <a href="{{ easyadmin_path('OrderPrint', 'finish', {'id': order|toId, 'referer': true, 'version': 2}) }}">
                                         Заказ-наряд физ.л.
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ easyadmin_path('OrderPrint', 'finish', {'id': order.id, 'referer': true, 'version': 3}) }}">
+                                    <a href="{{ easyadmin_path('OrderPrint', 'finish', {'id': order|toId, 'referer': true, 'version': 3}) }}">
                                         Заказ-наряд юр.л.
                                     </a>
                                 </li>
                                 {% if customer is not empty %}
                                     <li>
-                                        <a href="{{ easyadmin_path('OrderPrint', 'invoice', {'id': order.id, 'referer': true}) }}">
+                                        <a href="{{ easyadmin_path('OrderPrint', 'invoice', {'id': order|toId, 'referer': true}) }}">
                                             Счёт
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{ easyadmin_path('OrderPrint', 'act', {'id': order.id, 'referer': true}) }}">
+                                        <a href="{{ easyadmin_path('OrderPrint', 'act', {'id': order|toId, 'referer': true}) }}">
                                             Акт
                                         </a>
                                     </li>
@@ -122,7 +122,7 @@
                                 {% endif %}
                                 {% if order.editable %}
                                     <div class="box-footer">
-                                        <a href="{{ easyadmin_path(order, 'payment', {'referer': true}) }}" class="btn btn-primary">
+                                        <a href="{{ easyadmin_path('Order', 'payment', {'order': order|toId, 'referer': true}) }}" class="btn btn-primary">
                                             Создать платёж
                                         </a>
                                     </div>
@@ -134,7 +134,7 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        {% include 'easy_admin/note/notes_panel.html.twig' with {'subject': order.toId.toUuid} only %}
+                        {% include 'easy_admin/note/notes_panel.html.twig' with {'subject': order|toUuid} only %}
                     </div>
                 </div>
 
@@ -163,7 +163,7 @@
                                                 <tr>
                                                     <td>{{ suspend.till|format_date('short', '', 'GMT+3') }}</td>
                                                     <td>{{ suspend.reason }}</td>
-                                                    <td>{{ created_by_view(suspend.toId) }}</td>
+                                                    <td>{{ created_by_view(suspend|toUuid) }}</td>
                                                 </tr>
                                             {% endfor %}
                                             </tbody>
@@ -180,23 +180,23 @@
         <h2 class="page-header">
             {%- apply spaceless -%}
                 {%- if order.editable %}
-                    <a class="btn btn-primary" href="{{ easyadmin_path('OrderItemService', 'new', {'order_id': order.id}) }}">
+                    <a class="btn btn-primary" href="{{ easyadmin_path('OrderItemService', 'new', {'order_id': order|toId}) }}">
                         <i class="fa fa-plus"></i>
                         Работа
                     </a>
 
-                    <a class="btn btn-primary" href="{{ easyadmin_path('OrderItemPart', 'new', {'order_id': order.id}) }}">
+                    <a class="btn btn-primary" href="{{ easyadmin_path('OrderItemPart', 'new', {'order_id': order|toId}) }}">
                         <i class="fa fa-plus"></i>
                         Запчасть
                     </a>
 
-                    <a class="btn btn-primary" href="{{ easyadmin_path('OrderItemGroup', 'new', order|to_query) }}">
+                    <a class="btn btn-primary" href="{{ easyadmin_path('OrderItemGroup', 'new', {'order_id': order|toId}) }}">
                         <i class="fa fa-plus"></i>
                         Группа
                     </a>
 
                     {% if car.vehicleId|default is not empty %}
-                        <a class="btn btn-primary" href="{{ easyadmin_path(order, 'TO', {'referer': true}) }}">
+                        <a class="btn btn-primary" href="{{ easyadmin_path('Order', 'TO', {'id': order|toId, 'referer': true}) }}">
                             <i class="fa fa-heartbeat"></i>
                             ТО
                         </a>
@@ -242,7 +242,7 @@
             <h2 class="page-header">
                 {%- apply spaceless -%}
                     <a class="btn btn-primary"
-                       href="{{ easyadmin_path('CarRecommendation', 'new', {'car_id': car.id}|merge(order|to_query)) }}">
+                       href="{{ easyadmin_path('CarRecommendation', 'new', {'car_id': car|toId, 'order_id': order|toId}) }}">
                         <i class="fa fa-plus"></i>
                         Рекомендация
                     </a>

@@ -6,7 +6,6 @@ namespace App\Employee\Entity;
 
 use App\Costil;
 use App\Customer\Entity\OperandId;
-use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;
@@ -19,12 +18,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Employee
 {
-    use Identity;
-
     /**
+     * @ORM\Id()
      * @ORM\Column(type="employee_id")
      */
-    private EmployeeId $uuid;
+    private EmployeeId $id;
 
     /**
      * @ORM\Column(type="operand_id")
@@ -54,7 +52,7 @@ class Employee
 
     public function __construct(EmployeeId $employeeId = null)
     {
-        $this->uuid = $employeeId ?? EmployeeId::generate();
+        $this->id = $employeeId ?? EmployeeId::generate();
         $this->hiredAt = new DateTime();
     }
 
@@ -65,12 +63,12 @@ class Employee
 
     public function toId(): EmployeeId
     {
-        return $this->uuid;
+        return $this->id;
     }
 
     public function isEqual(?self $employee): bool
     {
-        return null !== $employee && $this->getId() === $employee->getId();
+        return null !== $employee && $employee->toId()->equal($this->id);
     }
 
     public function setPersonId(OperandId $personId): void

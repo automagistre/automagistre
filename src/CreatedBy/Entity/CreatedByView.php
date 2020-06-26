@@ -48,14 +48,14 @@ class CreatedByView
                 cb.id,
                 CONCAT_WS(
                     \',\', 
-                    u.uuid, 
+                    u.id, 
                     u.username, 
                     COALESCE(u.last_name, \'\'), 
                     COALESCE(u.first_name, \'\')
                 ) AS by,
                 cb.created_at AS at
             FROM created_by cb
-                JOIN users u ON u.uuid = cb.user_id
+                JOIN users u ON u.id = cb.user_id
         ';
     }
 }

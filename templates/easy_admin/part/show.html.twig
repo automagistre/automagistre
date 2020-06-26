@@ -64,7 +64,7 @@
                         </div>
                     {% endif %}
                     <div class="box-footer">
-                        <a class="btn btn-primary" href="{{ easyadmin_path('PartPrice', 'new', {'part_id': entity.toId.toString, 'referer': true}) }}">Новая цена</a>
+                        <a class="btn btn-primary" href="{{ easyadmin_path('PartPrice', 'new', {'part_id': entity|toId, 'referer': true}) }}">Новая цена</a>
                     </div>
                 </div>
             </div>
@@ -100,29 +100,29 @@
                         </div>
                     {% endif %}
                     <div class="box-footer">
-                        <a class="btn btn-primary" href="{{ easyadmin_path('PartDiscount', 'new', {'part_id': entity.toId.toString, 'referer': true}) }}">Новая скидка</a>
+                        <a class="btn btn-primary" href="{{ easyadmin_path('PartDiscount', 'new', {'part_id': entity|toId, 'referer': true}) }}">Новая скидка</a>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="col-md-6" style="margin-bottom: 15px">
-            <a href="{{ easyadmin_path('Part', 'income', {'part_id': entity.toId.toString, 'referer': true}) }}" class="btn btn-primary">
+            <a href="{{ easyadmin_path('Part', 'income', {'part_id': entity|toId, 'referer': true}) }}" class="btn btn-primary">
                 <i class="fa fa-arrow-down"></i>
                 Пополнить вручную
             </a>
 
-            <a href="{{ easyadmin_path('Part', 'outcome', {'part_id': entity.toId.toString, 'referer': true}) }}" class="btn btn-danger">
+            <a href="{{ easyadmin_path('Part', 'outcome', {'part_id': entity|toId, 'referer': true}) }}" class="btn btn-danger">
                 <i class="fa fa-arrow-up"></i>
                 Списать вручную
             </a>
 
-            <a href="{{ easyadmin_path('Motion', 'list', {'part_id': entity.toId.toString}) }}" class="btn btn-success">
+            <a href="{{ easyadmin_path('Motion', 'list', {'part_id': entity|toId}) }}" class="btn btn-success">
                 <i class="fa fa-recycle"></i>
                 Движения
             </a>
 
-            <a href="{{ easyadmin_path('Income', 'list', {'part_id': entity.toId.toString}) }}" class="btn btn-info">
+            <a href="{{ easyadmin_path('Income', 'list', {'part_id': entity|toId}) }}" class="btn btn-info">
                 <i class="fa fa-book"></i>
                 Приходы
             </a>
@@ -150,11 +150,11 @@
                                 {% for order in orders %}
                                     {# @var order \App\Order\Entity\Order #}
                                     <tr>
-                                        <td><a href="{{ easyadmin_path(order, 'show', {'part_id': entity.id}) }}">{{ order.id }}</a></td>
+                                        <td><a href="{{ easyadmin_path('Order', 'show', {'order': order|toId, 'part_id': entity|toId}) }}">{{ order.number }}</a></td>
                                         <td>{{ include('easy_admin/order/field_status.html.twig', {'value': order.status, 'item': order}) }}</td>
                                         <td>
                                             {% if order.carId is not empty %}
-                                                <a href="{{ easyadmin_path_by_id(order.carId, 'show', {'referer': true}) }}">
+                                                <a href="{{ easyadmin_path('Car', 'show', {'id': order.carId|toId, 'referer': true}) }}">
                                                     {{ order.carId|display_name('long') }}
                                                 </a>
                                             {% else %}
@@ -162,7 +162,7 @@
                                             {% endif %}
                                         </td>
                                         <td>
-                                            {% if order.id in reservedIn %}
+                                            {% if order|toId in reservedIn %}
                                             <span class="label label-success">РЕЗЕРВ</span>
                                             {% endif %}
                                         </td>
@@ -178,7 +178,7 @@
                     {% endif %}
 
                     <div class="box-footer">
-                        <a class="btn btn-primary" href="{{ easyadmin_path('Order', 'list', {'part_id': entity.toId.toString}) }}">Все заказы</a>
+                        <a class="btn btn-primary" href="{{ easyadmin_path('Order', 'list', {'part_id': entity|toId}) }}">Все заказы</a>
                     </div>
                 </div>
             </div>
@@ -193,7 +193,8 @@
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <tbody>
-                                {% for part in crosses|filter(part => part.id != entity.id) %}
+                                {# @var crosses \App\Part\Entity\PartView[] #}
+                                {% for part in crosses|filter(part => not part.toId.equals(entity.toId)) %}
                                     <tr>
                                         <td>{% include 'easy_admin/field_part.html.twig' with {'value': part_view(part.toId), 'stock': true} %}</td>
                                     </tr>
@@ -207,9 +208,9 @@
                         </div>
                     {% endif %}
                     <div class="box-footer">
-                        <a class="btn btn-primary" href="{{ easyadmin_path('Part', 'cross', {'id': entity.toId.toString, 'referer': true}) }}">Добавить кросс</a>
+                        <a class="btn btn-primary" href="{{ easyadmin_path('Part', 'cross', {'id': entity|toId, 'referer': true}) }}">Добавить кросс</a>
                         {% if crosses is not empty %}
-                            <a class="btn btn-danger" href="{{ easyadmin_path('Part', 'uncross', {'id': entity.toId.toString, 'referer': true}) }}">Исключить</a>
+                            <a class="btn btn-danger" href="{{ easyadmin_path('Part', 'uncross', {'id': entity|toId, 'referer': true}) }}">Исключить</a>
                         {% endif %}
                     </div>
                 </div>
@@ -228,7 +229,7 @@
                                 {% for carModel in carModels %}
                                     <tr>
                                         <td>
-                                            <a href="{{ easyadmin_path('CarModel', 'show', {'id': carModel.id, 'referer': true}) }}">
+                                            <a href="{{ easyadmin_path('CarModel', 'show', {'id': carModel|toUuid, 'referer': true}) }}">
                                                 {{- carModel.uuid|display_name('long') -}}
                                             </a>
                                         </td>
@@ -243,7 +244,7 @@
                         </div>
                     {% endif %}
                     <div class="box-footer">
-                        <a class="btn btn-primary" href="{{ easyadmin_path('Part', 'case', {'part_id': entity.toId.toString, 'referer': true}) }}">Добавить кузов</a>
+                        <a class="btn btn-primary" href="{{ easyadmin_path('Part', 'case', {'part_id': entity|toId, 'referer': true}) }}">Добавить кузов</a>
                     </div>
                 </div>
             </div>

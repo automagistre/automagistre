@@ -12,9 +12,12 @@ use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Ramsey\Uuid\Uuid;
 
 final class PartFixtures extends Fixture implements DependentFixtureInterface
 {
+    public const ID = '1eab7ad9-da2f-653c-bba9-0242c0a81005';
+
     /**
      * {@inheritdoc}
      */
@@ -34,6 +37,7 @@ final class PartFixtures extends Fixture implements DependentFixtureInterface
         assert($line instanceof McLine);
 
         $mcPart = new McPart(
+            Uuid::fromString(self::ID),
             $line,
             PartId::fromString(GasketFixture::ID),
             1,

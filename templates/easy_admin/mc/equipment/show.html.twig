@@ -40,16 +40,16 @@
                                 </thead>
                                 <tbody>
                                 {% for line in entity.lines %}
-                                    {# @var line \App\Entity\MC\Line #}
+                                    {# @var line \App\MC\Entity\McLine #}
                                     <tr>
                                         <td>
-                                            <a href="{{ easyadmin_path(line, 'edit') }}">{{ line.id }}</a>
+                                            <a href="{{ easyadmin_path('McLine', 'edit', {'id': line|toId}) }}">{{ line|toId }}</a>
                                         </td>
                                         <td>
-                                            <a href="{{ easyadmin_path(line.work, 'edit') }}">{{ line.work }}</a>
+                                            <a href="{{ easyadmin_path('McWork', 'edit', {'id': line.work|toId}) }}">{{ line.work }}</a>
                                         </td>
                                         <td>
-                                            <a href="{{ easyadmin_path('McPart', 'new', {'mc_line_id': line.id}) }}">
+                                            <a href="{{ easyadmin_path('McPart', 'new', {'mc_line_id': line|toId}) }}">
                                                 <i class="fa fa-plus"></i>
                                             </a>
                                         </td>
@@ -60,7 +60,7 @@
                                         <tr>
                                             {# @var linePart \App\MC\Entity\McPart #}
                                             <td>
-                                                <a href="{{ easyadmin_path(linePart, 'edit') }}">{{ linePart.id }}</a>
+                                                <a href="{{ easyadmin_path('McPart', 'edit', {'id': linePart|toId}) }}">{{ linePart.partId|display_name }}</a>
                                             </td>
                                             <td></td>
                                             <td>{% include 'easy_admin/field_part.html.twig' with {'value': part_view(linePart.partId)} %}</td>
@@ -79,7 +79,7 @@
                     {% endif %}
 
                     <div class="box-footer">
-                        <a href="{{ easyadmin_path('McLine', 'new', {'mc_equipment_id': entity.id}) }}" class="btn btn-primary">
+                        <a href="{{ easyadmin_path('McLine', 'new', {'mc_equipment_id': entity|toId}) }}" class="btn btn-primary">
                             Создать
                         </a>
                     </div>

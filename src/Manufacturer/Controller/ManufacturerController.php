@@ -18,7 +18,6 @@ final class ManufacturerController extends AbstractController
     protected function autocompleteAction(): JsonResponse
     {
         $request = $this->request;
-        $isUuid = $request->query->has('use_uuid');
 
         $queryString = str_replace(['.', ',', '-', '_'], '', (string) $request->query->get('query'));
         $qb = $this->createSearchQueryBuilder((string) $request->query->get('entity'), $queryString, []);

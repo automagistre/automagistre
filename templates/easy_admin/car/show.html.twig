@@ -19,7 +19,7 @@
         <div class="col-md-6">
             <div class="row">
                 <div class="col-md-12">
-                    {% include 'easy_admin/note/notes_panel.html.twig' with {'subject': entity.toId.toUuid} only %}
+                    {% include 'easy_admin/note/notes_panel.html.twig' with {'subject': entity|toUuid} only %}
                 </div>
             </div>
 
@@ -45,8 +45,8 @@
                                     {# @var order \App\Entity\Order #}
                                     <tr class="tr">
                                         <td>
-                                            <a href="{{ easyadmin_path(order, 'show', {'referer': true}) }}">
-                                                {{ order.id }}
+                                            <a href="{{ easyadmin_path('Order', 'show', {'id': order|toId, 'referer': true}) }}">
+                                                {{ order.number }}
                                             </a>
                                         </td>
                                         <td>
@@ -58,7 +58,10 @@
                                         </td>
                                         <td>
                                             {% if order.customerId is not empty %}
-                                                <a href="{{ easyadmin_path_by_id(order.customerId, 'show', {'referer': true}) }}">
+                                                <a href="{{ easyadmin_path('Operand', 'show', {
+                                                    'id': order.customerId|toId,
+                                                    'referer': true
+                                                }) }}">
                                                     {{ order.customerId|display_name }}
                                                 </a>
                                             {% endif %}
@@ -76,13 +79,13 @@
                     {% endif %}
 
                     <div class="box-footer">
-                        <a href="{{ easyadmin_path('Order', 'new', {'car_id': entity.id}) }}" class="btn btn-primary">
+                        <a href="{{ easyadmin_path('Order', 'new', {'car_id': entity|toId}) }}" class="btn btn-primary">
                             Создать заказ
                         </a>
-                        <a href="{{ easyadmin_path('Order', 'list', {'car_id': entity.id}) }}" class="btn btn-primary">
+                        <a href="{{ easyadmin_path('Order', 'list', {'car_id': entity|toId}) }}" class="btn btn-primary">
                             Все заказы
                         </a>
-                        <a href="{{ easyadmin_path('OrderItemService', 'list', {'car_id': entity.id}) }}" class="btn btn-primary">
+                        <a href="{{ easyadmin_path('OrderItemService', 'list', {'car_id': entity|toId}) }}" class="btn btn-primary">
                             Все произведенные работы
                         </a>
                     </div>
@@ -102,8 +105,11 @@
                                 {% for customer in customers %}
                                     <tr>
                                         <td>
-                                            <a href="{{ easyadmin_path_by_id(customer.uuid, 'show', {'referer': true}) }}">
-                                                {{ customer.uuid|display_name }}
+                                            <a href="{{ easyadmin_path('Operand', 'show', {
+                                                'operand_id': customer.id|toId,
+                                                'referer': true
+                                            }) }}">
+                                                {{ customer.id|display_name }}
                                             </a>
                                         </td>
                                     </tr>

@@ -25,6 +25,11 @@ class UserView
         $this->firstName = $firstName;
     }
 
+    public function toId(): UserId
+    {
+        return $this->id;
+    }
+
     public function toString(): string
     {
         if (null !== $this->lastName && null !== $this->firstName) {

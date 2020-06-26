@@ -107,7 +107,7 @@
             {% if order.totalPrice.isPositive %}
                 <section class="order">
                     <table class="table order-table">
-                        <caption>согласованные запчасти и работы по заказу {{ order.id }}</caption>
+                        <caption>согласованные запчасти и работы по заказу {{ order.number }}</caption>
                         <tbody>
                         {% for orderItemGroup in order.items('group') %}
                             {# @var orderItemGroup \App\Entity\Tenant\OrderItemGroup #}

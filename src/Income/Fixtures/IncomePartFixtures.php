@@ -6,6 +6,7 @@ namespace App\Income\Fixtures;
 
 use App\Income\Entity\Income;
 use App\Income\Entity\IncomePart;
+use App\Income\Entity\IncomePartId;
 use App\Part\Entity\PartId;
 use App\Part\Fixtures\GasketFixture;
 use App\Shared\Doctrine\Registry;
@@ -18,14 +19,8 @@ use Money\Money;
 
 final class IncomePartFixtures extends Fixture implements DependentFixtureInterface
 {
-    private const PART_ID = GasketFixture::ID;
-
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
-    {
-        $this->registry = $registry;
-    }
+    public const ID = '1eab7ce2-766c-6db4-85d8-0242c0a81005';
+    public const PART_ID = GasketFixture::ID;
 
     /**
      * {@inheritdoc}
@@ -45,7 +40,9 @@ final class IncomePartFixtures extends Fixture implements DependentFixtureInterf
         $income = $this->getReference('income-1');
         assert($income instanceof Income);
 
-        $incomePart = new IncomePart();
+        $incomePart = new IncomePart(
+            IncomePartId::fromString(self::ID),
+        );
         $incomePart->setIncome($income);
         $incomePart->partId = PartId::fromString(self::PART_ID);
         $incomePart->setPrice(new Money(100, new Currency('RUB')));

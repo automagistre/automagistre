@@ -25,6 +25,7 @@ use Premier\Enum\Enum;
  * @method static self manualWithoutWallet()
  * @method string toDescription()
  * @method bool   isPayroll()
+ * @method string toSourceClass()
  */
 final class CustomerTransactionSource extends Enum
 {

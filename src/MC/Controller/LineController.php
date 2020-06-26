@@ -9,6 +9,7 @@ use App\MC\Entity\McEquipment;
 use App\MC\Entity\McLine;
 use function assert;
 use LogicException;
+use Ramsey\Uuid\Uuid;
 use stdClass;
 
 /**
@@ -44,7 +45,13 @@ final class LineController extends AbstractController
         $model = $entity;
         assert($model instanceof stdClass);
 
-        $entity = new McLine($model->equipment, $model->work, $model->period, $model->recommended);
+        $entity = new McLine(
+            Uuid::uuid6(),
+            $model->equipment,
+            $model->work,
+            $model->period,
+            $model->recommended
+        );
 
         parent::persistEntity($entity);
 

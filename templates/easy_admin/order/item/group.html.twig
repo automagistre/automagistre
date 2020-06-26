@@ -8,15 +8,13 @@
         {{ item.name }}
 
         {% if order.editable %}
-            {% set urlParams = (order|to_query)|merge({'order_item_id': item.id}) %}
-
-            <a href="{{ easyadmin_path('OrderItemService', 'new', urlParams) }}">
+            <a href="{{ easyadmin_path('OrderItemService', 'new', {'order_id': order|toId, 'order_item_id': item|toId}) }}">
                 <i class="fa fa-wrench"></i>
             </a>
 
             {{- '&nbsp;'|raw -}}
 
-            <a href="{{ easyadmin_path('OrderItemPart', 'new', urlParams) }}">
+            <a href="{{ easyadmin_path('OrderItemPart', 'new', {'order_id': order|toId, 'order_item_id': item|toId}) }}">
                 <i class="fa fa-barcode"></i>
             </a>
         {% endif %}
@@ -30,7 +28,7 @@
     {% if order.editable %}
         <td>{# Склад #}</td>
         <td>
-            <a href="{{ easyadmin_path(item, 'edit', order|to_query) }}">
+            <a href="{{ easyadmin_path('OrderItemGroup', 'edit', {'id': item|toId}) }}">
                 <i class="fa fa-pencil"></i>
             </a>
         </td>

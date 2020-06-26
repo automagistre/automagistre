@@ -8,7 +8,7 @@
     {% include 'easy_admin/_includes/typehead_service.html.twig' with {
         'serviceInputId': form.service.vars.id,
         'priceInputId': form.price.vars.id,
-        'params': order|to_query
+        'params': {'order_id': order|toId}
     } %}
 {% endblock %}
 

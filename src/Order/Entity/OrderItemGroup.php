@@ -8,6 +8,7 @@ use App\Shared\Money\TotalPriceInterface;
 use Doctrine\ORM\Mapping as ORM;
 use DomainException;
 use Money\Money;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
@@ -28,9 +29,9 @@ class OrderItemGroup extends OrderItem implements TotalPriceInterface
      */
     private $hideParts = false;
 
-    public function __construct(Order $order, string $name)
+    public function __construct(UuidInterface $id, Order $order, string $name)
     {
-        parent::__construct($order);
+        parent::__construct($id, $order);
 
         $this->name = $name;
     }

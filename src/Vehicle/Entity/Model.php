@@ -6,7 +6,6 @@ namespace App\Vehicle\Entity;
 
 use App\Costil;
 use App\Manufacturer\Entity\ManufacturerId;
-use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -28,12 +27,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Model
 {
-    use Identity;
-
     /**
-     * @ORM\Column(type="vehicle_id", unique=true)
+     * @ORM\Id()
+     * @ORM\Column(type="vehicle_id")
      */
-    public VehicleId $uuid;
+    public VehicleId $id;
 
     /**
      * @ORM\Column(type="manufacturer_id")
@@ -76,7 +74,7 @@ class Model
         ?int $yearFrom,
         ?int $yearTill
     ) {
-        $this->uuid = $uuid;
+        $this->id = $uuid;
         $this->manufacturerId = $manufacturerId;
         $this->name = $name;
         $this->localizedName = $localizedName;
@@ -87,12 +85,12 @@ class Model
 
     public function __toString()
     {
-        return Costil::display($this->uuid);
+        return Costil::display($this->id);
     }
 
     public function toId(): VehicleId
     {
-        return $this->uuid;
+        return $this->id;
     }
 
     public function update(

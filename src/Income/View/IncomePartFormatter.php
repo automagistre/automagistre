@@ -34,7 +34,7 @@ final class IncomePartFormatter implements IdentifierFormatterInterface
     public function format(IdentifierFormatter $formatter, Identifier $identifier, string $format = null): string
     {
         /** @var IncomePart $incomePart */
-        $incomePart = $this->registry->findBy(IncomePart::class, ['uuid' => $identifier]);
+        $incomePart = $this->registry->findBy(IncomePart::class, ['id' => $identifier]);
 
         return $formatter->format($incomePart->getIncome()->toId());
     }

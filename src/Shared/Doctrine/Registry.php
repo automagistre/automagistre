@@ -86,7 +86,7 @@ final class Registry
     public function getBy(string $class, $criteria)
     {
         if ($criteria instanceof Identifier) {
-            $criteria = [Costil::UUID_FIELDS[get_class($criteria)] => $criteria];
+            $criteria = ['id' => $criteria];
         }
 
         $entity = $this->repository($class)->findOneBy($criteria);
@@ -165,11 +165,10 @@ final class Registry
     public function view(Identifier $identifier): array
     {
         $class = Costil::ENTITY[get_class($identifier)];
-        $uuidField = Costil::UUID_FIELDS[get_class($identifier)];
 
         $view = $this->repository($class)
             ->createQueryBuilder('t')
-            ->where(sprintf('t.%s = :id', $uuidField))
+            ->where('t.id = :id')
             ->setParameter('id', $identifier)
             ->getQuery()
             ->getOneOrNullResult(AbstractQuery::HYDRATE_ARRAY);

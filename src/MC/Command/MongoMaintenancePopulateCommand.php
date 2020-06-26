@@ -64,8 +64,8 @@ final class MongoMaintenancePopulateCommand extends Command
         foreach ($equipments as $item) {
             $dm->persist(
                 new Maintenance(
-                    $item['uuid'],
-                    $this->createVehicle($item['model']['uuid']),
+                    $item['id'],
+                    $this->createVehicle($item['model']['id']),
                     new Engine(
                         $item['equipment.engine.name'],
                         $item['equipment.engine.type'],

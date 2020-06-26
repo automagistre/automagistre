@@ -16,7 +16,6 @@ easy_admin:
             list:
                 title: 'Люди'
                 fields:
-                    - { property: 'id', template: 'easy_admin/default/field_raw.html.twig' }
                     - { property: 'fullName', label: 'Ф.И.О', template: 'easy_admin/field_item_show.html.twig' }
                     - { property: 'telephone', label: 'Телефон', template: 'easy_admin/field_telephone.html.twig' }
                     - { property: 'officePhone', label: 'Раб. Телефон', template: 'easy_admin/field_telephone.html.twig' }
@@ -36,7 +35,7 @@ easy_admin:
             edit:
                 title: 'Редактировать Человека'
             show:
-                title: 'Человек № {{ entity.id }}'
+                title: 'Человек'
                 fields:
                     - { property: 'firstname', label: 'Имя' }
                     - { property: 'lastname', label: 'Фамилия' }
@@ -55,7 +54,6 @@ easy_admin:
             list:
                 title: 'Организации'
                 fields:
-                    - { property: 'id' }
                     - { property: 'name', label: 'Название', template: 'easy_admin/field_item_show.html.twig' }
                     - { property: 'address', label: 'Адрес' }
                     - { property: 'email', label: 'Почта' }
@@ -65,7 +63,7 @@ easy_admin:
                     - { property: 'seller', label: 'Поставщик', type: 'boolean' }
                     - { property: 'balance', label: 'Баланс', virtual: true, sortable: true, template: 'easy_admin/operand/field_balance.html.twig' }
             show:
-                title: Организация № {{ entity.id }}
+                title: Организация
                 fields:
                     - { property: 'name', label: 'Название' }
                     - { property: 'address', label: 'Адрес' }
@@ -89,7 +87,7 @@ easy_admin:
             new:
                 title: 'Создать новую Организацию'
             edit:
-                title: 'Редактирование Организации № {{ entity.id }}'
+                title: 'Редактирование Организации'
 
         CustomerTransaction:
             class: App\Customer\Entity\CustomerTransactionView

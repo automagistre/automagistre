@@ -1,6 +1,9 @@
 {% extends 'easy_admin/default/show.html.twig' %}
 
 {# @var entity \App\Employee\Entity\Employee #}
+{% block content_title %}
+    {{ entity.toId|display_name }}
+{% endblock %}
 
 {% block main %}
     <div class="row">
@@ -56,7 +59,7 @@
                             {% endif %}
 
                             <div class="box-footer">
-                                <a href="{{ easyadmin_path('Salary', 'new', {'employee_id': entity.toId.toString}) }}" class="btn btn-primary">
+                                <a href="{{ easyadmin_path('Salary', 'new', {'employee_id': entity|toId}) }}" class="btn btn-primary">
                                     Создать ежемесячный оклад
                                 </a>
                             </div>

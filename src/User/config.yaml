@@ -8,14 +8,12 @@ easy_admin:
                 max_results: 50
                 title: 'Пользователи'
                 fields:
-                    - { property: 'id', label: 'Номер', template: 'easy_admin/order/field_id.html.twig' }
                     - { property: 'username', label: 'E-Mail' }
                     - { property: 'firstName', label: 'Имя' }
                     - { property: 'lastName', label: 'Фамилия' }
             show:
-                title: 'Пользователь № {{ entity.id }}'
+                title: 'Пользователь'
                 fields:
-                    - { property: 'id', label: 'ID' }
                     - { property: 'username', label: 'E-Mail' }
                     - { property: 'firstName', label: 'Имя' }
                     - { property: 'lastName', label: 'Фамилия' }
@@ -29,7 +27,7 @@ easy_admin:
                 title: 'Создать нового Пользователя'
                 form_options: { data_class: stdClass }
             edit:
-                title: 'Редактировать пользователя № {{ entity.id }}'
+                title: 'Редактировать пользователя'
                 fields:
                     - { property: 'username', type_options: { disabled: true } }
                     - { property: 'firstName', label: 'Имя', type_options: { required: false } }

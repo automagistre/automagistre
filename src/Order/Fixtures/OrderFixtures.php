@@ -20,29 +20,30 @@ use App\Part\Entity\PartId;
 use App\Part\Entity\PartView;
 use App\Part\Fixtures\GasketFixture;
 use App\Shared\Doctrine\Registry;
-use App\State;
-use App\User\Entity\User;
 use App\User\Fixtures\EmployeeFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Money\Currency;
 use Money\Money;
+use Ramsey\Uuid\Uuid;
 
 final class OrderFixtures extends Fixture implements DependentFixtureInterface
 {
     public const ID = '1eab641c-9f5f-63a4-86d0-0242c0a8100a';
+    public const NUMBER = '1';
     public const CAR_ID = Primera2004Fixtures::ID;
     public const CUSTOMER_ID = PersonVasyaFixtures::ID;
 
+    public const GROUP_ID = '1eab7ac7-2b8a-62dc-9c38-0242c0a81005';
+    public const SERVICE_ID = '1eab7ac7-c95f-6822-80e2-0242c0a81005';
+    public const PART_ID = '1eab7ac7-f145-69d6-a083-0242c0a81005';
+
     private Registry $registry;
 
-    private State $state;
-
-    public function __construct(Registry $registry, State $state)
+    public function __construct(Registry $registry)
     {
         $this->registry = $registry;
-        $this->state = $state;
     }
 
     /**
@@ -63,12 +64,10 @@ final class OrderFixtures extends Fixture implements DependentFixtureInterface
      */
     public function load(ObjectManager $manager): void
     {
-        $user = $this->registry->getBy(User::class, ['uuid' => EmployeeFixtures::ID]);
-        $this->state->user($user);
-
         $orderId = OrderId::fromString(self::ID);
         $order = new Order(
-            $orderId
+            $orderId,
+            self::NUMBER,
         );
         $manager->persist($order);
 
@@ -76,21 +75,20 @@ final class OrderFixtures extends Fixture implements DependentFixtureInterface
 
         $order->setCarId(CarId::fromString(self::CAR_ID));
 
-        $this->addReference('order-1', $order);
         $manager->persist(new Note($orderId->toUuid(), NoteType::info(), 'Order Note'));
 
         $money = new Money(100, new Currency('RUB'));
 
-        $orderItemGroup = new OrderItemGroup($order, 'Group');
+        $orderItemGroup = new OrderItemGroup(Uuid::fromString(self::GROUP_ID), $order, 'Group');
         $manager->persist($orderItemGroup);
         $manager->flush();
 
-        $orderItemService = new OrderItemService($order, 'Service', $money);
+        $orderItemService = new OrderItemService(Uuid::fromString(self::SERVICE_ID), $order, 'Service', $money);
         $manager->persist($orderItemService);
         $manager->flush();
 
         $partId = PartId::fromString(GasketFixture::ID);
-        $orderItemPart = new OrderItemPart($order, $partId, 1);
+        $orderItemPart = new OrderItemPart(Uuid::fromString(self::PART_ID), $order, $partId, 1);
         $orderItemPart->setPrice($money, $this->registry->get(PartView::class, $partId));
 
         $manager->persist(

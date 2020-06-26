@@ -6,6 +6,7 @@ namespace App\Car\Controller;
 
 use App\Car\Entity\Recommendation;
 use App\Car\Entity\RecommendationPart;
+use App\Car\Entity\RecommendationPartId;
 use App\Car\Form\DTO\RecommendationPartDTO;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Form\Type\MoneyType;
@@ -67,7 +68,8 @@ final class RecommendationPartController extends AbstractController
             );
 
             $forms[$crossId] = $this->createFormBuilder($model, [
-                'action' => $this->generateEasyPath($recommendationPart, 'substitute', [
+                'action' => $this->generateEasyPath('CarRecommendationPart', 'substitute', [
+                    'id' => $recommendationPart->toId()->toString(),
                     'cross' => $crossId,
                     'referer' => $request->query->get('referer'),
                 ]),
@@ -100,6 +102,7 @@ final class RecommendationPartController extends AbstractController
                         $recommendationPart->quantity = $model->quantity;
                     } else {
                         $entity = new RecommendationPart(
+                            RecommendationPartId::generate(),
                             $model->recommendation,
                             $model->partId,
                             $model->quantity,
@@ -141,6 +144,7 @@ final class RecommendationPartController extends AbstractController
         assert($model instanceof RecommendationPartDTO);
 
         $entity = new RecommendationPart(
+            RecommendationPartId::generate(),
             $model->recommendation,
             $model->partId,
             $model->quantity,

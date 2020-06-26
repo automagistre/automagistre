@@ -8,9 +8,11 @@ use App\Calendar\Entity\CalendarEntryId;
 use App\Calendar\Entity\EntryOrder;
 use App\Calendar\Repository\CalendarEntryRepository;
 use App\Car\Entity\Car;
+use App\Car\Entity\CarId;
 use App\Customer\Entity\CustomerTransaction;
 use App\Customer\Entity\CustomerTransactionId;
 use App\Customer\Entity\Operand;
+use App\Customer\Entity\OperandId;
 use App\Customer\Entity\Organization;
 use App\Customer\Entity\Person;
 use App\Customer\Enum\CustomerTransactionSource;
@@ -28,14 +30,15 @@ use App\Order\Entity\OrderItemService;
 use App\Order\Enum\OrderStatus;
 use App\Order\Event\OrderClosed;
 use App\Order\Event\OrderStatusChanged;
+use App\Order\Form\OrderDto;
 use App\Order\Form\OrderTOPart;
 use App\Order\Form\OrderTOService;
 use App\Order\Form\Type\OrderTOServiceType;
 use App\Order\Manager\OrderManager;
+use App\Order\Number\NumberGenerator;
 use App\Part\Entity\PartId;
 use App\Part\Entity\PartView;
 use App\Payment\Manager\PaymentManager;
-use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Vehicle\Entity\Model;
 use App\Vehicle\Entity\VehicleId;
@@ -56,7 +59,6 @@ use function explode;
 use Generator;
 use function in_array;
 use function is_numeric;
-use function is_string;
 use LogicException;
 use function mb_strtolower;
 use Money\Money;
@@ -68,7 +70,6 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -85,28 +86,18 @@ final class OrderController extends AbstractController
 
     private CalendarEntryRepository $calendarEntryRepository;
 
+    private NumberGenerator $numberGenerator;
+
     public function __construct(
         PaymentManager $paymentManager,
         OrderManager $orderManager,
-        CalendarEntryRepository $calendarEntryRepository
+        CalendarEntryRepository $calendarEntryRepository,
+        NumberGenerator $numberGenerator
     ) {
         $this->paymentManager = $paymentManager;
         $this->orderManager = $orderManager;
         $this->calendarEntryRepository = $calendarEntryRepository;
-    }
-
-    public function indexAction(Request $request)
-    {
-        $id = $request->query->get('id');
-        if (is_string($id) && Uuid::isValid($id)) {
-            $view = $this->get(Registry::class)->view(OrderId::fromString($id));
-
-            return $this->redirectToEasyPath('Order', 'show', [
-                'id' => $view['id'],
-            ]);
-        }
-
-        return parent::indexAction($request);
+        $this->numberGenerator = $numberGenerator;
     }
 
     public function TOAction(): Response
@@ -124,7 +115,7 @@ final class OrderController extends AbstractController
         }
 
         /** @var Car $car */
-        $car = $this->registry->findBy(Car::class, ['uuid' => $carId]);
+        $car = $this->registry->findBy(Car::class, ['id' => $carId]);
         $carModel = $car->vehicleId;
         if (!$carModel instanceof VehicleId) {
             throw new LogicException('CarModel required.');
@@ -133,14 +124,15 @@ final class OrderController extends AbstractController
         if (!$car->equipment->isFilled()) {
             $this->addFlash('warning', 'Для отображения карты ТО необходимо заполнить комплектацию.');
 
-            return $this->redirectToEasyPath($car, 'edit', [
-                'order_id' => $order->getId(),
+            return $this->redirectToEasyPath('Car', 'edit', [
+                'id' => $car->toId()->toString(),
+                'order_id' => $order->toId()->toString(),
                 'validate' => 'equipment',
             ]);
         }
 
         /** @var Model $carModel */
-        $carModel = $this->registry->findBy(Model::class, ['uuid' => $car->vehicleId]);
+        $carModel = $this->registry->findBy(Model::class, ['id' => $car->vehicleId]);
 
         $qb = $this->registry->repository(McLine::class)
             ->createQueryBuilder('line')
@@ -186,7 +178,7 @@ final class OrderController extends AbstractController
                 continue;
             }
 
-            $services[$line->getId()] = new OrderTOService(
+            $services[$line->toId()->toString()] = new OrderTOService(
                 $line->work->name,
                 $line->work->price,
                 (function (array $parts): Generator {
@@ -196,7 +188,7 @@ final class OrderController extends AbstractController
                         /** @var PartView $partView */
                         $partView = $this->registry->getBy(PartView::class, ['id' => $mcPart->partId]);
 
-                        yield (int) $mcPart->getId() => new OrderTOPart(
+                        yield $mcPart->toId()->toString() => new OrderTOPart(
                             $mcPart->partId,
                             $mcPart->quantity,
                             $partView->sellPrice(),
@@ -228,6 +220,7 @@ final class OrderController extends AbstractController
                 }
 
                 $orderItemService = new OrderItemService(
+                    Uuid::uuid6(),
                     $order,
                     $service->service,
                     $service->price,
@@ -240,6 +233,7 @@ final class OrderController extends AbstractController
                     }
 
                     $orderItemPart = new OrderItemPart(
+                        Uuid::uuid6(),
                         $order,
                         $part->partId,
                         $part->quantity,
@@ -372,7 +366,6 @@ final class OrderController extends AbstractController
             ->handleRequest($this->request);
 
         $model = $form->getData();
-        $model->description = sprintf('# Аванс по заказу #%s', $order->getId());
 
         if ($form->isSubmitted() && $form->isValid()) {
             $model->recipient = null;
@@ -417,12 +410,12 @@ final class OrderController extends AbstractController
                 $this->addFlash('error', 'Пробег не указан!');
             }
 
-            return $this->redirectToEasyPath($order, 'show');
+            return $this->redirectToEasyPath('Order', 'show', ['id' => $order->toId()->toString()]);
         }
 
         $customer = null === $order->getCustomerId()
             ? null
-            : $this->registry->findBy(Operand::class, ['uuid' => $order->getCustomerId()]);
+            : $this->registry->findBy(Operand::class, ['id' => $order->getCustomerId()]);
         $balance = $customer instanceof Operand ? $this->paymentManager->balance($customer) : null;
 
         if (!$order->getTotalForPayment($balance)->isPositive()) {
@@ -462,7 +455,7 @@ final class OrderController extends AbstractController
 
         $car = null === $order->getCarId()
             ? null
-            : $this->registry->findBy(Car::class, ['uuid' => $order->getCarId()]);
+            : $this->registry->findBy(Car::class, ['id' => $order->getCarId()]);
         if ($car instanceof Car) {
             $car->setMileage($order->getMileage());
 
@@ -471,9 +464,9 @@ final class OrderController extends AbstractController
 
         $this->event(new OrderClosed($order));
 
-        $this->addFlash('success', sprintf('Заказ №%s закрыт', $order->getId()));
+        $this->addFlash('success', sprintf('Заказ №%s закрыт', $order->getNumber()));
 
-        return $this->redirectToEasyPath($order, 'show');
+        return $this->redirectToEasyPath('Order', 'show', ['id' => $order->toId()->toString()]);
     }
 
     /**
@@ -488,8 +481,8 @@ final class OrderController extends AbstractController
 
             $parameters['notes'] = $em->getRepository(NoteView::class)
                 ->findBy(['subject' => $entity->toId()->toUuid()], ['id' => 'DESC']);
-            $parameters['car'] = $this->registry->findBy(Car::class, ['uuid' => $entity->getCarId()]);
-            $parameters['customer'] = $this->registry->findBy(Operand::class, ['uuid' => $entity->getCustomerId()]);
+            $parameters['car'] = $this->registry->findBy(Car::class, ['id' => $entity->getCarId()]);
+            $parameters['customer'] = $this->registry->findBy(Operand::class, ['id' => $entity->getCustomerId()]);
         }
 
         return parent::renderTemplate($actionName, $templatePath, $parameters);
@@ -498,32 +491,21 @@ final class OrderController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function createNewEntity(): Order
+    protected function createNewEntity(): OrderDto
     {
-        $entity = parent::createNewEntity();
-        if (!$entity instanceof Order) {
-            throw new LogicException('Order expected');
-        }
-
-        $customer = $this->getEntity(Operand::class);
-        if ($customer instanceof Operand) {
-            $entity->setCustomerId($customer->toId());
-        }
-
-        $car = $this->getEntity(Car::class);
-        if ($car instanceof Car) {
-            $entity->setCarId($car->toId());
-        }
+        $dto = $this->createWithoutConstructor(OrderDto::class);
+        $dto->customerId = $this->getIdentifier(OperandId::class);
+        $dto->carId = $this->getIdentifier(CarId::class);
 
         $calendarId = $this->getIdentifier(CalendarEntryId::class);
         if ($calendarId instanceof CalendarEntryId) {
             $calendarEntry = $this->calendarEntryRepository->view($calendarId);
 
-            $entity->setCarId($calendarEntry->orderInfo->carId);
-            $entity->setCustomerId($calendarEntry->orderInfo->customerId);
+            $dto->carId = $calendarEntry->orderInfo->carId;
+            $dto->customerId = $calendarEntry->orderInfo->customerId;
         }
 
-        return $entity;
+        return $dto;
     }
 
     /**
@@ -611,9 +593,9 @@ final class OrderController extends AbstractController
             ->createQueryBuilder()
             ->select('o')
             ->from(Order::class, 'o')
-            ->leftJoin(Car::class, 'car', Join::WITH, 'o.carId = car.uuid')
-            ->leftJoin(Operand::class, 'customer', Join::WITH, 'customer.uuid = o.customerId')
-            ->leftJoin(Model::class, 'carModel', Join::WITH, 'carModel.uuid = car.vehicleId')
+            ->leftJoin(Car::class, 'car', Join::WITH, 'o.carId = car.id')
+            ->leftJoin(Operand::class, 'customer', Join::WITH, 'customer.id = o.customerId')
+            ->leftJoin(Model::class, 'carModel', Join::WITH, 'carModel.id = car.vehicleId')
             ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'manufacturer.id = carModel.manufacturerId')
             ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = customer.id AND customer INSTANCE OF '.Person::class)
             ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = customer.id AND customer INSTANCE OF '.Organization::class);
@@ -649,7 +631,19 @@ final class OrderController extends AbstractController
      */
     protected function persistEntity($entity): void
     {
-        assert($entity instanceof Order);
+        $dto = $entity;
+        assert($dto instanceof OrderDto);
+
+        $entity = new Order(
+            OrderId::generate(),
+            $this->numberGenerator->next(),
+        );
+
+        $entity->setCustomerId($dto->customerId);
+        $entity->setCarId($dto->carId);
+        $entity->setWorker($dto->worker);
+        $entity->setMileage($dto->mileage);
+        $entity->setDescription($dto->description);
 
         $calendarId = $this->getIdentifier(CalendarEntryId::class);
         if ($calendarId instanceof CalendarEntryId) {
@@ -661,7 +655,7 @@ final class OrderController extends AbstractController
         $this->setReferer($this->generateUrl('easyadmin', [
             'entity' => 'Order',
             'action' => 'show',
-            'id' => $entity->getId(),
+            'id' => $entity->toId()->toString(),
         ]));
     }
 
@@ -675,7 +669,7 @@ final class OrderController extends AbstractController
         if (is_numeric($id)) {
             $entity = $this->em->getRepository(Order::class)->find($id);
             if (null !== $entity) {
-                return $this->redirectToEasyPath($entity, 'show');
+                return $this->redirectToEasyPath('Order', 'show', ['id' => $entity]);
             }
         }
 
@@ -688,7 +682,7 @@ final class OrderController extends AbstractController
 
         $customer = null === $order->getCustomerId()
             ? null
-            : $this->registry->findBy(Operand::class, ['uuid' => $order->getCustomerId()]);
+            : $this->registry->findBy(Operand::class, ['id' => $order->getCustomerId()]);
         $balance = null;
         if ($customer instanceof Operand) {
             $balance = $this->paymentManager->balance($customer);
@@ -699,7 +693,6 @@ final class OrderController extends AbstractController
         $model = new stdClass();
         $model->forPayment = $forPayment->isPositive() ? $forPayment : new Money(0, $forPayment->getCurrency());
         $model->recipient = $customer;
-        $model->description = '# Начисление по заказу #'.$order->getId();
 
         $formBuilder = $this->createFormBuilder($model, [
             'label' => false,

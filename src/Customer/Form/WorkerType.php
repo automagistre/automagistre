@@ -51,7 +51,7 @@ final class WorkerType extends AbstractType
             'choice_loader' => new CallbackChoiceLoader(function () use (&$groupMap): array {
                 $ids = $this->registry
                     ->connection(Operand::class)
-                    ->fetchAll('SELECT uuid AS id, type FROM operand WHERE contractor IS TRUE');
+                    ->fetchAll('SELECT id AS id, type FROM operand WHERE contractor IS TRUE');
 
                 foreach ($ids as ['id' => $id, 'type' => $type]) {
                     $groupMap[$id] = $type;
@@ -86,7 +86,7 @@ final class WorkerType extends AbstractType
         $services = $em->createQueryBuilder()
             ->select('entity.workerId')
             ->from(OrderItemService::class, 'entity')
-            ->join(CreatedBy::class, 'cb', Join::WITH, 'cb.id = entity.uuid')
+            ->join(CreatedBy::class, 'cb', Join::WITH, 'cb.id = entity.id')
             ->where('cb.createdAt > :today')
             ->andWhere('entity.workerId IS NOT NULL')
             ->groupBy('entity.workerId')

@@ -57,12 +57,6 @@ final class AutocompleteType extends AbstractType implements DataMapperInterface
         /** @psalm-suppress RedundantCondition */
         assert(null !== $reflectionType && method_exists($reflectionType, 'getName'));
         $identifierClass = $reflectionType->getName();
-        if (!is_subclass_of($identifierClass, Identifier::class)) {
-            $reflectionType = $reflectionClass->getProperty('uuid')->getType();
-            /** @psalm-suppress RedundantCondition */
-            assert(null !== $reflectionType && method_exists($reflectionType, 'getName'));
-            $identifierClass = $reflectionType->getName();
-        }
 
         if (!is_subclass_of($identifierClass, Identifier::class)) {
             throw new LogicException(sprintf('Can\'t find identifier class for %s', $entityClass));
@@ -109,9 +103,6 @@ final class AutocompleteType extends AbstractType implements DataMapperInterface
         $view->vars['attr']['data-easyadmin-autocomplete-url'] = $this->router->generate(
             $options['class'],
             'autocomplete',
-            [
-                'use_uuid' => true,
-            ]
         );
     }
 

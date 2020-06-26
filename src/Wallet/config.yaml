@@ -23,7 +23,7 @@ easy_admin:
                     - { property: 'useInOrder', label: 'Использовать для начислений по заказам' }
                     - { property: 'showInLayout', label: 'Показывать в шапке' }
             edit:
-                title: 'Редактировать счет № {{ entity.id }}'
+                title: 'Редактировать счет'
                 fields:
                     - { property: 'name', label: 'Название' }
                     - { property: 'currency', label: 'Валюта', type: App\Form\Type\CurrencyType, type_options: { disabled: true } }

@@ -73,24 +73,6 @@ final class Costil
         WalletId::class => Wallet::class,
         WarehouseId::class => WarehouseView::class,
     ];
-    public const UUID_FIELDS = [
-        CalendarEntryId::class => 'id',
-        CarId::class => 'uuid',
-        CustomerTransactionId::class => 'id',
-        EmployeeId::class => 'uuid',
-        ExpenseId::class => 'uuid',
-        IncomeId::class => 'id',
-        IncomePartId::class => 'uuid',
-        ManufacturerId::class => 'id',
-        OperandId::class => 'uuid',
-        OrderId::class => 'uuid',
-        PartId::class => 'id',
-        SmsId::class => 'id',
-        UserId::class => 'uuid',
-        VehicleId::class => 'uuid',
-        WalletId::class => 'id',
-        WarehouseId::class => 'id',
-    ];
 
     public static IdentifierFormatter $formatter;
 

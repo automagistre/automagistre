@@ -45,10 +45,10 @@
                 {%- set reserveStyle = 'danger' -%}
                 {%- set link = '#' -%}
                 {%- if 0 < reserved -%}
-                    {%- set link = easyadmin_path(item, 'deReserve', ([item, order]|to_query)|merge({'referer': true})) -%}
+                    {%- set link = easyadmin_path('OrderItemPart', 'deReserve', {'id': item|toId, 'referer': true}) -%}
                     {%- set reserveStyle = 'success' -%}
                 {%- elseif item.quantity <= reservable -%}
-                    {%- set link = easyadmin_path(item, 'reserve', ([item, order]|to_query)|merge({'referer': true})) -%}
+                    {%- set link = easyadmin_path('OrderItemPart', 'reserve', {'id': item|toId, 'referer': true}) -%}
                 {%- endif -%}
 
                 <a href="{{ link }}">
@@ -56,7 +56,7 @@
                 </a>
             {%- endapply %}        </td>
         <td>
-            <a href="{{ easyadmin_path(item, 'edit', order|to_query) }}">
+            <a href="{{ easyadmin_path('OrderItemPart', 'edit', {'id': item|toId}) }}">
                 <i class="fa fa-pencil"></i>
             </a>
         </td>

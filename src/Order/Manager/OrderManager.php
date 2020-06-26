@@ -55,7 +55,7 @@ final class OrderManager
             $user = $this->state->user();
             $customer = null === $order->getCustomerId()
                 ? null
-                : $this->registry->findBy(Operand::class, ['uuid' => $order->getCustomerId()]);
+                : $this->registry->findBy(Operand::class, ['id' => $order->getCustomerId()]);
             $balance = $customer instanceof Operand ? $this->paymentManager->balance($customer) : null;
 
             $order->close($user, $balance);
@@ -111,7 +111,7 @@ final class OrderManager
                 }
 
                 /** @var Operand $worker */
-                $worker = $this->registry->findBy(Operand::class, ['uuid' => $worker]);
+                $worker = $this->registry->findBy(Operand::class, ['id' => $worker]);
                 $employee = $em->getRepository(Employee::class)->findOneBy(['personId' => $worker->toId()]);
 
                 if (!$employee instanceof Employee) {

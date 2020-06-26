@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\MC\Entity;
 
 use App\Part\Entity\PartId;
-use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -15,12 +14,11 @@ use Ramsey\Uuid\UuidInterface;
  */
 class McPart
 {
-    use Identity;
-
     /**
+     * @ORM\Id()
      * @ORM\Column(type="uuid")
      */
-    public UuidInterface $uuid;
+    public UuidInterface $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=McLine::class, inversedBy="parts")
@@ -42,9 +40,9 @@ class McPart
      */
     public bool $recommended;
 
-    public function __construct(McLine $line, PartId $partId, int $quantity, bool $recommended)
+    public function __construct(UuidInterface $id, McLine $line, PartId $partId, int $quantity, bool $recommended)
     {
-        $this->uuid = Uuid::uuid6();
+        $this->id = $id;
         $this->line = $line;
         $this->partId = $partId;
         $this->quantity = $quantity;
@@ -53,6 +51,6 @@ class McPart
 
     public function toId(): UuidInterface
     {
-        return $this->uuid;
+        return $this->id;
     }
 }

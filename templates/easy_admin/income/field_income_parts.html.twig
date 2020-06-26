@@ -42,7 +42,7 @@
 
                 {%- if income.editable %}
                     <td>
-                        <a href="{{ easyadmin_path(incomePart, 'edit') }}">
+                        <a href="{{ easyadmin_path('IncomePart', 'edit', {'id': incomePart|toId}) }}">
                             <i class="fa fa-pencil"></i>
                         </a>
                     </td>

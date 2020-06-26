@@ -7,7 +7,6 @@ easy_admin:
             list:
                 title: 'Статьи расходов'
                 fields:
-                    - { property: 'id' }
                     - { property: 'name', label: 'Название' }
                     - { property: 'wallet', label: 'Счет списания по умолчанию' }
                     - { property: 'create', virtual: true, label: ' ', template: 'easy_admin/expense/field_button.html.twig' }
@@ -18,11 +17,10 @@ easy_admin:
                     - { property: 'name', label: 'Название' }
                     - { property: 'wallet', label: 'Счет списания по умолчанию', type_options: { required: false } }
             edit:
-                title: 'Редактировать Статью расходов № {{ entity.id }}'
+                title: 'Редактировать Статью расходов'
                 fields:
                     - { property: 'name', label: 'Название', type_options: { disabled: true } }
                     - { property: 'wallet', label: 'Счет списания по умолчанию', type_options: { required: false } }
-
 
 doctrine:
     orm:

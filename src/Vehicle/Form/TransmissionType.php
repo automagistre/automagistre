@@ -22,7 +22,7 @@ final class TransmissionType extends AbstractType
         $resolver->setDefaults([
             'choices' => Transmission::all(),
             'choice_label' => fn (Transmission $transmission) => $transmission->toName(),
-            'choice_value' => fn (Transmission $transmission) => $transmission->toId(),
+            'choice_value' => fn (?Transmission $transmission) => null === $transmission ? null : $transmission->toId(),
         ]);
     }
 

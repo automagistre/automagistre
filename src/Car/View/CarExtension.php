@@ -27,7 +27,7 @@ final class CarExtension extends AbstractExtension
         return [
             new TwigFunction(
                 'get_car_by_id',
-                fn (CarId $carId) => $this->registry->getBy(Car::class, ['uuid' => $carId]),
+                fn (CarId $carId) => $this->registry->getBy(Car::class, ['id' => $carId]),
             ),
         ];
     }

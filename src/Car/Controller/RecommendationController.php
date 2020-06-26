@@ -6,6 +6,7 @@ namespace App\Car\Controller;
 
 use App\Car\Entity\Car;
 use App\Car\Entity\Recommendation;
+use App\Car\Entity\RecommendationId;
 use App\Car\Form\DTO\RecommendationDTO;
 use App\Car\Manager\RecommendationManager;
 use App\Customer\Entity\Operand;
@@ -60,7 +61,7 @@ final class RecommendationController extends AbstractController
         return $this->redirectToRoute('easyadmin', [
             'entity' => 'Order',
             'action' => 'show',
-            'id' => $order->getId(),
+            'id' => $order->toId()->toString(),
         ]);
     }
 
@@ -85,9 +86,9 @@ final class RecommendationController extends AbstractController
         if (null === $model->workerId) {
             $em = $this->em;
             $result = $em->createQueryBuilder()
-                ->select('entity.uuid AS id')
+                ->select('entity.id AS id')
                 ->from(Operand::class, 'entity')
-                ->join(Recommendation::class, 'cr', Join::WITH, 'entity.uuid = cr.workerId')
+                ->join(Recommendation::class, 'cr', Join::WITH, 'entity.id = cr.workerId')
                 ->where('cr.car = :car')
                 ->orderBy('entity.id', 'DESC')
                 ->getQuery()
@@ -112,6 +113,7 @@ final class RecommendationController extends AbstractController
         assert($model instanceof RecommendationDTO);
 
         $entity = new Recommendation(
+            RecommendationId::generate(),
             $model->car,
             $model->service,
             $model->price,

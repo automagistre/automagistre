@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Migrations;
 
-use App\CreatedBy\Entity\CreatedByView;
-use App\Employee\Entity\SalaryView;
-use App\Note\Entity\NoteView;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 use function implode;
@@ -58,13 +55,6 @@ final class Version20200625170250 extends AbstractMigration
         $this->addSql('ALTER TABLE car_recommendation DROP created_by');
         $this->addSql('ALTER TABLE car_recommendation_part DROP created_at;');
         $this->addSql('ALTER TABLE car_recommendation_part DROP created_by');
-
-        $this->addSql('DROP VIEW IF EXISTS note_view');
-        $this->addSql(NoteView::sql());
-
-        $this->addSql('DROP VIEW IF EXISTS salary_view');
-        $this->addSql(SalaryView::sql());
-        $this->addSql(CreatedByView::sql());
     }
 
     public function down(Schema $schema): void

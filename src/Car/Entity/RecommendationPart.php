@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Car\Entity;
 
 use App\Part\Entity\PartId;
-use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Price;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
@@ -16,13 +15,13 @@ use Money\Money;
  */
 class RecommendationPart
 {
-    use Identity;
     use Price;
 
     /**
-     * @ORM\Column(type="recommendation_part_id", unique=true)
+     * @ORM\Id()
+     * @ORM\Column(type="recommendation_part_id")
      */
-    public RecommendationPartId $uuid;
+    public RecommendationPartId $id;
 
     /**
      * @psalm-readonly
@@ -42,9 +41,14 @@ class RecommendationPart
      */
     public int $quantity = 0;
 
-    public function __construct(Recommendation $recommendation, PartId $partId, int $quantity, Money $price)
-    {
-        $this->uuid = RecommendationPartId::generate();
+    public function __construct(
+        RecommendationPartId $id,
+        Recommendation $recommendation,
+        PartId $partId,
+        int $quantity,
+        Money $price
+    ) {
+        $this->id = $id;
         $this->recommendation = $recommendation;
         $this->partId = $partId;
         $this->quantity = $quantity;
@@ -53,7 +57,7 @@ class RecommendationPart
 
     public function toId(): RecommendationPartId
     {
-        return $this->uuid;
+        return $this->id;
     }
 
     public function setPrice(Money $price): void

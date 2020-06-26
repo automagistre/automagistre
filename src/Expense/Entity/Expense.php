@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Expense\Entity;
 
-use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Wallet\Entity\Wallet;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
@@ -15,12 +14,11 @@ use Ramsey\Uuid\UuidInterface;
  */
 class Expense
 {
-    use Identity;
-
     /**
+     * @ORM\Id()
      * @ORM\Column(type="uuid")
      */
-    private UuidInterface $uuid;
+    private UuidInterface $id;
 
     /**
      * @var string
@@ -40,7 +38,7 @@ class Expense
 
     public function __construct(string $name, Wallet $wallet = null)
     {
-        $this->uuid = Uuid::uuid6();
+        $this->id = Uuid::uuid6();
         $this->name = $name;
         $this->wallet = $wallet;
     }
@@ -52,7 +50,7 @@ class Expense
 
     public function toId(): ExpenseId
     {
-        return ExpenseId::fromUuid($this->uuid);
+        return ExpenseId::fromUuid($this->id);
     }
 
     public function getName(): string

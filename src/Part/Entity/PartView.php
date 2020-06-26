@@ -162,7 +162,7 @@ class PartView
                      JOIN manufacturer m ON part.manufacturer_id = m.id
                      LEFT JOIN (SELECT part_case.part_id, array_to_string(array_agg(vm.case_name), \' \') AS cases
                                 FROM part_case
-                                         LEFT JOIN vehicle_model vm ON vm.uuid = part_case.vehicle_id
+                                         LEFT JOIN vehicle_model vm ON vm.id = part_case.vehicle_id
                                 GROUP BY part_case.part_id) pc ON pc.part_id = part.id
                      LEFT JOIN (SELECT row_number() OVER (PARTITION BY pp.part_id ORDER BY pp.id DESC) AS rownum,
                                        pp.*

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\MC\Entity;
 
-use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 use Ramsey\Uuid\Uuid;
@@ -16,12 +15,11 @@ use function sprintf;
  */
 class McWork
 {
-    use Identity;
-
     /**
+     * @ORM\Id()
      * @ORM\Column(type="uuid")
      */
-    public UuidInterface $uuid;
+    public UuidInterface $id;
 
     /**
      * @ORM\Column
@@ -38,9 +36,9 @@ class McWork
      */
     public Money $price;
 
-    public function __construct(string $name, ?string $description, Money $price)
+    public function __construct(UuidInterface $id, string $name, ?string $description, Money $price)
     {
-        $this->uuid = Uuid::uuid6();
+        $this->id = $id;
         $this->name = $name;
         $this->description = $description;
         $this->price = $price;
@@ -59,6 +57,6 @@ class McWork
 
     public function toId(): UuidInterface
     {
-        return $this->uuid;
+        return $this->id;
     }
 }

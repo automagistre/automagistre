@@ -8,7 +8,6 @@ use App\Car\Entity\CarId;
 use App\Customer\Entity\OperandId;
 use App\Employee\Entity\Employee;
 use App\Order\Enum\OrderStatus;
-use App\Shared\Doctrine\ORM\Mapping\Traits\Identity;
 use App\Shared\Money\TotalPriceInterface;
 use App\User\Entity\User;
 use function assert;
@@ -36,12 +35,16 @@ use function sprintf;
  */
 class Order
 {
-    use Identity;
-
     /**
+     * @ORM\Id()
      * @ORM\Column(type="order_id")
      */
-    private OrderId $uuid;
+    private OrderId $id;
+
+    /**
+     * @ORM\Column(unique=true)
+     */
+    private string $number;
 
     /**
      * @var Collection<int, OrderItem>
@@ -117,9 +120,10 @@ class Order
      */
     private $suspends;
 
-    public function __construct(OrderId $orderId = null)
+    public function __construct(OrderId $orderId, string $number)
     {
-        $this->uuid = $orderId ?? OrderId::generate();
+        $this->id = $orderId;
+        $this->number = $number;
         $this->status = OrderStatus::working();
         $this->items = new ArrayCollection();
         $this->payments = new ArrayCollection();
@@ -128,12 +132,17 @@ class Order
 
     public function __toString(): string
     {
-        return (string) $this->getId();
+        return (string) $this->toId();
     }
 
     public function toId(): OrderId
     {
-        return $this->uuid;
+        return $this->id;
+    }
+
+    public function getNumber(): string
+    {
+        return $this->number;
     }
 
     public function isDiscounted(): bool

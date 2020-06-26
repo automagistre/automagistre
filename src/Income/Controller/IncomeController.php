@@ -42,7 +42,7 @@ final class IncomeController extends AbstractController
         $incomePartId = $this->request->query->get('income_part_id');
 
         /** @var IncomePart $incomePart */
-        $incomePart = $this->registry->findBy(IncomePart::class, ['uuid' => $incomePartId]);
+        $incomePart = $this->registry->findBy(IncomePart::class, ['id' => $incomePartId]);
 
         return $this->redirectToEasyPath('Income', 'show', [
             'id' => $incomePart->getIncome()->toId()->toString(),
@@ -207,7 +207,7 @@ final class IncomeController extends AbstractController
 
         $this->setReferer($this->generateEasyPath('IncomePart', 'new', [
             'income_id' => $incomeId->toString(),
-            'referer' => urlencode($this->generateEasyPath($entity, 'show')),
+            'referer' => urlencode($this->generateEasyPath('Income', 'show', ['id' => $entity->toId()->toString()])),
         ]));
 
         return $entity;

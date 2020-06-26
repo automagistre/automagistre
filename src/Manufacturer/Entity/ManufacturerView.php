@@ -26,4 +26,9 @@ class ManufacturerView
         $this->id = $id;
         $this->name = $name;
     }
+
+    public function toId(): ManufacturerId
+    {
+        return $this->id;
+    }
 }

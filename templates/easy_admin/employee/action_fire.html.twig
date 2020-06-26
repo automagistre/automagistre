@@ -1,7 +1,7 @@
 {# @var item \App\Entity\Employee #}
 
 {% if not item.fired %}
-    <a href="{{ easyadmin_path(item, 'fire', {'referer': true}) }}" style="color: red" title="Уволить">
+    <a href="{{ easyadmin_path('Employee', 'fire', {'id': item|toId, 'referer': true}) }}" style="color: red" title="Уволить">
         <i class="fa fa-ban"></i>
     </a>
 {% endif %}
