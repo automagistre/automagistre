@@ -52,7 +52,8 @@ final class NoteController extends AbstractController
             return $this->redirectToReferrer();
         }
 
-        return $this->render('easy_admin/default/new.html.twig', [
+        return $this->render('easy_admin/simple.html.twig', [
+            'content_title' => 'Создать заметку',
             'form' => $form->createView(),
         ]);
     }

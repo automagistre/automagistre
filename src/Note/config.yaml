@@ -4,8 +4,6 @@ easy_admin:
             class: App\Note\Entity\Note
             controller: App\Note\Controller\NoteController
             disabled_actions: ['show', 'list', 'search', 'autocomplete', 'edit']
-            new:
-                title: 'Создать новую заметку'
 
 doctrine:
     orm:
