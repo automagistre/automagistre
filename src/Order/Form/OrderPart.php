@@ -8,8 +8,7 @@ use App\Customer\Entity\OperandId;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemPart;
-use App\Part\Entity\PartId;
-use Money\Money;
+use App\Part\Form\PartOfferDto;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -18,25 +17,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class OrderPart extends OrderItemModel
 {
     /**
-     * @var PartId
+     * @var PartOfferDto
      *
+     * @Assert\Valid
      * @Assert\NotBlank
      */
-    public $partId;
-
-    /**
-     * @var int
-     *
-     * @Assert\NotBlank
-     */
-    public $quantity = 100;
-
-    /**
-     * @var Money
-     *
-     * @Assert\NotBlank
-     */
-    public $price;
+    public $partOffer;
 
     /**
      * @var bool
@@ -46,24 +32,20 @@ final class OrderPart extends OrderItemModel
     /**
      * @var OperandId|null
      */
-    public $supplier;
+    public $supplierId;
 
     public function __construct(
         Order $order,
         ?OrderItem $parent,
-        PartId $partId,
-        int $quantity,
-        Money $price,
+        PartOfferDto $partOffer,
         bool $warranty,
         ?OperandId $supplier
     ) {
         $this->order = $order;
         $this->parent = $parent;
-        $this->partId = $partId;
-        $this->quantity = $quantity;
-        $this->price = $price;
+        $this->partOffer = $partOffer;
         $this->warranty = $warranty;
-        $this->supplier = $supplier;
+        $this->supplierId = $supplier;
     }
 
     public static function getEntityClass(): string

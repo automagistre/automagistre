@@ -36,7 +36,7 @@ final class SellerType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'label' => false,
+            'label' => 'Поставщик',
             'placeholder' => 'Выберите поставщика',
             'choice_loader' => new CallbackChoiceLoader(function (): array {
                 $sellers = $this->registry->manager(Operand::class)

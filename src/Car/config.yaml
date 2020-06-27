@@ -77,24 +77,6 @@ easy_admin:
             class: App\Car\Entity\RecommendationPart
             controller: App\Car\Controller\RecommendationPartController
             disabled_actions: ['list']
-            templates:
-                new: 'easy_admin/car_recommendation_part/new.html.twig'
-            form:
-                fields:
-                    - { property: 'recommendation', label: 'Рекомендация', type: 'text', type_options: { disabled: true } }
-                    -   property: 'partId'
-                        label: 'Запчасть'
-                        type: App\EasyAdmin\Form\AutocompleteType
-                        type_options:
-                            class: App\Part\Entity\Part
-                    - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType }
-                    - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
-            edit:
-                fields:
-                    - { property: 'partId', label: 'Запчасть', type_options: { disabled: true } }
-            new:
-                title: 'Добавить запчасть к рекомендации'
-                form_options: { data_class: App\Car\Form\DTO\RecommendationPartDTO }
 
 doctrine:
     orm:

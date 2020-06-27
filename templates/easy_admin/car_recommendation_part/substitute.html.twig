@@ -8,19 +8,21 @@
 
     {% for form in forms %}
         {% set form = form.createView() %}
+        {% set partId = form.partOffer.vars.value.partId %}
+
         {% form_theme form with easyadmin_config('design.form_theme') %}
 
         {{ form_start(form) }}
         <div class="row" style="margin-bottom: 10px">
             <div class="col-md-12">
-                {% include 'easy_admin/field_part.html.twig' with {'value': crosses[form.vars.value.partId.toString]} only %}
+                {% include 'easy_admin/field_part.html.twig' with {'value': crosses[partId.toString]} only %}
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4">{{ form_widget(form.quantity) }}</div>
-            <div class="col-md-4">{{ form_widget(form.price) }}</div>
+            <div class="col-md-4">{{ form_widget(form.partOffer.quantity) }}</div>
+            <div class="col-md-4">{{ form_widget(form.partOffer.price) }}</div>
             <div class="col-md-4">
-                {% if part.toId.equal(form.vars.value.partId) %}
+                {% if part.toId.equal(partId) %}
                     <button type="submit" class="btn btn-success">Текущий выбор</button>
                 {% else %}
                     <button type="submit" class="btn btn-primary">Выбрать</button>
