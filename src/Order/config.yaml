@@ -90,29 +90,6 @@ easy_admin:
             class: App\Order\Entity\OrderItemPart
             controller: App\Order\Controller\OrderItemPartController
             disabled_actions: ['show', 'list', 'search']
-            templates:
-                new: 'easy_admin/order_item_part/new.html.twig'
-                edit: 'easy_admin/order_item_part/edit.html.twig'
-            edit:
-                actions: ['delete']
-                fields:
-                    - { property: 'partId', type_options: { disabled: true } }
-            form:
-                fields:
-                    - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
-                    - { property: 'parent', label: 'Работа / Группа', type: App\Order\Form\Type\OrderItemParentType }
-                    -   property: 'partId'
-                        label: 'Запчасть'
-                        type: App\EasyAdmin\Form\AutocompleteType
-                        type_options:
-                            required: true
-                            class: App\Part\Entity\Part
-                    - { property: 'price', label: 'Стоимость', type: App\Form\Type\MoneyType }
-                    - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
-                    - { property: 'warranty', label: 'По гарантии?' }
-                    - { property: 'supplier', label: 'Поставщик', type: App\Customer\Form\SellerType }
-            new:
-                form_options: { data_class: App\Order\Form\OrderPart }
 
 doctrine:
     orm:

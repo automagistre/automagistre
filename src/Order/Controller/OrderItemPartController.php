@@ -4,18 +4,24 @@ declare(strict_types=1);
 
 namespace App\Order\Controller;
 
+use App\Car\Entity\Car;
+use App\Customer\Form\SellerType;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Exception\ReservationException;
 use App\Order\Form\OrderPart;
+use App\Order\Form\Type\OrderItemParentType;
+use App\Order\Form\Type\WarrantyType;
 use App\Order\Manager\ReservationManager;
-use App\Part\Entity\Part;
+use App\Part\Entity\PartId;
 use App\Part\Entity\PartView;
-use function assert;
-use Closure;
+use App\Part\Form\PartOfferDto;
+use App\Part\Form\PartOfferType;
+use App\Vehicle\Entity\VehicleId;
 use LogicException;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -63,66 +69,101 @@ final class OrderItemPartController extends OrderItemController
         return $this->redirectToReferrer();
     }
 
-    protected function createNewEntity(): OrderPart
+    /**
+     * templates:
+     * new: 'easy_admin/order_item_part/new.html.twig'
+     * edit: 'easy_admin/order_item_part/edit.html.twig'
+     * edit:
+     * actions: ['delete']
+     * fields:
+     * - { property: 'partId', type_options: { disabled: true } }
+     * form:
+     * fields:
+     * - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
+     * - { property: 'parent', label: '', type: App\Order\Form\Type\OrderItemParentType }
+     * - { property: 'warranty', label: 'По гарантии?' }
+     * - { property: 'supplier', label: 'Поставщик', type: App\Customer\Form\SellerType }
+     * new:
+     * form_options: { data_class: App\Order\Form\OrderPart }.
+     */
+    protected function newAction(): Response
     {
         $order = $this->getEntity(Order::class);
         if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order not found');
         }
 
-        $model = $this->createWithoutConstructor(OrderPart::class);
-        $model->order = $order;
+        $partOffer = $this->createWithoutConstructor(PartOfferDto::class);
+        $dto = $this->createWithoutConstructor(OrderPart::class);
+        $dto->order = $order;
+        $dto->partOffer = $partOffer;
 
-        $part = $this->getEntity(Part::class);
-        if ($part instanceof Part) {
-            $model->partId = $part->toId();
+        $easyadmin = $this->request->attributes->get('easyadmin');
+        $easyadmin['item'] = $dto;
+        $this->request->attributes->set('easyadmin', $easyadmin);
+
+        $partId = $this->getIdentifier(PartId::class);
+        if ($partId instanceof PartId) {
+            $partOffer->partId = $partId;
         }
 
         $parent = $this->getEntity(OrderItem::class);
         if ($parent instanceof OrderItem) {
-            $model->parent = $parent;
+            $dto->parent = $parent;
         }
 
-        return $model;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function persistEntity($orderItemPart): OrderItemPart
-    {
-        $model = $orderItemPart;
-        assert($model instanceof OrderPart);
-
-        $orderItemPart = new OrderItemPart(
-            Uuid::uuid6(),
-            $model->order,
-            $model->partId,
-            $model->quantity
-        );
-        $orderItemPart->setParent($model->parent);
-        $orderItemPart->setWarranty($model->warranty);
-        $orderItemPart->setSupplierId($model->supplier);
-        $orderItemPart->setPrice(
-            $model->price,
-            $this->registry->get(PartView::class, $model->partId),
-        );
-
-        parent::persistEntity($orderItemPart);
-
-        try {
-            $this->reservationManager->reserve($orderItemPart);
-        } catch (ReservationException $e) {
-            $this->addFlash('warning', $e->getMessage());
+        $vehicleId = null;
+        $carId = $order->getCarId();
+        if (null !== $carId) {
+            $car = $this->registry->get(Car::class, $carId);
+            $vehicleId = $car->vehicleId;
         }
 
-        return $orderItemPart;
+        $form = $this->createItemForm($dto, $vehicleId)
+            ->handleRequest($this->request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->em;
+
+            $orderItemPart = new OrderItemPart(
+                Uuid::uuid6(),
+                $order,
+                $partOffer->partId,
+                $partOffer->quantity
+            );
+            $orderItemPart->setParent($dto->parent);
+            $orderItemPart->setWarranty($dto->warranty);
+            $orderItemPart->setSupplierId($dto->supplierId);
+            $orderItemPart->setPrice(
+                $partOffer->price,
+                $this->registry->get(PartView::class, $partOffer->partId),
+            );
+
+            $em->persist($orderItemPart);
+            $em->flush();
+
+            try {
+                $this->reservationManager->reserve($orderItemPart);
+            } catch (ReservationException $e) {
+                $this->addFlash('warning', $e->getMessage());
+            }
+
+            return $this->redirectToReferrer();
+        }
+
+        return $this->render('easy_admin/order_item_part/new.html.twig', [
+            'form' => $form->createView(),
+            'order' => $order,
+        ]);
     }
 
-    protected function createEditDto(Closure $callable): ?object
+    protected function editAction(): Response
     {
-        /** @var OrderItemPart $entity */
-        $entity = $this->registry->getBy(OrderItemPart::class, ['id' => $this->request->query->get('id')]);
+        $entity = $this->findCurrentEntity();
+        if (!$entity instanceof OrderItemPart) {
+            throw new LogicException('OrderItemPart required.');
+        }
+        $order = $entity->getOrder();
 
         $price = $entity->getPrice();
         $discount = $entity->discount();
@@ -130,45 +171,69 @@ final class OrderItemPartController extends OrderItemController
             $price = $price->subtract($discount);
         }
 
-        return new OrderPart(
-            $entity->getOrder(),
-            $entity->getParent(),
+        $partOffer = new PartOfferDto(
             $entity->getPartId(),
             $entity->getQuantity(),
-            $price,
+            $price
+        );
+
+        $dto = new OrderPart(
+            $order,
+            $entity->getParent(),
+            $partOffer,
             $entity->isWarranty(),
             $entity->getSupplierId(),
         );
-    }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function updateEntity($entity): void
-    {
-        $dto = $entity;
-        assert($dto instanceof OrderPart);
-        $entity = $this->registry->getBy(OrderItemPart::class, ['id' => $this->request->query->get('id')]);
-
-        $entity->setParent($dto->parent);
-        $entity->setPrice($dto->price, $this->registry->get(PartView::class, $dto->partId));
-        $entity->setQuantity($dto->quantity);
-        $entity->setWarranty($dto->warranty);
-        $entity->setSupplierId($dto->supplier);
-
-        parent::updateEntity($entity);
-
-        try {
-            $this->reservationManager->reserve($entity);
-        } catch (ReservationException $e) {
-            $this->addFlash('error', $e->getMessage());
+        $vehicleId = null;
+        $carId = $order->getCarId();
+        if (null !== $carId) {
+            $car = $this->registry->get(Car::class, $carId);
+            $vehicleId = $car->vehicleId;
         }
+
+        $form = $this->createItemForm($dto, $vehicleId)
+            ->handleRequest($this->request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->em;
+
+            $entity->setParent($dto->parent);
+            $entity->setPrice($partOffer->price, $this->registry->get(PartView::class, $partOffer->partId));
+            $entity->setQuantity($partOffer->quantity);
+            $entity->setWarranty($dto->warranty);
+            $entity->setSupplierId($dto->supplierId);
+
+            $em->flush();
+
+            try {
+                $this->reservationManager->reserve($entity);
+            } catch (ReservationException $e) {
+                $this->addFlash('error', $e->getMessage());
+            }
+
+            return $this->redirectToReferrer();
+        }
+
+        return $this->render('easy_admin/order_item_part/edit.html.twig', [
+            'form' => $form->createView(),
+            'order' => $order,
+        ]);
     }
 
-    protected function createEditForm($entity, array $entityProperties)
+    private function createItemForm(OrderPart $dto, ?VehicleId $vehicleId): FormInterface
     {
-        $fb = $this->createEntityFormBuilder($entity, 'edit');
-
-        return $fb->getForm();
+        return $this->createFormBuilder($dto)
+            ->add('parent', OrderItemParentType::class, [
+                'label' => 'Работа / Группа',
+            ])
+            ->add('partOffer', PartOfferType::class, [
+                'vehicleId' => $vehicleId,
+            ])
+            ->add('warranty', WarrantyType::class)
+            ->add('supplierId', SellerType::class, [
+                'required' => false,
+            ])
+            ->getForm();
     }
 }

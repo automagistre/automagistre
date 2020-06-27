@@ -39,3 +39,35 @@
         </span>
     {% endif %}
 {% endblock autocomplete_widget %}
+
+{% block part_offer_widget %}
+    {{ form_label(form.partId) }}
+
+    <div class="form-group field-part_id">
+        {{ form_widget(form.partId) }}
+
+        {% if vehicleId|default is not empty and vehicle_case_is_defined(vehicleId) %}
+            <span class="help-block">
+        Поиск осуществляется только по <strong>{{ vehicleId|display_name }}</strong>, чтобы выполнить поиск по всему складу добавьте символ <strong>+</strong> (плюс) в любую часть строки.
+            </span>
+        {% endif %}
+    </div>
+
+    {{ form_row(form.price) }}
+    {{ form_row(form.quantity) }}
+
+    <script type="text/javascript">
+      let partInput = $("#{{ form.partId.children.autocomplete.vars.id }}"),
+          costInput = $("#{{ form.price.vars.id }}");
+
+      partInput.on('change', function() {
+        if (costInput.val()) {
+          return;
+        }
+
+        let text = $(this).text();
+        let price = text.split('|')[1].trim().replace(/\s/g, '').slice(0, -1).trim().replace(' ', '');
+        costInput.val(price);
+      });
+    </script>
+{% endblock part_offer_widget %}

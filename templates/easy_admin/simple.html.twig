@@ -10,5 +10,6 @@
     {{ form_start(form) }}
     {{ form_widget(form) }}
     <button type="submit" class="btn btn-success">{{ button ?? 'Сохранить' }}</button>
+    <a href="{{ app.request.query.get('referer')|easyadmin_urldecode }}" class="btn btn-default">Назад</a>
     {{ form_end(form) }}
 {% endblock %}

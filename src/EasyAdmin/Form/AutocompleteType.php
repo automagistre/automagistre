@@ -77,7 +77,7 @@ final class AutocompleteType extends AbstractType implements DataMapperInterface
                     $options['formatter_format']
                 );
 
-                unset($options['class'], $options['formatter_format']);
+                unset($options['class'], $options['formatter_format'], $options['autocomplete_parameters']);
 
                 $form->add('autocomplete', ChoiceType::class, $options);
             })
@@ -103,6 +103,7 @@ final class AutocompleteType extends AbstractType implements DataMapperInterface
         $view->vars['attr']['data-easyadmin-autocomplete-url'] = $this->router->generate(
             $options['class'],
             'autocomplete',
+            $options['autocomplete_parameters'],
         );
     }
 
@@ -115,7 +116,9 @@ final class AutocompleteType extends AbstractType implements DataMapperInterface
             ->setDefaults([
                 'formatter_format' => 'autocomplete',
                 'choice_value' => fn (?Identifier $identifier) => null === $identifier ? null : $identifier->toString(),
+                'autocomplete_parameters' => [],
             ])
+            ->setAllowedTypes('autocomplete_parameters', 'array')
             ->setRequired('class');
     }
 

@@ -7,13 +7,15 @@ namespace App\Car\Controller;
 use App\Car\Entity\Recommendation;
 use App\Car\Entity\RecommendationPart;
 use App\Car\Entity\RecommendationPartId;
-use App\Car\Form\DTO\RecommendationPartDTO;
+use App\Car\Form\DTO\RecommendationPartDto;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Form\Type\MoneyType;
 use App\Form\Type\QuantityType;
 use App\Part\Entity\PartView;
+use App\Part\Form\PartOfferDto;
+use App\Part\Form\PartOfferType;
 use App\Part\Manager\PartManager;
-use function assert;
+use App\Vehicle\Entity\VehicleId;
 use Doctrine\ORM\EntityManagerInterface;
 use function is_string;
 use LogicException;
@@ -55,27 +57,38 @@ final class RecommendationPartController extends AbstractController
             return $this->redirectToReferrer();
         }
 
+        $crosses[$part->toId()->toString()] = $part;
+
         /** @var FormInterface[] $forms */
         $forms = [];
         foreach ($crosses as $crossId => $cross) {
             $isCurrent = $partId->equal($cross->toId());
 
-            $model = new RecommendationPartDTO(
-                $recommendationPart->recommendation,
+            $partOffer = new PartOfferDto(
                 $cross->toId(),
                 $recommendationPart->quantity,
                 $isCurrent ? $recommendationPart->getPrice() : $cross->suggestPrice()
             );
+            $dto = new RecommendationPartDto(
+                $recommendationPart->recommendation,
+                $partOffer,
+            );
 
-            $forms[$crossId] = $this->createFormBuilder($model, [
+            $formBuilder = $this->createFormBuilder($dto, [
                 'action' => $this->generateEasyPath('CarRecommendationPart', 'substitute', [
                     'id' => $recommendationPart->toId()->toString(),
                     'cross' => $crossId,
                     'referer' => $request->query->get('referer'),
                 ]),
-            ])
+            ]);
+            $forms[$crossId] = $formBuilder
+                ->add($formBuilder->create('partOffer', null, [
+                    'data_class' => PartOfferDto::class,
+                    'compound' => true,
+                ])
                 ->add('quantity', QuantityType::class)
                 ->add('price', MoneyType::class)
+                )
                 ->getForm();
         }
 
@@ -92,21 +105,21 @@ final class RecommendationPartController extends AbstractController
                     $recommendationPart,
                     $partId
                 ): void {
-                    /** @var RecommendationPartDTO $model */
-                    $model = $form->getData();
+                    /** @var RecommendationPartDto $dto */
+                    $dto = $form->getData();
 
-                    $isCurrent = $model->partId->equal($partId);
+                    $isCurrent = $dto->partOffer->partId->equal($partId);
 
                     if ($isCurrent) {
-                        $recommendationPart->setPrice($model->price);
-                        $recommendationPart->quantity = $model->quantity;
+                        $recommendationPart->setPrice($dto->partOffer->price);
+                        $recommendationPart->quantity = $dto->partOffer->quantity;
                     } else {
                         $entity = new RecommendationPart(
                             RecommendationPartId::generate(),
-                            $model->recommendation,
-                            $model->partId,
-                            $model->quantity,
-                            $model->price,
+                            $dto->recommendation,
+                            $dto->partOffer->partId,
+                            $dto->partOffer->quantity,
+                            $dto->partOffer->price,
                         );
 
                         $em->persist($entity);
@@ -125,34 +138,44 @@ final class RecommendationPartController extends AbstractController
         ]);
     }
 
-    protected function createNewEntity(): RecommendationPartDTO
+    protected function newAction(): Response
     {
         $recommendation = $this->getEntity(Recommendation::class);
         if (!$recommendation instanceof Recommendation) {
             throw new LogicException('CarRecommendation required.');
         }
 
-        return new RecommendationPartDTO($recommendation);
-    }
+        $partOffer = $this->createWithoutConstructor(PartOfferDto::class);
+        $dto = $this->createWithoutConstructor(RecommendationPartDto::class);
+        $dto->partOffer = $partOffer;
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function persistEntity($entity): RecommendationPart
-    {
-        $model = $entity;
-        assert($model instanceof RecommendationPartDTO);
+        $form = $this->createFormBuilder($dto)
+            ->add('partOffer', PartOfferType::class, [
+                'vehicleId' => $this->getIdentifier(VehicleId::class),
+            ])
+            ->getForm()
+            ->handleRequest($this->request);
 
-        $entity = new RecommendationPart(
-            RecommendationPartId::generate(),
-            $model->recommendation,
-            $model->partId,
-            $model->quantity,
-            $model->price,
-        );
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->em;
 
-        parent::persistEntity($entity);
+            $em->persist(
+                new RecommendationPart(
+                    RecommendationPartId::generate(),
+                    $recommendation,
+                    $partOffer->partId,
+                    $partOffer->quantity,
+                    $partOffer->price,
+                )
+            );
+            $em->flush();
 
-        return $entity;
+            return $this->redirectToReferrer();
+        }
+
+        return $this->render('easy_admin/simple.html.twig', [
+            'content_title' => $recommendation->service,
+            'form' => $form->createView(),
+        ]);
     }
 }

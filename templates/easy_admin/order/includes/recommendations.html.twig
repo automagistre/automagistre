@@ -1,3 +1,4 @@
+{# @var car \App\Car\Entity\Car #}
 {%- apply spaceless -%}
     <div class="row">
         <div class="col-xs-12">
@@ -27,7 +28,10 @@
 
                                 {{- '&nbsp;'|raw -}}
 
-                                <a href="{{ easyadmin_path('CarRecommendationPart', 'new', {'recommendation_id': recommendation|toId}) }}">
+                                <a href="{{ easyadmin_path('CarRecommendationPart', 'new', {
+                                    'recommendation_id': recommendation|toId,
+                                    'vehicle_id': car.vehicleId|toId|default
+                                }) }}">
                                     <i class="fa fa-plus"></i>
                                 </a>
                             </td>

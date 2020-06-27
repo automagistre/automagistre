@@ -48,7 +48,9 @@ easy_admin:
             label_null: 'easy_admin/default/label_null.html.twig'
             label_undefined: 'easy_admin/default/label_undefined.html.twig'
 
-        form_theme: 'easy_admin/form/bootstrap_3_layout.html.twig'
+        form_theme:
+            - easy_admin/form.html.twig
+            - 'easy_admin/form/bootstrap_3_layout.html.twig'
         assets:
             js:
                 - 'assets/js/collection-autocomplete.js'

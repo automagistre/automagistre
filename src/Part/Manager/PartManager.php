@@ -139,8 +139,10 @@ final class PartManager
             ->select('t')
             ->from(PartView::class, 't', 't.id')
             ->where('t.id IN (:ids)')
+            ->andWhere('t.id <> :id')
             ->andWhere('t.quantity > 0')
             ->getQuery()
+            ->setParameter('id', $partId)
             ->setParameter('ids', $partView->analogs)
             ->getResult();
     }
