@@ -71,7 +71,10 @@
         <td></td>
         <td>
             {%- apply spaceless -%}
-                <a href="{{ easyadmin_path('OrderItemService', 'edit', {'order_id': order|toId}) }}">
+                <a href="{{ easyadmin_path('OrderItemService', 'edit', {
+                    'id': item|toId,
+                    'order_id': order|toId
+                }) }}">
                     <i class="fa fa-pencil"></i>
                 </a>
                 &nbsp;
