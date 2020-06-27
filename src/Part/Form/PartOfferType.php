@@ -37,7 +37,7 @@ final class PartOfferType extends AbstractType
                         'class' => Part::class,
                         'disabled' => (bool) $data->partId,
                         'autocomplete_parameters' => [
-                            'vehicle_id' => (string) ($options['vehicleId'] ?? ''),
+                            'vehicle_id' => null === $options['vehicleId'] ? null : (string) $options['vehicleId'],
                         ],
                     ])
                     ->add('price', MoneyType::class)
@@ -64,7 +64,9 @@ final class PartOfferType extends AbstractType
      */
     public function finishView(FormView $view, FormInterface $form, array $options): void
     {
-        $view->vars['vehicleId'] = $options['vehicleId'];
+        if (null !== $options['vehicleId']) {
+            $view->vars['vehicleId'] = $options['vehicleId'];
+        }
     }
 
     /**
