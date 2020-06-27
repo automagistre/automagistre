@@ -75,7 +75,7 @@ final class OrderItemPartController extends OrderItemController
         if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order not found');
         }
-        $order = $order->getOrder();
+
         if (!$order->isEditable()) {
             throw new BadRequestHttpException('Order closed.');
         }
@@ -85,6 +85,7 @@ final class OrderItemPartController extends OrderItemController
         $dto->order = $order;
         $dto->partOffer = $partOffer;
 
+        // TODO OrderItemParentType fetch current item from RequestStack
         $easyadmin = $this->request->attributes->get('easyadmin');
         $easyadmin['item'] = $dto;
         $this->request->attributes->set('easyadmin', $easyadmin);
