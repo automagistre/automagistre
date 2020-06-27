@@ -147,6 +147,7 @@ final class RecommendationPartController extends AbstractController
 
         $partOffer = $this->createWithoutConstructor(PartOfferDto::class);
         $dto = $this->createWithoutConstructor(RecommendationPartDto::class);
+        $dto->recommendation = $recommendation;
         $dto->partOffer = $partOffer;
 
         $form = $this->createFormBuilder($dto)
