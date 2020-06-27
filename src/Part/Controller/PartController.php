@@ -34,6 +34,7 @@ use function array_unique;
 use function array_values;
 use function assert;
 use Closure;
+use function count;
 use DateTimeImmutable;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\Query\Expr\Join;
@@ -41,6 +42,8 @@ use Doctrine\ORM\QueryBuilder;
 use function explode;
 use LogicException;
 use function mb_strtoupper;
+use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Pagerfanta;
 use function sprintf;
 use function str_replace;
 use function strpos;
@@ -306,7 +309,9 @@ final class PartController extends AbstractController
         $qb = $this->createSearchQueryBuilder((string) $query->get('entity'), $queryString, [])
             ->orderBy('part.quantity', 'DESC');
 
-        $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->getInt('page', 1));
+        $paginator = new Pagerfanta(new DoctrineORMAdapter($qb, false, false));
+        $paginator->setMaxPerPage(15);
+        $paginator->setCurrentPage($query->getInt('page', 1));
 
         $vehicleId = $this->getIdentifier(VehicleId::class);
         $useCarModelInFormat = false === strpos($queryString, '+');
@@ -335,15 +340,16 @@ final class PartController extends AbstractController
 
         $data = [];
         $analogs = [];
-        if (3 >= $paginator->getNbResults()) {
-            foreach ($paginator->getCurrentPageResults() as $part) {
+        $currentPageResults = (array) $paginator->getCurrentPageResults();
+        if (3 >= count($currentPageResults)) {
+            foreach ($currentPageResults as $part) {
                 /* @var $part PartView */
                 $data[$part->toId()->toString()] = $normalizer($part);
 
                 $analogs = [...$analogs, ...$part->analogs];
             }
         } else {
-            $data = array_map($normalizer, (array) $paginator->getCurrentPageResults());
+            $data = array_map($normalizer, $currentPageResults);
         }
 
         if ([] !== $analogs) {
