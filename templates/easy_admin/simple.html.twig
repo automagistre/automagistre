@@ -1,4 +1,4 @@
-{% extends 'easy_admin/default/layout.html.twig' %}
+{% extends 'easy_admin/default/edit.html.twig' %}
 
 {% form_theme form with easyadmin_config('design.form_theme') %}
 
@@ -10,6 +10,15 @@
     {{ form_start(form) }}
     {{ form_widget(form) }}
     <button type="submit" class="btn btn-success">{{ button ?? 'Сохранить' }}</button>
+    {% if delete_form is defined %}
+        <a class="btn text-danger action-delete" title="" href="{{ delete_form.vars.action }}" target="_self">
+            <i class="fa fa-fw fa-trash-o"></i> Удалить
+        </a>
+    {% endif %}
     <a href="{{ app.request.query.get('referer')|easyadmin_urldecode }}" class="btn btn-default">Назад</a>
     {{ form_end(form) }}
+
+    {% if delete_form is defined %}
+        {{ block('delete_form') }}
+    {% endif %}
 {% endblock %}

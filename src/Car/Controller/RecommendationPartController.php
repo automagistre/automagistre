@@ -179,4 +179,48 @@ final class RecommendationPartController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    protected function editAction(): Response
+    {
+        $recommendationPart = $this->findCurrentEntity();
+        if (!$recommendationPart instanceof RecommendationPart) {
+            throw new LogicException('RecommendationPart required.');
+        }
+
+        $partOffer = $this->createWithoutConstructor(PartOfferDto::class);
+        $partOffer->partId = $recommendationPart->partId;
+        $partOffer->price = $recommendationPart->getPrice();
+        $partOffer->quantity = $recommendationPart->quantity;
+
+        $dto = $this->createWithoutConstructor(RecommendationPartDto::class);
+        $dto->recommendation = $recommendationPart->recommendation;
+        $dto->partOffer = $partOffer;
+
+        $form = $this->createFormBuilder($dto)
+            ->add('partOffer', PartOfferType::class, [
+                'vehicleId' => $this->getIdentifier(VehicleId::class),
+            ])
+            ->getForm()
+            ->handleRequest($this->request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->em;
+
+            $recommendationPart->setPrice($partOffer->price);
+            $recommendationPart->quantity = $partOffer->quantity;
+
+            $em->flush();
+
+            return $this->redirectToReferrer();
+        }
+
+        return $this->render('easy_admin/simple.html.twig', [
+            'content_title' => $recommendationPart->recommendation->service,
+            'form' => $form->createView(),
+            'delete_form' => $this->createDeleteForm(
+                $this->entity['name'],
+                $recommendationPart->toId()->toString(),
+            )->createView(),
+        ]);
+    }
 }
