@@ -75,6 +75,10 @@ final class OrderItemPartController extends OrderItemController
         if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order not found');
         }
+        $order = $order->getOrder();
+        if (!$order->isEditable()) {
+            throw new BadRequestHttpException('Order closed.');
+        }
 
         $partOffer = $this->createWithoutConstructor(PartOfferDto::class);
         $dto = $this->createWithoutConstructor(OrderPart::class);
@@ -147,6 +151,9 @@ final class OrderItemPartController extends OrderItemController
             throw new LogicException('OrderItemPart required.');
         }
         $order = $entity->getOrder();
+        if (!$order->isEditable()) {
+            throw new BadRequestHttpException('Order closed.');
+        }
 
         $price = $entity->getPrice();
         $discount = $entity->discount();
