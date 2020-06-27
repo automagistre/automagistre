@@ -29,8 +29,6 @@
                                 {% endblock %}
 
                                 {% if delete_form is defined %}
-                                    {{ block('delete_form') }}
-
                                     <a class="btn text-danger action-delete" title="" href="{{ delete_form.vars.action }}" target="_self">
                                         <i class="fa fa-fw fa-trash-o"></i> Удалить
                                     </a>
@@ -46,6 +44,10 @@
                 {{ form_end(form) }}
             {% endif %}
         </div>
+
+        {% if delete_form is defined %}
+            {{ block('delete_form') }}
+        {% endif %}
 
         <div class="col-md-6">
             {{ order_info(order) }}
