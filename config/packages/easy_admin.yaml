@@ -50,7 +50,7 @@ easy_admin:
 
         form_theme:
             - easy_admin/form.html.twig
-            - 'easy_admin/form/bootstrap_3_layout.html.twig'
+            - easy_admin/form/bootstrap_3_layout.html.twig
         assets:
             js:
                 - 'assets/js/collection-autocomplete.js'
