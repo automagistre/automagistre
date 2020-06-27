@@ -69,23 +69,6 @@ final class OrderItemPartController extends OrderItemController
         return $this->redirectToReferrer();
     }
 
-    /**
-     * templates:
-     * new: 'easy_admin/order_item_part/new.html.twig'
-     * edit: 'easy_admin/order_item_part/edit.html.twig'
-     * edit:
-     * actions: ['delete']
-     * fields:
-     * - { property: 'partId', type_options: { disabled: true } }
-     * form:
-     * fields:
-     * - { property: 'order', label: 'Заказ', type: 'text', type_options: { disabled: true } }
-     * - { property: 'parent', label: '', type: App\Order\Form\Type\OrderItemParentType }
-     * - { property: 'warranty', label: 'По гарантии?' }
-     * - { property: 'supplier', label: 'Поставщик', type: App\Customer\Form\SellerType }
-     * new:
-     * form_options: { data_class: App\Order\Form\OrderPart }.
-     */
     protected function newAction(): Response
     {
         $order = $this->getEntity(Order::class);
@@ -218,6 +201,7 @@ final class OrderItemPartController extends OrderItemController
         return $this->render('easy_admin/order_item_part/edit.html.twig', [
             'form' => $form->createView(),
             'order' => $order,
+            'delete_form' => $this->createDeleteForm($this->entity['name'], $entity->toId()->toString())->createView(),
         ]);
     }
 

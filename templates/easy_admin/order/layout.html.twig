@@ -19,17 +19,27 @@
                         {%- endblock %}
                     </div>
 
-                    {% block div_footer %}
-                        <div class="box-footer">
-                            {% block panel_footer %}
-                                {% if form is defined %}
-                                    <button class="btn btn-success" type="submit">Сохранить</button>
-                                {% endif %}
-                            {% endblock %}
+                    {% if entity_fields is not defined %}
+                        {% block div_footer %}
+                            <div class="box-footer">
+                                {% block panel_footer %}
+                                    {% if form is defined %}
+                                        <button class="btn btn-success" type="submit">Сохранить</button>
+                                    {% endif %}
+                                {% endblock %}
 
-                            <a href="{{ easyadmin_path('Order', 'show', {'id': order|toId}) }}" class="btn btn-primary">Отмена</a>
-                        </div>
-                    {% endblock %}
+                                {% if delete_form is defined %}
+                                    {{ block('delete_form') }}
+
+                                    <a class="btn text-danger action-delete" title="" href="{{ delete_form.vars.action }}" target="_self">
+                                        <i class="fa fa-fw fa-trash-o"></i> Удалить
+                                    </a>
+                                {% endif %}
+
+                                <a href="{{ easyadmin_path('Order', 'show', {'id': order|toId}) }}" class="btn btn-primary">Отмена</a>
+                            </div>
+                        {% endblock %}
+                    {% endif %}
                 </div>
             </div>
             {% if form is defined %}

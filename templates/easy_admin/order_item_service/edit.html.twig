@@ -7,14 +7,6 @@
 
 {% block panel_title %}Работа{% endblock %}
 
-{% block main %}
-    {{ parent() }}
-
-    {{ block('delete_form') }}
-{% endblock %}
-
-{% block div_footer %}{% endblock %}
-
 {% block body_javascript %}
     {{ parent() }}
 
