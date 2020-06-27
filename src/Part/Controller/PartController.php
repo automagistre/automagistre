@@ -364,7 +364,7 @@ final class PartController extends AbstractController
                 ->getResult();
 
             foreach ($analogs as $analog) {
-                $data[] = $normalizer($analog);
+                $data[] = $normalizer($analog, true);
             }
         }
 
