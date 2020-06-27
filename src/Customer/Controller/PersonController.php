@@ -37,7 +37,11 @@ final class PersonController extends OperandController
 
         parent::persistEntity($entity);
 
-        $this->setReferer($this->generateEasyPath('Person', 'show', ['id' => $entity]));
+        $this->setReferer(
+            $this->generateEasyPath('Person', 'show', [
+                'id' => $entity->toId()->toString(),
+            ])
+        );
 
         $this->event(new PersonCreated($entity));
     }
