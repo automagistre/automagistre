@@ -275,7 +275,7 @@ final class PartController extends AbstractController
                         $qb->expr()->eq('part.isUniversal', ':universal')
                     ))
                     ->setParameters([
-                        'case' => strtoupper($carModel->caseName),
+                        'case' => '%'.strtoupper($carModel->caseName).'%',
                         'universal' => true,
                     ]);
             }
