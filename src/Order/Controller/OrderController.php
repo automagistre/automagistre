@@ -694,6 +694,7 @@ final class OrderController extends AbstractController
         $model = new stdClass();
         $model->forPayment = $forPayment->isPositive() ? $forPayment : new Money(0, $forPayment->getCurrency());
         $model->recipient = $customer;
+        $model->description = null;
 
         $formBuilder = $this->createFormBuilder($model, [
             'label' => false,
