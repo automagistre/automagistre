@@ -150,7 +150,7 @@
                                 {% for order in orders %}
                                     {# @var order \App\Order\Entity\Order #}
                                     <tr>
-                                        <td><a href="{{ easyadmin_path('Order', 'show', {'order': order|toId, 'part_id': entity|toId}) }}">{{ order.number }}</a></td>
+                                        <td><a href="{{ easyadmin_path('Order', 'show', {'id': order|toId, 'part_id': entity|toId}) }}">{{ order.number }}</a></td>
                                         <td>{{ include('easy_admin/order/field_status.html.twig', {'value': order.status, 'item': order}) }}</td>
                                         <td>
                                             {% if order.carId is not empty %}
