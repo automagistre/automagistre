@@ -122,7 +122,7 @@
                                 {% endif %}
                                 {% if order.editable %}
                                     <div class="box-footer">
-                                        <a href="{{ easyadmin_path('Order', 'payment', {'order': order|toId, 'referer': true}) }}" class="btn btn-primary">
+                                        <a href="{{ easyadmin_path('Order', 'payment', {'order_id': order|toId, 'referer': true}) }}" class="btn btn-primary">
                                             Создать платёж
                                         </a>
                                     </div>
