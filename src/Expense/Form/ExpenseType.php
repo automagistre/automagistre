@@ -36,7 +36,7 @@ final class ExpenseType extends AbstractType
             'placeholder' => 'Выберите статью расходов',
             'choice_loader' => new CallbackChoiceLoader(function (): array {
                 return array_map(
-                    fn (array $item) => $item['id'],
+                    fn (array $item): ExpenseId => $item['id'],
                     $this->registry->viewListBy(Expense::class, []),
                 );
             }),
