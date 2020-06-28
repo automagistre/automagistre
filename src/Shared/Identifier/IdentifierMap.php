@@ -3,6 +3,7 @@
 namespace App\Shared\Identifier;
 
 use function array_key_exists;
+use function get_class;
 use InvalidArgumentException;
 use function sprintf;
 
@@ -22,12 +23,12 @@ final class IdentifierMap
     }
 
     /**
-     * @psalm-param class-string<Identifier> $class
-     *
      * @psalm-return class-string
      */
-    public function entityClassByIdentifier(string $class): string
+    public function entityClassByIdentifier(Identifier $identifier): string
     {
+        $class = get_class($identifier);
+
         if (!array_key_exists($class, $this->map)) {
             throw new InvalidArgumentException(sprintf('Not found entity class for identifier class %s', $class));
         }

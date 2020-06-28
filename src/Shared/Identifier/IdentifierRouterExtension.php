@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Shared\Identifier;
 
 use EasyCorp\Bundle\EasyAdminBundle\Router\EasyAdminRouter;
-use function get_class;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -30,7 +29,7 @@ final class IdentifierRouterExtension extends AbstractExtension
             new TwigFunction(
                 'easyadmin_path_by_id',
                 function (Identifier $uuid, string $action, array $params = []): string {
-                    $class = $this->identifierMap->entityClassByIdentifier(get_class($uuid));
+                    $class = $this->identifierMap->entityClassByIdentifier($uuid);
                     $params['id'] = $uuid->toString();
 
                     return $this->router->generate($class, $action, $params);

@@ -168,7 +168,7 @@ final class Registry
 
     public function view(Identifier $identifier): array
     {
-        $class = $this->identifierMap->entityClassByIdentifier(get_class($identifier));
+        $class = $this->identifierMap->entityClassByIdentifier($identifier);
 
         $view = $this->repository($class)
             ->createQueryBuilder('t')
