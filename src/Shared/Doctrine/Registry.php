@@ -6,6 +6,7 @@ namespace App\Shared\Doctrine;
 
 use App\Costil;
 use App\Shared\Identifier\Identifier;
+use App\Shared\Identifier\IdentifierMap;
 use function array_map;
 use function assert;
 use function class_exists;
@@ -31,9 +32,12 @@ final class Registry
 {
     private ManagerRegistry $registry;
 
-    public function __construct(ManagerRegistry $registry)
+    private IdentifierMap $identifierMap;
+
+    public function __construct(ManagerRegistry $registry, IdentifierMap $identifierMap)
     {
         $this->registry = $registry;
+        $this->identifierMap = $identifierMap;
     }
 
     /**
@@ -164,7 +168,7 @@ final class Registry
 
     public function view(Identifier $identifier): array
     {
-        $class = Costil::ENTITY[get_class($identifier)];
+        $class = $this->identifierMap->entityClassByIdentifier(get_class($identifier));
 
         $view = $this->repository($class)
             ->createQueryBuilder('t')

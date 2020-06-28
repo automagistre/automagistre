@@ -7,6 +7,7 @@ namespace App;
 use App\JSONRPC\Test\JsonRPCClient;
 use App\Shared\Doctrine\ORM\Listeners\MetadataCacheCompilerPass;
 use App\Shared\Identifier\IdentifierFormatter;
+use App\Shared\Identifier\IdentifierMapCompilerPass;
 use function assert;
 use function class_exists;
 use function dirname;
@@ -94,6 +95,7 @@ final class Kernel extends SymfonyKernel implements CompilerPassInterface
     protected function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new MetadataCacheCompilerPass(), PassConfig::TYPE_OPTIMIZE);
+        $container->addCompilerPass(new IdentifierMapCompilerPass(), PassConfig::TYPE_OPTIMIZE);
     }
 
     /**
