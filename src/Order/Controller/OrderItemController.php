@@ -57,9 +57,18 @@ abstract class OrderItemController extends AbstractController
             return parent::isActionAllowed($actionName);
         }
 
-        $order = $this->getEntity(Order::class);
-        if (!$order instanceof Order) {
-            throw new LogicException('Order required.');
+        if ('new' === $actionName) {
+            $order = $this->getEntity(Order::class);
+            if (!$order instanceof Order) {
+                throw new LogicException('Order required.');
+            }
+        } else {
+            $entity = $this->findCurrentEntity();
+            if (!$entity instanceof OrderItem) {
+                throw new LogicException('OrderItem required.');
+            }
+
+            $order = $entity->getOrder();
         }
 
         if (!$order->isEditable()) {
