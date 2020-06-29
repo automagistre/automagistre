@@ -17,3 +17,7 @@ parameters:
     symfony:
         container_xml_path: %rootDir%/../../../var/cache/test/App_KernelTestDebugContainer.xml
     checkMissingIterableValueType: false
+    ignoreErrors:
+        -
+            message: '#Unable to resolve the template type#'
+            path: %currentWorkingDirectory%/src

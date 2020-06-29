@@ -11,6 +11,7 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-uuid": "*",
+        "amphp/socket": "^1.1",
         "beberlei/doctrineextensions": "^1.2",
         "cron/cron-bundle": "^2.4",
         "datto/json-rpc": "^6.1",

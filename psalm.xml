@@ -40,6 +40,11 @@
                 <file name="src/Shared/Identifier/ODM/IdentifierType.php"/>
             </errorLevel>
         </PropertyNotSetInConstructor>
+        <PossiblyFalseOperand>
+            <errorLevel type="suppress">
+                <file name="src/Nsq/Command.php"/>
+            </errorLevel>
+        </PossiblyFalseOperand>
     </issueHandlers>
 
     <plugins>
