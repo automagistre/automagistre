@@ -119,5 +119,5 @@ networks:
         driver: overlay
         name: tenant_${TENANT}
     nsq:
-        driver: overlay
+        external: true
         name: nsq
