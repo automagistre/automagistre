@@ -13,9 +13,9 @@ use Amp\Socket\SocketPool;
 use Amp\Socket\UnlimitedSocketPool;
 use Generator;
 use LogicException;
+use PHPinnacle\Buffer\ByteBuffer;
 use Sentry\SentryBundle\SentryBundle;
 use function sprintf;
-use function strlen;
 use Throwable;
 
 final class Nsq
@@ -63,18 +63,19 @@ final class Nsq
                 throw new LogicException('NSQ return unexpected null.');
             }
 
-            $size = Extractor::int32($buffer, self::BYTES_SIZE);
-            $type = Extractor::int32($buffer, self::BYTES_TYPE);
+            $buffer = new ByteBuffer($buffer);
+            $size = $buffer->consumeUint32();
+            $type = $buffer->consumeUint32();
 
             if (self::TYPE_ERROR === $type) {
-                throw new LogicException(sprintf('NSQ return error: "%s"', Extractor::string($buffer, $size)));
+                throw new LogicException(sprintf('NSQ return error: "%s"', $buffer->consume($size)));
             }
 
             if (self::TYPE_RESPONSE !== $type) {
                 throw new LogicException(sprintf('Expecting "%s" type, but NSQ return: "%s"', self::TYPE_RESPONSE, $type));
             }
 
-            $response = Extractor::string($buffer, $size);
+            $response = $buffer->consume($size);
             if (self::OK !== $response) {
                 throw new LogicException(sprintf('NSQ return unexpected response: "%s"', $response));
             }
@@ -91,38 +92,54 @@ final class Nsq
 
         rethrow(call(function () use ($topic, $channel, $callable, $stopper, $tokenSource): Generator {
             $uri = sprintf('%s#%s-%s', $this->config['localAddr'], $topic, $channel);
+            $buffer = new ByteBuffer();
 
             /** @var EncryptableSocket $socket */
-            $socket = yield $this->pool->checkout($uri, null, $tokenSource->getToken());
+            $socket = null;
 
-            yield $socket->write(Command::magic());
-            yield $socket->write(Command::sub($topic, $channel));
+            $establishConnection = function () use ($uri, $tokenSource, &$socket, $topic, $channel): Generator {
+                $socket = yield $this->pool->checkout($uri, null, $tokenSource->getToken());
 
-            $buffer = '';
+                yield $socket->write(Command::magic());
+                yield $socket->write(Command::sub($topic, $channel));
+            };
+
+            yield call($establishConnection);
+
             while (!$stopper->isStopped()) {
                 yield $socket->write(Command::rdy(1));
 
                 $size = 4;
                 $sizeRead = false;
-                while (strlen($buffer) < $size) {
-                    $read = yield $socket->read();
+                while ($buffer->size() < $size) {
+                    $chunk = yield $socket->read();
 
-                    if (null === $read && $stopper->isStopped()) {
+                    if (null === $chunk && $stopper->isStopped()) {
                         break 2;
                     }
 
-                    $buffer .= $read;
+                    if (null === $chunk) {
+                        $buffer->empty();
+                        $this->pool->checkin($socket);
 
-                    if (false === $sizeRead && strlen($buffer) >= self::BYTES_SIZE) {
-                        $size = Extractor::int32($buffer, self::BYTES_SIZE);
+                        yield call($establishConnection);
+
+                        continue 2;
+                    }
+
+                    $buffer->append($chunk);
+
+                    /** @phpstan-ignore-next-line */
+                    if (false === $sizeRead && $buffer->size() >= self::BYTES_SIZE) {
+                        $size = $buffer->consumeUint32();
                         $sizeRead = true;
                     }
                 }
 
-                $type = Extractor::int32($buffer, self::BYTES_TYPE);
+                $type = $buffer->consumeUint32();
 
                 if (self::TYPE_RESPONSE === $type) {
-                    $response = Extractor::string($buffer, $size - self::BYTES_TYPE);
+                    $response = $buffer->consume($size - self::BYTES_TYPE);
 
                     if (self::OK === $response) {
                         continue;
@@ -138,17 +155,17 @@ final class Nsq
                 }
 
                 if (self::TYPE_ERROR === $type) {
-                    throw new LogicException(Extractor::string($buffer, $size));
+                    throw new LogicException($buffer->consume($size - self::BYTES_TYPE));
                 }
 
                 if (self::TYPE_MESSAGE !== $type) {
                     throw new LogicException(sprintf('Unsupported type: "%s"', $type));
                 }
 
-                $timestamp = Extractor::int64($buffer, self::BYTES_TIMESTAMP);
-                $attempts = Extractor::uInt16($buffer, self::BYTES_ATTEMPTS);
-                $id = Extractor::string($buffer, self::BYTES_ID);
-                $body = Extractor::string($buffer, $size - self::BYTES_TYPE - self::BYTES_TIMESTAMP - self::BYTES_ATTEMPTS - self::BYTES_ID);
+                $timestamp = $buffer->consumeInt64();
+                $attempts = $buffer->consumeUint16();
+                $id = $buffer->consume(self::BYTES_ID);
+                $body = $buffer->consume($size - self::BYTES_TYPE - self::BYTES_TIMESTAMP - self::BYTES_ATTEMPTS - self::BYTES_ID);
 
                 $finished = false;
                 $message = new Envelop(
