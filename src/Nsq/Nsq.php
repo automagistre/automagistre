@@ -102,7 +102,9 @@ final class Nsq
             while (!$stopper->isStopped()) {
                 yield $socket->write(Command::rdy(1));
 
-                while (strlen($buffer) < 4) {
+                $size = 4;
+                $sizeRead = false;
+                while (strlen($buffer) < $size) {
                     $read = yield $socket->read();
 
                     if (null === $read && $stopper->isStopped()) {
@@ -110,11 +112,11 @@ final class Nsq
                     }
 
                     $buffer .= $read;
-                }
 
-                $size = Extractor::int32($buffer, self::BYTES_SIZE);
-                while (strlen($buffer) < $size) {
-                    $buffer .= yield $socket->read();
+                    if (false === $sizeRead && strlen($buffer) >= self::BYTES_SIZE) {
+                        $size = Extractor::int32($buffer, self::BYTES_SIZE);
+                        $sizeRead = true;
+                    }
                 }
 
                 $type = Extractor::int32($buffer, self::BYTES_TYPE);
