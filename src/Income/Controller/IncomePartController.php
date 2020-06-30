@@ -90,6 +90,10 @@ final class IncomePartController extends AbstractController
         $income = $entity->getIncome();
         assert($income instanceof Income);
 
-        $this->setReferer($this->generateEasyPath('Income', 'show', ['id' => $income->toId()]));
+        $this->setReferer(
+            $this->generateEasyPath('Income', 'show', [
+                'id' => $income->toId()->toString(),
+            ])
+        );
     }
 }
