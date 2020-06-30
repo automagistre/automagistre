@@ -75,7 +75,7 @@ final class Nsq
                 throw new LogicException(sprintf('Expecting "%s" type, but NSQ return: "%s"', self::TYPE_RESPONSE, $type));
             }
 
-            $response = $buffer->consume($size);
+            $response = $buffer->consume($size - self::BYTES_TYPE);
             if (self::OK !== $response) {
                 throw new LogicException(sprintf('NSQ return unexpected response: "%s"', $response));
             }
