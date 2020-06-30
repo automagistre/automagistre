@@ -76,7 +76,7 @@ final class EventsConsumerCommand extends Command
                     throw new LogicException(sprintf('Event class "%s" not exists. Body: "%s"', $class, $envelop->body));
                 }
 
-                $this->eventBus->handle($event);
+//                $this->eventBus->handle($event); TODO only ack for now
 
                 $io->success(sprintf('Event: %s handled.', $class));
 

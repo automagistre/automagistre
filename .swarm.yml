@@ -28,6 +28,7 @@ services:
         image: automagistre/tenant-php:${VERSION}
         networks:
             - default
+            - nsq
         environment:
             APP_SECRET: ${APP_SECRET}
             DATABASE_PASSWORD: ${DB_PASSWORD}
@@ -49,6 +50,15 @@ services:
     cron:
         <<: *php-fpm
         command: console cron:start --blocking
+        healthcheck:
+            disable: true
+        deploy:
+            mode: replicated
+            replicas: 1
+
+    events_consumer:
+        <<: *php-fpm
+        command: console events:consume
         healthcheck:
             disable: true
         deploy:
@@ -108,3 +118,6 @@ networks:
     default:
         driver: overlay
         name: tenant_${TENANT}
+    nsq:
+        driver: overlay
+        name: nsq

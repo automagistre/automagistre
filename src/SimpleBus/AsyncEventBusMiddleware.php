@@ -53,7 +53,7 @@ final class AsyncEventBusMiddleware implements MessageBusMiddleware
 
             wait($this->nsq->pub($topic, $body));
 
-            return;
+//            return;
         }
 
         $next($message);
