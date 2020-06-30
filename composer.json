@@ -10,6 +10,7 @@
         "ext-intl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
+        "ext-pcntl": "*",
         "ext-uuid": "*",
         "amphp/socket": "^1.1",
         "beberlei/doctrineextensions": "^1.2",

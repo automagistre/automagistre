@@ -14,6 +14,8 @@ use function is_object;
 use LogicException;
 use LongRunning\Core\Cleaner;
 use Sentry\Util\JSON;
+use const SIGINT;
+use const SIGTERM;
 use SimpleBus\SymfonyBridge\Bus\EventBus;
 use function sprintf;
 use Symfony\Component\Console\Command\Command;
@@ -61,7 +63,7 @@ final class EventsConsumerCommand extends Command
         $topic = sprintf('%s_events', $this->tenant->toIdentifier());
 
         Loop::run(function () use ($topic, $io): void {
-            $this->nsq->subscribe($topic, 'tenant', function (Envelop $envelop) use ($io): Generator {
+            $stopper = $this->nsq->subscribe($topic, 'tenant', function (Envelop $envelop) use ($io): Generator {
                 $data = JSON::decode($envelop->body);
 
                 $class = $data['class'] ?? '';
@@ -82,6 +84,19 @@ final class EventsConsumerCommand extends Command
 
                 yield $envelop->ack();
             });
+
+            $onSignal = static function () use ($stopper, $io): void {
+                $io->note('Stop signal received');
+
+                $stopper->stop();
+
+                Loop::delay(1000, static function (): void {
+                    Loop::stop();
+                });
+            };
+
+            Loop::onSignal(SIGINT, $onSignal);
+            Loop::onSignal(SIGTERM, $onSignal);
         });
 
         return 0;

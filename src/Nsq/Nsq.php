@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Nsq;
 
 use function Amp\call;
+use Amp\CancellationTokenSource;
 use Amp\Promise;
 use function Amp\Promise\rethrow;
 use Amp\Socket\EncryptableSocket;
@@ -80,23 +81,35 @@ final class Nsq
         });
     }
 
-    public function subscribe(string $topic, string $channel, callable $callable): void
+    public function subscribe(string $topic, string $channel, callable $callable): Stopper
     {
-        rethrow(call(function () use ($topic, $channel, $callable): Generator {
+        $tokenSource = new CancellationTokenSource();
+
+        $stopper = new Stopper(static function () use ($tokenSource): void {
+            $tokenSource->cancel();
+        });
+
+        rethrow(call(function () use ($topic, $channel, $callable, $stopper, $tokenSource): Generator {
             $uri = sprintf('%s#%s-%s', $this->config['localAddr'], $topic, $channel);
 
             /** @var EncryptableSocket $socket */
-            $socket = yield $this->pool->checkout($uri);
+            $socket = yield $this->pool->checkout($uri, null, $tokenSource->getToken());
 
             yield $socket->write(Command::magic());
             yield $socket->write(Command::sub($topic, $channel));
 
             $buffer = '';
-            while (true) {
+            while (!$stopper->isStopped()) {
                 yield $socket->write(Command::rdy(1));
 
                 while (strlen($buffer) < 4) {
-                    $buffer .= yield $socket->read();
+                    $read = yield $socket->read();
+
+                    if (null === $read && $stopper->isStopped()) {
+                        break 2;
+                    }
+
+                    $buffer .= $read;
                 }
 
                 $size = Extractor::int32($buffer, self::BYTES_SIZE);
@@ -148,7 +161,7 @@ final class Nsq
 
                         $finished = true;
 
-                        return call(static function () use ($socket, $id) {
+                        return call(static function () use ($socket, $id): Generator {
                             yield $socket->write(Command::fin($id));
                         });
                     },
@@ -159,18 +172,12 @@ final class Nsq
 
                         $finished = true;
 
-                        return call(static function () use ($socket, $id, $timeout) {
+                        return call(static function () use ($socket, $id, $timeout): Generator {
                             yield $socket->write(Command::req($id, $timeout));
                         });
                     },
-                    static function () use ($socket, $id, &$finished): Promise {
-                        if ($finished) {
-                            throw new LogicException('Can\'t touch, message already finished.');
-                        }
-
-                        $finished = true;
-
-                        return call(static function () use ($socket, $id) {
+                    static function () use ($socket, $id): Promise {
+                        return call(static function () use ($socket, $id): Generator {
                             yield $socket->write(Command::touch($id));
                         });
                     },
@@ -181,12 +188,15 @@ final class Nsq
                 } catch (Throwable $e) {
                     SentryBundle::getCurrentHub()->captureException($e);
 
+                    $this->pool->checkin($socket);
+
                     throw $e;
                 }
             }
 
-            /** @phpstan-ignore-next-line */
-            $this->pool->checkin($socket); // TODO Unreachable for now, call on graceful shutdown?
+            $this->pool->checkin($socket);
         }));
+
+        return $stopper;
     }
 }

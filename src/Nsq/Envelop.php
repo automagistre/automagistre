@@ -53,16 +53,25 @@ final class Envelop
         $this->touch = $touch;
     }
 
+    /**
+     * @psalm-return Promise<void>
+     */
     public function ack(): Promise
     {
         return call_user_func($this->acknowledge);
     }
 
+    /**
+     * @psalm-return Promise<void>
+     */
     public function retry(int $timeout): Promise
     {
         return call_user_func($this->requeue, $timeout);
     }
 
+    /**
+     * @psalm-return Promise<void>
+     */
     public function touch(): Promise
     {
         return call_user_func($this->touch);
