@@ -68,7 +68,7 @@ final class Nsq
             $type = $buffer->consumeUint32();
 
             if (self::TYPE_ERROR === $type) {
-                throw new LogicException(sprintf('NSQ return error: "%s"', $buffer->consume($size)));
+                throw new LogicException(sprintf('NSQ return error: "%s"', $buffer->consume($size - self::BYTES_TYPE)));
             }
 
             if (self::TYPE_RESPONSE !== $type) {
