@@ -10,9 +10,11 @@ use App\Tenant\Tenant;
 use function get_class;
 use const JSON_UNESCAPED_SLASHES;
 use const PHP_SAPI;
+use Sentry\SentryBundle\SentryBundle;
 use SimpleBus\Message\Bus\Middleware\MessageBusMiddleware;
 use function sprintf;
 use Symfony\Component\Serializer\SerializerInterface;
+use Throwable;
 
 final class AsyncEventBusMiddleware implements MessageBusMiddleware
 {
@@ -51,8 +53,11 @@ final class AsyncEventBusMiddleware implements MessageBusMiddleware
                 ]
             );
 
-            wait($this->nsq->pub($topic, $body));
-
+            try {
+                wait($this->nsq->pub($topic, $body));
+            } catch (Throwable $e) {
+                SentryBundle::getCurrentHub()->captureException($e);
+            }
 //            return;
         }
 
