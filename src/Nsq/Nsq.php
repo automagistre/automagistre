@@ -15,7 +15,6 @@ use Amp\Socket\UnlimitedSocketPool;
 use Generator;
 use LogicException;
 use PHPinnacle\Buffer\ByteBuffer;
-use function Sentry\captureException;
 use function sprintf;
 use Throwable;
 
@@ -198,8 +197,6 @@ final class Nsq
                 try {
                     yield from $callable($message);
                 } catch (Throwable $e) {
-                    captureException($e);
-
                     $this->pool->checkin($socket);
 
                     throw $e;
