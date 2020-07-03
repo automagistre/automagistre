@@ -4,25 +4,32 @@ declare(strict_types=1);
 
 namespace App\SimpleBus\Command;
 
+use function Amp\ByteStream\getStdout;
 use Amp\Loop;
 use App\Nsq\Envelop;
 use App\Nsq\Nsq;
+use App\SimpleBus\Serializer\MessageSerializer;
 use App\Tenant\Tenant;
-use function class_exists;
+use function date;
+use const DATE_RFC3339;
 use Generator;
-use function is_object;
-use LogicException;
+use function get_class;
+use function implode;
 use LongRunning\Core\Cleaner;
-use Sentry\Util\JSON;
+use const PHP_EOL;
+use function Sentry\captureException;
 use const SIGINT;
 use const SIGTERM;
+use SimpleBus\SymfonyBridge\Bus\CommandBus;
 use SimpleBus\SymfonyBridge\Bus\EventBus;
 use function sprintf;
+use function substr;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Stopwatch\Stopwatch;
+use Throwable;
 
 final class EventsConsumerCommand extends Command
 {
@@ -32,7 +39,9 @@ final class EventsConsumerCommand extends Command
 
     private Tenant $tenant;
 
-    private DenormalizerInterface $denormalizer;
+    private MessageSerializer $serializer;
+
+    private CommandBus $commandBus;
 
     private EventBus $eventBus;
 
@@ -41,7 +50,8 @@ final class EventsConsumerCommand extends Command
     public function __construct(
         Nsq $nsq,
         Tenant $tenant,
-        DenormalizerInterface $denormalizer,
+        MessageSerializer $serializer,
+        CommandBus $commandBus,
         EventBus $eventBus,
         Cleaner $cleaner
     ) {
@@ -49,7 +59,8 @@ final class EventsConsumerCommand extends Command
 
         $this->nsq = $nsq;
         $this->tenant = $tenant;
-        $this->denormalizer = $denormalizer;
+        $this->serializer = $serializer;
+        $this->commandBus = $commandBus;
         $this->eventBus = $eventBus;
         $this->cleaner = $cleaner;
     }
@@ -60,30 +71,55 @@ final class EventsConsumerCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $topic = sprintf('%s_events', $this->tenant->toIdentifier());
 
-        Loop::run(function () use ($topic, $io): void {
-            $stopper = $this->nsq->subscribe($topic, 'tenant', function (Envelop $envelop) use ($io): Generator {
-                $data = JSON::decode($envelop->body);
+        Loop::run(function () use ($io): void {
+            $stopwatch = new Stopwatch();
+            $stdout = getStdout();
 
-                $class = $data['class'] ?? '';
-                if (!class_exists($class)) {
-                    throw new LogicException(sprintf('Event class "%s" not exists. Body: "%s"', $class, $envelop->body));
+            $stopper = $this->nsq->subscribe(
+                $this->tenant->toBusTopic(),
+                'tenant',
+                function (Envelop $envelop) use ($stopwatch, $stdout): Generator {
+                    $event = $stopwatch->start($envelop->id);
+
+                    $decoded = $this->serializer->decode($envelop->body);
+                    /** @var string $messageClass */
+                    $messageClass = get_class($decoded->message);
+
+                    $isSuccess = false;
+                    try {
+                        if ('Command' === substr($messageClass, -7)) {
+                            $this->commandBus->handle($decoded);
+                        } else {
+                            $this->eventBus->handle($decoded);
+                        }
+
+                        yield $envelop->ack();
+
+                        $isSuccess = true;
+                    } catch (Throwable $e) {
+                        captureException($e);
+
+                        yield $envelop->retry(
+                            ($envelop->attempts <= 60 ? $envelop->attempts : 60) * 1000
+                        );
+                    } finally {
+                        $this->cleaner->cleanUp();
+                        $event->stop();
+                    }
+
+                    yield $stdout->write(implode(' ',
+                        [
+                            date(sprintf('[%s]', DATE_RFC3339)),
+                            $decoded->trackingId,
+                            sprintf('[%s]', $isSuccess ? 'OK' : 'FAIL'),
+                            $messageClass,
+                            sprintf('%.2F MiB - %d ms', $event->getMemory() / 1024 / 1024, $event->getDuration()),
+                            PHP_EOL,
+                        ]
+                    ));
                 }
-
-                $event = $this->denormalizer->denormalize($data['body'], $class);
-                if (!is_object($event)) {
-                    throw new LogicException(sprintf('Event class "%s" not exists. Body: "%s"', $class, $envelop->body));
-                }
-
-//                $this->eventBus->handle($event); TODO only ack for now
-
-                $io->success(sprintf('%s Event: %s handled.', $data['tracking_id'] ?? 'no-id', $class));
-
-                $this->cleaner->cleanUp();
-
-                yield $envelop->ack();
-            });
+            );
 
             $onSignal = static function () use ($stopper, $io): void {
                 $io->note('Stop signal received');

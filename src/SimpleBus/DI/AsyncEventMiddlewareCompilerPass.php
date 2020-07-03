@@ -20,5 +20,10 @@ final class AsyncEventMiddlewareCompilerPass implements CompilerPassInterface
             ->addArgument([
                 new Reference(AsyncEventBusMiddleware::class),
             ]);
+
+        $container->getDefinition('simple_bus.command_bus')
+            ->addArgument([
+                new Reference(AsyncEventBusMiddleware::class),
+            ]);
     }
 }

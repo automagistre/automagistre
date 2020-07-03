@@ -4,18 +4,14 @@ declare(strict_types=1);
 
 namespace App\SimpleBus;
 
+use Amp\Loop;
 use function Amp\Promise\wait;
 use App\Nsq\Nsq;
+use App\SimpleBus\Serializer\DecodedMessage;
+use App\SimpleBus\Serializer\MessageSerializer;
 use App\Tenant\Tenant;
-use function get_class;
-use const JSON_UNESCAPED_SLASHES;
-use const PHP_SAPI;
 use Ramsey\Uuid\Uuid;
-use function Sentry\captureException;
 use SimpleBus\Message\Bus\Middleware\MessageBusMiddleware;
-use function sprintf;
-use Symfony\Component\Serializer\SerializerInterface;
-use Throwable;
 
 final class AsyncEventBusMiddleware implements MessageBusMiddleware
 {
@@ -23,15 +19,14 @@ final class AsyncEventBusMiddleware implements MessageBusMiddleware
 
     private Tenant $tenant;
 
-    private bool $debug;
+    private MessageSerializer $serializer;
 
-    private SerializerInterface $serializer;
+    private ?string $handlingId = null;
 
-    public function __construct(Nsq $nsq, Tenant $tenant, bool $debug, SerializerInterface $serializer)
+    public function __construct(Nsq $nsq, Tenant $tenant, MessageSerializer $serializer)
     {
         $this->nsq = $nsq;
         $this->tenant = $tenant;
-        $this->debug = $debug;
         $this->serializer = $serializer;
     }
 
@@ -40,29 +35,34 @@ final class AsyncEventBusMiddleware implements MessageBusMiddleware
      */
     public function handle($message, callable $next): void
     {
-        if (!$this->debug && 'cli' !== PHP_SAPI) {
-            $topic = sprintf('%s_events', $this->tenant->toIdentifier());
+        [$message, $trackingId, $envelop] = $message instanceof DecodedMessage
+            ? [$message->message, $message->trackingId, $message]
+            : [$message, Uuid::uuid6()->toString(), null];
 
-            $body = $this->serializer->serialize(
-                [
-                    'tracking_id' => Uuid::uuid6()->toString(),
-                    'class' => get_class($message),
-                    'body' => $message,
-                ],
-                'json',
-                [
-                    'json_encode_options' => JSON_UNESCAPED_SLASHES,
-                ]
-            );
+        if (null !== $envelop && null === $this->handlingId) {
+            $this->handlingId = $trackingId;
 
             try {
-                wait($this->nsq->pub($topic, $body));
-            } catch (Throwable $e) {
-                captureException($e);
+                $next($message);
+
+                return;
+            } finally {
+                $this->handlingId = null;
             }
-//            return;
         }
 
-        $next($message);
+        $promise = $this->nsq->pub(
+            $this->tenant->toBusTopic(),
+            $this->serializer->encode(
+                $this->handlingId ?? $trackingId,
+                $message
+            )
+        );
+
+        if (true === Loop::getInfo()['running']) {
+            Loop::defer(fn () => yield $promise);
+        } else {
+            wait($promise);
+        }
     }
 }

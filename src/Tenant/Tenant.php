@@ -8,6 +8,7 @@ use function getenv;
 use function in_array;
 use function is_string;
 use Premier\Enum\Enum;
+use function sprintf;
 
 /**
  * @method bool   isDemo()
@@ -137,6 +138,11 @@ final class Tenant extends Enum
             self::MSK,
             self::KAZAN,
         ], true);
+    }
+
+    public function toBusTopic(): string
+    {
+        return sprintf('%s_bus', $this->toIdentifier());
     }
 
     public static function isValid(string $identifier): bool

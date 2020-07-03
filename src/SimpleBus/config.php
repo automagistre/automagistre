@@ -11,8 +11,4 @@ return static function (ContainerConfigurator $configurator): void {
         ->defaults()
         ->autowire()
         ->autoconfigure();
-
-    $services
-        ->set(App\SimpleBus\AsyncEventBusMiddleware::class)
-        ->arg('$debug', '%kernel.debug%');
 };
