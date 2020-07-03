@@ -15,7 +15,7 @@ use Amp\Socket\UnlimitedSocketPool;
 use Generator;
 use LogicException;
 use PHPinnacle\Buffer\ByteBuffer;
-use Sentry\SentryBundle\SentryBundle;
+use function Sentry\captureException;
 use function sprintf;
 use Throwable;
 
@@ -198,7 +198,7 @@ final class Nsq
                 try {
                     yield from $callable($message);
                 } catch (Throwable $e) {
-                    SentryBundle::getCurrentHub()->captureException($e);
+                    captureException($e);
 
                     $this->pool->checkin($socket);
 

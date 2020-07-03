@@ -17,7 +17,7 @@ use LogicException;
 use function method_exists;
 use Pagerfanta\Exception\OutOfRangeCurrentPageException;
 use Psr\Container\ContainerInterface;
-use Sentry\SentryBundle\SentryBundle;
+use function Sentry\captureException;
 use function sprintf;
 use Throwable;
 
@@ -62,7 +62,7 @@ final class ApiEvaluator implements Evaluator
         } catch (OutOfRangeCurrentPageException $e) {
             throw new ArgumentException(['message' => $e->getMessage()]);
         } catch (Throwable $e) {
-            SentryBundle::getCurrentHub()->captureException($e);
+            captureException($e);
 
             throw new ApplicationException($e->getMessage(), (int) $e->getCode());
         }

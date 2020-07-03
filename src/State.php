@@ -8,7 +8,7 @@ use App\Tenant\Tenant;
 use App\User\Entity\User;
 use LogicException;
 use RuntimeException;
-use Sentry\SentryBundle\SentryBundle;
+use function Sentry\configureScope;
 use Sentry\State\Scope;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -28,8 +28,7 @@ final class State
         $this->tenant = $tenant;
         $this->tokenStorage = $tokenStorage;
 
-        SentryBundle::getCurrentHub()
-            ->configureScope(fn (Scope $scope) => $scope->setTag('tenant', $tenant->toIdentifier()));
+        configureScope(fn (Scope $scope) => $scope->setTag('tenant', $tenant->toIdentifier()));
     }
 
     public function tenant(): Tenant

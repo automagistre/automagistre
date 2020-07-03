@@ -9,7 +9,7 @@ use App\Sms\Entity\SmsSend;
 use App\Sms\Event\SmsSendRequested;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
-use Sentry\SentryBundle\SentryBundle;
+use function Sentry\captureException;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -57,7 +57,7 @@ final class SmsSendRequestedListener
         try {
             $response->getContent();
         } catch (Throwable $e) {
-            SentryBundle::getCurrentHub()->captureException($e);
+            captureException($e);
         }
 
         try {

@@ -11,7 +11,7 @@ use function get_class;
 use const JSON_UNESCAPED_SLASHES;
 use const PHP_SAPI;
 use Ramsey\Uuid\Uuid;
-use Sentry\SentryBundle\SentryBundle;
+use function Sentry\captureException;
 use SimpleBus\Message\Bus\Middleware\MessageBusMiddleware;
 use function sprintf;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -58,7 +58,7 @@ final class AsyncEventBusMiddleware implements MessageBusMiddleware
             try {
                 wait($this->nsq->pub($topic, $body));
             } catch (Throwable $e) {
-                SentryBundle::getCurrentHub()->captureException($e);
+                captureException($e);
             }
 //            return;
         }
