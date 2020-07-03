@@ -31,9 +31,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Throwable;
 
-final class EventsConsumerCommand extends Command
+final class BusConsumerCommand extends Command
 {
-    protected static $defaultName = 'events:consume';
+    protected static $defaultName = 'bus:consume';
 
     private Nsq $nsq;
 

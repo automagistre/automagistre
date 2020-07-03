@@ -56,9 +56,9 @@ services:
             mode: replicated
             replicas: 1
 
-    events_consumer:
+    bus_comsumer:
         <<: *php-fpm
-        command: console events:consume
+        command: console bus:consume
         healthcheck:
             disable: true
         deploy:
