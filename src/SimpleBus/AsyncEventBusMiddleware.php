@@ -10,6 +10,7 @@ use App\Tenant\Tenant;
 use function get_class;
 use const JSON_UNESCAPED_SLASHES;
 use const PHP_SAPI;
+use Ramsey\Uuid\Uuid;
 use Sentry\SentryBundle\SentryBundle;
 use SimpleBus\Message\Bus\Middleware\MessageBusMiddleware;
 use function sprintf;
@@ -44,6 +45,7 @@ final class AsyncEventBusMiddleware implements MessageBusMiddleware
 
             $body = $this->serializer->serialize(
                 [
+                    'tracking_id' => Uuid::uuid6()->toString(),
                     'class' => get_class($message),
                     'body' => $message,
                 ],

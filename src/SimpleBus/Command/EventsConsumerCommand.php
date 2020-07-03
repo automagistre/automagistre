@@ -78,7 +78,7 @@ final class EventsConsumerCommand extends Command
 
 //                $this->eventBus->handle($event); TODO only ack for now
 
-                $io->success(sprintf('Event: %s handled.', $class));
+                $io->success(sprintf('%s Event: %s handled.', $data['tracking_id'] ?? 'no-id', $class));
 
                 $this->cleaner->cleanUp();
 
