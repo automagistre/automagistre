@@ -9,9 +9,10 @@ use App\Customer\Entity\OperandId;
 use App\Shared\Doctrine\Registry;
 use App\Sms\Action\Send\SendSmsCommand;
 use App\Sms\Enum\Feature;
+use App\Tenant\Tenant;
 use DateTimeImmutable;
 use SimpleBus\SymfonyBridge\Bus\CommandBus;
-use function sprintf;
+use function str_replace;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -24,12 +25,15 @@ final class CustomerReminderCommand extends Command
 
     private CommandBus $commandBus;
 
-    public function __construct(Registry $registry, CommandBus $commandBus)
+    private Tenant $tenant;
+
+    public function __construct(Registry $registry, CommandBus $commandBus, Tenant $tenant)
     {
         $this->registry = $registry;
 
         parent::__construct();
         $this->commandBus = $commandBus;
+        $this->tenant = $tenant;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -56,13 +60,20 @@ final class CustomerReminderCommand extends Command
             $date = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $row['date']);
             $customerId = OperandId::fromString($row['customerId']);
 
+            $message = str_replace(
+                [
+                    '{time}',
+                ],
+                [
+                    $date->format('H:i'),
+                ],
+                $this->tenant->toSmsOnReminderEntry(),
+            );
+
             $this->commandBus->handle(
                 new SendSmsCommand(
                     $customerId,
-                    sprintf(
-                        'Напоминаем, завтра в %s вас ожидают в ТехЦентре Автомагистр. Пожалуйста, сообщите нам, если не можете приехать. +79859294087',
-                        $date->format('H:i'),
-                    ),
+                    $message,
                     [
                         Feature::onceADay(),
                     ]

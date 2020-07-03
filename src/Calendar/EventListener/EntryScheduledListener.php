@@ -10,10 +10,12 @@ use App\Order\Entity\Order;
 use App\Shared\Doctrine\Registry;
 use App\Sms\Action\Send\SendSmsCommand;
 use App\Sms\Enum\Feature;
+use App\Tenant\Tenant;
 use DateTimeImmutable;
 use Money\MoneyFormatter;
 use SimpleBus\SymfonyBridge\Bus\CommandBus;
 use function sprintf;
+use function str_replace;
 
 final class EntryScheduledListener
 {
@@ -23,11 +25,14 @@ final class EntryScheduledListener
 
     private MoneyFormatter $formatter;
 
-    public function __construct(Registry $registry, CommandBus $commandBus, MoneyFormatter $formatter)
+    private Tenant $tenant;
+
+    public function __construct(Registry $registry, CommandBus $commandBus, MoneyFormatter $formatter, Tenant $tenant)
     {
         $this->registry = $registry;
         $this->commandBus = $commandBus;
         $this->formatter = $formatter;
+        $this->tenant = $tenant;
     }
 
     public function __invoke(EntryScheduled $event): void
@@ -52,7 +57,16 @@ final class EntryScheduledListener
         }
 
         $message .= $date->format('d.m в H:i');
-        $message .= ' вас ожидают в ТехЦентре Автомагистр, по адресу Остаповский проезд, дом 17';
+
+        $message = str_replace(
+            [
+                '{date}',
+            ],
+            [
+                $message,
+            ],
+            $this->tenant->toSmsOnScheduledEntry(),
+        );
 
         if (null !== $entry->orderId) {
             /** @var Order $order */

@@ -9,26 +9,24 @@ use App\Customer\Entity\OperandId;
 use App\Shared\Doctrine\Registry;
 use App\Sms\Entity\Sms;
 use App\Sms\Enum\Feature;
-use App\State;
 use App\Tenant\Tenant;
 use DateTimeImmutable;
 
 final class SendSmsHandler
 {
-    private State $state;
+    private Tenant $tenant;
 
     private Registry $registry;
 
-    public function __construct(State $state, Registry $registry)
+    public function __construct(Tenant $tenant, Registry $registry)
     {
-        $this->state = $state;
+        $this->tenant = $tenant;
         $this->registry = $registry;
     }
 
     public function __invoke(SendSmsCommand $command): void
     {
-        // TODO Per Tenant Sender
-        if (!$this->state->tenant()->eq(Tenant::msk())) {
+        if (!$this->tenant->isSmsEnabled()) {
             return;
         }
 

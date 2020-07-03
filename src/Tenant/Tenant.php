@@ -13,6 +13,8 @@ use Premier\Enum\Enum;
  * @method bool   isDemo()
  * @method string toDisplayName()
  * @method string toIdentifier()
+ * @method string toSmsOnScheduledEntry()
+ * @method string toSmsOnReminderEntry()
  * @method static Tenant demo()
  * @method static Tenant msk()
  * @method static Tenant fromIdentifier(string $name)
@@ -104,6 +106,22 @@ final class Tenant extends Enum
         ],
     ];
 
+    protected static array $smsOnScheduledEntry = [
+        self::DEMO => '',
+        self::MSK => '{date} вас ожидают в ТехЦентре Автомагистр, по адресу Остаповский проезд, дом 17',
+        self::KAZAN => '{date} вас ожидают в ТехЦентре Автомагистр, по адресу Магистральная улица, дом 33, корпус 1',
+        self::SHAVLEV => '',
+        self::BUNKER => '',
+    ];
+
+    protected static array $smsOnReminderEntry = [
+        self::DEMO => '',
+        self::MSK => 'Напоминаем, завтра в {time} вас ожидают в ТехЦентре Автомагистр. Пожалуйста, сообщите нам, если не можете приехать. +79859294087',
+        self::KAZAN => 'Напоминаем, завтра в {time} вас ожидают в ТехЦентре Автомагистр. Пожалуйста, сообщите нам, если не можете приехать. +78432977760',
+        self::SHAVLEV => '',
+        self::BUNKER => '',
+    ];
+
     public function getRequisites(): array
     {
         if ($this->isDemo()) {
@@ -111,6 +129,14 @@ final class Tenant extends Enum
         }
 
         return self::$requisites[$this->toId()];
+    }
+
+    public function isSmsEnabled(): bool
+    {
+        return in_array($this->toId(), [
+            self::MSK,
+            self::KAZAN,
+        ], true);
     }
 
     public static function isValid(string $identifier): bool
