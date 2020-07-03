@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Nsq;
 
 use function Amp\call;
+use Amp\CancellationToken;
 use Amp\CancellationTokenSource;
 use Amp\Promise;
 use function Amp\Promise\rethrow;
@@ -50,14 +51,14 @@ final class Nsq
     {
         return call(function () use ($topic, $message): Generator {
             /** @var EncryptableSocket $socket */
-            $socket = yield $this->pool->checkout(sprintf('%s#%s', $this->config['localAddr'], $topic));
+            $socket = yield $this->getSocket($topic);
 
-            yield $socket->write(Command::magic());
             yield $socket->write(Command::pub($topic, $message));
 
             $buffer = yield $socket->read();
 
-            $this->pool->checkin($socket);
+            // TODO clear to prevent sending Magic package twice. Refactor to WeakMap after migrate to php 8.0?
+            $this->pool->clear($socket);
 
             if (null === $buffer) {
                 throw new LogicException('NSQ return unexpected null.');
@@ -91,21 +92,13 @@ final class Nsq
         });
 
         rethrow(call(function () use ($topic, $channel, $callable, $stopper, $tokenSource): Generator {
-            $uri = sprintf('%s#%s-%s', $this->config['localAddr'], $topic, $channel);
-            $buffer = new ByteBuffer();
-
+            $fragment = sprintf('%s-%s', $topic, $channel);
             /** @var EncryptableSocket $socket */
-            $socket = null;
+            $socket = yield $this->getSocket($fragment, $tokenSource->getToken());
 
-            $establishConnection = function () use ($uri, $tokenSource, &$socket, $topic, $channel): Generator {
-                $socket = yield $this->pool->checkout($uri, null, $tokenSource->getToken());
+            yield $socket->write(Command::sub($topic, $channel));
 
-                yield $socket->write(Command::magic());
-                yield $socket->write(Command::sub($topic, $channel));
-            };
-
-            yield call($establishConnection);
-
+            $buffer = new ByteBuffer();
             while (!$stopper->isStopped()) {
                 yield $socket->write(Command::rdy(1));
 
@@ -122,7 +115,7 @@ final class Nsq
                         $buffer->empty();
                         $this->pool->checkin($socket);
 
-                        yield call($establishConnection);
+                        $socket = yield $this->getSocket($fragment, $tokenSource->getToken());
 
                         continue 2;
                     }
@@ -213,9 +206,32 @@ final class Nsq
                 }
             }
 
-            $this->pool->checkin($socket);
+            yield $socket->write(Command::cls());
+
+            $this->pool->clear($socket);
         }));
 
         return $stopper;
+    }
+
+    /**
+     * @psalm-return Promise<EncryptableSocket>
+     */
+    private function getSocket(string $fragment = null, CancellationToken $token = null): Promise
+    {
+        return call(
+            function (?string $fragment, ?CancellationToken $token): Generator {
+                $fragment = null === $fragment ? '' : '#'.$fragment;
+                $uri = $this->config['localAddr'].$fragment;
+
+                $socket = yield $this->pool->checkout($uri, null, $token);
+
+                yield $socket->write(Command::magic());
+
+                return $socket;
+            },
+            $fragment,
+            $token
+        );
     }
 }
