@@ -6,6 +6,8 @@ services:
         public: false
         autowire: true
         autoconfigure: true
+        bind:
+            $debug: '%kernel.debug%'
 
     _instanceof:
         Doctrine\Common\EventSubscriber:

@@ -23,11 +23,14 @@ final class AsyncEventBusMiddleware implements MessageBusMiddleware
 
     private ?string $handlingId = null;
 
-    public function __construct(Nsq $nsq, Tenant $tenant, MessageSerializer $serializer)
+    private bool $debug;
+
+    public function __construct(Nsq $nsq, Tenant $tenant, MessageSerializer $serializer, bool $debug)
     {
         $this->nsq = $nsq;
         $this->tenant = $tenant;
         $this->serializer = $serializer;
+        $this->debug = $debug;
     }
 
     /**
@@ -35,6 +38,12 @@ final class AsyncEventBusMiddleware implements MessageBusMiddleware
      */
     public function handle($message, callable $next): void
     {
+        if (!$this->debug) {
+            $next($message);
+
+            return;
+        }
+
         [$message, $trackingId, $envelop] = $message instanceof DecodedMessage
             ? [$message->message, $message->trackingId, $message]
             : [$message, Uuid::uuid6()->toString(), null];
