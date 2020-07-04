@@ -218,6 +218,8 @@ final class OrderItemPartController extends OrderItemController
         return $this->createFormBuilder($dto)
             ->add('parent', OrderItemParentType::class, [
                 'label' => 'Работа / Группа',
+                'required' => false,
+                'placeholder' => 'Не выбрано',
             ])
             ->add('partOffer', PartOfferType::class, [
                 'vehicleId' => $vehicleId,
