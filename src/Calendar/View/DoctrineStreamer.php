@@ -24,6 +24,7 @@ final class DoctrineStreamer implements Streamer
             ->where('entry.schedule.date >= :start')
             ->andWhere('entry.schedule.date <= :end')
             ->orderBy('entry.orderInfo.workerId')
+            ->addOrderBy('entry.id')
             ->setParameter('start', $date->setTime(0, 0, 0), 'datetime')
             ->setParameter('end', $date->setTime(23, 59, 59), 'datetime')
             ->getQuery()
