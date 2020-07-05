@@ -10,6 +10,7 @@ use App\Nsq\Envelop;
 use App\Nsq\Nsq;
 use App\SimpleBus\Serializer\MessageSerializer;
 use App\Tenant\Tenant;
+use App\User\Security\ConsoleAuthenticator;
 use function date;
 use const DATE_RFC3339;
 use Generator;
@@ -47,13 +48,16 @@ final class BusConsumerCommand extends Command
 
     private Cleaner $cleaner;
 
+    private ConsoleAuthenticator $authenticator;
+
     public function __construct(
         Nsq $nsq,
         Tenant $tenant,
         MessageSerializer $serializer,
         CommandBus $commandBus,
         EventBus $eventBus,
-        Cleaner $cleaner
+        Cleaner $cleaner,
+        ConsoleAuthenticator $authenticator
     ) {
         parent::__construct();
 
@@ -63,6 +67,7 @@ final class BusConsumerCommand extends Command
         $this->commandBus = $commandBus;
         $this->eventBus = $eventBus;
         $this->cleaner = $cleaner;
+        $this->authenticator = $authenticator;
     }
 
     /**
@@ -83,6 +88,9 @@ final class BusConsumerCommand extends Command
                     $event = $stopwatch->start($envelop->id);
 
                     $decoded = $this->serializer->decode($envelop->body);
+
+                    $this->authenticator->authenticate($decoded->userId);
+
                     /** @var string $messageClass */
                     $messageClass = get_class($decoded->message);
 
@@ -106,6 +114,7 @@ final class BusConsumerCommand extends Command
                     } finally {
                         $this->cleaner->cleanUp();
                         $event->stop();
+                        $this->authenticator->invalidate();
                     }
 
                     yield $stdout->write(implode(' ',

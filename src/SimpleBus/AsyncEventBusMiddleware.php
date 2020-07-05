@@ -10,8 +10,11 @@ use App\Nsq\Nsq;
 use App\SimpleBus\Serializer\DecodedMessage;
 use App\SimpleBus\Serializer\MessageSerializer;
 use App\Tenant\Tenant;
+use App\User\Entity\User;
+use function assert;
 use Ramsey\Uuid\Uuid;
 use SimpleBus\Message\Bus\Middleware\MessageBusMiddleware;
+use Symfony\Component\Security\Core\Security;
 
 final class AsyncEventBusMiddleware implements MessageBusMiddleware
 {
@@ -23,14 +26,14 @@ final class AsyncEventBusMiddleware implements MessageBusMiddleware
 
     private ?string $handlingId = null;
 
-    private bool $debug;
+    private Security $security;
 
-    public function __construct(Nsq $nsq, Tenant $tenant, MessageSerializer $serializer, bool $debug)
+    public function __construct(Nsq $nsq, Tenant $tenant, MessageSerializer $serializer, Security $security)
     {
         $this->nsq = $nsq;
         $this->tenant = $tenant;
         $this->serializer = $serializer;
-        $this->debug = $debug;
+        $this->security = $security;
     }
 
     /**
@@ -38,12 +41,6 @@ final class AsyncEventBusMiddleware implements MessageBusMiddleware
      */
     public function handle($message, callable $next): void
     {
-        if (!$this->debug) {
-            $next($message);
-
-            return;
-        }
-
         [$message, $trackingId, $envelop] = $message instanceof DecodedMessage
             ? [$message->message, $message->trackingId, $message]
             : [$message, Uuid::uuid6()->toString(), null];
@@ -60,11 +57,15 @@ final class AsyncEventBusMiddleware implements MessageBusMiddleware
             }
         }
 
+        $user = $this->security->getUser();
+        assert($user instanceof User);
+
         $promise = $this->nsq->pub(
             $this->tenant->toBusTopic(),
             $this->serializer->encode(
                 $this->handlingId ?? $trackingId,
-                $message
+                $message,
+                $user->toId(),
             )
         );
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\SimpleBus\Serializer;
 
+use App\User\Entity\UserId;
 use function class_exists;
 use function get_class;
 use function is_object;
@@ -26,11 +27,12 @@ final class MessageSerializer
         $this->denormalizer = $denormalizer;
     }
 
-    public function encode(string $trackingId, object $message): string
+    public function encode(string $trackingId, object $message, UserId $userId): string
     {
         $array = $this->normalizer->normalize(
             [
                 'tracking_id' => $trackingId,
+                'user_id' => $userId->toString(),
                 'class' => get_class($message),
                 'body' => $message,
             ]
@@ -53,6 +55,6 @@ final class MessageSerializer
             throw new LogicException(sprintf('Event class "%s" not exists. Body: "%s"', $class, $encoded));
         }
 
-        return new DecodedMessage($event, $data['tracking_id']);
+        return new DecodedMessage($event, $data['tracking_id'], UserId::fromString($data['user_id']));
     }
 }
