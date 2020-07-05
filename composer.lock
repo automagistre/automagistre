@@ -14009,16 +14009,16 @@
         },
         {
             "name": "sebastian/type",
-            "version": "2.1.1",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/type.git",
-                "reference": "56b3ba194e0cbaaf3de7ccd353c289d7a84ed022"
+                "reference": "5f128525681fe000daca56b3fee98373e713f2fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/type/zipball/56b3ba194e0cbaaf3de7ccd353c289d7a84ed022",
-                "reference": "56b3ba194e0cbaaf3de7ccd353c289d7a84ed022",
+                "url": "https://api.github.com/repos/sebastianbergmann/type/zipball/5f128525681fe000daca56b3fee98373e713f2fb",
+                "reference": "5f128525681fe000daca56b3fee98373e713f2fb",
                 "shasum": ""
             },
             "require": {
@@ -14030,7 +14030,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1-dev"
+                    "dev-master": "2.2-dev"
                 }
             },
             "autoload": {
@@ -14057,7 +14057,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-06-26T12:17:54+00:00"
+            "time": "2020-07-05T06:49:10+00:00"
         },
         {
             "name": "sebastian/version",
