@@ -139,6 +139,7 @@ final class CalendarEntryController extends AbstractController
             $order->setStatus(OrderStatus::scheduling());
 
             $this->em->persist(new EntryOrder($dto->id, $orderId));
+            $this->em->flush();
         }
 
         $this->commandBus->handle(
