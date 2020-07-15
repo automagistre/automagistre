@@ -1,5 +1,6 @@
-@red : #fa0d1c;
-@grey: #d8dbda;
+@red : rgba(250, 13, 28, 0.60);
+@grey: rgba(0, 0, 0, 0.1);
+@font-color: rgba(0, 0, 0, 70%);
 
 * {
   box-sizing: border-box;
@@ -124,7 +125,7 @@ body{
   padding: 10mm;
   margin: 2mm auto;
   background: white;
-  color: rgba(0, 0, 0, 80%);
+  color: @font-color;
   box-shadow: 0 2px 9px rgba(0, 0, 0, 0.25);
 }
 
@@ -273,6 +274,21 @@ body{
   }
 }
 
+
+.recommendations-table {
+  display: grid;
+  margin: 3mm auto;
+  grid-template-columns: 55% 2fr 1fr 2fr 2fr;
+
+  &__header {
+    display: grid;
+    grid-column-start: 1;
+    grid-column-end: -1;
+    grid-template-columns: 55% 2fr 1fr 2fr 2fr;
+    grid-column-gap: 1mm;
+  }
+}
+
 .table__item {
   text-align: center;
 
@@ -309,7 +325,7 @@ body{
   &.cell-subtotal__pre {
     font-size: 1.1em;
     background-color: @grey;
-    border: 1px solid @grey;
+    border: none;
     font-weight: 700;
   }
 
@@ -317,7 +333,7 @@ body{
     color: white;
     font-size: 1.3em;
     background-color: @red;
-    border: 1px solid @red;
+    border: none;
     font-weight: 700;
   }
 }
