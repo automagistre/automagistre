@@ -1,8 +1,8 @@
 {% block order_item_group %}
 
     {# @var orderItemGroup \App\Entity\Tenant\OrderItemGroup #}
-    <div class="order-table__item cell-service left">{{ orderItemGroup }}</div>
-    <div class="order-table__item cell-service">
+    <div class="table__item cell-service left">{{ orderItemGroup }}</div>
+    <div class="table__item cell-service">
         {% set groupPrice = orderItemGroup.totalServicePrice(true) %}
 
         {% if orderItemGroup.hideParts %}
@@ -11,9 +11,9 @@
 
         {{ groupPrice|localize_money(true) }}
     </div>
-    <div class="order-table__item cell-service">1</div>
-    <div class="order-table__item cell-service">{# скидка группы #} </div>
-    <div class="order-table__item cell-service">{{ groupPrice|localize_money(true) }}</div>
+    <div class="table__item cell-service">1</div>
+    <div class="table__item cell-service">{# скидка группы #} </div>
+    <div class="table__item cell-service">{{ groupPrice|localize_money(true) }}</div>
     {% if not orderItemGroup.hideParts %}
         {% for orderItemPart in orderItemGroup.parts %}
             {{ block('order_item_part') }}
@@ -23,20 +23,20 @@
 
 {% block order_item_service %}
     {# @var orderItemService \App\Entity\Tenant\OrderItemService #}
-    <div class="order-table__item cell-service left">
+    <div class="table__item cell-service left">
         {{- orderItemService -}}
         {%- if orderItemService.warranty %}
             <span>(гарантия)</span>
         {%- endif -%}
     </div>
-    <div class="order-table__item cell-service">{{ orderItemService.price | localize_money(true) }}</div>
-    <div class="order-table__item cell-service">-</div> {# Количество работ #}
-    <div class="order-table__item cell-service">
+    <div class="table__item cell-service">{{ orderItemService.price | localize_money(true) }}</div>
+    <div class="table__item cell-service">-</div> {# Количество работ #}
+    <div class="table__item cell-service">
         {% if orderItemService.discounted %}
             {{ orderItemService.discount | localize_money(true) }}
         {% endif %}
     </div>
-    <div class="order-table__item cell-service">{{ orderItemService.totalPrice(true) | localize_money(true) }}</div>
+    <div class="table__item cell-service">{{ orderItemService.totalPrice(true) | localize_money(true) }}</div>
     {% for orderItemPart in orderItemService.children %}
         {{ block('order_item_part') }}
     {% endfor %}
@@ -46,30 +46,30 @@
     {# @var orderItemPart \App\Order\Entity\OrderItemPart #}
     {% set part = part_by_id(orderItemPart.partId) %}
     {# @var part \App\Part\Domain\Part #}
-    <div class="order-table__item cell-part right">
+    <div class="table__item cell-part right">
         {{ part.name }}
         <span>
             ({{ part.number }} {{ part.manufacturerId|display_name }})
         </span>
     </div>
-    <div class="order-table__item cell-part">{{ orderItemPart.price|localize_money(true) }}</div>
-    <div class="order-table__item cell-part">{{ orderItemPart.quantity / 100 }}</div>
-    <div class="order-table__item cell-part">
+    <div class="table__item cell-part">{{ orderItemPart.price|localize_money(true) }}</div>
+    <div class="table__item cell-part">{{ orderItemPart.quantity / 100 }}</div>
+    <div class="table__item cell-part">
         {% if orderItemPart.discounted %}
             {{ orderItemPart.discount|localize_money(true) }}
         {% endif %}
     </div>
-    <div class="order-table__item cell-part">{{ orderItemPart.totalPrice(true)|localize_money(true) }}</div>
+    <div class="table__item cell-part">{{ orderItemPart.totalPrice(true)|localize_money(true) }}</div>
 {% endblock %}
 
 {% macro order_table(order, balance) %}
     <div class="order-table">
         <div class="order-table__header">
-            <div class="order-table__item table-header">Наименование выполненных работ / использованных запчастей</div>
-            <div class="order-table__item table-header">Цена, руб</div>
-            <div class="order-table__item table-header">Кол-во, шт</div>
-            <div class="order-table__item table-header">Скидка, руб.</div>
-            <div class="order-table__item table-header">Стоимость, руб</div>
+            <div class="table__item table-header">Наименование выполненных работ / использованных запчастей</div>
+            <div class="table__item table-header">Цена, руб</div>
+            <div class="table__item table-header">Кол-во, шт</div>
+            <div class="table__item table-header">Скидка, руб.</div>
+            <div class="table__item table-header">Стоимость, руб</div>
         </div>
         {% for item in order.rootItems %}
             {% if instanceOf(item, 'App\\Order\\Entity\\OrderItemPart') %}
@@ -84,29 +84,29 @@
             {% endif %}
         {% endfor %}
         <div class="order-table__totals">
-            <div class="order-table__item cell-subtotal__pre right">РАБОТЫ / ЗАПЧАСТИ без учета скидок, руб.</div>
-            <div class="order-table__item cell-subtotal__pre">{{ order.totalGroupPrice.add(order.totalServicePrice(false, true))|localize_money(true) }} / {{ order.totalPartPrice(false, true)|localize_money(true) }}</div>
+            <div class="table__item cell-subtotal__pre right">РАБОТЫ / ЗАПЧАСТИ без учета скидок, руб.</div>
+            <div class="table__item cell-subtotal__pre">{{ order.totalGroupPrice.add(order.totalServicePrice(false, true))|localize_money(true) }} / {{ order.totalPartPrice(false, true)|localize_money(true) }}</div>
             {% if order.discount %}
-                <div class="order-table__item cell-subtotal__pre right">СКИДКА, руб.</div>
-                <div class="order-table__item cell-subtotal__pre">{{ order.discount|localize_money(true) }}</div>
+                <div class="table__item cell-subtotal__pre right">СКИДКА, руб.</div>
+                <div class="table__item cell-subtotal__pre">{{ order.discount|localize_money(true) }}</div>
             {% endif %}
 
             {% if balance is not empty %}
                 {% set prepayment = order.totalPayments.add(balance) %}
                 {% if not prepayment.isZero %}
-                    <div class="order-table__item cell-subtotal right">
+                    <div class="table__item cell-subtotal right">
                         {% if prepayment.isNegative %}
                             ДОЛГ, руб.
                         {% else %}
                             ПРЕДОПЛАТА, руб.
                         {% endif %}
                     </div>
-                    <div class="order-table__item cell-subtotal">{{ prepayment|localize_money(true) }}</div>
+                    <div class="table__item cell-subtotal">{{ prepayment|localize_money(true) }}</div>
                 {% endif %}
             {% endif %}
 
-            <div class="order-table__item cell-subtotal__total right">ИТОГО К ОПЛАТЕ, руб.</div>
-            <div class="order-table__item cell-subtotal__total">{{ order.totalForPayment(balance|default(null))|localize_money(true) }}</div>
+            <div class="table__item cell-subtotal__total right">ИТОГО К ОПЛАТЕ, руб.</div>
+            <div class="table__item cell-subtotal__total">{{ order.totalForPayment(balance|default(null))|localize_money(true) }}</div>
         </div>
     </div>
 {% endmacro %}
