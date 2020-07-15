@@ -1,0 +1,100 @@
+{% extends 'easy_admin/order_print/color/layout.html.twig' %}
+
+{% from 'easy_admin/order_print/color/order_info.html.twig' import order_info %}
+{% from 'easy_admin/order_print/color/order_table.html.twig' import order_table %}
+
+{# @var order \App\Order\Entity\Order #}
+{# @var car \App\Car\Entity\Car #}
+{# @var customer \App\Customer\Domain\Operand #}
+
+{% set balance = order.closed ? order.closedBalance : (customer is not empty ? customer|balance : null) %}
+
+{% set requisites = state.tenant.getRequisites() %}
+
+{% block content %}
+    <div class="content pages" id="content">
+        <div class="page">
+            <main class="main space-evenly">
+
+                {% include 'easy_admin/order_print/color/header.html.twig' %}
+
+                <div>
+                    {{ order_info('заказ-наряд', order, customer, car) }}
+
+                    {{ order_table(order, balance) }}
+                </div>
+
+                {% include 'easy_admin/order_print/color/footer.html.twig' %}
+            </main>
+        </div>
+
+
+        {% if car is not empty and car.recommendations is not empty %}
+            <div class="page">
+                <main class="main space-between">
+                    {{ order_info('рекомендации', order, customer, car) }}
+
+                </main>
+            </div>
+        {% endif %}
+
+        <main>
+            <section class="recommendations">
+                <h3 class="order-info-title">РЕКОМЕНДАЦИИ ПО АВТОМОБИЛЮ VIN: {{ car.identifier }} </h3>
+                <table class="table recommendations-table">
+                    <caption>рекомендуемые работы и запчасти</caption>
+
+                    {% for recommendation in car.recommendations %}
+                        {# @var recommendation \App\Entity\Landlord\CarRecommendation #}
+                        <tbody>
+                        <tr class="recommendations-table-work">
+                            <td>{{ recommendation.service }}</td>
+                            <td class="recommendations-table-work__legend">работа:</td>
+                            <td>{{ recommendation.price|localize_money }}</td>
+                            <td class="recommendations-table-work__legend">Запчасти:</td>
+                            <td>{{ recommendation.totalPartPrice|localize_money }}</td>
+                            <td class="recommendations-table-work__legend">Всего:</td>
+                            <td>{{ recommendation.totalPrice|localize_money }}</td>
+                        </tr>
+
+                        {% for part in recommendation.parts %}
+                            {# @var part \App\Entity\Landlord\CarRecommendationPart #}
+                            <tr class="recommendations-cell-part">
+                                <td colspan="3" class="recommendations-cell-part__name">
+                                    {{ part.partId|display_name('name') }}
+                                    <span class="recommendations-cell-part__part_number">
+                                    ({{ part.partId|display_name('manufacturer') }})
+                                    </span>
+                                </td>
+                                <td>{{ part.quantity / 100 }}</td>
+                                <td>{{ part.price|localize_money }}</td>
+                                <td>{{ part.totalPrice|localize_money }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    {% endfor %}
+
+                    {% set totalServicePrice = car.recommendationPrice('service') %}
+                    {% set totalPartPrice = car.recommendationPrice('part') %}
+                    {% set totalRecommendationPrice = totalServicePrice.add(totalPartPrice) %}
+
+                    <tbody>
+                    <tr class="order-table-subtotals">
+                        <td colspan="3" rowspan="5" class="no-border"></td>
+                        <td colspan="3" class="order-table-subtotals__name">всего по работам</td>
+                        <td>{{ totalServicePrice|localize_money }}</td>
+                    </tr>
+                    <tr class="order-table-subtotals">
+                        <td colspan="3" class="order-table-subtotals__name">всего по материалам</td>
+                        <td>{{ totalPartPrice|localize_money }}</td>
+                    </tr>
+                    <tr class="order-table-totals">
+                        <td colspan="3" class="order-table-totals__name">ВСЕГО РЕКОМЕНДАЦИЙ</td>
+                        <td class="order-table-totals__sum">{{ totalRecommendationPrice|localize_money }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+{% endblock %}
