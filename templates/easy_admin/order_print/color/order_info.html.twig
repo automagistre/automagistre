@@ -1,0 +1,40 @@
+{% macro order_info(type, order, customer, car) %}
+    <div class="container order">
+
+    <div class="order-info">
+        <span class="order-info__type">{{ type }}</span>
+        <span class="order-info__info">
+            {{ order.number }} от {{ (order.closed ? order.closedAt : date(null, 'Europe/Moscow'))|format_date('short') }}
+        </span>
+        </div>
+        <div class="order-executor">
+            <div class="order-executor__type">Заказчик:</div>
+            <div class="order-executor__item">
+                {% if customer is not empty %}
+                    {# Если заказчик организация, то выводить все доступные реквизиты#}
+                    {{- customer.fullName -}}
+
+                    {% if customer.type('person') %}
+                        {%- if customer.telephone is not empty %}
+                            тел: {{ customer.telephone|phone_number_format }}
+                        {%- endif -%}
+                        {%- if customer.email is not empty %}
+                            e-mail: {{ customer.email }}
+                        {% endif %}
+                    {%- elseif customer.type('organization') -%}
+                        {# @var customer \App\Customer\Domain\Organization #}
+                        {%- if not customer.requisite.empty -%}
+                            , {{- customer.requisite -}}
+                        {%- endif -%}
+                    {% endif %}
+                {% endif %}
+            </div>
+            <div class="order-executor__type">Автомобиль:</div>
+            <div class="order-executor__item">
+                {% if car is not empty %}
+                    {{ car.toId|display_name }} {{ car.identifier }} {{ car.gosnomer }} пробег: {{ order.mileage }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endmacro %}
