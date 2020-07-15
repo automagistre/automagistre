@@ -1,0 +1,33 @@
+{% set requisites = state.tenant.getRequisites() %}
+
+<footer class="footer">
+    <div class="guaranty">
+        <div class="guaranty__qr">
+            Гарантийные условия:
+            <img src="{{ qr_code_data_uri(requisites.guarantyUrl) }}" title="QR код" alt="QR">
+        </div>
+        {% for telephone in requisites.telephones %}
+            <div class="footer__contact telephone">{{ telephone }}</div>
+        {% endfor %}
+        <div class="footer__contact">{{ requisites.site }}</div>
+        <div class="footer__contact">{{ requisites.email }}</div>
+    </div>
+    <div class="stamps">
+        <div>
+            С объемами и стоимостью работ согласен.<br>
+            С правилами предоставления услуг ознакомлен:
+        </div>
+        <div class="stamps__side">
+            <div>Заказчик:</div>
+            <div><hr></div>
+        </div>
+        <div class="stamps__side">
+            <div>Исполнитель:</div>
+            <div><hr></div>
+        </div>
+    </div>
+    <div class="footer__img">
+        <img src="{{ asset('assets/img/print_form_footer.png') }}" alt="Footer image">
+    </div>
+    <div class="footer__mp">M.П.</div>
+</footer>
