@@ -213,13 +213,14 @@ body{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-width: fit-content;
-  padding: 0 7mm;
+  //min-width: fit-content;
+  min-width: 4.5cm;
   border: 1px solid @red;
   border-radius: 2px;
   font-weight: 700;
 
   &__type, &__info {
+    margin: 0 auto;
     display: block;
   }
 
@@ -283,15 +284,43 @@ body{
 .recommendations-table {
   display: grid;
   margin: 3mm auto;
-  grid-template-columns: 55% 2fr 1fr 2fr 2fr;
+  grid-template-columns: auto;
+  gap: 2mm;
 
   &__header {
     display: grid;
     grid-column-start: 1;
     grid-column-end: -1;
-    grid-template-columns: 55% 2fr 1fr 2fr 2fr;
+    grid-template-columns: 55% 1fr 2fr 2fr 2fr;
     grid-column-gap: 1mm;
   }
+
+  &__block {
+    display: grid;
+    grid-template-columns: 55% 1fr 2fr 2fr 2fr;
+    //grid-auto-flow: row dense;
+
+    & > .cell-service:first-child {
+      grid-column: 1 / span 3;
+    }
+
+    & > .cell-service:nth-child(2) {
+      grid-column: 4;
+      grid-row-start: 1;
+    }
+
+    & > .cell-service:nth-child(3) {
+      grid-column: 4;
+      grid-row-start: 2;
+      grid-row-end: 99;
+    }
+    & > .cell-service:nth-child(4) {
+      grid-column: 5;
+      grid-row-start: 1;
+      grid-row-end: 99;
+    }
+  }
+
 }
 
 .table__item {
@@ -305,7 +334,7 @@ body{
     min-height: 8mm;
     align-items: center;
     justify-content: center;
-    padding: 0;
+    padding: 1px 0;
   }
 
   &.cell-service {
