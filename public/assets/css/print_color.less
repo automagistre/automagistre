@@ -152,9 +152,10 @@ body{
 .header {
 
   &__logo {
-    margin: 0 auto 2mm;
+    margin: 0 auto 10mm;
     text-align: center;
     img{
+      opacity: 0.7;
       height: 18mm;
     }
   }
@@ -166,14 +167,14 @@ body{
       display: flex;
       flex-wrap: nowrap;
       flex-direction: row;
-      justify-content: space-between;
+      justify-content: center;
       list-style: none;
       margin: 0 auto;
       padding: 0;
     }
 
     li {
-      flex-basis: 20%;
+      padding: 0 2mm;
       font-weight: 700;
       text-align: center;
       border-left: 0.6mm solid @red;
@@ -185,9 +186,12 @@ body{
   }
 
   &__line {
-    padding: 1mm 30mm;
+    padding: 0 30mm;
+    margin: 10mm 0 7mm 0;
 
     & hr {
+      margin: 0 auto;
+      line-height: 0.5mm;
       border: 1px solid @red;
       color: @red;
       font-weight: 700;
