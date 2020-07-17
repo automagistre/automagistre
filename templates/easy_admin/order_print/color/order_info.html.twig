@@ -32,9 +32,15 @@
             <div class="order-executor__type">Автомобиль:</div>
             <div class="order-executor__item">
                 {% if car is not empty %}
-                    {{ car.toId|display_name }} {{ car.identifier }} {{ car.gosnomer }} пробег: {{ order.mileage }}
+                    {{ car.toId|display_name }} {{ car.identifier }} {{ car.gosnomer }}
                 {% endif %}
             </div>
+            {% if car is not empty %}
+                <div class="order-executor__type">Пробег:</div>
+                <div class="order-executor__item">
+                    {{ order.mileage }}
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endmacro %}
