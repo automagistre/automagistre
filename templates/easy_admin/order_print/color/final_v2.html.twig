@@ -15,11 +15,11 @@
 {% block content %}
     <div class="content pages" id="content">
         <div class="page">
-            <main class="main space-between">
+            <main class="main">
 
                 {% include 'easy_admin/order_print/color/header.html.twig' %}
 
-                <div>
+                <div class="main-table">
                     {{ order_info('заказ-наряд', order, customer, car) }}
 
                     {{ order_table(order, balance) }}
