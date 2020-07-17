@@ -131,18 +131,17 @@ body{
 
 .main {
   display: grid;
+  grid-template-rows: min-content auto min-content;
   grid-auto-flow: row;
   width: 100%;
   height: 100%;
   font-size: 3.2mm;
+  align-items: start;
 
-  &.space-evenly {
-    align-content: space-evenly;
+  &-table {
+    align-self: start;
   }
 
-  &.space-between {
-    align-content: space-between;
-  }
 }
 
 .container {
@@ -150,10 +149,12 @@ body{
 }
 
 .header {
+  align-self: start;
 
   &__logo {
-    margin: 0 auto 10mm;
+    margin: 0 auto 7mm;
     text-align: center;
+
     img{
       opacity: 0.7;
       height: 18mm;
@@ -344,6 +345,7 @@ body{
 
 .footer {
   display: grid;
+  align-self: end;
   grid-template-columns: 55% 1fr;
   column-gap: 1mm;
 
@@ -365,6 +367,7 @@ body{
   }
 
   &__img > img {
+    opacity: 0.7;
     width: 100%;
   }
   &__mp {
@@ -395,6 +398,7 @@ body{
       padding: 2mm;
       height: 18mm;
       width: 18mm;
+      opacity: 0.7;
     }
   }
 }
