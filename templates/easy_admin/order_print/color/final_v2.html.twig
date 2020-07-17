@@ -30,16 +30,16 @@
         </div>
 
 
-{#        {% if car is not empty and car.recommendations is not empty %}#}
-{#            <div class="page">#}
-{#                <main class="main space-between">#}
-{#                    <div>#}
-{#                        {{ order_info('рекомендации', order, customer, car) }}#}
-{#                        {{ recommendations_table(car) }}#}
-{#                    </div>#}
-{#                </main>#}
-{#            </div>#}
-{#        {% endif %}#}
+        {% if car is not empty and car.recommendations is not empty %}
+            <div class="page">
+                <main class="main space-between">
+                    <div>
+                        {{ order_info('рекомендации', order, customer, car) }}
+                        {{ recommendations_table(car) }}
+                    </div>
+                </main>
+            </div>
+        {% endif %}
 
 {#        <main>#}
 {#            <section class="recommendations">#}
