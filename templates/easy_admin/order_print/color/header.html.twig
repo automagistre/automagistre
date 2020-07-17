@@ -1,19 +1,21 @@
 {% set requisites = state.tenant.getRequisites() %}
+<div>
+    <div class="header__logo">
+        <img src="{{ asset('assets/img/logo_automagistre_color.png') }}" alt="{{ requisites.name }}">
+    </div>
+    <div class="container header__info">
+        <ul>
+            <li>{{ requisites.name }}</li>
+            <li>ОГРН: {{ requisites.ogrn }}</li>
+            <li>ИНН: {{ requisites.inn }}</li>
+            <li>КПП: {{ requisites.kpp }}</li>
+            <li>БИК: {{ requisites.bik }}</li>
+        </ul>
 
-<div class="header__logo">
-    <img src="{{ asset('assets/img/automagistre_logo_print.png') }}" alt="{{ requisites.name }}">
-</div>
-<div class="container header__info">
-    <ul>
-        <li>{{ requisites.name }}</li>
-        <li>ОГРН: {{ requisites.ogrn }}</li>
-        <li>ИНН: {{ requisites.inn }}</li>
-        <li>КПП: {{ requisites.kpp }}</li>
-        <li>БИК: {{ requisites.bik }}</li>
-    </ul>
+    </div>
 
+    <div class="header__line">
+        <hr>
+    </div>
 </div>
 
-<div class="header__line">
-    <hr>
-</div>
