@@ -380,7 +380,7 @@ body{
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-auto-flow: row dense;
-  grid-gap: 1mm;
+  gap: 1mm 3mm;
   padding: 0 8mm;
 
   &__qr {
@@ -407,6 +407,14 @@ body{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding-left: 1mm;
+
+  &__info {
+    margin: 0;
+    width: 100%;
+    font-size: 1.2em;
+    text-align: justify;
+  }
 
   &__side {
     display: grid;
@@ -415,6 +423,7 @@ body{
     align-items: end;
     font-weight: 700;
     font-size: 1.1em;
+    padding-right: 2mm;
 
     & hr {
       margin: 0 0 1mm 0;
