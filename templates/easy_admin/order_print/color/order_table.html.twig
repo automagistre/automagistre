@@ -46,20 +46,22 @@
     {# @var orderItemPart \App\Order\Entity\OrderItemPart #}
     {% set part = part_by_id(orderItemPart.partId) %}
     {# @var part \App\Part\Domain\Part #}
-    <div class="table__item cell-part right">
-        {{ part.name }}
-        <span>
-            ({{ part.number }} {{ part.manufacturerId|display_name }})
-        </span>
+    <div class="table__item row-part">
+        <div class="table__item cell-part right">
+            {{ part.name }}
+            <span>
+                ({{ part.number }} {{ part.manufacturerId|display_name }})
+            </span>
+        </div>
+        <div class="table__item cell-part">{{ orderItemPart.price|localize_money(true) }}</div>
+        <div class="table__item cell-part">{{ orderItemPart.quantity / 100 }}</div>
+        <div class="table__item cell-part">
+            {% if orderItemPart.discounted %}
+                {{ orderItemPart.discount|localize_money(true) }}
+            {% endif %}
+        </div>
+        <div class="table__item cell-part">{{ orderItemPart.totalPrice(true)|localize_money(true) }}</div>
     </div>
-    <div class="table__item cell-part">{{ orderItemPart.price|localize_money(true) }}</div>
-    <div class="table__item cell-part">{{ orderItemPart.quantity / 100 }}</div>
-    <div class="table__item cell-part">
-        {% if orderItemPart.discounted %}
-            {{ orderItemPart.discount|localize_money(true) }}
-        {% endif %}
-    </div>
-    <div class="table__item cell-part">{{ orderItemPart.totalPrice(true)|localize_money(true) }}</div>
 {% endblock %}
 
 {% macro order_table(order, balance) %}
