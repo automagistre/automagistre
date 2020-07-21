@@ -421,6 +421,11 @@ body{
       color: white;
       background-color: @red;
     }
+
+    &.right {
+      justify-content: flex-end;
+    }
+
   }
 
   &.row-part {
@@ -442,6 +447,9 @@ body{
 
     & > div:first-child {
       grid-column: ~"1 / 4";
+    }
+    & > div:nth-child(2) {
+      padding-left: 2mm;
     }
   }
 }
