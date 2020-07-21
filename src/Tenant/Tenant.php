@@ -53,7 +53,7 @@ final class Tenant extends Enum
             'address' => 'г. Москва, ул. Люблинская, д. 31/1',
             'site' => 'www.automagistre.ru',
             'email' => 'info@automagistre.ru',
-            'logo' => 'logo_automagistre.svg',
+            'logo' => 'logo_automagistre_color.png',
             'telephones' => [
                 '+7 (495) 984-81-82',
                 '+7 (985) 929-40-87',
@@ -72,7 +72,7 @@ final class Tenant extends Enum
             'address' => 'г. Казань, Магистральная 33 к.1',
             'site' => 'www.automagistre.ru',
             'email' => 'info@automagistre.ru',
-            'logo' => 'logo_automagistre.svg',
+            'logo' => 'logo_automagistre_color.png',
             'telephones' => [
                 '+7 (843) 297-77-60',
                 '+7 (843) 297-77-61',
