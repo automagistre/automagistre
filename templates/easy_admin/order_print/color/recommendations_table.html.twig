@@ -25,3 +25,17 @@
     </div>
 {% endmacro %}
 
+{% macro recommendations_totals(car) %}
+    {% set totalServicePrice = car.recommendationPrice('service') %}
+    {% set totalPartPrice = car.recommendationPrice('part') %}
+    {% set totalRecommendationPrice = totalServicePrice.add(totalPartPrice) %}
+
+    <div class="recommendations-table__totals">
+        <div class="table__item cell-recommendations_totals right">ВСЕГО РЕКОМЕНДАЦИЙ НА СУММУ, руб</div>
+        <div class="table__item cell-recommendations_totals">{{ totalRecommendationPrice|localize_money(true) }}</div>
+        <div class="table__item cell-recommendations_totals right">ВСЕГО ПО РАБОТАМ, руб</div>
+        <div class="table__item cell-recommendations_totals">{{ totalServicePrice|localize_money(true) }}</div>
+        <div class="table__item cell-recommendations_totals right">ВСЕГО ПО ЗАПЧАСТЯМ, руб</div>
+        <div class="table__item cell-recommendations_totals">{{ totalPartPrice|localize_money(true) }}</div>
+    </div>
+{% endmacro %}

@@ -2,7 +2,7 @@
 
 {% from 'easy_admin/order_print/color/order_info.html.twig' import order_info %}
 {% from 'easy_admin/order_print/color/order_table.html.twig' import order_table %}
-{% from 'easy_admin/order_print/color/recommendations_table.html.twig' import recommendations_table %}
+{% from 'easy_admin/order_print/color/recommendations_table.html.twig' import recommendations_table, recommendations_totals %}
 
 {# @var order \App\Order\Entity\Order #}
 {# @var car \App\Car\Entity\Car #}
@@ -60,6 +60,16 @@
                         {{ order_info('рекомендации', order, customer, car) }}
                         {{ recommendations_table(car) }}
                     </div>
+
+                    <footer class="footer">
+                        {% include 'easy_admin/order_print/color/guaranty.html.twig' %}
+
+                        {{ recommendations_totals(car) }}
+
+                        <div class="footer__img">
+                            <img src="{{ asset('assets/img/print_form_footer.png') }}" alt="Footer image">
+                        </div>
+                    </footer>
                 </main>
             </div>
         {% endif %}

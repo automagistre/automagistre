@@ -2,6 +2,9 @@
 @grey: rgba(0, 0, 0, 0.1);
 @font-color: rgba(0, 0, 0, 70%);
 
+@price-col: 24mm;
+@quantity-col: 12mm;
+
 * {
   box-sizing: border-box;
 }
@@ -69,7 +72,7 @@ body{
 
 .btn {
   border-style: solid;
-  border-width: 0px 0px 3px;
+  border-width: 0 0 3px;
   box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.1) inset;
   color: #FFFFFF;
   border-radius: 6px;
@@ -257,16 +260,19 @@ body{
   }
 }
 
+@order-table-first-col: 55%;
+@order-table-template: @order-table-first-col 2fr 1fr 2fr 2fr;
+
 .order-table {
   margin: 2mm auto;
   display: grid;
-  grid-template-columns: 55% 2fr 1fr 2fr 2fr;
+  grid-template-columns: @order-table-template;
 
   &__header {
     display: grid;
     grid-column-start: 1;
     grid-column-end: -1;
-    grid-template-columns: 55% 2fr 1fr 2fr 2fr;
+    grid-template-columns: @order-table-template;
     grid-column-gap: 1mm;
   }
 
@@ -275,11 +281,13 @@ body{
     grid-column-start: 1;
     grid-column-end: 6;
     display: grid;
-    grid-template-columns: 55% 1fr;
+    grid-template-columns: @order-table-first-col 1fr;
     grid-gap: 1mm;
   }
 }
 
+@recommendations-table-first-col: 55%;
+@recommendations-table-template: @order-table-first-col 1fr 2fr 2fr 2fr;
 
 .recommendations-table {
   display: grid;
@@ -291,18 +299,19 @@ body{
     display: grid;
     grid-column-start: 1;
     grid-column-end: -1;
-    grid-template-columns: 55% 1fr 2fr 2fr 2fr;
+    grid-template-columns: @recommendations-table-template;
     grid-column-gap: 1mm;
   }
 
   &__block {
     display: grid;
-    grid-template-columns: 55% 1fr 2fr 2fr 2fr;
+    grid-template-columns: @recommendations-table-template;
     gap: 0 1mm;
 
     & > .table__item:first-child {
+      grid-row: 1;
       grid-column-start: 1;
-      grid-column-end: -2;
+      grid-column-end: -1;
     }
 
     & > .table__item:nth-child(2) {
@@ -315,6 +324,12 @@ body{
       grid-row-start: 1;
       grid-row-end: 99;
     }
+  }
+
+  &__totals {
+    display: grid;
+    grid-template-columns: 5fr 2fr;
+    gap: 1mm;
   }
 
 }
@@ -385,6 +400,22 @@ body{
     border-radius: 3px;
   }
 
+  &.cell-recommendations_totals {
+    font-weight: 700;
+    font-size: 1.3em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: @grey;
+
+    &:first-child, &:nth-child(2) {
+      border: none;
+      color: white;
+      background-color: @red;
+    }
+  }
+
   &.row-part {
     grid-column-start: 1;
     grid-column-end: -1;
@@ -395,15 +426,23 @@ body{
 
   &.row-service {
     display: grid;
-    grid-template-columns: auto 14.1%;
+    grid-template-columns: @recommendations-table-template;
     padding: 0;
+
+    & > .cell-service {
+      border-top: 1px solid @grey;
+    }
+
+    & > div:first-child {
+      grid-column: ~"1 / 4";
+    }
   }
 }
 
 .footer {
   display: grid;
   align-self: end;
-  grid-template-columns: 55% 1fr;
+  grid-template-columns: @order-table-first-col 1fr;
   column-gap: 1mm;
 
   &__contact {
