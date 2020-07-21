@@ -6,6 +6,14 @@
     {% for telephone in requisites.telephones %}
         <div class="footer__contact telephone">{{ telephone }}</div>
     {% endfor %}
-    <div class="footer__contact">{{ requisites.site }}</div>
-    <div class="footer__contact">{{ requisites.email }}</div>
+    {% if requisites.site|default %}
+        <div class="footer__contact">{{ requisites.site }}</div>
+    {% else %}
+        <div class="footer__empty"></div>
+    {% endif %}
+    {% if requisites.email|default %}
+        <div class="footer__contact">{{ requisites.email }}</div>
+    {% else %}
+        <div class="footer__empty"></div>
+    {% endif %}
 </div>
