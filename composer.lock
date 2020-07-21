@@ -2807,16 +2807,16 @@
         },
         {
             "name": "endroid/qr-code",
-            "version": "3.8.2",
+            "version": "3.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/endroid/qr-code.git",
-                "reference": "1616778c697238b16e1b7592ea824bafcf7d108c"
+                "reference": "8605e2c958ed568788da4e16bd8a9502e32f375f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endroid/qr-code/zipball/1616778c697238b16e1b7592ea824bafcf7d108c",
-                "reference": "1616778c697238b16e1b7592ea824bafcf7d108c",
+                "url": "https://api.github.com/repos/endroid/qr-code/zipball/8605e2c958ed568788da4e16bd8a9502e32f375f",
+                "reference": "8605e2c958ed568788da4e16bd8a9502e32f375f",
                 "shasum": ""
             },
             "require": {
@@ -2829,10 +2829,12 @@
                 "symfony/property-access": "^3.4||^4.4||^5.0"
             },
             "require-dev": {
-                "endroid/quality": "dev-master"
+                "endroid/quality": "dev-master",
+                "setasign/fpdf": "^1.8"
             },
             "suggest": {
                 "roave/security-advisories": "Avoids installation of package versions with vulnerabilities",
+                "setasign/fpdf": "Required to use the FPDF writer.",
                 "symfony/security-checker": "Checks your composer.lock for vulnerabilities"
             },
             "type": "library",
@@ -2872,7 +2874,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-06-19T08:57:37+00:00"
+            "time": "2020-07-10T10:16:06+00:00"
         },
         {
             "name": "endroid/qr-code-bundle",
