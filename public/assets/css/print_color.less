@@ -334,13 +334,14 @@ footer {
     }
 
     & > .table__item:nth-child(2) {
-      grid-column: 4;
-      grid-row-start: 2;
-      grid-row-end: 99;
-    }
-    & > .table__item:nth-child(3) {
       grid-column: 5;
       grid-row-start: 1;
+      grid-row-end: 99;
+    }
+
+    & > .table__item:nth-child(3) {
+      grid-column: 4;
+      grid-row-start: 2;
       grid-row-end: 99;
     }
   }
@@ -368,6 +369,7 @@ footer {
   }
 
   &.cell-service {
+    line-height: 1.7em;
     font-size: 1.1em;
     font-weight: 700;
     border-bottom: 1px solid @grey;
