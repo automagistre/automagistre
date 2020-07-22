@@ -4,6 +4,8 @@
 
 @price-col: 24mm;
 @quantity-col: 12mm;
+@page-height: 273mm;
+@page-margin: 7mm;
 
 * {
   box-sizing: border-box;
@@ -124,26 +126,26 @@ body{
 
 .page{
   width: 210mm;
-  height: 297mm;
-  padding: 10mm;
+  min-height: @page-height + @page-margin * 2;
+  height: 100%;
+  padding: @page-margin;
   margin: 2mm auto;
   background: white;
+  font-size: 3.2mm;
   color: @font-color;
   box-shadow: 0 2px 9px rgba(0, 0, 0, 0.25);
 }
 
-.main {
-  display: grid;
-  grid-template-rows: min-content auto min-content;
-  grid-auto-flow: row;
-  width: 100%;
-  height: 100%;
-  font-size: 3.2mm;
-  align-items: start;
+@footer-height: 45mm;
 
-  &-table {
-    align-self: start;
-  }
+main {
+  width: 100%;
+  min-height: @page-height - @footer-height;
+
+}
+
+footer {
+  min-height: @footer-height;
 
 }
 
@@ -152,7 +154,6 @@ body{
 }
 
 .header {
-  align-self: start;
 
   &__logo {
     margin: 0 auto 5mm;
@@ -272,8 +273,6 @@ body{
 
 .order-table {
   margin: 2mm auto;
-  display: grid;
-  grid-template-columns: @order-table-template;
 
   &__header {
     display: grid;
@@ -281,6 +280,19 @@ body{
     grid-column-end: -1;
     grid-template-columns: @order-table-template;
     grid-column-gap: 1mm;
+  }
+
+  &__main {
+    display: block;
+    margin: 0;
+  }
+
+  &__block {
+    width: 100%;
+    display: grid;
+    grid-column: ~"1 / -1";
+    grid-template-columns: @order-table-template;
+    gap: inherit;
   }
 
   &__totals {
@@ -560,6 +572,11 @@ body{
 //------------------ Media ------------------
 
 @media print {
+
+  * {
+    -webkit-print-color-adjust: exact;
+  }
+
   body{
     background: none;
   }
@@ -573,7 +590,8 @@ body{
 
   .page {
     width: 100%;
-    height: 100vh;
+    min-height: @page-height;
+    height: 100%;
     padding: 0;
     margin: 0 auto;
     background: none;
@@ -582,15 +600,21 @@ body{
 
   @page {
     size: A4;
-    margin: 1cm;
+    margin: 0.8cm;
   }
   .btn-block {
     display: none;
   }
-  section, tbody {
+
+  .order-table__block, .recommendations-table__block {
     page-break-inside: avoid;
   }
-  .recommendations{
-    page-break-before: always;
+
+  .page-brake {
+    page-break-inside: avoid;
+  }
+
+  .page {
+    page-break-after: always;
   }
 }
