@@ -1,5 +1,24 @@
 {% set requisites = state.tenant.getRequisites() %}
 
+    {% if requisites.name|default %}
+        {% set requisitesForRender = [
+            {'key': 'name',
+                'name': ''
+            },
+            {'key': 'inn',
+                'name': 'ИНН'
+            },
+            {'key': 'kpp',
+                'name': 'КПП'
+            },
+            {'key': 'rs',
+                'name': 'Р/С'
+            },
+            {'key': 'bik',
+                'name': 'БИК'
+            }
+        ] %}
+
 <header class="header">
     <div class="header__logo">
         {% if requisites.logo|default %}
@@ -10,43 +29,21 @@
             <span>Автосервис</span>
         {% endif %}
     </div>
-    {% if requisites.name|default %}
-        {% set requisitesForRender = [
-            {'key': 'name',
-             'name': ''
-            },
-            {'key': 'inn',
-             'name': 'ИНН'
-            },
-            {'key': 'kpp',
-             'name': 'КПП'
-            },
-            {'key': 'rs',
-             'name': 'Р/С'
-            },
-            {'key': 'bik',
-             'name': 'БИК'
-            }
-        ] %}
-        <div class="container header__info">
-            <ul>
-                {% for req in requisitesForRender %}
-                    {% if requisites[req.key]|default %}
-                        <li>
-                            {% if req.name %}
-                                {{ req.name }}:
-                            {% endif %}
-                            {{ requisites[req.key] }}
-                        </li>
-                    {% endif %}
-                {% endfor %}
-{#                <li>{{ requisites.name }}</li>#}
-{#                <li>ОГРН: {{ requisites.ogrn }}</li>#}
-{#                <li>ИНН: {{ requisites.inn }}</li>#}
-{#                {{ "kpp" in requisites|keys ? "<li>" + requisites.kpp : "" }}#}
-{#                {{ "bik" in requisites|keys ? '<li>' + requisites.bik : "" }}#}
-            </ul>
-        </div>
+
+    <div class="container header__info">
+        <ul>
+            {% for req in requisitesForRender %}
+                {% if requisites[req.key]|default %}
+                    <li>
+                        {% if req.name %}
+                            {{ req.name }}:
+                        {% endif %}
+                        {{ requisites[req.key] }}
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
     {% endif %}
 
     <div class="header__line">

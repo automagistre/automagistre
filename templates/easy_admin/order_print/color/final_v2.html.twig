@@ -1,7 +1,7 @@
 {% extends 'easy_admin/order_print/color/layout.html.twig' %}
 
 {% from 'easy_admin/order_print/color/order_info.html.twig' import order_info %}
-{% from 'easy_admin/order_print/color/order_table.html.twig' import order_table %}
+{% from 'easy_admin/order_print/color/order_table.html.twig' import order_table_item, order_table_header, order_table_item %}
 {% from 'easy_admin/order_print/color/recommendations_table.html.twig' import recommendations_table, recommendations_totals %}
 
 {# @var order \App\Order\Entity\Order #}
@@ -12,18 +12,44 @@
 
 {% set requisites = state.tenant.getRequisites() %}
 
+{% set page = 1 %}
+{% set row = 1 %}
+
+{% block %}
+
+{% endblock %}
+
 {% block content %}
     <div class="content pages" id="content">
-        <div class="page">
-            <main>
-                {% include 'easy_admin/order_print/color/header.html.twig' %}
-
-                <div class="main-table">
-                    {{ order_info('заказ-наряд', order, customer, car) }}
-
-                    {{ order_table(order, balance) }}
+        {% for item in order.rootItems  %}
+            {% if page is same as(1) and row is same as(1) %}
+                <div class="page">
+                    <main>
+                        {% include 'easy_admin/order_print/color/header.html.twig' %}
+                        <div class="main-table">
+                            {{ order_info('заказ-наряд', order, customer, car) }}
+                            <div class="order-table">
+                                {{ order_table_header() }}
+            {% elseif item.children|length + row > 28 %}
+                            </div>
+                        </div>
+                    </main>
                 </div>
-            </main>
+                <div class="page">
+                <main>
+                    <div class="main-table">
+                        {{ order_info('заказ-наряд', order, customer, car) }}
+                            <div class="order-table">
+                                {{ order_table_header() }}
+                {% set row = 1 %}
+                {% set page = page + 1 %}
+            {% endif %}
+            {{ order_table_item(item) }}
+            {% set row = row + 1 + item.children|length %}
+        {% endfor %}
+                            </div>
+                        </div>
+                    </main>
             <footer class="page-brake">
                 <div class="footer">
                     {% include 'easy_admin/order_print/color/guaranty.html.twig' %}
