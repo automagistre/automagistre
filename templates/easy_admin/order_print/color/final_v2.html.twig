@@ -15,8 +15,7 @@
 {% block content %}
     <div class="content pages" id="content">
         <div class="page">
-            <main class="main">
-
+            <main>
                 {% include 'easy_admin/order_print/color/header.html.twig' %}
 
                 <div class="main-table">
@@ -24,8 +23,9 @@
 
                     {{ order_table(order, balance) }}
                 </div>
-
-                <footer class="footer">
+            </main>
+            <footer class="page-brake">
+                <div class="footer">
                     {% include 'easy_admin/order_print/color/guaranty.html.twig' %}
                     <div class="stamps">
                         <div>
@@ -47,21 +47,21 @@
                         <img src="{{ asset('assets/img/print_form_footer.png') }}" alt="Footer image">
                     </div>
                     <div class="footer__mp">M.П.</div>
-                </footer>
-
-            </main>
+                </div>
+            </footer>
         </div>
 
 
         {% if car is not empty and car.recommendations is not empty %}
             <div class="page">
-                <main class="main space-between">
+                <main>
                     <div>
                         {{ order_info('рекомендации', order, customer, car) }}
                         {{ recommendations_table(car) }}
                     </div>
-
-                    <footer class="footer">
+                </main>
+                <footer class="page-brake">
+                    <div class="footer">
                         {% include 'easy_admin/order_print/color/guaranty.html.twig' %}
 
                         {{ recommendations_totals(car) }}
@@ -69,8 +69,8 @@
                         <div class="footer__img">
                             <img src="{{ asset('assets/img/print_form_footer.png') }}" alt="Footer image">
                         </div>
-                    </footer>
-                </main>
+                    </div>
+                </footer>
             </div>
         {% endif %}
 

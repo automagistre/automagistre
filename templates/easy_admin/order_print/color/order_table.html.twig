@@ -73,19 +73,21 @@
             <div class="table__item table-header">Скидка, руб.</div>
             <div class="table__item table-header">Стоимость, руб</div>
         </div>
-        {% for item in order.rootItems %}
-            {% if instanceOf(item, 'App\\Order\\Entity\\OrderItemPart') %}
-                {% set orderItemPart = item %}
-                {{ block('order_item_part') }}
-            {% elseif instanceOf(item, 'App\\Order\\Entity\\OrderItemService') %}
-                {% set orderItemService = item %}
-                {{ block('order_item_service') }}
-            {% elseif instanceOf(item, 'App\\Order\\Entity\\OrderItemGroup') %}
-                {% set orderItemGroup = item %}
-                {{ block('order_item_group') }}
-            {% endif %}
-        {% endfor %}
-        <div class="order-table__totals">
+        <div class="order-table__main">
+            {% for item in order.rootItems %}
+                {% if instanceOf(item, 'App\\Order\\Entity\\OrderItemPart') %}
+                    {% set orderItemPart = item %}
+                    <div class="order-table__block">{{ block('order_item_part') }}</div>
+                {% elseif instanceOf(item, 'App\\Order\\Entity\\OrderItemService') %}
+                    {% set orderItemService = item %}
+                    <div class="order-table__block">{{ block('order_item_service') }}</div>
+                {% elseif instanceOf(item, 'App\\Order\\Entity\\OrderItemGroup') %}
+                    {% set orderItemGroup = item %}
+                    <div class="order-table__block">{{ block('order_item_group') }}</div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="order-table__totals page-brake">
             <div class="table__item cell-subtotal__pre right">РАБОТЫ / ЗАПЧАСТИ без учета скидок, руб.</div>
             <div class="table__item cell-subtotal__pre">{{ order.totalGroupPrice.add(order.totalServicePrice(false, true))|localize_money(true) }} / {{ order.totalPartPrice(false, true)|localize_money(true) }}</div>
             {% if order.discount %}
