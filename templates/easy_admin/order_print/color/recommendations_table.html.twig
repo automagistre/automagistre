@@ -11,10 +11,12 @@
             <div class="recommendations-table__block">
                 <div class="table__item row-service">
                     <div class="table__item cell-service left">{{ recommendation.service }}</div>
-                    <div class="table__item cell-service">{{ recommendation.price|localize_money(true)  }}</div>
+                    <div class="table__item cell-service">{{ recommendation.parts is not empty ? recommendation.price|localize_money(true) : "" }}</div>
                 </div>
-                <div class="table__item cell-total-parts">{{ recommendation.totalPartPrice|localize_money(true) }}</div>
                 <div class="table__item cell-total-recommendation">{{ recommendation.totalPrice|localize_money(true) }}</div>
+                {% if recommendation.parts is not empty %}
+                    <div class="table__item cell-total-parts">{{ recommendation.totalPartPrice|localize_money(true) }}</div>
+                {% endif  %}
                 {% for part in recommendation.parts %}
                     <div class="table__item cell-part right">{{ part.partId|display_name('name') }} ({{ part.partId|display_name('manufacturer') }})</div>
                     <div class="table__item cell-part">{{ part.quantity / 100 }}</div>
