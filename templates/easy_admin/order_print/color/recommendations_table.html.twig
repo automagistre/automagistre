@@ -1,33 +1,38 @@
-{% macro recommendations_table(car) %}
-    <div class="recommendations-table">
-        <div class="recommendations-table__header">
-            <div class="table__item table-header">Наименование выполненных работ / использованных запчастей</div>
-            <div class="table__item table-header">Кол-во, шт</div>
-            <div class="table__item table-header">Стоимость, руб</div>
-            <div class="table__item table-header">ИТОГО<br>работы/запчасти</div>
-            <div class="table__item table-header">ИТОГО<br>"под ключ"</div>
+{% macro recommendations_table_header() %}
+    <div class="recommendations-table__header">
+        <div class="table__item table-header">Наименование выполненных работ / использованных запчастей</div>
+        <div class="table__item table-header">Кол-во, шт</div>
+        <div class="table__item table-header">Стоимость, руб</div>
+        <div class="table__item table-header">ИТОГО<br>работы/запчасти</div>
+        <div class="table__item table-header">ИТОГО<br>"под ключ"</div>
+    </div>
+{% endmacro %}
+
+{% macro recommendations_table_item(recommendation) %}
+    <div class="recommendations-table__block">
+        <div class="table__item row-service">
+            <div class="table__item cell-service left">{{ recommendation.service }}</div>
+            <div class="table__item cell-service">{{ recommendation.parts is not empty ? recommendation.price|localize_money(true) : "" }}</div>
         </div>
-        {% for recommendation in car.recommendations %}
-            <div class="recommendations-table__block">
-                <div class="table__item row-service">
-                    <div class="table__item cell-service left">{{ recommendation.service }}</div>
-                    <div class="table__item cell-service">{{ recommendation.parts is not empty ? recommendation.price|localize_money(true) : "" }}</div>
-                </div>
-                <div class="table__item cell-total-recommendation">{{ recommendation.totalPrice|localize_money(true) }}</div>
-                {% if recommendation.parts is not empty %}
-                    <div class="table__item cell-total-parts">{{ recommendation.totalPartPrice|localize_money(true) }}</div>
-                {% endif  %}
-                {% for part in recommendation.parts %}
-                    <div class="table__item cell-part right">{{ part.partId|display_name('name') }} ({{ part.partId|display_name('manufacturer') }})</div>
-                    <div class="table__item cell-part">{{ part.quantity / 100 }}</div>
-                    <div class="table__item cell-part">{{ part.totalPrice|localize_money(true) }}</div>
-                {% endfor %}
-            </div>
+        <div class="table__item cell-total-recommendation">{{ recommendation.totalPrice|localize_money(true) }}</div>
+        {% if recommendation.parts is not empty %}
+            <div class="table__item cell-total-parts">{{ recommendation.totalPartPrice|localize_money(true) }}</div>
+        {% endif  %}
+        {% for part in recommendation.parts %}
+            <div class="table__item cell-part right">{{ part.partId|display_name('name') }} ({{ part.partId|display_name('manufacturer') }})</div>
+            <div class="table__item cell-part">{{ part.quantity / 100 }}</div>
+            <div class="table__item cell-part">{{ part.totalPrice|localize_money(true) }}</div>
         {% endfor %}
     </div>
 {% endmacro %}
 
-{% macro recommendations_totals(car) %}
+{% macro recommendations_table(car) %}
+    <div class="recommendations-table">
+
+    </div>
+{% endmacro %}
+
+{% macro recommendations_table_totals(car) %}
     {% set totalServicePrice = car.recommendationPrice('service') %}
     {% set totalPartPrice = car.recommendationPrice('part') %}
     {% set totalRecommendationPrice = totalServicePrice.add(totalPartPrice) %}
