@@ -143,6 +143,7 @@
             {{ order_table_item(item) }}
             {% set row = row + next_block_length %}
         {% endfor %}
+
         {{ block('order_last_page_end') }}
 
         {% if car is not empty and car.recommendations is not empty %}
@@ -162,7 +163,9 @@
                 {{ recommendations_table_item(recommendation) }}
                 {% set row = row + next_block_length %}
             {% endfor %}
+
             {{ block('recommendations_page_end') }}
+
         {% endif %}
     </div>
 {% endblock %}
