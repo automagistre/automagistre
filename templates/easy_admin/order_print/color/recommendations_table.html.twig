@@ -26,12 +26,6 @@
     </div>
 {% endmacro %}
 
-{% macro recommendations_table(car) %}
-    <div class="recommendations-table">
-
-    </div>
-{% endmacro %}
-
 {% macro recommendations_table_totals(car) %}
     {% set totalServicePrice = car.recommendationPrice('service') %}
     {% set totalPartPrice = car.recommendationPrice('part') %}
