@@ -1,0 +1,96 @@
+{% extends 'easy_admin/order_print/color/layout.html.twig' %}
+
+{% from 'easy_admin/order_print/color/order_info.html.twig' import order_info %}
+{% from 'easy_admin/order_print/color/recommendations_table.html.twig' import recommendations_table_header, recommendations_table_item, recommendations_table_totals %}
+
+{# @var order \App\Order\Entity\Order #}
+{# @var car \App\Car\Entity\Car #}
+{# @var customer \App\Customer\Domain\Operand #}
+
+{% set balance = order.closed ? order.closedBalance : (customer is not empty ? customer|balance : null) %}
+
+{% set requisites = state.tenant.getRequisites() %}
+
+{% set page = 1 %}
+{% set row = 1 %}
+
+{% block recommendation_page_footer %}
+    <footer class="page-brake">
+        <div class="footer">
+            {% include 'easy_admin/order_print/color/guaranty.html.twig' %}
+
+            <div>
+            {{ recommendations_table_totals(car) }}
+            {% if order.totalPrice.isPositive %}
+                {% set orderTotalPrice = order.totalPrice(true) %}
+                {% set totalRecommendationPrice = car.recommendationPrice('service').add(car.recommendationPrice('part')) %}
+                <div class="recommendations-table__totals" style="margin-top: 1mm">
+                    <div class="table__item cell-recommendations_totals right">С ЗАКАЗОМ, руб</div>
+                    <div class="table__item cell-recommendations_totals">{{ totalRecommendationPrice.add(orderTotalPrice)|localize_money(true) }}</div>
+                </div>
+            {% endif %}
+            </div>
+            <div class="footer__img">
+                <img src="{{ asset('assets/img/print_form_footer.png') }}" alt="Footer image">
+            </div>
+        </div>
+    </footer>
+{% endblock %}
+
+{% block recommendations_page_begin %}
+<div class="page">
+    <main>
+        {% include 'easy_admin/order_print/color/header.html.twig' %}
+        <div>
+            {{ order_info('рекомендации', order, customer, car) }}
+            <div class="recommendations-table">
+                {{ recommendations_table_header() }}
+                {% endblock %}
+
+                {% block recommendations_page_breake %}
+            </div>
+        </div>
+    </main>
+</div>
+<div class="page">
+    <main>
+        <div>
+            {{ order_info('рекомендации', order, customer, car) }}
+            <div class="recommendations-table">
+                {{ recommendations_table_header() }}
+                {% endblock %}
+
+                {% block recommendations_page_end %}
+            </div>
+        </div>
+    </main>
+    {{ block('recommendation_page_footer') }}
+</div>
+{% endblock %}
+
+{% block content %}
+    <div class="content pages" id="content">
+
+        {% if car is not empty and car.recommendations is not empty %}
+
+            {% set page = 1 %}
+            {% set row = 1 %}
+
+            {% for recommendation in car.recommendations %}
+                {% set next_block_length = 1 + recommendation.parts|length %}
+                {% if page == 1 and row == 1 %}
+                    {{ block('recommendations_page_begin') }}
+                {% elseif row + next_block_length > 30 %}
+                    {{ block('recommendations_page_breake') }}
+                    {% set page = page + 1 %}
+                    {% set row = 1 %}
+                {% endif %}
+                {{ recommendations_table_item(recommendation) }}
+                {% set row = row + next_block_length %}
+            {% endfor %}
+
+            {{ block('recommendations_page_end') }}
+
+        {% endif %}
+    </div>
+{% endblock %}
