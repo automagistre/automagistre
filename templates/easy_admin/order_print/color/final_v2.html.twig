@@ -15,6 +15,48 @@
 {% set page = 1 %}
 {% set row = 1 %}
 
+{% block order_page_footer %}
+    <footer class="page-brake">
+        <div class="footer">
+            {% include 'easy_admin/order_print/color/guaranty.html.twig' %}
+            <div class="stamps">
+                <div>
+                    <p class="stamps__info">
+                        С объемами и стоимостью работ согласен.<br>
+                        С правилами предоставления услуг ознакомлен:
+                    </p>
+                </div>
+                <div class="stamps__side">
+                    <div>Заказчик:</div>
+                    <div><hr></div>
+                </div>
+                <div class="stamps__side">
+                    <div>Исполнитель:</div>
+                    <div><hr></div>
+                </div>
+            </div>
+            <div class="footer__img">
+                <img src="{{ asset('assets/img/print_form_footer.png') }}" alt="Footer image">
+            </div>
+            <div class="footer__mp">M.П.</div>
+        </div>
+    </footer>
+{% endblock %}
+
+{% block recommendation_page_footer %}
+    <footer class="page-brake">
+        <div class="footer">
+            {% include 'easy_admin/order_print/color/guaranty.html.twig' %}
+
+            {{ recommendations_table_totals(car) }}
+
+            <div class="footer__img">
+                <img src="{{ asset('assets/img/print_form_footer.png') }}" alt="Footer image">
+            </div>
+        </div>
+    </footer>
+{% endblock %}
+
 {% block order_first_page_begin %}
     <div class="page">
         <main>
@@ -43,6 +85,8 @@
                 </div>
             </div>
         </main>
+        {{ block('order_page_footer') }}
+    </div>
 {% endblock %}
 
 {% block recommendations_page_begin %}
@@ -59,13 +103,20 @@
             </div>
         </main>
     </div>
-    {{ block('recommendations_page_begin')}}
+    <div class="page">
+        <main>
+            <div>
+                {{ order_info('рекомендации', order, customer, car) }}
+                <div class="recommendations-table">
+                    {{ recommendations_table_header() }}
 {% endblock %}
 
 {% block recommendations_page_end %}
                 </div>
             </div>
         </main>
+        {{ block('recommendation_page_footer') }}
+    </div>
 {% endblock %}
 
 
@@ -93,63 +144,25 @@
             {% set row = row + next_block_length %}
         {% endfor %}
         {{ block('order_last_page_end') }}
-        <footer class="page-brake">
-            <div class="footer">
-                {% include 'easy_admin/order_print/color/guaranty.html.twig' %}
-                <div class="stamps">
-                    <div>
-                        <p class="stamps__info">
-                            С объемами и стоимостью работ согласен.<br>
-                            С правилами предоставления услуг ознакомлен:
-                        </p>
-                    </div>
-                    <div class="stamps__side">
-                        <div>Заказчик:</div>
-                        <div><hr></div>
-                    </div>
-                    <div class="stamps__side">
-                        <div>Исполнитель:</div>
-                        <div><hr></div>
-                    </div>
-                </div>
-                <div class="footer__img">
-                    <img src="{{ asset('assets/img/print_form_footer.png') }}" alt="Footer image">
-                </div>
-                <div class="footer__mp">M.П.</div>
-            </div>
-        </footer>
-    </div>
 
         {% if car is not empty and car.recommendations is not empty %}
 
-                {% set page = 1 %}
-                {% set row = 1 %}
+            {% set page = 1 %}
+            {% set row = 1 %}
 
-                {% for recommendation in car.recommendations %}
-                    {% set next_block_length = 1 + recommendation.parts|length %}
-                    {% if page == 1 and row == 1 %}
-                       {{ block('recommendations_page_begin') }}
-                    {% elseif row + next_block_length > 30 %}
-                        {{ block('recommendations_page_breake') }}
-                        {% set page = page + 1 %}
-                        {% set row = 1 %}
-                    {% endif %}
-                    {{ recommendations_table_item(recommendation) }}
-                    {% set row = row + next_block_length %}
-                {% endfor %}
-                {{ block('recommendations_page_end') }}
-                <footer class="page-brake">
-                    <div class="footer">
-                        {% include 'easy_admin/order_print/color/guaranty.html.twig' %}
-
-                        {{ recommendations_table_totals(car) }}
-
-                        <div class="footer__img">
-                            <img src="{{ asset('assets/img/print_form_footer.png') }}" alt="Footer image">
-                        </div>
-                    </div>
-                </footer>
-            </div>
+            {% for recommendation in car.recommendations %}
+                {% set next_block_length = 1 + recommendation.parts|length %}
+                {% if page == 1 and row == 1 %}
+                   {{ block('recommendations_page_begin') }}
+                {% elseif row + next_block_length > 30 %}
+                    {{ block('recommendations_page_breake') }}
+                    {% set page = page + 1 %}
+                    {% set row = 1 %}
+                {% endif %}
+                {{ recommendations_table_item(recommendation) }}
+                {% set row = row + next_block_length %}
+            {% endfor %}
+            {{ block('recommendations_page_end') }}
         {% endif %}
     </div>
 {% endblock %}
