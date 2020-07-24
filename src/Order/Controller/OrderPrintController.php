@@ -123,7 +123,6 @@ final class OrderPrintController extends AbstractController
             return $this->redirect($request->getUri());
         }
 
-
         return $this->render('easy_admin/order_print/final.html.twig', [
             'order' => $order,
         ]);
