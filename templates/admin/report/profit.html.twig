@@ -59,7 +59,7 @@
                                 </td>
                                 <td rowspan="2">
                                     {% if order.customer_id is not empty %}
-                                        <a href="{{ easyadmin_path('Operand', 'show', {'id': order.customer_id}) }}">
+                                        <a href="{{ easyadmin_path('Operand', 'show', {'id': order.customer_id.toString}) }}">
                                             {{ order.customer_id|display_name }}
                                         </a>
                                     {% else %}
