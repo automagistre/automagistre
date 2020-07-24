@@ -35,7 +35,7 @@ body {
   width: 100%;
   margin: 0 auto;
 }
-.content.pages {
+.wrapper {
   padding-top: 100px;
 }
 .btn-block {
@@ -458,15 +458,28 @@ footer {
 .left {
   text-align: start;
 }
+.order-table__block,
+.recommendations-table__block {
+  page-break-inside: avoid;
+}
+.page-brake {
+  page-break-inside: avoid;
+}
+.page {
+  page-break-after: always;
+}
 @media print {
   * {
     -webkit-print-color-adjust: exact;
   }
-  body {
+  body,
+  html {
     background: none;
+    margin: 0;
   }
   .content,
-  .content.pages {
+  .content.pages,
+  .wrapper {
     margin: 0;
     max-width: none;
     padding: 0;
@@ -488,16 +501,6 @@ footer {
   }
   .btn-block {
     display: none;
-  }
-  .order-table__block,
-  .recommendations-table__block {
-    page-break-inside: avoid;
-  }
-  .page-brake {
-    page-break-inside: avoid;
-  }
-  .page {
-    page-break-after: always;
   }
 }
 /*# sourceMappingURL=print_color.css.map */

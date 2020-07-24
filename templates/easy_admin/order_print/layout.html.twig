@@ -18,8 +18,9 @@
         <a class="btn btn_print red" id ="print__cancel" href="{{ app.request.query.get('referer')|easyadmin_urldecode|raw }}">назад</a>
     </div>
 </div>
-
-{% block content %}{% endblock %}
+<div class="wrapper">
+    {% block content %}{% endblock %}
+</div>
 
 <div id="editor"></div>
 <script>
@@ -28,11 +29,12 @@
 <script>
     $(document).ready(function() {
       let opt = {
-        margin:       1,
+        margin:       0,
+        pagebreak:    { avoid: '.page'},
         filename:     document.title + '.pdf',
-        image:        { type: 'jpeg', quality: 0.70 },
+        image:        { type: 'jpeg', quality: 0.95 },
         html2canvas:  { async: false},
-        jsPDF:        { unit: 'cm', format: 'a3', orientation: 'p' }
+        jsPDF:        { unit: 'cm', format: 'a4', orientation: 'p' }
       };
       let toPdfElement = document.getElementById('content');
       $('#print__pdf').on('click', function() {
