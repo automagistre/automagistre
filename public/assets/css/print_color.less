@@ -42,7 +42,6 @@
 body, html {
   font-family: Circe, sans-serif;
   margin: 0 auto;
-
 }
 
 body{
@@ -53,10 +52,10 @@ body{
   display: block;
   width: 100%;
   margin: 0 auto;
+}
 
-  &.pages {
-    padding-top: 100px;
-  }
+.wrapper {
+  padding-top: 100px;
 }
 
 //------------------ Buttons ------------------
@@ -571,6 +570,22 @@ footer {
   text-align: start;
 }
 
+//------------------ Page breaks ------------------
+
+
+.order-table__block, .recommendations-table__block {
+  page-break-inside: avoid;
+}
+
+.page-brake {
+  page-break-inside: avoid;
+}
+
+.page {
+  page-break-after: always;
+}
+
+
 //------------------ Media ------------------
 
 @media print {
@@ -579,10 +594,12 @@ footer {
     -webkit-print-color-adjust: exact;
   }
 
-  body{
+  body, html {
     background: none;
+    margin: 0;
   }
-  .content, .content.pages{
+
+  .content, .content.pages, .wrapper{
     margin: 0;
     max-width: none;
     padding: 0;
@@ -604,19 +621,9 @@ footer {
     size: A4;
     margin: 0.8cm;
   }
+
   .btn-block {
     display: none;
   }
 
-  .order-table__block, .recommendations-table__block {
-    page-break-inside: avoid;
-  }
-
-  .page-brake {
-    page-break-inside: avoid;
-  }
-
-  .page {
-    page-break-after: always;
-  }
 }
