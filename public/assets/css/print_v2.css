@@ -75,6 +75,9 @@ hr {
   height: 3.23541667mm;
   width: 3.23541667mm;
 }
+main {
+  color: rgba(0, 0, 0, 0.7);
+}
 h1 {
   font-size: 5.5mm;
 }
