@@ -21,3 +21,9 @@ parameters:
         -
             message: '#Unable to resolve the template type#'
             path: %currentWorkingDirectory%/src
+        -
+            message: '#is never read, only written#'
+            path: %currentWorkingDirectory%/src
+        -
+            message: '#is unused.#'
+            path: %currentWorkingDirectory%/src
