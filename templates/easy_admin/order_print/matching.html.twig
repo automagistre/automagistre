@@ -1,110 +1,96 @@
 {% extends 'easy_admin/order_print/layout.html.twig' %}
 
+{% from 'easy_admin/order_print/chunks/order_info.html.twig' import order_info %}
+{% from 'easy_admin/order_print/chunks/recommendations_table.html.twig' import recommendations_table_header, recommendations_table_item, recommendations_table_totals %}
+
 {# @var order \App\Order\Entity\Order #}
 {# @var car \App\Car\Entity\Car #}
 {# @var customer \App\Customer\Domain\Operand #}
 
+{% set balance = order.closed ? order.closedBalance : (customer is not empty ? customer|balance : null) %}
+
+{% set requisites = state.tenant.getRequisites() %}
+
+{% set page = 1 %}
+{% set row = 1 %}
+
+{% block recommendation_page_footer %}
+    <footer class="page-brake">
+        <div class="footer">
+            {% include 'easy_admin/order_print/chunks/guaranty.html.twig' %}
+
+            <div>
+            {{ recommendations_table_totals(car) }}
+            {% if order.totalPrice.isPositive %}
+                {% set orderTotalPrice = order.totalPrice(true) %}
+                {% set totalRecommendationPrice = car.recommendationPrice('service').add(car.recommendationPrice('part')) %}
+                <div class="recommendations-table__totals" style="margin-top: 1mm">
+                    <div class="table__item cell-recommendations_totals right">С ЗАКАЗОМ, руб</div>
+                    <div class="table__item cell-recommendations_totals">{{ totalRecommendationPrice.add(orderTotalPrice)|localize_money(true) }}</div>
+                </div>
+            {% endif %}
+            </div>
+            <div class="footer__img">
+                <img src="{{ asset('assets/img/print_form_footer.png') }}" alt="Footer image">
+            </div>
+        </div>
+    </footer>
+{% endblock %}
+
+{% block recommendations_page_begin %}
+<div class="page">
+    <main>
+        {% include 'easy_admin/order_print/chunks/header.html.twig' %}
+        <div>
+            {{ order_info('рекомендации', order, customer, car) }}
+            <div class="recommendations-table">
+                {{ recommendations_table_header() }}
+                {% endblock %}
+
+                {% block recommendations_page_breake %}
+            </div>
+        </div>
+    </main>
+</div>
+<div class="page">
+    <main>
+        <div>
+            {{ order_info('рекомендации', order, customer, car) }}
+            <div class="recommendations-table">
+                {{ recommendations_table_header() }}
+                {% endblock %}
+
+                {% block recommendations_page_end %}
+            </div>
+        </div>
+    </main>
+    {{ block('recommendation_page_footer') }}
+</div>
+{% endblock %}
+
 {% block content %}
-    <div class="container" id="content">
-        <h4>Форма согласования работ</h4>
-        <section class="user-info row justify-content-around">
-            <div class="user-info__user col-sm-4">
-                <table class="table-sm">
-                    <tbody>
-                    <tr>
-                        <td><strong>заказчик:</strong></td>
-                        <td class="name">{{ customer ? customer.fullName }}</td>
-                    </tr>
-                    <tr>
-                        <td>Телефон:</td>
-                        <td>{{ customer ? customer.telephone|phone_number_format }}</td>
-                    </tr>
-                    <tr>
-                        <td>email:</td>
-                        <td style="text-transform: lowercase">{{ customer ? customer.email }}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+    <div class="content pages" id="content">
 
-            <div class="user-info__user col-sm-4">
-                <table class="table-sm">
-                    <tbody>
-                    <tr>
-                        <td><strong>автомобиль:</strong></td>
-                        <td class="name">{{ car ? car.model }}</td>
-                    </tr>
-                    <tr>
-                        <td>гос. номер:</td>
-                        <td class="uppercase">{{ car ? car.gosnomer }}</td>
-                    </tr>
-                    <tr>
-                        <td class="uppercase">vin:</td>
-                        <td class="uppercase">{{ car ? car.identifier }}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
+        {% if car is not empty and car.recommendations is not empty %}
 
-        <section class="">
-            <h4>рекомендации по автомобилю </h4>
-            <table class="table table-bordered table-sm">
-                <tbody>
-                {% for recommendation in recommendations %}
-                    {# @var recommendation \App\Entity\CarRecommendation #}
-                    <tr class="work ">
-                        <td class="check"></td>
-                        <td>{{ recommendation.service }}</td>
-                        <td>работа:</td>
-                        <td><span class="price">{{ recommendation.price|localize_money }}</span></td>
-                        <td>запчасти:</td>
-                        <td><span class="price">{{ recommendation.totalPartPrice|localize_money }}</span></td>
-                        <td>всего:</td>
-                        <td><span class="price">{{ recommendation.totalPrice|localize_money }}</span></td>
-                    </tr>
-                    {% for part in recommendation.parts %}
-                        {# @var part \App\Entity\CarRecommendationPart #}
-                        <tr>
-                            <td colspan="3" class="part">{{ part.part }} / <span
-                                        class="uppercase">{{ part.part.manufacturer }}</span></td>
-                            <td><span class="count">{{ part.quantity / 100 }}</span></td>
-                            <td><span class="price">{{ part.price|localize_money }}</span></td>
-                            <td><span class="price">{{ part.totalPrice|localize_money }}</span></td>
-                        </tr>
-                    {% endfor %}
-                {% endfor %}
+            {% set page = 1 %}
+            {% set row = 1 %}
 
-                <tr class="table-active">
-                    <td colspan="7" class="table-summary legend">итого рекомендованных работ:</td>
-                    <td class="table-summary"><span class="price">{{ totalRecommendationService|localize_money }}</span>
-                    </td>
-                </tr>
-                <tr class="table-active">
-                    <td colspan="7" class="table-summary legend">итого рекомендованных запчастей:</td>
-                    <td class="table-summary"><span class="price">{{ totalRecommendationPart|localize_money }}</span>
-                    </td>
-                <tr class="table-active">
-                    <td colspan="7" class="table-summary legend">всего рекомендаций:</td>
-                    <td class="table-summary"><span class="price">{{ totalRecommendationAll|localize_money }}</span>
-                    </td>
-                </tr>
-
-                {#Показываем только если заказ больше чем 0#}
-                {% if order.totalPrice.isPositive %}
-                    <tr class="">
-                        <td colspan="7" class="table-summary legend">
-                            согласованных работ и зачастей по заказу {{ order.number }}:
-                        </td>
-                        <td class="table-summary"><span class="price">{{ order.totalPrice|localize_money }}</span></td>
-                    </tr>
-                    <tr class="">
-                        <td colspan="7" class="table-summary legend">потенциальная стоимость ремонта:</td>
-                        <td class="table-summary"><span class="price">{{ potentialPrice|localize_money }}</span></td>
-                    </tr>
+            {% for recommendation in car.recommendations %}
+                {% set next_block_length = 1 + recommendation.parts|length %}
+                {% if page == 1 and row == 1 %}
+                    {{ block('recommendations_page_begin') }}
+                {% elseif row + next_block_length > 25 %}
+                    {{ block('recommendations_page_breake') }}
+                    {% set page = page + 1 %}
+                    {% set row = 1 %}
                 {% endif %}
-                </tbody>
-            </table>
-        </section>
+                {{ recommendations_table_item(recommendation) }}
+                {% set row = row + next_block_length %}
+            {% endfor %}
+
+            {{ block('recommendations_page_end') }}
+
+        {% endif %}
     </div>
 {% endblock %}
