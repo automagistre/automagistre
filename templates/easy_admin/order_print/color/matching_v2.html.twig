@@ -80,7 +80,7 @@
                 {% set next_block_length = 1 + recommendation.parts|length %}
                 {% if page == 1 and row == 1 %}
                     {{ block('recommendations_page_begin') }}
-                {% elseif row + next_block_length > 30 %}
+                {% elseif row + next_block_length > 25 %}
                     {{ block('recommendations_page_breake') }}
                     {% set page = page + 1 %}
                     {% set row = 1 %}
