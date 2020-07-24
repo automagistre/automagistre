@@ -1,8 +1,8 @@
 #
 # PHP-FPM
 #
-FROM composer:1.10.8 as composer
-FROM php:7.4.7-fpm-buster as php-base
+FROM composer:1.10.9 as composer
+FROM php:7.4.8-fpm-buster as php-base
 
 LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 
@@ -92,7 +92,7 @@ HEALTHCHECK --interval=10s --timeout=5s --start-period=5s \
 #
 # nginx
 #
-FROM nginx:1.19.0-alpine as nginx-base
+FROM nginx:1.19.1-alpine as nginx-base
 
 WORKDIR /usr/local/app/public
 
