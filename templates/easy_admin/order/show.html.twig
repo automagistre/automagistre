@@ -43,10 +43,15 @@
                                 <i class="fa fa-print"></i> Печать <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
+                                <li>
+                                    <a href="{{ easyadmin_path('OrderPrint', 'finish', {'id': order|toId, 'referer': true}) }}">
+                                        ЗАКАЗ-НАРЯД
+                                    </a>
+                                </li>
                                 {% if order.editable %}
                                     <li>
                                         <a href="{{ easyadmin_path('OrderPrint', 'matching', {'id': order|toId, 'referer': true}) }}">
-                                            Согласование
+                                            Ком.предложение
                                         </a>
                                     </li>
                                     <li>
@@ -55,16 +60,6 @@
                                         </a>
                                     </li>
                                 {% endif %}
-                                <li>
-                                    <a href="{{ easyadmin_path('OrderPrint', 'finish', {'id': order|toId, 'referer': true, 'version': 2}) }}">
-                                        Заказ-наряд физ.л.
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ easyadmin_path('OrderPrint', 'finish', {'id': order|toId, 'referer': true, 'version': 3}) }}">
-                                        Заказ-наряд юр.л.
-                                    </a>
-                                </li>
                                 {% if customer is not empty %}
                                     <li>
                                         <a href="{{ easyadmin_path('OrderPrint', 'invoice', {'id': order|toId, 'referer': true}) }}">

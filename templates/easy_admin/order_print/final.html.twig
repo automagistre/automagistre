@@ -1,8 +1,8 @@
-{% extends 'easy_admin/order_print/color/layout.html.twig' %}
+{% extends 'easy_admin/order_print/layout.html.twig' %}
 
-{% from 'easy_admin/order_print/color/order_info.html.twig' import order_info %}
-{% from 'easy_admin/order_print/color/order_table.html.twig' import order_table_header, order_table_item, order_table_total %}
-{% from 'easy_admin/order_print/color/recommendations_table.html.twig' import recommendations_table_header, recommendations_table_item, recommendations_table_totals %}
+{% from 'easy_admin/order_print/chunks/order_info.html.twig' import order_info %}
+{% from 'easy_admin/order_print/chunks/order_table.html.twig' import order_table_header, order_table_item, order_table_total %}
+{% from 'easy_admin/order_print/chunks/recommendations_table.html.twig' import recommendations_table_header, recommendations_table_item, recommendations_table_totals %}
 
 {# @var order \App\Order\Entity\Order #}
 {# @var car \App\Car\Entity\Car #}
@@ -18,7 +18,7 @@
 {% block order_page_footer %}
     <footer class="page-brake">
         <div class="footer">
-            {% include 'easy_admin/order_print/color/guaranty.html.twig' %}
+            {% include 'easy_admin/order_print/chunks/guaranty.html.twig' %}
             <div class="stamps">
                 <div>
                     <p class="stamps__info">
@@ -46,7 +46,7 @@
 {% block recommendation_page_footer %}
     <footer class="page-brake">
         <div class="footer">
-            {% include 'easy_admin/order_print/color/guaranty.html.twig' %}
+            {% include 'easy_admin/order_print/chunks/guaranty.html.twig' %}
 
             {{ recommendations_table_totals(car) }}
 
@@ -60,7 +60,7 @@
 {% block order_first_page_begin %}
     <div class="page">
         <main>
-            {% include 'easy_admin/order_print/color/header.html.twig' %}
+            {% include 'easy_admin/order_print/chunks/header.html.twig' %}
             <div class="main-table">
                 {{ order_info('заказ-наряд', order, customer, car) }}
                 <div class="order-table">

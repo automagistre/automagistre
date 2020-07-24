@@ -30,7 +30,7 @@ final class OrderPrintController extends AbstractController
             throw new BadRequestHttpException('Order is required.');
         }
 
-        return $this->render('easy_admin/order_print/matching_v2.html.twig', [
+        return $this->render('easy_admin/order_print/matching.html.twig', [
             'order' => $order,
             'car' => null === $order->getCarId()
                 ? null
@@ -48,7 +48,7 @@ final class OrderPrintController extends AbstractController
             throw new BadRequestHttpException('Order is required');
         }
 
-        return $this->render('easy_admin/order_print/give_out_v2.html.twig', [
+        return $this->render('easy_admin/order_print/give_out.html.twig', [
             'order' => $order,
         ]);
     }
@@ -123,10 +123,8 @@ final class OrderPrintController extends AbstractController
             return $this->redirect($request->getUri());
         }
 
-        $version = $request->query->getInt('version');
-        $template = sprintf('easy_admin/order_print/final_v%s.html.twig', $version);
 
-        return $this->render($template, [
+        return $this->render('easy_admin/order_print/final.html.twig', [
             'order' => $order,
         ]);
     }
