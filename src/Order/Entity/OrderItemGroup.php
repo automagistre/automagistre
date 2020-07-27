@@ -7,6 +7,7 @@ namespace App\Order\Entity;
 use App\Shared\Money\TotalPriceInterface;
 use Doctrine\ORM\Mapping as ORM;
 use DomainException;
+use Generator;
 use Money\Money;
 use Ramsey\Uuid\UuidInterface;
 
@@ -80,10 +81,25 @@ class OrderItemGroup extends OrderItem implements TotalPriceInterface
         return $this->getTotalPriceByClass(OrderItemService::class, $withDiscount);
     }
 
-    public function getParts(): array
+    /**
+     * @psalm-return Generator<int, OrderItemPart>
+     */
+    public function getParts(): Generator
     {
-        return $this->children->filter(static function (OrderItem $orderItem): bool {
-            return $orderItem instanceof OrderItemPart;
-        })->toArray();
+        foreach ($this->children as $child) {
+            if ($child instanceof OrderItemPart) {
+                yield $child;
+
+                continue;
+            }
+
+            if ($child instanceof OrderItemService) {
+                foreach ($child->getChildren() as $item) {
+                    if ($item instanceof OrderItemPart) {
+                        yield $item;
+                    }
+                }
+            }
+        }
     }
 }
