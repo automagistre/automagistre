@@ -74,8 +74,8 @@ final class Tenant extends Enum
             'email' => 'info@automagistre.ru',
             'logo' => 'logo_automagistre_color.png',
             'telephones' => [
-                '+7 (843) 297-77-60',
-                '+7 (843) 297-77-61',
+                '+7 (966) 260-10-90',
+                '+7 (927) 244-48-68',
             ],
             'bank' => 'АО «Тинькофф Банк»',
             'ogrn' => '318169000126792',
