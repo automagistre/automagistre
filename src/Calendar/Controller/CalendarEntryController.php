@@ -89,10 +89,13 @@ final class CalendarEntryController extends AbstractController
             $orderInfo,
         );
 
+        $orderId = $this->getIdentifier(OrderId::class);
+
         $form = $this->createFormBuilder($dto)
             ->add('schedule', ScheduleType::class)
             ->add('orderInfo', OrderInfoType::class, [
                 'new_customer' => true,
+                'disable_customer_and_car' => null !== $orderId,
             ])
             ->getForm()
             ->handleRequest($this->request);
@@ -127,7 +130,6 @@ final class CalendarEntryController extends AbstractController
                 )
             );
 
-            $orderId = $this->getIdentifier(OrderId::class);
             if ($orderId instanceof OrderId) {
                 $order = $this->registry->getBy(Order::class, $orderId);
                 $order->setStatus(OrderStatus::scheduling());

@@ -25,11 +25,13 @@ final class OrderInfoType extends AbstractType
                 'class' => Operand::class,
                 'required' => false,
                 'label' => 'Заказчик',
+                'disabled' => $options['disable_customer_and_car'],
             ])
             ->add('carId', AutocompleteType::class, [
                 'class' => Car::class,
                 'required' => false,
                 'label' => 'Автомобиль',
+                'disabled' => $options['disable_customer_and_car'],
             ])
             ->add('description', TextType::class, [
                 'required' => false,
@@ -57,6 +59,7 @@ final class OrderInfoType extends AbstractType
             'data_class' => OrderInfoDto::class,
             'error_bubbling' => false,
             'new_customer' => false,
+            'disable_customer_and_car' => false,
         ])
             ->setAllowedTypes('new_customer', 'bool');
     }
