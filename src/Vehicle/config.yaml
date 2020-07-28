@@ -16,7 +16,7 @@ easy_admin:
             show:
                 title: 'Кузов'
                 fields:
-                    - { property: 'manufacturer', label: 'Производитель' }
+                    - { property: 'manufacturerId', label: 'Производитель', template: 'easy_admin/field_identifier.html.twig' }
                     - { property: 'name', label: 'Название' }
                     - { property: 'caseName', label: 'Кузов' }
                     - { property: 'yearFrom', label: 'Начало производства' }
