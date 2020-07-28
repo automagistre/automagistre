@@ -14,7 +14,9 @@ use App\Calendar\Form\CalendarEntryDeletionDto;
 use App\Calendar\Form\CalendarEntryDto;
 use App\Calendar\Form\DeletionReasonFormType;
 use App\Calendar\Form\OrderInfoDto;
+use App\Calendar\Form\OrderInfoType;
 use App\Calendar\Form\ScheduleDto;
+use App\Calendar\Form\ScheduleType;
 use App\Calendar\Repository\CalendarEntryRepository;
 use App\Calendar\View\Streamer;
 use App\Customer\Entity\OperandId;
@@ -53,31 +55,7 @@ final class CalendarEntryController extends AbstractController
         $this->repository = $repository;
     }
 
-    protected function listAction(): Response
-    {
-        $date = $this->request->query->get('date');
-        $today = (new DateTimeImmutable())->setTime(0, 0, 0, 0);
-        $date = null === $date
-            ? $today
-            : DateTimeImmutable::createFromFormat('Y-m-d', $date);
-        if (false === $date) {
-            throw new BadRequestHttpException('Wrong date.');
-        }
-
-        $date = $date->setTime(0, 0, 0, 0);
-
-        $orderId = $this->request->query->get('order_id');
-
-        return $this->render('easy_admin/calendar/list.html.twig', [
-            'date' => $date,
-            'today' => $today,
-            'streams' => $this->streamer->byDate($date),
-            'orderId' => is_string($orderId) && Uuid::isValid($orderId) ? $orderId : null,
-            'columns' => array_merge(...array_map(fn (int $val) => [$val.':00', $val.':30'], range(10, 21))),
-        ]);
-    }
-
-    protected function createNewEntity()
+    public function newAction(): Response
     {
         $date = $this->request->query->get('date');
         $date = null === $date
@@ -105,58 +83,94 @@ final class CalendarEntryController extends AbstractController
             }
         }
 
-        return new CalendarEntryDto(
+        $dto = new CalendarEntryDto(
             CalendarEntryId::generate(),
             $schedule,
             $orderInfo,
         );
+
+        $form = $this->createFormBuilder($dto)
+            ->add('schedule', ScheduleType::class)
+            ->add('orderInfo', OrderInfoType::class, [
+                'new_customer' => true,
+            ])
+            ->getForm()
+            ->handleRequest($this->request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $customerId = $dto->orderInfo->customerId;
+            $newCustomer = $dto->orderInfo->customer;
+            if (null !== $newCustomer) {
+                $customerId = OperandId::generate();
+                $person = new Person($customerId);
+                $person->setFirstname($newCustomer->firstName);
+                $person->setLastname($newCustomer->lastName);
+                $person->setTelephone($newCustomer->telephone);
+
+                $this->em->persist($person);
+                $this->em->flush();
+            }
+
+            $this->commandBus->handle(
+                new CreateCalendarEntryCommand(
+                    $dto->id,
+                    new Schedule(
+                        $dto->schedule->date,
+                        $dto->schedule->duration,
+                    ),
+                    new OrderInfo(
+                        $customerId,
+                        $dto->orderInfo->carId,
+                        $dto->orderInfo->description,
+                        $dto->orderInfo->workerId,
+                    ),
+                )
+            );
+
+            $orderId = $this->getIdentifier(OrderId::class);
+            if ($orderId instanceof OrderId) {
+                $order = $this->registry->getBy(Order::class, $orderId);
+                $order->setStatus(OrderStatus::scheduling());
+
+                $this->em->persist(new EntryOrder($dto->id, $orderId));
+                $this->em->flush();
+
+                return $this->redirectToEasyPath('Order', 'show', [
+                    'id' => $orderId->toString(),
+                ]);
+            }
+
+            return $this->redirectToReferrer();
+        }
+
+        return $this->render('easy_admin/calendar/new.html.twig', [
+            'content_title' => 'Новая запись',
+            'form' => $form->createView(),
+        ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function persistEntity($entity): void
+    protected function listAction(): Response
     {
-        $dto = $entity;
-        assert($dto instanceof CalendarEntryDto);
-
-        $customerId = $dto->orderInfo->customerId;
-        $newCustomer = $dto->orderInfo->customer;
-        if (null !== $newCustomer) {
-            $customerId = OperandId::generate();
-            $person = new Person($customerId);
-            $person->setFirstname($newCustomer->firstName);
-            $person->setLastname($newCustomer->lastName);
-            $person->setTelephone($newCustomer->telephone);
-
-            $this->em->persist($person);
-            $this->em->flush();
+        $date = $this->request->query->get('date');
+        $today = (new DateTimeImmutable())->setTime(0, 0, 0, 0);
+        $date = null === $date
+            ? $today
+            : DateTimeImmutable::createFromFormat('Y-m-d', $date);
+        if (false === $date) {
+            throw new BadRequestHttpException('Wrong date.');
         }
 
-        $orderId = $this->getIdentifier(OrderId::class);
-        if ($orderId instanceof OrderId) {
-            $order = $this->registry->getBy(Order::class, $orderId);
-            $order->setStatus(OrderStatus::scheduling());
+        $date = $date->setTime(0, 0, 0, 0);
 
-            $this->em->persist(new EntryOrder($dto->id, $orderId));
-            $this->em->flush();
-        }
+        $orderId = $this->request->query->get('order_id');
 
-        $this->commandBus->handle(
-            new CreateCalendarEntryCommand(
-                $dto->id,
-                new Schedule(
-                    $dto->schedule->date,
-                    $dto->schedule->duration,
-                ),
-                new OrderInfo(
-                    $customerId,
-                    $dto->orderInfo->carId,
-                    $dto->orderInfo->description,
-                    $dto->orderInfo->workerId,
-                ),
-            )
-        );
+        return $this->render('easy_admin/calendar/list.html.twig', [
+            'date' => $date,
+            'today' => $today,
+            'streams' => $this->streamer->byDate($date),
+            'orderId' => is_string($orderId) && Uuid::isValid($orderId) ? $orderId : null,
+            'columns' => array_merge(...array_map(fn (int $val) => [$val.':00', $val.':30'], range(10, 21))),
+        ]);
     }
 
     /**
