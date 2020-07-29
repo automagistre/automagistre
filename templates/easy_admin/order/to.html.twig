@@ -12,13 +12,31 @@
 
 {% block main %}
     <div class="row">
+        <div class="col-md-12">{{ form(equipmentForm) }}</div>
+
+        <script>
+          $(document).on('ready', function() {
+            $('#{{ equipmentForm.equipment.autocomplete.vars.id }}').on('change', function() {
+              document.location = '{{ easyadmin_path('Order', 'TO', {
+                  'id': order.toId.toString,
+                  'period': period,
+                  'referer': app.request.query.get('referer')|easyadmin_urldecode,
+                  'mc_equipment_id': '__ID__'
+              })|raw }}'.replace('__ID__', $(this).val());
+            });
+          });
+        </script>
+    </div>
+
+    <div class="row">
         <div class="col-md-12">
             {% for period in periods %}
                 <a href="{{ easyadmin_path('Order', 'TO', {
                     'id': order|toId,
                     'period': period,
-                    'referer': app.request.query.get('referer')|easyadmin_urldecode}
-                ) }}" class="btn btn-{{ currentPeriod == period ? 'primary': 'default' }}">
+                    'referer': app.request.query.get('referer')|easyadmin_urldecode,
+                    'mc_equipment_id': equipmentId is not empty ? equipmentId|toId
+                }) }}" class="btn btn-{{ currentPeriod == period ? 'primary': 'default' }}">
                     {{ period }}
                 </a>
             {% endfor %}

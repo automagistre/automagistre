@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="3.12.1@9b860214d58c48b5cbe99bdb17914d0eb723c9cd">
+<files psalm-version="3.12.2@7c7ebd068f8acaba211d4a2c707c4ba90874fa26">
   <file src="src/Calendar/Controller/CalendarEntryController.php">
     <PossiblyNullArgument occurrences="3">
       <code>$this-&gt;request-&gt;query-&gt;get('id')</code>
@@ -41,15 +41,6 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Car/Controller/RecommendationPartController.php">
-    <PossiblyNullArgument occurrences="4">
-      <code>$model-&gt;price</code>
-      <code>$model-&gt;price</code>
-      <code>$model-&gt;partId</code>
-      <code>$model-&gt;price</code>
-    </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>equal</code>
-    </PossiblyNullReference>
     <PropertyNotSetInConstructor occurrences="1">
       <code>RecommendationPartController</code>
     </PropertyNotSetInConstructor>
@@ -168,10 +159,24 @@
       <code>mb_strtolower($searchString)</code>
     </PossiblyFalseOperand>
   </file>
+  <file src="src/MC/View/McEquipmentFormatter.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$view-&gt;vehicleId</code>
+    </PossiblyNullArgument>
+  </file>
   <file src="src/Order/Controller/OrderController.php">
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtolower($item)</code>
     </PossiblyFalseOperand>
+    <PossiblyNullArgument occurrences="1">
+      <code>$vehicleId ?? $equipmentId</code>
+    </PossiblyNullArgument>
+    <PossiblyNullPropertyFetch occurrences="4">
+      <code>$car-&gt;equipment-&gt;engine</code>
+      <code>$car-&gt;equipment-&gt;engine-&gt;capacity</code>
+      <code>$car-&gt;equipment-&gt;transmission</code>
+      <code>$car-&gt;equipment-&gt;wheelDrive</code>
+    </PossiblyNullPropertyFetch>
     <PossiblyNullReference occurrences="2">
       <code>isFilled</code>
       <code>isEditable</code>
@@ -285,17 +290,9 @@
     </PossiblyNullArgument>
   </file>
   <file src="src/Shared/Doctrine/Registry.php">
-    <InvalidArrayOffset occurrences="1">
-      <code>Costil::ENTITY[get_class($identifier)]</code>
-    </InvalidArrayOffset>
     <RedundantConditionGivenDocblockType occurrences="1">
       <code>assert($entityRepository instanceof EntityRepository)</code>
     </RedundantConditionGivenDocblockType>
-  </file>
-  <file src="src/Shared/Identifier/IdentifierRouterExtension.php">
-    <InvalidArrayOffset occurrences="1">
-      <code>Costil::ENTITY[$class]</code>
-    </InvalidArrayOffset>
   </file>
   <file src="src/Shared/Identifier/IdentifierTwigExtension.php">
     <MissingClosureParamType occurrences="2">

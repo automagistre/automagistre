@@ -9,11 +9,14 @@ use App\Manufacturer\Entity\Manufacturer;
 use App\MC\Entity\McEquipment;
 use App\MC\Entity\McEquipmentId;
 use App\Vehicle\Entity\Model;
+use function array_map;
 use function assert;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use function explode;
 use function mb_strtolower;
+use function str_replace;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -76,5 +79,28 @@ final class EquipmentController extends AbstractController
         }
 
         return $qb;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function autocompleteAction(): JsonResponse
+    {
+        $request = $this->request;
+
+        $queryString = str_replace(['.', ',', '-', '_'], '', (string) $request->query->get('query'));
+        $qb = $this->createSearchQueryBuilder((string) $request->query->get('entity'), $queryString, []);
+
+        $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $request->query->getInt('page', 1));
+
+        return $this->json([
+            'results' => array_map(
+                fn (McEquipment $equipment) => [
+                    'id' => $equipment->toId()->toString(),
+                    'text' => $this->display($equipment->toId()),
+                ],
+                (array) $paginator->getCurrentPageResults()
+            ),
+        ]);
     }
 }
