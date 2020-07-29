@@ -48,6 +48,12 @@
 
     {{ form_start(form) }}
 
+    {% if form.fill is defined %}
+        {{ form_row(form.fill) }}
+
+        <hr>
+    {% endif %}
+
     {% for service in form.services %}
         {# @var modelService \App\Form\Model\OrderTOService #}
         {% set modelService = service.vars.value %}

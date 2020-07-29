@@ -168,9 +168,16 @@
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtolower($item)</code>
     </PossiblyFalseOperand>
-    <PossiblyNullArgument occurrences="1">
+    <PossiblyNullArgument occurrences="4">
       <code>$equipmentId ?? $car-&gt;vehicleId</code>
+      <code>$equipmentId</code>
+      <code>$carId</code>
+      <code>$equipmentId</code>
     </PossiblyNullArgument>
+    <PossiblyNullPropertyAssignment occurrences="2">
+      <code>$car</code>
+      <code>$car</code>
+    </PossiblyNullPropertyAssignment>
     <PossiblyNullPropertyFetch occurrences="5">
       <code>$car-&gt;equipment-&gt;engine</code>
       <code>$car-&gt;equipment-&gt;engine-&gt;capacity</code>

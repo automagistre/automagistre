@@ -66,6 +66,7 @@ use Pagerfanta\Pagerfanta;
 use Ramsey\Uuid\Uuid;
 use function sprintf;
 use stdClass;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -116,16 +117,14 @@ final class OrderController extends AbstractController
         $carId = $order->getCarId();
         $vehicleId = null;
         $car = null !== $carId ? $this->registry->get(Car::class, $carId) : null;
+        $carFilled = $car instanceof Car ? null !== $car->vehicleId && $car->equipment->isFilled() : null;
 
         /** @var OrderTOService[] $services */
         $services = [];
 
         $equipmentId = $this->getIdentifier(McEquipmentId::class);
 
-        if (
-            $equipmentId instanceof McEquipmentId
-            || ($car instanceof Car && null !== $car->vehicleId && $car->equipment->isFilled())
-        ) {
+        if ($equipmentId instanceof McEquipmentId || true === $carFilled) {
             $qb = $this->registry->repository(McLine::class)
                 ->createQueryBuilder('line')
                 ->join('line.equipment', 'equipment');
@@ -208,15 +207,27 @@ final class OrderController extends AbstractController
             }
         }
 
-        $form = $this->createFormBuilder(['services' => $services])
+        $formBuilder = $this->createFormBuilder(['services' => $services])
             ->add('services', CollectionType::class, [
                 'label' => false,
                 'entry_type' => OrderTOServiceType::class,
                 'allow_add' => false,
                 'allow_delete' => false,
-            ])
-            ->getForm()
-            ->handleRequest($request);
+            ]);
+
+        $fillForm = null !== $equipmentId && false === $carFilled;
+        if ($fillForm) {
+            $formBuilder->add('fill', CheckboxType::class, [
+                'label' => sprintf(
+                    'Заполнить комплектацию "%s" в "%s"?',
+                    $this->display($equipmentId),
+                    $this->display($carId),
+                ),
+                'required' => false,
+            ]);
+        }
+
+        $form = $formBuilder->getForm()->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->registry->manager(OrderItem::class);
@@ -252,6 +263,13 @@ final class OrderController extends AbstractController
 
                     $orderItemPart->setParent($orderItemService);
                 }
+            }
+
+            if ($fillForm) {
+                $equipment = $this->registry->get(McEquipment::class, $equipmentId);
+
+                $car->vehicleId ??= $equipment->vehicleId;
+                $car->equipment = $equipment->equipment;
             }
 
             $em->flush();
