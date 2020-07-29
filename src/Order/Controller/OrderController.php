@@ -43,7 +43,6 @@ use App\Part\Entity\PartId;
 use App\Part\Entity\PartView;
 use App\Payment\Manager\PaymentManager;
 use App\Vehicle\Entity\Model;
-use App\Vehicle\Entity\VehicleId;
 use App\Wallet\Entity\Wallet;
 use App\Wallet\Entity\WalletTransaction;
 use App\Wallet\Entity\WalletTransactionId;
@@ -111,42 +110,31 @@ final class OrderController extends AbstractController
             throw new LogicException('Order required.');
         }
 
-        $carId = $order->getCarId();
-        $vehicleId = null;
-        $car = null;
         $periods = null;
         $currentPeriod = $request->query->getInt('period');
 
-        if (null !== $carId) {
-            $car = $this->registry->get(Car::class, $carId);
-            $vehicleId = $car->vehicleId;
-
-            if ($vehicleId instanceof VehicleId && !$car->equipment->isFilled()) {
-                $this->addFlash('warning', 'Для отображения карты ТО необходимо заполнить комплектацию.');
-
-                return $this->redirectToEasyPath('Car', 'edit', [
-                    'id' => $car->toId()->toString(),
-                    'order_id' => $order->toId()->toString(),
-                    'validate' => 'equipment',
-                ]);
-            }
-        }
-
-        if (null === $vehicleId) {
-            $vehicleId = $this->getIdentifier(VehicleId::class);
-        }
+        $carId = $order->getCarId();
+        $vehicleId = null;
+        $car = null !== $carId ? $this->registry->get(Car::class, $carId) : null;
 
         /** @var OrderTOService[] $services */
         $services = [];
 
         $equipmentId = $this->getIdentifier(McEquipmentId::class);
 
-        if (null !== $vehicleId || null !== $equipmentId) {
+        if (
+            $equipmentId instanceof McEquipmentId
+            || ($car instanceof Car && null !== $car->vehicleId && $car->equipment->isFilled())
+        ) {
             $qb = $this->registry->repository(McLine::class)
                 ->createQueryBuilder('line')
                 ->join('line.equipment', 'equipment');
 
-            if ($car instanceof Car && $vehicleId instanceof VehicleId) {
+            if ($equipmentId instanceof McEquipmentId) {
+                $qb
+                    ->where('equipment.id = :id')
+                    ->setParameter('id', $equipmentId);
+            } elseif ($car instanceof Car) {
                 $qb
                     ->where('equipment.vehicleId = :model')
                     ->andWhere('equipment.equipment.engine.name = :engine')
@@ -154,16 +142,12 @@ final class OrderController extends AbstractController
                     ->andWhere('equipment.equipment.transmission = :transmission')
                     ->andWhere('equipment.equipment.wheelDrive = :wheelDrive')
                     ->setParameters([
-                        'model' => $vehicleId,
+                        'model' => $car->vehicleId,
                         'engine' => $car->equipment->engine->name,
                         'capacity' => $car->equipment->engine->capacity,
                         'transmission' => $car->equipment->transmission,
                         'wheelDrive' => $car->equipment->wheelDrive,
                     ]);
-            } elseif ($equipmentId instanceof McEquipmentId) {
-                $qb
-                    ->where('equipment.id = :id')
-                    ->setParameter('id', $equipmentId);
             } else {
                 throw new LogicException('This must not be reached.');
             }
@@ -178,7 +162,7 @@ final class OrderController extends AbstractController
             if (0 === count($periods)) {
                 $this->addFlash('warning', sprintf(
                     'Карт ТО для "%s" не найдео.',
-                    $this->display($vehicleId ?? $equipmentId, 'long'),
+                    $this->display($equipmentId ?? $car->vehicleId, 'long'),
                 ));
 
                 return $this->redirectToReferrer();

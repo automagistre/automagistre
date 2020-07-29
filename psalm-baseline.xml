@@ -169,13 +169,14 @@
       <code>mb_strtolower($item)</code>
     </PossiblyFalseOperand>
     <PossiblyNullArgument occurrences="1">
-      <code>$vehicleId ?? $equipmentId</code>
+      <code>$equipmentId ?? $car-&gt;vehicleId</code>
     </PossiblyNullArgument>
-    <PossiblyNullPropertyFetch occurrences="4">
+    <PossiblyNullPropertyFetch occurrences="5">
       <code>$car-&gt;equipment-&gt;engine</code>
       <code>$car-&gt;equipment-&gt;engine-&gt;capacity</code>
       <code>$car-&gt;equipment-&gt;transmission</code>
       <code>$car-&gt;equipment-&gt;wheelDrive</code>
+      <code>$car-&gt;vehicleId</code>
     </PossiblyNullPropertyFetch>
     <PossiblyNullReference occurrences="2">
       <code>isFilled</code>
