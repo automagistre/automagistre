@@ -288,6 +288,7 @@ final class OrderController extends AbstractController
                 ->add('equipment', AutocompleteType::class, [
                     'class' => McEquipment::class,
                     'label' => 'Комплектация',
+                    'disabled' => true === $carFilled,
                 ])
                 ->getForm()
                 ->createView(),
