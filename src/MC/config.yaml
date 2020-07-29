@@ -29,8 +29,8 @@ easy_admin:
             list:
                 title: 'Список комплектаций'
                 fields:
+                    - { property: 'equipment.engine.name', label: 'Двигатель', template: 'easy_admin/field_item_show.html.twig' }
                     - { property: 'vehicleId', label: 'Модель', template: 'easy_admin/field_identifier.html.twig' }
-                    - { property: 'equipment.engine.name', label: 'Двигатель' }
                     - { property: 'equipment.engine.capacity', label: 'Объём' }
                     - { property: 'equipment.transmission', label: 'КПП', template: 'easy_admin/field_enum.html.twig' }
                     - { property: 'equipment.wheelDrive', label: 'Привод', template: 'easy_admin/field_enum.html.twig' }

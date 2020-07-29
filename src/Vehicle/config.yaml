@@ -8,8 +8,8 @@ easy_admin:
             list:
                 title: 'Кузова'
                 fields:
+                    - { property: 'name', label: 'Название', template: 'easy_admin/field_item_show.html.twig' }
                     - { property: 'manufacturerId', label: 'Производитель', template: 'easy_admin/field_identifier.html.twig' }
-                    - { property: 'name', label: 'Название' }
                     - { property: 'caseName', label: 'Кузов' }
                     - { property: 'yearFrom', label: 'Начало производства' }
                     - { property: 'yearTill', label: 'Конец производства' }

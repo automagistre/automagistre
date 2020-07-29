@@ -12,10 +12,10 @@ easy_admin:
             list:
                 title: 'Автомобили'
                 fields:
+                    - { property: 'identifier', label: 'Идентификатор (VIN, № Кузова/Шасси...)', template: 'easy_admin/field_item_show.html.twig', sortable: false }
                     - { property: 'vehicleId', label: 'Марка / Модель', template: 'easy_admin/field_identifier.html.twig' }
                     - { property: 'year', label: 'Год', type: 'string' }
                     - { property: 'caseType.toName', label: 'Кузов' }
-                    - { property: 'identifier', label: 'Идентификатор (VIN, № Кузова/Шасси...)', sortable: false }
                     - { property: 'mileage', label: 'Пробег' }
                     - { property: 'gosnomer', label: 'Гос. Номер', sortable: false }
             show:
