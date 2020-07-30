@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="3.12.2@7c7ebd068f8acaba211d4a2c707c4ba90874fa26">
+<files psalm-version="3.13.1@afd8874a9e4562eac42a02de90e42e430c3a1db1">
   <file src="src/Calendar/Controller/CalendarEntryController.php">
     <PossiblyNullArgument occurrences="3">
       <code>$this-&gt;request-&gt;query-&gt;get('id')</code>
@@ -260,9 +260,6 @@
     </PossiblyNullArgument>
   </file>
   <file src="src/Part/Controller/PartController.php">
-    <DeprecatedClass occurrences="1">
-      <code>new DoctrineORMAdapter($qb, false, false)</code>
-    </DeprecatedClass>
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtoupper(trim($searchString))</code>
     </PossiblyFalseOperand>
@@ -287,9 +284,6 @@
     </PossiblyNullArrayOffset>
   </file>
   <file src="src/Shared/ArgumentResolver/ArgumentResolver.php">
-    <PossiblyFalseArgument occurrences="1">
-      <code>get_class($representative[0])</code>
-    </PossiblyFalseArgument>
     <PossiblyInvalidArgument occurrences="1">
       <code>$representative[0]</code>
     </PossiblyInvalidArgument>
@@ -373,82 +367,5 @@
     <PossiblyNullReference occurrences="1">
       <code>get</code>
     </PossiblyNullReference>
-  </file>
-  <file src="vendor/doctrine/mongodb-odm/lib/Doctrine/ODM/MongoDB/Aggregation/Stage/GeoNear.php">
-    <ParseError occurrences="13">
-      <code>Match</code>
-      <code>private</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-    </ParseError>
-  </file>
-  <file src="vendor/doctrine/mongodb-odm/lib/Doctrine/ODM/MongoDB/Aggregation/Stage/GraphLookup/Match.php">
-    <ParseError occurrences="10">
-      <code>Match</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>}</code>
-    </ParseError>
-  </file>
-  <file src="vendor/doctrine/mongodb-odm/lib/Doctrine/ODM/MongoDB/Aggregation/Stage/Match.php">
-    <ParseError occurrences="35">
-      <code>Match</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>public</code>
-      <code>}</code>
-    </ParseError>
-  </file>
-  <file src="vendor/phpunit/phpunit/src/Framework/MockObject/Builder/ParametersMatch.php">
-    <ParseError occurrences="3">
-      <code>Match</code>
-      <code>;</code>
-      <code>;</code>
-    </ParseError>
   </file>
 </files>
