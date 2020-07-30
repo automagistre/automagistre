@@ -3,9 +3,6 @@ framework:
     secret:          "%env(APP_SECRET)%"
     form:            ~
     csrf_protection: ~
-    validation:
-        enable_annotations: true
-        auto_mapping: [null]
     serializer:
         enable_annotations: true
     trusted_hosts:   ~

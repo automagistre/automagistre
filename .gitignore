@@ -8,10 +8,14 @@
 /public/phpmetrics
 
 # Symfony
-.env
+/.env
+/.env.local
+/.env.local.php
+/.env.*.local
 /public/bundles/
 /var/
 /vendor/
+.phpunit.result.cache
 
 # Node
 /node_modules
