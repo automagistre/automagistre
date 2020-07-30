@@ -34,7 +34,7 @@
         "ramsey/uuid-doctrine": "^1.6",
         "sensio/framework-extra-bundle": "^5.3",
         "sensiolabs/security-checker": "^6.0",
-        "sentry/sentry-symfony": "^3.0",
+        "sentry/sentry-symfony": "^3.5",
         "simple-bus/doctrine-orm-bridge": "^5.1",
         "simple-bus/symfony-bridge": "^5.4",
         "symfony/asset": "^5.0",
