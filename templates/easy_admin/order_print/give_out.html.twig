@@ -1,93 +1,176 @@
-{% include 'easy_admin/order_print/layout_bw.html.twig' %}
+{% extends 'easy_admin/order_print/layout.html.twig' %}
 
 {# @var order \App\Order\Entity\Order #}
 {# @var car \App\Car\Entity\Car #}
 {# @var customer \App\Customer\Domain\Operand #}
 
-<div class="container" id="content">
-    <main>
-        <h3 class="order-info-title">согласованные работы и запчасти по автомобилю</h3>
-        <h3 class="order-info-title">
+{% block master_block_header %}
+    <header>
+        <h3 class="">Работы к исполнению на автомобиле</h3>
+        <h3 class="">
             {% if car is not empty %}
                 {{ car.toId|display_name }} {{ car.gosnomer }}
             {% endif %}
-
             {% if customer is not empty %}
                 ({{ customer }})
             {% endif %}
         </h3>
-        {#блок работ для выдачи мастеру#}
-        <section class="order">
-            <table class="table order-table">
-                <caption>согласованные работы</caption>
-                <thead>
-                <tr>
-                    <td>&#10003;</td>
-                    <td>наименование работ</td>
-                    <td>исполнитель</td>
-                    <td class="order-table__num">стоимость</td>
-                </tr>
-                </thead>
-                <tbody>
-                {% for service in order.items('service') %}
-                    {# @var service \App\Entity\OrderItemService #}
-                    <tr>
-                        <td class="check">
-                            <div class="check-box"></div>
-                        </td>
-                        <td>{{ service }}</td>
-                        <td>{{ service.workerId|display_name }}</td>
-                        <td>{{ service.price|localize_money }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </section>
+        <h3>
+            {% if car is not empty %}
+                {{ car.gosnomer }}
+            {% endif %}
+        </h3>
+    </header>
+{% endblock %}
 
-        {#блок запчастей для набора зч со склада#}
-        <section class="order" style="margin-top: 2cm">
-            <table class="table order-table">
-                <caption>согласованные запчасти</caption>
-                <thead>
-                <tr>
-                    <td style="text-align: center">&#10003;</td>
-                    <td>#</td>
-                    {#<th scope="col">место</th>#}
-                    <td>наименование запчасти</td>
-                    <td>part number</td>
-                    <td>кол-во</td>
-                </tr>
-                </thead>
-                <tbody>
-                {% set totalQuantity = 0 %}
-                {% for orderItemPart in order.items('part') %}
-                    {# @var orderItemPart \App\Order\Entity\OrderItemPart #}
-                    {% set part = part_by_id(orderItemPart.partId) %}
-                    <tr>
-                        <td class="check">
-                            <div class="check-box"></div>
-                        </td>
-                        <td class="check">{{ loop.index }}</td>
-                        {#<td class="uppercase">л2p6</td>#}
-                        <td>{{ part.name }} <strong>({{ part.manufacturerId|display_name }})</strong></td>
-                        <td><strong>{{ part.number }}</strong></td>
-                        <td class="order-table__quantity">
-                            {% set quantity = orderItemPart.quantity / 100 %}
-                            {% set totalQuantity = totalQuantity + quantity %}
-                            <strong>{{ quantity }}</strong>
-                        </td>
-                    </tr>
-                {% endfor %}
 
-                <tr class="table-active">
-                    <td></td>
-                    <td colspan="3" class="table-summary legend" style="text-align: right">
-                        <strong>всего позиций (шт.):</strong>
-                    </td>
-                    <td class="table-summary"><span>{{ totalQuantity }}</span></td>
-                </tr>
-                </tbody>
-            </table>
-        </section>
-    </main>
-</div>
+{% block manager_block_header %}
+    <header>
+        <h3 class="">Запчасти к выдачи со склада на автомобиль</h3>
+        <h3 class="">
+            {% if car is not empty %}
+                {{ car.gosnomer }}
+            {% endif %}
+            {% if car is not empty %}
+                {{ car.toId|display_name }} {{ car.gosnomer }}
+            {% endif %}
+        </h3>
+        <h3>
+            {% if customer is not empty %}
+                Владелец: {{ customer }}
+            {% endif %}
+        </h3>
+    </header>
+{% endblock %}
+
+
+{% block give_out_table_master_header %}
+    <div class="give-out-table-master__header">
+        <div class="table__item table-header">&#10003;</div>
+        <div class="table__item table-header">Наименование работ/запчастей</div>
+        <div class="table__item table-header">Исполнитель</div>
+        <div class="table__item table-header">Стоимость</div>
+    </div>
+{% endblock %}
+
+
+{% block give_out_table_manager_header %}
+    <div class="give-out-table-manager__header">
+        <div class="table__item table-header">&#10003;</div>
+        <div class="table__item table-header">Номер</div>
+        <div class="table__item table-header">Производитеть</div>
+        <div class="table__item table-header">Название</div>
+        <div class="table__item table-header">Кол-во</div>
+    </div>
+{% endblock %}
+
+
+{% block give_out_item_service %}
+    <div class="give-out-table-master__block page-brake">
+        {# @var service \App\Entity\OrderItemService #}
+        <div class="table__item cell-check"></div>
+        <div class="table__item cell-service left">{{ orderItemService }}</div>
+        <div class="table__item cell-service">{{ orderItemService.workerId|display_name }}</div>
+        <div class="table__item cell-service">{{ orderItemService.price|localize_money }}</div>
+        {% for orderItemPart in orderItemService.children %}
+            {{ block('give_out_item_part') }}
+        {% endfor %}
+    </div>
+{% endblock %}
+
+
+{% block give_out_item_part %}
+    {% set part = part_by_id(orderItemPart.partId) %}
+    <div></div>
+    <div class="table__item row-part__give_out left">
+        <b>{{ part.number }}</b> {{ part.manufacturerId|display_name }} {{ part.name }}
+    </div>
+    <div class="table__item cell-part">{{ orderItemPart.quantity / 100 }} шт.</div>
+{% endblock %}
+
+
+{% block give_out_item_group %}
+    {% for groupItem in orderItemGroup.children %}
+        {% if instanceOf(groupItem, 'App\\Order\\Entity\\OrderItemPart') %}
+            {% set orderItemPart = groupItem %}
+            <div class="give-out-table-master__block page-brake">{{ block('give_out_item_part') }}</div>
+        {% elseif instanceOf(groupItem, 'App\\Order\\Entity\\OrderItemService') %}
+            {% set orderItemService = groupItem %}
+            {{ block('give_out_item_service') }}
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+
+{% macro give_out_table_item(item) %}
+    {% if instanceOf(item, 'App\\Order\\Entity\\OrderItemPart') %}
+        {% set orderItemPart = item %}
+        {{ block('give_out_item_part') }}
+    {% elseif instanceOf(item, 'App\\Order\\Entity\\OrderItemService') %}
+        {% set orderItemService = item %}
+        {{ block('give_out_item_service') }}
+    {% elseif instanceOf(item, 'App\\Order\\Entity\\OrderItemGroup') %}
+        {% set orderItemGroup = item %}
+        {{ block('give_out_item_group') }}
+    {% endif %}
+{% endmacro %}
+
+
+{% block give_out_table_manager_part %}
+    {% set part = part_by_id(orderItemPart.partId) %}
+    <div class="give-out-table-manager__block page-brake">
+        {# @var service \App\Entity\OrderItemService #}
+        <div class="table__item cell-check"></div>
+        <div class="table__item cell-service left">{{ part.number }}</div>
+        <div class="table__item cell-part left">{{ part.manufacturerId|display_name }}</div>
+        <div class="table__item cell-part left">{{ part.name }}</div>
+        <div class="table__item cell-part">{{ orderItemPart.quantity / 100  }}</div>
+    </div>
+{% endblock %}
+
+
+{% block content %}
+    {% set partsWithoutService = [] %}
+    <div class="content pages" id="content">
+        <div class="page">
+            {{ block('master_block_header') }}
+            <main>
+                <div class="give-out-table-master">
+
+                    {{ block('give_out_table_master_header') }}
+
+                    {% for item in order.rootItems  %}
+                        {% if not instanceOf(item, 'App\\Order\\Entity\\OrderItemPart') %}
+                            {{ _self.give_out_table_item(item) }}
+                        {% else %}
+                            {% set partsWithoutService = partsWithoutService|merge([item]) %}
+                        {% endif %}
+                    {% endfor %}
+
+                </div>
+
+                    {% if partsWithoutService|length %}
+                        <div class="give-out-table-master">
+                            <div class="table__item table-header give-out-table__block">Запчасти без установки на автомобиль</div>
+                            {% for item in partsWithoutService  %}
+                                <div class="give-out-table-master__block page-brake">{{ _self.give_out_table_item(item) }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+            </main>
+        </div>
+        <div class="page">
+            {{ block('manager_block_header') }}
+            <main>
+                <div class="give-out-table-manager">
+
+                    {{ block('give_out_table_manager_header') }}
+
+                    {% for orderItemPart in order.items('part', true) %}
+                        {{ block('give_out_table_manager_part') }}
+                    {% endfor %}
+                </div>
+            </main>
+        </div>
+    </div>
+{% endblock %}
