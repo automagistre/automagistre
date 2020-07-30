@@ -32,7 +32,7 @@ class McEquipment
      *
      * @ORM\Embedded(class=CarEquipment::class)
      */
-    public ?CarEquipment $equipment = null;
+    public CarEquipment $equipment;
 
     /**
      * @ORM\Column(type="integer", length=4)

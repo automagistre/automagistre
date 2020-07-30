@@ -1,5 +1,11 @@
 {% if value is not empty %}
-    <a href="{{ easyadmin_path_by_id(value, field_options.action|default('show')) }}">
+    {% if field_options.target|default == '_self' %}
+        {% set url = easyadmin_path(entity_config.name, 'show', {'id': item|toId, 'referer': true}) %}
+    {% else %}
+        {% set url = easyadmin_path_by_id(value, field_options.action|default('show')) %}
+    {% endif %}
+
+    <a href="{{ url }}">
         {{- value|display_name(field_options.format|default(null))|easyadmin_truncate -}}
     </a>
 {% else %}

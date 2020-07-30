@@ -17,8 +17,11 @@ use App\Customer\Entity\Organization;
 use App\Customer\Entity\Person;
 use App\Customer\Enum\CustomerTransactionSource;
 use App\EasyAdmin\Controller\AbstractController;
+use App\EasyAdmin\Form\AutocompleteType;
 use App\Form\Type\MoneyType;
 use App\Manufacturer\Entity\Manufacturer;
+use App\MC\Entity\McEquipment;
+use App\MC\Entity\McEquipmentId;
 use App\MC\Entity\McLine;
 use App\MC\Entity\McPart;
 use App\Note\Entity\NoteView;
@@ -39,9 +42,7 @@ use App\Order\Number\NumberGenerator;
 use App\Part\Entity\PartId;
 use App\Part\Entity\PartView;
 use App\Payment\Manager\PaymentManager;
-use App\Shared\Identifier\IdentifierFormatter;
 use App\Vehicle\Entity\Model;
-use App\Vehicle\Entity\VehicleId;
 use App\Wallet\Entity\Wallet;
 use App\Wallet\Entity\WalletTransaction;
 use App\Wallet\Entity\WalletTransactionId;
@@ -65,6 +66,7 @@ use Pagerfanta\Pagerfanta;
 use Ramsey\Uuid\Uuid;
 use function sprintf;
 use stdClass;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -109,108 +111,123 @@ final class OrderController extends AbstractController
             throw new LogicException('Order required.');
         }
 
-        $carId = $order->getCarId();
-        if (null === $carId) {
-            throw new LogicException('Car required.');
-        }
-
-        /** @var Car $car */
-        $car = $this->registry->findBy(Car::class, ['id' => $carId]);
-        $carModel = $car->vehicleId;
-        if (!$carModel instanceof VehicleId) {
-            throw new LogicException('CarModel required.');
-        }
-
-        if (!$car->equipment->isFilled()) {
-            $this->addFlash('warning', 'Для отображения карты ТО необходимо заполнить комплектацию.');
-
-            return $this->redirectToEasyPath('Car', 'edit', [
-                'id' => $car->toId()->toString(),
-                'order_id' => $order->toId()->toString(),
-                'validate' => 'equipment',
-            ]);
-        }
-
-        /** @var Model $carModel */
-        $carModel = $this->registry->findBy(Model::class, ['id' => $car->vehicleId]);
-
-        $qb = $this->registry->repository(McLine::class)
-            ->createQueryBuilder('line')
-            ->join('line.equipment', 'equipment')
-            ->where('equipment.vehicleId = :model')
-            ->andWhere('equipment.equipment.engine.name = :engine')
-            ->andWhere('equipment.equipment.engine.capacity = :capacity')
-            ->andWhere('equipment.equipment.transmission = :transmission')
-            ->andWhere('equipment.equipment.wheelDrive = :wheelDrive')
-            ->setParameters([
-                'model' => $carModel->toId(),
-                'engine' => $car->equipment->engine->name,
-                'capacity' => $car->equipment->engine->capacity,
-                'transmission' => $car->equipment->transmission,
-                'wheelDrive' => $car->equipment->wheelDrive,
-            ]);
-
-        $periods = (clone $qb)
-            ->select('line.period')
-            ->groupBy('line.period')
-            ->getQuery()
-            ->getArrayResult();
-        $periods = array_map('array_shift', $periods);
-
-        if (0 === count($periods)) {
-            $this->addFlash('warning', sprintf('Карт ТО для "%s" не найдео.', $this->container->get(IdentifierFormatter::class)->format($car->toId(), 'long')));
-
-            return $this->redirectToReferrer();
-        }
-
+        $periods = null;
         $currentPeriod = $request->query->getInt('period');
-        if (!in_array($currentPeriod, $periods, true)) {
-            $currentPeriod = $periods[0];
-        }
+
+        $carId = $order->getCarId();
+        $vehicleId = null;
+        $car = null !== $carId ? $this->registry->get(Car::class, $carId) : null;
+        $carFilled = $car instanceof Car ? null !== $car->vehicleId && $car->equipment->isFilled() : null;
 
         /** @var OrderTOService[] $services */
         $services = [];
 
-        /** @var McLine[] $lines */
-        $lines = $qb->getQuery()->getResult();
-        foreach ($lines as $line) {
-            if (0 !== $currentPeriod % $line->period) {
-                continue;
+        $equipmentId = $this->getIdentifier(McEquipmentId::class);
+
+        if ($equipmentId instanceof McEquipmentId || true === $carFilled) {
+            $qb = $this->registry->repository(McLine::class)
+                ->createQueryBuilder('line')
+                ->join('line.equipment', 'equipment');
+
+            if ($equipmentId instanceof McEquipmentId) {
+                $qb
+                    ->where('equipment.id = :id')
+                    ->setParameter('id', $equipmentId);
+            } elseif ($car instanceof Car) {
+                $qb
+                    ->where('equipment.vehicleId = :model')
+                    ->andWhere('equipment.equipment.engine.name = :engine')
+                    ->andWhere('equipment.equipment.engine.capacity = :capacity')
+                    ->andWhere('equipment.equipment.transmission = :transmission')
+                    ->andWhere('equipment.equipment.wheelDrive = :wheelDrive')
+                    ->setParameters([
+                        'model' => $car->vehicleId,
+                        'engine' => $car->equipment->engine->name,
+                        'capacity' => $car->equipment->engine->capacity,
+                        'transmission' => $car->equipment->transmission,
+                        'wheelDrive' => $car->equipment->wheelDrive,
+                    ]);
+            } else {
+                throw new LogicException('This must not be reached.');
             }
 
-            $services[$line->toId()->toString()] = new OrderTOService(
-                $line->work->name,
-                $line->work->price,
-                (function (array $parts): Generator {
-                    foreach ($parts as $mcPart) {
-                        assert($mcPart instanceof McPart);
+            $periods = (clone $qb)
+                ->select('line.period')
+                ->groupBy('line.period')
+                ->getQuery()
+                ->getArrayResult();
+            $periods = array_map('array_shift', $periods);
 
-                        /** @var PartView $partView */
-                        $partView = $this->registry->getBy(PartView::class, ['id' => $mcPart->partId]);
+            if (0 === count($periods)) {
+                $this->addFlash('warning', sprintf(
+                    'Карт ТО для "%s" не найдео.',
+                    $this->display($equipmentId ?? $car->vehicleId, 'long'),
+                ));
 
-                        yield $mcPart->toId()->toString() => new OrderTOPart(
-                            $mcPart->partId,
-                            $mcPart->quantity,
-                            $partView->sellPrice(),
-                            $mcPart->recommended,
-                            !$mcPart->recommended,
-                        );
-                    }
-                })($line->parts->toArray()),
-                !$line->recommended,
-                $line->recommended
-            );
+                return $this->redirectToReferrer();
+            }
+
+            if (!in_array($currentPeriod, $periods, true)) {
+                $currentPeriod = $periods[0];
+            }
+
+            /** @var McLine[] $lines */
+            $lines = $qb->getQuery()->getResult();
+            foreach ($lines as $line) {
+                if (null === $equipmentId) {
+                    $equipmentId = $line->equipment->toId();
+                }
+
+                if (0 !== $currentPeriod % $line->period) {
+                    continue;
+                }
+
+                $services[$line->toId()->toString()] = new OrderTOService(
+                    $line->work->name,
+                    $line->work->price,
+                    (function (array $parts): Generator {
+                        foreach ($parts as $mcPart) {
+                            assert($mcPart instanceof McPart);
+
+                            /** @var PartView $partView */
+                            $partView = $this->registry->getBy(PartView::class, ['id' => $mcPart->partId]);
+
+                            yield $mcPart->toId()->toString() => new OrderTOPart(
+                                $mcPart->partId,
+                                $mcPart->quantity,
+                                $partView->sellPrice(),
+                                $mcPart->recommended,
+                                !$mcPart->recommended,
+                            );
+                        }
+                    })($line->parts->toArray()),
+                    !$line->recommended,
+                    $line->recommended
+                );
+            }
         }
 
-        $form = $this->createFormBuilder(['services' => $services])
+        $formBuilder = $this->createFormBuilder(['services' => $services])
             ->add('services', CollectionType::class, [
                 'label' => false,
                 'entry_type' => OrderTOServiceType::class,
                 'allow_add' => false,
                 'allow_delete' => false,
-            ])
-            ->getForm()
-            ->handleRequest($request);
+            ]);
+
+        $fillForm = null !== $equipmentId && false === $carFilled;
+        if ($fillForm) {
+            $formBuilder->add('fill', CheckboxType::class, [
+                'label' => sprintf(
+                    'Заполнить комплектацию "%s" в "%s"?',
+                    $this->display($equipmentId),
+                    $this->display($carId),
+                ),
+                'required' => false,
+            ]);
+        }
+
+        $form = $formBuilder->getForm()->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->registry->manager(OrderItem::class);
@@ -248,6 +265,13 @@ final class OrderController extends AbstractController
                 }
             }
 
+            if ($fillForm) {
+                $equipment = $this->registry->get(McEquipment::class, $equipmentId);
+
+                $car->vehicleId ??= $equipment->vehicleId;
+                $car->equipment = $equipment->equipment;
+            }
+
             $em->flush();
 
             return $this->redirectToReferrer();
@@ -257,8 +281,18 @@ final class OrderController extends AbstractController
             'order' => $order,
             'car' => $car,
             'periods' => $periods,
+            'period' => $currentPeriod,
             'currentPeriod' => $currentPeriod,
             'form' => $form->createView(),
+            'equipmentForm' => $this->createFormBuilder(['equipment' => $equipmentId])
+                ->add('equipment', AutocompleteType::class, [
+                    'class' => McEquipment::class,
+                    'label' => 'Комплектация',
+                    'disabled' => true === $carFilled,
+                ])
+                ->getForm()
+                ->createView(),
+            'equipmentId' => $equipmentId,
         ]);
     }
 

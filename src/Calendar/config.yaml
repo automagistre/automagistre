@@ -5,7 +5,6 @@ easy_admin:
             controller: App\Calendar\Controller\CalendarEntryController
             disabled_actions: ['show', 'search', 'autocomplete', 'delete']
             templates:
-                new: 'easy_admin/calendar/new.html.twig'
                 edit: 'easy_admin/calendar/edit.html.twig'
             list:
                 title: 'Запись'
@@ -15,12 +14,6 @@ easy_admin:
                         type: App\Calendar\Form\ScheduleType
                     -   property: 'orderInfo'
                         type: App\Calendar\Form\OrderInfoType
-            new:
-                title: 'Новая запись'
-                fields:
-                    -   property: 'orderInfo'
-                        type_options:
-                            new_customer: true
             edit:
                 title: 'Редактировать Запись'
                 actions:

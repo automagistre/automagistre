@@ -190,12 +190,10 @@
                         Группа
                     </a>
 
-                    {% if car.vehicleId|default is not empty %}
-                        <a class="btn btn-primary" href="{{ easyadmin_path('Order', 'TO', {'id': order|toId, 'referer': true}) }}">
-                            <i class="fa fa-heartbeat"></i>
-                            ТО
-                        </a>
-                    {% endif %}
+                    <a class="btn btn-primary" href="{{ easyadmin_path('Order', 'TO', {'id': order|toId, 'referer': true}) }}">
+                        <i class="fa fa-heartbeat"></i>
+                        ТО
+                    </a>
                 {% endif %}
             {%- endapply -%}
         </h2>

@@ -1,0 +1,6 @@
+{# @var value \Premier\Enum\Enum #}
+{% if value is not empty %}
+    {{ value.to(field_options.field|default('name')) }}
+{% else %}
+    {% include 'easy_admin/default/label_null.html.twig' %}
+{% endif %}

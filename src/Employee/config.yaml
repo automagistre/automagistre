@@ -13,7 +13,7 @@ easy_admin:
                 actions:
                     - { name: 'fire', template: 'easy_admin/employee/action_fire.html.twig' }
                 fields:
-                    - { property: 'personId', label: 'Ф.И.О', template: 'easy_admin/field_identifier.html.twig' }
+                    - { property: 'personId', label: 'Ф.И.О', template: 'easy_admin/field_identifier.html.twig', target: _self }
                     - { property: 'balance', virtual: true, label: 'Баланс', template: 'easy_admin/employee/field_balance.html.twig' }
                     - { property: 'motivation', virtual: true, label: 'Мотивация', template: 'easy_admin/employee/field_buttons.html.twig' }
                     - { property: 'ratio', label: '%', template: 'easy_admin/employee/field_podstanova.html.twig' }
