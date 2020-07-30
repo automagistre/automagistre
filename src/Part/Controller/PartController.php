@@ -42,7 +42,7 @@ use Doctrine\ORM\QueryBuilder;
 use function explode;
 use LogicException;
 use function mb_strtoupper;
-use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
 use function sprintf;
 use function str_replace;
@@ -309,7 +309,7 @@ final class PartController extends AbstractController
         $qb = $this->createSearchQueryBuilder((string) $query->get('entity'), $queryString, [])
             ->orderBy('part.quantity', 'DESC');
 
-        $paginator = new Pagerfanta(new DoctrineORMAdapter($qb, false, false));
+        $paginator = new Pagerfanta(new QueryAdapter($qb, false, false));
         $paginator->setMaxPerPage(15);
         $paginator->setCurrentPage($query->getInt('page', 1));
 

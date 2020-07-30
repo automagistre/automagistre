@@ -260,6 +260,9 @@
     </PossiblyNullArgument>
   </file>
   <file src="src/Part/Controller/PartController.php">
+    <DeprecatedClass occurrences="1">
+      <code>new DoctrineORMAdapter($qb, false, false)</code>
+    </DeprecatedClass>
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtoupper(trim($searchString))</code>
     </PossiblyFalseOperand>
@@ -370,5 +373,82 @@
     <PossiblyNullReference occurrences="1">
       <code>get</code>
     </PossiblyNullReference>
+  </file>
+  <file src="vendor/doctrine/mongodb-odm/lib/Doctrine/ODM/MongoDB/Aggregation/Stage/GeoNear.php">
+    <ParseError occurrences="13">
+      <code>Match</code>
+      <code>private</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+    </ParseError>
+  </file>
+  <file src="vendor/doctrine/mongodb-odm/lib/Doctrine/ODM/MongoDB/Aggregation/Stage/GraphLookup/Match.php">
+    <ParseError occurrences="10">
+      <code>Match</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>}</code>
+    </ParseError>
+  </file>
+  <file src="vendor/doctrine/mongodb-odm/lib/Doctrine/ODM/MongoDB/Aggregation/Stage/Match.php">
+    <ParseError occurrences="35">
+      <code>Match</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>public</code>
+      <code>}</code>
+    </ParseError>
+  </file>
+  <file src="vendor/phpunit/phpunit/src/Framework/MockObject/Builder/ParametersMatch.php">
+    <ParseError occurrences="3">
+      <code>Match</code>
+      <code>;</code>
+      <code>;</code>
+    </ParseError>
   </file>
 </files>
