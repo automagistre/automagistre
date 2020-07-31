@@ -97,9 +97,10 @@
 .invoice-info {
   margin: 7mm 0;
   border: 1px solid rgba(0, 0, 0, 0.7);
+  height: 48mm;
   display: grid;
   grid-template-columns: 1fr 1.5cm 1fr;
-  grid-template-rows: 12mm 12mm auto 12mm 12mm;
+  grid-template-rows: 12mm 12mm auto 1fr 12mm;
 }
 .invoice-info__item {
   padding: 1mm;
