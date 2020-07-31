@@ -1,0 +1,61 @@
+@font-color: rgba(0, 0, 0, 70%);
+
+.invoice-header {
+
+  &__info {
+    margin: 0 0 7mm;
+  }
+
+  &__provider {
+    display: grid;
+    grid-template-columns: 2.5cm auto;
+    padding: 0 1mm;
+
+    & > div:first-child {
+      font-weight: 700;
+    }
+  }
+}
+
+.invoice-info {
+  margin: 7mm 0;
+  border: 1px solid @font-color;
+
+  display: grid;
+  grid-template-columns: 1fr 1.5cm 1fr;
+  grid-template-rows: 12mm 12mm auto 12mm 12mm;
+
+  &__item {
+    padding: 1mm;
+
+    &.cell-center {
+      border-left: inherit;
+      border-right: inherit;
+    }
+
+    &.border-bottom {
+      border-bottom: inherit;
+    }
+
+    &.cell-info {
+      font-size: 0.8em;
+      display: flex;
+      align-items: flex-end;
+    }
+    &.requisites {
+      display: grid;
+      grid-template-columns: 12mm 1fr 12mm 1fr;
+      padding: 0;
+
+      & > div {
+        text-align: center;
+        border-bottom: 1px solid @font-color;
+        border-left: 1px solid @font-color;
+
+        &:first-child {
+          border-left: none;
+        }
+      }
+    }
+  }
+}

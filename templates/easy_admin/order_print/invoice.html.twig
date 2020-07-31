@@ -6,27 +6,53 @@
 {# @var car \App\Car\Entity\Car #}
 {# @var customer \App\Customer\Domain\Operand #}
 
+{% block invoce_header %}
+    <h1 class="invoice-header__info">Счет на оплату №
+        {{ order.number }}
+        от
+        {{ (order.closed ? order.closedAt : date(null, 'Europe/Moscow'))|format_date('short') }} г.
+    </h1>
+    <div class="invoice-header__provider">
+        <div>
+            Поставщик:
+        </div>
+        <div>
+            {{ requisites.name }}
+            ОГРН: {{ requisites.ogrn }}
+            {{ requisites.address }}
+            {% for telephone in requisites.telephones %}
+                &nbsp;{{ telephone }}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
 {% block content %}
     <div class="content pages" id="content">
         <div class="page portrait bookkeeping-fonts">
             <main class="portrait">
-                <h1>Счет на оплату №
-                    {{ order.number }}
-                    от
-                    {{ (order.closed ? order.closedAt : date(null, 'Europe/Moscow'))|format_date('short') }} г.
-                </h1>
-                <div>
-                    <span class="bk-info-legend">
-                        Поставщик
-                    </span>
-                    <p>
-                        {{ requisites.name }}
-                        ОГРН: {{ requisites.ogrn }}
-                        {{ requisites.address }}
-                        {% for telephone in requisites.telephones %}
-                            &nbsp;{{ telephone }}
-                        {% endfor %}
-                    </p>
+                {{ block('invoce_header')}}
+                <div class="invoice-info">
+                    <div class="invoice-info__item" style="text-transform: uppercase">{{ requisites.bank }}</div>
+                    <div class="invoice-info__item cell-center border-bottom">БИК</div>
+                    <div class="invoice-info__item">{{ requisites.bik }}</div>
+                    <div class="invoice-info__item border-bottom cell-info">Банк получателя</div>
+                    <div class="invoice-info__item cell-center border-bottom">Сч. №</div>
+                    <div class="invoice-info__item border-bottom">{{ requisites.ks }}</div>
+                    <div class="invoice-info__item requisites">
+                        <div class="invoice-info__item">ИНН</div>
+                        <div class="invoice-info__item">{{ requisites.inn }}</div>
+                        <div class="invoice-info__item">КПП</div>
+                        <div class="invoice-info__item">{{ requisites.kpp }}</div>
+                    </div>
+                    <div class="invoice-info__item cell-center"></div>
+                    <div class="invoice-info__item"></div>
+                    <div class="invoice-info__item">{{ requisites.name }}</div>
+                    <div class="invoice-info__item cell-center"></div>
+                    <div class="invoice-info__item"></div>
+                    <div class="invoice-info__item cell-info">Получатель</div>
+                    <div class="invoice-info__item cell-center">Сч. №</div>
+                    <div class="invoice-info__item">{{ requisites.rs }}</div>
                 </div>
             </main>
         </div>
