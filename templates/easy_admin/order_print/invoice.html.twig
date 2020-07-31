@@ -52,7 +52,7 @@
 {% endblock %}
 
 
-{% block invoce_header %}
+{% block invoice_header %}
     <h1 class="invoice-header__info">Счет на оплату №
         {{ order.number }}
         от
@@ -62,7 +62,7 @@
 {% endblock %}
 
 
-{% block invoce_info_table %}
+{% block invoice_info_table %}
     <div class="invoice-info">
         <div class="invoice-info__item" style="text-transform: uppercase">{{ requisites.bank }}</div>
         <div class="invoice-info__item cell-center border-bottom">БИК</div>
@@ -88,13 +88,95 @@
 {% endblock %}
 
 
+{% block invoice_table %}
+    <div class="invoice-table">
+        <div class="invoice-table__row row-header">
+            <div class="invoice-table__item cell-header">№</div>
+            <div class="invoice-table__item cell-header">Наименование товаров, работ, услуг</div>
+            <div class="invoice-table__item cell-header">Кол-во</div>
+            <div class="invoice-table__item cell-header">Ед. изм.</div>
+            <div class="invoice-table__item cell-header">Цена</div>
+            <div class="invoice-table__item cell-header">Всего</div>
+        </div>
+        {% for orderItemGroup in order.rootItems('group') %}
+
+            {% set position = position + 1 %}
+
+            <div class="invoice-table__row">
+                <div class="invoice-table__item">{{ position }}</div>
+                <div class="invoice-table__item">{{ orderItemGroup }}</div>
+                <div class="invoice-table__item">&mdash;</div>
+                <div class="invoice-table__item"></div>
+                <div class="invoice-table__item cell-cost">
+                    {% set groupPrice = orderItemGroup.totalServicePrice(true) %}
+
+                    {% if orderItemGroup.hideParts %}
+                        {% set groupPrice = groupPrice.add(orderItemGroup.totalPartPrice(true)) %}
+                    {% endif %}
+
+                    {{ groupPrice|localize_money(true) }}
+                </div>
+                <div class="invoice-table__item cell-cost">{{ groupPrice|localize_money(true) }}</div>
+            </div>
+        {% endfor %}
+
+        {% for orderItemService in order.rootItems('service') %}
+
+            {% set position = position + 1 %}
+
+            <div class="invoice-table__row">
+                <div class="invoice-table__item">{{ position }}</div>
+                <div class="invoice-table__item">{{ orderItemService }}</div>
+                <div class="invoice-table__item">&mdash;</div>
+                <div class="invoice-table__item"></div>
+                <div class="invoice-table__item cell-cost">{{ orderItemService.totalPrice(true)|localize_money(true) }}</div>
+                <div class="invoice-table__item cell-cost">{{ orderItemService.totalPrice(true)|localize_money(true) }}</div>
+            </div>
+        {% endfor %}
+
+        {% for orderItemPart in order.items('part', true) %}
+            {% set position = position + 1 %}
+            {% set part = part_by_id(orderItemPart.partId) %}
+
+            <div class="invoice-table__row">
+                <div class="invoice-table__item">{{ position }}</div>
+                <div class="invoice-table__item">{{ part.number }} {{ part.name }}</div>
+                <div class="invoice-table__item">{{ orderItemPart.quantity / 100 }}</div>
+                <div class="invoice-table__item">шт.</div>
+                <div class="invoice-table__item cell-cost">
+                    {% if orderItemPart.discounted %}
+                        {{ orderItemPart.price.subtract(orderItemPart.discount)|localize_money(true) }}
+                    {% else %}
+                        {{ orderItemPart.price|localize_money(true) }}
+                    {% endif %}
+                </div>
+                <div class="invoice-table__item cell-cost">{{ orderItemPart.totalPrice(true)|localize_money(true) }}</div>
+            </div>
+        {% endfor %}
+        <div class="invoice-table__row row-total">
+            <div class="invoice-table__item cell-total">Итого к оплате</div>
+            <div class="invoice-table__item cell-cost">{{ order.totalForPayment(null, false)|localize_money(true) }}</div>
+        </div>
+        <div class="invoice-table__row row-total">
+            <div class="invoice-table__item cell-total">Без налога(НДС)</div>
+            <div class="invoice-table__item cell-cost"></div>
+        </div>
+    </div>
+{% endblock %}
+
+
 {% block content %}
     <div class="content pages" id="content">
         <div class="page portrait bookkeeping-fonts">
             <main class="portrait">
-                {{ block('invoce_header')}}
-                {{ block('invoce_info_table') }}
+                {{ block('invoice_header')}}
+                {{ block('invoice_info_table') }}
                 {{ block('invoice_executor_info') }}
+
+                {% set position = 0 %}
+
+                {{ block('invoice_table') }}
+
             </main>
         </div>
     </div>
@@ -104,94 +186,6 @@
 {#    <div class="container" id="content">#}
 {#        <main>#}
 {#            <section class="bk">#}
-{#                <table class="table bk-table">#}
-{#                    <thead>#}
-{#                    <tr>#}
-{#                        <th class="bk-table__loop">№</th>#}
-{#                        <th>Наименование товаров, работ, услуг</th>#}
-{#                        <th class="bk-table__quantity">Кол-во</th>#}
-{#                        <th class="bk-table__unit">Ед. изм.</th>#}
-{#                        <th class="bk-table__num">Цена</th>#}
-{#                        <th class="bk-table__num">Всего</th>#}
-{#                    </tr>#}
-{#                    </thead>#}
-{#                    <tbody>#}
-{#                    {% set position = 0 %}#}
-{#                    {% for orderItemGroup in order.rootItems('group') %}#}
-{#                        #}{# @var orderItemGroup \App\Entity\Tenant\OrderItemGroup #}
-
-{#                        {% set position = position + 1 %}#}
-{#                        <tr>#}
-{#                            <td class="bk-table__loop">{{ position }}</td>#}
-{#                            <td>{{ orderItemGroup }}</td>#}
-{#                            <td>1</td>#}
-{#                            <td>шт.</td>#}
-{#                            <td>#}
-{#                                {% set groupPrice = orderItemGroup.totalServicePrice(true) %}#}
-
-{#                                {% if orderItemGroup.hideParts %}#}
-{#                                    {% set groupPrice = groupPrice.add(orderItemGroup.totalPartPrice(true)) %}#}
-{#                                {% endif %}#}
-
-{#                                {{ groupPrice|localize_money }}#}
-{#                            </td>#}
-{#                            <td>{{ groupPrice|localize_money }}</td>#}
-{#                        </tr>#}
-{#                    {% endfor %}#}
-
-{#                    {% for orderItemService in order.rootItems('service') %}#}
-{#                        #}{# @var orderItemService \App\Entity\Tenant\OrderItemService #}
-
-{#                        {% set position = position + 1 %}#}
-{#                        <tr>#}
-{#                            <td class="bk-table__loop">{{ position }}</td>#}
-{#                            <td>{{- orderItemService -}}</td>#}
-{#                            <td>1</td>#}
-{#                            <td>шт.</td>#}
-{#                            <td>{{ orderItemService.totalPrice(true)|localize_money }}</td>#}
-{#                            <td>{{ orderItemService.totalPrice(true)|localize_money }}</td>#}
-{#                        </tr>#}
-{#                    {% endfor %}#}
-
-{#                    {% for orderItemPart in order.items('part', true) %}#}
-{#                        #}{# @var orderItemPart \App\Order\Entity\OrderItemPart #}
-
-{#                        {% set position = position + 1 %}#}
-{#                        {% set part = part_by_id(orderItemPart.partId) %}#}
-{#                        <tr>#}
-{#                            <td class="bk-table__loop">{{ position }}</td>#}
-{#                            <td> {{ part.name }}#}
-{#                                <span class="order-table-part__part_number">#}
-{#                                        {{ part.number }}#}
-{#                                    </span>#}
-{#                            </td>#}
-{#                            <td>{{ orderItemPart.quantity / 100 }}</td>#}
-{#                            <td>шт.</td>#}
-{#                            <td>#}
-{#                                {% if orderItemPart.discounted %}#}
-{#                                    {{ orderItemPart.price.subtract(orderItemPart.discount)|localize_money }}#}
-{#                                {% else %}#}
-{#                                    {{ orderItemPart.price|localize_money }}#}
-{#                                {% endif %}#}
-{#                            </td>#}
-{#                            <td>{{ orderItemPart.totalPrice(true)|localize_money }}</td>#}
-{#                        </tr>#}
-{#                    {% endfor %}#}
-{#                    </tbody>#}
-{#                    <tbody>#}
-{#                    <tr>#}
-{#                        <td colspan="4" rowspan="2" class="no-border"></td>#}
-{#                        <td class="bk-table-total">ИТОГО:</td>#}
-{#                        <td>#}
-{#                            <strong>{{ order.totalForPayment(null, false)|localize_money }}</strong>#}
-{#                        </td>#}
-{#                    </tr>#}
-{#                    <tr>#}
-{#                        <td class="bk-table-total">в т.ч. НДС</td>#}
-{#                        <td><strong>без НДС</strong></td>#}
-{#                    </tr>#}
-{#                    </tbody>#}
-{#                </table>#}
 {#                <p style="margin: 0">#}
 {#                    Всего наименований {{ position }} на сумму:<br>#}
 {#                <p class="bk-literal_num">#}
