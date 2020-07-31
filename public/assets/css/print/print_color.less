@@ -4,7 +4,8 @@
 
 @price-col: 24mm;
 @quantity-col: 12mm;
-@page-height: 273mm;
+@page-height-portrait: 273mm;
+@page-height-landscape: 193mm;
 @page-margin: 7mm;
 
 @import "../ui/buttons";
@@ -42,7 +43,6 @@
 
 
 body, html {
-  font-family: Circe, sans-serif;
   margin: 0 auto;
 }
 
@@ -65,8 +65,6 @@ body{
 //------------------ Pages ------------------
 
 .page{
-  width: 210mm;
-  min-height: @page-height + @page-margin * 2;
   height: 100%;
   padding: @page-margin;
   margin: 2mm auto;
@@ -74,14 +72,38 @@ body{
   font-size: 3.2mm;
   color: @font-color;
   box-shadow: 0 2px 9px rgba(0, 0, 0, 0.25);
+
+  &.order-fonts {
+    font-family: Circe, sans-serif;
+  }
+
+  &.bookkeeping-fonts{
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  &.landscape {
+
+  }
+
+  &.portrait {
+    min-height: @page-height-portrait + @page-margin * 2;
+    width: 210mm;
+  }
 }
 
 @footer-height: 45mm;
 
 main {
   width: 100%;
-  min-height: @page-height - @footer-height;
 
+
+  &.landscape {
+
+  }
+
+  &.portrait {
+    min-height: @page-height-portrait - @footer-height;
+  }
 }
 
 footer {
@@ -614,12 +636,19 @@ footer {
 
   .page {
     width: 100%;
-    min-height: @page-height;
     height: 100%;
     padding: 0;
     margin: 0 auto;
     background: none;
     box-shadow: none;
+
+    &.landscape {
+
+    }
+
+    &.portrait {
+      min-height: @page-height-portrait;
+    }
   }
 
   @page {
