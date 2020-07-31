@@ -38,8 +38,8 @@
 {% endblock %}
 
 {% block recommendations_page_begin %}
-<div class="page">
-    <main>
+<div class="page portrait order-fonts">
+    <main class="portrait">
         {% include 'easy_admin/order_print/chunks/header.html.twig' %}
         <div>
             {{ order_info('рекомендации', order, customer, car) }}
@@ -52,8 +52,8 @@
         </div>
     </main>
 </div>
-<div class="page">
-    <main>
+<div class="page portrait order-fonts">
+    <main class="portrait">
         <div>
             {{ order_info('рекомендации', order, customer, car) }}
             <div class="recommendations-table">
