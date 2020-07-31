@@ -15,6 +15,7 @@
 {% set page = 1 %}
 {% set row = 1 %}
 
+
 {% block order_page_footer %}
     <footer class="page-brake">
         <div class="footer">
@@ -58,8 +59,8 @@
 {% endblock %}
 
 {% block order_first_page_begin %}
-    <div class="page">
-        <main>
+    <div class="page portrait order-fonts">
+        <main class="portrait">
             {% include 'easy_admin/order_print/chunks/header.html.twig' %}
             <div class="main-table">
                 {{ order_info('заказ-наряд', order, customer, car) }}
@@ -72,8 +73,8 @@
             </div>
         </main>
     </div>
-    <div class="page">
-        <main>
+    <div class="page portrait order-fonts">
+        <main class="portrait">
             <div class="main-table">
                 {{ order_info('заказ-наряд', order, customer, car) }}
                 <div class="order-table">
@@ -90,8 +91,8 @@
 {% endblock %}
 
 {% block recommendations_page_begin %}
-    <div class="page html2pdf__page-break-after">
-        <main>
+    <div class="page portrait order-fonts">
+        <main class="portrait">
             <div>
                 {{ order_info('рекомендации', order, customer, car) }}
                 <div class="recommendations-table">
