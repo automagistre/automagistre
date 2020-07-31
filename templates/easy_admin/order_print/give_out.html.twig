@@ -129,12 +129,13 @@
 {% endblock %}
 
 
+
 {% block content %}
     {% set partsWithoutService = [] %}
     <div class="content pages" id="content">
-        <div class="page">
+        <div class="page portrait order-fonts">
             {{ block('master_block_header') }}
-            <main>
+            <main class="portrait">
                 <div class="give-out-table-master">
 
                     {{ block('give_out_table_master_header') }}
@@ -159,9 +160,9 @@
                     {% endif %}
             </main>
         </div>
-        <div class="page">
+        <div class="page portrait order-fonts">
             {{ block('manager_block_header') }}
-            <main>
+            <main class="portrait">
                 <div class="give-out-table-manager">
 
                     {{ block('give_out_table_manager_header') }}
