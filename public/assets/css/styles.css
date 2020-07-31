@@ -83,12 +83,15 @@
 .invoice-header__info {
   margin: 0 0 7mm;
 }
-.invoice-header__provider {
+.invoice-executor,
+.invoice-provider {
   display: grid;
   grid-template-columns: 2.5cm auto;
   padding: 0 1mm;
+  margin: 7mm 0;
 }
-.invoice-header__provider > div:first-child {
+.invoice-executor > div:first-child,
+.invoice-provider > div:first-child {
   font-weight: 700;
 }
 .invoice-info {

@@ -6,16 +6,9 @@
 {# @var car \App\Car\Entity\Car #}
 {# @var customer \App\Customer\Domain\Operand #}
 
-{% block invoce_header %}
-    <h1 class="invoice-header__info">Счет на оплату №
-        {{ order.number }}
-        от
-        {{ (order.closed ? order.closedAt : date(null, 'Europe/Moscow'))|format_date('short') }} г.
-    </h1>
-    <div class="invoice-header__provider">
-        <div>
-            Поставщик:
-        </div>
+{% block invoice_provider_info %}
+    <div class="invoice-provider">
+        <div>Поставщик:</div>
         <div>
             {{ requisites.name }}
             ОГРН: {{ requisites.ogrn }}
@@ -27,33 +20,80 @@
     </div>
 {% endblock %}
 
+
+{% block invoice_executor_info %}
+    <div class="invoice-executor">
+        <div>Покупатель:</div>
+        <div>
+{#          Если заказчик организация, то выводить все доступные реквизиты #}
+            {{- customer.fullName -}}
+
+            {% if customer.type('person') %}
+                {%- if customer.telephone is not empty %}
+                    тел: {{ customer.telephone|phone_number_format }}
+                {%- endif -%}
+                {%- if customer.email is not empty %}
+                    e-mail: {{ customer.email }}
+                {% endif %}
+            {%- elseif customer.type('organization') -%}
+{#                @var customer \App\Customer\Domain\Organization#}
+                {%- if not customer.requisite.empty -%}
+                    , {{- customer.requisite -}}
+                {%- endif -%}
+                {%- if customer.telephone is not empty %}
+                    {{ customer.telephone|phone_number_format }}
+                {%- endif -%}
+                {%- if customer.officePhone is not empty %}
+                    {{ customer.officePhone|phone_number_format }}
+                {%- endif -%}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block invoce_header %}
+    <h1 class="invoice-header__info">Счет на оплату №
+        {{ order.number }}
+        от
+        {{ (order.closed ? order.closedAt : date(null, 'Europe/Moscow'))|format_date('short') }} г.
+    </h1>
+    {{ block('invoice_provider_info') }}
+{% endblock %}
+
+
+{% block invoce_info_table %}
+    <div class="invoice-info">
+        <div class="invoice-info__item" style="text-transform: uppercase">{{ requisites.bank }}</div>
+        <div class="invoice-info__item cell-center border-bottom">БИК</div>
+        <div class="invoice-info__item">{{ requisites.bik }}</div>
+        <div class="invoice-info__item border-bottom cell-info">Банк получателя</div>
+        <div class="invoice-info__item cell-center border-bottom">Сч. №</div>
+        <div class="invoice-info__item border-bottom">{{ requisites.ks }}</div>
+        <div class="invoice-info__item requisites">
+            <div class="invoice-info__item">ИНН</div>
+            <div class="invoice-info__item">{{ requisites.inn }}</div>
+            <div class="invoice-info__item">КПП</div>
+            <div class="invoice-info__item">{{ requisites.kpp }}</div>
+        </div>
+        <div class="invoice-info__item cell-center"></div>
+        <div class="invoice-info__item"></div>
+        <div class="invoice-info__item">{{ requisites.name }}</div>
+        <div class="invoice-info__item cell-center"></div>
+        <div class="invoice-info__item"></div>
+        <div class="invoice-info__item cell-info">Получатель</div>
+        <div class="invoice-info__item cell-center">Сч. №</div>
+        <div class="invoice-info__item">{{ requisites.rs }}</div>
+    </div>
+{% endblock %}
+
 {% block content %}
     <div class="content pages" id="content">
         <div class="page portrait bookkeeping-fonts">
             <main class="portrait">
                 {{ block('invoce_header')}}
-                <div class="invoice-info">
-                    <div class="invoice-info__item" style="text-transform: uppercase">{{ requisites.bank }}</div>
-                    <div class="invoice-info__item cell-center border-bottom">БИК</div>
-                    <div class="invoice-info__item">{{ requisites.bik }}</div>
-                    <div class="invoice-info__item border-bottom cell-info">Банк получателя</div>
-                    <div class="invoice-info__item cell-center border-bottom">Сч. №</div>
-                    <div class="invoice-info__item border-bottom">{{ requisites.ks }}</div>
-                    <div class="invoice-info__item requisites">
-                        <div class="invoice-info__item">ИНН</div>
-                        <div class="invoice-info__item">{{ requisites.inn }}</div>
-                        <div class="invoice-info__item">КПП</div>
-                        <div class="invoice-info__item">{{ requisites.kpp }}</div>
-                    </div>
-                    <div class="invoice-info__item cell-center"></div>
-                    <div class="invoice-info__item"></div>
-                    <div class="invoice-info__item">{{ requisites.name }}</div>
-                    <div class="invoice-info__item cell-center"></div>
-                    <div class="invoice-info__item"></div>
-                    <div class="invoice-info__item cell-info">Получатель</div>
-                    <div class="invoice-info__item cell-center">Сч. №</div>
-                    <div class="invoice-info__item">{{ requisites.rs }}</div>
-                </div>
+                {{ block('invoce_info_table') }}
+                {{ block('invoice_executor_info') }}
             </main>
         </div>
     </div>
@@ -62,63 +102,6 @@
 {#{% block content %}#}
 {#    <div class="container" id="content">#}
 {#        <main>#}
-
-{#            <section class="bk-info">#}
-
-{#            </section>#}
-{#            <section class="bank">#}
-{#                <table class="table bank-table">#}
-{#                    <tbody>#}
-{#                    <tr>#}
-{#                        <td colspan="2" style="border-bottom: none;" class="bank-table-title">{{ requisites.bank }}</td>#}
-{#                        <td>БИК</td>#}
-{#                        <td style="border-bottom: none;">{{ requisites.bik }}</td>#}
-{#                    </tr>#}
-{#                    <tr>#}
-{#                        <td colspan="2" class="bank-table-info">Банк получателя</td>#}
-{#                        <td>Сч. №</td>#}
-{#                        <td style="border-top: none;">{{ requisites.ks }}</td>#}
-{#                    </tr>#}
-{#                    <tr class="bank-table_row_2">#}
-{#                        <td class="bank-table_col_1">ИНН {{ requisites.inn }}</td>#}
-{#                        <td class="bank-table_col_2">КПП {{ requisites.kpp }}</td>#}
-{#                        <td class="bank-table_col_3" rowspan="3">Сч. №</td>#}
-{#                        <td class="bank-table_col_4" rowspan="3">{{ requisites.rs }}</td>#}
-{#                    </tr>#}
-{#                    <tr>#}
-{#                        <td colspan="2" style="border-bottom: none;" class="bank-table-title">{{ requisites.name }}</td>#}
-{#                    </tr>#}
-{#                    <tr>#}
-{#                        <td colspan="2" class="bank-table-info">Получатель</td>#}
-{#                    </tr>#}
-{#                    </tbody>#}
-{#                </table>#}
-{#            </section>#}
-{#            <section class="bk-info">#}
-{#                <div class="bk-info-executor">#}
-{#                    <span class="bk-info-legend">#}
-{#                        Покупатель#}
-{#                    </span>#}
-{#                    <p>#}
-{#                        #}{# Если заказчик организация, то выводить все доступные реквизиты#}
-{#                        {{- customer.fullName -}}#}
-
-{#                        {% if customer.type('person') %}#}
-{#                            {%- if customer.telephone is not empty %}#}
-{#                                тел: {{ customer.telephone|phone_number_format }}#}
-{#                            {%- endif -%}#}
-{#                            {%- if customer.email is not empty %}#}
-{#                                e-mail: {{ customer.email }}#}
-{#                            {% endif %}#}
-{#                        {%- elseif customer.type('organization') -%}#}
-{#                            #}{# @var customer \App\Customer\Domain\Organization #}
-{#                            {%- if not customer.requisite.empty -%}#}
-{#                                , {{- customer.requisite -}}#}
-{#                            {%- endif -%}#}
-{#                        {% endif %}#}
-{#                    </p>#}
-{#                </div>#}
-{#            </section>#}
 {#            <section class="bk">#}
 {#                <table class="table bk-table">#}
 {#                    <thead>#}
