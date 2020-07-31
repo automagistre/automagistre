@@ -60,3 +60,62 @@
     }
   }
 }
+
+@invoice-table-border: 1px solid black;
+@invoice-table-grid-template: 6mm auto 13mm 15mm 23mm 23mm;
+
+.invoice-table {
+  &__row {
+    display: grid;
+    grid-template-columns: @invoice-table-grid-template;
+    border-bottom: @invoice-table-border;
+    grid-column: ~"1 / -1";
+
+    &.row-header {
+      border-top: @invoice-table-border;
+    }
+
+    &.row-total {
+      border: none;
+
+      & > div:last-child {
+        border-bottom: @invoice-table-border;
+      }
+    }
+  }
+
+  &__item {
+    padding: 2px;
+    border-left: @invoice-table-border;
+
+    &:last-child {
+      border-right: @invoice-table-border;
+    }
+
+    &.cell-header {
+      font-weight: 700;
+      text-align: center;
+    }
+
+    &.cell-cost {
+      text-align: right;
+    }
+
+    &.cell-total {
+      grid-column: ~"1 / -2";
+      border: none;
+      font-weight: 700;
+      text-align: right;
+      font-size: 1.1em;
+    }
+  }
+}
+
+
+@media print {
+
+.invoice-table__row {
+  page-break-inside: avoid;
+}
+
+}
