@@ -109,7 +109,8 @@ body {
 }
 .page.bookkeeping-fonts {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 3.2mm;
+  font-size: 3mm;
+  color: rgba(0, 0, 0, 0.7);
 }
 .page.portrait {
   min-height: 287mm;

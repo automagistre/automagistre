@@ -7,15 +7,15 @@
 {# @var customer \App\Customer\Domain\Operand #}
 
 {% block content %}
-    <div class="container" id="content">
-        <main>
-            <h1>Счет на оплату №
-                {{ order.number }}
-                от
-                {{ (order.closed ? order.closedAt : date(null, 'Europe/Moscow'))|format_date('short') }} г.
-            </h1>
-            <section class="bk-info">
-                <div class="bk-info-executor">
+    <div class="content pages" id="content">
+        <div class="page portrait bookkeeping-fonts">
+            <main class="portrait">
+                <h1>Счет на оплату №
+                    {{ order.number }}
+                    от
+                    {{ (order.closed ? order.closedAt : date(null, 'Europe/Moscow'))|format_date('short') }} г.
+                </h1>
+                <div>
                     <span class="bk-info-legend">
                         Поставщик
                     </span>
@@ -28,173 +28,184 @@
                         {% endfor %}
                     </p>
                 </div>
-            </section>
-            <section class="bank">
-                <table class="table bank-table">
-                    <tbody>
-                    <tr>
-                        <td colspan="2" style="border-bottom: none;" class="bank-table-title">{{ requisites.bank }}</td>
-                        <td>БИК</td>
-                        <td style="border-bottom: none;">{{ requisites.bik }}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" class="bank-table-info">Банк получателя</td>
-                        <td>Сч. №</td>
-                        <td style="border-top: none;">{{ requisites.ks }}</td>
-                    </tr>
-                    <tr class="bank-table_row_2">
-                        <td class="bank-table_col_1">ИНН {{ requisites.inn }}</td>
-                        <td class="bank-table_col_2">КПП {{ requisites.kpp }}</td>
-                        <td class="bank-table_col_3" rowspan="3">Сч. №</td>
-                        <td class="bank-table_col_4" rowspan="3">{{ requisites.rs }}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="border-bottom: none;" class="bank-table-title">{{ requisites.name }}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" class="bank-table-info">Получатель</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </section>
-            <section class="bk-info">
-                <div class="bk-info-executor">
-                    <span class="bk-info-legend">
-                        Покупатель
-                    </span>
-                    <p>
-                        {# Если заказчик организация, то выводить все доступные реквизиты#}
-                        {{- customer.fullName -}}
-
-                        {% if customer.type('person') %}
-                            {%- if customer.telephone is not empty %}
-                                тел: {{ customer.telephone|phone_number_format }}
-                            {%- endif -%}
-                            {%- if customer.email is not empty %}
-                                e-mail: {{ customer.email }}
-                            {% endif %}
-                        {%- elseif customer.type('organization') -%}
-                            {# @var customer \App\Customer\Domain\Organization #}
-                            {%- if not customer.requisite.empty -%}
-                                , {{- customer.requisite -}}
-                            {%- endif -%}
-                        {% endif %}
-                    </p>
-                </div>
-            </section>
-            <section class="bk">
-                <table class="table bk-table">
-                    <thead>
-                    <tr>
-                        <th class="bk-table__loop">№</th>
-                        <th>Наименование товаров, работ, услуг</th>
-                        <th class="bk-table__quantity">Кол-во</th>
-                        <th class="bk-table__unit">Ед. изм.</th>
-                        <th class="bk-table__num">Цена</th>
-                        <th class="bk-table__num">Всего</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% set position = 0 %}
-                    {% for orderItemGroup in order.rootItems('group') %}
-                        {# @var orderItemGroup \App\Entity\Tenant\OrderItemGroup #}
-
-                        {% set position = position + 1 %}
-                        <tr>
-                            <td class="bk-table__loop">{{ position }}</td>
-                            <td>{{ orderItemGroup }}</td>
-                            <td>1</td>
-                            <td>шт.</td>
-                            <td>
-                                {% set groupPrice = orderItemGroup.totalServicePrice(true) %}
-
-                                {% if orderItemGroup.hideParts %}
-                                    {% set groupPrice = groupPrice.add(orderItemGroup.totalPartPrice(true)) %}
-                                {% endif %}
-
-                                {{ groupPrice|localize_money }}
-                            </td>
-                            <td>{{ groupPrice|localize_money }}</td>
-                        </tr>
-                    {% endfor %}
-
-                    {% for orderItemService in order.rootItems('service') %}
-                        {# @var orderItemService \App\Entity\Tenant\OrderItemService #}
-
-                        {% set position = position + 1 %}
-                        <tr>
-                            <td class="bk-table__loop">{{ position }}</td>
-                            <td>{{- orderItemService -}}</td>
-                            <td>1</td>
-                            <td>шт.</td>
-                            <td>{{ orderItemService.totalPrice(true)|localize_money }}</td>
-                            <td>{{ orderItemService.totalPrice(true)|localize_money }}</td>
-                        </tr>
-                    {% endfor %}
-
-                    {% for orderItemPart in order.items('part', true) %}
-                        {# @var orderItemPart \App\Order\Entity\OrderItemPart #}
-
-                        {% set position = position + 1 %}
-                        {% set part = part_by_id(orderItemPart.partId) %}
-                        <tr>
-                            <td class="bk-table__loop">{{ position }}</td>
-                            <td> {{ part.name }}
-                                <span class="order-table-part__part_number">
-                                        {{ part.number }}
-                                    </span>
-                            </td>
-                            <td>{{ orderItemPart.quantity / 100 }}</td>
-                            <td>шт.</td>
-                            <td>
-                                {% if orderItemPart.discounted %}
-                                    {{ orderItemPart.price.subtract(orderItemPart.discount)|localize_money }}
-                                {% else %}
-                                    {{ orderItemPart.price|localize_money }}
-                                {% endif %}
-                            </td>
-                            <td>{{ orderItemPart.totalPrice(true)|localize_money }}</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                    <tbody>
-                    <tr>
-                        <td colspan="4" rowspan="2" class="no-border"></td>
-                        <td class="bk-table-total">ИТОГО:</td>
-                        <td>
-                            <strong>{{ order.totalForPayment(null, false)|localize_money }}</strong>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="bk-table-total">в т.ч. НДС</td>
-                        <td><strong>без НДС</strong></td>
-                    </tr>
-                    </tbody>
-                </table>
-                <p style="margin: 0">
-                    Всего наименований {{ position }} на сумму:<br>
-                <p class="bk-literal_num">
-                    {{ order.totalForPayment(null, false)|localize_money_literal }}
-                </p>
-                </p>
-            </section>
-            <section class="stamps">
-                <div class="bk-stamp" style="width: 100%; display: flex; justify-content: space-around">
-                    <div style="width: 80mm">
-                        <hr class="bk-stamp-line">
-                        <div style="display: flex; justify-content: center">
-                            <span class="bk-stamp-line-under">должность</span>
-                        </div>
-                    </div>
-                    <div style="width: 80mm">
-                        <hr class="bk-stamp-line">
-                        <div style="display: flex; justify-content: space-between">
-                            <span class="bk-stamp-line-under">подпись</span>
-                            <span class="bk-stamp-line-under">расшифровка</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
+            </main>
+        </div>
     </div>
 {% endblock %}
+
+{#{% block content %}#}
+{#    <div class="container" id="content">#}
+{#        <main>#}
+
+{#            <section class="bk-info">#}
+
+{#            </section>#}
+{#            <section class="bank">#}
+{#                <table class="table bank-table">#}
+{#                    <tbody>#}
+{#                    <tr>#}
+{#                        <td colspan="2" style="border-bottom: none;" class="bank-table-title">{{ requisites.bank }}</td>#}
+{#                        <td>БИК</td>#}
+{#                        <td style="border-bottom: none;">{{ requisites.bik }}</td>#}
+{#                    </tr>#}
+{#                    <tr>#}
+{#                        <td colspan="2" class="bank-table-info">Банк получателя</td>#}
+{#                        <td>Сч. №</td>#}
+{#                        <td style="border-top: none;">{{ requisites.ks }}</td>#}
+{#                    </tr>#}
+{#                    <tr class="bank-table_row_2">#}
+{#                        <td class="bank-table_col_1">ИНН {{ requisites.inn }}</td>#}
+{#                        <td class="bank-table_col_2">КПП {{ requisites.kpp }}</td>#}
+{#                        <td class="bank-table_col_3" rowspan="3">Сч. №</td>#}
+{#                        <td class="bank-table_col_4" rowspan="3">{{ requisites.rs }}</td>#}
+{#                    </tr>#}
+{#                    <tr>#}
+{#                        <td colspan="2" style="border-bottom: none;" class="bank-table-title">{{ requisites.name }}</td>#}
+{#                    </tr>#}
+{#                    <tr>#}
+{#                        <td colspan="2" class="bank-table-info">Получатель</td>#}
+{#                    </tr>#}
+{#                    </tbody>#}
+{#                </table>#}
+{#            </section>#}
+{#            <section class="bk-info">#}
+{#                <div class="bk-info-executor">#}
+{#                    <span class="bk-info-legend">#}
+{#                        Покупатель#}
+{#                    </span>#}
+{#                    <p>#}
+{#                        #}{# Если заказчик организация, то выводить все доступные реквизиты#}
+{#                        {{- customer.fullName -}}#}
+
+{#                        {% if customer.type('person') %}#}
+{#                            {%- if customer.telephone is not empty %}#}
+{#                                тел: {{ customer.telephone|phone_number_format }}#}
+{#                            {%- endif -%}#}
+{#                            {%- if customer.email is not empty %}#}
+{#                                e-mail: {{ customer.email }}#}
+{#                            {% endif %}#}
+{#                        {%- elseif customer.type('organization') -%}#}
+{#                            #}{# @var customer \App\Customer\Domain\Organization #}
+{#                            {%- if not customer.requisite.empty -%}#}
+{#                                , {{- customer.requisite -}}#}
+{#                            {%- endif -%}#}
+{#                        {% endif %}#}
+{#                    </p>#}
+{#                </div>#}
+{#            </section>#}
+{#            <section class="bk">#}
+{#                <table class="table bk-table">#}
+{#                    <thead>#}
+{#                    <tr>#}
+{#                        <th class="bk-table__loop">№</th>#}
+{#                        <th>Наименование товаров, работ, услуг</th>#}
+{#                        <th class="bk-table__quantity">Кол-во</th>#}
+{#                        <th class="bk-table__unit">Ед. изм.</th>#}
+{#                        <th class="bk-table__num">Цена</th>#}
+{#                        <th class="bk-table__num">Всего</th>#}
+{#                    </tr>#}
+{#                    </thead>#}
+{#                    <tbody>#}
+{#                    {% set position = 0 %}#}
+{#                    {% for orderItemGroup in order.rootItems('group') %}#}
+{#                        #}{# @var orderItemGroup \App\Entity\Tenant\OrderItemGroup #}
+
+{#                        {% set position = position + 1 %}#}
+{#                        <tr>#}
+{#                            <td class="bk-table__loop">{{ position }}</td>#}
+{#                            <td>{{ orderItemGroup }}</td>#}
+{#                            <td>1</td>#}
+{#                            <td>шт.</td>#}
+{#                            <td>#}
+{#                                {% set groupPrice = orderItemGroup.totalServicePrice(true) %}#}
+
+{#                                {% if orderItemGroup.hideParts %}#}
+{#                                    {% set groupPrice = groupPrice.add(orderItemGroup.totalPartPrice(true)) %}#}
+{#                                {% endif %}#}
+
+{#                                {{ groupPrice|localize_money }}#}
+{#                            </td>#}
+{#                            <td>{{ groupPrice|localize_money }}</td>#}
+{#                        </tr>#}
+{#                    {% endfor %}#}
+
+{#                    {% for orderItemService in order.rootItems('service') %}#}
+{#                        #}{# @var orderItemService \App\Entity\Tenant\OrderItemService #}
+
+{#                        {% set position = position + 1 %}#}
+{#                        <tr>#}
+{#                            <td class="bk-table__loop">{{ position }}</td>#}
+{#                            <td>{{- orderItemService -}}</td>#}
+{#                            <td>1</td>#}
+{#                            <td>шт.</td>#}
+{#                            <td>{{ orderItemService.totalPrice(true)|localize_money }}</td>#}
+{#                            <td>{{ orderItemService.totalPrice(true)|localize_money }}</td>#}
+{#                        </tr>#}
+{#                    {% endfor %}#}
+
+{#                    {% for orderItemPart in order.items('part', true) %}#}
+{#                        #}{# @var orderItemPart \App\Order\Entity\OrderItemPart #}
+
+{#                        {% set position = position + 1 %}#}
+{#                        {% set part = part_by_id(orderItemPart.partId) %}#}
+{#                        <tr>#}
+{#                            <td class="bk-table__loop">{{ position }}</td>#}
+{#                            <td> {{ part.name }}#}
+{#                                <span class="order-table-part__part_number">#}
+{#                                        {{ part.number }}#}
+{#                                    </span>#}
+{#                            </td>#}
+{#                            <td>{{ orderItemPart.quantity / 100 }}</td>#}
+{#                            <td>шт.</td>#}
+{#                            <td>#}
+{#                                {% if orderItemPart.discounted %}#}
+{#                                    {{ orderItemPart.price.subtract(orderItemPart.discount)|localize_money }}#}
+{#                                {% else %}#}
+{#                                    {{ orderItemPart.price|localize_money }}#}
+{#                                {% endif %}#}
+{#                            </td>#}
+{#                            <td>{{ orderItemPart.totalPrice(true)|localize_money }}</td>#}
+{#                        </tr>#}
+{#                    {% endfor %}#}
+{#                    </tbody>#}
+{#                    <tbody>#}
+{#                    <tr>#}
+{#                        <td colspan="4" rowspan="2" class="no-border"></td>#}
+{#                        <td class="bk-table-total">ИТОГО:</td>#}
+{#                        <td>#}
+{#                            <strong>{{ order.totalForPayment(null, false)|localize_money }}</strong>#}
+{#                        </td>#}
+{#                    </tr>#}
+{#                    <tr>#}
+{#                        <td class="bk-table-total">в т.ч. НДС</td>#}
+{#                        <td><strong>без НДС</strong></td>#}
+{#                    </tr>#}
+{#                    </tbody>#}
+{#                </table>#}
+{#                <p style="margin: 0">#}
+{#                    Всего наименований {{ position }} на сумму:<br>#}
+{#                <p class="bk-literal_num">#}
+{#                    {{ order.totalForPayment(null, false)|localize_money_literal }}#}
+{#                </p>#}
+{#                </p>#}
+{#            </section>#}
+{#            <section class="stamps">#}
+{#                <div class="bk-stamp" style="width: 100%; display: flex; justify-content: space-around">#}
+{#                    <div style="width: 80mm">#}
+{#                        <hr class="bk-stamp-line">#}
+{#                        <div style="display: flex; justify-content: center">#}
+{#                            <span class="bk-stamp-line-under">должность</span>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div style="width: 80mm">#}
+{#                        <hr class="bk-stamp-line">#}
+{#                        <div style="display: flex; justify-content: space-between">#}
+{#                            <span class="bk-stamp-line-under">подпись</span>#}
+{#                            <span class="bk-stamp-line-under">расшифровка</span>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </section>#}
+{#        </main>#}
+{#    </div>#}
+{#{% endblock %}#}
