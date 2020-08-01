@@ -66,6 +66,8 @@ final class Tenant extends Enum
             'ks' => '30101810145250000974',
             'bik' => '044525974',
             'guarantyUrl' => 'https://www.automagistre.ru/gr',
+            'head' => 'Сидоров К.М.',
+            'headType' => 'Генеральный директор',
         ],
         self::KAZAN => [
             'name' => 'ИП Ахметзянов А.А.',
@@ -84,6 +86,8 @@ final class Tenant extends Enum
             'ks' => '30101810145250000974',
             'bik' => '044525974',
             'guarantyUrl' => 'https://www.automagistre.ru/gr',
+            'head' => 'Ахметзянов А.А.',
+            'headType' => 'Индивидуальный предприниматель',
         ],
         self::SHAVLEV => [
             'name' => 'ИП Щавлев В.А.',
@@ -102,6 +106,8 @@ final class Tenant extends Enum
             'ks' => '30101810400000000225',
             'bik' => '044525225',
             'guarantyUrl' => 'https://vk.com/topic-51443133_40629700',
+            'head' => 'Щавлев В.А.',
+            'headType' => 'Индивидуальный предприниматель',
         ],
         self::BUNKER => [
         ],
