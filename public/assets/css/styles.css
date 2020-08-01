@@ -246,7 +246,9 @@
 .upd-contract-info > div:nth-child(3n+2) {
   border-bottom: 1px solid black;
   padding-left: 1mm;
-  margin-right: 1mm;
+}
+.upd-contract-info > div:nth-child(3n+3) {
+  text-align: center;
 }
 body,
 html {
