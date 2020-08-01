@@ -194,12 +194,12 @@
   display: grid;
   grid-template-columns: 28mm auto;
   min-height: 5cm;
-  padding-left: 1mm;
 }
 .upd-header-left {
   display: grid;
   grid-auto-flow: row;
   border-right: 1mm solid rgba(0, 0, 0, 0.7);
+  padding: 0 0 2mm 1mm ;
 }
 .upd-header-left__name {
   font-size: 1.1em;
@@ -219,7 +219,7 @@
   font-size: 0.9em;
 }
 .upd-header-right {
-  padding-left: 2mm;
+  padding: 0 0 2mm 2mm;
   display: grid;
   grid-auto-flow: row;
 }
@@ -250,6 +250,30 @@
 .upd-contract-info > div:nth-child(3n+3) {
   text-align: center;
 }
+.upd-table__row.row-header {
+  display: grid;
+  grid-template-columns: 8mm 2cm auto 11mm 8mm 17mm 15mm 18mm 23mm 16mm 10mm 18mm 25mm 10mm 17mm 21mm;
+  border-top: 1px solid rgba(0, 0, 0, 0.7);
+}
+.upd-table__cell {
+  border-right: 1px solid rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+}
+.upd-table__cell:first-child {
+  border-left: 1px solid rgba(0, 0, 0, 0.7);
+}
+.upd-table__cell.cell-header {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 0 1mm;
+}
+.upd-table__cell.double-row {
+  grid-row: span 2;
+}
+.upd-table__cell.double-column {
+  grid-column: span 2;
+}
 body,
 html {
   margin: 0 auto;
@@ -267,7 +291,7 @@ body {
 }
 .page {
   height: 100%;
-  padding: 7mm;
+  padding: 8mm;
   margin: 2mm auto;
   background: white;
   box-shadow: 0 2px 9px rgba(0, 0, 0, 0.25);
@@ -283,21 +307,21 @@ body {
   color: rgba(0, 0, 0, 0.7);
 }
 .page.landscape {
-  min-height: 207mm;
+  min-height: 210mm;
   width: 297mm;
 }
 .page.portrait {
-  min-height: 287mm;
+  min-height: 264mm;
   width: 210mm;
 }
 main {
   width: 100%;
 }
 main.landscape {
-  min-height: 193mm;
+  min-height: 100%;
 }
 main.portrait {
-  min-height: 228mm;
+  min-height: 235mm;
 }
 footer {
   min-height: 45mm;
@@ -723,17 +747,20 @@ footer {
     width: 100%;
     height: 100%;
     padding: 0;
-    margin: 0 auto;
+    margin: 0;
     background: none;
     box-shadow: none;
   }
   .page.landscape {
-    min-height: 193mm;
-    transform: rotate(270deg) translate(-276mm, 0);
+    min-width: 297mm;
+    transform: rotate(270deg) translate(-297mm, 0);
     transform-origin: 0 0;
   }
   .page.portrait {
-    min-height: 273mm;
+    min-height: 280mm;
+  }
+  main.portrait {
+    height: 100%;
   }
   @page {
     size: A4;

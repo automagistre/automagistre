@@ -4,12 +4,12 @@
   display: grid;
   grid-template-columns: 28mm auto;
   min-height: 5cm;
-  padding-left: 1mm;
 
   &-left {
     display: grid;
     grid-auto-flow: row;
     border-right: 1mm solid @font-color;
+    padding: 0 0 2mm 1mm ;
 
     &__name {
       font-size: 1.1em;
@@ -34,7 +34,7 @@
   }
 
   &-right {
-    padding-left: 2mm;
+    padding: 0 0 2mm 2mm;
     display: grid;
     grid-auto-flow: row;
   }
@@ -71,5 +71,42 @@
 
   & > div:nth-child(3n+3) {
     text-align: center;
+  }
+}
+
+
+@upd-table-template-column: 8mm 2cm auto 11mm 8mm 17mm 15mm 18mm 23mm 16mm 10mm 18mm 25mm 10mm 17mm 21mm;
+@upd-table-border: 1px solid @font-color;
+
+.upd-table__row {
+
+  &.row-header {
+    display: grid;
+    grid-template-columns: @upd-table-template-column;
+    border-top: @upd-table-border;
+  }
+
+}
+
+.upd-table__cell {
+  border-right: @upd-table-border;
+  border-bottom: @upd-table-border;
+
+  &:first-child {
+    border-left: @upd-table-border;
+  }
+
+  &.cell-header {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding: 0 1mm;
+  }
+  &.double-row {
+    grid-row: span 2;
+  }
+
+  &.double-column{
+    grid-column: span 2;
   }
 }

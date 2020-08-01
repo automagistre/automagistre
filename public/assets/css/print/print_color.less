@@ -4,9 +4,8 @@
 
 @price-col: 24mm;
 @quantity-col: 12mm;
-@page-height-portrait: 273mm;
-@page-height-landscape: 193mm;
-@page-margin: 7mm;
+@page-height-portrait: 280mm;
+@page-margin: 8mm;
 
 
 body, html {
@@ -51,12 +50,12 @@ body{
   }
 
   &.landscape {
-    min-height: @page-height-landscape + @page-margin * 2;
+    min-height: 210mm;
     width: 297mm;
   }
 
   &.portrait {
-    min-height: @page-height-portrait + @page-margin * 2;
+    min-height: @page-height-portrait - @page-margin * 2;
     width: 210mm;
   }
 }
@@ -68,7 +67,7 @@ main {
 
 
   &.landscape {
-    min-height: @page-height-landscape;
+    min-height: 100%;
   }
 
   &.portrait {
@@ -609,19 +608,23 @@ footer {
     width: 100%;
     height: 100%;
     padding: 0;
-    margin: 0 auto;
+    margin: 0;
     background: none;
     box-shadow: none;
 
     &.landscape {
-      min-height: @page-height-landscape;
-      transform: rotate(270deg) translate(-276mm, 0);
+      min-width: 297mm;
+      transform: rotate(270deg) translate(-297mm, 0);
       transform-origin: 0 0;
     }
 
     &.portrait {
       min-height: @page-height-portrait;
     }
+  }
+
+  main.portrait {
+    height: 100%;
   }
 
   @page {

@@ -41,6 +41,31 @@
 {% endblock %}
 
 
+{% block upd_table %}
+    <div class="upd-table">
+        <div class="upd-table__row row-header">
+            <div class="upd-table__cell cell-header double-row">№ п/п</div>
+            <div class="upd-table__cell cell-header double-row">Код товара/работ, услуг</div>
+            <div class="upd-table__cell cell-header double-row">Наименование товара (описание выполненных работ, оказанных услуг), имущественного права</div>
+            <div class="upd-table__cell cell-header double-row">Код вида товара</div>
+            <div class="upd-table__cell cell-header double-column">Единица измерения</div>
+            <div class="upd-table__cell cell-header double-row">Количество (объем)</div>
+            <div class="upd-table__cell cell-header double-row">Цена (тариф) за единицу измерения</div>
+            <div class="upd-table__cell cell-header double-row">Стоимость товаров (работ, услуг), имущественных прав без налога – всего</div>
+            <div class="upd-table__cell cell-header double-row">В том числе сумма акциза</div>
+            <div class="upd-table__cell cell-header double-row">Налоговая ставка</div>
+            <div class="upd-table__cell cell-header double-row cell-header double-row">Сумма налога, предъявляемая покупателю</div>
+            <div class="upd-table__cell cell-header double-row">Стоимость товаров (работ, услуг), имущественных прав с налогом – всего</div>
+            <div class="upd-table__cell cell-header double-column">Страна происхождения товара</div>
+            <div class="upd-table__cell cell-header double-row">Регистрационный номер таможенной декларации</div>
+            <div class="upd-table__cell cell-header">код</div>
+            <div class="upd-table__cell cell-header">условное обозначение (национальное)</div>
+            <div class="upd-table__cell cell-header">Цифровой код</div>
+            <div class="upd-table__cell cell-header">Краткое наименование</div>
+        </div>
+    </div>
+{% endblock %}
+
 
 {% block content %}
     <div class="content pages" id="content">
@@ -51,7 +76,6 @@
             </main>
         </div>
     </div>
-    {{ dump(customer) }}
 {% endblock %}
 
 {#{% block content %}#}
