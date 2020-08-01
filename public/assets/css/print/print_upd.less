@@ -4,7 +4,69 @@
   display: grid;
   grid-template-columns: 28mm auto;
   min-height: 5cm;
-  border-right: 1mm solid @font-color;
+  padding-left: 1mm;
 
+  &-left {
+    display: grid;
+    grid-auto-flow: row;
+    border-right: 1mm solid @font-color;
 
+    &__name {
+      font-size: 1.1em;
+    }
+
+    &__status {
+      font-size: 1.1em;
+
+      & > span {
+        display: inline-block;
+        width: 1cm;
+        margin-left: 1mm;
+        border: 1mm solid @font-color;
+        font-weight: 700;
+        text-align: center;
+      }
+    }
+
+    &__info {
+      font-size: 0.9em;
+    }
+  }
+
+  &-right {
+    padding-left: 2mm;
+    display: grid;
+    grid-auto-flow: row;
+  }
+
+}
+
+.upd-number {
+  display: grid;
+  grid-template-columns: 3.5cm 3.5cm max-content 2.5cm max-content ;
+  grid-template-rows: max-content max-content;
+  font-size: 1.1em;
+
+  & > div:last-child {
+    text-align: right;
+    font-size: 0.75em;
+    grid-area: ~"1 / -1 / 3 / -1";
+  }
+
+  &__num {
+    text-align: center;
+    border-bottom: 1px solid @font-color;
+  }
+}
+
+.upd-contract-info {
+  display: grid;
+  grid-template-columns: 8cm 16cm auto;
+  margin-top: 5mm;
+
+  & > div:nth-child(3n+2) {
+    border-bottom: 1px solid black;
+    padding-left: 1mm;
+    margin-right: 1mm;
+  }
 }
