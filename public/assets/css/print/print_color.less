@@ -51,7 +51,8 @@ body{
   }
 
   &.landscape {
-
+    min-height: @page-height-landscape + @page-margin * 2;
+    width: 297mm;
   }
 
   &.portrait {
@@ -67,7 +68,7 @@ main {
 
 
   &.landscape {
-
+    min-height: @page-height-landscape;
   }
 
   &.portrait {
@@ -613,7 +614,9 @@ footer {
     box-shadow: none;
 
     &.landscape {
-
+      min-height: @page-height-landscape;
+      transform: rotate(270deg) translate(-276mm, 0);
+      transform-origin: 0 0;
     }
 
     &.portrait {

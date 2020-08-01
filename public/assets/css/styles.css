@@ -190,6 +190,12 @@
     page-break-inside: avoid;
   }
 }
+.upd-header {
+  display: grid;
+  grid-template-columns: 28mm auto;
+  min-height: 5cm;
+  border-right: 1mm solid rgba(0, 0, 0, 0.7);
+}
 body,
 html {
   margin: 0 auto;
@@ -222,12 +228,19 @@ body {
   font-size: 3mm;
   color: rgba(0, 0, 0, 0.7);
 }
+.page.landscape {
+  min-height: 207mm;
+  width: 297mm;
+}
 .page.portrait {
   min-height: 287mm;
   width: 210mm;
 }
 main {
   width: 100%;
+}
+main.landscape {
+  min-height: 193mm;
 }
 main.portrait {
   min-height: 228mm;
@@ -659,6 +672,11 @@ footer {
     margin: 0 auto;
     background: none;
     box-shadow: none;
+  }
+  .page.landscape {
+    min-height: 193mm;
+    transform: rotate(270deg) translate(-276mm, 0);
+    transform-origin: 0 0;
   }
   .page.portrait {
     min-height: 273mm;
