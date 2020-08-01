@@ -166,6 +166,25 @@
   text-align: right;
   font-size: 1.1em;
 }
+.invoice-total-literal p {
+  margin: 0;
+  padding: 0 1mm;
+}
+.invoice-total-literal p:first-letter {
+  text-transform: uppercase;
+}
+.invoice-sings {
+  display: grid;
+  grid-template-columns: 6.5cm [stamp] 5cm max-content;
+  margin-top: 12mm;
+}
+.invoice-sings__line {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+}
+.invoice-sings__stamp {
+  grid-column: stamp;
+  text-align: center;
+}
 @media print {
   .invoice-table__row {
     page-break-inside: avoid;

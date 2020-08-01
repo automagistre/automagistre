@@ -111,6 +111,32 @@
   }
 }
 
+.invoice-total-literal {
+  & p {
+    margin: 0;
+    padding: 0 1mm;
+
+    &:first-letter {
+      text-transform: uppercase;
+    }
+  }
+}
+
+.invoice-sings {
+  display: grid;
+  grid-template-columns: 6.5cm [stamp]5cm max-content;
+  margin-top: 12mm;
+
+  &__line{
+    border-bottom: 1px solid @font-color;
+  }
+
+  &__stamp {
+    grid-column: stamp;
+    text-align: center;
+  }
+}
+
 
 @media print {
 

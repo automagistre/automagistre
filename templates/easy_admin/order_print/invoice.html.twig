@@ -165,6 +165,24 @@
 {% endblock %}
 
 
+{% block invoice_total_info %}
+    <div class="invoice-total-literal">
+        <p>Всего наименований <b>{{ position }}</b> на сумму:</p>
+        <p><b>{{ order.totalForPayment(null, false)|localize_money_literal }}</b></p>
+    </div>
+{% endblock %}
+
+
+{% block invoice_signs %}
+    <div class="invoice-sings">
+        <div class="invoice-sings__headType">{{ requisites.headType }}</div>
+        <div class="invoice-sings__line"></div>
+        <div class="invoice-sings__head">({{ requisites.head }})</div>
+        <div class="invoice-sings__stamp">М.П.</div>
+    </div>
+{% endblock %}
+
+
 {% block content %}
     <div class="content pages" id="content">
         <div class="page portrait bookkeeping-fonts">
@@ -176,40 +194,9 @@
                 {% set position = 0 %}
 
                 {{ block('invoice_table') }}
-
+                {{ block('invoice_total_info') }}
+                {{ block('invoice_signs') }}
             </main>
         </div>
     </div>
 {% endblock %}
-
-{#{% block content %}#}
-{#    <div class="container" id="content">#}
-{#        <main>#}
-{#            <section class="bk">#}
-{#                <p style="margin: 0">#}
-{#                    Всего наименований {{ position }} на сумму:<br>#}
-{#                <p class="bk-literal_num">#}
-{#                    {{ order.totalForPayment(null, false)|localize_money_literal }}#}
-{#                </p>#}
-{#                </p>#}
-{#            </section>#}
-{#            <section class="stamps">#}
-{#                <div class="bk-stamp" style="width: 100%; display: flex; justify-content: space-around">#}
-{#                    <div style="width: 80mm">#}
-{#                        <hr class="bk-stamp-line">#}
-{#                        <div style="display: flex; justify-content: center">#}
-{#                            <span class="bk-stamp-line-under">должность</span>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                    <div style="width: 80mm">#}
-{#                        <hr class="bk-stamp-line">#}
-{#                        <div style="display: flex; justify-content: space-between">#}
-{#                            <span class="bk-stamp-line-under">подпись</span>#}
-{#                            <span class="bk-stamp-line-under">расшифровка</span>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </section>#}
-{#        </main>#}
-{#    </div>#}
-{#{% endblock %}#}
