@@ -50,7 +50,7 @@ final class Tenant extends Enum
         self::DEMO => [],
         self::MSK => [
             'name' => 'ООО "Автомагистр"',
-            'address' => 'г. Москва, ул. Люблинская, д. 31/1',
+            'address' => '115408, г.Москва, ул.Братеевская, д.16, к.1, кв. 345',
             'site' => 'www.automagistre.ru',
             'email' => 'info@automagistre.ru',
             'logo' => 'logo_automagistre_color.png',
@@ -61,7 +61,7 @@ final class Tenant extends Enum
             'bank' => 'АО «Тинькофф Банк»',
             'ogrn' => '5137746189060',
             'inn' => '7725812690',
-            'kpp' => '772301001',
+            'kpp' => '772401001',
             'rs' => '40702810810000060618',
             'ks' => '30101810145250000974',
             'bik' => '044525974',
