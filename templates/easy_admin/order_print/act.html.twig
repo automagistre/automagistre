@@ -2,22 +2,56 @@
 
 {% set requisites = state.tenant.getRequisites() %}
 
+{% block upd_header %}
+    <div class="upd-header">
+        <div class="upd-header-left">
+            <div class="upd-header-left__name">Универсальный передаточный документ</div>
+            <div class="upd-header-left__status">Статус:<span>2</span></div>
+            <div class="upd-header-left__info">1 - счет-фактура и передаточный документ (акт)<br>
+                2 - передаточный документ (акт)</div>
+        </div>
+        <div class="upd-header-right">
+            <div class="upd-number">
+                <div>Счет-фактура №</div><div class="upd-number__num">{{ order.number }}</div><div>от</div>
+                <div class="upd-number__num">{{ (order.closed ? order.closedAt : date(null, 'Europe/Moscow'))|format_date('short') }}</div>
+                <div>(1)</div>
+
+                <div>Исправление №</div><div class="upd-number__num"></div><div>от</div><div class="upd-number__num"></div><div>(1a)</div>
+
+                <div>Приложение № 1<br>
+                    к постановлению Правительства Российской Федерации<br>
+                    от 26 декабря 2011 г. No 1137 (в ред. Постановления Правительства РФ от 19.08.2017 №981)</div>
+            </div>
+            <div class="upd-contract-info">
+                <div><b>Продавец</b></div><div><b>{{ requisites.name }}</b></div><div>(2)</div>
+                <div>Адрес</div><div>{{ requisites.address }}</div><div>(2а)</div>
+                <div>ИНН/КПП продавца</div><div>{{- requisites.inn -}}/{{- requisites.kpp -}}</div><div>(2б)</div>
+                <div>Грузоотправитель и его адрес</div><div>&mdash;</div><div>(3)</div>
+                <div>Грузополучатель и его адрес</div><div>&mdash;</div><div>(4)</div>
+                <div>К платежно-расчетному документу</div><div>&mdash;</div><div>(5)</div>
+
+                <div><b>Покупатель</b></div><div><b>{{- customer.name -}}</b></div><div>(6)</div>
+                <div>Адрес</div><div>{{- customer.address -}}</div><div>(6а)</div>
+                <div>ИНН/КПП покупателя</div><div>{{- customer.requisite.inn -}}/{{- customer.requisite.kpp -}}</div><div>(6б)</div>
+
+                <div>Валюта: наименование, код</div><div>российский рубль, 643</div><div>(7)</div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
 {% block content %}
     <div class="content pages" id="content">
         <div class="page landscape bookkeeping-fonts">
             <main>
-                <div class="upd-header">
-                    <div class="upd-header-side left-side">
-                        <div>Универсальный передаточный документ</div>
-                        <div>Статус <span>2</span></div>
-                        <div>1 - счет-фактура и передаточный документ (акт)<br>
-                             2 - передаточный документ (акт)</div>
-                    </div>
-                    <div class="upd-header-side right-side"></div>
-                </div>
+                {{ block('upd_header') }}
+                {{ block('upd_table') }}
             </main>
         </div>
     </div>
+    {{ dump(customer) }}
 {% endblock %}
 
 {#{% block content %}#}
