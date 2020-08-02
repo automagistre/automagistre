@@ -291,7 +291,7 @@ body {
 }
 .page {
   height: 100%;
-  padding: 8mm;
+  padding: 7mm;
   margin: 2mm auto;
   background: white;
   box-shadow: 0 2px 9px rgba(0, 0, 0, 0.25);
@@ -307,11 +307,11 @@ body {
   color: rgba(0, 0, 0, 0.7);
 }
 .page.landscape {
-  min-height: 210mm;
+  height: 210mm;
   width: 297mm;
 }
 .page.portrait {
-  min-height: 264mm;
+  height: 297mm;
   width: 210mm;
 }
 main {
@@ -321,7 +321,7 @@ main.landscape {
   min-height: 100%;
 }
 main.portrait {
-  min-height: 235mm;
+  min-height: 234mm;
 }
 footer {
   min-height: 45mm;
@@ -744,27 +744,29 @@ footer {
     background: none;
   }
   .page {
-    width: 100%;
-    height: 100%;
     padding: 0;
     margin: 0;
     background: none;
     box-shadow: none;
   }
   .page.landscape {
-    min-width: 297mm;
-    transform: rotate(270deg) translate(-297mm, 0);
+    min-width: 279mm;
+    width: 100%;
+    height: 100%;
+    transform: rotate(270deg) translate(-283mm, 0);
     transform-origin: 0 0;
   }
   .page.portrait {
-    min-height: 280mm;
+    min-height: 279mm;
+    width: 100%;
+    height: 100%;
   }
   main.portrait {
     height: 100%;
   }
   @page {
     size: A4;
-    margin: 0.8cm;
+    margin: 0.7cm;
   }
   .btn-block {
     display: none;
