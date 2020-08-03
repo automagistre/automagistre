@@ -13,7 +13,8 @@ easy_admin:
                     - { property: 'name', label: 'Название' }
                     - { property: 'manufacturer', label: 'Производитель', template: 'easy_admin/manufacturer/field_manufacturer_view.html.twig' }
                     - { property: 'number', label: 'Номер', template: 'easy_admin/field_part_number.html.twig' }
-                    - { property: 'isUniversal', label: 'Универсальная' }
+                    - { property: 'isUniversal', label: 'Универсальная', template: 'easy_admin/default/field_boolean.html.twig' }
+                    - { property: 'requiredAvailability', vritual: true, label: 'Доступность', template: 'easy_admin/part/field_required_availability.html.twig' }
             list:
                 title: 'Запчасти'
                 fields:
@@ -58,6 +59,11 @@ easy_admin:
         PartDiscount:
             class: App\Part\Entity\Discount
             controller: App\Part\Controller\PartDiscountController
+            disabled_actions: ['list', 'show', 'autocomplete', 'edit', 'search', 'delete']
+
+        PartRequiredAvailability:
+            class: App\Part\Entity\RequiredAvailability
+            controller: App\Part\Controller\RequiredAvailabilityController
             disabled_actions: ['list', 'show', 'autocomplete', 'edit', 'search', 'delete']
 
 doctrine:

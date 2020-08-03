@@ -72,6 +72,16 @@ class PartView
     public array $analogs;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    public int $orderFromQuantity;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    public int $orderUpToQuantity;
+
+    /**
      * @ORM\Column()
      */
     private string $search;
@@ -81,7 +91,7 @@ class PartView
      */
     private string $cases;
 
-    private function __construct(
+    public function __construct(
         PartId $id,
         ManufacturerView $manufacturer,
         string $name,
@@ -92,6 +102,8 @@ class PartView
         Money $discount,
         Money $income,
         array $analogs,
+        int $orderFromQuantity,
+        int $orderUpToQuantity,
         string $search,
         string $cases
     ) {
@@ -105,6 +117,8 @@ class PartView
         $this->discount = $discount;
         $this->income = $income;
         $this->analogs = $analogs;
+        $this->orderFromQuantity = $orderFromQuantity;
+        $this->orderUpToQuantity = $orderUpToQuantity;
         $this->search = $search;
         $this->cases = $cases;
     }
@@ -157,13 +171,18 @@ class PartView
                    UPPER(concat_ws(\' \', part.name, m.name, m.localized_name, pc.cases))                             AS search,
                    COALESCE(price.price_currency_code, \'RUB\') || \' \' || COALESCE(price.price_amount, 0)             AS price,
                    COALESCE(discount.discount_currency_code, \'RUB\') || \' \' || COALESCE(discount.discount_amount, 0) AS discount,
-                   COALESCE(income.price_currency_code, \'RUB\') || \' \' || COALESCE(income.price_amount, 0)           AS income
+                   COALESCE(income.price_currency_code, \'RUB\') || \' \' || COALESCE(income.price_amount, 0)           AS income,
+                   COALESCE(part_required.order_from_quantity, 0)                                                       AS order_from_quantity,
+                   COALESCE(part_required.order_up_to_quantity, 0)                                                      AS order_up_to_quantity
             FROM part
                      JOIN manufacturer m ON part.manufacturer_id = m.id
                      LEFT JOIN (SELECT part_case.part_id, array_to_string(array_agg(vm.case_name), \' \') AS cases
                                 FROM part_case
                                          LEFT JOIN vehicle_model vm ON vm.id = part_case.vehicle_id
                                 GROUP BY part_case.part_id) pc ON pc.part_id = part.id
+                     LEFT JOIN (SELECT row_number() OVER (PARTITION BY pra.part_id ORDER BY pra.id DESC) AS rownum,
+                                       pra.*
+                                FROM part_required_availability pra) part_required ON part_required.part_id = part.id AND part_required.rownum = 1
                      LEFT JOIN (SELECT row_number() OVER (PARTITION BY pp.part_id ORDER BY pp.id DESC) AS rownum,
                                        pp.*
                                 FROM part_price pp) price ON price.part_id = part.id AND price.rownum = 1

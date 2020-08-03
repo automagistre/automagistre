@@ -9,7 +9,6 @@ use App\Costil;
 use App\CreatedBy\Entity\CreatedByView;
 use App\Employee\Entity\SalaryView;
 use App\Note\Entity\NoteView;
-use App\Part\Entity\PartView;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 use LogicException;
@@ -476,7 +475,6 @@ final class Version20200626085701 extends AbstractMigration
         $this->addSql('ALTER TABLE users_password ADD CONSTRAINT FK_4E836D0FA76ED395 FOREIGN KEY (user_id) REFERENCES users (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
 
         $this->addSql(BalanceView::sql());
-        $this->addSql(PartView::sql());
         $this->addSql(SalaryView::sql());
         $this->addSql(CreatedByView::sql());
         $this->addSql(NoteView::sql());
