@@ -278,6 +278,11 @@
       <code>$request-&gt;query-&gt;get('end')</code>
     </PossiblyNullArgument>
   </file>
+  <file src="src/Part/EventListener/DecreaseSupplyOnIncomeAccruedListener.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$incomePart-&gt;partId</code>
+    </PossiblyNullArgument>
+  </file>
   <file src="src/Part/View/PartFormatter.php">
     <PossiblyNullArrayOffset occurrences="1">
       <code>self::FORMATS</code>

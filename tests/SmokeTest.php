@@ -120,6 +120,9 @@ final class SmokeTest extends WebTestCase
         'PartRequiredAvailability' => [
             'new' => ['part_id' => GasketFixture::ID],
         ],
+        'PartSupply' => [
+            'new' => ['part_id' => GasketFixture::ID],
+        ],
         'Income' => [
             'edit' => ['id' => IncomeFixtures::ID],
         ],

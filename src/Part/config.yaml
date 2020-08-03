@@ -66,6 +66,11 @@ easy_admin:
             controller: App\Part\Controller\RequiredAvailabilityController
             disabled_actions: ['list', 'show', 'autocomplete', 'edit', 'search', 'delete']
 
+        PartSupply:
+            class: App\Part\Entity\Supply
+            controller: App\Part\Controller\SupplyController
+            disabled_actions: ['list', 'show', 'autocomplete', 'edit', 'search', 'delete']
+
 doctrine:
     dbal:
         types:

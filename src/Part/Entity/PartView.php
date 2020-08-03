@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Part\Entity;
 
+use App\Customer\Entity\OperandId;
 use App\Manufacturer\Entity\ManufacturerView;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
@@ -91,6 +92,11 @@ class PartView
      */
     private string $cases;
 
+    /**
+     * @ORM\Column(type="json")
+     */
+    private array $supplies;
+
     public function __construct(
         PartId $id,
         ManufacturerView $manufacturer,
@@ -105,7 +111,8 @@ class PartView
         int $orderFromQuantity,
         int $orderUpToQuantity,
         string $search,
-        string $cases
+        string $cases,
+        array $supplies
     ) {
         $this->id = $id;
         $this->manufacturer = $manufacturer;
@@ -121,6 +128,7 @@ class PartView
         $this->orderUpToQuantity = $orderUpToQuantity;
         $this->search = $search;
         $this->cases = $cases;
+        $this->supplies = $supplies;
     }
 
     public function toId(): PartId
@@ -155,6 +163,45 @@ class PartView
         return $suggestPrice;
     }
 
+    /**
+     * @return SupplyView[]
+     */
+    public function supplies(): array
+    {
+        static $supplies = [];
+        static $hydrated = false;
+
+        if (false === $hydrated) {
+            foreach ($this->supplies as $supply) {
+                $supplies[] = new SupplyView(
+                    $this->id,
+                    OperandId::fromString($supply['supplier_id']),
+                    $supply['quantity'],
+                );
+            }
+
+            $hydrated = true;
+        }
+
+        return $supplies;
+    }
+
+    public function suppliesQuantity(): int
+    {
+        static $quantity = 0;
+        static $calculated = false;
+
+        if (false === $calculated) {
+            foreach ($this->supplies() as $item) {
+                $quantity += $item->quantity;
+            }
+
+            $calculated = true;
+        }
+
+        return $quantity;
+    }
+
     public static function sql(): string
     {
         return '
@@ -173,7 +220,8 @@ class PartView
                    COALESCE(discount.discount_currency_code, \'RUB\') || \' \' || COALESCE(discount.discount_amount, 0) AS discount,
                    COALESCE(income.price_currency_code, \'RUB\') || \' \' || COALESCE(income.price_amount, 0)           AS income,
                    COALESCE(part_required.order_from_quantity, 0)                                                       AS order_from_quantity,
-                   COALESCE(part_required.order_up_to_quantity, 0)                                                      AS order_up_to_quantity
+                   COALESCE(part_required.order_up_to_quantity, 0)                                                      AS order_up_to_quantity,
+                   COALESCE(supply.json, \'[]\'::json)                                                                  AS supplies
             FROM part
                      JOIN manufacturer m ON part.manufacturer_id = m.id
                      LEFT JOIN (SELECT part_case.part_id, array_to_string(array_agg(vm.case_name), \' \') AS cases
@@ -194,6 +242,20 @@ class PartView
                                 FROM income_part) income ON income.part_id = part.id AND income.rownum = 1
                      LEFT JOIN (SELECT motion.part_id, SUM(motion.quantity) AS quantity FROM motion GROUP BY motion.part_id) stock
                                ON stock.part_id = part.id
+                     LEFT JOIN (
+                        SELECT 
+                            json_agg(json_build_object(\'supplier_id\', sub.supplier_id, \'quantity\', sub.quantity)) AS json,
+                            sub.part_id
+                        FROM (SELECT 
+                                part_supply.part_id, 
+                                part_supply.supplier_id, 
+                                SUM(part_supply.quantity) AS quantity 
+                                    FROM part_supply 
+                                    GROUP BY part_supply.part_id, part_supply.supplier_id
+                                    HAVING SUM(part_supply.quantity) <> 0
+                            ) sub
+                        GROUP BY sub.part_id, sub.supplier_id
+                    ) supply ON supply.part_id = part.id
                      LEFT JOIN (SELECT pcp.part_id, json_agg(pcp2.part_id) AS parts
                                 FROM part_cross_part pcp
                                          JOIN part_cross pc ON pcp.part_cross_id = pc.id

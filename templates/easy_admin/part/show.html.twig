@@ -10,6 +10,7 @@
             <div class="form-control">
                 На складе <strong>{{ inStock / 100 }}</strong><br>
                 Зарезервировано <strong>{{ reserved / 100 }}</strong><br>
+                Ожидается поставка <strong>{{ entity.suppliesQuantity / 100 }}</strong><br>
                 Доступно для резерва <strong>{{ (inStock - reserved) / 100 }}</strong>
             </div>
         </div>
@@ -28,6 +29,42 @@
 
                     <div class="box-body">
                         {{ parent() }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="field-group">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Ожидаемые поставки</h3>
+                    </div>
+
+                    {% if entity.supplies is not empty %}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Поставщик</th>
+                                    <th>Количество</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for supply in entity.supplies %}
+                                    <tr>
+                                        <td>{{ supply.supplierId|display_name }}</td>
+                                        <td>{{ supply.quantity / 100 }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="box-body">
+                            <p>Записей нет</p>
+                        </div>
+                    {% endif %}
+                    <div class="box-footer">
+                        <a class="btn btn-primary" href="{{ easyadmin_path('PartSupply', 'new', {'part_id': entity|toId, 'referer': true}) }}">Новая поставка</a>
                     </div>
                 </div>
             </div>
