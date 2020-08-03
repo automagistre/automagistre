@@ -8,13 +8,12 @@
         <label class="col-sm-2 control-label">Наличие</label>
         <div class="col-sm-10">
             <div class="form-control">
-                {{ inStock / 100 }} - {{ reserved / 100 }} = {{ (inStock - reserved) / 100 }}
+                На складе <strong>{{ inStock / 100 }}</strong><br>
+                Зарезервировано <strong>{{ reserved / 100 }}</strong><br>
+                Доступно для резерва <strong>{{ (inStock - reserved) / 100 }}</strong>
             </div>
-
-            <span class="help-block"><i class="fa fa-info-circle"></i> На складе - Зарезервировано = Доступно для резерва</span>
         </div>
     </div>
-
 {% endblock %}
 
 {% block main %}
