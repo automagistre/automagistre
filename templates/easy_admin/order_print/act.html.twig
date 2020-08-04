@@ -99,46 +99,7 @@
 {#                от#}
 {#                {{ (order.closed ? order.closedAt : date(null, 'Europe/Moscow'))|format_date('short') }} г.#}
 {#            </h1>#}
-{#            <section class="bk-info">#}
-{#                <div class="bk-info-executor">#}
-{#                    <span class="bk-info-legend">#}
-{#                        Исполнитель#}
-{#                    </span>#}
-{#                    <p>#}
-{#                        {{ requisites.name }}#}
-{#                        ОГРН: {{ requisites.ogrn }}#}
-{#                        ИНН: {{ requisites.inn }}#}
-{#                        КПП: {{ requisites.kpp }}#}
-{#                        Р/С: {{ requisites.rs }}#}
-{#                        К/С: {{ requisites.ks }}#}
-{#                        БИК: {{ requisites.bik }}#}
-{#                    </p>#}
-{#                </div>#}
-{#                <div class="bk-info-customer">#}
-{#                    <span class="bk-info-legend">#}
-{#                        Заказчик#}
-{#                    </span>#}
-{#                    <p>#}
-{#                        #}{# Если заказчик организация, то выводить все доступные реквизиты#}
-{#                        {{- customer.fullName -}}#}
-
-{#                        {% if customer.type('person') %}#}
-{#                            {%- if customer.telephone is not empty %}#}
-{#                                тел: {{ customer.telephone|phone_number_format }}#}
-{#                            {%- endif -%}#}
-{#                            {%- if customer.email is not empty %}#}
-{#                                e-mail: {{ customer.email }}#}
-{#                            {% endif %}#}
-{#                        {%- elseif customer.type('organization') -%}#}
-{#                            #}{# @var customer \App\Customer\Domain\Organization #}
-{#                            {%- if not customer.requisite.empty -%}#}
-{#                                , {{- customer.requisite -}}#}
-{#                            {%- endif -%}#}
-{#                        {% endif %}#}
-{#                    </p>#}
-{#                </div>#}
-{#            </section>#}
-{#            <section class="bk">#}
+{#            {#            <section class="bk">#}
 {#                <table class="table bk-table">#}
 {#                    <thead>#}
 {#                    <tr>#}
