@@ -198,7 +198,7 @@
 .upd-header-left {
   display: grid;
   grid-auto-flow: row;
-  border-right: 1mm solid rgba(0, 0, 0, 0.7);
+  border-right: 0.6mm solid rgba(0, 0, 0, 0.7);
   padding: 0 0 2mm 1mm ;
 }
 .upd-header-left__name {
@@ -211,7 +211,7 @@
   display: inline-block;
   width: 1cm;
   margin-left: 1mm;
-  border: 1mm solid rgba(0, 0, 0, 0.7);
+  border: 0.6mm solid rgba(0, 0, 0, 0.7);
   font-weight: 700;
   text-align: center;
 }
@@ -250,15 +250,21 @@
 .upd-contract-info > div:nth-child(3n+3) {
   text-align: center;
 }
-.upd-table__row.row-header {
+.upd-table {
+  font-size: 0.78em;
+}
+.upd-table__row {
   display: grid;
   grid-template-columns: 8mm 2cm auto 11mm 8mm 17mm 15mm 18mm 23mm 16mm 10mm 18mm 25mm 10mm 17mm 21mm;
+}
+.upd-table__row.row-header {
   border-top: 1px solid rgba(0, 0, 0, 0.7);
-  font-size: 0.8em;
 }
 .upd-table__cell {
   border-right: 1px solid rgba(0, 0, 0, 0.7);
   border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+  text-align: center;
+  padding: 0 0.5mm;
 }
 .upd-table__cell:first-child {
   border-left: 1px solid rgba(0, 0, 0, 0.7);
@@ -267,13 +273,15 @@
   display: flex;
   align-items: center;
   text-align: center;
-  padding: 0 1mm;
 }
 .upd-table__cell.double-row {
   grid-row: span 2;
 }
 .upd-table__cell.double-column {
   grid-column: span 2;
+}
+.upd-table__cell:nth-child(2) {
+  border-right: 0.6mm solid black;
 }
 body,
 html {

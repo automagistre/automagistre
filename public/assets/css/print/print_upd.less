@@ -8,7 +8,7 @@
   &-left {
     display: grid;
     grid-auto-flow: row;
-    border-right: 1mm solid @font-color;
+    border-right: 0.6mm solid @font-color;
     padding: 0 0 2mm 1mm ;
 
     &__name {
@@ -22,7 +22,7 @@
         display: inline-block;
         width: 1cm;
         margin-left: 1mm;
-        border: 1mm solid @font-color;
+        border: 0.6mm solid @font-color;
         font-weight: 700;
         text-align: center;
       }
@@ -31,6 +31,7 @@
     &__info {
       font-size: 0.9em;
     }
+
   }
 
   &-right {
@@ -78,13 +79,16 @@
 @upd-table-template-column: 8mm 2cm auto 11mm 8mm 17mm 15mm 18mm 23mm 16mm 10mm 18mm 25mm 10mm 17mm 21mm;
 @upd-table-border: 1px solid @font-color;
 
+.upd-table {
+  font-size: 0.78em;
+}
+
 .upd-table__row {
+  display: grid;
+  grid-template-columns: @upd-table-template-column;
 
   &.row-header {
-    display: grid;
-    grid-template-columns: @upd-table-template-column;
     border-top: @upd-table-border;
-    font-size: 0.8em;
   }
 
 }
@@ -92,6 +96,8 @@
 .upd-table__cell {
   border-right: @upd-table-border;
   border-bottom: @upd-table-border;
+  text-align: center;
+  padding: 0 0.5mm;
 
   &:first-child {
     border-left: @upd-table-border;
@@ -101,7 +107,8 @@
     display: flex;
     align-items: center;
     text-align: center;
-    padding: 0 1mm;
+
+
   }
   &.double-row {
     grid-row: span 2;
@@ -109,5 +116,9 @@
 
   &.double-column{
     grid-column: span 2;
+  }
+
+  &:nth-child(2) {
+    border-right: 0.6mm solid black;
   }
 }
