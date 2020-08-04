@@ -96,8 +96,43 @@
 {% endblock %}
 
 
-{% block upd_table_main %}
+{% block upd_table_group_row %}
+    <div class="upd-table__row">
+        <div class="upd-table__cell">{{ position }}</div> {# номер позиции #}
+        <div class="upd-table__cell"></div>                                       {# код товара #}
+        <div class="upd-table__cell left">{{ orderItemGroup }}</div> {# Наименование позиции #}
+        <div class="upd-table__cell">&mdash;</div> {# код вида товара #}
+        {# единица измерения #}
+        <div class="upd-table__cell">&mdash;</div> {# Код #}
+        <div class="upd-table__cell">&mdash;</div> {# Условное обозначение #}
+        <div class="upd-table__cell">&mdash;</div> {# количество #}
+        <div class="upd-table__cell">&mdash;</div> {# цена за единицу #}
+        <div class="upd-table__cell">{{ groupPrice|localize_money(true) }}</div> {# стоимость #}
+        <div class="upd-table__cell">без акциза</div> {# акциз #}
+        <div class="upd-table__cell">без НДС</div> {# налоговая ставка #}
+        <div class="upd-table__cell">без НДС</div> {# Сумма налога #}
+        <div class="upd-table__cell">{{ groupPrice|localize_money(true) }}</div> {# Стоимость товаров и услуг с налогом #}
+        {# Страна происхождения #}
+        <div class="upd-table__cell">&mdash;</div> {# Цифровой код #}
+        <div class="upd-table__cell">&mdash;</div> {# Краткое наименование #}
+        <div class="upd-table__cell">&mdash;</div> {# Регистрационный номер таможенной декларации #}
+    </div>
+{% endblock %}
 
+
+{% block upd_table_main %}
+    {% for orderItemGroup in order.rootItems('group') %}
+
+        {% set position = position + 1 %}
+
+        {% set groupPrice = orderItemGroup.totalServicePrice(true) %}
+
+        {% if orderItemGroup.hideParts %}
+            {% set groupPrice = groupPrice.add(orderItemGroup.totalPartPrice(true)) %}
+        {% endif %}
+
+        {{ block('upd_table_group_row') }}
+    {% endfor %}
 {% endblock %}
 
 
@@ -106,6 +141,10 @@
         <div class="page landscape bookkeeping-fonts">
             <main>
                 {{ block('upd_header') }}
+
+                {% set position = 0 %}
+                {% set pageNumber = 1 %}
+
                 <div class="upd-table">
                     {{ block('upd_table_header') }}
                     {{ block('upd_table_main') }}
