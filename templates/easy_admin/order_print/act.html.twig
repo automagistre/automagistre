@@ -30,9 +30,22 @@
                 <div>Грузополучатель и его адрес</div><div>&mdash;</div><div>(4)</div>
                 <div>К платежно-расчетному документу</div><div>&mdash;</div><div>(5)</div>
 
-                <div><b>Покупатель</b></div><div><b>{{- customer.name -}}</b></div><div>(6)</div>
-                <div>Адрес</div><div>{{- customer.address -}}</div><div>(6а)</div>
-                <div>ИНН/КПП покупателя</div><div>{{- customer.requisite.inn -}}/{{- customer.requisite.kpp -}}</div><div>(6б)</div>
+                {% set customerName = '&mdash;' %}
+                {% set customerAddress = '&mdash;' %}
+                {% set customerRequisite = '&mdash;' %}
+
+                {% if customer is not empty %}
+                    {% if customer.type('person') %}
+                        {% set customerName = 'физическое лицо' %}
+                    {% elseif customer.type('organization') %}
+                        {% set customerName = customer.name %}
+                        {% set customerAddress = customer.address %}
+                        {% set customerRequisite = customer.requisite.inn ~ '/' ~ customer.requisite.kpp %}
+                    {% endif %}
+                {% endif %}
+                <div><b>Покупатель</b></div><div><b>{{- customerName|raw -}}</b></div><div>(6)</div>
+                <div>Адрес</div><div>{{- customerAddress|raw -}}</div><div>(6а)</div>
+                <div>ИНН/КПП покупателя</div><div>{{- customerRequisite|raw -}}</div><div>(6б)</div>
 
                 <div>Валюта: наименование, код</div><div>российский рубль, 643</div><div>(7)</div>
             </div>
