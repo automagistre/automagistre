@@ -254,6 +254,7 @@
   display: grid;
   grid-template-columns: 8mm 2cm auto 11mm 8mm 17mm 15mm 18mm 23mm 16mm 10mm 18mm 25mm 10mm 17mm 21mm;
   border-top: 1px solid rgba(0, 0, 0, 0.7);
+  font-size: 0.8em;
 }
 .upd-table__cell {
   border-right: 1px solid rgba(0, 0, 0, 0.7);
@@ -750,7 +751,7 @@ footer {
     box-shadow: none;
   }
   .page.landscape {
-    min-width: 279mm;
+    min-width: 283mm;
     width: 100%;
     height: 100%;
     transform: rotate(270deg) translate(-283mm, 0);
