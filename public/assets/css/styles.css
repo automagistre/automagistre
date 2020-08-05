@@ -274,6 +274,13 @@
   align-items: center;
   text-align: center;
 }
+.upd-table__cell.cell-total-name {
+  font-weight: 700;
+  grid-column: span 6;
+}
+.upd-table__cell.cell-total-x {
+  grid-column: span 2;
+}
 .upd-table__cell.double-row {
   grid-row: span 2;
 }
