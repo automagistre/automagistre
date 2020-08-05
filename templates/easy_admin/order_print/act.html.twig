@@ -193,6 +193,61 @@
 {% endblock %}
 
 
+{% block upd_table_footer %}
+    <div class="upd-table-footer">
+        <div class="upd-table-footer-left">
+            Документ<br> составлен на<br>
+            <span>{{ pageNumber }}</span>листах
+        </div>
+        <div class="upd-table-footer-right">
+            <div class="upd-table-footer__item">Руководитель организации или иное уполномоченное лицо</div>
+            <div class="upd-table-footer__item underline"></div> {# подпись #}
+            <div class="upd-table-footer__item underline">Сидоров К.М.</div>
+            <div class="upd-table-footer__item">Главный бухгалтер или иное уполномоченное лицо</div>
+            <div class="upd-table-footer__item underline"></div> {# подпись #}
+            <div class="upd-table-footer__item underline">Сидоров К.М.</div>
+            <div class="upd-table-footer__item"></div> {# пустая #}
+            <div class="upd-table-footer__item">(подпись)</div>
+            <div class="upd-table-footer__item">(ф.и.о.)</div>
+            <div class="upd-table-footer__item"></div> {# пустая ячейка #}
+            <div class="upd-table-footer__item">(подпись)</div>
+            <div class="upd-table-footer__item">(ф.и.о.)</div>
+            <div class="upd-table-footer__item">Индивидуальный предприниматель или иное уполномоченное лицо</div>
+            <div class="upd-table-footer__item underline"></div> {# подпись #}
+            <div class="upd-table-footer__item underline">Сидоров К.М.</div>
+            <div class="upd-table-footer__item requisites underline">Тут ОГРН</div>
+            <div class="upd-table-footer__item"></div> {# пустая ячейка #}
+            <div class="upd-table-footer__item">(подпись)</div>
+            <div class="upd-table-footer__item">(ф.и.о.)</div>
+            <div class="upd-table-footer__item requisites">(реквизиты свидетельства о государственной регистрации индивидуального предпринимателя)</div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block upd_pre_footer %}
+    <div class="upd-footer-pre">
+        <div class="upd-footer-pre__row">
+            <div>Основание передачи (сдачи) / получения (приемки)</div>
+            <div>Исходящий счет на оплату No 34446 от 30.07.2020</div>
+            <div>[8]</div>
+            <div>(договор; доверенность и др.)</div>
+        </div>
+        <div class="upd-footer-pre__row">
+            <div>Данные о транспортировке и грузе</div>
+            <div></div>
+            <div>[9]</div>
+            <div>(транспортная накладная, поручение экспедитору, экспедиторская / складская расписка и др. / масса нетто/ брутто груза, если не приведены ссылки на транспортные документы, содержащие эти сведения)</div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block upd_sings_footer %}
+
+{% endblock %}
+
+
 {% block content %}
     <div class="content pages" id="content">
         <div class="page landscape bookkeeping-fonts">
@@ -206,6 +261,11 @@
                     {{ block('upd_table_header') }}
                     {{ block('upd_table_main') }}
                     {{ block('upd_table_totals') }}
+                    {{ block('upd_table_footer') }}
+                </div>
+                <div class="upd-footer">
+                    {{ block('upd_pre_footer') }}
+                    {{ blocl('upd_sings_footer') }}
                 </div>
             </main>
         </div>
