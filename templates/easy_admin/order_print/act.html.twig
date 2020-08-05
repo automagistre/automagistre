@@ -96,42 +96,99 @@
 {% endblock %}
 
 
-{% block upd_table_group_row %}
+{% macro upd_table_item_row(item) %}
     <div class="upd-table__row">
-        <div class="upd-table__cell">{{ position }}</div> {# номер позиции #}
-        <div class="upd-table__cell"></div>                                       {# код товара #}
-        <div class="upd-table__cell left">{{ orderItemGroup }}</div> {# Наименование позиции #}
-        <div class="upd-table__cell">&mdash;</div> {# код вида товара #}
+        <div class="upd-table__cell">{{ item.col_a|default('')|raw }}</div> {# номер позиции #}
+        <div class="upd-table__cell">{{ item.col_b|default('')|raw }}</div> {# код товара #}
+        <div class="upd-table__cell left">{{ item.col_1|default('&mdash;')|raw }}</div> {# Наименование позиции #}
+        <div class="upd-table__cell">{{ item.col_1a|default('&mdash;')|raw }}</div> {# код вида товара #}
         {# единица измерения #}
-        <div class="upd-table__cell">&mdash;</div> {# Код #}
-        <div class="upd-table__cell">&mdash;</div> {# Условное обозначение #}
-        <div class="upd-table__cell">&mdash;</div> {# количество #}
-        <div class="upd-table__cell">&mdash;</div> {# цена за единицу #}
-        <div class="upd-table__cell">{{ groupPrice|localize_money(true) }}</div> {# стоимость #}
-        <div class="upd-table__cell">без акциза</div> {# акциз #}
-        <div class="upd-table__cell">без НДС</div> {# налоговая ставка #}
-        <div class="upd-table__cell">без НДС</div> {# Сумма налога #}
-        <div class="upd-table__cell">{{ groupPrice|localize_money(true) }}</div> {# Стоимость товаров и услуг с налогом #}
+            <div class="upd-table__cell">{{ item.col_2|default('&mdash;')|raw }}</div> {# Код #}
+            <div class="upd-table__cell">{{ item.col_2a|default('&mdash;')|raw }}</div> {# Условное обозначение #}
+        <div class="upd-table__cell">{{ item.col_3|default('&mdash;')|raw }}</div> {# количество #}
+        <div class="upd-table__cell">{{ item.col_4|default('&mdash;')|raw }}</div> {# цена за единицу #}
+        <div class="upd-table__cell">{{ item.col_5|default('&mdash;')|raw }}</div> {# стоимость #}
+        <div class="upd-table__cell">{{ item.col_6|default('&mdash;')|raw }}</div> {# акциз #}
+        <div class="upd-table__cell">{{ item.col_7|default('&mdash;')|raw }}</div> {# налоговая ставка #}
+        <div class="upd-table__cell">{{ item.col_8|default('&mdash;')|raw }}</div> {# Сумма налога #}
+        <div class="upd-table__cell">{{ item.col_9|default('&mdash;')|raw }}</div> {# Стоимость товаров и услуг с налогом #}
         {# Страна происхождения #}
-        <div class="upd-table__cell">&mdash;</div> {# Цифровой код #}
-        <div class="upd-table__cell">&mdash;</div> {# Краткое наименование #}
-        <div class="upd-table__cell">&mdash;</div> {# Регистрационный номер таможенной декларации #}
+            <div class="upd-table__cell">{{ item.col_10|default('&mdash;')|raw }}</div> {# Цифровой код #}
+            <div class="upd-table__cell">{{ item.col_10a|default('&mdash;')|raw }}</div> {# Краткое наименование #}
+        <div class="upd-table__cell">{{ item.col_11|default('&mdash;')|raw }}</div> {# Регистрационный номер таможенной декларации #}
+    </div>
+{% endmacro %}
+
+
+{% block upd_table_totals %}
+    <div class="upd-table__row">
+        <div class="upd-table__cell"></div> {# номер позиции #}
+        <div class="upd-table__cell"></div>                                       {# код товара #}
+        <div class="upd-table__cell cell-total-name left">Всего к оплате</div> {# Наименование позиции #}
+        <div class="upd-table__cell">{{ order.totalForPayment(null, false)|localize_money(true) }}</div> {# стоимость #}
+        <div class="upd-table__cell cell-total-x">X</div> {# акциз #}
+        <div class="upd-table__cell">0.00</div> {# Сумма налога #}
+        <div class="upd-table__cell">{{ order.totalForPayment(null, false)|localize_money(true) }}</div> {# Стоимость товаров и услуг с налогом #}
+        {# Страна происхождения #}
+            <div class="upd-table__cell"></div> {# Цифровой код #}
+            <div class="upd-table__cell"></div> {# Краткое наименование #}
+        <div class="upd-table__cell"></div> {# Регистрационный номер таможенной декларации #}
     </div>
 {% endblock %}
 
 
 {% block upd_table_main %}
     {% for orderItemGroup in order.rootItems('group') %}
-
         {% set position = position + 1 %}
-
         {% set groupPrice = orderItemGroup.totalServicePrice(true) %}
-
         {% if orderItemGroup.hideParts %}
             {% set groupPrice = groupPrice.add(orderItemGroup.totalPartPrice(true)) %}
         {% endif %}
+        {% set groupItem = {
+            'col_a': position,
+            'col_1': orderItemGroup,
+            'col_5': groupPrice|localize_money(true),
+            'col_6': 'без акциза',
+            'col_7': 'без НДС',
+            'col_8': 'без НДС',
+            'col_9': groupPrice|localize_money(true),
+        }%}
+        {{ _self.upd_table_item_row(groupItem) }}
+    {% endfor %}
 
-        {{ block('upd_table_group_row') }}
+    {% for orderItemService in order.rootItems('service') %}
+        {% set position = position + 1 %}
+        {% set serviceItem = {
+            'col_a': position,
+            'col_1': orderItemService,
+            'col_5': orderItemService.totalPrice(true)|localize_money(true),
+            'col_6': 'без акциза',
+            'col_7': 'без НДС',
+            'col_8': 'без НДС',
+            'col_9': orderItemService.totalPrice(true)|localize_money(true),
+        }%}
+        {{ _self.upd_table_item_row(serviceItem) }}
+    {% endfor %}
+
+    {% for orderItemPart in order.items('part', true) %}
+        {% set position = position + 1 %}
+        {% set part = part_by_id(orderItemPart.partId) %}
+        {% set partPrice = orderItemPart.discounted ? orderItemPart.price.subtract(orderItemPart.discount) :
+            orderItemPart.price %}
+        {% set partItem = {
+            'col_a': position,
+            'col_1': part.number ~ ' ' ~ part.name,
+            'col_2': '796',
+            'col_2a': 'шт',
+            'col_3': orderItemPart.quantity / 100,
+            'col_4': partPrice|localize_money(true),
+            'col_5': orderItemPart.totalPrice(true)|localize_money(true),
+            'col_6': 'без акциза',
+            'col_7': 'без НДС',
+            'col_8': 'без НДС',
+            'col_9': orderItemPart.totalPrice(true)|localize_money(true),
+        }%}
+        {{ _self.upd_table_item_row(partItem) }}
     {% endfor %}
 {% endblock %}
 
@@ -148,143 +205,9 @@
                 <div class="upd-table">
                     {{ block('upd_table_header') }}
                     {{ block('upd_table_main') }}
+                    {{ block('upd_table_totals') }}
                 </div>
             </main>
         </div>
     </div>
 {% endblock %}
-
-{#{% block content %}#}
-{#    <div class="container" id="content">#}
-{#        <main>#}
-{#            <h1>Акт сдачи-приемки выполненных работ (оказанных услуг)<br> №#}
-{#                {{ order.number }}/2#}
-{#                от#}
-{#                {{ (order.closed ? order.closedAt : date(null, 'Europe/Moscow'))|format_date('short') }} г.#}
-{#            </h1>#}
-{#            {#            <section class="bk">#}
-{#                <table class="table bk-table">#}
-{#                    <thead>#}
-{#                    <tr>#}
-{#                        <th class="bk-table__loop">№</th>#}
-{#                        <th>Наименование товаров, работ, услуг</th>#}
-{#                        <th class="bk-table__quantity">Кол-во</th>#}
-{#                        <th class="bk-table__unit">Ед. изм.</th>#}
-{#                        <th class="bk-table__num">Цена</th>#}
-{#                        <th class="bk-table__num">Всего</th>#}
-{#                    </tr>#}
-{#                    </thead>#}
-{#                    <tbody>#}
-{#                    {% set position = 0 %}#}
-{#                    {% for orderItemGroup in order.rootItems('group') %}#}
-{#                        #}{# @var orderItemGroup \App\Entity\Tenant\OrderItemGroup #}
-
-{#                        {% set position = position + 1 %}#}
-{#                        <tr>#}
-{#                            <td class="bk-table__loop">{{ position }}</td>#}
-{#                            <td>{{ orderItemGroup }}</td>#}
-{#                            <td>1</td>#}
-{#                            <td>шт.</td>#}
-{#                            <td>#}
-{#                                {% set groupPrice = orderItemGroup.totalServicePrice(true) %}#}
-
-{#                                {% if orderItemGroup.hideParts %}#}
-{#                                    {% set groupPrice = groupPrice.add(orderItemGroup.totalPartPrice(true)) %}#}
-{#                                {% endif %}#}
-
-{#                                {{ groupPrice|localize_money }}#}
-{#                            </td>#}
-{#                            <td>{{ groupPrice|localize_money }}</td>#}
-{#                        </tr>#}
-{#                    {% endfor %}#}
-
-{#                    {% for orderItemService in order.rootItems('service') %}#}
-{#                        #}{# @var orderItemService \App\Entity\Tenant\OrderItemService #}
-
-{#                        {% set position = position + 1 %}#}
-{#                        <tr>#}
-{#                            <td class="bk-table__loop">{{ position }}</td>#}
-{#                            <td>{{- orderItemService -}}</td>#}
-{#                            <td>1</td>#}
-{#                            <td>шт.</td>#}
-{#                            <td>{{ orderItemService.totalPrice(true)|localize_money }}</td>#}
-{#                            <td>{{ orderItemService.totalPrice(true)|localize_money }}</td>#}
-{#                        </tr>#}
-{#                    {% endfor %}#}
-
-{#                    {% for orderItemPart in order.items('part', true) %}#}
-{#                        #}{# @var orderItemPart \App\Order\Entity\OrderItemPart #}
-
-{#                        {% set position = position + 1 %}#}
-{#                        {% set part = part_by_id(orderItemPart.partId) %}#}
-{#                        <tr>#}
-{#                            <td class="bk-table__loop">{{ position }}</td>#}
-{#                            <td> {{ part.name }}#}
-{#                                <span class="order-table-part__part_number">#}
-{#                                        {{ part.number }}#}
-{#                                    </span>#}
-{#                            </td>#}
-{#                            <td>{{ orderItemPart.quantity / 100 }}</td>#}
-{#                            <td>шт.</td>#}
-{#                            <td>#}
-{#                                {% if orderItemPart.discounted %}#}
-{#                                    {{ orderItemPart.price.subtract(orderItemPart.discount)|localize_money }}#}
-{#                                {% else %}#}
-{#                                    {{ orderItemPart.price|localize_money }}#}
-{#                                {% endif %}#}
-{#                            </td>#}
-{#                            <td>{{ orderItemPart.totalPrice(true)|localize_money }}</td>#}
-{#                        </tr>#}
-{#                    {% endfor %}#}
-{#                    </tbody>#}
-{#                    <tbody>#}
-{#                    <tr>#}
-{#                        <td colspan="4" rowspan="2" class="no-border"></td>#}
-{#                        <td class="bk-table-total">ИТОГО:</td>#}
-{#                        <td>#}
-{#                            <strong>{{ order.totalForPayment(null, false)|localize_money }}</strong>#}
-{#                        </td>#}
-{#                    </tr>#}
-{#                    <tr>#}
-{#                        <td class="bk-table-total">в т.ч. НДС</td>#}
-{#                        <td><strong>без НДС</strong></td>#}
-{#                    </tr>#}
-{#                    </tbody>#}
-{#                </table>#}
-{#            </section>#}
-{#            <section class="stamps">#}
-{#                <div>Вышеперечисленные услуги выполнены полностью и в срок. Заказчик претензий по объему, качеству и#}
-{#                    срокам оказания услуг#}
-{#                    не имеет.#}
-{#                </div>#}
-{#                <div style="display: flex; justify-content: space-between">#}
-{#                    <div class="bk-stamp">#}
-{#                        <span class="bk-stamp-user">Исполнитель</span><br>#}
-{#                        <hr class="bk-stamp-line">#}
-{#                        <div style="display: flex; justify-content: center">#}
-{#                            <span class="bk-stamp-line-under">должность</span>#}
-{#                        </div>#}
-{#                        <hr class="bk-stamp-line">#}
-{#                        <div style="display: flex; justify-content: space-between">#}
-{#                            <span class="bk-stamp-line-under">подпись</span>#}
-{#                            <span class="bk-stamp-line-under">расшифровка</span>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                    <div class="bk-stamp">#}
-{#                        <span class="bk-stamp-user">Заказчик</span><br>#}
-{#                        <hr class="bk-stamp-line">#}
-{#                        <div style="display: flex; justify-content: center">#}
-{#                            <span class="bk-stamp-line-under">должность</span>#}
-{#                        </div>#}
-{#                        <hr class="bk-stamp-line">#}
-{#                        <div style="display: flex; justify-content: space-between">#}
-{#                            <span class="bk-stamp-line-under">подпись</span>#}
-{#                            <span class="bk-stamp-line-under">расшифровка</span>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </section>#}
-{#        </main>#}
-{#    </div>#}
-
-{#{% endblock %}#}

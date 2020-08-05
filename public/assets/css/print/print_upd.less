@@ -93,6 +93,7 @@
 
 }
 
+
 .upd-table__cell {
   border-right: @upd-table-border;
   border-bottom: @upd-table-border;
@@ -107,9 +108,17 @@
     display: flex;
     align-items: center;
     text-align: center;
-
-
   }
+
+  &.cell-total-name {
+    font-weight: 700;
+    grid-column: span 6;
+  }
+
+  &.cell-total-x {
+    grid-column: span 2;
+  }
+
   &.double-row {
     grid-row: span 2;
   }
