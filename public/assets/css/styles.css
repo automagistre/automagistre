@@ -356,9 +356,6 @@
   grid-template-columns: auto 1cm;
   padding-top: 1mm;
 }
-.upd-footer-sings-block .underline {
-  min-height: 2em;
-}
 .upd-footer-sings__sign {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
