@@ -49,6 +49,7 @@ final class Tenant extends Enum
     protected static array $requisites = [
         self::DEMO => [],
         self::MSK => [
+            'type' => 'OOO',
             'name' => 'ООО "Автомагистр"',
             'address' => '115408, г.Москва, ул.Братеевская, д.16, к.1, кв. 345',
             'site' => 'www.automagistre.ru',
@@ -70,6 +71,7 @@ final class Tenant extends Enum
             'headType' => 'Генеральный директор',
         ],
         self::KAZAN => [
+            'type' => 'IP',
             'name' => 'ИП Ахметзянов А.А.',
             'address' => 'г. Казань, Магистральная 33 к.1',
             'site' => 'www.automagistre.ru',
@@ -90,6 +92,7 @@ final class Tenant extends Enum
             'headType' => 'Индивидуальный предприниматель',
         ],
         self::SHAVLEV => [
+            'type' => 'IP',
             'name' => 'ИП Щавлев В.А.',
             'address' => 'Моск. обл., Орехово-Зуевский район, п. Пригородный, Малодубенское шоссе, 3 км, цех № 1',
             'site' => 'vk.com/smitavtoservis',
