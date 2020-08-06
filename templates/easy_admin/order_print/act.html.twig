@@ -202,10 +202,10 @@
         <div class="upd-table-footer-right">
             <div class="upd-table-footer__item">Руководитель организации или иное уполномоченное лицо</div>
             <div class="upd-table-footer__item underline"></div> {# подпись #}
-            <div class="upd-table-footer__item underline">Сидоров К.М.</div>
+            <div class="upd-table-footer__item underline">{{ requisites.type != 'IP' ? requisites.head : '' }}</div>
             <div class="upd-table-footer__item">Главный бухгалтер или иное уполномоченное лицо</div>
             <div class="upd-table-footer__item underline"></div> {# подпись #}
-            <div class="upd-table-footer__item underline">Сидоров К.М.</div>
+            <div class="upd-table-footer__item underline">{{ requisites.type != 'IP' ? requisites.head : '' }}</div>
             <div class="upd-table-footer__item"></div> {# пустая #}
             <div class="upd-table-footer__item">(подпись)</div>
             <div class="upd-table-footer__item">(ф.и.о.)</div>
@@ -214,8 +214,8 @@
             <div class="upd-table-footer__item">(ф.и.о.)</div>
             <div class="upd-table-footer__item">Индивидуальный предприниматель или иное уполномоченное лицо</div>
             <div class="upd-table-footer__item underline"></div> {# подпись #}
-            <div class="upd-table-footer__item underline">Сидоров К.М.</div>
-            <div class="upd-table-footer__item requisites underline">Тут ОГРН</div>
+            <div class="upd-table-footer__item underline">{{ requisites.type == 'IP' ? requisites.head : '' }}</div>
+            <div class="upd-table-footer__item requisites underline">{{ requisites.type == 'IP' ? 'ОГРН ' ~ requisites.ogrn : '' }}</div>
             <div class="upd-table-footer__item"></div> {# пустая ячейка #}
             <div class="upd-table-footer__item">(подпись)</div>
             <div class="upd-table-footer__item">(ф.и.о.)</div>
@@ -229,7 +229,7 @@
     <div class="upd-footer-pre">
         <div class="upd-footer-pre__row">
             <div>Основание передачи (сдачи) / получения (приемки)</div>
-            <div>Исходящий счет на оплату No 34446 от 30.07.2020</div>
+            <div></div>
             <div>[8]</div>
             <div>(договор; доверенность и др.)</div>
         </div>
