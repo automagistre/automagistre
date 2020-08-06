@@ -243,8 +243,110 @@
 {% endblock %}
 
 
-{% block upd_sings_footer %}
+{% macro upd_sign(type, side) %}
+    {% if type == 'executer' %}
+        {% set lineNum = 10 %}
+    {% elseif type == 'customer' %}
+        {% set lineNum = 15 %}
+    {% else %}
+        {% set lineNum = 1 %}
+    {% endif %}
+    <div class="upd-footer-sings-wrapper">
+        <div class="upd-footer-sings-block">Товар (груз) передал / услуги, результаты работ, права сдал</div>
+        <div class="upd-footer-sings-block">
+            <div class="upd-footer-sings__sign">
+                <div class="underline">{{ side.headType|default('') }}</div>
+                <div class="underline"></div>
+                <div class="underline">{{ side.headName|default('') }}</div>
 
+                <div>(должность)</div>
+                <div>(подпись)</div>
+                <div>(ф.и.о)</div>
+            </div>
+            <div class="upd-footer-sings__num">[{{ lineNum }}]</div>
+        </div>
+        <div class="upd-footer-sings-block">
+            <div class="upd-footer-sings__date">
+                <div>Дата отгрузки, передачи (сдачи)</div>
+                <div class="underline"></div>
+                <div class="underline"></div>
+                20
+                <div class="underline"></div>
+                г.
+            </div>
+            <div class="upd-footer-sings__num">[{{ lineNum + 1 }}]</div>
+        </div>
+        <div class="upd-footer-sings-block">Иные сведения об отгрузке, передаче</div>
+        <div class="upd-footer-sings-block">
+            <div class="upd-footer-sings__shipment">
+                <div class="underline"></div>
+                <div>(ссылки на неотъемлемые приложения, сопутствующие документы, иные документы и т.п.)</div>
+            </div>
+            <div class="upd-footer-sings__num">[{{ lineNum + 2 }}]</div>
+        </div>
+        <div class="upd-footer-sings-block">Ответственный за правильность оформления факта хозяйственной жизни</div>
+        <div class="upd-footer-sings-block">
+            <div class="upd-footer-sings__sign">
+                <div class="underline">{{ side.headType|default('') }}</div>
+                <div class="underline"></div>
+                <div class="underline">{{ side.headName|default('') }}</div>
+
+                <div>(должность)</div>
+                <div>(подпись)</div>
+                <div>(ф.и.о)</div>
+            </div>
+            <div class="upd-footer-sings__num">[{{ lineNum + 3 }}]</div>
+        </div>
+        <div class="upd-footer-sings-block">Наименование экономического субъекта – составителя документа (в т.ч. комиссионера / агента)</div>
+        <div class="upd-footer-sings-block">
+            <div class="upd-footer-sings__side-info">
+                <div class="underline">{{ side.sideInfoStr|default('') }}</div>
+                <div>(может не заполняться при проставлении печати в М.П., может быть указан ИНН / КПП)</div>
+            </div>
+            <div class="upd-footer-sings__num">[{{ lineNum + 4 }}]</div>
+        </div>
+        <div class="upd-footer-sings__mp">М.П.</div>
+    </div>
+
+{% endmacro %}
+
+
+{% block upd_sings_footer %}
+    {% set customerSideInfoStr = '' %}
+    {% if customer is not empty %}
+        {% if customer.type('organization') %}
+            {% set customerSideInfoStr = customer.name ? customer.name : '' %}
+            {% set customerSideInfoStr = customerSideInfoStr ~ (customer.requisite.inn ? ' ИНН:' ~ customer.requisite.inn : '') %}
+            {% set customerSideInfoStr = customerSideInfoStr ~ (customer.requisite.kpp ? '/КПП:' ~ customer.requisite.kpp : '') %}
+        {% endif %}
+    {% endif %}
+    {% set sideCustomer = {
+        'sideInfoStr': customerSideInfoStr
+    } %}
+
+    {% if requisites is not empty %}
+        {% set executerInfoStr = requisites.name %}
+        {% if requisites.type == 'IP' %}
+            {% set executerInfoStr = executerInfoStr ~ (requisites.ogrn ? ' ОГРН ' ~ requisites.ogrn : '') %}
+        {% else %}
+            {% set executerInfoStr = executerInfoStr ~ (requisites.inn ? ' ИНН:' ~ requisites.inn : '') %}
+            {% set executerInfoStr = executerInfoStr ~ (requisites.kpp ? '/КПП:' ~ requisites.kpp : '') %}
+        {% endif %}
+
+        {% set sideExecuter = {
+            'headName': requisites.head,
+            'headType': requisites.headType,
+            'sideInfoStr': executerInfoStr
+        } %}
+    {% endif %}
+    <div class="upd-footer-sings">
+        <div>
+            {{ _self.upd_sign('executer', sideExecuter) }}
+        </div>
+        <div>
+            {{ _self.upd_sign('customer', sideCustomer) }}
+        </div>
+    </div>
 {% endblock %}
 
 
@@ -265,7 +367,7 @@
                 </div>
                 <div class="upd-footer">
                     {{ block('upd_pre_footer') }}
-                    {{ blocl('upd_sings_footer') }}
+                    {{ block('upd_sings_footer') }}
                 </div>
             </main>
         </div>
