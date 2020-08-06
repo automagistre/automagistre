@@ -11,6 +11,7 @@ use App\Car\Entity\Car;
 use App\Car\Entity\CarId;
 use App\Customer\Entity\CustomerTransaction;
 use App\Customer\Entity\CustomerTransactionId;
+use App\Customer\Entity\CustomerTransactionView;
 use App\Customer\Entity\Operand;
 use App\Customer\Entity\OperandId;
 use App\Customer\Entity\Organization;
@@ -46,6 +47,7 @@ use App\Vehicle\Entity\Model;
 use App\Wallet\Entity\Wallet;
 use App\Wallet\Entity\WalletTransaction;
 use App\Wallet\Entity\WalletTransactionId;
+use App\Wallet\Entity\WalletTransactionView;
 use App\Wallet\Enum\WalletTransactionSource;
 use function array_map;
 use function assert;
@@ -76,6 +78,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use function trim;
+use function usort;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -517,6 +520,25 @@ final class OrderController extends AbstractController
                 ->findBy(['subject' => $entity->toId()->toUuid()], ['id' => 'DESC']);
             $parameters['car'] = $this->registry->findBy(Car::class, ['id' => $entity->getCarId()]);
             $parameters['customer'] = $this->registry->findBy(Operand::class, ['id' => $entity->getCustomerId()]);
+
+            $transactions = [
+                ...$em->createQueryBuilder()
+                    ->select('t')
+                    ->from(CustomerTransactionView::class, 't')
+                    ->where('t.sourceId = :sourceId')
+                    ->setParameter('sourceId', $entity->toId())
+                    ->getQuery()
+                    ->getResult(),
+                ...$em->createQueryBuilder()
+                    ->select('t')
+                    ->from(WalletTransactionView::class, 't')
+                    ->where('t.sourceId = :sourceId')
+                    ->setParameter('sourceId', $entity->toId())
+                    ->getQuery()
+                    ->getResult(),
+            ];
+            usort($transactions, fn ($left, $right) => $left->createdAt <=> $right->createdAt);
+            $parameters['transactions'] = $transactions;
         }
 
         return parent::renderTemplate($actionName, $templatePath, $parameters);

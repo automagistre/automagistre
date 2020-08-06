@@ -165,6 +165,10 @@
     </PossiblyNullArgument>
   </file>
   <file src="src/Order/Controller/OrderController.php">
+    <MissingClosureParamType occurrences="2">
+      <code>$left</code>
+      <code>$right</code>
+    </MissingClosureParamType>
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtolower($item)</code>
     </PossiblyFalseOperand>

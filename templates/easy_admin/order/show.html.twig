@@ -133,6 +133,57 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="field-group">
+                            <div class="box box-default">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">
+                                        Связанные проводки
+                                    </h3>
+                                </div>
+
+                                {% if transactions is not empty %}
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th>Получатель</th>
+                                                <th>Сумма</th>
+                                                <th>Описание</th>
+                                                <th>Дата</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for transaction in transactions %}
+                                                {# @var transaction \App\Customer\Entity\CustomerTransactionView #}
+
+                                                <tr>
+                                                    <td>
+                                                        {% if transaction.operandId is defined %}
+                                                            {{ transaction.operandId|display_name }}
+                                                        {% else %}
+                                                            {{ transaction.walletId|display_name }}
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>{{ transaction.amount|localize_money }}</td>
+                                                    <td>{{ transaction.source.toDescription }}</td>
+                                                    <td>{{ transaction.createdAt|format_datetime('short', 'short', '', 'GMT+3') }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                {% else %}
+                                    <div class="box-body">
+                                        Проводок нет
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 {% if order.suspends is not empty %}
                     <div class="row">
                         <div class="col-md-12">
