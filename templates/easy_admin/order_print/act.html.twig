@@ -2,10 +2,6 @@
 
 {% set requisites = state.tenant.getRequisites() %}
 
-{% set position = 0 %}
-{% set pageTotalNumber = 1 %}
-
-
 {% block upd_header %}
     <div class="upd-header">
         <div class="upd-header-left">
@@ -141,74 +137,78 @@
 {% endblock %}
 
 
-{% block page_break_trigger %}
+{% block upd_table %}
+    {% set pageTotalNumber = 1 %}
+    {% set position = 0 %}
+
     {% set pageBreakeFirstPageCount = 14 %}
     {% set pageBreakeMiddlePageCount = 25 %}
 
-    {% if position % pageBreakeFirstPageCount == 0 %}
-        {{ block('page_breake') }}
-    {% elseif (position - pageBreakeFirstPageCount) % pageBreakeMiddlePageCount == 0 %}
+    {% for orderItem in order.rootItems('group')|merge(order.rootItems('service'))|merge(order.items('part', true)) %}
+        {% set position = position + 1 %}
+        {% if instanceOf(orderItem, 'App\\Order\\Entity\\OrderItemPart') %}
+            {% set orderItemPart = orderItem %}
+            {% set part = part_by_id(orderItemPart.partId) %}
+            {% set partPrice = orderItemPart.discounted ? orderItemPart.price.subtract(orderItemPart.discount) :
+                orderItemPart.price %}
+            {{ _self.upd_table_item_row({
+                'col_a': position,
+                'col_1': part.number ~ ' ' ~ part.name,
+                'col_2': '796',
+                'col_2a': 'шт',
+                'col_3': orderItemPart.quantity / 100,
+                'col_4': partPrice|localize_money(true),
+                'col_5': orderItemPart.totalPrice(true)|localize_money(true),
+                'col_6': 'без акциза',
+                'col_7': 'без НДС',
+                'col_8': 'без НДС',
+                'col_9': orderItemPart.totalPrice(true)|localize_money(true),
+            }) }}
+        {% elseif instanceOf(orderItem, 'App\\Order\\Entity\\OrderItemService') %}
+            {% set orderItemService = orderItem %}
+            {{ _self.upd_table_item_row({
+                'col_a': position,
+                'col_1': orderItemService,
+                'col_5': orderItemService.totalPrice(true)|localize_money(true),
+                'col_6': 'без акциза',
+                'col_7': 'без НДС',
+                'col_8': 'без НДС',
+                'col_9': orderItemService.totalPrice(true)|localize_money(true),
+            }) }}
+        {% elseif instanceOf(orderItem, 'App\\Order\\Entity\\OrderItemGroup') %}
+            {% set orderItemGroup = orderItem %}
+            {% set groupPrice = orderItemGroup.totalServicePrice(true) %}
+            {% if orderItemGroup.hideParts %}
+                {% set groupPrice = groupPrice.add(orderItemGroup.totalPartPrice(true)) %}
+            {% endif %}
+            {{ _self.upd_table_item_row({
+                'col_a': position,
+                'col_1': orderItemGroup,
+                'col_5': groupPrice|localize_money(true),
+                'col_6': 'без акциза',
+                'col_7': 'без НДС',
+                'col_8': 'без НДС',
+                'col_9': groupPrice|localize_money(true),
+            }) }}
+        {% endif %}
+
+        {% if position % pageBreakeFirstPageCount == 0 and pageTotalNumber == 1 %}
+            {% set pageTotalNumber = pageTotalNumber + 1 %}
+            {{ block('page_breake') }}
+        {% elseif (position - pageBreakeFirstPageCount) % pageBreakeMiddlePageCount == 0 %}
+            {% set pageTotalNumber = pageTotalNumber + 1 %}
+            {{ block('page_breake') }}
+        {% endif %}
+    {% endfor %}
+
+    {% if (position - pageBreakeFirstPageCount) % pageBreakeMiddlePageCount >= pageBreakeFirstPageCount %}
+        {% set pageTotalNumber = pageTotalNumber + 1 %}
         {{ block('page_breake') }}
     {% endif %}
-{% endblock %}
 
+    {{ block('upd_table_totals') }}
+    {{ block('upd_table_footer') }}
 
-{% block upd_table_main %}
-    {% for orderItemGroup in order.rootItems('group') %}
-        {% set position = position + 1 %}
-        {% set groupPrice = orderItemGroup.totalServicePrice(true) %}
-        {% if orderItemGroup.hideParts %}
-            {% set groupPrice = groupPrice.add(orderItemGroup.totalPartPrice(true)) %}
-        {% endif %}
-        {% set groupItem = {
-            'col_a': position,
-            'col_1': orderItemGroup,
-            'col_5': groupPrice|localize_money(true),
-            'col_6': 'без акциза',
-            'col_7': 'без НДС',
-            'col_8': 'без НДС',
-            'col_9': groupPrice|localize_money(true),
-        }%}
-        {{ _self.upd_table_item_row(groupItem) }}
-        {{ block('page_break_trigger') }}
-    {% endfor %}
-
-    {% for orderItemService in order.rootItems('service') %}
-        {% set position = position + 1 %}
-        {% set serviceItem = {
-            'col_a': position,
-            'col_1': orderItemService,
-            'col_5': orderItemService.totalPrice(true)|localize_money(true),
-            'col_6': 'без акциза',
-            'col_7': 'без НДС',
-            'col_8': 'без НДС',
-            'col_9': orderItemService.totalPrice(true)|localize_money(true),
-        }%}
-        {{ _self.upd_table_item_row(serviceItem) }}
-        {{ block('page_break_trigger') }}
-    {% endfor %}
-
-    {% for orderItemPart in order.items('part', true) %}
-        {% set position = position + 1 %}
-        {% set part = part_by_id(orderItemPart.partId) %}
-        {% set partPrice = orderItemPart.discounted ? orderItemPart.price.subtract(orderItemPart.discount) :
-            orderItemPart.price %}
-        {% set partItem = {
-            'col_a': position,
-            'col_1': part.number ~ ' ' ~ part.name,
-            'col_2': '796',
-            'col_2a': 'шт',
-            'col_3': orderItemPart.quantity / 100,
-            'col_4': partPrice|localize_money(true),
-            'col_5': orderItemPart.totalPrice(true)|localize_money(true),
-            'col_6': 'без акциза',
-            'col_7': 'без НДС',
-            'col_8': 'без НДС',
-            'col_9': orderItemPart.totalPrice(true)|localize_money(true),
-        }%}
-        {{ _self.upd_table_item_row(partItem) }}
-        {{ block('page_break_trigger') }}
-    {% endfor %}
 {% endblock %}
 
 
@@ -379,7 +379,6 @@
                 {% endblock %}
 
                 {% block page_breake %}
-                {% set pageTotalNumber = pageTotalNumber + 1 %}
             </div>
         </main>
     </div>
@@ -389,8 +388,7 @@
                 {% endblock %}
 
                 {% block page_end %}
-                {{ block('upd_table_totals') }}
-                {{ block('upd_table_footer') }}
+
             </div>
             <div class="upd-footer">
                 {{ block('upd_pre_footer') }}
@@ -407,7 +405,7 @@
 
     <div class="content pages" id="content">
         {{ block('page_begin') }}
-        {{ block('upd_table_main') }}
+        {{ block('upd_table') }}
         {{ block('page_end') }}
     </div>
 {% endblock %}
