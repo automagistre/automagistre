@@ -2,6 +2,10 @@
 
 {% set requisites = state.tenant.getRequisites() %}
 
+{% set position = 0 %}
+{% set pageTotalNumber = 1 %}
+
+
 {% block upd_header %}
     <div class="upd-header">
         <div class="upd-header-left">
@@ -137,6 +141,18 @@
 {% endblock %}
 
 
+{% block page_break_trigger %}
+    {% set pageBreakeFirstPageCount = 14 %}
+    {% set pageBreakeMiddlePageCount = 25 %}
+
+    {% if position % pageBreakeFirstPageCount == 0 %}
+        {{ block('page_breake') }}
+    {% elseif (position - pageBreakeFirstPageCount) % pageBreakeMiddlePageCount == 0 %}
+        {{ block('page_breake') }}
+    {% endif %}
+{% endblock %}
+
+
 {% block upd_table_main %}
     {% for orderItemGroup in order.rootItems('group') %}
         {% set position = position + 1 %}
@@ -154,6 +170,7 @@
             'col_9': groupPrice|localize_money(true),
         }%}
         {{ _self.upd_table_item_row(groupItem) }}
+        {{ block('page_break_trigger') }}
     {% endfor %}
 
     {% for orderItemService in order.rootItems('service') %}
@@ -168,6 +185,7 @@
             'col_9': orderItemService.totalPrice(true)|localize_money(true),
         }%}
         {{ _self.upd_table_item_row(serviceItem) }}
+        {{ block('page_break_trigger') }}
     {% endfor %}
 
     {% for orderItemPart in order.items('part', true) %}
@@ -189,6 +207,7 @@
             'col_9': orderItemPart.totalPrice(true)|localize_money(true),
         }%}
         {{ _self.upd_table_item_row(partItem) }}
+        {{ block('page_break_trigger') }}
     {% endfor %}
 {% endblock %}
 
@@ -197,7 +216,7 @@
     <div class="upd-table-footer">
         <div class="upd-table-footer-left">
             Документ<br> составлен на<br>
-            <span>{{ pageNumber }}</span>листах
+            <span>{{ pageTotalNumber }}</span>листах
         </div>
         <div class="upd-table-footer-right">
             <div class="upd-table-footer__item">Руководитель организации или иное уполномоченное лицо</div>
@@ -350,26 +369,45 @@
 {% endblock %}
 
 
+{% block page_begin %}
+    <div class="page landscape bookkeeping-fonts">
+
+        <main>
+            {{ block('upd_header') }}
+            <div class="upd-table">
+                {{ block('upd_table_header') }}
+                {% endblock %}
+
+                {% block page_breake %}
+                {% set pageTotalNumber = pageTotalNumber + 1 %}
+            </div>
+        </main>
+    </div>
+    <div class="page landscape bookkeeping-fonts">
+        <main>
+            <div class="upd-table">
+                {% endblock %}
+
+                {% block page_end %}
+                {{ block('upd_table_totals') }}
+                {{ block('upd_table_footer') }}
+            </div>
+            <div class="upd-footer">
+                {{ block('upd_pre_footer') }}
+                {{ block('upd_sings_footer') }}
+            </div>
+        </main>
+    </div>
+{% endblock %}
+
+
+
+
 {% block content %}
+
     <div class="content pages" id="content">
-        <div class="page landscape bookkeeping-fonts">
-            <main>
-                {{ block('upd_header') }}
-
-                {% set position = 0 %}
-                {% set pageNumber = 1 %}
-
-                <div class="upd-table">
-                    {{ block('upd_table_header') }}
-                    {{ block('upd_table_main') }}
-                    {{ block('upd_table_totals') }}
-                    {{ block('upd_table_footer') }}
-                </div>
-                <div class="upd-footer">
-                    {{ block('upd_pre_footer') }}
-                    {{ block('upd_sings_footer') }}
-                </div>
-            </main>
-        </div>
+        {{ block('page_begin') }}
+        {{ block('upd_table_main') }}
+        {{ block('page_end') }}
     </div>
 {% endblock %}
