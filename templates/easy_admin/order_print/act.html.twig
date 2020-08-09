@@ -141,8 +141,9 @@
     {% set pageTotalNumber = 1 %}
     {% set position = 0 %}
 
-    {% set pageBreakeFirstPageCount = 7 %}
+    {% set pageBreakeFirstPageCount = 14 %}
     {% set pageBreakeMiddlePageCount = 25 %}
+    {% set pageBrakeMinFirstPageCount = 6 %}
 
     {% for orderItem in order.rootItems('group')|merge(order.rootItems('service'))|merge(order.items('part', true)) %}
         {% set position = position + 1 %}
@@ -201,7 +202,10 @@
         {% endif %}
     {% endfor %}
 
-    {% if (position - pageBreakeFirstPageCount) % pageBreakeMiddlePageCount >= pageBreakeFirstPageCount %}
+    {% if position > pageBrakeMinFirstPageCount and pageTotalNumber == 1 %}
+        {% set pageTotalNumber = pageTotalNumber + 1 %}
+        {{ block('page_breake') }}
+    {% elseif (position - pageBreakeFirstPageCount) % pageBreakeMiddlePageCount >= pageBreakeFirstPageCount %}
         {% set pageTotalNumber = pageTotalNumber + 1 %}
         {{ block('page_breake') }}
     {% endif %}
