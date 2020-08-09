@@ -131,7 +131,7 @@
         </div>
         <div class="page-settings__col">
             <div class="page-settings__label">Настройки:</div>
-            <label><input type="checkbox" checked id="js-show-totals">Без учета баланса</label>
+            <label><input type="checkbox" id="js-show-totals">Без учета баланса</label>
         </div>
     </div>
 
@@ -212,8 +212,8 @@
       }
 
       totalsShowCheckbox.addEventListener('click', () => {
-        totalsBalanceBlock.classList.toggle('hidden', !totalsShowCheckbox.checked);
-        totalsCleanBlock.classList.toggle('hidden', totalsShowCheckbox.checked)
+        totalsBalanceBlock.classList.toggle('hidden', totalsShowCheckbox.checked);
+        totalsCleanBlock.classList.toggle('hidden', !totalsShowCheckbox.checked)
       })
     </script>
 {% endblock %}
