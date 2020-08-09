@@ -143,7 +143,7 @@
 
     {% set pageBreakeFirstPageCount = 14 %}
     {% set pageBreakeMiddlePageCount = 25 %}
-    {% set pageBrakeMinFirstPageCount = 6 %}
+    {% set pageBrakeMinFirstPageCount = 7 %}
 
     {% for orderItem in order.rootItems('group')|merge(order.rootItems('service'))|merge(order.items('part', true)) %}
         {% set position = position + 1 %}
