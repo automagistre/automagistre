@@ -128,14 +128,14 @@ final class OrderPrintController extends AbstractController
         ]);
     }
 
-    public function actAction(): Response
+    public function updAction(): Response
     {
         $order = $this->getEntity(Order::class);
         if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order is required');
         }
 
-        return $this->render('easy_admin/order_print/act.html.twig', [
+        return $this->render('easy_admin/order_print/upd.html.twig', [
             'order' => $order,
         ]);
     }
