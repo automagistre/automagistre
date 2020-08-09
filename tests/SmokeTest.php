@@ -72,7 +72,7 @@ final class SmokeTest extends WebTestCase
             'matching' => ['id' => OrderFixtures::ID],
             'giveOut' => ['id' => OrderFixtures::ID],
             'finish' => ['id' => OrderFixtures::ID],
-            'act' => ['id' => OrderFixtures::ID],
+            'upd' => ['id' => OrderFixtures::ID],
             'invoice' => ['id' => OrderFixtures::ID],
         ],
         'Car' => [
