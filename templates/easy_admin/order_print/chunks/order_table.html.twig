@@ -74,8 +74,8 @@
     </div>
 {% endmacro %}
 
-{% macro order_table_total(order, balance) %}
-    <div class="order-table__totals page-brake">
+{% macro order_table_total(order, balance, withBalance=true) %}
+    <div class="order-table__totals page-brake {{ withBalance ? 'js-order-totals-balance' : 'js-order-totals-clean hidden' }}">
         <div class="table__item cell-subtotal__pre right">РАБОТЫ / ЗАПЧАСТИ без учета скидок, руб.</div>
         <div class="table__item cell-subtotal__pre">{{ order.totalGroupPrice.add(order.totalServicePrice(false, true))|localize_money(true) }} / {{ order.totalPartPrice(false, true)|localize_money(true) }}</div>
         {% if order.discount %}
@@ -83,7 +83,7 @@
             <div class="table__item cell-subtotal__pre">{{ order.discount|localize_money(true) }}</div>
         {% endif %}
 
-        {% if balance is not empty %}
+        {% if balance is not empty and withBalance %}
             {% set prepayment = order.totalPayments.add(balance) %}
             {% if not prepayment.isZero %}
                 <div class="table__item cell-subtotal right">
@@ -98,7 +98,7 @@
         {% endif %}
 
         <div class="table__item cell-subtotal__total right">ИТОГО К ОПЛАТЕ, руб.</div>
-        <div class="table__item cell-subtotal__total">{{ order.totalForPayment(balance|default(null))|localize_money(true) }}</div>
+        <div class="table__item cell-subtotal__total">{{ order.totalForPayment(withBalance ? balance|default(null) : null)|localize_money(true) }}</div>
     </div>
 {% endmacro %}
 
