@@ -59,6 +59,10 @@ body{
     height: 297mm;
     width: 210mm;
   }
+
+  &.hidden {
+    display: none;
+  }
 }
 
 @footer-height: 45mm;
@@ -234,6 +238,7 @@ footer {
     display: grid;
     grid-template-columns: @order-table-first-col 1fr;
     grid-gap: 1mm;
+
   }
 }
 
@@ -559,6 +564,32 @@ footer {
 
 }
 
+.page-settings {
+  margin: 5mm auto;
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 3mm;
+  font-family: Circe, sans-serif;
+  box-shadow: 0 2px 9px rgba(0, 0, 0, 0.25);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2mm;
+
+  &.portrait {
+    width: 210mm;
+  }
+
+  &__label {
+    grid-row: 1;
+    font-weight: 700;
+  }
+
+  &__col {
+    display: grid;
+    grid-auto-flow: row;
+  }
+}
+
+
 .right {
   padding-left: 5mm;
   text-align: end;
@@ -566,6 +597,10 @@ footer {
 
 .left {
   text-align: start;
+}
+
+.hidden {
+  display: none;
 }
 
 //------------------ Page breaks ------------------
@@ -624,6 +659,10 @@ footer {
       width: 100%;
       height: 100%;
     }
+  }
+
+  .page-settings {
+    display: none;
   }
 
   main.portrait {
