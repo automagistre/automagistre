@@ -80,6 +80,46 @@
   background-color: #4BC970;
   border-color: #3AC162;
 }
+.label--checkbox {
+  position: relative;
+  margin: 0.5rem;
+  font-family: Circe, sans-serif;
+  line-height: 135%;
+  cursor: pointer;
+}
+.checkbox {
+  position: relative;
+  top: rem(-6);
+  margin: 0 1rem 0 0 ;
+  cursor: pointer;
+}
+.checkbox:before {
+  transition: all 0.3s ease-in-out;
+  content: "";
+  position: absolute;
+  left: 0;
+  z-index: 1;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid #f2f2f2;
+}
+.checkbox:checked:before {
+  transform: rotate(-45deg);
+  height: 0.5rem;
+  border-color: rgba(250, 13, 28, 0.6);
+  border-top-style: none;
+  border-right-style: none;
+}
+.checkbox:after {
+  content: "";
+  position: absolute;
+  top: rem(-2);
+  left: 0;
+  width: 1.1rem;
+  height: 1.1rem;
+  background: #fff;
+  cursor: pointer;
+}
 .invoice-header__info {
   margin: 0 0 7mm;
 }
