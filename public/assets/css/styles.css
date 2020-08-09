@@ -429,6 +429,9 @@ body {
   height: 297mm;
   width: 210mm;
 }
+.page.hidden {
+  display: none;
+}
 main {
   width: 100%;
 }
@@ -823,12 +826,36 @@ footer {
   border: 1px solid rgba(0, 0, 0, 0.3);
   font-weight: 400;
 }
+.page-settings {
+  margin: 5mm auto;
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 3mm;
+  font-family: Circe, sans-serif;
+  box-shadow: 0 2px 9px rgba(0, 0, 0, 0.25);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2mm;
+}
+.page-settings.portrait {
+  width: 210mm;
+}
+.page-settings__label {
+  grid-row: 1;
+  font-weight: 700;
+}
+.page-settings__col {
+  display: grid;
+  grid-auto-flow: row;
+}
 .right {
   padding-left: 5mm;
   text-align: end;
 }
 .left {
   text-align: start;
+}
+.hidden {
+  display: none;
 }
 .order-table__block,
 .recommendations-table__block {
@@ -875,6 +902,9 @@ footer {
     min-height: 279mm;
     width: 100%;
     height: 100%;
+  }
+  .page-settings {
+    display: none;
   }
   main.portrait {
     height: 100%;
