@@ -59,7 +59,7 @@
 {% endblock %}
 
 {% block order_first_page_begin %}
-    <div class="page portrait order-fonts">
+    <div class="page portrait order-fonts js-order-page">
         <main class="portrait">
             {% include 'easy_admin/order_print/chunks/header.html.twig' %}
             <div class="main-table">
@@ -73,7 +73,7 @@
             </div>
         </main>
     </div>
-    <div class="page portrait order-fonts">
+    <div class="page portrait order-fonts js-order-page">
         <main class="portrait">
             <div class="main-table">
                 {{ order_info('заказ-наряд', order, customer, car) }}
@@ -83,6 +83,7 @@
 
 {% block order_last_page_end %}
                     {{ order_table_total(order, balance) }}
+                    {{ order_table_total(order, balance, false) }}
                 </div>
             </div>
         </main>
@@ -91,7 +92,7 @@
 {% endblock %}
 
 {% block recommendations_page_begin %}
-    <div class="page portrait order-fonts">
+    <div class="page portrait order-fonts js-recommendations-page">
         <main class="portrait">
             <div>
                 {{ order_info('рекомендации', order, customer, car) }}
@@ -104,7 +105,7 @@
             </div>
         </main>
     </div>
-    <div class="page html2pdf__page-break-after">
+    <div class="page html2pdf__page-break-after js-recommendations-page">
         <main>
             <div>
                 {{ order_info('рекомендации', order, customer, car) }}
@@ -122,6 +123,18 @@
 
 
 {% block content %}
+    <div class="page-settings portrait page-order order-fonts">
+        <div class="page-settings__col">
+            <div class="page-settings__label">Страницы:</div>
+            <label><input type="checkbox" checked id="js-show-order">Заказ</label>
+            <label><input type="checkbox" checked id="js-show-recommendations">Рекомендации</label>
+        </div>
+        <div class="page-settings__col">
+            <div class="page-settings__label">Настройки:</div>
+            <label><input type="checkbox" checked id="js-show-totals">Без учета баланса</label>
+        </div>
+    </div>
+
     <div class="content pages" id="content">
         {% for item in order.rootItems  %}
 
@@ -169,4 +182,38 @@
 
         {% endif %}
     </div>
+{% endblock %}
+
+
+{% block script %}
+    <script>
+      const orderShowCheckBox = document.querySelector('#js-show-order');
+      const recommendationsShowCheckBox = document.querySelector('#js-show-recommendations');
+
+      const orderPages = document.querySelectorAll('.page.js-order-page');
+      const recommendationsPages = document.querySelectorAll('.page.js-recommendations-page');
+
+      const totalsShowCheckbox = document.querySelector('#js-show-totals');
+      const totalsCleanBlock = document.querySelector('.js-order-totals-clean');
+      const totalsBalanceBlock = document.querySelector('.js-order-totals-balance');
+
+      orderShowCheckBox.addEventListener('click', () => {
+        orderPages.forEach( page => page.classList.toggle('hidden', !orderShowCheckBox.checked));
+        totalsShowCheckbox.disabled = !orderShowCheckBox.checked
+      });
+
+      if (recommendationsPages.length) {
+        recommendationsShowCheckBox.addEventListener('click', () => {
+          recommendationsPages.forEach( page => page.classList.toggle('hidden', !recommendationsShowCheckBox.checked))
+        });
+      } else {
+        recommendationsShowCheckBox.checked = false;
+        recommendationsShowCheckBox.disabled = true;
+      }
+
+      totalsShowCheckbox.addEventListener('click', () => {
+        totalsBalanceBlock.classList.toggle('hidden', !totalsShowCheckbox.checked);
+        totalsCleanBlock.classList.toggle('hidden', totalsShowCheckbox.checked)
+      })
+    </script>
 {% endblock %}
