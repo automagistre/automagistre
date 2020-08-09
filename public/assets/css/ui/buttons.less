@@ -1,4 +1,5 @@
 @red : rgba(250, 13, 28, 0.60);
+@font-color: rgba(0, 0, 0, 70%);
 //------------------ Buttons ------------------
 
 .btn-block {
@@ -95,10 +96,10 @@
     width: 1rem;
     height: 1rem;
 
-    border: 2px solid #f2f2f2;
+    border: 2px solid @grey;
   }
 
-  &:checked {
+  &:checked:not(:disabled) {
     &:before {
       transform: rotate(-45deg);
 
@@ -123,5 +124,10 @@
     background: #fff;
 
     cursor: pointer;
+  }
+  &:disabled {
+    &:before {
+      background-color: @grey;
+    }
   }
 }
