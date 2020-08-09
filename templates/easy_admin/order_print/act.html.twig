@@ -141,7 +141,7 @@
     {% set pageTotalNumber = 1 %}
     {% set position = 0 %}
 
-    {% set pageBreakeFirstPageCount = 14 %}
+    {% set pageBreakeFirstPageCount = 7 %}
     {% set pageBreakeMiddlePageCount = 25 %}
 
     {% for orderItem in order.rootItems('group')|merge(order.rootItems('service'))|merge(order.items('part', true)) %}
