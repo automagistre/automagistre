@@ -11,7 +11,6 @@ use App\Order\Entity\Order;
 use App\Order\Form\Type\OrderItemServiceType;
 use App\Shared\Doctrine\Registry;
 use function assert;
-use function in_array;
 use function sprintf;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -150,21 +149,6 @@ final class OrderPrintController extends AbstractController
         return $this->render('easy_admin/order_print/invoice.html.twig', [
             'order' => $order,
         ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function isActionAllowed($actionName): bool
-    {
-        if (!in_array($actionName, ['finish', 'act', 'invoice'], true)) {
-            $order = $this->request->attributes->get('easyadmin')['item'];
-            assert($order instanceof Order);
-
-            return $order->isEditable();
-        }
-
-        return parent::isActionAllowed($actionName);
     }
 
     /**
