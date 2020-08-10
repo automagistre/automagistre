@@ -172,7 +172,6 @@
       if (orderPages.length) {
         orderShowCheckBox.addEventListener('click', () => {
           orderPages.forEach( page => page.classList.toggle('hidden', !orderShowCheckBox.checked));
-          totalsShowCheckbox.disabled = !orderShowCheckBox.checked
         });
       } else {
         orderShowCheckBox.disabled = true;
