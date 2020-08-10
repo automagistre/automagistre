@@ -82,7 +82,6 @@
 }
 .label--checkbox {
   position: relative;
-  margin: 0.5rem;
   font-family: Circe, sans-serif;
   line-height: 135%;
   cursor: pointer;
@@ -877,7 +876,7 @@ footer {
   color: rgba(0, 0, 0, 0.7);
   box-shadow: 0 2px 9px rgba(0, 0, 0, 0.25);
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(max-content, 1fr));
   gap: 2mm;
 }
 .page-settings.portrait {
@@ -890,6 +889,7 @@ footer {
 .page-settings__col {
   display: grid;
   grid-auto-flow: row;
+  row-gap: 2mm;
 }
 .right {
   padding-left: 5mm;
