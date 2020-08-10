@@ -2,6 +2,7 @@
 
 {% from 'easy_admin/order_print/chunks/order_info.html.twig' import order_info %}
 {% from 'easy_admin/order_print/chunks/recommendations_table.html.twig' import recommendations_table_header, recommendations_table_item, recommendations_table_totals %}
+{% from 'easy_admin/order_print/chunks/order_table.html.twig' import order_table_header, order_table_item, order_table_total %}
 
 {# @var order \App\Order\Entity\Order #}
 {# @var car \App\Car\Entity\Car #}
@@ -68,7 +69,45 @@
 </div>
 {% endblock %}
 
+
+{% block order_first_page_begin %}
+    <div class="page portrait order-fonts hidden js-order-page">
+        <main class="portrait">
+            <div class="main-table">
+                {{ order_info('Пред-заказ', order, customer, car) }}
+                <div class="order-table">
+                    {{ order_table_header() }}
+                    {% endblock %}
+
+                    {% block order_breake_page %}
+                </div>
+            </div>
+        </main>
+    </div>
+    <div class="page portrait order-fonts hidden js-order-page">
+        <main class="portrait">
+            <div class="main-table">
+                {{ order_info('заказ-наряд', order, customer, car) }}
+                <div class="order-table">
+                    {{ order_table_header() }}
+                    {% endblock %}
+
+                    {% block order_last_page_end %}
+                    {{ order_table_total(order, balance, false, false) }}
+                </div>
+            </div>
+        </main>
+    </div>
+{% endblock %}
+
+
 {% block content %}
+    <div class="page-settings portrait page-matching order-fonts">
+        <div class="page-settings__col">
+            <div class="page-settings__label label--checkbox">Страницы:</div>
+            <label class="label--checkbox"><input class="checkbox" type="checkbox" id="js-show-order">Согласованные работы и запчасти</label>
+        </div>
+    </div>
     <div class="content pages" id="content">
 
         {% if car is not empty and car.recommendations is not empty %}
@@ -92,5 +131,51 @@
             {{ block('recommendations_page_end') }}
 
         {% endif %}
+
+        {% if order.rootItems|length %}
+
+            {% set page = 1 %}
+            {% set row = 1 %}
+
+            {% for item in order.rootItems  %}
+
+                {% set next_block_length = 1 %}
+                {% if instanceOf(item, 'App\\Order\\Entity\\OrderItemService') %}
+                    {% set next_block_length = next_block_length + item.children|length %}
+                {% elseif instanceOf(item, 'App\\Order\\Entity\\OrderItemGroup') %}
+                    {% if not item.hideParts %}
+                        {% set next_block_length = next_block_length + item.parts|length %}
+                    {% endif %}
+                {% endif %}
+
+                {% if page == 1 and row == 1 %}
+                    {{ block('order_first_page_begin') }}
+                {% elseif next_block_length + row > 35 %}
+                    {{ block('order_breake_page') }}
+                    {% set row = 1 %}
+                    {% set page = page + 1 %}
+                {% endif %}
+                {{ order_table_item(item) }}
+                {% set row = row + next_block_length %}
+            {% endfor %}
+
+            {{ block('order_last_page_end') }}
+        {% endif %}}
     </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+      const orderShowCheckBox = document.querySelector('#js-show-order');
+      const orderPages = document.querySelectorAll('.page.js-order-page');
+
+      if (orderPages.length) {
+        orderShowCheckBox.addEventListener('click', () => {
+          orderPages.forEach( page => page.classList.toggle('hidden', !orderShowCheckBox.checked));
+          totalsShowCheckbox.disabled = !orderShowCheckBox.checked
+        });
+      } else {
+        orderShowCheckBox.disabled = true;
+      }
+    </script>
 {% endblock %}
