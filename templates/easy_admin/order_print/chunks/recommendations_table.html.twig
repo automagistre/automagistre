@@ -12,16 +12,16 @@
     <div class="recommendations-table__block">
         <div class="table__item row-service">
             <div class="table__item cell-service left">{{ recommendation.service }}</div>
-            <div class="table__item cell-service">{{ recommendation.parts is not empty ? recommendation.price|localize_money(true) : "" }}</div>
+            <div class="table__item cell-service">{{ recommendation.parts is not empty ? recommendation.price|localize_money(true)|number_format(0, '.', ' ') : "" }}</div>
         </div>
-        <div class="table__item cell-total-recommendation">{{ recommendation.totalPrice|localize_money(true) }}</div>
+        <div class="table__item cell-total-recommendation">{{ recommendation.totalPrice|localize_money(true)|number_format(0, '.', ' ') }}</div>
         {% if recommendation.parts is not empty %}
-            <div class="table__item cell-total-parts">{{ recommendation.totalPartPrice|localize_money(true) }}</div>
+            <div class="table__item cell-total-parts">{{ recommendation.totalPartPrice|localize_money(true)|number_format(0, '.', ' ') }}</div>
         {% endif  %}
         {% for part in recommendation.parts %}
             <div class="table__item cell-part right">{{ part.partId|display_name('name') }} ({{ part.partId|display_name('manufacturer') }})</div>
             <div class="table__item cell-part">{{ part.quantity / 100 }}</div>
-            <div class="table__item cell-part">{{ part.totalPrice|localize_money(true) }}</div>
+            <div class="table__item cell-part">{{ part.totalPrice|localize_money(true)|number_format(0, '.', ' ') }}</div>
         {% endfor %}
     </div>
 {% endmacro %}
@@ -33,10 +33,10 @@
 
     <div class="recommendations-table__totals">
         <div class="table__item cell-recommendations_totals right">ВСЕГО РЕКОМЕНДАЦИЙ НА СУММУ, руб</div>
-        <div class="table__item cell-recommendations_totals">{{ totalRecommendationPrice|localize_money(true) }}</div>
+        <div class="table__item cell-recommendations_totals">{{ totalRecommendationPrice|localize_money(true)|number_format(0, '.', ' ') }}</div>
         <div class="table__item cell-recommendations_totals right">ВСЕГО ПО РАБОТАМ, руб</div>
-        <div class="table__item cell-recommendations_totals">{{ totalServicePrice|localize_money(true) }}</div>
+        <div class="table__item cell-recommendations_totals">{{ totalServicePrice|localize_money(true)|number_format(0, '.', ' ') }}</div>
         <div class="table__item cell-recommendations_totals right">ВСЕГО ПО ЗАПЧАСТЯМ, руб</div>
-        <div class="table__item cell-recommendations_totals">{{ totalPartPrice|localize_money(true) }}</div>
+        <div class="table__item cell-recommendations_totals">{{ totalPartPrice|localize_money(true)|number_format(0, '.', ' ') }}</div>
     </div>
 {% endmacro %}
