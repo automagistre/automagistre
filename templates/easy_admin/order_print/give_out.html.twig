@@ -131,9 +131,18 @@
 
 
 {% block content %}
+
+    <div class="page-settings portrait page-order order-fonts">
+        <div class="page-settings__col">
+            <div class="page-settings__label">Страницы:</div>
+            <label class="label--checkbox page-settings__item"><input class="checkbox" type="checkbox" checked id="js-show-full-page">Работы с запчастями (для мастера)</label>
+            <label class="label--checkbox page-settings__item"><input class="checkbox" type="checkbox" id="js-show-parts-page">Только запчасти (для склада)</label>
+        </div>
+    </div>
+
     {% set partsWithoutService = [] %}
     <div class="content pages" id="content">
-        <div class="page portrait order-fonts" style="height: max-content">
+        <div class="page portrait order-fonts js-full-page" style="height: max-content">
             {{ block('master_block_header') }}
             <main class="portrait">
                 <div class="give-out-table-master">
@@ -160,7 +169,7 @@
                     {% endif %}
             </main>
         </div>
-        <div class="page portrait order-fonts" style="height: max-content">
+        <div class="page portrait order-fonts hidden js-parts-page" style="height: max-content">
             {{ block('manager_block_header') }}
             <main class="portrait">
                 <div class="give-out-table-manager">
@@ -174,4 +183,38 @@
             </main>
         </div>
     </div>
+{% endblock %}
+
+
+{% block script %}
+    <script>
+      const fullPageShowCheckBox = document.querySelector('#js-show-full-page');
+      const partsPageShowCheckBox = document.querySelector('#js-show-parts-page');
+
+      const fullPage = document.querySelector('.page.js-full-page');
+      const partsPage = document.querySelector('.page.js-parts-page');
+
+      if (fullPage.querySelectorAll('.cell-service').length) {
+        fullPageShowCheckBox.addEventListener('click', () => {
+          fullPage.classList.toggle('hidden', !fullPageShowCheckBox.checked);
+        });
+      } else {
+        fullPageShowCheckBox.disabled = true
+        fullPage.classList.add('hidden')
+      }
+
+      if (partsPage.querySelectorAll('.cell-part').length) {
+        partsPageShowCheckBox.addEventListener('click', () => {
+          partsPage.classList.toggle('hidden', !partsPageShowCheckBox.checked);
+        });
+      } else {
+        partsPageShowCheckBox.disabled = true
+      }
+
+      if (fullPageShowCheckBox.disabled && !partsPageShowCheckBox.disabled) {
+        partsPage.classList.toggle('hidden', false);
+        partsPageShowCheckBox.checked = !partsPage.classList.contains('hidden')
+      }
+
+    </script>
 {% endblock %}
