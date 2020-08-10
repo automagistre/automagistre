@@ -544,7 +544,7 @@ footer {
 .order-info {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-evenly;
   min-width: 4.5cm;
   border: 1px solid rgba(250, 13, 28, 0.6);
   border-radius: 2px;
