@@ -114,9 +114,9 @@
                         {% set groupPrice = groupPrice.add(orderItemGroup.totalPartPrice(true)) %}
                     {% endif %}
 
-                    {{ groupPrice|localize_money(true) }}
+                    {{ groupPrice|localize_money(true)|number_format(2, '.', ' ') }}
                 </div>
-                <div class="invoice-table__item cell-cost">{{ groupPrice|localize_money(true) }}</div>
+                <div class="invoice-table__item cell-cost">{{ groupPrice|localize_money(true)|number_format(2, '.', ' ') }}</div>
             </div>
         {% endfor %}
 
@@ -129,8 +129,8 @@
                 <div class="invoice-table__item">{{ orderItemService }}</div>
                 <div class="invoice-table__item">&mdash;</div>
                 <div class="invoice-table__item"></div>
-                <div class="invoice-table__item cell-cost">{{ orderItemService.totalPrice(true)|localize_money(true) }}</div>
-                <div class="invoice-table__item cell-cost">{{ orderItemService.totalPrice(true)|localize_money(true) }}</div>
+                <div class="invoice-table__item cell-cost">{{ orderItemService.totalPrice(true)|localize_money(true)|number_format(2, '.', ' ') }}</div>
+                <div class="invoice-table__item cell-cost">{{ orderItemService.totalPrice(true)|localize_money(true)|number_format(2, '.', ' ') }}</div>
             </div>
         {% endfor %}
 
@@ -145,17 +145,17 @@
                 <div class="invoice-table__item">шт.</div>
                 <div class="invoice-table__item cell-cost">
                     {% if orderItemPart.discounted %}
-                        {{ orderItemPart.price.subtract(orderItemPart.discount)|localize_money(true) }}
+                        {{ orderItemPart.price.subtract(orderItemPart.discount)|localize_money(true)|number_format(2, '.', ' ') }}
                     {% else %}
-                        {{ orderItemPart.price|localize_money(true) }}
+                        {{ orderItemPart.price|localize_money(true)|number_format(2, '.', ' ') }}
                     {% endif %}
                 </div>
-                <div class="invoice-table__item cell-cost">{{ orderItemPart.totalPrice(true)|localize_money(true) }}</div>
+                <div class="invoice-table__item cell-cost">{{ orderItemPart.totalPrice(true)|localize_money(true)|number_format(2, '.', ' ') }}</div>
             </div>
         {% endfor %}
         <div class="invoice-table__row row-total">
             <div class="invoice-table__item cell-total">Итого к оплате</div>
-            <div class="invoice-table__item cell-cost">{{ order.totalForPayment(null, false)|localize_money(true) }}</div>
+            <div class="invoice-table__item cell-cost">{{ order.totalForPayment(null, false)|localize_money(true)|number_format(2, '.', ' ') }}</div>
         </div>
         <div class="invoice-table__row row-total">
             <div class="invoice-table__item cell-total">Без налога(НДС)</div>
