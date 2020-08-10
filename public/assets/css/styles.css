@@ -762,6 +762,10 @@ footer {
   height: 1.1em;
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
+.table__item.cell-check.part:before {
+  top: 0.2em;
+  left: 2.2em;
+}
 .table__item.row-part {
   grid-column-start: 1;
   grid-column-end: -1;

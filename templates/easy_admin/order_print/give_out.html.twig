@@ -81,7 +81,7 @@
 
 {% block give_out_item_part %}
     {% set part = part_by_id(orderItemPart.partId) %}
-    <div></div>
+    <div class="table__item cell-check part"></div>
     <div class="table__item row-part__give_out left">
         <b>{{ part.number }}</b> {{ part.manufacturerId|display_name }} {{ part.name }}
     </div>
