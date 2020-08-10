@@ -424,7 +424,6 @@ footer {
 
   &.cell-check {
     position: relative;
-
     @cell-check-box-height: 1.1em;
 
     &:before {
@@ -435,6 +434,10 @@ footer {
       width: @cell-check-box-height;
       height: @cell-check-box-height;
       border: 1px solid @grey;
+    }
+    &.part:before {
+      top: (1.5em - @cell-check-box-height) / 2;
+      left: @cell-check-box-height * 2;
     }
   }
 
