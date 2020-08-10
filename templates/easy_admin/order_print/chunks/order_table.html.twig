@@ -74,8 +74,8 @@
     </div>
 {% endmacro %}
 
-{% macro order_table_total(order, balance, withBalance=true) %}
-    <div class="order-table__totals page-brake {{ withBalance ? 'js-order-totals-balance' : 'js-order-totals-clean hidden' }}">
+{% macro order_table_total(order, balance, withBalance=true, hidden=false) %}
+    <div class="order-table__totals page-brake {{ hidden ?  'js-order-totals-clean hidden' : 'js-order-totals-balance' }}">
         <div class="table__item cell-subtotal__pre right">РАБОТЫ / ЗАПЧАСТИ без учета скидок, руб.</div>
         <div class="table__item cell-subtotal__pre">{{ order.totalGroupPrice.add(order.totalServicePrice(false, true))|localize_money(true) }} / {{ order.totalPartPrice(false, true)|localize_money(true) }}</div>
         {% if order.discount %}
