@@ -136,29 +136,31 @@
     </div>
 
     <div class="content pages" id="content">
-        {% for item in order.rootItems  %}
+        {% if order.rootItems|length %}
+            {% for item in order.rootItems  %}
 
-            {% set next_block_length = 1 %}
-            {% if instanceOf(item, 'App\\Order\\Entity\\OrderItemService') %}
-                {% set next_block_length = next_block_length + item.children|length %}
-            {% elseif instanceOf(item, 'App\\Order\\Entity\\OrderItemGroup') %}
-                {% if not item.hideParts %}
-                    {% set next_block_length = next_block_length + item.parts|length %}
+                {% set next_block_length = 1 %}
+                {% if instanceOf(item, 'App\\Order\\Entity\\OrderItemService') %}
+                    {% set next_block_length = next_block_length + item.children|length %}
+                {% elseif instanceOf(item, 'App\\Order\\Entity\\OrderItemGroup') %}
+                    {% if not item.hideParts %}
+                        {% set next_block_length = next_block_length + item.parts|length %}
+                    {% endif %}
                 {% endif %}
-            {% endif %}
 
-            {% if page == 1 and row == 1 %}
-                {{ block('order_first_page_begin') }}
-            {% elseif next_block_length + row > 25 %}
-                {{ block('order_breake_page') }}
-                {% set row = 1 %}
-                {% set page = page + 1 %}
-            {% endif %}
-            {{ order_table_item(item) }}
-            {% set row = row + next_block_length %}
-        {% endfor %}
+                {% if page == 1 and row == 1 %}
+                    {{ block('order_first_page_begin') }}
+                {% elseif next_block_length + row > 25 %}
+                    {{ block('order_breake_page') }}
+                    {% set row = 1 %}
+                    {% set page = page + 1 %}
+                {% endif %}
+                {{ order_table_item(item) }}
+                {% set row = row + next_block_length %}
+            {% endfor %}
 
-        {{ block('order_last_page_end') }}
+            {{ block('order_last_page_end') }}
+        {% endif %}
 
         {% if car is not empty and car.recommendations is not empty %}
 
