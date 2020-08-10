@@ -133,7 +133,7 @@
 {% block content %}
     {% set partsWithoutService = [] %}
     <div class="content pages" id="content">
-        <div class="page portrait order-fonts">
+        <div class="page portrait order-fonts" style="height: max-content">
             {{ block('master_block_header') }}
             <main class="portrait">
                 <div class="give-out-table-master">
@@ -160,7 +160,7 @@
                     {% endif %}
             </main>
         </div>
-        <div class="page portrait order-fonts">
+        <div class="page portrait order-fonts" style="height: max-content">
             {{ block('manager_block_header') }}
             <main class="portrait">
                 <div class="give-out-table-manager">
