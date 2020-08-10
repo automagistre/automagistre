@@ -27,7 +27,7 @@
                 {% set totalRecommendationPrice = car.recommendationPrice('service').add(car.recommendationPrice('part')) %}
                 <div class="recommendations-table__totals" style="margin-top: 1mm">
                     <div class="table__item cell-recommendations_totals right">С ЗАКАЗОМ, руб</div>
-                    <div class="table__item cell-recommendations_totals">{{ totalRecommendationPrice.add(orderTotalPrice)|localize_money(true) }}</div>
+                    <div class="table__item cell-recommendations_totals">{{ totalRecommendationPrice.add(orderTotalPrice)|localize_money(true)|number_format(0, '.', ' ') }}</div>
                 </div>
             {% endif %}
             </div>
