@@ -125,10 +125,10 @@
         <div class="upd-table__cell"></div> {# номер позиции #}
         <div class="upd-table__cell"></div>                                       {# код товара #}
         <div class="upd-table__cell cell-total-name left">Всего к оплате</div> {# Наименование позиции #}
-        <div class="upd-table__cell">{{ order.totalForPayment(null, false)|localize_money(true) }}</div> {# стоимость #}
+        <div class="upd-table__cell">{{ order.totalForPayment(null, false)|localize_money(true)|number_format(2, '.', ' ') }}</div> {# стоимость #}
         <div class="upd-table__cell cell-total-x">X</div> {# акциз #}
         <div class="upd-table__cell">0.00</div> {# Сумма налога #}
-        <div class="upd-table__cell">{{ order.totalForPayment(null, false)|localize_money(true) }}</div> {# Стоимость товаров и услуг с налогом #}
+        <div class="upd-table__cell">{{ order.totalForPayment(null, false)|localize_money(true)|number_format(2, '.', ' ') }}</div> {# Стоимость товаров и услуг с налогом #}
         {# Страна происхождения #}
             <div class="upd-table__cell"></div> {# Цифровой код #}
             <div class="upd-table__cell"></div> {# Краткое наименование #}
@@ -158,23 +158,23 @@
                 'col_2': '796',
                 'col_2a': 'шт',
                 'col_3': orderItemPart.quantity / 100,
-                'col_4': partPrice|localize_money(true),
-                'col_5': orderItemPart.totalPrice(true)|localize_money(true),
+                'col_4': partPrice|localize_money(true)|number_format(2, '.', ' '),
+                'col_5': orderItemPart.totalPrice(true)|localize_money(true)|number_format(2, '.', ' '),
                 'col_6': 'без акциза',
                 'col_7': 'без НДС',
                 'col_8': 'без НДС',
-                'col_9': orderItemPart.totalPrice(true)|localize_money(true),
+                'col_9': orderItemPart.totalPrice(true)|localize_money(true)|number_format(2, '.', ' '),
             }) }}
         {% elseif instanceOf(orderItem, 'App\\Order\\Entity\\OrderItemService') %}
             {% set orderItemService = orderItem %}
             {{ _self.upd_table_item_row({
                 'col_a': position,
                 'col_1': orderItemService,
-                'col_5': orderItemService.totalPrice(true)|localize_money(true),
+                'col_5': orderItemService.totalPrice(true)|localize_money(true)|number_format(2, '.', ' '),
                 'col_6': 'без акциза',
                 'col_7': 'без НДС',
                 'col_8': 'без НДС',
-                'col_9': orderItemService.totalPrice(true)|localize_money(true),
+                'col_9': orderItemService.totalPrice(true)|localize_money(true)|number_format(2, '.', ' '),
             }) }}
         {% elseif instanceOf(orderItem, 'App\\Order\\Entity\\OrderItemGroup') %}
             {% set orderItemGroup = orderItem %}
@@ -185,11 +185,11 @@
             {{ _self.upd_table_item_row({
                 'col_a': position,
                 'col_1': orderItemGroup,
-                'col_5': groupPrice|localize_money(true),
+                'col_5': groupPrice|localize_money(true)|number_format(2, '.', ' '),
                 'col_6': 'без акциза',
                 'col_7': 'без НДС',
                 'col_8': 'без НДС',
-                'col_9': groupPrice|localize_money(true),
+                'col_9': groupPrice|localize_money(true)|number_format(2, '.', ' '),
             }) }}
         {% endif %}
 
