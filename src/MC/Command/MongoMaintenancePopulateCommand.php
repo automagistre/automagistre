@@ -51,9 +51,8 @@ final class MongoMaintenancePopulateCommand extends Command
 
         $equipments = $this->registry->manager(McEquipment::class)
             ->createQueryBuilder()
-            ->select('mc_equipment', 'model', 'lines', 'work', 'parts')
+            ->select('mc_equipment', 'lines', 'work', 'parts')
             ->from(McEquipment::class, 'mc_equipment')
-            ->leftJoin('mc_equipment.model', 'model')
             ->leftJoin('mc_equipment.lines', 'lines')
             ->leftJoin('lines.work', 'work')
             ->leftJoin('lines.parts', 'parts')
@@ -65,7 +64,7 @@ final class MongoMaintenancePopulateCommand extends Command
             $dm->persist(
                 new Maintenance(
                     $item['id'],
-                    $this->createVehicle($item['model']['id']),
+                    $this->createVehicle($item['vehicleId']),
                     new Engine(
                         $item['equipment.engine.name'],
                         $item['equipment.engine.type'],
