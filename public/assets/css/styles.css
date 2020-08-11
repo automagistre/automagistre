@@ -482,7 +482,7 @@ main.landscape {
   min-height: 100%;
 }
 main.portrait {
-  min-height: 234mm;
+  min-height: 232mm;
 }
 footer {
   min-height: 45mm;
@@ -941,14 +941,14 @@ footer {
     box-shadow: none;
   }
   .page.landscape {
-    min-width: 283mm;
+    min-width: 281mm;
     width: 100%;
     height: 100%;
     transform: rotate(270deg) translate(-283mm, 0);
     transform-origin: 0 0;
   }
   .page.portrait {
-    min-height: 279mm;
+    min-height: 277mm;
     width: 100%;
     height: 100%;
   }
