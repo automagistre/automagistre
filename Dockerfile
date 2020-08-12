@@ -1,7 +1,7 @@
 #
 # PHP-FPM
 #
-FROM composer:1.10.10 as composer
+FROM composer:2.0.0-alpha3 as composer
 FROM php:7.4.9-fpm-buster as php-base
 
 LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
@@ -42,17 +42,14 @@ RUN set -ex \
     && pecl install memcached apcu xdebug mongodb uuid \
     && docker-php-ext-enable memcached apcu mongodb uuid
 
-ENV COMPOSER_ALLOW_SUPERUSER 1
-ENV COMPOSER_MEMORY_LIMIT -1
-COPY --from=composer /usr/bin/composer /usr/bin/composer
-RUN set -ex \
-    && composer global require "hirak/prestissimo:^0.3"
-
 ENV WAIT_FOR_IT /usr/local/bin/wait-for-it.sh
 RUN set -ex \
     && curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh -o ${WAIT_FOR_IT} \
     && chmod +x ${WAIT_FOR_IT}
 
+ENV COMPOSER_ALLOW_SUPERUSER 1
+ENV COMPOSER_MEMORY_LIMIT -1
+COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY composer.json composer.lock ${APP_DIR}/
 RUN set -ex \
     && composer validate \
