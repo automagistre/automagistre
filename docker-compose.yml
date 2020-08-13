@@ -48,6 +48,8 @@ services:
     mongo:
         image: mongo:4.2.6
         command: --serviceExecutor adaptive
+        labels:
+            ru.grachevko.dhu: 'mongo.automagistre.local'
 
     mongo-express:
         image: mongo-express:0.54.0
