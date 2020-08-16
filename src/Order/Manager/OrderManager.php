@@ -100,7 +100,7 @@ final class OrderManager
 
             foreach ($order->getItems(OrderItemService::class) as $item) {
                 /** @var OrderItemService $item */
-                $price = $item->getTotalPrice(true);
+                $price = $item->getTotalPrice(true, false);
                 if (!$price->isPositive()) {
                     continue;
                 }

@@ -67,11 +67,11 @@ class OrderItemService extends OrderItem implements PriceInterface, TotalPriceIn
         return $this->getTotalPriceByClass(OrderItemPart::class, $withDiscount);
     }
 
-    public function getTotalPrice(bool $withDiscount = false): Money
+    public function getTotalPrice(bool $withDiscount = false, bool $considerWarranty = true): Money
     {
         $price = $this->getPrice();
 
-        if ($this->isWarranty()) {
+        if ($considerWarranty && $this->isWarranty()) {
             return $price->multiply(0);
         }
 
