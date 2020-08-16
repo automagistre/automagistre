@@ -85,6 +85,8 @@ easy_admin:
             - { entity: 'McEquipment', label: 'Комплектации', icon: 'cogs' }
             - { label: 'Сайт' }
             - { entity: 'Review', label: 'Отзывы', icon: 'comments' }
+            - { label: 'Аналитика' }
+            - { entity: 'PartToBuy', label: 'Закупки', icon: 'line-chart' }
             - { label: 'Отчёты' }
             - { label: 'Рентабельность', route: 'report_profit' }
             - { label: 'Продажи', route: 'report_part_sell' }

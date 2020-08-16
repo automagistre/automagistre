@@ -1,0 +1,47 @@
+{% extends 'easy_admin/default/layout.html.twig' %}
+
+{% block content_title %}
+    Закупки
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-12">
+            {% if parts is not empty %}
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Наименование</th>
+                            <th>В наличии</th>
+                            <th>В заказах</th>
+                            <th>В поставке</th>
+                            <th>Нужно заказать</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for part in parts %}
+                            <tr>
+                                <td>{% include 'easy_admin/field_part.html.twig' with {'value': part} only %}</td>
+                                <td>{{ part.quantity / 100 }}</td>
+                                <td>{{ part.ordered / 100 }}</td>
+                                <td>{{ part.suppliesQuantity / 100 }}</td>
+                                <td>
+                                    {% set toBuy = part.ordered - part.quantity - part.suppliesQuantity %}
+                                    {% if toBuy <= part.orderFromQuantity %}
+                                        {{ part.orderUpToQuantity / 100 }}
+                                    {% else %}
+                                        {{ toBuy / 100 }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                Список пуст
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

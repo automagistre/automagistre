@@ -53,6 +53,11 @@ class PartView
     public int $quantity;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    public int $ordered;
+
+    /**
      * @ORM\Column(type="money")
      */
     public Money $price;
@@ -104,6 +109,7 @@ class PartView
         string $number,
         bool $isUniversal,
         int $quantity,
+        int $ordered,
         Money $price,
         Money $discount,
         Money $income,
@@ -120,6 +126,7 @@ class PartView
         $this->number = $number;
         $this->isUniversal = $isUniversal;
         $this->quantity = $quantity;
+        $this->ordered = $ordered;
         $this->price = $price;
         $this->discount = $discount;
         $this->income = $income;
@@ -168,19 +175,14 @@ class PartView
      */
     public function supplies(): array
     {
-        static $supplies = [];
-        static $hydrated = false;
+        $supplies = [];
 
-        if (false === $hydrated) {
-            foreach ($this->supplies as $supply) {
-                $supplies[] = new SupplyView(
-                    $this->id,
-                    OperandId::fromString($supply['supplier_id']),
-                    $supply['quantity'],
-                );
-            }
-
-            $hydrated = true;
+        foreach ($this->supplies as $supply) {
+            $supplies[] = new SupplyView(
+                $this->id,
+                OperandId::fromString($supply['supplier_id']),
+                $supply['quantity'],
+            );
         }
 
         return $supplies;
@@ -188,15 +190,9 @@ class PartView
 
     public function suppliesQuantity(): int
     {
-        static $quantity = 0;
-        static $calculated = false;
-
-        if (false === $calculated) {
-            foreach ($this->supplies() as $item) {
-                $quantity += $item->quantity;
-            }
-
-            $calculated = true;
+        $quantity = 0;
+        foreach ($this->supplies as $supply) {
+            $quantity += $supply['quantity'];
         }
 
         return $quantity;
@@ -211,6 +207,7 @@ class PartView
                    part.number                                                                                      AS number,
                    part.universal                                                                                   AS is_universal,
                    COALESCE(stock.quantity, 0)                                                                      AS quantity,
+                   COALESCE(ordered.quantity, 0)                                                                    AS ordered,
                    COALESCE(crosses.parts, \'[]\'::JSON)                                                              AS analogs,
                    m.name                                                                                           AS manufacturer_name,
                    m.id                                                                                             AS manufacturer_id,
@@ -242,6 +239,14 @@ class PartView
                                 FROM income_part) income ON income.part_id = part.id AND income.rownum = 1
                      LEFT JOIN (SELECT motion.part_id, SUM(motion.quantity) AS quantity FROM motion GROUP BY motion.part_id) stock
                                ON stock.part_id = part.id
+                               
+                     LEFT JOIN (SELECT order_item_part.part_id, SUM(order_item_part.quantity) AS quantity
+                                FROM order_item_part
+                                    JOIN order_item ON order_item.id = order_item_part.id
+                                    JOIN orders ON order_item.order_id = orders.id AND orders.closed_at IS NULL
+                                GROUP BY order_item_part.part_id) AS ordered 
+                            ON ordered.part_id = part.id
+
                      LEFT JOIN (
                         SELECT 
                             json_agg(json_build_object(\'supplier_id\', sub.supplier_id, \'quantity\', sub.quantity)) AS json,

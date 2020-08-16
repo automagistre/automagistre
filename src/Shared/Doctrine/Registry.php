@@ -109,7 +109,7 @@ final class Registry
     /**
      * @psalm-param class-string $class
      */
-    public function connection(string $class): Connection
+    public function connection(string $class = null): Connection
     {
         return $this->manager($class)->getConnection();
     }
@@ -117,7 +117,7 @@ final class Registry
     /**
      * @psalm-param class-string $class
      */
-    public function manager(string $class): EntityManagerInterface
+    public function manager(string $class = null): EntityManagerInterface
     {
         $em = $this->registry->getManager();
 
