@@ -37,16 +37,16 @@
                                             <i class="fa fa-exclamation-triangle"></i>
                                         </label>
                                         Отрицательное количество на складе
-                                    {% elseif (part.quantity - part.ordered) < 0 %}
-                                        <label class="label label-warning">
-                                            <i class="fa fa-fire"></i>
-                                        </label>
-                                        Нужна поставка для заказа
                                     {% elseif toBuy == 0 %}
                                         <label class="label label-success">
                                             <i class="fa fa-check"></i>
                                         </label>
                                         Заказано
+                                    {% elseif (part.quantity - part.ordered) < 0 %}
+                                        <label class="label label-warning">
+                                            <i class="fa fa-fire"></i>
+                                        </label>
+                                        Нужна поставка для заказа
                                     {% elseif leftInStock < part.orderUpToQuantity %}
                                         <label class="label label-warning">
                                             <i class="fa fa-cubes"></i>
