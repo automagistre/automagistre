@@ -259,7 +259,7 @@ class PartView
                                     GROUP BY part_supply.part_id, part_supply.supplier_id
                                     HAVING SUM(part_supply.quantity) <> 0
                             ) sub
-                        GROUP BY sub.part_id, sub.supplier_id
+                        GROUP BY sub.part_id
                     ) supply ON supply.part_id = part.id
                      LEFT JOIN (SELECT pcp.part_id, json_agg(pcp2.part_id) AS parts
                                 FROM part_cross_part pcp

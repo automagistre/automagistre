@@ -15,6 +15,7 @@ final class WhatToBuyController extends AbstractController
             ->select('t')
             ->from(PartView::class, 't')
             ->where('t.quantity - t.ordered < t.orderFromQuantity')
+            ->orWhere('t.quantity - t.ordered < t.orderUpToQuantity')
             ->getQuery()
             ->getResult();
 
