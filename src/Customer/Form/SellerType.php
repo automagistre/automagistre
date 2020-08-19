@@ -8,8 +8,10 @@ use App\Customer\Entity\Operand;
 use App\Customer\Entity\OperandId;
 use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\IdentifierFormatter;
+use function array_flip;
+use function array_key_exists;
 use function array_map;
-use Doctrine\ORM\AbstractQuery;
+use DateTime;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -35,22 +37,35 @@ final class SellerType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
+        $preferred = $this->registry->connection()
+            ->fetchAll('
+                SELECT supplier_id
+                FROM income
+                WHERE accrued_at > :date
+                GROUP BY supplier_id
+                ORDER BY COUNT(*) DESC
+                LIMIT 10
+            ',
+                [
+                    'date' => (new DateTime('-1 month'))->format('Y-m-d'),
+                ]
+            );
+        $preferred = array_map('array_shift', $preferred);
+        $preferred = array_flip($preferred);
+
         $resolver->setDefaults([
             'label' => 'Поставщик',
             'placeholder' => 'Выберите поставщика',
             'choice_loader' => new CallbackChoiceLoader(function (): array {
-                $sellers = $this->registry->manager(Operand::class)
-                    ->createQueryBuilder()
-                    ->select('t.id AS id')
-                    ->from(Operand::class, 't')
-                    ->where('t.seller = TRUE')
-                    ->getQuery()
-                    ->getResult(AbstractQuery::HYDRATE_ARRAY);
+                $ids = $this->registry
+                    ->connection(Operand::class)
+                    ->fetchAll('SELECT id AS id, type FROM operand WHERE seller IS TRUE');
 
-                return array_map('array_shift', $sellers);
+                return array_map(fn (array $item): OperandId => OperandId::fromString($item['id']), $ids);
             }),
             'choice_label' => fn (OperandId $operandId) => $this->formatter->format($operandId),
             'choice_value' => fn (?OperandId $operandId) => null === $operandId ? null : $operandId->toString(),
+            'preferred_choices' => fn (string $operand) => array_key_exists($operand, $preferred),
         ]);
     }
 
