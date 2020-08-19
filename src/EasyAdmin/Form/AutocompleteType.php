@@ -133,20 +133,20 @@ final class AutocompleteType extends AbstractType implements DataMapperInterface
     /**
      * {@inheritdoc}
      */
-    public function mapDataToForms($data, $forms): void
+    public function mapDataToForms($viewData, iterable $forms): void
     {
         assert($forms instanceof Traversable);
         $form = current(iterator_to_array($forms));
-        $form->setData($data);
+        $form->setData($viewData);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function mapFormsToData($forms, &$data): void
+    public function mapFormsToData(iterable $forms, &$viewData): void
     {
         assert($forms instanceof Traversable);
         $form = current(iterator_to_array($forms));
-        $data = $form->getData();
+        $viewData = $form->getData();
     }
 }

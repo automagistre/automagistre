@@ -19,7 +19,6 @@ return PhpCsFixer\Config::create()
     ->setRiskyAllowed(true)
     ->setRules([
         '@DoctrineAnnotation'                   => true,
-        '@PHP73Migration'                       => true,
         '@PhpCsFixer'                           => true,
         '@PhpCsFixer:risky'                     => true,
         '@Symfony'                              => true,
@@ -35,6 +34,7 @@ return PhpCsFixer\Config::create()
         'multiline_whitespace_before_semicolons'=> false,
         'native_function_invocation'            => true,
         'no_null_property_initialization'       => true,
+        'no_unneeded_final_method'              => false,
         'no_unreachable_default_argument_value' => true,
         'no_unused_imports'                     => true,
         'no_useless_else'                       => true,
