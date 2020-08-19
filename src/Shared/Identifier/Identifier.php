@@ -14,10 +14,7 @@ abstract class Identifier
 {
     private UuidInterface $uuid;
 
-    /**
-     * @final
-     */
-    private function __construct(UuidInterface $uuid)
+    final private function __construct(UuidInterface $uuid)
     {
         $this->uuid = $uuid;
     }
