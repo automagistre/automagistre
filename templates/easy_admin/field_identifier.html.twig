@@ -1,13 +1,21 @@
 {% if value is not empty %}
-    {% if field_options.target|default == '_self' %}
-        {% set url = easyadmin_path(entity_config.name, 'show', {'id': item|toId, 'referer': true}) %}
-    {% else %}
-        {% set url = easyadmin_path_by_id(value, field_options.action|default('show')) %}
+    {% set withoutLink = field_options.withoutLink|default(false) %}
+
+    {% if not withoutLink %}
+        {% if field_options.target|default == '_self' %}
+            {% set url = easyadmin_path(entity_config.name, 'show', {'id': item|toId, 'referer': true}) %}
+        {% else %}
+            {% set url = easyadmin_path_by_id(value, field_options.action|default('show')) %}
+        {% endif %}
     {% endif %}
 
-    <a href="{{ url }}">
-        {{- value|display_name(field_options.format|default(null))|easyadmin_truncate -}}
-    </a>
+    {% if not withoutLink %}
+        <a href="{{ url }}">
+    {% endif %}
+    {{- value|display_name(field_options.format|default(null))|easyadmin_truncate -}}
+    {% if not withoutLink %}
+        </a>
+    {% endif %}
 {% else %}
     {% include 'easy_admin/default/label_null.html.twig' %}
 {% endif %}

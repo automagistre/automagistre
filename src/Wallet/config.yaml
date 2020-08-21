@@ -39,7 +39,7 @@ easy_admin:
                 title: 'Список проводок'
                 fields:
 #                    - { property: 'id', template: 'easy_admin/default/field_raw.html.twig' }
-                    - { property: 'walletId', label: 'Счет', sortable: false, template: 'easy_admin/field_identifier.html.twig' }
+                    - { property: 'walletId', label: 'Счет', sortable: false, template: 'easy_admin/field_identifier.html.twig', withoutLink: true }
                     - { property: 'amount', label: 'Сумма', sortable: false, template: 'easy_admin/field_money.html.twig' }
                     - { property: 'source', label: 'Описание', sortable: false, template: 'easy_admin/wallet/field_description.html.twig' }
                     - { property: 'description', label: 'Комментарий', sortable: false, template: 'easy_admin/default/field_raw.html.twig' }
