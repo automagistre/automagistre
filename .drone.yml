@@ -197,8 +197,8 @@ steps:
         commands:
             - >-
                 cat .tenants | while read tenant; do
-                TENANT=$tenant
-                mkdir -p /opt/am/db/tenant/$tenant
+                export TENANT=$tenant
+                && mkdir -p /opt/am/db/tenant/$tenant
                 && docker-compose --file .swarm.yml config | docker stack deploy --prune --with-registry-auth --compose-file - tenant_$tenant
                 ; done
         environment:
