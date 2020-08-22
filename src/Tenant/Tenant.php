@@ -29,6 +29,7 @@ final class Tenant extends Enum
     private const KAZAN = 2;
     private const SHAVLEV = 3;
     private const BUNKER = 4;
+    private const OPTIMUS = 5;
 
     protected static array $identifier = [
         self::DEMO => 'demo',
@@ -36,6 +37,7 @@ final class Tenant extends Enum
         self::KAZAN => 'kazan',
         self::SHAVLEV => 'shavlev',
         self::BUNKER => 'bunker',
+        self::OPTIMUS => 'optimus',
     ];
 
     protected static array $displayName = [
@@ -44,6 +46,7 @@ final class Tenant extends Enum
         self::KAZAN => 'Автомагистр Казань',
         self::SHAVLEV => 'ИП Щавлев В.А.',
         self::BUNKER => 'Бункер Гараж',
+        self::OPTIMUS => 'Оптимус',
     ];
 
     protected static array $requisites = [
@@ -114,6 +117,27 @@ final class Tenant extends Enum
         ],
         self::BUNKER => [
         ],
+        self::OPTIMUS => [
+            'type' => 'IP',
+            'name' => 'Автосервис ОПТИМУС',
+            'address' => 'г. Москва, ул. Иловайская, дом 3, стр. 13',
+            'site' => 'www.car-service-optimus.ru',
+            'email' => 'car_service_optimus@mail.ru',
+            'logo' => 'logo_automagistre_color.png',
+            'telephones' => [
+                '+7 (985) 536-60-60',
+                '+7 (985) 866-70-75',
+            ],
+            'bank' => 'ПАО «Сбербанк»',
+            'ogrn' => '320774600203192',
+            'inn' => '772422516030',
+            'rs' => '40802810538000188540',
+            'ks' => '30101810400000000225',
+            'bik' => '044525225',
+            'guarantyUrl' => 'https://www.car-service-optimus.ru',
+            'head' => 'Аббасов Э.Э.',
+            'headType' => 'Индивидуальный предприниматель',
+        ],
     ];
 
     protected static array $smsOnScheduledEntry = [
@@ -122,6 +146,7 @@ final class Tenant extends Enum
         self::KAZAN => '{date} вас ожидают в ТехЦентре Автомагистр, по адресу Магистральная улица, дом 33, корпус 1',
         self::SHAVLEV => '',
         self::BUNKER => '',
+        self::OPTIMUS => '',
     ];
 
     protected static array $smsOnReminderEntry = [
@@ -130,6 +155,7 @@ final class Tenant extends Enum
         self::KAZAN => 'Напоминаем, завтра в {time} вас ожидают в ТехЦентре Автомагистр. Пожалуйста, сообщите нам, если не можете приехать. +78432977760',
         self::SHAVLEV => '',
         self::BUNKER => '',
+        self::OPTIMUS => '',
     ];
 
     public function getRequisites(): array
