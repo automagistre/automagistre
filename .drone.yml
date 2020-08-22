@@ -224,6 +224,8 @@ steps:
             branch:
                 - rc
                 - test
+        depends_on:
+            - check deploy
 
 services:
     -   name: db
