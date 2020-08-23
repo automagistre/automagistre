@@ -19,7 +19,7 @@ class Manufacturer
     public ManufacturerId $id;
 
     /**
-     * @ORM\Column(name="name", length=64, nullable=true)
+     * @ORM\Column(name="name", length=64, unique=true)
      */
     private ?string $name;
 
