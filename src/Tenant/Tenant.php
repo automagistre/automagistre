@@ -30,6 +30,7 @@ final class Tenant extends Enum
     private const SHAVLEV = 3;
     private const BUNKER = 4;
     private const OPTIMUS = 5;
+    private const AUTOUNIT = 6;
 
     protected static array $identifier = [
         self::DEMO => 'demo',
@@ -38,6 +39,7 @@ final class Tenant extends Enum
         self::SHAVLEV => 'shavlev',
         self::BUNKER => 'bunker',
         self::OPTIMUS => 'optimus',
+        self::AUTOUNIT => 'autounit',
     ];
 
     protected static array $displayName = [
@@ -47,6 +49,7 @@ final class Tenant extends Enum
         self::SHAVLEV => 'ИП Щавлев В.А.',
         self::BUNKER => 'Бункер Гараж',
         self::OPTIMUS => 'Оптимус',
+        self::AUTOUNIT => 'Авто Юнит',
     ];
 
     protected static array $requisites = [
@@ -137,6 +140,23 @@ final class Tenant extends Enum
             'guarantyUrl' => 'https://www.car-service-optimus.ru',
             'head' => 'Аббасов Э.Э.',
             'headType' => 'Индивидуальный предприниматель',
+        ],
+        self::AUTOUNIT => [
+            'type' => 'ООО',
+            'name' => 'Автоюнит-М',
+            'address' => 'г. Москва, ул. Перерва, дом 1, стр. 1',
+            'site' => 'www.avtounit-marino.ru',
+            'email' => 'valentinfeklin@yandex.ru',
+            'logo' => 'logo_automagistre_color.png',
+            'telephones' => [
+                '+7 (915) 169-69-68',
+                '+7 (963) 638-81-81',
+            ],
+            'inn' => '7726637508',
+            'kpp' => '504001001',
+            'guarantyUrl' => 'https://www.avtounit-marino.ru',
+            'head' => 'Феклин В.Г.',
+            'headType' => 'Генеральный директор',
         ],
     ];
 
