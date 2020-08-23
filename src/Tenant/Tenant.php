@@ -167,6 +167,7 @@ final class Tenant extends Enum
         self::SHAVLEV => '',
         self::BUNKER => '',
         self::OPTIMUS => '',
+        self::AUTOUNIT => '',
     ];
 
     protected static array $smsOnReminderEntry = [
@@ -176,6 +177,7 @@ final class Tenant extends Enum
         self::SHAVLEV => '',
         self::BUNKER => '',
         self::OPTIMUS => '',
+        self::AUTOUNIT => '',
     ];
 
     public function getRequisites(): array
