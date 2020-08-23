@@ -19,6 +19,7 @@ use Premier\Enum\Enum;
  * @method static self incomePayment()
  * @method static self expense()
  * @method static self operandManual()
+ * @method static self initial()
  * @method string toDescription()
  * @method bool   isPayroll()
  * @method string toSourceClass()
@@ -35,6 +36,7 @@ final class WalletTransactionSource extends Enum
     private const INCOME_PAYMENT = 4;
     private const EXPENSE = 5;
     private const OPERAND_MANUAL = 6;
+    private const INITIAL = 7;
 
     protected static array $description = [
         self::LEGACY => 'Какие то старые проводки',
@@ -44,6 +46,7 @@ final class WalletTransactionSource extends Enum
         self::INCOME_PAYMENT => 'Оплата за поставку',
         self::EXPENSE => 'Списание по статье расходов',
         self::OPERAND_MANUAL => 'Ручная проводка клиента',
+        self::INITIAL => 'Начальный баланс',
     ];
 
     protected static array $sourceClass = [
@@ -54,5 +57,6 @@ final class WalletTransactionSource extends Enum
         self::INCOME_PAYMENT => IncomeId::class,
         self::EXPENSE => ExpenseId::class,
         self::OPERAND_MANUAL => OperandId::class,
+        self::INITIAL => UserId::class,
     ];
 }

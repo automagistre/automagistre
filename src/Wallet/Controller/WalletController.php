@@ -7,8 +7,12 @@ namespace App\Wallet\Controller;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Wallet\Entity\Wallet;
 use App\Wallet\Entity\WalletId;
+use App\Wallet\Entity\WalletTransaction;
+use App\Wallet\Entity\WalletTransactionId;
+use App\Wallet\Enum\WalletTransactionSource;
 use function assert;
 use Money\Currency;
+use Money\Money;
 use stdClass;
 
 /**
@@ -18,12 +22,12 @@ final class WalletController extends AbstractController
 {
     protected function createNewEntity(): stdClass
     {
-        $model = parent::createNewEntity();
-        assert($model instanceof stdClass);
+        $dto = parent::createNewEntity();
+        assert($dto instanceof stdClass);
 
-        $model->currency = new Currency('RUB');
+        $dto->currency = new Currency('RUB');
 
-        return $model;
+        return $dto;
     }
 
     /**
@@ -31,17 +35,30 @@ final class WalletController extends AbstractController
      */
     protected function persistEntity($entity): Wallet
     {
-        $model = $entity;
-        assert($model instanceof stdClass);
+        $dto = $entity;
+        assert($dto instanceof stdClass);
 
         $entity = new Wallet(
             WalletId::generate(),
-            $model->name,
-            $model->currency,
-            $model->useInIncome,
-            $model->useInOrder,
-            $model->showInLayout,
+            $dto->name,
+            $dto->currency,
+            $dto->useInIncome,
+            $dto->useInOrder,
+            $dto->showInLayout,
         );
+
+        $initial = $dto->initial;
+        if ($initial instanceof Money && $initial->isPositive()) {
+            $em = $this->registry->manager();
+
+            $em->persist(new WalletTransaction(
+                WalletTransactionId::generate(),
+                $entity->toId(), $initial,
+                WalletTransactionSource::initial(),
+                $this->getUser()->toId()->toUuid(),
+                null
+            ));
+        }
 
         parent::persistEntity($entity);
 

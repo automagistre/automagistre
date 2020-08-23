@@ -18,6 +18,7 @@ easy_admin:
                 form_options: { data_class: stdClass }
                 fields:
                     - { property: 'name', label: 'Название' }
+                    - { property: 'initial', label: 'Начальное баланс', type: App\Form\Type\MoneyType }
                     - { property: 'currency', label: 'Валюта', type: App\Form\Type\CurrencyType }
                     - { property: 'useInIncome', label: 'Использовать для оплаты приходов' }
                     - { property: 'useInOrder', label: 'Использовать для начислений по заказам' }
