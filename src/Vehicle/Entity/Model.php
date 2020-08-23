@@ -15,12 +15,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(
  *     name="vehicle_model",
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(columns={"manufacturer_id", "case_name"})
+ *         @ORM\UniqueConstraint(columns={"manufacturer_id", "name", "case_name"})
  *     }
  * )
  *
  * @UniqueEntity(
- *     fields={"manufacturer", "caseName"},
+ *     fields={"manufacturer", "name", "caseName"},
  *     errorPath="caseName",
  *     message="Кузов {{ value }} у выбранного производителя уже существует."
  * )
