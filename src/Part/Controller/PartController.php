@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Part\Controller;
 
-use function abs;
 use App\EasyAdmin\Controller\AbstractController;
 use App\EasyAdmin\Form\AutocompleteType;
-use App\Form\Type\QuantityType;
 use App\Order\Entity\Order;
 use App\Order\Manager\ReservationManager;
 use App\Part\Entity\Discount;
@@ -17,13 +15,9 @@ use App\Part\Entity\PartId;
 use App\Part\Entity\PartNumber;
 use App\Part\Entity\PartView;
 use App\Part\Entity\Price;
-use App\Part\Event\PartAccrued;
-use App\Part\Event\PartDecreased;
 use App\Part\Form\PartCaseDTO;
 use App\Part\Form\PartDto;
 use App\Part\Manager\PartManager;
-use App\Storage\Entity\Motion;
-use App\Storage\Enum\Source;
 use App\Vehicle\Entity\Model;
 use App\Vehicle\Entity\VehicleId;
 use function array_diff;
@@ -39,7 +33,6 @@ use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use function explode;
-use LogicException;
 use function mb_strtoupper;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
@@ -67,72 +60,6 @@ final class PartController extends AbstractController
     {
         $this->partManager = $partManager;
         $this->reservationManager = $reservationManager;
-    }
-
-    public function incomeAction(): Response
-    {
-        $partId = $this->getIdentifier(PartId::class);
-        if (!$partId instanceof PartId) {
-            throw new LogicException('Part required.');
-        }
-
-        $form = $this->createFormBuilder()
-            ->add('quantity', QuantityType::class)
-            ->getForm()
-            ->handleRequest($this->request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->registry->manager(Motion::class);
-            $quantity = abs((int) $form->get('quantity')->getData());
-            $user = $this->getUser();
-
-            $em->persist(new Motion($partId, $quantity, Source::manual(), $user->toId()->toUuid()));
-            $em->flush();
-
-            $this->event(new PartAccrued($partId, [
-                'quantity' => $quantity,
-            ]));
-
-            return $this->redirectToReferrer();
-        }
-
-        return $this->render('easy_admin/part/income.html.twig', [
-            'part' => $this->registry->get(PartView::class, $partId),
-            'form' => $form->createView(),
-        ]);
-    }
-
-    public function outcomeAction(): Response
-    {
-        $partId = $this->getIdentifier(PartId::class);
-        if (!$partId instanceof PartId) {
-            throw new LogicException('Part required.');
-        }
-
-        $form = $this->createFormBuilder()
-            ->add('quantity', QuantityType::class)
-            ->getForm()
-            ->handleRequest($this->request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->registry->manager(Motion::class);
-            $quantity = abs((int) $form->get('quantity')->getData());
-            $user = $this->getUser();
-
-            $em->persist(new Motion($partId, 0 - $quantity, Source::manual(), $user->toId()->toUuid()));
-            $em->flush();
-
-            $this->event(new PartDecreased($partId, [
-                'quantity' => $quantity,
-            ]));
-
-            return $this->redirectToReferrer();
-        }
-
-        return $this->render('easy_admin/part/outcome.html.twig', [
-            'part' => $this->registry->get(PartView::class, $partId),
-            'form' => $form->createView(),
-        ]);
     }
 
     protected function initialize(Request $request): void

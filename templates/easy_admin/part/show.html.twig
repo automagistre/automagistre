@@ -143,12 +143,12 @@
         </div>
 
         <div class="col-md-6" style="margin-bottom: 15px">
-            <a href="{{ easyadmin_path('Part', 'income', {'part_id': entity|toId, 'referer': true}) }}" class="btn btn-primary">
+            <a href="{{ easyadmin_path('PartIncome', 'income', {'part_id': entity|toId, 'referer': true}) }}" class="btn btn-primary">
                 <i class="fa fa-arrow-down"></i>
                 Пополнить вручную
             </a>
 
-            <a href="{{ easyadmin_path('Part', 'outcome', {'part_id': entity|toId, 'referer': true}) }}" class="btn btn-danger">
+            <a href="{{ easyadmin_path('PartIncome', 'outcome', {'part_id': entity|toId, 'referer': true}) }}" class="btn btn-danger">
                 <i class="fa fa-arrow-up"></i>
                 Списать вручную
             </a>
