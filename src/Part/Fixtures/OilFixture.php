@@ -8,38 +8,26 @@ use App\Manufacturer\Entity\ManufacturerId;
 use App\Manufacturer\Fixtures\ToyotaFixture;
 use App\Part\Entity\Discount;
 use App\Part\Entity\Part;
-use App\Part\Entity\PartCross;
 use App\Part\Entity\PartId;
 use App\Part\Entity\PartNumber;
 use App\Part\Entity\Price;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Money\Currency;
 use Money\Money;
 
-final class GasketFixture extends Fixture implements DependentFixtureInterface
+final class OilFixture extends Fixture
 {
-    public const ID = '1ea88126-9b50-62f8-9995-ba1ca6d07248';
+    public const ID = '1eae88c9-3657-6472-9992-0242c0a8100b';
     public const MANUFACTURER_ID = ToyotaFixture::ID;
-    public const NAME = 'Сальник';
-    public const NUMBER = 'PART1NUMBER';
+    public const NAME = 'Масло';
+    public const NUMBER = 'OIL';
     public const IS_UNIVERSAL = false;
     public const PRICE = 150000;
     public const PRICE_CURRENCY = 'RUB';
     public const DISCOUNT = 10000;
     public const DISCOUNT_CURRENCY = 'RUB';
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getDependencies(): array
-    {
-        return [
-            OilFixture::class,
-        ];
-    }
 
     /**
      * {@inheritdoc}
@@ -56,7 +44,7 @@ final class GasketFixture extends Fixture implements DependentFixtureInterface
             self::IS_UNIVERSAL,
         );
 
-        $this->addReference('part-1', $part);
+        $this->addReference('part-2', $part);
 
         $manager->persist(new Price(
             $partId,
@@ -69,10 +57,6 @@ final class GasketFixture extends Fixture implements DependentFixtureInterface
             new Money(self::DISCOUNT, new Currency(self::DISCOUNT_CURRENCY)),
             new DateTimeImmutable(),
         ));
-
-        /** @var Part $gasket */
-        $gasket = $this->getReference('part-2');
-        $manager->persist(new PartCross($part, $gasket));
 
         $manager->persist($part);
         $manager->flush();

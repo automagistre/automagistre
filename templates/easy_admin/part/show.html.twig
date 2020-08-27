@@ -244,9 +244,9 @@
                         </div>
                     {% endif %}
                     <div class="box-footer">
-                        <a class="btn btn-primary" href="{{ easyadmin_path('Part', 'cross', {'id': entity|toId, 'referer': true}) }}">Добавить кросс</a>
+                        <a class="btn btn-primary" href="{{ easyadmin_path('PartCross', 'cross', {'part_id': entity|toId, 'referer': true}) }}">Добавить кросс</a>
                         {% if crosses is not empty %}
-                            <a class="btn btn-danger" href="{{ easyadmin_path('Part', 'uncross', {'id': entity|toId, 'referer': true}) }}">Исключить</a>
+                            <a class="btn btn-danger" href="{{ easyadmin_path('PartCross', 'uncross', {'part_id': entity|toId, 'referer': true}) }}">Исключить</a>
                         {% endif %}
                     </div>
                 </div>

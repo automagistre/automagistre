@@ -51,6 +51,11 @@ easy_admin:
             case:
                 title: 'Создать применения запчасти к кузову'
 
+        PartCross:
+            class: App\Part\Entity\Part
+            controller: App\Part\Controller\PartCrossController
+            disabled_actions: ['new', 'list', 'show', 'autocomplete', 'edit', 'search', 'delete']
+
         PartPrice:
             class: App\Part\Entity\Price
             controller: App\Part\Controller\PartPriceController

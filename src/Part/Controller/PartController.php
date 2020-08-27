@@ -51,7 +51,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Validator\Constraints;
 use function trim;
 use function urldecode;
 
@@ -68,50 +67,6 @@ final class PartController extends AbstractController
     {
         $this->partManager = $partManager;
         $this->reservationManager = $reservationManager;
-    }
-
-    public function crossAction(): Response
-    {
-        $left = $this->findCurrentEntity();
-
-        if (!$left instanceof PartView) {
-            throw new LogicException('Parts required.');
-        }
-
-        $form = $this->createFormBuilder()
-            ->add('right', AutocompleteType::class, [
-                'class' => Part::class,
-                'label' => 'Аналог',
-                'constraints' => [
-                    new Constraints\NotBlank(),
-                    new Constraints\NotEqualTo(['value' => $left->toId()]),
-                ],
-            ])
-            ->getForm()
-            ->handleRequest($this->request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->partManager->cross($left->toId(), $form->get('right')->getData());
-
-            return $this->redirectToReferrer();
-        }
-
-        return $this->render('easy_admin/part/cross.html.twig', [
-            'part' => $left,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    public function uncrossAction(): Response
-    {
-        $part = $this->findCurrentEntity();
-        if (!$part instanceof PartView) {
-            throw new LogicException('Parts required.');
-        }
-
-        $this->partManager->uncross($part->toId());
-
-        return $this->redirectToReferrer();
     }
 
     public function incomeAction(): Response
