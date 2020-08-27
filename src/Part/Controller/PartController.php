@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Part\Controller;
 
 use App\EasyAdmin\Controller\AbstractController;
-use App\EasyAdmin\Form\AutocompleteType;
 use App\Order\Entity\Order;
 use App\Order\Manager\ReservationManager;
 use App\Part\Entity\Discount;
@@ -15,7 +14,6 @@ use App\Part\Entity\PartId;
 use App\Part\Entity\PartNumber;
 use App\Part\Entity\PartView;
 use App\Part\Entity\Price;
-use App\Part\Form\PartCaseDTO;
 use App\Part\Form\PartDto;
 use App\Part\Manager\PartManager;
 use App\Vehicle\Entity\Model;
@@ -43,7 +41,6 @@ use function strtoupper;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use function trim;
 use function urldecode;
 
@@ -335,46 +332,5 @@ final class PartController extends AbstractController
         }
 
         return $entity;
-    }
-
-    protected function caseAction(): Response
-    {
-        $partId = $this->getIdentifier(PartId::class);
-        if (!$partId instanceof PartId) {
-            throw new BadRequestHttpException('Part required.');
-        }
-
-        $dto = $this->createWithoutConstructor(PartCaseDTO::class);
-        $dto->partId = $partId;
-
-        $form = $this->createFormBuilder($dto)
-            ->add('partId', AutocompleteType::class, [
-                'label' => 'Запчасть',
-                'class' => Part::class,
-                'disabled' => true,
-            ])
-            ->add('vehicleId', AutocompleteType::class, [
-                'label' => 'Модель',
-                'class' => Model::class,
-                'help' => 'Проивзодитель, Модель, Год, Поколение, Комплектация, Лошадинные силы',
-            ])
-            ->getForm()
-            ->handleRequest($this->request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->registry->manager(PartCase::class);
-            $em->persist(new PartCase($dto->partId, $dto->vehicleId));
-            $em->flush();
-
-            return $this->redirectToReferrer();
-        }
-
-        return $this->render('easy_admin/simple.html.twig', [
-            'content_title' => 'Добавить кузов',
-            'button' => 'Добавить',
-            'form' => $form->createView(),
-            'entity_fields' => [],
-            'entity' => $dto,
-        ]);
     }
 }
