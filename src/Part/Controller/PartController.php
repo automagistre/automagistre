@@ -18,7 +18,6 @@ use App\Part\Entity\PartNumber;
 use App\Part\Entity\PartView;
 use App\Part\Entity\Price;
 use App\Part\Event\PartAccrued;
-use App\Part\Event\PartCreated;
 use App\Part\Event\PartDecreased;
 use App\Part\Form\PartCaseDTO;
 use App\Part\Form\PartDto;
@@ -406,8 +405,6 @@ final class PartController extends AbstractController
         if (null !== $referer) {
             $this->setReferer(urldecode($referer).'&part_id='.$entity->toId()->toString());
         }
-
-        $this->event(new PartCreated($entity));
 
         return $entity;
     }
