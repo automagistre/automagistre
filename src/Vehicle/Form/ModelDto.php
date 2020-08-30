@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @EntityCheck(
  *     class=Model::class,
  *     message="Такой кузов уже существует",
- *     fields={"manufacturerId": "manufacturerId", "name": "name"},
+ *     fields={"manufacturerId": "manufacturerId", "name": "name", "caseName": "caseName"},
  *     exists=false,
  *     errorPath="name",
  * )
