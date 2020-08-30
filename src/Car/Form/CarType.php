@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Car\Form;
 
 use App\Car\Form\DTO\CarDto;
+use App\Shared\Form\EmptyStringAndCaseTransformer;
 use App\Vehicle\Form\BodyTypeType;
 use App\Vehicle\Form\EquipmentType;
 use App\Vehicle\Form\VehicleAutocompleteType;
@@ -48,6 +49,8 @@ final class CarType extends AbstractType
                 'label' => false,
                 'required' => false,
             ]);
+
+        $builder->get('identifier')->addViewTransformer(new EmptyStringAndCaseTransformer());
     }
 
     /**

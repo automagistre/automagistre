@@ -17,6 +17,7 @@ use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use function explode;
 use function mb_strtolower;
+use function mb_strtoupper;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -28,6 +29,7 @@ final class ModelController extends AbstractController
     public function widgetAction(): Response
     {
         $request = $this->request;
+        $em = $this->em;
 
         /** @var ModelDto $dto */
         $dto = $this->createWithoutConstructor(ModelDto::class);
@@ -36,8 +38,6 @@ final class ModelController extends AbstractController
             ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->em;
-
             $id = VehicleId::generate();
 
             $em->persist(
@@ -57,6 +57,28 @@ final class ModelController extends AbstractController
                 'id' => $id->toString(),
                 'text' => $this->display($id),
             ]);
+        }
+
+        if (null !== $dto->manufacturerId && null !== $dto->name && null !== $dto->caseName && $form->isSubmitted()) {
+            /** @var Model|null $vehicle */
+            $vehicle = $em->createQueryBuilder()
+                ->select('t')
+                ->from(Model::class, 't')
+                ->where('t.manufacturerId = :manufacturerId')
+                ->andWhere('LOWER(t.name) = :name')
+                ->andWhere('UPPER(t.caseName) = :caseName')
+                ->getQuery()
+                ->setParameter('manufacturerId', $dto->manufacturerId)
+                ->setParameter('name', mb_strtolower($dto->name))
+                ->setParameter('caseName', mb_strtoupper($dto->caseName))
+                ->getOneOrNullResult();
+
+            if (null !== $vehicle) {
+                return new JsonResponse([
+                    'id' => $vehicle->toId()->toString(),
+                    'text' => $this->display($vehicle->toId()),
+                ]);
+            }
         }
 
         return $this->render('easy_admin/widget.html.twig', [

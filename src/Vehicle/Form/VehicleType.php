@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Vehicle\Form;
 
 use App\Manufacturer\Form\ManufacturerAutocompleteType;
+use App\Shared\Form\EmptyStringAndCaseTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -41,6 +42,8 @@ final class VehicleType extends AbstractType
                 'label' => 'Конец производства',
                 'required' => false,
             ]);
+
+        $builder->get('caseName')->addViewTransformer(new EmptyStringAndCaseTransformer());
     }
 
     /**

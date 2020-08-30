@@ -44,11 +44,14 @@ final class CarController extends AbstractController
 
     public function widgetAction(): Response
     {
+        $request = $this->request;
+        $em = $this->em;
+
         $dto = $this->createNewEntity();
 
         $form = $this->createForm(CarType::class, $dto, [
             'action' => $this->generateEasyPath('Car', 'widget'),
-        ])->handleRequest($this->request);
+        ])->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $id = CarId::generate();
@@ -64,7 +67,6 @@ final class CarController extends AbstractController
             $entity->description = $dto->description;
             $entity->vehicleId = $dto->vehicleId;
 
-            $em = $this->em;
             $em->persist($entity);
             $em->flush();
 
@@ -72,6 +74,24 @@ final class CarController extends AbstractController
                 'id' => $id->toString(),
                 'text' => $this->display($id),
             ]);
+        }
+
+        if ('' !== $dto->identifier && $form->isSubmitted()) {
+            /** @var Car|null $car */
+            $car = $em->createQueryBuilder()
+                ->select('t')
+                ->from(Car::class, 't')
+                ->where('UPPER(t.identifier) = :identifier')
+                ->getQuery()
+                ->setParameter('identifier', $dto->identifier)
+                ->getOneOrNullResult();
+
+            if (null !== $car) {
+                return new JsonResponse([
+                    'id' => $car->toId()->toString(),
+                    'text' => $this->display($car->toId()),
+                ]);
+            }
         }
 
         return $this->render('easy_admin/car/widget.html.twig', [
