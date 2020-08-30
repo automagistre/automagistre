@@ -19,7 +19,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                <button type="button" class="btn btn-primary" id="{{ id }}-widget-submit">Сохранить</button>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
             </div>
             {{ form_end(form) }}
         </div>
@@ -37,7 +37,9 @@
             widgetButton = $('#{{ widgetButton }}'),
             previousModal = $('.modal.in');
 
-        submitButton.bind('click', function() {
+        form.on('submit', function(e) {
+          e.preventDefault();
+
           $.ajax({
             url: '{{ app.request.uri|raw }}',
             method: 'POST',
