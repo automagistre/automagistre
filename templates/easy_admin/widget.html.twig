@@ -32,7 +32,6 @@
 
         let form = $('#{{ id }}-widget-form'),
             modal = $('#{{ id }}-widget-modal'),
-            submitButton = $('#{{ id }}-widget-submit'),
             widgetTarget = $('#{{ widgetTarget }}'),
             widgetButton = $('#{{ widgetButton }}'),
             previousModal = $('.modal.in');
@@ -51,7 +50,6 @@
                 language: 'ru',
                 data: [data],
               }).val(data.id).trigger('change').prop('disabled', null);
-              widgetButton.prop('disabled', true);
             } else {
               setTimeout(() => $('body').append(data), 500);
             }
