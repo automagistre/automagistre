@@ -48,9 +48,7 @@ easy_admin:
                 fields:
                     -   property: 'vehicleId'
                         label: 'Модель'
-                        type: App\EasyAdmin\Form\AutocompleteType
-                        type_options:
-                            class: App\Vehicle\Entity\Model
+                        type: App\Vehicle\Form\VehicleAutocompleteType
                     - { property: 'period', label: 'Период ТО' }
                     - { property: 'equipment', label: ' ', type: App\Vehicle\Form\EquipmentType }
             new:
@@ -85,10 +83,9 @@ easy_admin:
                 fields:
                     -   property: 'partId'
                         label: 'Запчасть'
-                        type: App\EasyAdmin\Form\AutocompleteType
+                        type: App\Part\Form\PartAutocompleteType
                         type_options:
                             required: true
-                            class: App\Part\Entity\Part
                     - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
                     - { property: 'recommended', label: 'Рекомендуемый?' }
             new:

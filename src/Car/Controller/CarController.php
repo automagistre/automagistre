@@ -6,6 +6,7 @@ namespace App\Car\Controller;
 
 use App\Car\Entity\Car;
 use App\Car\Entity\CarId;
+use App\Car\Form\CarType;
 use App\Car\Form\DTO\CarDto;
 use App\Car\Repository\CarCustomerRepository;
 use App\Customer\Entity\Operand;
@@ -18,7 +19,6 @@ use App\Order\Entity\Order;
 use App\Vehicle\Entity\Embedded\Engine;
 use App\Vehicle\Entity\Embedded\Equipment;
 use App\Vehicle\Entity\Model;
-use App\Vehicle\Entity\VehicleId;
 use function array_map;
 use function array_merge;
 use function assert;
@@ -42,12 +42,75 @@ final class CarController extends AbstractController
         ]);
     }
 
+    public function widgetAction(): Response
+    {
+        $request = $this->request;
+        $em = $this->em;
+
+        $dto = $this->createNewEntity();
+
+        $form = $this->createForm(CarType::class, $dto, [
+            'action' => $this->generateEasyPath('Car', 'widget'),
+        ])->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $id = CarId::generate();
+
+            $entity = new Car(
+                $id,
+            );
+            $entity->equipment = $dto->equipment;
+            $entity->setGosnomer($dto->gosnomer);
+            $entity->identifier = $dto->identifier;
+            $entity->year = $dto->year;
+            $entity->caseType = $dto->caseType;
+            $entity->description = $dto->description;
+            $entity->vehicleId = $dto->vehicleId;
+
+            $em->persist($entity);
+            $em->flush();
+
+            return new JsonResponse([
+                'id' => $id->toString(),
+                'text' => $this->display($id),
+            ]);
+        }
+
+        if ('' !== $dto->identifier && $form->isSubmitted()) {
+            /** @var Car|null $car */
+            $car = $em->createQueryBuilder()
+                ->select('t')
+                ->from(Car::class, 't')
+                ->where('UPPER(t.identifier) = :identifier')
+                ->getQuery()
+                ->setParameter('identifier', $dto->identifier)
+                ->getOneOrNullResult();
+
+            if (null !== $car) {
+                return new JsonResponse([
+                    'id' => $car->toId()->toString(),
+                    'text' => $this->display($car->toId()),
+                ]);
+            }
+        }
+
+        return $this->render('easy_admin/car/widget.html.twig', [
+            'id' => 'car',
+            'label' => 'Новый автомобиль',
+            'form' => $form->createView(),
+        ]);
+    }
+
     /**
      * {@inheritdoc}
      */
     protected function createNewEntity(): CarDto
     {
-        return new CarDto(CarId::generate());
+        /** @var CarDto $dto */
+        $dto = $this->createWithoutConstructor(CarDto::class);
+        $dto->carId = CarId::generate();
+
+        return $dto;
     }
 
     protected function persistEntity($entity): Car
@@ -64,10 +127,7 @@ final class CarController extends AbstractController
         $entity->year = $dto->year;
         $entity->caseType = $dto->caseType;
         $entity->description = $dto->description;
-
-        if (null !== $dto->model) {
-            $entity->vehicleId = $dto->model->toId();
-        }
+        $entity->vehicleId = $dto->vehicleId;
 
         parent::persistEntity($entity);
 
@@ -77,11 +137,6 @@ final class CarController extends AbstractController
     protected function createEditDto(Closure $callable): ?object
     {
         $arr = $callable();
-
-        $vehicleId = $arr['vehicleId'];
-        $vehicle = $vehicleId instanceof VehicleId
-            ? $this->registry->findBy(Model::class, ['id' => $vehicleId])
-            : null;
 
         $equipment = new Equipment(
             new Engine(
@@ -94,16 +149,18 @@ final class CarController extends AbstractController
             $arr['equipment.wheelDrive'],
         );
 
-        return new CarDto(
-            $arr['id'],
-            $equipment,
-            $vehicle,
-            $arr['identifier'],
-            $arr['year'],
-            $arr['caseType'],
-            $arr['description'],
-            $arr['gosnomer'],
-        );
+        /** @var CarDto $dto */
+        $dto = $this->createWithoutConstructor(CarDto::class);
+        $dto->carId = $arr['id'];
+        $dto->equipment = $equipment;
+        $dto->vehicleId = $arr['vehicleId'];
+        $dto->identifier = $arr['identifier'];
+        $dto->year = $arr['year'];
+        $dto->caseType = $arr['caseType'];
+        $dto->description = $arr['description'];
+        $dto->gosnomer = $arr['gosnomer'];
+
+        return $dto;
     }
 
     protected function updateEntity($entity): Car
@@ -119,10 +176,7 @@ final class CarController extends AbstractController
         $entity->year = $dto->year;
         $entity->caseType = $dto->caseType;
         $entity->description = $dto->description;
-
-        if (null !== $dto->model) {
-            $entity->vehicleId = $dto->model->toId();
-        }
+        $entity->vehicleId = $dto->vehicleId;
 
         parent::updateEntity($entity);
 

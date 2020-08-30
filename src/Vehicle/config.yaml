@@ -24,11 +24,9 @@ easy_admin:
             form:
                 form_options: { data_class: \App\Vehicle\Form\ModelDto }
                 fields:
-                    -   property: 'manufacturer'
+                    -   property: 'manufacturerId'
                         label: 'Производитель'
-                        type: 'easyadmin_autocomplete'
-                        type_options:
-                            class: App\Manufacturer\Entity\Manufacturer
+                        type: App\Manufacturer\Form\ManufacturerAutocompleteType
                     - { property: 'name', label: 'Название' }
                     - { property: 'localizedName', label: 'Название на русском' }
                     - { property: 'caseName', label: 'Кузов' }
@@ -39,7 +37,7 @@ easy_admin:
             edit:
                 title: 'Редактировать кузов'
                 fields:
-                    - { property: 'manufacturer', label: 'Производитель', type_options: { disabled: true } }
+                    - { property: 'manufacturerId', label: 'Производитель', type_options: { disabled: true } }
 
 doctrine:
     orm:

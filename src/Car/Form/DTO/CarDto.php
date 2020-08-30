@@ -8,7 +8,7 @@ use App\Car\Entity\Car;
 use App\Car\Entity\CarId;
 use App\Shared\Validator\EntityCheck;
 use App\Vehicle\Entity\Embedded\Equipment;
-use App\Vehicle\Entity\Model;
+use App\Vehicle\Entity\VehicleId;
 use App\Vehicle\Enum\BodyType;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -33,11 +33,11 @@ final class CarDto
     public $equipment;
 
     /**
-     * @var Model|null
+     * @var VehicleId
      *
      * @Assert\NotBlank
      */
-    public $model;
+    public $vehicleId;
 
     /**
      * @var string|null
@@ -68,10 +68,10 @@ final class CarDto
      */
     public $gosnomer;
 
-    public function __construct(
+    private function __construct(
         CarId $carId,
+        VehicleId $vehicleId,
         Equipment $equipment = null,
-        Model $model = null,
         string $identifier = null,
         ?int $year = null,
         BodyType $caseType = null,
@@ -79,8 +79,8 @@ final class CarDto
         string $gosnomer = null
     ) {
         $this->carId = $carId;
+        $this->vehicleId = $vehicleId;
         $this->equipment = $equipment ?? new Equipment();
-        $this->model = $model;
         $this->identifier = $identifier;
         $this->year = $year;
         $this->caseType = $caseType ?? BodyType::unknown();

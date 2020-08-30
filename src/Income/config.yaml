@@ -42,9 +42,7 @@ easy_admin:
                 fields:
                     -   property: 'partId'
                         label: 'Запчасть'
-                        type: App\EasyAdmin\Form\AutocompleteType
-                        type_options:
-                            class: App\Part\Entity\Part
+                        type: App\Part\Form\PartAutocompleteType
                     - { property: 'price', label: 'Цена', type: App\Form\Type\MoneyType }
                     - { property: 'quantity', label: 'Количество', type: App\Form\Type\QuantityType }
             new:

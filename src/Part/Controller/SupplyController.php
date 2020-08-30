@@ -6,12 +6,11 @@ namespace App\Part\Controller;
 
 use App\Customer\Form\SellerType;
 use App\EasyAdmin\Controller\AbstractController;
-use App\EasyAdmin\Form\AutocompleteType;
 use App\Form\Type\QuantityType;
-use App\Part\Entity\Part;
 use App\Part\Entity\PartId;
 use App\Part\Entity\Supply;
 use App\Part\Enum\SupplySource;
+use App\Part\Form\PartAutocompleteType;
 use App\Part\Form\SupplyDto;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,9 +30,7 @@ final class SupplyController extends AbstractController
         $dto->partId = $partId;
 
         $form = $this->createFormBuilder($dto)
-            ->add('partId', AutocompleteType::class, [
-                'class' => Part::class,
-                'label' => 'Запчасть',
+            ->add('partId', PartAutocompleteType::class, [
                 'disabled' => true,
             ])
             ->add('supplierId', SellerType::class, [

@@ -23,8 +23,8 @@ easy_admin:
             form:
                 fields:
                     - { type: 'group', label: 'Основная информация', css_class: 'col-sm-6' }
-                    - { property: 'customerId', label: 'Заказчик', type: App\EasyAdmin\Form\AutocompleteType, type_options: { class: App\Customer\Entity\Operand } }
-                    - { property: 'carId', label: 'Автомобиль', type: App\EasyAdmin\Form\AutocompleteType, type_options: { class: App\Car\Entity\Car } }
+                    - { property: 'customerId', label: 'Заказчик', type: App\Customer\Form\CustomerAutocompleteType }
+                    - { property: 'carId', label: 'Автомобиль', type: App\Car\Form\CarAutocompleteType }
                     - { property: 'mileage', label: 'Пробег' }
                     - { property: 'worker', label: 'Работник', type: App\Employee\Form\EmployeeType }
                     - { type: 'group', label: 'Описание', css_class: 'col-sm-6' }

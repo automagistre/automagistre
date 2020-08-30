@@ -14,6 +14,8 @@ easy_admin:
                         type: App\Calendar\Form\ScheduleType
                     -   property: 'orderInfo'
                         type: App\Calendar\Form\OrderInfoType
+            new:
+                title: 'Создать новую запись'
             edit:
                 title: 'Редактировать Запись'
                 actions:

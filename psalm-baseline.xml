@@ -150,6 +150,11 @@
       <code>$view-&gt;vehicleId</code>
     </PossiblyNullArgument>
   </file>
+  <file src="src/Manufacturer/Controller/ManufacturerController.php">
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>null !== $dto-&gt;name</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
   <file src="src/Order/Controller/OrderController.php">
     <MissingClosureParamType occurrences="2">
       <code>$left</code>
@@ -341,11 +346,10 @@
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtolower($item)</code>
     </PossiblyFalseOperand>
-  </file>
-  <file src="src/Vehicle/Form/ModelDto.php">
-    <ImpurePropertyAssignment occurrences="1">
-      <code>$this-&gt;manufacturer</code>
-    </ImpurePropertyAssignment>
+    <RedundantConditionGivenDocblockType occurrences="2">
+      <code>null !== $dto-&gt;manufacturerId</code>
+      <code>null !== $dto-&gt;name</code>
+    </RedundantConditionGivenDocblockType>
   </file>
   <file src="tests/SmokeTest.php">
     <PossiblyInvalidArgument occurrences="1">

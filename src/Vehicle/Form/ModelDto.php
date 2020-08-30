@@ -4,23 +4,31 @@ declare(strict_types=1);
 
 namespace App\Vehicle\Form;
 
-use App\Manufacturer\Entity\Manufacturer;
+use App\Manufacturer\Entity\ManufacturerId;
+use App\Shared\Validator\EntityCheck;
+use App\Vehicle\Entity\Model;
 use App\Vehicle\Entity\VehicleId;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @psalm-immutable
+ * @EntityCheck(
+ *     class=Model::class,
+ *     message="Такой кузов уже существует",
+ *     fields={"manufacturerId": "manufacturerId", "name": "name", "caseName": "caseName"},
+ *     exists=false,
+ *     errorPath="name",
+ * )
  */
 final class ModelDto
 {
     public VehicleId $vehicleId;
 
     /**
-     * @var Manufacturer
+     * @var ManufacturerId
      *
      * @Assert\NotBlank
      */
-    public $manufacturer;
+    public $manufacturerId;
 
     /**
      * @var string
@@ -51,7 +59,7 @@ final class ModelDto
 
     public function __construct(
         VehicleId $vehicleId,
-        Manufacturer $manufacturer,
+        ManufacturerId $manufacturerId,
         string $name,
         ?string $localizedName,
         ?string $caseName,
@@ -59,7 +67,7 @@ final class ModelDto
         ?int $yearTill
     ) {
         $this->vehicleId = $vehicleId;
-        $this->manufacturer = $manufacturer;
+        $this->manufacturerId = $manufacturerId;
         $this->name = $name;
         $this->localizedName = $localizedName;
         $this->caseName = $caseName;
