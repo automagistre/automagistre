@@ -6,6 +6,7 @@ namespace App\Car\Controller;
 
 use App\Car\Entity\Car;
 use App\Car\Entity\CarId;
+use App\Car\Form\CarType;
 use App\Car\Form\DTO\CarDto;
 use App\Car\Repository\CarCustomerRepository;
 use App\Customer\Entity\Operand;
@@ -38,6 +39,45 @@ final class CarController extends AbstractController
     {
         return array_merge(parent::getSubscribedServices(), [
             CarCustomerRepository::class,
+        ]);
+    }
+
+    public function widgetAction(): Response
+    {
+        $dto = $this->createNewEntity();
+
+        $form = $this->createForm(CarType::class, $dto, [
+            'action' => $this->generateEasyPath('Car', 'widget'),
+        ])->handleRequest($this->request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $id = CarId::generate();
+
+            $entity = new Car(
+                $id,
+            );
+            $entity->equipment = $dto->equipment;
+            $entity->setGosnomer($dto->gosnomer);
+            $entity->identifier = $dto->identifier;
+            $entity->year = $dto->year;
+            $entity->caseType = $dto->caseType;
+            $entity->description = $dto->description;
+            $entity->vehicleId = $dto->vehicleId;
+
+            $em = $this->em;
+            $em->persist($entity);
+            $em->flush();
+
+            return new JsonResponse([
+                'id' => $id->toString(),
+                'text' => $this->display($id),
+            ]);
+        }
+
+        return $this->render('easy_admin/car/widget.html.twig', [
+            'id' => 'car',
+            'label' => 'Новый автомобиль',
+            'form' => $form->createView(),
         ]);
     }
 

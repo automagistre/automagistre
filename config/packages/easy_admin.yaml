@@ -55,7 +55,7 @@ easy_admin:
             js:
                 - 'assets/js/collection-autocomplete.js'
                 - 'https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js'
-                - 'assets/js/sto_v2.js'
+                - 'assets/js/sto_v3.js'
         menu:
             - { label: 'Заказы' }
             - { entity: 'CalendarEntry', label: 'Запись', icon: 'calendar' }

@@ -71,3 +71,40 @@
       });
     </script>
 {% endblock part_offer_widget %}
+
+{% block widget_button %}
+    <button
+            id="{{ easyadminEntity }}-widget-button"
+            class="btn btn-info modal-widget-button"
+            type="button"
+            data-url="{{ easyadmin_path(easyadminEntity, 'widget', {'widgetTarget': form.autocomplete.vars.id})|raw }}">
+        Создать
+    </button>
+{% endblock %}
+
+{% block car_autocomplete_widget %}
+    {% set easyadminEntity = 'Car' %}
+
+    <div class="input-group">
+        {{ form_widget(form) }}
+        <div class="input-group-btn">{{ block('widget_button') }}</div>
+    </div>
+{% endblock car_autocomplete_widget %}
+
+{% block vehicle_autocomplete_widget %}
+    {% set easyadminEntity = 'CarModel' %}
+
+    <div class="input-group">
+        {{ form_widget(form) }}
+        <div class="input-group-btn">{{ block('widget_button') }}</div>
+    </div>
+{% endblock vehicle_autocomplete_widget %}
+
+{% block manufacturer_autocomplete_widget %}
+    {% set easyadminEntity = 'Manufacturer' %}
+
+    <div class="input-group">
+        {{ form_widget(form) }}
+        <div class="input-group-btn">{{ block('widget_button') }}</div>
+    </div>
+{% endblock manufacturer_autocomplete_widget %}

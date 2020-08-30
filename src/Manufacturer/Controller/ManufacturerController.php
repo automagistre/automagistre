@@ -6,12 +6,53 @@ namespace App\Manufacturer\Controller;
 
 use App\EasyAdmin\Controller\AbstractController;
 use App\Manufacturer\Entity\Manufacturer;
+use App\Manufacturer\Entity\ManufacturerId;
+use App\Manufacturer\Form\ManufacturerDto;
+use App\Manufacturer\Form\ManufacturerType;
 use function array_map;
 use function str_replace;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 final class ManufacturerController extends AbstractController
 {
+    public function widgetAction(): Response
+    {
+        $request = $this->request;
+
+        /** @var ManufacturerDto $dto */
+        $dto = $this->createWithoutConstructor(ManufacturerDto::class);
+
+        $form = $this->createForm(ManufacturerType::class, $dto)
+            ->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->em;
+
+            $id = ManufacturerId::generate();
+
+            $em->persist(
+                new Manufacturer(
+                    $id,
+                    $dto->name,
+                    $dto->localizedName,
+                ),
+            );
+            $em->flush();
+
+            return new JsonResponse([
+                'id' => $id->toString(),
+                'text' => $this->display($id),
+            ]);
+        }
+
+        return $this->render('easy_admin/widget.html.twig', [
+            'id' => 'manufacturer',
+            'label' => 'Новый производитель',
+            'form' => $form->createView(),
+        ]);
+    }
+
     /**
      * {@inheritdoc}
      */

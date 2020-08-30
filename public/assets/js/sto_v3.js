@@ -88,3 +88,21 @@ function customer_car_form(options) {
   operandInput.on('select2:select', prefetchCars);
   carInput.on('select2:select', prefetchClients);
 }
+
+function registerWidgetButtons() {
+  $('.modal-widget-button').on('click', function(e) {
+    e.stopImmediatePropagation();
+
+    let button = $(this);
+
+    $.ajax({
+      url: button.data('url') + '&widgetButton=' + button.attr('id'),
+    }).done(function(data) {
+      $('body').append(data);
+    });
+  });
+}
+
+$(document).on('ready', function() {
+  registerWidgetButtons();
+});

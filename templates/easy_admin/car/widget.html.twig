@@ -1,0 +1,14 @@
+{% extends 'easy_admin/widget.html.twig' %}
+
+{% block modal_body %}
+    {{ form_row(form.vehicleId) }}
+    <div class="row">
+        <div class="col-md-6">{{ form_row(form.year) }}</div>
+        <div class="col-md-6">{{ form_row(form.caseType) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">{{ form_row(form.identifier) }}</div>
+        <div class="col-md-6">{{ form_row(form.gosnomer) }}</div>
+    </div>
+    {{ form_widget(form) }}
+{% endblock %}
