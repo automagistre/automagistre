@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Calendar\Form;
 
-use App\Car\Entity\Car;
-use App\Customer\Entity\Operand;
-use App\EasyAdmin\Form\AutocompleteType;
+use App\Car\Form\CarAutocompleteType;
+use App\Customer\Form\CustomerAutocompleteType;
 use App\Employee\Form\EmployeeUuidType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -21,16 +20,10 @@ final class OrderInfoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('customerId', AutocompleteType::class, [
-                'class' => Operand::class,
-                'required' => false,
-                'label' => 'Заказчик',
+            ->add('customerId', CustomerAutocompleteType::class, [
                 'disabled' => $options['disable_customer_and_car'],
             ])
-            ->add('carId', AutocompleteType::class, [
-                'class' => Car::class,
-                'required' => false,
-                'label' => 'Автомобиль',
+            ->add('carId', CarAutocompleteType::class, [
                 'disabled' => $options['disable_customer_and_car'],
             ])
             ->add('description', TextType::class, [

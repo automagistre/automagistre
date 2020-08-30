@@ -32,14 +32,12 @@ easy_admin:
                     - { property: 'mileage', label: 'Пробег' }
                     - { property: 'gosnomer', label: 'Гос. Номер' }
             form:
+                form_options: { data_class: App\Car\Form\DTO\CarDto }
                 fields:
                     - { type: 'group', label: 'Основная информация', css_class: 'col-sm-6' }
-                    -   property: 'model'
+                    -   property: 'vehicleId'
                         label: 'Модель'
-                        type: 'easyadmin_autocomplete'
-                        type_options:
-                            class: App\Vehicle\Entity\Model
-                        help: 'Проивзодитель, Модель, Год, Поколение, Комплектация, Лошадинные силы'
+                        type: App\Vehicle\Form\VehicleAutocompleteType
                     - { property: 'year', label: 'Год выпуска' }
                     - { property: 'caseType', label: 'Тип кузова', type: App\Vehicle\Form\BodyTypeType, type_options: { required: false } }
                     - { property: 'identifier', label: 'Идентификатор (VIN, № Кузова/Шасси...)' }

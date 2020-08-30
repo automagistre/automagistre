@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\Part\Controller;
 
 use App\EasyAdmin\Controller\AbstractController;
-use App\EasyAdmin\Form\AutocompleteType;
-use App\Part\Entity\Part;
 use App\Part\Entity\PartCase;
 use App\Part\Entity\PartId;
+use App\Part\Form\PartAutocompleteType;
 use App\Part\Form\PartCaseDTO;
-use App\Vehicle\Entity\Model;
+use App\Vehicle\Form\VehicleAutocompleteType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -30,15 +29,11 @@ final class PartCaseController extends AbstractController
         $dto->partId = $partId;
 
         $form = $this->createFormBuilder($dto)
-            ->add('partId', AutocompleteType::class, [
-                'label' => 'Запчасть',
-                'class' => Part::class,
+            ->add('partId', PartAutocompleteType::class, [
                 'disabled' => true,
             ])
-            ->add('vehicleId', AutocompleteType::class, [
-                'label' => 'Модель',
-                'class' => Model::class,
-                'help' => 'Проивзодитель, Модель, Год, Поколение, Комплектация, Лошадинные силы',
+            ->add('vehicleId', VehicleAutocompleteType::class, [
+                'required' => true,
             ])
             ->getForm()
             ->handleRequest($this->request);

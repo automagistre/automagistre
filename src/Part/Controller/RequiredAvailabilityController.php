@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\Part\Controller;
 
 use App\EasyAdmin\Controller\AbstractController;
-use App\EasyAdmin\Form\AutocompleteType;
 use App\Form\Type\QuantityType;
-use App\Part\Entity\Part;
 use App\Part\Entity\PartId;
 use App\Part\Entity\PartView;
 use App\Part\Entity\RequiredAvailability;
+use App\Part\Form\PartAutocompleteType;
 use App\Part\Form\RequiredAvailabilityDto;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,9 +32,7 @@ final class RequiredAvailabilityController extends AbstractController
         $dto->orderUpToQuantity = $partView->orderUpToQuantity;
 
         $form = $this->createFormBuilder($dto)
-            ->add('partId', AutocompleteType::class, [
-                'class' => Part::class,
-                'label' => 'Запчасть',
+            ->add('partId', PartAutocompleteType::class, [
                 'disabled' => true,
             ])
             ->add('orderUpToQuantity', QuantityType::class, [

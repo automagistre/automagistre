@@ -30,10 +30,9 @@ easy_admin:
                 fields:
                     -   property: 'manufacturerId'
                         label: 'Производитель'
-                        type: App\EasyAdmin\Form\AutocompleteType
+                        type: App\Manufacturer\Form\ManufacturerAutocompleteType
                         type_options:
                             required: true
-                            class: App\Manufacturer\Entity\Manufacturer
                     - { property: 'number', label: 'Номер', type: App\Part\Form\PartNumberType }
                     - { property: 'name', label: 'Название' }
                     - { property: 'price', label: 'Цена', type: App\Form\Type\MoneyType, type_options: { required: true } }

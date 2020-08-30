@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Part\Form;
 
-use App\EasyAdmin\Form\AutocompleteType;
 use App\Form\Type\MoneyType;
 use App\Form\Type\QuantityType;
-use App\Part\Entity\Part;
 use App\Vehicle\Entity\VehicleId;
 use function assert;
 use Symfony\Component\Form\AbstractType;
@@ -32,9 +30,7 @@ final class PartOfferType extends AbstractType
                 assert($data instanceof PartOfferDto);
 
                 $event->getForm()
-                    ->add('partId', AutocompleteType::class, [
-                        'label' => 'Запчасть',
-                        'class' => Part::class,
+                    ->add('partId', PartAutocompleteType::class, [
                         'disabled' => (bool) $data->partId,
                         'autocomplete_parameters' => [
                             'vehicle_id' => null === $options['vehicleId'] ? null : (string) $options['vehicleId'],

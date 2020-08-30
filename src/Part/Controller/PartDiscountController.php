@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\Part\Controller;
 
 use App\EasyAdmin\Controller\AbstractController;
-use App\EasyAdmin\Form\AutocompleteType;
 use App\Form\Type\MoneyType;
 use App\Part\Entity\Discount;
-use App\Part\Entity\Part;
 use App\Part\Entity\PartId;
+use App\Part\Form\PartAutocompleteType;
 use App\Part\Form\PartDiscountDto;
 use DateTimeImmutable;
 use function is_string;
@@ -32,9 +31,7 @@ final class PartDiscountController extends AbstractController
         $dto->since = new DateTimeImmutable();
 
         $form = $this->createFormBuilder($dto)
-            ->add('partId', AutocompleteType::class, [
-                'class' => Part::class,
-                'label' => 'Запчасть',
+            ->add('partId', PartAutocompleteType::class, [
                 'disabled' => true,
             ])
             ->add('price', MoneyType::class)
