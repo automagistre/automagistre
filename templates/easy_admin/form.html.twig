@@ -31,13 +31,6 @@
 {# Autocomplete form type #}
 {% block autocomplete_widget %}
     {{ form_widget(form.autocomplete, {attr: attr}) }}
-
-    {% if help is not empty %}
-        <span class="help-block">
-            <i class="fa fa-info-circle"></i>
-            {{ help }}
-        </span>
-    {% endif %}
 {% endblock autocomplete_widget %}
 
 {% block part_offer_widget %}
@@ -72,39 +65,43 @@
     </script>
 {% endblock part_offer_widget %}
 
-{% block widget_button %}
-    <button
-            id="{{ easyadminEntity }}-widget-button"
-            class="btn btn-info modal-widget-button"
-            type="button"
-            data-url="{{ easyadmin_path(easyadminEntity, 'widget', {'widgetTarget': form.autocomplete.vars.id})|raw }}">
-        Создать
-    </button>
+{% block widget_modal_row %}
+    {% set _field_type = easyadmin.field.fieldType|default('default') %}
+    <div class="form-group {% if (not compound or force_error|default(false)) and not valid %}has-error{% endif %} field-{{ block_prefixes|slice(-2)|first }}">
+        {{- form_label(form) -}}
+
+        <div class="input-group">
+            {{- form_widget(form) -}}
+            <div class="input-group-btn">
+                <button
+                        id="{{ easyadminEntity }}-widget-button"
+                        class="btn btn-info modal-widget-button"
+                        type="button"
+                        data-url="{{ easyadmin_path(easyadminEntity, 'widget', {'widgetTarget': form.autocomplete.vars.id})|raw }}">
+                    Создать
+                </button>
+            </div>
+        </div>
+
+        {{- form_errors(form) -}}
+        {{- form_help(form) -}}
+    </div>
 {% endblock %}
 
-{% block car_autocomplete_widget %}
+{% block car_autocomplete_row %}
     {% set easyadminEntity = 'Car' %}
 
-    <div class="input-group">
-        {{ form_widget(form) }}
-        <div class="input-group-btn">{{ block('widget_button') }}</div>
-    </div>
-{% endblock car_autocomplete_widget %}
+    {{ block('widget_modal_row') }}
+{% endblock car_autocomplete_row %}
 
-{% block vehicle_autocomplete_widget %}
+{% block vehicle_autocomplete_row %}
     {% set easyadminEntity = 'CarModel' %}
 
-    <div class="input-group">
-        {{ form_widget(form) }}
-        <div class="input-group-btn">{{ block('widget_button') }}</div>
-    </div>
-{% endblock vehicle_autocomplete_widget %}
+    {{ block('widget_modal_row') }}
+{% endblock vehicle_autocomplete_row %}
 
-{% block manufacturer_autocomplete_widget %}
+{% block manufacturer_autocomplete_row %}
     {% set easyadminEntity = 'Manufacturer' %}
 
-    <div class="input-group">
-        {{ form_widget(form) }}
-        <div class="input-group-btn">{{ block('widget_button') }}</div>
-    </div>
-{% endblock manufacturer_autocomplete_widget %}
+    {{ block('widget_modal_row') }}
+{% endblock manufacturer_autocomplete_row %}

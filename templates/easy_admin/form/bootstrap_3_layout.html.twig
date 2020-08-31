@@ -275,10 +275,7 @@
         {% endif %}
 
         {{- form_errors(form) -}}
-
-        {% if easyadmin.field.help|default('') != '' %}
-            <span class="help-block"><i class="fa fa-info-circle"></i> {{ easyadmin.field.help|trans(domain = form.vars.translation_domain)|raw }}</span>
-        {% endif %}
+        {{- form_help(form) -}}
     </div>
 {%- endblock form_row %}
 
@@ -595,12 +592,6 @@
             })|raw })
         })
     }}
-    {% if help is not empty %}
-        <span class="help-block">
-            <i class="fa fa-info-circle"></i>
-            {{ help }}
-        </span>
-    {% endif %}
 {% endblock easyadmin_autocomplete_widget %}
 
 {% block easyadmin_autocomplete_inner_label %}
@@ -631,3 +622,11 @@
         {% endif %}
     </div>
 {% endblock easyadmin_section_row %}
+
+{% block form_help %}
+    {% set help = help|default(easyadmin.field.help|default('')) %}
+
+    {% if help != '' %}
+        <span class="help-block"><i class="fa fa-info-circle"></i> {{ help|trans(domain = form.vars.translation_domain)|raw }}</span>
+    {% endif %}
+{% endblock %}
