@@ -90,7 +90,7 @@
         "symfony/polyfill-uuid": "*"
     },
     "require-dev": {
-        "brianium/paratest": "^4.0",
+        "brianium/paratest": "^5.0",
         "dama/doctrine-test-bundle": "^6.2",
         "doctrine/doctrine-fixtures-bundle": "^3.3",
         "ergebnis/composer-normalize": "^2.5",

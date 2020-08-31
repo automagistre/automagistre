@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "93e552a1f4f14f9b0177c400b6919570",
+    "content-hash": "74450ba19219735b4ce00901b9bca2fe",
     "packages": [
         {
             "name": "amphp/amp",
@@ -11671,38 +11671,44 @@
         },
         {
             "name": "brianium/paratest",
-            "version": "4.2.0",
+            "version": "5.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paratestphp/paratest.git",
-                "reference": "88e4d87421279457c765abf5db54e1de71f31845"
+                "reference": "e54bea90b784b289a7ee17f2319210338c2d7d6d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/88e4d87421279457c765abf5db54e1de71f31845",
-                "reference": "88e4d87421279457c765abf5db54e1de71f31845",
+                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/e54bea90b784b289a7ee17f2319210338c2d7d6d",
+                "reference": "e54bea90b784b289a7ee17f2319210338c2d7d6d",
                 "shasum": ""
             },
             "require": {
-                "brianium/habitat": "^1.0",
                 "ext-dom": "*",
-                "ext-json": "*",
                 "ext-pcre": "*",
                 "ext-pdo": "*",
                 "ext-reflection": "*",
                 "ext-simplexml": "*",
                 "php": "^7.3",
                 "phpunit/php-code-coverage": "^9.1.2",
+                "phpunit/php-file-iterator": "^3.0",
                 "phpunit/php-timer": "^5.0",
                 "phpunit/phpunit": "^9.3.5",
+                "sebastian/environment": "^5.1",
                 "symfony/console": "^4.4 || ^5.1",
                 "symfony/process": "^4.4 || ^5.1"
             },
             "require-dev": {
                 "doctrine/coding-standard": "^8.1.0",
+                "ekino/phpstan-banned-code": "^0.3.1",
+                "ergebnis/phpstan-rules": "^0.15.1",
                 "phpstan/phpstan": "^0.12.37",
+                "phpstan/phpstan-deprecation-rules": "^0.12.5",
                 "phpstan/phpstan-phpunit": "^0.12.16",
+                "phpstan/phpstan-strict-rules": "^0.12.4",
                 "squizlabs/php_codesniffer": "^3.5.6",
+                "symfony/filesystem": "^5.1.3",
+                "thecodingmachine/phpstan-strict-rules": "^0.12.0",
                 "vimeo/psalm": "^3.12.2"
             },
             "bin": [
@@ -11738,9 +11744,9 @@
             ],
             "support": {
                 "issues": "https://github.com/paratestphp/paratest/issues",
-                "source": "https://github.com/paratestphp/paratest/tree/paratest-4"
+                "source": "https://github.com/paratestphp/paratest/tree/5.0.4"
             },
-            "time": "2020-08-10T07:51:24+00:00"
+            "time": "2020-08-26T13:44:25+00:00"
         },
         {
             "name": "composer/semver",
