@@ -38,23 +38,16 @@ final class OrderInfoDto
      */
     public $workerId;
 
-    /**
-     * @Assert\Valid()
-     */
-    public ?PersonDto $customer = null;
-
     public function __construct(
         ?OperandId $customerId = null,
         ?CarId $carId = null,
         ?string $description = null,
-        ?EmployeeId $workerId = null,
-        ?PersonDto $customer = null
+        ?EmployeeId $workerId = null
     ) {
         $this->customerId = $customerId;
         $this->carId = $carId;
         $this->description = $description;
         $this->workerId = $workerId;
-        $this->customer = $customer;
     }
 
     public static function fromOrderInfo(OrderInfo $orderInfo): self

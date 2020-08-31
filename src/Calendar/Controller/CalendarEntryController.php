@@ -19,8 +19,6 @@ use App\Calendar\Form\ScheduleDto;
 use App\Calendar\Form\ScheduleType;
 use App\Calendar\Repository\CalendarEntryRepository;
 use App\Calendar\View\Streamer;
-use App\Customer\Entity\OperandId;
-use App\Customer\Entity\Person;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderId;
@@ -91,10 +89,13 @@ final class CalendarEntryController extends AbstractController
 
         $orderId = $this->getIdentifier(OrderId::class);
 
-        $form = $this->createFormBuilder($dto)
+        $form = $this->createFormBuilder($dto, [
+            'attr' => [
+                'class' => 'new-form',
+            ],
+        ])
             ->add('schedule', ScheduleType::class)
             ->add('orderInfo', OrderInfoType::class, [
-                'new_customer' => true,
                 'disable_customer_and_car' => null !== $orderId,
             ])
             ->getForm()
@@ -102,17 +103,6 @@ final class CalendarEntryController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $customerId = $dto->orderInfo->customerId;
-            $newCustomer = $dto->orderInfo->customer;
-            if (null !== $newCustomer) {
-                $customerId = OperandId::generate();
-                $person = new Person($customerId);
-                $person->setFirstname($newCustomer->firstName);
-                $person->setLastname($newCustomer->lastName);
-                $person->setTelephone($newCustomer->telephone);
-
-                $this->em->persist($person);
-                $this->em->flush();
-            }
 
             $this->commandBus->handle(
                 new CreateCalendarEntryCommand(
