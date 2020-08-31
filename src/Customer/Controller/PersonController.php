@@ -7,6 +7,8 @@ namespace App\Customer\Controller;
 use App\Customer\Entity\OperandId;
 use App\Customer\Entity\Person;
 use App\Customer\Event\PersonCreated;
+use App\Customer\Form\PersonDto;
+use App\Customer\Form\PersonType;
 use function array_map;
 use function assert;
 use Doctrine\ORM\QueryBuilder;
@@ -14,12 +16,69 @@ use function explode;
 use function mb_strtolower;
 use function sprintf;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
 final class PersonController extends OperandController
 {
+    public function widgetAction(): Response
+    {
+        $request = $this->request;
+        $em = $this->em;
+
+        /** @var PersonDto $dto */
+        $dto = $this->createWithoutConstructor(PersonDto::class);
+
+        $form = $this->createForm(PersonType::class, $dto)
+            ->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $id = OperandId::generate();
+
+            $person = new Person(
+                $id,
+            );
+            $person->setFirstname($dto->firstName);
+            $person->setLastname($dto->lastName);
+            $person->setEmail($dto->email);
+            $person->setTelephone($dto->telephone);
+
+            $em->persist($person);
+            $em->flush();
+
+            return new JsonResponse([
+                'id' => $id->toString(),
+                'text' => $this->display($id),
+            ]);
+        }
+
+        if (null !== $dto->telephone && $form->isSubmitted()) {
+            /** @var Person|null $person */
+            $person = $em->createQueryBuilder()
+                ->select('t')
+                ->from(Person::class, 't')
+                ->where('t.telephone = :telephone')
+                ->getQuery()
+                ->setParameter('telephone', $dto->telephone, 'phone_number')
+                ->getOneOrNullResult();
+
+            if (null !== $person) {
+                return new JsonResponse([
+                    'id' => $person->toId()->toString(),
+                    'text' => $this->display($person->toId()),
+                ]);
+            }
+        }
+
+        return $this->render('easy_admin/widget.html.twig', [
+            'id' => 'person',
+            'label' => 'Новый клиент (ФЛ)',
+            'form' => $form->createView(),
+        ]);
+    }
+
     /**
      * {@inheritdoc}
      */

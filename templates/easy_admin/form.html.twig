@@ -109,3 +109,81 @@
 
     {{ block('widget_modal_row') }}
 {% endblock part_autocomplete_row %}
+
+{% block customer_autocomplete_row %}
+    {% set _field_type = easyadmin.field.fieldType|default('default') %}
+    <div class="form-group {% if (not compound or force_error|default(false)) and not valid %}has-error{% endif %} field-{{ block_prefixes|slice(-2)|first }}">
+        {{- form_label(form) -}}
+
+        <div class="input-group">
+            {{- form_widget(form) -}}
+            <div class="input-group-btn">
+                <button id="customer-modal-widget-button" class="btn btn-info" type="button">Создать</button>
+            </div>
+        </div>
+
+        {{- form_errors(form) -}}
+        {{- form_help(form) -}}
+    </div>
+
+    <div class="modal fade" id="customer-widget-modal" role="dialog" aria-labelledby="customer-modal-label">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="customer-modal-label">Создать клиента</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button
+                                    id="person-widget-button"
+                                    class="btn btn-info"
+                                    type="button"
+                                    data-url="{{ easyadmin_path('Person', 'widget', {'widgetTarget': form.autocomplete.vars.id})|raw }}">
+                                Физическое лицо
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button
+                                    id="organization-widget-button"
+                                    class="btn btn-info"
+                                    type="button"
+                                    data-url="{{ easyadmin_path('Organization', 'widget', {'widgetTarget': form.autocomplete.vars.id})|raw }}">
+                                Юридическое лицо
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+      (function() {
+        let modalButton = $('#customer-modal-widget-button'),
+            modal = $('#customer-widget-modal'),
+            personButton = $('#person-widget-button'),
+            organizationButton = $('#organization-widget-button');
+
+        let customerButtonOnClickHandler = function() {
+          let button = $(this);
+          modal.modal('hide');
+
+          $.ajax({
+            url: button.data('url') + '&widgetButton=' + button.attr('id'),
+          }).done(function(data) {
+            $('body').append(data);
+          });
+        };
+
+        personButton.on('click', customerButtonOnClickHandler);
+        organizationButton.on('click', customerButtonOnClickHandler);
+
+        modalButton.on('click', function() {
+          modal.modal('show');
+        });
+      })();
+    </script>
+{% endblock customer_autocomplete_row %}

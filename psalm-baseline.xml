@@ -76,6 +76,9 @@
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtolower($item)</code>
     </PossiblyFalseOperand>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>null !== $dto-&gt;telephone</code>
+    </RedundantConditionGivenDocblockType>
   </file>
   <file src="src/Customer/Entity/Organization.php">
     <PropertyNotSetInConstructor occurrences="2">
