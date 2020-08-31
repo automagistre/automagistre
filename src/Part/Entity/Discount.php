@@ -37,11 +37,11 @@ class Discount
      */
     private DateTimeImmutable $since;
 
-    public function __construct(PartId $partId, Money $discount, DateTimeImmutable $since)
+    public function __construct(PartId $partId, Money $discount, DateTimeImmutable $since = null)
     {
         $this->id = Uuid::uuid6();
         $this->partId = $partId;
         $this->discount = $discount;
-        $this->since = $since;
+        $this->since = $since ?? new DateTimeImmutable();
     }
 }

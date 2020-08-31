@@ -37,11 +37,11 @@ class Price
      */
     private DateTimeImmutable $since;
 
-    public function __construct(PartId $partId, Money $price, DateTimeImmutable $since)
+    public function __construct(PartId $partId, Money $price, DateTimeImmutable $since = null)
     {
         $this->id = Uuid::uuid6();
         $this->partId = $partId;
         $this->price = $price;
-        $this->since = $since;
+        $this->since = $since ?? new DateTimeImmutable();
     }
 }

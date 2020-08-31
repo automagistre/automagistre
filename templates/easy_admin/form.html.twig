@@ -34,10 +34,8 @@
 {% endblock autocomplete_widget %}
 
 {% block part_offer_widget %}
-    {{ form_label(form.partId) }}
-
     <div class="form-group field-part_id">
-        {{ form_widget(form.partId) }}
+        {{ form_row(form.partId) }}
 
         {% if vehicleId|default is not empty and vehicle_case_is_defined(vehicleId) %}
             <span class="help-block">
@@ -105,3 +103,9 @@
 
     {{ block('widget_modal_row') }}
 {% endblock manufacturer_autocomplete_row %}
+
+{% block part_autocomplete_row %}
+    {% set easyadminEntity = 'Part' %}
+
+    {{ block('widget_modal_row') }}
+{% endblock part_autocomplete_row %}

@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class PartNumberType extends AbstractType
 {
@@ -22,6 +23,16 @@ final class PartNumberType extends AbstractType
                 static fn (?string $value) => $value,
                 static fn (?string $value) => PartNumber::sanitize($value),
             ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'label' => 'Номер',
+        ]);
     }
 
     /**

@@ -50,7 +50,7 @@ final class PartDto
      *
      * @Assert\Type("bool")
      */
-    public $universal;
+    public $universal = false;
 
     /**
      * @var Money

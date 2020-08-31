@@ -261,6 +261,10 @@
     <PropertyNotSetInConstructor occurrences="1">
       <code>PartController</code>
     </PropertyNotSetInConstructor>
+    <RedundantConditionGivenDocblockType occurrences="2">
+      <code>null !== $dto-&gt;manufacturerId</code>
+      <code>null !== $dto-&gt;number</code>
+    </RedundantConditionGivenDocblockType>
   </file>
   <file src="src/Part/Controller/PartCrossController.php">
     <PropertyNotSetInConstructor occurrences="1">

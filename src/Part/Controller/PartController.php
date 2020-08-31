@@ -15,6 +15,7 @@ use App\Part\Entity\PartNumber;
 use App\Part\Entity\PartView;
 use App\Part\Entity\Price;
 use App\Part\Form\PartDto;
+use App\Part\Form\PartType;
 use App\Part\Manager\PartManager;
 use App\Vehicle\Entity\Model;
 use App\Vehicle\Entity\VehicleId;
@@ -57,6 +58,82 @@ final class PartController extends AbstractController
     {
         $this->partManager = $partManager;
         $this->reservationManager = $reservationManager;
+    }
+
+    public function widgetAction(): Response
+    {
+        $request = $this->request;
+        $em = $this->em;
+
+        /** @var PartDto $dto */
+        $dto = $this->createWithoutConstructor(PartDto::class);
+
+        $form = $this->createForm(PartType::class, $dto)
+            ->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $id = PartId::generate();
+
+            $em->persist(
+                new Part(
+                    $id,
+                    $dto->manufacturerId,
+                    $dto->name,
+                    new PartNumber($dto->number),
+                    $dto->universal,
+                ),
+            );
+            if (!$dto->price->isZero()) {
+                $em->persist(
+                    new Price(
+                        $id,
+                        $dto->price,
+                    )
+                );
+            }
+
+            if (!$dto->discount->isZero()) {
+                $em->persist(
+                    new Discount(
+                        $id,
+                        $dto->discount,
+                    )
+                );
+            }
+
+            $em->flush();
+
+            return new JsonResponse([
+                'id' => $id->toString(),
+                'text' => $this->display($id).' | '.$this->formatMoney($dto->price),
+            ]);
+        }
+
+        if (null !== $dto->manufacturerId && null !== $dto->number && $form->isSubmitted()) {
+            /** @var PartView|null $part */
+            $part = $em->createQueryBuilder()
+                ->select('t')
+                ->from(PartView::class, 't')
+                ->where('t.manufacturer.id = :manufacturerId')
+                ->andWhere('t.number = :number')
+                ->getQuery()
+                ->setParameter('manufacturerId', $dto->manufacturerId)
+                ->setParameter('number', $dto->number)
+                ->getOneOrNullResult();
+
+            if (null !== $part) {
+                return new JsonResponse([
+                    'id' => $part->toId()->toString(),
+                    'text' => $this->display($part->toId()).' | '.$this->formatMoney($part->price),
+                ]);
+            }
+        }
+
+        return $this->render('easy_admin/widget.html.twig', [
+            'id' => 'part',
+            'label' => 'Новая запчасть',
+            'form' => $form->createView(),
+        ]);
     }
 
     protected function initialize(Request $request): void
