@@ -107,7 +107,7 @@ final class OrderItemPartController extends OrderItemController
             $vehicleId = $car->vehicleId;
         }
 
-        $form = $this->createItemForm($dto, $vehicleId)
+        $form = $this->createItemForm($dto, $vehicleId, 'new')
             ->handleRequest($this->request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -183,7 +183,7 @@ final class OrderItemPartController extends OrderItemController
             $vehicleId = $car->vehicleId;
         }
 
-        $form = $this->createItemForm($dto, $vehicleId)
+        $form = $this->createItemForm($dto, $vehicleId, 'edit')
             ->handleRequest($this->request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -213,9 +213,13 @@ final class OrderItemPartController extends OrderItemController
         ]);
     }
 
-    private function createItemForm(OrderPart $dto, ?VehicleId $vehicleId): FormInterface
+    private function createItemForm(OrderPart $dto, ?VehicleId $vehicleId, string $view): FormInterface
     {
-        return $this->createFormBuilder($dto)
+        return $this->createFormBuilder($dto, [
+            'attr' => [
+                'class' => $view.'-form',
+            ],
+        ])
             ->add('parent', OrderItemParentType::class, [
                 'label' => 'Работа / Группа',
                 'required' => false,
