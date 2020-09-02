@@ -80,6 +80,9 @@
     "daverandom/libdns": {
         "version": "v2.0.2"
     },
+    "dnoegel/php-xdg-base-dir": {
+        "version": "v0.1.1"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
