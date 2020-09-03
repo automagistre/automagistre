@@ -80,14 +80,13 @@ final class IncomeController extends AbstractController
                 ->transactional(static function (EntityManagerInterface $em) use ($model, $income): void {
                     /** @var Money $money */
                     $money = $model->money;
-                    $money = $money->negative();
 
                     $customerTransactionId = CustomerTransactionId::generate();
                     $em->persist(
                         new CustomerTransaction(
                             $customerTransactionId,
                             $income->getSupplierId(),
-                            $money,
+                            $money->negative(),
                             CustomerTransactionSource::incomePayment(),
                             $income->toId()->toUuid(),
                             null
@@ -98,7 +97,7 @@ final class IncomeController extends AbstractController
                         new WalletTransaction(
                             WalletTransactionId::generate(),
                             $model->wallet->toId(),
-                            $money,
+                            $money->negative(),
                             WalletTransactionSource::incomePayment(),
                             $income->toId()->toUuid(),
                             null

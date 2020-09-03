@@ -68,7 +68,6 @@ final class EmployeeController extends AbstractController
             $this->em->transactional(static function (EntityManagerInterface $em) use ($model, $recipientId): void {
                 /** @var Money $money */
                 $money = $model->amount;
-                $money = $money->negative();
 
                 $customerTransactionId = CustomerTransactionId::generate();
                 $walletTransactionId = WalletTransactionId::generate();
@@ -77,7 +76,7 @@ final class EmployeeController extends AbstractController
                     new CustomerTransaction(
                         $customerTransactionId,
                         $recipientId,
-                        $money,
+                        $money->negative(),
                         CustomerTransactionSource::payroll(),
                         $walletTransactionId->toUuid(),
                         $model->description
@@ -88,7 +87,7 @@ final class EmployeeController extends AbstractController
                     new WalletTransaction(
                         $walletTransactionId,
                         $model->wallet->toId(),
-                        $money,
+                        $money->negative(),
                         WalletTransactionSource::payroll(),
                         $customerTransactionId->toUuid(),
                         null,
@@ -146,7 +145,7 @@ final class EmployeeController extends AbstractController
                     new CustomerTransaction(
                         CustomerTransactionId::generate(),
                         $personId,
-                        $money,
+                        $money->negative(),
                         CustomerTransactionSource::penalty(),
                         $this->getUser()->toId()->toUuid(),
                         $model->{$description},
