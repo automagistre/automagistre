@@ -32,7 +32,6 @@ easy_admin:
                     - { property: 'mileage', label: 'Пробег' }
                     - { property: 'gosnomer', label: 'Гос. Номер' }
             form:
-                form_options: { data_class: App\Car\Form\DTO\CarDto }
                 fields:
                     - { type: 'group', label: 'Основная информация', css_class: 'col-sm-6' }
                     -   property: 'vehicleId'
@@ -46,8 +45,10 @@ easy_admin:
                     - { type: 'group', label: 'Комплектация', css_class: 'col-sm-6' }
                     - { property: 'equipment', label: ' ', type: App\Vehicle\Form\EquipmentType }
             edit:
+                form_options: { data_class: App\Car\Form\DTO\CarUpdate }
                 title: 'Редактировать автомобиль'
             new:
+                form_options: { data_class: App\Car\Form\DTO\CarCreate }
                 title: 'Создать новый автомобиль'
 
         CarRecommendation:

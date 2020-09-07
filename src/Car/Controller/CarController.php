@@ -7,7 +7,8 @@ namespace App\Car\Controller;
 use App\Car\Entity\Car;
 use App\Car\Entity\CarId;
 use App\Car\Form\CarType;
-use App\Car\Form\DTO\CarDto;
+use App\Car\Form\DTO\CarCreate;
+use App\Car\Form\DTO\CarUpdate;
 use App\Car\Repository\CarCustomerRepository;
 use App\Customer\Entity\Operand;
 use App\Customer\Entity\Organization;
@@ -104,19 +105,15 @@ final class CarController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function createNewEntity(): CarDto
+    protected function createNewEntity(): CarCreate
     {
-        /** @var CarDto $dto */
-        $dto = $this->createWithoutConstructor(CarDto::class);
-        $dto->carId = CarId::generate();
-
-        return $dto;
+        return $this->createWithoutConstructor(CarCreate::class);
     }
 
     protected function persistEntity($entity): Car
     {
         $dto = $entity;
-        assert($dto instanceof CarDto);
+        assert($dto instanceof CarCreate);
 
         $entity = new Car(
             CarId::generate(),
@@ -149,24 +146,22 @@ final class CarController extends AbstractController
             $arr['equipment.wheelDrive'],
         );
 
-        /** @var CarDto $dto */
-        $dto = $this->createWithoutConstructor(CarDto::class);
-        $dto->carId = $arr['id'];
-        $dto->equipment = $equipment;
-        $dto->vehicleId = $arr['vehicleId'];
-        $dto->identifier = $arr['identifier'];
-        $dto->year = $arr['year'];
-        $dto->caseType = $arr['caseType'];
-        $dto->description = $arr['description'];
-        $dto->gosnomer = $arr['gosnomer'];
-
-        return $dto;
+        return new CarUpdate(
+            $arr['id'],
+            $arr['vehicleId'],
+            $equipment,
+            $arr['identifier'],
+            $arr['year'],
+            $arr['caseType'],
+            $arr['description'],
+            $arr['gosnomer'],
+        );
     }
 
     protected function updateEntity($entity): Car
     {
         $dto = $entity;
-        assert($dto instanceof CarDto);
+        assert($dto instanceof CarUpdate);
 
         $entity = $this->registry->findBy(Car::class, ['id' => $dto->carId]);
 

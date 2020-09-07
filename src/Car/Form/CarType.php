@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Car\Form;
 
-use App\Car\Form\DTO\CarDto;
+use App\Car\Form\DTO\CarCreate;
 use App\Shared\Form\EmptyStringAndCaseTransformer;
 use App\Vehicle\Form\BodyTypeType;
 use App\Vehicle\Form\EquipmentType;
@@ -59,7 +59,7 @@ final class CarType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => CarDto::class,
+            'data_class' => CarCreate::class,
         ]);
     }
 }

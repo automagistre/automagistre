@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Car\Form\DTO;
 
 use App\Car\Entity\Car;
-use App\Car\Entity\CarId;
 use App\Shared\Validator\EntityCheck;
 use App\Vehicle\Entity\Embedded\Equipment;
 use App\Vehicle\Entity\VehicleId;
@@ -21,10 +20,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     errorPath="identifier",
  * )
  */
-final class CarDto
+final class CarCreate
 {
-    public CarId $carId;
-
     /**
      * @var Equipment
      *
@@ -69,7 +66,6 @@ final class CarDto
     public $gosnomer;
 
     private function __construct(
-        CarId $carId,
         VehicleId $vehicleId,
         Equipment $equipment = null,
         string $identifier = null,
@@ -78,7 +74,6 @@ final class CarDto
         string $description = null,
         string $gosnomer = null
     ) {
-        $this->carId = $carId;
         $this->vehicleId = $vehicleId;
         $this->equipment = $equipment ?? new Equipment();
         $this->identifier = $identifier;
