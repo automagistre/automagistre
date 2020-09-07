@@ -1,3 +1,7 @@
 {% extends 'easy_admin/default/new.html.twig' %}
 
 {% use 'easy_admin/calendar/form.html.twig' %}
+
+{% block body_javascript %}
+    {{ block('js') }}
+{% endblock %}
