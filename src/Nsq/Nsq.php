@@ -60,7 +60,7 @@ final class Nsq
         }
     }
 
-    public function subscribe(string $topic, string $channel, float $timeout = null): Generator
+    public function subscribe(string $topic, string $channel, ?float $timeout = 0): Generator
     {
         $socket = $this->getSocket();
         $socket->write(Command::sub($topic, $channel));

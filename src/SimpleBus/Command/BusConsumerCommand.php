@@ -87,7 +87,9 @@ final class BusConsumerCommand extends Command
 
         $stopwatch = (new Stopwatch())->start('consumer');
 
-        $generator = $this->nsq->subscribe($this->tenant->toBusTopic(), 'tenant', 0.3);
+        $generator = $this->nsq->subscribe($this->tenant->toBusTopic(), 'tenant');
+
+        $io->note('Start listening...');
 
         foreach ($generator as $envelop) {
             if ($envelop instanceof Envelop) {
