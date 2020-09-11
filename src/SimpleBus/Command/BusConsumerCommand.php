@@ -87,7 +87,7 @@ final class BusConsumerCommand extends Command
 
         $stopwatch = (new Stopwatch())->start('consumer');
 
-        $generator = $this->nsq->subscribe($this->tenant->toBusTopic(), 'tenant', 0.001);
+        $generator = $this->nsq->subscribe($this->tenant->toBusTopic(), 'tenant', 10);
 
         $io->note('Start listening...');
 
