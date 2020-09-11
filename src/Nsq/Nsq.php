@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nsq;
 
+use Exception;
 use Generator;
 use LogicException;
 use PHPinnacle\Buffer\ByteBuffer;
@@ -69,7 +70,20 @@ final class Nsq
         while (true) {
             $socket->write(Command::rdy(1));
 
-            if (false === $socket->selectRead($timeout)) {
+            try {
+                $selectRead = $socket->selectRead($timeout);
+            } catch (Exception $e) {
+                // Interrupted system call (SOCKET_EINTR) probably CTRL+C received
+                if (4 === $e->getCode()) {
+                    yield null;
+
+                    break;
+                }
+
+                throw $e;
+            }
+
+            if (false === $selectRead) {
                 if (true === yield null) {
                     break;
                 }
