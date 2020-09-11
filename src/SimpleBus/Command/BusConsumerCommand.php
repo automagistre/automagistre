@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\SimpleBus\Command;
 
-use function Amp\ByteStream\getStdout;
-use Amp\Loop;
 use App\Nsq\Envelop;
 use App\Nsq\Nsq;
 use App\SimpleBus\Serializer\MessageSerializer;
@@ -13,10 +11,11 @@ use App\Tenant\Tenant;
 use App\User\Security\ConsoleAuthenticator;
 use function date;
 use const DATE_RFC3339;
-use Generator;
 use function get_class;
 use function implode;
 use LongRunning\Core\Cleaner;
+use function pcntl_signal;
+use function pcntl_signal_dispatch;
 use const PHP_EOL;
 use function Sentry\captureException;
 use const SIGINT;
@@ -77,73 +76,78 @@ final class BusConsumerCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        Loop::run(function () use ($io): void {
-            $stopwatch = new Stopwatch();
-            $stdout = getStdout();
+        $stopSignalReceived = false;
+        $handler = static function () use ($io, &$stopSignalReceived): void {
+            $io->writeln('Stop signal received.');
 
-            $stopper = $this->nsq->subscribe(
-                $this->tenant->toBusTopic(),
-                'tenant',
-                function (Envelop $envelop) use ($stopwatch, $stdout): Generator {
-                    $event = $stopwatch->start($envelop->id);
+            $stopSignalReceived = true;
+        };
+        pcntl_signal(SIGTERM, $handler);
+        pcntl_signal(SIGINT, $handler);
 
-                    $decoded = $this->serializer->decode($envelop->body);
+        $stopwatch = (new Stopwatch())->start('consumer');
 
-                    $this->authenticator->authenticate($decoded->userId);
+        $generator = $this->nsq->subscribe($this->tenant->toBusTopic(), 'tenant', 0.3);
 
-                    /** @var string $messageClass */
-                    $messageClass = get_class($decoded->message);
+        foreach ($generator as $envelop) {
+            if ($envelop instanceof Envelop) {
+                $this->handleMessage($envelop, $io);
+            }
 
-                    $isSuccess = false;
-                    try {
-                        if ('Command' === substr($messageClass, -7)) {
-                            $this->commandBus->handle($decoded);
-                        } else {
-                            $this->eventBus->handle($decoded);
-                        }
+            pcntl_signal_dispatch();
+            if ($stopSignalReceived) {
+                break;
+            }
+        }
 
-                        yield $envelop->ack();
-
-                        $isSuccess = true;
-                    } catch (Throwable $e) {
-                        captureException($e);
-
-                        yield $envelop->retry(
-                            ($envelop->attempts <= 60 ? $envelop->attempts : 60) * 1000
-                        );
-                    } finally {
-                        $this->cleaner->cleanUp();
-                        $event->stop();
-                        $this->authenticator->invalidate();
-                    }
-
-                    yield $stdout->write(implode(' ',
-                        [
-                            date(sprintf('[%s]', DATE_RFC3339)),
-                            $decoded->trackingId,
-                            sprintf('[%s]', $isSuccess ? 'OK' : 'FAIL'),
-                            $messageClass,
-                            sprintf('%.2F MiB - %d ms', $event->getMemory() / 1024 / 1024, $event->getDuration()),
-                            PHP_EOL,
-                        ]
-                    ));
-                }
-            );
-
-            $onSignal = static function () use ($stopper, $io): void {
-                $io->note('Stop signal received');
-
-                $stopper->stop();
-
-                Loop::delay(1000, static function (): void {
-                    Loop::stop();
-                });
-            };
-
-            Loop::onSignal(SIGINT, $onSignal);
-            Loop::onSignal(SIGTERM, $onSignal);
-        });
+        $io->success((string) $stopwatch);
 
         return 0;
+    }
+
+    private function handleMessage(Envelop $envelop, SymfonyStyle $io): void
+    {
+        $stopwatch = new Stopwatch();
+        $event = $stopwatch->start($envelop->id);
+
+        $decoded = $this->serializer->decode($envelop->body);
+        $this->authenticator->authenticate($decoded->userId);
+
+        /** @var string $messageClass */
+        $messageClass = get_class($decoded->message);
+
+        $isSuccess = false;
+        try {
+            if ('Command' === substr($messageClass, -7)) {
+                $this->commandBus->handle($decoded);
+            } else {
+                $this->eventBus->handle($decoded);
+            }
+
+            $envelop->ack();
+
+            $isSuccess = true;
+        } catch (Throwable $e) {
+            captureException($e);
+
+            $envelop->retry(
+                ($envelop->attempts <= 60 ? $envelop->attempts : 60) * 1000
+            );
+        } finally {
+            $this->cleaner->cleanUp();
+            $event->stop();
+            $this->authenticator->invalidate();
+        }
+
+        $io->write(implode(' ',
+            [
+                date(sprintf('[%s]', DATE_RFC3339)),
+                $decoded->trackingId,
+                sprintf('[%s]', $isSuccess ? 'OK' : 'FAIL'),
+                $messageClass,
+                sprintf('%.2F MiB - %d ms', $event->getMemory() / 1024 / 1024, $event->getDuration()),
+                PHP_EOL,
+            ]
+        ));
     }
 }

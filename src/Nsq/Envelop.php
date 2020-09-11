@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Nsq;
 
-use Amp\Promise;
 use function call_user_func;
 
 /**
@@ -33,7 +32,7 @@ final class Envelop
     /**
      * @var callable
      */
-    private $touch;
+    private $touching;
 
     public function __construct(
         int $timestamp,
@@ -50,30 +49,21 @@ final class Envelop
         $this->body = $body;
         $this->acknowledge = $ack;
         $this->requeue = $req;
-        $this->touch = $touch;
+        $this->touching = $touch;
     }
 
-    /**
-     * @psalm-return Promise<void>
-     */
-    public function ack(): Promise
+    public function ack(): void
     {
-        return call_user_func($this->acknowledge);
+        call_user_func($this->acknowledge);
     }
 
-    /**
-     * @psalm-return Promise<void>
-     */
-    public function retry(int $timeout): Promise
+    public function retry(int $timeout): void
     {
-        return call_user_func($this->requeue, $timeout);
+        call_user_func($this->requeue, $timeout);
     }
 
-    /**
-     * @psalm-return Promise<void>
-     */
-    public function touch(): Promise
+    public function touch(): void
     {
-        return call_user_func($this->touch);
+        call_user_func($this->touching);
     }
 }

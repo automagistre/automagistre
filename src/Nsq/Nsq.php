@@ -4,19 +4,12 @@ declare(strict_types=1);
 
 namespace App\Nsq;
 
-use function Amp\call;
-use Amp\CancellationToken;
-use Amp\CancellationTokenSource;
-use Amp\Promise;
-use function Amp\Promise\rethrow;
-use Amp\Socket\EncryptableSocket;
-use Amp\Socket\SocketPool;
-use Amp\Socket\UnlimitedSocketPool;
 use Generator;
 use LogicException;
 use PHPinnacle\Buffer\ByteBuffer;
+use Socket\Raw\Factory;
+use Socket\Raw\Socket;
 use function sprintf;
-use Throwable;
 
 final class Nsq
 {
@@ -31,204 +24,140 @@ final class Nsq
     private const BYTES_ATTEMPTS = 2;
     private const BYTES_ID = 16;
 
-    private SocketPool $pool;
+    private ?Socket $socket = null;
 
     private array $config;
 
-    public function __construct(?SocketPool $pool, array $config = [])
+    public function __construct(array $config = [])
     {
-        $this->pool = $pool ?? new UnlimitedSocketPool();
         $this->config = [
             'localAddr' => $config['localAddr'] ?? 'tcp://nsqd:4150',
         ];
     }
 
-    /**
-     * @psalm-return Promise<void>
-     */
-    public function pub(string $topic, string $message): Promise
+    public function pub(string $topic, string $message): void
     {
-        return call(function () use ($topic, $message): Generator {
-            /** @var EncryptableSocket $socket */
-            $socket = yield $this->getSocket($topic);
+        $socket = $this->getSocket();
 
-            yield $socket->write(Command::pub($topic, $message));
+        $socket->write(Command::pub($topic, $message));
 
-            $buffer = yield $socket->read();
+        $buffer = new ByteBuffer($socket->read(self::BYTES_SIZE + self::BYTES_TYPE));
+        $size = $buffer->consumeUint32();
+        $type = $buffer->consumeUint32();
 
-            // TODO clear to prevent sending Magic package twice. Refactor to WeakMap after migrate to php 8.0?
-            $this->pool->clear($socket);
+        $response = $socket->read($size);
 
-            if (null === $buffer) {
-                throw new LogicException('NSQ return unexpected null.');
+        if (self::TYPE_ERROR === $type) {
+            throw new LogicException(sprintf('NSQ return error: "%s"', $response));
+        }
+
+        if (self::TYPE_RESPONSE !== $type) {
+            throw new LogicException(sprintf('Expecting "%s" type, but NSQ return: "%s"', self::TYPE_RESPONSE, $type));
+        }
+
+        if (self::OK !== $response) {
+            throw new LogicException(sprintf('NSQ return unexpected response: "%s"', $response));
+        }
+    }
+
+    public function subscribe(string $topic, string $channel, float $timeout = null): Generator
+    {
+        $socket = $this->getSocket();
+        $socket->write(Command::sub($topic, $channel));
+
+        $buffer = new ByteBuffer();
+        while (true) {
+            $socket->write(Command::rdy(1));
+
+            if (false === $socket->selectRead($timeout)) {
+                if (true === yield null) {
+                    break;
+                }
+
+                continue;
             }
 
-            $buffer = new ByteBuffer($buffer);
+            $buffer->append($socket->read(self::BYTES_SIZE));
             $size = $buffer->consumeUint32();
+
+            $buffer->append($socket->read($size));
             $type = $buffer->consumeUint32();
 
+            if (self::TYPE_RESPONSE === $type) {
+                $response = $buffer->consume($size - self::BYTES_TYPE);
+
+                if (self::OK === $response) {
+                    continue;
+                }
+
+                if (self::HEARTBEAT === $response) {
+                    $socket->write(Command::nop());
+
+                    continue;
+                }
+
+                throw new LogicException(sprintf('Unsupported response: "%s"', $response));
+            }
+
             if (self::TYPE_ERROR === $type) {
-                throw new LogicException(sprintf('NSQ return error: "%s"', $buffer->consume($size - self::BYTES_TYPE)));
+                throw new LogicException($buffer->consume($size - self::BYTES_TYPE));
             }
 
-            if (self::TYPE_RESPONSE !== $type) {
-                throw new LogicException(sprintf('Expecting "%s" type, but NSQ return: "%s"', self::TYPE_RESPONSE, $type));
+            if (self::TYPE_MESSAGE !== $type) {
+                throw new LogicException(sprintf('Unsupported type: "%s"', $type));
             }
 
-            $response = $buffer->consume($size - self::BYTES_TYPE);
-            if (self::OK !== $response) {
-                throw new LogicException(sprintf('NSQ return unexpected response: "%s"', $response));
+            $timestamp = $buffer->consumeInt64();
+            $attempts = $buffer->consumeUint16();
+            $id = $buffer->consume(self::BYTES_ID);
+            $body = $buffer->consume($size - self::BYTES_TYPE - self::BYTES_TIMESTAMP - self::BYTES_ATTEMPTS - self::BYTES_ID);
+
+            $finished = false;
+            $message = new Envelop(
+                $timestamp,
+                $attempts,
+                $id,
+                $body,
+                static function () use ($socket, $id, &$finished): void {
+                    if ($finished) {
+                        throw new LogicException('Can\'t ack, message already finished.');
+                    }
+
+                    $finished = true;
+
+                    $socket->write(Command::fin($id));
+                },
+                static function (int $timeout) use ($socket, $id, &$finished): void {
+                    if ($finished) {
+                        throw new LogicException('Can\'t retry, message already finished.');
+                    }
+
+                    $finished = true;
+
+                    $socket->write(Command::req($id, $timeout));
+                },
+                static function () use ($socket, $id): void {
+                    $socket->write(Command::touch($id));
+                },
+            );
+
+            if (true === yield $message) {
+                break;
             }
-        });
+        }
+
+        $socket->write(Command::cls());
     }
 
-    public function subscribe(string $topic, string $channel, callable $callable): Stopper
+    private function getSocket(): Socket
     {
-        $tokenSource = new CancellationTokenSource();
+        if (null !== $this->socket) {
+            return $this->socket;
+        }
 
-        $stopper = new Stopper(static function () use ($tokenSource): void {
-            $tokenSource->cancel();
-        });
+        $socket = (new Factory())->createClient($this->config['localAddr']);
+        $socket->write(Command::magic());
 
-        rethrow(call(function () use ($topic, $channel, $callable, $stopper, $tokenSource): Generator {
-            $fragment = sprintf('%s-%s', $topic, $channel);
-            /** @var EncryptableSocket $socket */
-            $socket = yield $this->getSocket($fragment, $tokenSource->getToken());
-
-            yield $socket->write(Command::sub($topic, $channel));
-
-            $buffer = new ByteBuffer();
-            while (!$stopper->isStopped()) {
-                yield $socket->write(Command::rdy(1));
-
-                $size = 4;
-                $sizeRead = false;
-                while ($buffer->size() < $size) {
-                    $chunk = yield $socket->read();
-
-                    if (null === $chunk && $stopper->isStopped()) {
-                        break 2;
-                    }
-
-                    if (null === $chunk) {
-                        $buffer->empty();
-                        $this->pool->checkin($socket);
-
-                        $socket = yield $this->getSocket($fragment, $tokenSource->getToken());
-
-                        continue 2;
-                    }
-
-                    $buffer->append($chunk);
-
-                    /** @phpstan-ignore-next-line */
-                    if (false === $sizeRead && $buffer->size() >= self::BYTES_SIZE) {
-                        $size = $buffer->consumeUint32();
-                        $sizeRead = true;
-                    }
-                }
-
-                $type = $buffer->consumeUint32();
-
-                if (self::TYPE_RESPONSE === $type) {
-                    $response = $buffer->consume($size - self::BYTES_TYPE);
-
-                    if (self::OK === $response) {
-                        continue;
-                    }
-
-                    if (self::HEARTBEAT === $response) {
-                        yield $socket->write(Command::nop());
-
-                        continue;
-                    }
-
-                    throw new LogicException(sprintf('Unsupported response: "%s"', $response));
-                }
-
-                if (self::TYPE_ERROR === $type) {
-                    throw new LogicException($buffer->consume($size - self::BYTES_TYPE));
-                }
-
-                if (self::TYPE_MESSAGE !== $type) {
-                    throw new LogicException(sprintf('Unsupported type: "%s"', $type));
-                }
-
-                $timestamp = $buffer->consumeInt64();
-                $attempts = $buffer->consumeUint16();
-                $id = $buffer->consume(self::BYTES_ID);
-                $body = $buffer->consume($size - self::BYTES_TYPE - self::BYTES_TIMESTAMP - self::BYTES_ATTEMPTS - self::BYTES_ID);
-
-                $finished = false;
-                $message = new Envelop(
-                    $timestamp,
-                    $attempts,
-                    $id,
-                    $body,
-                    static function () use ($socket, $id, &$finished): Promise {
-                        if ($finished) {
-                            throw new LogicException('Can\'t ack, message already finished.');
-                        }
-
-                        $finished = true;
-
-                        return call(static function () use ($socket, $id): Generator {
-                            yield $socket->write(Command::fin($id));
-                        });
-                    },
-                    static function (int $timeout) use ($socket, $id, &$finished): Promise {
-                        if ($finished) {
-                            throw new LogicException('Can\'t retry, message already finished.');
-                        }
-
-                        $finished = true;
-
-                        return call(static function () use ($socket, $id, $timeout): Generator {
-                            yield $socket->write(Command::req($id, $timeout));
-                        });
-                    },
-                    static function () use ($socket, $id): Promise {
-                        return call(static function () use ($socket, $id): Generator {
-                            yield $socket->write(Command::touch($id));
-                        });
-                    },
-                );
-
-                try {
-                    yield from $callable($message);
-                } catch (Throwable $e) {
-                    $this->pool->checkin($socket);
-
-                    throw $e;
-                }
-            }
-
-            yield $socket->write(Command::cls());
-
-            $this->pool->clear($socket);
-        }));
-
-        return $stopper;
-    }
-
-    /**
-     * @psalm-return Promise<EncryptableSocket>
-     */
-    private function getSocket(string $fragment = null, CancellationToken $token = null): Promise
-    {
-        return call(
-            function (?string $fragment, ?CancellationToken $token): Generator {
-                $fragment = null === $fragment ? '' : '#'.$fragment;
-                $uri = $this->config['localAddr'].$fragment;
-
-                $socket = yield $this->pool->checkout($uri, null, $token);
-
-                yield $socket->write(Command::magic());
-
-                return $socket;
-            },
-            $fragment,
-            $token
-        );
+        return $this->socket = $socket;
     }
 }

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\SimpleBus;
 
-use Amp\Loop;
-use function Amp\Promise\wait;
 use App\Nsq\Nsq;
 use App\SimpleBus\Serializer\DecodedMessage;
 use App\SimpleBus\Serializer\MessageSerializer;
@@ -60,7 +58,7 @@ final class AsyncEventBusMiddleware implements MessageBusMiddleware
         $user = $this->security->getUser();
         assert($user instanceof User);
 
-        $promise = $this->nsq->pub(
+        $this->nsq->pub(
             $this->tenant->toBusTopic(),
             $this->serializer->encode(
                 $this->handlingId ?? $trackingId,
@@ -68,11 +66,5 @@ final class AsyncEventBusMiddleware implements MessageBusMiddleware
                 $user->toId(),
             )
         );
-
-        if (true === Loop::getInfo()['running']) {
-            Loop::defer(fn () => yield $promise);
-        } else {
-            wait($promise);
-        }
     }
 }
