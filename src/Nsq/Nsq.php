@@ -147,6 +147,7 @@ final class Nsq
         }
 
         $socket->write(Command::cls());
+        $this->socket = null;
     }
 
     private function getSocket(): Socket
