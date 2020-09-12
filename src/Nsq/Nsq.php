@@ -65,11 +65,10 @@ final class Nsq
     {
         $socket = $this->getSocket();
         $socket->write(Command::sub($topic, $channel));
+        $socket->write(Command::rdy(1));
 
         $buffer = new ByteBuffer();
         while (true) {
-            $socket->write(Command::rdy(1));
-
             try {
                 $selectRead = $socket->selectRead($timeout);
             } catch (Exception $e) {
@@ -158,6 +157,8 @@ final class Nsq
             if (true === yield $message) {
                 break;
             }
+
+            $socket->write(Command::rdy(1));
         }
 
         $socket->write(Command::cls());
