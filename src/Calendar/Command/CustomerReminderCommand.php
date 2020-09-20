@@ -5,14 +5,11 @@ declare(strict_types=1);
 namespace App\Calendar\Command;
 
 use App\Calendar\Entity\EntryView;
-use App\Costil;
 use App\Customer\Entity\OperandId;
 use App\Shared\Doctrine\Registry;
 use App\Sms\Action\SendSmsCommand;
 use App\Sms\Enum\Feature;
 use App\Tenant\Tenant;
-use App\User\Entity\UserId;
-use App\User\Security\ConsoleAuthenticator;
 use DateTimeImmutable;
 use function str_replace;
 use Symfony\Component\Console\Command\Command;
@@ -30,20 +27,13 @@ final class CustomerReminderCommand extends Command
 
     private Tenant $tenant;
 
-    private ConsoleAuthenticator $authenticator;
-
-    public function __construct(
-        Registry $registry,
-        MessageBusInterface $commandBus,
-        Tenant $tenant,
-        ConsoleAuthenticator $authenticator
-    ) {
+    public function __construct(Registry $registry, MessageBusInterface $commandBus, Tenant $tenant)
+    {
         $this->registry = $registry;
 
         parent::__construct();
         $this->messageBus = $commandBus;
         $this->tenant = $tenant;
-        $this->authenticator = $authenticator;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -64,8 +54,6 @@ final class CustomerReminderCommand extends Command
                     'end' => 'datetime',
                 ]
             );
-
-        $this->authenticator->authenticate(UserId::fromString(Costil::SERVICE_USER));
 
         foreach ($rows as $row) {
             /** @var DateTimeImmutable $date */
