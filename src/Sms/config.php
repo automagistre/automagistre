@@ -32,6 +32,15 @@ return static function (ContainerConfigurator $configurator): void {
         ],
     ]);
 
+    $configurator->extension('framework', [
+        'messenger' => [
+            'routing' => [
+                App\Sms\Event\SmsSendRequestedHandler::class => 'async',
+                App\Sms\Action\SendSmsCommand::class => 'async',
+            ],
+        ],
+    ]);
+
     $services = $configurator->services();
 
     $services
@@ -40,15 +49,10 @@ return static function (ContainerConfigurator $configurator): void {
         ->autoconfigure();
 
     $services
-        ->set(\App\Sms\Controller\CallbackController::class)
+        ->set(App\Sms\Controller\CallbackController::class)
         ->tag('controller.service_arguments');
 
     $services
-        ->set(App\Sms\Action\Send\SendSmsHandler::class)
-        ->tag('command_handler', ['handles' => \App\Sms\Action\Send\SendSmsCommand::class]);
-
-    $services
-        ->set(\App\Sms\EventListener\SmsSendRequestedListener::class)
-        ->arg('$httpClient', service('http_client.smsaero'))
-        ->tag('event_subscriber', ['subscribes_to' => \App\Sms\Event\SmsSendRequested::class]);
+        ->set(App\Sms\Event\SmsSendRequestedHandler::class)
+        ->arg('$httpClient', service('http_client.smsaero'));
 };

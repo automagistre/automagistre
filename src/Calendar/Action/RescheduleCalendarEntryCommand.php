@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Calendar\Application\Reschedule;
+namespace App\Calendar\Action;
 
 use App\Calendar\Entity\CalendarEntryId;
 use App\Calendar\Entity\Schedule;

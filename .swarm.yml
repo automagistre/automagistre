@@ -58,7 +58,7 @@ services:
 
     bus_comsumer:
         <<: *php-fpm
-        command: console bus:consume
+        command: console messenger:consume async -vv
         healthcheck:
             disable: true
         deploy:

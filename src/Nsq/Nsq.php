@@ -126,7 +126,7 @@ final class Nsq
             $body = $buffer->consume($size - self::BYTES_TYPE - self::BYTES_TIMESTAMP - self::BYTES_ATTEMPTS - self::BYTES_ID);
 
             $finished = false;
-            $message = new Envelop(
+            $message = new Envelope(
                 $timestamp,
                 $attempts,
                 $id,

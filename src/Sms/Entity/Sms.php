@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Sms\Entity;
 
+use App\MessageBus\ContainsRecordedMessages;
+use App\MessageBus\PrivateMessageRecorderCapabilities;
 use App\Sms\Event\SmsSendRequested;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
-use SimpleBus\Message\Recorder\ContainsRecordedMessages;
-use SimpleBus\Message\Recorder\PrivateMessageRecorderCapabilities;
 
 /**
  * @ORM\Entity

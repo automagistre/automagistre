@@ -2,10 +2,10 @@
 
 namespace App\Calendar\Controller;
 
-use App\Calendar\Application\ChangeOrder\ChangeOrderCalendarEntryCommand;
-use App\Calendar\Application\Create\CreateCalendarEntryCommand;
-use App\Calendar\Application\Delete\DeleteCalendarEntryCommand;
-use App\Calendar\Application\Reschedule\RescheduleCalendarEntryCommand;
+use App\Calendar\Action\ChangeOrderCalendarEntryCommand;
+use App\Calendar\Action\CreateCalendarEntryCommand;
+use App\Calendar\Action\DeleteCalendarEntryCommand;
+use App\Calendar\Action\RescheduleCalendarEntryCommand;
 use App\Calendar\Entity\CalendarEntryId;
 use App\Calendar\Entity\EntryOrder;
 use App\Calendar\Entity\OrderInfo;
@@ -33,7 +33,6 @@ use DateTimeZone;
 use function is_string;
 use Ramsey\Uuid\Uuid;
 use function range;
-use SimpleBus\SymfonyBridge\Bus\CommandBus;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -42,14 +41,11 @@ final class CalendarEntryController extends AbstractController
 {
     private Streamer $streamer;
 
-    private CommandBus $commandBus;
-
     private CalendarEntryRepository $repository;
 
-    public function __construct(Streamer $streamer, CommandBus $commandBus, CalendarEntryRepository $repository)
+    public function __construct(Streamer $streamer, CalendarEntryRepository $repository)
     {
         $this->streamer = $streamer;
-        $this->commandBus = $commandBus;
         $this->repository = $repository;
     }
 
@@ -104,7 +100,7 @@ final class CalendarEntryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $customerId = $dto->orderInfo->customerId;
 
-            $this->commandBus->handle(
+            $this->dispatchMessage(
                 new CreateCalendarEntryCommand(
                     $dto->id,
                     new Schedule(
@@ -183,7 +179,7 @@ final class CalendarEntryController extends AbstractController
         $dto = $entity;
         assert($dto instanceof CalendarEntryDto);
 
-        $this->commandBus->handle(
+        $this->dispatchMessage(
             new RescheduleCalendarEntryCommand(
                 $dto->id,
                 new Schedule(
@@ -193,7 +189,7 @@ final class CalendarEntryController extends AbstractController
             )
         );
 
-        $this->commandBus->handle(
+        $this->dispatchMessage(
             new ChangeOrderCalendarEntryCommand(
                 $dto->id,
                 new OrderInfo(
@@ -224,7 +220,7 @@ final class CalendarEntryController extends AbstractController
             ->handleRequest($this->request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->commandBus->handle(
+            $this->dispatchMessage(
                 new DeleteCalendarEntryCommand(
                     $dto->id,
                     $dto->reason,

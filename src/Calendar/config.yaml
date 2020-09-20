@@ -34,20 +34,3 @@ services:
         public: false
         autowire: true
         autoconfigure: true
-
-    App\Calendar\Application\Create\CreateCalendarEntryHandler:
-        tags:
-            - { name: command_handler, handles: App\Calendar\Application\Create\CreateCalendarEntryCommand }
-    App\Calendar\Application\Reschedule\RescheduleCalendarEntryHandler:
-        tags:
-            - { name: command_handler, handles: App\Calendar\Application\Reschedule\RescheduleCalendarEntryCommand }
-    App\Calendar\Application\ChangeOrder\ChangeOrderCalendarEntryHandler:
-        tags:
-            - { name: command_handler, handles: App\Calendar\Application\ChangeOrder\ChangeOrderCalendarEntryCommand }
-    App\Calendar\Application\Delete\DeleteCalendarEntryHandler:
-        tags:
-            - { name: command_handler, handles: App\Calendar\Application\Delete\DeleteCalendarEntryCommand }
-
-    App\Calendar\EventListener\EntryScheduledListener:
-        tags:
-            - { name: event_subscriber, subscribes_to: App\Calendar\Event\EntryScheduled }

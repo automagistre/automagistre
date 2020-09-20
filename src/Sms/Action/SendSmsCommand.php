@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Sms\Action\Send;
+namespace App\Sms\Action;
 
 use App\Customer\Entity\OperandId;
 use App\Sms\Enum\Feature;

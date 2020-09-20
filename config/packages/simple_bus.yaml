@@ -1,3 +1,0 @@
-doctrine_orm_bridge:
-    entity_manager: default
-    connection: default

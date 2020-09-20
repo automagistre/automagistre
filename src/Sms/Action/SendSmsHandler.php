@@ -2,17 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Sms\Action\Send;
+namespace App\Sms\Action;
 
 use App\Customer\Entity\Operand;
 use App\Customer\Entity\OperandId;
+use App\MessageBus\MessageHandler;
 use App\Shared\Doctrine\Registry;
 use App\Sms\Entity\Sms;
 use App\Sms\Enum\Feature;
 use App\Tenant\Tenant;
 use DateTimeImmutable;
 
-final class SendSmsHandler
+final class SendSmsHandler implements MessageHandler
 {
     private Tenant $tenant;
 

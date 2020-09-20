@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="3.14.2@3538fe1955d47f6ee926c0769d71af6db08aa488">
+<files psalm-version="3.16@d03e5ef057d6adc656c0ff7e166c50b73b4f48f3">
   <file src="src/Calendar/Controller/CalendarEntryController.php">
     <PossiblyNullArgument occurrences="3">
-      <code>$this-&gt;request-&gt;query-&gt;get('id')</code>
-      <code>$this-&gt;request-&gt;query-&gt;get('id')</code>
       <code>$dto-&gt;reason</code>
+      <code>$this-&gt;request-&gt;query-&gt;get('id')</code>
+      <code>$this-&gt;request-&gt;query-&gt;get('id')</code>
     </PossiblyNullArgument>
-    <PropertyNotSetInConstructor occurrences="1">
+    <PropertyNotSetInConstructor occurrences="3">
+      <code>CalendarEntryController</code>
+      <code>CalendarEntryController</code>
       <code>CalendarEntryController</code>
     </PropertyNotSetInConstructor>
   </file>
@@ -29,16 +31,20 @@
   </file>
   <file src="src/Car/Controller/RecommendationController.php">
     <PossiblyNullArgument occurrences="3">
-      <code>$model-&gt;service</code>
       <code>$model-&gt;price</code>
+      <code>$model-&gt;service</code>
       <code>$model-&gt;workerId</code>
     </PossiblyNullArgument>
-    <PropertyNotSetInConstructor occurrences="1">
+    <PropertyNotSetInConstructor occurrences="3">
+      <code>RecommendationController</code>
+      <code>RecommendationController</code>
       <code>RecommendationController</code>
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Car/Controller/RecommendationPartController.php">
-    <PropertyNotSetInConstructor occurrences="1">
+    <PropertyNotSetInConstructor occurrences="3">
+      <code>RecommendationPartController</code>
+      <code>RecommendationPartController</code>
       <code>RecommendationPartController</code>
     </PropertyNotSetInConstructor>
   </file>
@@ -60,8 +66,8 @@
   </file>
   <file src="src/Costil.php">
     <PossiblyNullArgument occurrences="2">
-      <code>$array[$moneyKey.'.currency.code']</code>
       <code>$array[$moneyKey.'.amount']</code>
+      <code>$array[$moneyKey.'.currency.code']</code>
     </PossiblyNullArgument>
   </file>
   <file src="src/Customer/Controller/OperandController.php">
@@ -82,26 +88,26 @@
   </file>
   <file src="src/Customer/Entity/Organization.php">
     <PropertyNotSetInConstructor occurrences="2">
-      <code>$name</code>
       <code>$address</code>
+      <code>$name</code>
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Customer/Entity/Person.php">
     <PossiblyNullArgument occurrences="2">
-      <code>$this-&gt;lastname</code>
       <code>$this-&gt;firstname</code>
+      <code>$this-&gt;lastname</code>
     </PossiblyNullArgument>
   </file>
   <file src="src/EasyAdmin/Controller/AbstractController.php">
     <PossiblyNullArgument occurrences="2">
-      <code>$this-&gt;request-&gt;query-&gt;get('newValue')</code>
       <code>$id</code>
+      <code>$this-&gt;request-&gt;query-&gt;get('newValue')</code>
     </PossiblyNullArgument>
   </file>
   <file src="src/EasyAdmin/Form/AutocompleteType.php">
     <PossiblyFalseReference occurrences="2">
-      <code>setData</code>
       <code>getData</code>
+      <code>setData</code>
     </PossiblyFalseReference>
   </file>
   <file src="src/Employee/Entity/Employee.php">
@@ -129,8 +135,8 @@
   </file>
   <file src="src/Income/EventListener/AccrueIncomePartsListener.php">
     <PossiblyNullArgument occurrences="2">
-      <code>$partId</code>
       <code>$incomePart-&gt;getQuantity()</code>
+      <code>$partId</code>
     </PossiblyNullArgument>
   </file>
   <file src="src/Income/Manager/SupplierManager.php">
@@ -167,10 +173,10 @@
       <code>mb_strtolower($item)</code>
     </PossiblyFalseOperand>
     <PossiblyNullArgument occurrences="4">
-      <code>$equipmentId ?? $car-&gt;vehicleId</code>
-      <code>$equipmentId</code>
       <code>$carId</code>
       <code>$equipmentId</code>
+      <code>$equipmentId</code>
+      <code>$equipmentId ?? $car-&gt;vehicleId</code>
     </PossiblyNullArgument>
     <PossiblyNullPropertyAssignment occurrences="2">
       <code>$car</code>
@@ -184,10 +190,12 @@
       <code>$car-&gt;vehicleId</code>
     </PossiblyNullPropertyFetch>
     <PossiblyNullReference occurrences="2">
-      <code>isFilled</code>
       <code>isEditable</code>
+      <code>isFilled</code>
     </PossiblyNullReference>
-    <PropertyNotSetInConstructor occurrences="1">
+    <PropertyNotSetInConstructor occurrences="3">
+      <code>OrderController</code>
+      <code>OrderController</code>
       <code>OrderController</code>
     </PropertyNotSetInConstructor>
   </file>
@@ -202,7 +210,9 @@
     </PossiblyNullArgument>
   </file>
   <file src="src/Order/Controller/OrderItemPartController.php">
-    <PropertyNotSetInConstructor occurrences="1">
+    <PropertyNotSetInConstructor occurrences="3">
+      <code>OrderItemPartController</code>
+      <code>OrderItemPartController</code>
       <code>OrderItemPartController</code>
     </PropertyNotSetInConstructor>
   </file>
@@ -212,15 +222,15 @@
       <code>mb_strtolower($searchString)</code>
     </PossiblyFalseOperand>
     <PossiblyNullArgument occurrences="3">
-      <code>$model-&gt;service</code>
       <code>$model-&gt;price</code>
+      <code>$model-&gt;service</code>
       <code>$sortDirection</code>
     </PossiblyNullArgument>
   </file>
   <file src="src/Order/Controller/ProfitController.php">
     <PossiblyNullArgument occurrences="2">
-      <code>$request-&gt;query-&gt;get('start')</code>
       <code>$request-&gt;query-&gt;get('end')</code>
+      <code>$request-&gt;query-&gt;get('start')</code>
     </PossiblyNullArgument>
   </file>
   <file src="src/Order/Entity/Order.php">
@@ -261,16 +271,21 @@
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtoupper(trim($searchString))</code>
     </PossiblyFalseOperand>
-    <PropertyNotSetInConstructor occurrences="1">
+    <PropertyNotSetInConstructor occurrences="3">
+      <code>PartController</code>
+      <code>PartController</code>
       <code>PartController</code>
     </PropertyNotSetInConstructor>
-    <RedundantConditionGivenDocblockType occurrences="2">
+    <RedundantConditionGivenDocblockType occurrences="3">
       <code>null !== $dto-&gt;manufacturerId</code>
+      <code>null !== $dto-&gt;manufacturerId &amp;&amp; null !== $dto-&gt;number &amp;&amp; $form-&gt;isSubmitted()</code>
       <code>null !== $dto-&gt;number</code>
     </RedundantConditionGivenDocblockType>
   </file>
   <file src="src/Part/Controller/PartCrossController.php">
-    <PropertyNotSetInConstructor occurrences="1">
+    <PropertyNotSetInConstructor occurrences="3">
+      <code>PartCrossController</code>
+      <code>PartCrossController</code>
       <code>PartCrossController</code>
     </PropertyNotSetInConstructor>
   </file>
@@ -281,8 +296,8 @@
   </file>
   <file src="src/Part/Controller/PartSellController.php">
     <PossiblyNullArgument occurrences="2">
-      <code>$request-&gt;query-&gt;get('start')</code>
       <code>$request-&gt;query-&gt;get('end')</code>
+      <code>$request-&gt;query-&gt;get('start')</code>
     </PossiblyNullArgument>
   </file>
   <file src="src/Part/EventListener/DecreaseSupplyOnIncomeAccruedListener.php">
@@ -316,9 +331,6 @@
       <code>$mixed</code>
       <code>$value</code>
     </MissingClosureParamType>
-    <MissingClosureReturnType occurrences="1">
-      <code>fn (</code>
-    </MissingClosureReturnType>
   </file>
   <file src="src/Shared/Request/EntityTransformerArgumentValueResolver.php">
     <PossiblyNullArgument occurrences="2">
@@ -335,7 +347,9 @@
     <PossiblyNullReference occurrences="1">
       <code>get</code>
     </PossiblyNullReference>
-    <PropertyNotSetInConstructor occurrences="1">
+    <PropertyNotSetInConstructor occurrences="3">
+      <code>UserController</code>
+      <code>UserController</code>
       <code>UserController</code>
     </PropertyNotSetInConstructor>
   </file>
@@ -353,8 +367,9 @@
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtolower($item)</code>
     </PossiblyFalseOperand>
-    <RedundantConditionGivenDocblockType occurrences="2">
+    <RedundantConditionGivenDocblockType occurrences="3">
       <code>null !== $dto-&gt;manufacturerId</code>
+      <code>null !== $dto-&gt;manufacturerId &amp;&amp; null !== $dto-&gt;name &amp;&amp; null !== $dto-&gt;caseName</code>
       <code>null !== $dto-&gt;name</code>
     </RedundantConditionGivenDocblockType>
   </file>
