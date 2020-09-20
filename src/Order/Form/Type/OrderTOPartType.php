@@ -8,15 +8,12 @@ use App\Form\Type\MoneyType;
 use App\Order\Form\OrderTOPart;
 use App\Part\Entity\PartId;
 use App\Part\Entity\PartView;
-use App\Part\Manager\PartManager;
-use App\Shared\Doctrine\Registry;
-use App\Shared\Identifier\IdentifierFormatter;
-use function array_map;
-use function array_values;
+use App\Part\Entity\PartViewRepository;
 use function assert;
 use function count;
 use LogicException;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -29,17 +26,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 final class OrderTOPartType extends AbstractType
 {
-    private PartManager $partManager;
+    private PartViewRepository $repository;
 
-    private IdentifierFormatter $formatter;
-
-    private Registry $registry;
-
-    public function __construct(PartManager $partManager, IdentifierFormatter $formatter, Registry $registry)
+    public function __construct(PartViewRepository $repository)
     {
-        $this->partManager = $partManager;
-        $this->formatter = $formatter;
-        $this->registry = $registry;
+        $this->repository = $repository;
     }
 
     /**
@@ -53,32 +44,38 @@ final class OrderTOPartType extends AbstractType
                 'required' => false,
             ])
             ->add('price', MoneyType::class)
-            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($builder): void {
                 $form = $event->getForm();
                 $data = $event->getData();
                 if (!$data instanceof OrderTOPart) {
                     throw new LogicException('OrderTOPart expected.');
                 }
 
-                $partId = $data->partId;
+                $part = $this->repository->get($data->partId);
 
-                $analogs = $this->partManager->crossesInStock($partId);
+                $analogs = $this->repository->all(...$part->analogs);
                 $hasAnalog = 0 < count($analogs);
 
-                $choices = [$partId];
+                $choices = [$part];
                 if ($hasAnalog) {
-                    $choices = [...$choices, ...array_map(fn (PartView $part) => $part->toId(), array_values($analogs))];
+                    $choices = [...$choices, ...$analogs];
                 }
 
-                $form->add('partId', ChoiceType::class, [
+                $partForm = $builder->create('partId', ChoiceType::class, [
                     'label' => 'Запчасть',
                     'choices' => $choices,
-                    'choice_label' => fn (PartId $partId) => $this->formatter->format($partId),
-                    'choice_value' => fn (PartId $partId) => $partId->toString(),
+                    'choice_label' => fn (PartView $part) => $part->displayWithStock(),
+                    'choice_value' => fn (?PartView $part) => null === $part ? null : $part->toId()->toString(),
                     'expanded' => false,
                     'multiple' => false,
                     'disabled' => !$hasAnalog,
-                ]);
+                    'auto_initialize' => false,
+                ])->addModelTransformer(new CallbackTransformer(
+                    fn (?PartId $partId) => null === $partId ? null : $this->repository->get($partId),
+                    fn (?PartView $partView) => null === $partView ? null : $partView->toId(),
+                ));
+
+                $form->add($partForm->getForm());
             })
             ->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event): void {
                 $form = $event->getForm();
@@ -87,9 +84,9 @@ final class OrderTOPartType extends AbstractType
 
                 $price = $form->get('price');
                 if (null === $price->getData()) {
-                    $price->setData(
-                        $this->registry->get(PartView::class, $model->partId)->suggestPrice()
-                    );
+                    $part = $this->repository->get($model->partId);
+
+                    $price->setData($part->suggestPrice());
                 }
             });
     }

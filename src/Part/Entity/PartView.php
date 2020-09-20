@@ -155,6 +155,18 @@ class PartView
         );
     }
 
+    public function displayWithStock(): string
+    {
+        return sprintf(
+            '%s - %s (%s) (Склад: %s, Резерв: %s)',
+            $this->manufacturer->name,
+            $this->name,
+            $this->number,
+            $this->quantity / 100,
+            $this->ordered / 100,
+        );
+    }
+
     public function sellPrice(): Money
     {
         return $this->price->subtract($this->discount);
