@@ -50,6 +50,9 @@ final class IdentifierType extends Type
         return $value->toString();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?Identifier
     {
         if (null === $value || '' === $value) {
