@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Shared\Identifier;
 
 use function assert;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\Persistence\ManagerRegistry;
 use function is_subclass_of;
 use function method_exists;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;

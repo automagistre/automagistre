@@ -331,9 +331,6 @@
     "nikic/php-parser": {
         "version": "v4.6.0"
     },
-    "ocramius/doctrine-batch-utils": {
-        "version": "2.0.0"
-    },
     "ocramius/proxy-manager": {
         "version": "2.8.0"
     },
