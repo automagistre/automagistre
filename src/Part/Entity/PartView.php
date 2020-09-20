@@ -266,7 +266,7 @@ class PartView
                      LEFT JOIN (SELECT pcp.part_id, json_agg(pcp2.part_id) AS parts
                                 FROM part_cross_part pcp
                                          JOIN part_cross pc ON pcp.part_cross_id = pc.id
-                                         LEFT JOIN part_cross_part pcp2 ON pcp2.part_cross_id = pc.id
+                                         LEFT JOIN part_cross_part pcp2 ON pcp2.part_cross_id = pc.id AND pcp2.part_id <> pcp.part_id
                                 GROUP BY pcp.part_id) crosses ON crosses.part_id = part.id
         ';
     }
