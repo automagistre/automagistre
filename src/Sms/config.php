@@ -36,7 +36,6 @@ return static function (ContainerConfigurator $configurator): void {
         'messenger' => [
             'routing' => [
                 App\Sms\Event\SmsSendRequestedHandler::class => 'async',
-                App\Sms\Action\SendSmsCommand::class => 'async',
             ],
         ],
     ]);
