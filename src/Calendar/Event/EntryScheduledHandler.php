@@ -2,33 +2,37 @@
 
 declare(strict_types=1);
 
-namespace App\Calendar\EventListener;
+namespace App\Calendar\Event;
 
 use App\Calendar\Entity\EntryView;
-use App\Calendar\Event\EntryScheduled;
+use App\MessageBus\MessageHandler;
 use App\Order\Entity\Order;
 use App\Shared\Doctrine\Registry;
-use App\Sms\Action\Send\SendSmsCommand;
+use App\Sms\Action\SendSmsCommand;
 use App\Sms\Enum\Feature;
 use App\Tenant\Tenant;
 use DateTimeImmutable;
 use Money\MoneyFormatter;
-use SimpleBus\SymfonyBridge\Bus\CommandBus;
 use function sprintf;
 use function str_replace;
+use Symfony\Component\Messenger\MessageBusInterface;
 
-final class EntryScheduledListener
+final class EntryScheduledHandler implements MessageHandler
 {
     private Registry $registry;
 
-    private CommandBus $commandBus;
+    private MessageBusInterface $commandBus;
 
     private MoneyFormatter $formatter;
 
     private Tenant $tenant;
 
-    public function __construct(Registry $registry, CommandBus $commandBus, MoneyFormatter $formatter, Tenant $tenant)
-    {
+    public function __construct(
+        Registry $registry,
+        MessageBusInterface $commandBus,
+        MoneyFormatter $formatter,
+        Tenant $tenant
+    ) {
         $this->registry = $registry;
         $this->commandBus = $commandBus;
         $this->formatter = $formatter;
@@ -78,7 +82,7 @@ final class EntryScheduledListener
             }
         }
 
-        $this->commandBus->handle(
+        $this->commandBus->dispatch(
             new SendSmsCommand(
                 $entry->orderInfo->customerId,
                 $message,

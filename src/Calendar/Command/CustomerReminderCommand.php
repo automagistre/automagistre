@@ -8,17 +8,17 @@ use App\Calendar\Entity\EntryView;
 use App\Costil;
 use App\Customer\Entity\OperandId;
 use App\Shared\Doctrine\Registry;
-use App\Sms\Action\Send\SendSmsCommand;
+use App\Sms\Action\SendSmsCommand;
 use App\Sms\Enum\Feature;
 use App\Tenant\Tenant;
 use App\User\Entity\UserId;
 use App\User\Security\ConsoleAuthenticator;
 use DateTimeImmutable;
-use SimpleBus\SymfonyBridge\Bus\CommandBus;
 use function str_replace;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 final class CustomerReminderCommand extends Command
 {
@@ -26,7 +26,7 @@ final class CustomerReminderCommand extends Command
 
     private Registry $registry;
 
-    private CommandBus $commandBus;
+    private MessageBusInterface $messageBus;
 
     private Tenant $tenant;
 
@@ -34,14 +34,14 @@ final class CustomerReminderCommand extends Command
 
     public function __construct(
         Registry $registry,
-        CommandBus $commandBus,
+        MessageBusInterface $commandBus,
         Tenant $tenant,
         ConsoleAuthenticator $authenticator
     ) {
         $this->registry = $registry;
 
         parent::__construct();
-        $this->commandBus = $commandBus;
+        $this->messageBus = $commandBus;
         $this->tenant = $tenant;
         $this->authenticator = $authenticator;
     }
@@ -82,7 +82,7 @@ final class CustomerReminderCommand extends Command
                 $this->tenant->toSmsOnReminderEntry(),
             );
 
-            $this->commandBus->handle(
+            $this->messageBus->dispatch(
                 new SendSmsCommand(
                     $customerId,
                     $message,

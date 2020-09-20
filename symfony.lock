@@ -585,17 +585,11 @@
             "ref": "9746f0823302d7980e5273ef7a69ef3f5ac80914"
         }
     },
-    "simple-bus/doctrine-orm-bridge": {
-        "version": "v5.1.0"
-    },
-    "simple-bus/message-bus": {
-        "version": "v3.1.0"
-    },
-    "simple-bus/symfony-bridge": {
-        "version": "v5.4.0"
-    },
     "swiftmailer/swiftmailer": {
         "version": "v6.2.3"
+    },
+    "symfony/amqp-messenger": {
+        "version": "v5.1.5"
     },
     "symfony/asset": {
         "version": "v5.1.3"
@@ -647,6 +641,9 @@
     },
     "symfony/doctrine-bridge": {
         "version": "v5.1.3"
+    },
+    "symfony/doctrine-messenger": {
+        "version": "v5.1.5"
     },
     "symfony/dom-crawler": {
         "version": "v5.1.3"
@@ -721,6 +718,18 @@
     "symfony/intl": {
         "version": "v5.1.3"
     },
+    "symfony/messenger": {
+        "version": "4.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.3",
+            "ref": "8a2675c061737658bed85102e9241c752620e575"
+        },
+        "files": [
+            "config/packages/messenger.yaml"
+        ]
+    },
     "symfony/mime": {
         "version": "v5.1.3"
     },
@@ -774,6 +783,9 @@
     },
     "symfony/proxy-manager-bridge": {
         "version": "v5.1.3"
+    },
+    "symfony/redis-messenger": {
+        "version": "v5.1.5"
     },
     "symfony/requirements-checker": {
         "version": "1.0",

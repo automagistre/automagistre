@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Calendar\Application\Delete;
+namespace App\Calendar\Action;
 
 use App\Calendar\Entity\CalendarEntryId;
 use App\Calendar\Enum\DeletionReason;

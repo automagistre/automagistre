@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Calendar\Application\Delete;
+namespace App\Calendar\Action;
 
 use App\Calendar\Repository\CalendarEntryRepository;
+use App\MessageBus\MessageHandler;
 
-final class DeleteCalendarEntryHandler
+final class DeleteCalendarEntryHandler implements MessageHandler
 {
     private CalendarEntryRepository $repository;
 

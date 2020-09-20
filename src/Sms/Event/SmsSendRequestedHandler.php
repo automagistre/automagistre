@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Sms\EventListener;
+namespace App\Sms\Event;
 
+use App\MessageBus\MessageHandler;
 use App\Shared\Doctrine\Registry;
 use App\Sms\Entity\SmsSend;
-use App\Sms\Event\SmsSendRequested;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use function Sentry\captureException;
@@ -15,7 +15,7 @@ use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Throwable;
 
-final class SmsSendRequestedListener
+final class SmsSendRequestedHandler implements MessageHandler
 {
     private Registry $registry;
 

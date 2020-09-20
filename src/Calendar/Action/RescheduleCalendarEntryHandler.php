@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Calendar\Application\Reschedule;
+namespace App\Calendar\Action;
 
 use App\Calendar\Repository\CalendarEntryRepository;
+use App\MessageBus\MessageHandler;
 
-final class RescheduleCalendarEntryHandler
+final class RescheduleCalendarEntryHandler implements MessageHandler
 {
     private CalendarEntryRepository $repository;
 

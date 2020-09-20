@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Calendar\Application\Create;
+namespace App\Calendar\Action;
 
 use App\Calendar\Entity\CalendarEntry;
 use App\Calendar\Repository\CalendarEntryRepository;
+use App\MessageBus\MessageHandler;
 
-final class CreateCalendarEntryHandler
+final class CreateCalendarEntryHandler implements MessageHandler
 {
     private CalendarEntryRepository $repository;
 

@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Calendar\Entity;
 
 use App\Calendar\Event\EntryScheduled;
+use App\MessageBus\ContainsRecordedMessages;
+use App\MessageBus\PrivateMessageRecorderCapabilities;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use SimpleBus\Message\Recorder\ContainsRecordedMessages;
-use SimpleBus\Message\Recorder\PrivateMessageRecorderCapabilities;
 
 /**
  * @ORM\Entity

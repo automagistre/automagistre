@@ -9,7 +9,7 @@ use function call_user_func;
 /**
  * @psalm-immutable
  */
-final class Envelop
+final class Envelope
 {
     public int $timestamp;
 
