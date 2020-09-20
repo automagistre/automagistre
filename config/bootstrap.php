@@ -28,6 +28,7 @@ foreach ((array) require __DIR__.'/enums.php' as $class => [$id, $odmField]) {
 
 foreach ((array) require __DIR__.'/identifiers.php' as $class => [$id]) {
     App\Shared\Identifier\ORM\IdentifierType::register($id, $class);
+    App\Shared\Identifier\ORM\IdentifierArrayType::register($id.'s', $class);
     App\Shared\Identifier\ODM\IdentifierType::register($id, $class);
 }
 

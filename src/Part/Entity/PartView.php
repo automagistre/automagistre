@@ -73,7 +73,9 @@ class PartView
     public Money $income;
 
     /**
-     * @ORM\Column(type="json")
+     * @var PartId[]
+     *
+     * @ORM\Column(type="part_ids")
      */
     public array $analogs;
 
