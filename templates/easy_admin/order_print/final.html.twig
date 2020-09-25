@@ -132,6 +132,7 @@
         <div class="page-settings__col">
             <div class="page-settings__label">Настройки:</div>
             <label class="label--checkbox page-settings__item"><input class="checkbox" type="checkbox" id="js-show-totals">Без учета баланса</label>
+            <label class="label--checkbox"><input class="checkbox" type="checkbox" id="js-hide-part-numbers">Скрыть номера делалей</label>
         </div>
     </div>
 
@@ -199,6 +200,9 @@
       const totalsCleanBlock = document.querySelector('.js-order-totals-clean');
       const totalsBalanceBlock = document.querySelector('.js-order-totals-balance');
 
+      const orderHidePartNumberCheckBox = document.querySelector('#js-hide-part-numbers')
+      const orderPartNumberItems = document.querySelectorAll('.part-number')
+
       orderShowCheckBox.addEventListener('click', () => {
         orderPages.forEach( page => page.classList.toggle('hidden', !orderShowCheckBox.checked));
         totalsShowCheckbox.disabled = !orderShowCheckBox.checked
@@ -211,6 +215,14 @@
       } else {
         recommendationsShowCheckBox.checked = false;
         recommendationsShowCheckBox.disabled = true;
+      }
+
+      if (orderPartNumberItems.length) {
+        orderHidePartNumberCheckBox.addEventListener('click', ()=> {
+          orderPartNumberItems.forEach(item => item.classList.toggle('hidden', orderHidePartNumberCheckBox.checked))
+        })
+      } else {
+        orderHidePartNumberCheckBox.disabled = true
       }
 
       totalsShowCheckbox.addEventListener('click', () => {
