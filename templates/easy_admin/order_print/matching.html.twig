@@ -87,7 +87,7 @@
     <div class="page portrait order-fonts hidden js-order-page">
         <main class="portrait">
             <div class="main-table">
-                {{ order_info('заказ-наряд', order, customer, car) }}
+                {{ order_info('Пред-наряд', order, customer, car) }}
                 <div class="order-table">
                     {{ order_table_header() }}
                     {% endblock %}
@@ -106,6 +106,10 @@
         <div class="page-settings__col">
             <div class="page-settings__label label--checkbox">Страницы:</div>
             <label class="label--checkbox"><input class="checkbox" type="checkbox" id="js-show-order">Согласованные работы и запчасти</label>
+        </div>
+        <div class="page-settings__col">
+            <div class="page-settings__label label--checkbox">Настройки:</div>
+            <label class="label--checkbox"><input class="checkbox" type="checkbox" id="js-hide-part-numbers">Скрыть номера деталей</label>
         </div>
     </div>
     <div class="content pages" id="content">
@@ -168,13 +172,23 @@
     <script>
       const orderShowCheckBox = document.querySelector('#js-show-order');
       const orderPages = document.querySelectorAll('.page.js-order-page');
+      const orderHidePartNumberCheckBox = document.querySelector('#js-hide-part-numbers')
+      const orderPartNumberItems = document.querySelectorAll('.part-number')
 
       if (orderPages.length) {
         orderShowCheckBox.addEventListener('click', () => {
           orderPages.forEach( page => page.classList.toggle('hidden', !orderShowCheckBox.checked));
         });
       } else {
-        orderShowCheckBox.disabled = true;
+        orderShowCheckBox.disabled = true
+      }
+
+      if (orderPartNumberItems.length) {
+        orderHidePartNumberCheckBox.addEventListener('click', ()=> {
+          orderPartNumberItems.forEach(item => item.classList.toggle('hidden', orderHidePartNumberCheckBox.checked))
+        })
+      } else {
+        orderHidePartNumberCheckBox.disabled = true
       }
     </script>
 {% endblock %}
