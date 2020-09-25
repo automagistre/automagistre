@@ -50,7 +50,7 @@
         <div class="table__item cell-part right">
             {{ part.name }}
             <span>
-                ({{ part.number }} {{ part.manufacturerId|display_name }})
+                (<span class="part-number">{{ part.number }} </span>{{ part.manufacturerId|display_name }})
             </span>
         </div>
         <div class="table__item cell-part">{{ orderItemPart.price|localize_money(true)|number_format(0, '.', ' ') }}</div>
