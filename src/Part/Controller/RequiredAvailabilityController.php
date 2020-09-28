@@ -36,10 +36,10 @@ final class RequiredAvailabilityController extends AbstractController
                 'disabled' => true,
             ])
             ->add('orderUpToQuantity', QuantityType::class, [
-                'label' => 'Заказывать до количества',
+                'label' => 'Заказывать до',
             ])
             ->add('orderFromQuantity', QuantityType::class, [
-                'label' => 'Если количество ниже',
+                'label' => 'Когда на складе осталось',
             ])
             ->getForm()
             ->handleRequest($request);

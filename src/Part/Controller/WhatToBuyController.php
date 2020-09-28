@@ -8,16 +8,24 @@ use App\EasyAdmin\Controller\AbstractController;
 use App\Part\Entity\PartView;
 use App\Part\Enum\WhatToBuyStatus;
 use function array_map;
+use Doctrine\ORM\Query\Expr\Andx;
+use Symfony\Component\HttpFoundation\Response;
 use function usort;
 
 final class WhatToBuyController extends AbstractController
 {
-    public function listAction(): \Symfony\Component\HttpFoundation\Response
+    public function listAction(): Response
     {
         $parts = $this->registry->manager()->createQueryBuilder()
             ->select('t')
             ->from(PartView::class, 't')
-            ->where('t.quantity - t.ordered < t.orderFromQuantity')
+            ->where('t.quantity - t.ordered < 0')
+            ->orWhere(
+                new Andx([
+                    't.orderUpToQuantity > 0',
+                    '(t.quantity - t.ordered) <= t.orderFromQuantity',
+                ]),
+            )
             ->getQuery()
             ->getResult();
 
