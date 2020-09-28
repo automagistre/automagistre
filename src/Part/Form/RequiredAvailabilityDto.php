@@ -28,8 +28,7 @@ final class RequiredAvailabilityDto
      * @var int
      *
      * @Assert\NotBlank
-     * @Assert\Positive
-     * @Assert\GreaterThan(value="0")
+     * @Assert\GreaterThanOrEqual(value="0")
      */
     public $orderUpToQuantity;
 
