@@ -6,9 +6,6 @@ namespace App\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use function implode;
-use Ramsey\Uuid\Uuid;
-use function sprintf;
 
 final class Version20200626081428 extends AbstractMigration
 {
@@ -30,26 +27,6 @@ final class Version20200626081428 extends AbstractMigration
         // --
 
         $this->addSql('ALTER TABLE reservation ADD uuid UUID DEFAULT NULL');
-        //> data migration
-        $values = [];
-        foreach ($this->connection->fetchAll('SELECT id FROM reservation ORDER BY id') as $item) {
-            $values[] = sprintf('(%s, \'%s\')', $item['id'], Uuid::uuid6()->toString());
-        }
-
-        if ([] !== $values) {
-            $this->addSql(sprintf('
-                UPDATE reservation SET uuid = v.uuid::UUID 
-                FROM (VALUES %s) v(id, uuid) 
-                WHERE reservation.id = v.id            
-            ', implode(',', $values)));
-        }
-        $this->addSql('
-            INSERT INTO created_by (id, user_id, created_at) 
-            SELECT r.uuid, \'4ffc24e2-8e60-42e0-9c8f-7a73888b2da6\'::UUID, now()
-            FROM reservation r
-        ');
-        //< data migration
-
         $this->addSql('ALTER TABLE reservation ALTER id DROP DEFAULT');
         $this->addSql('ALTER TABLE reservation ALTER id TYPE UUID USING (uuid)');
         $this->addSql('ALTER TABLE reservation DROP uuid');
@@ -59,33 +36,6 @@ final class Version20200626081428 extends AbstractMigration
 
         $this->addSql('ALTER TABLE part_cross ADD uuid UUID DEFAULT NULL');
         $this->addSql('ALTER TABLE part_cross_part ADD uuid UUID DEFAULT NULL');
-        //> data migration
-        $values = [];
-        foreach ($this->connection->fetchAll('SELECT id FROM part_cross ORDER BY id') as $item) {
-            $values[] = sprintf('(%s, \'%s\')', $item['id'], Uuid::uuid6()->toString());
-        }
-
-        if ([] !== $values) {
-            $this->addSql(sprintf('
-                UPDATE part_cross SET uuid = v.uuid::UUID 
-                FROM (VALUES %s) v(id, uuid) 
-                WHERE part_cross.id = v.id
-            ', implode(',', $values)));
-        }
-        $this->addSql('
-            UPDATE part_cross_part 
-            SET uuid = sub.uuid
-            FROM (SELECT id, uuid FROM part_cross) sub
-            WHERE part_cross_part.part_cross_id = sub.id
-        ');
-
-        $this->addSql('
-            INSERT INTO created_by (id, user_id, created_at) 
-            SELECT pc.uuid, \'4ffc24e2-8e60-42e0-9c8f-7a73888b2da6\'::UUID, now()
-            FROM part_cross pc
-        ');
-        //< data migration
-
         $this->addSql('ALTER TABLE part_cross_part DROP CONSTRAINT fk_b98f499c70b9088c');
         $this->addSql('ALTER TABLE part_cross ALTER id DROP DEFAULT');
         $this->addSql('ALTER TABLE part_cross ALTER id TYPE UUID USING (uuid)');

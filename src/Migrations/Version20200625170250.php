@@ -6,9 +6,6 @@ namespace App\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use function implode;
-use Ramsey\Uuid\Uuid;
-use function sprintf;
 
 final class Version20200625170250 extends AbstractMigration
 {
@@ -19,33 +16,6 @@ final class Version20200625170250 extends AbstractMigration
         $this->addSql('ALTER TABLE order_item DROP CONSTRAINT fk_52ea1f09b03a8386');
         $this->addSql('DROP INDEX idx_52ea1f09b03a8386');
         $this->addSql('ALTER TABLE order_item ADD uuid UUID DEFAULT NULL');
-        // data migration
-        $values = [];
-        foreach ($this->connection->fetchAll('SELECT id FROM order_item ORDER BY id') as $item) {
-            $values[] = sprintf('(%s, \'%s\')', $item['id'], Uuid::uuid6()->toString());
-        }
-
-        if ([] !== $values) {
-            $values = implode(',', $values);
-            $this->addSql("UPDATE order_item SET uuid = v.uuid::uuid FROM (VALUES {$values}) v(id, uuid) WHERE order_item.id = v.id");
-            $this->addSql('
-                INSERT INTO created_by (id, user_id, created_at) 
-                SELECT oi.uuid, u.uuid, oi.created_at
-                FROM order_item oi
-                    JOIN users u ON oi.created_by_id = u.id
-        ');
-        }
-        $this->addSql('
-            INSERT INTO created_by (id, user_id, created_at) 
-            SELECT cr.uuid, cr.created_by, cr.created_at
-            FROM car_recommendation cr
-        ');
-        $this->addSql('
-            INSERT INTO created_by (id, user_id, created_at) 
-            SELECT crp.uuid, crp.created_by, crp.created_at
-            FROM car_recommendation_part crp
-        ');
-        // data migration
         $this->addSql('ALTER TABLE order_item ALTER uuid SET NOT NULL');
         $this->addSql('ALTER TABLE order_item DROP created_by_id');
         $this->addSql('ALTER TABLE order_item DROP created_at');

@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Migrations;
 
-use App\User\Entity\UserPasswordId;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use function sprintf;
 
 final class Version20200616211944 extends AbstractMigration
 {
@@ -19,14 +17,7 @@ final class Version20200616211944 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_4E836D0FA76ED395 ON users_password (user_id)');
         $this->addSql('COMMENT ON COLUMN users_password.id IS \'(DC2Type:user_password_id)\'');
         $this->addSql('ALTER TABLE users_password ADD CONSTRAINT FK_D54FA2D5A76ED395 FOREIGN KEY (user_id) REFERENCES users (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        foreach ($this->connection->fetchAll('SELECT user_id, identifier FROM user_credentials') as $row) {
-            $this->addSql(sprintf(
-                'INSERT INTO users_password(id, user_id, password) VALUES (\'%s\'::uuid, %s, \'%s\')',
-                UserPasswordId::generate()->toString(),
-                $row['user_id'],
-                $row['identifier'],
-            ));
-        }
+
         $this->addSql('DROP TABLE user_credentials');
     }
 

@@ -6,8 +6,6 @@ namespace App\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Ramsey\Uuid\Uuid;
-use function sprintf;
 
 final class Version20200625160737 extends AbstractMigration
 {
@@ -18,21 +16,6 @@ final class Version20200625160737 extends AbstractMigration
         $this->addSql('ALTER TABLE order_payment DROP CONSTRAINT fk_9b522d46b03a8386');
         $this->addSql('DROP INDEX idx_9b522d46b03a8386');
         $this->addSql('ALTER TABLE order_payment ADD uuid UUID DEFAULT NULL');
-        // data migration
-        foreach ($this->connection->fetchAll('SELECT id FROM order_payment ORDER BY id') as $item) {
-            $this->addSql(sprintf(
-                'UPDATE order_payment SET uuid = \'%s\'::UUID WHERE id = %s',
-                Uuid::uuid6()->toString(),
-                $item['id'],
-            ));
-        }
-        $this->addSql('
-            INSERT INTO created_by (id, user_id, created_at) 
-            SELECT order_payment.uuid, u.uuid, order_payment.created_at
-            FROM order_payment
-                JOIN users u ON order_payment.created_by_id = u.id
-        ');
-        // data migration
         $this->addSql('ALTER TABLE order_payment ALTER uuid SET NOT NULL');
         $this->addSql('ALTER TABLE order_payment DROP created_by_id');
         $this->addSql('ALTER TABLE order_payment DROP created_at');

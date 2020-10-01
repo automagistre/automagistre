@@ -6,8 +6,6 @@ namespace App\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Ramsey\Uuid\Uuid;
-use function sprintf;
 
 final class Version20200624171043 extends AbstractMigration
 {
@@ -22,54 +20,6 @@ final class Version20200624171043 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN note.id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN note.subject IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN note.type IS \'(DC2Type:note_type_enum)\'');
-
-        // data migration
-        foreach ($this->connection->fetchAll('
-            SELECT *
-            FROM (
-                     SELECT c2.uuid      AS subject,
-                            n.type       AS type,
-                            n.text       AS text,
-                            n.created_by AS created_by,
-                            n.created_at AS created_at
-                     FROM car_note n
-                              JOIN car c2 ON n.car_id = c2.id
-                     UNION ALL
-                     SELECT o.uuid       AS subject,
-                            n.type       AS type,
-                            n.text       AS text,
-                            n.created_by AS created_by,
-                            n.created_at AS created_at
-                     FROM operand_note n
-                              JOIN operand o ON n.operand_id = o.id                       
-                     UNION ALL
-                     SELECT o2.uuid      AS subject,
-                            n.type       AS type,
-                            n.text       AS text,
-                            u.uuid       AS created_by,
-                            n.created_at AS created_at
-                     FROM order_note n
-                            JOIN orders o2 ON n.order_id = o2.id
-                            JOIN users u ON n.created_by_id = u.id
-                 ) sub
-            ORDER BY sub.created_at
-        ') as $row) {
-            $uuid = Uuid::uuid6()->toString();
-            $this->addSql(sprintf(
-                'INSERT INTO note (id, subject, type, text) VALUES (\'%s\'::UUID, \'%s\'::UUID, %s, \'%s\')',
-                $uuid,
-                $row['subject'],
-                $row['type'],
-                $row['text'],
-            ));
-            $this->addSql(sprintf(
-                'INSERT INTO db.public.created_by (id, user_id, created_at) VALUES (\'%s\'::UUID, \'%s\'::UUID, \'%s\')',
-                $uuid,
-                $row['created_by'],
-                $row['created_at']
-            ));
-        }
-        // data migration
 
         $this->addSql('DROP TABLE car_note');
         $this->addSql('DROP TABLE operand_note');

@@ -6,8 +6,6 @@ namespace App\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Ramsey\Uuid\Uuid;
-use function sprintf;
 
 final class Version20200625192755 extends AbstractMigration
 {
@@ -16,20 +14,6 @@ final class Version20200625192755 extends AbstractMigration
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('ALTER TABLE review ADD uuid UUID DEFAULT NULL');
-        // data migration
-        foreach ($this->connection->fetchAll('SELECT id FROM review ORDER BY id') as $item) {
-            $this->addSql(sprintf(
-                'UPDATE review SET uuid = \'%s\'::uuid WHERE id = %s',
-                Uuid::uuid6()->toString(),
-                $item['id'],
-            ));
-        }
-        $this->addSql('
-            INSERT INTO created_by (id, user_id, created_at) 
-            SELECT r.uuid, \'4ffc24e2-8e60-42e0-9c8f-7a73888b2da6\'::uuid, r.created_at
-            FROM review r
-        ');
-        // data migration
         $this->addSql('ALTER TABLE review DROP id');
         $this->addSql('ALTER TABLE review RENAME uuid TO id');
         $this->addSql('ALTER TABLE review ALTER id SET NOT NULL ');

@@ -6,9 +6,6 @@ namespace App\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use function implode;
-use Ramsey\Uuid\Uuid;
-use function sprintf;
 
 final class Version20200625200329 extends AbstractMigration
 {
@@ -17,22 +14,6 @@ final class Version20200625200329 extends AbstractMigration
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('ALTER TABLE motion ADD uuid UUID DEFAULT NULL');
-        // data migration
-        $values = [];
-        foreach ($this->connection->fetchAll('SELECT id FROM motion ORDER BY id') as $item) {
-            $values[] = sprintf('(%s, \'%s\')', $item['id'], Uuid::uuid6()->toString());
-        }
-
-        if ([] !== $values) {
-            $values = implode(',', $values);
-            $this->addSql("UPDATE motion SET uuid = v.uuid::uuid FROM (VALUES {$values}) v(id, uuid) WHERE motion.id = v.id");
-        }
-        $this->addSql('
-            INSERT INTO created_by (id, user_id, created_at) 
-            SELECT m.uuid, \'4ffc24e2-8e60-42e0-9c8f-7a73888b2da6\'::uuid, m.created_at
-            FROM motion m
-        ');
-        // data migration
         $this->addSql('DROP INDEX idx_f5fea1e84ce34bec8b8e8428');
         $this->addSql('ALTER TABLE motion DROP created_at');
         $this->addSql('ALTER TABLE motion DROP id');

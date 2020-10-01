@@ -6,8 +6,6 @@ namespace App\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Ramsey\Uuid\Uuid;
-use function sprintf;
 
 final class Version20200623223607 extends AbstractMigration
 {
@@ -17,27 +15,6 @@ final class Version20200623223607 extends AbstractMigration
 
         $this->addSql('ALTER TABLE order_suspend ADD uuid UUID DEFAULT NULL');
         $this->addSql('ALTER TABLE order_suspend ADD order_uuid UUID DEFAULT NULL');
-        // data migration
-        foreach ($this->connection->fetchAll('SELECT id FROM order_suspend order by id') as $row) {
-            $this->addSql(sprintf(
-                'UPDATE order_suspend SET uuid = \'%s\'::uuid WHERE id = %s',
-                Uuid::uuid6()->toString(),
-                $row['id'],
-            ));
-        }
-        $this->addSql('
-            INSERT INTO created_by (id, user_id, created_at)
-            SELECT os.uuid, users.uuid, os.created_at
-            FROM order_suspend os
-            JOIN users ON users.id = os.created_by_id        
-        ');
-        $this->addSql('
-            UPDATE order_suspend
-            SET order_uuid = sub.uuid
-            FROM (SELECT orders.id, orders.uuid FROM orders) sub
-            WHERE order_suspend.order_id = sub.id        
-        ');
-        // data migration
 
         $this->addSql('DROP SEQUENCE order_suspend_id_seq CASCADE');
         $this->addSql('ALTER TABLE order_suspend DROP id');

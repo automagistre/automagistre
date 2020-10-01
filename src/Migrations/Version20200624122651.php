@@ -6,8 +6,6 @@ namespace App\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Ramsey\Uuid\Uuid;
-use function sprintf;
 
 final class Version20200624122651 extends AbstractMigration
 {
@@ -21,18 +19,6 @@ final class Version20200624122651 extends AbstractMigration
         $this->addSql('ALTER TABLE order_contractor ADD uuid UUID DEFAULT NULL');
         $this->addSql('ALTER TABLE order_contractor ADD order_uuid UUID DEFAULT NULL');
         $this->addSql('ALTER TABLE order_contractor ADD operand_id UUID DEFAULT NULL');
-
-        // data migration
-        foreach ($this->connection->fetchAll('SELECT id FROM order_contractor ORDER BY id') as $row) {
-            $this->addSql(sprintf(
-                'UPDATE order_contractor SET uuid = \'%s\'::uuid WHERE id = %s',
-                Uuid::uuid6()->toString(),
-                $row['id'],
-            ));
-        }
-        $this->addSql('UPDATE order_contractor SET operand_id = sub.uuid FROM (select id, uuid FROM operand) sub WHERE sub.id = order_contractor.contractor_id');
-        $this->addSql('UPDATE order_contractor SET order_uuid = sub.uuid FROM (select id, uuid FROM orders) sub WHERE sub.id = order_contractor.order_id');
-        // data migration
 
         $this->addSql('ALTER TABLE order_contractor DROP contractor_id');
         $this->addSql('ALTER TABLE order_contractor DROP id');
