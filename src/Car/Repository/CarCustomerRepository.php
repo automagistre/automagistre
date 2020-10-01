@@ -23,7 +23,7 @@ final class CarCustomerRepository
     public function carsByCustomer(OperandId $operandId): array
     {
         $ids = $this->registry->connection(Car::class)
-            ->fetchAll('
+            ->fetchAllAssociative('
                 SELECT DISTINCT o.car_id 
                 FROM orders o
                 WHERE o.customer_id = :customer
@@ -39,7 +39,7 @@ final class CarCustomerRepository
     public function customersByCar(CarId $carId): array
     {
         $ids = $this->registry->connection(Car::class)
-            ->fetchAll('
+            ->fetchAllAssociative('
                 SELECT DISTINCT o.customer_id 
                 FROM orders o
                 WHERE o.car_id = :car

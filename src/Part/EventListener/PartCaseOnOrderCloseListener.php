@@ -65,7 +65,7 @@ final class PartCaseOnOrderCloseListener implements EventSubscriberInterface
 
         foreach ($parts as $part) {
             $this->registry->connection(PartCase::class)
-                ->executeUpdate(
+                ->executeStatement(
                     'INSERT INTO part_case (id, part_id, vehicle_id)
                         SELECT :id, id, :vehicle
                         FROM part 

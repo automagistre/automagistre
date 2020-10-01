@@ -203,21 +203,21 @@ final class OrderItemServiceController extends OrderItemController
 
             $key = ':search_'.$key;
 
-            $qb->andWhere($qb->expr()->orX(
+            $qb->andWhere($qb->expr()->or(
                 $qb->expr()->like('LOWER(service)', $key)
             ));
 
             $qb->setParameter($key, '%'.mb_strtolower($searchString).'%');
         }
 
-        $data = array_map(function ($row): array {
+        $data = array_map(function (array $row): array {
             $price = new Money($row['price'], new Currency($row['currency']));
 
             return [
                 'text' => sprintf('%s (%s)', $row['service'], $this->formatMoney($price)),
                 'price' => $this->formatMoney($price, true),
             ];
-        }, $connection->executeQuery($qb->getSQL(), $qb->getParameters(), $qb->getParameterTypes())->fetchAll());
+        }, $connection->executeQuery($qb->getSQL(), $qb->getParameters(), $qb->getParameterTypes())->fetchAllAssociative());
 
         return $this->json(['results' => $data]);
     }

@@ -44,7 +44,7 @@ final class EmployeeUuidType extends AbstractType
             'choice_loader' => new CallbackChoiceLoader(function (): array {
                 $ids = $this->registry
                     ->connection(Operand::class)
-                    ->fetchAll('SELECT id AS id FROM employee WHERE fired_at IS NULL');
+                    ->fetchAllAssociative('SELECT id AS id FROM employee WHERE fired_at IS NULL');
 
                 return array_map(fn (array $row) => EmployeeId::fromString($row['id']), $ids);
             }),

@@ -19,6 +19,6 @@ final class NumberGenerator
     public function next(): string
     {
         return (string) $this->registry->connection(Order::class)
-            ->fetchColumn('SELECT nextval(\'order_number\')');
+            ->fetchOne('SELECT nextval(\'order_number\')');
     }
 }

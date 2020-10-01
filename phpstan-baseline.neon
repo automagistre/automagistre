@@ -26,6 +26,11 @@ parameters:
 			path: src/Form/TypeGuesser/EntityModelTypeGuesser.php
 
 		-
+			message: "#^Call to an undefined method Doctrine\\\\DBAL\\\\Driver\\\\ResultStatement\\:\\:fetchAllAssociative\\(\\)\\.$#"
+			count: 1
+			path: src/Order/Controller/OrderItemServiceController.php
+
+		-
 			message: "#^Parameter \\#2 \\.\\.\\.\\$args of function sprintf expects bool\\|float\\|int\\|string\\|null, \\(callable\\)\\|string given\\.$#"
 			count: 1
 			path: src/Shared/ArgumentResolver/ArgumentResolver.php

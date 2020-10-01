@@ -51,7 +51,7 @@ final class WorkerType extends AbstractType
             'choice_loader' => new CallbackChoiceLoader(function () use (&$groupMap): array {
                 $ids = $this->registry
                     ->connection(Operand::class)
-                    ->fetchAll('SELECT id AS id, type FROM operand WHERE contractor IS TRUE');
+                    ->fetchAllAssociative('SELECT id AS id, type FROM operand WHERE contractor IS TRUE');
 
                 foreach ($ids as ['id' => $id, 'type' => $type]) {
                     $groupMap[$id] = $type;

@@ -40,7 +40,7 @@ final class CustomerReminderCommand extends Command
     {
         $tomorrow = new DateTimeImmutable('+1 day');
         $rows = $this->registry->connection(EntryView::class)
-            ->fetchAll('
+            ->fetchAllAssociative('
                 SELECT schedule_date AS date, order_info_customer_id AS "customerId"
                 FROM calendar_entry_view
                 WHERE order_info_customer_id IS NOT NULL

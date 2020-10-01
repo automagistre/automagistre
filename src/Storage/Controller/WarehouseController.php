@@ -45,7 +45,7 @@ final class WarehouseController extends AbstractController
                 'label' => 'Родитель',
                 'choice_loader' => new CallbackChoiceLoader(function () use ($entity): array {
                     $ids = $this->registry->connection(WarehouseView::class)
-                        ->fetchAll('
+                        ->fetchAllAssociative('
                             SELECT id
                             FROM warehouse
                             WHERE id NOT IN (

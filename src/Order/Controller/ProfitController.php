@@ -105,7 +105,7 @@ final class ProfitController extends AbstractController
 
         $conn = $registry->manager(Order::class)->getConnection();
 
-        $orders = $conn->fetchAll($sql, [
+        $orders = $conn->fetchAllAssociative($sql, [
             'start' => $start->sub(new DateInterval('PT3H')), // TO UTC
             'end' => $end->sub(new DateInterval('PT3H')), // TO UTC
         ], [

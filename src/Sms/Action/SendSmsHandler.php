@@ -45,7 +45,7 @@ final class SendSmsHandler implements MessageHandler
 
         if ($command->hasFeature(Feature::onceADay())) {
             $result = $this->registry->connection(Sms::class)
-                ->fetchColumn(
+                ->fetchOne(
                     'SELECT 1
                                 FROM sms_send ss 
                                     JOIN created_by cb ON cb.id = ss.sms_id
@@ -58,7 +58,6 @@ final class SendSmsHandler implements MessageHandler
                         'start' => (new DateTimeImmutable())->setTime(0, 0, 0),
                         'end' => (new DateTimeImmutable())->setTime(23, 59, 59),
                     ],
-                    0,
                     [
                         'phone' => 'phone_number',
                         'start' => 'datetime',

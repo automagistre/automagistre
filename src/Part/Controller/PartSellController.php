@@ -75,7 +75,7 @@ final class PartSellController extends AbstractController
 
         $conn = $registry->manager(Motion::class)->getConnection();
 
-        $items = $conn->fetchAll($sql, [
+        $items = $conn->fetchAllAssociative($sql, [
             'start' => $start->sub(new DateInterval('PT3H')), // TO UTC
             'end' => $end->sub(new DateInterval('PT3H')), // TO UTC
             'source_order' => Source::order(),

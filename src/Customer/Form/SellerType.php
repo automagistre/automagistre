@@ -38,7 +38,7 @@ final class SellerType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $preferred = $this->registry->connection()
-            ->fetchAll('
+            ->fetchAllAssociative('
                 SELECT supplier_id
                 FROM income
                 WHERE accrued_at > :date
@@ -59,7 +59,7 @@ final class SellerType extends AbstractType
             'choice_loader' => new CallbackChoiceLoader(function (): array {
                 $ids = $this->registry
                     ->connection(Operand::class)
-                    ->fetchAll('SELECT id AS id, type FROM operand WHERE seller IS TRUE');
+                    ->fetchAllAssociative('SELECT id AS id, type FROM operand WHERE seller IS TRUE');
 
                 return array_map(fn (array $item): OperandId => OperandId::fromString($item['id']), $ids);
             }),
