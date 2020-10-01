@@ -14,6 +14,7 @@ easy_admin:
                     - { property: 'manufacturer', label: 'Производитель', template: 'easy_admin/manufacturer/field_manufacturer_view.html.twig' }
                     - { property: 'number', label: 'Номер', template: 'easy_admin/field_part_number.html.twig' }
                     - { property: 'isUniversal', label: 'Универсальная', template: 'easy_admin/default/field_boolean.html.twig' }
+                    - { property: 'unit', label: 'Изменерие', template: 'easy_admin/part/field_unit.html.twig' }
                     - { property: 'requiredAvailability', vritual: true, label: 'Запасы', template: 'easy_admin/part/field_required_availability.html.twig' }
             list:
                 title: 'Запчасти'
@@ -38,6 +39,7 @@ easy_admin:
                     - { property: 'price', label: 'Цена', type: App\Form\Type\MoneyType, type_options: { required: true } }
                     - { property: 'discount', label: 'Скидка', type: App\Form\Type\MoneyType }
                     - { property: 'universal', label: 'Универсальная', type: 'checkbox' }
+                    - { property: 'unit', label: 'Единица изменерия', type: App\Part\Entity\UnitType }
             new:
                 title: 'Создать новую запчасть'
             edit:

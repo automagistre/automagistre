@@ -11,6 +11,7 @@ use App\Part\Entity\Part;
 use App\Part\Entity\PartId;
 use App\Part\Entity\PartNumber;
 use App\Part\Entity\Price;
+use App\Part\Enum\Unit;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -42,6 +43,7 @@ final class OilFixture extends Fixture
             self::NAME,
             new PartNumber(self::NUMBER),
             self::IS_UNIVERSAL,
+            Unit::liter(),
         );
 
         $this->addReference('part-2', $part);

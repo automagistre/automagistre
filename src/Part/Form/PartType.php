@@ -6,6 +6,7 @@ namespace App\Part\Form;
 
 use App\Form\Type\MoneyType;
 use App\Manufacturer\Form\ManufacturerAutocompleteType;
+use App\Part\Entity\UnitType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -34,6 +35,8 @@ final class PartType extends AbstractType
             ->add('universal', CheckboxType::class, [
                 'label' => 'Универсальная',
                 'required' => false,
+            ])
+            ->add('unit', UnitType::class, [
             ]);
     }
 

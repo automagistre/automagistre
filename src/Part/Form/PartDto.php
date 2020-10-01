@@ -5,6 +5,7 @@ namespace App\Part\Form;
 use App\Manufacturer\Entity\ManufacturerId;
 use App\Part\Entity\Part;
 use App\Part\Entity\PartId;
+use App\Part\Enum\Unit;
 use App\Shared\Validator\EntityCheck;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -53,6 +54,13 @@ final class PartDto
     public $universal = false;
 
     /**
+     * @var Unit
+     *
+     * @Assert\NotBlank
+     */
+    public $unit;
+
+    /**
      * @var Money
      */
     public $price;
@@ -68,6 +76,7 @@ final class PartDto
         string $name,
         string $number,
         bool $universal,
+        Unit $unit,
         Money $price,
         Money $discount
     ) {
@@ -76,6 +85,7 @@ final class PartDto
         $this->name = $name;
         $this->number = $number;
         $this->universal = $universal;
+        $this->unit = $unit;
         $this->price = $price;
         $this->discount = $discount;
     }

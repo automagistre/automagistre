@@ -41,6 +41,11 @@ class Part
     public bool $universal;
 
     /**
+     * @ODM\EmbedOne(targetDocument=Unit::class)
+     */
+    public Unit $unit;
+
+    /**
      * @ODM\EmbedOne(targetDocument=Money::class)
      */
     public Money $price;
@@ -56,6 +61,7 @@ class Part
         string $name,
         PartNumber $number,
         bool $universal,
+        Unit $unit,
         Money $price,
         Money $discount
     ) {
@@ -64,6 +70,7 @@ class Part
         $this->name = $name;
         $this->number = $number->number;
         $this->universal = $universal;
+        $this->unit = $unit;
         $this->price = $price;
         $this->discount = $discount;
     }

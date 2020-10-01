@@ -6,6 +6,7 @@ namespace App\Part\Entity;
 
 use App\Customer\Entity\OperandId;
 use App\Manufacturer\Entity\ManufacturerView;
+use App\Part\Enum\Unit;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 use function sprintf;
@@ -46,6 +47,11 @@ class PartView
      * @ORM\Column(type="boolean")
      */
     public bool $isUniversal;
+
+    /**
+     * @ORM\Column(type="unit_enum")
+     */
+    public Unit $unit;
 
     /**
      * @ORM\Column(type="integer")
@@ -110,6 +116,7 @@ class PartView
         string $name,
         PartNumber $number,
         bool $isUniversal,
+        Unit $unit,
         int $quantity,
         int $ordered,
         Money $price,
@@ -127,6 +134,7 @@ class PartView
         $this->name = $name;
         $this->number = $number;
         $this->isUniversal = $isUniversal;
+        $this->unit = $unit;
         $this->quantity = $quantity;
         $this->ordered = $ordered;
         $this->price = $price;
@@ -220,6 +228,7 @@ class PartView
                    part.name                                                                                        AS name,
                    part.number                                                                                      AS number,
                    part.universal                                                                                   AS is_universal,
+                   part.unit                                                                                        AS unit,
                    COALESCE(stock.quantity, 0)                                                                      AS quantity,
                    COALESCE(ordered.quantity, 0)                                                                    AS ordered,
                    COALESCE(crosses.parts, \'[]\'::JSON)                                                              AS analogs,

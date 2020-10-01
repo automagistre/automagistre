@@ -81,6 +81,7 @@ final class PartController extends AbstractController
                     $dto->name,
                     new PartNumber($dto->number),
                     $dto->universal,
+                    $dto->unit,
                 ),
             );
             if (!$dto->price->isZero()) {
@@ -336,24 +337,25 @@ final class PartController extends AbstractController
      */
     protected function persistEntity($entity): Part
     {
-        $model = $entity;
-        assert($model instanceof PartDto);
+        $dto = $entity;
+        assert($dto instanceof PartDto);
 
         $partId = PartId::generate();
         $entity = new Part(
             $partId,
-            $model->manufacturerId,
-            $model->name,
-            new PartNumber($model->number),
-            $model->universal,
+            $dto->manufacturerId,
+            $dto->name,
+            new PartNumber($dto->number),
+            $dto->universal,
+            $dto->unit,
         );
 
         parent::persistEntity($entity);
 
         $tenant = $this->registry->manager(Price::class);
-        $tenant->persist(new Price($partId, $model->price, new DateTimeImmutable()));
-        if ($model->discount->isPositive()) {
-            $tenant->persist(new Discount($partId, $model->discount, new DateTimeImmutable()));
+        $tenant->persist(new Price($partId, $dto->price, new DateTimeImmutable()));
+        if ($dto->discount->isPositive()) {
+            $tenant->persist(new Discount($partId, $dto->discount, new DateTimeImmutable()));
         }
         $tenant->flush();
 
@@ -370,12 +372,14 @@ final class PartController extends AbstractController
         /** @var PartView $view */
         $view = $this->registry->getBy(PartView::class, ['id' => $this->request->query->get('id')]);
 
+        /** @var PartDto $dto */
         $dto = $this->createWithoutConstructor(PartDto::class);
         $dto->partId = $view->toId();
         $dto->manufacturerId = $view->manufacturer->id;
         $dto->name = $view->name;
         $dto->number = (string) $view->number;
         $dto->universal = $view->isUniversal;
+        $dto->unit = $view->unit;
 
         return $dto;
     }
@@ -394,6 +398,7 @@ final class PartController extends AbstractController
         $entity->update(
             $dto->name,
             $dto->universal,
+            $dto->unit,
         );
 
         parent::updateEntity($entity);

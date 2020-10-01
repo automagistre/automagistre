@@ -11,6 +11,7 @@ use App\MC\Documents\McPart;
 use App\MC\Documents\Work;
 use App\MC\Entity\McEquipment;
 use App\Part\Documents\Part;
+use App\Part\Documents\Unit;
 use App\Part\Entity\PartId;
 use App\Part\Entity\PartView;
 use App\Shared\Doctrine\Registry;
@@ -139,6 +140,7 @@ final class MongoMaintenancePopulateCommand extends Command
             $partView->name,
             $partView->number,
             $partView->isUniversal,
+            Unit::fromUnit($partView->unit),
             Money::fromMoney($partView->price),
             Money::fromMoney($partView->discount),
         );

@@ -12,6 +12,7 @@ use App\Part\Entity\PartCross;
 use App\Part\Entity\PartId;
 use App\Part\Entity\PartNumber;
 use App\Part\Entity\Price;
+use App\Part\Enum\Unit;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -54,6 +55,7 @@ final class GasketFixture extends Fixture implements DependentFixtureInterface
             self::NAME,
             new PartNumber(self::NUMBER),
             self::IS_UNIVERSAL,
+            Unit::thing(),
         );
 
         $this->addReference('part-1', $part);

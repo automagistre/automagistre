@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Part\Entity;
 
 use App\Manufacturer\Entity\ManufacturerId;
+use App\Part\Enum\Unit;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,18 +42,25 @@ class Part
      */
     public bool $universal = false;
 
+    /**
+     * @ORM\Column(type="unit_enum")
+     */
+    public Unit $unit;
+
     public function __construct(
         PartId $id,
         ManufacturerId $manufacturerId,
         string $name,
         PartNumber $number,
-        bool $universal
+        bool $universal,
+        Unit $unit
     ) {
         $this->id = $id;
         $this->manufacturerId = $manufacturerId;
         $this->name = $name;
         $this->number = $number;
         $this->universal = $universal;
+        $this->unit = $unit;
     }
 
     public function __toString(): string
@@ -65,10 +73,11 @@ class Part
         return $this->id;
     }
 
-    public function update(string $name, bool $universal): void
+    public function update(string $name, bool $universal, Unit $unit): void
     {
         $this->name = $name;
         $this->universal = $universal;
+        $this->unit = $unit;
     }
 
     /**
