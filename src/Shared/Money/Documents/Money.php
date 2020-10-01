@@ -27,4 +27,9 @@ class Money
         $this->amount = $amount;
         $this->currency = $currency;
     }
+
+    public static function fromMoney(\Money\Money $money): self
+    {
+        return new self($money->getAmount(), $money->getCurrency()->getCode());
+    }
 }

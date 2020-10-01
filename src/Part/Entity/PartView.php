@@ -38,9 +38,9 @@ class PartView
     public string $name;
 
     /**
-     * @ORM\Column()
+     * @ORM\Column(type="part_number")
      */
-    public string $number;
+    public PartNumber $number;
 
     /**
      * @ORM\Column(type="boolean")
@@ -108,7 +108,7 @@ class PartView
         PartId $id,
         ManufacturerView $manufacturer,
         string $name,
-        string $number,
+        PartNumber $number,
         bool $isUniversal,
         int $quantity,
         int $ordered,
@@ -151,7 +151,7 @@ class PartView
             '%s - %s (%s)',
             $this->manufacturer->name,
             $this->name,
-            $this->number,
+            (string) $this->number,
         );
     }
 
@@ -161,7 +161,7 @@ class PartView
             '%s - %s (%s) (Склад: %s, Резерв: %s)',
             $this->manufacturer->name,
             $this->name,
-            $this->number,
+            (string) $this->number,
             $this->quantity / 100,
             $this->ordered / 100,
         );
@@ -225,6 +225,7 @@ class PartView
                    COALESCE(crosses.parts, \'[]\'::JSON)                                                              AS analogs,
                    m.name                                                                                           AS manufacturer_name,
                    m.id                                                                                             AS manufacturer_id,
+                   m.localized_name                                                                                 AS manufacturer_localized_name,
                    pc.cases                                                                                         AS cases,
                    UPPER(concat_ws(\' \', part.name, m.name, m.localized_name, pc.cases))                             AS search,
                    COALESCE(price.price_currency_code, \'RUB\') || \' \' || COALESCE(price.price_amount, 0)             AS price,

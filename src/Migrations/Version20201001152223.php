@@ -8,7 +8,7 @@ use App\Part\Entity\PartView;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20200922104556 extends AbstractMigration
+final class Version20201001152223 extends AbstractMigration
 {
     public function up(Schema $schema): void
     {

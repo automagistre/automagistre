@@ -374,7 +374,7 @@ final class PartController extends AbstractController
         $dto->partId = $view->toId();
         $dto->manufacturerId = $view->manufacturer->id;
         $dto->name = $view->name;
-        $dto->number = $view->number;
+        $dto->number = (string) $view->number;
         $dto->universal = $view->isUniversal;
 
         return $dto;

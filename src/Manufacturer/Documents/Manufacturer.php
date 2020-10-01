@@ -3,6 +3,7 @@
 namespace App\Manufacturer\Documents;
 
 use App\Manufacturer\Entity\ManufacturerId;
+use App\Manufacturer\Entity\ManufacturerView;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /**
@@ -30,5 +31,14 @@ class Manufacturer
         $this->id = $id;
         $this->name = $name;
         $this->localizedName = $localizedName;
+    }
+
+    public static function fromView(ManufacturerView $view): self
+    {
+        return new self(
+            $view->id,
+            $view->name,
+            $view->localizedName,
+        );
     }
 }

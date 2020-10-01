@@ -12,6 +12,7 @@ use App\MC\Documents\Work;
 use App\MC\Entity\McEquipment;
 use App\Part\Documents\Part;
 use App\Part\Entity\PartId;
+use App\Part\Entity\PartView;
 use App\Shared\Doctrine\Registry;
 use App\Shared\Money\Documents\Money;
 use App\Vehicle\Documents\Vehicle;
@@ -129,16 +130,17 @@ final class MongoMaintenancePopulateCommand extends Command
             return self::$cache[$partId->toString()];
         }
 
-        $view = $this->registry->view($partId);
+        /** @var PartView $partView */
+        $partView = $this->registry->get(PartView::class, $partId);
 
         return self::$cache[$partId->toString()] = new Part(
             $partId,
-            $this->createManufacturer($view['manufacturerId']),
-            $view['name'],
-            $view['number'],
-            $view['universal'],
-            new Money('0', 'RUB'),
-            new Money('0', 'RUB'),
+            Manufacturer::fromView($partView->manufacturer),
+            $partView->name,
+            $partView->number,
+            $partView->isUniversal,
+            Money::fromMoney($partView->price),
+            Money::fromMoney($partView->discount),
         );
     }
 

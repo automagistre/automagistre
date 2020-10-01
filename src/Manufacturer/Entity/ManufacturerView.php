@@ -21,10 +21,16 @@ class ManufacturerView
      */
     public string $name;
 
-    public function __construct(ManufacturerId $id, string $name)
+    /**
+     * @ORM\Column(nullable=true)
+     */
+    public ?string $localizedName;
+
+    public function __construct(ManufacturerId $id, string $name, ?string $localizedName)
     {
         $this->id = $id;
         $this->name = $name;
+        $this->localizedName = $localizedName;
     }
 
     public function toId(): ManufacturerId
