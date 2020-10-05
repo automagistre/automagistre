@@ -45,7 +45,7 @@ final class WhatToBuyController extends AbstractController
 
             return [
                 'view' => $view,
-                'toBuy' => $toBuy,
+                'toBuy' => $toBuy > 0 ? $toBuy : 0,
                 'status' => $status,
             ];
         }, $parts);
