@@ -30,8 +30,8 @@ final class WhatToBuyController extends AbstractController
             ->getResult();
 
         $parts = array_map(static function (PartView $view): array {
-            $toBuy = $view->ordered - $view->quantity - $view->suppliesQuantity();
-            $leftInStock = $view->quantity - $view->ordered + $view->suppliesQuantity();
+            $toBuy = $view->ordered - $view->quantity - $view->suppliesQuantity;
+            $leftInStock = $view->quantity - $view->ordered + $view->suppliesQuantity;
 
             if (($leftInStock + $toBuy) < $view->orderUpToQuantity) {
                 $toBuy = $view->orderUpToQuantity - $leftInStock;
