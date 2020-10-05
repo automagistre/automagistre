@@ -46,6 +46,7 @@
                                 <tr>
                                     <th>Поставщик</th>
                                     <th>Количество</th>
+                                    <th>Обновлено</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -53,6 +54,7 @@
                                     <tr>
                                         <td>{{ supply.supplierId|display_name }}</td>
                                         <td>{{ supply.quantity / 100 }}</td>
+                                        <td>{{ supply.updatedAt|format_datetime }}</td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>

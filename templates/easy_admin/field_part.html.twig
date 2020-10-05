@@ -25,7 +25,11 @@
             )
         {%- endapply %}
 
-        <span class="label label-primary">{{ value.quantity / 100 }}</span>
+        <span class="label label-primary" data-toggle="tooltip" data-placement="top" title="Наличие на складе">{{ value.quantity / 100 }}</span>
+
+        {% if value.hasExpiredSupplies %}
+                &nbsp;<i class="fa fa-truck" style="color: red" data-toggle="tooltip" data-placement="top" title="Есть просроченные поставки"></i>
+        {% endif %}
     {%- endapply %}
 {%- else -%}
     {% include 'easy_admin/default/label_null.html.twig' %}

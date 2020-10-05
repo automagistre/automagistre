@@ -7,6 +7,7 @@ namespace App\Part\Entity;
 use App\Customer\Entity\OperandId;
 use App\Manufacturer\Entity\ManufacturerView;
 use App\Part\Enum\Unit;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 use function sprintf;
@@ -211,10 +212,22 @@ class PartView
                 $this->id,
                 OperandId::fromString($supply['supplier_id']),
                 $supply['quantity'],
+                new DateTimeImmutable($supply['updatedAt']),
             );
         }
 
         return $supplies;
+    }
+
+    public function hasExpiredSupplies(): bool
+    {
+        foreach ($this->supplies as $supply) {
+            if (new DateTimeImmutable($supply['updatedAt']) < new DateTimeImmutable('-1 week')) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public static function sql(): string
@@ -269,14 +282,20 @@ class PartView
                                 GROUP BY order_item_part.part_id) AS ordered
                                ON ordered.part_id = part.id
                      LEFT JOIN (SELECT json_agg(
-                                               json_build_object('supplier_id', sub.supplier_id, 'quantity', sub.quantity)
+                                               json_build_object(
+                                                   'supplier_id', sub.supplier_id, 
+                                                   'quantity', sub.quantity,
+                                                   'updatedAt', sub.updated_at
+                                                   )
                                            )             AS json,
                                        sub.part_id,
                                        SUM(sub.quantity) AS quantity
                                 FROM (SELECT part_supply.part_id,
                                              part_supply.supplier_id,
-                                             SUM(part_supply.quantity) AS quantity
+                                             SUM(part_supply.quantity) AS quantity,
+                                             MAX(created_by.created_at) AS updated_at
                                       FROM part_supply
+                                      LEFT JOIN created_by ON created_by.id = part_supply.id
                                       GROUP BY part_supply.part_id, part_supply.supplier_id
                                       HAVING SUM(part_supply.quantity) <> 0
                                      ) sub
