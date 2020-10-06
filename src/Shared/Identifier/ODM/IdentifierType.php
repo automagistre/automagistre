@@ -8,6 +8,9 @@ use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\ODM\MongoDB\Types\Type;
 use function sprintf;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 class IdentifierType extends Type
 {
     public string $name;

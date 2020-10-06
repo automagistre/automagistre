@@ -9,6 +9,9 @@ use const FILTER_VALIDATE_INT;
 use function filter_var;
 use Premier\Enum\Enum;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 class EnumODMType extends Type
 {
     /**

@@ -335,12 +335,6 @@
       <code>$value</code>
     </MissingClosureParamType>
   </file>
-  <file src="src/Shared/Identifier/ORM/IdentifierArrayType.php">
-    <PropertyNotSetInConstructor occurrences="2">
-      <code>$class</code>
-      <code>$name</code>
-    </PropertyNotSetInConstructor>
-  </file>
   <file src="src/Shared/Request/EntityTransformerArgumentValueResolver.php">
     <PossiblyNullArgument occurrences="2">
       <code>$argument-&gt;getType()</code>

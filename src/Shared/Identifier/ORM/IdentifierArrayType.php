@@ -13,6 +13,9 @@ use function json_decode;
 use function json_encode;
 use JsonException;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 final class IdentifierArrayType extends Type
 {
     public string $name;

@@ -45,6 +45,8 @@ use function urldecode;
 use function urlencode;
 
 /**
+ * @psalm-suppress MissingConstructor
+ *
  * @property EntityManagerInterface $em
  *
  * @method User getUser()

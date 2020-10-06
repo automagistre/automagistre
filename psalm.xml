@@ -22,11 +22,6 @@
     </projectFiles>
 
     <issueHandlers>
-        <InternalMethod>
-            <errorLevel type="suppress">
-                <referencedMethod name="Doctrine\DBAL\Types\Type::__construct"/>
-            </errorLevel>
-        </InternalMethod>
         <MissingConstructor>
             <errorLevel type="suppress">
                 <file name="src/EasyAdmin/Controller/AbstractController.php"/>
@@ -35,9 +30,6 @@
         <PropertyNotSetInConstructor>
             <errorLevel type="suppress">
                 <directory name="src/Migrations"/>
-                <file name="src/Shared/Enum/EnumODMType.php"/>
-                <file name="src/Shared/Identifier/ORM/IdentifierType.php"/>
-                <file name="src/Shared/Identifier/ODM/IdentifierType.php"/>
             </errorLevel>
         </PropertyNotSetInConstructor>
         <PossiblyFalseOperand>

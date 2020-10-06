@@ -10,6 +10,9 @@ use Doctrine\DBAL\Types\Type;
 use function is_string;
 use Ramsey\Uuid\Uuid;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 final class IdentifierType extends Type
 {
     public string $name;
