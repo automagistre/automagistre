@@ -230,6 +230,11 @@ class PartView
         return false;
     }
 
+    public function hasKeepingStock(): bool
+    {
+        return 0 !== $this->orderFromQuantity || 0 !== $this->orderUpToQuantity;
+    }
+
     public static function sql(): string
     {
         return <<<'SQL'
