@@ -174,12 +174,14 @@ class PartView
     public function displayWithStock(): string
     {
         return sprintf(
-            '%s - %s (%s) (Склад: %s, Резерв: %s)',
+            '%s - %s (%s) (Склад: %s %s., Резерв: %s %s.)',
             $this->manufacturer->name,
             $this->name,
             (string) $this->number,
             $this->quantity / 100,
+            $this->unit->toShortLabel(),
             $this->ordered / 100,
+            $this->unit->toShortLabel(),
         );
     }
 
