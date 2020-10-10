@@ -79,6 +79,10 @@ final class StaleStockNotifier implements MessageHandler
             $canReplacedBy[] = $analog;
         }
 
+        if ([] === $canReplacedBy) {
+            return;
+        }
+
         $this->router->setContext(
             $this->router->getContext()
                 ->setHost(sprintf('%s.automagistre.ru', $this->tenant->toIdentifier()))
