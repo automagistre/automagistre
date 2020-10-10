@@ -8,6 +8,7 @@ services:
         autoconfigure: true
         bind:
             $debug: '%kernel.debug%'
+            string $telegramBotToken: '%env(TELEGRAM_BOT_TOKEN)%'
 
     _instanceof:
         Doctrine\Common\EventSubscriber:

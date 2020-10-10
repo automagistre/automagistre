@@ -16,6 +16,7 @@ use function sprintf;
  * @method string toIdentifier()
  * @method string toSmsOnScheduledEntry()
  * @method string toSmsOnReminderEntry()
+ * @method string toTelegramChannel()
  * @method static Tenant demo()
  * @method static Tenant msk()
  * @method static Tenant fromIdentifier(string $name)
@@ -174,6 +175,16 @@ final class Tenant extends Enum
         self::DEMO => '',
         self::MSK => 'Напоминаем, завтра в {time} вас ожидают в ТехЦентре Автомагистр. Пожалуйста, сообщите нам, если не можете приехать. +79859294087',
         self::KAZAN => 'Напоминаем, завтра в {time} вас ожидают в ТехЦентре Автомагистр. Пожалуйста, сообщите нам, если не можете приехать. +78432977760',
+        self::SHAVLEV => '',
+        self::BUNKER => '',
+        self::OPTIMUS => '',
+        self::AUTOUNIT => '',
+    ];
+
+    protected static array $telegramChannel = [
+        self::DEMO => '49878880',
+        self::MSK => '-1001224606293',
+        self::KAZAN => '',
         self::SHAVLEV => '',
         self::BUNKER => '',
         self::OPTIMUS => '',

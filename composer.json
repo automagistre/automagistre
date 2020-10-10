@@ -34,6 +34,7 @@
         "phpdocumentor/reflection-docblock": "^5.2",
         "phpinnacle/buffer": "^1.0",
         "premier/enum": "^2.0",
+        "premier/markdown-builder": "^0.6.0",
         "ramsey/uuid-doctrine": "^1.6",
         "sensio/framework-extra-bundle": "^5.3",
         "sensiolabs/security-checker": "^6.0",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "afa553af041348a707c19ff98da2ff3c",
+    "content-hash": "dd08ec4450f29bd43d2f4b894f6a6fdc",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -4596,6 +4596,62 @@
                 "source": "https://github.com/grachevko/Enum/tree/v2.0.0"
             },
             "time": "2019-12-19T12:32:18+00:00"
+        },
+        {
+            "name": "premier/markdown-builder",
+            "version": "0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/grachevko/markdown-builder.git",
+                "reference": "11665a00aa9dc5130936fa94a0a055d8f6bc2cbb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/grachevko/markdown-builder/zipball/11665a00aa9dc5130936fa94a0a055d8f6bc2cbb",
+                "reference": "11665a00aa9dc5130936fa94a0a055d8f6bc2cbb",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "ergebnis/composer-normalize": "^2.8",
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "phpstan/phpstan": "^0.12.37",
+                "phpstan/phpstan-phpunit": "^0.12.16",
+                "phpstan/phpstan-strict-rules": "^0.12.4",
+                "phpunit/phpunit": "^9.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Premier\\MarkdownBuilder\\": "src/"
+                },
+                "exclude-from-classmap": [
+                    "/tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Konstantin Grachev",
+                    "email": "me@grachevko.ru"
+                }
+            ],
+            "description": "Markdown Builder",
+            "keywords": [
+                "builder",
+                "markdown"
+            ],
+            "support": {
+                "issues": "https://github.com/grachevko/markdown-builder/issues",
+                "source": "https://github.com/grachevko/markdown-builder/tree/flip-checklist"
+            },
+            "time": "2020-09-04T16:45:37+00:00"
         },
         {
             "name": "psr/cache",

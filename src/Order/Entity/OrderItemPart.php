@@ -6,6 +6,9 @@ namespace App\Order\Entity;
 
 use App\Costil;
 use App\Customer\Entity\OperandId;
+use App\MessageBus\ContainsRecordedMessages;
+use App\MessageBus\PrivateMessageRecorderCapabilities;
+use App\Order\Messages\OrderItemPartCreated;
 use App\Part\Entity\PartId;
 use App\Part\Entity\PartView;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Discount;
@@ -21,8 +24,9 @@ use Ramsey\Uuid\UuidInterface;
 /**
  * @ORM\Entity
  */
-class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInterface, WarrantyInterface, Discounted
+class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInterface, WarrantyInterface, Discounted, ContainsRecordedMessages
 {
+    use PrivateMessageRecorderCapabilities;
     use Price;
     use Warranty;
     use Discount;
@@ -50,6 +54,8 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
 
         $this->partId = $partId;
         $this->quantity = $quantity;
+
+        $this->record(new OrderItemPartCreated($this->toId()));
     }
 
     public function __toString(): string

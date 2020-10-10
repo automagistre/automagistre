@@ -34,6 +34,7 @@ services:
             DATABASE_PASSWORD: ${DB_PASSWORD}
             SENTRY_DSN: ${SENTRY_DSN}
             SMSAERO_AUTH: ${SMSAERO_AUTH}
+            TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
             TENANT: ${TENANT}
         stop_grace_period: 120s
         deploy:
