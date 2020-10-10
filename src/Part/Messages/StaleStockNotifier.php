@@ -53,6 +53,11 @@ final class StaleStockNotifier implements MessageHandler
 
         /** @var PartView $part */
         $part = $this->registry->get(PartView::class, $orderItemPart->getPartId());
+
+        if (!$part->hasKeepingStock()) {
+            return;
+        }
+
         if ([] === $part->analogs) {
             return;
         }
