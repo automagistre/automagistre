@@ -121,8 +121,8 @@ phpunit: clear-log ### Run phpunit
 	$(APP) phpunit --stop-on-failure --testdox
 paratest: APP_ENV=test
 paratest: APP_DEBUG=1
-paratest: clear-log ### Run paratest
-	$(APP) paratest -p $(shell grep -c ^processor /proc/cpuinfo || 4) --stop-on-failure --log-junit=var/junit.xml
+paratest: clear-log ### Run phpunit in parallel
+	$(APP) paratest --log-junit=var/junit.xml
 
 phpmetrics: ## Generate phpmetrics to public/phpmetrics folder
 	$(APP) phpmetrics --junit=var/junit.xml  --report-html=public/phpmetrics --exclude src/Migrations src
