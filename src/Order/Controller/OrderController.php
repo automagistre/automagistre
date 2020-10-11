@@ -33,13 +33,12 @@ use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Entity\OrderItemService;
 use App\Order\Enum\OrderStatus;
-use App\Order\Event\OrderClosed;
 use App\Order\Event\OrderStatusChanged;
 use App\Order\Form\OrderDto;
 use App\Order\Form\OrderTOPart;
 use App\Order\Form\OrderTOService;
 use App\Order\Form\Type\OrderTOServiceType;
-use App\Order\Manager\OrderManager;
+use App\Order\Messages\CloseOrderCommand;
 use App\Order\Number\NumberGenerator;
 use App\Part\Entity\PartId;
 use App\Part\Entity\PartView;
@@ -88,20 +87,16 @@ final class OrderController extends AbstractController
 {
     private PaymentManager $paymentManager;
 
-    private OrderManager $orderManager;
-
     private CalendarEntryRepository $calendarEntryRepository;
 
     private NumberGenerator $numberGenerator;
 
     public function __construct(
         PaymentManager $paymentManager,
-        OrderManager $orderManager,
         CalendarEntryRepository $calendarEntryRepository,
         NumberGenerator $numberGenerator
     ) {
         $this->paymentManager = $paymentManager;
-        $this->orderManager = $orderManager;
         $this->calendarEntryRepository = $calendarEntryRepository;
         $this->numberGenerator = $numberGenerator;
     }
@@ -415,7 +410,7 @@ final class OrderController extends AbstractController
                         continue;
                     }
 
-                    $order->addPayment($payment, $form->get('desc')->getData(), $this->getUser());
+                    $order->addPayment($payment, $form->get('desc')->getData());
                 }
 
                 $this->handlePayment($model, true);
@@ -489,7 +484,7 @@ final class OrderController extends AbstractController
 
         close:
 
-        $this->orderManager->close($order);
+        $this->dispatchMessage(new CloseOrderCommand($order->toId()));
 
         $car = null === $order->getCarId()
             ? null
@@ -499,8 +494,6 @@ final class OrderController extends AbstractController
 
             $this->registry->manager(Car::class)->flush();
         }
-
-        $this->event(new OrderClosed($order));
 
         $this->addFlash('success', sprintf('Заказ №%s закрыт', $order->getNumber()));
 

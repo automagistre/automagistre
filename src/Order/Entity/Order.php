@@ -7,9 +7,10 @@ namespace App\Order\Entity;
 use App\Car\Entity\CarId;
 use App\Customer\Entity\OperandId;
 use App\Employee\Entity\Employee;
+use App\MessageBus\ContainsRecordedMessages;
+use App\MessageBus\PrivateMessageRecorderCapabilities;
 use App\Order\Enum\OrderStatus;
 use App\Shared\Money\TotalPriceInterface;
-use App\User\Entity\User;
 use function assert;
 use function class_exists;
 use DateTime;
@@ -29,8 +30,10 @@ use function sprintf;
  * @ORM\Entity
  * @ORM\Table(name="orders")
  */
-class Order
+class Order implements ContainsRecordedMessages
 {
+    use PrivateMessageRecorderCapabilities;
+
     /**
      * @ORM\Id()
      * @ORM\Column(type="order_id")
@@ -182,7 +185,7 @@ class Order
             ->getValues();
     }
 
-    public function close(User $user, ?Money $balance): void
+    public function close(?Money $balance): void
     {
         $this->status = OrderStatus::closed();
 
@@ -443,7 +446,7 @@ class Order
         return $forPayment;
     }
 
-    public function addPayment(Money $money, ?string $description, User $user): void
+    public function addPayment(Money $money, ?string $description): void
     {
         $this->payments[] = new OrderPayment($this, $money, $description);
     }

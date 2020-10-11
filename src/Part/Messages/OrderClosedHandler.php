@@ -2,22 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Part\EventListener;
+namespace App\Part\Messages;
 
+use App\MessageBus\MessageHandler;
+use App\Order\Entity\Order;
 use App\Order\Entity\OrderItemPart;
-use App\Order\Event\OrderClosed;
+use App\Order\Messages\OrderClosed;
 use App\Part\Entity\PartCase;
 use App\Part\Entity\PartCaseId;
 use App\Shared\Doctrine\Registry;
 use App\Vehicle\Entity\VehicleId;
 use function array_map;
 use function count;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-/**
- * @author Konstantin Grachev <me@grachevko.ru>
- */
-final class PartCaseOnOrderCloseListener implements EventSubscriberInterface
+final class OrderClosedHandler implements MessageHandler
 {
     private Registry $registry;
 
@@ -26,19 +24,9 @@ final class PartCaseOnOrderCloseListener implements EventSubscriberInterface
         $this->registry = $registry;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
+    public function __invoke(OrderClosed $event): void
     {
-        return [
-            OrderClosed::class => 'onOrderClosed',
-        ];
-    }
-
-    public function onOrderClosed(OrderClosed $event): void
-    {
-        $order = $event->getSubject();
+        $order = $this->registry->get(Order::class, $event->orderId);
 
         $carId = $order->getCarId();
         if (null === $carId) {
