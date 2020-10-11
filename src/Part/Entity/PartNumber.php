@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Part\Entity;
 
 use App\Shared\String\Layout;
-use DomainException;
 use function preg_replace;
-use function sprintf;
 use function strtoupper;
 
 /**
@@ -19,11 +17,7 @@ final class PartNumber
 
     public function __construct(string $number)
     {
-        if ($number !== self::sanitize($number)) {
-            throw new DomainException(sprintf('PartNumber "%s" contain illegal characters.', $number));
-        }
-
-        $this->number = $number;
+        $this->number = self::sanitize($number);
     }
 
     public function __toString(): string
