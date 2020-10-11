@@ -67,7 +67,6 @@ easy_admin:
                     - { property: 'order', label: 'Заказ', template: 'easy_admin/order_item_service/field_order.html.twig' }
                     - { property: 'service', label: 'Работа' }
                     - { property: 'price', label: 'Стоимость', template: 'easy_admin/field_money.html.twig' }
-                    - { property: 'order.closedAt', label: 'Дата', type: 'datetime' }
                     - { property: 'order.mileage', label: 'Пробег' }
                     - { property: 'workerId', label: 'Исполнитель', template: 'easy_admin/field_identifier.html.twig' }
             edit:

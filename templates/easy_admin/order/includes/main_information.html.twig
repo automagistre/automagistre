@@ -200,18 +200,14 @@
                 </div>
             </div>
 
-            {% if order.closedAt is not empty %}
+            {% if order.closed %}
                 <div class="form-horizontal">
                     <div class="form-group field-association ">
                         <label class="col-sm-2 control-label">Закрыт</label>
 
                         <div class="col-sm-10">
                             <div class="form-control">
-                                {{ order.closedAt|format_datetime('short', 'short', '', 'GMT+3') }}
-
-                                {% if order.closedBy is not empty %}
-                                    ({% include 'easy_admin/field_user.html.twig' with {'value': order.closedBy} %})
-                                {% endif %}
+                                {{ created_by_view(order.getClose|toUuid) }}
                             </div>
                         </div>
                     </div>

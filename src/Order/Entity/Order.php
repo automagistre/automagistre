@@ -20,18 +20,14 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
 use DomainException;
-use function is_numeric;
 use LogicException;
 use Money\Currency;
 use Money\Money;
 use function sprintf;
 
 /**
- * @ORM\Table(
- *     name="orders",
- *     indexes={@ORM\Index(columns={"closed_at"})}
- * )
  * @ORM\Entity
+ * @ORM\Table(name="orders")
  */
 class Order
 {
@@ -60,19 +56,9 @@ class Order
     private $items;
 
     /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @ORM\OneToOne(targetEntity=OrderClose::class, mappedBy="order", cascade={"persist"})
      */
-    private ?DateTimeImmutable $closedAt = null;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class)
-     */
-    private ?User $closedBy = null;
-
-    /**
-     * @ORM\Embedded(class=Money::class)
-     */
-    private ?Money $closedBalance = null;
+    private ?OrderClose $close = null;
 
     /**
      * @ORM\Column(name="status", type="order_status_enum")
@@ -199,9 +185,17 @@ class Order
     public function close(User $user, ?Money $balance): void
     {
         $this->status = OrderStatus::closed();
-        $this->closedBy = $user;
-        $this->closedAt = new DateTimeImmutable();
-        $this->closedBalance = $balance;
+
+        $this->close = new OrderClose($this, $balance);
+    }
+
+    public function getClose(): OrderClose
+    {
+        if (null === $this->close) {
+            throw new LogicException('Order not closed to get OrderClose.');
+        }
+
+        return $this->close;
     }
 
     public function getWorkerPersonId(): ?OperandId
@@ -316,23 +310,13 @@ class Order
         $this->description = $description;
     }
 
-    public function getClosedAt(): ?DateTimeImmutable
-    {
-        return $this->closedAt;
-    }
-
-    public function getClosedBy(): ?User
-    {
-        return $this->closedBy;
-    }
-
     public function getClosedBalance(): ?Money
     {
-        if ($this->closedBalance instanceof Money && !is_numeric($this->closedBalance->getAmount())) {
-            return null;
+        if (null === $this->close) {
+            throw new LogicException('Order not closed to get ClosedBalance.');
         }
 
-        return $this->closedBalance;
+        return $this->close->balance;
     }
 
     public function getMileage(): ?int

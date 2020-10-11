@@ -6,12 +6,14 @@ namespace App\Order\Controller;
 
 use App\Car\Entity\Car;
 use App\Car\Manager\RecommendationManager;
+use App\CreatedBy\Entity\CreatedBy;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemService;
 use App\Order\Form\OrderService;
 use function array_map;
 use function assert;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use function explode;
 use LogicException;
@@ -161,7 +163,8 @@ final class OrderItemServiceController extends OrderItemController
             throw new LogicException('Car required.');
         }
 
-        $qb = $this->createListQueryBuilder($entityClass, $sortDirection);
+        $qb = $this->createListQueryBuilder($entityClass, $sortDirection)
+            ->leftJoin(CreatedBy::class, 'createdBy', Join::WITH, 'createdBy.id = entity.id');
 
         foreach (explode(' ', $searchQuery) as $key => $item) {
             $key = ':search_'.$key;
@@ -174,7 +177,7 @@ final class OrderItemServiceController extends OrderItemController
         }
 
         $qb
-            ->orderBy('orders.closedAt', 'ASC')
+            ->orderBy('createdBy.createdAt', 'ASC')
             ->addOrderBy('orders.id', 'DESC');
 
         return $qb;

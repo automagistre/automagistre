@@ -122,7 +122,7 @@ class OperandController extends AbstractController
 
             $parameters['cars'] = $carRepository->carsByCustomer($operand->toId());
             $parameters['orders'] = $this->registry->repository(Order::class)
-                ->findBy(['customerId' => $operand->toId()], ['closedAt' => 'DESC'], 20);
+                ->findBy(['customerId' => $operand->toId()], ['id' => 'DESC'], 20);
             $parameters['payments'] = $this->registry->repository(CustomerTransactionView::class)
                 ->findBy(['operandId' => $operand->toId()], ['id' => 'DESC'], 20);
             $parameters['notes'] = $this->registry->repository(NoteView::class)
@@ -148,7 +148,6 @@ class OperandController extends AbstractController
         if (null !== $carId) {
             $qb
                 ->leftJoin(Order::class, 'o', Join::WITH, 'o.customerId = operand.id')
-                ->orderBy('o.closedAt', 'DESC')
                 ->andWhere('o.carId = :car')
                 ->setParameter('car', $carId);
         }

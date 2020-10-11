@@ -50,7 +50,7 @@ final class ProfitController extends AbstractController
         }
 
         $sql = '
-            SELECT DATE(o.closed_at) AS closed_at,
+            SELECT DATE(order_close_by.created_at) AS closed_at,
                o.id,
                o.number,
                o.customer_id,
@@ -85,22 +85,24 @@ final class ProfitController extends AbstractController
                                  SELECT ip.price_amount
                                  FROM income_part ip
                                         JOIN income i on ip.income_id = i.id
-                                 WHERE i.accrued_at < o2.closed_at
+                                 WHERE i.accrued_at < o2created.created_at
                                    AND ip.part_id = oip.part_id
                                  ORDER BY i.accrued_at DESC
                                  LIMIT 1
                                )            AS price,
-                               o2.id AS order_id
+                               order_item.order_id AS order_id
                         FROM order_item_part oip
                                JOIN order_item ON oip.id = order_item.id
-                               JOIN orders o2 on order_item.order_id = o2.id
+                               JOIN created_by o2created ON o2created.id = order_item.order_id
                       ) sub
                  WHERE sub.order_id = o.id
                ) AS part_cost
             FROM orders o
-            WHERE o.closed_at BETWEEN :start AND :end
-            GROUP BY o.id
-            ORDER BY o.closed_at DESC
+            JOIN order_close ON o.id = order_close.order_id
+            JOIN created_by order_close_by ON order_close_by.id = order_close.id
+            WHERE order_close_by.created_at BETWEEN :start AND :end
+            GROUP BY o.id, order_close_by.created_at
+            ORDER BY order_close_by.created_at DESC
         ';
 
         $conn = $registry->manager(Order::class)->getConnection();

@@ -63,8 +63,9 @@ final class PartSellController extends AbstractController
                         JOIN order_item_part oip on r.order_item_part_id = oip.id
                         JOIN order_item oi on oip.id = oi.id
                         JOIN orders o on oi.order_id = o.id
+                        LEFT JOIN order_close ON order_close.order_id = o.id
                     WHERE oip.part_id = m.part_id
-                        AND o.closed_at IS NULL
+                        AND order_close IS NULL
                 )                                                       AS reserved
             FROM motion m
             JOIN created_by cb ON cb.id = m.id

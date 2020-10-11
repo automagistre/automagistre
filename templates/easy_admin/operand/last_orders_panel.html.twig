@@ -26,7 +26,7 @@
                                     {{ order.number }}
                                 </a>
                             </td>
-                            <td>{{ order.closedAt|format_datetime('short', 'short', '', 'GMT+3') }}</td>
+                            <td>{% if order.closed %}{{ created_by_view(order.getClose|toUuid) }}{% endif %}</td>
                             <td>{{ order.carId|display_name }}</td>
                             <td>{{ order.totalForPayment|localize_money }}</td>
                         </tr>

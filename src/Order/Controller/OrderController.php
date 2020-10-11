@@ -9,6 +9,7 @@ use App\Calendar\Entity\EntryOrder;
 use App\Calendar\Repository\CalendarEntryRepository;
 use App\Car\Entity\Car;
 use App\Car\Entity\CarId;
+use App\CreatedBy\Entity\CreatedBy;
 use App\Customer\Entity\CustomerTransaction;
 use App\Customer\Entity\CustomerTransactionId;
 use App\Customer\Entity\CustomerTransactionView;
@@ -591,7 +592,8 @@ final class OrderController extends AbstractController
         $sortField = null,
         $dqlFilter = null
     ): QueryBuilder {
-        $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
+        $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter)
+            ->leftJoin(CreatedBy::class, 'createdBy', Join::WITH, 'createdBy.id = entity.id');
 
         $customer = $this->getEntity(Operand::class);
         if ($customer instanceof Operand) {
@@ -624,7 +626,7 @@ final class OrderController extends AbstractController
             $qb->where(
                 $qb->expr()->orX(
                     $qb->expr()->neq('entity.status', ':closedStatus'),
-                    $qb->expr()->eq('DATE(entity.closedAt)', ':today')
+                    $qb->expr()->eq('DATE(createdBy.createdAt)', ':today')
                 )
             )
                 ->setParameter('closedStatus', OrderStatus::closed())
@@ -654,7 +656,8 @@ final class OrderController extends AbstractController
             ->leftJoin(Model::class, 'carModel', Join::WITH, 'carModel.id = car.vehicleId')
             ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'manufacturer.id = carModel.manufacturerId')
             ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = customer.id AND customer INSTANCE OF '.Person::class)
-            ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = customer.id AND customer INSTANCE OF '.Organization::class);
+            ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = customer.id AND customer INSTANCE OF '.Organization::class)
+            ->leftJoin(CreatedBy::class, 'created', Join::WITH, 'created.id = o.id');
 
         foreach (explode(' ', $searchQuery) as $key => $item) {
             $key = ':search_'.$key;
@@ -678,7 +681,7 @@ final class OrderController extends AbstractController
         }
 
         return $qb
-            ->orderBy('o.closedAt', 'ASC')
+            ->orderBy('created.createdAt', 'ASC')
             ->addOrderBy('o.id', 'DESC');
     }
 
