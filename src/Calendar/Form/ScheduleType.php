@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Calendar\Form;
 
 use function array_combine;
-use DateTimeImmutable;
 use function range;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateIntervalType;
@@ -20,8 +19,6 @@ final class ScheduleType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $now = new DateTimeImmutable();
-
         $builder
             ->add('date', DateTimeType::class, [
                 'input' => 'datetime_immutable',
