@@ -173,6 +173,13 @@ steps:
         depends_on:
             - fixtures
 
+    -   name: sonarqube
+        image: aosapps/drone-sonar-plugin
+        settings:
+            sonar_host: https://sonarqube.automagistre.ru
+            sonar_token:
+                from_secret: SONAR_TOKEN
+
     -   name: check deploy
         image: alpine/git:1.0.7
         commands:
