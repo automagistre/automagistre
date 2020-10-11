@@ -56,7 +56,7 @@
     <h1 class="invoice-header__info">Счет на оплату №
         {{ order.number }}
         от
-        {{ (order.closed ? order.closedAt : date(null, 'Europe/Moscow'))|format_date('short') }} г.
+        {{ (order.closed ? created_by(order.getClose|toUuid).at : date(null, 'Europe/Moscow'))|format_date('short') }} г.
     </h1>
     {{ block('invoice_provider_info') }}
 {% endblock %}

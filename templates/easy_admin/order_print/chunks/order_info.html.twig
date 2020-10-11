@@ -4,7 +4,7 @@
     <div class="order-info">
         <span class="order-info__type">{{ type }}</span>
         <span class="order-info__info">
-            {{ order.number }} от {{ (order.closed ? order.closedAt : date(null, 'Europe/Moscow'))|format_date('short') }}
+            {{ order.number }} от {{ (order.closed ? created_by(order.getClose|toUuid).at : date(null, 'Europe/Moscow'))|format_date('short') }}
         </span>
         </div>
         <div class="order-executor">

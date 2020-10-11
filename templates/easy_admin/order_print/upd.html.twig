@@ -13,7 +13,7 @@
         <div class="upd-header-right">
             <div class="upd-number">
                 <div>Счет-фактура №</div><div class="upd-number__num">{{ order.number }}</div><div>от</div>
-                <div class="upd-number__num">{{ (order.closed ? order.closedAt : date(null, 'Europe/Moscow'))|format_date('short') }}</div>
+                <div class="upd-number__num">{{ (order.closed ? created_by(order.getClose|toUuid).at : date(null, 'Europe/Moscow'))|format_date('short') }}</div>
                 <div>(1)</div>
 
                 <div>Исправление №</div><div class="upd-number__num"></div><div>от</div><div class="upd-number__num"></div><div>(1a)</div>
