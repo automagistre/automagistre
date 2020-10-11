@@ -285,7 +285,8 @@ class PartView
                      LEFT JOIN (SELECT order_item_part.part_id, SUM(order_item_part.quantity) AS quantity
                                 FROM order_item_part
                                          JOIN order_item ON order_item.id = order_item_part.id
-                                         JOIN order_close ON order_item.order_id = order_close.order_id
+                                         LEFT JOIN order_close ON order_item.order_id = order_close.order_id
+                                WHERE order_close IS NULL
                                 GROUP BY order_item_part.part_id) AS ordered
                                ON ordered.part_id = part.id
                      LEFT JOIN (SELECT json_agg(

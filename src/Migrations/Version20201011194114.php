@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Migrations;
 
-use App\Part\Entity\PartView;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
@@ -12,8 +11,6 @@ final class Version20201011194114 extends AbstractMigration
 {
     public function up(Schema $schema): void
     {
-        $this->addSql('DROP VIEW IF EXISTS part_view');
-
         $this->addSql('CREATE TABLE order_close (id UUID NOT NULL, order_id UUID DEFAULT NULL, balance VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_909FF5398D9F6D38 ON order_close (order_id)');
         $this->addSql('COMMENT ON COLUMN order_close.id IS \'(DC2Type:uuid)\'');
@@ -28,8 +25,6 @@ final class Version20201011194114 extends AbstractMigration
         $this->addSql('ALTER TABLE orders DROP closed_at');
         $this->addSql('ALTER TABLE orders DROP closed_balance_amount');
         $this->addSql('ALTER TABLE orders DROP closed_balance_currency_code');
-
-        $this->addSql(PartView::sql());
     }
 
     public function down(Schema $schema): void
