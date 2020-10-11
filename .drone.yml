@@ -179,6 +179,8 @@ steps:
             sonar_host: https://sonarqube.automagistre.ru
             sonar_token:
                 from_secret: SONAR_TOKEN
+        when:
+            branch: master
         depends_on:
             - phpunit
 
