@@ -39,8 +39,8 @@ RUN set -ex \
 	&& rm -rf /tmp/icu
 
 RUN set -ex \
-    && pecl install memcached apcu xdebug mongodb uuid \
-    && docker-php-ext-enable memcached apcu mongodb uuid
+    && pecl install memcached apcu xdebug mongodb uuid pcov \
+    && docker-php-ext-enable memcached apcu mongodb uuid pcov
 
 ENV WAIT_FOR_IT /usr/local/bin/wait-for-it.sh
 RUN set -ex \
@@ -61,6 +61,7 @@ COPY etc/php-fpm.conf /usr/local/etc/php-fpm.d/automagistre.conf
 ENV PHP_MEMORY_LIMIT 1G
 ENV PHP_OPCACHE_ENABLE 1
 ENV PHP_ZEND_ASSERTIONS 1
+ENV PCOV_ENABLED 1
 
 FROM php-base as php
 
@@ -69,6 +70,7 @@ ENV APP_ENV prod
 ARG APP_DEBUG
 ENV APP_DEBUG 0
 ENV PHP_ZEND_ASSERTIONS -1
+ENV PCOV_ENABLED 0
 
 COPY bin bin
 COPY config config
