@@ -7,6 +7,9 @@ namespace App\Part\Form;
 use App\Part\Entity\PartId;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @psalm-suppress MissingConstructor
+ */
 final class RequiredAvailabilityDto
 {
     /**
@@ -31,11 +34,4 @@ final class RequiredAvailabilityDto
      * @Assert\GreaterThanOrEqual(value="0")
      */
     public $orderUpToQuantity;
-
-    public function __construct(PartId $partId, int $orderFromQuantity, int $orderUpToQuantity)
-    {
-        $this->partId = $partId;
-        $this->orderFromQuantity = $orderFromQuantity;
-        $this->orderUpToQuantity = $orderUpToQuantity;
-    }
 }

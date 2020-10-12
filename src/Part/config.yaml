@@ -6,6 +6,7 @@ easy_admin:
             disabled_actions: ['delete']
             label: 'Запчасти'
             templates:
+                list: 'easy_admin/part/list.html.twig'
                 show: 'easy_admin/part/show.html.twig'
             show:
                 title: '{{ entity.toId|display_name }}'

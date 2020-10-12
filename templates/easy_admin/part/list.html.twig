@@ -1,0 +1,14 @@
+{% extends 'easy_admin/default/list.html.twig' %}
+
+{% block global_actions %}
+    {{ parent() }}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="button-action">
+            <a class="btn btn-primary" href="{{ easyadmin_path('PartRequiredAvailability', 'import', {'referer': true}) }}">
+                <i class="fa fa-upload"></i>
+                Импорт
+            </a>
+        </div>
+    {% endif %}
+{% endblock global_actions %}
