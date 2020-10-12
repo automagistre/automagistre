@@ -184,8 +184,8 @@ steps:
         volumes:
             -   name: sonarqube
                 path: /opt/sonarqube
-#        when:
-#            branch: master
+        when:
+            branch: master
         depends_on:
             - phpunit
 
