@@ -52,8 +52,9 @@ final class ReserveAccruedPartsListener implements EventSubscriberInterface
             ->select(['entity', 'orders'])
             ->from(OrderItemPart::class, 'entity')
             ->join('entity.order', 'orders')
+            ->leftJoin('orders.close', 'close')
             ->where('entity.partId = :part')
-            ->andWhere('orders.closedAt IS NULL')
+            ->andWhere('close.id IS NULL')
             ->getQuery()
             ->setParameter('part', $partId)
             ->getResult();
