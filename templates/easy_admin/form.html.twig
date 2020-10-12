@@ -107,7 +107,11 @@
 {% block part_autocomplete_row %}
     {% set easyadminEntity = 'Part' %}
 
-    {{ block('widget_modal_row') }}
+    {% if with_widget %}
+        {{ block('widget_modal_row') }}
+    {% else %}
+        {{ block('form_row') }}
+    {% endif %}
 {% endblock part_autocomplete_row %}
 
 {% block customer_autocomplete_row %}

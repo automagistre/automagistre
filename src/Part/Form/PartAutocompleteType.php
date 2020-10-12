@@ -20,6 +20,7 @@ final class PartAutocompleteType extends AbstractType
             'class' => Part::class,
             'label' => 'Запчасть',
             'error_bubbling' => false,
+            'widget' => true,
         ]);
     }
 

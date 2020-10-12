@@ -77,7 +77,12 @@ final class AutocompleteType extends AbstractType implements DataMapperInterface
                     $options['formatter_format']
                 );
 
-                unset($options['class'], $options['formatter_format'], $options['autocomplete_parameters']);
+                unset(
+                    $options['class'],
+                    $options['widget'],
+                    $options['formatter_format'],
+                    $options['autocomplete_parameters'],
+                );
 
                 $form->add('autocomplete', ChoiceType::class, $options);
             })
@@ -105,6 +110,7 @@ final class AutocompleteType extends AbstractType implements DataMapperInterface
             'autocomplete',
             $options['autocomplete_parameters'],
         );
+        $view->vars['with_widget'] = $options['widget'] ?? true;
     }
 
     /**
