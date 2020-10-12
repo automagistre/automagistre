@@ -4,7 +4,7 @@ type: docker
 name: default
 
 clone:
-    depth: 1
+    depth: 0
 
 steps:
     -   name: build base
@@ -175,12 +175,17 @@ steps:
 
     -   name: sonarqube
         image: aosapps/drone-sonar-plugin
+        environment:
+            SONAR_USER_HOME: /opt/sonarqube
         settings:
             sonar_host: https://sonarqube.automagistre.ru
             sonar_token:
                 from_secret: SONAR_TOKEN
-        when:
-            branch: master
+        volumes:
+            -   name: sonarqube
+                path: /opt/sonarqube
+#        when:
+#            branch: master
         depends_on:
             - phpunit
 
@@ -255,3 +260,6 @@ volumes:
     -   name: env
         host:
             path: /opt/secrets/automagistre
+    -   name: sonarqube
+        host:
+            path: /opt/sonarqube/scanner/cache
