@@ -19,9 +19,4 @@ final class Version20200624185421 extends AbstractMigration
             ON CONFLICT DO NOTHING 
         ');
     }
-
-    public function down(Schema $schema): void
-    {
-        $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
-    }
 }

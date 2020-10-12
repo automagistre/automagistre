@@ -14,8 +14,4 @@ final class Version20200824085618 extends AbstractMigration
         $this->addSql('CREATE SEQUENCE IF NOT EXISTS order_number');
         $this->addSql('SELECT setval(\'order_number\', (SELECT MAX(number::integer) FROM orders))');
     }
-
-    public function down(Schema $schema): void
-    {
-    }
 }

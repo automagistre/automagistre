@@ -26,8 +26,4 @@ final class Version20201011194114 extends AbstractMigration
         $this->addSql('ALTER TABLE orders DROP closed_balance_amount');
         $this->addSql('ALTER TABLE orders DROP closed_balance_currency_code');
     }
-
-    public function down(Schema $schema): void
-    {
-    }
 }

@@ -14,8 +14,4 @@ final class Version20201011211258 extends AbstractMigration
     {
         $this->addSql(CustomerView::sql());
     }
-
-    public function down(Schema $schema): void
-    {
-    }
 }

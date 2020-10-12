@@ -15,8 +15,4 @@ final class Version20201011214934 extends AbstractMigration
         $this->addSql('DROP VIEW IF EXISTS part_view');
         $this->addSql(PartView::sql());
     }
-
-    public function down(Schema $schema): void
-    {
-    }
 }
