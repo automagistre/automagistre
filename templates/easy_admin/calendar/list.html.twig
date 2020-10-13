@@ -246,6 +246,8 @@
                             {% endif %}
                         </td>
                         {% set skip = 0 %}
+                        {% set maxRowLength = 24 %}
+                        {% set currentRowLength = 0 %}
 
                         {% for time in columns %}
                             {# @var stream \App\Calendar\View\Stream #}
@@ -254,14 +256,16 @@
                             {% elseif stream.has(time) %}
                                 {% set item = stream.get(time) %}
                                 {% set skip = item.length - 1 %}
+                                {% set currentRowLength = currentRowLength + item.length %}
                                 {#                                    Если у записи есть мастер, то добавить класс is-assigned,  так же можно выбрать для каждого мастера цвет
                                                                       Добавив классы
                                  #}
                                 {% set entry = item.calendar %}
                                 {# @var entry \App\Calendar\Entity\EntryView #}
                                 <td class="calendar__item event{% if entry.orderInfo.workerId is not null %} is-assigned purple{% endif %}"
-                                        {% if item.length > 1 %} colspan="{{ item.length }}"{% endif %} >
-
+                                        {% if item.length > 1 %}
+                                            colspan="{{ currentRowLength <= maxRowLength ? item.length : item.length - currentRowLength + maxRowLength }}"
+                                        {% endif %} >
                                     <a data-toggle="modal" data-target="#{{ entry|toId }}" style="cursor: pointer">
                                         {% if entry.orderInfo.customerId is not empty %}
                                             {{ entry.orderInfo.customerId|display_name('short') }} <br>
@@ -340,6 +344,7 @@
                                     </div>
                                 </td>
                             {% else %}
+                                {% set currentRowLength = currentRowLength + 1 %}
                                 <td class="calendar__item empty">
                                     <a href="{{ easyadmin_path('CalendarEntry', 'new', {'order_id': orderId, 'date': date|date('Y-m-d') ~ ' ' ~ time}|merge(stream.workerId ? {'worker_id': stream.workerId.toString} : {})) }}">
                                         <div class="btn btn-success create-plus-button">
@@ -348,9 +353,11 @@
                                     </a>
                                 </td>
                             {% endif %}
+
                         {% endfor %}
                     </tr>
                 {% endfor %}
+
                 <tr>
                     <td>Новый поток</td>
                     {% for time in columns %}
