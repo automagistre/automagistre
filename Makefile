@@ -35,7 +35,7 @@ help:
 
 flag: ## Remove code between //> ${FLAG} and //< ${FLAG} - require FLAG env
 	find bin config etc public src templates tests -type f -exec sed -i '/\/\/> ${FLAG}/,/\/\/< ${FLAG}/d' {} +
-
+	grep -rl "//- ${FLAG}" bin config etc public src templates tests | xargs rm
 contrib:
 	$(DEBUG_ECHO) @cp -n -r contrib/.env contrib/* ./ || true
 
