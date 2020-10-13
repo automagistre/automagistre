@@ -345,7 +345,7 @@
                                 </td>
                             {% else %}
                                 {% set currentRowLength = currentRowLength + 1 %}
-                                <td class="calendar__item empty"    >
+                                <td class="calendar__item empty">
                                     <a href="{{ easyadmin_path('CalendarEntry', 'new', {'order_id': orderId, 'date': date|date('Y-m-d') ~ ' ' ~ time}|merge(stream.workerId ? {'worker_id': stream.workerId.toString} : {})) }}">
                                         <div class="btn btn-success create-plus-button">
                                             <i class="fa fa-plus"></i>
