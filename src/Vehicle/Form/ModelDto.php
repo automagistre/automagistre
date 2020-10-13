@@ -18,6 +18,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     exists=false,
  *     errorPath="name",
  * )
+ *
+ * @psalm-suppress MissingConstructor
  */
 final class ModelDto
 {
@@ -56,22 +58,4 @@ final class ModelDto
      * @var int|null
      */
     public $yearTill;
-
-    public function __construct(
-        VehicleId $vehicleId,
-        ManufacturerId $manufacturerId,
-        string $name,
-        ?string $localizedName,
-        ?string $caseName,
-        ?int $yearFrom,
-        ?int $yearTill
-    ) {
-        $this->vehicleId = $vehicleId;
-        $this->manufacturerId = $manufacturerId;
-        $this->name = $name;
-        $this->localizedName = $localizedName;
-        $this->caseName = $caseName;
-        $this->yearFrom = $yearFrom;
-        $this->yearTill = $yearTill;
-    }
 }

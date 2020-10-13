@@ -7,6 +7,9 @@ use DateInterval;
 use DateTimeImmutable;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @psalm-suppress MissingConstructor
+ */
 final class ScheduleDto
 {
     /**
@@ -23,14 +26,12 @@ final class ScheduleDto
      */
     public $duration;
 
-    public function __construct(DateTimeImmutable $date, DateInterval $duration)
-    {
-        $this->date = $date;
-        $this->duration = $duration;
-    }
-
     public static function fromSchedule(Schedule $schedule): self
     {
-        return new self($schedule->date, $schedule->duration);
+        $dto = new self();
+        $dto->date = $schedule->date;
+        $dto->duration = $schedule->duration;
+
+        return $dto;
     }
 }

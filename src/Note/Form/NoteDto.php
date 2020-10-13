@@ -7,6 +7,9 @@ namespace App\Note\Form;
 use App\Note\Enum\NoteType;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @psalm-suppress MissingConstructor
+ */
 final class NoteDto
 {
     /**
@@ -22,10 +25,4 @@ final class NoteDto
      * @Assert\NotBlank
      */
     public $text;
-
-    private function __construct(NoteType $type, string $text)
-    {
-        $this->type = $type;
-        $this->text = $text;
-    }
 }

@@ -22,7 +22,7 @@ final class PartController extends AbstractController
      */
     protected function createNewEntity(): McPartDto
     {
-        $dto = $this->createWithoutConstructor(McPartDto::class);
+        $dto = new McPartDto();
 
         $line = $this->getEntity(McLine::class);
         if (!$line instanceof McLine) {

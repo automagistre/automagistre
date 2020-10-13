@@ -8,6 +8,9 @@ use App\Employee\Entity\EmployeeId;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @psalm-suppress MissingConstructor
+ */
 final class SalaryDto
 {
     /**
@@ -30,11 +33,4 @@ final class SalaryDto
      * @Assert\NotBlank
      */
     public $amount;
-
-    private function __construct(EmployeeId $employeeId, int $payday, Money $amount)
-    {
-        $this->employeeId = $employeeId;
-        $this->payday = $payday;
-        $this->amount = $amount;
-    }
 }

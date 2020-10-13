@@ -24,7 +24,7 @@ final class NoteController extends AbstractController
             throw new BadRequestHttpException(sprintf('Wrong subject id "%s"', (string) $subject));
         }
 
-        $dto = $this->createWithoutConstructor(NoteDto::class);
+        $dto = new NoteDto();
 
         $form = $this->createFormBuilder($dto)
             ->add('type', NoteTypeType::class, [

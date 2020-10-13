@@ -80,8 +80,8 @@ final class OrderItemPartController extends OrderItemController
             throw new BadRequestHttpException('Order closed.');
         }
 
-        $partOffer = $this->createWithoutConstructor(PartOfferDto::class);
-        $dto = $this->createWithoutConstructor(OrderPart::class);
+        $partOffer = new PartOfferDto();
+        $dto = new OrderPart();
         $dto->order = $order;
         $dto->partOffer = $partOffer;
 
@@ -162,19 +162,17 @@ final class OrderItemPartController extends OrderItemController
             $price = $price->subtract($discount);
         }
 
-        $partOffer = new PartOfferDto(
-            $entity->getPartId(),
-            $entity->getQuantity(),
-            $price
-        );
+        $partOffer = new PartOfferDto();
+        $partOffer->partId = $entity->getPartId();
+        $partOffer->quantity = $entity->getQuantity();
+        $partOffer->price = $price;
 
-        $dto = new OrderPart(
-            $order,
-            $entity->getParent(),
-            $partOffer,
-            $entity->isWarranty(),
-            $entity->getSupplierId(),
-        );
+        $dto = new OrderPart();
+        $dto->order = $order;
+        $dto->parent = $entity->getParent();
+        $dto->partOffer = $partOffer;
+        $dto->warranty = $entity->isWarranty();
+        $dto->supplierId = $entity->getSupplierId();
 
         $vehicleId = null;
         $carId = $order->getCarId();

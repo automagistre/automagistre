@@ -28,7 +28,7 @@ final class SalaryController extends AbstractController
             throw new LogicException('Employee required.');
         }
 
-        $dto = $this->createWithoutConstructor(SalaryDto::class);
+        $dto = new SalaryDto();
         $dto->employeeId = $employeeId;
 
         $form = $this->createFormBuilder($dto)

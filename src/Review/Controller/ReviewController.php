@@ -18,7 +18,7 @@ final class ReviewController extends AbstractController
 {
     protected function createNewEntity(): ReviewDto
     {
-        return $this->createWithoutConstructor(ReviewDto::class);
+        return new ReviewDto();
     }
 
     /**

@@ -19,6 +19,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     exists=false,
  *     errorPath="identifier",
  * )
+ *
+ * @psalm-suppress MissingConstructor
  */
 final class CarCreate
 {
@@ -64,22 +66,4 @@ final class CarCreate
      * @var string|null
      */
     public $gosnomer;
-
-    private function __construct(
-        VehicleId $vehicleId,
-        Equipment $equipment = null,
-        string $identifier = null,
-        ?int $year = null,
-        BodyType $caseType = null,
-        string $description = null,
-        string $gosnomer = null
-    ) {
-        $this->vehicleId = $vehicleId;
-        $this->equipment = $equipment ?? new Equipment();
-        $this->identifier = $identifier;
-        $this->year = $year;
-        $this->caseType = $caseType ?? BodyType::unknown();
-        $this->description = $description;
-        $this->gosnomer = $gosnomer;
-    }
 }

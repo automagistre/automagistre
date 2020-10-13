@@ -107,7 +107,7 @@ final class CarController extends AbstractController
      */
     protected function createNewEntity(): CarCreate
     {
-        return $this->createWithoutConstructor(CarCreate::class);
+        return new CarCreate();
     }
 
     protected function persistEntity($entity): Car

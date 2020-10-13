@@ -8,6 +8,9 @@ use App\Customer\Entity\OperandId;
 use App\Part\Entity\PartId;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @psalm-suppress MissingConstructor
+ */
 final class SupplyDto
 {
     /**
@@ -25,11 +28,4 @@ final class SupplyDto
      * @Assert\NotEqualTo(value="0")
      */
     public int $quantity;
-
-    public function __construct(PartId $partId, OperandId $supplierId, int $quantity)
-    {
-        $this->partId = $partId;
-        $this->supplierId = $supplierId;
-        $this->quantity = $quantity;
-    }
 }

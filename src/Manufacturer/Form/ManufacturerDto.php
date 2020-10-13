@@ -16,6 +16,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     exists=false,
  *     errorPath="name",
  * )
+ *
+ * @psalm-suppress MissingConstructor
  */
 final class ManufacturerDto
 {
@@ -30,10 +32,4 @@ final class ManufacturerDto
      * @var string
      */
     public $localizedName;
-
-    private function __construct(string $name, string $localizedName)
-    {
-        $this->name = $name;
-        $this->localizedName = $localizedName;
-    }
 }

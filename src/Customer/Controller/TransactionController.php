@@ -40,7 +40,7 @@ final class TransactionController extends AbstractController
             throw new LogicException('Type required.');
         }
 
-        $model = $this->createWithoutConstructor(TransactionDto::class);
+        $model = new TransactionDto();
         $model->recipient = $recipient;
         $model->increment = 'increment' === $request->query->getAlnum('type');
 

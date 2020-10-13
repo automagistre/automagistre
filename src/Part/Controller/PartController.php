@@ -65,8 +65,7 @@ final class PartController extends AbstractController
         $request = $this->request;
         $em = $this->em;
 
-        /** @var PartDto $dto */
-        $dto = $this->createWithoutConstructor(PartDto::class);
+        $dto = new PartDto();
 
         $form = $this->createForm(PartType::class, $dto)
             ->handleRequest($request);
@@ -333,7 +332,7 @@ final class PartController extends AbstractController
 
     protected function createNewEntity(): PartDto
     {
-        return $this->createWithoutConstructor(PartDto::class);
+        return new PartDto();
     }
 
     /**
@@ -376,8 +375,7 @@ final class PartController extends AbstractController
         /** @var PartView $view */
         $view = $this->registry->getBy(PartView::class, ['id' => $this->request->query->get('id')]);
 
-        /** @var PartDto $dto */
-        $dto = $this->createWithoutConstructor(PartDto::class);
+        $dto = new PartDto();
         $dto->partId = $view->toId();
         $dto->manufacturerId = $view->manufacturer->id;
         $dto->name = $view->name;

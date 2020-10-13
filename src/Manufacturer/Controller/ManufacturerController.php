@@ -22,8 +22,7 @@ final class ManufacturerController extends AbstractController
         $request = $this->request;
         $em = $this->em;
 
-        /** @var ManufacturerDto $dto */
-        $dto = $this->createWithoutConstructor(ManufacturerDto::class);
+        $dto = new ManufacturerDto();
 
         $form = $this->createForm(ManufacturerType::class, $dto)
             ->handleRequest($request);

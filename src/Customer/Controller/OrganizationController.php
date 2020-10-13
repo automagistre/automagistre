@@ -23,8 +23,7 @@ final class OrganizationController extends OperandController
         $request = $this->request;
         $em = $this->em;
 
-        /** @var OrganizationDto $dto */
-        $dto = $this->createWithoutConstructor(OrganizationDto::class);
+        $dto = new OrganizationDto();
 
         $form = $this->createForm(OrganizationType::class, $dto)
             ->handleRequest($request);

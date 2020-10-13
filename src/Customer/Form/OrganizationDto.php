@@ -8,6 +8,9 @@ use libphonenumber\PhoneNumber;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as PhoneNumberConstraint;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @psalm-suppress MissingConstructor
+ */
 final class OrganizationDto
 {
     /**
@@ -30,11 +33,4 @@ final class OrganizationDto
      * @Assert\Email
      */
     public $email;
-
-    public function __construct(string $name, PhoneNumber $telephone, string $email)
-    {
-        $this->name = $name;
-        $this->telephone = $telephone;
-        $this->email = $email;
-    }
 }

@@ -26,7 +26,7 @@ final class PartPriceController extends AbstractController
             throw new BadRequestHttpException('part_id is not valid uuid.');
         }
 
-        $dto = $this->createWithoutConstructor(PartPriceDto::class);
+        $dto = new PartPriceDto();
         $dto->partId = PartId::fromString($partId);
         $dto->since = new DateTimeImmutable();
 

@@ -543,7 +543,7 @@ final class OrderController extends AbstractController
      */
     protected function createNewEntity(): OrderDto
     {
-        $dto = $this->createWithoutConstructor(OrderDto::class);
+        $dto = new OrderDto();
         $dto->customerId = $this->getIdentifier(OperandId::class);
         $dto->carId = $this->getIdentifier(CarId::class);
 

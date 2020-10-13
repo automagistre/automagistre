@@ -9,6 +9,9 @@ use App\Wallet\Entity\WalletId;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @psalm-suppress MissingConstructor
+ */
 final class ExpenseItemDto
 {
     /**
@@ -36,12 +39,4 @@ final class ExpenseItemDto
      * @var string|null
      */
     public $description;
-
-    public function __construct(ExpenseId $expenseId, WalletId $walletId, Money $money, ?string $description)
-    {
-        $this->expenseId = $expenseId;
-        $this->walletId = $walletId;
-        $this->money = $money;
-        $this->description = $description;
-    }
 }

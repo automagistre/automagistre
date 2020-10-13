@@ -184,7 +184,7 @@ final class IncomeController extends AbstractController
      */
     protected function createNewEntity(): IncomeDto
     {
-        return $this->createWithoutConstructor(IncomeDto::class);
+        return new IncomeDto();
     }
 
     /**

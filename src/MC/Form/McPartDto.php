@@ -8,6 +8,9 @@ use App\MC\Entity\McLine;
 use App\Part\Entity\PartId;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @psalm-suppress MissingConstructor
+ */
 final class McPartDto
 {
     /**
@@ -40,12 +43,4 @@ final class McPartDto
      * @Assert\Type("bool")
      */
     public $recommended = false;
-
-    public function __construct(McLine $line, PartId $partId, int $quantity, bool $recommended)
-    {
-        $this->line = $line;
-        $this->partId = $partId;
-        $this->quantity = $quantity;
-        $this->recommended = $recommended;
-    }
 }

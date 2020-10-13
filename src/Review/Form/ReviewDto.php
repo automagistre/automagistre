@@ -7,6 +7,9 @@ namespace App\Review\Form;
 use DateTimeImmutable;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @psalm-suppress MissingConstructor
+ */
 final class ReviewDto
 {
     /**
@@ -51,20 +54,4 @@ final class ReviewDto
      * @Assert\NotBlank
      */
     public $publishAt;
-
-    public function __construct(
-        string $author,
-        string $manufacturer,
-        string $model,
-        string $content,
-        string $source,
-        DateTimeImmutable $publishAt
-    ) {
-        $this->author = $author;
-        $this->manufacturer = $manufacturer;
-        $this->model = $model;
-        $this->content = $content;
-        $this->source = $source;
-        $this->publishAt = $publishAt;
-    }
 }

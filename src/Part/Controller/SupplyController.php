@@ -26,7 +26,7 @@ final class SupplyController extends AbstractController
             throw new BadRequestException('PartId required.');
         }
 
-        $dto = $this->createWithoutConstructor(SupplyDto::class);
+        $dto = new SupplyDto();
         $dto->partId = $partId;
 
         $form = $this->createFormBuilder($dto)

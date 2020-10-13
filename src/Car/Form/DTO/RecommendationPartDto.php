@@ -8,6 +8,9 @@ use App\Car\Entity\Recommendation;
 use App\Part\Form\PartOfferDto;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @psalm-suppress MissingConstructor
+ */
 final class RecommendationPartDto
 {
     /**
@@ -24,10 +27,4 @@ final class RecommendationPartDto
      * @Assert\NotBlank
      */
     public $partOffer;
-
-    public function __construct(Recommendation $recommendation, PartOfferDto $partOffer)
-    {
-        $this->recommendation = $recommendation;
-        $this->partOffer = $partOffer;
-    }
 }

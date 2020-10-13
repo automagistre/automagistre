@@ -26,7 +26,7 @@ final class ExpenseController extends AbstractController
 {
     public function createItemAction(): Response
     {
-        $dto = $this->createWithoutConstructor(ExpenseItemDto::class);
+        $dto = new ExpenseItemDto();
         /** @var ExpenseId $expenseId */
         $expenseId = $this->getIdentifier(ExpenseId::class);
         $dto->expenseId = $expenseId;

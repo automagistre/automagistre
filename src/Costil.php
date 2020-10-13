@@ -7,6 +7,7 @@ namespace App;
 use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use function array_key_exists;
+use LogicException;
 use Money\Currency;
 use Money\Money;
 use function str_contains;
@@ -25,6 +26,7 @@ final class Costil
 
     private function __construct()
     {
+        throw new LogicException('SonarQube сказал надо исключение кидать.');
     }
 
     /**

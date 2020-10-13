@@ -10,7 +10,7 @@ use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @author Konstantin Grachev <me@grachevko.ru>
+ * @psalm-suppress MissingConstructor
  */
 final class TransactionDto
 {
@@ -46,18 +46,4 @@ final class TransactionDto
      * @var Wallet|null
      */
     public $wallet;
-
-    private function __construct(
-        Operand $recipient,
-        Money $amount,
-        ?string $description,
-        bool $increment,
-        ?Wallet $wallet
-    ) {
-        $this->recipient = $recipient;
-        $this->amount = $amount;
-        $this->description = $description;
-        $this->increment = $increment;
-        $this->wallet = $wallet;
-    }
 }

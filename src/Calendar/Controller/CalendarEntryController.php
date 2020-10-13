@@ -60,11 +60,11 @@ final class CalendarEntryController extends AbstractController
             throw new BadRequestHttpException('Wrong date.');
         }
 
-        $schedule = $this->createWithoutConstructor(ScheduleDto::class);
+        $schedule = new ScheduleDto();
         $schedule->date = $date;
         $schedule->duration = new DateInterval('PT1H');
 
-        $orderInfo = $this->createWithoutConstructor(OrderInfoDto::class);
+        $orderInfo = new OrderInfoDto();
         $orderId = $this->getIdentifier(OrderId::class);
         if ($orderId instanceof OrderId) {
             $orderView = $this->registry->view($orderId);

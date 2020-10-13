@@ -18,6 +18,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     exists=false,
  *     errorPath="number",
  * )
+ *
+ * @psalm-suppress MissingConstructor
  */
 final class PartDto
 {
@@ -69,24 +71,4 @@ final class PartDto
      * @var Money
      */
     public $discount;
-
-    public function __construct(
-        PartId $partId,
-        ManufacturerId $manufacturerId,
-        string $name,
-        string $number,
-        bool $universal,
-        Unit $unit,
-        Money $price,
-        Money $discount
-    ) {
-        $this->partId = $partId;
-        $this->manufacturerId = $manufacturerId;
-        $this->name = $name;
-        $this->number = $number;
-        $this->universal = $universal;
-        $this->unit = $unit;
-        $this->price = $price;
-        $this->discount = $discount;
-    }
 }

@@ -9,6 +9,9 @@ use DateTimeImmutable;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @psalm-suppress MissingConstructor
+ */
 final class PartDiscountDto
 {
     /**
@@ -29,11 +32,4 @@ final class PartDiscountDto
      * @Assert\NotBlank()
      */
     public DateTimeImmutable $since;
-
-    public function __construct(PartId $partId, Money $price, DateTimeImmutable $since)
-    {
-        $this->partId = $partId;
-        $this->price = $price;
-        $this->since = $since;
-    }
 }

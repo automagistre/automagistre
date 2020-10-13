@@ -31,7 +31,6 @@ use Money\Formatter\DecimalMoneyFormatter;
 use Money\Money;
 use Money\MoneyFormatter;
 use Ramsey\Uuid\Uuid;
-use ReflectionClass;
 use RuntimeException;
 use function sprintf;
 use stdClass;
@@ -339,21 +338,5 @@ abstract class AbstractController extends EasyAdminController
             $this->entity['templates']['edit'],
             $parameters,
         ]);
-    }
-
-    /**
-     * @template T
-     *
-     * @psalm-param class-string<T> $class
-     *
-     * @psalm-return T
-     */
-    protected function createWithoutConstructor(string $class)
-    {
-        $object = (new ReflectionClass($class))->newInstanceWithoutConstructor();
-
-        assert($object instanceof $class);
-
-        return $object;
     }
 }

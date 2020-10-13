@@ -8,7 +8,7 @@ use App\Customer\Entity\OperandId;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @psalm-immutable
+ * @psalm-suppress MissingConstructor
  */
 final class IncomeDto
 {
@@ -23,10 +23,4 @@ final class IncomeDto
      * @var string|null
      */
     public $document;
-
-    public function __construct(OperandId $supplierId, ?string $document)
-    {
-        $this->supplierId = $supplierId;
-        $this->document = $document;
-    }
 }

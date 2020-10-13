@@ -28,8 +28,7 @@ final class PersonController extends OperandController
         $request = $this->request;
         $em = $this->em;
 
-        /** @var PersonDto $dto */
-        $dto = $this->createWithoutConstructor(PersonDto::class);
+        $dto = new PersonDto();
 
         $form = $this->createForm(PersonType::class, $dto)
             ->handleRequest($request);

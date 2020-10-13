@@ -31,8 +31,7 @@ final class ModelController extends AbstractController
         $request = $this->request;
         $em = $this->em;
 
-        /** @var ModelDto $dto */
-        $dto = $this->createWithoutConstructor(ModelDto::class);
+        $dto = new ModelDto();
 
         $form = $this->createForm(VehicleType::class, $dto)
             ->handleRequest($request);
@@ -143,7 +142,7 @@ final class ModelController extends AbstractController
      */
     protected function createNewEntity(): ModelDto
     {
-        return $this->createWithoutConstructor(ModelDto::class);
+        return new ModelDto();
     }
 
     /**
@@ -169,19 +168,20 @@ final class ModelController extends AbstractController
         return $entity;
     }
 
-    protected function createEditDto(Closure $closure): ?object
+    protected function createEditDto(Closure $closure): ModelDto
     {
         $array = $closure();
 
-        return new ModelDto(
-            $array['id'],
-            $array['manufacturerId'],
-            $array['name'],
-            $array['localizedName'],
-            $array['caseName'],
-            $array['yearFrom'],
-            $array['yearTill'],
-        );
+        $dto = new ModelDto();
+        $dto->vehicleId = $array['id'];
+        $dto->manufacturerId = $array['manufacturerId'];
+        $dto->name = $array['name'];
+        $dto->localizedName = $array['localizedName'];
+        $dto->caseName = $array['caseName'];
+        $dto->yearFrom = $array['yearFrom'];
+        $dto->yearTill = $array['yearTill'];
+
+        return $dto;
     }
 
     protected function updateEntity($entity): void

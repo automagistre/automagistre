@@ -8,6 +8,9 @@ use App\Car\Entity\CarId;
 use App\Customer\Entity\OperandId;
 use App\Employee\Entity\Employee;
 
+/**
+ * @psalm-suppress MissingConstructor
+ */
 final class OrderDto
 {
     /**
@@ -34,18 +37,4 @@ final class OrderDto
      * @var string|null
      */
     public $description;
-
-    private function __construct(
-        ?CarId $carId,
-        ?OperandId $customerId,
-        ?int $mileage,
-        ?Employee $worker,
-        ?string $description
-    ) {
-        $this->carId = $carId;
-        $this->customerId = $customerId;
-        $this->mileage = $mileage;
-        $this->worker = $worker;
-        $this->description = $description;
-    }
 }

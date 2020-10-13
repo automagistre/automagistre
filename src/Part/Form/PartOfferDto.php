@@ -8,6 +8,9 @@ use App\Part\Entity\PartId;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @psalm-suppress MissingConstructor
+ */
 final class PartOfferDto
 {
     /**
@@ -30,11 +33,4 @@ final class PartOfferDto
      * @Assert\NotBlank
      */
     public $price;
-
-    public function __construct(PartId $partId, int $quantity, Money $price)
-    {
-        $this->partId = $partId;
-        $this->quantity = $quantity;
-        $this->price = $price;
-    }
 }

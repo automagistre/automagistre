@@ -25,7 +25,7 @@ final class PartCaseController extends AbstractController
             throw new BadRequestHttpException('Part required.');
         }
 
-        $dto = $this->createWithoutConstructor(PartCaseDTO::class);
+        $dto = new PartCaseDTO();
         $dto->partId = $partId;
 
         $form = $this->createFormBuilder($dto)

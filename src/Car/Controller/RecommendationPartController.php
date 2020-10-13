@@ -64,15 +64,14 @@ final class RecommendationPartController extends AbstractController
         foreach ($crosses as $crossId => $cross) {
             $isCurrent = $partId->equal($cross->toId());
 
-            $partOffer = new PartOfferDto(
-                $cross->toId(),
-                $recommendationPart->quantity,
-                $isCurrent ? $recommendationPart->getPrice() : $cross->suggestPrice()
-            );
-            $dto = new RecommendationPartDto(
-                $recommendationPart->recommendation,
-                $partOffer,
-            );
+            $partOffer = new PartOfferDto();
+            $partOffer->partId = $cross->toId();
+            $partOffer->quantity = $recommendationPart->quantity;
+            $partOffer->price = $isCurrent ? $recommendationPart->getPrice() : $cross->suggestPrice();
+
+            $dto = new RecommendationPartDto();
+            $dto->recommendation = $recommendationPart->recommendation;
+            $dto->partOffer = $partOffer;
 
             $formBuilder = $this->createFormBuilder($dto, [
                 'action' => $this->generateEasyPath('CarRecommendationPart', 'substitute', [
@@ -145,8 +144,8 @@ final class RecommendationPartController extends AbstractController
             throw new LogicException('CarRecommendation required.');
         }
 
-        $partOffer = $this->createWithoutConstructor(PartOfferDto::class);
-        $dto = $this->createWithoutConstructor(RecommendationPartDto::class);
+        $partOffer = new PartOfferDto();
+        $dto = new RecommendationPartDto();
         $dto->recommendation = $recommendation;
         $dto->partOffer = $partOffer;
 
@@ -187,12 +186,12 @@ final class RecommendationPartController extends AbstractController
             throw new LogicException('RecommendationPart required.');
         }
 
-        $partOffer = $this->createWithoutConstructor(PartOfferDto::class);
+        $partOffer = new PartOfferDto();
         $partOffer->partId = $recommendationPart->partId;
         $partOffer->price = $recommendationPart->getPrice();
         $partOffer->quantity = $recommendationPart->quantity;
 
-        $dto = $this->createWithoutConstructor(RecommendationPartDto::class);
+        $dto = new RecommendationPartDto();
         $dto->recommendation = $recommendationPart->recommendation;
         $dto->partOffer = $partOffer;
 
