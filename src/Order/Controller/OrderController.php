@@ -28,6 +28,7 @@ use App\MC\Entity\McLine;
 use App\MC\Entity\McPart;
 use App\Note\Entity\NoteView;
 use App\Order\Entity\Order;
+use App\Order\Entity\OrderClose;
 use App\Order\Entity\OrderId;
 use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemPart;
@@ -586,7 +587,8 @@ final class OrderController extends AbstractController
         $dqlFilter = null
     ): QueryBuilder {
         $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter)
-            ->leftJoin(CreatedBy::class, 'createdBy', Join::WITH, 'createdBy.id = entity.id');
+            ->leftJoin(OrderClose::class, 'closed', Join::WITH, 'closed.order = entity')
+            ->leftJoin(CreatedBy::class, 'closedBy', Join::WITH, 'closedBy.id = closed.id');
 
         $customer = $this->getEntity(Operand::class);
         if ($customer instanceof Operand) {
@@ -619,7 +621,7 @@ final class OrderController extends AbstractController
             $qb->where(
                 $qb->expr()->orX(
                     $qb->expr()->neq('entity.status', ':closedStatus'),
-                    $qb->expr()->eq('DATE(createdBy.createdAt)', ':today')
+                    $qb->expr()->eq('DATE(closedBy.createdAt)', ':today')
                 )
             )
                 ->setParameter('closedStatus', OrderStatus::closed())
