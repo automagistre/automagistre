@@ -51,7 +51,7 @@ do-up: contrib pull composer permissions
 	$(DEBUG_ECHO) docker-compose up --detach --remove-orphans --no-build
 up: do-up ## Up project
 	@$(notify)
-latest: do-up backup-latest ## Up project with latest backup from server
+latest: do-up backup-latest permissions ## Up project with latest backup from server
 	@$(notify)
 cli: app-cli ## Get terminal inside php container
 
