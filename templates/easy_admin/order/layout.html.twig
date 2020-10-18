@@ -24,7 +24,7 @@
                             <div class="box-footer">
                                 {% block panel_footer %}
                                     {% if form is defined %}
-                                        <button class="btn btn-success" type="submit">Сохранить</button>
+                                        <button class="btn btn-success" type="submit">{{ button|default('Сохранить') }}</button>
                                     {% endif %}
                                 {% endblock %}
 

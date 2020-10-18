@@ -25,17 +25,10 @@
                                 Редактировать
                             </a>
 
-                            {% if order.readyToClose %}
-                                <a href="{{ easyadmin_path('Order', 'close', {'id': order|toId, 'referer': true}) }}" class="btn btn-danger">
-                                    <i class="fa fa-close"></i>
-                                    Закрыть
-                                </a>
-                            {% else %}
-                                <a href="#" class="btn btn-default" disabled="disabled">
-                                    <i class="fa fa-close"></i>
-                                    Закрыть
-                                </a>
-                            {% endif %}
+                            <a href="{{ easyadmin_path('OrderClose', 'close', {'id': order|toId, 'referer': true}) }}" class="btn btn-danger">
+                                <i class="fa fa-close"></i>
+                                Закрыть
+                            </a>
                         {% endif %}
 
                         <div class="btn-group">

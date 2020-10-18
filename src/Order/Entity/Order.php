@@ -176,13 +176,15 @@ class Order implements ContainsRecordedMessages
     }
 
     /**
-     * @return array<int, OrderItem>
+     * @return array<int, OrderItemService>
      */
     public function getServicesWithoutWorker(): array
     {
-        return $this->items
-            ->filter(fn ($item) => $item instanceof OrderItemService && null === $item->workerId)
-            ->getValues();
+        /** @var Collection<int, OrderItemService> $collection */
+        $collection = $this->items
+            ->filter(fn ($item) => $item instanceof OrderItemService && null === $item->workerId);
+
+        return $collection->getValues();
     }
 
     public function close(?Money $balance): void

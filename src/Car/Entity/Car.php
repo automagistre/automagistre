@@ -70,6 +70,11 @@ class Car
     public ?string $description = null;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    public int $mileage = 0;
+
+    /**
      * @var Collection<int, Recommendation>
      *
      * @ORM\OneToMany(targetEntity=Recommendation::class, mappedBy="car", cascade={"persist"})
@@ -83,11 +88,6 @@ class Car
      * @ORM\Column(nullable=true)
      */
     private ?string $gosnomer = null;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private ?int $mileage = 0;
 
     public function __construct(CarId $carId)
     {

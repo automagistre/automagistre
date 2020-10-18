@@ -8,12 +8,9 @@ use App\Car\Entity\Car;
 use App\Customer\Entity\Operand;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Order\Entity\Order;
-use App\Order\Form\Type\OrderItemServiceType;
-use App\Shared\Doctrine\Registry;
+use App\Order\Form\Finish\OrderFinishDto;
+use App\Order\Form\Finish\OrderFinishType;
 use function assert;
-use function sprintf;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -62,61 +59,31 @@ final class OrderPrintController extends AbstractController
             throw new BadRequestHttpException('Order is required');
         }
 
-        if ($order->isClosed() || $order->isReadyToClose()) {
-            goto finish;
-        }
+        if (!$order->isClosed() && !$order->isReadyToClose()) {
+            $dto = new OrderFinishDto(
+                $order->toId(),
+                $order->getCarId(),
+            );
 
-        $services = $order->getServicesWithoutWorker();
-
-        if ([] !== $services) {
-            $form = $this->createForm(CollectionType::class, $services, [
-                'label' => false,
-                'entry_type' => OrderItemServiceType::class,
-            ])
-                ->handleRequest($request);
-
+            $form = $this->createForm(OrderFinishType::class, $dto)->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
+                $mileageDto = $dto->mileage;
+                if (null !== $mileageDto && null !== $mileageDto->mileage) {
+                    /** @var Car $car */
+                    $car = $this->registry->get(Car::class, $order->getCarId());
+                    $car->setMileage($mileageDto->mileage);
+                    $order->setMileage($mileageDto->mileage);
+                }
+
                 $em->flush();
-
-                goto mileage;
+            } else {
+                return $this->render('easy_admin/order/finish.html.twig', [
+                    'header' => 'Введите исполнителей',
+                    'order' => $order,
+                    'form' => $form->createView(),
+                ]);
             }
-
-            return $this->render('easy_admin/order/finish.html.twig', [
-                'header' => 'Введите исполнителей',
-                'order' => $order,
-                'form' => $form->createView(),
-            ]);
         }
-
-        mileage:
-
-        $carId = $order->getCarId();
-        if (null !== $carId && null === $order->getMileage()) {
-            $carView = $this->container->get(Registry::class)->view($carId);
-            $mileage = $carView['mileage'];
-
-            $form = $this->createForm(IntegerType::class, null, [
-                'label' => 'Пробег '.(0 === $mileage
-                        ? '(предыдущий отсутствует)'
-                        : sprintf('(предыдущий: %s)', $mileage)),
-            ])
-                ->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                $order->setMileage($form->getData());
-                $em->flush();
-
-                goto finish;
-            }
-
-            return $this->render('easy_admin/order/finish.html.twig', [
-                'header' => 'Введите пробег',
-                'order' => $order,
-                'form' => $form->createView(),
-            ]);
-        }
-
-        finish:
 
         if ($request->isMethod('POST')) {
             return $this->redirect($request->getUri());

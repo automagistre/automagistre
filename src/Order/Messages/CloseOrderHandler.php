@@ -7,6 +7,8 @@ namespace App\Order\Messages;
 use App\Customer\Entity\CustomerStorage;
 use App\MessageBus\MessageHandler;
 use App\Order\Entity\OrderStorage;
+use function Sentry\captureMessage;
+use function sprintf;
 
 final class CloseOrderHandler implements MessageHandler
 {
@@ -23,6 +25,12 @@ final class CloseOrderHandler implements MessageHandler
     public function __invoke(CloseOrderCommand $command): void
     {
         $order = $this->orderStorage->get($command->orderId);
+
+        if (!$order->isReadyToClose()) {
+            captureMessage(sprintf('Requested to close order that not yet ready to close. ID: %s', $command->orderId->toString()));
+
+            return;
+        }
 
         $customerId = $order->getCustomerId();
         $balance = null === $customerId

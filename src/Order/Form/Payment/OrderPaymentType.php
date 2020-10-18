@@ -12,6 +12,7 @@ use App\Shared\Doctrine\Registry;
 use App\Wallet\Entity\Wallet;
 use function array_map;
 use function assert;
+use Money\Currency;
 use Money\Money;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -20,8 +21,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 final class OrderPaymentType extends AbstractType
 {
@@ -37,19 +36,26 @@ final class OrderPaymentType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $predefinePayment = (bool) $options['predefine_payment'];
+        $disabledDescription = (bool) $options['disabled_description'];
+
         $builder
             ->add('recipient', AutocompleteType::class, [
                 'label' => 'Получатель',
                 'class' => Operand::class,
                 'disabled' => true,
             ])
-            ->add('description', TextType::class, [
-                'label' => 'Комментарий',
-                'required' => false,
-            ])
             ->add('wallets', CollectionType::class, [
                 'entry_type' => OrderPaymentWalletType::class,
             ]);
+
+        if (!$disabledDescription) {
+            $builder
+                ->add('description', TextType::class, [
+                    'label' => 'Комментарий',
+                    'required' => false,
+                ]);
+        }
 
         $builder
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
@@ -69,7 +75,7 @@ final class OrderPaymentType extends AbstractType
                 $dto->payment = $forPayment->isPositive() ? $forPayment : new Money(0, $forPayment->getCurrency());
                 $dto->recipient = $customerId;
             }, 1)
-            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($predefinePayment): void {
                 $dto = $event->getData();
                 assert($dto instanceof OrderPaymentDto);
 
@@ -77,7 +83,7 @@ final class OrderPaymentType extends AbstractType
                     return;
                 }
 
-                $payment = $dto->payment;
+                $payment = $predefinePayment ? $dto->payment : new Money(0, new Currency('RUB'));
                 $dto->wallets = array_map(
                     static function (Wallet $wallet) use (&$payment): OrderPaymentWalletDto {
                         [$money, $payment] = [$payment, $payment->multiply(0)];
@@ -100,21 +106,8 @@ final class OrderPaymentType extends AbstractType
         $resolver->setDefaults([
             'data_class' => OrderPaymentDto::class,
             'label' => false,
-            'constraints' => [
-                new Assert\Callback(
-                    static function (OrderPaymentDto $dto, ExecutionContextInterface $context): void {
-                        /** @var Money|null $money */
-                        $money = null;
-                        foreach ($dto->wallets as $walletDto) {
-                            $money = null === $money ? $walletDto->payment : $money->add($walletDto->payment);
-                        }
-
-                        if (null !== $money && !$money->isPositive()) {
-                            $context->addViolation('Сумма должна быть положительной');
-                        }
-                    }
-                ),
-            ],
+            'disabled_description' => false,
+            'predefine_payment' => true,
         ]);
     }
 

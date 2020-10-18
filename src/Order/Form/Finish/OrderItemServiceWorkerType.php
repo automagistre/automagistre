@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Order\Form\Type;
+namespace App\Order\Form\Finish;
 
 use App\Customer\Form\WorkerType;
 use App\Order\Entity\OrderItemService;
-use LogicException;
-use function sprintf;
+use function assert;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -17,7 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class OrderItemServiceType extends AbstractType
+final class OrderItemServiceWorkerType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -27,6 +26,7 @@ final class OrderItemServiceType extends AbstractType
         $builder
             ->add('workerId', WorkerType::class, [
                 'label' => false,
+                'required' => true,
             ]);
     }
 
@@ -35,12 +35,10 @@ final class OrderItemServiceType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
-        $item = $form->getData();
-        if (!$item instanceof OrderItemService) {
-            throw new LogicException(sprintf('Data must be instance of "%s"', OrderItemService::class));
-        }
+        $dto = $form->getData();
+        assert($dto instanceof OrderItemService);
 
-        $view->vars['label'] = $item->service;
+        $view->vars['label'] = $dto->service;
 
         parent::buildView($view, $form, $options);
     }

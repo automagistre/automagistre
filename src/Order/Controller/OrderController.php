@@ -10,17 +10,13 @@ use App\Calendar\Repository\CalendarEntryRepository;
 use App\Car\Entity\Car;
 use App\Car\Entity\CarId;
 use App\CreatedBy\Entity\CreatedBy;
-use App\Customer\Entity\CustomerTransaction;
-use App\Customer\Entity\CustomerTransactionId;
 use App\Customer\Entity\CustomerTransactionView;
 use App\Customer\Entity\Operand;
 use App\Customer\Entity\OperandId;
 use App\Customer\Entity\Organization;
 use App\Customer\Entity\Person;
-use App\Customer\Enum\CustomerTransactionSource;
 use App\EasyAdmin\Controller\AbstractController;
 use App\EasyAdmin\Form\AutocompleteType;
-use App\Form\Type\MoneyType;
 use App\Manufacturer\Entity\Manufacturer;
 use App\MC\Entity\McEquipment;
 use App\MC\Entity\McEquipmentId;
@@ -39,45 +35,31 @@ use App\Order\Form\OrderDto;
 use App\Order\Form\OrderTOPart;
 use App\Order\Form\OrderTOService;
 use App\Order\Form\Type\OrderTOServiceType;
-use App\Order\Messages\CloseOrderCommand;
 use App\Order\Number\NumberGenerator;
 use App\Part\Entity\PartId;
 use App\Part\Entity\PartView;
-use App\Payment\Manager\PaymentManager;
 use App\Vehicle\Entity\Model;
-use App\Wallet\Entity\Wallet;
-use App\Wallet\Entity\WalletTransaction;
-use App\Wallet\Entity\WalletTransactionId;
 use App\Wallet\Entity\WalletTransactionView;
-use App\Wallet\Enum\WalletTransactionSource;
 use function array_map;
 use function assert;
 use function count;
 use DateTime;
 use DateTimeImmutable;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
-use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use function explode;
 use Generator;
 use function in_array;
 use LogicException;
 use function mb_strtolower;
-use Money\Money;
 use Pagerfanta\Pagerfanta;
 use Ramsey\Uuid\Uuid;
 use function sprintf;
-use stdClass;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use function trim;
 use function usort;
 
@@ -86,18 +68,12 @@ use function usort;
  */
 final class OrderController extends AbstractController
 {
-    private PaymentManager $paymentManager;
-
     private CalendarEntryRepository $calendarEntryRepository;
 
     private NumberGenerator $numberGenerator;
 
-    public function __construct(
-        PaymentManager $paymentManager,
-        CalendarEntryRepository $calendarEntryRepository,
-        NumberGenerator $numberGenerator
-    ) {
-        $this->paymentManager = $paymentManager;
+    public function __construct(CalendarEntryRepository $calendarEntryRepository, NumberGenerator $numberGenerator)
+    {
         $this->calendarEntryRepository = $calendarEntryRepository;
         $this->numberGenerator = $numberGenerator;
     }
@@ -378,81 +354,6 @@ final class OrderController extends AbstractController
         return parent::isActionAllowed($actionName);
     }
 
-    public function closeAction(): Response
-    {
-        $request = $this->request;
-
-        $order = $this->getEntity(Order::class);
-        if (!$order instanceof Order) {
-            throw new BadRequestHttpException('Order is required');
-        }
-
-        if (!$order->isReadyToClose()) {
-            if ([] !== $order->getServicesWithoutWorker()) {
-                $this->addFlash('error', 'Есть работы без исполнителя!');
-            }
-
-            if (null === $order->getMileage()) {
-                $this->addFlash('error', 'Пробег не указан!');
-            }
-
-            return $this->redirectToEasyPath('Order', 'show', ['id' => $order->toId()->toString()]);
-        }
-
-        $customer = null === $order->getCustomerId()
-            ? null
-            : $this->registry->findBy(Operand::class, ['id' => $order->getCustomerId()]);
-        $balance = $customer instanceof Operand ? $this->paymentManager->balance($customer) : null;
-
-        if (!$order->getTotalForPayment($balance)->isPositive()) {
-            goto close;
-        }
-
-        $step = $request->query->get('step');
-        if (null === $step) {
-            return $this->render('easy_admin/order/close.html.twig', [
-                'order' => $order,
-            ]);
-        }
-
-        if ('paid' === $step) {
-            if (!$this->canReceivePayments()) {
-                return $this->redirectToEasyPath('Wallet', 'new', ['referer' => $request->getUri()]);
-            }
-
-            $form = $this->createPaymentForm($order)
-                ->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                $this->handlePayment($form->getData(), false);
-
-                goto close;
-            }
-
-            return $this->render('easy_admin/order/payment.html.twig', [
-                'order' => $order,
-                'form' => $form->createView(),
-            ]);
-        }
-
-        close:
-
-        $this->dispatchMessage(new CloseOrderCommand($order->toId()));
-
-        $car = null === $order->getCarId()
-            ? null
-            : $this->registry->findBy(Car::class, ['id' => $order->getCarId()]);
-        if ($car instanceof Car) {
-            $car->setMileage($order->getMileage());
-
-            $this->registry->manager(Car::class)->flush();
-        }
-
-        $this->addFlash('success', sprintf('Заказ №%s закрыт', $order->getNumber()));
-
-        return $this->redirectToEasyPath('Order', 'show', ['id' => $order->toId()->toString()]);
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -681,149 +582,5 @@ final class OrderController extends AbstractController
         }
 
         return parent::searchAction();
-    }
-
-    private function createPaymentForm(Order $order): FormInterface
-    {
-        $em = $this->em;
-
-        $customer = null === $order->getCustomerId()
-            ? null
-            : $this->registry->findBy(Operand::class, ['id' => $order->getCustomerId()]);
-        $balance = null;
-        if ($customer instanceof Operand) {
-            $balance = $this->paymentManager->balance($customer);
-        }
-
-        $forPayment = $order->getTotalForPayment($balance);
-
-        $model = new stdClass();
-        $model->forPayment = $forPayment->isPositive() ? $forPayment : new Money(0, $forPayment->getCurrency());
-        $model->recipient = $customer;
-        $model->description = null;
-
-        $formBuilder = $this->createFormBuilder($model, [
-            'label' => false,
-            'constraints' => [
-                new Assert\Callback(static function (stdClass $model, ExecutionContextInterface $context): void {
-                    /** @var Money|null $money */
-                    $money = null;
-                    foreach ($model->wallets as ['payment' => $payment]) {
-                        $money = null === $money ? $payment : $money->add($payment);
-                    }
-
-                    if (!$money->isPositive()) {
-                        $context->buildViolation('Сумма должна быть положительной')
-                            ->addViolation();
-                    }
-                }),
-            ],
-        ])
-            ->add('recipient', EasyAdminAutocompleteType::class, [
-                'class' => Operand::class,
-                'label' => 'Получатель',
-                'disabled' => true,
-            ])
-            ->add('description', TextType::class, [
-                'label' => 'Описание',
-                'required' => false,
-                'disabled' => true,
-            ]);
-
-        $wallets = $em->getRepository(Wallet::class)->findBy(['useInOrder' => true]);
-
-        foreach ($wallets as $index => $wallet) {
-            $walletId = $wallet->toId()->toString();
-
-            $model->wallets['wallet_'.$walletId] = [
-                'wallet' => $wallet,
-                'payment' => 0 === $index
-                    ? $model->forPayment
-                    : new Money(0, $forPayment->getCurrency()),
-            ];
-
-            $walletType = $formBuilder->create('wallet_'.$walletId, null, [
-                'property_path' => 'wallets[wallet_'.$walletId.']',
-                'compound' => true,
-            ])
-                ->add('wallet', TextType::class, [
-                    'label' => 'Счет',
-                    'disabled' => true,
-                ])
-                ->add('payment', MoneyType::class, [
-                    'constraints' => [
-                        new Assert\Callback(static function (Money $money, ExecutionContextInterface $context): void {
-                            if ($money->isNegative()) {
-                                $context
-                                    ->buildViolation('Сумма не может быть отрицательной!')
-                                    ->addViolation();
-                            }
-                        }),
-                    ],
-                ]);
-
-            $formBuilder->add($walletType);
-        }
-
-        return $formBuilder->getForm();
-    }
-
-    private function handlePayment(stdClass $model, bool $prepayment): void
-    {
-        $em = $this->em;
-
-        $em->transactional(function (EntityManagerInterface $em) use ($model, $prepayment): void {
-            $order = $this->getEntity(Order::class);
-            assert($order instanceof Order);
-
-            /** @var Wallet $wallet */
-            /** @var Money $money */
-            foreach ($model->wallets as ['wallet' => $wallet, 'payment' => $money]) {
-                if (!$money->isPositive()) {
-                    continue;
-                }
-
-                if (null !== $model->recipient) {
-                    $em->persist(
-                        new CustomerTransaction(
-                            CustomerTransactionId::generate(),
-                            $model->recipient->toId(),
-                            $money,
-                            $prepayment
-                                ? CustomerTransactionSource::orderPrepay()
-                                : CustomerTransactionSource::orderDebit(),
-                            $order->toId()->toUuid(),
-                            null
-                        )
-                    );
-                }
-
-                $em->persist(
-                    new WalletTransaction(
-                        WalletTransactionId::generate(),
-                        $wallet->toId(),
-                        $money,
-                        $prepayment
-                            ? WalletTransactionSource::orderPrepay()
-                            : WalletTransactionSource::orderDebit(),
-                        $order->toId()->toUuid(),
-                        null
-                    )
-                );
-            }
-        });
-    }
-
-    private function canReceivePayments(): bool
-    {
-        $wallets = $this->registry->repository(Wallet::class)->findBy(['useInOrder' => true]);
-        if ([] === $wallets) {
-            $this->addFlash('error', 'У Вас нет счетов помеченных как используемые в заказах');
-            $this->addFlash('info', 'Для того чтобы принимать платежи создайте счет');
-
-            return false;
-        }
-
-        return true;
     }
 }

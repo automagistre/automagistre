@@ -5,9 +5,54 @@
 {% form_theme form with easyadmin_config('design.form_theme') %}
 
 {% block content_title %}
-    Финалка заказа №{{ order }}
+    Финалка заказа № {{ order.number }}
 {% endblock %}
 
-{% block panel_body %}
-    {{ form_row(form) }}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-6">
+            {{ form_start(form) }}
+
+            {% if form.services is defined %}
+                <div class="field-group">
+                    <div class="box box-default">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Исполнители</h3>
+                        </div>
+
+                        <div class="box-body">
+                            {{ form_widget(form.services) }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if form.mileage is defined %}
+                <div class="field-group">
+                    <div class="box box-default">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Пробег</h3>
+                        </div>
+
+                        <div class="box-body">
+                            {{ form_widget(form.mileage) }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="box-footer">
+                <button class="btn btn-success" type="submit">Сохранить</button>
+
+                <a href="{{ easyadmin_path('Order', 'show', {'id': order|toId}) }}" class="btn btn-primary">Отмена</a>
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+
+        <div class="col-md-6">
+            {{ order_info(order) }}
+        </div>
+    </div>
 {% endblock %}

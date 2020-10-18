@@ -161,6 +161,12 @@
       <code>null !== $dto-&gt;name</code>
     </RedundantConditionGivenDocblockType>
   </file>
+  <file src="src/Order/Controller/OrderCloseController.php">
+    <RedundantConditionGivenDocblockType occurrences="2">
+      <code>null !== $mileageDto &amp;&amp; null !== $mileageDto-&gt;mileage</code>
+      <code>null !== $mileageDto-&gt;mileage</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
   <file src="src/Order/Controller/OrderController.php">
     <MissingClosureParamType occurrences="2">
       <code>$left</code>
@@ -226,6 +232,15 @@
     <UndefinedInterfaceMethod occurrences="1">
       <code>fetchAllAssociative</code>
     </UndefinedInterfaceMethod>
+  </file>
+  <file src="src/Order/Controller/OrderPrintController.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$order-&gt;getCarId()</code>
+    </PossiblyNullArgument>
+    <RedundantConditionGivenDocblockType occurrences="2">
+      <code>null !== $mileageDto &amp;&amp; null !== $mileageDto-&gt;mileage</code>
+      <code>null !== $mileageDto-&gt;mileage</code>
+    </RedundantConditionGivenDocblockType>
   </file>
   <file src="src/Order/Controller/ProfitController.php">
     <PossiblyNullArgument occurrences="2">

@@ -3,20 +3,69 @@
 {% use 'easy_admin/order/layout.html.twig' %}
 
 {% block content_title %}
-    Закрыть заказ №{{ order }}
+    Закрытие заказа № {{ order.number }}
 {% endblock %}
 
-{% block panel_title %}Заказчик заплатил?{% endblock %}
+{% block main %}
+    <div class="row">
+        <div class="col-md-6">
+            {{ form_start(form) }}
 
-{% block panel_body %}
-    <div class="row text-center">
-        <div class="col-xs-6">
-            <a href="{{ easyadmin_path('Order', 'close', {'id': order|toId, 'step': 'paid'}) }}"
-               class="btn btn-success">Заплатил</a>
+            {% if form.finish.services is defined %}
+                <div class="field-group">
+                    <div class="box box-default">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Исполнители</h3>
+                        </div>
+
+                        <div class="box-body">
+                            {{ form_widget(form.finish.services) }}
+                        </div>
+
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if form.finish.mileage is defined %}
+                <div class="field-group">
+                    <div class="box box-default">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Пробег</h3>
+                        </div>
+
+                        <div class="box-body">
+                            {{ form_widget(form.finish.mileage) }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if form.payment is defined %}
+                <div class="field-group">
+                    <div class="box box-default">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Оплата</h3>
+                        </div>
+
+                        <div class="box-body">
+                            {{ form_widget(form.payment) }}
+                        </div>
+
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="box-footer">
+                <button class="btn btn-success" type="submit">Закрыть</button>
+
+                <a href="{{ easyadmin_path('Order', 'show', {'id': order|toId}) }}" class="btn btn-primary">Отмена</a>
+            </div>
+
+            {{ form_end(form) }}
         </div>
-        <div class="col-xs-6">
-            <a href="{{ easyadmin_path('Order', 'close', {'id': order|toId, 'step': 'unpaid'}) }}"
-               class="btn btn-danger">Не заплатил</a>
+
+        <div class="col-md-6">
+            {{ order_info(order) }}
         </div>
     </div>
 {% endblock %}

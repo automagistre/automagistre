@@ -196,12 +196,18 @@
     {% set forPaymentDecimal = form.vars.value.payment|localize_money(true) %}
 
     <div class="row">
-        <div class="col-md-6">
-            {{ form_row(form.recipient) }}
-        </div>
-        <div class="col-md-6">
-            {{ form_row(form.description) }}
-        </div>
+        {% if form.description is defined %}
+            <div class="col-md-6">
+                {{ form_row(form.recipient) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.description) }}
+            </div>
+        {% else %}
+            <div class="col-md-12">
+                {{ form_row(form.recipient) }}
+            </div>
+        {% endif %}
     </div>
 
     <div class="row">
@@ -221,7 +227,7 @@
                 <label class="control-label">Введено</label>
                 <div class="input-group">
                     <span class="label label-success" style="font-size: 24px">
-                        <span class="js-total-amount">{{ forPaymentDecimal }}</span>
+                        <span class="js-total-amount"></span>
                         {{ (form.vars.value.payment|localize_money)[-1:] }}
                     </span>
                 </div>
@@ -296,5 +302,7 @@
           refreshSum();
         });
       });
+
+      $(document).on('ready', refreshSum);
     </script>
 {% endblock order_payment_widget %}

@@ -44,6 +44,11 @@ easy_admin:
             controller: App\Order\Controller\OrderPrintController
             disabled_actions: ['show', 'list', 'new', 'edit', 'autocomplete', 'search']
 
+        OrderClose:
+            class: App\Order\Entity\Order
+            controller: App\Order\Controller\OrderCloseController
+            disabled_actions: ['show', 'list', 'new', 'edit', 'autocomplete', 'search']
+
         OrderItemGroup:
             class: App\Order\Entity\OrderItemGroup
             controller: App\Order\Controller\OrderItemGroupController
