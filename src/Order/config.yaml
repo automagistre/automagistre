@@ -34,6 +34,11 @@ easy_admin:
             edit:
                 title: 'Редактировать заказ'
 
+        OrderPayment:
+            class: App\Order\Entity\Order
+            controller: App\Order\Controller\OrderPaymentController
+            disabled_actions: ['show', 'list', 'new', 'edit', 'autocomplete', 'search']
+
         OrderPrint:
             class: App\Order\Entity\Order
             controller: App\Order\Controller\OrderPrintController

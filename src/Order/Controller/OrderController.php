@@ -378,54 +378,6 @@ final class OrderController extends AbstractController
         return parent::isActionAllowed($actionName);
     }
 
-    public function paymentAction(): Response
-    {
-        $request = $this->request;
-
-        $order = $this->getEntity(Order::class);
-        if (!$order instanceof Order) {
-            throw new BadRequestHttpException('Order is required');
-        }
-
-        if (!$this->canReceivePayments()) {
-            return $this->redirectToEasyPath('Wallet', 'new', ['referer' => $request->getUri()]);
-        }
-
-        $form = $this->createPaymentForm($order)
-            ->add('desc', TextType::class, [
-                'label' => 'Описание',
-                'mapped' => false,
-                'required' => false,
-            ])
-            ->handleRequest($this->request);
-
-        $model = $form->getData();
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $model->recipient = null;
-
-            $this->em->transactional(function () use ($order, $model, $form): void {
-                /** @var Money $payment */
-                foreach ($model->wallets as ['payment' => $payment]) {
-                    if (!$payment->isPositive()) {
-                        continue;
-                    }
-
-                    $order->addPayment($payment, $form->get('desc')->getData());
-                }
-
-                $this->handlePayment($model, true);
-            });
-
-            return $this->redirectToReferrer();
-        }
-
-        return $this->render('easy_admin/order/payment.html.twig', [
-            'order' => $order,
-            'form' => $form->createView(),
-        ]);
-    }
-
     public function closeAction(): Response
     {
         $request = $this->request;
