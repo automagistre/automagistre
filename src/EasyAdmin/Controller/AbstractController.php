@@ -73,6 +73,18 @@ abstract class AbstractController extends EasyAdminController
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    protected function executeDynamicMethod($methodNamePattern, array $arguments = [])
+    {
+        if ([] === $arguments) {
+            $arguments = [$this->request];
+        }
+
+        return parent::executeDynamicMethod($methodNamePattern, $arguments);
+    }
+
     protected function display(Identifier $identifier, string $format = null): string
     {
         return $this->get(IdentifierFormatter::class)->format($identifier, $format);
