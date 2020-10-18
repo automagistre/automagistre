@@ -31,7 +31,7 @@ parameters:
 			path: src/Order/Controller/OrderItemServiceController.php
 
 		-
-			message: "#^Parameter \\#2 \\.\\.\\.\\$args of function sprintf expects bool\\|float\\|int\\|string\\|null, \\(callable\\)\\|string given\\.$#"
+			message: "#^Parameter \\#2 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, \\(callable\\)\\|string given\\.$#"
 			count: 1
 			path: src/Shared/ArgumentResolver/ArgumentResolver.php
 

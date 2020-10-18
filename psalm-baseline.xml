@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="3.16@d03e5ef057d6adc656c0ff7e166c50b73b4f48f3">
+<files psalm-version="3.17.2@9e526d9cb569fe4631e6a737bbb7948d05596e3f">
   <file src="src/Calendar/Controller/CalendarEntryController.php">
     <PossiblyNullArgument occurrences="3">
       <code>$dto-&gt;reason</code>
@@ -52,9 +52,6 @@
     <PossiblyFalseArgument occurrences="1">
       <code>mb_convert_case($this-&gt;gosnomer, MB_CASE_UPPER, 'UTF-8')</code>
     </PossiblyFalseArgument>
-    <PossiblyNullArgument occurrences="1">
-      <code>$type</code>
-    </PossiblyNullArgument>
     <PossiblyNullReference occurrences="1">
       <code>$this-&gt;recommendations</code>
     </PossiblyNullReference>
@@ -281,7 +278,7 @@
     </PropertyNotSetInConstructor>
     <RedundantConditionGivenDocblockType occurrences="3">
       <code>null !== $dto-&gt;manufacturerId</code>
-      <code>null !== $dto-&gt;manufacturerId &amp;&amp; null !== $dto-&gt;number &amp;&amp; $form-&gt;isSubmitted()</code>
+      <code>null !== $dto-&gt;manufacturerId &amp;&amp; null !== $dto-&gt;number</code>
       <code>null !== $dto-&gt;number</code>
     </RedundantConditionGivenDocblockType>
   </file>
@@ -329,6 +326,37 @@
       <code>assert($entityRepository instanceof EntityRepository)</code>
     </RedundantConditionGivenDocblockType>
   </file>
+  <file src="src/Shared/Enum/EnumNormalizer.php">
+    <DocblockTypeContradiction occurrences="1">
+      <code>is_subclass_of($type, Enum::class)</code>
+    </DocblockTypeContradiction>
+    <MissingParamType occurrences="2">
+      <code>$data</code>
+      <code>$data</code>
+    </MissingParamType>
+  </file>
+  <file src="src/Shared/Identifier/IdentifierFormatter.php">
+    <InvalidReturnType occurrences="1">
+      <code>string</code>
+    </InvalidReturnType>
+  </file>
+  <file src="src/Shared/Identifier/IdentifierNormalizer.php">
+    <DocblockTypeContradiction occurrences="3">
+      <code>assert(is_subclass_of($type, Identifier::class))</code>
+      <code>is_subclass_of($type, Identifier::class)</code>
+      <code>is_subclass_of($type, Identifier::class)</code>
+    </DocblockTypeContradiction>
+    <InvalidReturnStatement occurrences="1">
+      <code>Identifier::fromClass($type, $data)</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>denormalize</code>
+    </InvalidReturnType>
+    <MissingParamType occurrences="2">
+      <code>$data</code>
+      <code>$data</code>
+    </MissingParamType>
+  </file>
   <file src="src/Shared/Identifier/IdentifierTwigExtension.php">
     <MissingClosureParamType occurrences="2">
       <code>$mixed</code>
@@ -372,7 +400,7 @@
     </PossiblyFalseOperand>
     <RedundantConditionGivenDocblockType occurrences="3">
       <code>null !== $dto-&gt;manufacturerId</code>
-      <code>null !== $dto-&gt;manufacturerId &amp;&amp; null !== $dto-&gt;name &amp;&amp; null !== $dto-&gt;caseName</code>
+      <code>null !== $dto-&gt;manufacturerId &amp;&amp; null !== $dto-&gt;name</code>
       <code>null !== $dto-&gt;name</code>
     </RedundantConditionGivenDocblockType>
   </file>
