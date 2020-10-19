@@ -31,6 +31,10 @@ final class OrderCloseController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             foreach ($dto->payment->wallets as $walletDto) {
+                if (!$walletDto->payment->isPositive()) {
+                    continue;
+                }
+
                 $this->dispatchMessage(
                     new CreatePayment(
                         $orderId,
