@@ -34,7 +34,6 @@ final class OrderPaymentController extends AbstractController
                 $this->dispatchMessage(
                     new CreatePrepay(
                         $order->toId(),
-                        $dto->recipient,
                         $walletDto->walletId,
                         $walletDto->payment,
                         $dto->description,

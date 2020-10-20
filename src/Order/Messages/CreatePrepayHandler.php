@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Order\Messages;
 
-use App\Customer\Entity\CustomerTransaction;
-use App\Customer\Entity\CustomerTransactionId;
-use App\Customer\Enum\CustomerTransactionSource;
 use App\MessageBus\MessageHandler;
 use App\Order\Entity\Order;
 use App\Shared\Doctrine\Registry;
@@ -43,18 +40,5 @@ final class CreatePrepayHandler implements MessageHandler
                 $command->description,
             )
         );
-
-        if (null !== $command->customerId) {
-            $em->persist(
-                new CustomerTransaction(
-                    CustomerTransactionId::generate(),
-                    $command->customerId,
-                    $command->money,
-                    CustomerTransactionSource::orderPrepay(),
-                    $orderId->toUuid(),
-                    $command->description,
-                )
-            );
-        }
     }
 }
