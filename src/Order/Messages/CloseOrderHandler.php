@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Order\Messages;
 
 use App\Customer\Entity\CustomerStorage;
+use App\Customer\Enum\CustomerTransactionSource;
 use App\MessageBus\MessageHandler;
 use App\Order\Entity\OrderStorage;
 use function Sentry\captureMessage;
@@ -32,10 +33,27 @@ final class CloseOrderHandler implements MessageHandler
             return;
         }
 
+        $balance = null;
+
         $customerId = $order->getCustomerId();
-        $balance = null === $customerId
-            ? null
-            : $this->customerStorage->view($customerId)->balance;
+        if (null !== $customerId) {
+            $balance = $this->customerStorage->view($customerId)->balance;
+            $customer = $this->customerStorage->getTransactional($customerId);
+
+            foreach ($order->getPayments() as $payment) {
+                $customer->addTransaction(
+                    $payment->getMoney(),
+                    CustomerTransactionSource::orderPrepay(),
+                    $order->toId()->toUuid()
+                );
+            }
+
+            $customer->addTransaction(
+                $order->getTotalPrice(true)->negative(),
+                CustomerTransactionSource::orderPayment(),
+                $order->toId()->toUuid(),
+            );
+        }
 
         $order->close($balance);
     }
