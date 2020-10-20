@@ -15,7 +15,7 @@ use App\Vehicle\Entity\VehicleId;
 use function array_map;
 use function count;
 
-final class OrderClosedHandler implements MessageHandler
+final class LinkPartCaseOnOrderClosedListener implements MessageHandler
 {
     private Registry $registry;
 

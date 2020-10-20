@@ -10,7 +10,7 @@ use App\Order\Entity\OrderItemService;
 use App\Order\Entity\OrderStorage;
 use App\Order\Messages\OrderClosed;
 
-final class OrderClosedHandler implements MessageHandler
+final class ChargeSalaryOnOrderClosedListener implements MessageHandler
 {
     private OrderStorage $orderStorage;
 

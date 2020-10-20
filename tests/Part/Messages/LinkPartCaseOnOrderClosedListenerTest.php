@@ -7,7 +7,7 @@ use App\Order\Fixtures\OrderFixtures;
 use App\Order\Messages\OrderClosed;
 use App\Part\Entity\PartCase;
 use App\Part\Fixtures\GasketFixture;
-use App\Part\Messages\OrderClosedHandler;
+use App\Part\Messages\LinkPartCaseOnOrderClosedListener;
 use App\Shared\Doctrine\Registry;
 use App\User\Entity\User;
 use App\User\Fixtures\AdminFixtures;
@@ -16,9 +16,9 @@ use Symfony\Bundle\FrameworkBundle\Test\TestBrowserToken;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 /**
- * @see OrderClosedHandler
+ * @see LinkPartCaseOnOrderClosedListener
  */
-final class OrderClosedHandlerTest extends KernelTestCase
+final class LinkPartCaseOnOrderClosedListenerTest extends KernelTestCase
 {
     protected function setUp(): void
     {
@@ -39,8 +39,8 @@ final class OrderClosedHandlerTest extends KernelTestCase
     {
         $orderId = OrderId::fromString(OrderFixtures::ID);
 
-        /** @var OrderClosedHandler $listener */
-        $listener = self::$container->get(OrderClosedHandler::class);
+        /** @var LinkPartCaseOnOrderClosedListener $listener */
+        $listener = self::$container->get(LinkPartCaseOnOrderClosedListener::class);
         $listener(new OrderClosed($orderId));
 
         $registry = self::$container->get(Registry::class);

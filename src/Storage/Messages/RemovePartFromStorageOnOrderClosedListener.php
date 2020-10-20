@@ -12,7 +12,7 @@ use App\Order\Messages\OrderClosed;
 use App\Storage\Entity\MotionStorage;
 use App\Storage\Enum\Source;
 
-final class OrderClosedHandler implements MessageHandler
+final class RemovePartFromStorageOnOrderClosedListener implements MessageHandler
 {
     private OrderStorage $orderStorage;
 
