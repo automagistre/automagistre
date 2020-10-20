@@ -58,6 +58,8 @@ final class TransactionController extends AbstractController
             ->select('t')
             ->from(WalletTransactionView::class, 't')
             ->where('t.sourceId = :sourceId')
-            ->setParameter('sourceId', $searchQuery);
+            ->setParameter('sourceId', $searchQuery)
+            ->orderBy('t.createdAt', 'DESC')
+            ->addOrderBy('t.id', 'DESC');
     }
 }
