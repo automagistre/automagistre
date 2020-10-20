@@ -1,0 +1,27 @@
+services:
+    doctrine.metadata_cache.array_adapter:
+        class: Symfony\Component\Cache\Adapter\ArrayAdapter
+
+    doctrine.metadata_cache.apcu_adapter:
+        class: Symfony\Component\Cache\Adapter\ApcuAdapter
+        arguments:
+            - doctrine_metadata
+
+    doctrine.metadata_cache.phparray_adapter:
+        class: Symfony\Component\Cache\Adapter\PhpArrayAdapter
+        arguments:
+            - '%kernel.cache_dir%/doctrine/metadata.php'
+            - '@doctrine.metadata_cache.array_adapter'
+
+    cache.doctrine.metadata:
+        class: Symfony\Component\Cache\DoctrineProvider
+        arguments:
+            - '@doctrine.metadata_cache.phparray_adapter'
+
+    cache.doctrine.query:
+        class: Symfony\Component\Cache\DoctrineProvider
+        arguments:
+            - !service
+                class: Symfony\Component\Cache\Adapter\ApcuAdapter
+                arguments:
+                    - doctrine_query

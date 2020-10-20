@@ -14,7 +14,6 @@ doctrine:
                 user:     db
                 password: "%env(DATABASE_PASSWORD)%"
                 schema_filter: ~^(?!.*_view$).*~
-
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         entity_managers:
@@ -22,8 +21,14 @@ doctrine:
                 naming_strategy: App\Shared\Doctrine\ORM\Mapping\NamespaceNamingStrategy
                 auto_mapping: false
                 metadata_cache_driver:
-                    type: pool
-                    pool: doctrine.metadata_cache.pool
+                    type: service
+                    id: cache.doctrine.metadata
+                query_cache_driver:
+                    type: service
+                    id: cache.doctrine.query
+                result_cache_driver:
+                    type: service
+                    id: cache.doctrine.result
                 mappings:
                     cron:
                         type: annotation
@@ -47,12 +52,6 @@ doctrine_migrations:
             executed_at_column_name: 'executed_at'
             execution_time_column_name: 'execution_time'
 
-framework:
-    cache:
-        pools:
-            doctrine.metadata_cache.pool:
-                adapter: cache.adapter.array
-
 parameters:
     env(DATABASE_PASSWORD): '%env(default:default_db_password:trim:file:DATABASE_PASSWORD_FILE)%'
     env(DATABASE_PASSWORD_FILE): /run/secrets/database_password
@@ -61,3 +60,13 @@ parameters:
 services:
     Doctrine\ORM\Mapping\NamingStrategy:
         alias: App\Shared\Doctrine\ORM\Mapping\NamespaceNamingStrategy
+
+    cache.doctrine.dev:
+        class: Symfony\Component\Cache\DoctrineProvider
+        arguments:
+            - !service
+                class: Symfony\Component\Cache\Adapter\ArrayAdapter
+
+    cache.doctrine.metadata: '@cache.doctrine.dev'
+    cache.doctrine.query: '@cache.doctrine.dev'
+    cache.doctrine.result: '@cache.doctrine.dev'
