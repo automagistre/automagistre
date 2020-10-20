@@ -6,7 +6,9 @@ namespace App\Wallet\Controller;
 
 use App\EasyAdmin\Controller\AbstractController;
 use App\Wallet\Entity\WalletId;
+use App\Wallet\Entity\WalletTransactionView;
 use Doctrine\ORM\QueryBuilder;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -35,5 +37,27 @@ final class TransactionController extends AbstractController
             ->addOrderBy('entity.id', 'DESC');
 
         return $qb;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function createSearchQueryBuilder(
+        $entityClass,
+        $searchQuery,
+        array $searchableFields,
+        $sortField = null,
+        $sortDirection = null,
+        $dqlFilter = null
+    ): QueryBuilder {
+        if (!Uuid::isValid($searchQuery)) {
+            return parent::createSearchQueryBuilder($entityClass, $searchQuery, $searchableFields, $sortField, $sortDirection, $dqlFilter);
+        }
+
+        return $this->registry->manager()->createQueryBuilder()
+            ->select('t')
+            ->from(WalletTransactionView::class, 't')
+            ->where('t.sourceId = :sourceId')
+            ->setParameter('sourceId', $searchQuery);
     }
 }
