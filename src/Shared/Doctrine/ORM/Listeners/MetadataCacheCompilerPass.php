@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Shared\Doctrine\ORM\Listeners;
 
 use function assert;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Cache\Adapter\PhpArrayAdapter;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -30,6 +31,12 @@ final class MetadataCacheCompilerPass implements CompilerPassInterface
 
         $fallbackCache = $container->get('doctrine.metadata_cache.array_adapter');
         assert($fallbackCache instanceof ArrayAdapter);
+
+        /** @var ManagerRegistry $doctrine */
+        $doctrine = $container->get('doctrine');
+        foreach ($doctrine->getManagers() as $manager) {
+            $manager->getMetadataFactory()->getAllMetadata();
+        }
 
         $metadataCache->warmUp($fallbackCache->getValues());
 
