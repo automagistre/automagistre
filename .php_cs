@@ -4,16 +4,11 @@
 $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__)
     ->exclude('var')
-    ->exclude('fork')
     ->exclude('vendor')
-    ->notPath('config/bundles.php')
-    ->notPath('config/bootstrap.php')
-    ->notPath('public/index.php')
     ->exclude('public/bundles')
     ->exclude('public/css')
     ->exclude('public/fonts')
-    ->exclude('public/js')
-    ->notPath('public/config.php');
+    ->exclude('public/js');
 
 return PhpCsFixer\Config::create()
     ->setRiskyAllowed(true)
@@ -32,7 +27,7 @@ return PhpCsFixer\Config::create()
         'linebreak_after_opening_tag'           => true,
         'list_syntax'                           => ['syntax' => 'short'],
         'multiline_whitespace_before_semicolons'=> false,
-        'native_function_invocation'            => true,
+        'native_function_invocation'            => ['include' => [], 'strict' => true],
         'no_null_property_initialization'       => true,
         'no_unneeded_final_method'              => false,
         'no_unreachable_default_argument_value' => true,
