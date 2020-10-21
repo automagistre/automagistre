@@ -31,5 +31,6 @@ services:
         arguments: [ '@session.memcached' ]
 
 parameters:
+    locale: ru
     env(SESSION_MEMCACHED_HOST): 'memcached'
     env(SESSION_MEMCACHED_PORT): '11211'
