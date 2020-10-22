@@ -72,7 +72,7 @@ final class StaleStockNotifier implements MessageHandler
                 continue;
             }
 
-            if ($analog->quantity < $orderItemPart->getQuantity()) {
+            if (($analog->quantity - $analog->ordered) < $orderItemPart->getQuantity()) {
                 continue;
             }
 
