@@ -42,8 +42,8 @@ final class SmsToRequestReviews implements MessageHandler
         }
 
         $dateSend = new DateTimeImmutable('+1 hour');
-        if ($dateSend > (new DateTimeImmutable())->setTime(20, 0, 0)) {
-            $dateSend = (new DateTimeImmutable('+1 day'))->setTime(10, 0, 0);
+        if ($dateSend > (new DateTimeImmutable())->setTime(17, 0, 0)) {
+            $dateSend = (new DateTimeImmutable('+1 day'))->setTime(7, 0, 0);
         }
 
         $message = 'Благодарим за выбор нашего автосервиса. Помогите стать лучше, оставив отзыв о нашей работе ';
