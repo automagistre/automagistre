@@ -28,6 +28,11 @@ return static function (RoutingConfigurator $routes): void {
     ;
 
     $routes
+        ->import(dirname(__DIR__).'/src/Yandex/Map/Controller/RedirectController.php', 'annotation')
+        ->prefix('/r')
+    ;
+
+    $routes
         ->import(__DIR__.'/routes/tenant.php')
     ;
 };

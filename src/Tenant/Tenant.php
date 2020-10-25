@@ -191,6 +191,16 @@ final class Tenant extends Enum
         self::AUTOUNIT => '',
     ];
 
+    protected static array $yandexMapUrl = [
+        self::DEMO => null,
+        self::MSK => 'https://yandex.ru/maps/org/avtomagistr/1087965654',
+        self::KAZAN => 'https://yandex.ru/maps/org/avtomagistr/72445022135',
+        self::SHAVLEV => null,
+        self::BUNKER => null,
+        self::OPTIMUS => null,
+        self::AUTOUNIT => null,
+    ];
+
     public function getRequisites(): array
     {
         if ($this->isDemo()) {
@@ -227,5 +237,10 @@ final class Tenant extends Enum
         }
 
         return self::fromIdentifier($identifier);
+    }
+
+    public function toYandexMapUrl(): string
+    {
+        return self::$yandexMapUrl[$this->toId()] ?? self::$yandexMapUrl[self::MSK];
     }
 }

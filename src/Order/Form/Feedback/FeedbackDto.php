@@ -15,7 +15,7 @@ final class FeedbackDto
     /**
      * @var OrderSatisfaction
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      */
     public $satisfaction;
 }
