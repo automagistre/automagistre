@@ -6,6 +6,7 @@ namespace App\Order\Form\Close;
 
 use App\Car\Entity\CarId;
 use App\Order\Entity\OrderId;
+use App\Order\Form\Feedback\FeedbackDto;
 use App\Order\Form\Finish\OrderFinishDto;
 use App\Order\Form\Payment\OrderPaymentDto;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -24,10 +25,16 @@ final class OrderCloseDto
      */
     public OrderPaymentDto $payment;
 
+    /**
+     * @Assert\Valid()
+     */
+    public FeedbackDto $feedback;
+
     public function __construct(OrderId $orderId, ?CarId $carId)
     {
         $this->orderId = $orderId;
         $this->finish = new OrderFinishDto($orderId, $carId);
         $this->payment = new OrderPaymentDto($orderId);
+        $this->feedback = new FeedbackDto();
     }
 }

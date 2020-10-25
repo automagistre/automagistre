@@ -6,6 +6,7 @@ namespace App\Order\Controller;
 
 use App\EasyAdmin\Controller\AbstractController;
 use App\Order\Entity\Order;
+use App\Order\Entity\OrderFeedback;
 use App\Order\Form\Close\OrderCloseDto;
 use App\Order\Form\Close\OrderCloseType;
 use App\Order\Messages\CloseOrderCommand;
@@ -30,6 +31,8 @@ final class OrderCloseController extends AbstractController
         $form = $this->createForm(OrderCloseType::class, $dto)->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->em;
+
             foreach ($dto->payment->wallets as $walletDto) {
                 if (!$walletDto->payment->isPositive()) {
                     continue;
@@ -51,6 +54,14 @@ final class OrderCloseController extends AbstractController
             }
 
             $this->dispatchMessage(new CloseOrderCommand($orderId));
+
+            $em->persist(
+                OrderFeedback::create(
+                    $orderId,
+                    $dto->feedback->satisfaction,
+                )
+            );
+            $em->flush();
 
             return $this->redirectToEasyPath('Order', 'show', ['id' => $orderId->toString()]);
         }

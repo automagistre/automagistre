@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Order\Form\Close;
 
 use App\Order\Entity\OrderStorage;
+use App\Order\Form\Feedback\FeedbackType;
 use App\Order\Form\Finish\OrderFinishType;
 use App\Order\Form\Payment\OrderPaymentType;
 use function assert;
@@ -33,7 +34,8 @@ final class OrderCloseType extends AbstractType
             ->add('payment', OrderPaymentType::class, [
                 'disabled_description' => true,
                 'predefine_payment' => false,
-            ]);
+            ])
+            ->add('feedback', FeedbackType::class);
 
         $builder
             ->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event): void {

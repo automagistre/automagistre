@@ -4,6 +4,7 @@ return [
     App\Calendar\Enum\DeletionReason::class => ['deletion_reason', null],
     App\Customer\Enum\CustomerTransactionSource::class => ['operand_transaction_source', null],
     App\Note\Enum\NoteType::class => ['note_type_enum', null],
+    App\Order\Enum\OrderSatisfaction::class => ['order_satisfaction_enum', null],
     App\Order\Enum\OrderStatus::class => ['order_status_enum', null],
     App\Part\Enum\SupplySource::class => ['part_supply_source_enum', null],
     App\Part\Enum\Unit::class => ['unit_enum', null],
