@@ -83,12 +83,6 @@ final class StaleStockNotifier implements MessageHandler
             return;
         }
 
-        $this->router->setContext(
-            $this->router->getContext()
-                ->setHost(sprintf('%s.automagistre.ru', $this->tenant->toIdentifier()))
-                ->setScheme('https')
-        );
-
         $text = Markdown::builder()
             ->p(
                 Markdown::link(
