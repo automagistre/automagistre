@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Sms\Event;
+namespace App\Sms\Messages;
 
 use App\Sms\Entity\SmsId;
 
 /**
  * @psalm-immutable
  */
-final class SmsSendRequested
+final class SendRequested
 {
     public SmsId $smsId;
 

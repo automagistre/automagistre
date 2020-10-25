@@ -8,8 +8,8 @@ use App\Calendar\Entity\EntryView;
 use App\MessageBus\MessageHandler;
 use App\Order\Entity\Order;
 use App\Shared\Doctrine\Registry;
-use App\Sms\Action\SendSmsCommand;
 use App\Sms\Enum\Feature;
+use App\Sms\Messages\SendSms;
 use App\Tenant\Tenant;
 use DateTimeImmutable;
 use Money\MoneyFormatter;
@@ -83,7 +83,7 @@ final class EntryScheduledHandler implements MessageHandler
         }
 
         $this->commandBus->dispatch(
-            new SendSmsCommand(
+            new SendSms(
                 $entry->orderInfo->customerId,
                 $message,
                 [

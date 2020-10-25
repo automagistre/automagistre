@@ -7,8 +7,8 @@ namespace App\Calendar\Command;
 use App\Calendar\Entity\EntryView;
 use App\Customer\Entity\OperandId;
 use App\Shared\Doctrine\Registry;
-use App\Sms\Action\SendSmsCommand;
 use App\Sms\Enum\Feature;
+use App\Sms\Messages\SendSms;
 use App\Tenant\Tenant;
 use DateTimeImmutable;
 use function str_replace;
@@ -71,7 +71,7 @@ final class CustomerReminderCommand extends Command
             );
 
             $this->messageBus->dispatch(
-                new SendSmsCommand(
+                new SendSms(
                     $customerId,
                     $message,
                     [

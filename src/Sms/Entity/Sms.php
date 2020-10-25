@@ -6,12 +6,15 @@ namespace App\Sms\Entity;
 
 use App\MessageBus\ContainsRecordedMessages;
 use App\MessageBus\PrivateMessageRecorderCapabilities;
-use App\Sms\Event\SmsSendRequested;
+use App\Sms\Messages\SendRequested;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 
 /**
  * @ORM\Entity
+ *
+ * @psalm-immutable
  */
 class Sms implements ContainsRecordedMessages
 {
@@ -21,24 +24,30 @@ class Sms implements ContainsRecordedMessages
      * @ORM\Id()
      * @ORM\Column(type="sms_id")
      */
-    private SmsId $id;
+    public SmsId $id;
 
     /**
      * @ORM\Column(type="phone_number")
      */
-    private PhoneNumber $phoneNumber;
+    public PhoneNumber $phoneNumber;
 
     /**
      * @ORM\Column()
      */
-    private string $message;
+    public string $message;
 
-    public function __construct(PhoneNumber $phoneNumber, string $message)
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    public ?DateTimeImmutable $dateSend;
+
+    public function __construct(PhoneNumber $phoneNumber, string $message, DateTimeImmutable $dateSend = null)
     {
         $this->id = SmsId::generate();
         $this->phoneNumber = $phoneNumber;
         $this->message = $message;
+        $this->dateSend = $dateSend;
 
-        $this->record(new SmsSendRequested($this->id));
+        $this->record(new SendRequested($this->id));
     }
 }

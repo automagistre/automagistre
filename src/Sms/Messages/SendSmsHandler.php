@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Sms\Action;
+namespace App\Sms\Messages;
 
 use App\Customer\Entity\Operand;
 use App\Customer\Entity\OperandId;
@@ -25,7 +25,7 @@ final class SendSmsHandler implements MessageHandler
         $this->registry = $registry;
     }
 
-    public function __invoke(SendSmsCommand $command): void
+    public function __invoke(SendSms $command): void
     {
         if (!$this->tenant->isSmsEnabled()) {
             return;
@@ -76,6 +76,7 @@ final class SendSmsHandler implements MessageHandler
             new Sms(
                 $phoneNumber,
                 $command->message,
+                $command->dateSend,
             )
         );
     }

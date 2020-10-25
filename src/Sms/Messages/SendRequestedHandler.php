@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Sms\Event;
+namespace App\Sms\Messages;
 
 use App\MessageBus\MessageHandler;
 use App\Shared\Doctrine\Registry;
+use App\Sms\Entity\Sms;
 use App\Sms\Entity\SmsSend;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
@@ -15,7 +16,7 @@ use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Throwable;
 
-final class SmsSendRequestedHandler implements MessageHandler
+final class SendRequestedHandler implements MessageHandler
 {
     private Registry $registry;
 
@@ -37,20 +38,22 @@ final class SmsSendRequestedHandler implements MessageHandler
         $this->router = $router;
     }
 
-    public function __invoke(SmsSendRequested $event): void
+    public function __invoke(SendRequested $event): void
     {
-        $view = $this->registry->view($event->smsId);
+        /** @var Sms $sms */
+        $sms = $this->registry->get(Sms::class, $event->smsId);
 
         $response = $this->httpClient->request('POST', 'sms/send', [
             'json' => [
-                'number' => $this->phoneNumberUtil->format($view['phoneNumber'], PhoneNumberFormat::E164),
+                'number' => $this->phoneNumberUtil->format($sms->phoneNumber, PhoneNumberFormat::E164),
                 'sign' => 'AVTOMAGISTR',
-                'text' => $view['message'],
+                'text' => $sms->message,
                 'channel' => 'DIRECT',
                 'callbackUrl' => $this->router->generate('sms_callback', [
                     'provider' => 'smsaero',
                     'id' => $event->smsId->toString(),
                 ], RouterInterface::ABSOLUTE_URL),
+                'dateSend' => null === $sms->dateSend ? '' : $sms->dateSend->getTimestamp(),
             ],
         ]);
 
