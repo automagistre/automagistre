@@ -55,6 +55,9 @@ final class CloseOrderHandler implements MessageHandler
             );
         }
 
-        $order->close($balance);
+        $order->close(
+            $balance,
+            $command->satisfaction,
+        );
     }
 }

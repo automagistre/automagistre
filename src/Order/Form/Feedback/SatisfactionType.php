@@ -17,7 +17,7 @@ final class SatisfactionType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'choices' => OrderSatisfaction::all(),
+            'choices' => OrderSatisfaction::selectable(),
             'choice_label' => fn (?OrderSatisfaction $enum) => null !== $enum ? $enum->toDisplayName() : null,
             'choice_value' => fn (?OrderSatisfaction $enum) => null !== $enum ? $enum->toId() : null,
         ]);

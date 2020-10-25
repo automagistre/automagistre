@@ -6,6 +6,7 @@ namespace App\Order\Entity;
 
 use App\MessageBus\ContainsRecordedMessages;
 use App\MessageBus\PrivateMessageRecorderCapabilities;
+use App\Order\Enum\OrderSatisfaction;
 use App\Order\Messages\OrderClosed;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
@@ -35,11 +36,17 @@ class OrderClose implements ContainsRecordedMessages
      */
     public ?Money $balance = null;
 
-    public function __construct(Order $order, ?Money $balance)
+    /**
+     * @ORM\Column(type="order_satisfaction_enum")
+     */
+    public OrderSatisfaction $satisfaction;
+
+    public function __construct(Order $order, ?Money $balance, OrderSatisfaction $satisfaction)
     {
         $this->id = Uuid::uuid6();
         $this->order = $order;
         $this->balance = $balance;
+        $this->satisfaction = $satisfaction;
 
         $this->record(new OrderClosed($order->toId()));
     }

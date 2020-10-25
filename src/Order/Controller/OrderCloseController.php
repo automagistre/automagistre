@@ -6,7 +6,6 @@ namespace App\Order\Controller;
 
 use App\EasyAdmin\Controller\AbstractController;
 use App\Order\Entity\Order;
-use App\Order\Entity\OrderFeedback;
 use App\Order\Form\Close\OrderCloseDto;
 use App\Order\Form\Close\OrderCloseType;
 use App\Order\Messages\CloseOrderCommand;
@@ -53,15 +52,12 @@ final class OrderCloseController extends AbstractController
                 $order->setMileage($mileageDto->mileage);
             }
 
-            $this->dispatchMessage(new CloseOrderCommand($orderId));
-
-            $em->persist(
-                OrderFeedback::create(
+            $this->dispatchMessage(
+                new CloseOrderCommand(
                     $orderId,
                     $dto->feedback->satisfaction,
                 )
             );
-            $em->flush();
 
             return $this->redirectToEasyPath('Order', 'show', ['id' => $orderId->toString()]);
         }

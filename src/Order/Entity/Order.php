@@ -9,6 +9,7 @@ use App\Customer\Entity\OperandId;
 use App\Employee\Entity\Employee;
 use App\MessageBus\ContainsRecordedMessages;
 use App\MessageBus\PrivateMessageRecorderCapabilities;
+use App\Order\Enum\OrderSatisfaction;
 use App\Order\Enum\OrderStatus;
 use App\Shared\Money\TotalPriceInterface;
 use function assert;
@@ -187,11 +188,15 @@ class Order implements ContainsRecordedMessages
         return $collection->getValues();
     }
 
-    public function close(?Money $balance): void
+    public function close(?Money $balance, OrderSatisfaction $satisfaction): void
     {
         $this->status = OrderStatus::closed();
 
-        $this->close = new OrderClose($this, $balance);
+        $this->close = new OrderClose(
+            $this,
+            $balance,
+            $satisfaction,
+        );
     }
 
     public function getClose(): OrderClose
