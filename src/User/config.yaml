@@ -38,9 +38,3 @@ doctrine:
     dbal:
         types:
             user_view: App\User\Doctrine\UserViewType
-    orm:
-        mappings:
-            user:
-                type: annotation
-                prefix: App\User\Entity
-                dir: '%kernel.project_dir%/src/User/Entity'

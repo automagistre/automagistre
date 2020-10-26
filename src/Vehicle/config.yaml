@@ -39,14 +39,6 @@ easy_admin:
                 fields:
                     - { property: 'manufacturerId', label: 'Производитель', type_options: { disabled: true } }
 
-doctrine:
-    orm:
-        mappings:
-            vehicle:
-                type: annotation
-                prefix: App\Vehicle\Entity
-                dir: '%kernel.project_dir%/src/Vehicle/Entity'
-
 doctrine_mongodb:
     document_managers:
         www:
@@ -55,9 +47,3 @@ doctrine_mongodb:
                     type: annotation
                     prefix: App\Vehicle
                     dir: "%kernel.project_dir%/src/Vehicle"
-
-services:
-    _defaults:
-        public: false
-        autowire: true
-        autoconfigure: true

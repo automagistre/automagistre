@@ -47,14 +47,6 @@ easy_admin:
                     - { property: 'createdAt', label: 'Дата', sortable: false }
                     - { property: 'createdBy', label: 'Создал', sortable: false, template: 'easy_admin/field_identifier.html.twig' }
 
-doctrine:
-    orm:
-        mappings:
-            wallet:
-                type: annotation
-                prefix: App\Wallet\Entity
-                dir: '%kernel.project_dir%/src/Wallet/Entity'
-
 services:
     _defaults:
         public: false

@@ -20,18 +20,6 @@ return static function (ContainerConfigurator $configurator): void {
         ],
     ]);
 
-    $configurator->extension('doctrine', [
-        'orm' => [
-            'mappings' => [
-                'sms' => [
-                    'type' => 'annotation',
-                    'prefix' => 'App\\Sms\\Entity',
-                    'dir' => '%kernel.project_dir%/src/Sms/Entity',
-                ],
-            ],
-        ],
-    ]);
-
     $configurator->extension('framework', [
         'messenger' => [
             'routing' => [

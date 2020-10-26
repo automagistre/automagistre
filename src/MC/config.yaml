@@ -94,14 +94,6 @@ easy_admin:
             edit:
                 title: 'Редактировать запчасть для ТО'
 
-doctrine:
-    orm:
-        mappings:
-            mc:
-                type: annotation
-                prefix: App\MC\Entity
-                dir: '%kernel.project_dir%/src/MC/Entity'
-
 doctrine_mongodb:
     document_managers:
         www:

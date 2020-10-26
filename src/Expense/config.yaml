@@ -21,17 +21,3 @@ easy_admin:
                 fields:
                     - { property: 'name', label: 'Название', type_options: { disabled: true } }
                     - { property: 'wallet', label: 'Счет списания по умолчанию', type_options: { required: false } }
-
-doctrine:
-    orm:
-        mappings:
-            expense:
-                type: annotation
-                prefix: App\Expense\Entity
-                dir: '%kernel.project_dir%/src/Expense/Entity'
-
-services:
-    _defaults:
-        public: false
-        autowire: true
-        autoconfigure: true

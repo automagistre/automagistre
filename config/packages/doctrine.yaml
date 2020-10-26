@@ -30,6 +30,10 @@ doctrine:
                     type: service
                     id: cache.doctrine.result
                 mappings:
+                    app:
+                        type: annotation
+                        prefix: App
+                        dir: '%kernel.project_dir%/src'
                     cron:
                         type: annotation
                         prefix: Cron\CronBundle\Entity

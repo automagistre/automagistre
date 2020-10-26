@@ -45,17 +45,3 @@ easy_admin:
             class: App\Employee\Entity\Salary
             controller: App\Employee\Controller\SalaryController
             disabled_actions: ['delete', 'show', 'search', 'autocomplete', 'edit', 'list']
-
-doctrine:
-    orm:
-        mappings:
-            employee:
-                type: annotation
-                prefix: App\Employee\Entity
-                dir: '%kernel.project_dir%/src/Employee/Entity'
-
-services:
-    _defaults:
-        public: false
-        autowire: true
-        autoconfigure: true

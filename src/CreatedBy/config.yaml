@@ -2,9 +2,3 @@ doctrine:
     dbal:
         types:
             created_by_view: App\CreatedBy\Doctrine\CreatedByViewType
-    orm:
-        mappings:
-            created_by:
-                type: annotation
-                prefix: App\CreatedBy\Entity
-                dir: '%kernel.project_dir%/src/CreatedBy/Entity'

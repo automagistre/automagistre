@@ -49,11 +49,3 @@ easy_admin:
                 title: 'Создать новую Запчасть для Прихода'
             edit:
                 title: 'Редактировать Запчасть для Прихода'
-
-doctrine:
-    orm:
-        mappings:
-            income:
-                type: annotation
-                prefix: App\Income\Entity
-                dir: '%kernel.project_dir%/src/Income/Entity'

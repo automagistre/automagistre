@@ -29,14 +29,6 @@ easy_admin:
             edit:
                 title: 'Редактировать Производителя'
 
-doctrine:
-    orm:
-        mappings:
-            manufacturer:
-                type: annotation
-                prefix: App\Manufacturer
-                dir: '%kernel.project_dir%/src/Manufacturer'
-
 doctrine_mongodb:
     document_managers:
         www:
@@ -45,9 +37,3 @@ doctrine_mongodb:
                     type: annotation
                     prefix: App\Manufacturer\Documents
                     dir: "%kernel.project_dir%/src/Manufacturer/Documents"
-
-services:
-    _defaults:
-        public: false
-        autowire: true
-        autoconfigure: true

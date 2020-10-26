@@ -1,7 +1,0 @@
-doctrine:
-    orm:
-        mappings:
-            balance:
-                type: annotation
-                prefix: App\Balance
-                dir: '%kernel.project_dir%/src/Balance'

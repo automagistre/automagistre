@@ -74,11 +74,3 @@ easy_admin:
             class: App\Car\Entity\RecommendationPart
             controller: App\Car\Controller\RecommendationPartController
             disabled_actions: ['list']
-
-doctrine:
-    orm:
-        mappings:
-            car:
-                type: annotation
-                prefix: App\Car\Entity
-                dir: '%kernel.project_dir%/src/Car/Entity'

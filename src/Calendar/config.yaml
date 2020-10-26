@@ -20,17 +20,3 @@ easy_admin:
                 title: 'Редактировать Запись'
                 actions:
                     - { name: remove, template: 'easy_admin/calendar/deletion_action.html.twig' }
-
-doctrine:
-    orm:
-        mappings:
-            calendar:
-                type: annotation
-                prefix: App\Calendar\Entity
-                dir: '%kernel.project_dir%/src/Calendar/Entity'
-
-services:
-    _defaults:
-        public: false
-        autowire: true
-        autoconfigure: true

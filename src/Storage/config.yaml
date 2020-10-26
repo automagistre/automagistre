@@ -24,17 +24,3 @@ easy_admin:
                 fields:
                     - { property: 'name', label: 'Название' }
                     - { property: 'parentId', label: 'Родитель', template: 'easy_admin/field_identifier.html.twig' }
-
-doctrine:
-    orm:
-        mappings:
-            storage:
-                type: annotation
-                prefix: App\Storage\Entity
-                dir: '%kernel.project_dir%/src/Storage/Entity'
-
-services:
-    _defaults:
-        public: false
-        autowire: true
-        autoconfigure: true

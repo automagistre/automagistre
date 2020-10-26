@@ -25,17 +25,3 @@ easy_admin:
                 form_options: { data_class: App\Review\Form\ReviewDto }
             edit:
                 title: 'Редактировать Отзыв'
-
-doctrine:
-    orm:
-        mappings:
-            review:
-                type: annotation
-                prefix: App\Review\Entity
-                dir: '%kernel.project_dir%/src/Review/Entity'
-
-services:
-    _defaults:
-        public: false
-        autowire: true
-        autoconfigure: true

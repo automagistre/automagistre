@@ -100,17 +100,3 @@ easy_admin:
             controller: App\Order\Controller\OrderItemPartController
             disabled_actions: ['show', 'list', 'search']
 
-doctrine:
-    orm:
-        mappings:
-            order:
-                type: annotation
-                prefix: App\Order\Entity
-                dir: '%kernel.project_dir%/src/Order/Entity'
-
-services:
-    _defaults:
-        public: false
-        autowire: true
-        autoconfigure: true
-
