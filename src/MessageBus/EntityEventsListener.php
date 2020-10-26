@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MessageBus;
 
+use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -27,6 +28,7 @@ final class EntityEventsListener implements EventSubscriberInterface
     {
         return [
             KernelEvents::TERMINATE => 'onKernelTerminate',
+            ConsoleEvents::TERMINATE => 'onKernelTerminate',
         ];
     }
 
