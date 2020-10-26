@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Yandex\Map\Messages;
 
+use App\Customer\Entity\CustomerStorage;
+use App\Customer\Entity\Organization;
 use App\MessageBus\MessageHandler;
 use App\Order\Entity\OrderStorage;
 use App\Order\Messages\OrderClosed;
@@ -16,13 +18,20 @@ final class SmsToRequestReviews implements MessageHandler
 {
     private OrderStorage $orderStorage;
 
+    private CustomerStorage $customerStorage;
+
     private RouterInterface $router;
 
     private MessageBusInterface $messageBus;
 
-    public function __construct(OrderStorage $orderStorage, RouterInterface $router, MessageBusInterface $messageBus)
-    {
+    public function __construct(
+        OrderStorage $orderStorage,
+        CustomerStorage $customerStorage,
+        RouterInterface $router,
+        MessageBusInterface $messageBus
+    ) {
         $this->orderStorage = $orderStorage;
+        $this->customerStorage = $customerStorage;
         $this->router = $router;
         $this->messageBus = $messageBus;
     }
@@ -33,6 +42,11 @@ final class SmsToRequestReviews implements MessageHandler
 
         $customerId = $order->getCustomerId();
         if (null === $customerId) {
+            return;
+        }
+
+        $customer = $this->customerStorage->get($customerId);
+        if ($customer instanceof Organization) {
             return;
         }
 
