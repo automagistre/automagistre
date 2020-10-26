@@ -13,11 +13,6 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        api:
-            pattern: ^/api/v1
-            stateless: true
-            anonymous: true
-
         callback:
             pattern: ^/callback
             guard:
@@ -39,7 +34,6 @@ security:
 
     access_control:
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/v1, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/r/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: IS_AUTHENTICATED_REMEMBERED }
 

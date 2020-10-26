@@ -46,9 +46,3 @@ easy_admin:
                     - { property: 'description', label: 'Комментарий', sortable: false, template: 'easy_admin/default/field_raw.html.twig' }
                     - { property: 'createdAt', label: 'Дата', sortable: false }
                     - { property: 'createdBy', label: 'Создал', sortable: false, template: 'easy_admin/field_identifier.html.twig' }
-
-services:
-    _defaults:
-        public: false
-        autowire: true
-        autoconfigure: true

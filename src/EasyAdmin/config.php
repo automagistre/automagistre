@@ -9,12 +9,7 @@ return static function (ContainerConfigurator $configurator): void {
     $services = $configurator->services();
 
     $services
-        ->defaults()
-        ->autowire()
-        ->autoconfigure();
-
-    $services
-        ->set(App\EasyAdmin\ErrorRenderer\EasyAdminErrorRenderer::class)
+        ->get(App\EasyAdmin\ErrorRenderer\EasyAdminErrorRenderer::class)
         ->decorate('twig.error_renderer.html')
         ->args([service(App\EasyAdmin\ErrorRenderer\EasyAdminErrorRenderer::class.'.inner')])
         ->arg('$debug', '%kernel.debug%');

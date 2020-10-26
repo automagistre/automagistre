@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\JSONRPC\Test\JsonRPCClient;
 use App\Shared\Doctrine\ORM\Listeners\MetadataCacheCompilerPass;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierMapCompilerPass;
@@ -18,14 +17,13 @@ use function sprintf;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel as SymfonyKernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
-final class Kernel extends SymfonyKernel implements CompilerPassInterface
+final class Kernel extends SymfonyKernel
 {
     use MicroKernelTrait;
 
@@ -77,16 +75,6 @@ final class Kernel extends SymfonyKernel implements CompilerPassInterface
         parent::boot();
 
         Costil::$formatter = $this->getContainer()->get(IdentifierFormatter::class);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function process(ContainerBuilder $container): void
-    {
-        if ('test' === $this->environment) {
-            $container->getDefinition('test.client')->setClass(JsonRPCClient::class);
-        }
     }
 
     /**

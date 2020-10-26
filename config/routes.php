@@ -18,12 +18,6 @@ return static function (RoutingConfigurator $routes): void {
     ;
 
     $routes
-        ->add('json_rpc', '/api/v1')
-        ->controller(App\JSONRPC\EndpointAction::class)
-        ->methods(['POST'])
-    ;
-
-    $routes
         ->import(__DIR__.'/../src/Sms/Controller/CallbackController.php', 'annotation')
     ;
 

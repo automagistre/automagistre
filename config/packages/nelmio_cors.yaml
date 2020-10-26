@@ -9,11 +9,4 @@ nelmio_cors:
         hosts: []
         origin_regex: false
         forced_allow_origin_value: ~
-    paths:
-        '^/api/jsonrpc':
-            allow_credentials: true
-            allow_origin: ['^.+\.automagistre\.(ru|local)$']
-            allow_headers: []
-            allow_methods: ['POST']
-            max_age: 3600
-            origin_regex: true
+    paths: []

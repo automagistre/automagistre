@@ -36,10 +36,10 @@ return static function (ContainerConfigurator $configurator): void {
         ->autoconfigure();
 
     $services
-        ->set(App\Sms\Controller\CallbackController::class)
+        ->get(App\Sms\Controller\CallbackController::class)
         ->tag('controller.service_arguments');
 
     $services
-        ->set(App\Sms\Messages\SendRequestedHandler::class)
+        ->get(App\Sms\Messages\SendRequestedHandler::class)
         ->arg('$httpClient', service('http_client.smsaero'));
 };
