@@ -75,6 +75,8 @@ final class SmokeTest extends WebTestCase
             'upd' => ['id' => OrderFixtures::ID],
             'invoice' => ['id' => OrderFixtures::ID],
         ],
+        'OrderProfit' => [
+        ],
         'Car' => [
             'show' => ['id' => Primera2004Fixtures::ID],
             'edit' => ['id' => Primera2004Fixtures::ID],
@@ -133,6 +135,8 @@ final class SmokeTest extends WebTestCase
         'PartSupply' => [
             'new' => ['part_id' => GasketFixture::ID],
         ],
+        'PartSell' => [
+        ],
         'Income' => [
             'edit' => ['id' => IncomeFixtures::ID],
         ],
@@ -190,7 +194,6 @@ final class SmokeTest extends WebTestCase
 
     /**
      * @dataProvider easyadmin
-     * @dataProvider admin
      */
     public function testAuthenticated(string $url, int $statusCode, bool $ajax): void
     {
@@ -234,11 +237,5 @@ final class SmokeTest extends WebTestCase
                 yield $entity.' '.$action => ['/?'.http_build_query($queries), 200, $isAjax];
             }
         }
-    }
-
-    public function admin(): Generator
-    {
-        yield ['/report/profit', 200, false];
-        yield ['/report/part-sell', 200, false];
     }
 }

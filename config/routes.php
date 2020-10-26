@@ -26,7 +26,8 @@ return static function (RoutingConfigurator $routes): void {
         ->prefix('/r')
     ;
 
+    // MUST BE LAST
     $routes
-        ->import(__DIR__.'/routes/tenant.php')
+        ->import('@EasyAdminBundle/Controller/EasyAdminController.php', 'annotation')
     ;
 };

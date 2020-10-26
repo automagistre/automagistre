@@ -100,3 +100,7 @@ easy_admin:
             controller: App\Order\Controller\OrderItemPartController
             disabled_actions: ['show', 'list', 'search']
 
+        OrderProfit:
+            class: App\Order\Entity\Order
+            controller: App\Order\Controller\ProfitController
+            disabled_actions: ['new', 'show', 'autocomplete', 'edit', 'search', 'delete']

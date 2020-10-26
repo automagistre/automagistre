@@ -6,6 +6,7 @@ namespace App\Order\Controller;
 
 use App\Customer\Entity\OperandId;
 use App\Customer\Enum\CustomerTransactionSource;
+use App\EasyAdmin\Controller\AbstractController;
 use App\Order\Entity\Order;
 use App\Shared\Doctrine\Registry;
 use function count;
@@ -13,24 +14,30 @@ use DateInterval;
 use DateTimeImmutable;
 use Money\Currency;
 use Money\Money;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @author Konstantin Grachev <me@grachevko.ru>
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 final class ProfitController extends AbstractController
 {
     private const DATETIME_FORMAT = 'Y-m-d\TH:i';
 
+    public function __construct(Registry $registry)
+    {
+        $this->registry = $registry;
+    }
+
     /**
      * @Route("/profit", name="profit")
      */
-    public function __invoke(Request $request, Registry $registry): Response
+    public function indexAction(Request $request): Response
     {
+        $registry = $this->registry;
+
         $start = $request->query->has('start')
             ? DateTimeImmutable::createFromFormat(self::DATETIME_FORMAT, $request->query->get('start'))
             : (new DateTimeImmutable('-1 week'))->setTime(0, 0);

@@ -88,8 +88,8 @@ easy_admin:
             - { label: 'Аналитика' }
             - { entity: 'PartToBuy', label: 'Закупки', icon: 'line-chart' }
             - { label: 'Отчёты' }
-            - { label: 'Рентабельность', route: 'report_profit' }
-            - { label: 'Продажи', route: 'report_part_sell' }
+            - { entity: 'OrderProfit', label: 'Рентабельность' }
+            - { entity: 'PartSell', label: 'Продажи' }
 
     formats:
         date: 'd.m.Y'

@@ -90,7 +90,17 @@ easy_admin:
 
         PartToBuy:
             class: App\Part\Entity\Part
-            controller: \App\Part\Controller\WhatToBuyController
+            controller: App\Part\Controller\WhatToBuyController
+            disabled_actions: ['new', 'show', 'autocomplete', 'edit', 'search', 'delete']
+
+        PartSell:
+            class: App\Part\Entity\Part
+            controller: App\Part\Controller\PartSellController
+            disabled_actions: ['new', 'show', 'autocomplete', 'edit', 'search', 'delete']
+
+        PartExplorer:
+            class: App\Part\Entity\Part
+            controller: App\Part\Controller\PartExplorerController
             disabled_actions: ['new', 'show', 'autocomplete', 'edit', 'search', 'delete']
 
 doctrine:

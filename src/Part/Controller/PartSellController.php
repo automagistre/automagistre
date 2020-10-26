@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Part\Controller;
 
+use App\EasyAdmin\Controller\AbstractController;
 use App\Part\Entity\Part;
 use App\Part\Entity\PartView;
 use App\Shared\Doctrine\Registry;
@@ -12,25 +13,27 @@ use App\Storage\Enum\Source;
 use function array_map;
 use DateInterval;
 use DateTimeImmutable;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Routing\Annotation\Route;
 use function usort;
 
 /**
- * @author Konstantin Grachev <me@grachevko.ru>
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 final class PartSellController extends AbstractController
 {
     private const DATETIME_FORMAT = 'Y-m-d\TH:i';
 
-    /**
-     * @Route("/part-sell", name="part_sell")
-     */
-    public function __invoke(Request $request, Registry $registry): Response
+    public function __construct(Registry $registry)
     {
+        $this->registry = $registry;
+    }
+
+    public function indexAction(Request $request): Response
+    {
+        $registry = $this->registry;
+
         $start = $request->query->has('start')
             ? DateTimeImmutable::createFromFormat(self::DATETIME_FORMAT, $request->query->get('start'))
             : (new DateTimeImmutable('-1 day'))->setTime(0, 0);
@@ -51,18 +54,18 @@ final class PartSellController extends AbstractController
 
         $sql = '
             SELECT m.part_id,
-                ABS(ROUND(SUM(m.quantity::numeric / 100 ), 2))          AS quantity,
+                ABS(ROUND(SUM(m.quantity::NUMERIC / 100 ), 2))          AS quantity,
                 (
-                    SELECT ROUND(SUM(sub.quantity)::numeric / 100, 2) 
+                    SELECT ROUND(SUM(sub.quantity)::NUMERIC / 100, 2) 
                     FROM motion sub 
                     WHERE sub.part_id = m.part_id
                 )                                                       AS stock,
                 (
-                    SELECT ROUND(SUM(r.quantity)::numeric / 100, 2)
+                    SELECT ROUND(SUM(r.quantity)::NUMERIC / 100, 2)
                     FROM reservation r
-                        JOIN order_item_part oip on r.order_item_part_id = oip.id
-                        JOIN order_item oi on oip.id = oi.id
-                        JOIN orders o on oi.order_id = o.id
+                        JOIN order_item_part oip ON r.order_item_part_id = oip.id
+                        JOIN order_item oi ON oip.id = oi.id
+                        JOIN orders o ON oi.order_id = o.id
                         LEFT JOIN order_close ON order_close.order_id = o.id
                     WHERE oip.part_id = m.part_id
                         AND order_close IS NULL
