@@ -11,15 +11,16 @@ use Premier\Enum\Enum;
 use function sprintf;
 
 /**
- * @method bool   isDemo()
- * @method string toDisplayName()
- * @method string toIdentifier()
- * @method string toSmsOnScheduledEntry()
- * @method string toSmsOnReminderEntry()
- * @method string toTelegramChannel()
- * @method static Tenant demo()
- * @method static Tenant msk()
- * @method static Tenant fromIdentifier(string $name)
+ * @method bool        isDemo()
+ * @method string      toDisplayName()
+ * @method string      toIdentifier()
+ * @method string      toSmsOnScheduledEntry()
+ * @method string      toSmsOnReminderEntry()
+ * @method string      toTelegramChannel()
+ * @method string|null toYandexMapBusinessId()
+ * @method static      Tenant demo()
+ * @method static      Tenant msk()
+ * @method static      Tenant fromIdentifier(string $name)
  *
  * @author Konstantin Grachev <me@grachevko.ru>
  */
@@ -191,10 +192,10 @@ final class Tenant extends Enum
         self::AUTOUNIT => '',
     ];
 
-    protected static array $yandexMapUrl = [
+    protected static array $yandexMapBusinessId = [
         self::DEMO => null,
-        self::MSK => 'https://yandex.ru/maps/org/avtomagistr/1087965654',
-        self::KAZAN => 'https://yandex.ru/maps/org/avtomagistr/72445022135',
+        self::MSK => '1087965654',
+        self::KAZAN => '72445022135',
         self::SHAVLEV => null,
         self::BUNKER => null,
         self::OPTIMUS => null,
@@ -241,6 +242,9 @@ final class Tenant extends Enum
 
     public function toYandexMapUrl(): string
     {
-        return self::$yandexMapUrl[$this->toId()] ?? self::$yandexMapUrl[self::MSK];
+        return sprintf(
+            'https://yandex.ru/maps/org/avtomagistr/%s',
+            self::$yandexMapBusinessId[$this->toId()] ?? self::$yandexMapBusinessId[self::MSK],
+        );
     }
 }
