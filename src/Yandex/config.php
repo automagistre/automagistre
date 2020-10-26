@@ -6,6 +6,14 @@ use App\Yandex\Map\Controller\RedirectController;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $configurator): void {
+    $configurator->extension('framework', [
+        'messenger' => [
+            'routing' => [
+                App\Yandex\Map\Messages\ReviewReceived::class => 'async',
+            ],
+        ],
+    ]);
+
     $services = $configurator->services();
 
     $services

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Yandex\Map\Entity;
 
+use App\MessageBus\ContainsRecordedMessages;
+use App\MessageBus\PrivateMessageRecorderCapabilities;
+use App\Yandex\Map\Messages\ReviewReceived;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -12,8 +15,10 @@ use Ramsey\Uuid\UuidInterface;
  * @ORM\Entity
  * @ORM\Table(name="yandex_map_review")
  */
-class Review
+class Review implements ContainsRecordedMessages
 {
+    use PrivateMessageRecorderCapabilities;
+
     /**
      * @ORM\Id()
      * @ORM\Column(type="uuid")
@@ -35,6 +40,8 @@ class Review
         $this->id = $id;
         $this->reviewId = $reviewId;
         $this->payload = $payload;
+
+        $this->record(new ReviewReceived($this->id));
     }
 
     public static function create(string $reviewId, array $payload): self
