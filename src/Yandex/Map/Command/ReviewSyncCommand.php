@@ -7,7 +7,6 @@ namespace App\Yandex\Map\Command;
 use App\Shared\Doctrine\Registry;
 use App\Tenant\Tenant;
 use App\Yandex\Map\Entity\Review;
-use function ceil;
 use function explode;
 use function str_starts_with;
 use Symfony\Component\Console\Command\Command;
@@ -18,7 +17,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 final class ReviewSyncCommand extends Command
 {
-    private const PAGE_SIZE = 5;
+    private const PAGE_SIZE = 50;
     private const URL = 'https://yandex.ru/maps/api/business/fetchReviews';
 
     protected static $defaultName = 'yandex:map:review:sync';
@@ -48,7 +47,7 @@ final class ReviewSyncCommand extends Command
         }
 
         [$yandexUid, $csrfToken] = $this->preFlight();
-        $page = $this->lastPage();
+        $page = 1;
 
         $response = $this->request($yandexUid, $csrfToken, $page);
 
@@ -111,18 +110,6 @@ final class ReviewSyncCommand extends Command
                 'ranking' => 'by_time',
             ],
         ]);
-    }
-
-    private function lastPage(): int
-    {
-        $conn = $this->registry->connection();
-
-        $count = $conn->fetchOne('SELECT COUNT(*) FROM yandex_map_review');
-        $count = false === $count ? 0 : $count;
-
-        $page = (int) ceil($count / self::PAGE_SIZE);
-
-        return 0 === $page ? 1 : $page;
     }
 
     private function preFlight(): array
