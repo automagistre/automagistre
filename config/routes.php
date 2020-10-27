@@ -26,6 +26,11 @@ return static function (RoutingConfigurator $routes): void {
         ->prefix('/r')
     ;
 
+    $routes
+        ->import(__DIR__.'/routes/rest.php')
+        ->prefix('/api/v1')
+    ;
+
     // MUST BE LAST
     $routes
         ->import('@EasyAdminBundle/Controller/EasyAdminController.php', 'annotation')
