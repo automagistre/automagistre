@@ -22,6 +22,10 @@
                         </div>
                     </div>
 
+                    {% for key,value in app.request.query.all|filter((v,k) => k not in ['start', 'end']) %}
+                        <input type="hidden" name="{{ key }}" value="{{ value }}">
+                    {% endfor %}
+
                     <div class="col-md-3">
                         <button type="submit" class="btn btn-primary">Применить</button>
                     </div>
