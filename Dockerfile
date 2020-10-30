@@ -2,7 +2,7 @@
 # PHP-FPM
 #
 FROM composer:2.0.0-RC1 as composer
-FROM php:7.4.11-fpm-buster as php-base
+FROM php:7.4.12-fpm-buster as php-base
 
 LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 
