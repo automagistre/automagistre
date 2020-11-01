@@ -101,7 +101,7 @@ final class PartSellController extends AbstractController
 
         usort($items, fn (array $left, array $right): int => (int) $right['quantity'] <=> (int) $left['quantity']);
 
-        return $this->render('admin/report/part_sell.html.twig', [
+        return $this->render('easy_admin/part/report/sell.html.twig', [
             'start' => $start,
             'end' => $end,
             'items' => $items,

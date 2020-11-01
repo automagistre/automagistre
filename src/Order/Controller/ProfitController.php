@@ -17,7 +17,6 @@ use Money\Money;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -31,9 +30,6 @@ final class ProfitController extends AbstractController
         $this->registry = $registry;
     }
 
-    /**
-     * @Route("/profit", name="profit")
-     */
     public function indexAction(Request $request): Response
     {
         $registry = $this->registry;
@@ -169,7 +165,7 @@ final class ProfitController extends AbstractController
             ];
         }
 
-        return $this->render('admin/report/profit.html.twig', [
+        return $this->render('easy_admin/order/report/profit.html.twig', [
             'start' => $start,
             'end' => $end,
             'orders' => $orders,
