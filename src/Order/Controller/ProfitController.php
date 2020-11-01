@@ -78,7 +78,7 @@ final class ProfitController extends AbstractController
                  SELECT SUM(ct.amount_amount::integer)
                  FROM customer_transaction ct
                  WHERE o.id = ct.source_id
-                    AND ct.source = '.CustomerTransactionSource::orderSalary()->toId().'
+                    AND ct.source = :customer_transaction_source
                ) AS service_cost,
                (
                  SELECT SUM((sub.quantity)::numeric / 100 * sub.price::integer)
@@ -114,6 +114,7 @@ final class ProfitController extends AbstractController
         $orders = $conn->fetchAllAssociative($sql, [
             'start' => $start->sub(new DateInterval('PT3H')), // TO UTC
             'end' => $end->sub(new DateInterval('PT3H')), // TO UTC
+            'customer_transaction_source' => CustomerTransactionSource::orderSalary()->toId(),
         ], [
             'start' => 'datetime',
             'end' => 'datetime',
