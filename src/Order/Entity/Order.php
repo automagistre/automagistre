@@ -190,6 +190,10 @@ class Order implements ContainsRecordedMessages
 
     public function close(?Money $balance, OrderSatisfaction $satisfaction): void
     {
+        if (null !== $this->close) {
+            throw new DomainException(sprintf('Order "%s" already closed.', $this->toId()->toString()));
+        }
+
         $this->status = OrderStatus::closed();
 
         $this->close = new OrderDeal(
@@ -201,6 +205,10 @@ class Order implements ContainsRecordedMessages
 
     public function cancel(): void
     {
+        if (null !== $this->close) {
+            throw new DomainException(sprintf('Order "%s" already closed.', $this->toId()->toString()));
+        }
+
         $this->status = OrderStatus::cancelled();
 
         $this->close = new OrderCancel(
