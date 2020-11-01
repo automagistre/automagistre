@@ -51,7 +51,7 @@ final class OrderCancelController extends AbstractController
         return $this->render('easy_admin/order/cancel.html.twig', [
             'order' => $order,
             'form' => $form->createView(),
-            'button' => 'Отменить',
+            'button' => 'Применить',
         ]);
     }
 }
