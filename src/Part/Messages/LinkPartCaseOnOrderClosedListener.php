@@ -7,7 +7,7 @@ namespace App\Part\Messages;
 use App\MessageBus\MessageHandler;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItemPart;
-use App\Order\Messages\OrderClosed;
+use App\Order\Messages\OrderDealed;
 use App\Part\Entity\PartCase;
 use App\Part\Entity\PartCaseId;
 use App\Shared\Doctrine\Registry;
@@ -24,7 +24,7 @@ final class LinkPartCaseOnOrderClosedListener implements MessageHandler
         $this->registry = $registry;
     }
 
-    public function __invoke(OrderClosed $event): void
+    public function __invoke(OrderDealed $event): void
     {
         $order = $this->registry->get(Order::class, $event->orderId);
 

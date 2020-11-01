@@ -103,6 +103,7 @@ final class ProfitController extends AbstractController
                ) AS part_cost
             FROM orders o
             JOIN order_close ON o.id = order_close.order_id
+            JOIN order_deal ON order_close.id = order_deal.id
             JOIN created_by order_close_by ON order_close_by.id = order_close.id
             WHERE order_close_by.created_at BETWEEN :start AND :end
             GROUP BY o.id, order_close_by.created_at

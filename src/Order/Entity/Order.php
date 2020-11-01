@@ -192,10 +192,19 @@ class Order implements ContainsRecordedMessages
     {
         $this->status = OrderStatus::closed();
 
-        $this->close = new OrderClose(
+        $this->close = new OrderDeal(
             $this,
             $balance,
             $satisfaction,
+        );
+    }
+
+    public function cancel(): void
+    {
+        $this->status = OrderStatus::cancelled();
+
+        $this->close = new OrderCancel(
+            $this,
         );
     }
 
@@ -324,6 +333,10 @@ class Order implements ContainsRecordedMessages
     {
         if (null === $this->close) {
             throw new LogicException('Order not closed to get ClosedBalance.');
+        }
+
+        if (!$this->close instanceof OrderDeal) {
+            throw new LogicException(sprintf('Order "%s" not dealed to get balance', $this->toId()->toString()));
         }
 
         return $this->close->balance;

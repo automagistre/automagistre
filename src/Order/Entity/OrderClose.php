@@ -6,17 +6,20 @@ namespace App\Order\Entity;
 
 use App\MessageBus\ContainsRecordedMessages;
 use App\MessageBus\PrivateMessageRecorderCapabilities;
-use App\Order\Enum\OrderSatisfaction;
-use App\Order\Messages\OrderClosed;
 use Doctrine\ORM\Mapping as ORM;
-use Money\Money;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity(readOnly=true)
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="type", type="string")
+ * @ORM\DiscriminatorMap({
+ *     "1": "App\Order\Entity\OrderDeal",
+ *     "2": "App\Order\Entity\OrderCancel",
+ * })
  */
-class OrderClose implements ContainsRecordedMessages
+abstract class OrderClose implements ContainsRecordedMessages
 {
     use PrivateMessageRecorderCapabilities;
 
@@ -31,24 +34,10 @@ class OrderClose implements ContainsRecordedMessages
      */
     public Order $order;
 
-    /**
-     * @ORM\Column(type="money", nullable=true)
-     */
-    public ?Money $balance = null;
-
-    /**
-     * @ORM\Column(type="order_satisfaction_enum")
-     */
-    public OrderSatisfaction $satisfaction;
-
-    public function __construct(Order $order, ?Money $balance, OrderSatisfaction $satisfaction)
+    public function __construct(Order $order)
     {
         $this->id = Uuid::uuid6();
         $this->order = $order;
-        $this->balance = $balance;
-        $this->satisfaction = $satisfaction;
-
-        $this->record(new OrderClosed($order->toId()));
     }
 
     public function toId(): UuidInterface

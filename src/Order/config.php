@@ -8,7 +8,7 @@ return static function (ContainerConfigurator $configurator): void {
     $configurator->extension('framework', [
         'messenger' => [
             'routing' => [
-                App\Order\Messages\OrderClosed::class => 'async',
+                App\Order\Messages\OrderDealed::class => 'async',
                 App\Order\Messages\OrderItemPartCreated::class => 'async',
             ],
         ],

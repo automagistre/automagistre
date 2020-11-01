@@ -9,7 +9,7 @@ use App\Order\Entity\OrderId;
 /**
  * @psalm-immutable
  */
-final class OrderClosed
+final class CancelOrder
 {
     public OrderId $orderId;
 

@@ -8,7 +8,7 @@ use App\MessageBus\MessageHandler;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Entity\OrderStorage;
 use App\Order\Manager\ReservationManager;
-use App\Order\Messages\OrderClosed;
+use App\Order\Messages\OrderDealed;
 use App\Storage\Entity\MotionStorage;
 use App\Storage\Enum\Source;
 
@@ -30,7 +30,7 @@ final class RemovePartFromStorageOnOrderClosedListener implements MessageHandler
         $this->motionStorage = $motionStorage;
     }
 
-    public function __invoke(OrderClosed $event): void
+    public function __invoke(OrderDealed $event): void
     {
         $order = $this->orderStorage->get($event->orderId);
 

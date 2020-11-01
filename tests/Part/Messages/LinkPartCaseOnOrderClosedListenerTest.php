@@ -4,7 +4,7 @@ namespace App\Tests\Part\Messages;
 
 use App\Order\Entity\OrderId;
 use App\Order\Fixtures\OrderFixtures;
-use App\Order\Messages\OrderClosed;
+use App\Order\Messages\OrderDealed;
 use App\Part\Entity\PartCase;
 use App\Part\Fixtures\GasketFixture;
 use App\Part\Messages\LinkPartCaseOnOrderClosedListener;
@@ -41,7 +41,7 @@ final class LinkPartCaseOnOrderClosedListenerTest extends KernelTestCase
 
         /** @var LinkPartCaseOnOrderClosedListener $listener */
         $listener = self::$container->get(LinkPartCaseOnOrderClosedListener::class);
-        $listener(new OrderClosed($orderId));
+        $listener(new OrderDealed($orderId));
 
         $registry = self::$container->get(Registry::class);
         $partCase = $registry->findBy(PartCase::class, ['partId' => GasketFixture::ID]);

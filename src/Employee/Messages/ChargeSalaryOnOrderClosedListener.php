@@ -8,7 +8,7 @@ use App\Employee\Entity\EmployeeStorage;
 use App\MessageBus\MessageHandler;
 use App\Order\Entity\OrderItemService;
 use App\Order\Entity\OrderStorage;
-use App\Order\Messages\OrderClosed;
+use App\Order\Messages\OrderDealed;
 
 final class ChargeSalaryOnOrderClosedListener implements MessageHandler
 {
@@ -22,7 +22,7 @@ final class ChargeSalaryOnOrderClosedListener implements MessageHandler
         $this->employeeStorage = $employeeStorage;
     }
 
-    public function __invoke(OrderClosed $event): void
+    public function __invoke(OrderDealed $event): void
     {
         $order = $this->orderStorage->get($event->orderId);
 

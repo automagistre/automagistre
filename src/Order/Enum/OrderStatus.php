@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Order\Enum;
 
+use function in_array;
 use Premier\Enum\Enum;
 
 /**
@@ -14,7 +15,9 @@ use Premier\Enum\Enum;
  * @method static OrderStatus notification()
  * @method static OrderStatus working()
  * @method static OrderStatus closed()
+ * @method static OrderStatus cancelled()
  * @method bool   isClosed()
+ * @method bool   isCancelled()
  *
  * @author Konstantin Grachev <me@grachevko.ru>
  */
@@ -32,6 +35,7 @@ final class OrderStatus extends Enum
     private const CLOSED = 10;
     private const SELECTION = 11;
     private const PAYMENT_WAITING = 12;
+    private const CANCELLED = 13;
 
     protected static array $color = [
         self::DRAFT => 'default',
@@ -46,6 +50,7 @@ final class OrderStatus extends Enum
         self::CLOSED => 'default',
         self::SELECTION => 'danger',
         self::PAYMENT_WAITING => 'primary',
+        self::CANCELLED => 'default',
     ];
 
     protected static array $name = [
@@ -61,11 +66,15 @@ final class OrderStatus extends Enum
         self::CLOSED => 'Закрыт',
         self::SELECTION => 'Подбор запчастей',
         self::PAYMENT_WAITING => 'Ожидает Оплаты',
+        self::CANCELLED => 'Отменён',
     ];
 
     public function isEditable(): bool
     {
-        return self::CLOSED !== $this->toId();
+        return !in_array($this->toId(), [
+            self::CLOSED,
+            self::CANCELLED,
+        ], true);
     }
 
     /**
@@ -76,6 +85,7 @@ final class OrderStatus extends Enum
         return self::all(
             [
                 self::CLOSED,
+                self::CANCELLED,
             ],
             true
         );
@@ -84,5 +94,10 @@ final class OrderStatus extends Enum
     public function isSelectable(): bool
     {
         return $this->isEditable();
+    }
+
+    public function printable(): bool
+    {
+        return self::CANCELLED !== $this->toId();
     }
 }

@@ -17,58 +17,70 @@
             </div>
 
             <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-12" style="margin-bottom: 15px">
-                        {% if order.editable %}
-                            <a href="{{ easyadmin_path('Order', 'edit', {'id': order|toId}) }}" class="btn btn-primary">
-                                <i class="fa fa-pencil"></i>
-                                Редактировать
-                            </a>
+                {% if order.status.editable or order.status.printable %}
+                    <div class="row">
+                        <div class="col-md-12" style="margin-bottom: 15px">
+                            {% if order.editable %}
+                                <a href="{{ easyadmin_path('Order', 'edit', {'id': order|toId}) }}" class="btn btn-primary">
+                                    <i class="fa fa-pencil"></i>
+                                    Редактировать
+                                </a>
 
-                            <a href="{{ easyadmin_path('OrderClose', 'close', {'id': order|toId, 'referer': true}) }}" class="btn btn-danger">
-                                <i class="fa fa-close"></i>
-                                Закрыть
-                            </a>
-                        {% endif %}
+                                <div class="btn-group" role="group">
 
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-print"></i> Печать <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="{{ easyadmin_path('OrderPrint', 'finish', {'id': order|toId, 'referer': true}) }}">
-                                        ЗАКАЗ-НАРЯД
+                                    <a href="{{ easyadmin_path('OrderClose', 'close', {'id': order|toId, 'referer': true}) }}" class="btn btn-danger">
+                                        <i class="fa fa-close"></i>
+                                        Закрыть
                                     </a>
-                                </li>
-                                {% if order.editable %}
-                                    <li>
-                                        <a href="{{ easyadmin_path('OrderPrint', 'matching', {'id': order|toId, 'referer': true}) }}">
-                                            Ком.предложение
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ easyadmin_path('OrderPrint', 'giveOut', {'id': order|toId, 'referer': true}) }}">
-                                            Рабочий лист
-                                        </a>
-                                    </li>
-                                {% endif %}
-                                {% if customer is not empty %}
-                                    <li>
-                                        <a href="{{ easyadmin_path('OrderPrint', 'invoice', {'id': order|toId, 'referer': true}) }}">
-                                            Счёт
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ easyadmin_path('OrderPrint', 'upd', {'id': order|toId, 'referer': true}) }}">
-                                            УПД
-                                        </a>
-                                    </li>
-                                {% endif %}
-                            </ul>
+
+                                    <a href="{{ easyadmin_path('OrderCancel', 'cancel', {'id': order|toId, 'referer': true}) }}" class="btn btn-danger">
+                                        <i class="fa fa-ban"></i>
+                                        Отмена
+                                    </a>
+                                </div>
+                            {% endif %}
+
+                            {% if order.status.printable %}
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-print"></i> Печать <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="{{ easyadmin_path('OrderPrint', 'finish', {'id': order|toId, 'referer': true}) }}">
+                                                ЗАКАЗ-НАРЯД
+                                            </a>
+                                        </li>
+                                        {% if order.editable %}
+                                            <li>
+                                                <a href="{{ easyadmin_path('OrderPrint', 'matching', {'id': order|toId, 'referer': true}) }}">
+                                                    Ком.предложение
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ easyadmin_path('OrderPrint', 'giveOut', {'id': order|toId, 'referer': true}) }}">
+                                                    Рабочий лист
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                        {% if customer is not empty %}
+                                            <li>
+                                                <a href="{{ easyadmin_path('OrderPrint', 'invoice', {'id': order|toId, 'referer': true}) }}">
+                                                    Счёт
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ easyadmin_path('OrderPrint', 'upd', {'id': order|toId, 'referer': true}) }}">
+                                                    УПД
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
-                </div>
+                {% endif %}
 
                 <div class="row">
                     <div class="col-md-12">

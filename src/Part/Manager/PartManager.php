@@ -66,7 +66,7 @@ final class PartManager
             ->andWhere('entity.status NOT IN (:statuses)')
             ->orderBy('entity.id', 'DESC')
             ->setParameter('part', $partId)
-            ->setParameter('statuses', OrderStatus::closed())
+            ->setParameter('statuses', [OrderStatus::closed(), OrderStatus::cancelled()])
             ->getQuery()
             ->getResult();
     }

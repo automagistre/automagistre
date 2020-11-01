@@ -10,6 +10,7 @@ use App\Order\Form\Close\OrderCloseDto;
 use App\Order\Form\Close\OrderCloseType;
 use App\Order\Messages\CloseOrderCommand;
 use App\Order\Messages\CreatePayment;
+use function sprintf;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -21,6 +22,12 @@ final class OrderCloseController extends AbstractController
         $order = $this->getEntity(Order::class);
         if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order is required');
+        }
+
+        if (!$order->isEditable()) {
+            $this->addFlash('danger', sprintf('Заказ № %s уже закрыт.', $order->getNumber()));
+
+            return $this->redirectToReferrer();
         }
 
         $orderId = $order->toId();

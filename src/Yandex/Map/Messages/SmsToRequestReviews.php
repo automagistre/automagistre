@@ -7,9 +7,11 @@ namespace App\Yandex\Map\Messages;
 use App\Customer\Entity\CustomerStorage;
 use App\Customer\Entity\Organization;
 use App\MessageBus\MessageHandler;
+use App\Order\Entity\OrderDeal;
 use App\Order\Entity\OrderStorage;
-use App\Order\Messages\OrderClosed;
+use App\Order\Messages\OrderDealed;
 use App\Sms\Messages\SendSms;
+use function assert;
 use DateTimeImmutable;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -36,7 +38,7 @@ final class SmsToRequestReviews implements MessageHandler
         $this->messageBus = $messageBus;
     }
 
-    public function __invoke(OrderClosed $event): void
+    public function __invoke(OrderDealed $event): void
     {
         $order = $this->orderStorage->get($event->orderId);
 
@@ -51,6 +53,8 @@ final class SmsToRequestReviews implements MessageHandler
         }
 
         $orderClose = $order->getClose();
+        assert($orderClose instanceof OrderDeal);
+
         if (!$orderClose->satisfaction->isGood()) {
             return;
         }
