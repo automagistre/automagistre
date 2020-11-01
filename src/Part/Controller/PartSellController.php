@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Part\Controller;
 
 use App\EasyAdmin\Controller\AbstractController;
-use App\Part\Entity\Part;
 use App\Part\Entity\PartView;
 use App\Shared\Doctrine\Registry;
 use App\Storage\Entity\Motion;
@@ -16,7 +15,6 @@ use DateTimeImmutable;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use function usort;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -54,27 +52,13 @@ final class PartSellController extends AbstractController
 
         $sql = '
             SELECT m.part_id,
-                ABS(ROUND(SUM(m.quantity::NUMERIC / 100 ), 2))          AS quantity,
-                (
-                    SELECT ROUND(SUM(sub.quantity)::NUMERIC / 100, 2) 
-                    FROM motion sub 
-                    WHERE sub.part_id = m.part_id
-                )                                                       AS stock,
-                (
-                    SELECT ROUND(SUM(r.quantity)::NUMERIC / 100, 2)
-                    FROM reservation r
-                        JOIN order_item_part oip ON r.order_item_part_id = oip.id
-                        JOIN order_item oi ON oip.id = oi.id
-                        JOIN orders o ON oi.order_id = o.id
-                        LEFT JOIN order_close ON order_close.order_id = o.id
-                    WHERE oip.part_id = m.part_id
-                        AND order_close IS NULL
-                )                                                       AS reserved
+                   ABS(ROUND(SUM(m.quantity::NUMERIC), 2)) AS quantity
             FROM motion m
             JOIN created_by cb ON cb.id = m.id
             WHERE cb.created_at BETWEEN :start AND :end
             AND m.source = :source_order
             GROUP BY m.part_id
+            ORDER BY quantity DESC, m.part_id
         ';
 
         $conn = $registry->manager(Motion::class)->getConnection();
@@ -89,17 +73,15 @@ final class PartSellController extends AbstractController
             'source_order' => 'motion_source_enum',
         ]);
 
-        $ids = array_map(fn (array $item): string => $item['part_id'], $items);
+        $ids = array_map(static fn (array $item): string => $item['part_id'], $items);
 
-        $parts = $registry->manager(Part::class)->createQueryBuilder()
+        $parts = $registry->manager(PartView::class)->createQueryBuilder()
             ->select('part')
             ->from(PartView::class, 'part', 'part.id')
             ->where('part.id IN (:ids)')
             ->getQuery()
             ->setParameter('ids', $ids)
             ->getResult();
-
-        usort($items, fn (array $left, array $right): int => (int) $right['quantity'] <=> (int) $left['quantity']);
 
         return $this->render('easy_admin/part/report/sell.html.twig', [
             'start' => $start,

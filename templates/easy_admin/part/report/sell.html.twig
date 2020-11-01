@@ -52,12 +52,14 @@
                         </thead>
                         <tbody>
                         {% for item in items %}
+                            {% set part = parts[item.part_id] %}
+
                             <tr>
-                                <td>{% include 'easy_admin/field_part.html.twig' with {'value': parts[item.part_id]} only %}</td>
-                                <td>{{ item.quantity }}</td>
-                                <td>{{ item.stock }}</td>
-                                <td>{{ item.reserved }}</td>
-                                <td>{{ item.stock - item.reserved }}</td>
+                                <td>{% include 'easy_admin/field_part.html.twig' with {'value': part} only %}</td>
+                                <td>{{ item.quantity|format_quantity }}</td>
+                                <td>{{ part.quantity|format_quantity }}</td>
+                                <td>{{ part.ordered|format_quantity }}</td>
+                                <td>{{ (part.quantity - part.ordered)|format_quantity }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>

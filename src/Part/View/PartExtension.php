@@ -11,7 +11,9 @@ use App\Part\Entity\PartId;
 use App\Part\Entity\PartView;
 use App\Part\Manager\PartManager;
 use App\Shared\Doctrine\Registry;
+use function number_format;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 /**
@@ -52,6 +54,21 @@ final class PartExtension extends AbstractExtension
             new TwigFunction(
                 'part_view',
                 fn (PartId $partId): PartView => $this->registry->getBy(PartView::class, ['id' => $partId]),
+            ),
+        ];
+    }
+
+    public function getFilters(): array
+    {
+        return [
+            new TwigFilter(
+                'format_quantity',
+                /** @psalm-suppress MissingClosureParamType */
+                static function ($value, bool $keepZero = false): string {
+                    $formatted = number_format($value / 100, 2);
+
+                    return !$keepZero && '0.00' === $formatted ? '' : $formatted;
+                },
             ),
         ];
     }
