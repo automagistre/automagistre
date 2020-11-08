@@ -473,11 +473,11 @@ final class OrderController extends AbstractController
         if (null === $customer && null === $car && null === $partId && !$request->query->has('all')) {
             $qb->where(
                 $qb->expr()->orX(
-                    $qb->expr()->neq('entity.status', ':closedStatus'),
+                    $qb->expr()->notIn('entity.status', ':closedStatuses'),
                     $qb->expr()->eq('DATE(closedBy.createdAt)', ':today')
                 )
             )
-                ->setParameter('closedStatus', OrderStatus::closed())
+                ->setParameter('closedStatuses', [OrderStatus::closed(), OrderStatus::cancelled()])
                 ->setParameter('today', (new DateTime())->format('Y-m-d'));
         }
 
