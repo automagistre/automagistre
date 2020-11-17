@@ -58,12 +58,14 @@
                                         </td>
                                     </tr>
                                     {% for linePart in line.parts %}
+                                        {% set partView = part_view(linePart.partId) %}
+
                                         <tr>
                                             {# @var linePart \App\MC\Entity\McPart #}
                                             <td style="text-align: right">
                                                 <a href="{{ easyadmin_path('McPart', 'edit', {'id': linePart|toId}) }}">{{ linePart.partId|display_name }}</a>
                                             </td>
-                                            <td></td>
+                                            <td>{{ partView.price|localize_money }}</td>
                                             <td></td>
                                             <td>{% include 'easy_admin/default/field_boolean.html.twig' with {'value': linePart.recommended} %}</td>
                                             <td></td>
