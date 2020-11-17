@@ -31,11 +31,11 @@
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
-                                    <th>Номер</th>
-                                    <th>Работа</th>
-                                    <th>Запчасть</th>
+                                    <th>Работа/Запчасть</th>
+                                    <th>Цена</th>
                                     <th>Период</th>
-                                    <th>Рекомендуемый?</th>
+                                    <th>Рек-мый?</th>
+                                    <th>+Работа</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -43,29 +43,30 @@
                                     {# @var line \App\MC\Entity\McLine #}
                                     <tr>
                                         <td>
-                                            <a href="{{ easyadmin_path('McLine', 'edit', {'id': line|toId}) }}">{{ line|toId }}</a>
-                                        </td>
-                                        <td>
                                             <a href="{{ easyadmin_path('McWork', 'edit', {'id': line.work|toId}) }}">{{ line.work }}</a>
                                         </td>
+                                        <td>{{ line.work.price|localize_money }}</td>
+
+                                        <td>
+                                            <a href="{{ easyadmin_path('McLine', 'edit', {'id': line|toId}) }}">{{ line.period }}
+                                        </td>
+                                        <td>{% include 'easy_admin/default/field_boolean.html.twig' with {'value': line.recommended} %}</td>
                                         <td>
                                             <a href="{{ easyadmin_path('McPart', 'new', {'mc_line_id': line|toId}) }}">
                                                 <i class="fa fa-plus"></i>
                                             </a>
                                         </td>
-                                        <td>{{ line.period }}</td>
-                                        <td>{% include 'easy_admin/default/field_boolean.html.twig' with {'value': line.recommended} %}</td>
                                     </tr>
                                     {% for linePart in line.parts %}
                                         <tr>
                                             {# @var linePart \App\MC\Entity\McPart #}
-                                            <td>
+                                            <td style="text-align: right">
                                                 <a href="{{ easyadmin_path('McPart', 'edit', {'id': linePart|toId}) }}">{{ linePart.partId|display_name }}</a>
                                             </td>
                                             <td></td>
-                                            <td>{% include 'easy_admin/field_part.html.twig' with {'value': part_view(linePart.partId)} %}</td>
                                             <td></td>
                                             <td>{% include 'easy_admin/default/field_boolean.html.twig' with {'value': linePart.recommended} %}</td>
+                                            <td></td>
                                         </tr>
                                     {% endfor %}
                                 {% endfor %}
