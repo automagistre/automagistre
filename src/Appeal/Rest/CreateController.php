@@ -62,10 +62,13 @@ final class CreateController extends AbstractController
         /** @var DateTimeImmutable $date */
         $date = DateTimeImmutable::createFromFormat('Y-m-d', $dto->date);
 
+        /** @var PhoneNumber $phone */
+        $phone = $this->phoneNumberUtil->parse($dto->phone);
+
         $em->persist(
             Schedule::create(
                 $dto->name,
-                $dto->email,
+                $phone,
                 $date,
             ),
         );

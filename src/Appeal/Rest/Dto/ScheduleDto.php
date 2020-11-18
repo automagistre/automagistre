@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Appeal\Rest\Dto;
 
+use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -22,9 +23,9 @@ final class ScheduleDto
      * @var string
      *
      * @Assert\NotBlank
-     * @Assert\Email
+     * @PhoneNumber
      */
-    public $email;
+    public $phone;
 
     /**
      * @var string

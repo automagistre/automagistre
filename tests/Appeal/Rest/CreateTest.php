@@ -40,7 +40,7 @@ final class CreateTest extends WebTestCase
             'schedule',
             [
                 'name' => 'bla',
-                'email' => 'bla@automagistre.ru',
+                'phone' => '+79261680001',
                 'date' => '2020-01-01',
             ],
         ];
