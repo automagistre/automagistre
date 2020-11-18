@@ -104,6 +104,8 @@ COPY --from=php /usr/local/app/public/assets assets
 COPY --from=php /usr/local/app/public/bundles bundles
 
 COPY etc/nginx.conf /etc/nginx/nginx.conf
+COPY etc/nginx.cors.conf /etc/nginx/cors.conf
+COPY etc/nginx.cors-setup.conf /etc/nginx/cors.setup.conf
 
 RUN find . \
     -type f \

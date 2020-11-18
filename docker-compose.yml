@@ -8,6 +8,8 @@ services:
         volumes:
             - ./public:/usr/local/app/public
             - ./etc/nginx.conf:/etc/nginx/nginx.conf
+            - ./etc/nginx.cors.conf:/etc/nginx/cors.conf
+            - ./etc/nginx.cors-setup.conf:/etc/nginx/cors.setup.conf
 
     php-fpm:
         image: automagistre/tenant-php:base
