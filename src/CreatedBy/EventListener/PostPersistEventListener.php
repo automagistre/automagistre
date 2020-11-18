@@ -64,6 +64,22 @@ final class PostPersistEventListener implements EventSubscriber
             $userId = Costil::SERVICE_USER;
         }
 
+        if (null === $userId) {
+            $em->getConnection()->executeQuery(
+                'INSERT INTO created_at (id, created_at) VALUES (:id, :date)',
+                [
+                    'id' => (string) $id,
+                    'date' => new DateTimeImmutable(),
+                ],
+                [
+                    'id' => 'uuid',
+                    'date' => 'datetime',
+                ]
+            );
+
+            return;
+        }
+
         $em->getConnection()->executeQuery(
             'INSERT INTO created_by (id, user_id, created_at) VALUES (:id, :user, :date)',
             [
