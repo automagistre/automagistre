@@ -8,6 +8,7 @@ use Premier\Enum\Enum;
 
 /**
  * @method static self unknown()
+ * @method static self pickup()
  *
  * @author Konstantin Grachev <me@grachevko.ru>
  */

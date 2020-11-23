@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Appeal\Entity;
 
+use App\Vehicle\Entity\VehicleId;
+use App\Vehicle\Enum\BodyType;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
+use Money\Money;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
@@ -32,25 +35,68 @@ class TireFitting
     public PhoneNumber $phone;
 
     /**
+     * @ORM\Column(type="vehicle_id")
+     */
+    public VehicleId $modelId;
+
+    /**
+     * @ORM\Column(type="carcase_enum")
+     */
+    public BodyType $bodyType;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    public int $diameter;
+
+    /**
+     * @ORM\Column(type="money")
+     */
+    public Money $total;
+
+    /**
      * @ORM\Column(type="json")
      */
-    public array $body;
+    public array $works;
 
-    public function __construct(UuidInterface $id, string $name, PhoneNumber $phone, array $body)
-    {
+    public function __construct(
+        UuidInterface $id,
+        string $name,
+        PhoneNumber $phone,
+        VehicleId $modelId,
+        BodyType $bodyType,
+        int $diameter,
+        Money $total,
+        array $works
+    ) {
         $this->id = $id;
         $this->name = $name;
         $this->phone = $phone;
-        $this->body = $body;
+        $this->modelId = $modelId;
+        $this->bodyType = $bodyType;
+        $this->diameter = $diameter;
+        $this->total = $total;
+        $this->works = $works;
     }
 
-    public static function create(string $name, PhoneNumber $phone, array $body): self
-    {
+    public static function create(
+        string $name,
+        PhoneNumber $phone,
+        VehicleId $modelId,
+        BodyType $bodyType,
+        int $diameter,
+        Money $total,
+        array $works
+    ): self {
         return new self(
             Uuid::uuid6(),
             $name,
             $phone,
-            $body,
+            $modelId,
+            $bodyType,
+            $diameter,
+            $total,
+            $works,
         );
     }
 }

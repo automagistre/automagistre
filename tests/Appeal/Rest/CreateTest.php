@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Appeal\Rest;
 
 use App\MC\Fixtures\EquipmentFixtures;
+use App\Vehicle\Enum\BodyType;
+use App\Vehicle\Fixtures\NissanGTRFixture;
 use Generator;
 use Sentry\Util\JSON;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -21,6 +23,7 @@ final class CreateTest extends WebTestCase
         $client->request('POST', '/api/v1/appeal/'.$url, [], [], [], JSON::encode($data));
         $response = $client->getResponse();
 
+        static::assertSame('', $response->getContent());
         static::assertTrue($response->isSuccessful());
     }
 
@@ -82,8 +85,14 @@ final class CreateTest extends WebTestCase
             [
                 'name' => 'bla',
                 'phone' => '+79261680000',
-                'body' => [
-                    'bla',
+                'modelId' => NissanGTRFixture::ID,
+                'diameter' => 20,
+                'bodyType' => BodyType::pickup()->toName(),
+                'total' => 0,
+                'works' => [
+                    [
+                        'id' => '',
+                    ],
                 ],
             ],
         ];

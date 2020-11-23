@@ -15,6 +15,8 @@ use App\Appeal\Rest\Dto\QuestionDto;
 use App\Appeal\Rest\Dto\ScheduleDto;
 use App\Appeal\Rest\Dto\TireFittingDto;
 use App\MC\Entity\McEquipmentId;
+use App\Vehicle\Entity\VehicleId;
+use App\Vehicle\Enum\BodyType;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use libphonenumber\PhoneNumber;
@@ -135,7 +137,11 @@ final class CreateController extends AbstractController
             TireFitting::create(
                 $dto->name,
                 $phone,
-                $dto->body,
+                VehicleId::fromString($dto->modelId),
+                BodyType::from('name', $dto->bodyType),
+                $dto->diameter,
+                new Money($dto->total, new Currency('RUB')),
+                $dto->works,
             ),
         );
         $em->flush();
