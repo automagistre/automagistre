@@ -94,6 +94,7 @@ final class MongoMaintenancePopulateCommand extends Command
                                 ),
                                 $line['parts']
                             ),
+                            $line['position'],
                         ),
                         $item['lines'],
                     ),

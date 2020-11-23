@@ -22,19 +22,20 @@ final class LineController extends AbstractController
      */
     protected function createNewEntity(): stdClass
     {
-        $model = new stdClass();
+        $dto = new stdClass();
         $equipment = $this->getEntity(McEquipment::class);
         if (!$equipment instanceof McEquipment) {
             throw new LogicException('Equipment required.');
         }
 
-        $model->id = null;
-        $model->equipment = $equipment;
-        $model->work = null;
-        $model->period = null;
-        $model->recommended = null;
+        $dto->id = null;
+        $dto->equipment = $equipment;
+        $dto->work = null;
+        $dto->period = null;
+        $dto->recommended = null;
+        $dto->position = null;
 
-        return $model;
+        return $dto;
     }
 
     /**
@@ -42,15 +43,16 @@ final class LineController extends AbstractController
      */
     protected function persistEntity($entity): McLine
     {
-        $model = $entity;
-        assert($model instanceof stdClass);
+        $dto = $entity;
+        assert($dto instanceof stdClass);
 
         $entity = new McLine(
             Uuid::uuid6(),
-            $model->equipment,
-            $model->work,
-            $model->period,
-            $model->recommended
+            $dto->equipment,
+            $dto->work,
+            $dto->period,
+            $dto->recommended,
+            $dto->position,
         );
 
         parent::persistEntity($entity);

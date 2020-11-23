@@ -45,13 +45,19 @@ class Work
      */
     public $parts;
 
+    /**
+     * @ODM\Field(type="int")
+     */
+    public int $position;
+
     public function __construct(
         string $name,
         ?string $description,
         int $period,
         bool $recommended,
         Money $price,
-        array $parts
+        array $parts,
+        int $position
     ) {
         $this->name = $name;
         $this->description = $description;
@@ -59,5 +65,6 @@ class Work
         $this->recommended = $recommended;
         $this->price = $price;
         $this->parts = $parts;
+        $this->position = $position;
     }
 }

@@ -70,6 +70,7 @@ easy_admin:
                     - { property: 'work', label: 'Работа' }
                     - { property: 'period', label: 'Период' }
                     - { property: 'recommended', label: 'Рекомендуемый?' }
+                    - { property: 'position', label: 'Позиция' }
             new:
                 title: 'Создать работу'
             edit:

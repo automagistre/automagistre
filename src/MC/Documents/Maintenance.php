@@ -48,7 +48,7 @@ class Maintenance
     /**
      * @var Collection<int, Work>
      *
-     * @ODM\EmbedMany(targetDocument=Line::class)
+     * @ODM\EmbedMany(targetDocument=Work::class)
      */
     public Collection $works;
 

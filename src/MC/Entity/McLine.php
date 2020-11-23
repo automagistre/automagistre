@@ -7,7 +7,6 @@ namespace App\MC\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 /**
@@ -48,14 +47,26 @@ class McLine
      */
     public bool $recommended = false;
 
-    public function __construct(UuidInterface $id, McEquipment $equipment, McWork $work, int $period, bool $recommended)
-    {
+    /**
+     * @ORM\Column(type="integer")
+     */
+    public int $position;
+
+    public function __construct(
+        UuidInterface $id,
+        McEquipment $equipment,
+        McWork $work,
+        int $period,
+        bool $recommended,
+        int $position = 0
+    ) {
         $this->id = $id;
         $this->equipment = $equipment;
         $this->work = $work;
         $this->parts = new ArrayCollection();
         $this->period = $period;
         $this->recommended = $recommended;
+        $this->position = $position;
     }
 
     public function toId(): UuidInterface

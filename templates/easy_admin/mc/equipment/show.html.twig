@@ -35,6 +35,7 @@
                                     <th>Цена</th>
                                     <th>Период</th>
                                     <th>Рек-мый?</th>
+                                    <th>Позиция</th>
                                     <th>+Работа</th>
                                 </tr>
                                 </thead>
@@ -51,6 +52,7 @@
                                             <a href="{{ easyadmin_path('McLine', 'edit', {'id': line|toId}) }}">{{ line.period }}
                                         </td>
                                         <td>{% include 'easy_admin/default/field_boolean.html.twig' with {'value': line.recommended} %}</td>
+                                        <td>{{ line.position }}</td>
                                         <td>
                                             <a href="{{ easyadmin_path('McPart', 'new', {'mc_line_id': line|toId}) }}">
                                                 <i class="fa fa-plus"></i>

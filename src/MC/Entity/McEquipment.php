@@ -43,6 +43,7 @@ class McEquipment
      * @var Collection<int, McLine>
      *
      * @ORM\OneToMany(targetEntity=McLine::class, mappedBy="equipment")
+     * @ORM\OrderBy(value={"position": "ASC"})
      */
     public ?Collection $lines = null;
 
