@@ -78,6 +78,7 @@ final class MongoMaintenancePopulateCommand extends Command
                     $item['equipment.wheelDrive'],
                     array_map(
                         fn (array $line) => new Work(
+                            $line['work']['id'],
                             $line['work']['name'],
                             $line['work']['description'],
                             $line['period'],

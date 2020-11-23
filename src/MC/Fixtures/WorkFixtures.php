@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\MC\Fixtures;
 
 use App\MC\Entity\McWork;
+use App\MC\Entity\McWorkId;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Money\Currency;
 use Money\Money;
-use Ramsey\Uuid\Uuid;
 
 final class WorkFixtures extends Fixture
 {
@@ -21,7 +21,7 @@ final class WorkFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $work = new McWork(
-            Uuid::fromString(self::ID),
+            McWorkId::fromString(self::ID),
             'Work 1',
             null,
             new Money(100, new Currency('RUB'))

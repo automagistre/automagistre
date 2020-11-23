@@ -13,6 +13,7 @@ return [
     App\Income\Entity\IncomeId::class => ['income_id'],
     App\Income\Entity\IncomePartId::class => ['income_part_id'],
     App\MC\Entity\McEquipmentId::class => ['mc_equipment_id'],
+    App\MC\Entity\McWorkId::class => ['mc_work_id'],
     App\Manufacturer\Entity\ManufacturerId::class => ['manufacturer_id'],
     App\Order\Entity\OrderId::class => ['order_id'],
     App\Part\Entity\PartCaseId::class => ['part_case_id'],

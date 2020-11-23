@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MC\Documents;
 
+use App\MC\Entity\McWorkId;
 use App\Part\Documents\Part;
 use App\Shared\Money\Documents\Money;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
@@ -13,6 +14,11 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
  */
 class Work
 {
+    /**
+     * @ODM\Id(strategy="NONE", type="mc_work_id")
+     */
+    public McWorkId $id;
+
     /**
      * @ODM\Field()
      */
@@ -51,6 +57,7 @@ class Work
     public int $position;
 
     public function __construct(
+        McWorkId $id,
         string $name,
         ?string $description,
         int $period,
@@ -59,6 +66,7 @@ class Work
         array $parts,
         int $position
     ) {
+        $this->id = $id;
         $this->name = $name;
         $this->description = $description;
         $this->period = $period;
