@@ -22,7 +22,7 @@ class Review
 {
     /**
      * @ORM\Id()
-     * @ORM\Column(type="uuid")
+     * @ORM\Column(type="review_id")
      *
      * @ODM\Id(strategy="NONE", type="review_id")
      */
