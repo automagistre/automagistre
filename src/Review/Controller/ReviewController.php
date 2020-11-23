@@ -6,9 +6,9 @@ namespace App\Review\Controller;
 
 use App\EasyAdmin\Controller\AbstractController;
 use App\Review\Entity\Review;
+use App\Review\Entity\ReviewId;
 use App\Review\Form\ReviewDto;
 use function assert;
-use Ramsey\Uuid\Uuid;
 use function strtolower;
 
 /**
@@ -30,7 +30,7 @@ final class ReviewController extends AbstractController
         assert($dto instanceof ReviewDto);
 
         $entity = new Review(
-            Uuid::uuid6(),
+            ReviewId::generate(),
             $dto->author,
             $dto->manufacturer,
             $dto->model,

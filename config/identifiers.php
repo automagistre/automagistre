@@ -18,6 +18,7 @@ return [
     App\Order\Entity\OrderId::class => ['order_id'],
     App\Part\Entity\PartCaseId::class => ['part_case_id'],
     App\Part\Entity\PartId::class => ['part_id'],
+    App\Review\Entity\ReviewId::class => ['review_id'],
     App\Sms\Entity\SmsId::class => ['sms_id'],
     App\Storage\Entity\MotionId::class => ['motion_id'],
     App\Storage\Entity\WarehouseId::class => ['warehouse_id'],

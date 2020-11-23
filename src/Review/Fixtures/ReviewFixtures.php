@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Review\Fixtures;
 
 use App\Review\Entity\Review;
+use App\Review\Entity\ReviewId;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Ramsey\Uuid\Uuid;
 
 final class ReviewFixtures extends Fixture
 {
@@ -20,7 +20,7 @@ final class ReviewFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $review = new Review(
-            Uuid::fromString(self::ID),
+            ReviewId::fromString(self::ID),
             'Uzver',
             'Nissan',
             'GTR',

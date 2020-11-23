@@ -6,7 +6,6 @@ namespace App\Review\Entity;
 
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -16,9 +15,9 @@ class Review
 {
     /**
      * @ORM\Id()
-     * @ORM\Column(type="uuid")
+     * @ORM\Column(type="review_id")
      */
-    public UuidInterface $id;
+    public ReviewId $id;
 
     /**
      * @ORM\Column
@@ -54,7 +53,7 @@ class Review
     public DateTimeImmutable $publishAt;
 
     public function __construct(
-        UuidInterface $id,
+        ReviewId $id,
         string $author,
         string $manufacturer,
         string $model,
@@ -71,7 +70,7 @@ class Review
         $this->publishAt = $publishAt;
     }
 
-    public function toId(): UuidInterface
+    public function toId(): ReviewId
     {
         return $this->id;
     }
