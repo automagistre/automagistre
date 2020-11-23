@@ -28,10 +28,46 @@ final class CalculatorDto
     public $phone;
 
     /**
+     * @var string|null
+     */
+    public $note;
+
+    /**
+     * @var string
+     *
+     * @Assert\NotBlank
+     * @Assert\Date
+     */
+    public $date;
+
+    /**
+     * @var string
+     *
+     * @Assert\NotBlank
+     */
+    public $equipmentId;
+
+    /**
+     * @var int
+     *
+     * @Assert\NotBlank
+     * @Assert\Type(type="int")
+     */
+    public $mileage;
+
+    /**
+     * @var int
+     *
+     * @Assert\NotBlank
+     * @Assert\Type(type="int")
+     */
+    public $total;
+
+    /**
      * @var array
      *
      * @Assert\NotBlank
      * @Assert\Type(type="array")
      */
-    public $body;
+    public $works;
 }

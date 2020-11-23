@@ -14,10 +14,13 @@ use App\Appeal\Rest\Dto\CooperationDto;
 use App\Appeal\Rest\Dto\QuestionDto;
 use App\Appeal\Rest\Dto\ScheduleDto;
 use App\Appeal\Rest\Dto\TireFittingDto;
+use App\MC\Entity\McEquipmentId;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberUtil;
+use Money\Currency;
+use Money\Money;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -41,12 +44,19 @@ final class CreateController extends AbstractController
     {
         /** @var PhoneNumber $phone */
         $phone = $this->phoneNumberUtil->parse($dto->phone);
+        /** @var DateTimeImmutable $date */
+        $date = DateTimeImmutable::createFromFormat('Y-m-d', $dto->date);
 
         $em->persist(
             Calculator::create(
                 $dto->name,
+                $dto->note,
                 $phone,
-                $dto->body,
+                $date,
+                McEquipmentId::fromString($dto->equipmentId),
+                $dto->mileage,
+                new Money($dto->total, new Currency('RUB')),
+                $dto->works,
             ),
         );
         $em->flush();

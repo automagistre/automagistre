@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Appeal\Rest;
 
+use App\MC\Fixtures\EquipmentFixtures;
 use Generator;
 use Sentry\Util\JSON;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -30,8 +31,22 @@ final class CreateTest extends WebTestCase
             [
                 'name' => 'bla',
                 'phone' => '+79261680000',
-                'body' => [
-                    'bla',
+                'note' => 'string',
+                'date' => '2020-01-01',
+                'equipmentId' => EquipmentFixtures::ID,
+                'mileage' => 0,
+                'total' => 0,
+                'works' => [
+                    [
+                        'id' => '',
+                        'parts' => [
+                            [
+                                'id' => '',
+                                'name' => '',
+                                'price' => '',
+                            ],
+                        ],
+                    ],
                 ],
             ],
         ];
