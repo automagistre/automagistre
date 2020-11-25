@@ -40,14 +40,14 @@ class TireFitting
     public VehicleId $modelId;
 
     /**
-     * @ORM\Column(type="carcase_enum")
+     * @ORM\Column(type="carcase_enum", nullable=true)
      */
-    public BodyType $bodyType;
+    public ?BodyType $bodyType;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    public int $diameter;
+    public ?int $diameter;
 
     /**
      * @ORM\Column(type="money")
@@ -64,8 +64,8 @@ class TireFitting
         string $name,
         PhoneNumber $phone,
         VehicleId $modelId,
-        BodyType $bodyType,
-        int $diameter,
+        ?BodyType $bodyType,
+        ?int $diameter,
         Money $total,
         array $works
     ) {
@@ -83,8 +83,8 @@ class TireFitting
         string $name,
         PhoneNumber $phone,
         VehicleId $modelId,
-        BodyType $bodyType,
-        int $diameter,
+        ?BodyType $bodyType,
+        ?int $diameter,
         Money $total,
         array $works
     ): self {

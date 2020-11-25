@@ -40,9 +40,9 @@ class Calculator
     public PhoneNumber $phone;
 
     /**
-     * @ORM\Column(type="date_immutable")
+     * @ORM\Column(type="date_immutable", nullable=true)
      */
-    public DateTimeImmutable $date;
+    public ?DateTimeImmutable $date;
 
     /**
      * @ORM\Column(type="mc_equipment_id")
@@ -69,7 +69,7 @@ class Calculator
         string $name,
         ?string $note,
         PhoneNumber $phone,
-        DateTimeImmutable $date,
+        ?DateTimeImmutable $date,
         McEquipmentId $equipmentId,
         int $mileage,
         Money $total,
@@ -90,7 +90,7 @@ class Calculator
         string $name,
         ?string $note,
         PhoneNumber $phone,
-        DateTimeImmutable $date,
+        ?DateTimeImmutable $date,
         McEquipmentId $equipmentId,
         int $mileage,
         Money $total,

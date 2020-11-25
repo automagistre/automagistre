@@ -41,16 +41,16 @@ final class TireFittingDto
     public $modelId;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @Assert\NotBlank
+     * @Assert\NotBlank(allowNull=true)
      */
     public $bodyType;
 
     /**
-     * @var int
+     * @var int|null
      *
-     * @Assert\NotBlank
+     * @Assert\NotBlank(allowNull=true)
      * @Assert\Type(type="int")
      */
     public $diameter;
@@ -66,16 +66,19 @@ final class TireFittingDto
     /**
      * @var array
      *
-     * @Assert\NotBlank
      * @Assert\Type(type="array")
      */
-    public $works;
+    public $works = [];
 
     /**
      * @Assert\Callback
      */
     public function validate(ExecutionContextInterface $context): void
     {
+        if (null === $this->bodyType) {
+            return;
+        }
+
         $types = array_map(static fn (BodyType $enum): string => $enum->toName(), BodyType::all());
 
         if (!in_array($this->bodyType, $types, true)) {

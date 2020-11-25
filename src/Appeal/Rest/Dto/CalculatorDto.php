@@ -33,9 +33,9 @@ final class CalculatorDto
     public $note;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @Assert\NotBlank
+     * @Assert\NotBlank(allowNull=true)
      * @Assert\Date
      */
     public $date;

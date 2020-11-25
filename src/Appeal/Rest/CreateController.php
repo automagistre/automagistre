@@ -46,8 +46,8 @@ final class CreateController extends AbstractController
     {
         /** @var PhoneNumber $phone */
         $phone = $this->phoneNumberUtil->parse($dto->phone);
-        /** @var DateTimeImmutable $date */
-        $date = DateTimeImmutable::createFromFormat('Y-m-d', $dto->date);
+        /** @var DateTimeImmutable|null $date */
+        $date = null === $dto->date ? null : DateTimeImmutable::createFromFormat('Y-m-d', $dto->date);
 
         $em->persist(
             Calculator::create(
@@ -138,7 +138,7 @@ final class CreateController extends AbstractController
                 $dto->name,
                 $phone,
                 VehicleId::fromString($dto->modelId),
-                BodyType::from('name', $dto->bodyType),
+                null === $dto->bodyType ? null : BodyType::from('name', $dto->bodyType),
                 $dto->diameter,
                 new Money($dto->total, new Currency('RUB')),
                 $dto->works,

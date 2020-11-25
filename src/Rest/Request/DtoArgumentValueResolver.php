@@ -37,6 +37,8 @@ final class DtoArgumentValueResolver implements ArgumentValueResolverInterface
         /** @psalm-var class-string */
         $type = $argument->getType();
 
-        yield $this->serializer->deserialize($request->getContent(), $type, 'json');
+        yield $this->serializer->deserialize($request->getContent(), $type, 'json', [
+            'disable_type_enforcement' => true,
+        ]);
     }
 }

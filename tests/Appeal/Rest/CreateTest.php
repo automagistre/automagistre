@@ -54,6 +54,31 @@ final class CreateTest extends WebTestCase
             ],
         ];
 
+        yield 'Calculator with null date' => [
+            'calc',
+            [
+                'name' => 'bla',
+                'phone' => '+79261680000',
+                'note' => 'string',
+                'date' => null,
+                'equipmentId' => EquipmentFixtures::ID,
+                'mileage' => 0,
+                'total' => 0,
+                'works' => [
+                    [
+                        'id' => '',
+                        'parts' => [
+                            [
+                                'id' => '',
+                                'name' => '',
+                                'price' => '',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
         yield 'Schedule' => [
             'schedule',
             [
@@ -94,6 +119,16 @@ final class CreateTest extends WebTestCase
                         'id' => '',
                     ],
                 ],
+            ],
+        ];
+
+        yield 'Tire Fitting without optional fields' => [
+            'tire-fitting',
+            [
+                'name' => 'bla',
+                'phone' => '+79261680000',
+                'modelId' => NissanGTRFixture::ID,
+                'total' => 0,
             ],
         ];
     }
