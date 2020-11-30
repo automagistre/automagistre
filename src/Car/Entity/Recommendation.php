@@ -26,7 +26,7 @@ class Recommendation implements PriceInterface
     use Price;
 
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="recommendation_id")
      */
     public RecommendationId $id;

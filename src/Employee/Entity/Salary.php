@@ -14,7 +14,7 @@ use Money\Money;
 class Salary
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="salary_id")
      */
     private SalaryId $id;

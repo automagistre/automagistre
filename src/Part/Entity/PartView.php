@@ -24,7 +24,7 @@ class PartView
     private const MARKUP = 1.15;
 
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="part_id")
      */
     public PartId $id;
@@ -102,12 +102,12 @@ class PartView
     public int $suppliesQuantity;
 
     /**
-     * @ORM\Column()
+     * @ORM\Column
      */
     private string $search;
 
     /**
-     * @ORM\Column()
+     * @ORM\Column
      */
     private string $cases;
 

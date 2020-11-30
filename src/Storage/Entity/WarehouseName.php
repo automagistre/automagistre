@@ -14,7 +14,7 @@ use Ramsey\Uuid\UuidInterface;
 class WarehouseName
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="uuid")
      */
     private UuidInterface $id;
@@ -25,7 +25,7 @@ class WarehouseName
     private WarehouseId $warehouseId;
 
     /**
-     * @ORM\Column()
+     * @ORM\Column
      */
     private string $name;
 

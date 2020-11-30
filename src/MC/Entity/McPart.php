@@ -14,7 +14,7 @@ use Ramsey\Uuid\UuidInterface;
 class McPart
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="uuid")
      */
     public UuidInterface $id;

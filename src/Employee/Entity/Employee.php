@@ -19,7 +19,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class Employee
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="employee_id")
      */
     private EmployeeId $id;

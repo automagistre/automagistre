@@ -51,7 +51,7 @@ final class Engine
      * @Assert\Type("numeric")
      *
      * @ORM\Column
-     * @ODM\Field()
+     * @ODM\Field
      */
     public string $capacity;
 

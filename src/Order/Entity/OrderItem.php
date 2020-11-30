@@ -48,7 +48,7 @@ abstract class OrderItem
     protected $children;
 
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="uuid")
      */
     private UuidInterface $id;

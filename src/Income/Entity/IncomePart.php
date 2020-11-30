@@ -26,7 +26,7 @@ class IncomePart
     public ?PartId $partId = null;
 
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="income_part_id")
      */
     private IncomePartId $id;

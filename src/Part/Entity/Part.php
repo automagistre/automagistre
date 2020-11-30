@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Part
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="part_id", unique=true)
      */
     public PartId $id;

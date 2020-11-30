@@ -24,7 +24,7 @@ abstract class OrderClose implements ContainsRecordedMessages
     use PrivateMessageRecorderCapabilities;
 
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="uuid")
      */
     public UuidInterface $id;

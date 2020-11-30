@@ -14,7 +14,7 @@ use function sprintf;
 class McWork
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="mc_work_id")
      */
     public McWorkId $id;

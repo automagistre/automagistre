@@ -29,7 +29,7 @@ final class PartPriceDto
     public $price;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      */
     public DateTimeImmutable $since;
 }

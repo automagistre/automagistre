@@ -21,7 +21,7 @@ use Ramsey\Uuid\UuidInterface;
 class CustomerTransactionView
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="customer_transaction_id")
      */
     public CustomerTransactionId $id;

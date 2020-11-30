@@ -21,7 +21,7 @@ use Ramsey\Uuid\UuidInterface;
 class WalletTransactionView
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="wallet_transaction_id")
      */
     public WalletTransactionId $id;

@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class UserPassword
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="user_password_id")
      */
     private UserPasswordId $id;

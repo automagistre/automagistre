@@ -11,12 +11,12 @@ final class CalendarEntryDto
     public CalendarEntryId $id;
 
     /**
-     * @Assert\Valid())
+     * @Assert\Valid)
      */
     public ScheduleDto $schedule;
 
     /**
-     * @Assert\Valid()
+     * @Assert\Valid
      */
     public OrderInfoDto $orderInfo;
 

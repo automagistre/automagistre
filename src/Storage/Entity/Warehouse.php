@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Warehouse
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="warehouse_id")
      */
     public WarehouseId $id;

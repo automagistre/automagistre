@@ -15,7 +15,7 @@ use Money\Money;
 class CustomerView
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="operand_id")
      */
     public OperandId $id;

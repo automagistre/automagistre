@@ -16,13 +16,13 @@ use Ramsey\Uuid\UuidInterface;
 class Cooperation
 {
     /**
-     * @ORM\Id()
-     * @ORM\Column()
+     * @ORM\Id
+     * @ORM\Column
      */
     public UuidInterface $id;
 
     /**
-     * @ORM\Column()
+     * @ORM\Column
      */
     public string $name;
 

@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class McEquipment
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="mc_equipment_id")
      */
     public McEquipmentId $id;

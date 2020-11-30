@@ -143,6 +143,7 @@ final class AutocompleteType extends AbstractType implements DataMapperInterface
     {
         assert($forms instanceof Traversable);
         $form = current(iterator_to_array($forms));
+        assert($form instanceof FormInterface);
         $form->setData($viewData);
     }
 
@@ -153,6 +154,7 @@ final class AutocompleteType extends AbstractType implements DataMapperInterface
     {
         assert($forms instanceof Traversable);
         $form = current(iterator_to_array($forms));
+        assert($form instanceof FormInterface);
         $viewData = $form->getData();
     }
 }

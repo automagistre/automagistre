@@ -13,13 +13,13 @@ use Doctrine\ORM\Mapping as ORM;
 class WarehouseView
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="warehouse_id")
      */
     public WarehouseId $id;
 
     /**
-     * @ORM\Column()
+     * @ORM\Column
      */
     public string $name;
 

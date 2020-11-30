@@ -13,7 +13,7 @@ final class CalendarEntryDeletionDto
     public CalendarEntryId $id;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      */
     public ?DeletionReason $reason = null;
 

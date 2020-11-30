@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Review
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="review_id")
      */
     public ReviewId $id;

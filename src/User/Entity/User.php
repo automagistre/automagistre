@@ -24,7 +24,7 @@ use function unserialize;
 class User implements UserInterface, EquatableInterface, Serializable
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="user_id")
      */
     public UserId $id;

@@ -25,7 +25,7 @@ class Vehicle
     public Manufacturer $manufacturer;
 
     /**
-     * @Field()
+     * @Field
      */
     public string $name;
 

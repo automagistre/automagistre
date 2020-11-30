@@ -16,7 +16,7 @@ use Money\Money;
 class SalaryView
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="salary_id")
      */
     public SalaryId $id;

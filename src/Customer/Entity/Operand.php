@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 abstract class Operand
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="operand_id")
      */
     public OperandId $id;

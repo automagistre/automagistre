@@ -36,7 +36,7 @@ class Order implements ContainsRecordedMessages
     use PrivateMessageRecorderCapabilities;
 
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="order_id")
      */
     private OrderId $id;

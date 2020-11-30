@@ -17,7 +17,7 @@ use Ramsey\Uuid\UuidInterface;
 class Discount
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="uuid")
      */
     private UuidInterface $id;

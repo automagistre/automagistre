@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 class CalendarEntry
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="calendar_entry_id")
      */
     private CalendarEntryId $id;

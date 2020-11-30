@@ -26,12 +26,12 @@ class Part
     public Manufacturer $manufacturer;
 
     /**
-     * @ODM\Field()
+     * @ODM\Field
      */
     public string $name;
 
     /**
-     * @ODM\Field()
+     * @ODM\Field
      */
     public string $number;
 

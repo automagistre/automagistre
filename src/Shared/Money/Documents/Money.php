@@ -13,12 +13,12 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations\Field;
 class Money
 {
     /**
-     * @Field()
+     * @Field
      */
     public string $amount;
 
     /**
-     * @Field()
+     * @Field
      */
     public string $currency;
 

@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Expense
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="expense_id")
      */
     private ExpenseId $id;

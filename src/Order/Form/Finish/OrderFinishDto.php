@@ -23,7 +23,7 @@ final class OrderFinishDto
     public $services;
 
     /**
-     * @Assert\Valid()
+     * @Assert\Valid
      */
     public ?CarMileageDto $mileage;
 

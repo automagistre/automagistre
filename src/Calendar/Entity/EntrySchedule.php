@@ -20,7 +20,7 @@ class EntrySchedule implements ContainsRecordedMessages
     use PrivateMessageRecorderCapabilities;
 
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="uuid")
      */
     private UuidInterface $id;

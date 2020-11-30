@@ -15,7 +15,7 @@ use Ramsey\Uuid\UuidInterface;
 class OrderPayment
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="uuid")
      */
     private UuidInterface $id;

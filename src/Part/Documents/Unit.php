@@ -15,12 +15,12 @@ class Unit
     public int $id;
 
     /**
-     * @ODM\Field()
+     * @ODM\Field
      */
     public string $label;
 
     /**
-     * @ODM\Field()
+     * @ODM\Field
      */
     public string $shortLabel;
 

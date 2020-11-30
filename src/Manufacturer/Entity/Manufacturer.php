@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Manufacturer
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="manufacturer_id")
      */
     public ManufacturerId $id;

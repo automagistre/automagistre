@@ -18,7 +18,7 @@ class RecommendationPart
     use Price;
 
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="recommendation_part_id")
      */
     public RecommendationPartId $id;

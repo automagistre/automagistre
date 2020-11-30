@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
 class EntryView
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="calendar_entry_id")
      */
     public CalendarEntryId $id;

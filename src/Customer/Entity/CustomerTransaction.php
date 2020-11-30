@@ -22,7 +22,7 @@ class CustomerTransaction implements ContainsRecordedMessages
     use PrivateMessageRecorderCapabilities;
 
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="customer_transaction_id")
      */
     private CustomerTransactionId $id;

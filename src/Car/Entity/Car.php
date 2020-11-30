@@ -32,7 +32,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Car
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="car_id", unique=true)
      */
     public CarId $id;

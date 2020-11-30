@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
 class PartCase
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="part_case_id")
      */
     private PartCaseId $id;

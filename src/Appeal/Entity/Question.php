@@ -15,23 +15,23 @@ use Ramsey\Uuid\UuidInterface;
 class Question
 {
     /**
-     * @ORM\Id()
-     * @ORM\Column()
+     * @ORM\Id
+     * @ORM\Column
      */
     public UuidInterface $id;
 
     /**
-     * @ORM\Column()
+     * @ORM\Column
      */
     public string $name;
 
     /**
-     * @ORM\Column()
+     * @ORM\Column
      */
     public string $email;
 
     /**
-     * @ORM\Column()
+     * @ORM\Column
      */
     public string $question;
 

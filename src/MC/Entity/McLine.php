@@ -15,7 +15,7 @@ use Ramsey\Uuid\UuidInterface;
 class McLine
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="uuid")
      */
     public UuidInterface $id;

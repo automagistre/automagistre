@@ -16,17 +16,17 @@ final class OrderCloseDto
     public OrderId $orderId;
 
     /**
-     * @Assert\Valid()
+     * @Assert\Valid
      */
     public OrderFinishDto $finish;
 
     /**
-     * @Assert\Valid()
+     * @Assert\Valid
      */
     public OrderPaymentDto $payment;
 
     /**
-     * @Assert\Valid()
+     * @Assert\Valid
      */
     public FeedbackDto $feedback;
 

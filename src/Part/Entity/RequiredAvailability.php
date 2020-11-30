@@ -17,7 +17,7 @@ use Ramsey\Uuid\UuidInterface;
 class RequiredAvailability
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="uuid")
      */
     private UuidInterface $id;

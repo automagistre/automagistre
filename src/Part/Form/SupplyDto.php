@@ -14,17 +14,17 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class SupplyDto
 {
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      */
     public PartId $partId;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      */
     public OperandId $supplierId;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      * @Assert\NotEqualTo(value="0")
      */
     public int $quantity;

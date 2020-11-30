@@ -21,7 +21,7 @@ class Sms implements ContainsRecordedMessages
     use PrivateMessageRecorderCapabilities;
 
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="sms_id")
      */
     public SmsId $id;
@@ -32,7 +32,7 @@ class Sms implements ContainsRecordedMessages
     public PhoneNumber $phoneNumber;
 
     /**
-     * @ORM\Column()
+     * @ORM\Column
      */
     public string $message;
 

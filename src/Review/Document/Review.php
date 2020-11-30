@@ -21,7 +21,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Review
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="review_id")
      *
      * @ODM\Id(strategy="NONE", type="review_id")
@@ -31,14 +31,14 @@ class Review
     /**
      * @ORM\Column
      *
-     * @ODM\Field()
+     * @ODM\Field
      */
     public string $author;
 
     /**
      * @ORM\Column(type="text")
      *
-     * @ODM\Field()
+     * @ODM\Field
      */
     public string $content;
 

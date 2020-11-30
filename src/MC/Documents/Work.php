@@ -20,7 +20,7 @@ class Work
     public McWorkId $id;
 
     /**
-     * @ODM\Field()
+     * @ODM\Field
      */
     public string $name;
 

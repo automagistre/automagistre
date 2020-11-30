@@ -14,7 +14,7 @@ use Money\Currency;
 class Wallet
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="wallet_id")
      */
     public WalletId $id;

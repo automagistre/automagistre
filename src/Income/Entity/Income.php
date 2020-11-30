@@ -23,7 +23,7 @@ use Money\Money;
 class Income
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="income_id")
      */
     private IncomeId $id;

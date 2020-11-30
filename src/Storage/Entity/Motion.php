@@ -21,7 +21,7 @@ use Ramsey\Uuid\UuidInterface;
 class Motion
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="uuid")
      */
     private UuidInterface $id;

@@ -17,7 +17,7 @@ class Manufacturer
     public ManufacturerId $id;
 
     /**
-     * @ODM\Field()
+     * @ODM\Field
      */
     public string $name;
 
