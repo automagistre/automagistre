@@ -4,7 +4,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 require dirname(__DIR__).'/config/bootstrap.php';
 
-Request::setTrustedProxies(['REMOTE_ADDR'], Request::HEADER_X_FORWARDED_ALL);
+Request::setTrustedProxies(['REMOTE_ADDR'], Request::HEADER_X_FORWARDED_TRAEFIK);
 
 if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? $_ENV['TRUSTED_HOSTS'] ?? false) {
     Request::setTrustedHosts([$trustedHosts]);
