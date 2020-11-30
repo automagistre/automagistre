@@ -48,6 +48,7 @@ final class MoneyType extends \Symfony\Component\Form\Extension\Core\Type\MoneyT
             'divisor' => 100,
             'compound' => false,
             'currency' => 'RUB',
+            'html5' => false,
         ]);
 
         $resolver->setAllowedTypes('scale', 'int');
