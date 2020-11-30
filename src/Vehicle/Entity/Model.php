@@ -7,8 +7,6 @@ namespace App\Vehicle\Entity;
 use App\Costil;
 use App\Manufacturer\Entity\ManufacturerId;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -17,12 +15,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     uniqueConstraints={
  *         @ORM\UniqueConstraint(columns={"manufacturer_id", "name", "case_name"})
  *     }
- * )
- *
- * @UniqueEntity(
- *     fields={"manufacturer", "name", "caseName"},
- *     errorPath="caseName",
- *     message="Кузов {{ value }} у выбранного производителя уже существует."
  * )
  */
 class Model
@@ -39,11 +31,9 @@ class Model
     public ManufacturerId $manufacturerId;
 
     /**
-     * @Assert\NotBlank
-     *
      * @ORM\Column
      */
-    public ?string $name = null;
+    public string $name;
 
     /**
      * @ORM\Column(nullable=true)
@@ -91,19 +81,5 @@ class Model
     public function toId(): VehicleId
     {
         return $this->id;
-    }
-
-    public function update(
-        string $name,
-        ?string $localizedName,
-        ?string $caseName,
-        ?int $yearFrom,
-        ?int $yearTill
-    ): void {
-        $this->name = $name;
-        $this->localizedName = $localizedName;
-        $this->caseName = $caseName;
-        $this->yearFrom = $yearFrom;
-        $this->yearTill = $yearTill;
     }
 }

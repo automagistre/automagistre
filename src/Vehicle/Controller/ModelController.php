@@ -8,7 +8,8 @@ use App\EasyAdmin\Controller\AbstractController;
 use App\Manufacturer\Entity\Manufacturer;
 use App\Vehicle\Entity\Model;
 use App\Vehicle\Entity\VehicleId;
-use App\Vehicle\Form\ModelDto;
+use App\Vehicle\Form\ModelCreate;
+use App\Vehicle\Form\ModelUpdate;
 use App\Vehicle\Form\VehicleType;
 use function array_map;
 use function assert;
@@ -31,7 +32,7 @@ final class ModelController extends AbstractController
         $request = $this->request;
         $em = $this->em;
 
-        $dto = new ModelDto();
+        $dto = new ModelCreate();
 
         $form = $this->createForm(VehicleType::class, $dto)
             ->handleRequest($request);
@@ -140,9 +141,9 @@ final class ModelController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function createNewEntity(): ModelDto
+    protected function createNewEntity(): ModelCreate
     {
-        return new ModelDto();
+        return new ModelCreate();
     }
 
     /**
@@ -150,17 +151,17 @@ final class ModelController extends AbstractController
      */
     protected function persistEntity($entity): Model
     {
-        $model = $entity;
-        assert($model instanceof ModelDto);
+        $dto = $entity;
+        assert($dto instanceof ModelCreate);
 
         $entity = new Model(
             VehicleId::generate(),
-            $model->manufacturerId,
-            $model->name,
-            $model->localizedName,
-            $model->caseName,
-            $model->yearFrom,
-            $model->yearTill,
+            $dto->manufacturerId,
+            $dto->name,
+            $dto->localizedName,
+            $dto->caseName,
+            $dto->yearFrom,
+            $dto->yearTill,
         );
 
         parent::persistEntity($entity);
@@ -168,11 +169,11 @@ final class ModelController extends AbstractController
         return $entity;
     }
 
-    protected function createEditDto(Closure $closure): ModelDto
+    protected function createEditDto(Closure $closure): ModelUpdate
     {
         $array = $closure();
 
-        $dto = new ModelDto();
+        $dto = new ModelUpdate();
         $dto->vehicleId = $array['id'];
         $dto->manufacturerId = $array['manufacturerId'];
         $dto->name = $array['name'];
@@ -187,18 +188,16 @@ final class ModelController extends AbstractController
     protected function updateEntity($entity): void
     {
         $dto = $entity;
-        assert($dto instanceof ModelDto);
+        assert($dto instanceof ModelUpdate);
 
         /** @var Model $entity */
         $entity = $this->registry->findBy(Model::class, ['id' => $dto->vehicleId]);
 
-        $entity->update(
-            $dto->name,
-            $dto->localizedName,
-            $dto->caseName,
-            $dto->yearFrom,
-            $dto->yearTill,
-        );
+        $entity->name = $dto->name;
+        $entity->localizedName = $dto->localizedName;
+        $entity->caseName = $dto->caseName;
+        $entity->yearFrom = $dto->yearFrom;
+        $entity->yearTill = $dto->yearTill;
 
         parent::updateEntity($entity);
     }

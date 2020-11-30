@@ -22,7 +22,6 @@ easy_admin:
                     - { property: 'yearFrom', label: 'Начало производства' }
                     - { property: 'yearTill', label: 'Конец производства' }
             form:
-                form_options: { data_class: \App\Vehicle\Form\ModelDto }
                 fields:
                     -   property: 'manufacturerId'
                         label: 'Производитель'
@@ -33,8 +32,10 @@ easy_admin:
                     - { property: 'yearFrom', label: 'Начало производства' }
                     - { property: 'yearTill', label: 'Конец производства' }
             new:
+                form_options: { data_class: \App\Vehicle\Form\ModelCreate }
                 title: 'Создать новый кузов'
             edit:
+                form_options: { data_class: \App\Vehicle\Form\ModelUpdate }
                 title: 'Редактировать кузов'
                 fields:
                     - { property: 'manufacturerId', label: 'Производитель', type_options: { disabled: true } }
