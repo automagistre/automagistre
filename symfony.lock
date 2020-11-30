@@ -190,17 +190,13 @@
         "version": "1.1.1"
     },
     "easycorp/easyadmin-bundle": {
-        "version": "2.0",
+        "version": "3.0",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "master",
-            "version": "2.0",
-            "ref": "0a51040a43c6f2172a3a0135cd15daf2043905d7"
-        },
-        "files": [
-            "config/packages/easy_admin.yaml",
-            "config/routes/easy_admin.yaml"
-        ]
+            "version": "3.0",
+            "ref": "b131e6cbfe1b898a508987851963fff485986285"
+        }
     },
     "egulias/email-validator": {
         "version": "2.1.18"
@@ -237,9 +233,6 @@
         "files": [
             ".php_cs.dist"
         ]
-    },
-    "fzaninotto/faker": {
-        "version": "v1.9.1"
     },
     "giggsey/libphonenumber-for-php": {
         "version": "8.12.7.1"
@@ -279,6 +272,9 @@
     },
     "laminas/laminas-zendframework-bridge": {
         "version": "1.0.4"
+    },
+    "lcobucci/clock": {
+        "version": "2.0.0"
     },
     "lcobucci/jwt": {
         "version": "3.3.2"
@@ -350,7 +346,7 @@
         "version": "1.3.0"
     },
     "pagerfanta/pagerfanta": {
-        "version": "v2.4.0"
+        "version": "v2.5.1"
     },
     "pedrotroller/php-cs-custom-fixer": {
         "version": "v2.23.0"
@@ -898,6 +894,9 @@
             "config/packages/twig.yaml",
             "templates/base.html.twig"
         ]
+    },
+    "symfony/uid": {
+        "version": "v5.2.0"
     },
     "symfony/validator": {
         "version": "4.3",
