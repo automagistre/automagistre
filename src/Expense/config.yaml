@@ -8,16 +8,16 @@ easy_admin:
                 title: 'Статьи расходов'
                 fields:
                     - { property: 'name', label: 'Название' }
-                    - { property: 'wallet', label: 'Счет списания по умолчанию' }
+                    - { property: 'walletId', label: 'Счет списания по умолчанию', template: 'easy_admin/field_identifier.html.twig' }
                     - { property: 'create', virtual: true, label: ' ', template: 'easy_admin/expense/field_button.html.twig' }
             new:
                 title: 'Создать новую Статью расходов'
-                form_options: { data_class: stdClass }
+                form_options: { data_class: App\Expense\Form\ExpenseDto }
                 fields:
                     - { property: 'name', label: 'Название' }
-                    - { property: 'wallet', label: 'Счет списания по умолчанию', type_options: { required: false } }
+                    - { property: 'walletId', label: 'Счет списания по умолчанию', type: App\Wallet\Form\WalletType, type_options: { required: false } }
             edit:
                 title: 'Редактировать Статью расходов'
                 fields:
                     - { property: 'name', label: 'Название', type_options: { disabled: true } }
-                    - { property: 'wallet', label: 'Счет списания по умолчанию', type_options: { required: false } }
+                    - { property: 'walletId', label: 'Счет списания по умолчанию', type: App\Wallet\Form\WalletType, type_options: { required: false } }

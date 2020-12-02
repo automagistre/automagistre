@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Expense\Entity;
 
-use App\Wallet\Entity\Wallet;
+use App\Wallet\Entity\WalletId;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -16,53 +16,36 @@ class Expense
      * @ORM\Id
      * @ORM\Column(type="expense_id")
      */
-    private ExpenseId $id;
+    public ExpenseId $id;
 
     /**
      * @var string
      *
      * @ORM\Column
      */
-    private $name;
+    public $name;
 
     /**
      * Счет списания по умолчанию.
      *
-     * @var Wallet|null
-     *
-     * @ORM\ManyToOne(targetEntity=Wallet::class)
+     * @ORM\Column(type="wallet_id", nullable=true)
      */
-    private $wallet;
+    public ?WalletId $walletId;
 
-    public function __construct(string $name, Wallet $wallet = null)
+    public function __construct(string $name, WalletId $walletId = null)
     {
         $this->id = ExpenseId::generate();
         $this->name = $name;
-        $this->wallet = $wallet;
+        $this->walletId = $walletId;
     }
 
     public function __toString(): string
     {
-        return $this->getName();
+        return $this->name;
     }
 
     public function toId(): ExpenseId
     {
         return $this->id;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function setWallet(?Wallet $wallet): void
-    {
-        $this->wallet = $wallet;
-    }
-
-    public function getWallet(): ?Wallet
-    {
-        return $this->wallet;
     }
 }

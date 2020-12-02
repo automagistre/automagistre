@@ -7,6 +7,7 @@ namespace App\Expense\Controller;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Expense\Entity\Expense;
 use App\Expense\Entity\ExpenseId;
+use App\Expense\Form\ExpenseDto;
 use App\Expense\Form\ExpenseItemDto;
 use App\Expense\Form\ExpenseType;
 use App\Form\Type\MoneyType;
@@ -15,7 +16,6 @@ use App\Wallet\Entity\WalletTransactionId;
 use App\Wallet\Enum\WalletTransactionSource;
 use App\Wallet\Form\WalletType;
 use function assert;
-use stdClass;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -79,12 +79,20 @@ final class ExpenseController extends AbstractController
     /**
      * {@inheritdoc}
      */
+    protected function createNewEntity(): ExpenseDto
+    {
+        return new ExpenseDto();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function persistEntity($entity): void
     {
-        $model = $entity;
-        assert($model instanceof stdClass);
+        $dto = $entity;
+        assert($dto instanceof ExpenseDto);
 
-        $entity = new Expense($model->name);
+        $entity = new Expense($dto->name, $dto->walletId);
 
         parent::persistEntity($entity);
     }

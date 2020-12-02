@@ -35,7 +35,7 @@ final class WalletType extends AbstractType
             'placeholder' => 'Выберите счёт',
             'choice_loader' => new CallbackChoiceLoader(function (): array {
                 return array_map(
-                    fn (array $item): WalletId => $item['id'],
+                    static fn (array $item): WalletId => $item['id'],
                     $this->registry->viewListBy(Wallet::class, [])
                 );
             }),
