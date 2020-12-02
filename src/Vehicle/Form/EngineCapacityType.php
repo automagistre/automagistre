@@ -30,7 +30,10 @@ final class EngineCapacityType extends AbstractType
                     range(0.6, 6.0, 0.1),
                 );
 
-                return (array) array_combine($choices, $choices);
+                /** @var array $choices */
+                $choices = array_combine($choices, $choices);
+
+                return $choices;
             }),
         ]);
     }
