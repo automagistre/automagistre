@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints;
 
 /**
- * @author Konstantin Grachev <me@grachevko.ru>
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 final class PartCrossController extends AbstractController
 {

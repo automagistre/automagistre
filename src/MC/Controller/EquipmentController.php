@@ -19,7 +19,7 @@ use function str_replace;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
- * @author Konstantin Grachev <me@grachevko.ru>
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 final class EquipmentController extends AbstractController
 {

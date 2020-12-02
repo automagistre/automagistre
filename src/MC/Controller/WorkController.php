@@ -11,7 +11,7 @@ use function assert;
 use stdClass;
 
 /**
- * @author Konstantin Grachev <me@grachevko.ru>
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 final class WorkController extends AbstractController
 {

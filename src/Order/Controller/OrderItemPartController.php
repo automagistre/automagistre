@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
- * @author Konstantin Grachev <me@grachevko.ru>
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 final class OrderItemPartController extends OrderItemController
 {

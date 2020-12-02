@@ -22,7 +22,7 @@ use LogicException;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @author Konstantin Grachev <me@grachevko.ru>
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 abstract class OrderItemController extends AbstractController
 {

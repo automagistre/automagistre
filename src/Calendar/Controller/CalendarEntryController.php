@@ -37,6 +37,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 final class CalendarEntryController extends AbstractController
 {
     private Streamer $streamer;

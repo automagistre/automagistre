@@ -11,7 +11,7 @@ use Doctrine\ORM\QueryBuilder;
 use Ramsey\Uuid\Uuid;
 
 /**
- * @author Konstantin Grachev <me@grachevko.ru>
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 final class TransactionController extends AbstractController
 {

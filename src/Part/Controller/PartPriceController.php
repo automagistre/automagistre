@@ -15,6 +15,9 @@ use function is_string;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 final class PartPriceController extends AbstractController
 {
     public function newAction(): Response

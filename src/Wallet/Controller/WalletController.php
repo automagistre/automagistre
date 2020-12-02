@@ -16,7 +16,7 @@ use Money\Money;
 use stdClass;
 
 /**
- * @author Konstantin Grachev <me@grachevko.ru>
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 final class WalletController extends AbstractController
 {

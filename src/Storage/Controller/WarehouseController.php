@@ -20,6 +20,9 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 final class WarehouseController extends AbstractController
 {
     /**

@@ -15,6 +15,9 @@ use App\Part\Form\SupplyDto;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 final class SupplyController extends AbstractController
 {
     public function newAction(): Response

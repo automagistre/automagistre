@@ -6,11 +6,6 @@
       <code>$this-&gt;request-&gt;query-&gt;get('id')</code>
       <code>$this-&gt;request-&gt;query-&gt;get('id')</code>
     </PossiblyNullArgument>
-    <PropertyNotSetInConstructor occurrences="3">
-      <code>CalendarEntryController</code>
-      <code>CalendarEntryController</code>
-      <code>CalendarEntryController</code>
-    </PropertyNotSetInConstructor>
   </file>
   <file src="src/Calendar/Entity/Schedule.php">
     <ImpureMethodCall occurrences="2">
@@ -35,18 +30,6 @@
       <code>$model-&gt;service</code>
       <code>$model-&gt;workerId</code>
     </PossiblyNullArgument>
-    <PropertyNotSetInConstructor occurrences="3">
-      <code>RecommendationController</code>
-      <code>RecommendationController</code>
-      <code>RecommendationController</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Car/Controller/RecommendationPartController.php">
-    <PropertyNotSetInConstructor occurrences="3">
-      <code>RecommendationPartController</code>
-      <code>RecommendationPartController</code>
-      <code>RecommendationPartController</code>
-    </PropertyNotSetInConstructor>
   </file>
   <file src="src/Car/Entity/Car.php">
     <PossiblyFalseArgument occurrences="1">
@@ -177,11 +160,6 @@
       <code>isEditable</code>
       <code>isFilled</code>
     </PossiblyNullReference>
-    <PropertyNotSetInConstructor occurrences="3">
-      <code>OrderController</code>
-      <code>OrderController</code>
-      <code>OrderController</code>
-    </PropertyNotSetInConstructor>
   </file>
   <file src="src/Order/Controller/OrderItemController.php">
     <PossiblyNullReference occurrences="1">
@@ -192,13 +170,6 @@
     <PossiblyNullArgument occurrences="1">
       <code>$model-&gt;name</code>
     </PossiblyNullArgument>
-  </file>
-  <file src="src/Order/Controller/OrderItemPartController.php">
-    <PropertyNotSetInConstructor occurrences="3">
-      <code>OrderItemPartController</code>
-      <code>OrderItemPartController</code>
-      <code>OrderItemPartController</code>
-    </PropertyNotSetInConstructor>
   </file>
   <file src="src/Order/Controller/OrderItemServiceController.php">
     <PossiblyFalseOperand occurrences="2">
@@ -264,23 +235,11 @@
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtoupper(trim($searchString))</code>
     </PossiblyFalseOperand>
-    <PropertyNotSetInConstructor occurrences="3">
-      <code>PartController</code>
-      <code>PartController</code>
-      <code>PartController</code>
-    </PropertyNotSetInConstructor>
     <RedundantConditionGivenDocblockType occurrences="3">
       <code>null !== $dto-&gt;manufacturerId</code>
       <code>null !== $dto-&gt;manufacturerId &amp;&amp; null !== $dto-&gt;number</code>
       <code>null !== $dto-&gt;number</code>
     </RedundantConditionGivenDocblockType>
-  </file>
-  <file src="src/Part/Controller/PartCrossController.php">
-    <PropertyNotSetInConstructor occurrences="3">
-      <code>PartCrossController</code>
-      <code>PartCrossController</code>
-      <code>PartCrossController</code>
-    </PropertyNotSetInConstructor>
   </file>
   <file src="src/Part/Controller/PartExplorerController.php">
     <PossiblyNullArgument occurrences="1">
@@ -356,11 +315,6 @@
     <PossiblyNullReference occurrences="1">
       <code>get</code>
     </PossiblyNullReference>
-    <PropertyNotSetInConstructor occurrences="3">
-      <code>UserController</code>
-      <code>UserController</code>
-      <code>UserController</code>
-    </PropertyNotSetInConstructor>
   </file>
   <file src="src/User/Fixtures/AdminFixtures.php">
     <PropertyNotSetInConstructor occurrences="1">

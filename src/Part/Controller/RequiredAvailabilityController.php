@@ -22,6 +22,9 @@ use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Response;
 use function trim;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 final class RequiredAvailabilityController extends AbstractController
 {
     public function newAction(): Response

@@ -46,7 +46,7 @@ use function trim;
 use function urldecode;
 
 /**
- * @author Konstantin Grachev <me@grachevko.ru>
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 final class PartController extends AbstractController
 {

@@ -13,7 +13,7 @@ use LogicException;
 use Ramsey\Uuid\Uuid;
 
 /**
- * @author Konstantin Grachev <me@grachevko.ru>
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 final class PartController extends AbstractController
 {

@@ -15,6 +15,9 @@ use function str_replace;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 final class ManufacturerController extends AbstractController
 {
     public function widgetAction(): Response

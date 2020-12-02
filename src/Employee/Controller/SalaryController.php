@@ -17,7 +17,7 @@ use LogicException;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @author Konstantin Grachev <me@grachevko.ru>
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 final class SalaryController extends AbstractController
 {

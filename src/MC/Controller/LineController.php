@@ -13,7 +13,7 @@ use Ramsey\Uuid\Uuid;
 use stdClass;
 
 /**
- * @author Konstantin Grachev <me@grachevko.ru>
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 final class LineController extends AbstractController
 {

@@ -12,6 +12,9 @@ use Doctrine\ORM\Query\Expr\Andx;
 use Symfony\Component\HttpFoundation\Response;
 use function usort;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 final class WhatToBuyController extends AbstractController
 {
     public function listAction(): Response

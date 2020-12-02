@@ -12,7 +12,7 @@ use function assert;
 use function strtolower;
 
 /**
- * @author Konstantin Grachev <me@grachevko.ru>
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 final class ReviewController extends AbstractController
 {

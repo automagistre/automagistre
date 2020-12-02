@@ -16,7 +16,7 @@ use function sprintf;
 use function urlencode;
 
 /**
- * @author Konstantin Grachev <me@grachevko.ru>
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 final class IncomePartController extends AbstractController
 {

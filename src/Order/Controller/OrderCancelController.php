@@ -13,6 +13,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 final class OrderCancelController extends AbstractController
 {
     public function cancelAction(Request $request): Response

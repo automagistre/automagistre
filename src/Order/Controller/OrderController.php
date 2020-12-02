@@ -64,7 +64,7 @@ use function trim;
 use function usort;
 
 /**
- * @author Konstantin Grachev <me@grachevko.ru>
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 final class OrderController extends AbstractController
 {
