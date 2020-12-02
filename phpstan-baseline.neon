@@ -1,7 +1,0 @@
-parameters:
-	ignoreErrors:
-		-
-			message: "#^Anonymous function should return array but returns array\\|false\\.$#"
-			count: 1
-			path: src/Vehicle/Form/EngineCapacityType.php
-
