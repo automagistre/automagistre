@@ -248,6 +248,9 @@ steps:
             GIT_SSH_KEY:
                 from_secret: GIT_SSH_KEY
         when:
+            status:
+                - success
+                - failure
             branch:
                 - rc
                 - test
