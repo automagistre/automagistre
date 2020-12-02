@@ -13,6 +13,7 @@ use App\Order\Entity\OrderItemService;
 use App\Order\Form\OrderService;
 use function array_map;
 use function assert;
+use Doctrine\DBAL\Driver\Result;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use function explode;
@@ -213,6 +214,9 @@ final class OrderItemServiceController extends OrderItemController
             $qb->setParameter($key, '%'.mb_strtolower($searchString).'%');
         }
 
+        $result = $connection->executeQuery($qb->getSQL(), $qb->getParameters(), $qb->getParameterTypes());
+        assert($result instanceof Result);
+
         $data = array_map(function (array $row): array {
             $price = new Money($row['price'], new Currency($row['currency']));
 
@@ -220,7 +224,7 @@ final class OrderItemServiceController extends OrderItemController
                 'text' => sprintf('%s (%s)', $row['service'], $this->formatMoney($price)),
                 'price' => $this->formatMoney($price, true),
             ];
-        }, $connection->executeQuery($qb->getSQL(), $qb->getParameters(), $qb->getParameterTypes())->fetchAllAssociative());
+        }, $result->fetchAllAssociative());
 
         return $this->json(['results' => $data]);
     }

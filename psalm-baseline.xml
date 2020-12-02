@@ -223,9 +223,6 @@
       <code>$model-&gt;service</code>
       <code>$sortDirection</code>
     </PossiblyNullArgument>
-    <UndefinedInterfaceMethod occurrences="1">
-      <code>fetchAllAssociative</code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="src/Order/Controller/OrderPrintController.php">
     <PossiblyNullArgument occurrences="1">
