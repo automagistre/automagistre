@@ -1,11 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Parameter \\#1 \\$value \\(string\\) of method App\\\\Form\\\\Transformer\\\\DivisoredNumberToLocalizedStringTransformer\\:\\:reverseTransform\\(\\) should be contravariant with parameter \\$value \\(mixed\\) of method Symfony\\\\Component\\\\Form\\\\DataTransformerInterface\\:\\:reverseTransform\\(\\)$#"
-			count: 1
-			path: src/Form/Transformer/DivisoredNumberToLocalizedStringTransformer.php
-
-		-
 			message: "#^Parameter \\#2 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, \\(callable\\)\\|string given\\.$#"
 			count: 1
 			path: src/Shared/ArgumentResolver/ArgumentResolver.php

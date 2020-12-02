@@ -58,7 +58,9 @@ final class DivisoredNumberToLocalizedStringTransformer extends NumberToLocalize
     }
 
     /**
-     * {@inheritdoc}
+     * @param mixed $value
+     *
+     * @throws TransformationFailedException
      */
     public function reverseTransform($value): int
     {
