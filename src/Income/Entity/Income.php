@@ -132,12 +132,6 @@ class Income
         return $this->incomeParts->toArray();
     }
 
-    public function addIncomePart(IncomePart $incomePart): void
-    {
-        $incomePart->setIncome($this);
-        $this->incomeParts[] = $incomePart;
-    }
-
     public function itemsCount(): int
     {
         return $this->incomeParts->count();

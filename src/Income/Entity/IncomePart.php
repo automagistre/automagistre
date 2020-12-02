@@ -8,9 +8,7 @@ use App\Part\Entity\PartId;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Price;
 use App\Shared\Doctrine\ORM\Mapping\Traits\Quantity;
 use Doctrine\ORM\Mapping as ORM;
-use LogicException;
 use Money\Money;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -32,17 +30,14 @@ class IncomePart
     private IncomePartId $id;
 
     /**
-     * @var Income|null
-     *
-     * @Assert\NotBlank
-     *
      * @ORM\ManyToOne(targetEntity=Income::class, inversedBy="incomeParts")
      */
-    private $income;
+    private Income $income;
 
-    public function __construct(IncomePartId $id)
+    public function __construct(IncomePartId $id, Income $income)
     {
         $this->id = $id;
+        $this->income = $income;
     }
 
     public function toId(): IncomePartId
@@ -60,17 +55,8 @@ class IncomePart
         return $this->getPrice()->multiply($this->quantity / 100);
     }
 
-    public function getIncome(): ?Income
+    public function getIncome(): Income
     {
         return $this->income;
-    }
-
-    public function setIncome(?Income $income): void
-    {
-        if (null !== $this->income) {
-            throw new LogicException('Income already defined.');
-        }
-
-        $this->income = $income;
     }
 }

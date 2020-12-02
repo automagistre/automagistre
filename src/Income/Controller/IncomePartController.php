@@ -41,16 +41,15 @@ final class IncomePartController extends AbstractController
 
     protected function createNewEntity(): IncomePart
     {
-        $entity = new IncomePart(IncomePartId::generate());
-
         $income = $this->getEntity(Income::class);
         if (!$income instanceof Income) {
             throw new LogicException('Income required.');
         }
 
-        $entity->setIncome($income);
-
-        return $entity;
+        return new IncomePart(
+            IncomePartId::generate(),
+            $income,
+        );
     }
 
     /**
@@ -63,7 +62,6 @@ final class IncomePartController extends AbstractController
         parent::persistEntity($entity);
 
         $income = $entity->getIncome();
-        assert($income instanceof Income);
 
         $this->setReferer($this->generateEasyPath('IncomePart', 'new', [
             'id' => $entity->toId()->toString(),
@@ -88,7 +86,6 @@ final class IncomePartController extends AbstractController
         parent::updateEntity($entity);
 
         $income = $entity->getIncome();
-        assert($income instanceof Income);
 
         $this->setReferer(
             $this->generateEasyPath('Income', 'show', [

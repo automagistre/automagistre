@@ -9,7 +9,6 @@ use App\Income\Entity\IncomePart;
 use App\Income\Entity\IncomePartId;
 use App\Part\Entity\PartId;
 use App\Part\Fixtures\GasketFixture;
-use App\Shared\Doctrine\Registry;
 use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -42,8 +41,8 @@ final class IncomePartFixtures extends Fixture implements DependentFixtureInterf
 
         $incomePart = new IncomePart(
             IncomePartId::fromString(self::ID),
+            $income,
         );
-        $incomePart->setIncome($income);
         $incomePart->partId = PartId::fromString(self::PART_ID);
         $incomePart->setPrice(new Money(100, new Currency('RUB')));
         $incomePart->setQuantity(100);

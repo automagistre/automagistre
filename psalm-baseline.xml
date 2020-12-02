@@ -111,18 +111,10 @@
       <code>preg_replace('/\s/', '', $value)</code>
     </PossiblyNullArgument>
   </file>
-  <file src="src/Income/Controller/IncomeController.php">
-    <PossiblyNullReference occurrences="1">
-      <code>toId</code>
-    </PossiblyNullReference>
-  </file>
   <file src="src/Income/Controller/IncomePartController.php">
     <PossiblyNullArgument occurrences="1">
       <code>$entity-&gt;partId</code>
     </PossiblyNullArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>isEditable</code>
-    </PossiblyNullReference>
   </file>
   <file src="src/Income/EventListener/AccrueIncomePartsListener.php">
     <PossiblyNullArgument occurrences="2">
@@ -134,11 +126,6 @@
     <PossiblyNullArgument occurrences="1">
       <code>$income-&gt;getAccruedAmount()</code>
     </PossiblyNullArgument>
-  </file>
-  <file src="src/Income/View/IncomePartFormatter.php">
-    <PossiblyNullReference occurrences="1">
-      <code>toId</code>
-    </PossiblyNullReference>
   </file>
   <file src="src/MC/Controller/EquipmentController.php">
     <PossiblyFalseOperand occurrences="1">

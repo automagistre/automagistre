@@ -31,11 +31,6 @@ parameters:
 			path: src/Form/TypeGuesser/EntityModelTypeGuesser.php
 
 		-
-			message: "#^Cannot call method toId\\(\\) on null\\.$#"
-			count: 1
-			path: src/Income/Controller/IncomeController.php
-
-		-
 			message: "#^Parameter \\#2 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, \\(callable\\)\\|string given\\.$#"
 			count: 1
 			path: src/Shared/ArgumentResolver/ArgumentResolver.php
@@ -44,4 +39,3 @@ parameters:
 			message: "#^Anonymous function should return array but returns array\\|false\\.$#"
 			count: 1
 			path: src/Vehicle/Form/EngineCapacityType.php
-

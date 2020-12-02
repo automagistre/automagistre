@@ -14,20 +14,17 @@ use App\Income\Entity\IncomeId;
 use App\Income\Entity\IncomePart;
 use App\Income\Event\IncomeAccrued;
 use App\Income\Form\IncomeDto;
+use App\Income\Form\PayDto;
 use App\Part\Entity\Part;
-use App\Wallet\Entity\Wallet;
 use App\Wallet\Entity\WalletTransaction;
 use App\Wallet\Entity\WalletTransactionId;
 use App\Wallet\Enum\WalletTransactionSource;
+use App\Wallet\Form\WalletType;
 use function assert;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use function in_array;
 use LogicException;
-use Money\Money;
-use stdClass;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use function urlencode;
@@ -59,18 +56,14 @@ final class IncomeController extends AbstractController
             throw new BadRequestHttpException('Income is required');
         }
 
-        $model = new stdClass();
+        $model = new PayDto();
         $model->money = $income->getTotalPrice();
-        $model->wallet = null;
 
         $form = $this->createFormBuilder($model)
             ->add('money', MoneyType::class)
-            ->add('wallet', EntityType::class, [
+            ->add('walletId', WalletType::class, [
                 'label' => 'Списать сумму со счёта',
                 'required' => true,
-                'class' => Wallet::class,
-                'query_builder' => fn (EntityRepository $repository) => $repository->createQueryBuilder('entity')
-                    ->where('entity.useInIncome = TRUE'),
             ])
             ->getForm()
             ->handleRequest($request);
@@ -78,29 +71,27 @@ final class IncomeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->registry->manager(Income::class)
                 ->transactional(static function (EntityManagerInterface $em) use ($model, $income): void {
-                    /** @var Money $money */
-                    $money = $model->money;
-
                     $customerTransactionId = CustomerTransactionId::generate();
+
                     $em->persist(
                         new CustomerTransaction(
                             $customerTransactionId,
                             $income->getSupplierId(),
-                            $money->negative(),
+                            $model->money->negative(),
                             CustomerTransactionSource::incomePayment(),
                             $income->toId()->toUuid(),
-                            null
+                            null,
                         )
                     );
 
                     $em->persist(
                         new WalletTransaction(
                             WalletTransactionId::generate(),
-                            $model->wallet->toId(),
-                            $money->negative(),
+                            $model->walletId,
+                            $model->money->negative(),
                             WalletTransactionSource::incomePayment(),
                             $income->toId()->toUuid(),
-                            null
+                            null,
                         )
                     );
                 });
