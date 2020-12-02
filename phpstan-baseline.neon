@@ -1,11 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Cannot call method toId\\(\\) on null\\.$#"
-			count: 1
-			path: src/Employee/Controller/EmployeeController.php
-
-		-
 			message: "#^Call to function is_float\\(\\) with mixed will always evaluate to false\\.$#"
 			count: 1
 			path: src/Form/Transformer/DivisoredNumberToLocalizedStringTransformer.php
@@ -39,3 +34,4 @@ parameters:
 			message: "#^Anonymous function should return array but returns array\\|false\\.$#"
 			count: 1
 			path: src/Vehicle/Form/EngineCapacityType.php
+

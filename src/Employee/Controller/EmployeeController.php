@@ -13,18 +13,18 @@ use App\Employee\Entity\Employee;
 use App\Employee\Entity\SalaryView;
 use App\Employee\Event\EmployeeCreated;
 use App\Employee\Event\EmployeeFired;
+use App\Employee\Form\PayoutDto;
 use App\Form\Type\MoneyType;
-use App\Wallet\Entity\Wallet;
 use App\Wallet\Entity\WalletTransaction;
 use App\Wallet\Entity\WalletTransactionId;
 use App\Wallet\Enum\WalletTransactionSource;
+use App\Wallet\Form\WalletType;
 use function assert;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
 use Money\Money;
 use function sprintf;
 use stdClass;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -41,16 +41,11 @@ final class EmployeeController extends AbstractController
             throw new BadRequestHttpException('Person required.');
         }
 
-        $model = new stdClass();
+        $model = new PayoutDto();
         $model->recipient = $recipientId;
-        $model->wallet = null;
-        $model->amount = null;
-        $model->description = null;
 
         $form = $this->createFormBuilder($model)
-            ->add('wallet', EntityType::class, [
-                'label' => 'Счет списания',
-                'class' => Wallet::class,
+            ->add('walletId', WalletType::class, [
                 'required' => true,
             ])
             ->add('amount', MoneyType::class, [
@@ -66,9 +61,6 @@ final class EmployeeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->transactional(static function (EntityManagerInterface $em) use ($model, $recipientId): void {
-                /** @var Money $money */
-                $money = $model->amount;
-
                 $customerTransactionId = CustomerTransactionId::generate();
                 $walletTransactionId = WalletTransactionId::generate();
 
@@ -76,7 +68,7 @@ final class EmployeeController extends AbstractController
                     new CustomerTransaction(
                         $customerTransactionId,
                         $recipientId,
-                        $money->negative(),
+                        $model->amount->negative(),
                         CustomerTransactionSource::payroll(),
                         $walletTransactionId->toUuid(),
                         $model->description
@@ -86,8 +78,8 @@ final class EmployeeController extends AbstractController
                 $em->persist(
                     new WalletTransaction(
                         $walletTransactionId,
-                        $model->wallet->toId(),
-                        $money->negative(),
+                        $model->walletId,
+                        $model->amount->negative(),
                         WalletTransactionSource::payroll(),
                         $customerTransactionId->toUuid(),
                         null,
