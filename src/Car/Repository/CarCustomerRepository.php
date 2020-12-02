@@ -22,7 +22,7 @@ final class CarCustomerRepository
 
     public function carsByCustomer(OperandId $operandId): array
     {
-        $ids = $this->registry->connection(Car::class)
+        $cars = $this->registry->connection(Car::class)
             ->fetchAllAssociative('
                 SELECT DISTINCT o.car_id 
                 FROM orders o
@@ -33,12 +33,17 @@ final class CarCustomerRepository
                     'customer' => $operandId,
                 ]);
 
-        return $this->registry->viewListBy(Car::class, ['id' => array_map('array_shift', $ids)]);
+        return $this->registry->viewListBy(Car::class, [
+            'id' => array_map(
+                static fn (array $car): string => $car['car_id'],
+                $cars,
+            ),
+        ]);
     }
 
     public function customersByCar(CarId $carId): array
     {
-        $ids = $this->registry->connection(Car::class)
+        $customers = $this->registry->connection(Car::class)
             ->fetchAllAssociative('
                 SELECT DISTINCT o.customer_id 
                 FROM orders o
@@ -49,6 +54,11 @@ final class CarCustomerRepository
                     'car' => $carId,
                 ]);
 
-        return $this->registry->viewListBy(Operand::class, ['id' => array_map('array_shift', $ids)]);
+        return $this->registry->viewListBy(Operand::class, [
+            'id' => array_map(
+                static fn (array $customer): string => $customer['customer_id'],
+                $customers
+            ),
+        ]);
     }
 }
