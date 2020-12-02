@@ -8,13 +8,11 @@ LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 
 ENV APP_DIR=/usr/local/app
 ENV PATH=${APP_DIR}/bin:${APP_DIR}/vendor/bin:${PATH}
-ENV PHP_EXT_DIR /usr/local/lib/php/extensions/no-debug-non-zts-20190902
 ENV WAIT_FOR_IT /usr/local/bin/wait-for-it.sh
 
 WORKDIR ${APP_DIR}
 
 RUN set -ex \
-    && if [ `pear config-get ext_dir` != ${PHP_EXT_DIR} ]; then echo PHP_EXT_DIR must be `pear config-get ext_dir` && exit 1; fi \
     && apt-get update && apt-get install -y --no-install-recommends \
         git \
         openssh-client \
@@ -33,6 +31,10 @@ RUN set -ex \
 #
 # > PHP EXTENSIONS
 #
+ENV PHP_EXT_DIR /usr/local/lib/php/extensions/no-debug-non-zts-20190902
+RUN set -ex \
+    && if [ `pear config-get ext_dir` != ${PHP_EXT_DIR} ]; then echo PHP_EXT_DIR must be `pear config-get ext_dir` && exit 1; fi
+
 FROM php-raw AS php-ext-gd
 RUN set -ex \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
