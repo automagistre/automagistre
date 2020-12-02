@@ -37,12 +37,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 final class SmokeTest extends WebTestCase
 {
-    /**
-     * @var string[][]
-     */
     private const ADDITIONAL_QUERY = [
-        'autocomplete' => ['query' => 'bla'],
-        'search' => ['query' => 'bla'],
         'CalendarEntry' => [
             'edit' => ['id' => CalendarEntryFixtures::ID],
         ],
@@ -227,7 +222,7 @@ final class SmokeTest extends WebTestCase
 
             foreach ($actions as $action) {
                 $queries = array_replace(
-                    self::ADDITIONAL_QUERY[$action] ?? [],
+                    in_array($action, ['search', 'autocomplete'], true) ? ['query' => 'bla'] : [],
                     self::ADDITIONAL_QUERY[$entity][$action] ?? [],
                     ['action' => $action, 'entity' => $entity]
                 );

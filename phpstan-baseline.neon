@@ -50,8 +50,3 @@ parameters:
 			count: 1
 			path: src/Vehicle/Form/EngineCapacityType.php
 
-		-
-			message: "#^Parameter \\#2 \\$arr2 of function array_replace expects array, array\\<string, string\\>\\|string given\\.$#"
-			count: 1
-			path: tests/SmokeTest.php
-

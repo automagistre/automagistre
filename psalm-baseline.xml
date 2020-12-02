@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="3.17.2@9e526d9cb569fe4631e6a737bbb7948d05596e3f">
+<files psalm-version="3.18.2@19aa905f7c3c7350569999a93c40ae91ae4e1626">
   <file src="src/Calendar/Controller/CalendarEntryController.php">
     <PossiblyNullArgument occurrences="3">
       <code>$dto-&gt;reason</code>
@@ -100,12 +100,6 @@
       <code>$id</code>
       <code>$this-&gt;request-&gt;query-&gt;get('newValue')</code>
     </PossiblyNullArgument>
-  </file>
-  <file src="src/EasyAdmin/Form/AutocompleteType.php">
-    <PossiblyFalseReference occurrences="2">
-      <code>getData</code>
-      <code>setData</code>
-    </PossiblyFalseReference>
   </file>
   <file src="src/Employee/Entity/Employee.php">
     <PropertyNotSetInConstructor occurrences="1">
@@ -350,11 +344,6 @@
       <code>$data</code>
     </MissingParamType>
   </file>
-  <file src="src/Shared/Identifier/IdentifierFormatter.php">
-    <InvalidReturnType occurrences="1">
-      <code>string</code>
-    </InvalidReturnType>
-  </file>
   <file src="src/Shared/Identifier/IdentifierNormalizer.php">
     <DocblockTypeContradiction occurrences="3">
       <code>assert(is_subclass_of($type, Identifier::class))</code>
@@ -420,9 +409,6 @@
     </RedundantConditionGivenDocblockType>
   </file>
   <file src="tests/SmokeTest.php">
-    <PossiblyInvalidArgument occurrences="1">
-      <code>self::ADDITIONAL_QUERY[$entity][$action] ?? []</code>
-    </PossiblyInvalidArgument>
     <PossiblyNullReference occurrences="1">
       <code>get</code>
     </PossiblyNullReference>
