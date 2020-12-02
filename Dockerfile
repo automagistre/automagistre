@@ -2,12 +2,14 @@
 # PHP-FPM
 #
 FROM composer:2.0.7 as composer
-FROM amd64/php:7.4.13-fpm-buster as php-base
+FROM amd64/php:7.4.13-fpm-buster as php-raw
 
 LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 
 ENV APP_DIR=/usr/local/app
 ENV PATH=${APP_DIR}/bin:${APP_DIR}/vendor/bin:${PATH}
+ENV PHP_EXT_DIR /usr/local/lib/php/extensions
+ENV WAIT_FOR_IT /usr/local/bin/wait-for-it.sh
 
 WORKDIR ${APP_DIR}
 
@@ -27,25 +29,121 @@ RUN set -ex \
         uuid-dev \
     && rm -r /var/lib/apt/lists/*
 
+#
+# > PHP EXTENSIONS
+#
+FROM php-raw AS php-ext-gd
 RUN set -ex \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) zip pdo_pgsql iconv opcache pcntl gd sockets
+    && docker-php-ext-install gd \
+    && mv `pear config-get ext_dir`/gd.so ${PHP_EXT_DIR}/
 
+FROM php-raw AS php-ext-zip
 RUN set -ex \
-	&& cd /tmp \
+    && docker-php-ext-install zip \
+    && mv `pear config-get ext_dir`/zip.so ${PHP_EXT_DIR}/
+
+FROM php-raw AS php-ext-pdo
+RUN set -ex \
+    && docker-php-ext-install pdo_pgsql \
+    && mv `pear config-get ext_dir`/pdo_pgsql.so ${PHP_EXT_DIR}/
+
+FROM php-raw AS php-ext-iconv
+RUN set -ex \
+    && docker-php-ext-install iconv \
+    && mv `pear config-get ext_dir`/iconv.so ${PHP_EXT_DIR}/
+
+FROM php-raw AS php-ext-opcache
+RUN set -ex \
+    && docker-php-ext-install opcache \
+    && mv `pear config-get ext_dir`/opcache.so ${PHP_EXT_DIR}/
+
+FROM php-raw AS php-ext-pcntl
+RUN set -ex \
+    && docker-php-ext-install pcntl \
+    && mv `pear config-get ext_dir`/pcntl.so ${PHP_EXT_DIR}/
+
+FROM php-raw AS php-ext-sockets
+RUN set -ex \
+    && docker-php-ext-install sockets \
+    && mv `pear config-get ext_dir`/sockets.so ${PHP_EXT_DIR}/
+
+FROM php-raw AS php-ext-intl
+RUN set -ex \
 	&& curl -L https://github.com/unicode-org/icu/releases/download/release-65-1/icu4c-65_1-Ubuntu18.04-x64.tgz | tar xz \
 	&& cp -R icu/usr/local/* /usr/local/ \
-	&& docker-php-ext-install -j$(nproc) intl \
-	&& rm -rf /tmp/icu
+	&& rm -rf icu \
+	&& docker-php-ext-install intl \
+    && mv `pear config-get ext_dir`/intl.so ${PHP_EXT_DIR}/
 
+FROM php-raw AS php-ext-memcached
 RUN set -ex \
-    && pecl install memcached apcu xdebug mongodb uuid pcov \
-    && docker-php-ext-enable memcached apcu mongodb uuid pcov
+    && pecl install memcached \
+    && mv `pear config-get ext_dir`/memcached.so ${PHP_EXT_DIR}/
 
-ENV WAIT_FOR_IT /usr/local/bin/wait-for-it.sh
+FROM php-raw AS php-ext-apcu
+RUN set -ex \
+    && pecl install apcu \
+    && mv `pear config-get ext_dir`/apcu.so ${PHP_EXT_DIR}/
+
+FROM php-raw AS php-ext-xdebug
+RUN set -ex \
+    && pecl install xdebug \
+    && mv `pear config-get ext_dir`/xdebug.so ${PHP_EXT_DIR}/
+
+FROM php-raw AS php-ext-mongodb
+RUN set -ex \
+    && pecl install mongodb \
+    && mv `pear config-get ext_dir`/mongodb.so ${PHP_EXT_DIR}/
+
+FROM php-raw AS php-ext-uuid
+RUN set -ex \
+    && pecl install uuid \
+    && mv `pear config-get ext_dir`/uuid.so ${PHP_EXT_DIR}/
+
+FROM php-raw AS php-ext-pcov
+RUN set -ex \
+    && pecl install pcov \
+    && mv `pear config-get ext_dir`/pcov.so ${PHP_EXT_DIR}/
+#
+# < PHP EXTENSIONS
+#
+
+FROM php-raw AS wait-for-it
 RUN set -ex \
     && curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh -o ${WAIT_FOR_IT} \
     && chmod +x ${WAIT_FOR_IT}
+
+FROM php-raw AS php-base
+COPY --from=php-ext-gd ${PHP_EXT_DIR}/gd.so ${PHP_EXT_DIR}/
+COPY --from=php-ext-zip ${PHP_EXT_DIR}/zip.so ${PHP_EXT_DIR}/
+COPY --from=php-ext-pdo ${PHP_EXT_DIR}/pdo_pgsql.so ${PHP_EXT_DIR}/
+COPY --from=php-ext-pcntl ${PHP_EXT_DIR}/pcntl.so ${PHP_EXT_DIR}/
+COPY --from=php-ext-sockets ${PHP_EXT_DIR}/sockets.so ${PHP_EXT_DIR}/
+COPY --from=php-ext-intl ${PHP_EXT_DIR}/intl.so ${PHP_EXT_DIR}/
+COPY --from=php-ext-intl /usr/local /usr/local
+COPY --from=php-ext-memcached ${PHP_EXT_DIR}/memcached.so ${PHP_EXT_DIR}/
+COPY --from=php-ext-apcu ${PHP_EXT_DIR}/apcu.so ${PHP_EXT_DIR}/
+COPY --from=php-ext-xdebug ${PHP_EXT_DIR}/xdebug.so ${PHP_EXT_DIR}/
+COPY --from=php-ext-mongodb ${PHP_EXT_DIR}/mongodb.so ${PHP_EXT_DIR}/
+COPY --from=php-ext-uuid ${PHP_EXT_DIR}/uuid.so ${PHP_EXT_DIR}/
+COPY --from=php-ext-pcov ${PHP_EXT_DIR}/pcov.so ${PHP_EXT_DIR}/
+COPY --from=wait-for-it ${WAIT_FOR_IT} ${WAIT_FOR_IT}
+
+RUN set -ex \
+    && mv ${PHP_EXT_DIR}/*.so `php -r "echo ini_get('extension_dir');"`/ \
+    && docker-php-ext-enable \
+        gd \
+        zip \
+        pdo_pgsql \
+        pcntl \
+        sockets \
+        intl \
+        memcached \
+        apcu \
+        mongodb \
+        uuid \
+        pcov
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_MEMORY_LIMIT -1
