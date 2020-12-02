@@ -185,6 +185,7 @@ steps:
 
     -   name: sonarqube
         image: aosapps/drone-sonar-plugin
+        pull: if-not-exists
         environment:
             SONAR_USER_HOME: /opt/sonarqube
         settings:
