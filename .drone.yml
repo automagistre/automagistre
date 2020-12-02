@@ -173,6 +173,16 @@ steps:
         depends_on:
             - fixtures
 
+    -   name: logs
+        image: automagistre/tenant-php:base
+        commands:
+            - cat var/log/* || true
+        depends_on:
+            - phpunit
+        when:
+            status:
+                - failure
+
     -   name: sonarqube
         image: aosapps/drone-sonar-plugin
         environment:
