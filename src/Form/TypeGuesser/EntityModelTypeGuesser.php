@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Form\TypeGuesser;
 
 use App\Form\Model\Model;
-use function assert;
-use function class_exists;
 use function is_subclass_of;
 use Symfony\Bridge\Doctrine\Form\DoctrineOrmTypeGuesser;
 use Symfony\Component\Form\FormTypeGuesserInterface;
@@ -60,13 +58,15 @@ final class EntityModelTypeGuesser implements FormTypeGuesserInterface
      */
     private function guess(string $method, string $class, string $property)
     {
+        /** @phpstan-ignore-next-line */
         if (!is_subclass_of(Model::class, $class)) {
-            return;
+            return null;
         }
 
-        assert(class_exists($class));
+        /** @var callable $callable */
+        $callable = $class.'::getEntityClass';
 
-        /* @var Model $class */
-        return $this->guesser->{$method}($class::getEntityClass(), $property);
+        /** @phpstan-ignore-next-line */
+        return $this->guesser->{$method}($callable(), $property);
     }
 }

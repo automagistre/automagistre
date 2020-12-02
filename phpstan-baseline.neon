@@ -16,16 +16,6 @@ parameters:
 			path: src/Form/Transformer/DivisoredNumberToLocalizedStringTransformer.php
 
 		-
-			message: "#^Call to function is_subclass_of\\(\\) with 'App\\\\\\\\Form\\\\\\\\Model\\\\\\\\Model' and string will always evaluate to true\\.$#"
-			count: 1
-			path: src/Form/TypeGuesser/EntityModelTypeGuesser.php
-
-		-
-			message: "#^Variable method call on Symfony\\\\Bridge\\\\Doctrine\\\\Form\\\\DoctrineOrmTypeGuesser\\.$#"
-			count: 1
-			path: src/Form/TypeGuesser/EntityModelTypeGuesser.php
-
-		-
 			message: "#^Parameter \\#2 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, \\(callable\\)\\|string given\\.$#"
 			count: 1
 			path: src/Shared/ArgumentResolver/ArgumentResolver.php
