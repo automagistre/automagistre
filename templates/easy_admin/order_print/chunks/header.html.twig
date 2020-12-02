@@ -1,4 +1,4 @@
-{% set requisites = state.tenant.getRequisites() %}
+{% set requisites = tenant.getRequisites() %}
 
     {% if requisites.name|default %}
         {% set requisitesForRender = [

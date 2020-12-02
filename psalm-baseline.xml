@@ -352,11 +352,6 @@
       <code>$argument-&gt;getType()</code>
     </PossiblyNullArgument>
   </file>
-  <file src="src/State.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>$user</code>
-    </PropertyNotSetInConstructor>
-  </file>
   <file src="src/User/Controller/UserController.php">
     <PossiblyNullReference occurrences="1">
       <code>get</code>

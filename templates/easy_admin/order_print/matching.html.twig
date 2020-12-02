@@ -10,7 +10,7 @@
 
 {% set balance = order.closed ? order.closedBalance : (customer is not empty ? customer|balance : null) %}
 
-{% set requisites = state.tenant.getRequisites() %}
+{% set requisites = tenant.getRequisites() %}
 
 {% set page = 1 %}
 {% set row = 1 %}

@@ -8,7 +8,6 @@ use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Request\EntityTransformer;
-use App\State;
 use App\User\Entity\User;
 use function array_keys;
 use function array_merge;
@@ -44,7 +43,7 @@ use function urldecode;
 use function urlencode;
 
 /**
- * @psalm-suppress MissingConstructor
+ * @psalm-suppress PropertyNotSetInConstructor
  *
  * @property EntityManagerInterface $em
  *
@@ -65,7 +64,6 @@ abstract class AbstractController extends EasyAdminController
             Registry::class,
             EntityTransformer::class,
             MoneyFormatter::class,
-            State::class,
             DecimalMoneyFormatter::class,
             PhoneNumberUtil::class,
             EasyAdminRouter::class,
