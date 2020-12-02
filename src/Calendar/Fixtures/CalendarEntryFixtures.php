@@ -24,7 +24,7 @@ final class CalendarEntryFixtures extends Fixture
     {
         $calendar = CalendarEntry::create(
             CalendarEntryId::fromString(self::ID),
-            new Schedule((new DateTimeImmutable('10:30'))->modify('+1 day'), new DateInterval('PT1H')),
+            new Schedule(new DateTimeImmutable('10:30 +1 day'), new DateInterval('PT1H')),
             new OrderInfo(null, null, null, null),
         );
 
