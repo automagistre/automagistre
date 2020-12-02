@@ -163,7 +163,7 @@ final class CarController extends AbstractController
         $dto = $entity;
         assert($dto instanceof CarUpdate);
 
-        $entity = $this->registry->findBy(Car::class, ['id' => $dto->carId]);
+        $entity = $this->registry->getBy(Car::class, ['id' => $dto->carId]);
 
         $entity->equipment = $dto->equipment;
         $entity->setGosnomer($dto->gosnomer);

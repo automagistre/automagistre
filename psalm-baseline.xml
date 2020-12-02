@@ -17,12 +17,6 @@
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtolower($searchString)</code>
     </PossiblyFalseOperand>
-    <PossiblyNullPropertyAssignment occurrences="1">
-      <code>$entity</code>
-    </PossiblyNullPropertyAssignment>
-    <PossiblyNullReference occurrences="1">
-      <code>setGosnomer</code>
-    </PossiblyNullReference>
   </file>
   <file src="src/Car/Controller/RecommendationController.php">
     <PossiblyNullArgument occurrences="3">
