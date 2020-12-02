@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Form\Transformer;
 
-use function is_float;
-use function is_int;
 use function is_numeric;
 use function preg_replace;
 use function strpos;
@@ -49,13 +47,13 @@ final class DivisoredNumberToLocalizedStringTransformer extends NumberToLocalize
             return '';
         }
 
-        if (!is_numeric($value) && !is_int($value) && !is_float($value)) {
+        if (!is_numeric($value)) {
             throw new TransformationFailedException('Expected a numeric.');
         }
 
+        /** @psalm-var int|float $value */
         $value /= $this->divisor;
 
-        /* @psalm-var int|float $value */
         return parent::transform($value);
     }
 
