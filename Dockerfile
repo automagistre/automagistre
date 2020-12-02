@@ -8,12 +8,13 @@ LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 
 ENV APP_DIR=/usr/local/app
 ENV PATH=${APP_DIR}/bin:${APP_DIR}/vendor/bin:${PATH}
-ENV PHP_EXT_DIR /usr/local/lib/php/extensions
+ENV PHP_EXT_DIR /usr/local/lib/php/extensions/no-debug-non-zts-20190902
 ENV WAIT_FOR_IT /usr/local/bin/wait-for-it.sh
 
 WORKDIR ${APP_DIR}
 
 RUN set -ex \
+    && if [ `pear config-get ext_dir` != ${PHP_EXT_DIR} ]; then echo PHP_EXT_DIR must be `pear config-get ext_dir` && exit 1; fi \
     && apt-get update && apt-get install -y --no-install-recommends \
         git \
         openssh-client \
@@ -35,76 +36,62 @@ RUN set -ex \
 FROM php-raw AS php-ext-gd
 RUN set -ex \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd \
-    && mv `pear config-get ext_dir`/gd.so ${PHP_EXT_DIR}/
+    && docker-php-ext-install gd
 
 FROM php-raw AS php-ext-zip
 RUN set -ex \
-    && docker-php-ext-install zip \
-    && mv `pear config-get ext_dir`/zip.so ${PHP_EXT_DIR}/
+    && docker-php-ext-install zip
 
 FROM php-raw AS php-ext-pdo
 RUN set -ex \
-    && docker-php-ext-install pdo_pgsql \
-    && mv `pear config-get ext_dir`/pdo_pgsql.so ${PHP_EXT_DIR}/
+    && docker-php-ext-install pdo_pgsql
 
 FROM php-raw AS php-ext-iconv
 RUN set -ex \
-    && docker-php-ext-install iconv \
-    && mv `pear config-get ext_dir`/iconv.so ${PHP_EXT_DIR}/
+    && docker-php-ext-install iconv
 
 FROM php-raw AS php-ext-opcache
 RUN set -ex \
-    && docker-php-ext-install opcache \
-    && mv `pear config-get ext_dir`/opcache.so ${PHP_EXT_DIR}/
+    && docker-php-ext-install opcache
 
 FROM php-raw AS php-ext-pcntl
 RUN set -ex \
-    && docker-php-ext-install pcntl \
-    && mv `pear config-get ext_dir`/pcntl.so ${PHP_EXT_DIR}/
+    && docker-php-ext-install pcntl
 
 FROM php-raw AS php-ext-sockets
 RUN set -ex \
-    && docker-php-ext-install sockets \
-    && mv `pear config-get ext_dir`/sockets.so ${PHP_EXT_DIR}/
+    && docker-php-ext-install sockets
 
 FROM php-raw AS php-ext-intl
 RUN set -ex \
 	&& curl -L https://github.com/unicode-org/icu/releases/download/release-65-1/icu4c-65_1-Ubuntu18.04-x64.tgz | tar xz \
 	&& cp -R icu/usr/local/* /usr/local/ \
 	&& rm -rf icu \
-	&& docker-php-ext-install intl \
-    && mv `pear config-get ext_dir`/intl.so ${PHP_EXT_DIR}/
+	&& docker-php-ext-install intl
 
 FROM php-raw AS php-ext-memcached
 RUN set -ex \
-    && pecl install memcached \
-    && mv `pear config-get ext_dir`/memcached.so ${PHP_EXT_DIR}/
+    && pecl install memcached
 
 FROM php-raw AS php-ext-apcu
 RUN set -ex \
-    && pecl install apcu \
-    && mv `pear config-get ext_dir`/apcu.so ${PHP_EXT_DIR}/
+    && pecl install apcu
 
 FROM php-raw AS php-ext-xdebug
 RUN set -ex \
-    && pecl install xdebug \
-    && mv `pear config-get ext_dir`/xdebug.so ${PHP_EXT_DIR}/
+    && pecl install xdebug
 
 FROM php-raw AS php-ext-mongodb
 RUN set -ex \
-    && pecl install mongodb \
-    && mv `pear config-get ext_dir`/mongodb.so ${PHP_EXT_DIR}/
+    && pecl install mongodb
 
 FROM php-raw AS php-ext-uuid
 RUN set -ex \
-    && pecl install uuid \
-    && mv `pear config-get ext_dir`/uuid.so ${PHP_EXT_DIR}/
+    && pecl install uuid
 
 FROM php-raw AS php-ext-pcov
 RUN set -ex \
-    && pecl install pcov \
-    && mv `pear config-get ext_dir`/pcov.so ${PHP_EXT_DIR}/
+    && pecl install pcov
 #
 # < PHP EXTENSIONS
 #
@@ -131,7 +118,6 @@ COPY --from=php-ext-pcov ${PHP_EXT_DIR}/pcov.so ${PHP_EXT_DIR}/
 COPY --from=wait-for-it ${WAIT_FOR_IT} ${WAIT_FOR_IT}
 
 RUN set -ex \
-    && mv ${PHP_EXT_DIR}/*.so `php -r "echo ini_get('extension_dir');"`/ \
     && docker-php-ext-enable \
         gd \
         zip \
