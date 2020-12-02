@@ -303,11 +303,6 @@
       <code>self::FORMATS</code>
     </PossiblyNullArrayOffset>
   </file>
-  <file src="src/Shared/ArgumentResolver/ArgumentResolver.php">
-    <PossiblyInvalidArgument occurrences="1">
-      <code>$representative[0]</code>
-    </PossiblyInvalidArgument>
-  </file>
   <file src="src/Shared/Doctrine/ORM/Mapping/NamespaceNamingStrategy.php">
     <PossiblyNullArgument occurrences="2">
       <code>$string</code>
