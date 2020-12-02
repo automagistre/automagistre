@@ -27,6 +27,7 @@ final class CarCustomerRepository
                 SELECT DISTINCT o.car_id 
                 FROM orders o
                 WHERE o.customer_id = :customer
+                AND o.car_id IS NOT NULL
                 GROUP BY o.car_id
             ',
                 [
@@ -48,6 +49,7 @@ final class CarCustomerRepository
                 SELECT DISTINCT o.customer_id 
                 FROM orders o
                 WHERE o.car_id = :car
+                AND o.customer_id IS NOT NULL
                 GROUP BY o.customer_id
             ',
                 [
