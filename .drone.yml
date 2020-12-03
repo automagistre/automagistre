@@ -90,8 +90,9 @@ steps:
                 -not -path "./.idea/*"
                 -not -path "./var/*"
                 -not -path "./vendor/*"
+                -not -path "./.git/*"
                 -type f -exec grep -Iq . {} \; -and -print0
-                | xargs -0 -L1 bash -c 'test -z "$(tail -c 1 "$0")"
+                | xargs -0 -n 1 sh -c 'test -z "$(tail -c 1 "$0")"
                 || (echo "No new line at end of $0" && exit 1)'
                 || exit 1
         when:
@@ -113,7 +114,7 @@ steps:
     -   name: symfony security
         image: automagistre/tenant-php:base
         commands:
-            - vendor/bin/security-checker security:check $APP_DIR/composer.lock
+            - vendor/bin/security-checker security:check
         when:
             branch:
                 exclude: [ master ]
@@ -147,7 +148,6 @@ steps:
     -   name: migration
         image: automagistre/tenant-php:base
         commands:
-            - $$WAIT_FOR_IT db:5432
             - bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
         depends_on:
             - install

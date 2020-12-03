@@ -2,7 +2,7 @@
 # PHP-FPM
 #
 FROM composer:2.0.7 as composer
-FROM amd64/php:7.4.13-fpm-buster as php-raw
+FROM amd64/php:7.4.13-fpm-alpine3.12 as php-raw
 
 LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 
@@ -13,25 +13,23 @@ ENV WAIT_FOR_IT /usr/local/bin/wait-for-it.sh
 WORKDIR ${APP_DIR}
 
 RUN set -ex \
-    && apt-get update && apt-get install -y --no-install-recommends \
-      # composer
-        git \
-        openssh-client \
+    && apk add --no-cache \
         # healcheck
-        libfcgi-bin \
+        fcgi \
         # ext-zip
-        libzip4 \
+        libzip \
         # ext-memcached
-        libmemcached11 \
+        libmemcached \
         # ext-gd
-        libpng16-16 \
-        libjpeg62-turbo \
-        libfreetype6 \
+        libpng \
+        libjpeg-turbo \
+        freetype \
         # ext-pdo_pgsql
-        libpq5 \
+        libpq \
         # ext-uuid
-        libuuid1 \
-    && rm -r /var/lib/apt/lists/*
+        libuuid \
+        # ext-intl
+        icu
 
 #
 # > PHP EXTENSIONS
@@ -40,79 +38,86 @@ ENV PHP_EXT_DIR /usr/local/lib/php/extensions/no-debug-non-zts-20190902
 RUN set -ex \
     && if [ `pear config-get ext_dir` != ${PHP_EXT_DIR} ]; then echo PHP_EXT_DIR must be `pear config-get ext_dir` && exit 1; fi
 
-FROM php-raw AS php-ext-gd
+FROM php-raw AS php-build
 RUN set -ex \
-    && apt-get update && apt-get install -y --no-install-recommends \
+    && apk add --no-cache $PHPIZE_DEPS 
+
+FROM php-build AS php-ext-gd
+RUN set -ex \
+    && apk add --no-cache --virtual .build-deps \
         libpng-dev \
-        libjpeg62-turbo-dev \
-        libfreetype6-dev \
-    && rm -r /var/lib/apt/lists/* \
+        libjpeg-turbo-dev \
+        freetype-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd
+    && docker-php-ext-install gd \
+    && apk del --no-network .build-deps
 
-FROM php-raw AS php-ext-zip
+FROM php-build AS php-ext-zip
 RUN set -ex \
-    && apt-get update && apt-get install -y --no-install-recommends \
+    && apk add --no-cache --virtual .build-deps \
         libzip-dev \
-    && rm -r /var/lib/apt/lists/* \
-    && docker-php-ext-install zip
+    && docker-php-ext-install zip \
+    && apk del --no-network .build-deps
 
-FROM php-raw AS php-ext-pdo
+FROM php-build AS php-ext-pdo
 RUN set -ex \
-    && apt-get update && apt-get install -y --no-install-recommends \
-        libpq-dev \
-    && rm -r /var/lib/apt/lists/* \
-    && docker-php-ext-install pdo_pgsql
+    && apk add --no-cache --virtual .build-deps \
+        postgresql-dev \
+    && docker-php-ext-install pdo_pgsql \
+    && apk del --no-network .build-deps
 
-FROM php-raw AS php-ext-iconv
+FROM php-build AS php-ext-iconv
 RUN set -ex \
     && docker-php-ext-install iconv
 
-FROM php-raw AS php-ext-pcntl
+FROM php-build AS php-ext-pcntl
 RUN set -ex \
     && docker-php-ext-install pcntl
 
-FROM php-raw AS php-ext-sockets
+FROM php-build AS php-ext-sockets
 RUN set -ex \
     && docker-php-ext-install sockets
 
-FROM php-raw AS php-ext-intl
+FROM php-build AS php-ext-intl
 RUN set -ex \
-	&& curl -L https://github.com/unicode-org/icu/releases/download/release-65-1/icu4c-65_1-Ubuntu18.04-x64.tgz | tar xz \
-	&& cp -R icu/usr/local/* /usr/local/ \
-	&& rm -rf icu \
-	&& docker-php-ext-install intl
+    && apk add --no-cache --virtual .build-deps \
+        icu-dev \
+	&& docker-php-ext-install intl \
+    && apk del --no-network .build-deps
 
-FROM php-raw AS php-ext-memcached
+FROM php-build AS php-ext-memcached
 RUN set -ex \
-    && apt-get update && apt-get install -y --no-install-recommends \
+    && apk add --no-cache --virtual .build-deps \
         libzip-dev \
         libmemcached-dev \
-    && rm -r /var/lib/apt/lists/* \
-    && pecl install memcached
+    && pecl install memcached \
+    && apk del --no-network .build-deps
 
-FROM php-raw AS php-ext-apcu
+FROM php-build AS php-ext-apcu
 RUN set -ex \
     && pecl install apcu
 
-FROM php-raw AS php-ext-xdebug
+FROM php-build AS php-ext-xdebug
 RUN set -ex \
     && pecl install xdebug
 
-FROM php-raw AS php-ext-mongodb
+FROM php-build AS php-ext-mongodb
 RUN set -ex \
     && pecl install mongodb
 
-FROM php-raw AS php-ext-uuid
+FROM php-build AS php-ext-uuid
 RUN set -ex \
-    && apt-get update && apt-get install -y --no-install-recommends \
-        uuid-dev \
-    && rm -r /var/lib/apt/lists/* \
-    && pecl install uuid
+    && apk add --no-cache --virtual .build-deps \
+        util-linux-dev \
+    && pecl install uuid \
+    && apk del --no-network .build-deps
 
-FROM php-raw AS php-ext-pcov
+FROM php-build AS php-ext-pcov
 RUN set -ex \
-    && pecl install pcov
+    && apk add --no-cache --virtual .build-deps \
+        $PHPIZE_DEPS \
+    && pecl install pcov \
+    && apk del --no-network .build-deps
 #
 # < PHP EXTENSIONS
 #

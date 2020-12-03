@@ -72,7 +72,7 @@ permissions: ## Fix file permissions in project
 	$(call OK,"Permissions fixed.")
 
 app-cli:
-	$(APP) bash
+	$(APP) sh
 
 composer: ### composer install
 	$(APP) sh -c 'rm -rf var/cache/* && composer install'
