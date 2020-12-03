@@ -49,7 +49,11 @@
                                         <td style="text-align: center">{{ line.work.price|localize_money }}</td>
 
                                         <td style="text-align: center">{{ line.period }} тыс.км</td>
-                                        <td style="text-align: center">{% include 'easy_admin/default/field_boolean.html.twig' with {'value': line.recommended} %}</td>
+                                        <td style="text-align: center">
+                                            {% if line.recommended %}
+                                                {% include 'easy_admin/default/field_boolean.html.twig' with {'value': line.recommended} %}
+                                            {% endif %}
+                                        </td>
                                         <td style="text-align: center">{{ line.position }}</td>
                                         <td style="text-align: center">
                                             <a href="{{ easyadmin_path('McPart', 'new', {'mc_line_id': line|toId}) }}" style="display: flex; justify-content: center">
@@ -66,7 +70,7 @@
                                             </td>
                                             <td style="text-align: center">{{ partView.price|localize_money }}</td>
                                             <td style="text-align: center">{{ linePart.quantity / 100 }} {{ partView.unit.to('shortLabel') }}</td>
-                                            <td style="text-align: center">{% include 'easy_admin/default/field_boolean.html.twig' with {'value': linePart.recommended} %}</td>
+                                            <td style="text-align: center"></td>
                                             <td style="text-align: center"></td>
                                         </tr>
                                     {% endfor %}
