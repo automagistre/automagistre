@@ -14,18 +14,23 @@ WORKDIR ${APP_DIR}
 
 RUN set -ex \
     && apt-get update && apt-get install -y --no-install-recommends \
+      # composer
         git \
         openssh-client \
-        libzip-dev \
-        netcat \
-        libmemcached-dev \
-        unzip \
+        # healcheck
         libfcgi-bin \
-        libpng-dev \
-        libjpeg62-turbo-dev \
-        libfreetype6-dev \
-        libpq-dev \
-        uuid-dev \
+        # ext-zip
+        libzip4 \
+        # ext-memcached
+        libmemcached11 \
+        # ext-gd
+        libpng16-16 \
+        libjpeg62-turbo \
+        libfreetype6 \
+        # ext-pdo_pgsql
+        libpq5 \
+        # ext-uuid
+        libuuid1 \
     && rm -r /var/lib/apt/lists/*
 
 #
@@ -37,24 +42,31 @@ RUN set -ex \
 
 FROM php-raw AS php-ext-gd
 RUN set -ex \
+    && apt-get update && apt-get install -y --no-install-recommends \
+        libpng-dev \
+        libjpeg62-turbo-dev \
+        libfreetype6-dev \
+    && rm -r /var/lib/apt/lists/* \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd
 
 FROM php-raw AS php-ext-zip
 RUN set -ex \
+    && apt-get update && apt-get install -y --no-install-recommends \
+        libzip-dev \
+    && rm -r /var/lib/apt/lists/* \
     && docker-php-ext-install zip
 
 FROM php-raw AS php-ext-pdo
 RUN set -ex \
+    && apt-get update && apt-get install -y --no-install-recommends \
+        libpq-dev \
+    && rm -r /var/lib/apt/lists/* \
     && docker-php-ext-install pdo_pgsql
 
 FROM php-raw AS php-ext-iconv
 RUN set -ex \
     && docker-php-ext-install iconv
-
-FROM php-raw AS php-ext-opcache
-RUN set -ex \
-    && docker-php-ext-install opcache
 
 FROM php-raw AS php-ext-pcntl
 RUN set -ex \
@@ -73,6 +85,10 @@ RUN set -ex \
 
 FROM php-raw AS php-ext-memcached
 RUN set -ex \
+    && apt-get update && apt-get install -y --no-install-recommends \
+        libzip-dev \
+        libmemcached-dev \
+    && rm -r /var/lib/apt/lists/* \
     && pecl install memcached
 
 FROM php-raw AS php-ext-apcu
@@ -89,6 +105,9 @@ RUN set -ex \
 
 FROM php-raw AS php-ext-uuid
 RUN set -ex \
+    && apt-get update && apt-get install -y --no-install-recommends \
+        uuid-dev \
+    && rm -r /var/lib/apt/lists/* \
     && pecl install uuid
 
 FROM php-raw AS php-ext-pcov
