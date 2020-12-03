@@ -160,10 +160,6 @@ RUN set -ex \
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_MEMORY_LIMIT -1
 COPY --from=composer /usr/bin/composer /usr/bin/composer
-COPY composer.json composer.lock ${APP_DIR}/
-RUN set -ex \
-    && composer validate \
-    && composer install --no-interaction --no-progress --no-scripts
 
 COPY etc/php.ini ${PHP_INI_DIR}/php.ini
 COPY etc/php-fpm.conf /usr/local/etc/php-fpm.d/automagistre.conf
@@ -188,6 +184,7 @@ COPY public public
 COPY src src
 COPY templates templates
 COPY translations translations
+COPY composer.json composer.lock symfony.lock ${APP_DIR}/
 
 RUN set -ex \
     && composer install --no-interaction --no-progress --no-dev --classmap-authoritative \
