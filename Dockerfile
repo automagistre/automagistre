@@ -145,17 +145,18 @@ COPY --from=wait-for-it ${WAIT_FOR_IT} ${WAIT_FOR_IT}
 
 RUN set -ex \
     && docker-php-ext-enable \
+        apcu \
         gd \
-        zip \
-        pdo_pgsql \
-        pcntl \
-        sockets \
         intl \
         memcached \
-        apcu \
         mongodb \
+        opcache \
+        pcntl \
+        pcov \
+        pdo_pgsql \
+        sockets \
         uuid \
-        pcov
+        zip
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_MEMORY_LIMIT -1
