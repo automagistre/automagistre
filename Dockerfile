@@ -1,8 +1,12 @@
 #
-# PHP-FPM
+# Composer
 #
 FROM composer:2.0.8 as composer
-FROM amd64/php:7.4.13-fpm-alpine3.12 as php-raw
+
+#
+# PHP
+#
+FROM amd64/php:8.0.1-fpm-alpine3.12 as php-raw
 
 LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 
@@ -14,7 +18,7 @@ WORKDIR ${APP_DIR}
 #
 # > PHP EXTENSIONS
 #
-ENV PHP_EXT_DIR /usr/local/lib/php/extensions/no-debug-non-zts-20190902
+ENV PHP_EXT_DIR /usr/local/lib/php/extensions/no-debug-non-zts-20200930
 RUN set -ex \
     && if [ `pear config-get ext_dir` != ${PHP_EXT_DIR} ]; then echo PHP_EXT_DIR must be `pear config-get ext_dir` && exit 1; fi
 
