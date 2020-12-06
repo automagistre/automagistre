@@ -801,9 +801,6 @@
             "tests/bootstrap.php"
         ]
     },
-    "symfony/polyfill-php80": {
-        "version": "v1.18.0"
-    },
     "symfony/process": {
         "version": "v5.1.3"
     },
