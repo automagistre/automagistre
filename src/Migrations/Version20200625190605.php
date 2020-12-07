@@ -17,7 +17,7 @@ final class Version20200625190605 extends AbstractMigration
         $this->addSql('DROP INDEX idx_e52ffdeeb03a8386');
         // data migration
         $this->addSql('
-            INSERT INTO created_by (id, user_id, created_at) 
+            INSERT INTO created_by (id, user_id, created_at)
             SELECT o.uuid, u.uuid, o.created_at
             FROM orders o
                 JOIN users u ON u.id = o.created_by_id

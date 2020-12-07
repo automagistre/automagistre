@@ -71,7 +71,7 @@ class EntryView
                                    ORDER BY sub.id DESC
                                    LIMIT 1
                 ) ceoi ON true
-            WHERE ced IS NULL        
+            WHERE ced IS NULL
         ';
     }
 }

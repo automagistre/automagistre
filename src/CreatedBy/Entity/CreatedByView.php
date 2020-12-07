@@ -44,13 +44,13 @@ class CreatedByView
     {
         return '
             CREATE VIEW created_by_view AS
-            SELECT 
+            SELECT
                 cb.id,
                 CONCAT_WS(
-                    \',\', 
-                    u.id, 
-                    u.username, 
-                    COALESCE(u.last_name, \'\'), 
+                    \',\',
+                    u.id,
+                    u.username,
+                    COALESCE(u.last_name, \'\'),
                     COALESCE(u.first_name, \'\')
                 ) AS by,
                 cb.created_at AS at

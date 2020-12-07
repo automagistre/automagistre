@@ -56,8 +56,8 @@ final class LinkPartCaseOnOrderClosedListener implements MessageHandler
                 ->executeStatement(
                     'INSERT INTO part_case (id, part_id, vehicle_id)
                         SELECT :id, id, :vehicle
-                        FROM part 
-                        WHERE universal IS FALSE 
+                        FROM part
+                        WHERE universal IS FALSE
                         AND id = :part
                     ON CONFLICT DO NOTHING
                     ',

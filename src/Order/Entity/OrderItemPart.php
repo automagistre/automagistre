@@ -26,10 +26,10 @@ use Ramsey\Uuid\UuidInterface;
  */
 class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInterface, WarrantyInterface, Discounted, ContainsRecordedMessages
 {
-    use PrivateMessageRecorderCapabilities;
-    use Price;
-    use Warranty;
     use Discount;
+    use Price;
+    use PrivateMessageRecorderCapabilities;
+    use Warranty;
 
     /**
      * @ORM\Column(type="operand_id", nullable=true)

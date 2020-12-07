@@ -59,7 +59,7 @@ class WarehouseView
                                         WHERE sub.warehouse_id = root.id
                                         ORDER BY sub.id DESC
                                         LIMIT 1
-                ) wp ON true        
+                ) wp ON true
         ';
     }
 }

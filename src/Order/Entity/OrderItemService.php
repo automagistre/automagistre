@@ -20,9 +20,9 @@ use Ramsey\Uuid\UuidInterface;
  */
 class OrderItemService extends OrderItem implements PriceInterface, TotalPriceInterface, WarrantyInterface, Discounted
 {
+    use Discount;
     use Price;
     use Warranty;
-    use Discount;
 
     /**
      * @ORM\Column

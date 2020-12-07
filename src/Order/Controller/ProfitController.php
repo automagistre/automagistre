@@ -64,11 +64,11 @@ final class ProfitController extends AbstractController
                  WHERE order_item.order_id = o.id
                ) AS part_price,
                (
-                 SELECT SUM(sub.price_amount::integer - COALESCE(sub.discount_amount, \'0\')::integer) 
+                 SELECT SUM(sub.price_amount::integer - COALESCE(sub.discount_amount, \'0\')::integer)
                  FROM (
-                   SELECT ois.price_amount AS price_amount, 
-                          ois.discount_amount AS discount_amount, 
-                          order_item.order_id AS order_id 
+                   SELECT ois.price_amount AS price_amount,
+                          ois.discount_amount AS discount_amount,
+                          order_item.order_id AS order_id
                     FROM order_item_service ois
                         JOIN order_item ON ois.id = order_item.id
                    ) sub

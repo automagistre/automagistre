@@ -14,9 +14,9 @@ final class Version20200624185421 extends AbstractMigration
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('
-            INSERT INTO users (id, uuid, roles, username) 
+            INSERT INTO users (id, uuid, roles, username)
             VALUES (20, \'1eab64c5-18b0-646c-9ac3-0242c0a8100a\'::UUID, \'[]\'::JSON, \'smsaero@automagistre.ru\')
-            ON CONFLICT DO NOTHING 
+            ON CONFLICT DO NOTHING
         ');
     }
 }

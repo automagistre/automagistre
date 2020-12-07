@@ -45,7 +45,7 @@ final class Version20200626085701 extends AbstractMigration
 
         $this->addSql('ALTER TABLE car_recommendation_part ADD recommendation_uuid UUID DEFAULT NULL');
         $this->addSql('
-            UPDATE car_recommendation_part 
+            UPDATE car_recommendation_part
             SET recommendation_uuid = sub.uuid
             FROM (SELECT id, uuid FROM car_recommendation) sub
             WHERE car_recommendation_part.recommendation_id = sub.id
@@ -68,7 +68,7 @@ final class Version20200626085701 extends AbstractMigration
 
         $this->addSql('ALTER TABLE car_recommendation ADD realization_uuid UUID DEFAULT NULL');
         $this->addSql('
-            UPDATE car_recommendation 
+            UPDATE car_recommendation
             SET realization_uuid = sub.uuid
             FROM (SELECT id, uuid FROM order_item) sub
             WHERE car_recommendation.realization = sub.id
@@ -82,7 +82,7 @@ final class Version20200626085701 extends AbstractMigration
 
         $this->addSql('ALTER TABLE car_recommendation ADD car_uuid UUID DEFAULT NULL');
         $this->addSql('
-            UPDATE car_recommendation 
+            UPDATE car_recommendation
             SET car_uuid = sub.uuid
             FROM (SELECT id, uuid FROM car) sub
             WHERE car_recommendation.car_id = sub.id
@@ -113,7 +113,7 @@ final class Version20200626085701 extends AbstractMigration
 
         $this->addSql('ALTER TABLE organization ADD uuid UUID DEFAULT NULL');
         $this->addSql('
-            UPDATE organization 
+            UPDATE organization
             SET uuid = sub.uuid
             FROM (SELECT id, uuid FROM operand) sub
             WHERE organization.id = sub.id
@@ -126,7 +126,7 @@ final class Version20200626085701 extends AbstractMigration
 
         $this->addSql('ALTER TABLE person ADD uuid UUID DEFAULT NULL');
         $this->addSql('
-            UPDATE person 
+            UPDATE person
             SET uuid = sub.uuid
             FROM (SELECT id, uuid FROM operand) sub
             WHERE person.id = sub.id
@@ -154,7 +154,7 @@ final class Version20200626085701 extends AbstractMigration
 
         $this->addSql('ALTER TABLE income ADD accrued_by_uuid UUID DEFAULT NULL');
         $this->addSql('
-            UPDATE income 
+            UPDATE income
             SET accrued_by_uuid = sub.uuid
             FROM (SELECT id, uuid FROM users) sub
             WHERE income.accrued_by_id = sub.id
@@ -176,7 +176,7 @@ final class Version20200626085701 extends AbstractMigration
 
         $this->addSql('ALTER TABLE mc_part ADD line_uuid UUID DEFAULT NULL');
         $this->addSql('
-            UPDATE mc_part 
+            UPDATE mc_part
             SET line_uuid = sub.uuid
             FROM (SELECT id, uuid FROM mc_line) sub
             WHERE mc_part.line_id = sub.id
@@ -202,7 +202,7 @@ final class Version20200626085701 extends AbstractMigration
 
         $this->addSql('ALTER TABLE mc_line ADD equipment_uuid UUID DEFAULT NULL');
         $this->addSql('
-            UPDATE mc_line 
+            UPDATE mc_line
             SET equipment_uuid = sub.uuid
             FROM (SELECT id, uuid FROM mc_equipment) sub
             WHERE mc_line.equipment_id = sub.id
@@ -217,7 +217,7 @@ final class Version20200626085701 extends AbstractMigration
 
         $this->addSql('ALTER TABLE mc_line ADD work_uuid UUID DEFAULT NULL');
         $this->addSql('
-            UPDATE mc_line 
+            UPDATE mc_line
             SET work_uuid = sub.uuid
             FROM (SELECT id, uuid FROM mc_work) sub
             WHERE mc_line.work_id = sub.id
@@ -246,7 +246,7 @@ final class Version20200626085701 extends AbstractMigration
 
         $this->addSql('ALTER TABLE reservation ADD order_item_part_uuid UUID DEFAULT NULL');
         $this->addSql('
-            UPDATE reservation 
+            UPDATE reservation
             SET order_item_part_uuid = sub.uuid
             FROM (SELECT id, uuid FROM order_item) sub
             WHERE reservation.order_item_part_id = sub.id
@@ -261,7 +261,7 @@ final class Version20200626085701 extends AbstractMigration
 
         $this->addSql('ALTER TABLE order_item_group ADD uuid UUID DEFAULT NULL');
         $this->addSql('
-            UPDATE order_item_group 
+            UPDATE order_item_group
             SET uuid = sub.uuid
             FROM (SELECT id, uuid FROM order_item) sub
             WHERE order_item_group.id = sub.id
@@ -276,7 +276,7 @@ final class Version20200626085701 extends AbstractMigration
 
         $this->addSql('ALTER TABLE order_item_part ADD uuid UUID DEFAULT NULL');
         $this->addSql('
-            UPDATE order_item_part 
+            UPDATE order_item_part
             SET uuid = sub.uuid
             FROM (SELECT id, uuid FROM order_item) sub
             WHERE order_item_part.id = sub.id
@@ -291,7 +291,7 @@ final class Version20200626085701 extends AbstractMigration
 
         $this->addSql('ALTER TABLE order_item_service ADD uuid UUID DEFAULT NULL');
         $this->addSql('
-            UPDATE order_item_service 
+            UPDATE order_item_service
             SET uuid = sub.uuid
             FROM (SELECT id, uuid FROM order_item) sub
             WHERE order_item_service.id = sub.id
@@ -405,7 +405,7 @@ final class Version20200626085701 extends AbstractMigration
 
         $this->addSql('ALTER TABLE orders ADD closed_by_uuid UUID DEFAULT NULL');
         $this->addSql('
-            UPDATE orders 
+            UPDATE orders
             SET closed_by_uuid = sub.uuid
             FROM (SELECT id, uuid FROM users) sub
             WHERE orders.closed_by_id = sub.id
@@ -420,7 +420,7 @@ final class Version20200626085701 extends AbstractMigration
 
         $this->addSql('ALTER TABLE orders ADD worker_uuid UUID DEFAULT NULL');
         $this->addSql('
-            UPDATE orders 
+            UPDATE orders
             SET worker_uuid = sub.uuid
             FROM (SELECT id, uuid FROM employee) sub
             WHERE orders.worker_id = sub.id
@@ -437,7 +437,7 @@ final class Version20200626085701 extends AbstractMigration
         $this->addSql('ALTER TABLE employee ALTER id TYPE UUID USING (uuid)');
         $this->addSql('ALTER TABLE employee DROP uuid');
         $this->addSql('
-            INSERT INTO created_by (id, user_id, created_at) 
+            INSERT INTO created_by (id, user_id, created_at)
             SELECT e.id, \''.Costil::OLD_USER.'\'::uuid, e.hired_at
             FROM employee e
         ');

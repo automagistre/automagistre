@@ -291,7 +291,7 @@ class PartView
                                ON ordered.part_id = part.id
                      LEFT JOIN (SELECT json_agg(
                                                json_build_object(
-                                                   'supplier_id', sub.supplier_id, 
+                                                   'supplier_id', sub.supplier_id,
                                                    'quantity', sub.quantity,
                                                    'updatedAt', sub.updated_at
                                                    )

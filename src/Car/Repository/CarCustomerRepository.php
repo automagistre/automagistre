@@ -24,7 +24,7 @@ final class CarCustomerRepository
     {
         $cars = $this->registry->connection(Car::class)
             ->fetchAllAssociative('
-                SELECT DISTINCT o.car_id 
+                SELECT DISTINCT o.car_id
                 FROM orders o
                 WHERE o.customer_id = :customer
                 AND o.car_id IS NOT NULL
@@ -46,7 +46,7 @@ final class CarCustomerRepository
     {
         $customers = $this->registry->connection(Car::class)
             ->fetchAllAssociative('
-                SELECT DISTINCT o.customer_id 
+                SELECT DISTINCT o.customer_id
                 FROM orders o
                 WHERE o.car_id = :car
                 AND o.customer_id IS NOT NULL

@@ -15,7 +15,7 @@ final class Version20200625195955 extends AbstractMigration
 
         // data migration
         $this->addSql('
-            INSERT INTO created_by (id, user_id, created_at) 
+            INSERT INTO created_by (id, user_id, created_at)
             SELECT c.uuid, \'4ffc24e2-8e60-42e0-9c8f-7a73888b2da6\'::uuid, c.created_at
             FROM car c
             ON CONFLICT DO NOTHING

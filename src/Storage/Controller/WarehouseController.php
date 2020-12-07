@@ -56,9 +56,9 @@ final class WarehouseController extends AbstractController
                                     SELECT id
                                     FROM warehouse_view
                                     WHERE id = :root
-                            
+
                                     UNION ALL
-                            
+
                                     SELECT sub.id
                                     FROM warehouse_view sub
                                              JOIN tree p ON p.id = sub.parent_id

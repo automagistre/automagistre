@@ -90,21 +90,21 @@ class CustomerTransactionView
     {
         return '
                 CREATE VIEW customer_transaction_view AS
-                SELECT 
-                    ct.id, 
+                SELECT
+                    ct.id,
                     ct.operand_id,
                     CONCAT(ct.amount_currency_code, \' \', ct.amount_amount) AS amount,
                     ct.source,
-                    CASE 
-                        WHEN 
+                    CASE
+                        WHEN
                             ct.source IN (
                             '.CustomerTransactionSource::payroll()->toId().',
                             '.CustomerTransactionSource::manual()->toId().'
                             )
-                        THEN 
-                            wt.wallet_id 
-                        ELSE 
-                            ct.source_id 
+                        THEN
+                            wt.wallet_id
+                        ELSE
+                            ct.source_id
                     END,
                     ct.description,
                     cb.created_at,

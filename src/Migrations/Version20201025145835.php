@@ -16,9 +16,9 @@ final class Version20201025145835 extends AbstractMigration
 
         //> DataMigration
         $this->addSql('
-            UPDATE order_close c 
-            SET satisfaction = f.satisfaction 
-            FROM order_feedback f 
+            UPDATE order_close c
+            SET satisfaction = f.satisfaction
+            FROM order_feedback f
             WHERE f.order_id = c.order_id
             ');
         $this->addSql('UPDATE order_close SET satisfaction = 0 WHERE satisfaction IS NULL');

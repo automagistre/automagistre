@@ -47,10 +47,10 @@ final class SendSmsHandler implements MessageHandler
             $result = $this->registry->connection(Sms::class)
                 ->fetchOne(
                     'SELECT 1
-                                FROM sms_send ss 
+                                FROM sms_send ss
                                     JOIN created_by cb ON cb.id = ss.sms_id
-                                    JOIN sms s ON s.id = ss.sms_id 
-                                                      AND success IS TRUE 
+                                    JOIN sms s ON s.id = ss.sms_id
+                                                      AND success IS TRUE
                                                       AND s.phone_number = :phone
                                 WHERE cb.created_at BETWEEN :start AND :end',
                     [

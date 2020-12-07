@@ -67,10 +67,10 @@ class NoteView
                     \';\',
                     cb.id,
                     CONCAT_WS(
-                        \',\', 
-                        u.id, 
-                        u.username, 
-                        COALESCE(u.last_name, \'\'), 
+                        \',\',
+                        u.id,
+                        u.username,
+                        COALESCE(u.last_name, \'\'),
                         COALESCE(u.first_name, \'\')
                     ),
                     cb.created_at

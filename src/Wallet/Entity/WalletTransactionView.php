@@ -90,20 +90,20 @@ class WalletTransactionView
     {
         return '
                 CREATE VIEW wallet_transaction_view AS
-                SELECT 
-                    wt.id, 
+                SELECT
+                    wt.id,
                     wt.wallet_id,
                     CONCAT(wt.amount_currency_code, \' \', wt.amount_amount) AS amount,
                     wt.source,
-                    CASE 
-                        WHEN 
+                    CASE
+                        WHEN
                             wt.source IN (
                             '.WalletTransactionSource::payroll()->toId().',
                             '.WalletTransactionSource::operandManual()->toId().'
-                            ) 
-                            THEN ct.operand_id 
-                        ELSE 
-                            wt.source_id 
+                            )
+                            THEN ct.operand_id
+                        ELSE
+                            wt.source_id
                     END,
                     wt.description,
                     cb.created_at,
