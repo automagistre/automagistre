@@ -179,16 +179,20 @@ ENV APP_DEBUG 0
 ENV PHP_ZEND_ASSERTIONS -1
 ENV PCOV_ENABLED 0
 
+COPY composer.json composer.lock symfony.lock ./
+RUN set -ex \
+    && composer install --no-interaction --no-progress --no-dev --no-plugins --no-cache --profile --no-autoloader \
+    && rm -rf `composer config cache-dir`
+
 COPY bin bin
 COPY config config
 COPY public public
 COPY src src
 COPY templates templates
 COPY translations translations
-COPY composer.json composer.lock symfony.lock ${APP_DIR}/
 
 RUN set -ex \
-    && composer install --no-interaction --no-progress --no-dev --classmap-authoritative \
+    && composer dump-autoload --no-dev --no-plugins --no-cache --profile --classmap-authoritative \
     && console cache:warmup \
     && console assets:install public \
     && chown -R www-data:www-data ${APP_DIR}/var
