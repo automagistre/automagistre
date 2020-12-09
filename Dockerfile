@@ -182,7 +182,7 @@ ENV PCOV_ENABLED 0
 COPY composer.json composer.lock symfony.lock ./
 RUN set -ex \
     && composer install --no-interaction --no-progress --no-dev --no-plugins --no-cache --profile --no-autoloader \
-    && rm -rf `composer config cache-dir`
+    && composer clear-cache --no-interaction --no-cache
 
 COPY bin bin
 COPY config config
