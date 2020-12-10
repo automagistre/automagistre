@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\MessageBus;
 
-use App\Nsq\Nsq;
+use App\Nsq\Config;
 use App\Tenant\Tenant;
 use function strpos;
 use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
@@ -26,7 +26,7 @@ final class NsqTransportFactory implements TransportFactoryInterface
     public function createTransport(string $dsn, array $options, SerializerInterface $serializer): TransportInterface
     {
         return new NsqTransport(
-            new Nsq([]),
+            new Config(),
             $serializer,
             $this->tenant->toBusTopic(),
         );

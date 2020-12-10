@@ -11,13 +11,7 @@ use function call_user_func;
  */
 final class Envelope
 {
-    public int $timestamp;
-
-    public int $attempts;
-
-    public string $id;
-
-    public string $body;
+    public Message $message;
 
     /**
      * @var callable
@@ -34,19 +28,9 @@ final class Envelope
      */
     private $touching;
 
-    public function __construct(
-        int $timestamp,
-        int $attempts,
-        string $id,
-        string $body,
-        callable $ack,
-        callable $req,
-        callable $touch
-    ) {
-        $this->timestamp = $timestamp;
-        $this->attempts = $attempts;
-        $this->id = $id;
-        $this->body = $body;
+    public function __construct(Message $message, callable $ack, callable $req, callable $touch)
+    {
+        $this->message = $message;
         $this->acknowledge = $ack;
         $this->requeue = $req;
         $this->touching = $touch;

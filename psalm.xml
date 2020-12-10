@@ -34,7 +34,7 @@
         </PropertyNotSetInConstructor>
         <PossiblyFalseOperand>
             <errorLevel type="suppress">
-                <file name="src/Nsq/Command.php"/>
+                <file name="src/Nsq/Connection.php"/>
             </errorLevel>
         </PossiblyFalseOperand>
     </issueHandlers>

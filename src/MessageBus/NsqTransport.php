@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\MessageBus;
 
+use App\Nsq\Config;
+use App\Nsq\Consumer;
 use App\Nsq\Envelope as NsqEnvelop;
-use App\Nsq\Nsq;
+use App\Nsq\Publisher;
 use Generator;
 use LogicException;
 use Ramsey\Uuid\Uuid;
@@ -18,26 +20,23 @@ use Symfony\Component\Messenger\Transport\TransportInterface;
 
 final class NsqTransport implements TransportInterface
 {
-    private Nsq $nsq;
+    private Config $config;
 
     private SerializerInterface $serializer;
 
     private string $topic;
 
+    private ?Consumer $consumer = null;
+
+    private ?Publisher $publisher = null;
+
     private ?Generator $subscriber = null;
 
-    public function __construct(Nsq $nsq, SerializerInterface $serializer, string $topic)
+    public function __construct(Config $config, SerializerInterface $serializer, string $topic)
     {
-        $this->nsq = $nsq;
+        $this->config = $config;
         $this->serializer = $serializer;
         $this->topic = $topic;
-    }
-
-    public function __destruct()
-    {
-        if (null !== $this->subscriber) {
-            $this->subscriber->send(true);
-        }
     }
 
     /**
@@ -45,9 +44,11 @@ final class NsqTransport implements TransportInterface
      */
     public function send(Envelope $envelope): Envelope
     {
-        $message = $this->getMessage($envelope);
-        if (null !== $message) {
-            $message->retry(($message->attempts <= 60 ? $message->attempts : 60) * 1000);
+        $nsqEnvelop = $this->getNsqEnvelop($envelope);
+        if (null !== $nsqEnvelop) {
+            $nsqEnvelop->retry(
+                ($nsqEnvelop->message->attempts <= 60 ? $nsqEnvelop->message->attempts : 60) * 1000
+            );
 
             return $envelope;
         }
@@ -58,7 +59,7 @@ final class NsqTransport implements TransportInterface
             'trackingId' => $trackingId,
         ];
 
-        $this->nsq->pub($this->topic, JSON::encode($body));
+        $this->getPublisher()->pub($this->topic, JSON::encode($body));
 
         return $envelope->with(new TransportMessageIdStamp($trackingId));
     }
@@ -70,22 +71,22 @@ final class NsqTransport implements TransportInterface
     {
         $subscriber = $this->subscriber;
         if (null === $subscriber) {
-            $this->subscriber = $subscriber = $this->nsq->subscribe($this->topic, 'tenant');
+            $this->subscriber = $subscriber = $this->getConsumer()->subscribe($this->topic, 'tenant');
         } else {
             $subscriber->next();
         }
 
-        /** @var NsqEnvelop|null $message */
-        $message = $subscriber->current();
+        /** @var NsqEnvelop|null $nsqEnvelop */
+        $nsqEnvelop = $subscriber->current();
 
-        if (null === $message) {
+        if (null === $nsqEnvelop) {
             return [];
         }
 
         [
             'payload' => $payload,
             'trackingId' => $trackingId,
-        ] = JSON::decode($message->body);
+        ] = JSON::decode($nsqEnvelop->message->body);
 
         try {
             $envelope = $this->serializer->decode($payload);
@@ -97,7 +98,7 @@ final class NsqTransport implements TransportInterface
 
         return [
             $envelope->with(
-                new NsqReceivedStamp($message),
+                new NsqReceivedStamp($nsqEnvelop),
                 new TransportMessageIdStamp($trackingId),
             ),
         ];
@@ -108,7 +109,7 @@ final class NsqTransport implements TransportInterface
      */
     public function ack(Envelope $envelope): void
     {
-        $message = $this->getMessage($envelope);
+        $message = $this->getNsqEnvelop($envelope);
         if (!$message instanceof NsqEnvelop) {
             throw new LogicException('Returned envelop doesn\'t related to NsqMessage.');
         }
@@ -124,7 +125,7 @@ final class NsqTransport implements TransportInterface
         throw new LogicException('This shit want to reject my event.');
     }
 
-    private function getMessage(Envelope $envelope): ?NsqEnvelop
+    private function getNsqEnvelop(Envelope $envelope): ?NsqEnvelop
     {
         $stamp = $envelope->last(NsqReceivedStamp::class);
         if (!$stamp instanceof NsqReceivedStamp) {
@@ -132,5 +133,15 @@ final class NsqTransport implements TransportInterface
         }
 
         return $stamp->envelope;
+    }
+
+    private function getConsumer(): Consumer
+    {
+        return $this->consumer ??= new Consumer($this->config);
+    }
+
+    private function getPublisher(): Publisher
+    {
+        return $this->publisher ??= new Publisher($this->config);
     }
 }
