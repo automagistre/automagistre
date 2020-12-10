@@ -2,9 +2,6 @@
 
 namespace App\Nsq;
 
-use function array_map;
-use function count;
-use function implode;
 use LogicException;
 use function pack;
 use const PHP_EOL;
@@ -16,47 +13,46 @@ use function sprintf;
 use function strlen;
 use Throwable;
 
-class Connection
+final class Connection
 {
-    public const OK = 'OK';
-    public const HEARTBEAT = '_heartbeat_';
-    public const TYPE_RESPONSE = 0;
-    public const TYPE_ERROR = 1;
-    public const TYPE_MESSAGE = 2;
-    public const BYTES_SIZE = 4;
-    public const BYTES_TYPE = 4;
-    public const BYTES_ATTEMPTS = 2;
-    public const BYTES_TIMESTAMP = 8;
-    public const BYTES_ID = 16;
+    private const OK = 'OK';
+    private const HEARTBEAT = '_heartbeat_';
+    private const CLOSE_WAIT = 'CLOSE_WAIT';
+    private const TYPE_RESPONSE = 0;
+    private const TYPE_ERROR = 1;
+    private const TYPE_MESSAGE = 2;
+    private const BYTES_SIZE = 4;
+    private const BYTES_TYPE = 4;
+    private const BYTES_ATTEMPTS = 2;
+    private const BYTES_TIMESTAMP = 8;
+    private const BYTES_ID = 16;
     private const MAGIC_V2 = '  V2';
 
-    private Socket $socket;
+    public Socket $socket;
 
-    private bool $closed = false;
+    public bool $closed = false;
 
     private function __construct(Socket $socket)
     {
         $this->socket = $socket;
     }
 
-    public function __destruct()
-    {
-        try {
-            $this->socket->close();
-        } catch (Throwable $e) {
-        }
-    }
-
+    /**
+     * @psalm-suppress UnsafeInstantiation
+     *
+     * @return static
+     */
     public static function connect(Config $config): self
     {
         $socket = (new Factory())->createClient($config->nsqdAddress);
         $socket->write(self::MAGIC_V2);
 
+        /** @phpstan-ignore-next-line */
         return new self($socket);
     }
 
     /**
-     * Update client metadata on the server and negotiate features.
+     * @psalm-suppress PossiblyFalseOperand
      */
     public function identify(array $arr): string
     {
@@ -67,100 +63,8 @@ class Connection
     }
 
     /**
-     * Subscribe to a topic/channel.
+     * @psalm-suppress PossiblyFalseOperand
      */
-    public function sub(string $topic, string $channel): void
-    {
-        $buffer = sprintf('SUB %s %s', $topic, $channel).PHP_EOL;
-
-        $this->write($buffer, true);
-    }
-
-    /**
-     * Publish a message to a topic.
-     */
-    public function pub(string $topic, string $body): void
-    {
-        $size = pack('N', strlen($body));
-
-        $buffer = 'PUB '.$topic.PHP_EOL.$size.$body;
-
-        $this->write($buffer, true);
-    }
-
-    /**
-     * Publish multiple messages to a topic (atomically).
-     */
-    public function mpub(string $topic, array $bodies): void
-    {
-        $num = pack('N', count($bodies));
-
-        $mb = implode('', array_map(static function ($body): string {
-            return pack('N', strlen($body)).$body;
-        }, $bodies));
-
-        $size = pack('N', strlen($num.$mb));
-
-        $buffer = 'MPUB '.$topic.PHP_EOL.$size.$num.$mb;
-
-        $this->write($buffer, true);
-    }
-
-    /**
-     * Publish a deferred message to a topic.
-     */
-    public function dpub(string $topic, int $deferTime, string $body): void
-    {
-        $size = pack('N', strlen($body));
-
-        $buffer = sprintf('DPUB %s %s', $topic, $deferTime).PHP_EOL.$size.$body;
-
-        $this->write($buffer, true);
-    }
-
-    /**
-     * Update RDY state (indicate you are ready to receive N messages).
-     */
-    public function rdy(int $count): void
-    {
-        $this->write('RDY '.$count.PHP_EOL, false);
-    }
-
-    /**
-     * Finish a message (indicate successful processing).
-     */
-    public function fin(string $id): void
-    {
-        $this->write('FIN '.$id.PHP_EOL, false);
-    }
-
-    /**
-     * Re-queue a message (indicate failure to process)
-     * The re-queued message is placed at the tail of the queue, equivalent to having just published it,
-     * but for various implementation specific reasons that behavior should not be explicitly relied upon and may change in the future.
-     * Similarly, a message that is in-flight and times out behaves identically to an explicit REQ.
-     */
-    public function req(string $id, int $timeout): void
-    {
-        $this->write(sprintf('REQ %s %s', $id, $timeout).PHP_EOL, false);
-    }
-
-    /**
-     * Reset the timeout for an in-flight message.
-     */
-    public function touch(string $id): void
-    {
-        $this->write('TOUCH '.$id.PHP_EOL, false);
-    }
-
-    /**
-     * Cleanly close your connection (no more messages are sent).
-     */
-    public function cls(): void
-    {
-        $this->write('CLS'.PHP_EOL, true);
-    }
-
     public function auth(string $secret): string
     {
         $size = pack('N', strlen($secret));
@@ -168,16 +72,7 @@ class Connection
         return 'AUTH'.PHP_EOL.$size.$secret;
     }
 
-    public function consume(?float $timeout = null): ?Message
-    {
-        if (false === $this->socket->selectRead($timeout)) {
-            return null;
-        }
-
-        return $this->read() ?? $this->consume(0);
-    }
-
-    private function write(string $buffer, bool $hasResponse): void
+    public function write(string $buffer): void
     {
         if ($this->closed) {
             throw new LogicException('This connection is closed, create new one.');
@@ -185,10 +80,6 @@ class Connection
 
         try {
             $this->socket->write($buffer);
-
-            if ($hasResponse) {
-                $this->read();
-            }
         } catch (Throwable $e) {
             $this->closed = true;
 
@@ -196,7 +87,7 @@ class Connection
         }
     }
 
-    private function read(): ?Message
+    public function read(): ?Message
     {
         $socket = $this->socket;
 
@@ -209,7 +100,7 @@ class Connection
         if (self::TYPE_RESPONSE === $type) {
             $response = $buffer->consume($size - self::BYTES_TYPE);
 
-            if (self::OK === $response) {
+            if (self::OK === $response || self::CLOSE_WAIT === $response) {
                 return null;
             }
 

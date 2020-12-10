@@ -32,11 +32,6 @@
                 <directory name="src/Migrations"/>
             </errorLevel>
         </PropertyNotSetInConstructor>
-        <PossiblyFalseOperand>
-            <errorLevel type="suppress">
-                <file name="src/Nsq/Connection.php"/>
-            </errorLevel>
-        </PossiblyFalseOperand>
     </issueHandlers>
 
     <plugins>

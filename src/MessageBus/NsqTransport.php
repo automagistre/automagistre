@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\MessageBus;
 
 use App\Nsq\Config;
-use App\Nsq\Consumer;
 use App\Nsq\Envelope as NsqEnvelop;
-use App\Nsq\Publisher;
+use App\Nsq\Subscriber;
+use App\Nsq\Writer;
 use Generator;
 use LogicException;
 use Ramsey\Uuid\Uuid;
@@ -26,15 +26,16 @@ final class NsqTransport implements TransportInterface
 
     private string $topic;
 
-    private ?Consumer $consumer = null;
+    private Subscriber $subscriber;
 
-    private ?Publisher $publisher = null;
+    private ?Writer $publisher = null;
 
-    private ?Generator $subscriber = null;
+    private ?Generator $generator = null;
 
     public function __construct(Config $config, SerializerInterface $serializer, string $topic)
     {
         $this->config = $config;
+        $this->subscriber = new Subscriber($this->config);
         $this->serializer = $serializer;
         $this->topic = $topic;
     }
@@ -69,15 +70,15 @@ final class NsqTransport implements TransportInterface
      */
     public function get(): iterable
     {
-        $subscriber = $this->subscriber;
-        if (null === $subscriber) {
-            $this->subscriber = $subscriber = $this->getConsumer()->subscribe($this->topic, 'tenant');
+        $generator = $this->generator;
+        if (null === $generator) {
+            $this->generator = $generator = $this->subscriber->subscribe($this->topic, 'tenant');
         } else {
-            $subscriber->next();
+            $generator->next();
         }
 
         /** @var NsqEnvelop|null $nsqEnvelop */
-        $nsqEnvelop = $subscriber->current();
+        $nsqEnvelop = $generator->current();
 
         if (null === $nsqEnvelop) {
             return [];
@@ -135,13 +136,8 @@ final class NsqTransport implements TransportInterface
         return $stamp->envelope;
     }
 
-    private function getConsumer(): Consumer
+    private function getPublisher(): Writer
     {
-        return $this->consumer ??= new Consumer($this->config);
-    }
-
-    private function getPublisher(): Publisher
-    {
-        return $this->publisher ??= new Publisher($this->config);
+        return $this->publisher ??= new Writer($this->config);
     }
 }

@@ -7,7 +7,7 @@ namespace App\Nsq;
 use Generator;
 use LogicException;
 
-final class Consumer
+final class Subscriber
 {
     private Config $config;
 
@@ -18,12 +18,12 @@ final class Consumer
 
     public function subscribe(string $topic, string $channel, ?float $timeout = 0): Generator
     {
-        $connection = Connection::connect($this->config);
-        $connection->sub($topic, $channel);
-        $connection->rdy(1);
+        $reader = new Reader($this->config);
+        $reader->sub($topic, $channel);
+        $reader->rdy(1);
 
         while (true) {
-            $message = $connection->consume($timeout);
+            $message = $reader->consume($timeout);
 
             if (null === $message) {
                 if (true === yield null) {
@@ -36,26 +36,26 @@ final class Consumer
             $finished = false;
             $envelop = new Envelope(
                 $message,
-                static function () use ($connection, $message, &$finished): void {
+                static function () use ($reader, $message, &$finished): void {
                     if ($finished) {
                         throw new LogicException('Can\'t ack, message already finished.');
                     }
 
                     $finished = true;
 
-                    $connection->fin($message->id);
+                    $reader->fin($message->id);
                 },
-                static function (int $timeout) use ($connection, $message, &$finished): void {
+                static function (int $timeout) use ($reader, $message, &$finished): void {
                     if ($finished) {
                         throw new LogicException('Can\'t retry, message already finished.');
                     }
 
                     $finished = true;
 
-                    $connection->req($message->id, $timeout);
+                    $reader->req($message->id, $timeout);
                 },
-                static function () use ($connection, $message): void {
-                    $connection->touch($message->id);
+                static function () use ($reader, $message): void {
+                    $reader->touch($message->id);
                 },
             );
 
@@ -63,9 +63,9 @@ final class Consumer
                 break;
             }
 
-            $connection->rdy(1);
+            $reader->rdy(1);
         }
 
-        $connection->cls();
+        $reader->close();
     }
 }
