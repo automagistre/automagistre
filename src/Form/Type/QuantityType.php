@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
-use App\Form\Transformer\DivisoredNumberToLocalizedStringTransformer;
+use App\Form\Transformer\DivisoredNumberTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,13 +19,7 @@ final class QuantityType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->addViewTransformer(new DivisoredNumberToLocalizedStringTransformer(
-                $options['scale'],
-                $options['grouping'],
-                null,
-                $options['divisor']
-            ));
+        $builder->addModelTransformer(new DivisoredNumberTransformer($options['divisor']));
     }
 
     /**
@@ -35,13 +29,9 @@ final class QuantityType extends AbstractType
     {
         $resolver->setDefaults([
             'label' => 'Количество',
-            'scale' => 2,
-            'grouping' => false,
             'divisor' => 100,
             'compound' => false,
         ]);
-
-        $resolver->setAllowedTypes('scale', 'int');
     }
 
     /**
