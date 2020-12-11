@@ -1,7 +1,7 @@
 #
 # PHP-FPM
 #
-FROM composer:2.0.7 as composer
+FROM composer:2.0.8 as composer
 FROM amd64/php:7.4.13-fpm-alpine3.12 as php-raw
 
 LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
