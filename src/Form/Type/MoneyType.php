@@ -39,6 +39,8 @@ final class MoneyType extends AbstractType
             'data_class' => null,
             'label' => 'Стоимость',
             'compound' => false,
+            'empty_data' => 0,
+            'required' => true,
         ]);
     }
 
