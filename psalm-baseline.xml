@@ -83,11 +83,6 @@
       <code>$ratio</code>
     </PropertyNotSetInConstructor>
   </file>
-  <file src="src/Form/Transformer/DivisoredNumberToLocalizedStringTransformer.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>preg_replace('/\s/', '', $value)</code>
-    </PossiblyNullArgument>
-  </file>
   <file src="src/Income/Controller/IncomePartController.php">
     <PossiblyNullArgument occurrences="1">
       <code>$entity-&gt;partId</code>
@@ -255,6 +250,11 @@
     <PossiblyNullArrayOffset occurrences="1">
       <code>self::FORMATS</code>
     </PossiblyNullArrayOffset>
+  </file>
+  <file src="src/Review/Command/MongoReviewPopulateCommand.php">
+    <DeprecatedClass occurrences="1">
+      <code>$qb-&gt;getQuery()-&gt;iterate()</code>
+    </DeprecatedClass>
   </file>
   <file src="src/Shared/Doctrine/ORM/Mapping/NamespaceNamingStrategy.php">
     <PossiblyNullArgument occurrences="2">
