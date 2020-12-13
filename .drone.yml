@@ -162,7 +162,7 @@ steps:
         depends_on:
             - migration
 
-    -   name: doctrine validate
+    -   name: schema
         image: automagistre/tenant-php:base
         commands:
             - bin/console doctrine:schema:validate
@@ -222,7 +222,7 @@ steps:
             - phpstan
             - psalm
             - symfony requirements
-            - doctrine validate
+            - schema
 
     -   name: deploy
         image: docker/compose:1.25.0-alpine
