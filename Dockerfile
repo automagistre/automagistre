@@ -114,10 +114,7 @@ RUN set -ex \
 
 FROM php-build AS php-ext-pcov
 RUN set -ex \
-    && apk add --no-cache --virtual .build-deps \
-        $PHPIZE_DEPS \
-    && pecl install pcov \
-    && apk del --no-network .build-deps
+    && pecl install pcov
 #
 # < PHP EXTENSIONS
 #
