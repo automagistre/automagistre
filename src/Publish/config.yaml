@@ -1,0 +1,6 @@
+easy_admin:
+    entities:
+        Publish:
+            class: App\Publish\Entity\Publish
+            controller: App\Publish\Controller\PublishController
+            disabled_actions: ['list', 'new', 'show', 'autocomplete', 'edit', 'search', 'delete']
