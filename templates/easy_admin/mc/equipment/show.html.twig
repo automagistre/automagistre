@@ -18,6 +18,19 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-md-5">
+            {% set publishForm = publish_form(entity.toId.toString) %}
+            {% set isFormToPublish = publishForm.vars.value.publish %}
+
+            {{ form_start(publishForm) }}
+            {% if isFormToPublish %}
+                <button class="btn btn-success" type="submit">Опубликовать</button>
+            {% else %}
+                <button class="btn btn-danger" type="submit">Снять с публикации</button>
+            {% endif %}
+            {{ form_end(publishForm) }}
+        </div>
     </div>
 
     <div class="row">

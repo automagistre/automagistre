@@ -14,6 +14,7 @@ use App\Part\Documents\Part;
 use App\Part\Documents\Unit;
 use App\Part\Entity\PartId;
 use App\Part\Entity\PartView;
+use App\Publish\Entity\PublishView;
 use App\Shared\Doctrine\Registry;
 use App\Shared\Money\Documents\Money;
 use App\Vehicle\Documents\Vehicle;
@@ -22,9 +23,11 @@ use App\Vehicle\Entity\VehicleId;
 use function array_key_exists;
 use function array_map;
 use Doctrine\Bundle\MongoDBBundle\ManagerRegistry;
+use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class MongoMaintenancePopulateCommand extends Command
 {
@@ -49,6 +52,8 @@ final class MongoMaintenancePopulateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $io = new SymfonyStyle($input, $output);
+
         $dm = $this->odmRegistry->getManager('www');
 
         $equipments = $this->registry->manager(McEquipment::class)
@@ -58,9 +63,13 @@ final class MongoMaintenancePopulateCommand extends Command
             ->leftJoin('mc_equipment.lines', 'lines')
             ->leftJoin('lines.work', 'work')
             ->leftJoin('lines.parts', 'parts')
+            ->leftJoin(PublishView::class, 'publish', Join::WITH, 'publish.id = mc_equipment.id')
+            ->where('publish.published = TRUE')
             ->orderBy('mc_equipment.id', 'ASC')
             ->getQuery()
             ->getArrayResult();
+
+        $progressBar = $io->createProgressBar(count($equipments));
 
         foreach ($equipments as $item) {
             $dm->persist(
@@ -101,7 +110,11 @@ final class MongoMaintenancePopulateCommand extends Command
                     ),
                 ),
             );
+
+            /** @noinspection DisconnectedForeachInstructionInspection */
+            $progressBar->advance();
         }
+        $progressBar->finish();
 
         $dm->flush();
 
