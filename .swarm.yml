@@ -68,14 +68,14 @@ services:
 
     migration:
         <<: *php-fpm
-        command: wait-for-it.sh db:5432 -- console doctrine:migrations:migrate --no-interaction --allow-no-migration
+        command: console doctrine:migrations:migrate --no-interaction --allow-no-migration
         healthcheck:
             disable: true
         deploy:
             mode: replicated
             replicas: 1
             restart_policy:
-                condition: none
+                condition: on-failure
 
     db:
         image: postgres:12.2
