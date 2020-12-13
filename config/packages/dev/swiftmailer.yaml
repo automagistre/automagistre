@@ -1,6 +1,0 @@
-swiftmailer:
-    delivery_addresses:
-        - '%env(MAILER_DELIVERY_ADDRESS)%'
-
-parameters:
-    env(MAILER_DELIVERY_ADDRESS): null
