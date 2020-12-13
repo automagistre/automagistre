@@ -97,6 +97,13 @@ RUN --mount=type=cache,target=/var/cache/apk \
 FROM php-build AS php-ext-pcov
 RUN set -ex \
     && pecl install pcov
+
+FROM php-build AS php-ext-buffer
+ENV EXT_BUFFER_VERSION 0.1.0
+RUN set -ex \
+    && curl -L https://github.com/phpinnacle/ext-buffer/archive/${EXT_BUFFER_VERSION}.tar.gz | tar xz \
+    && cd ext-buffer-${EXT_BUFFER_VERSION} \
+    && phpize && ./configure && make && make install
 #
 # < PHP EXTENSIONS
 #
@@ -114,6 +121,7 @@ COPY --from=php-ext-apcu ${PHP_EXT_DIR}/apcu.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-xdebug ${PHP_EXT_DIR}/xdebug.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-uuid ${PHP_EXT_DIR}/uuid.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-pcov ${PHP_EXT_DIR}/pcov.so ${PHP_EXT_DIR}/
+COPY --from=php-ext-buffer ${PHP_EXT_DIR}/buffer.so ${PHP_EXT_DIR}/
 
 RUN --mount=type=cache,target=/var/cache/apk \
     set -ex \
@@ -138,6 +146,7 @@ RUN --mount=type=cache,target=/var/cache/apk \
         icu \
     && docker-php-ext-enable \
         apcu \
+        buffer \
         gd \
         intl \
         memcached \
