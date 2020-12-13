@@ -188,7 +188,7 @@ COPY src src
 COPY templates templates
 COPY translations translations
 
-RUN set -ex \
+RUN --mount=type=cache,target=/var/cache/composer set -ex \
     && composer dump-autoload --no-dev --no-plugins --no-cache --profile --classmap-authoritative \
     && console cache:warmup \
     && console assets:install public \
