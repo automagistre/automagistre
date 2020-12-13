@@ -57,7 +57,7 @@ services:
             mode: replicated
             replicas: 1
 
-    bus_comsumer:
+    messenger:
         <<: *php-fpm
         command: console messenger:consume async -vv
         healthcheck:
