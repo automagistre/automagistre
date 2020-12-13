@@ -52,6 +52,9 @@ steps:
 
     -   name: install
         image: automagistre/tenant-php:base
+        volumes:
+            -   name: composer
+                path: /var/cache/composer
         commands:
             - echo APP_ENV=test >> .env
             - echo APP_DEBUG=1 >> .env
@@ -284,3 +287,6 @@ volumes:
     -   name: sonarqube
         host:
             path: /opt/sonarqube/scanner/cache
+    -   name: composer
+        host:
+            path: /var/cache/composer
