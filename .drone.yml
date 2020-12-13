@@ -173,6 +173,13 @@ steps:
         depends_on:
             - fixtures
 
+    -   name: infection
+        image: automagistre/tenant-php:base
+        commands:
+            - vendor/bin/infection --no-progress --threads=$(nproc) --only-covered --min-msi=67 --min-covered-msi=67
+        depends_on:
+            - fixtures
+
     -   name: logs
         image: automagistre/tenant-php:base
         commands:

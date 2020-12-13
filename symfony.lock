@@ -252,6 +252,18 @@
     "http-interop/http-factory-guzzle": {
         "version": "1.0.0"
     },
+    "infection/abstract-testframework-adapter": {
+        "version": "0.3.1"
+    },
+    "infection/extension-installer": {
+        "version": "0.1.1"
+    },
+    "infection/include-interceptor": {
+        "version": "0.2.4"
+    },
+    "infection/infection": {
+        "version": "0.20.2"
+    },
     "jean85/pretty-package-versions": {
         "version": "1.5.0"
     },
@@ -338,6 +350,9 @@
             "version": "3.0",
             "ref": "4388686329b81291918a948cd42891829fb1de71"
         }
+    },
+    "ondram/ci-detector": {
+        "version": "3.5.1"
     },
     "openlss/lib-array2xml": {
         "version": "1.0.0"
@@ -494,6 +509,9 @@
             "ref": "471aed0fbf5620b8d7f92b7a5ebbbf6c0945c27a"
         }
     },
+    "sanmai/pipeline": {
+        "version": "v5.1.0"
+    },
     "sebastian/cli-parser": {
         "version": "1.0.0"
     },
@@ -541,6 +559,9 @@
     },
     "sebastian/version": {
         "version": "3.0.1"
+    },
+    "seld/jsonlint": {
+        "version": "1.8.3"
     },
     "sensio/framework-extra-bundle": {
         "version": "5.2",
@@ -930,6 +951,9 @@
     },
     "symfony/yaml": {
         "version": "v5.1.3"
+    },
+    "thecodingmachine/safe": {
+        "version": "v1.3.3"
     },
     "theseer/tokenizer": {
         "version": "1.2.0"
