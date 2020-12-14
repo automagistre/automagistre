@@ -12,25 +12,6 @@ ENV WAIT_FOR_IT /usr/local/bin/wait-for-it.sh
 
 WORKDIR ${APP_DIR}
 
-RUN set -ex \
-    && apk add --no-cache \
-        # healcheck
-        fcgi \
-        # ext-zip
-        libzip \
-        # ext-memcached
-        libmemcached \
-        # ext-gd
-        libpng \
-        libjpeg-turbo \
-        freetype \
-        # ext-pdo_pgsql
-        libpq \
-        # ext-uuid
-        libuuid \
-        # ext-intl
-        icu
-
 #
 # > PHP EXTENSIONS
 #
@@ -39,32 +20,34 @@ RUN set -ex \
     && if [ `pear config-get ext_dir` != ${PHP_EXT_DIR} ]; then echo PHP_EXT_DIR must be `pear config-get ext_dir` && exit 1; fi
 
 FROM php-raw AS php-build
-RUN set -ex \
-    && apk add --no-cache $PHPIZE_DEPS 
+RUN --mount=type=cache,target=/var/cache/apk \
+    set -ex \
+    && apk add --update-cache \
+        $PHPIZE_DEPS
 
 FROM php-build AS php-ext-gd
-RUN set -ex \
-    && apk add --no-cache --virtual .build-deps \
+RUN --mount=type=cache,target=/var/cache/apk \
+    set -ex \
+    && apk add \
         libpng-dev \
         libjpeg-turbo-dev \
         freetype-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd \
-    && apk del --no-network .build-deps
+    && docker-php-ext-install gd
 
 FROM php-build AS php-ext-zip
-RUN set -ex \
-    && apk add --no-cache --virtual .build-deps \
+RUN --mount=type=cache,target=/var/cache/apk \
+    set -ex \
+    && apk add \
         libzip-dev \
-    && docker-php-ext-install zip \
-    && apk del --no-network .build-deps
+    && docker-php-ext-install zip
 
 FROM php-build AS php-ext-pdo
-RUN set -ex \
-    && apk add --no-cache --virtual .build-deps \
+RUN --mount=type=cache,target=/var/cache/apk \
+    set -ex \
+    && apk add \
         postgresql-dev \
-    && docker-php-ext-install pdo_pgsql \
-    && apk del --no-network .build-deps
+    && docker-php-ext-install pdo_pgsql
 
 FROM php-build AS php-ext-iconv
 RUN set -ex \
@@ -79,19 +62,19 @@ RUN set -ex \
     && docker-php-ext-install sockets
 
 FROM php-build AS php-ext-intl
-RUN set -ex \
-    && apk add --no-cache --virtual .build-deps \
+RUN --mount=type=cache,target=/var/cache/apk \
+    set -ex \
+    && apk add \
         icu-dev \
-	&& docker-php-ext-install intl \
-    && apk del --no-network .build-deps
+	&& docker-php-ext-install intl
 
 FROM php-build AS php-ext-memcached
-RUN set -ex \
-    && apk add --no-cache --virtual .build-deps \
+RUN --mount=type=cache,target=/var/cache/apk \
+    set -ex \
+    && apk add \
         libzip-dev \
         libmemcached-dev \
-    && pecl install memcached \
-    && apk del --no-network .build-deps
+    && pecl install memcached
 
 FROM php-build AS php-ext-apcu
 RUN set -ex \
@@ -106,11 +89,11 @@ RUN set -ex \
     && pecl install mongodb
 
 FROM php-build AS php-ext-uuid
-RUN set -ex \
-    && apk add --no-cache --virtual .build-deps \
+RUN --mount=type=cache,target=/var/cache/apk \
+    set -ex \
+    && apk add \
         util-linux-dev \
-    && pecl install uuid \
-    && apk del --no-network .build-deps
+    && pecl install uuid
 
 FROM php-build AS php-ext-pcov
 RUN set -ex \
@@ -140,7 +123,25 @@ COPY --from=php-ext-uuid ${PHP_EXT_DIR}/uuid.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-pcov ${PHP_EXT_DIR}/pcov.so ${PHP_EXT_DIR}/
 COPY --from=wait-for-it ${WAIT_FOR_IT} ${WAIT_FOR_IT}
 
-RUN set -ex \
+RUN --mount=type=cache,target=/var/cache/apk \
+    set -ex \
+    && apk add \
+        # healcheck
+        fcgi \
+        # ext-zip
+        libzip \
+        # ext-memcached
+        libmemcached \
+        # ext-gd
+        libpng \
+        libjpeg-turbo \
+        freetype \
+        # ext-pdo_pgsql
+        libpq \
+        # ext-uuid
+        libuuid \
+        # ext-intl
+        icu \
     && docker-php-ext-enable \
         apcu \
         gd \
