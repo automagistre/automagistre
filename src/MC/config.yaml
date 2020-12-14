@@ -35,6 +35,7 @@ easy_admin:
                     - { property: 'equipment.transmission', label: 'КПП', template: 'easy_admin/field_enum.html.twig' }
                     - { property: 'equipment.wheelDrive', label: 'Привод', template: 'easy_admin/field_enum.html.twig' }
                     - { property: 'period', label: 'Период' }
+                    - { property: 'published', virtual: true, label: 'Опубликовано?', template: 'easy_admin/mc/equipment/field_published.html.twig' }
             show:
                 title: 'Комплектация'
                 fields:

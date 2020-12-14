@@ -49,6 +49,14 @@ final class PublishExtension extends AbstractExtension
                     ]),
                 ])->createView();
             }),
+            new TwigFunction('is_published', function (string $id): bool {
+                $result = $this->registry->connection()
+                    ->fetchOne('SELECT published FROM publish_view WHERE id = :id', [
+                        'id' => $id,
+                    ]);
+
+                return (bool) $result;
+            }),
         ];
     }
 }
