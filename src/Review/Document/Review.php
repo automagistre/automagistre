@@ -43,6 +43,13 @@ class Review
     public string $content;
 
     /**
+     * @ORM\Column
+     *
+     * @ODM\Field
+     */
+    public string $source;
+
+    /**
      * @ORM\Column(type="datetime_immutable")
      *
      * @ODM\Field(type="date")
@@ -56,13 +63,15 @@ class Review
             SELECT id,
                    author,
                    content,
-                   publish_at
+                   publish_at,
+                   'club' AS source
             FROM review
             UNION ALL
             SELECT id,
                    payload -> 'author' ->> 'name',
                    payload ->> 'text',
-                   (payload ->> 'updatedTime')::DATE
+                   (payload ->> 'updatedTime')::DATE,
+                   'yandex' AS source
             FROM yandex_map_review
             WHERE payload -> 'author' ->> 'name' IS NOT NULL
             SQL;
