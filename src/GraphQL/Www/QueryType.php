@@ -107,8 +107,16 @@ final class QueryType extends ObjectType
                         ],
                     ],
                     'resolve' => static function ($rootValue, array $args, Context $context): array {
-                        return $context->registry->repository(Model::class)
-                            ->findBy(['manufacturerId' => $args['manufacturerId']]);
+                        return $context->registry->manager()
+                            ->createQueryBuilder()
+                            ->select('t')
+                            ->from(Model::class, 't')
+                            ->join(McEquipment::class, 'mc', Join::WITH, 'mc.vehicleId = t.id')
+                            ->join(PublishView::class, 'p', Join::WITH, 'p.id = mc.id AND p.published = TRUE')
+                            ->where('t.manufacturerId = :manufacturerId')
+                            ->getQuery()
+                            ->setParameter('manufacturerId', $args['manufacturerId'])
+                            ->getResult();
                     },
                 ],
                 'maintenances' => [
