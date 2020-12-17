@@ -20,7 +20,7 @@
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.0",
         "doctrine/doctrine-migrations-bundle": "^3.0",
-        "doctrine/inflector": "^1",
+        "doctrine/inflector": "^2",
         "doctrine/migrations": "^3.0",
         "doctrine/mongodb-odm-bundle": "^4.1",
         "doctrine/orm": "^2.6",
