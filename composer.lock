@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "64e1c40643a2ff15f6a4eb0eb4beab3f",
+    "content-hash": "f2337cb1838659ff0a7d46af865b5ad5",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -4662,16 +4662,16 @@
         },
         {
             "name": "premier/markdown-builder",
-            "version": "0.6",
+            "version": "0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/grachevko/markdown-builder.git",
-                "reference": "11665a00aa9dc5130936fa94a0a055d8f6bc2cbb"
+                "reference": "5f7b5ae180477879795a3c33d3bc542e395addfd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/grachevko/markdown-builder/zipball/11665a00aa9dc5130936fa94a0a055d8f6bc2cbb",
-                "reference": "11665a00aa9dc5130936fa94a0a055d8f6bc2cbb",
+                "url": "https://api.github.com/repos/grachevko/markdown-builder/zipball/5f7b5ae180477879795a3c33d3bc542e395addfd",
+                "reference": "5f7b5ae180477879795a3c33d3bc542e395addfd",
                 "shasum": ""
             },
             "require": {
@@ -4684,7 +4684,8 @@
                 "phpstan/phpstan": "^0.12.37",
                 "phpstan/phpstan-phpunit": "^0.12.16",
                 "phpstan/phpstan-strict-rules": "^0.12.4",
-                "phpunit/phpunit": "^9.3"
+                "phpunit/phpunit": "^9.3",
+                "vimeo/psalm": "^3.16"
             },
             "type": "library",
             "autoload": {
@@ -4712,9 +4713,9 @@
             ],
             "support": {
                 "issues": "https://github.com/grachevko/markdown-builder/issues",
-                "source": "https://github.com/grachevko/markdown-builder/tree/flip-checklist"
+                "source": "https://github.com/grachevko/markdown-builder/tree/0.7"
             },
-            "time": "2020-09-04T16:45:37+00:00"
+            "time": "2020-10-01T22:57:39+00:00"
         },
         {
             "name": "psr/cache",
