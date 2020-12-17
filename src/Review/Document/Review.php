@@ -56,6 +56,11 @@ class Review
      */
     public DateTimeImmutable $publishAt;
 
+    public function toId(): ReviewId
+    {
+        return $this->id;
+    }
+
     public static function sql(): string
     {
         return <<<'SQL'

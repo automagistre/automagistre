@@ -26,7 +26,7 @@ class McLine
     public McEquipment $equipment;
 
     /**
-     * @ORM\ManyToOne(targetEntity=McWork::class)
+     * @ORM\ManyToOne(targetEntity=McWork::class, fetch="EAGER")
      */
     public McWork $work;
 

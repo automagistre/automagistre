@@ -7,9 +7,9 @@ namespace App\Vehicle\Enum;
 use Premier\Enum\Enum;
 
 /**
+ * @method string toCode()
+ * @method static self fromCode()
  * @method static self unknown()
- *
- * @author Konstantin Grachev <me@grachevko.ru>
  */
 final class FuelType extends Enum
 {
@@ -25,5 +25,13 @@ final class FuelType extends Enum
         self::DIESEL => 'Дизель',
         self::ETHANOL => 'Этанол',
         self::ELECTRIC => 'Электрический',
+    ];
+
+    protected static array $code = [
+        self::UNKNOWN => 'unknown',
+        self::PETROL => 'petrol',
+        self::DIESEL => 'diesel',
+        self::ETHANOL => 'ethanol',
+        self::ELECTRIC => 'electric',
     ];
 }

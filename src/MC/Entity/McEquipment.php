@@ -23,9 +23,11 @@ class McEquipment
     public McEquipmentId $id;
 
     /**
-     * @ORM\Column(type="vehicle_id", nullable=true)
+     * @var VehicleId
+     *
+     * @ORM\Column(type="vehicle_id")
      */
-    public ?VehicleId $vehicleId = null;
+    public $vehicleId;
 
     /**
      * @Assert\Valid

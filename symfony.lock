@@ -977,6 +977,9 @@
     "webmozart/path-util": {
         "version": "2.3.0"
     },
+    "webonyx/graphql-php": {
+        "version": "v14.4.0"
+    },
     "weirdan/doctrine-psalm-plugin": {
         "version": "0.11.3"
     }

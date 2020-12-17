@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
 use function is_string;
 use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -46,11 +47,11 @@ final class IdentifierType extends Type
             return $value;
         }
 
-        if (!$value instanceof Identifier) {
-            throw ConversionException::conversionFailed($value, $this->name);
+        if ($value instanceof Identifier || $value instanceof UuidInterface) {
+            return $value->toString();
         }
 
-        return $value->toString();
+        throw ConversionException::conversionFailed($value, $this->name);
     }
 
     /**

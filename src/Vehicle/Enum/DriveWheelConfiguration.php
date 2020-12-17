@@ -27,7 +27,7 @@ final class DriveWheelConfiguration extends Enum
     ];
 
     protected static array $code = [
-        self::UNKNOWN => '-',
+        self::UNKNOWN => 'unknown',
         self::FRONT_WHEEL_DRIVE => 'FWD',
         self::REAR_WHEEL_DRIVE => 'RWD',
         self::ALL_WHEEL_DRIVE => 'AWD',

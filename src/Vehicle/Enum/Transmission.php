@@ -33,12 +33,12 @@ final class Transmission extends Enum
     ];
 
     protected static array $code = [
-        self::UNKNOWN => '-',
+        self::UNKNOWN => 'unknown',
         self::AUTOMATIC => 'AT',
         self::ROBOT => 'AMT',
         self::VARIATOR => 'CVT',
         self::MECHANICAL => 'MT',
-        self::AUTOMATIC_5 => 'AT-5',
-        self::AUTOMATIC_7 => 'AT-7',
+        self::AUTOMATIC_5 => 'AT5',
+        self::AUTOMATIC_7 => 'AT7',
     ];
 }

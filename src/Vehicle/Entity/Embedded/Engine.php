@@ -35,16 +35,16 @@ final class Engine
     public FuelType $type;
 
     /**
-     * @ORM\Column(type="engine_air_intake", nullable=true)
-     * @ODM\Field(type="engine_air_intake", nullable=true)
+     * @ORM\Column(type="engine_air_intake")
+     * @ODM\Field(type="engine_air_intake")
      */
-    public ?AirIntake $airIntake;
+    public AirIntake $airIntake;
 
     /**
-     * @ORM\Column(type="engine_injection", nullable=true)
-     * @ODM\Field(type="engine_injection", nullable=true)
+     * @ORM\Column(type="engine_injection")
+     * @ODM\Field(type="engine_injection")
      */
-    public ?Injection $injection;
+    public Injection $injection;
 
     /**
      * @Assert\NotBlank
@@ -64,8 +64,8 @@ final class Engine
     ) {
         $this->name = $name;
         $this->type = $type ?? FuelType::unknown();
-        $this->airIntake = $airIntake;
-        $this->injection = $injection;
+        $this->airIntake = $airIntake ?? AirIntake::unknown();
+        $this->injection = $injection ?? Injection::unknown();
         $this->capacity = $capacity ?? self::DEFAULT_CAPACITY;
     }
 

@@ -14,6 +14,10 @@ return static function (RoutingConfigurator $routes): void {
     ;
 
     $routes
+        ->import(__DIR__.'/../src/GraphQL/Controller', 'annotation')
+    ;
+
+    $routes
         ->import(__DIR__.'/../src/User/Controller/SecurityController.php', 'annotation')
     ;
 

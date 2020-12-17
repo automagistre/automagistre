@@ -21,12 +21,12 @@ class Manufacturer
     /**
      * @ORM\Column(name="name", length=64, unique=true)
      */
-    private ?string $name;
+    public ?string $name;
 
     /**
      * @ORM\Column(nullable=true)
      */
-    private ?string $localizedName;
+    public ?string $localizedName;
 
     /**
      * @ORM\Column(name="logo", length=25, nullable=true)

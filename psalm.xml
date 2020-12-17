@@ -32,6 +32,11 @@
                 <directory name="src/Migrations"/>
             </errorLevel>
         </PropertyNotSetInConstructor>
+        <MissingClosureParamType>
+            <errorLevel type="suppress">
+                <file name="src/GraphQL/Www/QueryType.php"/>
+            </errorLevel>
+        </MissingClosureParamType>
     </issueHandlers>
 
     <plugins>
