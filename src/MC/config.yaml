@@ -95,12 +95,3 @@ easy_admin:
                 form_options: { data_class: App\MC\Form\McPartDto }
             edit:
                 title: 'Редактировать запчасть для ТО'
-
-doctrine_mongodb:
-    document_managers:
-        www:
-            mappings:
-                mc:
-                    type: annotation
-                    prefix: App\MC\Documents
-                    dir: "%kernel.project_dir%/src/MC/Documents"

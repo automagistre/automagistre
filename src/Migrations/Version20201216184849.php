@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Migrations;
 
-use App\Review\Document\Review;
+use App\Review\Entity\ReviewView;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 use Ramsey\Uuid\Uuid;
@@ -28,6 +28,6 @@ final class Version20201216184849 extends AbstractMigration
             ]);
         }
 
-        $this->addSql(Review::sql());
+        $this->addSql(ReviewView::sql());
     }
 }

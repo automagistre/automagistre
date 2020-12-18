@@ -7,14 +7,12 @@ namespace App\Vehicle\Entity\Embedded;
 use App\Vehicle\Enum\AirIntake;
 use App\Vehicle\Enum\FuelType;
 use App\Vehicle\Enum\Injection;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Doctrine\ORM\Mapping as ORM;
 use function sprintf;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Embeddable
- * @ODM\EmbeddedDocument
  */
 final class Engine
 {
@@ -22,7 +20,6 @@ final class Engine
 
     /**
      * @ORM\Column(nullable=true)
-     * @ODM\Field(nullable=true)
      */
     public ?string $name = null;
 
@@ -30,19 +27,16 @@ final class Engine
      * @Assert\NotBlank
      *
      * @ORM\Column(type="engine_type_enum")
-     * @ODM\Field(type="engine_type_enum")
      */
     public FuelType $type;
 
     /**
      * @ORM\Column(type="engine_air_intake")
-     * @ODM\Field(type="engine_air_intake")
      */
     public AirIntake $airIntake;
 
     /**
      * @ORM\Column(type="engine_injection")
-     * @ODM\Field(type="engine_injection")
      */
     public Injection $injection;
 
@@ -51,7 +45,6 @@ final class Engine
      * @Assert\Type("numeric")
      *
      * @ORM\Column
-     * @ODM\Field
      */
     public string $capacity;
 

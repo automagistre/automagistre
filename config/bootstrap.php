@@ -21,15 +21,13 @@ if ($_SERVER['APP_DEBUG']) {
     }
 }
 
-foreach ((array) require __DIR__.'/enums.php' as $class => [$id, $odmField]) {
+foreach ((array) require __DIR__.'/enums.php' as $class => [$id]) {
     Premier\Enum\Doctrine\EnumType::register($class, $id);
-    App\Shared\Enum\EnumODMType::register($class, $id, $odmField ?? 'id');
 }
 
 foreach ((array) require __DIR__.'/identifiers.php' as $class => [$id]) {
     App\Shared\Identifier\ORM\IdentifierType::register($id, $class);
     App\Shared\Identifier\ORM\IdentifierArrayType::register($id.'s', $class);
-    App\Shared\Identifier\ODM\IdentifierType::register($id, $class);
 }
 
 Sentry\SentryBundle\SentryBundle::getCurrentHub()

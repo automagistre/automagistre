@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Review\Document;
+namespace App\Review\Entity;
 
-use App\Review\Entity\ReviewId;
 use DateTimeImmutable;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,44 +13,32 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Entity(readOnly=true)
  * @ORM\Table(name="review_view")
- *
- * @ODM\Document(collection="review")
  */
-class Review
+class ReviewView
 {
     /**
      * @ORM\Id
      * @ORM\Column(type="review_id")
-     *
-     * @ODM\Id(strategy="NONE", type="review_id")
      */
     public ReviewId $id;
 
     /**
      * @ORM\Column
-     *
-     * @ODM\Field
      */
     public string $author;
 
     /**
      * @ORM\Column(type="text")
-     *
-     * @ODM\Field
      */
     public string $content;
 
     /**
      * @ORM\Column
-     *
-     * @ODM\Field
      */
     public string $source;
 
     /**
      * @ORM\Column(type="datetime_immutable")
-     *
-     * @ODM\Field(type="date")
      */
     public DateTimeImmutable $publishAt;
 

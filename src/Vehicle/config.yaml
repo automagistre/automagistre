@@ -39,12 +39,3 @@ easy_admin:
                 title: 'Редактировать кузов'
                 fields:
                     - { property: 'manufacturerId', label: 'Производитель', type_options: { disabled: true } }
-
-doctrine_mongodb:
-    document_managers:
-        www:
-            mappings:
-                vehicle:
-                    type: annotation
-                    prefix: App\Vehicle
-                    dir: "%kernel.project_dir%/src/Vehicle"

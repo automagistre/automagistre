@@ -84,10 +84,6 @@ FROM php-build AS php-ext-xdebug
 RUN set -ex \
     && pecl install xdebug
 
-FROM php-build AS php-ext-mongodb
-RUN set -ex \
-    && pecl install mongodb
-
 FROM php-build AS php-ext-uuid
 RUN --mount=type=cache,target=/var/cache/apk \
     set -ex \
@@ -118,7 +114,6 @@ COPY --from=php-ext-intl /usr/local /usr/local
 COPY --from=php-ext-memcached ${PHP_EXT_DIR}/memcached.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-apcu ${PHP_EXT_DIR}/apcu.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-xdebug ${PHP_EXT_DIR}/xdebug.so ${PHP_EXT_DIR}/
-COPY --from=php-ext-mongodb ${PHP_EXT_DIR}/mongodb.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-uuid ${PHP_EXT_DIR}/uuid.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-pcov ${PHP_EXT_DIR}/pcov.so ${PHP_EXT_DIR}/
 COPY --from=wait-for-it ${WAIT_FOR_IT} ${WAIT_FOR_IT}
@@ -147,7 +142,6 @@ RUN --mount=type=cache,target=/var/cache/apk \
         gd \
         intl \
         memcached \
-        mongodb \
         opcache \
         pcntl \
         pcov \

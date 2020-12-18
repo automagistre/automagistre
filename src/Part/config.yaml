@@ -107,12 +107,3 @@ doctrine:
     dbal:
         types:
             part_number: App\Part\Doctrine\PartNumberType
-
-doctrine_mongodb:
-    document_managers:
-        www:
-            mappings:
-                part:
-                    type: annotation
-                    prefix: App\Part\Documents
-                    dir: "%kernel.project_dir%/src/Part/Documents"

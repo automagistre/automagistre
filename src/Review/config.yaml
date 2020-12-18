@@ -25,12 +25,3 @@ easy_admin:
                 form_options: { data_class: App\Review\Form\ReviewDto }
             edit:
                 title: 'Редактировать Отзыв'
-
-doctrine_mongodb:
-    document_managers:
-        www:
-            mappings:
-                review:
-                    type: annotation
-                    prefix: App\Review\Document
-                    dir: "%kernel.project_dir%/src/Review/Document"

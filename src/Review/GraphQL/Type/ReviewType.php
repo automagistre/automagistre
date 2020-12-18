@@ -6,7 +6,7 @@ namespace App\Review\GraphQL\Type;
 
 use App\GraphQL\Context;
 use App\GraphQL\Type\Types;
-use App\Review\Document\Review;
+use App\Review\Entity\ReviewView;
 use GraphQL\Type\Definition\ObjectType;
 
 final class ReviewType extends ObjectType
@@ -24,8 +24,8 @@ final class ReviewType extends ObjectType
             'args' => [
                 'id' => Types::nonNull(Types::uuid()),
             ],
-            'resolve' => function ($rootValue, array $args, Context $context): Review {
-                return $context->registry->get(Review::class, $args['id']);
+            'resolve' => function ($rootValue, array $args, Context $context): ReviewView {
+                return $context->registry->get(ReviewView::class, $args['id']);
             },
             'interfaces' => [
                 Types::node(),

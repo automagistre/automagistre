@@ -11,7 +11,7 @@ use App\MC\Entity\McEquipment;
 use App\MC\Entity\McLine;
 use App\Part\Entity\PartView;
 use App\Publish\Entity\PublishView;
-use App\Review\Document\Review;
+use App\Review\Entity\ReviewView;
 use App\Vehicle\Entity\Model;
 use function array_pop;
 use function count;
@@ -51,7 +51,7 @@ final class QueryType extends ObjectType
 
                         $qb = $context->registry->manager()->createQueryBuilder()
                             ->select('t')
-                            ->from(Review::class, 't');
+                            ->from(ReviewView::class, 't');
 
                         $totalCount = (int) (clone $qb)->select('COUNT(t)')->getQuery()->getSingleScalarResult();
 
@@ -71,7 +71,7 @@ final class QueryType extends ObjectType
                         $endCursor = null;
                         $hasNextPage = count($nodes) > $first;
                         if ($hasNextPage) {
-                            /** @var Review $nextNode */
+                            /** @var ReviewView $nextNode */
                             $nextNode = array_pop($nodes);
                             $endCursor = $nextNode->toId()->toString();
                         }

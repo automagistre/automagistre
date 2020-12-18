@@ -21,7 +21,6 @@
         "doctrine/doctrine-bundle": "^2.0",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/migrations": "^3.0",
-        "doctrine/mongodb-odm-bundle": "^4.1",
         "doctrine/orm": "^2.6",
         "easycorp/easyadmin-bundle": "^2",
         "endroid/qr-code-bundle": "^3.3",

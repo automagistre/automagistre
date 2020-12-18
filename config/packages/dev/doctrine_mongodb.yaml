@@ -1,4 +1,0 @@
-doctrine_mongodb:
-    auto_generate_proxy_classes: !php/const Doctrine\ODM\MongoDB\Configuration::AUTOGENERATE_EVAL
-    auto_generate_persistent_collection_classes: !php/const Doctrine\ODM\MongoDB\Configuration::AUTOGENERATE_EVAL
-    auto_generate_hydrator_classes: !php/const Doctrine\ODM\MongoDB\Configuration::AUTOGENERATE_EVAL
