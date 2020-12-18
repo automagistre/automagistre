@@ -1,0 +1,40 @@
+{% extends 'easy_admin/default/show.html.twig' %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-6">
+            {{ parent() }}
+        </div>
+        <div class="col-md-6">
+            {% set nextStatus = entity.status.next() %}
+            <a href="{{ easyadmin_path('Appeal', 'status', {'appeal_id': entity|toId, 'status': nextStatus.toId(), 'referer': true}) }}" class="btn btn-{{ nextStatus.to('color') }}">
+                Сменить статус на: {{ nextStatus.toDisplayName() }}
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="field-group">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"></h3>
+                    </div>
+                    <div class="box-body">
+                        {% if entity.type.isCalculator() %}
+                            Calculator
+                        {% elseif entity.type.isCooperation() %}
+                            Cooperation
+                        {% elseif entity.type.isQuestion() %}
+                            Question
+                        {% elseif entity.type.isSchedule() %}
+                            Schedule
+                        {% elseif entity.type.isTireFitting() %}
+                            Tire Fitting
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock main %}

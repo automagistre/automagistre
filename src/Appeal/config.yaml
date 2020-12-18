@@ -1,0 +1,24 @@
+easy_admin:
+    entities:
+        Appeal:
+            class: App\Appeal\Entity\AppealView
+            controller: App\Appeal\Controller\AppealController
+            disabled_actions: ['new', 'edit', 'delete', 'autocomplete', 'search']
+            templates:
+                show: 'easy_admin/appeal/show.html.twig'
+            list:
+                title: 'Заявки'
+                fields:
+                    - { property: 'name', label: 'Имя', template: 'easy_admin/field_item_show.html.twig' }
+                    - { property: 'type', label: 'Тип', template: 'easy_admin/appeal/field_type.html.twig' }
+                    - { property: 'status', label: 'Статус', template: 'easy_admin/appeal/field_status.html.twig' }
+                    - { property: 'contact', virtual: true, label: 'Контакты', template: 'easy_admin/appeal/field_contact.html.twig' }
+                    - { property: 'createdAt', label: 'Дата' }
+            show:
+                title: 'Заявка'
+                fields:
+                    - { property: 'name', label: 'Имя', template: 'easy_admin/field_item_show.html.twig' }
+                    - { property: 'type', label: 'Тип', template: 'easy_admin/appeal/field_type.html.twig' }
+                    - { property: 'status', label: 'Статус', template: 'easy_admin/appeal/field_status.html.twig' }
+                    - { property: 'contact', virtual: true, label: 'Контакты', template: 'easy_admin/appeal/field_contact.html.twig' }
+                    - { property: 'createdAt', label: 'Дата' }

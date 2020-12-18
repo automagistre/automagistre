@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="3.18.2@19aa905f7c3c7350569999a93c40ae91ae4e1626">
+  <file src="src/Appeal/Controller/AppealController.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$entity-&gt;type-&gt;toEntityClass()</code>
+    </ArgumentTypeCoercion>
+  </file>
   <file src="src/Calendar/Controller/CalendarEntryController.php">
     <PossiblyNullArgument occurrences="3">
       <code>$dto-&gt;reason</code>
@@ -250,11 +255,6 @@
     <PossiblyNullArrayOffset occurrences="1">
       <code>self::FORMATS</code>
     </PossiblyNullArrayOffset>
-  </file>
-  <file src="src/Review/Command/MongoReviewPopulateCommand.php">
-    <DeprecatedClass occurrences="1">
-      <code>$qb-&gt;getQuery()-&gt;iterate()</code>
-    </DeprecatedClass>
   </file>
   <file src="src/Review/GraphQL/Type/ReviewType.php">
     <MissingClosureParamType occurrences="1">

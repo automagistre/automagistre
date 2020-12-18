@@ -57,6 +57,7 @@ easy_admin:
                 - 'https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js'
                 - 'assets/js/sto_v3.js'
         menu:
+            - { entity: 'Appeal', label: 'Заявки', icon: 'fire' }
             - { label: 'Заказы' }
             - { entity: 'CalendarEntry', label: 'Запись', icon: 'calendar' }
             - { entity: 'Order', label: 'Активные', icon: 'fire', default: true }

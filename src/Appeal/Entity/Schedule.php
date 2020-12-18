@@ -7,8 +7,6 @@ namespace App\Appeal\Entity;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity(readOnly=true)
@@ -18,9 +16,9 @@ class Schedule
 {
     /**
      * @ORM\Id
-     * @ORM\Column
+     * @ORM\Column(type="appeal_id")
      */
-    public UuidInterface $id;
+    public AppealId $id;
 
     /**
      * @ORM\Column
@@ -37,7 +35,7 @@ class Schedule
      */
     public DateTimeImmutable $date;
 
-    public function __construct(UuidInterface $id, string $name, PhoneNumber $phone, DateTimeImmutable $date)
+    public function __construct(AppealId $id, string $name, PhoneNumber $phone, DateTimeImmutable $date)
     {
         $this->id = $id;
         $this->name = $name;
@@ -48,7 +46,7 @@ class Schedule
     public static function create(string $name, PhoneNumber $phone, DateTimeImmutable $date): self
     {
         return new self(
-            Uuid::uuid6(),
+            AppealId::generate(),
             $name,
             $phone,
             $date,

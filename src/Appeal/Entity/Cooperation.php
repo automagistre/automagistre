@@ -6,8 +6,6 @@ namespace App\Appeal\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity(readOnly=true)
@@ -17,9 +15,9 @@ class Cooperation
 {
     /**
      * @ORM\Id
-     * @ORM\Column
+     * @ORM\Column(type="appeal_id")
      */
-    public UuidInterface $id;
+    public AppealId $id;
 
     /**
      * @ORM\Column
@@ -31,7 +29,7 @@ class Cooperation
      */
     public PhoneNumber $phone;
 
-    public function __construct(UuidInterface $id, string $name, PhoneNumber $phone)
+    public function __construct(AppealId $id, string $name, PhoneNumber $phone)
     {
         $this->id = $id;
         $this->name = $name;
@@ -41,7 +39,7 @@ class Cooperation
     public static function create(string $name, PhoneNumber $phone): self
     {
         return new self(
-            Uuid::uuid6(),
+            AppealId::generate(),
             $name,
             $phone,
         );

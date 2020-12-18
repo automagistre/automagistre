@@ -9,8 +9,6 @@ use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 use Money\Money;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity(readOnly=true)
@@ -20,9 +18,9 @@ class Calculator
 {
     /**
      * @ORM\Id
-     * @ORM\Column
+     * @ORM\Column(type="appeal_id")
      */
-    public UuidInterface $id;
+    public AppealId $id;
 
     /**
      * @ORM\Column
@@ -65,7 +63,7 @@ class Calculator
     public array $works;
 
     public function __construct(
-        UuidInterface $id,
+        AppealId $id,
         string $name,
         ?string $note,
         PhoneNumber $phone,
@@ -97,7 +95,7 @@ class Calculator
         array $works
     ): self {
         return new self(
-            Uuid::uuid6(),
+            AppealId::generate(),
             $name,
             $note,
             $phone,

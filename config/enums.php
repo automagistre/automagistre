@@ -1,6 +1,8 @@
 <?php
 
 return [
+    App\Appeal\Enum\AppealStatus::class => ['appeal_status'],
+    App\Appeal\Enum\AppealType::class => ['appeal_type'],
     App\Calendar\Enum\DeletionReason::class => ['deletion_reason'],
     App\Customer\Enum\CustomerTransactionSource::class => ['operand_transaction_source'],
     App\Note\Enum\NoteType::class => ['note_type_enum'],

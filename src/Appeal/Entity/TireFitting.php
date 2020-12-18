@@ -9,8 +9,6 @@ use App\Vehicle\Enum\BodyType;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 use Money\Money;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity(readOnly=true)
@@ -20,9 +18,9 @@ class TireFitting
 {
     /**
      * @ORM\Id
-     * @ORM\Column
+     * @ORM\Column(type="appeal_id")
      */
-    public UuidInterface $id;
+    public AppealId $id;
 
     /**
      * @ORM\Column
@@ -60,7 +58,7 @@ class TireFitting
     public array $works;
 
     public function __construct(
-        UuidInterface $id,
+        AppealId $id,
         string $name,
         PhoneNumber $phone,
         VehicleId $modelId,
@@ -89,7 +87,7 @@ class TireFitting
         array $works
     ): self {
         return new self(
-            Uuid::uuid6(),
+            AppealId::generate(),
             $name,
             $phone,
             $modelId,

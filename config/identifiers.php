@@ -1,6 +1,7 @@
 <?php
 
 return [
+    App\Appeal\Entity\AppealId::class => ['appeal_id'],
     App\Calendar\Entity\CalendarEntryId::class => ['calendar_entry_id'],
     App\Car\Entity\CarId::class => ['car_id'],
     App\Car\Entity\RecommendationId::class => ['recommendation_id'],

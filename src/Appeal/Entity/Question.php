@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Appeal\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity(readOnly=true)
@@ -16,9 +14,9 @@ class Question
 {
     /**
      * @ORM\Id
-     * @ORM\Column
+     * @ORM\Column(type="appeal_id")
      */
-    public UuidInterface $id;
+    public AppealId $id;
 
     /**
      * @ORM\Column
@@ -35,7 +33,7 @@ class Question
      */
     public string $question;
 
-    public function __construct(UuidInterface $id, string $name, string $email, string $question)
+    public function __construct(AppealId $id, string $name, string $email, string $question)
     {
         $this->id = $id;
         $this->name = $name;
@@ -46,7 +44,7 @@ class Question
     public static function create(string $name, string $email, string $question): self
     {
         return new self(
-            Uuid::uuid6(),
+            AppealId::generate(),
             $name,
             $email,
             $question,
