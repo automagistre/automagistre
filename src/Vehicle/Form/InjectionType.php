@@ -18,7 +18,6 @@ final class InjectionType extends AbstractType
             'choices' => Injection::all(),
             'choice_label' => fn (Injection $enum) => $enum->toName(),
             'choice_value' => fn (?Injection $enum) => null === $enum ? null : $enum->toId(),
-            'placeholder' => 'Не определено',
         ]);
     }
 
