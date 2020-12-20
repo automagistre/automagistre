@@ -25,6 +25,11 @@ security:
             stateless: true
             anonymous: true
 
+        graphql_www:
+            pattern: ^/api/www
+            stateless: true
+            anonymous: true
+
         admin:
             anonymous: ~
             logout:
