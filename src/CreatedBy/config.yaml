@@ -1,4 +1,0 @@
-doctrine:
-    dbal:
-        types:
-            created_by_view: App\CreatedBy\Doctrine\CreatedByViewType

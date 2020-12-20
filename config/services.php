@@ -16,10 +16,6 @@ return static function (ContainerConfigurator $configurator): void {
         ->bind('string $telegramBotToken', '%env(TELEGRAM_BOT_TOKEN)%');
 
     $services
-        ->instanceof(Doctrine\Common\EventSubscriber::class)
-        ->tag('doctrine.event_subscriber');
-
-    $services
         ->instanceof(App\Shared\Identifier\IdentifierFormatterInterface::class)
         ->tag('identifier_formatter');
 
