@@ -34,8 +34,8 @@
         </PropertyNotSetInConstructor>
         <MissingClosureParamType>
             <errorLevel type="suppress">
-                <file name="src/GraphQL/Www/QueryType.php"/>
-                <file name="src/GraphQL/Www/MutationType.php"/>
+                <file name="src/Site/QueryType.php"/>
+                <file name="src/Site/MutationType.php"/>
             </errorLevel>
         </MissingClosureParamType>
     </issueHandlers>

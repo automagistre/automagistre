@@ -2,10 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Www;
-
-use App\GraphQL\Type\Types;
-use GraphQL\Type\Definition\Type;
+namespace App\Site;
 
 final class Schema
 {

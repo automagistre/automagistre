@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Www;
+namespace App\Site;
 
 use App\Appeal\Entity\AppealId;
 use App\Appeal\Entity\Calculator;

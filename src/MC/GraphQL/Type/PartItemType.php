@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\MC\GraphQL\Type;
 
 use App\GraphQL\Type\Types;
-use App\GraphQL\Www\Context;
 use App\MC\Entity\McPart;
 use App\Part\Entity\PartView;
+use App\Site\Context;
 use GraphQL\Deferred;
 use GraphQL\Type\Definition\ObjectType;
 

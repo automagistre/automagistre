@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Vehicle\GraphQL\Type;
 
 use App\GraphQL\Type\Types;
-use App\GraphQL\Www\Context;
 use App\Manufacturer\Entity\Manufacturer;
+use App\Site\Context;
 use App\Vehicle\Entity\Model;
 use GraphQL\Type\Definition\ObjectType;
 

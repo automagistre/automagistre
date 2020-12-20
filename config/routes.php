@@ -14,7 +14,7 @@ return static function (RoutingConfigurator $routes): void {
     ;
 
     $routes
-        ->import(__DIR__.'/../src/GraphQL/Controller', 'annotation')
+        ->import(__DIR__.'/../src/Site/Controller', 'annotation')
     ;
 
     $routes

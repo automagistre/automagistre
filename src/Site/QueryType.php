@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Www;
+namespace App\Site;
 
 use App\GraphQL\Type\Connection;
 use App\GraphQL\Type\PageInfo;

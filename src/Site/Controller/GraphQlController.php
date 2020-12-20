@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Controller;
+namespace App\Site\Controller;
 
-use App\GraphQL\Www;
 use App\Shared\Doctrine\Registry;
+use App\Site\Context;
+use App\Site\Schema;
 use GraphQL\Error\DebugFlag;
 use GraphQL\GraphQL;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -41,8 +42,8 @@ final class GraphQlController extends AbstractController
             $variableValues = $payload['variables'] ?? [];
         }
 
-        $schema = Www\Schema::create();
-        $context = new Www\Context($this->registry);
+        $schema = Schema::create();
+        $context = new Context($this->registry);
 
         $result = GraphQL::executeQuery($schema, $query ?? '', null, $context, $variableValues);
 
