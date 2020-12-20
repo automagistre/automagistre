@@ -27,7 +27,7 @@ final class ReviewType extends ObjectType
             'resolve' => function ($rootValue, array $args, Context $context): ReviewView {
                 return $context->registry->get(ReviewView::class, $args['id']);
             },
-            'interfaces' => [
+            'interfaces' => fn (): array => [
                 Types::node(),
             ],
         ];

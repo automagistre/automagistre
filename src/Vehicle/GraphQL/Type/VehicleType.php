@@ -41,7 +41,7 @@ final class VehicleType extends ObjectType
                     },
                 ],
             ],
-            'interfaces' => [
+            'interfaces' => fn (): array => [
                 Types::node(),
             ],
         ];

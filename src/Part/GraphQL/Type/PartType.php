@@ -52,7 +52,7 @@ final class PartType extends ObjectType
                     'resolve' => fn (PartView $partView): ManufacturerView => $partView->manufacturer,
                 ],
             ],
-            'interfaces' => [
+            'interfaces' => fn (): array => [
                 Types::node(),
             ],
         ];

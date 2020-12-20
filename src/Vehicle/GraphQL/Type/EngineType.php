@@ -13,7 +13,7 @@ final class EngineType extends ObjectType
     public function __construct()
     {
         $config = [
-            'fields' => [
+            'fields' => fn (): array => [
                 'name' => Types::string(),
                 'type' => [
                     'type' => Types::fuel(),

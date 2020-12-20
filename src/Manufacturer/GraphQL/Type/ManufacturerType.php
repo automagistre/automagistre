@@ -17,7 +17,7 @@ final class ManufacturerType extends ObjectType
                 'name' => Types::string(),
                 'localizedName' => Types::string(),
             ],
-            'interfaces' => [
+            'interfaces' => fn (): array => [
                 Types::node(),
             ],
         ];

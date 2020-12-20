@@ -53,7 +53,7 @@ final class WorkType extends ObjectType
                 'recommended' => Types::nonNull(Types::boolean()),
                 'position' => Types::nonNull(Types::int()),
             ],
-            'interfaces' => [
+            'interfaces' => fn (): array => [
                 Types::node(),
             ],
         ];

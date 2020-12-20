@@ -62,7 +62,7 @@ final class MutationType extends ObjectType
                                     'works' => [
                                         'type' => Types::nonNull(Types::listOf(new InputObjectType([
                                             'name' => 'CalculatorWorkInput',
-                                            'fields' => [
+                                            'fields' => fn (): array => [
                                                 'id' => Types::nonNull(Types::uuid()),
                                                 'name' => Types::nonNull(Types::string()),
                                                 'price' => Types::nonNull(Types::moneyInput()),
@@ -85,7 +85,7 @@ final class MutationType extends ObjectType
                                                 'parts' => [
                                                     'type' => Types::listOf(new InputObjectType([
                                                         'name' => 'CalculatorWorkPartInput',
-                                                        'fields' => [
+                                                        'fields' => fn (): array => [
                                                             'id' => Types::nonNull(Types::uuid()),
                                                             'name' => Types::nonNull(Types::string()),
                                                             'price' => Types::nonNull(Types::moneyInput()),
@@ -246,7 +246,7 @@ final class MutationType extends ObjectType
                                     'works' => [
                                         'type' => Types::nonNull(Types::listOf(new InputObjectType([
                                             'name' => 'TireFittingWorkInput',
-                                            'fields' => [
+                                            'fields' => fn (): array => [
                                                 'name' => Types::nonNull(Types::string()),
                                                 'price' => Types::nonNull(Types::moneyInput()),
                                             ],

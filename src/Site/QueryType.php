@@ -24,7 +24,7 @@ final class QueryType extends ObjectType
     public function __construct()
     {
         $config = [
-            'fields' => [
+            'fields' => fn (): array => [
                 'part' => [
                     'type' => fn (): Type => Types::part(),
                     'args' => [

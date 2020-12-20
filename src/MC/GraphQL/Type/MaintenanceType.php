@@ -51,7 +51,7 @@ final class MaintenanceType extends ObjectType
                     },
                 ],
             ],
-            'interfaces' => [
+            'interfaces' => fn (): array => [
                 Types::node(),
             ],
         ];
