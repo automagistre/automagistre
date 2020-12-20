@@ -1,6 +1,5 @@
 {% extends 'easy_admin/default/show.html.twig' %}
 
-
 {% block main %}
     <div class="row">
         <div class="col-md-6">
@@ -22,17 +21,7 @@
                         <h3 class="box-title"></h3>
                     </div>
                     <div class="box-body">
-                        {% if entity.type.isCalculator() %}
-                            {% include 'easy_admin/appeal/appeal_types/calculator.html.twig' %}
-                        {% elseif entity.type.isCooperation() %}
-                            {% include 'easy_admin/appeal/appeal_types/cooperation.html.twig' %}
-                        {% elseif entity.type.isQuestion() %}
-                            {% include 'easy_admin/appeal/appeal_types/question.html.twig' %}
-                        {% elseif entity.type.isSchedule() %}
-                            {% include 'easy_admin/appeal/appeal_types/schedule.html.twig' %}
-                        {% elseif entity.type.isTireFitting() %}
-                            {% include 'easy_admin/appeal/appeal_types/tire_fitting.html.twig' %}
-                        {% endif %}
+                        {% include ('easy_admin/appeal/appeal_types/'~entity.type.toName()~'.html.twig') %}
                     </div>
                 </div>
             </div>
