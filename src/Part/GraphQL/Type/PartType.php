@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\MC\GraphQL\Type;
+namespace App\Part\GraphQL\Type;
 
 use App\GraphQL\Type\Types;
 use App\Manufacturer\Entity\ManufacturerView;
 use App\Part\Entity\PartId;
 use App\Part\Entity\PartNumber;
 use App\Part\Entity\PartView;
+use App\Part\Enum\Unit;
 use GraphQL\Type\Definition\ObjectType;
 use Money\Money;
 
@@ -29,6 +30,10 @@ final class PartType extends ObjectType
                 'number' => [
                     'type' => Types::nonNull(Types::string()),
                     'resolve' => fn (PartView $partView): PartNumber => $partView->number,
+                ],
+                'unit' => [
+                    'type' => Types::nonNull(Types::unit()),
+                    'resolve' => fn (PartView $partView): Unit => $partView->unit,
                 ],
                 'universal' => [
                     'type' => Types::nonNull(Types::boolean()),

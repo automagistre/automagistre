@@ -14,8 +14,9 @@ use App\GraphQL\Type\Definition\YearType;
 use App\Manufacturer\GraphQL\Type\ManufacturerType;
 use App\MC\GraphQL\Type\MaintenanceType;
 use App\MC\GraphQL\Type\PartItemType;
-use App\MC\GraphQL\Type\PartType;
 use App\MC\GraphQL\Type\WorkType;
+use App\Part\GraphQL\Type\PartType;
+use App\Part\GraphQL\Type\UnitType;
 use App\Review\GraphQL\Type\ReviewSourceType;
 use App\Review\GraphQL\Type\ReviewType;
 use App\Shared\Doctrine\Registry;
@@ -51,6 +52,7 @@ use function ucfirst;
  * @method static ReviewType review()
  * @method static ReviewSourceType reviewSource()
  * @method static TransmissionType transmission()
+ * @method static UnitType unit()
  * @method static UuidType uuid()
  * @method static VehicleType vehicle()
  * @method static WheelDriveType wheelDrive()
@@ -79,6 +81,7 @@ final class Types extends Type
         'Review' => ReviewType::class,
         'ReviewSource' => ReviewSourceType::class,
         'Transmission' => TransmissionType::class,
+        'Unit' => UnitType::class,
         'Uuid' => UuidType::class,
         'Vehicle' => VehicleType::class,
         'WheelDrive' => WheelDriveType::class,
