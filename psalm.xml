@@ -35,6 +35,7 @@
         <MissingClosureParamType>
             <errorLevel type="suppress">
                 <file name="src/GraphQL/Www/QueryType.php"/>
+                <file name="src/GraphQL/Www/MutationType.php"/>
             </errorLevel>
         </MissingClosureParamType>
     </issueHandlers>

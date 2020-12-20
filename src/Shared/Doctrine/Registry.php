@@ -230,4 +230,15 @@ final class Registry
     {
         return $this->manager($class)->getReference($class, $id);
     }
+
+    public function add(object ...$entities): void
+    {
+        $em = $this->manager();
+
+        foreach ($entities as $entity) {
+            $em->persist($entity);
+        }
+
+        $em->flush();
+    }
 }

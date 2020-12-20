@@ -6,9 +6,12 @@ namespace App\GraphQL\Type;
 
 use App\GraphQL\Type\Definition\ConnectionType;
 use App\GraphQL\Type\Definition\DateType;
+use App\GraphQL\Type\Definition\EmailType;
+use App\GraphQL\Type\Definition\MoneyInputType;
 use App\GraphQL\Type\Definition\MoneyType;
 use App\GraphQL\Type\Definition\NodeType;
 use App\GraphQL\Type\Definition\PageInfoType;
+use App\GraphQL\Type\Definition\PhoneNumberType;
 use App\GraphQL\Type\Definition\UuidType;
 use App\GraphQL\Type\Definition\YearType;
 use App\Manufacturer\GraphQL\Type\ManufacturerType;
@@ -21,6 +24,7 @@ use App\Review\GraphQL\Type\ReviewSourceType;
 use App\Review\GraphQL\Type\ReviewType;
 use App\Shared\Doctrine\Registry;
 use App\Vehicle\GraphQL\Type\AirIntakeType;
+use App\Vehicle\GraphQL\Type\BodyEnumType;
 use App\Vehicle\GraphQL\Type\EngineType;
 use App\Vehicle\GraphQL\Type\FuelType;
 use App\Vehicle\GraphQL\Type\InjectionType;
@@ -36,21 +40,25 @@ use function ucfirst;
 
 /**
  * @method static AirIntakeType airIntake()
+ * @method static BodyEnumType vehicleBody()
  * @method static ConnectionType connection(Type $type)
  * @method static DateType date()
+ * @method static EmailType email()
  * @method static EngineType engine()
  * @method static FuelType fuel()
  * @method static InjectionType injection()
  * @method static MaintenanceType maintenance()
  * @method static ManufacturerType manufacturer()
  * @method static MoneyType money()
+ * @method static MoneyInputType moneyInput()
  * @method static NodeType node()
  * @method static PageInfoType pageInfo()
- * @method static PartType part()
  * @method static PartItemType partItem()
+ * @method static PartType part()
+ * @method static PhoneNumberType phoneNumber()
  * @method static ProductionType production()
- * @method static ReviewType review()
  * @method static ReviewSourceType reviewSource()
+ * @method static ReviewType review()
  * @method static TransmissionType transmission()
  * @method static UnitType unit()
  * @method static UuidType uuid()
@@ -67,16 +75,19 @@ final class Types extends Type
         'AirIntake' => AirIntakeType::class,
         'Connection' => ConnectionType::class,
         'Date' => DateType::class,
+        'Email' => EmailType::class,
         'Engine' => EngineType::class,
         'Fuel' => FuelType::class,
         'Injection' => InjectionType::class,
         'Maintenance' => MaintenanceType::class,
         'Manufacturer' => ManufacturerType::class,
         'Money' => MoneyType::class,
+        'MoneyInput' => MoneyInputType::class,
         'Node' => NodeType::class,
         'PageInfo' => PageInfoType::class,
         'Part' => PartType::class,
         'PartItem' => PartItemType::class,
+        'PhoneNumber' => PhoneNumberType::class,
         'Production' => ProductionType::class,
         'Review' => ReviewType::class,
         'ReviewSource' => ReviewSourceType::class,
@@ -84,6 +95,7 @@ final class Types extends Type
         'Unit' => UnitType::class,
         'Uuid' => UuidType::class,
         'Vehicle' => VehicleType::class,
+        'VehicleBody' => BodyEnumType::class,
         'WheelDrive' => WheelDriveType::class,
         'Work' => WorkType::class,
         'Year' => YearType::class,

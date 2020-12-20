@@ -21,7 +21,7 @@ final class BodyTypeType extends AbstractType
     {
         $resolver->setDefaults([
             'choices' => BodyType::all(),
-            'choice_label' => fn (BodyType $bodyType) => $bodyType->toName(),
+            'choice_label' => fn (BodyType $bodyType) => $bodyType->toDisplayName(),
             'choice_value' => fn (?BodyType $bodyType) => null === $bodyType ? null : $bodyType->toId(),
             'placeholder' => null,
         ]);

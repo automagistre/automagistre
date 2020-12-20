@@ -9,6 +9,7 @@ use Premier\Enum\Enum;
 /**
  * @method static self unknown()
  * @method static self pickup()
+ * @method string toDisplayName()
  *
  * @author Konstantin Grachev <me@grachevko.ru>
  */
@@ -28,6 +29,21 @@ final class BodyType extends Enum
     private const CABRIO = 11;
 
     protected static array $name = [
+        self::UNKNOWN => 'unknown',
+        self::SEDAN => 'sedan',
+        self::HATCHBACK => 'hatchback',
+        self::LIFTBACK => 'liftback',
+        self::ALLROAD => 'allroad',
+        self::WAGON => 'wagon',
+        self::COUPE => 'coupe',
+        self::MINIVAN => 'minivan',
+        self::PICKUP => 'pickup',
+        self::LIMOUSINE => 'limousine',
+        self::VAN => 'van',
+        self::CABRIO => 'cabrio',
+    ];
+
+    protected static array $displayName = [
         self::UNKNOWN => 'Неопределён',
         self::SEDAN => 'Седан',
         self::HATCHBACK => 'Хэтчбек',
