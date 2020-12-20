@@ -1,0 +1,46 @@
+<h3>Запись на шиномонтаж</h3>
+<div style="display: grid; grid-auto-columns: max-content; grid-auto-flow: dense; gap: 30px">
+    <div>
+        <h4>Автомобиль</h4>
+        <hr>
+        <table class="table">
+            <caption>Данные которые клиент отметил</caption>
+            <thead></thead>
+            <tbody>
+            <tr>
+                <td>Автомобиль</td>
+                <td>{{ appeal.modelId }}</td>
+            </tr>
+            <tr>
+                <td>Типа кузова</td>
+                <td>{{ appeal.bodyType }}</td>
+            </tr>
+            <tr>
+                <td>Диаметер</td>
+                <td>{{ appeal.diameter }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <h4>Работы</h4>
+        <hr>
+        <table class="table" style="min-width: 560px">
+            <caption>Список заявленных работ</caption>
+            <thead></thead>
+            <tbody>
+            {% for work in appeal.works %}
+                <tr>
+                    <td>{{ work.name }}</td>
+                    <td>{{ work.price / 100 }}</td>
+                </tr>
+
+            {% endfor %}
+            <tr class="active">
+                <td style="text-align: right"><b>ИТОГО</b></td>
+                <td><b>{{ appeal.total|localize_money(true)|number_format(0, '.', ' ') }}</b></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
