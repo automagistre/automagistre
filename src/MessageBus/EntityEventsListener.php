@@ -27,7 +27,7 @@ final class EntityEventsListener implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::TERMINATE => 'onKernelTerminate',
+            KernelEvents::FINISH_REQUEST => 'onKernelTerminate',
             ConsoleEvents::TERMINATE => 'onKernelTerminate',
         ];
     }
