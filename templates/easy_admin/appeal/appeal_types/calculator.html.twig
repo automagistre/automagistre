@@ -1,0 +1,110 @@
+{% macro workTable(works, type) %}
+    {% for work in works %}
+        {% if work.type == type %}
+            <tr style="text-decoration: {{ work.isSelected ? 'none' : 'line-through' }}">
+                <td colspan="2"><b>{{ work.name }}</b></td>
+                <td><b>{{ work.price / 100 }}</b></td>
+            </tr>
+            {% for part in work.parts %}
+                <tr style="text-decoration: {{ part.isSelected ? 'none' : 'line-through' }}">
+                    <td style="text-align: right">{{ part.name }}</td>
+                    <td>{{ part.price/100 }} x {{ part.count }}</td>
+                    <td>{{ part.price * part.count / 100 }}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+
+<h3>Запись на Техническое Обслуживание(ТО)</h3>
+<hr>
+<div style="margin: 30px 0 50px 0">
+    <h4>Автомобиль</h4>
+    <hr>
+    <table class="table" style="max-width: 560px">
+        <caption>Данные которые клиент отметил</caption>
+        <thead></thead>
+        <tbody>
+        <tr>
+            <td>Автомобиль</td>
+            <td>{{ appeal.equipmentId }}</td>
+        </tr>
+        <tr>
+            <td>Номер ТО</td>
+            <td>ТО{{ appeal.mileage }}</td>
+        </tr>
+        <tr>
+            <td>Удобное время</td>
+            <td><b>{{ date(appeal.date, 'Europe/Moscow')|format_date('short') }}</td>
+        </tr>
+        {% if appeal.note %}
+            <tr>
+                <td>Доп. информация</td>
+                <td>{{ appeal.note }} </td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+<h4>Выбранные Работы</h4>
+<hr>
+<div style="display: flex; flex-wrap: wrap; gap: 30px">
+    <div>
+        <table class="table" style="min-width: 560px">
+            <caption>Обязательное ТО</caption>
+
+            {{ _self.workTable(appeal.works, 'work') }}
+
+        </table>
+    </div>
+
+    <div>
+        <table class="table" style="min-width: 560px">
+            <caption>Рекомендованные работы</caption>
+
+            {{ _self.workTable(appeal.works, 'recommendation') }}
+
+        </table>
+    </div>
+</div>
+
+{% set totalWorks = 0 %}
+{% set totalRec = 0 %}
+{% for work in appeal.works %}
+    {% if work.isSelected %}
+        {% set totalParts = 0 %}
+        {% for part in work.parts %}
+            {% if part.isSelected %} {% set totalParts = totalParts + part.price * part.count %} {% endif %}
+        {% endfor %}
+        {% if work.type == 'work'%}
+            {% set totalWorks = totalWorks + work.price + totalParts %}
+        {% elseif work.type == 'recommendation' %}
+            {% set totalRec = totalRec + work.price + totalParts %}
+        {% endif %}
+    {% endif %}
+{% endfor %}
+
+<div>
+    <h4>ИТОГО</h4>
+    <hr>
+    <table class="table" style="max-width: 560px">
+        <tbody>
+        <tr>
+            <td>Итого основное ТО</td>
+            <td>{{ totalWorks / 100 }}</td>
+        </tr>
+        <tr>
+            <td>Итого Доп. работы</td>
+            <td>{{ totalRec / 100 }}</td>
+        </tr>
+        <tr class="active" style="font-weight: 700">
+            <td>Расчитанная стоимость</td>
+            <td>{{ (totalWorks + totalRec) / 100 }}</td>
+        </tr>
+        <tr>
+            <td>Стоимость клиента</td>
+            <td>{{ appeal.total|localize_money(true)|number_format(0, '.', ' ') }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

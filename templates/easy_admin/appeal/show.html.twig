@@ -21,17 +21,7 @@
                         <h3 class="box-title"></h3>
                     </div>
                     <div class="box-body">
-                        {% if entity.type.isCalculator() %}
-                            Calculator
-                        {% elseif entity.type.isCooperation() %}
-                            Cooperation
-                        {% elseif entity.type.isQuestion() %}
-                            Question
-                        {% elseif entity.type.isSchedule() %}
-                            Schedule
-                        {% elseif entity.type.isTireFitting() %}
-                            Tire Fitting
-                        {% endif %}
+                        {% include ('easy_admin/appeal/appeal_types/'~entity.type.toName()~'.html.twig') %}
                     </div>
                 </div>
             </div>
