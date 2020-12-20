@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Appeal\Entity;
 
+use App\Appeal\Event\AppealCreated;
 use App\MC\Entity\McEquipmentId;
+use App\MessageBus\ContainsRecordedMessages;
+use App\MessageBus\PrivateMessageRecorderCapabilities;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
@@ -14,8 +17,10 @@ use Money\Money;
  * @ORM\Entity(readOnly=true)
  * @ORM\Table(name="appeal_calculator")
  */
-class Calculator
+class Calculator implements ContainsRecordedMessages
 {
+    use PrivateMessageRecorderCapabilities;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="appeal_id")
@@ -82,6 +87,8 @@ class Calculator
         $this->mileage = $mileage;
         $this->total = $total;
         $this->works = $works;
+
+        $this->record(new AppealCreated($this->id));
     }
 
     public static function create(

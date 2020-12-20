@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Appeal\Entity;
 
+use App\Appeal\Event\AppealCreated;
+use App\MessageBus\ContainsRecordedMessages;
+use App\MessageBus\PrivateMessageRecorderCapabilities;
 use App\Vehicle\Entity\VehicleId;
 use App\Vehicle\Enum\BodyType;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,8 +17,10 @@ use Money\Money;
  * @ORM\Entity(readOnly=true)
  * @ORM\Table(name="appeal_tire_fitting")
  */
-class TireFitting
+class TireFitting implements ContainsRecordedMessages
 {
+    use PrivateMessageRecorderCapabilities;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="appeal_id")
@@ -75,6 +80,8 @@ class TireFitting
         $this->diameter = $diameter;
         $this->total = $total;
         $this->works = $works;
+
+        $this->record(new AppealCreated($this->id));
     }
 
     public static function create(

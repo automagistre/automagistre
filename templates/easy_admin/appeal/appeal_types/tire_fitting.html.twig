@@ -32,10 +32,10 @@
             {% for work in appeal.works %}
                 <tr>
                     <td>{{ work.name }}</td>
-                    <td>{{ work.price / 100 }}</td>
+                    <td>{{ work.price.amount / 100 }}</td>
                 </tr>
-
             {% endfor %}
+
             <tr class="active">
                 <td style="text-align: right"><b>ИТОГО</b></td>
                 <td><b>{{ appeal.total|localize_money(true)|number_format(0, '.', ' ') }}</b></td>

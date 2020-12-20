@@ -3,20 +3,20 @@
         {% if work.type == type %}
             <tr style="text-decoration: {{ work.isSelected ? 'none' : 'line-through' }}">
                 <td colspan="2"><b>{{ work.name }}</b></td>
-                <td><b>{{ work.price / 100 }}</b></td>
+                <td><b>{{ work.price.amount / 100 }}</b></td>
             </tr>
             {% for part in work.parts %}
                 <tr style="text-decoration: {{ part.isSelected ? 'none' : 'line-through' }}">
                     <td style="text-align: right">{{ part.name }}</td>
-                    <td>{{ part.price/100 }} x {{ part.count }}</td>
-                    <td>{{ part.price * part.count / 100 }}</td>
+                    <td>{{ part.price.amount / 100 }} x {{ part.count }}</td>
+                    <td>{{ part.price.amount * part.count / 100 }}</td>
                 </tr>
             {% endfor %}
         {% endif %}
     {% endfor %}
 {% endmacro %}
 
-<h3>Запись на Техническое Обслуживание(ТО)</h3>
+<h3>Запись на Техническое Обслуживание (ТО)</h3>
 <hr>
 <div style="margin: 30px 0 50px 0">
     <h4>Автомобиль</h4>
@@ -74,12 +74,12 @@
     {% if work.isSelected %}
         {% set totalParts = 0 %}
         {% for part in work.parts %}
-            {% if part.isSelected %} {% set totalParts = totalParts + part.price * part.count %} {% endif %}
+            {% if part.isSelected %} {% set totalParts = totalParts + part.price.amount * part.count %} {% endif %}
         {% endfor %}
         {% if work.type == 'work'%}
-            {% set totalWorks = totalWorks + work.price + totalParts %}
+            {% set totalWorks = totalWorks + work.price.amount + totalParts %}
         {% elseif work.type == 'recommendation' %}
-            {% set totalRec = totalRec + work.price + totalParts %}
+            {% set totalRec = totalRec + work.price.amount + totalParts %}
         {% endif %}
     {% endif %}
 {% endfor %}

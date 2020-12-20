@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Appeal\Entity;
 
+use App\Appeal\Event\AppealCreated;
+use App\MessageBus\ContainsRecordedMessages;
+use App\MessageBus\PrivateMessageRecorderCapabilities;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
@@ -12,8 +15,10 @@ use libphonenumber\PhoneNumber;
  * @ORM\Entity(readOnly=true)
  * @ORM\Table(name="appeal_schedule")
  */
-class Schedule
+class Schedule implements ContainsRecordedMessages
 {
+    use PrivateMessageRecorderCapabilities;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="appeal_id")
@@ -41,6 +46,8 @@ class Schedule
         $this->name = $name;
         $this->phone = $phone;
         $this->date = $date;
+
+        $this->record(new AppealCreated($this->id));
     }
 
     public static function create(string $name, PhoneNumber $phone, DateTimeImmutable $date): self
