@@ -12,11 +12,4 @@ return static function (ContainerConfigurator $configurator): void {
             ],
         ],
     ]);
-
-    $services = $configurator->services();
-
-    $services
-        ->defaults()
-        ->autowire()
-        ->autoconfigure();
 };

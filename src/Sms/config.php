@@ -31,11 +31,6 @@ return static function (ContainerConfigurator $configurator): void {
     $services = $configurator->services();
 
     $services
-        ->defaults()
-        ->autowire()
-        ->autoconfigure();
-
-    $services
         ->get(App\Sms\Controller\CallbackController::class)
         ->tag('controller.service_arguments');
 
