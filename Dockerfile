@@ -240,6 +240,7 @@ FROM nginx-base AS nginx
 COPY --from=php /usr/local/app/public/favicon.ico favicon.ico
 COPY --from=php /usr/local/app/public/assets assets
 COPY --from=php /usr/local/app/public/bundles bundles
+COPY --from=php /usr/local/app/public/robots.txt .
 
 COPY etc/nginx.conf /etc/nginx/nginx.conf
 COPY etc/nginx.cors.conf /etc/nginx/cors.conf
