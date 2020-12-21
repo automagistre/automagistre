@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Appeal\Rest\Dto;
 
-use App\Vehicle\Enum\BodyType;
+use App\Vehicle\Enum\TireFittingCategory;
 use function array_map;
 use function implode;
 use function in_array;
@@ -79,7 +79,8 @@ final class TireFittingDto
             return;
         }
 
-        $types = array_map(static fn (BodyType $enum): string => $enum->toName(), BodyType::all());
+        $types = array_map(static fn (TireFittingCategory $enum
+        ): string => $enum->toName(), TireFittingCategory::all());
 
         if (!in_array($this->bodyType, $types, true)) {
             $context

@@ -13,7 +13,7 @@ use App\Appeal\Entity\TireFitting;
 use App\GraphQL\Type\Types;
 use App\MC\Entity\McEquipmentId;
 use App\Vehicle\Entity\VehicleId;
-use App\Vehicle\Enum\BodyType;
+use App\Vehicle\Enum\TireFittingCategory;
 use GraphQL\Type\Definition\EnumType;
 use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\ObjectType;
@@ -234,8 +234,8 @@ final class MutationType extends ObjectType
                                     'vehicleId' => [
                                         'type' => Types::nonNull(Types::uuid()),
                                     ],
-                                    'bodyType' => [
-                                        'type' => Types::nonNull(Types::vehicleBody()),
+                                    'category' => [
+                                        'type' => Types::nonNull(Types::tireFittingCategory()),
                                     ],
                                     'diameter' => [
                                         'type' => Types::int(),
@@ -264,7 +264,7 @@ final class MutationType extends ObjectType
                                 $args['input']['name'],
                                 $args['input']['phone'],
                                 VehicleId::fromUuid($args['input']['vehicleId']),
-                                BodyType::create($args['input']['bodyType']),
+                                TireFittingCategory::create($args['input']['category']),
                                 $args['input']['diameter'],
                                 $args['input']['total'],
                                 $args['input']['works'],

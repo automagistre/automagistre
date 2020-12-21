@@ -18,6 +18,7 @@ return [
     App\Vehicle\Enum\DriveWheelConfiguration::class => ['car_wheel_drive_enum'],
     App\Vehicle\Enum\FuelType::class => ['engine_type_enum'],
     App\Vehicle\Enum\Injection::class => ['engine_injection'],
+    App\Vehicle\Enum\TireFittingCategory::class => ['tire_fitting_category'],
     App\Vehicle\Enum\Transmission::class => ['car_transmission_enum'],
     App\Wallet\Enum\WalletTransactionSource::class => ['wallet_transaction_source'],
 ];

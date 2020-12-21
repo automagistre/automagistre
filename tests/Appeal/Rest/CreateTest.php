@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Appeal\Rest;
 
 use App\MC\Fixtures\EquipmentFixtures;
-use App\Vehicle\Enum\BodyType;
+use App\Vehicle\Enum\TireFittingCategory;
 use App\Vehicle\Fixtures\NissanGTRFixture;
 use Generator;
 use Sentry\Util\JSON;
@@ -112,7 +112,7 @@ final class CreateTest extends WebTestCase
                 'phone' => '+79261680000',
                 'modelId' => NissanGTRFixture::ID,
                 'diameter' => 20,
-                'bodyType' => BodyType::pickup()->toName(),
+                'bodyType' => TireFittingCategory::suv()->toName(),
                 'total' => 0,
                 'works' => [
                     [
@@ -128,6 +128,7 @@ final class CreateTest extends WebTestCase
                 'name' => 'bla',
                 'phone' => '+79261680000',
                 'modelId' => NissanGTRFixture::ID,
+                'bodyType' => TireFittingCategory::suv()->toName(),
                 'total' => 0,
             ],
         ];

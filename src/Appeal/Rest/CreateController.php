@@ -16,7 +16,7 @@ use App\Appeal\Rest\Dto\ScheduleDto;
 use App\Appeal\Rest\Dto\TireFittingDto;
 use App\MC\Entity\McEquipmentId;
 use App\Vehicle\Entity\VehicleId;
-use App\Vehicle\Enum\BodyType;
+use App\Vehicle\Enum\TireFittingCategory;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use libphonenumber\PhoneNumber;
@@ -138,7 +138,7 @@ final class CreateController extends AbstractController
                 $dto->name,
                 $phone,
                 VehicleId::fromString($dto->modelId),
-                null === $dto->bodyType ? null : BodyType::from('name', $dto->bodyType),
+                null === $dto->bodyType ? TireFittingCategory::unknown() : TireFittingCategory::from('name', $dto->bodyType),
                 $dto->diameter,
                 new Money($dto->total, new Currency('RUB')),
                 $dto->works,

@@ -29,6 +29,7 @@ use App\Vehicle\GraphQL\Type\EngineType;
 use App\Vehicle\GraphQL\Type\FuelType;
 use App\Vehicle\GraphQL\Type\InjectionType;
 use App\Vehicle\GraphQL\Type\ProductionType;
+use App\Vehicle\GraphQL\Type\TireFittingCategoryType;
 use App\Vehicle\GraphQL\Type\TransmissionType;
 use App\Vehicle\GraphQL\Type\VehicleType;
 use App\Vehicle\GraphQL\Type\WheelDriveType;
@@ -49,8 +50,8 @@ use function ucfirst;
  * @method static InjectionType injection()
  * @method static MaintenanceType maintenance()
  * @method static ManufacturerType manufacturer()
- * @method static MoneyType money()
  * @method static MoneyInputType moneyInput()
+ * @method static MoneyType money()
  * @method static NodeType node()
  * @method static PageInfoType pageInfo()
  * @method static PartItemType partItem()
@@ -59,6 +60,7 @@ use function ucfirst;
  * @method static ProductionType production()
  * @method static ReviewSourceType reviewSource()
  * @method static ReviewType review()
+ * @method static TireFittingCategoryType tireFittingCategory()
  * @method static TransmissionType transmission()
  * @method static UnitType unit()
  * @method static UuidType uuid()
@@ -91,6 +93,7 @@ final class Types extends Type
         'Production' => ProductionType::class,
         'Review' => ReviewType::class,
         'ReviewSource' => ReviewSourceType::class,
+        'TireFittingCategory' => TireFittingCategoryType::class,
         'Transmission' => TransmissionType::class,
         'Unit' => UnitType::class,
         'Uuid' => UuidType::class,

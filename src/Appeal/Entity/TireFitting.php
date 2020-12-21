@@ -8,7 +8,7 @@ use App\Appeal\Event\AppealCreated;
 use App\MessageBus\ContainsRecordedMessages;
 use App\MessageBus\PrivateMessageRecorderCapabilities;
 use App\Vehicle\Entity\VehicleId;
-use App\Vehicle\Enum\BodyType;
+use App\Vehicle\Enum\TireFittingCategory;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 use Money\Money;
@@ -43,9 +43,9 @@ class TireFitting implements ContainsRecordedMessages
     public VehicleId $modelId;
 
     /**
-     * @ORM\Column(type="carcase_enum", nullable=true)
+     * @ORM\Column(type="tire_fitting_category")
      */
-    public ?BodyType $bodyType;
+    public TireFittingCategory $category;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -67,7 +67,7 @@ class TireFitting implements ContainsRecordedMessages
         string $name,
         PhoneNumber $phone,
         VehicleId $modelId,
-        ?BodyType $bodyType,
+        TireFittingCategory $category,
         ?int $diameter,
         Money $total,
         array $works
@@ -76,7 +76,7 @@ class TireFitting implements ContainsRecordedMessages
         $this->name = $name;
         $this->phone = $phone;
         $this->modelId = $modelId;
-        $this->bodyType = $bodyType;
+        $this->category = $category;
         $this->diameter = $diameter;
         $this->total = $total;
         $this->works = $works;
@@ -88,7 +88,7 @@ class TireFitting implements ContainsRecordedMessages
         string $name,
         PhoneNumber $phone,
         VehicleId $modelId,
-        ?BodyType $bodyType,
+        TireFittingCategory $category,
         ?int $diameter,
         Money $total,
         array $works
@@ -98,7 +98,7 @@ class TireFitting implements ContainsRecordedMessages
             $name,
             $phone,
             $modelId,
-            $bodyType,
+            $category,
             $diameter,
             $total,
             $works,
