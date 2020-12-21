@@ -8,7 +8,7 @@ clone:
 
 steps:
     -   name: build base
-        image: docker:19.03.6
+        image: docker:20.10.1
         volumes:
             -   name: docker.sock
                 path: /var/run/docker.sock
@@ -19,7 +19,7 @@ steps:
             DOCKER_BUILDKIT: '1'
 
     -   name: build prod
-        image: docker:19.03.6
+        image: docker:20.10.1
         volumes:
             -   name: docker.sock
                 path: /var/run/docker.sock
@@ -32,7 +32,7 @@ steps:
             - build base
 
     -   name: push base
-        image: docker:19.03.6
+        image: docker:20.10.1
         volumes:
             -   name: docker.sock
                 path: /var/run/docker.sock
