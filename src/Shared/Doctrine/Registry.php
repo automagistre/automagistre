@@ -47,9 +47,9 @@ final class Registry
      *
      * @psalm-return ?T
      */
-    public function findBy(string $class, array $criteria)
+    public function findBy(string $class, array $criteria, array $ordering = [])
     {
-        return $this->repository($class)->findOneBy($criteria);
+        return $this->repository($class)->findOneBy($criteria, $ordering);
     }
 
     /**

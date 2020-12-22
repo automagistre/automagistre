@@ -21,7 +21,7 @@ final class CallbackController
     }
 
     /**
-     * @Route("/callback/{provider}/{id}", name="sms_callback")
+     * @Route("/callback/{provider}/{id}", name="sms_callback", requirements={"provider": "smsaero"})
      */
     public function __invoke(Request $request, string $provider, string $id): Response
     {
