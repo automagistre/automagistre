@@ -54,24 +54,25 @@ final class InteractiveController extends AbstractController
         if (null === $name) {
             return new JsonResponse(['returned_code' => 1]);
         }
+        $fullName = sprintf('%s %s', $person->getLastname() ?? '', $name);
 
         $message = $this->message($person);
         if ('' === $message) {
             return new JsonResponse([
                 'returned_code' => 1,
                 'text' => sprintf('Здраствуйте %s, пожалуйста дождитесь ответа оператора.', $name),
-                'operator_text' => sprintf('%s %s', $person->getLastname() ?? '', $name),
+                'operator_text' => $fullName,
             ]);
         }
 
-        $text = sprintf(
-            'Здраствуйте %s. %s Если у вас остались вопросы дождитесь ответа оператора.',
-            $name,
-            $message,
-        );
-
         return new JsonResponse([
-            'text' => $text,
+            'returned_code' => 1,
+            'text' => sprintf(
+                'Здраствуйте %s. %s Если у вас остались вопросы дождитесь ответа оператора.',
+                $name,
+                $message,
+            ),
+            'operator_text' => $fullName,
         ]);
     }
 
