@@ -226,12 +226,16 @@ RUN set -ex \
         && cd ${tempDir} \
         && curl -L https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz | tar xz \
         && curl -L https://github.com/google/ngx_brotli/archive/v1.0.0rc.tar.gz | tar xz \
+        && curl -L https://github.com/openresty/headers-more-nginx-module/archive/v0.33.tar.gz | tar xz \
         && cd nginx-${NGINX_VERSION} \
-        && ./configure `2>&1 nginx -V | grep _module | awk -F ':' ' { print $2 }'` --with-compat --add-dynamic-module=${tempDir}/ngx_brotli-1.0.0rc \
+        && ./configure `2>&1 nginx -V | grep _module | awk -F ':' ' { print $2 }'` --with-compat \
+            --add-dynamic-module=${tempDir}/ngx_brotli-1.0.0rc \
+            --add-dynamic-module=${tempDir}/headers-more-nginx-module-0.33 \
         && make modules \
         " \
     && cp ${tempDir}/nginx-${NGINX_VERSION}/objs/ngx_http_brotli_filter_module.so /etc/nginx/modules/ \
     && cp ${tempDir}/nginx-${NGINX_VERSION}/objs/ngx_http_brotli_static_module.so /etc/nginx/modules/ \
+    && cp ${tempDir}/nginx-${NGINX_VERSION}/objs/ngx_http_headers_more_filter_module.so /etc/nginx/modules/ \
     && rm -rf ${tempDir} \
     && apk del .build-deps
 
