@@ -234,6 +234,9 @@
             ".php_cs.dist"
         ]
     },
+    "friendsofphp/proxy-manager-lts": {
+        "version": "v1.0.1"
+    },
     "giggsey/libphonenumber-for-php": {
         "version": "8.12.7.1"
     },
@@ -338,9 +341,6 @@
     },
     "nikic/php-parser": {
         "version": "v4.6.0"
-    },
-    "ocramius/proxy-manager": {
-        "version": "2.8.0"
     },
     "odolbeau/phone-number-bundle": {
         "version": "3.0",
@@ -964,9 +964,6 @@
     },
     "wapmorgan/morphos": {
         "version": "3.2.22"
-    },
-    "webimpress/safe-writer": {
-        "version": "2.0.1"
     },
     "webmozart/assert": {
         "version": "1.9.1"

@@ -9,11 +9,13 @@ use App\Site\Context;
 use App\Site\Schema;
 use GraphQL\Error\DebugFlag;
 use GraphQL\GraphQL;
+use function Sentry\captureException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Throwable;
 
 final class GraphQlController extends AbstractController
 {
@@ -47,8 +49,16 @@ final class GraphQlController extends AbstractController
 
         $result = GraphQL::executeQuery($schema, $query ?? '', null, $context, $variableValues);
 
-        $debugFlag = $this->debug ? DebugFlag::RETHROW_UNSAFE_EXCEPTIONS : DebugFlag::NONE;
+        try {
+            return new JsonResponse($result->toArray(DebugFlag::RETHROW_INTERNAL_EXCEPTIONS));
+        } catch (Throwable $e) {
+            captureException($e);
 
-        return new JsonResponse($result->toArray($debugFlag));
+            if ($this->debug) {
+                throw $e;
+            }
+
+            return new JsonResponse($result->toArray(DebugFlag::NONE), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }
