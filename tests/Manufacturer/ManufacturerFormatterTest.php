@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Manufacturer;
 
+use App\Fixtures\Manufacturer\NissanFixture;
 use App\Manufacturer\Entity\ManufacturerId;
-use App\Manufacturer\Fixtures\NissanFixture;
 use App\Tests\Shared\IdentifierTestCase;
 use Generator;
 

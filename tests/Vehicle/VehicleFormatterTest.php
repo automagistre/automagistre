@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Vehicle;
 
+use App\Fixtures\Vehicle\NissanGTRFixture;
+use App\Fixtures\Vehicle\NissanPrimeraFixture;
+use App\Fixtures\Vehicle\NissanQashqaiFixture;
 use App\Tests\Shared\IdentifierTestCase;
 use App\Vehicle\Entity\VehicleId;
-use App\Vehicle\Fixtures\NissanGTRFixture;
-use App\Vehicle\Fixtures\NissanPrimeraFixture;
-use App\Vehicle\Fixtures\NissanQashqaiFixture;
 use Generator;
 
 /**

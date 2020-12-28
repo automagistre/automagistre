@@ -4,25 +4,25 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Calendar\Fixtures\CalendarEntryFixtures;
-use App\Car\Fixtures\Primera2004Fixtures;
-use App\Car\Fixtures\RecommendationFixtures;
-use App\Customer\Fixtures\OrganizationFixtures;
-use App\Customer\Fixtures\PersonVasyaFixtures;
-use App\Employee\Fixtures\EmployeeFixtures;
-use App\Income\Fixtures\IncomeFixtures;
-use App\Income\Fixtures\IncomePartFixtures;
-use App\Manufacturer\Fixtures\NissanFixture;
-use App\MC\Fixtures\EquipmentFixtures;
-use App\MC\Fixtures\LineFixtures;
-use App\MC\Fixtures\PartFixtures;
-use App\MC\Fixtures\WorkFixtures;
-use App\Order\Fixtures\OrderFixtures;
-use App\Part\Fixtures\GasketFixture;
-use App\Storage\Fixtures\MainWarehouseFixture;
-use App\User\Fixtures\AdminFixtures;
-use App\Vehicle\Fixtures\NissanGTRFixture;
-use App\Wallet\Fixtures\WalletFixtures;
+use App\Fixtures\Calendar\CalendarEntryFixtures;
+use App\Fixtures\Car\Primera2004Fixtures;
+use App\Fixtures\Car\RecommendationFixtures;
+use App\Fixtures\Customer\OrganizationFixtures;
+use App\Fixtures\Customer\PersonVasyaFixtures;
+use App\Fixtures\Employee\AdminFixtures;
+use App\Fixtures\Employee\EmployeeVasyaFixtures;
+use App\Fixtures\Income\IncomeFixtures;
+use App\Fixtures\Income\IncomePartFixtures;
+use App\Fixtures\Manufacturer\NissanFixture;
+use App\Fixtures\Mc\EquipmentFixtures;
+use App\Fixtures\Mc\LineFixtures;
+use App\Fixtures\Mc\PartFixtures;
+use App\Fixtures\Mc\WorkFixtures;
+use App\Fixtures\Order\OrderFixtures;
+use App\Fixtures\Part\GasketFixture;
+use App\Fixtures\Storage\MainWarehouseFixture;
+use App\Fixtures\Vehicle\NissanGTRFixture;
+use App\Fixtures\Wallet\WalletFixtures;
 use function array_diff;
 use function array_keys;
 use function array_replace;
@@ -93,8 +93,8 @@ final class SmokeTest extends WebTestCase
             'edit' => ['id' => OrganizationFixtures::ID],
         ],
         'Employee' => [
-            'show' => ['id' => EmployeeFixtures::ID],
-            'edit' => ['id' => EmployeeFixtures::ID],
+            'show' => ['id' => EmployeeVasyaFixtures::ID],
+            'edit' => ['id' => EmployeeVasyaFixtures::ID],
             'salary' => ['operand_id' => PersonVasyaFixtures::ID],
             'penalty' => ['operand_id' => PersonVasyaFixtures::ID],
         ],
@@ -102,7 +102,7 @@ final class SmokeTest extends WebTestCase
             'new' => ['operand_id' => PersonVasyaFixtures::ID, 'type' => 'increment'],
         ],
         'Salary' => [
-            'new' => ['employee_id' => EmployeeFixtures::ID],
+            'new' => ['employee_id' => EmployeeVasyaFixtures::ID],
         ],
         'Part' => [
             'edit' => ['id' => GasketFixture::ID],

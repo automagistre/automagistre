@@ -7,6 +7,9 @@
         <include>
             <directory suffix=".php">./src/</directory>
         </include>
+        <exclude>
+            <directory>./src/Fixtures</directory>
+        </exclude>
     </coverage>
     <php>
         <ini name="error_reporting" value="-1"/>

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Car;
 
 use App\Car\Entity\CarId;
-use App\Car\Fixtures\EmptyCarFixtures;
-use App\Car\Fixtures\Primera2004Fixtures;
+use App\Fixtures\Car\EmptyCarFixtures;
+use App\Fixtures\Car\Primera2004Fixtures;
 use App\Tests\Shared\IdentifierTestCase;
 use Generator;
 

@@ -6,6 +6,7 @@ var
 public/bundles
 .env
 .env.*
+src/Fixtures
 
 # Composer
 vendor

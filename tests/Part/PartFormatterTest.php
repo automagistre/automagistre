@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Part;
 
+use App\Fixtures\Part\GasketFixture;
 use App\Part\Entity\PartId;
-use App\Part\Fixtures\GasketFixture;
 use App\Tests\Shared\IdentifierTestCase;
 use Generator;
 

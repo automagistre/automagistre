@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Appeal\Rest;
 
-use App\MC\Fixtures\EquipmentFixtures;
+use App\Fixtures\Mc\EquipmentFixtures;
+use App\Fixtures\Vehicle\NissanGTRFixture;
 use App\Vehicle\Enum\TireFittingCategory;
-use App\Vehicle\Fixtures\NissanGTRFixture;
 use Generator;
 use Sentry\Util\JSON;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;

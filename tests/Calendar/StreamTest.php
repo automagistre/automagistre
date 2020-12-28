@@ -9,7 +9,7 @@ use App\Calendar\Entity\Schedule;
 use App\Calendar\View\Stream;
 use App\Calendar\View\StreamOverflowException;
 use App\Customer\Entity\OperandId;
-use App\Customer\Fixtures\PersonVasyaFixtures;
+use App\Fixtures\Customer\PersonVasyaFixtures;
 use DateInterval;
 use DateTimeImmutable;
 use Generator;

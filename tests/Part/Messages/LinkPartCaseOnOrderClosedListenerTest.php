@@ -2,15 +2,15 @@
 
 namespace App\Tests\Part\Messages;
 
+use App\Fixtures\Employee\AdminFixtures;
+use App\Fixtures\Order\OrderFixtures;
+use App\Fixtures\Part\GasketFixture;
 use App\Order\Entity\OrderId;
-use App\Order\Fixtures\OrderFixtures;
 use App\Order\Messages\OrderDealed;
 use App\Part\Entity\PartCase;
-use App\Part\Fixtures\GasketFixture;
 use App\Part\Messages\LinkPartCaseOnOrderClosedListener;
 use App\Shared\Doctrine\Registry;
 use App\User\Entity\User;
-use App\User\Fixtures\AdminFixtures;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Test\TestBrowserToken;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
