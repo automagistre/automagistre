@@ -79,6 +79,30 @@ final class CreateTest extends WebTestCase
             ],
         ];
 
+        yield 'Calculator without date' => [
+            'calc',
+            [
+                'name' => 'bla',
+                'phone' => '+79261680000',
+                'note' => 'string',
+                'equipmentId' => EquipmentFixtures::ID,
+                'mileage' => 0,
+                'total' => 0,
+                'works' => [
+                    [
+                        'id' => '',
+                        'parts' => [
+                            [
+                                'id' => '',
+                                'name' => '',
+                                'price' => '',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
         yield 'Schedule' => [
             'schedule',
             [
