@@ -241,6 +241,7 @@ final class CarController extends AbstractController
                 $qb->expr()->like('LOWER(car.description)', $key),
                 $qb->expr()->like('LOWER(model.name)', $key),
                 $qb->expr()->like('LOWER(model.localizedName)', $key),
+                $qb->expr()->like('LOWER(model.caseName)', $key),
                 $qb->expr()->like('LOWER(manufacturer.name)', $key),
                 $qb->expr()->like('LOWER(manufacturer.localizedName)', $key),
                 $qb->expr()->like('LOWER(person.firstname)', $key),
