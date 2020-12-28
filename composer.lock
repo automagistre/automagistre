@@ -2219,20 +2219,20 @@
         },
         {
             "name": "friendsofphp/proxy-manager-lts",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/proxy-manager-lts.git",
-                "reference": "352d7fbb045f8ce2a0e740704b2cc6cb306f1e15"
+                "reference": "aa76978a8feaf7ddffaf346ba4f409efbfe5f9a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/proxy-manager-lts/zipball/352d7fbb045f8ce2a0e740704b2cc6cb306f1e15",
-                "reference": "352d7fbb045f8ce2a0e740704b2cc6cb306f1e15",
+                "url": "https://api.github.com/repos/FriendsOfPHP/proxy-manager-lts/zipball/aa76978a8feaf7ddffaf346ba4f409efbfe5f9a9",
+                "reference": "aa76978a8feaf7ddffaf346ba4f409efbfe5f9a9",
                 "shasum": ""
             },
             "require": {
-                "laminas/laminas-code": "^3.4.1",
+                "laminas/laminas-code": "^3.4.1|^4.0",
                 "php": ">=7.1",
                 "symfony/filesystem": "^4.4.17|^5.0"
             },
@@ -2285,7 +2285,7 @@
             ],
             "support": {
                 "issues": "https://github.com/FriendsOfPHP/proxy-manager-lts/issues",
-                "source": "https://github.com/FriendsOfPHP/proxy-manager-lts/tree/v1.0.0"
+                "source": "https://github.com/FriendsOfPHP/proxy-manager-lts/tree/v1.0.1"
             },
             "funding": [
                 {
@@ -2297,7 +2297,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-12-22T15:47:11+00:00"
+            "time": "2020-12-28T10:50:10+00:00"
         },
         {
             "name": "giggsey/libphonenumber-for-php",
