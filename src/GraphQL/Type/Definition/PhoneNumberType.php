@@ -33,11 +33,19 @@ final class PhoneNumberType extends ScalarType
      */
     public function parseValue($value): PhoneNumber
     {
+        $phoneNumberUtil = PhoneNumberUtil::getInstance();
+
         try {
-            return PhoneNumberUtil::getInstance()->parse($value);
+            $phoneNumber = $phoneNumberUtil->parse($value);
         } catch (NumberParseException $e) {
             throw new Error('Cannot represent following value as PhoneNumber: '.Utils::printSafeJson($value));
         }
+
+        if (false === $phoneNumberUtil->isValidNumber($phoneNumber)) {
+            throw new Error('The following PhoneNumber is not valid: '.Utils::printSafeJson($value));
+        }
+
+        return $phoneNumber;
     }
 
     /**
