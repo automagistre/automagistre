@@ -109,7 +109,7 @@ final class MutationType extends ObjectType
                                 $args['input']['name'],
                                 $args['input']['note'],
                                 $args['input']['phone'],
-                                $args['input']['date'],
+                                $args['input']['date'] ?? null,
                                 McEquipmentId::fromUuid($args['input']['equipmentId']),
                                 $args['input']['mileage'],
                                 $args['input']['total'],
