@@ -1,13 +1,18 @@
 ---
 kind: pipeline
 type: docker
-name: default
+name: build
 
 clone:
     depth: 0
 
+volumes:
+    -   name: docker.sock
+        host:
+            path: /var/run/docker.sock
+
 steps:
-    -   name: build base
+    -   name: build
         image: docker:20.10.1
         volumes:
             -   name: docker.sock
@@ -15,21 +20,10 @@ steps:
         commands:
             - docker build -t "automagistre/tenant-php:base" --progress=plain --target php-base .
             - docker build -t "automagistre/tenant-nginx:base" --progress=plain --target nginx-base .
-        environment:
-            DOCKER_BUILDKIT: '1'
-
-    -   name: build prod
-        image: docker:20.10.1
-        volumes:
-            -   name: docker.sock
-                path: /var/run/docker.sock
-        commands:
             - docker build -t "automagistre/tenant-php:${DRONE_BUILD_NUMBER}" --progress=plain --target php .
             - docker build -t "automagistre/tenant-nginx:${DRONE_BUILD_NUMBER}" --progress=plain --target nginx .
         environment:
             DOCKER_BUILDKIT: '1'
-        depends_on:
-            - build base
 
     -   name: push base
         image: docker:20.10.1
@@ -48,8 +42,38 @@ steps:
         when:
             branch: [ master ]
         depends_on:
-            - build base
+            - build
 
+---
+kind: pipeline
+type: docker
+name: test
+
+depends_on:
+    - build
+
+clone:
+    depth: 0
+
+services:
+    -   name: db
+        image: postgres:12.2
+        environment:
+            POSTGRES_DB: db_test
+            POSTGRES_USER: db
+            POSTGRES_PASSWORD: db
+        tmpfs:
+            - /var/lib/postgresql/data
+
+volumes:
+    -   name: sonarqube
+        host:
+            path: /opt/sonarqube/scanner/cache
+    -   name: composer
+        host:
+            path: /var/cache/composer
+
+steps:
     -   name: install
         image: automagistre/tenant-php:base
         volumes:
@@ -61,8 +85,6 @@ steps:
             - composer install --no-interaction --no-progress --classmap-authoritative
             - bin/console cache:warmup
             - bin/console assets:install public
-        depends_on:
-            - build base
 
     -   name: php-cs-fixer
         image: automagistre/tenant-php:base
@@ -211,19 +233,35 @@ steps:
         depends_on:
             - phpunit
 
+---
+kind: pipeline
+type: docker
+name: deploy
+
+trigger:
+    branch:
+        - master
+        - rc
+
+clone:
+    depth: 0
+
+depends_on:
+    - test
+
+volumes:
+    -   name: docker.sock
+        host:
+            path: /var/run/docker.sock
+    -   name: env
+        host:
+            path: /opt/secrets/automagistre
+
+steps:
     -   name: check deploy
         image: alpine/git:1.0.7
         commands:
             - \[ "${DRONE_COMMIT_SHA}" == "$$(git ls-remote origin ${DRONE_COMMIT_BRANCH} | awk '{ print $1}')" ] || exit 78
-        when:
-            branch: [ master, rc ]
-        depends_on:
-            - build prod
-            - phpunit
-            - phpstan
-            - psalm
-            - symfony requirements
-            - schema
 
     -   name: deploy
         image: docker/compose:1.25.0-alpine
@@ -241,11 +279,30 @@ steps:
                 ; done
         environment:
             VERSION: ${DRONE_BUILD_NUMBER}
-        when:
-            branch: [ master, rc ]
         depends_on:
             - check deploy
 
+---
+kind: pipeline
+type: docker
+name: clean
+
+trigger:
+    branch:
+        - rc
+        - test
+    status:
+        - success
+        - failure
+
+depends_on:
+    - test
+    - deploy
+
+clone:
+    depth: 0
+
+steps:
     -   name: remove branch
         image: alpine/git:1.0.7
         commands:
@@ -258,36 +315,3 @@ steps:
         environment:
             GIT_SSH_KEY:
                 from_secret: GIT_SSH_KEY
-        when:
-            status:
-                - success
-                - failure
-            branch:
-                - rc
-                - test
-        depends_on:
-            - check deploy
-
-services:
-    -   name: db
-        image: postgres:12.2
-        environment:
-            POSTGRES_DB: db_test
-            POSTGRES_USER: db
-            POSTGRES_PASSWORD: db
-        tmpfs:
-            - /var/lib/postgresql/data
-
-volumes:
-    -   name: docker.sock
-        host:
-            path: /var/run/docker.sock
-    -   name: env
-        host:
-            path: /opt/secrets/automagistre
-    -   name: sonarqube
-        host:
-            path: /opt/sonarqube/scanner/cache
-    -   name: composer
-        host:
-            path: /var/cache/composer
