@@ -69,6 +69,14 @@ abstract class Identifier
     /**
      * @return static
      */
+    public static function fromUuidOrNull(?UuidInterface $uuid): ?self
+    {
+        return null === $uuid ? null : self::fromUuid($uuid);
+    }
+
+    /**
+     * @return static
+     */
     final public static function fromString(string $uuid): self
     {
         return new static(Uuid::fromString($uuid));

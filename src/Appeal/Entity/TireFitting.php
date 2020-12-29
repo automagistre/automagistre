@@ -38,9 +38,9 @@ class TireFitting implements ContainsRecordedMessages
     public PhoneNumber $phone;
 
     /**
-     * @ORM\Column(type="vehicle_id")
+     * @ORM\Column(type="vehicle_id", nullable=true)
      */
-    public VehicleId $modelId;
+    public ?VehicleId $modelId;
 
     /**
      * @ORM\Column(type="tire_fitting_category")
@@ -66,7 +66,7 @@ class TireFitting implements ContainsRecordedMessages
         AppealId $id,
         string $name,
         PhoneNumber $phone,
-        VehicleId $modelId,
+        ?VehicleId $modelId,
         TireFittingCategory $category,
         ?int $diameter,
         Money $total,
@@ -87,7 +87,7 @@ class TireFitting implements ContainsRecordedMessages
     public static function create(
         string $name,
         PhoneNumber $phone,
-        VehicleId $modelId,
+        ?VehicleId $modelId,
         TireFittingCategory $category,
         ?int $diameter,
         Money $total,

@@ -232,7 +232,7 @@ final class MutationType extends ObjectType
                                         'type' => Types::nonNull(Types::phoneNumber()),
                                     ],
                                     'vehicleId' => [
-                                        'type' => Types::nonNull(Types::uuid()),
+                                        'type' => Types::uuid(),
                                     ],
                                     'category' => [
                                         'type' => Types::nonNull(Types::tireFittingCategory()),
@@ -263,7 +263,7 @@ final class MutationType extends ObjectType
                                 $appealId,
                                 $args['input']['name'],
                                 $args['input']['phone'],
-                                VehicleId::fromUuid($args['input']['vehicleId']),
+                                VehicleId::fromUuidOrNull($args['input']['vehicleId'] ?? null),
                                 TireFittingCategory::create($args['input']['category']),
                                 $args['input']['diameter'],
                                 $args['input']['total'],
