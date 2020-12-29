@@ -10932,16 +10932,16 @@
         },
         {
             "name": "ergebnis/composer-normalize",
-            "version": "2.12.0",
+            "version": "2.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ergebnis/composer-normalize.git",
-                "reference": "4a220a166e427b24b1155568155e1858871115f2"
+                "reference": "20058f9526003b59bd12a90ff7ee5b94503c988f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ergebnis/composer-normalize/zipball/4a220a166e427b24b1155568155e1858871115f2",
-                "reference": "4a220a166e427b24b1155568155e1858871115f2",
+                "url": "https://api.github.com/repos/ergebnis/composer-normalize/zipball/20058f9526003b59bd12a90ff7ee5b94503c988f",
+                "reference": "20058f9526003b59bd12a90ff7ee5b94503c988f",
                 "shasum": ""
             },
             "require": {
@@ -11009,7 +11009,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-12-29T09:39:21+00:00"
+            "time": "2020-12-29T11:33:45+00:00"
         },
         {
             "name": "ergebnis/json-normalizer",
