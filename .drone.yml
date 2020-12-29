@@ -236,6 +236,46 @@ steps:
 ---
 kind: pipeline
 type: docker
+name: e2e
+
+depends_on:
+    - build
+
+clone:
+    disable: true
+
+services:
+    -   name: nginx
+        image: automagistre/tenant-nginx:${DRONE_BUILD_NUMBER}
+    -   name: php-fpm
+        image: automagistre/tenant-php:${DRONE_BUILD_NUMBER}
+        environment:
+            APP_SECRET: S3cr3tAtvichau
+
+steps:
+    -   name: wait
+        image: toschneck/wait-for-it
+        pull: if-not-exists
+        commands:
+            - /wait-for-it.sh nginx:80
+            - /wait-for-it.sh php-fpm:9000
+
+    -   name: curl
+        image: curlimages/curl:7.74.0
+        pull: if-not-exists
+        commands:
+            - >-
+                curl
+                --fail
+                --include
+                -H 'Host: msk.automagistre.ru'
+                nginx/login
+        depends_on:
+            - wait
+
+---
+kind: pipeline
+type: docker
 name: deploy
 
 trigger:
@@ -248,6 +288,7 @@ clone:
 
 depends_on:
     - test
+    - e2e
 
 volumes:
     -   name: docker.sock
