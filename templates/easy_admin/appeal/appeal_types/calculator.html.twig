@@ -3,13 +3,13 @@
         {% if work.type == type %}
             <tr style="text-decoration: {{ work.isSelected ? 'none' : 'line-through' }}">
                 <td colspan="2"><b>{{ work.name }}</b></td>
-                <td><b>{{ work.price.amount / 100 }}</b></td>
+                <td><b>{{ work.price|localize_money }}</b></td>
             </tr>
             {% for part in work.parts %}
                 <tr style="text-decoration: {{ part.isSelected ? 'none' : 'line-through' }}">
                     <td style="text-align: right">{{ part.name }}</td>
-                    <td>{{ part.price.amount / 100 }} x {{ part.count }}</td>
-                    <td>{{ part.price.amount * part.count / 100 }}</td>
+                    <td>{{ part.price|localize_money }} x {{ part.count / 100 }}</td>
+                    <td>{{ part.total|localize_money }}</td>
                 </tr>
             {% endfor %}
         {% endif %}
@@ -27,11 +27,11 @@
         <tbody>
         <tr>
             <td>Автомобиль</td>
-            <td>{{ appeal.equipmentId }}</td>
+            <td>{{ appeal.equipmentId|display_name }}</td>
         </tr>
         <tr>
             <td>Номер ТО</td>
-            <td>ТО{{ appeal.mileage }}</td>
+            <td>ТО {{ appeal.mileage }}</td>
         </tr>
         <tr>
             <td>Удобное время</td>
@@ -68,22 +68,6 @@
     </div>
 </div>
 
-{% set totalWorks = 0 %}
-{% set totalRec = 0 %}
-{% for work in appeal.works %}
-    {% if work.isSelected %}
-        {% set totalParts = 0 %}
-        {% for part in work.parts %}
-            {% if part.isSelected %} {% set totalParts = totalParts + part.price.amount * part.count %} {% endif %}
-        {% endfor %}
-        {% if work.type == 'work'%}
-            {% set totalWorks = totalWorks + work.price.amount + totalParts %}
-        {% elseif work.type == 'recommendation' %}
-            {% set totalRec = totalRec + work.price.amount + totalParts %}
-        {% endif %}
-    {% endif %}
-{% endfor %}
-
 <div>
     <h4>ИТОГО</h4>
     <hr>
@@ -91,19 +75,19 @@
         <tbody>
         <tr>
             <td>Итого основное ТО</td>
-            <td>{{ totalWorks / 100 }}</td>
+            <td>{{ appeal.works.total|localize_money }}</td>
         </tr>
         <tr>
             <td>Итого Доп. работы</td>
-            <td>{{ totalRec / 100 }}</td>
+            <td>{{ appeal.works.recTotal|localize_money }}</td>
         </tr>
         <tr class="active" style="font-weight: 700">
             <td>Расчитанная стоимость</td>
-            <td>{{ (totalWorks + totalRec) / 100 }}</td>
+            <td>{{ appeal.works.total.add(appeal.works.recTotal)|localize_money }}</td>
         </tr>
         <tr>
             <td>Стоимость клиента</td>
-            <td>{{ appeal.total|localize_money(true)|number_format(0, '.', ' ') }}</td>
+            <td>{{ appeal.total|localize_money }}</td>
         </tr>
         </tbody>
     </table>

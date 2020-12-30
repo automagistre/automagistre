@@ -9,11 +9,11 @@
             <tbody>
             <tr>
                 <td>Автомобиль</td>
-                <td>{{ appeal.modelId }}</td>
+                <td>{{ appeal.modelId|display_name }}</td>
             </tr>
             <tr>
                 <td>Типа кузова</td>
-                <td>{{ appeal.bodyType }}</td>
+                <td>{{ appeal.category.toDisplayName() }}</td>
             </tr>
             <tr>
                 <td>Диаметер</td>
@@ -32,13 +32,13 @@
             {% for work in appeal.works %}
                 <tr>
                     <td>{{ work.name }}</td>
-                    <td>{{ work.price.amount / 100 }}</td>
+                    <td>{{ work.price|localize_money }}</td>
                 </tr>
             {% endfor %}
 
             <tr class="active">
                 <td style="text-align: right"><b>ИТОГО</b></td>
-                <td><b>{{ appeal.total|localize_money(true)|number_format(0, '.', ' ') }}</b></td>
+                <td><b>{{ appeal.total|localize_money }}</b></td>
             </tr>
             </tbody>
         </table>

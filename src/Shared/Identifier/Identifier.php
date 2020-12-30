@@ -3,14 +3,17 @@
 namespace App\Shared\Identifier;
 
 use function assert;
+use function get_debug_type;
 use function is_string;
+use JsonSerializable;
+use LogicException;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 /**
  * @psalm-immutable
  */
-abstract class Identifier
+abstract class Identifier implements JsonSerializable
 {
     private UuidInterface $uuid;
 
@@ -27,6 +30,14 @@ abstract class Identifier
     final public function toString(): string
     {
         return $this->uuid->toString();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    final public function jsonSerialize(): string
+    {
+        return $this->toString();
     }
 
     /**
@@ -80,6 +91,28 @@ abstract class Identifier
     final public static function fromString(string $uuid): self
     {
         return new static(Uuid::fromString($uuid));
+    }
+
+    /**
+     * @param mixed $any
+     *
+     * @return static
+     */
+    public static function fromAny($any): self
+    {
+        if ($any instanceof static) {
+            return $any;
+        }
+
+        if ($any instanceof UuidInterface) {
+            return static::fromUuid($any);
+        }
+
+        if (is_string($any)) {
+            return static::fromString($any);
+        }
+
+        throw new LogicException('Unexpected any: '.get_debug_type($any));
     }
 
     /**
