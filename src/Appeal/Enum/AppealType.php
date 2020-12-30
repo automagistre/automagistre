@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Appeal\Enum;
 
 use App\Appeal\Entity\Calculator;
+use App\Appeal\Entity\Call;
 use App\Appeal\Entity\Cooperation;
 use App\Appeal\Entity\Question;
 use App\Appeal\Entity\Schedule;
@@ -24,6 +25,7 @@ final class AppealType extends Enum
     private const QUESTION = 3;
     private const SCHEDULE = 4;
     private const TIRE_FITTING = 5;
+    private const CALL = 6;
 
     protected static array $displayName = [
         self::CALCULATOR => 'Калькулятор',
@@ -31,6 +33,7 @@ final class AppealType extends Enum
         self::QUESTION => 'Вопрос',
         self::SCHEDULE => 'Запись',
         self::TIRE_FITTING => 'Шиномонтаж',
+        self::CALL => 'Звонок',
     ];
 
     protected static array $entityClass = [
@@ -39,5 +42,6 @@ final class AppealType extends Enum
         self::QUESTION => Question::class,
         self::SCHEDULE => Schedule::class,
         self::TIRE_FITTING => TireFitting::class,
+        self::CALL => Call::class,
     ];
 }

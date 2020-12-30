@@ -85,6 +85,9 @@ class AppealView
                      UNION ALL
                      SELECT id, name, 5 AS type, phone, null AS email
                      FROM appeal_tire_fitting
+                     UNION ALL
+                     SELECT id, '', 6 AS type, phone, null AS email
+                     FROM appeal_call
                  ) appeal
                      LEFT JOIN LATERAL (SELECT *
                                         FROM appeal_status sub

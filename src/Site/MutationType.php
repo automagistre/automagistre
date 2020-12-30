@@ -6,6 +6,7 @@ namespace App\Site;
 
 use App\Appeal\Entity\AppealId;
 use App\Appeal\Entity\Calculator;
+use App\Appeal\Entity\Call;
 use App\Appeal\Entity\Cooperation;
 use App\Appeal\Entity\Question;
 use App\Appeal\Entity\Schedule;
@@ -269,6 +270,32 @@ final class MutationType extends ObjectType
                                 $args['input']['total'],
                                 $args['input']['works'],
                             )
+                        );
+
+                        return ['appealId' => $appealId];
+                    },
+                ],
+                'createAppealCall' => [
+                    'type' => $appealOutputType,
+                    'args' => [
+                        'input' => [
+                            'type' => Types::nonNull(new InputObjectType([
+                                'name' => 'createAppealCallInput',
+                                'fields' => fn () => [
+                                    'phone' => [
+                                        'type' => Types::nonNull(Types::phoneNumber()),
+                                    ],
+                                ],
+                            ])),
+                        ],
+                    ],
+                    'resolve' => static function ($rootValue, array $args, Context $context): array {
+                        $appealId = AppealId::generate();
+                        $context->registry->add(
+                            new Call(
+                                $appealId,
+                                $args['input']['phone'],
+                            ),
                         );
 
                         return ['appealId' => $appealId];

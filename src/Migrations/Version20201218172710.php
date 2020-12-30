@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Migrations;
 
-use App\Appeal\Entity\AppealView;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
@@ -35,8 +34,6 @@ final class Version20201218172710 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN appeal_status.id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN appeal_status.appeal_id IS \'(DC2Type:appeal_id)\'');
         $this->addSql('COMMENT ON COLUMN appeal_status.status IS \'(DC2Type:appeal_status)\'');
-
-        $this->addSql(AppealView::sql());
     }
 
     public function down(Schema $schema): void
