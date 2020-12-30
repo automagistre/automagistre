@@ -11,13 +11,10 @@ volumes:
         host:
             path: /var/run/docker.sock
 
-environment:
-    DOCKER_BUILDKIT: '1'
-
 steps:
     - &docker
         name: build php base
-        image: docker:20.10.1
+        image: automagistre/docker
         volumes:
             -   name: docker.sock
                 path: /var/run/docker.sock
@@ -285,8 +282,7 @@ services:
 
 steps:
     -   name: wait
-        image: toschneck/wait-for-it
-        pull: if-not-exists
+        image: automagistre/wait-for-it
         commands:
             - /wait-for-it.sh nginx:80
             - /wait-for-it.sh php-fpm:9000
@@ -336,7 +332,7 @@ steps:
             - \[ "${DRONE_COMMIT_SHA}" == "$$(git ls-remote origin ${DRONE_COMMIT_BRANCH} | awk '{ print $1}')" ] || exit 78
 
     -   name: deploy
-        image: docker/compose:1.25.0-alpine
+        image: automagistre/docker-compose
         volumes:
             -   name: env
                 path: /drone/src/.env
