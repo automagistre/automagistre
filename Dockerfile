@@ -8,7 +8,6 @@ LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 
 ENV APP_DIR=/usr/local/app
 ENV PATH=${APP_DIR}/bin:${APP_DIR}/vendor/bin:${PATH}
-ENV WAIT_FOR_IT /usr/local/bin/wait-for-it.sh
 
 WORKDIR ${APP_DIR}
 
@@ -98,11 +97,6 @@ RUN set -ex \
 # < PHP EXTENSIONS
 #
 
-FROM php-raw AS wait-for-it
-RUN set -ex \
-    && curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh -o ${WAIT_FOR_IT} \
-    && chmod +x ${WAIT_FOR_IT}
-
 FROM php-raw AS php-base
 COPY --from=php-ext-gd ${PHP_EXT_DIR}/gd.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-zip ${PHP_EXT_DIR}/zip.so ${PHP_EXT_DIR}/
@@ -116,7 +110,6 @@ COPY --from=php-ext-apcu ${PHP_EXT_DIR}/apcu.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-xdebug ${PHP_EXT_DIR}/xdebug.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-uuid ${PHP_EXT_DIR}/uuid.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-pcov ${PHP_EXT_DIR}/pcov.so ${PHP_EXT_DIR}/
-COPY --from=wait-for-it ${WAIT_FOR_IT} ${WAIT_FOR_IT}
 
 RUN --mount=type=cache,target=/var/cache/apk \
     set -ex \
