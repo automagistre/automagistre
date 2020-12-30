@@ -18,8 +18,8 @@ steps:
             -   name: docker.sock
                 path: /var/run/docker.sock
         commands:
-            - docker build -t "automagistre/tenant-php:base" --progress=plain --target php-base .
-            - docker build -t "automagistre/tenant-nginx:base" --progress=plain --target nginx-base .
+            - docker build -t "automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}" --progress=plain --target php-base .
+            - docker build -t "automagistre/tenant-nginx:base-${DRONE_BUILD_NUMBER}" --progress=plain --target nginx-base .
             - docker build -t "automagistre/tenant-php:${DRONE_BUILD_NUMBER}" --progress=plain --target php .
             - docker build -t "automagistre/tenant-nginx:${DRONE_BUILD_NUMBER}" --progress=plain --target nginx .
         environment:
@@ -32,7 +32,9 @@ steps:
                 path: /var/run/docker.sock
         commands:
             - docker login --username "$USERNAME" --password "$PASSWORD"
+            - docker tag automagistre/tenant-php:base-${DRONE_BUILD_NUMBER} automagistre/tenant-php:base
             - docker push automagistre/tenant-php:base
+            - docker tag automagistre/tenant-nginx:base-${DRONE_BUILD_NUMBER} automagistre/tenant-nginx:base
             - docker push automagistre/tenant-nginx:base
         environment:
             USERNAME:
@@ -75,7 +77,7 @@ volumes:
 
 steps:
     -   name: install
-        image: automagistre/tenant-php:base
+        image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
         volumes:
             -   name: composer
                 path: /var/cache/composer
@@ -87,7 +89,7 @@ steps:
             - bin/console assets:install public
 
     -   name: php-cs-fixer
-        image: automagistre/tenant-php:base
+        image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
         commands:
             - vendor/bin/php-cs-fixer fix --dry-run --diff-format udiff --using-cache=no
         when:
@@ -97,7 +99,7 @@ steps:
             - install
 
     -   name: composer normalize
-        image: automagistre/tenant-php:base
+        image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
         commands:
             - composer normalize --dry-run
         when:
@@ -107,7 +109,7 @@ steps:
             - install
 
     -   name: blank end line
-        image: automagistre/tenant-php:base
+        image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
         commands:
             - >-
                 find .
@@ -127,7 +129,7 @@ steps:
             - install
 
     -   name: symfony requirements
-        image: automagistre/tenant-php:base
+        image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
         commands:
             - vendor/bin/requirements-checker
         when:
@@ -137,7 +139,7 @@ steps:
             - install
 
     -   name: symfony security
-        image: automagistre/tenant-php:base
+        image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
         commands:
             - vendor/bin/security-checker security:check
         when:
@@ -147,7 +149,7 @@ steps:
             - install
 
     -   name: symfony linters
-        image: automagistre/tenant-php:base
+        image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
         commands:
             - bin/console lint:yaml config --parse-tags
             - bin/console lint:twig templates
@@ -155,14 +157,14 @@ steps:
             - install
 
     -   name: phpstan
-        image: automagistre/tenant-php:base
+        image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
         commands:
             - vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress --memory-limit=-1
         depends_on:
             - install
 
     -   name: psalm
-        image: automagistre/tenant-php:base
+        image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
         commands:
             - vendor/bin/psalm --show-info=false --no-progress
         when:
@@ -171,35 +173,35 @@ steps:
             - install
 
     -   name: migration
-        image: automagistre/tenant-php:base
+        image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
         commands:
             - bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
         depends_on:
             - install
 
     -   name: fixtures
-        image: automagistre/tenant-php:base
+        image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
         commands:
             - bin/console doctrine:fixtures:load --no-interaction
         depends_on:
             - migration
 
     -   name: schema
-        image: automagistre/tenant-php:base
+        image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
         commands:
             - bin/console doctrine:schema:validate
         depends_on:
             - migration
 
     -   name: phpunit
-        image: automagistre/tenant-php:base
+        image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
         commands:
             - vendor/bin/paratest --log-junit=var/junit.xml --coverage-clover=var/clover.xml
         depends_on:
             - fixtures
 
     -   name: infection
-        image: automagistre/tenant-php:base
+        image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
         commands:
             - vendor/bin/infection --no-progress --threads=$(nproc) --only-covered --min-msi=67 --min-covered-msi=67
         failure: ignore
@@ -207,7 +209,7 @@ steps:
             - fixtures
 
     -   name: logs
-        image: automagistre/tenant-php:base
+        image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
         commands:
             - cat var/log/* || true
         depends_on:
