@@ -51,9 +51,9 @@ steps:
             - docker push automagistre/tenant-php:base
         environment:
             DOCKER_USERNAME:
-                from_secret: HUB_USER
+                from_secret: docker_username
             DOCKER_PASSWORD:
-                from_secret: HUB_TOKEN
+                from_secret: docker_password
         when:
             branch: [ master ]
         depends_on:
@@ -67,9 +67,9 @@ steps:
             - docker push automagistre/tenant-nginx:base
         environment:
             DOCKER_USERNAME:
-                from_secret: HUB_USER
+                from_secret: docker_username
             DOCKER_PASSWORD:
-                from_secret: HUB_TOKEN
+                from_secret: docker_password
         when:
             branch: [ master ]
         depends_on:
