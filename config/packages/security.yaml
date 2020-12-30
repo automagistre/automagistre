@@ -20,11 +20,6 @@ security:
                     - App\Sms\Security\CallbackGuard
             stateless: true
 
-        rest:
-            pattern: ^/api/v1
-            stateless: true
-            anonymous: true
-
         graphql_www:
             pattern: ^/api/www
             stateless: true
@@ -45,7 +40,6 @@ security:
     access_control:
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/r/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/v1, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/www, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: IS_AUTHENTICATED_REMEMBERED }
 
