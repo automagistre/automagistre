@@ -17,7 +17,7 @@ environment:
 steps:
     - &docker
         name: build php base
-        image: automagistre/docker
+        image: automagistre/docker:stable
         volumes:
             -   name: docker.sock
                 path: /var/run/docker.sock
@@ -291,7 +291,7 @@ services:
 
 steps:
     -   name: wait
-        image: automagistre/wait-for-it
+        image: automagistre/wait-for-it:stable
         commands:
             - /wait-for-it.sh nginx:80
             - /wait-for-it.sh php-fpm:9000
@@ -341,7 +341,7 @@ steps:
             - \[ "${DRONE_COMMIT_SHA}" == "$$(git ls-remote origin ${DRONE_COMMIT_BRANCH} | awk '{ print $1}')" ] || exit 78
 
     -   name: deploy
-        image: automagistre/docker-compose
+        image: automagistre/docker-compose:stable
         volumes:
             -   name: env
                 path: /drone/src/.env
