@@ -18,3 +18,4 @@ vendor
 # Docker
 docker-compose.*
 Dockerfile
+/.docker

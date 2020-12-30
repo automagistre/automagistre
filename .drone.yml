@@ -11,6 +11,9 @@ volumes:
         host:
             path: /var/run/docker.sock
 
+environment:
+    DOCKER_CONFIG: /drone/src/.docker
+
 steps:
     - &docker
         name: build php base
@@ -40,12 +43,11 @@ steps:
         depends_on:
             - build nginx base
 
+
     -   <<: *docker
-        name: push php base
+        name: docker login
         commands:
             - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-            - docker tag automagistre/tenant-php:base-${DRONE_BUILD_NUMBER} automagistre/tenant-php:base
-            - docker push automagistre/tenant-php:base
         environment:
             DOCKER_USERNAME:
                 from_secret: docker_username
@@ -56,20 +58,27 @@ steps:
         depends_on:
             - build php base
 
+
     -   <<: *docker
-        name: push nginx base
+        name: push php base
         commands:
-            - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-            - docker tag automagistre/tenant-nginx:base-${DRONE_BUILD_NUMBER} automagistre/tenant-nginx:base
-            - docker push automagistre/tenant-nginx:base
-        environment:
-            DOCKER_USERNAME:
-                from_secret: docker_username
-            DOCKER_PASSWORD:
-                from_secret: docker_password
+            - docker tag automagistre/tenant-php:base-${DRONE_BUILD_NUMBER} automagistre/tenant-php:base
+            - docker push automagistre/tenant-php:base
         when:
             branch: [ master ]
         depends_on:
+            - docker login
+            - build php base
+
+    -   <<: *docker
+        name: push nginx base
+        commands:
+            - docker tag automagistre/tenant-nginx:base-${DRONE_BUILD_NUMBER} automagistre/tenant-nginx:base
+            - docker push automagistre/tenant-nginx:base
+        when:
+            branch: [ master ]
+        depends_on:
+            - docker login
             - build nginx base
 
 ---
