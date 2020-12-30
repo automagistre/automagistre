@@ -11,40 +11,69 @@ volumes:
         host:
             path: /var/run/docker.sock
 
+environment:
+    DOCKER_BUILDKIT: '1'
+
 steps:
-    -   name: build
+    - &docker
+        name: build php base
         image: docker:20.10.1
         volumes:
             -   name: docker.sock
                 path: /var/run/docker.sock
         commands:
             - docker build -t "automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}" --progress=plain --target php-base .
-            - docker build -t "automagistre/tenant-nginx:base-${DRONE_BUILD_NUMBER}" --progress=plain --target nginx-base .
-            - docker build -t "automagistre/tenant-php:${DRONE_BUILD_NUMBER}" --progress=plain --target php .
-            - docker build -t "automagistre/tenant-nginx:${DRONE_BUILD_NUMBER}" --progress=plain --target nginx .
-        environment:
-            DOCKER_BUILDKIT: '1'
 
-    -   name: push
-        image: docker:20.10.1
-        volumes:
-            -   name: docker.sock
-                path: /var/run/docker.sock
+    -   <<: *docker
+        name: build nginx base
         commands:
-            - docker login --username "$USERNAME" --password "$PASSWORD"
+            - docker build -t "automagistre/tenant-nginx:base-${DRONE_BUILD_NUMBER}" --progress=plain --target nginx-base .
+
+    -   <<: *docker
+        name: build php
+        commands:
+            - docker build -t "automagistre/tenant-php:${DRONE_BUILD_NUMBER}" --progress=plain --target php .
+        depends_on:
+            - build php base
+
+    -   <<: *docker
+        name: build nginx
+        commands:
+            - docker build -t "automagistre/tenant-nginx:${DRONE_BUILD_NUMBER}" --progress=plain --target nginx .
+        depends_on:
+            - build nginx base
+
+    -   <<: *docker
+        name: push php base
+        commands:
+            - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
             - docker tag automagistre/tenant-php:base-${DRONE_BUILD_NUMBER} automagistre/tenant-php:base
             - docker push automagistre/tenant-php:base
-            - docker tag automagistre/tenant-nginx:base-${DRONE_BUILD_NUMBER} automagistre/tenant-nginx:base
-            - docker push automagistre/tenant-nginx:base
         environment:
-            USERNAME:
+            DOCKER_USERNAME:
                 from_secret: HUB_USER
-            PASSWORD:
+            DOCKER_PASSWORD:
                 from_secret: HUB_TOKEN
         when:
             branch: [ master ]
         depends_on:
-            - build
+            - build php base
+
+    -   <<: *docker
+        name: push nginx base
+        commands:
+            - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+            - docker tag automagistre/tenant-nginx:base-${DRONE_BUILD_NUMBER} automagistre/tenant-nginx:base
+            - docker push automagistre/tenant-nginx:base
+        environment:
+            DOCKER_USERNAME:
+                from_secret: HUB_USER
+            DOCKER_PASSWORD:
+                from_secret: HUB_TOKEN
+        when:
+            branch: [ master ]
+        depends_on:
+            - build nginx base
 
 ---
 kind: pipeline
