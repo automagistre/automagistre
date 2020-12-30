@@ -10932,20 +10932,20 @@
         },
         {
             "name": "ergebnis/composer-normalize",
-            "version": "2.12.2",
+            "version": "2.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ergebnis/composer-normalize.git",
-                "reference": "111fc7911579a76012a79d8fbefe24028598ccc0"
+                "reference": "23f34eb43d8c4fccc7acb9173488f48e102f7a30"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ergebnis/composer-normalize/zipball/111fc7911579a76012a79d8fbefe24028598ccc0",
-                "reference": "111fc7911579a76012a79d8fbefe24028598ccc0",
+                "url": "https://api.github.com/repos/ergebnis/composer-normalize/zipball/23f34eb43d8c4fccc7acb9173488f48e102f7a30",
+                "reference": "23f34eb43d8c4fccc7acb9173488f48e102f7a30",
                 "shasum": ""
             },
             "require": {
-                "composer-plugin-api": "^2.0.0",
+                "composer-plugin-api": "^1.1.0 || ^2.0.0",
                 "ergebnis/json-normalizer": "^1.0.1",
                 "ergebnis/json-printer": "^3.1.1",
                 "justinrainbow/json-schema": "^5.2.10",
@@ -10953,7 +10953,7 @@
                 "php": "^7.2 || ^8.0"
             },
             "require-dev": {
-                "composer/composer": "^2.0.8",
+                "composer/composer": "^1.10.19 || ^2.0.8",
                 "ergebnis/license": "^1.1.0",
                 "ergebnis/php-cs-fixer-config": "^2.10.0",
                 "ergebnis/phpstan-rules": "~0.15.3",
@@ -11009,7 +11009,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-12-30T15:30:36+00:00"
+            "time": "2020-12-30T16:06:10+00:00"
         },
         {
             "name": "ergebnis/json-normalizer",
