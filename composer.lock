@@ -10935,7 +10935,7 @@
         },
         {
             "name": "ergebnis/composer-normalize",
-            "version": "2.13.0",
+            "version": "2.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ergebnis/composer-normalize.git",
