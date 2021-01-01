@@ -14,6 +14,7 @@
         "ext-sockets": "*",
         "ext-uuid": "*",
         "beberlei/doctrineextensions": "^1.2",
+        "bronhy/google-my-business-php-client": "^4.7",
         "clue/socket-raw": "^1.4",
         "cron/cron-bundle": "^2.4",
         "datto/json-rpc": "^6.1",

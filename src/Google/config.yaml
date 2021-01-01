@@ -1,0 +1,6 @@
+easy_admin:
+    entities:
+        GoogleReviewToken:
+            class: App\Google\Entity\Token
+            controller: App\Google\Controller\OAuth2Controller
+            disabled_actions: ['list', 'new', 'search', 'show', 'edit', 'delete', 'autocomplete']

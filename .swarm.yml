@@ -36,6 +36,7 @@ services:
             SMSAERO_AUTH: ${SMSAERO_AUTH}
             TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
             TENANT: ${TENANT}
+            GOOGLE_CREDENTIALS_FILE: ${GOOGLE_CREDENTIALS_FILE}
         stop_grace_period: 120s
         deploy:
             mode: replicated

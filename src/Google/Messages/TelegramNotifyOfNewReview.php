@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Yandex\Map\Messages;
+namespace App\Google\Messages;
 
+use App\Google\Entity\Review;
+use App\Google\Enum\StarRating;
 use App\MessageBus\MessageHandler;
 use App\Shared\Doctrine\Registry;
 use App\Tenant\Tenant;
-use App\Yandex\Map\Entity\Review;
+use function array_key_exists;
 use Premier\MarkdownBuilder\Markdown;
 use function sprintf;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -44,13 +46,27 @@ final class TelegramNotifyOfNewReview implements MessageHandler
         $review = $this->registry->get(Review::class, $event->reviewId);
 
         $payload = $review->payload;
-        $author = $payload['author'];
+        $author = Markdown::code($payload['reviewer']['displayName']);
 
-        $text = Markdown::builder()
-            ->p('Новый отзыв в Яндекс от '.Markdown::link($author['profileUrl'], $author['name']))
-            ->p($payload['text'])
-            ->p(sprintf('Оценка: %s', $payload['rating']))
-            ->getMarkdown();
+        if (array_key_exists('comment', $payload)) {
+            $comment = $payload['comment'];
+
+            $transPos = strpos($comment, '(Translated by Google)');
+            if (is_int($transPos)) {
+                $comment = substr($comment, 0, $transPos);
+            }
+
+            $text = Markdown::builder()
+                ->p('Новый отзыв в Google от '.$author)
+                ->p(trim($comment))
+                ->p(sprintf('Оценка: %s', StarRating::fromGoogleValue($payload['starRating'])->toId()))
+                ->getMarkdown();
+        } else {
+            $text = Markdown::builder()
+                ->p('Новая оценка в Google от '.$author)
+                ->p(sprintf('Оценка: %s', StarRating::fromGoogleValue($payload['starRating'])->toId()))
+                ->getMarkdown();
+        }
 
         $this->httpClient->request(
             'POST',

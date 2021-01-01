@@ -44,6 +44,9 @@
     "brick/math": {
         "version": "0.8.15"
     },
+    "bronhy/google-my-business-php-client": {
+        "version": "v4.7"
+    },
     "clue/socket-raw": {
         "version": "v1.4.1"
     },
@@ -222,6 +225,9 @@
     "felixfbecker/language-server-protocol": {
         "version": "v1.4.0"
     },
+    "firebase/php-jwt": {
+        "version": "v5.2.0"
+    },
     "friendsofphp/php-cs-fixer": {
         "version": "2.2",
         "recipe": {
@@ -242,6 +248,21 @@
     },
     "giggsey/locale": {
         "version": "1.9"
+    },
+    "google/apiclient": {
+        "version": "2.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "2.0",
+            "ref": "49c5d7a66d863d28513979bf0666dc77599100c0"
+        }
+    },
+    "google/apiclient-services": {
+        "version": "v0.156"
+    },
+    "google/auth": {
+        "version": "v1.14.3"
     },
     "guzzlehttp/guzzle": {
         "version": "6.5.5"
@@ -413,6 +434,9 @@
     },
     "phpmetrics/phpmetrics": {
         "version": "v2.7.4"
+    },
+    "phpseclib/phpseclib": {
+        "version": "2.0.30"
     },
     "phpspec/prophecy": {
         "version": "1.11.1"
