@@ -47,19 +47,6 @@ services:
         entrypoint: sh
         command: -c "socat tcp-listen:9000,fork,reuseaddr tcp-connect:$$(/sbin/ip route|awk '/default/ { print $$3 }'):9000"
 
-    mongo:
-        image: mongo:4.2.6
-        command: --serviceExecutor adaptive
-        labels:
-            ru.grachevko.dhu: 'mongo.automagistre.local'
-
-    mongo-express:
-        image: mongo-express:0.54.0
-        labels:
-            ru.grachevko.dhu: 'mongo-express.automagistre.local'
-        environment:
-            VCAP_APP_PORT: 80
-
     nsqd:
         image: nsqio/nsq:v1.2.0
         command: /nsqd
