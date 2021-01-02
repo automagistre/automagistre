@@ -7,8 +7,11 @@ namespace App\Google\Controller;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Google\Entity\Token;
 use App\Shared\Doctrine\Registry;
+use function array_key_exists;
 use Google_Client;
 use function is_string;
+use const JSON_UNESCAPED_UNICODE;
+use Sentry\Util\JSON;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -33,12 +36,15 @@ final class OAuth2Controller extends AbstractController
         }
 
         $payload = $this->googleClient->fetchAccessTokenWithAuthCode($code);
-
-        $this->registry->add(
-            Token::create(
-                $payload,
-            ),
-        );
+        if (array_key_exists('access_token', $payload)) {
+            $this->registry->add(
+                Token::create(
+                    $payload,
+                ),
+            );
+        } else {
+            $this->addFlash('error', 'Google return: '.JSON::encode($payload, JSON_UNESCAPED_UNICODE));
+        }
 
         return $this->redirectToEasyPath('Review', 'list');
     }
