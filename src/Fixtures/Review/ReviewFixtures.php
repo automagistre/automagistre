@@ -36,6 +36,7 @@ final class ReviewFixtures extends Fixture
                 'source' => 'http://reviews.club/item/1',
             ]
         );
+        $review->eraseMessages();
 
         $manager->persist($review);
         $manager->flush();

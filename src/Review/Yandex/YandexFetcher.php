@@ -2,41 +2,31 @@
 
 declare(strict_types=1);
 
-namespace App\Review\Yandex\Command;
+namespace App\Review\Yandex;
 
-use App\Review\Entity\Review;
-use App\Review\Entity\ReviewId;
 use App\Review\Enum\ReviewRating;
 use App\Review\Enum\ReviewSource;
-use App\Shared\Doctrine\Registry;
+use App\Review\Fetch\FetchedReview;
+use App\Review\Fetch\Fetcher;
 use App\Tenant\Tenant;
 use DateTimeImmutable;
 use function explode;
 use function str_starts_with;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
+use function trim;
 
-final class YandexFetchCommand extends Command
+final class YandexFetcher implements Fetcher
 {
     private const PAGE_SIZE = 50;
     private const URL = 'https://yandex.ru/maps/api/business/fetchReviews';
-
-    protected static $defaultName = 'yandex:map:review:sync';
-
-    private Registry $registry;
 
     private HttpClientInterface $httpClient;
 
     private Tenant $tenant;
 
-    public function __construct(Registry $registry, HttpClientInterface $httpClient, Tenant $tenant)
+    public function __construct(HttpClientInterface $httpClient, Tenant $tenant)
     {
-        parent::__construct();
-
-        $this->registry = $registry;
         $this->httpClient = $httpClient;
         $this->tenant = $tenant;
     }
@@ -44,10 +34,10 @@ final class YandexFetchCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    public function fetch(): iterable
     {
         if (null === $this->tenant->toYandexMapBusinessId()) {
-            return 0;
+            return;
         }
 
         [$yandexUid, $csrfToken] = $this->preFlight();
@@ -58,8 +48,16 @@ final class YandexFetchCommand extends Command
         while (null !== $response) {
             $data = $response->toArray()['data'];
 
-            foreach ($data['reviews'] ?? [] as $review) {
-                $this->handleReview($review);
+            foreach ($data['reviews'] ?? [] as $payload) {
+                yield new FetchedReview(
+                    $payload['reviewId'],
+                    ReviewSource::yandex(),
+                    $payload['author']['name'] ?? '',
+                    trim($payload['text']),
+                    ReviewRating::create($payload['rating']),
+                    new DateTimeImmutable($payload['updatedTime']),
+                    $payload,
+                );
             }
 
             if ($data['params']['totalPages'] > $page) {
@@ -72,35 +70,6 @@ final class YandexFetchCommand extends Command
 
             $response = null;
         }
-
-        return 0;
-    }
-
-    private function handleReview(array $payload): void
-    {
-        $reviewId = $payload['reviewId'];
-
-        $conn = $this->registry->connection();
-        $exists = $conn->fetchOne('SELECT 1 FROM review WHERE source = :source AND source_id = :sourceId', [
-            'source' => ReviewSource::yandex(),
-            'sourceId' => $reviewId,
-        ]);
-        if (1 === $exists) {
-            return;
-        }
-
-        $this->registry->add(
-            new Review(
-                ReviewId::generate(),
-                $reviewId,
-                ReviewSource::yandex(),
-                $payload['author']['name'] ?? '',
-                $payload['text'],
-                ReviewRating::create($payload['rating']),
-                new DateTimeImmutable($payload['updatedTime']),
-                $payload,
-            )
-        );
     }
 
     private function request(string $yandexUid, string $csrfToken, int $page): ResponseInterface
