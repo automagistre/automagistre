@@ -18,13 +18,6 @@ final class ReviewType extends ObjectType
             'fields' => fn (): array => [
                 'id' => Types::nonNull(Types::id()),
                 'author' => Types::string(),
-                'content' => [
-                    'type' => Types::string(),
-                    'resolve' => static function (Review $rootValue): string {
-                        return $rootValue->text;
-                    },
-                    'deprecationReason' => 'Renamed to `text`.',
-                ],
                 'text' => Types::nonNull(Types::string()),
                 'source' => [
                     'type' => Types::reviewSource(),
