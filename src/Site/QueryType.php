@@ -28,6 +28,49 @@ final class QueryType extends ObjectType
     {
         $config = [
             'fields' => fn (): array => [
+                'stats' => [
+                    'type' => fn (): Type => new ObjectType([
+                        'name' => 'StatsType',
+                        'fields' => [
+                            'orders' => Types::nonNull(Types::int()),
+                            'vehicles' => Types::nonNull(Types::int()),
+                            'customers' => Types::nonNull(new ObjectType([
+                                'name' => 'StatsCustomersType',
+                                'fields' => [
+                                    'persons' => Types::nonNull(Types::int()),
+                                    'organizations' => Types::nonNull(Types::int()),
+                                ],
+                            ])),
+                            'reviews' => Types::nonNull(Types::int()),
+                        ],
+                    ]),
+                    'resolve' => static function ($rootValue, $args, Context $context): array {
+                        /** @var array<string, int> $stats */
+                        $stats = $context->registry->connection()->fetchAssociative(<<<'SQL'
+                            SELECT (SELECT COUNT(DISTINCT car_id)
+                                    FROM orders)                                                        AS vehicles,
+                                   (SELECT COUNT(DISTINCT organization.id)
+                                    FROM orders
+                                             JOIN organization ON organization.id = orders.customer_id) AS organizations,
+                                   (SELECT COUNT(DISTINCT person.id)
+                                    FROM orders
+                                             JOIN person ON person.id = orders.customer_id)             AS persons,
+                                   (SELECT COUNT(id) FROM orders)                                       AS orders,
+                                   (SELECT COUNT(id) FROM review WHERE text <> '')                      AS reviews
+                            SQL
+                        );
+
+                        return [
+                            'orders' => $stats['orders'],
+                            'vehicles' => $stats['vehicles'],
+                            'customers' => [
+                                'persons' => $stats['persons'],
+                                'organizations' => $stats['organizations'],
+                            ],
+                            'reviews' => $stats['reviews'],
+                        ];
+                    },
+                ],
                 'reviews' => [
                     'type' => fn (): Type => Types::connection(Types::review()),
                     'args' => [
