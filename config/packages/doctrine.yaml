@@ -3,6 +3,7 @@ doctrine:
         types:
             phone_number: \Misd\PhoneNumberBundle\Doctrine\DBAL\Types\PhoneNumberType
             uuid:  Ramsey\Uuid\Doctrine\UuidType
+            json: App\Doctrine\DBAL\Types\JsonType
         connections:
             default:
                 charset:  UTF8
