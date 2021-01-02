@@ -45,7 +45,7 @@ final class GoogleReviewCommand extends Command
             ->getQuery()
             ->getSingleResult()['payload'];
 
-        $this->myBusiness->getClient()->setAccessToken($token['access_token']);
+        $this->myBusiness->getClient()->setAccessToken($token);
 
         foreach ($this->myBusiness->accounts->listAccounts() as $listAccount) {
             $this->account($listAccount);
