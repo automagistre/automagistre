@@ -2,11 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Yandex\Map\Command;
+namespace App\Review\Yandex\Command;
 
+use App\Review\Entity\Review;
+use App\Review\Entity\ReviewId;
+use App\Review\Enum\ReviewRating;
+use App\Review\Enum\ReviewSource;
 use App\Shared\Doctrine\Registry;
 use App\Tenant\Tenant;
-use App\Yandex\Map\Entity\Review;
+use DateTimeImmutable;
 use function explode;
 use function str_starts_with;
 use Symfony\Component\Console\Command\Command;
@@ -15,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-final class ReviewSyncCommand extends Command
+final class YandexFetchCommand extends Command
 {
     private const PAGE_SIZE = 50;
     private const URL = 'https://yandex.ru/maps/api/business/fetchReviews';
@@ -77,21 +81,26 @@ final class ReviewSyncCommand extends Command
         $reviewId = $payload['reviewId'];
 
         $conn = $this->registry->connection();
-        $exists = $conn->fetchOne('SELECT 1 FROM yandex_map_review WHERE review_id = :reviewId', [
-            'reviewId' => $reviewId,
+        $exists = $conn->fetchOne('SELECT 1 FROM review WHERE source = :source AND source_id = :sourceId', [
+            'source' => ReviewSource::yandex(),
+            'sourceId' => $reviewId,
         ]);
         if (1 === $exists) {
             return;
         }
 
-        $em = $this->registry->manager();
-        $em->persist(
-            Review::create(
+        $this->registry->add(
+            new Review(
+                ReviewId::generate(),
                 $reviewId,
+                ReviewSource::yandex(),
+                $payload['author']['name'] ?? '',
+                $payload['text'],
+                ReviewRating::create($payload['rating']),
+                new DateTimeImmutable($payload['updatedTime']),
                 $payload,
             )
         );
-        $em->flush();
     }
 
     private function request(string $yandexUid, string $csrfToken, int $page): ResponseInterface

@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace App\Review\GraphQL\Type;
 
-use App\Review\Enum\ReviewSource;
+use App\Review\Enum\ReviewRating;
 use GraphQL\Type\Definition\EnumType;
 
-final class ReviewSourceType extends EnumType
+final class ReviewRatingType extends EnumType
 {
     public function __construct()
     {
         $values = [];
-        foreach (ReviewSource::all() as $enum) {
+        foreach (ReviewRating::all() as $enum) {
             $values[$enum->toName()] = [
                 'value' => $enum->toId(),
-                'description' => $enum->toDisplayName(),
             ];
         }
 

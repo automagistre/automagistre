@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Google\Controller;
+namespace App\Review\Google\Controller;
 
 use App\EasyAdmin\Controller\AbstractController;
-use App\Google\Entity\Token;
+use App\Review\Google\Entity\Token;
 use App\Shared\Doctrine\Registry;
 use function array_key_exists;
 use Google_Client;

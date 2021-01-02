@@ -2,18 +2,25 @@
 
 declare(strict_types=1);
 
-namespace App\Google\Command;
+namespace App\Review\Google\Command;
 
-use App\Google\Entity\Review;
-use App\Google\Entity\Token;
+use App\Review\Entity\Review;
+use App\Review\Enum\ReviewRating;
+use App\Review\Enum\ReviewSource;
+use App\Review\Google\Entity\Token;
 use App\Shared\Doctrine\Registry;
+use DateTimeImmutable;
 use Google_Service_MyBusiness;
 use Google_Service_MyBusiness_Account;
 use Google_Service_MyBusiness_Location;
 use Google_Service_MyBusiness_Review;
+use function is_int;
+use function strpos;
+use function substr;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use function trim;
 
 final class GoogleReviewCommand extends Command
 {
@@ -86,17 +93,32 @@ final class GoogleReviewCommand extends Command
         $reviewId = $review->getReviewId();
 
         $conn = $this->registry->connection();
-        $exists = $conn->fetchOne('SELECT 1 FROM google_review WHERE review_id = :reviewId', [
-            'reviewId' => $reviewId,
+        $exists = $conn->fetchOne('SELECT 1 FROM review WHERE source = :source AND source_id = :sourceId', [
+            'source' => ReviewSource::google(),
+            'sourceId' => $reviewId,
         ]);
         if (1 === $exists) {
             return;
         }
 
+        $payload = (array) $review->toSimpleObject();
+
+        $comment = $payload['comment'] ?? '';
+        $transPos = strpos($comment, '(Translated by Google)');
+        if (is_int($transPos)) {
+            $comment = trim(substr($comment, 0, $transPos));
+        }
+
         $this->registry->add(
-            Review::create(
+            new Review(
                 $reviewId,
-                (array) $review->toSimpleObject(),
+                $payload['reviewId'],
+                ReviewSource::google(),
+                $payload['reviewer']['displayName'],
+                $comment,
+                ReviewRating::fromGoogleValue($payload['starRating']),
+                new DateTimeImmutable($payload['createTime'] ?? $payload['updatedTime']),
+                $payload,
             ),
         );
     }

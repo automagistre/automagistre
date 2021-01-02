@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Google\Messages;
+namespace App\Review\Messages;
 
-use App\Google\Entity\Review;
-use App\Google\Enum\StarRating;
 use App\MessageBus\MessageHandler;
+use App\Review\Entity\Review;
+use App\Review\Event\ReviewReceived;
 use App\Shared\Doctrine\Registry;
 use App\Tenant\Tenant;
-use function array_key_exists;
 use Premier\MarkdownBuilder\Markdown;
 use function sprintf;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -45,28 +44,20 @@ final class TelegramNotifyOfNewReview implements MessageHandler
         /** @var Review $review */
         $review = $this->registry->get(Review::class, $event->reviewId);
 
-        $payload = $review->payload;
-        $author = Markdown::code($payload['reviewer']['displayName']);
+        $author = Markdown::code($review->author);
+        $sourceName = Markdown::bold($review->source->toDisplayName());
 
-        if (array_key_exists('comment', $payload)) {
-            $comment = $payload['comment'];
-
-            $transPos = strpos($comment, '(Translated by Google)');
-            if (is_int($transPos)) {
-                $comment = substr($comment, 0, $transPos);
-            }
-
-            $text = Markdown::builder()
-                ->p('Новый отзыв в Google от '.$author)
-                ->p(trim($comment))
-                ->p(sprintf('Оценка: %s', StarRating::fromGoogleValue($payload['starRating'])->toId()))
-                ->getMarkdown();
+        $markdown = Markdown::builder();
+        if ('' !== $review->text) {
+            $markdown
+                ->p(sprintf('Новый отзыв в %s от %s', $sourceName, $author))
+                ->p($review->text);
         } else {
-            $text = Markdown::builder()
-                ->p('Новая оценка в Google от '.$author)
-                ->p(sprintf('Оценка: %s', StarRating::fromGoogleValue($payload['starRating'])->toId()))
-                ->getMarkdown();
+            $markdown
+                ->p(sprintf('Новая оценка в %s от %s', $sourceName, $author));
         }
+
+        $markdown->p(sprintf('Оценка: %s', $review->rating->toId()));
 
         $this->httpClient->request(
             'POST',
@@ -76,7 +67,7 @@ final class TelegramNotifyOfNewReview implements MessageHandler
                     'chat_id' => $this->tenant->toTelegramChannel(),
                     'disable_web_page_preview' => 1,
                     'parse_mode' => 'Markdown',
-                    'text' => $text,
+                    'text' => $markdown->getMarkdown(),
                 ],
             ]
         );

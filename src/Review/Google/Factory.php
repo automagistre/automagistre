@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Google;
+namespace App\Review\Google;
 
 use Google_Client;
 use Symfony\Component\Routing\RouterInterface;

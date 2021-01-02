@@ -20,6 +20,7 @@ use App\MC\GraphQL\Type\PartItemType;
 use App\MC\GraphQL\Type\WorkType;
 use App\Part\GraphQL\Type\PartType;
 use App\Part\GraphQL\Type\UnitType;
+use App\Review\GraphQL\Type\ReviewRatingType;
 use App\Review\GraphQL\Type\ReviewSourceType;
 use App\Review\GraphQL\Type\ReviewType;
 use App\Shared\Doctrine\Registry;
@@ -58,6 +59,7 @@ use function ucfirst;
  * @method static PartType part()
  * @method static PhoneNumberType phoneNumber()
  * @method static ProductionType production()
+ * @method static ReviewRatingType reviewRating()
  * @method static ReviewSourceType reviewSource()
  * @method static ReviewType review()
  * @method static TireFittingCategoryType tireFittingCategory()
@@ -92,6 +94,7 @@ final class Types extends Type
         'PhoneNumber' => PhoneNumberType::class,
         'Production' => ProductionType::class,
         'Review' => ReviewType::class,
+        'ReviewRating' => ReviewRatingType::class,
         'ReviewSource' => ReviewSourceType::class,
         'TireFittingCategory' => TireFittingCategoryType::class,
         'Transmission' => TransmissionType::class,

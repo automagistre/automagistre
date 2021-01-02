@@ -11,11 +11,16 @@ use App\MC\Entity\McEquipment;
 use App\MC\Entity\McLine;
 use App\Part\Entity\PartView;
 use App\Publish\Entity\PublishView;
-use App\Review\Entity\ReviewView;
+use App\Review\Entity\Review;
 use App\Vehicle\Entity\Model;
 use function array_pop;
+use function base64_decode;
+use function base64_encode;
 use function count;
+use const DATE_RFC3339;
+use DateTimeImmutable;
 use Doctrine\ORM\Query\Expr\Join;
+use GraphQL\Error\Error;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 
@@ -42,7 +47,7 @@ final class QueryType extends ObjectType
                             'defaultValue' => 10,
                         ],
                         'after' => [
-                            'type' => Types::uuid(),
+                            'type' => Types::string(),
                         ],
                     ],
                     'resolve' => function ($rootValue, array $args, Context $context): Connection {
@@ -51,16 +56,27 @@ final class QueryType extends ObjectType
 
                         $qb = $context->registry->manager()->createQueryBuilder()
                             ->select('t')
-                            ->from(ReviewView::class, 't');
+                            ->from(Review::class, 't')
+                            ->where('t.text <> \'\'');
 
                         $totalCount = (int) (clone $qb)->select('COUNT(t)')->getQuery()->getSingleScalarResult();
 
-                        $qb->orderBy('t.id', 'DESC');
+                        $qb->orderBy('t.publishAt', 'DESC');
 
                         if (null !== $after) {
+                            $publishAtDecoded = base64_decode($after, true);
+                            if (false === $publishAtDecoded) {
+                                throw new Error('Invalid after arg.');
+                            }
+
+                            $publishAt = DateTimeImmutable::createFromFormat(DATE_RFC3339, $publishAtDecoded);
+                            if (false === $publishAt) {
+                                throw new Error('Invalid after arg.');
+                            }
+
                             $qb
-                                ->where('t.id < :id')
-                                ->setParameter('id', $after);
+                                ->andWhere('t.publishAt < :publishAt')
+                                ->setParameter('publishAt', $publishAt);
                         }
 
                         $nodes = $qb
@@ -71,9 +87,9 @@ final class QueryType extends ObjectType
                         $endCursor = null;
                         $hasNextPage = count($nodes) > $first;
                         if ($hasNextPage) {
-                            /** @var ReviewView $nextNode */
+                            /** @var Review $nextNode */
                             $nextNode = array_pop($nodes);
-                            $endCursor = $nextNode->toId()->toString();
+                            $endCursor = base64_encode($nextNode->publishAt->format(DATE_RFC3339));
                         }
 
                         return new Connection(

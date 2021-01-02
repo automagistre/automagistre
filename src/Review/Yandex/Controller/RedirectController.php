@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Yandex\Map\Controller;
+namespace App\Review\Yandex\Controller;
 
 use App\Tenant\Tenant;
 use Symfony\Component\HttpFoundation\RedirectResponse;

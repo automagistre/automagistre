@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Google\Entity;
+namespace App\Review\Google\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
@@ -25,11 +25,6 @@ class Token
      */
     public array $payload;
 
-    /**
-     * @ORM\OneToOne(targetEntity=TokenExpire::class)
-     */
-    public ?TokenExpire $expire = null;
-
     public function __construct(UuidInterface $id, array $payload)
     {
         $this->id = $id;
@@ -41,14 +36,6 @@ class Token
         return new self(
             Uuid::uuid6(),
             $payload,
-        );
-    }
-
-    public function expire(): void
-    {
-        $this->expire = new TokenExpire(
-            Uuid::uuid6(),
-            $this,
         );
     }
 }

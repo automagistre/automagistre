@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Yandex\Map\Messages;
+namespace App\Review\Messages;
 
 use App\Customer\Entity\CustomerStorage;
 use App\Customer\Entity\Organization;

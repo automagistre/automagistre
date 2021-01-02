@@ -10,6 +10,8 @@ return [
     App\Order\Enum\OrderStatus::class => ['order_status_enum'],
     App\Part\Enum\SupplySource::class => ['part_supply_source_enum'],
     App\Part\Enum\Unit::class => ['unit_enum'],
+    App\Review\Enum\ReviewSource::class => ['review_source'],
+    App\Review\Enum\ReviewRating::class => ['review_star_rating'],
     App\Shared\Enum\Transition::class => ['transition_enum'],
     App\Storage\Enum\Source::class => ['motion_source_enum'],
     App\Tenant\Tenant::class => ['tenant_enum'],
