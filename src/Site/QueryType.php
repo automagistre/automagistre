@@ -8,8 +8,6 @@ use App\GraphQL\Type\Connection;
 use App\GraphQL\Type\PageInfo;
 use App\GraphQL\Type\Types;
 use App\MC\Entity\McEquipment;
-use App\MC\Entity\McLine;
-use App\Part\Entity\PartView;
 use App\Publish\Entity\PublishView;
 use App\Review\Entity\Review;
 use App\Vehicle\Entity\Model;
@@ -30,15 +28,6 @@ final class QueryType extends ObjectType
     {
         $config = [
             'fields' => fn (): array => [
-                'part' => [
-                    'type' => fn (): Type => Types::part(),
-                    'args' => [
-                        'id' => Types::nonNull(Types::uuid()),
-                    ],
-                    'resolve' => function ($rootValue, array $args, Context $context): PartView {
-                        return $context->registry->get(PartView::class, $args['id']);
-                    },
-                ],
                 'reviews' => [
                     'type' => fn (): Type => Types::connection(Types::review()),
                     'args' => [
@@ -151,24 +140,6 @@ final class QueryType extends ObjectType
                             ->where('t.vehicleId = :vehicleId')
                             ->getQuery()
                             ->setParameter('vehicleId', $args['vehicleId'])
-                            ->getResult();
-                    },
-                ],
-                'works' => [
-                    'type' => fn (): Type => Types::listOf(Types::work()),
-                    'args' => [
-                        'maintenanceId' => [
-                            'type' => Types::nonNull(Types::uuid()),
-                        ],
-                    ],
-                    'resolve' => static function ($rootValue, array $args, Context $context): array {
-                        return $context->registry->manager()
-                            ->createQueryBuilder()
-                            ->select('t')
-                            ->from(McLine::class, 't')
-                            ->where('t.equipment = :equipment')
-                            ->getQuery()
-                            ->setParameter('equipment', $args['maintenanceId'])
                             ->getResult();
                     },
                 ],
