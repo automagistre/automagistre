@@ -41,7 +41,7 @@ steps:
         commands:
             - docker build -t "automagistre/tenant-nginx:${DRONE_BUILD_NUMBER}" --progress=plain --target nginx .
         depends_on:
-            - build php base
+            - build php
             - build nginx base
 
     -   <<: *docker
