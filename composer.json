@@ -23,7 +23,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/migrations": "^3.0",
         "doctrine/orm": "^2.6",
-        "easycorp/easyadmin-bundle": "^2",
+        "easycorp/easyadmin-bundle": "^3",
         "endroid/qr-code-bundle": "^3.3",
         "lcobucci/jwt": "^4.0",
         "long-running/long-running": "^0.5.0",
