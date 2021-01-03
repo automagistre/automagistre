@@ -4560,23 +4560,22 @@
         },
         {
             "name": "phpinnacle/buffer",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpinnacle/buffer.git",
-                "reference": "5413bf0d75df88d569f448c959442ba3796deaa7"
+                "reference": "1e98e90a1260819613c70ea8aae4de7a039829ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpinnacle/buffer/zipball/5413bf0d75df88d569f448c959442ba3796deaa7",
-                "reference": "5413bf0d75df88d569f448c959442ba3796deaa7",
+                "url": "https://api.github.com/repos/phpinnacle/buffer/zipball/1e98e90a1260819613c70ea8aae4de7a039829ab",
+                "reference": "1e98e90a1260819613c70ea8aae4de7a039829ab",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1 || ^8.0"
+                "php": ">=7.3"
             },
             "require-dev": {
-                "phpbench/phpbench": "^0.17",
                 "phpunit/phpunit": "^9.0"
             },
             "suggest": {
@@ -4590,7 +4589,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "PHPinnacle\\Buffer\\": "src"
+                    "PHPinnacle\\Buffer\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -4618,9 +4617,9 @@
             ],
             "support": {
                 "issues": "https://github.com/phpinnacle/buffer/issues",
-                "source": "https://github.com/phpinnacle/buffer/tree/1.1.0"
+                "source": "https://github.com/phpinnacle/buffer/tree/1.2.0"
             },
-            "time": "2020-12-13T20:14:52+00:00"
+            "time": "2021-01-03T09:10:01+00:00"
         },
         {
             "name": "phpseclib/phpseclib",
