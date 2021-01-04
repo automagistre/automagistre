@@ -148,7 +148,8 @@ ENV COMPOSER_MEMORY_LIMIT -1
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 COPY etc/php.ini ${PHP_INI_DIR}/php.ini
-COPY etc/php-fpm.conf /usr/local/etc/php-fpm.d/automagistre.conf
+COPY etc/php-fpm.conf /usr/local/etc/php-fpm.conf
+COPY etc/php-fpm.www.conf /usr/local/etc/php-fpm.d/www.conf
 
 ENV PHP_MEMORY_LIMIT 1G
 ENV PHP_OPCACHE_ENABLE 1
