@@ -236,6 +236,8 @@ RUN set -ex \
 
 FROM nginx-base AS nginx
 
+ENV NGINX_ENTRYPOINT_QUIET_LOGS 1
+
 COPY --from=php /usr/local/app/public/favicon.ico favicon.ico
 COPY --from=php /usr/local/app/public/assets assets
 COPY --from=php /usr/local/app/public/bundles bundles
