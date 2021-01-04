@@ -363,6 +363,9 @@
     "nikic/php-parser": {
         "version": "v4.6.0"
     },
+    "ocramius/package-versions": {
+        "version": "2.1.0"
+    },
     "odolbeau/phone-number-bundle": {
         "version": "3.0",
         "recipe": {
