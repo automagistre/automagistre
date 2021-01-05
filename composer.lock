@@ -3791,21 +3791,21 @@
         },
         {
             "name": "odolbeau/phone-number-bundle",
-            "version": "v3.2.1",
+            "version": "v3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/odolbeau/phone-number-bundle.git",
-                "reference": "95f7d3a8a71b5abdde074cecca0d0613d24c4334"
+                "reference": "6798fabc7a68ad4033523342fdd153c39b893831"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/odolbeau/phone-number-bundle/zipball/95f7d3a8a71b5abdde074cecca0d0613d24c4334",
-                "reference": "95f7d3a8a71b5abdde074cecca0d0613d24c4334",
+                "url": "https://api.github.com/repos/odolbeau/phone-number-bundle/zipball/6798fabc7a68ad4033523342fdd153c39b893831",
+                "reference": "6798fabc7a68ad4033523342fdd153c39b893831",
                 "shasum": ""
             },
             "require": {
                 "giggsey/libphonenumber-for-php": "^8.0",
-                "php": "^7.2",
+                "php": ">7.2.5",
                 "symfony/framework-bundle": "^3.4|^4.3|^5.0"
             },
             "replace": {
@@ -3829,7 +3829,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2.x-dev"
+                    "dev-master": "3.3.x-dev"
                 }
             },
             "autoload": {
@@ -3852,9 +3852,9 @@
             ],
             "support": {
                 "issues": "https://github.com/odolbeau/phone-number-bundle/issues",
-                "source": "https://github.com/odolbeau/phone-number-bundle/tree/v3.2.1"
+                "source": "https://github.com/odolbeau/phone-number-bundle/tree/v3.3.0"
             },
-            "time": "2020-10-28T08:50:39+00:00"
+            "time": "2021-01-05T10:41:55+00:00"
         },
         {
             "name": "oro/doctrine-extensions",
