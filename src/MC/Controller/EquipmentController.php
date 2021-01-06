@@ -49,7 +49,7 @@ final class EquipmentController extends AbstractController
         $entityClass,
         $searchQuery,
         array $searchableFields,
-        $sortField = null,
+        $sortField = 'id',
         $sortDirection = null,
         $dqlFilter = null
     ): QueryBuilder {
@@ -77,6 +77,8 @@ final class EquipmentController extends AbstractController
 
             $qb->setParameter($key, '%'.mb_strtolower($searchString).'%');
         }
+
+        $qb->orderBy('entity.'.$sortField, $sortDirection);
 
         return $qb;
     }
