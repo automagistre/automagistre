@@ -133,8 +133,13 @@ final class CalculatorWorkCollection implements IteratorAggregate, JsonSerializa
                 }
             }
         }
-        $this->total = Money::sum(...array_filter($prices));
-        $this->recTotal = Money::sum(...array_filter($recPrices));
+        $prices = array_filter($prices);
+        $recPrices = array_filter($recPrices);
+
+        $zero = Money::RUB(0);
+
+        $this->total = [] === $prices ? $zero : Money::sum(...$prices);
+        $this->recTotal = [] === $recPrices ? $zero : Money::sum(...$recPrices);
     }
 
     /**
