@@ -18,6 +18,7 @@ final class FuelType extends Enum
     private const DIESEL = 2;
     private const ETHANOL = 3;
     private const ELECTRIC = 4;
+    private const HYBRID = 5;
 
     protected static array $name = [
         self::UNKNOWN => 'Неопределён',
@@ -25,6 +26,7 @@ final class FuelType extends Enum
         self::DIESEL => 'Дизель',
         self::ETHANOL => 'Этанол',
         self::ELECTRIC => 'Электрический',
+        self::HYBRID => 'Гибрид',
     ];
 
     protected static array $code = [
@@ -33,5 +35,6 @@ final class FuelType extends Enum
         self::DIESEL => 'diesel',
         self::ETHANOL => 'ethanol',
         self::ELECTRIC => 'electric',
+        self::HYBRID => 'hybrid',
     ];
 }
