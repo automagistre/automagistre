@@ -2200,12 +2200,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/proxy-manager-lts.git",
-                "reference": "81fd9b937882979a42eff5ac3b063e767dbcfaec"
+                "reference": "121af47c9aee9c03031bdeca3fac0540f59aa5c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/proxy-manager-lts/zipball/81fd9b937882979a42eff5ac3b063e767dbcfaec",
-                "reference": "81fd9b937882979a42eff5ac3b063e767dbcfaec",
+                "url": "https://api.github.com/repos/FriendsOfPHP/proxy-manager-lts/zipball/121af47c9aee9c03031bdeca3fac0540f59aa5c3",
+                "reference": "121af47c9aee9c03031bdeca3fac0540f59aa5c3",
                 "shasum": ""
             },
             "require": {
@@ -2270,7 +2270,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-14T21:44:17+00:00"
+            "time": "2021-01-14T21:52:44+00:00"
         },
         {
             "name": "giggsey/libphonenumber-for-php",
@@ -14688,16 +14688,16 @@
         },
         {
             "name": "vimeo/psalm",
-            "version": "4.4.0",
+            "version": "4.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vimeo/psalm.git",
-                "reference": "ef4afd72bca50a0aff61599d3e433c9ee64287ac"
+                "reference": "9fd7a7d885b3a216cff8dec9d8c21a132f275224"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vimeo/psalm/zipball/ef4afd72bca50a0aff61599d3e433c9ee64287ac",
-                "reference": "ef4afd72bca50a0aff61599d3e433c9ee64287ac",
+                "url": "https://api.github.com/repos/vimeo/psalm/zipball/9fd7a7d885b3a216cff8dec9d8c21a132f275224",
+                "reference": "9fd7a7d885b3a216cff8dec9d8c21a132f275224",
                 "shasum": ""
             },
             "require": {
@@ -14784,7 +14784,7 @@
                 "inspection",
                 "php"
             ],
-            "time": "2021-01-13T23:10:59+00:00"
+            "time": "2021-01-14T21:44:29+00:00"
         },
         {
             "name": "webmozart/path-util",
