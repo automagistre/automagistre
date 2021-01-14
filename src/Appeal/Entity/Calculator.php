@@ -193,7 +193,7 @@ class CalculatorWork implements JsonSerializable
             $this->parts[] = $part = new CalculatorPart($part);
             $prices[] = $part->getTotal();
         }
-        $this->total = [] === $prices ? null : Money::sum(...$prices);
+        $this->total = Money::sum(...$prices);
     }
 
     public function getTotal(): ?Money
