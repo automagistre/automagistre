@@ -188,7 +188,7 @@ class CalculatorWork implements JsonSerializable
         $this->type = $work['type'];
         $this->isSelected = $work['isSelected'];
 
-        $prices = [];
+        $prices = [$this->price];
         foreach ($work['parts'] as $part) {
             $this->parts[] = $part = new CalculatorPart($part);
             $prices[] = $part->getTotal();
