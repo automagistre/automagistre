@@ -10,7 +10,7 @@ $finder = PhpCsFixer\Finder::create()
     ->exclude('public/fonts')
     ->exclude('public/js');
 
-return PhpCsFixer\Config::create()
+return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
     ->setRules([
         '@DoctrineAnnotation'                   => true,
