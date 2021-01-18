@@ -2,6 +2,8 @@
 
 namespace App\Nsq;
 
+use const JSON_FORCE_OBJECT;
+use const JSON_THROW_ON_ERROR;
 use LogicException;
 use function pack;
 use const PHP_EOL;

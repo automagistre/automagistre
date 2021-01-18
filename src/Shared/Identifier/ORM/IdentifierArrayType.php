@@ -11,6 +11,7 @@ use Doctrine\DBAL\Types\Type;
 use function is_array;
 use function json_decode;
 use function json_encode;
+use const JSON_THROW_ON_ERROR;
 use JsonException;
 
 /**

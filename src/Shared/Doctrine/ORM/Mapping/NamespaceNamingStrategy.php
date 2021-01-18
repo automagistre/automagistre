@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Shared\Doctrine\ORM\Mapping;
 
+use const CASE_LOWER;
+use const CASE_UPPER;
 use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
 use function explode;
 use function implode;

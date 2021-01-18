@@ -15,6 +15,7 @@ use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
 use function in_array;
 use LogicException;
+use const MB_CASE_UPPER;
 use function mb_convert_case;
 use Money\Currency;
 use Money\Money;
