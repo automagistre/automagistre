@@ -2391,16 +2391,16 @@
         },
         {
             "name": "google/apiclient",
-            "version": "v2.9.0",
+            "version": "v2.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client.git",
-                "reference": "2fa15d9db4ce653dbb128bd6b08eff9e6c0702ae"
+                "reference": "2fb6e702aca5d68203fa737f89f6f774022494c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client/zipball/2fa15d9db4ce653dbb128bd6b08eff9e6c0702ae",
-                "reference": "2fa15d9db4ce653dbb128bd6b08eff9e6c0702ae",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client/zipball/2fb6e702aca5d68203fa737f89f6f774022494c6",
+                "reference": "2fb6e702aca5d68203fa737f89f6f774022494c6",
                 "shasum": ""
             },
             "require": {
@@ -2452,7 +2452,7 @@
             "keywords": [
                 "google"
             ],
-            "time": "2021-01-19T15:19:03+00:00"
+            "time": "2021-01-19T17:48:59+00:00"
         },
         {
             "name": "google/apiclient-services",
