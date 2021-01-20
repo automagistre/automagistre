@@ -107,7 +107,7 @@ final class QueryType extends ObjectType
                             }
 
                             $qb
-                                ->andWhere('t.publishAt < :publishAt')
+                                ->andWhere('t.publishAt <= :publishAt')
                                 ->setParameter('publishAt', $publishAt);
                         }
 
