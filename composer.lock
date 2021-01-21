@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6472872d8c1e7381f54cf1eeb23fc76a",
+    "content-hash": "f0c1d2091f220c2c14b5e95151ddafd1",
     "packages": [
         {
             "name": "adamgaskins/barcoder",
@@ -15490,7 +15490,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.4",
+        "php": "^8.0",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-intl": "*",

@@ -4,7 +4,7 @@
     "description": "Main project of Automagistre LLC",
     "license": "proprietary",
     "require": {
-        "php": ">=7.4",
+        "php": "^8.0",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-intl": "*",
@@ -53,7 +53,6 @@
         "symfony/mailer": "^5.0",
         "symfony/messenger": "^5.0",
         "symfony/monolog-bundle": "^3.3",
-        "symfony/polyfill-php80": "^1.15",
         "symfony/process": "^5.0",
         "symfony/property-access": "^5.0",
         "symfony/property-info": "^5.0",
