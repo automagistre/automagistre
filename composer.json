@@ -26,7 +26,6 @@
         "easycorp/easyadmin-bundle": "^2",
         "endroid/qr-code-bundle": "^3.3",
         "lcobucci/jwt": "^4.0",
-        "long-running/long-running": "^0.5.0",
         "moneyphp/money": "^3.2",
         "nelmio/cors-bundle": "^2.0",
         "nyholm/psr7": "^1.3",
