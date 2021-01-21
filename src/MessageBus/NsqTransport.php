@@ -9,9 +9,11 @@ use App\Nsq\Envelope as NsqEnvelop;
 use App\Nsq\Subscriber;
 use App\Nsq\Writer;
 use Generator;
+use function json_decode;
+use function json_encode;
+use const JSON_THROW_ON_ERROR;
 use LogicException;
 use Ramsey\Uuid\Uuid;
-use Sentry\Util\JSON;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\MessageDecodingFailedException;
 use Symfony\Component\Messenger\Stamp\TransportMessageIdStamp;
@@ -60,7 +62,7 @@ final class NsqTransport implements TransportInterface
             'trackingId' => $trackingId,
         ];
 
-        $this->getPublisher()->pub($this->topic, JSON::encode($body));
+        $this->getPublisher()->pub($this->topic, json_encode($body, JSON_THROW_ON_ERROR));
 
         return $envelope->with(new TransportMessageIdStamp($trackingId));
     }
@@ -87,7 +89,7 @@ final class NsqTransport implements TransportInterface
         [
             'payload' => $payload,
             'trackingId' => $trackingId,
-        ] = JSON::decode($nsqEnvelop->message->body);
+        ] = json_decode($nsqEnvelop->message->body, true, 512, JSON_THROW_ON_ERROR);
 
         try {
             $envelope = $this->serializer->decode($payload);

@@ -7,9 +7,10 @@ namespace App\Review\Controller;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Review\Entity\Review;
 use App\Review\Entity\ReviewId;
+use App\Review\Enum\ReviewRating;
+use App\Review\Enum\ReviewSource;
 use App\Review\Form\ReviewDto;
 use function assert;
-use function strtolower;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -29,34 +30,22 @@ final class ReviewController extends AbstractController
         $dto = $entity;
         assert($dto instanceof ReviewDto);
 
+        $reviewId = ReviewId::generate();
         $entity = new Review(
-            ReviewId::generate(),
+            $reviewId,
+            $reviewId->toString(),
+            ReviewSource::manual(),
             $dto->author,
-            $dto->manufacturer,
-            $dto->model,
             $dto->content,
-            $dto->source,
+            ReviewRating::unspecified(),
             $dto->publishAt,
+            [
+                'manufacturer' => $dto->manufacturer,
+                'model' => $dto->model,
+                'source' => $dto->source,
+            ]
         );
-        $this->normalize($entity);
 
         parent::persistEntity($entity);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function updateEntity($entity): void
-    {
-        assert($entity instanceof Review);
-
-        $this->normalize($entity);
-
-        parent::updateEntity($entity);
-    }
-
-    private function normalize(Review $review): void
-    {
-        $review->manufacturer = strtolower($review->manufacturer);
     }
 }

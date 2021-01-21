@@ -529,7 +529,7 @@ final class OrderController extends AbstractController
         }
 
         return $qb
-            ->orderBy('created.createdAt', 'ASC')
+            ->orderBy('created.createdAt', 'DESC')
             ->addOrderBy('o.id', 'DESC');
     }
 

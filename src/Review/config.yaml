@@ -5,13 +5,13 @@ easy_admin:
             controller: App\Review\Controller\ReviewController
             disabled_actions: ['show', 'edit', 'delete']
             list:
+                sort: 'publishAt'
                 fields:
                     - { property: 'author', label: 'Автор' }
-                    - { property: 'manufacturer', label: 'Производитель автомобиля' }
-                    - { property: 'model', label: 'Модель автомобиля' }
-                    - { property: 'content', label: 'Отзыв' }
-                    - { property: 'source', label: 'Источник' }
-                    - { property: 'publishAt', label: 'Когда обудликова' }
+                    - { property: 'text', label: 'Отзыв' }
+                    - { property: 'rating', label: 'Оценка', template: 'easy_admin/field_enum.html.twig', field: 'id' }
+                    - { property: 'source', label: 'Источник', template: 'easy_admin/field_enum.html.twig', field: 'displayName' }
+                    - { property: 'publishAt', label: 'Дата публикации' }
             form:
                 fields:
                     - { property: 'author', label: 'Автор' }
@@ -25,3 +25,8 @@ easy_admin:
                 form_options: { data_class: App\Review\Form\ReviewDto }
             edit:
                 title: 'Редактировать Отзыв'
+
+        GoogleReviewToken:
+            class: App\Review\Google\Entity\Token
+            controller: App\Review\Google\Controller\OAuth2Controller
+            disabled_actions: ['list', 'new', 'search', 'show', 'edit', 'delete', 'autocomplete']

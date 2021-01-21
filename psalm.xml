@@ -3,7 +3,6 @@
         totallyTyped="false"
         useDocblockTypes="true"
         allowPhpStormGenerics="true"
-        requireVoidReturnType="true"
         ignoreInternalFunctionFalseReturn="false"
         ignoreInternalFunctionNullReturn="false"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

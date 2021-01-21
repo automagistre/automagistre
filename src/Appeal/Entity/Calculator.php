@@ -133,8 +133,13 @@ final class CalculatorWorkCollection implements IteratorAggregate, JsonSerializa
                 }
             }
         }
-        $this->total = Money::sum(...array_filter($prices));
-        $this->recTotal = Money::sum(...array_filter($recPrices));
+        $prices = array_filter($prices);
+        $recPrices = array_filter($recPrices);
+
+        $zero = Money::RUB(0);
+
+        $this->total = [] === $prices ? $zero : Money::sum(...$prices);
+        $this->recTotal = [] === $recPrices ? $zero : Money::sum(...$recPrices);
     }
 
     /**
@@ -183,12 +188,12 @@ class CalculatorWork implements JsonSerializable
         $this->type = $work['type'];
         $this->isSelected = $work['isSelected'];
 
-        $prices = [];
+        $prices = [$this->price];
         foreach ($work['parts'] as $part) {
             $this->parts[] = $part = new CalculatorPart($part);
             $prices[] = $part->getTotal();
         }
-        $this->total = [] === $prices ? null : Money::sum(...$prices);
+        $this->total = Money::sum(...$prices);
     }
 
     public function getTotal(): ?Money

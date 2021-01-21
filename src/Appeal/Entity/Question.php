@@ -34,7 +34,7 @@ class Question implements ContainsRecordedMessages
     public string $email;
 
     /**
-     * @ORM\Column
+     * @ORM\Column(type="text")
      */
     public string $question;
 

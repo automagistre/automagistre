@@ -1,8 +1,12 @@
 #
-# PHP-FPM
+# Composer
 #
 FROM composer:2.0.8 as composer
-FROM amd64/php:7.4.13-fpm-alpine3.12 as php-raw
+
+#
+# PHP
+#
+FROM amd64/php:8.0.1-fpm-alpine3.12 as php-raw
 
 LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 
@@ -14,7 +18,7 @@ WORKDIR ${APP_DIR}
 #
 # > PHP EXTENSIONS
 #
-ENV PHP_EXT_DIR /usr/local/lib/php/extensions/no-debug-non-zts-20190902
+ENV PHP_EXT_DIR /usr/local/lib/php/extensions/no-debug-non-zts-20200930
 RUN set -ex \
     && if [ `pear config-get ext_dir` != ${PHP_EXT_DIR} ]; then echo PHP_EXT_DIR must be `pear config-get ext_dir` && exit 1; fi
 
@@ -93,6 +97,13 @@ RUN --mount=type=cache,target=/var/cache/apk \
 FROM php-build AS php-ext-pcov
 RUN set -ex \
     && pecl install pcov
+
+FROM php-build AS php-ext-buffer
+ENV EXT_BUFFER_VERSION 0.1.0
+RUN set -ex \
+    && curl -L https://github.com/phpinnacle/ext-buffer/archive/${EXT_BUFFER_VERSION}.tar.gz | tar xz \
+    && cd ext-buffer-${EXT_BUFFER_VERSION} \
+    && phpize && ./configure && make && make install
 #
 # < PHP EXTENSIONS
 #
@@ -110,10 +121,13 @@ COPY --from=php-ext-apcu ${PHP_EXT_DIR}/apcu.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-xdebug ${PHP_EXT_DIR}/xdebug.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-uuid ${PHP_EXT_DIR}/uuid.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-pcov ${PHP_EXT_DIR}/pcov.so ${PHP_EXT_DIR}/
+COPY --from=php-ext-buffer ${PHP_EXT_DIR}/buffer.so ${PHP_EXT_DIR}/
 
 RUN --mount=type=cache,target=/var/cache/apk \
     set -ex \
     && apk add \
+        # composer
+        git \
         # healcheck
         fcgi \
         # ext-zip
@@ -132,6 +146,7 @@ RUN --mount=type=cache,target=/var/cache/apk \
         icu \
     && docker-php-ext-enable \
         apcu \
+        buffer \
         gd \
         intl \
         memcached \
@@ -148,7 +163,8 @@ ENV COMPOSER_MEMORY_LIMIT -1
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 COPY etc/php.ini ${PHP_INI_DIR}/php.ini
-COPY etc/php-fpm.conf /usr/local/etc/php-fpm.d/automagistre.conf
+COPY etc/php-fpm.conf /usr/local/etc/php-fpm.conf
+COPY etc/php-fpm.www.conf /usr/local/etc/php-fpm.d/www.conf
 
 ENV PHP_MEMORY_LIMIT 1G
 ENV PHP_OPCACHE_ENABLE 1
@@ -235,6 +251,8 @@ RUN set -ex \
     && apk del .build-deps
 
 FROM nginx-base AS nginx
+
+ENV NGINX_ENTRYPOINT_QUIET_LOGS 1
 
 COPY --from=php /usr/local/app/public/favicon.ico favicon.ico
 COPY --from=php /usr/local/app/public/assets assets

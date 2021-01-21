@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="3.18.2@19aa905f7c3c7350569999a93c40ae91ae4e1626">
+<files psalm-version="4.3.2@57b53ff26237074fdf5cbcb034f7da5172be4524">
   <file src="src/Appeal/Controller/AppealController.php">
     <ArgumentTypeCoercion occurrences="1">
       <code>$entity-&gt;type-&gt;toEntityClass()</code>
     </ArgumentTypeCoercion>
   </file>
   <file src="src/Calendar/Controller/CalendarEntryController.php">
+    <LessSpecificReturnStatement occurrences="1"/>
+    <MoreSpecificReturnType occurrences="1">
+      <code>Response</code>
+    </MoreSpecificReturnType>
     <PossiblyNullArgument occurrences="3">
       <code>$dto-&gt;reason</code>
       <code>$this-&gt;request-&gt;query-&gt;get('id')</code>
@@ -30,6 +34,13 @@
       <code>$model-&gt;workerId</code>
     </PossiblyNullArgument>
   </file>
+  <file src="src/Car/Controller/RecommendationPartController.php">
+    <LessSpecificReturnStatement occurrences="2"/>
+    <MoreSpecificReturnType occurrences="2">
+      <code>Response</code>
+      <code>Response</code>
+    </MoreSpecificReturnType>
+  </file>
   <file src="src/Car/Entity/Car.php">
     <PossiblyFalseArgument occurrences="1">
       <code>mb_convert_case($this-&gt;gosnomer, MB_CASE_UPPER, 'UTF-8')</code>
@@ -50,6 +61,12 @@
     </PossiblyNullArgument>
   </file>
   <file src="src/Customer/Controller/OperandController.php">
+    <LessSpecificReturnStatement occurrences="1">
+      <code>parent::indexAction($request)</code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType occurrences="1">
+      <code>Response</code>
+    </MoreSpecificReturnType>
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtolower($item)</code>
     </PossiblyFalseOperand>
@@ -78,10 +95,27 @@
     </PossiblyNullArgument>
   </file>
   <file src="src/EasyAdmin/Controller/AbstractController.php">
+    <LessSpecificReturnStatement occurrences="1">
+      <code>$this-&gt;renderTemplate('new', $this-&gt;entity['templates']['new'], $parameters)</code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType occurrences="1">
+      <code>Response</code>
+    </MoreSpecificReturnType>
     <PossiblyNullArgument occurrences="2">
       <code>$id</code>
       <code>$this-&gt;request-&gt;query-&gt;get('newValue')</code>
     </PossiblyNullArgument>
+  </file>
+  <file src="src/Employee/Controller/EmployeeController.php">
+    <NullArgument occurrences="1">
+      <code>$model-&gt;description</code>
+    </NullArgument>
+  </file>
+  <file src="src/Employee/Controller/SalaryController.php">
+    <LessSpecificReturnStatement occurrences="1"/>
+    <MoreSpecificReturnType occurrences="1">
+      <code>Response</code>
+    </MoreSpecificReturnType>
   </file>
   <file src="src/Employee/Entity/Employee.php">
     <PropertyNotSetInConstructor occurrences="1">
@@ -119,6 +153,12 @@
       <code>null !== $dto-&gt;name</code>
     </RedundantConditionGivenDocblockType>
   </file>
+  <file src="src/Note/Controller/NoteController.php">
+    <LessSpecificReturnStatement occurrences="1"/>
+    <MoreSpecificReturnType occurrences="1">
+      <code>Response</code>
+    </MoreSpecificReturnType>
+  </file>
   <file src="src/Order/Controller/OrderCloseController.php">
     <RedundantConditionGivenDocblockType occurrences="2">
       <code>null !== $mileageDto &amp;&amp; null !== $mileageDto-&gt;mileage</code>
@@ -133,10 +173,8 @@
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtolower($item)</code>
     </PossiblyFalseOperand>
-    <PossiblyNullArgument occurrences="4">
+    <PossiblyNullArgument occurrences="2">
       <code>$carId</code>
-      <code>$equipmentId</code>
-      <code>$equipmentId</code>
       <code>$equipmentId ?? $car-&gt;vehicleId</code>
     </PossiblyNullArgument>
     <PossiblyNullPropertyAssignment occurrences="2">
@@ -165,6 +203,13 @@
       <code>$model-&gt;name</code>
     </PossiblyNullArgument>
   </file>
+  <file src="src/Order/Controller/OrderItemPartController.php">
+    <LessSpecificReturnStatement occurrences="2"/>
+    <MoreSpecificReturnType occurrences="2">
+      <code>Response</code>
+      <code>Response</code>
+    </MoreSpecificReturnType>
+  </file>
   <file src="src/Order/Controller/OrderItemServiceController.php">
     <PossiblyFalseOperand occurrences="2">
       <code>mb_strtolower($item)</code>
@@ -186,6 +231,10 @@
     </RedundantConditionGivenDocblockType>
   </file>
   <file src="src/Order/Controller/ProfitController.php">
+    <LessSpecificReturnStatement occurrences="1"/>
+    <MoreSpecificReturnType occurrences="1">
+      <code>Response</code>
+    </MoreSpecificReturnType>
     <PossiblyNullArgument occurrences="2">
       <code>$request-&gt;query-&gt;get('end')</code>
       <code>$request-&gt;query-&gt;get('start')</code>
@@ -203,11 +252,6 @@
     <PossiblyNullArgument occurrences="1">
       <code>$this-&gt;discount()</code>
     </PossiblyNullArgument>
-  </file>
-  <file src="src/Order/Fixtures/OrderFixtures.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>OrderFixtures</code>
-    </PropertyNotSetInConstructor>
   </file>
   <file src="src/Order/Form/OrderGroup.php">
     <PropertyNotSetInConstructor occurrences="1">
@@ -235,21 +279,59 @@
       <code>null !== $dto-&gt;number</code>
     </RedundantConditionGivenDocblockType>
   </file>
+  <file src="src/Part/Controller/PartDiscountController.php">
+    <LessSpecificReturnStatement occurrences="1"/>
+    <MoreSpecificReturnType occurrences="1">
+      <code>Response</code>
+    </MoreSpecificReturnType>
+  </file>
   <file src="src/Part/Controller/PartExplorerController.php">
+    <LessSpecificReturnStatement occurrences="1"/>
+    <MoreSpecificReturnType occurrences="1">
+      <code>Response</code>
+    </MoreSpecificReturnType>
     <PossiblyNullArgument occurrences="1">
       <code>$request-&gt;query-&gt;get('referer')</code>
     </PossiblyNullArgument>
   </file>
+  <file src="src/Part/Controller/PartPriceController.php">
+    <LessSpecificReturnStatement occurrences="1"/>
+    <MoreSpecificReturnType occurrences="1">
+      <code>Response</code>
+    </MoreSpecificReturnType>
+  </file>
   <file src="src/Part/Controller/PartSellController.php">
+    <LessSpecificReturnStatement occurrences="1"/>
+    <MoreSpecificReturnType occurrences="1">
+      <code>Response</code>
+    </MoreSpecificReturnType>
     <PossiblyNullArgument occurrences="2">
       <code>$request-&gt;query-&gt;get('end')</code>
       <code>$request-&gt;query-&gt;get('start')</code>
     </PossiblyNullArgument>
   </file>
+  <file src="src/Part/Controller/RequiredAvailabilityController.php">
+    <LessSpecificReturnStatement occurrences="1"/>
+    <MoreSpecificReturnType occurrences="1">
+      <code>Response</code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="src/Part/Controller/SupplyController.php">
+    <LessSpecificReturnStatement occurrences="1"/>
+    <MoreSpecificReturnType occurrences="1">
+      <code>Response</code>
+    </MoreSpecificReturnType>
+  </file>
   <file src="src/Part/EventListener/DecreaseSupplyOnIncomeAccruedListener.php">
     <PossiblyNullArgument occurrences="1">
       <code>$incomePart-&gt;partId</code>
     </PossiblyNullArgument>
+  </file>
+  <file src="src/Part/Manager/PartManager.php">
+    <RedundantCondition occurrences="2">
+      <code>null !== $leftGroup &amp;&amp; null !== $rightGroup</code>
+      <code>null !== $leftGroup &amp;&amp; null === $rightGroup</code>
+    </RedundantCondition>
   </file>
   <file src="src/Part/View/PartFormatter.php">
     <PossiblyNullArrayOffset occurrences="1">
@@ -272,32 +354,6 @@
       <code>assert($entityRepository instanceof EntityRepository)</code>
     </RedundantConditionGivenDocblockType>
   </file>
-  <file src="src/Shared/Enum/EnumNormalizer.php">
-    <DocblockTypeContradiction occurrences="1">
-      <code>is_subclass_of($type, Enum::class)</code>
-    </DocblockTypeContradiction>
-    <MissingParamType occurrences="2">
-      <code>$data</code>
-      <code>$data</code>
-    </MissingParamType>
-  </file>
-  <file src="src/Shared/Identifier/IdentifierNormalizer.php">
-    <DocblockTypeContradiction occurrences="3">
-      <code>assert(is_subclass_of($type, Identifier::class))</code>
-      <code>is_subclass_of($type, Identifier::class)</code>
-      <code>is_subclass_of($type, Identifier::class)</code>
-    </DocblockTypeContradiction>
-    <InvalidReturnStatement occurrences="1">
-      <code>Identifier::fromClass($type, $data)</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>denormalize</code>
-    </InvalidReturnType>
-    <MissingParamType occurrences="2">
-      <code>$data</code>
-      <code>$data</code>
-    </MissingParamType>
-  </file>
   <file src="src/Shared/Identifier/IdentifierTwigExtension.php">
     <MissingClosureParamType occurrences="2">
       <code>$mixed</code>
@@ -310,20 +366,15 @@
       <code>$argument-&gt;getType()</code>
     </PossiblyNullArgument>
   </file>
+  <file src="src/User/Command/UserCreateCommand.php">
+    <RedundantCast occurrences="1">
+      <code>(array) $input-&gt;getArgument('roles')</code>
+    </RedundantCast>
+  </file>
   <file src="src/User/Controller/UserController.php">
     <PossiblyNullReference occurrences="1">
       <code>get</code>
     </PossiblyNullReference>
-  </file>
-  <file src="src/User/Fixtures/AdminFixtures.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>AdminFixtures</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/User/Fixtures/EmployeeFixtures.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>EmployeeFixtures</code>
-    </PropertyNotSetInConstructor>
   </file>
   <file src="src/Vehicle/Controller/ModelController.php">
     <PossiblyFalseOperand occurrences="1">
