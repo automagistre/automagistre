@@ -1,4 +1,7 @@
 {
+    "adamgaskins/barcoder": {
+        "version": "v0.1.0"
+    },
     "amphp/amp": {
         "version": "v2.5.0"
     },
@@ -25,9 +28,6 @@
     },
     "amphp/windows-registry": {
         "version": "v0.3.3"
-    },
-    "bacon/bacon-qr-code": {
-        "version": "2.0.2"
     },
     "beberlei/assert": {
         "version": "v3.2.7"
@@ -73,9 +73,6 @@
             "version": "4.0",
             "ref": "56eaa387b5e48ebcc7c95a893b47dfa1ad51449c"
         }
-    },
-    "dasprid/enum": {
-        "version": "1.0.2"
     },
     "datto/json-rpc": {
         "version": "6.1.0"
@@ -204,12 +201,6 @@
     "egulias/email-validator": {
         "version": "2.1.24"
     },
-    "endroid/qr-code": {
-        "version": "3.9.1"
-    },
-    "endroid/qr-code-bundle": {
-        "version": "3.4.3"
-    },
     "ergebnis/composer-normalize": {
         "version": "2.6.1"
     },
@@ -297,9 +288,6 @@
     "kelunik/certificate": {
         "version": "v1.1.2"
     },
-    "khanamiryan/qrcode-detector-decoder": {
-        "version": "1.0.3"
-    },
     "laminas/laminas-code": {
         "version": "3.4.1"
     },
@@ -332,9 +320,6 @@
     },
     "myclabs/deep-copy": {
         "version": "1.10.1"
-    },
-    "myclabs/php-enum": {
-        "version": "1.7.6"
     },
     "nelmio/cors-bundle": {
         "version": "1.5",

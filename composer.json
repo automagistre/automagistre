@@ -13,6 +13,7 @@
         "ext-pcntl": "*",
         "ext-sockets": "*",
         "ext-uuid": "*",
+        "adamgaskins/barcoder": "^0.1.0",
         "beberlei/doctrineextensions": "^1.2",
         "bronhy/google-my-business-php-client": "^4.7",
         "clue/socket-raw": "^1.4",
@@ -24,7 +25,6 @@
         "doctrine/migrations": "^3.0",
         "doctrine/orm": "^2.6",
         "easycorp/easyadmin-bundle": "^2",
-        "endroid/qr-code-bundle": "^3.3",
         "lcobucci/jwt": "^4.0",
         "moneyphp/money": "^3.2",
         "nelmio/cors-bundle": "^2.0",
@@ -76,7 +76,6 @@
         "webonyx/graphql-php": "^14.4"
     },
     "replace": {
-        "endroid/installer": "*",
         "paragonie/random_compat": "*",
         "ralouphie/getallheaders": "*",
         "symfony/polyfill-ctype": "*",
@@ -141,10 +140,5 @@
         "files": [
             "vendor/symfony/var-dumper/Resources/functions/dump.php"
         ]
-    },
-    "scripts": {
-        "auto-scripts": {
-
-        }
     }
 }

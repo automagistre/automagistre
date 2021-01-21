@@ -1,7 +1,7 @@
 <div class="guaranty">
     <div class="guaranty__qr">
         Гарантийные условия:
-        <img src="{{ qr_code_data_uri(requisites.guarantyUrl) }}" title="QR код" alt="QR">
+        <img src="{{ qr_code_base64(requisites.guarantyUrl) }}" title="QR код" alt="QR">
     </div>
     {% for telephone in requisites.telephones %}
         <div class="footer__contact telephone">{{ telephone }}</div>
