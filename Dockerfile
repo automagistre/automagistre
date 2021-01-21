@@ -114,6 +114,8 @@ COPY --from=php-ext-pcov ${PHP_EXT_DIR}/pcov.so ${PHP_EXT_DIR}/
 RUN --mount=type=cache,target=/var/cache/apk \
     set -ex \
     && apk add \
+        # composer
+        git \
         # healcheck
         fcgi \
         # ext-zip
