@@ -396,6 +396,9 @@
     "pagerfanta/pagerfanta": {
         "version": "v2.5.1"
     },
+    "paragonie/constant_time_encoding": {
+        "version": "v2.4.0"
+    },
     "pedrotroller/php-cs-custom-fixer": {
         "version": "v2.23.0"
     },
