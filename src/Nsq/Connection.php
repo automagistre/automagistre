@@ -2,13 +2,13 @@
 
 namespace App\Nsq;
 
+use function json_encode;
 use const JSON_FORCE_OBJECT;
 use const JSON_THROW_ON_ERROR;
 use LogicException;
 use function pack;
 use const PHP_EOL;
 use PHPinnacle\Buffer\ByteBuffer;
-use Sentry\Util\JSON;
 use Socket\Raw\Factory;
 use Socket\Raw\Socket;
 use function sprintf;
@@ -58,7 +58,7 @@ final class Connection
      */
     public function identify(array $arr): string
     {
-        $body = Json::encode($arr, JSON_THROW_ON_ERROR | JSON_FORCE_OBJECT);
+        $body = json_encode($arr, JSON_THROW_ON_ERROR | JSON_FORCE_OBJECT);
         $size = pack('N', strlen($body));
 
         return 'IDENTIFY '.PHP_EOL.$size.$body;

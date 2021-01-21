@@ -10,8 +10,9 @@ use App\Shared\Doctrine\Registry;
 use function array_key_exists;
 use Google_Client;
 use function is_string;
+use function json_encode;
+use const JSON_THROW_ON_ERROR;
 use const JSON_UNESCAPED_UNICODE;
-use Sentry\Util\JSON;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -43,7 +44,7 @@ final class OAuth2Controller extends AbstractController
                 ),
             );
         } else {
-            $this->addFlash('error', 'Google return: '.JSON::encode($payload, JSON_UNESCAPED_UNICODE));
+            $this->addFlash('error', 'Google return: '.json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR));
         }
 
         return $this->redirectToEasyPath('Review', 'list');

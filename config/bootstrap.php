@@ -30,7 +30,6 @@ foreach (require __DIR__.'/identifiers.php' as $class => [$id]) {
     App\Shared\Identifier\ORM\IdentifierArrayType::register($id.'s', $class);
 }
 
-Sentry\SentryBundle\SentryBundle::getCurrentHub()
-    ->configureScope(static function (Sentry\State\Scope $scope): void {
-        $scope->setTag('tenant', (string) getenv('TENANT'));
-    });
+Sentry\configureScope(static function (Sentry\State\Scope $scope): void {
+    $scope->setTag('tenant', (string) getenv('TENANT'));
+});
