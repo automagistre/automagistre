@@ -173,14 +173,12 @@ steps:
             - install
 
     -   name: symfony security
-        image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
-        commands:
-            - vendor/bin/security-checker security:check
+        image: symfonycorp/cli:v4.21.6
+        command:
+            - security:check
         when:
             branch:
                 exclude: [ master ]
-        depends_on:
-            - install
 
     -   name: symfony linters
         image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
