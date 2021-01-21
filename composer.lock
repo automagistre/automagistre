@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c4b1ff9a2b4e086425deb902e3347fd4",
+    "content-hash": "bd7f0427bca37855d4eaa6cf2d0bcbe4",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -3426,64 +3426,6 @@
                 }
             ],
             "time": "2020-11-25T02:06:12+00:00"
-        },
-        {
-            "name": "long-running/long-running",
-            "version": "0.5.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/LongRunning/LongRunning.git",
-                "reference": "58fc0fb3570ae02a1a8e5e5a73bc9fa04d00a08a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/LongRunning/LongRunning/zipball/58fc0fb3570ae02a1a8e5e5a73bc9fa04d00a08a",
-                "reference": "58fc0fb3570ae02a1a8e5e5a73bc9fa04d00a08a",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1"
-            },
-            "require-dev": {
-                "doctrine/doctrine-bundle": "^2.0",
-                "doctrine/orm": "~2.3",
-                "phpunit/phpunit": "^7.4",
-                "sentry/sentry-symfony": "^3.0",
-                "simple-bus/rabbitmq-bundle-bridge": "~2.1 || ~4.0",
-                "symfony/monolog-bundle": "^3.1.2",
-                "symfony/swiftmailer-bundle": "~2.3 || ~3.2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "LongRunning\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Cliff Odijk",
-                    "email": "cliff@jcid.nl"
-                },
-                {
-                    "name": "Ruud Kamphuis"
-                },
-                {
-                    "name": "Matthias Noback",
-                    "email": "matthiasnoback@gmail.com",
-                    "homepage": "http://php-and-symfony.matthiasnoback.nl"
-                }
-            ],
-            "description": "Tools for working with long-running processes",
-            "homepage": "http://github.com/LongRunning/LongRunning",
-            "support": {
-                "issues": "https://github.com/LongRunning/LongRunning/issues",
-                "source": "https://github.com/LongRunning/LongRunning/tree/0.5.0"
-            },
-            "time": "2020-09-21T12:49:02+00:00"
         },
         {
             "name": "moneyphp/money",
