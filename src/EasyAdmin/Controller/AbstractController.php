@@ -31,6 +31,8 @@ use Money\Money;
 use Money\MoneyFormatter;
 use Ramsey\Uuid\Uuid;
 use RuntimeException;
+use function Sentry\configureScope;
+use Sentry\State\Scope;
 use function sprintf;
 use stdClass;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -180,6 +182,13 @@ abstract class AbstractController extends EasyAdminController
     protected function initialize(Request $request): void
     {
         parent::initialize($request);
+
+        configureScope(function (Scope $scope) use ($request): void {
+            $scope->setTags([
+                'entity' => $this->entity['name'],
+                'action' => $request->query->getAlpha('action'),
+            ]);
+        });
 
         $this->registry = $this->container->get(Registry::class);
     }
