@@ -18,15 +18,15 @@ final class MoneyTypeTest extends TypeTestCase
     {
         $form = $this->factory->create(MoneyType::class, $initial);
 
-        static::assertSame($viewed, $form->createView()->vars['value']);
+        self::assertSame($viewed, $form->createView()->vars['value']);
 
         $form->submit($submit);
 
-        static::assertTrue($form->isSynchronized());
+        self::assertTrue($form->isSynchronized());
 
         $actual = $form->getData();
-        static::assertInstanceOf(Money::class, $actual);
-        static::assertTrue($expected->equals($actual));
+        self::assertInstanceOf(Money::class, $actual);
+        self::assertTrue($expected->equals($actual));
     }
 
     public function valid(): Generator

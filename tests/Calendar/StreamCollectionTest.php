@@ -24,12 +24,12 @@ class StreamCollectionTest extends TestCase
     public function testHappyPath(StreamCollection $collection, array $expected): void
     {
         foreach ($collection as $key => $value) {
-            static::assertSame($expected[$key]->workerId, $value->workerId);
+            self::assertSame($expected[$key]->workerId, $value->workerId);
 
             $items = $expected[$key]->all();
             foreach ($value->all() as $key2 => $item) {
-                static::assertSame($items[$key2]->calendar, $item->calendar);
-                static::assertSame($items[$key2]->length, $item->length);
+                self::assertSame($items[$key2]->calendar, $item->calendar);
+                self::assertSame($items[$key2]->length, $item->length);
             }
         }
     }

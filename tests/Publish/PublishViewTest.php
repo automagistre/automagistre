@@ -23,13 +23,13 @@ final class PublishViewTest extends KernelTestCase
         $registry = self::$container->get(Registry::class);
         $tester = new PublishTester($registry->manager(), Uuid::fromString(self::UUID));
 
-        static::assertNull($tester->isPublished());
+        self::assertNull($tester->isPublished());
 
         $tester->publish();
-        static::assertTrue($tester->isPublished());
+        self::assertTrue($tester->isPublished());
 
         $tester->unpublish();
-        static::assertFalse($tester->isPublished());
+        self::assertFalse($tester->isPublished());
     }
 }
 

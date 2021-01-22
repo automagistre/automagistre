@@ -28,8 +28,8 @@ class StreamTest extends TestCase
         $stream = new Stream(null, $entities);
 
         foreach ($items as $key => $entity) {
-            static::assertTrue($stream->has($key));
-            static::assertSame($entity, $stream->get($key)->calendar);
+            self::assertTrue($stream->has($key));
+            self::assertSame($entity, $stream->get($key)->calendar);
         }
     }
 

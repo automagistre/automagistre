@@ -21,7 +21,7 @@ final class SearchActionTest extends WebTestCase
 
         $response = $client->getResponse();
 
-        static::assertTrue($response->isRedirect());
-        static::assertSame('/?id='.OrderFixtures::ID.'&entity=Order&action=show', $response->headers->get('Location'));
+        self::assertTrue($response->isRedirect());
+        self::assertSame('/?id='.OrderFixtures::ID.'&entity=Order&action=show', $response->headers->get('Location'));
     }
 }

@@ -25,11 +25,11 @@ final class CostilTest extends TestCase
             $key.'.currency.code' => 'RUB',
         ]);
 
-        static::assertCount(1, $array);
-        static::assertArrayHasKey($key, $array);
+        self::assertCount(1, $array);
+        self::assertArrayHasKey($key, $array);
 
         $money = $array[$key];
-        static::assertInstanceOf(Money::class, $money);
+        self::assertInstanceOf(Money::class, $money);
         /** @var Money $money */
         $money->equals(new Money(1000, new Currency('RUB')));
     }

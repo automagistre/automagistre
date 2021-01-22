@@ -179,7 +179,7 @@ final class SmokeTest extends WebTestCase
         $client->request('GET', $url);
         $response = $client->getResponse();
 
-        static::assertSame($statusCode, $response->getStatusCode());
+        self::assertSame($statusCode, $response->getStatusCode());
     }
 
     public function anonymousPages(): Generator
@@ -205,7 +205,7 @@ final class SmokeTest extends WebTestCase
         }
         $response = $client->getResponse();
 
-        static::assertSame($statusCode, $response->getStatusCode());
+        self::assertSame($statusCode, $response->getStatusCode());
     }
 
     public function easyadmin(): Generator

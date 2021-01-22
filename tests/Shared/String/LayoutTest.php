@@ -15,7 +15,7 @@ final class LayoutTest extends TestCase
      */
     public function testSwitch(string $input, string $expected): void
     {
-        static::assertSame($expected, Layout::switch($input));
+        self::assertSame($expected, Layout::switch($input));
     }
 
     public function switch(): Generator
@@ -30,7 +30,7 @@ final class LayoutTest extends TestCase
      */
     public function testEnglish(string $input, string $expected): void
     {
-        static::assertSame($expected, Layout::english($input));
+        self::assertSame($expected, Layout::english($input));
     }
 
     public function english(): Generator

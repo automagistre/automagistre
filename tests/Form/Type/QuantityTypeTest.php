@@ -17,12 +17,12 @@ final class QuantityTypeTest extends TypeTestCase
     {
         $form = $this->factory->create(QuantityType::class, $initial);
 
-        static::assertSame($viewed, $form->createView()->vars['value']);
+        self::assertSame($viewed, $form->createView()->vars['value']);
 
         $form->submit($submit);
 
-        static::assertTrue($form->isSynchronized());
-        static::assertSame($expected, $form->getData());
+        self::assertTrue($form->isSynchronized());
+        self::assertSame($expected, $form->getData());
     }
 
     public function valid(): Generator

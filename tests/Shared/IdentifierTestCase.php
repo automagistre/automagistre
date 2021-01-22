@@ -20,7 +20,7 @@ abstract class IdentifierTestCase extends KernelTestCase
 
         $formatter = self::$container->get(IdentifierFormatter::class);
 
-        static::assertSame($expected, $formatter->format($identifier, $format));
+        self::assertSame($expected, $formatter->format($identifier, $format));
     }
 
     abstract public function data(): Generator;

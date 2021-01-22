@@ -15,7 +15,7 @@ final class PartNumberTest extends TestCase
      */
     public function testSanitize(?string $raw, string $expected): void
     {
-        static::assertSame($expected, PartNumber::sanitize($raw));
+        self::assertSame($expected, PartNumber::sanitize($raw));
     }
 
     public function data(): Generator

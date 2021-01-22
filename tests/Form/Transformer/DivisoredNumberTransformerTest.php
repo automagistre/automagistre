@@ -17,7 +17,7 @@ final class DivisoredNumberTransformerTest extends TestCase
      */
     public function testTransform(int $divisor, ?int $value, ?string $expected): void
     {
-        static::assertSame($expected, (new DivisoredNumberTransformer($divisor))->transform($value));
+        self::assertSame($expected, (new DivisoredNumberTransformer($divisor))->transform($value));
     }
 
     public function transform(): Generator
@@ -34,7 +34,7 @@ final class DivisoredNumberTransformerTest extends TestCase
      */
     public function testReverseTransform(int $divisor, $value, ?int $expected): void
     {
-        static::assertSame($expected, (new DivisoredNumberTransformer($divisor))->reverseTransform($value));
+        self::assertSame($expected, (new DivisoredNumberTransformer($divisor))->reverseTransform($value));
     }
 
     public function reverseTransform(): Generator

@@ -46,6 +46,6 @@ final class LinkPartCaseOnOrderClosedListenerTest extends KernelTestCase
         $registry = self::$container->get(Registry::class);
         $partCase = $registry->findBy(PartCase::class, ['partId' => GasketFixture::ID]);
 
-        static::assertNotEmpty($partCase);
+        self::assertNotEmpty($partCase);
     }
 }
