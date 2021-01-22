@@ -94,7 +94,7 @@ final class WorkerType extends AbstractType
             ->getQuery()
             ->getScalarResult();
 
-        $services = array_map('array_shift', $services);
+        $services = array_map(static fn (array $item) => array_shift($item), $services);
 
         return array_flip($services);
     }

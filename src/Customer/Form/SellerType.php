@@ -50,7 +50,8 @@ final class SellerType extends AbstractType
                     'date' => (new DateTime('-1 month'))->format('Y-m-d'),
                 ]
             );
-        $preferred = array_map('array_shift', $preferred);
+
+        $preferred = array_map(static fn (array $item) => array_shift($item), $preferred);
         $preferred = array_flip($preferred);
 
         $resolver->setDefaults([
