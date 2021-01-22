@@ -3305,16 +3305,16 @@
         },
         {
             "name": "odolbeau/phone-number-bundle",
-            "version": "v3.3.1",
+            "version": "v3.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/odolbeau/phone-number-bundle.git",
-                "reference": "5b003cbfbf0769c357bf7dd44b7eb8cbd042aa62"
+                "reference": "768f96693baad72c819587ffb180e89bca744bdf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/odolbeau/phone-number-bundle/zipball/5b003cbfbf0769c357bf7dd44b7eb8cbd042aa62",
-                "reference": "5b003cbfbf0769c357bf7dd44b7eb8cbd042aa62",
+                "url": "https://api.github.com/repos/odolbeau/phone-number-bundle/zipball/768f96693baad72c819587ffb180e89bca744bdf",
+                "reference": "768f96693baad72c819587ffb180e89bca744bdf",
                 "shasum": ""
             },
             "require": {
@@ -3364,7 +3364,7 @@
                 "phonenumber",
                 "telephone number"
             ],
-            "time": "2021-01-22T15:51:38+00:00"
+            "time": "2021-01-22T16:13:16+00:00"
         },
         {
             "name": "oro/doctrine-extensions",
