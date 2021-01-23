@@ -132,7 +132,7 @@ final class OrderController extends AbstractController
                 ->groupBy('line.period')
                 ->getQuery()
                 ->getArrayResult();
-            $periods = array_map('array_shift', $periods);
+            $periods = array_map(static fn (array $item) => array_shift($item), $periods);
 
             if (0 === count($periods)) {
                 $this->addFlash('warning', sprintf(
