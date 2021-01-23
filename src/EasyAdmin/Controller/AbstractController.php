@@ -185,8 +185,8 @@ abstract class AbstractController extends EasyAdminController
 
         configureScope(function (Scope $scope) use ($request): void {
             $scope->setTags([
-                'entity' => $this->entity['name'],
-                'action' => $request->query->getAlpha('action'),
+                'easyadmin.entity' => $this->entity['name'],
+                'easyadmin.action' => $request->query->getAlpha('action'),
             ]);
         });
 
