@@ -7,11 +7,11 @@ namespace App\Fixtures\Mc;
 use App\MC\Entity\McEquipment;
 use App\MC\Entity\McLine;
 use App\MC\Entity\McWork;
-use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
+use function assert;
 
 final class LineFixtures extends Fixture implements DependentFixtureInterface
 {

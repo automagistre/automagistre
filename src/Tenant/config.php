@@ -10,5 +10,6 @@ return static function (ContainerConfigurator $configurator): void {
 
     $services
         ->set(Tenant::class)
-        ->factory([Tenant::class, 'fromEnv']);
+        ->factory([Tenant::class, 'fromEnv'])
+    ;
 };

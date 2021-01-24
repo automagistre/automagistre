@@ -20,7 +20,7 @@ final class WarehouseDto
     public $name;
 
     /**
-     * @var WarehouseId|null
+     * @var null|WarehouseId
      */
     public $parentId;
 

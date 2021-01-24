@@ -48,7 +48,8 @@ final class CarType extends AbstractType
             ->add('equipment', EquipmentType::class, [
                 'label' => false,
                 'required' => false,
-            ]);
+            ])
+        ;
 
         $builder->get('identifier')->addViewTransformer(new EmptyStringAndCaseTransformer());
     }

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Form\Transformer;
 
+use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\Form\Exception\TransformationFailedException;
 use function ctype_digit;
 use function is_int;
 use function is_numeric;
 use function is_string;
 use function number_format;
 use function str_replace;
-use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\Exception\TransformationFailedException;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>

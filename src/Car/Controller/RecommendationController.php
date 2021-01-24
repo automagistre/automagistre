@@ -12,13 +12,13 @@ use App\Car\Manager\RecommendationManager;
 use App\Customer\Entity\Operand;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Order\Entity\Order;
-use function assert;
 use Doctrine\ORM\Query\Expr\Join;
-use function sprintf;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use function assert;
+use function sprintf;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -41,6 +41,7 @@ final class RecommendationController extends AbstractController
         $query = $this->request->query;
 
         $order = $this->getEntity(Order::class);
+
         if (!$order instanceof Order) {
             throw new NotFoundHttpException();
         }
@@ -50,7 +51,8 @@ final class RecommendationController extends AbstractController
         }
 
         $recommendation = $this->registry->repository(Recommendation::class)
-            ->findOneBy(['id' => $query->get('id')]);
+            ->findOneBy(['id' => $query->get('id')])
+        ;
 
         if (!$recommendation instanceof Recommendation) {
             throw new NotFoundHttpException();
@@ -72,6 +74,7 @@ final class RecommendationController extends AbstractController
         }
 
         $car = $this->registry->repository(Car::class)->findOneBy(['id' => $id]);
+
         if (!$car instanceof Car) {
             throw new BadRequestHttpException(sprintf('Car id "%s" not found', $id));
         }
@@ -79,6 +82,7 @@ final class RecommendationController extends AbstractController
         $model = new RecommendationDTO($car);
 
         $order = $this->getEntity(Order::class);
+
         if ($order instanceof Order) {
             $model->workerId = $order->getWorkerPersonId();
         }
@@ -94,7 +98,8 @@ final class RecommendationController extends AbstractController
                 ->getQuery()
                 ->setParameter('car', $car)
                 ->setMaxResults(1)
-                ->getOneOrNullResult();
+                ->getOneOrNullResult()
+            ;
 
             if (null !== $result) {
                 $model->workerId = $result['id'];

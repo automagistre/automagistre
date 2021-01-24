@@ -7,13 +7,13 @@ namespace App\Review\Google\Controller;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Review\Google\Entity\Token;
 use App\Shared\Doctrine\Registry;
-use function array_key_exists;
 use Google_Client;
+use Symfony\Component\HttpFoundation\Request;
+use function array_key_exists;
 use function is_string;
 use function json_encode;
 use const JSON_THROW_ON_ERROR;
 use const JSON_UNESCAPED_UNICODE;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -37,6 +37,7 @@ final class OAuth2Controller extends AbstractController
         }
 
         $payload = $this->googleClient->fetchAccessTokenWithAuthCode($code);
+
         if (array_key_exists('access_token', $payload)) {
             $this->registry->add(
                 Token::create(

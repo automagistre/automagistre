@@ -13,12 +13,12 @@ use DateTimeImmutable;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberUtil;
 use Money\Formatter\DecimalMoneyFormatter;
-use function sprintf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use function sprintf;
 
 final class InteractiveController extends AbstractController
 {
@@ -46,17 +46,20 @@ final class InteractiveController extends AbstractController
         }
 
         $person = $this->registry->findBy(Person::class, ['telephone' => $phoneNumber]);
+
         if (!$person instanceof Person) {
             return new JsonResponse(['returned_code' => 1]);
         }
 
         $name = $person->getFirstname();
+
         if (null === $name) {
             return new JsonResponse(['returned_code' => 1]);
         }
         $fullName = sprintf('%s %s', $person->getLastname() ?? '', $name);
 
         $message = $this->message($person);
+
         if ('' === $message) {
             return new JsonResponse([
                 'returned_code' => 1,
@@ -86,6 +89,7 @@ final class InteractiveController extends AbstractController
             ['orderInfo.customerId' => $person->toId()],
             ['id' => 'DESC'],
         );
+
         if ($entry instanceof EntryView) {
             $date = $entry->schedule->date;
 
@@ -143,6 +147,7 @@ final class InteractiveController extends AbstractController
         ]);
 
         $orderStatusInMessage = false;
+
         if ($order instanceof Order) {
             $orderStatus = $order->getStatus();
 
@@ -169,6 +174,7 @@ final class InteractiveController extends AbstractController
 
             if ($scheduleInMessage || $orderStatusInMessage) {
                 $forPayment = $order->getTotalForPayment();
+
                 if ($forPayment->isPositive()) {
                     $message .= sprintf(
                         ' К оплате %s рублей.',

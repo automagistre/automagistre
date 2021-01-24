@@ -34,7 +34,8 @@ final class LayoutExtension extends AbstractExtension
                 [
                     'is_safe' => ['html'],
                     'needs_environment' => true,
-                ]),
+                ]
+            ),
         ];
     }
 

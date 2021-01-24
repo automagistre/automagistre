@@ -7,10 +7,10 @@ namespace App\User\Controller;
 use App\EasyAdmin\Controller\AbstractController;
 use App\User\Entity\User;
 use App\User\Entity\UserId;
-use function assert;
 use stdClass;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
+use function assert;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -52,6 +52,7 @@ final class UserController extends AbstractController
         assert($entity instanceof User);
 
         $password = $form->get('password')->getData();
+
         if (null !== $password) {
             $entity->changePassword($password, $this->encoderFactory->getEncoder($entity));
         }

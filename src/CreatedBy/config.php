@@ -16,5 +16,6 @@ return static function (ContainerConfigurator $configurator): void {
     $services = $configurator->services();
 
     $services->get(App\CreatedBy\EventListener\PostPersistEventListener::class)
-        ->tag('doctrine.event_subscriber', ['priority' => 100500]);
+        ->tag('doctrine.event_subscriber', ['priority' => 100500])
+    ;
 };

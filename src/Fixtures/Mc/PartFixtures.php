@@ -8,11 +8,11 @@ use App\Fixtures\Part\GasketFixture;
 use App\MC\Entity\McLine;
 use App\MC\Entity\McPart;
 use App\Part\Entity\PartId;
-use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
+use function assert;
 
 final class PartFixtures extends Fixture implements DependentFixtureInterface
 {

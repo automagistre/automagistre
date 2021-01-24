@@ -7,10 +7,10 @@ namespace App\MC\Controller;
 use App\EasyAdmin\Controller\AbstractController;
 use App\MC\Entity\McEquipment;
 use App\MC\Entity\McLine;
-use function assert;
 use LogicException;
 use Ramsey\Uuid\Uuid;
 use stdClass;
+use function assert;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -24,6 +24,7 @@ final class LineController extends AbstractController
     {
         $dto = new stdClass();
         $equipment = $this->getEntity(McEquipment::class);
+
         if (!$equipment instanceof McEquipment) {
             throw new LogicException('Equipment required.');
         }

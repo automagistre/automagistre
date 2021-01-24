@@ -13,11 +13,11 @@ use App\Part\Entity\PartId;
 use App\Part\Entity\PartView;
 use App\Shared\Doctrine\Registry;
 use App\Storage\Entity\Motion;
-use function assert;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
+use function assert;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -48,7 +48,8 @@ final class PartManager
                 ->where('entity.partId = :part')
                 ->setParameter('part', $partId)
                 ->getQuery()
-                ->getSingleResult(Query::HYDRATE_SINGLE_SCALAR);
+                ->getSingleResult(Query::HYDRATE_SINGLE_SCALAR)
+            ;
         } catch (NoResultException $e) {
             return 0;
         }
@@ -68,7 +69,8 @@ final class PartManager
             ->setParameter('part', $partId)
             ->setParameter('statuses', [OrderStatus::closed(), OrderStatus::cancelled()])
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     public function cross(PartId $leftId, PartId $rightId): void
@@ -119,6 +121,7 @@ final class PartManager
     public function getCrosses(PartId $partId): array
     {
         $cross = $this->findCross($partId);
+
         if (!$cross instanceof PartCross) {
             return [];
         }
@@ -144,7 +147,8 @@ final class PartManager
             ->getQuery()
             ->setParameter('id', $partId)
             ->setParameter('ids', $partView->analogs)
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     private function findCross(PartId $partId): ?PartCross
@@ -158,6 +162,7 @@ final class PartManager
             ->where(':part MEMBER OF entity.parts')
             ->getQuery()
             ->setParameter('part', $part)
-            ->getOneOrNullResult();
+            ->getOneOrNullResult()
+        ;
     }
 }

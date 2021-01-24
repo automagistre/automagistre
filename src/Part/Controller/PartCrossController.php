@@ -44,7 +44,8 @@ final class PartCrossController extends AbstractController
                 ],
             ])
             ->getForm()
-            ->handleRequest($this->request);
+            ->handleRequest($this->request)
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->partManager->cross($leftId, $form->get('right')->getData());
@@ -61,6 +62,7 @@ final class PartCrossController extends AbstractController
     public function uncrossAction(): Response
     {
         $partId = $this->getIdentifier(PartId::class);
+
         if (!$partId instanceof PartId) {
             throw new LogicException('Part required.');
         }

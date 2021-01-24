@@ -9,12 +9,12 @@ use App\Income\Entity\Income;
 use App\Income\Entity\IncomePart;
 use App\Income\Entity\IncomePartId;
 use App\Part\Entity\PartId;
-use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Money\Currency;
 use Money\Money;
+use function assert;
 
 final class IncomePartFixtures extends Fixture implements DependentFixtureInterface
 {

@@ -40,26 +40,26 @@ use App\Part\Entity\PartId;
 use App\Part\Entity\PartView;
 use App\Vehicle\Entity\Model;
 use App\Wallet\Entity\WalletTransactionView;
-use function array_map;
-use function assert;
-use function count;
 use DateTime;
 use DateTimeImmutable;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
-use function explode;
 use Generator;
-use function in_array;
 use LogicException;
-use function mb_strtolower;
 use Pagerfanta\Pagerfanta;
 use Ramsey\Uuid\Uuid;
-use function sprintf;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
+use function array_map;
+use function assert;
+use function count;
+use function explode;
+use function in_array;
+use function mb_strtolower;
+use function sprintf;
 use function trim;
 use function usort;
 
@@ -83,6 +83,7 @@ final class OrderController extends AbstractController
         $request = $this->request;
 
         $order = $this->getEntity(Order::class);
+
         if (!$order instanceof Order) {
             throw new LogicException('Order required.');
         }
@@ -103,12 +104,14 @@ final class OrderController extends AbstractController
         if ($equipmentId instanceof McEquipmentId || true === $carFilled) {
             $qb = $this->registry->repository(McLine::class)
                 ->createQueryBuilder('line')
-                ->join('line.equipment', 'equipment');
+                ->join('line.equipment', 'equipment')
+            ;
 
             if ($equipmentId instanceof McEquipmentId) {
                 $qb
                     ->where('equipment.id = :id')
-                    ->setParameter('id', $equipmentId);
+                    ->setParameter('id', $equipmentId)
+                ;
             } elseif ($car instanceof Car) {
                 $qb
                     ->where('equipment.vehicleId = :model')
@@ -122,7 +125,8 @@ final class OrderController extends AbstractController
                         'capacity' => $car->equipment->engine->capacity,
                         'transmission' => $car->equipment->transmission,
                         'wheelDrive' => $car->equipment->wheelDrive,
-                    ]);
+                    ])
+                ;
             } else {
                 throw new LogicException('This must not be reached.');
             }
@@ -131,7 +135,8 @@ final class OrderController extends AbstractController
                 ->select('line.period')
                 ->groupBy('line.period')
                 ->getQuery()
-                ->getArrayResult();
+                ->getArrayResult()
+            ;
             $periods = array_map(static fn (array $item) => array_shift($item), $periods);
 
             if (0 === count($periods)) {
@@ -189,9 +194,11 @@ final class OrderController extends AbstractController
                 'entry_type' => OrderTOServiceType::class,
                 'allow_add' => false,
                 'allow_delete' => false,
-            ]);
+            ])
+        ;
 
         $fillForm = null !== $equipmentId && false === $carFilled;
+
         if ($fillForm) {
             $formBuilder->add('fill', CheckboxType::class, [
                 'label' => sprintf(
@@ -275,6 +282,7 @@ final class OrderController extends AbstractController
     public function suspendAction(): Response
     {
         $order = $this->getEntity(Order::class);
+
         if (!$order instanceof Order) {
             throw new LogicException('Order required.');
         }
@@ -293,7 +301,8 @@ final class OrderController extends AbstractController
                 'required' => true,
             ])
             ->getForm()
-            ->handleRequest($request);
+            ->handleRequest($request)
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var DateTimeImmutable $till */
@@ -315,6 +324,7 @@ final class OrderController extends AbstractController
     public function statusAction(): Response
     {
         $order = $this->getEntity(Order::class);
+
         if (!$order instanceof Order) {
             throw new LogicException('Order required.');
         }
@@ -326,6 +336,7 @@ final class OrderController extends AbstractController
         }
 
         $status = OrderStatus::create($this->request->query->getInt('status'));
+
         if (!$status->isSelectable()) {
             $this->addFlash('error', 'Невозможно вручную установить указанный статус');
 
@@ -365,7 +376,8 @@ final class OrderController extends AbstractController
             $entity = $parameters['entity'];
 
             $parameters['notes'] = $em->getRepository(NoteView::class)
-                ->findBy(['subject' => $entity->toId()->toUuid()], ['id' => 'DESC']);
+                ->findBy(['subject' => $entity->toId()->toUuid()], ['id' => 'DESC'])
+            ;
             $parameters['car'] = $this->registry->findBy(Car::class, ['id' => $entity->getCarId()]);
             $parameters['customer'] = $this->registry->findBy(Operand::class, ['id' => $entity->getCustomerId()]);
 
@@ -402,6 +414,7 @@ final class OrderController extends AbstractController
         $dto->carId = $this->getIdentifier(CarId::class);
 
         $calendarId = $this->getIdentifier(CalendarEntryId::class);
+
         if ($calendarId instanceof CalendarEntryId) {
             $calendarEntry = $this->calendarEntryRepository->view($calendarId);
 
@@ -441,35 +454,44 @@ final class OrderController extends AbstractController
     ): QueryBuilder {
         $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter)
             ->leftJoin(OrderClose::class, 'closed', Join::WITH, 'closed.order = entity')
-            ->leftJoin(CreatedBy::class, 'closedBy', Join::WITH, 'closedBy.id = closed.id');
+            ->leftJoin(CreatedBy::class, 'closedBy', Join::WITH, 'closedBy.id = closed.id')
+        ;
 
         $customer = $this->getEntity(Operand::class);
+
         if ($customer instanceof Operand) {
             $qb->andWhere('entity.customerId = :customer')
-                ->setParameter('customer', $customer->toId());
+                ->setParameter('customer', $customer->toId())
+            ;
         }
 
         $car = $this->getEntity(Car::class);
+
         if ($car instanceof Car) {
             $qb->andWhere('entity.carId = :car')
-                ->setParameter('car', $car->toId());
+                ->setParameter('car', $car->toId())
+            ;
         }
 
         // EAGER Loading
         $qb
             ->select(['entity', 'items', 'suspends'])
             ->leftJoin('entity.items', 'items')
-            ->leftJoin('entity.suspends', 'suspends');
+            ->leftJoin('entity.suspends', 'suspends')
+        ;
 
         $partId = $this->getIdentifier(PartId::class);
+
         if ($partId instanceof PartId) {
             $qb
                 ->join(OrderItemPart::class, 'order_item_part', Join::WITH, 'items.id = order_item_part.id AND order_item_part INSTANCE OF '.OrderItemPart::class)
                 ->andWhere('order_item_part.partId = :part')
-                ->setParameter('part', $partId);
+                ->setParameter('part', $partId)
+            ;
         }
 
         $request = $this->request;
+
         if (null === $customer && null === $car && null === $partId && !$request->query->has('all')) {
             $qb->where(
                 $qb->expr()->orX(
@@ -478,7 +500,8 @@ final class OrderController extends AbstractController
                 )
             )
                 ->setParameter('closedStatuses', [OrderStatus::closed(), OrderStatus::cancelled()])
-                ->setParameter('today', (new DateTime())->format('Y-m-d'));
+                ->setParameter('today', (new DateTime())->format('Y-m-d'))
+            ;
         }
 
         return $qb;
@@ -505,7 +528,8 @@ final class OrderController extends AbstractController
             ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'manufacturer.id = carModel.manufacturerId')
             ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = customer.id AND customer INSTANCE OF '.Person::class)
             ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = customer.id AND customer INSTANCE OF '.Organization::class)
-            ->leftJoin(CreatedBy::class, 'created', Join::WITH, 'created.id = o.id');
+            ->leftJoin(CreatedBy::class, 'created', Join::WITH, 'created.id = o.id')
+        ;
 
         foreach (explode(' ', $searchQuery) as $key => $item) {
             $key = ':search_'.$key;
@@ -530,7 +554,8 @@ final class OrderController extends AbstractController
 
         return $qb
             ->orderBy('created.createdAt', 'DESC')
-            ->addOrderBy('o.id', 'DESC');
+            ->addOrderBy('o.id', 'DESC')
+        ;
     }
 
     /**
@@ -553,6 +578,7 @@ final class OrderController extends AbstractController
         $entity->setDescription($dto->description);
 
         $calendarId = $this->getIdentifier(CalendarEntryId::class);
+
         if ($calendarId instanceof CalendarEntryId) {
             $this->em->persist(new EntryOrder($calendarId, $entity->toId()));
         }
@@ -576,6 +602,7 @@ final class OrderController extends AbstractController
 
         if ('' !== $number) {
             $entity = $this->em->getRepository(Order::class)->findOneBy(['number' => $number]);
+
             if (null !== $entity) {
                 return $this->redirectToEasyPath('Order', 'show', ['id' => $entity->toId()->toString()]);
             }

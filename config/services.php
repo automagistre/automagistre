@@ -13,17 +13,21 @@ return static function (ContainerConfigurator $configurator): void {
         ->autowire()
         ->autoconfigure()
         ->bind('bool $debug', '%kernel.debug%')
-        ->bind('string $telegramBotToken', '%env(TELEGRAM_BOT_TOKEN)%');
+        ->bind('string $telegramBotToken', '%env(TELEGRAM_BOT_TOKEN)%')
+    ;
 
     $services
         ->instanceof(App\Shared\Identifier\IdentifierFormatterInterface::class)
-        ->tag('identifier_formatter');
+        ->tag('identifier_formatter')
+    ;
 
     $services
         ->load('App\\', dirname(__DIR__).'/src')
-        ->exclude(dirname(__DIR__).'/src/**/config.php');
+        ->exclude(dirname(__DIR__).'/src/**/config.php')
+    ;
 
     $services
         ->get(App\Form\TypeGuesser\EntityModelTypeGuesser::class)
-        ->arg('$guesser', service('form.type_guesser.doctrine'));
+        ->arg('$guesser', service('form.type_guesser.doctrine'))
+    ;
 };

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Employee\Form;
 
 use App\Customer\Entity\OperandId;

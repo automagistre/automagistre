@@ -12,9 +12,9 @@ use App\Shared\Doctrine\Registry;
 use App\Tenant\Tenant;
 use Premier\MarkdownBuilder\Block\NumberedListBuilder;
 use Premier\MarkdownBuilder\Markdown;
-use function sprintf;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use function sprintf;
 
 final class StaleStockNotifier implements MessageHandler
 {
@@ -133,7 +133,8 @@ final class StaleStockNotifier implements MessageHandler
                     ));
                 }
             })
-            ->getMarkdown();
+            ->getMarkdown()
+        ;
 
         $this->httpClient->request(
             'POST',

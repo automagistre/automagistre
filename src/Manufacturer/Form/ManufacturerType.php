@@ -21,7 +21,8 @@ final class ManufacturerType extends AbstractType
             ])
             ->add('localizedName', null, [
                 'label' => 'Название на русском',
-            ]);
+            ])
+        ;
     }
 
     /**

@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace App\Shared\Request;
 
 use App\Shared\Identifier\Identifier;
-use function assert;
-use function class_exists;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\NamingStrategy;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
-use function get_class;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
+use function assert;
+use function class_exists;
+use function get_class;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -45,6 +45,7 @@ final class EntityTransformer
     {
         if (null === $id) {
             $id = $this->propertyAccessor->getValue($entity, 'id');
+
             if ($id instanceof Identifier) {
                 $id = $id->toString();
             }
@@ -67,11 +68,13 @@ final class EntityTransformer
         }
 
         $request ??= $this->requestStack->getCurrentRequest();
+
         if (null === $request) {
             return null;
         }
 
         $query = $this->namingStrategy->joinKeyColumnName($class);
+
         if ('' === $id = $request->query->get($query, '')) {
             return null;
         }

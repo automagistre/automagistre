@@ -81,7 +81,7 @@ class Part
     }
 
     /**
-     * @param self|PartId $part
+     * @param PartId|self $part
      */
     public function equals($part): bool
     {

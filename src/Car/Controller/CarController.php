@@ -20,16 +20,16 @@ use App\Order\Entity\Order;
 use App\Vehicle\Entity\Embedded\Engine;
 use App\Vehicle\Entity\Embedded\Equipment;
 use App\Vehicle\Entity\Model;
-use function array_map;
-use function array_merge;
-use function assert;
 use Closure;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
-use function explode;
-use function mb_strtolower;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use function array_map;
+use function array_merge;
+use function assert;
+use function explode;
+use function mb_strtolower;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -78,14 +78,15 @@ final class CarController extends AbstractController
         }
 
         if ('' !== $dto->identifier && $form->isSubmitted()) {
-            /** @var Car|null $car */
+            /** @var null|Car $car */
             $car = $em->createQueryBuilder()
                 ->select('t')
                 ->from(Car::class, 't')
                 ->where('UPPER(t.identifier) = :identifier')
                 ->getQuery()
                 ->setParameter('identifier', $dto->identifier)
-                ->getOneOrNullResult();
+                ->getOneOrNullResult()
+            ;
 
             if (null !== $car) {
                 return new JsonResponse([
@@ -141,7 +142,8 @@ final class CarController extends AbstractController
                 $arr['equipment.engine.type'],
                 $arr['equipment.engine.airIntake'],
                 $arr['equipment.engine.injection'],
-                $arr['equipment.engine.capacity']),
+                $arr['equipment.engine.capacity']
+            ),
             $arr['equipment.transmission'],
             $arr['equipment.wheelDrive'],
         );
@@ -191,9 +193,11 @@ final class CarController extends AbstractController
             $customers = $this->container->get(CarCustomerRepository::class);
 
             $parameters['orders'] = $this->registry->repository(Order::class)
-                ->findBy(['carId' => $car->toId()], ['id' => 'DESC'], 20);
+                ->findBy(['carId' => $car->toId()], ['id' => 'DESC'], 20)
+            ;
             $parameters['notes'] = $this->registry->repository(NoteView::class)
-                ->findBy(['subject' => $car->toId()->toUuid()], ['id' => 'DESC']);
+                ->findBy(['subject' => $car->toId()->toUuid()], ['id' => 'DESC'])
+            ;
             $parameters['customers'] = $customers->customersByCar($car->toId());
         }
 
@@ -212,12 +216,15 @@ final class CarController extends AbstractController
         $dqlFilter = null
     ): QueryBuilder {
         $qb = $this->registry->repository(Car::class)->createQueryBuilder('car')
-            ->leftJoin(Order::class, 'o', Join::WITH, 'o.carId = car.id');
+            ->leftJoin(Order::class, 'o', Join::WITH, 'o.carId = car.id')
+        ;
 
         $customerId = $this->request->query->get('customer_id');
+
         if (null !== $customerId) {
             $qb->andWhere('o.customerId = :customer')
-                ->setParameter('customer', $customerId);
+                ->setParameter('customer', $customerId)
+            ;
         }
 
         if ('' === $searchQuery) {
@@ -229,7 +236,8 @@ final class CarController extends AbstractController
             ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'manufacturer.id = model.manufacturerId')
             ->leftJoin(Operand::class, 'customer', Join::WITH, 'o.customerId = customer.id')
             ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = customer.id AND customer INSTANCE OF '.Person::class)
-            ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = customer.id AND customer INSTANCE OF '.Organization::class);
+            ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = customer.id AND customer INSTANCE OF '.Organization::class)
+        ;
 
         foreach (explode(' ', $searchQuery) as $key => $searchString) {
             $key = ':search_'.$key;

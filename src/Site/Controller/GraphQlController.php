@@ -9,13 +9,13 @@ use App\Site\Context;
 use App\Site\Schema;
 use GraphQL\Error\DebugFlag;
 use GraphQL\GraphQL;
-use function Sentry\captureException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Throwable;
+use function Sentry\captureException;
 
 final class GraphQlController extends AbstractController
 {

@@ -11,11 +11,11 @@ use App\Sms\Enum\Feature;
 use App\Sms\Messages\SendSms;
 use App\Tenant\Tenant;
 use DateTimeImmutable;
-use function str_replace;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use function str_replace;
 
 final class CustomerReminderCommand extends Command
 {
@@ -40,7 +40,8 @@ final class CustomerReminderCommand extends Command
     {
         $tomorrow = new DateTimeImmutable('+1 day');
         $rows = $this->registry->connection(EntryView::class)
-            ->fetchAllAssociative('
+            ->fetchAllAssociative(
+                '
                 SELECT schedule_date AS date, order_info_customer_id AS "customerId"
                 FROM calendar_entry_view
                 WHERE order_info_customer_id IS NOT NULL
@@ -53,7 +54,8 @@ final class CustomerReminderCommand extends Command
                     'start' => 'datetime',
                     'end' => 'datetime',
                 ]
-            );
+            )
+        ;
 
         foreach ($rows as $row) {
             /** @var DateTimeImmutable $date */

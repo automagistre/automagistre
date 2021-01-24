@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nsq;
 
-use const PHP_EOL;
-use function sprintf;
 use Throwable;
+use function sprintf;
+use const PHP_EOL;
 
 class Reader
 {

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Type\Definition;
 
-use function count;
-use function explode;
 use GraphQL\Error\Error;
 use GraphQL\Language\AST\Node;
 use GraphQL\Language\AST\StringValueNode;
@@ -14,6 +12,8 @@ use GraphQL\Utils\Utils;
 use InvalidArgumentException;
 use Money\Currency;
 use Money\Money;
+use function count;
+use function explode;
 use function sprintf;
 
 final class MoneyInputType extends ScalarType
@@ -40,6 +40,7 @@ final class MoneyInputType extends ScalarType
     public function parseValue($value): Money
     {
         $explode = explode(' ', $value);
+
         if (2 !== count($explode)) {
             throw new Error('Cannot represent following value as Money: '.Utils::printSafeJson($value));
         }

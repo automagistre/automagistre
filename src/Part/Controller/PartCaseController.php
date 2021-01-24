@@ -21,6 +21,7 @@ final class PartCaseController extends AbstractController
     protected function caseAction(): Response
     {
         $partId = $this->getIdentifier(PartId::class);
+
         if (!$partId instanceof PartId) {
             throw new BadRequestHttpException('Part required.');
         }
@@ -36,7 +37,8 @@ final class PartCaseController extends AbstractController
                 'required' => true,
             ])
             ->getForm()
-            ->handleRequest($this->request);
+            ->handleRequest($this->request)
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->registry->manager(PartCase::class);

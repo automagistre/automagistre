@@ -35,6 +35,7 @@ final class OrderFormatter implements IdentifierFormatterInterface
         $view = $this->registry->view($identifier);
 
         $string = $view['number'];
+
         if ('number' === $format) {
             return $string;
         }

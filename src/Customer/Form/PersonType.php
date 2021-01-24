@@ -33,7 +33,8 @@ final class PersonType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'Электронная почта',
                 'required' => false,
-            ]);
+            ])
+        ;
     }
 
     /**

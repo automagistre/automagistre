@@ -17,8 +17,8 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
-use function sprintf;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use function sprintf;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -49,11 +49,13 @@ final class ReservationManager
         $partId = $orderItemPart->getPartId();
 
         $reserved = $this->reserved($orderItemPart);
+
         if (0 < $reserved) {
             $this->deReserve($orderItemPart, $reserved);
         }
 
         $reservable = $this->reservable($partId);
+
         if ($reservable < $quantity) {
             throw new ReservationException(
                 sprintf(
@@ -82,6 +84,7 @@ final class ReservationManager
         }
 
         $reserved = $this->reserved($orderItemPart);
+
         if ($reserved < $quantity) {
             throw new ReservationException(
                 sprintf(
@@ -107,7 +110,7 @@ final class ReservationManager
     }
 
     /**
-     * @param PartId|OrderItemPart $part
+     * @param OrderItemPart|PartId $part
      *
      * @throws NonUniqueResultException
      */
@@ -123,17 +126,20 @@ final class ReservationManager
             ->join('reservation.orderItemPart', 'order_item_part')
             ->groupBy('order_item_part.partId')
             ->where('order_item_part.partId = :part')
-            ->setParameter('part', $partId);
+            ->setParameter('part', $partId)
+        ;
 
         if (null !== $orderItemPart) {
             $qb->andWhere('reservation.orderItemPart = :orderItemPart')
-                ->setParameter('orderItemPart', $orderItemPart);
+                ->setParameter('orderItemPart', $orderItemPart)
+            ;
         }
 
         try {
             return (int) $qb
                 ->getQuery()
-                ->getSingleResult(Query::HYDRATE_SINGLE_SCALAR);
+                ->getSingleResult(Query::HYDRATE_SINGLE_SCALAR)
+            ;
         } catch (NoResultException $e) {
             return 0;
         }
@@ -155,6 +161,7 @@ final class ReservationManager
             ->orderBy('entity.id', 'DESC')
             ->setParameter('part', $partId)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 }

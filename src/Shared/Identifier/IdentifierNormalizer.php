@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Shared\Identifier;
 
-use function assert;
-use function is_subclass_of;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use function assert;
+use function is_subclass_of;
 
 final class IdentifierNormalizer implements NormalizerInterface, DenormalizerInterface
 {

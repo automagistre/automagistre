@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Form\TypeGuesser;
 
 use App\Form\Model\Model;
-use function is_subclass_of;
 use Symfony\Bridge\Doctrine\Form\DoctrineOrmTypeGuesser;
 use Symfony\Component\Form\FormTypeGuesserInterface;
+use function is_subclass_of;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>

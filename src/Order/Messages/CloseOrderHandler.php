@@ -36,6 +36,7 @@ final class CloseOrderHandler implements MessageHandler
         $balance = null;
 
         $customerId = $order->getCustomerId();
+
         if (null !== $customerId) {
             $balance = $this->customerStorage->view($customerId)->balance;
             $customer = $this->customerStorage->getTransactional($customerId);

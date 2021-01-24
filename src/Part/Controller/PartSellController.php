@@ -9,12 +9,12 @@ use App\Part\Entity\PartView;
 use App\Shared\Doctrine\Registry;
 use App\Storage\Entity\Motion;
 use App\Storage\Enum\Source;
-use function array_map;
 use DateInterval;
 use DateTimeImmutable;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use function array_map;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -35,6 +35,7 @@ final class PartSellController extends AbstractController
         $start = $request->query->has('start')
             ? DateTimeImmutable::createFromFormat(self::DATETIME_FORMAT, $request->query->get('start'))
             : (new DateTimeImmutable('-1 day'))->setTime(0, 0);
+
         if (!$start instanceof DateTimeImmutable) {
             throw new BadRequestHttpException('Wrong date form of Start');
         }
@@ -42,6 +43,7 @@ final class PartSellController extends AbstractController
         $end = $request->query->has('end')
             ? DateTimeImmutable::createFromFormat(self::DATETIME_FORMAT, $request->query->get('end'))
             : (new DateTimeImmutable('now'))->setTime(23, 59, 59);
+
         if (!$end instanceof DateTimeImmutable) {
             throw new BadRequestHttpException('Wrong date form of End');
         }
@@ -81,7 +83,8 @@ final class PartSellController extends AbstractController
             ->where('part.id IN (:ids)')
             ->getQuery()
             ->setParameter('ids', $ids)
-            ->getResult();
+            ->getResult()
+        ;
 
         return $this->render('easy_admin/part/report/sell.html.twig', [
             'start' => $start,

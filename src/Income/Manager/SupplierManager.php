@@ -45,7 +45,8 @@ final class SupplierManager
             ->getQuery()
             ->setMaxResults(10)
             ->setParameter('supplier', $supplierId)
-            ->getResult();
+            ->getResult()
+        ;
 
         $result = [];
         foreach ($incomes as $income) {

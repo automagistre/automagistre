@@ -8,5 +8,6 @@ return static function (ContainerConfigurator $configurator): void {
     $services = $configurator->services();
 
     $services->get(App\MessageBus\EntityRecordedMessageCollectorListener::class)
-        ->tag('doctrine.event_subscriber');
+        ->tag('doctrine.event_subscriber')
+    ;
 };

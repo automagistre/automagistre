@@ -36,7 +36,7 @@ final class ExpenseItemDto
     public $money;
 
     /**
-     * @var string|null
+     * @var null|string
      */
     public $description;
 }

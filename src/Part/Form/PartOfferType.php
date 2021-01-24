@@ -7,7 +7,6 @@ namespace App\Part\Form;
 use App\Form\Type\MoneyType;
 use App\Form\Type\QuantityType;
 use App\Vehicle\Entity\VehicleId;
-use function assert;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Event\PreSetDataEvent;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,6 +14,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function assert;
 
 final class PartOfferType extends AbstractType
 {
@@ -37,8 +37,10 @@ final class PartOfferType extends AbstractType
                         ],
                     ])
                     ->add('price', MoneyType::class)
-                    ->add('quantity', QuantityType::class);
-            });
+                    ->add('quantity', QuantityType::class)
+                ;
+            }
+        );
     }
 
     /**
@@ -52,7 +54,8 @@ final class PartOfferType extends AbstractType
                 'data_class' => PartOfferDto::class,
                 'vehicleId' => null,
             ])
-            ->setAllowedTypes('vehicleId', [VehicleId::class, 'null']);
+            ->setAllowedTypes('vehicleId', [VehicleId::class, 'null'])
+        ;
     }
 
     /**

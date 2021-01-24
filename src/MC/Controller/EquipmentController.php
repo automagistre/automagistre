@@ -9,14 +9,14 @@ use App\Manufacturer\Entity\Manufacturer;
 use App\MC\Entity\McEquipment;
 use App\MC\Entity\McEquipmentId;
 use App\Vehicle\Entity\Model;
-use function array_map;
-use function assert;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use function array_map;
+use function assert;
 use function explode;
 use function mb_strtolower;
 use function str_replace;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -61,7 +61,8 @@ final class EquipmentController extends AbstractController
 
         $qb
             ->leftJoin(Model::class, 'carModel', Join::WITH, 'entity.vehicleId = carModel.id')
-            ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'carModel.manufacturerId = manufacturer.id');
+            ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'carModel.manufacturerId = manufacturer.id')
+        ;
 
         foreach (explode(' ', $searchQuery) as $key => $searchString) {
             $key = ':search_'.$key;

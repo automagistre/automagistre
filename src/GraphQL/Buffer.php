@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\GraphQL;
 
 use App\Shared\Doctrine\Registry;
+use GraphQL\Deferred;
 use function array_keys;
 use function array_map;
 use function assert;
-use GraphQL\Deferred;
 use function is_array;
 
 final class Buffer
@@ -63,7 +63,8 @@ final class Buffer
             ->where('t.id IN (:ids)')
             ->setParameter('ids', array_keys($ids))
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
 
         foreach ($result as $id => $value) {
             $this->loaded[$class][$id] = (object) $value;

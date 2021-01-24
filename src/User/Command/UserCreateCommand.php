@@ -40,7 +40,8 @@ final class UserCreateCommand extends Command
         $this->setName('user:create')
             ->addArgument('username', InputArgument::REQUIRED)
             ->addArgument('password', InputArgument::REQUIRED)
-            ->addArgument('roles', InputArgument::IS_ARRAY);
+            ->addArgument('roles', InputArgument::IS_ARRAY)
+        ;
     }
 
     /**

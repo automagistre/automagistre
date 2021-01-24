@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Shared\Identifier;
 
-use function assert;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\Persistence\ManagerRegistry;
-use function is_subclass_of;
-use function method_exists;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use function assert;
+use function is_subclass_of;
+use function method_exists;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -37,6 +37,7 @@ final class IdentifierMapCompilerPass implements CompilerPassInterface
 
                 if ([] !== $metadata->getIdentifier()) {
                     $reflectionType = $metadata->getSingleIdReflectionProperty()->getType();
+
                     if (null === $reflectionType) {
                         continue;
                     }
@@ -46,6 +47,7 @@ final class IdentifierMapCompilerPass implements CompilerPassInterface
 
                     /** @var string $identifierClass */
                     $identifierClass = $reflectionType->getName();
+
                     if (is_subclass_of($identifierClass, Identifier::class)) {
                         if (
                             $metadata->isInheritanceTypeNone()

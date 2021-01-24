@@ -10,17 +10,17 @@ use App\Part\Entity\PartView;
 use App\Part\Entity\RequiredAvailability;
 use App\Part\Form\RequiredAvailabilityDto;
 use App\Part\Form\RequiredAvailabilityType;
-use function array_map;
-use function explode;
-use function is_string;
-use const PHP_EOL;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Response;
+use function array_map;
+use function explode;
+use function is_string;
 use function trim;
+use const PHP_EOL;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -32,6 +32,7 @@ final class RequiredAvailabilityController extends AbstractController
         $request = $this->request;
 
         $partId = $this->getIdentifier(PartId::class);
+
         if (!$partId instanceof PartId) {
             throw new BadRequestException('PartId required.');
         }
@@ -43,7 +44,8 @@ final class RequiredAvailabilityController extends AbstractController
         $dto->orderUpToQuantity = $partView->orderUpToQuantity;
 
         $form = $this->createForm(RequiredAvailabilityType::class, $dto)
-            ->handleRequest($request);
+            ->handleRequest($request)
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->em;
@@ -80,6 +82,7 @@ final class RequiredAvailabilityController extends AbstractController
                 $data = $event->getData();
 
                 $text = $data['text'] ?? '';
+
                 if ('' === $text || !is_string($text)) {
                     return;
                 }
@@ -101,7 +104,8 @@ final class RequiredAvailabilityController extends AbstractController
                 $event->setData($data);
             })
             ->getForm()
-            ->handleRequest($request);
+            ->handleRequest($request)
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->em;

@@ -6,17 +6,17 @@ namespace App\CreatedBy\EventListener;
 
 use App\Costil;
 use App\User\Entity\User;
-use function assert;
 use DateTimeImmutable;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
+use Symfony\Component\Security\Core\Security;
+use function assert;
 use function get_class;
 use function is_int;
 use function method_exists;
 use const PHP_SAPI;
-use Symfony\Component\Security\Core\Security;
 
 final class PostPersistEventListener implements EventSubscriber
 {
@@ -56,6 +56,7 @@ final class PostPersistEventListener implements EventSubscriber
         $user = $this->security->getUser();
 
         $userId = null;
+
         if ($user instanceof User) {
             $userId = $user->toId();
         }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f0c1d2091f220c2c14b5e95151ddafd1",
+    "content-hash": "b9159c815fc71f060fd68147f80cd775",
     "packages": [
         {
             "name": "adamgaskins/barcoder",

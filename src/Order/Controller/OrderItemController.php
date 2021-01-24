@@ -14,12 +14,12 @@ use App\Order\Entity\OrderItemPart;
 use App\Order\Entity\OrderItemService;
 use App\Order\Entity\Reservation;
 use App\Order\Form\OrderItemModel;
-use function array_merge;
-use function assert;
 use Doctrine\ORM\EntityManagerInterface;
-use function in_array;
 use LogicException;
 use Symfony\Component\HttpFoundation\Response;
+use function array_merge;
+use function assert;
+use function in_array;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -53,17 +53,20 @@ abstract class OrderItemController extends AbstractController
         }
 
         $car = $this->getEntity(Car::class);
+
         if ($car instanceof Car) {
             return parent::isActionAllowed($actionName);
         }
 
         if ('new' === $actionName) {
             $order = $this->getEntity(Order::class);
+
             if (!$order instanceof Order) {
                 throw new LogicException('Order required.');
             }
         } else {
             $entity = $this->findCurrentEntity();
+
             if (!$entity instanceof OrderItem) {
                 throw new LogicException('OrderItem required.');
             }
@@ -96,9 +99,11 @@ abstract class OrderItemController extends AbstractController
     protected function renderTemplate($actionName, $templatePath, array $parameters = []): Response
     {
         $entity = $parameters['entity'] ?? null;
+
         if ($entity instanceof OrderItem) {
             $parameters['order'] = $parameters['order'] ?? $entity->getOrder();
             $carId = $entity->getOrder()->getCarId();
+
             if (null !== $carId) {
                 $parameters['car'] = $parameters['car'] ?? $this->registry->get(Car::class, $carId);
             }
@@ -120,7 +125,8 @@ abstract class OrderItemController extends AbstractController
                 ->where('entity.orderItemPart = :item')
                 ->getQuery()
                 ->setParameter('item', $item)
-                ->execute();
+                ->execute()
+            ;
         }
 
         if ($item instanceof OrderItemService) {

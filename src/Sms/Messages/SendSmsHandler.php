@@ -63,7 +63,8 @@ final class SendSmsHandler implements MessageHandler
                         'start' => 'datetime',
                         'end' => 'datetime',
                     ]
-                );
+                )
+            ;
 
             if (1 === $result) {
                 // TODO Info log

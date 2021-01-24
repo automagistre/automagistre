@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Calendar\View;
 
 use App\Calendar\Entity\EntryView;
 use App\Employee\Entity\EmployeeId;
+use DateInterval;
 use function array_intersect;
 use function array_keys;
-use DateInterval;
 
 final class Stream
 {
@@ -44,6 +46,7 @@ final class Stream
         }
 
         $definedKeys = array_intersect($keys, array_keys($this->items));
+
         if ([] !== $definedKeys) {
             throw StreamOverflowException::fromKeys($definedKeys);
         }

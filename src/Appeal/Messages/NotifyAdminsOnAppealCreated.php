@@ -12,10 +12,10 @@ use App\Tenant\Tenant;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use Premier\MarkdownBuilder\Markdown;
-use function sprintf;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use function sprintf;
 
 final class NotifyAdminsOnAppealCreated implements MessageHandler
 {
@@ -57,7 +57,8 @@ final class NotifyAdminsOnAppealCreated implements MessageHandler
                     ? PhoneNumberUtil::getInstance()->format($appealView->phone, PhoneNumberFormat::E164)
                     : $appealView->email ?? 'Контактная информация отсутствует',
             )
-            ->getMarkdown();
+            ->getMarkdown()
+        ;
 
         $this->httpClient->request(
             'POST',

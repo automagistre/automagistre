@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Shared\Money\ORM;
 
-use function assert;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
-use function explode;
 use Money\Currency;
 use Money\Money;
+use function assert;
+use function explode;
 use function sprintf;
 
 final class MoneyType extends Type

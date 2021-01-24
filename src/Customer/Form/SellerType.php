@@ -8,14 +8,14 @@ use App\Customer\Entity\Operand;
 use App\Customer\Entity\OperandId;
 use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\IdentifierFormatter;
-use function array_flip;
-use function array_key_exists;
-use function array_map;
 use DateTime;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function array_flip;
+use function array_key_exists;
+use function array_map;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -38,7 +38,8 @@ final class SellerType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $preferred = $this->registry->connection()
-            ->fetchAllAssociative('
+            ->fetchAllAssociative(
+                '
                 SELECT supplier_id
                 FROM income
                 WHERE accrued_at > :date
@@ -49,7 +50,8 @@ final class SellerType extends AbstractType
                 [
                     'date' => (new DateTime('-1 month'))->format('Y-m-d'),
                 ]
-            );
+            )
+        ;
 
         $preferred = array_map(static fn (array $item) => array_shift($item), $preferred);
         $preferred = array_flip($preferred);
@@ -60,7 +62,8 @@ final class SellerType extends AbstractType
             'choice_loader' => new CallbackChoiceLoader(function (): array {
                 $ids = $this->registry
                     ->connection(Operand::class)
-                    ->fetchAllAssociative('SELECT id AS id, type FROM operand WHERE seller IS TRUE');
+                    ->fetchAllAssociative('SELECT id AS id, type FROM operand WHERE seller IS TRUE')
+                ;
 
                 return array_map(fn (array $item): OperandId => OperandId::fromString($item['id']), $ids);
             }),

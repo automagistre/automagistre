@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Shared\Identifier\ORM;
 
 use App\Shared\Identifier\Identifier;
-use function array_map;
-use function assert;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
+use JsonException;
+use function array_map;
+use function assert;
 use function is_array;
 use function json_decode;
 use function json_encode;
 use const JSON_THROW_ON_ERROR;
-use JsonException;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor

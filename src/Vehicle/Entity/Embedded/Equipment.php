@@ -7,8 +7,8 @@ namespace App\Vehicle\Entity\Embedded;
 use App\Vehicle\Enum\DriveWheelConfiguration;
 use App\Vehicle\Enum\Transmission;
 use Doctrine\ORM\Mapping as ORM;
-use function sprintf;
 use Symfony\Component\Validator\Constraints as Assert;
+use function sprintf;
 
 /**
  * @ORM\Embeddable

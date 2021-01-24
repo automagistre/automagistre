@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Shared\Doctrine\ORM\Listeners;
 
-use function assert;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Cache\Adapter\PhpArrayAdapter;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
+use function assert;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -41,7 +41,8 @@ final class MetadataCacheCompilerPass implements CompilerPassInterface
         $metadataCache->warmUp($fallbackCache->getValues());
 
         $container->getDefinition('doctrine.metadata_cache.phparray_adapter')
-            ->replaceArgument(1, new Reference('doctrine.metadata_cache.apcu_adapter'));
+            ->replaceArgument(1, new Reference('doctrine.metadata_cache.apcu_adapter'))
+        ;
         $container->removeDefinition('doctrine.metadata_cache.array_adapter');
     }
 }

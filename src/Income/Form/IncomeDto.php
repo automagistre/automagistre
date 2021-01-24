@@ -20,7 +20,7 @@ final class IncomeDto
     public $supplierId;
 
     /**
-     * @var string|null
+     * @var null|string
      */
     public $document;
 }

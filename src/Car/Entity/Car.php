@@ -13,16 +13,16 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
-use function in_array;
 use LogicException;
-use const MB_CASE_UPPER;
-use function mb_convert_case;
 use Money\Currency;
 use Money\Money;
-use function sprintf;
-use function str_replace;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use function in_array;
+use function mb_convert_case;
+use function sprintf;
+use function str_replace;
+use const MB_CASE_UPPER;
 
 /**
  * @ORM\Entity

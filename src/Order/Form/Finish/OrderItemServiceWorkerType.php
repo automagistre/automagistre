@@ -6,12 +6,12 @@ namespace App\Order\Form\Finish;
 
 use App\Customer\Form\WorkerType;
 use App\Order\Entity\OrderItemService;
-use function assert;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function assert;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -27,7 +27,8 @@ final class OrderItemServiceWorkerType extends AbstractType
             ->add('workerId', WorkerType::class, [
                 'label' => false,
                 'required' => true,
-            ]);
+            ])
+        ;
     }
 
     /**
@@ -51,6 +52,7 @@ final class OrderItemServiceWorkerType extends AbstractType
         $resolver
             ->setDefaults([
                 'data_class' => OrderItemService::class,
-            ]);
+            ])
+        ;
     }
 }

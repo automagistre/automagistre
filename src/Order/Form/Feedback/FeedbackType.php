@@ -20,7 +20,8 @@ final class FeedbackType extends AbstractType
                 'label' => 'Клиент остался доволен?',
                 'required' => true,
                 'expanded' => true,
-            ]);
+            ])
+        ;
     }
 
     /**

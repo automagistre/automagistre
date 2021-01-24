@@ -28,7 +28,7 @@ final class OrganizationDto
     public $telephone;
 
     /**
-     * @var string|null
+     * @var null|string
      *
      * @Assert\Email
      */

@@ -12,12 +12,14 @@ use App\EasyAdmin\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use function assert;
 
 final class AppealController extends AbstractController
 {
     public function statusAction(Request $request): Response
     {
         $appealId = $this->getIdentifier(AppealId::class);
+
         if (!$appealId instanceof AppealId) {
             throw new BadRequestHttpException('appealId required.');
         }
@@ -44,7 +46,8 @@ final class AppealController extends AbstractController
 
         $qb
             ->orderBy('entity.status', 'ASC')
-            ->addOrderBy('entity.createdAt', 'DESC');
+            ->addOrderBy('entity.createdAt', 'DESC')
+        ;
 
         return $qb;
     }

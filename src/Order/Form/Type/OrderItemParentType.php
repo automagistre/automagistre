@@ -15,15 +15,15 @@ use App\Order\Form\OrderService as OrderItemServiceModel;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
-use function get_class;
 use LogicException;
-use function sprintf;
-use function str_repeat;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function get_class;
+use function sprintf;
+use function str_repeat;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -49,7 +49,8 @@ final class OrderItemParentType extends AbstractType
                 $currentItem = $request instanceof Request ? $request->attributes->get('easyadmin')['item'] : null;
 
                 $qb = $repository->createQueryBuilder('entity')
-                    ->where('entity.order = :order');
+                    ->where('entity.order = :order')
+                ;
                 $expr = $qb->expr();
 
                 if ($currentItem instanceof OrderItem) {
@@ -65,7 +66,8 @@ final class OrderItemParentType extends AbstractType
                 $orExpr = [];
 
                 $qb
-                    ->leftJoin(OrderItemGroup::class, 'groups', Join::WITH, 'entity.id = groups.id');
+                    ->leftJoin(OrderItemGroup::class, 'groups', Join::WITH, 'entity.id = groups.id')
+                ;
                 $orExpr[] = $expr->isNotNull('groups.id');
 
                 if ($currentItem instanceof OrderItemService || $currentItem instanceof OrderItemServiceModel) {
@@ -73,7 +75,8 @@ final class OrderItemParentType extends AbstractType
                 }
 
                 $qb
-                    ->leftJoin(OrderItemService::class, 'service', Join::WITH, 'entity.id = service.id');
+                    ->leftJoin(OrderItemService::class, 'service', Join::WITH, 'entity.id = service.id')
+                ;
                 $orExpr[] = $expr->isNotNull('service.id');
 
                 if ($currentItem instanceof OrderItemPart || $currentItem instanceof OrderItemPartModel) {

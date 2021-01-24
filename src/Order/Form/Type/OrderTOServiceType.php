@@ -6,7 +6,6 @@ namespace App\Order\Form\Type;
 
 use App\Form\Type\MoneyType;
 use App\Order\Form\OrderTOService;
-use function count;
 use LogicException;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -15,6 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function count;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -37,6 +37,7 @@ final class OrderTOServiceType extends AbstractType
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
                 $form = $event->getForm();
                 $model = $event->getData();
+
                 if (!$model instanceof OrderTOService) {
                     throw new LogicException('OrderTOService expected.');
                 }
@@ -51,7 +52,8 @@ final class OrderTOServiceType extends AbstractType
                     'allow_add' => false,
                     'allow_delete' => false,
                 ]);
-            });
+            })
+        ;
     }
 
     /**
@@ -62,6 +64,7 @@ final class OrderTOServiceType extends AbstractType
         $resolver
             ->setDefaults([
                 'data_class' => OrderTOService::class,
-            ]);
+            ])
+        ;
     }
 }

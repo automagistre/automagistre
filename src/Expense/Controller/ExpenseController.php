@@ -15,9 +15,9 @@ use App\Wallet\Entity\WalletTransaction;
 use App\Wallet\Entity\WalletTransactionId;
 use App\Wallet\Enum\WalletTransactionSource;
 use App\Wallet\Form\WalletType;
-use function assert;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
+use function assert;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -49,7 +49,8 @@ final class ExpenseController extends AbstractController
                 'required' => false,
             ])
             ->getForm()
-            ->handleRequest($this->request);
+            ->handleRequest($this->request)
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->em;

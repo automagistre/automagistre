@@ -14,7 +14,8 @@ final class FixPostgreSQLDefaultSchemaListener
         $schemaManager = $args
             ->getEntityManager()
             ->getConnection()
-            ->getSchemaManager();
+            ->getSchemaManager()
+        ;
 
         if (!$schemaManager instanceof PostgreSqlSchemaManager) {
             return;

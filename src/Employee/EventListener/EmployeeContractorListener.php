@@ -39,11 +39,13 @@ final class EmployeeContractorListener implements EventSubscriberInterface
     public function onEmployeeCreatedOrFired(GenericEvent $event, string $eventName): void
     {
         $entity = $event->getSubject();
+
         if (!$entity instanceof Employee) {
             throw new LogicException('Employee expected');
         }
 
         $personId = $entity->getPersonId();
+
         if (null === $personId) {
             return;
         }

@@ -28,7 +28,7 @@ final class OrderPart extends OrderItemModel
     public $warranty = false;
 
     /**
-     * @var OperandId|null
+     * @var null|OperandId
      */
     public $supplierId;
 

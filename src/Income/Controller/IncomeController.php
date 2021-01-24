@@ -20,13 +20,13 @@ use App\Wallet\Entity\WalletTransaction;
 use App\Wallet\Entity\WalletTransactionId;
 use App\Wallet\Enum\WalletTransactionSource;
 use App\Wallet\Form\WalletType;
-use function assert;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
-use function in_array;
 use LogicException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use function assert;
+use function in_array;
 use function urlencode;
 
 /**
@@ -52,6 +52,7 @@ final class IncomeController extends AbstractController
         $request = $this->request;
 
         $income = $this->getEntity(Income::class);
+
         if (!$income instanceof Income) {
             throw new BadRequestHttpException('Income is required');
         }
@@ -66,7 +67,8 @@ final class IncomeController extends AbstractController
                 'required' => true,
             ])
             ->getForm()
-            ->handleRequest($request);
+            ->handleRequest($request)
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->registry->manager(Income::class)
@@ -94,7 +96,8 @@ final class IncomeController extends AbstractController
                             null,
                         )
                     );
-                });
+                })
+            ;
 
             return $this->redirectToReferrer();
         }
@@ -108,6 +111,7 @@ final class IncomeController extends AbstractController
     public function accrueAction(): Response
     {
         $income = $this->getEntity(Income::class);
+
         if (!$income instanceof Income) {
             throw new LogicException('Income required.');
         }
@@ -120,7 +124,8 @@ final class IncomeController extends AbstractController
 
         $form = $this->createFormBuilder()
             ->getForm()
-            ->handleRequest($this->request);
+            ->handleRequest($this->request)
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->em;
@@ -212,11 +217,13 @@ final class IncomeController extends AbstractController
         $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
 
         $part = $this->getEntity(Part::class);
+
         if ($part instanceof Part) {
             $qb
                 ->join('entity.incomeParts', 'income_parts')
                 ->where(':part = income_parts.partId')
-                ->setParameter('part', $part->toId());
+                ->setParameter('part', $part->toId())
+            ;
         }
 
         return $qb;

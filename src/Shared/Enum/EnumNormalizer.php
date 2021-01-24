@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Shared\Enum;
 
-use function is_int;
-use function is_subclass_of;
 use Premier\Enum\Enum;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use function is_int;
+use function is_subclass_of;
 
 final class EnumNormalizer implements NormalizerInterface, DenormalizerInterface
 {

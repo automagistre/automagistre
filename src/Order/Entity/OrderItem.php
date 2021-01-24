@@ -61,7 +61,7 @@ abstract class OrderItem
     private $order;
 
     /**
-     * @var OrderItem|null
+     * @var null|OrderItem
      *
      * @ORM\ManyToOne(targetEntity=OrderItem::class, inversedBy="children", cascade={"persist"})
      * @ORM\JoinColumn(referencedColumnName="id", onDelete="CASCADE")
@@ -92,13 +92,15 @@ abstract class OrderItem
             if ($this->isDiscounted() && $this->getPrice()->isZero()) {
                 $context->buildViolation('Стоимость не может быть равно нулю при наличии скидки.')
                     ->atPath('price')
-                    ->addViolation();
+                    ->addViolation()
+                ;
             }
 
             if ($this->isDiscounted() && $this->getPrice()->lessThan($this->discount())) {
                 $context->buildViolation('Стоимость не может быть меньше скидки.')
                     ->atPath('price')
-                    ->addViolation();
+                    ->addViolation()
+                ;
             }
         }
     }

@@ -14,16 +14,16 @@ use App\EasyAdmin\Controller\AbstractController;
 use App\Note\Entity\NoteView;
 use App\Order\Entity\Order;
 use App\Payment\Manager\PaymentManager;
-use function array_map;
-use function array_merge;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
-use function explode;
-use function mb_strtolower;
-use function sprintf;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use function array_map;
+use function array_merge;
+use function explode;
+use function mb_strtolower;
+use function sprintf;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -122,11 +122,14 @@ class OperandController extends AbstractController
 
             $parameters['cars'] = $carRepository->carsByCustomer($operand->toId());
             $parameters['orders'] = $this->registry->repository(Order::class)
-                ->findBy(['customerId' => $operand->toId()], ['id' => 'DESC'], 20);
+                ->findBy(['customerId' => $operand->toId()], ['id' => 'DESC'], 20)
+            ;
             $parameters['payments'] = $this->registry->repository(CustomerTransactionView::class)
-                ->findBy(['operandId' => $operand->toId()], ['id' => 'DESC'], 20);
+                ->findBy(['operandId' => $operand->toId()], ['id' => 'DESC'], 20)
+            ;
             $parameters['notes'] = $this->registry->repository(NoteView::class)
-                ->findBy(['subject' => $operand->toId()->toUuid()], ['id' => 'DESC']);
+                ->findBy(['subject' => $operand->toId()->toUuid()], ['id' => 'DESC'])
+            ;
             $parameters['balance'] = $this->get(PaymentManager::class)->balance($operand);
         }
 
@@ -142,14 +145,17 @@ class OperandController extends AbstractController
 
         $qb = $this->registry->repository(Operand::class)->createQueryBuilder('operand')
             ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = operand.id AND operand INSTANCE OF '.Person::class)
-            ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = operand.id AND operand INSTANCE OF '.Organization::class);
+            ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = operand.id AND operand INSTANCE OF '.Organization::class)
+        ;
 
         $carId = $query->get('car_id');
+
         if (null !== $carId) {
             $qb
                 ->leftJoin(Order::class, 'o', Join::WITH, 'o.customerId = operand.id')
                 ->andWhere('o.carId = :car')
-                ->setParameter('car', $carId);
+                ->setParameter('car', $carId)
+            ;
         }
 
         $search = $query->has('query') ? explode(' ', (string) $query->get('query')) : [];
@@ -173,6 +179,7 @@ class OperandController extends AbstractController
             $text = $entity->getFullName();
 
             $telephone = $entity->getTelephone();
+
             if (null !== $telephone) {
                 $text .= sprintf(' (%s)', $this->formatTelephone($telephone));
             }
@@ -193,9 +200,11 @@ class OperandController extends AbstractController
                 BalanceView::class,
                 'balance',
                 Join::WITH,
-                'balance.id = entity.id')
+                'balance.id = entity.id'
+            )
             ->orderBy('balance.money.amount', $sortDirection)
             ->groupBy('entity')
-            ->addGroupBy('balance.money.amount');
+            ->addGroupBy('balance.money.amount')
+        ;
     }
 }

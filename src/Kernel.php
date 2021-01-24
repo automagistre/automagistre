@@ -7,13 +7,7 @@ namespace App;
 use App\Shared\Doctrine\ORM\Listeners\MetadataCacheCompilerPass;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierMapCompilerPass;
-use function assert;
-use function class_exists;
-use function dirname;
-use function file_exists;
 use InvalidArgumentException;
-use function is_subclass_of;
-use function sprintf;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -22,6 +16,12 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel as SymfonyKernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
+use function assert;
+use function class_exists;
+use function dirname;
+use function file_exists;
+use function is_subclass_of;
+use function sprintf;
 
 final class Kernel extends SymfonyKernel
 {

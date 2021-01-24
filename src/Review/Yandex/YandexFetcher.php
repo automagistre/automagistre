@@ -10,10 +10,10 @@ use App\Review\Fetch\FetchedReview;
 use App\Review\Fetch\Fetcher;
 use App\Tenant\Tenant;
 use DateTimeImmutable;
-use function explode;
-use function str_starts_with;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
+use function explode;
+use function str_starts_with;
 use function trim;
 
 final class YandexFetcher implements Fetcher

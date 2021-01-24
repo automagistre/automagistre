@@ -21,6 +21,7 @@ final class OrderPaymentController extends AbstractController
     public function paymentAction(Request $request): Response
     {
         $order = $this->getEntity(Order::class);
+
         if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order is required');
         }

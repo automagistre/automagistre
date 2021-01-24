@@ -33,7 +33,7 @@ final class TransactionDto
     public $amount;
 
     /**
-     * @var string|null
+     * @var null|string
      */
     public $description;
 
@@ -43,7 +43,7 @@ final class TransactionDto
     public $increment = false;
 
     /**
-     * @var Wallet|null
+     * @var null|Wallet
      */
     public $wallet;
 }

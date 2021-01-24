@@ -44,7 +44,7 @@ class Employee
     private $hiredAt;
 
     /**
-     * @var DateTime|null
+     * @var null|DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
      */

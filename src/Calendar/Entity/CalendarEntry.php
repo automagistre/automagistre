@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Calendar\Entity;
 
 use App\Calendar\Enum\DeletionReason;
@@ -62,6 +64,7 @@ class CalendarEntry
         $this->failIfClosed();
 
         $last = $this->schedules->last();
+
         if (false !== $last && $last->equal($schedule)) {
             return;
         }
@@ -74,6 +77,7 @@ class CalendarEntry
         $this->failIfClosed();
 
         $last = $this->orders->last();
+
         if (false !== $last && $last->equal($orderInfo)) {
             return;
         }

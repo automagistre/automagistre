@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     App\Appeal\Entity\AppealId::class => ['appeal_id'],
     App\Calendar\Entity\CalendarEntryId::class => ['calendar_entry_id'],

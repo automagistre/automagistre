@@ -11,16 +11,16 @@ use App\MC\Entity\McEquipment;
 use App\Publish\Entity\PublishView;
 use App\Review\Entity\Review;
 use App\Vehicle\Entity\Model;
-use function array_pop;
-use function base64_decode;
-use function base64_encode;
-use function count;
-use const DATE_RFC3339;
 use DateTimeImmutable;
 use Doctrine\ORM\Query\Expr\Join;
 use GraphQL\Error\Error;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
+use function array_pop;
+use function base64_decode;
+use function base64_encode;
+use function count;
+use const DATE_RFC3339;
 
 final class QueryType extends ObjectType
 {
@@ -46,7 +46,8 @@ final class QueryType extends ObjectType
                     ]),
                     'resolve' => static function ($rootValue, $args, Context $context): array {
                         /** @var array<string, int> $stats */
-                        $stats = $context->registry->connection()->fetchAssociative(<<<'SQL'
+                        $stats = $context->registry->connection()->fetchAssociative(
+                            <<<'SQL'
                             SELECT (SELECT COUNT(DISTINCT car_id)
                                     FROM orders)                                                        AS vehicles,
                                    (SELECT COUNT(DISTINCT organization.id)
@@ -89,7 +90,8 @@ final class QueryType extends ObjectType
                         $qb = $context->registry->manager()->createQueryBuilder()
                             ->select('t')
                             ->from(Review::class, 't')
-                            ->where('t.text <> \'\'');
+                            ->where('t.text <> \'\'')
+                        ;
 
                         $totalCount = (int) (clone $qb)->select('COUNT(t)')->getQuery()->getSingleScalarResult();
 
@@ -97,27 +99,32 @@ final class QueryType extends ObjectType
 
                         if (null !== $after) {
                             $publishAtDecoded = base64_decode($after, true);
+
                             if (false === $publishAtDecoded) {
                                 throw new Error('Invalid after arg.');
                             }
 
                             $publishAt = DateTimeImmutable::createFromFormat(DATE_RFC3339, $publishAtDecoded);
+
                             if (false === $publishAt) {
                                 throw new Error('Invalid after arg.');
                             }
 
                             $qb
                                 ->andWhere('t.publishAt <= :publishAt')
-                                ->setParameter('publishAt', $publishAt);
+                                ->setParameter('publishAt', $publishAt)
+                            ;
                         }
 
                         $nodes = $qb
                             ->getQuery()
                             ->setMaxResults($first + 1)
-                            ->getResult();
+                            ->getResult()
+                        ;
 
                         $endCursor = null;
                         $hasNextPage = count($nodes) > $first;
+
                         if ($hasNextPage) {
                             /** @var Review $nextNode */
                             $nextNode = array_pop($nodes);
@@ -164,7 +171,8 @@ final class QueryType extends ObjectType
                             ->where('t.manufacturerId = :manufacturerId')
                             ->getQuery()
                             ->setParameter('manufacturerId', $args['manufacturerId'])
-                            ->getResult();
+                            ->getResult()
+                        ;
                     },
                 ],
                 'maintenances' => [
@@ -183,7 +191,8 @@ final class QueryType extends ObjectType
                             ->where('t.vehicleId = :vehicleId')
                             ->getQuery()
                             ->setParameter('vehicleId', $args['vehicleId'])
-                            ->getResult();
+                            ->getResult()
+                        ;
                     },
                 ],
             ],

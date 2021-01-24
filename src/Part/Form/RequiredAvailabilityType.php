@@ -26,7 +26,8 @@ final class RequiredAvailabilityType extends AbstractType
             ])
             ->add('orderFromQuantity', QuantityType::class, [
                 'label' => 'Когда на складе осталось',
-            ]);
+            ])
+        ;
     }
 
     /**

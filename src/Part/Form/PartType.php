@@ -37,7 +37,8 @@ final class PartType extends AbstractType
                 'required' => false,
             ])
             ->add('unit', UnitType::class, [
-            ]);
+            ])
+        ;
     }
 
     /**

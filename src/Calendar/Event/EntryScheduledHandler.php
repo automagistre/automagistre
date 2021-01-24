@@ -13,9 +13,9 @@ use App\Sms\Messages\SendSms;
 use App\Tenant\Tenant;
 use DateTimeImmutable;
 use Money\MoneyFormatter;
+use Symfony\Component\Messenger\MessageBusInterface;
 use function sprintf;
 use function str_replace;
-use Symfony\Component\Messenger\MessageBusInterface;
 
 final class EntryScheduledHandler implements MessageHandler
 {
@@ -43,6 +43,7 @@ final class EntryScheduledHandler implements MessageHandler
     {
         /** @var EntryView $entry */
         $entry = $this->registry->getBy(EntryView::class, ['id' => $event->id]);
+
         if (null === $entry->orderInfo->customerId) {
             return;
         }
@@ -54,6 +55,7 @@ final class EntryScheduledHandler implements MessageHandler
         $date = $entry->schedule->date;
 
         $message = '';
+
         if ($date->format('Y-m-d') === (new DateTimeImmutable())->format('Y-m-d')) {
             $message = 'Сегодня ';
         } elseif ($date->format('Y-m-d') === (new DateTimeImmutable('+1 day'))->format('Y-m-d')) {

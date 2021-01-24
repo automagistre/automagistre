@@ -64,6 +64,7 @@ final class GoogleFetcher implements Fetcher
     private function location(Google_Service_MyBusiness_Location $location): Generator
     {
         $pageToken = null;
+
         do {
             $listReviewsResponse = $this->myBusiness->accounts_locations_reviews->listAccountsLocationsReviews(
                 $location->name,
@@ -85,6 +86,7 @@ final class GoogleFetcher implements Fetcher
     {
         $comment = $review['comment'] ?? '';
         $transPos = strpos($comment, '(Translated by Google)');
+
         if (is_int($transPos)) {
             $comment = substr($comment, 0, $transPos);
         }

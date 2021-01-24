@@ -14,27 +14,27 @@ use App\Employee\Entity\Employee;
 final class OrderDto
 {
     /**
-     * @var CarId|null
+     * @var null|CarId
      */
     public $carId;
 
     /**
-     * @var OperandId|null
+     * @var null|OperandId
      */
     public $customerId;
 
     /**
-     * @var int|null
+     * @var null|int
      */
     public $mileage;
 
     /**
-     * @var Employee|null
+     * @var null|Employee
      */
     public $worker;
 
     /**
-     * @var string|null
+     * @var null|string
      */
     public $description;
 }

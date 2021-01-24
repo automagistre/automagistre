@@ -10,10 +10,10 @@ use App\Order\Form\Close\OrderCloseDto;
 use App\Order\Form\Close\OrderCloseType;
 use App\Order\Messages\CloseOrderCommand;
 use App\Order\Messages\CreatePayment;
-use function sprintf;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use function sprintf;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -23,6 +23,7 @@ final class OrderCloseController extends AbstractController
     public function closeAction(Request $request): Response
     {
         $order = $this->getEntity(Order::class);
+
         if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order is required');
         }
@@ -58,6 +59,7 @@ final class OrderCloseController extends AbstractController
             }
 
             $mileageDto = $dto->finish->mileage;
+
             if (null !== $mileageDto && null !== $mileageDto->mileage) {
                 $order->setMileage($mileageDto->mileage);
             }

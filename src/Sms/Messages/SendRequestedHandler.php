@@ -10,11 +10,11 @@ use App\Sms\Entity\Sms;
 use App\Sms\Entity\SmsSend;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
-use function Sentry\captureException;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Throwable;
+use function Sentry\captureException;
 
 final class SendRequestedHandler implements MessageHandler
 {

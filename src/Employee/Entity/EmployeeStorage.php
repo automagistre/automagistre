@@ -24,7 +24,7 @@ final class EmployeeStorage
     {
         $em = $this->registry->manager();
 
-        /** @var Employee|null $employee */
+        /** @var null|Employee $employee */
         $employee = $em
             ->createQueryBuilder()
             ->select('t')
@@ -34,13 +34,15 @@ final class EmployeeStorage
             ->setMaxResults(1)
             ->getQuery()
             ->setParameter('personId', $operandId)
-            ->getOneOrNullResult();
+            ->getOneOrNullResult()
+        ;
 
         if (null === $employee) {
             return null;
         }
 
         $rate = $employee->getRatio();
+
         if (null === $rate) {
             return null;
         }

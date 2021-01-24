@@ -9,8 +9,6 @@ use App\Order\Form\OrderTOPart;
 use App\Part\Entity\PartId;
 use App\Part\Entity\PartView;
 use App\Part\Entity\PartViewRepository;
-use function assert;
-use function count;
 use LogicException;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
@@ -20,6 +18,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function assert;
+use function count;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -47,6 +47,7 @@ final class OrderTOPartType extends AbstractType
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($builder): void {
                 $form = $event->getForm();
                 $data = $event->getData();
+
                 if (!$data instanceof OrderTOPart) {
                     throw new LogicException('OrderTOPart expected.');
                 }
@@ -57,6 +58,7 @@ final class OrderTOPartType extends AbstractType
                 $hasAnalog = 0 < count($analogs);
 
                 $choices = [$part];
+
                 if ($hasAnalog) {
                     $choices = [...$choices, ...$analogs];
                 }
@@ -83,12 +85,14 @@ final class OrderTOPartType extends AbstractType
                 assert($model instanceof OrderTOPart);
 
                 $price = $form->get('price');
+
                 if (null === $price->getData()) {
                     $part = $this->repository->get($model->partId);
 
                     $price->setData($part->suggestPrice());
                 }
-            });
+            })
+        ;
     }
 
     /**
@@ -99,6 +103,7 @@ final class OrderTOPartType extends AbstractType
         $resolver
             ->setDefaults([
                 'data_class' => OrderTOPart::class,
-            ]);
+            ])
+        ;
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Calendar\View;
 
 use App\Calendar\Entity\EntryView;
@@ -31,6 +33,7 @@ final class StreamCollection implements IteratorAggregate
     public function add(EntryView $entry): void
     {
         $workerId = $entry->orderInfo->workerId;
+
         if (null !== $workerId) {
             foreach ($this->streams as $stream) {
                 if ($workerId->equal($stream->workerId)) {

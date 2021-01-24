@@ -9,9 +9,6 @@ use App\Nsq\Envelope as NsqEnvelop;
 use App\Nsq\Subscriber;
 use App\Nsq\Writer;
 use Generator;
-use function json_decode;
-use function json_encode;
-use const JSON_THROW_ON_ERROR;
 use LogicException;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Messenger\Envelope;
@@ -19,6 +16,9 @@ use Symfony\Component\Messenger\Exception\MessageDecodingFailedException;
 use Symfony\Component\Messenger\Stamp\TransportMessageIdStamp;
 use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 use Symfony\Component\Messenger\Transport\TransportInterface;
+use function json_decode;
+use function json_encode;
+use const JSON_THROW_ON_ERROR;
 
 final class NsqTransport implements TransportInterface
 {
@@ -48,6 +48,7 @@ final class NsqTransport implements TransportInterface
     public function send(Envelope $envelope): Envelope
     {
         $nsqEnvelop = $this->getNsqEnvelop($envelope);
+
         if (null !== $nsqEnvelop) {
             $nsqEnvelop->retry(
                 ($nsqEnvelop->message->attempts <= 60 ? $nsqEnvelop->message->attempts : 60) * 1000
@@ -73,13 +74,14 @@ final class NsqTransport implements TransportInterface
     public function get(): iterable
     {
         $generator = $this->generator;
+
         if (null === $generator) {
             $this->generator = $generator = $this->subscriber->subscribe($this->topic, 'tenant');
         } else {
             $generator->next();
         }
 
-        /** @var NsqEnvelop|null $nsqEnvelop */
+        /** @var null|NsqEnvelop $nsqEnvelop */
         $nsqEnvelop = $generator->current();
 
         if (null === $nsqEnvelop) {
@@ -113,6 +115,7 @@ final class NsqTransport implements TransportInterface
     public function ack(Envelope $envelope): void
     {
         $message = $this->getNsqEnvelop($envelope);
+
         if (!$message instanceof NsqEnvelop) {
             throw new LogicException('Returned envelop doesn\'t related to NsqMessage.');
         }
@@ -131,6 +134,7 @@ final class NsqTransport implements TransportInterface
     private function getNsqEnvelop(Envelope $envelope): ?NsqEnvelop
     {
         $stamp = $envelope->last(NsqReceivedStamp::class);
+
         if (!$stamp instanceof NsqReceivedStamp) {
             return null;
         }

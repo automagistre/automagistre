@@ -6,10 +6,10 @@ namespace App;
 
 use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
-use function array_key_exists;
 use LogicException;
 use Money\Currency;
 use Money\Money;
+use function array_key_exists;
 use function str_contains;
 use function str_replace;
 
@@ -44,6 +44,7 @@ final class Costil
             }
 
             $moneyKey = str_replace('.currency.code', '', $key);
+
             if (!array_key_exists($moneyKey.'.amount', $array)) {
                 continue;
             }

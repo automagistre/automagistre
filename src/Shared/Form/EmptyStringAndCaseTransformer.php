@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Shared\Form;
 
-use function is_string;
-use const MB_CASE_UPPER;
-use function mb_convert_case;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
+use function is_string;
+use function mb_convert_case;
 use function trim;
+use const MB_CASE_UPPER;
 
 final class EmptyStringAndCaseTransformer implements DataTransformerInterface
 {

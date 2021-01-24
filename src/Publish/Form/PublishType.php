@@ -28,11 +28,13 @@ final class PublishType extends AbstractType
                     fn (bool $value): string => $value ? self::PUBLISHED : self::NOT_PUBLISHED,
                     fn (string $value): bool => [self::PUBLISHED => true, self::NOT_PUBLISHED => false][$value],
                 ),
-            );
+            )
+        ;
 
         $builder
             ->add('id', HiddenType::class)
-            ->add($publish);
+            ->add($publish)
+        ;
     }
 
     /**

@@ -21,12 +21,12 @@ final class OrderPaymentDto
     public $payment;
 
     /**
-     * @var OperandId|null
+     * @var null|OperandId
      */
     public $recipient;
 
     /**
-     * @var string|null
+     * @var null|string
      */
     public $description;
 

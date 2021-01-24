@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Order\Form;
 
-use function iterator_to_array;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
 use Traversable;
+use function iterator_to_array;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>

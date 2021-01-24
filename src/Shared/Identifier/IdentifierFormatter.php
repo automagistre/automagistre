@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Shared\Identifier;
 
-use function array_key_exists;
-use function get_class;
 use LogicException;
 use Psr\Container\ContainerInterface;
+use function array_key_exists;
+use function get_class;
 use function sprintf;
 
 final class IdentifierFormatter

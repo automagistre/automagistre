@@ -7,17 +7,8 @@ namespace App\EasyAdmin\Form;
 use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
-use function array_filter;
-use function array_map;
-use function assert;
-use function current;
 use EasyCorp\Bundle\EasyAdminBundle\Router\EasyAdminRouter;
-use function is_iterable;
-use function is_subclass_of;
-use function iterator_to_array;
 use LogicException;
-use function method_exists;
-use function sprintf;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\Event\PreSetDataEvent;
@@ -29,6 +20,15 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Traversable;
+use function array_filter;
+use function array_map;
+use function assert;
+use function current;
+use function is_iterable;
+use function is_subclass_of;
+use function iterator_to_array;
+use function method_exists;
+use function sprintf;
 use function trim;
 
 final class AutocompleteType extends AbstractType implements DataMapperInterface
@@ -86,7 +86,8 @@ final class AutocompleteType extends AbstractType implements DataMapperInterface
 
                 $form->add('autocomplete', ChoiceType::class, $options);
             })
-            ->addEventListener(FormEvents::PRE_SUBMIT, static function (PreSubmitEvent $event) use ($identifierClass
+            ->addEventListener(FormEvents::PRE_SUBMIT, static function (PreSubmitEvent $event) use (
+                $identifierClass
             ): void {
                 $data = $event->getData();
                 $form = $event->getForm();
@@ -97,7 +98,8 @@ final class AutocompleteType extends AbstractType implements DataMapperInterface
                 $options['choices'] = array_map(fn (string $uuid) => $identifierClass::fromString($uuid), $choices);
 
                 $form->add('autocomplete', ChoiceType::class, $options);
-            });
+            })
+        ;
     }
 
     /**
@@ -125,7 +127,8 @@ final class AutocompleteType extends AbstractType implements DataMapperInterface
                 'autocomplete_parameters' => [],
             ])
             ->setAllowedTypes('autocomplete_parameters', 'array')
-            ->setRequired('class');
+            ->setRequired('class')
+        ;
     }
 
     /**

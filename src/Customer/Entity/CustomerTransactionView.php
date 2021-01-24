@@ -7,12 +7,12 @@ namespace App\Customer\Entity;
 use App\Customer\Enum\CustomerTransactionSource;
 use App\Shared\Identifier\Identifier;
 use App\User\Entity\UserId;
-use function assert;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use function is_subclass_of;
 use Money\Money;
 use Ramsey\Uuid\UuidInterface;
+use function assert;
+use function is_subclass_of;
 
 /**
  * @ORM\Entity(readOnly=true)

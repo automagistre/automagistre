@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Shared\Doctrine\ORM\Mapping\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
-use function is_numeric;
 use Money\Currency;
 use Money\Money;
+use function is_numeric;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -15,7 +15,7 @@ use Money\Money;
 trait Price
 {
     /**
-     * @var Money|null
+     * @var null|Money
      *
      * @ORM\Embedded(class=Money::class)
      */

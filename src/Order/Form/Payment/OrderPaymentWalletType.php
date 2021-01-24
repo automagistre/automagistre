@@ -36,7 +36,8 @@ final class OrderPaymentWalletType extends AbstractType
                 'label' => 'Счет',
                 'class' => Wallet::class,
                 'disabled' => true,
-            ]);
+            ])
+        ;
     }
 
     /**

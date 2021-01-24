@@ -10,10 +10,10 @@ use App\Wallet\Entity\WalletId;
 use App\Wallet\Entity\WalletTransaction;
 use App\Wallet\Entity\WalletTransactionId;
 use App\Wallet\Enum\WalletTransactionSource;
-use function assert;
 use Money\Currency;
 use Money\Money;
 use stdClass;
+use function assert;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -48,12 +48,14 @@ final class WalletController extends AbstractController
         );
 
         $initial = $dto->initial;
+
         if ($initial instanceof Money && $initial->isPositive()) {
             $em = $this->registry->manager();
 
             $em->persist(new WalletTransaction(
                 WalletTransactionId::generate(),
-                $entity->toId(), $initial,
+                $entity->toId(),
+                $initial,
                 WalletTransactionSource::initial(),
                 $this->getUser()->toId()->toUuid(),
                 null

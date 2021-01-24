@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Shared\Identifier;
 
+use LogicException;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
+use ReflectionClass;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
 use function get_class;
 use function is_array;
 use function is_object;
 use function is_string;
-use LogicException;
 use function method_exists;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
-use ReflectionClass;
 use function sprintf;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFilter;
-use Twig\TwigFunction;
 
 final class IdentifierTwigExtension extends AbstractExtension
 {
@@ -72,6 +72,7 @@ final class IdentifierTwigExtension extends AbstractExtension
                     }
 
                     $refClass = new ReflectionClass($value);
+
                     if ($refClass->hasProperty('id')) {
                         $refId = $refClass->getProperty('id');
 

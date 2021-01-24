@@ -39,14 +39,14 @@ final class CarCreate
     public $vehicleId;
 
     /**
-     * @var string|null
+     * @var null|string
      *
      * @Assert\Length(max="17")
      */
     public $identifier;
 
     /**
-     * @var int|null
+     * @var null|int
      */
     public $year;
 
@@ -58,12 +58,12 @@ final class CarCreate
     public $caseType;
 
     /**
-     * @var string|null
+     * @var null|string
      */
     public $description;
 
     /**
-     * @var string|null
+     * @var null|string
      */
     public $gosnomer;
 }

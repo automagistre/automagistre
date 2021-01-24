@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nsq;
 
 use function array_map;
 use function count;
 use function implode;
 use function pack;
-use const PHP_EOL;
 use function sprintf;
 use function strlen;
+use const PHP_EOL;
 
 final class Writer
 {

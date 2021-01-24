@@ -27,14 +27,17 @@ final class TransactionController extends AbstractController
         $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
 
         $walletId = $this->getIdentifier(WalletId::class);
+
         if ($walletId instanceof WalletId) {
             $qb->andWhere('entity.walletId = :walletId')
-                ->setParameter('walletId', $walletId);
+                ->setParameter('walletId', $walletId)
+            ;
         }
 
         $qb
             ->orderBy('entity.createdAt', 'DESC')
-            ->addOrderBy('entity.id', 'DESC');
+            ->addOrderBy('entity.id', 'DESC')
+        ;
 
         return $qb;
     }
@@ -60,6 +63,7 @@ final class TransactionController extends AbstractController
             ->where('t.sourceId = :sourceId')
             ->setParameter('sourceId', $searchQuery)
             ->orderBy('t.createdAt', 'DESC')
-            ->addOrderBy('t.id', 'DESC');
+            ->addOrderBy('t.id', 'DESC')
+        ;
     }
 }

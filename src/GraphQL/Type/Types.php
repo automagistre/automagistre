@@ -34,8 +34,8 @@ use App\Vehicle\GraphQL\Type\TireFittingCategoryType;
 use App\Vehicle\GraphQL\Type\TransmissionType;
 use App\Vehicle\GraphQL\Type\VehicleType;
 use App\Vehicle\GraphQL\Type\WheelDriveType;
-use function assert;
 use GraphQL\Type\Definition\Type;
+use function assert;
 use function str_ends_with;
 use function substr;
 use function ucfirst;
@@ -122,6 +122,7 @@ final class Types extends Type
     private static function get(string $name, array $args): Type
     {
         $isConnection = 'Connection' !== $name && str_ends_with($name, 'Connection');
+
         if ($isConnection) {
             $name = substr($name, 0, -10);
         }

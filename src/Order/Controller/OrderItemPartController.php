@@ -40,6 +40,7 @@ final class OrderItemPartController extends OrderItemController
     public function reserveAction(): Response
     {
         $item = $this->getEntity(OrderItemPart::class);
+
         if (!$item instanceof OrderItemPart) {
             throw new LogicException('OrderItemPart required.');
         }
@@ -56,6 +57,7 @@ final class OrderItemPartController extends OrderItemController
     public function deReserveAction(): Response
     {
         $item = $this->getEntity(OrderItemPart::class);
+
         if (!$item instanceof OrderItemPart) {
             throw new LogicException('OrderItemPart required.');
         }
@@ -72,6 +74,7 @@ final class OrderItemPartController extends OrderItemController
     protected function newAction(): Response
     {
         $order = $this->getEntity(Order::class);
+
         if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order not found');
         }
@@ -91,24 +94,28 @@ final class OrderItemPartController extends OrderItemController
         $this->request->attributes->set('easyadmin', $easyadmin);
 
         $partId = $this->getIdentifier(PartId::class);
+
         if ($partId instanceof PartId) {
             $partOffer->partId = $partId;
         }
 
         $parent = $this->getEntity(OrderItem::class);
+
         if ($parent instanceof OrderItem) {
             $dto->parent = $parent;
         }
 
         $vehicleId = null;
         $carId = $order->getCarId();
+
         if (null !== $carId) {
             $car = $this->registry->get(Car::class, $carId);
             $vehicleId = $car->vehicleId;
         }
 
         $form = $this->createItemForm($dto, $vehicleId, 'new')
-            ->handleRequest($this->request);
+            ->handleRequest($this->request)
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->em;
@@ -148,16 +155,19 @@ final class OrderItemPartController extends OrderItemController
     protected function editAction(): Response
     {
         $entity = $this->findCurrentEntity();
+
         if (!$entity instanceof OrderItemPart) {
             throw new LogicException('OrderItemPart required.');
         }
         $order = $entity->getOrder();
+
         if (!$order->isEditable()) {
             throw new BadRequestHttpException('Order closed.');
         }
 
         $price = $entity->getPrice();
         $discount = $entity->discount();
+
         if ($discount->isPositive()) {
             $price = $price->subtract($discount);
         }
@@ -176,13 +186,15 @@ final class OrderItemPartController extends OrderItemController
 
         $vehicleId = null;
         $carId = $order->getCarId();
+
         if (null !== $carId) {
             $car = $this->registry->get(Car::class, $carId);
             $vehicleId = $car->vehicleId;
         }
 
         $form = $this->createItemForm($dto, $vehicleId, 'edit')
-            ->handleRequest($this->request);
+            ->handleRequest($this->request)
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->em;
@@ -230,6 +242,7 @@ final class OrderItemPartController extends OrderItemController
             ->add('supplierId', SellerType::class, [
                 'required' => false,
             ])
-            ->getForm();
+            ->getForm()
+        ;
     }
 }

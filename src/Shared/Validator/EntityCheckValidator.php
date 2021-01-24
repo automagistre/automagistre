@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Shared\Validator;
 
-use function assert;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use function is_object;
-use function method_exists;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
+use function assert;
+use function is_object;
+use function method_exists;
 
 final class EntityCheckValidator extends ConstraintValidator
 {
@@ -50,22 +50,26 @@ final class EntityCheckValidator extends ConstraintValidator
         $qb = $em
             ->createQueryBuilder()
             ->select('1')
-            ->from($constraint->class, 'entity');
+            ->from($constraint->class, 'entity')
+        ;
 
         foreach ($constraint->fields as $property => $field) {
             $fieldValue = $this->accessor->getValue($value, $property);
+
             if (is_object($fieldValue) && method_exists($fieldValue, 'toId')) {
                 $fieldValue = $fieldValue->toId()->toString();
             }
 
             $qb
                 ->andWhere("entity.{$field} = :{$property}")
-                ->setParameter($property, $fieldValue);
+                ->setParameter($property, $fieldValue)
+            ;
         }
 
         $entity = $qb
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getOneOrNullResult()
+        ;
 
         if (
             (null === $entity && $constraint->exists)
@@ -74,7 +78,8 @@ final class EntityCheckValidator extends ConstraintValidator
             $this->context
                 ->buildViolation($constraint->message)
                 ->atPath($constraint->errorPath)
-                ->addViolation();
+                ->addViolation()
+            ;
         }
     }
 }

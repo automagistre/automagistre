@@ -10,11 +10,11 @@ use Doctrine\Migrations\AbstractMigration;
 use function is_int;
 use function json_decode;
 use function json_encode;
-use const JSON_THROW_ON_ERROR;
-use const JSON_UNESCAPED_UNICODE;
 use function strpos;
 use function substr;
 use function trim;
+use const JSON_THROW_ON_ERROR;
+use const JSON_UNESCAPED_UNICODE;
 
 final class Version20210102155106 extends AbstractMigration
 {
@@ -38,7 +38,8 @@ final class Version20210102155106 extends AbstractMigration
 
         // Raw
         $this->addSql('ALTER TABLE review ADD raw JSON DEFAULT NULL');
-        $this->addSql(<<<'SQL'
+        $this->addSql(
+            <<<'SQL'
             UPDATE review SET raw = JSON_BUILD_OBJECT(
                 'manufacturer', manufacturer,
                 'model', model,
@@ -64,7 +65,8 @@ final class Version20210102155106 extends AbstractMigration
         foreach ($this->connection->fetchAllAssociative('SELECT * FROM yandex_map_review') as $item) {
             $payload = json_decode($item['payload'], true, 512, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
 
-            $this->addSql('
+            $this->addSql(
+                '
                 INSERT INTO review (id, source, source_id, rating, author, text, publish_at, raw)
                 VALUES (:id, :source, :sourceId, :rating, :author, :text, :publishAt::TIMESTAMP, :raw)
                 ',
@@ -77,7 +79,8 @@ final class Version20210102155106 extends AbstractMigration
                     'text' => $payload['text'],
                     'publishAt' => $payload['updatedTime'],
                     'raw' => json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR),
-                ]);
+                ]
+            );
         }
         $this->addSql('DROP TABLE yandex_map_review');
 
@@ -87,11 +90,13 @@ final class Version20210102155106 extends AbstractMigration
 
             $comment = $payload['comment'] ?? '';
             $transPos = strpos($comment, '(Translated by Google)');
+
             if (is_int($transPos)) {
                 $comment = trim(substr($comment, 0, $transPos));
             }
 
-            $this->addSql('
+            $this->addSql(
+                '
                 INSERT INTO review (id, source, source_id, rating, author, text, publish_at, raw)
                 VALUES (:id, :source, :sourceId, :rating, :author, :text, :publishAt::TIMESTAMP, :raw)
                 ',
@@ -104,7 +109,8 @@ final class Version20210102155106 extends AbstractMigration
                     'text' => $comment,
                     'publishAt' => $payload['createTime'] ?? $payload['updatedTime'],
                     'raw' => json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR),
-                ]);
+                ]
+            );
         }
         $this->addSql('ALTER TABLE google_review_token DROP expire_id');
         $this->addSql('DROP TABLE google_review');

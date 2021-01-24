@@ -10,15 +10,15 @@ use App\Customer\Entity\OperandId;
 use App\Order\Entity\OrderItemService;
 use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\IdentifierFormatter;
-use function array_flip;
-use function array_key_exists;
-use function array_map;
 use DateTime;
 use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function array_flip;
+use function array_key_exists;
+use function array_map;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -51,7 +51,8 @@ final class WorkerType extends AbstractType
             'choice_loader' => new CallbackChoiceLoader(function () use (&$groupMap): array {
                 $ids = $this->registry
                     ->connection(Operand::class)
-                    ->fetchAllAssociative('SELECT id AS id, type FROM operand WHERE contractor IS TRUE');
+                    ->fetchAllAssociative('SELECT id AS id, type FROM operand WHERE contractor IS TRUE')
+                ;
 
                 foreach ($ids as ['id' => $id, 'type' => $type]) {
                     $groupMap[$id] = $type;
@@ -92,7 +93,8 @@ final class WorkerType extends AbstractType
             ->groupBy('entity.workerId')
             ->setParameter('today', new DateTime('-1000 hour'))
             ->getQuery()
-            ->getScalarResult();
+            ->getScalarResult()
+        ;
 
         $services = array_map(static fn (array $item) => array_shift($item), $services);
 

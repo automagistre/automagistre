@@ -35,7 +35,8 @@ final class EngineType extends AbstractType
             ])
             ->add('capacity', EngineCapacityType::class, [
                 'label' => 'Объём',
-            ]);
+            ])
+        ;
     }
 
     /**
@@ -46,7 +47,8 @@ final class EngineType extends AbstractType
         $resolver
             ->setDefaults([
                 'data_class' => Engine::class,
-            ]);
+            ])
+        ;
     }
 
     public function getBlockPrefix(): string

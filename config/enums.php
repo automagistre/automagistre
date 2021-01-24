@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     App\Appeal\Enum\AppealStatus::class => ['appeal_status'],
     App\Appeal\Enum\AppealType::class => ['appeal_type'],

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Fixtures\Car;
 
 use App\Car\Entity\Car;
@@ -11,12 +13,12 @@ use App\Customer\Entity\OperandId;
 use App\Fixtures\Part\GasketFixture;
 use App\Fixtures\User\UserEmployeeFixtures;
 use App\Part\Entity\PartId;
-use function assert;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Money\Currency;
 use Money\Money;
+use function assert;
 
 final class RecommendationFixtures extends Fixture implements DependentFixtureInterface
 {

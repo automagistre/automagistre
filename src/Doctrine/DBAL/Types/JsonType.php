@@ -7,9 +7,9 @@ namespace App\Doctrine\DBAL\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use function json_encode;
-use const JSON_ERROR_NONE;
 use function json_last_error;
 use function json_last_error_msg;
+use const JSON_ERROR_NONE;
 use const JSON_UNESCAPED_UNICODE;
 
 /**

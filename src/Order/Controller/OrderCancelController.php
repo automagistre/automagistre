@@ -7,11 +7,11 @@ namespace App\Order\Controller;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Order\Entity\Order;
 use App\Order\Messages\CancelOrder;
-use function sprintf;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use function sprintf;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -21,6 +21,7 @@ final class OrderCancelController extends AbstractController
     public function cancelAction(Request $request): Response
     {
         $order = $this->getEntity(Order::class);
+
         if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order is required');
         }
@@ -39,7 +40,8 @@ final class OrderCancelController extends AbstractController
                 'required' => true,
             ])
             ->getForm()
-            ->handleRequest($request);
+            ->handleRequest($request)
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->dispatchMessage(

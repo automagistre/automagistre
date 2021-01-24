@@ -7,7 +7,8 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $configurator): void {
     $configurator->parameters()
-        ->set('env(SMSAERO_AUTH)', null);
+        ->set('env(SMSAERO_AUTH)', null)
+    ;
 
     $configurator->extension('framework', [
         'http_client' => [
@@ -32,9 +33,11 @@ return static function (ContainerConfigurator $configurator): void {
 
     $services
         ->get(App\Sms\Controller\CallbackController::class)
-        ->tag('controller.service_arguments');
+        ->tag('controller.service_arguments')
+    ;
 
     $services
         ->get(App\Sms\Messages\SendRequestedHandler::class)
-        ->arg('$httpClient', service('http_client.smsaero'));
+        ->arg('$httpClient', service('http_client.smsaero'))
+    ;
 };

@@ -30,7 +30,7 @@ final class DivisoredNumberTransformerTest extends TestCase
     /**
      * @dataProvider reverseTransform
      *
-     * @param int|float $value
+     * @param float|int $value
      */
     public function testReverseTransform(int $divisor, $value, ?int $expected): void
     {
@@ -74,7 +74,7 @@ final class DivisoredNumberTransformerTest extends TestCase
     /**
      * @dataProvider reverseTransformFail
      *
-     * @param int|float $value
+     * @param float|int $value
      */
     public function testReverseTransformFail($value): void
     {

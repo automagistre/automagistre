@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\User\Entity;
 
-use function array_unique;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use function in_array;
 use Serializable;
-use function serialize;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use function array_unique;
+use function in_array;
+use function serialize;
 use function unserialize;
 
 /**

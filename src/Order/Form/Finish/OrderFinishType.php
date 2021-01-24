@@ -6,13 +6,13 @@ namespace App\Order\Form\Finish;
 
 use App\Car\Form\Mileage\CarMileageType;
 use App\Order\Entity\OrderStorage;
-use function assert;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function assert;
 
 final class OrderFinishType extends AbstractType
 {
@@ -59,6 +59,7 @@ final class OrderFinishType extends AbstractType
                     $form->remove('mileage');
 
                     $mileageDto = $dto->mileage;
+
                     if (null !== $mileageDto) {
                         $mileageDto->mileage = $mileage;
                     }
@@ -67,7 +68,8 @@ final class OrderFinishType extends AbstractType
                 if (null === $dto->mileage) {
                     $form->remove('mileage');
                 }
-            });
+            })
+        ;
     }
 
     /**

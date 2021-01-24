@@ -8,9 +8,9 @@ use App\Order\Entity\Order;
 use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemGroup;
 use App\Order\Form\OrderGroup;
-use function assert;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use function assert;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -20,6 +20,7 @@ final class OrderItemGroupController extends OrderItemController
     protected function createNewEntity(): OrderGroup
     {
         $order = $this->getEntity(Order::class);
+
         if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order not found');
         }
@@ -28,6 +29,7 @@ final class OrderItemGroupController extends OrderItemController
         $model->order = $order;
 
         $parent = $this->getEntity(OrderItem::class);
+
         if ($parent instanceof OrderItem) {
             $model->parent = $parent;
         }

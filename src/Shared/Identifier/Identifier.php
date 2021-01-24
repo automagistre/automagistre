@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Shared\Identifier;
 
-use function assert;
-use function get_debug_type;
-use function is_string;
 use JsonSerializable;
 use LogicException;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use function assert;
+use function get_debug_type;
+use function is_string;
 
 /**
  * @psalm-immutable
@@ -47,7 +49,7 @@ abstract class Identifier implements JsonSerializable
      *
      * @psalm-return T
      *
-     * @param UuidInterface|string $uuid
+     * @param string|UuidInterface $uuid
      */
     final public static function fromClass(string $class, $uuid)
     {

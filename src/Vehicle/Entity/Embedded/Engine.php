@@ -8,8 +8,8 @@ use App\Vehicle\Enum\AirIntake;
 use App\Vehicle\Enum\FuelType;
 use App\Vehicle\Enum\Injection;
 use Doctrine\ORM\Mapping as ORM;
-use function sprintf;
 use Symfony\Component\Validator\Constraints as Assert;
+use function sprintf;
 
 /**
  * @ORM\Embeddable

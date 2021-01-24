@@ -11,16 +11,16 @@ use App\Vehicle\Entity\VehicleId;
 use App\Vehicle\Form\ModelCreate;
 use App\Vehicle\Form\ModelUpdate;
 use App\Vehicle\Form\VehicleType;
-use function array_map;
-use function assert;
 use Closure;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+use function array_map;
+use function assert;
 use function explode;
 use function mb_strtolower;
 use function mb_strtoupper;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -35,7 +35,8 @@ final class ModelController extends AbstractController
         $dto = new ModelCreate();
 
         $form = $this->createForm(VehicleType::class, $dto)
-            ->handleRequest($request);
+            ->handleRequest($request)
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $id = VehicleId::generate();
@@ -60,7 +61,7 @@ final class ModelController extends AbstractController
         }
 
         if (null !== $dto->manufacturerId && null !== $dto->name && null !== $dto->caseName && $form->isSubmitted()) {
-            /** @var Model|null $vehicle */
+            /** @var null|Model $vehicle */
             $vehicle = $em->createQueryBuilder()
                 ->select('t')
                 ->from(Model::class, 't')
@@ -71,7 +72,8 @@ final class ModelController extends AbstractController
                 ->setParameter('manufacturerId', $dto->manufacturerId)
                 ->setParameter('name', mb_strtolower($dto->name))
                 ->setParameter('caseName', mb_strtoupper($dto->caseName))
-                ->getOneOrNullResult();
+                ->getOneOrNullResult()
+            ;
 
             if (null !== $vehicle) {
                 return new JsonResponse([
@@ -100,7 +102,8 @@ final class ModelController extends AbstractController
         $dqlFilter = null
     ): QueryBuilder {
         $qb = $this->registry->repository(Model::class)->createQueryBuilder('model')
-            ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'model.manufacturerId = manufacturer.id');
+            ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'model.manufacturerId = manufacturer.id')
+        ;
 
         foreach (explode(' ', $searchQuery) as $key => $item) {
             $key = ':search_'.$key;

@@ -11,9 +11,9 @@ use App\Part\Entity\Price;
 use App\Part\Form\PartAutocompleteType;
 use App\Part\Form\PartPriceDto;
 use DateTimeImmutable;
-use function is_string;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use function is_string;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -25,6 +25,7 @@ final class PartPriceController extends AbstractController
         $request = $this->request;
 
         $partId = $request->query->get('part_id');
+
         if (!is_string($partId) || !PartId::isValid($partId)) {
             throw new BadRequestHttpException('part_id is not valid uuid.');
         }
@@ -39,7 +40,8 @@ final class PartPriceController extends AbstractController
             ])
             ->add('price', MoneyType::class)
             ->getForm()
-            ->handleRequest($request);
+            ->handleRequest($request)
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->em;

@@ -19,29 +19,29 @@ use App\Part\Form\PartType;
 use App\Part\Manager\PartManager;
 use App\Vehicle\Entity\Model;
 use App\Vehicle\Entity\VehicleId;
+use Closure;
+use DateTimeImmutable;
+use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\Query\Expr\Join;
+use Doctrine\ORM\QueryBuilder;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Pagerfanta;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use function array_diff;
 use function array_keys;
 use function array_map;
 use function array_unique;
 use function array_values;
 use function assert;
-use Closure;
 use function count;
-use DateTimeImmutable;
-use Doctrine\ORM\AbstractQuery;
-use Doctrine\ORM\Query\Expr\Join;
-use Doctrine\ORM\QueryBuilder;
 use function explode;
 use function mb_strtoupper;
-use Pagerfanta\Doctrine\ORM\QueryAdapter;
-use Pagerfanta\Pagerfanta;
 use function sprintf;
 use function str_replace;
 use function strpos;
 use function strtoupper;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use function trim;
 use function urldecode;
 
@@ -68,7 +68,8 @@ final class PartController extends AbstractController
         $dto = new PartDto();
 
         $form = $this->createForm(PartType::class, $dto)
-            ->handleRequest($request);
+            ->handleRequest($request)
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $id = PartId::generate();
@@ -83,6 +84,7 @@ final class PartController extends AbstractController
                     $dto->unit,
                 ),
             );
+
             if (!$dto->price->isZero()) {
                 $em->persist(
                     new Price(
@@ -110,7 +112,7 @@ final class PartController extends AbstractController
         }
 
         if (null !== $dto->manufacturerId && null !== $dto->number && $form->isSubmitted()) {
-            /** @var PartView|null $part */
+            /** @var null|PartView $part */
             $part = $em->createQueryBuilder()
                 ->select('t')
                 ->from(PartView::class, 't')
@@ -119,7 +121,8 @@ final class PartController extends AbstractController
                 ->getQuery()
                 ->setParameter('manufacturerId', $dto->manufacturerId)
                 ->setParameter('number', $dto->number)
-                ->getOneOrNullResult();
+                ->getOneOrNullResult()
+            ;
 
             if (null !== $part) {
                 return new JsonResponse([
@@ -144,6 +147,7 @@ final class PartController extends AbstractController
 
         $easyadmin = $this->request->attributes->get('easyadmin');
         $entity = $easyadmin['item'] ?? null;
+
         if ($entity instanceof Part) {
             $easyadmin['item'] = $this->registry->getBy(PartView::class, ['id' => $entity->toId()]);
             $request->attributes->set('easyadmin', $easyadmin);
@@ -185,7 +189,8 @@ final class PartController extends AbstractController
                 ->where('partCase.partId = :part')
                 ->setParameter('part', $part->toId())
                 ->getQuery()
-                ->getResult(AbstractQuery::HYDRATE_ARRAY);
+                ->getResult(AbstractQuery::HYDRATE_ARRAY)
+            ;
         }
 
         return parent::renderTemplate($actionName, $templatePath, $parameters);
@@ -203,13 +208,15 @@ final class PartController extends AbstractController
         $dqlFilter = null
     ): QueryBuilder {
         $isPlusExist = false !== strpos($searchQuery, '+');
+
         if ($isPlusExist) {
             $searchQuery = str_replace('+', '', $searchQuery);
         }
 
         $qb = $this->em->getRepository(PartView::class)
             ->createQueryBuilder('part')
-            ->orderBy('part.'.$sortField, $sortDirection);
+            ->orderBy('part.'.$sortField, $sortDirection)
+        ;
 
         $vehicleId = $this->getIdentifier(VehicleId::class);
 
@@ -232,7 +239,8 @@ final class PartController extends AbstractController
                     ->setParameters([
                         'case' => '%'.strtoupper($carModel->caseName).'%',
                         'universal' => true,
-                    ]);
+                    ])
+                ;
             }
         }
 
@@ -247,7 +255,8 @@ final class PartController extends AbstractController
 
             $qb
                 ->setParameter($numberKey, '%'.PartNumber::sanitize($searchString).'%')
-                ->setParameter($key, '%'.mb_strtoupper(trim($searchString)).'%');
+                ->setParameter($key, '%'.mb_strtoupper(trim($searchString)).'%')
+            ;
         }
 
         return $qb;
@@ -262,7 +271,8 @@ final class PartController extends AbstractController
 
         $queryString = str_replace(['.', ',', '-', '_'], '', (string) $query->get('query'));
         $qb = $this->createSearchQueryBuilder((string) $query->get('entity'), $queryString, [])
-            ->orderBy('part.quantity', 'DESC');
+            ->orderBy('part.quantity', 'DESC')
+        ;
 
         $paginator = new Pagerfanta(new QueryAdapter($qb, false, false));
         $paginator->setMaxPerPage(15);
@@ -300,9 +310,10 @@ final class PartController extends AbstractController
         $data = [];
         $analogs = [];
         $currentPageResults = (array) $paginator->getCurrentPageResults();
+
         if (3 >= count($currentPageResults)) {
             foreach ($currentPageResults as $part) {
-                /* @var $part PartView */
+                // @var $part PartView
                 $data[$part->toId()->toString()] = $normalizer($part);
 
                 $analogs = [...$analogs, ...$part->analogs];
@@ -320,7 +331,8 @@ final class PartController extends AbstractController
                 ->andWhere('entity.quantity > 0')
                 ->getQuery()
                 ->setParameter('ids', array_diff(array_unique($analogs), array_keys($data)))
-                ->getResult();
+                ->getResult()
+            ;
 
             foreach ($analogs as $analog) {
                 $data[] = $normalizer($analog, true);
@@ -357,12 +369,14 @@ final class PartController extends AbstractController
 
         $tenant = $this->registry->manager(Price::class);
         $tenant->persist(new Price($partId, $dto->price, new DateTimeImmutable()));
+
         if ($dto->discount->isPositive()) {
             $tenant->persist(new Discount($partId, $dto->discount, new DateTimeImmutable()));
         }
         $tenant->flush();
 
         $referer = $this->request->query->get('referer');
+
         if (null !== $referer) {
             $this->setReferer(urldecode($referer).'&part_id='.$entity->toId()->toString());
         }
@@ -412,7 +426,8 @@ final class PartController extends AbstractController
                 ->where('entity.partId = :part')
                 ->setParameter('part', $entity->toId())
                 ->getQuery()
-                ->execute();
+                ->execute()
+            ;
         }
 
         return $entity;

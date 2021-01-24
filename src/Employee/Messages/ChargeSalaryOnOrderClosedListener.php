@@ -29,16 +29,19 @@ final class ChargeSalaryOnOrderClosedListener implements MessageHandler
         foreach ($order->getItems(OrderItemService::class) as $item) {
             /** @var OrderItemService $item */
             $price = $item->getTotalPrice(true, false);
+
             if (!$price->isPositive()) {
                 continue;
             }
 
             $workerId = $item->workerId;
+
             if (null === $workerId) {
                 continue;
             }
 
             $employee = $this->employeeStorage->chargeable($workerId);
+
             if (null === $employee) {
                 continue;
             }

@@ -8,9 +8,9 @@ use App\EasyAdmin\Controller\AbstractController;
 use App\MC\Entity\McLine;
 use App\MC\Entity\McPart;
 use App\MC\Form\McPartDto;
-use function assert;
 use LogicException;
 use Ramsey\Uuid\Uuid;
+use function assert;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -25,6 +25,7 @@ final class PartController extends AbstractController
         $dto = new McPartDto();
 
         $line = $this->getEntity(McLine::class);
+
         if (!$line instanceof McLine) {
             throw new LogicException('Line required.');
         }

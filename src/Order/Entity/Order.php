@@ -12,8 +12,6 @@ use App\MessageBus\PrivateMessageRecorderCapabilities;
 use App\Order\Enum\OrderSatisfaction;
 use App\Order\Enum\OrderStatus;
 use App\Shared\Money\TotalPriceInterface;
-use function assert;
-use function class_exists;
 use DateTime;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -25,6 +23,8 @@ use DomainException;
 use LogicException;
 use Money\Currency;
 use Money\Money;
+use function assert;
+use function class_exists;
 use function sprintf;
 
 /**
@@ -143,6 +143,7 @@ class Order implements ContainsRecordedMessages
     public function discount(): ?Money
     {
         $discount = null;
+
         if ($this->isPartsDiscounted()) {
             $discount = $this->partsDiscount();
         }
@@ -183,7 +184,8 @@ class Order implements ContainsRecordedMessages
     {
         /** @var Collection<int, OrderItemService> $collection */
         $collection = $this->items
-            ->filter(fn ($item) => $item instanceof OrderItemService && null === $item->workerId);
+            ->filter(fn ($item) => $item instanceof OrderItemService && null === $item->workerId)
+        ;
 
         return $collection->getValues();
     }
@@ -267,6 +269,7 @@ class Order implements ContainsRecordedMessages
         $criteria = Criteria::create()->where(Criteria::expr()->isNull('parent'));
 
         $items = $this->items->matching($criteria);
+
         if (null === $class) {
             return $items->toArray();
         }
@@ -461,7 +464,8 @@ class Order implements ContainsRecordedMessages
     {
         $forPayment = (new Money(0, new Currency('RUB')))
             ->add($this->getTotalPartPrice(true))
-            ->add($this->getTotalServicePrice(true));
+            ->add($this->getTotalServicePrice(true))
+        ;
 
         if ($withPayments) {
             $forPayment = $forPayment->subtract($this->getTotalPayments());
@@ -531,6 +535,7 @@ class Order implements ContainsRecordedMessages
         foreach ($this->getItems($class) as $item) {
             if ($item instanceof Discounted && $item->isDiscounted()) {
                 $itemDiscount = $item->discount();
+
                 if ($item instanceof OrderItemPart) {
                     $itemDiscount = $itemDiscount->multiply($item->getQuantity() / 100);
                 }

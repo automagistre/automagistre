@@ -9,11 +9,11 @@ use App\Manufacturer\Entity\Manufacturer;
 use App\Manufacturer\Entity\ManufacturerId;
 use App\Manufacturer\Form\ManufacturerDto;
 use App\Manufacturer\Form\ManufacturerType;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use function array_map;
 use function mb_strtolower;
 use function str_replace;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -28,7 +28,8 @@ final class ManufacturerController extends AbstractController
         $dto = new ManufacturerDto();
 
         $form = $this->createForm(ManufacturerType::class, $dto)
-            ->handleRequest($request);
+            ->handleRequest($request)
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $id = ManufacturerId::generate();
@@ -49,14 +50,15 @@ final class ManufacturerController extends AbstractController
         }
 
         if (null !== $dto->name && $form->isSubmitted()) {
-            /** @var Manufacturer|null $manufacturer */
+            /** @var null|Manufacturer $manufacturer */
             $manufacturer = $em->createQueryBuilder()
                 ->select('t')
                 ->from(Manufacturer::class, 't')
                 ->where('LOWER(t.name) = :name')
                 ->getQuery()
                 ->setParameter('name', mb_strtolower($dto->name))
-                ->getOneOrNullResult();
+                ->getOneOrNullResult()
+            ;
 
             if (null !== $manufacturer) {
                 return new JsonResponse([

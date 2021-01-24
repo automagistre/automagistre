@@ -19,22 +19,22 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class OrderInfoDto
 {
     /**
-     * @var OperandId|null
+     * @var null|OperandId
      */
     public $customerId;
 
     /**
-     * @var CarId|null
+     * @var null|CarId
      */
     public $carId;
 
     /**
-     * @var string|null
+     * @var null|string
      */
     public $description;
 
     /**
-     * @var EmployeeId|null
+     * @var null|EmployeeId
      */
     public $workerId;
 

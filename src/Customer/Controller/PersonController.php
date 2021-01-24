@@ -9,14 +9,14 @@ use App\Customer\Entity\Person;
 use App\Customer\Event\PersonCreated;
 use App\Customer\Form\PersonDto;
 use App\Customer\Form\PersonType;
+use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use function array_map;
 use function assert;
-use Doctrine\ORM\QueryBuilder;
 use function explode;
 use function mb_strtolower;
 use function sprintf;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -31,7 +31,8 @@ final class PersonController extends OperandController
         $dto = new PersonDto();
 
         $form = $this->createForm(PersonType::class, $dto)
-            ->handleRequest($request);
+            ->handleRequest($request)
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $id = OperandId::generate();
@@ -54,14 +55,15 @@ final class PersonController extends OperandController
         }
 
         if (null !== $dto->telephone && $form->isSubmitted()) {
-            /** @var Person|null $person */
+            /** @var null|Person $person */
             $person = $em->createQueryBuilder()
                 ->select('t')
                 ->from(Person::class, 't')
                 ->where('t.telephone = :telephone')
                 ->getQuery()
                 ->setParameter('telephone', $dto->telephone, 'phone_number')
-                ->getOneOrNullResult();
+                ->getOneOrNullResult()
+            ;
 
             if (null !== $person) {
                 return new JsonResponse([

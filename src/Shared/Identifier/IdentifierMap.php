@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Shared\Identifier;
 
+use InvalidArgumentException;
 use function array_key_exists;
 use function get_class;
-use InvalidArgumentException;
 use function sprintf;
 
 final class IdentifierMap

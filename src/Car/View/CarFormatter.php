@@ -37,6 +37,7 @@ final class CarFormatter implements IdentifierFormatterInterface
     {
         $view = $this->registry->view($identifier);
         $vehicle = $view['vehicleId'] ?? null;
+
         if (null === $vehicle) {
             return 'Не определено';
         }

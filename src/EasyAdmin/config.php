@@ -12,5 +12,6 @@ return static function (ContainerConfigurator $configurator): void {
         ->get(App\EasyAdmin\ErrorRenderer\EasyAdminErrorRenderer::class)
         ->decorate('twig.error_renderer.html')
         ->args([service(App\EasyAdmin\ErrorRenderer\EasyAdminErrorRenderer::class.'.inner')])
-        ->arg('$debug', '%kernel.debug%');
+        ->arg('$debug', '%kernel.debug%')
+    ;
 };

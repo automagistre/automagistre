@@ -41,7 +41,8 @@ final class VehicleType extends AbstractType
             ->add('yearTill', IntegerType::class, [
                 'label' => 'Конец производства',
                 'required' => false,
-            ]);
+            ])
+        ;
 
         $builder->get('caseName')->addViewTransformer(new EmptyStringAndCaseTransformer());
     }

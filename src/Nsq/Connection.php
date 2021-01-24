@@ -1,19 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nsq;
 
-use function json_encode;
-use const JSON_FORCE_OBJECT;
-use const JSON_THROW_ON_ERROR;
 use LogicException;
-use function pack;
-use const PHP_EOL;
 use PHPinnacle\Buffer\ByteBuffer;
 use Socket\Raw\Factory;
 use Socket\Raw\Socket;
+use Throwable;
+use function json_encode;
+use function pack;
 use function sprintf;
 use function strlen;
-use Throwable;
+use const JSON_FORCE_OBJECT;
+use const JSON_THROW_ON_ERROR;
+use const PHP_EOL;
 
 final class Connection
 {

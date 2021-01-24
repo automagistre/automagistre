@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Part\Controller;
 
-use function abs;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Form\Type\QuantityType;
 use App\Part\Entity\PartId;
@@ -15,6 +14,7 @@ use App\Storage\Entity\Motion;
 use App\Storage\Enum\Source;
 use LogicException;
 use Symfony\Component\HttpFoundation\Response;
+use function abs;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -24,6 +24,7 @@ final class PartIncomeController extends AbstractController
     public function incomeAction(): Response
     {
         $partId = $this->getIdentifier(PartId::class);
+
         if (!$partId instanceof PartId) {
             throw new LogicException('Part required.');
         }
@@ -31,7 +32,8 @@ final class PartIncomeController extends AbstractController
         $form = $this->createFormBuilder()
             ->add('quantity', QuantityType::class)
             ->getForm()
-            ->handleRequest($this->request);
+            ->handleRequest($this->request)
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->registry->manager(Motion::class);
@@ -57,6 +59,7 @@ final class PartIncomeController extends AbstractController
     public function outcomeAction(): Response
     {
         $partId = $this->getIdentifier(PartId::class);
+
         if (!$partId instanceof PartId) {
             throw new LogicException('Part required.');
         }
@@ -64,7 +67,8 @@ final class PartIncomeController extends AbstractController
         $form = $this->createFormBuilder()
             ->add('quantity', QuantityType::class)
             ->getForm()
-            ->handleRequest($this->request);
+            ->handleRequest($this->request)
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->registry->manager(Motion::class);

@@ -10,9 +10,9 @@ use App\EasyAdmin\Controller\AbstractController;
 use App\Order\Entity\Order;
 use App\Order\Form\Finish\OrderFinishDto;
 use App\Order\Form\Finish\OrderFinishType;
-use function assert;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use function assert;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -22,6 +22,7 @@ final class OrderPrintController extends AbstractController
     public function matchingAction(): Response
     {
         $order = $this->getEntity(Order::class);
+
         if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order is required.');
         }
@@ -40,6 +41,7 @@ final class OrderPrintController extends AbstractController
     public function giveOutAction(): Response
     {
         $order = $this->getEntity(Order::class);
+
         if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order is required');
         }
@@ -55,6 +57,7 @@ final class OrderPrintController extends AbstractController
         $request = $this->request;
 
         $order = $this->getEntity(Order::class);
+
         if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order is required');
         }
@@ -66,8 +69,10 @@ final class OrderPrintController extends AbstractController
             );
 
             $form = $this->createForm(OrderFinishType::class, $dto)->handleRequest($request);
+
             if ($form->isSubmitted() && $form->isValid()) {
                 $mileageDto = $dto->mileage;
+
                 if (null !== $mileageDto && null !== $mileageDto->mileage) {
                     /** @var Car $car */
                     $car = $this->registry->get(Car::class, $order->getCarId());
@@ -97,6 +102,7 @@ final class OrderPrintController extends AbstractController
     public function updAction(): Response
     {
         $order = $this->getEntity(Order::class);
+
         if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order is required');
         }
@@ -109,6 +115,7 @@ final class OrderPrintController extends AbstractController
     public function invoiceAction(): Response
     {
         $order = $this->getEntity(Order::class);
+
         if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order is required');
         }

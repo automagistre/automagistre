@@ -20,7 +20,7 @@ class ExpenseDto
     public $name;
 
     /**
-     * @var WalletId|null
+     * @var null|WalletId
      */
     public $walletId;
 }

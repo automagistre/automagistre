@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     Cron\CronBundle\CronCronBundle::class => ['all' => true],
     DAMA\DoctrineTestBundle\DAMADoctrineTestBundle::class => ['test' => true],

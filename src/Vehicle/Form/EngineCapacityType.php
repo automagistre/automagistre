@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Vehicle\Form;
 
-use function array_combine;
-use function array_map;
-use function number_format;
-use function range;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function array_combine;
+use function array_map;
+use function number_format;
+use function range;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>

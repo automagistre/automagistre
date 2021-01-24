@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Shared\Doctrine\ORM\Mapping\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
-use function is_numeric;
 use LogicException;
 use Money\Money;
+use function is_numeric;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>

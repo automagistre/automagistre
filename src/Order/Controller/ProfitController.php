@@ -9,7 +9,6 @@ use App\Customer\Enum\CustomerTransactionSource;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Order\Entity\Order;
 use App\Shared\Doctrine\Registry;
-use function count;
 use DateInterval;
 use DateTimeImmutable;
 use Money\Currency;
@@ -17,6 +16,7 @@ use Money\Money;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use function count;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -37,6 +37,7 @@ final class ProfitController extends AbstractController
         $start = $request->query->has('start')
             ? DateTimeImmutable::createFromFormat(self::DATETIME_FORMAT, $request->query->get('start'))
             : (new DateTimeImmutable('-1 week'))->setTime(0, 0);
+
         if (!$start instanceof DateTimeImmutable) {
             throw new BadRequestHttpException('Wrong date form of Start');
         }
@@ -44,6 +45,7 @@ final class ProfitController extends AbstractController
         $end = $request->query->has('end')
             ? DateTimeImmutable::createFromFormat(self::DATETIME_FORMAT, $request->query->get('end'))
             : (new DateTimeImmutable())->setTime(23, 59, 59);
+
         if (!$end instanceof DateTimeImmutable) {
             throw new BadRequestHttpException('Wrong date form of End');
         }
@@ -151,6 +153,7 @@ final class ProfitController extends AbstractController
         unset($item);
 
         $total = null;
+
         if (0 < count($orders)) {
             $servicePrice = Money::sum(...$servicePrices);
             $serviceProfit = Money::sum(...$serviceProfits);

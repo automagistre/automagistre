@@ -8,12 +8,12 @@ use App\Order\Entity\OrderStorage;
 use App\Order\Form\Feedback\FeedbackType;
 use App\Order\Form\Finish\OrderFinishType;
 use App\Order\Form\Payment\OrderPaymentType;
-use function assert;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function assert;
 
 final class OrderCloseType extends AbstractType
 {
@@ -35,7 +35,8 @@ final class OrderCloseType extends AbstractType
                 'disabled_description' => true,
                 'predefine_payment' => false,
             ])
-            ->add('feedback', FeedbackType::class);
+            ->add('feedback', FeedbackType::class)
+        ;
 
         $builder
             ->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event): void {
@@ -47,7 +48,8 @@ final class OrderCloseType extends AbstractType
                 if ($order->getTotalForPayment()->isZero()) {
                     $event->getForm()->remove('payment');
                 }
-            });
+            })
+        ;
     }
 
     /**

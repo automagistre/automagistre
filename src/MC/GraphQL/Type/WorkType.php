@@ -8,10 +8,10 @@ use App\GraphQL\Type\Types;
 use App\MC\Entity\McLine;
 use App\MC\Entity\McPart;
 use App\Site\Context;
-use function array_map;
 use GraphQL\Deferred;
 use GraphQL\Type\Definition\ObjectType;
 use Money\Money;
+use function array_map;
 
 final class WorkType extends ObjectType
 {

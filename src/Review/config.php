@@ -16,13 +16,15 @@ return static function (ContainerConfigurator $configurator): void {
     ]);
 
     $configurator->parameters()
-        ->set('env(GOOGLE_CREDENTIALS_FILE)', '[]');
+        ->set('env(GOOGLE_CREDENTIALS_FILE)', '[]')
+    ;
 
     $services = $configurator->services();
 
     $services
         ->get(App\Review\Yandex\Controller\RedirectController::class)
-        ->tag('controller.service_arguments');
+        ->tag('controller.service_arguments')
+    ;
 
     $services
         ->set('review.google_client', Google_Client::class)
@@ -32,11 +34,13 @@ return static function (ContainerConfigurator $configurator): void {
                 ->autowire()
                 ->arg('$googleCredentials', '%env(json:GOOGLE_CREDENTIALS_FILE)%'),
             'client',
-        ]);
+        ])
+    ;
 
     $services
         ->get(App\Review\Google\Controller\OAuth2Controller::class)
-        ->arg('$googleClient', service('review.google_client'));
+        ->arg('$googleClient', service('review.google_client'))
+    ;
 
     $services
         ->get(App\Review\Command\FetchCommand::class)
@@ -60,5 +64,6 @@ return static function (ContainerConfigurator $configurator): void {
                             inline_service(App\Review\Yandex\YandexFetcher::class)->autowire(),
                         ]),
                 ),
-        );
+        )
+    ;
 };

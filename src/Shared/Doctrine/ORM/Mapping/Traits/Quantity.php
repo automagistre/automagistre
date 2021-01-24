@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 trait Quantity
 {
     /**
-     * @var int|null
+     * @var null|int
      *
      * @Assert\NotBlank
      *

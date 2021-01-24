@@ -8,11 +8,11 @@ use App\Expense\Entity\Expense;
 use App\Expense\Entity\ExpenseId;
 use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\IdentifierFormatter;
-use function array_map;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function array_map;
 
 final class ExpenseType extends AbstractType
 {

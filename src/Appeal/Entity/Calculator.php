@@ -12,7 +12,6 @@ use App\MC\Entity\McWorkId;
 use App\MessageBus\ContainsRecordedMessages;
 use App\MessageBus\PrivateMessageRecorderCapabilities;
 use App\Part\Entity\PartId;
-use function array_filter;
 use ArrayIterator;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -22,6 +21,7 @@ use libphonenumber\PhoneNumber;
 use LogicException;
 use Money\Currency;
 use Money\Money;
+use function array_filter;
 
 /**
  * @ORM\Entity(readOnly=true)

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Calendar\Form;
 
-use function array_combine;
-use function range;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateIntervalType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function array_combine;
+use function range;
 
 final class ScheduleType extends AbstractType
 {
@@ -41,7 +41,8 @@ final class ScheduleType extends AbstractType
                     'hours' => 'Часы',
                     'minutes' => 'Минуты',
                 ],
-            ]);
+            ])
+        ;
     }
 
     /**

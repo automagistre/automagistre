@@ -36,7 +36,7 @@ class Income
     private $supplierId;
 
     /**
-     * @var string|null
+     * @var null|string
      *
      * @ORM\Column(nullable=true)
      */
@@ -55,7 +55,7 @@ class Income
     private $incomeParts;
 
     /**
-     * @var DateTimeImmutable|null
+     * @var null|DateTimeImmutable
      *
      * @ORM\Column(type="date_immutable", nullable=true)
      */
@@ -67,7 +67,7 @@ class Income
     private ?User $accruedBy = null;
 
     /**
-     * @var Money|null
+     * @var null|Money
      *
      * @ORM\Embedded(class=Money::class)
      */

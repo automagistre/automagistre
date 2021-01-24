@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Calendar\View;
 
 use App\Calendar\Entity\EntryView;
@@ -28,7 +30,8 @@ final class DoctrineStreamer implements Streamer
             ->setParameter('start', $date->setTime(0, 0, 0), 'datetime')
             ->setParameter('end', $date->setTime(23, 59, 59), 'datetime')
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
 
         return new StreamCollection($entities);
     }

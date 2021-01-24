@@ -14,7 +14,6 @@ use App\Wallet\Entity\Wallet;
 use App\Wallet\Entity\WalletTransaction;
 use App\Wallet\Entity\WalletTransactionId;
 use App\Wallet\Enum\WalletTransactionSource;
-use function assert;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use LogicException;
@@ -22,6 +21,7 @@ use Money\Money;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormInterface;
+use function assert;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -31,11 +31,13 @@ final class TransactionController extends AbstractController
     protected function createNewEntity(): TransactionDto
     {
         $recipient = $this->getEntity(Operand::class);
+
         if (!$recipient instanceof Operand) {
             throw new LogicException('Operand required.');
         }
 
         $request = $this->request;
+
         if (!$request->query->has('type')) {
             throw new LogicException('Type required.');
         }
@@ -45,7 +47,8 @@ final class TransactionController extends AbstractController
         $model->increment = 'increment' === $request->query->getAlnum('type');
 
         $model->wallet = $this->registry->repository(Wallet::class)
-            ->findOneBy(['defaultInManualTransaction' => true]);
+            ->findOneBy(['defaultInManualTransaction' => true])
+        ;
 
         return $model;
     }
@@ -133,13 +136,16 @@ final class TransactionController extends AbstractController
         $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
 
         $operand = $this->getEntity(Operand::class);
+
         if ($operand instanceof Operand) {
             $qb->andWhere('entity.operandId = :operand')
-                ->setParameter('operand', $operand->toId());
+                ->setParameter('operand', $operand->toId())
+            ;
         }
 
         $qb->orderBy('entity.createdAt', 'DESC')
-            ->addOrderBy('entity.id', 'DESC');
+            ->addOrderBy('entity.id', 'DESC')
+        ;
 
         return $qb;
     }

@@ -41,6 +41,7 @@ final class ReserveAccruedPartsListener implements EventSubscriberInterface
         $partId = $event->getSubject();
 
         $reservable = $this->reservationManager->reservable($partId);
+
         if (0 >= $reservable) {
             return;
         }
@@ -57,7 +58,8 @@ final class ReserveAccruedPartsListener implements EventSubscriberInterface
             ->andWhere('close.id IS NULL')
             ->getQuery()
             ->setParameter('part', $partId)
-            ->getResult();
+            ->getResult()
+        ;
 
         if ([] === $items) {
             return;

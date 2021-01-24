@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Customer\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use function implode;
 use Symfony\Component\Validator\Constraints as Assert;
+use function implode;
 
 /**
  * @ORM\Embeddable
@@ -14,21 +14,21 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class Requisite
 {
     /**
-     * @var string|null
+     * @var null|string
      *
      * @ORM\Column(nullable=true)
      */
     public $bank;
 
     /**
-     * @var string|null
+     * @var null|string
      *
      * @ORM\Column(nullable=true)
      */
     public $legalAddress;
 
     /**
-     * @var string|null
+     * @var null|string
      *
      * @Assert\Type("numeric", message="Значение может содержать только цифры.")
      *
@@ -37,7 +37,7 @@ final class Requisite
     public $ogrn;
 
     /**
-     * @var string|null
+     * @var null|string
      *
      * @Assert\Type("numeric", message="Значение может содержать только цифры.")
      *
@@ -46,7 +46,7 @@ final class Requisite
     public $inn;
 
     /**
-     * @var string|null
+     * @var null|string
      *
      * @Assert\Type("numeric", message="Значение может содержать только цифры.")
      *
@@ -55,7 +55,7 @@ final class Requisite
     public $kpp;
 
     /**
-     * @var string|null
+     * @var null|string
      *
      * @Assert\Type("numeric", message="Значение может содержать только цифры.")
      * @Assert\Length(min="20", max="20")
@@ -65,7 +65,7 @@ final class Requisite
     public $rs;
 
     /**
-     * @var string|null
+     * @var null|string
      *
      * @Assert\Type("numeric", message="Значение может содержать только цифры.")
      * @Assert\Length(min="20", max="20")
@@ -75,7 +75,7 @@ final class Requisite
     public $ks;
 
     /**
-     * @var string|null
+     * @var null|string
      *
      * @Assert\Type("numeric", message="Значение может содержать только цифры.")
      *
@@ -86,6 +86,7 @@ final class Requisite
     public function __toString(): string
     {
         $data = [];
+
         if (null !== $this->ogrn) {
             $data[] = 'ОГРН: '.$this->ogrn;
         }

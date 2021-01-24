@@ -43,6 +43,7 @@ final class OrderStatusListener implements EventSubscriberInterface
     public function inPartReserved(GenericEvent $event): void
     {
         $reservation = $event->getSubject();
+
         if (!$reservation instanceof Reservation) {
             throw new LogicException('Reservation required.');
         }
@@ -63,6 +64,7 @@ final class OrderStatusListener implements EventSubscriberInterface
             }
 
             $reservable = $this->reservationManager->reservable($item->getPartId());
+
             if (($reserved + $reservable) < $required) {
                 return;
             }

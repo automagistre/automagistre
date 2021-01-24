@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tenant;
 
+use Premier\Enum\Enum;
 use function getenv;
 use function in_array;
 use function is_string;
-use Premier\Enum\Enum;
 use function sprintf;
 
 /**
@@ -17,7 +17,7 @@ use function sprintf;
  * @method string      toSmsOnScheduledEntry()
  * @method string      toSmsOnReminderEntry()
  * @method string      toTelegramChannel()
- * @method string|null toYandexMapBusinessId()
+ * @method null|string toYandexMapBusinessId()
  * @method static      Tenant demo()
  * @method static      Tenant msk()
  * @method static      Tenant fromIdentifier(string $name)

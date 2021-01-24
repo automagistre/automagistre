@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Calendar\View;
 
-use function implode;
 use InvalidArgumentException;
+use function implode;
 use function sprintf;
 
 final class StreamOverflowException extends InvalidArgumentException

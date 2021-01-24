@@ -33,7 +33,8 @@ final class SecurityController extends AbstractController
         ])
             ->add('_username')
             ->add('_password', PasswordType::class)
-            ->getForm();
+            ->getForm()
+        ;
 
         return $this->render('admin/security/login.html.twig', [
             'form' => $form->createView(),

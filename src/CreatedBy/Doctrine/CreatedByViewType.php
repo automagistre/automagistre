@@ -7,8 +7,8 @@ namespace App\CreatedBy\Doctrine;
 use App\CreatedBy\Entity\CreatedByView;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
-use function explode;
 use Ramsey\Uuid\Uuid;
+use function explode;
 
 final class CreatedByViewType extends Type
 {

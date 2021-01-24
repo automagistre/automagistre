@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Calendar\Controller;
 
 use App\Calendar\Action\ChangeOrderCalendarEntryCommand;
@@ -23,19 +25,19 @@ use App\EasyAdmin\Controller\AbstractController;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderId;
 use App\Order\Enum\OrderStatus;
-use function array_map;
-use function array_merge;
-use function assert;
 use Closure;
 use DateInterval;
 use DateTimeImmutable;
 use DateTimeZone;
-use function is_string;
 use Ramsey\Uuid\Uuid;
-use function range;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use function array_map;
+use function array_merge;
+use function assert;
+use function is_string;
+use function range;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -69,6 +71,7 @@ final class CalendarEntryController extends AbstractController
 
         $orderInfo = new OrderInfoDto();
         $orderId = $this->getIdentifier(OrderId::class);
+
         if ($orderId instanceof OrderId) {
             $orderView = $this->registry->view($orderId);
 
@@ -98,7 +101,8 @@ final class CalendarEntryController extends AbstractController
                 'disable_customer_and_car' => null !== $orderId,
             ])
             ->getForm()
-            ->handleRequest($this->request);
+            ->handleRequest($this->request)
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $customerId = $dto->orderInfo->customerId;
@@ -147,6 +151,7 @@ final class CalendarEntryController extends AbstractController
         $date = null === $date
             ? $today
             : DateTimeImmutable::createFromFormat('Y-m-d', $date);
+
         if (false === $date) {
             throw new BadRequestHttpException('Wrong date.');
         }
@@ -220,7 +225,8 @@ final class CalendarEntryController extends AbstractController
                 'required' => false,
             ])
             ->getForm()
-            ->handleRequest($this->request);
+            ->handleRequest($this->request)
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->dispatchMessage(

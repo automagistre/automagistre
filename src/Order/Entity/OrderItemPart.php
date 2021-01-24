@@ -66,6 +66,7 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
     public function isHidden(): bool
     {
         $group = $this->getParent();
+
         if ($group instanceof OrderItemService) {
             $group = $group->getParent();
         }

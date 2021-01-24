@@ -11,14 +11,14 @@ use App\Storage\Entity\WarehouseName;
 use App\Storage\Entity\WarehouseParent;
 use App\Storage\Entity\WarehouseView;
 use App\Storage\Form\WarehouseDto;
-use function array_map;
-use function assert;
 use Closure;
-use function is_string;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use function array_map;
+use function assert;
+use function is_string;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -48,7 +48,8 @@ final class WarehouseController extends AbstractController
                 'label' => 'Родитель',
                 'choice_loader' => new CallbackChoiceLoader(function () use ($entity): array {
                     $ids = $this->registry->connection(WarehouseView::class)
-                        ->fetchAllAssociative('
+                        ->fetchAllAssociative(
+                            '
                             SELECT id
                             FROM warehouse
                             WHERE id NOT IN (
@@ -72,7 +73,8 @@ final class WarehouseController extends AbstractController
                             [
                                 'root' => 'warehouse_id',
                             ]
-                        );
+                        )
+                    ;
 
                     return array_map(fn (array $row) => WarehouseId::fromString($row['id']), $ids);
                 }),
@@ -81,7 +83,8 @@ final class WarehouseController extends AbstractController
                 'required' => false,
                 'expanded' => true,
             ])
-            ->getForm();
+            ->getForm()
+        ;
     }
 
     protected function persistEntity($entity): void
@@ -92,6 +95,7 @@ final class WarehouseController extends AbstractController
         $em = $this->em;
         $em->persist(new Warehouse($dto->id));
         $em->persist(new WarehouseName($dto->id, $dto->name));
+
         if (null !== $dto->parentId) {
             $em->persist(new WarehouseParent($dto->id, $dto->parentId));
         }
@@ -102,6 +106,7 @@ final class WarehouseController extends AbstractController
     protected function createEditDto(Closure $callable): ?object
     {
         $id = $this->request->query->get('id');
+
         if (!is_string($id)) {
             throw new BadRequestHttpException('id required.');
         }
@@ -121,6 +126,7 @@ final class WarehouseController extends AbstractController
 
         $em = $this->em;
         $view = $this->registry->getBy(WarehouseView::class, $dto->id);
+
         if ($view->name !== $dto->name) {
             $em->persist(new WarehouseName($dto->id, $dto->name));
         }

@@ -49,6 +49,7 @@ final class DecreaseSupplyOnIncomeAccruedListener implements EventSubscriberInte
                     }
 
                     $decrease = $incomePart->getQuantity();
+
                     if ($decrease > $supply->quantity) {
                         // Supply cannot be negative
                         $decrease = $supply->quantity;

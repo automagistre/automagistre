@@ -22,7 +22,7 @@ final class PersonDto
     public $firstName;
 
     /**
-     * @var string|null
+     * @var null|string
      */
     public $lastName;
 
@@ -36,7 +36,7 @@ final class PersonDto
     public $telephone;
 
     /**
-     * @var string|null
+     * @var null|string
      *
      * @Assert\Email
      */

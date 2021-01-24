@@ -6,13 +6,13 @@ namespace App\Car\Form\Mileage;
 
 use App\Car\Entity\Car;
 use App\Shared\Doctrine\Registry;
-use function sprintf;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function sprintf;
 
 final class CarMileageType extends AbstractType
 {
@@ -30,8 +30,9 @@ final class CarMileageType extends AbstractType
     {
         $builder
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
-                /** @var CarMileageDto|null $data */
+                /** @var null|CarMileageDto $data */
                 $data = $event->getData();
+
                 if (null === $data) {
                     return;
                 }
@@ -47,7 +48,8 @@ final class CarMileageType extends AbstractType
                             ? '(предыдущий отсутствует)'
                             : sprintf('(предыдущий: %s)', $mileage)),
                 ]);
-            });
+            })
+        ;
     }
 
     /**

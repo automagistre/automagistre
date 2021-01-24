@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\ErrorHandler\Debug;
 
@@ -16,6 +18,7 @@ $_SERVER['APP_DEBUG'] = $_ENV['APP_DEBUG'] = (int) $_SERVER['APP_DEBUG'] || filt
 
 if ($_SERVER['APP_DEBUG']) {
     umask(0000);
+
     if (class_exists(Debug::class)) {
         Debug::enable();
     }

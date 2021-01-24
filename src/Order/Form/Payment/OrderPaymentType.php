@@ -10,8 +10,6 @@ use App\EasyAdmin\Form\AutocompleteType;
 use App\Order\Entity\Order;
 use App\Shared\Doctrine\Registry;
 use App\Wallet\Entity\Wallet;
-use function array_map;
-use function assert;
 use Money\Currency;
 use Money\Money;
 use Symfony\Component\Form\AbstractType;
@@ -21,6 +19,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function array_map;
+use function assert;
 
 final class OrderPaymentType extends AbstractType
 {
@@ -47,14 +47,16 @@ final class OrderPaymentType extends AbstractType
             ])
             ->add('wallets', CollectionType::class, [
                 'entry_type' => OrderPaymentWalletType::class,
-            ]);
+            ])
+        ;
 
         if (!$disabledDescription) {
             $builder
                 ->add('description', TextType::class, [
                     'label' => 'Комментарий',
                     'required' => false,
-                ]);
+                ])
+            ;
         }
 
         $builder
@@ -95,7 +97,8 @@ final class OrderPaymentType extends AbstractType
                     },
                     $this->registry->manager()->getRepository(Wallet::class)->findBy(['useInOrder' => true]),
                 );
-            }, 0);
+            }, 0)
+        ;
     }
 
     /**

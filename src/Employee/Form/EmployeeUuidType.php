@@ -8,7 +8,6 @@ use App\Customer\Entity\Operand;
 use App\Employee\Entity\EmployeeId;
 use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\IdentifierFormatter;
-use function array_map;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\ChoiceList\View\ChoiceView;
@@ -16,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function array_map;
 use function usort;
 
 /**
@@ -44,7 +44,8 @@ final class EmployeeUuidType extends AbstractType
             'choice_loader' => new CallbackChoiceLoader(function (): array {
                 $ids = $this->registry
                     ->connection(Operand::class)
-                    ->fetchAllAssociative('SELECT id AS id FROM employee WHERE fired_at IS NULL');
+                    ->fetchAllAssociative('SELECT id AS id FROM employee WHERE fired_at IS NULL')
+                ;
 
                 return array_map(fn (array $row) => EmployeeId::fromString($row['id']), $ids);
             }),

@@ -10,7 +10,6 @@ use App\Customer\Enum\CustomerTransactionSource;
 use App\Employee\Entity\Employee;
 use App\Employee\Entity\SalaryView;
 use App\Shared\Doctrine\Registry;
-use function date;
 use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleErrorEvent;
@@ -19,6 +18,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Throwable;
+use function date;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -45,7 +45,8 @@ final class SalaryChargeCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('payday', InputArgument::OPTIONAL);
+            ->addArgument('payday', InputArgument::OPTIONAL)
+        ;
     }
 
     /**
@@ -78,7 +79,8 @@ final class SalaryChargeCommand extends Command
             ->andWhere('entity.ended IS NULL')
             ->getQuery()
             ->setParameter('payday', $payday)
-            ->getResult();
+            ->getResult()
+        ;
 
         $em = $this->registry->manager(CustomerTransaction::class);
 

@@ -9,36 +9,36 @@ use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Request\EntityTransformer;
 use App\User\Entity\User;
-use function array_keys;
-use function array_merge;
-use function assert;
 use Closure;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use EasyCorp\Bundle\EasyAdminBundle\Router\EasyAdminRouter;
-use function in_array;
-use function is_callable;
-use function is_string;
 use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
-use function mb_strtolower;
-use function method_exists;
 use Money\Formatter\DecimalMoneyFormatter;
 use Money\Money;
 use Money\MoneyFormatter;
 use Ramsey\Uuid\Uuid;
 use RuntimeException;
-use function Sentry\configureScope;
 use Sentry\State\Scope;
-use function sprintf;
 use stdClass;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use function array_keys;
+use function array_merge;
+use function assert;
+use function in_array;
+use function is_callable;
+use function is_string;
+use function mb_strtolower;
+use function method_exists;
+use function Sentry\configureScope;
+use function sprintf;
 use function Symfony\Component\String\u;
 use function trim;
 use function urldecode;
@@ -221,6 +221,7 @@ abstract class AbstractController extends EasyAdminController
         $newForm = $this->createNewForm($entity, $fields);
 
         $newForm->handleRequest($this->request);
+
         if ($newForm->isSubmitted() && $newForm->isValid()) {
             $this->processUploadedFiles($newForm);
 
@@ -308,11 +309,13 @@ abstract class AbstractController extends EasyAdminController
             ->where('t.id = :id')
             ->setParameter('id', $this->request->get('id'))
             ->getQuery()
-            ->getOneOrNullResult(AbstractQuery::HYDRATE_ARRAY);
+            ->getOneOrNullResult(AbstractQuery::HYDRATE_ARRAY)
+        ;
 
         $entity = $this->createEditDto($dtoClosure) ?? $easyadmin['item'];
 
         $property = $this->request->query->get('property');
+
         if (null !== $property && $this->request->isXmlHttpRequest()) {
             $newValue = 'true' === mb_strtolower($this->request->query->get('newValue'));
             $fieldsMetadata = $this->entity['list']['fields'];
@@ -332,6 +335,7 @@ abstract class AbstractController extends EasyAdminController
         $deleteForm = $this->createDeleteForm($this->entity['name'], $id);
 
         $editForm->handleRequest($this->request);
+
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->processUploadedFiles($editForm);
 

@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Calendar\Entity;
 
-use const DATE_RFC3339_EXTENDED;
 use DateInterval;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use const DATE_RFC3339_EXTENDED;
 
 /**
  * @psalm-immutable

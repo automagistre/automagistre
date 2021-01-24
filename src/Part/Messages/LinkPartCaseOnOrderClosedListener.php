@@ -29,22 +29,26 @@ final class LinkPartCaseOnOrderClosedListener implements MessageHandler
         $order = $this->registry->get(Order::class, $event->orderId);
 
         $carId = $order->getCarId();
+
         if (null === $carId) {
             return;
         }
 
         $carView = $this->registry->view($carId);
         $vehicleId = $carView['vehicleId'];
+
         if (!$vehicleId instanceof VehicleId) {
             return;
         }
 
         $vehicleView = $this->registry->view($vehicleId);
+
         if (null === $vehicleView['caseName']) {
             return;
         }
 
         $parts = $order->getItems(OrderItemPart::class);
+
         if (0 === count($parts)) {
             return;
         }
@@ -66,7 +70,8 @@ final class LinkPartCaseOnOrderClosedListener implements MessageHandler
                         'vehicle' => $vehicleId->toString(),
                         'part' => $part,
                     ]
-                );
+                )
+            ;
         }
     }
 }

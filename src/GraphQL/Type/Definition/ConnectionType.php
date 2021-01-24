@@ -36,6 +36,7 @@ final class ConnectionType extends ObjectType
     public static function inferName(string $name): string
     {
         $pos = strrpos($name, 'Type');
+
         if (false !== $pos) {
             $name = substr_replace($name, 'Connection', $pos, 10);
         }

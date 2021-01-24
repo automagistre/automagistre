@@ -7,20 +7,20 @@ namespace App\Shared\Doctrine;
 use App\Costil;
 use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierMap;
-use function array_map;
-use function assert;
-use function class_exists;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\Persistence\ManagerRegistry;
+use LogicException;
+use Ramsey\Uuid\UuidInterface;
+use function array_map;
+use function assert;
+use function class_exists;
 use function get_class;
 use function is_array;
 use function is_object;
-use LogicException;
-use Ramsey\Uuid\UuidInterface;
 use function serialize;
 use function sprintf;
 use function str_replace;
@@ -59,9 +59,9 @@ final class Registry
      *
      * @psalm-return T
      *
-     * @param Identifier|UuidInterface|string $id
-     * @param mixed|null                      $lockMode
-     * @param mixed|null                      $lockVersion
+     * @param Identifier|string|UuidInterface $id
+     * @param null|mixed                      $lockMode
+     * @param null|mixed                      $lockVersion
      */
     public function get(string $class, $id, $lockMode = null, $lockVersion = null)
     {
@@ -85,7 +85,7 @@ final class Registry
      *
      * @psalm-return T
      *
-     * @param Identifier|array $criteria
+     * @param array|Identifier $criteria
      */
     public function getBy(string $class, $criteria)
     {
@@ -175,7 +175,8 @@ final class Registry
             ->where('t.id = :id')
             ->setParameter('id', $identifier)
             ->getQuery()
-            ->getOneOrNullResult(AbstractQuery::HYDRATE_ARRAY);
+            ->getOneOrNullResult(AbstractQuery::HYDRATE_ARRAY)
+        ;
 
         if (!is_array($view)) {
             throw new LogicException(sprintf(
@@ -196,17 +197,20 @@ final class Registry
         $qb = $this->manager($class)
             ->createQueryBuilder()
             ->select('t')
-            ->from($class, 't');
+            ->from($class, 't')
+        ;
 
         foreach ($criteria as $field => $value) {
             if (is_array($value)) {
                 $qb
                     ->andWhere(sprintf('t.%s IN (:%s)', $field, $field))
-                    ->setParameter($field, $value);
+                    ->setParameter($field, $value)
+                ;
             } else {
                 $qb
                     ->andWhere(sprintf('t.%s = :%s', $field, $field))
-                    ->setParameter($field, $value);
+                    ->setParameter($field, $value)
+                ;
             }
         }
 

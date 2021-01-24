@@ -6,9 +6,9 @@ namespace App\Sms\Messages;
 
 use App\Customer\Entity\OperandId;
 use App\Sms\Enum\Feature;
-use function array_key_exists;
 use DateTimeImmutable;
 use libphonenumber\PhoneNumber;
+use function array_key_exists;
 
 /**
  * @psalm-immutable

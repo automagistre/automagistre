@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Order\Enum;
 
-use function in_array;
 use Premier\Enum\Enum;
+use function in_array;
 
 /**
  * @method string getColor()

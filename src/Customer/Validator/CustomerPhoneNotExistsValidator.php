@@ -46,7 +46,8 @@ final class CustomerPhoneNotExistsValidator extends ConstraintValidator
             ->orWhere('organization.telephone = :telephone')
             ->setParameter('telephone', $value, 'phone_number')
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getOneOrNullResult()
+        ;
 
         if (null === $entity) {
             return;

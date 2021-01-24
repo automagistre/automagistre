@@ -53,7 +53,8 @@ final class PublishExtension extends AbstractExtension
                 $result = $this->registry->connection()
                     ->fetchOne('SELECT published FROM publish_view WHERE id = :id', [
                         'id' => $id,
-                    ]);
+                    ])
+                ;
 
                 return (bool) $result;
             }),

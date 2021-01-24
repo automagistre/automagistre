@@ -30,22 +30,22 @@ final class ModelUpdate
     public $name;
 
     /**
-     * @var string|null
+     * @var null|string
      */
     public $localizedName;
 
     /**
-     * @var string|null
+     * @var null|string
      */
     public $caseName;
 
     /**
-     * @var int|null
+     * @var null|int
      */
     public $yearFrom;
 
     /**
-     * @var int|null
+     * @var null|int
      */
     public $yearTill;
 }

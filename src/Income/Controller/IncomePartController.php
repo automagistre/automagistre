@@ -9,9 +9,9 @@ use App\Income\Entity\Income;
 use App\Income\Entity\IncomePart;
 use App\Income\Entity\IncomePartId;
 use App\Shared\Identifier\IdentifierFormatter;
+use LogicException;
 use function assert;
 use function in_array;
-use LogicException;
 use function sprintf;
 use function urlencode;
 
@@ -27,6 +27,7 @@ final class IncomePartController extends AbstractController
     {
         if (in_array($actionName, ['edit', 'delete'], true)) {
             $incomePart = $this->findCurrentEntity();
+
             if (!$incomePart instanceof IncomePart) {
                 throw new LogicException('IncomePart required.');
             }
@@ -42,6 +43,7 @@ final class IncomePartController extends AbstractController
     protected function createNewEntity(): IncomePart
     {
         $income = $this->getEntity(Income::class);
+
         if (!$income instanceof Income) {
             throw new LogicException('Income required.');
         }

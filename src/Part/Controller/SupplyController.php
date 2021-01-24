@@ -25,6 +25,7 @@ final class SupplyController extends AbstractController
         $request = $this->request;
 
         $partId = $this->getIdentifier(PartId::class);
+
         if (!$partId instanceof PartId) {
             throw new BadRequestException('PartId required.');
         }
@@ -42,7 +43,8 @@ final class SupplyController extends AbstractController
             ->add('quantity', QuantityType::class, [
             ])
             ->getForm()
-            ->handleRequest($request);
+            ->handleRequest($request)
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->em;

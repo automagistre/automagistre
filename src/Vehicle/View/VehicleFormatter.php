@@ -34,6 +34,7 @@ final class VehicleFormatter implements IdentifierFormatterInterface
         );
 
         $case = $view['caseName'] ?? null;
+
         if (null !== $case) {
             $text .= sprintf(' - %s', $case);
         }

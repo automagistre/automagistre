@@ -19,15 +19,15 @@ use App\Wallet\Entity\WalletTransaction;
 use App\Wallet\Entity\WalletTransactionId;
 use App\Wallet\Enum\WalletTransactionSource;
 use App\Wallet\Form\WalletType;
-use function assert;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
 use Money\Money;
-use function sprintf;
 use stdClass;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use function assert;
+use function sprintf;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -37,6 +37,7 @@ final class EmployeeController extends AbstractController
     public function salaryAction(): Response
     {
         $recipientId = $this->getIdentifier(OperandId::class);
+
         if (!$recipientId instanceof OperandId) {
             throw new BadRequestHttpException('Person required.');
         }
@@ -57,7 +58,8 @@ final class EmployeeController extends AbstractController
                 'required' => false,
             ])
             ->getForm()
-            ->handleRequest($this->request);
+            ->handleRequest($this->request)
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->transactional(static function (EntityManagerInterface $em) use ($model, $recipientId): void {
@@ -100,6 +102,7 @@ final class EmployeeController extends AbstractController
     public function penaltyAction(): Response
     {
         $personId = $this->getIdentifier(OperandId::class);
+
         if (!$personId instanceof OperandId) {
             throw new BadRequestHttpException('Person required.');
         }
@@ -120,7 +123,8 @@ final class EmployeeController extends AbstractController
                 'required' => true,
             ])
             ->getForm()
-            ->handleRequest($this->request);
+            ->handleRequest($this->request)
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->transactional(function (EntityManagerInterface $em) use ($model, $personId): void {
@@ -158,6 +162,7 @@ final class EmployeeController extends AbstractController
     public function fireAction(): Response
     {
         $entity = $this->findCurrentEntity();
+
         if (!$entity instanceof Employee) {
             throw new LogicException('Employee required.');
         }
@@ -198,7 +203,8 @@ final class EmployeeController extends AbstractController
             $entity = $parameters['entity'];
 
             $parameters['salaries'] = $this->registry->repository(SalaryView::class)
-                ->findBy(['employeeId' => $entity->toId()]);
+                ->findBy(['employeeId' => $entity->toId()])
+            ;
         }
 
         return parent::renderTemplate($actionName, $templatePath, $parameters);

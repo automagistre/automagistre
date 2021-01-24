@@ -23,14 +23,15 @@ use App\Fixtures\Part\GasketFixture;
 use App\Fixtures\Storage\MainWarehouseFixture;
 use App\Fixtures\Vehicle\NissanGTRFixture;
 use App\Fixtures\Wallet\WalletFixtures;
+use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigManager;
+use Generator;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use function array_diff;
 use function array_keys;
 use function array_replace;
 use function array_unique;
-use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigManager;
-use Generator;
 use function http_build_query;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use function in_array;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>

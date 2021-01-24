@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Order\View;
 
 use App\Calendar\Entity\EntryView;

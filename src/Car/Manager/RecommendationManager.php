@@ -21,8 +21,8 @@ use App\Shared\Doctrine\Registry;
 use Doctrine\ORM\EntityManagerInterface;
 use DomainException;
 use Generator;
-use function get_class;
 use Ramsey\Uuid\Uuid;
+use function get_class;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -110,6 +110,7 @@ final class RecommendationManager
                 $orderItemService->getPrice(),
                 $worker,
             );
+
             if ($oldRecommendation instanceof Recommendation) {
                 foreach ($oldRecommendation->getParts() as $part) {
                     $em->remove($part);
@@ -124,7 +125,8 @@ final class RecommendationManager
                     ->where('entity.orderItemPart = :item')
                     ->getQuery()
                     ->setParameter('item', $orderItemPart)
-                    ->execute();
+                    ->execute()
+                ;
 
                 $recommendation->addPart(new RecommendationPart(
                     RecommendationPartId::generate(),
@@ -159,7 +161,8 @@ final class RecommendationManager
             ->orderBy('entity.id', 'DESC')
             ->getQuery()
             ->setParameter('realization', $orderItemService->toId())
-            ->getOneOrNullResult();
+            ->getOneOrNullResult()
+        ;
     }
 
     /**

@@ -24,6 +24,7 @@ final class SalaryController extends AbstractController
     protected function newAction(): Response
     {
         $employeeId = $this->getIdentifier(EmployeeId::class);
+
         if (!$employeeId instanceof EmployeeId) {
             throw new LogicException('Employee required.');
         }
@@ -43,7 +44,8 @@ final class SalaryController extends AbstractController
                 'label' => 'Сумма',
             ])
             ->getForm()
-            ->handleRequest($this->request);
+            ->handleRequest($this->request)
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->em;

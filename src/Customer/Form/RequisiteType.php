@@ -44,7 +44,8 @@ final class RequisiteType extends AbstractType
             ])
             ->add('bik', TextType::class, [
                 'label' => 'БИК',
-            ]);
+            ])
+        ;
     }
 
     /**
@@ -56,6 +57,7 @@ final class RequisiteType extends AbstractType
             ->setDefaults([
                 'data_class' => Requisite::class,
                 'label' => false,
-            ]);
+            ])
+        ;
     }
 }

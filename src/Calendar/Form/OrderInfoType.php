@@ -33,7 +33,8 @@ final class OrderInfoType extends AbstractType
             ->add('workerId', EmployeeUuidType::class, [
                 'required' => false,
                 'label' => 'Работник',
-            ]);
+            ])
+        ;
     }
 
     /**

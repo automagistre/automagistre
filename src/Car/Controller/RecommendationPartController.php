@@ -17,12 +17,12 @@ use App\Part\Form\PartOfferType;
 use App\Part\Manager\PartManager;
 use App\Vehicle\Entity\VehicleId;
 use Doctrine\ORM\EntityManagerInterface;
-use function is_string;
 use LogicException;
 use Ramsey\Uuid\Uuid;
-use function sprintf;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
+use function is_string;
+use function sprintf;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -41,6 +41,7 @@ final class RecommendationPartController extends AbstractController
         $request = $this->request;
 
         $recommendationPart = $this->findCurrentEntity();
+
         if (!$recommendationPart instanceof RecommendationPart) {
             throw new LogicException('CarRecommendationPart required.');
         }
@@ -81,17 +82,20 @@ final class RecommendationPartController extends AbstractController
                 ]),
             ]);
             $forms[$crossId] = $formBuilder
-                ->add($formBuilder->create('partOffer', null, [
-                    'data_class' => PartOfferDto::class,
-                    'compound' => true,
-                ])
-                ->add('quantity', QuantityType::class)
-                ->add('price', MoneyType::class)
+                ->add(
+                    $formBuilder->create('partOffer', null, [
+                        'data_class' => PartOfferDto::class,
+                        'compound' => true,
+                    ])
+                        ->add('quantity', QuantityType::class)
+                        ->add('price', MoneyType::class)
                 )
-                ->getForm();
+                ->getForm()
+            ;
         }
 
         $currentForm = $request->query->get('cross');
+
         if (is_string($currentForm) && Uuid::isValid($currentForm)) {
             $form = $forms[$currentForm];
             $form->handleRequest($request);
@@ -140,6 +144,7 @@ final class RecommendationPartController extends AbstractController
     protected function newAction(): Response
     {
         $recommendation = $this->getEntity(Recommendation::class);
+
         if (!$recommendation instanceof Recommendation) {
             throw new LogicException('CarRecommendation required.');
         }
@@ -154,7 +159,8 @@ final class RecommendationPartController extends AbstractController
                 'vehicleId' => $this->getIdentifier(VehicleId::class),
             ])
             ->getForm()
-            ->handleRequest($this->request);
+            ->handleRequest($this->request)
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->em;
@@ -182,6 +188,7 @@ final class RecommendationPartController extends AbstractController
     protected function editAction(): Response
     {
         $recommendationPart = $this->findCurrentEntity();
+
         if (!$recommendationPart instanceof RecommendationPart) {
             throw new LogicException('RecommendationPart required.');
         }
@@ -200,7 +207,8 @@ final class RecommendationPartController extends AbstractController
                 'vehicleId' => $this->getIdentifier(VehicleId::class),
             ])
             ->getForm()
-            ->handleRequest($this->request);
+            ->handleRequest($this->request)
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->em;

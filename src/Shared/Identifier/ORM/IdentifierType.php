@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Shared\Identifier\ORM;
 
 use App\Shared\Identifier\Identifier;
-use function assert;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
-use function is_string;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use function assert;
+use function is_string;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor

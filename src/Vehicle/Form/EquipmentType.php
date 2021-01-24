@@ -28,7 +28,8 @@ final class EquipmentType extends AbstractType
             ])
             ->add('wheelDrive', DriveWheelConfigurationType::class, [
                 'label' => 'Привод',
-            ]);
+            ])
+        ;
     }
 
     /**
@@ -39,6 +40,7 @@ final class EquipmentType extends AbstractType
         $resolver
             ->setDefaults([
                 'data_class' => Equipment::class,
-            ]);
+            ])
+        ;
     }
 }

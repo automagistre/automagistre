@@ -7,8 +7,8 @@ namespace App\MC\Controller;
 use App\EasyAdmin\Controller\AbstractController;
 use App\MC\Entity\McWork;
 use App\MC\Entity\McWorkId;
-use function assert;
 use stdClass;
+use function assert;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor

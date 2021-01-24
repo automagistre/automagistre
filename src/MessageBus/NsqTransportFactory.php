@@ -6,10 +6,10 @@ namespace App\MessageBus;
 
 use App\Nsq\Config;
 use App\Tenant\Tenant;
-use function strpos;
 use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 use Symfony\Component\Messenger\Transport\TransportFactoryInterface;
 use Symfony\Component\Messenger\Transport\TransportInterface;
+use function strpos;
 
 final class NsqTransportFactory implements TransportFactoryInterface
 {

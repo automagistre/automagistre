@@ -9,9 +9,9 @@ use App\Customer\Entity\Organization;
 use App\Customer\Event\OrganizationCreated;
 use App\Customer\Form\OrganizationDto;
 use App\Customer\Form\OrganizationType;
-use function assert;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use function assert;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -26,7 +26,8 @@ final class OrganizationController extends OperandController
         $dto = new OrganizationDto();
 
         $form = $this->createForm(OrganizationType::class, $dto)
-            ->handleRequest($request);
+            ->handleRequest($request)
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $id = OperandId::generate();

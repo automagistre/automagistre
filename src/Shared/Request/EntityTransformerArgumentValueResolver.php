@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Shared\Request;
 
 use Generator;
-use function is_object;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
+use function is_object;
 use function trim;
 
 /**

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Employee\Form;
 
-use function array_combine;
-use function range;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function array_combine;
+use function range;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -28,7 +28,8 @@ final class PayDayType extends AbstractType
         $resolver
             ->setDefaults([
                 'choices' => array_combine($choices, $choices),
-            ]);
+            ])
+        ;
     }
 
     /**
