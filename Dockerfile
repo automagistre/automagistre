@@ -104,6 +104,16 @@ RUN set -ex \
     && curl -L https://github.com/phpinnacle/ext-buffer/archive/${EXT_BUFFER_VERSION}.tar.gz | tar xz \
     && cd ext-buffer-${EXT_BUFFER_VERSION} \
     && phpize && ./configure && make && make install
+
+FROM php-build AS php-ext-snappy
+ENV EXT_SNAPPY_VERSION 0.2.1
+RUN --mount=type=cache,target=/var/cache/apk \
+    set -ex \
+    && apk add snappy-dev \
+    && curl -L https://github.com/kjdev/php-ext-snappy/archive/${EXT_SNAPPY_VERSION}.tar.gz | tar xz \
+    && cd php-ext-snappy-${EXT_SNAPPY_VERSION} \
+    && ls -al \
+    && phpize && ./configure --with-snappy-includedir=/usr && make && make install
 #
 # < PHP EXTENSIONS
 #
@@ -122,6 +132,7 @@ COPY --from=php-ext-xdebug ${PHP_EXT_DIR}/xdebug.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-uuid ${PHP_EXT_DIR}/uuid.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-pcov ${PHP_EXT_DIR}/pcov.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-buffer ${PHP_EXT_DIR}/buffer.so ${PHP_EXT_DIR}/
+COPY --from=php-ext-snappy ${PHP_EXT_DIR}/snappy.so ${PHP_EXT_DIR}/
 
 RUN --mount=type=cache,target=/var/cache/apk \
     set -ex \
@@ -144,6 +155,7 @@ RUN --mount=type=cache,target=/var/cache/apk \
         libuuid \
         # ext-intl
         icu \
+        snappy \
     && docker-php-ext-enable \
         apcu \
         buffer \
@@ -154,6 +166,7 @@ RUN --mount=type=cache,target=/var/cache/apk \
         pcntl \
         pcov \
         pdo_pgsql \
+        snappy \
         sockets \
         uuid \
         zip
