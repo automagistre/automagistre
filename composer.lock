@@ -12179,16 +12179,16 @@
         },
         {
             "name": "phpstan/phpstan-symfony",
-            "version": "0.12.14",
+            "version": "0.12.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-symfony.git",
-                "reference": "150415359b984270a7d3b2c22662a877700a5fdd"
+                "reference": "857d95864d13de3fa06e3145307d4dd7abd6f681"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/150415359b984270a7d3b2c22662a877700a5fdd",
-                "reference": "150415359b984270a7d3b2c22662a877700a5fdd",
+                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/857d95864d13de3fa06e3145307d4dd7abd6f681",
+                "reference": "857d95864d13de3fa06e3145307d4dd7abd6f681",
                 "shasum": ""
             },
             "require": {
@@ -12240,7 +12240,7 @@
                 }
             ],
             "description": "Symfony Framework extensions and rules for PHPStan",
-            "time": "2021-01-11T09:58:49+00:00"
+            "time": "2021-01-25T11:51:23+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
