@@ -12641,16 +12641,16 @@
         },
         {
             "name": "psalm/plugin-phpunit",
-            "version": "0.15.0",
+            "version": "0.15.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/psalm/psalm-plugin-phpunit.git",
-                "reference": "a7c00148dda987252c7957dcce7914dac91a2b03"
+                "reference": "30ca25ce069bf4943c36e59b7df6954f6af05e64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/psalm/psalm-plugin-phpunit/zipball/a7c00148dda987252c7957dcce7914dac91a2b03",
-                "reference": "a7c00148dda987252c7957dcce7914dac91a2b03",
+                "url": "https://api.github.com/repos/psalm/psalm-plugin-phpunit/zipball/30ca25ce069bf4943c36e59b7df6954f6af05e64",
+                "reference": "30ca25ce069bf4943c36e59b7df6954f6af05e64",
                 "shasum": ""
             },
             "require": {
@@ -12693,7 +12693,7 @@
                 }
             ],
             "description": "Psalm plugin for PHPUnit",
-            "time": "2020-12-10T22:51:05+00:00"
+            "time": "2021-01-23T00:19:07+00:00"
         },
         {
             "name": "psalm/plugin-symfony",
