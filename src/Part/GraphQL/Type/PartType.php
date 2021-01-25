@@ -33,7 +33,7 @@ final class PartType extends ObjectType
                 ],
                 'unit' => [
                     'type' => Types::nonNull(Types::unit()),
-                    'resolve' => fn (PartView $partView): Unit => $partView->unit,
+                    'resolve' => fn (PartView $partView): int => $partView->unit->toId(),
                 ],
                 'universal' => [
                     'type' => Types::nonNull(Types::boolean()),
