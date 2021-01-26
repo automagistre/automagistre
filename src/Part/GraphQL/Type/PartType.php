@@ -9,7 +9,6 @@ use App\Manufacturer\Entity\ManufacturerView;
 use App\Part\Entity\PartId;
 use App\Part\Entity\PartNumber;
 use App\Part\Entity\PartView;
-use App\Part\Enum\Unit;
 use GraphQL\Type\Definition\ObjectType;
 use Money\Money;
 
