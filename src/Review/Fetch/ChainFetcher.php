@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Review\Fetch;
 
+use Throwable;
+use function Sentry\captureException;
+
 final class ChainFetcher implements Fetcher
 {
     private array $fetchers;
@@ -19,7 +22,11 @@ final class ChainFetcher implements Fetcher
     public function fetch(): iterable
     {
         foreach ($this->fetchers as $fetcher) {
-            yield from $fetcher->fetch();
+            try {
+                yield from $fetcher->fetch();
+            } catch (Throwable $e) {
+                captureException($e);
+            }
         }
     }
 }
