@@ -2697,6 +2697,10 @@
                 "psr-17",
                 "psr-7"
             ],
+            "support": {
+                "issues": "https://github.com/http-interop/http-factory-guzzle/issues",
+                "source": "https://github.com/http-interop/http-factory-guzzle/tree/master"
+            },
             "time": "2018-07-31T19:32:56+00:00"
         },
         {
@@ -5135,6 +5139,9 @@
                 "logging",
                 "sentry"
             ],
+            "support": {
+                "source": "https://github.com/getsentry/sentry-php-sdk/tree/3.1.0"
+            },
             "funding": [
                 {
                     "url": "https://sentry.io/",
@@ -5254,16 +5261,16 @@
         },
         {
             "name": "sentry/sentry-symfony",
-            "version": "4.0.0",
+            "version": "4.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-symfony.git",
-                "reference": "172a4f283bc6f218db51692189a62796585b693b"
+                "reference": "24b1dace366127a665b1cd1f6ed53e7dc2921ead"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/172a4f283bc6f218db51692189a62796585b693b",
-                "reference": "172a4f283bc6f218db51692189a62796585b693b",
+                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/24b1dace366127a665b1cd1f6ed53e7dc2921ead",
+                "reference": "24b1dace366127a665b1cd1f6ed53e7dc2921ead",
                 "shasum": ""
             },
             "require": {
@@ -5340,6 +5347,10 @@
                 "sentry",
                 "symfony"
             ],
+            "support": {
+                "issues": "https://github.com/getsentry/sentry-symfony/issues",
+                "source": "https://github.com/getsentry/sentry-symfony/tree/4.0.1"
+            },
             "funding": [
                 {
                     "url": "https://sentry.io/",
@@ -5350,7 +5361,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2021-01-19T11:56:18+00:00"
+            "time": "2021-01-26T08:54:59+00:00"
         },
         {
             "name": "symfony/amqp-messenger",
