@@ -50,7 +50,7 @@ final class CustomerTransactionSource extends Enum
         self::INCOME_DEBIT => 'Начисление по поставке',
         self::INCOME_PAYMENT => 'Оплата за поставку',
         self::SALARY => 'Начисление ежемесячного оклада',
-        self::PENALTY => 'Штраф работника',
+        self::PENALTY => 'Штраф',
         self::MANUAL => 'Ручная проводка',
         self::MANUAL_WITHOUT_WALLET => 'Ручная проводка',
     ];
@@ -67,5 +67,19 @@ final class CustomerTransactionSource extends Enum
         self::PENALTY => UserId::class,
         self::MANUAL => WalletId::class,
         self::MANUAL_WITHOUT_WALLET => UserId::class,
+    ];
+
+    protected static array $linkToSource = [
+        self::ORDER_PREPAY => true,
+        self::ORDER_DEBIT => true,
+        self::ORDER_PAYMENT => true,
+        self::ORDER_SALARY => true,
+        self::PAYROLL => true,
+        self::INCOME_DEBIT => true,
+        self::INCOME_PAYMENT => true,
+        self::SALARY => false,
+        self::PENALTY => false,
+        self::MANUAL => true,
+        self::MANUAL_WITHOUT_WALLET => false,
     ];
 }

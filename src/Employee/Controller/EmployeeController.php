@@ -128,12 +128,6 @@ final class EmployeeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->transactional(function (EntityManagerInterface $em) use ($model, $personId): void {
-                $description = sprintf(
-                    '# Оштрафован "%s" по причине "%s"',
-                    $this->display($personId),
-                    $model->description
-                );
-
                 /** @var Money $money */
                 $money = $model->amount;
 
@@ -144,7 +138,7 @@ final class EmployeeController extends AbstractController
                         $money->negative(),
                         CustomerTransactionSource::penalty(),
                         $this->getUser()->toId()->toUuid(),
-                        $model->{$description},
+                        $model->description,
                     )
                 );
             });
