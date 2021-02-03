@@ -2,6 +2,8 @@
 
 {{ item.source.toDescription }}
 
-<a href="{{ easyadmin_path_by_id(item.toSourceIdentifier, 'show') }}">
-    {{ item.toSourceIdentifier|display_name }}
-</a>
+{% if item.source.to('linkToSource') %}
+    <a href="{{ easyadmin_path_by_id(item.toSourceIdentifier, 'show') }}">
+        {{ item.toSourceIdentifier|display_name }}
+    </a>
+{% endif %}
