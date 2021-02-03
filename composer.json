@@ -36,7 +36,7 @@
         "premier/enum": "^2.0",
         "premier/markdown-builder": "^0.7.0",
         "ramsey/uuid-doctrine": "^1.6",
-        "sensio/framework-extra-bundle": "^5.3",
+        "sensio/framework-extra-bundle": "^6.0",
         "sentry/sentry-symfony": "^4.0",
         "symfony/asset": "^5.0",
         "symfony/console": "^5.0",
