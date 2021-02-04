@@ -2713,24 +2713,28 @@
         },
         {
             "name": "jean85/pretty-package-versions",
-            "version": "1.5.1",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Jean85/pretty-package-versions.git",
-                "reference": "a917488320c20057da87f67d0d40543dd9427f7a"
+                "reference": "2053f8d459033782d5fa4948c6c0b2d1e7de21e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Jean85/pretty-package-versions/zipball/a917488320c20057da87f67d0d40543dd9427f7a",
-                "reference": "a917488320c20057da87f67d0d40543dd9427f7a",
+                "url": "https://api.github.com/repos/Jean85/pretty-package-versions/zipball/2053f8d459033782d5fa4948c6c0b2d1e7de21e6",
+                "reference": "2053f8d459033782d5fa4948c6c0b2d1e7de21e6",
                 "shasum": ""
             },
             "require": {
-                "composer/package-versions-deprecated": "^1.8.0",
-                "php": "^7.0|^8.0"
+                "composer-runtime-api": "^2.0.0",
+                "php": "^7.1|^8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^6.0|^8.5|^9.2"
+                "friendsofphp/php-cs-fixer": "^2.17",
+                "jean85/composer-provided-replaced-stub-package": "^1.0",
+                "phpstan/phpstan": "^0.12.66",
+                "phpunit/phpunit": "^7.5|^8.5|^9.4",
+                "vimeo/psalm": "^4.3"
             },
             "type": "library",
             "extra": {
@@ -2753,7 +2757,7 @@
                     "email": "alessandro.lai85@gmail.com"
                 }
             ],
-            "description": "A wrapper for ocramius/package-versions to get pretty versions strings",
+            "description": "A library to get pretty versions strings of installed dependencies",
             "keywords": [
                 "composer",
                 "package",
@@ -2762,9 +2766,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Jean85/pretty-package-versions/issues",
-                "source": "https://github.com/Jean85/pretty-package-versions/tree/1.5.1"
+                "source": "https://github.com/Jean85/pretty-package-versions/tree/2.0.2"
             },
-            "time": "2020-09-14T08:43:34+00:00"
+            "time": "2021-02-03T09:41:45+00:00"
         },
         {
             "name": "laminas/laminas-code",
@@ -5191,16 +5195,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "3.1.3",
+            "version": "3.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "db8a322f87983bb4f3cd8db01f9a9a593efe72a3"
+                "reference": "5ff718099ac0050385c562b7c1da88dd215c48f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/db8a322f87983bb4f3cd8db01f9a9a593efe72a3",
-                "reference": "db8a322f87983bb4f3cd8db01f9a9a593efe72a3",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/5ff718099ac0050385c562b7c1da88dd215c48f9",
+                "reference": "5ff718099ac0050385c562b7c1da88dd215c48f9",
                 "shasum": ""
             },
             "require": {
@@ -5208,8 +5212,7 @@
                 "ext-mbstring": "*",
                 "guzzlehttp/promises": "^1.4",
                 "guzzlehttp/psr7": "^1.7",
-                "jean85/pretty-package-versions": "^1.5",
-                "ocramius/package-versions": "^1.8",
+                "jean85/pretty-package-versions": "^1.5|^2.0.1",
                 "php": "^7.2|^8.0",
                 "php-http/async-client-implementation": "^1.0",
                 "php-http/client-common": "^1.5|^2.0",
@@ -5280,7 +5283,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-php/issues",
-                "source": "https://github.com/getsentry/sentry-php/tree/3.1.3"
+                "source": "https://github.com/getsentry/sentry-php/tree/3.1.4"
             },
             "funding": [
                 {
@@ -5292,7 +5295,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2021-01-25T08:47:45+00:00"
+            "time": "2021-02-02T08:56:03+00:00"
         },
         {
             "name": "sentry/sentry-symfony",
