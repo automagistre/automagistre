@@ -11,6 +11,7 @@ use Premier\Enum\Enum;
  * @method static self yandex()
  * @method static self google()
  * @method static self twoGis()
+ * @method static self yell()
  * @method string toDisplayName()
  */
 final class ReviewSource extends Enum
@@ -19,12 +20,14 @@ final class ReviewSource extends Enum
     private const YANDEX = 2;
     private const GOOGLE = 3;
     private const TWO_GIS = 4;
+    private const YELL = 5;
 
     private static array $name = [
         self::MANUAL => 'club',
         self::YANDEX => 'yandex',
         self::GOOGLE => 'google',
         self::TWO_GIS => 'two_gis',
+        self::YELL => 'yell',
     ];
 
     private static array $displayName = [
@@ -32,5 +35,6 @@ final class ReviewSource extends Enum
         self::YANDEX => 'Yandex',
         self::GOOGLE => 'Google',
         self::TWO_GIS => '2GIS',
+        self::YELL => 'Yell',
     ];
 }
