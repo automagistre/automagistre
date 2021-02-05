@@ -3392,16 +3392,16 @@
         },
         {
             "name": "odolbeau/phone-number-bundle",
-            "version": "v3.3.2",
+            "version": "v3.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/odolbeau/phone-number-bundle.git",
-                "reference": "768f96693baad72c819587ffb180e89bca744bdf"
+                "reference": "34f9eabcec4f159decdf30f6f10eada4d9b27326"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/odolbeau/phone-number-bundle/zipball/768f96693baad72c819587ffb180e89bca744bdf",
-                "reference": "768f96693baad72c819587ffb180e89bca744bdf",
+                "url": "https://api.github.com/repos/odolbeau/phone-number-bundle/zipball/34f9eabcec4f159decdf30f6f10eada4d9b27326",
+                "reference": "34f9eabcec4f159decdf30f6f10eada4d9b27326",
                 "shasum": ""
             },
             "require": {
@@ -3416,6 +3416,7 @@
                 "doctrine/doctrine-bundle": "^1.12|^2.0",
                 "phpunit/phpunit": "^8.4",
                 "symfony/form": "^3.4|^4.3|^5.0",
+                "symfony/property-access": "^3.4|^4.3|^5.0",
                 "symfony/serializer": "^3.4|^4.3|^5.0",
                 "symfony/twig-bundle": "^3.4|^4.3|^5.0",
                 "symfony/validator": "^3.4|^4.3|^5.0"
@@ -3423,6 +3424,7 @@
             "suggest": {
                 "doctrine/doctrine-bundle": "Add a DBAL mapping type",
                 "symfony/form": "Add a data transformer",
+                "symfony/property-access": "Choose a path in the validation constraint",
                 "symfony/serializer": "Serialize/deserialize phone numbers using Symfony library",
                 "symfony/twig-bundle": "Format phone numbers in Twig templates",
                 "symfony/validator": "Add a validation constraint"
@@ -3451,7 +3453,11 @@
                 "phonenumber",
                 "telephone number"
             ],
-            "time": "2021-01-22T16:13:16+00:00"
+            "support": {
+                "issues": "https://github.com/odolbeau/phone-number-bundle/issues",
+                "source": "https://github.com/odolbeau/phone-number-bundle/tree/v3.3.3"
+            },
+            "time": "2021-02-04T14:29:07+00:00"
         },
         {
             "name": "oro/doctrine-extensions",
