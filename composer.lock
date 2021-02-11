@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "49f8bfa1640cc537f5d063b4c01a581d",
+    "content-hash": "0c4e4ac0e8079c7038e1e37b01e374d5",
     "packages": [
         {
             "name": "adamgaskins/barcoder",
@@ -4489,16 +4489,16 @@
         },
         {
             "name": "premier/markdown-builder",
-            "version": "0.7",
+            "version": "0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/grachevko/markdown-builder.git",
-                "reference": "5f7b5ae180477879795a3c33d3bc542e395addfd"
+                "reference": "932b97c7d2ea322bda076fa4e20e4244ebaeda42"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/grachevko/markdown-builder/zipball/5f7b5ae180477879795a3c33d3bc542e395addfd",
-                "reference": "5f7b5ae180477879795a3c33d3bc542e395addfd",
+                "url": "https://api.github.com/repos/grachevko/markdown-builder/zipball/932b97c7d2ea322bda076fa4e20e4244ebaeda42",
+                "reference": "932b97c7d2ea322bda076fa4e20e4244ebaeda42",
                 "shasum": ""
             },
             "require": {
@@ -4508,11 +4508,12 @@
             "require-dev": {
                 "ergebnis/composer-normalize": "^2.8",
                 "friendsofphp/php-cs-fixer": "^2.16",
+                "infection/infection": "^0.21.0",
                 "phpstan/phpstan": "^0.12.37",
                 "phpstan/phpstan-phpunit": "^0.12.16",
                 "phpstan/phpstan-strict-rules": "^0.12.4",
                 "phpunit/phpunit": "^9.3",
-                "vimeo/psalm": "^3.16"
+                "vimeo/psalm": "^4.5"
             },
             "type": "library",
             "autoload": {
@@ -4538,7 +4539,11 @@
                 "builder",
                 "markdown"
             ],
-            "time": "2020-10-01T22:57:39+00:00"
+            "support": {
+                "issues": "https://github.com/grachevko/markdown-builder/issues",
+                "source": "https://github.com/grachevko/markdown-builder/tree/0.8"
+            },
+            "time": "2021-02-11T12:55:09+00:00"
         },
         {
             "name": "psr/cache",
