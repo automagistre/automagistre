@@ -37,7 +37,7 @@ final class PartIncomeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->registry->manager(Motion::class);
-            $quantity = abs((int) $form->get('quantity')->getData());
+            $quantity = (int) abs($form->get('quantity')->getData());
             $user = $this->getUser();
 
             $em->persist(new Motion($partId, $quantity, Source::manual(), $user->toId()->toUuid()));
@@ -72,7 +72,7 @@ final class PartIncomeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->registry->manager(Motion::class);
-            $quantity = abs((int) $form->get('quantity')->getData());
+            $quantity = (int) abs($form->get('quantity')->getData());
             $user = $this->getUser();
 
             $em->persist(new Motion($partId, 0 - $quantity, Source::manual(), $user->toId()->toUuid()));
