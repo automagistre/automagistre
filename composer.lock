@@ -171,16 +171,16 @@
         },
         {
             "name": "bronhy/google-my-business-php-client",
-            "version": "v4.7",
+            "version": "v4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bronhy/google-my-business-php-client.git",
-                "reference": "1e184065e3c306a1817037492494f863b77c9c15"
+                "reference": "b7f693cd399caf35b08fab00ea1b750662dcfa2b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bronhy/google-my-business-php-client/zipball/1e184065e3c306a1817037492494f863b77c9c15",
-                "reference": "1e184065e3c306a1817037492494f863b77c9c15",
+                "url": "https://api.github.com/repos/bronhy/google-my-business-php-client/zipball/b7f693cd399caf35b08fab00ea1b750662dcfa2b",
+                "reference": "b7f693cd399caf35b08fab00ea1b750662dcfa2b",
                 "shasum": ""
             },
             "require": {
@@ -209,7 +209,12 @@
                 "google my business",
                 "mybusiness"
             ],
-            "time": "2020-10-01T13:18:54+00:00"
+            "support": {
+                "docs": "https://developers.google.com/my-business/content/support",
+                "issues": "https://github.com/bronhy/google-my-business-php-client/issues",
+                "source": "https://github.com/bronhy/google-my-business-php-client/tree/v4.8"
+            },
+            "time": "2021-02-15T13:38:04+00:00"
         },
         {
             "name": "clue/socket-raw",
@@ -2346,6 +2351,10 @@
             "keywords": [
                 "google"
             ],
+            "support": {
+                "issues": "https://github.com/googleapis/google-api-php-client/issues",
+                "source": "https://github.com/googleapis/google-api-php-client/tree/v2.9.1"
+            },
             "time": "2021-01-19T17:48:59+00:00"
         },
         {
@@ -3291,6 +3300,10 @@
                 "logging",
                 "psr-3"
             ],
+            "support": {
+                "issues": "https://github.com/Seldaek/monolog/issues",
+                "source": "https://github.com/Seldaek/monolog/tree/2.2.0"
+            },
             "funding": [
                 {
                     "url": "https://github.com/Seldaek",
