@@ -24,7 +24,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/migrations": "^3.0",
         "doctrine/orm": "^2.6",
-        "easycorp/easyadmin-bundle": "^2",
+        "easycorp/easyadmin-bundle": "^3",
         "lcobucci/jwt": "^4.0",
         "moneyphp/money": "^3.2",
         "nelmio/cors-bundle": "^2.0",
