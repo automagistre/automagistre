@@ -66,6 +66,7 @@ final class OrderItemPartController extends OrderItemController
                 )
                 AND part_id <> :partId
                 GROUP BY part_id
+                HAVING COUNT(part_id) >= 2
                 ORDER BY COUNT(part_id) DESC
                 SQL,
                 [
