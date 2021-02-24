@@ -1,0 +1,45 @@
+{% extends 'easy_admin/default/layout.html.twig' %}
+
+{% form_theme form with easyadmin_config('design.form_theme') %}
+
+{% block content_title %}
+    {{ partId|display_name }}
+{% endblock %}
+{% block content_help %}
+    Выберите сопутствующие запчасти
+{% endblock content_help %}
+
+{% block main %}
+    <hr>
+
+    {{ form_start(form) }}
+
+    <div class="row">
+        <div class="col-md-1">Выбрать?</div>
+        <div class="col-md-5">Запчасть</div>
+        <div class="col-md-2">Количество</div>
+        <div class="col-md-2">Цена</div>
+        <div class="col-md-1">Использовалось раз</div>
+    </div>
+
+    <hr>
+
+    {% for line in form.parts %}
+        <div class="row">
+            <div class="col-md-1">{{ form_widget(line.enabled) }}</div>
+            <div class="col-md-5">
+                {% include 'easy_admin/field_part.html.twig' with {value: line.vars.value.partId} only %}
+            </div>
+            <div class="col-md-2">{{ form_widget(line.quantity) }}</div>
+            <div class="col-md-2">{{ form_widget(line.price) }}</div>
+            <div class="col-md-1">{{ line.vars.value.usageCount }}</div>
+        </div>
+    {% endfor %}
+
+    <hr>
+
+    <button type="submit" class="btn btn-success">{{ button ?? 'Сохранить' }}</button>
+
+    <a href="{{ app.request.query.get('referer')|easyadmin_urldecode }}" class="btn btn-default">Назад</a>
+    {{ form_end(form) }}
+{% endblock %}

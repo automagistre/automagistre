@@ -10,6 +10,8 @@ use App\Order\Entity\Order;
 use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Exception\ReservationException;
+use App\Order\Form\Accompanying\AccompanyingDto;
+use App\Order\Form\Accompanying\AccompanyingType;
 use App\Order\Form\OrderPart;
 use App\Order\Form\Type\OrderItemParentType;
 use App\Order\Form\Type\WarrantyType;
@@ -20,10 +22,15 @@ use App\Part\Form\PartOfferDto;
 use App\Part\Form\PartOfferType;
 use App\Vehicle\Entity\VehicleId;
 use LogicException;
+use Money\Currency;
+use Money\Money;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use function array_map;
+use function sprintf;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -35,6 +42,97 @@ final class OrderItemPartController extends OrderItemController
     public function __construct(ReservationManager $reservationManager)
     {
         $this->reservationManager = $reservationManager;
+    }
+
+    public function accompanyingAction(): Response
+    {
+        /** @var OrderItemPart $orderItemPart */
+        $orderItemPart = $this->getEntity(OrderItemPart::class);
+        $partId = $orderItemPart->getPartId();
+
+        $parts = $this->registry->connection()
+            ->fetchAllAssociative(
+                <<<'SQL'
+                SELECT part_id,
+                       COUNT(part_id) AS usage_count,
+                       MAX(quantity) AS quantity,
+                       MAX(price_amount) AS amount
+                FROM order_item_part
+                         JOIN order_item oi ON oi.id = order_item_part.id
+                WHERE oi.parent_id IN (SELECT oi.parent_id
+                                       FROM order_item_part oip
+                                                JOIN order_item oi ON oi.id = oip.id
+                                       WHERE oip.part_id = :partId
+                )
+                AND part_id <> :partId
+                GROUP BY part_id
+                ORDER BY COUNT(part_id) DESC
+                SQL,
+                [
+                    'partId' => $partId->toString(),
+                ]
+            )
+        ;
+
+        if ([] === $parts) {
+            $this->addFlash('info', sprintf('Для запчасти "%s" не найдены сопутствующие запчасти.', $this->display($partId)));
+
+            return $this->redirectToReferrer();
+        }
+
+        $parts = array_map(
+            static fn (array $item): AccompanyingDto => new AccompanyingDto(
+                PartId::fromString($item['part_id']),
+                $item['quantity'],
+                $item['usage_count'],
+                new Money($item['amount'], new Currency('RUB')),
+            ),
+            $parts,
+        );
+
+        $form = $this->createFormBuilder(['parts' => $parts])
+            ->add('parts', CollectionType::class, [
+                'entry_type' => AccompanyingType::class,
+                'allow_add' => false,
+                'allow_delete' => false,
+                'label' => null,
+            ])
+            ->getForm()
+            ->handleRequest($this->request)
+        ;
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entities = [];
+
+            foreach ($parts as $accompanyingDto) {
+                if (false === $accompanyingDto->enabled) {
+                    continue;
+                }
+
+                $entity = new OrderItemPart(
+                    Uuid::uuid6(),
+                    $orderItemPart->getOrder(),
+                    $accompanyingDto->partId,
+                    $accompanyingDto->quantity,
+                );
+                $entity->setPrice(
+                    $accompanyingDto->price,
+                    $this->registry->get(PartView::class, $accompanyingDto->partId),
+                );
+                $entity->setParent($orderItemPart->getParent());
+
+                $entities[] = $entity;
+            }
+
+            $this->registry->add(...$entities);
+
+            return $this->redirectToReferrer();
+        }
+
+        return $this->render('easy_admin/order/accompanying.html.twig', [
+            'partId' => $partId,
+            'form' => $form->createView(),
+        ]);
     }
 
     public function reserveAction(): Response

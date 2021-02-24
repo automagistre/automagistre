@@ -54,10 +54,15 @@
                 <a href="{{ link }}">
                     <span class="label label-{{ reserveStyle }}">{{ reserved / 100 }}</span>
                 </a>
-            {%- endapply %}        </td>
+            {%- endapply %}
+        </td>
         <td>
             <a href="{{ easyadmin_path('OrderItemPart', 'edit', {'id': item|toId}) }}">
                 <i class="fa fa-pencil"></i>
+            </a>
+            &nbsp;
+            <a href="{{ easyadmin_path('OrderItemPart', 'accompanying', {'id': item|toId, 'referer': true}) }}">
+                <i class="fa fa-binoculars"></i>
             </a>
         </td>
     {% endif %}

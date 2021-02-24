@@ -354,6 +354,9 @@
             "config/packages/nyholm_psr7.yaml"
         ]
     },
+    "ocramius/package-versions": {
+        "version": "2.3.0"
+    },
     "odolbeau/phone-number-bundle": {
         "version": "3.0",
         "recipe": {

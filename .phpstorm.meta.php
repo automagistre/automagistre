@@ -13,4 +13,7 @@ namespace PHPSTORM_META {
     override(Registry::getBy(), map(0, [
         '' => '@',
     ]));
+    override(\App\EasyAdmin\Controller\AbstractController::getEntity(), map(0, [
+        '' => '@',
+    ]));
 }
