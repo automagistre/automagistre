@@ -63,6 +63,7 @@ final class OrderItemPartController extends OrderItemController
                                        FROM order_item_part oip
                                                 JOIN order_item oi ON oi.id = oip.id
                                        WHERE oip.part_id = :partId
+                                            AND oi.parent_id IS NOT NULL
                 )
                 AND part_id <> :partId
                 GROUP BY part_id
