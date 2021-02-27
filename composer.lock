@@ -463,20 +463,24 @@
                 }
             ],
             "description": "Cronjobs",
+            "support": {
+                "issues": "https://github.com/Cron/Cron/issues",
+                "source": "https://github.com/Cron/Cron/tree/1.5.0"
+            },
             "time": "2021-01-12T16:47:03+00:00"
         },
         {
             "name": "cron/cron-bundle",
-            "version": "2.4.1",
+            "version": "2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Cron/Symfony-Bundle.git",
-                "reference": "4c0fb6bfaaab38fd1e1ffdba4296d4d837e90414"
+                "reference": "838acab3b5d2837ff2c90e6dd7f4f935f571f6b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Cron/Symfony-Bundle/zipball/4c0fb6bfaaab38fd1e1ffdba4296d4d837e90414",
-                "reference": "4c0fb6bfaaab38fd1e1ffdba4296d4d837e90414",
+                "url": "https://api.github.com/repos/Cron/Symfony-Bundle/zipball/838acab3b5d2837ff2c90e6dd7f4f935f571f6b3",
+                "reference": "838acab3b5d2837ff2c90e6dd7f4f935f571f6b3",
                 "shasum": ""
             },
             "require": {
@@ -515,7 +519,11 @@
                 }
             ],
             "description": "Symfony cron",
-            "time": "2020-05-26T10:44:27+00:00"
+            "support": {
+                "issues": "https://github.com/Cron/Symfony-Bundle/issues",
+                "source": "https://github.com/Cron/Symfony-Bundle/tree/2.5.0"
+            },
+            "time": "2021-02-27T11:34:42+00:00"
         },
         {
             "name": "datto/json-rpc",
