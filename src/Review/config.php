@@ -62,6 +62,7 @@ return static function (ContainerConfigurator $configurator): void {
                                         ]),
                                 ),
                             inline_service(App\Review\Yandex\YandexFetcher::class)->autowire(),
+                            inline_service(App\Review\Yell\YellFetcher::class)->autowire(),
                         ]),
                 ),
         )
