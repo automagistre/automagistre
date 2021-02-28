@@ -30,6 +30,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use function array_keys;
 use function array_map;
 use function sprintf;
+use function usort;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -102,6 +103,11 @@ final class OrderItemPartController extends OrderItemController
                 );
             },
             $related,
+        );
+
+        usort(
+            $related,
+            static fn (RelatedDto $left, RelatedDto $right) => $right->part->quantity <=> $left->part->quantity
         );
 
         $form = $this->createFormBuilder(['parts' => $related])
