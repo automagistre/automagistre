@@ -7,6 +7,7 @@ namespace App\Fixtures\Mc;
 use App\Fixtures\Vehicle\NissanGTRFixture;
 use App\MC\Entity\McEquipment;
 use App\MC\Entity\McEquipmentId;
+use App\Publish\Entity\Publish;
 use App\Vehicle\Entity\VehicleId;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -29,6 +30,7 @@ final class EquipmentFixtures extends Fixture
 
         $this->addReference('equipment-1', $equipment);
 
+        $manager->persist(Publish::create($equipment->toId()->toUuid(), true));
         $manager->persist($equipment);
         $manager->flush();
     }
