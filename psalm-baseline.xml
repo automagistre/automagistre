@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.3.2@57b53ff26237074fdf5cbcb034f7da5172be4524">
+<files psalm-version="4.6.2@bca09d74adc704c4eaee36a3c3e9d379e290fc3b">
   <file src="src/Appeal/Controller/AppealController.php">
     <ArgumentTypeCoercion occurrences="1">
       <code>$entity-&gt;type-&gt;toEntityClass()</code>
@@ -94,6 +94,11 @@
       <code>$this-&gt;lastname</code>
     </PossiblyNullArgument>
   </file>
+  <file src="src/Customer/Form/WorkerType.php">
+    <QueryBuilderSetParameter occurrences="1">
+      <code>new DateTime('-1000 hour')</code>
+    </QueryBuilderSetParameter>
+  </file>
   <file src="src/EasyAdmin/Controller/AbstractController.php">
     <LessSpecificReturnStatement occurrences="1">
       <code>$this-&gt;renderTemplate('new', $this-&gt;entity['templates']['new'], $parameters)</code>
@@ -106,11 +111,6 @@
       <code>$this-&gt;request-&gt;query-&gt;get('newValue')</code>
     </PossiblyNullArgument>
   </file>
-  <file src="src/Employee/Controller/EmployeeController.php">
-    <NullArgument occurrences="1">
-      <code>$model-&gt;description</code>
-    </NullArgument>
-  </file>
   <file src="src/Employee/Controller/SalaryController.php">
     <LessSpecificReturnStatement occurrences="1"/>
     <MoreSpecificReturnType occurrences="1">
@@ -121,6 +121,16 @@
     <PropertyNotSetInConstructor occurrences="1">
       <code>$ratio</code>
     </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Employee/Form/EmployeeType.php">
+    <InvalidArrayOffset occurrences="1">
+      <code>$view-&gt;vars['choices']</code>
+    </InvalidArrayOffset>
+  </file>
+  <file src="src/Employee/Form/EmployeeUuidType.php">
+    <InvalidArrayOffset occurrences="1">
+      <code>$view-&gt;vars['choices']</code>
+    </InvalidArrayOffset>
   </file>
   <file src="src/Income/Controller/IncomePartController.php">
     <PossiblyNullArgument occurrences="1">
@@ -192,6 +202,10 @@
       <code>isEditable</code>
       <code>isFilled</code>
     </PossiblyNullReference>
+    <QueryBuilderSetParameter occurrences="2">
+      <code>$equipmentId</code>
+      <code>$partId</code>
+    </QueryBuilderSetParameter>
   </file>
   <file src="src/Order/Controller/OrderItemController.php">
     <PossiblyNullReference occurrences="1">
@@ -269,6 +283,13 @@
       <code>$currentItem</code>
     </PossiblyNullArgument>
   </file>
+  <file src="src/Order/Manager/ReservationManager.php">
+    <QueryBuilderSetParameter occurrences="3">
+      <code>$orderItemPart</code>
+      <code>$partId</code>
+      <code>$partId</code>
+    </QueryBuilderSetParameter>
+  </file>
   <file src="src/Part/Controller/PartController.php">
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtoupper(trim($searchString))</code>
@@ -315,6 +336,9 @@
     <MoreSpecificReturnType occurrences="1">
       <code>Response</code>
     </MoreSpecificReturnType>
+    <PossiblyNullArrayAccess occurrences="1">
+      <code>$data['text']</code>
+    </PossiblyNullArrayAccess>
   </file>
   <file src="src/Part/Controller/SupplyController.php">
     <LessSpecificReturnStatement occurrences="1"/>
@@ -328,6 +352,10 @@
     </PossiblyNullArgument>
   </file>
   <file src="src/Part/Manager/PartManager.php">
+    <QueryBuilderSetParameter occurrences="2">
+      <code>$partId</code>
+      <code>$partId</code>
+    </QueryBuilderSetParameter>
     <RedundantCondition occurrences="2">
       <code>null !== $leftGroup &amp;&amp; null !== $rightGroup</code>
       <code>null !== $leftGroup &amp;&amp; null === $rightGroup</code>
@@ -350,6 +378,9 @@
     </PossiblyNullArgument>
   </file>
   <file src="src/Shared/Doctrine/Registry.php">
+    <QueryBuilderSetParameter occurrences="1">
+      <code>$identifier</code>
+    </QueryBuilderSetParameter>
     <RedundantConditionGivenDocblockType occurrences="1">
       <code>assert($entityRepository instanceof EntityRepository)</code>
     </RedundantConditionGivenDocblockType>
@@ -365,6 +396,16 @@
       <code>$argument-&gt;getType()</code>
       <code>$argument-&gt;getType()</code>
     </PossiblyNullArgument>
+  </file>
+  <file src="src/Site/QueryType.php">
+    <QueryBuilderSetParameter occurrences="1">
+      <code>$publishAt</code>
+    </QueryBuilderSetParameter>
+  </file>
+  <file src="src/Storage/Controller/MotionController.php">
+    <QueryBuilderSetParameter occurrences="1">
+      <code>$partId</code>
+    </QueryBuilderSetParameter>
   </file>
   <file src="src/User/Command/UserCreateCommand.php">
     <RedundantCast occurrences="1">
@@ -385,6 +426,11 @@
       <code>null !== $dto-&gt;manufacturerId &amp;&amp; null !== $dto-&gt;name</code>
       <code>null !== $dto-&gt;name</code>
     </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="src/Wallet/Controller/TransactionController.php">
+    <QueryBuilderSetParameter occurrences="1">
+      <code>$walletId</code>
+    </QueryBuilderSetParameter>
   </file>
   <file src="tests/SmokeTest.php">
     <PossiblyNullReference occurrences="1">
