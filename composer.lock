@@ -182,16 +182,16 @@
         },
         {
             "name": "bronhy/google-my-business-php-client",
-            "version": "v4.8",
+            "version": "v4.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bronhy/google-my-business-php-client.git",
-                "reference": "b7f693cd399caf35b08fab00ea1b750662dcfa2b"
+                "reference": "1db7bb0e2f29ec223bcf2026dcfad9e2f480ab25"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bronhy/google-my-business-php-client/zipball/b7f693cd399caf35b08fab00ea1b750662dcfa2b",
-                "reference": "b7f693cd399caf35b08fab00ea1b750662dcfa2b",
+                "url": "https://api.github.com/repos/bronhy/google-my-business-php-client/zipball/1db7bb0e2f29ec223bcf2026dcfad9e2f480ab25",
+                "reference": "1db7bb0e2f29ec223bcf2026dcfad9e2f480ab25",
                 "shasum": ""
             },
             "require": {
@@ -223,9 +223,9 @@
             "support": {
                 "docs": "https://developers.google.com/my-business/content/support",
                 "issues": "https://github.com/bronhy/google-my-business-php-client/issues",
-                "source": "https://github.com/bronhy/google-my-business-php-client/tree/v4.8"
+                "source": "https://github.com/bronhy/google-my-business-php-client/tree/v4.9"
             },
-            "time": "2021-02-15T13:38:04+00:00"
+            "time": "2021-03-12T18:43:40+00:00"
         },
         {
             "name": "clue/socket-raw",
