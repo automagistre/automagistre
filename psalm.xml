@@ -3,6 +3,7 @@
         allowPhpStormGenerics="true"
         cacheDirectory="var/psalm"
         errorBaseline="psalm-baseline.xml"
+        findUnusedPsalmSuppress="true"
         ignoreInternalFunctionFalseReturn="false"
         ignoreInternalFunctionNullReturn="false"
         totallyTyped="false"

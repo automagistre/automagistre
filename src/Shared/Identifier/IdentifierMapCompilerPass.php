@@ -42,7 +42,6 @@ final class IdentifierMapCompilerPass implements CompilerPassInterface
                         continue;
                     }
 
-                    /** @psalm-suppress RedundantCondition */
                     assert(method_exists($reflectionType, 'getName'));
 
                     /** @var string $identifierClass */

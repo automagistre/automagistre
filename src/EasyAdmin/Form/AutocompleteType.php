@@ -54,7 +54,6 @@ final class AutocompleteType extends AbstractType implements DataMapperInterface
 
         $reflectionType = $reflectionClass->getProperty('id')->getType();
 
-        /** @psalm-suppress RedundantCondition */
         assert(null !== $reflectionType && method_exists($reflectionType, 'getName'));
         $identifierClass = $reflectionType->getName();
 

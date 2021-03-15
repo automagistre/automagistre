@@ -59,8 +59,10 @@ final class EmployeeUuidType extends AbstractType
      */
     public function finishView(FormView $view, FormInterface $form, array $options): void
     {
-        /** @psalm-suppress MissingPropertyType */
-        usort($view->vars['choices'], fn (ChoiceView $left, ChoiceView $right): int => $left->label <=> $right->label);
+        usort(
+            $view->vars['choices'],
+            static fn (ChoiceView $left, ChoiceView $right): int => $left->label <=> $right->label,
+        );
 
         parent::finishView($view, $form, $options);
     }
