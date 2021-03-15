@@ -1,14 +1,15 @@
 <?xml version="1.0"?>
 <psalm
-        totallyTyped="false"
-        useDocblockTypes="true"
         allowPhpStormGenerics="true"
+        cacheDirectory="var/psalm"
+        errorBaseline="psalm-baseline.xml"
         ignoreInternalFunctionFalseReturn="false"
         ignoreInternalFunctionNullReturn="false"
+        totallyTyped="false"
+        useDocblockTypes="true"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="https://getpsalm.org/schema/config"
         xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
-        errorBaseline="psalm-baseline.xml"
 >
     <projectFiles>
         <directory name="src"/>
