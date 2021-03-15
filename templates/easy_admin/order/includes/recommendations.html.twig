@@ -86,19 +86,19 @@
 
                             {% for recommendationPart in recommendation.parts %}
                                 {# @var recommendationPart \App\Entity\CarRecommendationPart #}
-                                {% set part = part_by_id(recommendationPart.partId) %}
+                                {% set part = part_view(recommendationPart.partId) %}
 
                                 {{ '</tr><tr>' }}
                                 <td style="padding-left: 40px">
-                                    {% include 'easy_admin/field_part.html.twig' with {'value': part_view(part.toId)} only %}
+                                    {% include 'easy_admin/field_part.html.twig' with {'value': part} only %}
                                 </td>
                                 <td>{{ recommendationPart.quantity / 100 }}
                                     x {{ recommendationPart.price|localize_money }}</td>
                                 <td>{{ recommendationPart.price.multiply(recommendationPart.quantity / 100)|localize_money }}</td>
                                 <td>
                                     {% set reservable = part_reservable(recommendationPart.partId) %}
-                                    {% set reserved = part_reserved(part) %}
-                                    {% set inStock = part_in_stock(part) %}
+                                    {% set reserved = part.reserved %}
+                                    {% set inStock = part.quantity %}
                                     {% set required = recommendationPart.quantity %}
 
                                     {% if reservable >= required %}
@@ -129,7 +129,7 @@
                                     }) }}">
                                         <i class="fa fa-pencil"></i>
                                     </a>
-                                    {% if part_crosses_in_stock(part) is not empty %}
+                                    {% if part_crosses_in_stock(part.toId()) is not empty %}
                                         {{- '&nbsp;'|raw -}}
 
                                         <a href="{{ easyadmin_path('CarRecommendationPart', 'substitute', {
