@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Order\Form\Accompanying;
+namespace App\Order\Form\Related;
 
 use App\Form\Type\MoneyType;
 use App\Form\Type\QuantityType;
@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-final class AccompanyingType extends AbstractType
+final class RelatedType extends AbstractType
 {
     /**
      * {@inheritDoc}
@@ -34,7 +34,7 @@ final class AccompanyingType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => AccompanyingDto::class,
+            'data_class' => RelatedDto::class,
             'label' => false,
         ]);
     }

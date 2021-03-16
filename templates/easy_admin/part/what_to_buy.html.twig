@@ -16,6 +16,7 @@
                             <th>Статус</th>
                             <th>В наличии</th>
                             <th>В заказах</th>
+                            <th>В резерве</th>
                             <th>В поставке</th>
                             <th>Нужно заказать</th>
                         </tr>
@@ -35,6 +36,7 @@
                                 </td>
                                 <td>{{ part.quantity / 100 }}</td>
                                 <td>{{ part.ordered / 100 }}</td>
+                                <td>{{ part.reserved / 100 }}</td>
                                 <td>{{ part.suppliesQuantity / 100 }}</td>
                                 <td>{{ item.toBuy / 100 }}</td>
                             </tr>

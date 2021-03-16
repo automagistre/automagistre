@@ -42,8 +42,6 @@ final class Connection
     }
 
     /**
-     * @psalm-suppress UnsafeInstantiation
-     *
      * @return static
      */
     public static function connect(Config $config): self
@@ -55,9 +53,6 @@ final class Connection
         return new self($socket);
     }
 
-    /**
-     * @psalm-suppress PossiblyFalseOperand
-     */
     public function identify(array $arr): string
     {
         $body = json_encode($arr, JSON_THROW_ON_ERROR | JSON_FORCE_OBJECT);
@@ -66,9 +61,6 @@ final class Connection
         return 'IDENTIFY '.PHP_EOL.$size.$body;
     }
 
-    /**
-     * @psalm-suppress PossiblyFalseOperand
-     */
     public function auth(string $secret): string
     {
         $size = pack('N', strlen($secret));

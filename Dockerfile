@@ -6,7 +6,7 @@ FROM composer:2.0.11 as composer
 #
 # PHP
 #
-FROM amd64/php:8.0.2-fpm-alpine3.12 as php-raw
+FROM amd64/php:8.0.3-fpm-alpine3.12 as php-raw
 
 LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 
@@ -219,7 +219,7 @@ HEALTHCHECK --interval=10s --timeout=5s --start-period=5s \
 #
 # nginx
 #
-FROM nginx:1.19.7-alpine as nginx-base
+FROM nginx:1.19.8-alpine as nginx-base
 
 WORKDIR /usr/local/app/public
 

@@ -21,9 +21,6 @@ final class Writer
         $this->connection = Connection::connect($config);
     }
 
-    /**
-     * @psalm-suppress PossiblyFalseOperand
-     */
     public function pub(string $topic, string $body): void
     {
         $size = pack('N', strlen($body));
@@ -34,9 +31,6 @@ final class Writer
         $this->connection->read();
     }
 
-    /**
-     * @psalm-suppress PossiblyFalseOperand
-     */
     public function mpub(string $topic, array $bodies): void
     {
         $num = pack('N', count($bodies));
@@ -53,9 +47,6 @@ final class Writer
         $this->connection->read();
     }
 
-    /**
-     * @psalm-suppress PossiblyFalseOperand
-     */
     public function dpub(string $topic, int $deferTime, string $body): void
     {
         $size = pack('N', strlen($body));

@@ -163,13 +163,11 @@ final class PartController extends AbstractController
             $part = $parameters['entity'];
             assert($part instanceof PartView);
 
-            $parameters['inStock'] = $this->partManager->inStock($part->toId());
             $parameters['orders'] = $this->partManager->inOrders($part->toId());
             $parameters['reservedIn'] = array_map(
                 fn (Order $order): string => $order->toId()->toString(),
                 $this->reservationManager->orders($part->toId())
             );
-            $parameters['reserved'] = $this->reservationManager->reserved($part->toId());
             $parameters['crosses'] = $this->partManager->getCrosses($part->toId());
 
             $parameters['prices'] = $this->registry->viewListBy(

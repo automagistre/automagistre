@@ -28,7 +28,7 @@
         <div class="row">
             <div class="col-md-1">{{ form_widget(line.enabled) }}</div>
             <div class="col-md-5">
-                {% include 'easy_admin/field_part.html.twig' with {value: line.vars.value.partId} only %}
+                {% include 'easy_admin/field_part.html.twig' with {value: line.vars.value.part} only %}
             </div>
             <div class="col-md-2">{{ form_widget(line.quantity) }}</div>
             <div class="col-md-2">{{ form_widget(line.price) }}</div>

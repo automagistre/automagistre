@@ -36,7 +36,6 @@ final class Stream
         $interval = $calendar->schedule->duration;
 
         $key = $date->format('H:i');
-        /** @psalm-suppress PossiblyNullPropertyFetch */
         $length = (int) ($interval->h * 2 + $interval->i / 30);
 
         $keys = [$key];

@@ -10,9 +10,9 @@ use App\Order\Entity\Order;
 use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Exception\ReservationException;
-use App\Order\Form\Accompanying\AccompanyingDto;
-use App\Order\Form\Accompanying\AccompanyingType;
 use App\Order\Form\OrderPart;
+use App\Order\Form\Related\RelatedDto;
+use App\Order\Form\Related\RelatedType;
 use App\Order\Form\Type\OrderItemParentType;
 use App\Order\Form\Type\WarrantyType;
 use App\Order\Manager\ReservationManager;
@@ -22,15 +22,15 @@ use App\Part\Form\PartOfferDto;
 use App\Part\Form\PartOfferType;
 use App\Vehicle\Entity\VehicleId;
 use LogicException;
-use Money\Currency;
-use Money\Money;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use function array_keys;
 use function array_map;
 use function sprintf;
+use function usort;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -44,19 +44,18 @@ final class OrderItemPartController extends OrderItemController
         $this->reservationManager = $reservationManager;
     }
 
-    public function accompanyingAction(): Response
+    public function relatedAction(): Response
     {
         /** @var OrderItemPart $orderItemPart */
         $orderItemPart = $this->getEntity(OrderItemPart::class);
         $partId = $orderItemPart->getPartId();
 
-        $parts = $this->registry->connection()
-            ->fetchAllAssociative(
+        $related = $this->registry->connection()
+            ->fetchAllAssociativeIndexed(
                 <<<'SQL'
-                SELECT part_id,
-                       COUNT(part_id) AS usage_count,
-                       MAX(quantity) AS quantity,
-                       MAX(price_amount) AS amount
+                SELECT part_id          AS index,
+                       part_id          AS id,
+                       COUNT(part_id)   AS usage_count
                 FROM order_item_part
                          JOIN order_item oi ON oi.id = order_item_part.id
                 WHERE oi.parent_id IN (SELECT oi.parent_id
@@ -76,25 +75,44 @@ final class OrderItemPartController extends OrderItemController
             )
         ;
 
-        if ([] === $parts) {
+        if ([] === $related) {
             $this->addFlash('info', sprintf('Для запчасти "%s" не найдены сопутствующие запчасти.', $this->display($partId)));
 
             return $this->redirectToReferrer();
         }
 
-        $parts = array_map(
-            static fn (array $item): AccompanyingDto => new AccompanyingDto(
-                PartId::fromString($item['part_id']),
-                $item['quantity'],
-                $item['usage_count'],
-                new Money($item['amount'], new Currency('RUB')),
-            ),
-            $parts,
+        $parts = $this->registry->manager()
+            ->createQueryBuilder()
+            ->select('t')
+            ->from(PartView::class, 't', 't.id')
+            ->where('t.id IN (:ids)')
+            ->getQuery()
+            ->setParameter('ids', array_keys($related))
+            ->getResult()
+        ;
+
+        $related = array_map(
+            static function (array $item) use ($parts): RelatedDto {
+                $partView = $parts[$item['id']];
+
+                return new RelatedDto(
+                    $partView,
+                    100,
+                    $item['usage_count'],
+                    $partView->sellPrice(),
+                );
+            },
+            $related,
         );
 
-        $form = $this->createFormBuilder(['parts' => $parts])
+        usort(
+            $related,
+            static fn (RelatedDto $left, RelatedDto $right) => $right->part->quantity <=> $left->part->quantity
+        );
+
+        $form = $this->createFormBuilder(['parts' => $related])
             ->add('parts', CollectionType::class, [
-                'entry_type' => AccompanyingType::class,
+                'entry_type' => RelatedType::class,
                 'allow_add' => false,
                 'allow_delete' => false,
                 'label' => null,
@@ -106,20 +124,20 @@ final class OrderItemPartController extends OrderItemController
         if ($form->isSubmitted() && $form->isValid()) {
             $entities = [];
 
-            foreach ($parts as $accompanyingDto) {
-                if (false === $accompanyingDto->enabled) {
+            foreach ($related as $relatedDto) {
+                if (false === $relatedDto->enabled) {
                     continue;
                 }
 
                 $entity = new OrderItemPart(
                     Uuid::uuid6(),
                     $orderItemPart->getOrder(),
-                    $accompanyingDto->partId,
-                    $accompanyingDto->quantity,
+                    $relatedDto->part->toId(),
+                    $relatedDto->quantity,
                 );
                 $entity->setPrice(
-                    $accompanyingDto->price,
-                    $this->registry->get(PartView::class, $accompanyingDto->partId),
+                    $relatedDto->price,
+                    $relatedDto->part,
                 );
                 $entity->setParent($orderItemPart->getParent());
 
@@ -131,7 +149,7 @@ final class OrderItemPartController extends OrderItemController
             return $this->redirectToReferrer();
         }
 
-        return $this->render('easy_admin/order/accompanying.html.twig', [
+        return $this->render('easy_admin/order/related.html.twig', [
             'partId' => $partId,
             'form' => $form->createView(),
         ]);

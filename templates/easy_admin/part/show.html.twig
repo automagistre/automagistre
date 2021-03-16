@@ -8,10 +8,10 @@
         <label class="col-sm-2 control-label">Наличие</label>
         <div class="col-sm-10">
             <div class="form-control">
-                На складе <strong>{{ inStock / 100 }}</strong><br>
-                Зарезервировано <strong>{{ reserved / 100 }}</strong><br>
+                На складе <strong>{{ entity.quantity / 100 }}</strong><br>
+                Зарезервировано <strong>{{ entity.reserved / 100 }}</strong><br>
                 Ожидается поставка <strong>{{ entity.suppliesQuantity / 100 }}</strong><br>
-                Доступно для резерва <strong>{{ (inStock - reserved) / 100 }}</strong>
+                Доступно для резерва <strong>{{ (entity.quantity - entity.reserved) / 100 }}</strong>
             </div>
         </div>
     </div>
