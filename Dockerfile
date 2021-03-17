@@ -167,23 +167,22 @@ COPY etc/php-fpm.conf /usr/local/etc/php-fpm.conf
 COPY etc/php-fpm.www.conf /usr/local/etc/php-fpm.d/www.conf
 
 ENV PHP_MEMORY_LIMIT 1G
-ENV PHP_OPCACHE_ENABLE 1
+ENV PHP_OPCACHE_ENABLE 0
 ENV PHP_ZEND_ASSERTIONS 1
 ENV PCOV_ENABLED 1
 
 FROM php-base as php
 
-ARG APP_ENV
 ENV APP_ENV prod
-ARG APP_DEBUG
 ENV APP_DEBUG 0
+ENV PHP_OPCACHE_ENABLE 1
 ENV PHP_ZEND_ASSERTIONS -1
 ENV PCOV_ENABLED 0
 
 COPY composer.json composer.lock symfony.lock ./
-RUN set -ex \
-    && composer install --no-interaction --no-progress --no-dev --no-plugins --no-cache --profile --no-autoloader \
-    && composer clear-cache --no-interaction --no-cache
+RUN --mount=type=cache,target=/var/cache/composer \
+    set -ex \
+    && composer install --no-interaction --no-progress --no-dev --no-plugins --profile --no-autoloader
 
 COPY bin bin
 COPY config config
@@ -192,8 +191,9 @@ COPY src src
 COPY templates templates
 COPY translations translations
 
-RUN --mount=type=cache,target=/var/cache/composer set -ex \
-    && composer dump-autoload --no-dev --no-plugins --no-cache --profile --classmap-authoritative \
+RUN --mount=type=cache,target=/var/cache/composer \
+    set -ex \
+    && composer dump-autoload --no-dev --no-plugins --profile --classmap-authoritative \
     && console cache:warmup \
     && console assets:install public \
     && chown -R www-data:www-data ${APP_DIR}/var
@@ -210,7 +210,8 @@ FROM nginx:1.19.8-alpine as nginx-base
 
 WORKDIR /usr/local/app/public
 
-RUN set -ex \
+RUN --mount=type=cache,target=/var/cache/apk \
+    set -ex \
     && apk add --no-cache gzip brotli \
     && tempDir="$(mktemp -d)" \
     && chown nobody:nobody $tempDir \
