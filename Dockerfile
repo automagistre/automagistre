@@ -212,10 +212,10 @@ WORKDIR /usr/local/app/public
 
 RUN --mount=type=cache,target=/var/cache/apk \
     set -ex \
-    && apk add --no-cache gzip brotli \
+    && apk add gzip brotli \
     && tempDir="$(mktemp -d)" \
     && chown nobody:nobody $tempDir \
-    && apk add --no-cache --virtual .build-deps \
+    && apk add --virtual .build-deps \
         gcc \
         libc-dev \
         make \
