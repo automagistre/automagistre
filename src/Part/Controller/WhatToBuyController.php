@@ -25,8 +25,8 @@ final class WhatToBuyController extends AbstractController
             ->where('(t.ordered - t.quantity - t.suppliesQuantity) > 0') // (toBuy) >
             ->orWhere(
                 new Andx([
-                    '(t.quantity - t.reserved + t.suppliesQuantity) < t.orderUpToQuantity',
-                    '(t.quantity - t.reserved + t.suppliesQuantity) <= t.orderFromQuantity', // (leftInStock) <
+                    '(t.quantity - t.ordered + t.suppliesQuantity) < t.orderUpToQuantity',
+                    '(t.quantity - t.ordered + t.suppliesQuantity) <= t.orderFromQuantity', // (leftInStock) <
                 ])
             )
             ->orWhere('t.suppliesQuantity > 0')
@@ -35,8 +35,8 @@ final class WhatToBuyController extends AbstractController
         ;
 
         $parts = array_map(static function (PartView $view): array {
-            $toBuy = $view->reserved - $view->quantity - $view->suppliesQuantity;
-            $leftInStock = $view->quantity - $view->reserved + $view->suppliesQuantity;
+            $toBuy = $view->ordered - $view->quantity - $view->suppliesQuantity;
+            $leftInStock = $view->quantity - $view->ordered + $view->suppliesQuantity;
 
             if (($leftInStock + $toBuy) < $view->orderUpToQuantity) {
                 $toBuy = $view->orderUpToQuantity - $leftInStock;
@@ -48,7 +48,7 @@ final class WhatToBuyController extends AbstractController
                 $status = WhatToBuyStatus::subzeroQuantity();
             } elseif (0 >= $toBuy) {
                 $status = WhatToBuyStatus::ok();
-            } elseif (($view->quantity - $view->reserved) < 0) {
+            } elseif (($view->quantity - $view->ordered) < 0) {
                 $status = WhatToBuyStatus::needSupplyForOrder();
             } elseif ($leftInStock < $view->orderUpToQuantity) {
                 $status = WhatToBuyStatus::needSupplyForStock();
