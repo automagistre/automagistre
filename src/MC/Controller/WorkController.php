@@ -20,14 +20,15 @@ final class WorkController extends AbstractController
      */
     protected function createNewEntity(): stdClass
     {
-        $model = new stdClass();
+        $dto = new stdClass();
 
-        $model->id = null;
-        $model->name = null;
-        $model->description = null;
-        $model->price = null;
+        $dto->id = null;
+        $dto->name = null;
+        $dto->description = null;
+        $dto->price = null;
+        $dto->comment = null;
 
-        return $model;
+        return $dto;
     }
 
     /**
@@ -35,14 +36,15 @@ final class WorkController extends AbstractController
      */
     protected function persistEntity($entity): McWork
     {
-        $model = $entity;
-        assert($model instanceof stdClass);
+        $dto = $entity;
+        assert($dto instanceof stdClass);
 
         $entity = new McWork(
             McWorkId::generate(),
-            $model->name,
-            $model->description,
-            $model->price
+            $dto->name,
+            $dto->description,
+            $dto->price,
+            $dto->comment,
         );
 
         parent::persistEntity($entity);

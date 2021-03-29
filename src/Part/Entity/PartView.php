@@ -85,7 +85,7 @@ class PartView
     public Money $income;
 
     /**
-     * @var PartId[]
+     * @var array<int, PartId>
      *
      * @ORM\Column(type="part_ids")
      */

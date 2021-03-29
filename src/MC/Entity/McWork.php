@@ -30,15 +30,21 @@ class McWork
     public ?string $description = null;
 
     /**
+     * @ORM\Column(nullable=true)
+     */
+    public ?string $comment = null;
+
+    /**
      * @ORM\Embedded(class=Money::class)
      */
     public Money $price;
 
-    public function __construct(McWorkId $id, string $name, ?string $description, Money $price)
+    public function __construct(McWorkId $id, string $name, ?string $description, Money $price, ?string $comment)
     {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
+        $this->comment = $comment;
         $this->price = $price;
     }
 

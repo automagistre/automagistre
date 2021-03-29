@@ -307,11 +307,11 @@ final class PartController extends AbstractController
 
         $data = [];
         $analogs = [];
+        /** @var array<int, PartView> $currentPageResults */
         $currentPageResults = (array) $paginator->getCurrentPageResults();
 
         if (3 >= count($currentPageResults)) {
             foreach ($currentPageResults as $part) {
-                // @var $part PartView
                 $data[$part->toId()->toString()] = $normalizer($part);
 
                 $analogs = [...$analogs, ...$part->analogs];

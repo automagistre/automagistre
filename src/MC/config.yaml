@@ -8,13 +8,14 @@ easy_admin:
                 title: 'Список работ'
                 fields:
                     - { property: 'name', label: 'Название' }
-                    - { property: 'description', label: 'Сервисная информация' }
+                    - { property: 'comment', label: 'Сервисная информация' }
                     - { property: 'price', label: 'Цена', template: 'easy_admin/field_money.html.twig' }
             form:
                 fields:
                     - { property: 'name', label: 'Название', type: 'text' }
-                    - { property: 'description', label: 'Описание', type: 'text', type_options: { required: false } }
                     - { property: 'price', label: 'Сумма', type: App\Form\Type\MoneyType }
+                    - { property: 'comment', label: 'Сервисная информация', type: 'text', type_options: { required: false } }
+                    - { property: 'description', label: 'Публичное описание', type: 'textarea', type_options: { required: false } }
             new:
                 title: 'Создать работу'
                 form_options: { data_class: stdClass }

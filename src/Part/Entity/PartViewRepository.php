@@ -21,7 +21,7 @@ final class PartViewRepository
     }
 
     /**
-     * @return PartView[]
+     * @return array<int, PartView>
      */
     public function all(PartId ...$partIds): array
     {
