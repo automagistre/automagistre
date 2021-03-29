@@ -24,7 +24,8 @@ final class WorkFixtures extends Fixture
             McWorkId::fromString(self::ID),
             'Work 1',
             null,
-            new Money(100, new Currency('RUB'))
+            new Money(100, new Currency('RUB')),
+            null,
         );
 
         $this->addReference('work-1', $work);
