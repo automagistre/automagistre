@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.6.2@bca09d74adc704c4eaee36a3c3e9d379e290fc3b">
+<files psalm-version="4.7.0@d4377c0baf3ffbf0b1ec6998e8d1be2a40971005">
   <file src="src/Appeal/Controller/AppealController.php">
     <ArgumentTypeCoercion occurrences="1">
       <code>$entity-&gt;type-&gt;toEntityClass()</code>
@@ -111,6 +111,12 @@
       <code>$this-&gt;request-&gt;query-&gt;get('newValue')</code>
     </PossiblyNullArgument>
   </file>
+  <file src="src/EasyAdmin/Form/AutocompleteType.php">
+    <PropertyTypeCoercion occurrences="2">
+      <code>$view-&gt;vars</code>
+      <code>$view-&gt;vars</code>
+    </PropertyTypeCoercion>
+  </file>
   <file src="src/Employee/Controller/SalaryController.php">
     <LessSpecificReturnStatement occurrences="1"/>
     <MoreSpecificReturnType occurrences="1">
@@ -121,16 +127,6 @@
     <PropertyNotSetInConstructor occurrences="1">
       <code>$ratio</code>
     </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Employee/Form/EmployeeType.php">
-    <InvalidArrayOffset occurrences="1">
-      <code>$view-&gt;vars['choices']</code>
-    </InvalidArrayOffset>
-  </file>
-  <file src="src/Employee/Form/EmployeeUuidType.php">
-    <InvalidArrayOffset occurrences="1">
-      <code>$view-&gt;vars['choices']</code>
-    </InvalidArrayOffset>
   </file>
   <file src="src/Income/Controller/IncomePartController.php">
     <PossiblyNullArgument occurrences="1">
