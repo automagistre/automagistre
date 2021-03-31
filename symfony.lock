@@ -26,6 +26,9 @@
     "clue/stream-filter": {
         "version": "v1.5.0"
     },
+    "composer/package-versions-deprecated": {
+        "version": "1.11.99.1"
+    },
     "composer/semver": {
         "version": "3.2.4"
     },
@@ -79,6 +82,9 @@
     },
     "doctrine/dbal": {
         "version": "2.12.1"
+    },
+    "doctrine/deprecations": {
+        "version": "v0.5.3"
     },
     "doctrine/doctrine-bundle": {
         "version": "2.0",
@@ -297,9 +303,6 @@
         "files": [
             "config/packages/nyholm_psr7.yaml"
         ]
-    },
-    "ocramius/package-versions": {
-        "version": "2.3.0"
     },
     "odolbeau/phone-number-bundle": {
         "version": "3.0",
