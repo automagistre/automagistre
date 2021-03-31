@@ -6,196 +6,163 @@
 {# @var car \App\Car\Entity\Car #}
 {# @var customer \App\Customer\Domain\Operand #}
 
-{% block invoice_provider_info %}
-    <div class="invoice-provider">
-        <div>Поставщик:</div>
-        <div>
-            {{ requisites.name }}
-            ОГРН: {{ requisites.ogrn }}
-            {{ requisites.address }}
-            {% for telephone in requisites.telephones %}
-                &nbsp;{{ telephone }}
-            {% endfor %}
-        </div>
-    </div>
-{% endblock %}
-
-
-{% block invoice_executor_info %}
-    <div class="invoice-executor">
-        <div>Покупатель:</div>
-        <div>
-{#          Если заказчик организация, то выводить все доступные реквизиты #}
-            {{- customer.fullName -}}
-
-            {% if customer.type('person') %}
-                {%- if customer.telephone is not empty %}
-                    тел: {{ customer.telephone|phone_number_format }}
-                {%- endif -%}
-                {%- if customer.email is not empty %}
-                    e-mail: {{ customer.email }}
-                {% endif %}
-            {%- elseif customer.type('organization') -%}
-{#                @var customer \App\Customer\Domain\Organization#}
-                {%- if not customer.requisite.empty -%}
-                    , {{- customer.requisite -}}
-                {%- endif -%}
-                {%- if customer.telephone is not empty %}
-                    {{ customer.telephone|phone_number_format }}
-                {%- endif -%}
-                {%- if customer.officePhone is not empty %}
-                    {{ customer.officePhone|phone_number_format }}
-                {%- endif -%}
-            {% endif %}
-        </div>
-    </div>
-{% endblock %}
-
-
-{% block invoice_header %}
-    <h1 class="invoice-header__info">Счет на оплату №
-        {{ order.number }}
-        от
-        {{ (order.closed ? created_by(order.getClose|toUuid).at : date(null, 'Europe/Moscow'))|format_date('short') }} г.
-    </h1>
-    {{ block('invoice_provider_info') }}
-{% endblock %}
-
-
-{% block invoice_info_table %}
-    <div class="invoice-info">
-        <div class="invoice-info__item" style="text-transform: uppercase">{{ requisites.bank }}</div>
-        <div class="invoice-info__item cell-center border-bottom">БИК</div>
-        <div class="invoice-info__item">{{ requisites.bik }}</div>
-        <div class="invoice-info__item border-bottom cell-info">Банк получателя</div>
-        <div class="invoice-info__item cell-center border-bottom">Сч. №</div>
-        <div class="invoice-info__item border-bottom">{{ requisites.ks }}</div>
-        <div class="invoice-info__item requisites">
-            <div class="invoice-info__item">ИНН</div>
-            <div class="invoice-info__item">{{ requisites.inn }}</div>
-            <div class="invoice-info__item">КПП</div>
-            <div class="invoice-info__item">{{ requisites.kpp }}</div>
-        </div>
-        <div class="invoice-info__item cell-center"></div>
-        <div class="invoice-info__item"></div>
-        <div class="invoice-info__item">{{ requisites.name }}</div>
-        <div class="invoice-info__item cell-center"></div>
-        <div class="invoice-info__item"></div>
-        <div class="invoice-info__item cell-info">Получатель</div>
-        <div class="invoice-info__item cell-center">Сч. №</div>
-        <div class="invoice-info__item">{{ requisites.rs }}</div>
-    </div>
-{% endblock %}
-
-
-{% block invoice_table %}
-    <div class="invoice-table">
-        <div class="invoice-table__row row-header">
-            <div class="invoice-table__item cell-header">№</div>
-            <div class="invoice-table__item cell-header">Наименование товаров, работ, услуг</div>
-            <div class="invoice-table__item cell-header">Кол-во</div>
-            <div class="invoice-table__item cell-header">Ед. изм.</div>
-            <div class="invoice-table__item cell-header">Цена</div>
-            <div class="invoice-table__item cell-header">Всего</div>
-        </div>
-        {% for orderItemGroup in order.rootItems('group') %}
-
-            {% set position = position + 1 %}
-
-            <div class="invoice-table__row">
-                <div class="invoice-table__item">{{ position }}</div>
-                <div class="invoice-table__item">{{ orderItemGroup }}</div>
-                <div class="invoice-table__item">&mdash;</div>
-                <div class="invoice-table__item"></div>
-                <div class="invoice-table__item cell-cost">
-                    {% set groupPrice = orderItemGroup.totalServicePrice(true) %}
-
-                    {% if orderItemGroup.hideParts %}
-                        {% set groupPrice = groupPrice.add(orderItemGroup.totalPartPrice(true)) %}
-                    {% endif %}
-
-                    {{ groupPrice|localize_money(true)|number_format(2, '.', ' ') }}
-                </div>
-                <div class="invoice-table__item cell-cost">{{ groupPrice|localize_money(true)|number_format(2, '.', ' ') }}</div>
-            </div>
-        {% endfor %}
-
-        {% for orderItemService in order.rootItems('service') %}
-
-            {% set position = position + 1 %}
-
-            <div class="invoice-table__row">
-                <div class="invoice-table__item">{{ position }}</div>
-                <div class="invoice-table__item">{{ orderItemService }}</div>
-                <div class="invoice-table__item">&mdash;</div>
-                <div class="invoice-table__item"></div>
-                <div class="invoice-table__item cell-cost">{{ orderItemService.totalPrice(true)|localize_money(true)|number_format(2, '.', ' ') }}</div>
-                <div class="invoice-table__item cell-cost">{{ orderItemService.totalPrice(true)|localize_money(true)|number_format(2, '.', ' ') }}</div>
-            </div>
-        {% endfor %}
-
-        {% for orderItemPart in order.items('part', true) %}
-            {% set position = position + 1 %}
-            {% set part = part_by_id(orderItemPart.partId) %}
-
-            <div class="invoice-table__row">
-                <div class="invoice-table__item">{{ position }}</div>
-                <div class="invoice-table__item">{{ part.number }} {{ part.name }}</div>
-                <div class="invoice-table__item">{{ orderItemPart.quantity / 100 }}</div>
-                <div class="invoice-table__item">шт.</div>
-                <div class="invoice-table__item cell-cost">
-                    {% if orderItemPart.discounted %}
-                        {{ orderItemPart.price.subtract(orderItemPart.discount)|localize_money(true)|number_format(2, '.', ' ') }}
-                    {% else %}
-                        {{ orderItemPart.price|localize_money(true)|number_format(2, '.', ' ') }}
-                    {% endif %}
-                </div>
-                <div class="invoice-table__item cell-cost">{{ orderItemPart.totalPrice(true)|localize_money(true)|number_format(2, '.', ' ') }}</div>
-            </div>
-        {% endfor %}
-        <div class="invoice-table__row row-total">
-            <div class="invoice-table__item cell-total">Итого к оплате</div>
-            <div class="invoice-table__item cell-cost">{{ order.totalForPayment(null, false)|localize_money(true)|number_format(2, '.', ' ') }}</div>
-        </div>
-        <div class="invoice-table__row row-total">
-            <div class="invoice-table__item cell-total">Без налога(НДС)</div>
-            <div class="invoice-table__item cell-cost"></div>
-        </div>
-    </div>
-{% endblock %}
-
-
-{% block invoice_total_info %}
-    <div class="invoice-total-literal">
-        <p>Всего наименований <b>{{ position }}</b> на сумму:</p>
-        <p><b>{{ order.totalForPayment(null, false)|localize_money_literal }}</b></p>
-    </div>
-{% endblock %}
-
-
-{% block invoice_signs %}
-    <div class="invoice-sings">
-        <div class="invoice-sings__headType">{{ requisites.headType }}</div>
-        <div class="invoice-sings__line"></div>
-        <div class="invoice-sings__head">({{ requisites.head }})</div>
-        <div class="invoice-sings__stamp">М.П.</div>
-    </div>
-{% endblock %}
-
+{% set position = 0 %}
 
 {% block content %}
     <div class="content pages" id="content">
         <div class="page portrait bookkeeping-fonts" style="height: max-content">
             <main class="portrait">
-                {{ block('invoice_header')}}
-                {{ block('invoice_info_table') }}
-                {{ block('invoice_executor_info') }}
+                <h1 class="invoice-header__info">Счет на оплату №
+                    {{ order.number }}
+                    от
+                    {{ (order.closed ? created_by(order.getClose|toUuid).at : date(null, 'Europe/Moscow'))|format_date('short') }} г.
+                </h1>
 
-                {% set position = 0 %}
+                <div class="invoice-provider">
+                    <div>Поставщик:</div>
+                    <div>
+                        {{ requisites.name }}
+                        ОГРН: {{ requisites.ogrn }}
+                        {{ requisites.address }}
+                        {% for telephone in requisites.telephones %}
+                            &nbsp;{{ telephone }}
+                        {% endfor %}
+                    </div>
+                </div>
 
-                {{ block('invoice_table') }}
-                {{ block('invoice_total_info') }}
-                {{ block('invoice_signs') }}
+                <div class="invoice-info">
+                    <div class="invoice-info__item" style="text-transform: uppercase">{{ requisites.bank }}</div>
+                    <div class="invoice-info__item cell-center border-bottom">БИК</div>
+                    <div class="invoice-info__item">{{ requisites.bik }}</div>
+                    <div class="invoice-info__item border-bottom cell-info">Банк получателя</div>
+                    <div class="invoice-info__item cell-center border-bottom">Сч. №</div>
+                    <div class="invoice-info__item border-bottom">{{ requisites.ks }}</div>
+                    <div class="invoice-info__item requisites">
+                        <div class="invoice-info__item">ИНН</div>
+                        <div class="invoice-info__item">{{ requisites.inn }}</div>
+                        <div class="invoice-info__item">КПП</div>
+                        <div class="invoice-info__item">{{ requisites.kpp }}</div>
+                    </div>
+                    <div class="invoice-info__item cell-center"></div>
+                    <div class="invoice-info__item"></div>
+                    <div class="invoice-info__item">{{ requisites.name }}</div>
+                    <div class="invoice-info__item cell-center"></div>
+                    <div class="invoice-info__item"></div>
+                    <div class="invoice-info__item cell-info">Получатель</div>
+                    <div class="invoice-info__item cell-center">Сч. №</div>
+                    <div class="invoice-info__item">{{ requisites.rs }}</div>
+                </div>
+
+                <div class="invoice-executor">
+                    <div>Покупатель:</div>
+                    <div>
+                        {# Если заказчик организация, то выводить все доступные реквизиты #}
+                        {{- customer.fullName -}}
+
+                        {% if customer.type('person') %}
+                            {%- if customer.telephone is not empty %}
+                                тел: {{ customer.telephone|phone_number_format }}
+                            {%- endif -%}
+                            {%- if customer.email is not empty %}
+                                e-mail: {{ customer.email }}
+                            {% endif %}
+                        {%- elseif customer.type('organization') -%}
+                            {%- if not customer.requisite.empty -%}
+                                , {{- customer.requisite -}}
+                            {%- endif -%}
+                            {%- if customer.telephone is not empty %}
+                                {{ customer.telephone|phone_number_format }}
+                            {%- endif -%}
+                            {%- if customer.officePhone is not empty %}
+                                {{ customer.officePhone|phone_number_format }}
+                            {%- endif -%}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="invoice-table">
+                    <div class="invoice-table__row row-header">
+                        <div class="invoice-table__item cell-header">№</div>
+                        <div class="invoice-table__item cell-header">Наименование товаров, работ, услуг</div>
+                        <div class="invoice-table__item cell-header">Кол-во</div>
+                        <div class="invoice-table__item cell-header">Ед. изм.</div>
+                        <div class="invoice-table__item cell-header">Цена</div>
+                        <div class="invoice-table__item cell-header">Всего</div>
+                    </div>
+
+                    {% for orderItemGroup in order.rootItems('group') %}
+                        {% set position = position + 1 %}
+
+                        <div class="invoice-table__row">
+                            <div class="invoice-table__item">{{ position }}</div>
+                            <div class="invoice-table__item">{{ orderItemGroup }}</div>
+                            <div class="invoice-table__item">&mdash;</div>
+                            <div class="invoice-table__item"></div>
+                            <div class="invoice-table__item cell-cost">
+                                {% set groupPrice = orderItemGroup.totalServicePrice(true) %}
+
+                                {% if orderItemGroup.hideParts %}
+                                    {% set groupPrice = groupPrice.add(orderItemGroup.totalPartPrice(true)) %}
+                                {% endif %}
+
+                                {{ groupPrice|localize_money(true)|number_format(2, '.', ' ') }}
+                            </div>
+                            <div class="invoice-table__item cell-cost">{{ groupPrice|localize_money(true)|number_format(2, '.', ' ') }}</div>
+                        </div>
+                    {% endfor %}
+
+                    {% for orderItemService in order.rootItems('service') %}
+                        {% set position = position + 1 %}
+
+                        <div class="invoice-table__row">
+                            <div class="invoice-table__item">{{ position }}</div>
+                            <div class="invoice-table__item">{{ orderItemService }}</div>
+                            <div class="invoice-table__item">&mdash;</div>
+                            <div class="invoice-table__item"></div>
+                            <div class="invoice-table__item cell-cost">{{ orderItemService.totalPrice(true)|localize_money(true)|number_format(2, '.', ' ') }}</div>
+                            <div class="invoice-table__item cell-cost">{{ orderItemService.totalPrice(true)|localize_money(true)|number_format(2, '.', ' ') }}</div>
+                        </div>
+                    {% endfor %}
+
+                    {% for orderItemPart in order.items('part', true) %}
+                        {% set position = position + 1 %}
+                        {% set part = part_by_id(orderItemPart.partId) %}
+
+                        <div class="invoice-table__row">
+                            <div class="invoice-table__item">{{ position }}</div>
+                            <div class="invoice-table__item">{{ part.number }} {{ part.name }}</div>
+                            <div class="invoice-table__item">{{ orderItemPart.quantity / 100 }}</div>
+                            <div class="invoice-table__item">шт.</div>
+                            <div class="invoice-table__item cell-cost">
+                                {% if orderItemPart.discounted %}
+                                    {{ orderItemPart.price.subtract(orderItemPart.discount)|localize_money(true)|number_format(2, '.', ' ') }}
+                                {% else %}
+                                    {{ orderItemPart.price|localize_money(true)|number_format(2, '.', ' ') }}
+                                {% endif %}
+                            </div>
+                            <div class="invoice-table__item cell-cost">{{ orderItemPart.totalPrice(true)|localize_money(true)|number_format(2, '.', ' ') }}</div>
+                        </div>
+                    {% endfor %}
+                    <div class="invoice-table__row row-total">
+                        <div class="invoice-table__item cell-total">Итого к оплате</div>
+                        <div class="invoice-table__item cell-cost">{{ order.totalForPayment(null, false)|localize_money(true)|number_format(2, '.', ' ') }}</div>
+                    </div>
+                    <div class="invoice-table__row row-total">
+                        <div class="invoice-table__item cell-total">Без налога(НДС)</div>
+                        <div class="invoice-table__item cell-cost"></div>
+                    </div>
+                </div>
+                <div class="invoice-total-literal">
+                    <p>Всего наименований <b>{{ position }}</b> на сумму:</p>
+                    <p><b>{{ order.totalForPayment(null, false)|localize_money_literal }}</b></p>
+                </div>
+
+                <div class="invoice-sings">
+                    <div class="invoice-sings__headType">{{ requisites.headType }}</div>
+                    <div class="invoice-sings__line"></div>
+                    <div class="invoice-sings__head">({{ requisites.head }})</div>
+                    <div class="invoice-sings__stamp">М.П.</div>
+                </div>
             </main>
         </div>
     </div>
