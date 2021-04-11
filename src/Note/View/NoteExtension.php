@@ -28,7 +28,7 @@ final class NoteExtension extends AbstractExtension
             new TwigFunction(
                 'notes_by_subject',
                 fn (UuidInterface $id) => $this->registry->repository(NoteView::class)
-                    ->findBy(['subject' => $id], ['id' => 'DESC'])
+                    ->findBy(['subject' => $id], ['id' => 'ASC'])
             ),
         ];
     }
