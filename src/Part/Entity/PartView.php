@@ -6,17 +6,23 @@ namespace App\Part\Entity;
 
 use App\Customer\Entity\OperandId;
 use App\Manufacturer\Entity\ManufacturerView;
+use App\Note\Entity\Notes;
+use App\Note\Enum\NoteType;
 use App\Part\Enum\Unit;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
+use function array_map;
 use function sprintf;
 
 /**
  * @ORM\Entity(readOnly=true)
  * @ORM\Table(name="part_view")
+ *
+ * @psalm-suppress MissingConstructor
+ * @psalm-suppress PropertyNotSetInConstructor
  */
-class PartView
+class PartView implements Notes
 {
     /**
      * Наценка на запчасти.
@@ -121,47 +127,12 @@ class PartView
      */
     private array $supplies;
 
-    public function __construct(
-        PartId $id,
-        ManufacturerView $manufacturer,
-        string $name,
-        PartNumber $number,
-        bool $isUniversal,
-        Unit $unit,
-        int $quantity,
-        int $ordered,
-        int $reserved,
-        Money $price,
-        Money $discount,
-        Money $income,
-        array $analogs,
-        int $orderFromQuantity,
-        int $orderUpToQuantity,
-        int $suppliesQuantity,
-        string $search,
-        string $cases,
-        array $supplies
-    ) {
-        $this->id = $id;
-        $this->manufacturer = $manufacturer;
-        $this->name = $name;
-        $this->number = $number;
-        $this->isUniversal = $isUniversal;
-        $this->unit = $unit;
-        $this->quantity = $quantity;
-        $this->ordered = $ordered;
-        $this->reserved = $reserved;
-        $this->price = $price;
-        $this->discount = $discount;
-        $this->income = $income;
-        $this->analogs = $analogs;
-        $this->orderFromQuantity = $orderFromQuantity;
-        $this->orderUpToQuantity = $orderUpToQuantity;
-        $this->suppliesQuantity = $suppliesQuantity;
-        $this->search = $search;
-        $this->cases = $cases;
-        $this->supplies = $supplies;
-    }
+    /**
+     * @var array<int, array{type: int, text: string}>
+     *
+     * @ORM\Column(type="json")
+     */
+    private array $notes;
 
     public function toId(): PartId
     {
@@ -239,6 +210,17 @@ class PartView
         return false;
     }
 
+    public function notes(): iterable
+    {
+        return array_map(
+            static fn (array $note) => [
+                'type' => NoteType::create($note['type']),
+                'text' => $note['text'],
+            ],
+            $this->notes,
+        );
+    }
+
     public function hasKeepingStock(): bool
     {
         return 0 !== $this->orderFromQuantity || 0 !== $this->orderUpToQuantity;
@@ -257,6 +239,7 @@ class PartView
                    COALESCE(ordered.quantity, 0)                                                                    AS ordered,
                    COALESCE(reserved.quantity, 0)                                                                   AS reserved,
                    COALESCE(crosses.parts, '[]'::JSON)                                                              AS analogs,
+                   COALESCE(notes.json, '[]'::JSON)                                                                 AS notes,
                    m.name                                                                                           AS manufacturer_name,
                    m.id                                                                                             AS manufacturer_id,
                    m.localized_name                                                                                 AS manufacturer_localized_name,
@@ -328,6 +311,15 @@ class PartView
                                          LEFT JOIN part_cross_part pcp2
                                                    ON pcp2.part_cross_id = pc.id AND pcp2.part_id <> pcp.part_id
                                 GROUP BY pcp.part_id) crosses ON crosses.part_id = part.id
+                     LEFT JOIN (SELECT note.subject,
+                                       JSON_AGG(
+                                          JSON_BUILD_OBJECT(
+                                              'type', note.type,
+                                              'text', note.text
+                                              )
+                                       ) AS json
+                                FROM note
+                                GROUP BY note.subject) notes ON notes.subject = part.id
             SQL;
     }
 }

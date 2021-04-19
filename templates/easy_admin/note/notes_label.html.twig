@@ -1,0 +1,36 @@
+{# @var subject \Ramsey\Uuid\UuidInterface #}
+
+{% if notes_implement(subject) %}
+    {% set notes = subject.notes %}
+{% else %}
+    {% set notes = notes_by_subject(subject) %}
+{% endif %}
+
+{% if notes is not empty %}
+    {% set popoverContent %}
+        {% for note in notes %}
+            {{ note.type.toName }}: <strong>{{ note.text }}</strong> <br/>
+        {% endfor %}
+    {% endset %}
+
+    {% set labelId = 'note-' ~ subject|toId %}
+
+    <a id="{{ labelId }}" style="cursor: pointer" data-toggle="popover">
+        <span class="label label-warning">
+            {%- if 1 == notes|length -%}
+                Заметка
+            {%- else -%}
+                Заметки
+            {%- endif -%}
+        </span>
+    </a>
+
+    <script>
+      $('#{{ labelId }}').popover({
+        html: true,
+        placement: 'top',
+        content: `{{ popoverContent }}`,
+        container: 'body',
+      });
+    </script>
+{% endif %}

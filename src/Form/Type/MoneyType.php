@@ -9,6 +9,7 @@ use Money\Currency;
 use Money\Money;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -23,12 +24,19 @@ final class MoneyType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->addViewTransformer(new CallbackTransformer(
+                fn (?int $amount) => $amount,
+                fn (?int $amount) => match (true) {
+                    null === $amount => null,
+                    0 > $amount => throw new TransformationFailedException(invalidMessage: 'Значение не может быть меньше нуля.'),
+                    default => $amount,
+                },
+            ))
             ->addViewTransformer(new DivisoredNumberTransformer())
             ->addModelTransformer(new CallbackTransformer(
                 fn (?Money $money) => $money instanceof Money ? $money->getAmount() : $money,
                 fn (string $amount) => new Money($amount, new Currency('RUB'))
-            ))
-        ;
+            ));
     }
 
     /**

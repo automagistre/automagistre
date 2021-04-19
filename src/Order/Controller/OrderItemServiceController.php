@@ -11,7 +11,6 @@ use App\Order\Entity\Order;
 use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemService;
 use App\Order\Form\OrderService;
-use Doctrine\DBAL\Driver\Result;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use LogicException;
@@ -225,7 +224,6 @@ final class OrderItemServiceController extends OrderItemController
         }
 
         $result = $connection->executeQuery($qb->getSQL(), $qb->getParameters(), $qb->getParameterTypes());
-        assert($result instanceof Result);
 
         $data = array_map(function (array $row): array {
             $price = new Money($row['price'], new Currency($row['currency']));

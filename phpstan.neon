@@ -21,6 +21,9 @@ parameters:
             message: '#is never read, only written#'
             path: %currentWorkingDirectory%/src
         -
-            message: '#is unused.#'
+            message: '#is never written, only read#'
+            path: %currentWorkingDirectory%/src
+        -
+            message: '#is unused#'
             path: %currentWorkingDirectory%/src
     tmpDir: var/phpstan

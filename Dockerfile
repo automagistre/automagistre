@@ -1,7 +1,7 @@
 #
 # Composer
 #
-FROM composer:2.0.11 as composer
+FROM composer:2.0.12 as composer
 
 #
 # PHP
@@ -219,7 +219,7 @@ HEALTHCHECK --interval=10s --timeout=5s --start-period=5s \
 #
 # nginx
 #
-FROM nginx:1.19.8-alpine as nginx-base
+FROM nginx:1.19.10-alpine as nginx-base
 
 WORKDIR /usr/local/app/public
 

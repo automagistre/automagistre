@@ -167,6 +167,9 @@
         </div>
 
         <div class="col-md-6">
+            {% include 'easy_admin/note/notes_panel.html.twig' with {'subject': entity|toUuid} only %}
+
+            {# Заказы #}
             <div class="field-group">
                 <div class="box box-default">
                     <div class="box-header with-border">
@@ -221,6 +224,7 @@
                 </div>
             </div>
 
+            {# Кроссы #}
             <div class="field-group">
                 <div class="box box-default">
                     <div class="box-header with-border">
@@ -254,6 +258,7 @@
                 </div>
             </div>
 
+            {# Кузова #}
             <div class="field-group">
                 <div class="box box-default">
                     <div class="box-header with-border">
