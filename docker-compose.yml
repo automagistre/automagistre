@@ -39,7 +39,7 @@ services:
             POSTGRES_PASSWORD: db
 
     memcached:
-        image: memcached:1.5.11-alpine
+        image: memcached:1.6.9-alpine
         labels:
             ru.grachevko.dhu: 'memcached.${TENANT}.automagistre.local'
 
