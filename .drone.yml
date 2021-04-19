@@ -356,6 +356,19 @@ steps:
         depends_on:
             - check deploy
 
+    -   name: clean
+        image: automagistre/docker-compose:stable
+        volumes:
+            -   name: env
+                path: /drone/src/.env
+            -   name: docker.sock
+                path: /var/run/docker.sock
+        commands:
+            - docker rmi `docker images -q --filter reference=automagistre/tenant-php:* --filter before=automagistre/tenant-php:${DRONE_BUILD_NUMBER}` || true
+            - docker rmi `docker images -q --filter reference=automagistre/tenant-nginx:* --filter before=automagistre/tenant-nginx:${DRONE_BUILD_NUMBER}` || true
+        depends_on:
+            - deploy
+
 ---
 kind: pipeline
 type: docker
@@ -389,3 +402,39 @@ steps:
         environment:
             GIT_SSH_KEY:
                 from_secret: GIT_SSH_KEY
+
+---
+kind: pipeline
+type: docker
+name: clean
+
+trigger:
+    branch:
+        exclude:
+            - master
+            - rc
+    status:
+        - success
+        - failure
+
+depends_on:
+    - test
+    - deploy
+
+clone:
+    disable: true
+
+volumes:
+    -   name: docker.sock
+        host:
+            path: /var/run/docker.sock
+
+steps:
+    -   name: clean CI images
+        image: automagistre/docker:stable
+        volumes:
+            -   name: docker.sock
+                path: /var/run/docker.sock
+        commands:
+            - docker rmi "automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}"
+            - docker rmi "automagistre/tenant-nginx:base-${DRONE_BUILD_NUMBER}"
