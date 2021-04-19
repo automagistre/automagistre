@@ -349,7 +349,7 @@ steps:
                 cat .tenants | while read tenant; do
                 export TENANT=$tenant
                 && mkdir -p /opt/am/db/tenant/$tenant
-                && docker-compose --file .swarm.yml config | docker stack deploy --prune --with-registry-auth --compose-file - tenant_$tenant
+                && docker-compose --file .swarm.yml config | docker stack deploy --prune --with-registry-auth --resolve-image never --compose-file - tenant_$tenant
                 ; done
         environment:
             VERSION: ${DRONE_BUILD_NUMBER}
