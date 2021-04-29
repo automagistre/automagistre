@@ -1,0 +1,75 @@
+version: 2
+registries:
+  git-github-com:
+    type: git
+    url: https://github.com
+    username: grachevko
+    password: "${{secrets.GIT_GITHUB_COM_PASSWORD}}"
+
+updates:
+- package-ecosystem: composer
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 3
+  allow:
+  - dependency-type: direct
+  - dependency-type: indirect
+  ignore:
+  - dependency-name: phpstan/phpstan-symfony
+    versions:
+    - 0.12.22
+    - 0.12.23
+    - 0.12.24
+    - 0.12.25
+    - 0.12.26
+    - 0.12.27
+  - dependency-name: doctrine/orm
+    versions:
+    - 2.8.3
+  - dependency-name: doctrine/dbal
+    versions:
+    - 2.13.0
+  - dependency-name: symfony/error-handler
+    versions:
+    - 5.2.6
+  - dependency-name: psalm/plugin-symfony
+    versions:
+    - 2.2.0
+    - 2.2.1
+    - 2.2.2
+    - 2.2.3
+  - dependency-name: vimeo/psalm
+    versions:
+    - 4.7.0
+  - dependency-name: sentry/sentry
+    versions:
+    - 3.2.0
+  - dependency-name: easycorp/easyadmin-bundle
+    versions:
+    - 3.2.3
+    - 3.2.4
+    - 3.2.5
+    - 3.2.6
+    - 3.2.7
+  - dependency-name: symfony/http-kernel
+    versions:
+    - 5.2.3
+  - dependency-name: sensio/framework-extra-bundle
+    versions:
+    - 6.0.0
+  - dependency-name: symfony/translation
+    versions:
+    - 5.2.3
+  - dependency-name: symfony/yaml
+    versions:
+    - 5.2.3
+  registries:
+  - git-github-com
+- package-ecosystem: docker
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 3
+  registries:
+  - git-github-com
