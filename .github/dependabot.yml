@@ -9,13 +9,9 @@ updates:
         allow:
             -   dependency-type: direct
             -   dependency-type: indirect
-        registries:
-            - git-github-com
 
     -   package-ecosystem: docker
         directory: "/"
         schedule:
             interval: daily
         open-pull-requests-limit: 3
-        registries:
-            - git-github-com
