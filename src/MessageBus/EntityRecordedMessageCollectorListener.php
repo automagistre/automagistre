@@ -54,7 +54,7 @@ class EntityRecordedMessageCollectorListener implements EventSubscriber, Contain
         }
     }
 
-    private function collectEventsFromEntity(object $entity): void
+    private function collectEventsFromEntity(?object $entity): void
     {
         if (!$entity instanceof ContainsRecordedMessages) {
             return;
