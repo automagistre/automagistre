@@ -10,6 +10,7 @@ use Symfony\Component\Cache\Adapter\PhpArrayAdapter;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\HttpKernel\KernelInterface;
 use function assert;
 
 /**
@@ -17,12 +18,16 @@ use function assert;
  */
 final class MetadataCacheCompilerPass implements CompilerPassInterface
 {
+    public function __construct(private KernelInterface $kernel)
+    {
+    }
+
     /**
      * {@inheritdoc}
      */
     public function process(ContainerBuilder $container): void
     {
-        if ('prod' !== $container->getParameter('kernel.environment')) {
+        if ('prod' !== $this->kernel->getEnvironment()) {
             return;
         }
 

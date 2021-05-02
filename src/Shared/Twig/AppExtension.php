@@ -8,6 +8,8 @@ use DateTimeImmutable;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
+use function assert;
+use function is_int;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -40,6 +42,8 @@ final class AppExtension extends AbstractExtension
     public function buildTime(): DateTimeImmutable
     {
         $timestamp = $this->parameterBag->get('container.build_time');
+
+        assert(is_int($timestamp));
 
         return new DateTimeImmutable('@'.$timestamp);
     }

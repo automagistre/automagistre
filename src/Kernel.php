@@ -82,7 +82,7 @@ final class Kernel extends SymfonyKernel
      */
     protected function build(ContainerBuilder $container): void
     {
-        $container->addCompilerPass(new MetadataCacheCompilerPass(), PassConfig::TYPE_OPTIMIZE);
+        $container->addCompilerPass(new MetadataCacheCompilerPass($this), PassConfig::TYPE_OPTIMIZE);
         $container->addCompilerPass(new IdentifierMapCompilerPass(), PassConfig::TYPE_OPTIMIZE);
     }
 

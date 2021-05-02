@@ -85,11 +85,11 @@ final class PartManager
 
             if (null === $leftGroup && null === $rightGroup) {
                 $em->persist(new PartCross($left, $right));
-            } elseif (null === $leftGroup && null !== $rightGroup) {
+            } elseif (null === $leftGroup) {
                 $rightGroup->addPart($left);
-            } elseif (null !== $leftGroup && null === $rightGroup) {
+            } elseif (null === $rightGroup) {
                 $leftGroup->addPart($right);
-            } elseif (null !== $leftGroup && null !== $rightGroup) {
+            } else {
                 $parts = $rightGroup->getParts();
                 $em->remove($rightGroup);
                 $em->flush();
