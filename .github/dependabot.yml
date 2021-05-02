@@ -7,8 +7,7 @@ updates:
             interval: daily
         open-pull-requests-limit: 3
         allow:
-            -   dependency-type: direct
-            -   dependency-type: indirect
+            -   dependency-type: all
 
     -   package-ecosystem: docker
         directory: "/"
