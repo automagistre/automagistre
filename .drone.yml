@@ -436,7 +436,9 @@ steps:
             -   name: docker.sock
                 path: /var/run/docker.sock
         commands:
-            - docker rmi "automagistre/tenant-nginx:${DRONE_BUILD_NUMBER}"
-            - docker rmi "automagistre/tenant-nginx:base-${DRONE_BUILD_NUMBER}"
-            - docker rmi "automagistre/tenant-php:${DRONE_BUILD_NUMBER}"
-            - docker rmi "automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}"
+            - >-
+                docker rmi
+                "automagistre/tenant-nginx:${DRONE_BUILD_NUMBER}"
+                "automagistre/tenant-nginx:base-${DRONE_BUILD_NUMBER}"
+                "automagistre/tenant-php:${DRONE_BUILD_NUMBER}"
+                "automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}"
