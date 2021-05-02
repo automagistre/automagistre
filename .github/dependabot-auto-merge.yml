@@ -1,4 +1,5 @@
 steps:
     -   uses: ahmadnassri/action-dependabot-auto-merge@v2
         with:
+            target: major
             github-token: ${{ secrets.AUTOMERGE_PERSONAL_TOKEN }}
