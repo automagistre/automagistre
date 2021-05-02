@@ -14,13 +14,10 @@ final class CustomerPhoneNotExists extends Constraint
     /** @var string */
     public $message = 'Заказчик с таким телефоном уже существует';
 
-    /** @var string */
-    public $errorPath;
-
     /**
      * {@inheritdoc}
      */
-    public function getTargets()
+    public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;
     }
