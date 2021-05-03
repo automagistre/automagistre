@@ -35,8 +35,8 @@ final class NissanPrimeraFixture extends Fixture implements DependentFixtureInte
     public function load(ObjectManager $manager): void
     {
         $model = new Model(
-            VehicleId::fromString(self::ID),
-            ManufacturerId::fromString(self::MANUFACTURER_ID),
+            VehicleId::from(self::ID),
+            ManufacturerId::from(self::MANUFACTURER_ID),
             self::NAME,
             null,
             self::CASE_NAME,

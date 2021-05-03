@@ -190,7 +190,7 @@ class PartView implements Notes
         foreach ($this->supplies as $supply) {
             $supplies[] = new SupplyView(
                 $this->id,
-                OperandId::fromString($supply['supplier_id']),
+                OperandId::from($supply['supplier_id']),
                 $supply['quantity'],
                 new DateTimeImmutable($supply['updatedAt']),
             );

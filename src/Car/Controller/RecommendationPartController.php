@@ -63,7 +63,7 @@ final class RecommendationPartController extends AbstractController
         /** @var FormInterface[] $forms */
         $forms = [];
         foreach ($crosses as $crossId => $cross) {
-            $isCurrent = $partId->equal($cross->toId());
+            $isCurrent = $partId->equals($cross->toId());
 
             $partOffer = new PartOfferDto();
             $partOffer->partId = $cross->toId();
@@ -111,7 +111,7 @@ final class RecommendationPartController extends AbstractController
                     /** @var RecommendationPartDto $dto */
                     $dto = $form->getData();
 
-                    $isCurrent = $dto->partOffer->partId->equal($partId);
+                    $isCurrent = $dto->partOffer->partId->equals($partId);
 
                     if ($isCurrent) {
                         $recommendationPart->setPrice($dto->partOffer->price);
@@ -156,7 +156,7 @@ final class RecommendationPartController extends AbstractController
 
         $form = $this->createFormBuilder($dto)
             ->add('partOffer', PartOfferType::class, [
-                'vehicleId' => $this->getIdentifier(VehicleId::class),
+                'vehicleId' => $this->getIdentifierOrNull(VehicleId::class),
             ])
             ->getForm()
             ->handleRequest($this->request)
@@ -204,7 +204,7 @@ final class RecommendationPartController extends AbstractController
 
         $form = $this->createFormBuilder($dto)
             ->add('partOffer', PartOfferType::class, [
-                'vehicleId' => $this->getIdentifier(VehicleId::class),
+                'vehicleId' => $this->getIdentifierOrNull(VehicleId::class),
             ])
             ->getForm()
             ->handleRequest($this->request)

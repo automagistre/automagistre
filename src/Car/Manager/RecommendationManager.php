@@ -94,7 +94,7 @@ final class RecommendationManager
         }
 
         /** @var Car $car */
-        $car = $this->registry->findBy(Car::class, ['id' => $carId]);
+        $car = $this->registry->findOneBy(Car::class, ['id' => $carId]);
 
         $em->transactional(function (EntityManagerInterface $em) use ($orderItemService, $car): void {
             $oldRecommendation = $this->findOldRecommendation($orderItemService);

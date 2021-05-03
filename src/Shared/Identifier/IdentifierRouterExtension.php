@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Shared\Identifier;
 
 use EasyCorp\Bundle\EasyAdminBundle\Router\EasyAdminRouter;
+use Premier\Identifier\Identifier;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 

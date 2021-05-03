@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Shared\Identifier;
 
 use LogicException;
+use Premier\Identifier\Identifier;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use ReflectionClass;

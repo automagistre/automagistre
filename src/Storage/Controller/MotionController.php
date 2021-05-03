@@ -36,7 +36,7 @@ final class MotionController extends AbstractController
             $qb->andWhere('entity.quantity <= 0');
         }
 
-        $partId = $this->getIdentifier(PartId::class);
+        $partId = $this->getIdentifierOrNull(PartId::class);
 
         if ($partId instanceof PartId) {
             $qb->andWhere('entity.partId = :part')

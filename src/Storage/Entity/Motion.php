@@ -7,7 +7,7 @@ namespace App\Storage\Entity;
 use App\Income\Entity\IncomePartId;
 use App\Order\Entity\OrderId;
 use App\Part\Entity\PartId;
-use App\Shared\Identifier\Identifier;
+use Premier\Identifier\Identifier;
 use App\Storage\Enum\Source;
 use App\User\Entity\UserId;
 use Doctrine\ORM\Mapping as ORM;
@@ -99,15 +99,15 @@ class Motion
     public function getSourceAsIdentifier(): Identifier
     {
         if ($this->source->isIncome()) {
-            return IncomePartId::fromUuid($this->sourceId);
+            return IncomePartId::from($this->sourceId);
         }
 
         if ($this->source->isOrder()) {
-            return OrderId::fromUuid($this->sourceId);
+            return OrderId::from($this->sourceId);
         }
 
         if ($this->source->isManual()) {
-            return UserId::fromUuid($this->sourceId);
+            return UserId::from($this->sourceId);
         }
 
         throw new LogicException('Not implemented');

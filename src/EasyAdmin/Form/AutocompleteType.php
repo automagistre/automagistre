@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\EasyAdmin\Form;
 
 use App\Shared\Doctrine\Registry;
-use App\Shared\Identifier\Identifier;
+use Premier\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use EasyCorp\Bundle\EasyAdminBundle\Router\EasyAdminRouter;
 use LogicException;
@@ -94,7 +94,7 @@ final class AutocompleteType extends AbstractType implements DataMapperInterface
 
                 $choices = (array) ($data['autocomplete'] ?? []);
                 $choices = array_filter($choices, fn (string $choice) => '' !== trim($choice));
-                $options['choices'] = array_map(fn (string $uuid) => $identifierClass::fromString($uuid), $choices);
+                $options['choices'] = array_map(fn (string $uuid) => $identifierClass::from($uuid), $choices);
 
                 $form->add('autocomplete', ChoiceType::class, $options);
             })

@@ -29,7 +29,7 @@ final class CallbackController
 
         $em->persist(
             new SmsStatus(
-                SmsId::fromString($id),
+                SmsId::from($id),
                 [
                     'provider' => $provider,
                     'content' => $request->request->all(),

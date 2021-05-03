@@ -43,7 +43,7 @@ class Car
      *
      * @ORM\Embedded(class=Equipment::class)
      */
-    public ?Equipment $equipment = null;
+    public Equipment $equipment;
 
     /**
      * @ORM\Column(type="vehicle_id", nullable=true)

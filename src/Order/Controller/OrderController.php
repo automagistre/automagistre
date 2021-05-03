@@ -99,7 +99,7 @@ final class OrderController extends AbstractController
         /** @var OrderTOService[] $services */
         $services = [];
 
-        $equipmentId = $this->getIdentifier(McEquipmentId::class);
+        $equipmentId = $this->getIdentifierOrNull(McEquipmentId::class);
 
         if ($equipmentId instanceof McEquipmentId || true === $carFilled) {
             $qb = $this->registry->repository(McLine::class)
@@ -378,8 +378,8 @@ final class OrderController extends AbstractController
             $parameters['notes'] = $em->getRepository(NoteView::class)
                 ->findBy(['subject' => $entity->toId()->toUuid()], ['id' => 'DESC'])
             ;
-            $parameters['car'] = $this->registry->findBy(Car::class, ['id' => $entity->getCarId()]);
-            $parameters['customer'] = $this->registry->findBy(Operand::class, ['id' => $entity->getCustomerId()]);
+            $parameters['car'] = $this->registry->findOneBy(Car::class, ['id' => $entity->getCarId()]);
+            $parameters['customer'] = $this->registry->findOneBy(Operand::class, ['id' => $entity->getCustomerId()]);
 
             $transactions = [
                 ...$em->createQueryBuilder()
@@ -410,10 +410,10 @@ final class OrderController extends AbstractController
     protected function createNewEntity(): OrderDto
     {
         $dto = new OrderDto();
-        $dto->customerId = $this->getIdentifier(OperandId::class);
-        $dto->carId = $this->getIdentifier(CarId::class);
+        $dto->customerId = $this->getIdentifierOrNull(OperandId::class);
+        $dto->carId = $this->getIdentifierOrNull(CarId::class);
 
-        $calendarId = $this->getIdentifier(CalendarEntryId::class);
+        $calendarId = $this->getIdentifierOrNull(CalendarEntryId::class);
 
         if ($calendarId instanceof CalendarEntryId) {
             $calendarEntry = $this->calendarEntryRepository->view($calendarId);
@@ -480,7 +480,7 @@ final class OrderController extends AbstractController
             ->leftJoin('entity.suspends', 'suspends')
         ;
 
-        $partId = $this->getIdentifier(PartId::class);
+        $partId = $this->getIdentifierOrNull(PartId::class);
 
         if ($partId instanceof PartId) {
             $qb
@@ -577,7 +577,7 @@ final class OrderController extends AbstractController
         $entity->setMileage($dto->mileage);
         $entity->setDescription($dto->description);
 
-        $calendarId = $this->getIdentifier(CalendarEntryId::class);
+        $calendarId = $this->getIdentifierOrNull(CalendarEntryId::class);
 
         if ($calendarId instanceof CalendarEntryId) {
             $this->em->persist(new EntryOrder($calendarId, $entity->toId()));

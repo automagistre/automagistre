@@ -21,7 +21,7 @@ final class DoctrineCalendarEntryRepository implements CalendarEntryRepository
 
     public function get(CalendarEntryId $id): CalendarEntry
     {
-        $entity = $this->registry->findBy(CalendarEntry::class, ['id' => $id]);
+        $entity = $this->registry->findOneBy(CalendarEntry::class, ['id' => $id]);
 
         if (null === $entity) {
             throw CalendarEntryNotFound::byId($id);

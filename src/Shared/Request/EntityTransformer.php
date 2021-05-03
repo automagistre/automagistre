@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Shared\Request;
 
-use App\Shared\Identifier\Identifier;
+use Premier\Identifier\Identifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\NamingStrategy;
 use Doctrine\Persistence\ManagerRegistry;

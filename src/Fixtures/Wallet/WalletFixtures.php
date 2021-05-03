@@ -20,7 +20,7 @@ final class WalletFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $wallet = new Wallet(
-            WalletId::fromString(self::ID),
+            WalletId::from(self::ID),
             'Main',
             new Currency('RUB')
         );

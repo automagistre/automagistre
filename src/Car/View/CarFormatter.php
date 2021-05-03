@@ -4,18 +4,14 @@ declare(strict_types=1);
 
 namespace App\Car\View;
 
+use App\Car\Entity\Car;
 use App\Car\Entity\CarId;
 use App\Shared\Doctrine\Registry;
-use App\Shared\Identifier\Identifier;
+use Premier\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
-use App\Vehicle\Enum\DriveWheelConfiguration;
-use App\Vehicle\Enum\Transmission;
-use function array_keys;
-use function array_values;
-use function assert;
 use function implode;
-use function str_replace;
+use function strtr;
 
 final class CarFormatter implements IdentifierFormatterInterface
 {
@@ -35,36 +31,30 @@ final class CarFormatter implements IdentifierFormatterInterface
 
     public function format(IdentifierFormatter $formatter, Identifier $identifier, string $format = null): string
     {
-        $view = $this->registry->view($identifier);
-        $vehicle = $view['vehicleId'] ?? null;
+        $car = $this->registry->get(Car::class, $identifier);
+        $vehicle = $car->vehicleId;
 
         if (null === $vehicle) {
             return 'Не определено';
         }
 
         $values = [
-            ':year:' => $view['year'],
-            ':gosnomer:' => $view['gosnomer'],
+            ':year:' => $car->year,
+            ':gosnomer:' => $car->getGosnomer(),
             ':vehicle:' => $formatter->format($vehicle),
         ];
 
-        $values[':equipment:'] = (static function (array $view): string {
+        $values[':equipment:'] = (static function (Car $car): string {
             $equipment = [];
-            $equipment[] = $view['equipment.engine.name'];
-            $equipment[] = $view['equipment.engine.capacity'];
-
-            $transmission = $view['equipment.transmission'];
-            assert($transmission instanceof Transmission);
-            $equipment[] = $transmission->toCode();
-
-            $wheelDrive = $view['equipment.wheelDrive'];
-            assert($wheelDrive instanceof DriveWheelConfiguration);
-            $equipment[] = $wheelDrive->toCode();
+            $equipment[] = $car->equipment->engine->name;
+            $equipment[] = $car->equipment->engine->capacity;
+            $equipment[] = $car->equipment->transmission->toCode();
+            $equipment[] = $car->equipment->wheelDrive->toCode();
 
             return implode(' ', $equipment);
-        })($view);
+        })($car);
 
-        return str_replace(array_keys($values), array_values($values), self::FORMATS[$format] ?? self::DEFAULT);
+        return strtr(self::FORMATS[$format] ?? self::DEFAULT, $values);
     }
 
     public static function support(): string

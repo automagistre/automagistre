@@ -22,9 +22,9 @@ final class Primera2004Fixtures extends Fixture
      */
     public function load(ObjectManager $manager): void
     {
-        $car = new Car(CarId::fromString(self::ID));
+        $car = new Car(CarId::from(self::ID));
         $car->year = self::YEAR;
-        $car->vehicleId = VehicleId::fromString(self::VEHICLE_ID);
+        $car->vehicleId = VehicleId::from(self::VEHICLE_ID);
 
         $this->addReference(__CLASS__, $car);
 

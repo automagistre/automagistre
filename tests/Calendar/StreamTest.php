@@ -41,7 +41,7 @@ class StreamTest extends TestCase
         $items = [];
 
         $orderInfo = new OrderInfo(
-            OperandId::fromString(PersonVasyaFixtures::ID),
+            OperandId::from(PersonVasyaFixtures::ID),
             null,
             null,
             null,
@@ -90,7 +90,7 @@ class StreamTest extends TestCase
         $entities = [];
 
         $orderInfo = new OrderInfo(
-            OperandId::fromString(PersonVasyaFixtures::ID),
+            OperandId::from(PersonVasyaFixtures::ID),
             null,
             null,
             null,

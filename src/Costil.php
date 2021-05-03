@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Shared\Identifier\Identifier;
+use Premier\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use LogicException;
 use Money\Currency;

@@ -65,7 +65,7 @@ final class SellerType extends AbstractType
                     ->fetchAllAssociative('SELECT id AS id, type FROM operand WHERE seller IS TRUE')
                 ;
 
-                return array_map(fn (array $item): OperandId => OperandId::fromString($item['id']), $ids);
+                return array_map(fn (array $item): OperandId => OperandId::from($item['id']), $ids);
             }),
             'choice_label' => fn (OperandId $operandId) => $this->formatter->format($operandId),
             'choice_value' => fn (?OperandId $operandId) => null === $operandId ? null : $operandId->toString(),

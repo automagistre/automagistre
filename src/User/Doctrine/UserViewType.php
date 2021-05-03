@@ -21,7 +21,7 @@ final class UserViewType extends Type
         [$uuid, $username, $lastName, $firstName] = explode(',', $value);
 
         return new UserView(
-            UserId::fromString($uuid),
+            UserId::from($uuid),
             $username,
             $lastName,
             $firstName,

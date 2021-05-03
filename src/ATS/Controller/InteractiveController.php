@@ -45,7 +45,7 @@ final class InteractiveController extends AbstractController
             return new JsonResponse(['returned_code' => 1]);
         }
 
-        $person = $this->registry->findBy(Person::class, ['telephone' => $phoneNumber]);
+        $person = $this->registry->findOneBy(Person::class, ['telephone' => $phoneNumber]);
 
         if (!$person instanceof Person) {
             return new JsonResponse(['returned_code' => 1]);
@@ -84,7 +84,7 @@ final class InteractiveController extends AbstractController
         $message = '';
         $scheduleInMessage = false;
 
-        $entry = $this->registry->findBy(
+        $entry = $this->registry->findOneBy(
             EntryView::class,
             ['orderInfo.customerId' => $person->toId()],
             ['id' => 'DESC'],
@@ -135,7 +135,7 @@ final class InteractiveController extends AbstractController
             }
         }
 
-        $order = $this->registry->findBy(Order::class, [
+        $order = $this->registry->findOneBy(Order::class, [
             'customerId' => $person->toId(),
             'status' => [
                 OrderStatus::ordering(),

@@ -64,16 +64,16 @@ final class OrderFixtures extends Fixture implements DependentFixtureInterface
      */
     public function load(ObjectManager $manager): void
     {
-        $orderId = OrderId::fromString(self::ID);
+        $orderId = OrderId::from(self::ID);
         $order = new Order(
             $orderId,
             self::NUMBER,
         );
         $manager->persist($order);
 
-        $order->setCustomerId(OperandId::fromString(self::CUSTOMER_ID));
+        $order->setCustomerId(OperandId::from(self::CUSTOMER_ID));
 
-        $order->setCarId(CarId::fromString(self::CAR_ID));
+        $order->setCarId(CarId::from(self::CAR_ID));
 
         $manager->persist(new Note($orderId->toUuid(), NoteType::info(), 'Order Note'));
 
@@ -87,7 +87,7 @@ final class OrderFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($orderItemService);
         $manager->flush();
 
-        $partId = PartId::fromString(GasketFixture::ID);
+        $partId = PartId::from(GasketFixture::ID);
         $orderItemPart = new OrderItemPart(Uuid::fromString(self::PART_ID), $order, $partId, 1);
         $orderItemPart->setPrice($money, $this->registry->get(PartView::class, $partId));
 

@@ -211,7 +211,7 @@ final class OrderItemPartController extends OrderItemController
         $easyadmin['item'] = $dto;
         $this->request->attributes->set('easyadmin', $easyadmin);
 
-        $partId = $this->getIdentifier(PartId::class);
+        $partId = $this->getIdentifierOrNull(PartId::class);
 
         if ($partId instanceof PartId) {
             $partOffer->partId = $partId;

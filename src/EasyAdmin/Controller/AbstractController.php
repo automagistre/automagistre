@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\EasyAdmin\Controller;
 
 use App\Shared\Doctrine\Registry;
-use App\Shared\Identifier\Identifier;
+use InvalidArgumentException;
+use Premier\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Request\EntityTransformer;
 use App\User\Entity\User;
@@ -29,6 +30,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use function array_keys;
 use function array_merge;
 use function assert;
@@ -158,18 +160,24 @@ abstract class AbstractController extends EasyAdminController
     }
 
     /**
-     * @template T
+     * @template T of Identifier
      *
      * @psalm-param class-string<T> $class
      *
      * @psalm-return ?T
      */
-    protected function getIdentifier(string $class)
+    protected function getIdentifierOrNull(string $class)
     {
-        $uuid = $this->request->query->get(u($class)->afterLast('\\')->snake()->toString());
+        $queryParam = self::classToQuery($class);
+
+        $uuid = $this->request->query->get($queryParam);
 
         if (is_string($uuid)) {
-            $identifier = Identifier::fromClass($class, $uuid);
+            try {
+                $identifier = new $class($uuid);
+            } catch (InvalidArgumentException) {
+                throw new BadRequestHttpException($queryParam.' is not valid uuid.');
+            }
 
             assert($identifier instanceof $class);
 
@@ -177,6 +185,23 @@ abstract class AbstractController extends EasyAdminController
         }
 
         return null;
+    }
+
+    /**
+     * @template T of Identifier
+     *
+     * @psalm-param class-string<T> $class
+     *
+     * @psalm-return T
+     */
+    protected function getIdentifier(string $class)
+    {
+        return $this->getIdentifierOrNull($class) ?? throw new BadRequestHttpException(sprintf('%s required.', self::classToQuery($class)));
+    }
+
+    private static function classToQuery(string $class): string
+    {
+        return u($class)->afterLast('\\')->snake()->toString();
     }
 
     protected function initialize(Request $request): void

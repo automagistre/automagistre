@@ -68,7 +68,7 @@ class Employee
 
     public function isEqual(?self $employee): bool
     {
-        return null !== $employee && $employee->toId()->equal($this->id);
+        return null !== $employee && $employee->toId()->equals($this->id);
     }
 
     public function setPersonId(OperandId $personId): void

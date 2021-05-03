@@ -216,7 +216,7 @@ final class PartController extends AbstractController
             ->orderBy('part.'.$sortField, $sortDirection)
         ;
 
-        $vehicleId = $this->getIdentifier(VehicleId::class);
+        $vehicleId = $this->getIdentifierOrNull(VehicleId::class);
 
         if (!$isPlusExist && $vehicleId instanceof VehicleId) {
             $carModel = $this->registry->getBy(Model::class, ['id' => $vehicleId]);
@@ -276,7 +276,7 @@ final class PartController extends AbstractController
         $paginator->setMaxPerPage(15);
         $paginator->setCurrentPage($query->getInt('page', 1));
 
-        $vehicleId = $this->getIdentifier(VehicleId::class);
+        $vehicleId = $this->getIdentifierOrNull(VehicleId::class);
         $useCarModelInFormat = false === strpos($queryString, '+');
 
         $normalizer = function (PartView $part, bool $analog = false) use ($vehicleId, $useCarModelInFormat): array {

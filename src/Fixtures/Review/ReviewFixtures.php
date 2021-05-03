@@ -21,7 +21,7 @@ final class ReviewFixtures extends Fixture
      */
     public function load(ObjectManager $manager): void
     {
-        $identifier = ReviewId::fromString(self::ID);
+        $identifier = ReviewId::from(self::ID);
         $review = new Review(
             $identifier,
             $identifier->toString(),

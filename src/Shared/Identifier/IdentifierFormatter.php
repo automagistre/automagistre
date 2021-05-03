@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Shared\Identifier;
 
 use LogicException;
+use Premier\Identifier\Identifier;
 use Psr\Container\ContainerInterface;
 use function array_key_exists;
 use function get_class;

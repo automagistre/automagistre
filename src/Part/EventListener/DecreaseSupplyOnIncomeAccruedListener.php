@@ -44,7 +44,7 @@ final class DecreaseSupplyOnIncomeAccruedListener implements EventSubscriberInte
                 $partView = $this->registry->get(PartView::class, $incomePart->partId);
 
                 foreach ($partView->supplies() as $supply) {
-                    if (!$supply->supplierId->equal($supplier)) {
+                    if (!$supply->supplierId->equals($supplier)) {
                         continue;
                     }
 

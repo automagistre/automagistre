@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Expense\View;
 
+use App\Expense\Entity\Expense;
 use App\Expense\Entity\ExpenseId;
 use App\Shared\Doctrine\Registry;
-use App\Shared\Identifier\Identifier;
+use Premier\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
 
@@ -24,9 +25,9 @@ final class ExpenseFormatter implements IdentifierFormatterInterface
      */
     public function format(IdentifierFormatter $formatter, Identifier $identifier, string $format = null): string
     {
-        $view = $this->registry->view($identifier);
+        $expense = $this->registry->get(Expense::class, $identifier);
 
-        return $view['name'];
+        return $expense->name;
     }
 
     /**

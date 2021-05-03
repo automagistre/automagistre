@@ -7,7 +7,7 @@ namespace App\Customer\View;
 use App\Customer\Entity\CustomerTransactionId;
 use App\Customer\Entity\CustomerTransactionView;
 use App\Shared\Doctrine\Registry;
-use App\Shared\Identifier\Identifier;
+use Premier\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
 

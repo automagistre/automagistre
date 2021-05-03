@@ -180,7 +180,7 @@ class CalculatorWork implements JsonSerializable
 
     public function __construct(array $work)
     {
-        $this->id = McWorkId::fromAny($work['id']);
+        $this->id = McWorkId::from($work['id']);
         $this->name = $work['name'];
         $this->price = $work['price'] instanceof Money
             ? $work['price']
@@ -233,7 +233,7 @@ class CalculatorPart implements JsonSerializable
 
     public function __construct(array $part)
     {
-        $this->id = PartId::fromAny($part['id']);
+        $this->id = PartId::from($part['id']);
         $this->name = $part['name'];
         $this->price = $part['price'] instanceof Money
             ? $part['price']

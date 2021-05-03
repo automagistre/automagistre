@@ -36,7 +36,7 @@ final class PublishExtension extends AbstractExtension
     {
         return [
             new TwigFunction('publish_form', function (string $id): FormView {
-                $publishView = $this->registry->findBy(PublishView::class, ['id' => $id]);
+                $publishView = $this->registry->findOneBy(PublishView::class, ['id' => $id]);
 
                 $publishDto = new PublishDto();
                 $publishDto->id = $id;

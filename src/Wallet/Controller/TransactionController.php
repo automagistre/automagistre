@@ -26,7 +26,7 @@ final class TransactionController extends AbstractController
     ): QueryBuilder {
         $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
 
-        $walletId = $this->getIdentifier(WalletId::class);
+        $walletId = $this->getIdentifierOrNull(WalletId::class);
 
         if ($walletId instanceof WalletId) {
             $qb->andWhere('entity.walletId = :walletId')

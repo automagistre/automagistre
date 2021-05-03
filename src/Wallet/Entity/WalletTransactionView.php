@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Wallet\Entity;
 
-use App\Shared\Identifier\Identifier;
+use Premier\Identifier\Identifier;
 use App\User\Entity\UserId;
 use App\Wallet\Enum\WalletTransactionSource;
 use DateTimeImmutable;
@@ -120,6 +120,6 @@ class WalletTransactionView
 
         assert(is_subclass_of($class, Identifier::class));
 
-        return Identifier::fromClass($class, $this->sourceId);
+        return new $class($this->sourceId);
     }
 }

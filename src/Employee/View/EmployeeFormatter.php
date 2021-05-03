@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Employee\View;
 
+use App\Employee\Entity\Employee;
 use App\Employee\Entity\EmployeeId;
 use App\Shared\Doctrine\Registry;
-use App\Shared\Identifier\Identifier;
+use Premier\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
 
@@ -32,8 +33,8 @@ final class EmployeeFormatter implements IdentifierFormatterInterface
      */
     public function format(IdentifierFormatter $formatter, Identifier $identifier, string $format = null): string
     {
-        $view = $this->registry->view($identifier);
+        $employee = $this->registry->get(Employee::class, $identifier);
 
-        return $formatter->format($view['personId']);
+        return $formatter->format($employee->toPersonId());
     }
 }

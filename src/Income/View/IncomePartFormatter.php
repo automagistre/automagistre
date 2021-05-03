@@ -7,7 +7,7 @@ namespace App\Income\View;
 use App\Income\Entity\IncomePart;
 use App\Income\Entity\IncomePartId;
 use App\Shared\Doctrine\Registry;
-use App\Shared\Identifier\Identifier;
+use Premier\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
 
@@ -34,7 +34,7 @@ final class IncomePartFormatter implements IdentifierFormatterInterface
     public function format(IdentifierFormatter $formatter, Identifier $identifier, string $format = null): string
     {
         /** @var IncomePart $incomePart */
-        $incomePart = $this->registry->findBy(IncomePart::class, ['id' => $identifier]);
+        $incomePart = $this->registry->findOneBy(IncomePart::class, ['id' => $identifier]);
 
         return $formatter->format($incomePart->getIncome()->toId());
     }

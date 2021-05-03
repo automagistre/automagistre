@@ -60,7 +60,7 @@ final class CustomerReminderCommand extends Command
         foreach ($rows as $row) {
             /** @var DateTimeImmutable $date */
             $date = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $row['date']);
-            $customerId = OperandId::fromString($row['customerId']);
+            $customerId = OperandId::from($row['customerId']);
 
             $message = str_replace(
                 [

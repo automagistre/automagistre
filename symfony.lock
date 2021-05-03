@@ -423,6 +423,9 @@
     "premier/enum": {
         "version": "v2.0.0"
     },
+    "premier/identifier": {
+        "version": "0.6.1"
+    },
     "premier/markdown-builder": {
         "version": "0.8"
     },

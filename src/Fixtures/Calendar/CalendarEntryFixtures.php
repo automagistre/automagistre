@@ -23,7 +23,7 @@ final class CalendarEntryFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $calendar = CalendarEntry::create(
-            CalendarEntryId::fromString(self::ID),
+            CalendarEntryId::from(self::ID),
             new Schedule(new DateTimeImmutable('10:30 +1 day'), new DateInterval('PT1H')),
             new OrderInfo(null, null, null, null),
         );

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Storage\View;
 
 use App\Shared\Doctrine\Registry;
-use App\Shared\Identifier\Identifier;
+use Premier\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
 use App\Storage\Entity\WarehouseId;

@@ -17,7 +17,7 @@ final class CarFormatterTest extends IdentifierTestCase
 {
     public function data(): Generator
     {
-        yield [CarId::fromString(EmptyCarFixtures::ID), 'Не определено'];
-        yield [CarId::fromString(Primera2004Fixtures::ID), 'Nissan Primera - P12 - 2004г.'];
+        yield [CarId::from(EmptyCarFixtures::ID), 'Не определено'];
+        yield [CarId::from(Primera2004Fixtures::ID), 'Nissan Primera - P12 - 2004г.'];
     }
 }

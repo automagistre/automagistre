@@ -36,7 +36,7 @@ final class EmployeeController extends AbstractController
 {
     public function salaryAction(): Response
     {
-        $recipientId = $this->getIdentifier(OperandId::class);
+        $recipientId = $this->getIdentifierOrNull(OperandId::class);
 
         if (!$recipientId instanceof OperandId) {
             throw new BadRequestHttpException('Person required.');
@@ -101,7 +101,7 @@ final class EmployeeController extends AbstractController
 
     public function penaltyAction(): Response
     {
-        $personId = $this->getIdentifier(OperandId::class);
+        $personId = $this->getIdentifierOrNull(OperandId::class);
 
         if (!$personId instanceof OperandId) {
             throw new BadRequestHttpException('Person required.');

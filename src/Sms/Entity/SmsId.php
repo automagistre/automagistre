@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Sms\Entity;
 
-use App\Shared\Identifier\Identifier;
+use Premier\Identifier\Identifier;
 
 /**
  * @psalm-immutable

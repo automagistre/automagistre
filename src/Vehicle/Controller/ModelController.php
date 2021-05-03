@@ -194,7 +194,7 @@ final class ModelController extends AbstractController
         assert($dto instanceof ModelUpdate);
 
         /** @var Model $entity */
-        $entity = $this->registry->findBy(Model::class, ['id' => $dto->vehicleId]);
+        $entity = $this->registry->findOneBy(Model::class, ['id' => $dto->vehicleId]);
 
         $entity->name = $dto->name;
         $entity->localizedName = $dto->localizedName;

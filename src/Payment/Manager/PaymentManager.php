@@ -7,7 +7,7 @@ namespace App\Payment\Manager;
 use App\Balance\Entity\BalanceView;
 use App\Customer\Entity\Operand;
 use App\Shared\Doctrine\Registry;
-use App\Shared\Identifier\Identifier;
+use Premier\Identifier\Identifier;
 use App\Wallet\Entity\Wallet;
 use LogicException;
 use Money\Money;

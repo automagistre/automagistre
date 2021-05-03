@@ -40,10 +40,10 @@ final class IncomePartFixtures extends Fixture implements DependentFixtureInterf
         assert($income instanceof Income);
 
         $incomePart = new IncomePart(
-            IncomePartId::fromString(self::ID),
+            IncomePartId::from(self::ID),
             $income,
         );
-        $incomePart->partId = PartId::fromString(self::PART_ID);
+        $incomePart->partId = PartId::from(self::PART_ID);
         $incomePart->setPrice(new Money(100, new Currency('RUB')));
         $incomePart->setQuantity(100);
 

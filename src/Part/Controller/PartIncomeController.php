@@ -23,7 +23,7 @@ final class PartIncomeController extends AbstractController
 {
     public function incomeAction(): Response
     {
-        $partId = $this->getIdentifier(PartId::class);
+        $partId = $this->getIdentifierOrNull(PartId::class);
 
         if (!$partId instanceof PartId) {
             throw new LogicException('Part required.');
@@ -58,7 +58,7 @@ final class PartIncomeController extends AbstractController
 
     public function outcomeAction(): Response
     {
-        $partId = $this->getIdentifier(PartId::class);
+        $partId = $this->getIdentifierOrNull(PartId::class);
 
         if (!$partId instanceof PartId) {
             throw new LogicException('Part required.');

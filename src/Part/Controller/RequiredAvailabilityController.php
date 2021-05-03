@@ -31,7 +31,7 @@ final class RequiredAvailabilityController extends AbstractController
     {
         $request = $this->request;
 
-        $partId = $this->getIdentifier(PartId::class);
+        $partId = $this->getIdentifierOrNull(PartId::class);
 
         if (!$partId instanceof PartId) {
             throw new BadRequestException('PartId required.');

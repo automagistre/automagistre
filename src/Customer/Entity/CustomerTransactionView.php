@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Customer\Entity;
 
 use App\Customer\Enum\CustomerTransactionSource;
-use App\Shared\Identifier\Identifier;
+use Premier\Identifier\Identifier;
 use App\User\Entity\UserId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -121,6 +121,6 @@ class CustomerTransactionView
 
         assert(is_subclass_of($class, Identifier::class));
 
-        return Identifier::fromClass($class, $this->sourceId);
+        return new $class($this->sourceId);
     }
 }

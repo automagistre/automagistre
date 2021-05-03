@@ -7,7 +7,6 @@ namespace App\Calendar\Entity;
 use App\Car\Entity\CarId;
 use App\Customer\Entity\OperandId;
 use App\Employee\Entity\EmployeeId;
-use App\Shared\Identifier\Identifier;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -50,9 +49,9 @@ final class OrderInfo
         $left = $this;
 
         return
-            Identifier::same($left->customerId, $right->customerId)
-            && Identifier::same($left->carId, $right->carId)
-            && Identifier::same($left->workerId, $right->workerId)
+            $left->customerId?->equals($right->customerId)
+            && $left->carId?->equals($right->carId)
+            && $left->workerId?->equals($right->workerId)
             && $left->description === $right->description;
     }
 }

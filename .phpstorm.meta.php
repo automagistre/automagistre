@@ -7,7 +7,7 @@ namespace PHPSTORM_META {
     override(Registry::get(), map(0, [
         '' => '@',
     ]));
-    override(Registry::findBy(), map(0, [
+    override(Registry::findOneBy(), map(0, [
         '' => '@',
     ]));
     override(Registry::getBy(), map(0, [

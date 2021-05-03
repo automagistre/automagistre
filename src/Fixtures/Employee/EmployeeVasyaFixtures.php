@@ -25,10 +25,10 @@ final class EmployeeVasyaFixtures extends Fixture
      */
     public function load(ObjectManager $manager): void
     {
-        $employeeId = EmployeeId::fromString(self::ID);
+        $employeeId = EmployeeId::from(self::ID);
 
         $employee = new Employee($employeeId);
-        $employee->setPersonId(OperandId::fromString(self::PERSON_ID));
+        $employee->setPersonId(OperandId::from(self::PERSON_ID));
         $employee->setRatio(50);
 
         $manager->persist(

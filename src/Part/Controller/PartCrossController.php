@@ -28,7 +28,7 @@ final class PartCrossController extends AbstractController
 
     public function crossAction(): Response
     {
-        $leftId = $this->getIdentifier(PartId::class);
+        $leftId = $this->getIdentifierOrNull(PartId::class);
 
         if (!$leftId instanceof PartId) {
             throw new LogicException('Part required.');
@@ -61,7 +61,7 @@ final class PartCrossController extends AbstractController
 
     public function uncrossAction(): Response
     {
-        $partId = $this->getIdentifier(PartId::class);
+        $partId = $this->getIdentifierOrNull(PartId::class);
 
         if (!$partId instanceof PartId) {
             throw new LogicException('Part required.');
