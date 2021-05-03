@@ -6,7 +6,7 @@ FROM composer:2.0.13 as composer
 #
 # PHP
 #
-FROM amd64/php:8.0.3-fpm-alpine3.12 as php-raw
+FROM amd64/php:8.0.5-fpm-alpine3.12 as php-raw
 
 LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 
