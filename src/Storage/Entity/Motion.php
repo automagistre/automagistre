@@ -6,7 +6,6 @@ namespace App\Storage\Entity;
 
 use App\Income\Entity\IncomePartId;
 use App\Order\Entity\OrderId;
-use App\Part\Entity\PartId;
 use Premier\Identifier\Identifier;
 use App\Storage\Enum\Source;
 use App\User\Entity\UserId;
@@ -27,14 +26,14 @@ class Motion
     private UuidInterface $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity=Part::class, inversedBy="motions")
+     */
+    private Part $part;
+
+    /**
      * @ORM\Column(type="integer")
      */
     private int $quantity;
-
-    /**
-     * @ORM\Column(type="part_id")
-     */
-    private PartId $partId;
 
     /**
      * @ORM\Column(type="motion_source_enum")
@@ -52,14 +51,14 @@ class Motion
     private ?string $description;
 
     public function __construct(
-        PartId $partId,
+        Part $part,
         int $quantity,
         Source $source,
         UuidInterface $sourceId,
         string $description = null
     ) {
         $this->id = Uuid::uuid6();
-        $this->partId = $partId;
+        $this->part = $part;
         $this->quantity = $quantity;
         $this->source = $source;
         $this->sourceId = $sourceId;
@@ -71,9 +70,9 @@ class Motion
         return $this->id;
     }
 
-    public function getPartId(): PartId
+    public function getPart(): Part
     {
-        return $this->partId;
+        return $this->part;
     }
 
     public function getQuantity(): int

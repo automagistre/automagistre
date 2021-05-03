@@ -12,6 +12,8 @@
     <a href="{{ easyadmin_path('User', 'show', {'id': item.sourceAsIdentifier.toString, 'referer': true}) }}">
         {{ item.sourceAsIdentifier|display_name }}
     </a>
+{% elseif item.source.isInventory() %}
+    Инвенторизация
 {% else %}
     {{ value }}
 {% endif %}

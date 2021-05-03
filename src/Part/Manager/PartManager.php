@@ -44,13 +44,13 @@ final class PartManager
             return (int) $em->createQueryBuilder()
                 ->select('SUM(entity.quantity)')
                 ->from(Motion::class, 'entity')
-                ->groupBy('entity.partId')
-                ->where('entity.partId = :part')
+                ->groupBy('entity.part')
+                ->where('entity.part = :part')
                 ->setParameter('part', $partId)
                 ->getQuery()
                 ->getSingleResult(Query::HYDRATE_SINGLE_SCALAR)
             ;
-        } catch (NoResultException $e) {
+        } catch (NoResultException) {
             return 0;
         }
     }

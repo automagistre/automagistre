@@ -11,6 +11,7 @@ use App\Part\Entity\PartView;
 use App\Part\Event\PartAccrued;
 use App\Part\Event\PartDecreased;
 use App\Storage\Entity\Motion;
+use App\Storage\Entity\Part;
 use App\Storage\Enum\Source;
 use LogicException;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,7 +41,15 @@ final class PartIncomeController extends AbstractController
             $quantity = (int) abs($form->get('quantity')->getData());
             $user = $this->getUser();
 
-            $em->persist(new Motion($partId, $quantity, Source::manual(), $user->toId()->toUuid()));
+            $storagePart = $this->registry->find(Part::class, $partId);
+
+            if (null === $storagePart) {
+                $storagePart = new Part($partId);
+                $em->persist($storagePart);
+            }
+
+            $storagePart->move($quantity, Source::manual(), $user->toId()->toUuid());
+
             $em->flush();
 
             $this->event(new PartAccrued($partId, [
@@ -75,7 +84,15 @@ final class PartIncomeController extends AbstractController
             $quantity = (int) abs($form->get('quantity')->getData());
             $user = $this->getUser();
 
-            $em->persist(new Motion($partId, 0 - $quantity, Source::manual(), $user->toId()->toUuid()));
+            $storagePart = $this->registry->find(Part::class, $partId);
+
+            if (null === $storagePart) {
+                $storagePart = new Part($partId);
+                $em->persist($storagePart);
+            }
+
+            $storagePart->move(0 - $quantity, Source::manual(), $user->toId()->toUuid());
+
             $em->flush();
 
             $this->event(new PartDecreased($partId, [

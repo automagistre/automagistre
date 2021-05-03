@@ -60,6 +60,22 @@ final class Registry
      *
      * @psalm-return ?T
      */
+    public function find(
+        string $class,
+        string | UuidInterface | Identifier $id,
+        int $lockMode = null,
+        int $lockVersion = null,
+    ): mixed {
+        return $this->repository($class)->find($id, $lockMode, $lockVersion);
+    }
+
+    /**
+     * @template T
+     *
+     * @psalm-param class-string<T> $class
+     *
+     * @psalm-return ?T
+     */
     public function findOneBy(string $class, array $criteria, array $ordering = [])
     {
         return $this->repository($class)->findOneBy($criteria, $ordering);

@@ -10,7 +10,7 @@ easy_admin:
                 title: 'Движения по складу'
                 max_results: 100
                 fields:
-                    - { property: 'partId', label: 'Наименование', template: 'easy_admin/field_part.html.twig', stock: true }
+                    - { property: 'part', label: 'Наименование', template: 'easy_admin/storage/field_part.html.twig', stock: true }
                     - { property: 'quantity', label: 'Количество', template: 'easy_admin/field_quantity.html.twig' }
                     - { property: 'description', label: 'Комментарий', template: 'easy_admin/motion/description.html.twig' }
                     - { property: 'createdAt', label: 'Создано' }
@@ -24,3 +24,8 @@ easy_admin:
                 fields:
                     - { property: 'name', label: 'Название' }
                     - { property: 'parentId', label: 'Родитель', template: 'easy_admin/field_identifier.html.twig' }
+
+        Inventorization:
+            class:  App\Storage\Entity\Inventorization
+            controller: App\Storage\Controller\InventorizationController
+            disabled_actions: ['show', 'edit', 'new', 'search', 'delete', 'list']
