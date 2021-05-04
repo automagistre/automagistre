@@ -166,9 +166,9 @@ abstract class AbstractController extends EasyAdminController
      *
      * @psalm-return ?T
      */
-    protected function getIdentifierOrNull(string $class)
+    protected function getIdentifierOrNull(string $class, string $query = null)
     {
-        $queryParam = self::classToQuery($class);
+        $queryParam = $query ?? self::classToQuery($class);
 
         $uuid = $this->request->query->get($queryParam);
 
@@ -194,9 +194,11 @@ abstract class AbstractController extends EasyAdminController
      *
      * @psalm-return T
      */
-    protected function getIdentifier(string $class)
+    protected function getIdentifier(string $class, string $query = null)
     {
-        return $this->getIdentifierOrNull($class) ?? throw new BadRequestHttpException(sprintf('%s required.', self::classToQuery($class)));
+        $queryParam = $query ?? self::classToQuery($class);
+
+        return $this->getIdentifierOrNull($class, $queryParam) ?? throw new BadRequestHttpException(sprintf('%s required.', $queryParam));
     }
 
     private static function classToQuery(string $class): string
