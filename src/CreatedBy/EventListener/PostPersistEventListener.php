@@ -16,6 +16,7 @@ use function assert;
 use function get_class;
 use function is_int;
 use function method_exists;
+use function is_object;
 use const PHP_SAPI;
 
 final class PostPersistEventListener implements EventSubscriber
@@ -43,10 +44,12 @@ final class PostPersistEventListener implements EventSubscriber
         assert($em instanceof EntityManagerInterface);
         $entity = $args->getObject();
 
-        if (method_exists($entity, 'toId')) {
-            $id = $entity->toId();
-        } else {
-            $id = $em->getClassMetadata(get_class($entity))->getSingleIdReflectionProperty()->getValue($entity);
+        $classMetadata = $em->getClassMetadata(get_class($entity));
+
+        $id = $classMetadata->getSingleIdReflectionProperty()->getValue($entity);
+
+        if (is_object($id) && method_exists($id, 'toString')) {
+            $id = $id->toString();
         }
 
         if (is_int($id) || null === $id) {
@@ -54,32 +57,11 @@ final class PostPersistEventListener implements EventSubscriber
         }
 
         $user = $this->security->getUser();
-
-        $userId = null;
-
-        if ($user instanceof User) {
-            $userId = $user->toId();
-        }
-
-        if (null === $userId && 'cli' === PHP_SAPI) {
-            $userId = Costil::SERVICE_USER;
-        }
-
-        if (null === $userId) {
-            $em->getConnection()->executeQuery(
-                'INSERT INTO created_at (id, created_at) VALUES (:id, :date)',
-                [
-                    'id' => (string) $id,
-                    'date' => new DateTimeImmutable(),
-                ],
-                [
-                    'id' => 'uuid',
-                    'date' => 'datetime',
-                ]
-            );
-
-            return;
-        }
+        $userId = match (true) {
+            null === $user && 'cli' === PHP_SAPI => Costil::SERVICE_USER,
+            $user instanceof User => $user->toId()->toString(),
+            default => '00000000-0000-0000-0000-000000000000',
+        };
 
         $em->getConnection()->executeQuery(
             'INSERT INTO created_by (id, user_id, created_at) VALUES (:id, :user, :date)',

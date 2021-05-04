@@ -69,7 +69,7 @@ class AppealView
                    appeal.phone,
                    appeal.email,
                    COALESCE(status.status, 1) AS status,
-                   created_at.created_at
+                   created_by.created_at
             FROM (
                      SELECT id, name, 1 AS type, phone, null AS email
                      FROM appeal_calculator
@@ -95,7 +95,7 @@ class AppealView
                                         ORDER BY sub.id DESC
                                         LIMIT 1
                 ) status ON TRUE
-                     JOIN created_at ON created_at.id = appeal.id
+                     JOIN created_by ON created_by.id = appeal.id
             SQL;
     }
 }
