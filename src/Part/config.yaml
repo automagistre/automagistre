@@ -86,7 +86,7 @@ easy_admin:
         PartSupply:
             class: App\Part\Entity\Supply
             controller: App\Part\Controller\SupplyController
-            disabled_actions: ['list', 'show', 'autocomplete', 'edit', 'search', 'delete']
+            disabled_actions: ['list', 'show', 'new', 'autocomplete', 'edit', 'search', 'delete']
 
         PartToBuy:
             class: App\Part\Entity\Part

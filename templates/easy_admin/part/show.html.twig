@@ -46,6 +46,7 @@
                                 <tr>
                                     <th>Поставщик</th>
                                     <th>Количество</th>
+                                    <th>Действия</th>
                                     <th>Обновлено</th>
                                 </tr>
                                 </thead>
@@ -54,6 +55,13 @@
                                     <tr>
                                         <td>{{ supply.supplierId|display_name }}</td>
                                         <td>{{ supply.quantity / 100 }}</td>
+                                        <td>
+                                            <a class="btn btn-info btn-xs" href="{{ easyadmin_path('PartSupply', 'decrease', {
+                                                'part_id': entity|toId,
+                                                'supplier_id': supply.supplierId|toId,
+                                                'referer': true
+                                            }) }}">Убавить поставку</a>
+                                        </td>
                                         <td>{{ supply.updatedAt|format_datetime }}</td>
                                     </tr>
                                 {% endfor %}
@@ -66,7 +74,7 @@
                         </div>
                     {% endif %}
                     <div class="box-footer">
-                        <a class="btn btn-primary" href="{{ easyadmin_path('PartSupply', 'new', {'part_id': entity|toId, 'referer': true}) }}">Новая поставка</a>
+                        <a class="btn btn-primary" href="{{ easyadmin_path('PartSupply', 'increase', {'part_id': entity|toId, 'referer': true}) }}">Добавить поставку</a>
                     </div>
                 </div>
             </div>
