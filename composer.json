@@ -96,7 +96,7 @@
         "dama/doctrine-test-bundle": "^6.2",
         "doctrine/doctrine-fixtures-bundle": "^3.3",
         "ergebnis/composer-normalize": "^2.5",
-        "friendsofphp/php-cs-fixer": "^2.18",
+        "friendsofphp/php-cs-fixer": "^3.0",
         "infection/infection": "^0.22.1",
         "phpmetrics/phpmetrics": "^2.6",
         "phpstan/phpstan": "^0.12.0",
