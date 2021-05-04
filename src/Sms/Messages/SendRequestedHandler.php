@@ -56,6 +56,7 @@ final class SendRequestedHandler implements MessageHandler
                 ], RouterInterface::ABSOLUTE_URL),
                 'dateSend' => null === $sms->dateSend ? '' : $sms->dateSend->getTimestamp(),
             ],
+            'timeout' => 2.5,
         ]);
 
         try {
@@ -65,20 +66,29 @@ final class SendRequestedHandler implements MessageHandler
         }
 
         try {
-            $content = $response->toArray(false);
-        } catch (DecodingExceptionInterface) {
-            $content = $response->getContent(false);
+            $statusCode = $response->getStatusCode();
+
+            $payload = [
+                'status_code' => $statusCode,
+                'content' => $response->toArray(false),
+            ];
+            $success = 200 === $response->getStatusCode();
+        } catch (DecodingExceptionInterface $e) {
+            $success = false;
+            $payload = [
+                'decoding_exception' => $e->getMessage(),
+                'status_code' => $response->getStatusCode(),
+                'content' => $response->getContent(false),
+            ];
         } catch (TransportExceptionInterface $e) {
-            $content = $e->getMessage();
+            $success = false;
+            $payload = [
+                'transport_exception' => $e->getMessage(),
+            ];
         }
 
-        $payload = [
-            'status_code' => $response->getStatusCode(),
-            'content' => $content,
-        ];
-
         $em = $this->registry->manager(SmsSend::class);
-        $em->persist(new SmsSend($event->smsId, 200 === $response->getStatusCode(), $payload));
+        $em->persist(new SmsSend($event->smsId, $success, $payload));
         $em->flush();
     }
 }
