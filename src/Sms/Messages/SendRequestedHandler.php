@@ -12,6 +12,7 @@ use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Throwable;
 use function Sentry\captureException;
@@ -65,8 +66,10 @@ final class SendRequestedHandler implements MessageHandler
 
         try {
             $content = $response->toArray(false);
-        } catch (DecodingExceptionInterface $e) {
+        } catch (DecodingExceptionInterface) {
             $content = $response->getContent(false);
+        } catch (TransportExceptionInterface $e) {
+            $content = $e->getMessage();
         }
 
         $payload = [
