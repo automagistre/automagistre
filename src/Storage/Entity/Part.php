@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Storage\Entity;
 
+use App\CreatedBy\Attributes as CreatedBy;
 use App\Part\Entity\PartId;
 use App\Storage\Enum\Source;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -22,6 +23,7 @@ class Part
      * @ORM\Id()
      * @ORM\Column(type="part_id")
      */
+    #[CreatedBy\Exclude]
     private PartId $id;
 
     /**

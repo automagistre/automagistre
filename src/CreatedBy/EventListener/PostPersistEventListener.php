@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\CreatedBy\EventListener;
 
 use App\Costil;
+use App\CreatedBy\Attributes\Exclude;
 use App\User\Entity\User;
 use DateTimeImmutable;
 use Doctrine\Common\EventSubscriber;
@@ -46,7 +47,15 @@ final class PostPersistEventListener implements EventSubscriber
 
         $classMetadata = $em->getClassMetadata(get_class($entity));
 
-        $id = $classMetadata->getSingleIdReflectionProperty()->getValue($entity);
+        $idReflectionProperty = $classMetadata->getSingleIdReflectionProperty();
+
+        foreach ($idReflectionProperty->getAttributes() as $attribute) {
+            if (Exclude::class === $attribute->getName()) {
+                return;
+            }
+        }
+
+        $id = $idReflectionProperty->getValue($entity);
 
         if (is_object($id) && method_exists($id, 'toString')) {
             $id = $id->toString();
