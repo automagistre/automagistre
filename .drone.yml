@@ -125,7 +125,7 @@ steps:
     -   name: php-cs-fixer
         image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
         commands:
-            - vendor/bin/php-cs-fixer fix --dry-run --diff-format udiff --using-cache=no
+            - vendor/bin/php-cs-fixer fix --dry-run --using-cache=no
         when:
             branch:
                 exclude: [ master ]

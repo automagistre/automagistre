@@ -1,4 +1,3 @@
-#!/usr/bin/env php
 <?php
 
 $finder = PhpCsFixer\Finder::create()
@@ -21,7 +20,6 @@ return (new PhpCsFixer\Config())
             'statements' => [
                 'continue',
                 'do',
-                'die',
                 'exit',
                 'goto',
                 'if',
@@ -40,4 +38,4 @@ return (new PhpCsFixer\Config())
         'yoda_style' => true,
     ])
     ->setFinder($finder)
-    ->setCacheFile(__DIR__.'/var/.php_cs.cache');
+    ->setCacheFile(__DIR__.'/var/.php-cs-fixer.cache');
