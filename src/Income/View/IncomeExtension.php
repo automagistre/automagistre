@@ -29,7 +29,7 @@ final class IncomeExtension extends AbstractExtension
         return [
             new TwigFunction(
                 'supplier_unpaid_income',
-                fn (OperandId $supplierId): array => $this->supplierManager->unpaidIncome($supplierId)
+                fn (OperandId $supplierId): array => $this->supplierManager->unpaidIncome($supplierId),
             ),
         ];
     }

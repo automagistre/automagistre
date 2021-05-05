@@ -10,8 +10,8 @@ use App\Order\Entity\OrderItemPart;
 use App\Order\Manager\ReservationManager;
 use App\Order\Messages\OrderDealed;
 use App\Shared\Doctrine\Registry;
+use App\Storage\Entity\MotionSource;
 use App\Storage\Entity\Part;
-use App\Storage\Enum\Source;
 
 final class RemovePartFromStorageOnOrderClosedListener implements MessageHandler
 {
@@ -30,6 +30,10 @@ final class RemovePartFromStorageOnOrderClosedListener implements MessageHandler
             $partId = $item->getPartId();
             $quantity = $item->getQuantity();
 
+            if (0 === $quantity || $quantity < 0) {
+                continue;
+            }
+
             if (0 !== $this->reservationManager->reserved($item)) {
                 $this->reservationManager->deReserve($item, $quantity);
             }
@@ -41,7 +45,7 @@ final class RemovePartFromStorageOnOrderClosedListener implements MessageHandler
                 $this->registry->add($storagePart);
             }
 
-            $storagePart->move(0 - $quantity, Source::order(), $order->toId()->toUuid());
+            $storagePart->decrease($quantity, MotionSource::order($order->toId()));
         }
     }
 }

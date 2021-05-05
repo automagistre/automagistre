@@ -8,6 +8,26 @@
         <label class="col-sm-2 control-label">Наличие</label>
         <div class="col-sm-10">
             <div class="form-control">
+                <div class="pull-right">
+                    <a href="{{ easyadmin_path('Motion', 'increase', {'part_id': entity|toId, 'referer': true}) }}"
+                       class="btn btn-primary btn-xs">
+                        <i class="fa fa-arrow-down"></i>
+                        Пополнить
+                    </a>
+
+                    <a href="{{ easyadmin_path('Motion', 'decrease', {'part_id': entity|toId, 'referer': true}) }}"
+                       class="btn btn-danger btn-xs">
+                        <i class="fa fa-arrow-up"></i>
+                        Списать
+                    </a>
+
+                    <a href="{{ easyadmin_path('Motion', 'actualize', {'part_id': entity|toId, 'referer': true}) }}"
+                       class="btn btn-info btn-xs">
+                        <i class="fa fa-exchange"></i>
+                        Актуализировать
+                    </a>
+                </div>
+
                 На складе <strong>{{ entity.quantity / 100 }}</strong><br>
                 Зарезервировано <strong>{{ entity.reserved / 100 }}</strong><br>
                 Ожидается поставка <strong>{{ entity.suppliesQuantity / 100 }}</strong><br>
@@ -153,21 +173,6 @@
         </div>
 
         <div class="col-md-6" style="margin-bottom: 15px">
-            <a href="{{ easyadmin_path('PartIncome', 'income', {'part_id': entity|toId, 'referer': true}) }}" class="btn btn-primary">
-                <i class="fa fa-arrow-down"></i>
-                Пополнить
-            </a>
-
-            <a href="{{ easyadmin_path('PartIncome', 'outcome', {'part_id': entity|toId, 'referer': true}) }}" class="btn btn-danger">
-                <i class="fa fa-arrow-up"></i>
-                Списать
-            </a>
-
-            <a href="{{ easyadmin_path('Inventorization', 'inventory', {'part_id': entity|toId, 'referer': true}) }}" class="btn btn-info">
-                <i class="fa fa-exchange"></i>
-                Инвенторизация
-            </a>
-
             <a href="{{ easyadmin_path('Motion', 'list', {'part_id': entity|toId}) }}" class="btn btn-success">
                 <i class="fa fa-recycle"></i>
                 Движения

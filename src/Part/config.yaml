@@ -63,11 +63,6 @@ easy_admin:
             controller: App\Part\Controller\PartCrossController
             disabled_actions: ['new', 'list', 'show', 'autocomplete', 'edit', 'search', 'delete']
 
-        PartIncome:
-            class: App\Part\Entity\Part
-            controller: App\Part\Controller\PartIncomeController
-            disabled_actions: ['new', 'list', 'show', 'autocomplete', 'edit', 'search', 'delete']
-
         PartPrice:
             class: App\Part\Entity\Price
             controller: App\Part\Controller\PartPriceController

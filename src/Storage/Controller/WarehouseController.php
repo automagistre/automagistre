@@ -28,7 +28,7 @@ final class WarehouseController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function createNewEntity()
+    protected function createNewEntity(): WarehouseDto
     {
         return new WarehouseDto(WarehouseId::generate(), '', null);
     }
@@ -72,7 +72,7 @@ final class WarehouseController extends AbstractController
                             ],
                             [
                                 'root' => 'warehouse_id',
-                            ]
+                            ],
                         )
                     ;
 
@@ -114,8 +114,8 @@ final class WarehouseController extends AbstractController
         return WarehouseDto::from(
             $this->registry->getBy(
                 WarehouseView::class,
-                WarehouseId::from($id)
-            )
+                WarehouseId::from($id),
+            ),
         );
     }
 

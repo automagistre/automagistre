@@ -12,7 +12,6 @@ use App\Form\Type\MoneyType;
 use App\Income\Entity\Income;
 use App\Income\Entity\IncomeId;
 use App\Income\Entity\IncomePart;
-use App\Income\Event\IncomeAccrued;
 use App\Income\Form\IncomeDto;
 use App\Income\Form\PayDto;
 use App\Part\Entity\Part;
@@ -83,7 +82,7 @@ final class IncomeController extends AbstractController
                             CustomerTransactionSource::incomePayment(),
                             $income->toId()->toUuid(),
                             null,
-                        )
+                        ),
                     );
 
                     $em->persist(
@@ -94,7 +93,7 @@ final class IncomeController extends AbstractController
                             WalletTransactionSource::incomePayment(),
                             $income->toId()->toUuid(),
                             null,
-                        )
+                        ),
                     );
                 })
             ;
@@ -139,12 +138,10 @@ final class IncomeController extends AbstractController
                     CustomerTransactionSource::incomeDebit(),
                     $income->toId()->toUuid(),
                     null,
-                )
+                ),
             );
 
             $em->flush();
-
-            $this->event(new IncomeAccrued($income));
 
             return $this->redirectToReferrer();
         }
@@ -195,7 +192,7 @@ final class IncomeController extends AbstractController
         $entity = new Income(
             $incomeId,
             $dto->supplierId,
-            $dto->document
+            $dto->document,
         );
 
         parent::persistEntity($entity);
@@ -212,7 +209,7 @@ final class IncomeController extends AbstractController
         $entityClass,
         $sortDirection,
         $sortField = null,
-        $dqlFilter = null
+        $dqlFilter = null,
     ): QueryBuilder {
         $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
 

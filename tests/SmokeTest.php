@@ -111,9 +111,10 @@ final class SmokeTest extends WebTestCase
         'PartCase' => [
             'case' => ['part_id' => GasketFixture::ID],
         ],
-        'PartIncome' => [
-            'income' => ['part_id' => GasketFixture::ID],
-            'outcome' => ['part_id' => GasketFixture::ID],
+        'Motion' => [
+            'increase' => ['part_id' => GasketFixture::ID],
+            'decrease' => ['part_id' => GasketFixture::ID],
+            'actualize' => ['part_id' => GasketFixture::ID],
         ],
         'PartCross' => [
             'cross' => ['part_id' => GasketFixture::ID],

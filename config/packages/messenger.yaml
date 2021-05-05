@@ -16,6 +16,7 @@ framework:
         default_bus: message.bus
         buses:
             message.bus:
+                default_middleware: allow_no_handlers
                 middleware:
                     - dispatch_after_current_bus
                     - App\MessageBus\EntityEventsMiddleware

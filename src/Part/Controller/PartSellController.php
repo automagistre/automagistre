@@ -8,7 +8,7 @@ use App\EasyAdmin\Controller\AbstractController;
 use App\Part\Entity\PartView;
 use App\Shared\Doctrine\Registry;
 use App\Storage\Entity\Motion;
-use App\Storage\Enum\Source;
+use App\Storage\Enum\MotionType;
 use DateInterval;
 use DateTimeImmutable;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,7 +58,7 @@ final class PartSellController extends AbstractController
             FROM motion m
             JOIN created_by cb ON cb.id = m.id
             WHERE cb.created_at BETWEEN :start AND :end
-            AND m.source = :source_order
+            AND m.source_type = :source_order
             GROUP BY m.part_id
             ORDER BY quantity DESC, m.part_id
         ';
@@ -68,7 +68,7 @@ final class PartSellController extends AbstractController
         $items = $conn->fetchAllAssociative($sql, [
             'start' => $start->sub(new DateInterval('PT3H')), // TO UTC
             'end' => $end->sub(new DateInterval('PT3H')), // TO UTC
-            'source_order' => Source::order(),
+            'source_order' => MotionType::order(),
         ], [
             'start' => 'datetime',
             'end' => 'datetime',

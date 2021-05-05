@@ -6,11 +6,10 @@ namespace App\Storage\Entity;
 
 use App\CreatedBy\Attributes as CreatedBy;
 use App\Part\Entity\PartId;
-use App\Storage\Enum\Source;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\UuidInterface;
+use function abs;
 use function array_reduce;
 
 /**
@@ -33,18 +32,10 @@ class Part
      */
     private Collection $motions;
 
-    /**
-     * @var Collection<int, Inventorization>
-     *
-     * @ORM\OneToMany(targetEntity=Inventorization::class, mappedBy="part", cascade={"persist"})
-     */
-    private Collection $inventorizations;
-
     public function __construct(PartId $id)
     {
         $this->id = $id;
         $this->motions = new ArrayCollection();
-        $this->inventorizations = new ArrayCollection();
     }
 
     public function toId(): PartId
@@ -52,39 +43,42 @@ class Part
         return $this->id;
     }
 
-    public function move(int $quantity, Source $source, UuidInterface $sourceId, string $description = null): void
+    public function increase(int $quantity, MotionSource $source, string $description = null): void
     {
         $this->motions[] = new Motion(
             $this,
             $quantity,
             $source,
-            $sourceId,
             $description,
         );
     }
 
-    public function inventory(int $quantity, string $description = null): void
+    public function decrease(int $quantity, MotionSource $source, string $description = null): void
     {
-        $inventorizationId = InventorizationId::generate();
-
-        $this->inventorizations[] = new Inventorization(
-            $inventorizationId,
+        $this->motions[] = new Motion(
             $this,
-            $quantity,
+            0 - $quantity,
+            $source,
             $description,
         );
+    }
 
+    public function actualize(int $quantity, MotionSource $source, string $description = null): void
+    {
         $inStock = array_reduce($this->motions->toArray(), static function (int $quantity, Motion $motion): int {
             return $quantity + $motion->getQuantity();
         }, 0);
 
         $delta = $quantity - $inStock;
 
-        $this->move(
-            $delta,
-            Source::inventory(),
-            $inventorizationId->toUuid(),
-            $description,
-        );
+        if (0 === $delta) {
+            return;
+        }
+
+        if ($delta > 0) {
+            $this->increase($delta, $source, $description);
+        } else {
+            $this->decrease(abs($delta), $source, $description);
+        }
     }
 }

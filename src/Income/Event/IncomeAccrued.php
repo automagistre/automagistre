@@ -4,18 +4,14 @@ declare(strict_types=1);
 
 namespace App\Income\Event;
 
-use App\Income\Entity\Income;
-use Symfony\Component\EventDispatcher\GenericEvent;
+use App\Income\Entity\IncomeId;
 
 /**
- * @method Income getSubject()
- *
- * @author Konstantin Grachev <me@grachevko.ru>
+ * @psalm-immutable
  */
-final class IncomeAccrued extends GenericEvent
+final class IncomeAccrued
 {
-    public function __construct(Income $income, array $arguments = [])
+    public function __construct(public IncomeId $incomeId)
     {
-        parent::__construct($income, $arguments);
     }
 }
