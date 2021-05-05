@@ -24,7 +24,7 @@ final class EasyAdminErrorRenderer implements ErrorRendererInterface
         ErrorRendererInterface $fallbackErrorRenderer,
         Security $security,
         Environment $twig,
-        bool $debug
+        bool $debug,
     ) {
         $this->fallbackErrorRenderer = $fallbackErrorRenderer;
         $this->security = $security;
@@ -48,7 +48,7 @@ final class EasyAdminErrorRenderer implements ErrorRendererInterface
             $this->twig->render('easy_admin/error.html.twig', [
                 'status_code' => $flatten->getStatusCode(),
                 'status_text' => $flatten->getMessage(),
-            ])
+            ]),
         );
     }
 }

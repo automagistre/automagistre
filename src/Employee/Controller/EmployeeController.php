@@ -73,8 +73,8 @@ final class EmployeeController extends AbstractController
                         $model->amount->negative(),
                         CustomerTransactionSource::payroll(),
                         $walletTransactionId->toUuid(),
-                        $model->description
-                    )
+                        $model->description,
+                    ),
                 );
 
                 $em->persist(
@@ -85,7 +85,7 @@ final class EmployeeController extends AbstractController
                         WalletTransactionSource::payroll(),
                         $customerTransactionId->toUuid(),
                         null,
-                    )
+                    ),
                 );
             });
 
@@ -139,7 +139,7 @@ final class EmployeeController extends AbstractController
                         CustomerTransactionSource::penalty(),
                         $this->getUser()->toId()->toUuid(),
                         $model->description,
-                    )
+                    ),
                 );
             });
 

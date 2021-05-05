@@ -76,7 +76,7 @@ class TireFitting implements ContainsRecordedMessages
         TireFittingCategory $category,
         ?int $diameter,
         Money $total,
-        array $works
+        array $works,
     ) {
         $this->id = $id;
         $this->name = $name;

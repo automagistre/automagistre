@@ -86,7 +86,7 @@ class Calculator implements ContainsRecordedMessages
         McEquipmentId $equipmentId,
         int $mileage,
         Money $total,
-        array $works
+        array $works,
     ) {
         $this->id = $id;
         $this->name = $name;

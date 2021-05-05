@@ -51,7 +51,7 @@ final class NsqTransport implements TransportInterface
 
         if (null !== $nsqEnvelop) {
             $nsqEnvelop->retry(
-                ($nsqEnvelop->message->attempts <= 60 ? $nsqEnvelop->message->attempts : 60) * 1000
+                ($nsqEnvelop->message->attempts <= 60 ? $nsqEnvelop->message->attempts : 60) * 1000,
             );
 
             return $envelope;

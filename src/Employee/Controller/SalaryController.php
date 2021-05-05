@@ -56,7 +56,7 @@ final class SalaryController extends AbstractController
                     $dto->employeeId,
                     $dto->payday,
                     $dto->amount,
-                )
+                ),
             );
             $em->flush();
 

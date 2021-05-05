@@ -43,7 +43,7 @@ final class LineFixtures extends Fixture implements DependentFixtureInterface
             $equipment,
             $work,
             10,
-            false
+            false,
         );
 
         $this->addReference('line-1', $line);

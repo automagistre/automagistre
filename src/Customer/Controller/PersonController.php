@@ -100,7 +100,7 @@ final class PersonController extends OperandController
         $this->setReferer(
             $this->generateEasyPath('Person', 'show', [
                 'id' => $entity->toId()->toString(),
-            ])
+            ]),
         );
 
         $this->event(new PersonCreated($entity));
@@ -115,7 +115,7 @@ final class PersonController extends OperandController
         array $searchableFields,
         $sortField = null,
         $sortDirection = null,
-        $dqlFilter = null
+        $dqlFilter = null,
     ): QueryBuilder {
         $qb = $this->em->getRepository(Person::class)->createQueryBuilder('person');
 
@@ -126,7 +126,7 @@ final class PersonController extends OperandController
                 $qb->expr()->like('LOWER(person.firstname)', $key),
                 $qb->expr()->like('LOWER(person.lastname)', $key),
                 $qb->expr()->like('LOWER(person.telephone)', $key),
-                $qb->expr()->like('LOWER(person.email)', $key)
+                $qb->expr()->like('LOWER(person.email)', $key),
             ));
 
             $qb->setParameter($key, '%'.mb_strtolower($item).'%');

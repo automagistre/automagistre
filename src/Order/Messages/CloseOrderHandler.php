@@ -45,7 +45,7 @@ final class CloseOrderHandler implements MessageHandler
                 $customer->addTransaction(
                     $payment->getMoney(),
                     CustomerTransactionSource::orderPrepay(),
-                    $order->toId()->toUuid()
+                    $order->toId()->toUuid(),
                 );
             }
 

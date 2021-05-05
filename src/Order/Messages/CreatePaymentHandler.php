@@ -36,7 +36,7 @@ final class CreatePaymentHandler implements MessageHandler
                 WalletTransactionSource::orderDebit(),
                 $orderId->toUuid(),
                 null,
-            )
+            ),
         );
 
         if (null !== $command->customerId) {
@@ -48,7 +48,7 @@ final class CreatePaymentHandler implements MessageHandler
                     CustomerTransactionSource::orderDebit(),
                     $orderId->toUuid(),
                     null,
-                )
+                ),
             );
         }
     }

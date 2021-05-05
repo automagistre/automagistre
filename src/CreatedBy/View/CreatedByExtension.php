@@ -42,14 +42,14 @@ final class CreatedByExtension extends AbstractExtension
                 [
                     'needs_environment' => true,
                     'is_safe' => ['html' => true],
-                ]
+                ],
             ),
             // Temporary for BC
             new TwigFunction(
                 'created_by',
                 function (UuidInterface $uuid): CreatedByView {
                     return $this->registry->get(CreatedByView::class, $uuid);
-                }
+                },
             ),
         ];
     }

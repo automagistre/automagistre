@@ -90,7 +90,7 @@ final class PartController extends AbstractController
                     new Price(
                         $id,
                         $dto->price,
-                    )
+                    ),
                 );
             }
 
@@ -99,7 +99,7 @@ final class PartController extends AbstractController
                     new Discount(
                         $id,
                         $dto->discount,
-                    )
+                    ),
                 );
             }
 
@@ -166,7 +166,7 @@ final class PartController extends AbstractController
             $parameters['orders'] = $this->partManager->inOrders($part->toId());
             $parameters['reservedIn'] = array_map(
                 fn (Order $order): string => $order->toId()->toString(),
-                $this->reservationManager->orders($part->toId())
+                $this->reservationManager->orders($part->toId()),
             );
             $parameters['crosses'] = $this->partManager->getCrosses($part->toId());
 
@@ -203,7 +203,7 @@ final class PartController extends AbstractController
         array $searchableFields,
         $sortField = null,
         $sortDirection = null,
-        $dqlFilter = null
+        $dqlFilter = null,
     ): QueryBuilder {
         $isPlusExist = false !== strpos($searchQuery, '+');
 
@@ -225,14 +225,14 @@ final class PartController extends AbstractController
                 if (!$this->request->isXmlHttpRequest()) {
                     $this->addFlash(
                         'info',
-                        sprintf('Поиск по кузову "%s"', $carModel->caseName)
+                        sprintf('Поиск по кузову "%s"', $carModel->caseName),
                     );
                 }
 
                 $qb
                     ->where($qb->expr()->orX(
                         $qb->expr()->like('part.cases', ':case'),
-                        $qb->expr()->eq('part.isUniversal', ':universal')
+                        $qb->expr()->eq('part.isUniversal', ':universal'),
                     ))
                     ->setParameters([
                         'case' => '%'.strtoupper($carModel->caseName).'%',

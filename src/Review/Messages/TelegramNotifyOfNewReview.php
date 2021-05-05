@@ -27,7 +27,7 @@ final class TelegramNotifyOfNewReview implements MessageHandler
         Tenant $tenant,
         Registry $registry,
         HttpClientInterface $httpClient,
-        string $telegramBotToken
+        string $telegramBotToken,
     ) {
         $this->tenant = $tenant;
         $this->registry = $registry;
@@ -72,7 +72,7 @@ final class TelegramNotifyOfNewReview implements MessageHandler
                     'parse_mode' => 'Markdown',
                     'text' => $markdown->getMarkdown(),
                 ],
-            ]
+            ],
         );
     }
 }

@@ -46,7 +46,7 @@ final class Version20210102155106 extends AbstractMigration
                 'source', source
                 )
                 WHERE raw IS NULL
-            SQL
+            SQL,
         );
         $this->addSql('ALTER TABLE review ALTER raw SET NOT NULL');
 
@@ -79,7 +79,7 @@ final class Version20210102155106 extends AbstractMigration
                     'text' => $payload['text'],
                     'publishAt' => $payload['updatedTime'],
                     'raw' => json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR),
-                ]
+                ],
             );
         }
         $this->addSql('DROP TABLE yandex_map_review');
@@ -109,7 +109,7 @@ final class Version20210102155106 extends AbstractMigration
                     'text' => $comment,
                     'publishAt' => $payload['createTime'] ?? $payload['updatedTime'],
                     'raw' => json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR),
-                ]
+                ],
             );
         }
         $this->addSql('ALTER TABLE google_review_token DROP expire_id');

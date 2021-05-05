@@ -36,6 +36,10 @@ return (new PhpCsFixer\Config())
         'php_unit_test_class_requires_covers' => false,
         'phpdoc_to_comment' => false,
         'yoda_style' => true,
+        'trailing_comma_in_multiline' => [
+            'after_heredoc' => true,
+            'elements' => ['arrays', 'arguments', 'parameters']
+        ],
     ])
     ->setFinder($finder)
     ->setCacheFile(__DIR__.'/var/.php-cs-fixer.cache');

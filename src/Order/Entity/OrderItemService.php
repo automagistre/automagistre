@@ -39,7 +39,7 @@ class OrderItemService extends OrderItem implements PriceInterface, TotalPriceIn
         Order $order,
         string $service,
         Money $price,
-        OperandId $workerId = null
+        OperandId $workerId = null,
     ) {
         parent::__construct($id, $order);
 

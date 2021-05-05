@@ -33,7 +33,7 @@ final class EntityTransformer
         PropertyAccessorInterface $propertyAccessor,
         NamingStrategy $namingStrategy,
         ManagerRegistry $registry,
-        RequestStack $requestStack
+        RequestStack $requestStack,
     ) {
         $this->propertyAccessor = $propertyAccessor;
         $this->namingStrategy = $namingStrategy;

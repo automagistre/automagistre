@@ -27,7 +27,7 @@ final class EmptyCarFixtures extends Fixture
         $manager->persist($car);
 
         $manager->persist(
-            new Note($carId->toUuid(), NoteType::info(), 'Car Note')
+            new Note($carId->toUuid(), NoteType::info(), 'Car Note'),
         );
 
         $manager->flush();

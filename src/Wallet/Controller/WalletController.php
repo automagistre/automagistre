@@ -58,7 +58,7 @@ final class WalletController extends AbstractController
                 $initial,
                 WalletTransactionSource::initial(),
                 $this->getUser()->toId()->toUuid(),
-                null
+                null,
             ));
         }
 

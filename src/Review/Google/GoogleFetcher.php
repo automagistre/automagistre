@@ -71,7 +71,7 @@ final class GoogleFetcher implements Fetcher
                 [
                     'orderBy' => 'update_time desc',
                     'pageToken' => $pageToken,
-                ]
+                ],
             );
 
             foreach ($listReviewsResponse as $review) {

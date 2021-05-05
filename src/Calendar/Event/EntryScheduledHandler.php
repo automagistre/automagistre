@@ -31,7 +31,7 @@ final class EntryScheduledHandler implements MessageHandler
         Registry $registry,
         MessageBusInterface $commandBus,
         MoneyFormatter $formatter,
-        Tenant $tenant
+        Tenant $tenant,
     ) {
         $this->registry = $registry;
         $this->commandBus = $commandBus;
@@ -90,8 +90,8 @@ final class EntryScheduledHandler implements MessageHandler
                 $message,
                 [
                     Feature::onceADay(),
-                ]
-            )
+                ],
+            ),
         );
     }
 }

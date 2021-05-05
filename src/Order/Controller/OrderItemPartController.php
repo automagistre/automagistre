@@ -71,7 +71,7 @@ final class OrderItemPartController extends OrderItemController
                 SQL,
                 [
                     'partId' => $partId->toString(),
-                ]
+                ],
             )
         ;
 
@@ -107,7 +107,7 @@ final class OrderItemPartController extends OrderItemController
 
         usort(
             $related,
-            static fn (RelatedDto $left, RelatedDto $right) => $right->part->quantity <=> $left->part->quantity
+            static fn (RelatedDto $left, RelatedDto $right) => $right->part->quantity <=> $left->part->quantity,
         );
 
         $form = $this->createFormBuilder(['parts' => $related])
@@ -242,7 +242,7 @@ final class OrderItemPartController extends OrderItemController
                 Uuid::uuid6(),
                 $order,
                 $partOffer->partId,
-                $partOffer->quantity
+                $partOffer->quantity,
             );
             $orderItemPart->setParent($dto->parent);
             $orderItemPart->setWarranty($dto->warranty);

@@ -98,7 +98,7 @@ final class TransactionController extends AbstractController
                     $money,
                     CustomerTransactionSource::manual(),
                     $walletTransactionId->toUuid(),
-                    $model->description
+                    $model->description,
                 ));
 
                 $em->persist(
@@ -108,8 +108,8 @@ final class TransactionController extends AbstractController
                         $money,
                         WalletTransactionSource::operandManual(),
                         $customerTransactionId->toUuid(),
-                        null
-                    )
+                        null,
+                    ),
                 );
             } else {
                 $em->persist(new CustomerTransaction(
@@ -118,7 +118,7 @@ final class TransactionController extends AbstractController
                     $money,
                     CustomerTransactionSource::manualWithoutWallet(),
                     $this->getUser()->toId()->toUuid(),
-                    $model->description
+                    $model->description,
                 ));
             }
         });
@@ -131,7 +131,7 @@ final class TransactionController extends AbstractController
         $entityClass,
         $sortDirection,
         $sortField = null,
-        $dqlFilter = null
+        $dqlFilter = null,
     ): QueryBuilder {
         $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
 

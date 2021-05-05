@@ -24,7 +24,7 @@ final class IncomeFixtures extends Fixture
         $income = new Income(
             IncomeId::from(self::ID),
             OperandId::from(self::SUPPLIER_ID),
-            null
+            null,
         );
 
         $this->addReference('income-1', $income);

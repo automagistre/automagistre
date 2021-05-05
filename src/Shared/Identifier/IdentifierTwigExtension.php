@@ -46,7 +46,7 @@ final class IdentifierTwigExtension extends AbstractExtension
         return [
             new TwigFilter('display_name', fn (
                 $value,
-                string $format = null
+                string $format = null,
             ) => $value instanceof Identifier ? $this->formatter->format($value, $format) : $value),
             new TwigFilter(
                 'toId',
@@ -116,7 +116,7 @@ final class IdentifierTwigExtension extends AbstractExtension
                     }
 
                     throw new LogicException(sprintf('Unsupported object %s for toUuid filter.', $class));
-                }
+                },
             ),
         ];
     }

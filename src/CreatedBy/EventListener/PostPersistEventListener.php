@@ -83,7 +83,7 @@ final class PostPersistEventListener implements EventSubscriber
                 'id' => 'uuid',
                 'user' => 'user_id',
                 'date' => 'datetime',
-            ]
+            ],
         );
     }
 }

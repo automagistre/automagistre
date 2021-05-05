@@ -38,7 +38,7 @@ final class PublishController extends AbstractController
                 Publish::create(
                     Uuid::fromString($dto->id),
                     $dto->publish,
-                )
+                ),
             );
             $em->flush();
 

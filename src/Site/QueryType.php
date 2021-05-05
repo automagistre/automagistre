@@ -58,7 +58,7 @@ final class QueryType extends ObjectType
                                              JOIN person ON person.id = orders.customer_id)             AS persons,
                                    (SELECT COUNT(id) FROM orders)                                       AS orders,
                                    (SELECT COUNT(id) FROM review WHERE text <> '')                      AS reviews
-                            SQL
+                            SQL,
                         );
 
                         return [

@@ -53,7 +53,7 @@ final class CustomerReminderCommand extends Command
                 [
                     'start' => 'datetime',
                     'end' => 'datetime',
-                ]
+                ],
             )
         ;
 
@@ -78,8 +78,8 @@ final class CustomerReminderCommand extends Command
                     $message,
                     [
                         Feature::onceADay(),
-                    ]
-                )
+                    ],
+                ),
             );
         }
 

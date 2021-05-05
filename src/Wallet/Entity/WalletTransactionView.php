@@ -69,7 +69,7 @@ class WalletTransactionView
         UuidInterface $sourceId,
         ?string $description,
         ?DateTimeImmutable $createdAt,
-        ?UserId $createdBy
+        ?UserId $createdBy,
     ) {
         $this->id = $id;
         $this->walletId = $walletId;

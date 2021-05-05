@@ -33,8 +33,8 @@ final class CallbackController
                 [
                     'provider' => $provider,
                     'content' => $request->request->all(),
-                ]
-            )
+                ],
+            ),
         );
         $em->flush();
 

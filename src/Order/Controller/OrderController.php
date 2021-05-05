@@ -183,7 +183,7 @@ final class OrderController extends AbstractController
                         }
                     })($line->parts->toArray()),
                     !$line->recommended,
-                    $line->recommended
+                    $line->recommended,
                 );
             }
         }
@@ -434,7 +434,7 @@ final class OrderController extends AbstractController
         $maxPerPage = 15,
         $sortField = null,
         $sortDirection = null,
-        $dqlFilter = null
+        $dqlFilter = null,
     ): Pagerfanta {
         if (!$this->request->query->has('all')) {
             $maxPerPage = 200;
@@ -450,7 +450,7 @@ final class OrderController extends AbstractController
         $entityClass,
         $sortDirection,
         $sortField = null,
-        $dqlFilter = null
+        $dqlFilter = null,
     ): QueryBuilder {
         $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter)
             ->leftJoin(OrderClose::class, 'closed', Join::WITH, 'closed.order = entity')
@@ -496,8 +496,8 @@ final class OrderController extends AbstractController
             $qb->where(
                 $qb->expr()->orX(
                     $qb->expr()->notIn('entity.status', ':closedStatuses'),
-                    $qb->expr()->eq('DATE(closedBy.createdAt)', ':today')
-                )
+                    $qb->expr()->eq('DATE(closedBy.createdAt)', ':today'),
+                ),
             )
                 ->setParameter('closedStatuses', [OrderStatus::closed(), OrderStatus::cancelled()])
                 ->setParameter('today', (new DateTime())->format('Y-m-d'))
@@ -516,7 +516,7 @@ final class OrderController extends AbstractController
         array $searchableFields,
         $sortField = null,
         $sortDirection = null,
-        $dqlFilter = null
+        $dqlFilter = null,
     ): QueryBuilder {
         $qb = $this->registry->manager(Order::class)
             ->createQueryBuilder()
@@ -546,7 +546,7 @@ final class OrderController extends AbstractController
                 $qb->expr()->like('LOWER(carModel.caseName)', $key),
                 $qb->expr()->like('LOWER(manufacturer.name)', $key),
                 $qb->expr()->like('LOWER(manufacturer.localizedName)', $key),
-                $qb->expr()->like('LOWER(organization.name)', $key)
+                $qb->expr()->like('LOWER(organization.name)', $key),
             ));
 
             $qb->setParameter($key, '%'.mb_strtolower($item).'%');

@@ -52,7 +52,7 @@ final class SupplyController extends AbstractController
                     $dto->quantity,
                     SupplySource::manual(),
                     $this->getUser()->toId()->toUuid(),
-                )
+                ),
             );
             $em->flush();
 
@@ -101,7 +101,7 @@ final class SupplyController extends AbstractController
                                 [
                                     '{{ supplies }}' => $partView->suppliesQuantity,
                                     '{{ decrease }}' => $value,
-                                ]
+                                ],
                             );
                         }
                     },
@@ -120,7 +120,7 @@ final class SupplyController extends AbstractController
                     0 - $dto->quantity,
                     SupplySource::manual(),
                     $this->getUser()->toId()->toUuid(),
-                )
+                ),
             );
             $em->flush();
 

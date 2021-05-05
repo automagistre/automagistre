@@ -52,7 +52,7 @@ class WalletTransaction
         Money $amount,
         WalletTransactionSource $source,
         UuidInterface $sourceId,
-        ?string $description
+        ?string $description,
     ) {
         $this->id = $id;
         $this->walletId = $walletId;

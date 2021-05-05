@@ -92,8 +92,8 @@ final class SalaryChargeCommand extends Command
                     $salary->amount,
                     CustomerTransactionSource::salary(),
                     $salary->id->toUuid(),
-                    null
-                )
+                    null,
+                ),
             );
         }
 

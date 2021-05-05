@@ -49,7 +49,7 @@ final class SellerType extends AbstractType
             ',
                 [
                     'date' => (new DateTime('-1 month'))->format('Y-m-d'),
-                ]
+                ],
             )
         ;
 

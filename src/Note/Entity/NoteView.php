@@ -46,7 +46,7 @@ class NoteView
         UuidInterface $subject,
         NoteType $type,
         string $text,
-        CreatedByView $created
+        CreatedByView $created,
     ) {
         $this->id = $id;
         $this->subject = $subject;

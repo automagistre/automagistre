@@ -33,7 +33,7 @@ final class CarCustomerRepository
             ',
                 [
                     'customer' => $operandId,
-                ]
+                ],
             )
         ;
 
@@ -58,14 +58,14 @@ final class CarCustomerRepository
             ',
                 [
                     'car' => $carId,
-                ]
+                ],
             )
         ;
 
         return $this->registry->viewListBy(Operand::class, [
             'id' => array_map(
                 static fn (array $customer): string => $customer['customer_id'],
-                $customers
+                $customers,
             ),
         ]);
     }

@@ -34,7 +34,7 @@ final class IdentifierRouterExtension extends AbstractExtension
                     $params['id'] = $uuid->toString();
 
                     return $this->router->generate($class, $action, $params);
-                }
+                },
             ),
         ];
     }

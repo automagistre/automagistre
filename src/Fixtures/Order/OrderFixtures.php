@@ -95,8 +95,8 @@ final class OrderFixtures extends Fixture implements DependentFixtureInterface
             new OrderPayment(
                 $order,
                 new Money('100', new Currency('RUB')),
-                null
-            )
+                null,
+            ),
         );
 
         $manager->persist($orderItemPart);

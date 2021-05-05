@@ -269,7 +269,7 @@ final class MutationType extends ObjectType
                                 $args['input']['diameter'],
                                 $args['input']['total'],
                                 $args['input']['works'],
-                            )
+                            ),
                         );
 
                         return ['appealId' => $appealId];

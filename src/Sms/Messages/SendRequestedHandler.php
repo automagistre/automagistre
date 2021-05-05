@@ -31,7 +31,7 @@ final class SendRequestedHandler implements MessageHandler
         Registry $registry,
         PhoneNumberUtil $phoneNumberUtil,
         HttpClientInterface $httpClient,
-        RouterInterface $router
+        RouterInterface $router,
     ) {
         $this->registry = $registry;
         $this->phoneNumberUtil = $phoneNumberUtil;

@@ -58,7 +58,7 @@ class SalaryView
         int $payday,
         Money $amount,
         CreatedByView $created,
-        ?CreatedByView $ended
+        ?CreatedByView $ended,
     ) {
         $this->id = $id;
         $this->employeeId = $employeeId;

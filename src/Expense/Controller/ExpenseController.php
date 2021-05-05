@@ -63,7 +63,7 @@ final class ExpenseController extends AbstractController
                     WalletTransactionSource::expense(),
                     $dto->expenseId->toUuid(),
                     $dto->description,
-                )
+                ),
             );
 
             $em->flush();

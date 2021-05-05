@@ -227,7 +227,7 @@ final class SmokeTest extends WebTestCase
                 $queries = array_replace(
                     in_array($action, ['search', 'autocomplete'], true) ? ['query' => 'bla'] : [],
                     self::ADDITIONAL_QUERY[$entity][$action] ?? [],
-                    ['action' => $action, 'entity' => $entity]
+                    ['action' => $action, 'entity' => $entity],
                 );
 
                 $isAjax = 'autocomplete' === $action;

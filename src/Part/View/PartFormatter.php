@@ -47,7 +47,7 @@ final class PartFormatter implements IdentifierFormatterInterface
                 $part->name,
                 $part->number->number,
             ],
-            self::FORMATS[$format]
+            self::FORMATS[$format],
         );
     }
 

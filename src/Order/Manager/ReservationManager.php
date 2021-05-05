@@ -61,8 +61,8 @@ final class ReservationManager
                 sprintf(
                     'Невозможно зарезервировать "%s" единиц товара, доступно "%s"',
                     $quantity / 100,
-                    $reservable / 100
-                )
+                    $reservable / 100,
+                ),
             );
         }
 
@@ -90,8 +90,8 @@ final class ReservationManager
                 sprintf(
                     'Невозможно снять с резервации "%s" единиц товара, в резерве "%s"',
                     $quantity / 100,
-                    $reserved / 100
-                )
+                    $reserved / 100,
+                ),
             );
         }
 

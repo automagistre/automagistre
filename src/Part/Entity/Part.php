@@ -53,7 +53,7 @@ class Part
         string $name,
         PartNumber $number,
         bool $universal,
-        Unit $unit
+        Unit $unit,
     ) {
         $this->id = $id;
         $this->manufacturerId = $manufacturerId;

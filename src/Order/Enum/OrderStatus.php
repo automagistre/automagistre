@@ -93,7 +93,7 @@ final class OrderStatus extends Enum
                 self::CLOSED,
                 self::CANCELLED,
             ],
-            true
+            true,
         );
     }
 

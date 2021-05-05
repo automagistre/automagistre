@@ -58,7 +58,7 @@ class CustomerTransaction implements ContainsRecordedMessages
         Money $amount,
         CustomerTransactionSource $source,
         UuidInterface $sourceId,
-        ?string $description
+        ?string $description,
     ) {
         $this->id = $id;
         $this->operandId = $operandId;

@@ -30,7 +30,7 @@ final class SmsToRequestReviews implements MessageHandler
         OrderStorage $orderStorage,
         CustomerStorage $customerStorage,
         RouterInterface $router,
-        MessageBusInterface $messageBus
+        MessageBusInterface $messageBus,
     ) {
         $this->orderStorage = $orderStorage;
         $this->customerStorage = $customerStorage;
@@ -76,7 +76,7 @@ final class SmsToRequestReviews implements MessageHandler
                 $message,
                 [],
                 $dateSend,
-            )
+            ),
         );
     }
 }

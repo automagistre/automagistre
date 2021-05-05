@@ -53,7 +53,7 @@ final class Engine
         FuelType $type = null,
         AirIntake $airIntake = null,
         Injection $injection = null,
-        string $capacity = null
+        string $capacity = null,
     ) {
         $this->name = $name;
         $this->type = $type ?? FuelType::unknown();

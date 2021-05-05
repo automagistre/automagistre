@@ -55,7 +55,7 @@ class Wallet
         Currency $currency,
         bool $useInIncome = false,
         bool $useInOrder = false,
-        bool $showInLayout = true
+        bool $showInLayout = true,
     ) {
         $this->id = $walletId;
         $this->name = $name;

@@ -35,7 +35,7 @@ final class AppealController extends AbstractController
         $entityClass,
         $sortDirection,
         $sortField = null,
-        $dqlFilter = null
+        $dqlFilter = null,
     ): \Doctrine\ORM\QueryBuilder {
         $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
 

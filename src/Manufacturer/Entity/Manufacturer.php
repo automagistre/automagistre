@@ -37,7 +37,7 @@ class Manufacturer
         ManufacturerId $id = null,
         string $name = null,
         string $localizedName = null,
-        string $logo = null
+        string $logo = null,
     ) {
         $this->id = $id ?? ManufacturerId::generate();
         $this->name = $name;

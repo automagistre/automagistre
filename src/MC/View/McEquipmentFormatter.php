@@ -31,7 +31,7 @@ final class McEquipmentFormatter implements IdentifierFormatterInterface
         return sprintf(
             '%s %s',
             $formatter->format($view->vehicleId),
-            $view->equipment->toString()
+            $view->equipment->toString(),
         );
     }
 

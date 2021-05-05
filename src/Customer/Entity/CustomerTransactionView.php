@@ -69,7 +69,7 @@ class CustomerTransactionView
         UuidInterface $sourceId,
         ?string $description,
         ?DateTimeImmutable $createdAt,
-        ?UserId $createdBy
+        ?UserId $createdBy,
     ) {
         $this->id = $id;
         $this->operandId = $operandId;

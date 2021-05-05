@@ -38,7 +38,7 @@ final class CreatePrepayHandler implements MessageHandler
                 WalletTransactionSource::orderPrepay(),
                 $orderId->toUuid(),
                 $command->description,
-            )
+            ),
         );
     }
 }

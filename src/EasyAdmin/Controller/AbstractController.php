@@ -114,7 +114,7 @@ abstract class AbstractController extends EasyAdminController
         string $entity,
         string $action,
         array $parameters = [],
-        int $status = 302
+        int $status = 302,
     ): RedirectResponse {
         return $this->redirect($this->generateEasyPath($entity, $action, $parameters), $status);
     }
@@ -135,7 +135,7 @@ abstract class AbstractController extends EasyAdminController
 
         return '' !== $refererUrl
             ? $this->redirect(
-                urldecode($refererUrl)
+                urldecode($refererUrl),
             )
             : parent::redirectToReferrer();
     }

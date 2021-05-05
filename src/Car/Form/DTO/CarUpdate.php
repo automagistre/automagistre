@@ -65,7 +65,7 @@ final class CarUpdate
         ?int $year = null,
         BodyType $caseType = null,
         string $description = null,
-        string $gosnomer = null
+        string $gosnomer = null,
     ) {
         $this->carId = $carId;
         $this->vehicleId = $vehicleId;

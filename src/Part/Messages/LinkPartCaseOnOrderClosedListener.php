@@ -68,7 +68,7 @@ final class LinkPartCaseOnOrderClosedListener implements MessageHandler
                         'id' => PartCaseId::generate(),
                         'vehicle' => $vehicleId->toString(),
                         'part' => $part,
-                    ]
+                    ],
                 )
             ;
         }

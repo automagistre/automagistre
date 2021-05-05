@@ -36,7 +36,7 @@ final class FetchedReview
         string $text,
         ReviewRating $rating,
         DateTimeImmutable $publishAt,
-        array $raw
+        array $raw,
     ) {
         $this->sourceId = $sourceId;
         $this->source = $source;

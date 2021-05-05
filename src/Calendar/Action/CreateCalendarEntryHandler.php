@@ -22,7 +22,7 @@ final class CreateCalendarEntryHandler implements MessageHandler
         $entity = CalendarEntry::create(
             $command->id,
             $command->schedule,
-            $command->orderInfo
+            $command->orderInfo,
         );
 
         $this->repository->add($entity);

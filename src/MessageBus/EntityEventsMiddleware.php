@@ -18,7 +18,7 @@ class EntityEventsMiddleware implements MiddlewareInterface
 
     public function __construct(
         EntityRecordedMessageCollectorListener $messageRecorder,
-        MessageBusInterface $messageBus
+        MessageBusInterface $messageBus,
     ) {
         $this->messageRecorder = $messageRecorder;
         $this->messageBus = $messageBus;

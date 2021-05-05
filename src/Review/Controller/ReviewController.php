@@ -43,7 +43,7 @@ final class ReviewController extends AbstractController
                 'manufacturer' => $dto->manufacturer,
                 'model' => $dto->model,
                 'source' => $dto->source,
-            ]
+            ],
         );
 
         parent::persistEntity($entity);

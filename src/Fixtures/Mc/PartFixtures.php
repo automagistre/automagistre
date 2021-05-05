@@ -41,7 +41,7 @@ final class PartFixtures extends Fixture implements DependentFixtureInterface
             $line,
             PartId::from(GasketFixture::ID),
             1,
-            false
+            false,
         );
 
         $this->addReference('mc-part-1', $mcPart);

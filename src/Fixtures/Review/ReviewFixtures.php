@@ -34,7 +34,7 @@ final class ReviewFixtures extends Fixture
                 'manufacturer' => 'Nissan',
                 'model' => 'GTR',
                 'source' => 'http://reviews.club/item/1',
-            ]
+            ],
         );
         $review->eraseMessages();
 

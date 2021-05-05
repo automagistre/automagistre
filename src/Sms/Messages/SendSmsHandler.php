@@ -62,7 +62,7 @@ final class SendSmsHandler implements MessageHandler
                         'phone' => 'phone_number',
                         'start' => 'datetime',
                         'end' => 'datetime',
-                    ]
+                    ],
                 )
             ;
 
@@ -78,7 +78,7 @@ final class SendSmsHandler implements MessageHandler
                 $phoneNumber,
                 $command->message,
                 $command->dateSend,
-            )
+            ),
         );
     }
 }

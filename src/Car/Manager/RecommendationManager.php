@@ -64,7 +64,7 @@ final class RecommendationManager
 
             $orderItemPart->setPrice(
                 $recommendationPart->getPrice(),
-                $this->registry->get(PartView::class, $partId)
+                $this->registry->get(PartView::class, $partId),
             );
             $orderItemPart->setParent($orderItemService);
             $em->persist($orderItemPart);

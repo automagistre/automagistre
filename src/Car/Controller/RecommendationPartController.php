@@ -88,7 +88,7 @@ final class RecommendationPartController extends AbstractController
                         'compound' => true,
                     ])
                         ->add('quantity', QuantityType::class)
-                        ->add('price', MoneyType::class)
+                        ->add('price', MoneyType::class),
                 )
                 ->getForm()
             ;
@@ -172,7 +172,7 @@ final class RecommendationPartController extends AbstractController
                     $partOffer->partId,
                     $partOffer->quantity,
                     $partOffer->price,
-                )
+                ),
             );
             $em->flush();
 

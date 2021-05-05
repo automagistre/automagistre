@@ -27,7 +27,7 @@ final class VehicleExtension extends AbstractExtension
         return [
             new TwigFunction(
                 'vehicle_case_is_defined',
-                fn (VehicleId $id) => null !== $this->registry->getBy(Model::class, ['id' => $id])->caseName
+                fn (VehicleId $id) => null !== $this->registry->getBy(Model::class, ['id' => $id])->caseName,
             ),
         ];
     }

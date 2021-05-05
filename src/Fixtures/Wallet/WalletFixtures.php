@@ -22,7 +22,7 @@ final class WalletFixtures extends Fixture
         $wallet = new Wallet(
             WalletId::from(self::ID),
             'Main',
-            new Currency('RUB')
+            new Currency('RUB'),
         );
 
         $this->addReference('wallet-1', $wallet);

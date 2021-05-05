@@ -48,7 +48,7 @@ final class PartController extends AbstractController
             $dto->line,
             $dto->partId,
             $dto->quantity,
-            $dto->recommended
+            $dto->recommended,
         );
 
         parent::persistEntity($entity);

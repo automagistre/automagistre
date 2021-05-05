@@ -50,7 +50,7 @@ final class DecreaseSupplyOnIncomeAccruedListener implements MessageHandler
                         $decrease,
                         SupplySource::income(),
                         $income->toId()->toUuid(),
-                    )
+                    ),
                 );
             }
         }

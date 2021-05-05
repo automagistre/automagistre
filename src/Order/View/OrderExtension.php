@@ -37,11 +37,11 @@ final class OrderExtension extends AbstractExtension
                     ->repository(Recommendation::class)
                     ->findOneBy([
                         'realization' => $service->toId(),
-                    ], ['id' => 'DESC'])
+                    ], ['id' => 'DESC']),
             ),
             new TwigFunction(
                 'entry_by_order',
-                fn (OrderId $orderId) => $this->registry->findOneBy(EntryView::class, ['orderId' => $orderId])
+                fn (OrderId $orderId) => $this->registry->findOneBy(EntryView::class, ['orderId' => $orderId]),
             ),
             new TwigFunction(
                 'order_info',
@@ -57,7 +57,7 @@ final class OrderExtension extends AbstractExtension
                 [
                     'is_safe' => ['html'],
                     'needs_environment' => true,
-                ]
+                ],
             ),
         ];
     }

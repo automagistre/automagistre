@@ -120,7 +120,7 @@ final class CalendarEntryController extends AbstractController
                         $dto->orderInfo->description,
                         $dto->orderInfo->workerId,
                     ),
-                )
+                ),
             );
 
             if ($orderId instanceof OrderId) {
@@ -175,7 +175,7 @@ final class CalendarEntryController extends AbstractController
     protected function createEditDto(Closure $closure): CalendarEntryDto
     {
         return CalendarEntryDto::fromView(
-            $this->repository->view(CalendarEntryId::from($this->request->query->get('id')))
+            $this->repository->view(CalendarEntryId::from($this->request->query->get('id'))),
         );
     }
 
@@ -194,7 +194,7 @@ final class CalendarEntryController extends AbstractController
                     $dto->schedule->date,
                     $dto->schedule->duration,
                 ),
-            )
+            ),
         );
 
         $this->dispatchMessage(
@@ -206,7 +206,7 @@ final class CalendarEntryController extends AbstractController
                     $dto->orderInfo->description,
                     $dto->orderInfo->workerId,
                 ),
-            )
+            ),
         );
     }
 
@@ -233,8 +233,8 @@ final class CalendarEntryController extends AbstractController
                 new DeleteCalendarEntryCommand(
                     $dto->id,
                     $dto->reason,
-                    $dto->description
-                )
+                    $dto->description,
+                ),
             );
 
             return $this->redirectToEasyPath('CalendarEntry', 'list');

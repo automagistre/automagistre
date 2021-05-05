@@ -73,7 +73,7 @@ final class AutocompleteType extends AbstractType implements DataMapperInterface
                 $options['choices'] = is_iterable($data) ? $data : [$data];
                 $options['choice_label'] = fn (Identifier $identifier): string => $this->formatter->format(
                     $identifier,
-                    $options['formatter_format']
+                    $options['formatter_format'],
                 );
 
                 unset(

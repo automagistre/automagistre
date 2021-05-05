@@ -37,7 +37,7 @@ final class EmployeeVasyaFixtures extends Fixture
                 $employeeId,
                 5,
                 new Money('5000', new Currency('RUB')),
-            )
+            ),
         );
 
         $manager->persist($employee);

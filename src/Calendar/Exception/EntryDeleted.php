@@ -13,7 +13,7 @@ final class EntryDeleted extends DomainException
     public static function fromEntryId(CalendarEntryId $entryId): self
     {
         return new self(
-            sprintf('Cannot modify deleted entry "%s"', $entryId->toString())
+            sprintf('Cannot modify deleted entry "%s"', $entryId->toString()),
         );
     }
 }

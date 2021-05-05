@@ -33,7 +33,7 @@ final class StaleStockNotifier implements MessageHandler
         RouterInterface $router,
         Tenant $tenant,
         HttpClientInterface $httpClient,
-        string $telegramBotToken
+        string $telegramBotToken,
     ) {
         $this->registry = $registry;
         $this->tenant = $tenant;
@@ -95,8 +95,8 @@ final class StaleStockNotifier implements MessageHandler
                         ],
                         RouterInterface::ABSOLUTE_URL,
                     ),
-                    sprintf('Заказ №%s', $orderItemPart->getOrder()->getNumber())
-                )
+                    sprintf('Заказ №%s', $orderItemPart->getOrder()->getNumber()),
+                ),
             )
             ->p(sprintf(
                 'Добавлена запчасть %s, однако на складе имеются залежавшиеся аналоги, которые нужно продать в первую очередь:',
@@ -111,7 +111,7 @@ final class StaleStockNotifier implements MessageHandler
                         RouterInterface::ABSOLUTE_URL,
                     ),
                     $part->display(),
-                )
+                ),
             ))
             ->numberedList(function (NumberedListBuilder $builder) use ($canReplacedBy): void {
                 foreach ($canReplacedBy as $analog) {
@@ -128,7 +128,7 @@ final class StaleStockNotifier implements MessageHandler
                                 ],
                                 RouterInterface::ABSOLUTE_URL,
                             ),
-                            'ссылка'
+                            'ссылка',
                         ),
                     ));
                 }
@@ -146,7 +146,7 @@ final class StaleStockNotifier implements MessageHandler
                     'parse_mode' => 'Markdown',
                     'text' => $text,
                 ],
-            ]
+            ],
         );
     }
 }

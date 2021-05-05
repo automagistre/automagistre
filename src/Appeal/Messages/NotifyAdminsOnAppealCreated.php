@@ -34,7 +34,7 @@ final class NotifyAdminsOnAppealCreated implements MessageHandler
         RouterInterface $router,
         Tenant $tenant,
         HttpClientInterface $httpClient,
-        string $telegramBotToken
+        string $telegramBotToken,
     ) {
         $this->registry = $registry;
         $this->tenant = $tenant;
@@ -84,7 +84,7 @@ final class NotifyAdminsOnAppealCreated implements MessageHandler
                         ],
                     ],
                 ],
-            ]
+            ],
         );
     }
 }
