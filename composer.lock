@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f5ba41140b5ddf46367826f25599a58f",
+    "content-hash": "e903ae745b87722f50de63114b2fd40d",
     "packages": [
         {
             "name": "adamgaskins/barcoder",
@@ -4585,16 +4585,16 @@
         },
         {
             "name": "premier/identifier",
-            "version": "0.6.1",
+            "version": "0.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/grachevko/identifier.git",
-                "reference": "302af5d842147c36f7769ba83ba7bc3441dc648c"
+                "reference": "f6a1cd6e520b5017dc10bdecb000e3ef23dff580"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/grachevko/identifier/zipball/302af5d842147c36f7769ba83ba7bc3441dc648c",
-                "reference": "302af5d842147c36f7769ba83ba7bc3441dc648c",
+                "url": "https://api.github.com/repos/grachevko/identifier/zipball/f6a1cd6e520b5017dc10bdecb000e3ef23dff580",
+                "reference": "f6a1cd6e520b5017dc10bdecb000e3ef23dff580",
                 "shasum": ""
             },
             "require": {
@@ -4635,9 +4635,9 @@
             "homepage": "https://github.com/grachevko/identifier",
             "support": {
                 "issues": "https://github.com/grachevko/identifier/issues",
-                "source": "https://github.com/grachevko/identifier/tree/0.6.1"
+                "source": "https://github.com/grachevko/identifier/tree/0.7.0"
             },
-            "time": "2021-03-29T08:21:09+00:00"
+            "time": "2021-05-05T15:08:36+00:00"
         },
         {
             "name": "premier/markdown-builder",
