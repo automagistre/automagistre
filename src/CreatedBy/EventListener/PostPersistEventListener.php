@@ -47,6 +47,10 @@ final class PostPersistEventListener implements EventSubscriber
 
         $classMetadata = $em->getClassMetadata(get_class($entity));
 
+        if ($classMetadata->isIdentifierComposite) {
+            return;
+        }
+
         $idReflectionProperty = $classMetadata->getSingleIdReflectionProperty();
 
         foreach ($idReflectionProperty->getAttributes() as $attribute) {
