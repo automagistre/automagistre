@@ -1,0 +1,21 @@
+{% extends 'easy_admin/default/layout.html.twig' %}
+
+{% form_theme form with easyadmin_config('design.form_theme') %}
+
+{% block content_title %}Редактировать запчасть в Инвентаризации{% endblock %}
+{% block content_help %}
+    <div class="box box-widget help-entity">
+        <div class="box-body">
+            {{ part_view(entity.partId).display }}
+        </div>
+    </div>
+{% endblock content_help %}
+
+{% block main %}
+    {{ form_start(form) }}
+
+    {{ form_widget(form) }}
+    <button class="btn btn-success">Изменить</button>
+    <a href="{{ easyadmin_path('Inventorization', 'show', {'id': inventorization|toId}) }}" class="btn btn-default">Отмена</a>
+    {{ form_end(form) }}
+{% endblock %}

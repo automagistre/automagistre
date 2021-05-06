@@ -88,9 +88,9 @@ final class Registry
      *
      * @psalm-return T
      *
-     * @param Identifier|string|UuidInterface $id
-     * @param null|mixed                      $lockMode
-     * @param null|mixed                      $lockVersion
+     * @param mixed      $id
+     * @param null|mixed $lockMode
+     * @param null|mixed $lockVersion
      */
     public function get(string $class, $id, $lockMode = null, $lockVersion = null)
     {

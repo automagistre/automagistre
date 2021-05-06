@@ -132,9 +132,9 @@ requirements: ### Check symfony requirements
 	$(APP) requirements-checker APP_ENV=prod APP_DEBUG=0
 
 psalm: ### Run psalm
-	$(APP) psalm --show-info=false
+	$(APP) psalm --no-cache --show-info=false
 psalm-baseline: ### Update psalm baseline
-	$(APP) psalm --update-baseline --set-baseline=psalm-baseline.xml
+	$(APP) psalm --no-cache --update-baseline --set-baseline=psalm-baseline.xml
 
 doctrine-ensure-production-settings: APP_ENV=prod
 doctrine-ensure-production-settings: APP_DEBUG=0

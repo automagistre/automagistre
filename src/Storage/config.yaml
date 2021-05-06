@@ -25,3 +25,18 @@ easy_admin:
                 fields:
                     - { property: 'name', label: 'Название' }
                     - { property: 'parentId', label: 'Родитель', template: 'easy_admin/field_identifier.html.twig' }
+
+        Inventorization:
+            class: App\Storage\Entity\Inventorization
+            controller: App\Storage\Controller\InventorizationController
+            disabled_actions: ['edit']
+            list:
+                title: 'Инвентаризация'
+                fields:
+                    - { property: 'id', label: '', template: 'easy_admin/storage/inventorization/field_id.html.twig' }
+                    - { property: 'closedAt', label: 'Закрыт', template: 'easy_admin/field_datetime_gtm3.html.twig' }
+                    - { property: 'createdAt', label: 'Открыт', template: 'easy_admin/field_datetime_gtm3.html.twig' }
+            new:
+                title: Создать новую инвентаризацию
+                fields:
+                    - { property: 'id', type_options: { disabled: true } }

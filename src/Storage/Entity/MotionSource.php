@@ -51,6 +51,11 @@ final class MotionSource
         return new self(MotionType::income(), $id->toUuid());
     }
 
+    public static function inventorization(InventorizationId $id): self
+    {
+        return new self(MotionType::inventorization(), $id->toUuid());
+    }
+
     public function toIdentifier(): Identifier
     {
         return match ($this->type) {

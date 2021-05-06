@@ -1,0 +1,26 @@
+{% extends '@EasyAdmin/default/show.html.twig' %}
+
+{% block content_title %}
+    Инвентаризация
+{% endblock content_title %}
+
+{% block main %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Запчасть</th>
+                <td>Инвентаризировано</td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in items %}
+                <tr class="tr">
+                    <td>{% include 'easy_admin/field_part.html.twig' with {value: parts[item.partId.toString()]} only %}</td>
+                    <td>{{ item.quantity / 100 }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock main %}

@@ -1,0 +1,67 @@
+{% extends '@EasyAdmin/default/show.html.twig' %}
+
+{% block content_title %}
+    Инвентаризация
+{% endblock content_title %}
+
+{% block main %}
+    <a href="{{ easyadmin_path('Inventorization', 'addPart', {'id': entity|toId, 'referer': true}) }}" class="btn btn-primary">
+        <i class="fa fa-plus"></i> Запчасть
+    </a>
+
+    <a href="{{ easyadmin_path('Inventorization', 'close', {'id': entity|toId, 'referer': true}) }}" class="btn btn-success">
+        Провести
+    </a>
+
+    <a href="{{ easyadmin_path('Inventorization', 'leftovers', {'id': entity|toId, 'referer': true}) }}" class="btn btn-info">
+        Добавить остатки
+    </a>
+
+    <hr>
+
+    {% if items is not empty %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Запчасть</th>
+                    <td>Числится</td>
+                    <td>Резерв</td>
+                    <td>Инвентаризировано</td>
+                    <td>Расхождения</td>
+                    <td>К корректировке</td>
+                    <td>Действия</td>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in items %}
+                    {% set delta = item.quantity - item.inStock %}
+
+                    <tr class="tr">
+                        <td>{% include 'easy_admin/field_part.html.twig' with {value: parts[item.partId.toString()]} only %}</td>
+                        <td>{{ item.inStock / 100 }}</td>
+                        <td>{{ item.reserved / 100 }}</td>
+                        <td>{{ item.quantity / 100 }}</td>
+                        <td>{% include 'easy_admin/default/field_boolean.html.twig' with {value: delta != 0} only %}</td>
+                        <td>{{ delta / 100 }}</td>
+                        <td>
+                            <a href="{{ easyadmin_path('Inventorization', 'editPart', {'id': entity|toId, 'part_id': item.partId.toString(), 'referer': true}) }}"
+                               style="margin-right: 10px">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+
+                            <a href="{{ easyadmin_path('Inventorization', 'removePart', {'id': entity|toId, 'part_id': item.partId.toString(), 'referer': true}) }}" class="text-danger">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="box-body">
+            Запчастей пока нет
+        </div>
+    {% endif %}
+{% endblock main %}
