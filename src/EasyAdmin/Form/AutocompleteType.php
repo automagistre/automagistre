@@ -111,7 +111,7 @@ final class AutocompleteType extends AbstractType implements DataMapperInterface
             'autocomplete',
             $options['autocomplete_parameters'],
         );
-        $view->vars['with_widget'] = $options['widget'] ?? true;
+        $view->vars['with_widget'] = true === $options['disabled'] ? false : ($options['widget'] ?? true);
     }
 
     /**
