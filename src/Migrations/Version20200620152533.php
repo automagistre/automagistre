@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Migrations;
 
-use App\Customer\Entity\CustomerTransactionView;
-use App\Wallet\Entity\WalletTransactionView;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
@@ -38,9 +36,6 @@ final class Version20200620152533 extends AbstractMigration
         $this->addSql('DROP TABLE IF EXISTS penalty');
         $this->addSql('DROP TABLE wallet_transaction_old');
         $this->addSql('DROP TABLE operand_transaction');
-
-        $this->addSql(WalletTransactionView::sql());
-        $this->addSql(CustomerTransactionView::sql());
     }
 
     public function down(Schema $schema): void

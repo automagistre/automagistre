@@ -17,6 +17,8 @@ use function is_subclass_of;
 /**
  * @ORM\Entity(readOnly=true)
  * @ORM\Table(name="wallet_transaction_view")
+ *
+ * @psalm-suppress MissingConstructor
  */
 class WalletTransactionView
 {
@@ -61,57 +63,9 @@ class WalletTransactionView
      */
     public ?UserId $createdBy;
 
-    private function __construct(
-        WalletTransactionId $id,
-        WalletId $walletId,
-        Money $amount,
-        WalletTransactionSource $source,
-        UuidInterface $sourceId,
-        ?string $description,
-        ?DateTimeImmutable $createdAt,
-        ?UserId $createdBy,
-    ) {
-        $this->id = $id;
-        $this->walletId = $walletId;
-        $this->amount = $amount;
-        $this->source = $source;
-        $this->sourceId = $sourceId;
-        $this->description = $description;
-        $this->createdAt = $createdAt;
-        $this->createdBy = $createdBy;
-    }
-
     public function toId(): WalletTransactionId
     {
         return $this->id;
-    }
-
-    public static function sql(): string
-    {
-        return '
-                CREATE VIEW wallet_transaction_view AS
-                SELECT
-                    wt.id,
-                    wt.wallet_id,
-                    CONCAT(wt.amount_currency_code, \' \', wt.amount_amount) AS amount,
-                    wt.source,
-                    CASE
-                        WHEN
-                            wt.source IN (
-                            '.WalletTransactionSource::payroll()->toId().',
-                            '.WalletTransactionSource::operandManual()->toId().'
-                            )
-                            THEN ct.operand_id
-                        ELSE
-                            wt.source_id
-                    END,
-                    wt.description,
-                    cb.created_at,
-                    cb.user_id AS created_by
-                FROM wallet_transaction wt
-                JOIN created_by cb ON cb.id = wt.id
-                LEFT JOIN customer_transaction ct ON ct.id = wt.source_id
-            ';
     }
 
     public function toSourceIdentifier(): Identifier

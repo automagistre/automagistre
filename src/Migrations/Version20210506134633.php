@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Migrations;
 
-use App\Storage\Entity\InventorizationPartView;
-use App\Storage\Entity\InventorizationView;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
@@ -23,9 +21,6 @@ final class Version20210506134633 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN inventorization_part.part_id IS \'(DC2Type:part_id)\'');
         $this->addSql('COMMENT ON COLUMN inventorization_part.inventorization_id IS \'(DC2Type:inventorization_id)\'');
         $this->addSql('ALTER TABLE inventorization_close ADD CONSTRAINT FK_4F6195A04CA655FD FOREIGN KEY (inventorization_id) REFERENCES inventorization (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-
-        $this->addSql(InventorizationView::sql());
-        $this->addSql(InventorizationPartView::sql());
     }
 
     public function down(Schema $schema): void

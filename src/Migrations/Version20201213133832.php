@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Migrations;
 
-use App\Publish\Entity\PublishView;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
@@ -15,7 +14,6 @@ final class Version20201213133832 extends AbstractMigration
         $this->addSql('CREATE TABLE publish (id UUID NOT NULL, entity_id UUID NOT NULL, published BOOLEAN NOT NULL, PRIMARY KEY(id))');
         $this->addSql('COMMENT ON COLUMN publish.id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN publish.entity_id IS \'(DC2Type:uuid)\'');
-        $this->addSql(PublishView::sql());
     }
 
     public function down(Schema $schema): void

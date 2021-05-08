@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Doctrine\DBAL;
+namespace App\Doctrine;
 
 use Doctrine\ORM\Tools\Event\GenerateSchemaEventArgs;
 use function str_ends_with;

@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace App\Migrations;
 
-use App\Balance\Entity\BalanceView;
 use App\Costil;
-use App\CreatedBy\Entity\CreatedByView;
-use App\Employee\Entity\SalaryView;
-use App\Note\Entity\NoteView;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 use LogicException;
@@ -473,11 +469,6 @@ final class Version20200626085701 extends AbstractMigration
         $this->addSql('ALTER TABLE reservation ADD CONSTRAINT FK_42C84955437EF9D2 FOREIGN KEY (order_item_part_id) REFERENCES order_item_part (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE order_payment ADD CONSTRAINT FK_9B522D468D9F6D38 FOREIGN KEY (order_id) REFERENCES orders (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE users_password ADD CONSTRAINT FK_4E836D0FA76ED395 FOREIGN KEY (user_id) REFERENCES users (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-
-        $this->addSql(BalanceView::sql());
-        $this->addSql(SalaryView::sql());
-        $this->addSql(CreatedByView::sql());
-        $this->addSql(NoteView::sql());
     }
 
     public function down(Schema $schema): void

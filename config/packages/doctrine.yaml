@@ -47,6 +47,7 @@ doctrine:
                         is_bundle: false
 
 doctrine_migrations:
+    all_or_nothing: true
     migrations_paths:
         'App\Migrations': 'src/Migrations'
     storage:

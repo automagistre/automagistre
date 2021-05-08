@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Migrations;
 
-use App\Calendar\Entity\EntryView;
-use App\Storage\Entity\WarehouseView;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
@@ -277,9 +275,6 @@ final class Version20200616180432 extends AbstractMigration
         $this->addSql('ALTER TABLE part_cross_part ADD CONSTRAINT FK_B98F499C70B9088C FOREIGN KEY (part_cross_id) REFERENCES part_cross (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE part_cross_part ADD CONSTRAINT FK_B98F499C4CE34BEC FOREIGN KEY (part_id) REFERENCES part (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE wallet_transaction ADD CONSTRAINT FK_7DAF972E92F8F78 FOREIGN KEY (recipient_id) REFERENCES wallet (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-
-        $this->addSql(WarehouseView::sql());
-        $this->addSql(EntryView::sql());
     }
 
     public function down(Schema $schema): void

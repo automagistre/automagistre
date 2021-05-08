@@ -7,6 +7,3 @@ services:
     App\Shared\Doctrine\DBAL\FixPostgreSQLDefaultSchemaListener:
         tags:
             - { name: doctrine.event_listener, event: postGenerateSchema }
-    App\Shared\Doctrine\DBAL\DropViewSchemaListener:
-        tags:
-            - { name: doctrine.event_listener, event: postGenerateSchema }

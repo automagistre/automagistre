@@ -14,6 +14,8 @@ use Ramsey\Uuid\UuidInterface;
  *
  * @ORM\Entity(readOnly=true)
  * @ORM\Table(name="created_by_view")
+ *
+ * @psalm-suppress MissingConstructor
  */
 class CreatedByView
 {
@@ -38,24 +40,5 @@ class CreatedByView
         $this->id = $id;
         $this->by = $user;
         $this->at = $createdAt;
-    }
-
-    public static function sql(): string
-    {
-        return '
-            CREATE VIEW created_by_view AS
-            SELECT
-                cb.id,
-                CONCAT_WS(
-                    \',\',
-                    u.id,
-                    u.username,
-                    COALESCE(u.last_name, \'\'),
-                    COALESCE(u.first_name, \'\')
-                ) AS by,
-                cb.created_at AS at
-            FROM created_by cb
-                JOIN users u ON u.id = cb.user_id
-        ';
     }
 }

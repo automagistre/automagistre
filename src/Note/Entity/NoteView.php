@@ -12,6 +12,8 @@ use Ramsey\Uuid\UuidInterface;
 /**
  * @ORM\Entity(readOnly=true)
  * @ORM\Table(name="note_view")
+ *
+ * @psalm-suppress MissingConstructor
  */
 class NoteView
 {
@@ -40,44 +42,4 @@ class NoteView
      * @ORM\Column(type="created_by_view")
      */
     public CreatedByView $created;
-
-    private function __construct(
-        UuidInterface $id,
-        UuidInterface $subject,
-        NoteType $type,
-        string $text,
-        CreatedByView $created,
-    ) {
-        $this->id = $id;
-        $this->subject = $subject;
-        $this->type = $type;
-        $this->text = $text;
-        $this->created = $created;
-    }
-
-    public static function sql(): string
-    {
-        return '
-            CREATE VIEW note_view AS
-            SELECT note.id,
-                note.subject,
-                note.text,
-                note.type,
-                CONCAT_WS(
-                    \';\',
-                    cb.id,
-                    CONCAT_WS(
-                        \',\',
-                        u.id,
-                        u.username,
-                        COALESCE(u.last_name, \'\'),
-                        COALESCE(u.first_name, \'\')
-                    ),
-                    cb.created_at
-                ) AS created
-            FROM note
-                    JOIN created_by cb ON cb.id = note.id
-                    JOIN users u ON u.id = cb.user_id
-        ';
-    }
 }

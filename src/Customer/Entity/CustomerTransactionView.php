@@ -17,6 +17,8 @@ use function is_subclass_of;
 /**
  * @ORM\Entity(readOnly=true)
  * @ORM\Table(name="customer_transaction_view")
+ *
+ * @psalm-suppress MissingConstructor
  */
 class CustomerTransactionView
 {
@@ -61,58 +63,9 @@ class CustomerTransactionView
      */
     public ?UserId $createdBy;
 
-    private function __construct(
-        CustomerTransactionId $id,
-        OperandId $operandId,
-        Money $amount,
-        CustomerTransactionSource $source,
-        UuidInterface $sourceId,
-        ?string $description,
-        ?DateTimeImmutable $createdAt,
-        ?UserId $createdBy,
-    ) {
-        $this->id = $id;
-        $this->operandId = $operandId;
-        $this->amount = $amount;
-        $this->source = $source;
-        $this->sourceId = $sourceId;
-        $this->description = $description;
-        $this->createdAt = $createdAt;
-        $this->createdBy = $createdBy;
-    }
-
     public function toId(): CustomerTransactionId
     {
         return $this->id;
-    }
-
-    public static function sql(): string
-    {
-        return '
-                CREATE VIEW customer_transaction_view AS
-                SELECT
-                    ct.id,
-                    ct.operand_id,
-                    CONCAT(ct.amount_currency_code, \' \', ct.amount_amount) AS amount,
-                    ct.source,
-                    CASE
-                        WHEN
-                            ct.source IN (
-                            '.CustomerTransactionSource::payroll()->toId().',
-                            '.CustomerTransactionSource::manual()->toId().'
-                            )
-                        THEN
-                            wt.wallet_id
-                        ELSE
-                            ct.source_id
-                    END,
-                    ct.description,
-                    cb.created_at,
-                    cb.user_id AS created_by
-                FROM customer_transaction ct
-                JOIN created_by cb ON cb.id = ct.id
-                LEFT JOIN wallet_transaction wt ON wt.id = ct.source_id
-            ';
     }
 
     public function toSourceIdentifier(): Identifier

@@ -31,19 +31,4 @@ class InventorizationView
      * @ORM\Column(type="datetime_immutable", nullable=true)
      */
     public ?DateTimeImmutable $closedAt = null;
-
-    public static function sql(): string
-    {
-        return <<<'SQL'
-            CREATE VIEW inventorization_view AS
-            SELECT
-                   i.id,
-                   cb.created_at,
-                   cbc.created_at AS closed_at
-            FROM inventorization i
-                JOIN created_by cb ON cb.id = i.id
-                LEFT JOIN inventorization_close ic ON i.id = ic.inventorization_id
-                LEFT JOIN created_by cbc ON cbc.id = ic.id
-            SQL;
-    }
 }
