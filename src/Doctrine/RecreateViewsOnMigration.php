@@ -49,8 +49,6 @@ final class RecreateViewsOnMigration implements EventSubscriber
 
             $this->views[$name] = $file->getRealPath();
         }
-
-        dump($this->views);
     }
 
     public function onMigrationsMigrated(MigrationsEventArgs $event): void
