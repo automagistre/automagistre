@@ -8,7 +8,6 @@ use App\Costil;
 use App\Storage\Enum\MotionType;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use function Safe\sprintf;
 
 final class Version20210508162313 extends AbstractMigration
 {
