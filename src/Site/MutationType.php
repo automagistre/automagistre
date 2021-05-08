@@ -264,7 +264,7 @@ final class MutationType extends ObjectType
                                 $appealId,
                                 $args['input']['name'],
                                 $args['input']['phone'],
-                                VehicleId::from($args['input']['vehicleId'] ?? null),
+                                VehicleId::try($args['input']['vehicleId'] ?? null),
                                 TireFittingCategory::create($args['input']['category']),
                                 $args['input']['diameter'],
                                 $args['input']['total'],
