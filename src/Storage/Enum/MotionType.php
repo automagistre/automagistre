@@ -20,7 +20,6 @@ use Premier\Enum\Enum;
  */
 final class MotionType extends Enum
 {
-    private const OLD = 0;
     private const MANUAL = 1;
     private const INCOME = 2;
     private const ORDER = 3;
