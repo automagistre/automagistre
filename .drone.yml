@@ -183,6 +183,13 @@ steps:
         depends_on:
             - install
 
+    -   name: doctrine production settings
+        image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
+        commands:
+            - bin/console doctrine:ensure-production-settings --env=prod --no-debug
+        depends_on:
+            - install
+
     -   name: symfony security
         image: symfonycorp/cli:v4.21.6
         command:
