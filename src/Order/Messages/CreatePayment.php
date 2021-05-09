@@ -14,19 +14,11 @@ use Money\Money;
  */
 final class CreatePayment
 {
-    public OrderId $orderId;
-
-    public ?OperandId $customerId;
-
-    public WalletId $walletId;
-
-    public Money $money;
-
-    public function __construct(OrderId $orderId, ?OperandId $customerId, WalletId $walletId, Money $money)
-    {
-        $this->orderId = $orderId;
-        $this->customerId = $customerId;
-        $this->walletId = $walletId;
-        $this->money = $money;
+    public function __construct(
+        public OrderId $orderId,
+        public ?OperandId $customerId,
+        public WalletId $walletId,
+        public Money $money,
+    ) {
     }
 }

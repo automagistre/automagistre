@@ -11,14 +11,8 @@ use Twig\TwigFunction;
 
 final class IdentifierRouterExtension extends AbstractExtension
 {
-    private EasyAdminRouter $router;
-
-    private IdentifierMap $identifierMap;
-
-    public function __construct(EasyAdminRouter $router, IdentifierMap $identifierMap)
+    public function __construct(private EasyAdminRouter $router, private IdentifierMap $identifierMap)
     {
-        $this->router = $router;
-        $this->identifierMap = $identifierMap;
     }
 
     /**

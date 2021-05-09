@@ -22,13 +22,9 @@ final class UserDemoteCommand extends Command
 {
     protected static $defaultName = 'user:demote';
 
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
         parent::__construct();
-
-        $this->registry = $registry;
     }
 
     /**

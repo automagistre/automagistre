@@ -9,14 +9,8 @@ use Symfony\Component\Routing\RouterInterface;
 
 final class Factory
 {
-    private RouterInterface $router;
-
-    private array $googleCredentials;
-
-    public function __construct(RouterInterface $router, array $googleCredentials)
+    public function __construct(private RouterInterface $router, private array $googleCredentials)
     {
-        $this->router = $router;
-        $this->googleCredentials = $googleCredentials;
     }
 
     public function client(): Google_Client

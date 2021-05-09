@@ -10,11 +10,8 @@ use App\MessageBus\MessageHandler;
 
 final class CreateCalendarEntryHandler implements MessageHandler
 {
-    private CalendarEntryRepository $repository;
-
-    public function __construct(CalendarEntryRepository $repository)
+    public function __construct(private CalendarEntryRepository $repository)
     {
-        $this->repository = $repository;
     }
 
     public function __invoke(CreateCalendarEntryCommand $command): void

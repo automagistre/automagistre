@@ -9,11 +9,8 @@ use App\MessageBus\MessageHandler;
 
 final class RescheduleCalendarEntryHandler implements MessageHandler
 {
-    private CalendarEntryRepository $repository;
-
-    public function __construct(CalendarEntryRepository $repository)
+    public function __construct(private CalendarEntryRepository $repository)
     {
-        $this->repository = $repository;
     }
 
     public function __invoke(RescheduleCalendarEntryCommand $command): void

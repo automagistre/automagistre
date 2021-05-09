@@ -7,9 +7,9 @@ namespace App\Part\View;
 use App\Part\Entity\Part;
 use App\Part\Entity\PartId;
 use App\Shared\Doctrine\Registry;
-use Premier\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
+use Premier\Identifier\Identifier;
 use function str_replace;
 
 final class PartFormatter implements IdentifierFormatterInterface
@@ -22,11 +22,8 @@ final class PartFormatter implements IdentifierFormatterInterface
         'manufacturer' => ':manufacturer:',
     ];
 
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     /**

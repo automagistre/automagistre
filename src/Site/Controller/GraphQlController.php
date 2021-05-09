@@ -19,14 +19,8 @@ use function Sentry\captureException;
 
 final class GraphQlController extends AbstractController
 {
-    private Registry $registry;
-
-    private bool $debug;
-
-    public function __construct(Registry $registry, bool $debug)
+    public function __construct(private Registry $registry, private bool $debug)
     {
-        $this->registry = $registry;
-        $this->debug = $debug;
     }
 
     /**

@@ -29,11 +29,8 @@ use function sprintf;
  */
 final class RecommendationPartController extends AbstractController
 {
-    private PartManager $partManager;
-
-    public function __construct(PartManager $partManager)
+    public function __construct(private PartManager $partManager)
     {
-        $this->partManager = $partManager;
     }
 
     public function substituteAction(): Response

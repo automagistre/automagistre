@@ -13,11 +13,8 @@ use function array_map;
 
 final class CarCustomerRepository
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     public function carsByCustomer(OperandId $operandId): array

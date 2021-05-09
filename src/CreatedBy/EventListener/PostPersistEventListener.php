@@ -16,17 +16,14 @@ use Symfony\Component\Security\Core\Security;
 use function assert;
 use function get_class;
 use function is_int;
-use function method_exists;
 use function is_object;
+use function method_exists;
 use const PHP_SAPI;
 
 final class PostPersistEventListener implements EventSubscriber
 {
-    private Security $security;
-
-    public function __construct(Security $security)
+    public function __construct(private Security $security)
     {
-        $this->security = $security;
     }
 
     /**

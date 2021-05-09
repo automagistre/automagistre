@@ -9,11 +9,8 @@ use App\Shared\Doctrine\Registry;
 
 final class NumberGenerator
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     public function next(): string

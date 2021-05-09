@@ -25,17 +25,11 @@ use function sprintf;
  */
 final class ReservationManager
 {
-    private Registry $registry;
-
-    private PartManager $partManager;
-
-    private EventDispatcherInterface $dispatcher;
-
-    public function __construct(Registry $registry, PartManager $partManager, EventDispatcherInterface $dispatcher)
-    {
-        $this->registry = $registry;
-        $this->partManager = $partManager;
-        $this->dispatcher = $dispatcher;
+    public function __construct(
+        private Registry $registry,
+        private PartManager $partManager,
+        private EventDispatcherInterface $dispatcher,
+    ) {
     }
 
     public function reserve(OrderItemPart $orderItemPart, ?int $quantity = null): void

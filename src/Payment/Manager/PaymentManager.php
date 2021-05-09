@@ -7,21 +7,18 @@ namespace App\Payment\Manager;
 use App\Balance\Entity\BalanceView;
 use App\Customer\Entity\Operand;
 use App\Shared\Doctrine\Registry;
-use Premier\Identifier\Identifier;
 use App\Wallet\Entity\Wallet;
 use LogicException;
 use Money\Money;
+use Premier\Identifier\Identifier;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
 final class PaymentManager
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     public function balance(object $transactional): Money

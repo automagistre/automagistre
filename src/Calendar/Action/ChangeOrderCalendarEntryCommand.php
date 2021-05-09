@@ -12,13 +12,10 @@ use App\Calendar\Entity\OrderInfo;
  */
 final class ChangeOrderCalendarEntryCommand
 {
-    public CalendarEntryId $id;
-
     public OrderInfo $orderInfo;
 
-    public function __construct(CalendarEntryId $id, OrderInfo $orderInfo)
+    public function __construct(public CalendarEntryId $id, OrderInfo $orderInfo)
     {
-        $this->id = $id;
         $this->orderInfo = clone $orderInfo;
     }
 }

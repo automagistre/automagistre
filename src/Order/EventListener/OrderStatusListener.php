@@ -20,14 +20,8 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 final class OrderStatusListener implements EventSubscriberInterface
 {
-    private Registry $registry;
-
-    private ReservationManager $reservationManager;
-
-    public function __construct(Registry $registry, ReservationManager $reservationManager)
+    public function __construct(private Registry $registry, private ReservationManager $reservationManager)
     {
-        $this->registry = $registry;
-        $this->reservationManager = $reservationManager;
     }
 
     /**

@@ -13,13 +13,10 @@ use function sprintf;
 
 final class IdentifierFormatter
 {
-    private ContainerInterface $formatters;
-
     private array $map = [];
 
-    public function __construct(ContainerInterface $formatters)
+    public function __construct(private ContainerInterface $formatters)
     {
-        $this->formatters = $formatters;
     }
 
     public function format(Identifier $identifier, string $format = null): string

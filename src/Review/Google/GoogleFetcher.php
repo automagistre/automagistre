@@ -23,14 +23,8 @@ use function trim;
 
 final class GoogleFetcher implements Fetcher
 {
-    private Registry $registry;
-
-    private Google_Service_MyBusiness $myBusiness;
-
-    public function __construct(Registry $registry, Google_Service_MyBusiness $client)
+    public function __construct(private Registry $registry, private Google_Service_MyBusiness $myBusiness)
     {
-        $this->registry = $registry;
-        $this->myBusiness = $client;
     }
 
     /**

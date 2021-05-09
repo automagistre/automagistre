@@ -24,11 +24,8 @@ use function assert;
  */
 final class PartManager
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     public function byId(PartId $partId): Part

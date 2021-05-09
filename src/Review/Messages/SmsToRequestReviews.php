@@ -18,24 +18,12 @@ use function assert;
 
 final class SmsToRequestReviews implements MessageHandler
 {
-    private OrderStorage $orderStorage;
-
-    private CustomerStorage $customerStorage;
-
-    private RouterInterface $router;
-
-    private MessageBusInterface $messageBus;
-
     public function __construct(
-        OrderStorage $orderStorage,
-        CustomerStorage $customerStorage,
-        RouterInterface $router,
-        MessageBusInterface $messageBus,
+        private OrderStorage $orderStorage,
+        private CustomerStorage $customerStorage,
+        private RouterInterface $router,
+        private MessageBusInterface $messageBus,
     ) {
-        $this->orderStorage = $orderStorage;
-        $this->customerStorage = $customerStorage;
-        $this->router = $router;
-        $this->messageBus = $messageBus;
     }
 
     public function __invoke(OrderDealed $event): void

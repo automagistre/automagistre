@@ -37,11 +37,8 @@ use function usort;
  */
 final class OrderItemPartController extends OrderItemController
 {
-    private ReservationManager $reservationManager;
-
-    public function __construct(ReservationManager $reservationManager)
+    public function __construct(private ReservationManager $reservationManager)
     {
-        $this->reservationManager = $reservationManager;
     }
 
     public function relatedAction(): Response

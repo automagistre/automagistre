@@ -50,14 +50,8 @@ use function urldecode;
  */
 final class PartController extends AbstractController
 {
-    private PartManager $partManager;
-
-    private ReservationManager $reservationManager;
-
-    public function __construct(PartManager $partManager, ReservationManager $reservationManager)
+    public function __construct(private PartManager $partManager, private ReservationManager $reservationManager)
     {
-        $this->partManager = $partManager;
-        $this->reservationManager = $reservationManager;
     }
 
     public function widgetAction(): Response

@@ -12,14 +12,8 @@ use App\Order\Messages\OrderDealed;
 
 final class ChargeSalaryOnOrderClosedListener implements MessageHandler
 {
-    private OrderStorage $orderStorage;
-
-    private EmployeeStorage $employeeStorage;
-
-    public function __construct(OrderStorage $orderStorage, EmployeeStorage $employeeStorage)
+    public function __construct(private OrderStorage $orderStorage, private EmployeeStorage $employeeStorage)
     {
-        $this->orderStorage = $orderStorage;
-        $this->employeeStorage = $employeeStorage;
     }
 
     public function __invoke(OrderDealed $event): void

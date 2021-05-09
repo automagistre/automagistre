@@ -15,13 +15,9 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 final class OrderStatusChanged extends GenericEvent
 {
-    private OrderStatus $status;
-
-    public function __construct(Order $subject, OrderStatus $status)
+    public function __construct(Order $subject, private OrderStatus $status)
     {
         parent::__construct($subject, []);
-
-        $this->status = $status;
     }
 
     public function getStatus(): OrderStatus

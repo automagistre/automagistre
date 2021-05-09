@@ -19,24 +19,12 @@ use function str_replace;
 
 final class EntryScheduledHandler implements MessageHandler
 {
-    private Registry $registry;
-
-    private MessageBusInterface $commandBus;
-
-    private MoneyFormatter $formatter;
-
-    private Tenant $tenant;
-
     public function __construct(
-        Registry $registry,
-        MessageBusInterface $commandBus,
-        MoneyFormatter $formatter,
-        Tenant $tenant,
+        private Registry $registry,
+        private MessageBusInterface $commandBus,
+        private MoneyFormatter $formatter,
+        private Tenant $tenant,
     ) {
-        $this->registry = $registry;
-        $this->commandBus = $commandBus;
-        $this->formatter = $formatter;
-        $this->tenant = $tenant;
     }
 
     public function __invoke(EntryScheduled $event): void

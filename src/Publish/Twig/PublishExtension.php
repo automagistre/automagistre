@@ -16,17 +16,11 @@ use Twig\TwigFunction;
 
 final class PublishExtension extends AbstractExtension
 {
-    private Registry $registry;
-
-    private FormFactoryInterface $formFactory;
-
-    private EasyAdminRouter $router;
-
-    public function __construct(Registry $registry, FormFactoryInterface $formFactory, EasyAdminRouter $router)
-    {
-        $this->registry = $registry;
-        $this->formFactory = $formFactory;
-        $this->router = $router;
+    public function __construct(
+        private Registry $registry,
+        private FormFactoryInterface $formFactory,
+        private EasyAdminRouter $router,
+    ) {
     }
 
     /**

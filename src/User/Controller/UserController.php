@@ -17,11 +17,8 @@ use function assert;
  */
 final class UserController extends AbstractController
 {
-    private EncoderFactoryInterface $encoderFactory;
-
-    public function __construct(EncoderFactoryInterface $encoderFactory)
+    public function __construct(private EncoderFactoryInterface $encoderFactory)
     {
-        $this->encoderFactory = $encoderFactory;
     }
 
     /**

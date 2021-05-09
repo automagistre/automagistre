@@ -7,18 +7,15 @@ namespace App\Manufacturer\View;
 use App\Manufacturer\Entity\Manufacturer;
 use App\Manufacturer\Entity\ManufacturerId;
 use App\Shared\Doctrine\Registry;
-use LogicException;
-use Premier\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
+use LogicException;
+use Premier\Identifier\Identifier;
 
 final class ManufacturerFormatter implements IdentifierFormatterInterface
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     /**

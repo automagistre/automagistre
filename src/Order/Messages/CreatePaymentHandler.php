@@ -15,11 +15,8 @@ use App\Wallet\Enum\WalletTransactionSource;
 
 final class CreatePaymentHandler implements MessageHandler
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     public function __invoke(CreatePayment $command): void

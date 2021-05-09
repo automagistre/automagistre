@@ -7,9 +7,9 @@ namespace App\Car\View;
 use App\Car\Entity\Car;
 use App\Car\Entity\CarId;
 use App\Shared\Doctrine\Registry;
-use Premier\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
+use Premier\Identifier\Identifier;
 use function implode;
 use function strtr;
 
@@ -22,11 +22,8 @@ final class CarFormatter implements IdentifierFormatterInterface
         'long' => ':vehicle: | :equipment: | :gosnomer:',
     ];
 
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     public function format(IdentifierFormatter $formatter, Identifier $identifier, string $format = null): string

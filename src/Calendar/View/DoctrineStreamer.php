@@ -10,11 +10,8 @@ use DateTimeImmutable;
 
 final class DoctrineStreamer implements Streamer
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     public function byDate(DateTimeImmutable $date): StreamCollection

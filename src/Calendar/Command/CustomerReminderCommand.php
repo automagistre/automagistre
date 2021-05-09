@@ -21,19 +21,12 @@ final class CustomerReminderCommand extends Command
 {
     protected static $defaultName = 'calendar:customer:reminder';
 
-    private Registry $registry;
-
-    private MessageBusInterface $messageBus;
-
-    private Tenant $tenant;
-
-    public function __construct(Registry $registry, MessageBusInterface $commandBus, Tenant $tenant)
-    {
-        $this->registry = $registry;
-
+    public function __construct(
+        private Registry $registry,
+        private MessageBusInterface $messageBus,
+        private Tenant $tenant,
+    ) {
         parent::__construct();
-        $this->messageBus = $commandBus;
-        $this->tenant = $tenant;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

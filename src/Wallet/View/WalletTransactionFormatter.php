@@ -5,19 +5,16 @@ declare(strict_types=1);
 namespace App\Wallet\View;
 
 use App\Shared\Doctrine\Registry;
-use Premier\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
 use App\Wallet\Entity\WalletTransactionId;
 use App\Wallet\Entity\WalletTransactionView;
+use Premier\Identifier\Identifier;
 
 final class WalletTransactionFormatter implements IdentifierFormatterInterface
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     /**

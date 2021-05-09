@@ -21,17 +21,11 @@ use function number_format;
  */
 final class PartExtension extends AbstractExtension
 {
-    private Registry $registry;
-
-    private PartManager $partManager;
-
-    private ReservationManager $reservationManager;
-
-    public function __construct(Registry $registry, PartManager $partManager, ReservationManager $reservationManager)
-    {
-        $this->registry = $registry;
-        $this->partManager = $partManager;
-        $this->reservationManager = $reservationManager;
+    public function __construct(
+        private Registry $registry,
+        private PartManager $partManager,
+        private ReservationManager $reservationManager,
+    ) {
     }
 
     /**

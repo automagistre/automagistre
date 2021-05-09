@@ -18,28 +18,13 @@ use function sprintf;
 
 final class StaleStockNotifier implements MessageHandler
 {
-    private Registry $registry;
-
-    private Tenant $tenant;
-
-    private RouterInterface $router;
-
-    private HttpClientInterface $httpClient;
-
-    private string $telegramBotToken;
-
     public function __construct(
-        Registry $registry,
-        RouterInterface $router,
-        Tenant $tenant,
-        HttpClientInterface $httpClient,
-        string $telegramBotToken,
+        private Registry $registry,
+        private RouterInterface $router,
+        private Tenant $tenant,
+        private HttpClientInterface $httpClient,
+        private string $telegramBotToken,
     ) {
-        $this->registry = $registry;
-        $this->tenant = $tenant;
-        $this->router = $router;
-        $this->httpClient = $httpClient;
-        $this->telegramBotToken = $telegramBotToken;
     }
 
     public function __invoke(OrderItemPartCreated $event): void

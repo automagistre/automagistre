@@ -9,17 +9,8 @@ use Psr\Log\LoggerInterface;
 
 final class FilterFetcher implements Fetcher
 {
-    private Registry $registry;
-
-    private Fetcher $fetcher;
-
-    private LoggerInterface $logger;
-
-    public function __construct(Registry $registry, Fetcher $fetcher, LoggerInterface $logger)
+    public function __construct(private Registry $registry, private Fetcher $fetcher, private LoggerInterface $logger)
     {
-        $this->registry = $registry;
-        $this->fetcher = $fetcher;
-        $this->logger = $logger;
     }
 
     public function fetch(): iterable

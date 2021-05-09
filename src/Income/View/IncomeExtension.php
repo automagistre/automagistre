@@ -14,11 +14,8 @@ use Twig\TwigFunction;
  */
 final class IncomeExtension extends AbstractExtension
 {
-    private SupplierManager $supplierManager;
-
-    public function __construct(SupplierManager $supplierManager)
+    public function __construct(private SupplierManager $supplierManager)
     {
-        $this->supplierManager = $supplierManager;
     }
 
     /**

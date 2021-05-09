@@ -44,14 +44,8 @@ use function range;
  */
 final class CalendarEntryController extends AbstractController
 {
-    private Streamer $streamer;
-
-    private CalendarEntryRepository $repository;
-
-    public function __construct(Streamer $streamer, CalendarEntryRepository $repository)
+    public function __construct(private Streamer $streamer, private CalendarEntryRepository $repository)
     {
-        $this->streamer = $streamer;
-        $this->repository = $repository;
     }
 
     public function newAction(): Response

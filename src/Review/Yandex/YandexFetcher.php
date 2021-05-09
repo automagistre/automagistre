@@ -21,14 +21,8 @@ final class YandexFetcher implements Fetcher
     private const PAGE_SIZE = 50;
     private const URL = 'https://yandex.ru/maps/api/business/fetchReviews';
 
-    private HttpClientInterface $httpClient;
-
-    private Tenant $tenant;
-
-    public function __construct(HttpClientInterface $httpClient, Tenant $tenant)
+    public function __construct(private HttpClientInterface $httpClient, private Tenant $tenant)
     {
-        $this->httpClient = $httpClient;
-        $this->tenant = $tenant;
     }
 
     /**
