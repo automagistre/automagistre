@@ -118,7 +118,8 @@ steps:
         commands:
             - echo APP_ENV=test >> .env
             - echo APP_DEBUG=1 >> .env
-            - composer install --no-interaction --no-progress --classmap-authoritative
+            - composer install --no-interaction --no-progress --no-autoloader
+            - composer dump-autoload --classmap-authoritative
             - bin/console cache:warmup
             - bin/console assets:install public
 
@@ -126,6 +127,16 @@ steps:
         image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
         commands:
             - vendor/bin/php-cs-fixer fix --dry-run --using-cache=no
+        when:
+            branch:
+                exclude: [ master ]
+        depends_on:
+            - install
+
+    -   name: rector
+        image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
+        commands:
+            - vendor/bin/rector --dry-run --no-progress-bar
         when:
             branch:
                 exclude: [ master ]
