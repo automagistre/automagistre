@@ -68,14 +68,10 @@ use function usort;
  */
 final class OrderController extends AbstractController
 {
-    private CalendarEntryRepository $calendarEntryRepository;
-
-    private NumberGenerator $numberGenerator;
-
-    public function __construct(CalendarEntryRepository $calendarEntryRepository, NumberGenerator $numberGenerator)
-    {
-        $this->calendarEntryRepository = $calendarEntryRepository;
-        $this->numberGenerator = $numberGenerator;
+    public function __construct(
+        private CalendarEntryRepository $calendarEntryRepository,
+        private NumberGenerator $numberGenerator,
+    ) {
     }
 
     public function TOAction(): Response

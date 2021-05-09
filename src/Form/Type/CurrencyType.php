@@ -18,11 +18,8 @@ final class CurrencyType extends AbstractType
 {
     private const PREFERRED = ['RUB', 'USD', 'EUR'];
 
-    private Currencies $currencies;
-
-    public function __construct(Currencies $currencies)
+    public function __construct(private Currencies $currencies)
     {
-        $this->currencies = $currencies;
     }
 
     /**

@@ -25,11 +25,8 @@ use function sprintf;
  */
 final class RecommendationController extends AbstractController
 {
-    private RecommendationManager $manager;
-
-    public function __construct(RecommendationManager $manager)
+    public function __construct(private RecommendationManager $manager)
     {
-        $this->manager = $manager;
     }
 
     public function realizeAction(): RedirectResponse

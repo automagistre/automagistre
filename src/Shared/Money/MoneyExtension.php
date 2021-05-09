@@ -16,14 +16,8 @@ use Twig\TwigFilter;
  */
 final class MoneyExtension extends AbstractExtension
 {
-    private MoneyFormatter $formatter;
-
-    private DecimalMoneyFormatter $decimalMoneyFormatter;
-
-    public function __construct(MoneyFormatter $formatter, DecimalMoneyFormatter $decimalMoneyFormatter)
+    public function __construct(private MoneyFormatter $formatter, private DecimalMoneyFormatter $decimalMoneyFormatter)
     {
-        $this->formatter = $formatter;
-        $this->decimalMoneyFormatter = $decimalMoneyFormatter;
     }
 
     /**

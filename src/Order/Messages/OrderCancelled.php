@@ -11,10 +11,7 @@ use App\Order\Entity\OrderId;
  */
 final class OrderCancelled
 {
-    public OrderId $orderId;
-
-    public function __construct(OrderId $orderId)
+    public function __construct(public OrderId $orderId)
     {
-        $this->orderId = $orderId;
     }
 }

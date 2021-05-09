@@ -18,11 +18,8 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 final class EmployeeContractorListener implements EventSubscriberInterface
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     /**

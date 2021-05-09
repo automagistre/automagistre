@@ -20,25 +20,23 @@ final class SendSms
      */
     public $recipient;
 
-    public string $message;
-
-    public ?DateTimeImmutable $dateSend;
-
     private array $features = [];
 
     /**
      * @param OperandId|PhoneNumber $recipient
      * @param Feature[]             $features
      */
-    public function __construct($recipient, string $message, array $features = [], DateTimeImmutable $dateSend = null)
-    {
+    public function __construct(
+        $recipient,
+        public string $message,
+        array $features = [],
+        public ?DateTimeImmutable $dateSend = null,
+    ) {
         $this->recipient = clone $recipient;
-        $this->message = $message;
 
         foreach ($features as $feature) {
             $this->features[$feature->toId()] = true;
         }
-        $this->dateSend = $dateSend;
     }
 
     public function hasFeature(Feature $feature): bool

@@ -12,24 +12,12 @@ use Twig\Environment;
 
 final class EasyAdminErrorRenderer implements ErrorRendererInterface
 {
-    private ErrorRendererInterface $fallbackErrorRenderer;
-
-    private Security $security;
-
-    private Environment $twig;
-
-    private bool $debug;
-
     public function __construct(
-        ErrorRendererInterface $fallbackErrorRenderer,
-        Security $security,
-        Environment $twig,
-        bool $debug,
+        private ErrorRendererInterface $fallbackErrorRenderer,
+        private Security $security,
+        private Environment $twig,
+        private bool $debug,
     ) {
-        $this->fallbackErrorRenderer = $fallbackErrorRenderer;
-        $this->security = $security;
-        $this->twig = $twig;
-        $this->debug = $debug;
     }
 
     public function render(Throwable $exception): FlattenException

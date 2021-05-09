@@ -13,19 +13,11 @@ use Money\Money;
  */
 final class CreatePrepay
 {
-    public OrderId $orderId;
-
-    public WalletId $walletId;
-
-    public Money $money;
-
-    public ?string $description;
-
-    public function __construct(OrderId $orderId, WalletId $walletId, Money $money, ?string $description)
-    {
-        $this->orderId = $orderId;
-        $this->walletId = $walletId;
-        $this->money = $money;
-        $this->description = $description;
+    public function __construct(
+        public OrderId $orderId,
+        public WalletId $walletId,
+        public Money $money,
+        public ?string $description,
+    ) {
     }
 }

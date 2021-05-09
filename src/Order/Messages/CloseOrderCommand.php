@@ -12,13 +12,7 @@ use App\Order\Enum\OrderSatisfaction;
  */
 final class CloseOrderCommand
 {
-    public OrderId $orderId;
-
-    public OrderSatisfaction $satisfaction;
-
-    public function __construct(OrderId $orderId, OrderSatisfaction $satisfaction)
+    public function __construct(public OrderId $orderId, public OrderSatisfaction $satisfaction)
     {
-        $this->orderId = $orderId;
-        $this->satisfaction = $satisfaction;
     }
 }

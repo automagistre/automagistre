@@ -14,11 +14,8 @@ use function is_subclass_of;
  */
 final class EntityModelTypeGuesser implements FormTypeGuesserInterface
 {
-    private DoctrineOrmTypeGuesser $guesser;
-
-    public function __construct(DoctrineOrmTypeGuesser $guesser)
+    public function __construct(private DoctrineOrmTypeGuesser $guesser)
     {
-        $this->guesser = $guesser;
     }
 
     /**

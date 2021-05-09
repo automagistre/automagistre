@@ -13,11 +13,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final class CallbackController
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     /**

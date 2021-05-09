@@ -15,16 +15,9 @@ final class FetchCommand extends Command
 {
     protected static $defaultName = 'review:fetch';
 
-    private Registry $registry;
-
-    private Fetcher $fetcher;
-
-    public function __construct(Registry $registry, Fetcher $fetcher)
+    public function __construct(private Registry $registry, private Fetcher $fetcher)
     {
         parent::__construct();
-
-        $this->registry = $registry;
-        $this->fetcher = $fetcher;
     }
 
     /**

@@ -22,14 +22,8 @@ use function sprintf;
 
 final class InteractiveController extends AbstractController
 {
-    private Registry $registry;
-
-    private DecimalMoneyFormatter $moneyFormatterr;
-
-    public function __construct(Registry $registry, DecimalMoneyFormatter $moneyFormatterr)
+    public function __construct(private Registry $registry, private DecimalMoneyFormatter $moneyFormatter)
     {
-        $this->registry = $registry;
-        $this->moneyFormatterr = $moneyFormatterr;
     }
 
     /**
@@ -178,7 +172,7 @@ final class InteractiveController extends AbstractController
                 if ($forPayment->isPositive()) {
                     $message .= sprintf(
                         ' К оплате %s рублей.',
-                        $this->moneyFormatterr->format($forPayment),
+                        $this->moneyFormatter->format($forPayment),
                     );
                 }
             }

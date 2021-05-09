@@ -19,11 +19,8 @@ use Symfony\Component\Validator\Constraints;
  */
 final class PartCrossController extends AbstractController
 {
-    private PartManager $partManager;
-
-    public function __construct(PartManager $partManager)
+    public function __construct(private PartManager $partManager)
     {
-        $this->partManager = $partManager;
     }
 
     public function crossAction(): Response

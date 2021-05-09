@@ -17,14 +17,8 @@ use function method_exists;
 
 final class EntityCheckValidator extends ConstraintValidator
 {
-    private ManagerRegistry $registry;
-
-    private PropertyAccessorInterface $accessor;
-
-    public function __construct(ManagerRegistry $registry, PropertyAccessorInterface $accessor)
+    public function __construct(private ManagerRegistry $registry, private PropertyAccessorInterface $accessor)
     {
-        $this->registry = $registry;
-        $this->accessor = $accessor;
     }
 
     /**

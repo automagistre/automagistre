@@ -21,11 +21,8 @@ use function sprintf;
 
 final class IdentifierTwigExtension extends AbstractExtension
 {
-    private IdentifierFormatter $formatter;
-
-    public function __construct(IdentifierFormatter $formatter)
+    public function __construct(private IdentifierFormatter $formatter)
     {
-        $this->formatter = $formatter;
     }
 
     /**

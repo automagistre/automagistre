@@ -34,16 +34,12 @@ final class OrderFixtures extends Fixture implements DependentFixtureInterface
     public const NUMBER = '1';
     public const CAR_ID = Primera2004Fixtures::ID;
     public const CUSTOMER_ID = PersonVasyaFixtures::ID;
-
     public const GROUP_ID = '1eab7ac7-2b8a-62dc-9c38-0242c0a81005';
     public const SERVICE_ID = '1eab7ac7-c95f-6822-80e2-0242c0a81005';
     public const PART_ID = '1eab7ac7-f145-69d6-a083-0242c0a81005';
 
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     /**

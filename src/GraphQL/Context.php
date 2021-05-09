@@ -11,13 +11,10 @@ use App\Shared\Doctrine\Registry;
  */
 abstract class Context
 {
-    public Registry $registry;
-
     public Buffer $buffer;
 
-    public function __construct(Registry $registry)
+    public function __construct(public Registry $registry)
     {
-        $this->registry = $registry;
         $this->buffer = new Buffer($registry);
     }
 }

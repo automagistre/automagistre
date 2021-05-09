@@ -11,10 +11,7 @@ use App\Review\Entity\ReviewId;
  */
 final class ReviewReceived
 {
-    public ReviewId $reviewId;
-
-    public function __construct(ReviewId $reviewId)
+    public function __construct(public ReviewId $reviewId)
     {
-        $this->reviewId = $reviewId;
     }
 }

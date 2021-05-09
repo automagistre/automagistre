@@ -11,10 +11,7 @@ use App\Appeal\Entity\AppealId;
  */
 final class AppealCreated
 {
-    public AppealId $appealId;
-
-    public function __construct(AppealId $appealId)
+    public function __construct(public AppealId $appealId)
     {
-        $this->appealId = $appealId;
     }
 }

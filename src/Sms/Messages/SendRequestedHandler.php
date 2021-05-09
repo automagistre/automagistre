@@ -19,24 +19,12 @@ use function Sentry\captureException;
 
 final class SendRequestedHandler implements MessageHandler
 {
-    private Registry $registry;
-
-    private PhoneNumberUtil $phoneNumberUtil;
-
-    private HttpClientInterface $httpClient;
-
-    private RouterInterface $router;
-
     public function __construct(
-        Registry $registry,
-        PhoneNumberUtil $phoneNumberUtil,
-        HttpClientInterface $httpClient,
-        RouterInterface $router,
+        private Registry $registry,
+        private PhoneNumberUtil $phoneNumberUtil,
+        private HttpClientInterface $httpClient,
+        private RouterInterface $router,
     ) {
-        $this->registry = $registry;
-        $this->phoneNumberUtil = $phoneNumberUtil;
-        $this->httpClient = $httpClient;
-        $this->router = $router;
     }
 
     public function __invoke(SendRequested $event): void

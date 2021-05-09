@@ -13,11 +13,8 @@ use Twig\TwigFunction;
 
 final class NoteExtension extends AbstractExtension
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     /**

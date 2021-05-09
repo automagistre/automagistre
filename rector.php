@@ -16,6 +16,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::ENABLE_CACHE, true);
     $parameters->set(Option::CACHE_DIR, __DIR__.'/var/rector');
     $parameters->set(Option::SYMFONY_CONTAINER_XML_PATH_PARAMETER, __DIR__.'/var/cache/test/App_KernelTestDebugContainer.xml');
+    $parameters->set(Option::SKIP, [
+        Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector::class => [
+            __DIR__.'/src/*/Entity/*',
+            __DIR__.'/src/*/Form/*',
+            __DIR__.'/tests/*',
+        ],
+    ]);
 
     $services = $containerConfigurator->services();
 
@@ -28,4 +35,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             ],
         ])
     ;
+
+    $services->set(Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector::class);
 };

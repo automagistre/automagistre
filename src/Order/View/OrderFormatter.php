@@ -7,17 +7,14 @@ namespace App\Order\View;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderId;
 use App\Shared\Doctrine\Registry;
-use Premier\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
+use Premier\Identifier\Identifier;
 
 final class OrderFormatter implements IdentifierFormatterInterface
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     /**

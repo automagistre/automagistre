@@ -20,11 +20,8 @@ use const JSON_UNESCAPED_UNICODE;
  */
 final class OAuth2Controller extends AbstractController
 {
-    private Google_Client $googleClient;
-
-    public function __construct(Google_Client $googleClient, Registry $registry)
+    public function __construct(private Google_Client $googleClient, Registry $registry)
     {
-        $this->googleClient = $googleClient;
         $this->registry = $registry;
     }
 

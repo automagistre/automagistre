@@ -12,16 +12,10 @@ use Symfony\Component\Messenger\Middleware\StackInterface;
 
 class EntityEventsMiddleware implements MiddlewareInterface
 {
-    private ContainsRecordedMessages $messageRecorder;
-
-    private MessageBusInterface $messageBus;
-
     public function __construct(
-        EntityRecordedMessageCollectorListener $messageRecorder,
-        MessageBusInterface $messageBus,
+        private EntityRecordedMessageCollectorListener $messageRecorder,
+        private MessageBusInterface $messageBus,
     ) {
-        $this->messageRecorder = $messageRecorder;
-        $this->messageBus = $messageBus;
     }
 
     /**

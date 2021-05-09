@@ -11,14 +11,10 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class EntityEventsListener implements EventSubscriberInterface
 {
-    private EntityRecordedMessageCollectorListener $collector;
-
-    private MessageBusInterface $messageBus;
-
-    public function __construct(EntityRecordedMessageCollectorListener $collector, MessageBusInterface $messageBus)
-    {
-        $this->collector = $collector;
-        $this->messageBus = $messageBus;
+    public function __construct(
+        private EntityRecordedMessageCollectorListener $collector,
+        private MessageBusInterface $messageBus,
+    ) {
     }
 
     /**

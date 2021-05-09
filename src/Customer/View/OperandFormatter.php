@@ -7,11 +7,11 @@ namespace App\Customer\View;
 use App\Customer\Entity\Operand;
 use App\Customer\Entity\OperandId;
 use App\Shared\Doctrine\Registry;
-use Premier\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
+use Premier\Identifier\Identifier;
 use function strtr;
 use function trim;
 
@@ -23,14 +23,8 @@ final class OperandFormatter implements IdentifierFormatterInterface
         'autocomplete' => ':name: | :tel:',
     ];
 
-    private Registry $registry;
-
-    private PhoneNumberUtil $phoneNumberUtil;
-
-    public function __construct(Registry $registry, PhoneNumberUtil $phoneNumberUtil)
+    public function __construct(private Registry $registry, private PhoneNumberUtil $phoneNumberUtil)
     {
-        $this->registry = $registry;
-        $this->phoneNumberUtil = $phoneNumberUtil;
     }
 
     /**

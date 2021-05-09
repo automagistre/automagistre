@@ -9,11 +9,8 @@ use App\Order\Entity\OrderStorage;
 
 final class CancelOrderHandler implements MessageHandler
 {
-    private OrderStorage $orderStorage;
-
-    public function __construct(OrderStorage $orderStorage)
+    public function __construct(private OrderStorage $orderStorage)
     {
-        $this->orderStorage = $orderStorage;
     }
 
     public function __invoke(CancelOrder $command): void

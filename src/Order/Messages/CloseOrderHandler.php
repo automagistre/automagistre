@@ -13,14 +13,8 @@ use function sprintf;
 
 final class CloseOrderHandler implements MessageHandler
 {
-    private OrderStorage $orderStorage;
-
-    private CustomerStorage $customerStorage;
-
-    public function __construct(OrderStorage $orderStorage, CustomerStorage $customerStorage)
+    public function __construct(private OrderStorage $orderStorage, private CustomerStorage $customerStorage)
     {
-        $this->orderStorage = $orderStorage;
-        $this->customerStorage = $customerStorage;
     }
 
     public function __invoke(CloseOrderCommand $command): void

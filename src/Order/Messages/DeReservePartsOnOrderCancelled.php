@@ -12,14 +12,8 @@ use App\Order\Manager\ReservationManager;
 
 final class DeReservePartsOnOrderCancelled implements MessageHandler
 {
-    private OrderStorage $storage;
-
-    private ReservationManager $reservationManager;
-
-    public function __construct(OrderStorage $storage, ReservationManager $reservationManager)
+    public function __construct(private OrderStorage $storage, private ReservationManager $reservationManager)
     {
-        $this->storage = $storage;
-        $this->reservationManager = $reservationManager;
     }
 
     public function __invoke(OrderCancelled $event): void

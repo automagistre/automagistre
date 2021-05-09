@@ -12,14 +12,8 @@ use function sprintf;
 
 final class RouterHostContextListener implements EventSubscriberInterface
 {
-    private RouterInterface $router;
-
-    private Tenant $tenant;
-
-    public function __construct(RouterInterface $router, Tenant $tenant)
+    public function __construct(private RouterInterface $router, private Tenant $tenant)
     {
-        $this->router = $router;
-        $this->tenant = $tenant;
     }
 
     /**

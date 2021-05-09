@@ -7,18 +7,15 @@ namespace App\MC\View;
 use App\MC\Entity\McEquipment;
 use App\MC\Entity\McEquipmentId;
 use App\Shared\Doctrine\Registry;
-use Premier\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
+use Premier\Identifier\Identifier;
 use function sprintf;
 
 final class McEquipmentFormatter implements IdentifierFormatterInterface
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     /**

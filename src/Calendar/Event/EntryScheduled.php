@@ -11,10 +11,7 @@ use App\Calendar\Entity\CalendarEntryId;
  */
 final class EntryScheduled
 {
-    public CalendarEntryId $id;
-
-    public function __construct(CalendarEntryId $id)
+    public function __construct(public CalendarEntryId $id)
     {
-        $this->id = $id;
     }
 }

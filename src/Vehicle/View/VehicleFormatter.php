@@ -5,20 +5,17 @@ declare(strict_types=1);
 namespace App\Vehicle\View;
 
 use App\Shared\Doctrine\Registry;
-use Premier\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
 use App\Vehicle\Entity\Model;
 use App\Vehicle\Entity\VehicleId;
+use Premier\Identifier\Identifier;
 use function sprintf;
 
 final class VehicleFormatter implements IdentifierFormatterInterface
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     /**

@@ -7,17 +7,14 @@ namespace App\Income\View;
 use App\Income\Entity\IncomePart;
 use App\Income\Entity\IncomePartId;
 use App\Shared\Doctrine\Registry;
-use Premier\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
+use Premier\Identifier\Identifier;
 
 final class IncomePartFormatter implements IdentifierFormatterInterface
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     /**
