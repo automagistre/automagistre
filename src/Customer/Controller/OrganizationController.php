@@ -6,12 +6,10 @@ namespace App\Customer\Controller;
 
 use App\Customer\Entity\OperandId;
 use App\Customer\Entity\Organization;
-use App\Customer\Event\OrganizationCreated;
 use App\Customer\Form\OrganizationDto;
 use App\Customer\Form\OrganizationType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use function assert;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -61,17 +59,5 @@ final class OrganizationController extends OperandController
     protected function createNewEntity(): Organization
     {
         return new Organization(OperandId::generate());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function persistEntity($entity): void
-    {
-        assert($entity instanceof Organization);
-
-        parent::persistEntity($entity);
-
-        $this->event(new OrganizationCreated($entity));
     }
 }

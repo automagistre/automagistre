@@ -6,7 +6,6 @@ namespace App\Customer\Controller;
 
 use App\Customer\Entity\OperandId;
 use App\Customer\Entity\Person;
-use App\Customer\Event\PersonCreated;
 use App\Customer\Form\PersonDto;
 use App\Customer\Form\PersonType;
 use Doctrine\ORM\QueryBuilder;
@@ -102,8 +101,6 @@ final class PersonController extends OperandController
                 'id' => $entity->toId()->toString(),
             ]),
         );
-
-        $this->event(new PersonCreated($entity));
     }
 
     /**

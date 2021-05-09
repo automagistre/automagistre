@@ -30,7 +30,6 @@ use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Entity\OrderItemService;
 use App\Order\Enum\OrderStatus;
-use App\Order\Event\OrderStatusChanged;
 use App\Order\Form\OrderDto;
 use App\Order\Form\OrderTOPart;
 use App\Order\Form\OrderTOService;
@@ -341,8 +340,6 @@ final class OrderController extends AbstractController
 
         $order->setStatus($status);
         $this->em->flush();
-
-        $this->event(new OrderStatusChanged($order, $status));
 
         return $this->redirectToReferrer();
     }

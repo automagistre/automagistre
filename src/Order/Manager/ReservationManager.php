@@ -9,7 +9,6 @@ use App\Order\Entity\OrderItemPart;
 use App\Order\Entity\Reservation;
 use App\Order\Exception\ReservationException;
 use App\Part\Entity\PartId;
-use App\Part\Event\PartDeReserved;
 use App\Part\Event\PartReserved;
 use App\Part\Manager\PartManager;
 use App\Shared\Doctrine\Registry;
@@ -94,8 +93,6 @@ final class ReservationManager
         $reservation = new Reservation($orderItemPart, 0 - $quantity);
         $em->persist($reservation);
         $em->flush();
-
-        $this->dispatcher->dispatch(new PartDeReserved($reservation));
     }
 
     public function reservable(PartId $part): int
