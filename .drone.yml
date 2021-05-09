@@ -285,6 +285,7 @@ services:
         image: automagistre/tenant-php:${DRONE_BUILD_NUMBER}
         environment:
             APP_SECRET: S3cr3tAtvichau
+            TENANT: demo
 
 steps:
     -   name: wait

@@ -7,7 +7,14 @@ framework:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
             # async: '%env(MESSENGER_TRANSPORT_DSN)%'
             # failed: 'doctrine://default?queue_name=failed'
-            async: nsq://
+            async:
+                dsn: 'nsq://nsqd:4150?topic=%env(TENANT)%_bus'
+                # default configuration
+                retry_strategy:
+                    max_retries: !php/const PHP_INT_MAX
+                    delay: 1000
+                    multiplier: 2
+                    max_delay: 60000
 
         routing:
             # Route your messages to the transports

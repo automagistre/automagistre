@@ -219,11 +219,6 @@ final class Tenant extends Enum
         ], true);
     }
 
-    public function toBusTopic(): string
-    {
-        return sprintf('%s_bus', $this->toIdentifier());
-    }
-
     public static function isValid(string $identifier): bool
     {
         return in_array($identifier, self::$identifier, true);
