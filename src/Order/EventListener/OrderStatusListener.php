@@ -4,43 +4,26 @@ declare(strict_types=1);
 
 namespace App\Order\EventListener;
 
-use App\Order\Entity\Order;
+use App\MessageBus\MessageHandler;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Entity\Reservation;
 use App\Order\Enum\OrderStatus;
 use App\Order\Manager\ReservationManager;
 use App\Part\Event\PartReserved;
 use App\Shared\Doctrine\Registry;
-use LogicException;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
  */
-final class OrderStatusListener implements EventSubscriberInterface
+final class OrderStatusListener implements MessageHandler
 {
     public function __construct(private Registry $registry, private ReservationManager $reservationManager)
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
+    public function __invoke(PartReserved $event): void
     {
-        return [
-            PartReserved::class => 'inPartReserved',
-        ];
-    }
-
-    public function inPartReserved(GenericEvent $event): void
-    {
-        $reservation = $event->getSubject();
-
-        if (!$reservation instanceof Reservation) {
-            throw new LogicException('Reservation required.');
-        }
+        $reservation = $this->registry->get(Reservation::class, $event->reservationId);
 
         $order = $reservation->getOrderItemPart()->getOrder();
 
@@ -64,9 +47,6 @@ final class OrderStatusListener implements EventSubscriberInterface
             }
         }
 
-        $em = $this->registry->manager(Order::class);
-
         $order->setStatus(OrderStatus::notification());
-        $em->flush();
     }
 }

@@ -8,50 +8,26 @@ use App\Customer\Entity\Person;
 use App\Employee\Entity\Employee;
 use App\Employee\Event\EmployeeCreated;
 use App\Employee\Event\EmployeeFired;
+use App\MessageBus\MessageHandler;
 use App\Shared\Doctrine\Registry;
-use LogicException;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
-/**
- * @author Konstantin Grachev <me@grachevko.ru>
- */
-final class EmployeeContractorListener implements EventSubscriberInterface
+final class EmployeeContractorListener implements MessageHandler
 {
     public function __construct(private Registry $registry)
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
+    public function __invoke(EmployeeCreated | EmployeeFired $event): void
     {
-        return [
-            EmployeeCreated::class => 'onEmployeeCreatedOrFired',
-            EmployeeFired::class => 'onEmployeeCreatedOrFired',
-        ];
-    }
-
-    public function onEmployeeCreatedOrFired(GenericEvent $event, string $eventName): void
-    {
-        $entity = $event->getSubject();
-
-        if (!$entity instanceof Employee) {
-            throw new LogicException('Employee expected');
-        }
-
+        $entity = $this->registry->get(Employee::class, $event->employeeId);
         $personId = $entity->getPersonId();
 
         if (null === $personId) {
             return;
         }
 
-        /** @var Person $person */
-        $person = $this->registry->getBy(Person::class, ['id' => $personId]);
+        $person = $this->registry->get(Person::class, $personId);
 
-        $person->setContractor(EmployeeCreated::class === $eventName);
-
-        $this->registry->manager(Person::class)->flush();
+        $person->setContractor($event instanceof EmployeeCreated);
     }
 }

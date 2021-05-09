@@ -11,8 +11,6 @@ use App\Customer\Enum\CustomerTransactionSource;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Employee\Entity\Employee;
 use App\Employee\Entity\SalaryView;
-use App\Employee\Event\EmployeeCreated;
-use App\Employee\Event\EmployeeFired;
 use App\Employee\Form\PayoutDto;
 use App\Form\Type\MoneyType;
 use App\Wallet\Entity\WalletTransaction;
@@ -26,7 +24,6 @@ use stdClass;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use function assert;
 use function sprintf;
 
 /**
@@ -170,21 +167,7 @@ final class EmployeeController extends AbstractController
         $entity->fire();
         $this->em->flush();
 
-        $this->event(new EmployeeFired($entity));
-
         return $this->redirectToReferrer();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function persistEntity($entity): void
-    {
-        assert($entity instanceof Employee);
-
-        parent::persistEntity($entity);
-
-        $this->event(new EmployeeCreated($entity));
     }
 
     /**

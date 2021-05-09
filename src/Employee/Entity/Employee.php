@@ -6,6 +6,10 @@ namespace App\Employee\Entity;
 
 use App\Costil;
 use App\Customer\Entity\OperandId;
+use App\Employee\Event\EmployeeCreated;
+use App\Employee\Event\EmployeeFired;
+use App\MessageBus\ContainsRecordedMessages;
+use App\MessageBus\PrivateMessageRecorderCapabilities;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;
@@ -16,8 +20,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @UniqueEntity(fields={"personId", "firedAt"}, message="Данный человек уже является работником", ignoreNull=false)
  */
-class Employee
+class Employee implements ContainsRecordedMessages
 {
+    use PrivateMessageRecorderCapabilities;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="employee_id")
@@ -54,6 +60,8 @@ class Employee
     {
         $this->id = $employeeId ?? EmployeeId::generate();
         $this->hiredAt = new DateTime();
+
+        $this->record(new EmployeeCreated($this->id));
     }
 
     public function __toString(): string
@@ -118,5 +126,7 @@ class Employee
     public function fire(): void
     {
         $this->firedAt = new DateTime();
+
+        $this->record(new EmployeeFired($this->id));
     }
 }

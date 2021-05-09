@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace App\Employee\Event;
 
-use Symfony\Component\EventDispatcher\GenericEvent;
+use App\Employee\Entity\EmployeeId;
+use App\MessageBus\Async;
 
 /**
- * @author Konstantin Grachev <me@grachevko.ru>
+ * @psalm-immutable
  */
-final class EmployeeCreated extends GenericEvent
+final class EmployeeCreated implements Async
 {
+    public function __construct(public EmployeeId $employeeId)
+    {
+    }
 }

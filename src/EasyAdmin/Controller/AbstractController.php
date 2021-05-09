@@ -26,7 +26,6 @@ use Ramsey\Uuid\Uuid;
 use RuntimeException;
 use Sentry\State\Scope;
 use stdClass;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -223,11 +222,6 @@ abstract class AbstractController extends EasyAdminController
     protected function findCurrentEntity(): ?object
     {
         return $this->request->attributes->get('easyadmin')['item'] ?? null;
-    }
-
-    protected function event(GenericEvent $event): void
-    {
-        $this->container->get('event_dispatcher')->dispatch($event);
     }
 
     /**

@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace App\Part\Event;
 
-use Symfony\Component\EventDispatcher\GenericEvent;
+use App\MessageBus\Async;
+use App\Order\Entity\ReservationId;
 
 /**
- * @author Konstantin Grachev <me@grachevko.ru>
+ * @psalm-immutable
  */
-final class PartReserved extends GenericEvent
+final class PartReserved implements Async
 {
+    public function __construct(public ReservationId $reservationId)
+    {
+    }
 }

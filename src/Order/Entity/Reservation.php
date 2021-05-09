@@ -4,20 +4,23 @@ declare(strict_types=1);
 
 namespace App\Order\Entity;
 
+use App\MessageBus\ContainsRecordedMessages;
+use App\MessageBus\PrivateMessageRecorderCapabilities;
+use App\Part\Event\PartReserved;
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
  */
-class Reservation
+class Reservation implements ContainsRecordedMessages
 {
+    use PrivateMessageRecorderCapabilities;
+
     /**
      * @ORM\Id
-     * @ORM\Column(type="uuid")
+     * @ORM\Column(type="reservation_id")
      */
-    private UuidInterface $id;
+    private ReservationId $id;
 
     /**
      * @var int
@@ -36,12 +39,16 @@ class Reservation
 
     public function __construct(OrderItemPart $orderItemPart, int $quantity)
     {
-        $this->id = Uuid::uuid6();
+        $this->id = ReservationId::generate();
         $this->orderItemPart = $orderItemPart;
         $this->quantity = $quantity;
+
+        if ($quantity > 0) {
+            $this->record(new PartReserved($this->id));
+        }
     }
 
-    public function toId(): UuidInterface
+    public function toId(): ReservationId
     {
         return $this->id;
     }

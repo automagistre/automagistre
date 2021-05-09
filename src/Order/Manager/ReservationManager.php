@@ -9,14 +9,12 @@ use App\Order\Entity\OrderItemPart;
 use App\Order\Entity\Reservation;
 use App\Order\Exception\ReservationException;
 use App\Part\Entity\PartId;
-use App\Part\Event\PartReserved;
 use App\Part\Manager\PartManager;
 use App\Shared\Doctrine\Registry;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use function sprintf;
 
 /**
@@ -27,7 +25,6 @@ final class ReservationManager
     public function __construct(
         private Registry $registry,
         private PartManager $partManager,
-        private EventDispatcherInterface $dispatcher,
     ) {
     }
 
@@ -64,8 +61,6 @@ final class ReservationManager
         $em = $this->registry->manager(Reservation::class);
         $em->persist($reservation);
         $em->flush();
-
-        $this->dispatcher->dispatch(new PartReserved($reservation));
     }
 
     public function deReserve(OrderItemPart $orderItemPart, int $quantity = null): void
