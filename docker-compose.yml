@@ -19,6 +19,7 @@ services:
             - ./etc/php-fpm.conf:/usr/local/etc/php-fpm.conf
             - ./etc/php-fpm.www.conf:/usr/local/etc/php-fpm.d/www.conf
         environment:
+            PHP_OPCACHE_ENABLE: 0
             APP_ENV: dev
             APP_DEBUG: 1
             TENANT: ${TENANT}
