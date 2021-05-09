@@ -56,7 +56,7 @@ services:
         image: nsqio/nsq:v1.2.0
         command: /nsqadmin --nsqd-http-address=nsqd:4151 --http-address=0.0.0.0:80
         labels:
-            ru.grachevko.dhu: 'nsq.${TENANT}.automagistre.local'
+            ru.grachevko.dhu: 'nsq.automagistre.local'
 
 networks:
     default:
