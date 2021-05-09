@@ -241,7 +241,7 @@ final class Registry
         return $this->manager($class)->getReference($class, $id);
     }
 
-    public function add(object ...$entities): void
+    public function add(object ...$entities): self
     {
         $em = $this->manager();
 
@@ -249,6 +249,23 @@ final class Registry
             $em->persist($entity);
         }
 
-        $em->flush();
+        return $this;
+    }
+
+    public function flush(string $manager = null): void
+    {
+        $managers = null === $manager
+            ? $this->registry->getManagers()
+            : [
+                class_exists($manager)
+                    ? $this->registry->getManagerForClass($manager)
+                    : $this->registry->getManager($manager),
+            ];
+
+        foreach ($managers as $em) {
+            assert($em instanceof EntityManagerInterface);
+
+            $em->flush();
+        }
     }
 }

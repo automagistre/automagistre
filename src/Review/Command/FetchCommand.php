@@ -29,6 +29,8 @@ final class FetchCommand extends Command
             $this->registry->add($review->toReview(ReviewId::generate()));
         }
 
+        $this->registry->flush();
+
         return 0;
     }
 }

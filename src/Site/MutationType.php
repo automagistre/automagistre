@@ -116,7 +116,7 @@ final class MutationType extends ObjectType
                                 $args['input']['total'],
                                 $args['input']['works'],
                             ),
-                        );
+                        )->flush();
 
                         return ['appealId' => $appealId];
                     },
@@ -150,7 +150,7 @@ final class MutationType extends ObjectType
                                 $args['input']['phone'],
                                 $args['input']['date'],
                             ),
-                        );
+                        )->flush();
 
                         return ['appealId' => $appealId];
                     },
@@ -180,7 +180,7 @@ final class MutationType extends ObjectType
                                 $args['input']['name'],
                                 $args['input']['phone'],
                             ),
-                        );
+                        )->flush();
 
                         return ['appealId' => $appealId];
                     },
@@ -214,7 +214,7 @@ final class MutationType extends ObjectType
                                 $args['input']['email'],
                                 $args['input']['question'],
                             ),
-                        );
+                        )->flush();
 
                         return ['appealId' => $appealId];
                     },
@@ -270,7 +270,7 @@ final class MutationType extends ObjectType
                                 $args['input']['total'],
                                 $args['input']['works'],
                             ),
-                        );
+                        )->flush();
 
                         return ['appealId' => $appealId];
                     },
@@ -296,7 +296,7 @@ final class MutationType extends ObjectType
                                 $appealId,
                                 $args['input']['phone'],
                             ),
-                        );
+                        )->flush();
 
                         return ['appealId' => $appealId];
                     },

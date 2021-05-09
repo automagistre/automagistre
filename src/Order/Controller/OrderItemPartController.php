@@ -141,7 +141,7 @@ final class OrderItemPartController extends OrderItemController
                 $entities[] = $entity;
             }
 
-            $this->registry->add(...$entities);
+            $this->registry->add(...$entities)->flush();
 
             return $this->redirectToReferrer();
         }
