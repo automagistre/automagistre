@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.7.0@d4377c0baf3ffbf0b1ec6998e8d1be2a40971005">
+<files psalm-version="4.7.2@83a0325c0a95c0ab531d6b90c877068b464377b5">
   <file src="src/Appeal/Controller/AppealController.php">
     <ArgumentTypeCoercion occurrences="1">
       <code>$entity-&gt;type-&gt;toEntityClass()</code>
@@ -10,10 +10,8 @@
     <MoreSpecificReturnType occurrences="1">
       <code>Response</code>
     </MoreSpecificReturnType>
-    <PossiblyNullArgument occurrences="3">
+    <PossiblyNullArgument occurrences="1">
       <code>$dto-&gt;reason</code>
-      <code>$this-&gt;request-&gt;query-&gt;get('id')</code>
-      <code>$this-&gt;request-&gt;query-&gt;get('id')</code>
     </PossiblyNullArgument>
   </file>
   <file src="src/Calendar/Entity/Schedule.php">
@@ -187,16 +185,11 @@
       <code>$car</code>
       <code>$car</code>
     </PossiblyNullPropertyAssignment>
-    <PossiblyNullPropertyFetch occurrences="5">
-      <code>$car-&gt;equipment-&gt;engine</code>
-      <code>$car-&gt;equipment-&gt;engine-&gt;capacity</code>
-      <code>$car-&gt;equipment-&gt;transmission</code>
-      <code>$car-&gt;equipment-&gt;wheelDrive</code>
+    <PossiblyNullPropertyFetch occurrences="1">
       <code>$car-&gt;vehicleId</code>
     </PossiblyNullPropertyFetch>
-    <PossiblyNullReference occurrences="2">
+    <PossiblyNullReference occurrences="1">
       <code>isEditable</code>
-      <code>isFilled</code>
     </PossiblyNullReference>
     <QueryBuilderSetParameter occurrences="2">
       <code>$equipmentId</code>
@@ -232,9 +225,6 @@
     </PossiblyNullArgument>
   </file>
   <file src="src/Order/Controller/OrderPrintController.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$order-&gt;getCarId()</code>
-    </PossiblyNullArgument>
     <RedundantConditionGivenDocblockType occurrences="2">
       <code>null !== $mileageDto &amp;&amp; null !== $mileageDto-&gt;mileage</code>
       <code>null !== $mileageDto-&gt;mileage</code>
@@ -336,26 +326,11 @@
       <code>$data['text']</code>
     </PossiblyNullArrayAccess>
   </file>
-  <file src="src/Part/Controller/SupplyController.php">
-    <LessSpecificReturnStatement occurrences="1"/>
-    <MoreSpecificReturnType occurrences="1">
-      <code>Response</code>
-    </MoreSpecificReturnType>
-  </file>
-  <file src="src/Part/EventListener/DecreaseSupplyOnIncomeAccruedListener.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$incomePart-&gt;partId</code>
-    </PossiblyNullArgument>
-  </file>
   <file src="src/Part/Manager/PartManager.php">
     <QueryBuilderSetParameter occurrences="2">
       <code>$partId</code>
       <code>$partId</code>
     </QueryBuilderSetParameter>
-    <RedundantCondition occurrences="2">
-      <code>null !== $leftGroup &amp;&amp; null !== $rightGroup</code>
-      <code>null !== $leftGroup &amp;&amp; null === $rightGroup</code>
-    </RedundantCondition>
   </file>
   <file src="src/Part/View/PartFormatter.php">
     <PossiblyNullArrayOffset occurrences="1">
@@ -374,9 +349,6 @@
     </PossiblyNullArgument>
   </file>
   <file src="src/Shared/Doctrine/Registry.php">
-    <QueryBuilderSetParameter occurrences="1">
-      <code>$identifier</code>
-    </QueryBuilderSetParameter>
     <RedundantConditionGivenDocblockType occurrences="1">
       <code>assert($entityRepository instanceof EntityRepository)</code>
     </RedundantConditionGivenDocblockType>

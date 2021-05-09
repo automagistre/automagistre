@@ -141,5 +141,61 @@
         "files": [
             "vendor/symfony/var-dumper/Resources/functions/dump.php"
         ]
+    },
+    "scripts": {
+        "cache": "@warmup",
+        "cs": "vendor/bin/php-cs-fixer fix",
+        "database": [
+            "bin/console doctrine:query:sql --quiet \"SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = '${DB_NAME:-db}' AND pid <> pg_backend_pid();\" || true",
+            "bin/console doctrine:database:drop --if-exists --force",
+            "bin/console doctrine:database:create"
+        ],
+        "fixtures": "bin/console doctrine:fixtures:load --no-interaction",
+        "migration": "bin/console doctrine:migration:migrate --allow-no-migration --no-interaction",
+        "migration-diff": [
+            "bin/console doctrine:migration:diff --formatted",
+            "@cs"
+        ],
+        "migration-diff-dry": [
+            "bin/console doctrine:schema:update --dump-sql --no-interaction",
+            "@cs"
+        ],
+        "migration-generate": [
+            "bin/console doctrine:migrations:generate",
+            "@cs"
+        ],
+        "norm": "composer normalize",
+        "paratest": "vendor/bin/paratest --runner WrapperRunner --log-junit=var/junit.xml",
+        "phpmetrics": "vendor/bin/phpmetrics --junit=var/junit.xml  --report-html=public/phpmetrics --exclude src/Migrations src",
+        "phpstan": "vendor/bin/phpstan --no-interaction --memory-limit=-1",
+        "phpstan-baseline": "vendor/bin/phpstan --no-interaction --memory-limit=-1 --generate-baseline",
+        "phpunit": "vendor/bin/phpunit --testdox",
+        "psalm": "vendor/bin/psalm --no-cache --show-info=false",
+        "psalm-baseline": "vendor/bin/psalm --no-cache --update-baseline --set-baseline=psalm-baseline.xml",
+        "rector": "vendor/bin/rector",
+        "requirements": "vendor/bin/requirements-checker APP_ENV=prod APP_DEBUG=0",
+        "schema": "bin/console doctrine:schema:validate",
+        "test": [
+            "@putenv APP_ENV=test",
+            "@norm",
+            "rm -rf var/log/test.log",
+            "@warmup",
+            "@cs",
+            "@phpstan",
+            "@psalm",
+            "@putenv DB_NAME=db_test",
+            "@database",
+            "@migration",
+            "@schema",
+            "@fixtures",
+            "@paratest",
+            "@putenv APP_ENV=prod",
+            "@warmup",
+            "@psalm-baseline"
+        ],
+        "warmup": [
+            "rm -rf var/cache/${APP_ENV}",
+            "bin/console cache:clear"
+        ]
     }
 }

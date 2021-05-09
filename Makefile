@@ -64,9 +64,13 @@ APP = $(DEBUG_ECHO) @docker-compose $(if $(EXEC),exec,run --rm )\
 	$(if $(ENTRYPOINT),--entrypoint "$(ENTRYPOINT)" )\
 	$(if $(APP_ENV),-e APP_ENV=$(APP_ENV) )\
 	$(if $(APP_DEBUG),-e APP_DEBUG=$(APP_DEBUG) )\
+	--user $(if $(UID),${UID},1000)\
 	php-fpm
 
+COMPOSER = $(APP) composer
+
 PERMISSIONS = chown $(shell id -u):$(shell id -g) -R . && chmod 777 -R var/
+permissions: UID=root
 permissions: ## Fix file permissions in project
 	$(APP) sh -c "$(PERMISSIONS) || true"
 	$(call OK,"Permissions fixed.")
@@ -75,84 +79,64 @@ app-cli:
 	$(APP) sh
 
 composer: ### composer install
-	$(APP) sh -c 'rm -rf var/cache/* && composer install'
+	$(COMPOSER) install
 
 migration: ## Run migrations
-	$(APP) console doctrine:migration:migrate --allow-no-migration --no-interaction
+	$(COMPOSER) $@
 
-migration-generate: do-migration-generate php-cs-fixer permissions ## Generate empty migration
-do-migration-generate:
-	$(APP) console doctrine:migrations:generate
+migration-generate: ## Generate empty migration
+	$(COMPOSER) $@
 migration-rollback:latest = $(shell make app-cli CMD="console doctrine:migration:latest" | tr '\r' ' ')
 migration-rollback:
 	$(APP) console doctrine:migration:execute --down $(latest) --no-interaction
 
-migration-diff: do-migration-diff php-cs-fixer ## Generate diff migrations for landlord and tenant databases
-do-migration-diff:
-	$(APP) console doctrine:migration:diff --no-interaction
+migration-diff: ## Generate diff migrations for landlord and tenant databases
+	$(COMPOSER) $@
 migration-diff-dry:
-	$(APP) console doctrine:schema:update --dump-sql --no-interaction
+	$(COMPOSER) $@
 
-migration-validate: ### Validate database schema
-	$(APP) console doctrine:schema:validate
+schema: ### Validate database schema
+	$(COMPOSER) $@
 
-schema-update:
-	$(APP) console doctrine:schema:update --force --no-interaction
-
-test: APP_ENV=test
-test: APP_DEBUG=1
-test: php-cs-fixer cache phpstan psalm doctrine-ensure-production-settings database migration-validate fixtures paratest ## Run all checks and tests
+test: ## Run all checks and tests
+	$(COMPOSER) $@
 
 php-cs-fixer: ### Fix coding style
-	$(APP) sh -c 'php-cs-fixer fix $(if $(DRY),--dry-run) $(if $(DEBUG),-vvv); $(PERMISSIONS)'
+	$(COMPOSER) $@
 
-phpstan: APP_ENV=test
-phpstan: APP_DEBUG=1
-phpstan: cache ### Run phpstan
-	$(APP) phpstan analyse --configuration phpstan.neon $(if $(DEBUG),--debug -vvv)
-phpstan-baseline: APP_ENV=test
-phpstan-baseline: APP_DEBUG=1
-phpstan-baseline: cache ### Update phpstan baseline
-	$(APP) phpstan analyse --configuration phpstan.neon --generate-baseline
+phpstan: ### Run phpstan
+	$(COMPOSER) $@
+phpstan-baseline: ### Update phpstan baseline
+	$(COMPOSER) $@
 
-phpunit: APP_ENV=test
-phpunit: APP_DEBUG=1
-phpunit: clear-log ### Run phpunit
-	$(APP) phpunit --stop-on-failure --testdox
-paratest: APP_ENV=test
-paratest: APP_DEBUG=1
-paratest: clear-log ### Run phpunit in parallel
-	$(APP) paratest --log-junit=var/junit.xml
+phpunit: ### Run phpunit
+	$(COMPOSER) $@
+paratest: ### Run phpunit in parallel
+	$(COMPOSER) $@
 
 phpmetrics: ## Generate phpmetrics to public/phpmetrics folder
-	$(APP) phpmetrics --junit=var/junit.xml  --report-html=public/phpmetrics --exclude src/Migrations src
+	$(COMPOSER) $@
 
-requirements: APP_ENV=prod
 requirements: ### Check symfony requirements
-	$(APP) requirements-checker APP_ENV=prod APP_DEBUG=0
+	$(COMPOSER) $@
 
 psalm: ### Run psalm
-	$(APP) psalm --no-cache --show-info=false
+	$(COMPOSER) $@
 psalm-baseline: ### Update psalm baseline
-	$(APP) psalm --no-cache --update-baseline --set-baseline=psalm-baseline.xml
+	$(COMPOSER) $@
 
-doctrine-ensure-production-settings: APP_ENV=prod
-doctrine-ensure-production-settings: APP_DEBUG=0
-doctrine-ensure-production-settings:
-	$(APP) sh -c 'rm -rf var/cache/$$APP_ENV && console doctrine:ensure-production-settings'
-
-cache-prod:
-	@$(MAKE) APP_ENV=prod APP_DEBUG=0 cache
 cache: ## Clear then warmup symfony cache
-	$(APP) sh -c 'rm -rf var/cache/$$APP_ENV && exec console cache:warmup; $(PERMISSIONS)'
-clear-log:
-	$(APP) rm -rf var/log/$$APP_ENV.log
-database: drop migration ### Drop database then restore from migrations
+	$(COMPOSER) $@
+database: ### Drop database then restore from migrations
+	$(COMPOSER) $@
 
 fixtures: ### Load fixtures to database
-	$(APP) console doctrine:fixtures:load --no-interaction
+	$(COMPOSER) $@
 
-backup: drop backup-restore migration ### Restore local backup then run migrations
+backup: ### Restore local backup then run migrations
+	$(COMPOSER) database
+	@$(MAKE) backup-restore
+	$(COMPOSER) migration
 	@$(notify)
 backup-update: backup-fresh backup-download backup ### Backup production database then download and restore it
 backup-latest: backup-download backup ### Download latest backup from server then restore it
