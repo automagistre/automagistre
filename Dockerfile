@@ -199,7 +199,7 @@ RUN --mount=type=cache,target=/var/cache/composer \
     && console assets:install public \
     && chown -R www-data:www-data ${APP_DIR}/var
 
-ENV PHP_OPCACHE_PRELOAD ${APP_DIR}/var/cache/prod/App_KernelProdContainer.preload.php
+#ENV PHP_OPCACHE_PRELOAD ${APP_DIR}/var/cache/prod/App_KernelProdContainer.preload.php
 
 HEALTHCHECK --interval=10s --timeout=5s --start-period=5s \
         CMD REDIRECT_STATUS=true SCRIPT_NAME=/ping SCRIPT_FILENAME=/ping REQUEST_METHOD=GET cgi-fcgi -bind -connect 127.0.0.1:9000
