@@ -177,6 +177,7 @@ ENV APP_DEBUG 0
 ENV PHP_OPCACHE_ENABLE 1
 ENV PHP_ZEND_ASSERTIONS -1
 ENV PCOV_ENABLED 0
+ENV COMPOSER_CACHE_DIR /var/cache/composer
 
 COPY composer.json composer.lock symfony.lock ./
 RUN --mount=type=cache,target=/var/cache/composer \

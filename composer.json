@@ -119,7 +119,6 @@
         "weirdan/doctrine-psalm-plugin": "^1.0"
     },
     "config": {
-        "cache-dir": "/var/cache/composer",
         "preferred-install": "dist",
         "sort-packages": true
     },
