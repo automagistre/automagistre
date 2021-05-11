@@ -461,3 +461,4 @@ steps:
                 "automagistre/tenant-nginx:base-${DRONE_BUILD_NUMBER}"
                 "automagistre/tenant-php:${DRONE_BUILD_NUMBER}"
                 "automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}"
+        failure: ignore
