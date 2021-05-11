@@ -118,7 +118,7 @@ phpmetrics: ## Generate phpmetrics to public/phpmetrics folder
 	$(COMPOSER) $@
 
 requirements: ### Check symfony requirements
-	$(COMPOSER) $@
+	$(COMPOSER) symfony-requirements
 
 psalm: ### Run psalm
 	$(COMPOSER) $@
