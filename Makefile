@@ -81,6 +81,9 @@ app-cli:
 composer: ### composer install
 	$(COMPOSER) install
 
+outdated: ## Show outdated composer packages
+	$(COMPOSER) $@
+
 migration: ## Run migrations
 	$(COMPOSER) $@
 
