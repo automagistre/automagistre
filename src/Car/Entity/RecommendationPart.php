@@ -46,7 +46,7 @@ class RecommendationPart
         Recommendation $recommendation,
         PartId $partId,
         int $quantity,
-        Money $price
+        Money $price,
     ) {
         $this->id = $id;
         $this->recommendation = $recommendation;

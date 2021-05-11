@@ -29,14 +29,8 @@ use function get_class;
  */
 final class RecommendationManager
 {
-    private Registry $registry;
-
-    private ReservationManager $reservationManager;
-
-    public function __construct(Registry $registry, ReservationManager $reservationManager)
+    public function __construct(private Registry $registry, private ReservationManager $reservationManager)
     {
-        $this->registry = $registry;
-        $this->reservationManager = $reservationManager;
     }
 
     public function realize(Recommendation $recommendation, Order $order): void
@@ -64,7 +58,7 @@ final class RecommendationManager
 
             $orderItemPart->setPrice(
                 $recommendationPart->getPrice(),
-                $this->registry->get(PartView::class, $partId)
+                $this->registry->get(PartView::class, $partId),
             );
             $orderItemPart->setParent($orderItemService);
             $em->persist($orderItemPart);
@@ -94,7 +88,7 @@ final class RecommendationManager
         }
 
         /** @var Car $car */
-        $car = $this->registry->findBy(Car::class, ['id' => $carId]);
+        $car = $this->registry->findOneBy(Car::class, ['id' => $carId]);
 
         $em->transactional(function (EntityManagerInterface $em) use ($orderItemService, $car): void {
             $oldRecommendation = $this->findOldRecommendation($orderItemService);

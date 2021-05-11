@@ -16,6 +16,6 @@ final class ManufacturerFormatterTest extends IdentifierTestCase
 {
     public function data(): Generator
     {
-        yield [ManufacturerId::fromString(NissanFixture::ID), NissanFixture::NAME];
+        yield [ManufacturerId::from(NissanFixture::ID), NissanFixture::NAME];
     }
 }

@@ -48,7 +48,7 @@ final class OrderItemGroupController extends OrderItemController
         $entity = new OrderItemGroup(
             Uuid::uuid6(),
             $model->order,
-            $model->name
+            $model->name,
         );
         $entity->setParent($model->parent);
 

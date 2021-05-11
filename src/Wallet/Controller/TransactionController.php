@@ -22,11 +22,11 @@ final class TransactionController extends AbstractController
         $entityClass,
         $sortDirection,
         $sortField = null,
-        $dqlFilter = null
+        $dqlFilter = null,
     ): QueryBuilder {
         $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
 
-        $walletId = $this->getIdentifier(WalletId::class);
+        $walletId = $this->getIdentifierOrNull(WalletId::class);
 
         if ($walletId instanceof WalletId) {
             $qb->andWhere('entity.walletId = :walletId')
@@ -51,7 +51,7 @@ final class TransactionController extends AbstractController
         array $searchableFields,
         $sortField = null,
         $sortDirection = null,
-        $dqlFilter = null
+        $dqlFilter = null,
     ): QueryBuilder {
         if (!Uuid::isValid($searchQuery)) {
             return parent::createSearchQueryBuilder($entityClass, $searchQuery, $searchableFields, $sortField, $sortDirection, $dqlFilter);

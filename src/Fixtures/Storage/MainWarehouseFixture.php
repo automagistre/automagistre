@@ -20,7 +20,7 @@ final class MainWarehouseFixture extends Fixture
      */
     public function load(ObjectManager $manager): void
     {
-        $warehouseId = WarehouseId::fromString(self::ID);
+        $warehouseId = WarehouseId::from(self::ID);
 
         $manager->persist(new Warehouse($warehouseId));
         $manager->persist(new WarehouseName($warehouseId, self::NAME));

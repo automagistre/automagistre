@@ -18,11 +18,8 @@ final class UserEmployeeFixtures extends Fixture
     public const ROLES = ['ROLE_ADMIN'];
     public const REFERENCE = 'user-employee';
 
-    private EncoderFactoryInterface $encoderFactory;
-
-    public function __construct(EncoderFactoryInterface $encoderFactory)
+    public function __construct(private EncoderFactoryInterface $encoderFactory)
     {
-        $this->encoderFactory = $encoderFactory;
     }
 
     /**
@@ -31,7 +28,7 @@ final class UserEmployeeFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $user = new User(
-            UserId::fromString(self::ID),
+            UserId::from(self::ID),
             self::ROLES,
             self::USERNAME,
         );

@@ -14,6 +14,6 @@ interface Transactional
         Money $money,
         CustomerTransactionSource $source,
         UuidInterface $sourceId,
-        string $description = null
+        string $description = null,
     ): void;
 }

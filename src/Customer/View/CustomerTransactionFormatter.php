@@ -7,17 +7,14 @@ namespace App\Customer\View;
 use App\Customer\Entity\CustomerTransactionId;
 use App\Customer\Entity\CustomerTransactionView;
 use App\Shared\Doctrine\Registry;
-use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
+use Premier\Identifier\Identifier;
 
 final class CustomerTransactionFormatter implements IdentifierFormatterInterface
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     /**

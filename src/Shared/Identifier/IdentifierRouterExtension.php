@@ -5,19 +5,14 @@ declare(strict_types=1);
 namespace App\Shared\Identifier;
 
 use EasyCorp\Bundle\EasyAdminBundle\Router\EasyAdminRouter;
+use Premier\Identifier\Identifier;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 final class IdentifierRouterExtension extends AbstractExtension
 {
-    private EasyAdminRouter $router;
-
-    private IdentifierMap $identifierMap;
-
-    public function __construct(EasyAdminRouter $router, IdentifierMap $identifierMap)
+    public function __construct(private EasyAdminRouter $router, private IdentifierMap $identifierMap)
     {
-        $this->router = $router;
-        $this->identifierMap = $identifierMap;
     }
 
     /**
@@ -33,7 +28,7 @@ final class IdentifierRouterExtension extends AbstractExtension
                     $params['id'] = $uuid->toString();
 
                     return $this->router->generate($class, $action, $params);
-                }
+                },
             ),
         ];
     }

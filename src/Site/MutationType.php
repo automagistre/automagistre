@@ -111,12 +111,12 @@ final class MutationType extends ObjectType
                                 $args['input']['note'],
                                 $args['input']['phone'],
                                 $args['input']['date'] ?? null,
-                                McEquipmentId::fromUuid($args['input']['equipmentId']),
+                                McEquipmentId::from($args['input']['equipmentId']),
                                 $args['input']['mileage'],
                                 $args['input']['total'],
                                 $args['input']['works'],
                             ),
-                        );
+                        )->flush();
 
                         return ['appealId' => $appealId];
                     },
@@ -150,7 +150,7 @@ final class MutationType extends ObjectType
                                 $args['input']['phone'],
                                 $args['input']['date'],
                             ),
-                        );
+                        )->flush();
 
                         return ['appealId' => $appealId];
                     },
@@ -180,7 +180,7 @@ final class MutationType extends ObjectType
                                 $args['input']['name'],
                                 $args['input']['phone'],
                             ),
-                        );
+                        )->flush();
 
                         return ['appealId' => $appealId];
                     },
@@ -214,7 +214,7 @@ final class MutationType extends ObjectType
                                 $args['input']['email'],
                                 $args['input']['question'],
                             ),
-                        );
+                        )->flush();
 
                         return ['appealId' => $appealId];
                     },
@@ -264,13 +264,13 @@ final class MutationType extends ObjectType
                                 $appealId,
                                 $args['input']['name'],
                                 $args['input']['phone'],
-                                VehicleId::fromUuidOrNull($args['input']['vehicleId'] ?? null),
+                                VehicleId::try($args['input']['vehicleId'] ?? null),
                                 TireFittingCategory::create($args['input']['category']),
                                 $args['input']['diameter'],
                                 $args['input']['total'],
                                 $args['input']['works'],
-                            )
-                        );
+                            ),
+                        )->flush();
 
                         return ['appealId' => $appealId];
                     },
@@ -296,7 +296,7 @@ final class MutationType extends ObjectType
                                 $appealId,
                                 $args['input']['phone'],
                             ),
-                        );
+                        )->flush();
 
                         return ['appealId' => $appealId];
                     },

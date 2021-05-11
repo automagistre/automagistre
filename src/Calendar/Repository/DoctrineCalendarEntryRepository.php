@@ -12,16 +12,13 @@ use App\Shared\Doctrine\Registry;
 
 final class DoctrineCalendarEntryRepository implements CalendarEntryRepository
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     public function get(CalendarEntryId $id): CalendarEntry
     {
-        $entity = $this->registry->findBy(CalendarEntry::class, ['id' => $id]);
+        $entity = $this->registry->findOneBy(CalendarEntry::class, ['id' => $id]);
 
         if (null === $entity) {
             throw CalendarEntryNotFound::byId($id);

@@ -11,8 +11,6 @@ use App\Customer\Enum\CustomerTransactionSource;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Employee\Entity\Employee;
 use App\Employee\Entity\SalaryView;
-use App\Employee\Event\EmployeeCreated;
-use App\Employee\Event\EmployeeFired;
 use App\Employee\Form\PayoutDto;
 use App\Form\Type\MoneyType;
 use App\Wallet\Entity\WalletTransaction;
@@ -26,7 +24,6 @@ use stdClass;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use function assert;
 use function sprintf;
 
 /**
@@ -36,7 +33,7 @@ final class EmployeeController extends AbstractController
 {
     public function salaryAction(): Response
     {
-        $recipientId = $this->getIdentifier(OperandId::class);
+        $recipientId = $this->getIdentifierOrNull(OperandId::class);
 
         if (!$recipientId instanceof OperandId) {
             throw new BadRequestHttpException('Person required.');
@@ -73,8 +70,8 @@ final class EmployeeController extends AbstractController
                         $model->amount->negative(),
                         CustomerTransactionSource::payroll(),
                         $walletTransactionId->toUuid(),
-                        $model->description
-                    )
+                        $model->description,
+                    ),
                 );
 
                 $em->persist(
@@ -85,7 +82,7 @@ final class EmployeeController extends AbstractController
                         WalletTransactionSource::payroll(),
                         $customerTransactionId->toUuid(),
                         null,
-                    )
+                    ),
                 );
             });
 
@@ -101,7 +98,7 @@ final class EmployeeController extends AbstractController
 
     public function penaltyAction(): Response
     {
-        $personId = $this->getIdentifier(OperandId::class);
+        $personId = $this->getIdentifierOrNull(OperandId::class);
 
         if (!$personId instanceof OperandId) {
             throw new BadRequestHttpException('Person required.');
@@ -139,7 +136,7 @@ final class EmployeeController extends AbstractController
                         CustomerTransactionSource::penalty(),
                         $this->getUser()->toId()->toUuid(),
                         $model->description,
-                    )
+                    ),
                 );
             });
 
@@ -170,21 +167,7 @@ final class EmployeeController extends AbstractController
         $entity->fire();
         $this->em->flush();
 
-        $this->event(new EmployeeFired($entity));
-
         return $this->redirectToReferrer();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function persistEntity($entity): void
-    {
-        assert($entity instanceof Employee);
-
-        parent::persistEntity($entity);
-
-        $this->event(new EmployeeCreated($entity));
     }
 
     /**

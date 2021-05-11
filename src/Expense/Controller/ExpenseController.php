@@ -28,7 +28,7 @@ final class ExpenseController extends AbstractController
     {
         $dto = new ExpenseItemDto();
         /** @var ExpenseId $expenseId */
-        $expenseId = $this->getIdentifier(ExpenseId::class);
+        $expenseId = $this->getIdentifierOrNull(ExpenseId::class);
         $dto->expenseId = $expenseId;
 
         $form = $this->createFormBuilder($dto)
@@ -63,7 +63,7 @@ final class ExpenseController extends AbstractController
                     WalletTransactionSource::expense(),
                     $dto->expenseId->toUuid(),
                     $dto->description,
-                )
+                ),
             );
 
             $em->flush();

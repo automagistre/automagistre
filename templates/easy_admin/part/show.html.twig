@@ -8,6 +8,26 @@
         <label class="col-sm-2 control-label">Наличие</label>
         <div class="col-sm-10">
             <div class="form-control">
+                <div class="pull-right">
+                    <a href="{{ easyadmin_path('Motion', 'increase', {'part_id': entity|toId, 'referer': true}) }}"
+                       class="btn btn-primary btn-xs">
+                        <i class="fa fa-arrow-down"></i>
+                        Пополнить
+                    </a>
+
+                    <a href="{{ easyadmin_path('Motion', 'decrease', {'part_id': entity|toId, 'referer': true}) }}"
+                       class="btn btn-danger btn-xs">
+                        <i class="fa fa-arrow-up"></i>
+                        Списать
+                    </a>
+
+                    <a href="{{ easyadmin_path('Motion', 'actualize', {'part_id': entity|toId, 'referer': true}) }}"
+                       class="btn btn-info btn-xs">
+                        <i class="fa fa-exchange"></i>
+                        Актуализировать
+                    </a>
+                </div>
+
                 На складе <strong>{{ entity.quantity / 100 }}</strong><br>
                 Зарезервировано <strong>{{ entity.reserved / 100 }}</strong><br>
                 Ожидается поставка <strong>{{ entity.suppliesQuantity / 100 }}</strong><br>
@@ -46,6 +66,7 @@
                                 <tr>
                                     <th>Поставщик</th>
                                     <th>Количество</th>
+                                    <th>Действия</th>
                                     <th>Обновлено</th>
                                 </tr>
                                 </thead>
@@ -54,6 +75,13 @@
                                     <tr>
                                         <td>{{ supply.supplierId|display_name }}</td>
                                         <td>{{ supply.quantity / 100 }}</td>
+                                        <td>
+                                            <a class="btn btn-info btn-xs" href="{{ easyadmin_path('PartSupply', 'decrease', {
+                                                'part_id': entity|toId,
+                                                'supplier_id': supply.supplierId|toId,
+                                                'referer': true
+                                            }) }}">Убавить поставку</a>
+                                        </td>
                                         <td>{{ supply.updatedAt|format_datetime }}</td>
                                     </tr>
                                 {% endfor %}
@@ -66,7 +94,7 @@
                         </div>
                     {% endif %}
                     <div class="box-footer">
-                        <a class="btn btn-primary" href="{{ easyadmin_path('PartSupply', 'new', {'part_id': entity|toId, 'referer': true}) }}">Новая поставка</a>
+                        <a class="btn btn-primary" href="{{ easyadmin_path('PartSupply', 'increase', {'part_id': entity|toId, 'referer': true}) }}">Добавить поставку</a>
                     </div>
                 </div>
             </div>
@@ -145,16 +173,6 @@
         </div>
 
         <div class="col-md-6" style="margin-bottom: 15px">
-            <a href="{{ easyadmin_path('PartIncome', 'income', {'part_id': entity|toId, 'referer': true}) }}" class="btn btn-primary">
-                <i class="fa fa-arrow-down"></i>
-                Пополнить вручную
-            </a>
-
-            <a href="{{ easyadmin_path('PartIncome', 'outcome', {'part_id': entity|toId, 'referer': true}) }}" class="btn btn-danger">
-                <i class="fa fa-arrow-up"></i>
-                Списать вручную
-            </a>
-
             <a href="{{ easyadmin_path('Motion', 'list', {'part_id': entity|toId}) }}" class="btn btn-success">
                 <i class="fa fa-recycle"></i>
                 Движения

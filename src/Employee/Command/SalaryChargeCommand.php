@@ -27,16 +27,9 @@ final class SalaryChargeCommand extends Command
 {
     protected static $defaultName = 'employee:salary:charge';
 
-    private Registry $registry;
-
-    private EventDispatcherInterface $dispatcher;
-
-    public function __construct(Registry $registry, EventDispatcherInterface $dispatcher)
+    public function __construct(private Registry $registry, private EventDispatcherInterface $dispatcher)
     {
         parent::__construct();
-
-        $this->registry = $registry;
-        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -92,8 +85,8 @@ final class SalaryChargeCommand extends Command
                     $salary->amount,
                     CustomerTransactionSource::salary(),
                     $salary->id->toUuid(),
-                    null
-                )
+                    null,
+                ),
             );
         }
 

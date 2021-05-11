@@ -15,11 +15,8 @@ use App\Wallet\Enum\WalletTransactionSource;
 
 final class CreatePaymentHandler implements MessageHandler
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     public function __invoke(CreatePayment $command): void
@@ -36,7 +33,7 @@ final class CreatePaymentHandler implements MessageHandler
                 WalletTransactionSource::orderDebit(),
                 $orderId->toUuid(),
                 null,
-            )
+            ),
         );
 
         if (null !== $command->customerId) {
@@ -48,7 +45,7 @@ final class CreatePaymentHandler implements MessageHandler
                     CustomerTransactionSource::orderDebit(),
                     $orderId->toUuid(),
                     null,
-                )
+                ),
             );
         }
     }

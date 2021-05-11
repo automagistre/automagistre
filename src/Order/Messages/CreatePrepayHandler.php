@@ -13,11 +13,8 @@ use App\Wallet\Enum\WalletTransactionSource;
 
 final class CreatePrepayHandler implements MessageHandler
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     public function __invoke(CreatePrepay $command): void
@@ -38,7 +35,7 @@ final class CreatePrepayHandler implements MessageHandler
                 WalletTransactionSource::orderPrepay(),
                 $orderId->toUuid(),
                 $command->description,
-            )
+            ),
         );
     }
 }

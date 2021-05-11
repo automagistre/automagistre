@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Type\Definition;
 
-use App\Shared\Identifier\Identifier;
+use Premier\Identifier\Identifier;
 use GraphQL\Error\Error;
 use GraphQL\Language\AST\Node;
 use GraphQL\Language\AST\StringValueNode;

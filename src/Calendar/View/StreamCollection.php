@@ -36,12 +36,12 @@ final class StreamCollection implements IteratorAggregate
 
         if (null !== $workerId) {
             foreach ($this->streams as $stream) {
-                if ($workerId->equal($stream->workerId)) {
+                if ($workerId->equals($stream->workerId)) {
                     try {
                         $stream->add($entry);
 
                         return;
-                    } catch (StreamOverflowException $e) {
+                    } catch (StreamOverflowException) {
                         $this->streams[] = new Stream($workerId, [$entry]);
 
                         return;
@@ -59,7 +59,7 @@ final class StreamCollection implements IteratorAggregate
                 $stream->add($entry);
 
                 return;
-            } catch (StreamOverflowException $e) {
+            } catch (StreamOverflowException) {
             }
         }
 

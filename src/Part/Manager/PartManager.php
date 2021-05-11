@@ -24,11 +24,8 @@ use function assert;
  */
 final class PartManager
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     public function byId(PartId $partId): Part
@@ -44,13 +41,13 @@ final class PartManager
             return (int) $em->createQueryBuilder()
                 ->select('SUM(entity.quantity)')
                 ->from(Motion::class, 'entity')
-                ->groupBy('entity.partId')
-                ->where('entity.partId = :part')
+                ->groupBy('entity.part')
+                ->where('entity.part = :part')
                 ->setParameter('part', $partId)
                 ->getQuery()
                 ->getSingleResult(Query::HYDRATE_SINGLE_SCALAR)
             ;
-        } catch (NoResultException $e) {
+        } catch (NoResultException) {
             return 0;
         }
     }
@@ -85,11 +82,11 @@ final class PartManager
 
             if (null === $leftGroup && null === $rightGroup) {
                 $em->persist(new PartCross($left, $right));
-            } elseif (null === $leftGroup && null !== $rightGroup) {
+            } elseif (null === $leftGroup) {
                 $rightGroup->addPart($left);
-            } elseif (null !== $leftGroup && null === $rightGroup) {
+            } elseif (null === $rightGroup) {
                 $leftGroup->addPart($right);
-            } elseif (null !== $leftGroup && null !== $rightGroup) {
+            } else {
                 $parts = $rightGroup->getParts();
                 $em->remove($rightGroup);
                 $em->flush();

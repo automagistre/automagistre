@@ -14,11 +14,8 @@ use Twig\TwigFilter;
  */
 final class WalletExtension extends AbstractExtension
 {
-    private PaymentManager $paymentManager;
-
-    public function __construct(PaymentManager $paymentManager)
+    public function __construct(private PaymentManager $paymentManager)
     {
-        $this->paymentManager = $paymentManager;
     }
 
     /**
@@ -28,7 +25,7 @@ final class WalletExtension extends AbstractExtension
     {
         return [
             new TwigFilter('balance', fn (
-                object $transactional
+                object $transactional,
             ): Money => $this->paymentManager->balance($transactional)),
         ];
     }

@@ -35,7 +35,7 @@ final class MoneyType extends AbstractType
             ->addViewTransformer(new DivisoredNumberTransformer())
             ->addModelTransformer(new CallbackTransformer(
                 fn (?Money $money) => $money instanceof Money ? $money->getAmount() : $money,
-                fn (string $amount) => new Money($amount, new Currency('RUB'))
+                fn (string $amount) => new Money($amount, new Currency('RUB')),
             ));
     }
 

@@ -32,6 +32,14 @@ final class RequiredAvailabilityDto
      *
      * @Assert\NotBlank
      * @Assert\GreaterThanOrEqual(value="0")
+     * @Assert\AtLeastOneOf(
+     *     constraints={
+     *       @Assert\Expression(expression="this.orderUpToQuantity === 0"),
+     *       @Assert\Expression(expression="this.orderUpToQuantity > this.orderFromQuantity"),
+     *     },
+     *     includeInternalMessages=false,
+     *     message="Значение должно быть больше остатка."
+     * )
      */
     public $orderUpToQuantity;
 }

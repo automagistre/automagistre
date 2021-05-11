@@ -53,7 +53,7 @@ class Part
         string $name,
         PartNumber $number,
         bool $universal,
-        Unit $unit
+        Unit $unit,
     ) {
         $this->id = $id;
         $this->manufacturerId = $manufacturerId;
@@ -80,13 +80,10 @@ class Part
         $this->unit = $unit;
     }
 
-    /**
-     * @param PartId|self $part
-     */
-    public function equals($part): bool
+    public function equals(PartId | self $part): bool
     {
         $id = $part instanceof self ? $part->id : $part;
 
-        return $this->toId()->equal($id);
+        return $this->toId()->equals($id);
     }
 }

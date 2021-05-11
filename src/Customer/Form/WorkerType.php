@@ -58,7 +58,7 @@ final class WorkerType extends AbstractType
                     $groupMap[$id] = $type;
                 }
 
-                return array_map(fn (array $item): OperandId => OperandId::fromString($item['id']), $ids);
+                return array_map(fn (array $item): OperandId => OperandId::from($item['id']), $ids);
             }),
             'preferred_choices' => fn (string $operand) => array_key_exists($operand, $preferred),
             'choice_label' => fn (OperandId $operandId) => $this->formatter->format($operandId),

@@ -21,17 +21,11 @@ use function number_format;
  */
 final class PartExtension extends AbstractExtension
 {
-    private Registry $registry;
-
-    private PartManager $partManager;
-
-    private ReservationManager $reservationManager;
-
-    public function __construct(Registry $registry, PartManager $partManager, ReservationManager $reservationManager)
-    {
-        $this->registry = $registry;
-        $this->partManager = $partManager;
-        $this->reservationManager = $reservationManager;
+    public function __construct(
+        private Registry $registry,
+        private PartManager $partManager,
+        private ReservationManager $reservationManager,
+    ) {
     }
 
     /**
@@ -41,13 +35,13 @@ final class PartExtension extends AbstractExtension
     {
         return [
             new TwigFunction('part_crosses_in_stock', fn (
-                PartId $partId
+                PartId $partId,
             ): array => $this->partManager->crossesInStock($partId)),
             new TwigFunction('part_reserved_in_item', fn (
-                OrderItemPart $part
+                OrderItemPart $part,
             ): int => $this->reservationManager->reserved($part)),
             new TwigFunction('part_reservable', fn (
-                PartId $partId
+                PartId $partId,
             ): int => $this->reservationManager->reservable($partId)),
             new TwigFunction('part_by_id', fn (PartId $partId): Part => $this->partManager->byId($partId)),
             new TwigFunction(

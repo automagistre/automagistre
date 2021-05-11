@@ -9,6 +9,8 @@ use Symfony\Component\Validator\Constraint;
 /**
  * @Annotation
  * @Target({"CLASS", "ANNOTATION"})
+ *
+ * @psalm-suppress MissingConstructor
  */
 final class EntityCheck extends Constraint
 {
@@ -30,7 +32,7 @@ final class EntityCheck extends Constraint
     /**
      * {@inheritdoc}
      */
-    public function getTargets()
+    public function getTargets(): string
     {
         return self::CLASS_CONSTRAINT;
     }

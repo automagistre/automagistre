@@ -9,19 +9,11 @@ namespace App\GraphQL\Type;
  */
 final class PageInfo
 {
-    public bool $hasNextPage;
-
-    public bool $hasPreviousPage;
-
-    public ?string $endCursor;
-
-    public ?string $startCursor;
-
-    public function __construct(bool $hasNextPage, bool $hasPreviousPage, ?string $endCursor, ?string $startCursor)
-    {
-        $this->hasNextPage = $hasNextPage;
-        $this->hasPreviousPage = $hasPreviousPage;
-        $this->endCursor = $endCursor;
-        $this->startCursor = $startCursor;
+    public function __construct(
+        public bool $hasNextPage,
+        public bool $hasPreviousPage,
+        public ?string $endCursor,
+        public ?string $startCursor,
+    ) {
     }
 }

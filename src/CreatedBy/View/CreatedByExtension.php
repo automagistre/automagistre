@@ -16,11 +16,8 @@ use Twig\TwigFunction;
  */
 final class CreatedByExtension extends AbstractExtension
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     /**
@@ -42,14 +39,14 @@ final class CreatedByExtension extends AbstractExtension
                 [
                     'needs_environment' => true,
                     'is_safe' => ['html' => true],
-                ]
+                ],
             ),
             // Temporary for BC
             new TwigFunction(
                 'created_by',
                 function (UuidInterface $uuid): CreatedByView {
                     return $this->registry->get(CreatedByView::class, $uuid);
-                }
+                },
             ),
         ];
     }

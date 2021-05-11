@@ -21,19 +21,12 @@ final class CustomerReminderCommand extends Command
 {
     protected static $defaultName = 'calendar:customer:reminder';
 
-    private Registry $registry;
-
-    private MessageBusInterface $messageBus;
-
-    private Tenant $tenant;
-
-    public function __construct(Registry $registry, MessageBusInterface $commandBus, Tenant $tenant)
-    {
-        $this->registry = $registry;
-
+    public function __construct(
+        private Registry $registry,
+        private MessageBusInterface $messageBus,
+        private Tenant $tenant,
+    ) {
         parent::__construct();
-        $this->messageBus = $commandBus;
-        $this->tenant = $tenant;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -53,14 +46,14 @@ final class CustomerReminderCommand extends Command
                 [
                     'start' => 'datetime',
                     'end' => 'datetime',
-                ]
+                ],
             )
         ;
 
         foreach ($rows as $row) {
             /** @var DateTimeImmutable $date */
             $date = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $row['date']);
-            $customerId = OperandId::fromString($row['customerId']);
+            $customerId = OperandId::from($row['customerId']);
 
             $message = str_replace(
                 [
@@ -78,8 +71,8 @@ final class CustomerReminderCommand extends Command
                     $message,
                     [
                         Feature::onceADay(),
-                    ]
-                )
+                    ],
+                ),
             );
         }
 

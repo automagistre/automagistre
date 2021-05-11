@@ -47,11 +47,11 @@ final class GasketFixture extends Fixture implements DependentFixtureInterface
      */
     public function load(ObjectManager $manager): void
     {
-        $partId = PartId::fromString(self::ID);
+        $partId = PartId::from(self::ID);
 
         $part = new Part(
             $partId,
-            ManufacturerId::fromString(self::MANUFACTURER_ID),
+            ManufacturerId::from(self::MANUFACTURER_ID),
             self::NAME,
             new PartNumber(self::NUMBER),
             self::IS_UNIVERSAL,

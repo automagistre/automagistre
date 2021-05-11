@@ -4,19 +4,17 @@ declare(strict_types=1);
 
 namespace App\Income\View;
 
+use App\Income\Entity\Income;
 use App\Income\Entity\IncomeId;
 use App\Shared\Doctrine\Registry;
-use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
+use Premier\Identifier\Identifier;
 
 final class IncomeFormatter implements IdentifierFormatterInterface
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     /**
@@ -32,8 +30,8 @@ final class IncomeFormatter implements IdentifierFormatterInterface
      */
     public function format(IdentifierFormatter $formatter, Identifier $identifier, string $format = null): string
     {
-        $view = $this->registry->view($identifier);
+        $income = $this->registry->get(Income::class, $identifier);
 
-        return $formatter->format($view['supplierId']);
+        return $formatter->format($income->getSupplierId());
     }
 }

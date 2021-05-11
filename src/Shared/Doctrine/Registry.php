@@ -5,15 +5,13 @@ declare(strict_types=1);
 namespace App\Shared\Doctrine;
 
 use App\Costil;
-use App\Shared\Identifier\Identifier;
-use App\Shared\Identifier\IdentifierMap;
 use Doctrine\DBAL\Connection;
-use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\Persistence\ManagerRegistry;
 use LogicException;
+use Premier\Identifier\Identifier;
 use Ramsey\Uuid\UuidInterface;
 use function array_map;
 use function assert;
@@ -30,14 +28,29 @@ use function str_replace;
  */
 final class Registry
 {
-    private ManagerRegistry $registry;
-
-    private IdentifierMap $identifierMap;
-
-    public function __construct(ManagerRegistry $registry, IdentifierMap $identifierMap)
+    public function __construct(private ManagerRegistry $registry)
     {
-        $this->registry = $registry;
-        $this->identifierMap = $identifierMap;
+    }
+
+    /**
+     * @template T
+     *
+     * @psalm-param class-string<T> $class
+     *
+     * @psalm-return array<int, T>
+     */
+    public function findBy(
+        string $class,
+        mixed $criteria = [],
+        array $orderBy = null,
+        int $limit = null,
+        int $offset = null,
+    ): array {
+        if (!is_array($criteria)) {
+            $criteria = ['id' => $criteria];
+        }
+
+        return $this->repository($class)->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
@@ -47,7 +60,23 @@ final class Registry
      *
      * @psalm-return ?T
      */
-    public function findBy(string $class, array $criteria, array $ordering = [])
+    public function find(
+        string $class,
+        string | UuidInterface | Identifier $id,
+        int $lockMode = null,
+        int $lockVersion = null,
+    ): mixed {
+        return $this->repository($class)->find($id, $lockMode, $lockVersion);
+    }
+
+    /**
+     * @template T
+     *
+     * @psalm-param class-string<T> $class
+     *
+     * @psalm-return ?T
+     */
+    public function findOneBy(string $class, array $criteria, array $ordering = [])
     {
         return $this->repository($class)->findOneBy($criteria, $ordering);
     }
@@ -59,9 +88,9 @@ final class Registry
      *
      * @psalm-return T
      *
-     * @param Identifier|string|UuidInterface $id
-     * @param null|mixed                      $lockMode
-     * @param null|mixed                      $lockVersion
+     * @param mixed      $id
+     * @param null|mixed $lockMode
+     * @param null|mixed $lockVersion
      */
     public function get(string $class, $id, $lockMode = null, $lockVersion = null)
     {
@@ -166,29 +195,6 @@ final class Registry
         return $this->manager($class)->getClassMetadata($class);
     }
 
-    public function view(Identifier $identifier): array
-    {
-        $class = $this->identifierMap->entityClassByIdentifier($identifier);
-
-        $view = $this->repository($class)
-            ->createQueryBuilder('t')
-            ->where('t.id = :id')
-            ->setParameter('id', $identifier)
-            ->getQuery()
-            ->getOneOrNullResult(AbstractQuery::HYDRATE_ARRAY)
-        ;
-
-        if (!is_array($view)) {
-            throw new LogicException(sprintf(
-                'Not found %s for id %s',
-                $class,
-                $identifier->toString(),
-            ));
-        }
-
-        return Costil::convertToMoney($view);
-    }
-
     /**
      * @psalm-param class-string $class
      */
@@ -235,7 +241,7 @@ final class Registry
         return $this->manager($class)->getReference($class, $id);
     }
 
-    public function add(object ...$entities): void
+    public function add(object ...$entities): self
     {
         $em = $this->manager();
 
@@ -243,6 +249,23 @@ final class Registry
             $em->persist($entity);
         }
 
-        $em->flush();
+        return $this;
+    }
+
+    public function flush(string $manager = null): void
+    {
+        $managers = null === $manager
+            ? $this->registry->getManagers()
+            : [
+                class_exists($manager)
+                    ? $this->registry->getManagerForClass($manager)
+                    : $this->registry->getManager($manager),
+            ];
+
+        foreach ($managers as $em) {
+            assert($em instanceof EntityManagerInterface);
+
+            $em->flush();
+        }
     }
 }

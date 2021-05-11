@@ -1,12 +1,12 @@
 #
 # Composer
 #
-FROM composer:2.0.12 as composer
+FROM composer:2.0.13 as composer
 
 #
 # PHP
 #
-FROM amd64/php:8.0.3-fpm-alpine3.12 as php-raw
+FROM amd64/php:8.0.6-fpm-alpine3.12 as php-raw
 
 LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 
@@ -180,7 +180,6 @@ COPY etc/php-fpm.conf /usr/local/etc/php-fpm.conf
 COPY etc/php-fpm.www.conf /usr/local/etc/php-fpm.d/www.conf
 
 ENV PHP_MEMORY_LIMIT 1G
-ENV PHP_OPCACHE_ENABLE 0
 ENV PHP_ZEND_ASSERTIONS 1
 ENV PCOV_ENABLED 1
 
@@ -191,6 +190,7 @@ ENV APP_DEBUG 0
 ENV PHP_OPCACHE_ENABLE 1
 ENV PHP_ZEND_ASSERTIONS -1
 ENV PCOV_ENABLED 0
+ENV COMPOSER_CACHE_DIR /var/cache/composer
 
 COPY composer.json composer.lock symfony.lock ./
 RUN --mount=type=cache,target=/var/cache/composer \
@@ -203,6 +203,7 @@ COPY public public
 COPY src src
 COPY templates templates
 COPY translations translations
+COPY views views
 
 RUN --mount=type=cache,target=/var/cache/composer \
     set -ex \
@@ -211,7 +212,7 @@ RUN --mount=type=cache,target=/var/cache/composer \
     && console assets:install public \
     && chown -R www-data:www-data ${APP_DIR}/var
 
-ENV PHP_OPCACHE_PRELOAD ${APP_DIR}/var/cache/prod/App_KernelProdContainer.preload.php
+#ENV PHP_OPCACHE_PRELOAD ${APP_DIR}/var/cache/prod/App_KernelProdContainer.preload.php
 
 HEALTHCHECK --interval=10s --timeout=5s --start-period=5s \
         CMD REDIRECT_STATUS=true SCRIPT_NAME=/ping SCRIPT_FILENAME=/ping REQUEST_METHOD=GET cgi-fcgi -bind -connect 127.0.0.1:9000

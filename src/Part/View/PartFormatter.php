@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Part\View;
 
+use App\Part\Entity\Part;
 use App\Part\Entity\PartId;
 use App\Shared\Doctrine\Registry;
-use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
+use Premier\Identifier\Identifier;
 use function str_replace;
 
 final class PartFormatter implements IdentifierFormatterInterface
@@ -21,11 +22,8 @@ final class PartFormatter implements IdentifierFormatterInterface
         'manufacturer' => ':manufacturer:',
     ];
 
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     /**
@@ -33,7 +31,7 @@ final class PartFormatter implements IdentifierFormatterInterface
      */
     public function format(IdentifierFormatter $formatter, Identifier $identifier, string $format = null): string
     {
-        $view = $this->registry->view($identifier);
+        $part = $this->registry->get(Part::class, $identifier);
 
         return str_replace(
             [
@@ -42,11 +40,11 @@ final class PartFormatter implements IdentifierFormatterInterface
                 ':number:',
             ],
             [
-                $formatter->format($view['manufacturerId']),
-                $view['name'],
-                $view['number'],
+                $formatter->format($part->manufacturerId),
+                $part->name,
+                $part->number->number,
             ],
-            self::FORMATS[$format]
+            self::FORMATS[$format],
         );
     }
 

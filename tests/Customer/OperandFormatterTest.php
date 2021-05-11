@@ -14,7 +14,7 @@ final class OperandFormatterTest extends IdentifierTestCase
 {
     public function data(): Generator
     {
-        yield [OperandId::fromString(OrganizationFixtures::ID), 'Org 1'];
-        yield [OperandId::fromString(PersonVasyaFixtures::ID), 'Vasya'];
+        yield [OperandId::from(OrganizationFixtures::ID), 'Org 1'];
+        yield [OperandId::from(PersonVasyaFixtures::ID), 'Vasya'];
     }
 }

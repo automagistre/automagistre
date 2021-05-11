@@ -5,46 +5,47 @@ declare(strict_types=1);
 namespace App\Storage\Messages;
 
 use App\MessageBus\MessageHandler;
+use App\Order\Entity\Order;
 use App\Order\Entity\OrderItemPart;
-use App\Order\Entity\OrderStorage;
 use App\Order\Manager\ReservationManager;
 use App\Order\Messages\OrderDealed;
-use App\Storage\Entity\MotionStorage;
-use App\Storage\Enum\Source;
+use App\Shared\Doctrine\Registry;
+use App\Storage\Entity\MotionSource;
+use App\Storage\Entity\Part;
 
 final class RemovePartFromStorageOnOrderClosedListener implements MessageHandler
 {
-    private OrderStorage $orderStorage;
-
-    private ReservationManager $reservationManager;
-
-    private MotionStorage $motionStorage;
-
     public function __construct(
-        OrderStorage $orderStorage,
-        ReservationManager $reservationManager,
-        MotionStorage $motionStorage
+        private Registry $registry,
+        private ReservationManager $reservationManager,
     ) {
-        $this->orderStorage = $orderStorage;
-        $this->reservationManager = $reservationManager;
-        $this->motionStorage = $motionStorage;
     }
 
     public function __invoke(OrderDealed $event): void
     {
-        $order = $this->orderStorage->get($event->orderId);
+        $order = $this->registry->get(Order::class, $event->orderId);
 
         foreach ($order->getItems(OrderItemPart::class) as $item) {
             /** @var OrderItemPart $item */
             $partId = $item->getPartId();
             $quantity = $item->getQuantity();
 
+            if (0 === $quantity || $quantity < 0) {
+                continue;
+            }
+
             if (0 !== $this->reservationManager->reserved($item)) {
                 $this->reservationManager->deReserve($item, $quantity);
             }
 
-            $motionalPart = $this->motionStorage->getPart($partId);
-            $motionalPart->move(0 - $quantity, Source::order(), $order->toId()->toUuid());
+            $storagePart = $this->registry->find(Part::class, $partId);
+
+            if (null === $storagePart) {
+                $storagePart = new Part($partId);
+                $this->registry->add($storagePart);
+            }
+
+            $storagePart->decrease($quantity, MotionSource::order($order->toId()));
         }
     }
 }

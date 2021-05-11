@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Shared\Identifier;
 
 use LogicException;
+use Premier\Identifier\Identifier;
 use Psr\Container\ContainerInterface;
 use function array_key_exists;
 use function get_class;
@@ -12,13 +13,10 @@ use function sprintf;
 
 final class IdentifierFormatter
 {
-    private ContainerInterface $formatters;
-
     private array $map = [];
 
-    public function __construct(ContainerInterface $formatters)
+    public function __construct(private ContainerInterface $formatters)
     {
-        $this->formatters = $formatters;
     }
 
     public function format(Identifier $identifier, string $format = null): string

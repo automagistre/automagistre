@@ -21,7 +21,7 @@ final class WorkFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $work = new McWork(
-            McWorkId::fromString(self::ID),
+            McWorkId::from(self::ID),
             'Work 1',
             null,
             new Money(100, new Currency('RUB')),

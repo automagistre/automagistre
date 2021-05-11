@@ -16,17 +16,11 @@ use Twig\TwigFunction;
 
 final class PublishExtension extends AbstractExtension
 {
-    private Registry $registry;
-
-    private FormFactoryInterface $formFactory;
-
-    private EasyAdminRouter $router;
-
-    public function __construct(Registry $registry, FormFactoryInterface $formFactory, EasyAdminRouter $router)
-    {
-        $this->registry = $registry;
-        $this->formFactory = $formFactory;
-        $this->router = $router;
+    public function __construct(
+        private Registry $registry,
+        private FormFactoryInterface $formFactory,
+        private EasyAdminRouter $router,
+    ) {
     }
 
     /**
@@ -36,7 +30,7 @@ final class PublishExtension extends AbstractExtension
     {
         return [
             new TwigFunction('publish_form', function (string $id): FormView {
-                $publishView = $this->registry->findBy(PublishView::class, ['id' => $id]);
+                $publishView = $this->registry->findOneBy(PublishView::class, ['id' => $id]);
 
                 $publishDto = new PublishDto();
                 $publishDto->id = $id;

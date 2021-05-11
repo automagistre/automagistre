@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Income\Entity;
 
 use App\Customer\Entity\OperandId;
+use App\Income\Event\IncomeAccrued;
+use App\MessageBus\ContainsRecordedMessages;
+use App\MessageBus\PrivateMessageRecorderCapabilities;
 use App\User\Entity\User;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -20,8 +23,10 @@ use Money\Money;
  *     indexes={@ORM\Index(columns={"accrued_at"})}
  * )
  */
-class Income
+class Income implements ContainsRecordedMessages
 {
+    use PrivateMessageRecorderCapabilities;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="income_id")
@@ -142,6 +147,8 @@ class Income
         $this->accruedBy = $user;
         $this->accruedAt = new DateTimeImmutable();
         $this->accruedAmount = $this->getTotalPrice();
+
+        $this->record(new IncomeAccrued($this->id));
     }
 
     public function getAccruedAt(): ?DateTimeImmutable

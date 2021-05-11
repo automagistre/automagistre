@@ -18,11 +18,8 @@ use Twig\TwigFunction;
 
 final class OrderExtension extends AbstractExtension
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     /**
@@ -37,11 +34,11 @@ final class OrderExtension extends AbstractExtension
                     ->repository(Recommendation::class)
                     ->findOneBy([
                         'realization' => $service->toId(),
-                    ], ['id' => 'DESC'])
+                    ], ['id' => 'DESC']),
             ),
             new TwigFunction(
                 'entry_by_order',
-                fn (OrderId $orderId) => $this->registry->findBy(EntryView::class, ['orderId' => $orderId])
+                fn (OrderId $orderId) => $this->registry->findOneBy(EntryView::class, ['orderId' => $orderId]),
             ),
             new TwigFunction(
                 'order_info',
@@ -49,15 +46,15 @@ final class OrderExtension extends AbstractExtension
                     return $twig->render('easy_admin/order/includes/main_information.html.twig', [
                         'order' => $order,
                         'status_selector' => $statusSelector,
-                        'car' => $this->registry->findBy(Car::class, ['id' => $order->getCarId()]),
-                        'customer' => $this->registry->findBy(Operand::class, ['id' => $order->getCustomerId()]),
-                        'calendarEntry' => $this->registry->findBy(EntryView::class, ['orderId' => $order->toId()]),
+                        'car' => $this->registry->findOneBy(Car::class, ['id' => $order->getCarId()]),
+                        'customer' => $this->registry->findOneBy(Operand::class, ['id' => $order->getCustomerId()]),
+                        'calendarEntry' => $this->registry->findOneBy(EntryView::class, ['orderId' => $order->toId()]),
                     ]);
                 },
                 [
                     'is_safe' => ['html'],
                     'needs_environment' => true,
-                ]
+                ],
             ),
         ];
     }

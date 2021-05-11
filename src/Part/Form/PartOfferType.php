@@ -39,7 +39,7 @@ final class PartOfferType extends AbstractType
                     ->add('price', MoneyType::class)
                     ->add('quantity', QuantityType::class)
                 ;
-            }
+            },
         );
     }
 

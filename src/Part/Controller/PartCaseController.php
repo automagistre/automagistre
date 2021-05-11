@@ -20,7 +20,7 @@ final class PartCaseController extends AbstractController
 {
     protected function caseAction(): Response
     {
-        $partId = $this->getIdentifier(PartId::class);
+        $partId = $this->getIdentifierOrNull(PartId::class);
 
         if (!$partId instanceof PartId) {
             throw new BadRequestHttpException('Part required.');

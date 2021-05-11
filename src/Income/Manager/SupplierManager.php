@@ -14,14 +14,8 @@ use App\Shared\Doctrine\Registry;
  */
 final class SupplierManager
 {
-    private Registry $registry;
-
-    private PaymentManager $paymentManager;
-
-    public function __construct(Registry $registry, PaymentManager $paymentManager)
+    public function __construct(private Registry $registry, private PaymentManager $paymentManager)
     {
-        $this->registry = $registry;
-        $this->paymentManager = $paymentManager;
     }
 
     /**

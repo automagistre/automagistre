@@ -35,7 +35,7 @@ final class Equipment
     public function __construct(
         Engine $engine = null,
         Transmission $transmission = null,
-        DriveWheelConfiguration $wheelDrive = null
+        DriveWheelConfiguration $wheelDrive = null,
     ) {
         $this->engine = $engine ?? new Engine();
         $this->wheelDrive = $wheelDrive ?? DriveWheelConfiguration::unknown();
@@ -56,7 +56,7 @@ final class Equipment
             '%s %s %s',
             $this->engine->toString(),
             $this->transmission->toCode(),
-            $this->wheelDrive->toCode()
+            $this->wheelDrive->toCode(),
         );
     }
 }

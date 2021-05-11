@@ -18,28 +18,13 @@ use function sprintf;
 
 final class StaleStockNotifier implements MessageHandler
 {
-    private Registry $registry;
-
-    private Tenant $tenant;
-
-    private RouterInterface $router;
-
-    private HttpClientInterface $httpClient;
-
-    private string $telegramBotToken;
-
     public function __construct(
-        Registry $registry,
-        RouterInterface $router,
-        Tenant $tenant,
-        HttpClientInterface $httpClient,
-        string $telegramBotToken
+        private Registry $registry,
+        private RouterInterface $router,
+        private Tenant $tenant,
+        private HttpClientInterface $httpClient,
+        private string $telegramBotToken,
     ) {
-        $this->registry = $registry;
-        $this->tenant = $tenant;
-        $this->router = $router;
-        $this->httpClient = $httpClient;
-        $this->telegramBotToken = $telegramBotToken;
     }
 
     public function __invoke(OrderItemPartCreated $event): void
@@ -95,8 +80,8 @@ final class StaleStockNotifier implements MessageHandler
                         ],
                         RouterInterface::ABSOLUTE_URL,
                     ),
-                    sprintf('Заказ №%s', $orderItemPart->getOrder()->getNumber())
-                )
+                    sprintf('Заказ №%s', $orderItemPart->getOrder()->getNumber()),
+                ),
             )
             ->p(sprintf(
                 'Добавлена запчасть %s, однако на складе имеются залежавшиеся аналоги, которые нужно продать в первую очередь:',
@@ -111,7 +96,7 @@ final class StaleStockNotifier implements MessageHandler
                         RouterInterface::ABSOLUTE_URL,
                     ),
                     $part->display(),
-                )
+                ),
             ))
             ->numberedList(function (NumberedListBuilder $builder) use ($canReplacedBy): void {
                 foreach ($canReplacedBy as $analog) {
@@ -128,7 +113,7 @@ final class StaleStockNotifier implements MessageHandler
                                 ],
                                 RouterInterface::ABSOLUTE_URL,
                             ),
-                            'ссылка'
+                            'ссылка',
                         ),
                     ));
                 }
@@ -146,7 +131,7 @@ final class StaleStockNotifier implements MessageHandler
                     'parse_mode' => 'Markdown',
                     'text' => $text,
                 ],
-            ]
+            ],
         );
     }
 }

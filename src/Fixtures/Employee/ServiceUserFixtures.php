@@ -21,7 +21,7 @@ final class ServiceUserFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $user = new User(
-            UserId::fromString(self::ID),
+            UserId::from(self::ID),
             self::ROLES,
             self::USERNAME,
         );

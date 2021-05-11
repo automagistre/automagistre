@@ -1,8 +1,4 @@
-parameters:
-    env(SENTRY_DSN): null
-
 sentry:
-    dsn: "%env(SENTRY_DSN)%"
     options:
         environment: '%kernel.environment%'
         send_default_pii: true

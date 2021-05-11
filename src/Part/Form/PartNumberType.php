@@ -22,7 +22,7 @@ final class PartNumberType extends AbstractType
             new CallbackTransformer(
                 static fn (?string $value) => $value,
                 static fn (?string $value) => PartNumber::sanitize($value),
-            )
+            ),
         );
     }
 

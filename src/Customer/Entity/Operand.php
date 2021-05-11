@@ -59,7 +59,7 @@ abstract class Operand
 
     public function isEqual(?self $operand): bool
     {
-        return null !== $operand && $operand->toId()->equal($this->id);
+        return null !== $operand && $operand->toId()->equals($this->id);
     }
 
     public function getEmail(): ?string

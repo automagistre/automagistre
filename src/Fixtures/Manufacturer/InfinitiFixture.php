@@ -21,7 +21,7 @@ final class InfinitiFixture extends Fixture
     public function load(ObjectManager $manager): void
     {
         $manufacturer = new Manufacturer(
-            ManufacturerId::fromString(self::ID),
+            ManufacturerId::from(self::ID),
             self::NAME,
             self::LOCALIZED_NAME,
         );

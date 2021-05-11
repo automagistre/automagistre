@@ -12,8 +12,6 @@ use function array_keys;
 
 final class Stream
 {
-    public ?EmployeeId $workerId;
-
     /**
      * @var StreamItem[]
      */
@@ -22,9 +20,8 @@ final class Stream
     /**
      * @param EntryView[] $calendars
      */
-    public function __construct(EmployeeId $worker = null, array $calendars = [])
+    public function __construct(public ?EmployeeId $workerId = null, array $calendars = [])
     {
-        $this->workerId = $worker;
         foreach ($calendars as $calendar) {
             $this->add($calendar);
         }

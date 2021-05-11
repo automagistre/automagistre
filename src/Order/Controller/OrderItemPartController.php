@@ -37,11 +37,8 @@ use function usort;
  */
 final class OrderItemPartController extends OrderItemController
 {
-    private ReservationManager $reservationManager;
-
-    public function __construct(ReservationManager $reservationManager)
+    public function __construct(private ReservationManager $reservationManager)
     {
-        $this->reservationManager = $reservationManager;
     }
 
     public function relatedAction(): Response
@@ -71,7 +68,7 @@ final class OrderItemPartController extends OrderItemController
                 SQL,
                 [
                     'partId' => $partId->toString(),
-                ]
+                ],
             )
         ;
 
@@ -107,7 +104,7 @@ final class OrderItemPartController extends OrderItemController
 
         usort(
             $related,
-            static fn (RelatedDto $left, RelatedDto $right) => $right->part->quantity <=> $left->part->quantity
+            static fn (RelatedDto $left, RelatedDto $right) => $right->part->quantity <=> $left->part->quantity,
         );
 
         $form = $this->createFormBuilder(['parts' => $related])
@@ -144,7 +141,7 @@ final class OrderItemPartController extends OrderItemController
                 $entities[] = $entity;
             }
 
-            $this->registry->add(...$entities);
+            $this->registry->add(...$entities)->flush();
 
             return $this->redirectToReferrer();
         }
@@ -211,7 +208,7 @@ final class OrderItemPartController extends OrderItemController
         $easyadmin['item'] = $dto;
         $this->request->attributes->set('easyadmin', $easyadmin);
 
-        $partId = $this->getIdentifier(PartId::class);
+        $partId = $this->getIdentifierOrNull(PartId::class);
 
         if ($partId instanceof PartId) {
             $partOffer->partId = $partId;
@@ -242,7 +239,7 @@ final class OrderItemPartController extends OrderItemController
                 Uuid::uuid6(),
                 $order,
                 $partOffer->partId,
-                $partOffer->quantity
+                $partOffer->quantity,
             );
             $orderItemPart->setParent($dto->parent);
             $orderItemPart->setWarranty($dto->warranty);

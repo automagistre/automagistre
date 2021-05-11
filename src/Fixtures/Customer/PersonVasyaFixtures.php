@@ -31,7 +31,7 @@ final class PersonVasyaFixtures extends Fixture implements DependentFixtureInter
      */
     public function load(ObjectManager $manager): void
     {
-        $person = new Person(OperandId::fromString(self::ID));
+        $person = new Person(OperandId::from(self::ID));
         $person->setFirstname('Vasya');
 
         $this->addReference('person-1', $person);

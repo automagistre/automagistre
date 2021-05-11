@@ -25,7 +25,7 @@ final class TransactionalCustomer implements Transactional
         Money $money,
         CustomerTransactionSource $source,
         UuidInterface $sourceId,
-        string $description = null
+        string $description = null,
     ): void {
         $this->em->persist(
             new CustomerTransaction(
@@ -35,7 +35,7 @@ final class TransactionalCustomer implements Transactional
                 $source,
                 $sourceId,
                 $description,
-            )
+            ),
         );
     }
 }

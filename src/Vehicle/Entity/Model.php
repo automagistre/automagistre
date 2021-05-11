@@ -62,7 +62,7 @@ class Model
         ?string $localizedName,
         ?string $caseName,
         ?int $yearFrom,
-        ?int $yearTill
+        ?int $yearTill,
     ) {
         $this->id = $uuid;
         $this->manufacturerId = $manufacturerId;

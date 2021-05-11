@@ -46,17 +46,17 @@ final class RecommendationFixtures extends Fixture implements DependentFixtureIn
         assert($car instanceof Car);
 
         $recommendation = new Recommendation(
-            RecommendationId::fromString(self::ID),
+            RecommendationId::from(self::ID),
             $car,
             'Test Service',
             new Money(100, new Currency('RUB')),
-            OperandId::fromString(self::WORKER_ID),
+            OperandId::from(self::WORKER_ID),
         );
 
         $recommendation->addPart(new RecommendationPart(
-            RecommendationPartId::fromString(self::RECOMMENDATION_PART_ID),
+            RecommendationPartId::from(self::RECOMMENDATION_PART_ID),
             $recommendation,
-            PartId::fromString(self::PART_ID),
+            PartId::from(self::PART_ID),
             1,
             new Money(100, new Currency('RUB')),
         ));

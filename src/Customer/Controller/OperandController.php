@@ -65,7 +65,7 @@ class OperandController extends AbstractController
         $entityClass,
         $sortDirection,
         $sortField = null,
-        $dqlFilter = null
+        $dqlFilter = null,
     ): QueryBuilder {
         $isBalanceSort = 'balance' === $sortField;
 
@@ -73,7 +73,7 @@ class OperandController extends AbstractController
             $entityClass,
             $sortDirection,
             $isBalanceSort ? null : $sortField,
-            $dqlFilter
+            $dqlFilter,
         );
 
         if ($isBalanceSort) {
@@ -89,7 +89,7 @@ class OperandController extends AbstractController
         array $searchableFields,
         $sortField = null,
         $sortDirection = null,
-        $dqlFilter = null
+        $dqlFilter = null,
     ): QueryBuilder {
         $isBalanceSort = 'balance' === $sortField;
 
@@ -167,7 +167,7 @@ class OperandController extends AbstractController
                 $qb->expr()->like('LOWER(person.lastname)', $key),
                 $qb->expr()->like('LOWER(person.telephone)', $key),
                 $qb->expr()->like('LOWER(person.email)', $key),
-                $qb->expr()->like('LOWER(organization.name)', $key)
+                $qb->expr()->like('LOWER(organization.name)', $key),
             ));
 
             $qb->setParameter($key, '%'.mb_strtolower($item).'%');
@@ -200,7 +200,7 @@ class OperandController extends AbstractController
                 BalanceView::class,
                 'balance',
                 Join::WITH,
-                'balance.id = entity.id'
+                'balance.id = entity.id',
             )
             ->orderBy('balance.money.amount', $sortDirection)
             ->groupBy('entity')

@@ -13,11 +13,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final class CallbackController
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     /**
@@ -29,12 +26,12 @@ final class CallbackController
 
         $em->persist(
             new SmsStatus(
-                SmsId::fromString($id),
+                SmsId::from($id),
                 [
                     'provider' => $provider,
                     'content' => $request->request->all(),
-                ]
-            )
+                ],
+            ),
         );
         $em->flush();
 

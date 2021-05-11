@@ -22,14 +22,8 @@ use function sprintf;
 
 final class InteractiveController extends AbstractController
 {
-    private Registry $registry;
-
-    private DecimalMoneyFormatter $moneyFormatterr;
-
-    public function __construct(Registry $registry, DecimalMoneyFormatter $moneyFormatterr)
+    public function __construct(private Registry $registry, private DecimalMoneyFormatter $moneyFormatter)
     {
-        $this->registry = $registry;
-        $this->moneyFormatterr = $moneyFormatterr;
     }
 
     /**
@@ -45,7 +39,7 @@ final class InteractiveController extends AbstractController
             return new JsonResponse(['returned_code' => 1]);
         }
 
-        $person = $this->registry->findBy(Person::class, ['telephone' => $phoneNumber]);
+        $person = $this->registry->findOneBy(Person::class, ['telephone' => $phoneNumber]);
 
         if (!$person instanceof Person) {
             return new JsonResponse(['returned_code' => 1]);
@@ -84,7 +78,7 @@ final class InteractiveController extends AbstractController
         $message = '';
         $scheduleInMessage = false;
 
-        $entry = $this->registry->findBy(
+        $entry = $this->registry->findOneBy(
             EntryView::class,
             ['orderInfo.customerId' => $person->toId()],
             ['id' => 'DESC'],
@@ -135,7 +129,7 @@ final class InteractiveController extends AbstractController
             }
         }
 
-        $order = $this->registry->findBy(Order::class, [
+        $order = $this->registry->findOneBy(Order::class, [
             'customerId' => $person->toId(),
             'status' => [
                 OrderStatus::ordering(),
@@ -178,7 +172,7 @@ final class InteractiveController extends AbstractController
                 if ($forPayment->isPositive()) {
                     $message .= sprintf(
                         ' К оплате %s рублей.',
-                        $this->moneyFormatterr->format($forPayment),
+                        $this->moneyFormatter->format($forPayment),
                     );
                 }
             }

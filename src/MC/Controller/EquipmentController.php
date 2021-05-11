@@ -51,7 +51,7 @@ final class EquipmentController extends AbstractController
         array $searchableFields,
         $sortField = 'id',
         $sortDirection = null,
-        $dqlFilter = null
+        $dqlFilter = null,
     ): QueryBuilder {
         $qb = $this->registry->repository(McEquipment::class)->createQueryBuilder('entity');
 
@@ -73,7 +73,7 @@ final class EquipmentController extends AbstractController
                 $qb->expr()->like('LOWER(carModel.caseName)', $key),
                 $qb->expr()->like('LOWER(carModel.localizedName)', $key),
                 $qb->expr()->like('LOWER(manufacturer.name)', $key),
-                $qb->expr()->like('LOWER(manufacturer.localizedName)', $key)
+                $qb->expr()->like('LOWER(manufacturer.localizedName)', $key),
             ));
 
             $qb->setParameter($key, '%'.mb_strtolower($searchString).'%');
@@ -102,7 +102,7 @@ final class EquipmentController extends AbstractController
                     'id' => $equipment->toId()->toString(),
                     'text' => $this->display($equipment->toId()),
                 ],
-                (array) $paginator->getCurrentPageResults()
+                (array) $paginator->getCurrentPageResults(),
             ),
         ]);
     }

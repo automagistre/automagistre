@@ -8,13 +8,7 @@ use App\Calendar\Entity\EntryView;
 
 final class StreamItem
 {
-    public int $length;
-
-    public EntryView $calendar;
-
-    public function __construct(int $length, EntryView $calendar)
+    public function __construct(public int $length, public EntryView $calendar)
     {
-        $this->length = $length;
-        $this->calendar = $calendar;
     }
 }

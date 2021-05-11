@@ -93,7 +93,7 @@ final class ManufacturerController extends AbstractController
                     'id' => $manufacturer->toId()->toString(),
                     'text' => $this->display($manufacturer->toId()),
                 ],
-                (array) $paginator->getCurrentPageResults()
+                (array) $paginator->getCurrentPageResults(),
             ),
         ]);
     }

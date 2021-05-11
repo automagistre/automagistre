@@ -4,62 +4,37 @@ declare(strict_types=1);
 
 namespace App\Income\EventListener;
 
+use App\Income\Entity\Income;
 use App\Income\Event\IncomeAccrued;
-use App\Part\Event\PartAccrued;
+use App\MessageBus\MessageHandler;
 use App\Shared\Doctrine\Registry;
-use App\Storage\Entity\Motion;
-use App\Storage\Enum\Source;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use App\Storage\Entity\MotionSource;
+use App\Storage\Entity\Part;
 
-/**
- * @author Konstantin Grachev <me@grachevko.ru>
- */
-final class AccrueIncomePartsListener implements EventSubscriberInterface
+final class AccrueIncomePartsListener implements MessageHandler
 {
-    private Registry $registry;
-
-    private EventDispatcherInterface $dispatcher;
-
-    public function __construct(Registry $registry, EventDispatcherInterface $dispatcher)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
-        $this->dispatcher = $dispatcher;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
+    public function __invoke(IncomeAccrued $event): void
     {
-        return [
-            IncomeAccrued::class => 'onIncomeAccrued',
-        ];
-    }
-
-    public function onIncomeAccrued(IncomeAccrued $event): void
-    {
-        $em = $this->registry->manager(Motion::class);
-
-        $income = $event->getSubject();
+        $income = $this->registry->get(Income::class, $event->incomeId);
 
         foreach ($income->getIncomeParts() as $incomePart) {
             $partId = $incomePart->partId;
-            $quantity = $incomePart->getQuantity();
 
-            $motion = new Motion(
-                $partId,
+            $storagePart = $this->registry->find(Part::class, $partId);
+
+            if (null === $storagePart) {
+                $storagePart = new Part($partId);
+                $this->registry->add($storagePart);
+            }
+
+            $storagePart->increase(
                 $incomePart->getQuantity(),
-                Source::income(),
-                $incomePart->toId()->toUuid(),
+                MotionSource::income($incomePart->toId()),
             );
-            $em->persist($motion);
-
-            $em->flush();
-
-            $this->dispatcher->dispatch(new PartAccrued($partId, [
-                'quantity' => $quantity,
-            ]));
         }
     }
 }

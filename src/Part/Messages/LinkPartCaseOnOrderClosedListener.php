@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Part\Messages;
 
+use App\Car\Entity\Car;
 use App\MessageBus\MessageHandler;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItemPart;
@@ -11,17 +12,15 @@ use App\Order\Messages\OrderDealed;
 use App\Part\Entity\PartCase;
 use App\Part\Entity\PartCaseId;
 use App\Shared\Doctrine\Registry;
+use App\Vehicle\Entity\Model;
 use App\Vehicle\Entity\VehicleId;
 use function array_map;
 use function count;
 
 final class LinkPartCaseOnOrderClosedListener implements MessageHandler
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     public function __invoke(OrderDealed $event): void
@@ -34,16 +33,16 @@ final class LinkPartCaseOnOrderClosedListener implements MessageHandler
             return;
         }
 
-        $carView = $this->registry->view($carId);
-        $vehicleId = $carView['vehicleId'];
+        $car = $this->registry->get(Car::class, $carId);
+        $vehicleId = $car->vehicleId;
 
         if (!$vehicleId instanceof VehicleId) {
             return;
         }
 
-        $vehicleView = $this->registry->view($vehicleId);
+        $vehicle = $this->registry->get(Model::class, $vehicleId);
 
-        if (null === $vehicleView['caseName']) {
+        if (null === $vehicle->caseName) {
             return;
         }
 
@@ -53,7 +52,7 @@ final class LinkPartCaseOnOrderClosedListener implements MessageHandler
             return;
         }
 
-        $parts = array_map(fn (OrderItemPart $orderItemPart) => $orderItemPart->getPartId(), $parts);
+        $parts = array_map(static fn (OrderItemPart $orderItemPart) => $orderItemPart->getPartId(), $parts);
 
         foreach ($parts as $part) {
             $this->registry->connection(PartCase::class)
@@ -69,7 +68,7 @@ final class LinkPartCaseOnOrderClosedListener implements MessageHandler
                         'id' => PartCaseId::generate(),
                         'vehicle' => $vehicleId->toString(),
                         'part' => $part,
-                    ]
+                    ],
                 )
             ;
         }

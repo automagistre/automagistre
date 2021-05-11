@@ -15,24 +15,12 @@ use function sprintf;
 
 final class TelegramNotifyOfNewReview implements MessageHandler
 {
-    private Tenant $tenant;
-
-    private Registry $registry;
-
-    private HttpClientInterface $httpClient;
-
-    private string $telegramBotToken;
-
     public function __construct(
-        Tenant $tenant,
-        Registry $registry,
-        HttpClientInterface $httpClient,
-        string $telegramBotToken
+        private Tenant $tenant,
+        private Registry $registry,
+        private HttpClientInterface $httpClient,
+        private string $telegramBotToken,
     ) {
-        $this->tenant = $tenant;
-        $this->registry = $registry;
-        $this->httpClient = $httpClient;
-        $this->telegramBotToken = $telegramBotToken;
     }
 
     public function __invoke(ReviewReceived $event): void
@@ -72,7 +60,7 @@ final class TelegramNotifyOfNewReview implements MessageHandler
                     'parse_mode' => 'Markdown',
                     'text' => $markdown->getMarkdown(),
                 ],
-            ]
+            ],
         );
     }
 }

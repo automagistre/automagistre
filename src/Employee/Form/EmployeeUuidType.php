@@ -47,7 +47,7 @@ final class EmployeeUuidType extends AbstractType
                     ->fetchAllAssociative('SELECT id AS id FROM employee WHERE fired_at IS NULL')
                 ;
 
-                return array_map(fn (array $row) => EmployeeId::fromString($row['id']), $ids);
+                return array_map(fn (array $row) => EmployeeId::from($row['id']), $ids);
             }),
             'choice_label' => fn (EmployeeId $id) => $this->formatter->format($id),
             'choice_value' => fn (?EmployeeId $id) => null === $id ? null : $id->toString(),

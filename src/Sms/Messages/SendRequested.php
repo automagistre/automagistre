@@ -11,10 +11,7 @@ use App\Sms\Entity\SmsId;
  */
 final class SendRequested
 {
-    public SmsId $smsId;
-
-    public function __construct(SmsId $smsId)
+    public function __construct(public SmsId $smsId)
     {
-        $this->smsId = $smsId;
     }
 }

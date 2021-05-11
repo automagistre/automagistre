@@ -42,7 +42,7 @@ final class OrderInfoDto
         ?OperandId $customerId = null,
         ?CarId $carId = null,
         ?string $description = null,
-        ?EmployeeId $workerId = null
+        ?EmployeeId $workerId = null,
     ) {
         $this->customerId = $customerId;
         $this->carId = $carId;
@@ -56,7 +56,7 @@ final class OrderInfoDto
             $orderInfo->customerId,
             $orderInfo->carId,
             $orderInfo->description,
-            $orderInfo->workerId
+            $orderInfo->workerId,
         );
     }
 }

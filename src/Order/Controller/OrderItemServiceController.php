@@ -58,8 +58,8 @@ final class OrderItemServiceController extends OrderItemController
                 'error',
                 sprintf(
                     'Перед перенесом работы "%s" в рекомендации нужно выбрать исполнителя.',
-                    $orderItemService->service
-                )
+                    $orderItemService->service,
+                ),
             );
 
             return $this->redirectToReferrer();
@@ -103,7 +103,7 @@ final class OrderItemServiceController extends OrderItemController
             Uuid::uuid6(),
             $model->order,
             $model->service,
-            $model->price
+            $model->price,
         );
         $entity->setParent($model->parent);
         $entity->workerId = $model->workerId;
@@ -122,7 +122,7 @@ final class OrderItemServiceController extends OrderItemController
         $entityClass,
         $sortDirection,
         $sortField = null,
-        $dqlFilter = null
+        $dqlFilter = null,
     ): QueryBuilder {
         $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
 
@@ -161,7 +161,7 @@ final class OrderItemServiceController extends OrderItemController
         array $searchableFields,
         $sortField = null,
         $sortDirection = null,
-        $dqlFilter = null
+        $dqlFilter = null,
     ): QueryBuilder {
         $car = $this->getEntity(Car::class);
 
@@ -177,7 +177,7 @@ final class OrderItemServiceController extends OrderItemController
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->like('LOWER(entity.service)', $key)
+                $qb->expr()->like('LOWER(entity.service)', $key),
             ));
 
             $qb->setParameter($key, '%'.mb_strtolower($item).'%');
@@ -217,7 +217,7 @@ final class OrderItemServiceController extends OrderItemController
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->or(
-                $qb->expr()->like('LOWER(service)', $key)
+                $qb->expr()->like('LOWER(service)', $key),
             ));
 
             $qb->setParameter($key, '%'.mb_strtolower($searchString).'%');

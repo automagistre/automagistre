@@ -147,7 +147,7 @@ final class ProfitController extends AbstractController
             $partProfits[] = $partProfit;
 
             if (null !== $item['customer_id']) {
-                $item['customer_id'] = OperandId::fromString($item['customer_id']);
+                $item['customer_id'] = OperandId::from($item['customer_id']);
             }
         }
         unset($item);

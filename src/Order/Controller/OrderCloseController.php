@@ -68,7 +68,7 @@ final class OrderCloseController extends AbstractController
                 new CloseOrderCommand(
                     $orderId,
                     $dto->feedback->satisfaction,
-                )
+                ),
             );
 
             return $this->redirectToEasyPath('Order', 'show', ['id' => $orderId->toString()]);

@@ -35,8 +35,8 @@ final class WalletType extends AbstractType
             'placeholder' => 'Выберите счёт',
             'choice_loader' => new CallbackChoiceLoader(function (): array {
                 return array_map(
-                    static fn (array $item): WalletId => $item['id'],
-                    $this->registry->viewListBy(Wallet::class, [])
+                    static fn (Wallet $wallet): WalletId => $wallet->toId(),
+                    $this->registry->findBy(Wallet::class),
                 );
             }),
             'choice_label' => fn (WalletId $walletId) => $this->formatter->format($walletId),

@@ -6,6 +6,8 @@ namespace App\Form\Type;
 
 use App\Form\Transformer\DivisoredNumberTransformer;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,7 +21,16 @@ final class QuantityType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->addModelTransformer(new DivisoredNumberTransformer($options['divisor']));
+        $builder
+            ->addModelTransformer(new DivisoredNumberTransformer($options['divisor']))
+            ->addModelTransformer(new CallbackTransformer(
+                fn (?int $quantity) => $quantity,
+                fn (?int $quantity) => match (true) {
+                    null === $quantity => null,
+                    0 > $quantity => throw new TransformationFailedException(invalidMessage: 'Значение не может быть меньше нуля.'),
+                    default => $quantity,
+                },
+            ));
     }
 
     /**

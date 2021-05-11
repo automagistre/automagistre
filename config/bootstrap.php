@@ -29,8 +29,8 @@ foreach (require __DIR__.'/enums.php' as $class => [$id]) {
 }
 
 foreach (require __DIR__.'/identifiers.php' as $class => [$id]) {
-    App\Shared\Identifier\ORM\IdentifierType::register($id, $class);
-    App\Shared\Identifier\ORM\IdentifierArrayType::register($id.'s', $class);
+    Premier\Identifier\Doctrine\IdentifierType::register($id, $class);
+    Premier\Identifier\Doctrine\IdentifierArrayType::register($id.'s', $class);
 }
 
 Sentry\configureScope(static function (Sentry\State\Scope $scope): void {

@@ -73,7 +73,7 @@ class Review implements ContainsRecordedMessages
         string $text,
         ReviewRating $rating,
         DateTimeImmutable $publishAt,
-        array $raw
+        array $raw,
     ) {
         $this->id = $id;
         $this->sourceId = $sourceId;

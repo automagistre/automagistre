@@ -5,18 +5,16 @@ declare(strict_types=1);
 namespace App\User\View;
 
 use App\Shared\Doctrine\Registry;
-use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
+use App\User\Entity\User;
 use App\User\Entity\UserId;
+use Premier\Identifier\Identifier;
 
 final class UserFormatter implements IdentifierFormatterInterface
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     /**
@@ -32,12 +30,8 @@ final class UserFormatter implements IdentifierFormatterInterface
      */
     public function format(IdentifierFormatter $formatter, Identifier $identifier, string $format = null): string
     {
-        $view = $this->registry->view($identifier);
+        $user = $this->registry->get(User::class, $identifier);
 
-        if (null !== $view['firstName'] && null !== $view['lastName']) {
-            return $view['lastName'].' '.$view['firstName'];
-        }
-
-        return $view['username'];
+        return $user->__toString();
     }
 }

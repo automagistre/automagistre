@@ -34,16 +34,12 @@ final class OrderFixtures extends Fixture implements DependentFixtureInterface
     public const NUMBER = '1';
     public const CAR_ID = Primera2004Fixtures::ID;
     public const CUSTOMER_ID = PersonVasyaFixtures::ID;
-
     public const GROUP_ID = '1eab7ac7-2b8a-62dc-9c38-0242c0a81005';
     public const SERVICE_ID = '1eab7ac7-c95f-6822-80e2-0242c0a81005';
     public const PART_ID = '1eab7ac7-f145-69d6-a083-0242c0a81005';
 
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     /**
@@ -64,16 +60,16 @@ final class OrderFixtures extends Fixture implements DependentFixtureInterface
      */
     public function load(ObjectManager $manager): void
     {
-        $orderId = OrderId::fromString(self::ID);
+        $orderId = OrderId::from(self::ID);
         $order = new Order(
             $orderId,
             self::NUMBER,
         );
         $manager->persist($order);
 
-        $order->setCustomerId(OperandId::fromString(self::CUSTOMER_ID));
+        $order->setCustomerId(OperandId::from(self::CUSTOMER_ID));
 
-        $order->setCarId(CarId::fromString(self::CAR_ID));
+        $order->setCarId(CarId::from(self::CAR_ID));
 
         $manager->persist(new Note($orderId->toUuid(), NoteType::info(), 'Order Note'));
 
@@ -87,7 +83,7 @@ final class OrderFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($orderItemService);
         $manager->flush();
 
-        $partId = PartId::fromString(GasketFixture::ID);
+        $partId = PartId::from(GasketFixture::ID);
         $orderItemPart = new OrderItemPart(Uuid::fromString(self::PART_ID), $order, $partId, 1);
         $orderItemPart->setPrice($money, $this->registry->get(PartView::class, $partId));
 
@@ -95,8 +91,8 @@ final class OrderFixtures extends Fixture implements DependentFixtureInterface
             new OrderPayment(
                 $order,
                 new Money('100', new Currency('RUB')),
-                null
-            )
+                null,
+            ),
         );
 
         $manager->persist($orderItemPart);

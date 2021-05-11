@@ -15,11 +15,8 @@ use Twig\TwigFunction;
  */
 final class LayoutExtension extends AbstractExtension
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     /**
@@ -34,7 +31,7 @@ final class LayoutExtension extends AbstractExtension
                 [
                     'is_safe' => ['html'],
                     'needs_environment' => true,
-                ]
+                ],
             ),
         ];
     }

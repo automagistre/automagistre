@@ -52,7 +52,7 @@ class Supply
         OperandId $supplierId,
         int $quantity,
         SupplySource $source,
-        UuidInterface $sourceId
+        UuidInterface $sourceId,
     ) {
         $this->id = Uuid::uuid6();
         $this->partId = $partId;

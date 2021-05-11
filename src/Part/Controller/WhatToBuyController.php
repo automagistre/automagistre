@@ -27,7 +27,7 @@ final class WhatToBuyController extends AbstractController
                 new Andx([
                     '(t.quantity - t.ordered + t.suppliesQuantity) < t.orderUpToQuantity',
                     '(t.quantity - t.ordered + t.suppliesQuantity) <= t.orderFromQuantity', // (leftInStock) <
-                ])
+                ]),
             )
             ->orWhere('t.suppliesQuantity > 0')
             ->getQuery()

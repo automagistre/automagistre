@@ -12,16 +12,7 @@ use App\Calendar\Enum\DeletionReason;
  */
 final class DeleteCalendarEntryCommand
 {
-    public CalendarEntryId $id;
-
-    public DeletionReason $reason;
-
-    public ?string $description;
-
-    public function __construct(CalendarEntryId $id, DeletionReason $reason, ?string $description)
+    public function __construct(public CalendarEntryId $id, public DeletionReason $reason, public ?string $description)
     {
-        $this->id = $id;
-        $this->reason = $reason;
-        $this->description = $description;
     }
 }

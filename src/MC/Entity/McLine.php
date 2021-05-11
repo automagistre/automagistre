@@ -58,7 +58,7 @@ class McLine
         McWork $work,
         int $period,
         bool $recommended,
-        int $position = 0
+        int $position = 0,
     ) {
         $this->id = $id;
         $this->equipment = $equipment;

@@ -39,14 +39,14 @@ final class LinkPartCaseOnOrderClosedListenerTest extends KernelTestCase
 
     public function test(): void
     {
-        $orderId = OrderId::fromString(OrderFixtures::ID);
+        $orderId = OrderId::from(OrderFixtures::ID);
 
         /** @var LinkPartCaseOnOrderClosedListener $listener */
         $listener = self::$container->get(LinkPartCaseOnOrderClosedListener::class);
         $listener(new OrderDealed($orderId));
 
         $registry = self::$container->get(Registry::class);
-        $partCase = $registry->findBy(PartCase::class, ['partId' => GasketFixture::ID]);
+        $partCase = $registry->findOneBy(PartCase::class, ['partId' => GasketFixture::ID]);
 
         self::assertNotEmpty($partCase);
     }

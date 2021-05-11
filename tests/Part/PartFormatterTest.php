@@ -13,7 +13,7 @@ final class PartFormatterTest extends IdentifierTestCase
 {
     public function data(): Generator
     {
-        yield [PartId::fromString(GasketFixture::ID), 'Toyota - Сальник (PART1NUMBER)'];
-        yield [PartId::fromString(GasketFixture::ID), 'PART1NUMBER - Toyota (Сальник)', 'autocomplete'];
+        yield [PartId::from(GasketFixture::ID), 'Toyota - Сальник (PART1NUMBER)'];
+        yield [PartId::from(GasketFixture::ID), 'PART1NUMBER - Toyota (Сальник)', 'autocomplete'];
     }
 }

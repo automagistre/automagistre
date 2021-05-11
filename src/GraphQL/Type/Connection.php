@@ -9,16 +9,10 @@ namespace App\GraphQL\Type;
  */
 final class Connection
 {
-    public array $nodes;
-
-    public PageInfo $pageInfo;
-
-    public int $totalCount;
-
-    public function __construct(array $nodes, PageInfo $pageInfo, int $totalCount)
-    {
-        $this->nodes = $nodes;
-        $this->pageInfo = $pageInfo;
-        $this->totalCount = $totalCount;
+    public function __construct(
+        public array $nodes,
+        public PageInfo $pageInfo,
+        public int $totalCount,
+    ) {
     }
 }

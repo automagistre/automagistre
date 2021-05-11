@@ -19,6 +19,7 @@ services:
             - ./etc/php-fpm.conf:/usr/local/etc/php-fpm.conf
             - ./etc/php-fpm.www.conf:/usr/local/etc/php-fpm.d/www.conf
         environment:
+            PHP_OPCACHE_ENABLE: 0
             APP_ENV: dev
             APP_DEBUG: 1
             TENANT: ${TENANT}
@@ -39,7 +40,7 @@ services:
             POSTGRES_PASSWORD: db
 
     memcached:
-        image: memcached:1.5.11-alpine
+        image: memcached:1.6.9-alpine
         labels:
             ru.grachevko.dhu: 'memcached.${TENANT}.automagistre.local'
 
@@ -56,7 +57,7 @@ services:
         image: nsqio/nsq:v1.2.0
         command: /nsqadmin --nsqd-http-address=nsqd:4151 --http-address=0.0.0.0:80
         labels:
-            ru.grachevko.dhu: 'nsq.${TENANT}.automagistre.local'
+            ru.grachevko.dhu: 'nsq.automagistre.local'
 
 networks:
     default:

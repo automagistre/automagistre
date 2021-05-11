@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Shared;
 
-use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use Generator;
+use Premier\Identifier\Identifier;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 abstract class IdentifierTestCase extends KernelTestCase

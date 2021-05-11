@@ -5,18 +5,16 @@ declare(strict_types=1);
 namespace App\Wallet\View;
 
 use App\Shared\Doctrine\Registry;
-use App\Shared\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
+use App\Wallet\Entity\Wallet;
 use App\Wallet\Entity\WalletId;
+use Premier\Identifier\Identifier;
 
 final class WalletFormatter implements IdentifierFormatterInterface
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     /**
@@ -24,9 +22,9 @@ final class WalletFormatter implements IdentifierFormatterInterface
      */
     public function format(IdentifierFormatter $formatter, Identifier $identifier, string $format = null): string
     {
-        $view = $this->registry->view($identifier);
+        $wallet = $this->registry->get(Wallet::class, $identifier);
 
-        return $view['name'];
+        return $wallet->name;
     }
 
     /**

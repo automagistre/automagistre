@@ -13,11 +13,8 @@ use function array_map;
 
 final class CarCustomerRepository
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     public function carsByCustomer(OperandId $operandId): array
@@ -33,7 +30,7 @@ final class CarCustomerRepository
             ',
                 [
                     'customer' => $operandId,
-                ]
+                ],
             )
         ;
 
@@ -58,14 +55,14 @@ final class CarCustomerRepository
             ',
                 [
                     'car' => $carId,
-                ]
+                ],
             )
         ;
 
         return $this->registry->viewListBy(Operand::class, [
             'id' => array_map(
                 static fn (array $customer): string => $customer['customer_id'],
-                $customers
+                $customers,
             ),
         ]);
     }

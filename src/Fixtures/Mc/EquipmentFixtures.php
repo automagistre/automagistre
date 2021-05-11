@@ -23,9 +23,9 @@ final class EquipmentFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $equipment = new McEquipment(
-            McEquipmentId::fromString(self::ID),
+            McEquipmentId::from(self::ID),
         );
-        $equipment->vehicleId = VehicleId::fromString(self::VEHICLE_ID);
+        $equipment->vehicleId = VehicleId::from(self::VEHICLE_ID);
         $equipment->period = 10;
 
         $this->addReference('equipment-1', $equipment);

@@ -23,7 +23,7 @@ final class SalaryController extends AbstractController
 {
     protected function newAction(): Response
     {
-        $employeeId = $this->getIdentifier(EmployeeId::class);
+        $employeeId = $this->getIdentifierOrNull(EmployeeId::class);
 
         if (!$employeeId instanceof EmployeeId) {
             throw new LogicException('Employee required.');
@@ -56,7 +56,7 @@ final class SalaryController extends AbstractController
                     $dto->employeeId,
                     $dto->payday,
                     $dto->amount,
-                )
+                ),
             );
             $em->flush();
 

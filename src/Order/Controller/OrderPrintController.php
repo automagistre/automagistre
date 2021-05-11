@@ -133,8 +133,8 @@ final class OrderPrintController extends AbstractController
         $order = $parameters['order'];
         assert($order instanceof Order);
 
-        $parameters['car'] = $this->registry->findBy(Car::class, ['id' => $order->getCarId()]);
-        $parameters['customer'] = $this->registry->findBy(Operand::class, ['id' => $order->getCustomerId()]);
+        $parameters['car'] = $this->registry->findOneBy(Car::class, ['id' => $order->getCarId()]);
+        $parameters['customer'] = $this->registry->findOneBy(Operand::class, ['id' => $order->getCustomerId()]);
 
         return parent::render($view, $parameters, $response);
     }

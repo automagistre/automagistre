@@ -12,13 +12,10 @@ use App\Calendar\Entity\Schedule;
  */
 final class RescheduleCalendarEntryCommand
 {
-    public CalendarEntryId $id;
-
     public Schedule $schedule;
 
-    public function __construct(CalendarEntryId $id, Schedule $schedule)
+    public function __construct(public CalendarEntryId $id, Schedule $schedule)
     {
-        $this->id = $id;
         $this->schedule = clone $schedule;
     }
 }

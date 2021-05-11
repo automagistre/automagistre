@@ -9,11 +9,8 @@ use App\MessageBus\MessageHandler;
 
 final class DeleteCalendarEntryHandler implements MessageHandler
 {
-    private CalendarEntryRepository $repository;
-
-    public function __construct(CalendarEntryRepository $repository)
+    public function __construct(private CalendarEntryRepository $repository)
     {
-        $this->repository = $repository;
     }
 
     public function __invoke(DeleteCalendarEntryCommand $command): void

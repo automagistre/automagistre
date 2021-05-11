@@ -20,7 +20,7 @@ final class OrganizationFixtures extends Fixture
      */
     public function load(ObjectManager $manager): void
     {
-        $organization = new Organization(OperandId::fromString(self::ID));
+        $organization = new Organization(OperandId::from(self::ID));
         $organization->setName('Org 1');
 
         $this->addReference('organization-1', $organization);

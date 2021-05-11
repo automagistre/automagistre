@@ -47,7 +47,7 @@ final class EmployeeType extends AbstractType
                     ->from(Employee::class, 't')
                     ->where('t.firedAt IS NULL')
                     ->getQuery()
-                    ->getResult()
+                    ->getResult(),
             ),
             'choice_label' => fn (Employee $employee) => $this->formatter->format($employee->toPersonId()),
             'choice_value' => fn (?Employee $employee) => null === $employee ? null : $employee->toId()->toString(),

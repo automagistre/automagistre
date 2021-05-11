@@ -18,14 +18,8 @@ use function str_replace;
  */
 final class DivisoredNumberTransformer implements DataTransformerInterface
 {
-    private int $divisor;
-
-    private int $scale;
-
-    public function __construct(int $divisor = 100, int $scale = 2)
+    public function __construct(private int $divisor = 100, private int $scale = 2)
     {
-        $this->divisor = $divisor;
-        $this->scale = $scale;
     }
 
     /**

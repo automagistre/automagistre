@@ -111,9 +111,10 @@ final class SmokeTest extends WebTestCase
         'PartCase' => [
             'case' => ['part_id' => GasketFixture::ID],
         ],
-        'PartIncome' => [
-            'income' => ['part_id' => GasketFixture::ID],
-            'outcome' => ['part_id' => GasketFixture::ID],
+        'Motion' => [
+            'increase' => ['part_id' => GasketFixture::ID],
+            'decrease' => ['part_id' => GasketFixture::ID],
+            'actualize' => ['part_id' => GasketFixture::ID],
         ],
         'PartCross' => [
             'cross' => ['part_id' => GasketFixture::ID],
@@ -129,7 +130,8 @@ final class SmokeTest extends WebTestCase
             'new' => ['part_id' => GasketFixture::ID],
         ],
         'PartSupply' => [
-            'new' => ['part_id' => GasketFixture::ID],
+            'increase' => ['part_id' => GasketFixture::ID],
+            'decrease' => ['part_id' => GasketFixture::ID, 'supplier_id' => NissanFixture::ID],
         ],
         'PartSell' => [
         ],
@@ -225,7 +227,7 @@ final class SmokeTest extends WebTestCase
                 $queries = array_replace(
                     in_array($action, ['search', 'autocomplete'], true) ? ['query' => 'bla'] : [],
                     self::ADDITIONAL_QUERY[$entity][$action] ?? [],
-                    ['action' => $action, 'entity' => $entity]
+                    ['action' => $action, 'entity' => $entity],
                 );
 
                 $isAjax = 'autocomplete' === $action;

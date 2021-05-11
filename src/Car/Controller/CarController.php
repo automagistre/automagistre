@@ -142,7 +142,7 @@ final class CarController extends AbstractController
                 $arr['equipment.engine.type'],
                 $arr['equipment.engine.airIntake'],
                 $arr['equipment.engine.injection'],
-                $arr['equipment.engine.capacity']
+                $arr['equipment.engine.capacity'],
             ),
             $arr['equipment.transmission'],
             $arr['equipment.wheelDrive'],
@@ -213,7 +213,7 @@ final class CarController extends AbstractController
         array $searchableFields,
         $sortField = null,
         $sortDirection = null,
-        $dqlFilter = null
+        $dqlFilter = null,
     ): QueryBuilder {
         $qb = $this->registry->repository(Car::class)->createQueryBuilder('car')
             ->leftJoin(Order::class, 'o', Join::WITH, 'o.carId = car.id')
@@ -256,7 +256,7 @@ final class CarController extends AbstractController
                 $qb->expr()->like('LOWER(person.lastname)', $key),
                 $qb->expr()->like('LOWER(person.telephone)', $key),
                 $qb->expr()->like('LOWER(person.email)', $key),
-                $qb->expr()->like('LOWER(organization.name)', $key)
+                $qb->expr()->like('LOWER(organization.name)', $key),
             ));
 
             $qb->setParameter($key, '%'.mb_strtolower($searchString).'%');

@@ -30,7 +30,6 @@ use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Entity\OrderItemService;
 use App\Order\Enum\OrderStatus;
-use App\Order\Event\OrderStatusChanged;
 use App\Order\Form\OrderDto;
 use App\Order\Form\OrderTOPart;
 use App\Order\Form\OrderTOService;
@@ -68,14 +67,10 @@ use function usort;
  */
 final class OrderController extends AbstractController
 {
-    private CalendarEntryRepository $calendarEntryRepository;
-
-    private NumberGenerator $numberGenerator;
-
-    public function __construct(CalendarEntryRepository $calendarEntryRepository, NumberGenerator $numberGenerator)
-    {
-        $this->calendarEntryRepository = $calendarEntryRepository;
-        $this->numberGenerator = $numberGenerator;
+    public function __construct(
+        private CalendarEntryRepository $calendarEntryRepository,
+        private NumberGenerator $numberGenerator,
+    ) {
     }
 
     public function TOAction(): Response
@@ -99,7 +94,7 @@ final class OrderController extends AbstractController
         /** @var OrderTOService[] $services */
         $services = [];
 
-        $equipmentId = $this->getIdentifier(McEquipmentId::class);
+        $equipmentId = $this->getIdentifierOrNull(McEquipmentId::class);
 
         if ($equipmentId instanceof McEquipmentId || true === $carFilled) {
             $qb = $this->registry->repository(McLine::class)
@@ -183,7 +178,7 @@ final class OrderController extends AbstractController
                         }
                     })($line->parts->toArray()),
                     !$line->recommended,
-                    $line->recommended
+                    $line->recommended,
                 );
             }
         }
@@ -346,8 +341,6 @@ final class OrderController extends AbstractController
         $order->setStatus($status);
         $this->em->flush();
 
-        $this->event(new OrderStatusChanged($order, $status));
-
         return $this->redirectToReferrer();
     }
 
@@ -378,8 +371,8 @@ final class OrderController extends AbstractController
             $parameters['notes'] = $em->getRepository(NoteView::class)
                 ->findBy(['subject' => $entity->toId()->toUuid()], ['id' => 'DESC'])
             ;
-            $parameters['car'] = $this->registry->findBy(Car::class, ['id' => $entity->getCarId()]);
-            $parameters['customer'] = $this->registry->findBy(Operand::class, ['id' => $entity->getCustomerId()]);
+            $parameters['car'] = $this->registry->findOneBy(Car::class, ['id' => $entity->getCarId()]);
+            $parameters['customer'] = $this->registry->findOneBy(Operand::class, ['id' => $entity->getCustomerId()]);
 
             $transactions = [
                 ...$em->createQueryBuilder()
@@ -410,10 +403,10 @@ final class OrderController extends AbstractController
     protected function createNewEntity(): OrderDto
     {
         $dto = new OrderDto();
-        $dto->customerId = $this->getIdentifier(OperandId::class);
-        $dto->carId = $this->getIdentifier(CarId::class);
+        $dto->customerId = $this->getIdentifierOrNull(OperandId::class);
+        $dto->carId = $this->getIdentifierOrNull(CarId::class);
 
-        $calendarId = $this->getIdentifier(CalendarEntryId::class);
+        $calendarId = $this->getIdentifierOrNull(CalendarEntryId::class);
 
         if ($calendarId instanceof CalendarEntryId) {
             $calendarEntry = $this->calendarEntryRepository->view($calendarId);
@@ -434,7 +427,7 @@ final class OrderController extends AbstractController
         $maxPerPage = 15,
         $sortField = null,
         $sortDirection = null,
-        $dqlFilter = null
+        $dqlFilter = null,
     ): Pagerfanta {
         if (!$this->request->query->has('all')) {
             $maxPerPage = 200;
@@ -450,7 +443,7 @@ final class OrderController extends AbstractController
         $entityClass,
         $sortDirection,
         $sortField = null,
-        $dqlFilter = null
+        $dqlFilter = null,
     ): QueryBuilder {
         $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter)
             ->leftJoin(OrderClose::class, 'closed', Join::WITH, 'closed.order = entity')
@@ -480,7 +473,7 @@ final class OrderController extends AbstractController
             ->leftJoin('entity.suspends', 'suspends')
         ;
 
-        $partId = $this->getIdentifier(PartId::class);
+        $partId = $this->getIdentifierOrNull(PartId::class);
 
         if ($partId instanceof PartId) {
             $qb
@@ -496,8 +489,8 @@ final class OrderController extends AbstractController
             $qb->where(
                 $qb->expr()->orX(
                     $qb->expr()->notIn('entity.status', ':closedStatuses'),
-                    $qb->expr()->eq('DATE(closedBy.createdAt)', ':today')
-                )
+                    $qb->expr()->eq('DATE(closedBy.createdAt)', ':today'),
+                ),
             )
                 ->setParameter('closedStatuses', [OrderStatus::closed(), OrderStatus::cancelled()])
                 ->setParameter('today', (new DateTime())->format('Y-m-d'))
@@ -516,7 +509,7 @@ final class OrderController extends AbstractController
         array $searchableFields,
         $sortField = null,
         $sortDirection = null,
-        $dqlFilter = null
+        $dqlFilter = null,
     ): QueryBuilder {
         $qb = $this->registry->manager(Order::class)
             ->createQueryBuilder()
@@ -546,7 +539,7 @@ final class OrderController extends AbstractController
                 $qb->expr()->like('LOWER(carModel.caseName)', $key),
                 $qb->expr()->like('LOWER(manufacturer.name)', $key),
                 $qb->expr()->like('LOWER(manufacturer.localizedName)', $key),
-                $qb->expr()->like('LOWER(organization.name)', $key)
+                $qb->expr()->like('LOWER(organization.name)', $key),
             ));
 
             $qb->setParameter($key, '%'.mb_strtolower($item).'%');
@@ -577,7 +570,7 @@ final class OrderController extends AbstractController
         $entity->setMileage($dto->mileage);
         $entity->setDescription($dto->description);
 
-        $calendarId = $this->getIdentifier(CalendarEntryId::class);
+        $calendarId = $this->getIdentifierOrNull(CalendarEntryId::class);
 
         if ($calendarId instanceof CalendarEntryId) {
             $this->em->persist(new EntryOrder($calendarId, $entity->toId()));

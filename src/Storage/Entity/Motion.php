@@ -4,27 +4,33 @@ declare(strict_types=1);
 
 namespace App\Storage\Entity;
 
-use App\Income\Entity\IncomePartId;
-use App\Order\Entity\OrderId;
-use App\Part\Entity\PartId;
-use App\Shared\Identifier\Identifier;
-use App\Storage\Enum\Source;
-use App\User\Entity\UserId;
+use App\MessageBus\ContainsRecordedMessages;
+use App\MessageBus\PrivateMessageRecorderCapabilities;
+use App\Part\Event\PartAccrued;
+use App\Part\Event\PartDecreased;
 use Doctrine\ORM\Mapping as ORM;
-use LogicException;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
  */
-class Motion
+class Motion implements ContainsRecordedMessages
 {
+    use PrivateMessageRecorderCapabilities;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid")
+     *
+     * @psalm-readonly
      */
-    private UuidInterface $id;
+    public UuidInterface $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Part::class, inversedBy="motions")
+     */
+    private Part $part;
 
     /**
      * @ORM\Column(type="integer")
@@ -32,19 +38,9 @@ class Motion
     private int $quantity;
 
     /**
-     * @ORM\Column(type="part_id")
+     * @ORM\Embedded(class=MotionSource::class)
      */
-    private PartId $partId;
-
-    /**
-     * @ORM\Column(type="motion_source_enum")
-     */
-    private Source $source;
-
-    /**
-     * @ORM\Column(type="uuid")
-     */
-    private UuidInterface $sourceId;
+    private MotionSource $source;
 
     /**
      * @ORM\Column(type="text", length=65535, nullable=true)
@@ -52,18 +48,22 @@ class Motion
     private ?string $description;
 
     public function __construct(
-        PartId $partId,
+        Part $part,
         int $quantity,
-        Source $source,
-        UuidInterface $sourceId,
-        string $description = null
+        MotionSource $source,
+        string $description = null,
     ) {
         $this->id = Uuid::uuid6();
-        $this->partId = $partId;
+        $this->part = $part;
         $this->quantity = $quantity;
         $this->source = $source;
-        $this->sourceId = $sourceId;
         $this->description = $description;
+
+        $this->record(
+            $quantity > 0
+                ? new PartAccrued($this->part->toId())
+                : new PartDecreased($this->part->toId()),
+        );
     }
 
     public function toId(): UuidInterface
@@ -71,9 +71,9 @@ class Motion
         return $this->id;
     }
 
-    public function getPartId(): PartId
+    public function getPart(): Part
     {
-        return $this->partId;
+        return $this->part;
     }
 
     public function getQuantity(): int
@@ -86,30 +86,8 @@ class Motion
         return $this->description;
     }
 
-    public function getSource(): Source
+    public function getSource(): MotionSource
     {
         return $this->source;
-    }
-
-    public function getSourceId(): UuidInterface
-    {
-        return $this->sourceId;
-    }
-
-    public function getSourceAsIdentifier(): Identifier
-    {
-        if ($this->source->isIncome()) {
-            return IncomePartId::fromUuid($this->sourceId);
-        }
-
-        if ($this->source->isOrder()) {
-            return OrderId::fromUuid($this->sourceId);
-        }
-
-        if ($this->source->isManual()) {
-            return UserId::fromUuid($this->sourceId);
-        }
-
-        throw new LogicException('Not implemented');
     }
 }

@@ -8,6 +8,7 @@ use App\EasyAdmin\Controller\AbstractController;
 use App\Review\Google\Entity\Token;
 use App\Shared\Doctrine\Registry;
 use Google_Client;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use function array_key_exists;
 use function is_string;
@@ -20,15 +21,12 @@ use const JSON_UNESCAPED_UNICODE;
  */
 final class OAuth2Controller extends AbstractController
 {
-    private Google_Client $googleClient;
-
-    public function __construct(Google_Client $googleClient, Registry $registry)
+    public function __construct(private Google_Client $googleClient, Registry $registry)
     {
-        $this->googleClient = $googleClient;
         $this->registry = $registry;
     }
 
-    public function indexAction(Request $request)
+    public function indexAction(Request $request): RedirectResponse
     {
         $code = $request->query->get('code');
 
@@ -43,7 +41,7 @@ final class OAuth2Controller extends AbstractController
                 Token::create(
                     $payload,
                 ),
-            );
+            )->flush();
         } else {
             $this->addFlash('error', 'Google return: '.json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR));
         }

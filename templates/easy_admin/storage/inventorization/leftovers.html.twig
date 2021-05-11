@@ -1,0 +1,14 @@
+{% extends 'easy_admin/default/layout.html.twig' %}
+
+{% form_theme form with easyadmin_config('design.form_theme') %}
+
+{% block content_title %}Добавить остатки в инвентаризацию{% endblock %}
+
+{% block main %}
+    {{ form_start(form) }}
+
+    {{ form_widget(form) }}
+    <button class="btn btn-success">Добавить</button>
+    <a href="{{ easyadmin_path('Inventorization', 'show', {'id': entity|toId}) }}" class="btn btn-default">Отмена</a>
+    {{ form_end(form) }}
+{% endblock %}

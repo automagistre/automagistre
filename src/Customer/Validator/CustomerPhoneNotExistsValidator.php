@@ -16,11 +16,8 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 final class CustomerPhoneNotExistsValidator extends ConstraintValidator
 {
-    private Registry $registry;
-
-    public function __construct(Registry $registry)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
     }
 
     /**

@@ -1,0 +1,21 @@
+{% extends 'easy_admin/default/layout.html.twig' %}
+
+{% form_theme form with easyadmin_config('design.form_theme') %}
+
+{% block content_title %}Актуализация склада{% endblock %}
+{% block content_help %}
+    <div class="box box-widget help-entity">
+        <div class="box-body">
+           {{ part.display }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block main %}
+    {{ form_start(form) }}
+
+    {{ form_widget(form) }}
+    <button class="btn btn-success">Актуализировать</button>
+    <a href="{{ easyadmin_path('Part', 'show', {'id': part|toId}) }}" class="btn btn-default">Отмена</a>
+    {{ form_end(form) }}
+{% endblock %}

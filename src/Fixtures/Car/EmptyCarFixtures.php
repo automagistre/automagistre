@@ -20,14 +20,14 @@ final class EmptyCarFixtures extends Fixture
      */
     public function load(ObjectManager $manager): void
     {
-        $carId = CarId::fromString(self::ID);
+        $carId = CarId::from(self::ID);
         $car = new Car($carId);
         $this->addReference('car-1', $car);
 
         $manager->persist($car);
 
         $manager->persist(
-            new Note($carId->toUuid(), NoteType::info(), 'Car Note')
+            new Note($carId->toUuid(), NoteType::info(), 'Car Note'),
         );
 
         $manager->flush();

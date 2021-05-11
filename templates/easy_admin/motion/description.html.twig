@@ -1,17 +1,19 @@
 {# @var item \App\Storage\Entity\Motion #}
 
-{% if item.source.isOrder() %}
-    <a href="{{ easyadmin_path_by_id(item.sourceAsIdentifier, 'show', {'referer': true}) }}">
-        Заказ {{ item.sourceAsIdentifier|display_name }}
+{% if item.source.type.isOrder() %}
+    <a href="{{ easyadmin_path_by_id(item.source.toIdentifier, 'show', {'referer': true}) }}">
+        Заказ {{ item.source.toIdentifier|display_name }}
     </a>
-{% elseif item.source.isIncome() %}
-    <a href="{{ easyadmin_path('Income', 'part', {'income_part_id': item.sourceId.toString, 'referer': true}) }}">
-        Приход от {{ item.sourceAsIdentifier|display_name }}
+{% elseif item.source.type.isIncome() %}
+    <a href="{{ easyadmin_path('Income', 'part', {'income_part_id': item.source.id.toString, 'referer': true}) }}">
+        Приход от {{ item.source.toIdentifier|display_name }}
     </a>
-{% elseif item.source.isManual() %}
-    <a href="{{ easyadmin_path('User', 'show', {'id': item.sourceAsIdentifier.toString, 'referer': true}) }}">
-        {{ item.sourceAsIdentifier|display_name }}
+{% elseif item.source.type.isManual() %}
+    <a href="{{ easyadmin_path('User', 'show', {'id': item.source.toIdentifier.toString, 'referer': true}) }}">
+        {{ item.source.toIdentifier|display_name }}
     </a>
-{% else %}
-    {{ value }}
+{% elseif item.source.type.isInventorization() %}
+    <a href="{{ easyadmin_path('Inventorization', 'show', {'id': item.source.id.toString, 'referer': true}) }}">
+        Инвентаризация
+    </a>
 {% endif %}

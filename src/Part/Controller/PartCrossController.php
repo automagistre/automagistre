@@ -19,16 +19,13 @@ use Symfony\Component\Validator\Constraints;
  */
 final class PartCrossController extends AbstractController
 {
-    private PartManager $partManager;
-
-    public function __construct(PartManager $partManager)
+    public function __construct(private PartManager $partManager)
     {
-        $this->partManager = $partManager;
     }
 
     public function crossAction(): Response
     {
-        $leftId = $this->getIdentifier(PartId::class);
+        $leftId = $this->getIdentifierOrNull(PartId::class);
 
         if (!$leftId instanceof PartId) {
             throw new LogicException('Part required.');
@@ -61,7 +58,7 @@ final class PartCrossController extends AbstractController
 
     public function uncrossAction(): Response
     {
-        $partId = $this->getIdentifier(PartId::class);
+        $partId = $this->getIdentifierOrNull(PartId::class);
 
         if (!$partId instanceof PartId) {
             throw new LogicException('Part required.');

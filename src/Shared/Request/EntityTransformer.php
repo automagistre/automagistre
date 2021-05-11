@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Shared\Request;
 
-use App\Shared\Identifier\Identifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\NamingStrategy;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
+use Premier\Identifier\Identifier;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -21,24 +21,12 @@ use function get_class;
  */
 final class EntityTransformer
 {
-    private PropertyAccessorInterface $propertyAccessor;
-
-    private NamingStrategy $namingStrategy;
-
-    private ManagerRegistry $registry;
-
-    private RequestStack $requestStack;
-
     public function __construct(
-        PropertyAccessorInterface $propertyAccessor,
-        NamingStrategy $namingStrategy,
-        ManagerRegistry $registry,
-        RequestStack $requestStack
+        private PropertyAccessorInterface $propertyAccessor,
+        private NamingStrategy $namingStrategy,
+        private ManagerRegistry $registry,
+        private RequestStack $requestStack,
     ) {
-        $this->propertyAccessor = $propertyAccessor;
-        $this->namingStrategy = $namingStrategy;
-        $this->registry = $registry;
-        $this->requestStack = $requestStack;
     }
 
     public function transform(object $entity, ?string $id = null): array

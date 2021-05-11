@@ -15,14 +15,8 @@ use DateTimeImmutable;
 
 final class SendSmsHandler implements MessageHandler
 {
-    private Tenant $tenant;
-
-    private Registry $registry;
-
-    public function __construct(Tenant $tenant, Registry $registry)
+    public function __construct(private Tenant $tenant, private Registry $registry)
     {
-        $this->tenant = $tenant;
-        $this->registry = $registry;
     }
 
     public function __invoke(SendSms $command): void
@@ -62,7 +56,7 @@ final class SendSmsHandler implements MessageHandler
                         'phone' => 'phone_number',
                         'start' => 'datetime',
                         'end' => 'datetime',
-                    ]
+                    ],
                 )
             ;
 
@@ -78,7 +72,7 @@ final class SendSmsHandler implements MessageHandler
                 $phoneNumber,
                 $command->message,
                 $command->dateSend,
-            )
+            ),
         );
     }
 }

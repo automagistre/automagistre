@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Shared\Identifier;
 
 use LogicException;
+use Premier\Identifier\Identifier;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use ReflectionClass;
@@ -20,11 +21,8 @@ use function sprintf;
 
 final class IdentifierTwigExtension extends AbstractExtension
 {
-    private IdentifierFormatter $formatter;
-
-    public function __construct(IdentifierFormatter $formatter)
+    public function __construct(private IdentifierFormatter $formatter)
     {
-        $this->formatter = $formatter;
     }
 
     /**
@@ -45,7 +43,7 @@ final class IdentifierTwigExtension extends AbstractExtension
         return [
             new TwigFilter('display_name', fn (
                 $value,
-                string $format = null
+                string $format = null,
             ) => $value instanceof Identifier ? $this->formatter->format($value, $format) : $value),
             new TwigFilter(
                 'toId',
@@ -115,7 +113,7 @@ final class IdentifierTwigExtension extends AbstractExtension
                     }
 
                     throw new LogicException(sprintf('Unsupported object %s for toUuid filter.', $class));
-                }
+                },
             ),
         ];
     }

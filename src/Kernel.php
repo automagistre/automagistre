@@ -6,7 +6,6 @@ namespace App;
 
 use App\Shared\Doctrine\ORM\Listeners\MetadataCacheCompilerPass;
 use App\Shared\Identifier\IdentifierFormatter;
-use App\Shared\Identifier\IdentifierMapCompilerPass;
 use InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -82,8 +81,7 @@ final class Kernel extends SymfonyKernel
      */
     protected function build(ContainerBuilder $container): void
     {
-        $container->addCompilerPass(new MetadataCacheCompilerPass(), PassConfig::TYPE_OPTIMIZE);
-        $container->addCompilerPass(new IdentifierMapCompilerPass(), PassConfig::TYPE_OPTIMIZE);
+        $container->addCompilerPass(new MetadataCacheCompilerPass($this), PassConfig::TYPE_OPTIMIZE);
     }
 
     /**

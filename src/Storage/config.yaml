@@ -10,10 +10,11 @@ easy_admin:
                 title: 'Движения по складу'
                 max_results: 100
                 fields:
-                    - { property: 'partId', label: 'Наименование', template: 'easy_admin/field_part.html.twig', stock: true }
+                    - { property: 'part', label: 'Наименование', template: 'easy_admin/storage/field_part.html.twig', stock: true }
                     - { property: 'quantity', label: 'Количество', template: 'easy_admin/field_quantity.html.twig' }
-                    - { property: 'description', label: 'Комментарий', template: 'easy_admin/motion/description.html.twig' }
-                    - { property: 'createdAt', label: 'Создано' }
+                    - { property: 'source', label: 'Описание', template: 'easy_admin/motion/description.html.twig' }
+                    - { property: 'description', label: 'Комментарий' }
+                    - { property: 'id', label: 'Создано', template: 'easy_admin/field_created_at.html.twig' }
 
         Warehouse:
             class:  App\Storage\Entity\WarehouseView
@@ -24,3 +25,18 @@ easy_admin:
                 fields:
                     - { property: 'name', label: 'Название' }
                     - { property: 'parentId', label: 'Родитель', template: 'easy_admin/field_identifier.html.twig' }
+
+        Inventorization:
+            class: App\Storage\Entity\Inventorization
+            controller: App\Storage\Controller\InventorizationController
+            disabled_actions: ['edit']
+            list:
+                title: 'Инвентаризация'
+                fields:
+                    - { property: 'id', label: '', template: 'easy_admin/storage/inventorization/field_id.html.twig' }
+                    - { property: 'closedAt', label: 'Закрыт', template: 'easy_admin/field_datetime_gtm3.html.twig' }
+                    - { property: 'createdAt', label: 'Открыт', template: 'easy_admin/field_datetime_gtm3.html.twig' }
+            new:
+                title: Создать новую инвентаризацию
+                fields:
+                    - { property: 'id', type_options: { disabled: true } }

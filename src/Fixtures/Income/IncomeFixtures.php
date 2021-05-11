@@ -22,9 +22,9 @@ final class IncomeFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $income = new Income(
-            IncomeId::fromString(self::ID),
-            OperandId::fromString(self::SUPPLIER_ID),
-            null
+            IncomeId::from(self::ID),
+            OperandId::from(self::SUPPLIER_ID),
+            null,
         );
 
         $this->addReference('income-1', $income);

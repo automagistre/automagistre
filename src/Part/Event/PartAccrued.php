@@ -5,17 +5,13 @@ declare(strict_types=1);
 namespace App\Part\Event;
 
 use App\Part\Entity\PartId;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
- * @method PartId getSubject()
- *
- * @author Konstantin Grachev <me@grachevko.ru>
+ * @psalm-immutable
  */
-final class PartAccrued extends GenericEvent
+final class PartAccrued
 {
-    public function __construct(PartId $partId, array $arguments = [])
+    public function __construct(public PartId $partId)
     {
-        parent::__construct($partId, $arguments);
     }
 }

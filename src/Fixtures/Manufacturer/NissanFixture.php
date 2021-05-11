@@ -30,7 +30,7 @@ final class NissanFixture extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         $manufacturer = new Manufacturer(
-            ManufacturerId::fromString(self::ID),
+            ManufacturerId::from(self::ID),
             self::NAME,
             self::LOCALIZED_NAME,
         );

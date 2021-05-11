@@ -99,7 +99,7 @@ final class ModelController extends AbstractController
         array $searchableFields,
         $sortField = null,
         $sortDirection = null,
-        $dqlFilter = null
+        $dqlFilter = null,
     ): QueryBuilder {
         $qb = $this->registry->repository(Model::class)->createQueryBuilder('model')
             ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'model.manufacturerId = manufacturer.id')
@@ -113,7 +113,7 @@ final class ModelController extends AbstractController
                 $qb->expr()->like('LOWER(model.localizedName)', $key),
                 $qb->expr()->like('LOWER(model.caseName)', $key),
                 $qb->expr()->like('LOWER(manufacturer.name)', $key),
-                $qb->expr()->like('LOWER(manufacturer.localizedName)', $key)
+                $qb->expr()->like('LOWER(manufacturer.localizedName)', $key),
             ));
 
             $qb->setParameter($key, '%'.mb_strtolower($item).'%');
@@ -194,7 +194,7 @@ final class ModelController extends AbstractController
         assert($dto instanceof ModelUpdate);
 
         /** @var Model $entity */
-        $entity = $this->registry->findBy(Model::class, ['id' => $dto->vehicleId]);
+        $entity = $this->registry->findOneBy(Model::class, ['id' => $dto->vehicleId]);
 
         $entity->name = $dto->name;
         $entity->localizedName = $dto->localizedName;

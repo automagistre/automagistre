@@ -55,7 +55,7 @@ return static function (ContainerConfigurator $configurator): void {
                             inline_service(App\Review\Google\GoogleFetcher::class)
                                 ->autowire()
                                 ->arg(
-                                    '$client',
+                                    '$myBusiness',
                                     inline_service(Google_Service_MyBusiness::class)
                                         ->args([
                                             service('review.google_client'),

@@ -71,6 +71,7 @@ easy_admin:
 #            - { entity: 'Warehouse', label: 'Склады', icon: 'cube' }
             - { entity: 'Motion', label: 'Движения', icon: 'recycle' }
             - { entity: 'Income', label: 'Приходы', icon: 'book' }
+            - { entity: 'Inventorization', label: 'Инвентаризация', icon: 'archive' }
             - { label: 'Клиенты' }
             - { entity: 'Person', label: 'Люди', icon: 'users' }
             - { entity: 'Organization', label: 'Организации', icon: 'industry' }
