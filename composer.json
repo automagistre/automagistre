@@ -173,8 +173,8 @@
         "psalm": "vendor/bin/psalm --no-cache --show-info=false",
         "psalm-baseline": "vendor/bin/psalm --no-cache --update-baseline --set-baseline=psalm-baseline.xml",
         "rector": "vendor/bin/rector",
-        "requirements": "vendor/bin/requirements-checker APP_ENV=prod APP_DEBUG=0",
         "schema": "bin/console doctrine:schema:validate",
+        "symfony-requirements": "vendor/bin/requirements-checker APP_ENV=prod APP_DEBUG=0",
         "test": [
             "@putenv APP_ENV=test",
             "@norm",
