@@ -6562,16 +6562,16 @@
         },
         {
             "name": "sentry/sentry-symfony",
-            "version": "4.1.0",
+            "version": "4.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-symfony.git",
-                "reference": "4b5796901c526cadea57a82daa56059f93fbcfa5"
+                "reference": "1a4080a3153a20dc9217571104951647d822f92d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/4b5796901c526cadea57a82daa56059f93fbcfa5",
-                "reference": "4b5796901c526cadea57a82daa56059f93fbcfa5",
+                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/1a4080a3153a20dc9217571104951647d822f92d",
+                "reference": "1a4080a3153a20dc9217571104951647d822f92d",
                 "shasum": ""
             },
             "require": {
@@ -6602,6 +6602,7 @@
                 "phpunit/phpunit": "^8.5||^9.0",
                 "symfony/browser-kit": "^3.4.44||^4.4.20||^5.0.11",
                 "symfony/cache": "^3.4.44||^4.4.20||^5.0.11",
+                "symfony/cache-contracts": "^2.4",
                 "symfony/dom-crawler": "^3.4.44||^4.4.20||^5.0.11",
                 "symfony/framework-bundle": "^3.4.44||^4.4.20||^5.0.11",
                 "symfony/messenger": "^4.4.20||^5.0.11",
@@ -6658,7 +6659,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-symfony/issues",
-                "source": "https://github.com/getsentry/sentry-symfony/tree/4.1.0"
+                "source": "https://github.com/getsentry/sentry-symfony/tree/4.1.1"
             },
             "funding": [
                 {
@@ -6670,7 +6671,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2021-04-18T21:04:42+00:00"
+            "time": "2021-05-10T07:39:23+00:00"
         },
         {
             "name": "symfony/amqp-messenger",

@@ -81,6 +81,9 @@ app-cli:
 composer: ### composer install
 	$(COMPOSER) install
 
+outdated: ## Show outdated composer packages
+	$(COMPOSER) $@
+
 migration: ## Run migrations
 	$(COMPOSER) $@
 
@@ -118,7 +121,7 @@ phpmetrics: ## Generate phpmetrics to public/phpmetrics folder
 	$(COMPOSER) $@
 
 requirements: ### Check symfony requirements
-	$(COMPOSER) $@
+	$(COMPOSER) symfony-requirements
 
 psalm: ### Run psalm
 	$(COMPOSER) $@
