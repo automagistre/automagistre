@@ -4,6 +4,11 @@
 FROM composer:2.0.13 as composer
 
 #
+# rector
+#
+FROM rector/rector:0.11.1 as rector
+
+#
 # PHP
 #
 FROM amd64/php:8.0.6-fpm-alpine3.12 as php-raw
