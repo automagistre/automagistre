@@ -516,9 +516,6 @@
     "rector/rector-installer": {
         "version": "0.10.1"
     },
-    "rector/rector-prefixed": {
-        "version": "0.10.21"
-    },
     "sanmai/later": {
         "version": "0.1.2"
     },
