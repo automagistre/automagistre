@@ -48,7 +48,15 @@ docker-hosts-updater:
 pull:
 	$(DEBUG_ECHO) docker-compose pull
 do-up: contrib pull composer permissions
-	$(DEBUG_ECHO) docker-compose up --detach --remove-orphans --no-build
+	$(DEBUG_ECHO) docker-compose up --detach --remove-orphans --no-build \
+	nginx \
+	php-fpm \
+	db \
+	memcached \
+	nsqd \
+	nsqadmin \
+	host.docker.internal
+
 up: do-up ## Up project
 	@$(notify)
 latest: do-up backup-latest permissions ## Up project with latest backup from server
@@ -58,6 +66,9 @@ cli: app-cli ## Get terminal inside php container
 down: ## Stop and remove all containers, volumes and networks
 	$(DEBUG_ECHO) docker-compose down -v --remove-orphans
 ###< ALIASES ###
+
+rector:
+	$(DEBUG_ECHO) docker-compose run --rm rector
 
 ###> APP ###
 APP = $(DEBUG_ECHO) @docker-compose $(if $(EXEC),exec,run --rm )\

@@ -24,6 +24,11 @@ services:
             APP_DEBUG: 1
             TENANT: ${TENANT}
 
+    rector:
+        image: automagistre/tenant-rector:latest
+        volumes:
+            - ./:/project
+
     db:
         image: postgres:12.2
         labels:
