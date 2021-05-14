@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d8f9eda7e91626395e0484fd44f9b27e",
+    "content-hash": "bb50f47b45ace994056dc526bdbc1176",
     "packages": [
         {
             "name": "adamgaskins/barcoder",
@@ -14306,53 +14306,6 @@
                 "source": "https://github.com/psalm/psalm-plugin-symfony/tree/v2.3.0"
             },
             "time": "2021-05-10T08:14:54+00:00"
-        },
-        {
-            "name": "rector/rector-prefixed",
-            "version": "0.10.21",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/rectorphp/rector-prefixed.git",
-                "reference": "c14f4b73e32bb4c5ff0b339caa4de005bc0a7f09"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector-prefixed/zipball/c14f4b73e32bb4c5ff0b339caa4de005bc0a7f09",
-                "reference": "c14f4b73e32bb4c5ff0b339caa4de005bc0a7f09",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1|^8.0",
-                "phpstan/phpstan": "0.12.85"
-            },
-            "conflict": {
-                "phpstan/phpdoc-parser": "<=0.5.3",
-                "phpstan/phpstan": "<=0.12.82"
-            },
-            "bin": [
-                "bin/rector"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "0.10-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "bootstrap.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Prefixed and PHP 7.1 downgraded version of rector/rector",
-            "support": {
-                "source": "https://github.com/rectorphp/rector-prefixed/tree/0.10.21"
-            },
-            "abandoned": "rector/rector",
-            "time": "2021-05-09T17:59:11+00:00"
         },
         {
             "name": "sanmai/later",

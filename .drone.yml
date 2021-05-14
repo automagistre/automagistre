@@ -30,6 +30,11 @@ steps:
             - docker build -t "automagistre/tenant-nginx:base-${DRONE_BUILD_NUMBER}" --progress=plain --target nginx-base .
 
     -   <<: *docker
+        name: build rector
+        commands:
+            - docker build -t "automagistre/tenant-rector:${DRONE_BUILD_NUMBER}" --progress=plain --target rector .
+
+    -   <<: *docker
         name: build php
         commands:
             - docker build -t "automagistre/tenant-php:${DRONE_BUILD_NUMBER}" --progress=plain --target php .
@@ -56,6 +61,17 @@ steps:
         when:
             branch: [ master ]
         depends_on:
+            - build php base
+
+    -   <<: *docker
+        name: push rector
+        commands:
+            - docker tag automagistre/tenant-rector:${DRONE_BUILD_NUMBER} automagistre/tenant-rector:latest
+            - docker push automagistre/tenant-rector:latest
+        when:
+            branch: [ master ]
+        depends_on:
+            - docker login
             - build php base
 
     -   <<: *docker
@@ -134,9 +150,9 @@ steps:
             - install
 
     -   name: rector
-        image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
+        image: automagistre/tenant-rector:${DRONE_BUILD_NUMBER}
         commands:
-            - vendor/bin/rector --dry-run --no-progress-bar
+            - rector --dry-run --no-progress-bar
         when:
             branch:
                 exclude: [ master ]
