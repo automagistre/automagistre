@@ -7,11 +7,10 @@ namespace App\Doctrine;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Migrations\Event\MigrationsEventArgs;
 use Doctrine\Migrations\Events;
-use LogicException;
 use Symfony\Component\Finder\Finder;
-use function is_string;
 use function sprintf;
 use function Symfony\Component\String\u;
+use function Safe\file_get_contents;
 
 final class RecreateViewsOnMigration implements EventSubscriber
 {
@@ -56,13 +55,7 @@ final class RecreateViewsOnMigration implements EventSubscriber
         $conn = $event->getConnection();
 
         foreach ($this->views as $name => $file) {
-            $sql = file_get_contents($file);
-
-            if (!is_string($sql)) {
-                throw new LogicException(sprintf('Can\'t read file %s.', $file));
-            }
-
-            $conn->executeQuery(sprintf('CREATE VIEW %s AS %s', $name, $sql));
+            $conn->executeQuery(sprintf('CREATE VIEW %s AS %s', $name, file_get_contents($file)));
         }
     }
 }
