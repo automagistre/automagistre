@@ -175,6 +175,7 @@ RUN --mount=type=cache,target=/var/cache/apk \
         opcache \
         pcntl \
         pcov \
+        bcmath \
         pdo_pgsql \
         snappy \
         sockets \
