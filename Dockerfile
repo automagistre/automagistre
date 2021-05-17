@@ -103,6 +103,10 @@ FROM php-build AS php-ext-pcov
 RUN set -ex \
     && pecl install pcov
 
+FROM php-build AS php-ext-bcmath
+RUN set -ex \
+    && docker-php-ext-install bcmath
+
 FROM php-build AS php-ext-buffer
 ENV EXT_BUFFER_VERSION 0.1.0
 RUN set -ex \
@@ -136,6 +140,7 @@ COPY --from=php-ext-apcu ${PHP_EXT_DIR}/apcu.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-xdebug ${PHP_EXT_DIR}/xdebug.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-uuid ${PHP_EXT_DIR}/uuid.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-pcov ${PHP_EXT_DIR}/pcov.so ${PHP_EXT_DIR}/
+COPY --from=php-ext-bcmath ${PHP_EXT_DIR}/bcmath.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-buffer ${PHP_EXT_DIR}/buffer.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-snappy ${PHP_EXT_DIR}/snappy.so ${PHP_EXT_DIR}/
 
