@@ -69,7 +69,7 @@ services:
 
     migration:
         <<: *php-fpm
-        command: console doctrine:migrations:migrate --no-interaction --allow-no-migration --all-or-nothing
+        command: console doctrine:migrations:migrate --no-interaction --allow-no-migration --all-or-nothing=true
         healthcheck:
             disable: true
         deploy:
