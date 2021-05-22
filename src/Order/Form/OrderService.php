@@ -28,7 +28,6 @@ final class OrderService extends OrderItemModel
 
     public ?OperandId $workerId = null;
 
-    #[Assert\NotBlank]
     public bool $warranty = false;
 
     public ?Money $discount = null;
