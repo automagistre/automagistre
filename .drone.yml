@@ -215,17 +215,30 @@ steps:
     -   name: phpunit
         image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
         commands:
-            - vendor/bin/paratest --log-junit=var/junit.xml --coverage-clover=var/clover.xml
+            - mkdir -p var/coverage
+            - >-
+                vendor/bin/paratest
+                --log-junit=var/coverage/junit.xml
+                --coverage-clover=var/coverage/clover.xml
+                --coverage-xml=var/coverage/coverage-xml
         depends_on:
             - fixtures
 
     -   name: infection
         image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
         commands:
-            - vendor/bin/infection --no-progress --threads=$(nproc) --only-covered --min-msi=67 --min-covered-msi=67
+            - >-
+                vendor/bin/infection
+                --no-progress
+                --threads=$(nproc)
+                --only-covered
+                --min-msi=67
+                --min-covered-msi=67
+                --coverage=var/coverage
+                --skip-initial-tests
         failure: ignore
         depends_on:
-            - fixtures
+            - phpunit
 
     -   name: logs
         image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
