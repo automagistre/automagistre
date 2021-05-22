@@ -126,17 +126,6 @@
       <code>$ratio</code>
     </PropertyNotSetInConstructor>
   </file>
-  <file src="src/Income/Controller/IncomePartController.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$entity-&gt;partId</code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="src/Income/EventListener/AccrueIncomePartsListener.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$incomePart-&gt;getQuantity()</code>
-      <code>$partId</code>
-    </PossiblyNullArgument>
-  </file>
   <file src="src/Income/Manager/SupplierManager.php">
     <PossiblyNullArgument occurrences="1">
       <code>$income-&gt;getAccruedAmount()</code>

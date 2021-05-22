@@ -6,8 +6,10 @@ namespace App\Income\Controller;
 
 use App\EasyAdmin\Controller\AbstractController;
 use App\Income\Entity\Income;
+use App\Income\Entity\IncomeId;
 use App\Income\Entity\IncomePart;
 use App\Income\Entity\IncomePartId;
+use App\Income\Form\IncomePartDto;
 use App\Shared\Identifier\IdentifierFormatter;
 use LogicException;
 use function assert;
@@ -32,7 +34,7 @@ final class IncomePartController extends AbstractController
                 throw new LogicException('IncomePart required.');
             }
 
-            if (!$incomePart->getIncome()->isEditable()) {
+            if (!$incomePart->income->isEditable()) {
                 return false;
             }
         }
@@ -40,17 +42,10 @@ final class IncomePartController extends AbstractController
         return parent::isActionAllowed($actionName);
     }
 
-    protected function createNewEntity(): IncomePart
+    protected function createNewEntity(): IncomePartDto
     {
-        $income = $this->getEntity(Income::class);
-
-        if (!$income instanceof Income) {
-            throw new LogicException('Income required.');
-        }
-
-        return new IncomePart(
-            IncomePartId::generate(),
-            $income,
+        return new IncomePartDto(
+            $this->getIdentifier(IncomeId::class),
         );
     }
 
@@ -59,11 +54,20 @@ final class IncomePartController extends AbstractController
      */
     protected function persistEntity($entity): void
     {
-        assert($entity instanceof IncomePart);
+        $dto = $entity;
+        assert($dto instanceof IncomePartDto);
+
+        $income = $this->registry->get(Income::class, $dto->incomeId);
+
+        $entity = new IncomePart(
+            IncomePartId::generate(),
+            $income,
+            $dto->partId,
+            $dto->price,
+            $dto->quantity,
+        );
 
         parent::persistEntity($entity);
-
-        $income = $entity->getIncome();
 
         $this->setReferer($this->generateEasyPath('IncomePart', 'new', [
             'id' => $entity->toId()->toString(),
@@ -74,7 +78,7 @@ final class IncomePartController extends AbstractController
         $this->addFlash('success', sprintf(
             'Запчасть "%s" в количестве "%s" добавлена в приход.',
             $this->container->get(IdentifierFormatter::class)->format($entity->partId),
-            $entity->getQuantity() / 100,
+            $entity->quantity / 100,
         ));
     }
 
@@ -87,7 +91,7 @@ final class IncomePartController extends AbstractController
 
         parent::updateEntity($entity);
 
-        $income = $entity->getIncome();
+        $income = $entity->income;
 
         $this->setReferer(
             $this->generateEasyPath('Income', 'show', [

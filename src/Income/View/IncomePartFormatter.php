@@ -33,6 +33,6 @@ final class IncomePartFormatter implements IdentifierFormatterInterface
         /** @var IncomePart $incomePart */
         $incomePart = $this->registry->findOneBy(IncomePart::class, ['id' => $identifier]);
 
-        return $formatter->format($incomePart->getIncome()->toId());
+        return $formatter->format($incomePart->income->toId());
     }
 }

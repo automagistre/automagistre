@@ -49,3 +49,7 @@ easy_admin:
                 title: 'Создать новую Запчасть для Прихода'
             edit:
                 title: 'Редактировать Запчасть для Прихода'
+                fields:
+                    -   property: 'partId'
+                        type_options:
+                            disabled: true

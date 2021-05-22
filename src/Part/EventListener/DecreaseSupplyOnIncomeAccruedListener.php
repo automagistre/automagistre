@@ -35,7 +35,7 @@ final class DecreaseSupplyOnIncomeAccruedListener implements MessageHandler
                     continue;
                 }
 
-                $decrease = $incomePart->getQuantity();
+                $decrease = $incomePart->quantity;
 
                 if ($decrease > $supply->quantity) {
                     // Supply cannot be negative
