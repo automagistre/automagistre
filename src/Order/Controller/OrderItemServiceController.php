@@ -96,19 +96,19 @@ final class OrderItemServiceController extends OrderItemController
      */
     protected function persistEntity($entity): OrderItemService
     {
-        $model = $entity;
-        assert($model instanceof OrderService);
+        $dto = $entity;
+        assert($dto instanceof OrderService);
 
         $entity = new OrderItemService(
             Uuid::uuid6(),
-            $model->order,
-            $model->service,
-            $model->price,
+            $dto->order,
+            $dto->service,
+            $dto->price,
+            $dto->discount,
+            $dto->workerId,
+            $dto->warranty,
+            $dto->parent,
         );
-        $entity->setParent($model->parent);
-        $entity->workerId = $model->workerId;
-        $entity->setWarranty($model->warranty);
-        $entity->discount($model->discount);
 
         parent::persistEntity($entity);
 

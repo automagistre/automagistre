@@ -207,9 +207,7 @@
       <code>mb_strtolower($item)</code>
       <code>mb_strtolower($searchString)</code>
     </PossiblyFalseOperand>
-    <PossiblyNullArgument occurrences="3">
-      <code>$model-&gt;price</code>
-      <code>$model-&gt;service</code>
+    <PossiblyNullArgument occurrences="1">
       <code>$sortDirection</code>
     </PossiblyNullArgument>
   </file>
@@ -245,12 +243,6 @@
   <file src="src/Order/Form/OrderGroup.php">
     <PropertyNotSetInConstructor occurrences="1">
       <code>OrderGroup</code>
-    </PropertyNotSetInConstructor>
-  </file>
-  <file src="src/Order/Form/OrderService.php">
-    <PropertyNotSetInConstructor occurrences="2">
-      <code>$workerId</code>
-      <code>OrderService</code>
     </PropertyNotSetInConstructor>
   </file>
   <file src="src/Order/Form/Type/OrderItemParentType.php">

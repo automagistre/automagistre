@@ -79,7 +79,12 @@ final class OrderFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($orderItemGroup);
         $manager->flush();
 
-        $orderItemService = new OrderItemService(Uuid::fromString(self::SERVICE_ID), $order, 'Service', $money);
+        $orderItemService = new OrderItemService(
+            Uuid::fromString(self::SERVICE_ID),
+            $order,
+            'Service',
+            $money,
+        );
         $manager->persist($orderItemService);
         $manager->flush();
 

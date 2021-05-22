@@ -7,13 +7,18 @@ namespace App\Order\Form;
 use App\Form\Model\Model;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItem;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @author Konstantin Grachev <me@grachevko.ru>
+ * @psalm-suppress MissingConstructor
  */
 abstract class OrderItemModel extends Model
 {
-    public Order $order;
+    /**
+     * @var Order
+     */
+    #[Assert\NotBlank]
+    public $order;
 
     public ?OrderItem $parent = null;
 }
