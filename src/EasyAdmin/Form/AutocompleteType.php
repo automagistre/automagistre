@@ -49,7 +49,7 @@ final class AutocompleteType extends AbstractType implements DataMapperInterface
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $entityClass = $options['class'];
-        $classMetaData = $this->registry->classMetaData($entityClass);
+        $classMetaData = $this->registry->manager($entityClass)->getClassMetadata($entityClass);
         $reflectionClass = $classMetaData->getReflectionClass();
 
         $reflectionType = $reflectionClass->getProperty('id')->getType();

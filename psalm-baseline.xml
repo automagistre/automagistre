@@ -68,9 +68,6 @@
     <PossiblyFalseOperand occurrences="1">
       <code>mb_strtolower($item)</code>
     </PossiblyFalseOperand>
-    <PossiblyNullArgument occurrences="1">
-      <code>$entity</code>
-    </PossiblyNullArgument>
   </file>
   <file src="src/Customer/Controller/PersonController.php">
     <PossiblyFalseOperand occurrences="1">
