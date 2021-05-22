@@ -128,15 +128,13 @@ final class OrderItemPartController extends OrderItemController
 
                 $entity = new OrderItemPart(
                     Uuid::uuid6(),
+                    $orderItemPart->getParent(),
                     $orderItemPart->getOrder(),
                     $relatedDto->part->toId(),
-                    $relatedDto->quantity,
-                );
-                $entity->setPrice(
                     $relatedDto->price,
                     $relatedDto->part,
+                    $relatedDto->quantity,
                 );
-                $entity->setParent($orderItemPart->getParent());
 
                 $entities[] = $entity;
             }
@@ -237,16 +235,14 @@ final class OrderItemPartController extends OrderItemController
 
             $orderItemPart = new OrderItemPart(
                 Uuid::uuid6(),
+                $dto->parent,
                 $order,
                 $partOffer->partId,
-                $partOffer->quantity,
-            );
-            $orderItemPart->setParent($dto->parent);
-            $orderItemPart->setWarranty($dto->warranty);
-            $orderItemPart->setSupplierId($dto->supplierId);
-            $orderItemPart->setPrice(
                 $partOffer->price,
                 $this->registry->get(PartView::class, $partOffer->partId),
+                $partOffer->quantity,
+                $dto->warranty,
+                $dto->supplierId,
             );
 
             $em->persist($orderItemPart);
