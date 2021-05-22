@@ -91,6 +91,8 @@ steps:
             - composer dump-autoload --classmap-authoritative
             - bin/console cache:warmup
             - bin/console assets:install public
+        environment:
+            COMPOSER_CACHE_DIR: /var/cache/composer
 
     -   name: php-cs-fixer
         image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
