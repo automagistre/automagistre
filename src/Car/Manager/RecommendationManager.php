@@ -55,7 +55,7 @@ final class RecommendationManager
                 $orderItemService,
                 $order,
                 $partId,
-                $recommendationPart->getPrice(),
+                $recommendationPart->price,
                 $this->registry->get(PartView::class, $partId),
                 $recommendationPart->quantity,
             );

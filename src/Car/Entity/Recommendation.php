@@ -6,7 +6,6 @@ namespace App\Car\Entity;
 
 use App\Customer\Entity\OperandId;
 use App\Order\Entity\OrderItemService;
-use App\Shared\Doctrine\ORM\Mapping\Traits\Price;
 use App\Shared\Money\PriceInterface;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -23,8 +22,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Recommendation implements PriceInterface
 {
-    use Price;
-
     /**
      * @ORM\Id
      * @ORM\Column(type="recommendation_id")
@@ -47,6 +44,11 @@ class Recommendation implements PriceInterface
      * @ORM\Column
      */
     public $service;
+
+    /**
+     * @ORM\Embedded(class=Money::class)
+     */
+    private Money $price;
 
     /**
      * @ORM\Column(type="operand_id")
@@ -100,6 +102,11 @@ class Recommendation implements PriceInterface
     public function setPrice(Money $price): void
     {
         $this->price = $price;
+    }
+
+    public function getPrice(): Money
+    {
+        return $this->price;
     }
 
     public function getTotalPrice(): Money
