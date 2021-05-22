@@ -23,7 +23,7 @@ final class ChargeableEmployee
 
     public function chargeByOrder(OrderId $orderId, Money $profit): void
     {
-        $salary = $profit->multiply($this->rate / 100);
+        $salary = $profit->multiply((string) ($this->rate / 100));
 
         $this->employee->addTransaction(
             $salary->absolute(),

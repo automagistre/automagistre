@@ -27,7 +27,7 @@ class PartView implements Notes
     /**
      * Наценка на запчасти.
      */
-    private const MARKUP = 1.15;
+    private const MARKUP = '1.15';
 
     /**
      * @ORM\Id

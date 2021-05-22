@@ -472,7 +472,7 @@ class Order implements ContainsRecordedMessages
         }
 
         if ($balance instanceof Money) {
-            $forPayment = $forPayment->add($balance->multiply(-1));
+            $forPayment = $forPayment->add($balance->multiply('-1'));
         }
 
         return $forPayment;
@@ -537,7 +537,7 @@ class Order implements ContainsRecordedMessages
                 $itemDiscount = $item->discount();
 
                 if ($item instanceof OrderItemPart) {
-                    $itemDiscount = $itemDiscount->multiply($item->getQuantity() / 100);
+                    $itemDiscount = $itemDiscount->multiply((string) ($item->getQuantity() / 100));
                 }
 
                 $discount = $discount instanceof Money ? $discount->add($itemDiscount) : $itemDiscount;

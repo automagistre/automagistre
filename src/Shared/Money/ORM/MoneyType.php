@@ -10,11 +10,15 @@ use Money\Currency;
 use Money\Money;
 use function assert;
 use function explode;
+use function is_numeric;
 use function sprintf;
 
 final class MoneyType extends Type
 {
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    /**
+     * {@inheritdoc}
+     */
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         if (null === $value) {
             return null;
@@ -25,27 +29,44 @@ final class MoneyType extends Type
         return sprintf('%s %s', $value->getCurrency()->getCode(), $value->getAmount());
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    /**
+     * {@inheritdoc}
+     */
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?Money
     {
         if (null === $value) {
-            return null;
+            return new Money(0, new Currency('RUB'));
         }
 
+        /**
+         * @psalm-var non-empty-string $currency
+         */
         [$currency, $amount] = explode(' ', $value);
+
+        assert(is_numeric($amount));
 
         return new Money($amount, new Currency($currency));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         return $platform->getVarcharTypeDeclarationSQL($column);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName(): string
     {
         return 'money';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function requiresSQLCommentHint(AbstractPlatform $platform): bool
     {
         return true;

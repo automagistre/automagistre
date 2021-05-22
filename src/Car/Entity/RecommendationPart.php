@@ -64,6 +64,6 @@ class RecommendationPart
 
     public function getTotalPrice(): Money
     {
-        return $this->price->multiply($this->quantity / 100);
+        return $this->price->multiply((string) ($this->quantity / 100));
     }
 }

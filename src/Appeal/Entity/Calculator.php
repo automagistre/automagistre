@@ -240,7 +240,12 @@ class CalculatorPart implements JsonSerializable
             : new Money($part['price']['amount'], new Currency($part['price']['currency']));
         $this->count = $part['count'];
         $this->isSelected = $part['isSelected'];
-        $this->total = $this->price->multiply($this->count / 100);
+
+        /**
+         * @psalm-var numeric-string $multiply
+         */
+        $multiply = (string) ($this->count / 100);
+        $this->total = $this->price->multiply($multiply);
     }
 
     public function getTotal(): Money
