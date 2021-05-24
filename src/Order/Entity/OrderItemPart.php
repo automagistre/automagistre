@@ -11,9 +11,6 @@ use App\MessageBus\PrivateMessageRecorderCapabilities;
 use App\Order\Messages\OrderItemPartCreated;
 use App\Part\Entity\PartId;
 use App\Part\Entity\PartView;
-use App\Shared\Doctrine\ORM\Mapping\Traits\Discount;
-use App\Shared\Doctrine\ORM\Mapping\Traits\Price;
-use App\Shared\Doctrine\ORM\Mapping\Traits\Warranty;
 use App\Shared\Money\PriceInterface;
 use App\Shared\Money\TotalPriceInterface;
 use Doctrine\ORM\Mapping as ORM;
@@ -26,15 +23,12 @@ use Ramsey\Uuid\UuidInterface;
  */
 class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInterface, WarrantyInterface, Discounted, ContainsRecordedMessages
 {
-    use Discount;
-    use Price;
     use PrivateMessageRecorderCapabilities;
-    use Warranty;
 
     /**
      * @ORM\Column(type="operand_id", nullable=true)
      */
-    private ?OperandId $supplierId = null;
+    private ?OperandId $supplierId;
 
     /**
      * @ORM\Column(type="part_id")
@@ -42,18 +36,43 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
     private PartId $partId;
 
     /**
-     * @var int
-     *
+     * @ORM\Embedded(class=Money::class)
+     */
+    private Money $price;
+
+    /**
+     * @ORM\Embedded(class=Money::class)
+     */
+    private Money $discount;
+
+    /**
      * @ORM\Column(type="integer")
      */
-    private $quantity;
+    private int $quantity;
 
-    public function __construct(UuidInterface $id, Order $order, PartId $partId, int $quantity)
-    {
-        parent::__construct($id, $order);
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $warranty;
+
+    public function __construct(
+        UuidInterface $id,
+        ?OrderItem $parent,
+        Order $order,
+        PartId $partId,
+        Money $price,
+        PartView $partView,
+        int $quantity,
+        bool $warranty = false,
+        ?OperandId $supplierId = null,
+    ) {
+        parent::__construct($id, $order, $parent);
 
         $this->partId = $partId;
         $this->quantity = $quantity;
+        [$this->price, $this->discount] = $this->calculatePriceAndDiscount($price, $partView);
+        $this->warranty = $warranty;
+        $this->supplierId = $supplierId;
 
         $this->record(new OrderItemPartCreated($this->toId()));
     }
@@ -85,15 +104,7 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
             throw new LogicException('Can\'t change price on part on closed order.');
         }
 
-        $priceFromCatalog = $partView->price;
-        $discount = $priceFromCatalog->subtract($price);
-
-        if ($discount->isPositive()) {
-            $price = $priceFromCatalog;
-        }
-
-        $this->price = $price;
-        $this->discount = $discount->isPositive() ? $discount : null;
+        [$this->price, $this->discount] = $this->calculatePriceAndDiscount($price, $partView);
     }
 
     public function getQuantity(): int
@@ -106,19 +117,38 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
         $this->quantity = $quantity;
     }
 
+    public function getPrice(): Money
+    {
+        return $this->price;
+    }
+
+    public function isDiscounted(): bool
+    {
+        return $this->discount->isPositive();
+    }
+
+    public function discount(?Money $discount = null): Money
+    {
+        if (null === $discount) {
+            return $this->discount;
+        }
+
+        return $this->discount = $discount->absolute();
+    }
+
     public function getTotalPrice(bool $withDiscount = false): Money
     {
         $price = $this->getPrice();
 
         if ($this->isWarranty()) {
-            return $price->multiply(0);
+            return $price->multiply('0');
         }
 
         if ($withDiscount && $this->isDiscounted()) {
             $price = $price->subtract($this->discount());
         }
 
-        return $price->multiply($this->getQuantity() / 100);
+        return $price->multiply((string) ($this->getQuantity() / 100));
     }
 
     public function getSupplierId(): ?OperandId
@@ -129,5 +159,30 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
     public function setSupplierId(?OperandId $supplierId): void
     {
         $this->supplierId = $supplierId;
+    }
+
+    public function isWarranty(): bool
+    {
+        return $this->warranty;
+    }
+
+    public function setWarranty(bool $guarantee): void
+    {
+        $this->warranty = $guarantee;
+    }
+
+    /**
+     * @return array{0: Money, 1: Money}
+     */
+    private function calculatePriceAndDiscount(Money $price, PartView $partView): array
+    {
+        $priceFromCatalog = $partView->price;
+        $discount = $priceFromCatalog->subtract($price);
+
+        if ($discount->isPositive()) {
+            $price = $priceFromCatalog;
+        }
+
+        return [$price, $discount->isPositive() ? $discount : $discount->multiply('0')];
     }
 }

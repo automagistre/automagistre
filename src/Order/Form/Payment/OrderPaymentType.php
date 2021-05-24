@@ -88,7 +88,7 @@ final class OrderPaymentType extends AbstractType
                 $payment = $predefinePayment ? $dto->payment : new Money(0, new Currency('RUB'));
                 $dto->wallets = array_map(
                     static function (Wallet $wallet) use (&$payment): OrderPaymentWalletDto {
-                        [$money, $payment] = [$payment, $payment->multiply(0)];
+                        [$money, $payment] = [$payment, $payment->multiply('0')];
 
                         return new OrderPaymentWalletDto(
                             $wallet->toId(),

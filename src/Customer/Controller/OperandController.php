@@ -14,6 +14,7 @@ use App\EasyAdmin\Controller\AbstractController;
 use App\Note\Entity\NoteView;
 use App\Order\Entity\Order;
 use App\Payment\Manager\PaymentManager;
+use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -50,8 +51,8 @@ class OperandController extends AbstractController
         $this->initialize($request);
         $id = $request->query->get('id');
 
-        $entity = $this->registry->repository(Operand::class)->find($id);
-        $config = $this->get('easyadmin.config.manager')->getEntityConfigByClass($this->registry->class($entity));
+        $entity = $this->registry->get(Operand::class, $id);
+        $config = $this->get('easyadmin.config.manager')->getEntityConfigByClass(ClassUtils::getRealClass($entity::class));
 
         return $this->redirectToRoute('easyadmin', array_merge($request->query->all(), [
             'entity' => $config['name'],

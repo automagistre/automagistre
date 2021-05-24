@@ -32,7 +32,7 @@ final class AccrueIncomePartsListener implements MessageHandler
             }
 
             $storagePart->increase(
-                $incomePart->getQuantity(),
+                $incomePart->quantity,
                 MotionSource::income($incomePart->toId()),
             );
         }

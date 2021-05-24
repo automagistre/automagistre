@@ -14,6 +14,7 @@ use Money\Currency;
 use Money\Money;
 use function count;
 use function explode;
+use function is_numeric;
 use function sprintf;
 
 final class MoneyInputType extends ScalarType
@@ -45,12 +46,19 @@ final class MoneyInputType extends ScalarType
             throw new Error('Cannot represent following value as Money: '.Utils::printSafeJson($value));
         }
 
+        /**
+         * @psalm-var non-empty-string $currencyCode
+         */
         [$currencyCode, $amount] = $explode;
 
         try {
             $currency = new Currency($currencyCode);
         } catch (InvalidArgumentException $e) {
             throw new Error('Cannot represent following value as Currency: '.Utils::printSafeJson($currencyCode));
+        }
+
+        if (!is_numeric($amount)) {
+            throw new Error('Cannot represent following value as Money: '.Utils::printSafeJson($amount));
         }
 
         try {

@@ -42,6 +42,7 @@ final class RecommendationManager
             $order,
             $recommendation->service,
             $recommendation->getPrice(),
+            null,
             $order->getWorkerPersonId(),
         );
 
@@ -51,16 +52,14 @@ final class RecommendationManager
 
             $orderItemPart = $orderItemParts[] = new OrderItemPart(
                 Uuid::uuid6(),
+                $orderItemService,
                 $order,
                 $partId,
+                $recommendationPart->price,
+                $this->registry->get(PartView::class, $partId),
                 $recommendationPart->quantity,
             );
 
-            $orderItemPart->setPrice(
-                $recommendationPart->getPrice(),
-                $this->registry->get(PartView::class, $partId),
-            );
-            $orderItemPart->setParent($orderItemService);
             $em->persist($orderItemPart);
         }
 

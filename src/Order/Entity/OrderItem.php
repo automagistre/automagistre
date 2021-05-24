@@ -67,12 +67,13 @@ abstract class OrderItem
      */
     private $parent;
 
-    public function __construct(UuidInterface $id, Order $order)
+    public function __construct(UuidInterface $id, Order $order, ?self $parent = null)
     {
         $this->id = $id;
         $this->children = new ArrayCollection();
 
         $this->order = $order;
+        $this->parent = $parent;
     }
 
     abstract public function __toString(): string;

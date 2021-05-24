@@ -65,7 +65,7 @@ final class RecommendationPartController extends AbstractController
             $partOffer = new PartOfferDto();
             $partOffer->partId = $cross->toId();
             $partOffer->quantity = $recommendationPart->quantity;
-            $partOffer->price = $isCurrent ? $recommendationPart->getPrice() : $cross->suggestPrice();
+            $partOffer->price = $isCurrent ? $recommendationPart->price : $cross->suggestPrice();
 
             $dto = new RecommendationPartDto();
             $dto->recommendation = $recommendationPart->recommendation;
@@ -111,7 +111,7 @@ final class RecommendationPartController extends AbstractController
                     $isCurrent = $dto->partOffer->partId->equals($partId);
 
                     if ($isCurrent) {
-                        $recommendationPart->setPrice($dto->partOffer->price);
+                        $recommendationPart->price = $dto->partOffer->price;
                         $recommendationPart->quantity = $dto->partOffer->quantity;
                     } else {
                         $entity = new RecommendationPart(
@@ -192,7 +192,7 @@ final class RecommendationPartController extends AbstractController
 
         $partOffer = new PartOfferDto();
         $partOffer->partId = $recommendationPart->partId;
-        $partOffer->price = $recommendationPart->getPrice();
+        $partOffer->price = $recommendationPart->price;
         $partOffer->quantity = $recommendationPart->quantity;
 
         $dto = new RecommendationPartDto();
@@ -210,7 +210,7 @@ final class RecommendationPartController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->em;
 
-            $recommendationPart->setPrice($partOffer->price);
+            $recommendationPart->price = $partOffer->price;
             $recommendationPart->quantity = $partOffer->quantity;
 
             $em->flush();

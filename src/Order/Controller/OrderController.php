@@ -229,17 +229,15 @@ final class OrderController extends AbstractController
 
                     $orderItemPart = new OrderItemPart(
                         Uuid::uuid6(),
+                        $orderItemService,
                         $order,
                         $part->partId,
-                        $part->quantity,
-                    );
-                    $orderItemPart->setPrice(
                         $part->price,
                         $this->registry->get(PartView::class, $part->partId),
+                        $part->quantity,
                     );
-                    $em->persist($orderItemPart);
 
-                    $orderItemPart->setParent($orderItemService);
+                    $em->persist($orderItemPart);
                 }
             }
 

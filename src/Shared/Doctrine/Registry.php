@@ -8,7 +8,6 @@ use App\Costil;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\Persistence\ManagerRegistry;
 use LogicException;
 use Premier\Identifier\Identifier;
@@ -16,12 +15,9 @@ use Ramsey\Uuid\UuidInterface;
 use function array_map;
 use function assert;
 use function class_exists;
-use function get_class;
 use function is_array;
-use function is_object;
 use function serialize;
 use function sprintf;
-use function str_replace;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -171,28 +167,6 @@ final class Registry
         assert($entityRepository instanceof EntityRepository);
 
         return $entityRepository;
-    }
-
-    /**
-     * @param object|string $entity
-     */
-    public function class($entity): string
-    {
-        return is_object($entity)
-            ? str_replace('Proxies\\__CG__\\', '', get_class($entity))
-            : $entity;
-    }
-
-    /**
-     * @param object|string $entity
-     */
-    public function classMetaData($entity): ClassMetadataInfo
-    {
-        $class = $this->class($entity);
-
-        assert(class_exists($class));
-
-        return $this->manager($class)->getClassMetadata($class);
     }
 
     /**

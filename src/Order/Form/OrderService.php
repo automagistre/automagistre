@@ -7,29 +7,30 @@ namespace App\Order\Form;
 use App\Customer\Entity\OperandId;
 use App\Order\Entity\OrderItemService;
 use Money\Money;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @author Konstantin Grachev <me@grachevko.ru>
+ * @psalm-suppress MissingConstructor
  */
 final class OrderService extends OrderItemModel
 {
-    public ?string $service;
+    /**
+     * @var string
+     */
+    #[Assert\NotBlank]
+    public $service;
 
-    public ?Money $price;
+    /**
+     * @var Money
+     */
+    #[Assert\NotBlank]
+    public $price;
 
-    public ?OperandId $workerId;
+    public ?OperandId $workerId = null;
 
-    public bool $warranty;
+    public bool $warranty = false;
 
-    public ?Money $discount;
-
-    public function __construct()
-    {
-        $this->service = null;
-        $this->price = null;
-        $this->warranty = false;
-        $this->discount = null;
-    }
+    public ?Money $discount = null;
 
     public static function getEntityClass(): string
     {

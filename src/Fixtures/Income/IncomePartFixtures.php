@@ -42,10 +42,10 @@ final class IncomePartFixtures extends Fixture implements DependentFixtureInterf
         $incomePart = new IncomePart(
             IncomePartId::from(self::ID),
             $income,
+            PartId::from(self::PART_ID),
+            new Money(100, new Currency('RUB')),
+            100,
         );
-        $incomePart->partId = PartId::from(self::PART_ID);
-        $incomePart->setPrice(new Money(100, new Currency('RUB')));
-        $incomePart->setQuantity(100);
 
         $this->addReference('incomePart-1', $incomePart);
 

@@ -12,6 +12,7 @@ use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function is_numeric;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -35,8 +36,15 @@ final class MoneyType extends AbstractType
             ->addViewTransformer(new DivisoredNumberTransformer())
             ->addModelTransformer(new CallbackTransformer(
                 fn (?Money $money) => $money instanceof Money ? $money->getAmount() : $money,
-                fn (string $amount) => new Money($amount, new Currency('RUB')),
-            ));
+                static function (string $value): Money {
+                    if (!is_numeric($value)) {
+                        throw new TransformationFailedException('Numeric expected.');
+                    }
+
+                    return new Money($value, new Currency('RUB'));
+                },
+            ))
+        ;
     }
 
     /**

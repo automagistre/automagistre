@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Car\Entity;
 
 use App\Part\Entity\PartId;
-use App\Shared\Doctrine\ORM\Mapping\Traits\Price;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 
@@ -15,8 +14,6 @@ use Money\Money;
  */
 class RecommendationPart
 {
-    use Price;
-
     /**
      * @ORM\Id
      * @ORM\Column(type="recommendation_part_id")
@@ -41,6 +38,11 @@ class RecommendationPart
      */
     public int $quantity = 0;
 
+    /**
+     * @ORM\Embedded(class=Money::class)
+     */
+    public Money $price;
+
     public function __construct(
         RecommendationPartId $id,
         Recommendation $recommendation,
@@ -60,13 +62,8 @@ class RecommendationPart
         return $this->id;
     }
 
-    public function setPrice(Money $price): void
-    {
-        $this->price = $price;
-    }
-
     public function getTotalPrice(): Money
     {
-        return $this->getPrice()->multiply($this->quantity / 100);
+        return $this->price->multiply((string) ($this->quantity / 100));
     }
 }

@@ -79,13 +79,25 @@ final class OrderFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($orderItemGroup);
         $manager->flush();
 
-        $orderItemService = new OrderItemService(Uuid::fromString(self::SERVICE_ID), $order, 'Service', $money);
+        $orderItemService = new OrderItemService(
+            Uuid::fromString(self::SERVICE_ID),
+            $order,
+            'Service',
+            $money,
+        );
         $manager->persist($orderItemService);
         $manager->flush();
 
         $partId = PartId::from(GasketFixture::ID);
-        $orderItemPart = new OrderItemPart(Uuid::fromString(self::PART_ID), $order, $partId, 1);
-        $orderItemPart->setPrice($money, $this->registry->get(PartView::class, $partId));
+        $orderItemPart = new OrderItemPart(
+            Uuid::fromString(self::PART_ID),
+            null,
+            $order,
+            $partId,
+            $money,
+            $this->registry->get(PartView::class, $partId),
+            1,
+        );
 
         $manager->persist(
             new OrderPayment(

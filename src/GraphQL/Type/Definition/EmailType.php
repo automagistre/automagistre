@@ -11,6 +11,7 @@ use GraphQL\Language\AST\StringValueNode;
 use GraphQL\Type\Definition\ScalarType;
 use GraphQL\Utils\Utils;
 use function is_string;
+use function trim;
 
 final class EmailType extends ScalarType
 {
@@ -29,7 +30,7 @@ final class EmailType extends ScalarType
     {
         $strictValidator = new \Egulias\EmailValidator\EmailValidator();
 
-        if (!is_string($value) || !$strictValidator->isValid($value, new NoRFCWarningsValidation())) {
+        if (!is_string($value) || !$strictValidator->isValid($value = trim($value), new NoRFCWarningsValidation())) {
             throw new Error('Cannot represent following value as Email: '.Utils::printSafeJson($value));
         }
 
