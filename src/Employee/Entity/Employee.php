@@ -31,7 +31,7 @@ class Employee implements ContainsRecordedMessages
     private EmployeeId $id;
 
     /**
-     * @ORM\Column(type="operand_id")
+     * @ORM\Column(type="operand_id", nullable=false)
      */
     private ?OperandId $personId = null;
 

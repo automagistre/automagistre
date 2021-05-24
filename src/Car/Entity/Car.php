@@ -63,7 +63,7 @@ class Car
     /**
      * @ORM\Column(type="carcase_enum")
      */
-    public ?BodyType $caseType = null;
+    public BodyType $caseType;
 
     /**
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)

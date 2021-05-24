@@ -20,7 +20,7 @@ class Inventorization
     public InventorizationId $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=InventorizationClose::class, mappedBy="inventorization", cascade="persist")
+     * @ORM\OneToOne(targetEntity=InventorizationClose::class, mappedBy="inventorization", cascade={"persist"})
      */
     private ?InventorizationClose $close = null;
 
