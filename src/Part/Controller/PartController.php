@@ -376,7 +376,7 @@ final class PartController extends AbstractController
         return $entity;
     }
 
-    protected function createEditDto(Closure $closure): ?object
+    protected function createEditDto(Closure $callable): ?object
     {
         /** @var PartView $view */
         $view = $this->registry->getBy(PartView::class, ['id' => $this->request->query->get('id')]);

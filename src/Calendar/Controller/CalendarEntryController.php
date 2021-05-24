@@ -166,7 +166,7 @@ final class CalendarEntryController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function createEditDto(Closure $closure): CalendarEntryDto
+    protected function createEditDto(Closure $callable): CalendarEntryDto
     {
         return CalendarEntryDto::fromView(
             $this->repository->view(CalendarEntryId::from($this->request->query->get('id'))),

@@ -172,9 +172,9 @@ final class ModelController extends AbstractController
         return $entity;
     }
 
-    protected function createEditDto(Closure $closure): ModelUpdate
+    protected function createEditDto(Closure $callable): ModelUpdate
     {
-        $array = $closure();
+        $array = $callable();
 
         $dto = new ModelUpdate();
         $dto->vehicleId = $array['id'];

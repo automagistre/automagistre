@@ -136,19 +136,17 @@ class User implements UserInterface, EquatableInterface, Serializable
     {
     }
 
-    public function isEqualTo(UserInterface $right): bool
+    public function isEqualTo(UserInterface $user): bool
     {
-        if (!$right instanceof self) {
+        if (!$user instanceof self) {
             return false;
         }
 
-        $left = $this;
-
-        if ($right->getUsername() !== $left->getUsername()) {
+        if ($user->getUsername() !== $this->getUsername()) {
             return false;
         }
 
-        if ($right->getRoles() !== $left->getRoles()) {
+        if ($user->getRoles() !== $this->getRoles()) {
             return false;
         }
 
