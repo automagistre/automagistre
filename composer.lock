@@ -4076,16 +4076,16 @@
         },
         {
             "name": "moneyphp/money",
-            "version": "v4.0.0",
+            "version": "v4.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/moneyphp/money.git",
-                "reference": "a53900c697dab083d9a0dbac41ad5ddc3d7d4a93"
+                "reference": "88920fb094c9f480bbd3dac4e0257837788163ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/moneyphp/money/zipball/a53900c697dab083d9a0dbac41ad5ddc3d7d4a93",
-                "reference": "a53900c697dab083d9a0dbac41ad5ddc3d7d4a93",
+                "url": "https://api.github.com/repos/moneyphp/money/zipball/88920fb094c9f480bbd3dac4e0257837788163ef",
+                "reference": "88920fb094c9f480bbd3dac4e0257837788163ef",
                 "shasum": ""
             },
             "require": {
@@ -4158,9 +4158,9 @@
             ],
             "support": {
                 "issues": "https://github.com/moneyphp/money/issues",
-                "source": "https://github.com/moneyphp/money/tree/v4.0.0"
+                "source": "https://github.com/moneyphp/money/tree/v4.0.1"
             },
-            "time": "2021-05-17T08:27:59+00:00"
+            "time": "2021-05-25T13:51:42+00:00"
         },
         {
             "name": "monolog/monolog",
