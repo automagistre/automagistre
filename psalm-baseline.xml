@@ -101,10 +101,6 @@
     <MoreSpecificReturnType occurrences="1">
       <code>Response</code>
     </MoreSpecificReturnType>
-    <PossiblyNullArgument occurrences="2">
-      <code>$id</code>
-      <code>$this-&gt;request-&gt;query-&gt;get('newValue')</code>
-    </PossiblyNullArgument>
   </file>
   <file src="src/EasyAdmin/Form/AutocompleteType.php">
     <PropertyTypeCoercion occurrences="2">
@@ -122,6 +118,18 @@
     <PropertyNotSetInConstructor occurrences="1">
       <code>$ratio</code>
     </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Fixtures/Employee/AdminFixtures.php">
+    <DeprecatedClass occurrences="2">
+      <code>$this-&gt;encoderFactory-&gt;getEncoder($user)</code>
+      <code>private</code>
+    </DeprecatedClass>
+  </file>
+  <file src="src/Fixtures/User/UserEmployeeFixtures.php">
+    <DeprecatedClass occurrences="2">
+      <code>$this-&gt;encoderFactory-&gt;getEncoder($user)</code>
+      <code>private</code>
+    </DeprecatedClass>
   </file>
   <file src="src/Income/Manager/SupplierManager.php">
     <PossiblyNullArgument occurrences="1">
@@ -219,10 +227,6 @@
     <MoreSpecificReturnType occurrences="1">
       <code>Response</code>
     </MoreSpecificReturnType>
-    <PossiblyNullArgument occurrences="2">
-      <code>$request-&gt;query-&gt;get('end')</code>
-      <code>$request-&gt;query-&gt;get('start')</code>
-    </PossiblyNullArgument>
   </file>
   <file src="src/Order/Entity/Order.php">
     <PossiblyNullArgument occurrences="1">
@@ -275,9 +279,6 @@
     <MoreSpecificReturnType occurrences="1">
       <code>Response</code>
     </MoreSpecificReturnType>
-    <PossiblyNullArgument occurrences="1">
-      <code>$request-&gt;query-&gt;get('referer')</code>
-    </PossiblyNullArgument>
   </file>
   <file src="src/Part/Controller/PartPriceController.php">
     <LessSpecificReturnStatement occurrences="1"/>
@@ -290,10 +291,6 @@
     <MoreSpecificReturnType occurrences="1">
       <code>Response</code>
     </MoreSpecificReturnType>
-    <PossiblyNullArgument occurrences="2">
-      <code>$request-&gt;query-&gt;get('end')</code>
-      <code>$request-&gt;query-&gt;get('start')</code>
-    </PossiblyNullArgument>
   </file>
   <file src="src/Part/Controller/RequiredAvailabilityController.php">
     <LessSpecificReturnStatement occurrences="1"/>
@@ -348,20 +345,48 @@
       <code>$publishAt</code>
     </QueryBuilderSetParameter>
   </file>
+  <file src="src/Sms/Security/CallbackGuard.php">
+    <DeprecatedClass occurrences="1">
+      <code>AbstractGuardAuthenticator</code>
+    </DeprecatedClass>
+    <DeprecatedMethod occurrences="1">
+      <code>loadUserByUsername</code>
+    </DeprecatedMethod>
+  </file>
   <file src="src/Storage/Controller/MotionController.php">
     <QueryBuilderSetParameter occurrences="1">
       <code>$partId</code>
     </QueryBuilderSetParameter>
   </file>
+  <file src="src/User/Command/UserChangePasswordCommand.php">
+    <DeprecatedClass occurrences="2">
+      <code>$this-&gt;encoderFactory-&gt;getEncoder($user)</code>
+      <code>private</code>
+    </DeprecatedClass>
+  </file>
   <file src="src/User/Command/UserCreateCommand.php">
+    <DeprecatedClass occurrences="2">
+      <code>$this-&gt;encoderFactory-&gt;getEncoder($user)</code>
+      <code>private</code>
+    </DeprecatedClass>
     <RedundantCast occurrences="1">
       <code>(array) $input-&gt;getArgument('roles')</code>
     </RedundantCast>
   </file>
   <file src="src/User/Controller/UserController.php">
+    <DeprecatedClass occurrences="3">
+      <code>$this-&gt;encoderFactory-&gt;getEncoder($entity)</code>
+      <code>$this-&gt;encoderFactory-&gt;getEncoder($entity)</code>
+      <code>private</code>
+    </DeprecatedClass>
     <PossiblyNullReference occurrences="1">
       <code>get</code>
     </PossiblyNullReference>
+  </file>
+  <file src="src/User/Entity/User.php">
+    <DeprecatedClass occurrences="1">
+      <code>PasswordEncoderInterface</code>
+    </DeprecatedClass>
   </file>
   <file src="src/Vehicle/Controller/ModelController.php">
     <PossiblyFalseOperand occurrences="1">
