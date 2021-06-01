@@ -45,7 +45,7 @@ final class OrderItemParentType extends AbstractType
         $resolver->setDefaults([
             'class' => OrderItem::class,
             'query_builder' => function (EntityRepository $repository): QueryBuilder {
-                $request = $this->requestStack->getMasterRequest();
+                $request = $this->requestStack->getMainRequest();
                 $currentItem = $request instanceof Request ? $request->attributes->get('easyadmin')['item'] : null;
 
                 $qb = $repository->createQueryBuilder('entity')

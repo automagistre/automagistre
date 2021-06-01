@@ -130,7 +130,7 @@ abstract class AbstractController extends EasyAdminController
 
     protected function redirectToReferrer(): RedirectResponse
     {
-        $refererUrl = trim($this->request->query->get('referer', ''));
+        $refererUrl = trim((string) $this->request->query->get('referer'));
 
         return '' !== $refererUrl
             ? $this->redirect(
@@ -321,7 +321,7 @@ abstract class AbstractController extends EasyAdminController
     {
         $this->dispatch(EasyAdminEvents::PRE_EDIT);
 
-        $id = $this->request->query->get('id');
+        $id = (string) $this->request->query->get('id');
         $easyadmin = $this->request->attributes->get('easyadmin');
 
         /** @phpstan-ignore-next-line */
@@ -335,10 +335,11 @@ abstract class AbstractController extends EasyAdminController
 
         $entity = $this->createEditDto($dtoClosure) ?? $easyadmin['item'];
 
+        /** @var null|string $property */
         $property = $this->request->query->get('property');
 
         if (null !== $property && $this->request->isXmlHttpRequest()) {
-            $newValue = 'true' === mb_strtolower($this->request->query->get('newValue'));
+            $newValue = 'true' === mb_strtolower((string) $this->request->query->get('newValue'));
             $fieldsMetadata = $this->entity['list']['fields'];
 
             if (!isset($fieldsMetadata[$property]) || 'toggle' !== $fieldsMetadata[$property]['dataType']) {

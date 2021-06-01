@@ -50,6 +50,7 @@ final class CalendarEntryController extends AbstractController
 
     public function newAction(): Response
     {
+        /** @var null|string $date */
         $date = $this->request->query->get('date');
         $date = null === $date
             ? new DateTimeImmutable('+1 hour', new DateTimeZone('+3 GTM'))
@@ -140,6 +141,7 @@ final class CalendarEntryController extends AbstractController
 
     protected function listAction(): Response
     {
+        /** @var null|string $date */
         $date = $this->request->query->get('date');
         $today = (new DateTimeImmutable())->setTime(0, 0, 0, 0);
         $date = null === $date
@@ -169,7 +171,7 @@ final class CalendarEntryController extends AbstractController
     protected function createEditDto(Closure $callable): CalendarEntryDto
     {
         return CalendarEntryDto::fromView(
-            $this->repository->view(CalendarEntryId::from($this->request->query->get('id'))),
+            $this->repository->view(CalendarEntryId::from((string) $this->request->query->get('id'))),
         );
     }
 
@@ -206,7 +208,7 @@ final class CalendarEntryController extends AbstractController
 
     protected function deletionAction(): Response
     {
-        $view = $this->repository->view(CalendarEntryId::from($this->request->query->get('id')));
+        $view = $this->repository->view(CalendarEntryId::from((string) $this->request->query->get('id')));
         $dto = new CalendarEntryDeletionDto($view->id);
 
         $form = $this->createFormBuilder($dto)

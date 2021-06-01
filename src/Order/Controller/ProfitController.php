@@ -35,7 +35,7 @@ final class ProfitController extends AbstractController
         $registry = $this->registry;
 
         $start = $request->query->has('start')
-            ? DateTimeImmutable::createFromFormat(self::DATETIME_FORMAT, $request->query->get('start'))
+            ? DateTimeImmutable::createFromFormat(self::DATETIME_FORMAT, (string) $request->query->get('start'))
             : (new DateTimeImmutable('-1 week'))->setTime(0, 0);
 
         if (!$start instanceof DateTimeImmutable) {
@@ -43,7 +43,7 @@ final class ProfitController extends AbstractController
         }
 
         $end = $request->query->has('end')
-            ? DateTimeImmutable::createFromFormat(self::DATETIME_FORMAT, $request->query->get('end'))
+            ? DateTimeImmutable::createFromFormat(self::DATETIME_FORMAT, (string) $request->query->get('end'))
             : (new DateTimeImmutable())->setTime(23, 59, 59);
 
         if (!$end instanceof DateTimeImmutable) {

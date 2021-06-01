@@ -367,6 +367,7 @@ final class PartController extends AbstractController
         }
         $tenant->flush();
 
+        /** @var null|string $referer */
         $referer = $this->request->query->get('referer');
 
         if (null !== $referer) {

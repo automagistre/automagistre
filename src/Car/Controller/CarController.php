@@ -272,7 +272,7 @@ final class CarController extends AbstractController
     {
         $query = $this->request->query;
 
-        $qb = $this->createSearchQueryBuilder((string) $query->get('entity'), $query->get('query', ''), []);
+        $qb = $this->createSearchQueryBuilder((string) $query->get('entity'), (string) $query->get('query'), []);
 
         $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->getInt('page', 1));
 
