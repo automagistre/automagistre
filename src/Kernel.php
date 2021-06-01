@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Shared\Doctrine\ORM\Listeners\MetadataCacheCompilerPass;
 use App\Shared\Identifier\IdentifierFormatter;
 use InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
-use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel as SymfonyKernel;
@@ -81,7 +79,6 @@ final class Kernel extends SymfonyKernel
      */
     protected function build(ContainerBuilder $container): void
     {
-        $container->addCompilerPass(new MetadataCacheCompilerPass($this), PassConfig::TYPE_OPTIMIZE);
     }
 
     /**

@@ -21,9 +21,6 @@ doctrine:
             default:
                 naming_strategy: App\Shared\Doctrine\ORM\Mapping\NamespaceNamingStrategy
                 auto_mapping: false
-                metadata_cache_driver:
-                    type: service
-                    id: cache.doctrine.metadata
                 query_cache_driver:
                     type: service
                     id: cache.doctrine.query
@@ -45,6 +42,36 @@ doctrine:
                         prefix: Money
                         dir: '%kernel.project_dir%/config/orm/money'
                         is_bundle: false
+                dql:
+                    datetime_functions:
+                        date:           Oro\ORM\Query\AST\Functions\SimpleFunction
+                        time:           Oro\ORM\Query\AST\Functions\SimpleFunction
+                        timestamp:      Oro\ORM\Query\AST\Functions\SimpleFunction
+                        convert_tz:     Oro\ORM\Query\AST\Functions\DateTime\ConvertTz
+                    numeric_functions:
+                        timestampdiff:  Oro\ORM\Query\AST\Functions\Numeric\TimestampDiff
+                        dayofyear:      Oro\ORM\Query\AST\Functions\SimpleFunction
+                        dayofmonth:     Oro\ORM\Query\AST\Functions\SimpleFunction
+                        dayofweek:      Oro\ORM\Query\AST\Functions\SimpleFunction
+                        week:           Oro\ORM\Query\AST\Functions\SimpleFunction
+                        day:            Oro\ORM\Query\AST\Functions\SimpleFunction
+                        hour:           Oro\ORM\Query\AST\Functions\SimpleFunction
+                        minute:         Oro\ORM\Query\AST\Functions\SimpleFunction
+                        month:          Oro\ORM\Query\AST\Functions\SimpleFunction
+                        quarter:        Oro\ORM\Query\AST\Functions\SimpleFunction
+                        second:         Oro\ORM\Query\AST\Functions\SimpleFunction
+                        year:           Oro\ORM\Query\AST\Functions\SimpleFunction
+                        sign:           Oro\ORM\Query\AST\Functions\Numeric\Sign
+                        pow:            Oro\ORM\Query\AST\Functions\Numeric\Pow
+                        round:          Oro\ORM\Query\AST\Functions\Numeric\Round
+                        ceil:           Oro\ORM\Query\AST\Functions\SimpleFunction
+                    string_functions:
+                        md5:            Oro\ORM\Query\AST\Functions\SimpleFunction
+                        group_concat:   Oro\ORM\Query\AST\Functions\String\GroupConcat
+                        concat_ws:      Oro\ORM\Query\AST\Functions\String\ConcatWs
+                        cast:           Oro\ORM\Query\AST\Functions\Cast
+                        replace:        Oro\ORM\Query\AST\Functions\String\Replace
+                        date_format:    Oro\ORM\Query\AST\Functions\String\DateFormat
 
 doctrine_migrations:
     all_or_nothing: true
@@ -67,12 +94,14 @@ services:
     Doctrine\ORM\Mapping\NamingStrategy:
         alias: App\Shared\Doctrine\ORM\Mapping\NamespaceNamingStrategy
 
-    cache.doctrine.dev:
+    cache.doctrine.query:
         class: Symfony\Component\Cache\DoctrineProvider
         arguments:
             - !service
                 class: Symfony\Component\Cache\Adapter\ArrayAdapter
 
-    cache.doctrine.metadata: '@cache.doctrine.dev'
-    cache.doctrine.query: '@cache.doctrine.dev'
-    cache.doctrine.result: '@cache.doctrine.dev'
+    cache.doctrine.result:
+        class: Symfony\Component\Cache\DoctrineProvider
+        arguments:
+            - !service
+                class: Symfony\Component\Cache\Adapter\ArrayAdapter
