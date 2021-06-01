@@ -1,0 +1,10 @@
+name: Dependabot auto-merge
+on: pull_request_target
+jobs:
+    dependabot:
+        if: github.actor == 'dependabot[bot]'
+        steps:
+            -   name: Enable auto-merge for Dependabot PRs
+                run: gh pr merge --auto --merge "${{github.event.pull_request.number}}"
+                env:
+                    GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
