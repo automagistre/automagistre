@@ -10518,16 +10518,16 @@
         },
         {
             "name": "symfony/templating",
-            "version": "v5.2.4",
+            "version": "v5.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/templating.git",
-                "reference": "954c01bae6689423a83b6c9025f83bb93d38d9b2"
+                "reference": "0dcfcef6c593cee370ab6945a7008b4ee5bcdea0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/templating/zipball/954c01bae6689423a83b6c9025f83bb93d38d9b2",
-                "reference": "954c01bae6689423a83b6c9025f83bb93d38d9b2",
+                "url": "https://api.github.com/repos/symfony/templating/zipball/0dcfcef6c593cee370ab6945a7008b4ee5bcdea0",
+                "reference": "0dcfcef6c593cee370ab6945a7008b4ee5bcdea0",
                 "shasum": ""
             },
             "require": {
@@ -10566,7 +10566,7 @@
             "description": "Provides all the tools needed to build any kind of template system",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/templating/tree/v5.2.4"
+                "source": "https://github.com/symfony/templating/tree/v5.3.0"
             },
             "funding": [
                 {
@@ -10582,7 +10582,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-27T10:01:46+00:00"
+            "time": "2021-05-26T12:52:38+00:00"
         },
         {
             "name": "symfony/translation",
