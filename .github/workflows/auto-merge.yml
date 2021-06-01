@@ -8,6 +8,6 @@ jobs:
             -   name: Checkout PR
                 uses: actions/checkout@v2
             -   name: Enable auto-merge for Dependabot PRs
-                run: gh pr merge --auto --merge "${{github.event.pull_request.number}}"
+                run: gh pr merge --auto --rebase "${{github.event.pull_request.number}}"
                 env:
                     GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
