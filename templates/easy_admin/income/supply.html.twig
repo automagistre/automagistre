@@ -2,11 +2,28 @@
 
 {% form_theme form with easyadmin_config('design.form_theme') %}
 
+{% block content_title %}
+    Создать новую Запчасть для Прихода от {{ supplierId|display_name }}
+{% endblock content_title %}
+
+{% block content_help %}
+    Ожидаемые поставки от {{ supplierId|display_name }}
+{% endblock content_help %}
+
 {% block main %}
     {{ form_start(form) }}
+
+    {% for item in form.items %}
+        <div class="row">
+            <div class="col-md-4">{{ form_row(item.children.partId) }}</div>
+            <div class="col-md-4">{{ form_row(item.quantity) }}</div>
+            <div class="col-md-4">{{ form_row(item.price) }}</div>
+        </div>
+    {% endfor %}
 
     {{ form_widget(form) }}
 
     <button class="btn btn-primary" type="submit">Сохранить</button>
+    <a href="{{ easyadmin_path('Income', 'show', {'id': incomeId|toId}) }}" class="btn btn-default">Назад</a>
     {{ form_end(form) }}
 {% endblock %}

@@ -8,6 +8,10 @@
             Добавить новую позицию
         </a>
 
+        <a href="{{ easyadmin_path('Income', 'supply', {'income_id': entity|toId, 'referer': true}) }}" class="btn btn-success">
+            Добавить из поставок
+        </a>
+
         <a href="{{ easyadmin_path('Income', 'accrue', {'id': entity|toId, 'referer': true}) }}" class="btn btn-danger">
             Оприходовать
         </a>

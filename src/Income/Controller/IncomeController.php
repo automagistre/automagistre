@@ -12,9 +12,13 @@ use App\Form\Type\MoneyType;
 use App\Income\Entity\Income;
 use App\Income\Entity\IncomeId;
 use App\Income\Entity\IncomePart;
+use App\Income\Entity\IncomePartId;
 use App\Income\Form\IncomeDto;
 use App\Income\Form\PayDto;
+use App\Income\Form\Supply\ItemDto;
+use App\Income\Form\Supply\ItemType;
 use App\Part\Entity\Part;
+use App\Part\Entity\SupplyView;
 use App\Wallet\Entity\WalletTransaction;
 use App\Wallet\Entity\WalletTransactionId;
 use App\Wallet\Enum\WalletTransactionSource;
@@ -22,8 +26,10 @@ use App\Wallet\Form\WalletType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use LogicException;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use function array_key_exists;
 use function assert;
 use function in_array;
 use function urlencode;
@@ -116,7 +122,7 @@ final class IncomeController extends AbstractController
         }
 
         if (!$income->isEditable()) {
-            $this->addFlash('error', 'Приход уже оприходван');
+            $this->addFlash('error', 'Приход уже оприходован');
 
             return $this->redirectToReferrer();
         }
@@ -148,6 +154,82 @@ final class IncomeController extends AbstractController
 
         return $this->render('easy_admin/income/accrue.html.twig', [
             'income' => $income,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    public function supplyAction(): Response
+    {
+        $income = $this->findEntity(Income::class) ?? throw new LogicException('Income required.');
+
+        if (!$income->isEditable()) {
+            $this->addFlash('error', 'Приход уже оприходован');
+
+            return $this->redirectToReferrer();
+        }
+
+        /** @var SupplyView[] $supplies */
+        $supplies = $this->registry->findBy(SupplyView::class, ['supplierId' => $income->getSupplierId()], [
+            'partId' => 'ASC',
+        ]);
+
+        $existing = $this->registry->manager()
+            ->createQueryBuilder()
+            ->select('t.partId')
+            ->from(IncomePart::class, 't', 't.partId')
+            ->where('t.income  = :income')
+            ->getQuery()
+            ->setParameter('income', $income)
+            ->getResult()
+        ;
+
+        $items = [];
+        foreach ($supplies as $item) {
+            if (array_key_exists($item->partId->toString(), $existing)) {
+                continue;
+            }
+
+            $items[$item->partId->toString()] = new ItemDto($item->partId);
+        }
+
+        $form = $this->createFormBuilder(['items' => $items])
+            ->add('items', CollectionType::class, [
+                'entry_type' => ItemType::class,
+            ])
+            ->getForm()
+            ->handleRequest($this->request)
+        ;
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->em;
+
+            foreach ($items as $item) {
+                if (0 === $item->quantity) {
+                    continue;
+                }
+
+                $em->persist(
+                    new IncomePart(
+                        IncomePartId::generate(),
+                        $income,
+                        $item->partId,
+                        $item->price,
+                        $item->quantity,
+                    ),
+                );
+            }
+
+            $em->flush();
+
+            return $this->redirectToEasyPath('Income', 'show', [
+                'id' => $income->toId()->toString(),
+                'referer' => false,
+            ]);
+        }
+
+        return $this->render('easy_admin/income/supply.html.twig', [
+            'incomeId' => $income->toId(),
+            'supplierId' => $income->getSupplierId(),
             'form' => $form->createView(),
         ]);
     }
@@ -197,10 +279,17 @@ final class IncomeController extends AbstractController
 
         parent::persistEntity($entity);
 
-        $this->setReferer($this->generateEasyPath('IncomePart', 'new', [
-            'income_id' => $incomeId->toString(),
-            'referer' => urlencode($this->generateEasyPath('Income', 'show', ['id' => $entity->toId()->toString()])),
-        ]));
+        if ([] === $this->registry->findBy(SupplyView::class, ['supplierId' => $entity->getSupplierId()])) {
+            $this->setReferer($this->generateEasyPath('IncomePart', 'new', [
+                'income_id' => $incomeId->toString(),
+                'referer' => urlencode($this->generateEasyPath('Income', 'show', ['id' => $entity->toId()->toString()])),
+            ]));
+        } else {
+            $this->setReferer($this->generateEasyPath('Income', 'supply', [
+                'income_id' => $incomeId->toString(),
+                'referer' => urlencode($this->generateEasyPath('Income', 'show', ['id' => $entity->toId()->toString()])),
+            ]));
+        }
 
         return $entity;
     }
