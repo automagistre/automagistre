@@ -21,7 +21,7 @@ final class OrderPrintController extends AbstractController
 {
     public function matchingAction(): Response
     {
-        $order = $this->getEntity(Order::class);
+        $order = $this->findEntity(Order::class);
 
         if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order is required.');
@@ -40,7 +40,7 @@ final class OrderPrintController extends AbstractController
 
     public function giveOutAction(): Response
     {
-        $order = $this->getEntity(Order::class);
+        $order = $this->findEntity(Order::class);
 
         if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order is required');
@@ -56,7 +56,7 @@ final class OrderPrintController extends AbstractController
         $em = $this->em;
         $request = $this->request;
 
-        $order = $this->getEntity(Order::class);
+        $order = $this->findEntity(Order::class);
 
         if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order is required');
@@ -101,7 +101,7 @@ final class OrderPrintController extends AbstractController
 
     public function updAction(): Response
     {
-        $order = $this->getEntity(Order::class);
+        $order = $this->findEntity(Order::class);
 
         if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order is required');
@@ -114,7 +114,7 @@ final class OrderPrintController extends AbstractController
 
     public function invoiceAction(): Response
     {
-        $order = $this->getEntity(Order::class);
+        $order = $this->findEntity(Order::class);
 
         if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order is required');

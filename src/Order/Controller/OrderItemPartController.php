@@ -44,7 +44,7 @@ final class OrderItemPartController extends OrderItemController
     public function relatedAction(): Response
     {
         /** @var OrderItemPart $orderItemPart */
-        $orderItemPart = $this->getEntity(OrderItemPart::class);
+        $orderItemPart = $this->findEntity(OrderItemPart::class);
         $partId = $orderItemPart->getPartId();
 
         $related = $this->registry->connection()
@@ -152,7 +152,7 @@ final class OrderItemPartController extends OrderItemController
 
     public function reserveAction(): Response
     {
-        $item = $this->getEntity(OrderItemPart::class);
+        $item = $this->findEntity(OrderItemPart::class);
 
         if (!$item instanceof OrderItemPart) {
             throw new LogicException('OrderItemPart required.');
@@ -169,7 +169,7 @@ final class OrderItemPartController extends OrderItemController
 
     public function deReserveAction(): Response
     {
-        $item = $this->getEntity(OrderItemPart::class);
+        $item = $this->findEntity(OrderItemPart::class);
 
         if (!$item instanceof OrderItemPart) {
             throw new LogicException('OrderItemPart required.');
@@ -186,7 +186,7 @@ final class OrderItemPartController extends OrderItemController
 
     protected function newAction(): Response
     {
-        $order = $this->getEntity(Order::class);
+        $order = $this->findEntity(Order::class);
 
         if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order not found');
@@ -212,7 +212,7 @@ final class OrderItemPartController extends OrderItemController
             $partOffer->partId = $partId;
         }
 
-        $parent = $this->getEntity(OrderItem::class);
+        $parent = $this->findEntity(OrderItem::class);
 
         if ($parent instanceof OrderItem) {
             $dto->parent = $parent;

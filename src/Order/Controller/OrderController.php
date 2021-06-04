@@ -77,7 +77,7 @@ final class OrderController extends AbstractController
     {
         $request = $this->request;
 
-        $order = $this->getEntity(Order::class);
+        $order = $this->findEntity(Order::class);
 
         if (!$order instanceof Order) {
             throw new LogicException('Order required.');
@@ -274,7 +274,7 @@ final class OrderController extends AbstractController
 
     public function suspendAction(): Response
     {
-        $order = $this->getEntity(Order::class);
+        $order = $this->findEntity(Order::class);
 
         if (!$order instanceof Order) {
             throw new LogicException('Order required.');
@@ -316,7 +316,7 @@ final class OrderController extends AbstractController
 
     public function statusAction(): Response
     {
-        $order = $this->getEntity(Order::class);
+        $order = $this->findEntity(Order::class);
 
         if (!$order instanceof Order) {
             throw new LogicException('Order required.');
@@ -448,7 +448,7 @@ final class OrderController extends AbstractController
             ->leftJoin(CreatedBy::class, 'closedBy', Join::WITH, 'closedBy.id = closed.id')
         ;
 
-        $customer = $this->getEntity(Operand::class);
+        $customer = $this->findEntity(Operand::class);
 
         if ($customer instanceof Operand) {
             $qb->andWhere('entity.customerId = :customer')
@@ -456,7 +456,7 @@ final class OrderController extends AbstractController
             ;
         }
 
-        $car = $this->getEntity(Car::class);
+        $car = $this->findEntity(Car::class);
 
         if ($car instanceof Car) {
             $qb->andWhere('entity.carId = :car')

@@ -72,7 +72,7 @@ final class OrderItemServiceController extends OrderItemController
 
     protected function createNewEntity(): OrderService
     {
-        $order = $this->getEntity(Order::class);
+        $order = $this->findEntity(Order::class);
 
         if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order not found');
@@ -82,7 +82,7 @@ final class OrderItemServiceController extends OrderItemController
         $model->order = $order;
         $model->workerId = $order->getWorkerPersonId();
 
-        $parent = $this->getEntity(OrderItem::class);
+        $parent = $this->findEntity(OrderItem::class);
 
         if ($parent instanceof OrderItem) {
             $model->parent = $parent;
@@ -126,7 +126,7 @@ final class OrderItemServiceController extends OrderItemController
     ): QueryBuilder {
         $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
 
-        $car = $this->getEntity(Car::class);
+        $car = $this->findEntity(Car::class);
 
         if (!$car instanceof Car) {
             throw new LogicException('Car required.');
@@ -146,7 +146,7 @@ final class OrderItemServiceController extends OrderItemController
     protected function renderTemplate($actionName, $templatePath, array $parameters = []): Response
     {
         if ('list' === $actionName) {
-            $parameters['car'] = $this->getEntity(Car::class);
+            $parameters['car'] = $this->findEntity(Car::class);
         }
 
         return parent::renderTemplate($actionName, $templatePath, $parameters);
@@ -163,7 +163,7 @@ final class OrderItemServiceController extends OrderItemController
         $sortDirection = null,
         $dqlFilter = null,
     ): QueryBuilder {
-        $car = $this->getEntity(Car::class);
+        $car = $this->findEntity(Car::class);
 
         if (!$car instanceof Car) {
             throw new LogicException('Car required.');

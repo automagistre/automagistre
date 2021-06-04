@@ -139,7 +139,7 @@ abstract class AbstractController extends EasyAdminController
             : parent::redirectToReferrer();
     }
 
-    protected function getEntity(string $class, callable $callable = null): ?object
+    protected function findEntity(string $class, callable $callable = null): ?object
     {
         $entity = $this->container->get(EntityTransformer::class)->reverseTransform($class);
 

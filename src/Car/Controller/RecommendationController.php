@@ -37,7 +37,7 @@ final class RecommendationController extends AbstractController
 
         $query = $this->request->query;
 
-        $order = $this->getEntity(Order::class);
+        $order = $this->findEntity(Order::class);
 
         if (!$order instanceof Order) {
             throw new NotFoundHttpException();
@@ -78,7 +78,7 @@ final class RecommendationController extends AbstractController
 
         $model = new RecommendationDTO($car);
 
-        $order = $this->getEntity(Order::class);
+        $order = $this->findEntity(Order::class);
 
         if ($order instanceof Order) {
             $model->workerId = $order->getWorkerPersonId();
@@ -132,7 +132,7 @@ final class RecommendationController extends AbstractController
      */
     protected function renderTemplate($actionName, $templatePath, array $parameters = []): Response
     {
-        $parameters['order'] = $this->getEntity(Order::class);
+        $parameters['order'] = $this->findEntity(Order::class);
 
         return parent::renderTemplate($actionName, $templatePath, $parameters);
     }

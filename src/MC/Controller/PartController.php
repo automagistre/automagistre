@@ -24,7 +24,7 @@ final class PartController extends AbstractController
     {
         $dto = new McPartDto();
 
-        $line = $this->getEntity(McLine::class);
+        $line = $this->findEntity(McLine::class);
 
         if (!$line instanceof McLine) {
             throw new LogicException('Line required.');

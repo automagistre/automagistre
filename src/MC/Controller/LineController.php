@@ -23,7 +23,7 @@ final class LineController extends AbstractController
     protected function createNewEntity(): stdClass
     {
         $dto = new stdClass();
-        $equipment = $this->getEntity(McEquipment::class);
+        $equipment = $this->findEntity(McEquipment::class);
 
         if (!$equipment instanceof McEquipment) {
             throw new LogicException('Equipment required.');

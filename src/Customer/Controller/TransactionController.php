@@ -30,7 +30,7 @@ final class TransactionController extends AbstractController
 {
     protected function createNewEntity(): TransactionDto
     {
-        $recipient = $this->getEntity(Operand::class);
+        $recipient = $this->findEntity(Operand::class);
 
         if (!$recipient instanceof Operand) {
             throw new LogicException('Operand required.');
@@ -135,7 +135,7 @@ final class TransactionController extends AbstractController
     ): QueryBuilder {
         $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
 
-        $operand = $this->getEntity(Operand::class);
+        $operand = $this->findEntity(Operand::class);
 
         if ($operand instanceof Operand) {
             $qb->andWhere('entity.operandId = :operand')

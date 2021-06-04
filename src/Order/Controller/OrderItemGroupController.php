@@ -19,7 +19,7 @@ final class OrderItemGroupController extends OrderItemController
 {
     protected function createNewEntity(): OrderGroup
     {
-        $order = $this->getEntity(Order::class);
+        $order = $this->findEntity(Order::class);
 
         if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order not found');
@@ -28,7 +28,7 @@ final class OrderItemGroupController extends OrderItemController
         $model = new OrderGroup();
         $model->order = $order;
 
-        $parent = $this->getEntity(OrderItem::class);
+        $parent = $this->findEntity(OrderItem::class);
 
         if ($parent instanceof OrderItem) {
             $model->parent = $parent;

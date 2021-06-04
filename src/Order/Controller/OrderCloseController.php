@@ -22,7 +22,7 @@ final class OrderCloseController extends AbstractController
 {
     public function closeAction(Request $request): Response
     {
-        $order = $this->getEntity(Order::class);
+        $order = $this->findEntity(Order::class);
 
         if (!$order instanceof Order) {
             throw new BadRequestHttpException('Order is required');

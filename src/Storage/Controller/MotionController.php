@@ -159,7 +159,7 @@ final class MotionController extends AbstractController
     protected function renderTemplate($actionName, $templatePath, array $parameters = []): Response
     {
         if ('list' === $actionName) {
-            $parameters['part'] = $this->getEntity(Part::class);
+            $parameters['part'] = $this->findEntity(Part::class);
         }
 
         return parent::renderTemplate($actionName, $templatePath, $parameters);

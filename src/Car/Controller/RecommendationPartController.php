@@ -140,7 +140,7 @@ final class RecommendationPartController extends AbstractController
 
     protected function newAction(): Response
     {
-        $recommendation = $this->getEntity(Recommendation::class);
+        $recommendation = $this->findEntity(Recommendation::class);
 
         if (!$recommendation instanceof Recommendation) {
             throw new LogicException('CarRecommendation required.');

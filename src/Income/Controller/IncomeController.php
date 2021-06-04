@@ -50,7 +50,7 @@ final class IncomeController extends AbstractController
     {
         $request = $this->request;
 
-        $income = $this->getEntity(Income::class);
+        $income = $this->findEntity(Income::class);
 
         if (!$income instanceof Income) {
             throw new BadRequestHttpException('Income is required');
@@ -109,7 +109,7 @@ final class IncomeController extends AbstractController
 
     public function accrueAction(): Response
     {
-        $income = $this->getEntity(Income::class);
+        $income = $this->findEntity(Income::class);
 
         if (!$income instanceof Income) {
             throw new LogicException('Income required.');
@@ -213,7 +213,7 @@ final class IncomeController extends AbstractController
     ): QueryBuilder {
         $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
 
-        $part = $this->getEntity(Part::class);
+        $part = $this->findEntity(Part::class);
 
         if ($part instanceof Part) {
             $qb
@@ -229,7 +229,7 @@ final class IncomeController extends AbstractController
     protected function renderTemplate($actionName, $templatePath, array $parameters = []): Response
     {
         if ('list' === $actionName) {
-            $parameters['part'] = $this->getEntity(Part::class);
+            $parameters['part'] = $this->findEntity(Part::class);
         }
 
         return parent::renderTemplate($actionName, $templatePath, $parameters);

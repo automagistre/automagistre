@@ -52,14 +52,14 @@ abstract class OrderItemController extends AbstractController
             return $order->isEditable();
         }
 
-        $car = $this->getEntity(Car::class);
+        $car = $this->findEntity(Car::class);
 
         if ($car instanceof Car) {
             return parent::isActionAllowed($actionName);
         }
 
         if ('new' === $actionName) {
-            $order = $this->getEntity(Order::class);
+            $order = $this->findEntity(Order::class);
 
             if (!$order instanceof Order) {
                 throw new LogicException('Order required.');
@@ -110,7 +110,7 @@ abstract class OrderItemController extends AbstractController
         } elseif ($entity instanceof OrderItemModel) {
             $parameters['order'] = $parameters['order'] ?? $entity->order;
         } else {
-            $parameters['car'] = $this->getEntity(Car::class);
+            $parameters['car'] = $this->findEntity(Car::class);
         }
 
         return parent::renderTemplate($actionName, $templatePath, $parameters);
