@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @psalm-immutable
  */
-final class SupplyView
+class SupplyView
 {
     /**
      * @ORM\Id()
