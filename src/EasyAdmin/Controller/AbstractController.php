@@ -34,7 +34,6 @@ use function array_keys;
 use function array_merge;
 use function assert;
 use function in_array;
-use function is_callable;
 use function is_string;
 use function mb_strtolower;
 use function method_exists;
@@ -139,7 +138,7 @@ abstract class AbstractController extends EasyAdminController
             : parent::redirectToReferrer();
     }
 
-    protected function findEntity(string $class, callable $callable = null): ?object
+    protected function findEntity(string $class): ?object
     {
         $entity = $this->container->get(EntityTransformer::class)->reverseTransform($class);
 
@@ -149,10 +148,6 @@ abstract class AbstractController extends EasyAdminController
 
         if (!$entity instanceof $class) {
             return null;
-        }
-
-        if (is_callable($callable)) {
-            $callable($entity);
         }
 
         return $entity;
