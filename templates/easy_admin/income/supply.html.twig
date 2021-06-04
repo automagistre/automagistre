@@ -3,12 +3,8 @@
 {% form_theme form with easyadmin_config('design.form_theme') %}
 
 {% block content_title %}
-    Создать новую Запчасть для Прихода от {{ supplierId|display_name }}
+    Добавить запчасти из поставок для Прихода от {{ supplierId|display_name }}
 {% endblock content_title %}
-
-{% block content_help %}
-    Ожидаемые поставки от {{ supplierId|display_name }}
-{% endblock content_help %}
 
 {% block main %}
     {{ form_start(form) }}
