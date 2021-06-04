@@ -6337,16 +6337,16 @@
         },
         {
             "name": "sensio/framework-extra-bundle",
-            "version": "v6.1.4",
+            "version": "v6.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioFrameworkExtraBundle.git",
-                "reference": "d962626a1b454edb36f727f8e0090b45280af98c"
+                "reference": "62c5909f49cf74dccdf50a294511cc24be2f969c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/d962626a1b454edb36f727f8e0090b45280af98c",
-                "reference": "d962626a1b454edb36f727f8e0090b45280af98c",
+                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/62c5909f49cf74dccdf50a294511cc24be2f969c",
+                "reference": "62c5909f49cf74dccdf50a294511cc24be2f969c",
                 "shasum": ""
             },
             "require": {
@@ -6409,9 +6409,9 @@
             ],
             "support": {
                 "issues": "https://github.com/sensiolabs/SensioFrameworkExtraBundle/issues",
-                "source": "https://github.com/sensiolabs/SensioFrameworkExtraBundle/tree/v6.1.4"
+                "source": "https://github.com/sensiolabs/SensioFrameworkExtraBundle/tree/v6.1.5"
             },
-            "time": "2021-05-17T13:48:05+00:00"
+            "time": "2021-05-31T10:40:46+00:00"
         },
         {
             "name": "sentry/sdk",
@@ -6575,16 +6575,16 @@
         },
         {
             "name": "sentry/sentry-symfony",
-            "version": "4.1.2",
+            "version": "4.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-symfony.git",
-                "reference": "93a357af39994b846aa9c6280c8e44a1e2739e27"
+                "reference": "d0b85df21f65499db87341648541a526a1f7960d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/93a357af39994b846aa9c6280c8e44a1e2739e27",
-                "reference": "93a357af39994b846aa9c6280c8e44a1e2739e27",
+                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/d0b85df21f65499db87341648541a526a1f7960d",
+                "reference": "d0b85df21f65499db87341648541a526a1f7960d",
                 "shasum": ""
             },
             "require": {
@@ -6592,6 +6592,7 @@
                 "php": "^7.2||^8.0",
                 "php-http/discovery": "^1.11",
                 "sentry/sdk": "^3.1",
+                "symfony/cache-contracts": "^2.4",
                 "symfony/config": "^3.4.44||^4.4.20||^5.0.11",
                 "symfony/console": "^3.4.44||^4.4.20||^5.0.11",
                 "symfony/dependency-injection": "^3.4.44||^4.4.20||^5.0.11",
@@ -6615,7 +6616,6 @@
                 "phpunit/phpunit": "^8.5||^9.0",
                 "symfony/browser-kit": "^3.4.44||^4.4.20||^5.0.11",
                 "symfony/cache": "^3.4.44||^4.4.20||^5.0.11",
-                "symfony/cache-contracts": "^2.4",
                 "symfony/dom-crawler": "^3.4.44||^4.4.20||^5.0.11",
                 "symfony/framework-bundle": "^3.4.44||^4.4.20||^5.0.11",
                 "symfony/messenger": "^4.4.20||^5.0.11",
@@ -6672,7 +6672,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-symfony/issues",
-                "source": "https://github.com/getsentry/sentry-symfony/tree/4.1.2"
+                "source": "https://github.com/getsentry/sentry-symfony/tree/4.1.3"
             },
             "funding": [
                 {
@@ -6684,7 +6684,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2021-05-16T22:44:16+00:00"
+            "time": "2021-05-31T07:54:49+00:00"
         },
         {
             "name": "symfony/amqp-messenger",
