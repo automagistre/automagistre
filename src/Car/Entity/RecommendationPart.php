@@ -24,7 +24,7 @@ class RecommendationPart
      * @psalm-readonly
      *
      * @ORM\ManyToOne(targetEntity=Recommendation::class, inversedBy="parts")
-     * @ORM\JoinColumn
+     * @ORM\JoinColumn(nullable=false)
      */
     public Recommendation $recommendation;
 
