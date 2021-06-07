@@ -11,7 +11,7 @@ FROM rector/rector:0.11.7 as rector
 #
 # PHP
 #
-FROM amd64/php:8.0.6-fpm-alpine3.12 as php-raw
+FROM amd64/php:8.0.7-fpm-alpine3.12 as php-raw
 
 LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 
