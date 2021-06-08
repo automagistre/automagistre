@@ -279,17 +279,10 @@ final class IncomeController extends AbstractController
 
         parent::persistEntity($entity);
 
-        if ([] === $this->registry->findBy(SupplyView::class, ['supplierId' => $entity->getSupplierId()])) {
-            $this->setReferer($this->generateEasyPath('IncomePart', 'new', [
-                'income_id' => $incomeId->toString(),
-                'referer' => urlencode($this->generateEasyPath('Income', 'show', ['id' => $entity->toId()->toString()])),
-            ]));
-        } else {
-            $this->setReferer($this->generateEasyPath('Income', 'supply', [
-                'income_id' => $incomeId->toString(),
-                'referer' => urlencode($this->generateEasyPath('Income', 'show', ['id' => $entity->toId()->toString()])),
-            ]));
-        }
+        $this->setReferer($this->generateEasyPath('IncomePart', 'new', [
+            'income_id' => $incomeId->toString(),
+            'referer' => urlencode($this->generateEasyPath('Income', 'show', ['id' => $entity->toId()->toString()])),
+        ]));
 
         return $entity;
     }
