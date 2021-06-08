@@ -8,7 +8,7 @@ easy_admin:
                 show: 'easy_admin/employee/show.html.twig'
             list:
                 title: 'Работники'
-                sort: [firedAt, ASC]
+                sort: [firedAt, DESC]
                 max_results: 30
                 actions:
                     - { name: 'fire', template: 'easy_admin/employee/action_fire.html.twig' }
