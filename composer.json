@@ -161,10 +161,7 @@
             "bin/console doctrine:migration:diff --formatted",
             "@php-cs-fixer"
         ],
-        "migration-diff-dry": [
-            "bin/console doctrine:schema:update --dump-sql --no-interaction",
-            "@php-cs-fixer"
-        ],
+        "migration-diff-dry": "bin/console doctrine:schema:update --dump-sql --no-interaction",
         "migration-generate": [
             "bin/console doctrine:migrations:generate",
             "@php-cs-fixer"
