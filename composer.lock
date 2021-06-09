@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6484242b867ba6da6128d56a2601afa7",
+    "content-hash": "74bde57d960ff6ee892bfc0b6167e84a",
     "packages": [
         {
             "name": "adamgaskins/barcoder",
@@ -4396,16 +4396,16 @@
         },
         {
             "name": "nsq/nsq",
-            "version": "0.5.1",
+            "version": "0.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nsqphp/nsqphp.git",
-                "reference": "9f004417fafaab8873a87da2cb313c19a6b46451"
+                "reference": "d3e1788d23835300aded4f2a77f8a2c424828252"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nsqphp/nsqphp/zipball/9f004417fafaab8873a87da2cb313c19a6b46451",
-                "reference": "9f004417fafaab8873a87da2cb313c19a6b46451",
+                "url": "https://api.github.com/repos/nsqphp/nsqphp/zipball/d3e1788d23835300aded4f2a77f8a2c424828252",
+                "reference": "d3e1788d23835300aded4f2a77f8a2c424828252",
                 "shasum": ""
             },
             "require": {
@@ -4449,27 +4449,27 @@
             "homepage": "https://github.com/nsqphp/nsqphp",
             "support": {
                 "issues": "https://github.com/nsqphp/nsqphp/issues",
-                "source": "https://github.com/nsqphp/nsqphp/tree/0.5.1"
+                "source": "https://github.com/nsqphp/nsqphp/tree/0.6.1"
             },
-            "time": "2021-02-28T17:26:08+00:00"
+            "time": "2021-06-09T13:33:18+00:00"
         },
         {
             "name": "nsq/nsq-bundle",
-            "version": "0.6",
+            "version": "0.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nsqphp/NsqBundle.git",
-                "reference": "ae00cdb763e05ea18575eb389a59eea04405f09d"
+                "reference": "70c466740e6bfb0e9b3cc1624b33d505a77190df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nsqphp/NsqBundle/zipball/ae00cdb763e05ea18575eb389a59eea04405f09d",
-                "reference": "ae00cdb763e05ea18575eb389a59eea04405f09d",
+                "url": "https://api.github.com/repos/nsqphp/NsqBundle/zipball/70c466740e6bfb0e9b3cc1624b33d505a77190df",
+                "reference": "70c466740e6bfb0e9b3cc1624b33d505a77190df",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "nsq/nsq": "^0.5.1",
+                "nsq/nsq": "^0.6.1",
                 "php": "^8.0.1",
                 "symfony/framework-bundle": "^5.0",
                 "symfony/messenger": "^5.0"
@@ -4497,9 +4497,9 @@
             "homepage": "https://github.com/nsqphp/NsqBundle",
             "support": {
                 "issues": "https://github.com/nsqphp/NsqBundle/issues",
-                "source": "https://github.com/nsqphp/NsqBundle/tree/0.6"
+                "source": "https://github.com/nsqphp/NsqBundle/tree/0.7.0"
             },
-            "time": "2021-03-10T17:59:03+00:00"
+            "time": "2021-06-09T13:55:35+00:00"
         },
         {
             "name": "nyholm/psr7",
