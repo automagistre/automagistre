@@ -8,9 +8,8 @@ framework:
             # async: '%env(MESSENGER_TRANSPORT_DSN)%'
             # failed: 'doctrine://default?queue_name=failed'
             async:
-                dsn: 'nsq://nsqd'
+                dsn: 'nsq://nsqd?topic=%env(TENANT)%_bus'
                 options:
-                    topic: '%env(TENANT)%_bus'
                     snappy: true
                 retry_strategy:
                     max_retries: !php/const PHP_INT_MAX
