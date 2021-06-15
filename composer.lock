@@ -4396,16 +4396,16 @@
         },
         {
             "name": "nsq/nsq",
-            "version": "0.6.2",
+            "version": "0.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nsqphp/nsqphp.git",
-                "reference": "34847e2467b42c7b23cf8bec64dc51bbd2060700"
+                "reference": "e3c64f6f09b52d1a9a353ac264b458868e54d6b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nsqphp/nsqphp/zipball/34847e2467b42c7b23cf8bec64dc51bbd2060700",
-                "reference": "34847e2467b42c7b23cf8bec64dc51bbd2060700",
+                "url": "https://api.github.com/repos/nsqphp/nsqphp/zipball/e3c64f6f09b52d1a9a353ac264b458868e54d6b0",
+                "reference": "e3c64f6f09b52d1a9a353ac264b458868e54d6b0",
                 "shasum": ""
             },
             "require": {
@@ -4450,9 +4450,9 @@
             "homepage": "https://github.com/nsqphp/nsqphp",
             "support": {
                 "issues": "https://github.com/nsqphp/nsqphp/issues",
-                "source": "https://github.com/nsqphp/nsqphp/tree/0.6.2"
+                "source": "https://github.com/nsqphp/nsqphp/tree/0.6.3"
             },
-            "time": "2021-06-09T15:17:00+00:00"
+            "time": "2021-06-09T17:08:15+00:00"
         },
         {
             "name": "nsq/nsq-bundle",
@@ -5479,16 +5479,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "3.0.8",
+            "version": "3.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "d9615a6fb970d9933866ca8b4036ec3407b020b6"
+                "reference": "a127a5133804ff2f47ae629dd529b129da616ad7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/d9615a6fb970d9933866ca8b4036ec3407b020b6",
-                "reference": "d9615a6fb970d9933866ca8b4036ec3407b020b6",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/a127a5133804ff2f47ae629dd529b129da616ad7",
+                "reference": "a127a5133804ff2f47ae629dd529b129da616ad7",
                 "shasum": ""
             },
             "require": {
@@ -5570,7 +5570,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpseclib/phpseclib/issues",
-                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.8"
+                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.9"
             },
             "funding": [
                 {
@@ -5586,7 +5586,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-04-19T03:20:48+00:00"
+            "time": "2021-06-14T06:54:45+00:00"
         },
         {
             "name": "premier/enum",
