@@ -4267,16 +4267,16 @@
         },
         {
             "name": "nsq/nsq",
-            "version": "0.6.3",
+            "version": "0.6.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nsqphp/nsqphp.git",
-                "reference": "e3c64f6f09b52d1a9a353ac264b458868e54d6b0"
+                "reference": "b6f4726002de5231729860b9406b6dae97a2ac62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nsqphp/nsqphp/zipball/e3c64f6f09b52d1a9a353ac264b458868e54d6b0",
-                "reference": "e3c64f6f09b52d1a9a353ac264b458868e54d6b0",
+                "url": "https://api.github.com/repos/nsqphp/nsqphp/zipball/b6f4726002de5231729860b9406b6dae97a2ac62",
+                "reference": "b6f4726002de5231729860b9406b6dae97a2ac62",
                 "shasum": ""
             },
             "require": {
@@ -4321,9 +4321,9 @@
             "homepage": "https://github.com/nsqphp/nsqphp",
             "support": {
                 "issues": "https://github.com/nsqphp/nsqphp/issues",
-                "source": "https://github.com/nsqphp/nsqphp/tree/0.6.3"
+                "source": "https://github.com/nsqphp/nsqphp/tree/0.6.4"
             },
-            "time": "2021-06-09T17:08:15+00:00"
+            "time": "2021-06-17T12:46:51+00:00"
         },
         {
             "name": "nsq/nsq-bundle",
