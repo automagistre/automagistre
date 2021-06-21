@@ -14475,16 +14475,16 @@
         },
         {
             "name": "psalm/plugin-symfony",
-            "version": "v2.3.0",
+            "version": "v2.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/psalm/psalm-plugin-symfony.git",
-                "reference": "497d831b07b3f87bd48183e21d4894f5ed09e4f1"
+                "reference": "4fd391d445fc7a5197802cabb72070bcbb7074fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/psalm/psalm-plugin-symfony/zipball/497d831b07b3f87bd48183e21d4894f5ed09e4f1",
-                "reference": "497d831b07b3f87bd48183e21d4894f5ed09e4f1",
+                "url": "https://api.github.com/repos/psalm/psalm-plugin-symfony/zipball/4fd391d445fc7a5197802cabb72070bcbb7074fe",
+                "reference": "4fd391d445fc7a5197802cabb72070bcbb7074fe",
                 "shasum": ""
             },
             "require": {
@@ -14533,9 +14533,9 @@
             "description": "Psalm Plugin for Symfony",
             "support": {
                 "issues": "https://github.com/psalm/psalm-plugin-symfony/issues",
-                "source": "https://github.com/psalm/psalm-plugin-symfony/tree/v2.3.0"
+                "source": "https://github.com/psalm/psalm-plugin-symfony/tree/v2.3.1"
             },
-            "time": "2021-05-10T08:14:54+00:00"
+            "time": "2021-06-18T07:59:41+00:00"
         },
         {
             "name": "sanmai/later",
