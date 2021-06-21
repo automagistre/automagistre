@@ -101,9 +101,4 @@ final class OrderStatus extends Enum
     {
         return $this->isEditable();
     }
-
-    public function printable(): bool
-    {
-        return self::CANCELLED !== $this->toId();
-    }
 }
