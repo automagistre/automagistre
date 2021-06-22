@@ -3,6 +3,10 @@ kind: pipeline
 type: docker
 name: build
 
+trigger:
+    event:
+        - push
+
 clone:
     depth: 0
 
@@ -53,6 +57,10 @@ steps:
 kind: pipeline
 type: docker
 name: test
+
+trigger:
+    event:
+        - push
 
 depends_on:
     - build
@@ -274,6 +282,10 @@ kind: pipeline
 type: docker
 name: e2e
 
+trigger:
+    event:
+        - push
+
 depends_on:
     - build
 
@@ -317,6 +329,8 @@ name: push
 trigger:
     branch:
         - master
+    event:
+        - push
 
 clone:
     depth: 0
@@ -389,6 +403,8 @@ trigger:
     branch:
         - master
         - rc
+    event:
+        - push
 
 clone:
     depth: 0
@@ -452,6 +468,8 @@ trigger:
     branch:
         - rc
         - test
+    event:
+        - push
     status:
         - success
         - failure
@@ -487,6 +505,8 @@ trigger:
         exclude:
             - master
             - rc
+    event:
+        - push
     status:
         - success
         - failure
@@ -517,3 +537,32 @@ steps:
                 "automagistre/tenant-php:${DRONE_BUILD_NUMBER}"
                 "automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}"
         failure: ignore
+
+---
+kind: pipeline
+type: docker
+name: GitHub
+
+trigger:
+    branch:
+        - master
+    event:
+        - pull_request
+clone:
+    depth: 0
+
+steps:
+    -   name: dependabot automerge
+        image: automagistre/github-cli:stable
+        pull: if-not-exists
+        commands:
+            - |
+                if [ "dependabot[bot]" == ${DRONE_COMMIT_AUTHOR} ]
+                then
+                    gh pr merge ${DRONE_PULL_REQUEST} --auto --rebase
+                else
+                    exit 78
+                fi
+        environment:
+            GITHUB_TOKEN:
+                from_secret: GITHUB_TOKEN
