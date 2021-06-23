@@ -9,6 +9,7 @@ use App\Customer\Entity\Person;
 use App\Customer\Form\PersonDto;
 use App\Customer\Form\PersonType;
 use Doctrine\ORM\QueryBuilder;
+use EasyCorp\Bundle\EasyAdminBundle\Search\Paginator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use function array_map;
@@ -141,7 +142,7 @@ final class PersonController extends OperandController
 
         $qb = $this->createSearchQueryBuilder((string) $query->get('entity'), (string) $query->get('query'), []);
 
-        $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->getInt('page', 1));
+        $paginator = $this->get(Paginator::class)->createOrmPaginator($qb, $query->getInt('page', 1));
 
         $data = array_map(function (Person $person): array {
             $formattedTelephone = $this->formatTelephone($person->getTelephone() ?? $person->getOfficePhone());

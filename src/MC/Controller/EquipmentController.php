@@ -11,6 +11,7 @@ use App\MC\Entity\McEquipmentId;
 use App\Vehicle\Entity\Model;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
+use EasyCorp\Bundle\EasyAdminBundle\Search\Paginator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use function array_map;
 use function assert;
@@ -94,7 +95,7 @@ final class EquipmentController extends AbstractController
         $queryString = str_replace(['.', ',', '-', '_'], '', (string) $request->query->get('query'));
         $qb = $this->createSearchQueryBuilder((string) $request->query->get('entity'), $queryString, []);
 
-        $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $request->query->getInt('page', 1));
+        $paginator = $this->get(Paginator::class)->createOrmPaginator($qb, $request->query->getInt('page', 1));
 
         return $this->json([
             'results' => array_map(

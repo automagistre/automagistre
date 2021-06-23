@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace EasyCorp\Bundle\EasyAdminBundle\DependencyInjection;
 
+use EasyCorp\Bundle\EasyAdminBundle\Configuration\DesignConfigPass;
+use EasyCorp\Bundle\EasyAdminBundle\EventListener\ExceptionListener;
 use InvalidArgumentException;
 use RuntimeException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use function array_key_exists;
 use function in_array;
@@ -34,17 +36,17 @@ class EasyAdminExtension extends Extension
         $container->setParameter('easyadmin.config', $backendConfig);
 
         // load bundle's services
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.xml');
-        $loader->load('form.xml');
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('services.php');
+        $loader->load('form.php');
 
         if ($container->getParameter('kernel.debug')) {
             // in 'dev', use the built-in Symfony exception listener
-            $container->removeDefinition('easyadmin.listener.exception');
+            $container->removeDefinition(ExceptionListener::class);
         }
 
         if ($container->hasParameter('locale')) {
-            $container->getDefinition('easyadmin.configuration.design_config_pass')
+            $container->getDefinition(DesignConfigPass::class)
                 ->replaceArgument(0, $container->getParameter('locale'))
             ;
         }

@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace EasyCorp\Bundle\EasyAdminBundle\DependencyInjection\Compiler;
 
+use EasyCorp\Bundle\EasyAdminBundle\Form\Type\Configurator\FOSCKEditorTypeConfigurator;
+use EasyCorp\Bundle\EasyAdminBundle\Form\Type\Configurator\IvoryCKEditorTypeConfigurator;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\Configurator\TypeConfiguratorInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminFiltersFormType;
+use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminFormType;
 use Exception;
 use InvalidArgumentException;
 use ReflectionClass;
@@ -36,14 +40,14 @@ class EasyAdminFormTypePass implements CompilerPassInterface
                 throw new InvalidArgumentException(sprintf('Service "%s" must implement interface "%s".', $id, TypeConfiguratorInterface::class));
             }
 
-            if ('easyadmin.form.type.configurator.ivory_ckeditor' === $id && $this->ivoryCkEditorHasDefaultConfiguration($container)) {
-                $container->removeDefinition('easyadmin.form.type.configurator.ivory_ckeditor');
+            if (IvoryCKEditorTypeConfigurator::class === $id && $this->ivoryCkEditorHasDefaultConfiguration($container)) {
+                $container->removeDefinition(IvoryCKEditorTypeConfigurator::class);
 
                 continue;
             }
 
-            if ('easyadmin.form.type.configurator.fos_ckeditor' === $id && $this->fosCkEditorHasDefaultConfiguration($container)) {
-                $container->removeDefinition('easyadmin.form.type.configurator.fos_ckeditor');
+            if (FOSCKEditorTypeConfigurator::class === $id && $this->fosCkEditorHasDefaultConfiguration($container)) {
+                $container->removeDefinition(FOSCKEditorTypeConfigurator::class);
 
                 continue;
             }
@@ -55,8 +59,8 @@ class EasyAdminFormTypePass implements CompilerPassInterface
         }
 
         $configurators = iterator_to_array($configurators);
-        $container->getDefinition('easyadmin.form.type')->replaceArgument(1, $configurators);
-        $container->getDefinition('easyadmin.form.type.filters')->replaceArgument(1, $configurators);
+        $container->getDefinition(EasyAdminFormType::class)->replaceArgument(1, $configurators);
+        $container->getDefinition(EasyAdminFiltersFormType::class)->replaceArgument(1, $configurators);
     }
 
     private function ivoryCkEditorHasDefaultConfiguration(ContainerBuilder $container): bool

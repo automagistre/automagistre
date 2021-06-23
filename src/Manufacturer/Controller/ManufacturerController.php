@@ -9,6 +9,7 @@ use App\Manufacturer\Entity\Manufacturer;
 use App\Manufacturer\Entity\ManufacturerId;
 use App\Manufacturer\Form\ManufacturerDto;
 use App\Manufacturer\Form\ManufacturerType;
+use EasyCorp\Bundle\EasyAdminBundle\Search\Paginator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use function array_map;
@@ -85,7 +86,7 @@ final class ManufacturerController extends AbstractController
         $queryString = str_replace(['.', ',', '-', '_'], '', (string) $request->query->get('query'));
         $qb = $this->createSearchQueryBuilder((string) $request->query->get('entity'), $queryString, []);
 
-        $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $request->query->getInt('page', 1));
+        $paginator = $this->get(Paginator::class)->createOrmPaginator($qb, $request->query->getInt('page', 1));
 
         return $this->json([
             'results' => array_map(

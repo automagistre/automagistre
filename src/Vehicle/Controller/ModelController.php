@@ -14,6 +14,7 @@ use App\Vehicle\Form\VehicleType;
 use Closure;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
+use EasyCorp\Bundle\EasyAdminBundle\Search\Paginator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use function array_map;
@@ -131,7 +132,7 @@ final class ModelController extends AbstractController
 
         $qb = $this->createSearchQueryBuilder((string) $query->get('entity'), (string) $query->get('query'), []);
 
-        $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->getInt('page', 1));
+        $paginator = $this->get(Paginator::class)->createOrmPaginator($qb, $query->getInt('page', 1));
 
         $data = array_map(fn (Model $entity) => [
             'id' => $entity->toId()->toString(),

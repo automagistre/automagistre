@@ -17,6 +17,9 @@ use App\Payment\Manager\PaymentManager;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
+use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigManager;
+use EasyCorp\Bundle\EasyAdminBundle\Search\Paginator;
+use LogicException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -52,7 +55,9 @@ class OperandController extends AbstractController
         $id = $request->query->get('id');
 
         $entity = $this->registry->get(Operand::class, $id);
-        $config = $this->get('easyadmin.config.manager')->getEntityConfigByClass(ClassUtils::getRealClass($entity::class));
+        $entityClass = ClassUtils::getRealClass($entity::class);
+        $config = $this->get(ConfigManager::class)
+            ->getEntityConfigByClass($entityClass) ?? throw new LogicException(sprintf('Config not found for entity class: "%s"', $entityClass));
 
         return $this->redirectToRoute('easyadmin', array_merge($request->query->all(), [
             'entity' => $config['name'],
@@ -174,7 +179,7 @@ class OperandController extends AbstractController
             $qb->setParameter($key, '%'.mb_strtolower($item).'%');
         }
 
-        $paginator = $this->get('easyadmin.paginator')->createOrmPaginator($qb, $query->getInt('page', 1));
+        $paginator = $this->get(Paginator::class)->createOrmPaginator($qb, $query->getInt('page', 1));
 
         $data = array_map(function (Operand $entity): array {
             $text = $entity->getFullName();

@@ -8,6 +8,7 @@ use BadMethodCallException;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
+use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigManager;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use EasyCorp\Bundle\EasyAdminBundle\Exception\EntityRemoveException;
 use EasyCorp\Bundle\EasyAdminBundle\Exception\ForbiddenActionException;
@@ -20,6 +21,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminFiltersFormType;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminFormType;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\FileUploadType;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\Model\FileUploadState;
+use EasyCorp\Bundle\EasyAdminBundle\Search\Autocomplete;
+use EasyCorp\Bundle\EasyAdminBundle\Search\Paginator;
+use EasyCorp\Bundle\EasyAdminBundle\Security\AuthorizationChecker;
 use Exception;
 use Pagerfanta\Pagerfanta;
 use RuntimeException;
@@ -34,9 +38,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use UnexpectedValueException;
 use function array_key_exists;
 use function call_user_func_array;
@@ -93,7 +97,7 @@ trait AdminControllerTrait
             $id = $this->request->query->get('id');
             $entity = $this->request->attributes->get('easyadmin')['item'];
             $requiredPermission = $this->entity[$action]['item_permission'];
-            $userHasPermission = $this->get('easyadmin.security.authorization_checker')->isGranted($requiredPermission, $entity);
+            $userHasPermission = $this->get(AuthorizationChecker::class)->isGranted($requiredPermission, $entity);
 
             if (false === $userHasPermission) {
                 throw new NoPermissionException([
@@ -118,7 +122,7 @@ trait AdminControllerTrait
     {
         $this->dispatch(EasyAdminEvents::PRE_INITIALIZE);
 
-        $this->config = $this->get('easyadmin.config.manager')->getBackendConfig();
+        $this->config = $this->get(ConfigManager::class)->getBackendConfig();
 
         if (0 === count($this->config['entities'])) {
             throw new NoEntitiesConfiguredException();
@@ -134,7 +138,7 @@ trait AdminControllerTrait
             throw new UndefinedEntityException(['entity_name' => $entityName]);
         }
 
-        $this->entity = $this->get('easyadmin.config.manager')->getEntityConfig($entityName);
+        $this->entity = $this->get(ConfigManager::class)->getEntityConfig($entityName);
 
         $action = $request->query->get('action', 'list');
 
@@ -166,11 +170,7 @@ trait AdminControllerTrait
         $subject = $arguments['paginator'] ?? $arguments['entity'];
         $event = new GenericEvent($subject, $arguments);
 
-        if (Kernel::VERSION_ID >= 40300) {
-            $this->get('event_dispatcher')->dispatch($event, $eventName);
-        } else {
-            $this->get('event_dispatcher')->dispatch($eventName, $event);
-        }
+        $this->get(EventDispatcherInterface::class)->dispatch($event, $eventName);
     }
 
     /**
@@ -181,7 +181,7 @@ trait AdminControllerTrait
      */
     protected function autocompleteAction()
     {
-        $results = $this->get('easyadmin.autocomplete')->find(
+        $results = $this->get(Autocomplete::class)->find(
             $this->request->query->get('entity'),
             $this->request->query->get('query'),
             $this->request->query->get('page', 1),
@@ -558,8 +558,7 @@ trait AdminControllerTrait
             return;
         }
 
-        /** @var FilterRegistry $filterRegistry */
-        $filterRegistry = $this->get('easyadmin.filter.registry');
+        $filterRegistry = $this->get(FilterRegistry::class);
 
         $appliedFilters = [];
         foreach ($filtersForm as $filterForm) {
@@ -767,7 +766,7 @@ trait AdminControllerTrait
             'sort_direction' => $sortDirection,
         ]);
 
-        return $this->get('easyadmin.paginator')->createOrmPaginator($queryBuilder, $page, $maxPerPage);
+        return $this->get(Paginator::class)->createOrmPaginator($queryBuilder, $page, $maxPerPage);
     }
 
     /**
@@ -782,7 +781,7 @@ trait AdminControllerTrait
      */
     protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
     {
-        return $this->get('easyadmin.query_builder')->createListQueryBuilder($this->entity, $sortField, $sortDirection, $dqlFilter);
+        return $this->get(\EasyCorp\Bundle\EasyAdminBundle\Search\QueryBuilder::class)->createListQueryBuilder($this->entity, $sortField, $sortDirection, $dqlFilter);
     }
 
     /**
@@ -830,7 +829,7 @@ trait AdminControllerTrait
             'searchable_fields' => $searchableFields,
         ]);
 
-        return $this->get('easyadmin.paginator')->createOrmPaginator($queryBuilder, $page, $maxPerPage);
+        return $this->get(Paginator::class)->createOrmPaginator($queryBuilder, $page, $maxPerPage);
     }
 
     /**
@@ -852,7 +851,7 @@ trait AdminControllerTrait
         $sortDirection = null,
         $dqlFilter = null,
     ) {
-        return $this->get('easyadmin.query_builder')->createSearchQueryBuilder($this->entity, $searchQuery, $sortField, $sortDirection, $dqlFilter);
+        return $this->get(\EasyCorp\Bundle\EasyAdminBundle\Search\QueryBuilder::class)->createSearchQueryBuilder($this->entity, $searchQuery, $sortField, $sortDirection, $dqlFilter);
     }
 
     /**

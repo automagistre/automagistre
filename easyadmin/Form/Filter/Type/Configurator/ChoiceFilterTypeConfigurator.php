@@ -7,7 +7,6 @@ namespace EasyCorp\Bundle\EasyAdminBundle\Form\Filter\Type\Configurator;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Filter\Type\ChoiceFilterType;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\Configurator\TypeConfiguratorInterface;
 use Symfony\Component\Form\FormConfigInterface;
-use function in_array;
 
 /**
  * @author Yonel Ceruto <yonelceruto@gmail.com>
@@ -39,6 +38,6 @@ class ChoiceFilterTypeConfigurator implements TypeConfiguratorInterface
      */
     public function supports($type, array $options, array $metadata): bool
     {
-        return in_array($type, ['easyadmin.filter.type.choice', ChoiceFilterType::class], true);
+        return ChoiceFilterType::class === $type;
     }
 }

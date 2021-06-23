@@ -11,8 +11,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Search\Paginator;
 use EasyCorp\Bundle\EasyAdminBundle\Search\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Security\AuthorizationChecker;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * The controller used to render all the default EasyAdmin actions.
@@ -26,14 +26,14 @@ class EasyAdminController extends AbstractController
     public static function getSubscribedServices(): array
     {
         return array_merge(parent::getSubscribedServices(), [
-            'easyadmin.autocomplete' => Autocomplete::class,
-            'easyadmin.config.manager' => ConfigManager::class,
-            'easyadmin.paginator' => Paginator::class,
-            'easyadmin.query_builder' => QueryBuilder::class,
-            'easyadmin.property_accessor' => PropertyAccessorInterface::class,
-            'easyadmin.filter.registry' => FilterRegistry::class,
-            'easyadmin.security.authorization_checker' => AuthorizationChecker::class,
-            'event_dispatcher' => EventDispatcherInterface::class,
+            Autocomplete::class,
+            ConfigManager::class,
+            Paginator::class,
+            QueryBuilder::class,
+            PropertyAccessorInterface::class,
+            FilterRegistry::class,
+            AuthorizationChecker::class,
+            EventDispatcherInterface::class,
         ]);
     }
 }

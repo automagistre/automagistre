@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EasyCorp\Bundle\EasyAdminBundle\DependencyInjection\Compiler;
 
+use EasyCorp\Bundle\EasyAdminBundle\Form\Filter\FilterRegistry;
 use Symfony\Component\DependencyInjection\Argument\IteratorArgument;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Compiler\PriorityTaggedServiceTrait;
@@ -49,7 +50,7 @@ final class FilterTypePass implements CompilerPassInterface
             krsort($typesMap);
             $typesMap = array_merge(...$typesMap);
         }
-        $container->getDefinition('easyadmin.filter.registry')
+        $container->getDefinition(FilterRegistry::class)
             ->replaceArgument(0, $typesMap)
             ->replaceArgument(1, new IteratorArgument($guessers))
         ;
