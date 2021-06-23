@@ -6,7 +6,7 @@ namespace EasyCorp\Bundle\EasyAdminBundle\Search;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
-use Doctrine\ORM\QueryBuilder as DoctrineQueryBuilder;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use function array_key_exists;
 use function count;
@@ -15,7 +15,7 @@ use function in_array;
 /**
  * @author Javier Eguiluz <javier.eguiluz@gmail.com>
  */
-class QueryBuilder
+class QueryBuilderFactory
 {
     private $doctrine;
 
@@ -32,7 +32,7 @@ class QueryBuilder
      * @param null|string $sortDirection
      * @param null|string $dqlFilter
      *
-     * @return DoctrineQueryBuilder
+     * @return QueryBuilder
      */
     public function createListQueryBuilder(
         array $entityConfig,
@@ -44,7 +44,7 @@ class QueryBuilder
         $em = $this->doctrine->getManagerForClass($entityConfig['class']);
         /** @var ClassMetadata $classMetadata */
         $classMetadata = $em->getClassMetadata($entityConfig['class']);
-        /** @var DoctrineQueryBuilder $queryBuilder */
+        /** @var QueryBuilder $queryBuilder */
         $queryBuilder = $em->createQueryBuilder()
             ->select('entity')
             ->from($entityConfig['class'], 'entity')
@@ -77,7 +77,7 @@ class QueryBuilder
      * @param null|string $sortDirection
      * @param null|string $dqlFilter
      *
-     * @return DoctrineQueryBuilder
+     * @return QueryBuilder
      */
     public function createSearchQueryBuilder(
         array $entityConfig,
@@ -90,7 +90,7 @@ class QueryBuilder
         $em = $this->doctrine->getManagerForClass($entityConfig['class']);
         /** @var ClassMetadata $classMetadata */
         $classMetadata = $em->getClassMetadata($entityConfig['class']);
-        /** @var DoctrineQueryBuilder $queryBuilder */
+        /** @var QueryBuilder $queryBuilder */
         $queryBuilder = $em->createQueryBuilder()
             ->select('entity')
             ->from($entityConfig['class'], 'entity')

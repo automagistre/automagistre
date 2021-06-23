@@ -73,18 +73,6 @@ abstract class AbstractController extends EasyAdminController
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function executeDynamicMethod($methodNamePattern, array $arguments = [])
-    {
-        if ([] === $arguments) {
-            $arguments = [$this->request];
-        }
-
-        return parent::executeDynamicMethod($methodNamePattern, $arguments);
-    }
-
     protected function display(Identifier $identifier, string $format = null): string
     {
         return $this->get(IdentifierFormatter::class)->format($identifier, $format);
@@ -355,7 +343,7 @@ abstract class AbstractController extends EasyAdminController
 
         $fields = $this->entity['edit']['fields'];
 
-        $editForm = $this->executeDynamicMethod('create<EntityName>EditForm', [$entity, $fields]);
+        $editForm = $this->createEditForm($entity, $fields);
         $deleteForm = $this->createDeleteForm($this->entity['name'], $id);
 
         $editForm->handleRequest($this->request);
@@ -365,7 +353,8 @@ abstract class AbstractController extends EasyAdminController
 
             $this->dispatch(EasyAdminEvents::PRE_UPDATE, ['entity' => $entity]);
 
-            $entity = $this->executeDynamicMethod('update<EntityName>Entity', [$entity, $editForm]) ?? $entity;
+            /** @phpstan-ignore-next-line  */
+            $entity = $this->updateEntity(...[$entity, $editForm]) ?? $entity;
             $this->dispatch(EasyAdminEvents::POST_UPDATE, ['entity' => $entity]);
 
             return $this->redirectToReferrer();
@@ -380,10 +369,6 @@ abstract class AbstractController extends EasyAdminController
             'delete_form' => $deleteForm->createView(),
         ];
 
-        return $this->executeDynamicMethod('render<EntityName>Template', [
-            'edit',
-            $this->entity['templates']['edit'],
-            $parameters,
-        ]);
+        return $this->renderTemplate('edit', $this->entity['templates']['edit'], $parameters);
     }
 }

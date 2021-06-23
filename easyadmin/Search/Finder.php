@@ -17,7 +17,7 @@ class Finder
 
     private $paginator;
 
-    public function __construct(QueryBuilder $queryBuilder, Paginator $paginator)
+    public function __construct(QueryBuilderFactory $queryBuilder, Paginator $paginator)
     {
         $this->queryBuilder = $queryBuilder;
         $this->paginator = $paginator;

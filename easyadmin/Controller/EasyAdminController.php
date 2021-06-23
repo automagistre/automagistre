@@ -8,7 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigManager;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Filter\FilterRegistry;
 use EasyCorp\Bundle\EasyAdminBundle\Search\Autocomplete;
 use EasyCorp\Bundle\EasyAdminBundle\Search\Paginator;
-use EasyCorp\Bundle\EasyAdminBundle\Search\QueryBuilder;
+use EasyCorp\Bundle\EasyAdminBundle\Search\QueryBuilderFactory;
 use EasyCorp\Bundle\EasyAdminBundle\Security\AuthorizationChecker;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -29,7 +29,7 @@ class EasyAdminController extends AbstractController
             Autocomplete::class,
             ConfigManager::class,
             Paginator::class,
-            QueryBuilder::class,
+            QueryBuilderFactory::class,
             PropertyAccessorInterface::class,
             FilterRegistry::class,
             AuthorizationChecker::class,

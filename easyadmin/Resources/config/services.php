@@ -23,14 +23,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ])
     ;
 
-    $services->set(EasyCorp\Bundle\EasyAdminBundle\Search\QueryBuilder::class)
+    $services->set(EasyCorp\Bundle\EasyAdminBundle\Search\QueryBuilderFactory::class)
         ->public()
         ->args([service('doctrine')])
     ;
 
     $services->set(EasyCorp\Bundle\EasyAdminBundle\Search\Finder::class)
         ->args([
-            service(EasyCorp\Bundle\EasyAdminBundle\Search\QueryBuilder::class),
+            service(EasyCorp\Bundle\EasyAdminBundle\Search\QueryBuilderFactory::class),
             service(EasyCorp\Bundle\EasyAdminBundle\Search\Paginator::class),
         ])
     ;
