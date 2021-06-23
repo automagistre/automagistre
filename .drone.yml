@@ -541,7 +541,7 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: GitHub
+name: dependabot
 
 trigger:
     branch:
@@ -549,20 +549,46 @@ trigger:
     event:
         - pull_request
 clone:
-    depth: 0
+    disable: true
 
 steps:
-    -   name: dependabot automerge
+    -   name: check is dependabot
+        image: automagistre/git:stable
+        pull: if-not-exists
+        commands:
+            - \[ "dependabot[bot]" == ${DRONE_COMMIT_AUTHOR} ] || exit 78
+
+    -   name: clone
+        image: automagistre/git:stable
+        pull: if-not-exists
+        commands:
+            - git clone --depth 2 -b ${DRONE_SOURCE_BRANCH} ${DRONE_REMOTE_URL} .
+            - git reset --hard ${DRONE_COMMIT_SHA}
+        depends_on:
+            - check is dependabot
+
+    -   name: automerge
+        image: automagistre/github-cli:stable
+        pull: if-not-exists
+        commands:
+            - gh pr merge ${DRONE_PULL_REQUEST} --auto --rebase
+        environment:
+            GITHUB_TOKEN:
+                from_secret: GITHUB_TOKEN
+        depends_on:
+            - clone
+
+    -   name: rebase
         image: automagistre/github-cli:stable
         pull: if-not-exists
         commands:
             - |
-                if [ "dependabot[bot]" == ${DRONE_COMMIT_AUTHOR} ]
+                if [ "$$(git rev-parse HEAD^1)" != "$$(git ls-remote origin ${DRONE_COMMIT_BRANCH} | awk '{ print $1}')" ]
                 then
-                    gh pr merge ${DRONE_PULL_REQUEST} --auto --rebase
-                else
-                    exit 78
+                    gh pr comment ${DRONE_PULL_REQUEST} --body "@dependabot rebase"
                 fi
         environment:
             GITHUB_TOKEN:
                 from_secret: GITHUB_TOKEN
+        depends_on:
+            - clone
