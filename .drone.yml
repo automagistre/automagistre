@@ -137,6 +137,7 @@ steps:
         commands:
             - >-
                 find .
+                -not -path "./easyadmin/Resources/public/*"
                 -not -path "./public/*"
                 -not -path "./.idea/*"
                 -not -path "./var/*"

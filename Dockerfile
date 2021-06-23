@@ -210,6 +210,7 @@ RUN --mount=type=cache,target=/var/cache/composer \
 
 COPY bin bin
 COPY config config
+COPY easyadmin easyadmin
 COPY public public
 COPY src src
 COPY templates templates

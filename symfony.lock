@@ -177,19 +177,6 @@
     "doctrine/sql-formatter": {
         "version": "1.1.1"
     },
-    "easycorp/easyadmin-bundle": {
-        "version": "2.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "2.0",
-            "ref": "0a51040a43c6f2172a3a0135cd15daf2043905d7"
-        },
-        "files": [
-            "config/packages/easy_admin.yaml",
-            "config/routes/easy_admin.yaml"
-        ]
-    },
     "egulias/email-validator": {
         "version": "2.1.25"
     },
@@ -359,7 +346,7 @@
         "version": "2.0.0"
     },
     "pagerfanta/pagerfanta": {
-        "version": "v2.7.0"
+        "version": "v3.1.0"
     },
     "paragonie/constant_time_encoding": {
         "version": "v2.4.0"
