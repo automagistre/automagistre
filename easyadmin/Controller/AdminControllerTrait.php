@@ -193,7 +193,7 @@ trait AdminControllerTrait
         $results = $this->get(Autocomplete::class)->find(
             $this->request->query->get('entity'),
             $this->request->query->get('query'),
-            $this->request->query->get('page', 1),
+            $this->request->query->getInt('page', 1),
         );
 
         return new JsonResponse($results);
@@ -431,7 +431,7 @@ trait AdminControllerTrait
             $this->entity['class'],
             $query,
             $searchableFields,
-            $this->request->query->get('page', 1),
+            $this->request->query->getInt('page', 1),
             $this->entity['list']['max_results'],
             $this->request->query->get('sortField'),
             $this->request->query->get('sortDirection'),
