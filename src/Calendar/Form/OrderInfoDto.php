@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @Assert\Expression(
- *     "this.customerId != null or this.carId != null or this.description != null or this.customerId != null",
+ *     "this.customerId != null or this.carId != null or this.description != null",
  *     message="Нужно заполнить хотя бы одно из полей"
  * )
  */
