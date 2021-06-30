@@ -56,8 +56,8 @@ class RequestPostInitializeListener
      *
      * @param mixed $itemId
      *
-     * @throws RuntimeException
      * @throws EntityNotFoundException
+     * @throws RuntimeException
      *
      * @return object The entity
      */

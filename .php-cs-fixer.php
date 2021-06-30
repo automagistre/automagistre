@@ -35,6 +35,7 @@ return (new PhpCsFixer\Config())
         'php_unit_test_case_static_method_calls' => ['call_type' => 'self'],
         'php_unit_test_class_requires_covers' => false,
         'phpdoc_to_comment' => false,
+        'phpdoc_order_by_value' => ['annotations' => ['throws']],
         'yoda_style' => true,
         'trailing_comma_in_multiline' => [
             'after_heredoc' => true,
