@@ -3937,20 +3937,21 @@
         },
         {
             "name": "moneyphp/money",
-            "version": "v4.0.1",
+            "version": "v4.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/moneyphp/money.git",
-                "reference": "88920fb094c9f480bbd3dac4e0257837788163ef"
+                "reference": "c4cb602e46a850fdc88aa5d7ee0a62d2269f9ae4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/moneyphp/money/zipball/88920fb094c9f480bbd3dac4e0257837788163ef",
-                "reference": "88920fb094c9f480bbd3dac4e0257837788163ef",
+                "url": "https://api.github.com/repos/moneyphp/money/zipball/c4cb602e46a850fdc88aa5d7ee0a62d2269f9ae4",
+                "reference": "c4cb602e46a850fdc88aa5d7ee0a62d2269f9ae4",
                 "shasum": ""
             },
             "require": {
                 "ext-bcmath": "*",
+                "ext-filter": "*",
                 "ext-json": "*",
                 "php": "^8.0"
             },
@@ -3971,7 +3972,7 @@
                 "psalm/plugin-phpunit": "^0.15.1",
                 "psr/cache": "^1.0.1",
                 "roave/infection-static-analysis-plugin": "^1.7",
-                "vimeo/psalm": "^4.7"
+                "vimeo/psalm": "~4.7.0 || ^4.8.2"
             },
             "suggest": {
                 "ext-gmp": "Calculate without integer limits",
@@ -4019,9 +4020,9 @@
             ],
             "support": {
                 "issues": "https://github.com/moneyphp/money/issues",
-                "source": "https://github.com/moneyphp/money/tree/v4.0.1"
+                "source": "https://github.com/moneyphp/money/tree/v4.0.2"
             },
-            "time": "2021-05-25T13:51:42+00:00"
+            "time": "2021-06-30T10:46:25+00:00"
         },
         {
             "name": "monolog/monolog",
