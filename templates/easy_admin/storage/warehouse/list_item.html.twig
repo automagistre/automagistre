@@ -1,0 +1,44 @@
+{% set depth = depth|default(-1) %}
+
+{% for item in items|iterator_to_array %}
+    {# the empty string concatenation is needed when the primary key is an object (e.g. an Uuid object) #}
+    {% set _item_id = '' ~ attribute(item, _entity_config.primary_key_field_name)|default(item|toId) %}
+    <tr data-id="{{ _item_id }}">
+        {% for field, metadata in fields %}
+            {% set isSortingField = metadata.property == app.request.get('sortField') %}
+            {% set _column_label =  (metadata.label ?: field|humanize)|trans(_trans_parameters) %}
+
+            <td data-label="{{ _column_label }}" class="{{ isSortingField ? 'sorted' }} {{ metadata.dataType|lower }} {{ metadata.css_class }}" {{ easyadmin_config('design.rtl') ? 'dir="rtl"' }}>
+
+                {% if depth >= 0 %}
+                    {% for i in 0..depth %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                    {% endfor %}
+                {% endif %}
+                {{ easyadmin_render_field_for_list_view(_entity_config.name, item, metadata) }}
+            </td>
+        {% endfor %}
+
+        {% if _list_item_actions|length > 0 %}
+            {% set _column_label =  'list.row_actions'|trans(_trans_parameters, 'EasyAdminBundle') %}
+            <td data-label="{{ _column_label }}" class="actions">
+                {% block item_actions %}
+                    {{ include('easy_admin/default/includes/_actions.html.twig', {
+                        actions: _list_item_actions,
+                        request_parameters: _request_parameters,
+                        translation_domain: _entity_config.translation_domain,
+                        trans_parameters: _trans_parameters,
+                        item_id: _item_id,
+                        item: item
+                    }, with_context = false) }}
+                {% endblock item_actions %}
+            </td>
+        {% endif %}
+    </tr>
+
+    {% include _self with {
+        'items': all|filter((v) => v.parentId == item.id),
+        'all': all,
+        'depth': depth + 1,
+    } %}
+{% endfor %}

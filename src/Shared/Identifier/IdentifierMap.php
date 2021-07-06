@@ -33,7 +33,7 @@ final class IdentifierMap
         \App\Part\Entity\PartId::class => \App\Part\Entity\Part::class,
         \App\Review\Entity\ReviewId::class => \App\Review\Entity\Review::class,
         \App\Sms\Entity\SmsId::class => \App\Sms\Entity\Sms::class,
-        \App\Storage\Entity\WarehouseId::class => \App\Storage\Entity\Warehouse::class,
+        \App\Storage\Entity\WarehouseId::class => \App\Storage\Entity\WarehouseView::class,
         \App\User\Entity\UserId::class => \App\User\Entity\User::class,
         \App\User\Entity\UserPasswordId::class => \App\User\Entity\UserPassword::class,
         \App\Vehicle\Entity\VehicleId::class => \App\Vehicle\Entity\Model::class,

@@ -1,0 +1,18 @@
+{% extends 'easy_admin/default/list.html.twig' %}
+
+{% block table_body %}
+    {% set all = paginator.currentPageResults %}
+
+    {% if all is empty %}
+    <tr>
+        <td class="no-results" colspan="{{ _list_item_actions|length > 0 ? fields|length + 1 : fields|length }}">
+            {{ 'search.no_results'|trans(_trans_parameters, 'EasyAdminBundle') }}
+        </td>
+    </tr>
+    {% else %}
+        {% include 'easy_admin/storage/warehouse/list_item.html.twig' with {
+            'items': all|filter((v) => v.parentId == null),
+            'all': all,
+        } %}
+    {% endif %}
+{% endblock table_body %}

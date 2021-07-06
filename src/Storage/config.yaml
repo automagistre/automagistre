@@ -20,8 +20,11 @@ easy_admin:
             class:  App\Storage\Entity\WarehouseView
             controller: App\Storage\Controller\WarehouseController
             disabled_actions: ['show', 'delete']
+            templates:
+                list: 'easy_admin/storage/warehouse/list.html.twig'
             list:
                 title: 'Склады'
+                max_results: 500
                 fields:
                     - { property: 'name', label: 'Название' }
                     - { property: 'parentId', label: 'Родитель', template: 'easy_admin/field_identifier.html.twig' }

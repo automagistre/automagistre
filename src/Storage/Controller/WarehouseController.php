@@ -12,13 +12,15 @@ use App\Storage\Entity\WarehouseParent;
 use App\Storage\Entity\WarehouseView;
 use App\Storage\Form\WarehouseDto;
 use Closure;
+use Generator;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use function array_map;
 use function assert;
 use function is_string;
+use function str_repeat;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -46,12 +48,12 @@ final class WarehouseController extends AbstractController
             ])
             ->add('parentId', ChoiceType::class, [
                 'label' => 'Родитель',
-                'choice_loader' => new CallbackChoiceLoader(function () use ($entity): array {
+                'choice_loader' => new CallbackChoiceLoader(function () use ($entity): iterable {
                     $ids = $this->registry->connection(WarehouseView::class)
-                        ->fetchAllAssociative(
+                        ->fetchFirstColumn(
                             '
                             SELECT id
-                            FROM warehouse
+                            FROM warehouse_view
                             WHERE id NOT IN (
                                 WITH RECURSIVE tree (id) AS (
                                     SELECT id
@@ -66,6 +68,7 @@ final class WarehouseController extends AbstractController
                                 )
                                 SELECT *
                                 FROM tree
+                                ORDER BY id
                             )',
                             [
                                 'root' => $entity->id,
@@ -76,10 +79,29 @@ final class WarehouseController extends AbstractController
                         )
                     ;
 
-                    return array_map(fn (array $row) => WarehouseId::from($row['id']), $ids);
+                    $all = $this->registry->findBy(WarehouseView::class, ['id' => $ids]);
+
+                    $callback = static function (WarehouseView $previous = null) use (&$callback, &$all): Generator {
+                        foreach ($all as $key => $current) {
+                            if (
+                                (null === $previous && null === $current->parentId)
+                                || (null !== $previous && $previous->id->equals($current->parentId))
+                            ) {
+                                yield $current;
+
+                                yield from $callback($current);
+
+                                unset($all[$key]);
+                            }
+                        }
+                    };
+
+                    foreach ($callback() as $item) {
+                        yield $item;
+                    }
                 }),
-                'choice_label' => fn (WarehouseId $id) => $this->display($id),
-                'choice_value' => fn (?WarehouseId $id) => null === $id ? null : $id->toString(),
+                'choice_label' => fn (WarehouseView $view) => str_repeat('  - -  ', $view->depth).$view->name,
+                'choice_value' => fn (?WarehouseView $view) => null === $view ? null : $view->id->toString(),
                 'required' => false,
                 'expanded' => true,
             ])
@@ -138,7 +160,10 @@ final class WarehouseController extends AbstractController
         $em->flush();
     }
 
-    protected function renderTemplate($actionName, $templatePath, array $parameters = [])
+    /**
+     * {@inheritdoc}
+     */
+    protected function renderTemplate($actionName, $templatePath, array $parameters = []): Response
     {
         if ('new' === $actionName) {
             $parameters['content_title'] = 'Новый склад';

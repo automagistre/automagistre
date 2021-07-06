@@ -6,10 +6,13 @@ namespace App\Shared\Twig;
 
 use DateTimeImmutable;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Traversable;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 use Twig\TwigFunction;
 use function assert;
 use function is_int;
+use function iterator_to_array;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -28,6 +31,16 @@ final class AppExtension extends AbstractExtension
         return [
             new TwigFunction('instanceOf', [$this, 'doInstanceOf']),
             new TwigFunction('build_time', [$this, 'buildTime']),
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFilters(): array
+    {
+        return [
+            new TwigFilter('iterator_to_array', fn (Traversable $iterator) => iterator_to_array($iterator)),
         ];
     }
 

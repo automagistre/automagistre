@@ -26,6 +26,11 @@ class WarehouseView
     public string $name;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    public int $depth;
+
+    /**
      * @ORM\Column(type="warehouse_id", nullable=true)
      */
     public ?WarehouseId $parentId = null;
