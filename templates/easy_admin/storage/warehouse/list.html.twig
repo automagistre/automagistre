@@ -11,7 +11,7 @@
     </tr>
     {% else %}
         {% include 'easy_admin/storage/warehouse/list_item.html.twig' with {
-            'items': all|filter((v) => v.parentId == null),
+            'items': all|filter((v) => v.parent == null),
             'all': all,
         } %}
     {% endif %}

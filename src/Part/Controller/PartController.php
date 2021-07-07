@@ -390,7 +390,7 @@ final class PartController extends AbstractController
         $dto->number = (string) $view->number;
         $dto->universal = $view->isUniversal;
         $dto->unit = $view->unit;
-        $dto->warehouseId = $view->warehouseId;
+        $dto->warehouseId = $view->warehouse?->id;
 
         return $dto;
     }

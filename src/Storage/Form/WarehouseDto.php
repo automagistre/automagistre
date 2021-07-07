@@ -33,6 +33,6 @@ final class WarehouseDto
 
     public static function from(WarehouseView $view): self
     {
-        return new self($view->id, $view->name, $view->parentId);
+        return new self($view->id, $view->name, $view->parent?->id);
     }
 }

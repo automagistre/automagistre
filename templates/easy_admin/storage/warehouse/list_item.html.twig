@@ -37,7 +37,7 @@
     </tr>
 
     {% include _self with {
-        'items': all|filter((v) => v.parentId == item.id),
+        'items': all|filter((v) => v.parent != null and v.parent.id == item.id),
         'all': all,
         'depth': depth + 1,
     } %}

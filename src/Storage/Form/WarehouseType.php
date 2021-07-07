@@ -40,8 +40,8 @@ final class WarehouseType extends AbstractType
                 $callback = static function (WarehouseView $previous = null) use (&$callback, &$all): Generator {
                     foreach ($all as $key => $current) {
                         if (
-                            (null === $previous && null === $current->parentId)
-                            || (null !== $previous && $previous->id->equals($current->parentId))
+                            (null === $previous && null === $current->parent)
+                            || (null !== $previous && $previous->id->equals($current->parent?->id))
                         ) {
                             yield $current;
 

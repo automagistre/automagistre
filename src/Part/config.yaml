@@ -17,7 +17,7 @@ easy_admin:
                     - { property: 'isUniversal', label: 'Универсальная', template: 'easy_admin/default/field_boolean.html.twig' }
                     - { property: 'unit', label: 'Изменерие', template: 'easy_admin/part/field_unit.html.twig' }
                     - { property: 'requiredAvailability', vritual: true, label: 'Запасы', template: 'easy_admin/part/field_required_availability.html.twig' }
-                    - { property: 'warehouseId', label: 'Склад', template: 'easy_admin/field_identifier.html.twig', withoutLink: true }
+                    - { property: 'warehouse', label: 'Склад' }
             list:
                 title: 'Запчасти'
                 fields:

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Storage\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use function implode;
 
 /**
  * @ORM\Entity(readOnly=true)
@@ -31,12 +32,26 @@ class WarehouseView
     public int $depth;
 
     /**
-     * @ORM\Column(type="warehouse_id", nullable=true)
+     * @ORM\ManyToOne(targetEntity=WarehouseView::class, fetch="EAGER")
      */
-    public ?WarehouseId $parentId = null;
+    public ?WarehouseView $parent = null;
 
     public function toId(): WarehouseId
     {
         return $this->id;
+    }
+
+    public function __toString(): string
+    {
+        $name = [$this->name];
+
+        $parent = $this->parent;
+        while (null !== $parent) {
+            $name = [$parent->name, ...$name];
+
+            $parent = $parent->parent;
+        }
+
+        return implode(' / ', $name);
     }
 }

@@ -17,6 +17,7 @@ use Generator;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use function assert;
@@ -39,7 +40,7 @@ final class WarehouseController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    protected function createEntityForm($entity, array $entityProperties, $view): \Symfony\Component\Form\FormInterface
+    protected function createEntityForm($entity, array $entityProperties, $view): FormInterface
     {
         assert($entity instanceof WarehouseDto);
 
@@ -85,8 +86,8 @@ final class WarehouseController extends AbstractController
                     $callback = static function (WarehouseView $previous = null) use (&$callback, &$all): Generator {
                         foreach ($all as $key => $current) {
                             if (
-                                (null === $previous && null === $current->parentId)
-                                || (null !== $previous && $previous->id->equals($current->parentId))
+                                (null === $previous && null === $current->parent)
+                                || (null !== $previous && $previous->id->equals($current->parent?->id))
                             ) {
                                 yield $current;
 
@@ -160,7 +161,7 @@ final class WarehouseController extends AbstractController
             $em->persist(new WarehouseName($dto->id, $dto->name));
         }
 
-        if ($view->parentId !== $dto->parentId) {
+        if ($view->parent?->id !== $dto->parentId) {
             $em->persist(new WarehouseParent($dto->id, $dto->parentId));
         }
 

@@ -9,7 +9,7 @@ use App\Manufacturer\Entity\ManufacturerView;
 use App\Note\Entity\Notes;
 use App\Note\Enum\NoteType;
 use App\Part\Enum\Unit;
-use App\Storage\Entity\WarehouseId;
+use App\Storage\Entity\WarehouseView;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
@@ -62,9 +62,9 @@ class PartView implements Notes
     public Unit $unit;
 
     /**
-     * @ORM\Column(type="warehouse_id", nullable=true)
+     * @ORM\ManyToOne(targetEntity=WarehouseView::class)
      */
-    public ?WarehouseId $warehouseId;
+    public ?WarehouseView $warehouse;
 
     /**
      * @ORM\Column(type="integer")
