@@ -10,6 +10,7 @@ use App\Storage\Entity\WarehouseId;
 use App\Storage\Entity\WarehouseName;
 use App\Storage\Entity\WarehouseParent;
 use App\Storage\Entity\WarehouseView;
+use App\Storage\Form\Warehouse\WarehouseTransformer;
 use App\Storage\Form\WarehouseDto;
 use Closure;
 use Generator;
@@ -42,7 +43,7 @@ final class WarehouseController extends AbstractController
     {
         assert($entity instanceof WarehouseDto);
 
-        return $this->createFormBuilder($entity)
+        $fb = $this->createFormBuilder($entity)
             ->add('name', TextType::class, [
                 'label' => 'Название',
             ])
@@ -105,8 +106,14 @@ final class WarehouseController extends AbstractController
                 'required' => false,
                 'expanded' => true,
             ])
-            ->getForm()
         ;
+
+        $fb
+            ->get('parentId')
+            ->addModelTransformer(WarehouseTransformer::create($this->registry))
+        ;
+
+        return $fb->getForm();
     }
 
     protected function persistEntity($entity): void

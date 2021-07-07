@@ -76,6 +76,7 @@ final class PartController extends AbstractController
                     new PartNumber($dto->number),
                     $dto->universal,
                     $dto->unit,
+                    $dto->warehouseId,
                 ),
             );
 
@@ -389,6 +390,7 @@ final class PartController extends AbstractController
         $dto->number = (string) $view->number;
         $dto->universal = $view->isUniversal;
         $dto->unit = $view->unit;
+        $dto->warehouseId = $view->warehouseId;
 
         return $dto;
     }
@@ -408,6 +410,7 @@ final class PartController extends AbstractController
             $dto->name,
             $dto->universal,
             $dto->unit,
+            $dto->warehouseId,
         );
 
         parent::updateEntity($entity);

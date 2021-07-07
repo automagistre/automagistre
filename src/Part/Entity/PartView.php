@@ -9,6 +9,7 @@ use App\Manufacturer\Entity\ManufacturerView;
 use App\Note\Entity\Notes;
 use App\Note\Enum\NoteType;
 use App\Part\Enum\Unit;
+use App\Storage\Entity\WarehouseId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
@@ -59,6 +60,11 @@ class PartView implements Notes
      * @ORM\Column(type="unit_enum")
      */
     public Unit $unit;
+
+    /**
+     * @ORM\Column(type="warehouse_id", nullable=true)
+     */
+    public ?WarehouseId $warehouseId;
 
     /**
      * @ORM\Column(type="integer")

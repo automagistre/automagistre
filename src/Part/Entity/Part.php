@@ -6,6 +6,7 @@ namespace App\Part\Entity;
 
 use App\Manufacturer\Entity\ManufacturerId;
 use App\Part\Enum\Unit;
+use App\Storage\Entity\WarehouseId;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -47,6 +48,11 @@ class Part
      */
     public Unit $unit;
 
+    /**
+     * @ORM\Column(type="warehouse_id", nullable=true)
+     */
+    public ?WarehouseId $warehouseId;
+
     public function __construct(
         PartId $id,
         ManufacturerId $manufacturerId,
@@ -54,6 +60,7 @@ class Part
         PartNumber $number,
         bool $universal,
         Unit $unit,
+        WarehouseId $warehouseId = null,
     ) {
         $this->id = $id;
         $this->manufacturerId = $manufacturerId;
@@ -61,6 +68,7 @@ class Part
         $this->number = $number;
         $this->universal = $universal;
         $this->unit = $unit;
+        $this->warehouseId = $warehouseId;
     }
 
     public function __toString(): string
@@ -73,11 +81,12 @@ class Part
         return $this->id;
     }
 
-    public function update(string $name, bool $universal, Unit $unit): void
+    public function update(string $name, bool $universal, Unit $unit, ?WarehouseId $warehouseId): void
     {
         $this->name = $name;
         $this->universal = $universal;
         $this->unit = $unit;
+        $this->warehouseId = $warehouseId;
     }
 
     public function equals(PartId | self $part): bool

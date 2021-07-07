@@ -64,7 +64,7 @@ easy_admin:
             - { entity: 'CustomerTransaction', label: 'Проводки клиентов', icon: 'list' }
             - { entity: 'Expense', label: 'Статьи расходов', icon: 'list' }
             - { label: 'Склад' }
-#            - { entity: 'Warehouse', label: 'Склады', icon: 'cube' }
+            - { entity: 'Warehouse', label: 'Склады', icon: 'cube' }
             - { entity: 'Motion', label: 'Движения', icon: 'recycle' }
             - { entity: 'Income', label: 'Приходы', icon: 'book' }
             - { entity: 'Inventorization', label: 'Инвентаризация', icon: 'archive' }

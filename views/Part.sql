@@ -3,6 +3,7 @@ SELECT part.id                                                                  
        part.number                                                                                      AS number,
        part.universal                                                                                   AS is_universal,
        part.unit                                                                                        AS unit,
+       part.warehouse_id                                                                                AS warehouse_id,
        COALESCE(stock.quantity, 0)                                                                      AS quantity,
        COALESCE(ordered.quantity, 0)                                                                    AS ordered,
        COALESCE(reserved.quantity, 0)                                                                   AS reserved,
