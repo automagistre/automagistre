@@ -4185,16 +4185,16 @@
         },
         {
             "name": "nsq/nsq",
-            "version": "0.6.4",
+            "version": "0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nsqphp/nsqphp.git",
-                "reference": "b6f4726002de5231729860b9406b6dae97a2ac62"
+                "reference": "a913fb09078ccdabd58af87bbef6e94c8298201b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nsqphp/nsqphp/zipball/b6f4726002de5231729860b9406b6dae97a2ac62",
-                "reference": "b6f4726002de5231729860b9406b6dae97a2ac62",
+                "url": "https://api.github.com/repos/nsqphp/nsqphp/zipball/a913fb09078ccdabd58af87bbef6e94c8298201b",
+                "reference": "a913fb09078ccdabd58af87bbef6e94c8298201b",
                 "shasum": ""
             },
             "require": {
@@ -4208,9 +4208,9 @@
             "require-dev": {
                 "amphp/log": "^1.1",
                 "dg/bypass-finals": "^1.3",
-                "ergebnis/composer-normalize": "9999999-dev",
-                "friendsofphp/php-cs-fixer": "^2.18",
-                "infection/infection": "^0.20.2",
+                "ergebnis/composer-normalize": "^2.15",
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "infection/infection": "^0.23.0",
                 "nyholm/nsa": "^1.2",
                 "phpstan/phpstan": "^0.12.68",
                 "phpstan/phpstan-phpunit": "^0.12.17",
@@ -4239,27 +4239,27 @@
             "homepage": "https://github.com/nsqphp/nsqphp",
             "support": {
                 "issues": "https://github.com/nsqphp/nsqphp/issues",
-                "source": "https://github.com/nsqphp/nsqphp/tree/0.6.4"
+                "source": "https://github.com/nsqphp/nsqphp/tree/0.7"
             },
-            "time": "2021-06-17T12:46:51+00:00"
+            "time": "2021-07-08T14:41:59+00:00"
         },
         {
             "name": "nsq/nsq-bundle",
-            "version": "0.7.3",
+            "version": "0.7.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nsqphp/NsqBundle.git",
-                "reference": "819f2c9e5d14906f04e5eb08cdb104633c036e0c"
+                "reference": "9d2ef8e132420975e94499290ca2081267254cfc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nsqphp/NsqBundle/zipball/819f2c9e5d14906f04e5eb08cdb104633c036e0c",
-                "reference": "819f2c9e5d14906f04e5eb08cdb104633c036e0c",
+                "url": "https://api.github.com/repos/nsqphp/NsqBundle/zipball/9d2ef8e132420975e94499290ca2081267254cfc",
+                "reference": "9d2ef8e132420975e94499290ca2081267254cfc",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "nsq/nsq": "^0.6.2",
+                "nsq/nsq": "0.7",
                 "php": "^8.0.1",
                 "symfony/framework-bundle": "^5.0",
                 "symfony/messenger": "^5.0"
@@ -4287,9 +4287,9 @@
             "homepage": "https://github.com/nsqphp/NsqBundle",
             "support": {
                 "issues": "https://github.com/nsqphp/NsqBundle/issues",
-                "source": "https://github.com/nsqphp/NsqBundle/tree/0.7.3"
+                "source": "https://github.com/nsqphp/NsqBundle/tree/0.7.5"
             },
-            "time": "2021-06-28T08:31:47+00:00"
+            "time": "2021-07-08T15:34:17+00:00"
         },
         {
             "name": "nyholm/psr7",
