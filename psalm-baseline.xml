@@ -369,9 +369,6 @@
       <code>$this-&gt;encoderFactory-&gt;getEncoder($user)</code>
       <code>private</code>
     </DeprecatedClass>
-    <RedundantCast occurrences="1">
-      <code>(array) $input-&gt;getArgument('roles')</code>
-    </RedundantCast>
   </file>
   <file src="src/User/Controller/UserController.php">
     <DeprecatedClass occurrences="3">

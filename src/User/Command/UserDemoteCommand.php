@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\User\Command;
 
-use App\Shared\Doctrine\Registry;
+use App\Command\TransactionalCommand;
 use App\User\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
+use MichaelPetri\TypedInput\TypedInput;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use function array_flip;
 use function array_key_exists;
 use function sprintf;
@@ -20,12 +21,9 @@ use function sprintf;
  */
 final class UserDemoteCommand extends Command
 {
-    protected static $defaultName = 'user:demote';
+    use TransactionalCommand;
 
-    public function __construct(private Registry $registry)
-    {
-        parent::__construct();
-    }
+    protected static $defaultName = 'user:demote';
 
     /**
      * {@inheritdoc}
@@ -42,11 +40,10 @@ final class UserDemoteCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function transactional(TypedInput $input, SymfonyStyle $io, EntityManagerInterface $em): int
     {
-        $em = $this->registry->manager(User::class);
-
-        ['username' => $username, 'roles' => $roles] = $input->getArguments();
+        $username = $input->getArgument('username')->asString();
+        $roles = $input->getArgument('roles')->asNonEmptyStrings();
 
         $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
 
@@ -62,8 +59,6 @@ final class UserDemoteCommand extends Command
         }
 
         $user->setRoles($currentRoles);
-
-        $em->flush();
 
         return 0;
     }

@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\User\Command;
 
-use App\Shared\Doctrine\Registry;
+use App\Command\TransactionalCommand;
 use App\User\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
+use MichaelPetri\TypedInput\TypedInput;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use function sprintf;
 
@@ -19,9 +20,11 @@ use function sprintf;
  */
 final class UserChangePasswordCommand extends Command
 {
+    use TransactionalCommand;
+
     protected static $defaultName = 'user:change-password';
 
-    public function __construct(private Registry $registry, private EncoderFactoryInterface $encoderFactory)
+    public function __construct(private EncoderFactoryInterface $encoderFactory)
     {
         parent::__construct();
     }
@@ -41,11 +44,10 @@ final class UserChangePasswordCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function transactional(TypedInput $input, SymfonyStyle $io, EntityManagerInterface $em): int
     {
-        $em = $this->registry->manager(User::class);
-
-        ['username' => $username, 'password' => $password] = $input->getArguments();
+        $username = $input->getArgument('username')->asString();
+        $password = $input->getArgument('password')->asString();
 
         $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
 
@@ -54,8 +56,6 @@ final class UserChangePasswordCommand extends Command
         }
 
         $user->changePassword($password, $this->encoderFactory->getEncoder($user));
-
-        $em->flush();
 
         return 0;
     }

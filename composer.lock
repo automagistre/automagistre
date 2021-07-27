@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a4d92535ebca8187d4758a6a769731f7",
+    "content-hash": "6efa6db0e92716e83d505df07ace9b44",
     "packages": [
         {
             "name": "adamgaskins/barcoder",
@@ -3942,6 +3942,54 @@
                 "source": "https://github.com/thephpleague/uri-parser/tree/master"
             },
             "time": "2018-11-22T07:55:51+00:00"
+        },
+        {
+            "name": "michaelpetri/typed-input",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/michaelpetri/typed-input.git",
+                "reference": "5b98ffa34bd1f004ef2f7ca67c3b1b7cc59d469e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/michaelpetri/typed-input/zipball/5b98ffa34bd1f004ef2f7ca67c3b1b7cc59d469e",
+                "reference": "5b98ffa34bd1f004ef2f7ca67c3b1b7cc59d469e",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4 || ^8.0",
+                "symfony/console": "^4.4 || ^5.2",
+                "webmozart/assert": "^1.9"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.17",
+                "phpunit/phpunit": "^9.5",
+                "roave/security-advisories": "dev-master",
+                "vimeo/psalm": "^4.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MichaelPetri\\TypedInput\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Petri",
+                    "email": "mpetri@lyska.io"
+                }
+            ],
+            "description": "Type safe input wrapper for symfony input",
+            "support": {
+                "issues": "https://github.com/michaelpetri/typed-input/issues",
+                "source": "https://github.com/michaelpetri/typed-input/tree/1.1.0"
+            },
+            "time": "2021-01-19T13:06:38+00:00"
         },
         {
             "name": "moneyphp/money",
