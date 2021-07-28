@@ -23,7 +23,11 @@ final class OrderStatusListener implements MessageHandler
 
     public function __invoke(PartReserved $event): void
     {
-        $reservation = $this->registry->get(Reservation::class, $event->reservationId);
+        $reservation = $this->registry->find(Reservation::class, $event->reservationId);
+
+        if (null === $reservation) {
+            return;
+        }
 
         $order = $reservation->getOrderItemPart()->getOrder();
 
