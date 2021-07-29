@@ -3876,16 +3876,16 @@
         },
         {
             "name": "michaelpetri/typed-input",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/michaelpetri/typed-input.git",
-                "reference": "5b98ffa34bd1f004ef2f7ca67c3b1b7cc59d469e"
+                "reference": "99cf709f0ad1002f4378398e9922371ac1043c18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/michaelpetri/typed-input/zipball/5b98ffa34bd1f004ef2f7ca67c3b1b7cc59d469e",
-                "reference": "5b98ffa34bd1f004ef2f7ca67c3b1b7cc59d469e",
+                "url": "https://api.github.com/repos/michaelpetri/typed-input/zipball/99cf709f0ad1002f4378398e9922371ac1043c18",
+                "reference": "99cf709f0ad1002f4378398e9922371ac1043c18",
                 "shasum": ""
             },
             "require": {
@@ -3894,7 +3894,7 @@
                 "webmozart/assert": "^1.9"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.17",
+                "friendsofphp/php-cs-fixer": "^3.0",
                 "phpunit/phpunit": "^9.5",
                 "roave/security-advisories": "dev-master",
                 "vimeo/psalm": "^4.3"
@@ -3918,9 +3918,9 @@
             "description": "Type safe input wrapper for symfony input",
             "support": {
                 "issues": "https://github.com/michaelpetri/typed-input/issues",
-                "source": "https://github.com/michaelpetri/typed-input/tree/1.1.0"
+                "source": "https://github.com/michaelpetri/typed-input/tree/1.1.1"
             },
-            "time": "2021-01-19T13:06:38+00:00"
+            "time": "2021-07-29T07:16:29+00:00"
         },
         {
             "name": "moneyphp/money",
