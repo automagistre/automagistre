@@ -4545,22 +4545,23 @@
         },
         {
             "name": "pagerfanta/pagerfanta",
-            "version": "v3.2.0",
+            "version": "v3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BabDev/Pagerfanta.git",
-                "reference": "37e7b90c319234913489a7f94334c632f3b6bf3b"
+                "reference": "7b772e733fa94172ae4306e240958f84f9d78105"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BabDev/Pagerfanta/zipball/37e7b90c319234913489a7f94334c632f3b6bf3b",
-                "reference": "37e7b90c319234913489a7f94334c632f3b6bf3b",
+                "url": "https://api.github.com/repos/BabDev/Pagerfanta/zipball/7b772e733fa94172ae4306e240958f84f9d78105",
+                "reference": "7b772e733fa94172ae4306e240958f84f9d78105",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "php": "^7.4 || ^8.0",
-                "symfony/deprecation-contracts": "^2.1"
+                "symfony/deprecation-contracts": "^2.1",
+                "symfony/polyfill-php80": "^1.15"
             },
             "conflict": {
                 "doctrine/collections": "<1.6",
@@ -4593,12 +4594,13 @@
                 "friendsofphp/php-cs-fixer": "^3.0",
                 "jackalope/jackalope-doctrine-dbal": "^1.6",
                 "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan": "^0.12.90",
-                "phpstan/phpstan-phpunit": "^0.12.20",
+                "phpstan/phpstan": "^0.12.93",
+                "phpstan/phpstan-phpunit": "^0.12.21",
                 "phpunit/phpunit": "^9.5",
                 "ruflin/elastica": "^6.0 || ^7.0",
                 "solarium/solarium": "^5.0 || ^6.0",
                 "symfony/cache": "^4.4 || ^5.2 || ^6.0",
+                "symfony/phpunit-bridge": "^5.3",
                 "twig/twig": "^1.35 || ^2.5 || ^3.0"
             },
             "suggest": {
@@ -4634,7 +4636,7 @@
             ],
             "support": {
                 "issues": "https://github.com/BabDev/Pagerfanta/issues",
-                "source": "https://github.com/BabDev/Pagerfanta/tree/v3.2.0"
+                "source": "https://github.com/BabDev/Pagerfanta/tree/v3.2.1"
             },
             "funding": [
                 {
@@ -4642,7 +4644,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-07-01T00:11:11+00:00"
+            "time": "2021-08-01T15:55:10+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
