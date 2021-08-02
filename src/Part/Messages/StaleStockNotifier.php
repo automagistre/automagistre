@@ -33,10 +33,12 @@ final class StaleStockNotifier implements MessageHandler
             return;
         }
 
-        /** @var OrderItemPart $orderItemPart */
-        $orderItemPart = $this->registry->get(OrderItemPart::class, $event->id);
+        $orderItemPart = $this->registry->find(OrderItemPart::class, $event->id);
 
-        /** @var PartView $part */
+        if (null === $orderItemPart) {
+            return;
+        }
+
         $part = $this->registry->get(PartView::class, $orderItemPart->getPartId());
 
         if (!$part->hasKeepingStock()) {
@@ -47,8 +49,7 @@ final class StaleStockNotifier implements MessageHandler
             return;
         }
 
-        /** @var PartView[] $analogs */
-        $analogs = $this->registry->repository(PartView::class)->findBy(['id' => $part->analogs]);
+        $analogs = $this->registry->findBy(PartView::class, ['id' => $part->analogs]);
 
         /** @var PartView[] $canReplacedBy */
         $canReplacedBy = [];

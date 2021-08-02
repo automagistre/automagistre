@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.8.1@f73f2299dbc59a3e6c4d66cff4605176e728ee69">
+<files psalm-version="4.9.2@00c062267d6e3229d91a1939992987e2d46f2393">
   <file src="src/Appeal/Controller/AppealController.php">
     <ArgumentTypeCoercion occurrences="1">
       <code>$entity-&gt;type-&gt;toEntityClass()</code>
@@ -20,11 +20,6 @@
       <code>format</code>
     </ImpureMethodCall>
   </file>
-  <file src="src/Car/Controller/CarController.php">
-    <PossiblyFalseOperand occurrences="1">
-      <code>mb_strtolower($searchString)</code>
-    </PossiblyFalseOperand>
-  </file>
   <file src="src/Car/Controller/RecommendationController.php">
     <PossiblyNullArgument occurrences="3">
       <code>$model-&gt;price</code>
@@ -40,9 +35,6 @@
     </MoreSpecificReturnType>
   </file>
   <file src="src/Car/Entity/Car.php">
-    <PossiblyFalseArgument occurrences="1">
-      <code>mb_convert_case($this-&gt;gosnomer, MB_CASE_UPPER, 'UTF-8')</code>
-    </PossiblyFalseArgument>
     <PossiblyNullReference occurrences="1">
       <code>$this-&gt;recommendations</code>
     </PossiblyNullReference>
@@ -65,14 +57,8 @@
     <MoreSpecificReturnType occurrences="1">
       <code>Response</code>
     </MoreSpecificReturnType>
-    <PossiblyFalseOperand occurrences="1">
-      <code>mb_strtolower($item)</code>
-    </PossiblyFalseOperand>
   </file>
   <file src="src/Customer/Controller/PersonController.php">
-    <PossiblyFalseOperand occurrences="1">
-      <code>mb_strtolower($item)</code>
-    </PossiblyFalseOperand>
     <RedundantConditionGivenDocblockType occurrences="1">
       <code>null !== $dto-&gt;telephone</code>
     </RedundantConditionGivenDocblockType>
@@ -136,11 +122,6 @@
       <code>$income-&gt;getAccruedAmount()</code>
     </PossiblyNullArgument>
   </file>
-  <file src="src/MC/Controller/EquipmentController.php">
-    <PossiblyFalseOperand occurrences="1">
-      <code>mb_strtolower($searchString)</code>
-    </PossiblyFalseOperand>
-  </file>
   <file src="src/MC/Entity/McEquipment.php">
     <PropertyNotSetInConstructor occurrences="1">
       <code>$vehicleId</code>
@@ -168,9 +149,6 @@
       <code>$left</code>
       <code>$right</code>
     </MissingClosureParamType>
-    <PossiblyFalseOperand occurrences="1">
-      <code>mb_strtolower($item)</code>
-    </PossiblyFalseOperand>
     <PossiblyNullArgument occurrences="2">
       <code>$carId</code>
       <code>$equipmentId ?? $car-&gt;vehicleId</code>
@@ -208,10 +186,6 @@
     </MoreSpecificReturnType>
   </file>
   <file src="src/Order/Controller/OrderItemServiceController.php">
-    <PossiblyFalseOperand occurrences="2">
-      <code>mb_strtolower($item)</code>
-      <code>mb_strtolower($searchString)</code>
-    </PossiblyFalseOperand>
     <PossiblyNullArgument occurrences="1">
       <code>$sortDirection</code>
     </PossiblyNullArgument>
@@ -259,9 +233,6 @@
     </QueryBuilderSetParameter>
   </file>
   <file src="src/Part/Controller/PartController.php">
-    <PossiblyFalseOperand occurrences="1">
-      <code>mb_strtoupper(trim($searchString))</code>
-    </PossiblyFalseOperand>
     <RedundantConditionGivenDocblockType occurrences="3">
       <code>null !== $dto-&gt;manufacturerId</code>
       <code>null !== $dto-&gt;manufacturerId &amp;&amp; null !== $dto-&gt;number</code>
@@ -386,9 +357,6 @@
     </DeprecatedClass>
   </file>
   <file src="src/Vehicle/Controller/ModelController.php">
-    <PossiblyFalseOperand occurrences="1">
-      <code>mb_strtolower($item)</code>
-    </PossiblyFalseOperand>
     <RedundantConditionGivenDocblockType occurrences="3">
       <code>null !== $dto-&gt;manufacturerId</code>
       <code>null !== $dto-&gt;manufacturerId &amp;&amp; null !== $dto-&gt;name</code>
