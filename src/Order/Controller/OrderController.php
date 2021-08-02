@@ -420,12 +420,12 @@ final class OrderController extends AbstractController
      * {@inheritdoc}
      */
     protected function findAll(
-        $entityClass,
-        $page = 1,
-        $maxPerPage = 15,
-        $sortField = null,
-        $sortDirection = null,
-        $dqlFilter = null,
+        string $entityClass,
+        int $page = 1,
+        int $maxPerPage = 15,
+        ?string $sortField = null,
+        ?string $sortDirection = null,
+        ?string $dqlFilter = null,
     ): Pagerfanta {
         if (!$this->request->query->has('all')) {
             $maxPerPage = 200;

@@ -712,23 +712,20 @@ trait AdminControllerTrait
      * Performs a database query to get all the records related to the given
      * entity. It supports pagination and field sorting.
      *
-     * @param string      $entityClass
-     * @param int         $page
-     * @param int         $maxPerPage
-     * @param null|string $sortField
-     * @param null|string $sortDirection
-     * @param null|string $dqlFilter
+     * @template T
      *
-     * @return Pagerfanta The paginated query results
+     * @param class-string<T> $entityClass
+     *
+     * @return Pagerfanta<T>
      */
     protected function findAll(
-        $entityClass,
-        $page = 1,
-        $maxPerPage = 15,
-        $sortField = null,
-        $sortDirection = null,
-        $dqlFilter = null,
-    ) {
+        string $entityClass,
+        int $page = 1,
+        int $maxPerPage = 15,
+        ?string $sortField = null,
+        ?string $sortDirection = null,
+        ?string $dqlFilter = null,
+    ): Pagerfanta {
         if (null === $sortDirection || !in_array(strtoupper($sortDirection), ['ASC', 'DESC'], true)) {
             $sortDirection = 'DESC';
         }
