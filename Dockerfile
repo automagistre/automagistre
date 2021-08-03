@@ -6,7 +6,7 @@ FROM composer:2.1.5 as composer
 #
 # rector
 #
-FROM rector/rector:0.11.36 as rector
+FROM rector/rector:0.11.42 as rector
 
 #
 # PHP
