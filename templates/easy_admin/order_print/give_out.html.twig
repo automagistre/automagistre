@@ -87,10 +87,7 @@
     </div>
     {#
     <div class="table__item cell-part">
-        {% set partView = part_view(part.id) %}
-        {% if partView.warehouse is not null %}
-            {% include 'easy_admin/storage/field_warehouse_short.html.twig' with {value: partView.warehouse} only %}
-        {% endif %}
+        {% include 'easy_admin/storage/field_warehouse_short.html.twig' with {value: part_view(part.id).warehouse} only %}
     </div>
     #}
     <div class="table__item cell-part">{{ orderItemPart.quantity / 100 }} шт.</div>
