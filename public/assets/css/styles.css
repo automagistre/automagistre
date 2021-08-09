@@ -664,12 +664,12 @@ footer {
 }
 .give-out-table-manager__block {
   display: grid;
-  grid-template-columns: 2em 2fr 2fr 50% 0.7fr;
+  grid-template-columns: 2em 2fr 2fr 40% 2.5fr 0.7fr;
   column-gap: 1mm;
 }
 .give-out-table-manager__header {
   display: grid;
-  grid-template-columns: 2em 2fr 2fr 50% 0.7fr;
+  grid-template-columns: 2em 2fr 2fr 40% 2.5fr 0.7fr;
   column-gap: 1mm;
   grid-column: 1 / -1;
 }
@@ -775,7 +775,7 @@ footer {
 }
 .table__item.row-part__give_out {
   grid-column-start: 2;
-  grid-column-end: -2;
+  grid-column-end: 2;
   padding-left: 1cm;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
