@@ -8,7 +8,7 @@ easy_admin:
                 show: 'easy_admin/employee/show.html.twig'
             list:
                 title: 'Работники'
-                sort: [firedAt, DESC]
+                dql_filter: entity.firedAt IS NULL
                 max_results: 30
                 actions:
                     - { name: 'fire', template: 'easy_admin/employee/action_fire.html.twig' }
@@ -18,7 +18,6 @@ easy_admin:
                     - { property: 'motivation', virtual: true, label: 'Мотивация', template: 'easy_admin/employee/field_buttons.html.twig' }
                     - { property: 'ratio', label: '%' }
                     - { property: 'hiredAt', label: 'Трудоустроен' }
-                    - { property: 'firedAt', label: 'Уволен' }
             show:
                 title: 'Работник'
                 fields:
