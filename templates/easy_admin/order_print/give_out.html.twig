@@ -85,6 +85,14 @@
     <div class="table__item row-part__give_out left">
         <b>{{ part.number }}</b> {{ part.manufacturerId|display_name }} {{ part.name }}
     </div>
+    {#
+    <div class="table__item cell-part">
+        {% set partView = part_view(part.id) %}
+        {% if partView.warehouse is not null %}
+            {% include 'easy_admin/storage/field_warehouse_short.html.twig' with {value: partView.warehouse} only %}
+        {% endif %}
+    </div>
+    #}
     <div class="table__item cell-part">{{ orderItemPart.quantity / 100 }} шт.</div>
 {% endblock %}
 

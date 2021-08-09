@@ -1,0 +1,5 @@
+{% if value is not empty %}
+    {% for item in value.path %}
+        {{- item.code }}{% if not loop.last %}.{% endif -%}
+    {% endfor %}
+{% endif %}

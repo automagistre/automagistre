@@ -1,0 +1,17 @@
+{% if value is not empty %}
+    <a tabindex="0"
+       data-toggle="popover"
+       data-trigger="focus"
+       title="Полный путь"
+       data-html="true"
+       data-content="
+        {%- apply spaceless %}
+            {% for item in value.path %}
+                {{ item.code }} - {{ item.name}} <br />
+            {% endfor %}
+        {% endapply -%}
+"
+    >
+        {% include 'easy_admin/storage/field_warehouse_short.html.twig' with {value: value} only %}
+    </a>
+{% endif %}

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Storage\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use function array_map;
+use function array_reverse;
 use function implode;
 
 /**
@@ -27,6 +29,11 @@ class WarehouseView
     public string $name;
 
     /**
+     * @ORM\Column
+     */
+    public string $code;
+
+    /**
      * @ORM\Column(type="integer")
      */
     public int $depth;
@@ -36,6 +43,8 @@ class WarehouseView
      */
     public ?WarehouseView $parent = null;
 
+    private ?array $path = null;
+
     public function toId(): WarehouseId
     {
         return $this->id;
@@ -43,15 +52,22 @@ class WarehouseView
 
     public function __toString(): string
     {
-        $name = [$this->name];
+        return implode(' / ', array_map(static fn (self $view) => $view->name, $this->path()));
+    }
 
-        $parent = $this->parent;
-        while (null !== $parent) {
-            $name = [$parent->name, ...$name];
+    public function path(): array
+    {
+        return $this->path ?? (static function (self $view): array {
+            $path = [$view];
 
-            $parent = $parent->parent;
-        }
+            $parent = $view->parent;
+            while (null !== $parent) {
+                $path[] = $parent;
 
-        return implode(' / ', $name);
+                $parent = $parent->parent;
+            }
+
+            return array_reverse($path);
+        })($this);
     }
 }

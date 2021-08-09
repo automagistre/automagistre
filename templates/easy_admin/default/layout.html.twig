@@ -220,6 +220,10 @@
     {% for js_asset in easyadmin_config('design.assets.js') %}
         <script src="{{ asset(js_asset) }}"></script>
     {% endfor %}
+
+    <script>
+        $('[data-toggle="popover"]').popover();
+    </script>
     </body>
 {% endblock body %}
 </html>

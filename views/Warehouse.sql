@@ -22,13 +22,20 @@ WITH RECURSIVE tree (id) AS (
              JOIN tree p ON p.id = wp.warehouse_parent_id
 )
 SELECT tree.id        AS id,
-       wn.name        AS NAME,
+       wn.name        AS name,
+       wc.code        AS code,
        tree.parent_id AS parent_id,
        tree.depth     AS depth
 FROM tree
-         JOIN LATERAL (SELECT NAME
+         JOIN LATERAL (SELECT name
                        FROM warehouse_name sub
                        WHERE sub.warehouse_id = tree.id
                        ORDER BY sub.id DESC
                        LIMIT 1
     ) wn ON TRUE
+         JOIN LATERAL (SELECT code
+                       FROM warehouse_code sub
+                       WHERE sub.warehouse_id = tree.id
+                       ORDER BY sub.id DESC
+                       LIMIT 1
+    ) wc ON TRUE

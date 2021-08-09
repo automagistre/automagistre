@@ -6,6 +6,7 @@ namespace App\Storage\Controller;
 
 use App\EasyAdmin\Controller\AbstractController;
 use App\Storage\Entity\Warehouse;
+use App\Storage\Entity\WarehouseCode;
 use App\Storage\Entity\WarehouseId;
 use App\Storage\Entity\WarehouseName;
 use App\Storage\Entity\WarehouseParent;
@@ -34,7 +35,7 @@ final class WarehouseController extends AbstractController
      */
     protected function createNewEntity(): WarehouseDto
     {
-        return new WarehouseDto(WarehouseId::generate(), '', null);
+        return new WarehouseDto(WarehouseId::generate(), '', '', null);
     }
 
     /**
@@ -47,6 +48,9 @@ final class WarehouseController extends AbstractController
         $fb = $this->createFormBuilder($entity)
             ->add('name', TextType::class, [
                 'label' => 'Название',
+            ])
+            ->add('code', TextType::class, [
+                'label' => 'Код',
             ])
             ->add('parentId', ChoiceType::class, [
                 'label' => 'Родитель',
@@ -125,6 +129,7 @@ final class WarehouseController extends AbstractController
         $em = $this->em;
         $em->persist(new Warehouse($dto->id));
         $em->persist(new WarehouseName($dto->id, $dto->name));
+        $em->persist(new WarehouseCode($dto->id, $dto->code));
 
         if (null !== $dto->parentId) {
             $em->persist(new WarehouseParent($dto->id, $dto->parentId));
@@ -159,6 +164,10 @@ final class WarehouseController extends AbstractController
 
         if ($view->name !== $dto->name) {
             $em->persist(new WarehouseName($dto->id, $dto->name));
+        }
+
+        if ($view->code !== $dto->code) {
+            $em->persist(new WarehouseCode($dto->id, $dto->code));
         }
 
         if ($view->parent?->id !== $dto->parentId) {

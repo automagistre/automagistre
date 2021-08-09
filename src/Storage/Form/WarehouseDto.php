@@ -20,19 +20,27 @@ final class WarehouseDto
     public $name;
 
     /**
+     * @var string
+     *
+     * @Assert\NotBlank
+     */
+    public $code;
+
+    /**
      * @var null|WarehouseId
      */
     public $parentId;
 
-    public function __construct(WarehouseId $id, string $name, ?WarehouseId $parentId)
+    public function __construct(WarehouseId $id, string $name, string $code, ?WarehouseId $parentId)
     {
         $this->id = $id;
         $this->name = $name;
+        $this->code = $code;
         $this->parentId = $parentId;
     }
 
     public static function from(WarehouseView $view): self
     {
-        return new self($view->id, $view->name, $view->parent?->id);
+        return new self($view->id, $view->name, $view->code, $view->parent?->id);
     }
 }
