@@ -3,7 +3,7 @@
 {% form_theme form with easyadmin_config('design.form_theme') %}
 
 {% block content_title %}
-    {{ content_title }}
+    {{ include(template_from_string(content_title)) }}
 {% endblock %}
 
 {% block main %}

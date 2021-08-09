@@ -6,14 +6,11 @@ namespace App\Part\Entity;
 
 use App\Customer\Entity\OperandId;
 use App\Manufacturer\Entity\ManufacturerView;
-use App\Note\Entity\Notes;
-use App\Note\Enum\NoteType;
 use App\Part\Enum\Unit;
 use App\Storage\Entity\WarehouseView;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
-use function array_map;
 use function sprintf;
 
 /**
@@ -23,7 +20,7 @@ use function sprintf;
  * @psalm-suppress MissingConstructor
  * @psalm-suppress PropertyNotSetInConstructor
  */
-class PartView implements Notes
+class PartView
 {
     /**
      * Наценка на запчасти.
@@ -133,13 +130,6 @@ class PartView implements Notes
      */
     private array $supplies;
 
-    /**
-     * @var array<int, array{type: int, text: string}>
-     *
-     * @ORM\Column(type="json")
-     */
-    private array $notes;
-
     public function toId(): PartId
     {
         return $this->id;
@@ -214,17 +204,6 @@ class PartView implements Notes
         }
 
         return false;
-    }
-
-    public function notes(): iterable
-    {
-        return array_map(
-            static fn (array $note) => [
-                'type' => NoteType::create($note['type']),
-                'text' => $note['text'],
-            ],
-            $this->notes,
-        );
     }
 
     public function hasKeepingStock(): bool

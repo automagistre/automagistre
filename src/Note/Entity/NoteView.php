@@ -42,4 +42,9 @@ class NoteView
      * @ORM\Column(type="created_by_view")
      */
     public CreatedByView $created;
+
+    /**
+     * @ORM\Column(type="created_by_view")
+     */
+    public ?CreatedByView $deletedBy;
 }

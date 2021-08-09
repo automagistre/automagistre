@@ -1,10 +1,6 @@
 {# @var subject \Ramsey\Uuid\UuidInterface #}
 
-{% if notes_implement(subject) %}
-    {% set notes = subject.notes %}
-{% else %}
-    {% set notes = notes_by_subject(subject) %}
-{% endif %}
+{% set notes = notes_by_subject(subject|toUuid)|filter((n) => n.deletedBy is empty) %}
 
 {% if notes is not empty %}
     {% set popoverContent %}

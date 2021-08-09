@@ -1,11 +1,14 @@
 {# @var subject \Ramsey\Uuid\UuidInterface #}
 
-{% set notes = notes_by_subject(subject) %}
+{% set all = notes_by_subject(subject) %}
+
+{% set notes = all|filter((n) => n.deletedBy is empty) %}
+{% set deletedCount = all|filter((n) => n.deletedBy is not empty)|length %}
 
 <div class="field-group">
     <div class="box box-default">
         <div class="box-header with-border">
-            <h3 class="box-title">Заметки</h3>
+            <h3 class="box-title">Заметки{% if deletedCount > 0 %} (Есть удалённые: {{ deletedCount }}){% endif %}</h3>
         </div>
 
         {% if notes is not empty %}
@@ -16,6 +19,7 @@
                         <th>Тип</th>
                         <th>Текст</th>
                         <th>Создано</th>
+                        <td>Действия</td>
                     </tr>
                     </thead>
                     <tbody>
@@ -25,6 +29,11 @@
                             <td>{{ note.type.toName }}</td>
                             <td>{{ note.text }}</td>
                             <td>{% include 'easy_admin/created_by/created_by_view.html.twig' with {'value': note.created} only %}</td>
+                            <td>
+                                <a href="{{ easyadmin_path('Note', 'remove', {'id': note.id.toString, referer: true}) }}" style="color: red" title="Удалить">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>

@@ -18,22 +18,27 @@ class Note
      * @ORM\Id
      * @ORM\Column(type="uuid")
      */
-    private UuidInterface $id;
+    public UuidInterface $id;
 
     /**
      * @ORM\Column(type="uuid")
      */
-    private UuidInterface $subject;
+    public UuidInterface $subject;
 
     /**
      * @ORM\Column(type="note_type_enum")
      */
-    private NoteType $type;
+    public NoteType $type;
 
     /**
      * @ORM\Column(type="text")
      */
-    private string $text;
+    public string $text;
+
+    /**
+     * @ORM\OneToOne(targetEntity=NoteDelete::class, mappedBy="note", cascade={"persist"})
+     */
+    private ?NoteDelete $delete = null;
 
     public function __construct(UuidInterface $subject, NoteType $type, string $text)
     {
@@ -41,5 +46,10 @@ class Note
         $this->subject = $subject;
         $this->type = $type;
         $this->text = $text;
+    }
+
+    public function delete(string $description): void
+    {
+        $this->delete = new NoteDelete($this, $description);
     }
 }

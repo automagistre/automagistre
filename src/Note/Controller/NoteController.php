@@ -6,6 +6,7 @@ namespace App\Note\Controller;
 
 use App\EasyAdmin\Controller\AbstractController;
 use App\Note\Entity\Note;
+use App\Note\Form\NoteDeleteDto;
 use App\Note\Form\NoteDto;
 use App\Note\Form\NoteTypeType;
 use Ramsey\Uuid\Uuid;
@@ -59,6 +60,39 @@ final class NoteController extends AbstractController
 
         return $this->render('easy_admin/simple.html.twig', [
             'content_title' => 'Создать заметку',
+            'form' => $form->createView(),
+        ]);
+    }
+
+    public function removeAction(): Response
+    {
+        $note = $this->findCurrentEntity();
+
+        if (!$note instanceof Note) {
+            throw new BadRequestHttpException();
+        }
+
+        $dto = new NoteDeleteDto();
+
+        $form = $this->createFormBuilder($dto)
+            ->add('description', TextType::class, [
+                'label' => 'Комментарий',
+                'required' => false,
+            ])
+            ->getForm()
+            ->handleRequest($this->request)
+        ;
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $note->delete($dto->description);
+
+            $this->em->flush();
+
+            return $this->redirectToReferrer();
+        }
+
+        return $this->render('easy_admin/simple.html.twig', [
+            'content_title' => sprintf('Подтвердите удаление заметки "<strong>%s</strong>"', $note->text),
             'form' => $form->createView(),
         ]);
     }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Note\View;
 
-use App\Note\Entity\Notes;
 use App\Note\Entity\NoteView;
 use App\Shared\Doctrine\Registry;
 use Ramsey\Uuid\UuidInterface;
@@ -28,7 +27,6 @@ final class NoteExtension extends AbstractExtension
                 fn (UuidInterface $id) => $this->registry->repository(NoteView::class)
                     ->findBy(['subject' => $id], ['id' => 'ASC']),
             ),
-            new TwigFunction('notes_implement', fn (object $object) => $object instanceof Notes),
         ];
     }
 }
