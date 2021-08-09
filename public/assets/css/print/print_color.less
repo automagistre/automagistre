@@ -314,8 +314,8 @@ footer {
 }
 
 
-@give-out-table-manager-name: 50%;
-@give-out-table-manager-template: 2em  2fr 2fr @give-out-table-manager-name 0.7fr;
+@give-out-table-manager-name: 40%;
+@give-out-table-manager-template: 2em  2fr 2fr @give-out-table-manager-name 2.5fr 0.7fr;
 
 .give-out-table-manager {
   &__block {
@@ -429,14 +429,14 @@ footer {
     &:before {
       content: '';
       position: absolute;
-      top: (2em - @cell-check-box-height) / 2;
-      left: (1.9em - @cell-check-box-height) / 2;
+      top: (2em - @cell-check-box-height) * 0.5;
+      left: (1.9em - @cell-check-box-height) * 0.5;
       width: @cell-check-box-height;
       height: @cell-check-box-height;
       border: 1px solid @grey;
     }
     &.part:before {
-      top: (1.5em - @cell-check-box-height) / 2;
+      top: (1.5em - @cell-check-box-height) * 0.5;
       left: @cell-check-box-height * 2;
     }
   }
@@ -451,7 +451,7 @@ footer {
 
   &.row-part__give_out {
     grid-column-start: 2;
-    grid-column-end: -2;
+    grid-column-end: 2;
     padding-left: 1cm;
     border-bottom: 1px solid @grey;
   }

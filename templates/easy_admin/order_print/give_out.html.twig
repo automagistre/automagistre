@@ -60,6 +60,7 @@
         <div class="table__item table-header">Номер</div>
         <div class="table__item table-header">Производитеть</div>
         <div class="table__item table-header">Название</div>
+        <div class="table__item table-header">Место</div>
         <div class="table__item table-header">Кол-во</div>
     </div>
 {% endblock %}
@@ -85,11 +86,9 @@
     <div class="table__item row-part__give_out left">
         <b>{{ part.number }}</b> {{ part.manufacturerId|display_name }} {{ part.name }}
     </div>
-    {#
     <div class="table__item cell-part">
         {% include 'easy_admin/storage/field_warehouse_short.html.twig' with {value: part_view(part.id).warehouse} only %}
     </div>
-    #}
     <div class="table__item cell-part">{{ orderItemPart.quantity / 100 }} шт.</div>
 {% endblock %}
 
@@ -129,6 +128,9 @@
         <div class="table__item cell-service left">{{ part.number }}</div>
         <div class="table__item cell-part left">{{ part.manufacturerId|display_name }}</div>
         <div class="table__item cell-part left">{{ part.name }}</div>
+        <div class="table__item cell-part">
+            {% include 'easy_admin/storage/field_warehouse_short.html.twig' with {value: part_view(part.id).warehouse} only %}
+        </div>
         <div class="table__item cell-part">{{ orderItemPart.quantity / 100  }}</div>
     </div>
 {% endblock %}
