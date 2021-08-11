@@ -17,11 +17,11 @@ services:
                 delay: 10s
                 order: start-first
             labels:
-                - "traefik.http.routers.automagistre.rule=Host(`${TENANT}.automagistre.ru`)"
-                - "traefik.http.routers.automagistre.entrypoints=websecure"
-                - "traefik.http.routers.automagistre.tls=true"
-                - "traefik.http.routers.automagistre.tls.certresolver=leresolver"
-                - "traefik.http.services.automagistre-service.loadbalancer.server.port=80"
+                - "traefik.http.routers.automagistre-tenant-${TENANT}.rule=Host(`${TENANT}.automagistre.ru`)"
+                - "traefik.http.routers.automagistre-tenant-${TENANT}.entrypoints=websecure"
+                - "traefik.http.routers.automagistre-tenant-${TENANT}.tls=true"
+                - "traefik.http.routers.automagistre-tenant-${TENANT}.tls.certresolver=leresolver"
+                - "traefik.http.services.automagistre-tenant-${TENANT}-service.loadbalancer.server.port=80"
 
     php-fpm: &php-fpm
         image: automagistre/tenant-php:${VERSION}
