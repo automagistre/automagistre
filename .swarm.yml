@@ -5,7 +5,7 @@ services:
         image: automagistre/tenant-nginx:${VERSION}
         networks:
             - default
-            - ingress
+            - traefik
         deploy:
             mode: replicated
             replicas: 1
@@ -17,12 +17,11 @@ services:
                 delay: 10s
                 order: start-first
             labels:
-                - traefik.docker.network=proxy
-                - traefik.enable=true
-                - traefik.frontend.rule=Host:${TENANT}.automagistre.ru
-                - traefik.port=80
-                - traefik.protocol=http
-                - traefik.backend.loadbalancer.method=drr
+                - "traefik.http.routers.automagistre.rule=Host(`${TENANT}.automagistre.ru`)"
+                - "traefik.http.routers.automagistre.entrypoints=websecure"
+                - "traefik.http.routers.automagistre.tls=true"
+                - "traefik.http.routers.automagistre.tls.certresolver=leresolver"
+                - "traefik.http.services.automagistre-service.loadbalancer.server.port=80"
 
     php-fpm: &php-fpm
         image: automagistre/tenant-php:${VERSION}
@@ -114,9 +113,9 @@ services:
             start_period: 5s
 
 networks:
-    ingress:
+    traefik:
         external: true
-        name: proxy
+        name: traefik
     default:
         driver: overlay
         name: tenant_${TENANT}
