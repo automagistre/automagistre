@@ -222,6 +222,7 @@ steps:
 
     -   name: infection
         image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
+        detach: true
         commands:
             - >-
                 vendor/bin/infection
@@ -249,6 +250,7 @@ steps:
     -   name: sonarqube
         image: aosapps/drone-sonar-plugin
         pull: if-not-exists
+        detach: true
         environment:
             SONAR_USER_HOME: /opt/sonarqube
         settings:
