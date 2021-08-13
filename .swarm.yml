@@ -17,6 +17,7 @@ services:
                 delay: 10s
                 order: start-first
             labels:
+                - "traefik.enable=true"
                 - "traefik.http.routers.automagistre-tenant-${TENANT}.rule=Host(`${TENANT}.automagistre.ru`)"
                 - "traefik.http.routers.automagistre-tenant-${TENANT}.entrypoints=websecure"
                 - "traefik.http.routers.automagistre-tenant-${TENANT}.tls=true"
