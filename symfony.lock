@@ -231,14 +231,23 @@
     "google/auth": {
         "version": "v1.15.0"
     },
+    "guzzlehttp/command": {
+        "version": "1.1.0"
+    },
     "guzzlehttp/guzzle": {
         "version": "7.2.0"
+    },
+    "guzzlehttp/guzzle-services": {
+        "version": "1.2.0"
     },
     "guzzlehttp/promises": {
         "version": "1.4.0"
     },
     "guzzlehttp/psr7": {
         "version": "1.7.0"
+    },
+    "guzzlehttp/uri-template": {
+        "version": "v0.2.0"
     },
     "http-interop/http-factory-guzzle": {
         "version": "1.0.0"
@@ -278,6 +287,9 @@
     },
     "michaelpetri/typed-input": {
         "version": "1.1.0"
+    },
+    "mohammad-waleed/keycloak-admin-client": {
+        "version": "v0.24.0"
     },
     "moneyphp/money": {
         "version": "v3.3.1"
