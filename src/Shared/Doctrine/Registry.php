@@ -29,7 +29,7 @@ final class Registry
     }
 
     /**
-     * @template T
+     * @template T of object
      *
      * @psalm-param class-string<T> $class
      *
@@ -50,7 +50,7 @@ final class Registry
     }
 
     /**
-     * @template T
+     * @template T of object
      *
      * @psalm-param class-string<T> $class
      *
@@ -66,7 +66,7 @@ final class Registry
     }
 
     /**
-     * @template T
+     * @template T of object
      *
      * @psalm-param class-string<T> $class
      *
@@ -78,7 +78,7 @@ final class Registry
     }
 
     /**
-     * @template T
+     * @template T of object
      *
      * @psalm-param class-string<T> $class
      *
@@ -104,7 +104,7 @@ final class Registry
     }
 
     /**
-     * @template T
+     * @template T of object
      *
      * @psalm-param class-string<T> $class
      *
@@ -154,7 +154,7 @@ final class Registry
     }
 
     /**
-     * @template T
+     * @template T of object
      *
      * @psalm-param class-string<T> $class
      *
@@ -199,20 +199,6 @@ final class Registry
         }
 
         return array_map(fn (array $item) => Costil::convertToMoney($item), $qb->getQuery()->getArrayResult());
-    }
-
-    /**
-     * @template T
-     *
-     * @psalm-param class-string<T> $class
-     *
-     * @param mixed $id
-     *
-     * @psalm-return T
-     */
-    public function reference(string $class, $id)
-    {
-        return $this->manager($class)->getReference($class, $id);
     }
 
     public function add(object ...$entities): self
