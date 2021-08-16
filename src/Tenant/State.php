@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Tenant;
 
 use App\Tenant\Enum\Tenant;
+use Sentry\State\Scope;
 use Symfony\Contracts\Service\ResetInterface;
 use LogicException;
+use function Sentry\configureScope;
 
 final class State implements ResetInterface
 {
@@ -14,7 +16,7 @@ final class State implements ResetInterface
 
     public function __construct()
     {
-        $this->tenant = Tenant::fromEnv();
+        $this->set(Tenant::fromEnv());
     }
 
     public function get(): Tenant
@@ -22,8 +24,12 @@ final class State implements ResetInterface
         return $this->tenant ?? throw new LogicException('Tenant not defined.');
     }
 
-    public function set(Tenant $tenant): void
+    public function set(?Tenant $tenant): void
     {
+        configureScope(static function (Scope $scope) use ($tenant): void {
+            $scope->setTag('tenant', $tenant?->toIdentifier() ?? 'null');
+        });
+
         $this->tenant = $tenant;
     }
 
@@ -32,6 +38,6 @@ final class State implements ResetInterface
      */
     public function reset(): void
     {
-        $this->tenant = null;
+        $this->set(null);
     }
 }

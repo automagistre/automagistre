@@ -27,6 +27,7 @@ return static function (FrameworkConfig $framework): void {
     ;
 
     $bus->middleware()->id('router_context');
+    $bus->middleware()->id(App\Tenant\Messenger\TenantMiddleware::class);
     $bus->middleware()->id('dispatch_after_current_bus');
     $bus->middleware()->id(App\MessageBus\EntityEventsMiddleware::class);
     $bus->middleware()->id('doctrine_ping_connection');

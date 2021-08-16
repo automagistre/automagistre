@@ -32,7 +32,3 @@ foreach (require __DIR__.'/identifiers.php' as $class => [$id]) {
     Premier\Identifier\Doctrine\IdentifierType::register($id, $class);
     Premier\Identifier\Doctrine\IdentifierArrayType::register($id.'s', $class);
 }
-
-Sentry\configureScope(static function (Sentry\State\Scope $scope): void {
-    $scope->setTag('tenant', (string) getenv('TENANT'));
-});
