@@ -3281,31 +3281,31 @@
         },
         {
             "name": "guzzlehttp/command",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/command.git",
-                "reference": "713b58dc242a96eb4c463413d628b2df59f69595"
+                "reference": "14eaba459ad9f97d11637821d95c0a5463d0d515"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/command/zipball/713b58dc242a96eb4c463413d628b2df59f69595",
-                "reference": "713b58dc242a96eb4c463413d628b2df59f69595",
+                "url": "https://api.github.com/repos/guzzle/command/zipball/14eaba459ad9f97d11637821d95c0a5463d0d515",
+                "reference": "14eaba459ad9f97d11637821d95c0a5463d0d515",
                 "shasum": ""
             },
             "require": {
-                "guzzlehttp/guzzle": "^7.0.1",
-                "guzzlehttp/promises": "~1.3",
-                "guzzlehttp/psr7": "~1.0",
-                "php": ">=7.2.5"
+                "guzzlehttp/guzzle": "^7.3",
+                "guzzlehttp/promises": "^1.3",
+                "guzzlehttp/psr7": "^1.7 || ^2.0",
+                "php": "^7.2.5 || ^8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8.5.5"
+                "phpunit/phpunit": "^8.5.19"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.9-dev"
+                    "dev-master": "1.2-dev"
                 }
             },
             "autoload": {
@@ -3332,9 +3332,9 @@
             "description": "Provides the foundation for building command-based web service clients",
             "support": {
                 "issues": "https://github.com/guzzle/command/issues",
-                "source": "https://github.com/guzzle/command/tree/1.1.0"
+                "source": "https://github.com/guzzle/command/tree/1.2.0"
             },
-            "time": "2020-09-28T21:43:57+00:00"
+            "time": "2021-08-14T22:00:15+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -4793,16 +4793,16 @@
         },
         {
             "name": "pagerfanta/pagerfanta",
-            "version": "v3.2.1",
+            "version": "v3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BabDev/Pagerfanta.git",
-                "reference": "7b772e733fa94172ae4306e240958f84f9d78105"
+                "reference": "6c58ae41b7c6e721c0f328ab3d8040399568cec0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BabDev/Pagerfanta/zipball/7b772e733fa94172ae4306e240958f84f9d78105",
-                "reference": "7b772e733fa94172ae4306e240958f84f9d78105",
+                "url": "https://api.github.com/repos/BabDev/Pagerfanta/zipball/6c58ae41b7c6e721c0f328ab3d8040399568cec0",
+                "reference": "6c58ae41b7c6e721c0f328ab3d8040399568cec0",
                 "shasum": ""
             },
             "require": {
@@ -4814,7 +4814,7 @@
             "conflict": {
                 "doctrine/collections": "<1.6",
                 "doctrine/dbal": "<2.12",
-                "doctrine/mongodb-odm": "<2.0",
+                "doctrine/mongodb-odm": "<2.2.2",
                 "doctrine/orm": "<2.8",
                 "doctrine/phpcr-odm": "<1.5",
                 "ruflin/elastica": "<6.0",
@@ -4884,7 +4884,7 @@
             ],
             "support": {
                 "issues": "https://github.com/BabDev/Pagerfanta/issues",
-                "source": "https://github.com/BabDev/Pagerfanta/tree/v3.2.1"
+                "source": "https://github.com/BabDev/Pagerfanta/tree/v3.3.0"
             },
             "funding": [
                 {
@@ -4892,7 +4892,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-08-01T15:55:10+00:00"
+            "time": "2021-08-08T16:20:05+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
