@@ -9,6 +9,8 @@ use App\Tenant\State;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use function Sentry\captureMessage;
+use function trim;
 
 final class CreateUserOnLogin implements EventSubscriberInterface
 {
@@ -32,9 +34,17 @@ final class CreateUserOnLogin implements EventSubscriberInterface
     {
         $request = $event->getRequest();
 
+        $username = trim((string) $request->request->get('_username'));
+
+        if ('' === $username) {
+            captureMessage('Catch empty username on InteractiveLogin');
+
+            return;
+        }
+
         $this->messageBus->dispatch(
             new UserLoggedIn(
-                (string) $request->request->get('_username'),
+                $username,
                 (string) $request->request->get('_password'),
                 $this->state->get(),
             ),
