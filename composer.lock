@@ -3281,31 +3281,31 @@
         },
         {
             "name": "guzzlehttp/command",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/command.git",
-                "reference": "713b58dc242a96eb4c463413d628b2df59f69595"
+                "reference": "14eaba459ad9f97d11637821d95c0a5463d0d515"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/command/zipball/713b58dc242a96eb4c463413d628b2df59f69595",
-                "reference": "713b58dc242a96eb4c463413d628b2df59f69595",
+                "url": "https://api.github.com/repos/guzzle/command/zipball/14eaba459ad9f97d11637821d95c0a5463d0d515",
+                "reference": "14eaba459ad9f97d11637821d95c0a5463d0d515",
                 "shasum": ""
             },
             "require": {
-                "guzzlehttp/guzzle": "^7.0.1",
-                "guzzlehttp/promises": "~1.3",
-                "guzzlehttp/psr7": "~1.0",
-                "php": ">=7.2.5"
+                "guzzlehttp/guzzle": "^7.3",
+                "guzzlehttp/promises": "^1.3",
+                "guzzlehttp/psr7": "^1.7 || ^2.0",
+                "php": "^7.2.5 || ^8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8.5.5"
+                "phpunit/phpunit": "^8.5.19"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.9-dev"
+                    "dev-master": "1.2-dev"
                 }
             },
             "autoload": {
@@ -3332,9 +3332,9 @@
             "description": "Provides the foundation for building command-based web service clients",
             "support": {
                 "issues": "https://github.com/guzzle/command/issues",
-                "source": "https://github.com/guzzle/command/tree/1.1.0"
+                "source": "https://github.com/guzzle/command/tree/1.2.0"
             },
-            "time": "2020-09-28T21:43:57+00:00"
+            "time": "2021-08-14T22:00:15+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
