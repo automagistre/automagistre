@@ -6676,16 +6676,16 @@
         },
         {
             "name": "sentry/sentry-symfony",
-            "version": "4.1.4",
+            "version": "4.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-symfony.git",
-                "reference": "6265b27867210a4cc34f0d75e5f1b92af627830b"
+                "reference": "5129f962a9b921f08fa2100fc5593cd6d8f06566"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/6265b27867210a4cc34f0d75e5f1b92af627830b",
-                "reference": "6265b27867210a4cc34f0d75e5f1b92af627830b",
+                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/5129f962a9b921f08fa2100fc5593cd6d8f06566",
+                "reference": "5129f962a9b921f08fa2100fc5593cd6d8f06566",
                 "shasum": ""
             },
             "require": {
@@ -6704,7 +6704,7 @@
                 "symfony/security-core": "^3.4.44||^4.4.20||^5.0.11"
             },
             "require-dev": {
-                "doctrine/dbal": "^2.10||^3.0",
+                "doctrine/dbal": "^2.13||^3.0",
                 "doctrine/doctrine-bundle": "^1.12||^2.0",
                 "friendsofphp/php-cs-fixer": "^2.18",
                 "jangregor/phpstan-prophecy": "^0.8",
@@ -6735,7 +6735,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.x-dev",
+                    "dev-master": "4.2.x-dev",
                     "releases/3.2.x": "3.2.x-dev",
                     "releases/2.x": "2.x-dev",
                     "releases/1.x": "1.x-dev"
@@ -6773,7 +6773,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-symfony/issues",
-                "source": "https://github.com/getsentry/sentry-symfony/tree/4.1.4"
+                "source": "https://github.com/getsentry/sentry-symfony/tree/4.2.0"
             },
             "funding": [
                 {
@@ -6785,7 +6785,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2021-06-18T11:07:00+00:00"
+            "time": "2021-08-11T20:12:30+00:00"
         },
         {
             "name": "symfony/amqp-messenger",
