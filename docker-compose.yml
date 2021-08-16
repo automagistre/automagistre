@@ -4,7 +4,7 @@ services:
     nginx:
         image: automagistre/tenant-nginx:base
         labels:
-            ru.grachevko.dhu: '${TENANT}.automagistre.local:2'
+            ru.grachevko.dhu: '{msk,kazan,demo}.automagistre.local:2'
         volumes:
             - ./public:/usr/local/app/public
             - ./etc/nginx.conf:/etc/nginx/nginx.conf
@@ -22,17 +22,16 @@ services:
             PHP_OPCACHE_ENABLE: 0
             APP_ENV: dev
             APP_DEBUG: 1
-            TENANT: ${TENANT}
 
     rector:
         image: automagistre/tenant-rector:latest
         volumes:
             - ./:/project
 
-    db:
+    postgres_msk: &postgres
         image: postgres:12.2
         labels:
-            ru.grachevko.dhu: 'db.${TENANT}.automagistre.local'
+            ru.grachevko.dhu: 'db.msk.automagistre.local'
         volumes:
             -   type: tmpfs
                 target: /var/lib/postgresql/data
@@ -44,10 +43,25 @@ services:
             POSTGRES_USER: db
             POSTGRES_PASSWORD: db
 
+    postgres_kazan:
+        <<: *postgres
+        labels:
+            ru.grachevko.dhu: 'db.kazan.automagistre.local'
+
+    postgres_shavlev:
+        <<: *postgres
+        labels:
+            ru.grachevko.dhu: 'db.shavlev.automagistre.local'
+
+    postgres_demo:
+        <<: *postgres
+        labels:
+            ru.grachevko.dhu: 'db.demo.automagistre.local'
+
     memcached:
         image: memcached:1.6.9-alpine
         labels:
-            ru.grachevko.dhu: 'memcached.${TENANT}.automagistre.local'
+            ru.grachevko.dhu: 'memcached.automagistre.local'
 
     host.docker.internal:
         image: alpine/socat:1.7.3.4-r0
@@ -57,6 +71,14 @@ services:
     nsqd:
         image: nsqio/nsq:v1.2.0
         command: /nsqd
+
+    nsq_tail:
+        image: nsqio/nsq:v1.2.0
+        command:
+            - /nsq_tail
+            - -topic=symfony-messenger
+            - -channel=tail
+            - -nsqd-tcp-address=nsqd:4150
 
     nsqadmin:
         image: nsqio/nsq:v1.2.0

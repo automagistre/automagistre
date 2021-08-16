@@ -18,11 +18,11 @@ services:
                 order: start-first
             labels:
                 - "traefik.enable=true"
-                - "traefik.http.routers.automagistre-tenant-${TENANT}.rule=Host(`${TENANT}.automagistre.ru`)"
-                - "traefik.http.routers.automagistre-tenant-${TENANT}.entrypoints=websecure"
-                - "traefik.http.routers.automagistre-tenant-${TENANT}.tls=true"
-                - "traefik.http.routers.automagistre-tenant-${TENANT}.tls.certresolver=leresolver"
-                - "traefik.http.services.automagistre-tenant-${TENANT}-service.loadbalancer.server.port=80"
+                - "traefik.http.routers.automagistre-tenant.rule=Host(`msk.automagistre.ru`, `kazan.automagistre.ru`, `shavlev.automagistre.ru`, `demo.automagistre.ru`)"
+                - "traefik.http.routers.automagistre-tenant.entrypoints=websecure"
+                - "traefik.http.routers.automagistre-tenant.tls=true"
+                - "traefik.http.routers.automagistre-tenant.tls.certresolver=leresolver"
+                - "traefik.http.services.automagistre-tenant-service.loadbalancer.server.port=80"
 
     php-fpm: &php-fpm
         image: automagistre/tenant-php:${VERSION}
@@ -35,7 +35,6 @@ services:
             SENTRY_DSN: ${SENTRY_DSN}
             SMSAERO_AUTH: ${SMSAERO_AUTH}
             TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
-            TENANT: ${TENANT}
             GOOGLE_CREDENTIALS_FILE: ${GOOGLE_CREDENTIALS_FILE}
             KEYCLOAK_CLIENT_SECRET: ${KEYCLOAK_CLIENT_SECRET}
         stop_grace_period: 120s
@@ -50,14 +49,31 @@ services:
                 delay: 10s
                 order: start-first
 
-    cron:
+    cron_msk: &cron
         <<: *php-fpm
         command: console cron:start --blocking
+        environment:
+            TENANT: msk
         healthcheck:
             disable: true
         deploy:
             mode: replicated
             replicas: 1
+
+    cron_kazan:
+        <<: *cron
+        environment:
+            TENANT: kazan
+
+    cron_shavlev:
+        <<: *cron
+        environment:
+            TENANT: shavlev
+
+    cron_demo:
+        <<: *cron
+        environment:
+            TENANT: demo
 
     messenger:
         <<: *php-fpm
@@ -70,7 +86,7 @@ services:
 
     migration:
         <<: *php-fpm
-        command: console doctrine:migrations:migrate --no-interaction --allow-no-migration --all-or-nothing=true
+        command: console tenant:doctrine:migrate
         healthcheck:
             disable: true
         deploy:
@@ -79,11 +95,20 @@ services:
             restart_policy:
                 condition: on-failure
 
-    db:
+    memcached:
+        image: memcached:1.6.9-alpine
+        healthcheck:
+            test: nc -z 127.0.0.1 11211
+            interval: 5s
+            timeout: 5s
+            retries: 3
+            start_period: 5s
+
+    postgres_msk: &postgres
         image: postgres:12.2
         volumes:
             -   type: bind
-                source: /opt/am/db/tenant/${TENANT}
+                source: /opt/am/db/tenant/msk
                 target: /var/lib/postgresql/data
             -   type: bind
                 source: /opt/am/db/backups
@@ -105,14 +130,35 @@ services:
             retries: 3
             start_period: 10s
 
-    memcached:
-        image: memcached:1.6.9-alpine
-        healthcheck:
-            test: nc -z 127.0.0.1 11211
-            interval: 5s
-            timeout: 5s
-            retries: 3
-            start_period: 5s
+    postgres_kazan:
+        <<: *postgres
+        volumes:
+            -   type: bind
+                source: /opt/am/db/tenant/kazan
+                target: /var/lib/postgresql/data
+            -   type: bind
+                source: /opt/am/db/backups
+                target: /backups
+
+    postgres_shavlev:
+        <<: *postgres
+        volumes:
+            -   type: bind
+                source: /opt/am/db/tenant/shavlev
+                target: /var/lib/postgresql/data
+            -   type: bind
+                source: /opt/am/db/backups
+                target: /backups
+
+    postgres_demo:
+        <<: *postgres
+        volumes:
+            -   type: bind
+                source: /opt/am/db/tenant/demo
+                target: /var/lib/postgresql/data
+            -   type: bind
+                source: /opt/am/db/backups
+                target: /backups
 
 networks:
     traefik:
@@ -120,7 +166,8 @@ networks:
         name: traefik
     default:
         driver: overlay
-        name: tenant_${TENANT}
+        name: automagistre
+        attachable: true
     nsq:
         external: true
         name: nsq

@@ -177,7 +177,7 @@ final class SmokeTest extends WebTestCase
     public function testAnonymous(string $url, int $statusCode): void
     {
         $client = self::createClient();
-        $client->setServerParameter('HTTP_HOST', 'sto.automagistre.ru');
+        $client->setServerParameter('HTTP_HOST', 'msk.automagistre.ru');
 
         $client->request('GET', $url);
         $response = $client->getResponse();
@@ -199,7 +199,7 @@ final class SmokeTest extends WebTestCase
             'PHP_AUTH_USER' => 'employee@automagistre.ru',
             'PHP_AUTH_PW' => 'pa$$word',
         ]);
-        $client->setServerParameter('HTTP_HOST', 'sto.automagistre.ru');
+        $client->setServerParameter('HTTP_HOST', 'msk.automagistre.ru');
 
         if ($ajax) {
             $client->xmlHttpRequest('GET', $url);

@@ -2,7 +2,8 @@ doctrine:
     dbal:
         connections:
             default:
-                dbname:   db_test
+                host: postgres_msk
+                dbname: db_test
 
 dama_doctrine_test:
     enable_static_connection: true

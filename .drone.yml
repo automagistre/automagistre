@@ -64,7 +64,7 @@ clone:
     depth: 0
 
 services:
-    -   name: db
+    -   name: postgres_msk
         image: postgres:12.2
         environment:
             POSTGRES_DB: db_test
@@ -287,7 +287,6 @@ services:
         image: automagistre/tenant-php:${DRONE_BUILD_NUMBER}
         environment:
             APP_SECRET: S3cr3tAtvichau
-            TENANT: demo
 
 steps:
     -   name: wait
@@ -411,12 +410,7 @@ steps:
             -   name: docker.sock
                 path: /var/run/docker.sock
         commands:
-            - >-
-                cat .tenants | while read tenant; do
-                export TENANT=$tenant
-                && mkdir -p /opt/am/db/tenant/$tenant
-                && docker-compose --file .swarm.yml config | docker stack deploy --prune --with-registry-auth --resolve-image never --compose-file - tenant_$tenant
-                ; done
+            - docker-compose --file .swarm.yml config | docker stack deploy --prune --with-registry-auth --resolve-image never --compose-file - automagistre
         environment:
             VERSION: ${DRONE_BUILD_NUMBER}
         depends_on:

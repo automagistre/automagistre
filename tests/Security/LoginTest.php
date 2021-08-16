@@ -12,7 +12,8 @@ final class LoginTest extends WebTestCase
 {
     public function testLogin(): void
     {
-        $client = self::createClient();
+        $client = self::createClient(server: ['HTTP_HOST' => 'msk.automagistre.ru']);
+
         $client->request('GET', '/login');
 
         $client->submitForm('Войти', [
@@ -22,6 +23,6 @@ final class LoginTest extends WebTestCase
 
         $response = $client->getResponse();
         self::assertSame(Response::HTTP_FOUND, $response->getStatusCode());
-        self::assertSame('http://localhost/', $response->headers->get('location'));
+        self::assertSame('http://msk.automagistre.ru/', $response->headers->get('location'));
     }
 }

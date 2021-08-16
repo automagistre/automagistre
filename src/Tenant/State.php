@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Tenant;
 
 use App\Tenant\Enum\Tenant;
+use App\Tenant\Event\TenantChanged;
 use Sentry\State\Scope;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Service\ResetInterface;
 use LogicException;
 use function Sentry\configureScope;
@@ -14,9 +16,8 @@ final class State implements ResetInterface
 {
     public ?Tenant $tenant = null;
 
-    public function __construct()
+    public function __construct(private EventDispatcherInterface $dispatcher)
     {
-        $this->set(Tenant::fromEnv());
     }
 
     public function get(): Tenant
@@ -26,11 +27,17 @@ final class State implements ResetInterface
 
     public function set(?Tenant $tenant): void
     {
+        if ($this->tenant === $tenant) {
+            return;
+        }
+
         configureScope(static function (Scope $scope) use ($tenant): void {
             $scope->setTag('tenant', $tenant?->toIdentifier() ?? 'null');
         });
 
         $this->tenant = $tenant;
+
+        $this->dispatcher->dispatch(new TenantChanged($tenant));
     }
 
     /**

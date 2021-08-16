@@ -9,7 +9,7 @@ doctrine:
                 charset:  UTF8
                 server_version: 12.2
                 driver:   pdo_pgsql
-                host:     db
+                host:     undefined
                 port:     5432
                 dbname:   db
                 user:     db

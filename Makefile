@@ -51,7 +51,7 @@ do-up: contrib pull composer permissions
 	$(DEBUG_ECHO) docker-compose up --detach --remove-orphans --no-build \
 	nginx \
 	php-fpm \
-	db \
+	postgres_$(TENANT) \
 	memcached \
 	nsqd \
 	nsqadmin \
@@ -75,6 +75,7 @@ APP = $(DEBUG_ECHO) @docker-compose $(if $(EXEC),exec,run --rm )\
 	$(if $(ENTRYPOINT),--entrypoint "$(ENTRYPOINT)" )\
 	$(if $(APP_ENV),-e APP_ENV=$(APP_ENV) )\
 	$(if $(APP_DEBUG),-e APP_DEBUG=$(APP_DEBUG) )\
+	-e TENANT=${TENANT} \
 	--user $(if $(UID),${UID},1000)\
 	php-fpm
 
@@ -142,13 +143,14 @@ psalm-baseline: ### Update psalm baseline
 cache: ## Clear then warmup symfony cache
 	$(COMPOSER) $@
 database: ### Drop database then restore from migrations
+	docker-compose up -d postgres_${TENANT}
 	$(COMPOSER) $@
 
 fixtures: ### Load fixtures to database
 	$(COMPOSER) $@
 
 backup: ### Restore local backup then run migrations
-	$(COMPOSER) database
+	@$(MAKE) database
 	@$(MAKE) backup-restore
 	$(COMPOSER) migration
 	@$(notify)
@@ -172,7 +174,7 @@ do-drop:
 ###< APP ###
 
 ###> DATABASE ###
-DB=$(DEBUG_ECHO) @docker-compose exec db
+DB=$(DEBUG_ECHO) @docker-compose exec postgres_$(TENANT)
 
 db:
 	$(DB) bash

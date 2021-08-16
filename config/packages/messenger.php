@@ -9,7 +9,7 @@ return static function (FrameworkConfig $framework): void {
 
     $messenger
         ->transport('async')
-        ->dsn('nsq://nsqd?topic=%env(TENANT)%_bus')
+        ->dsn('nsq://nsqd?topic=symfony-messenger')
         ->options([
             'snappy' => true,
         ])

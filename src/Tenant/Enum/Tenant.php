@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Tenant\Enum;
 
 use Premier\Enum\Enum;
-use function getenv;
 use function in_array;
-use function is_string;
 use function sprintf;
 
 /**
@@ -30,18 +28,12 @@ final class Tenant extends Enum
     private const MSK = 1;
     private const KAZAN = 2;
     private const SHAVLEV = 3;
-    private const BUNKER = 4;
-    private const OPTIMUS = 5;
-    private const AUTOUNIT = 6;
 
     protected static array $identifier = [
         self::DEMO => 'demo',
         self::MSK => 'msk',
         self::KAZAN => 'kazan',
         self::SHAVLEV => 'shavlev',
-        self::BUNKER => 'bunker',
-        self::OPTIMUS => 'optimus',
-        self::AUTOUNIT => 'autounit',
     ];
 
     protected static array $displayName = [
@@ -49,9 +41,6 @@ final class Tenant extends Enum
         self::MSK => 'Автомагистр Москва',
         self::KAZAN => 'Автомагистр Казань',
         self::SHAVLEV => 'ИП Щавлев В.А.',
-        self::BUNKER => 'Бункер Гараж',
-        self::OPTIMUS => 'Оптимус',
-        self::AUTOUNIT => 'Авто Юнит',
     ];
 
     protected static array $requisites = [
@@ -120,46 +109,6 @@ final class Tenant extends Enum
             'head' => 'Щавлев В.А.',
             'headType' => 'Индивидуальный предприниматель',
         ],
-        self::BUNKER => [
-        ],
-        self::OPTIMUS => [
-            'type' => 'IP',
-            'name' => 'Автосервис ОПТИМУС',
-            'address' => 'г. Москва, ул. Иловайская, дом 3, стр. 13',
-            'site' => 'www.car-service-optimus.ru',
-            'email' => 'car_service_optimus@mail.ru',
-            'logo' => 'logo_automagistre_color.png',
-            'telephones' => [
-                '+7 (985) 536-60-60',
-                '+7 (985) 866-70-75',
-            ],
-            'bank' => 'ПАО «Сбербанк»',
-            'ogrn' => '320774600203192',
-            'inn' => '772422516030',
-            'rs' => '40802810538000188540',
-            'ks' => '30101810400000000225',
-            'bik' => '044525225',
-            'guarantyUrl' => 'https://www.car-service-optimus.ru',
-            'head' => 'Аббасов Э.Э.',
-            'headType' => 'Индивидуальный предприниматель',
-        ],
-        self::AUTOUNIT => [
-            'type' => 'ООО',
-            'name' => 'Автоюнит-М',
-            'address' => 'г. Москва, ул. Перерва, дом 1, стр. 1',
-            'site' => 'www.avtounit-marino.ru',
-            'email' => 'valentinfeklin@yandex.ru',
-            'logo' => 'logo_automagistre_color.png',
-            'telephones' => [
-                '+7 (915) 169-69-68',
-                '+7 (963) 638-81-81',
-            ],
-            'inn' => '7726637508',
-            'kpp' => '504001001',
-            'guarantyUrl' => 'https://www.avtounit-marino.ru',
-            'head' => 'Феклин В.Г.',
-            'headType' => 'Генеральный директор',
-        ],
     ];
 
     protected static array $smsOnScheduledEntry = [
@@ -167,9 +116,6 @@ final class Tenant extends Enum
         self::MSK => '{date} вас ожидают в ТехЦентре Автомагистр, по адресу Остаповский проезд, дом 17',
         self::KAZAN => '{date} вас ожидают в ТехЦентре Автомагистр, по адресу Магистральная улица, дом 33, корпус 1',
         self::SHAVLEV => '',
-        self::BUNKER => '',
-        self::OPTIMUS => '',
-        self::AUTOUNIT => '',
     ];
 
     protected static array $smsOnReminderEntry = [
@@ -177,9 +123,6 @@ final class Tenant extends Enum
         self::MSK => 'Напоминаем, завтра в {time} вас ожидают в ТехЦентре Автомагистр. Пожалуйста, сообщите нам, если не можете приехать. +79859294087',
         self::KAZAN => 'Напоминаем, завтра в {time} вас ожидают в ТехЦентре Автомагистр. Пожалуйста, сообщите нам, если не можете приехать. +78432977760',
         self::SHAVLEV => '',
-        self::BUNKER => '',
-        self::OPTIMUS => '',
-        self::AUTOUNIT => '',
     ];
 
     protected static array $telegramChannel = [
@@ -187,9 +130,6 @@ final class Tenant extends Enum
         self::MSK => '-1001224606293',
         self::KAZAN => '',
         self::SHAVLEV => '',
-        self::BUNKER => '',
-        self::OPTIMUS => '',
-        self::AUTOUNIT => '',
     ];
 
     protected static array $yandexMapBusinessId = [
@@ -197,9 +137,6 @@ final class Tenant extends Enum
         self::MSK => '1087965654',
         self::KAZAN => '72445022135',
         self::SHAVLEV => null,
-        self::BUNKER => null,
-        self::OPTIMUS => null,
-        self::AUTOUNIT => null,
     ];
 
     public function getRequisites(): array
@@ -224,22 +161,19 @@ final class Tenant extends Enum
         return in_array($identifier, self::$identifier, true);
     }
 
-    public static function fromEnv(): self
-    {
-        $identifier = getenv('TENANT');
-
-        if (!is_string($identifier)) {
-            return self::demo();
-        }
-
-        return self::fromIdentifier($identifier);
-    }
-
     public function toYandexMapUrl(): string
     {
         return sprintf(
             'https://yandex.ru/maps/org/avtomagistr/%s',
             self::$yandexMapBusinessId[$this->toId()] ?? self::$yandexMapBusinessId[self::MSK],
         );
+    }
+
+    /**
+     * @psalm-return array{host: string}
+     */
+    public function toDatabase(): array
+    {
+        return ['host' => 'postgres_'.$this->toIdentifier()];
     }
 }
