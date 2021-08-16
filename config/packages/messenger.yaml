@@ -29,6 +29,7 @@ framework:
                     - dispatch_after_current_bus
                     - App\MessageBus\EntityEventsMiddleware
 
+                    - router_context
                     # each time a message is handled, the Doctrine connection
                     # is "pinged" and reconnected if it's closed. Useful
                     # if your workers run for a long time and the database
