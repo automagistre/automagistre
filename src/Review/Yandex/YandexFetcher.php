@@ -13,6 +13,8 @@ use DateTimeImmutable;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use function explode;
+use function Sentry\captureMessage;
+use function sprintf;
 use function str_starts_with;
 use function trim;
 
@@ -42,7 +44,13 @@ final class YandexFetcher implements Fetcher
         $response = $this->request($yandexUid, $csrfToken, $page);
 
         while (null !== $response) {
-            $data = $response->toArray()['data'];
+            $data = $response->toArray()['data'] ?? null;
+
+            if (null === $data) {
+                captureMessage(sprintf('Yandex.Fetcher receive no data: "%s"', $response->getContent()));
+
+                return;
+            }
 
             foreach ($data['reviews'] ?? [] as $payload) {
                 yield new FetchedReview(
