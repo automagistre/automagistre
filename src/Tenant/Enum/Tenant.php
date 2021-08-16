@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tenant;
+namespace App\Tenant\Enum;
 
 use Premier\Enum\Enum;
 use function getenv;

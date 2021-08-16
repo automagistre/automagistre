@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Keycloak\Event;
 
 use App\MessageBus\Async;
-use App\Tenant\Tenant;
+use App\Tenant\Enum\Tenant;
 
 final class UserLoggedIn implements Async
 {

@@ -9,7 +9,7 @@ use App\Customer\Entity\OperandId;
 use App\Shared\Doctrine\Registry;
 use App\Sms\Enum\Feature;
 use App\Sms\Messages\SendSms;
-use App\Tenant\Tenant;
+use App\Tenant\State;
 use DateTimeImmutable;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,7 +24,7 @@ final class CustomerReminderCommand extends Command
     public function __construct(
         private Registry $registry,
         private MessageBusInterface $messageBus,
-        private Tenant $tenant,
+        private State $state,
     ) {
         parent::__construct();
     }
@@ -62,7 +62,7 @@ final class CustomerReminderCommand extends Command
                 [
                     $date->format('H:i'),
                 ],
-                $this->tenant->toSmsOnReminderEntry(),
+                $this->state->get()->toSmsOnReminderEntry(),
             );
 
             $this->messageBus->dispatch(

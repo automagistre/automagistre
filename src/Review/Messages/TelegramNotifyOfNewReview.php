@@ -8,7 +8,7 @@ use App\MessageBus\MessageHandler;
 use App\Review\Entity\Review;
 use App\Review\Event\ReviewReceived;
 use App\Shared\Doctrine\Registry;
-use App\Tenant\Tenant;
+use App\Tenant\State;
 use Premier\MarkdownBuilder\Markdown;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use function sprintf;
@@ -16,7 +16,7 @@ use function sprintf;
 final class TelegramNotifyOfNewReview implements MessageHandler
 {
     public function __construct(
-        private Tenant $tenant,
+        private State $state,
         private Registry $registry,
         private HttpClientInterface $httpClient,
         private string $telegramBotToken,
@@ -25,7 +25,9 @@ final class TelegramNotifyOfNewReview implements MessageHandler
 
     public function __invoke(ReviewReceived $event): void
     {
-        if ('' === $this->tenant->toTelegramChannel()) {
+        $telegramChannel = $this->state->get()->toTelegramChannel();
+
+        if ('' === $telegramChannel) {
             return;
         }
 
@@ -55,7 +57,7 @@ final class TelegramNotifyOfNewReview implements MessageHandler
             sprintf('https://api.telegram.org/bot%s/sendMessage', $this->telegramBotToken),
             [
                 'json' => [
-                    'chat_id' => $this->tenant->toTelegramChannel(),
+                    'chat_id' => $telegramChannel,
                     'disable_web_page_preview' => 1,
                     'parse_mode' => 'Markdown',
                     'text' => $markdown->getMarkdown(),

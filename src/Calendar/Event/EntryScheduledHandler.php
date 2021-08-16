@@ -10,7 +10,7 @@ use App\Order\Entity\Order;
 use App\Shared\Doctrine\Registry;
 use App\Sms\Enum\Feature;
 use App\Sms\Messages\SendSms;
-use App\Tenant\Tenant;
+use App\Tenant\State;
 use DateTimeImmutable;
 use Money\MoneyFormatter;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -23,7 +23,7 @@ final class EntryScheduledHandler implements MessageHandler
         private Registry $registry,
         private MessageBusInterface $commandBus,
         private MoneyFormatter $formatter,
-        private Tenant $tenant,
+        private State $state,
     ) {
     }
 
@@ -59,7 +59,7 @@ final class EntryScheduledHandler implements MessageHandler
             [
                 $message,
             ],
-            $this->tenant->toSmsOnScheduledEntry(),
+            $this->state->get()->toSmsOnScheduledEntry(),
         );
 
         if (null !== $entry->orderId) {

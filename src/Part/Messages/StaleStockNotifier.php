@@ -9,7 +9,7 @@ use App\Order\Entity\OrderItemPart;
 use App\Order\Messages\OrderItemPartCreated;
 use App\Part\Entity\PartView;
 use App\Shared\Doctrine\Registry;
-use App\Tenant\Tenant;
+use App\Tenant\State;
 use Premier\MarkdownBuilder\Block\NumberedListBuilder;
 use Premier\MarkdownBuilder\Markdown;
 use Symfony\Component\Routing\RouterInterface;
@@ -21,7 +21,7 @@ final class StaleStockNotifier implements MessageHandler
     public function __construct(
         private Registry $registry,
         private RouterInterface $router,
-        private Tenant $tenant,
+        private State $state,
         private HttpClientInterface $httpClient,
         private string $telegramBotToken,
     ) {
@@ -29,7 +29,9 @@ final class StaleStockNotifier implements MessageHandler
 
     public function __invoke(OrderItemPartCreated $event): void
     {
-        if ('' === $this->tenant->toTelegramChannel()) {
+        $telegramChannel = $this->state->get()->toTelegramChannel();
+
+        if ('' === $telegramChannel) {
             return;
         }
 
@@ -127,7 +129,7 @@ final class StaleStockNotifier implements MessageHandler
             sprintf('https://api.telegram.org/bot%s/sendMessage', $this->telegramBotToken),
             [
                 'json' => [
-                    'chat_id' => $this->tenant->toTelegramChannel(),
+                    'chat_id' => $telegramChannel,
                     'disable_web_page_preview' => 1,
                     'parse_mode' => 'Markdown',
                     'text' => $text,

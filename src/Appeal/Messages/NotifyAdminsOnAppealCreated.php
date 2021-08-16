@@ -8,7 +8,7 @@ use App\Appeal\Entity\AppealView;
 use App\Appeal\Event\AppealCreated;
 use App\MessageBus\MessageHandler;
 use App\Shared\Doctrine\Registry;
-use App\Tenant\Tenant;
+use App\Tenant\State;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use Premier\MarkdownBuilder\Markdown;
@@ -22,7 +22,7 @@ final class NotifyAdminsOnAppealCreated implements MessageHandler
     public function __construct(
         private Registry $registry,
         private RouterInterface $router,
-        private Tenant $tenant,
+        private State $state,
         private HttpClientInterface $httpClient,
         private string $telegramBotToken,
     ) {
@@ -50,7 +50,7 @@ final class NotifyAdminsOnAppealCreated implements MessageHandler
             sprintf('https://api.telegram.org/bot%s/sendMessage', $this->telegramBotToken),
             [
                 'json' => [
-                    'chat_id' => $this->tenant->toTelegramChannel(),
+                    'chat_id' => $this->state->get()->toTelegramChannel(),
                     'disable_web_page_preview' => 1,
                     'parse_mode' => 'Markdown',
                     'text' => $text,

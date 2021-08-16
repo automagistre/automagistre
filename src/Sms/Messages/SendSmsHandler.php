@@ -10,18 +10,20 @@ use App\MessageBus\MessageHandler;
 use App\Shared\Doctrine\Registry;
 use App\Sms\Entity\Sms;
 use App\Sms\Enum\Feature;
-use App\Tenant\Tenant;
+use App\Tenant\State;
 use DateTimeImmutable;
 
 final class SendSmsHandler implements MessageHandler
 {
-    public function __construct(private Tenant $tenant, private Registry $registry)
-    {
+    public function __construct(
+        private State $state,
+        private Registry $registry,
+    ) {
     }
 
     public function __invoke(SendSms $command): void
     {
-        if (!$this->tenant->isSmsEnabled()) {
+        if (!$this->state->get()->isSmsEnabled()) {
             return;
         }
 

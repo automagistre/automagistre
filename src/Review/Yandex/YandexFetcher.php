@@ -8,7 +8,7 @@ use App\Review\Enum\ReviewRating;
 use App\Review\Enum\ReviewSource;
 use App\Review\Fetch\FetchedReview;
 use App\Review\Fetch\Fetcher;
-use App\Tenant\Tenant;
+use App\Tenant\State;
 use DateTimeImmutable;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -21,8 +21,10 @@ final class YandexFetcher implements Fetcher
     private const PAGE_SIZE = 50;
     private const URL = 'https://yandex.ru/maps/api/business/fetchReviews';
 
-    public function __construct(private HttpClientInterface $httpClient, private Tenant $tenant)
-    {
+    public function __construct(
+        private HttpClientInterface $httpClient,
+        private State $state,
+    ) {
     }
 
     /**
@@ -30,7 +32,7 @@ final class YandexFetcher implements Fetcher
      */
     public function fetch(): iterable
     {
-        if (null === $this->tenant->toYandexMapBusinessId()) {
+        if (null === $this->state->get()->toYandexMapBusinessId()) {
             return;
         }
 
@@ -75,7 +77,7 @@ final class YandexFetcher implements Fetcher
                 ],
             ],
             'query' => [
-                'businessId' => $this->tenant->toYandexMapBusinessId(),
+                'businessId' => $this->state->get()->toYandexMapBusinessId(),
                 'csrfToken' => $csrfToken,
                 'page' => $page,
                 'pageSize' => self::PAGE_SIZE,

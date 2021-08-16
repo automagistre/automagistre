@@ -4,7 +4,7 @@ twig:
     paths:
         - '%kernel.project_dir%/templates'
     globals:
-        tenant: '@App\Tenant\Tenant'
+        tenant: '@App\Tenant\State'
     form_themes:
         - 'bootstrap_3_layout.html.twig'
         - 'easy_admin/form.html.twig'
