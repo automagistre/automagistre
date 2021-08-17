@@ -28,7 +28,7 @@ final class GraphQlController extends AbstractController
      */
     public function www(Request $request): Response
     {
-        $query = $request->query->get('query');
+        $query = (string) $request->query->get('query');
         $variableValues = null;
 
         if ($request->isMethod('POST')) {

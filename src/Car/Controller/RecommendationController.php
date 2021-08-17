@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Car\Controller;
 
 use App\Car\Entity\Car;
+use App\Car\Entity\CarId;
 use App\Car\Entity\Recommendation;
 use App\Car\Entity\RecommendationId;
 use App\Car\Form\DTO\RecommendationDTO;
@@ -66,14 +67,16 @@ final class RecommendationController extends AbstractController
 
     protected function createNewEntity(): RecommendationDTO
     {
-        if (null === $id = $this->request->query->get('car_id')) {
+        $carId = $this->getIdentifierOrNull(CarId::class);
+
+        if (null === $carId) {
             throw new BadRequestHttpException('car_id is required');
         }
 
-        $car = $this->registry->repository(Car::class)->findOneBy(['id' => $id]);
+        $car = $this->registry->repository(Car::class)->findOneBy(['id' => $carId]);
 
         if (!$car instanceof Car) {
-            throw new BadRequestHttpException(sprintf('Car id "%s" not found', $id));
+            throw new BadRequestHttpException(sprintf('Car id "%s" not found', $carId->toString()));
         }
 
         $model = new RecommendationDTO($car);

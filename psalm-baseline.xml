@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.9.2@00c062267d6e3229d91a1939992987e2d46f2393">
+<files psalm-version="4.9.3@4c262932602b9bbab5020863d1eb22d49de0dbf4">
   <file src="config/packages/messenger.php">
     <UndefinedClass occurrences="1">
       <code>FrameworkConfig</code>
@@ -11,10 +11,6 @@
     </ArgumentTypeCoercion>
   </file>
   <file src="src/Calendar/Controller/CalendarEntryController.php">
-    <LessSpecificReturnStatement occurrences="1"/>
-    <MoreSpecificReturnType occurrences="1">
-      <code>Response</code>
-    </MoreSpecificReturnType>
     <PossiblyNullArgument occurrences="1">
       <code>$dto-&gt;reason</code>
     </PossiblyNullArgument>
@@ -32,13 +28,6 @@
       <code>$model-&gt;workerId</code>
     </PossiblyNullArgument>
   </file>
-  <file src="src/Car/Controller/RecommendationPartController.php">
-    <LessSpecificReturnStatement occurrences="2"/>
-    <MoreSpecificReturnType occurrences="2">
-      <code>Response</code>
-      <code>Response</code>
-    </MoreSpecificReturnType>
-  </file>
   <file src="src/Car/Entity/Car.php">
     <PossiblyNullReference occurrences="1">
       <code>$this-&gt;recommendations</code>
@@ -54,14 +43,6 @@
       <code>$array[$moneyKey.'.amount']</code>
       <code>$array[$moneyKey.'.currency.code']</code>
     </PossiblyNullArgument>
-  </file>
-  <file src="src/Customer/Controller/OperandController.php">
-    <LessSpecificReturnStatement occurrences="1">
-      <code>parent::indexAction($request)</code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType occurrences="1">
-      <code>Response</code>
-    </MoreSpecificReturnType>
   </file>
   <file src="src/Customer/Controller/PersonController.php">
     <RedundantConditionGivenDocblockType occurrences="1">
@@ -85,25 +66,11 @@
       <code>new DateTime('-1000 hour')</code>
     </QueryBuilderSetParameter>
   </file>
-  <file src="src/EasyAdmin/Controller/AbstractController.php">
-    <LessSpecificReturnStatement occurrences="1">
-      <code>$this-&gt;renderTemplate('new', $this-&gt;entity['templates']['new'], $parameters)</code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType occurrences="1">
-      <code>Response</code>
-    </MoreSpecificReturnType>
-  </file>
   <file src="src/EasyAdmin/Form/AutocompleteType.php">
     <PropertyTypeCoercion occurrences="2">
       <code>$view-&gt;vars</code>
       <code>$view-&gt;vars</code>
     </PropertyTypeCoercion>
-  </file>
-  <file src="src/Employee/Controller/SalaryController.php">
-    <LessSpecificReturnStatement occurrences="1"/>
-    <MoreSpecificReturnType occurrences="1">
-      <code>Response</code>
-    </MoreSpecificReturnType>
   </file>
   <file src="src/Employee/Entity/Employee.php">
     <PropertyNotSetInConstructor occurrences="1">
@@ -136,12 +103,6 @@
     <RedundantConditionGivenDocblockType occurrences="1">
       <code>null !== $dto-&gt;name</code>
     </RedundantConditionGivenDocblockType>
-  </file>
-  <file src="src/Note/Controller/NoteController.php">
-    <LessSpecificReturnStatement occurrences="1"/>
-    <MoreSpecificReturnType occurrences="1">
-      <code>Response</code>
-    </MoreSpecificReturnType>
   </file>
   <file src="src/Order/Controller/OrderCloseController.php">
     <RedundantConditionGivenDocblockType occurrences="2">
@@ -183,13 +144,6 @@
       <code>$model-&gt;name</code>
     </PossiblyNullArgument>
   </file>
-  <file src="src/Order/Controller/OrderItemPartController.php">
-    <LessSpecificReturnStatement occurrences="2"/>
-    <MoreSpecificReturnType occurrences="2">
-      <code>Response</code>
-      <code>Response</code>
-    </MoreSpecificReturnType>
-  </file>
   <file src="src/Order/Controller/OrderItemServiceController.php">
     <PossiblyNullArgument occurrences="1">
       <code>$sortDirection</code>
@@ -200,12 +154,6 @@
       <code>null !== $mileageDto &amp;&amp; null !== $mileageDto-&gt;mileage</code>
       <code>null !== $mileageDto-&gt;mileage</code>
     </RedundantConditionGivenDocblockType>
-  </file>
-  <file src="src/Order/Controller/ProfitController.php">
-    <LessSpecificReturnStatement occurrences="1"/>
-    <MoreSpecificReturnType occurrences="1">
-      <code>Response</code>
-    </MoreSpecificReturnType>
   </file>
   <file src="src/Order/Entity/Order.php">
     <PossiblyNullArgument occurrences="1">
@@ -244,35 +192,7 @@
       <code>null !== $dto-&gt;number</code>
     </RedundantConditionGivenDocblockType>
   </file>
-  <file src="src/Part/Controller/PartDiscountController.php">
-    <LessSpecificReturnStatement occurrences="1"/>
-    <MoreSpecificReturnType occurrences="1">
-      <code>Response</code>
-    </MoreSpecificReturnType>
-  </file>
-  <file src="src/Part/Controller/PartExplorerController.php">
-    <LessSpecificReturnStatement occurrences="1"/>
-    <MoreSpecificReturnType occurrences="1">
-      <code>Response</code>
-    </MoreSpecificReturnType>
-  </file>
-  <file src="src/Part/Controller/PartPriceController.php">
-    <LessSpecificReturnStatement occurrences="1"/>
-    <MoreSpecificReturnType occurrences="1">
-      <code>Response</code>
-    </MoreSpecificReturnType>
-  </file>
-  <file src="src/Part/Controller/PartSellController.php">
-    <LessSpecificReturnStatement occurrences="1"/>
-    <MoreSpecificReturnType occurrences="1">
-      <code>Response</code>
-    </MoreSpecificReturnType>
-  </file>
   <file src="src/Part/Controller/RequiredAvailabilityController.php">
-    <LessSpecificReturnStatement occurrences="1"/>
-    <MoreSpecificReturnType occurrences="1">
-      <code>Response</code>
-    </MoreSpecificReturnType>
     <PossiblyNullArrayAccess occurrences="1">
       <code>$data['text']</code>
     </PossiblyNullArrayAccess>
