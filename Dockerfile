@@ -23,7 +23,7 @@ WORKDIR ${APP_DIR}
 #
 # > PHP EXTENSIONS
 #
-ENV PHP_EXT_DIR /usr/local/lib/php/extensions/no-debug-non-zts-20200930
+ENV PHP_EXT_DIR /usr/local/lib/php/extensions/no-debug-non-zts-20201009
 RUN set -ex \
     && if [ `pear config-get ext_dir` != ${PHP_EXT_DIR} ]; then echo PHP_EXT_DIR must be `pear config-get ext_dir` && exit 1; fi
 
