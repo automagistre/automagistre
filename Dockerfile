@@ -80,9 +80,9 @@ FROM php-build AS php-ext-apcu
 RUN set -ex \
     && pecl install apcu
 
-FROM php-build AS php-ext-xdebug
-RUN set -ex \
-    && pecl install xdebug
+#FROM php-build AS php-ext-xdebug
+#RUN set -ex \
+#    && pecl install xdebug
 
 FROM php-build AS php-ext-uuid
 RUN --mount=type=cache,target=/var/cache/apk \
@@ -132,7 +132,7 @@ COPY --from=php-ext-sockets ${PHP_EXT_DIR}/sockets.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-intl ${PHP_EXT_DIR}/intl.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-intl /usr/local /usr/local
 COPY --from=php-ext-apcu ${PHP_EXT_DIR}/apcu.so ${PHP_EXT_DIR}/
-COPY --from=php-ext-xdebug ${PHP_EXT_DIR}/xdebug.so ${PHP_EXT_DIR}/
+#COPY --from=php-ext-xdebug ${PHP_EXT_DIR}/xdebug.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-uuid ${PHP_EXT_DIR}/uuid.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-pcov ${PHP_EXT_DIR}/pcov.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-bcmath ${PHP_EXT_DIR}/bcmath.so ${PHP_EXT_DIR}/
