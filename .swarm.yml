@@ -104,6 +104,41 @@ services:
             retries: 3
             start_period: 5s
 
+    hasura:
+        image: hasura/graphql-engine:v2.0.7
+        command:
+            - graphql-engine
+            - serve
+            - --enable-console
+            - --server-port=80
+            - --unauthorized-role=anonymous
+            - --cors-domain=*
+            - --admin-internal-errors=true
+            - --admin-secret=${HASURA_ADMIN_SECRET}
+        environment:
+            HASURA_GRAPHQL_DATABASE_URL: postgres://db:${DB_PASSWORD}@postgres_msk:5432/db
+            HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:${DB_PASSWORD}@postgres_msk:5432/hasura
+            HASURA_GRAPHQL_JWT_SECRET: '{"jwk_url": "https://auth.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/certs"}'
+        networks:
+            - default
+            - traefik
+        deploy:
+            mode: replicated
+            replicas: 1
+            restart_policy:
+                condition: on-failure
+            update_config:
+                parallelism: 1
+                delay: 10s
+                order: start-first
+            labels:
+                - "traefik.enable=true"
+                - "traefik.http.routers.automagistre-hasura.rule=Host(`api.automagistre.ru`)"
+                - "traefik.http.routers.automagistre-hasura.entrypoints=websecure"
+                - "traefik.http.routers.automagistre-hasura.tls=true"
+                - "traefik.http.routers.automagistre-hasura.tls.certresolver=leresolver"
+                - "traefik.http.services.automagistre-hasura-service.loadbalancer.server.port=80"
+
     postgres_msk: &postgres
         image: postgres:12.2
         volumes:
