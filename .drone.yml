@@ -106,6 +106,7 @@ steps:
         image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
         commands:
             - vendor/bin/php-cs-fixer fix --dry-run --using-cache=no --diff
+        failure: ignore
         depends_on:
             - install
 
