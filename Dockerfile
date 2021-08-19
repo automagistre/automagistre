@@ -200,7 +200,7 @@ ENV COMPOSER_CACHE_DIR /var/cache/composer
 COPY composer.json composer.lock symfony.lock ./
 RUN --mount=type=cache,target=/var/cache/composer \
     set -ex \
-    && composer install --no-interaction --no-progress --no-dev --no-plugins --profile --no-autoloader
+    && composer install --no-interaction --no-progress --no-dev --no-plugins --profile --no-autoloader --ignore-platform-reqs
 
 COPY bin bin
 COPY config config
