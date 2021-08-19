@@ -95,7 +95,7 @@ steps:
         commands:
             - echo APP_ENV=test >> .env
             - echo APP_DEBUG=1 >> .env
-            - composer install --no-interaction --no-progress --no-autoloader
+            - composer install --no-interaction --no-progress --no-autoloader --ignore-platform-reqs
             - composer dump-autoload --classmap-authoritative
             - bin/console cache:warmup
             - bin/console assets:install public
