@@ -30,7 +30,12 @@ use function sprintf;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="orders")
+ * @ORM\Table(
+ *     name="orders",
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(columns={"number", "tenant_id"})
+ *     }
+ * )
  */
 class Order extends TenantEntity implements ContainsRecordedMessages
 {
@@ -43,7 +48,7 @@ class Order extends TenantEntity implements ContainsRecordedMessages
     public OrderId $id;
 
     /**
-     * @ORM\Column(unique=true)
+     * @ORM\Column()
      */
     private string $number;
 

@@ -27,7 +27,12 @@ use const MB_CASE_UPPER;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="car")
+ * @ORM\Table(
+ *     name="car",
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(columns={"identifier", "tenant_id"})
+ *     }
+ * )
  *
  * @UniqueEntity(fields={"identifier"})
  */
@@ -35,7 +40,7 @@ class Car extends TenantEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="car_id", unique=true)
+     * @ORM\Column(type="car_id")
      */
     public CarId $id;
 
@@ -52,7 +57,7 @@ class Car extends TenantEntity
     public ?VehicleId $vehicleId = null;
 
     /**
-     * @ORM\Column(length=17, nullable=true, unique=true)
+     * @ORM\Column(length=17, nullable=true)
      */
     public ?string $identifier = null;
 

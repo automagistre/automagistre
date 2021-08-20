@@ -20,7 +20,12 @@ use function unserialize;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="users")
+ * @ORM\Table(
+ *     name="users",
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(columns={"username", "tenant_id"})
+ *     }
+ * )
  */
 class User extends TenantEntity implements UserInterface, EquatableInterface, Serializable
 {
@@ -49,7 +54,7 @@ class User extends TenantEntity implements UserInterface, EquatableInterface, Se
      * @Assert\Email
      * @Assert\NotBlank
      *
-     * @ORM\Column(unique=true)
+     * @ORM\Column()
      */
     private string $username;
 

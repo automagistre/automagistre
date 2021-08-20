@@ -20,7 +20,7 @@ class Part extends TenantEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="part_id", unique=true)
+     * @ORM\Column(type="part_id")
      */
     public PartId $id;
 
