@@ -10,8 +10,6 @@ services:
             mode: replicated
             replicas: 1
             endpoint_mode: dnsrr
-            restart_policy:
-                condition: on-failure
             update_config:
                 parallelism: 1
                 delay: 10s
@@ -42,8 +40,6 @@ services:
             mode: replicated
             replicas: 1
             endpoint_mode: dnsrr
-            restart_policy:
-                condition: any
             update_config:
                 parallelism: 1
                 delay: 10s
@@ -125,8 +121,6 @@ services:
         deploy:
             mode: replicated
             replicas: 1
-            restart_policy:
-                condition: on-failure
             update_config:
                 parallelism: 1
                 delay: 10s
