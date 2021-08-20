@@ -23,6 +23,7 @@ use DomainException;
 use LogicException;
 use Money\Currency;
 use Money\Money;
+use App\Tenant\Entity\TenantEntity;
 use function assert;
 use function class_exists;
 use function sprintf;
@@ -31,7 +32,7 @@ use function sprintf;
  * @ORM\Entity
  * @ORM\Table(name="orders")
  */
-class Order implements ContainsRecordedMessages
+class Order extends TenantEntity implements ContainsRecordedMessages
 {
     use PrivateMessageRecorderCapabilities;
 

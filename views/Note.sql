@@ -1,4 +1,5 @@
 SELECT note.id,
+       note.tenant_id,
        note.subject,
        note.text,
        note.type,

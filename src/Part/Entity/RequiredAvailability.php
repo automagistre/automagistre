@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Part\Entity;
 
+use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -14,7 +15,7 @@ use Ramsey\Uuid\UuidInterface;
  * @ORM\Entity(readOnly=true)
  * @ORM\Table(name="part_required_availability")
  */
-class RequiredAvailability
+class RequiredAvailability extends TenantEntity
 {
     /**
      * @ORM\Id

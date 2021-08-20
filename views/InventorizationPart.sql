@@ -1,4 +1,5 @@
 SELECT ip.inventorization_id,
+       ip.tenant_id,
        ip.part_id,
        ip.quantity,
        COALESCE(stock.quantity, 0)    AS in_stock,

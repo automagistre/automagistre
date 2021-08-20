@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Employee\Entity;
 
+use App\Tenant\Entity\TenantEntity;
 use App\CreatedBy\Entity\CreatedByView;
 use App\Customer\Entity\OperandId;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,7 +16,7 @@ use Money\Money;
  *
  * @psalm-suppress MissingConstructor
  */
-class SalaryView
+class SalaryView extends TenantEntity
 {
     /**
      * @ORM\Id

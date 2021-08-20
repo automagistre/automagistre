@@ -8,11 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
  */
-class OrderPayment
+class OrderPayment extends TenantEntity
 {
     /**
      * @ORM\Id

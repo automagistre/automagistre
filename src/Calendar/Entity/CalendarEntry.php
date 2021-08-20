@@ -9,11 +9,12 @@ use App\Calendar\Exception\EntryDeleted;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
  */
-class CalendarEntry
+class CalendarEntry extends TenantEntity
 {
     /**
      * @ORM\Id

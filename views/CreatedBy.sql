@@ -1,4 +1,5 @@
 SELECT cb.id,
+       cb.tenant_id,
        CONCAT_WS(
                ',',
                u.id,

@@ -10,13 +10,14 @@ use App\Storage\Event\InventorizationClosed;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity()
  *
  * @psalm-immutable
  */
-class InventorizationClose implements ContainsRecordedMessages
+class InventorizationClose extends TenantEntity implements ContainsRecordedMessages
 {
     use PrivateMessageRecorderCapabilities;
 

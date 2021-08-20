@@ -8,12 +8,13 @@ use App\Order\Entity\OrderId;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="calendar_entry_order")
  */
-class EntryOrder
+class EntryOrder extends TenantEntity
 {
     /**
      * @ORM\Id

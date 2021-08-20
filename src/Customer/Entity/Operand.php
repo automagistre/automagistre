@@ -7,6 +7,7 @@ namespace App\Customer\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
@@ -14,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({"1": "Person", "2": "Organization"})
  */
-abstract class Operand
+abstract class Operand extends TenantEntity
 {
     /**
      * @ORM\Id

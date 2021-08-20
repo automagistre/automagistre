@@ -9,6 +9,7 @@ use App\Part\Entity\PartId;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Tenant\Entity\TenantEntity;
 use function abs;
 use function array_reduce;
 
@@ -16,7 +17,7 @@ use function array_reduce;
  * @ORM\Entity()
  * @ORM\Table(name="storage_part")
  */
-class Part
+class Part extends TenantEntity
 {
     /**
      * @ORM\Id()

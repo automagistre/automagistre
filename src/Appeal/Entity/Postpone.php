@@ -7,6 +7,7 @@ namespace App\Appeal\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
@@ -14,7 +15,7 @@ use Ramsey\Uuid\UuidInterface;
  *
  * @psalm-immutable
  */
-class Postpone
+class Postpone extends TenantEntity
 {
     /**
      * @ORM\Id

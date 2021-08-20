@@ -7,12 +7,13 @@ namespace App\Review\Google\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="google_review_token")
  */
-class Token
+class Token extends TenantEntity
 {
     /**
      * @ORM\Id

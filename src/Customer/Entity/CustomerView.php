@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Customer\Entity;
 
+use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 use Money\Money;
@@ -14,7 +15,7 @@ use Money\Money;
  *
  * @psalm-suppress MissingConstructor
  */
-class CustomerView
+class CustomerView extends TenantEntity
 {
     /**
      * @ORM\Id

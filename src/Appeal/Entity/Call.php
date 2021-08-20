@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Appeal\Entity;
 
+use App\Tenant\Entity\TenantEntity;
 use App\Appeal\Event\AppealCreated;
 use App\MessageBus\ContainsRecordedMessages;
 use App\MessageBus\PrivateMessageRecorderCapabilities;
@@ -14,7 +15,7 @@ use libphonenumber\PhoneNumber;
  * @ORM\Entity(readOnly=true)
  * @ORM\Table(name="appeal_call")
  */
-class Call implements ContainsRecordedMessages
+class Call extends TenantEntity implements ContainsRecordedMessages
 {
     use PrivateMessageRecorderCapabilities;
 

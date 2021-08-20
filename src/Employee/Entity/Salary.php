@@ -6,12 +6,13 @@ namespace App\Employee\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="employee_salary")
  */
-class Salary
+class Salary extends TenantEntity
 {
     /**
      * @ORM\Id

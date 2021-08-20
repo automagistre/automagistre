@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Balance\Entity;
 
+use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 use Ramsey\Uuid\UuidInterface;
@@ -14,7 +15,7 @@ use Ramsey\Uuid\UuidInterface;
  *
  * @psalm-suppress MissingConstructor
  */
-class BalanceView
+class BalanceView extends TenantEntity
 {
     /**
      * @ORM\Id

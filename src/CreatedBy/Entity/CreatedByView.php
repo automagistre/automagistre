@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\CreatedBy\Entity;
 
+use App\Tenant\Entity\TenantEntity;
 use App\User\Entity\UserView;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,7 +18,7 @@ use Ramsey\Uuid\UuidInterface;
  *
  * @psalm-suppress MissingConstructor
  */
-class CreatedByView
+class CreatedByView extends TenantEntity
 {
     /**
      * @ORM\Id

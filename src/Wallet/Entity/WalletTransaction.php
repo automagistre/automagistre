@@ -8,12 +8,13 @@ use App\Wallet\Enum\WalletTransactionSource;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 use Ramsey\Uuid\UuidInterface;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="wallet_transaction")
  */
-class WalletTransaction
+class WalletTransaction extends TenantEntity
 {
     /**
      * @ORM\Id

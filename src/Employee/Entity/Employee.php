@@ -14,13 +14,14 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
  *
  * @UniqueEntity(fields={"personId", "firedAt"}, message="Данный человек уже является работником", ignoreNull=false)
  */
-class Employee implements ContainsRecordedMessages
+class Employee extends TenantEntity implements ContainsRecordedMessages
 {
     use PrivateMessageRecorderCapabilities;
 

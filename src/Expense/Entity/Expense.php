@@ -6,11 +6,12 @@ namespace App\Expense\Entity;
 
 use App\Wallet\Entity\WalletId;
 use Doctrine\ORM\Mapping as ORM;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
  */
-class Expense
+class Expense extends TenantEntity
 {
     /**
      * @ORM\Id

@@ -8,11 +8,12 @@ use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
  */
-class OrderSuspend
+class OrderSuspend extends TenantEntity
 {
     /**
      * @ORM\Id

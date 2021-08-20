@@ -6,6 +6,7 @@ namespace App\Storage\Entity;
 
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity()
@@ -14,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @psalm-suppress MissingConstructor
  */
-class InventorizationView
+class InventorizationView extends TenantEntity
 {
     /**
      * @ORM\Id

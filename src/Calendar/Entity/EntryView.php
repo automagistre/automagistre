@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Calendar\Entity;
 
+use App\Tenant\Entity\TenantEntity;
 use App\Order\Entity\OrderId;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @psalm-suppress MissingConstructor
  */
-class EntryView
+class EntryView extends TenantEntity
 {
     /**
      * @ORM\Id

@@ -8,6 +8,7 @@ use App\Appeal\Enum\AppealStatus;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
@@ -15,7 +16,7 @@ use Ramsey\Uuid\UuidInterface;
  *
  * @psalm-immutable
  */
-class Status
+class Status extends TenantEntity
 {
     /**
      * @ORM\Id

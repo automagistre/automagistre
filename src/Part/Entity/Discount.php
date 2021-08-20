@@ -9,12 +9,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="part_discount", indexes={@ORM\Index(columns={"part_id"})})
  */
-class Discount
+class Discount extends TenantEntity
 {
     /**
      * @ORM\Id

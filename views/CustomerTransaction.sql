@@ -1,4 +1,5 @@
 SELECT ct.id,
+       ct.tenant_id,
        ct.operand_id,
        ct.amount_currency_code || ' ' || ct.amount_amount AS amount,
        ct.source,

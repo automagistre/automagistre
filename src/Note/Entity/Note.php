@@ -8,11 +8,12 @@ use App\Note\Enum\NoteType;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
  */
-class Note
+class Note extends TenantEntity
 {
     /**
      * @ORM\Id

@@ -1,4 +1,5 @@
 SELECT wt.id,
+       wt.tenant_id,
        wt.wallet_id,
        wt.amount_currency_code || ' ' || wt.amount_amount AS amount,
        wt.source,

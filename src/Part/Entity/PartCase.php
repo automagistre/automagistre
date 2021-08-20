@@ -6,6 +6,7 @@ namespace App\Part\Entity;
 
 use App\Vehicle\Entity\VehicleId;
 use Doctrine\ORM\Mapping as ORM;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
@@ -15,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     }
  * )
  */
-class PartCase
+class PartCase extends TenantEntity
 {
     /**
      * @ORM\Id

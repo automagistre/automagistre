@@ -8,11 +8,12 @@ use App\User\Entity\UserId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
  */
-class CreatedBy
+class CreatedBy extends TenantEntity
 {
     /**
      * @ORM\Id

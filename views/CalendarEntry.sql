@@ -1,4 +1,5 @@
 SELECT e.id,
+       e.tenant_id,
        ces.date         AS schedule_date,
        ces.duration     AS schedule_duration,
        ceoi.customer_id AS order_info_customer_id,

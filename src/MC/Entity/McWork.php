@@ -6,12 +6,13 @@ namespace App\MC\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
+use App\Tenant\Entity\TenantEntity;
 use function sprintf;
 
 /**
  * @ORM\Entity
  */
-class McWork
+class McWork extends TenantEntity
 {
     /**
      * @ORM\Id

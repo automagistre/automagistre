@@ -14,6 +14,7 @@ use Money\Money;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
@@ -25,7 +26,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *     "3": "App\Order\Entity\OrderItemGroup"
  * })
  */
-abstract class OrderItem
+abstract class OrderItem extends TenantEntity
 {
     public const MAP = [
         'group' => OrderItemGroup::class,

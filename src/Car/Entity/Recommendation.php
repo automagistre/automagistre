@@ -15,12 +15,13 @@ use Money\Currency;
 use Money\Money;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="car_recommendation")
  */
-class Recommendation implements PriceInterface
+class Recommendation extends TenantEntity implements PriceInterface
 {
     /**
      * @ORM\Id

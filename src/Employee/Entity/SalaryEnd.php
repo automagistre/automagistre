@@ -7,12 +7,13 @@ namespace App\Employee\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="employee_salary_end")
  */
-class SalaryEnd
+class SalaryEnd extends TenantEntity
 {
     /**
      * @ORM\Id

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Part\Entity;
 
+use App\Tenant\Entity\TenantEntity;
 use App\Customer\Entity\OperandId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @psalm-immutable
  */
-class SupplyView
+class SupplyView extends TenantEntity
 {
     /**
      * @ORM\Id()

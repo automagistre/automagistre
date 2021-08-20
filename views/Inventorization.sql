@@ -1,4 +1,5 @@
 SELECT i.id,
+       i.tenant_id,
        cb.created_at,
        cbc.created_at AS closed_at
 FROM inventorization i

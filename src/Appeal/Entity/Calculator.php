@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace App\Appeal\Entity;
 
+use App\Tenant\Entity\TenantEntity;
 use App\Appeal\Event\AppealCreated;
 use App\MC\Entity\McEquipmentId;
 use App\MC\Entity\McWorkId;
@@ -27,7 +28,7 @@ use function array_filter;
  * @ORM\Entity(readOnly=true)
  * @ORM\Table(name="appeal_calculator")
  */
-class Calculator implements ContainsRecordedMessages
+class Calculator extends TenantEntity implements ContainsRecordedMessages
 {
     use PrivateMessageRecorderCapabilities;
 

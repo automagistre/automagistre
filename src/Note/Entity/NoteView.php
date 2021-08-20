@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Note\Entity;
 
+use App\Tenant\Entity\TenantEntity;
 use App\CreatedBy\Entity\CreatedByView;
 use App\Note\Enum\NoteType;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,7 +16,7 @@ use Ramsey\Uuid\UuidInterface;
  *
  * @psalm-suppress MissingConstructor
  */
-class NoteView
+class NoteView extends TenantEntity
 {
     /**
      * @ORM\Id

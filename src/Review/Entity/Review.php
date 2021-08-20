@@ -11,6 +11,7 @@ use App\Review\Enum\ReviewSource;
 use App\Review\Event\ReviewReceived;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
@@ -20,7 +21,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     }
  * )
  */
-class Review implements ContainsRecordedMessages
+class Review extends TenantEntity implements ContainsRecordedMessages
 {
     use PrivateMessageRecorderCapabilities;
 

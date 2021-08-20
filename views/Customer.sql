@@ -1,4 +1,5 @@
 SELECT o.id,
+       o.tenant_id,
        CASE
            WHEN org IS NOT NULL
                THEN org.name

@@ -7,11 +7,12 @@ namespace App\Wallet\Entity;
 use App\Costil;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
  */
-class Wallet
+class Wallet extends TenantEntity
 {
     /**
      * @ORM\Id

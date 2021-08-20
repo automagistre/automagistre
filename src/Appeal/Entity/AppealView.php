@@ -9,6 +9,7 @@ use App\Appeal\Enum\AppealType;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
@@ -16,7 +17,7 @@ use libphonenumber\PhoneNumber;
  *
  * @psalm-suppress MissingConstructor
  */
-class AppealView
+class AppealView extends TenantEntity
 {
     /**
      * @ORM\Id

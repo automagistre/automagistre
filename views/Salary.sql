@@ -1,4 +1,5 @@
 SELECT es.id,
+       es.tenant_id,
        es.employee_id,
        es.payday,
        es.amount,

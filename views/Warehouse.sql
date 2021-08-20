@@ -1,5 +1,5 @@
 WITH RECURSIVE tree (id) AS (
-    SELECT id, wp.warehouse_parent_id AS parent_id, 0 AS depth
+    SELECT id, wp.warehouse_parent_id AS parent_id, 0 AS depth, root.tenant_id
     FROM warehouse root
              LEFT JOIN LATERAL (SELECT warehouse_parent_id
                                 FROM warehouse_parent sub
@@ -11,7 +11,7 @@ WITH RECURSIVE tree (id) AS (
 
     UNION ALL
 
-    SELECT root.id, wp.warehouse_parent_id AS parent_id, p.depth + 1 AS depth
+    SELECT root.id, wp.warehouse_parent_id AS parent_id, p.depth + 1 AS depth, root.tenant_id
     FROM warehouse root
              LEFT JOIN LATERAL (SELECT warehouse_parent_id
                                 FROM warehouse_parent sub
@@ -21,7 +21,8 @@ WITH RECURSIVE tree (id) AS (
         ) wp ON TRUE
              JOIN tree p ON p.id = wp.warehouse_parent_id
 )
-SELECT tree.id        AS id,
+SELECT tree.id,
+       tree.tenant_id,
        wn.name        AS name,
        wc.code        AS code,
        tree.parent_id AS parent_id,

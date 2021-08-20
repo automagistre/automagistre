@@ -1,4 +1,5 @@
 SELECT p.entity_id AS id,
+       p.tenant_id,
        p.published AS published,
        CONCAT_WS(
                ';',

@@ -7,11 +7,12 @@ namespace App\Income\Entity;
 use App\Part\Entity\PartId;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
  */
-class IncomePart
+class IncomePart extends TenantEntity
 {
     /**
      * @ORM\Column(type="part_id")

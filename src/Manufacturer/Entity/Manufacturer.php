@@ -6,11 +6,12 @@ namespace App\Manufacturer\Entity;
 
 use App\Costil;
 use Doctrine\ORM\Mapping as ORM;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
  */
-class Manufacturer
+class Manufacturer extends TenantEntity
 {
     /**
      * @ORM\Id

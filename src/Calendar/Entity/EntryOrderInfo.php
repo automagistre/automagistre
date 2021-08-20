@@ -7,12 +7,13 @@ namespace App\Calendar\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="calendar_entry_order_info")
  */
-class EntryOrderInfo
+class EntryOrderInfo extends TenantEntity
 {
     /**
      * @ORM\Id

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Wallet\Entity;
 
+use App\Tenant\Entity\TenantEntity;
 use Premier\Identifier\Identifier;
 use App\User\Entity\UserId;
 use App\Wallet\Enum\WalletTransactionSource;
@@ -20,7 +21,7 @@ use function is_subclass_of;
  *
  * @psalm-suppress MissingConstructor
  */
-class WalletTransactionView
+class WalletTransactionView extends TenantEntity
 {
     /**
      * @ORM\Id

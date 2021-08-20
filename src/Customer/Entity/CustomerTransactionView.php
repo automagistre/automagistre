@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Customer\Entity;
 
+use App\Tenant\Entity\TenantEntity;
 use App\Customer\Enum\CustomerTransactionSource;
 use Premier\Identifier\Identifier;
 use App\User\Entity\UserId;
@@ -20,7 +21,7 @@ use function is_subclass_of;
  *
  * @psalm-suppress MissingConstructor
  */
-class CustomerTransactionView
+class CustomerTransactionView extends TenantEntity
 {
     /**
      * @ORM\Id

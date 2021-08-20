@@ -10,13 +10,14 @@ use App\Sms\Messages\SendRequested;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
  *
  * @psalm-immutable
  */
-class Sms implements ContainsRecordedMessages
+class Sms extends TenantEntity implements ContainsRecordedMessages
 {
     use PrivateMessageRecorderCapabilities;
 

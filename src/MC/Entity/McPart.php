@@ -7,11 +7,12 @@ namespace App\MC\Entity;
 use App\Part\Entity\PartId;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
  */
-class McPart
+class McPart extends TenantEntity
 {
     /**
      * @ORM\Id

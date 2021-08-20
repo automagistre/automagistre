@@ -8,11 +8,12 @@ use App\Calendar\Enum\DeletionReason;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
  */
-class CalendarEntryDeletion
+class CalendarEntryDeletion extends TenantEntity
 {
     /**
      * @ORM\Id

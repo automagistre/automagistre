@@ -6,13 +6,14 @@ namespace App\Storage\Entity;
 
 use App\Part\Entity\PartId;
 use Doctrine\ORM\Mapping as ORM;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity()
  *
  * @psalm-suppress MissingConstructor
  */
-class InventorizationPartView
+class InventorizationPartView extends TenantEntity
 {
     /**
      * @ORM\Column(type="inventorization_id")

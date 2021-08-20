@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace App\Appeal\Entity;
 
+use App\Tenant\Entity\TenantEntity;
 use App\Appeal\Event\AppealCreated;
 use App\MessageBus\ContainsRecordedMessages;
 use App\MessageBus\PrivateMessageRecorderCapabilities;
@@ -23,7 +24,7 @@ use Money\Money;
  * @ORM\Entity(readOnly=true)
  * @ORM\Table(name="appeal_tire_fitting")
  */
-class TireFitting implements ContainsRecordedMessages
+class TireFitting extends TenantEntity implements ContainsRecordedMessages
 {
     use PrivateMessageRecorderCapabilities;
 

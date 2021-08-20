@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Part\Entity;
 
+use App\Tenant\Entity\TenantEntity;
 use App\Customer\Entity\OperandId;
 use App\Manufacturer\Entity\ManufacturerView;
 use App\Part\Enum\Unit;
@@ -20,7 +21,7 @@ use function sprintf;
  * @psalm-suppress MissingConstructor
  * @psalm-suppress PropertyNotSetInConstructor
  */
-class PartView
+class PartView extends TenantEntity
 {
     /**
      * Наценка на запчасти.

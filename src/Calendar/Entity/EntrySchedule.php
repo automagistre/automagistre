@@ -10,12 +10,13 @@ use App\MessageBus\PrivateMessageRecorderCapabilities;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="calendar_entry_schedule")
  */
-class EntrySchedule implements ContainsRecordedMessages
+class EntrySchedule extends TenantEntity implements ContainsRecordedMessages
 {
     use PrivateMessageRecorderCapabilities;
 

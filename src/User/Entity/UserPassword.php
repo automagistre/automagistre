@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\User\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="users_password")
  */
-class UserPassword
+class UserPassword extends TenantEntity
 {
     /**
      * @ORM\Id

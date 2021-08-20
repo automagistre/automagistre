@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Publish\Entity;
 
+use App\Tenant\Entity\TenantEntity;
 use App\CreatedBy\Entity\CreatedByView;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
@@ -14,7 +15,7 @@ use Ramsey\Uuid\UuidInterface;
  *
  * @psalm-suppress MissingConstructor
  */
-class PublishView
+class PublishView extends TenantEntity
 {
     /**
      * @ORM\Id

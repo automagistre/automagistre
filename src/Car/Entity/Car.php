@@ -18,6 +18,7 @@ use Money\Currency;
 use Money\Money;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Tenant\Entity\TenantEntity;
 use function in_array;
 use function mb_convert_case;
 use function sprintf;
@@ -30,7 +31,7 @@ use const MB_CASE_UPPER;
  *
  * @UniqueEntity(fields={"identifier"})
  */
-class Car
+class Car extends TenantEntity
 {
     /**
      * @ORM\Id

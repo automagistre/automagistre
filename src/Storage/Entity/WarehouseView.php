@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Storage\Entity;
 
+use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 use function array_map;
 use function array_reverse;
@@ -15,7 +16,7 @@ use function implode;
  *
  * @psalm-suppress MissingConstructor
  */
-class WarehouseView
+class WarehouseView extends TenantEntity
 {
     /**
      * @ORM\Id

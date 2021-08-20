@@ -7,11 +7,12 @@ namespace App\Storage\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
  */
-class WarehouseName
+class WarehouseName extends TenantEntity
 {
     /**
      * @ORM\Id

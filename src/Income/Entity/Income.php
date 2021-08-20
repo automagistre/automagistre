@@ -15,6 +15,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;
 use Money\Money;
+use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
@@ -23,7 +24,7 @@ use Money\Money;
  *     indexes={@ORM\Index(columns={"accrued_at"})}
  * )
  */
-class Income implements ContainsRecordedMessages
+class Income extends TenantEntity implements ContainsRecordedMessages
 {
     use PrivateMessageRecorderCapabilities;
 

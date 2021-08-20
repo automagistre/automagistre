@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Tenant\Entity\TenantEntity;
 use function array_unique;
 use function in_array;
 use function serialize;
@@ -21,7 +22,7 @@ use function unserialize;
  * @ORM\Entity
  * @ORM\Table(name="users")
  */
-class User implements UserInterface, EquatableInterface, Serializable
+class User extends TenantEntity implements UserInterface, EquatableInterface, Serializable
 {
     /**
      * @ORM\Id
