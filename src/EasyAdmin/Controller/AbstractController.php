@@ -7,6 +7,8 @@ namespace App\EasyAdmin\Controller;
 use App\Doctrine\Registry;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Request\EntityTransformer;
+use App\Tenant\Enum\Tenant;
+use App\Tenant\State;
 use App\User\Entity\User;
 use Closure;
 use Doctrine\ORM\AbstractQuery;
@@ -70,7 +72,13 @@ abstract class AbstractController extends EasyAdminController
             PhoneNumberUtil::class,
             EasyAdminRouter::class,
             IdentifierFormatter::class,
+            State::class,
         ]);
+    }
+
+    protected function tenant(): Tenant
+    {
+        return $this->get(State::class)->get();
     }
 
     protected function display(Identifier $identifier, string $format = null): string

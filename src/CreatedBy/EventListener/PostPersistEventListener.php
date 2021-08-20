@@ -6,6 +6,7 @@ namespace App\CreatedBy\EventListener;
 
 use App\Costil;
 use App\CreatedBy\Attributes\Exclude;
+use App\Tenant\State;
 use App\User\Entity\User;
 use DateTimeImmutable;
 use Doctrine\Common\EventSubscriber;
@@ -22,7 +23,7 @@ use const PHP_SAPI;
 
 final class PostPersistEventListener implements EventSubscriber
 {
-    public function __construct(private Security $security)
+    public function __construct(private Security $security, private State $state)
     {
     }
 
@@ -74,10 +75,11 @@ final class PostPersistEventListener implements EventSubscriber
         };
 
         $em->getConnection()->executeQuery(
-            'INSERT INTO created_by (id, user_id, created_at) VALUES (:id, :user, :date)',
+            'INSERT INTO created_by (id, user_id, tenant_id, created_at) VALUES (:id, :user, :tenant, :date)',
             [
                 'id' => (string) $id,
                 'user' => $userId,
+                'tenant' => $this->state->get()->toId(),
                 'date' => new DateTimeImmutable(),
             ],
             [

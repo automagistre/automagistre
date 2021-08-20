@@ -11,6 +11,7 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-pcntl": "*",
+        "ext-simplexml": "*",
         "ext-sockets": "*",
         "ext-uuid": "*",
         "adamgaskins/barcoder": "^0.1.0",

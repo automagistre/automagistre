@@ -15,6 +15,7 @@ final class SearchActionTest extends WebTestCase
         $client = static::createClient([], [
             'PHP_AUTH_USER' => UserEmployeeFixtures::USERNAME,
             'PHP_AUTH_PW' => UserEmployeeFixtures::PASSWORD,
+            'HTTP_HOST' => 'msk.automagistre.ru',
         ]);
 
         $client->request('GET', '/?entity=Order&action=search&query='.OrderFixtures::NUMBER);

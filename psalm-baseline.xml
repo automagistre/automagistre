@@ -49,12 +49,6 @@
       <code>null !== $dto-&gt;telephone</code>
     </RedundantConditionGivenDocblockType>
   </file>
-  <file src="src/Customer/Entity/Organization.php">
-    <PropertyNotSetInConstructor occurrences="2">
-      <code>$address</code>
-      <code>$name</code>
-    </PropertyNotSetInConstructor>
-  </file>
   <file src="src/Customer/Entity/Person.php">
     <PossiblyNullArgument occurrences="2">
       <code>$this-&gt;firstname</code>
@@ -72,11 +66,6 @@
       <code>$view-&gt;vars</code>
     </PropertyTypeCoercion>
   </file>
-  <file src="src/Employee/Entity/Employee.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>$ratio</code>
-    </PropertyNotSetInConstructor>
-  </file>
   <file src="src/Fixtures/Employee/AdminFixtures.php">
     <DeprecatedClass occurrences="2">
       <code>$this-&gt;encoderFactory-&gt;getEncoder($user)</code>
@@ -93,11 +82,6 @@
     <PossiblyNullArgument occurrences="1">
       <code>$income-&gt;getAccruedAmount()</code>
     </PossiblyNullArgument>
-  </file>
-  <file src="src/MC/Entity/McEquipment.php">
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>$vehicleId</code>
-    </PropertyNotSetInConstructor>
   </file>
   <file src="src/Manufacturer/Controller/ManufacturerController.php">
     <RedundantConditionGivenDocblockType occurrences="1">
@@ -242,6 +226,11 @@
     <QueryBuilderSetParameter occurrences="1">
       <code>$partId</code>
     </QueryBuilderSetParameter>
+  </file>
+  <file src="src/Tenant/config.php">
+    <UndefinedClass occurrences="1">
+      <code>DoctrineConfig</code>
+    </UndefinedClass>
   </file>
   <file src="src/User/Command/UserChangePasswordCommand.php">
     <DeprecatedClass occurrences="2">

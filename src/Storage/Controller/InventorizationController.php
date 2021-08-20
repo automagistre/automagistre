@@ -195,8 +195,8 @@ final class InventorizationController extends AbstractController
             $em->getConnection()
                 ->executeQuery(
                     <<<'SQL'
-                    INSERT INTO inventorization_part (part_id, inventorization_id, quantity)
-                    SELECT id, :id, 0
+                    INSERT INTO inventorization_part (part_id, inventorization_id, quantity, tenant_id)
+                    SELECT id, :id, 0, :tenant
                     FROM part_view
                     WHERE quantity > 0
                     AND id NOT IN (
@@ -205,6 +205,7 @@ final class InventorizationController extends AbstractController
                     SQL,
                     [
                         'id' => $entity->toId()->toString(),
+                        'tenant' => $this->tenant()->toId(),
                     ],
                 )
             ;

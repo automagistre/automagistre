@@ -62,12 +62,14 @@ final class OrderItemPartController extends OrderItemController
                                             AND oi.parent_id IS NOT NULL
                 )
                 AND part_id <> :partId
+                AND tenant_id = :tenant
                 GROUP BY part_id
                 HAVING COUNT(part_id) >= 2
                 ORDER BY COUNT(part_id) DESC
                 SQL,
                 [
                     'partId' => $partId->toString(),
+                    'tenant' => $this->tenant()->toId(),
                 ],
             )
         ;

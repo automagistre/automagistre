@@ -191,6 +191,8 @@ steps:
         image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
         commands:
             - bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
+        environment:
+            TENANT: msk
         depends_on:
             - install
 

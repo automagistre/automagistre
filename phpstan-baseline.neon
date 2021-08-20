@@ -5,3 +5,18 @@ parameters:
 			count: 1
 			path: src/Doctrine/Registry.php
 
+		-
+			message: "#^Method App\\\\Tenant\\\\Doctrine\\\\ORM\\\\Query\\\\TenantFilter\\:\\:addFilterConstraint\\(\\) has parameter \\$targetEntity with generic class Doctrine\\\\ORM\\\\Mapping\\\\ClassMetadata but does not specify its types\\: T$#"
+			count: 1
+			path: src/Tenant/Doctrine/ORM/Query/TenantFilter.php
+
+		-
+			message: "#^Call to method orm\\(\\) on an unknown class Symfony\\\\Config\\\\DoctrineConfig\\.$#"
+			count: 1
+			path: src/Tenant/config.php
+
+		-
+			message: "#^Parameter \\$doctrine of anonymous function has invalid typehint type Symfony\\\\Config\\\\DoctrineConfig\\.$#"
+			count: 1
+			path: src/Tenant/config.php
+

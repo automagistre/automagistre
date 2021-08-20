@@ -39,7 +39,7 @@ class Order implements ContainsRecordedMessages
      * @ORM\Id
      * @ORM\Column(type="order_id")
      */
-    private OrderId $id;
+    public OrderId $id;
 
     /**
      * @ORM\Column(unique=true)

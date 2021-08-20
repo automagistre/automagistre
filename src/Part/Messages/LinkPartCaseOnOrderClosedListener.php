@@ -12,6 +12,7 @@ use App\Order\Entity\OrderItemPart;
 use App\Order\Messages\OrderDealed;
 use App\Part\Entity\PartCase;
 use App\Part\Entity\PartCaseId;
+use App\Tenant\State;
 use App\Vehicle\Entity\Model;
 use App\Vehicle\Entity\VehicleId;
 use function array_map;
@@ -19,7 +20,7 @@ use function count;
 
 final class LinkPartCaseOnOrderClosedListener implements MessageHandler
 {
-    public function __construct(private Registry $registry)
+    public function __construct(private Registry $registry, private State $state)
     {
     }
 
@@ -57,8 +58,8 @@ final class LinkPartCaseOnOrderClosedListener implements MessageHandler
         foreach ($parts as $part) {
             $this->registry->connection(PartCase::class)
                 ->executeStatement(
-                    'INSERT INTO part_case (id, part_id, vehicle_id)
-                        SELECT :id, id, :vehicle
+                    'INSERT INTO part_case (id, part_id, vehicle_id, tenant_id)
+                        SELECT :id, id, :vehicle, :tenant
                         FROM part
                         WHERE universal IS FALSE
                         AND id = :part
@@ -68,6 +69,7 @@ final class LinkPartCaseOnOrderClosedListener implements MessageHandler
                         'id' => PartCaseId::generate(),
                         'vehicle' => $vehicleId->toString(),
                         'part' => $part,
+                        'tenant' => $this->state->get()->toId(),
                     ],
                 )
             ;

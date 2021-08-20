@@ -47,5 +47,6 @@
         <pluginClass class="Weirdan\DoctrinePsalmPlugin\Plugin"/>
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
         <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin"/>
+        <pluginClass class="App\Tenant\Psalm\Plugin"/>
     </plugins>
 </psalm>
