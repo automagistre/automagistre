@@ -11,6 +11,7 @@ final class Version20210508162313 extends AbstractMigration
 {
     public function up(Schema $schema): void
     {
+        $this->addSql('CREATE SEQUENCE order_number INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE cron_job_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE cron_report_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE TABLE appeal_calculator (id UUID NOT NULL, name VARCHAR(255) NOT NULL, note VARCHAR(255) DEFAULT NULL, phone VARCHAR(35) NOT NULL, date DATE DEFAULT NULL, equipment_id UUID NOT NULL, mileage INT NOT NULL, total VARCHAR(255) NOT NULL, works JSON NOT NULL, PRIMARY KEY(id))');

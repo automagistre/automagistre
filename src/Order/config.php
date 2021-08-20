@@ -13,4 +13,10 @@ return static function (ContainerConfigurator $configurator): void {
             ],
         ],
     ]);
+
+    $services = $configurator->services();
+
+    $services->get(App\Order\Number\AddSequenceToSchemaListener::class)
+        ->tag('doctrine.event_subscriber')
+        ;
 };
