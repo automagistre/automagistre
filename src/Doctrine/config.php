@@ -7,12 +7,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 return static function (ContainerConfigurator $configurator): void {
     $services = $configurator->services();
 
-    $services->get(App\Doctrine\ORM\EventSubscriber\DropViewSchemaListener::class)
-        ->tag('doctrine.event_subscriber')
-    ;
-
     $services->get(App\Doctrine\Migrations\EventSubscriber\RecreateViewsOnMigration::class)
         ->arg('$path', '%kernel.project_dir%/views')
-        ->tag('doctrine.event_subscriber')
         ;
 };

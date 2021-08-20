@@ -16,6 +16,10 @@ return static function (ContainerConfigurator $configurator): void {
         ->bind('string $telegramBotToken', '%env(TELEGRAM_BOT_TOKEN)%')
     ;
 
+    $services->instanceof(Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface::class)
+        ->tag('doctrine.event_subscriber')
+        ;
+
     $services->set(Premier\Enum\Symfony\EnumNormalizer::class)
         ->tag('serializer.normalizer')
         ;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Doctrine\Migrations\EventSubscriber;
 
-use Doctrine\Common\EventSubscriber;
+use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Doctrine\Migrations\Event\MigrationsEventArgs;
 use Doctrine\Migrations\Events;
 use Symfony\Component\Finder\Finder;
@@ -12,7 +12,7 @@ use function Safe\file_get_contents;
 use function sprintf;
 use function Symfony\Component\String\u;
 
-final class RecreateViewsOnMigration implements EventSubscriber
+final class RecreateViewsOnMigration implements EventSubscriberInterface
 {
     public function __construct(private string $path)
     {
