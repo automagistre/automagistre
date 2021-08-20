@@ -17,7 +17,7 @@ use App\Tenant\Entity\TenantEntity;
  * @ORM\Entity
  * @ORM\Table(
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(columns={"source", "source_id"})
+ *         @ORM\UniqueConstraint(columns={"source", "source_id", "tenant_id"})
  *     }
  * )
  */

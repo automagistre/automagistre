@@ -14,7 +14,7 @@ use App\Tenant\Entity\TenantEntity;
  * @ORM\Table(
  *     name="vehicle_model",
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(columns={"manufacturer_id", "name", "case_name"})
+ *         @ORM\UniqueConstraint(columns={"manufacturer_id", "name", "case_name", "tenant_id"})
  *     }
  * )
  */

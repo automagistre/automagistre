@@ -12,7 +12,7 @@ use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Table(name="part", uniqueConstraints={
- *     @ORM\UniqueConstraint(columns={"number", "manufacturer_id"})
+ *     @ORM\UniqueConstraint(columns={"number", "manufacturer_id", "tenant_id"})
  * })
  * @ORM\Entity
  */
