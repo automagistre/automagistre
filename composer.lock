@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f19979996de233a75438daa62057a244",
+    "content-hash": "88620d8b9ddf71044974fb9b02a1f7ca",
     "packages": [
         {
             "name": "adamgaskins/barcoder",
@@ -5684,16 +5684,16 @@
         },
         {
             "name": "premier/enum",
-            "version": "v2.0.0",
+            "version": "v2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/grachevko/Enum.git",
-                "reference": "62a599cd9f7a57ad9f5caf14b2ecfa8a41c0c6c8"
+                "reference": "38564c1dae7114ab209a2148c8ef249a603ad45d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/grachevko/Enum/zipball/62a599cd9f7a57ad9f5caf14b2ecfa8a41c0c6c8",
-                "reference": "62a599cd9f7a57ad9f5caf14b2ecfa8a41c0c6c8",
+                "url": "https://api.github.com/repos/grachevko/Enum/zipball/38564c1dae7114ab209a2148c8ef249a603ad45d",
+                "reference": "38564c1dae7114ab209a2148c8ef249a603ad45d",
                 "shasum": ""
             },
             "require": {
@@ -5701,13 +5701,14 @@
                 "php": ">=7.3"
             },
             "require-dev": {
-                "doctrine/dbal": "^2.10",
-                "friendsofphp/php-cs-fixer": "^2.15",
-                "phpstan/phpstan": "^0.11",
-                "phpstan/phpstan-phpunit": "^0.11",
-                "phpstan/phpstan-strict-rules": "^0.11",
-                "phpunit/phpunit": "^8.2",
-                "vimeo/psalm": "^3.4"
+                "doctrine/dbal": "^2",
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "phpstan/phpstan": "^0.12.94",
+                "phpstan/phpstan-phpunit": "^0.12.22",
+                "phpstan/phpstan-strict-rules": "^0.12.10",
+                "phpunit/phpunit": "^9.5",
+                "symfony/serializer": "^5.3",
+                "vimeo/psalm": "^4.9"
             },
             "type": "library",
             "autoload": {
@@ -5734,9 +5735,9 @@
             ],
             "support": {
                 "issues": "https://github.com/grachevko/Enum/issues",
-                "source": "https://github.com/grachevko/Enum/tree/v2.0.0"
+                "source": "https://github.com/grachevko/Enum/tree/v2.1"
             },
-            "time": "2019-12-19T12:32:18+00:00"
+            "time": "2021-08-20T12:11:25+00:00"
         },
         {
             "name": "premier/identifier",
