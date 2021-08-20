@@ -139,6 +139,32 @@ services:
                 - "traefik.http.routers.automagistre-hasura.tls.certresolver=leresolver"
                 - "traefik.http.services.automagistre-hasura-service.loadbalancer.server.port=80"
 
+    postgres:
+        image: postgres:13.4-alpine
+        volumes:
+            -   type: bind
+                source: /opt/am/postgres/data
+                target: /var/lib/postgresql/data
+            -   type: bind
+                source: /opt/am/db/backups
+                target: /backups
+        environment:
+            POSTGRES_DB: db
+            POSTGRES_USER: db
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+        deploy:
+            mode: global
+            update_config:
+                failure_action: rollback
+                parallelism: 1
+                delay: 5s
+        healthcheck:
+            test: pg_isready
+            interval: 5s
+            timeout: 5s
+            retries: 3
+            start_period: 10s
+
     postgres_msk: &postgres
         image: postgres:12.2
         volumes:
