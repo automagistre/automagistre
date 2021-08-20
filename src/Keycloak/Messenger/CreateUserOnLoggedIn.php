@@ -37,6 +37,7 @@ final class CreateUserOnLoggedIn implements MessageHandler
         }
 
         $this->keycloak->createUser([
+            'id' => $user->toId()->toString(),
             'username' => $user->getUsername(),
             'firstName' => $user->firstName,
             'lastName' => $user->lastName,
