@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Customer\Form;
 
 use App\CreatedBy\Entity\CreatedBy;
-use App\Customer\Entity\Operand;
+use App\Customer\Entity\CustomerView;
 use App\Customer\Entity\OperandId;
 use App\Doctrine\Registry;
 use App\Order\Entity\OrderItemService;
@@ -47,26 +47,22 @@ final class WorkerType extends AbstractType
         $resolver->setDefaults([
             'label' => 'Исполнитель',
             'placeholder' => 'Выберите исполнителя',
-            'class' => Operand::class,
             'choice_loader' => new CallbackChoiceLoader(function () use (&$groupMap): array {
-                $ids = $this->registry
-                    ->connection(Operand::class)
-                    ->fetchAllAssociative('SELECT id AS id, type FROM operand WHERE contractor IS TRUE')
-                ;
+                $contractors = $this->registry->findBy(CustomerView::class, ['contractor' => true]);
 
-                foreach ($ids as ['id' => $id, 'type' => $type]) {
-                    $groupMap[$id] = $type;
+                foreach ($contractors as $contractor) {
+                    $groupMap[$contractor->id->toString()] = $contractor->type;
                 }
 
-                return array_map(fn (array $item): OperandId => OperandId::from($item['id']), $ids);
+                return array_map(static fn (CustomerView $contractor): OperandId => $contractor->id, $contractors);
             }),
             'preferred_choices' => fn (string $operand) => array_key_exists($operand, $preferred),
             'choice_label' => fn (OperandId $operandId) => $this->formatter->format($operandId),
-            'choice_value' => fn (?OperandId $operandId) => null === $operandId ? null : $operandId->toString(),
+            'choice_value' => fn (?OperandId $operandId) => $operandId?->toString(),
             'group_by' => static function (string $operand) use (&$groupMap) {
                 return [
-                    '1' => 'Работник',
-                    '2' => 'Организация',
+                    'person' => 'Работник',
+                    'organization' => 'Организация',
                 ][$groupMap[$operand]];
             },
         ]);

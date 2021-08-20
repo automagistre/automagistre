@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Review\Messages;
 
-use App\Customer\Entity\CustomerStorage;
-use App\Customer\Entity\Organization;
+use App\Customer\Entity\Person;
+use App\Doctrine\Registry;
 use App\MessageBus\MessageHandler;
 use App\Order\Entity\OrderDeal;
 use App\Order\Entity\OrderStorage;
@@ -20,7 +20,7 @@ final class SmsToRequestReviews implements MessageHandler
 {
     public function __construct(
         private OrderStorage $orderStorage,
-        private CustomerStorage $customerStorage,
+        private Registry $registry,
         private RouterInterface $router,
         private MessageBusInterface $messageBus,
     ) {
@@ -36,9 +36,9 @@ final class SmsToRequestReviews implements MessageHandler
             return;
         }
 
-        $customer = $this->customerStorage->get($customerId);
+        $customer = $this->registry->findOneBy(Person::class, ['id' => $customerId]);
 
-        if ($customer instanceof Organization) {
+        if (null === $customer) {
             return;
         }
 

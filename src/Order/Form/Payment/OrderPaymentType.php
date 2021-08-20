@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace App\Order\Form\Payment;
 
 use App\Balance\Entity\BalanceView;
-use App\Customer\Entity\Operand;
+use App\Customer\Form\CustomerAutocompleteType;
 use App\Doctrine\Registry;
-use App\EasyAdmin\Form\AutocompleteType;
 use App\Order\Entity\Order;
 use App\Wallet\Entity\Wallet;
 use Money\Currency;
@@ -40,9 +39,8 @@ final class OrderPaymentType extends AbstractType
         $disabledDescription = (bool) $options['disabled_description'];
 
         $builder
-            ->add('recipient', AutocompleteType::class, [
+            ->add('recipient', CustomerAutocompleteType::class, [
                 'label' => 'Получатель',
-                'class' => Operand::class,
                 'disabled' => true,
             ])
             ->add('wallets', CollectionType::class, [

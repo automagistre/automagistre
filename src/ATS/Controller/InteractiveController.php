@@ -45,12 +45,12 @@ final class InteractiveController extends AbstractController
             return new JsonResponse(['returned_code' => 1]);
         }
 
-        $name = $person->getFirstname();
+        $name = $person->firstname;
 
         if (null === $name) {
             return new JsonResponse(['returned_code' => 1]);
         }
-        $fullName = sprintf('%s %s', $person->getLastname() ?? '', $name);
+        $fullName = sprintf('%s %s', $person->lastname ?? '', $name);
 
         $message = $this->message($person);
 

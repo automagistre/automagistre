@@ -10,9 +10,7 @@ use App\Car\Form\CarType;
 use App\Car\Form\DTO\CarCreate;
 use App\Car\Form\DTO\CarUpdate;
 use App\Car\Repository\CarCustomerRepository;
-use App\Customer\Entity\Operand;
-use App\Customer\Entity\Organization;
-use App\Customer\Entity\Person;
+use App\Customer\Entity\CustomerView;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Manufacturer\Entity\Manufacturer;
 use App\Note\Entity\NoteView;
@@ -235,9 +233,7 @@ final class CarController extends AbstractController
         $qb
             ->leftJoin(Model::class, 'model', Join::WITH, 'model.id = car.vehicleId')
             ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'manufacturer.id = model.manufacturerId')
-            ->leftJoin(Operand::class, 'customer', Join::WITH, 'o.customerId = customer.id')
-            ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = customer.id AND customer INSTANCE OF '.Person::class)
-            ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = customer.id AND customer INSTANCE OF '.Organization::class)
+            ->leftJoin(CustomerView::class, 'customer', Join::WITH, 'customer.id = o.customerId')
         ;
 
         foreach (explode(' ', $searchQuery) as $key => $searchString) {
@@ -253,11 +249,9 @@ final class CarController extends AbstractController
                 $qb->expr()->like('LOWER(model.caseName)', $key),
                 $qb->expr()->like('LOWER(manufacturer.name)', $key),
                 $qb->expr()->like('LOWER(manufacturer.localizedName)', $key),
-                $qb->expr()->like('LOWER(person.firstname)', $key),
-                $qb->expr()->like('LOWER(person.lastname)', $key),
-                $qb->expr()->like('LOWER(person.telephone)', $key),
-                $qb->expr()->like('LOWER(person.email)', $key),
-                $qb->expr()->like('LOWER(organization.name)', $key),
+                $qb->expr()->like('LOWER(customer.fullName)', $key),
+                $qb->expr()->like('LOWER(customer.telephone)', $key),
+                $qb->expr()->like('LOWER(customer.email)', $key),
             ));
 
             $qb->setParameter($key, '%'.mb_strtolower($searchString).'%');

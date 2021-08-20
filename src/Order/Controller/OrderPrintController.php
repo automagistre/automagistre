@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Order\Controller;
 
 use App\Car\Entity\Car;
-use App\Customer\Entity\Operand;
+use App\Customer\Entity\CustomerView;
+use App\Customer\Entity\Organization;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Order\Entity\Order;
 use App\Order\Form\Finish\OrderFinishDto;
@@ -34,7 +35,7 @@ final class OrderPrintController extends AbstractController
                 : $this->registry->getBy(Car::class, ['id' => $order->getCarId()]),
             'customer' => null === $order->getCustomerId()
                 ? null
-                : $this->registry->getBy(Operand::class, ['id' => $order->getCustomerId()]),
+                : $this->registry->getBy(CustomerView::class, ['id' => $order->getCustomerId()]),
         ]);
     }
 
@@ -134,7 +135,8 @@ final class OrderPrintController extends AbstractController
         assert($order instanceof Order);
 
         $parameters['car'] = $this->registry->findOneBy(Car::class, ['id' => $order->getCarId()]);
-        $parameters['customer'] = $this->registry->findOneBy(Operand::class, ['id' => $order->getCustomerId()]);
+        $parameters['customer'] = $this->registry->findOneBy(CustomerView::class, ['id' => $order->getCustomerId()]);
+        $parameters['requisite'] = $this->registry->findOneBy(Organization::class, ['id' => $order->getCustomerId()])?->requisite;
 
         return parent::render($view, $parameters, $response);
     }

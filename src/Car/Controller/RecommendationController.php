@@ -10,10 +10,8 @@ use App\Car\Entity\Recommendation;
 use App\Car\Entity\RecommendationId;
 use App\Car\Form\DTO\RecommendationDTO;
 use App\Car\Manager\RecommendationManager;
-use App\Customer\Entity\Operand;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Order\Entity\Order;
-use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -90,11 +88,10 @@ final class RecommendationController extends AbstractController
         if (null === $model->workerId) {
             $em = $this->em;
             $result = $em->createQueryBuilder()
-                ->select('entity.id AS id')
-                ->from(Operand::class, 'entity')
-                ->join(Recommendation::class, 'cr', Join::WITH, 'entity.id = cr.workerId')
+                ->select('cr.workerId AS id')
+                ->from(Recommendation::class, 'cr')
                 ->where('cr.car = :car')
-                ->orderBy('entity.id', 'DESC')
+                ->orderBy('cr.id', 'DESC')
                 ->getQuery()
                 ->setParameter('car', $car)
                 ->setMaxResults(1)

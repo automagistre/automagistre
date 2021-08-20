@@ -6,7 +6,7 @@ namespace App\Customer\Controller;
 
 use App\Customer\Entity\CustomerTransaction;
 use App\Customer\Entity\CustomerTransactionId;
-use App\Customer\Entity\Operand;
+use App\Customer\Entity\OperandId;
 use App\Customer\Enum\CustomerTransactionSource;
 use App\Customer\Form\TransactionDto;
 use App\EasyAdmin\Controller\AbstractController;
@@ -30,11 +30,7 @@ final class TransactionController extends AbstractController
 {
     protected function createNewEntity(): TransactionDto
     {
-        $recipient = $this->findEntity(Operand::class);
-
-        if (!$recipient instanceof Operand) {
-            throw new LogicException('Operand required.');
-        }
+        $recipient = $this->getIdentifier(OperandId::class);
 
         $request = $this->request;
 
@@ -94,7 +90,7 @@ final class TransactionController extends AbstractController
 
                 $em->persist(new CustomerTransaction(
                     $customerTransactionId,
-                    $model->recipient->toId(),
+                    $model->recipient,
                     $money,
                     CustomerTransactionSource::manual(),
                     $walletTransactionId->toUuid(),
@@ -114,7 +110,7 @@ final class TransactionController extends AbstractController
             } else {
                 $em->persist(new CustomerTransaction(
                     $customerTransactionId,
-                    $model->recipient->toId(),
+                    $model->recipient,
                     $money,
                     CustomerTransactionSource::manualWithoutWallet(),
                     $this->getUser()->toId()->toUuid(),
@@ -135,11 +131,11 @@ final class TransactionController extends AbstractController
     ): QueryBuilder {
         $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
 
-        $operand = $this->findEntity(Operand::class);
+        $customerId = $this->getIdentifierOrNull(OperandId::class);
 
-        if ($operand instanceof Operand) {
+        if (null !== $customerId) {
             $qb->andWhere('entity.operandId = :operand')
-                ->setParameter('operand', $operand->toId())
+                ->setParameter('operand', $customerId->toString())
             ;
         }
 

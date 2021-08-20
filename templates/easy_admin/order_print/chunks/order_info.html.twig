@@ -1,4 +1,4 @@
-{% macro order_info(type, order, customer, car) %}
+{% macro order_info(type, order, customer, car, requisite) %}
     <div class="container order">
 
     <div class="order-info">
@@ -14,18 +14,15 @@
                     {# Если заказчик организация, то выводить все доступные реквизиты#}
                     {{- customer.fullName -}}
 
-                    {% if customer.type('person') %}
+                    {% if customer.type == 'person' %}
                         {%- if customer.telephone is not empty %}
                             тел: {{ customer.telephone|phone_number_format }}
                         {%- endif -%}
                         {%- if customer.email is not empty %}
                             e-mail: {{ customer.email }}
                         {% endif %}
-                    {%- elseif customer.type('organization') -%}
-                        {# @var customer \App\Customer\Domain\Organization #}
-                        {%- if not customer.requisite.empty -%}
-                            , {{- customer.requisite -}}
-                        {%- endif -%}
+                    {%- elseif not requisite.empty -%}
+                            , {{- requisite -}}
                     {% endif %}
                 {% endif %}
             </div>

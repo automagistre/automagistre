@@ -12,7 +12,7 @@
                 {{ car.toId|display_name }} {{ car.gosnomer }}
             {% endif %}
             {% if customer is not empty %}
-                ({{ customer }})
+                ({{ customer.fullName }})
             {% endif %}
         </h3>
         <h3>
@@ -37,7 +37,7 @@
         </h3>
         <h3>
             {% if customer is not empty %}
-                Владелец: {{ customer }}
+                Владелец: {{ customer.fullName }}
             {% endif %}
         </h3>
     </header>

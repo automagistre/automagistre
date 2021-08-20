@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Customer\View;
 
-use App\Customer\Entity\Operand;
+use App\Customer\Entity\CustomerView;
 use App\Customer\Entity\OperandId;
 use App\Doctrine\Registry;
 use App\Shared\Identifier\IdentifierFormatter;
@@ -13,7 +13,6 @@ use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use Premier\Identifier\Identifier;
 use function strtr;
-use function trim;
 
 final class OperandFormatter implements IdentifierFormatterInterface
 {
@@ -32,12 +31,12 @@ final class OperandFormatter implements IdentifierFormatterInterface
      */
     public function format(IdentifierFormatter $formatter, Identifier $identifier, string $format = null): string
     {
-        $operand = $this->registry->get(Operand::class, $identifier);
+        $operand = $this->registry->get(CustomerView::class, $identifier);
 
-        $telephone = $operand->getTelephone();
+        $telephone = $operand->telephone;
 
         $values = [
-            ':name:' => trim($operand->getFullName()),
+            ':name:' => $operand->fullName,
             ':tel:' => null !== $telephone
                 ? $this->phoneNumberUtil->format($telephone, PhoneNumberFormat::NATIONAL)
                 : '-',

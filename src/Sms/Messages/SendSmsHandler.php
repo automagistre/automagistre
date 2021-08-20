@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Sms\Messages;
 
-use App\Customer\Entity\Operand;
+use App\Customer\Entity\CustomerView;
 use App\Customer\Entity\OperandId;
 use App\Doctrine\Registry;
 use App\MessageBus\MessageHandler;
@@ -28,7 +28,7 @@ final class SendSmsHandler implements MessageHandler
         }
 
         if ($command->recipient instanceof OperandId) {
-            $phoneNumber = $this->registry->getBy(Operand::class, $command->recipient)->getTelephone();
+            $phoneNumber = $this->registry->getBy(CustomerView::class, $command->recipient)->telephone;
         } else {
             $phoneNumber = $command->recipient;
         }

@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Order\Messages;
 
-use App\Customer\Entity\CustomerStorage;
+use App\Customer\Entity\CustomerView;
+use App\Customer\Entity\TransactionalCustomer;
 use App\Customer\Enum\CustomerTransactionSource;
+use App\Doctrine\Registry;
 use App\MessageBus\MessageHandler;
 use App\Order\Entity\OrderStorage;
 use function Sentry\captureMessage;
@@ -13,7 +15,7 @@ use function sprintf;
 
 final class CloseOrderHandler implements MessageHandler
 {
-    public function __construct(private OrderStorage $orderStorage, private CustomerStorage $customerStorage)
+    public function __construct(private OrderStorage $orderStorage, private Registry $registry)
     {
     }
 
@@ -32,8 +34,8 @@ final class CloseOrderHandler implements MessageHandler
         $customerId = $order->getCustomerId();
 
         if (null !== $customerId) {
-            $balance = $this->customerStorage->view($customerId)->balance;
-            $customer = $this->customerStorage->getTransactional($customerId);
+            $balance = $this->registry->get(CustomerView::class, $customerId)->balance;
+            $customer = new TransactionalCustomer($customerId, $this->registry->manager());
 
             foreach ($order->getPayments() as $payment) {
                 $customer->addTransaction(

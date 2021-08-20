@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Employee\Form;
 
-use App\Customer\Entity\Operand;
 use App\Doctrine\Registry;
+use App\Employee\Entity\Employee;
 use App\Employee\Entity\EmployeeId;
 use App\Shared\Identifier\IdentifierFormatter;
 use Symfony\Component\Form\AbstractType;
@@ -42,15 +42,12 @@ final class EmployeeUuidType extends AbstractType
             'label' => false,
             'placeholder' => 'Выберите работника',
             'choice_loader' => new CallbackChoiceLoader(function (): array {
-                $ids = $this->registry
-                    ->connection(Operand::class)
-                    ->fetchAllAssociative('SELECT id AS id FROM employee WHERE fired_at IS NULL')
-                ;
+                $employees = $this->registry->findBy(Employee::class, ['firedAt' => null]);
 
-                return array_map(fn (array $row) => EmployeeId::from($row['id']), $ids);
+                return array_map(static fn (Employee $employee) => $employee->toId(), $employees);
             }),
             'choice_label' => fn (EmployeeId $id) => $this->formatter->format($id),
-            'choice_value' => fn (?EmployeeId $id) => null === $id ? null : $id->toString(),
+            'choice_value' => fn (?EmployeeId $id) => $id?->toString(),
         ]);
     }
 

@@ -1,8 +1,8 @@
 easy_admin:
     entities:
         Operand:
-            class: App\Customer\Entity\Operand
-            controller: App\Customer\Controller\OperandController
+            class: App\Customer\Entity\CustomerView
+            controller: App\Customer\Controller\CustomerController
             disabled_actions: ['list', 'new', 'edit', 'delete', 'search']
 
         Person:
@@ -107,6 +107,6 @@ easy_admin:
                 title: 'Создать новую проводку {{ "increment" == app.request.query.get("type") ? "пополнения" : "списания" }}'
                 form_options: { data_class: App\Customer\Form\TransactionDto }
                 fields:
-                    - { property: 'recipient', label: 'Получатель', type: 'text', type_options: { disabled: true } }
+                    - { property: 'recipient', label: 'Получатель', type: App\Customer\Form\CustomerAutocompleteType, type_options: { disabled: true } }
                     - { property: 'amount', label: 'Сумма', type: App\Form\Type\MoneyType }
                     - { property: 'description', label: 'Описание', type: 'text', type_options: { required: true } }

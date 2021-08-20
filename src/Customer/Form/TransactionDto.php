@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Customer\Form;
 
-use App\Customer\Entity\Operand;
+use App\Customer\Entity\OperandId;
 use App\Wallet\Entity\Wallet;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class TransactionDto
 {
     /**
-     * @var Operand
+     * @var OperandId
      *
      * @Assert\NotBlank
      */

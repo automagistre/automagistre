@@ -4,20 +4,14 @@ declare(strict_types=1);
 
 namespace App\Employee\Entity;
 
-use App\Customer\Entity\CustomerStorage;
 use App\Customer\Entity\OperandId;
+use App\Customer\Entity\TransactionalCustomer;
 use App\Doctrine\Registry;
 
 final class EmployeeStorage
 {
-    private Registry $registry;
-
-    private CustomerStorage $customerStorage;
-
-    public function __construct(Registry $registry, CustomerStorage $customerStorage)
+    public function __construct(private Registry $registry)
     {
-        $this->registry = $registry;
-        $this->customerStorage = $customerStorage;
     }
 
     public function chargeable(OperandId $operandId): ?ChargeableEmployee
@@ -48,7 +42,7 @@ final class EmployeeStorage
         }
 
         return new ChargeableEmployee(
-            $this->customerStorage->getTransactional($operandId),
+            new TransactionalCustomer($operandId, $this->registry->manager()),
             $rate,
         );
     }

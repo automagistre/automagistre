@@ -33,9 +33,9 @@ final class OrganizationController extends OperandController
             $organization = new Organization(
                 $id,
             );
-            $organization->setName($dto->name);
-            $organization->setEmail($dto->email);
-            $organization->setTelephone($dto->telephone);
+            $organization->name = $dto->name;
+            $organization->email = $dto->email;
+            $organization->telephone = $dto->telephone;
 
             $em->persist($organization);
             $em->flush();

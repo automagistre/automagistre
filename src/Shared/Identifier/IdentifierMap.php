@@ -19,7 +19,7 @@ final class IdentifierMap
         \App\Car\Entity\RecommendationId::class => \App\Car\Entity\Recommendation::class,
         \App\Car\Entity\RecommendationPartId::class => \App\Car\Entity\RecommendationPart::class,
         \App\Customer\Entity\CustomerTransactionId::class => \App\Customer\Entity\CustomerTransaction::class,
-        \App\Customer\Entity\OperandId::class => \App\Customer\Entity\Operand::class,
+        \App\Customer\Entity\OperandId::class => \App\Customer\Entity\CustomerView::class,
         \App\Employee\Entity\EmployeeId::class => \App\Employee\Entity\Employee::class,
         \App\Employee\Entity\SalaryId::class => \App\Employee\Entity\Salary::class,
         \App\Expense\Entity\ExpenseId::class => \App\Expense\Entity\Expense::class,

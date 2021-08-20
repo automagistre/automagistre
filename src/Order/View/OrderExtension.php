@@ -7,7 +7,7 @@ namespace App\Order\View;
 use App\Calendar\Entity\EntryView;
 use App\Car\Entity\Car;
 use App\Car\Entity\Recommendation;
-use App\Customer\Entity\Operand;
+use App\Customer\Entity\CustomerView;
 use App\Doctrine\Registry;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderId;
@@ -47,7 +47,7 @@ final class OrderExtension extends AbstractExtension
                         'order' => $order,
                         'status_selector' => $statusSelector,
                         'car' => $this->registry->findOneBy(Car::class, ['id' => $order->getCarId()]),
-                        'customer' => $this->registry->findOneBy(Operand::class, ['id' => $order->getCustomerId()]),
+                        'customer' => null === $order->getCustomerId() ? null : $this->registry->findOneBy(CustomerView::class, ['id' => $order->getCustomerId()]),
                         'calendarEntry' => $this->registry->findOneBy(EntryView::class, ['orderId' => $order->toId()]),
                     ]);
                 },

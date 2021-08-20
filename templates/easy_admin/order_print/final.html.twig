@@ -63,7 +63,7 @@
         <main class="portrait">
             {% include 'easy_admin/order_print/chunks/header.html.twig' %}
             <div class="main-table">
-                {{ order_info('заказ-наряд', order, customer, car) }}
+                {{ order_info('заказ-наряд', order, customer, car, requisite) }}
                 <div class="order-table">
                     {{ order_table_header() }}
 {% endblock %}
@@ -76,7 +76,7 @@
     <div class="page portrait order-fonts js-order-page">
         <main class="portrait">
             <div class="main-table">
-                {{ order_info('заказ-наряд', order, customer, car) }}
+                {{ order_info('заказ-наряд', order, customer, car, requisite) }}
                 <div class="order-table">
                     {{ order_table_header() }}
 {% endblock %}
@@ -95,7 +95,7 @@
     <div class="page portrait order-fonts js-recommendations-page">
         <main class="portrait">
             <div>
-                {{ order_info('рекомендации', order, customer, car) }}
+                {{ order_info('рекомендации', order, customer, car, requisite) }}
                 <div class="recommendations-table">
                     {{ recommendations_table_header() }}
 {% endblock %}
@@ -108,7 +108,7 @@
     <div class="page html2pdf__page-break-after js-recommendations-page">
         <main>
             <div>
-                {{ order_info('рекомендации', order, customer, car) }}
+                {{ order_info('рекомендации', order, customer, car, requisite) }}
                 <div class="recommendations-table">
                     {{ recommendations_table_header() }}
 {% endblock %}

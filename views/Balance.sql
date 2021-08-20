@@ -2,10 +2,22 @@ SELECT o.id,
        o.tenant_id,
        COALESCE(SUM(ct.amount_amount), 0)       AS amount,
        COALESCE(ct.amount_currency_code, 'RUB') AS currency_code
-FROM operand o
+FROM organization o
          LEFT JOIN customer_transaction ct ON ct.operand_id = o.id
 GROUP BY o.id, ct.amount_currency_code
+
 UNION ALL
+
+SELECT o.id,
+       o.tenant_id,
+       COALESCE(SUM(ct.amount_amount), 0)       AS amount,
+       COALESCE(ct.amount_currency_code, 'RUB') AS currency_code
+FROM person o
+         LEFT JOIN customer_transaction ct ON ct.operand_id = o.id
+GROUP BY o.id, ct.amount_currency_code
+
+UNION ALL
+
 SELECT w.id,
        w.tenant_id,
        COALESCE(SUM(wt.amount_amount), 0)       AS amount,

@@ -7,6 +7,7 @@ namespace App\Customer\Entity;
 use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
+use LogicException;
 use Money\Money;
 
 /**
@@ -26,7 +27,14 @@ class CustomerView extends TenantEntity
     /**
      * @ORM\Column(nullable=true)
      */
-    public ?string $name;
+    public ?string $fullName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(nullable=true)
+     */
+    public $address;
 
     /**
      * @ORM\Column(type="money")
@@ -42,4 +50,38 @@ class CustomerView extends TenantEntity
      * @ORM\Column(type="phone_number")
      */
     public ?PhoneNumber $telephone = null;
+
+    /**
+     * @ORM\Column(type="phone_number")
+     */
+    public ?PhoneNumber $officePhone = null;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    public bool $contractor = false;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    public bool $seller = false;
+
+    /**
+     * @ORM\Column()
+     */
+    public string $type;
+
+    public function toId(): OperandId
+    {
+        return $this->id;
+    }
+
+    public function toClass(): string
+    {
+        return match ($this->type) {
+            'organization' => Organization::class,
+            'person' => Person::class,
+            default => throw new LogicException('Unexpected type.'),
+        };
+    }
 }

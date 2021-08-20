@@ -59,16 +59,16 @@
                         {# Если заказчик организация, то выводить все доступные реквизиты #}
                         {{- customer.fullName -}}
 
-                        {% if customer.type('person') %}
+                        {% if customer.type == 'person' %}
                             {%- if customer.telephone is not empty %}
                                 тел: {{ customer.telephone|phone_number_format }}
                             {%- endif -%}
                             {%- if customer.email is not empty %}
                                 e-mail: {{ customer.email }}
                             {% endif %}
-                        {%- elseif customer.type('organization') -%}
-                            {%- if not customer.requisite.empty -%}
-                                , {{- customer.requisite -}}
+                        {%- elseif customer.type == 'organization' -%}
+                            {%- if not requisite.empty -%}
+                                , {{- requisite -}}
                             {%- endif -%}
                             {%- if customer.telephone is not empty %}
                                 {{ customer.telephone|phone_number_format }}

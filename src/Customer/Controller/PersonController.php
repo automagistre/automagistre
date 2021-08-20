@@ -40,10 +40,10 @@ final class PersonController extends OperandController
             $person = new Person(
                 $id,
             );
-            $person->setFirstname($dto->firstName);
-            $person->setLastname($dto->lastName);
-            $person->setEmail($dto->email);
-            $person->setTelephone($dto->telephone);
+            $person->firstname = $dto->firstName;
+            $person->lastname = $dto->lastName;
+            $person->email = $dto->email;
+            $person->telephone = $dto->telephone;
 
             $em->persist($person);
             $em->flush();
@@ -145,13 +145,13 @@ final class PersonController extends OperandController
         $paginator = $this->get(Paginator::class)->createOrmPaginator($qb, $query->getInt('page', 1));
 
         $data = array_map(function (Person $person): array {
-            $formattedTelephone = $this->formatTelephone($person->getTelephone() ?? $person->getOfficePhone());
+            $formattedTelephone = $this->formatTelephone($person->telephone ?? $person->officePhone);
 
             return [
                 'id' => $person->toId()->toString(),
                 'text' => sprintf('%s %s', $person->getFullName(), $formattedTelephone),
-                'firstName' => $person->getFirstname(),
-                'lastName' => $person->getLastname(),
+                'firstName' => $person->firstname,
+                'lastName' => $person->lastname,
                 'phone' => $formattedTelephone,
             ];
         }, (array) $paginator->getCurrentPageResults());

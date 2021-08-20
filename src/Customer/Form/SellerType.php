@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Customer\Form;
 
-use App\Customer\Entity\Operand;
+use App\Customer\Entity\CustomerView;
 use App\Customer\Entity\OperandId;
 use App\Doctrine\Registry;
+use App\Income\Entity\Income;
 use App\Shared\Identifier\IdentifierFormatter;
 use DateTime;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use function array_flip;
 use function array_key_exists;
 use function array_map;
 
@@ -37,38 +37,28 @@ final class SellerType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $preferred = $this->registry->connection()
-            ->fetchAllAssociative(
-                '
-                SELECT supplier_id
-                FROM income
-                WHERE accrued_at > :date
-                GROUP BY supplier_id
-                ORDER BY COUNT(*) DESC
-                LIMIT 10
-            ',
-                [
-                    'date' => (new DateTime('-1 month'))->format('Y-m-d'),
-                ],
-            )
+        $preferred = $this->registry->manager()->createQueryBuilder()
+            ->select('t.supplierId')
+            ->from(Income::class, 't', 't.supplierId')
+            ->where('t.accruedAt > :date')
+            ->groupBy('t.supplierId')
+            ->orderBy('COUNT(t.supplierId)', 'DESC')
+            ->getQuery()
+            ->setParameter('date', new DateTime('-1 month'))
+            ->setMaxResults(10)
+            ->getArrayResult()
         ;
-
-        $preferred = array_map(static fn (array $item) => array_shift($item), $preferred);
-        $preferred = array_flip($preferred);
 
         $resolver->setDefaults([
             'label' => 'Поставщик',
             'placeholder' => 'Выберите поставщика',
             'choice_loader' => new CallbackChoiceLoader(function (): array {
-                $ids = $this->registry
-                    ->connection(Operand::class)
-                    ->fetchAllAssociative('SELECT id AS id, type FROM operand WHERE seller IS TRUE')
-                ;
+                $sellers = $this->registry->findBy(CustomerView::class, ['seller' => true]);
 
-                return array_map(fn (array $item): OperandId => OperandId::from($item['id']), $ids);
+                return array_map(static fn (CustomerView $seller): OperandId => $seller->id, $sellers);
             }),
             'choice_label' => fn (OperandId $operandId) => $this->formatter->format($operandId),
-            'choice_value' => fn (?OperandId $operandId) => null === $operandId ? null : $operandId->toString(),
+            'choice_value' => fn (?OperandId $operandId) => $operandId?->toString(),
             'preferred_choices' => fn (string $operand) => array_key_exists($operand, $preferred),
         ]);
     }

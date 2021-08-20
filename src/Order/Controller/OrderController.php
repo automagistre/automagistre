@@ -11,10 +11,8 @@ use App\Car\Entity\Car;
 use App\Car\Entity\CarId;
 use App\CreatedBy\Entity\CreatedBy;
 use App\Customer\Entity\CustomerTransactionView;
-use App\Customer\Entity\Operand;
+use App\Customer\Entity\CustomerView;
 use App\Customer\Entity\OperandId;
-use App\Customer\Entity\Organization;
-use App\Customer\Entity\Person;
 use App\EasyAdmin\Controller\AbstractController;
 use App\EasyAdmin\Form\AutocompleteType;
 use App\Manufacturer\Entity\Manufacturer;
@@ -370,7 +368,11 @@ final class OrderController extends AbstractController
                 ->findBy(['subject' => $entity->toId()->toUuid()], ['id' => 'DESC'])
             ;
             $parameters['car'] = $this->registry->findOneBy(Car::class, ['id' => $entity->getCarId()]);
-            $parameters['customer'] = $this->registry->findOneBy(Operand::class, ['id' => $entity->getCustomerId()]);
+
+            $customerId = $entity->getCustomerId();
+            $parameters['customer'] = null === $customerId
+                ? null
+                : $this->registry->findOneBy(CustomerView::class, ['id' => $customerId]);
 
             $transactions = [
                 ...$em->createQueryBuilder()
@@ -388,7 +390,7 @@ final class OrderController extends AbstractController
                     ->getQuery()
                     ->getResult(),
             ];
-            usort($transactions, fn ($left, $right) => $left->createdAt <=> $right->createdAt);
+            usort($transactions, static fn ($left, $right) => $left->createdAt <=> $right->createdAt);
             $parameters['transactions'] = $transactions;
         }
 
@@ -448,11 +450,11 @@ final class OrderController extends AbstractController
             ->leftJoin(CreatedBy::class, 'closedBy', Join::WITH, 'closedBy.id = closed.id')
         ;
 
-        $customer = $this->findEntity(Operand::class);
+        $customerId = $this->getIdentifierOrNull(OperandId::class);
 
-        if ($customer instanceof Operand) {
+        if (null !== $customerId) {
             $qb->andWhere('entity.customerId = :customer')
-                ->setParameter('customer', $customer->toId())
+                ->setParameter('customer', $customerId->toString())
             ;
         }
 
@@ -483,7 +485,7 @@ final class OrderController extends AbstractController
 
         $request = $this->request;
 
-        if (null === $customer && null === $car && null === $partId && !$request->query->has('all')) {
+        if (null === $customerId && null === $car && null === $partId && !$request->query->has('all')) {
             $qb->where(
                 $qb->expr()->orX(
                     $qb->expr()->notIn('entity.status', ':closedStatuses'),
@@ -514,11 +516,9 @@ final class OrderController extends AbstractController
             ->select('o')
             ->from(Order::class, 'o')
             ->leftJoin(Car::class, 'car', Join::WITH, 'o.carId = car.id')
-            ->leftJoin(Operand::class, 'customer', Join::WITH, 'customer.id = o.customerId')
+            ->leftJoin(CustomerView::class, 'customer', Join::WITH, 'customer.id = o.customerId')
             ->leftJoin(Model::class, 'carModel', Join::WITH, 'carModel.id = car.vehicleId')
             ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'manufacturer.id = carModel.manufacturerId')
-            ->leftJoin(Person::class, 'person', Join::WITH, 'person.id = customer.id AND customer INSTANCE OF '.Person::class)
-            ->leftJoin(Organization::class, 'organization', Join::WITH, 'organization.id = customer.id AND customer INSTANCE OF '.Organization::class)
             ->leftJoin(CreatedBy::class, 'created', Join::WITH, 'created.id = o.id')
         ;
 
@@ -526,10 +526,9 @@ final class OrderController extends AbstractController
             $key = ':search_'.$key;
 
             $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->like('LOWER(person.firstname)', $key),
-                $qb->expr()->like('LOWER(person.lastname)', $key),
-                $qb->expr()->like('LOWER(person.telephone)', $key),
-                $qb->expr()->like('LOWER(person.email)', $key),
+                $qb->expr()->like('LOWER(customer.fullName)', $key),
+                $qb->expr()->like('LOWER(customer.telephone)', $key),
+                $qb->expr()->like('LOWER(customer.email)', $key),
                 $qb->expr()->like('LOWER(car.gosnomer)', $key),
                 $qb->expr()->like('LOWER(car.identifier)', $key),
                 $qb->expr()->like('LOWER(carModel.name)', $key),
@@ -537,7 +536,6 @@ final class OrderController extends AbstractController
                 $qb->expr()->like('LOWER(carModel.caseName)', $key),
                 $qb->expr()->like('LOWER(manufacturer.name)', $key),
                 $qb->expr()->like('LOWER(manufacturer.localizedName)', $key),
-                $qb->expr()->like('LOWER(organization.name)', $key),
             ));
 
             $qb->setParameter($key, '%'.mb_strtolower($item).'%');

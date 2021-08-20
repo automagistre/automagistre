@@ -1,20 +1,39 @@
 SELECT o.id,
        o.tenant_id,
-       CASE
-           WHEN org IS NOT NULL
-               THEN org.name
-           ELSE p.lastname || ' ' || p.lastname
-           END                                                           AS name,
-       COALESCE(balance.money, 'RUB 0')                                  AS balance,
+       o.name                           AS full_name,
+       COALESCE(balance.money, 'RUB 0') AS balance,
        o.email,
-       CASE WHEN org IS NOT NULL THEN org.telephone ELSE p.telephone END AS telephone
-FROM operand o
-         LEFT JOIN organization org ON o.id = org.id
-         LEFT JOIN person p ON o.id = p.id
+       o.telephone,
+       o.office_phone,
+       o.seller,
+       o.contractor,
+       o.address,
+       'organization'                   AS type
+FROM organization o
          LEFT JOIN (
-    SELECT o.id                                                    AS id,
+    SELECT ct.operand_id                                           AS id,
            ct.amount_currency_code || ' ' || SUM(ct.amount_amount) AS money
-    FROM operand o
-             LEFT JOIN customer_transaction ct ON ct.operand_id = o.id
-    GROUP BY o.id, ct.amount_currency_code
+    FROM customer_transaction ct
+    GROUP BY ct.operand_id, ct.amount_currency_code
 ) balance ON balance.id = o.id
+
+UNION ALL
+
+SELECT p.id,
+       p.tenant_id,
+       CONCAT_WS(' ', p.lastname, p.firstname) AS full_name,
+       COALESCE(balance.money, 'RUB 0')        AS balance,
+       p.email,
+       p.telephone,
+       p.office_phone,
+       p.seller,
+       p.contractor,
+       NULL,
+       'person'                                AS type
+FROM person p
+         LEFT JOIN (
+    SELECT ct.operand_id                                           AS id,
+           ct.amount_currency_code || ' ' || SUM(ct.amount_amount) AS money
+    FROM customer_transaction ct
+    GROUP BY ct.operand_id, ct.amount_currency_code
+) balance ON balance.id = p.id

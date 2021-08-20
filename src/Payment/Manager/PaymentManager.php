@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\Payment\Manager;
 
 use App\Balance\Entity\BalanceView;
-use App\Customer\Entity\Operand;
 use App\Doctrine\Registry;
-use App\Wallet\Entity\Wallet;
 use LogicException;
 use Money\Money;
 use Premier\Identifier\Identifier;
+use function method_exists;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -23,9 +22,7 @@ final class PaymentManager
 
     public function balance(object $transactional): Money
     {
-        if ($transactional instanceof Operand) {
-            $id = $transactional->toId();
-        } elseif ($transactional instanceof Wallet) {
+        if (method_exists($transactional, 'toId')) {
             $id = $transactional->toId();
         } elseif ($transactional instanceof Identifier) {
             $id = $transactional;

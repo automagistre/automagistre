@@ -6,7 +6,7 @@ namespace App\Car\Repository;
 
 use App\Car\Entity\Car;
 use App\Car\Entity\CarId;
-use App\Customer\Entity\Operand;
+use App\Customer\Entity\CustomerView;
 use App\Customer\Entity\OperandId;
 use App\Doctrine\Registry;
 use function array_map;
@@ -59,7 +59,7 @@ final class CarCustomerRepository
             )
         ;
 
-        return $this->registry->viewListBy(Operand::class, [
+        return $this->registry->findBy(CustomerView::class, [
             'id' => array_map(
                 static fn (array $customer): string => $customer['customer_id'],
                 $customers,

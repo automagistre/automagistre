@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace App\Customer\Validator;
 
-use App\Customer\Entity\Operand;
-use App\Customer\Entity\Organization;
-use App\Customer\Entity\Person;
+use App\Customer\Entity\CustomerView;
 use App\Doctrine\Registry;
-use Doctrine\ORM\Query\Expr\Join;
 use libphonenumber\PhoneNumber;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -33,14 +30,11 @@ final class CustomerPhoneNotExistsValidator extends ConstraintValidator
             return;
         }
 
-        $entity = $this->registry->manager(Operand::class)
+        $entity = $this->registry->manager()
             ->createQueryBuilder()
             ->select('1')
-            ->from(Operand::class, 'operand')
-            ->leftJoin(Person::class, 'person', Join::WITH, 'operand.id = person.id')
-            ->leftJoin(Organization::class, 'organization', Join::WITH, 'operand.id = organization.id')
-            ->where('person.telephone = :telephone')
-            ->orWhere('organization.telephone = :telephone')
+            ->from(CustomerView::class, 'customer')
+            ->where('customer.telephone = :telephone')
             ->setParameter('telephone', $value, 'phone_number')
             ->getQuery()
             ->getOneOrNullResult()

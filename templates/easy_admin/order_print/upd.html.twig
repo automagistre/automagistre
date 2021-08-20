@@ -35,12 +35,12 @@
                 {% set customerRequisite = '&mdash;' %}
 
                 {% if customer is not empty %}
-                    {% if customer.type('person') %}
+                    {% if customer.type == 'person' %}
                         {% set customerName = 'физическое лицо' %}
-                    {% elseif customer.type('organization') %}
-                        {% set customerName = customer.name %}
+                    {% elseif customer.type == 'organization' %}
+                        {% set customerName = customer.fullName %}
                         {% set customerAddress = customer.address %}
-                        {% set customerRequisite = customer.requisite.inn ~ '/' ~ customer.requisite.kpp %}
+                        {% set customerRequisite = requisite.inn ~ '/' ~ requisite.kpp %}
                     {% endif %}
                 {% endif %}
                 <div><b>Покупатель</b></div><div><b>{{- customerName|raw -}}</b></div><div>(6)</div>
@@ -337,10 +337,10 @@
 {% block upd_sings_footer %}
     {% set customerSideInfoStr = '' %}
     {% if customer is not empty %}
-        {% if customer.type('organization') %}
-            {% set customerSideInfoStr = customer.name ? customer.name : '' %}
-            {% set customerSideInfoStr = customerSideInfoStr ~ (customer.requisite.inn ? ' ИНН:' ~ customer.requisite.inn : '') %}
-            {% set customerSideInfoStr = customerSideInfoStr ~ (customer.requisite.kpp ? '/КПП:' ~ customer.requisite.kpp : '') %}
+        {% if customer.type == 'organization' %}
+            {% set customerSideInfoStr = customer.fullName ? customer.fullName : '' %}
+            {% set customerSideInfoStr = customerSideInfoStr ~ (requisite.inn ? ' ИНН:' ~ requisite.inn : '') %}
+            {% set customerSideInfoStr = customerSideInfoStr ~ (requisite.kpp ? '/КПП:' ~ requisite.kpp : '') %}
         {% endif %}
     {% endif %}
     {% set sideCustomer = {
