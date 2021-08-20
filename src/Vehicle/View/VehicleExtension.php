@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Vehicle\View;
 
-use App\Shared\Doctrine\Registry;
+use App\Doctrine\Registry;
 use App\Vehicle\Entity\Model;
 use App\Vehicle\Entity\VehicleId;
 use Twig\Extension\AbstractExtension;

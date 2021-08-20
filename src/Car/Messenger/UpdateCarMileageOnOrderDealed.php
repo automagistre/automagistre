@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Car\Messenger;
 
 use App\Car\Entity\Car;
+use App\Doctrine\Registry;
 use App\MessageBus\MessageHandler;
 use App\Order\Entity\Order;
 use App\Order\Messages\OrderDealed;
-use App\Shared\Doctrine\Registry;
 
 final class UpdateCarMileageOnOrderDealed implements MessageHandler
 {

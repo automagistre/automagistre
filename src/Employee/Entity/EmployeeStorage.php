@@ -6,7 +6,7 @@ namespace App\Employee\Entity;
 
 use App\Customer\Entity\CustomerStorage;
 use App\Customer\Entity\OperandId;
-use App\Shared\Doctrine\Registry;
+use App\Doctrine\Registry;
 
 final class EmployeeStorage
 {

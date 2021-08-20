@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Storage\Form\Warehouse;
 
-use App\Shared\Doctrine\Registry;
+use App\Doctrine\Registry;
 use App\Storage\Entity\WarehouseId;
 use App\Storage\Entity\WarehouseView;
 use Symfony\Component\Form\CallbackTransformer;

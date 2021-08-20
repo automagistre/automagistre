@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Order\Entity;
 
-use App\Shared\Doctrine\Registry;
+use App\Doctrine\Registry;
 
 final class OrderStorage
 {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Part\Messages;
 
+use App\Doctrine\Registry;
 use App\Fixtures\Employee\AdminFixtures;
 use App\Fixtures\Order\OrderFixtures;
 use App\Fixtures\Part\GasketFixture;
@@ -11,7 +12,6 @@ use App\Order\Entity\OrderId;
 use App\Order\Messages\OrderDealed;
 use App\Part\Entity\PartCase;
 use App\Part\Messages\LinkPartCaseOnOrderClosedListener;
-use App\Shared\Doctrine\Registry;
 use App\User\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Test\TestBrowserToken;

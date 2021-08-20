@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Part\Messages;
 
+use App\Doctrine\Registry;
 use App\MessageBus\MessageHandler;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Messages\OrderItemPartCreated;
 use App\Part\Entity\PartView;
-use App\Shared\Doctrine\Registry;
 use App\Tenant\State;
 use Premier\MarkdownBuilder\Block\NumberedListBuilder;
 use Premier\MarkdownBuilder\Markdown;

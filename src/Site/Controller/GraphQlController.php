@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Site\Controller;
 
-use App\Shared\Doctrine\Registry;
+use App\Doctrine\Registry;
 use App\Site\Context;
 use App\Site\Schema;
 use GraphQL\Error\DebugFlag;

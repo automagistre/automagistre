@@ -6,8 +6,8 @@ namespace App\Appeal\Messages;
 
 use App\Appeal\Entity\AppealView;
 use App\Appeal\Event\AppealCreated;
+use App\Doctrine\Registry;
 use App\MessageBus\MessageHandler;
-use App\Shared\Doctrine\Registry;
 use App\Tenant\State;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;

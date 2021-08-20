@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\EasyAdmin\Controller;
 
-use App\Shared\Doctrine\Registry;
-use InvalidArgumentException;
-use Premier\Identifier\Identifier;
+use App\Doctrine\Registry;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Request\EntityTransformer;
 use App\User\Entity\User;
@@ -16,12 +14,14 @@ use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use EasyCorp\Bundle\EasyAdminBundle\Router\EasyAdminRouter;
+use InvalidArgumentException;
 use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use Money\Formatter\DecimalMoneyFormatter;
 use Money\Money;
 use Money\MoneyFormatter;
+use Premier\Identifier\Identifier;
 use Ramsey\Uuid\Uuid;
 use RuntimeException;
 use Sentry\State\Scope;

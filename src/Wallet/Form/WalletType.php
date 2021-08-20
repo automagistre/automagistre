@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Wallet\Form;
 
-use App\Shared\Doctrine\Registry;
+use App\Doctrine\Registry;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Wallet\Entity\Wallet;
 use App\Wallet\Entity\WalletId;

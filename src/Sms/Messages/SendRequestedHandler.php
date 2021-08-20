@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Sms\Messages;
 
+use App\Doctrine\Registry;
 use App\MessageBus\MessageHandler;
-use App\Shared\Doctrine\Registry;
 use App\Sms\Entity\Sms;
 use App\Sms\Entity\SmsSend;
 use libphonenumber\PhoneNumberFormat;

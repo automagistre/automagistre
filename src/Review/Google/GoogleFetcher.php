@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Review\Google;
 
+use App\Doctrine\Registry;
 use App\Review\Enum\ReviewRating;
 use App\Review\Enum\ReviewSource;
 use App\Review\Fetch\FetchedReview;
 use App\Review\Fetch\Fetcher;
 use App\Review\Google\Entity\Token;
-use App\Shared\Doctrine\Registry;
 use DateTimeImmutable;
 use Generator;
 use Google_Service_MyBusiness;

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Employee\View;
 
+use App\Doctrine\Registry;
 use App\Employee\Entity\Employee;
 use App\Employee\Entity\EmployeeId;
-use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
 use Premier\Identifier\Identifier;

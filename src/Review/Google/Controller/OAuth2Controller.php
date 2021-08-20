@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Review\Google\Controller;
 
+use App\Doctrine\Registry;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Review\Google\Entity\Token;
-use App\Shared\Doctrine\Registry;
 use Google_Client;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;

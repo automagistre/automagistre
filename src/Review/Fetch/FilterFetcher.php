@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Review\Fetch;
 
-use App\Shared\Doctrine\Registry;
+use App\Doctrine\Registry;
 use Psr\Log\LoggerInterface;
 
 final class FilterFetcher implements Fetcher

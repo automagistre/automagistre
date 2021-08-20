@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Income\Manager;
 
 use App\Customer\Entity\OperandId;
+use App\Doctrine\Registry;
 use App\Income\Entity\Income;
 use App\Payment\Manager\PaymentManager;
-use App\Shared\Doctrine\Registry;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>

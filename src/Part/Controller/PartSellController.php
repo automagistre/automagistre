@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Part\Controller;
 
+use App\Doctrine\Registry;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Part\Entity\PartView;
-use App\Shared\Doctrine\Registry;
 use App\Storage\Entity\Motion;
 use App\Storage\Enum\MotionType;
 use DateInterval;

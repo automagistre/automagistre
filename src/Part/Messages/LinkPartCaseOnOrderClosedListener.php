@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Part\Messages;
 
 use App\Car\Entity\Car;
+use App\Doctrine\Registry;
 use App\MessageBus\MessageHandler;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Messages\OrderDealed;
 use App\Part\Entity\PartCase;
 use App\Part\Entity\PartCaseId;
-use App\Shared\Doctrine\Registry;
 use App\Vehicle\Entity\Model;
 use App\Vehicle\Entity\VehicleId;
 use function array_map;

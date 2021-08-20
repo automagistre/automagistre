@@ -6,7 +6,7 @@ namespace App\Car\View;
 
 use App\Car\Entity\Car;
 use App\Car\Entity\CarId;
-use App\Shared\Doctrine\Registry;
+use App\Doctrine\Registry;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
 use Premier\Identifier\Identifier;

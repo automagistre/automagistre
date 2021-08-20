@@ -6,7 +6,7 @@ namespace App\Customer\View;
 
 use App\Customer\Entity\Operand;
 use App\Customer\Entity\OperandId;
-use App\Shared\Doctrine\Registry;
+use App\Doctrine\Registry;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
 use libphonenumber\PhoneNumberFormat;

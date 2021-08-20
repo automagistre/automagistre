@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Expense\View;
 
+use App\Doctrine\Registry;
 use App\Expense\Entity\Expense;
 use App\Expense\Entity\ExpenseId;
-use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
 use Premier\Identifier\Identifier;

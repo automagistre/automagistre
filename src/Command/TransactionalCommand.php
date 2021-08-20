@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Shared\Doctrine\Registry;
+use App\Doctrine\Registry;
 use Doctrine\ORM\EntityManagerInterface;
 use MichaelPetri\TypedInput\TypedInput;
 use Symfony\Component\Console\Command\Command;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Shared\Twig;
 
-use App\Shared\Doctrine\Registry;
+use App\Doctrine\Registry;
 use App\Wallet\Entity\Wallet;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\CreatedBy\View;
 
 use App\CreatedBy\Entity\CreatedByView;
-use App\Shared\Doctrine\Registry;
+use App\Doctrine\Registry;
 use Ramsey\Uuid\UuidInterface;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;

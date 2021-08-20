@@ -6,6 +6,7 @@ namespace App\Fixtures\Order;
 
 use App\Car\Entity\CarId;
 use App\Customer\Entity\OperandId;
+use App\Doctrine\Registry;
 use App\Fixtures\Car\Primera2004Fixtures;
 use App\Fixtures\Customer\PersonVasyaFixtures;
 use App\Fixtures\Part\GasketFixture;
@@ -20,7 +21,6 @@ use App\Order\Entity\OrderItemService;
 use App\Order\Entity\OrderPayment;
 use App\Part\Entity\PartId;
 use App\Part\Entity\PartView;
-use App\Shared\Doctrine\Registry;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;

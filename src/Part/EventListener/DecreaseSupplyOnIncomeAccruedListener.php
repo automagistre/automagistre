@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Part\EventListener;
 
+use App\Doctrine\Registry;
 use App\Income\Entity\Income;
 use App\Income\Event\IncomeAccrued;
 use App\MessageBus\MessageHandler;
 use App\Part\Entity\PartView;
 use App\Part\Entity\Supply;
 use App\Part\Enum\SupplySource;
-use App\Shared\Doctrine\Registry;
 
 final class DecreaseSupplyOnIncomeAccruedListener implements MessageHandler
 {

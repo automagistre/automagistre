@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Part\View;
 
+use App\Doctrine\Registry;
 use App\Part\Entity\Part;
 use App\Part\Entity\PartId;
-use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
 use Premier\Identifier\Identifier;

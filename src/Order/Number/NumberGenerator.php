@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Order\Number;
 
+use App\Doctrine\Registry;
 use App\Order\Entity\Order;
-use App\Shared\Doctrine\Registry;
 
 final class NumberGenerator
 {

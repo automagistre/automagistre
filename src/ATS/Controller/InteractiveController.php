@@ -6,9 +6,9 @@ namespace App\ATS\Controller;
 
 use App\Calendar\Entity\EntryView;
 use App\Customer\Entity\Person;
+use App\Doctrine\Registry;
 use App\Order\Entity\Order;
 use App\Order\Enum\OrderStatus;
-use App\Shared\Doctrine\Registry;
 use DateTimeImmutable;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberUtil;

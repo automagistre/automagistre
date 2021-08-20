@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Keycloak\Messenger;
 
+use App\Doctrine\Registry;
 use App\Keycloak\Event\UserLoggedIn;
 use App\MessageBus\MessageHandler;
-use App\Shared\Doctrine\Registry;
 use App\User\Entity\User;
 use Keycloak\Admin\KeycloakClient;
 use function Sentry\captureMessage;

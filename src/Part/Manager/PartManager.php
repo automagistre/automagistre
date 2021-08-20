@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Part\Manager;
 
+use App\Doctrine\Registry;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Enum\OrderStatus;
@@ -11,7 +12,6 @@ use App\Part\Entity\Part;
 use App\Part\Entity\PartCross;
 use App\Part\Entity\PartId;
 use App\Part\Entity\PartView;
-use App\Shared\Doctrine\Registry;
 use App\Storage\Entity\Motion;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;

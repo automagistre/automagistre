@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Publish\Twig;
 
+use App\Doctrine\Registry;
 use App\Publish\Entity\PublishView;
 use App\Publish\Form\PublishDto;
 use App\Publish\Form\PublishType;
-use App\Shared\Doctrine\Registry;
 use EasyCorp\Bundle\EasyAdminBundle\Router\EasyAdminRouter;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormView;

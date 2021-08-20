@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Review\Messages;
 
+use App\Doctrine\Registry;
 use App\MessageBus\MessageHandler;
 use App\Review\Entity\Review;
 use App\Review\Event\ReviewReceived;
-use App\Shared\Doctrine\Registry;
 use App\Tenant\State;
 use Premier\MarkdownBuilder\Markdown;
 use Symfony\Contracts\HttpClient\HttpClientInterface;

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\MC\View;
 
+use App\Doctrine\Registry;
 use App\MC\Entity\McEquipment;
 use App\MC\Entity\McEquipmentId;
-use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
 use Premier\Identifier\Identifier;

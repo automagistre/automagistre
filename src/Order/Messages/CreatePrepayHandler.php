@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Order\Messages;
 
+use App\Doctrine\Registry;
 use App\MessageBus\MessageHandler;
 use App\Order\Entity\Order;
-use App\Shared\Doctrine\Registry;
 use App\Wallet\Entity\WalletTransaction;
 use App\Wallet\Entity\WalletTransactionId;
 use App\Wallet\Enum\WalletTransactionSource;

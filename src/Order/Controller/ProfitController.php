@@ -6,9 +6,9 @@ namespace App\Order\Controller;
 
 use App\Customer\Entity\OperandId;
 use App\Customer\Enum\CustomerTransactionSource;
+use App\Doctrine\Registry;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Order\Entity\Order;
-use App\Shared\Doctrine\Registry;
 use DateInterval;
 use DateTimeImmutable;
 use Money\Currency;

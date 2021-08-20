@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Storage\Form;
 
-use App\Shared\Doctrine\Registry;
+use App\Doctrine\Registry;
 use App\Storage\Entity\WarehouseView;
 use App\Storage\Form\Warehouse\WarehouseTransformer;
 use Generator;

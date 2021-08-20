@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Sms\Controller;
 
-use App\Shared\Doctrine\Registry;
+use App\Doctrine\Registry;
 use App\Sms\Entity\SmsId;
 use App\Sms\Entity\SmsStatus;
 use Symfony\Component\HttpFoundation\Request;

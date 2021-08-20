@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\EasyAdmin\Form;
 
-use App\Shared\Doctrine\Registry;
-use Premier\Identifier\Identifier;
+use App\Doctrine\Registry;
 use App\Shared\Identifier\IdentifierFormatter;
 use EasyCorp\Bundle\EasyAdminBundle\Router\EasyAdminRouter;
 use LogicException;
+use Premier\Identifier\Identifier;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\Event\PreSetDataEvent;

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Calendar\Event;
 
 use App\Calendar\Entity\EntryView;
+use App\Doctrine\Registry;
 use App\MessageBus\MessageHandler;
 use App\Order\Entity\Order;
-use App\Shared\Doctrine\Registry;
 use App\Sms\Enum\Feature;
 use App\Sms\Messages\SendSms;
 use App\Tenant\State;

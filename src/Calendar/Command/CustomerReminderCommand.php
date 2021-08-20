@@ -6,7 +6,7 @@ namespace App\Calendar\Command;
 
 use App\Calendar\Entity\EntryView;
 use App\Customer\Entity\OperandId;
-use App\Shared\Doctrine\Registry;
+use App\Doctrine\Registry;
 use App\Sms\Enum\Feature;
 use App\Sms\Messages\SendSms;
 use App\Tenant\State;

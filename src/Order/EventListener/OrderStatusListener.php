@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Order\EventListener;
 
+use App\Doctrine\Registry;
 use App\MessageBus\MessageHandler;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Entity\Reservation;
 use App\Order\Enum\OrderStatus;
 use App\Order\Manager\ReservationManager;
 use App\Part\Event\PartReserved;
-use App\Shared\Doctrine\Registry;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>

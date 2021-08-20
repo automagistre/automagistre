@@ -2,7 +2,7 @@
 
 namespace PHPSTORM_META {
 
-    use App\Shared\Doctrine\Registry;
+    use App\Doctrine\Registry;
 
     override(Registry::get(), map(0, [
         '' => '@',

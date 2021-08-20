@@ -6,9 +6,9 @@ namespace App\Order\Form\Payment;
 
 use App\Balance\Entity\BalanceView;
 use App\Customer\Entity\Operand;
+use App\Doctrine\Registry;
 use App\EasyAdmin\Form\AutocompleteType;
 use App\Order\Entity\Order;
-use App\Shared\Doctrine\Registry;
 use App\Wallet\Entity\Wallet;
 use Money\Currency;
 use Money\Money;

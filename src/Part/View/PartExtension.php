@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Part\View;
 
+use App\Doctrine\Registry;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Manager\ReservationManager;
 use App\Part\Entity\Part;
 use App\Part\Entity\PartId;
 use App\Part\Entity\PartView;
 use App\Part\Manager\PartManager;
-use App\Shared\Doctrine\Registry;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;

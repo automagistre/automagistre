@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Employee\Form;
 
+use App\Doctrine\Registry;
 use App\Employee\Entity\Employee;
-use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\IdentifierFormatter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;

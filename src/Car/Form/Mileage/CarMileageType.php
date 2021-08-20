@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Car\Form\Mileage;
 
 use App\Car\Entity\Car;
-use App\Shared\Doctrine\Registry;
+use App\Doctrine\Registry;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;

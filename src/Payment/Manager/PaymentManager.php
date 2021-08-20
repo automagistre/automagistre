@@ -6,7 +6,7 @@ namespace App\Payment\Manager;
 
 use App\Balance\Entity\BalanceView;
 use App\Customer\Entity\Operand;
-use App\Shared\Doctrine\Registry;
+use App\Doctrine\Registry;
 use App\Wallet\Entity\Wallet;
 use LogicException;
 use Money\Money;

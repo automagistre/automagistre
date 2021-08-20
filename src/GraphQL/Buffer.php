@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL;
 
-use App\Shared\Doctrine\Registry;
+use App\Doctrine\Registry;
 use GraphQL\Deferred;
 use function array_keys;
 use function array_map;

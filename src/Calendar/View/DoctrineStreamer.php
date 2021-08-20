@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Calendar\View;
 
 use App\Calendar\Entity\EntryView;
-use App\Shared\Doctrine\Registry;
+use App\Doctrine\Registry;
 use DateTimeImmutable;
 
 final class DoctrineStreamer implements Streamer

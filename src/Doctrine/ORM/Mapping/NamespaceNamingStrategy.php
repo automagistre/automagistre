@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Doctrine\ORM\Mapping;
+namespace App\Doctrine\ORM\Mapping;
 
 use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
+use LogicException;
 use function explode;
 use function implode;
+use function is_string;
 use function preg_replace;
 use function str_replace;
 use function strpos;
@@ -45,6 +47,10 @@ final class NamespaceNamingStrategy extends UnderscoreNamingStrategy
     private function underscore(string $string, int $case = CASE_LOWER): string
     {
         $string = preg_replace('/(?<=[a-z])([A-Z])/', '_$1', $string);
+
+        if (!is_string($string)) {
+            throw new LogicException('String expected.');
+        }
 
         if (CASE_UPPER === $case) {
             return strtoupper($string);

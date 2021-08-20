@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Site;
 
-use App\Shared\Doctrine\Registry;
+use App\Doctrine\Registry;
 use App\Site\Context;
 use App\Site\Schema;
+use Generator;
 use GraphQL\GraphQL;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Generator;
 use function is_array;
 
 abstract class GraphQlWwwTestCase extends KernelTestCase

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Note\View;
 
+use App\Doctrine\Registry;
 use App\Note\Entity\NoteView;
-use App\Shared\Doctrine\Registry;
 use Ramsey\Uuid\UuidInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;

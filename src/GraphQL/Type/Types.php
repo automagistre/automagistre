@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Type;
 
+use App\Doctrine\Registry;
 use App\GraphQL\Type\Definition\ConnectionType;
 use App\GraphQL\Type\Definition\DateType;
 use App\GraphQL\Type\Definition\EmailType;
@@ -23,7 +24,6 @@ use App\Part\GraphQL\Type\UnitType;
 use App\Review\GraphQL\Type\ReviewRatingType;
 use App\Review\GraphQL\Type\ReviewSourceType;
 use App\Review\GraphQL\Type\ReviewType;
-use App\Shared\Doctrine\Registry;
 use App\Vehicle\GraphQL\Type\AirIntakeType;
 use App\Vehicle\GraphQL\Type\BodyEnumType;
 use App\Vehicle\GraphQL\Type\EngineType;

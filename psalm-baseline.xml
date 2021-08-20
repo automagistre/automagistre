@@ -213,17 +213,6 @@
       <code>$rootValue</code>
     </MissingClosureParamType>
   </file>
-  <file src="src/Shared/Doctrine/ORM/Mapping/NamespaceNamingStrategy.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$string</code>
-      <code>$string</code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="src/Shared/Doctrine/Registry.php">
-    <RedundantConditionGivenDocblockType occurrences="1">
-      <code>assert($entityRepository instanceof EntityRepository)</code>
-    </RedundantConditionGivenDocblockType>
-  </file>
   <file src="src/Shared/Identifier/IdentifierTwigExtension.php">
     <MissingClosureParamType occurrences="2">
       <code>$mixed</code>

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Storage\Messages;
 
+use App\Doctrine\Registry;
 use App\MessageBus\MessageHandler;
-use App\Shared\Doctrine\Registry;
 use App\Storage\Entity\InventorizationPartView;
 use App\Storage\Entity\MotionSource;
 use App\Storage\Entity\Part;

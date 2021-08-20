@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Expense\Form;
 
+use App\Doctrine\Registry;
 use App\Expense\Entity\Expense;
 use App\Expense\Entity\ExpenseId;
-use App\Shared\Doctrine\Registry;
 use App\Shared\Identifier\IdentifierFormatter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;

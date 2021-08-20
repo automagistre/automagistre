@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Doctrine;
+namespace App\Doctrine;
 
 use App\Costil;
 use Doctrine\DBAL\Connection;
@@ -162,11 +162,7 @@ final class Registry
      */
     public function repository(string $class): EntityRepository
     {
-        $entityRepository = $this->manager($class)->getRepository($class);
-
-        assert($entityRepository instanceof EntityRepository);
-
-        return $entityRepository;
+        return $this->manager($class)->getRepository($class);
     }
 
     /**

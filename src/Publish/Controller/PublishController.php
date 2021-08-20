@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Publish\Controller;
 
+use App\Doctrine\Registry;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Publish\Entity\Publish;
 use App\Publish\Form\PublishDto;
 use App\Publish\Form\PublishType;
-use App\Shared\Doctrine\Registry;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

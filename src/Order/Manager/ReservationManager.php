@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Order\Manager;
 
+use App\Doctrine\Registry;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Entity\Reservation;
 use App\Order\Exception\ReservationException;
 use App\Part\Entity\PartId;
 use App\Part\Manager\PartManager;
-use App\Shared\Doctrine\Registry;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;

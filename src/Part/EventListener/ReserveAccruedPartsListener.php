@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Part\EventListener;
 
+use App\Doctrine\Registry;
 use App\MessageBus\MessageHandler;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Exception\ReservationException;
 use App\Order\Manager\ReservationManager;
 use App\Part\Event\PartAccrued;
-use App\Shared\Doctrine\Registry;
 
 final class ReserveAccruedPartsListener implements MessageHandler
 {

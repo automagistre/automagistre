@@ -6,8 +6,8 @@ namespace App\Sms\Messages;
 
 use App\Customer\Entity\Operand;
 use App\Customer\Entity\OperandId;
+use App\Doctrine\Registry;
 use App\MessageBus\MessageHandler;
-use App\Shared\Doctrine\Registry;
 use App\Sms\Entity\Sms;
 use App\Sms\Enum\Feature;
 use App\Tenant\State;

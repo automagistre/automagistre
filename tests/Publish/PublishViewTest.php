@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Publish;
 
+use App\Doctrine\Registry;
 use App\Publish\Entity\Publish;
 use App\Publish\Entity\PublishView;
-use App\Shared\Doctrine\Registry;
 use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;

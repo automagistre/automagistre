@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Storage\Messages;
 
+use App\Doctrine\Registry;
 use App\MessageBus\MessageHandler;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItemPart;
 use App\Order\Manager\ReservationManager;
 use App\Order\Messages\OrderDealed;
-use App\Shared\Doctrine\Registry;
 use App\Storage\Entity\MotionSource;
 use App\Storage\Entity\Part;
 
