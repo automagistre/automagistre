@@ -27,7 +27,7 @@ services:
         networks:
             - default
             - nsq
-        environment:
+        environment: &env
             APP_SECRET: ${APP_SECRET}
             DATABASE_PASSWORD: ${DB_PASSWORD}
             SENTRY_DSN: ${SENTRY_DSN}
@@ -49,6 +49,7 @@ services:
         <<: *php-fpm
         command: console cron:start --blocking
         environment:
+            <<: *env
             TENANT: msk
         healthcheck:
             disable: true
@@ -59,16 +60,19 @@ services:
     cron_kazan:
         <<: *cron
         environment:
+            <<: *env
             TENANT: kazan
 
     cron_shavlev:
         <<: *cron
         environment:
+            <<: *env
             TENANT: shavlev
 
     cron_demo:
         <<: *cron
         environment:
+            <<: *env
             TENANT: demo
 
     messenger:
