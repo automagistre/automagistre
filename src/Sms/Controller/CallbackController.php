@@ -18,9 +18,9 @@ final class CallbackController
     }
 
     /**
-     * @Route("/callback/{provider}/{id}", name="sms_callback", requirements={"provider": "smsaero"})
+     * @Route("/{provider}/{id}", name="smsaero_callback", requirements={"provider": "smsaero"})
      */
-    public function __invoke(Request $request, string $provider, string $id): Response
+    public function __invoke(Request $request, string $id): Response
     {
         $em = $this->registry->manager(SmsStatus::class);
 
@@ -28,7 +28,7 @@ final class CallbackController
             new SmsStatus(
                 SmsId::from($id),
                 [
-                    'provider' => $provider,
+                    'provider' => 'smsaero',
                     'content' => $request->request->all(),
                 ],
             ),

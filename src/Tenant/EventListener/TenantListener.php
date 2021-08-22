@@ -11,10 +11,10 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use function count;
-use function explode;
+use Throwable;
 use function getenv;
 use function is_string;
+use function Sentry\captureException;
 
 final class TenantListener implements EventSubscriberInterface
 {
@@ -25,7 +25,7 @@ final class TenantListener implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::REQUEST => ['onKernelRequest', 2500],
+            KernelEvents::REQUEST => ['onKernelRequest', 31],
             ConsoleEvents::COMMAND => ['onConsoleCommand', 2500],
         ];
     }
@@ -38,12 +38,21 @@ final class TenantListener implements EventSubscriberInterface
 
         $request = $event->getRequest();
 
-        $pieces = explode('.', $request->getHost());
-
-        $tenant = match (true) {
-            count($pieces) >= 3 => Tenant::fromIdentifier($pieces[0]),
+        $tenantName = match (true) {
+            $request->attributes->has('tenant') => $request->attributes->get('tenant'),
+            $request->headers->has('X-Tenant-Name') => $request->attributes->get('X-Tenant-Name'),
             default => null,
         };
+
+        $tenant = null;
+
+        try {
+            if (is_string($tenantName)) {
+                $tenant = Tenant::fromIdentifier($tenantName);
+            }
+        } catch (Throwable $e) {
+            captureException($e);
+        }
 
         $this->state->set($tenant);
     }

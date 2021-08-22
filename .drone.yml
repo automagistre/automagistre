@@ -289,13 +289,30 @@ services:
         image: automagistre/tenant-php:${DRONE_BUILD_NUMBER}
         environment:
             APP_SECRET: S3cr3tAtvichau
+    -   name: postgres_msk
+        image: postgres:12.2
+        environment:
+            POSTGRES_DB: db
+            POSTGRES_USER: db
+            POSTGRES_PASSWORD: db
+        tmpfs:
+            - /var/lib/postgresql/data
 
 steps:
     -   name: wait
         image: automagistre/wait-for-it:stable
         commands:
-            - /wait-for-it.sh nginx:80
-            - /wait-for-it.sh php-fpm:9000
+            - /wait-for-it.sh postgres_msk:5432
+
+    -   name: migration
+        image: automagistre/tenant-php:${DRONE_BUILD_NUMBER}
+        commands:
+            - cd $$APP_DIR
+            - console doctrine:migrations:migrate --no-interaction --allow-no-migration
+        environment:
+            TENANT: msk
+        depends_on:
+            - wait
 
     -   name: curl
         image: curlimages/curl:7.74.0
@@ -305,10 +322,10 @@ steps:
                 curl
                 --fail
                 --include
-                -H 'Host: msk.automagistre.ru'
-                nginx/login
+                -H 'Host: r.automagistre.ru'
+                nginx/msk/ymap
         depends_on:
-            - wait
+            - migration
 
 ---
 kind: pipeline

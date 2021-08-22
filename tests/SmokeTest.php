@@ -172,25 +172,6 @@ final class SmokeTest extends WebTestCase
     ];
 
     /**
-     * @dataProvider anonymousPages
-     */
-    public function testAnonymous(string $url, int $statusCode): void
-    {
-        $client = self::createClient();
-        $client->setServerParameter('HTTP_HOST', 'msk.automagistre.ru');
-
-        $client->request('GET', $url);
-        $response = $client->getResponse();
-
-        self::assertSame($statusCode, $response->getStatusCode());
-    }
-
-    public function anonymousPages(): Generator
-    {
-        yield 'Login page' => ['/login', 200];
-    }
-
-    /**
      * @dataProvider easyadmin
      */
     public function testAuthenticated(string $url, int $statusCode, bool $ajax): void
@@ -199,7 +180,6 @@ final class SmokeTest extends WebTestCase
             'PHP_AUTH_USER' => 'employee@automagistre.ru',
             'PHP_AUTH_PW' => 'pa$$word',
         ]);
-        $client->setServerParameter('HTTP_HOST', 'msk.automagistre.ru');
 
         if ($ajax) {
             $client->xmlHttpRequest('GET', $url);
@@ -232,7 +212,7 @@ final class SmokeTest extends WebTestCase
 
                 $isAjax = 'autocomplete' === $action;
 
-                yield $entity.' '.$action => ['/?'.http_build_query($queries), 200, $isAjax];
+                yield $entity.' '.$action => ['/msk/?'.http_build_query($queries), 200, $isAjax];
             }
         }
     }

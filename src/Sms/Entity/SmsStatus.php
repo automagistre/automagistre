@@ -7,12 +7,11 @@ namespace App\Sms\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
  */
-class SmsStatus extends TenantEntity
+class SmsStatus
 {
     /**
      * @ORM\Id

@@ -5,6 +5,11 @@
       <code>FrameworkConfig</code>
     </UndefinedClass>
   </file>
+  <file src="config/packages/security.php">
+    <UndefinedClass occurrences="1">
+      <code>SecurityConfig</code>
+    </UndefinedClass>
+  </file>
   <file src="src/Appeal/Controller/AppealController.php">
     <ArgumentTypeCoercion occurrences="1">
       <code>$entity-&gt;type-&gt;toEntityClass()</code>
@@ -213,14 +218,6 @@
     <QueryBuilderSetParameter occurrences="1">
       <code>$publishAt</code>
     </QueryBuilderSetParameter>
-  </file>
-  <file src="src/Sms/Security/CallbackGuard.php">
-    <DeprecatedClass occurrences="1">
-      <code>AbstractGuardAuthenticator</code>
-    </DeprecatedClass>
-    <DeprecatedMethod occurrences="1">
-      <code>loadUserByUsername</code>
-    </DeprecatedMethod>
   </file>
   <file src="src/Storage/Controller/MotionController.php">
     <QueryBuilderSetParameter occurrences="1">

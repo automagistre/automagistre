@@ -15,7 +15,7 @@ return static function (ContainerConfigurator $configurator): void {
                 'realm' => 'automagistre',
                 'grant_type' => 'client_credentials',
                 'client_id' => 'admin-cli',
-                'client_secret' => '%env(KEYCLOAK_CLIENT_SECRET)%',
+                'client_secret' => '%env(KEYCLOAK_CLI_CLIENT_SECRET)%',
                 'baseUri' => 'https://auth.automagistre.ru',
             ],
         ])

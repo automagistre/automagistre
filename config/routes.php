@@ -14,28 +14,11 @@ return static function (RoutingConfigurator $routes): void {
     ;
 
     $routes
-        ->import(__DIR__.'/../src/Site/Controller', 'annotation')
-    ;
-
-    $routes
-        ->import(__DIR__.'/../src/User/Controller/SecurityController.php', 'annotation')
-    ;
-
-    $routes
-        ->import(__DIR__.'/../src/Sms/Controller/CallbackController.php', 'annotation')
-    ;
-
-    $routes
         ->import(__DIR__.'/../src/ATS/Controller/', 'annotation')
     ;
 
     $routes
-        ->import(__DIR__.'/routes/redirects.php')
-        ->prefix('/r')
-    ;
-
-    // MUST BE LAST
-    $routes
-        ->import('@EasyAdminBundle/Controller/EasyAdminController.php', 'annotation')
+        ->import(__DIR__.'/routes/tenants.php')
+        ->prefix('/{tenant}')
     ;
 };

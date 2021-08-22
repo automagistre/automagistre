@@ -57,7 +57,7 @@
 
                         <div id="header-logo">
                             {% block header_logo %}
-                                <a class="logo logo-long" href="/">
+                                <a class="logo logo-long" href="{{ path('easyadmin') }}">
                                     СТО {{ tenant.get.toDisplayName() }}
                                 </a>
                             {% endblock header_logo %}
@@ -74,9 +74,6 @@
                                             {% if app.user|default(false) == false %}
                                                 <i class="hidden-xs fa fa-user-times"></i>
                                                 {{ 'user.anonymous'|trans(domain = 'EasyAdminBundle') }}
-                                            {% elseif not _logout_path %}
-                                                <i class="hidden-xs fa fa-user"></i>
-                                                {{ app.user.username|default('user.unnamed'|trans(domain = 'EasyAdminBundle')) }}
                                             {% else %}
                                                 <div class="btn-group">
                                                     <button type="button" class="btn" data-toggle="dropdown">
@@ -89,6 +86,11 @@
                                                     <ul class="dropdown-menu" role="menu">
                                                         {% block user_menu_dropdown %}
                                                             {% block user_menu_prod_dev_switch %}
+                                                                <li>
+                                                                    <a href="https://auth.automagistre.ru/auth/realms/automagistre/account/">
+                                                                        <i class="fa fa-user"></i> Профиль
+                                                                    </a>
+                                                                </li>
                                                                 {% if is_granted('ROLE_SUPER_ADMIN') %}
                                                                     {% set uri = app.request.uri %}
                                                                     {% if'.local' in app.request.host %}

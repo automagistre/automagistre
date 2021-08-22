@@ -38,8 +38,7 @@ final class SendRequestedHandler implements MessageHandler
                 'sign' => 'AVTOMAGISTR',
                 'text' => $sms->message,
                 'channel' => 'DIRECT',
-                'callbackUrl' => $this->router->generate('sms_callback', [
-                    'provider' => 'smsaero',
+                'callbackUrl' => $this->router->generate('smsaero_callback', [
                     'id' => $event->smsId->toString(),
                 ], RouterInterface::ABSOLUTE_URL),
                 'dateSend' => null === $sms->dateSend ? '' : $sms->dateSend->getTimestamp(),
