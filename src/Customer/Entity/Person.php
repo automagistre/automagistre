@@ -14,8 +14,13 @@ use function sprintf;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(columns={"telephone", "tenant_id"})
+ *     }
+ * )
  *
- * @UniqueEntity(fields={"telephone"}, message="Заказчик с таким телефоном уже существует")
+ * @UniqueEntity(fields={"telephone", "tenant"}, message="Заказчик с таким телефоном уже существует")
  */
 class Person extends TenantEntity
 {
