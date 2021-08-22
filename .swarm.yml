@@ -24,6 +24,8 @@ services:
             - --profile-url=https://auth.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/userinfo
             - --validate-url=https://auth.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/userinfo
             - --whitelist-domain=.automagistre.ru
+            - --skip-auth-route=^/[a-z0-9]+/api/.+
+            - --skip-auth-preflight
         networks:
             - default
             - traefik

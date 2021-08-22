@@ -27,6 +27,8 @@ services:
             - --validate-url=https://auth.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/userinfo
             - --whitelist-domain=.automagistre.ru
             - --whitelist-domain=.automagistre.local
+            - --skip-auth-route=^/[a-z0-9]+/api/.+
+            - --skip-auth-preflight
 
     nginx:
         image: automagistre/tenant-nginx:base

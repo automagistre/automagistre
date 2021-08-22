@@ -40,7 +40,7 @@ return static function (SecurityConfig $security, ContainerConfigurator $configu
     ;
 
     $security->firewall('www')
-        ->pattern('^/api/www')
+        ->pattern('^/[a-z0-9]+/api/www')
         ->stateless(true)
     ;
 
@@ -67,7 +67,7 @@ return static function (SecurityConfig $security, ContainerConfigurator $configu
     ;
 
     $security->accessControl()
-        ->path('^/api/www')
+        ->path('^/[a-z0-9]+/api/www')
         ->roles([AuthenticatedVoter::PUBLIC_ACCESS])
     ;
 
