@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d48ee4e5c6f831b1d3a35fb261c09cb2",
+    "content-hash": "c655f90aae5059f33754b3f711708f7d",
     "packages": [
         {
             "name": "adamgaskins/barcoder",
@@ -14691,16 +14691,16 @@
         },
         {
             "name": "psalm/plugin-symfony",
-            "version": "v2.5.1",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/psalm/psalm-plugin-symfony.git",
-                "reference": "8a7744a5406c7f61d6eb007b30f721fff3a564c3"
+                "reference": "4c48973b4cfb1c0c4e26df0f86949cc3efd5ed0f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/psalm/psalm-plugin-symfony/zipball/8a7744a5406c7f61d6eb007b30f721fff3a564c3",
-                "reference": "8a7744a5406c7f61d6eb007b30f721fff3a564c3",
+                "url": "https://api.github.com/repos/psalm/psalm-plugin-symfony/zipball/4c48973b4cfb1c0c4e26df0f86949cc3efd5ed0f",
+                "reference": "4c48973b4cfb1c0c4e26df0f86949cc3efd5ed0f",
                 "shasum": ""
             },
             "require": {
@@ -14749,9 +14749,9 @@
             "description": "Psalm Plugin for Symfony",
             "support": {
                 "issues": "https://github.com/psalm/psalm-plugin-symfony/issues",
-                "source": "https://github.com/psalm/psalm-plugin-symfony/tree/v2.5.1"
+                "source": "https://github.com/psalm/psalm-plugin-symfony/tree/v3.0.0"
             },
-            "time": "2021-08-17T06:32:09+00:00"
+            "time": "2021-08-22T12:02:50+00:00"
         },
         {
             "name": "sanmai/later",
