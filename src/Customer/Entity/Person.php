@@ -20,7 +20,7 @@ use function sprintf;
  *     }
  * )
  *
- * @UniqueEntity(fields={"telephone", "tenant"}, message="Заказчик с таким телефоном уже существует")
+ * @UniqueEntity(fields={"telephone", "tenantId"}, message="Заказчик с таким телефоном уже существует")
  */
 class Person extends TenantEntity
 {
