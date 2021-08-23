@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
+use App\Fixtures\Appeal\AppealFixtures;
 use App\Fixtures\Calendar\CalendarEntryFixtures;
 use App\Fixtures\Car\Primera2004Fixtures;
 use App\Fixtures\Car\RecommendationFixtures;
@@ -26,12 +27,23 @@ use App\Fixtures\Wallet\WalletFixtures;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigManager;
 use Generator;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Filesystem\Filesystem;
 use function array_diff;
+use function array_filter;
+use function array_key_exists;
 use function array_keys;
+use function array_map;
+use function array_merge;
 use function array_replace;
 use function array_unique;
+use function explode;
+use function get_class_methods;
 use function http_build_query;
 use function in_array;
+use function sprintf;
+use function str_ends_with;
+use function substr;
+use function var_export;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -39,6 +51,10 @@ use function in_array;
 final class SmokeTest extends WebTestCase
 {
     private const ADDITIONAL_QUERY = [
+        'Appeal' => [
+            'show' => ['id' => AppealFixtures::ID],
+            'status' => ['id' => AppealFixtures::ID],
+        ],
         'CalendarEntry' => [
             'edit' => ['id' => CalendarEntryFixtures::ID],
         ],
@@ -214,6 +230,164 @@ final class SmokeTest extends WebTestCase
 
                 yield $entity.' '.$action => ['/msk/?'.http_build_query($queries), 200, $isAjax];
             }
+        }
+    }
+
+    public function test(): void
+    {
+        self::bootKernel();
+        $configManager = self::getContainer()->get(ConfigManager::class);
+        $filesystem = new Filesystem();
+
+        foreach ($configManager->getBackendConfig('entities') as $entity => $config) {
+            $controllerClass = $config['controller'];
+
+            $actions = array_diff(
+                array_unique(
+                    array_merge(
+                        array_keys($config),
+                        array_keys(self::ADDITIONAL_QUERY[$entity] ?? []),
+                        array_filter(
+                            array_map(
+                                static fn (string $method) => str_ends_with($method, 'Action')
+                                    ? substr($method, 0, -6, )
+                                    : null,
+                                get_class_methods($controllerClass),
+                            ),
+                            static fn (?string $action) => !in_array($action, [null, 'index'], true),
+                        ),
+                    ),
+                ),
+                $config['disabled_actions'],
+                [
+                    'class',
+                    'controller',
+                    'disabled_actions',
+                    'templates',
+                    'name',
+                    'label',
+                    'form',
+                    'translation_domain',
+                    'primary_key_field_name',
+                    'properties',
+                ],
+            );
+
+            $context = explode('\\', $config['class'])[1];
+            $testClass = $config['name'].'Test';
+            $testClassDir = sprintf('%s/EasyAdmin/Entities/%s', __DIR__, $context);
+            $testClassPath = sprintf('%s/%s.php', $testClassDir, $testClass);
+
+            $filesystem->mkdir($testClassDir);
+
+            $methods = [];
+            foreach ($actions as $action) {
+                $methodName = ucfirst($action);
+
+                $query =
+                    array_replace(
+                        in_array($action, ['search', 'autocomplete'], true) ? ['query' => 'bla'] : [],
+                        self::ADDITIONAL_QUERY[$entity][$action] ?? [],
+                        ['action' => $action, 'entity' => $entity],
+                    );
+
+                $fixtures = [
+                    AppealFixtures::ID => 'AppealFixtures::ID',
+                    CalendarEntryFixtures::ID => 'CalendarEntryFixtures::ID',
+                    NissanGTRFixture::ID => 'NissanGTRFixture::ID',
+                    OrderFixtures::ID => 'OrderFixtures::ID',
+                    OrderFixtures::GROUP_ID => 'OrderFixtures::GROUP_ID',
+                    Primera2004Fixtures::ID => 'Primera2004Fixtures::ID',
+                    OrderFixtures::SERVICE_ID => 'OrderFixtures::SERVICE_ID',
+                    OrderFixtures::PART_ID => 'OrderFixtures::PART_ID',
+                    RecommendationFixtures::ID => 'RecommendationFixtures::ID',
+                    RecommendationFixtures::RECOMMENDATION_PART_ID => 'RecommendationFixtures::RECOMMENDATION_PART_ID',
+                    PersonVasyaFixtures::ID => 'PersonVasyaFixtures::ID',
+                    OrganizationFixtures::ID => 'OrganizationFixtures::ID',
+                    EmployeeVasyaFixtures::ID => 'EmployeeVasyaFixtures::ID',
+                    GasketFixture::ID => 'GasketFixture::ID',
+                    NissanFixture::ID => 'NissanFixture::ID',
+                    IncomeFixtures::ID => 'IncomeFixtures::ID',
+                    IncomePartFixtures::ID => 'IncomePartFixtures::ID',
+                    EquipmentFixtures::ID => 'EquipmentFixtures::ID',
+                    LineFixtures::ID => 'LineFixtures::ID',
+                    WorkFixtures::ID => 'WorkFixtures::ID',
+                    PartFixtures::ID => 'PartFixtures::ID',
+                    AdminFixtures::ID => 'AdminFixtures::ID',
+                    WalletFixtures::ID => 'WalletFixtures::ID',
+                    MainWarehouseFixture::ID => 'MainWarehouseFixture::ID',
+                ];
+                $query = array_map(
+                    static fn (string $value) => array_key_exists($value, $fixtures) ? $fixtures[$value] : $value,
+                    $query,
+                );
+
+                $query = var_export($query, true);
+
+                $query = \Safe\preg_replace('/\'([a-zA-Z0-9]+::[A-Z_]+)\'/', ' $1', $query);
+
+                $methods[] = <<<PHP
+                    /**
+                     * @see \\{$controllerClass}::{$action}Action()
+                     */
+                    public function test{$methodName}(): void {
+                        \$client = self::createClient();
+
+                        \$client->request('GET', '/msk/?'.http_build_query({$query}));
+
+                        \$response = \$client->getResponse();
+
+                        self::assertSame(200, \$response->getStatusCode());
+                    }
+                    PHP;
+            }
+
+            if ([] === $actions) {
+                $methods[] = <<<'PHP'
+                public function test(): void {
+                    self::markTestSkipped('Not implemented yet.');
+                }
+                PHP;
+            }
+            $methods = implode(PHP_EOL.PHP_EOL, $methods);
+            $filesystem->dumpFile(
+                $testClassPath,
+                <<<PHP
+            <?php
+
+            declare(strict_types=1);
+
+            namespace App\\Tests\\EasyAdmin\\Entities\\{$context};
+
+            use App\\Tests\\EasyAdminTestCase;
+            use App\\Fixtures\\Appeal\\AppealFixtures;
+            use App\\Fixtures\\Calendar\\CalendarEntryFixtures;
+            use App\\Fixtures\\Car\\Primera2004Fixtures;
+            use App\\Fixtures\\Car\\RecommendationFixtures;
+            use App\\Fixtures\\Customer\\OrganizationFixtures;
+            use App\\Fixtures\\Customer\\PersonVasyaFixtures;
+            use App\\Fixtures\\Employee\\AdminFixtures;
+            use App\\Fixtures\\Employee\\EmployeeVasyaFixtures;
+            use App\\Fixtures\\Income\\IncomeFixtures;
+            use App\\Fixtures\\Income\\IncomePartFixtures;
+            use App\\Fixtures\\Manufacturer\\NissanFixture;
+            use App\\Fixtures\\Mc\\EquipmentFixtures;
+            use App\\Fixtures\\Mc\\LineFixtures;
+            use App\\Fixtures\\Mc\\PartFixtures;
+            use App\\Fixtures\\Mc\\WorkFixtures;
+            use App\\Fixtures\\Order\\OrderFixtures;
+            use App\\Fixtures\\Part\\GasketFixture;
+            use App\\Fixtures\\Storage\\MainWarehouseFixture;
+            use App\\Fixtures\\Vehicle\\NissanGTRFixture;
+            use App\\Fixtures\\Wallet\\WalletFixtures;
+
+            final class {$testClass} extends EasyAdminTestCase
+            {
+                {$methods}
+            }
+
+            PHP,
+            );
         }
     }
 }
