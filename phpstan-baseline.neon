@@ -20,3 +20,18 @@ parameters:
 			count: 1
 			path: src/Tenant/config.php
 
+		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 1
+			path: tests/EasyAdmin/Entities/Note/NoteTest.php
+
+		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 1
+			path: tests/EasyAdmin/Entities/Part/PartCrossTest.php
+
+		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 2
+			path: tests/EasyAdmin/Entities/Storage/InventorizationTest.php
+

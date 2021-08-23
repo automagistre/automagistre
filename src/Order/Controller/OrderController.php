@@ -50,6 +50,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use function array_map;
 use function assert;
 use function count;
@@ -275,7 +276,7 @@ final class OrderController extends AbstractController
         $order = $this->findEntity(Order::class);
 
         if (!$order instanceof Order) {
-            throw new LogicException('Order required.');
+            throw new BadRequestHttpException('Order required.');
         }
 
         $request = $this->request;

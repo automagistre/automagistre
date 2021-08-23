@@ -38,6 +38,7 @@ easy_admin:
         IncomePart:
             class: App\Income\Entity\IncomePart
             controller: App\Income\Controller\IncomePartController
+            disabled_actions: [ 'show' ]
             form:
                 fields:
                     -   property: 'partId'

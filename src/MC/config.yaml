@@ -25,6 +25,7 @@ easy_admin:
         McEquipment:
             class: App\MC\Entity\McEquipment
             controller: App\MC\Controller\EquipmentController
+            disabled_actions: [ 'show' ]
             templates:
                 show: 'easy_admin/mc/equipment/show.html.twig'
             list:

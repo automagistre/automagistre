@@ -3,7 +3,7 @@ easy_admin:
         Operand:
             class: App\Customer\Entity\CustomerView
             controller: App\Customer\Controller\CustomerController
-            disabled_actions: ['list', 'new', 'edit', 'delete', 'search']
+            disabled_actions: ['list', 'new', 'edit', 'delete', 'search', 'show']
 
         Person:
             class: App\Customer\Entity\Person

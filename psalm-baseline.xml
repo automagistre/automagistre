@@ -268,9 +268,4 @@
       <code>$walletId</code>
     </QueryBuilderSetParameter>
   </file>
-  <file src="tests/SmokeTest.php">
-    <PossiblyNullReference occurrences="1">
-      <code>get</code>
-    </PossiblyNullReference>
-  </file>
 </files>

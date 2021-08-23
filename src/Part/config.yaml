@@ -53,8 +53,6 @@ easy_admin:
                     - { property: 'number', label: 'Номер', type_options: { disabled: true } }
                     - { property: '-price' }
                     - { property: '-discount' }
-            case:
-                title: 'Создать применения запчасти к кузову'
 
         PartCase:
             class: App\Part\Entity\Part

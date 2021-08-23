@@ -21,6 +21,7 @@ use LogicException;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use function is_string;
 use function sprintf;
 
@@ -40,7 +41,7 @@ final class RecommendationPartController extends AbstractController
         $recommendationPart = $this->findCurrentEntity();
 
         if (!$recommendationPart instanceof RecommendationPart) {
-            throw new LogicException('CarRecommendationPart required.');
+            throw new BadRequestHttpException('CarRecommendationPart required.');
         }
 
         $partId = $recommendationPart->partId;

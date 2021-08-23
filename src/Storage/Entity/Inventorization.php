@@ -25,9 +25,9 @@ class Inventorization extends TenantEntity
      */
     private ?InventorizationClose $close = null;
 
-    public function __construct()
+    public function __construct(InventorizationId $id = null)
     {
-        $this->id = InventorizationId::generate();
+        $this->id = $id ?? InventorizationId::generate();
     }
 
     public function toId(): InventorizationId

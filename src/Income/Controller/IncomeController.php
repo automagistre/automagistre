@@ -41,10 +41,10 @@ final class IncomeController extends AbstractController
 {
     public function partAction(): Response
     {
-        $incomePartId = $this->request->query->get('income_part_id');
+        $incomePartId = $this->getIdentifier(IncomePartId::class);
 
         /** @var IncomePart $incomePart */
-        $incomePart = $this->registry->findOneBy(IncomePart::class, ['id' => $incomePartId]);
+        $incomePart = $this->registry->get(IncomePart::class, $incomePartId);
 
         return $this->redirectToEasyPath('Income', 'show', [
             'id' => $incomePart->income->toId()->toString(),

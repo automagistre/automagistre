@@ -54,7 +54,7 @@ easy_admin:
         CarRecommendation:
             class: App\Car\Entity\Recommendation
             controller: App\Car\Controller\RecommendationController
-            disabled_actions: ['list']
+            disabled_actions: ['list', 'show']
             templates:
                 new: 'easy_admin/car_recommendation/new.html.twig'
                 edit: 'easy_admin/car_recommendation/edit.html.twig'
@@ -73,4 +73,4 @@ easy_admin:
         CarRecommendationPart:
             class: App\Car\Entity\RecommendationPart
             controller: App\Car\Controller\RecommendationPartController
-            disabled_actions: ['list']
+            disabled_actions: ['list', 'show']

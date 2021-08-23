@@ -18,7 +18,6 @@ use App\Wallet\Entity\WalletTransactionId;
 use App\Wallet\Enum\WalletTransactionSource;
 use App\Wallet\Form\WalletType;
 use Doctrine\ORM\EntityManagerInterface;
-use LogicException;
 use Money\Money;
 use stdClass;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -155,7 +154,7 @@ final class EmployeeController extends AbstractController
         $entity = $this->findCurrentEntity();
 
         if (!$entity instanceof Employee) {
-            throw new LogicException('Employee required.');
+            throw new BadRequestHttpException('Employee required.');
         }
 
         if ($entity->isFired()) {
