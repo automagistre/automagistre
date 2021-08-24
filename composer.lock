@@ -3441,26 +3441,27 @@
         },
         {
             "name": "guzzlehttp/guzzle-services",
-            "version": "1.2.0",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle-services.git",
-                "reference": "21e931a4784a132fa78ea7c37abf0e806b053c23"
+                "reference": "acd7ab1b83658ad7c1abd2a0871b825f65007202"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle-services/zipball/21e931a4784a132fa78ea7c37abf0e806b053c23",
-                "reference": "21e931a4784a132fa78ea7c37abf0e806b053c23",
+                "url": "https://api.github.com/repos/guzzle/guzzle-services/zipball/acd7ab1b83658ad7c1abd2a0871b825f65007202",
+                "reference": "acd7ab1b83658ad7c1abd2a0871b825f65007202",
                 "shasum": ""
             },
             "require": {
-                "guzzlehttp/command": "^1.1.0",
-                "guzzlehttp/guzzle": "^7.0.1",
-                "guzzlehttp/uri-template": "^0.2.0",
-                "php": ">=7.3"
+                "guzzlehttp/command": "^1.2",
+                "guzzlehttp/guzzle": "^7.3",
+                "guzzlehttp/psr7": "^1.7 || ^2.0",
+                "guzzlehttp/uri-template": "^0.2 || ^1.0",
+                "php": "^7.2.5 || ^8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~9.0"
+                "phpunit/phpunit": "^8.5.19 || ^9.5.8"
             },
             "suggest": {
                 "gimler/guzzle-description-loader": "^0.0.4"
@@ -3468,7 +3469,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "1.3-dev"
                 }
             },
             "autoload": {
@@ -3500,9 +3501,9 @@
             "description": "Provides an implementation of the Guzzle Command library that uses Guzzle service descriptions to describe web services, serialize requests, and parse responses into easy to use model structures.",
             "support": {
                 "issues": "https://github.com/guzzle/guzzle-services/issues",
-                "source": "https://github.com/guzzle/guzzle-services/tree/1.2.0"
+                "source": "https://github.com/guzzle/guzzle-services/tree/1.3.0"
             },
-            "time": "2020-11-13T22:17:22+00:00"
+            "time": "2021-08-14T22:36:10+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -3636,24 +3637,24 @@
         },
         {
             "name": "guzzlehttp/uri-template",
-            "version": "v0.2.0",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/uri-template.git",
-                "reference": "db46525d6d8fee71033b73cc07160f3e5271a8ce"
+                "reference": "88fcf8a3ea7489a8af6b25c9dfd3f688ddb51966"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/uri-template/zipball/db46525d6d8fee71033b73cc07160f3e5271a8ce",
-                "reference": "db46525d6d8fee71033b73cc07160f3e5271a8ce",
+                "url": "https://api.github.com/repos/guzzle/uri-template/zipball/88fcf8a3ea7489a8af6b25c9dfd3f688ddb51966",
+                "reference": "88fcf8a3ea7489a8af6b25c9dfd3f688ddb51966",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1 || ^8.0",
+                "php": "^7.2.5 || ^8.0",
                 "symfony/polyfill-php80": "^1.17"
             },
             "require-dev": {
-                "phpunit/phpunit": "^7.5.15 || ^8.5 || ^9.3",
+                "phpunit/phpunit": "^8.5.19 || ^9.5.8",
                 "uri-template/tests": "1.0.0"
             },
             "type": "library",
@@ -3687,7 +3688,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/uri-template/issues",
-                "source": "https://github.com/guzzle/uri-template/tree/master"
+                "source": "https://github.com/guzzle/uri-template/tree/v1.0.0"
             },
             "funding": [
                 {
@@ -3699,7 +3700,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-07-21T13:45:09+00:00"
+            "time": "2021-08-14T22:34:51+00:00"
         },
         {
             "name": "http-interop/http-factory-guzzle",
