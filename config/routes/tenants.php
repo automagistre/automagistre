@@ -6,6 +6,14 @@ use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 return static function (RoutingConfigurator $routes): void {
     $routes
+        ->add('logout', '/logout')
+    ;
+    $routes
+        ->add('login_check', '/login')
+        ->methods(['POST'])
+    ;
+
+    $routes
         ->import(__DIR__.'/redirects.php')
         ->host('r.automagistre.ru')
     ;
