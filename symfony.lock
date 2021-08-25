@@ -279,6 +279,9 @@
     "lcobucci/jwt": {
         "version": "4.1.2"
     },
+    "league/oauth2-client": {
+        "version": "2.6.0"
+    },
     "league/uri-parser": {
         "version": "1.4.1"
     },
@@ -583,6 +586,9 @@
             "version": "3.0",
             "ref": "9746f0823302d7980e5273ef7a69ef3f5ac80914"
         }
+    },
+    "stevenmaguire/oauth2-keycloak": {
+        "version": "2.2.2"
     },
     "symfony/amqp-messenger": {
         "version": "v5.2.3"

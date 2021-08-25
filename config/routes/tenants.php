@@ -2,9 +2,13 @@
 
 declare(strict_types=1);
 
+use App\Keycloak\Constants;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 return static function (RoutingConfigurator $routes): void {
+    $routes
+        ->add(Constants::REDIRECT_ROUTE, '/oauth2/callback')
+        ;
     $routes
         ->add('logout', '/logout')
     ;

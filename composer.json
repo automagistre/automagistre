@@ -42,6 +42,7 @@
         "ramsey/uuid-doctrine": "^1.6",
         "sensio/framework-extra-bundle": "^6.0",
         "sentry/sentry-symfony": "^4.0",
+        "stevenmaguire/oauth2-keycloak": "^2.2",
         "symfony/asset": "^5.0",
         "symfony/console": "^5.0",
         "symfony/doctrine-bridge": "^5.0",

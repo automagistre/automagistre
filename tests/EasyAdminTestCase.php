@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
+use App\Fixtures\User\UserEmployeeFixtures;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,8 +18,8 @@ abstract class EasyAdminTestCase extends WebTestCase
     protected static function createClient(array $options = [], array $server = []): KernelBrowser
     {
         return parent::createClient($options, $server + [
-            'PHP_AUTH_USER' => 'employee@automagistre.ru',
-            'PHP_AUTH_PW' => 'pa$$word',
+            'PHP_AUTH_USER' => UserEmployeeFixtures::USERNAME,
+            'PHP_AUTH_PW' => UserEmployeeFixtures::PASSWORD,
         ]);
     }
 

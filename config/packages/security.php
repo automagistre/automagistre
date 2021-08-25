@@ -8,15 +8,18 @@ use Symfony\Config\SecurityConfig;
 
 return static function (SecurityConfig $security, ContainerConfigurator $configurator) {
     $security->enableAuthenticatorManager(true);
+    $security->accessDecisionManager()->strategy('unanimous');
 
     $security->encoder(App\User\Entity\User::class)
         ->algorithm('auto')
     ;
 
-    $security->provider('entity_by_id')
-        ->entity()
-        ->class(App\User\Entity\User::class)
-        ->property('id')
+    $security->encoder(Symfony\Component\Security\Core\User\InMemoryUser::class)
+        ->algorithm('auto')
+    ;
+
+    $security->provider('keycloak')
+        ->id(App\Keycloak\Security\KeycloakUserProvider::class)
     ;
 
     $security->provider('entity_by_username')
@@ -45,7 +48,7 @@ return static function (SecurityConfig $security, ContainerConfigurator $configu
     ;
 
     $securedFirewall = $security->firewall('secured')
-        ->provider('entity_by_id')
+        ->provider('keycloak')
         ->customAuthenticators([
             App\Keycloak\Security\KeycloakAuthenticator::class,
         ])
@@ -72,8 +75,9 @@ return static function (SecurityConfig $security, ContainerConfigurator $configu
     ;
 
     $security->accessControl()
+        ->host('crm.automagistre.(ru|local)')
         ->path('^/')
-        ->roles([AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED])
+        ->roles([AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED, App\Tenant\Security\TenantVoter::TENANT_ACCESS])
     ;
 
     $security->roleHierarchy('ROLE_SUPER_ADMIN', [

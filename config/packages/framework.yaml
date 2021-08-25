@@ -7,7 +7,11 @@ framework:
         enable_annotations: true
     trusted_hosts:   ~
     session:
+        enabled: true
         handler_id: Symfony\Component\HttpFoundation\Session\Storage\Handler\MigratingSessionHandler
+        cookie_httponly: true
+        cookie_secure: 'auto'
+        cookie_samesite: 'lax'
     fragments:       ~
     http_method_override: true
     assets: ~

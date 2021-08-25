@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-use Keycloak\Admin\KeycloakClient;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $configurator): void {
     $services = $configurator->services();
 
-    $services->set(KeycloakClient::class)
-        ->factory(KeycloakClient::class.'::factory')
+    $services->set(Keycloak\Admin\KeycloakClient::class)
+        ->factory(Keycloak\Admin\KeycloakClient::class.'::factory')
         ->args([
             [
                 'realm' => 'automagistre',
@@ -19,5 +18,15 @@ return static function (ContainerConfigurator $configurator): void {
                 'baseUri' => 'https://auth.automagistre.ru',
             ],
         ])
-        ;
+    ;
+
+    $services->set(Stevenmaguire\OAuth2\Client\Provider\Keycloak::class)
+        ->lazy(true)
+        ->arg('$options', [
+            'authServerUrl' => 'https://auth.automagistre.ru/auth',
+            'realm' => 'automagistre',
+            'clientId' => 'crm-oauth',
+            'clientSecret' => '%env(KEYCLOAK_CRM_OAUTH_CLIENT_SECRET)%',
+        ])
+    ;
 };
