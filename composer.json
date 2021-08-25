@@ -170,7 +170,7 @@
             "@php-cs-fixer"
         ],
         "norm": "composer normalize",
-        "paratest": "vendor/bin/paratest --runner WrapperRunner --log-junit=var/junit.xml",
+        "paratest": "vendor/bin/paratest --log-junit=var/junit.xml",
         "php-cs-fixer": "vendor/bin/php-cs-fixer fix",
         "phpmetrics": "vendor/bin/phpmetrics --junit=var/junit.xml  --report-html=public/phpmetrics --exclude src/Migrations src",
         "phpstan": "vendor/bin/phpstan --no-interaction --memory-limit=-1",
