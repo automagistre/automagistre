@@ -73,11 +73,6 @@ services:
         labels:
             ru.grachevko.dhu: 'db.demo.automagistre.local'
 
-    memcached:
-        image: memcached:1.6.9-alpine
-        labels:
-            ru.grachevko.dhu: 'memcached.automagistre.local'
-
     redis:
         image: redis:6.2.5-alpine
         labels:

@@ -116,15 +116,6 @@ services:
             restart_policy:
                 condition: on-failure
 
-    memcached:
-        image: memcached:1.6.9-alpine
-        healthcheck:
-            test: nc -z 127.0.0.1 11211
-            interval: 5s
-            timeout: 5s
-            retries: 3
-            start_period: 5s
-
     redis:
         image: redis:6.2.5-alpine
         volumes:

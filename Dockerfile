@@ -76,14 +76,6 @@ RUN --mount=type=cache,target=/var/cache/apk \
         icu-dev \
 	&& docker-php-ext-install intl
 
-FROM php-build AS php-ext-memcached
-RUN --mount=type=cache,target=/var/cache/apk \
-    set -ex \
-    && apk add \
-        libzip-dev \
-        libmemcached-dev \
-    && pecl install memcached
-
 FROM php-build AS php-ext-apcu
 RUN set -ex \
     && pecl install apcu
@@ -139,7 +131,6 @@ COPY --from=php-ext-pcntl ${PHP_EXT_DIR}/pcntl.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-sockets ${PHP_EXT_DIR}/sockets.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-intl ${PHP_EXT_DIR}/intl.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-intl /usr/local /usr/local
-COPY --from=php-ext-memcached ${PHP_EXT_DIR}/memcached.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-apcu ${PHP_EXT_DIR}/apcu.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-xdebug ${PHP_EXT_DIR}/xdebug.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-uuid ${PHP_EXT_DIR}/uuid.so ${PHP_EXT_DIR}/
@@ -158,8 +149,6 @@ RUN --mount=type=cache,target=/var/cache/apk \
         fcgi \
         # ext-zip
         libzip \
-        # ext-memcached
-        libmemcached \
         # ext-gd
         libpng \
         libjpeg-turbo \
@@ -176,7 +165,6 @@ RUN --mount=type=cache,target=/var/cache/apk \
         buffer \
         gd \
         intl \
-        memcached \
         opcache \
         pcntl \
         pcov \

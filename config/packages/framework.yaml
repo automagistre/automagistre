@@ -8,7 +8,7 @@ framework:
     trusted_hosts:   ~
     session:
         enabled: true
-        handler_id: Symfony\Component\HttpFoundation\Session\Storage\Handler\MigratingSessionHandler
+        handler_id: Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler
         cookie_httponly: true
         cookie_secure: 'auto'
         cookie_samesite: 'lax'
@@ -27,17 +27,6 @@ services:
     Symfony\Component\HttpKernel\Controller\ArgumentResolverInterface:
         alias: argument_resolver
 
-    session.memcached:
-        class: Memcached
-        public: true
-        calls:
-            - [ addServer, [ '%env(SESSION_MEMCACHED_HOST)%', '%env(SESSION_MEMCACHED_PORT)%' ]]
-    session.handler.memcached:
-        class:     Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler
-        arguments: [ '@session.memcached' ]
-    Symfony\Component\HttpFoundation\Session\Storage\Handler\MigratingSessionHandler:
-        arguments: [ '@session.handler.memcached', '@Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler' ]
-
     Redis:
         class: Redis
         lazy: true
@@ -49,8 +38,5 @@ services:
 
 parameters:
     locale: ru
-    env(SESSION_MEMCACHED_HOST): 'memcached'
-    env(SESSION_MEMCACHED_PORT): '11211'
-
     env(SESSION_REDIS_HOST): 'redis'
     env(SESSION_REDIS_PORT): '6379'
