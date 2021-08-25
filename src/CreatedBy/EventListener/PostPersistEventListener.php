@@ -6,6 +6,7 @@ namespace App\CreatedBy\EventListener;
 
 use App\Costil;
 use App\CreatedBy\Attributes\Exclude;
+use App\Keycloak\Security\KeycloakUser;
 use App\Tenant\State;
 use DateTimeImmutable;
 use Doctrine\Common\EventSubscriber;
@@ -69,6 +70,7 @@ final class PostPersistEventListener implements EventSubscriber
         $user = $this->security->getUser();
         $userId = match (true) {
             null === $user && 'cli' === PHP_SAPI => Costil::SERVICE_USER,
+            $user instanceof KeycloakUser => $user->id,
             null !== $user => $user->getUserIdentifier(),
             default => '00000000-0000-0000-0000-000000000000',
         };

@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class KeycloakUser implements UserInterface
 {
     public function __construct(
-        private string $id,
+        public string $id,
         public string $username,
         public AccessTokenInterface $accessToken,
         public array $roles = [],
