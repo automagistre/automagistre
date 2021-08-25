@@ -38,7 +38,7 @@ final class EasyAdminTest extends KernelTestCase
             $testClassName = $entityName.'Test';
             $testClass = "App\\Tests\\EasyAdmin\\Entities\\{$context}\\{$testClassName}";
 
-            self::assertTrue(class_exists($testClass), 'Expected test class '.$testClass);
+            self::assertTrue(class_exists($testClass), sprintf('Test class %s not found, but expected.', $testClass));
 
             $actions = array_diff(
                 array_unique(
