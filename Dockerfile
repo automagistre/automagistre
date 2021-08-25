@@ -103,6 +103,10 @@ FROM php-build AS php-ext-pcov
 RUN set -ex \
     && pecl install pcov
 
+FROM php-build AS php-ext-redis
+RUN set -ex \
+    && pecl install redis
+
 FROM php-build AS php-ext-bcmath
 RUN set -ex \
     && docker-php-ext-install bcmath
@@ -143,6 +147,7 @@ COPY --from=php-ext-pcov ${PHP_EXT_DIR}/pcov.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-bcmath ${PHP_EXT_DIR}/bcmath.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-buffer ${PHP_EXT_DIR}/buffer.so ${PHP_EXT_DIR}/
 COPY --from=php-ext-snappy ${PHP_EXT_DIR}/snappy.so ${PHP_EXT_DIR}/
+COPY --from=php-ext-redis ${PHP_EXT_DIR}/redis.so ${PHP_EXT_DIR}/
 
 RUN --mount=type=cache,target=/var/cache/apk \
     set -ex \
@@ -180,6 +185,7 @@ RUN --mount=type=cache,target=/var/cache/apk \
         snappy \
         sockets \
         uuid \
+        redis \
         zip
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
