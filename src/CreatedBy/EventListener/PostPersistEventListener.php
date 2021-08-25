@@ -7,7 +7,6 @@ namespace App\CreatedBy\EventListener;
 use App\Costil;
 use App\CreatedBy\Attributes\Exclude;
 use App\Tenant\State;
-use App\User\Entity\User;
 use DateTimeImmutable;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\EntityManagerInterface;
@@ -70,7 +69,7 @@ final class PostPersistEventListener implements EventSubscriber
         $user = $this->security->getUser();
         $userId = match (true) {
             null === $user && 'cli' === PHP_SAPI => Costil::SERVICE_USER,
-            $user instanceof User => $user->toId()->toString(),
+            null !== $user => $user->getUserIdentifier(),
             default => '00000000-0000-0000-0000-000000000000',
         };
 

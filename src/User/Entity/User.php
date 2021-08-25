@@ -83,6 +83,11 @@ class User extends TenantEntity implements UserInterface, EquatableInterface, Se
         return $this->username;
     }
 
+    public function getUserIdentifier(): string
+    {
+        return $this->id->toString();
+    }
+
     public function toId(): UserId
     {
         return $this->id;
