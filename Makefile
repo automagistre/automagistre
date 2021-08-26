@@ -52,9 +52,7 @@ do-up: contrib pull composer permissions
 	nginx \
 	php-fpm \
 	postgres_$(TENANT) \
-	memcached \
 	redis \
-	oauth2-proxy \
 	nsqd \
 	nsqadmin \
 	host.docker.internal
