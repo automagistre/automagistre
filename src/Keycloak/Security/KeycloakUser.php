@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Keycloak\Security;
 
+use App\User\Entity\UserId;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -19,6 +20,11 @@ class KeycloakUser implements UserInterface
         public ?string $lastname = null,
         public array $attributes = [],
     ) {
+    }
+
+    public function toId(): UserId
+    {
+        return UserId::from($this->id);
     }
 
     public function __toString(): string
