@@ -23,6 +23,11 @@ return static function (RoutingConfigurator $routes): void {
     ;
 
     $routes
+        ->import(__DIR__.'/callbacks.php')
+        ->host('callback.automagistre.ru')
+    ;
+
+    $routes
         ->import(__DIR__.'/../../src/Sms/Controller/CallbackController.php', 'annotation')
         ->host('callback.automagistre.ru')
     ;

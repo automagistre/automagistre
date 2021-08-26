@@ -27,7 +27,7 @@ final class InteractiveController extends AbstractController
     }
 
     /**
-     * @Route("/callback/uiscom/interactive", name="uiscom_interactive", methods={"POST"})
+     * @Route("/uiscom/interactive", name="uiscom_interactive", methods={"POST"})
      */
     public function __invoke(Request $request): Response
     {
