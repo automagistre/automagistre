@@ -135,7 +135,7 @@ final class IncomeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->em;
 
-            $income->accrue($this->getUser());
+            $income->accrue();
             $em->persist(
                 new CustomerTransaction(
                     CustomerTransactionId::generate(),

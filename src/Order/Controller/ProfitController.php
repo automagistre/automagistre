@@ -90,9 +90,11 @@ final class ProfitController extends AbstractController
                                  SELECT ip.price_amount
                                  FROM income_part ip
                                         JOIN income i on ip.income_id = i.id
-                                 WHERE i.accrued_at < o2closed.created_at
+                                        JOIN income_accrue ia ON i.id = ia.income_id
+                                        JOIN created_by iacb ON iacb.id = ia.id
+                                 WHERE iacb.created_at < o2closed.created_at
                                    AND ip.part_id = oip.part_id
-                                 ORDER BY i.accrued_at DESC
+                                 ORDER BY iacb.created_at DESC
                                  LIMIT 1
                                )                   AS price,
                                order_item.order_id AS order_id

@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Customer\Form;
 
+use App\CreatedBy\Entity\CreatedBy;
 use App\Customer\Entity\CustomerView;
 use App\Customer\Entity\OperandId;
 use App\Doctrine\Registry;
 use App\Income\Entity\Income;
 use App\Shared\Identifier\IdentifierFormatter;
 use DateTime;
+use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -40,7 +42,9 @@ final class SellerType extends AbstractType
         $preferred = $this->registry->manager()->createQueryBuilder()
             ->select('t.supplierId')
             ->from(Income::class, 't', 't.supplierId')
-            ->where('t.accruedAt > :date')
+            ->join('t.accrue', 'accrue')
+            ->join(CreatedBy::class, 'cb', Join::WITH, 'cb.id = accrue.id')
+            ->where('cb.createdAt > :date')
             ->groupBy('t.supplierId')
             ->orderBy('COUNT(t.supplierId)', 'DESC')
             ->getQuery()

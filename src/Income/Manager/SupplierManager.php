@@ -33,9 +33,8 @@ final class SupplierManager
         $incomes = $this->registry->repository(Income::class)
             ->createQueryBuilder('entity')
             ->where('entity.supplierId = :supplier')
-            ->andWhere('entity.accruedAt IS NOT NULL')
-            ->orderBy('entity.accruedAt', 'DESC')
-            ->addOrderBy('entity.id', 'DESC')
+            ->join('entity.accrue', 'accrue')
+            ->orderBy('accrue.id', 'DESC')
             ->getQuery()
             ->setMaxResults(10)
             ->setParameter('supplier', $supplierId)
@@ -48,7 +47,7 @@ final class SupplierManager
                 break;
             }
 
-            $balance = $balance->subtract($income->getAccruedAmount());
+            $balance = $balance->subtract($income->getAccrue()->amount);
 
             $result[$income->toId()->toString()] = $income;
         }

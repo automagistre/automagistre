@@ -5,24 +5,18 @@ declare(strict_types=1);
 namespace App\Income\Entity;
 
 use App\Customer\Entity\OperandId;
-use App\Income\Event\IncomeAccrued;
 use App\MessageBus\ContainsRecordedMessages;
 use App\MessageBus\PrivateMessageRecorderCapabilities;
-use App\User\Entity\User;
-use DateTimeImmutable;
+use App\Tenant\Entity\TenantEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use LogicException;
 use Money\Currency;
 use Money\Money;
-use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity
- *
- * @ORM\Table(
- *     indexes={@ORM\Index(columns={"accrued_at"})}
- * )
  */
 class Income extends TenantEntity implements ContainsRecordedMessages
 {
@@ -61,23 +55,9 @@ class Income extends TenantEntity implements ContainsRecordedMessages
     private $incomeParts;
 
     /**
-     * @var null|DateTimeImmutable
-     *
-     * @ORM\Column(type="date_immutable", nullable=true)
+     * @ORM\OneToOne(targetEntity=IncomeAccrue::class, mappedBy="income", cascade={"persist"})
      */
-    private $accruedAt;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class)
-     */
-    private ?User $accruedBy = null;
-
-    /**
-     * @var null|Money
-     *
-     * @ORM\Embedded(class=Money::class)
-     */
-    private $accruedAmount;
+    private ?IncomeAccrue $accrue;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -127,7 +107,7 @@ class Income extends TenantEntity implements ContainsRecordedMessages
 
     public function isEditable(): bool
     {
-        return null === $this->accruedAt;
+        return null === $this->accrue;
     }
 
     /**
@@ -143,28 +123,19 @@ class Income extends TenantEntity implements ContainsRecordedMessages
         return $this->incomeParts->count();
     }
 
-    public function accrue(User $user): void
+    public function accrue(): void
     {
-        $this->accruedBy = $user;
-        $this->accruedAt = new DateTimeImmutable();
-        $this->accruedAmount = $this->getTotalPrice();
-
-        $this->record(new IncomeAccrued($this->id));
+        $this->accrue = new IncomeAccrue($this, $this->getTotalPrice());
     }
 
-    public function getAccruedAt(): ?DateTimeImmutable
+    public function isAccrued(): bool
     {
-        return $this->accruedAt;
+        return null !== $this->accrue;
     }
 
-    public function getAccruedBy(): ?User
+    public function getAccrue(): IncomeAccrue
     {
-        return $this->accruedBy;
-    }
-
-    public function getAccruedAmount(): ?Money
-    {
-        return $this->accruedAmount;
+        return $this->accrue ?? throw new LogicException('Income must be accrued first.');
     }
 
     public function getTotalPrice(): Money

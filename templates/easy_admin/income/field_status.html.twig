@@ -1,7 +1,7 @@
 {# @var item \App\Entity\Income #}
 
-{% if item.accruedAt is empty %}
-    <label class="label label-danger">Открыт</label>
+{% if item.accrued %}
+    <label class="label label-info">Оприходован</label>
 {% else %}
-    Оприходован
+    <label class="label label-warning">Открыт</label>
 {% endif %}

@@ -83,11 +83,6 @@
       <code>private</code>
     </DeprecatedClass>
   </file>
-  <file src="src/Income/Manager/SupplierManager.php">
-    <PossiblyNullArgument occurrences="1">
-      <code>$income-&gt;getAccruedAmount()</code>
-    </PossiblyNullArgument>
-  </file>
   <file src="src/Manufacturer/Controller/ManufacturerController.php">
     <RedundantConditionGivenDocblockType occurrences="1">
       <code>null !== $dto-&gt;name</code>
