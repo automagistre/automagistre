@@ -2,11 +2,10 @@ SELECT cb.id,
        cb.tenant_id,
        CONCAT_WS(
                ',',
-               u.id,
-               u.username,
-               COALESCE(u.last_name, ''),
-               COALESCE(u.first_name, '')
+               cb.user_id,
+               'username',
+               'lastname',
+               'firstname'
            )         AS by,
        cb.created_at AS at
 FROM created_by cb
-         JOIN users u ON u.id = cb.user_id
