@@ -18,11 +18,16 @@ SELECT note.id,
        CASE
            WHEN db.id IS NOT NULL THEN
                CONCAT_WS(
-                       ',',
-                       db.user_id,
-                       'username',
-                       'lastname',
-                       'firstname'
+                       ';',
+                       db.id,
+                       CONCAT_WS(
+                               ',',
+                               db.user_id,
+                               'username',
+                               'lastname',
+                               'firstname'
+                           ),
+                       db.created_at
                    )
            END AS deleted_by
 FROM note
