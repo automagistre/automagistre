@@ -102,7 +102,7 @@ easy_admin:
                     - { property: 'source', label: 'Описание', sortable: false, template: 'easy_admin/customer/field_description.html.twig' }
                     - { property: 'description', label: 'Комментарий', sortable: false, template: 'easy_admin/default/field_raw.html.twig' }
                     - { property: 'createdAt', label: 'Дата', sortable: false }
-                    - { property: 'createdBy', label: 'Создал', sortable: false, template: 'easy_admin/field_identifier.html.twig' }
+#                    - { property: 'createdBy', label: 'Создал', sortable: false, template: 'easy_admin/field_identifier.html.twig' }
             new:
                 title: 'Создать новую проводку {{ "increment" == app.request.query.get("type") ? "пополнения" : "списания" }}'
                 form_options: { data_class: App\Customer\Form\TransactionDto }
