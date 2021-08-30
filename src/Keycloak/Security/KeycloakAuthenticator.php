@@ -24,7 +24,10 @@ final class KeycloakAuthenticator extends AbstractAuthenticator
      */
     public function supports(Request $request): bool
     {
-        return Constants::CALLBACK_ROUTE === $request->attributes->get('_route');
+        return Constants::CALLBACK_ROUTE === $request->attributes->get('_route')
+            && $request->query->has('code')
+            && $request->query->has('state')
+            ;
     }
 
     /**
@@ -34,13 +37,13 @@ final class KeycloakAuthenticator extends AbstractAuthenticator
     {
         $session = $request->getSession();
 
-        if (!$request->query->has('state') || $request->query->get('state') !== $session->remove(Constants::OAUTH_2_STATE)) {
+        if ($request->query->get('state') !== $session->remove(Constants::OAUTH_2_STATE)) {
             throw new BadCredentialsException('Invalid state.');
         }
 
-        $code = $request->query->get('code') ?? throw new BadCredentialsException('Code not found');
+        $code = (string) $request->query->get('code');
 
-        return new SelfValidatingPassport(new UserBadge((string) $code));
+        return new SelfValidatingPassport(new UserBadge($code));
     }
 
     /**
