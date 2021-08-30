@@ -139,7 +139,7 @@ final class TransactionController extends AbstractController
             ;
         }
 
-        $qb->orderBy('entity.createdAt', 'DESC')
+        $qb->orderBy('entity.created.at', 'DESC')
             ->addOrderBy('entity.id', 'DESC')
         ;
 

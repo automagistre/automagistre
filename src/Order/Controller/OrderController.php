@@ -391,7 +391,13 @@ final class OrderController extends AbstractController
                     ->getQuery()
                     ->getResult(),
             ];
-            usort($transactions, static fn ($left, $right) => $left->createdAt <=> $right->createdAt);
+            usort(
+                $transactions,
+                static fn (
+                    CustomerTransactionView|WalletTransactionView $left,
+                    CustomerTransactionView|WalletTransactionView $right,
+                ) => $left->created->at <=> $right->created->at,
+            );
             $parameters['transactions'] = $transactions;
         }
 
