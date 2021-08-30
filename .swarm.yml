@@ -207,7 +207,7 @@ services:
         healthcheck:
             disable: true
 
-    postgres_msk: &postgres
+    postgres_msk: &postgres_old
         image: postgres:12.2
         volumes:
             -   type: bind
@@ -234,7 +234,7 @@ services:
             start_period: 10s
 
     postgres_kazan:
-        <<: *postgres
+        <<: *postgres_old
         volumes:
             -   type: bind
                 source: /opt/am/db/tenant/kazan
@@ -244,7 +244,7 @@ services:
                 target: /backups
 
     postgres_shavlev:
-        <<: *postgres
+        <<: *postgres_old
         volumes:
             -   type: bind
                 source: /opt/am/db/tenant/shavlev
@@ -254,7 +254,7 @@ services:
                 target: /backups
 
     postgres_demo:
-        <<: *postgres
+        <<: *postgres_old
         volumes:
             -   type: bind
                 source: /opt/am/db/tenant/demo
