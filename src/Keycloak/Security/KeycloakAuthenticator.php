@@ -26,7 +26,7 @@ final class KeycloakAuthenticator extends AbstractAuthenticator
      */
     public function supports(Request $request): bool
     {
-        return 'oauth2_check' === $request->attributes->get('_route');
+        return Constants::CALLBACK_ROUTE === $request->attributes->get('_route');
     }
 
     /**

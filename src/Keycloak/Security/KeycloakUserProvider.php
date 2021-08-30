@@ -35,7 +35,7 @@ final class KeycloakUserProvider implements UserProviderInterface
     {
         $token = $this->provider->getAccessToken('authorization_code', [
             'code' => $identifier,
-            'redirect_uri' => $this->urlGenerator->generate(Constants::REDIRECT_ROUTE, referenceType: UrlGeneratorInterface::ABSOLUTE_URL),
+            'redirect_uri' => $this->urlGenerator->generate(Constants::CALLBACK_ROUTE, referenceType: UrlGeneratorInterface::ABSOLUTE_URL),
         ]);
 
         return $this->createFromToken($token);

@@ -41,7 +41,7 @@ final class ExceptionListener implements EventSubscriberInterface
         $request = $event->getRequest();
 
         $redirectUrl = $this->provider->getAuthorizationUrl([
-            'redirect_uri' => $this->urlGenerator->generate(Constants::REDIRECT_ROUTE, referenceType: UrlGeneratorInterface::ABSOLUTE_URL),
+            'redirect_uri' => $this->urlGenerator->generate(Constants::CALLBACK_ROUTE, referenceType: UrlGeneratorInterface::ABSOLUTE_URL),
             'scope' => 'email',
         ]);
 

@@ -8,5 +8,5 @@ final class Constants
 {
     public const OAUTH_2_STATE = 'oauth2_state';
     public const REDIRECT_TO = '_redirect';
-    public const REDIRECT_ROUTE = 'oauth2_check';
+    public const CALLBACK_ROUTE = 'oauth2_check';
 }

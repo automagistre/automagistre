@@ -7,7 +7,7 @@ use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 return static function (RoutingConfigurator $routes): void {
     $routes
-        ->add(Constants::REDIRECT_ROUTE, '/oauth2/callback')
+        ->add(Constants::CALLBACK_ROUTE, '/oauth2/callback')
         ;
     $routes
         ->add('logout', '/logout')
