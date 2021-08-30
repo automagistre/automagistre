@@ -88,10 +88,6 @@
     </RedundantConditionGivenDocblockType>
   </file>
   <file src="src/Order/Controller/OrderController.php">
-    <MissingClosureParamType occurrences="2">
-      <code>$left</code>
-      <code>$right</code>
-    </MissingClosureParamType>
     <PossiblyNullArgument occurrences="2">
       <code>$carId</code>
       <code>$equipmentId ?? $car-&gt;vehicleId</code>
