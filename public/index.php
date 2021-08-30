@@ -14,6 +14,10 @@ if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? $_ENV['TRUSTED_HOSTS'] ?? false
 
 $kernel = new App\Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
 $request = Request::createFromGlobals();
+function request() use ($request): Request
+{
+    return $requst;
+}
 $response = $kernel->handle($request);
 $response->send();
 $kernel->terminate($request, $response);
