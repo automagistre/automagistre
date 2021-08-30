@@ -162,15 +162,12 @@ services:
                 - "traefik.http.routers.automagistre-hasura.tls.certresolver=leresolver"
                 - "traefik.http.services.automagistre-hasura-service.loadbalancer.server.port=80"
 
-    postgres:
+    postgres: &postgres
         image: postgres:13.4-alpine
         volumes:
             -   type: bind
                 source: /opt/am/postgres/data
                 target: /var/lib/postgresql/data
-            -   type: bind
-                source: /opt/am/db/backups
-                target: /backups
         environment:
             POSTGRES_DB: db
             POSTGRES_USER: db
@@ -187,6 +184,28 @@ services:
             timeout: 5s
             retries: 3
             start_period: 10s
+
+    postgres_backup:
+        <<: *postgres
+        entrypoint: /bin/sh
+        command:
+            - -c
+            - |
+                apk add --no-cache tini gzip \
+                && echo $$'
+                postgres:5432:db:db:${DB_PASSWORD}
+                ' > ~/.pgpass \
+                && chmod 600 ~/.pgpass \
+                && echo $$'
+                10 3 * * * pg_dump -h postgres -U db db | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_automagistre.sql.gz
+                ' | crontab - \
+                && exec tini -- crond -l 0 -f
+        volumes:
+            - /opt/am/backups/postgres:/backups
+        deploy:
+            mode: replicated
+        healthcheck:
+            disable: true
 
     postgres_msk: &postgres
         image: postgres:12.2
