@@ -16,7 +16,7 @@ $kernel = new App\Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
 $request = Request::createFromGlobals();
 function request() use ($request): Request
 {
-    return $requst;
+    return $request;
 }
 $response = $kernel->handle($request);
 $response->send();
