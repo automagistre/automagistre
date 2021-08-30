@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Part\Entity;
 
-use App\Shared\String\Layout;
+use App\Part\String\Layout;
 use function preg_replace;
 use function strtoupper;
 

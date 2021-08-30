@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Car\Form;
 
 use App\Car\Form\DTO\CarCreate;
-use App\Shared\Form\EmptyStringAndCaseTransformer;
+use App\Form\Transformer\EmptyStringAndCaseTransformer;
 use App\Vehicle\Form\BodyTypeType;
 use App\Vehicle\Form\EquipmentType;
 use App\Vehicle\Form\VehicleAutocompleteType;

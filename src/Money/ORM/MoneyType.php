@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Money\ORM;
+namespace App\Money\ORM;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;

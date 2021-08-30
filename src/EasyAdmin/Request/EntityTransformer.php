@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Request;
+namespace App\EasyAdmin\Request;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\NamingStrategy;

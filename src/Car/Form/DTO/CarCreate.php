@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Car\Form\DTO;
 
 use App\Car\Entity\Car;
-use App\Shared\Validator\EntityCheck;
+use App\Validator\EntityCheck;
 use App\Vehicle\Entity\Embedded\Equipment;
 use App\Vehicle\Entity\VehicleId;
 use App\Vehicle\Enum\BodyType;

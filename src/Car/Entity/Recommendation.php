@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Car\Entity;
 
 use App\Customer\Entity\OperandId;
+use App\Money\PriceInterface;
 use App\Order\Entity\OrderItemService;
-use App\Shared\Money\PriceInterface;
 use App\Tenant\Entity\TenantEntity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;

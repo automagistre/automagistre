@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Order\Entity;
 
-use App\Shared\Money\PriceInterface;
-use App\Shared\Money\TotalPriceInterface;
+use App\Money\PriceInterface;
+use App\Money\TotalPriceInterface;
 use App\Tenant\Entity\TenantEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

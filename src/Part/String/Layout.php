@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\String;
+namespace App\Part\String;
 
 use function array_keys;
 use function array_values;

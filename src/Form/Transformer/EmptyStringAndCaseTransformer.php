@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Form;
+namespace App\Form\Transformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;

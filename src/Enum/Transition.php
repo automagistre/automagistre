@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Enum;
+namespace App\Enum;
 
 use Premier\Enum\Enum;
 

@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Request;
+namespace App\EasyAdmin\Request;
 
 use Generator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use function is_object;
-use function trim;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -25,7 +24,7 @@ final class EntityTransformerArgumentValueResolver implements ArgumentValueResol
      */
     public function supports(Request $request, ArgumentMetadata $argument): bool
     {
-        return '' !== trim($argument->getType()) && is_object($this->resolve($request, $argument)->current());
+        return null !== $argument->getType() && is_object($this->resolve($request, $argument)->current());
     }
 
     /**
@@ -33,6 +32,9 @@ final class EntityTransformerArgumentValueResolver implements ArgumentValueResol
      */
     public function resolve(Request $request, ArgumentMetadata $argument): Generator
     {
-        yield $this->entityTransformer->reverseTransform($argument->getType(), $request);
+        /** @var string $class */
+        $class = $argument->getType();
+
+        yield $this->entityTransformer->reverseTransform($class, $request);
     }
 }

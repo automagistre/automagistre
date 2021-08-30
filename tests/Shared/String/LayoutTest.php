@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Shared\String;
 
-use App\Shared\String\Layout;
+use App\Part\String\Layout;
 use Generator;
 use PHPUnit\Framework\TestCase;
 

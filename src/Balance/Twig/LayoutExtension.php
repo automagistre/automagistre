@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Twig;
+namespace App\Balance\Twig;
 
 use App\Doctrine\Registry;
 use App\Wallet\Entity\Wallet;

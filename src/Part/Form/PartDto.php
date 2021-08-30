@@ -8,8 +8,8 @@ use App\Manufacturer\Entity\ManufacturerId;
 use App\Part\Entity\Part;
 use App\Part\Entity\PartId;
 use App\Part\Enum\Unit;
-use App\Shared\Validator\EntityCheck;
 use App\Storage\Entity\WarehouseId;
+use App\Validator\EntityCheck;
 use Money\Money;
 use Symfony\Component\Validator\Constraints as Assert;
 

@@ -190,12 +190,6 @@
       <code>$rootValue</code>
     </MissingClosureParamType>
   </file>
-  <file src="src/Shared/Request/EntityTransformerArgumentValueResolver.php">
-    <PossiblyNullArgument occurrences="2">
-      <code>$argument-&gt;getType()</code>
-      <code>$argument-&gt;getType()</code>
-    </PossiblyNullArgument>
-  </file>
   <file src="src/Site/QueryType.php">
     <QueryBuilderSetParameter occurrences="1">
       <code>$publishAt</code>

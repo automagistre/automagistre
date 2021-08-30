@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\EasyAdmin\Controller;
 
 use App\Doctrine\Registry;
+use App\EasyAdmin\Request\EntityTransformer;
 use App\Identifier\IdentifierFormatter;
-use App\Shared\Request\EntityTransformer;
 use App\Tenant\Enum\Tenant;
 use App\Tenant\State;
 use App\User\Entity\User;

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Vehicle\Form;
 
 use App\Manufacturer\Entity\ManufacturerId;
-use App\Shared\Validator\EntityCheck;
+use App\Validator\EntityCheck;
 use App\Vehicle\Entity\Model;
 use Symfony\Component\Validator\Constraints as Assert;
 

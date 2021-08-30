@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Money;
+namespace App\Money;
 
 use Money\Money;
 

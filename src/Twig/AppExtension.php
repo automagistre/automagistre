@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Twig;
+namespace App\Twig;
 
 use DateTimeImmutable;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
