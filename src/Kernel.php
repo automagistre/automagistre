@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Shared\Identifier\IdentifierFormatter;
+use App\Identifier\IdentifierFormatter;
 use App\Tenant\Enum\Tenant;
 use App\Tenant\State;
 use InvalidArgumentException;

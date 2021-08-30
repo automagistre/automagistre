@@ -25,7 +25,7 @@ return static function (ContainerConfigurator $configurator): void {
         ;
 
     $services
-        ->instanceof(App\Shared\Identifier\IdentifierFormatterInterface::class)
+        ->instanceof(App\Identifier\IdentifierFormatterInterface::class)
         ->tag('identifier_formatter')
     ;
 

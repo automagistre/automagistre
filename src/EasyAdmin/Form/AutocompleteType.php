@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\EasyAdmin\Form;
 
 use App\Doctrine\Registry;
-use App\Shared\Identifier\IdentifierFormatter;
+use App\Identifier\IdentifierFormatter;
 use EasyCorp\Bundle\EasyAdminBundle\Router\EasyAdminRouter;
 use LogicException;
 use Premier\Identifier\Identifier;

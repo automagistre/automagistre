@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Income\Controller;
 
 use App\EasyAdmin\Controller\AbstractController;
+use App\Identifier\IdentifierFormatter;
 use App\Income\Entity\Income;
 use App\Income\Entity\IncomeId;
 use App\Income\Entity\IncomePart;
 use App\Income\Entity\IncomePartId;
 use App\Income\Form\IncomePartDto;
-use App\Shared\Identifier\IdentifierFormatter;
 use LogicException;
 use function assert;
 use function in_array;

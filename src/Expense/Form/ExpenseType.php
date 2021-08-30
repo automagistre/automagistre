@@ -7,7 +7,7 @@ namespace App\Expense\Form;
 use App\Doctrine\Registry;
 use App\Expense\Entity\Expense;
 use App\Expense\Entity\ExpenseId;
-use App\Shared\Identifier\IdentifierFormatter;
+use App\Identifier\IdentifierFormatter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

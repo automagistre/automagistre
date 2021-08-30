@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Wallet\View;
 
 use App\Doctrine\Registry;
-use App\Shared\Identifier\IdentifierFormatter;
-use App\Shared\Identifier\IdentifierFormatterInterface;
+use App\Identifier\IdentifierFormatter;
+use App\Identifier\IdentifierFormatterInterface;
 use App\Wallet\Entity\WalletTransactionId;
 use App\Wallet\Entity\WalletTransactionView;
 use Premier\Identifier\Identifier;

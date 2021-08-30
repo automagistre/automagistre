@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Shared;
 
-use App\Shared\Identifier\IdentifierFormatter;
+use App\Identifier\IdentifierFormatter;
 use Generator;
 use Premier\Identifier\Identifier;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;

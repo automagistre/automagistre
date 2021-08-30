@@ -7,7 +7,7 @@ namespace App\Employee\Form;
 use App\Doctrine\Registry;
 use App\Employee\Entity\Employee;
 use App\Employee\Entity\EmployeeId;
-use App\Shared\Identifier\IdentifierFormatter;
+use App\Identifier\IdentifierFormatter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\ChoiceList\View\ChoiceView;

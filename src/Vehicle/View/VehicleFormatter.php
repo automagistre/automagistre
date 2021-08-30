@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Vehicle\View;
 
 use App\Doctrine\Registry;
-use App\Shared\Identifier\IdentifierFormatter;
-use App\Shared\Identifier\IdentifierFormatterInterface;
+use App\Identifier\IdentifierFormatter;
+use App\Identifier\IdentifierFormatterInterface;
 use App\Vehicle\Entity\Model;
 use App\Vehicle\Entity\VehicleId;
 use Premier\Identifier\Identifier;

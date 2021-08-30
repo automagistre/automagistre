@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Order\View;
 
 use App\Doctrine\Registry;
+use App\Identifier\IdentifierFormatter;
+use App\Identifier\IdentifierFormatterInterface;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderId;
-use App\Shared\Identifier\IdentifierFormatter;
-use App\Shared\Identifier\IdentifierFormatterInterface;
 use Premier\Identifier\Identifier;
 
 final class OrderFormatter implements IdentifierFormatterInterface

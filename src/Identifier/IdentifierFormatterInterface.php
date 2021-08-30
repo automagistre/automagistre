@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Identifier;
+namespace App\Identifier;
 
 use Premier\Identifier\Identifier;
 

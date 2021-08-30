@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Manufacturer\View;
 
 use App\Doctrine\Registry;
+use App\Identifier\IdentifierFormatter;
+use App\Identifier\IdentifierFormatterInterface;
 use App\Manufacturer\Entity\Manufacturer;
 use App\Manufacturer\Entity\ManufacturerId;
-use App\Shared\Identifier\IdentifierFormatter;
-use App\Shared\Identifier\IdentifierFormatterInterface;
 use LogicException;
 use Premier\Identifier\Identifier;
 

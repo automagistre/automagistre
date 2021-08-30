@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Identifier;
+namespace App\Identifier;
 
 use LogicException;
 use Premier\Identifier\Identifier;
@@ -31,7 +31,7 @@ final class IdentifierTwigExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('is_identifier', fn ($mixed) => $mixed instanceof Identifier),
+            new TwigFunction('is_identifier', fn (mixed $mixed) => $mixed instanceof Identifier),
         ];
     }
 
@@ -41,14 +41,15 @@ final class IdentifierTwigExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('display_name', fn (
-                $value,
-                string $format = null,
-            ) => $value instanceof Identifier ? $this->formatter->format($value, $format) : $value),
+            new TwigFilter(
+                'display_name',
+                fn (mixed $value, string $format = null) => $value instanceof Identifier
+                    ? $this->formatter->format($value, $format)
+                    : $value,
+            ),
             new TwigFilter(
                 'toId',
-                /** @param mixed $value */
-                static function ($value): string {
+                static function (mixed $value): string {
                     if (is_array($value)) {
                         $value = $value['id'] ?? null;
                     }
@@ -84,8 +85,7 @@ final class IdentifierTwigExtension extends AbstractExtension
             ),
             new TwigFilter(
                 'toUuid',
-                /** @param mixed $value */
-                static function ($value): UuidInterface {
+                static function (mixed $value): UuidInterface {
                     if (is_array($value)) {
                         $value = $value['id'] ?? null;
                     }

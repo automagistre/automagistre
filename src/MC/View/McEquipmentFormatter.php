@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\MC\View;
 
 use App\Doctrine\Registry;
+use App\Identifier\IdentifierFormatter;
+use App\Identifier\IdentifierFormatterInterface;
 use App\MC\Entity\McEquipment;
 use App\MC\Entity\McEquipmentId;
-use App\Shared\Identifier\IdentifierFormatter;
-use App\Shared\Identifier\IdentifierFormatterInterface;
 use Premier\Identifier\Identifier;
 use function sprintf;
 
