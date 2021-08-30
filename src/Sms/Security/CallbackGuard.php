@@ -21,8 +21,7 @@ final class CallbackGuard extends AbstractAuthenticator
      */
     public function supports(Request $request): bool
     {
-        return 'callback.automagistre.ru' === $request->getHost()
-            && 'smsaero' === $request->attributes->get('provider');
+        return 'smsaero' === $request->attributes->get('provider');
     }
 
     /**
