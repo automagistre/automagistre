@@ -9,6 +9,7 @@ use App\Appeal\Entity\AppealView;
 use App\Appeal\Entity\Status;
 use App\Appeal\Enum\AppealStatus;
 use App\EasyAdmin\Controller\AbstractController;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use function assert;
@@ -36,7 +37,7 @@ final class AppealController extends AbstractController
         $sortDirection,
         $sortField = null,
         $dqlFilter = null,
-    ): \Doctrine\ORM\QueryBuilder {
+    ): QueryBuilder {
         $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
 
         $qb

@@ -7,10 +7,10 @@ namespace App\Storage\Entity;
 use App\MessageBus\ContainsRecordedMessages;
 use App\MessageBus\PrivateMessageRecorderCapabilities;
 use App\Storage\Event\InventorizationClosed;
+use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity()

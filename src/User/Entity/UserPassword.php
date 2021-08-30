@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\User\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Tenant\Entity\TenantEntity;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity

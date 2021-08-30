@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Expense\Entity;
 
+use App\Tenant\Entity\TenantEntity;
 use App\Wallet\Entity\WalletId;
 use Doctrine\ORM\Mapping as ORM;
-use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity

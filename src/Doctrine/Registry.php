@@ -58,7 +58,7 @@ final class Registry
      */
     public function find(
         string $class,
-        string | UuidInterface | Identifier $id,
+        string|UuidInterface|Identifier $id,
         int $lockMode = null,
         int $lockVersion = null,
     ): mixed {

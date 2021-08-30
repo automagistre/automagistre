@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Car\Entity;
 
 use App\Costil;
+use App\Tenant\Entity\TenantEntity;
 use App\Vehicle\Entity\Embedded\Equipment;
 use App\Vehicle\Entity\VehicleId;
 use App\Vehicle\Enum\BodyType;
@@ -18,7 +19,6 @@ use Money\Currency;
 use Money\Money;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Tenant\Entity\TenantEntity;
 use function in_array;
 use function mb_convert_case;
 use function sprintf;

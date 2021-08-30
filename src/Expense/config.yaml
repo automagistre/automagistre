@@ -3,7 +3,7 @@ easy_admin:
         Expense:
             class: App\Expense\Entity\Expense
             controller: App\Expense\Controller\ExpenseController
-            disabled_actions: ['show', 'delete']
+            disabled_actions: [ 'show', 'delete' ]
             list:
                 title: 'Статьи расходов'
                 fields:

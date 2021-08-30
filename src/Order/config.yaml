@@ -3,7 +3,7 @@ easy_admin:
         Order:
             class: App\Order\Entity\Order
             controller: App\Order\Controller\OrderController
-            disabled_actions: ['edit', 'delete']
+            disabled_actions: [ 'edit', 'delete' ]
             templates:
                 show: 'easy_admin/order/show.html.twig'
                 new: 'easy_admin/order/new.html.twig'
@@ -37,27 +37,27 @@ easy_admin:
         OrderPayment:
             class: App\Order\Entity\Order
             controller: App\Order\Controller\OrderPaymentController
-            disabled_actions: ['show', 'list', 'new', 'edit', 'autocomplete', 'search']
+            disabled_actions: [ 'show', 'list', 'new', 'edit', 'autocomplete', 'search' ]
 
         OrderPrint:
             class: App\Order\Entity\Order
             controller: App\Order\Controller\OrderPrintController
-            disabled_actions: ['show', 'list', 'new', 'edit', 'autocomplete', 'search']
+            disabled_actions: [ 'show', 'list', 'new', 'edit', 'autocomplete', 'search' ]
 
         OrderClose:
             class: App\Order\Entity\Order
             controller: App\Order\Controller\OrderCloseController
-            disabled_actions: ['show', 'list', 'new', 'edit', 'autocomplete', 'search']
+            disabled_actions: [ 'show', 'list', 'new', 'edit', 'autocomplete', 'search' ]
 
         OrderCancel:
             class: App\Order\Entity\Order
             controller: App\Order\Controller\OrderCancelController
-            disabled_actions: ['show', 'list', 'new', 'edit', 'autocomplete', 'search']
+            disabled_actions: [ 'show', 'list', 'new', 'edit', 'autocomplete', 'search' ]
 
         OrderItemGroup:
             class: App\Order\Entity\OrderItemGroup
             controller: App\Order\Controller\OrderItemGroupController
-            disabled_actions: ['show', 'list', 'search']
+            disabled_actions: [ 'show', 'list', 'search' ]
             templates:
                 new: 'easy_admin/order_item_group/new.html.twig'
                 edit: 'easy_admin/order_item_group/edit.html.twig'
@@ -72,7 +72,7 @@ easy_admin:
         OrderItemService:
             class: App\Order\Entity\OrderItemService
             controller: App\Order\Controller\OrderItemServiceController
-            disabled_actions: ['show']
+            disabled_actions: [ 'show' ]
             templates:
                 list: 'easy_admin/order_item_service/list.html.twig'
                 new: 'easy_admin/order_item_service/new.html.twig'
@@ -85,7 +85,7 @@ easy_admin:
                     - { property: 'order.mileage', label: 'Пробег' }
                     - { property: 'workerId', label: 'Исполнитель', template: 'easy_admin/field_identifier.html.twig' }
             edit:
-                actions: ['delete']
+                actions: [ 'delete' ]
                 fields:
                     - { property: 'service', label: 'Работа' }
             form:
@@ -103,9 +103,9 @@ easy_admin:
         OrderItemPart:
             class: App\Order\Entity\OrderItemPart
             controller: App\Order\Controller\OrderItemPartController
-            disabled_actions: ['show', 'list', 'search']
+            disabled_actions: [ 'show', 'list', 'search' ]
 
         OrderProfit:
             class: App\Order\Entity\Order
             controller: App\Order\Controller\ProfitController
-            disabled_actions: ['new', 'show', 'autocomplete', 'edit', 'search', 'delete']
+            disabled_actions: [ 'new', 'show', 'autocomplete', 'edit', 'search', 'delete' ]

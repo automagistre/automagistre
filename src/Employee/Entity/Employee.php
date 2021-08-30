@@ -10,11 +10,11 @@ use App\Employee\Event\EmployeeCreated;
 use App\Employee\Event\EmployeeFired;
 use App\MessageBus\ContainsRecordedMessages;
 use App\MessageBus\PrivateMessageRecorderCapabilities;
+use App\Tenant\Entity\TenantEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Wallet\Entity;
 
 use App\Costil;
+use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;
-use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity

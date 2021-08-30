@@ -6,13 +6,13 @@ declare(strict_types=1);
 
 namespace App\Appeal\Entity;
 
-use App\Tenant\Entity\TenantEntity;
 use App\Appeal\Event\AppealCreated;
 use App\MC\Entity\McEquipmentId;
 use App\MC\Entity\McWorkId;
 use App\MessageBus\ContainsRecordedMessages;
 use App\MessageBus\PrivateMessageRecorderCapabilities;
 use App\Part\Entity\PartId;
+use App\Tenant\Entity\TenantEntity;
 use ArrayIterator;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;

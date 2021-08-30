@@ -7,8 +7,8 @@ namespace App\Part\Entity;
 use App\Manufacturer\Entity\ManufacturerId;
 use App\Part\Enum\Unit;
 use App\Storage\Entity\WarehouseId;
-use Doctrine\ORM\Mapping as ORM;
 use App\Tenant\Entity\TenantEntity;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="part", uniqueConstraints={
@@ -90,7 +90,7 @@ class Part extends TenantEntity
         $this->warehouseId = $warehouseId;
     }
 
-    public function equals(PartId | self $part): bool
+    public function equals(PartId|self $part): bool
     {
         $id = $part instanceof self ? $part->id : $part;
 

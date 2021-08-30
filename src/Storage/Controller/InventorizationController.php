@@ -14,6 +14,7 @@ use App\Storage\Entity\InventorizationView;
 use App\Storage\Form\Inventorization\InventorizationPartDto;
 use App\Storage\Form\Inventorization\InventorizationPartType;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Search\QueryBuilderFactory;
 use Symfony\Component\HttpFoundation\Response;
 use function array_map;
@@ -227,7 +228,7 @@ final class InventorizationController extends AbstractController
         $sortDirection,
         $sortField = null,
         $dqlFilter = null,
-    ): \Doctrine\ORM\QueryBuilder {
+    ): QueryBuilder {
         $config = $this->entity;
         $config['class'] = InventorizationView::class;
 

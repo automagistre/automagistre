@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Income\Entity;
 
 use App\Part\Entity\PartId;
+use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
-use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity

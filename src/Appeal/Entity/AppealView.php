@@ -6,10 +6,10 @@ namespace App\Appeal\Entity;
 
 use App\Appeal\Enum\AppealStatus;
 use App\Appeal\Enum\AppealType;
+use App\Tenant\Entity\TenantEntity;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
-use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity

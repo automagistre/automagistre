@@ -3,7 +3,7 @@ easy_admin:
         Appeal:
             class: App\Appeal\Entity\AppealView
             controller: App\Appeal\Controller\AppealController
-            disabled_actions: ['new', 'edit', 'delete', 'autocomplete', 'search']
+            disabled_actions: [ 'new', 'edit', 'delete', 'autocomplete', 'search' ]
             templates:
                 show: 'easy_admin/appeal/show.html.twig'
             list:

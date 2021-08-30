@@ -7,10 +7,10 @@ namespace App\Customer\Entity;
 use App\Customer\Enum\CustomerTransactionSource;
 use App\MessageBus\ContainsRecordedMessages;
 use App\MessageBus\PrivateMessageRecorderCapabilities;
+use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 use Ramsey\Uuid\UuidInterface;
-use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity

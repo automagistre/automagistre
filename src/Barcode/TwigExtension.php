@@ -16,7 +16,10 @@ final class TwigExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('qr_code_base64', fn (string $data) => 'data:image/svg+xml;base64,'.base64_encode(Barcoder::qrcode($data)->toSvg())),
+            new TwigFunction(
+                'qr_code_base64',
+                fn (string $data) => 'data:image/svg+xml;base64,'.base64_encode(Barcoder::qrcode($data)->toSvg()),
+            ),
         ];
     }
 }

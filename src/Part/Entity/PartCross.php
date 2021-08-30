@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Part\Entity;
 
+use App\Tenant\Entity\TenantEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity

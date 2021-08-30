@@ -31,8 +31,7 @@ final class TenantDoctrineMigrateCommand extends Command
                 [
                     'TENANT' => $tenant->toIdentifier(),
                 ],
-            )
-            ;
+            );
 
             $process->enableOutput()->start();
             $processes[] = $process;

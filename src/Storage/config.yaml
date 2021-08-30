@@ -3,7 +3,7 @@ easy_admin:
         Motion:
             class: App\Storage\Entity\Motion
             controller: App\Storage\Controller\MotionController
-            disabled_actions: ['show', 'edit', 'new', 'search', 'delete']
+            disabled_actions: [ 'show', 'edit', 'new', 'search', 'delete' ]
             templates:
                 list: 'easy_admin/motion/list.html.twig'
             list:
@@ -17,9 +17,9 @@ easy_admin:
                     - { property: 'id', label: 'Создано', template: 'easy_admin/field_created_at.html.twig' }
 
         Warehouse:
-            class:  App\Storage\Entity\WarehouseView
+            class: App\Storage\Entity\WarehouseView
             controller: App\Storage\Controller\WarehouseController
-            disabled_actions: ['show', 'delete']
+            disabled_actions: [ 'show', 'delete' ]
             templates:
                 list: 'easy_admin/storage/warehouse/list.html.twig'
             list:
@@ -31,7 +31,7 @@ easy_admin:
         Inventorization:
             class: App\Storage\Entity\Inventorization
             controller: App\Storage\Controller\InventorizationController
-            disabled_actions: ['edit']
+            disabled_actions: [ 'edit' ]
             list:
                 title: 'Инвентаризация'
                 fields:

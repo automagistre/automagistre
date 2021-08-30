@@ -3,7 +3,7 @@ easy_admin:
         Wallet:
             class: App\Wallet\Entity\Wallet
             controller: App\Wallet\Controller\WalletController
-            disabled_actions: ['show', 'search']
+            disabled_actions: [ 'show', 'search' ]
             list:
                 title: 'Счета'
                 fields:
@@ -35,7 +35,7 @@ easy_admin:
         WalletTransaction:
             class: App\Wallet\Entity\WalletTransactionView
             controller: App\Wallet\Controller\TransactionController
-            disabled_actions: ['show', 'delete', 'edit', 'new']
+            disabled_actions: [ 'show', 'delete', 'edit', 'new' ]
             list:
                 title: 'Список проводок'
                 fields:

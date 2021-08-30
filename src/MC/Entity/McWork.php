@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\MC\Entity;
 
+use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
-use App\Tenant\Entity\TenantEntity;
 use function sprintf;
 
 /**

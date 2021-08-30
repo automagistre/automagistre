@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Customer\Entity;
 
-use App\Tenant\Entity\TenantEntity;
 use App\Customer\Enum\CustomerTransactionSource;
-use Premier\Identifier\Identifier;
+use App\Tenant\Entity\TenantEntity;
 use App\User\Entity\UserId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
+use Premier\Identifier\Identifier;
 use Ramsey\Uuid\UuidInterface;
 use function assert;
 use function is_subclass_of;

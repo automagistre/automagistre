@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Employee\View;
 
 use App\Employee\Entity\SalaryId;
-use Premier\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use App\Shared\Identifier\IdentifierFormatterInterface;
+use Premier\Identifier\Identifier;
 
 final class SalaryFormatter implements IdentifierFormatterInterface
 {

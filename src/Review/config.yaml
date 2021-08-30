@@ -3,7 +3,7 @@ easy_admin:
         Review:
             class: App\Review\Entity\Review
             controller: App\Review\Controller\ReviewController
-            disabled_actions: ['show', 'edit', 'delete']
+            disabled_actions: [ 'show', 'edit', 'delete' ]
             list:
                 sort: 'publishAt'
                 fields:
@@ -29,4 +29,4 @@ easy_admin:
         GoogleReviewToken:
             class: App\Review\Google\Entity\Token
             controller: App\Review\Google\Controller\OAuth2Controller
-            disabled_actions: ['list', 'new', 'search', 'show', 'edit', 'delete', 'autocomplete']
+            disabled_actions: [ 'list', 'new', 'search', 'show', 'edit', 'delete', 'autocomplete' ]

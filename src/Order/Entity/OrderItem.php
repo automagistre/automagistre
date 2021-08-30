@@ -6,6 +6,7 @@ namespace App\Order\Entity;
 
 use App\Shared\Money\PriceInterface;
 use App\Shared\Money\TotalPriceInterface;
+use App\Tenant\Entity\TenantEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,7 +15,6 @@ use Money\Money;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
-use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity

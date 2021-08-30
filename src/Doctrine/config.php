@@ -9,5 +9,5 @@ return static function (ContainerConfigurator $configurator): void {
 
     $services->get(App\Doctrine\Migrations\EventSubscriber\RecreateViewsOnMigration::class)
         ->arg('$path', '%kernel.project_dir%/views')
-        ;
+    ;
 };

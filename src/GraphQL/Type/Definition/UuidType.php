@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Type\Definition;
 
-use Premier\Identifier\Identifier;
 use GraphQL\Error\Error;
 use GraphQL\Language\AST\Node;
 use GraphQL\Language\AST\StringValueNode;
 use GraphQL\Type\Definition\ScalarType;
 use GraphQL\Utils\Utils;
+use Premier\Identifier\Identifier;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use function is_string;

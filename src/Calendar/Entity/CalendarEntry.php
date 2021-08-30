@@ -6,10 +6,10 @@ namespace App\Calendar\Entity;
 
 use App\Calendar\Enum\DeletionReason;
 use App\Calendar\Exception\EntryDeleted;
+use App\Tenant\Entity\TenantEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\CreatedBy\Entity;
 
+use App\Tenant\Entity\TenantEntity;
 use App\User\Entity\UserId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
-use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity(readOnly=true)

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Type\Definition;
 
+use Egulias\EmailValidator\EmailValidator;
 use Egulias\EmailValidator\Validation\NoRFCWarningsValidation;
 use GraphQL\Error\Error;
 use GraphQL\Language\AST\Node;
@@ -28,7 +29,7 @@ final class EmailType extends ScalarType
      */
     public function parseValue($value): string
     {
-        $strictValidator = new \Egulias\EmailValidator\EmailValidator();
+        $strictValidator = new EmailValidator();
 
         if (!is_string($value) || !$strictValidator->isValid($value = trim($value), new NoRFCWarningsValidation())) {
             throw new Error('Cannot represent following value as Email: '.Utils::printSafeJson($value));

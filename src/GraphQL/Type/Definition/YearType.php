@@ -9,5 +9,6 @@ use GraphQL\Type\Definition\IntType;
 final class YearType extends IntType
 {
     public $name = 'year';
+
     public $description = '';
 }

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App;
 
-use Premier\Identifier\Identifier;
 use App\Shared\Identifier\IdentifierFormatter;
 use LogicException;
 use Money\Currency;
 use Money\Money;
+use Premier\Identifier\Identifier;
 use function array_key_exists;
 use function str_contains;
 use function str_replace;

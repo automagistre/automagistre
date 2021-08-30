@@ -361,7 +361,7 @@ abstract class AbstractController extends EasyAdminController
 
             $this->dispatch(EasyAdminEvents::PRE_UPDATE, ['entity' => $entity]);
 
-            /** @phpstan-ignore-next-line  */
+            /** @phpstan-ignore-next-line */
             $entity = $this->updateEntity(...[$entity, $editForm]) ?? $entity;
             $this->dispatch(EasyAdminEvents::POST_UPDATE, ['entity' => $entity]);
 

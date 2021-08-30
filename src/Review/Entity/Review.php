@@ -9,9 +9,9 @@ use App\MessageBus\PrivateMessageRecorderCapabilities;
 use App\Review\Enum\ReviewRating;
 use App\Review\Enum\ReviewSource;
 use App\Review\Event\ReviewReceived;
+use App\Tenant\Entity\TenantEntity;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity

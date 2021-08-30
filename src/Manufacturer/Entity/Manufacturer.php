@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Manufacturer\Entity;
 
 use App\Costil;
-use Doctrine\ORM\Mapping as ORM;
 use App\Tenant\Entity\TenantEntity;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity

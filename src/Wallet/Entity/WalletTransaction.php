@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Wallet\Entity;
 
+use App\Tenant\Entity\TenantEntity;
 use App\Wallet\Enum\WalletTransactionSource;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 use Ramsey\Uuid\UuidInterface;
-use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity

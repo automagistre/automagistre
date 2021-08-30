@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Calendar\Entity;
 
 use App\Order\Entity\OrderId;
+use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity

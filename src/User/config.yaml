@@ -3,7 +3,7 @@ easy_admin:
         User:
             class: App\User\Entity\User
             controller: App\User\Controller\UserController
-            disabled_actions: ['delete']
+            disabled_actions: [ 'delete' ]
             list:
                 max_results: 50
                 title: 'Пользователи'

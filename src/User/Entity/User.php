@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\User\Entity;
 
+use App\Tenant\Entity\TenantEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,7 +13,6 @@ use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Tenant\Entity\TenantEntity;
 use function array_unique;
 use function in_array;
 use function serialize;

@@ -3,4 +3,4 @@ easy_admin:
         Note:
             class: App\Note\Entity\Note
             controller: App\Note\Controller\NoteController
-            disabled_actions: ['show', 'list', 'search', 'autocomplete', 'edit']
+            disabled_actions: [ 'show', 'list', 'search', 'autocomplete', 'edit' ]

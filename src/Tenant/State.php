@@ -6,10 +6,10 @@ namespace App\Tenant;
 
 use App\Tenant\Enum\Tenant;
 use App\Tenant\Event\TenantChanged;
+use LogicException;
 use Sentry\State\Scope;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Service\ResetInterface;
-use LogicException;
 use function Sentry\configureScope;
 
 final class State implements ResetInterface

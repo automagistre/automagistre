@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Publish\Entity;
 
-use App\Tenant\Entity\TenantEntity;
 use App\CreatedBy\Entity\CreatedByView;
+use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 

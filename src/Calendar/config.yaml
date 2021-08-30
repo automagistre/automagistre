@@ -3,7 +3,7 @@ easy_admin:
         CalendarEntry:
             class: App\Calendar\Entity\CalendarEntry
             controller: App\Calendar\Controller\CalendarEntryController
-            disabled_actions: ['show', 'search', 'autocomplete', 'delete']
+            disabled_actions: [ 'show', 'search', 'autocomplete', 'delete' ]
             templates:
                 edit: 'easy_admin/calendar/edit.html.twig'
             list:

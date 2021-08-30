@@ -22,8 +22,10 @@ final class TenantMiddleware implements MiddlewareInterface
 
         if (
             null !== $previous
-            && (null === $envelope->last(ConsumedByWorkerStamp::class)
-            || null === $envelope->last(TenantStamp::class))
+            && (
+                null === $envelope->last(ConsumedByWorkerStamp::class)
+                || null === $envelope->last(TenantStamp::class)
+            )
         ) {
             return $stack->next()->handle($envelope->with(new TenantStamp($previous)), $stack);
         }

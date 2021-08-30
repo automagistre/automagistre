@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Calendar\Entity;
 
-use App\Tenant\Entity\TenantEntity;
 use App\Order\Entity\OrderId;
+use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Appeal\Entity;
 
-use App\Tenant\Entity\TenantEntity;
 use App\Appeal\Event\AppealCreated;
 use App\MessageBus\ContainsRecordedMessages;
 use App\MessageBus\PrivateMessageRecorderCapabilities;
+use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 

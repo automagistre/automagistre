@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Appeal\Entity;
 
 use App\Appeal\Enum\AppealStatus;
+use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity

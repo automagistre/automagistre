@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Order\Entity;
 
-use App\Tenant\Entity\TenantEntity;
 use App\MessageBus\ContainsRecordedMessages;
 use App\MessageBus\PrivateMessageRecorderCapabilities;
+use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;

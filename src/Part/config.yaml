@@ -3,7 +3,7 @@ easy_admin:
         Part:
             class: App\Part\Entity\Part
             controller: App\Part\Controller\PartController
-            disabled_actions: ['delete']
+            disabled_actions: [ 'delete' ]
             label: 'Запчасти'
             templates:
                 list: 'easy_admin/part/list.html.twig'
@@ -57,47 +57,47 @@ easy_admin:
         PartCase:
             class: App\Part\Entity\Part
             controller: App\Part\Controller\PartCaseController
-            disabled_actions: ['new', 'list', 'show', 'autocomplete', 'edit', 'search', 'delete']
+            disabled_actions: [ 'new', 'list', 'show', 'autocomplete', 'edit', 'search', 'delete' ]
 
         PartCross:
             class: App\Part\Entity\Part
             controller: App\Part\Controller\PartCrossController
-            disabled_actions: ['new', 'list', 'show', 'autocomplete', 'edit', 'search', 'delete']
+            disabled_actions: [ 'new', 'list', 'show', 'autocomplete', 'edit', 'search', 'delete' ]
 
         PartPrice:
             class: App\Part\Entity\Price
             controller: App\Part\Controller\PartPriceController
-            disabled_actions: ['list', 'show', 'autocomplete', 'edit', 'search', 'delete']
+            disabled_actions: [ 'list', 'show', 'autocomplete', 'edit', 'search', 'delete' ]
 
         PartDiscount:
             class: App\Part\Entity\Discount
             controller: App\Part\Controller\PartDiscountController
-            disabled_actions: ['list', 'show', 'autocomplete', 'edit', 'search', 'delete']
+            disabled_actions: [ 'list', 'show', 'autocomplete', 'edit', 'search', 'delete' ]
 
         PartRequiredAvailability:
             class: App\Part\Entity\RequiredAvailability
             controller: App\Part\Controller\RequiredAvailabilityController
-            disabled_actions: ['list', 'show', 'autocomplete', 'edit', 'search', 'delete']
+            disabled_actions: [ 'list', 'show', 'autocomplete', 'edit', 'search', 'delete' ]
 
         PartSupply:
             class: App\Part\Entity\Supply
             controller: App\Part\Controller\SupplyController
-            disabled_actions: ['list', 'show', 'new', 'autocomplete', 'edit', 'search', 'delete']
+            disabled_actions: [ 'list', 'show', 'new', 'autocomplete', 'edit', 'search', 'delete' ]
 
         PartToBuy:
             class: App\Part\Entity\Part
             controller: App\Part\Controller\WhatToBuyController
-            disabled_actions: ['new', 'show', 'autocomplete', 'edit', 'search', 'delete']
+            disabled_actions: [ 'new', 'show', 'autocomplete', 'edit', 'search', 'delete' ]
 
         PartSell:
             class: App\Part\Entity\Part
             controller: App\Part\Controller\PartSellController
-            disabled_actions: ['new', 'show', 'autocomplete', 'edit', 'search', 'delete']
+            disabled_actions: [ 'new', 'show', 'autocomplete', 'edit', 'search', 'delete' ]
 
         PartExplorer:
             class: App\Part\Entity\Part
             controller: App\Part\Controller\PartExplorerController
-            disabled_actions: ['new', 'show', 'autocomplete', 'edit', 'search', 'delete']
+            disabled_actions: [ 'new', 'show', 'autocomplete', 'edit', 'search', 'delete' ]
 
 doctrine:
     dbal:

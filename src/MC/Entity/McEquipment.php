@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\MC\Entity;
 
+use App\Tenant\Entity\TenantEntity;
 use App\Vehicle\Entity\Embedded\Equipment as CarEquipment;
 use App\Vehicle\Entity\VehicleId;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity

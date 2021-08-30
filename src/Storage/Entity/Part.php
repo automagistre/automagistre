@@ -6,10 +6,10 @@ namespace App\Storage\Entity;
 
 use App\CreatedBy\Attributes as CreatedBy;
 use App\Part\Entity\PartId;
+use App\Tenant\Entity\TenantEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Tenant\Entity\TenantEntity;
 use function abs;
 use function array_reduce;
 

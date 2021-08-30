@@ -6,8 +6,8 @@ namespace App\Vehicle\Entity;
 
 use App\Costil;
 use App\Manufacturer\Entity\ManufacturerId;
-use Doctrine\ORM\Mapping as ORM;
 use App\Tenant\Entity\TenantEntity;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity

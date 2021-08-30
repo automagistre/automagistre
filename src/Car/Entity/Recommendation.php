@@ -7,6 +7,7 @@ namespace App\Car\Entity;
 use App\Customer\Entity\OperandId;
 use App\Order\Entity\OrderItemService;
 use App\Shared\Money\PriceInterface;
+use App\Tenant\Entity\TenantEntity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -15,7 +16,6 @@ use Money\Currency;
 use Money\Money;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity

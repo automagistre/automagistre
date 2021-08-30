@@ -7,10 +7,10 @@ namespace App\Sms\Entity;
 use App\MessageBus\ContainsRecordedMessages;
 use App\MessageBus\PrivateMessageRecorderCapabilities;
 use App\Sms\Messages\SendRequested;
+use App\Tenant\Entity\TenantEntity;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
-use App\Tenant\Entity\TenantEntity;
 
 /**
  * @ORM\Entity

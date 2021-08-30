@@ -60,13 +60,13 @@ final class ProfitController extends AbstractController
                o.number,
                o.customer_id,
                (
-                 SELECT SUM((oip.price_amount::integer - COALESCE(oip.discount_amount, \'0\')::integer) * (oip.quantity::numeric / 100))
+                 SELECT SUM((oip.price_amount::INTEGER - COALESCE(oip.discount_amount, \'0\')::INTEGER) * (oip.quantity::NUMERIC / 100))
                  FROM order_item_part oip
                         JOIN order_item ON oip.id = order_item.id
                  WHERE order_item.order_id = o.id
                ) AS part_price,
                (
-                 SELECT SUM(sub.price_amount::integer - COALESCE(sub.discount_amount, \'0\')::integer)
+                 SELECT SUM(sub.price_amount::INTEGER - COALESCE(sub.discount_amount, \'0\')::INTEGER)
                  FROM (
                    SELECT ois.price_amount AS price_amount,
                           ois.discount_amount AS discount_amount,
@@ -77,19 +77,19 @@ final class ProfitController extends AbstractController
                  WHERE sub.order_id = o.id
                ) AS service_price,
                (
-                 SELECT SUM(ct.amount_amount::integer)
+                 SELECT SUM(ct.amount_amount::INTEGER)
                  FROM customer_transaction ct
                  WHERE o.id = ct.source_id
                     AND ct.source = :customer_transaction_source
                ) AS service_cost,
                (
-                 SELECT SUM((sub.quantity)::numeric / 100 * sub.price::integer)
+                 SELECT SUM((sub.quantity)::NUMERIC / 100 * sub.price::INTEGER)
                  FROM (
                         SELECT oip.quantity AS quantity,
                                (
                                  SELECT ip.price_amount
                                  FROM income_part ip
-                                        JOIN income i on ip.income_id = i.id
+                                        JOIN income i ON ip.income_id = i.id
                                         JOIN income_accrue ia ON i.id = ia.income_id
                                         JOIN created_by iacb ON iacb.id = ia.id
                                  WHERE iacb.created_at < o2closed.created_at

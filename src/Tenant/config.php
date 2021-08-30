@@ -11,7 +11,7 @@ return static function (DoctrineConfig $doctrine, ContainerConfigurator $configu
         ->filter('tenant')
         ->class(App\Tenant\Doctrine\ORM\Query\TenantFilter::class)
         ->enabled(true)
-        ;
+    ;
 
     $services = $configurator->services();
 };

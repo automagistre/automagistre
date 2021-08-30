@@ -3,7 +3,7 @@ easy_admin:
         McWork:
             class: App\MC\Entity\McWork
             controller: App\MC\Controller\WorkController
-            disabled_actions: ['show']
+            disabled_actions: [ 'show' ]
             list:
                 title: 'Список работ'
                 fields:
@@ -61,7 +61,7 @@ easy_admin:
         McLine:
             class: App\MC\Entity\McLine
             controller: App\MC\Controller\LineController
-            disabled_actions: ['show', 'list', 'autocomplete']
+            disabled_actions: [ 'show', 'list', 'autocomplete' ]
             list:
                 fields:
                     - { property: 'work', label: 'Модель' }
@@ -81,7 +81,7 @@ easy_admin:
         McPart:
             class: App\MC\Entity\McPart
             controller: App\MC\Controller\PartController
-            disabled_actions: ['show', 'list', 'autocomplete']
+            disabled_actions: [ 'show', 'list', 'autocomplete' ]
             form:
                 fields:
                     -   property: 'partId'

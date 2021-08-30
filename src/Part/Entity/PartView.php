@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Part\Entity;
 
-use App\Tenant\Entity\TenantEntity;
 use App\Customer\Entity\OperandId;
 use App\Manufacturer\Entity\ManufacturerView;
 use App\Part\Enum\Unit;
 use App\Storage\Entity\WarehouseView;
+use App\Tenant\Entity\TenantEntity;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;

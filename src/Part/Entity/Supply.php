@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Part\Entity;
 
-use App\Tenant\Entity\TenantEntity;
 use App\Customer\Entity\OperandId;
 use App\Part\Enum\SupplySource;
+use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
