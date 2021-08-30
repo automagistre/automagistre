@@ -8,7 +8,6 @@ use App\User\Entity\User;
 use App\User\Entity\UserId;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 final class AdminFixtures extends Fixture
 {
@@ -17,10 +16,6 @@ final class AdminFixtures extends Fixture
     public const PASSWORD = 'pa$$word';
     public const ROLES = ['ROLE_ADMIN'];
     public const REFERENCE = 'user-admin';
-
-    public function __construct(private EncoderFactoryInterface $encoderFactory)
-    {
-    }
 
     /**
      * {@inheritdoc}
@@ -32,8 +27,6 @@ final class AdminFixtures extends Fixture
             self::ROLES,
             self::USERNAME,
         );
-
-        $user->changePassword(self::PASSWORD, $this->encoderFactory->getEncoder($user));
 
         $this->addReference(self::REFERENCE, $user);
         $manager->persist($user);

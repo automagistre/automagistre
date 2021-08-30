@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Sms\Security;
 
+use App\Sms\Constants;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -29,7 +30,7 @@ final class CallbackGuard extends AbstractAuthenticator
      */
     public function authenticate(Request $request): PassportInterface
     {
-        return new SelfValidatingPassport(new UserBadge('smsaero@automagistre.ru'));
+        return new SelfValidatingPassport(new UserBadge(Constants::SMSAERO_USER_ID));
     }
 
     /**

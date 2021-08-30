@@ -63,6 +63,21 @@ final class OrderTest extends EasyAdminTestCase
     }
 
     /**
+     * @see \App\Order\Controller\OrderController::searchAction()
+     */
+    public function testRedirectOnNumberSearch(): void
+    {
+        $client = self::createClient();
+
+        $client->request('GET', '/msk/?entity=Order&action=search&query='.OrderFixtures::NUMBER);
+
+        $response = $client->getResponse();
+
+        self::assertTrue($response->isRedirect());
+        self::assertSame('/msk/?id='.OrderFixtures::ID.'&entity=Order&action=show', $response->headers->get('Location'));
+    }
+
+    /**
      * @see \App\Order\Controller\OrderController::showAction()
      */
     public function testShow(): void

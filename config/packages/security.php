@@ -10,10 +10,6 @@ return static function (SecurityConfig $security, ContainerConfigurator $configu
     $security->enableAuthenticatorManager(true);
     $security->accessDecisionManager()->strategy('unanimous');
 
-    $security->encoder(App\User\Entity\User::class)
-        ->algorithm('auto')
-    ;
-
     $security->encoder(Symfony\Component\Security\Core\User\InMemoryUser::class)
         ->algorithm('auto')
     ;
@@ -22,11 +18,15 @@ return static function (SecurityConfig $security, ContainerConfigurator $configu
         ->id(App\Keycloak\Security\KeycloakUserProvider::class)
     ;
 
-    $security->provider('entity_by_username')
-        ->entity()
-        ->class(App\User\Entity\User::class)
-        ->property('username')
-    ;
+    $inMemory = $security->provider('in_memory')->memory();
+    $inMemory->user(App\Sms\Constants::SMSAERO_USER_ID);
+
+    if ('test' === $configurator->env()) {
+        $inMemory
+            ->user(App\Fixtures\User\UserEmployeeFixtures::ID)
+            ->password(App\Fixtures\User\UserEmployeeFixtures::PASSWORD_HASH)
+        ;
+    }
 
     $security->firewall('dev')
         ->pattern('^/(_(profiler|wdt)|css|images|js)/')
@@ -35,7 +35,7 @@ return static function (SecurityConfig $security, ContainerConfigurator $configu
 
     $security->firewall('callback')
         ->host('callback.automagistre.ru')
-        ->provider('entity_by_username')
+        ->provider('in_memory')
         ->customAuthenticators([
             App\Sms\Security\CallbackGuard::class,
         ])
@@ -60,7 +60,7 @@ return static function (SecurityConfig $security, ContainerConfigurator $configu
 
     if ('test' === $configurator->env()) {
         $securedFirewall->httpBasic()
-            ->provider('entity_by_username')
+            ->provider('in_memory')
         ;
     }
 

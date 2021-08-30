@@ -18,7 +18,7 @@ abstract class EasyAdminTestCase extends WebTestCase
     protected static function createClient(array $options = [], array $server = []): KernelBrowser
     {
         return parent::createClient($options, $server + [
-            'PHP_AUTH_USER' => UserEmployeeFixtures::USERNAME,
+            'PHP_AUTH_USER' => UserEmployeeFixtures::ID,
             'PHP_AUTH_PW' => UserEmployeeFixtures::PASSWORD,
         ]);
     }

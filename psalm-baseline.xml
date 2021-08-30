@@ -71,18 +71,6 @@
       <code>$view-&gt;vars</code>
     </PropertyTypeCoercion>
   </file>
-  <file src="src/Fixtures/Employee/AdminFixtures.php">
-    <DeprecatedClass occurrences="2">
-      <code>$this-&gt;encoderFactory-&gt;getEncoder($user)</code>
-      <code>private</code>
-    </DeprecatedClass>
-  </file>
-  <file src="src/Fixtures/User/UserEmployeeFixtures.php">
-    <DeprecatedClass occurrences="2">
-      <code>$this-&gt;encoderFactory-&gt;getEncoder($user)</code>
-      <code>private</code>
-    </DeprecatedClass>
-  </file>
   <file src="src/Manufacturer/Controller/ManufacturerController.php">
     <RedundantConditionGivenDocblockType occurrences="1">
       <code>null !== $dto-&gt;name</code>
