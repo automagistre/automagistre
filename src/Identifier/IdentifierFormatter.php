@@ -4,28 +4,39 @@ declare(strict_types=1);
 
 namespace App\Identifier;
 
+use DateTimeImmutable;
 use LogicException;
 use Premier\Identifier\Identifier;
+use Psr\Cache\CacheItemInterface;
 use Psr\Container\ContainerInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 use function array_key_exists;
-use function get_class;
 use function sprintf;
 
 final class IdentifierFormatter
 {
     private array $map = [];
 
-    public function __construct(private ContainerInterface $formatters)
-    {
+    public function __construct(
+        private ContainerInterface $formatters,
+        private CacheInterface $cache,
+    ) {
     }
 
     public function format(Identifier $identifier, string $format = null): string
     {
-        $class = get_class($identifier);
+        $key = $identifier->toString().$format;
 
-        if (Identifier::class === $class) {
-            throw new LogicException(sprintf('%s support only specific identifiers.', __CLASS__));
-        }
+        return $this->cache->get($key, function (CacheItemInterface $item) use ($identifier, $format): string {
+            $item->expiresAt(new DateTimeImmutable('+15 minutes'));
+
+            return $this->doFormat($identifier, $format);
+        });
+    }
+
+    private function doFormat(Identifier $identifier, ?string $format): string
+    {
+        $class = $identifier::class;
 
         if (!$this->formatters->has($class)) {
             throw new LogicException(sprintf('Formatter for identifier "%s" not registered.', $class));

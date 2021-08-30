@@ -6,6 +6,16 @@ parameters:
 			path: src/Doctrine/Registry.php
 
 		-
+			message: "#^Call to method cache\\(\\) on an unknown class Symfony\\\\Config\\\\FrameworkConfig\\.$#"
+			count: 1
+			path: src/Identifier/config.php
+
+		-
+			message: "#^Parameter \\$framework of anonymous function has invalid typehint type Symfony\\\\Config\\\\FrameworkConfig\\.$#"
+			count: 1
+			path: src/Identifier/config.php
+
+		-
 			message: "#^Method App\\\\Tenant\\\\Doctrine\\\\ORM\\\\Query\\\\TenantFilter\\:\\:addFilterConstraint\\(\\) has parameter \\$targetEntity with generic class Doctrine\\\\ORM\\\\Mapping\\\\ClassMetadata but does not specify its types\\: T$#"
 			count: 1
 			path: src/Tenant/Doctrine/ORM/Query/TenantFilter.php

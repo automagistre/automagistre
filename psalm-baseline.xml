@@ -71,6 +71,11 @@
       <code>$view-&gt;vars</code>
     </PropertyTypeCoercion>
   </file>
+  <file src="src/Identifier/config.php">
+    <UndefinedClass occurrences="1">
+      <code>FrameworkConfig</code>
+    </UndefinedClass>
+  </file>
   <file src="src/Manufacturer/Controller/ManufacturerController.php">
     <RedundantConditionGivenDocblockType occurrences="1">
       <code>null !== $dto-&gt;name</code>

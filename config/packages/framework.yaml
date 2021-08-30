@@ -19,6 +19,8 @@ framework:
         log: '%kernel.debug%'
     router:
         strict_requirements: false
+    cache:
+        default_redis_provider: 'redis://%env(CACHE_REDIS_HOST)%:%env(CACHE_REDIS_PORT)%'
 
 services:
     Symfony\Component\PropertyAccess\PropertyAccessorInterface:
@@ -40,3 +42,5 @@ parameters:
     locale: ru
     env(SESSION_REDIS_HOST): 'redis'
     env(SESSION_REDIS_PORT): '6379'
+    env(CACHE_REDIS_HOST): 'redis'
+    env(CACHE_REDIS_PORT): '6379'
