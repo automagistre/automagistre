@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace App\Keycloak\Security;
 
 use App\Keycloak\Constants;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
-use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
@@ -64,14 +62,6 @@ final class KeycloakAuthenticator extends AbstractAuthenticator
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
-        if ($exception instanceof BadCredentialsException && $exception->getPrevious() instanceof UserNotFoundException) {
-            return new JsonResponse([
-                'message' => 'You don\'t have access to this tenant.',
-            ], Response::HTTP_FORBIDDEN);
-        }
-
-        return new JsonResponse([
-            'message' => $exception->getMessage(),
-        ], Response::HTTP_CONFLICT);
+        throw $exception;
     }
 }
