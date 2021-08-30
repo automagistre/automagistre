@@ -11,7 +11,7 @@ use Ramsey\Uuid\UuidInterface;
 use App\Tenant\Entity\TenantEntity;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(readOnly=true)
  */
 class CreatedBy extends TenantEntity
 {
@@ -19,17 +19,17 @@ class CreatedBy extends TenantEntity
      * @ORM\Id
      * @ORM\Column(type="uuid")
      */
-    private UuidInterface $id;
+    public UuidInterface $id;
 
     /**
      * @ORM\Column(type="user_id")
      */
-    private UserId $userId;
+    public UserId $userId;
 
     /**
      * @ORM\Column(type="datetimetz_immutable")
      */
-    private DateTimeImmutable $createdAt;
+    public DateTimeImmutable $createdAt;
 
     private function __construct(UuidInterface $id, UserId $userId)
     {

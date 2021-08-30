@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\CreatedBy\View;
 
+use App\CreatedBy\Entity\CreatedBy;
 use App\CreatedBy\Entity\CreatedByView;
 use App\Doctrine\Registry;
+use DateTimeImmutable;
 use Ramsey\Uuid\UuidInterface;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
@@ -41,11 +43,10 @@ final class CreatedByExtension extends AbstractExtension
                     'is_safe' => ['html' => true],
                 ],
             ),
-            // Temporary for BC
             new TwigFunction(
-                'created_by',
-                function (UuidInterface $uuid): CreatedByView {
-                    return $this->registry->get(CreatedByView::class, $uuid);
+                'created_at',
+                function (UuidInterface $uuid): DateTimeImmutable {
+                    return $this->registry->get(CreatedBy::class, $uuid)->createdAt;
                 },
             ),
         ];
