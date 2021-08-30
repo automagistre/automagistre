@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Employee\Entity;
 
-use App\CreatedBy\Entity\CreatedByView;
+use App\CreatedBy\Entity\Blamable;
 use App\Customer\Entity\OperandId;
 use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
@@ -45,12 +45,12 @@ class SalaryView extends TenantEntity
     public Money $amount;
 
     /**
-     * @ORM\Column(type="created_by_view")
+     * @ORM\Embedded(class=Blamable::class)
      */
-    public CreatedByView $created;
+    public Blamable $created;
 
     /**
-     * @ORM\Column(type="created_by_view")
+     * @ORM\Embedded(class=Blamable::class)
      */
-    public ?CreatedByView $ended = null;
+    public ?Blamable $ended = null;
 }

@@ -4,34 +4,10 @@ SELECT es.id,
        es.payday,
        es.amount,
        employee.person_id AS person_id,
-       CONCAT_WS(
-           ';',
-            es_cb.id,
-            CONCAT_WS(
-               ',',
-               es_cb.user_id,
-               'username',
-               'lastname',
-               'firstname'
-            ),
-            es_cb.created_at
-        )      AS created,
-       CASE
-           WHEN ese.id IS NOT NULL
-               THEN CONCAT_WS(
-               ';',
-                ese_cb.id,
-                CONCAT_WS(
-                   ',',
-                   ese_cb.user_id,
-                   'username',
-                   'lastname',
-                   'firstname'
-                ),
-                ese_cb.created_at
-                )
-           ELSE NULL
-           END            AS ended
+       es_cb.user_id      AS created_by,
+       es_cb.created_at   AS created_at,
+       ese_cb.user_id     AS ended_by,
+       ese_cb.created_at  AS ended_at
 FROM employee_salary es
          JOIN created_by es_cb ON es_cb.id = es.id
          JOIN employee ON employee.id = es.employee_id

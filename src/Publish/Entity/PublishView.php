@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Publish\Entity;
 
-use App\CreatedBy\Entity\CreatedByView;
+use App\CreatedBy\Entity\Blamable;
 use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
@@ -29,7 +29,7 @@ class PublishView extends TenantEntity
     public bool $published;
 
     /**
-     * @ORM\Column(type="created_by_view")
+     * @ORM\Embedded(class=Blamable::class)
      */
-    public CreatedByView $created;
+    public Blamable $created;
 }

@@ -44,5 +44,4 @@ easy_admin:
                     - { property: 'amount', label: 'Сумма', sortable: false, template: 'easy_admin/field_money.html.twig' }
                     - { property: 'source', label: 'Описание', sortable: false, template: 'easy_admin/wallet/field_description.html.twig' }
                     - { property: 'description', label: 'Комментарий', sortable: false, template: 'easy_admin/default/field_raw.html.twig' }
-                    - { property: 'createdAt', label: 'Дата', sortable: false }
-                    - { property: 'createdBy', label: 'Создал', sortable: false, template: 'easy_admin/field_identifier.html.twig' }
+                    - { property: 'created', label: 'Дата', sortable: false, template: 'easy_admin/created_by/created_by_view.html.twig' }

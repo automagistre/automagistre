@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Wallet\Entity;
 
+use App\CreatedBy\Entity\Blamable;
 use App\Tenant\Entity\TenantEntity;
-use App\User\Entity\UserId;
 use App\Wallet\Enum\WalletTransactionSource;
-use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 use Premier\Identifier\Identifier;
@@ -55,14 +54,9 @@ class WalletTransactionView extends TenantEntity
     public ?string $description;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Embedded(class=Blamable::class)
      */
-    public ?DateTimeImmutable $createdAt;
-
-    /**
-     * @ORM\Column(type="user_id")
-     */
-    public ?UserId $createdBy;
+    public Blamable $created;
 
     public function toId(): WalletTransactionId
     {

@@ -3,33 +3,10 @@ SELECT note.id,
        note.subject,
        note.text,
        note.type,
-       CONCAT_WS(
-               ';',
-               cb.id,
-               CONCAT_WS(
-                       ',',
-                       cb.user_id,
-                       'username',
-                       'lastname',
-                       'firstname'
-                   ),
-               cb.created_at
-           )   AS created,
-       CASE
-           WHEN db.id IS NOT NULL THEN
-               CONCAT_WS(
-                       ';',
-                       db.id,
-                       CONCAT_WS(
-                               ',',
-                               db.user_id,
-                               'username',
-                               'lastname',
-                               'firstname'
-                           ),
-                       db.created_at
-                   )
-           END AS deleted_by
+       cb.created_at AS created_at,
+       cb.user_id    AS created_by,
+       db.created_at AS deleted_at,
+       db.user_id    AS deleted_by
 FROM note
          JOIN created_by cb ON cb.id = note.id
          LEFT JOIN note_delete ON note_delete.note_id = note.id

@@ -2,8 +2,8 @@
 
 {% set all = notes_by_subject(subject) %}
 
-{% set notes = all|filter((n) => n.deletedBy is empty) %}
-{% set deletedCount = all|filter((n) => n.deletedBy is not empty)|length %}
+{% set notes = all|filter((n) => n.deleted is empty) %}
+{% set deletedCount = all|filter((n) => n.deleted is not empty)|length %}
 
 <div class="field-group">
     <div class="box box-default">

@@ -35,7 +35,7 @@ final class TransactionController extends AbstractController
         }
 
         $qb
-            ->orderBy('entity.createdAt', 'DESC')
+            ->orderBy('entity.created.at', 'DESC')
             ->addOrderBy('entity.id', 'DESC')
         ;
 
@@ -62,7 +62,7 @@ final class TransactionController extends AbstractController
             ->from(WalletTransactionView::class, 't')
             ->where('t.sourceId = :sourceId')
             ->setParameter('sourceId', $searchQuery)
-            ->orderBy('t.createdAt', 'DESC')
+            ->orderBy('t.created.at', 'DESC')
             ->addOrderBy('t.id', 'DESC')
         ;
     }
