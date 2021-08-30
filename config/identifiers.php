@@ -28,7 +28,6 @@ return [
     App\Storage\Entity\MotionId::class => ['motion_id'],
     App\Storage\Entity\WarehouseId::class => ['warehouse_id'],
     App\User\Entity\UserId::class => ['user_id'],
-    App\User\Entity\UserPasswordId::class => ['user_password_id'],
     App\Vehicle\Entity\VehicleId::class => ['vehicle_id'],
     App\Wallet\Entity\WalletId::class => ['wallet_id'],
     App\Wallet\Entity\WalletTransactionId::class => ['wallet_transaction_id'],

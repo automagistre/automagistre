@@ -73,7 +73,6 @@ easy_admin:
             - { entity: 'Organization', label: 'Организации', icon: 'industry' }
             - { entity: 'Car', label: 'Автомобили', icon: 'car' }
             - { entity: 'Employee', label: 'Работники', icon: 'users' }
-            - { entity: 'User', label: 'Пользователи', icon: 'users' }
             - { label: 'Справочники' }
             - { entity: 'Manufacturer', label: 'Производители', icon: 'industry' }
             - { entity: 'CarModel', label: 'Кузова', icon: 'car' }

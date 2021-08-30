@@ -212,33 +212,6 @@
       <code>DoctrineConfig</code>
     </UndefinedClass>
   </file>
-  <file src="src/User/Command/UserChangePasswordCommand.php">
-    <DeprecatedClass occurrences="2">
-      <code>$this-&gt;encoderFactory-&gt;getEncoder($user)</code>
-      <code>private</code>
-    </DeprecatedClass>
-  </file>
-  <file src="src/User/Command/UserCreateCommand.php">
-    <DeprecatedClass occurrences="2">
-      <code>$this-&gt;encoderFactory-&gt;getEncoder($user)</code>
-      <code>private</code>
-    </DeprecatedClass>
-  </file>
-  <file src="src/User/Controller/UserController.php">
-    <DeprecatedClass occurrences="3">
-      <code>$this-&gt;encoderFactory-&gt;getEncoder($entity)</code>
-      <code>$this-&gt;encoderFactory-&gt;getEncoder($entity)</code>
-      <code>private</code>
-    </DeprecatedClass>
-    <PossiblyNullReference occurrences="1">
-      <code>get</code>
-    </PossiblyNullReference>
-  </file>
-  <file src="src/User/Entity/User.php">
-    <DeprecatedClass occurrences="1">
-      <code>PasswordEncoderInterface</code>
-    </DeprecatedClass>
-  </file>
   <file src="src/Vehicle/Controller/ModelController.php">
     <RedundantConditionGivenDocblockType occurrences="3">
       <code>null !== $dto-&gt;manufacturerId</code>

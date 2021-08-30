@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\CreatedBy\View;
 
 use App\CreatedBy\Entity\CreatedBy;
-use App\CreatedBy\Entity\CreatedByView;
 use App\Doctrine\Registry;
 use DateTimeImmutable;
 use Ramsey\Uuid\UuidInterface;
@@ -31,10 +30,13 @@ final class CreatedByExtension extends AbstractExtension
             new TwigFunction(
                 'created_by_view',
                 function (Environment $twig, UuidInterface $uuid, array $options = []): string {
-                    $view = $this->registry->get(CreatedByView::class, $uuid);
+                    $view = $this->registry->get(CreatedBy::class, $uuid);
 
                     return $twig->render('easy_admin/created_by/created_by_view.html.twig', [
-                        'value' => $view,
+                        'value' => [
+                            'at' => $view->createdAt,
+                            'by' => $view->userId,
+                        ],
                         'withUser' => $options['withUser'] ?? true,
                     ]);
                 },

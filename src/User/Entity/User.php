@@ -5,18 +5,10 @@ declare(strict_types=1);
 namespace App\User\Entity;
 
 use App\Tenant\Entity\TenantEntity;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Serializable;
-use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
-use Symfony\Component\Security\Core\User\EquatableInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use function array_unique;
 use function in_array;
-use function serialize;
-use function unserialize;
 
 /**
  * @ORM\Entity
@@ -27,7 +19,7 @@ use function unserialize;
  *     }
  * )
  */
-class User extends TenantEntity implements UserInterface, EquatableInterface, Serializable
+class User extends TenantEntity
 {
     /**
      * @ORM\Id
@@ -58,34 +50,11 @@ class User extends TenantEntity implements UserInterface, EquatableInterface, Se
      */
     private string $username;
 
-    /**
-     * @var Collection<int, UserPassword>
-     *
-     * @ORM\OneToMany(targetEntity=UserPassword::class, mappedBy="user", cascade={"persist", "remove"})
-     * @ORM\OrderBy({"id": "ASC"})
-     */
-    private Collection $passwords;
-
     public function __construct(UserId $userId, array $roles, string $username)
     {
         $this->id = $userId;
         $this->roles = $roles;
         $this->username = $username;
-        $this->passwords = new ArrayCollection();
-    }
-
-    public function __toString(): string
-    {
-        if (null !== $this->lastName && null !== $this->firstName) {
-            return $this->lastName.' '.$this->firstName;
-        }
-
-        return $this->username;
-    }
-
-    public function getUserIdentifier(): string
-    {
-        return $this->id->toString();
     }
 
     public function toId(): UserId
@@ -114,25 +83,6 @@ class User extends TenantEntity implements UserInterface, EquatableInterface, Se
         $this->roles = $roles;
     }
 
-    public function getPassword(): ?string
-    {
-        $userPassword = $this->passwords->last();
-
-        return false === $userPassword ? null : $userPassword->toPassword();
-    }
-
-    public function changePassword(string $password, PasswordEncoderInterface $encoder): void
-    {
-        $encoded = $encoder->encodePassword($password, $this->getSalt());
-
-        $this->passwords[] = new UserPassword($this, $encoded);
-    }
-
-    public function getSalt(): ?string
-    {
-        return null;
-    }
-
     public function getUsername(): string
     {
         return $this->username;
@@ -141,53 +91,5 @@ class User extends TenantEntity implements UserInterface, EquatableInterface, Se
     public function setUsername(string $username): void
     {
         $this->username = $username;
-    }
-
-    public function eraseCredentials(): void
-    {
-    }
-
-    public function isEqualTo(UserInterface $user): bool
-    {
-        if (!$user instanceof self) {
-            return false;
-        }
-
-        if ($user->getUsername() !== $this->getUsername()) {
-            return false;
-        }
-
-        if ($user->getRoles() !== $this->getRoles()) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function serialize(): string
-    {
-        return serialize([
-            $this->id,
-            $this->username,
-            $this->roles,
-        ]);
-    }
-
-    /**
-     * @param string $serialized
-     */
-    public function unserialize($serialized): void
-    {
-        [
-            $this->id,
-            $this->username,
-            $roles,
-        ] = unserialize($serialized, ['allowed_classes' => true]);
-
-        $this->roles = $roles ?? [];
-        $this->passwords = new ArrayCollection();
     }
 }
