@@ -10,6 +10,7 @@ use App\User\Entity\UserId;
 use Keycloak\Admin\KeycloakClient;
 use Premier\Identifier\Identifier;
 use function array_key_exists;
+use function Sentry\captureMessage;
 use function sprintf;
 
 final class KeycloakUserFormatter implements IdentifierFormatterInterface
@@ -32,6 +33,12 @@ final class KeycloakUserFormatter implements IdentifierFormatterInterface
     public function format(IdentifierFormatter $formatter, Identifier $identifier, string $format = null): string
     {
         $user = $this->keycloak->getUser(['id' => $identifier->toString()]);
+
+        if (array_key_exists('error', $user)) {
+            captureMessage(sprintf('Keycloak return "%s" for id "%s"', $user['error'], $identifier->toString()));
+
+            return 'error error';
+        }
 
         return match (true) {
             !array_key_exists('firstName', $user) => $user['username'],
