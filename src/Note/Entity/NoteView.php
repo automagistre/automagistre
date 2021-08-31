@@ -43,9 +43,4 @@ class NoteView extends TenantEntity
      * @ORM\Embedded(class=Blamable::class)
      */
     public Blamable $created;
-
-    /**
-     * @ORM\Embedded(class=Blamable::class)
-     */
-    public ?Blamable $deleted;
 }

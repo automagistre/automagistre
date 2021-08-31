@@ -1,14 +1,11 @@
 {# @var subject \Ramsey\Uuid\UuidInterface #}
 
-{% set all = notes_by_subject(subject) %}
-
-{% set notes = all|filter((n) => n.deleted is empty) %}
-{% set deletedCount = all|filter((n) => n.deleted is not empty)|length %}
+{% set notes = notes_by_subject(subject) %}
 
 <div class="field-group">
     <div class="box box-default">
         <div class="box-header with-border">
-            <h3 class="box-title">Заметки{% if deletedCount > 0 %} (Есть удалённые: {{ deletedCount }}){% endif %}</h3>
+            <h3 class="box-title">Заметки</h3>
         </div>
 
         {% if notes is not empty %}
