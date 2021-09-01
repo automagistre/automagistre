@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace App\Keycloak\EventListener;
 
-use Keycloak\Admin\KeycloakClient;
-use LogicException;
+use Stevenmaguire\OAuth2\Client\Provider\Keycloak;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Event\LogoutEvent;
-use function sprintf;
 
 final class LogoutListener implements EventSubscriberInterface
 {
     public function __construct(
-        private KeycloakClient $keycloak,
+        private Keycloak $keycloak,
         private UrlGeneratorInterface $urlGenerator,
     ) {
     }
@@ -32,12 +30,9 @@ final class LogoutListener implements EventSubscriberInterface
 
     public function onLogout(LogoutEvent $event): void
     {
-        $ssoLogoutUrl = sprintf(
-            '%s/auth/realms/%s/protocol/openid-connect/logout?redirect_uri=%s',
-            $this->keycloak->getConfig('baseUri'),
-            $this->keycloak->getRealmName() ?? throw new LogicException('realm required.'),
-            $this->urlGenerator->generate('easyadmin', referenceType: UrlGeneratorInterface::ABSOLUTE_URL),
-        );
+        $ssoLogoutUrl = $this->keycloak->getLogoutUrl([
+            'redirect_uri' => $this->urlGenerator->generate('easyadmin', referenceType: UrlGeneratorInterface::ABSOLUTE_URL),
+        ]);
 
         $event->setResponse(new RedirectResponse($ssoLogoutUrl));
     }
