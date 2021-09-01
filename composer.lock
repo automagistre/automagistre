@@ -14046,16 +14046,16 @@
         },
         {
             "name": "phpstan/phpstan-doctrine",
-            "version": "0.12.43",
+            "version": "0.12.44",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-doctrine.git",
-                "reference": "134ecca0a50742575c2da22c3f65b79eff6b9427"
+                "reference": "5fe9a9b15707d9bc5178fa7cf0899e904d112ccd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-doctrine/zipball/134ecca0a50742575c2da22c3f65b79eff6b9427",
-                "reference": "134ecca0a50742575c2da22c3f65b79eff6b9427",
+                "url": "https://api.github.com/repos/phpstan/phpstan-doctrine/zipball/5fe9a9b15707d9bc5178fa7cf0899e904d112ccd",
+                "reference": "5fe9a9b15707d9bc5178fa7cf0899e904d112ccd",
                 "shasum": ""
             },
             "require": {
@@ -14108,9 +14108,9 @@
             "description": "Doctrine extensions for PHPStan",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-doctrine/issues",
-                "source": "https://github.com/phpstan/phpstan-doctrine/tree/0.12.43"
+                "source": "https://github.com/phpstan/phpstan-doctrine/tree/0.12.44"
             },
-            "time": "2021-08-19T14:46:51+00:00"
+            "time": "2021-09-01T06:46:16+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -14768,16 +14768,16 @@
         },
         {
             "name": "psalm/plugin-symfony",
-            "version": "v3.0.1",
+            "version": "v3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/psalm/psalm-plugin-symfony.git",
-                "reference": "ae4262b7fad12efae39f1684a850de14e322c415"
+                "reference": "848d58f398c489bfb656db399a8dba9fb4e20547"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/psalm/psalm-plugin-symfony/zipball/ae4262b7fad12efae39f1684a850de14e322c415",
-                "reference": "ae4262b7fad12efae39f1684a850de14e322c415",
+                "url": "https://api.github.com/repos/psalm/psalm-plugin-symfony/zipball/848d58f398c489bfb656db399a8dba9fb4e20547",
+                "reference": "848d58f398c489bfb656db399a8dba9fb4e20547",
                 "shasum": ""
             },
             "require": {
@@ -14826,9 +14826,9 @@
             "description": "Psalm Plugin for Symfony",
             "support": {
                 "issues": "https://github.com/psalm/psalm-plugin-symfony/issues",
-                "source": "https://github.com/psalm/psalm-plugin-symfony/tree/v3.0.1"
+                "source": "https://github.com/psalm/psalm-plugin-symfony/tree/v3.0.2"
             },
-            "time": "2021-08-30T04:49:33+00:00"
+            "time": "2021-09-01T11:05:24+00:00"
         },
         {
             "name": "sanmai/later",
