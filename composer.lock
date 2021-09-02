@@ -4735,16 +4735,16 @@
         },
         {
             "name": "oro/doctrine-extensions",
-            "version": "2.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/oroinc/doctrine-extensions.git",
-                "reference": "b3a3154a23016e9304e2d9fd1eaa977bfbb545cc"
+                "reference": "a56d0330f785af336d226b2c84292494a343e0d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oroinc/doctrine-extensions/zipball/b3a3154a23016e9304e2d9fd1eaa977bfbb545cc",
-                "reference": "b3a3154a23016e9304e2d9fd1eaa977bfbb545cc",
+                "url": "https://api.github.com/repos/oroinc/doctrine-extensions/zipball/a56d0330f785af336d226b2c84292494a343e0d0",
+                "reference": "a56d0330f785af336d226b2c84292494a343e0d0",
                 "shasum": ""
             },
             "require": {
@@ -4787,9 +4787,9 @@
             ],
             "support": {
                 "issues": "https://github.com/oroinc/doctrine-extensions/issues",
-                "source": "https://github.com/oroinc/doctrine-extensions/tree/2.0.0"
+                "source": "https://github.com/oroinc/doctrine-extensions/tree/2.0.1"
             },
-            "time": "2021-01-13T00:49:29+00:00"
+            "time": "2021-09-02T11:41:41+00:00"
         },
         {
             "name": "pagerfanta/pagerfanta",
