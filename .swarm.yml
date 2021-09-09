@@ -164,6 +164,7 @@ services:
 
     postgres: &postgres
         image: postgres:13.4-alpine
+        shm_size: 1gb
         volumes:
             -   type: bind
                 source: /opt/am/postgres/data
@@ -209,6 +210,7 @@ services:
 
     postgres_msk: &postgres_old
         image: postgres:12.2
+        shm_size: 1gb
         volumes:
             -   type: bind
                 source: /opt/am/db/tenant/msk
