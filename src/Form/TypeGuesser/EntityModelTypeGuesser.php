@@ -8,6 +8,7 @@ use App\Form\Model\Model;
 use Symfony\Bridge\Doctrine\Form\DoctrineOrmTypeGuesser;
 use Symfony\Component\Form\FormTypeGuesserInterface;
 use function is_subclass_of;
+use function assert;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
