@@ -52,7 +52,7 @@ return static function (SecurityConfig $security, ContainerConfigurator $configu
         ->customAuthenticators([
             App\Keycloak\Security\KeycloakAuthenticator::class,
         ])
-        ->entryPoint(App\Keycloak\Security\KeycloakAuthenticator::class)
+        ->entryPoint(App\Keycloak\Security\KeycloakEntryPoint::class)
     ;
     $securedFirewall
         ->logout()

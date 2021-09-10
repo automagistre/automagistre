@@ -6,7 +6,6 @@ namespace App\Keycloak\Security;
 
 use App\Keycloak\Constants;
 use App\Keycloak\Exception\InvalidState;
-use Stevenmaguire\OAuth2\Client\Provider\Keycloak;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,32 +16,13 @@ use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
-use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 use function is_string;
 
-final class KeycloakAuthenticator extends AbstractAuthenticator implements AuthenticationEntryPointInterface
+final class KeycloakAuthenticator extends AbstractAuthenticator
 {
     public function __construct(
-        private Keycloak $provider,
         private UrlGeneratorInterface $urlGenerator,
     ) {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function start(Request $request, AuthenticationException $authException = null): Response
-    {
-        $redirectUrl = $this->provider->getAuthorizationUrl([
-            'redirect_uri' => $this->urlGenerator->generate(Constants::CALLBACK_ROUTE, referenceType: UrlGeneratorInterface::ABSOLUTE_URL),
-            'scope' => 'email',
-        ]);
-
-        $session = $request->getSession();
-        $session->set(Constants::REDIRECT_TO, $request->getUri());
-        $session->set(Constants::OAUTH_2_STATE, $this->provider->getState());
-
-        return new RedirectResponse($redirectUrl);
     }
 
     /**
