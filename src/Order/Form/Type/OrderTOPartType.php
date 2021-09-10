@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Order\Form\Type;
 
+use App\Doctrine\Registry;
 use App\Form\Type\MoneyType;
 use App\Order\Form\OrderTOPart;
 use App\Part\Entity\PartId;
 use App\Part\Entity\PartView;
-use App\Part\Entity\PartViewRepository;
 use LogicException;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
@@ -26,11 +26,8 @@ use function count;
  */
 final class OrderTOPartType extends AbstractType
 {
-    private PartViewRepository $repository;
-
-    public function __construct(PartViewRepository $repository)
+    public function __construct(private Registry $registry)
     {
-        $this->repository = $repository;
     }
 
     /**
@@ -52,7 +49,7 @@ final class OrderTOPartType extends AbstractType
                     throw new LogicException('OrderTOPart expected.');
                 }
 
-                $part = $this->repository->get($data->partId);
+                $part = $this->registry->get(PartView::class, $data->partId);
 
                 $analogs = $part->analogs->toArray();
                 $hasAnalog = 0 < count($analogs);
@@ -67,14 +64,14 @@ final class OrderTOPartType extends AbstractType
                     'label' => 'Запчасть',
                     'choices' => $choices,
                     'choice_label' => fn (PartView $part) => $part->displayWithStock(),
-                    'choice_value' => fn (?PartView $part) => null === $part ? null : $part->toId()->toString(),
+                    'choice_value' => fn (?PartView $part) => $part?->toId()->toString(),
                     'expanded' => false,
                     'multiple' => false,
                     'disabled' => !$hasAnalog,
                     'auto_initialize' => false,
                 ])->addModelTransformer(new CallbackTransformer(
-                    fn (?PartId $partId) => null === $partId ? null : $this->repository->get($partId),
-                    fn (?PartView $partView) => null === $partView ? null : $partView->toId(),
+                    fn (?PartId $partId) => null === $partId ? null : $this->registry->get(PartView::class, $partId),
+                    fn (?PartView $partView) => $partView?->toId(),
                 ));
 
                 $form->add($partForm->getForm());
@@ -87,7 +84,7 @@ final class OrderTOPartType extends AbstractType
                 $price = $form->get('price');
 
                 if (null === $price->getData()) {
-                    $part = $this->repository->get($model->partId);
+                    $part = $this->registry->get(PartView::class, $model->partId);
 
                     $price->setData($part->suggestPrice());
                 }
