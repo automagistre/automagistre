@@ -113,20 +113,6 @@ final class PartManager
     }
 
     /**
-     * @return Part[]
-     */
-    public function getCrosses(PartId $partId): array
-    {
-        $cross = $this->findCross($partId);
-
-        if (!$cross instanceof PartCross) {
-            return [];
-        }
-
-        return $cross->getParts();
-    }
-
-    /**
      * @return array<string, PartView>
      */
     public function crossesInStock(PartId $partId): array

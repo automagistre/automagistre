@@ -163,7 +163,8 @@ final class PartController extends AbstractController
                 fn (Order $order): string => $order->toId()->toString(),
                 $this->reservationManager->orders($part->toId()),
             );
-            $parameters['crosses'] = $this->partManager->getCrosses($part->toId());
+
+            $parameters['crosses'] = $this->registry->findBy(PartView::class, ['id' => $part->analogs]);
 
             $parameters['prices'] = $this->registry->viewListBy(
                 Price::class,
