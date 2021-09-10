@@ -17,7 +17,7 @@ abstract class TenantEntity
     /**
      * @psalm-readonly
      *
-     * @ORM\Column(type="tenant_enum", nullable=true)
+     * @ORM\Column(type="tenant_enum")
      */
     public Tenant $tenantId;
 }
