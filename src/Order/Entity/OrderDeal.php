@@ -15,9 +15,9 @@ use Money\Money;
 class OrderDeal extends OrderClose
 {
     /**
-     * @ORM\Column(type="money", nullable=true)
+     * @ORM\Column(type="money")
      */
-    public ?Money $balance = null;
+    public Money $balance;
 
     /**
      * @ORM\Column(type="order_satisfaction_enum")
@@ -28,7 +28,7 @@ class OrderDeal extends OrderClose
     {
         parent::__construct($order);
 
-        $this->balance = $balance;
+        $this->balance = $balance ?? Money::RUB(0);
         $this->satisfaction = $satisfaction;
 
         $this->record(new OrderDealed($order->toId()));
