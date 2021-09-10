@@ -11,7 +11,6 @@ use App\Car\Entity\RecommendationPart;
 use App\Car\Entity\RecommendationPartId;
 use App\Customer\Entity\OperandId;
 use App\Fixtures\Part\GasketFixture;
-use App\Fixtures\User\UserEmployeeFixtures;
 use App\Part\Entity\PartId;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -25,7 +24,6 @@ final class RecommendationFixtures extends Fixture implements DependentFixtureIn
     public const ID = '1eab7ad0-3f9c-65fa-874d-0242c0a81005';
     public const RECOMMENDATION_PART_ID = '1eab7ad3-b9df-6652-8b0d-0242c0a81005';
     public const PART_ID = GasketFixture::ID;
-    public const WORKER_ID = UserEmployeeFixtures::ID;
 
     /**
      * {@inheritdoc}
@@ -50,7 +48,7 @@ final class RecommendationFixtures extends Fixture implements DependentFixtureIn
             $car,
             'Test Service',
             new Money(100, new Currency('RUB')),
-            OperandId::from(self::WORKER_ID),
+            OperandId::from('1ea9478c-eca4-6f96-a221-3ab8c77b35e5'),
         );
 
         $recommendation->addPart(new RecommendationPart(

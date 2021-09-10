@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\User\View;
+namespace App\Keycloak\View;
 
 use App\Identifier\IdentifierFormatter;
 use App\Identifier\IdentifierFormatterInterface;
-use App\User\Entity\UserId;
+use App\Keycloak\Entity\UserId;
 use Keycloak\Admin\KeycloakClient;
 use Premier\Identifier\Identifier;
 use function array_key_exists;

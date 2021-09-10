@@ -7,7 +7,7 @@ namespace App\Customer\Enum;
 use App\Employee\Entity\SalaryId;
 use App\Income\Entity\IncomeId;
 use App\Order\Entity\OrderId;
-use App\User\Entity\UserId;
+use App\Keycloak\Entity\UserId;
 use App\Wallet\Entity\WalletId;
 use Premier\Enum\Enum;
 

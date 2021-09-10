@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Keycloak\Security;
 
-use App\User\Entity\UserId;
+use App\Keycloak\Entity\UserId;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -29,7 +29,7 @@ class KeycloakUser implements UserInterface
 
     public function __toString(): string
     {
-        return $this->getUserIdentifier();
+        return $this->username;
     }
 
     public function isEqualTo(UserInterface $user): bool
@@ -47,7 +47,7 @@ class KeycloakUser implements UserInterface
 
     public function getUserIdentifier(): string
     {
-        return $this->username;
+        return $this->id;
     }
 
     /**
@@ -86,6 +86,6 @@ class KeycloakUser implements UserInterface
      */
     public function getUsername(): string
     {
-        return $this->getUserIdentifier();
+        return $this->username;
     }
 }

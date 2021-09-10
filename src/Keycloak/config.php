@@ -29,4 +29,10 @@ return static function (ContainerConfigurator $configurator): void {
             'clientSecret' => '%env(KEYCLOAK_CRM_OAUTH_CLIENT_SECRET)%',
         ])
     ;
+
+    if ('test' === $configurator->env()) {
+        $services->remove(App\Keycloak\View\KeycloakUserFormatter::class);
+    } else {
+        $services->remove(App\Keycloak\View\DummyUserFormatter::class);
+    }
 };

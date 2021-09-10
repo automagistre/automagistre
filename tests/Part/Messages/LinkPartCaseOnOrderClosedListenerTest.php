@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Part\Messages;
 
 use App\Doctrine\Registry;
-use App\Fixtures\Employee\AdminFixtures;
 use App\Fixtures\Order\OrderFixtures;
 use App\Fixtures\Part\GasketFixture;
 use App\Order\Entity\OrderId;
@@ -28,7 +27,7 @@ final class LinkPartCaseOnOrderClosedListenerTest extends KernelTestCase
 
         $token = new TestBrowserToken(
             ['ROLE_ADMIN'],
-            new InMemoryUser(username: AdminFixtures::ID, password: AdminFixtures::PASSWORD),
+            new InMemoryUser(username: '1ea9478c-eca4-6f96-a221-3ab8c77b35e5', password: 'pa$$word'),
         );
         $token->setAuthenticated(true);
         /** @var TokenStorage $tokenStorage */

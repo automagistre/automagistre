@@ -23,8 +23,8 @@ return static function (SecurityConfig $security, ContainerConfigurator $configu
 
     if ('test' === $configurator->env()) {
         $inMemory
-            ->user(App\Fixtures\User\UserEmployeeFixtures::ID)
-            ->password(App\Fixtures\User\UserEmployeeFixtures::PASSWORD_HASH)
+            ->user('1ea9478c-eca4-6f96-a221-3ab8c77b35e5')
+            ->password('$2y$13$RO8v5ocI.PAoWqJDsfs0T.qbCemJhO/U3KgB672Y7CxDszFj3GCtK')
         ;
     }
 

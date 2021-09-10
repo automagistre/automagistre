@@ -7,7 +7,7 @@ namespace App\Storage\Entity;
 use App\Income\Entity\IncomePartId;
 use App\Order\Entity\OrderId;
 use App\Storage\Enum\MotionType;
-use App\User\Entity\UserId;
+use App\Keycloak\Entity\UserId;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;
 use Premier\Identifier\Identifier;

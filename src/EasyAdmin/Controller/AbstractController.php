@@ -7,9 +7,9 @@ namespace App\EasyAdmin\Controller;
 use App\Doctrine\Registry;
 use App\EasyAdmin\Request\EntityTransformer;
 use App\Identifier\IdentifierFormatter;
+use App\Keycloak\Security\KeycloakUser;
 use App\Tenant\Enum\Tenant;
 use App\Tenant\State;
-use App\User\Entity\User;
 use Closure;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManagerInterface;
@@ -51,7 +51,7 @@ use function urlencode;
  *
  * @property EntityManagerInterface $em
  *
- * @method User getUser()
+ * @method KeycloakUser getUser()
  *
  * @author Konstantin Grachev <me@grachevko.ru>
  */

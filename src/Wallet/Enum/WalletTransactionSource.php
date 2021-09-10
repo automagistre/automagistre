@@ -8,7 +8,7 @@ use App\Customer\Entity\OperandId;
 use App\Expense\Entity\ExpenseId;
 use App\Income\Entity\IncomeId;
 use App\Order\Entity\OrderId;
-use App\User\Entity\UserId;
+use App\Keycloak\Entity\UserId;
 use Premier\Enum\Enum;
 
 /**

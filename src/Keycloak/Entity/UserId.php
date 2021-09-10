@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\User\Entity;
+namespace App\Keycloak\Entity;
 
 use Premier\Identifier\Identifier;
 

@@ -10,7 +10,6 @@ use App\Doctrine\Registry;
 use App\Fixtures\Car\Primera2004Fixtures;
 use App\Fixtures\Customer\PersonVasyaFixtures;
 use App\Fixtures\Part\GasketFixture;
-use App\Fixtures\User\UserEmployeeFixtures;
 use App\Note\Entity\Note;
 use App\Note\Enum\NoteType;
 use App\Order\Entity\Order;
@@ -50,7 +49,6 @@ final class OrderFixtures extends Fixture implements DependentFixtureInterface
         return [
             PersonVasyaFixtures::class,
             Primera2004Fixtures::class,
-            UserEmployeeFixtures::class,
             GasketFixture::class,
         ];
     }

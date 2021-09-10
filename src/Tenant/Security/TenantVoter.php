@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tenant\Security;
 
 use App\Doctrine\Registry;
-use App\User\Entity\User;
+use App\Keycloak\Entity\Permission;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -44,6 +44,6 @@ final class TenantVoter extends Voter
             default => $user,
         };
 
-        return null !== $this->registry->findOneBy(User::class, ['username' => $username]);
+        return null !== $this->registry->findOneBy(Permission::class, ['userId' => $username]);
     }
 }
