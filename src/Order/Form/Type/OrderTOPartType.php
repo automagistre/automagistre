@@ -54,7 +54,7 @@ final class OrderTOPartType extends AbstractType
 
                 $part = $this->repository->get($data->partId);
 
-                $analogs = $this->repository->all(...$part->analogs);
+                $analogs = $part->analogs->toArray();
                 $hasAnalog = 0 < count($analogs);
 
                 $choices = [$part];

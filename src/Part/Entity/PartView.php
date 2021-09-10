@@ -10,6 +10,7 @@ use App\Part\Enum\Unit;
 use App\Storage\Entity\WarehouseView;
 use App\Tenant\Entity\TenantEntity;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 use function sprintf;
@@ -95,11 +96,15 @@ class PartView extends TenantEntity
     public Money $income;
 
     /**
-     * @var array<int, PartId>
+     * @var Collection<int, PartView>
      *
-     * @ORM\Column(type="part_ids")
+     * @ORM\ManyToMany(targetEntity=PartView::class)
+     * @ORM\JoinTable(name="part_analog_view",
+     *     joinColumns={@ORM\JoinColumn(name="part_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="analog_id", referencedColumnName="id")}
+     *     )
      */
-    public array $analogs;
+    public Collection $analogs;
 
     /**
      * @ORM\Column(type="integer")

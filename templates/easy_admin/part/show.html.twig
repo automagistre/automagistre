@@ -249,14 +249,13 @@
                         <h3 class="box-title">Кроссы</h3>
                     </div>
 
-                    {% if crosses is not empty %}
+                    {% if not entity.analogs.empty %}
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <tbody>
-                                {# @var crosses \App\Part\Entity\PartView[] #}
-                                {% for part in crosses %}
+                                {% for analog in entity.analogs %}
                                     <tr>
-                                        <td>{% include 'easy_admin/field_part.html.twig' with {'value': part, 'stock': true} %}</td>
+                                        <td>{% include 'easy_admin/field_part.html.twig' with {'value': analog, 'stock': true} %}</td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>
@@ -269,7 +268,7 @@
                     {% endif %}
                     <div class="box-footer">
                         <a class="btn btn-primary" href="{{ easyadmin_path('PartCross', 'cross', {'part_id': entity|toId, 'referer': true}) }}">Добавить кросс</a>
-                        {% if crosses is not empty %}
+                        {% if not entity.analogs.empty %}
                             <a class="btn btn-danger" href="{{ easyadmin_path('PartCross', 'uncross', {'part_id': entity|toId, 'referer': true}) }}">Исключить</a>
                         {% endif %}
                     </div>

@@ -47,15 +47,13 @@ final class StaleStockNotifier implements MessageHandler
             return;
         }
 
-        if ([] === $part->analogs) {
+        if ($part->analogs->isEmpty()) {
             return;
         }
 
-        $analogs = $this->registry->findBy(PartView::class, ['id' => $part->analogs]);
-
         /** @var PartView[] $canReplacedBy */
         $canReplacedBy = [];
-        foreach ($analogs as $analog) {
+        foreach ($part->analogs as $analog) {
             if ($analog->hasKeepingStock()) {
                 continue;
             }

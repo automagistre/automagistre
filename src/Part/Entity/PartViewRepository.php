@@ -19,12 +19,4 @@ final class PartViewRepository
     {
         return $this->registry->get(PartView::class, $partId);
     }
-
-    /**
-     * @return array<int, PartView>
-     */
-    public function all(PartId ...$partIds): array
-    {
-        return $this->registry->repository(PartView::class)->findBy(['id' => $partIds]);
-    }
 }
