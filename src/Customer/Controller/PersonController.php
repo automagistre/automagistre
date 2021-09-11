@@ -6,6 +6,7 @@ namespace App\Customer\Controller;
 
 use App\Customer\Entity\OperandId;
 use App\Customer\Entity\Person;
+use App\Customer\Entity\PersonView;
 use App\Customer\Form\PersonDto;
 use App\Customer\Form\PersonType;
 use Doctrine\ORM\QueryBuilder;
@@ -13,6 +14,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Search\Paginator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Closure;
 use function array_map;
 use function assert;
 use function explode;
@@ -54,8 +56,8 @@ final class PersonController extends OperandController
             $person = new Person(
                 $id,
             );
-            $person->firstname = $dto->firstName;
-            $person->lastname = $dto->lastName;
+            $person->firstname = $dto->firstname;
+            $person->lastname = $dto->lastname;
             $person->email = $dto->email;
             $person->telephone = $dto->telephone;
 
@@ -97,9 +99,9 @@ final class PersonController extends OperandController
     /**
      * {@inheritdoc}
      */
-    protected function createNewEntity(): Person
+    protected function createNewEntity(): PersonDto
     {
-        return new Person(OperandId::generate());
+        return new PersonDto();
     }
 
     /**
@@ -107,7 +109,17 @@ final class PersonController extends OperandController
      */
     protected function persistEntity($entity): void
     {
-        assert($entity instanceof Person);
+        $dto = $entity;
+        assert($dto instanceof PersonDto);
+
+        $entity = new Person(OperandId::generate());
+        $entity->firstname = $dto->firstname;
+        $entity->lastname = $dto->lastname;
+        $entity->telephone = $dto->telephone;
+        $entity->officePhone = $dto->officePhone;
+        $entity->email = $dto->email;
+        $entity->seller = $dto->seller;
+        $entity->contractor = $dto->contractor;
 
         parent::persistEntity($entity);
 
@@ -116,6 +128,47 @@ final class PersonController extends OperandController
                 'id' => $entity->toId()->toString(),
             ]),
         );
+    }
+
+    protected function createEditDto(Closure $callable): ?object
+    {
+        $entity = $this->request->attributes->get('easyadmin')['item'];
+
+        assert($entity instanceof Person);
+
+        $dto = new PersonDto();
+        $dto->firstname = $entity->firstname;
+        $dto->lastname = $entity->lastname;
+        $dto->telephone = $entity->telephone;
+        $dto->officePhone = $entity->officePhone;
+        $dto->email = $entity->email;
+        $dto->contractor = $entity->contractor;
+        $dto->seller = $entity->seller;
+
+        return $dto;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function updateEntity($entity): Person
+    {
+        $dto = $entity;
+        $entity = $this->request->attributes->get('easyadmin')['item'];
+        assert($dto instanceof PersonDto);
+        assert($entity instanceof Person);
+
+        $entity->firstname = $dto->firstname;
+        $entity->lastname = $dto->lastname;
+        $entity->telephone = $dto->telephone;
+        $entity->officePhone = $dto->officePhone;
+        $entity->email = $dto->email;
+        $entity->seller = $dto->seller;
+        $entity->contractor = $dto->contractor;
+
+        parent::updateEntity($entity);
+
+        return $entity;
     }
 
     /**
@@ -129,17 +182,19 @@ final class PersonController extends OperandController
         $sortDirection = null,
         $dqlFilter = null,
     ): QueryBuilder {
-        $qb = $this->em->getRepository(Person::class)->createQueryBuilder('person');
+        $qb = $this->em->getRepository(PersonView::class)->createQueryBuilder('person');
 
         foreach (explode(' ', $searchQuery) as $key => $item) {
             $key = ':search_'.$key;
 
-            $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->like('LOWER(person.firstname)', $key),
-                $qb->expr()->like('LOWER(person.lastname)', $key),
-                $qb->expr()->like('LOWER(person.telephone)', $key),
-                $qb->expr()->like('LOWER(person.email)', $key),
-            ));
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->like('LOWER(person.firstname)', $key),
+                    $qb->expr()->like('LOWER(person.lastname)', $key),
+                    $qb->expr()->like('LOWER(person.telephone)', $key),
+                    $qb->expr()->like('LOWER(person.email)', $key),
+                ),
+            );
 
             $qb->setParameter($key, '%'.mb_strtolower($item).'%');
         }

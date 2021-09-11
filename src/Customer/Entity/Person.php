@@ -7,9 +7,6 @@ namespace App\Customer\Entity;
 use App\Tenant\Entity\TenantGroupEntity;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
-use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhone;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
 use function sprintf;
 
 /**
@@ -19,8 +16,6 @@ use function sprintf;
  *         @ORM\UniqueConstraint(columns={"telephone", "tenant_group_id"})
  *     }
  * )
- *
- * @UniqueEntity(fields={"telephone", "tenantGroupId"}, message="Заказчик с таким телефоном уже существует")
  */
 class Person extends TenantGroupEntity
 {
@@ -31,8 +26,6 @@ class Person extends TenantGroupEntity
     public OperandId $id;
 
     /**
-     * @Assert\Length(max="32")
-     *
      * @ORM\Column(length=32, nullable=true)
      */
     public ?string $firstname = null;
@@ -43,22 +36,16 @@ class Person extends TenantGroupEntity
     public ?string $lastname = null;
 
     /**
-     * @AssertPhone
-     *
-     * @ORM\Column(type="phone_number", nullable=true, unique=true)
+     * @ORM\Column(type="phone_number", nullable=true)
      */
     public ?PhoneNumber $telephone = null;
 
     /**
-     * @AssertPhone
-     *
      * @ORM\Column(type="phone_number", nullable=true)
      */
     public ?PhoneNumber $officePhone = null;
 
     /**
-     * @Assert\Email
-     *
      * @ORM\Column(nullable=true)
      */
     public ?string $email = null;

@@ -8,6 +8,7 @@ use App\Customer\Validator\CustomerPhoneNotExists;
 use libphonenumber\PhoneNumber;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as PhoneNumberConstraint;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @psalm-suppress MissingConstructor
@@ -15,25 +16,29 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class PersonDto
 {
     /**
-     * @var string
-     *
-     * @Assert\NotBlank
+     * @var null|string
      */
-    public $firstName;
+    public $firstname;
 
     /**
      * @var null|string
      */
-    public $lastName;
+    public $lastname;
 
     /**
-     * @var PhoneNumber
+     * @var null|PhoneNumber
      *
-     * @Assert\NotBlank
      * @PhoneNumberConstraint
      * @CustomerPhoneNotExists
      */
     public $telephone;
+
+    /**
+     * @var null|PhoneNumber
+     *
+     * @PhoneNumberConstraint
+     */
+    public $officePhone;
 
     /**
      * @var null|string
@@ -41,4 +46,34 @@ final class PersonDto
      * @Assert\Email
      */
     public $email;
+
+    /**
+     * @var bool
+     */
+    public $contractor = false;
+
+    /**
+     * @var bool
+     */
+    public $seller = false;
+
+    /**
+     * @Assert\Callback()
+     */
+    public function validate(ExecutionContextInterface $context): void
+    {
+        if (null === $this->firstname && null === $this->lastname) {
+            $context->buildViolation('Нужно ввести либо имя либо фамилию')
+                ->atPath('firstname')
+                ->addViolation()
+            ;
+        }
+
+        if (null === $this->telephone && null === $this->officePhone && null === $this->email) {
+            $context->buildViolation('Нужно ввести либо телефон либо E-Mail')
+                ->atPath('telephone')
+                ->addViolation()
+            ;
+        }
+    }
 }

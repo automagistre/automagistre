@@ -7,13 +7,14 @@ namespace App\Customer\Validator;
 use App\Customer\Entity\CustomerView;
 use App\Doctrine\Registry;
 use libphonenumber\PhoneNumber;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 final class CustomerPhoneNotExistsValidator extends ConstraintValidator
 {
-    public function __construct(private Registry $registry)
+    public function __construct(private Registry $registry, private RequestStack $requestStack)
     {
     }
 
@@ -30,17 +31,15 @@ final class CustomerPhoneNotExistsValidator extends ConstraintValidator
             return;
         }
 
-        $entity = $this->registry->manager()
-            ->createQueryBuilder()
-            ->select('1')
-            ->from(CustomerView::class, 'customer')
-            ->where('customer.telephone = :telephone')
-            ->setParameter('telephone', $value, 'phone_number')
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $entity = $this->registry->findOneBy(CustomerView::class, ['telephone' => $value]);
 
         if (null === $entity) {
+            return;
+        }
+
+        $request = $this->requestStack->getMainRequest();
+
+        if (null !== $request && $entity->toId()->toString() === $request->query->get('id')) {
             return;
         }
 

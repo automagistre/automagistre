@@ -62,11 +62,6 @@
       <code>$array[$moneyKey.'.currency.code']</code>
     </PossiblyNullArgument>
   </file>
-  <file src="src/Customer/Controller/PersonController.php">
-    <RedundantConditionGivenDocblockType occurrences="1">
-      <code>null !== $dto-&gt;telephone</code>
-    </RedundantConditionGivenDocblockType>
-  </file>
   <file src="src/Customer/Entity/Organization.php">
     <PropertyNotSetInConstructor occurrences="3">
       <code>$address</code>

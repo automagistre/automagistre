@@ -24,9 +24,14 @@ class PersonView extends TenantGroupEntity
     public OperandId $id;
 
     /**
+     * @ORM\Column(length=32, nullable=true)
+     */
+    public ?string $firstname = null;
+
+    /**
      * @ORM\Column(nullable=true)
      */
-    public ?string $fullName;
+    public ?string $lastname = null;
 
     /**
      * @ORM\Column(type="money")
@@ -61,5 +66,10 @@ class PersonView extends TenantGroupEntity
     public function toId(): OperandId
     {
         return $this->id;
+    }
+
+    public function getFullName(): string
+    {
+        return trim(sprintf('%s %s', $this->lastname ?? '', $this->firstname ?? ''));
     }
 }
