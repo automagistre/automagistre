@@ -213,8 +213,12 @@ services:
                 postgres:5432:db:db:${DB_PASSWORD}
                 ' > ~/.pgpass \
                 && chmod 600 ~/.pgpass \
+                && echo $$'#!/bin/bash
+                pg_dump -h postgres -U db db | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_automagistre.sql.gz
+                ' > /backup.sh \
+                && chmod +x /backup.sh \
                 && echo $$'
-                10 3 * * * pg_dump -h postgres -U db db | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_automagistre.sql.gz
+                10 3 * * * /backup.sh
                 ' | crontab - \
                 && exec tini -- crond -l 0 -f
         volumes:
