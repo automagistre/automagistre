@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tenant\Doctrine\ORM\Subscriber;
 
 use App\Tenant\Entity\TenantEntity;
+use App\Tenant\Entity\TenantGroupEntity;
 use App\Tenant\State;
 use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -33,10 +34,12 @@ final class FillTenantOnPrePersistListener implements EventSubscriberInterface
     {
         $entity = $event->getEntity();
 
-        if (!$entity instanceof TenantEntity) {
-            return;
+        if ($entity instanceof TenantEntity) {
+            $entity->tenantId = $this->state->get();
         }
 
-        $entity->tenantId = $this->state->get();
+        if ($entity instanceof TenantGroupEntity) {
+            $entity->tenantGroupId = $this->state->get()->toGroup();
+        }
     }
 }

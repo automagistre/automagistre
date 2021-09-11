@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Car\Entity;
 
 use App\Costil;
-use App\Tenant\Entity\TenantEntity;
+use App\Tenant\Entity\TenantGroupEntity;
 use App\Vehicle\Entity\Embedded\Equipment;
 use App\Vehicle\Entity\VehicleId;
 use App\Vehicle\Enum\BodyType;
@@ -30,13 +30,13 @@ use const MB_CASE_UPPER;
  * @ORM\Table(
  *     name="car",
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(columns={"identifier", "tenant_id"})
+ *         @ORM\UniqueConstraint(columns={"identifier", "tenant_group_id"})
  *     }
  * )
  *
  * @UniqueEntity(fields={"identifier"})
  */
-class Car extends TenantEntity
+class Car extends TenantGroupEntity
 {
     /**
      * @ORM\Id

@@ -1,5 +1,5 @@
 SELECT p.id,
-       p.tenant_id,
+       p.tenant_group_id,
        CONCAT_WS(' ', p.lastname, p.firstname) AS full_name,
        COALESCE(balance.money, 0)              AS balance,
        p.email,

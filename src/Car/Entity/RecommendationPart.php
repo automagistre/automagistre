@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Car\Entity;
 
 use App\Part\Entity\PartId;
-use App\Tenant\Entity\TenantEntity;
+use App\Tenant\Entity\TenantGroupEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 
@@ -13,7 +13,7 @@ use Money\Money;
  * @ORM\Entity
  * @ORM\Table(name="car_recommendation_part")
  */
-class RecommendationPart extends TenantEntity
+class RecommendationPart extends TenantGroupEntity
 {
     /**
      * @ORM\Id

@@ -7,7 +7,7 @@ namespace App\Car\Entity;
 use App\Customer\Entity\OperandId;
 use App\Money\PriceInterface;
 use App\Order\Entity\OrderItemService;
-use App\Tenant\Entity\TenantEntity;
+use App\Tenant\Entity\TenantGroupEntity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -21,7 +21,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @ORM\Table(name="car_recommendation")
  */
-class Recommendation extends TenantEntity implements PriceInterface
+class Recommendation extends TenantGroupEntity implements PriceInterface
 {
     /**
      * @ORM\Id

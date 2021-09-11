@@ -16,6 +16,7 @@ return [
     App\Review\Enum\ReviewRating::class => ['review_star_rating'],
     App\Review\Enum\ReviewSource::class => ['review_source'],
     App\Storage\Enum\MotionType::class => ['motion_source_enum'],
+    App\Tenant\Enum\Group::class => ['tenant_group_enum'],
     App\Tenant\Enum\Tenant::class => ['tenant_enum'],
     App\Vehicle\Enum\AirIntake::class => ['engine_air_intake'],
     App\Vehicle\Enum\BodyType::class => ['carcase_enum'],

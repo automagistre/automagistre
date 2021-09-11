@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Customer\Entity;
 
-use App\Tenant\Entity\TenantEntity;
+use App\Tenant\Entity\TenantGroupEntity;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhone;
@@ -16,13 +16,13 @@ use function sprintf;
  * @ORM\Entity
  * @ORM\Table(
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(columns={"telephone", "tenant_id"})
+ *         @ORM\UniqueConstraint(columns={"telephone", "tenant_group_id"})
  *     }
  * )
  *
- * @UniqueEntity(fields={"telephone", "tenantId"}, message="Заказчик с таким телефоном уже существует")
+ * @UniqueEntity(fields={"telephone", "tenantGroupId"}, message="Заказчик с таким телефоном уже существует")
  */
-class Person extends TenantEntity
+class Person extends TenantGroupEntity
 {
     /**
      * @ORM\Id

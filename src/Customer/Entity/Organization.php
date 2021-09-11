@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Customer\Entity;
 
-use App\Tenant\Entity\TenantEntity;
+use App\Tenant\Entity\TenantGroupEntity;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhone;
@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  */
-class Organization extends TenantEntity
+class Organization extends TenantGroupEntity
 {
     /**
      * @ORM\Id

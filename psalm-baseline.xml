@@ -37,6 +37,19 @@
     <PossiblyNullReference occurrences="1">
       <code>$this-&gt;recommendations</code>
     </PossiblyNullReference>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>Car</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Car/Entity/Recommendation.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>Recommendation</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Car/Entity/RecommendationPart.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>RecommendationPart</code>
+    </PropertyNotSetInConstructor>
   </file>
   <file src="src/Car/Manager/RecommendationManager.php">
     <PossiblyNullArgument occurrences="1">
@@ -54,11 +67,21 @@
       <code>null !== $dto-&gt;telephone</code>
     </RedundantConditionGivenDocblockType>
   </file>
+  <file src="src/Customer/Entity/Organization.php">
+    <PropertyNotSetInConstructor occurrences="3">
+      <code>$address</code>
+      <code>$name</code>
+      <code>Organization</code>
+    </PropertyNotSetInConstructor>
+  </file>
   <file src="src/Customer/Entity/Person.php">
     <PossiblyNullArgument occurrences="2">
       <code>$this-&gt;firstname</code>
       <code>$this-&gt;lastname</code>
     </PossiblyNullArgument>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>Person</code>
+    </PropertyNotSetInConstructor>
   </file>
   <file src="src/Customer/Form/WorkerType.php">
     <QueryBuilderSetParameter occurrences="1">

@@ -1,5 +1,5 @@
 SELECT o.id,
-       o.tenant_id,
+       o.tenant_group_id,
        o.name                     AS full_name,
        COALESCE(balance.money, 0) AS balance,
        o.email,
@@ -20,7 +20,7 @@ FROM organization o
 UNION ALL
 
 SELECT p.id,
-       p.tenant_id,
+       p.tenant_group_id,
        CONCAT_WS(' ', p.lastname, p.firstname) AS full_name,
        COALESCE(balance.money, 0)              AS balance,
        p.email,

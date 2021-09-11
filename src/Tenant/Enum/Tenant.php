@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tenant\Enum;
 
 use Premier\Enum\Enum;
+use LogicException;
 use function in_array;
 use function sprintf;
 
@@ -175,5 +176,15 @@ final class Tenant extends Enum
     public function toDatabase(): array
     {
         return ['host' => 'postgres_'.$this->toIdentifier()];
+    }
+
+    public function toGroup(): Group
+    {
+        return match ($this->toId()) {
+            self::DEMO => Group::demo(),
+            self::MSK, self::KAZAN => Group::automagistre(),
+            self::SHAVLEV => Group::shavlev(),
+            default => throw new LogicException('Unexpected tenant'),
+        };
     }
 }

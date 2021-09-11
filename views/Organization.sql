@@ -1,5 +1,5 @@
 SELECT o.id,
-       o.tenant_id,
+       o.tenant_group_id,
        o.name                     AS full_name,
        COALESCE(balance.money, 0) AS balance,
        o.email,

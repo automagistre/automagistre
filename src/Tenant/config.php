@@ -13,5 +13,12 @@ return static function (DoctrineConfig $doctrine, ContainerConfigurator $configu
         ->enabled(true)
     ;
 
+    $doctrine->orm()
+        ->entityManager('default')
+        ->filter('tenant_group')
+        ->class(App\Tenant\Doctrine\ORM\Query\GroupFilter::class)
+        ->enabled(true)
+    ;
+
     $services = $configurator->services();
 };
