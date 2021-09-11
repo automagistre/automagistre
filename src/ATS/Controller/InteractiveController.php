@@ -57,7 +57,7 @@ final class InteractiveController extends AbstractController
         if ('' === $message) {
             return new JsonResponse([
                 'returned_code' => 1,
-                'text' => sprintf('Здраствуйте %s, пожалуйста дождитесь ответа оператора.', $name),
+                'text' => sprintf('Здравствуйте %s, пожалуйста дождитесь ответа оператора.', $name),
                 'operator_text' => $fullName,
             ]);
         }
@@ -65,7 +65,7 @@ final class InteractiveController extends AbstractController
         return new JsonResponse([
             'returned_code' => 1,
             'text' => sprintf(
-                'Здраствуйте %s. %s Если у вас остались вопросы дождитесь ответа оператора.',
+                'Здравствуйте %s. %s Если у вас остались вопросы дождитесь ответа оператора.',
                 $name,
                 $message,
             ),
@@ -105,7 +105,7 @@ final class InteractiveController extends AbstractController
                             4 => 'четверг',
                             5 => 'пятницу',
                             6 => 'субботу',
-                            7 => 'воскрсенье',
+                            7 => 'воскресенье',
                         ][(int) $date->format('N')],
                         $date->format('d'),
                         [
