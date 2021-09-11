@@ -7,6 +7,9 @@ namespace App\Tenant\EventListener;
 use App\Tenant\Enum\Tenant;
 use App\Tenant\State;
 use Symfony\Component\Console\ConsoleEvents;
+use Symfony\Component\Console\Event\ConsoleCommandEvent;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -57,9 +60,32 @@ final class TenantListener implements EventSubscriberInterface
         $this->state->set($tenant);
     }
 
-    public function onConsoleCommand(): void
+    /**
+     * @psalm-suppress InternalMethod
+     */
+    public function onConsoleCommand(ConsoleCommandEvent $event): void
     {
-        $identifier = getenv('TENANT');
+        $command = $event->getCommand();
+
+        if (null === $command) {
+            return;
+        }
+
+        $command->getApplication()?->getDefinition()
+            ->addOption(new InputOption('tenant', null, InputOption::VALUE_OPTIONAL))
+        ;
+
+        $command->mergeApplicationDefinition();
+
+        $input = new ArgvInput();
+
+        $input->bind($command->getDefinition());
+
+        $identifier = $input->getOption('tenant');
+
+        if (!is_string($identifier)) {
+            $identifier = getenv('TENANT');
+        }
 
         if (!is_string($identifier)) {
             return;
