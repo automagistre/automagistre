@@ -125,8 +125,8 @@ services:
             - --admin-internal-errors=true
             - --admin-secret=${HASURA_ADMIN_SECRET}
         environment:
-            HASURA_GRAPHQL_DATABASE_URL: postgres://db:${DB_PASSWORD}@postgres_msk:5432/db
-            HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:${DB_PASSWORD}@postgres_msk:5432/hasura
+            HASURA_GRAPHQL_DATABASE_URL: postgres://db:${DB_PASSWORD}@postgres:5432/db
+            HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:${DB_PASSWORD}@postgres:5432/hasura
             HASURA_GRAPHQL_JWT_SECRET: '{"jwk_url": "https://auth.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/certs"}'
         networks:
             - default
