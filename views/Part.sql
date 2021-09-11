@@ -1,5 +1,4 @@
 SELECT part.id                                                              AS id,
-       part.tenant_id,
        part.name                                                            AS name,
        part.number                                                          AS number,
        part.universal                                                       AS is_universal,

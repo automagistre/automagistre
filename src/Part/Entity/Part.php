@@ -7,16 +7,15 @@ namespace App\Part\Entity;
 use App\Manufacturer\Entity\ManufacturerId;
 use App\Part\Enum\Unit;
 use App\Storage\Entity\WarehouseId;
-use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="part", uniqueConstraints={
- *     @ORM\UniqueConstraint(columns={"number", "manufacturer_id", "tenant_id"})
+ *     @ORM\UniqueConstraint(columns={"number", "manufacturer_id"})
  * })
  * @ORM\Entity
  */
-class Part extends TenantEntity
+class Part
 {
     /**
      * @ORM\Id

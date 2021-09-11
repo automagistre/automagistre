@@ -6,7 +6,6 @@ namespace App\Vehicle\Entity;
 
 use App\Costil;
 use App\Manufacturer\Entity\ManufacturerId;
-use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -14,11 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(
  *     name="vehicle_model",
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(columns={"manufacturer_id", "name", "case_name", "tenant_id"})
+ *         @ORM\UniqueConstraint(columns={"manufacturer_id", "name", "case_name"})
  *     }
  * )
  */
-class Model extends TenantEntity
+class Model
 {
     /**
      * @ORM\Id

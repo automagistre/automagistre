@@ -8,7 +8,6 @@ use App\Customer\Entity\OperandId;
 use App\Manufacturer\Entity\ManufacturerView;
 use App\Part\Enum\Unit;
 use App\Storage\Entity\WarehouseView;
-use App\Tenant\Entity\TenantEntity;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -22,7 +21,7 @@ use function sprintf;
  * @psalm-suppress MissingConstructor
  * @psalm-suppress PropertyNotSetInConstructor
  */
-class PartView extends TenantEntity
+class PartView
 {
     /**
      * Наценка на запчасти.
