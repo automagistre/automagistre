@@ -44,4 +44,40 @@ final class OrderItemGroupTest extends EasyAdminTestCase
 
         self::assertSame(200, $response->getStatusCode());
     }
+
+    /**
+     * @see \App\Order\Controller\OrderItemGroupController::autocompleteAction()
+     */
+    public function testAutocomplete(): void
+    {
+        $client = self::createClient();
+
+        $client->request('GET', '/msk/?'.http_build_query([
+            'action' => 'autocomplete',
+            'entity' => 'OrderItemGroup',
+            'query' => 'bla',
+        ]));
+
+        $response = $client->getResponse();
+
+        self::assertSame(200, $response->getStatusCode());
+    }
+
+    /**
+     * @see \App\Order\Controller\OrderItemGroupController::deleteAction()
+     */
+    public function testDelete(): void
+    {
+        $client = self::createClient();
+
+        $client->request('GET', '/msk/?'.http_build_query([
+            'action' => 'delete',
+            'entity' => 'OrderItemGroup',
+            'id' => OrderFixtures::GROUP_ID,
+        ]));
+
+        $response = $client->getResponse();
+
+        self::assertSame(302, $response->getStatusCode());
+    }
 }

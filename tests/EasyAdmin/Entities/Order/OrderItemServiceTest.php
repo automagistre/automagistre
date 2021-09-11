@@ -119,4 +119,22 @@ final class OrderItemServiceTest extends EasyAdminTestCase
 
         self::assertRedirection($response, '/msk/?action=list&entity=OrderItemService'); // TODO редирект куда то не туда
     }
+
+    /**
+     * @see \App\Order\Controller\OrderItemServiceController::deleteAction()
+     */
+    public function testDelete(): void
+    {
+        $client = self::createClient();
+
+        $client->request('GET', '/msk/?'.http_build_query([
+            'action' => 'delete',
+            'entity' => 'OrderItemService',
+            'id' => OrderFixtures::SERVICE_ID,
+        ]));
+
+        $response = $client->getResponse();
+
+        self::assertSame(302, $response->getStatusCode());
+    }
 }

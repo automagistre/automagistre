@@ -98,4 +98,21 @@ final class OrderPrintTest extends EasyAdminTestCase
 
         self::assertSame(200, $response->getStatusCode());
     }
+
+    /**
+     * @see \App\Order\Controller\OrderPrintController::deleteAction()
+     */
+    public function testDelete(): void
+    {
+        $client = self::createClient();
+
+        $client->request('GET', '/msk/?'.http_build_query([
+            'action' => 'delete',
+            'entity' => 'OrderPrint',
+        ]));
+
+        $response = $client->getResponse();
+
+        self::assertSame(302, $response->getStatusCode());
+    }
 }

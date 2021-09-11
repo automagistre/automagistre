@@ -63,4 +63,21 @@ final class McPartTest extends EasyAdminTestCase
 
         self::assertSame(200, $response->getStatusCode());
     }
+
+    /**
+     * @see \App\MC\Controller\PartController::deleteAction()
+     */
+    public function testDelete(): void
+    {
+        $client = self::createClient();
+
+        $client->request('GET', '/msk/?'.http_build_query([
+            'action' => 'delete',
+            'entity' => 'McPart',
+        ]));
+
+        $response = $client->getResponse();
+
+        self::assertSame(302, $response->getStatusCode());
+    }
 }

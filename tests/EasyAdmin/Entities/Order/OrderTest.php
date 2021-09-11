@@ -149,4 +149,22 @@ final class OrderTest extends EasyAdminTestCase
 
         self::assertRedirection($response, '/msk/?action=list&entity=Order');
     }
+
+    /**
+     * @see \App\Order\Controller\OrderController::autocompleteAction()
+     */
+    public function testAutocomplete(): void
+    {
+        $client = self::createClient();
+
+        $client->request('GET', '/msk/?'.http_build_query([
+            'action' => 'autocomplete',
+            'entity' => 'Order',
+            'query' => 'bla',
+        ]));
+
+        $response = $client->getResponse();
+
+        self::assertSame(200, $response->getStatusCode());
+    }
 }

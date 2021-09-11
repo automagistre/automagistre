@@ -60,4 +60,39 @@ final class WalletTest extends EasyAdminTestCase
 
         self::assertSame(200, $response->getStatusCode());
     }
+
+    /**
+     * @see \App\Wallet\Controller\WalletController::autocompleteAction()
+     */
+    public function testAutocomplete(): void
+    {
+        $client = self::createClient();
+
+        $client->request('GET', '/msk/?'.http_build_query([
+            'action' => 'autocomplete',
+            'entity' => 'Wallet',
+            'query' => 'bla',
+        ]));
+
+        $response = $client->getResponse();
+
+        self::assertSame(200, $response->getStatusCode());
+    }
+
+    /**
+     * @see \App\Wallet\Controller\WalletController::deleteAction()
+     */
+    public function testDelete(): void
+    {
+        $client = self::createClient();
+
+        $client->request('GET', '/msk/?'.http_build_query([
+            'action' => 'delete',
+            'entity' => 'Wallet',
+        ]));
+
+        $response = $client->getResponse();
+
+        self::assertSame(302, $response->getStatusCode());
+    }
 }

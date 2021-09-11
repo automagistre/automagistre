@@ -26,4 +26,21 @@ final class OrderCancelTest extends EasyAdminTestCase
 
         self::assertSame(200, $response->getStatusCode());
     }
+
+    /**
+     * @see \App\Order\Controller\OrderCancelController::deleteAction()
+     */
+    public function testDelete(): void
+    {
+        $client = self::createClient();
+
+        $client->request('GET', '/msk/?'.http_build_query([
+            'action' => 'delete',
+            'entity' => 'OrderCancel',
+        ]));
+
+        $response = $client->getResponse();
+
+        self::assertSame(302, $response->getStatusCode());
+    }
 }

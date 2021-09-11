@@ -85,4 +85,39 @@ final class CarRecommendationTest extends EasyAdminTestCase
 
         self::assertRedirection($response, '/msk/?entity=Order&action=show&id='.OrderFixtures::ID);
     }
+
+    /**
+     * @see \App\Car\Controller\RecommendationController::autocompleteAction()
+     */
+    public function testAutocomplete(): void
+    {
+        $client = self::createClient();
+
+        $client->request('GET', '/msk/?'.http_build_query([
+            'action' => 'autocomplete',
+            'entity' => 'CarRecommendation',
+            'query' => 'bla',
+        ]));
+
+        $response = $client->getResponse();
+
+        self::assertSame(200, $response->getStatusCode());
+    }
+
+    /**
+     * @see \App\Car\Controller\RecommendationController::deleteAction()
+     */
+    public function testDelete(): void
+    {
+        $client = self::createClient();
+
+        $client->request('GET', '/msk/?'.http_build_query([
+            'action' => 'delete',
+            'entity' => 'CarRecommendation',
+        ]));
+
+        $response = $client->getResponse();
+
+        self::assertSame(302, $response->getStatusCode());
+    }
 }

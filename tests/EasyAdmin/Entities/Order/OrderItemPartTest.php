@@ -98,4 +98,40 @@ final class OrderItemPartTest extends EasyAdminTestCase
 
         self::assertRedirection($response, '/msk/?action=list&entity=Order&menuIndex=3&submenuIndex=-1');
     }
+
+    /**
+     * @see \App\Order\Controller\OrderItemPartController::autocompleteAction()
+     */
+    public function testAutocomplete(): void
+    {
+        $client = self::createClient();
+
+        $client->request('GET', '/msk/?'.http_build_query([
+            'action' => 'autocomplete',
+            'entity' => 'OrderItemPart',
+            'query' => 'bla',
+        ]));
+
+        $response = $client->getResponse();
+
+        self::assertSame(200, $response->getStatusCode());
+    }
+
+    /**
+     * @see \App\Order\Controller\OrderItemPartController::deleteAction()
+     */
+    public function testDelete(): void
+    {
+        $client = self::createClient();
+
+        $client->request('GET', '/msk/?'.http_build_query([
+            'action' => 'delete',
+            'entity' => 'OrderItemPart',
+            'id' => OrderFixtures::PART_ID,
+        ]));
+
+        $response = $client->getResponse();
+
+        self::assertSame(302, $response->getStatusCode());
+    }
 }

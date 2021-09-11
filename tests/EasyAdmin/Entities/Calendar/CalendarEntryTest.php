@@ -60,4 +60,22 @@ final class CalendarEntryTest extends EasyAdminTestCase
 
         self::assertSame(200, $response->getStatusCode());
     }
+
+    /**
+     * @see \App\Calendar\Controller\CalendarEntryController::deletionAction()
+     */
+    public function testDeletion(): void
+    {
+        $client = self::createClient();
+
+        $client->request('GET', '/msk/?'.http_build_query([
+            'action' => 'deletion',
+            'entity' => 'CalendarEntry',
+            'id' => CalendarEntryFixtures::ID,
+        ]));
+
+        $response = $client->getResponse();
+
+        self::assertSame(200, $response->getStatusCode());
+    }
 }

@@ -31,7 +31,7 @@ easy_admin:
         Inventorization:
             class: App\Storage\Entity\Inventorization
             controller: App\Storage\Controller\InventorizationController
-            disabled_actions: [ 'edit' ]
+            disabled_actions: [ 'edit', 'autocomplete' ]
             list:
                 title: 'Инвентаризация'
                 fields:
