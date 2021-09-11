@@ -42,7 +42,7 @@ final class SwitchConnectionOnTenantChanged implements EventSubscriberInterface
         (Closure::bind(static function (Connection $conn) use ($tenant): void {
             $newOne = $tenant?->toDatabase();
 
-            $conn->params['host'] = $newOne['host'] ?? 'undefined';
+            $conn->params['host'] = $newOne['host'] ?? 'postgres';
         }, null, $connection))($connection);
     }
 }

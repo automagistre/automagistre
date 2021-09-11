@@ -107,6 +107,22 @@ services:
 
     migration:
         <<: *php-fpm
+        command:
+            - console
+            - doctrine:migrations:migrate
+            - --no-interaction
+            - --allow-no-migration
+            - --all-or-nothing=true
+        healthcheck:
+            disable: true
+        deploy:
+            mode: replicated
+            replicas: 1
+            restart_policy:
+                condition: on-failure
+
+    migration_tenant:
+        <<: *php-fpm
         command: console tenant:doctrine:migrate
         healthcheck:
             disable: true
