@@ -2,7 +2,7 @@ doctrine:
     dbal:
         types:
             phone_number: \Misd\PhoneNumberBundle\Doctrine\DBAL\Types\PhoneNumberType
-            uuid:  Ramsey\Uuid\Doctrine\UuidType
+            uuid:  App\Doctrine\DBAL\Types\UuidType
             json: App\Doctrine\DBAL\Types\JsonType
         connections:
             default:
