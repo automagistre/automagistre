@@ -297,6 +297,7 @@ final class PartController extends AbstractController
         };
 
         $data = [];
+        /** @var array<int, PartView> $analogs */
         $analogs = [];
         /** @var array<int, PartView> $currentPageResults */
         $currentPageResults = (array) $paginator->getCurrentPageResults();
@@ -305,14 +306,16 @@ final class PartController extends AbstractController
             foreach ($currentPageResults as $part) {
                 $data[$part->toId()->toString()] = $normalizer($part);
 
-                $analogs = [...$analogs, ...$part->analogs];
+                $analogs = [...$analogs, ...$part->analogs->toArray()];
             }
         } else {
             $data = array_map($normalizer, $currentPageResults);
         }
 
         foreach ($analogs as $analog) {
-            $data[] = $normalizer($analog, true);
+            if ($analog->quantity > 0) {
+                $data[] = $normalizer($analog, true);
+            }
         }
 
         return $this->json(['results' => array_values($data)]);
