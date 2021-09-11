@@ -84,6 +84,7 @@ doctrine_migrations:
             version_column_length: 1024
             executed_at_column_name: 'executed_at'
             execution_time_column_name: 'execution_time'
+    custom_template: "%kernel.project_dir%/src/Migrations/migration.tpl"
 
 parameters:
     env(DATABASE_PASSWORD): '%env(default:default_db_password:trim:file:DATABASE_PASSWORD_FILE)%'
