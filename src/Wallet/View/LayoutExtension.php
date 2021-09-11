@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Balance\Twig;
+namespace App\Wallet\View;
 
 use App\Doctrine\Registry;
-use App\Wallet\Entity\Wallet;
+use App\Wallet\Entity\WalletView;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -38,10 +38,8 @@ final class LayoutExtension extends AbstractExtension
 
     public function balance(Environment $twig): string
     {
-        $em = $this->registry->manager(Wallet::class);
-
         return $twig->render('admin/layout/balance.html.twig', [
-            'wallets' => $em->getRepository(Wallet::class)->findBy(['showInLayout' => true]),
+            'wallets' => $this->registry->findBy(WalletView::class, ['showInLayout' => true]),
         ]);
     }
 }

@@ -6,9 +6,9 @@
 
 {# @var order \App\Order\Entity\Order #}
 {# @var car \App\Car\Entity\Car #}
-{# @var customer \App\Customer\Domain\Operand #}
+{# @var customer \App\Customer\Entity\CustomerView #}
 
-{% set balance = order.closed ? order.closedBalance : (customer is not empty ? customer|balance : null) %}
+{% set balance = order.closed ? order.closedBalance : customer.balance|default(null) %}
 
 {% set requisites = tenant.get.getRequisites() %}
 

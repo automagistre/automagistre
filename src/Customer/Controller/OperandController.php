@@ -9,7 +9,6 @@ use App\Customer\Entity\CustomerTransactionView;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Note\Entity\NoteView;
 use App\Order\Entity\Order;
-use App\Payment\Manager\PaymentManager;
 use Symfony\Component\HttpFoundation\Response;
 use function array_merge;
 
@@ -21,7 +20,6 @@ abstract class OperandController extends AbstractController
     public static function getSubscribedServices(): array
     {
         return array_merge(parent::getSubscribedServices(), [
-            PaymentManager::class,
             CarCustomerRepository::class,
         ]);
     }

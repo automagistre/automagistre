@@ -13,11 +13,11 @@
 
     <ul class="nav navbar-nav" style="margin-right: 10px">
         {% for wallet in wallets %}
-            {# @var wallet \App\Entity\Wallet #}
+            {# @var wallet \App\Entity\WalletView #}
             <li>
                 <a href="{{ easyadmin_path('WalletTransaction', 'list', {'wallet_id': wallet|toId}) }}" class="balance__head">
                     {{ wallet.name }}:
-                    <span id="wallet-{{ wallet.toId }}-amount">{{ wallet|balance|localize_money }}</span>
+                    <span id="wallet-{{ wallet.toId }}-amount">{{ wallet.balance|localize_money }}</span>
                 </a>
             </li>
         {% endfor %}

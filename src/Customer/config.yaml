@@ -61,7 +61,7 @@ easy_admin:
                     - { property: 'officePhone', label: 'Офисный телефон', template: 'easy_admin/field_telephone.html.twig' }
                     - { property: 'contractor', label: 'Подрядчик', type: 'boolean' }
                     - { property: 'seller', label: 'Поставщик', type: 'boolean' }
-                    - { property: 'balance', label: 'Баланс', virtual: true, sortable: true, template: 'easy_admin/operand/field_balance.html.twig' }
+                    - { property: 'balance', label: 'Баланс', template: 'easy_admin/field_money.html.twig' }
             show:
                 title: Организация
                 fields:

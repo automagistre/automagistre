@@ -1,8 +1,8 @@
-{# @var customer \App\Customer\Entity\Operand #}
+{# @var customer \App\Customer\Entity\CustomerView #}
 {# @var car \App\Car\Entity\Car #}
 {# @var order \App\Order\Entity\Order #}
 
-{% set balance = customer is not empty ? customer|balance : null %}
+{% set balance = customer.balance|default(null) %}
 {# @var balance \Money\Money #}
 
 <div class="field-group">
@@ -310,7 +310,7 @@
                                     </strong>
                                 </span>
                             {% endif %}
-                            = <span class="label label-success">{{ order.totalForPayment(customer is not empty ? customer|balance : null)|localize_money -}}</span>
+                            = <span class="label label-success">{{ order.totalForPayment(balance)|localize_money -}}</span>
                         </div>
 
                         <span class="help-block">

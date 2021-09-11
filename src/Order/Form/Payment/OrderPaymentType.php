@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Order\Form\Payment;
 
-use App\Balance\Entity\BalanceView;
+use App\Customer\Entity\CustomerView;
 use App\Customer\Form\CustomerAutocompleteType;
 use App\Doctrine\Registry;
 use App\Order\Entity\Order;
@@ -68,7 +68,7 @@ final class OrderPaymentType extends AbstractType
                 $customerId = $order->getCustomerId();
                 $balance = null === $customerId
                     ? null
-                    : $this->registry->get(BalanceView::class, $customerId)->money;
+                    : $this->registry->get(CustomerView::class, $customerId)->balance;
 
                 $forPayment = $order->getTotalForPayment($balance);
 
