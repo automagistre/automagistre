@@ -39,12 +39,12 @@ class PersonView extends TenantGroupEntity
     public ?string $email = null;
 
     /**
-     * @ORM\Column(type="phone_number")
+     * @ORM\Column(type="phone_number", nullable=true)
      */
     public ?PhoneNumber $telephone = null;
 
     /**
-     * @ORM\Column(type="phone_number")
+     * @ORM\Column(type="phone_number", nullable=true)
      */
     public ?PhoneNumber $officePhone = null;
 
