@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Keycloak\View;
 
+use App\Costil;
 use App\Identifier\IdentifierFormatter;
 use App\Identifier\IdentifierFormatterInterface;
 use App\Keycloak\Entity\UserId;
@@ -32,6 +33,14 @@ final class KeycloakUserFormatter implements IdentifierFormatterInterface
      */
     public function format(IdentifierFormatter $formatter, Identifier $identifier, string $format = null): string
     {
+        if (Costil::SERVICE_USER === $identifier->toString()) {
+            return 'Service Account';
+        }
+
+        if (Costil::ANONYMOUS === $identifier->toString()) {
+            return 'Anonymous';
+        }
+
         $user = $this->keycloak->getUser(['id' => $identifier->toString()]);
 
         if (array_key_exists('error', $user)) {

@@ -70,7 +70,7 @@ final class PostPersistEventListener implements EventSubscriber
         $userId = match (true) {
             null === $user && 'cli' === PHP_SAPI => Costil::SERVICE_USER,
             null !== $user => $user->getUserIdentifier(),
-            default => '00000000-0000-0000-0000-000000000000',
+            default => Costil::ANONYMOUS,
         };
 
         $em->getConnection()->executeQuery(
