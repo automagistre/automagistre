@@ -6,7 +6,7 @@ easy_admin:
             disabled_actions: [ 'list', 'new', 'edit', 'delete', 'search', 'show' ]
 
         Person:
-            class: App\Customer\Entity\Person
+            class: App\Customer\Entity\PersonView
             controller: App\Customer\Controller\PersonController
             disabled_actions: [ 'delete' ]
             search:
@@ -20,11 +20,11 @@ easy_admin:
                     - { property: 'telephone', label: 'Телефон', template: 'easy_admin/field_telephone.html.twig' }
                     - { property: 'officePhone', label: 'Раб. Телефон', template: 'easy_admin/field_telephone.html.twig' }
                     - { property: 'email', label: 'Почта' }
-                    - { property: 'balance', label: 'Баланс', virtual: true, sortable: true, template: 'easy_admin/operand/field_balance.html.twig' }
+                    - { property: 'balance', label: 'Баланс', template: 'easy_admin/field_money.html.twig' }
             form:
                 fields:
-                    - { property: 'firstname', label: 'Имя' }
-                    - { property: 'lastname', label: 'Фамилия' }
+                    - { property: 'firstname', label: 'Имя', type: 'text' }
+                    - { property: 'lastname', label: 'Фамилия', type: 'text' }
                     - { property: 'telephone', label: 'Телефон', type: Misd\PhoneNumberBundle\Form\Type\PhoneNumberType }
                     - { property: 'officePhone', label: 'Раб. Телефон', type: Misd\PhoneNumberBundle\Form\Type\PhoneNumberType }
                     - { property: 'email', label: 'Почта' }
@@ -46,7 +46,7 @@ easy_admin:
                     - { property: 'seller', label: 'Поставщик' }
 
         Organization:
-            class: App\Customer\Entity\Organization
+            class: App\Customer\Entity\OrganizationView
             controller: App\Customer\Controller\OrganizationController
             disabled_actions: [ 'delete' ]
             templates:

@@ -7,6 +7,7 @@ namespace App\Identifier;
 use App\Customer\Entity\CustomerView;
 use App\Customer\Entity\OperandId;
 use App\Doctrine\Registry;
+use EasyCorp\Bundle\EasyAdminBundle\Exception\UndefinedEntityException;
 use EasyCorp\Bundle\EasyAdminBundle\Router\EasyAdminRouter;
 use Premier\Identifier\Identifier;
 use Twig\Extension\AbstractExtension;
@@ -37,7 +38,11 @@ final class IdentifierRouterExtension extends AbstractExtension
                         $class = $this->registry->get(CustomerView::class, $uuid)->toClass();
                     }
 
-                    return $this->router->generate($class, $action, $params);
+                    try {
+                        return $this->router->generate($class, $action, $params);
+                    } catch (UndefinedEntityException) {
+                        return $this->router->generate($class.'View', $action, $params);
+                    }
                 },
             ),
         ];

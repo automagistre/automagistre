@@ -11,18 +11,32 @@ use App\Customer\Form\PersonType;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Search\Paginator;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use function array_map;
 use function assert;
 use function explode;
 use function mb_strtolower;
 use function sprintf;
+use function in_array;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
  */
 final class PersonController extends OperandController
 {
+    protected function initialize(Request $request): void
+    {
+        parent::initialize($request);
+
+        if (in_array($request->query->get('action'), ['edit', 'delete'], true)) {
+            $easyadmin = $request->attributes->get('easyadmin');
+            $easyadmin['item'] = $this->registry->get(Person::class, $request->query->get('id'));
+
+            $request->attributes->set('easyadmin', $easyadmin);
+        }
+    }
+
     public function widgetAction(): Response
     {
         $request = $this->request;

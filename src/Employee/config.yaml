@@ -33,7 +33,7 @@ easy_admin:
                         type: App\EasyAdmin\Form\AutocompleteType
                         type_options:
                             required: true
-                            class: App\Customer\Entity\Person
+                            class: App\Customer\Entity\PersonView
                     - { property: 'ratio', label: 'Ставка' }
             new:
                 title: 'Добавить нового работника'

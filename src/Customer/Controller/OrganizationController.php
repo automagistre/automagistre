@@ -9,13 +9,27 @@ use App\Customer\Entity\Organization;
 use App\Customer\Form\OrganizationDto;
 use App\Customer\Form\OrganizationType;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use function in_array;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
  */
 final class OrganizationController extends OperandController
 {
+    protected function initialize(Request $request): void
+    {
+        parent::initialize($request);
+
+        if (in_array($request->query->get('action'), ['edit', 'delete'], true)) {
+            $easyadmin = $request->attributes->get('easyadmin');
+            $easyadmin['item'] = $this->registry->get(Organization::class, $request->query->get('id'));
+
+            $request->attributes->set('easyadmin', $easyadmin);
+        }
+    }
+
     public function widgetAction(): Response
     {
         $request = $this->request;
