@@ -6,10 +6,6 @@ MAKEFLAGS += --no-print-directory
 DEBUG_PREFIX=" [DEBUG] "
 DEBUG_ECHO=$(if $(MAKE_DEBUG),@echo ${DEBUG_PREFIX})
 
-ifndef TENANT
-override TENANT = msk
-endif
-
 BACKUP_SERVER="s3.automagistre.ru"
 
 COLOR_RESET   = \033[0m
@@ -51,7 +47,7 @@ do-up: contrib pull composer permissions
 	$(DEBUG_ECHO) docker-compose up --detach --remove-orphans --no-build \
 	nginx \
 	php-fpm \
-	postgres_$(TENANT) \
+	postgres \
 	redis \
 	nsqd \
 	nsqadmin \
@@ -75,7 +71,6 @@ APP = $(DEBUG_ECHO) @docker-compose $(if $(EXEC),exec,run --rm )\
 	$(if $(ENTRYPOINT),--entrypoint "$(ENTRYPOINT)" )\
 	$(if $(APP_ENV),-e APP_ENV=$(APP_ENV) )\
 	$(if $(APP_DEBUG),-e APP_DEBUG=$(APP_DEBUG) )\
-	-e TENANT=${TENANT} \
 	--user $(if $(UID),${UID},1000)\
 	php-fpm
 
@@ -105,7 +100,7 @@ migration-rollback:latest = $(shell make app-cli CMD="console doctrine:migration
 migration-rollback:
 	$(APP) console doctrine:migration:execute --down $(latest) --no-interaction
 
-migration-diff: ## Generate diff migrations for landlord and tenant databases
+migration-diff: ## Generate diff migrations for database
 	$(COMPOSER) $@
 migration-diff-dry:
 	$(COMPOSER) $@
@@ -143,7 +138,6 @@ psalm-baseline: ### Update psalm baseline
 cache: ## Clear then warmup symfony cache
 	$(COMPOSER) $@
 database: ### Drop database then restore from migrations
-	docker-compose up -d postgres_${TENANT}
 	$(COMPOSER) $@
 
 fixtures: ### Load fixtures to database
@@ -157,14 +151,14 @@ backup: ### Restore local backup then run migrations
 backup-update: backup-fresh backup-download backup ### Backup production database then download and restore it
 backup-latest: backup-download backup ### Download latest backup from server then restore it
 backup-fresh:
-	@ssh ${BACKUP_SERVER} automagistre_backup.sh
+	$(DEBUG_ECHO) @ssh ${BACKUP_SERVER} 'docker exec -i $$(docker ps --filter name=automagistre_postgres_backup -q | head -1) /backup.sh'
 	$(call OK,"Backups creating on ${BACKUP_SERVER}")
 backup-download:
 	$(DEBUG_ECHO) @mkdir -p var/backups
 	@$(MAKE) do-backup-download
 do-backup-download:
-	$(DEBUG_ECHO) @scp -q -o LogLevel=QUIET ${BACKUP_SERVER}:/opt/am/db/backups/tenant_$(TENANT).sql.gz var/backups/tenant_$(TENANT).sql.gz
-	$(call OK,"Backup tenant_$(TENANT).sql.gz downloaded.")
+	$(DEBUG_ECHO) @scp -q -o LogLevel=QUIET ${BACKUP_SERVER}:$$(ssh ${BACKUP_SERVER} ls -t /opt/am/backups/postgres/*automagistre.sql.gz | head -1) $(backup_file)
+	$(call OK,"Backup automagistre.sql.gz downloaded.")
 
 drop: drop-connection do-drop ### Drop database
 drop-connection:
@@ -174,16 +168,13 @@ do-drop:
 ###< APP ###
 
 ###> DATABASE ###
-DB=$(DEBUG_ECHO) @docker-compose exec postgres_$(TENANT)
+DB=$(DEBUG_ECHO) @docker-compose exec -w /usr/local/app postgres
 
-db:
-	$(DB) bash
-
-backup_file = var/backups/tenant_$(TENANT).sql.gz
+backup_file = var/backups/automagistre.sql.gz
 backup-restore:
 ifneq (,$(wildcard $(backup_file)))
-	@$(DB) bash -c "gunzip < /usr/local/app/var/backups/tenant_$(TENANT).sql.gz | psql -U db"
-	$(call OK,"Backup tenant_$(TENANT).sql.gz restored.")
+	@$(DB) bash -c "gunzip < $(backup_file) | psql -U db"
+	$(call OK,"Backup $(backup_file) restored.")
 else
 	$(call FAIL,"Backup \"$(backup_file)\" does not exist!")
 	@exit 1

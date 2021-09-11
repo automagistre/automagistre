@@ -43,36 +43,6 @@ services:
             POSTGRES_USER: db
             POSTGRES_PASSWORD: db
 
-    postgres_msk: &postgres
-        image: postgres:12.2
-        labels:
-            ru.grachevko.dhu: 'db.msk.automagistre.local'
-        volumes:
-            -   type: tmpfs
-                target: /var/lib/postgresql/data
-                tmpfs:
-                    size: 2G
-            - ./:/usr/local/app
-        environment:
-            POSTGRES_DB: db
-            POSTGRES_USER: db
-            POSTGRES_PASSWORD: db
-
-    postgres_kazan:
-        <<: *postgres
-        labels:
-            ru.grachevko.dhu: 'db.kazan.automagistre.local'
-
-    postgres_shavlev:
-        <<: *postgres
-        labels:
-            ru.grachevko.dhu: 'db.shavlev.automagistre.local'
-
-    postgres_demo:
-        <<: *postgres
-        labels:
-            ru.grachevko.dhu: 'db.demo.automagistre.local'
-
     redis:
         image: redis:6.2.5-alpine
         labels:
@@ -110,8 +80,8 @@ services:
             - --unauthorized-role=anonymous
             - --cors-domain=*
         environment:
-            HASURA_GRAPHQL_DATABASE_URL: postgres://db:db@postgres_msk:5432/db
-            HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:db@postgres_msk:5432/hasura
+            HASURA_GRAPHQL_DATABASE_URL: postgres://db:db@postgres:5432/db
+            HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:db@postgres:5432/hasura
             HASURA_GRAPHQL_ENABLE_CONSOLE: 'true'
             HASURA_GRAPHQL_DEV_MODE: 'true'
             HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log

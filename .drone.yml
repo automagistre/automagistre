@@ -64,8 +64,8 @@ clone:
     depth: 0
 
 services:
-    -   name: postgres_msk
-        image: postgres:12.2
+    -   name: postgres
+        image: postgres:13.4-alpine
         environment:
             POSTGRES_DB: db_test
             POSTGRES_USER: db
@@ -191,8 +191,6 @@ steps:
         image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
         commands:
             - bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
-        environment:
-            TENANT: msk
         depends_on:
             - install
 
@@ -289,8 +287,8 @@ services:
         image: automagistre/tenant-php:${DRONE_BUILD_NUMBER}
         environment:
             APP_SECRET: S3cr3tAtvichau
-    -   name: postgres_msk
-        image: postgres:12.2
+    -   name: postgres
+        image: postgres:13.4-alpine
         environment:
             POSTGRES_DB: db
             POSTGRES_USER: db
@@ -302,15 +300,13 @@ steps:
     -   name: wait
         image: automagistre/wait-for-it:stable
         commands:
-            - /wait-for-it.sh postgres_msk:5432
+            - /wait-for-it.sh postgres:5432
 
     -   name: migration
         image: automagistre/tenant-php:${DRONE_BUILD_NUMBER}
         commands:
             - cd $$APP_DIR
             - console doctrine:migrations:migrate --no-interaction --allow-no-migration
-        environment:
-            TENANT: msk
         depends_on:
             - wait
 

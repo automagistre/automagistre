@@ -7,7 +7,7 @@ doctrine:
         connections:
             default:
                 charset:  UTF8
-                server_version: 12.2
+                server_version: 13.4
                 driver:   pdo_pgsql
                 host:     postgres
                 port:     5432

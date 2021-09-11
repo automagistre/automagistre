@@ -47,7 +47,7 @@ services:
         networks:
             - default
             - nsq
-        environment: &env
+        environment:
             APP_SECRET: ${APP_SECRET}
             DATABASE_PASSWORD: ${DB_PASSWORD}
             SENTRY_DSN: ${SENTRY_DSN}
@@ -66,35 +66,14 @@ services:
                 delay: 10s
                 order: start-first
 
-    cron_msk: &cron
+    cron:
         <<: *php-fpm
         command: console cron:start --blocking
-        environment:
-            <<: *env
-            TENANT: msk
         healthcheck:
             disable: true
         deploy:
             mode: replicated
             replicas: 1
-
-    cron_kazan:
-        <<: *cron
-        environment:
-            <<: *env
-            TENANT: kazan
-
-    cron_shavlev:
-        <<: *cron
-        environment:
-            <<: *env
-            TENANT: shavlev
-
-    cron_demo:
-        <<: *cron
-        environment:
-            <<: *env
-            TENANT: demo
 
     messenger:
         <<: *php-fpm
@@ -113,17 +92,6 @@ services:
             - --no-interaction
             - --allow-no-migration
             - --all-or-nothing=true
-        healthcheck:
-            disable: true
-        deploy:
-            mode: replicated
-            replicas: 1
-            restart_policy:
-                condition: on-failure
-
-    migration_tenant:
-        <<: *php-fpm
-        command: console tenant:doctrine:migrate
         healthcheck:
             disable: true
         deploy:
@@ -227,63 +195,6 @@ services:
             mode: replicated
         healthcheck:
             disable: true
-
-    postgres_msk: &postgres_old
-        image: postgres:12.2
-        shm_size: 1gb
-        volumes:
-            -   type: bind
-                source: /opt/am/db/tenant/msk
-                target: /var/lib/postgresql/data
-            -   type: bind
-                source: /opt/am/db/backups
-                target: /backups
-        environment:
-            POSTGRES_DB: db
-            POSTGRES_USER: db
-            POSTGRES_PASSWORD: ${DB_PASSWORD}
-        deploy:
-            mode: global
-            update_config:
-                failure_action: rollback
-                parallelism: 1
-                delay: 5s
-        healthcheck:
-            test: pg_isready
-            interval: 5s
-            timeout: 5s
-            retries: 3
-            start_period: 10s
-
-    postgres_kazan:
-        <<: *postgres_old
-        volumes:
-            -   type: bind
-                source: /opt/am/db/tenant/kazan
-                target: /var/lib/postgresql/data
-            -   type: bind
-                source: /opt/am/db/backups
-                target: /backups
-
-    postgres_shavlev:
-        <<: *postgres_old
-        volumes:
-            -   type: bind
-                source: /opt/am/db/tenant/shavlev
-                target: /var/lib/postgresql/data
-            -   type: bind
-                source: /opt/am/db/backups
-                target: /backups
-
-    postgres_demo:
-        <<: *postgres_old
-        volumes:
-            -   type: bind
-                source: /opt/am/db/tenant/demo
-                target: /var/lib/postgresql/data
-            -   type: bind
-                source: /opt/am/db/backups
-                target: /backups
 
 networks:
     traefik:
