@@ -29,10 +29,7 @@ use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use function array_diff;
-use function array_keys;
 use function array_map;
-use function array_unique;
 use function array_values;
 use function assert;
 use function count;
@@ -314,21 +311,8 @@ final class PartController extends AbstractController
             $data = array_map($normalizer, $currentPageResults);
         }
 
-        if ([] !== $analogs) {
-            $analogs = $this->registry->manager(PartView::class)
-                ->createQueryBuilder()
-                ->select('entity')
-                ->from(PartView::class, 'entity')
-                ->where('entity.id IN (:ids)')
-                ->andWhere('entity.quantity > 0')
-                ->getQuery()
-                ->setParameter('ids', array_diff(array_unique($analogs), array_keys($data)))
-                ->getResult()
-            ;
-
-            foreach ($analogs as $analog) {
-                $data[] = $normalizer($analog, true);
-            }
+        foreach ($analogs as $analog) {
+            $data[] = $normalizer($analog, true);
         }
 
         return $this->json(['results' => array_values($data)]);
