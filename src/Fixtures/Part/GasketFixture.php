@@ -19,6 +19,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Money\Currency;
 use Money\Money;
+use Ramsey\Uuid\Uuid;
 
 final class GasketFixture extends Fixture implements DependentFixtureInterface
 {
@@ -72,9 +73,7 @@ final class GasketFixture extends Fixture implements DependentFixtureInterface
             new DateTimeImmutable(),
         ));
 
-        /** @var Part $gasket */
-        $gasket = $this->getReference('part-2');
-        $manager->persist(new PartCross($part, $gasket));
+        $manager->persist(new PartCross(Uuid::fromString(PartCrossFixture::ID), $partId));
 
         $manager->persist($part);
         $manager->flush();

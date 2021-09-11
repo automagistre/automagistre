@@ -77,9 +77,8 @@ FROM part
                    ON supply.part_id = part.id
          LEFT JOIN (SELECT pcp.part_id, JSON_AGG(pcp2.part_id) FILTER ( WHERE pcp2.part_id IS NOT NULL ) AS parts
                     FROM part_cross_part pcp
-                             JOIN part_cross pc ON pcp.part_cross_id = pc.id
                              LEFT JOIN part_cross_part pcp2
-                                       ON pcp2.part_cross_id = pc.id AND pcp2.part_id <> pcp.part_id
+                                       ON pcp2.part_cross_id = pcp.part_cross_id AND pcp2.part_id <> pcp.part_id
                     GROUP BY pcp.part_id) crosses ON crosses.part_id = part.id
          LEFT JOIN (SELECT note.subject,
                            JSON_AGG(

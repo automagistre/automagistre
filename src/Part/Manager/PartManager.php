@@ -17,7 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
-use function assert;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -70,46 +70,38 @@ final class PartManager
         ;
     }
 
-    public function cross(PartId $leftId, PartId $rightId): void
+    public function cross(PartId $left, PartId $right): void
     {
         $em = $this->registry->manager(Part::class);
-        $left = $this->byId($leftId);
-        $right = $this->byId($rightId);
 
         $em->transactional(function (EntityManagerInterface $em) use ($left, $right): void {
-            $leftGroup = $this->findCross($left->toId());
-            $rightGroup = $this->findCross($right->toId());
+            $leftGroup = $this->registry->findOneBy(PartCross::class, ['partId' => $left]);
+            $rightGroup = $this->registry->findOneBy(PartCross::class, ['partId' => $right]);
 
             if (null === $leftGroup && null === $rightGroup) {
-                $em->persist(new PartCross($left, $right));
+                $uuid = Uuid::uuid6();
+                $em->persist(new PartCross($uuid, $left));
+                $em->persist(new PartCross($uuid, $right));
             } elseif (null === $leftGroup) {
-                $rightGroup->addPart($left);
+                $em->persist(new PartCross($rightGroup->id, $left));
             } elseif (null === $rightGroup) {
-                $leftGroup->addPart($right);
+                $em->persist(new PartCross($leftGroup->id, $right));
             } else {
-                $parts = $rightGroup->getParts();
-                $em->remove($rightGroup);
-                $em->flush();
-                $leftGroup->addPart(...$parts);
+                $em->getConnection()->executeQuery('UPDATE part_cross_part SET part_cross_id = :newId where part_cross_id = :oldId', [
+                    'newId' => $leftGroup->id->toString(),
+                    'oldId' => $rightGroup->id->toString(),
+                ]);
             }
         });
     }
 
     public function uncross(PartId $partId): void
     {
-        $em = $this->registry->manager(Part::class);
-
-        $part = $this->byId($partId);
-        $cross = $this->findCross($partId);
-        assert($cross instanceof PartCross);
-
-        $cross->removePart($part);
-
-        if ($cross->isEmpty()) {
-            $em->remove($cross);
-        }
-
-        $em->flush();
+        $this->registry->connection(Part::class)
+            ->executeQuery('DELETE FROM part_cross_part WHERE part_cross_part.part_id = :partId', [
+                'partId' => $partId->toString(),
+            ])
+        ;
     }
 
     /**
@@ -131,21 +123,6 @@ final class PartManager
             ->setParameter('id', $partId)
             ->setParameter('ids', $partView->analogs)
             ->getResult()
-        ;
-    }
-
-    private function findCross(PartId $partId): ?PartCross
-    {
-        $part = $this->byId($partId);
-
-        return $this->registry->manager(PartCross::class)
-            ->createQueryBuilder()
-            ->select('entity')
-            ->from(PartCross::class, 'entity')
-            ->where(':part MEMBER OF entity.parts')
-            ->getQuery()
-            ->setParameter('part', $part)
-            ->getOneOrNullResult()
         ;
     }
 }

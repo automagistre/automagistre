@@ -5,68 +5,30 @@ declare(strict_types=1);
 namespace App\Part\Entity;
 
 use App\Tenant\Entity\TenantEntity;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(readOnly=true)
+ * @ORM\Table(name="part_cross_part")
  */
 class PartCross extends TenantEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="uuid")
+     * @ORM\Column(type="uuid", name="part_cross_id")
      */
-    private UuidInterface $id;
+    public UuidInterface $id;
 
     /**
-     * @var Collection<int, Part>
-     *
-     * @ORM\ManyToMany(targetEntity=Part::class)
-     * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     * @ORM\Id
+     * @ORM\Column(type="part_id")
      */
-    private $parts;
+    public PartId $partId;
 
-    public function __construct(Part $left, Part $right)
+    public function __construct(UuidInterface $id, PartId $partId)
     {
-        $this->id = Uuid::uuid6();
-        $this->parts = new ArrayCollection();
-        $this->addPart($left, $right);
-    }
-
-    public function toId(): UuidInterface
-    {
-        return $this->id;
-    }
-
-    public function isEmpty(): bool
-    {
-        return $this->parts->isEmpty();
-    }
-
-    public function addPart(Part ...$parts): void
-    {
-        foreach ($parts as $part) {
-            if ($this->parts->contains($part)) {
-                continue;
-            }
-
-            $this->parts[] = $part;
-        }
-    }
-
-    public function removePart(Part ...$parts): void
-    {
-        foreach ($parts as $part) {
-            $this->parts->removeElement($part);
-        }
-    }
-
-    public function getParts(): array
-    {
-        return $this->parts->getValues();
+        $this->id = $id;
+        $this->partId = $partId;
     }
 }

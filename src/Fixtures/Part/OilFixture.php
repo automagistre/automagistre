@@ -8,6 +8,7 @@ use App\Fixtures\Manufacturer\ToyotaFixture;
 use App\Manufacturer\Entity\ManufacturerId;
 use App\Part\Entity\Discount;
 use App\Part\Entity\Part;
+use App\Part\Entity\PartCross;
 use App\Part\Entity\PartId;
 use App\Part\Entity\PartNumber;
 use App\Part\Entity\Price;
@@ -17,6 +18,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Money\Currency;
 use Money\Money;
+use Ramsey\Uuid\Uuid;
 
 final class OilFixture extends Fixture
 {
@@ -59,6 +61,8 @@ final class OilFixture extends Fixture
             new Money(self::DISCOUNT, new Currency(self::DISCOUNT_CURRENCY)),
             new DateTimeImmutable(),
         ));
+
+        $manager->persist(new PartCross(Uuid::fromString(PartCrossFixture::ID), $partId));
 
         $manager->persist($part);
         $manager->flush();
