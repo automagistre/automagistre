@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\CreatedBy\Entity;
 
-use App\Tenant\Entity\TenantEntity;
 use App\Keycloak\Entity\UserId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,7 +12,7 @@ use Ramsey\Uuid\UuidInterface;
 /**
  * @ORM\Entity(readOnly=true)
  */
-class CreatedBy extends TenantEntity
+class CreatedBy
 {
     /**
      * @ORM\Id
