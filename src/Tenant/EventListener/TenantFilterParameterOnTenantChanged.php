@@ -26,13 +26,13 @@ final class TenantFilterParameterOnTenantChanged implements EventSubscriberInter
         $this->registry->manager()
             ->getFilters()
             ->getFilter('tenant')
-            ->setParameter('tenant_id', $event->tenant?->toId())
+            ->setParameter('tenant_id', $event->tenant?->id)
         ;
 
         $this->registry->manager()
             ->getFilters()
             ->getFilter('tenant_group')
-            ->setParameter('tenant_group_id', $event->tenant?->toGroup()->toId())
+            ->setParameter('tenant_group_id', $event->tenant?->groupId)
         ;
     }
 }

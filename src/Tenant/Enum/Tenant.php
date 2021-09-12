@@ -170,14 +170,6 @@ final class Tenant extends Enum
         );
     }
 
-    /**
-     * @psalm-return array{host: string}
-     */
-    public function toDatabase(): array
-    {
-        return ['host' => 'postgres_'.$this->toIdentifier()];
-    }
-
     public function toGroup(): Group
     {
         return match ($this->toId()) {

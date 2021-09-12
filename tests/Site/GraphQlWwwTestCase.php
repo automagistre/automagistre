@@ -4,15 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Site;
 
-use App\Doctrine\Registry;
-use App\Site\Context;
-use App\Site\Schema;
 use Generator;
-use GraphQL\GraphQL;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use function is_array;
 
-abstract class GraphQlWwwTestCase extends KernelTestCase
+abstract class GraphQlWwwTestCase extends WebTestCase
 {
     abstract public function data(): Generator;
 
@@ -31,14 +27,18 @@ abstract class GraphQlWwwTestCase extends KernelTestCase
 
     protected static function executeQuery(string $query, array $variableValues = null): array
     {
-        self::bootKernel();
+        $client = self::createClient();
 
-        $schema = Schema::create();
-        $context = new Context(self::$container->get(Registry::class));
+        $client->request('POST', '/msk/api/www', content: json_encode([
+            'query' => $query,
+            'variables' => $variableValues,
+        ], JSON_THROW_ON_ERROR));
 
-        $result = GraphQL::executeQuery($schema, $query, null, $context, $variableValues);
+        $json = $client->getResponse()->getContent();
 
-        return $result->toArray();
+        self::assertIsString($json, 'api return false');
+
+        return (array) json_decode($json, true, flags: JSON_THROW_ON_ERROR);
     }
 
     private static function deepSort(array &$array): void

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tenant\Event;
 
-use App\Tenant\Enum\Tenant;
+use App\Tenant\Entity\Tenant;
 
 /**
  * @psalm-immutable

@@ -8,7 +8,7 @@ use App\Doctrine\Registry;
 use App\EasyAdmin\Request\EntityTransformer;
 use App\Identifier\IdentifierFormatter;
 use App\Keycloak\Security\KeycloakUser;
-use App\Tenant\Enum\Tenant;
+use App\Tenant\Entity\Tenant;
 use App\Tenant\State;
 use Closure;
 use Doctrine\ORM\AbstractQuery;
@@ -32,6 +32,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use LogicException;
 use function array_keys;
 use function array_merge;
 use function assert;
@@ -78,7 +79,7 @@ abstract class AbstractController extends EasyAdminController
 
     protected function tenant(): Tenant
     {
-        return $this->get(State::class)->get();
+        return $this->get(State::class)->tenant ?? throw new LogicException('Tenant required.');
     }
 
     protected function display(Identifier $identifier, string $format = null): string

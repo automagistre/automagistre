@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tenant\Entity;
 
-use App\Tenant\Enum\Tenant;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,7 +16,7 @@ abstract class TenantEntity
     /**
      * @psalm-readonly
      *
-     * @ORM\Column(type="tenant_enum")
+     * @ORM\Column(type="tenant_id")
      */
-    public Tenant $tenantId;
+    public TenantId $tenantId;
 }

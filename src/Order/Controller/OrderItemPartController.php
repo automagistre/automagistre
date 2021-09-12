@@ -69,7 +69,7 @@ final class OrderItemPartController extends OrderItemController
                 SQL,
                 [
                     'partId' => $partId->toString(),
-                    'tenant' => $this->tenant()->toId(),
+                    'tenant' => $this->tenant()->id->toString(),
                 ],
             )
         ;

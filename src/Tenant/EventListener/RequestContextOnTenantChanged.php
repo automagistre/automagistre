@@ -25,7 +25,7 @@ final class RequestContextOnTenantChanged implements EventSubscriberInterface
     {
         $this->router
             ->getContext()
-            ->setParameter('tenant', $event->tenant?->toName())
+            ->setParameter('tenant', $event->tenant?->identifier)
         ;
     }
 }

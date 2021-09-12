@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tenant;
 
-use App\Tenant\Enum\Tenant;
+use App\Tenant\Entity\Tenant;
 use App\Tenant\Event\TenantChanged;
 use LogicException;
 use Sentry\State\Scope;
@@ -20,9 +20,14 @@ final class State implements ResetInterface
     {
     }
 
-    public function get(): Tenant
+    public function require(): Tenant
     {
-        return $this->tenant ?? throw new LogicException('Tenant not defined.');
+        return $this->tenant ?? throw new LogicException();
+    }
+
+    public function get(): Enum\Tenant
+    {
+        return Enum\Tenant::fromIdentifier($this->require()->identifier);
     }
 
     public function set(?Tenant $tenant): void
@@ -32,7 +37,10 @@ final class State implements ResetInterface
         }
 
         configureScope(static function (Scope $scope) use ($tenant): void {
-            $scope->setTag('tenant', $tenant?->toIdentifier() ?? 'null');
+            $scope->setContext('tenant', [
+                'id' => $tenant?->id->toString(),
+                'identifier' => $tenant?->identifier,
+            ]);
         });
 
         $this->tenant = $tenant;

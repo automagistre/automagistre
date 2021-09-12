@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tenant\Entity;
 
-use App\Tenant\Enum\Group;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,7 +16,7 @@ abstract class TenantGroupEntity
     /**
      * @psalm-readonly
      *
-     * @ORM\Column(type="tenant_group_enum")
+     * @ORM\Column(type="tenant_group_id")
      */
-    public Group $tenantGroupId;
+    public GroupId $tenantGroupId;
 }

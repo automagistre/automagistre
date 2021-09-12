@@ -35,11 +35,11 @@ final class FillTenantOnPrePersistListener implements EventSubscriberInterface
         $entity = $event->getEntity();
 
         if ($entity instanceof TenantEntity) {
-            $entity->tenantId = $this->state->get();
+            $entity->tenantId = $this->state->require()->id;
         }
 
         if ($entity instanceof TenantGroupEntity) {
-            $entity->tenantGroupId = $this->state->get()->toGroup();
+            $entity->tenantGroupId = $this->state->require()->groupId;
         }
     }
 }

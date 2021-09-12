@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Tests\Publish;
 
 use App\Doctrine\Registry;
+use App\Fixtures\Tenant\MskTenantFixtures;
 use App\Publish\Entity\Publish;
 use App\Publish\Entity\PublishView;
+use App\Tenant\State;
 use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -18,9 +20,10 @@ final class PublishViewTest extends KernelTestCase
 
     public function test(): void
     {
-        static::bootKernel();
+        $container = self::getContainer();
+        $container->get(State::class)->set(MskTenantFixtures::asEntity());
 
-        $registry = self::$container->get(Registry::class);
+        $registry = $container->get(Registry::class);
         $tester = new PublishTester($registry->manager(), Uuid::fromString(self::UUID));
 
         self::assertNull($tester->isPublished());

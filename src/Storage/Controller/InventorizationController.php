@@ -206,7 +206,7 @@ final class InventorizationController extends AbstractController
                     SQL,
                     [
                         'id' => $entity->toId()->toString(),
-                        'tenant' => $this->tenant()->toId(),
+                        'tenant' => $this->tenant()->id->toString(),
                     ],
                 )
             ;

@@ -40,4 +40,9 @@ class Tenant
         $this->groupId = $groupId;
         $this->displayName = $displayName;
     }
+
+    public function toId(): TenantId
+    {
+        return $this->id;
+    }
 }

@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App;
 
 use App\Identifier\IdentifierFormatter;
-use App\Tenant\Enum\Tenant;
-use App\Tenant\State;
 use InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -68,18 +66,12 @@ final class Kernel extends SymfonyKernel
 
     /**
      * {@inheritdoc}
-     *
-     * @psalm-suppress PossiblyNullReference
      */
     public function boot(): void
     {
         parent::boot();
 
         Costil::$formatter = $this->getContainer()->get(IdentifierFormatter::class);
-
-        if ('test' === $this->environment) {
-            $this->getContainer()->get('test.service_container')->get(State::class)->set(Tenant::msk());
-        }
     }
 
     /**

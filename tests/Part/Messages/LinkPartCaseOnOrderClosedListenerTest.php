@@ -7,10 +7,12 @@ namespace App\Tests\Part\Messages;
 use App\Doctrine\Registry;
 use App\Fixtures\Order\OrderFixtures;
 use App\Fixtures\Part\GasketFixture;
+use App\Fixtures\Tenant\MskTenantFixtures;
 use App\Order\Entity\OrderId;
 use App\Order\Messages\OrderDealed;
 use App\Part\Entity\PartCase;
 use App\Part\Messages\LinkPartCaseOnOrderClosedListener;
+use App\Tenant\State;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Test\TestBrowserToken;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
@@ -24,6 +26,7 @@ final class LinkPartCaseOnOrderClosedListenerTest extends KernelTestCase
     protected function setUp(): void
     {
         $container = self::getContainer();
+        $container->get(State::class)->set(MskTenantFixtures::asEntity());
 
         $token = new TestBrowserToken(
             ['ROLE_ADMIN'],
