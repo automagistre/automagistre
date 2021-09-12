@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Part\Entity;
 
-use App\Tenant\Entity\TenantEntity;
 use App\Vehicle\Entity\VehicleId;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -12,11 +11,11 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(columns={"part_id", "vehicle_id", "tenant_id"})
+ *         @ORM\UniqueConstraint(columns={"part_id", "vehicle_id"})
  *     }
  * )
  */
-class PartCase extends TenantEntity
+class PartCase
 {
     /**
      * @ORM\Id
