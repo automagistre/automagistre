@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Calendar\Command;
 
 use App\Calendar\Entity\EntryView;
-use App\Customer\Entity\OperandId;
 use App\Doctrine\Registry;
 use App\Sms\Enum\Feature;
 use App\Sms\Messages\SendSms;
@@ -15,6 +14,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use LogicException;
 use function str_replace;
 
 final class CustomerReminderCommand extends Command
@@ -32,42 +32,34 @@ final class CustomerReminderCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $tomorrow = new DateTimeImmutable('+1 day');
-        $rows = $this->registry->connection(EntryView::class)
-            ->fetchAllAssociative(
-                '
-                SELECT schedule_date AS date, order_info_customer_id AS "customerId"
-                FROM calendar_entry_view
-                WHERE order_info_customer_id IS NOT NULL
-                      AND schedule_date BETWEEN :start AND :end',
-                [
-                    'start' => $tomorrow->setTime(0, 0, 0),
-                    'end' => $tomorrow->setTime(23, 59, 59),
-                ],
-                [
-                    'start' => 'datetime',
-                    'end' => 'datetime',
-                ],
-            )
+
+        /** @var EntryView[] $entries */
+        $entries = $this->registry->manager()
+            ->createQueryBuilder()
+            ->select('t')
+            ->from(EntryView::class, 't')
+            ->where('t.orderInfo.customerId IS NOT NULL')
+            ->andWhere('t.schedule.date BETWEEN :start AND :end')
+            ->getQuery()
+            ->setParameter('start', $tomorrow->setTime(0, 0, 0), 'datetime')
+            ->setParameter('end', $tomorrow->setTime(23, 59, 59), 'datetime')
+            ->getResult()
         ;
 
-        foreach ($rows as $row) {
-            /** @var DateTimeImmutable $date */
-            $date = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $row['date']);
-            $customerId = OperandId::from($row['customerId']);
-
+        foreach ($entries as $entry) {
             $message = str_replace(
                 [
                     '{time}',
                 ],
                 [
-                    $date->format('H:i'),
+                    $entry->schedule->date->format('H:i'),
                 ],
                 $this->state->get()->toSmsOnReminderEntry(),
             );
 
             $this->messageBus->dispatch(
                 new SendSms(
-                    $customerId,
+                    $entry->orderInfo->customerId ?? throw new LogicException(),
                     $message,
                     [
                         Feature::onceADay(),
