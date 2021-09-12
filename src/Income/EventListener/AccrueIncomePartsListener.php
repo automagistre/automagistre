@@ -24,12 +24,7 @@ final class AccrueIncomePartsListener implements MessageHandler
         foreach ($income->getIncomeParts() as $incomePart) {
             $partId = $incomePart->partId;
 
-            $storagePart = $this->registry->find(Part::class, $partId);
-
-            if (null === $storagePart) {
-                $storagePart = new Part($partId);
-                $this->registry->add($storagePart);
-            }
+            $storagePart = $this->registry->get(Part::class, $partId);
 
             $storagePart->increase(
                 $incomePart->quantity,

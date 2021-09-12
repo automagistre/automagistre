@@ -29,12 +29,7 @@ final class MotionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->registry->manager(Part::class);
 
-            $storagePart = $this->registry->find(Part::class, $partId);
-
-            if (null === $storagePart) {
-                $storagePart = new Part($partId);
-                $em->persist($storagePart);
-            }
+            $storagePart = $this->registry->get(Part::class, $partId);
 
             $storagePart->increase(
                 $dto->quantity,
@@ -63,12 +58,7 @@ final class MotionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->registry->manager(Part::class);
 
-            $storagePart = $this->registry->find(Part::class, $partId);
-
-            if (null === $storagePart) {
-                $storagePart = new Part($partId);
-                $em->persist($storagePart);
-            }
+            $storagePart = $this->registry->get(Part::class, $partId);
 
             $storagePart->decrease(
                 $dto->quantity,
@@ -97,12 +87,7 @@ final class MotionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->registry->manager(Part::class);
 
-            $storagePart = $this->registry->find(Part::class, $partId);
-
-            if (null === $storagePart) {
-                $storagePart = new Part($partId);
-                $em->persist($storagePart);
-            }
+            $storagePart = $this->registry->get(Part::class, $partId);
 
             $storagePart->actualize(
                 $dto->quantity,

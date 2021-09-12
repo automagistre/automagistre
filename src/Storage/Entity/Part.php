@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace App\Storage\Entity;
 
-use App\CreatedBy\Attributes as CreatedBy;
 use App\Part\Entity\PartId;
-use App\Tenant\Entity\TenantEntity;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use function abs;
@@ -15,15 +12,16 @@ use function array_reduce;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="storage_part")
+ * @ORM\Table(name="storage_part_view")
+ *
+ * @psalm-suppress PropertyNotSetInConstructor
  */
-class Part extends TenantEntity
+class Part
 {
     /**
      * @ORM\Id()
      * @ORM\Column(type="part_id")
      */
-    #[CreatedBy\Exclude]
     private PartId $id;
 
     /**
@@ -33,10 +31,8 @@ class Part extends TenantEntity
      */
     private Collection $motions;
 
-    public function __construct(PartId $id)
+    private function __construct()
     {
-        $this->id = $id;
-        $this->motions = new ArrayCollection();
     }
 
     public function toId(): PartId
