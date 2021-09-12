@@ -13,6 +13,7 @@ return [
     App\Order\Enum\OrderStatus::class => ['order_status_enum'],
     App\Part\Enum\SupplySource::class => ['part_supply_source_enum'],
     App\Part\Enum\Unit::class => ['unit_enum'],
+    App\Part\Enum\WhatToBuyStatus::class => ['part_to_buy_status'],
     App\Review\Enum\ReviewRating::class => ['review_star_rating'],
     App\Review\Enum\ReviewSource::class => ['review_source'],
     App\Storage\Enum\MotionType::class => ['motion_source_enum'],
