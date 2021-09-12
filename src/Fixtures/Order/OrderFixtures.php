@@ -6,7 +6,6 @@ namespace App\Fixtures\Order;
 
 use App\Car\Entity\CarId;
 use App\Customer\Entity\OperandId;
-use App\Doctrine\Registry;
 use App\Fixtures\Car\Primera2004Fixtures;
 use App\Fixtures\Customer\PersonVasyaFixtures;
 use App\Fixtures\Part\GasketFixture;
@@ -19,7 +18,6 @@ use App\Order\Entity\OrderItemPart;
 use App\Order\Entity\OrderItemService;
 use App\Order\Entity\OrderPayment;
 use App\Part\Entity\PartId;
-use App\Part\Entity\PartView;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -36,10 +34,6 @@ final class OrderFixtures extends Fixture implements DependentFixtureInterface
     public const GROUP_ID = '1eab7ac7-2b8a-62dc-9c38-0242c0a81005';
     public const SERVICE_ID = '1eab7ac7-c95f-6822-80e2-0242c0a81005';
     public const PART_ID = '1eab7ac7-f145-69d6-a083-0242c0a81005';
-
-    public function __construct(private Registry $registry)
-    {
-    }
 
     /**
      * {@inheritdoc}
@@ -93,7 +87,6 @@ final class OrderFixtures extends Fixture implements DependentFixtureInterface
             $order,
             $partId,
             $money,
-            $this->registry->get(PartView::class, $partId),
             1,
         );
 

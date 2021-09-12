@@ -10,9 +10,9 @@ use App\MessageBus\ContainsRecordedMessages;
 use App\MessageBus\PrivateMessageRecorderCapabilities;
 use App\Money\PriceInterface;
 use App\Money\TotalPriceInterface;
-use App\Order\Messages\OrderItemPartCreated;
+use App\Order\Event\OrderItemPartPriceChanged;
+use App\Order\Event\OrderItemPartCreated;
 use App\Part\Entity\PartId;
-use App\Part\Entity\PartView;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;
 use Money\Money;
@@ -61,7 +61,6 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
         Order $order,
         PartId $partId,
         Money $price,
-        PartView $partView,
         int $quantity,
         bool $warranty = false,
         ?OperandId $supplierId = null,
@@ -70,7 +69,8 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
 
         $this->partId = $partId;
         $this->quantity = $quantity;
-        [$this->price, $this->discount] = $this->calculatePriceAndDiscount($price, $partView);
+        $this->price = $price;
+        $this->discount = $price->multiply('0');
         $this->warranty = $warranty;
         $this->supplierId = $supplierId;
 
@@ -98,13 +98,15 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
         return $this->partId;
     }
 
-    public function setPrice(Money $price, PartView $partView): void
+    public function setPrice(Money $price): void
     {
         if (!$this->getOrder()->isEditable()) {
             throw new LogicException('Can\'t change price on part on closed order.');
         }
 
-        [$this->price, $this->discount] = $this->calculatePriceAndDiscount($price, $partView);
+        $this->price = $price;
+
+        $this->record(new OrderItemPartPriceChanged($this->toId()));
     }
 
     public function getQuantity(): int
@@ -171,18 +173,17 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
         $this->warranty = $guarantee;
     }
 
-    /**
-     * @return array{0: Money, 1: Money}
-     */
-    private function calculatePriceAndDiscount(Money $price, PartView $partView): array
+    public function changeDiscount(Money $priceFromCatalog): void
     {
-        $priceFromCatalog = $partView->price;
+        $price = $this->price->subtract($this->discount);
+
         $discount = $priceFromCatalog->subtract($price);
 
         if ($discount->isPositive()) {
             $price = $priceFromCatalog;
         }
 
-        return [$price, $discount->isPositive() ? $discount : $discount->multiply('0')];
+        $this->price = $price;
+        $this->discount = $discount->isPositive() ? $discount : $discount->multiply('0');
     }
 }

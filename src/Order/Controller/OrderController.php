@@ -232,7 +232,6 @@ final class OrderController extends AbstractController
                         $order,
                         $part->partId,
                         $part->price,
-                        $this->registry->get(PartView::class, $part->partId),
                         $part->quantity,
                     );
 

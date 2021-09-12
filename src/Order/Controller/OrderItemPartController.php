@@ -134,7 +134,6 @@ final class OrderItemPartController extends OrderItemController
                     $orderItemPart->getOrder(),
                     $relatedDto->part->toId(),
                     $relatedDto->price,
-                    $relatedDto->part,
                     $relatedDto->quantity,
                 );
 
@@ -241,7 +240,6 @@ final class OrderItemPartController extends OrderItemController
                 $order,
                 $partOffer->partId,
                 $partOffer->price,
-                $this->registry->get(PartView::class, $partOffer->partId),
                 $partOffer->quantity,
                 $dto->warranty,
                 $dto->supplierId,
@@ -313,7 +311,7 @@ final class OrderItemPartController extends OrderItemController
             $em = $this->em;
 
             $entity->setParent($dto->parent);
-            $entity->setPrice($partOffer->price, $this->registry->get(PartView::class, $partOffer->partId));
+            $entity->setPrice($partOffer->price);
             $entity->setQuantity($partOffer->quantity);
             $entity->setWarranty($dto->warranty);
             $entity->setSupplierId($dto->supplierId);

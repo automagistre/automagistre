@@ -17,7 +17,6 @@ use App\Order\Entity\OrderItemService;
 use App\Order\Entity\Reservation;
 use App\Order\Exception\ReservationException;
 use App\Order\Manager\ReservationManager;
-use App\Part\Entity\PartView;
 use Doctrine\ORM\EntityManagerInterface;
 use DomainException;
 use Generator;
@@ -56,7 +55,6 @@ final class RecommendationManager
                 $order,
                 $partId,
                 $recommendationPart->price,
-                $this->registry->get(PartView::class, $partId),
                 $recommendationPart->quantity,
             );
 

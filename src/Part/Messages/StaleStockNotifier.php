@@ -7,7 +7,7 @@ namespace App\Part\Messages;
 use App\Doctrine\Registry;
 use App\MessageBus\MessageHandler;
 use App\Order\Entity\OrderItemPart;
-use App\Order\Messages\OrderItemPartCreated;
+use App\Order\Event\OrderItemPartCreated;
 use App\Part\Entity\PartView;
 use App\Tenant\State;
 use Premier\MarkdownBuilder\Block\NumberedListBuilder;
@@ -35,7 +35,7 @@ final class StaleStockNotifier implements MessageHandler
             return;
         }
 
-        $orderItemPart = $this->registry->find(OrderItemPart::class, $event->id);
+        $orderItemPart = $this->registry->find(OrderItemPart::class, $event->itemId);
 
         if (null === $orderItemPart) {
             return;
