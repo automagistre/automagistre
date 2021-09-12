@@ -48,9 +48,9 @@ class Order extends TenantEntity implements ContainsRecordedMessages
     public OrderId $id;
 
     /**
-     * @ORM\Column()
+     * @ORM\Column(type="integer")
      */
-    private string $number;
+    private int $number;
 
     /**
      * @var Collection<int, OrderItem>
@@ -116,7 +116,7 @@ class Order extends TenantEntity implements ContainsRecordedMessages
      */
     private $suspends;
 
-    public function __construct(OrderId $orderId, string $number)
+    public function __construct(OrderId $orderId, int $number)
     {
         $this->id = $orderId;
         $this->number = $number;
@@ -136,7 +136,7 @@ class Order extends TenantEntity implements ContainsRecordedMessages
         return $this->id;
     }
 
-    public function getNumber(): string
+    public function getNumber(): int
     {
         return $this->number;
     }

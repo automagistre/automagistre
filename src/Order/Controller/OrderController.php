@@ -58,8 +58,8 @@ use function explode;
 use function in_array;
 use function mb_strtolower;
 use function sprintf;
-use function trim;
 use function usort;
+use function is_int;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -594,9 +594,9 @@ final class OrderController extends AbstractController
     protected function searchAction(): Response
     {
         $number = (string) $this->request->query->get('query');
-        $number = trim($number);
+        $number = filter_var($number, FILTER_VALIDATE_INT);
 
-        if ('' !== $number) {
+        if (is_int($number)) {
             $entity = $this->em->getRepository(Order::class)->findOneBy(['number' => $number]);
 
             if (null !== $entity) {

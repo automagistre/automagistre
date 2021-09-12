@@ -32,7 +32,7 @@ final class OrderFormatter implements IdentifierFormatterInterface
     {
         $order = $this->registry->get(Order::class, $identifier);
 
-        $string = $order->getNumber();
+        $string = (string) $order->getNumber();
 
         if ('number' === $format) {
             return $string;

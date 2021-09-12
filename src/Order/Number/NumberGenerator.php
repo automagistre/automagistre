@@ -6,6 +6,8 @@ namespace App\Order\Number;
 
 use App\Doctrine\Registry;
 use App\Order\Entity\Order;
+use function assert;
+use function is_int;
 
 final class NumberGenerator
 {
@@ -13,10 +15,17 @@ final class NumberGenerator
     {
     }
 
-    public function next(): string
+    public function next(): int
     {
-        return (string) $this->registry->connection(Order::class)
-            ->fetchOne('SELECT nextval(\'order_number_seq\')')
+        $number = $this->registry->manager()->createQueryBuilder()
+            ->select('MAX(t.number)')
+            ->from(Order::class, 't')
+            ->getQuery()
+            ->getSingleScalarResult()
         ;
+
+        assert(is_int($number));
+
+        return ++$number;
     }
 }

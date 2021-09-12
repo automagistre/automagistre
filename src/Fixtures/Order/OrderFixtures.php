@@ -30,7 +30,7 @@ use Ramsey\Uuid\Uuid;
 final class OrderFixtures extends Fixture implements DependentFixtureInterface
 {
     public const ID = '1eab641c-9f5f-63a4-86d0-0242c0a8100a';
-    public const NUMBER = '1';
+    public const NUMBER = 1;
     public const CAR_ID = Primera2004Fixtures::ID;
     public const CUSTOMER_ID = PersonVasyaFixtures::ID;
     public const GROUP_ID = '1eab7ac7-2b8a-62dc-9c38-0242c0a81005';
