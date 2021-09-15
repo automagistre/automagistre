@@ -54,7 +54,7 @@ easy_admin:
             list:
                 title: 'Организации'
                 fields:
-                    - { property: 'name', label: 'Название', template: 'easy_admin/field_item_show.html.twig' }
+                    - { property: 'fullName', label: 'Название', template: 'easy_admin/field_item_show.html.twig' }
                     - { property: 'address', label: 'Адрес' }
                     - { property: 'email', label: 'Почта' }
                     - { property: 'telephone', label: 'Телефон', template: 'easy_admin/field_telephone.html.twig' }
