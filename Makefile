@@ -57,7 +57,11 @@ up: do-up ## Up project
 	@$(notify)
 latest: do-up backup-latest permissions ## Up project with latest backup from server
 	@$(notify)
-cli: app-cli ## Get terminal inside php container
+cli: ## Get terminal inside php container
+	$(APP) sh
+cli-root: UID=root
+cli-root:
+	$(APP) sh
 
 down: ## Stop and remove all containers, volumes and networks
 	$(DEBUG_ECHO) docker-compose down -v --remove-orphans
@@ -81,9 +85,6 @@ permissions: UID=root
 permissions: ## Fix file permissions in project
 	$(APP) sh -c "$(PERMISSIONS) || true"
 	$(call OK,"Permissions fixed.")
-
-app-cli:
-	$(APP) sh
 
 composer: ### composer install
 	$(COMPOSER) install
