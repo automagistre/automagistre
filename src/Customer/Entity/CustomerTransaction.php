@@ -24,12 +24,12 @@ class CustomerTransaction extends TenantEntity implements ContainsRecordedMessag
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="customer_transaction_id")
+     * @ORM\Column
      */
     private CustomerTransactionId $id;
 
     /**
-     * @ORM\Column(type="operand_id")
+     * @ORM\Column
      */
     private OperandId $operandId;
 
@@ -44,7 +44,7 @@ class CustomerTransaction extends TenantEntity implements ContainsRecordedMessag
     private CustomerTransactionSource $source;
 
     /**
-     * @ORM\Column(type="uuid")
+     * @ORM\Column
      */
     private UuidInterface $sourceId;
 

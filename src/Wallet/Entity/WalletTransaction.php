@@ -18,12 +18,12 @@ class WalletTransaction extends TenantEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="wallet_transaction_id")
+     * @ORM\Column
      */
     private WalletTransactionId $id;
 
     /**
-     * @ORM\Column(type="wallet_id")
+     * @ORM\Column
      */
     private WalletId $walletId;
 
@@ -38,7 +38,7 @@ class WalletTransaction extends TenantEntity
     private WalletTransactionSource $source;
 
     /**
-     * @ORM\Column(type="uuid")
+     * @ORM\Column
      */
     private UuidInterface $sourceId;
 

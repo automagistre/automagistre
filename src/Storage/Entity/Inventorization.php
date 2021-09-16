@@ -14,7 +14,7 @@ class Inventorization extends TenantEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="inventorization_id")
+     * @ORM\Column
      *
      * @psalm-readonly
      */

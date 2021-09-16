@@ -79,9 +79,6 @@ final class WarehouseController extends AbstractController
                             [
                                 'root' => $entity->id,
                             ],
-                            [
-                                'root' => 'warehouse_id',
-                            ],
                         )
                     ;
 

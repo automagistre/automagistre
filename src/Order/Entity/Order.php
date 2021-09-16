@@ -43,7 +43,7 @@ class Order extends TenantEntity implements ContainsRecordedMessages
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="order_id")
+     * @ORM\Column
      */
     public OrderId $id;
 
@@ -76,12 +76,12 @@ class Order extends TenantEntity implements ContainsRecordedMessages
     private OrderStatus $status;
 
     /**
-     * @ORM\Column(type="car_id", nullable=true)
+     * @ORM\Column(nullable=true)
      */
     private ?CarId $carId = null;
 
     /**
-     * @ORM\Column(type="operand_id", nullable=true)
+     * @ORM\Column(nullable=true)
      */
     private ?OperandId $customerId = null;
 

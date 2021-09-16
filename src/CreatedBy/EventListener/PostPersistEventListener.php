@@ -73,7 +73,6 @@ final class PostPersistEventListener implements EventSubscriber
                 'date' => new DateTimeImmutable(),
             ],
             [
-                'user' => 'user_id',
                 'date' => 'datetime',
             ],
         );

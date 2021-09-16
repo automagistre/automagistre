@@ -21,12 +21,12 @@ class Model
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="vehicle_id")
+     * @ORM\Column
      */
     public VehicleId $id;
 
     /**
-     * @ORM\Column(type="manufacturer_id")
+     * @ORM\Column
      */
     public ManufacturerId $manufacturerId;
 

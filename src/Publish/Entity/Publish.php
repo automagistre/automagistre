@@ -16,12 +16,12 @@ class Publish extends TenantEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="uuid")
+     * @ORM\Column
      */
     public UuidInterface $id;
 
     /**
-     * @ORM\Column(type="uuid")
+     * @ORM\Column
      */
     public UuidInterface $entityId;
 

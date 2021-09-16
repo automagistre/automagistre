@@ -19,7 +19,7 @@ class Reservation extends TenantEntity implements ContainsRecordedMessages
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="reservation_id")
+     * @ORM\Column
      */
     private ReservationId $id;
 

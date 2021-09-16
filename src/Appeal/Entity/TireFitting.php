@@ -30,7 +30,7 @@ class TireFitting extends TenantEntity implements ContainsRecordedMessages
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="appeal_id")
+     * @ORM\Column
      */
     public AppealId $id;
 
@@ -45,7 +45,7 @@ class TireFitting extends TenantEntity implements ContainsRecordedMessages
     public PhoneNumber $phone;
 
     /**
-     * @ORM\Column(type="vehicle_id", nullable=true)
+     * @ORM\Column(nullable=true)
      */
     public ?VehicleId $modelId;
 

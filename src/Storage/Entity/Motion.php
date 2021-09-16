@@ -22,7 +22,7 @@ class Motion extends TenantEntity implements ContainsRecordedMessages
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="uuid")
+     * @ORM\Column
      *
      * @psalm-readonly
      */

@@ -19,17 +19,17 @@ class Supply extends TenantEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="uuid")
+     * @ORM\Column
      */
     private UuidInterface $id;
 
     /**
-     * @ORM\Column(type="part_id")
+     * @ORM\Column
      */
     private PartId $partId;
 
     /**
-     * @ORM\Column(type="operand_id")
+     * @ORM\Column
      */
     private OperandId $supplierId;
 
@@ -44,7 +44,7 @@ class Supply extends TenantEntity
     private SupplySource $source;
 
     /**
-     * @ORM\Column(type="uuid")
+     * @ORM\Column
      */
     private UuidInterface $sourceId;
 

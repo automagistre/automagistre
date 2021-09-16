@@ -16,12 +16,12 @@ class Salary extends TenantEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="salary_id")
+     * @ORM\Column
      */
     private SalaryId $id;
 
     /**
-     * @ORM\Column(type="employee_id")
+     * @ORM\Column
      */
     private EmployeeId $employeeId;
 

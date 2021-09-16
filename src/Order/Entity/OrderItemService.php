@@ -33,7 +33,7 @@ class OrderItemService extends OrderItem implements PriceInterface, TotalPriceIn
     private Money $discount;
 
     /**
-     * @ORM\Column(type="operand_id", nullable=true)
+     * @ORM\Column(nullable=true)
      */
     public ?OperandId $workerId;
 

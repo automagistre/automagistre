@@ -51,6 +51,5 @@ final class ConfigTest extends TestCase
     {
         yield 'bundles.php' => [__DIR__.'/../config/bundles.php'];
         yield 'enums.php' => [__DIR__.'/../config/enums.php'];
-        yield 'identifiers.php' => [__DIR__.'/../config/identifiers.php'];
     }
 }

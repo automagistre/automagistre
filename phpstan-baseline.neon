@@ -6,6 +6,26 @@ parameters:
 			path: src/Doctrine/Registry.php
 
 		-
+			message: "#^Offset 'columnName' does not exist on array\\('type' \\=\\> string, 'fieldName' \\=\\> string, \\?'columnName' \\=\\> string, \\?'inherited' \\=\\> class\\-string, \\?'nullable' \\=\\> bool, \\?'originalClass' \\=\\> class\\-string, \\?'originalField' \\=\\> string, \\?'scale' \\=\\> int, \\.\\.\\.\\)\\.$#"
+			count: 2
+			path: src/Identifier/DI/AutoTypeMappingCompilerPass.php
+
+		-
+			message: "#^Offset 'originalClass' does not exist on array\\('type' \\=\\> string, 'fieldName' \\=\\> string, \\?'columnName' \\=\\> string, \\?'inherited' \\=\\> class\\-string, \\?'nullable' \\=\\> bool, \\?'originalClass' \\=\\> class\\-string, \\?'originalField' \\=\\> string, \\?'scale' \\=\\> int, \\.\\.\\.\\)\\.$#"
+			count: 1
+			path: src/Identifier/DI/AutoTypeMappingCompilerPass.php
+
+		-
+			message: "#^Offset 'originalField' does not exist on array\\('type' \\=\\> string, 'fieldName' \\=\\> string, \\?'columnName' \\=\\> string, \\?'inherited' \\=\\> class\\-string, \\?'nullable' \\=\\> bool, \\?'originalClass' \\=\\> class\\-string, \\?'originalField' \\=\\> string, \\?'scale' \\=\\> int, \\.\\.\\.\\)\\.$#"
+			count: 1
+			path: src/Identifier/DI/AutoTypeMappingCompilerPass.php
+
+		-
+			message: "#^Offset 'columnName' does not exist on array\\('type' \\=\\> string, 'fieldName' \\=\\> string, \\?'columnName' \\=\\> string, \\?'inherited' \\=\\> class\\-string, \\?'nullable' \\=\\> bool, \\?'originalClass' \\=\\> class\\-string, \\?'originalField' \\=\\> string, \\?'scale' \\=\\> int, \\.\\.\\.\\)\\.$#"
+			count: 1
+			path: src/Identifier/Doctrine/AutoTypeMappingListener.php
+
+		-
 			message: "#^Call to method cache\\(\\) on an unknown class Symfony\\\\Config\\\\FrameworkConfig\\.$#"
 			count: 1
 			path: src/Identifier/config.php

@@ -17,12 +17,12 @@ use Doctrine\ORM\Mapping as ORM;
 final class OrderInfo
 {
     /**
-     * @ORM\Column(type="operand_id", nullable=true)
+     * @ORM\Column(nullable=true)
      */
     public ?OperandId $customerId;
 
     /**
-     * @ORM\Column(type="car_id", nullable=true)
+     * @ORM\Column(nullable=true)
      */
     public ?CarId $carId;
 
@@ -32,7 +32,7 @@ final class OrderInfo
     public ?string $description;
 
     /**
-     * @ORM\Column(type="employee_id", nullable=true)
+     * @ORM\Column(nullable=true)
      */
     public ?EmployeeId $workerId;
 

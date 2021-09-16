@@ -16,17 +16,17 @@ class WarehouseParent extends TenantEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="uuid")
+     * @ORM\Column
      */
     private UuidInterface $id;
 
     /**
-     * @ORM\Column(type="warehouse_id")
+     * @ORM\Column
      */
     private WarehouseId $warehouseId;
 
     /**
-     * @ORM\Column(type="warehouse_id", nullable=true)
+     * @ORM\Column(nullable=true)
      */
     private ?WarehouseId $warehouseParentId;
 

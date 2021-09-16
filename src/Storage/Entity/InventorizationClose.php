@@ -23,7 +23,7 @@ class InventorizationClose extends TenantEntity implements ContainsRecordedMessa
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="uuid")
+     * @ORM\Column
      */
     private UuidInterface $id;
 

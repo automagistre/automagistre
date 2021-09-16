@@ -19,12 +19,12 @@ class SupplyView extends TenantEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="part_id")
+     * @ORM\Column
      */
     public PartId $partId;
 
     /**
-     * @ORM\Column(type="operand_id")
+     * @ORM\Column
      */
     public OperandId $supplierId;
 

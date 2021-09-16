@@ -17,7 +17,7 @@ class RecommendationPart extends TenantGroupEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="recommendation_part_id")
+     * @ORM\Column
      */
     public RecommendationPartId $id;
 
@@ -30,7 +30,7 @@ class RecommendationPart extends TenantGroupEntity
     public Recommendation $recommendation;
 
     /**
-     * @ORM\Column(type="part_id")
+     * @ORM\Column
      */
     public PartId $partId;
 

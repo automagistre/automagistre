@@ -20,17 +20,17 @@ class SalaryView extends TenantEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="salary_id")
+     * @ORM\Column
      */
     public SalaryId $id;
 
     /**
-     * @ORM\Column(type="employee_id")
+     * @ORM\Column
      */
     public EmployeeId $employeeId;
 
     /**
-     * @ORM\Column(type="operand_id")
+     * @ORM\Column
      */
     public OperandId $personId;
 

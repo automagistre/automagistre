@@ -25,7 +25,7 @@ class Recommendation extends TenantGroupEntity implements PriceInterface
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="recommendation_id")
+     * @ORM\Column
      */
     public RecommendationId $id;
 
@@ -52,7 +52,7 @@ class Recommendation extends TenantGroupEntity implements PriceInterface
     private Money $price;
 
     /**
-     * @ORM\Column(type="operand_id")
+     * @ORM\Column
      */
     public OperandId $workerId;
 
@@ -62,7 +62,7 @@ class Recommendation extends TenantGroupEntity implements PriceInterface
     public ?DateTime $expiredAt = null;
 
     /**
-     * @ORM\Column(type="uuid", nullable=true)
+     * @ORM\Column(nullable=true)
      */
     private ?UuidInterface $realization = null;
 

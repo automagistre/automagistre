@@ -22,7 +22,7 @@ class IncomeAccrue extends TenantEntity implements ContainsRecordedMessages
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="uuid")
+     * @ORM\Column
      */
     public UuidInterface $id;
 

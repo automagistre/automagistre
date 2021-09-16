@@ -19,12 +19,12 @@ class Part
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="part_id")
+     * @ORM\Column
      */
     public PartId $id;
 
     /**
-     * @ORM\Column(type="manufacturer_id")
+     * @ORM\Column
      */
     public ManufacturerId $manufacturerId;
 
@@ -49,7 +49,7 @@ class Part
     public Unit $unit;
 
     /**
-     * @ORM\Column(type="warehouse_id", nullable=true)
+     * @ORM\Column(nullable=true)
      */
     public ?WarehouseId $warehouseId;
 

@@ -19,17 +19,17 @@ class PartCase
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="part_case_id")
+     * @ORM\Column
      */
     private PartCaseId $id;
 
     /**
-     * @ORM\Column(type="part_id")
+     * @ORM\Column
      */
     private PartId $partId;
 
     /**
-     * @ORM\Column(type="vehicle_id")
+     * @ORM\Column
      */
     private VehicleId $vehicleId;
 

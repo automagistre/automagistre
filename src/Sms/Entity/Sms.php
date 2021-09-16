@@ -23,7 +23,7 @@ class Sms extends TenantEntity implements ContainsRecordedMessages
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="sms_id")
+     * @ORM\Column
      */
     public SmsId $id;
 

@@ -30,6 +30,11 @@ return static function (ContainerConfigurator $configurator): void {
     ;
 
     $services
+        ->instanceof(Premier\Identifier\Identifier::class)
+        ->tag(App\Identifier\DI\RegisterIdentifiersCompilerPass::TAG)
+    ;
+
+    $services
         ->load('App\\', dirname(__DIR__).'/src')
         ->exclude(dirname(__DIR__).'/src/**/config.php')
     ;

@@ -13,7 +13,7 @@ class Tenant
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="tenant_id")
+     * @ORM\Column
      */
     public TenantId $id;
 
@@ -24,7 +24,7 @@ class Tenant
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="tenant_group_id")
+     * @ORM\Column
      */
     public GroupId $groupId;
 

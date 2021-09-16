@@ -20,7 +20,7 @@ class EntryView extends TenantEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="calendar_entry_id")
+     * @ORM\Column
      */
     public CalendarEntryId $id;
 
@@ -35,7 +35,7 @@ class EntryView extends TenantEntity
     public OrderInfo $orderInfo;
 
     /**
-     * @ORM\Column(type="order_id")
+     * @ORM\Column
      */
     public ?OrderId $orderId;
 

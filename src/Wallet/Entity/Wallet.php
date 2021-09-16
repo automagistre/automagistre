@@ -16,7 +16,7 @@ class Wallet extends TenantEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="wallet_id")
+     * @ORM\Column
      */
     public WalletId $id;
 

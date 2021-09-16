@@ -19,12 +19,12 @@ class RequiredAvailability extends TenantEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="uuid")
+     * @ORM\Column
      */
     private UuidInterface $id;
 
     /**
-     * @ORM\Column(type="part_id")
+     * @ORM\Column
      */
     private PartId $partId;
 

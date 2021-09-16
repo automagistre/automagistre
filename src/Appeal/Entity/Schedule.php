@@ -22,7 +22,7 @@ class Schedule extends TenantEntity implements ContainsRecordedMessages
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="appeal_id")
+     * @ORM\Column
      */
     public AppealId $id;
 

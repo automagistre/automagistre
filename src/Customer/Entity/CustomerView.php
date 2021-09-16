@@ -20,7 +20,7 @@ class CustomerView extends TenantGroupEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="operand_id")
+     * @ORM\Column
      */
     public OperandId $id;
 

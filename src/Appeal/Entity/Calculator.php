@@ -34,7 +34,7 @@ class Calculator extends TenantEntity implements ContainsRecordedMessages
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="appeal_id")
+     * @ORM\Column
      */
     public AppealId $id;
 
@@ -59,7 +59,7 @@ class Calculator extends TenantEntity implements ContainsRecordedMessages
     public ?DateTimeImmutable $date;
 
     /**
-     * @ORM\Column(type="mc_equipment_id")
+     * @ORM\Column
      */
     public McEquipmentId $equipmentId;
 

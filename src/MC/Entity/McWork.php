@@ -16,7 +16,7 @@ class McWork extends TenantEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="mc_work_id")
+     * @ORM\Column
      */
     public McWorkId $id;
 

@@ -24,12 +24,12 @@ class CustomerTransactionView extends TenantEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="customer_transaction_id")
+     * @ORM\Column
      */
     public CustomerTransactionId $id;
 
     /**
-     * @ORM\Column(type="operand_id")
+     * @ORM\Column
      */
     public OperandId $operandId;
 
@@ -44,7 +44,7 @@ class CustomerTransactionView extends TenantEntity
     public CustomerTransactionSource $source;
 
     /**
-     * @ORM\Column(type="uuid")
+     * @ORM\Column
      */
     public UuidInterface $sourceId;
 

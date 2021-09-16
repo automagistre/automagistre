@@ -26,12 +26,12 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
     use PrivateMessageRecorderCapabilities;
 
     /**
-     * @ORM\Column(type="operand_id", nullable=true)
+     * @ORM\Column(nullable=true)
      */
     private ?OperandId $supplierId;
 
     /**
-     * @ORM\Column(type="part_id")
+     * @ORM\Column
      */
     private PartId $partId;
 

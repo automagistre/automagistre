@@ -26,7 +26,7 @@ abstract class OrderClose extends TenantEntity implements ContainsRecordedMessag
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="uuid")
+     * @ORM\Column
      */
     public UuidInterface $id;
 

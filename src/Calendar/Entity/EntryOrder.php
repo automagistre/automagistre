@@ -18,17 +18,17 @@ class EntryOrder extends TenantEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="uuid")
+     * @ORM\Column
      */
     private UuidInterface $id;
 
     /**
-     * @ORM\Column(type="calendar_entry_id")
+     * @ORM\Column
      */
     private CalendarEntryId $entryId;
 
     /**
-     * @ORM\Column(type="order_id")
+     * @ORM\Column
      */
     private OrderId $orderId;
 

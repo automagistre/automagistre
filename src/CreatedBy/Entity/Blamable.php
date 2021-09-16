@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Blamable
 {
     /**
-     * @ORM\Column(type="user_id")
+     * @ORM\Column
      */
     public UserId $by;
 

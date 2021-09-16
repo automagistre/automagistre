@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 class ManufacturerView
 {
     /**
-     * @ORM\Column(type="manufacturer_id")
+     * @ORM\Column
      */
     public ManufacturerId $id;
 

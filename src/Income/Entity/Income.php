@@ -24,16 +24,14 @@ class Income extends TenantEntity implements ContainsRecordedMessages
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="income_id")
+     * @ORM\Column
      */
     private IncomeId $id;
 
     /**
-     * @var OperandId
-     *
-     * @ORM\Column(type="operand_id")
+     * @ORM\Column
      */
-    private $supplierId;
+    private OperandId $supplierId;
 
     /**
      * @var null|string

@@ -15,13 +15,13 @@ use Money\Money;
 class IncomePart extends TenantEntity
 {
     /**
-     * @ORM\Column(type="part_id")
+     * @ORM\Column
      */
     public PartId $partId;
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="income_part_id")
+     * @ORM\Column
      */
     public IncomePartId $id;
 

@@ -16,12 +16,12 @@ class CreatedBy
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="uuid")
+     * @ORM\Column
      */
     public UuidInterface $id;
 
     /**
-     * @ORM\Column(type="user_id")
+     * @ORM\Column
      */
     public UserId $userId;
 

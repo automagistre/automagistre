@@ -14,7 +14,7 @@ class Manufacturer
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="manufacturer_id")
+     * @ORM\Column
      */
     public ManufacturerId $id;
 

@@ -16,13 +16,13 @@ use Doctrine\ORM\Mapping as ORM;
 class InventorizationPartView extends TenantEntity
 {
     /**
-     * @ORM\Column(type="inventorization_id")
+     * @ORM\Column
      */
     public InventorizationId $inventorizationId;
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="part_id")
+     * @ORM\Column
      */
     public PartId $partId;
 

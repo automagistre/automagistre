@@ -14,7 +14,7 @@ class Group
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="tenant_group_id")
+     * @ORM\Column
      */
     public GroupId $id;
 

@@ -9,6 +9,7 @@ use InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel as SymfonyKernel;
@@ -79,6 +80,8 @@ final class Kernel extends SymfonyKernel
      */
     protected function build(ContainerBuilder $container): void
     {
+        $container->addCompilerPass(new Identifier\DI\RegisterIdentifiersCompilerPass());
+        $container->addCompilerPass(new Identifier\DI\AutoTypeMappingCompilerPass(), PassConfig::TYPE_OPTIMIZE);
     }
 
     /**

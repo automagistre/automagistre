@@ -15,7 +15,7 @@ class Expense extends TenantEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="expense_id")
+     * @ORM\Column
      */
     public ExpenseId $id;
 
@@ -29,7 +29,7 @@ class Expense extends TenantEntity
     /**
      * Счет списания по умолчанию.
      *
-     * @ORM\Column(type="wallet_id", nullable=true)
+     * @ORM\Column(nullable=true)
      */
     public ?WalletId $walletId;
 

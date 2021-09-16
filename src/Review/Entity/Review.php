@@ -27,7 +27,7 @@ class Review extends TenantEntity implements ContainsRecordedMessages
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="review_id")
+     * @ORM\Column
      */
     public ReviewId $id;
 

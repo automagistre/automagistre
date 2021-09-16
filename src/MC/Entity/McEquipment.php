@@ -19,16 +19,14 @@ class McEquipment extends TenantEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="mc_equipment_id")
+     * @ORM\Column
      */
     public McEquipmentId $id;
 
     /**
-     * @var VehicleId
-     *
-     * @ORM\Column(type="vehicle_id")
+     * @ORM\Column
      */
-    public $vehicleId;
+    public VehicleId $vehicleId;
 
     /**
      * @Assert\Valid

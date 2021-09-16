@@ -19,7 +19,7 @@ class InventorizationView extends TenantEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="inventorization_id")
+     * @ORM\Column
      */
     public InventorizationId $id;
 

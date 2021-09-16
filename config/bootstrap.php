@@ -27,8 +27,3 @@ if ($_SERVER['APP_DEBUG']) {
 foreach (require __DIR__.'/enums.php' as $class => [$id]) {
     Premier\Enum\Doctrine\EnumType::register($class, $id);
 }
-
-foreach (require __DIR__.'/identifiers.php' as $class => [$id]) {
-    Premier\Identifier\Doctrine\IdentifierType::register($id, $class);
-    Premier\Identifier\Doctrine\IdentifierArrayType::register($id.'s', $class);
-}

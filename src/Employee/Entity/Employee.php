@@ -27,12 +27,12 @@ class Employee extends TenantEntity implements ContainsRecordedMessages
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="employee_id")
+     * @ORM\Column
      */
     private EmployeeId $id;
 
     /**
-     * @ORM\Column(type="operand_id", nullable=false)
+     * @ORM\Column(nullable=false)
      */
     private ?OperandId $personId = null;
 

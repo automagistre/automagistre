@@ -16,12 +16,12 @@ class SmsSend extends TenantEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="uuid")
+     * @ORM\Column
      */
     private UuidInterface $id;
 
     /**
-     * @ORM\Column(type="sms_id")
+     * @ORM\Column
      */
     private SmsId $smsId;
 

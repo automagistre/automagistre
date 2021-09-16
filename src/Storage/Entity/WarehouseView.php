@@ -20,7 +20,7 @@ class WarehouseView extends TenantEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="warehouse_id")
+     * @ORM\Column
      */
     public WarehouseId $id;
 

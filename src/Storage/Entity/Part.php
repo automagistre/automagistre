@@ -20,7 +20,7 @@ class Part
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="part_id")
+     * @ORM\Column
      */
     private PartId $id;
 

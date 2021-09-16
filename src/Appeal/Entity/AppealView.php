@@ -21,7 +21,7 @@ class AppealView extends TenantEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="appeal_id")
+     * @ORM\Column
      */
     public AppealId $id;
 

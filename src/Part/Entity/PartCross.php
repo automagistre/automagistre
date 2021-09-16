@@ -15,13 +15,13 @@ class PartCross
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="uuid", name="part_cross_id")
+     * @ORM\Column(name="part_cross_id")
      */
     public UuidInterface $id;
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="part_id")
+     * @ORM\Column
      */
     public PartId $partId;
 

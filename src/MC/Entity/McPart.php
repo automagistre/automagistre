@@ -16,7 +16,7 @@ class McPart extends TenantEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="uuid")
+     * @ORM\Column
      */
     public UuidInterface $id;
 
@@ -26,7 +26,7 @@ class McPart extends TenantEntity
     public ?McLine $line;
 
     /**
-     * @ORM\Column(type="part_id")
+     * @ORM\Column
      */
     public PartId $partId;
 

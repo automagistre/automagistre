@@ -26,7 +26,7 @@ final class MotionSource
     public MotionType $type;
 
     /**
-     * @ORM\Column(type="uuid")
+     * @ORM\Column
      */
     public UuidInterface $id;
 

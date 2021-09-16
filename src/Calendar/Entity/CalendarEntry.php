@@ -18,7 +18,7 @@ class CalendarEntry extends TenantEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="calendar_entry_id")
+     * @ORM\Column
      */
     private CalendarEntryId $id;
 

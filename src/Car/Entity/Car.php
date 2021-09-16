@@ -40,7 +40,7 @@ class Car extends TenantGroupEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="car_id")
+     * @ORM\Column
      */
     public CarId $id;
 
@@ -52,7 +52,7 @@ class Car extends TenantGroupEntity
     public Equipment $equipment;
 
     /**
-     * @ORM\Column(type="vehicle_id", nullable=true)
+     * @ORM\Column(nullable=true)
      */
     public ?VehicleId $vehicleId = null;
 

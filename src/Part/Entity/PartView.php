@@ -31,7 +31,7 @@ class PartView extends TenantEntity
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="part_id")
+     * @ORM\Column
      */
     public PartId $id;
 
