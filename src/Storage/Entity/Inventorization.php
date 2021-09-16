@@ -8,7 +8,7 @@ use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  */
 class Inventorization extends TenantEntity
 {

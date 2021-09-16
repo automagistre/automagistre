@@ -16,6 +16,7 @@ return (new PhpCsFixer\Config())
         '@PhpCsFixer:risky' => true,
         '@PSR12' => true,
         '@PSR12:risky' => true,
+        'doctrine_annotation_braces' => ['syntax' => 'without_braces'],
         'blank_line_before_statement' => [
             'statements' => [
                 'continue',

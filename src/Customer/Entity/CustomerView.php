@@ -67,7 +67,7 @@ class CustomerView extends TenantGroupEntity
     public bool $seller = false;
 
     /**
-     * @ORM\Column()
+     * @ORM\Column
      */
     public string $type;
 

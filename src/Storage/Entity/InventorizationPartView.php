@@ -9,7 +9,7 @@ use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  *
  * @psalm-suppress MissingConstructor
  */
@@ -21,7 +21,7 @@ class InventorizationPartView extends TenantEntity
     public InventorizationId $inventorizationId;
 
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="part_id")
      */
     public PartId $partId;

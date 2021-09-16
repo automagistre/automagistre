@@ -58,7 +58,7 @@ final class PersonDto
     public $seller = false;
 
     /**
-     * @Assert\Callback()
+     * @Assert\Callback
      */
     public function validate(ExecutionContextInterface $context): void
     {

@@ -9,7 +9,7 @@ use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  *
  * @psalm-immutable
  *

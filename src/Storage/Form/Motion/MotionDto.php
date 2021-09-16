@@ -12,7 +12,7 @@ final class MotionDto
     /**
      * @var int
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      * @Assert\Type(type="int")
      */
     public $quantity = 0;

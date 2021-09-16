@@ -14,7 +14,7 @@ use Premier\Identifier\Identifier;
 use Ramsey\Uuid\UuidInterface;
 
 /**
- * @ORM\Embeddable()
+ * @ORM\Embeddable
  *
  * @psalm-immutable
  */

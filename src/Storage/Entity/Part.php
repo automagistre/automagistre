@@ -11,7 +11,7 @@ use function abs;
 use function array_reduce;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table(name="storage_part_view")
  *
  * @psalm-suppress PropertyNotSetInConstructor
@@ -19,7 +19,7 @@ use function array_reduce;
 class Part
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="part_id")
      */
     private PartId $id;

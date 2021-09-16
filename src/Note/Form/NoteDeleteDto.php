@@ -14,7 +14,7 @@ class NoteDeleteDto
     /**
      * @var string
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      */
     public $description;
 }

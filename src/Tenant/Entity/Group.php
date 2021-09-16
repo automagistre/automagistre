@@ -7,19 +7,19 @@ namespace App\Tenant\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table(name="tenant_group")
  */
 class Group
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="tenant_group_id")
      */
     public GroupId $id;
 
     /**
-     * @ORM\Column()
+     * @ORM\Column
      */
     public string $identifier;
 

@@ -9,18 +9,18 @@ use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  */
 class InventorizationPart extends TenantEntity
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="inventorization_id")
      */
     public InventorizationId $inventorizationId;
 
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="part_id")
      */
     public PartId $partId;

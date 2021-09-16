@@ -13,7 +13,7 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  *
  * @psalm-immutable
  */
@@ -22,7 +22,7 @@ class InventorizationClose extends TenantEntity implements ContainsRecordedMessa
     use PrivateMessageRecorderCapabilities;
 
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="uuid")
      */
     private UuidInterface $id;

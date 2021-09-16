@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
 class SupplyView extends TenantEntity
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="part_id")
      */
     public PartId $partId;

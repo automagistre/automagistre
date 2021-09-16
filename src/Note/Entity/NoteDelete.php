@@ -10,7 +10,7 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  */
 class NoteDelete extends TenantEntity
 {
@@ -26,7 +26,7 @@ class NoteDelete extends TenantEntity
     private Note $note;
 
     /**
-     * @ORM\Column()
+     * @ORM\Column
      */
     private string $description;
 

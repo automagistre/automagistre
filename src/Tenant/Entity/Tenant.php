@@ -7,12 +7,12 @@ namespace App\Tenant\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  */
 class Tenant
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="tenant_id")
      */
     public TenantId $id;
@@ -23,13 +23,13 @@ class Tenant
     public string $identifier;
 
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(type="tenant_group_id")
      */
     public GroupId $groupId;
 
     /**
-     * @ORM\Column()
+     * @ORM\Column
      */
     public string $displayName;
 

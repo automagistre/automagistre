@@ -7,7 +7,7 @@ namespace App\Tenant\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\MappedSuperclass()
+ * @ORM\MappedSuperclass
  *
  * @psalm-suppress PropertyNotSetInConstructor
  */
