@@ -28,7 +28,7 @@ final class IdentifierFormatter
         $key = $identifier->toString().$format;
 
         return $this->cache->get($key, function (CacheItemInterface $item) use ($identifier, $format): string {
-            $item->expiresAt(new DateTimeImmutable('+15 minutes'));
+            $item->expiresAt(new DateTimeImmutable('+12 hours'));
 
             return $this->doFormat($identifier, $format);
         });
