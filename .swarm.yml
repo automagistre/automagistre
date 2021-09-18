@@ -164,7 +164,7 @@ services:
                 parallelism: 1
                 delay: 5s
         healthcheck:
-            test: pg_isready
+            test: pg_isready -U db
             interval: 5s
             timeout: 5s
             retries: 3
