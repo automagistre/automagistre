@@ -46,7 +46,6 @@ services:
         image: automagistre/tenant-php:${VERSION}
         networks:
             - default
-            - nsq
         environment:
             APP_SECRET: ${APP_SECRET}
             DATABASE_PASSWORD: ${DB_PASSWORD}
@@ -196,6 +195,63 @@ services:
         healthcheck:
             disable: true
 
+    nsqd:
+        image: nsqio/nsq:v1.2.1
+        command:
+            - /nsqd
+            - -data-path=/data
+            - --lookupd-tcp-address=nsqlookupd:4160
+        volumes:
+            -   type: bind
+                source: /opt/am/nsq/data
+                target: /data
+        deploy:
+            update_config:
+                order: stop-first
+
+    nsqlookupd:
+        image: nsqio/nsq:v1.2.1
+        command:
+            - /nsqlookupd
+
+    nsqadmin:
+        image: nsqio/nsq:v1.2.1
+        command:
+            - /nsqadmin
+            - --http-address=0.0.0.0:80
+            - --lookupd-http-address=nsqlookupd:4161
+
+    nsqadmin-proxy:
+        image: quay.io/oauth2-proxy/oauth2-proxy:v7.1.3
+        command:
+            - --http-address=:80
+            - --upstream=http://nsqadmin:80
+            - --reverse-proxy=true
+            - --cookie-secret=${OAUTH2_PROXY_DEVOPS_COOKIE_SECRET}
+            - --email-domain=*
+            - --allowed-group=admin
+            - --provider=keycloak
+            - --skip-provider-button=true
+            - --redirect-url=https://nsq.automagistre.ru/oauth2/callback
+            - --scope=openid
+            - --client-id=${OAUTH2_PROXY_DEVOPS_CLIENT_ID}
+            - --client-secret=${OAUTH2_PROXY_DEVOPS_CLIENT_SECRET}
+            - --login-url=https://auth.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/auth
+            - --redeem-url=https://auth.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/token
+            - --profile-url=https://auth.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/userinfo
+            - --validate-url=https://auth.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/userinfo
+        networks:
+            - default
+            - traefik
+        deploy:
+            labels:
+                - "traefik.enable=true"
+                - "traefik.http.routers.automagistre-nsq.rule=Host(`nsq.automagistre.ru`)"
+                - "traefik.http.routers.automagistre-nsq.entrypoints=websecure"
+                - "traefik.http.routers.automagistre-nsq.tls=true"
+                - "traefik.http.routers.automagistre-nsq.tls.certresolver=leresolver"
+                - "traefik.http.services.automagistre-nsq-service.loadbalancer.server.port=80"
+
 networks:
     traefik:
         external: true
@@ -204,6 +260,3 @@ networks:
         driver: overlay
         name: automagistre
         attachable: true
-    nsq:
-        external: true
-        name: nsq
