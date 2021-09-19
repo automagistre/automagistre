@@ -56,6 +56,9 @@ name: test
 trigger:
     event:
         - push
+    branch:
+        exclude:
+            - ff
 
 depends_on:
     - build
@@ -394,6 +397,7 @@ trigger:
     branch:
         - master
         - rc
+        - ff
     event:
         - push
 
@@ -453,6 +457,7 @@ trigger:
     branch:
         - rc
         - test
+        - ff
     event:
         - push
     status:
