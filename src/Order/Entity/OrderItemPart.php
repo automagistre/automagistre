@@ -105,6 +105,7 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
         }
 
         $this->price = $price;
+        $this->discount = $price->multiply('0');
 
         $this->record(new OrderItemPartPriceChanged($this->toId()));
     }
@@ -177,13 +178,14 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
     {
         $price = $this->price->subtract($this->discount);
 
-        $discount = $priceFromCatalog->subtract($price);
+        if ($price->greaterThan($priceFromCatalog)) {
+            $this->price = $price;
+            $this->discount = $price->multiply('0');
 
-        if ($discount->isPositive()) {
-            $price = $priceFromCatalog;
+            return;
         }
 
-        $this->price = $price;
-        $this->discount = $discount->isPositive() ? $discount : $discount->multiply('0');
+        $this->price = $priceFromCatalog;
+        $this->discount = $priceFromCatalog->subtract($price);
     }
 }
