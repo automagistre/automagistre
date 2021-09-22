@@ -84,9 +84,9 @@ easy_admin:
             - { entity: 'Review', label: 'Отзывы', icon: 'comments' }
             - { label: 'Аналитика' }
             - { entity: 'PartToBuy', label: 'Закупки', icon: 'line-chart' }
-            - { label: 'Отчёты' }
-            - { entity: 'OrderProfit', label: 'Рентабельность' }
-            - { entity: 'PartSell', label: 'Продажи' }
+#            - { label: 'Отчёты' }
+#            - { entity: 'OrderProfit', label: 'Рентабельность' }
+#            - { entity: 'PartSell', label: 'Продажи' }
 
     formats:
         date: 'd.m.Y'
