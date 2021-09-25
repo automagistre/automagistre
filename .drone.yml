@@ -298,6 +298,8 @@ services:
             POSTGRES_PASSWORD: db
         tmpfs:
             - /var/lib/postgresql/data
+    -   name: redis
+        image: redis:6.2.5-alpine
 
 steps:
     -   name: wait
