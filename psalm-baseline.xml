@@ -5,6 +5,11 @@
       <code>FrameworkConfig</code>
     </UndefinedClass>
   </file>
+  <file src="config/packages/prometheus.php">
+    <UndefinedClass occurrences="1">
+      <code>ArtprimaPrometheusMetricsConfig</code>
+    </UndefinedClass>
+  </file>
   <file src="config/packages/security.php">
     <UndefinedClass occurrences="1">
       <code>SecurityConfig</code>

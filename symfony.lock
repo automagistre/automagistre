@@ -32,6 +32,20 @@
     "amphp/windows-registry": {
         "version": "v0.3.3"
     },
+    "artprima/prometheus-metrics-bundle": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "a07f1cab0b63419f2153b744a254d9d6c3d732e9"
+        },
+        "files": [
+            "config/packages/prometheus_metrics.yaml",
+            "config/packages/test/prometheus_metrics.yaml",
+            "config/routes/metrics.yaml"
+        ]
+    },
     "beberlei/doctrineextensions": {
         "version": "v1.3.0"
     },
@@ -457,6 +471,9 @@
     },
     "premier/markdown-builder": {
         "version": "0.8"
+    },
+    "promphp/prometheus_client_php": {
+        "version": "v2.3.0"
     },
     "psalm/plugin-phpunit": {
         "version": "0.15.1"

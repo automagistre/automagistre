@@ -15,6 +15,7 @@
         "ext-sockets": "*",
         "ext-uuid": "*",
         "adamgaskins/barcoder": "^0.1.0",
+        "artprima/prometheus-metrics-bundle": "^1.12",
         "beberlei/doctrineextensions": "^1.2",
         "bronhy/google-my-business-php-client": "^4.7",
         "clue/socket-raw": "^1.4",

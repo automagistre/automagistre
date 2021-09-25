@@ -24,8 +24,11 @@ services:
     nginx:
         image: automagistre/tenant-nginx:${VERSION}
         networks:
-            - default
-            - traefik
+            default:
+            traefik:
+            prometheus:
+                aliases:
+                    - automagistre
         deploy:
             mode: replicated
             replicas: 1
@@ -260,3 +263,6 @@ networks:
         driver: overlay
         name: automagistre
         attachable: true
+    prometheus:
+        external: true
+        name: prometheus
