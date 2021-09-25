@@ -213,7 +213,7 @@ final class PersonController extends OperandController
 
         $paginator = $this->get(Paginator::class)->createOrmPaginator($qb, $query->getInt('page', 1));
 
-        $data = array_map(function (Person $person): array {
+        $data = array_map(function (PersonView $person): array {
             $formattedTelephone = $this->formatTelephone($person->telephone ?? $person->officePhone);
 
             return [

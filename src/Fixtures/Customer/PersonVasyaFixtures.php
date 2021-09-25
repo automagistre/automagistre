@@ -15,6 +15,7 @@ use Doctrine\Persistence\ObjectManager;
 final class PersonVasyaFixtures extends Fixture implements DependentFixtureInterface
 {
     public const ID = '1ea91f71-dfaf-6374-837c-5e6bd0ab745f';
+    public const FIRSTNAME = 'Vasya';
 
     /**
      * {@inheritdoc}
@@ -32,7 +33,7 @@ final class PersonVasyaFixtures extends Fixture implements DependentFixtureInter
     public function load(ObjectManager $manager): void
     {
         $person = new Person(OperandId::from(self::ID));
-        $person->firstname = 'Vasya';
+        $person->firstname = self::FIRSTNAME;
 
         $this->addReference('person-1', $person);
 

@@ -6,6 +6,7 @@ namespace App\Tests\EasyAdmin\Entities\Customer;
 
 use App\Fixtures\Customer\PersonVasyaFixtures;
 use App\Tests\EasyAdminTestCase;
+use Generator;
 
 final class PersonTest extends EasyAdminTestCase
 {
@@ -116,19 +117,27 @@ final class PersonTest extends EasyAdminTestCase
 
     /**
      * @see \App\Customer\Controller\PersonController::autocompleteAction()
+     *
+     * @dataProvider autocompletes
      */
-    public function testAutocomplete(): void
+    public function testAutocomplete(string $query): void
     {
         $client = self::createClient();
 
         $client->request('GET', '/msk/?'.http_build_query([
             'action' => 'autocomplete',
             'entity' => 'Person',
-            'query' => 'bla',
+            'query' => $query,
         ]));
 
         $response = $client->getResponse();
 
         self::assertSame(200, $response->getStatusCode());
+    }
+
+    public function autocompletes(): Generator
+    {
+        yield 'Vasya' => [substr(PersonVasyaFixtures::FIRSTNAME, 0, 3)];
+        yield 'empty response' => ['bla'];
     }
 }
