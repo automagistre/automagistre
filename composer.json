@@ -28,7 +28,7 @@
         "doctrine/orm": "^2.6",
         "lcobucci/jwt": "^4.1",
         "michaelpetri/typed-input": "^1.1",
-        "mohammad-waleed/keycloak-admin-client": "^0.24.0",
+        "mohammad-waleed/keycloak-admin-client": "^0.25.0",
         "moneyphp/money": "^4.0",
         "nsq/nsq-bundle": "^0.7.2",
         "nyholm/psr7": "^1.3",
