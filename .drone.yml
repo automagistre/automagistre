@@ -106,9 +106,6 @@ steps:
         image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
         commands:
             - vendor/bin/php-cs-fixer fix --dry-run --using-cache=no --diff
-        when:
-            branch:
-                exclude: [ master ]
         depends_on:
             - install
 
@@ -116,9 +113,6 @@ steps:
         image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
         commands:
             - composer normalize --dry-run
-        when:
-            branch:
-                exclude: [ master ]
         depends_on:
             - install
 
@@ -137,9 +131,6 @@ steps:
                 | xargs -0 -n 1 sh -c 'test -z "$(tail -c 1 "$0")"
                 || (echo "No new line at end of $0" && exit 1)'
                 || exit 1
-        when:
-            branch:
-                exclude: [ master ]
         depends_on:
             - install
 
@@ -147,9 +138,6 @@ steps:
         image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
         commands:
             - vendor/bin/requirements-checker
-        when:
-            branch:
-                exclude: [ master ]
         depends_on:
             - install
 
@@ -187,8 +175,6 @@ steps:
         image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
         commands:
             - vendor/bin/psalm --show-info=false --no-progress
-        when:
-            event: [ push ]
         depends_on:
             - install
 
