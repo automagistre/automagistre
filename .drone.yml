@@ -165,8 +165,6 @@ steps:
         command:
             - security:check
         when:
-            event:
-                - cron
             cron:
                 - nightly
 
@@ -244,8 +242,6 @@ steps:
         depends_on:
             - phpunit
         when:
-            event:
-                - cron
             cron:
                 - nightly
 
@@ -273,8 +269,6 @@ steps:
             -   name: sonarqube
                 path: /opt/sonarqube
         when:
-            event:
-                - cron
             cron:
                 - nightly
         depends_on:
