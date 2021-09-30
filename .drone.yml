@@ -5,7 +5,8 @@ name: build
 
 trigger:
     event:
-        - push
+        exclude:
+            - pull_request
 
 clone:
     depth: 0
@@ -55,7 +56,8 @@ name: test
 
 trigger:
     event:
-        - push
+        exclude:
+            - pull_request
     branch:
         exclude:
             - ff
@@ -163,8 +165,10 @@ steps:
         command:
             - security:check
         when:
-            branch:
-                exclude: [ master ]
+            event:
+                - cron
+            cron:
+                - nightly
 
     -   name: symfony linters
         image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
@@ -239,6 +243,11 @@ steps:
         failure: ignore
         depends_on:
             - phpunit
+        when:
+            event:
+                - cron
+            cron:
+                - nightly
 
     -   name: logs
         image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
@@ -264,7 +273,10 @@ steps:
             -   name: sonarqube
                 path: /opt/sonarqube
         when:
-            branch: master
+            event:
+                - cron
+            cron:
+                - nightly
         depends_on:
             - phpunit
 
@@ -275,7 +287,8 @@ name: e2e
 
 trigger:
     event:
-        - push
+        exclude:
+            - pull_request
 
 depends_on:
     - build
@@ -498,7 +511,8 @@ trigger:
             - master
             - rc
     event:
-        - push
+        exclude:
+            - pull_request
     status:
         - success
         - failure
