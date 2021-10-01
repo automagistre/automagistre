@@ -223,7 +223,6 @@ steps:
                 --min-covered-msi=67
                 --coverage=var/coverage
                 --skip-initial-tests
-        failure: ignore
         depends_on:
             - phpunit
         when:
