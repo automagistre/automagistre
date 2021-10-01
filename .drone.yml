@@ -213,7 +213,6 @@ steps:
 
     -   name: infection
         image: automagistre/tenant-php:base-${DRONE_BUILD_NUMBER}
-        detach: true
         commands:
             - >-
                 vendor/bin/infection
