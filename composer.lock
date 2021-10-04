@@ -1281,16 +1281,16 @@
         },
         {
             "name": "cron/cron",
-            "version": "1.5.1",
+            "version": "1.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Cron/Cron.git",
-                "reference": "7f2040ecee55adb1acfebf90ee123514c0aa1e56"
+                "reference": "3c67291b6d21e9e2c99cf58733f9ad7cb4fe00c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Cron/Cron/zipball/7f2040ecee55adb1acfebf90ee123514c0aa1e56",
-                "reference": "7f2040ecee55adb1acfebf90ee123514c0aa1e56",
+                "url": "https://api.github.com/repos/Cron/Cron/zipball/3c67291b6d21e9e2c99cf58733f9ad7cb4fe00c4",
+                "reference": "3c67291b6d21e9e2c99cf58733f9ad7cb4fe00c4",
                 "shasum": ""
             },
             "require": {
@@ -1324,9 +1324,9 @@
             "description": "Cronjobs",
             "support": {
                 "issues": "https://github.com/Cron/Cron/issues",
-                "source": "https://github.com/Cron/Cron/tree/1.5.1"
+                "source": "https://github.com/Cron/Cron/tree/1.5.2"
             },
-            "time": "2021-06-07T21:31:25+00:00"
+            "time": "2021-10-03T20:49:16+00:00"
         },
         {
             "name": "cron/cron-bundle",
