@@ -41,6 +41,41 @@
                 <file name="src/Site/MutationType.php"/>
             </errorLevel>
         </MissingClosureParamType>
+        <DeprecatedClass>
+            <errorLevel type="info">
+                <directory name="src"/>
+            </errorLevel>
+        </DeprecatedClass>
+        <DeprecatedConstant>
+            <errorLevel type="info">
+                <directory name="src"/>
+            </errorLevel>
+        </DeprecatedConstant>
+        <DeprecatedFunction>
+            <errorLevel type="info">
+                <directory name="src"/>
+            </errorLevel>
+        </DeprecatedFunction>
+        <DeprecatedInterface>
+            <errorLevel type="info">
+                <directory name="src"/>
+            </errorLevel>
+        </DeprecatedInterface>
+        <DeprecatedMethod>
+            <errorLevel type="info">
+                <directory name="src"/>
+            </errorLevel>
+        </DeprecatedMethod>
+        <DeprecatedProperty>
+            <errorLevel type="info">
+                <directory name="src"/>
+            </errorLevel>
+        </DeprecatedProperty>
+        <DeprecatedTrait>
+            <errorLevel type="info">
+                <directory name="src"/>
+            </errorLevel>
+        </DeprecatedTrait>
     </issueHandlers>
 
     <plugins>
