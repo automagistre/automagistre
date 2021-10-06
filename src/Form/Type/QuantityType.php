@@ -30,7 +30,8 @@ final class QuantityType extends AbstractType
                     0 > $quantity => throw new TransformationFailedException(invalidMessage: 'Значение не может быть меньше нуля.'),
                     default => $quantity,
                 },
-            ));
+            ))
+        ;
     }
 
     /**
