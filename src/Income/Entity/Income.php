@@ -11,7 +11,6 @@ use App\Tenant\Entity\TenantEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use LogicException;
 use Money\Currency;
 use Money\Money;
 
@@ -131,9 +130,9 @@ class Income extends TenantEntity implements ContainsRecordedMessages
         return null !== $this->accrue;
     }
 
-    public function getAccrue(): IncomeAccrue
+    public function getAccrue(): ?IncomeAccrue
     {
-        return $this->accrue ?? throw new LogicException('Income must be accrued first.');
+        return $this->accrue;
     }
 
     public function getTotalPrice(): Money
