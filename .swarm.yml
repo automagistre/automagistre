@@ -8,18 +8,18 @@ services:
         deploy:
             labels:
                 - "traefik.enable=true"
-                - "traefik.http.routers.automagistre-crm-redirect.rule=Host(`msk.automagistre.ru`, `kazan.automagistre.ru`, `shavlev.automagistre.ru`, `whoami.automagistre.ru`)"
-                - "traefik.http.routers.automagistre-crm-redirect.entrypoints=websecure"
-                - "traefik.http.routers.automagistre-crm-redirect.tls=true"
-                - "traefik.http.routers.automagistre-crm-redirect.tls.certresolver=leresolver"
-                - "traefik.http.routers.automagistre-crm-redirect.middlewares=automagistre-crm-redirect-ymap,automagistre-crm-redirect"
-                - "traefik.http.middlewares.automagistre-crm-redirect-ymap.redirectregex.regex=^https://(msk|kazan|shavlev).automagistre.ru/r/ymap"
-                - "traefik.http.middlewares.automagistre-crm-redirect-ymap.redirectregex.replacement=https://r.automagistre.ru/$$1/ymap"
-                - "traefik.http.middlewares.automagistre-crm-redirect-ymap.redirectregex.permanent=true"
-                - "traefik.http.middlewares.automagistre-crm-redirect.redirectregex.regex=^https://(msk|kazan|shavlev).automagistre.ru/(.*)"
-                - "traefik.http.middlewares.automagistre-crm-redirect.redirectregex.replacement=https://crm.automagistre.ru/$$1/$$2"
-                - "traefik.http.middlewares.automagistre-crm-redirect.redirectregex.permanent=true"
-                - "traefik.http.services.automagistre-crm-redirect-service.loadbalancer.server.port=80"
+                - "traefik.http.routers.automagistre-crm-redirect-old.rule=Host(`msk.automagistre.ru`, `kazan.automagistre.ru`, `shavlev.automagistre.ru`, `whoami.automagistre.ru`)"
+                - "traefik.http.routers.automagistre-crm-redirect-old.entrypoints=websecure"
+                - "traefik.http.routers.automagistre-crm-redirect-old.tls=true"
+                - "traefik.http.routers.automagistre-crm-redirect-old.tls.certresolver=leresolver"
+                - "traefik.http.routers.automagistre-crm-redirect-old.middlewares=automagistre-crm-redirect-old-ymap,automagistre-crm-redirect-old"
+                - "traefik.http.middlewares.automagistre-crm-redirect-old-ymap.redirectregex.regex=^https://(msk|kazan|shavlev).automagistre.ru/r/ymap"
+                - "traefik.http.middlewares.automagistre-crm-redirect-old-ymap.redirectregex.replacement=https://r.automagistre.ru/$$1/ymap"
+                - "traefik.http.middlewares.automagistre-crm-redirect-old-ymap.redirectregex.permanent=true"
+                - "traefik.http.middlewares.automagistre-crm-redirect-old.redirectregex.regex=^https://(msk|kazan|shavlev).automagistre.ru/(.*)"
+                - "traefik.http.middlewares.automagistre-crm-redirect-old.redirectregex.replacement=https://crm.automagistre.ru/$$1/$$2"
+                - "traefik.http.middlewares.automagistre-crm-redirect-old.redirectregex.permanent=true"
+                - "traefik.http.services.automagistre-crm-redirect-old-service.loadbalancer.server.port=80"
 
     nginx:
         image: automagistre/tenant-nginx:${VERSION}
@@ -39,7 +39,15 @@ services:
                 order: start-first
             labels:
                 - "traefik.enable=true"
-                - "traefik.http.routers.automagistre-crm-callback.rule=Host(`crm.automagistre.ru`, `callback.automagistre.ru`, `r.automagistre.ru`)"
+                - "traefik.http.routers.automagistre-crm.rule=Host(`crm.automagistre.ru`)"
+                - "traefik.http.routers.automagistre-crm.entrypoints=websecure"
+                - "traefik.http.routers.automagistre-crm.tls=true"
+                - "traefik.http.routers.automagistre-crm.tls.certresolver=leresolver"
+                - "traefik.http.routers.automagistre-crm-redirect.rule=Host(`r.automagistre.ru`)"
+                - "traefik.http.routers.automagistre-crm-redirect.entrypoints=websecure"
+                - "traefik.http.routers.automagistre-crm-redirect.tls=true"
+                - "traefik.http.routers.automagistre-crm-redirect.tls.certresolver=leresolver"
+                - "traefik.http.routers.automagistre-crm-callback.rule=Host(`callback.automagistre.ru`)"
                 - "traefik.http.routers.automagistre-crm-callback.entrypoints=websecure"
                 - "traefik.http.routers.automagistre-crm-callback.tls=true"
                 - "traefik.http.routers.automagistre-crm-callback.tls.certresolver=leresolver"
