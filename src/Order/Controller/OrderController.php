@@ -9,6 +9,8 @@ use App\Calendar\Entity\EntryOrder;
 use App\Calendar\Repository\CalendarEntryRepository;
 use App\Car\Entity\Car;
 use App\Car\Entity\CarId;
+use App\Car\Entity\Recommendation;
+use App\Car\Entity\RecommendationPart;
 use App\CreatedBy\Entity\CreatedBy;
 use App\Customer\Entity\CustomerTransactionView;
 use App\Customer\Entity\CustomerView;
@@ -398,6 +400,37 @@ final class OrderController extends AbstractController
                 ) => $left->created->at <=> $right->created->at,
             );
             $parameters['transactions'] = $transactions;
+
+            /** @var PartId[] $recPartIds */
+            $recPartIds = array_merge(
+                ...array_map(
+                    static function (Recommendation $r): array {
+                        return array_map(static fn (RecommendationPart $rp) => $rp->partId, $r->getParts());
+                    },
+                    $parameters['car']?->getRecommendations() ?? [],
+                ),
+            );
+            /** @var PartId[] $orderPartIds */
+            $orderPartIds = $em->createQueryBuilder()
+                ->select('oip.partId')
+                ->from(OrderItemPart::class, 'oip')
+                ->where('oip.order = :order')
+                ->getQuery()
+                ->setParameter('order', $entity)
+                ->getResult()
+            ;
+            $partIds = array_merge($recPartIds, $orderPartIds);
+            $parameters['parts'] = [] === $partIds
+                ? []
+                : $em->createQueryBuilder()
+                    ->select('t')
+                    ->from(PartView::class, 't', 't.id')
+                    ->leftJoin('t.analogs', 'a')
+                    ->where('t.id IN (:partId)')
+                    ->getQuery()
+                    ->setParameter('partId', $partIds)
+                    ->getResult()
+                ;
         }
 
         return parent::renderTemplate($actionName, $templatePath, $parameters);

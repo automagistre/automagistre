@@ -306,7 +306,7 @@ final class PartController extends AbstractController
             foreach ($currentPageResults as $part) {
                 $data[$part->toId()->toString()] = $normalizer($part);
 
-                $analogs = [...$analogs, ...$part->analogs->toArray()];
+                $analogs = [...$analogs, ...array_values($part->analogs->toArray())];
             }
         } else {
             $data = array_map($normalizer, $currentPageResults);

@@ -1,7 +1,7 @@
 {# @var item \App\Order\Entity\OrderItemPart #}
 
 {# @var partView \App\Part\Entity\PartView #}
-{% set partView = part_view(item.partId) %}
+{% set partView = parts[item.partId.toString] %}
 
 {%- apply spaceless -%}
 

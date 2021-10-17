@@ -98,7 +98,7 @@ class PartView extends TenantEntity
     /**
      * @var Collection<int, PartView>
      *
-     * @ORM\ManyToMany(targetEntity=PartView::class)
+     * @ORM\ManyToMany(targetEntity=PartView::class, indexBy="id")
      * @ORM\JoinTable(name="part_analog_view",
      *     joinColumns={@ORM\JoinColumn(name="part_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="analog_id", referencedColumnName="id")}

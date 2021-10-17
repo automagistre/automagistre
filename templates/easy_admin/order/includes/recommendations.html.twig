@@ -86,7 +86,8 @@
 
                             {% for recommendationPart in recommendation.parts %}
                                 {# @var recommendationPart \App\Entity\CarRecommendationPart #}
-                                {% set part = part_view(recommendationPart.partId) %}
+
+                                {% set part = parts[recommendationPart.partId.toString] %}
 
                                 {{ '</tr><tr>' }}
                                 <td style="padding-left: 40px">
@@ -96,9 +97,9 @@
                                     x {{ recommendationPart.price|localize_money }}</td>
                                 <td>{{ recommendationPart.price.multiply(recommendationPart.quantity / 100)|localize_money }}</td>
                                 <td>
-                                    {% set reservable = part_reservable(recommendationPart.partId) %}
                                     {% set reserved = part.reserved %}
                                     {% set inStock = part.quantity %}
+                                    {% set reservable = inStock - part.reserved %}
                                     {% set required = recommendationPart.quantity %}
 
                                     {% if reservable >= required %}
@@ -129,16 +130,14 @@
                                     }) }}">
                                         <i class="fa fa-pencil"></i>
                                     </a>
-                                    {% if part_crosses_in_stock(part.toId()) is not empty %}
-                                        {{- '&nbsp;'|raw -}}
+                                    {{- '&nbsp;'|raw -}}
 
-                                        <a href="{{ easyadmin_path('CarRecommendationPart', 'substitute', {
-                                            'id': recommendationPart|toId,
-                                            'referer': true
-                                        }) }}">
-                                            <i class="fa fa-recycle" style="color: green"></i>
-                                        </a>
-                                    {% endif %}
+                                    <a href="{{ easyadmin_path('CarRecommendationPart', 'substitute', {
+                                        'id': recommendationPart|toId,
+                                        'referer': true
+                                    }) }}">
+                                        <i class="fa fa-recycle" style="color: green"></i>
+                                    </a>
                                 </td>
                                 <td>
                                     <span class="created-by" style="display: none">

@@ -47,20 +47,16 @@ final class RecommendationPartController extends AbstractController
         $partId = $recommendationPart->partId;
         /** @var PartView $part */
         $part = $this->registry->getBy(PartView::class, ['id' => $partId]);
-        /** @var PartView[] $crosses */
-        $crosses = $this->partManager->crossesInStock($partId);
 
-        if ([] === $crosses) {
+        if ($part->analogs->isEmpty()) {
             $this->addFlash('error', sprintf('У запчасти "%s" нет аналогов.', $this->display($partId)));
 
             return $this->redirectToReferrer();
         }
 
-        $crosses[$part->toId()->toString()] = $part;
-
         /** @var FormInterface[] $forms */
         $forms = [];
-        foreach ($crosses as $crossId => $cross) {
+        foreach ($part->analogs as $crossId => $cross) {
             $isCurrent = $partId->equals($cross->toId());
 
             $partOffer = new PartOfferDto();
@@ -134,7 +130,7 @@ final class RecommendationPartController extends AbstractController
 
         return $this->render('easy_admin/car_recommendation_part/substitute.html.twig', [
             'part' => $part,
-            'crosses' => $crosses,
+            'crosses' => $part->analogs->toArray(),
             'forms' => $forms,
         ]);
     }

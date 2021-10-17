@@ -35,9 +35,6 @@ final class PartExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('part_crosses_in_stock', fn (
-                PartId $partId,
-            ): array => $this->partManager->crossesInStock($partId)),
             new TwigFunction('part_reserved_in_item', fn (
                 OrderItemPart $part,
             ): int => $this->reservationManager->reserved($part)),
