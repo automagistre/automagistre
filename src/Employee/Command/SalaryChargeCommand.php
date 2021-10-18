@@ -12,12 +12,10 @@ use App\Employee\Entity\Employee;
 use App\Employee\Entity\SalaryView;
 use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Event\ConsoleErrorEvent;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Throwable;
 use function date;
 
 /**
@@ -50,13 +48,7 @@ final class SalaryChargeCommand extends Command
         /** @var string $payday */
         $payday = $input->getArgument('payday') ?? date('j');
 
-        try {
-            $this->paySalary($payday);
-        } catch (Throwable $e) {
-            $event = new ConsoleErrorEvent($input, $output, $e, $this);
-
-            $this->dispatcher->dispatch($event);
-        }
+        $this->paySalary($payday);
 
         return 0;
     }
@@ -69,7 +61,7 @@ final class SalaryChargeCommand extends Command
             ->join(Employee::class, 'employee', Join::WITH, 'employee.id = entity.employeeId')
             ->where('employee.firedAt IS NULL')
             ->andWhere('entity.payday = :payday')
-            ->andWhere('entity.ended IS NULL')
+            ->andWhere('entity.ended.at IS NULL')
             ->getQuery()
             ->setParameter('payday', $payday)
             ->getResult()
