@@ -1330,16 +1330,16 @@
         },
         {
             "name": "cron/cron-bundle",
-            "version": "2.6.0",
+            "version": "2.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Cron/Symfony-Bundle.git",
-                "reference": "cd262828ebefe82358827fdbf1773417913a0721"
+                "reference": "cb552968a94f57acd98a4a8d7adeae099d57c7bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Cron/Symfony-Bundle/zipball/cd262828ebefe82358827fdbf1773417913a0721",
-                "reference": "cd262828ebefe82358827fdbf1773417913a0721",
+                "url": "https://api.github.com/repos/Cron/Symfony-Bundle/zipball/cb552968a94f57acd98a4a8d7adeae099d57c7bf",
+                "reference": "cb552968a94f57acd98a4a8d7adeae099d57c7bf",
                 "shasum": ""
             },
             "require": {
@@ -1380,9 +1380,9 @@
             "description": "Symfony cron",
             "support": {
                 "issues": "https://github.com/Cron/Symfony-Bundle/issues",
-                "source": "https://github.com/Cron/Symfony-Bundle/tree/2.6.0"
+                "source": "https://github.com/Cron/Symfony-Bundle/tree/2.7.0"
             },
-            "time": "2021-03-08T14:05:11+00:00"
+            "time": "2021-10-16T17:56:41+00:00"
         },
         {
             "name": "datto/json-rpc",
