@@ -1,5 +1,0 @@
-framework:
-    validation:
-        email_validation_mode: strict
-        enable_annotations: true
-        auto_mapping: [null]

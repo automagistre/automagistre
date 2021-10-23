@@ -1,9 +1,0 @@
-Заказывать
-до <strong>{{ item.orderUpToQuantity / 100 }}</strong>
-когда на складе осталось <strong>{{ item.orderFromQuantity / 100 }}</strong>
-
-<div class="pull-right">
-    <a class="btn btn-xs btn-info" href="{{ easyadmin_path('PartRequiredAvailability', 'new', {'part_id': item|toId}) }}">
-        Изменить
-    </a>
-</div>

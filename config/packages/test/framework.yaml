@@ -1,9 +1,0 @@
-framework:
-    test: ~
-    session:
-        storage_id: session.storage.mock_file
-    profiler:
-        collect: false
-
-parameters:
-    env(APP_SECRET): ThisIsVerySuperSecretVariableForTests

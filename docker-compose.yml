@@ -1,33 +1,6 @@
 version: '3.7'
 
 services:
-    nginx:
-        image: automagistre/tenant-nginx:base
-        labels:
-            ru.grachevko.dhu: '{callback,r,crm}.automagistre.local'
-        volumes:
-            - ./public:/usr/local/app/public
-            - ./etc/nginx.conf:/etc/nginx/nginx.conf
-            - ./etc/nginx.cors.conf:/etc/nginx/cors.conf
-            - ./etc/nginx.cors-setup.conf:/etc/nginx/cors.setup.conf
-
-    php-fpm:
-        image: automagistre/tenant-php:base
-        volumes:
-            - ./:/usr/local/app
-            - ./etc/php.ini:/usr/local/etc/php/php.ini
-            - ./etc/php-fpm.conf:/usr/local/etc/php-fpm.conf
-            - ./etc/php-fpm.www.conf:/usr/local/etc/php-fpm.d/www.conf
-        environment:
-            PHP_OPCACHE_ENABLE: 0
-            APP_ENV: dev
-            APP_DEBUG: 1
-
-    rector:
-        image: automagistre/tenant-rector:latest
-        volumes:
-            - ./:/project
-
     postgres:
         image: postgres:13.4-alpine
         labels:
@@ -52,29 +25,6 @@ services:
                 target: /data
                 tmpfs:
                     size: 64mb
-
-    host.docker.internal:
-        image: alpine/socat:1.7.3.4-r0
-        entrypoint: sh
-        command: -c "socat tcp-listen:9000,fork,reuseaddr tcp-connect:$$(/sbin/ip route|awk '/default/ { print $$3 }'):9000"
-
-    nsqd:
-        image: nsqio/nsq:v1.2.0
-        command: /nsqd
-
-    nsq_tail:
-        image: nsqio/nsq:v1.2.0
-        command:
-            - /nsq_tail
-            - -topic=symfony-messenger
-            - -channel=tail
-            - -nsqd-tcp-address=nsqd:4150
-
-    nsqadmin:
-        image: nsqio/nsq:v1.2.0
-        command: /nsqadmin --nsqd-http-address=nsqd:4151 --http-address=0.0.0.0:80
-        labels:
-            ru.grachevko.dhu: 'nsq.automagistre.local'
 
     hasura:
         image: hasura/graphql-engine:v2.0.7

@@ -1,19 +1,9 @@
 # git
 .git
 
-# Symfony
-var
-public/bundles
-.env
-.env.*
-src/Fixtures
-
-# Composer
-vendor
-
 # Node
 /node_modules
-/public/assets/build
+/build
 
 # Docker
 docker-compose.*

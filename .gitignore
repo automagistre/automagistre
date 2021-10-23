@@ -1,22 +1,8 @@
 # Dev
 /.idea/
 /docker-compose.override.yml
-/config/routes/dev/test.yaml
-/src/Command/TestCommand.php
-/src/Controller/TestController.php
-/templates/test.html.twig
-/public/phpmetrics
-
-# Symfony
-/.env
-/.env.local
-/.env.local.php
-/.env.*.local
-/public/bundles/
 /var/
-/vendor/
-.phpunit.result.cache
 
 # Node
 /node_modules
-/public/assets/build
+/build

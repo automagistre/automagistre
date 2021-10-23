@@ -33,7 +33,7 @@ flag: ## Remove code between //> ${FLAG} and //< ${FLAG} - require FLAG env
 	find bin config etc public src templates tests -type f -exec sed -i '/\/\/> ${FLAG}/,/\/\/< ${FLAG}/d' {} +
 	grep -rl "//- ${FLAG}" bin config etc public src templates tests | xargs rm
 contrib:
-	$(DEBUG_ECHO) @cp -n -r contrib/.env contrib/* ./ || true
+	$(DEBUG_ECHO) @cp -n -r contrib/* ./ || true
 
 docker-hosts-updater:
 	$(DEBUG_ECHO) docker pull grachev/docker-hosts-updater
@@ -57,7 +57,7 @@ up: do-up ## Up project
 	@$(notify)
 latest: do-up backup-latest permissions ## Up project with latest backup from server
 	@$(notify)
-cli: ## Get terminal inside php container
+cli: ## Get terminal inside app container
 	$(APP) sh
 cli-root: UID=root
 cli-root:
@@ -67,9 +67,6 @@ down: ## Stop and remove all containers, volumes and networks
 	$(DEBUG_ECHO) docker-compose down -v --remove-orphans
 ###< ALIASES ###
 
-rector:
-	$(DEBUG_ECHO) docker-compose run --rm rector
-
 ###> APP ###
 APP = $(DEBUG_ECHO) @docker-compose $(if $(EXEC),exec,run --rm )\
 	$(if $(ENTRYPOINT),--entrypoint "$(ENTRYPOINT)" )\
@@ -78,76 +75,21 @@ APP = $(DEBUG_ECHO) @docker-compose $(if $(EXEC),exec,run --rm )\
 	--user $(if $(UID),${UID},1000)\
 	php-fpm
 
-COMPOSER = $(APP) composer
-
 PERMISSIONS = chown $(shell id -u):$(shell id -g) -R . && chmod 777 -R var/
 permissions: UID=root
 permissions: ## Fix file permissions in project
-	$(APP) sh -c "$(PERMISSIONS) || true"
+	sudo $(PERMISSIONS)
 	$(call OK,"Permissions fixed.")
 
-composer: ### composer install
-	$(COMPOSER) install
-
-outdated: ## Show outdated composer packages
-	$(COMPOSER) $@
-
-migration: ## Run migrations
-	$(COMPOSER) $@
-
-migration-generate: ## Generate empty migration
-	$(COMPOSER) $@
-migration-rollback:latest = $(shell make app-cli CMD="console doctrine:migration:latest" | tr '\r' ' ')
-migration-rollback:
-	$(APP) console doctrine:migration:execute --down $(latest) --no-interaction
-
-migration-diff: ## Generate diff migrations for database
-	$(COMPOSER) $@
-migration-diff-dry:
-	$(COMPOSER) $@
-
-schema: ### Validate database schema
-	$(COMPOSER) $@
-
 test: ## Run all checks and tests
-	$(COMPOSER) $@
+	# todo
 
-php-cs-fixer: ### Fix coding style
-	$(COMPOSER) $@
+###< APP ###
 
-phpstan: ### Run phpstan
-	$(COMPOSER) $@
-phpstan-baseline: ### Update phpstan baseline
-	$(COMPOSER) $@
-
-phpunit: ### Run phpunit
-	$(COMPOSER) $@
-paratest: ### Run phpunit in parallel
-	$(COMPOSER) $@
-
-phpmetrics: ## Generate phpmetrics to public/phpmetrics folder
-	$(COMPOSER) $@
-
-requirements: ### Check symfony requirements
-	$(COMPOSER) symfony-requirements
-
-psalm: ### Run psalm
-	$(COMPOSER) $@
-psalm-baseline: ### Update psalm baseline
-	$(COMPOSER) $@
-
-cache: ## Clear then warmup symfony cache
-	$(COMPOSER) $@
-database: ### Drop database then restore from migrations
-	$(COMPOSER) $@
-
-fixtures: ### Load fixtures to database
-	$(COMPOSER) $@
+###> DATABASE ###
 
 backup: ### Restore local backup then run migrations
-	@$(MAKE) database
 	@$(MAKE) backup-restore
-	$(COMPOSER) migration
 	@$(notify)
 backup-update: backup-fresh backup-download backup ### Backup production database then download and restore it
 backup-latest: backup-download backup ### Download latest backup from server then restore it
@@ -161,14 +103,6 @@ do-backup-download:
 	$(DEBUG_ECHO) @scp -q -o LogLevel=QUIET ${BACKUP_SERVER}:$$(ssh ${BACKUP_SERVER} ls -t /opt/am/backups/postgres/*automagistre.sql.gz | head -1) $(backup_file)
 	$(call OK,"Backup automagistre.sql.gz downloaded.")
 
-drop: drop-connection do-drop ### Drop database
-drop-connection:
-	$(APP) console doctrine:query:sql "SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = 'db$(if $(filter test,$(APP_ENV)),_test)' AND pid <> pg_backend_pid();" || true
-do-drop:
-	$(APP) sh -c "console doctrine:database:drop --if-exists --force && console doctrine:database:create"
-###< APP ###
-
-###> DATABASE ###
 DB=$(DEBUG_ECHO) @docker-compose exec -w /usr/local/app postgres
 
 backup_file = var/backups/automagistre.sql.gz

@@ -1,5 +1,0 @@
-{% if withUser is not defined or withUser %}
-    {{ value.by|display_name }}
-{% endif %}
-
-{{ value.at|format_datetime('short', 'short', '', 'GMT+3') }}
