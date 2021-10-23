@@ -1,0 +1,53 @@
+table:
+    name: part
+    schema: public
+object_relationships:
+    -   name: manufacturer
+        using:
+            foreign_key_constraint_on: manufacturer_id
+    -   name: unitByUnit
+        using:
+            foreign_key_constraint_on: unit
+insert_permissions:
+    -   permission:
+            backend_only: false
+            check: { }
+            columns:
+                - comment
+                - manufacturer_id
+                - name
+                - number
+                - unit
+                - universal
+        role: manager
+select_permissions:
+    -   permission:
+            allow_aggregations: true
+            columns:
+                - comment
+                - created_at
+                - id
+                - manufacturer_id
+                - name
+                - number
+                - unit
+                - universal
+                - updated_at
+            filter: { }
+        role: manager
+update_permissions:
+    -   permission:
+            check: { }
+            columns:
+                - comment
+                - manufacturer_id
+                - name
+                - number
+                - unit
+                - universal
+            filter: { }
+        role: manager
+delete_permissions:
+    -   permission:
+            filter: { }
+        role: manager

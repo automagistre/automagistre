@@ -1,0 +1,30 @@
+table:
+    name: tenant
+    schema: public
+object_relationships:
+    -   name: tenant_group
+        using:
+            foreign_key_constraint_on: group_id
+array_relationships:
+    -   name: tenant_permissions
+        using:
+            foreign_key_constraint_on:
+                column: tenant_id
+                table:
+                    name: tenant_permission
+                    schema: public
+select_permissions:
+    -   permission:
+            allow_aggregations: true
+            columns:
+                - created_at
+                - name
+                - group_id
+                - id
+                - identifier
+                - updated_at
+            filter:
+                tenant_permissions:
+                    user_id:
+                        _eq: X-Hasura-User-Id
+        role: manager

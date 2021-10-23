@@ -1,25 +1,41 @@
 version: '3.7'
 
 services:
-    postgres:
-        image: postgres:13.4-alpine
+    react-admin:
+        image: automagistre/automagistre:node-base
+        extra_hosts:
+            - crm-next.automagistre.local:0.0.0.0
         labels:
-            ru.grachevko.dhu: 'postgres.automagistre.local'
+            ru.grachevko.dhu: 'crm-next.automagistre.local'
+        command: npm run start
+        environment:
+            HOST: crm-next.automagistre.local
+            PORT: 80
+        volumes:
+            - ./:/app
+        working_dir: /app
+        user: ${UID:-1000}:${GID:-1000}
+
+    postgres:
+        image: postgres:14.0-alpine
+        labels:
+            ru.grachevko.dhu: 'postgres-next.automagistre.local'
         volumes:
             -   type: tmpfs
                 target: /var/lib/postgresql/data
                 tmpfs:
                     size: 2G
-            - ./:/usr/local/app
+            - ./:/app
         environment:
-            POSTGRES_DB: db
-            POSTGRES_USER: db
-            POSTGRES_PASSWORD: db
+            POSTGRES_DB: automagistre
+            POSTGRES_USER: root
+            POSTGRES_PASSWORD: root
+            PGDATABASE: automagistre
 
     redis:
         image: redis:6.2.5-alpine
         labels:
-            ru.grachevko.dhu: 'redis.automagistre.local'
+            ru.grachevko.dhu: 'redis-next.automagistre.local'
         volumes:
             -   type: tmpfs
                 target: /data
@@ -27,24 +43,47 @@ services:
                     size: 64mb
 
     hasura:
-        image: hasura/graphql-engine:v2.0.7
+        image: hasura/graphql-engine:v2.0.9.cli-migrations-v3
+        labels:
+            ru.grachevko.dhu: 'api-next.automagistre.local'
         command:
             - graphql-engine
             - serve
             - --server-port=80
             - --unauthorized-role=anonymous
             - --cors-domain=*
+            - --admin-internal-errors=true
         environment:
-            HASURA_GRAPHQL_DATABASE_URL: postgres://db:db@postgres:5432/db
-            HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:db@postgres:5432/hasura
-            HASURA_GRAPHQL_ENABLE_CONSOLE: 'true'
+            HASURA_GRAPHQL_DATABASE_URL: postgres://automagistre:automagistre@postgres:5432/automagistre
+            HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://hasura:hasura@postgres:5432/automagistre
             HASURA_GRAPHQL_DEV_MODE: 'true'
             HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
             HASURA_GRAPHQL_JWT_SECRET: '{"jwk_url": "https://auth.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/certs"}'
             HASURA_GRAPHQL_ADMIN_SECRET: admin
+        networks:
+            default:
+                aliases:
+                    - api-next.automagistre.local
+
+    hasura-console:
+        image: hasura/graphql-engine:v2.0.9.cli-migrations-v3
+        extra_hosts:
+            - api-console.automagistre.local:0.0.0.0
         labels:
-            ru.grachevko.dhu: 'api.automagistre.local'
+            ru.grachevko.dhu: 'api-console.automagistre.local'
+        entrypoint: hasura-cli
+        command:
+            - console
+            - --address=api-console.automagistre.local
+            - --console-port=80
+        environment:
+            HASURA_GRAPHQL_ADMIN_SECRET: admin
+        working_dir: /app
+        volumes:
+            - ./:/app
+            - ./var/hasura:/.hasura
+        user: ${UID:-1000}:${GID:-1000}
 
 networks:
     default:
-        name: automagistre
+        name: automagistre-next

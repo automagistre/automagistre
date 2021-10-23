@@ -1,6 +1,114 @@
 ---
 kind: pipeline
 type: docker
+name: build
+
+trigger:
+    event:
+        exclude:
+            - pull_request
+
+clone:
+    depth: 0
+
+volumes:
+    -   name: docker.sock
+        host:
+            path: /var/run/docker.sock
+
+environment:
+    DOCKER_CONFIG: /drone/src/.docker
+
+steps:
+    - &docker
+        name: node base
+        image: automagistre/docker:stable
+        volumes:
+            -   name: docker.sock
+                path: /var/run/docker.sock
+        commands:
+            - docker build -t ${DRONE_REPO}:node-base-${DRONE_BUILD_NUMBER} --progress=plain --target node-base .
+
+    -   <<: *docker
+        name: nginx base
+        commands:
+            - docker build -t ${DRONE_REPO}:nginx-base-${DRONE_BUILD_NUMBER} --progress=plain --target nginx-base .
+
+    -   <<: *docker
+        name: nginx
+        commands:
+            - docker build -t ${DRONE_REPO}:${DRONE_BUILD_NUMBER} --progress=plain --target nginx .
+        depends_on:
+            - node base
+            - nginx base
+
+---
+kind: pipeline
+type: docker
+name: push
+
+trigger:
+    branch:
+        - master
+        - next
+    event:
+        - push
+
+clone:
+    depth: 0
+
+depends_on:
+    - build
+
+volumes:
+    -   name: docker.sock
+        host:
+            path: /var/run/docker.sock
+
+environment:
+    DOCKER_CONFIG: /drone/src/.docker
+
+steps:
+    -   name: docker login
+        image: automagistre/docker:stable
+        volumes:
+            -   name: docker.sock
+                path: /var/run/docker.sock
+        commands:
+            - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        environment:
+            DOCKER_USERNAME:
+                from_secret: docker_username
+            DOCKER_PASSWORD:
+                from_secret: docker_password
+
+    -   name: node base
+        image: automagistre/docker:stable
+        volumes:
+            -   name: docker.sock
+                path: /var/run/docker.sock
+        commands:
+            - docker tag ${DRONE_REPO}:node-base-${DRONE_BUILD_NUMBER} ${DRONE_REPO}:node-base
+            - docker push ${DRONE_REPO}:node-base
+            - docker rmi ${DRONE_REPO}:node-base-${DRONE_BUILD_NUMBER}
+        depends_on:
+            - docker login
+
+    -   name: nginx base
+        image: automagistre/docker:stable
+        volumes:
+            -   name: docker.sock
+                path: /var/run/docker.sock
+        commands:
+            - docker tag ${DRONE_REPO}:nginx-base-${DRONE_BUILD_NUMBER} ${DRONE_REPO}:nginx-base
+            - docker push ${DRONE_REPO}:nginx-base
+            - docker rmi ${DRONE_REPO}:nginx-base-${DRONE_BUILD_NUMBER}
+        depends_on:
+            - docker login
+
+---
+kind: pipeline
+type: docker
 name: deploy
 
 trigger:
@@ -8,11 +116,15 @@ trigger:
         - master
         - rc
         - ff
+        - next
     event:
         - push
 
 clone:
     depth: 0
+
+depends_on:
+    - build
 
 volumes:
     -   name: docker.sock
@@ -36,11 +148,56 @@ steps:
             -   name: docker.sock
                 path: /var/run/docker.sock
         commands:
-            - docker-compose --file .swarm.yml config | docker stack deploy --prune --with-registry-auth --resolve-image never --compose-file - automagistre
+            - docker stack rm automagistre-next
+            - while docker network inspect automagistre-next --format " " > /dev/null; do sleep 0.1; done
+            - docker-compose --file .swarm.yml config | docker stack deploy --prune --with-registry-auth --resolve-image never --compose-file - automagistre-next
         environment:
-            VERSION: ${DRONE_BUILD_NUMBER}
+            IMAGE: ${DRONE_REPO}:${DRONE_BUILD_NUMBER}
         depends_on:
             - check deploy
+
+---
+kind: pipeline
+type: docker
+name: migrate
+
+trigger:
+    branch:
+        - master
+        - rc
+        - next
+
+clone:
+    depth: 1
+
+depends_on:
+    - deploy
+
+steps:
+    -   name: wait
+        image: curlimages/curl:7.79.1
+        pull: if-not-exists
+        commands:
+            - sleep 40
+            - >-
+                timeout 30s
+                sh -c "until curl --fail --include https://api-next.automagistre.ru/healthz; do sleep 0.5; done"
+
+    -   name: hasura migrate
+        image: hasura/graphql-engine:v2.0.9.cli-migrations-v3
+        commands:
+            - hasura-cli metadata apply
+            - hasura-cli migrate apply --version 1634986813924 --skip-execution --database-name default
+            - hasura-cli migrate apply --database-name default
+            - hasura-cli metadata reload
+            - hasura-cli migrate status --database-name default
+        environment:
+            HASURA_GRAPHQL_ENDPOINT: https://api-next.automagistre.ru
+            HASURA_GRAPHQL_ADMIN_SECRET:
+                from_secret: crm_hasura_admin_secret
+            HASURA_GRAPHQL_DISABLE_INTERACTIVE: 'true'
+        depends_on:
+            - wait
 
 ---
 kind: pipeline

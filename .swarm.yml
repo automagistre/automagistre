@@ -1,8 +1,26 @@
 version: '3.7'
 
 services:
+    nginx:
+        image: ${IMAGE}
+        networks:
+            - traefik
+        deploy:
+            update_config:
+                order: start-first
+                failure_action: rollback
+                parallelism: 1
+                delay: 5s
+            labels:
+                - "traefik.enable=true"
+                - "traefik.http.routers.automagistre-crm-next.rule=Host(`crm-next.automagistre.ru`)"
+                - "traefik.http.routers.automagistre-crm-next.entrypoints=websecure"
+                - "traefik.http.routers.automagistre-crm-next.tls=true"
+                - "traefik.http.routers.automagistre-crm-next.tls.certresolver=leresolver"
+                - "traefik.http.services.automagistre-crm-next-service.loadbalancer.server.port=80"
+
     redis:
-        image: redis:6.2.5-alpine
+        image: redis:6.2.6-alpine
         volumes:
             -   type: bind
                 source: /opt/am/redis/data
@@ -15,19 +33,17 @@ services:
                 order: stop-first
 
     hasura:
-        image: hasura/graphql-engine:v2.0.8
+        image: hasura/graphql-engine:v2.0.9
         command:
             - graphql-engine
             - serve
-            - --enable-console
             - --server-port=80
             - --unauthorized-role=anonymous
             - --cors-domain=*
-            - --admin-internal-errors=true
             - --admin-secret=${HASURA_ADMIN_SECRET}
         environment:
-            HASURA_GRAPHQL_DATABASE_URL: postgres://db:${DB_PASSWORD}@postgres:5432/db
-            HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:${DB_PASSWORD}@postgres:5432/hasura
+            HASURA_GRAPHQL_DATABASE_URL: postgres://automagistre:automagistre@postgres:5432/automagistre
+            HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://hasura:hasura@postgres:5432/automagistre
             HASURA_GRAPHQL_JWT_SECRET: '{"jwk_url": "https://auth.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/certs"}'
         networks:
             - default
@@ -41,61 +57,60 @@ services:
                 order: start-first
             labels:
                 - "traefik.enable=true"
-                - "traefik.http.routers.automagistre-hasura.rule=Host(`api.automagistre.ru`)"
-                - "traefik.http.routers.automagistre-hasura.entrypoints=websecure"
-                - "traefik.http.routers.automagistre-hasura.tls=true"
-                - "traefik.http.routers.automagistre-hasura.tls.certresolver=leresolver"
-                - "traefik.http.services.automagistre-hasura-service.loadbalancer.server.port=80"
+                - "traefik.http.routers.automagistre-hasura-next.rule=Host(`api-next.automagistre.ru`)"
+                - "traefik.http.routers.automagistre-hasura-next.entrypoints=websecure"
+                - "traefik.http.routers.automagistre-hasura-next.tls=true"
+                - "traefik.http.routers.automagistre-hasura-next.tls.certresolver=leresolver"
+                - "traefik.http.services.automagistre-hasura-next-service.loadbalancer.server.port=80"
 
-    postgres: &postgres
-        image: postgres:13.4-alpine
+    postgres:
+        image: postgres:14.0-alpine
         shm_size: 1gb
+        entrypoint: bash
+        command:
+            - -c
+            - |
+                echo $$'
+                    CREATE DATABASE automagistre;
+                    CREATE USER automagistre WITH PASSWORD \'automagistre\';
+                    CREATE USER hasura WITH PASSWORD \'hasura\';
+                    GRANT ALL PRIVILEGES ON DATABASE automagistre TO automagistre;
+                    GRANT ALL PRIVILEGES ON DATABASE automagistre TO hasura;
+                ' > /docker-entrypoint-initdb.d/init-db-and-users.sql \
+                && echo $$'
+                    CREATE SCHEMA AUTHORIZATION automagistre;
+                    ALTER ROLE automagistre SET search_path TO automagistre;
+                ' > /restore.sql \
+                && gunzip < $$(ls -t /backups/*automagistre.sql.gz | head -1) \
+                    | sed 's/TO db/TO automagistre/' \
+                    >> /restore.sql \
+                && echo $$'
+                    #!/bin/bash
+                    set -e
+
+                    cat /restore.sql | psql -v ON_ERROR_STOP=1 --user $$POSTGRES_USER --dbname automagistre
+                ' > /docker-entrypoint-initdb.d/restore.sh \
+                && docker-entrypoint.sh postgres
         volumes:
-            -   type: bind
-                source: /opt/am/postgres/data
+            -   type: tmpfs
                 target: /var/lib/postgresql/data
+                tmpfs:
+                    size: 2G
+            -   type: bind
+                source: /opt/am/backups/postgres
+                target: /backups
         environment:
-            POSTGRES_DB: db
-            POSTGRES_USER: db
-            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_USER: root
+            POSTGRES_PASSWORD: root
         deploy:
-            mode: global
             update_config:
-                failure_action: rollback
-                parallelism: 1
-                delay: 5s
+                order: stop-first
         healthcheck:
-            test: pg_isready -U db
+            test: pg_isready
             interval: 5s
             timeout: 5s
             retries: 3
             start_period: 10s
-
-    postgres_backup:
-        <<: *postgres
-        entrypoint: /bin/sh
-        command:
-            - -c
-            - |
-                apk add --no-cache tini gzip \
-                && echo $$'
-                postgres:5432:db:db:${DB_PASSWORD}
-                ' > ~/.pgpass \
-                && chmod 600 ~/.pgpass \
-                && echo $$'#!/bin/bash
-                pg_dump -h postgres -U db db | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_automagistre.sql.gz
-                ' > /backup.sh \
-                && chmod +x /backup.sh \
-                && echo $$'
-                10 3 * * * /backup.sh
-                ' | crontab - \
-                && exec tini -- crond -l 0 -f
-        volumes:
-            - /opt/am/backups/postgres:/backups
-        deploy:
-            mode: replicated
-        healthcheck:
-            disable: true
 
 networks:
     traefik:
@@ -103,8 +118,5 @@ networks:
         name: traefik
     default:
         driver: overlay
-        name: automagistre
+        name: automagistre-next
         attachable: true
-    prometheus:
-        external: true
-        name: prometheus

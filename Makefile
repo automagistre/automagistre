@@ -41,17 +41,46 @@ docker-hosts-updater:
 	$(DEBUG_ECHO) docker run -d --restart=always --name docker-hosts-updater -v /var/run/docker.sock:/var/run/docker.sock -v /etc/hosts:/opt/hosts grachev/docker-hosts-updater
 
 ###> ALIASES ###
+up: down pull up-postgres backup-restore up-hasura up-hasura-console up-react-admin
+
 pull:
 	$(DEBUG_ECHO) docker-compose pull
-do-up: contrib pull composer permissions
+
+up-react-admin: install
+	docker-compose up -d --force-recreate react-admin
+
+up-postgres:
+	$(DEBUG_ECHO) docker-compose up -d --force-recreate postgres
+	$(DEBUG_ECHO) docker-compose exec postgres sh -c " \
+		until nc -z 127.0.0.1 5432; do sleep 0.1; done \
+		&& psql -c \" \
+			CREATE USER automagistre WITH PASSWORD 'automagistre'; \
+			GRANT ALL PRIVILEGES ON DATABASE automagistre TO automagistre; \
+		\" \
+		"
+
+up-hasura:
+	$(DEBUG_ECHO) docker-compose exec postgres psql -c " \
+		CREATE USER hasura WITH PASSWORD 'hasura'; \
+		GRANT ALL PRIVILEGES ON DATABASE automagistre TO hasura; \
+		"
+	$(DEBUG_ECHO) docker-compose up -d --force-recreate hasura
+	$(DEBUG_ECHO) docker-compose exec hasura sh -c "until nc -z 127.0.0.1 80; do sleep 0.1; done"
+
+up-hasura-console:
+	$(DEBUG_ECHO) mkdir -p var/hasura
+	$(DEBUG_ECHO) docker-compose up -d --force-recreate hasura-console
+	$(DEBUG_ECHO) docker-compose exec hasura-console sh -c " \
+		hasura-cli metadata apply \
+		&& hasura-cli migrate apply --version 1634986813924 --skip-execution --database-name default \
+		&& hasura-cli migrate apply --all-databases \
+		&& hasura-cli metadata reload \
+		&& hasura-cli migrate status --database-name default \
+		"
+
+do-up: contrib pull permissions
 	$(DEBUG_ECHO) docker-compose up --detach --remove-orphans --no-build \
-	nginx \
-	php-fpm \
-	postgres \
-	redis \
-	nsqd \
-	nsqadmin \
-	host.docker.internal
+	postgres
 
 up: do-up ## Up project
 	@$(notify)
@@ -63,17 +92,20 @@ cli-root: UID=root
 cli-root:
 	$(APP) sh
 
+console:
+	docker-compose exec hasura-console bash
+
 down: ## Stop and remove all containers, volumes and networks
 	$(DEBUG_ECHO) docker-compose down -v --remove-orphans
 ###< ALIASES ###
 
 ###> APP ###
-APP = $(DEBUG_ECHO) @docker-compose $(if $(EXEC),exec,run --rm )\
-	$(if $(ENTRYPOINT),--entrypoint "$(ENTRYPOINT)" )\
-	$(if $(APP_ENV),-e APP_ENV=$(APP_ENV) )\
-	$(if $(APP_DEBUG),-e APP_DEBUG=$(APP_DEBUG) )\
-	--user $(if $(UID),${UID},1000)\
-	php-fpm
+install:
+	docker-compose run --rm react-admin npm install
+
+APP = $(DEBUG_ECHO) @docker-compose $(if $(EXEC),exec,run --rm ) \
+	$(if $(UID),--user ${UID}) \
+	react-admin
 
 PERMISSIONS = chown $(shell id -u):$(shell id -g) -R . && chmod 777 -R var/
 permissions: UID=root
@@ -103,12 +135,12 @@ do-backup-download:
 	$(DEBUG_ECHO) @scp -q -o LogLevel=QUIET ${BACKUP_SERVER}:$$(ssh ${BACKUP_SERVER} ls -t /opt/am/backups/postgres/*automagistre.sql.gz | head -1) $(backup_file)
 	$(call OK,"Backup automagistre.sql.gz downloaded.")
 
-DB=$(DEBUG_ECHO) @docker-compose exec -w /usr/local/app postgres
+POSTGRES=$(DEBUG_ECHO) @docker-compose exec -w /app postgres
 
 backup_file = var/backups/automagistre.sql.gz
 backup-restore:
 ifneq (,$(wildcard $(backup_file)))
-	@$(DB) bash -c "gunzip < $(backup_file) | psql -U db"
+	@$(POSTGRES) bash -c "gunzip < $(backup_file) | sed 's/TO db/TO automagistre/' | psql automagistre"
 	$(call OK,"Backup $(backup_file) restored.")
 else
 	$(call FAIL,"Backup \"$(backup_file)\" does not exist!")

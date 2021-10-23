@@ -1,0 +1,56 @@
+table:
+    name: vehicle
+    schema: public
+object_relationships:
+    -   name: manufacturer
+        using:
+            manual_configuration:
+                column_mapping:
+                    manufacturer_id: id
+                insertion_order: null
+                remote_table:
+                    name: manufacturer
+                    schema: public
+insert_permissions:
+    -   permission:
+            backend_only: false
+            check: { }
+            columns:
+                - case_name
+                - localized_name
+                - manufacturer_id
+                - name
+                - year_from
+                - year_till
+        role: manager
+select_permissions:
+    -   permission:
+            allow_aggregations: true
+            columns:
+                - case_name
+                - created_at
+                - id
+                - localized_name
+                - manufacturer_id
+                - name
+                - updated_at
+                - year_from
+                - year_till
+            filter: { }
+        role: manager
+update_permissions:
+    -   permission:
+            check: { }
+            columns:
+                - case_name
+                - localized_name
+                - manufacturer_id
+                - name
+                - year_from
+                - year_till
+            filter: { }
+        role: manager
+delete_permissions:
+    -   permission:
+            filter: { }
+        role: manager

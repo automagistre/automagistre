@@ -1,3 +1,22 @@
+FROM node:14.18.0-alpine3.12 as node-base
+
+WORKDIR /data
+
+FROM node-base AS node
+
+COPY package.json package-lock.json ./
+
+RUN --mount=type=cache,target=/var/cache/npm \
+    set -ex \
+    && npm config set cache /var/cache/npm --global \
+    && npm install
+
+COPY public public
+COPY src src
+
+RUN set -ex \
+    && npm run build
+
 #
 # nginx
 #
@@ -49,6 +68,8 @@ RUN --mount=type=cache,target=/var/cache/apk \
 FROM nginx-base AS nginx
 
 ENV NGINX_ENTRYPOINT_QUIET_LOGS 1
+
+COPY --from=node /data/build .
 
 COPY etc/nginx.conf /etc/nginx/nginx.conf
 COPY etc/nginx.cors.conf /etc/nginx/cors.conf
