@@ -22,7 +22,7 @@ final class State implements ResetInterface
 
     public function require(): Tenant
     {
-        return $this->tenant ?? throw new LogicException();
+        return $this->tenant ?? throw new LogicException('Information about the current tenant is not available');
     }
 
     public function get(): Enum\Tenant
