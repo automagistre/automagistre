@@ -1,0 +1,92 @@
+table:
+    name: wallet_transaction
+    schema: public
+object_relationships:
+    -   name: tenant
+        using:
+            foreign_key_constraint_on: tenant_id
+    -   name: wallet
+        using:
+            foreign_key_constraint_on: wallet_id
+    -   name: wallet_transaction_source
+        using:
+            foreign_key_constraint_on: source
+insert_permissions:
+    -   permission:
+            backend_only: false
+            check:
+                _and:
+                    -   tenant:
+                            tenant_permissions:
+                                _and:
+                                    -   tenant_id:
+                                            _eq: X-Hasura-Tenant-Id
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
+                    -   wallet:
+                            tenant_id:
+                                _eq: X-Hasura-Tenant-Id
+            columns:
+                - amount
+                - currency
+                - description
+                - source
+                - source_id
+                - wallet_id
+            set:
+                tenant_id: x-hasura-Tenant-Id
+        role: manager
+select_permissions:
+    -   permission:
+            allow_aggregations: true
+            columns:
+                - amount
+                - currency
+                - description
+                - created_at
+                - updated_at
+                - id
+                - source_id
+                - tenant_id
+                - wallet_id
+                - source
+            filter:
+                tenant_id:
+                    _eq: X-Hasura-Tenant-Id
+        role: manager
+update_permissions:
+    -   permission:
+            check: null
+            columns:
+                - amount
+                - currency
+                - description
+                - wallet_id
+            filter:
+                _and:
+                    -   tenant:
+                            tenant_permissions:
+                                _and:
+                                    -   tenant_id:
+                                            _eq: X-Hasura-Tenant-Id
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
+                    -   wallet:
+                            tenant_id:
+                                _eq: X-Hasura-Tenant-Id
+        role: manager
+delete_permissions:
+    -   permission:
+            filter:
+                _and:
+                    -   tenant:
+                            tenant_permissions:
+                                _and:
+                                    -   tenant_id:
+                                            _eq: X-Hasura-Tenant-Id
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
+                    -   wallet:
+                            tenant_id:
+                                _eq: X-Hasura-Tenant-Id
+        role: manager

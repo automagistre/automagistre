@@ -5,3 +5,6 @@
 - "!include public_tenant_permission.yaml"
 - "!include public_unit.yaml"
 - "!include public_vehicle.yaml"
+- "!include public_wallet.yaml"
+- "!include public_wallet_transaction.yaml"
+- "!include public_wallet_transaction_source.yaml"
