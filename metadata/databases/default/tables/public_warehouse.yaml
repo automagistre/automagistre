@@ -1,0 +1,72 @@
+table:
+  name: warehouse
+  schema: public
+object_relationships:
+- name: tenant
+  using:
+    foreign_key_constraint_on: tenant_id
+insert_permissions:
+- permission:
+    backend_only: false
+    check:
+      tenant:
+        tenant_permissions:
+          _and:
+          - tenant_id:
+              _eq: X-Hasura-Tenant-Id
+          - user_id:
+              _eq: X-Hasura-User-Id
+    columns:
+    - code
+    - name
+    - parent_id
+    set:
+      tenant_id: x-hasura-Tenant-id
+  role: manager
+select_permissions:
+- permission:
+    allow_aggregations: true
+    columns:
+    - code
+    - name
+    - created_at
+    - updated_at
+    - id
+    - parent_id
+    - tenant_id
+    filter:
+      tenant:
+        tenant_permissions:
+          _and:
+          - tenant_id:
+              _eq: X-Hasura-Tenant-Id
+          - user_id:
+              _eq: X-Hasura-User-Id
+  role: manager
+update_permissions:
+- permission:
+    check: null
+    columns:
+    - code
+    - name
+    - parent_id
+    filter:
+      tenant:
+        tenant_permissions:
+          _and:
+          - tenant_id:
+              _eq: X-Hasura-Tenant-Id
+          - user_id:
+              _eq: X-Hasura-User-Id
+  role: manager
+delete_permissions:
+- permission:
+    filter:
+      tenant:
+        tenant_permissions:
+          _and:
+          - tenant_id:
+              _eq: X-Hasura-Tenant-Id
+          - user_id:
+              _eq: X-Hasura-User-Id
+  role: manager

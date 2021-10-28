@@ -1,3 +1,4 @@
+- "!include public_expense.yaml"
 - "!include public_manufacturer.yaml"
 - "!include public_part.yaml"
 - "!include public_tenant.yaml"
@@ -8,3 +9,4 @@
 - "!include public_wallet.yaml"
 - "!include public_wallet_transaction.yaml"
 - "!include public_wallet_transaction_source.yaml"
+- "!include public_warehouse.yaml"

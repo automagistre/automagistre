@@ -268,6 +268,43 @@ FROM wallet;
 SELECT public.hasura_timestampable('public.wallet');
 SELECT public.hasura_timestampable('public.wallet_transaction');
 
+--- Expense
+
+ALTER TABLE public.expense
+    ALTER COLUMN id SET DEFAULT gen_random_uuid();
+
+SELECT public.hasura_timestampable('public.expense');
+
+--- Warehouse
+
+ALTER TABLE public.warehouse
+    ALTER COLUMN "id" SET DEFAULT gen_random_uuid();
+ALTER TABLE public.warehouse
+    ADD COLUMN name text DEFAULT NULL;
+ALTER TABLE public.warehouse
+    ADD COLUMN code text DEFAULT NULL;
+ALTER TABLE public.warehouse
+    ADD COLUMN parent_id uuid DEFAULT NULL;
+UPDATE public.warehouse t
+SET name = ( SELECT sub.name FROM warehouse_name sub WHERE sub.warehouse_id = t.id ORDER BY sub.id DESC LIMIT 1 );
+UPDATE public.warehouse t
+SET code = ( SELECT sub.code FROM warehouse_code sub WHERE sub.warehouse_id = t.id ORDER BY sub.id DESC LIMIT 1 );
+UPDATE public.warehouse t
+SET parent_id = ( SELECT sub.warehouse_parent_id
+                  FROM warehouse_parent sub
+                  WHERE sub.warehouse_id = t.id
+                  ORDER BY sub.id DESC
+                  LIMIT 1 );
+
+DROP TABLE warehouse_name;
+DROP TABLE warehouse_code;
+DROP TABLE warehouse_parent;
+
+ALTER TABLE "public"."warehouse"
+    ADD CONSTRAINT "warehouse_tenant_id_fkey" FOREIGN KEY ("tenant_id") REFERENCES "public"."tenant" ("id") ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+SELECT public.hasura_timestampable('public.warehouse');
+
 --- Audit
 
 SELECT audit.audit_table('public.manufacturer');
@@ -279,3 +316,5 @@ SELECT audit.audit_table('public.tenant_group');
 SELECT audit.audit_table('public.tenant_permission');
 SELECT audit.audit_table('public.wallet');
 SELECT audit.audit_table('public.wallet_transaction');
+SELECT audit.audit_table('public.expense');
+SELECT audit.audit_table('public.warehouse');
