@@ -305,6 +305,19 @@ ALTER TABLE "public"."warehouse"
 
 SELECT public.hasura_timestampable('public.warehouse');
 
+--- Part Case
+
+ALTER TABLE public.part_case
+    ALTER COLUMN id SET DEFAULT gen_random_uuid();
+
+ALTER TABLE "public"."part_case"
+    ADD CONSTRAINT "part_case_part_id_fkey" FOREIGN KEY ("part_id") REFERENCES "public"."part" ("id") ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE "public"."part_case"
+    ADD CONSTRAINT "part_case_vehicle_id_fkey" FOREIGN KEY ("vehicle_id") REFERENCES "public"."vehicle" ("id") ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+SELECT public.hasura_timestampable('public.part_case');
+
 --- Audit
 
 SELECT audit.audit_table('public.manufacturer');
@@ -318,3 +331,4 @@ SELECT audit.audit_table('public.wallet');
 SELECT audit.audit_table('public.wallet_transaction');
 SELECT audit.audit_table('public.expense');
 SELECT audit.audit_table('public.warehouse');
+SELECT audit.audit_table('public.part_case');

@@ -1,0 +1,10 @@
+table:
+    name: part_case
+    schema: public
+object_relationships:
+    -   name: part
+        using:
+            foreign_key_constraint_on: part_id
+    -   name: vehicle
+        using:
+            foreign_key_constraint_on: vehicle_id
