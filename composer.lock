@@ -4894,23 +4894,23 @@
         },
         {
             "name": "odolbeau/phone-number-bundle",
-            "version": "v3.4.2",
+            "version": "v3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/odolbeau/phone-number-bundle.git",
-                "reference": "263642f0543dcd762ac058cf6590f09776a5558a"
+                "reference": "c30c6629b6fe78cba7f9032e580f0d5e1e71c2ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/odolbeau/phone-number-bundle/zipball/263642f0543dcd762ac058cf6590f09776a5558a",
-                "reference": "263642f0543dcd762ac058cf6590f09776a5558a",
+                "url": "https://api.github.com/repos/odolbeau/phone-number-bundle/zipball/c30c6629b6fe78cba7f9032e580f0d5e1e71c2ed",
+                "reference": "c30c6629b6fe78cba7f9032e580f0d5e1e71c2ed",
                 "shasum": ""
             },
             "require": {
                 "giggsey/libphonenumber-for-php": "^8.0",
-                "php": ">7.2.5",
-                "symfony/framework-bundle": "^3.4|^4.3|^5.0",
-                "symfony/intl": "^3.4|^4.3|^5.0"
+                "php": ">=7.4",
+                "symfony/framework-bundle": "^4.4|^5.3",
+                "symfony/intl": "^4.4|^5.3"
             },
             "replace": {
                 "misd/phone-number-bundle": "self.version"
@@ -4918,11 +4918,11 @@
             "require-dev": {
                 "doctrine/doctrine-bundle": "^1.12|^2.0",
                 "phpunit/phpunit": "^8.4",
-                "symfony/form": "^3.4|^4.3|^5.0",
-                "symfony/property-access": "^3.4|^4.3|^5.0",
-                "symfony/serializer": "^3.4|^4.3|^5.0",
-                "symfony/twig-bundle": "^3.4|^4.3|^5.0",
-                "symfony/validator": "^3.4|^4.3|^5.0"
+                "symfony/form": "^4.4|^5.3",
+                "symfony/property-access": "^4.4|^5.3",
+                "symfony/serializer": "^4.4|^5.3",
+                "symfony/twig-bundle": "^4.4|^5.3",
+                "symfony/validator": "^4.4|^5.3"
             },
             "suggest": {
                 "doctrine/doctrine-bundle": "Add a DBAL mapping type",
@@ -4935,7 +4935,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.4.x-dev"
+                    "dev-master": "3.5.x-dev"
                 }
             },
             "autoload": {
@@ -4958,9 +4958,9 @@
             ],
             "support": {
                 "issues": "https://github.com/odolbeau/phone-number-bundle/issues",
-                "source": "https://github.com/odolbeau/phone-number-bundle/tree/v3.4.2"
+                "source": "https://github.com/odolbeau/phone-number-bundle/tree/v3.5.0"
             },
-            "time": "2021-06-28T15:48:50+00:00"
+            "time": "2021-10-27T11:58:46+00:00"
         },
         {
             "name": "oro/doctrine-extensions",
