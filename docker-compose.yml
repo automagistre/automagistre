@@ -84,6 +84,21 @@ services:
             - ./var/hasura:/.hasura
         user: ${UID:-1000}:${GID:-1000}
 
+    n8n:
+        image: n8nio/n8n:0.145.0
+        labels:
+            ru.grachevko.dhu: 'n8n.automagistre.local'
+        environment:
+            N8N_ENCRYPTION_KEY: Iucahjohyah6eiY9
+            N8N_PORT: 80
+            N8N_DIAGNOSTICS_ENABLED: 'false'
+        volumes:
+            - ./var/n8n:/home/node/.n8n
+        networks:
+            default:
+                aliases:
+                    - n8n.automagistre.local
+
 networks:
     default:
         name: automagistre-next

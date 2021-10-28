@@ -44,3 +44,9 @@ export interface Part extends Record {
     number: string,
     manufacturer_id: Identifier,
 }
+
+export interface Wallet extends Record {
+    name: string,
+    code: string,
+    parent_id: Identifier,
+}

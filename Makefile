@@ -41,7 +41,7 @@ docker-hosts-updater:
 	$(DEBUG_ECHO) docker run -d --restart=always --name docker-hosts-updater -v /var/run/docker.sock:/var/run/docker.sock -v /etc/hosts:/opt/hosts grachev/docker-hosts-updater
 
 ###> ALIASES ###
-up: down pull up-postgres backup-restore up-hasura up-hasura-console up-react-admin
+up: down pull up-postgres backup-restore up-hasura up-hasura-console up-react-admin up-n8n
 
 pull:
 	$(DEBUG_ECHO) docker-compose pull
@@ -77,6 +77,10 @@ up-hasura-console:
 		&& hasura-cli metadata reload \
 		&& hasura-cli migrate status --database-name default \
 		"
+
+up-n8n:
+	$(DEBUG_ECHO) mkdir -p var/n8n
+	$(DEBUG_ECHO) docker-compose up -d --force-recreate n8n
 
 do-up: contrib pull permissions
 	$(DEBUG_ECHO) docker-compose up --detach --remove-orphans --no-build \

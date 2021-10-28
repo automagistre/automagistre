@@ -30,6 +30,8 @@ select_permissions:
     -   permission:
             allow_aggregations: true
             columns:
+                - balance
+                - balance_at
                 - created_at
                 - currency_code
                 - default_in_manual_transaction

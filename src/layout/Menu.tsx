@@ -8,18 +8,19 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import manufacturers from '../manufacturers';
 import vehicles from '../vehicles';
 import parts from '../parts';
+import wallets from '../wallets';
 
 import SubMenu from './SubMenu';
 import {AppState} from '../types';
-import {faBookOpen} from "@fortawesome/free-solid-svg-icons";
+import {faBookOpen, faPiggyBank} from "@fortawesome/free-solid-svg-icons";
 
-type MenuName = 'menuCatalog' | 'menuSales' | 'menuCustomers';
+type MenuName = 'menuCatalog' | 'menuFinance' | 'menuCustomers';
 
 const Menu = ({dense = false}: MenuProps) => {
     const tenant = useSelector((state: AppState) => state.tenant);
     const [state, setState] = useState({
         menuCatalog: true,
-        menuSales: true,
+        menuFinance: true,
         menuCustomers: true,
     });
     const open = useSelector((state: ReduxState) => state.admin.ui.sidebarOpen);
@@ -43,6 +44,23 @@ const Menu = ({dense = false}: MenuProps) => {
         >
             {' '}
             <DashboardMenuItem/>
+            <SubMenu
+                handleToggle={() => handleToggle('menuFinance')}
+                isOpen={state.menuFinance}
+                name="Финансы"
+                icon={<FontAwesomeIcon icon={faPiggyBank}/>}
+                dense={dense}
+            >
+                <MenuItemLink
+                    to={{
+                        pathname: '/wallet',
+                        state: {_scrollToTop: true},
+                    }}
+                    primaryText="Счета"
+                    leftIcon={wallets.icon}
+                    dense={dense}
+                />
+            </SubMenu>
             <SubMenu
                 handleToggle={() => handleToggle('menuCatalog')}
                 isOpen={state.menuCatalog}

@@ -13,6 +13,7 @@ import manufacturers from './manufacturers';
 import vehicles from './vehicles';
 import parts from './parts';
 import tenants from './tenants';
+import wallets from './wallets';
 import {Layout} from "./layout";
 import themeReducer from './themeReducer';
 import customRoutes from './routes';
@@ -97,6 +98,7 @@ const Resources = () => {
             <Resource name="tenant" {...tenants}/>
             <Resource name="unit"/>
             <Resource name="vehicle" {...vehicles} />
+            <Resource name="wallet" {...wallets} />
         </AdminUI>
     )
 }
@@ -122,7 +124,7 @@ const AdminWithKeycloak = () => {
                     ...headers,
                     ...(keycloak.token && {authorization: `Bearer ${keycloak.token}`}),
                     'X-Hasura-Role': 'manager',
-                    ...(tenant && {'X-Hasura-Tenant': tenant.id}),
+                    ...(tenant && {'X-Hasura-Tenant-Id': tenant.id}),
                 },
             }
         });
