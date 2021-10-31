@@ -225,7 +225,7 @@ ALTER TABLE "public"."wallet_transaction"
 --- Wallet Balance
 
 ALTER TABLE public.wallet
-    ADD COLUMN "balance" numeric(10, 2) DEFAULT 0;
+    ADD COLUMN "balance" numeric(12, 2) DEFAULT 0;
 
 ALTER TABLE public.wallet
     ADD COLUMN "balance_at" timestamptz DEFAULT NOW();
@@ -236,7 +236,7 @@ ALTER TABLE public.wallet_transaction
     RENAME amount_currency_code TO currency;
 
 ALTER TABLE public.wallet_transaction
-    ALTER COLUMN amount TYPE numeric(10, 2) USING amount / 100;
+    ALTER COLUMN amount TYPE numeric(12, 2) USING amount / 100;
 
 CREATE OR REPLACE FUNCTION app_wallet_balance_update(uuid) RETURNS void AS
 $$
