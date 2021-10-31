@@ -1,11 +1,11 @@
 --- Hasura
-CREATE OR REPLACE FUNCTION public.set_current_timestamp_updated_at() RETURNS TRIGGER AS
+CREATE OR REPLACE FUNCTION public.set_current_timestamp_updated_at() RETURNS trigger AS
 $$
 DECLARE
     _new record;
 BEGIN
     _new := new;
-    _new."updated_at" = NOW();
+    _new.updated_at = NOW();
     RETURN _new;
 END;
 $$ LANGUAGE plpgsql;
@@ -54,53 +54,55 @@ DROP VIEW public.warehouse_view;
 -- Manufacturer
 
 ALTER TABLE public.manufacturer
-    ALTER COLUMN "id" SET DEFAULT gen_random_uuid();
+    ALTER COLUMN id SET DEFAULT gen_random_uuid();
 
 ALTER TABLE public.manufacturer
-    DROP COLUMN "logo" CASCADE;
+    DROP COLUMN logo CASCADE;
 
 SELECT public.hasura_timestampable('public.manufacturer');
 
 --- Vehicle
 
 ALTER TABLE public.vehicle_model
-    RENAME TO "vehicle";
+    RENAME TO vehicle;
 
 ALTER TABLE public.vehicle
-    ADD CONSTRAINT "vehicle_manufacturer_id_fkey" FOREIGN KEY ("manufacturer_id") REFERENCES public.manufacturer ("id") ON UPDATE RESTRICT ON DELETE RESTRICT;
+    ADD CONSTRAINT vehicle_manufacturer_id_fkey
+        FOREIGN KEY (manufacturer_id) REFERENCES public.manufacturer (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 ALTER TABLE public.vehicle
-    ALTER COLUMN "id" SET DEFAULT gen_random_uuid();
+    ALTER COLUMN id SET DEFAULT gen_random_uuid();
 
 SELECT public.hasura_timestampable('public.vehicle');
 
 --- Part
 
 ALTER TABLE public.part
-    ALTER COLUMN "id" SET DEFAULT gen_random_uuid();
+    ALTER COLUMN id SET DEFAULT gen_random_uuid();
 
-COMMENT ON COLUMN public.part."number" IS NULL;
-
-ALTER TABLE public.part
-    ADD COLUMN "comment" text NULL;
+COMMENT ON COLUMN public.part.number IS NULL;
 
 ALTER TABLE public.part
-    ADD CONSTRAINT "part_manufacturer_id_fkey" FOREIGN KEY ("manufacturer_id") REFERENCES public.manufacturer ("id") ON UPDATE RESTRICT ON DELETE RESTRICT;
+    ADD COLUMN comment text NULL;
 
-COMMENT ON COLUMN public.part."unit" IS NULL;
+ALTER TABLE public.part
+    ADD CONSTRAINT part_manufacturer_id_fkey
+        FOREIGN KEY (manufacturer_id) REFERENCES public.manufacturer (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+COMMENT ON COLUMN public.part.unit IS NULL;
 
 CREATE TABLE public.unit
-(
-    "id"   text NOT NULL,
-    "name" text NOT NULL,
-    PRIMARY KEY ("id")
-);
+    (
+        id text NOT NULL,
+        name text NOT NULL,
+        PRIMARY KEY (id)
+    );
 
 SELECT public.hasura_timestampable('public.part');
 
 ---
 
-INSERT INTO public.unit("id", "name")
+INSERT INTO public.unit(id, name)
 VALUES (E'thing', E'Штука'),
        (E'package', E'Упаковка'),
        (E'milliliter', E'Миллилитр'),
@@ -112,31 +114,33 @@ VALUES (E'thing', E'Штука'),
 ;
 
 ALTER TABLE public.part
-    ALTER COLUMN "unit" TYPE text USING CASE WHEN unit = 1 THEN 'thing'
-                                             WHEN unit = 2 THEN 'package'
-                                             WHEN unit = 3 THEN 'milliliter'
-                                             WHEN unit = 4 THEN 'liter'
-                                             WHEN unit = 5 THEN 'gram'
-                                             WHEN unit = 6 THEN 'kilogram'
-                                             WHEN unit = 7 THEN 'millimeter'
-                                             WHEN unit = 8 THEN 'meter' END;
+    ALTER COLUMN unit TYPE text USING CASE WHEN unit = 1 THEN 'thing'
+                                           WHEN unit = 2 THEN 'package'
+                                           WHEN unit = 3 THEN 'milliliter'
+                                           WHEN unit = 4 THEN 'liter'
+                                           WHEN unit = 5 THEN 'gram'
+                                           WHEN unit = 6 THEN 'kilogram'
+                                           WHEN unit = 7 THEN 'millimeter'
+                                           WHEN unit = 8 THEN 'meter' END;
 
 ALTER TABLE public.part
-    ADD CONSTRAINT "part_unit_fkey" FOREIGN KEY ("unit") REFERENCES public.unit ("id") ON UPDATE RESTRICT ON DELETE RESTRICT;
+    ADD CONSTRAINT part_unit_fkey
+        FOREIGN KEY (unit) REFERENCES public.unit (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 --- Tenant
 
 ALTER TABLE public.tenant
-    ADD CONSTRAINT "tenant_group_id_fkey" FOREIGN KEY ("group_id") REFERENCES public.tenant_group ("id") ON UPDATE RESTRICT ON DELETE RESTRICT;
+    ADD CONSTRAINT tenant_group_id_fkey
+        FOREIGN KEY (group_id) REFERENCES public.tenant_group (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 ALTER TABLE public.tenant
-    ALTER COLUMN "id" SET DEFAULT gen_random_uuid();
+    ALTER COLUMN id SET DEFAULT gen_random_uuid();
 
 ALTER TABLE public.tenant_group
-    ALTER COLUMN "id" SET DEFAULT gen_random_uuid();
+    ALTER COLUMN id SET DEFAULT gen_random_uuid();
 
 ALTER TABLE public.user_permission
-    RENAME TO "tenant_permission";
+    RENAME TO tenant_permission;
 
 SELECT public.hasura_timestampable('public.tenant');
 SELECT public.hasura_timestampable('public.tenant_group');
@@ -144,38 +148,41 @@ SELECT public.hasura_timestampable('public.tenant_permission');
 
 BEGIN TRANSACTION;
 ALTER TABLE public.tenant_permission
-    DROP CONSTRAINT "user_permission_pkey";
+    DROP CONSTRAINT user_permission_pkey;
 
 ALTER TABLE public.tenant_permission
-    ADD CONSTRAINT "user_permission_pkey" PRIMARY KEY ("user_id", "tenant_id");
+    ADD CONSTRAINT user_permission_pkey
+        PRIMARY KEY (user_id, tenant_id);
 COMMIT TRANSACTION;
 
 ALTER TABLE public.tenant_permission
-    DROP COLUMN "id" CASCADE;
+    DROP COLUMN id CASCADE;
 
 BEGIN TRANSACTION;
 ALTER TABLE public.tenant
-    DROP CONSTRAINT "tenant_pkey";
+    DROP CONSTRAINT tenant_pkey;
 
 ALTER TABLE public.tenant
-    ADD CONSTRAINT "tenant_pkey" PRIMARY KEY ("id");
+    ADD CONSTRAINT tenant_pkey
+        PRIMARY KEY (id);
 COMMIT TRANSACTION;
 
 ALTER TABLE public.tenant_permission
-    ADD CONSTRAINT "tenant_permission_tenant_id_fkey" FOREIGN KEY ("tenant_id") REFERENCES public.tenant ("id") ON UPDATE RESTRICT ON DELETE RESTRICT;
+    ADD CONSTRAINT tenant_permission_tenant_id_fkey
+        FOREIGN KEY (tenant_id) REFERENCES public.tenant (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 ALTER TABLE public.tenant
-    RENAME COLUMN "display_name" TO "name";
+    RENAME COLUMN display_name TO name;
 
 ALTER TABLE public.tenant_group
-    ADD COLUMN "name" text NOT NULL DEFAULT '';
+    ADD COLUMN name text NOT NULL DEFAULT '';
 
 ---
 
 UPDATE public.tenant_group
-SET name = CASE WHEN identifier = 'demo' THEN 'Демо'
-                WHEN identifier = 'automagistre' THEN 'Автомагистр'
-                WHEN identifier = 'shavlev' THEN 'Щавлев В.А.' END;
+   SET name = CASE WHEN identifier = 'demo' THEN 'Демо'
+                   WHEN identifier = 'automagistre' THEN 'Автомагистр'
+                   WHEN identifier = 'shavlev' THEN 'Щавлев В.А.' END;
 
 --- Wallet
 
@@ -185,12 +192,12 @@ ALTER TABLE public.wallet_transaction
     ALTER COLUMN id SET DEFAULT gen_random_uuid();
 
 CREATE TABLE public.wallet_transaction_source
-(
-    "id"   text NOT NULL,
-    "name" text NOT NULL,
-    PRIMARY KEY ("id")
-);
-INSERT INTO public.wallet_transaction_source("id", "name")
+    (
+        id text NOT NULL,
+        name text NOT NULL,
+        PRIMARY KEY (id)
+    );
+INSERT INTO public.wallet_transaction_source(id, name)
 VALUES (E'legacy', E'Какие то старые проводки'),
        (E'order_prepay', E'Предоплата по заказу'),
        (E'order_debit', E'Начисление по заказу'),
@@ -210,25 +217,29 @@ ALTER TABLE public.wallet_transaction
                                              WHEN source = 6 THEN 'operand_manual'
                                              WHEN source = 7 THEN 'initial' END;
 
-ALTER TABLE "public"."wallet_transaction"
-    ADD CONSTRAINT "wallet_transaction_wallet_id_fkey" FOREIGN KEY ("wallet_id") REFERENCES "public"."wallet" ("id") ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE public.wallet_transaction
+    ADD CONSTRAINT wallet_transaction_wallet_id_fkey
+        FOREIGN KEY (wallet_id) REFERENCES public.wallet (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
-ALTER TABLE "public"."wallet_transaction"
-    ADD CONSTRAINT "wallet_transaction_tenant_id_fkey" FOREIGN KEY ("tenant_id") REFERENCES "public"."tenant" ("id") ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE public.wallet_transaction
+    ADD CONSTRAINT wallet_transaction_tenant_id_fkey
+        FOREIGN KEY (tenant_id) REFERENCES public.tenant (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
-ALTER TABLE "public"."wallet"
-    ADD CONSTRAINT "wallet_tenant_id_fkey" FOREIGN KEY ("tenant_id") REFERENCES "public"."tenant" ("id") ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE public.wallet
+    ADD CONSTRAINT wallet_tenant_id_fkey
+        FOREIGN KEY (tenant_id) REFERENCES public.tenant (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
-ALTER TABLE "public"."wallet_transaction"
-    ADD CONSTRAINT "wallet_transaction_source_fkey" FOREIGN KEY ("source") REFERENCES "public"."wallet_transaction_source" ("id") ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE public.wallet_transaction
+    ADD CONSTRAINT wallet_transaction_source_fkey
+        FOREIGN KEY (source) REFERENCES public.wallet_transaction_source (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 --- Wallet Balance
 
 ALTER TABLE public.wallet
-    ADD COLUMN "balance" numeric(12, 2) DEFAULT 0;
+    ADD COLUMN balance numeric(12, 2) DEFAULT 0;
 
 ALTER TABLE public.wallet
-    ADD COLUMN "balance_at" timestamptz DEFAULT NOW();
+    ADD COLUMN balance_at timestamptz DEFAULT NOW();
 
 ALTER TABLE public.wallet_transaction
     RENAME amount_amount TO amount;
@@ -242,9 +253,9 @@ CREATE OR REPLACE FUNCTION app_wallet_balance_update(uuid) RETURNS void AS
 $$
 BEGIN
     UPDATE wallet
-    SET balance    = ( SELECT SUM(amount) FROM public.wallet_transaction WHERE wallet_id = $1 ),
-        balance_at = NOW()
-    WHERE id = $1;
+       SET balance = (SELECT SUM(amount) FROM public.wallet_transaction WHERE wallet_id = $1),
+           balance_at = NOW()
+     WHERE id = $1;
 END;
 $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION app_wallet_balance_update_trigger_procedure() RETURNS trigger AS
@@ -263,7 +274,7 @@ CREATE TRIGGER app_wallet_balance_update_trigger
     FOR EACH ROW
 EXECUTE PROCEDURE app_wallet_balance_update_trigger_procedure();
 SELECT app_wallet_balance_update(id)
-FROM wallet;
+  FROM wallet;
 
 SELECT public.hasura_timestampable('public.wallet');
 SELECT public.hasura_timestampable('public.wallet_transaction');
@@ -278,7 +289,7 @@ SELECT public.hasura_timestampable('public.expense');
 --- Warehouse
 
 ALTER TABLE public.warehouse
-    ALTER COLUMN "id" SET DEFAULT gen_random_uuid();
+    ALTER COLUMN id SET DEFAULT gen_random_uuid();
 ALTER TABLE public.warehouse
     ADD COLUMN name text DEFAULT NULL;
 ALTER TABLE public.warehouse
@@ -286,22 +297,23 @@ ALTER TABLE public.warehouse
 ALTER TABLE public.warehouse
     ADD COLUMN parent_id uuid DEFAULT NULL;
 UPDATE public.warehouse t
-SET name = ( SELECT sub.name FROM warehouse_name sub WHERE sub.warehouse_id = t.id ORDER BY sub.id DESC LIMIT 1 );
+   SET name = (SELECT sub.name FROM warehouse_name sub WHERE sub.warehouse_id = t.id ORDER BY sub.id DESC LIMIT 1);
 UPDATE public.warehouse t
-SET code = ( SELECT sub.code FROM warehouse_code sub WHERE sub.warehouse_id = t.id ORDER BY sub.id DESC LIMIT 1 );
+   SET code = (SELECT sub.code FROM warehouse_code sub WHERE sub.warehouse_id = t.id ORDER BY sub.id DESC LIMIT 1);
 UPDATE public.warehouse t
-SET parent_id = ( SELECT sub.warehouse_parent_id
-                  FROM warehouse_parent sub
-                  WHERE sub.warehouse_id = t.id
-                  ORDER BY sub.id DESC
-                  LIMIT 1 );
+   SET parent_id = (SELECT sub.warehouse_parent_id
+                      FROM warehouse_parent sub
+                     WHERE sub.warehouse_id = t.id
+                     ORDER BY sub.id DESC
+                     LIMIT 1);
 
 DROP TABLE warehouse_name;
 DROP TABLE warehouse_code;
 DROP TABLE warehouse_parent;
 
-ALTER TABLE "public"."warehouse"
-    ADD CONSTRAINT "warehouse_tenant_id_fkey" FOREIGN KEY ("tenant_id") REFERENCES "public"."tenant" ("id") ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE public.warehouse
+    ADD CONSTRAINT warehouse_tenant_id_fkey
+        FOREIGN KEY (tenant_id) REFERENCES public.tenant (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 SELECT public.hasura_timestampable('public.warehouse');
 
@@ -310,11 +322,13 @@ SELECT public.hasura_timestampable('public.warehouse');
 ALTER TABLE public.part_case
     ALTER COLUMN id SET DEFAULT gen_random_uuid();
 
-ALTER TABLE "public"."part_case"
-    ADD CONSTRAINT "part_case_part_id_fkey" FOREIGN KEY ("part_id") REFERENCES "public"."part" ("id") ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE public.part_case
+    ADD CONSTRAINT part_case_part_id_fkey
+        FOREIGN KEY (part_id) REFERENCES public.part (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
-ALTER TABLE "public"."part_case"
-    ADD CONSTRAINT "part_case_vehicle_id_fkey" FOREIGN KEY ("vehicle_id") REFERENCES "public"."vehicle" ("id") ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE public.part_case
+    ADD CONSTRAINT part_case_vehicle_id_fkey
+        FOREIGN KEY (vehicle_id) REFERENCES public.vehicle (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 SELECT public.hasura_timestampable('public.part_case');
 
