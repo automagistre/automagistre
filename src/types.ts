@@ -50,3 +50,28 @@ export interface Wallet extends Record {
     code: string,
     parent_id: Identifier,
 }
+
+
+export interface ContactName {
+}
+
+export interface ContactPersonName extends ContactName {
+    lastname?: string,
+    firstname?: string,
+    middlename?: string,
+}
+
+export interface ContactOrganizationName extends ContactName {
+    name?: string,
+    full_name?: string,
+}
+
+export interface Contact extends Record, Timestampable {
+    type: string,
+    name: ContactName,
+    telephone: string,
+    email: string,
+    contractor: boolean,
+    supplier: boolean,
+    requisites: object,
+}

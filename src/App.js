@@ -14,6 +14,7 @@ import vehicles from './vehicles';
 import parts from './parts';
 import tenants from './tenants';
 import wallets from './wallets';
+import contacts from './contacts';
 import {Layout} from "./layout";
 import themeReducer from './themeReducer';
 import customRoutes from './routes';
@@ -75,8 +76,6 @@ const Resources = () => {
                 .then((res) => {
                     const tenantFromUrl = res.data.tenant[0]
 
-                    console.log(tenantFromUrl)
-
                     if (tenantFromUrl) {
                         dispatch(changeTenant(tenantFromUrl))
                     } else {
@@ -93,6 +92,8 @@ const Resources = () => {
             customRoutes={customRoutes}
             layout={Layout}
         >
+            <Resource name="contact" {...contacts}/>
+            <Resource name="contact_type"/>
             <Resource name="manufacturer" {...manufacturers} />
             <Resource name="part" {...parts} />
             <Resource name="tenant" {...tenants}/>

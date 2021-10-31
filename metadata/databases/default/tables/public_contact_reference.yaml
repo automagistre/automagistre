@@ -1,0 +1,7 @@
+table:
+    name: contact_reference
+    schema: public
+object_relationships:
+    -   name: contact
+        using:
+            foreign_key_constraint_on: to_id

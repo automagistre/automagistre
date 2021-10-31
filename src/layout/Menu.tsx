@@ -9,10 +9,11 @@ import manufacturers from '../manufacturers';
 import vehicles from '../vehicles';
 import parts from '../parts';
 import wallets from '../wallets';
+import contacts from '../contacts';
 
 import SubMenu from './SubMenu';
 import {AppState} from '../types';
-import {faBookOpen, faPiggyBank} from "@fortawesome/free-solid-svg-icons";
+import {faBookOpen, faPiggyBank, faUsers} from "@fortawesome/free-solid-svg-icons";
 
 type MenuName = 'menuCatalog' | 'menuFinance' | 'menuCustomers';
 
@@ -58,6 +59,23 @@ const Menu = ({dense = false}: MenuProps) => {
                     }}
                     primaryText="Счета"
                     leftIcon={wallets.icon}
+                    dense={dense}
+                />
+            </SubMenu>
+            <SubMenu
+                handleToggle={() => handleToggle('menuCustomers')}
+                isOpen={state.menuCustomers}
+                name="Клиенты"
+                icon={<FontAwesomeIcon icon={faUsers}/>}
+                dense={dense}
+            >
+                <MenuItemLink
+                    to={{
+                        pathname: '/contact',
+                        state: {_scrollToTop: true},
+                    }}
+                    primaryText="Контакты"
+                    leftIcon={contacts.icon}
                     dense={dense}
                 />
             </SubMenu>

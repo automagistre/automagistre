@@ -1,0 +1,86 @@
+table:
+    name: contact
+    schema: public
+object_relationships:
+    -   name: tenant_group
+        using:
+            foreign_key_constraint_on: tenant_group_id
+array_relationships:
+    -   name: reference
+        using:
+            manual_configuration:
+                column_mapping:
+                    id: from_id
+                insertion_order: null
+                remote_table:
+                    name: contact_reference
+                    schema: public
+insert_permissions:
+    -   permission:
+            backend_only: false
+            check:
+                _and:
+                    -   tenant_group:
+                            tenant_group_permissions:
+                                user_id:
+                                    _eq: X-Hasura-User-Id
+            columns:
+                - contractor
+                - email
+                - name
+                - requisites
+                - supplier
+                - telephone
+                - type
+            set:
+                tenant_group_id: x-hasura-Tenant-Group-Id
+        role: manager
+select_permissions:
+    -   permission:
+            allow_aggregations: true
+            columns:
+                - contractor
+                - supplier
+                - name
+                - requisites
+                - email
+                - telephone
+                - type
+                - created_at
+                - updated_at
+                - id
+                - tenant_group_id
+            filter:
+                _and:
+                    -   tenant_group:
+                            tenant_group_permissions:
+                                user_id:
+                                    _eq: X-Hasura-User-Id
+        role: manager
+update_permissions:
+    -   permission:
+            check: null
+            columns:
+                - contractor
+                - email
+                - name
+                - requisites
+                - supplier
+                - telephone
+                - type
+            filter:
+                _and:
+                    -   tenant_group:
+                            tenant_group_permissions:
+                                user_id:
+                                    _eq: X-Hasura-User-Id
+        role: manager
+delete_permissions:
+    -   permission:
+            filter:
+                _and:
+                    -   tenant_group:
+                            tenant_group_permissions:
+                                user_id:
+                                    _eq: X-Hasura-User-Id
+        role: manager
