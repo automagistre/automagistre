@@ -1,9 +1,20 @@
-import {BooleanField, Datagrid, FunctionField, List, ListProps, ReferenceField, TextField,} from 'react-admin';
+import {
+    BooleanField,
+    Datagrid,
+    FunctionField,
+    List,
+    ListProps,
+    ReferenceField,
+    ReferenceInput,
+    SelectInput,
+    TextField,
+} from 'react-admin';
 import {Contact, ContactOrganizationName, ContactPersonName} from "../types";
 
 const ContactName = (record: any) => {
     const contact: Contact = record;
-    if (contact.type === 'NP') {
+
+    if (['NP', 'SP'].includes(contact.type)) {
         const name: ContactPersonName = contact.name;
 
         return `${name.lastname ?? ''} ${name.firstname ?? ''} ${name.middlename ?? ''}`
@@ -14,13 +25,19 @@ const ContactName = (record: any) => {
     }
 }
 
+const contactFilters = [
+    <ReferenceInput reference="contact_type" source="type" label="Правовая форма">
+        <SelectInput/>
+    </ReferenceInput>,
+]
+
 const ContactList = (props: ListProps) => {
     return (
         <List
             title="Счета"
             perPage={10}
             sort={{field: 'updated_at', order: 'DESC'}}
-
+            filters={contactFilters}
             {...props}
         >
             <Datagrid rowClick="edit">

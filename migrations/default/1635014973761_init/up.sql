@@ -363,6 +363,7 @@ VALUES (E'LLC', E'ООО'),
        (E'SP', E'ИП'),
        (E'CJSC', E'ЗАО'),
        (E'JSC', E'ОАО'),
+       (E'UNKNOWN', E'Неизвестно'),
        (E'NP', E'ФЛ') -- Natural Person
 ;
 
@@ -408,8 +409,22 @@ SELECT id, 'NP', JSON_BUILD_OBJECT('firstname', firstname, 'lastname', lastname,
        contractor, seller, tenant_group_id
   FROM person;
 
-INSERT INTO public.contact (id, name, telephone, email, contractor, supplier, tenant_group_id, requisites)
-SELECT id, JSON_BUILD_OBJECT('name', name, 'full_name', NULL), telephone, email, contractor, seller, tenant_group_id,
+UPDATE organization
+   SET name = REPLACE(name, '.', ' ')
+ WHERE name LIKE 'ИП%';
+
+INSERT INTO public.contact (id, type, name, telephone, email, contractor, supplier, tenant_group_id, requisites)
+SELECT id,
+       CASE WHEN name LIKE 'ООО%' THEN 'LLC'
+            WHEN name LIKE 'ИП%' THEN 'SP'
+            WHEN name LIKE 'ЗАО%' THEN 'CJSC'
+            WHEN name LIKE 'ОАО%' THEN 'JSC'
+            ELSE 'UNKNOWN' END,
+       CASE WHEN name LIKE 'ИП%' THEN JSON_BUILD_OBJECT('firstname', INITCAP((STRING_TO_ARRAY(name, ' '))[3]),
+                                                        'lastname', INITCAP((STRING_TO_ARRAY(name, ' '))[2]),
+                                                        'middlename', INITCAP((STRING_TO_ARRAY(name, ' '))[4]))
+            ELSE JSON_BUILD_OBJECT('name', name, 'full_name', NULL) END, telephone, email, contractor, seller,
+       tenant_group_id,
        JSON_BUILD_OBJECT('bank', requisite_bank, 'legal_address', requisite_legal_address, 'address', address, 'ogrn',
                          requisite_ogrn, 'inn', requisite_inn, 'kpp', requisite_kpp, 'rs', requisite_rs, 'ks',
                          requisite_ks, 'bik', requisite_bik)
@@ -457,8 +472,8 @@ UPDATE contact
 
 CREATE UNIQUE INDEX contact_unique_phone_idx ON public.contact (telephone, tenant_group_id);
 
-DROP TABLE person;
-DROP TABLE organization;
+-- DROP TABLE person;
+-- DROP TABLE organization;
 
 SELECT public.hasura_timestampable('contact');
 --- Audit
