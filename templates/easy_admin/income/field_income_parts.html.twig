@@ -26,10 +26,8 @@
 
             {% if partPrice.positive() and incomePart.price.positive() %}
                 {% set markup = partPrice.ratioOf(incomePart.price) %}
-                {% if markup <= 1.1 %}
+                {% if markup <= 1.25 %}
                     {% set trClass = 'danger' %}
-                {% elseif markup <= 1.25 %}
-                    {% set trClass = 'warning' %}
                 {% endif %}
             {% endif %}
 
@@ -52,4 +50,3 @@
         </tbody>
     </table>
 </div>
-
