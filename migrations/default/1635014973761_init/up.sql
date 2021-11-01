@@ -356,15 +356,15 @@ CREATE TABLE public.contact_type
     (
         id text
             PRIMARY KEY NOT NULL,
-        name text NOT NULL
+        name jsonb NOT NULL
     );
 INSERT INTO public.contact_type(id, name)
-VALUES (E'LLC', E'ООО'),
-       (E'SP', E'ИП'),
-       (E'CJSC', E'ЗАО'),
-       (E'JSC', E'ОАО'),
-       (E'UNKNOWN', E'Неизвестно'),
-       (E'NP', E'ФЛ') -- Natural Person
+VALUES (E'LLC', JSON_BUILD_OBJECT('short', 'ООО', 'full', 'Общество с ограниченной ответственностью', 'type', 'org')),
+       (E'SP', JSON_BUILD_OBJECT('short', 'ИП', 'full', 'Индивидуальный предприниматель', 'type', 'person')),
+       (E'CJSC', JSON_BUILD_OBJECT('short', 'ЗАО', 'full', 'Закрытое акционерное общество', 'type', 'org')),
+       (E'JSC', JSON_BUILD_OBJECT('short', 'ОАО', 'full', 'Открытое акционерное общество', 'type', 'org')),
+       (E'UNKNOWN', JSON_BUILD_OBJECT('short', 'Неизвестно', 'full', 'Неизвестно', 'type', 'org')),
+       (E'NP', JSON_BUILD_OBJECT('short', 'ФЛ', 'full', 'Физическое лицо', 'type', 'person'))
 ;
 
 DROP TABLE IF EXISTS public.contact;

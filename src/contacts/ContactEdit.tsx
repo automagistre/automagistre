@@ -1,15 +1,8 @@
-import {
-    BooleanInput,
-    Edit,
-    EditProps,
-    NumberInput,
-    ReferenceInput,
-    SelectInput,
-    SimpleForm,
-    TextInput,
-} from 'react-admin';
+import {BooleanInput, Edit, EditProps, SimpleForm, TextInput,} from 'react-admin';
 import {Contact} from '../types';
 import {useFormState} from 'react-final-form'
+import ContactTypeReferenceInput from "./ContactTypeReferenceInput";
+import {PhoneNumberInput} from "../phoneNumber";
 
 interface ContactTitleProps {
     record?: Contact;
@@ -17,7 +10,7 @@ interface ContactTitleProps {
 
 const ContactTitle = ({record}: ContactTitleProps) => record ? <span>{record.name.toString()}</span> : null;
 
-const ContactForm = () => {
+export const ContactForm = () => {
     const {values} = useFormState();
 
     return (
@@ -37,15 +30,13 @@ const ContactEdit = (props: EditProps) => {
         <Edit {...props} title={<ContactTitle/>}>
             <SimpleForm>
                 <>
-                    <ReferenceInput reference="contact_type" source="type">
-                        <SelectInput/>
-                    </ReferenceInput>
+                    <ContactTypeReferenceInput/>
                     <BooleanInput source="contractor" label="Подрядчик"/>
                     <BooleanInput source="supplier" label="Поставщик"/>
                 </>
                 <ContactForm/>
                 <>
-                    <NumberInput source="telephone" type="tel" label="Телефон"/>
+                    <PhoneNumberInput/>
                     <TextInput source="email" type="email"/>
                 </>
             </SimpleForm>
