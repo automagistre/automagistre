@@ -22,7 +22,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {CHANGE_TENANT, changeTenant} from "./tenant/actions";
 
 let keycloakConfig = {
-    url: 'https://auth.automagistre.ru/auth',
+    url: 'https://sso.automagistre.ru/auth',
     realm: 'automagistre',
     clientId: 'crm-next-oauth',
     onLoad: "login-required",
