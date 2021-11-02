@@ -1,7 +1,7 @@
 #
 # Composer
 #
-FROM composer:2.1.9 as composer
+FROM composer:2.1.10 as composer
 
 #
 # rector
