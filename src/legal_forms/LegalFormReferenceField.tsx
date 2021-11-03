@@ -4,24 +4,23 @@ interface Props {
     source?: string;
 }
 
-const ContactReferenceField = (
+const LegalFormReferenceField = (
     props: Props &
         Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>
 ) => (
     <ReferenceField
-        source="type"
-        reference="contact_type"
+        source="legal_form"
+        reference="legal_form"
         {...props}
     >
-        <TextField source="name.short"/>
+        <TextField source="short_name"/>
     </ReferenceField>
 );
 
-ContactReferenceField.defaultProps = {
+LegalFormReferenceField.defaultProps = {
     label: "Правовая форма",
-    source: 'type',
     addLabel: true,
     link: false,
 };
 
-export default ContactReferenceField;
+export default LegalFormReferenceField;

@@ -1,8 +1,8 @@
-import {BooleanInput, Edit, EditProps, SimpleForm, TextInput,} from 'react-admin';
+import {BooleanInput, Edit, EditProps, required, SimpleForm, TextInput,} from 'react-admin';
 import {Contact} from '../types';
-import {useFormState} from 'react-final-form'
-import ContactTypeReferenceInput from "./ContactTypeReferenceInput";
+import LegalFormReferenceInput from "../legal_forms/LegalFormReferenceInput";
 import {PhoneNumberInput} from "../phoneNumber";
+import ContactNameInput from "./ContactNameInput";
 
 interface ContactTitleProps {
     record?: Contact;
@@ -10,35 +10,20 @@ interface ContactTitleProps {
 
 const ContactTitle = ({record}: ContactTitleProps) => record ? <span>{record.name.toString()}</span> : null;
 
-export const ContactForm = () => {
-    const {values} = useFormState();
-
-    return (
-        ['NP', 'SP'].includes(values.type) ? <>
-            <TextInput source="name.lastname" label="Фамилия"/>
-            <TextInput source="name.firstname" label="Имя"/>
-            <TextInput source="name.middlename" label="Отчество"/>
-        </> : <>
-            <TextInput source="name.name" label="Краткое название"/>
-            <TextInput source="name.full_name" label="Полное название" fullWidth/>
-        </>
-    )
-}
-
 const ContactEdit = (props: EditProps) => {
     return (
         <Edit {...props} title={<ContactTitle/>}>
             <SimpleForm>
-                <>
-                    <ContactTypeReferenceInput/>
-                    <BooleanInput source="contractor" label="Подрядчик"/>
-                    <BooleanInput source="supplier" label="Поставщик"/>
-                </>
-                <ContactForm/>
+                <LegalFormReferenceInput
+                    validate={required()}
+                />
+                <ContactNameInput/>
                 <>
                     <PhoneNumberInput/>
                     <TextInput source="email" type="email"/>
                 </>
+                <BooleanInput source="contractor" label="Подрядчик"/>
+                <BooleanInput source="supplier" label="Поставщик"/>
             </SimpleForm>
         </Edit>
     );

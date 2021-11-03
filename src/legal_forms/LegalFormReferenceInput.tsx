@@ -1,28 +1,25 @@
 import {ReferenceInput, ReferenceInputProps, SelectInput} from 'react-admin';
+import {LegalForm} from "../types";
 
 interface Props {
     source?: string;
 }
 
-const ContactTypeReferenceInput = (
+const LegalFormReferenceInput = (
     props: Props &
         Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>
 ) => (
     <ReferenceInput
         {...props}
-        source="type"
-        reference="contact_type"
-        defaultValue="UNKNOWN"
+        source="legal_form"
+        reference="legal_form"
     >
-        <SelectInput optionText={(value) => value.name.full}/>
+        <SelectInput optionText={(value: LegalForm) => `(${value.short_name}) -  ${value.full_name}`}/>
     </ReferenceInput>
 );
 
-ContactTypeReferenceInput.defaultProps = {
+LegalFormReferenceInput.defaultProps = {
     label: "Правовая форма",
-    source: 'type',
-    addLabel: true,
-    value: 'UNKNOWN',
 };
 
-export default ContactTypeReferenceInput;
+export default LegalFormReferenceInput;

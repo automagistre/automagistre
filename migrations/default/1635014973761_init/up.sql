@@ -24,9 +24,6 @@ BEGIN
             ' FOR EACH ROW EXECUTE PROCEDURE public.set_current_timestamp_updated_at()';
     EXECUTE 'COMMENT ON TRIGGER ' || trigger_name || ' ON ' || target_table ||
             ' IS ''trigger to set value of column "updated_at" to current timestamp on row update''';
-
-    EXECUTE 'UPDATE ' || target_table ||
-            ' t SET created_at = cb.created_at, updated_at = cb.created_at FROM public.created_by cb WHERE cb.id = t.id';
 END ;
 $$ LANGUAGE plpgsql;
 
@@ -60,6 +57,11 @@ ALTER TABLE public.manufacturer
     DROP COLUMN logo CASCADE;
 
 SELECT public.hasura_timestampable('public.manufacturer');
+UPDATE public.manufacturer t
+   SET created_at = cb.created_at,
+       updated_at = cb.created_at
+  FROM public.created_by cb
+ WHERE cb.id = t.id;
 
 --- Vehicle
 
@@ -74,6 +76,11 @@ ALTER TABLE public.vehicle
     ALTER COLUMN id SET DEFAULT gen_random_uuid();
 
 SELECT public.hasura_timestampable('public.vehicle');
+UPDATE public.vehicle t
+   SET created_at = cb.created_at,
+       updated_at = cb.created_at
+  FROM public.created_by cb
+ WHERE cb.id = t.id;
 
 --- Part
 
@@ -99,7 +106,11 @@ CREATE TABLE public.unit
     );
 
 SELECT public.hasura_timestampable('public.part');
-
+UPDATE public.part t
+   SET created_at = cb.created_at,
+       updated_at = cb.created_at
+  FROM public.created_by cb
+ WHERE cb.id = t.id;
 ---
 
 INSERT INTO public.unit(id, name)
@@ -143,8 +154,25 @@ ALTER TABLE public.user_permission
     RENAME TO tenant_permission;
 
 SELECT public.hasura_timestampable('public.tenant');
+UPDATE public.tenant t
+   SET created_at = cb.created_at,
+       updated_at = cb.created_at
+  FROM public.created_by cb
+ WHERE cb.id = t.id;
+
 SELECT public.hasura_timestampable('public.tenant_group');
+UPDATE public.tenant_group t
+   SET created_at = cb.created_at,
+       updated_at = cb.created_at
+  FROM public.created_by cb
+ WHERE cb.id = t.id;
+
 SELECT public.hasura_timestampable('public.tenant_permission');
+UPDATE public.tenant_permission t
+   SET created_at = cb.created_at,
+       updated_at = cb.created_at
+  FROM public.created_by cb
+ WHERE cb.id = t.id;
 
 BEGIN TRANSACTION;
 ALTER TABLE public.tenant_permission
@@ -186,7 +214,7 @@ CREATE TABLE public.tenant_group_permission
     );
 
 ALTER TABLE public.tenant_group_permission ADD id uuid DEFAULT NULL;
-SELECT public.hasura_timestampable('tenant_group_permission');
+SELECT public.hasura_timestampable('public.tenant_group_permission');
 ALTER TABLE public.tenant_group_permission DROP COLUMN id;
 
 ---
@@ -295,7 +323,18 @@ SELECT app_wallet_balance_update(id)
   FROM wallet;
 
 SELECT public.hasura_timestampable('public.wallet');
+UPDATE public.wallet t
+   SET created_at = cb.created_at,
+       updated_at = cb.created_at
+  FROM public.created_by cb
+ WHERE cb.id = t.id;
+
 SELECT public.hasura_timestampable('public.wallet_transaction');
+UPDATE public.wallet_transaction t
+   SET created_at = cb.created_at,
+       updated_at = cb.created_at
+  FROM public.created_by cb
+ WHERE cb.id = t.id;
 
 --- Expense
 
@@ -334,6 +373,11 @@ ALTER TABLE public.warehouse
         FOREIGN KEY (tenant_id) REFERENCES public.tenant (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 SELECT public.hasura_timestampable('public.warehouse');
+UPDATE public.warehouse t
+   SET created_at = cb.created_at,
+       updated_at = cb.created_at
+  FROM public.created_by cb
+ WHERE cb.id = t.id;
 
 --- Part Case
 
@@ -349,31 +393,54 @@ ALTER TABLE public.part_case
         FOREIGN KEY (vehicle_id) REFERENCES public.vehicle (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 SELECT public.hasura_timestampable('public.part_case');
+UPDATE public.part_case t
+   SET created_at = cb.created_at,
+       updated_at = cb.created_at
+  FROM public.created_by cb
+ WHERE cb.id = t.id;
 
 --- Customer
 
-CREATE TABLE public.contact_type
+CREATE TABLE public.legal_form_type
     (
         id text
             PRIMARY KEY NOT NULL,
-        name jsonb NOT NULL
+        name text NOT NULL
     );
-INSERT INTO public.contact_type(id, name)
-VALUES (E'LLC', JSON_BUILD_OBJECT('short', 'ООО', 'full', 'Общество с ограниченной ответственностью', 'type', 'org')),
-       (E'SP', JSON_BUILD_OBJECT('short', 'ИП', 'full', 'Индивидуальный предприниматель', 'type', 'person')),
-       (E'CJSC', JSON_BUILD_OBJECT('short', 'ЗАО', 'full', 'Закрытое акционерное общество', 'type', 'org')),
-       (E'JSC', JSON_BUILD_OBJECT('short', 'ОАО', 'full', 'Открытое акционерное общество', 'type', 'org')),
-       (E'UNKNOWN', JSON_BUILD_OBJECT('short', 'Неизвестно', 'full', 'Неизвестно', 'type', 'org')),
-       (E'NP', JSON_BUILD_OBJECT('short', 'ФЛ', 'full', 'Физическое лицо', 'type', 'person'))
+INSERT INTO public.legal_form_type(id, name)
+VALUES (E'person', 'Человек'),
+       (E'organization', 'Организация')
 ;
+
+CREATE TABLE public.legal_form
+    (
+        id text
+            PRIMARY KEY NOT NULL,
+        short_name text NOT NULL,
+        full_name text NOT NULL,
+        type text
+            REFERENCES public.legal_form_type (id) ON UPDATE CASCADE NOT NULL
+    );
+INSERT INTO public.legal_form(id, short_name, full_name, type)
+VALUES (E'LLC', 'ООО', 'Общество с ограниченной ответственностью', 'organization'),
+       (E'SP', 'ИП', 'Индивидуальный предприниматель', 'person'),
+       (E'CJSC', 'ЗАО', 'Закрытое акционерное общество', 'organization'),
+       (E'JSC', 'ОАО', 'Открытое акционерное общество', 'organization'),
+       (E'UNKNOWN', 'Неизвестно', 'Неизвестно', 'organization'),
+       (E'NP', 'ФЛ', 'Физическое лицо', 'person'),
+       (E'AO', 'АО', 'Акционерное общество', 'organization'),
+       (E'PAO', 'ПАО', 'Публичное акционерное общество', 'organization'),
+       (E'NPO', 'НКО', 'Некоммерческая организация', 'organization')
+;
+SELECT public.hasura_timestampable('public.legal_form');
 
 DROP TABLE IF EXISTS public.contact;
 CREATE TABLE public.contact
     (
         id uuid
             PRIMARY KEY DEFAULT gen_random_uuid(),
-        type text
-            REFERENCES public.contact_type (id) DEFAULT NULL,
+        legal_form text
+            REFERENCES public.legal_form (id) ON UPDATE CASCADE DEFAULT 'UNKNOWN',
         name jsonb DEFAULT '{}'::jsonb,
         telephone text DEFAULT NULL,
         email text DEFAULT NULL,
@@ -404,7 +471,7 @@ CREATE TABLE public.contact_reference
         PRIMARY KEY (from_id, to_id)
     );
 
-INSERT INTO public.contact (id, type, name, telephone, email, contractor, supplier, tenant_group_id)
+INSERT INTO public.contact (id, legal_form, name, telephone, email, contractor, supplier, tenant_group_id)
 SELECT id, 'NP', JSON_BUILD_OBJECT('firstname', firstname, 'lastname', lastname, 'middlename', NULL), telephone, email,
        contractor, seller, tenant_group_id
   FROM person;
@@ -413,7 +480,7 @@ UPDATE organization
    SET name = REPLACE(name, '.', ' ')
  WHERE name LIKE 'ИП%';
 
-INSERT INTO public.contact (id, type, name, telephone, email, contractor, supplier, tenant_group_id, requisites)
+INSERT INTO public.contact (id, legal_form, name, telephone, email, contractor, supplier, tenant_group_id, requisites)
 SELECT id,
        CASE WHEN name LIKE 'ООО%' THEN 'LLC'
             WHEN name LIKE 'ИП%' THEN 'SP'
@@ -475,7 +542,13 @@ CREATE UNIQUE INDEX contact_unique_phone_idx ON public.contact (telephone, tenan
 -- DROP TABLE person;
 -- DROP TABLE organization;
 
-SELECT public.hasura_timestampable('contact');
+SELECT public.hasura_timestampable('public.contact');
+UPDATE public.contact t
+   SET created_at = cb.created_at,
+       updated_at = cb.created_at
+  FROM public.created_by cb
+ WHERE cb.id = t.id;
+
 --- Audit
 
 SELECT audit.audit_table('public.manufacturer');

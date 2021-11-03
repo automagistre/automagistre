@@ -15,6 +15,7 @@ import parts from './parts';
 import tenants from './tenants';
 import wallets from './wallets';
 import contacts from './contacts';
+import legalForms from './legal_forms';
 import {Layout} from "./layout";
 import themeReducer from './themeReducer';
 import customRoutes from './routes';
@@ -94,6 +95,8 @@ const Resources = () => {
         >
             <Resource name="contact" {...contacts}/>
             <Resource name="contact_type"/>
+            <Resource name="legal_form" {...legalForms}/>
+            <Resource name="legal_form_type"/>
             <Resource name="manufacturer" {...manufacturers} />
             <Resource name="part" {...parts} />
             <Resource name="tenant" {...tenants}/>

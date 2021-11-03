@@ -1,0 +1,12 @@
+table:
+    name: legal_form_type
+    schema: public
+is_enum: true
+select_permissions:
+    -   permission:
+            allow_aggregations: true
+            columns:
+                - id
+                - name
+            filter: { }
+        role: manager

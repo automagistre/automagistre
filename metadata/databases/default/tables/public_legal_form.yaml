@@ -1,0 +1,43 @@
+table:
+    name: legal_form
+    schema: public
+object_relationships:
+    -   name: legal_form_type
+        using:
+            foreign_key_constraint_on: type
+insert_permissions:
+    -   permission:
+            backend_only: false
+            check: { }
+            columns:
+                - full_name
+                - id
+                - short_name
+                - type
+        role: manager
+select_permissions:
+    -   permission:
+            allow_aggregations: true
+            columns:
+                - full_name
+                - id
+                - short_name
+                - type
+                - created_at
+                - updated_at
+            filter: { }
+        role: manager
+update_permissions:
+    -   permission:
+            check: { }
+            columns:
+                - id
+                - short_name
+                - full_name
+                - type
+            filter: { }
+        role: manager
+delete_permissions:
+    -   permission:
+            filter: { }
+        role: manager

@@ -10,6 +10,7 @@ import vehicles from '../vehicles';
 import parts from '../parts';
 import wallets from '../wallets';
 import contacts from '../contacts';
+import legalForms from '../legal_forms';
 
 import SubMenu from './SubMenu';
 import {AppState} from '../types';
@@ -86,6 +87,15 @@ const Menu = ({dense = false}: MenuProps) => {
                 icon={<FontAwesomeIcon icon={faBookOpen}/>}
                 dense={dense}
             >
+                <MenuItemLink
+                    to={{
+                        pathname: '/legal_form',
+                        state: {_scrollToTop: true},
+                    }}
+                    primaryText="Правовые формы"
+                    leftIcon={legalForms.icon}
+                    dense={dense}
+                />
                 <MenuItemLink
                     to={{
                         pathname: '/manufacturer',

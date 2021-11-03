@@ -1,22 +1,22 @@
-import {BooleanInput, Create, CreateProps, SimpleForm, TextInput,} from 'react-admin';
-import ContactTypeReferenceInput from "./ContactTypeReferenceInput";
-import {ContactForm} from "./ContactEdit";
+import {BooleanInput, Create, CreateProps, required, SimpleForm, TextInput,} from 'react-admin';
+import LegalFormReferenceInput from "../legal_forms/LegalFormReferenceInput";
 import {PhoneNumberInput} from "../phoneNumber";
+import ContactNameInput from "./ContactNameInput";
 
 const ContactCreate = (props: CreateProps) => {
     return (
         <Create {...props}>
             <SimpleForm redirect="list">
-                <>
-                    <ContactTypeReferenceInput/>
-                    <BooleanInput source="contractor" label="Подрядчик"/>
-                    <BooleanInput source="supplier" label="Поставщик"/>
-                </>
-                <ContactForm/>
+                <LegalFormReferenceInput
+                    validate={required()}
+                />
+                <ContactNameInput/>
                 <>
                     <PhoneNumberInput/>
                     <TextInput source="email" type="email"/>
                 </>
+                <BooleanInput source="contractor" label="Подрядчик"/>
+                <BooleanInput source="supplier" label="Поставщик"/>
             </SimpleForm>
         </Create>
     );

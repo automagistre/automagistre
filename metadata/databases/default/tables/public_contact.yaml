@@ -22,16 +22,19 @@ insert_permissions:
                 _and:
                     -   tenant_group:
                             tenant_group_permissions:
-                                user_id:
-                                    _eq: X-Hasura-User-Id
+                                _and:
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
+                                    -   tenant_group_id:
+                                            _eq: X-Hasura-Tenant-Group-Id
             columns:
                 - contractor
                 - email
+                - legal_form
                 - name
                 - requisites
                 - supplier
                 - telephone
-                - type
             set:
                 tenant_group_id: x-hasura-Tenant-Group-Id
         role: manager
@@ -39,23 +42,26 @@ select_permissions:
     -   permission:
             allow_aggregations: true
             columns:
+                - id
+                - legal_form
+                - name
+                - telephone
+                - email
                 - contractor
                 - supplier
-                - name
                 - requisites
-                - email
-                - telephone
-                - type
+                - tenant_group_id
                 - created_at
                 - updated_at
-                - id
-                - tenant_group_id
             filter:
                 _and:
                     -   tenant_group:
                             tenant_group_permissions:
-                                user_id:
-                                    _eq: X-Hasura-User-Id
+                                _and:
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
+                                    -   tenant_group_id:
+                                            _eq: X-Hasura-Tenant-Group-Id
         role: manager
 update_permissions:
     -   permission:
@@ -63,17 +69,20 @@ update_permissions:
             columns:
                 - contractor
                 - email
+                - legal_form
                 - name
                 - requisites
                 - supplier
                 - telephone
-                - type
             filter:
                 _and:
                     -   tenant_group:
                             tenant_group_permissions:
-                                user_id:
-                                    _eq: X-Hasura-User-Id
+                                _and:
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
+                                    -   tenant_group_id:
+                                            _eq: X-Hasura-Tenant-Group-Id
         role: manager
 delete_permissions:
     -   permission:
@@ -81,6 +90,9 @@ delete_permissions:
                 _and:
                     -   tenant_group:
                             tenant_group_permissions:
-                                user_id:
-                                    _eq: X-Hasura-User-Id
+                                _and:
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
+                                    -   tenant_group_id:
+                                            _eq: X-Hasura-Tenant-Group-Id
         role: manager

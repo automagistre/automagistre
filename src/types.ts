@@ -51,6 +51,12 @@ export interface Wallet extends Record {
     parent_id: Identifier,
 }
 
+export interface LegalForm extends Record {
+    short_name: string,
+    full_name: string,
+    type: Identifier,
+}
+
 
 export interface ContactName {
 }
@@ -67,7 +73,7 @@ export interface ContactOrganizationName extends ContactName {
 }
 
 export interface Contact extends Record, Timestampable {
-    type: string,
+    legal_form: Identifier,
     name: ContactName,
     telephone: string,
     email: string,
