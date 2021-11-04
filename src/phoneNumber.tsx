@@ -1,4 +1,6 @@
-import {TextField, TextFieldProps, TextInput, TextInputProps} from "react-admin";
+import {TextInput, TextInputProps, useRecordContext} from "react-admin";
+import {Link} from '@material-ui/core';
+import parsePhoneNumber from 'libphonenumber-js'
 
 interface InputProps {
     source?: string;
@@ -16,11 +18,27 @@ PhoneNumberInput.defaultProps = {
     addLabel: true,
 };
 
-export const PhoneNumberField = (props: TextFieldProps) => {
-    return <TextField
-        source="telephone"
-        {...props}
-    />
+interface PhoneNumberFieldProps {
+    source?: string;
+    link?: boolean,
+}
+
+export const PhoneNumberField = (props: PhoneNumberFieldProps) => {
+    const record = useRecordContext();
+
+    const telephone: string = record[props.source ?? 'telephone']
+
+    if (!telephone) return null;
+
+    const phoneNumber = parsePhoneNumber(telephone)
+
+    const value = phoneNumber?.formatInternational();
+
+    if (props.link) {
+        return <Link href={phoneNumber?.getURI()}>{value}</Link>
+    }
+
+    return <span>{value}</span>;
 };
 
 PhoneNumberField.defaultProps = {
