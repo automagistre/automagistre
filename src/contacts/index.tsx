@@ -5,10 +5,12 @@ import {faUsers} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import ContactShow from "./ContactShow";
 
-export default {
+const contacts = {
     list: ContactList,
     create: ContactCreate,
     edit: ContactEdit,
     show: ContactShow,
     icon: <FontAwesomeIcon icon={faUsers}/>,
 };
+
+export default contacts;

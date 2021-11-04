@@ -40,7 +40,7 @@ const TenantSwitch = () => {
         apolloClient
             .query({query})
             .then(res => setGroups(res.data.groups))
-    }, [])
+    }, [apolloClient])
 
     if (!groups) return <p>Загрузка</p>
 

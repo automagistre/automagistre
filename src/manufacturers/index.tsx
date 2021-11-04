@@ -4,9 +4,11 @@ import ManufacturerCreate from './ManufacturerCreate';
 import {faIndustry} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-export default {
+const manufacturers = {
     list: ManufacturerList,
     create: ManufacturerCreate,
     edit: ManufacturerEdit,
     icon: <FontAwesomeIcon icon={faIndustry}/>,
 };
+
+export default manufacturers;

@@ -1,5 +1,7 @@
 import TenantList from './TenantList';
 
-export default {
+const tenants = {
     list: TenantList,
 };
+
+export default tenants;

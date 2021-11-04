@@ -4,9 +4,11 @@ import PartCreate from './PartCreate';
 import {faCogs} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-export default {
+const parts = {
     list: PartList,
     create: PartCreate,
     edit: PartEdit,
     icon: <FontAwesomeIcon icon={faCogs}/>,
 };
+
+export default parts;

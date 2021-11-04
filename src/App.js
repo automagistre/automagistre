@@ -86,7 +86,7 @@ const Resources = () => {
         } else {
             redirect('/switch')
         }
-    }, [])
+    }, [apolloClient, dispatch, redirect, tenant])
 
     return (
         <AdminUI
