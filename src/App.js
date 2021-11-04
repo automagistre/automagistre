@@ -21,7 +21,7 @@ import themeReducer from './themeReducer';
 import customRoutes from './routes';
 import {useDispatch, useSelector} from "react-redux";
 import {CHANGE_TENANT, changeTenant} from "./tenant/actions";
-
+// TODO Convert to tsx
 let keycloakConfig = {
     url: 'https://sso.automagistre.ru/auth',
     realm: 'automagistre',
