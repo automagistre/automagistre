@@ -434,7 +434,6 @@ VALUES (E'LLC', 'ООО', 'Общество с ограниченной отве
 ;
 SELECT public.hasura_timestampable('public.legal_form');
 
-DROP TABLE IF EXISTS public.contact;
 CREATE TABLE public.contact
     (
         id uuid
@@ -450,25 +449,18 @@ CREATE TABLE public.contact
         tenant_group_id uuid NOT NULL,
         FOREIGN KEY (tenant_group_id) REFERENCES tenant_group (id)
     );
-CREATE TABLE public.contact_reference_type
-    (
-        id text
-            PRIMARY KEY NOT NULL,
-        name text NOT NULL
-    );
-DROP TABLE IF EXISTS public.contact_reference;
+
 CREATE TABLE public.contact_reference
     (
-        from_id uuid
+        id uuid
+            PRIMARY KEY DEFAULT gen_random_uuid(),
+        source_id uuid
             REFERENCES public.contact (id) NOT NULL,
-        to_id uuid
+        target_id uuid
             REFERENCES public.contact (id) NOT NULL,
-        type text
-            REFERENCES public.contact_reference_type (id) DEFAULT NULL,
         comment text DEFAULT NULL,
         tenant_group_id uuid NOT NULL,
-        FOREIGN KEY (tenant_group_id) REFERENCES tenant_group (id),
-        PRIMARY KEY (from_id, to_id)
+        FOREIGN KEY (tenant_group_id) REFERENCES tenant_group (id)
     );
 
 INSERT INTO public.contact (id, legal_form, name, telephone, email, contractor, supplier, tenant_group_id)
@@ -497,7 +489,7 @@ SELECT id,
                          requisite_ks, 'bik', requisite_bik)
   FROM organization;
 
-INSERT INTO public.contact_reference (from_id, to_id, tenant_group_id)
+INSERT INTO public.contact_reference (source_id, target_id, tenant_group_id)
 SELECT DISTINCT p.id, o.id, o.tenant_group_id
   FROM public.person p
            JOIN public.organization o
@@ -514,10 +506,10 @@ INSERT INTO contact (id, telephone, tenant_group_id)
 VALUES ('c2bebe04-9dd6-4f2b-9d32-e069451073bd',
         (SELECT telephone FROM contact WHERE id = '1ea87f90-c050-60fe-9ffc-02420a000547' LIMIT 1),
         '1ec13d33-3f41-6cf0-b012-02420a000f18');
-INSERT INTO contact_reference (from_id, to_id, tenant_group_id)
+INSERT INTO contact_reference (source_id, target_id, tenant_group_id)
 VALUES ('c2bebe04-9dd6-4f2b-9d32-e069451073bd', '1ea87f90-c050-60fe-9ffc-02420a000547',
         '1ec13d33-3f41-6cf0-b012-02420a000f18');
-INSERT INTO contact_reference (from_id, to_id, tenant_group_id)
+INSERT INTO contact_reference (source_id, target_id, tenant_group_id)
 VALUES ('c2bebe04-9dd6-4f2b-9d32-e069451073bd', '1ea87f90-c063-60d2-9183-02420a000547',
         '1ec13d33-3f41-6cf0-b012-02420a000f18');
 
@@ -525,10 +517,10 @@ INSERT INTO contact (id, telephone, tenant_group_id)
 VALUES ('f5a34863-9036-40de-a639-e2afc06e2962',
         (SELECT telephone FROM contact WHERE id = '1ea87f90-c06c-679a-99a2-02420a000547' LIMIT 1),
         '1ec13d33-3f41-6cf0-b012-02420a000f18');
-INSERT INTO contact_reference (from_id, to_id, tenant_group_id)
+INSERT INTO contact_reference (source_id, target_id, tenant_group_id)
 VALUES ('f5a34863-9036-40de-a639-e2afc06e2962', '1ea87f90-c06c-679a-99a2-02420a000547',
         '1ec13d33-3f41-6cf0-b012-02420a000f18');
-INSERT INTO contact_reference (from_id, to_id, tenant_group_id)
+INSERT INTO contact_reference (source_id, target_id, tenant_group_id)
 VALUES ('f5a34863-9036-40de-a639-e2afc06e2962', '1eb64ae7-f469-6572-9559-0242ac120038',
         '1ec13d33-3f41-6cf0-b012-02420a000f18');
 

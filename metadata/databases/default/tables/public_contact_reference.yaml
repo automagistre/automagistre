@@ -4,4 +4,26 @@ table:
 object_relationships:
     -   name: contact
         using:
-            foreign_key_constraint_on: to_id
+            foreign_key_constraint_on: target_id
+    -   name: tenant_group
+        using:
+            foreign_key_constraint_on: tenant_group_id
+select_permissions:
+    -   permission:
+            allow_aggregations: true
+            columns:
+                - comment
+                - id
+                - source_id
+                - target_id
+                - tenant_group_id
+            filter:
+                _and:
+                    -   tenant_group:
+                            tenant_group_permissions:
+                                _and:
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
+                                    -   tenant_group_id:
+                                            _eq: X-Hasura-Tenant-Group-Id
+        role: manager

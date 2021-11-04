@@ -10,7 +10,7 @@ array_relationships:
         using:
             manual_configuration:
                 column_mapping:
-                    id: from_id
+                    id: source_id
                 insertion_order: null
                 remote_table:
                     name: contact_reference

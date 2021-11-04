@@ -1,4 +1,5 @@
-import {ReferenceField, ReferenceFieldProps, TextField} from 'react-admin';
+import {ReferenceField, ReferenceFieldProps} from 'react-admin';
+import ContactNameField from "./ContactNameField";
 
 interface Props {
     source?: string;
@@ -13,12 +14,12 @@ const ContactReferenceField = (
         reference="contact"
         {...props}
     >
-        <TextField source="name"/>
+        <ContactNameField/>
     </ReferenceField>
 );
 
 ContactReferenceField.defaultProps = {
-    label: "Счёт",
+    label: "Контакт",
     source: 'contact_id',
     addLabel: true,
 };

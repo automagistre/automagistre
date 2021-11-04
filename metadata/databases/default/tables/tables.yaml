@@ -1,6 +1,5 @@
 - "!include public_contact.yaml"
 - "!include public_contact_reference.yaml"
-- "!include public_contact_reference_type.yaml"
 - "!include public_expense.yaml"
 - "!include public_income.yaml"
 - "!include public_legal_form.yaml"

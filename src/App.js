@@ -94,7 +94,7 @@ const Resources = () => {
             layout={Layout}
         >
             <Resource name="contact" {...contacts}/>
-            <Resource name="contact_type"/>
+            <Resource name="contact_reference"/>
             <Resource name="legal_form" {...legalForms}/>
             <Resource name="legal_form_type"/>
             <Resource name="manufacturer" {...manufacturers} />

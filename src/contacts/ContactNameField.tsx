@@ -1,11 +1,7 @@
-import {useRecordContext} from 'react-admin';
+import {FieldProps, useRecordContext} from 'react-admin';
 import {Contact, ContactOrganizationName, ContactPersonName} from "../types";
 
-interface Props {
-    source?: string;
-}
-
-const ContactNameField = (props: Props) => {
+const ContactNameField = (props: FieldProps<Contact>) => {
     const contact: Contact = useRecordContext(props);
 
     if (contact.name.hasOwnProperty('firstname')) {
