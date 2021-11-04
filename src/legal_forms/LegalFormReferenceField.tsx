@@ -1,7 +1,8 @@
 import {ReferenceField, ReferenceFieldProps, TextField} from 'react-admin';
 
 interface Props {
-    source?: string;
+    source?: string,
+    format?: string,
 }
 
 const LegalFormReferenceField = (
@@ -13,7 +14,7 @@ const LegalFormReferenceField = (
         reference="legal_form"
         {...props}
     >
-        <TextField source="short_name"/>
+        <TextField source={props.format === 'long' ? 'full_name' : 'short_name'}/>
     </ReferenceField>
 );
 
