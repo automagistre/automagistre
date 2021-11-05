@@ -1,4 +1,6 @@
 import {AutocompleteInput, ReferenceInput, ReferenceInputProps} from 'react-admin'
+import {Contact} from '../types'
+import ContactNameField from './ContactNameField'
 
 interface Props {
     source?: string;
@@ -12,16 +14,17 @@ const ContactReferenceInput = (
         {...props}
         source="contact_id"
         reference="contact"
-        filterToQuery={searchText => ({'name,localized_name': searchText})}
+        filterToQuery={searchText => ({'telephone': searchText})}
     >
-        <AutocompleteInput optionText="name" source="name"/>
+        <AutocompleteInput inputText={(record: Contact) => record.telephone} optionText={<ContactNameField/>}
+                           matchSuggestion={() => true} source="name"/>
     </ReferenceInput>
 )
 
 ContactReferenceInput.defaultProps = {
-    label: 'Счёт',
+    label: 'Контакт',
     source: 'contact_id',
-    addLabel: true,
+    addLabel: false,
 }
 
 export default ContactReferenceInput

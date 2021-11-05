@@ -8,6 +8,25 @@ object_relationships:
     -   name: tenant_group
         using:
             foreign_key_constraint_on: tenant_group_id
+insert_permissions:
+    -   permission:
+            backend_only: false
+            check:
+                _and:
+                    -   tenant_group:
+                            tenant_group_permissions:
+                                _and:
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
+                                    -   tenant_group_id:
+                                            _eq: X-Hasura-Tenant-Group-Id
+            columns:
+                - comment
+                - source_id
+                - target_id
+            set:
+                tenant_group_id: x-hasura-Tenant-Group-Id
+        role: manager
 select_permissions:
     -   permission:
             allow_aggregations: true
