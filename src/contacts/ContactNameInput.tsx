@@ -1,11 +1,11 @@
-import {TextInput, useGetList} from 'react-admin';
-import {useFormState} from "react-final-form";
+import {TextInput, useGetList} from 'react-admin'
+import {useFormState} from 'react-final-form'
 
 const ContactNameInput = () => {
-    const {values} = useFormState();
-    const {data, loading} = useGetList('legal_form');
+    const {values} = useFormState()
+    const {data, loading} = useGetList('legal_form')
 
-    if (loading) return <span>Загрузка...</span>;
+    if (loading) return <span>Загрузка...</span>
 
     if (!values.legal_form) return <span>Выберите правовую форму</span>
 
@@ -29,11 +29,11 @@ const ContactNameInput = () => {
     console.error(`Legal form "${values.legal_form}" not found`)
 
     return <span>Ошибка правовой формы, обратитесь к разработчикам.</span>
-};
+}
 
 ContactNameInput.defaultProps = {
-    label: "Наименование",
+    label: 'Наименование',
     source: 'name',
-};
+}
 
-export default ContactNameInput;
+export default ContactNameInput

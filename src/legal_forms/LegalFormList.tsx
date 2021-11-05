@@ -1,5 +1,5 @@
-import {Datagrid, List, ListProps, TextField,} from 'react-admin';
-import LegalFormTypeReferenceField from "./LegalFormTypeReferenceField";
+import {Datagrid, List, ListProps, TextField} from 'react-admin'
+import LegalFormTypeReferenceField from './LegalFormTypeReferenceField'
 
 const LegalFormList = (props: ListProps) => {
     return (
@@ -16,7 +16,7 @@ const LegalFormList = (props: ListProps) => {
                 <LegalFormTypeReferenceField/>
             </Datagrid>
         </List>
-    );
-};
+    )
+}
 
-export default LegalFormList;
+export default LegalFormList

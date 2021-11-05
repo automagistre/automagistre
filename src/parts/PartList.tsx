@@ -1,6 +1,6 @@
-import {BooleanField, Datagrid, List, ListProps, TextField,} from 'react-admin';
-import ManufacturerReferenceField from "../manufacturers/ManufacturerReferenceField";
-import UnitReferenceField from "./UnitReferenceField";
+import {BooleanField, Datagrid, List, ListProps, TextField} from 'react-admin'
+import ManufacturerReferenceField from '../manufacturers/ManufacturerReferenceField'
+import UnitReferenceField from './UnitReferenceField'
 
 const PartList = (props: ListProps) => {
     return (
@@ -28,7 +28,7 @@ const PartList = (props: ListProps) => {
                 <UnitReferenceField/>
             </Datagrid>
         </List>
-    );
-};
+    )
+}
 
-export default PartList;
+export default PartList

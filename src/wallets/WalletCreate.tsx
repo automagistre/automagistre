@@ -1,4 +1,4 @@
-import {BooleanInput, Create, CreateProps, required, SimpleForm, TextInput,} from 'react-admin';
+import {BooleanInput, Create, CreateProps, required, SimpleForm, TextInput} from 'react-admin'
 
 const WalletCreate = (props: CreateProps) => {
     return (
@@ -15,7 +15,7 @@ const WalletCreate = (props: CreateProps) => {
                 <BooleanInput source="default_in_manual_transaction" label="По умолчанию в ручной проводке"/>
             </SimpleForm>
         </Create>
-    );
-};
+    )
+}
 
-export default WalletCreate;
+export default WalletCreate

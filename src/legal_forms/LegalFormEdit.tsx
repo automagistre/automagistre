@@ -1,13 +1,13 @@
-import {Edit, EditProps, required, SimpleForm, TextInput,} from 'react-admin';
-import {Contact} from '../types';
-import LegalFormTypeReferenceInput from "./LegalFormTypeReferenceInput";
+import {Edit, EditProps, required, SimpleForm, TextInput} from 'react-admin'
+import {Contact} from '../types'
+import LegalFormTypeReferenceInput from './LegalFormTypeReferenceInput'
 
 interface LegalFormTitleProps {
     record?: Contact;
 }
 
 const LegalFormTitle = ({record}: LegalFormTitleProps) => record ?
-    <span>Правовая форма {record.short_name}</span> : null;
+    <span>Правовая форма {record.short_name}</span> : null
 
 const LegalFormEdit = (props: EditProps) => {
     return (
@@ -19,7 +19,7 @@ const LegalFormEdit = (props: EditProps) => {
                 <LegalFormTypeReferenceInput validate={required()}/>
             </SimpleForm>
         </Edit>
-    );
-};
+    )
+}
 
-export default LegalFormEdit;
+export default LegalFormEdit

@@ -1,9 +1,9 @@
-import {Box, Chip, Divider, Typography} from '@mui/material';
-import {EditButton, ShowButton} from "react-admin";
-import {Contact} from "../types";
-import ContactNameField from "./ContactNameField";
-import LegalFormReferenceField from "../legal_forms/LegalFormReferenceField";
-import {PhoneNumberField} from "../phoneNumber";
+import {Box, Chip, Divider, Typography} from '@mui/material'
+import {EditButton, ShowButton} from 'react-admin'
+import LegalFormReferenceField from '../legal_forms/LegalFormReferenceField'
+import {PhoneNumberField} from '../phoneNumber'
+import {Contact} from '../types'
+import ContactNameField from './ContactNameField'
 
 export const ContactAside = ({record, link = 'edit'}: { record?: Contact; link?: string; }) =>
     record ? (
@@ -46,4 +46,4 @@ export const ContactAside = ({record, link = 'edit'}: { record?: Contact; link?:
                 {record.supplier && [<Chip label="Поставщик" variant="outlined"/>, <br/>]}
             </Box>
         </Box>
-    ) : null;
+    ) : null

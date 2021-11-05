@@ -1,15 +1,6 @@
-import * as React from 'react';
-import {ChangeEvent, useState} from 'react';
-import {
-    Identifier,
-    ReferenceManyField,
-    ShowBase,
-    ShowProps,
-    useListContext,
-    useRecordContext,
-    useRedirect,
-    useShowContext,
-} from 'react-admin';
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditButton from '@mui/icons-material/Edit'
+import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import {
     Box,
     Button,
@@ -23,21 +14,30 @@ import {
     Tab,
     Tabs,
     Typography,
-} from '@mui/material';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import {Route} from 'react-router-dom';
-import {formatDistance} from 'date-fns';
+} from '@mui/material'
+import IconButton from '@mui/material/IconButton'
+import {formatDistance} from 'date-fns'
 import {ru} from 'date-fns/locale'
+import * as React from 'react'
+import {ChangeEvent, useState} from 'react'
+import {
+    Identifier,
+    ReferenceManyField,
+    ShowBase,
+    ShowProps,
+    useListContext,
+    useRecordContext,
+    useRedirect,
+    useShowContext,
+} from 'react-admin'
+import {Route} from 'react-router-dom'
+import LegalFormReferenceField from '../legal_forms/LegalFormReferenceField'
+import {Contact, ContactRelation} from '../types'
 
-import {ContactAside} from './ContactAside';
-import {Contact, ContactRelation} from '../types';
-import ContactNameField from "./ContactNameField";
-import ContactRelationCreate from "./ContactRelationCreate";
-import ContactReferenceField from "./ContactReferenceField";
-import LegalFormReferenceField from "../legal_forms/LegalFormReferenceField";
-import EditButton from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import IconButton from '@mui/material/IconButton';
+import {ContactAside} from './ContactAside'
+import ContactNameField from './ContactNameField'
+import ContactReferenceField from './ContactReferenceField'
+import ContactRelationCreate from './ContactRelationCreate'
 
 const ContactShow = (props: ShowProps) => (
     <>
@@ -55,15 +55,15 @@ const ContactShow = (props: ShowProps) => (
         {/*    }*/}
         {/*</Route>*/}
     </>
-);
+)
 
 const ContactShowContent = () => {
-    const {record, loaded} = useShowContext<Contact>();
-    const [value, setValue] = useState(0);
+    const {record, loaded} = useShowContext<Contact>()
+    const [value, setValue] = useState(0)
     const handleChange = (_event: ChangeEvent<{}>, newValue: number) => {
-        setValue(newValue);
-    };
-    if (!loaded || !record) return null;
+        setValue(newValue)
+    }
+    if (!loaded || !record) return null
 
     return (
         <Box mt={2} display="flex">
@@ -106,8 +106,8 @@ const ContactShowContent = () => {
             </Box>
             <ContactAside record={record}/>
         </Box>
-    );
-};
+    )
+}
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -116,7 +116,7 @@ interface TabPanelProps {
 }
 
 const TabPanel = (props: TabPanelProps) => {
-    const {children, value, index, ...other} = props;
+    const {children, value, index, ...other} = props
 
     return (
         <div
@@ -128,21 +128,21 @@ const TabPanel = (props: TabPanelProps) => {
         >
             {children}
         </div>
-    );
-};
+    )
+}
 
 const ContactsIterator = () => {
-    const {data, ids, loaded} = useListContext<ContactRelation>();
-    const record = useRecordContext<ContactRelation>();
-    const redirect = useRedirect();
+    const {data, ids, loaded} = useListContext<ContactRelation>()
+    const record = useRecordContext<ContactRelation>()
+    const redirect = useRedirect()
 
-    if (!loaded) return null;
+    if (!loaded) return null
 
     return (
         <Box>
             <List>
                 {ids.map(id => {
-                    const relation: ContactRelation = data[id];
+                    const relation: ContactRelation = data[id]
 
                     return (
                         <ListItem
@@ -171,18 +171,18 @@ const ContactsIterator = () => {
                                 </IconButton>
                             </ListItemSecondaryAction>
                         </ListItem>
-                    );
+                    )
                 })}
             </List>
             <Box textAlign="center" mt={1}>
                 <CreateRelatedContactButton id={record.id}/>
             </Box>
         </Box>
-    );
-};
+    )
+}
 
 const CreateRelatedContactButton = ({id}: { id: Identifier }) => {
-    const redirect = useRedirect();
+    const redirect = useRedirect()
 
     return (
         <Button
@@ -194,7 +194,7 @@ const CreateRelatedContactButton = ({id}: { id: Identifier }) => {
         >
             Добавить связь
         </Button>
-    );
-};
+    )
+}
 
-export default ContactShow;
+export default ContactShow

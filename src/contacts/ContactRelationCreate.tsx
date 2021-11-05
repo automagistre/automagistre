@@ -1,24 +1,24 @@
-import {Create, Identifier, required, SimpleForm, TextInput, useRedirect,} from 'react-admin';
-import {Dialog} from '@mui/material';
-import {makeStyles} from '@mui/styles';
+import {Dialog} from '@mui/material'
+import {makeStyles} from '@mui/styles'
+import {Create, Identifier, required, SimpleForm, TextInput, useRedirect} from 'react-admin'
 
 const useStyles = makeStyles({
     root: {
         width: 500,
     },
-});
+})
 
 const ContactRelationCreate = ({open, contactId}: { open: boolean, contactId: Identifier }) => {
-    const classes = useStyles();
-    const redirect = useRedirect();
+    const classes = useStyles()
+    const redirect = useRedirect()
 
     const handleClose = () => {
-        redirect('/contact/' + contactId);
-    };
+        redirect('/contact/' + contactId)
+    }
 
     const onSuccess = () => {
         console.log('onSuccess')
-    };
+    }
 
     return (
         <Dialog open={open} onClose={handleClose}>
@@ -38,7 +38,7 @@ const ContactRelationCreate = ({open, contactId}: { open: boolean, contactId: Id
                 </SimpleForm>
             </Create>
         </Dialog>
-    );
-};
+    )
+}
 
-export default ContactRelationCreate;
+export default ContactRelationCreate

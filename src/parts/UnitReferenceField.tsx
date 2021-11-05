@@ -1,4 +1,4 @@
-import {ReferenceField, ReferenceFieldProps, TextField} from 'react-admin';
+import {ReferenceField, ReferenceFieldProps, TextField} from 'react-admin'
 
 interface Props {
     source?: string;
@@ -6,7 +6,7 @@ interface Props {
 
 const UnitReferenceField = (
     props: Props &
-        Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>
+        Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>,
 ) => (
     <ReferenceField
         source="unit"
@@ -15,13 +15,13 @@ const UnitReferenceField = (
     >
         <TextField source="name"/>
     </ReferenceField>
-);
+)
 
 UnitReferenceField.defaultProps = {
     label: 'Единица измерения',
     source: 'unit',
     addLabel: true,
     link: false,
-};
+}
 
-export default UnitReferenceField;
+export default UnitReferenceField

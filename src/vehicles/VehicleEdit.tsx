@@ -6,15 +6,15 @@ import {
     ReferenceInput,
     required,
     SimpleForm,
-    TextInput
-} from 'react-admin';
-import {Vehicle} from '../types';
+    TextInput,
+} from 'react-admin'
+import {Vehicle} from '../types'
 
 interface VehicleTitleProps {
     record?: Vehicle;
 }
 
-const VehicleTitle = ({record}: VehicleTitleProps) => record ? <span>Кузов {record.name}</span> : null;
+const VehicleTitle = ({record}: VehicleTitleProps) => record ? <span>Кузов {record.name}</span> : null
 
 const VehicleEdit = (props: EditProps) => {
     return (
@@ -25,7 +25,7 @@ const VehicleEdit = (props: EditProps) => {
                     reference="manufacturer"
                     label="Производитель"
                     validate={required()}
-                    filterToQuery={searchText => ({"name,localized_name": searchText})}
+                    filterToQuery={searchText => ({'name,localized_name': searchText})}
                 >
                     <AutocompleteInput optionText="name" source="name"/>
                 </ReferenceInput>
@@ -52,7 +52,7 @@ const VehicleEdit = (props: EditProps) => {
                 />
             </SimpleForm>
         </Edit>
-    );
-};
+    )
+}
 
-export default VehicleEdit;
+export default VehicleEdit

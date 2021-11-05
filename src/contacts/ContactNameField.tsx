@@ -1,13 +1,13 @@
-import {FieldProps, useGetList, useRecordContext} from 'react-admin';
-import {Contact, ContactOrganizationName, ContactPersonName} from "../types";
+import {FieldProps, useGetList, useRecordContext} from 'react-admin'
+import {Contact, ContactOrganizationName, ContactPersonName} from '../types'
 
 
 const ContactNameField = (props: FieldProps<Contact>) => {
-    const contact: Contact = useRecordContext(props);
+    const contact: Contact = useRecordContext(props)
 
-    const {data, loading} = useGetList('legal_form');
+    const {data, loading} = useGetList('legal_form')
 
-    if (loading) return <span>Загрузка...</span>;
+    if (loading) return <span>Загрузка...</span>
 
     const legalForm = data[contact.legal_form]
 
@@ -24,12 +24,12 @@ const ContactNameField = (props: FieldProps<Contact>) => {
 
         return <span>Ошибка</span>
     }
-};
+}
 
 ContactNameField.defaultProps = {
-    label: "Наименование",
+    label: 'Наименование',
     source: 'name',
     addLabel: true,
-};
+}
 
-export default ContactNameField;
+export default ContactNameField

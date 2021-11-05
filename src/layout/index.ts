@@ -1,5 +1,5 @@
-import AppBar from './AppBar';
-import Layout from './Layout';
-import Menu from './Menu';
+import AppBar from './AppBar'
+import Layout from './Layout'
+import Menu from './Menu'
 
-export {AppBar, Layout, Menu};
+export {AppBar, Layout, Menu}

@@ -7,7 +7,7 @@ import {
     required,
     SimpleForm,
     TextInput,
-} from 'react-admin';
+} from 'react-admin'
 
 const VehicleCreate = (props: CreateProps) => {
     return (
@@ -18,7 +18,7 @@ const VehicleCreate = (props: CreateProps) => {
                     reference="manufacturer"
                     label="Производитель"
                     validate={required()}
-                    filterToQuery={searchText => ({"name,localized_name": searchText})}
+                    filterToQuery={searchText => ({'name,localized_name': searchText})}
                 >
                     <AutocompleteInput optionText="name" source="name"/>
                 </ReferenceInput>
@@ -45,7 +45,7 @@ const VehicleCreate = (props: CreateProps) => {
                 />
             </SimpleForm>
         </Create>
-    );
-};
+    )
+}
 
-export default VehicleCreate;
+export default VehicleCreate

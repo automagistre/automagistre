@@ -1,4 +1,4 @@
-import {Create, CreateProps, required, SimpleForm, TextInput,} from 'react-admin';
+import {Create, CreateProps, required, SimpleForm, TextInput} from 'react-admin'
 
 const ManufacturerCreate = (props: CreateProps) => {
     return (
@@ -15,7 +15,7 @@ const ManufacturerCreate = (props: CreateProps) => {
                 />
             </SimpleForm>
         </Create>
-    );
-};
+    )
+}
 
-export default ManufacturerCreate;
+export default ManufacturerCreate

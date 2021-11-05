@@ -1,7 +1,7 @@
-import TenantList from './TenantList';
+import TenantList from './TenantList'
 
 const tenants = {
     list: TenantList,
-};
+}
 
-export default tenants;
+export default tenants

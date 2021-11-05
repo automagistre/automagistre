@@ -1,4 +1,4 @@
-import {ReferenceField, ReferenceFieldProps, TextField} from 'react-admin';
+import {ReferenceField, ReferenceFieldProps, TextField} from 'react-admin'
 
 interface Props {
     source?: string;
@@ -6,7 +6,7 @@ interface Props {
 
 const LegalFormTypeReferenceField = (
     props: Props &
-        Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>
+        Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>,
 ) => (
     <ReferenceField
         source="type"
@@ -15,13 +15,13 @@ const LegalFormTypeReferenceField = (
     >
         <TextField source="name"/>
     </ReferenceField>
-);
+)
 
 LegalFormTypeReferenceField.defaultProps = {
-    label: "Тип правовой формы",
+    label: 'Тип правовой формы',
     source: 'type',
     addLabel: true,
     link: false,
-};
+}
 
-export default LegalFormTypeReferenceField;
+export default LegalFormTypeReferenceField

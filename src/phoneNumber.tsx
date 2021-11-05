@@ -1,6 +1,6 @@
-import {TextInput, TextInputProps, useRecordContext} from "react-admin";
-import {Link} from '@mui/material';
+import {Link} from '@mui/material'
 import parsePhoneNumber from 'libphonenumber-js'
+import {TextInput, TextInputProps, useRecordContext} from 'react-admin'
 
 interface InputProps {
     source?: string;
@@ -11,12 +11,12 @@ export const PhoneNumberInput = (props: InputProps & Omit<TextInputProps, 'sourc
         source="telephone"
         {...props}
     />
-};
+}
 
 PhoneNumberInput.defaultProps = {
-    label: "Телефон",
+    label: 'Телефон',
     addLabel: true,
-};
+}
 
 interface PhoneNumberFieldProps {
     source?: string;
@@ -24,26 +24,26 @@ interface PhoneNumberFieldProps {
 }
 
 export const PhoneNumberField = (props: PhoneNumberFieldProps) => {
-    const record = useRecordContext();
+    const record = useRecordContext()
 
     const telephone: string = record[props.source ?? 'telephone']
 
-    if (!telephone) return null;
+    if (!telephone) return null
 
     const phoneNumber = parsePhoneNumber(telephone)
 
-    const value = phoneNumber?.formatInternational();
+    const value = phoneNumber?.formatInternational()
 
     if (props.link) {
         return <Link href={phoneNumber?.getURI()}>{value}</Link>
     }
 
-    return <span>{value}</span>;
-};
+    return <span>{value}</span>
+}
 
 PhoneNumberField.defaultProps = {
-    label: "Телефон",
+    label: 'Телефон',
     addLabel: true,
-};
+}
 
 // TODO Валидация телефонов

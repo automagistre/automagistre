@@ -1,11 +1,11 @@
-import {forwardRef} from 'react';
-import {AppBar, MenuItemLink, useRedirect, UserMenu} from 'react-admin';
-import Typography from '@mui/material/Typography';
-import SettingsIcon from '@mui/icons-material/Settings';
-import {makeStyles} from '@mui/styles';
-import {useSelector} from "react-redux";
-import {AppState} from "../types";
-import Button from "@mui/material/Button";
+import SettingsIcon from '@mui/icons-material/Settings'
+import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
+import {makeStyles} from '@mui/styles'
+import {forwardRef} from 'react'
+import {AppBar, MenuItemLink, useRedirect, UserMenu} from 'react-admin'
+import {useSelector} from 'react-redux'
+import {AppState} from '../types'
 
 const useStyles = makeStyles({
     title: {
@@ -17,7 +17,7 @@ const useStyles = makeStyles({
     spacer: {
         flex: 1,
     },
-});
+})
 
 const ConfigurationMenu = forwardRef<any, any>((props, ref) => {
     return (
@@ -29,19 +29,19 @@ const ConfigurationMenu = forwardRef<any, any>((props, ref) => {
             onClick={props.onClick}
             sidebarIsOpen
         />
-    );
-});
+    )
+})
 
 const CustomUserMenu = (props: any) => (
     <UserMenu {...props}>
         <ConfigurationMenu/>
     </UserMenu>
-);
+)
 
 const CustomAppBar = (props: any) => {
-    const classes = useStyles();
+    const classes = useStyles()
     const tenant = useSelector((state: AppState) => state.tenant)
-    const redirect = useRedirect();
+    const redirect = useRedirect()
 
     return (
         <AppBar {...props} elevation={1} userMenu={<CustomUserMenu/>}>
@@ -54,7 +54,7 @@ const CustomAppBar = (props: any) => {
             <span className={classes.spacer}/>
             {tenant && <Button onClick={() => redirect('/switch')}>{tenant.name}</Button>}
         </AppBar>
-    );
-};
+    )
+}
 
-export default CustomAppBar;
+export default CustomAppBar

@@ -1,5 +1,5 @@
-import {Create, CreateProps, required, SimpleForm, TextInput,} from 'react-admin';
-import LegalFormTypeReferenceInput from "./LegalFormTypeReferenceInput";
+import {Create, CreateProps, required, SimpleForm, TextInput} from 'react-admin'
+import LegalFormTypeReferenceInput from './LegalFormTypeReferenceInput'
 
 const LegalFormCreate = (props: CreateProps) => {
     return (
@@ -11,7 +11,7 @@ const LegalFormCreate = (props: CreateProps) => {
                 <LegalFormTypeReferenceInput validate={required()}/>
             </SimpleForm>
         </Create>
-    );
-};
+    )
+}
 
-export default LegalFormCreate;
+export default LegalFormCreate

@@ -1,4 +1,4 @@
-import {ReferenceField, ReferenceFieldProps, TextField} from 'react-admin';
+import {ReferenceField, ReferenceFieldProps, TextField} from 'react-admin'
 
 interface Props {
     source?: string;
@@ -6,7 +6,7 @@ interface Props {
 
 const WalletReferenceField = (
     props: Props &
-        Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>
+        Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>,
 ) => (
     <ReferenceField
         source="wallet_id"
@@ -15,12 +15,12 @@ const WalletReferenceField = (
     >
         <TextField source="name"/>
     </ReferenceField>
-);
+)
 
 WalletReferenceField.defaultProps = {
-    label: "Счёт",
+    label: 'Счёт',
     source: 'wallet_id',
     addLabel: true,
-};
+}
 
-export default WalletReferenceField;
+export default WalletReferenceField

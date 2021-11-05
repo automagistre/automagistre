@@ -1,4 +1,4 @@
-import {Datagrid, List, ListProps, TextField,} from 'react-admin';
+import {Datagrid, List, ListProps, TextField} from 'react-admin'
 
 const TenantList = (props: ListProps) => {
     return (
@@ -16,7 +16,7 @@ const TenantList = (props: ListProps) => {
                 />
             </Datagrid>
         </List>
-    );
-};
+    )
+}
 
-export default TenantList;
+export default TenantList

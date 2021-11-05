@@ -1,4 +1,4 @@
-import {ReferenceField, ReferenceFieldProps, TextField} from 'react-admin';
+import {ReferenceField, ReferenceFieldProps, TextField} from 'react-admin'
 
 interface Props {
     source?: string;
@@ -6,7 +6,7 @@ interface Props {
 
 const VehicleReferenceField = (
     props: Props &
-        Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>
+        Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>,
 ) => (
     <ReferenceField
         label="Производитель"
@@ -16,11 +16,11 @@ const VehicleReferenceField = (
     >
         <TextField source="reference"/>
     </ReferenceField>
-);
+)
 
 VehicleReferenceField.defaultProps = {
     source: 'vehicle_id',
     addLabel: true,
-};
+}
 
-export default VehicleReferenceField;
+export default VehicleReferenceField

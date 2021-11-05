@@ -1,4 +1,4 @@
-import {Datagrid, List, ListProps, TextField,} from 'react-admin';
+import {Datagrid, List, ListProps, TextField} from 'react-admin'
 
 const ManufacturerList = (props: ListProps) => {
     return (
@@ -20,7 +20,7 @@ const ManufacturerList = (props: ListProps) => {
                 />
             </Datagrid>
         </List>
-    );
-};
+    )
+}
 
-export default ManufacturerList;
+export default ManufacturerList

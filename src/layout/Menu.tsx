@@ -1,38 +1,38 @@
-import {useState} from 'react';
-import {useSelector} from 'react-redux';
-import {Theme} from '@mui/material/styles';
-import classnames from 'classnames';
-import {DashboardMenuItem, MenuItemLink, MenuProps, ReduxState,} from 'react-admin';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {makeStyles} from '@mui/styles';
+import {faBookOpen, faPiggyBank, faUsers} from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {Theme} from '@mui/material/styles'
+import {makeStyles} from '@mui/styles'
+import classnames from 'classnames'
+import {useState} from 'react'
+import {DashboardMenuItem, MenuItemLink, MenuProps, ReduxState} from 'react-admin'
+import {useSelector} from 'react-redux'
+import contacts from '../contacts'
+import legalForms from '../legal_forms'
 
-import manufacturers from '../manufacturers';
-import vehicles from '../vehicles';
-import parts from '../parts';
-import wallets from '../wallets';
-import contacts from '../contacts';
-import legalForms from '../legal_forms';
+import manufacturers from '../manufacturers'
+import parts from '../parts'
+import {AppState} from '../types'
+import vehicles from '../vehicles'
+import wallets from '../wallets'
 
-import SubMenu from './SubMenu';
-import {AppState} from '../types';
-import {faBookOpen, faPiggyBank, faUsers} from "@fortawesome/free-solid-svg-icons";
+import SubMenu from './SubMenu'
 
 type MenuName = 'menuCatalog' | 'menuFinance' | 'menuCustomers';
 
 const Menu = ({dense = false}: MenuProps) => {
-    const tenant = useSelector((state: AppState) => state.tenant);
+    const tenant = useSelector((state: AppState) => state.tenant)
     const [state, setState] = useState({
         menuCatalog: true,
         menuFinance: true,
         menuCustomers: true,
-    });
-    const open = useSelector((state: ReduxState) => state.admin.ui.sidebarOpen);
-    useSelector((state: AppState) => state.theme); // force rerender on theme change
-    const classes = useStyles();
+    })
+    const open = useSelector((state: ReduxState) => state.admin.ui.sidebarOpen)
+    useSelector((state: AppState) => state.theme) // force rerender on theme change
+    const classes = useStyles()
 
     const handleToggle = (menu: MenuName) => {
-        setState(state => ({...state, [menu]: !state[menu]}));
-    };
+        setState(state => ({...state, [menu]: !state[menu]}))
+    }
 
     if (!tenant) {
         return <></>
@@ -126,8 +126,8 @@ const Menu = ({dense = false}: MenuProps) => {
                 />
             </SubMenu>
         </div>
-    );
-};
+    )
+}
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
@@ -144,6 +144,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     closed: {
         width: 55,
     },
-}));
+}))
 
-export default Menu;
+export default Menu

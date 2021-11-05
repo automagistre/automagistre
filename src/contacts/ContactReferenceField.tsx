@@ -1,5 +1,5 @@
-import {ReferenceField, ReferenceFieldProps} from 'react-admin';
-import ContactNameField from "./ContactNameField";
+import {ReferenceField, ReferenceFieldProps} from 'react-admin'
+import ContactNameField from './ContactNameField'
 
 interface Props {
     source?: string;
@@ -7,7 +7,7 @@ interface Props {
 
 const ContactReferenceField = (
     props: Props &
-        Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>
+        Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>,
 ) => (
     <ReferenceField
         source="contact_id"
@@ -16,12 +16,12 @@ const ContactReferenceField = (
     >
         <ContactNameField/>
     </ReferenceField>
-);
+)
 
 ContactReferenceField.defaultProps = {
-    label: "Контакт",
+    label: 'Контакт',
     source: 'contact_id',
     addLabel: true,
-};
+}
 
-export default ContactReferenceField;
+export default ContactReferenceField

@@ -7,8 +7,8 @@ import {
     SelectInput,
     SimpleForm,
     TextInput,
-} from 'react-admin';
-import ManufacturerReferenceInput from "../manufacturers/ManufacturerReferenceInput";
+} from 'react-admin'
+import ManufacturerReferenceInput from '../manufacturers/ManufacturerReferenceInput'
 
 const PartCreate = (props: CreateProps) => {
     return (
@@ -44,7 +44,7 @@ const PartCreate = (props: CreateProps) => {
                 />
             </SimpleForm>
         </Create>
-    );
-};
+    )
+}
 
-export default PartCreate;
+export default PartCreate

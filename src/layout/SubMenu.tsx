@@ -1,10 +1,10 @@
-import {Fragment, ReactElement, ReactNode} from 'react';
-import {useSelector} from 'react-redux';
-import {Collapse, List, ListItemIcon, MenuItem, Tooltip, Typography,} from '@mui/material';
-import {makeStyles} from '@mui/styles';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import {ReduxState} from 'react-admin';
-import {Theme} from '@mui/material/styles';
+import ExpandMore from '@mui/icons-material/ExpandMore'
+import {Collapse, List, ListItemIcon, MenuItem, Tooltip, Typography} from '@mui/material'
+import {Theme} from '@mui/material/styles'
+import {makeStyles} from '@mui/styles'
+import {Fragment, ReactElement, ReactNode} from 'react'
+import {ReduxState} from 'react-admin'
+import {useSelector} from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) => ({
     icon: {minWidth: theme.spacing(5)},
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) => ({
             paddingLeft: theme.spacing(2),
         },
     },
-}));
+}))
 
 interface Props {
     dense: boolean;
@@ -32,11 +32,11 @@ interface Props {
 }
 
 const SubMenu = (props: Props) => {
-    const {handleToggle, isOpen, name, icon, children, dense} = props;
-    const classes = useStyles();
+    const {handleToggle, isOpen, name, icon, children, dense} = props
+    const classes = useStyles()
     const sidebarIsOpen = useSelector<ReduxState, boolean>(
-        state => state.admin.ui.sidebarOpen
-    );
+        state => state.admin.ui.sidebarOpen,
+    )
 
     const header = (
         <MenuItem dense={dense} onClick={handleToggle}>
@@ -47,7 +47,7 @@ const SubMenu = (props: Props) => {
                 {name}
             </Typography>
         </MenuItem>
-    );
+    )
 
     return (
         <Fragment>
@@ -73,7 +73,7 @@ const SubMenu = (props: Props) => {
                 </List>
             </Collapse>
         </Fragment>
-    );
-};
+    )
+}
 
-export default SubMenu;
+export default SubMenu

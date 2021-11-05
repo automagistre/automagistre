@@ -1,7 +1,7 @@
-import {BooleanInput, Create, CreateProps, required, SimpleForm, TextInput,} from 'react-admin';
-import LegalFormReferenceInput from "../legal_forms/LegalFormReferenceInput";
-import {PhoneNumberInput} from "../phoneNumber";
-import ContactNameInput from "./ContactNameInput";
+import {BooleanInput, Create, CreateProps, required, SimpleForm, TextInput} from 'react-admin'
+import LegalFormReferenceInput from '../legal_forms/LegalFormReferenceInput'
+import {PhoneNumberInput} from '../phoneNumber'
+import ContactNameInput from './ContactNameInput'
 
 const ContactCreate = (props: CreateProps) => {
     return (
@@ -19,7 +19,7 @@ const ContactCreate = (props: CreateProps) => {
                 <BooleanInput source="supplier" label="Поставщик"/>
             </SimpleForm>
         </Create>
-    );
-};
+    )
+}
 
-export default ContactCreate;
+export default ContactCreate

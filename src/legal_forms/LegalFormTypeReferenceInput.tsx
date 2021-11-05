@@ -1,4 +1,4 @@
-import {ReferenceInput, ReferenceInputProps, SelectInput} from 'react-admin';
+import {ReferenceInput, ReferenceInputProps, SelectInput} from 'react-admin'
 
 interface Props {
     source?: string;
@@ -6,7 +6,7 @@ interface Props {
 
 const LegalFormTypeReferenceInput = (
     props: Props &
-        Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>
+        Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>,
 ) => (
     <ReferenceInput
         source="type"
@@ -15,12 +15,12 @@ const LegalFormTypeReferenceInput = (
     >
         <SelectInput source="name" helperText={props.helperText}/>
     </ReferenceInput>
-);
+)
 
 LegalFormTypeReferenceInput.defaultProps = {
-    label: "Тип правовой формы",
+    label: 'Тип правовой формы',
     source: 'type',
     helperText: 'ФИО или Название/Полное название',
-};
+}
 
-export default LegalFormTypeReferenceInput;
+export default LegalFormTypeReferenceInput

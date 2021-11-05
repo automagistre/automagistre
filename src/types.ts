@@ -1,4 +1,4 @@
-import {Identifier, Record, ReduxState} from 'react-admin';
+import {Identifier, Record, ReduxState} from 'react-admin'
 
 export type ThemeName = 'light' | 'dark';
 

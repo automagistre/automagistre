@@ -1,5 +1,5 @@
-import {BooleanField, Datagrid, List, ListProps, TextField,} from 'react-admin';
-import {MoneyField} from "../money";
+import {BooleanField, Datagrid, List, ListProps, TextField} from 'react-admin'
+import {MoneyField} from '../money'
 
 const WalletList = (props: ListProps) => {
     return (
@@ -25,7 +25,7 @@ const WalletList = (props: ListProps) => {
                 <BooleanField source="default_in_manual_transaction" label="По умолчанию в ручной проводке"/>
             </Datagrid>
         </List>
-    );
-};
+    )
+}
 
-export default WalletList;
+export default WalletList

@@ -1,12 +1,12 @@
-import {Edit, EditProps, required, SimpleForm, TextInput,} from 'react-admin';
-import {Manufacturer} from '../types';
+import {Edit, EditProps, required, SimpleForm, TextInput} from 'react-admin'
+import {Manufacturer} from '../types'
 
 interface ManufacturerTitleProps {
     record?: Manufacturer;
 }
 
 const ManufacturerTitle = ({record}: ManufacturerTitleProps) => record ?
-    <span>Производитель {record.name}</span> : null;
+    <span>Производитель {record.name}</span> : null
 
 const ManufacturerEdit = (props: EditProps) => {
     return (
@@ -23,7 +23,7 @@ const ManufacturerEdit = (props: EditProps) => {
                 />
             </SimpleForm>
         </Edit>
-    );
-};
+    )
+}
 
-export default ManufacturerEdit;
+export default ManufacturerEdit

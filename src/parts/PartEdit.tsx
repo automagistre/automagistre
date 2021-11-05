@@ -1,22 +1,13 @@
-import {
-    BooleanInput,
-    Edit,
-    EditProps,
-    ReferenceInput,
-    required,
-    SelectInput,
-    SimpleForm,
-    TextInput,
-} from 'react-admin';
-import {Part} from '../types';
-import ManufacturerReferenceInput from "../manufacturers/ManufacturerReferenceInput";
+import {BooleanInput, Edit, EditProps, ReferenceInput, required, SelectInput, SimpleForm, TextInput} from 'react-admin'
+import ManufacturerReferenceInput from '../manufacturers/ManufacturerReferenceInput'
+import {Part} from '../types'
 
 interface PartTitleProps {
     record?: Part;
 }
 
 const PartTitle = ({record}: PartTitleProps) => record ?
-    <span>Запчасть {record.name} #{record.number}</span> : null;
+    <span>Запчасть {record.name} #{record.number}</span> : null
 
 const PartEdit = (props: EditProps) => {
     return (
@@ -49,7 +40,7 @@ const PartEdit = (props: EditProps) => {
                 />
             </SimpleForm>
         </Edit>
-    );
-};
+    )
+}
 
-export default PartEdit;
+export default PartEdit

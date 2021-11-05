@@ -1,15 +1,15 @@
-import {BooleanInput, Edit, EditProps, required, SimpleForm, TextInput,} from 'react-admin';
-import {Contact} from '../types';
-import LegalFormReferenceInput from "../legal_forms/LegalFormReferenceInput";
-import {PhoneNumberInput} from "../phoneNumber";
-import ContactNameInput from "./ContactNameInput";
-import {ContactAside} from "./ContactAside";
+import {BooleanInput, Edit, EditProps, required, SimpleForm, TextInput} from 'react-admin'
+import LegalFormReferenceInput from '../legal_forms/LegalFormReferenceInput'
+import {PhoneNumberInput} from '../phoneNumber'
+import {Contact} from '../types'
+import {ContactAside} from './ContactAside'
+import ContactNameInput from './ContactNameInput'
 
 interface ContactTitleProps {
     record?: Contact;
 }
 
-const ContactTitle = ({record}: ContactTitleProps) => record ? <span>{record.name.toString()}</span> : null;
+const ContactTitle = ({record}: ContactTitleProps) => record ? <span>{record.name.toString()}</span> : null
 
 const ContactEdit = (props: EditProps) => {
     return (
@@ -27,7 +27,7 @@ const ContactEdit = (props: EditProps) => {
                 <BooleanInput source="supplier" label="Поставщик"/>
             </SimpleForm>
         </Edit>
-    );
-};
+    )
+}
 
-export default ContactEdit;
+export default ContactEdit

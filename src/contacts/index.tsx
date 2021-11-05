@@ -1,9 +1,9 @@
-import ContactList from './ContactList';
-import ContactEdit from './ContactEdit';
-import ContactCreate from './ContactCreate';
-import {faUsers} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import ContactShow from "./ContactShow";
+import {faUsers} from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import ContactCreate from './ContactCreate'
+import ContactEdit from './ContactEdit'
+import ContactList from './ContactList'
+import ContactShow from './ContactShow'
 
 const contacts = {
     list: ContactList,
@@ -11,6 +11,6 @@ const contacts = {
     edit: ContactEdit,
     show: ContactShow,
     icon: <FontAwesomeIcon icon={faUsers}/>,
-};
+}
 
-export default contacts;
+export default contacts

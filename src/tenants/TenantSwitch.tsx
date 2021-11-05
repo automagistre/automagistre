@@ -1,12 +1,12 @@
-import {Title,} from 'react-admin';
-import {useDispatch} from "react-redux";
-import {changeTenant} from "../tenant/actions";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import {useEffect, useState} from "react";
-import {gql, useApolloClient} from "@apollo/client";
-import {TenantState} from "../types";
+import {gql, useApolloClient} from '@apollo/client'
+import Button from '@mui/material/Button'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import {useEffect, useState} from 'react'
+import {Title} from 'react-admin'
+import {useDispatch} from 'react-redux'
+import {changeTenant} from '../tenant/actions'
+import {TenantState} from '../types'
 
 interface Group {
     identifier: string,
@@ -15,10 +15,10 @@ interface Group {
 }
 
 const TenantSwitch = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
 
-    const apolloClient = useApolloClient();
-    const [groups, setGroups] = useState<Group[]>([]);
+    const apolloClient = useApolloClient()
+    const [groups, setGroups] = useState<Group[]>([])
 
     useEffect(() => {
         const query = gql`
@@ -35,7 +35,7 @@ const TenantSwitch = () => {
                     }
                 }
             }
-            `;
+            `
 
         apolloClient
             .query({query})
@@ -58,7 +58,7 @@ const TenantSwitch = () => {
                 </Button>)}
             </CardContent>)}
         </Card>
-    );
-};
+    )
+}
 
-export default TenantSwitch;
+export default TenantSwitch

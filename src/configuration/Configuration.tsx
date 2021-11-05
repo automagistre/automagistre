@@ -1,9 +1,9 @@
-import {useDispatch} from 'react-redux'
+import {Button} from '@mui/material'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
-import {Button} from '@mui/material'
-import {Title} from 'react-admin'
 import {makeStyles} from '@mui/styles'
+import {Title} from 'react-admin'
+import {useDispatch} from 'react-redux'
 import {changeTheme} from './actions'
 
 const useStyles = makeStyles({

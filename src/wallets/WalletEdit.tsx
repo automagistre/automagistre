@@ -1,12 +1,12 @@
-import {BooleanInput, Edit, EditProps, required, SimpleForm, TextInput,} from 'react-admin';
-import {Wallet} from '../types';
+import {BooleanInput, Edit, EditProps, required, SimpleForm, TextInput} from 'react-admin'
+import {Wallet} from '../types'
 
 interface WalletTitleProps {
     record?: Wallet;
 }
 
 const WalletTitle = ({record}: WalletTitleProps) => record ?
-    <span>Счёт {record.name}</span> : null;
+    <span>Счёт {record.name}</span> : null
 
 const WalletEdit = (props: EditProps) => {
     return (
@@ -23,7 +23,7 @@ const WalletEdit = (props: EditProps) => {
                 <BooleanInput source="default_in_manual_transaction" label="По умолчанию в ручной проводке"/>
             </SimpleForm>
         </Edit>
-    );
-};
+    )
+}
 
-export default WalletEdit;
+export default WalletEdit

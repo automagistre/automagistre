@@ -45,7 +45,7 @@ export const darkTheme = {
             disableRipple: true,
         },
     },
-};
+}
 
 export const lightTheme = {
     palette: {
@@ -148,4 +148,4 @@ export const lightTheme = {
             disableRipple: true,
         },
     },
-};
+}

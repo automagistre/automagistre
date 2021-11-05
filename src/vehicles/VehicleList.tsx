@@ -1,5 +1,5 @@
-import {Datagrid, List, ListProps, TextField,} from 'react-admin';
-import ManufacturerReferenceField from "../manufacturers/ManufacturerReferenceField";
+import {Datagrid, List, ListProps, TextField} from 'react-admin'
+import ManufacturerReferenceField from '../manufacturers/ManufacturerReferenceField'
 
 const VehicleList = (props: ListProps) => {
     return (
@@ -30,7 +30,7 @@ const VehicleList = (props: ListProps) => {
                 />
             </Datagrid>
         </List>
-    );
-};
+    )
+}
 
-export default VehicleList;
+export default VehicleList
