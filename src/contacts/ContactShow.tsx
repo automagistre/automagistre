@@ -1,79 +1,191 @@
+import * as React from 'react';
+import {ChangeEvent, useState} from 'react';
 import {
-    BooleanField,
-    CreateButton,
-    Datagrid,
+    DeleteButton,
+    Identifier,
     ReferenceManyField,
-    Show,
-    SimpleShowLayout,
-    SimpleShowLayoutProps,
-    TextField,
+    ShowBase,
+    ShowProps,
+    useListContext,
     useRecordContext,
+    useRedirect,
+    useShowContext,
 } from 'react-admin';
-import LegalFormReferenceField from "../legal_forms/LegalFormReferenceField";
-import {PhoneNumberField} from "../phoneNumber";
+import {
+    Box,
+    Button,
+    Card,
+    CardContent,
+    Divider,
+    List,
+    ListItem,
+    ListItemSecondaryAction,
+    ListItemText,
+    Tab,
+    Tabs,
+    Typography,
+} from '@material-ui/core';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import {Route} from 'react-router-dom';
+import {formatDistance} from 'date-fns';
+import {ru} from 'date-fns/locale'
+
+import {ContactAside} from './ContactAside';
+import {Contact, ContactRelation} from '../types';
 import ContactNameField from "./ContactNameField";
-import {Contact} from "../types";
-import Typography from "@material-ui/core/Typography";
-import CardContent from "@material-ui/core/CardContent";
-import Card from "@material-ui/core/Card";
-import {CardHeader} from "@material-ui/core";
+import ContactRelationCreate from "./ContactRelationCreate";
 import ContactReferenceField from "./ContactReferenceField";
+import LegalFormReferenceField from "../legal_forms/LegalFormReferenceField";
 
-interface ContactTitleProps {
-    record?: Contact;
-}
+const ContactShow = (props: ShowProps) => (
+    <>
+        <ShowBase {...props}>
+            <ContactShowContent/>
+        </ShowBase>
+        <Route path="/contacts/:id/relation/create">
+            {({match}) => <ContactRelationCreate open={!!match} contactId={match?.params?.id!!}/>}
+        </Route>
+        {/*<Route path="/deals/:id/show">*/}
+        {/*    {({ match }) =>*/}
+        {/*        !!match ? (*/}
+        {/*            <DealShow open={!!match} id={match?.params?.id} />*/}
+        {/*        ) : null*/}
+        {/*    }*/}
+        {/*</Route>*/}
+    </>
+);
 
-const ContactTitle = ({record}: ContactTitleProps) => record ? <ContactNameField record={record}/> : null;
-
-const Aside = () => {
-    console.log(useRecordContext())
+const ContactShowContent = () => {
+    const {record, loaded} = useShowContext<Contact>();
+    const [value, setValue] = useState(0);
+    const handleChange = (_event: ChangeEvent<{}>, newValue: number) => {
+        setValue(newValue);
+    };
+    if (!loaded || !record) return null;
 
     return (
-        <Card>
-            <CardContent>
-                <Typography variant="h6">Post details</Typography>
-                <Typography variant="body2">
-                    Posts will only be published once an editor approves them
-                </Typography>
-            </CardContent>
-        </Card>
+        <Box mt={2} display="flex">
+            <Box flex="1">
+                <Card>
+                    <CardContent>
+                        <Box display="flex" mb={1}>
+                            <Box ml={2} flex="1">
+                                <Typography variant="h5">
+                                    <ContactNameField/>
+                                </Typography>
+                                <Typography variant="body2">
+                                    <LegalFormReferenceField format="long"/>
+                                </Typography>
+                            </Box>
+                        </Box>
+                        <Tabs
+                            value={value}
+                            indicatorColor="primary"
+                            textColor="primary"
+                            onChange={handleChange}
+                        >
+                            <Tab label="1 Контакт"/>
+                            <Tab label="3 Автомобиля"/>
+                            <Tab label="2 Заказа"/>
+                            <Tab label="10 Проводок"/>
+                        </Tabs>
+                        <Divider/>
+                        <TabPanel value={value} index={0}>
+                            <ReferenceManyField
+                                reference="contact_relation"
+                                target="source_id"
+                                sort={{field: 'updated_at', order: 'ASC'}}
+                            >
+                                <ContactsIterator/>
+                            </ReferenceManyField>
+                        </TabPanel>
+                    </CardContent>
+                </Card>
+            </Box>
+            <ContactAside record={record}/>
+        </Box>
     );
 };
 
-const ContactShow = (props: SimpleShowLayoutProps) => {
+interface TabPanelProps {
+    children?: React.ReactNode;
+    index: any;
+    value: any;
+}
 
-    console.log(useRecordContext())
+const TabPanel = (props: TabPanelProps) => {
+    const {children, value, index, ...other} = props;
 
     return (
-        <Show
-            title={<ContactTitle/>}
-            aside={<Aside/>}
-            {...props}
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`wrapped-tabpanel-${index}`}
+            aria-labelledby={`wrapped-tab-${index}`}
+            {...other}
         >
-            <>
-                <SimpleShowLayout>
-                    <LegalFormReferenceField/>
-                    <ContactNameField/>
-                    <PhoneNumberField/>
-                    <BooleanField source="contractor" label="Подрядчик"/>
-                    <BooleanField source="supplier" label="Поставщик"/>
-                </SimpleShowLayout>
+            {children}
+        </div>
+    );
+};
 
-                <Card>
-                    <CardHeader title="Связанные контакты"/>
-                    <CardContent>
-                        <CreateButton basePath="/contact_reference" label="Добавить связь"/>
+const ContactsIterator = () => {
+    const {data, ids, loaded} = useListContext<ContactRelation>();
+    const record = useRecordContext<ContactRelation>();
+    const redirect = useRedirect();
 
-                        <ReferenceManyField reference="contact_reference" target="source_id" addLabel={false}>
-                            <Datagrid>
-                                <ContactReferenceField source="target_id"/>
-                                <TextField source="comment" label="Комментарий"/>
-                            </Datagrid>
-                        </ReferenceManyField>
-                    </CardContent>
-                </Card>
-            </>
-        </Show>
+    if (!loaded) return null;
+
+    return (
+        <Box>
+            <List>
+                {ids.map(id => {
+                    const relation: ContactRelation = data[id];
+
+                    return (
+                        <ListItem
+                            button
+                            key={id}
+                            onClick={() => redirect(`/contact/${relation.target_id}/show`)}
+                        >
+                            <ListItemText
+                                primary={<ContactReferenceField source="target_id" record={relation}/>}
+                                secondary={relation.comment}
+                            />
+                            <ListItemSecondaryAction>
+                                <Typography
+                                    variant="body2"
+                                    color="textSecondary"
+                                    component="span"
+                                >
+                                    Обновлён {formatDistance(new Date(relation.updated_at), Date.now(), {locale: ru})} назад
+                                </Typography>
+                                <DeleteButton/>
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                    );
+                })}
+            </List>
+            <Box textAlign="center" mt={1}>
+                <CreateRelatedContactButton id={record.id}/>
+            </Box>
+        </Box>
+    );
+};
+
+const CreateRelatedContactButton = ({id}: { id: Identifier }) => {
+    const redirect = useRedirect();
+
+    return (
+        <Button
+            onClick={() => redirect(`/contacts/${id}/relation/create`)}
+            color="primary"
+            variant="contained"
+            size="small"
+            startIcon={<PersonAddIcon/>}
+        >
+            Добавить связь
+        </Button>
     );
 };
 

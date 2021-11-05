@@ -1,5 +1,5 @@
 table:
-    name: contact_reference
+    name: contact_relation
     schema: public
 object_relationships:
     -   name: contact
@@ -13,6 +13,8 @@ select_permissions:
             allow_aggregations: true
             columns:
                 - comment
+                - created_at
+                - updated_at
                 - id
                 - source_id
                 - target_id

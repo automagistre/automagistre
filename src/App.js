@@ -21,7 +21,9 @@ import themeReducer from './themeReducer';
 import customRoutes from './routes';
 import {useDispatch, useSelector} from "react-redux";
 import {CHANGE_TENANT, changeTenant} from "./tenant/actions";
+
 // TODO Convert to tsx
+
 let keycloakConfig = {
     url: 'https://sso.automagistre.ru/auth',
     realm: 'automagistre',
@@ -93,8 +95,9 @@ const Resources = () => {
             customRoutes={customRoutes}
             layout={Layout}
         >
+            <Resource name="car"/>
             <Resource name="contact" {...contacts}/>
-            <Resource name="contact_reference"/>
+            <Resource name="contact_relation"/>
             <Resource name="legal_form" {...legalForms}/>
             <Resource name="legal_form_type"/>
             <Resource name="manufacturer" {...manufacturers} />

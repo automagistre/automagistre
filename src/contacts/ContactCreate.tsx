@@ -6,7 +6,7 @@ import ContactNameInput from "./ContactNameInput";
 const ContactCreate = (props: CreateProps) => {
     return (
         <Create {...props}>
-            <SimpleForm redirect="list">
+            <SimpleForm redirect="show">
                 <LegalFormReferenceInput
                     validate={required()}
                 />

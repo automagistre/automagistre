@@ -59,6 +59,7 @@ export interface LegalForm extends Record {
 
 
 export interface ContactName {
+    type: string,
 }
 
 export interface ContactPersonName extends ContactName {
@@ -80,4 +81,10 @@ export interface Contact extends Record, Timestampable {
     contractor: boolean,
     supplier: boolean,
     requisites: object,
+}
+
+export interface ContactRelation extends Record, Timestampable {
+    source_id: Identifier,
+    target_id: Identifier,
+    comment: string,
 }

@@ -3,6 +3,7 @@ import {Contact} from '../types';
 import LegalFormReferenceInput from "../legal_forms/LegalFormReferenceInput";
 import {PhoneNumberInput} from "../phoneNumber";
 import ContactNameInput from "./ContactNameInput";
+import {ContactAside} from "./ContactAside";
 
 interface ContactTitleProps {
     record?: Contact;
@@ -12,8 +13,8 @@ const ContactTitle = ({record}: ContactTitleProps) => record ? <span>{record.nam
 
 const ContactEdit = (props: EditProps) => {
     return (
-        <Edit {...props} title={<ContactTitle/>}>
-            <SimpleForm>
+        <Edit {...props} aside={<ContactAside link="show"/>} title={<ContactTitle/>} actions={false}>
+            <SimpleForm redirect="show">
                 <LegalFormReferenceInput
                     validate={required()}
                 />

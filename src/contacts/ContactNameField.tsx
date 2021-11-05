@@ -1,21 +1,28 @@
-import {FieldProps, useRecordContext} from 'react-admin';
+import {FieldProps, useGetList, useRecordContext} from 'react-admin';
 import {Contact, ContactOrganizationName, ContactPersonName} from "../types";
+
 
 const ContactNameField = (props: FieldProps<Contact>) => {
     const contact: Contact = useRecordContext(props);
 
-    if (contact.name.hasOwnProperty('firstname')) {
+    const {data, loading} = useGetList('legal_form');
+
+    if (loading) return <span>Загрузка...</span>;
+
+    const legalForm = data[contact.legal_form]
+
+    if (legalForm.type === 'person') {
         const name: ContactPersonName = contact.name
 
         return <span>{name.lastname ?? ''} {name.firstname ?? ''} {name.middlename ?? ''}</span>
-    } else if (contact.name.hasOwnProperty('name')) {
+    } else if (legalForm.type === 'organization') {
         const name: ContactOrganizationName = contact.name
 
-        return <span>{name.name}</span>
+        return <span>{name.name ?? name.full_name}</span>
     } else {
-        console.error(`Unexpected name object: ${JSON.stringify(contact.name)}`)
+        console.error(`legalForm "${contact.legal_form}" not found in legalForm list`)
 
-        return <span>error</span>
+        return <span>Ошибка</span>
     }
 };
 

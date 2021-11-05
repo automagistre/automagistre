@@ -1,0 +1,40 @@
+table:
+  name: car
+  schema: public
+object_relationships:
+- name: tenant_group
+  using:
+    foreign_key_constraint_on: tenant_group_id
+- name: vehicle
+  using:
+    foreign_key_constraint_on: vehicle_id
+select_permissions:
+- permission:
+    allow_aggregations: true
+    columns:
+    - id
+    - vehicle_id
+    - identifier
+    - year
+    - case_type
+    - description
+    - mileage
+    - gosnomer
+    - tenant_group_id
+    - equipment_transmission
+    - equipment_wheel_drive
+    - equipment_engine_name
+    - equipment_engine_type
+    - equipment_engine_air_intake
+    - equipment_engine_injection
+    - equipment_engine_capacity
+    filter:
+      _and:
+      - tenant_group:
+          tenant_group_permissions:
+            _and:
+            - tenant_group_id:
+                _eq: X-Hasura-Tenant-Group-Id
+            - user_id:
+                _eq: X-Hasura-User-Id
+  role: manager
