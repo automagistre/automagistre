@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {ChangeEvent, useState} from 'react';
 import {
-    DeleteButton,
     Identifier,
     ReferenceManyField,
     ShowBase,
@@ -36,6 +35,9 @@ import ContactNameField from "./ContactNameField";
 import ContactRelationCreate from "./ContactRelationCreate";
 import ContactReferenceField from "./ContactReferenceField";
 import LegalFormReferenceField from "../legal_forms/LegalFormReferenceField";
+import EditButton from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from '@material-ui/core/IconButton';
 
 const ContactShow = (props: ShowProps) => (
     <>
@@ -152,15 +154,21 @@ const ContactsIterator = () => {
                                 primary={<ContactReferenceField source="target_id" record={relation}/>}
                                 secondary={relation.comment}
                             />
+                            <Typography
+                                variant="body2"
+                                color="textSecondary"
+                                component="span"
+                            >
+                                Обновлён {formatDistance(new Date(relation.updated_at), Date.now(), {locale: ru})} назад
+                            </Typography>
+
                             <ListItemSecondaryAction>
-                                <Typography
-                                    variant="body2"
-                                    color="textSecondary"
-                                    component="span"
-                                >
-                                    Обновлён {formatDistance(new Date(relation.updated_at), Date.now(), {locale: ru})} назад
-                                </Typography>
-                                <DeleteButton/>
+                                <IconButton edge="end" aria-label="delete" onClick={() => console.log('lol')}>
+                                    <EditButton/>
+                                </IconButton>
+                                <IconButton edge="end" aria-label="delete" onClick={() => console.log('lol')}>
+                                    <DeleteIcon/>
+                                </IconButton>
                             </ListItemSecondaryAction>
                         </ListItem>
                     );
