@@ -16,11 +16,11 @@ import tenants from './tenants';
 import wallets from './wallets';
 import contacts from './contacts';
 import legalForms from './legal_forms';
-import {Layout} from "./layout";
 import themeReducer from './themeReducer';
 import customRoutes from './routes';
 import {useDispatch, useSelector} from "react-redux";
 import {CHANGE_TENANT, changeTenant} from "./tenant/actions";
+import MyLayout from "./layout/Layout";
 
 // TODO Convert to tsx
 
@@ -93,7 +93,7 @@ const Resources = () => {
     return (
         <AdminUI
             customRoutes={customRoutes}
-            layout={Layout}
+            layout={MyLayout}
         >
             <Resource name="car"/>
             <Resource name="contact" {...contacts}/>
