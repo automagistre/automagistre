@@ -1,9 +1,9 @@
 import {Title,} from 'react-admin';
 import {useDispatch} from "react-redux";
 import {changeTenant} from "../tenant/actions";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
 import {useEffect, useState} from "react";
 import {gql, useApolloClient} from "@apollo/client";
 import {TenantState} from "../types";

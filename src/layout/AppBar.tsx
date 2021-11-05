@@ -1,11 +1,11 @@
 import {forwardRef} from 'react';
 import {AppBar, MenuItemLink, useRedirect, UserMenu} from 'react-admin';
-import Typography from '@material-ui/core/Typography';
-import SettingsIcon from '@material-ui/icons/Settings';
-import {makeStyles} from '@material-ui/core/styles';
+import Typography from '@mui/material/Typography';
+import SettingsIcon from '@mui/icons-material/Settings';
+import {makeStyles} from '@mui/styles';
 import {useSelector} from "react-redux";
 import {AppState} from "../types";
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 
 const useStyles = makeStyles({
     title: {

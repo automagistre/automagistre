@@ -23,8 +23,8 @@ import {
     Tab,
     Tabs,
     Typography,
-} from '@material-ui/core';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
+} from '@mui/material';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import {Route} from 'react-router-dom';
 import {formatDistance} from 'date-fns';
 import {ru} from 'date-fns/locale'
@@ -35,9 +35,9 @@ import ContactNameField from "./ContactNameField";
 import ContactRelationCreate from "./ContactRelationCreate";
 import ContactReferenceField from "./ContactReferenceField";
 import LegalFormReferenceField from "../legal_forms/LegalFormReferenceField";
-import EditButton from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import IconButton from '@material-ui/core/IconButton';
+import EditButton from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
 
 const ContactShow = (props: ShowProps) => (
     <>

@@ -9,7 +9,6 @@ import {
     TextInput,
 } from 'react-admin';
 import {Part} from '../types';
-import RichTextInput from "ra-input-rich-text";
 import ManufacturerReferenceInput from "../manufacturers/ManufacturerReferenceInput";
 
 interface PartTitleProps {
@@ -44,7 +43,7 @@ const PartEdit = (props: EditProps) => {
                 >
                     <SelectInput optionText="name"/>
                 </ReferenceInput>
-                <RichTextInput
+                <TextInput
                     source="comment"
                     label="Комментарий"
                 />

@@ -8,7 +8,6 @@ import {
     SimpleForm,
     TextInput,
 } from 'react-admin';
-import RichTextInput from "ra-input-rich-text";
 import ManufacturerReferenceInput from "../manufacturers/ManufacturerReferenceInput";
 
 const PartCreate = (props: CreateProps) => {
@@ -39,7 +38,7 @@ const PartCreate = (props: CreateProps) => {
                 >
                     <SelectInput optionText="name"/>
                 </ReferenceInput>
-                <RichTextInput
+                <TextInput
                     source="comment"
                     label="Комментарий"
                 />

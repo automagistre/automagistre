@@ -1,4 +1,4 @@
-import {Box, Chip, Divider, Typography} from '@material-ui/core';
+import {Box, Chip, Divider, Typography} from '@mui/material';
 import {EditButton, ShowButton} from "react-admin";
 import {Contact} from "../types";
 import ContactNameField from "./ContactNameField";

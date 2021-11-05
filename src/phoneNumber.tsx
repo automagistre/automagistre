@@ -1,5 +1,5 @@
 import {TextInput, TextInputProps, useRecordContext} from "react-admin";
-import {Link} from '@material-ui/core';
+import {Link} from '@mui/material';
 import parsePhoneNumber from 'libphonenumber-js'
 
 interface InputProps {

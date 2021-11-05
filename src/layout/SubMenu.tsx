@@ -1,11 +1,12 @@
 import {Fragment, ReactElement, ReactNode} from 'react';
 import {useSelector} from 'react-redux';
-import {Collapse, List, ListItemIcon, MenuItem, Tooltip, Typography,} from '@material-ui/core';
-import {makeStyles} from '@material-ui/core/styles';
-import ExpandMore from '@material-ui/icons/ExpandMore';
+import {Collapse, List, ListItemIcon, MenuItem, Tooltip, Typography,} from '@mui/material';
+import {makeStyles} from '@mui/styles';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 import {ReduxState} from 'react-admin';
+import {Theme} from '@mui/material/styles';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme: Theme) => ({
     icon: {minWidth: theme.spacing(5)},
     sidebarIsOpen: {
         '& a': {
@@ -38,7 +39,7 @@ const SubMenu = (props: Props) => {
     );
 
     const header = (
-        <MenuItem dense={dense} button onClick={handleToggle}>
+        <MenuItem dense={dense} onClick={handleToggle}>
             <ListItemIcon className={classes.icon}>
                 {isOpen ? <ExpandMore/> : icon}
             </ListItemIcon>

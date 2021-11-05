@@ -1,9 +1,10 @@
 import {useState} from 'react';
 import {useSelector} from 'react-redux';
-import {makeStyles} from '@material-ui/core/styles';
+import {Theme} from '@mui/material/styles';
 import classnames from 'classnames';
 import {DashboardMenuItem, MenuItemLink, MenuProps, ReduxState,} from 'react-admin';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {makeStyles} from '@mui/styles';
 
 import manufacturers from '../manufacturers';
 import vehicles from '../vehicles';
@@ -128,7 +129,7 @@ const Menu = ({dense = false}: MenuProps) => {
     );
 };
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme: Theme) => ({
     root: {
         marginTop: theme.spacing(1),
         marginBottom: theme.spacing(1),
