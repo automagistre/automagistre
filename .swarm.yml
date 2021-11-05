@@ -139,7 +139,7 @@ services:
         environment:
             HASURA_GRAPHQL_DATABASE_URL: postgres://db:${DB_PASSWORD}@postgres:5432/db
             HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:${DB_PASSWORD}@postgres:5432/hasura
-            HASURA_GRAPHQL_JWT_SECRET: '{"jwk_url": "https://auth.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/certs"}'
+            HASURA_GRAPHQL_JWT_SECRET: '{"jwk_url": "https://sso.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/certs"}'
         networks:
             - default
             - traefik
@@ -249,10 +249,10 @@ services:
             - --scope=openid
             - --client-id=${OAUTH2_PROXY_DEVOPS_CLIENT_ID}
             - --client-secret=${OAUTH2_PROXY_DEVOPS_CLIENT_SECRET}
-            - --login-url=https://auth.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/auth
-            - --redeem-url=https://auth.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/token
-            - --profile-url=https://auth.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/userinfo
-            - --validate-url=https://auth.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/userinfo
+            - --login-url=https://sso.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/auth
+            - --redeem-url=https://sso.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/token
+            - --profile-url=https://sso.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/userinfo
+            - --validate-url=https://sso.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/userinfo
         networks:
             - default
             - traefik

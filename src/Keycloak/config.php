@@ -15,7 +15,7 @@ return static function (ContainerConfigurator $configurator): void {
                 'grant_type' => 'client_credentials',
                 'client_id' => 'admin-cli',
                 'client_secret' => '%env(KEYCLOAK_CLI_CLIENT_SECRET)%',
-                'baseUri' => 'https://auth.automagistre.ru',
+                'baseUri' => 'https://sso.automagistre.ru',
             ],
         ])
     ;
@@ -23,7 +23,7 @@ return static function (ContainerConfigurator $configurator): void {
     $services->set(Stevenmaguire\OAuth2\Client\Provider\Keycloak::class)
         ->lazy(true)
         ->arg('$options', [
-            'authServerUrl' => 'https://auth.automagistre.ru/auth',
+            'authServerUrl' => 'https://sso.automagistre.ru/auth',
             'realm' => 'automagistre',
             'clientId' => 'crm-oauth',
             'clientSecret' => '%env(KEYCLOAK_CRM_OAUTH_CLIENT_SECRET)%',
