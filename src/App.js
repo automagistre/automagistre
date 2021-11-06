@@ -11,6 +11,7 @@ import {setContext} from "@apollo/client/link/context";
 import {Dashboard} from "./dashboard/Dashboard";
 import manufacturers from './manufacturers';
 import vehicles from './vehicles';
+import vehicleBodies from './vehicle_bodies';
 import parts from './parts';
 import tenants from './tenants';
 import wallets from './wallets';
@@ -95,7 +96,6 @@ const Resources = () => {
             customRoutes={customRoutes}
             layout={MyLayout}
         >
-            <Resource name="car"/>
             <Resource name="contact" {...contacts}/>
             <Resource name="contact_relation"/>
             <Resource name="legal_form" {...legalForms}/>
@@ -105,6 +105,7 @@ const Resources = () => {
             <Resource name="tenant" {...tenants}/>
             <Resource name="unit"/>
             <Resource name="vehicle" {...vehicles} />
+            <Resource name="vehicle_body" {...vehicleBodies} />
             <Resource name="wallet" {...wallets} />
         </AdminUI>
     )

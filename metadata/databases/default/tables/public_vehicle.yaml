@@ -2,55 +2,125 @@ table:
     name: vehicle
     schema: public
 object_relationships:
-    -   name: manufacturer
+    -   name: tenant_group
         using:
-            manual_configuration:
-                column_mapping:
-                    manufacturer_id: id
-                insertion_order: null
-                remote_table:
-                    name: manufacturer
+            foreign_key_constraint_on: tenant_group_id
+    -   name: vehicle_body
+        using:
+            foreign_key_constraint_on: body
+    -   name: vehicle_body_type
+        using:
+            foreign_key_constraint_on: body_type
+array_relationships:
+    -   name: vehicle_contacts
+        using:
+            foreign_key_constraint_on:
+                column: vehicle_id
+                table:
+                    name: vehicle_contact
                     schema: public
 insert_permissions:
     -   permission:
             backend_only: false
-            check: { }
+            check:
+                _and:
+                    -   tenant_group:
+                            tenant_group_permissions:
+                                _and:
+                                    -   tenant_group_id:
+                                            _eq: X-Hasura-Tenant-Group-Id
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
             columns:
-                - case_name
-                - localized_name
-                - manufacturer_id
-                - name
-                - year_from
-                - year_till
+                - air_intake
+                - body
+                - body_type
+                - comment
+                - drive_wheel
+                - engine_capacity
+                - engine_name
+                - fuel_type
+                - identifier
+                - injection
+                - legal_plate
+                - mileage
+                - tire_fitting_category
+                - transmission
+                - year
+            set:
+                tenant_group_id: x-hasura-Tenant-Group-Id
         role: manager
 select_permissions:
     -   permission:
             allow_aggregations: true
             columns:
-                - case_name
-                - created_at
                 - id
-                - localized_name
-                - manufacturer_id
-                - name
+                - body
+                - identifier
+                - year
+                - comment
+                - mileage
+                - legal_plate
+                - tenant_group_id
+                - engine_name
+                - engine_capacity
+                - created_at
                 - updated_at
-                - year_from
-                - year_till
-            filter: { }
+                - body_type
+                - transmission
+                - air_intake
+                - drive_wheel
+                - fuel_type
+                - injection
+                - tire_fitting_category
+            filter:
+                _and:
+                    -   tenant_group:
+                            tenant_group_permissions:
+                                _and:
+                                    -   tenant_group_id:
+                                            _eq: X-Hasura-Tenant-Group-Id
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
         role: manager
 update_permissions:
     -   permission:
-            check: { }
+            check: null
             columns:
-                - case_name
-                - localized_name
-                - manufacturer_id
-                - name
-                - year_from
-                - year_till
-            filter: { }
+                - air_intake
+                - body
+                - body_type
+                - comment
+                - drive_wheel
+                - engine_capacity
+                - engine_name
+                - fuel_type
+                - identifier
+                - injection
+                - legal_plate
+                - mileage
+                - tire_fitting_category
+                - transmission
+                - year
+            filter:
+                _and:
+                    -   tenant_group:
+                            tenant_group_permissions:
+                                _and:
+                                    -   tenant_group_id:
+                                            _eq: X-Hasura-Tenant-Group-Id
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
         role: manager
 delete_permissions:
     -   permission:
-            filter: { }
+            filter:
+                _and:
+                    -   tenant_group:
+                            tenant_group_permissions:
+                                _and:
+                                    -   tenant_group_id:
+                                            _eq: X-Hasura-Tenant-Group-Id
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
         role: manager

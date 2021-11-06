@@ -25,12 +25,16 @@ export interface Timestampable {
     created_at: string,
 }
 
+export interface Commentable {
+    comment?: string,
+}
+
 export interface Manufacturer extends Record, Timestampable {
     name: string,
     localized_name: string,
 }
 
-export interface Vehicle extends Record, Timestampable {
+export interface VehicleBody extends Record, Timestampable {
     name: string,
     localized_name: string,
     manufacturer_id: Identifier,
@@ -57,7 +61,6 @@ export interface LegalForm extends Record {
     type: Identifier,
 }
 
-
 export interface ContactName {
     type: string,
 }
@@ -83,8 +86,16 @@ export interface Contact extends Record, Timestampable {
     requisites: object,
 }
 
-export interface ContactRelation extends Record, Timestampable {
+export interface ContactRelation extends Record, Timestampable, Commentable {
     source_id: Identifier,
     target_id: Identifier,
-    comment: string,
+}
+
+export interface Vehicle extends Record, Timestampable, Commentable {
+    vehicle_id: Identifier,
+    identifier: string,
+    year: number,
+    body_type: Identifier,
+    mileage: number,
+    legal_plate: string,
 }

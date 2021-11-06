@@ -1,5 +1,5 @@
 import {Datagrid, List, ListProps, TextField} from 'react-admin'
-import ManufacturerReferenceField from '../manufacturers/ManufacturerReferenceField'
+import VehicleBodyReferenceField from '../vehicle_bodies/VehicleBodyReferenceField'
 
 const VehicleList = (props: ListProps) => {
     return (
@@ -12,22 +12,14 @@ const VehicleList = (props: ListProps) => {
         >
             <Datagrid rowClick="edit">
                 <TextField
-                    source="name"
-                    label="Название"
+                    source="identifier"
+                    label="Идентификатор"
                 />
-                <ManufacturerReferenceField/>
-                <TextField
-                    source="case_name"
-                    label="Кузов"
-                />
-                <TextField
-                    source="year_from"
-                    label="Начало производства"
-                />
-                <TextField
-                    source="year_till"
-                    label="Конец производства"
-                />
+                <VehicleBodyReferenceField source="body"/>
+                <TextField source="year" label="Год"/>
+                <TextField source="body_type" label="Кузов"/>
+                <TextField source="mileage" label="Пробег"/>
+                <TextField source="legal_plate" label="Гос. Номер"/>
             </Datagrid>
         </List>
     )

@@ -1,0 +1,113 @@
+table:
+    name: vehicle_contact
+    schema: public
+object_relationships:
+    -   name: contact
+        using:
+            foreign_key_constraint_on: contact_id
+    -   name: vehicle
+        using:
+            foreign_key_constraint_on: vehicle_id
+insert_permissions:
+    -   permission:
+            backend_only: false
+            check:
+                _and:
+                    -   vehicle:
+                            tenant_group:
+                                tenant_group_permissions:
+                                    _and:
+                                        -   user_id:
+                                                _eq: X-Hasura-User-Id
+                                        -   tenant_group_id:
+                                                _eq: X-Hasura-Tenant-Group-Id
+                    -   contact:
+                            tenant_group:
+                                tenant_group_permissions:
+                                    _and:
+                                        -   user_id:
+                                                _eq: X-Hasura-User-Id
+                                        -   tenant_group_id:
+                                                _eq: X-Hasura-Tenant-Group-Id
+            columns:
+                - vehicle_id
+                - comment
+                - contact_id
+                - is_actual
+        role: manager
+select_permissions:
+    -   permission:
+            allow_aggregations: true
+            columns:
+                - id
+                - created_at
+                - updated_at
+                - vehicle_id
+                - contact_id
+                - comment
+                - is_actual
+            filter:
+                _and:
+                    -   vehicle:
+                            tenant_group:
+                                tenant_group_permissions:
+                                    _and:
+                                        -   user_id:
+                                                _eq: X-Hasura-User-Id
+                                        -   tenant_group_id:
+                                                _eq: X-Hasura-Tenant-Group-Id
+                    -   contact:
+                            tenant_group:
+                                tenant_group_permissions:
+                                    _and:
+                                        -   user_id:
+                                                _eq: X-Hasura-User-Id
+                                        -   tenant_group_id:
+                                                _eq: X-Hasura-Tenant-Group-Id
+        role: manager
+update_permissions:
+    -   permission:
+            check: { }
+            columns:
+                - comment
+                - is_actual
+            filter:
+                _and:
+                    -   vehicle:
+                            tenant_group:
+                                tenant_group_permissions:
+                                    _and:
+                                        -   user_id:
+                                                _eq: X-Hasura-User-Id
+                                        -   tenant_group_id:
+                                                _eq: X-Hasura-Tenant-Group-Id
+                    -   contact:
+                            tenant_group:
+                                tenant_group_permissions:
+                                    _and:
+                                        -   user_id:
+                                                _eq: X-Hasura-User-Id
+                                        -   tenant_group_id:
+                                                _eq: X-Hasura-Tenant-Group-Id
+        role: manager
+delete_permissions:
+    -   permission:
+            filter:
+                _and:
+                    -   vehicle:
+                            tenant_group:
+                                tenant_group_permissions:
+                                    _and:
+                                        -   user_id:
+                                                _eq: X-Hasura-User-Id
+                                        -   tenant_group_id:
+                                                _eq: X-Hasura-Tenant-Group-Id
+                    -   contact:
+                            tenant_group:
+                                tenant_group_permissions:
+                                    _and:
+                                        -   user_id:
+                                                _eq: X-Hasura-User-Id
+                                        -   tenant_group_id:
+                                                _eq: X-Hasura-Tenant-Group-Id
+        role: manager

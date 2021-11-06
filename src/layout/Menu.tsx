@@ -12,7 +12,7 @@ import legalForms from '../legal_forms'
 import manufacturers from '../manufacturers'
 import parts from '../parts'
 import {AppState} from '../types'
-import vehicles from '../vehicles'
+import vehicles from '../vehicle_bodies'
 import wallets from '../wallets'
 
 import SubMenu from './SubMenu'
@@ -80,6 +80,15 @@ const Menu = ({dense = false}: MenuProps) => {
                     leftIcon={contacts.icon}
                     dense={dense}
                 />
+                <MenuItemLink
+                    to={{
+                        pathname: '/vehicle',
+                        state: {_scrollToTop: true},
+                    }}
+                    primaryText="Автомобили"
+                    leftIcon={vehicles.icon}
+                    dense={dense}
+                />
             </SubMenu>
             <SubMenu
                 handleToggle={() => handleToggle('menuCatalog')}
@@ -108,7 +117,7 @@ const Menu = ({dense = false}: MenuProps) => {
                 />
                 <MenuItemLink
                     to={{
-                        pathname: '/vehicle',
+                        pathname: '/vehicle_body',
                         state: {_scrollToTop: true},
                     }}
                     primaryText="Кузова"

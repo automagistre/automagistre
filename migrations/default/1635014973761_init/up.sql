@@ -63,25 +63,6 @@ UPDATE public.manufacturer t
   FROM public.created_by cb
  WHERE cb.id = t.id;
 
---- Vehicle
-
-ALTER TABLE public.vehicle_model
-    RENAME TO vehicle;
-
-ALTER TABLE public.vehicle
-    ADD CONSTRAINT vehicle_manufacturer_id_fkey
-        FOREIGN KEY (manufacturer_id) REFERENCES public.manufacturer (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE public.vehicle
-    ALTER COLUMN id SET DEFAULT gen_random_uuid();
-
-SELECT public.hasura_timestampable('public.vehicle');
-UPDATE public.vehicle t
-   SET created_at = cb.created_at,
-       updated_at = cb.created_at
-  FROM public.created_by cb
- WHERE cb.id = t.id;
-
 --- Part
 
 ALTER TABLE public.part
@@ -379,26 +360,6 @@ UPDATE public.warehouse t
   FROM public.created_by cb
  WHERE cb.id = t.id;
 
---- Part Case
-
-ALTER TABLE public.part_case
-    ALTER COLUMN id SET DEFAULT gen_random_uuid();
-
-ALTER TABLE public.part_case
-    ADD CONSTRAINT part_case_part_id_fkey
-        FOREIGN KEY (part_id) REFERENCES public.part (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE public.part_case
-    ADD CONSTRAINT part_case_vehicle_id_fkey
-        FOREIGN KEY (vehicle_id) REFERENCES public.vehicle (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-SELECT public.hasura_timestampable('public.part_case');
-UPDATE public.part_case t
-   SET created_at = cb.created_at,
-       updated_at = cb.created_at
-  FROM public.created_by cb
- WHERE cb.id = t.id;
-
 --- Customer
 
 CREATE TABLE public.legal_form_type
@@ -542,18 +503,306 @@ UPDATE public.contact t
   FROM public.created_by cb
  WHERE cb.id = t.id;
 
---- Audit
+--- Vehicle
 
-SELECT audit.audit_table('public.manufacturer');
-SELECT audit.audit_table('public.vehicle');
-SELECT audit.audit_table('public.part');
-SELECT audit.audit_table('public.unit');
-SELECT audit.audit_table('public.tenant');
-SELECT audit.audit_table('public.tenant_group');
-SELECT audit.audit_table('public.tenant_permission');
-SELECT audit.audit_table('public.wallet');
-SELECT audit.audit_table('public.wallet_transaction');
-SELECT audit.audit_table('public.expense');
-SELECT audit.audit_table('public.warehouse');
-SELECT audit.audit_table('public.part_case');
-SELECT audit.audit_table('public.contact');
+ALTER TABLE public.car
+    RENAME TO vehicle;
+
+ALTER TABLE public.vehicle RENAME description TO comment;
+ALTER TABLE public.vehicle RENAME gosnomer TO legal_plate;
+
+ALTER TABLE public.vehicle
+    ADD CONSTRAINT vehicle_tenant_group_id_fkey
+        FOREIGN KEY (tenant_group_id) REFERENCES public.tenant_group (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+SELECT public.hasura_timestampable('public.vehicle');
+UPDATE public.vehicle t
+   SET created_at = cb.created_at,
+       updated_at = cb.created_at
+  FROM public.created_by cb
+ WHERE cb.id = t.id;
+
+ALTER TABLE public.vehicle ADD CONSTRAINT vehicle_identifier_tenant_group_id_key
+    UNIQUE (identifier, tenant_group_id);
+DROP INDEX IF EXISTS uniq_773de69d772e836adff2bbb0;
+
+--- Vehicle Body
+
+ALTER TABLE public.vehicle_model
+    RENAME TO vehicle_body;
+
+ALTER TABLE public.vehicle RENAME vehicle_id TO body;
+ALTER TABLE public.vehicle
+    ADD CONSTRAINT vehicle_vehicle_body_id_fkey
+        FOREIGN KEY (body) REFERENCES public.vehicle_body (id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+ALTER TABLE public.vehicle_body
+    ADD CONSTRAINT vehicle_body_manufacturer_id_fkey
+        FOREIGN KEY (manufacturer_id) REFERENCES public.manufacturer (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE public.vehicle_body
+    ALTER COLUMN id SET DEFAULT gen_random_uuid();
+
+SELECT public.hasura_timestampable('public.vehicle_body');
+UPDATE public.vehicle_body t
+   SET created_at = cb.created_at,
+       updated_at = cb.created_at
+  FROM public.created_by cb
+ WHERE cb.id = t.id;
+
+--- Vehicle Body Type
+CREATE TABLE public.vehicle_body_type
+    (
+        id text NOT NULL,
+        name text NOT NULL,
+        PRIMARY KEY (id)
+    );
+INSERT INTO public.vehicle_body_type(id, name)
+VALUES (E'unknown', 'Неопределён'),
+       (E'sedan', 'Седан'),
+       (E'hatchback', 'Хэтчбек'),
+       (E'liftback', 'Лифтбек'),
+       (E'allroad', 'Внедорожник'),
+       (E'wagon', 'Универсал'),
+       (E'coupe', 'Купе'),
+       (E'minivan', 'Минивэн'),
+       (E'pickup', 'Пикап'),
+       (E'limousine', 'Лимузин'),
+       (E'van', 'Фургон'),
+       (E'cabrio', 'Кабриолет')
+;
+ALTER TABLE public.vehicle ADD COLUMN body_type text DEFAULT NULL;
+ALTER TABLE public.vehicle
+    ADD CONSTRAINT vehicle_vehicle_body_type_id_fkey
+        FOREIGN KEY (body_type) REFERENCES public.vehicle_body_type (id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+UPDATE public.vehicle
+   SET body_type = CASE WHEN case_type = 0 THEN 'unknown'
+                        WHEN case_type = 1 THEN 'sedan'
+                        WHEN case_type = 2 THEN 'hatchback'
+                        WHEN case_type = 3 THEN 'liftback'
+                        WHEN case_type = 4 THEN 'allroad'
+                        WHEN case_type = 5 THEN 'wagon'
+                        WHEN case_type = 6 THEN 'coupe'
+                        WHEN case_type = 7 THEN 'minivan'
+                        WHEN case_type = 8 THEN 'pickup'
+                        WHEN case_type = 9 THEN 'limousine'
+                        WHEN case_type = 10 THEN 'van'
+                        WHEN case_type = 11 THEN 'cabrio'
+                        ELSE 'unknown' END
+;
+ALTER TABLE public.vehicle ALTER COLUMN body_type SET NOT NULL;
+ALTER TABLE public.vehicle DROP COLUMN case_type;
+
+--- Vehicle Transmission
+
+CREATE TABLE public.vehicle_transmission
+    (
+        id text NOT NULL,
+        name text NOT NULL,
+        PRIMARY KEY (id)
+    );
+INSERT INTO public.vehicle_transmission(id, name)
+VALUES (E'unknown', 'Неопределена'),
+       (E'AT', 'Автоматическая'),
+       (E'AMT', 'Робот'),
+       (E'CVT', 'Вариатор'),
+       (E'MT', 'Механическая'),
+       (E'AT5', 'Автоматическая (5 ступеней)'),
+       (E'AT7', 'Автоматическая (7 ступеней)')
+;
+ALTER TABLE public.vehicle ADD COLUMN transmission text DEFAULT NULL;
+ALTER TABLE public.vehicle
+    ADD CONSTRAINT vehicle_vehicle_transmission_id_fkey
+        FOREIGN KEY (transmission) REFERENCES public.vehicle_transmission (id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+UPDATE public.vehicle
+   SET transmission = CASE WHEN equipment_transmission = 0 THEN 'unknown'
+                           WHEN equipment_transmission = 1 THEN 'AT'
+                           WHEN equipment_transmission = 2 THEN 'AMT'
+                           WHEN equipment_transmission = 3 THEN 'CVT'
+                           WHEN equipment_transmission = 4 THEN 'MT'
+                           WHEN equipment_transmission = 5 THEN 'AT5'
+                           WHEN equipment_transmission = 6 THEN 'AT7'
+                           ELSE 'unknown' END
+;
+ALTER TABLE public.vehicle DROP equipment_transmission;
+
+--- Vehicle Air Intake
+CREATE TABLE public.vehicle_air_intake
+    (
+        id text NOT NULL,
+        name text NOT NULL,
+        PRIMARY KEY (id)
+    );
+INSERT INTO public.vehicle_air_intake(id, name)
+VALUES (E'unknown', 'Неопределён'),
+       (E'atmo', 'Атмосферный'),
+       (E'turbo', 'Турбированный')
+;
+ALTER TABLE public.vehicle ADD COLUMN air_intake text DEFAULT NULL;
+ALTER TABLE public.vehicle
+    ADD CONSTRAINT vehicle_vehicle_air_intake_id_fkey
+        FOREIGN KEY (air_intake) REFERENCES public.vehicle_air_intake (id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+UPDATE public.vehicle
+   SET air_intake = CASE WHEN equipment_engine_air_intake = 0 THEN 'unknown'
+                         WHEN equipment_engine_air_intake = 1 THEN 'atmo'
+                         WHEN equipment_engine_air_intake = 2 THEN 'turbo'
+                         ELSE 'unknown' END
+;
+
+ALTER TABLE public.vehicle DROP equipment_engine_air_intake;
+
+--- Vehicle Drive Wheel
+CREATE TABLE public.vehicle_drive_wheel
+    (
+        id text NOT NULL,
+        name text NOT NULL,
+        PRIMARY KEY (id)
+    );
+INSERT INTO public.vehicle_drive_wheel(id, name)
+VALUES (E'unknown', 'Неопределён'),
+       (E'FWD', 'Передний'),
+       (E'RWD', 'Задний'),
+       (E'AWD', 'Полный')
+;
+ALTER TABLE public.vehicle ADD COLUMN drive_wheel text DEFAULT NULL
+    REFERENCES public.vehicle_drive_wheel (id);
+UPDATE public.vehicle
+   SET drive_wheel = CASE WHEN equipment_wheel_drive = 0 THEN 'unknown'
+                          WHEN equipment_wheel_drive = 1 THEN 'FWD'
+                          WHEN equipment_wheel_drive = 2 THEN 'RWD'
+                          WHEN equipment_wheel_drive = 3 THEN 'AWD'
+                          ELSE 'unknown' END
+;
+
+ALTER TABLE public.vehicle DROP equipment_wheel_drive;
+
+--- Vehicle Fuel Type
+CREATE TABLE public.vehicle_fuel_type
+    (
+        id text NOT NULL,
+        name text NOT NULL,
+        PRIMARY KEY (id)
+    );
+INSERT INTO public.vehicle_fuel_type(id, name)
+VALUES (E'unknown', 'Неопределён'),
+       (E'petrol', 'Бензин'),
+       (E'diesel', 'Дизель'),
+       (E'ethanol', 'Этанол'),
+       (E'electric', 'Электрический'),
+       (E'hybrid', 'Гибрид')
+;
+ALTER TABLE public.vehicle ADD COLUMN fuel_type text DEFAULT NULL;
+ALTER TABLE public.vehicle
+    ADD CONSTRAINT vehicle_vehicle_fuel_type_id_fkey
+        FOREIGN KEY (fuel_type) REFERENCES public.vehicle_fuel_type (id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+UPDATE public.vehicle
+   SET fuel_type = CASE WHEN equipment_engine_type = 0 THEN 'unknown'
+                        WHEN equipment_engine_type = 1 THEN 'petrol'
+                        WHEN equipment_engine_type = 2 THEN 'diesel'
+                        WHEN equipment_engine_type = 3 THEN 'ethanol'
+                        WHEN equipment_engine_type = 4 THEN 'electric'
+                        WHEN equipment_engine_type = 5 THEN 'hybrid'
+                        ELSE 'unknown' END
+;
+
+ALTER TABLE public.vehicle DROP equipment_engine_type;
+
+--- Vehicle Injection
+CREATE TABLE public.vehicle_injection
+    (
+        id text NOT NULL,
+        name text NOT NULL,
+        PRIMARY KEY (id)
+    );
+INSERT INTO public.vehicle_injection(id, name)
+VALUES (E'unknown', 'Неопределён'),
+       (E'classic', 'Классический'),
+       (E'direct', 'Непосредственный впрыск')
+;
+ALTER TABLE public.vehicle ADD COLUMN injection text DEFAULT NULL
+    REFERENCES public.vehicle_injection (id);
+ALTER TABLE public.vehicle
+    ADD CONSTRAINT vehicle_vehicle_injection_id_fkey
+        FOREIGN KEY (injection) REFERENCES public.vehicle_injection (id) ON UPDATE CASCADE ON DELETE RESTRICT;
+UPDATE public.vehicle
+   SET injection = CASE WHEN equipment_engine_injection = 0 THEN 'unknown'
+                        WHEN equipment_engine_injection = 1 THEN 'classic'
+                        WHEN equipment_engine_injection = 2 THEN 'direct'
+                        ELSE 'unknown' END
+;
+
+ALTER TABLE public.vehicle DROP equipment_engine_injection;
+
+--- Vehicle Tire Fitting Category
+CREATE TABLE public.vehicle_tire_fitting_category
+    (
+        id text NOT NULL,
+        name text NOT NULL,
+        PRIMARY KEY (id)
+    );
+INSERT INTO public.vehicle_tire_fitting_category(id, name)
+VALUES (E'unknown', 'Неопределён'),
+       (E'car', 'Легковая'),
+       (E'suv', 'Внедорожник'),
+       (E'crossover', 'Кроссовер'),
+       (E'minivan', 'Минивен')
+;
+ALTER TABLE public.vehicle_body ADD COLUMN tire_fitting_category text DEFAULT NULL
+    REFERENCES public.vehicle_tire_fitting_category (id);
+ALTER TABLE public.vehicle_body
+    ADD CONSTRAINT vehicle_vehicle_tire_fitting_category_id_fkey
+        FOREIGN KEY (tire_fitting_category) REFERENCES public.vehicle_tire_fitting_category (id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+ALTER TABLE public.vehicle ADD COLUMN tire_fitting_category text DEFAULT NULL
+    REFERENCES public.vehicle_tire_fitting_category (id);
+ALTER TABLE public.vehicle
+    ADD CONSTRAINT vehicle_vehicle_tire_fitting_category_id_fkey
+        FOREIGN KEY (tire_fitting_category) REFERENCES public.vehicle_tire_fitting_category (id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+--- Vehicle Engine
+
+ALTER TABLE public.vehicle RENAME equipment_engine_name TO engine_name;
+ALTER TABLE public.vehicle RENAME equipment_engine_capacity TO engine_capacity;
+
+--- Vehicle Contact
+
+CREATE TABLE public.vehicle_contact
+    (
+        id uuid NOT NULL DEFAULT gen_random_uuid(),
+        vehicle_id uuid NOT NULL,
+        contact_id uuid NOT NULL,
+        comment text,
+        is_actual bool NOT NULL DEFAULT TRUE,
+        PRIMARY KEY (id),
+        FOREIGN KEY (vehicle_id) REFERENCES public.vehicle (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+        FOREIGN KEY (contact_id) REFERENCES public.contact (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+        UNIQUE (vehicle_id, contact_id)
+    );
+SELECT public.hasura_timestampable('public.vehicle_contact');
+
+--- Part Case
+
+ALTER TABLE public.part_case RENAME TO part_vehicle_body;
+ALTER TABLE public.part_vehicle_body RENAME vehicle_id TO vehicle_body;
+
+ALTER TABLE public.part_vehicle_body
+    ALTER COLUMN id SET DEFAULT gen_random_uuid();
+
+ALTER TABLE public.part_vehicle_body
+    ADD CONSTRAINT part_vehicle_body_part_id_fkey
+        FOREIGN KEY (part_id) REFERENCES public.part (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE public.part_vehicle_body
+    ADD CONSTRAINT part_vehicle_body_vehicle_body_id_fkey
+        FOREIGN KEY (vehicle_body) REFERENCES public.vehicle_body (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+SELECT public.hasura_timestampable('public.part_vehicle_body');
+UPDATE public.part_vehicle_body t
+   SET created_at = cb.created_at,
+       updated_at = cb.created_at
+  FROM public.created_by cb
+ WHERE cb.id = t.id;

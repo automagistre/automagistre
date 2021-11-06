@@ -1,0 +1,17 @@
+table:
+    name: vehicle_body_type
+    schema: public
+select_permissions:
+    -   permission:
+            allow_aggregations: true
+            columns:
+                - id
+                - name
+            filter: { }
+        role: anonymous
+    -   permission:
+            columns:
+                - id
+                - name
+            filter: { }
+        role: manager
