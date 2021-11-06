@@ -26,6 +26,8 @@ interface PhoneNumberFieldProps {
 export const PhoneNumberField = (props: PhoneNumberFieldProps) => {
     const record = useRecordContext()
 
+    if (!record) return null
+
     const telephone: string = record[props.source ?? 'telephone']
 
     if (!telephone) return null

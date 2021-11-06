@@ -4,10 +4,9 @@ import {Contact, ContactOrganizationName, ContactPersonName} from '../types'
 
 const ContactNameField = (props: FieldProps<Contact>) => {
     const contact: Contact = useRecordContext(props)
-
     const {data, loading} = useGetList('legal_form')
 
-    if (loading) return <span>Загрузка...</span>
+    if (!contact || loading) return <span>Загрузка...</span>
 
     const legalForm = data[contact.legal_form]
 

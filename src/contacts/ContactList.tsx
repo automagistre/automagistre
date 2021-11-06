@@ -17,7 +17,7 @@ const ContactList = (props: ListProps) => {
             filters={contactFilters}
             {...props}
         >
-            <Datagrid rowClick="show">
+            <Datagrid rowClick="edit">
                 <LegalFormReferenceField/>
                 <ContactNameField/>
                 <PhoneNumberField/>
