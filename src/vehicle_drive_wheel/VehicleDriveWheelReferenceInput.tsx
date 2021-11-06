@@ -5,7 +5,7 @@ const VehicleDriveWheelReferenceInput = (
 ) => (
     <ReferenceInput
         {...props}
-        source="air_intake"
+        source="drive_wheel"
         reference="vehicle_drive_wheel"
     >
         <SelectInput optionText="name"/>
@@ -13,7 +13,7 @@ const VehicleDriveWheelReferenceInput = (
 )
 
 VehicleDriveWheelReferenceInput.defaultProps = {
-    source: 'air_intake',
+    source: 'drive_wheel',
     reference: 'vehicle_drive_wheel',
     label: 'Привод',
 }
