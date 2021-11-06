@@ -43,6 +43,10 @@ export interface VehicleBody extends Record, Timestampable {
     year_till: number,
 }
 
+export interface VehicleBodyType extends Record {
+    name: string,
+}
+
 export interface Part extends Record {
     name: string,
     number: string,

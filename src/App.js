@@ -22,6 +22,7 @@ import customRoutes from './routes';
 import {useDispatch, useSelector} from "react-redux";
 import {CHANGE_TENANT, changeTenant} from "./tenant/actions";
 import MyLayout from "./layout/Layout";
+import vehicleBodyTypes from "./vehicle_body_types";
 
 // TODO Convert to tsx
 
@@ -105,7 +106,13 @@ const Resources = () => {
             <Resource name="tenant" {...tenants}/>
             <Resource name="unit"/>
             <Resource name="vehicle" {...vehicles} />
+            <Resource name="vehicle_air_intake"/>
+            <Resource name="vehicle_drive_wheel"/>
+            <Resource name="vehicle_fuel_type"/>
+            <Resource name="vehicle_injection"/>
+            <Resource name="vehicle_transmission"/>
             <Resource name="vehicle_body" {...vehicleBodies} />
+            <Resource name="vehicle_body_type" {...vehicleBodyTypes} />
             <Resource name="wallet" {...wallets} />
         </AdminUI>
     )
