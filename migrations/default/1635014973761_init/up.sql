@@ -667,8 +667,11 @@ VALUES (E'unknown', 'Неопределён'),
        (E'RWD', 'Задний'),
        (E'AWD', 'Полный')
 ;
-ALTER TABLE public.vehicle ADD COLUMN drive_wheel text DEFAULT NULL
-    REFERENCES public.vehicle_drive_wheel (id);
+ALTER TABLE public.vehicle ADD COLUMN drive_wheel text DEFAULT NULL;
+ALTER TABLE public.vehicle
+    ADD CONSTRAINT vehicle_vehicle_drive_wheel_id_fkey
+        FOREIGN KEY (drive_wheel) REFERENCES public.vehicle_drive_wheel (id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
 UPDATE public.vehicle
    SET drive_wheel = CASE WHEN equipment_wheel_drive = 0 THEN 'unknown'
                           WHEN equipment_wheel_drive = 1 THEN 'FWD'
@@ -723,8 +726,7 @@ VALUES (E'unknown', 'Неопределён'),
        (E'classic', 'Классический'),
        (E'direct', 'Непосредственный впрыск')
 ;
-ALTER TABLE public.vehicle ADD COLUMN injection text DEFAULT NULL
-    REFERENCES public.vehicle_injection (id);
+ALTER TABLE public.vehicle ADD COLUMN injection text DEFAULT NULL;
 ALTER TABLE public.vehicle
     ADD CONSTRAINT vehicle_vehicle_injection_id_fkey
         FOREIGN KEY (injection) REFERENCES public.vehicle_injection (id) ON UPDATE CASCADE ON DELETE RESTRICT;
@@ -751,14 +753,12 @@ VALUES (E'unknown', 'Неопределён'),
        (E'crossover', 'Кроссовер'),
        (E'minivan', 'Минивен')
 ;
-ALTER TABLE public.vehicle_body ADD COLUMN tire_fitting_category text DEFAULT NULL
-    REFERENCES public.vehicle_tire_fitting_category (id);
+ALTER TABLE public.vehicle_body ADD COLUMN tire_fitting_category text DEFAULT NULL;
 ALTER TABLE public.vehicle_body
-    ADD CONSTRAINT vehicle_vehicle_tire_fitting_category_id_fkey
+    ADD CONSTRAINT vehicle_body_vehicle_tire_fitting_category_id_fkey
         FOREIGN KEY (tire_fitting_category) REFERENCES public.vehicle_tire_fitting_category (id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
-ALTER TABLE public.vehicle ADD COLUMN tire_fitting_category text DEFAULT NULL
-    REFERENCES public.vehicle_tire_fitting_category (id);
+ALTER TABLE public.vehicle ADD COLUMN tire_fitting_category text DEFAULT NULL;
 ALTER TABLE public.vehicle
     ADD CONSTRAINT vehicle_vehicle_tire_fitting_category_id_fkey
         FOREIGN KEY (tire_fitting_category) REFERENCES public.vehicle_tire_fitting_category (id) ON UPDATE CASCADE ON DELETE RESTRICT;

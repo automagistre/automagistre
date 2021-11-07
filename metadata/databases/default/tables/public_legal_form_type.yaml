@@ -2,6 +2,14 @@ table:
     name: legal_form_type
     schema: public
 is_enum: true
+array_relationships:
+    -   name: legal_forms
+        using:
+            foreign_key_constraint_on:
+                column: type
+                table:
+                    name: legal_form
+                    schema: public
 select_permissions:
     -   permission:
             allow_aggregations: true

@@ -5,12 +5,30 @@ object_relationships:
     -   name: tenant_group
         using:
             foreign_key_constraint_on: tenant_group_id
+    -   name: vehicle_air_intake
+        using:
+            foreign_key_constraint_on: air_intake
     -   name: vehicle_body
         using:
             foreign_key_constraint_on: body
     -   name: vehicle_body_type
         using:
             foreign_key_constraint_on: body_type
+    -   name: vehicle_drive_wheel
+        using:
+            foreign_key_constraint_on: drive_wheel
+    -   name: vehicle_fuel_type
+        using:
+            foreign_key_constraint_on: fuel_type
+    -   name: vehicle_injection
+        using:
+            foreign_key_constraint_on: injection
+    -   name: vehicle_tire_fitting_category
+        using:
+            foreign_key_constraint_on: tire_fitting_category
+    -   name: vehicle_transmission
+        using:
+            foreign_key_constraint_on: transmission
 array_relationships:
     -   name: vehicle_contacts
         using:

@@ -2,10 +2,20 @@ table:
     name: contact
     schema: public
 object_relationships:
+    -   name: legalFormByLegalForm
+        using:
+            foreign_key_constraint_on: legal_form
     -   name: tenant_group
         using:
             foreign_key_constraint_on: tenant_group_id
 array_relationships:
+    -   name: contact_relations
+        using:
+            foreign_key_constraint_on:
+                column: target_id
+                table:
+                    name: contact_relation
+                    schema: public
     -   name: reference
         using:
             manual_configuration:
@@ -14,6 +24,13 @@ array_relationships:
                 insertion_order: null
                 remote_table:
                     name: contact_relation
+                    schema: public
+    -   name: vehicle_contacts
+        using:
+            foreign_key_constraint_on:
+                column: contact_id
+                table:
+                    name: vehicle_contact
                     schema: public
 insert_permissions:
     -   permission:

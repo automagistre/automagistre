@@ -11,6 +11,9 @@ object_relationships:
                 remote_table:
                     name: manufacturer
                     schema: public
+    -   name: vehicle_tire_fitting_category
+        using:
+            foreign_key_constraint_on: tire_fitting_category
 insert_permissions:
     -   permission:
             backend_only: false

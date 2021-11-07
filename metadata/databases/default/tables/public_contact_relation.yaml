@@ -5,6 +5,9 @@ object_relationships:
     -   name: contact
         using:
             foreign_key_constraint_on: target_id
+    -   name: contactBySourceId
+        using:
+            foreign_key_constraint_on: source_id
     -   name: tenant_group
         using:
             foreign_key_constraint_on: tenant_group_id
