@@ -14,7 +14,6 @@ VehicleBodyTypeReferenceInput.defaultProps = {
     source: 'body_type',
     reference: 'vehicle_body_type',
     label: 'Тип кузова',
-    addLabel: true,
 }
 
 export default VehicleBodyTypeReferenceInput
