@@ -1,0 +1,12 @@
+table:
+    name: order_status
+    schema: public
+select_permissions:
+    -   permission:
+            allow_aggregations: true
+            columns:
+                - id
+                - name
+                - color
+            filter: { }
+        role: manager

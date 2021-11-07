@@ -1,0 +1,109 @@
+table:
+    name: orders
+    schema: public
+object_relationships:
+    -   name: contact_gave
+        using:
+            foreign_key_constraint_on: contact_gave_id
+    -   name: contact_paid
+        using:
+            foreign_key_constraint_on: contact_paid_id
+    -   name: contact_took
+        using:
+            foreign_key_constraint_on: contact_took_id
+    -   name: status
+        using:
+            foreign_key_constraint_on: status_id
+    -   name: tenant
+        using:
+            foreign_key_constraint_on: tenant_id
+    -   name: vehicle
+        using:
+            foreign_key_constraint_on: vehicle_id
+    -   name: worker
+        using:
+            foreign_key_constraint_on: worker_id
+insert_permissions:
+    -   permission:
+            backend_only: false
+            check:
+                _and:
+                    -   tenant:
+                            tenant_permissions:
+                                _and:
+                                    -   tenant_id:
+                                            _eq: X-Hasura-Tenant-Id
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
+            columns:
+                - comment
+                - contact_gave_id
+                - contact_paid_id
+                - contact_took_id
+                - mileage
+                - status_id
+                - vehicle_id
+                - worker_id
+            set:
+                tenant_id: x-hasura-Tenant-Id
+        role: manager
+select_permissions:
+    -   permission:
+            allow_aggregations: true
+            columns:
+                - comment
+                - contact_gave_id
+                - contact_paid_id
+                - contact_took_id
+                - created_at
+                - id
+                - mileage
+                - number
+                - status_id
+                - updated_at
+                - vehicle_id
+                - worker_id
+            filter:
+                _and:
+                    -   tenant:
+                            tenant_permissions:
+                                _and:
+                                    -   tenant_id:
+                                            _eq: X-Hasura-Tenant-Id
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
+        role: manager
+update_permissions:
+    -   permission:
+            check: null
+            columns:
+                - comment
+                - contact_gave_id
+                - contact_paid_id
+                - contact_took_id
+                - mileage
+                - status_id
+                - vehicle_id
+                - worker_id
+            filter:
+                _and:
+                    -   tenant:
+                            tenant_permissions:
+                                _and:
+                                    -   tenant_id:
+                                            _eq: X-Hasura-Tenant-Id
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
+        role: manager
+delete_permissions:
+    -   permission:
+            filter:
+                _and:
+                    -   tenant:
+                            tenant_permissions:
+                                _and:
+                                    -   tenant_id:
+                                            _eq: X-Hasura-Tenant-Id
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
+        role: manager

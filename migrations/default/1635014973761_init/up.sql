@@ -1,5 +1,5 @@
 --- Hasura
-CREATE OR REPLACE FUNCTION public.set_current_timestamp_updated_at() RETURNS trigger AS
+CREATE FUNCTION public.set_current_timestamp_updated_at() RETURNS trigger AS
 $$
 DECLARE
     _new record;
@@ -10,7 +10,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION public.hasura_timestampable(target_table regclass) RETURNS void AS
+CREATE FUNCTION public.timestampable(target_table regclass) RETURNS void AS
 $$
 DECLARE
     trigger_name text;
@@ -54,7 +54,7 @@ ALTER TABLE public.manufacturer ALTER COLUMN id SET DEFAULT gen_random_uuid();
 ALTER TABLE public.manufacturer
     DROP COLUMN logo CASCADE;
 
-SELECT public.hasura_timestampable('public.manufacturer');
+SELECT public.timestampable('public.manufacturer');
 UPDATE public.manufacturer t
    SET created_at = cb.created_at,
        updated_at = cb.created_at
@@ -83,7 +83,7 @@ CREATE TABLE public.unit
         PRIMARY KEY (id)
     );
 
-SELECT public.hasura_timestampable('public.part');
+SELECT public.timestampable('public.part');
 UPDATE public.part t
    SET created_at = cb.created_at,
        updated_at = cb.created_at
@@ -127,21 +127,21 @@ ALTER TABLE public.tenant_group ALTER COLUMN id SET DEFAULT gen_random_uuid();
 
 ALTER TABLE public.user_permission RENAME TO tenant_permission;
 
-SELECT public.hasura_timestampable('public.tenant');
+SELECT public.timestampable('public.tenant');
 UPDATE public.tenant t
    SET created_at = cb.created_at,
        updated_at = cb.created_at
   FROM public.created_by cb
  WHERE cb.id = t.id;
 
-SELECT public.hasura_timestampable('public.tenant_group');
+SELECT public.timestampable('public.tenant_group');
 UPDATE public.tenant_group t
    SET created_at = cb.created_at,
        updated_at = cb.created_at
   FROM public.created_by cb
  WHERE cb.id = t.id;
 
-SELECT public.hasura_timestampable('public.tenant_permission');
+SELECT public.timestampable('public.tenant_permission');
 UPDATE public.tenant_permission t
    SET created_at = cb.created_at,
        updated_at = cb.created_at
@@ -186,7 +186,7 @@ CREATE TABLE public.tenant_group_permission
     );
 
 ALTER TABLE public.tenant_group_permission ADD id uuid DEFAULT NULL;
-SELECT public.hasura_timestampable('public.tenant_group_permission');
+SELECT public.timestampable('public.tenant_group_permission');
 ALTER TABLE public.tenant_group_permission DROP COLUMN id;
 
 ---
@@ -268,7 +268,7 @@ ALTER TABLE public.wallet_transaction
 
 ALTER TABLE public.wallet_transaction ALTER COLUMN amount TYPE numeric(12, 2) USING amount / 100;
 
-CREATE OR REPLACE FUNCTION app_wallet_balance_update(uuid) RETURNS void AS
+CREATE OR REPLACE FUNCTION set_wallet_balance(uuid) RETURNS void AS
 $$
 BEGIN
     UPDATE wallet
@@ -277,32 +277,32 @@ BEGIN
      WHERE id = $1;
 END;
 $$ LANGUAGE plpgsql;
-CREATE OR REPLACE FUNCTION app_wallet_balance_update_trigger_procedure() RETURNS trigger AS
+CREATE OR REPLACE FUNCTION set_wallet_balance_trigger() RETURNS trigger AS
 $$
 BEGIN
-    IF new.wallet_id <> old.wallet_id THEN CALL app_wallet_balance_update(old.wallet_id); END IF;
+    IF new.wallet_id <> old.wallet_id THEN CALL set_wallet_balance(old.wallet_id); END IF;
 
-    CALL app_wallet_balance_update(new.wallet_id);
+    CALL set_wallet_balance(new.wallet_id);
 
     RETURN new;
 END;
 $$ LANGUAGE plpgsql;
-CREATE TRIGGER app_wallet_balance_update_trigger
+CREATE TRIGGER set_wallet_balance_trigger
     AFTER INSERT OR DELETE OR UPDATE OF amount,wallet_id
     ON public.wallet_transaction
     FOR EACH ROW
-EXECUTE PROCEDURE app_wallet_balance_update_trigger_procedure();
-SELECT app_wallet_balance_update(id)
+EXECUTE PROCEDURE set_wallet_balance_trigger();
+SELECT set_wallet_balance(id)
   FROM wallet;
 
-SELECT public.hasura_timestampable('public.wallet');
+SELECT public.timestampable('public.wallet');
 UPDATE public.wallet t
    SET created_at = cb.created_at,
        updated_at = cb.created_at
   FROM public.created_by cb
  WHERE cb.id = t.id;
 
-SELECT public.hasura_timestampable('public.wallet_transaction');
+SELECT public.timestampable('public.wallet_transaction');
 UPDATE public.wallet_transaction t
    SET created_at = cb.created_at,
        updated_at = cb.created_at
@@ -313,7 +313,7 @@ UPDATE public.wallet_transaction t
 
 ALTER TABLE public.expense ALTER COLUMN id SET DEFAULT gen_random_uuid();
 
-SELECT public.hasura_timestampable('public.expense');
+SELECT public.timestampable('public.expense');
 
 --- Warehouse
 
@@ -343,7 +343,7 @@ ALTER TABLE public.warehouse
     ADD CONSTRAINT warehouse_tenant_id_fkey
         FOREIGN KEY (tenant_id) REFERENCES public.tenant (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
-SELECT public.hasura_timestampable('public.warehouse');
+SELECT public.timestampable('public.warehouse');
 UPDATE public.warehouse t
    SET created_at = cb.created_at,
        updated_at = cb.created_at
@@ -383,7 +383,7 @@ VALUES (E'LLC', 'ООО', 'Общество с ограниченной отве
        (E'PAO', 'ПАО', 'Публичное акционерное общество', 'organization'),
        (E'NPO', 'НКО', 'Некоммерческая организация', 'organization')
 ;
-SELECT public.hasura_timestampable('public.legal_form');
+SELECT public.timestampable('public.legal_form');
 
 CREATE TABLE public.contact
     (
@@ -413,7 +413,7 @@ CREATE TABLE public.contact_relation
         tenant_group_id uuid NOT NULL,
         FOREIGN KEY (tenant_group_id) REFERENCES tenant_group (id)
     );
-SELECT public.hasura_timestampable('public.contact_relation');
+SELECT public.timestampable('public.contact_relation');
 
 INSERT INTO public.contact (id, legal_form, name, telephone, email, contractor, supplier, tenant_group_id)
 SELECT id, 'NP', JSON_BUILD_OBJECT('firstname', firstname, 'lastname', lastname, 'middlename', NULL), telephone, email,
@@ -486,7 +486,7 @@ CREATE UNIQUE INDEX contact_unique_phone_idx ON public.contact (telephone, tenan
 -- DROP TABLE person;
 -- DROP TABLE organization;
 
-SELECT public.hasura_timestampable('public.contact');
+SELECT public.timestampable('public.contact');
 UPDATE public.contact t
    SET created_at = cb.created_at,
        updated_at = cb.created_at
@@ -505,7 +505,7 @@ ALTER TABLE public.vehicle
     ADD CONSTRAINT vehicle_tenant_group_id_fkey
         FOREIGN KEY (tenant_group_id) REFERENCES public.tenant_group (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
-SELECT public.hasura_timestampable('public.vehicle');
+SELECT public.timestampable('public.vehicle');
 UPDATE public.vehicle t
    SET created_at = cb.created_at,
        updated_at = cb.created_at
@@ -532,7 +532,7 @@ ALTER TABLE public.vehicle_body
 
 ALTER TABLE public.vehicle_body ALTER COLUMN id SET DEFAULT gen_random_uuid();
 
-SELECT public.hasura_timestampable('public.vehicle_body');
+SELECT public.timestampable('public.vehicle_body');
 UPDATE public.vehicle_body t
    SET created_at = cb.created_at,
        updated_at = cb.created_at
@@ -771,7 +771,7 @@ CREATE TABLE public.vehicle_contact
         FOREIGN KEY (contact_id) REFERENCES public.contact (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
         UNIQUE (vehicle_id, contact_id)
     );
-SELECT public.hasura_timestampable('public.vehicle_contact');
+SELECT public.timestampable('public.vehicle_contact');
 
 --- Part Case
 
@@ -788,7 +788,7 @@ ALTER TABLE public.part_vehicle_body
     ADD CONSTRAINT part_vehicle_body_vehicle_body_id_fkey
         FOREIGN KEY (vehicle_body_id) REFERENCES public.vehicle_body (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
-SELECT public.hasura_timestampable('public.part_vehicle_body');
+SELECT public.timestampable('public.part_vehicle_body');
 UPDATE public.part_vehicle_body t
    SET created_at = cb.created_at,
        updated_at = cb.created_at
@@ -969,7 +969,121 @@ ALTER TABLE public.mc_work ALTER COLUMN price_amount TYPE numeric(10, 2) USING p
 
 --- MC Timestampable
 
-SELECT public.hasura_timestampable('public.mc_equipment');
-SELECT public.hasura_timestampable('public.mc_line');
-SELECT public.hasura_timestampable('public.mc_part');
-SELECT public.hasura_timestampable('public.mc_work');
+SELECT public.timestampable('public.mc_equipment');
+SELECT public.timestampable('public.mc_line');
+SELECT public.timestampable('public.mc_part');
+SELECT public.timestampable('public.mc_work');
+
+--- Order
+
+DROP INDEX IF EXISTS uniq_e52ffdee96901f549033212a;
+DROP INDEX IF EXISTS idx_e52ffdee6b20ba36;
+
+ALTER TABLE public.orders ADD CONSTRAINT orders_number_tenant_id_key
+    UNIQUE (number, tenant_id);
+
+ALTER TABLE public.orders DROP CONSTRAINT fk_e52ffdee6b20ba36;
+
+ALTER TABLE public.orders
+    ADD CONSTRAINT orders_tenant_id_fkey
+        FOREIGN KEY (tenant_id) REFERENCES public.tenant (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE public.orders RENAME COLUMN car_id TO vehicle_id;
+ALTER TABLE public.orders RENAME COLUMN description TO comment;
+ALTER TABLE public.orders ADD COLUMN contact_gave_id uuid NULL;
+ALTER TABLE public.orders ADD COLUMN contact_took_id uuid NULL;
+ALTER TABLE public.orders ADD COLUMN contact_paid_id uuid NULL;
+
+COMMENT ON COLUMN public.orders.contact_gave_id IS E'Кто привёз автомобиль';
+COMMENT ON COLUMN public.orders.contact_took_id IS E'Кто забрал автомобиль';
+COMMENT ON COLUMN public.orders.contact_paid_id IS E'Плательщик';
+
+ALTER TABLE public.orders
+    ADD CONSTRAINT orders_contact_gave_fkey
+        FOREIGN KEY (contact_gave_id) REFERENCES public.contact (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE public.orders
+    ADD CONSTRAINT orders_contact_took_fkey
+        FOREIGN KEY (contact_took_id) REFERENCES public.contact (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE public.orders
+    ADD CONSTRAINT orders_contact_paid_fkey
+        FOREIGN KEY (contact_paid_id) REFERENCES public.contact (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE public.orders
+    ADD CONSTRAINT orders_vehicle_id_fkey
+        FOREIGN KEY (vehicle_id) REFERENCES public.vehicle (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+UPDATE public.orders
+   SET contact_gave_id = customer_id,
+       contact_took_id = customer_id,
+       contact_paid_id = customer_id
+ WHERE TRUE;
+ALTER TABLE public.orders DROP COLUMN customer_id;
+
+CREATE TABLE public.order_status
+    (
+        id text NOT NULL,
+        name text NOT NULL,
+        color text NOT NULL,
+        PRIMARY KEY (id)
+    );
+INSERT INTO public.order_status(id, name, color)
+VALUES (E'draft', 'Черновик', 'default'),
+       (E'scheduling', 'Ожидание по записи', 'primary'),
+       (E'ordering', 'Заказ запчастей', 'danger'),
+       (E'matching', 'Согласование', 'warning'),
+       (E'tracking', 'Ожидание запчастей', 'default'),
+       (E'delivery', 'Требуется доставка', 'info'),
+       (E'notification', 'Уведомление клиента', 'warning'),
+       (E'working', 'В работе', 'success'),
+       (E'ready', 'Ожидает выдачи', 'primary'),
+       (E'closed', 'Закрыт', 'default'),
+       (E'selection', 'Подбор запчастей', 'danger'),
+       (E'payment_waiting', 'Ожидает Оплаты', 'primary'),
+       (E'cancelled', 'Отменён', 'default')
+;
+ALTER TABLE public.orders ALTER status TYPE text USING CASE WHEN status = 1 THEN 'draft'
+                                                            WHEN status = 2 THEN 'scheduling'
+                                                            WHEN status = 3 THEN 'ordering'
+                                                            WHEN status = 4 THEN 'matching'
+                                                            WHEN status = 5 THEN 'tracking'
+                                                            WHEN status = 6 THEN 'delivery'
+                                                            WHEN status = 7 THEN 'notification'
+                                                            WHEN status = 8 THEN 'working'
+                                                            WHEN status = 9 THEN 'ready'
+                                                            WHEN status = 10 THEN 'closed'
+                                                            WHEN status = 11 THEN 'selection'
+                                                            WHEN status = 12 THEN 'payment_waiting'
+                                                            WHEN status = 13 THEN 'cancelled'
+                                                            ELSE 'unknown' END
+;
+ALTER TABLE public.orders RENAME status TO status_id;
+ALTER TABLE public.orders
+    ADD CONSTRAINT orders_order_status_id_fkey
+        FOREIGN KEY (status_id) REFERENCES public.order_status (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE public.orders ALTER COLUMN id SET DEFAULT gen_random_uuid();
+ALTER TABLE public.orders ALTER COLUMN status_id SET DEFAULT 'draft';
+
+
+CREATE OR REPLACE FUNCTION set_orders_number() RETURNS trigger AS
+$$
+BEGIN
+    new.number := COALESCE((SELECT MAX(number) + 1 FROM public.orders o WHERE o.tenant_id = new.tenant_id), 1);
+
+    RETURN new;
+END;
+$$ LANGUAGE plpgsql;
+CREATE TRIGGER set_orders_number_trigger
+    BEFORE INSERT
+    ON public.orders
+    FOR EACH ROW
+EXECUTE PROCEDURE set_orders_number();
+
+UPDATE public.orders o
+   SET worker_id = e.person_id
+  FROM employee e
+ WHERE e.id = o.worker_id;
+ALTER TABLE public.orders
+    ADD CONSTRAINT orders_contact_worker_id_fkey
+        FOREIGN KEY (worker_id) REFERENCES public.contact (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+SELECT public.timestampable('public.orders');
