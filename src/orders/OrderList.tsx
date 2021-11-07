@@ -1,17 +1,17 @@
-import {Datagrid, DateField, List, ListProps, ReferenceField, TextField} from 'react-admin'
+import {Datagrid, DateField, List, ListProps, TextField} from 'react-admin'
 import ContactReferenceField from '../contacts/ContactReferenceField'
 import VehicleReferenceField from '../vehicles/VehicleReferenceField'
-
+import OrderStatusReferenceField from './OrderStatusReferenceField'
 
 const OrderList = (props: ListProps) => (
     <List {...props}
-          title="Работы"
+          title="Заказы"
           sort={{field: 'updated_at', order: 'DESC'}}
     >
         <Datagrid rowClick="edit">
-            <TextField source="number"/>
-            <ReferenceField source="status_id" reference="order_status"><TextField source="id"/></ReferenceField>
-            <DateField source="created_at"/>
+            <TextField source="number" label="Номер"/>
+            <OrderStatusReferenceField/>
+            <DateField source="created_at" label="Создан" showTime={true}/>
             <VehicleReferenceField/>
             <ContactReferenceField source="contact_gave_id" label="Контакт"/>
         </Datagrid>

@@ -117,3 +117,8 @@ export interface Order extends Record, Timestampable, Commentable {
     contact_took_id: Identifier,
     contact_paid_id: Identifier,
 }
+
+export interface OrderStatus extends Record {
+    name: string,
+    color: 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning',
+}
