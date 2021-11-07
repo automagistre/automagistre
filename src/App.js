@@ -98,6 +98,8 @@ const Resources = () => {
 
     return (
         <AdminUI
+            disableTelemetry={true}
+            dashboard={Dashboard}
             customRoutes={customRoutes}
             layout={MyLayout}
         >
@@ -171,9 +173,6 @@ const AdminWithKeycloak = () => {
     return (
         <ApolloProvider client={apollo}>
             <AdminContext
-                disableTelemetry
-                dashboard={Dashboard}
-                title="Автомагистр - CRM"
                 customReducers={{
                     theme: themeReducer,
                     tenant: (previousState = null, action) => {
