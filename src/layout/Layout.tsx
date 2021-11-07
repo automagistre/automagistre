@@ -1,4 +1,3 @@
-import {adaptV4Theme} from '@mui/material/styles'
 import {Layout, LayoutProps} from 'react-admin'
 import {useSelector} from 'react-redux'
 import {AppState} from '../types'
@@ -11,7 +10,8 @@ const MyLayout = (props: LayoutProps) => {
         state.theme === 'dark' ? darkTheme : lightTheme,
     )
 
-    return <Layout {...props} appBar={AppBar} menu={Menu} theme={adaptV4Theme(theme)}/>
-};
+    // @ts-ignore TODO theme deprecations
+    return <Layout {...props} appBar={AppBar} menu={Menu} theme={theme}/>
+}
 
 export default MyLayout
