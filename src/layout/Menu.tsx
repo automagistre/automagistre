@@ -1,4 +1,4 @@
-import {faBookOpen, faMap, faPiggyBank, faUsers} from '@fortawesome/free-solid-svg-icons'
+import {faBookOpen, faFileInvoiceDollar, faMap, faPiggyBank, faUsers} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {Theme} from '@mui/material/styles'
 import {makeStyles} from '@mui/styles'
@@ -12,7 +12,6 @@ import legalForms from '../legal_forms'
 import manufacturers from '../manufacturers'
 import mcEquipments from '../mc_equipments'
 import mcWorks from '../mc_works'
-import orders from '../orders'
 import parts from '../parts'
 import {AppState} from '../types'
 import vehicles from '../vehicle_bodies'
@@ -57,7 +56,8 @@ const Menu = ({dense = false}: MenuProps) => {
                     state: {_scrollToTop: true},
                 }}
                 primaryText="Заказы"
-                leftIcon={orders.icon}
+                leftIcon={<FontAwesomeIcon icon={faFileInvoiceDollar} size="lg" style={{marginLeft: '3px'}}/> }
+                exact
             />
             <SubMenu
                 handleToggle={() => handleToggle('menuFinance')}
@@ -186,10 +186,10 @@ const useStyles = makeStyles((theme: Theme) => ({
         }),
     },
     open: {
-        width: 200,
+        width: 210,
     },
     closed: {
-        width: 55,
+        width: 50,
     },
 }))
 
