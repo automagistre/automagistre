@@ -48,13 +48,17 @@ export const darkTheme = {
 }
 
 export const lightTheme = {
-    shape: {
-        borderRadius: 10,
-    },
     sidebar: {
         width: 200,
     },
     components: {
+        MuiChip: {
+            styleOverrides: {
+                root: {
+                    borderRadius: '4px',
+                },
+            },
+        },
         MuiButtonBase: {
             defaultProps: {
                 disableRipple: true,
@@ -147,9 +151,6 @@ export const lightTheme = {
         },
         mode: 'light',
         type: 'light' as 'light',
-        primary: {
-            main: '#4f3cc9',
-        },
         secondary: {
             light: '#5f5fc4', main: '#283593', dark: '#001064', contrastText: '#fff',
         },
