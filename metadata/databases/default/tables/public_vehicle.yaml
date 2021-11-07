@@ -10,10 +10,10 @@ object_relationships:
             foreign_key_constraint_on: air_intake
     -   name: vehicle_body
         using:
-            foreign_key_constraint_on: body
+            foreign_key_constraint_on: vehicle_body_id
     -   name: vehicle_body_type
         using:
-            foreign_key_constraint_on: body_type
+            foreign_key_constraint_on: vehicle_body_type_id
     -   name: vehicle_drive_wheel
         using:
             foreign_key_constraint_on: drive_wheel
@@ -51,8 +51,8 @@ insert_permissions:
                                             _eq: X-Hasura-User-Id
             columns:
                 - air_intake
-                - body
-                - body_type
+                - vehicle_body_id
+                - vehicle_body_type_id
                 - comment
                 - drive_wheel
                 - engine_capacity
@@ -73,7 +73,7 @@ select_permissions:
             allow_aggregations: true
             columns:
                 - id
-                - body
+                - vehicle_body_id
                 - identifier
                 - year
                 - comment
@@ -84,7 +84,7 @@ select_permissions:
                 - engine_capacity
                 - created_at
                 - updated_at
-                - body_type
+                - vehicle_body_type_id
                 - transmission
                 - air_intake
                 - drive_wheel
@@ -106,8 +106,8 @@ update_permissions:
             check: null
             columns:
                 - air_intake
-                - body
-                - body_type
+                - vehicle_body_id
+                - vehicle_body_type_id
                 - comment
                 - drive_wheel
                 - engine_capacity

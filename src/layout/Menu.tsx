@@ -12,6 +12,7 @@ import legalForms from '../legal_forms'
 import manufacturers from '../manufacturers'
 import mcEquipments from '../mc_equipments'
 import mcWorks from '../mc_works'
+import orders from '../orders'
 import parts from '../parts'
 import {AppState} from '../types'
 import vehicles from '../vehicle_bodies'
@@ -50,6 +51,14 @@ const Menu = ({dense = false}: MenuProps) => {
         >
             {' '}
             <DashboardMenuItem/>
+            <MenuItemLink
+                to={{
+                    pathname: '/orders',
+                    state: {_scrollToTop: true},
+                }}
+                primaryText="Заказы"
+                leftIcon={orders.icon}
+            />
             <SubMenu
                 handleToggle={() => handleToggle('menuFinance')}
                 isOpen={state.menuFinance}

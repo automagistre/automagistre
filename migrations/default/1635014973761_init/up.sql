@@ -521,10 +521,10 @@ DROP INDEX IF EXISTS uniq_773de69d772e836adff2bbb0;
 ALTER TABLE public.vehicle_model
     RENAME TO vehicle_body;
 
-ALTER TABLE public.vehicle RENAME vehicle_id TO body;
+ALTER TABLE public.vehicle RENAME vehicle_id TO vehicle_body_id;
 ALTER TABLE public.vehicle
     ADD CONSTRAINT vehicle_vehicle_body_id_fkey
-        FOREIGN KEY (body) REFERENCES public.vehicle_body (id) ON UPDATE CASCADE ON DELETE RESTRICT;
+        FOREIGN KEY (vehicle_body_id) REFERENCES public.vehicle_body (id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 ALTER TABLE public.vehicle_body
     ADD CONSTRAINT vehicle_body_manufacturer_id_fkey
@@ -560,27 +560,27 @@ VALUES (E'unknown', 'Неопределён'),
        (E'van', 'Фургон'),
        (E'cabrio', 'Кабриолет')
 ;
-ALTER TABLE public.vehicle ADD COLUMN body_type text DEFAULT NULL;
+ALTER TABLE public.vehicle ADD COLUMN vehicle_body_type_id text DEFAULT NULL;
 ALTER TABLE public.vehicle
     ADD CONSTRAINT vehicle_vehicle_body_type_id_fkey
-        FOREIGN KEY (body_type) REFERENCES public.vehicle_body_type (id) ON UPDATE CASCADE ON DELETE RESTRICT;
+        FOREIGN KEY (vehicle_body_type_id) REFERENCES public.vehicle_body_type (id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 UPDATE public.vehicle
-   SET body_type = CASE WHEN case_type = 0 THEN 'unknown'
-                        WHEN case_type = 1 THEN 'sedan'
-                        WHEN case_type = 2 THEN 'hatchback'
-                        WHEN case_type = 3 THEN 'liftback'
-                        WHEN case_type = 4 THEN 'allroad'
-                        WHEN case_type = 5 THEN 'wagon'
-                        WHEN case_type = 6 THEN 'coupe'
-                        WHEN case_type = 7 THEN 'minivan'
-                        WHEN case_type = 8 THEN 'pickup'
-                        WHEN case_type = 9 THEN 'limousine'
-                        WHEN case_type = 10 THEN 'van'
-                        WHEN case_type = 11 THEN 'cabrio'
-                        ELSE 'unknown' END
+   SET vehicle_body_type_id = CASE WHEN case_type = 0 THEN 'unknown'
+                                   WHEN case_type = 1 THEN 'sedan'
+                                   WHEN case_type = 2 THEN 'hatchback'
+                                   WHEN case_type = 3 THEN 'liftback'
+                                   WHEN case_type = 4 THEN 'allroad'
+                                   WHEN case_type = 5 THEN 'wagon'
+                                   WHEN case_type = 6 THEN 'coupe'
+                                   WHEN case_type = 7 THEN 'minivan'
+                                   WHEN case_type = 8 THEN 'pickup'
+                                   WHEN case_type = 9 THEN 'limousine'
+                                   WHEN case_type = 10 THEN 'van'
+                                   WHEN case_type = 11 THEN 'cabrio'
+                                   ELSE 'unknown' END
 ;
-ALTER TABLE public.vehicle ALTER COLUMN body_type SET NOT NULL;
+ALTER TABLE public.vehicle ALTER COLUMN vehicle_body_type_id SET NOT NULL;
 ALTER TABLE public.vehicle DROP COLUMN case_type;
 
 --- Vehicle Transmission
@@ -1087,3 +1087,8 @@ ALTER TABLE public.orders
         FOREIGN KEY (worker_id) REFERENCES public.contact (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 SELECT public.timestampable('public.orders');
+UPDATE public.orders t
+   SET created_at = cb.created_at,
+       updated_at = cb.created_at
+  FROM public.created_by cb
+ WHERE cb.id = t.id;

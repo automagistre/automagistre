@@ -102,4 +102,18 @@ export interface Vehicle extends Record, Timestampable, Commentable {
     body_type: Identifier,
     mileage: number,
     legal_plate: string,
+    engine_name: string,
+    engine_capacity: string,
+    transmission: Identifier,
+    drive_wheel: Identifier,
+}
+
+export interface Order extends Record, Timestampable, Commentable {
+    vehicle_id: Identifier,
+    number: string,
+    mileage: number,
+    status_id: Identifier,
+    contact_gave_id: Identifier,
+    contact_took_id: Identifier,
+    contact_paid_id: Identifier,
 }
