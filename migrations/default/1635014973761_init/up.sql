@@ -1,4 +1,3 @@
---- Hasura
 CREATE FUNCTION public.set_current_timestamp_updated_at() RETURNS trigger AS
 $$
 DECLARE
@@ -19,6 +18,17 @@ BEGIN
 
     EXECUTE 'ALTER TABLE ' || target_table || ' ADD COLUMN "created_at" timestamptz NOT NULL DEFAULT NOW()';
     EXECUTE 'ALTER TABLE ' || target_table || ' ADD COLUMN "updated_at" timestamptz NOT NULL DEFAULT NOW()';
+
+    IF (SELECT EXISTS(SELECT 1
+                        FROM information_schema.columns
+                       WHERE table_schema = 'public'
+                         AND table_name = target_table::text
+                         AND column_name = 'id'
+                         AND data_type = 'uuid')) THEN
+
+        EXECUTE 'UPDATE ' || target_table ||
+                ' t SET created_at = cb.created_at, updated_at = cb.created_at FROM public.created_by cb WHERE cb.id = t.id';
+    END IF;
 
     EXECUTE 'CREATE TRIGGER "' || trigger_name || '" BEFORE UPDATE ON ' || target_table ||
             ' FOR EACH ROW EXECUTE PROCEDURE public.set_current_timestamp_updated_at()';
@@ -55,11 +65,6 @@ ALTER TABLE public.manufacturer
     DROP COLUMN logo CASCADE;
 
 SELECT public.timestampable('public.manufacturer');
-UPDATE public.manufacturer t
-   SET created_at = cb.created_at,
-       updated_at = cb.created_at
-  FROM public.created_by cb
- WHERE cb.id = t.id;
 
 --- Part
 
@@ -84,11 +89,7 @@ CREATE TABLE public.unit
     );
 
 SELECT public.timestampable('public.part');
-UPDATE public.part t
-   SET created_at = cb.created_at,
-       updated_at = cb.created_at
-  FROM public.created_by cb
- WHERE cb.id = t.id;
+
 ---
 
 INSERT INTO public.unit(id, name)
@@ -128,25 +129,8 @@ ALTER TABLE public.tenant_group ALTER COLUMN id SET DEFAULT gen_random_uuid();
 ALTER TABLE public.user_permission RENAME TO tenant_permission;
 
 SELECT public.timestampable('public.tenant');
-UPDATE public.tenant t
-   SET created_at = cb.created_at,
-       updated_at = cb.created_at
-  FROM public.created_by cb
- WHERE cb.id = t.id;
-
 SELECT public.timestampable('public.tenant_group');
-UPDATE public.tenant_group t
-   SET created_at = cb.created_at,
-       updated_at = cb.created_at
-  FROM public.created_by cb
- WHERE cb.id = t.id;
-
 SELECT public.timestampable('public.tenant_permission');
-UPDATE public.tenant_permission t
-   SET created_at = cb.created_at,
-       updated_at = cb.created_at
-  FROM public.created_by cb
- WHERE cb.id = t.id;
 
 BEGIN TRANSACTION;
 ALTER TABLE public.tenant_permission
@@ -296,18 +280,7 @@ SELECT set_wallet_balance(id)
   FROM wallet;
 
 SELECT public.timestampable('public.wallet');
-UPDATE public.wallet t
-   SET created_at = cb.created_at,
-       updated_at = cb.created_at
-  FROM public.created_by cb
- WHERE cb.id = t.id;
-
 SELECT public.timestampable('public.wallet_transaction');
-UPDATE public.wallet_transaction t
-   SET created_at = cb.created_at,
-       updated_at = cb.created_at
-  FROM public.created_by cb
- WHERE cb.id = t.id;
 
 --- Expense
 
@@ -344,11 +317,6 @@ ALTER TABLE public.warehouse
         FOREIGN KEY (tenant_id) REFERENCES public.tenant (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 SELECT public.timestampable('public.warehouse');
-UPDATE public.warehouse t
-   SET created_at = cb.created_at,
-       updated_at = cb.created_at
-  FROM public.created_by cb
- WHERE cb.id = t.id;
 
 --- Customer
 
@@ -487,11 +455,6 @@ CREATE UNIQUE INDEX contact_unique_phone_idx ON public.contact (telephone, tenan
 -- DROP TABLE organization;
 
 SELECT public.timestampable('public.contact');
-UPDATE public.contact t
-   SET created_at = cb.created_at,
-       updated_at = cb.created_at
-  FROM public.created_by cb
- WHERE cb.id = t.id;
 
 --- Vehicle
 
@@ -506,11 +469,6 @@ ALTER TABLE public.vehicle
         FOREIGN KEY (tenant_group_id) REFERENCES public.tenant_group (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 SELECT public.timestampable('public.vehicle');
-UPDATE public.vehicle t
-   SET created_at = cb.created_at,
-       updated_at = cb.created_at
-  FROM public.created_by cb
- WHERE cb.id = t.id;
 
 ALTER TABLE public.vehicle ADD CONSTRAINT vehicle_identifier_tenant_group_id_key
     UNIQUE (identifier, tenant_group_id);
@@ -533,11 +491,6 @@ ALTER TABLE public.vehicle_body
 ALTER TABLE public.vehicle_body ALTER COLUMN id SET DEFAULT gen_random_uuid();
 
 SELECT public.timestampable('public.vehicle_body');
-UPDATE public.vehicle_body t
-   SET created_at = cb.created_at,
-       updated_at = cb.created_at
-  FROM public.created_by cb
- WHERE cb.id = t.id;
 
 --- Vehicle Body Type
 CREATE TABLE public.vehicle_body_type
@@ -789,11 +742,6 @@ ALTER TABLE public.part_vehicle_body
         FOREIGN KEY (vehicle_body_id) REFERENCES public.vehicle_body (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 SELECT public.timestampable('public.part_vehicle_body');
-UPDATE public.part_vehicle_body t
-   SET created_at = cb.created_at,
-       updated_at = cb.created_at
-  FROM public.created_by cb
- WHERE cb.id = t.id;
 
 --- MC Equipment
 
@@ -1087,8 +1035,3 @@ ALTER TABLE public.orders
         FOREIGN KEY (worker_id) REFERENCES public.contact (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 SELECT public.timestampable('public.orders');
-UPDATE public.orders t
-   SET created_at = cb.created_at,
-       updated_at = cb.created_at
-  FROM public.created_by cb
- WHERE cb.id = t.id;
