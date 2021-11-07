@@ -23,6 +23,10 @@ import {useDispatch, useSelector} from "react-redux";
 import {CHANGE_TENANT, changeTenant} from "./tenant/actions";
 import MyLayout from "./layout/Layout";
 import vehicleBodyTypes from "./vehicle_body_types";
+import mcEquipments from "./mc_equipments";
+import mcLines from "./mc_lines";
+import mcParts from "./mc_parts";
+import mcWorks from "./mc_works";
 
 // TODO Convert to tsx
 
@@ -102,17 +106,21 @@ const Resources = () => {
             <Resource name="legal_form" {...legalForms}/>
             <Resource name="legal_form_type"/>
             <Resource name="manufacturer" {...manufacturers} />
+            <Resource name="mc_equipment" {...mcEquipments}/>
+            <Resource name="mc_line" {...mcLines}/>
+            <Resource name="mc_parts" {...mcParts}/>
+            <Resource name="mc_work" {...mcWorks}/>
             <Resource name="part" {...parts} />
             <Resource name="tenant" {...tenants}/>
             <Resource name="unit"/>
             <Resource name="vehicle" {...vehicles} />
             <Resource name="vehicle_air_intake"/>
+            <Resource name="vehicle_body" {...vehicleBodies} />
+            <Resource name="vehicle_body_type" {...vehicleBodyTypes} />
             <Resource name="vehicle_drive_wheel"/>
             <Resource name="vehicle_fuel_type"/>
             <Resource name="vehicle_injection"/>
             <Resource name="vehicle_transmission"/>
-            <Resource name="vehicle_body" {...vehicleBodies} />
-            <Resource name="vehicle_body_type" {...vehicleBodyTypes} />
             <Resource name="wallet" {...wallets} />
         </AdminUI>
     )

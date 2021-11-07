@@ -6,7 +6,6 @@ const PartList = (props: ListProps) => {
     return (
         <List
             title="Запчасти"
-            perPage={10}
             sort={{field: 'updated_at', order: 'DESC'}}
 
             {...props}

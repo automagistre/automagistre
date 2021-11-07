@@ -12,7 +12,6 @@ const ContactList = (props: ListProps) => {
     return (
         <List
             title="Контакты"
-            perPage={10}
             sort={{field: 'updated_at', order: 'DESC'}}
             filters={contactFilters}
             {...props}

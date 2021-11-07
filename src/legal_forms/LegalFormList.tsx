@@ -5,7 +5,6 @@ const LegalFormList = (props: ListProps) => {
     return (
         <List
             title="Правовые формы"
-            perPage={10}
             sort={{field: 'updated_at', order: 'DESC'}}
             {...props}
         >

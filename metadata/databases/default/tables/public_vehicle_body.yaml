@@ -11,9 +11,9 @@ object_relationships:
                 remote_table:
                     name: manufacturer
                     schema: public
-    -   name: vehicle_tire_fitting_category
+    -   name: vehicle_tire_category
         using:
-            foreign_key_constraint_on: tire_fitting_category
+            foreign_key_constraint_on: tire_category
 insert_permissions:
     -   permission:
             backend_only: false
@@ -23,7 +23,7 @@ insert_permissions:
                 - localized_name
                 - manufacturer_id
                 - name
-                - tire_fitting_category
+                - tire_category
                 - year_from
                 - year_till
         role: manager
@@ -40,7 +40,7 @@ select_permissions:
                 - year_till
                 - created_at
                 - updated_at
-                - tire_fitting_category
+                - tire_category
             filter: { }
         role: anonymous
     -   permission:
@@ -52,7 +52,7 @@ select_permissions:
                 - localized_name
                 - manufacturer_id
                 - name
-                - tire_fitting_category
+                - tire_category
                 - updated_at
                 - year_from
                 - year_till

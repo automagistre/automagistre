@@ -1,19 +1,16 @@
 table:
-    name: vehicle
+    name: mc_equipment
     schema: public
 object_relationships:
-    -   name: tenant_group
+    -   name: tenant
         using:
-            foreign_key_constraint_on: tenant_group_id
+            foreign_key_constraint_on: tenant_id
     -   name: vehicle_air_intake
         using:
             foreign_key_constraint_on: air_intake
     -   name: vehicle_body
         using:
-            foreign_key_constraint_on: body
-    -   name: vehicle_body_type
-        using:
-            foreign_key_constraint_on: body_type
+            foreign_key_constraint_on: vehicle_id
     -   name: vehicle_drive_wheel
         using:
             foreign_key_constraint_on: drive_wheel
@@ -23,81 +20,78 @@ object_relationships:
     -   name: vehicle_injection
         using:
             foreign_key_constraint_on: injection
-    -   name: vehicle_tire_category
-        using:
-            foreign_key_constraint_on: tire_category
     -   name: vehicle_transmission
         using:
             foreign_key_constraint_on: transmission
-array_relationships:
-    -   name: vehicle_contacts
-        using:
-            foreign_key_constraint_on:
-                column: vehicle_id
-                table:
-                    name: vehicle_contact
-                    schema: public
 insert_permissions:
     -   permission:
             backend_only: false
             check:
                 _and:
-                    -   tenant_group:
-                            tenant_group_permissions:
+                    -   tenant:
+                            tenant_permissions:
                                 _and:
-                                    -   tenant_group_id:
-                                            _eq: X-Hasura-Tenant-Group-Id
+                                    -   tenant_id:
+                                            _eq: X-Hasura-Tenant-Id
                                     -   user_id:
                                             _eq: X-Hasura-User-Id
             columns:
                 - air_intake
-                - body
-                - body_type
-                - comment
                 - drive_wheel
                 - engine_capacity
                 - engine_name
                 - fuel_type
-                - identifier
                 - injection
-                - legal_plate
-                - mileage
-                - tire_category
+                - is_published
+                - period
                 - transmission
-                - year
+                - vehicle_id
             set:
-                tenant_group_id: x-hasura-Tenant-Group-Id
+                tenant_id: x-hasura-Tenant-Id
         role: manager
 select_permissions:
     -   permission:
             allow_aggregations: true
             columns:
-                - id
-                - body
-                - identifier
-                - year
-                - comment
-                - mileage
-                - legal_plate
-                - tenant_group_id
-                - engine_name
-                - engine_capacity
-                - created_at
-                - updated_at
-                - body_type
-                - transmission
                 - air_intake
                 - drive_wheel
+                - engine_capacity
+                - engine_name
                 - fuel_type
+                - id
                 - injection
-                - tire_category
+                - period
+                - tenant_id
+                - transmission
+                - vehicle_id
+            filter:
+                is_published:
+                    _eq: true
+        role: anonymous
+    -   permission:
+            allow_aggregations: true
+            columns:
+                - air_intake
+                - created_at
+                - drive_wheel
+                - engine_capacity
+                - engine_name
+                - fuel_type
+                - id
+                - injection
+                - is_published
+                - period
+                - tenant_id
+                - transmission
+                - updated_at
+                - vehicle_id
             filter:
                 _and:
-                    -   tenant_group:
-                            tenant_group_permissions:
+                    -   tenant:
+                            tenant_permissions:
                                 _and:
-                                    -   tenant_group_id:
-                                            _eq: X-Hasura-Tenant-Group-Id
+                                    -   tenant_id:
+                                            _eq: X-Hasura-Tenant-Id
                                     -   user_id:
                                             _eq: X-Hasura-User-Id
         role: manager
@@ -106,27 +100,22 @@ update_permissions:
             check: null
             columns:
                 - air_intake
-                - body
-                - body_type
-                - comment
                 - drive_wheel
                 - engine_capacity
                 - engine_name
                 - fuel_type
-                - identifier
                 - injection
-                - legal_plate
-                - mileage
-                - tire_category
+                - is_published
+                - period
                 - transmission
-                - year
+                - vehicle_id
             filter:
                 _and:
-                    -   tenant_group:
-                            tenant_group_permissions:
+                    -   tenant:
+                            tenant_permissions:
                                 _and:
-                                    -   tenant_group_id:
-                                            _eq: X-Hasura-Tenant-Group-Id
+                                    -   tenant_id:
+                                            _eq: X-Hasura-Tenant-Id
                                     -   user_id:
                                             _eq: X-Hasura-User-Id
         role: manager
@@ -134,11 +123,11 @@ delete_permissions:
     -   permission:
             filter:
                 _and:
-                    -   tenant_group:
-                            tenant_group_permissions:
+                    -   tenant:
+                            tenant_permissions:
                                 _and:
-                                    -   tenant_group_id:
-                                            _eq: X-Hasura-Tenant-Group-Id
+                                    -   tenant_id:
+                                            _eq: X-Hasura-Tenant-Id
                                     -   user_id:
                                             _eq: X-Hasura-User-Id
         role: manager

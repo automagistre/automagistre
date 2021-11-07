@@ -1,0 +1,113 @@
+table:
+    name: mc_line
+    schema: public
+object_relationships:
+    -   name: mc_equipment
+        using:
+            foreign_key_constraint_on: equipment_id
+    -   name: mc_work
+        using:
+            foreign_key_constraint_on: work_id
+    -   name: tenant
+        using:
+            foreign_key_constraint_on: tenant_id
+array_relationships:
+    -   name: mc_parts
+        using:
+            foreign_key_constraint_on:
+                column: line_id
+                table:
+                    name: mc_part
+                    schema: public
+insert_permissions:
+    -   permission:
+            backend_only: false
+            check:
+                _and:
+                    -   tenant:
+                            tenant_permissions:
+                                _and:
+                                    -   tenant_id:
+                                            _eq: X-Hasura-Tenant-Id
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
+            columns:
+                - equipment_id
+                - is_published
+                - is_recommended
+                - period
+                - position
+                - work_id
+            set:
+                tenant_id: x-hasura-Tenant-Id
+        role: manager
+select_permissions:
+    -   permission:
+            allow_aggregations: true
+            columns:
+                - equipment_id
+                - id
+                - is_recommended
+                - period
+                - position
+                - tenant_id
+                - work_id
+            filter:
+                is_published:
+                    _eq: true
+        role: anonymous
+    -   permission:
+            allow_aggregations: true
+            columns:
+                - created_at
+                - equipment_id
+                - id
+                - is_published
+                - is_recommended
+                - period
+                - position
+                - tenant_id
+                - updated_at
+                - work_id
+            filter:
+                _and:
+                    -   tenant:
+                            tenant_permissions:
+                                _and:
+                                    -   tenant_id:
+                                            _eq: X-Hasura-Tenant-Id
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
+        role: manager
+update_permissions:
+    -   permission:
+            check: null
+            columns:
+                - equipment_id
+                - is_published
+                - is_recommended
+                - period
+                - position
+                - work_id
+            filter:
+                _and:
+                    -   tenant:
+                            tenant_permissions:
+                                _and:
+                                    -   tenant_id:
+                                            _eq: X-Hasura-Tenant-Id
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
+        role: manager
+delete_permissions:
+    -   permission:
+            filter:
+                _and:
+                    -   tenant:
+                            tenant_permissions:
+                                _and:
+                                    -   tenant_id:
+                                            _eq: X-Hasura-Tenant-Id
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
+        role: manager

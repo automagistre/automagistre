@@ -1,0 +1,90 @@
+table:
+    name: mc_work
+    schema: public
+object_relationships:
+    -   name: tenant
+        using:
+            foreign_key_constraint_on: tenant_id
+array_relationships:
+    -   name: mc_lines
+        using:
+            foreign_key_constraint_on:
+                column: work_id
+                table:
+                    name: mc_line
+                    schema: public
+insert_permissions:
+    -   permission:
+            backend_only: false
+            check:
+                _and:
+                    -   tenant:
+                            tenant_permissions:
+                                _and:
+                                    -   tenant_id:
+                                            _eq: X-Hasura-Tenant-Id
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
+            columns:
+                - comment
+                - description
+                - name
+                - price_amount
+                - price_currency_code
+            set:
+                tenant_id: x-hasura-Tenant-Id
+        role: manager
+select_permissions:
+    -   permission:
+            allow_aggregations: true
+            columns:
+                - id
+                - name
+                - description
+                - comment
+                - tenant_id
+                - price_amount
+                - price_currency_code
+                - created_at
+                - updated_at
+            filter:
+                _and:
+                    -   tenant:
+                            tenant_permissions:
+                                _and:
+                                    -   tenant_id:
+                                            _eq: X-Hasura-Tenant-Id
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
+        role: manager
+update_permissions:
+    -   permission:
+            check: null
+            columns:
+                - comment
+                - description
+                - name
+                - price_amount
+                - price_currency_code
+            filter:
+                _and:
+                    -   tenant:
+                            tenant_permissions:
+                                _and:
+                                    -   tenant_id:
+                                            _eq: X-Hasura-Tenant-Id
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
+        role: manager
+delete_permissions:
+    -   permission:
+            filter:
+                _and:
+                    -   tenant:
+                            tenant_permissions:
+                                _and:
+                                    -   tenant_id:
+                                            _eq: X-Hasura-Tenant-Id
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
+        role: manager

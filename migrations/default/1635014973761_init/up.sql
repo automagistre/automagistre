@@ -40,7 +40,6 @@ DROP VIEW public.organization_view;
 DROP VIEW public.part_analog_view;
 DROP VIEW public.part_view;
 DROP VIEW public.person_view;
-DROP VIEW public.publish_view;
 DROP VIEW public.salary_view;
 DROP VIEW public.storage_part_view;
 DROP VIEW public.supply_view;
@@ -740,28 +739,28 @@ UPDATE public.vehicle
 ALTER TABLE public.vehicle DROP equipment_engine_injection;
 
 --- Vehicle Tire Fitting Category
-CREATE TABLE public.vehicle_tire_fitting_category
+CREATE TABLE public.vehicle_tire_category
     (
         id text NOT NULL,
         name text NOT NULL,
         PRIMARY KEY (id)
     );
-INSERT INTO public.vehicle_tire_fitting_category(id, name)
+INSERT INTO public.vehicle_tire_category(id, name)
 VALUES (E'unknown', 'Неопределён'),
        (E'car', 'Легковая'),
        (E'suv', 'Внедорожник'),
        (E'crossover', 'Кроссовер'),
        (E'minivan', 'Минивен')
 ;
-ALTER TABLE public.vehicle_body ADD COLUMN tire_fitting_category text DEFAULT NULL;
+ALTER TABLE public.vehicle_body ADD COLUMN tire_category text DEFAULT NULL;
 ALTER TABLE public.vehicle_body
-    ADD CONSTRAINT vehicle_body_vehicle_tire_fitting_category_id_fkey
-        FOREIGN KEY (tire_fitting_category) REFERENCES public.vehicle_tire_fitting_category (id) ON UPDATE CASCADE ON DELETE RESTRICT;
+    ADD CONSTRAINT vehicle_body_vehicle_tire_category_id_fkey
+        FOREIGN KEY (tire_category) REFERENCES public.vehicle_tire_category (id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
-ALTER TABLE public.vehicle ADD COLUMN tire_fitting_category text DEFAULT NULL;
+ALTER TABLE public.vehicle ADD COLUMN tire_category text DEFAULT NULL;
 ALTER TABLE public.vehicle
-    ADD CONSTRAINT vehicle_vehicle_tire_fitting_category_id_fkey
-        FOREIGN KEY (tire_fitting_category) REFERENCES public.vehicle_tire_fitting_category (id) ON UPDATE CASCADE ON DELETE RESTRICT;
+    ADD CONSTRAINT vehicle_vehicle_tire_category_id_fkey
+        FOREIGN KEY (tire_category) REFERENCES public.vehicle_tire_category (id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 --- Vehicle Engine
 
@@ -806,3 +805,181 @@ UPDATE public.part_vehicle_body t
        updated_at = cb.created_at
   FROM public.created_by cb
  WHERE cb.id = t.id;
+
+--- MC Equipment
+
+DROP INDEX IF EXISTS idx_2b65786f4d7b7542;
+DROP INDEX IF EXISTS idx_b37ebc5fbb3453db;
+DROP INDEX IF EXISTS idx_b37ebc5f517fe9fe;
+
+ALTER TABLE public.mc_equipment
+    ADD CONSTRAINT mc_equipment_vehicle_id_fkey
+        FOREIGN KEY (vehicle_id) REFERENCES public.vehicle_body (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE public.mc_equipment
+    ADD CONSTRAINT mc_equipment_tenant_id_fkey
+        FOREIGN KEY (tenant_id) REFERENCES public.tenant (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE public.mc_equipment ADD COLUMN is_published boolean NOT NULL DEFAULT 'FALSE';
+UPDATE public.mc_equipment t
+   SET is_published = p.published
+  FROM public.publish_view p
+ WHERE p.id = t.id;
+DROP VIEW public.publish_view;
+DROP TABLE public.publish;
+
+--- MC Equipment Transmission
+
+ALTER TABLE public.mc_equipment ADD COLUMN transmission text DEFAULT NULL;
+ALTER TABLE public.mc_equipment
+    ADD CONSTRAINT mc_equipment_vehicle_transmission_id_fkey
+        FOREIGN KEY (transmission) REFERENCES public.vehicle_transmission (id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+UPDATE public.mc_equipment
+   SET transmission = CASE WHEN equipment_transmission = 0 THEN 'unknown'
+                           WHEN equipment_transmission = 1 THEN 'AT'
+                           WHEN equipment_transmission = 2 THEN 'AMT'
+                           WHEN equipment_transmission = 3 THEN 'CVT'
+                           WHEN equipment_transmission = 4 THEN 'MT'
+                           WHEN equipment_transmission = 5 THEN 'AT5'
+                           WHEN equipment_transmission = 6 THEN 'AT7'
+                           ELSE 'unknown' END
+;
+ALTER TABLE public.mc_equipment DROP equipment_transmission;
+
+--- MC Equipment Drive Wheel
+
+ALTER TABLE public.mc_equipment ADD COLUMN drive_wheel text DEFAULT NULL;
+ALTER TABLE public.mc_equipment
+    ADD CONSTRAINT mc_equipment_vehicle_drive_wheel_id_fkey
+        FOREIGN KEY (drive_wheel) REFERENCES public.vehicle_drive_wheel (id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+UPDATE public.mc_equipment
+   SET drive_wheel = CASE WHEN equipment_wheel_drive = 0 THEN 'unknown'
+                          WHEN equipment_wheel_drive = 1 THEN 'FWD'
+                          WHEN equipment_wheel_drive = 2 THEN 'RWD'
+                          WHEN equipment_wheel_drive = 3 THEN 'AWD'
+                          ELSE 'unknown' END
+;
+
+ALTER TABLE public.mc_equipment DROP equipment_wheel_drive;
+
+--- MC Equipment Engine
+
+ALTER TABLE public.mc_equipment RENAME equipment_engine_name TO engine_name;
+ALTER TABLE public.mc_equipment RENAME equipment_engine_capacity TO engine_capacity;
+
+--- MC Equipment Fuel Type
+
+ALTER TABLE public.mc_equipment ADD COLUMN fuel_type text DEFAULT NULL;
+ALTER TABLE public.mc_equipment
+    ADD CONSTRAINT mc_equipment_vehicle_fuel_type_id_fkey
+        FOREIGN KEY (fuel_type) REFERENCES public.vehicle_fuel_type (id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+UPDATE public.mc_equipment
+   SET fuel_type = CASE WHEN equipment_engine_type = 0 THEN 'unknown'
+                        WHEN equipment_engine_type = 1 THEN 'petrol'
+                        WHEN equipment_engine_type = 2 THEN 'diesel'
+                        WHEN equipment_engine_type = 3 THEN 'ethanol'
+                        WHEN equipment_engine_type = 4 THEN 'electric'
+                        WHEN equipment_engine_type = 5 THEN 'hybrid'
+                        ELSE 'unknown' END
+;
+
+ALTER TABLE public.mc_equipment DROP equipment_engine_type;
+
+--- MC Equipment Injection
+
+ALTER TABLE public.mc_equipment ADD COLUMN injection text DEFAULT NULL;
+ALTER TABLE public.mc_equipment
+    ADD CONSTRAINT mc_equipment_vehicle_injection_id_fkey
+        FOREIGN KEY (injection) REFERENCES public.vehicle_injection (id) ON UPDATE CASCADE ON DELETE RESTRICT;
+UPDATE public.mc_equipment
+   SET injection = CASE WHEN equipment_engine_injection = 0 THEN 'unknown'
+                        WHEN equipment_engine_injection = 1 THEN 'classic'
+                        WHEN equipment_engine_injection = 2 THEN 'direct'
+                        ELSE 'unknown' END
+;
+
+ALTER TABLE public.mc_equipment DROP equipment_engine_injection;
+
+--- MC Equipment Air Intake
+
+ALTER TABLE public.mc_equipment ADD COLUMN air_intake text DEFAULT NULL;
+ALTER TABLE public.mc_equipment
+    ADD CONSTRAINT mc_equipment_vehicle_air_intake_id_fkey
+        FOREIGN KEY (air_intake) REFERENCES public.vehicle_air_intake (id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+UPDATE public.mc_equipment
+   SET air_intake = CASE WHEN equipment_engine_air_intake = 0 THEN 'unknown'
+                         WHEN equipment_engine_air_intake = 1 THEN 'atmo'
+                         WHEN equipment_engine_air_intake = 2 THEN 'turbo'
+                         ELSE 'unknown' END
+;
+
+ALTER TABLE public.mc_equipment DROP equipment_engine_air_intake;
+
+--- MC Line
+
+ALTER TABLE public.mc_line RENAME COLUMN recommended TO is_recommended;
+
+ALTER TABLE public.mc_line DROP CONSTRAINT fk_b37ebc5fbb3453db;
+
+ALTER TABLE public.mc_line DROP CONSTRAINT fk_b37ebc5f517fe9fe;
+
+ALTER TABLE public.mc_line
+    ADD CONSTRAINT mc_line_equipment_id_fkey
+        FOREIGN KEY (equipment_id) REFERENCES public.mc_equipment (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE public.mc_line
+    ADD CONSTRAINT mc_line_work_id_fkey
+        FOREIGN KEY (work_id) REFERENCES public.mc_work (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE public.mc_line ADD COLUMN is_published boolean NOT NULL DEFAULT 'FALSE';
+UPDATE public.mc_line l
+   SET is_published = e.is_published
+  FROM mc_equipment e
+ WHERE e.id = l.equipment_id;
+
+ALTER TABLE public.mc_line
+    ADD CONSTRAINT mc_line_tenant_id_fkey
+        FOREIGN KEY (tenant_id) REFERENCES public.tenant (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+--- MC Part
+
+ALTER TABLE public.mc_part DROP CONSTRAINT fk_2b65786f4d7b7542;
+
+ALTER TABLE public.mc_part
+    ADD CONSTRAINT mc_part_line_id_fkey
+        FOREIGN KEY (line_id) REFERENCES public.mc_line (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE public.mc_part
+    ADD CONSTRAINT mc_part_part_id_fkey
+        FOREIGN KEY (part_id) REFERENCES public.part (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE public.mc_part ADD COLUMN is_published boolean NOT NULL DEFAULT 'FALSE';
+UPDATE public.mc_part p
+   SET is_published = l.is_published
+  FROM mc_line l
+ WHERE p.line_id = l.id;
+
+ALTER TABLE public.mc_part
+    ADD CONSTRAINT mc_part_tenant_id_fkey
+        FOREIGN KEY (tenant_id) REFERENCES public.tenant (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE public.mc_part ALTER COLUMN quantity TYPE numeric(10, 2) USING quantity / 100;
+
+--- MC Work
+
+ALTER TABLE public.mc_work
+    ADD CONSTRAINT mc_work_tenant_id_fkey
+        FOREIGN KEY (tenant_id) REFERENCES public.tenant (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE public.mc_work ALTER COLUMN price_amount TYPE numeric(10, 2) USING price_amount / 100;
+
+--- MC Timestampable
+
+SELECT public.hasura_timestampable('public.mc_equipment');
+SELECT public.hasura_timestampable('public.mc_line');
+SELECT public.hasura_timestampable('public.mc_part');
+SELECT public.hasura_timestampable('public.mc_work');

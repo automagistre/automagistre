@@ -5,7 +5,6 @@ const WalletList = (props: ListProps) => {
     return (
         <List
             title="Счета"
-            perPage={10}
             sort={{field: 'updated_at', order: 'DESC'}}
 
             {...props}

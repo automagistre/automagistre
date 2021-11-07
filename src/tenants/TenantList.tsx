@@ -4,7 +4,6 @@ const TenantList = (props: ListProps) => {
     return (
         <List
             title="Сервисы"
-            perPage={10}
             sort={{field: 'updated_at', order: 'DESC'}}
 
             {...props}

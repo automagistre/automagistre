@@ -4,7 +4,6 @@ const VehicleBodyTypeList = (props: ListProps) => {
     return (
         <List
             title="Типы кузовов"
-            perPage={10}
             sort={{field: 'updated_at', order: 'DESC'}}
 
             {...props}

@@ -1,0 +1,101 @@
+table:
+    name: mc_part
+    schema: public
+object_relationships:
+    -   name: mc_line
+        using:
+            foreign_key_constraint_on: line_id
+    -   name: part
+        using:
+            foreign_key_constraint_on: part_id
+    -   name: tenant
+        using:
+            foreign_key_constraint_on: tenant_id
+insert_permissions:
+    -   permission:
+            backend_only: false
+            check:
+                _and:
+                    -   tenant:
+                            tenant_permissions:
+                                _and:
+                                    -   tenant_id:
+                                            _eq: X-Hasura-Tenant-Id
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
+            columns:
+                - is_published
+                - line_id
+                - part_id
+                - quantity
+                - recommended
+            set:
+                tenant_id: x-hasura-Tenant-Id
+        role: manager
+select_permissions:
+    -   permission:
+            allow_aggregations: true
+            columns:
+                - id
+                - line_id
+                - part_id
+                - quantity
+                - recommended
+                - tenant_id
+            filter:
+                is_published:
+                    _eq: true
+        role: anonymous
+    -   permission:
+            allow_aggregations: true
+            columns:
+                - id
+                - line_id
+                - part_id
+                - quantity
+                - recommended
+                - tenant_id
+                - is_published
+                - created_at
+                - updated_at
+            filter:
+                _and:
+                    -   tenant:
+                            tenant_permissions:
+                                _and:
+                                    -   tenant_id:
+                                            _eq: X-Hasura-Tenant-Id
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
+        role: manager
+update_permissions:
+    -   permission:
+            check: null
+            columns:
+                - is_published
+                - line_id
+                - part_id
+                - quantity
+                - recommended
+            filter:
+                _and:
+                    -   tenant:
+                            tenant_permissions:
+                                _and:
+                                    -   tenant_id:
+                                            _eq: X-Hasura-Tenant-Id
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
+        role: manager
+delete_permissions:
+    -   permission:
+            filter:
+                _and:
+                    -   tenant:
+                            tenant_permissions:
+                                _and:
+                                    -   tenant_id:
+                                            _eq: X-Hasura-Tenant-Id
+                                    -   user_id:
+                                            _eq: X-Hasura-User-Id
+        role: manager

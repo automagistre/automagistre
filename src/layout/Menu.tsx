@@ -1,4 +1,4 @@
-import {faBookOpen, faPiggyBank, faUsers} from '@fortawesome/free-solid-svg-icons'
+import {faBookOpen, faMap, faPiggyBank, faUsers} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {Theme} from '@mui/material/styles'
 import {makeStyles} from '@mui/styles'
@@ -10,6 +10,8 @@ import contacts from '../contacts'
 import legalForms from '../legal_forms'
 
 import manufacturers from '../manufacturers'
+import mcEquipments from '../mc_equipments'
+import mcWorks from '../mc_works'
 import parts from '../parts'
 import {AppState} from '../types'
 import vehicles from '../vehicle_bodies'
@@ -17,7 +19,7 @@ import wallets from '../wallets'
 
 import SubMenu from './SubMenu'
 
-type MenuName = 'menuCatalog' | 'menuFinance' | 'menuCustomers';
+type MenuName = 'menuCatalog' | 'menuFinance' | 'menuCustomers' | 'menuMc';
 
 const Menu = ({dense = false}: MenuProps) => {
     const tenant = useSelector((state: AppState) => state.tenant)
@@ -25,6 +27,7 @@ const Menu = ({dense = false}: MenuProps) => {
         menuCatalog: true,
         menuFinance: true,
         menuCustomers: true,
+        menuMc: true,
     })
     const open = useSelector((state: ReduxState) => state.admin.ui.sidebarOpen)
     useSelector((state: AppState) => state.theme) // force rerender on theme change
@@ -131,6 +134,32 @@ const Menu = ({dense = false}: MenuProps) => {
                     }}
                     primaryText="Запчасти"
                     leftIcon={parts.icon}
+                    dense={dense}
+                />
+            </SubMenu>
+            <SubMenu
+                handleToggle={() => handleToggle('menuMc')}
+                isOpen={state.menuMc}
+                name="Справочники"
+                icon={<FontAwesomeIcon icon={faMap}/>}
+                dense={dense}
+            >
+                <MenuItemLink
+                    to={{
+                        pathname: '/mc_work',
+                        state: {_scrollToTop: true},
+                    }}
+                    primaryText="Работы"
+                    leftIcon={mcWorks.icon}
+                    dense={dense}
+                />
+                <MenuItemLink
+                    to={{
+                        pathname: '/mc_equipment',
+                        state: {_scrollToTop: true},
+                    }}
+                    primaryText="Комплектации"
+                    leftIcon={mcEquipments.icon}
                     dense={dense}
                 />
             </SubMenu>
