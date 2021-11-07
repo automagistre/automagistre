@@ -6,7 +6,7 @@ import OrderStatusReferenceField from './OrderStatusReferenceField'
 const OrderList = (props: ListProps) => (
     <List {...props}
           title="Заказы"
-          sort={{field: 'updated_at', order: 'DESC'}}
+          sort={{field: 'number', order: 'DESC'}}
     >
         <Datagrid rowClick="edit">
             <TextField source="number" label="Номер"/>
