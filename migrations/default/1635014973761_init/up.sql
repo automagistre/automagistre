@@ -57,6 +57,14 @@ DROP VIEW public.wallet_transaction_view;
 DROP VIEW public.wallet_view;
 DROP VIEW public.warehouse_view;
 
+-- Drop garbage
+
+DROP TABLE cron_report;
+DROP TABLE cron_job;
+DROP SEQUENCE cron_job_id_seq;
+DROP SEQUENCE cron_report_id_seq;
+DROP TABLE migration_versions;
+
 -- Manufacturer
 
 ALTER TABLE public.manufacturer ALTER COLUMN id SET DEFAULT gen_random_uuid();
@@ -924,6 +932,7 @@ SELECT public.timestampable('public.mc_work');
 
 --- Order
 
+DROP SEQUENCE order_number_seq;
 DROP INDEX IF EXISTS uniq_e52ffdee96901f549033212a;
 DROP INDEX IF EXISTS idx_e52ffdee6b20ba36;
 
