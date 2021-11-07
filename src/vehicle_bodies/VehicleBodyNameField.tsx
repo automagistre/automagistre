@@ -4,6 +4,7 @@ import {VehicleBody} from '../types'
 
 const VehicleBodyNameField = ({record}: { record?: VehicleBody }) => (
     <>
+
         <ManufacturerReferenceField record={record} link={false}/>
         &nbsp;
         <TextField source="name" record={record}/>

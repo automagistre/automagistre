@@ -786,7 +786,7 @@ SELECT public.hasura_timestampable('public.vehicle_contact');
 --- Part Case
 
 ALTER TABLE public.part_case RENAME TO part_vehicle_body;
-ALTER TABLE public.part_vehicle_body RENAME vehicle_id TO vehicle_body;
+ALTER TABLE public.part_vehicle_body RENAME vehicle_id TO vehicle_body_id;
 
 ALTER TABLE public.part_vehicle_body
     ALTER COLUMN id SET DEFAULT gen_random_uuid();
@@ -797,7 +797,7 @@ ALTER TABLE public.part_vehicle_body
 
 ALTER TABLE public.part_vehicle_body
     ADD CONSTRAINT part_vehicle_body_vehicle_body_id_fkey
-        FOREIGN KEY (vehicle_body) REFERENCES public.vehicle_body (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+        FOREIGN KEY (vehicle_body_id) REFERENCES public.vehicle_body (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 SELECT public.hasura_timestampable('public.part_vehicle_body');
 UPDATE public.part_vehicle_body t
@@ -812,9 +812,10 @@ DROP INDEX IF EXISTS idx_2b65786f4d7b7542;
 DROP INDEX IF EXISTS idx_b37ebc5fbb3453db;
 DROP INDEX IF EXISTS idx_b37ebc5f517fe9fe;
 
+ALTER TABLE public.mc_equipment RENAME vehicle_id TO vehicle_body_id;
 ALTER TABLE public.mc_equipment
     ADD CONSTRAINT mc_equipment_vehicle_id_fkey
-        FOREIGN KEY (vehicle_id) REFERENCES public.vehicle_body (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+        FOREIGN KEY (vehicle_body_id) REFERENCES public.vehicle_body (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 ALTER TABLE public.mc_equipment
     ADD CONSTRAINT mc_equipment_tenant_id_fkey
