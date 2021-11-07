@@ -49,8 +49,7 @@ DROP VIEW public.warehouse_view;
 
 -- Manufacturer
 
-ALTER TABLE public.manufacturer
-    ALTER COLUMN id SET DEFAULT gen_random_uuid();
+ALTER TABLE public.manufacturer ALTER COLUMN id SET DEFAULT gen_random_uuid();
 
 ALTER TABLE public.manufacturer
     DROP COLUMN logo CASCADE;
@@ -64,8 +63,7 @@ UPDATE public.manufacturer t
 
 --- Part
 
-ALTER TABLE public.part
-    ALTER COLUMN id SET DEFAULT gen_random_uuid();
+ALTER TABLE public.part ALTER COLUMN id SET DEFAULT gen_random_uuid();
 
 COMMENT ON COLUMN public.part.number IS NULL;
 
@@ -104,15 +102,14 @@ VALUES (E'thing', E'Штука'),
        (E'meter', E'Метр')
 ;
 
-ALTER TABLE public.part
-    ALTER COLUMN unit TYPE text USING CASE WHEN unit = 1 THEN 'thing'
-                                           WHEN unit = 2 THEN 'package'
-                                           WHEN unit = 3 THEN 'milliliter'
-                                           WHEN unit = 4 THEN 'liter'
-                                           WHEN unit = 5 THEN 'gram'
-                                           WHEN unit = 6 THEN 'kilogram'
-                                           WHEN unit = 7 THEN 'millimeter'
-                                           WHEN unit = 8 THEN 'meter' END;
+ALTER TABLE public.part ALTER COLUMN unit TYPE text USING CASE WHEN unit = 1 THEN 'thing'
+                                                               WHEN unit = 2 THEN 'package'
+                                                               WHEN unit = 3 THEN 'milliliter'
+                                                               WHEN unit = 4 THEN 'liter'
+                                                               WHEN unit = 5 THEN 'gram'
+                                                               WHEN unit = 6 THEN 'kilogram'
+                                                               WHEN unit = 7 THEN 'millimeter'
+                                                               WHEN unit = 8 THEN 'meter' END;
 
 ALTER TABLE public.part
     ADD CONSTRAINT part_unit_fkey
@@ -124,14 +121,11 @@ ALTER TABLE public.tenant
     ADD CONSTRAINT tenant_group_id_fkey
         FOREIGN KEY (group_id) REFERENCES public.tenant_group (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
-ALTER TABLE public.tenant
-    ALTER COLUMN id SET DEFAULT gen_random_uuid();
+ALTER TABLE public.tenant ALTER COLUMN id SET DEFAULT gen_random_uuid();
 
-ALTER TABLE public.tenant_group
-    ALTER COLUMN id SET DEFAULT gen_random_uuid();
+ALTER TABLE public.tenant_group ALTER COLUMN id SET DEFAULT gen_random_uuid();
 
-ALTER TABLE public.user_permission
-    RENAME TO tenant_permission;
+ALTER TABLE public.user_permission RENAME TO tenant_permission;
 
 SELECT public.hasura_timestampable('public.tenant');
 UPDATE public.tenant t
@@ -179,11 +173,9 @@ ALTER TABLE public.tenant_permission
     ADD CONSTRAINT tenant_permission_tenant_id_fkey
         FOREIGN KEY (tenant_id) REFERENCES public.tenant (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
-ALTER TABLE public.tenant
-    RENAME COLUMN display_name TO name;
+ALTER TABLE public.tenant RENAME COLUMN display_name TO name;
 
-ALTER TABLE public.tenant_group
-    ADD COLUMN name text NOT NULL DEFAULT '';
+ALTER TABLE public.tenant_group ADD COLUMN name text NOT NULL DEFAULT '';
 
 CREATE TABLE public.tenant_group_permission
     (
@@ -212,10 +204,13 @@ SELECT DISTINCT tp.user_id, t.group_id
 
 --- Wallet
 
-ALTER TABLE public.wallet
-    ALTER COLUMN id SET DEFAULT gen_random_uuid();
-ALTER TABLE public.wallet_transaction
-    ALTER COLUMN id SET DEFAULT gen_random_uuid();
+ALTER TABLE public.wallet ALTER COLUMN id SET DEFAULT gen_random_uuid();
+ALTER TABLE public.wallet ALTER COLUMN use_in_order SET DEFAULT FALSE;
+ALTER TABLE public.wallet ALTER COLUMN use_in_income SET DEFAULT FALSE;
+ALTER TABLE public.wallet ALTER COLUMN show_in_layout SET DEFAULT FALSE;
+ALTER TABLE public.wallet ALTER COLUMN default_in_manual_transaction SET DEFAULT FALSE;
+
+ALTER TABLE public.wallet_transaction ALTER COLUMN id SET DEFAULT gen_random_uuid();
 
 CREATE TABLE public.wallet_transaction_source
     (
@@ -233,15 +228,14 @@ VALUES (E'legacy', E'Какие то старые проводки'),
        (E'operand_manual', E'Ручная проводка клиента'),
        (E'initial', E'Начальный баланс')
 ;
-ALTER TABLE public.wallet_transaction
-    ALTER COLUMN source TYPE text USING CASE WHEN source = 0 THEN 'legacy'
-                                             WHEN source = 1 THEN 'order_prepay'
-                                             WHEN source = 2 THEN 'order_debit'
-                                             WHEN source = 3 THEN 'payroll'
-                                             WHEN source = 4 THEN 'income_payment'
-                                             WHEN source = 5 THEN 'expense'
-                                             WHEN source = 6 THEN 'operand_manual'
-                                             WHEN source = 7 THEN 'initial' END;
+ALTER TABLE public.wallet_transaction ALTER COLUMN source TYPE text USING CASE WHEN source = 0 THEN 'legacy'
+                                                                               WHEN source = 1 THEN 'order_prepay'
+                                                                               WHEN source = 2 THEN 'order_debit'
+                                                                               WHEN source = 3 THEN 'payroll'
+                                                                               WHEN source = 4 THEN 'income_payment'
+                                                                               WHEN source = 5 THEN 'expense'
+                                                                               WHEN source = 6 THEN 'operand_manual'
+                                                                               WHEN source = 7 THEN 'initial' END;
 
 ALTER TABLE public.wallet_transaction
     ADD CONSTRAINT wallet_transaction_wallet_id_fkey
@@ -272,8 +266,7 @@ ALTER TABLE public.wallet_transaction
 ALTER TABLE public.wallet_transaction
     RENAME amount_currency_code TO currency;
 
-ALTER TABLE public.wallet_transaction
-    ALTER COLUMN amount TYPE numeric(12, 2) USING amount / 100;
+ALTER TABLE public.wallet_transaction ALTER COLUMN amount TYPE numeric(12, 2) USING amount / 100;
 
 CREATE OR REPLACE FUNCTION app_wallet_balance_update(uuid) RETURNS void AS
 $$
@@ -318,15 +311,13 @@ UPDATE public.wallet_transaction t
 
 --- Expense
 
-ALTER TABLE public.expense
-    ALTER COLUMN id SET DEFAULT gen_random_uuid();
+ALTER TABLE public.expense ALTER COLUMN id SET DEFAULT gen_random_uuid();
 
 SELECT public.hasura_timestampable('public.expense');
 
 --- Warehouse
 
-ALTER TABLE public.warehouse
-    ALTER COLUMN id SET DEFAULT gen_random_uuid();
+ALTER TABLE public.warehouse ALTER COLUMN id SET DEFAULT gen_random_uuid();
 ALTER TABLE public.warehouse
     ADD COLUMN name text DEFAULT NULL;
 ALTER TABLE public.warehouse
@@ -539,8 +530,7 @@ ALTER TABLE public.vehicle_body
     ADD CONSTRAINT vehicle_body_manufacturer_id_fkey
         FOREIGN KEY (manufacturer_id) REFERENCES public.manufacturer (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
-ALTER TABLE public.vehicle_body
-    ALTER COLUMN id SET DEFAULT gen_random_uuid();
+ALTER TABLE public.vehicle_body ALTER COLUMN id SET DEFAULT gen_random_uuid();
 
 SELECT public.hasura_timestampable('public.vehicle_body');
 UPDATE public.vehicle_body t
@@ -788,8 +778,7 @@ SELECT public.hasura_timestampable('public.vehicle_contact');
 ALTER TABLE public.part_case RENAME TO part_vehicle_body;
 ALTER TABLE public.part_vehicle_body RENAME vehicle_id TO vehicle_body_id;
 
-ALTER TABLE public.part_vehicle_body
-    ALTER COLUMN id SET DEFAULT gen_random_uuid();
+ALTER TABLE public.part_vehicle_body ALTER COLUMN id SET DEFAULT gen_random_uuid();
 
 ALTER TABLE public.part_vehicle_body
     ADD CONSTRAINT part_vehicle_body_part_id_fkey
