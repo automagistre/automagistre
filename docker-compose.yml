@@ -85,7 +85,7 @@ services:
         user: ${UID:-1000}:${GID:-1000}
 
     n8n:
-        image: n8nio/n8n:0.145.0
+        image: n8nio/n8n:0.148.0
         labels:
             ru.grachevko.dhu: 'n8n.automagistre.local'
         environment:
