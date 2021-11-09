@@ -15,8 +15,8 @@ import {
     TextInput,
     useEditContext,
 } from 'react-admin'
-import LegalFormReferenceField from '../legal_forms/LegalFormReferenceField'
-import LegalFormReferenceInput from '../legal_forms/LegalFormReferenceInput'
+import LegalFormReferenceField from '../legal_form/LegalFormReferenceField'
+import LegalFormReferenceInput from '../legal_form/LegalFormReferenceInput'
 import {PhoneNumberField, PhoneNumberInput} from '../phoneNumber'
 import {Contact} from '../types'
 import ContactNameField from './ContactNameField'

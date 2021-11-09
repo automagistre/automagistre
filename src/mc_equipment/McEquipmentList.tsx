@@ -1,5 +1,5 @@
 import {BooleanField, Datagrid, List, ListProps, NumberField, TextField} from 'react-admin'
-import VehicleBodyReferenceField from '../vehicle_bodies/VehicleBodyReferenceField'
+import VehicleBodyReferenceField from '../vehicle_body/VehicleBodyReferenceField'
 import VehicleDriveWheelReferenceField from '../vehicle_drive_wheel/VehicleDriveWheelReferenceField'
 import VehicleTransmissionReferenceField from '../vehicle_transmission/VehicleTransmissionReferenceField'
 

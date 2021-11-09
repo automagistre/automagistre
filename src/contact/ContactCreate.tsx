@@ -1,5 +1,5 @@
 import {BooleanInput, Create, CreateProps, required, SimpleForm, TextInput} from 'react-admin'
-import LegalFormReferenceInput from '../legal_forms/LegalFormReferenceInput'
+import LegalFormReferenceInput from '../legal_form/LegalFormReferenceInput'
 import {PhoneNumberInput} from '../phoneNumber'
 import ContactNameInput from './ContactNameInput'
 

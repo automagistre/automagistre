@@ -1,5 +1,5 @@
 import {Vehicle} from '../types'
-import VehicleBodyReferenceField from '../vehicle_bodies/VehicleBodyReferenceField'
+import VehicleBodyReferenceField from '../vehicle_body/VehicleBodyReferenceField'
 
 const VehicleBodyNameField = ({record}: { record?: Vehicle }) => {
     if (!record) return null

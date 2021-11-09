@@ -1,7 +1,7 @@
 import {Edit, EditProps, required, SimpleForm, TextInput} from 'react-admin'
 import {CommentInput} from '../comment'
 import {WalletExpense} from '../types'
-import WalletReferenceInput from '../wallets/WalletReferenceInput'
+import WalletReferenceInput from '../wallet/WalletReferenceInput'
 
 interface WalletExpenseTitleProps {
     record?: WalletExpense;

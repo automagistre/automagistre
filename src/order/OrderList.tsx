@@ -1,6 +1,6 @@
 import {Datagrid, DateField, List, ListProps, TextField} from 'react-admin'
-import ContactReferenceField from '../contacts/ContactReferenceField'
-import VehicleReferenceField from '../vehicles/VehicleReferenceField'
+import ContactReferenceField from '../contact/ContactReferenceField'
+import VehicleReferenceField from '../vehicle/VehicleReferenceField'
 import OrderStatusReferenceField from './OrderStatusReferenceField'
 
 const OrderList = (props: ListProps) => (

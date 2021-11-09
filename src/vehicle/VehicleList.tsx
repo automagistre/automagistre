@@ -1,6 +1,6 @@
 import {Datagrid, List, ListProps, TextField} from 'react-admin'
-import VehicleBodyReferenceField from '../vehicle_bodies/VehicleBodyReferenceField'
-import VehicleBodyTypeReferenceField from '../vehicle_body_types/VehicleBodyTypeReferenceField'
+import VehicleBodyReferenceField from '../vehicle_body/VehicleBodyReferenceField'
+import VehicleBodyTypeReferenceField from '../vehicle_body_type/VehicleBodyTypeReferenceField'
 
 const VehicleList = (props: ListProps) => {
     return (

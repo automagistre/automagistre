@@ -1,5 +1,5 @@
 import {Datagrid, List, ListProps, TextField} from 'react-admin'
-import ManufacturerReferenceField from '../manufacturers/ManufacturerReferenceField'
+import ManufacturerReferenceField from '../manufacturer/ManufacturerReferenceField'
 
 const VehicleBodyList = (props: ListProps) => {
     return (

@@ -1,6 +1,6 @@
 import {BooleanField, Datagrid, List, ListProps} from 'react-admin'
-import LegalFormReferenceField from '../legal_forms/LegalFormReferenceField'
-import LegalFormReferenceInput from '../legal_forms/LegalFormReferenceInput'
+import LegalFormReferenceField from '../legal_form/LegalFormReferenceField'
+import LegalFormReferenceInput from '../legal_form/LegalFormReferenceInput'
 import {PhoneNumberField} from '../phoneNumber'
 import ContactNameField from './ContactNameField'
 

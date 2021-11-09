@@ -1,6 +1,6 @@
 import {Datagrid, List, ListProps, TextField} from 'react-admin'
 import {CommentField} from '../comment'
-import WalletReferenceField from '../wallets/WalletReferenceField'
+import WalletReferenceField from '../wallet/WalletReferenceField'
 
 const WalletExpenseList = (props: ListProps) => {
     return (

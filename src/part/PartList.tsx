@@ -1,5 +1,5 @@
 import {BooleanField, Datagrid, List, ListProps, TextField} from 'react-admin'
-import ManufacturerReferenceField from '../manufacturers/ManufacturerReferenceField'
+import ManufacturerReferenceField from '../manufacturer/ManufacturerReferenceField'
 import UnitReferenceField from './UnitReferenceField'
 
 const PartList = (props: ListProps) => {

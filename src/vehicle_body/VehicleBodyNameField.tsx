@@ -1,5 +1,5 @@
 import {TextField} from 'react-admin'
-import ManufacturerReferenceField from '../manufacturers/ManufacturerReferenceField'
+import ManufacturerReferenceField from '../manufacturer/ManufacturerReferenceField'
 import {VehicleBody} from '../types'
 
 const VehicleBodyNameField = ({record}: { record?: VehicleBody }) => (

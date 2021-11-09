@@ -8,7 +8,7 @@ import {
     SimpleForm,
     TextInput,
 } from 'react-admin'
-import ManufacturerReferenceInput from '../manufacturers/ManufacturerReferenceInput'
+import ManufacturerReferenceInput from '../manufacturer/ManufacturerReferenceInput'
 
 const PartCreate = (props: CreateProps) => {
     return (

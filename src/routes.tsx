@@ -1,6 +1,6 @@
 import {Route} from 'react-router-dom'
 import Configuration from './configuration/Configuration'
-import TenantSwitch from './tenants/TenantSwitch'
+import TenantSwitch from './tenant/TenantSwitch'
 
 const customRoutes = [
     <Route exact path="/configuration" render={() => <Configuration/>}/>,

@@ -5,8 +5,8 @@ import CardContent from '@mui/material/CardContent'
 import {useEffect, useState} from 'react'
 import {Title} from 'react-admin'
 import {useDispatch} from 'react-redux'
-import {changeTenant} from '../tenant/actions'
 import {TenantState} from '../types'
+import {changeTenant} from './actions'
 
 interface Group {
     identifier: string,

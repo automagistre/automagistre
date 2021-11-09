@@ -1,6 +1,6 @@
 import {Box, Chip, Divider, Typography} from '@mui/material'
 import {EditButton, ShowButton} from 'react-admin'
-import LegalFormReferenceField from '../legal_forms/LegalFormReferenceField'
+import LegalFormReferenceField from '../legal_form/LegalFormReferenceField'
 import {PhoneNumberField} from '../phoneNumber'
 import {Contact} from '../types'
 import ContactNameField from './ContactNameField'

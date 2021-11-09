@@ -1,6 +1,6 @@
 import {Create, CreateProps, required, SimpleForm, TextInput} from 'react-admin'
 import {CommentInput} from '../comment'
-import WalletReferenceInput from '../wallets/WalletReferenceInput'
+import WalletReferenceInput from '../wallet/WalletReferenceInput'
 
 const WalletCreate = (props: CreateProps) => {
     return (

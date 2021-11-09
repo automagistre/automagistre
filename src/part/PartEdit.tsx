@@ -1,5 +1,5 @@
 import {BooleanInput, Edit, EditProps, ReferenceInput, required, SelectInput, SimpleForm, TextInput} from 'react-admin'
-import ManufacturerReferenceInput from '../manufacturers/ManufacturerReferenceInput'
+import ManufacturerReferenceInput from '../manufacturer/ManufacturerReferenceInput'
 import {Part} from '../types'
 
 interface PartTitleProps {
