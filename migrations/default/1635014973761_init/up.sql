@@ -292,9 +292,19 @@ SELECT public.timestampable('public.wallet_transaction');
 
 --- Expense
 
-ALTER TABLE public.expense ALTER COLUMN id SET DEFAULT gen_random_uuid();
+ALTER TABLE public.expense RENAME TO wallet_expense;
+ALTER TABLE public.wallet_expense ALTER COLUMN id SET DEFAULT gen_random_uuid();
 
-SELECT public.timestampable('public.expense');
+ALTER TABLE public.wallet_expense
+    ADD CONSTRAINT wallet_expense_wallet_id_fkey
+        FOREIGN KEY (wallet_id) REFERENCES public.wallet (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE public.wallet_expense
+    ADD CONSTRAINT wallet_expense_tenant_id_fkey
+        FOREIGN KEY (tenant_id) REFERENCES public.tenant (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE public.wallet_expense ADD COLUMN comment text NULL;
+COMMENT ON COLUMN public.wallet_expense.wallet_id IS E'Счет списания по умолчанию';
+
+SELECT public.timestampable('public.wallet_expense');
 
 --- Warehouse
 

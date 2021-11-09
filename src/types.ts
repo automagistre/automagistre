@@ -59,6 +59,11 @@ export interface Wallet extends Record {
     parent_id: Identifier,
 }
 
+export interface WalletExpense extends Record, Timestampable, Commentable {
+    name: string,
+    wallet_id: Identifier,
+}
+
 export interface LegalForm extends Record {
     short_name: string,
     full_name: string,

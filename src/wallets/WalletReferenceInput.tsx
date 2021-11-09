@@ -1,4 +1,4 @@
-import {AutocompleteInput, ReferenceInput, ReferenceInputProps} from 'react-admin'
+import {ReferenceInput, ReferenceInputProps, SelectInput} from 'react-admin'
 
 interface Props {
     source?: string;
@@ -12,16 +12,15 @@ const WalletReferenceInput = (
         {...props}
         source="wallet_id"
         reference="wallet"
-        filterToQuery={searchText => ({'name,localized_name': searchText})}
+        filterToQuery={searchText => ({'name': searchText})}
     >
-        <AutocompleteInput optionText="name" source="name"/>
+        <SelectInput optionText="name" source="name"/>
     </ReferenceInput>
 )
 
 WalletReferenceInput.defaultProps = {
     label: 'Счёт',
     source: 'wallet_id',
-    addLabel: true,
 }
 
 export default WalletReferenceInput

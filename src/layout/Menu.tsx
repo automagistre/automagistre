@@ -15,6 +15,7 @@ import mcWorks from '../mc_works'
 import parts from '../parts'
 import {AppState} from '../types'
 import vehicles from '../vehicle_bodies'
+import walletExpense from '../wallet_expense'
 import wallets from '../wallets'
 
 import SubMenu from './SubMenu'
@@ -56,7 +57,7 @@ const Menu = ({dense = false}: MenuProps) => {
                     state: {_scrollToTop: true},
                 }}
                 primaryText="Заказы"
-                leftIcon={<FontAwesomeIcon icon={faFileInvoiceDollar} size="lg" style={{marginLeft: '3px'}}/> }
+                leftIcon={<FontAwesomeIcon icon={faFileInvoiceDollar} size="lg" style={{marginLeft: '3px'}}/>}
                 exact
             />
             <SubMenu
@@ -73,6 +74,15 @@ const Menu = ({dense = false}: MenuProps) => {
                     }}
                     primaryText="Счета"
                     leftIcon={wallets.icon}
+                    dense={dense}
+                />
+                <MenuItemLink
+                    to={{
+                        pathname: '/wallet_expense',
+                        state: {_scrollToTop: true},
+                    }}
+                    primaryText="Расходы"
+                    leftIcon={walletExpense.icon}
                     dense={dense}
                 />
             </SubMenu>

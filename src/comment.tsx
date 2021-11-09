@@ -16,6 +16,11 @@ CommentInput.defaultProps = {
 export const CommentField = (props: Omit<TextFieldProps, 'source'>) => {
     return <TextField
         source="comment"
+        label="Комментарий"
         {...props}
     />
+}
+
+CommentField.defaultProps = {
+    label: 'Комментарий',
 }
