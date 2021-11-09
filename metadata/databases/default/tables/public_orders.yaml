@@ -1,6 +1,10 @@
 table:
     name: orders
     schema: public
+configuration:
+    custom_column_names: { }
+    custom_name: order
+    custom_root_fields: { }
 object_relationships:
     -   name: contact_gave
         using:

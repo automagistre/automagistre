@@ -115,7 +115,7 @@ const Resources = () => {
             <Resource name="mc_parts" {...mcParts}/>
             <Resource name="mc_work" {...mcWorks}/>
             <Resource name="order_status"/>
-            <Resource name="orders" {...orders}/>
+            <Resource name="order" {...orders}/>
             <Resource name="part" {...parts} />
             <Resource name="tenant" {...tenants}/>
             <Resource name="unit"/>

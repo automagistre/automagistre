@@ -53,7 +53,7 @@ const Menu = ({dense = false}: MenuProps) => {
             <DashboardMenuItem/>
             <MenuItemLink
                 to={{
-                    pathname: '/orders',
+                    pathname: '/order',
                     state: {_scrollToTop: true},
                 }}
                 primaryText="Заказы"
